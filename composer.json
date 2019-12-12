@@ -1,0 +1,24 @@
+{
+  "require": {
+    "phalcon/incubator": "^3.4",
+    "guzzlehttp/guzzle": "^6.3",
+    "swiftmailer/swiftmailer": "^6.0",
+    "peppeocchi/php-cron-scheduler": "^2.4",
+    "yansongda/pay": "^2.8",
+    "xiaochong0302/ip2region": "dev-master",
+    "tencentcloud/tencentcloud-sdk-php": "3.*",
+    "qcloudsms/qcloudsms_php": "0.1.*",
+    "qcloud/cos-sdk-v5": "2.*",
+    "workerman/gateway-worker": "^3.0.12",
+    "whichbrowser/parser": "^2.0",
+    "hightman/xunsearch": "^1.4.14"
+  },
+  "require-dev": {
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.aliyun.com/composer"
+    }
+  }
+}

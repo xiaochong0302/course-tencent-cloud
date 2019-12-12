@@ -1,0 +1,595 @@
+<?php
+
+namespace App\Services;
+
+use TencentCloud\Common\Credential;
+use TencentCloud\Common\Exception\TencentCloudSDKException;
+use TencentCloud\Common\Profile\ClientProfile;
+use TencentCloud\Common\Profile\HttpProfile;
+use TencentCloud\Vod\V20180717\Models\ConfirmEventsRequest;
+use TencentCloud\Vod\V20180717\Models\DescribeAudioTrackTemplatesRequest;
+use TencentCloud\Vod\V20180717\Models\DescribeMediaInfosRequest;
+use TencentCloud\Vod\V20180717\Models\DescribeTaskDetailRequest;
+use TencentCloud\Vod\V20180717\Models\ProcessMediaRequest;
+use TencentCloud\Vod\V20180717\Models\PullEventsRequest;
+use TencentCloud\Vod\V20180717\VodClient;
+
+class Vod extends Service
+{
+
+    const END_POINT = 'vod.tencentcloudapi.com';
+
+    protected $config;
+    protected $client;
+    protected $logger;
+
+    public function __construct()
+    {
+        $this->config = $this->getSectionConfig('vod');
+        $this->logger = $this->getLogger('vod');
+        $this->client = $this->getVodClient();
+    }
+
+    /**
+     * 配置测试
+     *
+     * @return bool
+     */
+    public function test()
+    {
+        try {
+
+            $request = new DescribeAudioTrackTemplatesRequest();
+
+            $params = '{}';
+
+            $request->fromJsonString($params);
+
+            $response = $this->client->DescribeAudioTrackTemplates($request);
+
+            $this->logger->debug('Describe Audio Track Templates Response ' . $response->toJsonString());
+
+            $result = $response->TotalCount > 0 ? true : false;
+
+            return $result;
+
+        } catch (TencentCloudSDKException $e) {
+
+            $this->logger->error('Describe Audio Track Templates Exception ', kg_json_encode([
+                'code' => $e->getErrorCode(),
+                'message' => $e->getMessage(),
+                'requestId' => $e->getRequestId(),
+            ]));
+
+            return false;
+        }
+    }
+
+    /**
+     * 获取上传签名
+     *
+     * @return string
+     */
+    public function getUploadSignature()
+    {
+        $secret = $this->getSectionConfig('secret');
+
+        $secretId = $secret->secret_id;
+        $secretKey = $secret->secret_key;
+
+        $params = [
+            'secretId' => $secretId,
+            'currentTimeStamp' => time(),
+            'expireTime' => time() + 86400,
+            'random' => rand(1000, 9999),
+        ];
+
+        $original = http_build_query($params);
+        $hash = hash_hmac('SHA1', $original, $secretKey, true);
+        $signature = base64_encode($hash . $original);
+
+        return $signature;
+    }
+
+    /**
+     * 获取播放地址
+     *
+     * @param string $playUrl
+     * @return string
+     */
+    public function getPlayUrl($playUrl)
+    {
+        if ($this->config->key_anti_enabled == 0) {
+            return $playUrl;
+        }
+
+        $key = $this->config->key_anti_key;
+        $expiry = $this->config->key_anti_expiry ?: 10800;
+
+        $path = parse_url($playUrl, PHP_URL_PATH);
+        $pos = strrpos($path, '/');
+        $fileName = substr($path, $pos + 1);
+        $dirName = str_replace($fileName, '', $path);
+
+        $expiredTime = base_convert(time() + $expiry, 10, 16); // 过期时间(十六进制)
+        $tryTime = 0; // 试看时间，0不限制
+        $ipLimit = 0; // ip数量限制，0不限制
+        $random = rand(100000, 999999); // 随机数
+
+        /**
+         * 腾讯坑爹的参数类型和文档，先凑合吧
+         * 不限制试看 => 必须exper=0（不能设置为空）
+         * 不限制IP => 必须rlimit为空（不能设置为0），暂不可用
+         */
+        $myTryTime = $tryTime >= 0 ? $tryTime : 0;
+        $myIpLimit = $ipLimit > 0 ? $ipLimit : '';
+        $sign = $key . $dirName . $expiredTime . $myTryTime . $myIpLimit . $random; // 签名串
+
+        $query = [];
+
+        $query['t'] = $expiredTime;
+
+        if ($tryTime >= 0) {
+            $query['exper'] = $tryTime;
+        }
+
+        if ($ipLimit > 0) {
+            $query['rlimit'] = $ipLimit;
+        }
+
+        $query['us'] = $random;
+        $query['sign'] = md5($sign);
+
+        $result = $playUrl . '?' . http_build_query($query);
+
+        return $result;
+    }
+
+    /**
+     * 拉取事件
+     *
+     * @return bool|array
+     */
+    public function pullEvents()
+    {
+        try {
+
+            $request = new PullEventsRequest();
+
+            $params = '{}';
+
+            $request->fromJsonString($params);
+
+            $this->logger->debug('Pull Events Request ' . $params);
+
+            $response = $this->client->PullEvents($request);
+
+            $this->logger->debug('Pull Events Response ' . $response->toJsonString());
+
+            $result = json_decode($response->toJsonString(), true);
+
+            return $result['EventSet'] ?? [];
+
+        } catch (TencentCloudSDKException $e) {
+
+            $this->logger->error('Pull Events Exception ' . kg_json_encode([
+                    'code' => $e->getErrorCode(),
+                    'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
+                ]));
+
+            return false;
+        }
+    }
+
+    /**
+     * 确认事件
+     *
+     * @param array $eventHandles
+     * @return bool|mixed
+     */
+    public function confirmEvents($eventHandles)
+    {
+        try {
+
+            $request = new ConfirmEventsRequest();
+
+            $params = json_encode(['EventHandles' => $eventHandles]);
+
+            $request->fromJsonString($params);
+
+            $this->logger->debug('Confirm Events Request ' . $params);
+
+            $response = $this->client->ConfirmEvents($request);
+
+            $this->logger->debug('Confirm Events Response ' . $response->toJsonString());
+
+            $result = json_decode($response->toJsonString(), true);
+
+            return $result;
+
+        } catch (TencentCloudSDKException $e) {
+
+            $this->logger->error('Confirm Events Exception ' . kg_json_encode([
+                    'code' => $e->getErrorCode(),
+                    'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
+                ]));
+
+            return false;
+        }
+    }
+
+    /**
+     * 获取媒体信息
+     *
+     * @param string $fileId
+     * @return array|bool
+     */
+    public function getMediaInfo($fileId)
+    {
+        try {
+
+            $request = new DescribeMediaInfosRequest();
+
+            $fileIds = [$fileId];
+
+            $params = json_encode(['FileIds' => $fileIds]);
+
+            $request->fromJsonString($params);
+
+            $this->logger->debug('Describe Media Info Request ' . $params);
+
+            $response = $this->client->DescribeMediaInfos($request);
+
+            $this->logger->debug('Describe Media Info Response ' . $response->toJsonString());
+
+            $result = json_decode($response->toJsonString(), true);
+
+            if (!isset($result['MediaInfoSet'][0]['MetaData'])) {
+                return false;
+            }
+
+            return $result;
+
+        } catch (TencentCloudSDKException $e) {
+
+            $this->logger->error('Describe Media Info Exception ' . kg_json_encode([
+                    'code' => $e->getErrorCode(),
+                    'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
+                ]));
+
+            return false;
+        }
+    }
+
+    /**
+     * 获取任务信息
+     *
+     * @param string $taskId
+     * @return array|bool
+     */
+    public function getTaskInfo($taskId)
+    {
+        try {
+
+            $request = new DescribeTaskDetailRequest();
+
+            $params = json_encode(['TaskId' => $taskId]);
+
+            $request->fromJsonString($params);
+
+            $this->logger->debug('Describe Task Detail Request ' . $params);
+
+            $response = $this->client->DescribeTaskDetail($request);
+
+            $this->logger->debug('Describe Task Detail Response ' . $response->toJsonString());
+
+            $result = json_decode($response->toJsonString(), true);
+
+            if (!isset($result['TaskType'])) {
+                return false;
+            }
+
+            return $result;
+
+        } catch (TencentCloudSDKException $e) {
+
+            $this->logger->error('Describe Task Detail Exception ' . kg_json_encode([
+                    'code' => $e->getErrorCode(),
+                    'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
+                ]));
+
+            return false;
+        }
+    }
+
+    /**
+     * 创建视频转码任务
+     *
+     * @param string $fileId
+     * @return string|bool
+     */
+    public function createTransVideoTask($fileId)
+    {
+        $originVideoInfo = $this->getOriginVideoInfo($fileId);
+
+        if (!$originVideoInfo) return false;
+
+        $videoTransTemplates = $this->getVideoTransTemplates();
+
+        $watermarkTemplate = $this->getWatermarkTemplate();
+
+        $transCodeTaskSet = [];
+
+        foreach ($videoTransTemplates as $key => $template) {
+            if ($originVideoInfo['width'] >= $template['width'] ||
+                $originVideoInfo['bit_rate'] >= 1000 * $template['bit_rate']
+            ) {
+                $item = ['Definition' => $key];
+                if ($watermarkTemplate) {
+                    $item['WatermarkSet'][] = ['Definition' => $watermarkTemplate];
+                }
+                $transCodeTaskSet[] = $item;
+            }
+        }
+
+        /**
+         * 无匹配转码模板，取第一项转码
+         */
+        if (empty($transCodeTaskSet)) {
+            $keys = array_keys($videoTransTemplates);
+            $item = ['Definition' => $keys[0]];
+            if ($watermarkTemplate) {
+                $item['WatermarkSet'][] = ['Definition' => $watermarkTemplate];
+            }
+            $transCodeTaskSet[] = $item;
+        }
+
+        $params = json_encode([
+            'FileId' => $fileId,
+            'MediaProcessTask' => [
+                'TranscodeTaskSet' => $transCodeTaskSet,
+            ],
+        ]);
+
+        try {
+
+            $request = new ProcessMediaRequest();
+
+            $request->fromJsonString($params);
+
+            $this->logger->debug('Process Media Request ' . $params);
+
+            $response = $this->client->ProcessMedia($request);
+
+            $this->logger->debug('Process Media Response ' . $response->toJsonString());
+
+            $result = $response->TaskId ?: false;
+
+            return $result;
+
+        } catch (TencentCloudSDKException $e) {
+
+            $this->logger->error('Process Media Exception ' . kg_json_encode([
+                    'code' => $e->getErrorCode(),
+                    'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
+                ]));
+
+            return false;
+        }
+    }
+
+    /**
+     * 创建音频转码任务
+     *
+     * @param string $fileId
+     * @return string|bool
+     */
+    public function createTransAudioTask($fileId)
+    {
+        $originAudioInfo = $this->getOriginAudioInfo($fileId);
+
+        if (!$originAudioInfo) return false;
+
+        $audioTransTemplates = $this->getAudioTransTemplates();
+
+        $transCodeTaskSet = [];
+
+        foreach ($audioTransTemplates as $key => $template) {
+            if ($originAudioInfo['bit_rate'] >= 1000 * $template['bit_rate']) {
+                $item = ['Definition' => $key];
+                $transCodeTaskSet[] = $item;
+            }
+        }
+
+        /**
+         * 无匹配转码模板，取第一项转码
+         */
+        if (empty($transCodeTaskSet)) {
+            $keys = array_keys($audioTransTemplates);
+            $item = ['Definition' => $keys[0]];
+            $transCodeTaskSet[] = $item;
+        }
+
+        $params = json_encode([
+            'FileId' => $fileId,
+            'MediaProcessTask' => [
+                'TranscodeTaskSet' => $transCodeTaskSet,
+            ],
+        ]);
+
+        try {
+
+            $request = new ProcessMediaRequest();
+
+            $request->fromJsonString($params);
+
+            $this->logger->debug('Process Media Request ' . $params);
+
+            $response = $this->client->ProcessMedia($request);
+
+            $this->logger->debug('Process Media Response ' . $response->toJsonString());
+
+            $result = $response->TaskId ?: false;
+
+            return $result;
+
+        } catch (TencentCloudSDKException $e) {
+
+            $this->logger->error('Process Media Exception ' . kg_json_encode([
+                    'code' => $e->getErrorCode(),
+                    'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
+                ]));
+
+            return false;
+        }
+    }
+
+    /**
+     * 获取原始视频信息
+     *
+     * @param string $fileId
+     * @return array|bool
+     */
+    public function getOriginVideoInfo($fileId)
+    {
+        $response = $this->getMediaInfo($fileId);
+
+        if (!$response) return false;
+
+        $metaData = $response['MediaInfoSet'][0]['MetaData'];
+
+        $result = [
+            'bit_rate' => $metaData['Bitrate'],
+            'size' => $metaData['Size'],
+            'width' => $metaData['Width'],
+            'height' => $metaData['Height'],
+            'duration' => $metaData['Duration'],
+        ];
+
+        return $result;
+    }
+
+    /**
+     * 获取原始音频信息
+     *
+     * @param string $fileId
+     * @return array|bool
+     */
+    public function getOriginAudioInfo($fileId)
+    {
+        $response = $this->getMediaInfo($fileId);
+
+        if (!$response) return false;
+
+        $metaData = $response['MediaInfoSet'][0]['MetaData'];
+
+        $result = [
+            'bit_rate' => $metaData['Bitrate'],
+            'size' => $metaData['Size'],
+            'width' => $metaData['Width'],
+            'height' => $metaData['Height'],
+            'duration' => $metaData['Duration'],
+        ];
+
+        return $result;
+    }
+
+    /**
+     * 获取水印模板
+     *
+     * @return mixed
+     */
+    public function getWatermarkTemplate()
+    {
+        $result = null;
+
+        if ($this->config->watermark_enabled && $this->config->watermark_template > 0) {
+            $result = (int)$this->config->watermark_template;
+        }
+
+        return $result;
+    }
+
+    /***
+     * 获取视频转码模板
+     *
+     * @return array
+     */
+    public function getVideoTransTemplates()
+    {
+        $hls = [
+            210 => ['width' => 480, 'bit_rate' => 256, 'frame_rate' => 24],
+            220 => ['width' => 640, 'bit_rate' => 512, 'frame_rate' => 24],
+            230 => ['width' => 1280, 'bit_rate' => 1024, 'frame_rate' => 25],
+        ];
+
+        $mp4 = [
+            10 => ['width' => 480, 'bit_rate' => 256, 'frame_rate' => 24],
+            20 => ['width' => 640, 'bit_rate' => 512, 'frame_rate' => 24],
+            30 => ['width' => 1280, 'bit_rate' => 1024, 'frame_rate' => 25],
+        ];
+
+        $format = $this->config->video_format;
+
+        $result = $format == 'hls' ? $hls : $mp4;
+
+        return $result;
+    }
+
+    /**
+     * 获取音频转码模板
+     *
+     * @return array
+     */
+    public function getAudioTransTemplates()
+    {
+        $m4a = [
+            1110 => ['bit_rate' => 48, 'sample_rate' => 44100],
+            1120 => ['bit_rate' => 96, 'sample_rate' => 44100],
+        ];
+
+        $mp3 = [
+            1010 => ['bit_rate' => 128, 'sample_rate' => 44100],
+        ];
+
+        $result = $this->config->audio_format == 'm4a' ? $m4a : $mp3;
+
+        return $result;
+    }
+
+    /**
+     * 获取VodClient
+     *
+     * @return VodClient
+     */
+    public function getVodClient()
+    {
+        $secret = $this->getSectionConfig('secret');
+
+        $secretId = $secret->secret_id;
+        $secretKey = $secret->secret_key;
+
+        $region = $this->config->storage_type == 'fixed' ? $this->config->storage_region : '';
+
+        $credential = new Credential($secretId, $secretKey);
+
+        $httpProfile = new HttpProfile();
+
+        $httpProfile->setEndpoint(self::END_POINT);
+
+        $clientProfile = new ClientProfile();
+
+        $clientProfile->setHttpProfile($httpProfile);
+
+        $client = new VodClient($credential, $region, $clientProfile);
+
+        return $client;
+    }
+
+}
