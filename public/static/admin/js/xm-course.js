@@ -104,4 +104,4 @@ function xmCourse(data, url) {
         });
 
     });
-};
+}

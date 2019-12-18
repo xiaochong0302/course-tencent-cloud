@@ -2,15 +2,15 @@
 
 namespace App\Http\Home\Services;
 
-use App\Models\Review as ReviewModel;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Exceptions\Forbidden as ForbiddenException;
-use App\Validators\Review as ReviewFilter;
+use App\Models\Review as ReviewModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Review as ReviewRepo;
 use App\Repos\ReviewStats as ReviewStatsRepo;
 use App\Repos\ReviewVote as ReviewVoteRepo;
 use App\Repos\User as UserRepo;
+use App\Validators\Review as ReviewFilter;
 
 class Review extends Service
 {

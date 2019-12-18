@@ -56,7 +56,7 @@
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                     <ul>
                         <li><a href="{{ url({'for':'admin.student.edit'},{'course_id':item.course_id,'user_id':item.user_id}) }}">编辑学员</a></li>
-                        <li><a class="kg-learning" href="javascript:;" url="{{ url({'for':'admin.student.learning'},{'course_id':item.course_id,'user_id':item.user_id}) }}">学习记录</a></li>
+                        <li><a class="kg-learning" href="javascript:" url="{{ url({'for':'admin.student.learning'},{'course_id':item.course_id,'user_id':item.user_id}) }}">学习记录</a></li>
                     </ul>
                 </div>
             </td>

@@ -14,7 +14,7 @@
         loaded: 'loadedHandler', //当播放器加载后执行的函数
         video: 'http://vod-cdn.koogua.com/20171012_fixed.m3u8'
         //video: 'http://www.flashls.org/playlists/test_001/stream_1000k_48k_640x360.m3u8'
-    }
+    };
 
     var player = new chplayer(videoObject);
 
@@ -39,7 +39,7 @@
 
     function loadedMetaDataHandler() {
             var metaData = player.getMetaDate();
-            var html = ''
+        var html = '';
             if(parseInt(metaData['videoWidth']) > 0) {
                     changeText('.playerstate', '状态：获取到元数据信息，如果数据错误，可以使用延迟获取');
                     html += '总时间：' + metaData['duration'] + '秒，';
@@ -124,7 +124,7 @@
 
     function changeVolume() {
             var volume = player.getByElement('.changevolume').value;
-            volume = Math.floor(volume * 100) / 100
+        volume = Math.floor(volume * 100) / 100;
             if(volume < 0) {
                     alert('请填写大于0的数字');
                     return;
@@ -169,7 +169,7 @@
                     autoplay: true, //是否自动播放
                     loaded: 'loadedHandler', //当播放器加载后执行的函数
                     video: videoUrl
-            }
+            };
             //判断是需要重新加载播放器还是直接换新地址
 
             if(player.playerType == 'html5video') {
@@ -235,7 +235,7 @@
                     backgroundColor: '#000000',
                     backAlpha: 0.5,
                     backRadius: 60 //背景圆角弧度
-            }
+            };
             var el = player.addElement(attribute);
     }
 
@@ -283,7 +283,7 @@
                     //backgroundColor:'#FFFFFF',
                     backAlpha: 0.8,
                     backRadius: 30 //背景圆角弧度
-            }
+            };
             var danmu = player.addElement(danmuObj);
             var danmuS = player.getElement(danmu);
             var obj = {

@@ -2,17 +2,17 @@
 
 namespace App\Http\Home\Services;
 
-use App\Transformers\CommentList as CommentListTransformer;
-use App\Models\Comment as CommentModel;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Validators\Chapter as ChapterFilter;
+use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Comment as CommentModel;
 use App\Repos\Chapter as ChapterRepo;
-use App\Repos\ChapterVote as ChapterVoteRepo;
 use App\Repos\ChapterUser as ChapterUserRepo;
+use App\Repos\ChapterVote as ChapterVoteRepo;
 use App\Repos\Comment as CommentRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Video as VideoRepo;
-use App\Library\Paginator\Query as PagerQuery;
+use App\Transformers\CommentList as CommentListTransformer;
+use App\Validators\Chapter as ChapterFilter;
 
 class Chapter extends Service
 {

@@ -57,9 +57,9 @@
                     <ul>
                         <li><a href="{{ url({'for':'admin.category.edit','id':item.id}) }}">编辑</a></li>
                         {% if item.deleted == 0 %}
-                            <li><a href="javascript:;" class="kg-delete" url="{{ url({'for':'admin.category.delete','id':item.id}) }}">删除</a></li>
+                            <li><a href="javascript:" class="kg-delete" url="{{ url({'for':'admin.category.delete','id':item.id}) }}">删除</a></li>
                         {% else %}
-                            <li><a href="javascript:;" class="kg-restore" url="{{ url({'for':'admin.category.restore','id':item.id}) }}">还原</a></li>
+                            <li><a href="javascript:" class="kg-restore" url="{{ url({'for':'admin.category.restore','id':item.id}) }}">还原</a></li>
                         {% endif %}
                     </ul>
                 </div>

@@ -32,7 +32,7 @@
             </td>
             <td>{{ item.duration|play_duration }}</td>
             <td>{{ client_type(item.client_type) }}</td>
-            <td><a class="kg-ip2region" href="javascript:;" title="查看位置" ip="{{ item.client_ip }}">{{ item.client_ip }}</a></td>
+            <td><a class="kg-ip2region" href="javascript:" title="查看位置" ip="{{ item.client_ip }}">{{ item.client_ip }}</a></td>
             <td>{{ date('Y-m-d H:i',item.created_at) }}</td>
         </tr>
     {% endfor %}

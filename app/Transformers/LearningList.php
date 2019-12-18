@@ -2,8 +2,8 @@
 
 namespace App\Transformers;
 
-use App\Repos\Course as CourseRepo;
 use App\Repos\Chapter as ChapterRepo;
+use App\Repos\Course as CourseRepo;
 use App\Repos\User as UserRepo;
 
 class LearningList extends Transformer

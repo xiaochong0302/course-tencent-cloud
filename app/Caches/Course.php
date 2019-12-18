@@ -2,8 +2,8 @@
 
 namespace App\Library\Cache;
 
-use App\Models\Course as CourseModel;
 use App\Exceptions\NotFound as ModelNotFoundException;
+use App\Models\Course as CourseModel;
 
 class Course extends \Phalcon\Di\Injectable
 {

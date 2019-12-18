@@ -37,7 +37,7 @@
         <tr>
             <td>{{ item.user_id }}</td>
             <td>{{ item.user_name }}</td>
-            <td><a class="kg-ip2region" href="javascript:;" title="查看位置" ip="{{ item.user_ip }}">{{ item.user_ip }}</a></td>
+            <td><a class="kg-ip2region" href="javascript:" title="查看位置" ip="{{ item.user_ip }}">{{ item.user_ip }}</a></td>
             <td>{{ item.req_route }}</td>
             <td>{{ item.req_path }}</td>
             <td>{{ date('Y-m-d H:i:s',item.created_at) }}</td>

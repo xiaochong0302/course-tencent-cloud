@@ -3,11 +3,6 @@
 namespace App\Http\Home\Services;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Transformers\ChapterList as ChapterListTransformer;
-use App\Transformers\CommentList as CommentListTransformer;
-use App\Transformers\ConsultList as ConsultListTransformer;
-use App\Transformers\CourseUserList as CourseUserListTransformer;
-use App\Transformers\ReviewList as ReviewListTransformer;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Comment as CommentModel;
 use App\Models\Consult as ConsultModel;
@@ -19,6 +14,11 @@ use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Repos\CourseStudent as CourseUserRepo;
 use App\Repos\Review as ReviewRepo;
 use App\Repos\User as UserRepo;
+use App\Transformers\ChapterList as ChapterListTransformer;
+use App\Transformers\CommentList as CommentListTransformer;
+use App\Transformers\ConsultList as ConsultListTransformer;
+use App\Transformers\CourseUserList as CourseUserListTransformer;
+use App\Transformers\ReviewList as ReviewListTransformer;
 
 class Course extends Service
 {

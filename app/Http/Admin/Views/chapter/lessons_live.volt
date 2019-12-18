@@ -44,7 +44,7 @@
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                     <ul>
                         <li><a href="{{ url({'for':'admin.chapter.edit','id':item.id}) }}">编辑</a></li>
-                        <li><a href="javascript:;" class="kg-delete" url="{{ url({'for':'admin.chapter.delete','id':item.id}) }}">删除</a></li>
+                        <li><a href="javascript:" class="kg-delete" url="{{ url({'for':'admin.chapter.delete','id':item.id}) }}">删除</a></li>
                     </ul>
                 </div>
             </td>

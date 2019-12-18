@@ -2,17 +2,17 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Models\Course as CourseModel;
 use App\Models\ChapterArticle as ChapterArticleModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Models\ChapterVideo as ChapterVideoModel;
-use App\Validators\ChapterArticle as ChapterArticleFilter;
-use App\Validators\ChapterLive as ChapterLiveFilter;
-use App\Validators\ChapterVod as ChapterVideoFilter;
+use App\Models\Course as CourseModel;
 use App\Repos\ChapterArticle as ChapterArticleRepo;
 use App\Repos\ChapterLive as ChapterLiveRepo;
 use App\Repos\ChapterVideo as ChapterVideoRepo;
 use App\Repos\Course as CourseRepo;
+use App\Validators\ChapterArticle as ChapterArticleFilter;
+use App\Validators\ChapterLive as ChapterLiveFilter;
+use App\Validators\ChapterVod as ChapterVideoFilter;
 
 class ChapterContentAdmin extends Service
 {

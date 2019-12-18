@@ -4,10 +4,10 @@ namespace App\Http\Home\Services;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Exceptions\Unauthorized as UnauthorizedException;
-use App\Validators\Account as AccountFilter;
 use App\Repos\Account as AccountRepo;
 use App\Repos\Captcha as CaptchaRepo;
 use App\Repos\User as UserRepo;
+use App\Validators\Account as AccountFilter;
 
 class Account extends Service
 {

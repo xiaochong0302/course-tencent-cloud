@@ -2,16 +2,16 @@
 
 namespace App\Http\Home\Services;
 
-use App\Transformers\CommentList as CommentListTransformer;
-use App\Models\Comment as CommentModel;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Validators\Comment as CommentFilter;
+use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Comment as CommentModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Comment as CommentRepo;
 use App\Repos\CommentVote as CommentVoteRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\User as UserRepo;
-use App\Library\Paginator\Query as PagerQuery;
+use App\Transformers\CommentList as CommentListTransformer;
+use App\Validators\Comment as CommentFilter;
 
 class Comment extends Service
 {

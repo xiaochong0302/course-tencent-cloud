@@ -5,7 +5,6 @@ namespace App\Http\Admin\Services;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Slide as SlideModel;
 use App\Repos\Slide as SlideRepo;
-use App\Services\Storage as StorageService;
 use App\Validators\Slide as SlideValidator;
 
 class Slide extends Service

@@ -33,7 +33,7 @@
             </div>
             <div class="layui-form-mid layui-word-aux">元</div>
             <div class="layui-form-mid">
-                <a class="kg-guiding" href="javascript:;" package-id="{{ package.id }}">（价格参考）</a>
+                <a class="kg-guiding" href="javascript:" package-id="{{ package.id }}">（价格参考）</a>
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
             </div>
             <div class="layui-form-mid layui-word-aux">元</div>
             <div class="layui-form-mid">
-                <a class="kg-guiding" href="javascript:;" package-id="{{ package.id }}">（价格参考）</a>
+                <a class="kg-guiding" href="javascript:" package-id="{{ package.id }}">（价格参考）</a>
             </div>
         </div>
     </div>

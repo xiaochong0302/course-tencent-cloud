@@ -13,8 +13,8 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-use \GatewayWorker\Register;
-use \Workerman\Worker;
+use GatewayWorker\Register;
+use Workerman\Worker;
 
 // 自动加载类
 require_once dirname(__DIR__) . '/vendor/autoload.php';

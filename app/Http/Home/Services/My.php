@@ -2,20 +2,20 @@
 
 namespace App\Http\Home\Services;
 
+use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Consult as ConsultModel;
+use App\Models\Review as ReviewModel;
+use App\Repos\Consult as ConsultRepo;
+use App\Repos\CourseFavorite as CourseFavoriteRepo;
+use App\Repos\CourseStudent as CourseUserRepo;
+use App\Repos\Order as OrderRepo;
+use App\Repos\Review as ReviewRepo;
 use App\Transformers\ConsultList as ConsultListTransformer;
 use App\Transformers\CourseFavoriteList as CourseFavoriteListTransformer;
 use App\Transformers\CourseUserList as CourseUserListTransformer;
 use App\Transformers\OrderList as OrderListTransformer;
 use App\Transformers\ReviewList as ReviewListTransformer;
-use App\Models\Consult as ConsultModel;
-use App\Models\Review as ReviewModel;
 use App\Validators\Order as OrderFilter;
-use App\Repos\Consult as ConsultRepo;
-use App\Repos\CourseStudent as CourseUserRepo;
-use App\Repos\CourseFavorite as CourseFavoriteRepo;
-use App\Repos\Order as OrderRepo;
-use App\Repos\Review as ReviewRepo;
-use App\Library\Paginator\Query as PagerQuery;
 
 class My extends Service
 {

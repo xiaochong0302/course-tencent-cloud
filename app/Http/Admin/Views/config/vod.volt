@@ -162,7 +162,7 @@
             } else {
                 template.val('210,220,230');
             }
-        }
+        };
 
         var changeAudioTemplate = function (format) {
             var template = $('input[name=audio_template]');
@@ -171,7 +171,7 @@
             } else {
                 template.val('1110');
             }
-        }
+        };
 
         form.on('radio(storage-type)', function (data) {
             var block = $('#storage-region-block');

@@ -83,9 +83,9 @@
                     <ul>
                         <li><a href="{{ url({'for':'admin.course.edit','id':item.id}) }}">编辑课程</a></li>
                         {% if item.deleted == 0 %}
-                            <li><a href="javascript:;" class="kg-delete" url="{{ url({'for':'admin.course.delete','id':item.id}) }}">删除课程</a></li>
+                            <li><a href="javascript:" class="kg-delete" url="{{ url({'for':'admin.course.delete','id':item.id}) }}">删除课程</a></li>
                         {% else %}
-                            <li><a href="javascript:;" class="kg-restore" url="{{ url({'for':'admin.course.restore','id':item.id}) }}">还原课程</a></li>
+                            <li><a href="javascript:" class="kg-restore" url="{{ url({'for':'admin.course.restore','id':item.id}) }}">还原课程</a></li>
                         {% endif %}
                         <hr>
                         <li><a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">章节管理</a></li>

@@ -2,12 +2,12 @@
 
 namespace App\Http\Home\Services;
 
-use App\Transformers\ChapterList as ChapterListTransformer;
-use App\Models\Course as CourseModel;
 use App\Models\Category as CategoryModel;
-use App\Validators\Course as CourseFilter;
+use App\Models\Course as CourseModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Course as CourseRepo;
+use App\Transformers\ChapterList as ChapterListTransformer;
+use App\Validators\Course as CourseFilter;
 
 class CourseAdmin extends Service
 {

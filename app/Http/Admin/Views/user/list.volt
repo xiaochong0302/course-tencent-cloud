@@ -61,7 +61,7 @@
     {% for item in pager.items %}
         <tr>
             <td>{{ item.id }}</td>
-            <td><a href="javascript:;" title="{{ item.about }}">{{ item.name }}</a>{{ vip_info(item) }}</td>
+            <td><a href="javascript:" title="{{ item.about }}">{{ item.name }}</a>{{ vip_info(item) }}</td>
             <td>{{ role_info(item) }}</td>
             <td>{{ date('Y-m-d',item.created_at) }}</td>
             <td>{{ status_info(item) }}</td>

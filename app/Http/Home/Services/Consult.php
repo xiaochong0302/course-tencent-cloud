@@ -2,13 +2,13 @@
 
 namespace App\Http\Home\Services;
 
-use App\Models\Consult as ConsultModel;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Validators\Consult as ConsultFilter;
+use App\Models\Consult as ConsultModel;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\ConsultVote as ConsultVoteRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\User as UserRepo;
+use App\Validators\Consult as ConsultFilter;
 
 class Consult extends Service
 {

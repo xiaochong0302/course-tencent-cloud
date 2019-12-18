@@ -2,8 +2,8 @@
 
 namespace App\Library\Cache;
 
-use App\Models\Category as CategoryModel;
 use App\Exceptions\NotFound as ModelNotFoundException;
+use App\Models\Category as CategoryModel;
 
 class Category extends \Phalcon\Di\Injectable
 {

@@ -2,8 +2,8 @@
 
 namespace App\Library\Cache;
 
-use App\Models\User as UserModel;
 use App\Exceptions\NotFound as ModelNotFoundException;
+use App\Models\User as UserModel;
 
 class User extends \Phalcon\Di\Injectable
 {

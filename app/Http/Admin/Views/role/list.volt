@@ -40,7 +40,7 @@
     {% for item in roles %}
         <tr>
             <td>{{ item.id }}</td>
-            <td><a href="javascript:;" title="{{ item.summary }}">{{ item.name }}</a></td>
+            <td><a href="javascript:" title="{{ item.summary }}">{{ item.name }}</a></td>
             <td>{{ type_info(item.type) }}</td>
             <td>
                 <a href="{{ url({'for':'admin.user.list'},{'admin_role':item.id}) }}">
@@ -52,7 +52,7 @@
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                     <ul>
                         <li><a href="{{ url({'for':'admin.role.edit','id':item.id}) }}">编辑</a></li>
-                        <li><a href="javascript:;" url="{{ url({'for':'admin.role.delete','id':item.id}) }}" class="kg-delete">删除</a></li>
+                        <li><a href="javascript:" url="{{ url({'for':'admin.role.delete','id':item.id}) }}" class="kg-delete">删除</a></li>
                     </ul>
                 </div>
             </td>

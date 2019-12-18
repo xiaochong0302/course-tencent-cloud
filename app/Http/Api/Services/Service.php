@@ -3,8 +3,8 @@
 namespace App\Http\Api\Services;
 
 use App\Models\User as UserModel;
-use App\Validators\Filter as BaseFilter;
 use App\Repos\User as UserRepo;
+use App\Validators\Filter as BaseFilter;
 use Phalcon\Mvc\User\Component as UserComponent;
 
 

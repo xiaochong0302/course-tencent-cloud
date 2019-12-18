@@ -2,10 +2,10 @@
 
 namespace App\Http\Home\Services;
 
-use App\Validators\Chapter as ChapterFilter;
 use App\Models\Chapter as ChapterModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
+use App\Validators\Chapter as ChapterFilter;
 
 class ChapterAdmin extends Service
 {

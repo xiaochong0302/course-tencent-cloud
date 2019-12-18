@@ -18,7 +18,7 @@
             <input type="hidden" name="cover" value="{{ img_url(course.cover) }}">
         </div>
         <div class="layui-input-inline" style="padding-top:35px;">
-            <a href="javascript:;" class="layui-btn layui-btn-sm" id="choose-cover">编辑</a>
+            <a href="javascript:" class="layui-btn layui-btn-sm" id="choose-cover">编辑</a>
         </div>
     </div>
 

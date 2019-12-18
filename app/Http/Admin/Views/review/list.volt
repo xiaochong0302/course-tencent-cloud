@@ -50,9 +50,9 @@
                     <ul>
                         <li><a href="{{ url({'for':'admin.review.edit','id':item.id}) }}">编辑</a></li>
                         {% if item.deleted == 0 %}
-                            <li><a href="javascript:;" url="{{ url({'for':'admin.review.delete','id':item.id}) }}" class="kg-delete">删除</a></li>
+                            <li><a href="javascript:" url="{{ url({'for':'admin.review.delete','id':item.id}) }}" class="kg-delete">删除</a></li>
                         {% else %}
-                            <li><a href="javascript:;" url="{{ url({'for':'admin.review.restore','id':item.id}) }}" class="kg-delete">还原</a></li>
+                            <li><a href="javascript:" url="{{ url({'for':'admin.review.restore','id':item.id}) }}" class="kg-delete">还原</a></li>
                         {% endif %}
                     </ul>
                 </div>

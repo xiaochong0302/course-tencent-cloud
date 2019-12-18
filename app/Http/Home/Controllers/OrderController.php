@@ -3,7 +3,7 @@
 namespace App\Http\Home\Controllers;
 
 use App\Models\Order as OrderModel;
-use \Home\Services\Order as OrderService;
+use Home\Services\Order as OrderService;
 
 /**
  * @RoutePrefix("/order")

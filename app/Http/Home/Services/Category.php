@@ -2,13 +2,13 @@
 
 namespace App\Http\Home\Services;
 
-use App\Transformers\CourseList as CourseListTransformer;
+use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
-use App\Validators\Course as CourseFilter;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Course as CourseRepo;
-use App\Library\Paginator\Query as PagerQuery;
+use App\Transformers\CourseList as CourseListTransformer;
+use App\Validators\Course as CourseFilter;
 
 class Category extends Service
 {
