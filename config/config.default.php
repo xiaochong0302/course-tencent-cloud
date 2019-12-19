@@ -7,39 +7,94 @@ $config = [];
  */
 $config['env'] = 'pro';
 
-$config['key'] = '223B08C66B0EC20466F513C4D9F8115D';
+/**
+ * 加解密钥
+ */
+$config['key'] = 'mlq7jQ1Py8kTdW9m';
 
+/**
+ * 所在时区
+ */
 $config['timezone'] = 'Asia/Shanghai';
 
-$config['url'] = [
-    'base' => '/', // 必须以"/"结尾
-    'static' => '/static/', // 必须以"/"结尾
-];
+/**
+ * 网站根地址，必须以"/"结尾
+ */
+$config['url']['base'] = '/';
 
-$config['db'] = [
-    'adapter' => 'Mysql',
-    'host' => 'localhost',
-    'username' => '',
-    'password' => '',
-    'dbname' => '',
-    'charset' => 'utf8',
-];
+/**
+ * 静态资源地址，必须以"/"结尾
+ */
+$config['url']['static'] = '/static/';
 
-$config['redis'] = [
-    'host' => '127.0.0.1',
-    'port' => 6379,
-    'persistent' => false,
-    'auth' => '',
-    'index' => 0,
-    'lifetime' => 86400,
-];
+/**
+ * 数据库主机名
+ */
+$config['db']['host'] = 'mysql';
 
-$config['session'] = [
-    'lifetime' => 7200,
-];
+/**
+ * 数据库名称
+ */
+$config['db']['dbname'] = 'ctc';
 
-$config['log'] = [
-    'level' => Phalcon\Logger::INFO,
-];
+/**
+ * 数据库用户名
+ */
+$config['db']['username'] = 'ctc';
+
+/**
+ * 数据库密码
+ */
+$config['db']['password'] = '1qaz2wsx3edc';
+
+/**
+ * 数据库编码
+ */
+$config['db']['charset'] = 'utf8';
+
+/**
+ * redis主机名
+ */
+$config['redis']['host'] = 'redis';
+
+/**
+ * redis端口号
+ */
+$config['redis']['port'] = 6379;
+
+/**
+ * redis链接密码
+ */
+$config['redis']['auth'] = '1qaz2wsx3edc';
+
+/**
+ * 数据库编号
+ */
+$config['redis']['index'] = 0;
+
+/**
+ * redis长链接
+ */
+$config['redis']['persistent'] = false;
+
+/**
+ * 默认有限期（秒）
+ */
+$config['redis']['lifetime'] = 86400;
+
+/**
+ * 会话有效期（秒）
+ */
+$config['session']['lifetime'] = 7200;
+
+/**
+ * 数据库编号
+ */
+$config['session']['index'] = 1;
+
+/**
+ * 日志级别
+ */
+$config['log']['level'] = Phalcon\Logger::INFO;
 
 return $config;

@@ -74,7 +74,6 @@ class ConsoleKernel extends Kernel
             \App\Providers\EventsManager::class,
             \App\Providers\Logger::class,
             \App\Providers\MetaData::class,
-            \App\Providers\Redis::class,
             \App\Providers\CliDispatcher::class,
         ];
 

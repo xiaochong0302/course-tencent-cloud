@@ -19,8 +19,9 @@ class Session extends AbstractProvider
                 'host' => $config->redis->host,
                 'port' => $config->redis->port,
                 'auth' => $config->redis->auth,
+                'index' => $config->session->index,
                 'lifetime' => $config->session->lifetime,
-                'index' => 1,
+                'persistent' => $config->redis->persistent,
             ]);
 
             $session->start();

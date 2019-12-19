@@ -24,6 +24,8 @@ class Cache extends AbstractProvider
                 'host' => $config->redis->host,
                 'port' => $config->redis->port,
                 'auth' => $config->redis->auth,
+                'index' => $config->redis->index,
+                'persistent' => $config->redis->persistent,
             ]);
 
             return $backend;

@@ -53,7 +53,6 @@ class HttpKernel extends Kernel
             \App\Providers\EventsManager::class,
             \App\Providers\Logger::class,
             \App\Providers\MetaData::class,
-            \App\Providers\Redis::class,
             \App\Providers\Router::class,
             \App\Providers\Security::class,
             \App\Providers\Session::class,
