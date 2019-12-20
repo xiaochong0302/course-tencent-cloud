@@ -12,7 +12,7 @@ class Course extends UserComponent
 
     public function __construct()
     {
-        $fileName = dirname(__FILE__) . '/course.ini';
+        $fileName = config_path() . '/xs.course.ini';
 
         $this->xs = new \XS($fileName);
     }
@@ -83,7 +83,6 @@ class Course extends UserComponent
      */
     private function setXSDocument($course)
     {
-
         $data = [
             'id' => $course->id,
             'title' => $course->title,
