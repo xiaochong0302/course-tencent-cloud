@@ -20,7 +20,6 @@
         <col>
         <col>
         <col>
-        <col>
         <col width="10%">
     </colgroup>
     <thead>

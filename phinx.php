@@ -1,6 +1,6 @@
 <?php
 
-use Boot\ConsoleKernel;
+use Bootstrap\ConsoleKernel;
 
 require __DIR__ . '/bootstrap/Kernel.php';
 require __DIR__ . '/bootstrap/ConsoleKernel.php';
@@ -9,7 +9,7 @@ $kernel = new ConsoleKernel();
 
 $config = $kernel->getDI()->getShared('config');
 
-$db = $config->database;
+$db = $config->db;
 
 $options = [
 
@@ -26,7 +26,7 @@ $options = [
         'default_database' => 'production',
 
         'production' => [
-            'adapter' => $db->adapter,
+            'adapter' => 'mysql',
             'host' => $db->host,
             'port' => $db->port,
             'name' => $db->dbname,

@@ -16,12 +16,12 @@ class Database extends AbstractProvider
             $config = $this->getShared('config');
 
             $options = [
-                'host' => $config->db->host ?: '127.0.0.1',
-                'port' => $config->db->host ?: 3306,
+                'host' => $config->db->host,
+                'port' => $config->db->port,
                 'dbname' => $config->db->dbname,
                 'username' => $config->db->username,
                 'password' => $config->db->password,
-                'charset' => $config->db->charset ?: 'utf8',
+                'charset' => $config->db->charset,
             ];
 
             $connection = new MySqlAdapter($options);

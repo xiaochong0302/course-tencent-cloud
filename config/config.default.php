@@ -33,6 +33,11 @@ $config['url']['static'] = '/static/';
 $config['db']['host'] = 'mysql';
 
 /**
+ * 数据库端口
+ */
+$config['db']['port'] = 3306;
+
+/**
  * 数据库名称
  */
 $config['db']['dbname'] = 'ctc';
@@ -63,7 +68,7 @@ $config['redis']['host'] = 'redis';
 $config['redis']['port'] = 6379;
 
 /**
- * redis链接密码
+ * redis密码
  */
 $config['redis']['auth'] = '1qaz2wsx3edc';
 

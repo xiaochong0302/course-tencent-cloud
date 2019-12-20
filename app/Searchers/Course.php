@@ -2,6 +2,7 @@
 
 namespace App\Searchers;
 
+use App\Models\Course as CourseModel;
 use Phalcon\Mvc\User\Component as UserComponent;
 
 class Course extends UserComponent
@@ -18,7 +19,7 @@ class Course extends UserComponent
 
     /**
      * 搜索
-     * 
+     *
      * @param string $query
      * @param integer $limit
      * @param integer $offset
@@ -41,7 +42,7 @@ class Course extends UserComponent
 
     /**
      * 添加索引
-     * 
+     *
      * @param CourseModel $course
      */
     public function addIndex($course)
@@ -53,7 +54,7 @@ class Course extends UserComponent
 
     /**
      * 更新索引
-     * 
+     *
      * @param CourseModel $course
      * @throws \XSException
      */
@@ -66,7 +67,7 @@ class Course extends UserComponent
 
     /**
      * 删除索引
-     * 
+     *
      * @param CourseModel $course
      */
     public function deleteIndex($course)
@@ -76,13 +77,30 @@ class Course extends UserComponent
 
     /**
      * 设置文档
-     * 
+     *
      * @param CourseModel $course
      * @return \XSDocument
      */
     private function setXSDocument($course)
     {
-        $data = $course->toArray();
+
+        $data = [
+            'id' => $course->id,
+            'title' => $course->title,
+            'cover' => $course->cover,
+            'summary' => $course->summary,
+            'keywords' => $course->keywords,
+            'market_price' => $course->market_price,
+            'vip_price' => $course->vip_price,
+            'expiry' => $course->expiry,
+            'rating' => $course->rating,
+            'score' => $course->score,
+            'model' => $course->model,
+            'level' => $course->level,
+            'student_count' => $course->student_count,
+            'lesson_count' => $course->lesson_count,
+            'created_at' => $course->created_at,
+        ];
 
         $doc = new \XSDocument();
 
