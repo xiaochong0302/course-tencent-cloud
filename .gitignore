@@ -1,3 +1,4 @@
 /.idea
-/config/config.php
 /vendor
+/config/config.php
+/config/xs.course.ini
