@@ -8,7 +8,10 @@ use Phalcon\Mvc\User\Component as UserComponent;
 class Course extends UserComponent
 {
 
-    private $xs;
+    /**
+     * @var \XS
+     */
+    protected $xs;
 
     public function __construct()
     {
@@ -18,61 +21,53 @@ class Course extends UserComponent
     }
 
     /**
-     * 搜索
+     * 获取XS
+     * @return \XS
+     */
+    public function getXS()
+    {
+        return $this->xs;
+    }
+
+    /**
+     * 搜索课程
      *
      * @param string $query
      * @param integer $limit
      * @param integer $offset
+     * @return \stdClass
      * @throws \XSException
-     * @return array
      */
     public function search($query, $limit = 15, $offset = 0)
     {
-        $search = $this->xs->search;
+        $search = $this->xs->getSearch();
 
-        $items = $search->setQuery($query)->setLimit($limit, $offset)->search();
+        $docs = $search->setQuery($query)->setLimit($limit, $offset)->search();
 
         $total = $search->getLastCount();
 
-        return [
-            'total' => $total,
-            'items' => $items,
-        ];
-    }
+        $fields = array_keys($this->xs->getAllFields());
 
-    /**
-     * 添加索引
-     *
-     * @param CourseModel $course
-     */
-    public function addIndex($course)
-    {
-        $doc = $this->setXSDocument($course);
+        $items = [];
 
-        $this->xs->index->add($doc);
-    }
+        foreach ($docs as $doc) {
+            $item = new \stdClass();
+            foreach ($fields as $field) {
+                if (in_array($field, ['title', 'summary'])) {
+                    $item->{$field} = $search->highlight($doc->{$field});
+                } else {
+                    $item->{$field} = $doc->{$field};
+                }
+            }
+            $items[] = $item;
+        }
 
-    /**
-     * 更新索引
-     *
-     * @param CourseModel $course
-     * @throws \XSException
-     */
-    public function updateIndex($course)
-    {
-        $doc = $this->setXSDocument($course);
+        $result = new \stdClass();
 
-        $this->xs->index->update($doc);
-    }
+        $result->total = $total;
+        $result->items = $items;
 
-    /**
-     * 删除索引
-     *
-     * @param CourseModel $course
-     */
-    public function deleteIndex($course)
-    {
-        $this->xs->index->del($course->id);
+        return $result;
     }
 
     /**
@@ -81,7 +76,24 @@ class Course extends UserComponent
      * @param CourseModel $course
      * @return \XSDocument
      */
-    private function setXSDocument($course)
+    public function setDocument(CourseModel $course)
+    {
+        $doc = new \XSDocument();
+
+        $data = $this->formatDocument($course);
+
+        $doc->setFields($data);
+
+        return $doc;
+    }
+
+    /**
+     * 格式化文档
+     *
+     * @param CourseModel $course
+     * @return array
+     */
+    public function formatDocument(CourseModel $course)
     {
         $data = [
             'id' => $course->id,
@@ -101,11 +113,7 @@ class Course extends UserComponent
             'created_at' => $course->created_at,
         ];
 
-        $doc = new \XSDocument();
-
-        $doc->setFields($data);
-
-        return $doc;
+        return $data;
     }
 
 }

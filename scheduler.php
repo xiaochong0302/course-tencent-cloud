@@ -16,18 +16,21 @@ $scheduler->php($script, $bin, ['--task' => 'close_trade', '--action' => 'main']
     ->at('*/15 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'close_order', '--action' => 'main'])
-    ->at('* */6 * * *');
+    ->at('* */3 * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'learning', '--action' => 'main'])
     ->at('*/10 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'refund', '--action' => 'main'])
-    ->hourly(15);
+    ->hourly(3);
+
+$scheduler->php($script, $bin, ['--task' => 'sync_index', '--action' => 'main'])
+    ->hourly(13);
 
 $scheduler->php($script, $bin, ['--task' => 'clean_log', '--action' => 'main'])
     ->daily(3, 10);
 
-$scheduler->php($script, $bin, ['--task' => 'course_count', '--action' => 'main'])
+$scheduler->php($script, $bin, ['--task' => 'count_course', '--action' => 'main'])
     ->daily(3, 20);
 
 $scheduler->php($script, $bin, ['--task' => 'unlock_user', '--action' => 'main'])

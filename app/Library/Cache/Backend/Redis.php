@@ -224,7 +224,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
     }
 
     /**
-     * Get Prefix
+     * Get prefix
      *
      * @return string
      */
@@ -234,7 +234,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
     }
 
     /**
-     * Get Redis Connection
+     * Get redis connection
      *
      * @return \Redis
      */
@@ -251,14 +251,29 @@ class Redis extends \Phalcon\Cache\Backend\Redis
     }
 
     /**
-     * Get Key Name
+     * Get key name
      *
      * @param $keyName
      * @return string
      */
-    protected function getKeyName($keyName)
+    public function getKeyName($keyName)
     {
         return $this->_prefix . $keyName;
+    }
+
+    /**
+     * Get raw key name
+     *
+     * @param $keyName
+     * @return string
+     */
+    public function getRawKeyName($keyName)
+    {
+        if ($this->_prefix) {
+            $keyName = str_replace($this->_prefix, '', $keyName);
+        }
+
+        return $keyName;
     }
 
 }

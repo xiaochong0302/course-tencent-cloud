@@ -24,20 +24,15 @@ class LearningTask extends Task
 
         $keys = $this->cache->queryKeys('learning:');
 
-        if (empty($keys)) return;
+        if (empty($keys)) {
+            return;
+        }
 
         $keys = array_slice($keys, 0, 500);
 
-        $prefix = $this->cache->getPrefix();
-
         foreach ($keys as $key) {
-            /**
-             * 去掉前缀，避免重复加前缀导致找不到缓存
-             */
-            if ($prefix) {
-                $key = str_replace($prefix, '', $key);
-            }
-            $this->handleLearning($key);
+            $lastKey = $this->cache->getRawKeyName($key);
+            $this->handleLearning($lastKey);
         }
     }
 
@@ -46,7 +41,7 @@ class LearningTask extends Task
         $content = $this->cache->get($key);
 
         if (empty($content->user_id)) {
-            return false;
+            return;
         }
 
         if (!empty($content->client_ip)) {
@@ -81,13 +76,17 @@ class LearningTask extends Task
 
         $chapterUser = $chapterUserRepo->findChapterUser($chapterId, $userId);
 
-        if (!$chapterUser) return false;
+        if (!$chapterUser) {
+            return;
+        }
 
         $chapterRepo = new ChapterRepo();
 
         $chapter = $chapterRepo->findById($chapterId);
 
-        if (!$chapter) return false;
+        if (!$chapter) {
+            return;
+        }
 
         $chapter->duration = $chapter->attrs['duration'] ?: 0;
 

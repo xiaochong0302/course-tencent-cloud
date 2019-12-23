@@ -27,8 +27,8 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
             url: data.form.action,
             data: data.field,
             success: function (res) {
+                var icon = res.code == 0 ? 1 : 2;
                 if (res.msg != '') {
-                    var icon = (res.code == 0) ? 1 : 2;
                     layer.msg(res.msg, {icon: icon});
                 }
                 if (res.location) {

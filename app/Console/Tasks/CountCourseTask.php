@@ -5,7 +5,7 @@ namespace App\Console\Tasks;
 use App\Repos\Category as CategoryRepo;
 use Phalcon\Cli\Task;
 
-class CourseCountTask extends Task
+class CountCourseTask extends Task
 {
 
     public function mainAction()

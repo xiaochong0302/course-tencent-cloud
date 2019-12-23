@@ -66,6 +66,8 @@ class Course extends Service
 
         $course->create($data);
 
+        $this->eventsManager->fire('course:afterCreate', $this, $course);
+
         return $course;
     }
 
@@ -135,6 +137,8 @@ class Course extends Service
 
         $course->update($data);
 
+        $this->eventsManager->fire('course:afterUpdate', $this, $course);
+
         return $course;
     }
 
@@ -150,6 +154,8 @@ class Course extends Service
 
         $course->update();
 
+        $this->eventsManager->fire('course:afterDelete', $this, $course);
+
         return $course;
     }
 
@@ -164,6 +170,8 @@ class Course extends Service
         $course->deleted = 0;
 
         $course->update();
+
+        $this->eventsManager->fire('course:afterRestore', $this, $course);
 
         return $course;
     }

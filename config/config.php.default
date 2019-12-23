@@ -73,7 +73,7 @@ $config['redis']['port'] = 6379;
 $config['redis']['auth'] = '1qaz2wsx3edc';
 
 /**
- * 数据库编号
+ * redis库编号
  */
 $config['redis']['index'] = 0;
 
@@ -83,17 +83,27 @@ $config['redis']['index'] = 0;
 $config['redis']['persistent'] = false;
 
 /**
- * 默认有限期（秒）
+ * redis键前缀
  */
-$config['redis']['lifetime'] = 86400;
+$config['redis']['prefix'] = '';
+
+/**
+ * redis有限期（秒）
+ */
+$config['redis']['lifetime'] = 7 * 86400;
+
+/**
+ * 会话键前缀
+ */
+$config['session']['prefix'] = '';
 
 /**
  * 会话有效期（秒）
  */
-$config['session']['lifetime'] = 7200;
+$config['session']['lifetime'] = 2 * 3600;
 
 /**
- * 数据库编号
+ * redis库编号
  */
 $config['session']['index'] = 1;
 
