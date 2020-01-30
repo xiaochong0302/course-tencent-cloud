@@ -9,8 +9,8 @@ class ChapterUser extends Repository
 {
 
     /**
-     * @param integer $chapterId
-     * @param integer $userId
+     * @param int $chapterId
+     * @param int $userId
      * @return ChapterUserModel
      */
     public function findChapterUser($chapterId, $userId)
@@ -18,8 +18,7 @@ class ChapterUser extends Repository
         $result = ChapterUserModel::query()
             ->where('chapter_id = :chapter_id:', ['chapter_id' => $chapterId])
             ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->execute()
-            ->getFirst();
+            ->execute()->getFirst();
 
         return $result;
     }
@@ -81,7 +80,7 @@ class ChapterUser extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
 }

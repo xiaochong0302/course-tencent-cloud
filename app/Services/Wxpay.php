@@ -71,7 +71,7 @@ class Wxpay extends Service
             return false;
         }
 
-        if ($data->mch_id != $this->config->mch_id) {
+        if ($data->mch_id != $this->config['mch_id']) {
             return false;
         }
 
@@ -106,10 +106,10 @@ class Wxpay extends Service
     public function getGateway()
     {
         $config = [
-            'app_id' => $this->config->app_id,
-            'mch_id' => $this->config->mch_id,
-            'key' => $this->config->key,
-            'notify_url' => $this->config->notify_url,
+            'app_id' => $this->config['app_id'],
+            'mch_id' => $this->config['mch_id'],
+            'key' => $this->config['key'],
+            'notify_url' => $this->config['notify_url'],
             'log' => [
                 'file' => log_path('wxpay.log'),
                 'level' => 'debug',

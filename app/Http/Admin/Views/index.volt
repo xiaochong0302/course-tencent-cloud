@@ -7,7 +7,7 @@
     <meta name="csrf-token-value" content="{{ security.getTokenValue() }}">
     <title>管理后台</title>
     {{ stylesheet_link('lib/layui/css/layui.css') }}
-    {{ stylesheet_link('lib/layui/css/dropdown.css') }}
+    {{ stylesheet_link('lib/layui/extends/dropdown.css') }}
     {{ stylesheet_link('admin/css/style.css') }}
     {{ javascript_include('lib/layui/layui.js') }}
     {{ javascript_include('admin/js/common.js') }}

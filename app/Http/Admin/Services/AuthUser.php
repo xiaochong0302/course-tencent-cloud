@@ -4,9 +4,9 @@ namespace App\Http\Admin\Services;
 
 use App\Models\Role as RoleModel;
 use App\Models\User as UserModel;
-use Phalcon\Mvc\User\Component as UserComponent;
+use App\Repos\Role as RoleRepo;
 
-class AuthUser extends UserComponent
+class AuthUser extends \Phalcon\Mvc\User\Component
 {
 
     /**
@@ -17,11 +17,15 @@ class AuthUser extends UserComponent
      */
     public function hasPermission($route)
     {
-        $authUser = $this->getAuthUser();
+        $authUser = $this->getAuthInfo();
 
-        if ($authUser->admin) return true;
+        if ($authUser->root) {
+            return true;
+        }
 
-        if (in_array($route, $authUser->routes)) return true;
+        if (in_array($route, $authUser->routes)) {
+            return true;
+        }
 
         return false;
     }
@@ -31,27 +35,23 @@ class AuthUser extends UserComponent
      *
      * @param UserModel $user
      */
-    public function setAuthUser(UserModel $user)
+    public function setAuthInfo(UserModel $user)
     {
-        $role = RoleModel::findFirstById($user->admin_role);
+        $roleRepo = new RoleRepo();
 
-        if ($role->id == RoleModel::ROLE_ADMIN) {
-            $admin = 1;
-            $routes = [];
-        } else {
-            $admin = 0;
-            $routes = $role->routes;
-        }
+        $role = $roleRepo->findById($user->admin_role);
 
-        $authKey = $this->getAuthKey();
+        $root = $role->id == RoleModel::ROLE_ROOT ? 1 : 0;
 
         $authUser = new \stdClass();
 
         $authUser->id = $user->id;
         $authUser->name = $user->name;
         $authUser->avatar = $user->avatar;
-        $authUser->admin = $admin;
-        $authUser->routes = $routes;
+        $authUser->routes = $role->routes;
+        $authUser->root = $root;
+
+        $authKey = $this->getAuthKey();
 
         $this->session->set($authKey, $authUser);
     }
@@ -59,7 +59,7 @@ class AuthUser extends UserComponent
     /**
      * 清除会话
      */
-    public function removeAuthUser()
+    public function removeAuthInfo()
     {
         $authKey = $this->getAuthKey();
 
@@ -71,7 +71,7 @@ class AuthUser extends UserComponent
      *
      * @return mixed
      */
-    public function getAuthUser()
+    public function getAuthInfo()
     {
         $authKey = $this->getAuthKey();
 
@@ -85,7 +85,7 @@ class AuthUser extends UserComponent
      */
     public function getAuthKey()
     {
-        return 'admin';
+        return 'admin_info';
     }
 
 }

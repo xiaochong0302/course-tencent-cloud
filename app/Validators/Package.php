@@ -3,16 +3,15 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Repos\Package as PackageRepo;
 
 class Package extends Validator
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return \App\Models\Package
-     * @throws NotFoundException
+     * @throws BadRequestException
      */
     public function checkPackage($id)
     {
@@ -21,7 +20,7 @@ class Package extends Validator
         $package = $packageRepo->findById($id);
 
         if (!$package) {
-            throw new NotFoundException('package.not_found');
+            throw new BadRequestException('package.not_found');
         }
 
         return $package;
@@ -75,13 +74,11 @@ class Package extends Validator
 
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('package.invalid_publish_status');
         }
 
-        return $value;
+        return $status;
     }
 
 }

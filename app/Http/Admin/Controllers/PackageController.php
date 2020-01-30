@@ -69,7 +69,7 @@ class PackageController extends Controller
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.package.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.package.edit")
      */
     public function editAction($id)
     {
@@ -83,7 +83,7 @@ class PackageController extends Controller
     }
 
     /**
-     * @Post("/{id}/update", name="admin.package.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.package.update")
      */
     public function updateAction($id)
     {
@@ -97,7 +97,7 @@ class PackageController extends Controller
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.package.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.package.delete")
      */
     public function deleteAction($id)
     {
@@ -114,7 +114,7 @@ class PackageController extends Controller
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.package.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.package.restore")
      */
     public function restoreAction($id)
     {

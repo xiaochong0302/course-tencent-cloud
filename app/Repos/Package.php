@@ -11,12 +11,12 @@ class Package extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return PackageModel
      */
     public function findById($id)
     {
-        $result = PackageModel::findFirstById($id);
+        $result = PackageModel::findFirst($id);
 
         return $result;
     }
@@ -65,7 +65,7 @@ class Package extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
     public function findCourses($packageId)
@@ -75,6 +75,7 @@ class Package extends Repository
             ->addFrom(CourseModel::class, 'c')
             ->join(CoursePackageModel::class, 'c.id = cp.course_id', 'cp')
             ->where('cp.package_id = :package_id:', ['package_id' => $packageId])
+            ->andWhere('c.deleted = 0')
             ->getQuery()
             ->execute();
 
@@ -88,7 +89,7 @@ class Package extends Repository
             'bind' => ['package_id' => $packageId],
         ]);
 
-        return (int)$count;
+        return $count;
     }
 
 }

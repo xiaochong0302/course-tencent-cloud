@@ -16,7 +16,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
      * {@inheritdoc}
      *
      * @param  string $keyName
-     * @param  integer $lifetime
+     * @param  int $lifetime
      * @return mixed|null
      */
     public function get($keyName, $lifetime = null)
@@ -105,7 +105,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
         }
 
         if ($ttl > 0) {
-            $redis->setTimeout($lastKey, $ttl);
+            $redis->expire($lastKey, $ttl);
         }
 
         $isBuffering = $frontend->isBuffering();
@@ -135,7 +135,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
 
         $lastKey = $this->getKeyName($keyName);
 
-        return (bool)$redis->delete($lastKey);
+        return (bool)$redis->del($lastKey);
     }
 
     /**
@@ -146,11 +146,21 @@ class Redis extends \Phalcon\Cache\Backend\Redis
      */
     public function queryKeys($prefix = null)
     {
+        $result = [];
+
         $redis = $this->getRedis();
 
         $pattern = "{$this->_prefix}" . ($prefix ? $prefix : '') . '*';
 
-        return $redis->keys($pattern);
+        $redis->setOption(\Redis::OPT_SCAN, \Redis::SCAN_RETRY);
+
+        $it = null;
+
+        while ($keys = $redis->scan($it, $pattern)) {
+            $result = array_merge($result, $keys);
+        }
+
+        return $result;
     }
 
     /**

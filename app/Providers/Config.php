@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Config as PhalconConfig;
 
-class Config extends AbstractProvider
+class Config extends Provider
 {
 
     protected $serviceName = 'config';

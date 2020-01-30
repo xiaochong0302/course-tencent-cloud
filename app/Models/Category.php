@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Caches\Category as CategoryCache;
+use App\Caches\CategoryList as CategoryListCache;
+use App\Caches\CategoryTreeList as CategoryTreeListCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Category extends Model
@@ -10,14 +13,14 @@ class Category extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 上级编号
      *
-     * @var integer
+     * @var int
      */
     public $parent_id;
 
@@ -31,14 +34,14 @@ class Category extends Model
     /**
      * 优先级
      *
-     * @var integer
+     * @var int
      */
     public $priority;
 
     /**
      * 层级
      *
-     * @var integer
+     * @var int
      */
     public $level;
 
@@ -52,35 +55,42 @@ class Category extends Model
     /**
      * 发布标识
      *
-     * @var integer
+     * @var int
      */
     public $published;
 
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
+     * 节点数
+     *
+     * @var int
+     */
+    public $child_count;
+
+    /**
      * 课程数
      *
-     * @var integer
+     * @var int
      */
     public $course_count;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 
@@ -109,6 +119,28 @@ class Category extends Model
     public function beforeUpdate()
     {
         $this->updated_at = time();
+    }
+
+    public function afterCreate()
+    {
+        $this->rebuildCache();
+    }
+
+    public function afterUpdate()
+    {
+        $this->rebuildCache();
+    }
+
+    public function rebuildCache()
+    {
+        $categoryCache = new CategoryCache();
+        $categoryCache->rebuild($this->id);
+
+        $categoryListCache = new CategoryListCache();
+        $categoryListCache->rebuild();
+
+        $categoryTreeListCache = new CategoryTreeListCache();
+        $categoryTreeListCache->rebuild();
     }
 
 }

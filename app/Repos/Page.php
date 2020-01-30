@@ -9,12 +9,12 @@ class Page extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return PageModel
      */
     public function findById($id)
     {
-        $result = PageModel::findFirstById($id);
+        $result = PageModel::findFirst($id);
 
         return $result;
     }
@@ -59,7 +59,7 @@ class Page extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
 }

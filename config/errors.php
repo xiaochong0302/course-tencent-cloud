@@ -14,29 +14,38 @@ $error['sys.session_expired'] = '会话已过期';
 $error['sys.unknown_error'] = '未知错误';
 
 /**
+ * 安全相关
+ */
+$error['security.invalid_captcha_code'] = '无效的验证码';
+$error['security.invalid_verify_code'] = '无效的验证码';
+
+/**
  * 帐号相关
  */
+$error['account.login_locked'] = '账户已被锁定，无法登录';
+$error['account.login_name_incorrect'] = '登录账户不正确';
+$error['account.login_password_incorrect'] = '登录密码不正确';
+$error['account.invalid_email'] = '无效的电子邮箱';
+$error['account.invalid_phone'] = '无效的手机号';
+$error['account.invalid_password'] = '无效的密码（字母或数字6-16位）';
+$error['account.email_taken'] = '邮箱被占用';
+$error['account.phone_taken'] = '手机号被占用';
+$error['account.origin_password_incorrect'] = '原密码不正确';
+$error['account.confirm_password_incorrect'] = '确认密码不正确';
+$error['account.admin_not_authorized'] = '账户没有登录后台的授权';
+
+/**
+ * 用户相关
+ */
 $error['user.not_found'] = '用户不存在';
-$error['user.login_locked'] = '账户已被锁定，无法登录';
-$error['user.login_account_incorrect'] = '登录账户不正确';
-$error['user.login_password_incorrect'] = '登录密码不正确';
+$error['user.name_taken'] = '用户名被占用';
 $error['user.title_too_long'] = '头衔过长（超过30个字符）';
 $error['user.about_too_long'] = '简介过长（超过255个字符）';
-$error['user.invalid_email'] = '无效的电子邮箱';
-$error['user.invalid_phone'] = '无效的手机号';
-$error['user.invalid_password'] = '无效的密码（字母或数字6-16位）';
 $error['user.invalid_edu_role'] = '无效的教学角色';
 $error['user.invalid_admin_role'] = '无效的后台角色';
 $error['user.invalid_lock_status'] = '无效的锁定状态';
 $error['user.invalid_lock_expiry'] = '无效的锁定期限';
-$error['user.invalid_captcha_code'] = '无效的验证码';
-$error['user.invalid_verify_code'] = '无效的验证码';
-$error['user.email_taken'] = '邮箱被占用';
-$error['user.phone_taken'] = '手机号被占用';
-$error['user.name_taken'] = '用户名被占用';
-$error['user.origin_password_incorrect'] = '原密码不正确';
-$error['user.confirm_password_incorrect'] = '确认密码不正确';
-$error['user.admin_not_authorized'] = '账户没有登录后台的授权';
+
 
 /**
  * 分类相关
@@ -47,6 +56,21 @@ $error['category.invalid_publish_status'] = '无效的发布状态';
 $error['category.invalid_priority'] = '无效的排序值（范围：1-255）';
 $error['category.name_too_short'] = '名称太短（少于2个字符）';
 $error['category.name_too_long'] = '名称太长（多于30个字符）';
+$error['category.has_child_node'] = '存在子节点，不允许相关操作';
+
+/**
+ * 导航相关
+ */
+$error['nav.not_found'] = '分类不存在';
+$error['nav.parent_not_found'] = '父级分类不存在';
+$error['nav.invalid_publish_status'] = '无效的发布状态';
+$error['nav.invalid_url'] = '无效的访问地址';
+$error['nav.invalid_position'] = '无效的位置类型';
+$error['nav.invalid_target'] = '无效的目标类型';
+$error['nav.invalid_priority'] = '无效的排序值（范围：1-255）';
+$error['nav.name_too_short'] = '名称太短（少于2个字符）';
+$error['nav.name_too_long'] = '名称太长（多于30个字符）';
+$error['nav.has_child_node'] = '存在子节点，不允许相关操作';
 
 /**
  * 课程相关
@@ -63,7 +87,7 @@ $error['course.invalid_vip_price'] = '无效的会员价格';
 $error['course.invalid_expiry'] = '无效的期限';
 $error['course.invalid_publish_status'] = '无效的发布状态';
 $error['course.pub_chapter_not_found'] = '尚未发现已发布的课时';
-$error['course.pub_chapter_too_few'] = '已发布的课时太少（未过三分之一）';
+$error['course.pub_chapter_not_enough'] = '已发布的课时太少（未过三分之一）';
 
 $error['course.has_not_favorited'] = '尚未收藏该课程';
 $error['course.has_favorited'] = '已经收藏过该课程了';
@@ -74,9 +98,17 @@ $error['course.apply_offline_course'] = '申请未发布的课程';
 $error['course.apply_charge_course'] = '申请非免费的课程';
 
 /**
+ * 话题相关
+ */
+$error['topic.not_found'] = '话题不存在';
+$error['topic.title_too_short'] = '标题太短（少于2个字符）';
+$error['topic.title_too_long'] = '标题太长（多于30个字符）';
+$error['topic.invalid_publish_status'] = '无效的发布状态';
+
+/**
  * 套餐相关
  */
-$error['package.not_found'] = '课程不存在';
+$error['package.not_found'] = '套餐不存在';
 $error['package.title_too_short'] = '标题太短（少于5个字符）';
 $error['package.title_too_long'] = '标题太长（多于30个字符）';
 $error['package.invalid_market_price'] = '无效的市场价格';
@@ -101,13 +133,14 @@ $error['chapter.invalid_publish_status'] = '无效的发布状态';
 $error['chapter.invalid_free_status'] = '无效的免费状态';
 $error['chapter.invalid_course_id'] = '无效的课程编号';
 $error['chapter.invalid_parent_id'] = '无效的父级编号';
+$error['chapter.invalid_priority'] = '无效的排序值（范围：1-255）';
 $error['chapter.title_too_short'] = '标题太短（少于2个字符）';
 $error['chapter.title_too_long'] = '标题太长（多于30个字符）';
-$error['chapter.vod_not_uploaded'] = '点播资源文件尚未上传';
-$error['chapter.vod_not_translated'] = '点播资源转码尚未完成';
+$error['chapter.vod_not_ready'] = '点播资源尚未就绪';
 $error['chapter.live_not_started'] = '直播尚未开始';
 $error['chapter.live_time_empty'] = '直播时间尚未设置';
-$error['chapter.article_content_empty'] = '文章内容尚未设置';
+$error['chapter.read_not_ready'] = '文章内容尚未就绪';
+$error['chapter.has_child_node'] = '存在子节点，不允许相关操作';
 
 /**
  * 点播相关
@@ -129,9 +162,9 @@ $error['chapter_live.time_too_long'] = '直播时间太长（超过3小时）';
 /**
  * 图文相关
  */
-$error['chapter_article.not_found'] = '文章不存在';
-$error['chapter_article.content_too_short'] = '文章内容太短（少于10个字符）';
-$error['chapter_article.content_too_long'] = '文章内容太长（多于65535个字符）';
+$error['chapter_read.not_found'] = '文章不存在';
+$error['chapter_read.content_too_short'] = '文章内容太短（少于10个字符）';
+$error['chapter_read.content_too_long'] = '文章内容太长（多于65535个字符）';
 
 /**
  * 评价相关
@@ -151,6 +184,17 @@ $error['page.title_too_long'] = '标题太长（多于30个字符）';
 $error['page.content_too_short'] = '内容太短（少于10个字符）';
 $error['page.content_too_long'] = '内容太长（多于65535个字符）';
 $error['page.invalid_publish_status'] = '无效的发布状态';
+
+/**
+ * 帮助相关
+ */
+$error['help.not_found'] = '帮助不存在';
+$error['help.title_too_short'] = '标题太短（少于2个字符）';
+$error['help.title_too_long'] = '标题太长（多于30个字符）';
+$error['help.content_too_short'] = '内容太短（少于10个字符）';
+$error['help.content_too_long'] = '内容太长（多于65535个字符）';
+$error['help.invalid_priority'] = '无效的排序数值（范围：1-255）';
+$error['help.invalid_publish_status'] = '无效的发布状态';
 
 /**
  * 轮播相关

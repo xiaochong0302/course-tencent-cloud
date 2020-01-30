@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Mvc\Url as UrlResolver;
 
-class Url extends AbstractProvider
+class Url extends Provider
 {
 
     protected $serviceName = 'url';

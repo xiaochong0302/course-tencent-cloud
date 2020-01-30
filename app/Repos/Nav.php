@@ -8,12 +8,12 @@ class Nav extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return NavModel
      */
     public function findById($id)
     {
-        $result = NavModel::findFirstById($id);
+        $result = NavModel::findFirst($id);
 
         return $result;
     }
@@ -59,6 +59,16 @@ class Nav extends Repository
         $result = $query->execute();
 
         return $result;
+    }
+
+    public function countChildNavs($navId)
+    {
+        $count = NavModel::count([
+            'conditions' => 'parent_id = :parent_id: AND published = 1 AND deleted = 0',
+            'bind' => ['parent_id' => $navId],
+        ]);
+
+        return (int)$count;
     }
 
 }

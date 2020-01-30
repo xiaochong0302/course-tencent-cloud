@@ -7,7 +7,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i></label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="用户名/手机号/邮箱" lay-verify="required">
+            <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机/邮箱" lay-verify="required">
         </div>
     </div>
 

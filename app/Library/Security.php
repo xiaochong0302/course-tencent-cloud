@@ -57,11 +57,11 @@ class Security
 
         $lifetime = $this->options['lifetime'];
 
-        $cachedContent = $this->cache->get($key);
+        $cache = $this->cache->get($key);
 
-        if ($cachedContent) {
-            $this->tokenValue = $cachedContent->hash;
-            if (time() - $cachedContent->time > $lifetime / 2) {
+        if ($cache) {
+            $this->tokenValue = $cache['hash'];
+            if (time() - $cache['time'] > $lifetime / 2) {
                 $this->cache->save($key, $content, $lifetime);
                 $this->tokenValue = $content['hash'];
             }
@@ -77,9 +77,11 @@ class Security
 
         $content = $this->cache->get($key);
 
-        if (!$content) return false;
+        if (!$content) {
+            return false;
+        }
 
-        return $tokenValue == $content->hash;
+        return $tokenValue == $content['hash'];
     }
 
     protected function getCacheKey($tokenKey)

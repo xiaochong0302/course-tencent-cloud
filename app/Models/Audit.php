@@ -8,28 +8,28 @@ class Audit extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 用户编号
      *
-     * @var integer
+     * @var int
      */
     public $user_id;
 
     /**
      * 用户名称
      *
-     * @var integer
+     * @var int
      */
     public $user_name;
 
     /**
      * 用户IP
      *
-     * @var integer
+     * @var int
      */
     public $user_ip;
 
@@ -57,7 +57,7 @@ class Audit extends Model
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
@@ -70,7 +70,7 @@ class Audit extends Model
     {
         $this->created_at = time();
 
-        if (!empty($this->req_data) && is_array($this->req_data)) {
+        if (!empty($this->req_data)) {
             $this->req_data = kg_json_encode($this->req_data);
         } else {
             $this->req_data = '';

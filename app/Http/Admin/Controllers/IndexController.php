@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Http\Admin\Services\AuthMenu as AuthMenuService;
+use App\Http\Admin\Services\Index as IndexService;
 use Phalcon\Mvc\View;
 
 /**
@@ -16,13 +16,12 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        $authMenu = new AuthMenuService();
+        $indexService = new IndexService();
 
-        $topMenus = $authMenu->getTopMenus();
-        $leftMenus = $authMenu->getLeftMenus();
+        $topMenus = $indexService->getTopMenus();
+        $leftMenus = $indexService->getLeftMenus();
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
         $this->view->setVar('top_menus', $topMenus);
         $this->view->setVar('left_menus', $leftMenus);
     }
@@ -32,23 +31,6 @@ class IndexController extends Controller
      */
     public function mainAction()
     {
-        /*
-         $service = new \App\Services\Order();
-         $course = \App\Models\Course::findFirstById(1152);
-         $service->createCourseOrder($course);
-        */
-
-        /*
-         $service = new \App\Services\Order();
-         $package = \App\Models\Package::findFirstById(5);
-         $service->createPackageOrder($package);
-         */
-
-        $refund = new \App\Services\Refund();
-        $order = \App\Models\Order::findFirstById(131);
-        $amount = $refund->getRefundAmount($order);
-
-        dd($amount);
 
     }
 

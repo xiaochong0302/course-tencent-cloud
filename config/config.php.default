@@ -55,7 +55,7 @@ $config['db']['password'] = '1qaz2wsx3edc';
 /**
  * 数据库编码
  */
-$config['db']['charset'] = 'utf8';
+$config['db']['charset'] = 'utf8mb4';
 
 /**
  * redis主机名

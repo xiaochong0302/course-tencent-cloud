@@ -102,10 +102,6 @@ class Package extends Service
     {
         $package = $this->findOrFail($id);
 
-        if ($package->deleted == 1) {
-            return false;
-        }
-
         $package->deleted = 1;
 
         $package->update();
@@ -116,10 +112,6 @@ class Package extends Service
     public function restorePackage($id)
     {
         $package = $this->findOrFail($id);
-
-        if ($package->deleted == 0) {
-            return false;
-        }
 
         $package->deleted = 0;
 
@@ -183,7 +175,7 @@ class Package extends Service
         return $list;
     }
 
-    protected function saveCourses($package, $courseIds)
+    protected function saveCourses(PackageModel $package, $courseIds)
     {
         $packageRepo = new PackageRepo();
 
@@ -223,7 +215,7 @@ class Package extends Service
         }
     }
 
-    protected function updateCourseCount($package)
+    protected function updateCourseCount(PackageModel $package)
     {
         $packageRepo = new PackageRepo();
 

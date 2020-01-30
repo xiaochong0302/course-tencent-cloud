@@ -35,7 +35,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Get("/{id}/show", name="admin.user.show")
+     * @Get("/{id:[0-9]+}/show", name="admin.user.show")
      */
     public function showAction($id)
     {
@@ -74,7 +74,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.user.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.user.edit")
      */
     public function editAction($id)
     {
@@ -88,7 +88,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Post("/{id}/update", name="admin.user.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.user.update")
      */
     public function updateAction($id)
     {

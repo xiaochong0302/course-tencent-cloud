@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Mvc\View\Engine\Volt as PhalconVolt;
 
-class Volt extends AbstractProvider
+class Volt extends Provider
 {
 
     protected $serviceName = 'volt';
@@ -32,6 +32,14 @@ class Volt extends AbstractProvider
 
             $compiler->addFunction('img_url', function ($resolvedArgs) {
                 return 'kg_img_url(' . $resolvedArgs . ')';
+            });
+
+            $compiler->addFilter('array_object', function ($resolvedArgs) {
+                return 'kg_array_object(' . $resolvedArgs . ')';
+            });
+
+            $compiler->addFilter('object_array', function ($resolvedArgs) {
+                return 'kg_object_array(' . $resolvedArgs . ')';
             });
 
             $compiler->addFilter('play_duration', function ($resolvedArgs) {

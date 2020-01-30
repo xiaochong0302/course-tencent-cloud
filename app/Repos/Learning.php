@@ -14,7 +14,10 @@ class Learning extends Repository
      */
     public function findByRequestId($requestId)
     {
-        $result = LearningModel::findFirstByRequestId($requestId);
+        $result = LearningModel::findFirst([
+            'conditions' => 'request_id = :request_id:',
+            'bind' => ['request_id' => $requestId],
+        ]);
 
         return $result;
     }
@@ -53,7 +56,7 @@ class Learning extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
 }

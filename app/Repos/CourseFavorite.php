@@ -10,10 +10,9 @@ class CourseFavorite extends Repository
     public function findCourseFavorite($courseId, $userId)
     {
         $result = CourseFavoriteModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->execute()
-            ->getFirst();
+            ->where('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('course_id = :course_id:', ['course_id' => $courseId])
+            ->execute()->getFirst();
 
         return $result;
     }
@@ -26,12 +25,16 @@ class CourseFavorite extends Repository
 
         $builder->where('1 = 1');
 
-        if (isset($where['course_id'])) {
+        if (!empty($where['course_id'])) {
             $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
         }
 
-        if (isset($where['user_id'])) {
+        if (!empty($where['user_id'])) {
             $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        }
+
+        if (isset($where['deleted'])) {
+            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
         switch ($sort) {

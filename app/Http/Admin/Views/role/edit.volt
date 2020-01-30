@@ -7,21 +7,21 @@
     <div class="layui-form-item">
         <label class="layui-form-label">名称</label>
         <div class="layui-input-block">
-            <input type="text" name="name" value="{{ role.name }}" class="layui-input" lay-verify="required">
+            <input class="layui-input" type="text" name="name" value="{{ role.name }}" {% if role.type == 'system' %}readonly{% endif %} lay-verify="required">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">描述</label>
         <div class="layui-input-block">
-            <input type="text" name="summary" value="{{ role.summary }}" class="layui-input" lay-verify="required">
+            <input class="layui-input" type="text" name="summary" value="{{ role.summary }}" {% if role.type == 'system' %}readonly{% endif %} lay-verify="required">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">权限</label>
         <div class="layui-input-block">
-            {% for key,level in nodes %}
+            {% for key,level in auth_nodes %}
                 <table class="layui-table">
                     {% for key2,level2 in level.child %}
                         <tr>

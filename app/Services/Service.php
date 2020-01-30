@@ -27,7 +27,7 @@ class Service extends \Phalcon\Mvc\User\Component
      * 获取某组配置项
      *
      * @param string $section
-     * @return \stdClass
+     * @return array
      */
     public function getSectionConfig($section)
     {

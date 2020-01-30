@@ -247,12 +247,6 @@ class RefundTask extends Task
 
     }
 
-    /**
-     * 查找退款任务
-     *
-     * @param integer $limit
-     * @return \Phalcon\Mvc\Model\ResultsetInterface
-     */
     protected function findTasks($limit = 5)
     {
         $itemType = TaskModel::TYPE_REFUND;

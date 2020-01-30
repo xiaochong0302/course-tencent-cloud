@@ -2,14 +2,14 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\CourseUserList as CourseUserListBuilder;
+use App\Builders\LearningList as LearningListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\CourseUser as CourseUserModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Learning as LearningRepo;
 use App\Repos\User as UserRepo;
-use App\Transformers\CourseUserList as CourseUserListTransformer;
-use App\Transformers\LearningList as LearningListTransformer;
 use App\Validators\CourseUser as CourseUserValidator;
 
 class CourseStudent extends Service
@@ -94,7 +94,7 @@ class CourseStudent extends Service
 
         $courseUser->create($data);
 
-        $this->updateStudentCount($data['course_id']);
+        $this->updateUserCount($data['course_id']);
 
         return $courseUser;
     }
@@ -122,7 +122,7 @@ class CourseStudent extends Service
         return $courseStudent;
     }
 
-    protected function updateStudentCount($courseId)
+    protected function updateUserCount($courseId)
     {
         $courseRepo = new CourseRepo();
 
@@ -130,7 +130,7 @@ class CourseStudent extends Service
 
         $updater = new CourseStatsUpdater();
 
-        $updater->updateStudentCount($course);
+        $updater->updateUserCount($course);
     }
 
     protected function findOrFail($courseId, $userId)
@@ -146,12 +146,12 @@ class CourseStudent extends Service
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new CourseUserListTransformer();
+            $builder = new CourseUserListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleCourses($pipeA);
-            $pipeC = $transformer->handleUsers($pipeB);
-            $pipeD = $transformer->arrayToObject($pipeC);
+            $pipeB = $builder->handleCourses($pipeA);
+            $pipeC = $builder->handleUsers($pipeB);
+            $pipeD = $builder->arrayToObject($pipeC);
 
             $pager->items = $pipeD;
         }
@@ -163,13 +163,13 @@ class CourseStudent extends Service
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new LearningListTransformer();
+            $builder = new LearningListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleCourses($pipeA);
-            $pipeC = $transformer->handleChapters($pipeB);
-            $pipeD = $transformer->handleUsers($pipeC);
-            $pipeE = $transformer->arrayToObject($pipeD);
+            $pipeB = $builder->handleCourses($pipeA);
+            $pipeC = $builder->handleChapters($pipeB);
+            $pipeD = $builder->handleUsers($pipeC);
+            $pipeE = $builder->arrayToObject($pipeD);
 
             $pager->items = $pipeE;
         }

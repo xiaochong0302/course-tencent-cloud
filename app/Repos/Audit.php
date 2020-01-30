@@ -9,12 +9,12 @@ class Audit extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return AuditModel
      */
     public function findById($id)
     {
-        $result = AuditModel::findFirstById($id);
+        $result = AuditModel::findFirst($id);
 
         return $result;
     }
@@ -73,7 +73,7 @@ class Audit extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
 }

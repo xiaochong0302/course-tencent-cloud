@@ -20,10 +20,10 @@ class Live extends Service
      */
     function getPushUrl($streamName)
     {
-        $authEnabled = $this->config->push_auth_enabled;
-        $authKey = $this->config->push_auth_key;
-        $expireTime = $this->config->push_auth_delta + time();
-        $domain = $this->config->push_domain;
+        $authEnabled = $this->config['push_auth_enabled'];
+        $authKey = $this->config['push_auth_key'];
+        $expireTime = $this->config['push_auth_delta'] + time();
+        $domain = $this->config['push_domain'];
         $appName = 'live';
 
         $authParams = $this->getAuthParams($streamName, $authKey, $expireTime);
@@ -47,16 +47,18 @@ class Live extends Service
 
         $extensions = ['flv', 'm3u8'];
 
-        if (!in_array($extension, $extensions)) return;
+        if (!in_array($extension, $extensions)) {
+            return null;
+        }
 
         $appName = 'live';
 
-        $protocol = $this->config->pull_protocol;
-        $domain = $this->config->pull_domain;
-        $authEnabled = $this->config->pull_auth_enabled;
-        $transEnabled = $this->config->pull_trans_enabled;
-        $authKey = $this->config->pull_auth_key;
-        $expireTime = $this->config->pull_auth_delta + time();
+        $protocol = $this->config['pull_protocol'];
+        $domain = $this->config['pull_domain'];
+        $authEnabled = $this->config['pull_auth_enabled'];
+        $transEnabled = $this->config['pull_trans_enabled'];
+        $authKey = $this->config['pull_auth_key'];
+        $expireTime = $this->config['pull_auth_delta'] + time();
 
         $urls = [];
 
@@ -83,7 +85,7 @@ class Live extends Service
      *
      * @param string $streamName
      * @param string $authKey
-     * @param integer $expireTime
+     * @param int $expireTime
      * @return string
      */
     protected function getAuthParams($streamName, $authKey, $expireTime)

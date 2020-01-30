@@ -3,7 +3,6 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Library\Validator\Common as CommonValidator;
 use App\Models\Nav as NavModel;
 use App\Repos\Nav as NavRepo;
@@ -13,9 +12,9 @@ class Nav extends Validator
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return \App\Models\Nav
-     * @throws NotFoundException
+     * @throws BadRequestException
      */
     public function checkNav($id)
     {
@@ -24,7 +23,7 @@ class Nav extends Validator
         $nav = $navRepo->findById($id);
 
         if (!$nav) {
-            throw new NotFoundException('nav.not_found');
+            throw new BadRequestException('nav.not_found');
         }
 
         return $nav;
@@ -87,39 +86,47 @@ class Nav extends Validator
 
     public function checkTarget($target)
     {
-        $value = $this->filter->sanitize($target, ['trim']);
+        $list = NavModel::targets();
 
-        $scopes = NavModel::targets();
-
-        if (!isset($scopes[$value])) {
+        if (!isset($list[$target])) {
             throw new BadRequestException('nav.invalid_target');
         }
 
-        return $value;
+        return $target;
     }
 
     public function checkPosition($position)
     {
-        $value = $this->filter->sanitize($position, ['trim']);
+        $list = NavModel::positions();
 
-        $scopes = NavModel::positions();
-
-        if (!isset($scopes[$value])) {
+        if (!isset($list[$position])) {
             throw new BadRequestException('nav.invalid_position');
         }
 
-        return $value;
+        return $position;
     }
 
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('nav.invalid_publish_status');
         }
 
-        return $value;
+        return $status;
+    }
+
+    public function checkDeleteAbility($nav)
+    {
+        $navRepo = new NavRepo();
+
+        $list = $navRepo->findAll([
+            'parent_id' => $nav->id,
+            'deleted' => 0,
+        ]);
+
+        if ($list->count() > 0) {
+            throw new BadRequestException('nav.has_child_node');
+        }
     }
 
 }

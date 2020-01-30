@@ -2,19 +2,19 @@
 
 namespace App\Http\Home\Services;
 
+use App\Builders\ConsultList as ConsultListBuilder;
+use App\Builders\CourseUserList as CourseUserListBuilder;
+use App\Builders\OrderList as OrderListBuilder;
+use App\Builders\ReviewList as ReviewListBuilder;
+use App\Builders\UserFavoriteList as FavoriteListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Consult as ConsultModel;
 use App\Models\Review as ReviewModel;
 use App\Repos\Consult as ConsultRepo;
-use App\Repos\CourseFavorite as CourseFavoriteRepo;
+use App\Repos\CourseFavorite as FavoriteRepo;
 use App\Repos\CourseStudent as CourseUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Review as ReviewRepo;
-use App\Transformers\ConsultList as ConsultListTransformer;
-use App\Transformers\CourseFavoriteList as CourseFavoriteListTransformer;
-use App\Transformers\CourseUserList as CourseUserListTransformer;
-use App\Transformers\OrderList as OrderListTransformer;
-use App\Transformers\ReviewList as ReviewListTransformer;
 use App\Validators\Order as OrderFilter;
 
 class My extends Service
@@ -51,7 +51,7 @@ class My extends Service
 
         $where = ['user_id' => $user->id];
 
-        $favoriteRepo = new CourseFavoriteRepo();
+        $favoriteRepo = new FavoriteRepo();
 
         $pager = $favoriteRepo->paginate($where, $sort, $page, $limit);
 
@@ -134,7 +134,7 @@ class My extends Service
     {
         if ($pager->total_items > 0) {
 
-            $builder = new CourseUserListTransformer();
+            $builder = new CourseUserListBuilder();
 
             $pipeA = $pager->items->toArray();
 
@@ -152,7 +152,7 @@ class My extends Service
     {
         if ($pager->total_items > 0) {
 
-            $builder = new CourseFavoriteListTransformer();
+            $builder = new FavoriteListBuilder();
 
             $pipeA = $pager->items->toArray();
 
@@ -170,7 +170,7 @@ class My extends Service
     {
         if ($pager->total_items > 0) {
 
-            $builder = new ConsultListTransformer();
+            $builder = new ConsultListBuilder();
 
             $pipeA = $pager->items->toArray();
 
@@ -188,7 +188,7 @@ class My extends Service
     {
         if ($pager->total_items > 0) {
 
-            $builder = new ReviewListTransformer();
+            $builder = new ReviewListBuilder();
 
             $pipeA = $pager->items->toArray();
 
@@ -206,7 +206,7 @@ class My extends Service
     {
         if ($pager->total_items > 0) {
 
-            $builder = new OrderListTransformer();
+            $builder = new OrderListBuilder();
 
             $pipeA = $pager->items->toArray();
 

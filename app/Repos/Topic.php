@@ -1,0 +1,95 @@
+<?php
+
+namespace App\Repos;
+
+use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
+use App\Models\Course as CourseModel;
+use App\Models\CourseTopic as CourseTopicModel;
+use App\Models\Topic as TopicModel;
+
+class Topic extends Repository
+{
+
+    /**
+     * @param int $id
+     * @return TopicModel
+     */
+    public function findById($id)
+    {
+        $result = TopicModel::findFirst($id);
+
+        return $result;
+    }
+
+    public function findByIds($ids, $columns = '*')
+    {
+        $result = TopicModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+
+        return $result;
+    }
+
+    public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
+    {
+        $builder = $this->modelsManager->createBuilder();
+
+        $builder->from(TopicModel::class);
+
+        $builder->where('1 = 1');
+
+        if (!empty($where['user_id'])) {
+            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        }
+
+        if (isset($where['published'])) {
+            $builder->andWhere('published = :published:', ['published' => $where['published']]);
+        }
+
+        if (isset($where['deleted'])) {
+            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
+        }
+
+        switch ($sort) {
+            default:
+                $orderBy = 'id DESC';
+                break;
+        }
+
+        $builder->orderBy($orderBy);
+
+        $pager = new PagerQueryBuilder([
+            'builder' => $builder,
+            'page' => $page,
+            'limit' => $limit,
+        ]);
+
+        return $pager->paginate();
+    }
+
+    public function findCourses($topicId)
+    {
+        $result = $this->modelsManager->createBuilder()
+            ->columns('c.*')
+            ->addFrom(CourseModel::class, 'c')
+            ->join(CourseTopicModel::class, 'c.id = ct.course_id', 'ct')
+            ->where('ct.topic_id = :topic_id:', ['topic_id' => $topicId])
+            ->andWhere('c.deleted = 0')
+            ->getQuery()
+            ->execute();
+
+        return $result;
+    }
+
+    public function countCourses($topicId)
+    {
+        $count = CourseTopicModel::count([
+            'conditions' => 'topic_id = :topic_id:',
+            'bind' => ['topic_id' => $topicId],
+        ]);
+
+        return $count;
+    }
+
+}

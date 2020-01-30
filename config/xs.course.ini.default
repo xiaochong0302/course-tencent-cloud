@@ -29,9 +29,6 @@ type = string
 [expiry]
 type = string
 
-[rating]
-type = string
-
 [score]
 type = numeric
 
@@ -45,8 +42,8 @@ type = string
 index = self
 tokenizer = full
 
-[student_count]
-type = numeric
+[user_count]
+type = string
 
 [lesson_count]
 type = string

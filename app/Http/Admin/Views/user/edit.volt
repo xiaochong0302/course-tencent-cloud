@@ -53,10 +53,10 @@
         </div>
     </div>
 
-    <div class="layui-form-item" id="locked-expiry-block" {% if user.locked == 0 %}style="display:none;"{% endif %}>
+    <div class="layui-form-item" id="lock-expiry-block" {% if user.locked == 0 %}style="display:none;"{% endif %}>
         <label class="layui-form-label">锁定期限</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="locked_expiry" value="{{ date('Y-m-d H:i:s',user.locked_expiry) }}">
+            <input class="layui-input" type="text" name="lock_expiry" autocomplete="off" value="{{ date('Y-m-d H:i:s',user.lock_expiry) }}">
         </div>
     </div>
 
@@ -79,12 +79,12 @@
         var laydate = layui.laydate;
 
         laydate.render({
-            elem: 'input[name=locked_expiry]',
+            elem: 'input[name=lock_expiry]',
             type: 'datetime'
         });
 
         form.on('radio(locked)', function (data) {
-            var block = $('#locked-expiry-block');
+            var block = $('#lock-expiry-block');
             if (data.value == 1) {
                 block.show();
             } else {

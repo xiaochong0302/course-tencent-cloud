@@ -11,14 +11,14 @@ class QueryBuilder extends BaseQueryBuilder
     private $url;
     private $params = [];
 
-    public function getPaginate()
+    public function paginate()
     {
-        $pager = parent::getPaginate();
+        $pager = parent::paginate();
 
         $this->initParams();
 
         $pager->first = $this->buildPageUrl($pager->first);
-        $pager->before = $this->buildPageUrl($pager->before);
+        $pager->previous = $this->buildPageUrl($pager->previous);
         $pager->next = $this->buildPageUrl($pager->next);
         $pager->last = $this->buildPageUrl($pager->last);
 

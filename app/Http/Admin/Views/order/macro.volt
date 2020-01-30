@@ -1,28 +1,28 @@
 {%- macro item_info(order) %}
     {% if order.item_type == 'course' %}
-        {% set course = order.item_info.course %}
+        {% set course = order.item_info['course'] %}
         <div class="kg-order-item">
-            <p>课程名称：{{ course.title }}</p>
-            <p>市场价格：￥{{ course.market_price }}</p>
-            <p>有效期限：{{ date('Y-m-d', course.expire_time) }}</p>
+            <p>课程名称：{{ course['title'] }}</p>
+            <p>市场价格：￥{{ course['market_price'] }}</p>
+            <p>有效期限：{{ date('Y-m-d', course['expire_time']) }}</p>
         </div>
     {% elseif order.item_type == 'package' %}
-        {% set courses = order.item_info.courses %}
+        {% set courses = order.item_info['courses'] %}
         {% for course in courses %}
             <div class="kg-order-item">
-                <p>课程名称：{{ course.title }}</p>
-                <p>市场价格：￥{{ course.market_price }}</p>
-                <p>有效期限：{{ date('Y-m-d', course.expire_time) }}</p>
+                <p>课程名称：{{ course['title'] }}</p>
+                <p>市场价格：￥{{ course['market_price'] }}</p>
+                <p>有效期限：{{ date('Y-m-d', course['expire_time']) }}</p>
             </div>
         {% endfor %}
     {% elseif order.item_type == 'reward' %}
-        {% set course = order.item_info.course %}
+        {% set course = order.item_info['course'] %}
         <div class="kg-order-item">
-            <p>课程名称：{{ course.title }}</p>
-            <p>赞赏金额：￥{{ order.amount }}</p>
+            <p>课程名称：{{ course['title'] }}</p>
+            <p>赞赏金额：￥{{ order['amount'] }}</p>
         </div>
     {% elseif order.item_type == 'vip' %}
-        {% set vip = order.item_info.vip %}
+        {% set vip = order.item_info['vip'] %}
         <div class="kg-order-item">
             <p>商品名称：{{ order.subject }}</p>
             <p>商品价格：￥{{ order.amount }}</p>

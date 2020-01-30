@@ -11,27 +11,27 @@ class ConfigController extends Controller
 {
 
     /**
-     * @Route("/website", name="admin.config.website")
+     * @Route("/site", name="admin.config.site")
      */
-    public function websiteAction()
+    public function siteAction()
     {
-        $section = 'website';
+        $section = 'site';
 
-        $service = new ConfigService();
+        $configService = new ConfigService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $service->updateSectionConfig($section, $data);
+            $configService->updateSectionConfig($section, $data);
 
             return $this->ajaxSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $website = $service->getSectionConfig($section);
+            $site = $configService->getSectionConfig($section);
 
-            $this->view->setVar('website', $website);
+            $this->view->setVar('site', $site);
         }
     }
 
@@ -42,19 +42,19 @@ class ConfigController extends Controller
     {
         $section = 'secret';
 
-        $service = new ConfigService();
+        $configService = new ConfigService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $service->updateStorageConfig($section, $data);
+            $configService->updateStorageConfig($section, $data);
 
             return $this->ajaxSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $secret = $service->getSectionConfig($section);
+            $secret = $configService->getSectionConfig($section);
 
             $this->view->setVar('secret', $secret);
         }
@@ -67,19 +67,19 @@ class ConfigController extends Controller
     {
         $section = 'storage';
 
-        $service = new ConfigService();
+        $configService = new ConfigService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $service->updateStorageConfig($section, $data);
+            $configService->updateStorageConfig($section, $data);
 
             return $this->ajaxSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $storage = $service->getSectionConfig($section);
+            $storage = $configService->getSectionConfig($section);
 
             $this->view->setVar('storage', $storage);
         }
@@ -92,19 +92,19 @@ class ConfigController extends Controller
     {
         $section = 'vod';
 
-        $service = new ConfigService();
+        $configService = new ConfigService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $service->updateVodConfig($section, $data);
+            $configService->updateVodConfig($section, $data);
 
             return $this->ajaxSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $vod = $service->getSectionConfig($section);
+            $vod = $configService->getSectionConfig($section);
 
             $this->view->setVar('vod', $vod);
         }
@@ -117,19 +117,19 @@ class ConfigController extends Controller
     {
         $section = 'live';
 
-        $service = new ConfigService();
+        $configService = new ConfigService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $service->updateLiveConfig($section, $data);
+            $configService->updateLiveConfig($section, $data);
 
             return $this->ajaxSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $live = $service->getSectionConfig($section);
+            $live = $configService->getSectionConfig($section);
 
             $ptt = json_decode($live->pull_trans_template);
 
@@ -143,21 +143,21 @@ class ConfigController extends Controller
      */
     public function paymentAction()
     {
-        $service = new ConfigService();
+        $configService = new ConfigService();
 
         if ($this->request->isPost()) {
 
             $section = $this->request->getPost('section');
             $data = $this->request->getPost();
 
-            $service->updateSectionConfig($section, $data);
+            $configService->updateSectionConfig($section, $data);
 
             return $this->ajaxSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $alipay = $service->getSectionConfig('payment.alipay');
-            $wxpay = $service->getSectionConfig('payment.wxpay');
+            $alipay = $configService->getSectionConfig('payment.alipay');
+            $wxpay = $configService->getSectionConfig('payment.wxpay');
 
             $this->view->setVar('alipay', $alipay);
             $this->view->setVar('wxpay', $wxpay);
@@ -171,19 +171,19 @@ class ConfigController extends Controller
     {
         $section = 'smser';
 
-        $service = new ConfigService();
+        $configService = new ConfigService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $service->updateSmserConfig($section, $data);
+            $configService->updateSmserConfig($section, $data);
 
             return $this->ajaxSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $smser = $service->getSectionConfig($section);
+            $smser = $configService->getSectionConfig($section);
 
             $template = json_decode($smser->template);
 
@@ -199,19 +199,19 @@ class ConfigController extends Controller
     {
         $section = 'mailer';
 
-        $service = new ConfigService();
+        $configService = new ConfigService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $service->updateSectionConfig($section, $data);
+            $configService->updateSectionConfig($section, $data);
 
             return $this->ajaxSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $mailer = $service->getSectionConfig($section);
+            $mailer = $configService->getSectionConfig($section);
 
             $this->view->setVar('mailer', $mailer);
         }
@@ -224,13 +224,13 @@ class ConfigController extends Controller
     {
         $section = 'captcha';
 
-        $service = new ConfigService();
+        $configService = new ConfigService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $service->updateSectionConfig($section, $data);
+            $configService->updateSectionConfig($section, $data);
 
             $content = [
                 'location' => $this->request->getHTTPReferer(),
@@ -241,7 +241,7 @@ class ConfigController extends Controller
 
         } else {
 
-            $captcha = $service->getSectionConfig($section);
+            $captcha = $configService->getSectionConfig($section);
 
             $this->view->setVar('captcha', $captcha);
         }
@@ -254,19 +254,19 @@ class ConfigController extends Controller
     {
         $section = 'vip';
 
-        $service = new ConfigService();
+        $configService = new ConfigService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $service->updateSectionConfig($section, $data);
+            $configService->updateSectionConfig($section, $data);
 
             return $this->ajaxSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $vip = $service->getSectionConfig($section);
+            $vip = $configService->getSectionConfig($section);
 
             $this->view->setVar('vip', $vip);
         }

@@ -15,9 +15,7 @@ class VodEventTask extends Task
     {
         $events = $this->pullEvents();
 
-        if (!$events) {
-            return;
-        }
+        if (!$events) return;
 
         $handles = [];
 
@@ -49,9 +47,7 @@ class VodEventTask extends Task
 
         $chapter = $chapterRepo->findByFileId($fileId);
 
-        if (!$chapter) {
-            return;
-        }
+        if (!$chapter) return;
 
         $vodService = new VodService();
 
@@ -62,14 +58,14 @@ class VodEventTask extends Task
         }
 
         /**
-         * @var \stdClass $attrs
+         * @var array $attrs
          */
         $attrs = $chapter->attrs;
-        $attrs->file_status = ChapterModel::FS_TRANSLATING;
-        $attrs->duration = $duration;
+        $attrs['file_status'] = ChapterModel::FS_TRANSLATING;
+        $attrs['duration'] = (int)$duration;
         $chapter->update(['attrs' => $attrs]);
 
-        $this->updateCourseDuration($chapter->course_id);
+        $this->updateVodAttrs($chapter->course_id);
     }
 
     protected function handleProcedureStateChangedEvent($event)
@@ -81,9 +77,7 @@ class VodEventTask extends Task
 
         $chapter = $chapterRepo->findByFileId($fileId);
 
-        if (!$chapter) {
-            return;
-        }
+        if (!$chapter) return;
 
         $failCount = $successCount = 0;
 
@@ -97,26 +91,26 @@ class VodEventTask extends Task
             }
         }
 
-        $status = ChapterModel::FS_TRANSLATING;
+        $fileStatus = ChapterModel::FS_TRANSLATING;
 
         /**
          * 当有一个成功标记为成功
          */
         if ($successCount > 0) {
-            $status = ChapterModel::FS_TRANSLATED;
+            $fileStatus = ChapterModel::FS_TRANSLATED;
         } elseif ($failCount > 0) {
-            $status = ChapterModel::FS_FAILED;
+            $fileStatus = ChapterModel::FS_FAILED;
         }
 
-        if ($status == ChapterModel::FS_TRANSLATING) {
+        if ($fileStatus == ChapterModel::FS_TRANSLATING) {
             return;
         }
 
         /**
-         * @var \stdClass $attrs
+         * @var array $attrs
          */
         $attrs = $chapter->attrs;
-        $attrs->file_status = $status;
+        $attrs['file_status'] = $fileStatus;
         $chapter->update(['attrs' => $attrs]);
     }
 
@@ -147,11 +141,11 @@ class VodEventTask extends Task
         return $result;
     }
 
-    protected function updateCourseDuration($courseId)
+    protected function updateVodAttrs($courseId)
     {
         $courseStats = new CourseStatsService();
 
-        $courseStats->updateVodDuration($courseId);
+        $courseStats->updateVodAttrs($courseId);
     }
 
 }

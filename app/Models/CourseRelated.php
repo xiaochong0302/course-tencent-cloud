@@ -7,29 +7,29 @@ class CourseRelated extends Model
 
     /**
      * 主键编号
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $id;
 
     /**
      * 课程编号
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $course_id;
 
     /**
      * 相关编号
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $related_id;
 
     /**
      * 创建时间
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $created_at;
 

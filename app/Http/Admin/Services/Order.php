@@ -2,11 +2,12 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\OrderList as OrderListBuilder;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Models\Order as OrderModel;
+use App\Repos\Account as AccountRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
-use App\Transformers\OrderList as OrderListTransformer;
 use App\Validators\Order as OrderValidator;
 
 class Order extends Service
@@ -55,6 +56,15 @@ class Order extends Service
         return $user;
     }
 
+    public function getAccount($userId)
+    {
+        $accountRepo = new AccountRepo();
+
+        $account = $accountRepo->findById($userId);
+
+        return $account;
+    }
+
     public function getOrder($id)
     {
         $order = $this->findOrFail($id);
@@ -87,12 +97,12 @@ class Order extends Service
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new OrderListTransformer();
+            $builder = new OrderListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleItems($pipeA);
-            $pipeC = $transformer->handleUsers($pipeB);
-            $pipeD = $transformer->arrayToObject($pipeC);
+            $pipeB = $builder->handleItems($pipeA);
+            $pipeC = $builder->handleUsers($pipeB);
+            $pipeD = $builder->arrayToObject($pipeC);
 
             $pager->items = $pipeD;
         }

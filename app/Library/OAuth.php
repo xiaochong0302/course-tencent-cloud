@@ -49,4 +49,5 @@ abstract class OAuth
     abstract public function getOpenId($accessToken);
 
     abstract public function getUserInfo($accessToken, $openId);
+
 }

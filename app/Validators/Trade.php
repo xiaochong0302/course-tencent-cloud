@@ -3,7 +3,6 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Trade as TradeRepo;
@@ -12,9 +11,9 @@ class Trade extends Validator
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return \App\Models\Trade
-     * @throws NotFoundException
+     * @throws BadRequestException
      */
     public function checkTrade($id)
     {
@@ -23,7 +22,7 @@ class Trade extends Validator
         $trade = $tradeRepo->findById($id);
 
         if (!$trade) {
-            throw new NotFoundException('trade.not_found');
+            throw new BadRequestException('trade.not_found');
         }
 
         return $trade;

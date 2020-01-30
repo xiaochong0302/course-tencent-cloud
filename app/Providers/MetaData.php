@@ -5,7 +5,7 @@ namespace App\Providers;
 use Phalcon\Mvc\Model\MetaData\Files as FileMetaData;
 use Phalcon\Mvc\Model\MetaData\Memory as MemoryMetaData;
 
-class MetaData extends AbstractProvider
+class MetaData extends Provider
 {
 
     protected $serviceName = 'modelsMetadata';

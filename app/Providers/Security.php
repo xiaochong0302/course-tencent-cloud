@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Library\Security as AppSecurity;
 
-class Security extends AbstractProvider
+class Security extends Provider
 {
 
     protected $serviceName = 'security';

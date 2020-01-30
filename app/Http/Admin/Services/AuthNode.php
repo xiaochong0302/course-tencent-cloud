@@ -5,7 +5,7 @@ namespace App\Http\Admin\Services;
 class AuthNode extends Service
 {
 
-    public function getAllNodes()
+    public function getNodes()
     {
         $nodes = [];
 
@@ -120,6 +120,37 @@ class AuthNode extends Service
                             'label' => '删除套餐',
                             'type' => 'button',
                             'route' => 'admin.package.delete',
+                        ],
+                    ],
+                ],
+                [
+                    'id' => '1-4',
+                    'label' => '话题管理',
+                    'type' => 'menu',
+                    'child' => [
+                        [
+                            'id' => '1-4-1',
+                            'label' => '话题列表',
+                            'type' => 'menu',
+                            'route' => 'admin.topic.list',
+                        ],
+                        [
+                            'id' => '1-4-2',
+                            'label' => '添加话题',
+                            'type' => 'menu',
+                            'route' => 'admin.topic.add',
+                        ],
+                        [
+                            'id' => '1-4-3',
+                            'label' => '编辑话题',
+                            'type' => 'button',
+                            'route' => 'admin.topic.edit',
+                        ],
+                        [
+                            'id' => '1-4-4',
+                            'label' => '删除话题',
+                            'type' => 'button',
+                            'route' => 'admin.topic.delete',
                         ],
                     ],
                 ],
@@ -287,6 +318,37 @@ class AuthNode extends Service
                             'label' => '删除导航',
                             'type' => 'button',
                             'route' => 'admin.nav.delete',
+                        ],
+                    ],
+                ],
+                [
+                    'id' => '2-7',
+                    'label' => '帮助管理',
+                    'type' => 'menu',
+                    'child' => [
+                        [
+                            'id' => '2-7-1',
+                            'label' => '帮助列表',
+                            'type' => 'menu',
+                            'route' => 'admin.help.list',
+                        ],
+                        [
+                            'id' => '2-7-2',
+                            'label' => '添加帮助',
+                            'type' => 'menu',
+                            'route' => 'admin.help.add',
+                        ],
+                        [
+                            'id' => '2-7-3',
+                            'label' => '编辑帮助',
+                            'type' => 'button',
+                            'route' => 'admin.help.edit',
+                        ],
+                        [
+                            'id' => '2-7-4',
+                            'label' => '删除帮助',
+                            'type' => 'button',
+                            'route' => 'admin.help.delete',
                         ],
                     ],
                 ],
@@ -515,7 +577,7 @@ class AuthNode extends Service
                             'id' => '5-1-1',
                             'label' => '网站设置',
                             'type' => 'menu',
-                            'route' => 'admin.config.website',
+                            'route' => 'admin.config.site',
                         ],
                         [
                             'id' => '5-1-2',

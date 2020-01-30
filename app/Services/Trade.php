@@ -13,7 +13,7 @@ class Trade extends Service
      * 创建交易
      *
      * @param string $sn
-     * @param integer $channel
+     * @param int $channel
      * @return TradeModel $trade
      */
     public function createTrade($sn, $channel)

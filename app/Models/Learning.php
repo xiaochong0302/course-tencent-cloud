@@ -13,8 +13,8 @@ class Learning extends Model
 
     /**
      * 主键编号
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $id;
 
@@ -26,44 +26,44 @@ class Learning extends Model
     public $request_id;
 
     /**
-     * 用户编号
-     *
-     * @var integer
-     */
-    public $user_id;
-
-    /**
      * 课程编号
      *
-     * @var integer
+     * @var int
      */
     public $course_id;
 
     /**
      * 章节编号
      *
-     * @var integer
+     * @var int
      */
     public $chapter_id;
 
     /**
+     * 用户编号
+     *
+     * @var int
+     */
+    public $user_id;
+
+    /**
      * 持续时长
      *
-     * @var integer
+     * @var int
      */
     public $duration;
 
     /**
      * 播放位置
      *
-     * @var integer
+     * @var int
      */
     public $position;
 
     /**
      * 客户端类型
      *
-     * @var integer
+     * @var int
      */
     public $client_type;
 
@@ -75,37 +75,16 @@ class Learning extends Model
     public $client_ip;
 
     /**
-     * 所在国家
-     *
-     * @var string
-     */
-    public $country;
-
-    /**
-     * 所在省份
-     *
-     * @var string
-     */
-    public $province;
-
-    /**
-     * 所在城市
-     *
-     * @var string
-     */
-    public $city;
-
-    /**
      * 创建时间
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $updated_at;
 

@@ -4,9 +4,8 @@ namespace App\Validators;
 
 use App\Exceptions\Forbidden as ForbiddenException;
 use App\Exceptions\Unauthorized as UnauthorizedException;
-use Phalcon\Mvc\User\Component as UserComponent;
 
-class Validator extends UserComponent
+class Validator extends \Phalcon\Mvc\User\Component
 {
 
     public function checkAuthToken($token)
@@ -27,10 +26,10 @@ class Validator extends UserComponent
         return $user;
     }
 
-    public function checkOwner($itemUserId, $sessionUserId)
+    public function checkOwnerPriv($userId, $ownerId)
     {
-        if ($itemUserId != $sessionUserId) {
-            throw new ForbiddenException('access_denied');
+        if ($userId != $ownerId) {
+            throw new ForbiddenException('sys.access_denied');
         }
     }
 

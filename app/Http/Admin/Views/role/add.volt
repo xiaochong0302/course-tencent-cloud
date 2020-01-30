@@ -7,14 +7,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label">名称</label>
         <div class="layui-input-block">
-            <input type="text" name="name" class="layui-input" lay-verify="required">
+            <input class="layui-input" type="text" name="name" {% if role.type == 'system' %}readonly{% endif %} lay-verify="required">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">描述</label>
         <div class="layui-input-block">
-            <input type="text" name="summary" class="layui-input" lay-verify="required">
+            <input class="layui-input" type="text" name="summary" {% if role.type == 'system' %}readonly{% endif %} lay-verify="required">
         </div>
     </div>
 

@@ -1,57 +1,35 @@
 <?php
 
-namespace App\Library\Cache;
+namespace App\Caches;
 
-use App\Exceptions\NotFound as ModelNotFoundException;
-use App\Models\Category as CategoryModel;
+use App\Repos\Category as CategoryRepo;
 
-class Category extends \Phalcon\Di\Injectable
+class Category extends Cache
 {
 
-    private $lifetime = 86400 * 30;
-
-    public function getOrFail($id)
-    {
-        $result = $this->getById($id);
-
-        if (!$result) {
-            throw new ModelNotFoundException('category.not_found');
-        }
-
-        return $result;
-    }
-
-    public function get($id)
-    {
-        $cacheOptions = [
-            'key' => $this->getKey($id),
-            'lifetime' => $this->getLifetime(),
-        ];
-
-        $result = CategoryModel::query()
-                ->where('id = :id:', ['id' => $id])
-                ->cache($cacheOptions)
-                ->execute()
-                ->getFirst();
-
-        return $result;
-    }
-
-    public function delete($id)
-    {
-        $key = $this->getKey($id);
-
-        $this->modelsCache->delete($key);
-    }
-
-    public function getKey($id)
-    {
-        return "category:{$id}";
-    }
+    protected $lifetime = 365 * 86400;
 
     public function getLifetime()
     {
         return $this->lifetime;
+    }
+
+    public function getKey($id = null)
+    {
+        return "category:{$id}";
+    }
+
+    public function getContent($id = null)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        $category = $categoryRepo->findById($id);
+
+        if (!$category) {
+            return new \stdClass();
+        }
+
+        return $category;
     }
 
 }

@@ -3,15 +3,14 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\CourseUser as CourseUserModel;
 
 class CourseUser extends Repository
 {
 
     /**
-     * @param integer $courseId
-     * @param integer $userId
+     * @param int $courseId
+     * @param int $userId
      * @return CourseUserModel
      */
     public function findCourseUser($courseId, $userId)
@@ -19,15 +18,14 @@ class CourseUser extends Repository
         $result = CourseUserModel::query()
             ->where('course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->execute()
-            ->getFirst();
+            ->execute()->getFirst();
 
         return $result;
     }
 
     /**
-     * @param integer $courseId
-     * @param integer $userId
+     * @param int $courseId
+     * @param int $userId
      * @return CourseUserModel
      */
     public function findCourseTeacher($courseId, $userId)
@@ -38,15 +36,14 @@ class CourseUser extends Repository
             ->where('course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('user_id = :user_id:', ['user_id' => $userId])
             ->andWhere('role_type = :role_type:', ['role_type' => $roleType])
-            ->execute()
-            ->getFirst();
+            ->execute()->getFirst();
 
         return $result;
     }
 
     /**
-     * @param integer $courseId
-     * @param integer $userId
+     * @param int $courseId
+     * @param int $userId
      * @return CourseUserModel
      */
     public function findCourseStudent($courseId, $userId)
@@ -57,20 +54,9 @@ class CourseUser extends Repository
             ->where('course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('user_id = :user_id:', ['user_id' => $userId])
             ->andWhere('role_type = :role_type:', ['role_type' => $roleType])
-            ->execute()
-            ->getFirst();
+            ->execute()->getFirst();
 
         return $result;
-    }
-
-    public function countFinishedChapters($courseId, $userId)
-    {
-        $count = ChapterUserModel::count([
-            'conditions' => 'course_id = :course_id: AND user_id = :user_id: AND finished = 1',
-            'bind' => ['course_id' => $courseId, 'user_id' => $userId]
-        ]);
-
-        return (int)$count;
     }
 
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
@@ -119,7 +105,7 @@ class CourseUser extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
 }

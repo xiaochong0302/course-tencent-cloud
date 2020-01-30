@@ -25,15 +25,13 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Route("/csrf", name="admin.csrf")
+     * @Route("/robot", name="admin.robot")
      */
-    public function csrfAction()
+    public function robotAction()
     {
         if ($this->request->isAjax()) {
-            return $this->ajaxError(['msg' => 'CSRF令牌验证失败']);
+            return $this->ajaxError(['msg' => '疑似机器人请求']);
         }
-
-        $this->view->pick('public/csrf');
     }
 
     /**
@@ -44,8 +42,6 @@ class PublicController extends \Phalcon\Mvc\Controller
         if ($this->request->isAjax()) {
             return $this->ajaxError(['msg' => '无相关操作权限']);
         }
-
-        $this->view->pick('public/forbidden');
     }
 
     /**

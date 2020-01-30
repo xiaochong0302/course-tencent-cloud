@@ -9,7 +9,7 @@ class UserController extends Controller
 {
 
     /**
-     * @Get("/{id}", name="home.user.show")
+     * @Get("/{id:[0-9]+}", name="home.user.show")
      */
     public function showAction($id)
     {
@@ -17,7 +17,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Get("/{id}/courses", name="home.user.courses")
+     * @Get("/{id:[0-9]+}/courses", name="home.user.courses")
      */
     public function coursesAction($id)
     {
@@ -25,7 +25,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Get("/{id}/following", name="home.user.following")
+     * @Get("/{id:[0-9]+}/following", name="home.user.following")
      */
     public function followingAction($id)
     {
@@ -33,7 +33,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Get("/{id}/followers", name="home.user.followers")
+     * @Get("/{id:[0-9]+}/followers", name="home.user.followers")
      */
     public function followersAction($id)
     {
@@ -41,7 +41,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Post("/{id}/follow", name="home.user.follow")
+     * @Post("/{id:[0-9]+}/follow", name="home.user.follow")
      */
     public function followAction($id)
     {
@@ -49,7 +49,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Post("/{id}/unfollow", name="home.user.unfollow")
+     * @Post("/{id:[0-9]+}/unfollow", name="home.user.unfollow")
      */
     public function unfollowAction($id)
     {
@@ -57,7 +57,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Post("/{id}/message", name="home.user.message")
+     * @Post("/{id:[0-9]+}/message", name="home.user.message")
      */
     public function messageAction($id)
     {

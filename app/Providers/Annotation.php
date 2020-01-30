@@ -5,7 +5,7 @@ namespace App\Providers;
 use Phalcon\Annotations\Adapter\Files as FileAnnotations;
 use Phalcon\Annotations\Adapter\Memory as MemoryAnnotations;
 
-class Annotation extends AbstractProvider
+class Annotation extends Provider
 {
 
     protected $serviceName = 'annotations';

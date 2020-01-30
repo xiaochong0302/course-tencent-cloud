@@ -25,6 +25,7 @@
         <col>
         <col>
         <col>
+        <col>
         <col width="12%">
     </colgroup>
     <thead>
@@ -32,6 +33,7 @@
         <th>编号</th>
         <th>名称</th>
         <th>层级</th>
+        <th>节点数</th>
         <th>课程数</th>
         <th>排序</th>
         <th>发布</th>
@@ -48,6 +50,7 @@
                 <td>{{ item.name }}</td>
             {% endif %}
             <td><span class="layui-badge layui-bg-gray">{{ item.level }}</span></td>
+            <td><span class="layui-badge layui-bg-gray">{{ item.child_count }}</span></td>
             <td><span class="layui-badge layui-bg-gray">{{ item.course_count }}</span></td>
             <td><input class="layui-input kg-priority-input" type="text" name="priority" value="{{ item.priority }}" category-id="{{ item.id }}" title="数值越小排序越靠前"></td>
             <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="switch-published" category-id="{{ item.id }}" {% if item.published == 1 %}checked{% endif %}></td>

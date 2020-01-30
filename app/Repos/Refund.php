@@ -9,12 +9,12 @@ class Refund extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return RefundModel
      */
     public function findById($id)
     {
-        $result = RefundModel::findFirstById($id);
+        $result = RefundModel::findFirst($id);
 
         return $result;
     }
@@ -25,7 +25,10 @@ class Refund extends Repository
      */
     public function findBySn($sn)
     {
-        $result = RefundModel::findFirstBySn($sn);
+        $result = RefundModel::findFirst([
+            'conditions' => 'sn = :sn:',
+            'bind' => ['sn' => $sn],
+        ]);
 
         return $result;
     }
@@ -80,7 +83,7 @@ class Refund extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
 }

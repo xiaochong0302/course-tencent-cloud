@@ -42,6 +42,7 @@
         <col>
         <col>
         <col>
+        <col>
         <col width="12%">
     </colgroup>
     <thead>
@@ -49,6 +50,7 @@
         <th>编号</th>
         <th>名称</th>
         <th>层级</th>
+        <th>节点数</th>
         <th>位置</th>
         <th>目标</th>
         <th>排序</th>
@@ -66,6 +68,7 @@
                 <td>{{ item.name }}</td>
             {% endif %}
             <td><span class="layui-badge layui-bg-gray">{{ item.level }}</span></td>
+            <td><span class="layui-badge layui-bg-gray">{{ item.child_count }}</span></td>
             <td>{{ position_info(item.position) }}</td>
             <td>{{ target_info(item.target) }}</td>
             <td><input class="layui-input kg-priority-input" type="text" name="priority" value="{{ item.priority }}" nav-id="{{ item.id }}" title="数值越小排序越靠前"></td>

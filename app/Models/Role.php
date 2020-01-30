@@ -16,7 +16,7 @@ class Role extends Model
     /**
      * 内置角色
      */
-    const ROLE_ADMIN = 1; // 管理人员
+    const ROLE_ROOT = 1; // 管理人员
     const ROLE_OPERATOR = 2; // 运营人员
     const ROLE_EDITOR = 3; // 编辑人员
     const ROLE_FINANCE = 4; // 财务人员
@@ -24,7 +24,7 @@ class Role extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -59,28 +59,28 @@ class Role extends Model
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 成员数
      *
-     * @var integer
+     * @var int
      */
     public $user_count;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 
@@ -105,7 +105,7 @@ class Role extends Model
     {
         $this->created_at = time();
 
-        if (is_array($this->routes) && !empty($this->routes)) {
+        if (!empty($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
         }
     }
@@ -114,7 +114,7 @@ class Role extends Model
     {
         $this->updated_at = time();
 
-        if (is_array($this->routes) && !empty($this->routes)) {
+        if (!empty($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
         }
     }
@@ -122,7 +122,7 @@ class Role extends Model
     public function afterFetch()
     {
         if (!empty($this->routes)) {
-            $this->routes = json_decode($this->routes, true);
+            $this->routes = json_decode($this->routes);
         }
     }
 
@@ -139,7 +139,7 @@ class Role extends Model
     public static function sysRoles()
     {
         $list = [
-            self::ROLE_ADMIN => '管理人员',
+            self::ROLE_ROOT => '管理人员',
             self::ROLE_OPERATOR => '运营人员',
             self::ROLE_EDITOR => '编辑人员',
             self::ROLE_FINANCE => '财务人员',

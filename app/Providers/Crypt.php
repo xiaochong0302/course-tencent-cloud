@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Crypt as PhalconCrypt;
 
-class Crypt extends AbstractProvider
+class Crypt extends Provider
 {
 
     protected $serviceName = 'crypt';

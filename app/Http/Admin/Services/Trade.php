@@ -2,13 +2,14 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\TradeList as TradeListBuilder;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
+use App\Repos\Account as AccountRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Trade as TradeRepo;
 use App\Repos\User as UserRepo;
-use App\Transformers\TradeList as TradeListTransformer;
 use App\Validators\Trade as TradeValidator;
 
 class Trade extends Service
@@ -66,6 +67,15 @@ class Trade extends Service
         return $user;
     }
 
+    public function getAccount($userId)
+    {
+        $accountRepo = new AccountRepo();
+
+        $account = $accountRepo->findById($userId);
+
+        return $account;
+    }
+
     public function closeTrade($id)
     {
         $trade = $this->findOrFail($id);
@@ -115,11 +125,11 @@ class Trade extends Service
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new TradeListTransformer();
+            $builder = new TradeListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleUsers($pipeA);
-            $pipeC = $transformer->arrayToObject($pipeB);
+            $pipeB = $builder->handleUsers($pipeA);
+            $pipeC = $builder->arrayToObject($pipeB);
 
             $pager->items = $pipeC;
         }

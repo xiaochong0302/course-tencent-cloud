@@ -110,16 +110,14 @@
 <table class="kg-table layui-table">
     <tr>
         <th>编号</th>
-        <th>用户名</th>
+        <th>昵称</th>
         <th>邮箱</th>
-        <th>手机号</th>
-        <th>注册时间</th>
+        <th>手机</th>
     </tr>
     <tr>
         <td>{{ user.id }}</td>
         <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.phone }}</td>
-        <td>{{ date('Y-m-d H:i:s',user.created_at) }}</td>
+        <td>{% if account.phone %}{{ account.phone }}{% else %}N/A{% endif %}</td>
+        <td>{% if account.email %}{{ account.email }}{% else %}N/A{% endif %}</td>
     </tr>
 </table>

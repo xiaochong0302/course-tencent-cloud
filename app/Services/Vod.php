@@ -55,11 +55,11 @@ class Vod extends Service
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Describe Audio Track Templates Exception ', kg_json_encode([
-                'code' => $e->getErrorCode(),
-                'message' => $e->getMessage(),
-                'requestId' => $e->getRequestId(),
-            ]));
+            $this->logger->error('Describe Audio Track Templates Exception ' . kg_json_encode([
+                    'code' => $e->getErrorCode(),
+                    'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
+                ]));
 
             return false;
         }
@@ -74,8 +74,8 @@ class Vod extends Service
     {
         $secret = $this->getSectionConfig('secret');
 
-        $secretId = $secret->secret_id;
-        $secretKey = $secret->secret_key;
+        $secretId = $secret['secret_id'];
+        $secretKey = $secret['secret_key'];
 
         $params = [
             'secretId' => $secretId,
@@ -92,26 +92,65 @@ class Vod extends Service
     }
 
     /**
-     * 获取播放地址
+     * 获取文件转码
      *
-     * @param string $playUrl
-     * @return string
+     * @param string $fileId
+     * @return array|null
      */
-    public function getPlayUrl($playUrl)
+    public function getFileTranscode($fileId)
     {
-        if ($this->config->key_anti_enabled == 0) {
-            return $playUrl;
+        if (!$fileId) return null;
+
+        $mediaInfo = $this->getMediaInfo($fileId);
+
+        if (!$mediaInfo) return null;
+
+        $result = [];
+
+        $files = $mediaInfo['MediaInfoSet'][0]['TranscodeInfo']['TranscodeSet'];
+
+        foreach ($files as $file) {
+
+            if ($file['Definition'] == 0) {
+                continue;
+            }
+
+            $result[] = [
+                'url' => $file['Url'],
+                'width' => $file['Width'],
+                'height' => $file['Height'],
+                'definition' => $file['Definition'],
+                'duration' => intval($file['Duration']),
+                'format' => pathinfo($file['Url'], PATHINFO_EXTENSION),
+                'size' => sprintf('%0.2f', $file['Size'] / 1024 / 1024),
+                'rate' => intval($file['Bitrate'] / 1024),
+            ];
         }
 
-        $key = $this->config->key_anti_key;
-        $expiry = $this->config->key_anti_expiry ?: 10800;
+        return $result;
+    }
 
-        $path = parse_url($playUrl, PHP_URL_PATH);
+    /**
+     * 获取播放地址
+     *
+     * @param string $url
+     * @return string
+     */
+    public function getPlayUrl($url)
+    {
+        if ($this->config['key_anti_enabled'] == 0) {
+            return $url;
+        }
+
+        $key = $this->config['key_anti_key'];
+        $expiry = $this->config['key_anti_expiry'] ?: 10800;
+
+        $path = parse_url($url, PHP_URL_PATH);
         $pos = strrpos($path, '/');
         $fileName = substr($path, $pos + 1);
         $dirName = str_replace($fileName, '', $path);
 
-        $expiredTime = base_convert(time() + $expiry, 10, 16); // 过期时间(十六进制)
+        $expiredTime = base_convert(time() + $expiry, 10, 16);
         $tryTime = 0; // 试看时间，0不限制
         $ipLimit = 0; // ip数量限制，0不限制
         $random = rand(100000, 999999); // 随机数
@@ -123,7 +162,7 @@ class Vod extends Service
          */
         $myTryTime = $tryTime >= 0 ? $tryTime : 0;
         $myIpLimit = $ipLimit > 0 ? $ipLimit : '';
-        $sign = $key . $dirName . $expiredTime . $myTryTime . $myIpLimit . $random; // 签名串
+        $sign = $key . $dirName . $expiredTime . $myTryTime . $myIpLimit . $random;
 
         $query = [];
 
@@ -140,7 +179,7 @@ class Vod extends Service
         $query['us'] = $random;
         $query['sign'] = md5($sign);
 
-        $result = $playUrl . '?' . http_build_query($query);
+        $result = $url . '?' . http_build_query($query);
 
         return $result;
     }
@@ -186,7 +225,7 @@ class Vod extends Service
      * 确认事件
      *
      * @param array $eventHandles
-     * @return bool|mixed
+     * @return array|bool
      */
     public function confirmEvents($eventHandles)
     {
@@ -325,9 +364,9 @@ class Vod extends Service
         $transCodeTaskSet = [];
 
         foreach ($videoTransTemplates as $key => $template) {
-            if ($originVideoInfo['width'] >= $template['width'] ||
-                $originVideoInfo['bit_rate'] >= 1000 * $template['bit_rate']
-            ) {
+            $caseA = $originVideoInfo['width'] >= $template['width'];
+            $caseB = $originVideoInfo['bit_rate'] >= 1000 * $template['bit_rate'];
+            if ($caseA || $caseB) {
                 $item = ['Definition' => $key];
                 if ($watermarkTemplate) {
                     $item['WatermarkSet'][] = ['Definition' => $watermarkTemplate];
@@ -509,8 +548,8 @@ class Vod extends Service
     {
         $result = null;
 
-        if ($this->config->watermark_enabled && $this->config->watermark_template > 0) {
-            $result = (int)$this->config->watermark_template;
+        if ($this->config['watermark_enabled'] && $this->config['watermark_template'] > 0) {
+            $result = (int)$this->config['watermark_template'];
         }
 
         return $result;
@@ -535,7 +574,7 @@ class Vod extends Service
             30 => ['width' => 1280, 'bit_rate' => 1024, 'frame_rate' => 25],
         ];
 
-        $format = $this->config->video_format;
+        $format = $this->config['video_format'];
 
         $result = $format == 'hls' ? $hls : $mp4;
 
@@ -558,7 +597,7 @@ class Vod extends Service
             1010 => ['bit_rate' => 128, 'sample_rate' => 44100],
         ];
 
-        $result = $this->config->audio_format == 'm4a' ? $m4a : $mp3;
+        $result = $this->config['audio_format'] == 'm4a' ? $m4a : $mp3;
 
         return $result;
     }
@@ -572,10 +611,10 @@ class Vod extends Service
     {
         $secret = $this->getSectionConfig('secret');
 
-        $secretId = $secret->secret_id;
-        $secretKey = $secret->secret_key;
+        $secretId = $secret['secret_id'];
+        $secretKey = $secret['secret_key'];
 
-        $region = $this->config->storage_type == 'fixed' ? $this->config->storage_region : '';
+        $region = $this->config['storage_type'] == 'fixed' ? $this->config['storage_region'] : '';
 
         $credential = new Credential($secretId, $secretKey);
 

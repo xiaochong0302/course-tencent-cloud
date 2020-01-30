@@ -3,41 +3,18 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Library\Validator\Common as CommonValidator;
 use App\Models\User as UserModel;
 
 class User extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return UserModel
      */
     public function findById($id)
     {
-        $result = UserModel::findFirstById($id);
-
-        return $result;
-    }
-
-    /**
-     * @param string $phone
-     * @return UserModel
-     */
-    public function findByPhone($phone)
-    {
-        $result = UserModel::findFirstByPhone($phone);
-
-        return $result;
-    }
-
-    /**
-     * @param string $email
-     * @return UserModel
-     */
-    public function findByEmail($email)
-    {
-        $result = UserModel::findFirstByEmail($email);
+        $result = UserModel::findFirst($id);
 
         return $result;
     }
@@ -48,26 +25,12 @@ class User extends Repository
      */
     public function findByName($name)
     {
-        $result = UserModel::findFirstByName($name);
+        $result = UserModel::findFirst([
+            'conditions' => 'name = :name:',
+            'bind' => ['name' => $name],
+        ]);
 
         return $result;
-    }
-
-    /**
-     * @param string $account
-     * @return UserModel
-     */
-    public function findByAccount($account)
-    {
-        if (CommonValidator::email($account)) {
-            $user = $this->findByEmail($account);
-        } elseif (CommonValidator::phone($account)) {
-            $user = $this->findByPhone($account);
-        } else {
-            $user = $this->findByName($account);
-        }
-
-        return $user;
     }
 
     public function findByIds($ids, $columns = '*')
@@ -105,15 +68,7 @@ class User extends Repository
         }
 
         if (!empty($where['name'])) {
-            $builder->andWhere('name = :name:', ['name' => $where['name']]);
-        }
-
-        if (!empty($where['email'])) {
-            $builder->andWhere('email = :email:', ['email' => $where['email']]);
-        }
-
-        if (!empty($where['phone'])) {
-            $builder->andWhere('phone = :phone:', ['phone' => $where['phone']]);
+            $builder->andWhere('name LIKE :name:', ['name' => "%{$where['name']}%"]);
         }
 
         if (!empty($where['edu_role'])) {
@@ -132,6 +87,10 @@ class User extends Repository
             $builder->andWhere('locked = :locked:', ['locked' => $where['locked']]);
         }
 
+        if (isset($where['deleted'])) {
+            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
+        }
+
         switch ($sort) {
             default:
                 $orderBy = 'id DESC';
@@ -146,7 +105,7 @@ class User extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
 }

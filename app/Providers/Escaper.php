@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Escaper as PhalconEscaper;
 
-class Escaper extends AbstractProvider
+class Escaper extends Provider
 {
 
     protected $serviceName = 'escaper';

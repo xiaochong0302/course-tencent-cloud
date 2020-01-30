@@ -26,7 +26,7 @@ class SessionController extends \Phalcon\Mvc\Controller
             if (!$this->checkHttpReferer() || !$this->checkCsrfToken()) {
                 $this->dispatcher->forward([
                     'controller' => 'public',
-                    'action' => 'forbidden',
+                    'action' => 'robot',
                 ]);
                 return false;
             }

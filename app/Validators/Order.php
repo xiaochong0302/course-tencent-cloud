@@ -3,19 +3,17 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Models\Order as OrderModel;
-use App\Repos\CourseStudent as CourseUserRepo;
+use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Order as OrderRepo;
 
 class Order extends Validator
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return \App\Models\Order
-     * @throws NotFoundException
+     * @throws BadRequestException
      */
     public function checkOrder($id)
     {
@@ -24,7 +22,7 @@ class Order extends Validator
         $order = $orderRepo->findById($id);
 
         if (!$order) {
-            throw new NotFoundException('order.not_found');
+            throw new BadRequestException('order.not_found');
         }
 
         return $order;

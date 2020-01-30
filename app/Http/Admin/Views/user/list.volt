@@ -11,7 +11,7 @@
     {% if user.locked == 0 %}
         <span class="layui-badge layui-bg-green">正常</span>
     {% else %}
-        <span class="layui-badge" title="期限：{{ date('Y-m-d H:i:s',user.locked_expiry) }}">锁定</span>
+        <span class="layui-badge" title="期限：{{ date('Y-m-d H:i:s',user.lock_expiry) }}">锁定</span>
     {% endif %}
 {%- endmacro %}
 
@@ -24,7 +24,6 @@
 <div class="kg-nav">
     <div class="kg-nav-left">
         <span class="layui-breadcrumb">
-            <a class="kg-back"><i class="layui-icon layui-icon-return"></i> 返回</a>
             <a><cite>用户管理</cite></a>
         </span>
     </div>
@@ -45,14 +44,16 @@
         <col>
         <col>
         <col>
+        <col>
         <col width="12%">
     </colgroup>
     <thead>
     <tr>
         <th>编号</th>
-        <th>用户</th>
+        <th>昵称</th>
         <th>角色</th>
-        <th>注册日期</th>
+        <th>最后活跃</th>
+        <th>最后位置</th>
         <th>状态</th>
         <th>操作</th>
     </tr>
@@ -61,9 +62,10 @@
     {% for item in pager.items %}
         <tr>
             <td>{{ item.id }}</td>
-            <td><a href="javascript:" title="{{ item.about }}">{{ item.name }}</a>{{ vip_info(item) }}</td>
+            <td><a href="#" title="{{ item.about }}">{{ item.name }}</a>{{ vip_info(item) }}</td>
             <td>{{ role_info(item) }}</td>
-            <td>{{ date('Y-m-d',item.created_at) }}</td>
+            <td>{{ date('Y-m-d H:i',item.last_active) }}</td>
+            <td><a class="kg-ip2region" href="javascript:;" title="查看位置" ip="{{ item.last_ip }}">{{ item.last_ip }}</a></td>
             <td>{{ status_info(item) }}</td>
             <td align="center">
                 <div class="layui-dropdown">
@@ -79,3 +81,4 @@
 </table>
 
 {{ partial('partials/pager') }}
+{{ partial('partials/ip2region') }}

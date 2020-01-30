@@ -12,8 +12,8 @@ class CourseUser extends Validator
 {
 
     /**
-     * @param integer $courseId
-     * @param integer $userId
+     * @param int $courseId
+     * @param int $userId
      * @return \App\Models\CourseUser
      * @throws BadRequestException
      */

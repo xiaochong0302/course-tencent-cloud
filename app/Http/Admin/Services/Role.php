@@ -9,6 +9,15 @@ use App\Validators\Role as RoleValidator;
 class Role extends Service
 {
 
+    public function getAuthNodes()
+    {
+        $authNode = new AuthNode();
+
+        $nodes = $authNode->getNodes();
+
+        return kg_array_object($nodes);
+    }
+
     public function getRoles()
     {
         $deleted = $this->request->getQuery('deleted', 'int', 0);
@@ -70,10 +79,6 @@ class Role extends Service
     {
         $role = $this->findOrFail($id);
 
-        if ($role->deleted == 1) {
-            return false;
-        }
-
         if ($role->type == RoleModel::TYPE_SYSTEM) {
             return false;
         }
@@ -88,10 +93,6 @@ class Role extends Service
     public function restoreRole($id)
     {
         $role = $this->findOrFail($id);
-
-        if ($role->deleted == 0) {
-            return false;
-        }
 
         $role->deleted = 0;
 

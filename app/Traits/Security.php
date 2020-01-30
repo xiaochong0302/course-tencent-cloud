@@ -23,16 +23,15 @@ trait Security
         return $checkHost;
     }
 
-    public function notSafeRequest()
+    public function isNotSafeRequest()
     {
         $method = $this->request->getMethod();
 
-        $whitelist = ['post', 'put', 'patch', 'delete'];
+        $list = ['post', 'put', 'patch', 'delete'];
 
-        $result = in_array(strtolower($method), $whitelist);
+        $result = in_array(strtolower($method), $list);
 
         return $result;
-
     }
 
 }

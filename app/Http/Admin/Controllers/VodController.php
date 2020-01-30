@@ -3,7 +3,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Models\Learning as LearningModel;
-use App\Services\Learning as LearningService;
+use App\Services\LearningSyncer as LearningSyncerService;
 use App\Services\Vod as VodService;
 use Phalcon\Mvc\View;
 
@@ -58,9 +58,9 @@ class VodController extends Controller
         $learning->chapter_id = $query['chapter_id'];
         $learning->position = $query['position'];
 
-        $learningService = new LearningService();
+        $syncerService = new LearningSyncerService();
 
-        $learningService->save($learning, $query['timeout']);
+        $syncerService->save($learning, $query['timeout']);
 
         return $this->ajaxSuccess();
     }

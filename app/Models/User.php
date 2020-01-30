@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Caches\MaxUserId as MaxUserIdCache;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
 class User extends Model
 {
 
@@ -14,7 +17,7 @@ class User extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -24,34 +27,6 @@ class User extends Model
      * @var string
      */
     public $name;
-
-    /**
-     * 邮箱
-     *
-     * @var string
-     */
-    public $email;
-
-    /**
-     * 手机
-     *
-     * @var string
-     */
-    public $phone;
-
-    /**
-     * 密码
-     *
-     * @var string
-     */
-    public $password;
-
-    /**
-     * 密盐
-     *
-     * @var string
-     */
-    public $salt;
 
     /**
      * 头像
@@ -77,49 +52,56 @@ class User extends Model
     /**
      * 教学角色
      *
-     * @var integer
+     * @var int
      */
     public $edu_role;
 
     /**
      * 后台角色
      *
-     * @var integer
+     * @var int
      */
     public $admin_role;
 
     /**
      * VIP标识
      *
-     * @var integer
+     * @var int
      */
     public $vip;
 
     /**
-     * VIP期限
-     *
-     * @var integer
-     */
-    public $vip_expiry;
-
-    /**
      * 锁定标识
      *
-     * @var integer
+     * @var int
      */
     public $locked;
 
     /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
+
+    /**
+     * VIP期限
+     *
+     * @var int
+     */
+    public $vip_expiry;
+
+    /**
      * 锁定期限
      *
-     * @var integer
+     * @var int
      */
-    public $locked_expiry;
+    public $lock_expiry;
 
     /**
      * 最后活跃
      *
-     * @var integer
+     * @var int
      */
     public $last_active;
 
@@ -131,22 +113,49 @@ class User extends Model
     public $last_ip;
 
     /**
+     * 通知数量
+     *
+     * @var int
+     */
+    public $notice_count;
+
+    /**
+     * 私信数量
+     *
+     * @var int
+     */
+    public $msg_count;
+
+
+    /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 
     public function getSource()
     {
         return 'user';
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->addBehavior(
+            new SoftDelete([
+                'field' => 'deleted',
+                'value' => 1,
+            ])
+        );
     }
 
     public function beforeCreate()
@@ -157,6 +166,12 @@ class User extends Model
     public function beforeUpdate()
     {
         $this->updated_at = time();
+    }
+
+    public function afterCreate()
+    {
+        $maxUserIdCache = new MaxUserIdCache();
+        $maxUserIdCache->rebuild();
     }
 
     public static function eduRoles()

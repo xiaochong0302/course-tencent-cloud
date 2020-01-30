@@ -11,12 +11,12 @@ class Order extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return OrderModel
      */
     public function findById($id)
     {
-        $result = OrderModel::findFirstById($id);
+        $result = OrderModel::findFirst($id);
 
         return $result;
     }
@@ -27,7 +27,10 @@ class Order extends Repository
      */
     public function findBySn($sn)
     {
-        $result = OrderModel::findFirstBySn($sn);
+        $result = OrderModel::findFirst([
+            'conditions' => 'sn = :sn:',
+            'bind' => ['sn' => $sn],
+        ]);
 
         return $result;
     }
@@ -114,7 +117,7 @@ class Order extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
 }

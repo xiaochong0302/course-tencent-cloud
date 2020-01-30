@@ -2,6 +2,7 @@
 
 namespace App\Console\Tasks;
 
+use App\Models\Course as CourseModel;
 use App\Models\Learning as LearningModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\ChapterUser as ChapterUserRepo;
@@ -24,9 +25,7 @@ class LearningTask extends Task
 
         $keys = $this->cache->queryKeys('learning:');
 
-        if (empty($keys)) {
-            return;
-        }
+        if (!$keys) return;
 
         $keys = array_slice($keys, 0, 500);
 
@@ -40,32 +39,21 @@ class LearningTask extends Task
     {
         $content = $this->cache->get($key);
 
-        if (empty($content->user_id)) {
-            return;
-        }
-
-        if (!empty($content->client_ip)) {
-            $region = kg_ip2region($content->client_ip);
-            $content->country = $region->country;
-            $content->province = $region->province;
-            $content->city = $region->city;
-        }
+        if (!$content) return;
 
         $learningRepo = new LearningRepo();
 
-        $learning = $learningRepo->findByRequestId($content->request_id);
+        $learning = $learningRepo->findByRequestId($content['request_id']);
 
         if (!$learning) {
             $learning = new LearningModel();
-            $data = kg_object_array($content);
-            $learning->create($data);
+            $learning->create($content);
         } else {
-            $learning->duration += $content->duration;
+            $learning->duration += $content['duration'];
             $learning->update();
         }
 
-        $this->updateChapterUser($content->chapter_id, $content->user_id, $content->duration, $content->position);
-        $this->updateCourseUser($content->course_id, $content->user_id, $content->duration);
+        $this->updateChapterUser($content['chapter_id'], $content['user_id'], $content['duration'], $content['position']);
 
         $this->cache->delete($key);
     }
@@ -76,63 +64,87 @@ class LearningTask extends Task
 
         $chapterUser = $chapterUserRepo->findChapterUser($chapterId, $userId);
 
-        if (!$chapterUser) {
-            return;
-        }
+        if (!$chapterUser) return;
 
         $chapterRepo = new ChapterRepo();
 
         $chapter = $chapterRepo->findById($chapterId);
 
-        if (!$chapter) {
-            return;
-        }
+        if (!$chapter) return;
 
-        $chapter->duration = $chapter->attrs['duration'] ?: 0;
+        $chapterModel = $chapter->attrs['model'];
 
         $chapterUser->duration += $duration;
-        $chapterUser->position = floor($position);
 
         /**
-         * 观看时长超过视频时长80%标记完成学习
+         * 消费规则
+         * 1.点播观看时间大于时长30%
+         * 2.直播观看时间超过10分钟
+         * 3.图文浏览即消费
          */
-        if ($chapterUser->duration > $chapter->duration * 0.8) {
-            if ($chapterUser->finished == 0) {
-                $chapterUser->finished = 1;
-                $this->updateCourseProgress($chapterUser->course_id, $chapterUser->user_id);
-            }
+        if ($chapterModel == CourseModel::MODEL_VOD) {
+
+            $chapterDuration = $chapter->attrs['duration'] ?: 300;
+
+            $progress = floor(100 * $chapterUser->duration / $chapterDuration);
+
+            $chapterUser->position = floor($position);
+            $chapterUser->progress = $progress < 100 ? $progress : 100;
+            $chapterUser->consumed = $chapterUser->duration > 0.3 * $chapterDuration ? 1 : 0;
+
+        } elseif ($chapterModel == CourseModel::MODEL_LIVE) {
+
+            $chapterUser->consumed = $chapterUser->duration > 600 ? 1 : 0;
+
+        } elseif ($chapterModel == CourseModel::MODEL_READ) {
+
+            $chapterUser->consumed = 1;
         }
 
         $chapterUser->update();
-    }
 
-    protected function updateCourseUser($courseId, $userId, $duration)
-    {
-        $courseUserRepo = new CourseUserRepo();
-
-        $courseUser = $courseUserRepo->findCourseUser($courseId, $userId);
-
-        if ($courseUser) {
-            $courseUser->duration += $duration;
-            $courseUser->update();
+        if ($chapterUser->consumed == 1) {
+            $this->updateCourseUser($chapterUser->course_id, $chapterUser->user_id);
         }
     }
 
-    protected function updateCourseProgress($courseId, $userId)
+    protected function updateCourseUser($courseId, $userId)
     {
-        $courseUserRepo = new CourseUserRepo();
-
-        $courseUser = $courseUserRepo->findCourseUser($courseId, $userId);
-
         $courseRepo = new CourseRepo();
 
-        $course = $courseRepo->findById($courseId);
+        $courseLessons = $courseRepo->findLessons($courseId);
 
-        if ($courseUser) {
-            $count = $courseUserRepo->countFinishedChapters($courseId, $userId);
-            $courseUser->progress = intval(100 * $count / $course->lesson_count);
-            $courseUser->update();
+        if ($courseLessons->count() == 0) {
+            return;
         }
+
+        $userLearnings = $courseRepo->findConsumedUserLearnings($courseId, $userId);
+
+        if ($userLearnings->count() == 0) {
+            return;
+        }
+
+        $duration = 0;
+
+        foreach ($userLearnings as $learning) {
+            $duration += $learning->duration;
+        }
+
+        $courseLessonIds = kg_array_column($courseLessons->toArray(), 'id');
+        $userLessonIds = kg_array_column($userLearnings->toArray(), 'chapter_id');
+        $consumedLessonIds = array_intersect($courseLessonIds, $userLessonIds);
+
+        $totalCount = count($courseLessonIds);
+        $consumedCount = count($consumedLessonIds);
+        $progress = intval(100 * $consumedCount / $totalCount);
+
+        $courseUserRepo = new CourseUserRepo();
+
+        $courseUser = $courseUserRepo->findCourseUser($courseId, $userId);
+
+        $courseUser->progress = $progress;
+        $courseUser->duration = $duration;
+        $courseUser->update();
     }
 
 }

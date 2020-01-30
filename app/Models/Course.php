@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Caches\MaxCourseId as MaxCourseIdCache;
+use App\Services\CourseCacheSyncer;
+use App\Services\CourseIndexSyncer;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Course extends Model
@@ -12,7 +15,7 @@ class Course extends Model
      */
     const MODEL_VOD = 'vod'; // 点播
     const MODEL_LIVE = 'live'; // 直播
-    const MODEL_ARTICLE = 'article'; // 图文
+    const MODEL_READ = 'read'; // 图文
 
     /**
      * 级别
@@ -41,28 +44,21 @@ class Course extends Model
      *
      * 图文扩展属性
      */
-    protected $_article_attrs = ['word_count' => 0];
+    protected $_read_attrs = ['duration' => 0, 'word_count' => 0];
 
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
-
-    /**
-     * 作者编号
-     *
-     * @var integer
-     */
-    public $user_id;
 
     /**
      * 类型
      *
      * @var string
      */
-    public $model;
+    public $class_id;
 
     /**
      * 标题
@@ -116,7 +112,7 @@ class Course extends Model
     /**
      * 有效期限（天）
      *
-     * @var integer
+     * @var int
      */
     public $expiry;
 
@@ -128,25 +124,18 @@ class Course extends Model
     public $score;
 
     /**
+     * 模式类型
+     *
+     * @var string
+     */
+    public $model;
+
+    /**
      * 难度级别
      *
      * @var string
      */
     public $level;
-
-    /**
-     * 发布标识
-     *
-     * @var integer
-     */
-    public $published;
-
-    /**
-     * 删除标识
-     *
-     * @var integer
-     */
-    public $deleted;
 
     /**
      * 扩展属性
@@ -158,49 +147,63 @@ class Course extends Model
     /**
      * 课时数
      *
-     * @var integer
+     * @var int
      */
     public $lesson_count;
 
     /**
      * 学员数
      *
-     * @var integer
+     * @var int
      */
-    public $student_count;
+    public $user_count;
 
     /**
-     * 讨论数
+     * 评论数
      *
-     * @var integer
+     * @var int
      */
-    public $thread_count;
+    public $comment_count;
 
     /**
      * 评价数
      *
-     * @var integer
+     * @var int
      */
     public $review_count;
 
     /**
      * 收藏数
      *
-     * @var integer
+     * @var int
      */
     public $favorite_count;
 
     /**
+     * 发布标识
+     *
+     * @var int
+     */
+    public $published;
+
+    /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
+
+    /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 
@@ -234,12 +237,15 @@ class Course extends Model
             case Course::MODEL_LIVE:
                 $attrs = $this->_live_attrs;
                 break;
-            case Course::MODEL_ARTICLE:
-                $attrs = $this->_article_attrs;
+            case Course::MODEL_READ:
+                $attrs = $this->_read_attrs;
                 break;
         }
 
-        $this->attrs = $attrs ? kg_json_encode($attrs) : '';
+        if (!empty($attrs)) {
+            $this->attrs = kg_json_encode($attrs);
+        }
+
     }
 
     public function beforeUpdate()
@@ -253,9 +259,27 @@ class Course extends Model
 
     public function afterFetch()
     {
+        $this->market_price = (float)$this->market_price;
+        $this->vip_price = (float)$this->vip_price;
+
         if (!empty($this->attrs)) {
-            $this->attrs = json_decode($this->attrs);
+            $this->attrs = json_decode($this->attrs, true);
         }
+    }
+
+    public function afterCreate()
+    {
+        $maxCourseIdCache = new MaxCourseIdCache();
+        $maxCourseIdCache->rebuild();
+    }
+
+    public function afterUpdate()
+    {
+        $courseCacheSyncer = new CourseCacheSyncer();
+        $courseCacheSyncer->addItem($this->id);
+
+        $courseIndexSyncer = new CourseIndexSyncer();
+        $courseIndexSyncer->addItem($this->id);
     }
 
     public static function models()
@@ -263,7 +287,7 @@ class Course extends Model
         $list = [
             self::MODEL_VOD => '点播',
             self::MODEL_LIVE => '直播',
-            self::MODEL_ARTICLE => '图文',
+            self::MODEL_READ => '图文',
         ];
 
         return $list;

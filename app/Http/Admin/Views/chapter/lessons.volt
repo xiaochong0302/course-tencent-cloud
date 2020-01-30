@@ -23,8 +23,8 @@
     {{ partial('chapter/lessons_vod') }}
 {% elseif course.model == 'live' %}
     {{ partial('chapter/lessons_live') }}
-{% elseif course.model == 'article' %}
-    {{ partial('chapter/lessons_article') }}
+{% elseif course.model == 'read' %}
+    {{ partial('chapter/lessons_read') }}
 {% endif %}
 
 <script>

@@ -10,12 +10,12 @@ class Trade extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return TradeModel
      */
     public function findById($id)
     {
-        $result = TradeModel::findFirstById($id);
+        $result = TradeModel::findFirst($id);
 
         return $result;
     }
@@ -26,7 +26,10 @@ class Trade extends Repository
      */
     public function findBySn($sn)
     {
-        $result = TradeModel::findFirstBySn($sn);
+        $result = TradeModel::findFirst([
+            'conditions' => 'sn = :sn:',
+            'bind' => ['sn' => $sn],
+        ]);
 
         return $result;
     }
@@ -113,7 +116,7 @@ class Trade extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
 }

@@ -14,21 +14,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="name" placeholder="用户名精确匹配">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">手机号</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="mobile" placeholder="手机号精确匹配">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">邮箱</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="email" placeholder="邮箱精确匹配">
+            <input class="layui-input" type="text" name="name" placeholder="用户名模糊匹配">
         </div>
     </div>
 

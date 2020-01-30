@@ -6,10 +6,14 @@ use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Category as CategoryModel;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
+use App\Models\Comment as CommentModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
+use App\Models\CourseFavorite as CourseFavoriteModel;
+use App\Models\CoursePackage as CoursePackageModel;
 use App\Models\CourseRelated as CourseRelatedModel;
 use App\Models\CourseUser as CourseUserModel;
+use App\Models\Package as PackageModel;
 use App\Models\Review as ReviewModel;
 use App\Models\User as UserModel;
 
@@ -17,12 +21,12 @@ class Course extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return CourseModel
      */
     public function findById($id)
     {
-        $result = CourseModel::findFirstById($id);
+        $result = CourseModel::findFirst($id);
 
         return $result;
     }
@@ -66,6 +70,19 @@ class Course extends Repository
         return $result;
     }
 
+    public function findPackages($courseId)
+    {
+        $result = $this->modelsManager->createBuilder()
+            ->columns('p.*')
+            ->addFrom(PackageModel::class, 'p')
+            ->join(CoursePackageModel::class, 'p.id = cp.package_id', 'cp')
+            ->where('cp.course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('p.deleted = 0')
+            ->getQuery()->execute();
+
+        return $result;
+    }
+
     public function findRelatedCourses($courseId)
     {
         $result = $this->modelsManager->createBuilder()
@@ -100,7 +117,7 @@ class Course extends Repository
         return $result;
     }
 
-    public function findUserLessons($courseId, $userId)
+    public function findUserLearnings($courseId, $userId)
     {
         $result = ChapterUserModel::query()
             ->where('course_id = :course_id:', ['course_id' => $courseId])
@@ -110,63 +127,79 @@ class Course extends Repository
         return $result;
     }
 
+    public function findConsumedUserLearnings($courseId, $userId)
+    {
+        $result = ChapterUserModel::query()
+            ->where('course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('consumed = 1')
+            ->execute();
+
+        return $result;
+    }
+
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
 
-        $builder->from(CourseModel::class);
-
-        $builder->where('1 = 1');
+        if (!empty($where['category_id'])) {
+            $builder->addFrom(CourseModel::class, 'c');
+            $builder->join(CourseCategoryModel::class, 'c.id = cc.course_id', 'cc');
+            if (is_array($where['category_id'])) {
+                $builder->inWhere('cc.category_id', $where['category_id']);
+            } else {
+                $builder->where('cc.category_id = :category_id:', ['category_id' => $where['category_id']]);
+            }
+        } else {
+            $builder->addFrom(CourseModel::class, 'c');
+            $builder->where('1 = 1');
+        }
 
         if (!empty($where['id'])) {
             if (is_array($where['id'])) {
-                $builder->inWhere('id', $where['id']);
+                $builder->inWhere('c.id', $where['id']);
             } else {
-                $builder->andWhere('id = :id:', ['id' => $where['id']]);
+                $builder->andWhere('c.id = :id:', ['id' => $where['id']]);
             }
         }
 
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
-        }
-
         if (!empty($where['title'])) {
-            $builder->andWhere('title LIKE :title:', ['title' => '%' . $where['title'] . '%']);
+            $builder->andWhere('c.title LIKE :title:', ['title' => "%{$where['title']}%"]);
         }
 
         if (!empty($where['model'])) {
-            $builder->andWhere('model = :model:', ['model' => $where['model']]);
+            $builder->andWhere('c.model = :model:', ['model' => $where['model']]);
         }
 
         if (!empty($where['level'])) {
-            $builder->andWhere('level = :level:', ['level' => $where['level']]);
+            $builder->andWhere('c.level = :level:', ['level' => $where['level']]);
         }
 
         if (isset($where['free'])) {
             if ($where['free'] == 1) {
-                $builder->andWhere('market_price = 0');
+                $builder->andWhere('c.market_price = 0');
             } else {
-                $builder->andWhere('market_price > 0');
+                $builder->andWhere('c.market_price > 0');
             }
         }
 
         if (isset($where['published'])) {
-            $builder->andWhere('published = :published:', ['published' => $where['published']]);
+            $builder->andWhere('c.published = :published:', ['published' => $where['published']]);
         }
 
         if (isset($where['deleted'])) {
-            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
+            $builder->andWhere('c.deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
         switch ($sort) {
             case 'rating':
-                $orderBy = 'rating DESC';
+                $orderBy = 'c.rating DESC';
                 break;
             case 'score':
-                $orderBy = 'score DESC';
+                $orderBy = 'c.score DESC';
                 break;
             default:
-                $orderBy = 'id DESC';
+                $orderBy = 'c.id DESC';
                 break;
         }
 
@@ -178,7 +211,7 @@ class Course extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
     public function countLessons($courseId)
@@ -188,17 +221,17 @@ class Course extends Repository
             'bind' => ['course_id' => $courseId],
         ]);
 
-        return (int)$count;
+        return $count;
     }
 
-    public function countStudents($courseId)
+    public function countUsers($courseId)
     {
         $count = CourseUserModel::count([
             'conditions' => 'course_id = :course_id: AND deleted = 0',
             'bind' => ['course_id' => $courseId],
         ]);
 
-        return (int)$count;
+        return $count;
     }
 
     public function countReviews($courseId)
@@ -208,7 +241,27 @@ class Course extends Repository
             'bind' => ['course_id' => $courseId],
         ]);
 
-        return (int)$count;
+        return $count;
+    }
+
+    public function countComments($courseId)
+    {
+        $count = CommentModel::count([
+            'conditions' => 'course_id = :course_id: AND deleted = 0',
+            'bind' => ['course_id' => $courseId],
+        ]);
+
+        return $count;
+    }
+
+    public function countFavorites($courseId)
+    {
+        $count = CourseFavoriteModel::count([
+            'conditions' => 'course_id = :course_id: AND deleted = 0',
+            'bind' => ['course_id' => $courseId],
+        ]);
+
+        return $count;
     }
 
 }

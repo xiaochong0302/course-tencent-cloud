@@ -1,7 +1,7 @@
 /**
  * 挑选课程组件
- * @param array data 默认数据
- * @param string url 请求地址
+ * @param data array 默认数据
+ * @param url string 请求地址
  */
 function xmCourse(data, url) {
 
@@ -41,44 +41,33 @@ function xmCourse(data, url) {
                 {field: 'id', title: '编号', width: 50},
                 {field: 'title', title: '标题', width: 300},
                 {
-                    field: 'model', title: '类型', width: 60, templet: function (d) {
-                        if (d.model == 'vod') {
+                    field: 'model', title: '类型', width: 50, templet: function (d) {
+                        if (d.model === 'vod') {
                             return '<span class="layui-badge layui-bg-green">点播</span>';
-                        } else if (d.model == 'live') {
+                        } else if (d.model === 'live') {
                             return '<span class="layui-badge layui-bg-orange">直播</span>';
-                        } else if (d.model == 'article') {
+                        } else if (d.model === 'read') {
                             return '<span class="layui-badge layui-bg-black">图文</span>';
                         }
                     }
                 },
                 {
-                    field: 'lesson_count', title: '课时数', width: 60, templet: function (d) {
+                    field: 'lesson_count', title: '学员数', width: 55, templet: function (d) {
+                        return '<span class="layui-badge layui-bg-gray">' + d.user_count + '</span>';
+                    }
+                },
+                {
+                    field: 'lesson_count', title: '课时数', width: 55, templet: function (d) {
                         return '<span class="layui-badge layui-bg-gray">' + d.lesson_count + '</span>';
                     }
                 },
                 {
-                    field: 'expiry', title: '有效期', width: 70, templet: function (d) {
-                        if (d.expiry == '30') {
-                            return '一个月';
-                        } else if (d.expiry == '90') {
-                            return '三个月';
-                        }
-                        else if (d.expiry == '180') {
-                            return '半年';
-                        } else if (d.expiry == '365') {
-                            return '一年';
-                        } else if (d.expiry == '1095') {
-                            return '三年';
-                        }
-                    }
-                },
-                {
-                    field: 'market_price', title: '市场价', width: 70, templet: function (d) {
+                    field: 'market_price', title: '市场价', width: 60, templet: function (d) {
                         return '￥' + d.market_price;
                     }
                 },
                 {
-                    field: 'vip_price', title: '会员价', width: 70, templet: function (d) {
+                    field: 'vip_price', title: '会员价', width: 60, templet: function (d) {
                         return '￥' + d.vip_price;
                     }
                 },
@@ -104,4 +93,5 @@ function xmCourse(data, url) {
         });
 
     });
+
 }

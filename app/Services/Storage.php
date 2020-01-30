@@ -121,7 +121,7 @@ class Storage extends Service
      */
     public function putString($key, $body)
     {
-        $bucket = $this->config->bucket_name;
+        $bucket = $this->config['bucket_name'];
 
         try {
 
@@ -151,7 +151,7 @@ class Storage extends Service
      */
     public function putFile($key, $fileName)
     {
-        $bucket = $this->config->bucket_name;
+        $bucket = $this->config['bucket_name'];
 
         try {
 
@@ -190,8 +190,8 @@ class Storage extends Service
     /**
      *  获取数据万象图片URL
      * @param string $key
-     * @param integer $width
-     * @param integer $height
+     * @param int $width
+     * @param int $height
      * @return string
      */
     public function getCiImageUrl($key, $width = 0, $height = 0)
@@ -208,8 +208,9 @@ class Storage extends Service
      */
     public function getBucketBaseUrl()
     {
-        $protocol = $this->config->bucket_protocol;
-        $domain = $this->config->bucket_domain;
+        $protocol = $this->config['bucket_protocol'];
+        $domain = $this->config['bucket_domain'];
+
         $result = $protocol . '://' . $domain;
 
         return $result;
@@ -222,8 +223,9 @@ class Storage extends Service
      */
     public function getCiBaseUrl()
     {
-        $protocol = $this->config->ci_protocol;
-        $domain = $this->config->ci_domain;
+        $protocol = $this->config['ci_protocol'];
+        $domain = $this->config['ci_domain'];
+
         $result = $protocol . '://' . $domain;
 
         return $result;
@@ -268,11 +270,11 @@ class Storage extends Service
         $secret = $this->getSectionConfig('secret');
 
         $client = new CosClient([
-            'region' => $this->config->bucket_region,
+            'region' => $this->config['bucket_region'],
             'schema' => 'https',
             'credentials' => [
-                'secretId' => $secret->secret_id,
-                'secretKey' => $secret->secret_key,
+                'secretId' => $secret['secret_id'],
+                'secretKey' => $secret['secret_key'],
             ]]);
 
         return $client;

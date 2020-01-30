@@ -9,12 +9,12 @@ class Slide extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return SlideModel
      */
     public function findById($id)
     {
-        $result = SlideModel::findFirstById($id);
+        $result = SlideModel::findFirst($id);
 
         return $result;
     }
@@ -75,7 +75,7 @@ class Slide extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
 }

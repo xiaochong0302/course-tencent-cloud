@@ -24,7 +24,7 @@ class Trade extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -59,7 +59,7 @@ class Trade extends Model
     /**
      * 订单编号
      *
-     * @var integer
+     * @var int
      */
     public $order_id;
 
@@ -94,21 +94,21 @@ class Trade extends Model
     /**
      * 删除表示
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 
@@ -141,6 +141,11 @@ class Trade extends Model
     public function beforeUpdate()
     {
         $this->updated_at = time();
+    }
+
+    public function afterFetch()
+    {
+        $this->amount = (float)$this->amount;
     }
 
     public static function channels()

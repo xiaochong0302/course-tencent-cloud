@@ -2,12 +2,12 @@
 
 namespace App\Http\Home\Services;
 
+use App\Builders\CourseList as CourseListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Course as CourseRepo;
-use App\Transformers\CourseList as CourseListTransformer;
 use App\Validators\Course as CourseFilter;
 
 class Category extends Service
@@ -79,7 +79,7 @@ class Category extends Service
     {
         if ($pager->total_items > 0) {
 
-            $builder = new CourseListTransformer();
+            $builder = new CourseListBuilder();
 
             $pipeA = $pager->items->toArray();
 

@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Session\Adapter\Redis as RedisSession;
 
-class Session extends AbstractProvider
+class Session extends Provider
 {
 
     protected $serviceName = 'session';

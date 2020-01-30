@@ -3,7 +3,7 @@
         点播信息
     {% elseif model == 'live' %}
         直播信息
-    {% elseif model == 'article' %}
+    {% elseif model == 'read' %}
         文章信息
     {% endif %}
 {%- endmacro %}
@@ -28,8 +28,8 @@
                 {{ partial('chapter/edit_lesson_vod') }}
             {% elseif course.model == 'live' %}
                 {{ partial('chapter/edit_lesson_live') }}
-            {% elseif course.model == 'article' %}
-                {{ partial('chapter/edit_lesson_article') }}
+            {% elseif course.model == 'read' %}
+                {{ partial('chapter/edit_lesson_read') }}
             {% endif %}
         </div>
     </div>

@@ -2,8 +2,11 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\Course as CourseService;
-use Phalcon\Mvc\View;
+use App\Services\Frontend\Course as CourseService;
+use App\Services\Frontend\CourseFavorite as CourseFavoriteService;
+use App\Services\Frontend\CourseList as CourseListService;
+use App\Services\Frontend\CourseRelated as CourseRelatedService;
+use App\Services\Frontend\CourseReview as CourseReviewService;
 
 /**
  * @RoutePrefix("/course")
@@ -16,144 +19,67 @@ class CourseController extends Controller
      */
     public function listAction()
     {
-        $service = new CourseService();
+        $courseListService = new CourseListService();
 
-        $courses = $service->getCourses();
+        $pager = $courseListService->getCourses();
 
-        $this->view->courses = $courses;
+        return $this->ajaxSuccess(['pager' => $pager]);
+
+        $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Get("/{id}", name="home.course.show")
+     * @Get("/{id:[0-9]+}", name="home.course.show")
      */
     public function showAction($id)
     {
-        $service = new CourseService();
+        $courseService = new CourseService();
 
-        $course = $service->getCourse($id);
+        $course = $courseService->getCourse($id);
 
-        $this->view->course = $course;
+        return $this->ajaxSuccess(['course' => $course]);
+
+        $this->view->setVar('course', $course);
     }
 
     /**
-     * @Get("/{id}/chapters", name="home.course.chapters")
+     * @Get("/{id:[0-9]+}/related", name="home.course.related")
      */
-    public function chaptersAction($id)
+    public function relatedAction($id)
     {
-        $service = new CourseService();
+        $relatedService = new CourseRelatedService();
 
-        $chapters = $service->getChapters($id);
+        $courses = $relatedService->getRelated($id);
 
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        return $this->ajaxSuccess(['courses' => $courses]);
 
-        $this->view->chapters = $chapters;
+        $this->view->setVar('course', $course);
     }
 
     /**
-     * @Get("/{id}/consults", name="home.course.consults")
-     */
-    public function consultsAction($id)
-    {
-        $service = new CourseService();
-
-        $consults = $service->getConsults($id);
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
-        $this->view->consults = $consults;
-    }
-
-    /**
-     * @Get("/{id}/reviews", name="home.course.reviews")
+     * @Get("/{id:[0-9]+}/reviews", name="home.course.reviews")
      */
     public function reviewsAction($id)
     {
-        $service = new CourseService();
+        $reviewService = new CourseReviewService();
 
-        $reviews = $service->getReviews($id);
+        $pager = $reviewService->getReviews($id);
 
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        return $this->ajaxSuccess(['pager' => $pager]);
 
-        $this->view->reviews = $reviews;
+        $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Get("/{id}/comments", name="home.course.comments")
-     */
-    public function commentsAction($id)
-    {
-        $service = new CourseService();
-
-        $comments = $service->getComments($id);
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
-        $this->view->comments = $comments;
-    }
-
-    /**
-     * @Get("/{id}/users", name="home.course.users")
-     */
-    public function usersAction($id)
-    {
-        $service = new CourseService();
-
-        $users = $service->getUsers($id);
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
-        $this->view->users = $users;
-    }
-
-    /**
-     * @Post("/{id}/favorite", name="home.course.favorite")
+     * @Post("/{id:[0-9]+}/favorite", name="home.course.favorite")
      */
     public function favoriteAction($id)
     {
-        $service = new CourseService();
+        $favoriteService = new CourseFavoriteService();
 
-        $service->favorite($id);
-
-        return $this->response->ajaxSuccess();
-    }
-
-    /**
-     * @Post("/{id}/unfavorite", name="home.course.unfavorite")
-     */
-    public function unfavoriteAction($id)
-    {
-        $service = new CourseService();
-
-        $service->unfavorite($id);
+        $favoriteService->saveFavorite($id);
 
         return $this->response->ajaxSuccess();
-    }
-
-    /**
-     * @Post("/{id}/apply", name="home.course.apply")
-     */
-    public function applyAction($id)
-    {
-        $service = new CourseService();
-
-        $service->apply($id);
-
-        return $this->response->ajaxSuccess();
-    }
-
-    /**
-     * @Get("/{id}/start", name="home.course.start")
-     */
-    public function startAction($id)
-    {
-        $service = new CourseService();
-
-        $chapter = $service->getStartChapter($id);
-
-        $this->response->redirect([
-            'for' => 'home.chapter.show',
-            'id' => $chapter->id,
-        ]);
     }
 
 }

@@ -7,8 +7,8 @@ class ContentImage extends Model
 
     /**
      * 主键编号
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $id;
 
@@ -21,8 +21,8 @@ class ContentImage extends Model
 
     /**
      * 创建时间
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $created_at;
 

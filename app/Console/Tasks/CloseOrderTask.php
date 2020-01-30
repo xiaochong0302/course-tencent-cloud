@@ -25,7 +25,7 @@ class CloseOrderTask extends Task
     /**
      * 查找待关闭订单
      *
-     * @param integer $limit
+     * @param int $limit
      * @return \Phalcon\Mvc\Model\ResultsetInterface
      */
     protected function findOrders($limit = 1000)

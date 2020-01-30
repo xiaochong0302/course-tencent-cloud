@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
 use App\Repos\Course as CourseRepo;
 
@@ -14,7 +13,7 @@ class Refund extends Service
         $amount = 0.00;
 
         if ($order->status != OrderModel::STATUS_FINISHED) {
-            //return $amount;
+            return $amount;
         }
 
         if ($order->item_type == OrderModel::TYPE_COURSE) {
@@ -28,12 +27,12 @@ class Refund extends Service
 
     protected function getCourseRefundAmount(OrderModel $order)
     {
-        $course = $order->item_info->course;
+        $course = $order->item_info['course'];
 
         $courseId = $order->item_id;
         $userId = $order->user_id;
         $amount = $order->amount;
-        $expireTime = $course->expire_time;
+        $expireTime = $course['expire_time'];
 
         $refundAmount = 0.00;
 
@@ -47,14 +46,14 @@ class Refund extends Service
 
     protected function getPackageRefundAmount(OrderModel $order)
     {
+        $courses = $order->item_info['courses'];
         $userId = $order->user_id;
-        $courses = $order->item_info->courses;
         $amount = $order->amount;
 
         $totalMarketPrice = 0.00;
 
         foreach ($courses as $course) {
-            $totalMarketPrice += $course->market_price;
+            $totalMarketPrice += $course['market_price'];
         }
 
         $totalRefundAmount = 0.00;
@@ -63,9 +62,9 @@ class Refund extends Service
          * 按照占比方式计算退款
          */
         foreach ($courses as $course) {
-            if ($course->expire_time > time()) {
-                $pricePercent = round($course->market_price / $totalMarketPrice, 4);
-                $refundPercent = $this->getCourseRefundPercent($course->id, $userId);
+            if ($course['expire_time'] > time()) {
+                $pricePercent = round($course['market_price'] / $totalMarketPrice, 4);
+                $refundPercent = $this->getCourseRefundPercent($userId, $course['id']);
                 $refundAmount = round($amount * $pricePercent * $refundPercent, 2);
                 $totalRefundAmount += $refundAmount;
             }
@@ -78,47 +77,25 @@ class Refund extends Service
     {
         $courseRepo = new CourseRepo();
 
-        $userLessons = $courseRepo->findUserLessons($courseId, $userId);
+        $courseLessons = $courseRepo->findLessons($courseId);
 
-        if ($userLessons->count() == 0) {
+        if ($courseLessons->count() == 0) {
             return 1.00;
         }
 
-        $course = $courseRepo->findById($courseId);
-        $lessons = $courseRepo->findLessons($courseId);
+        $userLearnings = $courseRepo->findConsumedUserLearnings($courseId, $userId);
 
-        $durationMapping = [];
-
-        foreach ($lessons as $lesson) {
-            $durationMapping[$lesson->id] = $lesson->attrs->duration ?? null;
+        if ($userLearnings->count() == 0) {
+            return 1.00;
         }
 
-        $totalCount = $course->lesson_count;
-        $finishCount = 0;
+        $courseLessonIds = kg_array_column($courseLessons->toArray(), 'id');
+        $userLessonIds = kg_array_column($userLearnings->toArray(), 'chapter_id');
+        $consumedLessonIds = array_intersect($courseLessonIds, $userLessonIds);
 
-        /**
-         * 消费规则
-         * 1.点播观看时间大于时长30%
-         * 2.直播观看时间超过10分钟
-         * 3.图文浏览即消费
-         */
-        foreach ($userLessons as $learning) {
-            $chapterId = $learning->chapter_id;
-            $duration = $durationMapping[$chapterId] ?? null;
-            if ($course->model == CourseModel::MODEL_VOD) {
-                if ($duration && $learning->duration > 0.3 * $duration) {
-                    $finishCount++;
-                }
-            } elseif ($course->model == CourseModel::MODEL_LIVE) {
-                if ($learning->duration > 600) {
-                    $finishCount++;
-                }
-            } elseif ($course->model == CourseModel::MODEL_LIVE) {
-                $finishCount++;
-            }
-        }
-
-        $refundCount = $totalCount - $finishCount;
+        $totalCount = count($courseLessonIds);
+        $consumedCount = count($consumedLessonIds);
+        $refundCount = $totalCount - $consumedCount;
 
         $percent = round($refundCount / $totalCount, 4);
 

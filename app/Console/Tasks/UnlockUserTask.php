@@ -18,7 +18,7 @@ class UnlockUserTask extends Task
 
         foreach ($users as $user) {
             $user->locked = 0;
-            $user->locked_expiry = 0;
+            $user->lock_expiry = 0;
             $user->update();
         }
     }
@@ -26,7 +26,7 @@ class UnlockUserTask extends Task
     /**
      * 查找待解锁用户
      *
-     * @param integer $limit
+     * @param int $limit
      * @return \Phalcon\Mvc\Model\ResultsetInterface
      */
     protected function findUsers($limit = 1000)
@@ -35,7 +35,7 @@ class UnlockUserTask extends Task
 
         $users = UserModel::query()
             ->where('locked = 1')
-            ->andWhere('locked_expiry < :time:', ['time' => $time])
+            ->andWhere('lock_expiry < :time:', ['time' => $time])
             ->limit($limit)
             ->execute();
 

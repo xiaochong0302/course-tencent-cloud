@@ -34,9 +34,10 @@ class Captcha extends Service
      */
     function verify($ticket, $rand)
     {
-        $appId = $this->config->app_id;
-        $secretKey = $this->config->secret_key;
         $userIp = $this->request->getClientAddress();
+
+        $appId = $this->config['app_id'];
+        $secretKey = $this->config['secret_key'];
         $captchaType = 9;
 
         try {
@@ -85,10 +86,10 @@ class Captcha extends Service
     {
         $secret = $this->getSectionConfig('secret');
 
-        $secretId = $secret->secret_id;
-        $secretKey = $secret->secret_key;
+        $secretId = $secret['secret_id'];
+        $secretKey = $secret['secret_key'];
 
-        $region = $this->config->region ?? 'ap-guangzhou';
+        $region = $this->config['region'] ?? 'ap-guangzhou';
 
         $credential = new Credential($secretId, $secretKey);
 

@@ -20,6 +20,15 @@ class Word
         return (int)$count;
     }
 
+    public static function getWordDuration($str)
+    {
+        $count = self::getWordCount($str);
+
+        $duration = $count * 0.8;
+
+        return (int)$duration;
+    }
+
     public static function getChineseWordCount($str)
     {
         $str = strip_tags($str);

@@ -9,29 +9,29 @@ class Review extends Model
 
     /**
      * 主键编号
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $id;
 
     /**
-     * 用户编号
-     * 
-     * @var integer
-     */
-    public $user_id;
-
-    /**
      * 课程编号
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $course_id;
 
     /**
+     * 用户编号
+     *
+     * @var int
+     */
+    public $user_id;
+
+    /**
      * 课程评分
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $rating;
 
@@ -45,28 +45,28 @@ class Review extends Model
     /**
      * 发布标识
      *
-     * @var integer
+     * @var int
      */
     public $published;
 
     /**
      * 删除标识
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $updated_at;
 

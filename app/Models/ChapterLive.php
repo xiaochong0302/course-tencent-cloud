@@ -8,56 +8,56 @@ class ChapterLive extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 课程编号
      *
-     * @var integer
+     * @var int
      */
     public $course_id;
 
     /**
      * 章节编号
      *
-     * @var integer
+     * @var int
      */
     public $chapter_id;
 
     /**
      * 开始时间
      *
-     * @var integer
+     * @var int
      */
     public $start_time;
 
     /**
      * 结束时间
      *
-     * @var integer
+     * @var int
      */
     public $end_time;
 
     /**
      * 用户限额
      *
-     * @var integer
+     * @var int
      */
     public $user_limit;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 

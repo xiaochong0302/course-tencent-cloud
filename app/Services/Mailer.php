@@ -41,21 +41,21 @@ class Mailer extends Service
 
         $config = [
             'driver' => 'smtp',
-            'host' => $opt->smtp_host,
-            'port' => $opt->smtp_port,
+            'host' => $opt['smtp_host'],
+            'port' => $opt['smtp_port'],
             'from' => [
-                'email' => $opt->smtp_from_email,
-                'name' => $opt->smtp_from_name,
+                'email' => $opt['smtp_from_email'],
+                'name' => $opt['smtp_from_name'],
             ],
         ];
 
-        if ($opt->smtp_encryption) {
-            $config['encryption'] = $opt->smtp_encryption;
+        if ($opt['smtp_encryption']) {
+            $config['encryption'] = $opt['smtp_encryption'];
         }
 
-        if ($opt->smtp_authentication) {
-            $config['username'] = $opt->smtp_username;
-            $config['password'] = $opt->smtp_password;
+        if ($opt['smtp_authentication']) {
+            $config['username'] = $opt['smtp_username'];
+            $config['password'] = $opt['smtp_password'];
         }
 
         $manager = new MailerManager($config);

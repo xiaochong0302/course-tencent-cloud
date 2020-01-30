@@ -123,7 +123,7 @@ class CleanLogTask extends Task
      * 清理日志文件
      *
      * @param string $prefix
-     * @param integer $keepDays 保留天数
+     * @param int $keepDays 保留天数
      * @return mixed
      */
     protected function cleanLog($prefix, $keepDays)

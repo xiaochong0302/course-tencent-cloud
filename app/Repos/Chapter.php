@@ -3,20 +3,23 @@
 namespace App\Repos;
 
 use App\Models\Chapter as ChapterModel;
-use App\Models\ChapterArticle as ChapterArticleModel;
+use App\Models\ChapterLike as ChapterLikeModel;
 use App\Models\ChapterLive as ChapterLiveModel;
+use App\Models\ChapterRead as ChapterReadModel;
+use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\ChapterVod as ChapterVodModel;
+use App\Models\Comment as CommentModel;
 
 class Chapter extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return ChapterModel
      */
     public function findById($id)
     {
-        $result = ChapterModel::findFirstById($id);
+        $result = ChapterModel::findFirst($id);
 
         return $result;
     }
@@ -75,34 +78,43 @@ class Chapter extends Repository
     }
 
     /**
-     * @param integer $chapterId
+     * @param int $chapterId
      * @return ChapterVodModel
      */
     public function findChapterVod($chapterId)
     {
-        $result = ChapterVodModel::findFirstByChapterId($chapterId);
+        $result = ChapterVodModel::findFirst([
+            'conditions' => 'chapter_id = :chapter_id:',
+            'bind' => ['chapter_id' => $chapterId],
+        ]);
 
         return $result;
     }
 
     /**
-     * @param integer $chapterId
+     * @param int $chapterId
      * @return ChapterLiveModel
      */
     public function findChapterLive($chapterId)
     {
-        $result = ChapterLiveModel::findFirstByChapterId($chapterId);
+        $result = ChapterLiveModel::findFirst([
+            'conditions' => 'chapter_id = :chapter_id:',
+            'bind' => ['chapter_id' => $chapterId],
+        ]);
 
         return $result;
     }
 
     /**
-     * @param integer $chapterId
-     * @return ChapterArticleModel
+     * @param int $chapterId
+     * @return ChapterReadModel
      */
-    public function findChapterArticle($chapterId)
+    public function findChapterRead($chapterId)
     {
-        $result = ChapterArticleModel::findFirstByChapterId($chapterId);
+        $result = ChapterReadModel::findFirst([
+            'conditions' => 'chapter_id = :chapter_id:',
+            'bind' => ['chapter_id' => $chapterId],
+        ]);
 
         return $result;
     }
@@ -136,7 +148,37 @@ class Chapter extends Repository
             'bind' => ['chapter_id' => $chapterId],
         ]);
 
-        return (int)$result;
+        return $result;
+    }
+
+    public function countUsers($chapterId)
+    {
+        $count = ChapterUserModel::count([
+            'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
+            'bind' => ['chapter_id' => $chapterId],
+        ]);
+
+        return $count;
+    }
+
+    public function countComments($chapterId)
+    {
+        $count = CommentModel::count([
+            'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
+            'bind' => ['chapter_id' => $chapterId],
+        ]);
+
+        return $count;
+    }
+
+    public function countLikes($chapterId)
+    {
+        $count = ChapterLikeModel::count([
+            'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
+            'bind' => ['chapter_id' => $chapterId],
+        ]);
+
+        return $count;
     }
 
 }

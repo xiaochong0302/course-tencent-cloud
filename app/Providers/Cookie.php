@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-class Cookie extends AbstractProvider
+class Cookie extends Provider
 {
 
     protected $serviceName = 'cookies';

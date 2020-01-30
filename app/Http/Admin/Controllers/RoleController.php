@@ -2,7 +2,6 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Http\Admin\Services\AuthNode;
 use App\Http\Admin\Services\Role as RoleService;
 
 /**
@@ -54,26 +53,21 @@ class RoleController extends Controller
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.role.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.role.edit")
      */
     public function editAction($id)
     {
         $roleService = new RoleService();
 
         $role = $roleService->getRole($id);
-
-        //dd($role->routes);
-
-        $adminNode = new AuthNode();
-
-        $nodes = $adminNode->getAllNodes();
+        $authNodes = $roleService->getAuthNodes();
 
         $this->view->setVar('role', $role);
-        $this->view->setVar('nodes', kg_array_object($nodes));
+        $this->view->setVar('auth_nodes', $authNodes);
     }
 
     /**
-     * @Post("/{id}/update", name="admin.role.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.role.update")
      */
     public function updateAction($id)
     {
@@ -92,7 +86,7 @@ class RoleController extends Controller
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.role.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.role.delete")
      */
     public function deleteAction($id)
     {
@@ -111,7 +105,7 @@ class RoleController extends Controller
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.role.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.role.restore")
      */
     public function restoreAction($id)
     {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\CourseList as CourseListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
@@ -14,7 +15,6 @@ use App\Repos\CourseCategory as CourseCategoryRepo;
 use App\Repos\CourseRelated as CourseRelatedRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\User as UserRepo;
-use App\Transformers\CourseList as CourseListTransformer;
 use App\Validators\Course as CourseValidator;
 
 class Course extends Service
@@ -26,8 +26,9 @@ class Course extends Service
 
         $params = $pagerQuery->getParams();
 
-        if (isset($params['xm_category_ids'])) {
-            $params['id'] = $this->getCategoryCourseIds($params['xm_category_ids']);
+        if (!empty($params['xm_category_ids'])) {
+            $xmCategoryIds = explode(',', $params['xm_category_ids']);
+            $params['category_id'] = count($xmCategoryIds) > 1 ? $xmCategoryIds : $xmCategoryIds[0];
         }
 
         $params['deleted'] = $params['deleted'] ?? 0;
@@ -65,8 +66,6 @@ class Course extends Service
         $course = new CourseModel();
 
         $course->create($data);
-
-        $this->eventsManager->fire('course:afterCreate', $this, $course);
 
         return $course;
     }
@@ -137,8 +136,6 @@ class Course extends Service
 
         $course->update($data);
 
-        $this->eventsManager->fire('course:afterUpdate', $this, $course);
-
         return $course;
     }
 
@@ -146,15 +143,9 @@ class Course extends Service
     {
         $course = $this->findOrFail($id);
 
-        if ($course->deleted == 1) {
-            return false;
-        }
-
         $course->deleted = 1;
 
         $course->update();
-
-        $this->eventsManager->fire('course:afterDelete', $this, $course);
 
         return $course;
     }
@@ -163,15 +154,9 @@ class Course extends Service
     {
         $course = $this->findOrFail($id);
 
-        if ($course->deleted == 0) {
-            return false;
-        }
-
         $course->deleted = 0;
 
         $course->update();
-
-        $this->eventsManager->fire('course:afterRestore', $this, $course);
 
         return $course;
     }
@@ -308,7 +293,7 @@ class Course extends Service
         return $result;
     }
 
-    protected function saveTeachers($course, $teacherIds)
+    protected function saveTeachers(CourseModel $course, $teacherIds)
     {
         $courseRepo = new CourseRepo();
 
@@ -351,7 +336,7 @@ class Course extends Service
         }
     }
 
-    protected function saveCategories($course, $categoryIds)
+    protected function saveCategories(CourseModel $course, $categoryIds)
     {
         $courseRepo = new CourseRepo();
 
@@ -391,7 +376,7 @@ class Course extends Service
         }
     }
 
-    protected function saveRelatedCourses($course, $courseIds)
+    protected function saveRelatedCourses(CourseModel $course, $courseIds)
     {
         $courseRepo = new CourseRepo();
 
@@ -452,39 +437,17 @@ class Course extends Service
         }
     }
 
-    protected function getCategoryCourseIds($categoryIds)
-    {
-        if (empty($categoryIds)) return [];
-
-        $courseCategoryRepo = new CourseCategoryRepo();
-
-        $categoryIds = explode(',', $categoryIds);
-
-        $relations = $courseCategoryRepo->findByCategoryIds($categoryIds);
-
-        $result = [];
-
-        if ($relations->count() > 0) {
-            foreach ($relations as $relation) {
-                $result[] = $relation->course_id;
-            }
-        }
-
-        return $result;
-    }
-
     protected function handleCourses($pager)
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new CourseListTransformer();
+            $builder = new CourseListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleCourses($pipeA);
-            $pipeC = $transformer->handleCategories($pipeB);
-            $pipeD = $transformer->arrayToObject($pipeC);
+            $pipeB = $builder->handleCategories($pipeA);
+            $pipeC = $builder->arrayToObject($pipeB);
 
-            $pager->items = $pipeD;
+            $pager->items = $pipeC;
         }
 
         return $pager;

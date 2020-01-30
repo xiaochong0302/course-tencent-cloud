@@ -65,7 +65,7 @@ class CourseController extends Controller
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.course.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.course.edit")
      */
     public function editAction($id)
     {
@@ -83,7 +83,7 @@ class CourseController extends Controller
     }
 
     /**
-     * @Post("/{id}/update", name="admin.course.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.course.update")
      */
     public function updateAction($id)
     {
@@ -97,7 +97,7 @@ class CourseController extends Controller
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.course.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.course.delete")
      */
     public function deleteAction($id)
     {
@@ -114,7 +114,7 @@ class CourseController extends Controller
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.course.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.course.restore")
      */
     public function restoreAction($id)
     {
@@ -131,7 +131,7 @@ class CourseController extends Controller
     }
 
     /**
-     * @Get("/{id}/chapters", name="admin.course.chapters")
+     * @Get("/{id:[0-9]+}/chapters", name="admin.course.chapters")
      */
     public function chaptersAction($id)
     {

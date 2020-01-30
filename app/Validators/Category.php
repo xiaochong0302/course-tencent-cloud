@@ -3,16 +3,15 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Repos\Category as CategoryRepo;
 
 class Category extends Validator
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return \App\Models\Category
-     * @throws NotFoundException
+     * @throws BadRequestException
      */
     public function checkCategory($id)
     {
@@ -21,7 +20,7 @@ class Category extends Validator
         $category = $categoryRepo->findById($id);
 
         if (!$category) {
-            throw new NotFoundException('category.not_found');
+            throw new BadRequestException('category.not_found');
         }
 
         return $category;
@@ -70,13 +69,26 @@ class Category extends Validator
 
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('category.invalid_publish_status');
         }
 
-        return $value;
+        return $status;
+    }
+
+    public function checkDeleteAbility($category)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        $list = $categoryRepo->findAll([
+            'parent_id' => $category->id,
+            'deleted' => 0,
+        ]);
+
+
+        if ($list->count() > 0) {
+            throw new BadRequestException('category.has_child_node');
+        }
     }
 
 }

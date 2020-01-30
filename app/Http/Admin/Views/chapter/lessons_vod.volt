@@ -43,8 +43,8 @@
                 <span><a href="{{ url({'for':'admin.chapter.edit','id':item.id}) }}">{{ item.title }}</a></span>
                 <span class="layui-badge layui-bg-green">课</span>
             </td>
-            <td>{{ file_status(item.attrs.file_status) }}</td>
-            <td>{{ item.attrs.duration|play_duration }}</td>
+            <td>{{ file_status(item.attrs['file_status']) }}</td>
+            <td>{{ item.attrs['duration']|play_duration }}</td>
             <td><input class="layui-input kg-priority-input" type="text" name="priority" value="{{ item.priority }}" chapter-id="{{ item.id }}"></td>
             <td><input type="checkbox" name="free" value="1" lay-skin="switch" lay-text="是|否" lay-filter="switch-free" chapter-id="{{ item.id }}" {% if item.free == 1 %}checked{% endif %}></td>
             <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="switch-published" chapter-id="{{ item.id }}" {% if item.published == 1 %}checked{% endif %}></td>

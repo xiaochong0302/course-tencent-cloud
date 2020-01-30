@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Caches\SlideList as SlideListCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Slide extends Model
@@ -17,7 +18,7 @@ class Slide extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -59,49 +60,49 @@ class Slide extends Model
     /**
      * 优先级
      *
-     * @var integer
+     * @var int
      */
     public $priority;
 
     /**
      * 发布标识
      *
-     * @var integer
+     * @var int
      */
     public $published;
 
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 开始时间
      *
-     * @var integer
+     * @var int
      */
     public $start_time;
 
     /**
      * 结束时间
      *
-     * @var integer
+     * @var int
      */
     public $end_time;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 
@@ -130,6 +131,22 @@ class Slide extends Model
     public function beforeUpdate()
     {
         $this->updated_at = time();
+    }
+
+    public function afterCreate()
+    {
+        $this->rebuildCache();
+    }
+
+    public function afterUpdate()
+    {
+        $this->rebuildCache();
+    }
+
+    public function rebuildCache()
+    {
+        $slideListCache = new SlideListCache();
+        $slideListCache->rebuild();
     }
 
     public static function targets()

@@ -31,7 +31,7 @@ class TradeController extends Controller
     }
 
     /**
-     * @Get("/{id}/show", name="admin.trade.show")
+     * @Get("/{id:[0-9]+}/show", name="admin.trade.show")
      */
     public function showAction($id)
     {
@@ -40,16 +40,18 @@ class TradeController extends Controller
         $trade = $tradeService->getTrade($id);
         $refunds = $tradeService->getRefunds($trade->sn);
         $order = $tradeService->getOrder($trade->order_sn);
+        $account = $tradeService->getAccount($trade->user_id);
         $user = $tradeService->getUser($trade->user_id);
 
         $this->view->setVar('refunds', $refunds);
         $this->view->setVar('trade', $trade);
         $this->view->setVar('order', $order);
+        $this->view->setVar('account', $account);
         $this->view->setVar('user', $user);
     }
 
     /**
-     * @Post("/{id}/close", name="admin.trade.close")
+     * @Post("/{id:[0-9]+}/close", name="admin.trade.close")
      */
     public function closeAction($id)
     {
@@ -68,7 +70,7 @@ class TradeController extends Controller
     }
 
     /**
-     * @Post("/{id}/refund", name="admin.trade.refund")
+     * @Post("/{id:[0-9]+}/refund", name="admin.trade.refund")
      */
     public function refundAction($id)
     {

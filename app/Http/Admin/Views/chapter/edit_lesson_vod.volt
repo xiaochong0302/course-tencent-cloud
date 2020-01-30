@@ -1,4 +1,4 @@
-{% if translated_files %}
+{% if vod_files %}
     <fieldset class="layui-elem-field layui-field-title">
         <legend>视频信息</legend>
     </fieldset>
@@ -11,16 +11,16 @@
             <th>大小</th>
             <th width="16%">操作</th>
         </tr>
-        {% for item in translated_files %}
+        {% for item in vod_files %}
             <tr>
                 <td>{{ item.format }}</td>
-                <td>{{ item.duration }}</td>
+                <td>{{ item.duration|play_duration }}</td>
                 <td>{{ item.width }} x {{ item.height }}</td>
-                <td>{{ item.bit_rate }}kbps</td>
+                <td>{{ item.rate }}kbps</td>
                 <td>{{ item.size }}M</td>
                 <td>
-                    <span class="layui-btn layui-btn-sm kg-preview" course-id="{{ chapter.course_id }}" chapter-id="{{ chapter.id }}" play-url="{{ item.play_url|url_encode }}">预览</span>
-                    <span class="layui-btn layui-btn-sm kg-copy" data-clipboard-text="{{ item.play_url }}">复制</span>
+                    <span class="layui-btn layui-btn-sm kg-preview" course-id="{{ chapter.course_id }}" chapter-id="{{ chapter.id }}" play-url="{{ item.url|url_encode }}">预览</span>
+                    <span class="layui-btn layui-btn-sm kg-copy" data-clipboard-text="{{ item.url }}">复制</span>
                 </td>
             </tr>
         {% endfor %}

@@ -1,5 +1,7 @@
 {
   "require": {
+    "ext-redis": "*",
+    "ext-json": "*",
     "phalcon/incubator": "^3.4",
     "guzzlehttp/guzzle": "^6.3",
     "swiftmailer/swiftmailer": "^6.0",
@@ -14,7 +16,9 @@
     "hightman/xunsearch": "^1.4.14"
   },
   "require-dev": {
-    "odan/phinx-migrations-generator": "^4.6"
+    "odan/phinx-migrations-generator": "^4.6",
+    "phalcon/ide-stubs": "^3.4.3",
+    "jaeger/querylist": "^4.1"
   },
   "repositories": {
     "packagist": {

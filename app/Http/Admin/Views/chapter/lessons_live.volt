@@ -28,9 +28,9 @@
                 <span class="layui-badge layui-bg-green">课</span>
             </td>
             <td>
-                {% if item.attrs.start_time > 0 %}
-                    <p>开始：{{ date('Y-m-d H:i',item.attrs.start_time) }}</p>
-                    <p>结束：{{ date('Y-m-d H:i',item.attrs.end_time) }}</p>
+                {% if item.attrs['start_time'] > 0 %}
+                    <p>开始：{{ date('Y-m-d H:i',item.attrs['start_time']) }}</p>
+                    <p>结束：{{ date('Y-m-d H:i',item.attrs['end_time']) }}</p>
                 {% else %}
                     N/A
                 {% endif %}

@@ -12,28 +12,6 @@ use App\Validators\Chapter as ChapterValidator;
 class Chapter extends Service
 {
 
-    public function getCourse($courseId)
-    {
-        $courseRepo = new CourseRepo();
-
-        $result = $courseRepo->findById($courseId);
-
-        return $result;
-    }
-
-    public function getCourseChapters($courseId)
-    {
-        $chapterRepo = new ChapterRepo();
-
-        $result = $chapterRepo->findAll([
-            'course_id' => $courseId,
-            'parent_id' => 0,
-            'deleted' => 0,
-        ]);
-
-        return $result;
-    }
-
     public function getLessons($parentId)
     {
         $deleted = $this->request->getQuery('deleted', 'int', 0);
@@ -117,7 +95,7 @@ class Chapter extends Service
 
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
-            if ($post['published'] == 1) {
+            if ($chapter->published == 0 && $post['published'] == 1) {
                 $validator->checkPublishAbility($chapter);
             }
         }
@@ -134,17 +112,16 @@ class Chapter extends Service
     {
         $chapter = $this->findOrFail($id);
 
-        if ($chapter->deleted == 1) {
-            return false;
-        }
+        $validator = new ChapterValidator();
+
+        $validator->checkDeleteAbility($chapter);
 
         $chapter->deleted = 1;
 
         $chapter->update();
 
-        if ($chapter->parent_id == 0) {
-            $this->deleteChildChapters($chapter->id);
-        }
+        $this->updateChapterStats($chapter);
+        $this->updateCourseStats($chapter);
 
         return $chapter;
     }
@@ -153,17 +130,9 @@ class Chapter extends Service
     {
         $chapter = $this->findOrFail($id);
 
-        if ($chapter->deleted == 0) {
-            return false;
-        }
-
         $chapter->deleted = 0;
 
         $chapter->update();
-
-        if ($chapter->parent_id == 0) {
-            $this->restoreChildChapters($chapter->id);
-        }
 
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
@@ -171,39 +140,7 @@ class Chapter extends Service
         return $chapter;
     }
 
-    protected function deleteChildChapters($parentId)
-    {
-        $chapterRepo = new ChapterRepo();
-
-        $chapters = $chapterRepo->findAll(['parent_id' => $parentId]);
-
-        if ($chapters->count() == 0) {
-            return;
-        }
-
-        foreach ($chapters as $chapter) {
-            $chapter->deleted = 1;
-            $chapter->update();
-        }
-    }
-
-    protected function restoreChildChapters($parentId)
-    {
-        $chapterRepo = new ChapterRepo();
-
-        $chapters = $chapterRepo->findAll(['parent_id' => $parentId]);
-
-        if ($chapters->count() == 0) {
-            return;
-        }
-
-        foreach ($chapters as $chapter) {
-            $chapter->deleted = 0;
-            $chapter->update();
-        }
-    }
-
-    protected function updateChapterStats($chapter)
+    protected function updateChapterStats(ChapterModel $chapter)
     {
         $chapterRepo = new ChapterRepo();
 
@@ -214,10 +151,9 @@ class Chapter extends Service
         $lessonCount = $chapterRepo->countLessons($chapter->id);
         $chapter->lesson_count = $lessonCount;
         $chapter->update();
-
     }
 
-    protected function updateCourseStats($chapter)
+    protected function updateCourseStats(ChapterModel $chapter)
     {
         $courseRepo = new CourseRepo();
 
@@ -228,11 +164,11 @@ class Chapter extends Service
         $courseStats->updateLessonCount($course->id);
 
         if ($course->model == CourseModel::MODEL_VOD) {
-            $courseStats->updateVodDuration($course->id);
+            $courseStats->updateVodAttrs($course->id);
         } elseif ($course->model == CourseModel::MODEL_LIVE) {
-            $courseStats->updateLiveDateRange($course->id);
-        } elseif ($course->model == CourseModel::MODEL_ARTICLE) {
-            $courseStats->updateArticleWordCount($course->id);
+            $courseStats->updateLiveAttrs($course->id);
+        } elseif ($course->model == CourseModel::MODEL_READ) {
+            $courseStats->updateReadAttrs($course->id);
         }
     }
 

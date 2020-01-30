@@ -9,7 +9,7 @@
         <div class="layui-input-block">
             <select name="parent_id" lay-verify="required">
                 <option value="">选择章节</option>
-                {% for chapter in course_chapters %}
+                {% for chapter in chapters %}
                     <option value="{{ chapter.id }}" {% if parent_id == chapter.id %}selected{% endif %}>{{ chapter.title }}</option>
                 {% endfor %}
             </select>

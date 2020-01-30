@@ -73,7 +73,7 @@ class CloseTradeTask extends Task
     /**
      * 查找待关闭交易
      *
-     * @param integer $limit
+     * @param int $limit
      * @return \Phalcon\Mvc\Model\ResultsetInterface
      */
     protected function findTrades($limit = 5)

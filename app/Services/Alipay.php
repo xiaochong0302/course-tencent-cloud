@@ -23,7 +23,7 @@ class Alipay extends Service
      * 查询订单（扫码生成订单后可执行）
      *
      * @param string $outTradeNo
-     * @return \Yansongda\Supports\Collection
+     * @return \Yansongda\Supports\Collection|bool
      */
     public function findOrder($outTradeNo)
     {
@@ -50,7 +50,7 @@ class Alipay extends Service
      * 撤销订单（未生成订单也可执行）
      *
      * @param string $outTradeNo
-     * @return \Yansongda\Supports\Collection
+     * @return \Yansongda\Supports\Collection|bool
      */
     public function cancelOrder($outTradeNo)
     {
@@ -77,7 +77,7 @@ class Alipay extends Service
      * 关闭订单（扫码生成订单后可执行）
      *
      * @param string $outTradeNo
-     * @return \Yansongda\Supports\Collection
+     * @return \Yansongda\Supports\Collection|bool
      */
     public function closeOrder($outTradeNo)
     {
@@ -111,7 +111,7 @@ class Alipay extends Service
      * </code>
      *
      * @param array $order
-     * @return bool|mixed
+     * @return \Yansongda\Supports\Collection|bool
      */
     public function refundOrder($order)
     {
@@ -184,7 +184,7 @@ class Alipay extends Service
             return false;
         }
 
-        if ($data->app_id != $this->config->app_id) {
+        if ($data->app_id != $this->config['app_id']) {
             return false;
         }
 
@@ -192,7 +192,9 @@ class Alipay extends Service
 
         $trade = $tradeRepo->findBySn($data->out_trade_no);
 
-        if (!$trade) return false;
+        if (!$trade) {
+            return false;
+        }
 
         if ($data->total_amount != $trade->amount) {
             return false;
@@ -217,10 +219,10 @@ class Alipay extends Service
     public function getGateway()
     {
         $config = [
-            'app_id' => $this->config->app_id,
-            'ali_public_key' => $this->config->public_key,
-            'private_key' => $this->config->private_key,
-            'notify_url' => $this->config->notify_url,
+            'app_id' => $this->config['app_id'],
+            'ali_public_key' => $this->config['public_key'],
+            'private_key' => $this->config['private_key'],
+            'notify_url' => $this->config['notify_url'],
             'log' => [
                 'file' => log_path('alipay.log'),
                 'level' => 'debug',

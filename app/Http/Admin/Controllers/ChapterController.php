@@ -15,19 +15,19 @@ class ChapterController extends Controller
 {
 
     /**
-     * @Get("/{id}/lessons", name="admin.chapter.lessons")
+     * @Get("/{id:[0-9]+}/lessons", name="admin.chapter.lessons")
      */
     public function lessonsAction($id)
     {
-        $chapterService = new ChapterService();
         $courseService = new CourseService();
+        $chapterService = new ChapterService();
 
         $chapter = $chapterService->getChapter($id);
-        $course = $courseService->getCourse($chapter->course_id);
         $lessons = $chapterService->getLessons($chapter->id);
+        $course = $courseService->getCourse($chapter->course_id);
 
-        $this->view->setVar('lessons', $lessons);
         $this->view->setVar('chapter', $chapter);
+        $this->view->setVar('lessons', $lessons);
         $this->view->setVar('course', $course);
     }
 
@@ -40,14 +40,14 @@ class ChapterController extends Controller
         $parentId = $this->request->getQuery('parent_id');
         $type = $this->request->getQuery('type');
 
-        $chapterService = new ChapterService();
+        $courseService = new CourseService();
 
-        $course = $chapterService->getCourse($courseId);
-        $courseChapters = $chapterService->getCourseChapters($courseId);
+        $course = $courseService->getCourse($courseId);
+        $chapters = $courseService->getChapters($courseId);
 
         $this->view->setVar('course', $course);
         $this->view->setVar('parent_id', $parentId);
-        $this->view->setVar('course_chapters', $courseChapters);
+        $this->view->setVar('chapters', $chapters);
 
         if ($type == 'chapter') {
             $this->view->pick('chapter/add_chapter');
@@ -61,9 +61,9 @@ class ChapterController extends Controller
      */
     public function createAction()
     {
-        $service = new ChapterService();
+        $chapterService = new ChapterService();
 
-        $chapter = $service->createChapter();
+        $chapter = $chapterService->createChapter();
 
         $location = $this->url->get([
             'for' => 'admin.course.chapters',
@@ -79,54 +79,57 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.chapter.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.chapter.edit")
      */
     public function editAction($id)
     {
         $contentService = new ChapterContentService();
         $chapterService = new ChapterService();
+        $courseService = new CourseService();
         $configService = new ConfigService();
 
         $chapter = $chapterService->getChapter($id);
-        $course = $chapterService->getCourse($chapter->course_id);
+        $course = $courseService->getCourse($chapter->course_id);
         $storage = $configService->getSectionConfig('storage');
-
-        switch ($course->model) {
-            case CourseModel::MODEL_VOD:
-                $vod = $contentService->getChapterVod($chapter->id);
-                $translatedFiles = $contentService->getTranslatedFiles($vod->file_id);
-                $this->view->setVar('vod', $vod);
-                $this->view->setVar('translated_files', $translatedFiles);
-                break;
-            case CourseModel::MODEL_LIVE:
-                $live = $contentService->getChapterLive($chapter->id);
-                $this->view->setVar('live', $live);
-                break;
-            case CourseModel::MODEL_ARTICLE:
-                $article = $contentService->getChapterArticle($chapter->id);
-                $this->view->setVar('article', $article);
-                break;
-        }
 
         $this->view->setVar('storage', $storage);
         $this->view->setVar('chapter', $chapter);
         $this->view->setVar('course', $course);
 
         if ($chapter->parent_id > 0) {
+
+            switch ($course->model) {
+                case CourseModel::MODEL_VOD:
+                    $vod = $contentService->getChapterVod($chapter->id);
+                    $vodFiles = $contentService->getVodFiles($chapter->id);
+                    $this->view->setVar('vod', $vod);
+                    $this->view->setVar('vod_files', $vodFiles);
+                    break;
+                case CourseModel::MODEL_LIVE:
+                    $live = $contentService->getChapterLive($chapter->id);
+                    $this->view->setVar('live', $live);
+                    break;
+                case CourseModel::MODEL_READ:
+                    $read = $contentService->getChapterRead($chapter->id);
+                    $this->view->setVar('read', $read);
+                    break;
+            }
+
             $this->view->pick('chapter/edit_lesson');
+
         } else {
             $this->view->pick('chapter/edit_chapter');
         }
     }
 
     /**
-     * @Post("/{id}/update", name="admin.chapter.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.chapter.update")
      */
     public function updateAction($id)
     {
-        $service = new ChapterService();
+        $chapterService = new ChapterService();
 
-        $chapter = $service->updateChapter($id);
+        $chapter = $chapterService->updateChapter($id);
 
         if ($chapter->parent_id > 0) {
             $location = $this->url->get([
@@ -149,13 +152,13 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.chapter.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.chapter.delete")
      */
     public function deleteAction($id)
     {
-        $service = new ChapterService();
+        $chapterService = new ChapterService();
 
-        $service->deleteChapter($id);
+        $chapterService->deleteChapter($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -168,13 +171,13 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.chapter.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.chapter.restore")
      */
     public function restoreAction($id)
     {
-        $service = new ChapterService();
+        $chapterService = new ChapterService();
 
-        $service->restoreChapter($id);
+        $chapterService->restoreChapter($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -187,7 +190,7 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Post("/{id}/content", name="admin.chapter.content")
+     * @Post("/{id:[0-9]+}/content", name="admin.chapter.content")
      */
     public function contentAction($id)
     {

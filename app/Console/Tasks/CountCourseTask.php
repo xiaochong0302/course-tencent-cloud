@@ -10,15 +10,15 @@ class CountCourseTask extends Task
 
     public function mainAction()
     {
-        $repo = new CategoryRepo();
+        $categoryRepo = new CategoryRepo();
 
         $mapping = [];
 
-        $subCategories = $repo->findAll(['level' => 2, 'deleted' => 0]);
+        $subCategories = $categoryRepo->findAll(['level' => 2, 'deleted' => 0]);
 
         foreach ($subCategories as $category) {
 
-            $courseCount = $repo->countCourses($category->id);
+            $courseCount = $categoryRepo->countCourses($category->id);
             $category->course_count = $courseCount;
             $category->update();
 
@@ -31,7 +31,7 @@ class CountCourseTask extends Task
             }
         }
 
-        $topCategories = $repo->findAll(['level' => 1, 'deleted' => 0]);
+        $topCategories = $categoryRepo->findAll(['level' => 1, 'deleted' => 0]);
 
         foreach ($topCategories as $category) {
             if (isset($mapping[$category->id])) {

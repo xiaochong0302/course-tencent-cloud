@@ -6,6 +6,14 @@
     {% endif %}
 {%- endmacro %}
 
+{%- macro last_active(created_at, updated_at) %}
+    {% if updated_at > 0 %}
+        {{ date('Y-m-d H:i:s', updated_at) }}
+    {% else %}
+        {{ date('Y-m-d H:i:s', created_at) }}
+    {% endif %}
+{%- endmacro %}
+
 <table class="kg-table layui-table layui-form">
     <colgroup>
         <col>
@@ -18,9 +26,9 @@
     <tr>
         <th>课时信息</th>
         <th>学习时长</th>
-        <th>客户端类型</th>
-        <th>客户端地址</th>
-        <th>创建时间</th>
+        <th>终端类型</th>
+        <th>终端地址</th>
+        <th>最后活跃</th>
     </tr>
     </thead>
     <tbody>
@@ -32,8 +40,8 @@
             </td>
             <td>{{ item.duration|play_duration }}</td>
             <td>{{ client_type(item.client_type) }}</td>
-            <td><a class="kg-ip2region" href="javascript:" title="查看位置" ip="{{ item.client_ip }}">{{ item.client_ip }}</a></td>
-            <td>{{ date('Y-m-d H:i',item.created_at) }}</td>
+            <td><a class="kg-ip2region" href="javascript:;" title="查看位置" ip="{{ item.client_ip }}">{{ item.client_ip }}</a></td>
+            <td>{{ last_active(item.created_at, item.updated_at) }}</td>
         </tr>
     {% endfor %}
     </tbody>

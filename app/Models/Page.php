@@ -10,7 +10,7 @@ class Page extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -31,21 +31,21 @@ class Page extends Model
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 

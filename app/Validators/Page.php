@@ -3,16 +3,15 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Repos\Page as PageRepo;
 
 class Page extends Validator
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return \App\Models\Page
-     * @throws NotFoundException
+     * @throws BadRequestException
      */
     public function checkPage($id)
     {
@@ -21,7 +20,7 @@ class Page extends Validator
         $page = $pageRepo->findById($id);
 
         if (!$page) {
-            throw new NotFoundException('page.not_found');
+            throw new BadRequestException('page.not_found');
         }
 
         return $page;
@@ -63,13 +62,11 @@ class Page extends Validator
 
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('page.invalid_publish_status');
         }
 
-        return $value;
+        return $status;
     }
 
 }

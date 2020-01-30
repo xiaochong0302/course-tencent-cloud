@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
 use App\Models\Package as PackageModel;
+use App\Models\User as UserModel;
 use App\Repos\Package as PackageRepo;
 
 class Order extends Service
@@ -14,12 +15,11 @@ class Order extends Service
      * 创建课程订单
      *
      * @param CourseModel $course
+     * @param UserModel $user
      * @return OrderModel $order
      */
-    public function createCourseOrder(CourseModel $course)
+    public function createCourseOrder(CourseModel $course, UserModel $user)
     {
-        $authUser = $this->getDI()->get('auth')->getAuthUser();
-
         $expiry = $course->expiry;
         $expireTime = strtotime("+{$expiry} days");
 
@@ -35,11 +35,11 @@ class Order extends Service
             ]
         ];
 
-        $amount = $authUser->vip ? $course->vip_price : $course->market_price;
+        $amount = $user->vip ? $course->vip_price : $course->market_price;
 
         $order = new OrderModel();
 
-        $order->user_id = $authUser->id;
+        $order->user_id = $user->id;
         $order->item_id = $course->id;
         $order->item_type = OrderModel::TYPE_COURSE;
         $order->item_info = $itemInfo;
@@ -54,12 +54,11 @@ class Order extends Service
      * 创建套餐订单
      *
      * @param PackageModel $package
+     * @param UserModel $user
      * @return OrderModel $order
      */
-    public function createPackageOrder(PackageModel $package)
+    public function createPackageOrder(PackageModel $package, UserModel $user)
     {
-        $authUser = $this->getDI()->get('auth')->getAuthUser();
-
         $packageRepo = new PackageRepo();
 
         $courses = $packageRepo->findCourses($package->id);
@@ -87,11 +86,11 @@ class Order extends Service
             ];
         }
 
-        $amount = $authUser->vip ? $package->vip_price : $package->market_price;
+        $amount = $user->vip ? $package->vip_price : $package->market_price;
 
         $order = new OrderModel();
 
-        $order->user_id = $authUser->id;
+        $order->user_id = $user->id;
         $order->item_id = $package->id;
         $order->item_type = OrderModel::TYPE_PACKAGE;
         $order->item_info = $itemInfo;
@@ -106,13 +105,12 @@ class Order extends Service
      * 创建赞赏订单
      *
      * @param CourseModel $course
+     * @param UserModel $user
      * @param float $amount
      * @return OrderModel $order
      */
-    public function createRewardOrder(CourseModel $course, $amount)
+    public function createRewardOrder(CourseModel $course, UserModel $user, $amount)
     {
-        $authUser = $this->getDI()->get('auth')->getAuthUser();
-
         $itemInfo = [
             'course' => [
                 'id' => $course->id,
@@ -123,7 +121,7 @@ class Order extends Service
 
         $order = new OrderModel();
 
-        $order->user_id = $authUser->id;
+        $order->user_id = $user->id;
         $order->item_id = $course->id;
         $order->item_type = OrderModel::TYPE_REWARD;
         $order->item_info = $itemInfo;
@@ -137,13 +135,12 @@ class Order extends Service
     /**
      * 创建会员服务订单
      *
+     * @param UserModel $user
      * @param string $duration
      * @return OrderModel
      */
-    public function createVipOrder($duration)
+    public function createVipOrder(UserModel $user, $duration)
     {
-        $authUser = $this->getDI()->get('auth')->getAuthUser();
-
         $vipInfo = new VipInfo();
 
         $vipItem = $vipInfo->getItem($duration);
@@ -158,7 +155,7 @@ class Order extends Service
 
         $order = new OrderModel();
 
-        $order->user_id = $authUser->id;
+        $order->user_id = $user->id;
         $order->item_type = OrderModel::TYPE_VIP;
         $order->item_info = $itemInfo;
         $order->amount = $vipItem['price'];

@@ -20,15 +20,13 @@
         <col>
         <col>
         <col>
-        <col>
         <col width="10%">
     </colgroup>
     <thead>
     <tr>
         <th>基本信息</th>
         <th>学习情况</th>
-        <th>加入时间</th>
-        <th>过期时间</th>
+        <th>有效期限</th>
         <th>锁定</th>
         <th>操作</th>
     </tr>
@@ -48,8 +46,7 @@
                 </div>
                 <p>时长：{{ item.duration|total_duration }}</p>
             </td>
-            <td>{{ date('Y-m-d',item.created_at) }}</td>
-            <td>{{ date('Y-m-d',item.expire_time) }}</td>
+            <td>{{ date('Y-m-d H:i',item.expire_time) }}</td>
             <td><input type="checkbox" name="locked" value="1" lay-filter="switch-locked" lay-skin="switch" lay-text="是|否" course-id="{{ item.course_id }}" user-id="{{ item.user_id }}" {% if item.locked == 1 %}checked{% endif %}></td>
             <td align="center">
                 <div class="layui-dropdown">

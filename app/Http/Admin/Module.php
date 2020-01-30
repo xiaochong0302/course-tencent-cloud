@@ -17,7 +17,7 @@ class Module implements ModuleDefinitionInterface
 
     public function registerServices(DiInterface $di)
     {
-        $di->set('view', function () {
+        $di->setShared('view', function () {
             $view = new View();
             $view->setViewsDir(__DIR__ . '/Views');
             $view->registerEngines([

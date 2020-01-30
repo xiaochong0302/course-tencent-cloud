@@ -3,7 +3,6 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Library\Validator\Common as CommonValidator;
 use App\Models\Course as CourseModel;
 use App\Models\Page as PageModel;
@@ -14,9 +13,9 @@ class Slide extends Validator
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return \App\Models\Slide
-     * @throws NotFoundException
+     * @throws BadRequestException
      */
     public function checkSlide($id)
     {
@@ -25,7 +24,7 @@ class Slide extends Validator
         $slide = $slideRepo->findById($id);
 
         if (!$slide) {
-            throw new NotFoundException('slide.not_found');
+            throw new BadRequestException('slide.not_found');
         }
 
         return $slide;
@@ -70,9 +69,9 @@ class Slide extends Validator
 
     public function checkTarget($target)
     {
-        $targets = array_keys(SlideModel::targets());
+        $list = SlideModel::targets();
 
-        if (!in_array($target, $targets)) {
+        if (!isset($list[$target])) {
             throw new BadRequestException('slide.invalid_target');
         }
 
@@ -117,18 +116,16 @@ class Slide extends Validator
 
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('slide.invalid_publish_status');
         }
 
-        return $value;
+        return $status;
     }
 
     public function checkCourse($courseId)
     {
-        $course = CourseModel::findFirstById($courseId);
+        $course = CourseModel::findFirst($courseId);
 
         if (!$course || $course->deleted == 1) {
             throw new BadRequestException('slide.course_not_found');
@@ -143,7 +140,7 @@ class Slide extends Validator
 
     public function checkPage($pageId)
     {
-        $page = PageModel::findFirstById($pageId);
+        $page = PageModel::findFirst($pageId);
 
         if (!$page || $page->deleted == 1) {
             throw new BadRequestException('slide.page_not_found');

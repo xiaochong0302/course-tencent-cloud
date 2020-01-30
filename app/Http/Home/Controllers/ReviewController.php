@@ -25,7 +25,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Get("/{id}", name="home.review.show")
+     * @Get("/{id:[0-9]+}", name="home.review.show")
      */
     public function showAction($id)
     {
@@ -37,7 +37,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Post("/{id}/update", name="home.review.update")
+     * @Post("/{id:[0-9]+}/update", name="home.review.update")
      */
     public function updateAction($id)
     {
@@ -51,7 +51,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Post("/{id}/delete", name="home.review.delete")
+     * @Post("/{id:[0-9]+}/delete", name="home.review.delete")
      */
     public function deleteAction($id)
     {
@@ -63,7 +63,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Post("/{id}/agree", name="home.review.agree")
+     * @Post("/{id:[0-9]+}/agree", name="home.review.agree")
      */
     public function agreeAction($id)
     {
@@ -75,7 +75,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Post("/{id}/oppose", name="home.review.oppose")
+     * @Post("/{id:[0-9]+}/oppose", name="home.review.oppose")
      */
     public function opposeAction($id)
     {
@@ -87,7 +87,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Post("/{id}/reply", name="home.review.reply")
+     * @Post("/{id:[0-9]+}/reply", name="home.review.reply")
      */
     public function replyAction($id)
     {

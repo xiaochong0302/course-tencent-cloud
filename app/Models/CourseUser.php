@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Caches\CourseUser as CourseUserCache;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
 class CourseUser extends Model
 {
 
@@ -22,21 +25,21 @@ class CourseUser extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 课程编号
      *
-     * @var integer
+     * @var int
      */
     public $course_id;
 
     /**
      * 用户编号
      *
-     * @var integer
+     * @var int
      */
     public $user_id;
 
@@ -57,62 +60,67 @@ class CourseUser extends Model
     /**
      * 过期时间
      *
-     * @var integer
+     * @var int
      */
     public $expire_time;
 
     /**
      * 学习时长
      *
-     * @var integer
+     * @var int
      */
     public $duration;
 
     /**
      * 学习进度
      *
-     * @var integer
+     * @var int
      */
     public $progress;
 
     /**
-     * 评价标识
-     *
-     * @var integer
-     */
-    public $reviewed;
-
-    /**
      * 锁定标识
      *
-     * @var integer
+     * @var int
      */
     public $locked;
 
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 
     public function getSource()
     {
         return 'course_user';
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->addBehavior(
+            new SoftDelete([
+                'field' => 'deleted',
+                'value' => 1,
+            ])
+        );
     }
 
     public function beforeCreate()
@@ -123,6 +131,25 @@ class CourseUser extends Model
     public function beforeUpdate()
     {
         $this->updated_at = time();
+    }
+
+    public function afterCreate()
+    {
+        $this->rebuildCache();
+    }
+
+    public function afterUpdate()
+    {
+        $this->rebuildCache();
+    }
+
+    public function rebuildCache()
+    {
+        $key = "{$this->course_id}_{$this->user_id}";
+
+        $courseUserCache = new CourseUserCache();
+
+        $courseUserCache->rebuild($key);
     }
 
     public static function roles()

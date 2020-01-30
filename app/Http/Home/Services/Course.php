@@ -2,101 +2,74 @@
 
 namespace App\Http\Home\Services;
 
-use App\Exceptions\BadRequest as BadRequestException;
+use App\Builders\ChapterList as ChapterTreeBuilder;
+use App\Builders\CourseList as CourseListBuilder;
+use App\Builders\ReviewList as ReviewListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\Comment as CommentModel;
-use App\Models\Consult as ConsultModel;
-use App\Models\Course as CourseModel;
+use App\Models\CourseFavorite as FavoriteModel;
 use App\Models\Review as ReviewModel;
-use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
-use App\Repos\CourseFavorite as CourseFavoriteRepo;
-use App\Repos\CourseStudent as CourseUserRepo;
+use App\Repos\CourseFavorite as FavoriteRepo;
+use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Review as ReviewRepo;
-use App\Repos\User as UserRepo;
-use App\Transformers\ChapterList as ChapterListTransformer;
-use App\Transformers\CommentList as CommentListTransformer;
-use App\Transformers\ConsultList as ConsultListTransformer;
-use App\Transformers\CourseUserList as CourseUserListTransformer;
-use App\Transformers\ReviewList as ReviewListTransformer;
+use App\Validators\Course as CourseValidator;
+use App\Validators\Review as ReviewValidator;
 
 class Course extends Service
 {
 
-    public function getCategoryPaths($categoryId)
+    public function getCourses()
     {
-        $categoryRepo = new CategoryRepo();
+        $pagerQuery = new PagerQuery();
 
-        $category = $categoryRepo->findById($categoryId);
+        $params = $pagerQuery->getParams();
 
-        $ids = explode(',', trim($category->path, ','));
-
-        $categories = $categoryRepo->findByIds($ids, ['id', 'name']);
-
-        $paths = [];
-
-        foreach ($categories as $category) {
-            $paths[] = $category->name;
+        if (!empty($params['category_id'])) {
+            $params['category_id'] = $this->getChildCategoryIds($params['category_id']);
         }
 
-        return implode(' > ', $paths);
+        $params['published'] = 1;
+        $params['deleted'] = 0;
+
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
+
+        $courseRepo = new CourseRepo();
+        $pager = $courseRepo->paginate($params, $sort, $page, $limit);
+
+        return $this->handleCourses($pager);
     }
 
     public function getCourse($id)
     {
-        $course = $this->findOrFail($id);
+        $course = $this->checkCourseCache($id);
 
         $user = $this->getCurrentUser();
 
-        return $this->handleCourse($user, $course);
+        return $this->handleCourse($course, $user);
     }
 
     public function getChapters($id)
     {
-        $course = $this->findOrFail($id);
+        $course = $this->checkCourseCache($id);
 
         $user = $this->getCurrentUser();
 
         $courseRepo = new CourseRepo();
 
-        $topChapters = $courseRepo->findTopChapters($course->id);
+        $chapters = $courseRepo->findChapters($course->id);
 
-        $subChapters = $courseRepo->findSubChapters($course->id, $course->model);
-
-        $myChapters = null;
-
-        if ($user->id > 0) {
-            $myChapters = $courseRepo->findUserChapters($user->id, $course->id);
+        if ($chapters->count() == 0) {
+            return [];
         }
 
-        return $this->handleChapters($topChapters, $subChapters, $myChapters);
-    }
-
-    public function getConsults($id)
-    {
-        $course = $this->findOrFail($id);
-
-        $pagerQuery = new PagerQuery();
-
-        $sort = $pagerQuery->getSort();
-        $page = $pagerQuery->getPage();
-        $limit = $pagerQuery->getLimit();
-
-        $where = [
-            'course_id' => $course->id,
-            'status' => ConsultModel::STATUS_NORMAL,
-        ];
-
-        $consultRepo = new ConsultRepo();
-
-        $pager = $consultRepo->paginate($where, $sort, $page, $limit);
-
-        return $this->handleConsults($pager);
+        return $this->handleChapters($chapters, $course, $user);
     }
 
     public function getReviews($id)
     {
-        $course = $this->findOrFail($id);
+        $course = $this->checkCourseCache($id);
 
         $pagerQuery = new PagerQuery();
 
@@ -106,7 +79,8 @@ class Course extends Service
 
         $where = [
             'course_id' => $course->id,
-            'status' => ReviewModel::STATUS_NORMAL,
+            'published' => 1,
+            'deleted' => 0,
         ];
 
         $reviewRepo = new ReviewRepo();
@@ -116,139 +90,124 @@ class Course extends Service
         return $this->handleReviews($pager);
     }
 
-    public function getComments($id)
+    public function reviewCourse($id)
     {
-        $course = $this->findOrFail($id);
+        $post = $this->request->getPost();
 
-        $pagerQuery = new PagerQuery();
+        $course = $this->checkCourse($id);
 
-        $sort = $pagerQuery->getSort();
-        $page = $pagerQuery->getPage();
-        $limit = $pagerQuery->getLimit();
+        $user = $this->getLoginUser();
 
-        $where = [
-            'course_id' => $course->id,
-            'status' => CommentModel::STATUS_NORMAL,
-        ];
+        $validator = new ReviewValidator();
 
-        $commentRepo = new CommentRepo();
+        $rating = $validator->checkRating($post['rating']);
+        $content = $validator->checkContent($post['content']);
 
-        $pager = $commentRepo->paginate($where, $sort, $page, $limit);
+        $reviewRepo = new ReviewRepo();
 
-        return $this->handleComments($pager);
-    }
+        $review = $reviewRepo->findReview($course->id, $user->id);
 
-    public function getUsers($id)
-    {
-        $course = $this->findOrFail($id);
+        if (!$review) {
+            $review = new ReviewModel();
+            $review->course_id = $course->id;
+            $review->user_id = $user->id;
+            $review->rating = $rating;
+            $review->content = $content;
+            $review->create();
 
-        $pagerQuery = new PagerQuery();
-
-        $sort = $pagerQuery->getSort();
-        $page = $pagerQuery->getPage();
-        $limit = $pagerQuery->getLimit();
-
-        $where = ['course_id' => $course->id];
-
-        $courseUserRepo = new CourseUserRepo();
-
-        $pager = $courseUserRepo->paginate($where, $sort, $page, $limit);
-
-        return $this->handleUsers($pager);
-    }
-
-    public function favorite($id)
-    {
-        $course = $this->findOrFail($id);
-
-        $user = $this->getLoggedUser();
-
-        $favoriteRepo = new CourseFavoriteRepo();
-
-        $favorite = $favoriteRepo->find($user->id, $course->id);
-
-        if ($favorite) {
-            throw new BadRequestException('course.favorite_existed');
+            $course->review_count += 1;
+            $course->update();
+        } else {
+            $review->rating = $rating;
+            $review->content = $content;
+            $review->update();
         }
-
-        $favoriteRepo->create($user->id, $course->id);
-
-        $course->favorite_count += 1;
-        $course->update();
     }
 
-    public function undoFavorite($id)
+    public function favoriteCourse($id)
     {
-        $course = $this->findOrFail($id);
+        $course = $this->checkCourse($id);
 
-        $user = $this->getLoggedUser();
+        $user = $this->getLoginUser();
 
-        $favoriteRepo = new CourseFavoriteRepo();
+        $favoriteRepo = new FavoriteRepo();
 
-        $favorite = $favoriteRepo->find($user->id, $course->id);
+        $favorite = $favoriteRepo->findFavorite($course->id, $user->id);
 
         if (!$favorite) {
-            throw new BadRequestException('course.favorite_not_existed');
-        }
 
-        $favorite->delete();
+            $favorite = new FavoriteModel();
+            $favorite->course_id = $course->id;
+            $favorite->user_id = $user->id;
+            $favorite->create();
 
-        $course->favorite_count -= 1;
-        $course->update();
-    }
+            $course->favorite_count += 1;
+            $course->update();
 
-    public function apply($id)
-    {
-        $course = $this->findOrFail($id);
+        } else {
 
-        $user = $this->getLoggedUser();
+            if ($favorite->deleted == 0) {
+                $favorite->deleted = 1;
+                $course->favorite_count -= 1;
+            } else {
+                $favorite->deleted = 0;
+                $course->favorite_count += 1;
+            }
 
-        if ($course->status != CourseModel::STATUS_APPROVED) {
-            throw new BadRequestException('course.apply_unpublished_course');
-        }
-
-        if ($course->price > 0) {
-            throw new BadRequestException('course.apply_priced_course');
-        }
-
-        $courseUserRepo = new CourseUserRepo();
-
-        $courseUser = $courseUserRepo->find($user->id, $course->id);
-
-        $expired = $courseUser->expire_time < time();
-
-        if ($courseUser && !$expired) {
-            throw new BadRequestException('course.has_applied');
-        }
-
-        $expireTime = time() + 86400 * $course->expiry;
-
-        $courseUserRepo->create([
-            'user_id' => $user->id,
-            'course_id' => $course->id,
-            'expire_time' => $expireTime,
-        ]);
-
-        if (!$courseUser) {
-            $course->user_count += 1;
+            $favorite->update();
             $course->update();
         }
     }
 
-    private function findOrFail($id)
+    protected function checkCourse($id)
     {
-        $repo = new CourseRepo();
+        $validator = new CourseValidator();
 
-        $result = $repo->findOrFail($id);
+        $course = $validator->checkCourse($id);
 
-        return $result;
+        return $course;
     }
 
-    private function handleConsults($pager)
+    protected function checkCourseCache($id)
+    {
+        $validator = new CourseValidator();
+
+        $course = $validator->checkCourseCache($id);
+
+        return $course;
+    }
+
+    protected function getChildCategoryIds($id)
+    {
+        $categoryService = new \App\Services\Category();
+
+        $childIds = $categoryService->getChildIds($id);
+
+        return $childIds;
+    }
+
+    protected function handleCourses($pager)
     {
         if ($pager->total_items > 0) {
 
-            $builder = new ConsultListTransformer();
+            $builder = new CourseListBuilder();
+
+            $pipeA = $pager->items->toArray();
+            $pipeB = $builder->handleCourses($pipeA);
+            $pipeC = $builder->handleCategories($pipeB);
+            $pipeD = $builder->arrayToObject($pipeC);
+
+            $pager->items = $pipeD;
+        }
+
+        return $pager;
+    }
+
+    protected function handleReviews($pager)
+    {
+        if ($pager->total_items > 0) {
+
+            $builder = new ReviewListBuilder();
 
             $pipeA = $pager->items->toArray();
 
@@ -262,113 +221,77 @@ class Course extends Service
         return $pager;
     }
 
-    private function handleReviews($pager)
-    {
-        if ($pager->total_items > 0) {
-
-            $builder = new ReviewListTransformer();
-
-            $pipeA = $pager->items->toArray();
-
-            $pipeB = $builder->handleUsers($pipeA);
-
-            $pipeC = $builder->arrayToObject($pipeB);
-
-            $pager->items = $pipeC;
-        }
-
-        return $pager;
-    }
-
-    private function handleComments($pager)
-    {
-        if ($pager->total_items > 0) {
-
-            $builder = new CommentListTransformer();
-
-            $pipeA = $pager->items->toArray();
-
-            $pipeB = $builder->handleUsers($pipeA);
-
-            $pipeC = $builder->arrayToObject($pipeB);
-
-            $pager->items = $pipeC;
-        }
-
-        return $pager;
-    }
-
-    private function handleUsers($pager)
-    {
-        if ($pager->total_items > 0) {
-
-            $builder = new CourseUserListTransformer();
-
-            $pipeA = $pager->items->toArray();
-
-            $pipeB = $builder->handleUsers($pipeA);
-
-            $pipeC = $builder->arrayToObject($pipeB);
-
-            $pager->items = $pipeC;
-        }
-
-        return $pager;
-    }
-
-    private function handleCourse($user, $course)
+    /**
+     * @param \App\Models\Course $course
+     * @param \App\Models\User $user
+     * @return object
+     */
+    protected function handleCourse($course, $user)
     {
         $result = $course->toArray();
 
-        $userRepo = new UserRepo();
+        $me = [
+            'reviewed' => 0,
+            'favorited' => 0,
+            'bought' => 0,
+            'progress' => 0,
+        ];
 
-        $user = $userRepo->findShallowUser($course->user_id);
+        if (!empty($user->id)) {
 
-        $result['user'] = $user->toArray();
+            $favoriteRepo = new FavoriteRepo();
 
-        $result['me']['favorited'] = 0;
-        $result['me']['bought'] = 0;
+            $favorite = $favoriteRepo->findFavorite($course->id, $user->id);
 
-        if ($user->id > 0) {
+            if ($favorite && $favorite->deleted == 0) {
+                $me['favorited'] = 1;
+            }
 
-            $cfRepo = new CourseFavoriteRepo();
+            $courseUserRepo = new CourseUserRepo();
 
-            $favorite = $cfRepo->find($user->id, $course->id);
+            $courseUser = $courseUserRepo->findCourseUser($course->id, $user->id);
 
-            $result['me']['favorited'] = $favorite ? 1 : 0;
-
-            $csRepo = new CourseUserRepo();
-
-            $cs = $csRepo->find($user->id, $course->id);
-
-            if ($cs && $cs->expire_time < time()) {
-                $result['me']['bought'] = 1;
-                $result['me']['finish_count'] = $cs->finish_count;
+            if ($courseUser) {
+                $me['reviewed'] = $courseUser->reviewed;
+                $me['progress'] = $courseUser->progress;
+                if ($courseUser->expire_time < time()) {
+                    $me['bought'] = 1;
+                }
             }
         }
 
-        return $result;
+        $result['me'] = $me;
+
+        return kg_array_object($result);
     }
 
-    private function handleChapters($topChapters, $subChapters, $myChapters)
+    /**
+     * @param array $chapters
+     * @param \App\Models\Course $course
+     * @param \App\Models\User $user
+     * @return object
+     */
+    protected function handleChapters($chapters, $course, $user)
     {
-        $chapters = array_merge($topChapters->toArray(), $subChapters->toArray());
+        $chapterList = $chapters->toArray();
 
-        $studyHistory = [];
+        $studyList = [];
 
-        if ($myChapters) {
-            $studyHistory = $myChapters->toArray();
+        if (!empty($user->id)) {
+            $courseRepo = new CourseRepo();
+            $userChapters = $courseRepo->findUserChapters($course->id, $user->id);
+            $studyList = $userChapters->toArray();
         }
 
-        $builder = new ChapterListTransformer();
+        $builder = new ChapterTreeBuilder();
 
-        $stepA = $builder->handleProcess($chapters, $studyHistory);
+        $stepA = $builder->handleProcess($chapterList, $studyList);
 
         $stepB = $builder->handleTree($stepA);
 
-        $result = $builder->arrayToObject($stepB);
+        $stepC = $builder->arrayToObject($stepB);
 
-        return $result;
+        return $stepC;
     }
 
 }

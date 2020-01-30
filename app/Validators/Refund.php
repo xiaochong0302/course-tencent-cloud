@@ -3,7 +3,6 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Models\Refund as RefundModel;
 use App\Repos\Refund as RefundRepo;
 
@@ -11,9 +10,9 @@ class Refund extends Validator
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return \App\Models\Refund
-     * @throws NotFoundException
+     * @throws BadRequestException
      */
     public function checkRefund($id)
     {
@@ -22,7 +21,7 @@ class Refund extends Validator
         $trade = $tradeRepo->findById($id);
 
         if (!$trade) {
-            throw new NotFoundException('refund.not_found');
+            throw new BadRequestException('refund.not_found');
         }
 
         return $trade;

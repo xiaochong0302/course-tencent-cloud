@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Events\Manager as PhalconEventsManager;
 
-class EventsManager extends AbstractProvider
+class EventsManager extends Provider
 {
 
     protected $serviceName = 'eventsManager';

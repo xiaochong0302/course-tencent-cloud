@@ -34,7 +34,7 @@ class Order extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -62,7 +62,7 @@ class Order extends Model
     /**
      * 用户编号
      *
-     * @var integer
+     * @var int
      */
     public $user_id;
 
@@ -111,21 +111,21 @@ class Order extends Model
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 
@@ -154,7 +154,7 @@ class Order extends Model
 
         $this->created_at = time();
 
-        if (is_array($this->item_info) && !empty($this->item_info)) {
+        if (!empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
     }
@@ -170,8 +170,10 @@ class Order extends Model
 
     public function afterFetch()
     {
+        $this->amount = (float)$this->amount;
+
         if (!empty($this->item_info)) {
-            $this->item_info = json_decode($this->item_info);
+            $this->item_info = json_decode($this->item_info, true);
         }
     }
 

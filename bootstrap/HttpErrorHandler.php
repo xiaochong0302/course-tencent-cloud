@@ -12,6 +12,9 @@ use Phalcon\Text;
 class HttpErrorHandler extends UserComponent
 {
 
+    /**
+     * @var \Phalcon\Logger\Adapter
+     */
     protected $logger;
 
     public function __construct()
@@ -23,18 +26,21 @@ class HttpErrorHandler extends UserComponent
         set_exception_handler([$this, 'handleException']);
     }
 
-    public function handleError($no, $str, $file, $line)
+    public function handleError($severity, $message, $file, $line)
     {
-        $content = compact('no', 'str', 'file', 'line');
-
-        $error = json_encode($content);
-
-        $this->logger->log($error);
+        throw new \ErrorException($message, 0, $severity, $file, $line);
     }
 
+    /**
+     * @param \Exception $e
+     */
     public function handleException($e)
     {
         $this->setStatusCode($e);
+
+        if ($this->response->getStatusCode() == 500) {
+            $this->report($e);
+        }
 
         if ($this->router->getModuleName() == 'api') {
             $this->apiError($e);
@@ -45,6 +51,9 @@ class HttpErrorHandler extends UserComponent
         }
     }
 
+    /**
+     * @param \Exception $e
+     */
     protected function setStatusCode($e)
     {
         if ($e instanceof BadRequestException) {
@@ -57,10 +66,12 @@ class HttpErrorHandler extends UserComponent
             $this->response->setStatusCode(404);
         } else {
             $this->response->setStatusCode(500);
-            $this->report($e);
         }
     }
 
+    /**
+     * @param \Exception $e
+     */
     protected function report($e)
     {
         $content = sprintf('%s(%d): %s', $e->getFile(), $e->getLine(), $e->getMessage());
@@ -68,22 +79,33 @@ class HttpErrorHandler extends UserComponent
         $this->logger->error($content);
     }
 
+    /**
+     * @param \Exception $e
+     */
     protected function apiError($e)
     {
         $content = $this->translate($e->getMessage());
 
         $this->response->setJsonContent($content);
+
         $this->response->send();
     }
 
+    /**
+     * @param \Exception $e
+     */
     protected function ajaxError($e)
     {
         $content = $this->translate($e->getMessage());
 
         $this->response->setJsonContent($content);
+
         $this->response->send();
     }
 
+    /**
+     * @param \Exception $e
+     */
     protected function pageError($e)
     {
         $content = $this->translate($e->getMessage());
@@ -91,7 +113,7 @@ class HttpErrorHandler extends UserComponent
         $this->flash->error($content);
 
         $this->response->redirect([
-            'for' => 'error.' . $this->response->getStatusCode()
+            'for' => 'home.error.' . $this->response->getStatusCode()
         ])->send();
     }
 

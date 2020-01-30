@@ -17,10 +17,10 @@ class CategoryController extends Controller
     {
         $parentId = $this->request->get('parent_id', 'int', 0);
 
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $parent = $service->getParentCategory($parentId);
-        $categories = $service->getChildCategories($parentId);
+        $parent = $categoryService->getParentCategory($parentId);
+        $categories = $categoryService->getChildCategories($parentId);
 
         $this->view->setVar('parent', $parent);
         $this->view->setVar('categories', $categories);
@@ -33,9 +33,9 @@ class CategoryController extends Controller
     {
         $parentId = $this->request->get('parent_id', 'int', 0);
 
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $topCategories = $service->getTopCategories();
+        $topCategories = $categoryService->getTopCategories();
 
         $this->view->setVar('parent_id', $parentId);
         $this->view->setVar('top_categories', $topCategories);
@@ -46,9 +46,9 @@ class CategoryController extends Controller
      */
     public function createAction()
     {
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $category = $service->createCategory();
+        $category = $categoryService->createCategory();
 
         $location = $this->url->get(
             ['for' => 'admin.category.list'],
@@ -64,27 +64,27 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.category.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.category.edit")
      */
     public function editAction($id)
     {
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $category = $service->getCategory($id);
+        $category = $categoryService->getCategory($id);
 
         $this->view->setVar('category', $category);
     }
 
     /**
-     * @Post("/{id}/update", name="admin.category.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.category.update")
      */
     public function updateAction($id)
     {
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $category = $service->getCategory($id);
+        $category = $categoryService->getCategory($id);
 
-        $service->updateCategory($id);
+        $categoryService->updateCategory($id);
 
         $location = $this->url->get(
             ['for' => 'admin.category.list'],
@@ -100,13 +100,13 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.category.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.category.delete")
      */
     public function deleteAction($id)
     {
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $service->deleteCategory($id);
+        $categoryService->deleteCategory($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -119,13 +119,13 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.category.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.category.restore")
      */
     public function restoreAction($id)
     {
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $service->restoreCategory($id);
+        $categoryService->restoreCategory($id);
 
         $location = $this->request->getHTTPReferer();
 

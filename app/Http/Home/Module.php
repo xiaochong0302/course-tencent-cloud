@@ -2,6 +2,7 @@
 
 namespace App\Http\Home;
 
+use App\Http\Home\Services\AuthUser;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
@@ -23,6 +24,11 @@ class Module implements ModuleDefinitionInterface
                 '.volt' => 'volt',
             ]);
             return $view;
+        });
+
+        $di->setShared('auth', function () {
+            $authUser = new AuthUser();
+            return $authUser;
         });
     }
 }

@@ -25,9 +25,9 @@ class StudentController extends Controller
     {
         $courseId = $this->request->getQuery('course_id', 'int', '');
 
-        $service = new CourseStudentService();
+        $courseStudentService = new CourseStudentService();
 
-        $pager = $service->getCourseStudents();
+        $pager = $courseStudentService->getCourseStudents();
 
         $this->view->setVar('pager', $pager);
         $this->view->setVar('course_id', $courseId);
@@ -48,9 +48,9 @@ class StudentController extends Controller
      */
     public function createAction()
     {
-        $service = new CourseStudentService();
+        $courseStudentService = new CourseStudentService();
 
-        $student = $service->createCourseStudent();
+        $student = $courseStudentService->createCourseStudent();
 
         $location = $this->url->get(
             ['for' => 'admin.student.list'],
@@ -73,11 +73,11 @@ class StudentController extends Controller
         $courseId = $this->request->getQuery('course_id', 'int');
         $userId = $this->request->getQuery('user_id', 'int');
 
-        $service = new CourseStudentService();
+        $courseStudentService = new CourseStudentService();
 
-        $courseStudent = $service->getCourseStudent($courseId, $userId);
-        $course = $service->getCourse($courseId);
-        $student = $service->getStudent($userId);
+        $courseStudent = $courseStudentService->getCourseStudent($courseId, $userId);
+        $course = $courseStudentService->getCourse($courseId);
+        $student = $courseStudentService->getStudent($userId);
 
         $this->view->setVar('course_student', $courseStudent);
         $this->view->setVar('course', $course);
@@ -89,9 +89,9 @@ class StudentController extends Controller
      */
     public function updateAction()
     {
-        $service = new CourseStudentService();
+        $courseStudentService = new CourseStudentService();
 
-        $student = $service->updateCourseStudent();
+        $student = $courseStudentService->updateCourseStudent();
 
         $location = $this->url->get(
             ['for' => 'admin.student.list'],
@@ -111,9 +111,9 @@ class StudentController extends Controller
      */
     public function learningAction()
     {
-        $service = new CourseStudentService();
+        $courseStudentService = new CourseStudentService();
 
-        $pager = $service->getCourseLearnings();
+        $pager = $courseStudentService->getCourseLearnings();
 
         $this->view->setVar('pager', $pager);
     }

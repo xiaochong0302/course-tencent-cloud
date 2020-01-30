@@ -2,12 +2,12 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\UserList as UserListBuilder;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Library\Util\Password as PasswordUtil;
 use App\Models\User as UserModel;
 use App\Repos\Role as RoleRepo;
 use App\Repos\User as UserRepo;
-use App\Transformers\UserList as UserListTransformer;
 use App\Validators\User as UserValidator;
 
 class User extends Service
@@ -109,9 +109,9 @@ class User extends Service
             $data['locked'] = $validator->checkLockStatus($post['locked']);
         }
 
-        if (isset($post['locked_expiry'])) {
-            $data['locked_expiry'] = $validator->checkLockExpiry($post['locked_expiry']);
-            if ($data['locked_expiry'] < time()) {
+        if (isset($post['lock_expiry'])) {
+            $data['lock_expiry'] = $validator->checkLockExpiry($post['lock_expiry']);
+            if ($data['lock_expiry'] < time()) {
                 $data['locked'] = 0;
             }
         }
@@ -142,10 +142,6 @@ class User extends Service
 
     protected function updateAdminUserCount($roleId)
     {
-        if (!$roleId) {
-            return false;
-        }
-
         $roleRepo = new RoleRepo();
 
         $role = $roleRepo->findById($roleId);
@@ -165,12 +161,12 @@ class User extends Service
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new UserListTransformer();
+            $builder = new UserListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleAdminRoles($pipeA);
-            $pipeC = $transformer->handleEduRoles($pipeB);
-            $pipeD = $transformer->arrayToObject($pipeC);
+            $pipeB = $builder->handleAdminRoles($pipeA);
+            $pipeC = $builder->handleEduRoles($pipeB);
+            $pipeD = $builder->arrayToObject($pipeC);
 
             $pager->items = $pipeD;
         }

@@ -31,7 +31,7 @@ class OrderController extends Controller
     }
 
     /**
-     * @Get("/{id}/show", name="admin.order.show")
+     * @Get("/{id:[0-9]+}/show", name="admin.order.show")
      */
     public function showAction($id)
     {
@@ -40,16 +40,18 @@ class OrderController extends Controller
         $order = $orderService->getOrder($id);
         $trades = $orderService->getTrades($order->sn);
         $refunds = $orderService->getRefunds($order->sn);
+        $account = $orderService->getAccount($order->user_id);
         $user = $orderService->getUser($order->user_id);
 
         $this->view->setVar('order', $order);
         $this->view->setVar('trades', $trades);
         $this->view->setVar('refunds', $refunds);
+        $this->view->setVar('account', $account);
         $this->view->setVar('user', $user);
     }
 
     /**
-     * @Post("/{id}/close", name="admin.order.close")
+     * @Post("/{id:[0-9]+}/close", name="admin.order.close")
      */
     public function closeAction($id)
     {

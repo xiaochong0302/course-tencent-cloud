@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Caches\MaxChapterId as MaxChapterIdCache;
+use App\Services\ChapterCacheSyncer;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Chapter extends Model
@@ -22,6 +24,7 @@ class Chapter extends Model
      * 点播扩展属性
      */
     protected $_vod_attrs = [
+        'model' => 'vod',
         'duration' => 0,
         'file_id' => 0,
         'file_status' => 'pending',
@@ -33,6 +36,7 @@ class Chapter extends Model
      * 直播扩展属性
      */
     protected $_live_attrs = [
+        'model' => 'live',
         'start_time' => 0,
         'end_time' => 0,
     ];
@@ -42,28 +46,32 @@ class Chapter extends Model
      *
      * 图文扩展属性
      */
-    protected $_article_attrs = ['word_count' => 0];
+    protected $_read_attrs = [
+        'model' => 'read',
+        'duration' => 0,
+        'word_count' => 0,
+    ];
 
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
-     * 课程编号
-     *
-     * @var integer
-     */
-    public $course_id;
-
-    /**
      * 父级编号
      *
-     * @var integer
+     * @var int
      */
     public $parent_id;
+
+    /**
+     * 课程编号
+     *
+     * @var int
+     */
+    public $course_id;
 
     /**
      * 标题
@@ -82,30 +90,16 @@ class Chapter extends Model
     /**
      * 优先级
      *
-     * @var integer
+     * @var int
      */
     public $priority;
 
     /**
      * 免费标识
      *
-     * @var integer
+     * @var int
      */
     public $free;
-
-    /**
-     * 发布标识
-     *
-     * @var integer
-     */
-    public $published;
-
-    /**
-     * 删除标识
-     *
-     * @var integer
-     */
-    public $deleted;
 
     /**
      * 扩展属性
@@ -115,44 +109,58 @@ class Chapter extends Model
     public $attrs;
 
     /**
-     * 学员数
+     * 课时数量
      *
-     * @var integer
+     * @var int
      */
-    public $student_count;
+    public $lesson_count;
 
     /**
-     * 讨论数
+     * 学员数量
      *
-     * @var integer
+     * @var int
      */
-    public $thread_count;
+    public $user_count;
 
     /**
-     * 收藏数
+     * 评论数量
      *
-     * @var integer
+     * @var int
      */
-    public $favorite_count;
+    public $comment_count;
 
     /**
-     * 点赞数
+     * 点赞数量
      *
-     * @var integer
+     * @var int
      */
     public $like_count;
 
     /**
+     * 发布标识
+     *
+     * @var int
+     */
+    public $published;
+
+    /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
+
+    /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 
@@ -179,7 +187,7 @@ class Chapter extends Model
 
         if ($this->parent_id > 0) {
 
-            $course = Course::findFirstById($this->course_id);
+            $course = Course::findFirst($this->course_id);
 
             $attrs = [];
 
@@ -190,14 +198,15 @@ class Chapter extends Model
                 case Course::MODEL_LIVE:
                     $attrs = $this->_live_attrs;
                     break;
-                case Course::MODEL_ARTICLE:
-                    $attrs = $this->_article_attrs;
+                case Course::MODEL_READ:
+                    $attrs = $this->_read_attrs;
                     break;
             }
 
-            $this->attrs = $attrs ? kg_json_encode($attrs) : '';
+            if (!empty($attrs)) {
+                $this->attrs = kg_json_encode($attrs);
+            }
         }
-
     }
 
     public function beforeUpdate()
@@ -212,7 +221,7 @@ class Chapter extends Model
     public function afterFetch()
     {
         if (!empty($this->attrs)) {
-            $this->attrs = json_decode($this->attrs);
+            $this->attrs = json_decode($this->attrs, true);
         }
     }
 
@@ -220,7 +229,7 @@ class Chapter extends Model
     {
         if ($this->parent_id > 0) {
 
-            $course = Course::findFirstById($this->course_id);
+            $course = Course::findFirst($this->course_id);
 
             $data = [
                 'course_id' => $course->id,
@@ -236,12 +245,21 @@ class Chapter extends Model
                     $model = new ChapterLive();
                     $model->create($data);
                     break;
-                case Course::MODEL_ARTICLE:
-                    $model = new ChapterArticle();
+                case Course::MODEL_READ:
+                    $model = new ChapterRead();
                     $model->create($data);
                     break;
             }
         }
+
+        $maxChapterIdCache = new MaxChapterIdCache();
+        $maxChapterIdCache->rebuild();
+    }
+
+    public function afterUpdate()
+    {
+        $chapterCacheSyncer = new ChapterCacheSyncer();
+        $chapterCacheSyncer->addItem($this->id);
     }
 
 }

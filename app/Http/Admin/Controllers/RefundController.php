@@ -31,7 +31,7 @@ class RefundController extends Controller
     }
 
     /**
-     * @Get("/{id}/show", name="admin.refund.show")
+     * @Get("/{id:[0-9]+}/show", name="admin.refund.show")
      */
     public function showAction($id)
     {
@@ -40,16 +40,18 @@ class RefundController extends Controller
         $refund = $refundService->getRefund($id);
         $order = $refundService->getOrder($refund->order_sn);
         $trade = $refundService->getTrade($refund->trade_sn);
+        $account = $refundService->getAccount($trade->user_id);
         $user = $refundService->getUser($trade->user_id);
 
         $this->view->setVar('refund', $refund);
         $this->view->setVar('order', $order);
         $this->view->setVar('trade', $trade);
+        $this->view->setVar('account', $account);
         $this->view->setVar('user', $user);
     }
 
     /**
-     * @Post("/{id}/review", name="admin.refund.review")
+     * @Post("/{id:[0-9]+}/review", name="admin.refund.review")
      */
     public function reviewAction($id)
     {

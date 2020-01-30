@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Cli\Dispatcher;
 
-class CliDispatcher extends AbstractProvider
+class CliDispatcher extends Provider
 {
 
     protected $serviceName = 'dispatcher';

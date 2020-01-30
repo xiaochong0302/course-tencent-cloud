@@ -126,8 +126,6 @@ class Slide extends Service
     {
         $slide = $this->findOrFail($id);
 
-        if ($slide->deleted == 1) return false;
-
         $slide->deleted = 1;
 
         $slide->update();
@@ -138,8 +136,6 @@ class Slide extends Service
     public function restoreSlide($id)
     {
         $slide = $this->findOrFail($id);
-
-        if ($slide->deleted == 0) return false;
 
         $slide->deleted = 0;
 

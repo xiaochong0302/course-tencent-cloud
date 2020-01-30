@@ -13,24 +13,40 @@ class ImageSyncTask extends Task
     public function mainAction()
     {
         $courses = Course::query()
-        ->where('id = 42')
-        ->execute();
+            ->where('id > 1155')
+            ->execute();
 
         $storage = new Storage();
 
         foreach ($courses as $course) {
+
             $cover = $course->cover;
+
             if (Text::startsWith($cover, '//')) {
                 $cover = 'http:' . $cover;
             }
-            $url = str_replace('-240-135', '', $cover);
+
+            $url = str_replace('-360-202', '', $cover);
 
             $fileName = parse_url($url, PHP_URL_PATH);
             $filePath = tmp_path() . $fileName;
             $content = file_get_contents($url);
-            file_put_contents($filePath, $content);
+
+            if ($content === false) {
+                echo "get course {$course->id} cover failed" . PHP_EOL;
+                return;
+            }
+
+            $put = file_put_contents($filePath, $content);
+
+            if ($put === false) {
+                echo "put course {$course->id} cover failed" . PHP_EOL;
+                return;
+            }
+
             $keyName = $this->getKeyName($filePath);
             $remoteUrl = $storage->putFile($keyName, $filePath);
+
             if ($remoteUrl) {
                 $course->cover = $keyName;
                 $course->update();

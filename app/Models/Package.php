@@ -10,7 +10,7 @@ class Package extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -45,35 +45,35 @@ class Package extends Model
     /**
      * 课程数量
      *
-     * @var integer
+     * @var int
      */
     public $course_count;
 
     /**
      * 发布标识
      *
-     * @var integer
+     * @var int
      */
     public $published;
 
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 

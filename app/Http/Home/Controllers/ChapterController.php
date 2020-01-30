@@ -11,7 +11,7 @@ class ChapterController extends Controller
 {
 
     /**
-     * @Get("/{id}", name="home.chapter.show")
+     * @Get("/{id:[0-9]+}", name="home.chapter.show")
      */
     public function showAction($id)
     {
@@ -23,7 +23,7 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Get("/{id}/comments", name="home.chapter.comments")
+     * @Get("/{id:[0-9]+}/comments", name="home.chapter.comments")
      */
     public function commentsAction($id)
     {
@@ -35,7 +35,7 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Post("/{id}/agree", name="home.chapter.agree")
+     * @Post("/{id:[0-9]+}/agree", name="home.chapter.agree")
      */
     public function agreeAction($id)
     {
@@ -47,7 +47,7 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Post("/{id}/oppose", name="home.chapter.oppose")
+     * @Post("/{id:[0-9]+}/oppose", name="home.chapter.oppose")
      */
     public function opposeAction($id)
     {
@@ -59,7 +59,7 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Post("/{id}/position", name="home.chapter.position")
+     * @Post("/{id:[0-9]+}/position", name="home.chapter.position")
      */
     public function positionAction($id)
     {
@@ -71,7 +71,7 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Post("/{id}/finish", name="home.chapter.finish")
+     * @Post("/{id:[0-9]+}/finish", name="home.chapter.finish")
      */
     public function finishAction($id)
     {

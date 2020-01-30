@@ -86,10 +86,6 @@ class Page extends Service
     {
         $page = $this->findOrFail($id);
 
-        if ($page->deleted == 1) {
-            return false;
-        }
-
         $page->deleted = 1;
 
         $page->update();
@@ -100,10 +96,6 @@ class Page extends Service
     public function restorePage($id)
     {
         $page = $this->findOrFail($id);
-
-        if ($page->deleted == 0) {
-            return false;
-        }
 
         $page->deleted = 0;
 

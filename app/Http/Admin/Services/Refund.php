@@ -2,13 +2,14 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\RefundList as RefundListBuilder;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Models\Task as TaskModel;
+use App\Repos\Account as AccountRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Refund as RefundRepo;
 use App\Repos\Trade as TradeRepo;
 use App\Repos\User as UserRepo;
-use App\Transformers\RefundList as RefundListTransformer;
 use App\Validators\Refund as RefundValidator;
 
 class Refund extends Service
@@ -64,6 +65,15 @@ class Refund extends Service
         return $user;
     }
 
+    public function getAccount($userId)
+    {
+        $accountRepo = new AccountRepo();
+
+        $account = $accountRepo->findById($userId);
+
+        return $account;
+    }
+
     public function reviewRefund($id)
     {
         $refund = $this->findOrFail($id);
@@ -107,11 +117,11 @@ class Refund extends Service
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new RefundListTransformer();
+            $builder = new RefundListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleUsers($pipeA);
-            $pipeC = $transformer->arrayToObject($pipeB);
+            $pipeB = $builder->handleUsers($pipeA);
+            $pipeC = $builder->arrayToObject($pipeB);
 
             $pager->items = $pipeC;
         }

@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Mvc\Router\Annotations as AnnotationsRouter;
 
-class Router extends AbstractProvider
+class Router extends Provider
 {
 
     protected $serviceName = 'router';
@@ -16,9 +16,7 @@ class Router extends AbstractProvider
             $router = new AnnotationsRouter(false);
 
             $router->removeExtraSlashes(true);
-
             $router->setDefaultNamespace('App\Http\Home\Controllers');
-
             $router->notFound([
                 'module' => 'home',
                 'controller' => 'error',

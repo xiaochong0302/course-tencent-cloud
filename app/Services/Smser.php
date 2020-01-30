@@ -74,14 +74,14 @@ class Smser extends Service
 
     protected function createSingleSender()
     {
-        $sender = new SmsSingleSender($this->config->app_id, $this->config->app_key);
+        $sender = new SmsSingleSender($this->config['app_id'], $this->config['app_key']);
 
         return $sender;
     }
 
     protected function createMultiSender()
     {
-        $sender = new SmsMultiSender($this->config->app_id, $this->config->app_key);
+        $sender = new SmsMultiSender($this->config['app_id'], $this->config['app_key']);
 
         return $sender;
     }
@@ -95,16 +95,16 @@ class Smser extends Service
 
     protected function getTemplateId($code)
     {
-        $template = json_decode($this->config->template);
+        $template = json_decode($this->config['template'], true);
 
-        $templateId = $template->{$code}->id ?? null;
+        $templateId = $template[$code]['id'] ?? null;
 
         return $templateId;
     }
 
     protected function getSignature()
     {
-        return $this->config->signature;
+        return $this->config['signature'];
     }
 
 }

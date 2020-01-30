@@ -88,7 +88,7 @@ class Payment extends Listener
         $courseUser->source_type = CourseUserModel::SOURCE_PAID;
 
         if ($courseUser->create() === false) {
-            throw new \RuntimeException('Create Course User Failed');
+            throw new \RuntimeException('Create CourseSearcher User Failed');
         }
     }
 
@@ -105,7 +105,7 @@ class Payment extends Listener
             $courseUser->source_type = CourseUserModel::SOURCE_PAID;
 
             if ($courseUser->create() === false) {
-                throw new \RuntimeException('Create Course User Failed');
+                throw new \RuntimeException('Create CourseSearcher User Failed');
             }
         }
     }

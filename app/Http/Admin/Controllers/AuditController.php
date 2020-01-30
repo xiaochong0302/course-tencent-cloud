@@ -31,7 +31,7 @@ class AuditController extends Controller
     }
 
     /**
-     * @Get("/{id}/show", name="admin.audit.show")
+     * @Get("/{id:[0-9]+}/show", name="admin.audit.show")
      */
     public function showAction($id)
     {

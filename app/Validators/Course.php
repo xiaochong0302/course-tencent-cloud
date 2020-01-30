@@ -2,8 +2,9 @@
 
 namespace App\Validators;
 
+use App\Caches\Course as CourseCache;
+use App\Caches\MaxCourseId as MaxCourseIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Library\Validator\Common as CommonValidator;
 use App\Models\Course as CourseModel;
 use App\Repos\Course as CourseRepo;
@@ -12,9 +13,40 @@ class Course extends Validator
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return \App\Models\Course
-     * @throws NotFoundException
+     * @throws BadRequestException
+     */
+    public function checkCourseCache($id)
+    {
+        $id = intval($id);
+
+        $maxCourseIdCache = new MaxCourseIdCache();
+
+        $maxCourseId = $maxCourseIdCache->get();
+
+        /**
+         * 防止缓存穿透
+         */
+        if ($id < 1 || $id > $maxCourseId) {
+            throw new BadRequestException('course.not_found');
+        }
+
+        $courseCache = new CourseCache();
+
+        $course = $courseCache->get($id);
+
+        if (!$course) {
+            throw new BadRequestException('course.not_found');
+        }
+
+        return $course;
+    }
+
+    /**
+     * @param int $id
+     * @return \App\Models\Course
+     * @throws BadRequestException
      */
     public function checkCourse($id)
     {
@@ -23,7 +55,7 @@ class Course extends Validator
         $course = $courseRepo->findById($id);
 
         if (!$course) {
-            throw new NotFoundException('course.not_found');
+            throw new BadRequestException('course.not_found');
         }
 
         return $course;
@@ -31,15 +63,13 @@ class Course extends Validator
 
     public function checkModel($model)
     {
-        $value = $this->filter->sanitize($model, ['trim', 'string']);
+        $list = CourseModel::models();
 
-        $scopes = CourseModel::models();
-
-        if (!isset($scopes[$value])) {
+        if (!isset($list[$model])) {
             throw new BadRequestException('course.invalid_model');
         }
 
-        return $value;
+        return $model;
     }
 
     public function checkCover($cover)
@@ -88,9 +118,20 @@ class Course extends Validator
 
     public function checkKeywords($keywords)
     {
-        $value = $this->filter->sanitize($keywords, ['trim', 'string']);
+        $keywords = $this->filter->sanitize($keywords, ['trim', 'string']);
+        $keywords = str_replace(['|', ';', '；', '、', ','], '@', $keywords);
+        $keywords = explode('@', $keywords);
 
-        return $value;
+        $list = [];
+
+        foreach ($keywords as $keyword) {
+            $keyword = trim($keyword);
+            if (kg_strlen($keyword) > 1) {
+                $list[] = $keyword;
+            }
+        }
+
+        return implode('，', $list);
     }
 
     public function checkMarketPrice($price)
@@ -101,7 +142,7 @@ class Course extends Validator
             throw new BadRequestException('course.invalid_market_price');
         }
 
-        return $value;
+        return (float)$value;
     }
 
     public function checkVipPrice($price)
@@ -112,7 +153,7 @@ class Course extends Validator
             throw new BadRequestException('course.invalid_vip_price');
         }
 
-        return $value;
+        return (float)$value;
     }
 
     public function checkExpiry($expiry)
@@ -123,31 +164,27 @@ class Course extends Validator
             throw new BadRequestException('course.invalid_expiry');
         }
 
-        return $value;
+        return (int)$value;
     }
 
     public function checkLevel($level)
     {
-        $value = $this->filter->sanitize($level, ['trim', 'string']);
+        $list = CourseModel::levels();
 
-        $scopes = CourseModel::levels();
-
-        if (!isset($scopes[$value])) {
+        if (!isset($list[$level])) {
             throw new BadRequestException('course.invalid_level');
         }
 
-        return $value;
+        return $level;
     }
 
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('course.invalid_publish_status');
         }
 
-        return $value;
+        return (int)$status;
     }
 
     public function checkPublishAbility($course)
@@ -158,7 +195,7 @@ class Course extends Validator
 
         $totalCount = $chapters->count();
 
-        if ($totalCount < 1) {
+        if ($totalCount == 0) {
             throw new BadRequestException('course.pub_chapter_not_found');
         }
 

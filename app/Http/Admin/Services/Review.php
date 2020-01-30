@@ -2,10 +2,10 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\ReviewList as ReviewListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Review as ReviewRepo;
-use App\Transformers\ReviewList as ReviewListTransformer;
 use App\Validators\Review as ReviewValidator;
 
 class Review extends Service
@@ -77,8 +77,6 @@ class Review extends Service
     {
         $review = $this->findOrFail($id);
 
-        if ($review->deleted == 1) return false;
-
         $review->deleted = 1;
 
         $review->update();
@@ -95,8 +93,6 @@ class Review extends Service
     public function restoreReview($id)
     {
         $review = $this->findOrFail($id);
-
-        if ($review->deleted == 0) return false;
 
         $review->deleted = 0;
 
@@ -124,12 +120,12 @@ class Review extends Service
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new ReviewListTransformer();
+            $builder = new ReviewListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleCourses($pipeA);
-            $pipeC = $transformer->handleUsers($pipeB);
-            $pipeD = $transformer->arrayToObject($pipeC);
+            $pipeB = $builder->handleCourses($pipeA);
+            $pipeC = $builder->handleUsers($pipeB);
+            $pipeD = $builder->arrayToObject($pipeC);
 
             $pager->items = $pipeD;
         }

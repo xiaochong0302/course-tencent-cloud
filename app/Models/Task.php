@@ -27,21 +27,21 @@ class Task extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 条目编号
      *
-     * @var integer
+     * @var int
      */
     public $item_id;
 
     /**
      * 条目类型
      *
-     * @var integer
+     * @var int
      */
     public $item_type;
 
@@ -55,35 +55,35 @@ class Task extends Model
     /**
      * 优先级
      *
-     * @var integer
+     * @var int
      */
     public $priority;
 
     /**
      * 状态标识
      *
-     * @var integer
+     * @var int
      */
     public $status;
 
     /**
      * 重试次数
      *
-     * @var integer
+     * @var int
      */
     public $try_count;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 

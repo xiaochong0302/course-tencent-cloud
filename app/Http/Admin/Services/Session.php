@@ -2,13 +2,14 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Validators\User as UserValidator;
+use App\Validators\Account as AccountValidator;
+use App\Validators\Security as SecurityValidator;
 
 class Session extends Service
 {
 
     /**
-     * @var $auth \App\Http\Admin\Services\AuthUser
+     * @var \App\Http\Admin\Services\AuthUser
      */
     protected $auth;
 
@@ -21,31 +22,29 @@ class Session extends Service
     {
         $post = $this->request->getPost();
 
-        $validator = new UserValidator();
+        $accountValidator = new AccountValidator();
 
-        $user = $validator->checkLoginAccount($post['account']);
-
-        $validator->checkLoginPassword($user, $post['password']);
-
-        $validator->checkAdminLogin($user);
+        $user = $accountValidator->checkAdminLogin($post['account'], $post['password']);
 
         $config = new Config();
 
         $captcha = $config->getSectionConfig('captcha');
 
+        $securityValidator = new SecurityValidator();
+
         /**
          * 验证码是一次性的，放到最后检查，减少第三方调用
          */
         if ($captcha->enabled) {
-            $validator->checkCaptchaCode($post['ticket'], $post['rand']);
+            $securityValidator->checkCaptchaCode($post['ticket'], $post['rand']);
         }
 
-        $this->auth->setAuthUser($user);
+        $this->auth->setAuthInfo($user);
     }
 
     public function logout()
     {
-        $this->auth->removeAuthUser();
+        $this->auth->removeAuthInfo();
     }
 
 }

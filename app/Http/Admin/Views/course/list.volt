@@ -5,7 +5,7 @@
         <span class="layui-badge layui-bg-green">点播</span>
     {% elseif value == 'live' %}
         <span class="layui-badge layui-bg-blue">直播</span>
-    {% elseif value == 'article' %}
+    {% elseif value == 'read' %}
         <span class="layui-badge layui-bg-black">图文</span>
     {% endif %}
 {%- endmacro %}
@@ -34,8 +34,7 @@
 
 <table class="kg-table layui-table layui-form">
     <colgroup>
-        <col>
-        <col>
+        <col width="50%">
         <col>
         <col>
         <col>
@@ -46,7 +45,6 @@
     <tr>
         <th>课程</th>
         <th>课时数</th>
-        <th>学员数</th>
         <th>有效期</th>
         <th>价格</th>
         <th>发布</th>
@@ -63,11 +61,6 @@
             <td>
                 <a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">
                     <span class="layui-badge layui-bg-green">{{ item.lesson_count }}</span>
-                </a>
-            </td>
-            <td>
-                <a href="{{ url({'for':'admin.student.list'},{'course_id':item.id}) }}">
-                    <span class="layui-badge layui-bg-green">{{ item.student_count }}</span>
                 </a>
             </td>
             <td>{{ expiry_info(item.expiry) }}</td>

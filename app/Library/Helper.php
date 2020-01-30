@@ -7,7 +7,7 @@ use Koogua\Ip2Region\Searcher as Ip2RegionSearcher;
  * 获取字符长度
  *
  * @param string $str
- * @return integer
+ * @return int
  */
 function kg_strlen($str)
 {
@@ -18,8 +18,8 @@ function kg_strlen($str)
  * 字符截取
  *
  * @param string $str
- * @param integer $start
- * @param integer $length
+ * @param int $start
+ * @param int $length
  * @param string $suffix
  * @return string
  */
@@ -47,14 +47,14 @@ function kg_uniqid($prefix = '', $more = false)
 /**
  * json_encode(不转义斜杠和中文)
  *
- * @param string $value
+ * @param mixed $data
  * @return false|string
  */
-function kg_json_encode($value)
+function kg_json_encode($data)
 {
     $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
-    return json_encode($value, $options);
+    return json_encode($data, $options);
 }
 
 /**
@@ -109,7 +109,7 @@ function kg_array_object($array)
  * 对象转数组
  *
  * @param object $object
- * @return object
+ * @return array
  */
 function kg_object_array($object)
 {
@@ -170,8 +170,8 @@ function kg_img_base_url()
  * 获取图片URL
  *
  * @param string $path
- * @param integer $width
- * @param integer $height
+ * @param int $width
+ * @param int $height
  * @return string
  */
 function kg_img_url($path, $width = 0, $height = 0)
@@ -184,7 +184,7 @@ function kg_img_url($path, $width = 0, $height = 0)
 /**
  * 格式化数字
  *
- * @param integer $number
+ * @param int $number
  * @return string
  */
 function kg_human_number($number)
@@ -205,7 +205,7 @@ function kg_human_number($number)
 /**
  * 播放时长
  *
- * @param integer $time
+ * @param int $time
  * @return string
  */
 function kg_play_duration($time)
@@ -241,7 +241,7 @@ function kg_play_duration($time)
 /**
  * 总时长
  *
- * @param integer $time
+ * @param int $time
  * @return string
  */
 function kg_total_duration($time)

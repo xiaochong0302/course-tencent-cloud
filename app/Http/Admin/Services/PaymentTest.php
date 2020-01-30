@@ -16,7 +16,7 @@ abstract class PaymentTest extends Service
      */
     public function createTestOrder()
     {
-        $authUser = $this->getDI()->get('auth')->getAuthUser();
+        $authUser = $this->getDI()->get('auth')->getAuthInfo();
 
         $order = new OrderModel();
 

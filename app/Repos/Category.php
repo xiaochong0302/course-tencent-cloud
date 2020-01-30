@@ -10,12 +10,12 @@ class Category extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return CategoryModel
      */
     public function findById($id)
     {
-        $result = CategoryModel::findFirstById($id);
+        $result = CategoryModel::findFirst($id);
 
         return $result;
     }
@@ -64,6 +64,7 @@ class Category extends Repository
         $result = CategoryModel::query()
             ->where('parent_id = 0')
             ->andWhere('deleted = 0')
+            ->andWhere('published = 1')
             ->execute();
 
         return $result;
@@ -80,17 +81,28 @@ class Category extends Repository
         return $result;
     }
 
+    public function countChildCategories($categoryId)
+    {
+        $count = CategoryModel::count([
+            'conditions' => 'parent_id = :parent_id: AND deleted = 0 AND published = 1',
+            'bind' => ['parent_id' => $categoryId],
+        ]);
+
+        return (int)$count;
+    }
+
     public function countCourses($categoryId)
     {
         $phql = "SELECT COUNT(*) AS total FROM %s cc JOIN %s c ON cc.course_id = c.id 
-                 WHERE cc.category_id = :category_id: AND c.deleted = 0";
+                 WHERE cc.category_id = :category_id: AND c.published = 1 AND c.deleted = 0";
 
-        $row = $this->modelsManager->executeQuery(
-            sprintf($phql, CourseCategoryModel::class, CourseModel::class),
-            ['category_id' => $categoryId]
-        )->getFirst();
+        $phql = sprintf($phql, CourseCategoryModel::class, CourseModel::class);
 
-        return (int)$row['total'];
+        $bind = ['category_id' => $categoryId];
+
+        $record = $this->modelsManager->executeQuery($phql, $bind)->getFirst();
+
+        return (int)$record['total'];
     }
 
 }

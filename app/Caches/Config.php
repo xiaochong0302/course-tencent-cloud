@@ -13,19 +13,21 @@ class Config extends Cache
      * 获取某组配置项
      *
      * @param string $section
-     * @return \stdClass|null
+     * @return array
      */
     public function getSectionConfig($section)
     {
         $items = $this->get();
 
-        if (!$items) return;
+        $result = [];
 
-        $result = new \stdClass();
+        if (!$items) {
+            return $result;
+        }
 
         foreach ($items as $item) {
-            if ($item->section == $section) {
-                $result->{$item->item_key} = $item->item_value;
+            if ($item['section'] == $section) {
+                $result[$item['item_key']] = $item['item_value'];
             }
         }
 
@@ -43,28 +45,28 @@ class Config extends Cache
     {
         $config = $this->getSectionConfig($section);
 
-        $result = $config->{$key} ?? null;
+        $result = $config[$key] ?? null;
 
         return $result;
     }
 
-    protected function getLifetime()
+    public function getLifetime()
     {
         return $this->lifetime;
     }
 
-    protected function getKey($params = null)
+    public function getKey($id = null)
     {
-        return 'site_config';
+        return 'config';
     }
 
-    protected function getContent($params = null)
+    public function getContent($id = null)
     {
         $configRepo = new ConfigRepo();
 
         $items = $configRepo->findAll();
 
-        return $items;
+        return $items->toArray();
     }
 
 }

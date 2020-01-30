@@ -91,6 +91,8 @@ class Category extends Service
 
         $category->update();
 
+        $this->updateCategoryStats($category);
+
         return $category;
     }
 
@@ -114,9 +116,18 @@ class Category extends Service
 
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
+            if ($category->parent_id == 0) {
+                if ($category->published == 0 && $post['published'] == 1) {
+                    $this->enableChildCategories($category->id);
+                } elseif ($category->published == 1 && $post['published'] == 0) {
+                    $this->disableChildCategories($category->id);
+                }
+            }
         }
 
         $category->update($data);
+
+        $this->updateCategoryStats($category);
 
         return $category;
     }
@@ -125,13 +136,15 @@ class Category extends Service
     {
         $category = $this->findOrFail($id);
 
-        if ($category->deleted == 1) {
-            return false;
-        }
+        $validator = new CategoryValidator();
+
+        $validator->checkDeleteAbility($category);
 
         $category->deleted = 1;
 
         $category->update();
+
+        $this->updateCategoryStats($category);
 
         return $category;
     }
@@ -140,15 +153,58 @@ class Category extends Service
     {
         $category = $this->findOrFail($id);
 
-        if ($category->deleted == 0) {
-            return false;
-        }
-
         $category->deleted = 0;
 
         $category->update();
 
+        $this->updateCategoryStats($category);
+
         return $category;
+    }
+
+    protected function updateCategoryStats(CategoryModel $category)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        if ($category->parent_id > 0) {
+            $category = $categoryRepo->findById($category->parent_id);
+        }
+
+        $childCount = $categoryRepo->countChildCategories($category->id);
+        $category->child_count = $childCount;
+        $category->update();
+    }
+
+    protected function enableChildCategories($parentId)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        $categories = $categoryRepo->findAll(['parent_id' => $parentId]);
+
+        if ($categories->count() == 0) {
+            return;
+        }
+
+        foreach ($categories as $category) {
+            $category->published = 1;
+            $category->update();
+        }
+    }
+
+    protected function disableChildCategories($parentId)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        $categories = $categoryRepo->findAll(['parent_id' => $parentId]);
+
+        if ($categories->count() == 0) {
+            return;
+        }
+
+        foreach ($categories as $category) {
+            $category->published = 0;
+            $category->update();
+        }
     }
 
     protected function findOrFail($id)

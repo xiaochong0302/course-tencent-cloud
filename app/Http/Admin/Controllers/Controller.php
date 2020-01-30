@@ -16,17 +16,17 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
-        if ($this->notSafeRequest()) {
+        if ($this->isNotSafeRequest()) {
             if (!$this->checkHttpReferer() || !$this->checkCsrfToken()) {
                 $dispatcher->forward([
                     'controller' => 'public',
-                    'action' => 'csrf',
+                    'action' => 'robot',
                 ]);
                 return false;
             }
         }
 
-        $this->authUser = $this->getDI()->get('auth')->getAuthUser();
+        $this->authUser = $this->getAuthUser();
 
         if (!$this->authUser) {
             $dispatcher->forward([
@@ -43,7 +43,7 @@ class Controller extends \Phalcon\Mvc\Controller
         /**
          * 管理员忽略权限检查
          */
-        if ($this->authUser->admin) {
+        if ($this->authUser->root == 1) {
             return true;
         }
 
@@ -51,26 +51,21 @@ class Controller extends \Phalcon\Mvc\Controller
          * 特例白名单
          */
         $whitelist = [
-            'controller' => [
-                'public', 'index', 'storage', 'vod', 'test',
-                'xm_course',
-            ],
-            'route' => [
-                'admin.package.guiding',
-            ],
+            'controllers' => ['public', 'index', 'storage', 'vod', 'test', 'xm_course'],
+            'routes' => ['admin.package.guiding'],
         ];
 
         /**
          * 特定控制器忽略权限检查
          */
-        if (in_array($controller, $whitelist['controller'])) {
+        if (in_array($controller, $whitelist['controllers'])) {
             return true;
         }
 
         /**
          * 特定路由忽略权限检查
          */
-        if (in_array($route->getName(), $whitelist['route'])) {
+        if (in_array($route->getName(), $whitelist['routes'])) {
             return true;
         }
 
@@ -108,6 +103,13 @@ class Controller extends \Phalcon\Mvc\Controller
 
             $audit->create();
         }
+    }
+
+    protected function getAuthUser()
+    {
+        $auth = $this->getDI()->get('auth');
+
+        return $auth->getAuthInfo();
     }
 
 }

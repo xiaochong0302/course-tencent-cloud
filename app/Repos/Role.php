@@ -9,12 +9,12 @@ class Role extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return RoleModel
      */
     public function findById($id)
     {
-        $result = RoleModel::findFirstById($id);
+        $result = RoleModel::findFirst($id);
 
         return $result;
     }

@@ -3,16 +3,15 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Repos\Role as RoleRepo;
 
 class Role extends Validator
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return \App\Models\Role
-     * @throws NotFoundException
+     * @throws BadRequestException
      */
     public function checkRole($id)
     {
@@ -21,7 +20,7 @@ class Role extends Validator
         $role = $roleRepo->findById($id);
 
         if (!$role) {
-            throw new NotFoundException('role.not_found');
+            throw new BadRequestException('role.not_found');
         }
 
         return $role;

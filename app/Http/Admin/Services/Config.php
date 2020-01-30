@@ -2,7 +2,6 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\Config as ConfigCache;
 use App\Repos\Config as ConfigRepo;
 
 class Config extends Service
@@ -36,10 +35,6 @@ class Config extends Service
                 $item->update();
             }
         }
-
-        $configCache = new ConfigCache();
-
-        $configCache->delete();
     }
 
     public function updateStorageConfig($section, $config)

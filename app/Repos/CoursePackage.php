@@ -12,14 +12,13 @@ class CoursePackage extends Repository
         $result = CoursePackageModel::query()
             ->where('course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('package_id = :package_id:', ['package_id' => $packageId])
-            ->orderBy('id DESC')
             ->execute()
             ->getFirst();
 
         return $result;
     }
 
-    public function findByCategoryIds($packageIds)
+    public function findByPackageIds($packageIds)
     {
         $result = CoursePackageModel::query()
             ->inWhere('package_id', $packageIds)

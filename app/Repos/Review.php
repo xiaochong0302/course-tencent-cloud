@@ -9,12 +9,12 @@ class Review extends Repository
 {
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return ReviewModel
      */
     public function findById($id)
     {
-        $result = ReviewModel::findFirstById($id);
+        $result = ReviewModel::findFirst($id);
 
         return $result;
     }
@@ -29,13 +29,17 @@ class Review extends Repository
         return $result;
     }
 
-    public function findByUserCourseId($userId, $courseId)
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return ReviewModel
+     */
+    public function findReview($courseId, $userId)
     {
         $result = ReviewModel::query()
-            ->where('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('course_id = :course_id:', ['course_id' => $courseId])
-            ->execute()
-            ->getFirst();
+            ->where('course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
+            ->execute()->getFirst();
 
         return $result;
     }
@@ -96,7 +100,7 @@ class Review extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
     }
 
 }

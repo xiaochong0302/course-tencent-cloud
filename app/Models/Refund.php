@@ -20,7 +20,7 @@ class Refund extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -80,8 +80,6 @@ class Refund extends Model
      */
     public $order_sn;
 
-
-
     /**
      * 状态类型
      *
@@ -92,21 +90,21 @@ class Refund extends Model
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $created_at;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $updated_at;
 
@@ -139,6 +137,11 @@ class Refund extends Model
     public function beforeUpdate()
     {
         $this->updated_at = time();
+    }
+
+    public function afterFetch()
+    {
+        $this->amount = (float)$this->amount;
     }
 
     public static function statuses()

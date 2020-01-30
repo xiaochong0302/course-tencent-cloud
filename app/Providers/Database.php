@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Db\Adapter\Pdo\Mysql as MySqlAdapter;
 
-class Database extends AbstractProvider
+class Database extends Provider
 {
 
     protected $serviceName = 'db';
@@ -22,6 +22,10 @@ class Database extends AbstractProvider
                 'username' => $config->db->username,
                 'password' => $config->db->password,
                 'charset' => $config->db->charset,
+                'options' => [
+                    \PDO::ATTR_EMULATE_PREPARES => false,
+                    \PDO::ATTR_STRINGIFY_FETCHES => false,
+                ],
             ];
 
             $connection = new MySqlAdapter($options);
