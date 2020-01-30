@@ -42,6 +42,9 @@ type = string
 index = self
 tokenizer = full
 
+[attrs]
+type = string
+
 [user_count]
 type = string
 
