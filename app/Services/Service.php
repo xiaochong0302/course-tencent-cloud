@@ -4,21 +4,23 @@ namespace App\Services;
 
 use App\Caches\Config as ConfigCache;
 use App\Library\Logger as AppLogger;
+use Phalcon\Logger\Adapter\File as FileLogger;
+use Phalcon\Mvc\User\Component;
 
-class Service extends \Phalcon\Mvc\User\Component
+class Service extends Component
 {
 
     /**
      * 获取Logger
      *
      * @param string $channel
-     * @return \Phalcon\Logger\Adapter\File
+     * @return FileLogger
      */
     public function getLogger($channel = null)
     {
         $logger = new AppLogger();
 
-        $channel = $channel ?: 'service';
+        $channel = $channel ?: 'common';
 
         return $logger->getInstance($channel);
     }

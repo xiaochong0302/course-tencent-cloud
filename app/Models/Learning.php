@@ -63,7 +63,7 @@ class Learning extends Model
     /**
      * 客户端类型
      *
-     * @var int
+     * @var string
      */
     public $client_type;
 
@@ -90,7 +90,7 @@ class Learning extends Model
 
     public function getSource()
     {
-        return 'learning';
+        return 'kg_learning';
     }
 
     public function beforeCreate()

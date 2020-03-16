@@ -4,13 +4,16 @@ namespace App\Repos;
 
 use App\Models\Role as RoleModel;
 use App\Models\User as UserModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Role extends Repository
 {
 
     /**
      * @param int $id
-     * @return RoleModel
+     * @return RoleModel|Model|bool
      */
     public function findById($id)
     {
@@ -19,6 +22,11 @@ class Role extends Repository
         return $result;
     }
 
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|RoleModel[]
+     */
     public function findByIds($ids, $columns = '*')
     {
         $result = RoleModel::query()
@@ -29,6 +37,10 @@ class Role extends Repository
         return $result;
     }
 
+    /**
+     * @param array $where
+     * @return ResultsetInterface|Resultset|RoleModel[]
+     */
     public function findAll($where = [])
     {
         $query = RoleModel::query();
@@ -51,6 +63,7 @@ class Role extends Repository
             'bind' => ['role_id' => $roleId],
         ]);
 
-        return (int)$count;
+        return $count;
     }
+
 }

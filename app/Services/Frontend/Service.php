@@ -4,11 +4,26 @@ namespace App\Services\Frontend;
 
 use App\Models\User as UserModel;
 use App\Validators\Validator as AppValidator;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\User\Component;
 
-class Service extends \Phalcon\Mvc\User\Component
+class Service extends Component
 {
 
+    /**
+     * @return UserModel|Model
+     */
     public function getCurrentUser()
+    {
+        $user = UserModel::findFirst(100015);
+
+        return $user;
+    }
+
+    /**
+     * @return UserModel|Model
+     */
+    public function getCurrentUser2()
     {
         $authUser = $this->getAuthUser();
 
@@ -21,7 +36,20 @@ class Service extends \Phalcon\Mvc\User\Component
         return $user;
     }
 
+    /**
+     * @return UserModel|Model
+     */
     public function getLoginUser()
+    {
+        $user = UserModel::findFirst(100015);
+
+        return $user;
+    }
+
+    /**
+     * @return UserModel|Model
+     */
+    public function getLoginUser2()
     {
         $authUser = $this->getAuthUser();
 

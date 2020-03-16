@@ -7,6 +7,8 @@ use App\Models\Category as CategoryModel;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\Comment as CommentModel;
+use App\Models\Consult as ConsultModel;
+use App\Models\ConsultVote as ConsultVoteModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
 use App\Models\CourseFavorite as CourseFavoriteModel;
@@ -15,129 +17,22 @@ use App\Models\CourseRelated as CourseRelatedModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\Package as PackageModel;
 use App\Models\Review as ReviewModel;
+use App\Models\ReviewVote as ReviewVoteModel;
 use App\Models\User as UserModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Course extends Repository
 {
 
     /**
-     * @param int $id
-     * @return CourseModel
+     * @param array $where
+     * @param string $sort
+     * @param int $page
+     * @param int $limit
+     * @return \stdClass
      */
-    public function findById($id)
-    {
-        $result = CourseModel::findFirst($id);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = CourseModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    public function findTeachers($courseId)
-    {
-        $roleType = CourseUserModel::ROLE_TEACHER;
-
-        $result = $this->modelsManager->createBuilder()
-            ->columns('u.*')
-            ->addFrom(UserModel::class, 'u')
-            ->join(CourseUserModel::class, 'u.id = cu.user_id', 'cu')
-            ->where('cu.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('cu.role_type = :role_type:', ['role_type' => $roleType])
-            ->andWhere('u.locked = 0')
-            ->getQuery()->execute();
-
-        return $result;
-    }
-
-    public function findCategories($courseId)
-    {
-        $result = $this->modelsManager->createBuilder()
-            ->columns('c.*')
-            ->addFrom(CategoryModel::class, 'c')
-            ->join(CourseCategoryModel::class, 'c.id = cc.category_id', 'cc')
-            ->where('cc.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('c.deleted = 0')
-            ->getQuery()->execute();
-
-        return $result;
-    }
-
-    public function findPackages($courseId)
-    {
-        $result = $this->modelsManager->createBuilder()
-            ->columns('p.*')
-            ->addFrom(PackageModel::class, 'p')
-            ->join(CoursePackageModel::class, 'p.id = cp.package_id', 'cp')
-            ->where('cp.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('p.deleted = 0')
-            ->getQuery()->execute();
-
-        return $result;
-    }
-
-    public function findRelatedCourses($courseId)
-    {
-        $result = $this->modelsManager->createBuilder()
-            ->columns('c.*')
-            ->addFrom(CourseModel::class, 'c')
-            ->join(CourseRelatedModel::class, 'c.id = cr.related_id', 'cr')
-            ->where('cr.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('c.deleted = 0')
-            ->getQuery()->execute();
-
-        return $result;
-    }
-
-    public function findChapters($courseId)
-    {
-        $result = ChapterModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('deleted = 0')
-            ->execute();
-
-        return $result;
-    }
-
-    public function findLessons($courseId)
-    {
-        $result = ChapterModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('parent_id > 0')
-            ->andWhere('deleted = 0')
-            ->execute();
-
-        return $result;
-    }
-
-    public function findUserLearnings($courseId, $userId)
-    {
-        $result = ChapterUserModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->execute();
-
-        return $result;
-    }
-
-    public function findConsumedUserLearnings($courseId, $userId)
-    {
-        $result = ChapterUserModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('consumed = 1')
-            ->execute();
-
-        return $result;
-    }
-
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -214,6 +109,200 @@ class Course extends Repository
         return $pager->paginate();
     }
 
+    /**
+     * @param int $id
+     * @return CourseModel|Model|bool
+     */
+    public function findById($id)
+    {
+        $result = CourseModel::findFirst($id);
+
+        return $result;
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|CourseModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        $result = CourseModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @return ResultsetInterface|Resultset|UserModel[]
+     */
+    public function findTeachers($courseId)
+    {
+        $roleType = CourseUserModel::ROLE_TEACHER;
+
+        $result = $this->modelsManager->createBuilder()
+            ->columns('u.*')
+            ->addFrom(UserModel::class, 'u')
+            ->join(CourseUserModel::class, 'u.id = cu.user_id', 'cu')
+            ->where('cu.course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('cu.role_type = :role_type:', ['role_type' => $roleType])
+            ->andWhere('u.deleted = 0')
+            ->getQuery()->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @return ResultsetInterface|Resultset|CategoryModel[]
+     */
+    public function findCategories($courseId)
+    {
+        $result = $this->modelsManager->createBuilder()
+            ->columns('c.*')
+            ->addFrom(CategoryModel::class, 'c')
+            ->join(CourseCategoryModel::class, 'c.id = cc.category_id', 'cc')
+            ->where('cc.course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('c.deleted = 0')
+            ->getQuery()->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @return ResultsetInterface|Resultset|PackageModel[]
+     */
+    public function findPackages($courseId)
+    {
+        $result = $this->modelsManager->createBuilder()
+            ->columns('p.*')
+            ->addFrom(PackageModel::class, 'p')
+            ->join(CoursePackageModel::class, 'p.id = cp.package_id', 'cp')
+            ->where('cp.course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('p.deleted = 0')
+            ->getQuery()->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @return ResultsetInterface|Resultset|CourseModel[]
+     */
+    public function findRelatedCourses($courseId)
+    {
+        $result = $this->modelsManager->createBuilder()
+            ->columns('c.*')
+            ->addFrom(CourseModel::class, 'c')
+            ->join(CourseRelatedModel::class, 'c.id = cr.related_id', 'cr')
+            ->where('cr.course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('c.deleted = 0')
+            ->getQuery()->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @return ResultsetInterface|Resultset|ChapterModel[]
+     */
+    public function findChapters($courseId)
+    {
+        $result = ChapterModel::query()
+            ->where('course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('deleted = 0')
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @return ResultsetInterface|Resultset|ChapterModel[]
+     */
+    public function findLessons($courseId)
+    {
+        $result = ChapterModel::query()
+            ->where('course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('parent_id > 0')
+            ->andWhere('deleted = 0')
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|ChapterUserModel[]
+     */
+    public function findUserLearnings($courseId, $userId)
+    {
+        $result = ChapterUserModel::query()
+            ->where('course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('deleted = 0')
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|ChapterUserModel[]
+     */
+    public function findConsumedUserLearnings($courseId, $userId)
+    {
+        $result = ChapterUserModel::query()
+            ->where('course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('consumed = 1 AND deleted = 0')
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|ConsultVoteModel[]
+     */
+    public function findUserConsultVotes($courseId, $userId)
+    {
+        $result = $this->modelsManager->createBuilder()
+            ->columns('cv.*')
+            ->addFrom(ConsultModel::class, 'c')
+            ->join(ConsultVoteModel::class, 'c.id = cv.consult_id', 'cv')
+            ->where('c.course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('cv.user_id = :user_id:', ['user_id' => $userId])
+            ->getQuery()->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|ReviewVoteModel[]
+     */
+    public function findUserReviewVotes($courseId, $userId)
+    {
+        $result = $this->modelsManager->createBuilder()
+            ->columns('rv.*')
+            ->addFrom(ReviewModel::class, 'r')
+            ->join(ReviewVoteModel::class, 'r.id = rv.review_id', 'rv')
+            ->where('r.course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('rv.user_id = :user_id:', ['user_id' => $userId])
+            ->getQuery()->execute();
+
+        return $result;
+    }
+
     public function countLessons($courseId)
     {
         $count = ChapterModel::count([
@@ -227,6 +316,16 @@ class Course extends Repository
     public function countUsers($courseId)
     {
         $count = CourseUserModel::count([
+            'conditions' => 'course_id = :course_id: AND deleted = 0',
+            'bind' => ['course_id' => $courseId],
+        ]);
+
+        return $count;
+    }
+
+    public function countConsults($courseId)
+    {
+        $count = ConsultModel::count([
             'conditions' => 'course_id = :course_id: AND deleted = 0',
             'bind' => ['course_id' => $courseId],
         ]);
@@ -259,6 +358,16 @@ class Course extends Repository
         $count = CourseFavoriteModel::count([
             'conditions' => 'course_id = :course_id: AND deleted = 0',
             'bind' => ['course_id' => $courseId],
+        ]);
+
+        return $count;
+    }
+
+    public function countUserConsults($courseId, $userId)
+    {
+        $count = ConsultModel::count([
+            'conditions' => 'course_id = :course_id: AND user_id = :user_id:',
+            'bind' => ['course_id' => $courseId, 'user_id' => $userId],
         ]);
 
         return $count;

@@ -2,6 +2,7 @@
 
 namespace App\Library\Util;
 
+use Phalcon\Cache\Backend\Redis;
 use Phalcon\Di;
 use Phalcon\Text;
 
@@ -11,7 +12,7 @@ class Verification
     public static function code($key, $lifetime = 300)
     {
         /**
-         * @var \Phalcon\Cache\Backend $cache
+         * @var Redis $cache
          */
         $cache = Di::getDefault()->get('cache');
 
@@ -25,7 +26,7 @@ class Verification
     public static function checkCode($key, $code)
     {
         /**
-         * @var \Phalcon\Cache\Backend $cache
+         * @var Redis $cache
          */
         $cache = Di::getDefault()->get('cache');
 

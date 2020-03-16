@@ -1,5 +1,3 @@
-{{ partial('course/expiry_macro') }}
-
 {%- macro model_info(value) %}
     {% if value == 'vod' %}
         <span class="layui-badge layui-bg-green">点播</span>
@@ -45,7 +43,6 @@
     <tr>
         <th>课程</th>
         <th>课时数</th>
-        <th>有效期</th>
         <th>价格</th>
         <th>发布</th>
         <th>操作</th>
@@ -63,7 +60,6 @@
                     <span class="layui-badge layui-bg-green">{{ item.lesson_count }}</span>
                 </a>
             </td>
-            <td>{{ expiry_info(item.expiry) }}</td>
             <td>
                 <p>市场：￥{{ item.market_price }}</p>
                 <p>会员：￥{{ item.vip_price }}</p>
@@ -106,7 +102,7 @@
             var courseId = $(this).attr('course-id');
             var checked = $(this).is(':checked');
             var published = checked ? 1 : 0;
-            var tips = published == 1 ? '确定要发布课程？' : '确定要下架课程？';
+            var tips = published === 1 ? '确定要发布课程？' : '确定要下架课程？';
             layer.confirm(tips, function () {
                 $.ajax({
                     type: 'POST',

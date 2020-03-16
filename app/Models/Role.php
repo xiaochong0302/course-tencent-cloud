@@ -86,7 +86,7 @@ class Role extends Model
 
     public function getSource()
     {
-        return 'role';
+        return 'kg_role';
     }
 
     public function initialize()
@@ -136,7 +136,7 @@ class Role extends Model
         return $list;
     }
 
-    public static function sysRoles()
+    public static function sysRoleTypes()
     {
         $list = [
             self::ROLE_ROOT => '管理人员',

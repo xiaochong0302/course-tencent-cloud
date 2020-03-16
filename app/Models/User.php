@@ -9,6 +9,13 @@ class User extends Model
 {
 
     /**
+     * 性别类型
+     */
+    const GENDER_MALE = 1; // 男
+    const GENDER_FEMALE = 2; // 女
+    const GENDER_NONE = 3; // 保密
+
+    /**
      * 教学角色
      */
     const EDU_ROLE_STUDENT = 1; // 学员
@@ -50,6 +57,20 @@ class User extends Model
     public $about;
 
     /**
+     * 所在地
+     *
+     * @var string
+     */
+    public $location;
+
+    /**
+     * 性别
+     *
+     * @var int
+     */
+    public $gender;
+
+    /**
      * 教学角色
      *
      * @var int
@@ -89,28 +110,14 @@ class User extends Model
      *
      * @var int
      */
-    public $vip_expiry;
+    public $vip_expiry_time;
 
     /**
      * 锁定期限
      *
      * @var int
      */
-    public $lock_expiry;
-
-    /**
-     * 最后活跃
-     *
-     * @var int
-     */
-    public $last_active;
-
-    /**
-     * 最后IP
-     *
-     * @var string
-     */
-    public $last_ip;
+    public $lock_expiry_time;
 
     /**
      * 通知数量
@@ -125,7 +132,6 @@ class User extends Model
      * @var int
      */
     public $msg_count;
-
 
     /**
      * 创建时间
@@ -143,7 +149,7 @@ class User extends Model
 
     public function getSource()
     {
-        return 'user';
+        return 'kg_user';
     }
 
     public function initialize()
@@ -174,11 +180,34 @@ class User extends Model
         $maxUserIdCache->rebuild();
     }
 
-    public static function eduRoles()
+    public static function genderTypes()
+    {
+        $list = [
+            self::GENDER_MALE => '男',
+            self::GENDER_FEMALE => '女',
+            self::GENDER_NONE => '保密',
+        ];
+
+        return $list;
+    }
+
+    public static function eduRoleTypes()
     {
         $list = [
             self::EDU_ROLE_STUDENT => '学员',
             self::EDU_ROLE_TEACHER => '讲师',
+        ];
+
+        return $list;
+    }
+
+    public static function vipTypes()
+    {
+        $list = [
+            1 => '1个月',
+            3 => '3个月',
+            6 => '6个月',
+            12 => '12个月',
         ];
 
         return $list;

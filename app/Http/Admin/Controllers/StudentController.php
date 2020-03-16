@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Http\Admin\Services\CourseStudent as CourseStudentService;
+use App\Http\Admin\Services\Student as StudentService;
 
 /**
  * @RoutePrefix("/admin/student")
@@ -23,14 +23,20 @@ class StudentController extends Controller
      */
     public function listAction()
     {
-        $courseId = $this->request->getQuery('course_id', 'int', '');
+        $courseId = $this->request->getQuery('course_id', 'int', 0);
 
-        $courseStudentService = new CourseStudentService();
+        $studentService = new StudentService();
 
-        $pager = $courseStudentService->getCourseStudents();
+        $pager = $studentService->getPlans();
+
+        $course = null;
+
+        if ($courseId > 0) {
+            $course = $studentService->getCourse($courseId);
+        }
 
         $this->view->setVar('pager', $pager);
-        $this->view->setVar('course_id', $courseId);
+        $this->view->setVar('course', $course);
     }
 
     /**
@@ -38,9 +44,17 @@ class StudentController extends Controller
      */
     public function addAction()
     {
-        $courseId = $this->request->getQuery('course_id', 'int', '');
+        $courseId = $this->request->getQuery('course_id', 'int', 0);
 
-        $this->view->setVar('course_id', $courseId);
+        $studentService = new StudentService();
+
+        $course = null;
+
+        if ($courseId > 0) {
+            $course = $studentService->getCourse($courseId);
+        }
+
+        $this->view->setVar('course', $course);
     }
 
     /**
@@ -48,9 +62,9 @@ class StudentController extends Controller
      */
     public function createAction()
     {
-        $courseStudentService = new CourseStudentService();
+        $studentService = new StudentService();
 
-        $student = $courseStudentService->createCourseStudent();
+        $student = $studentService->createPlan();
 
         $location = $this->url->get(
             ['for' => 'admin.student.list'],
@@ -70,16 +84,15 @@ class StudentController extends Controller
      */
     public function editAction()
     {
-        $courseId = $this->request->getQuery('course_id', 'int');
-        $userId = $this->request->getQuery('user_id', 'int');
+        $planId = $this->request->getQuery('plan_id');
 
-        $courseStudentService = new CourseStudentService();
+        $studentService = new StudentService();
 
-        $courseStudent = $courseStudentService->getCourseStudent($courseId, $userId);
-        $course = $courseStudentService->getCourse($courseId);
-        $student = $courseStudentService->getStudent($userId);
+        $plan = $studentService->getPlan($planId);
+        $course = $studentService->getCourse($plan->course_id);
+        $student = $studentService->getStudent($plan->user_id);
 
-        $this->view->setVar('course_student', $courseStudent);
+        $this->view->setVar('plan', $plan);
         $this->view->setVar('course', $course);
         $this->view->setVar('student', $student);
     }
@@ -89,14 +102,11 @@ class StudentController extends Controller
      */
     public function updateAction()
     {
-        $courseStudentService = new CourseStudentService();
+        $studentService = new StudentService();
 
-        $student = $courseStudentService->updateCourseStudent();
+        $studentService->updatePlan();
 
-        $location = $this->url->get(
-            ['for' => 'admin.student.list'],
-            ['course_id' => $student->course_id]
-        );
+        $location = $this->url->get(['for' => 'admin.student.list']);
 
         $content = [
             'location' => $location,
@@ -111,9 +121,9 @@ class StudentController extends Controller
      */
     public function learningAction()
     {
-        $courseStudentService = new CourseStudentService();
+        $studentService = new StudentService();
 
-        $pager = $courseStudentService->getCourseLearnings();
+        $pager = $studentService->getLearnings();
 
         $this->view->setVar('pager', $pager);
     }

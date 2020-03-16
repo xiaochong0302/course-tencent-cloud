@@ -79,20 +79,6 @@ class Slide extends Model
     public $deleted;
 
     /**
-     * 开始时间
-     *
-     * @var int
-     */
-    public $start_time;
-
-    /**
-     * 结束时间
-     *
-     * @var int
-     */
-    public $end_time;
-
-    /**
      * 创建时间
      *
      * @var int
@@ -108,7 +94,7 @@ class Slide extends Model
 
     public function getSource()
     {
-        return 'slide';
+        return 'kg_slide';
     }
 
     public function initialize()
@@ -149,7 +135,7 @@ class Slide extends Model
         $slideListCache->rebuild();
     }
 
-    public static function targets()
+    public static function targetTypes()
     {
         $list = [
             self::TARGET_COURSE => '课程',

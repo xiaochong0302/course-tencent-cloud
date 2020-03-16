@@ -2,10 +2,11 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\NavList as NavListCache;
+use App\Caches\NavTreeList as NavTreeListCache;
 use App\Models\Nav as NavModel;
 use App\Repos\Nav as NavRepo;
 use App\Validators\Nav as NavValidator;
+use Phalcon\Mvc\Model\Resultset;
 
 class Nav extends Service
 {
@@ -191,7 +192,7 @@ class Nav extends Service
         $nav->child_count = $childCount;
         $nav->update();
 
-        $cache = new NavListCache();
+        $cache = new NavTreeListCache();
         $cache->rebuild();
     }
 
@@ -199,6 +200,9 @@ class Nav extends Service
     {
         $navRepo = new NavRepo();
 
+        /**
+         * @var Resultset $navs
+         */
         $navs = $navRepo->findAll(['parent_id' => $parentId]);
 
         if ($navs->count() == 0) {
@@ -215,6 +219,9 @@ class Nav extends Service
     {
         $navRepo = new NavRepo();
 
+        /**
+         * @var Resultset $navs
+         */
         $navs = $navRepo->findAll(['parent_id' => $parentId]);
 
         if ($navs->count() == 0) {

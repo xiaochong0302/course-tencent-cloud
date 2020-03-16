@@ -6,6 +6,7 @@ use App\Caches\Chapter as ChapterCache;
 use App\Caches\ChapterCounter as ChapterCounterCache;
 use App\Repos\Chapter as ChapterRepo;
 use App\Services\ChapterCacheSyncer;
+use Phalcon\Mvc\Model\Resultset;
 
 class RebuildChapterCacheTask extends Task
 {
@@ -39,6 +40,9 @@ class RebuildChapterCacheTask extends Task
 
         $chapterRepo = new ChapterRepo();
 
+        /**
+         * @var Resultset $chapters
+         */
         $chapters = $chapterRepo->findByIds($chapterIds);
 
         if ($chapters->count() == 0) {

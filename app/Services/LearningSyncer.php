@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Library\Cache\Backend\Redis as RedisCache;
+use App\Models\Learning;
 use App\Models\Learning as LearningModel;
+use App\Repos\Chapter as ChapterRepo;
 use App\Traits\Client as ClientTrait;
 
 class LearningSyncer extends Service
@@ -11,53 +14,80 @@ class LearningSyncer extends Service
     use ClientTrait;
 
     /**
-     * @var \Phalcon\Cache\Backend
+     * @var RedisCache
      */
     protected $cache;
 
+    /**
+     * @var \Redis
+     */
+    protected $redis;
+
+    /**
+     * @var int
+     */
     protected $lifetime = 86400;
 
     public function __construct()
     {
         $this->cache = $this->getDI()->get('cache');
+
+        $this->redis = $this->cache->getRedis();
     }
 
-    public function save(LearningModel $learning, $timeout = 10)
+    /**
+     * @param LearningModel $learning
+     * @param int $timeout
+     */
+    public function addItem(LearningModel $learning, $timeout = 10)
     {
         // 兼容秒和毫秒
         if ($timeout > 1000) {
             $timeout = intval($timeout / 1000);
         }
 
-        $key = $this->getKey($learning->request_id);
+        $itemKey = $this->getItemKey($learning->request_id);
 
-        $item = $this->cache->get($key);
+        /**
+         * @var LearningModel $cacheLearning
+         */
+        $cacheLearning = $this->cache->get($itemKey);
 
-        $clientIp = $this->getClientIp();
-        $clientType = $this->getClientType();
+        if (!$cacheLearning) {
 
-        $content = [
-            'request_id' => $learning->request_id,
-            'course_id' => $learning->course_id,
-            'chapter_id' => $learning->chapter_id,
-            'user_id' => $learning->user_id,
-            'position' => $learning->position,
-            'client_type' => $clientType,
-            'client_ip' => $clientIp,
-        ];
+            $chapterRepo = new ChapterRepo();
 
-        if (!$item) {
-            $content['duration'] = $timeout;
-            $this->cache->save($key, $content, $this->lifetime);
+            $chapter = $chapterRepo->findById($learning->chapter_id);
+
+            $learning->course_id = $chapter->course_id;
+            $learning->client_type = $this->getClientType();
+            $learning->client_ip = $this->getClientIp();
+            $learning->duration = $timeout;
+
+            $this->cache->save($itemKey, $learning, $this->lifetime);
+
         } else {
-            $content['duration'] = $item['duration'] + $timeout;
-            $this->cache->save($key, $content, $this->lifetime);
+
+            $cacheLearning->duration += $timeout;
+
+            $this->cache->save($itemKey, $cacheLearning, $this->lifetime);
         }
+
+        $syncKey = $this->getSyncKey();
+
+        $this->redis->sAdd($syncKey, $learning->request_id);
+
+        $this->redis->expire($syncKey, $this->lifetime);
     }
 
-    public function getKey($requestId)
+    public function getItemKey($id)
     {
-        return "learning:{$requestId}";
+        return "learning:{$id}";
+    }
+
+    public function getSyncKey()
+    {
+        return 'learning_sync';
     }
 
 }

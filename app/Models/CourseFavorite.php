@@ -51,7 +51,7 @@ class CourseFavorite extends Model
 
     public function getSource()
     {
-        return 'course_favorite';
+        return 'kg_course_favorite';
     }
 
     public function initialize()

@@ -12,11 +12,6 @@ use App\Repos\Course as CourseRepo;
 class Course extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Course
-     * @throws BadRequestException
-     */
     public function checkCourseCache($id)
     {
         $id = intval($id);
@@ -43,11 +38,6 @@ class Course extends Validator
         return $course;
     }
 
-    /**
-     * @param int $id
-     * @return \App\Models\Course
-     * @throws BadRequestException
-     */
     public function checkCourse($id)
     {
         $courseRepo = new CourseRepo();
@@ -63,13 +53,24 @@ class Course extends Validator
 
     public function checkModel($model)
     {
-        $list = CourseModel::models();
+        $list = CourseModel::modelTypes();
 
         if (!isset($list[$model])) {
             throw new BadRequestException('course.invalid_model');
         }
 
         return $model;
+    }
+
+    public function checkLevel($level)
+    {
+        $list = CourseModel::levelTypes();
+
+        if (!isset($list[$level])) {
+            throw new BadRequestException('course.invalid_level');
+        }
+
+        return $level;
     }
 
     public function checkCover($cover)
@@ -142,7 +143,7 @@ class Course extends Validator
             throw new BadRequestException('course.invalid_market_price');
         }
 
-        return (float)$value;
+        return $value;
     }
 
     public function checkVipPrice($price)
@@ -153,29 +154,29 @@ class Course extends Validator
             throw new BadRequestException('course.invalid_vip_price');
         }
 
-        return (float)$value;
+        return $value;
     }
 
-    public function checkExpiry($expiry)
+    public function checkStudyExpiry($expiry)
     {
-        $value = $this->filter->sanitize($expiry, ['trim', 'int']);
+        $options = CourseModel::studyExpiryOptions();
 
-        if ($value < 1 || $value > 3 * 365) {
-            throw new BadRequestException('course.invalid_expiry');
+        if (!isset($options[$expiry])) {
+            throw new BadRequestException('course.invalid_study_expiry');
         }
 
-        return (int)$value;
+        return $expiry;
     }
 
-    public function checkLevel($level)
+    public function checkRefundExpiry($expiry)
     {
-        $list = CourseModel::levels();
+        $options = CourseModel::refundExpiryOptions();
 
-        if (!isset($list[$level])) {
-            throw new BadRequestException('course.invalid_level');
+        if (!isset($options[$expiry])) {
+            throw new BadRequestException('course.invalid_refund_expiry');
         }
 
-        return $level;
+        return $expiry;
     }
 
     public function checkPublishStatus($status)
@@ -184,7 +185,7 @@ class Course extends Validator
             throw new BadRequestException('course.invalid_publish_status');
         }
 
-        return (int)$status;
+        return $status;
     }
 
     public function checkPublishAbility($course)

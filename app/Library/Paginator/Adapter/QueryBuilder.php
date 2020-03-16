@@ -8,8 +8,8 @@ use Phalcon\Paginator\Adapter\QueryBuilder as BaseQueryBuilder;
 class QueryBuilder extends BaseQueryBuilder
 {
 
-    private $url;
-    private $params = [];
+    protected $url;
+    protected $params = [];
 
     public function paginate()
     {
@@ -25,7 +25,7 @@ class QueryBuilder extends BaseQueryBuilder
         return $pager;
     }
 
-    private function initParams()
+    protected function initParams()
     {
         $request = new HttpRequest();
         
@@ -49,7 +49,7 @@ class QueryBuilder extends BaseQueryBuilder
         }
     }
 
-    private function buildPageUrl($page)
+    protected function buildPageUrl($page)
     {
         $this->params['page'] = $page;
 

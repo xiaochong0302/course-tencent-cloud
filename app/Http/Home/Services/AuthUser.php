@@ -3,8 +3,9 @@
 namespace App\Http\Home\Services;
 
 use App\Models\User as UserModel;
+use Phalcon\Mvc\User\Component;
 
-class AuthUser extends \Phalcon\Mvc\User\Component
+class AuthUser extends Component
 {
 
     /**

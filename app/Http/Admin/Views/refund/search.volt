@@ -7,7 +7,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">订单编号</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="order_sn" placeholder="订单编号精确匹配">
+            <input class="layui-input" type="text" name="order_id" placeholder="订单编号精确匹配">
         </div>
     </div>
 

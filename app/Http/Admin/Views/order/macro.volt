@@ -3,24 +3,18 @@
         {% set course = order.item_info['course'] %}
         <div class="kg-order-item">
             <p>课程名称：{{ course['title'] }}</p>
-            <p>市场价格：￥{{ course['market_price'] }}</p>
-            <p>有效期限：{{ date('Y-m-d', course['expire_time']) }}</p>
+            <p>市场价格：￥{{ course['market_price'] }}，会员价格：￥{{ course['vip_price'] }}</p>
+            <p>学习期限：{{ course['study_expiry'] }}个月，退款期限：{{ course['refund_expiry'] }}天</p>
         </div>
     {% elseif order.item_type == 'package' %}
         {% set courses = order.item_info['courses'] %}
         {% for course in courses %}
             <div class="kg-order-item">
                 <p>课程名称：{{ course['title'] }}</p>
-                <p>市场价格：￥{{ course['market_price'] }}</p>
-                <p>有效期限：{{ date('Y-m-d', course['expire_time']) }}</p>
+                <p>市场价格：￥{{ course['market_price'] }}，会员价格：￥{{ course['vip_price'] }}</p>
+                <p>学习期限：{{ course['study_expiry'] }}个月，退款期限：{{ course['refund_expiry'] }}天</p>
             </div>
         {% endfor %}
-    {% elseif order.item_type == 'reward' %}
-        {% set course = order.item_info['course'] %}
-        <div class="kg-order-item">
-            <p>课程名称：{{ course['title'] }}</p>
-            <p>赞赏金额：￥{{ order['amount'] }}</p>
-        </div>
     {% elseif order.item_type == 'vip' %}
         {% set vip = order.item_info['vip'] %}
         <div class="kg-order-item">
@@ -40,10 +34,8 @@
         <span class="layui-badge layui-bg-green">课程</span>
     {% elseif value == 'package' %}
         <span class="layui-badge layui-bg-blue">套餐</span>
-    {% elseif value == 'reward' %}
-        <span class="layui-badge layui-bg-red">打赏</span>
     {% elseif value == 'vip' %}
-        <span class="layui-badge layui-bg-orange">会员</span>
+        <span class="layui-badge layui-bg-red">会员</span>
     {% elseif value == 'test' %}
         <span class="layui-badge layui-bg-black">测试</span>
     {% endif %}

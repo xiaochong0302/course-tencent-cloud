@@ -165,7 +165,7 @@ class TestController extends Controller
             $this->db->rollback();
         }
 
-        $this->view->pick('config/alipay_test');
+        $this->view->pick('config/payment_alipay_test');
         $this->view->setVar('trade', $trade);
         $this->view->setVar('qrcode', $qrcode);
     }

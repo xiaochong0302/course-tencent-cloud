@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hans-CN">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,10 +24,9 @@
     var interval = null;
     var timeout = 5000;
     var requestId = uniqueId();
-    var courseId = '{{ course_id }}';
     var chapterId = '{{ chapter_id }}';
     var playUrl = '{{ play_url }}';
-    var playPosition = 0;
+    var position = 0;
 
     var player = new TcPlayer('player', {
         m3u8: playUrl,
@@ -35,18 +34,18 @@
         width: 720,
         height: 405,
         listener: function (msg) {
-            if (msg.type == 'play') {
+            if (msg.type === 'play') {
                 start();
-            } else if (msg.type == 'pause') {
+            } else if (msg.type === 'pause') {
                 stop();
-            } else if (msg.type == 'end') {
+            } else if (msg.type === 'end') {
                 stop();
             }
         }
     });
 
-    if (playPosition > 0) {
-        player.currentTime(playPosition);
+    if (position > 0) {
+        player.currentTime(position);
     }
 
     function start() {
@@ -68,7 +67,6 @@
             url: '/admin/vod/learning',
             data: {
                 request_id: requestId,
-                course_id: courseId,
                 chapter_id: chapterId,
                 timeout: timeout,
                 position: player.currentTime(),
@@ -76,7 +74,7 @@
         });
     }
 
-    function uniqueId(){
+    function uniqueId() {
         var id = Date.now().toString(36);
         id += Math.random().toString(36).substr(3);
         return id;

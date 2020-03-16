@@ -2,11 +2,14 @@
 
 namespace App\Caches;
 
-abstract class Counter extends \Phalcon\Mvc\User\Component
+use App\Library\Cache\Backend\Redis as RedisCache;
+use Phalcon\Mvc\User\Component;
+
+abstract class Counter extends Component
 {
 
     /**
-     * @var \App\Library\Cache\Backend\Redis
+     * @var RedisCache
      */
     protected $cache;
 
@@ -40,16 +43,6 @@ abstract class Counter extends \Phalcon\Mvc\User\Component
 
             $lifetime = $this->getLifetime();
 
-            /**
-             * 原始内容为空，设置较短的生存时间，简单防止穿透
-             */
-            if (!$content) {
-
-                $lifetime = 5 * 60;
-
-                $content = ['default' => 0];
-            }
-
             $this->redis->hMSet($key, $content);
 
             $this->redis->expire($key, $lifetime);
@@ -82,16 +75,46 @@ abstract class Counter extends \Phalcon\Mvc\User\Component
         $this->get($id);
     }
 
-    public function increment($id, $hashKey, $value = 1)
+    public function hGet($id, $hashKey)
     {
         $key = $this->getKey($id);
+
+        if (!$this->redis->exists($key)) {
+            $this->get($id);
+        }
+
+        $value = $this->redis->hGet($key, $hashKey);
+
+        return $value;
+    }
+
+    public function hDel($id, $hashKey)
+    {
+        $key = $this->getKey($id);
+
+        $value = $this->redis->hDel($key, $hashKey);
+
+        return $value;
+    }
+
+    public function hIncrBy($id, $hashKey, $value = 1)
+    {
+        $key = $this->getKey($id);
+
+        if (!$this->redis->exists($key)) {
+            $this->get($id);
+        }
 
         $this->redis->hIncrBy($key, $hashKey, $value);
     }
 
-    public function decrement($id, $hashKey, $value = 1)
+    public function hDecrBy($id, $hashKey, $value = 1)
     {
         $key = $this->getKey($id);
+
+        if (!$this->redis->exists($key)) {
+            $this->get($id);
+        }
 
         $this->redis->hIncrBy($key, $hashKey, 0 - $value);
     }

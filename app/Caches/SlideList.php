@@ -3,6 +3,7 @@
 namespace App\Caches;
 
 use App\Models\Slide as SlideModel;
+use Phalcon\Mvc\Model\Resultset;
 
 class SlideList extends Cache
 {
@@ -21,6 +22,9 @@ class SlideList extends Cache
 
     public function getContent($id = null)
     {
+        /**
+         * @var Resultset $slides
+         */
         $slides = SlideModel::query()
             ->columns(['id', 'title', 'cover', 'summary', 'target', 'content'])
             ->where('published = 1 AND deleted = 0')
@@ -35,7 +39,7 @@ class SlideList extends Cache
     }
 
     /**
-     * @param \App\Models\Slide[] $slides
+     * @param SlideModel[] $slides
      * @return array
      */
     protected function handleContent($slides)

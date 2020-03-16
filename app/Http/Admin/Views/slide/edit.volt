@@ -58,20 +58,6 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">开始时间</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="start_time" value="{{ date('Y-m-d H:i:s',slide.start_time) }}" lay-verify="required">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">结束时间</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="end_time" value="{{ date('Y-m-d H:i:s',slide.end_time) }}" lay-verify="required">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
         <label class="layui-form-label">发布</label>
         <div class="layui-input-block">
             <input type="radio" name="published" value="1" title="是" {% if slide.published == 1 %}checked{% endif %}>
@@ -90,23 +76,3 @@
 </form>
 
 {{ partial('partials/cover_uploader') }}
-
-<script>
-
-    layui.use(['laydate'], function () {
-
-        var laydate = layui.laydate;
-
-        laydate.render({
-            elem: 'input[name=start_time]',
-            type: 'datetime'
-        });
-
-        laydate.render({
-            elem: 'input[name=end_time]',
-            type: 'datetime'
-        });
-
-    });
-
-</script>

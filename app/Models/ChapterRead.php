@@ -62,7 +62,7 @@ class ChapterRead extends Model
 
     public function getSource()
     {
-        return 'chapter_read';
+        return 'kg_chapter_read';
     }
 
     public function beforeCreate()
@@ -73,6 +73,16 @@ class ChapterRead extends Model
     public function beforeUpdate()
     {
         $this->updated_at = time();
+    }
+
+    public static function formatTypes()
+    {
+        $list = [
+            self::FORMAT_HTML => 'html',
+            self::FORMAT_MARKDOWN => 'format',
+        ];
+
+        return $list;
     }
 
 }

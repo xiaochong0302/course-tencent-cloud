@@ -37,7 +37,7 @@ class Config extends Model
 
     public function getSource()
     {
-        return 'config';
+        return 'kg_config';
     }
 
     public function afterUpdate()

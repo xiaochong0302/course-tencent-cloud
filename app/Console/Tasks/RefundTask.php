@@ -10,13 +10,19 @@ use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Refund as RefundRepo;
 use App\Repos\Trade as TradeRepo;
+use App\Repos\User as UserRepo;
 use App\Services\Alipay as AlipayService;
-use App\Services\Wxpay as WxpayService;
+use App\Services\Wechat as WechatService;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class RefundTask extends Task
 {
 
-    const TRY_COUNT = 5;
+    /**
+     * 重试次数
+     */
+    const TRY_COUNT = 3;
 
     public function mainAction()
     {
@@ -34,15 +40,21 @@ class RefundTask extends Task
 
         foreach ($tasks as $task) {
 
-            $refund = $refundRepo->findBySn($task->item_info['refund']['sn']);
-            $trade = $tradeRepo->findBySn($task->item_info['refund']['trade_sn']);
-            $order = $orderRepo->findBySn($task->item_info['refund']['order_sn']);
+            /**
+             * @var array $itemInfo
+             */
+            $itemInfo = $task->item_info;
+
+            $refund = $refundRepo->findById($itemInfo['refund']['id']);
+            $trade = $tradeRepo->findById($itemInfo['refund']['trade_id']);
+            $order = $orderRepo->findById($itemInfo['refund']['order_id']);
 
             try {
 
                 $this->db->begin();
 
                 $this->handleTradeRefund($trade, $refund);
+
                 $this->handleOrderRefund($order);
 
                 $refund->status = RefundModel::STATUS_FINISHED;
@@ -76,6 +88,7 @@ class RefundTask extends Task
                 $this->db->rollback();
 
                 $task->try_count += 1;
+                $task->priority += 1;
 
                 if ($task->try_count > self::TRY_COUNT) {
                     $task->status = TaskModel::STATUS_FAILED;
@@ -104,18 +117,23 @@ class RefundTask extends Task
         $response = false;
 
         if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
+
             $alipay = new AlipayService();
+
             $response = $alipay->refundOrder([
                 'out_trade_no' => $trade->sn,
                 'out_request_no' => $refund->sn,
                 'refund_amount' => $refund->amount,
             ]);
-        } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
-            $wxpay = new WxpayService();
-            $response = $wxpay->refundOrder([
+
+        } elseif ($trade->channel == TradeModel::CHANNEL_WECHAT) {
+
+            $wechat = new WechatService();
+
+            $response = $wechat->refundOrder([
                 'out_trade_no' => $trade->sn,
                 'out_refund_no' => $refund->sn,
-                'total_fee' => 100 * $trade->order_amount,
+                'total_fee' => 100 * $trade->amount,
                 'refund_fee' => 100 * $refund->amount,
             ]);
         }
@@ -133,19 +151,16 @@ class RefundTask extends Task
     protected function handleOrderRefund(OrderModel $order)
     {
         switch ($order->item_type) {
-            case OrderModel::TYPE_COURSE:
+            case OrderModel::ITEM_COURSE:
                 $this->handleCourseOrderRefund($order);
                 break;
-            case OrderModel::TYPE_PACKAGE:
+            case OrderModel::ITEM_PACKAGE:
                 $this->handlePackageOrderRefund($order);
                 break;
-            case OrderModel::TYPE_REWARD:
-                $this->handleRewardOrderRefund($order);
-                break;
-            case OrderModel::TYPE_VIP:
+            case OrderModel::ITEM_VIP:
                 $this->handleVipOrderRefund($order);
                 break;
-            case OrderModel::TYPE_TEST:
+            case OrderModel::ITEM_TEST:
                 $this->handleTestOrderRefund($order);
                 break;
         }
@@ -179,8 +194,15 @@ class RefundTask extends Task
     {
         $courseUserRepo = new CourseUserRepo();
 
-        foreach ($order->item_info['courses'] as $course) {
+        /**
+         * @var array $itemInfo
+         */
+        $itemInfo = $order->item_info;
+
+        foreach ($itemInfo['courses'] as $course) {
+
             $courseUser = $courseUserRepo->findCourseStudent($course['id'], $order->user_id);
+
             if ($courseUser) {
                 $courseUser->deleted = 1;
                 if ($courseUser->update() === false) {
@@ -201,40 +223,23 @@ class RefundTask extends Task
 
         $user = $userRepo->findById($order->user_id);
 
-        $baseTime = $user->vip_expiry;
+        /**
+         * @var array $itemInfo
+         */
+        $itemInfo = $order->item_info;
 
-        switch ($order->item_info['vip']['duration']) {
-            case 'one_month':
-                $user->vip_expiry = strtotime('-1 months', $baseTime);
-                break;
-            case 'three_month':
-                $user->vip_expiry = strtotime('-3 months', $baseTime);
-                break;
-            case 'six_month':
-                $user->vip_expiry = strtotime('-6 months', $baseTime);
-                break;
-            case 'twelve_month':
-                $user->vip_expiry = strtotime('-12 months', $baseTime);
-                break;
-        }
+        $diffTime = "-{$itemInfo['vip']['expiry']} months";
+        $baseTime = $itemInfo['vip']['expiry_time'];
 
-        if ($user->vip_expiry < time()) {
+        $user->vip_expiry_time = strtotime($diffTime, $baseTime);
+
+        if ($user->vip_expiry_time < time()) {
             $user->vip = 0;
         }
 
         if ($user->update() === false) {
             throw new \RuntimeException('Update User Vip Failed');
         }
-    }
-
-    /**
-     * 处理打赏订单退款
-     *
-     * @param OrderModel $order
-     */
-    protected function handleRewardOrderRefund(OrderModel $order)
-    {
-
     }
 
     /**
@@ -247,6 +252,10 @@ class RefundTask extends Task
 
     }
 
+    /**
+     * @param int $limit
+     * @return ResultsetInterface|Resultset|TaskModel[]
+     */
     protected function findTasks($limit = 5)
     {
         $itemType = TaskModel::TYPE_REFUND;
@@ -257,7 +266,7 @@ class RefundTask extends Task
             ->where('item_type = :item_type:', ['item_type' => $itemType])
             ->andWhere('status = :status:', ['status' => $status])
             ->andWhere('try_count < :try_count:', ['try_count' => $tryCount])
-            ->orderBy('priority ASC,try_count DESC')
+            ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();
 

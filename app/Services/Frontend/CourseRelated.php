@@ -11,7 +11,7 @@ class CourseRelated extends Service
 
     public function getRelated($id)
     {
-        $course = $this->checkCourseCache($id);
+        $course = $this->checkCourse($id);
 
         $crListCache = new CourseRelatedListCache();
 

@@ -2,11 +2,29 @@
 
 namespace App\Services\Frontend;
 
-use App\Caches\CourseUser as CourseUserCache;
+use App\Models\Course as CourseModel;
+use App\Models\CourseUser as CourseUserModel;
+use App\Models\User as UserModel;
+use App\Repos\CourseUser as CourseUserRepo;
 use App\Validators\Course as CourseValidator;
 
 trait CourseTrait
 {
+
+    /**
+     * @var bool
+     */
+    protected $ownedCourse = false;
+
+    /**
+     * @var bool
+     */
+    protected $joinedCourse = false;
+
+    /**
+     * @var CourseUserModel
+     */
+    protected $courseUser;
 
     public function checkCourse($id)
     {
@@ -17,64 +35,44 @@ trait CourseTrait
         return $course;
     }
 
-    public function checkCourseCache($id)
-    {
-        $validator = new CourseValidator();
-
-        $course = $validator->checkCourseCache($id);
-
-        return $course;
-    }
-
     /**
-     * @param $courseId
-     * @param $userId
-     * @return \App\Models\CourseUser|null
+     * @param CourseModel $course
+     * @param UserModel $user
      */
-    public function getCourseUser($courseId, $userId)
+    public function setCourseUser($course, $user)
     {
-        if (!$courseId || !$userId) {
-            return null;
+        $courseUserRepo = new CourseUserRepo();
+
+        $courseUser = $courseUserRepo->findCourseUser($course->id, $user->id);
+
+        if ($courseUser) {
+            $this->courseUser = $courseUser;
+            $this->joinedCourse = true;
         }
 
-        $key = "{$courseId}_{$userId}";
-
-        $courseUserCache = new CourseUserCache();
-
-        $courseUser = $courseUserCache->get($key);
-
-        return $courseUser;
-    }
-
-    /**
-     * @param \App\Models\Course $course
-     * @param \App\Models\User $user
-     * @return bool
-     */
-    public function ownedCourse($course, $user)
-    {
         if ($course->market_price == 0) {
-            return true;
+
+            $this->ownedCourse = true;
+
+        } elseif ($course->vip_price == 0 && $user->vip == 1) {
+
+            $this->ownedCourse = true;
+
+        } elseif ($courseUser) {
+
+            $sourceTypes = [
+                CourseUserModel::SOURCE_CHARGE,
+                CourseUserModel::SOURCE_IMPORT,
+            ];
+
+            $caseA = $courseUser->deleted == 0;
+            $caseB = $courseUser->expiry_time > time();
+            $caseC = in_array($courseUser->source_type, $sourceTypes);
+
+            if ($caseA && $caseB && $caseC) {
+                $this->ownedCourse = true;
+            }
         }
-
-        if ($course->vip_price == 0 && $user->vip == 1) {
-            return true;
-        }
-
-        if ($user->id == 0) {
-            return false;
-        }
-
-        $courseUser = $this->getCourseUser($course->id, $user->id);
-
-        $caseAOk = $courseUser->deleted == 0;
-        $caseBOk = $courseUser->expire_time < time();
-
-        if ($courseUser && $caseAOk && $caseBOk) {
-            return true;
-        }
-
-        return false;
     }
 
 }

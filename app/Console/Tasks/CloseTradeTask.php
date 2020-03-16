@@ -4,7 +4,10 @@ namespace App\Console\Tasks;
 
 use App\Models\Trade as TradeModel;
 use App\Services\Alipay as AlipayService;
+use App\Services\Wechat as WechatService;
 use Phalcon\Cli\Task;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class CloseTradeTask extends Task
 {
@@ -20,8 +23,8 @@ class CloseTradeTask extends Task
         foreach ($trades as $trade) {
             if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
                 $this->closeAlipayTrade($trade);
-            } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
-                $this->closeWxpayTrade($trade);
+            } elseif ($trade->channel == TradeModel::CHANNEL_WECHAT) {
+                $this->closeWechatTrade($trade);
             }
         }
     }
@@ -53,9 +56,9 @@ class CloseTradeTask extends Task
      *
      * @param TradeModel $trade
      */
-    protected function closeWxpayTrade($trade)
+    protected function closeWechatTrade($trade)
     {
-        $service = new WxpayService();
+        $service = new WechatService();
 
         $wxOrder = $service->findOrder($trade->sn);
 
@@ -74,7 +77,7 @@ class CloseTradeTask extends Task
      * 查找待关闭交易
      *
      * @param int $limit
-     * @return \Phalcon\Mvc\Model\ResultsetInterface
+     * @return Resultset|ResultsetInterface
      */
     protected function findTrades($limit = 5)
     {

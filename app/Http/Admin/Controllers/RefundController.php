@@ -38,8 +38,8 @@ class RefundController extends Controller
         $refundService = new RefundService();
 
         $refund = $refundService->getRefund($id);
-        $order = $refundService->getOrder($refund->order_sn);
-        $trade = $refundService->getTrade($refund->trade_sn);
+        $order = $refundService->getOrder($refund->order_id);
+        $trade = $refundService->getTrade($refund->trade_id);
         $account = $refundService->getAccount($trade->user_id);
         $user = $refundService->getUser($trade->user_id);
 

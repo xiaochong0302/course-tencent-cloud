@@ -2,14 +2,33 @@
 
 namespace Bootstrap;
 
+use App\Providers\Annotation as AnnotationProvider;
+use App\Providers\Cache as CacheProvider;
+use App\Providers\Config as ConfigProvider;
+use App\Providers\Cookie as CookieProvider;
+use App\Providers\Crypt as CryptProvider;
+use App\Providers\Database as DatabaseProvider;
+use App\Providers\EventsManager as EventsManagerProvider;
+use App\Providers\Logger as LoggerProvider;
+use App\Providers\MetaData as MetaDataProvider;
+use App\Providers\Provider as AppProvider;
+use App\Providers\Router as RouterProvider;
+use App\Providers\Security as SecurityProvider;
+use App\Providers\Session as SessionProvider;
+use App\Providers\Url as UrlProvider;
+use App\Providers\Volt as VoltProvider;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Loader;
+use Phalcon\Mvc\Application;
+
 class HttpKernel extends Kernel
 {
 
     public function __construct()
     {
-        $this->di = new \Phalcon\Di\FactoryDefault();
-        $this->app = new \Phalcon\Mvc\Application();
-        $this->loader = new \Phalcon\Loader();
+        $this->di = new FactoryDefault();
+        $this->app = new Application();
+        $this->loader = new Loader();
 
         $this->initAppEnv();
         $this->initAppConfigs();
@@ -44,24 +63,28 @@ class HttpKernel extends Kernel
     protected function registerServices()
     {
         $providers = [
-            \App\Providers\Annotation::class,
-            \App\Providers\Cache::class,
-            \App\Providers\Cookie::class,
-            \App\Providers\Config::class,
-            \App\Providers\Crypt::class,
-            \App\Providers\Database::class,
-            \App\Providers\EventsManager::class,
-            \App\Providers\Logger::class,
-            \App\Providers\MetaData::class,
-            \App\Providers\Router::class,
-            \App\Providers\Security::class,
-            \App\Providers\Session::class,
-            \App\Providers\Url::class,
-            \App\Providers\Volt::class,
+            AnnotationProvider::class,
+            CacheProvider::class,
+            CookieProvider::class,
+            ConfigProvider::class,
+            CryptProvider::class,
+            DatabaseProvider::class,
+            EventsManagerProvider::class,
+            LoggerProvider::class,
+            MetaDataProvider::class,
+            RouterProvider::class,
+            SecurityProvider::class,
+            SessionProvider::class,
+            UrlProvider::class,
+            VoltProvider::class,
         ];
 
         foreach ($providers as $provider) {
+            /**
+             * @var AppProvider $service
+             */
             $service = new $provider($this->di);
+
             $service->register();
         }
     }

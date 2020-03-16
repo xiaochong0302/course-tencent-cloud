@@ -25,6 +25,27 @@ class Refund extends Model
     public $id;
 
     /**
+     * 用户编号
+     *
+     * @var string
+     */
+    public $user_id;
+
+    /**
+     * 订单编号
+     *
+     * @var int
+     */
+    public $order_id;
+
+    /**
+     * 交易编号
+     *
+     * @var int
+     */
+    public $trade_id;
+
+    /**
      * 序号
      *
      * @var string
@@ -46,39 +67,18 @@ class Refund extends Model
     public $amount;
 
     /**
-     * 申请原因
+     * 申请备注
      *
      * @var string
      */
-    public $apply_reason;
+    public $apply_note;
 
     /**
-     * 审核说明
+     * 审核备注
      *
      * @var string
      */
     public $review_note;
-
-    /**
-     * 用户编号
-     *
-     * @var string
-     */
-    public $user_id;
-
-    /**
-     * 交易序号
-     *
-     * @var string
-     */
-    public $trade_sn;
-
-    /**
-     * 订单序号
-     *
-     * @var string
-     */
-    public $order_sn;
 
     /**
      * 状态类型
@@ -110,7 +110,7 @@ class Refund extends Model
 
     public function getSource()
     {
-        return 'refund';
+        return 'kg_refund';
     }
 
     public function initialize()
@@ -127,9 +127,9 @@ class Refund extends Model
 
     public function beforeCreate()
     {
-        $this->sn = date('YmdHis') . rand(1000, 9999);
-
         $this->status = self::STATUS_PENDING;
+
+        $this->sn = date('YmdHis') . rand(1000, 9999);
 
         $this->created_at = time();
     }
@@ -144,7 +144,7 @@ class Refund extends Model
         $this->amount = (float)$this->amount;
     }
 
-    public static function statuses()
+    public static function statusTypes()
     {
         $list = [
             self::STATUS_PENDING => '待处理',

@@ -8,11 +8,6 @@ use App\Repos\Package as PackageRepo;
 class Package extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Package
-     * @throws BadRequestException
-     */
     public function checkPackage($id)
     {
         $packageRepo = new PackageRepo();
@@ -46,6 +41,12 @@ class Package extends Validator
     public function checkSummary($summary)
     {
         $value = $this->filter->sanitize($summary, ['trim', 'string']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 255) {
+            throw new BadRequestException('package.summary_too_long');
+        }
 
         return $value;
     }

@@ -3,9 +3,11 @@
 namespace App\Console\Tasks;
 
 use App\Models\Course as CourseModel;
-use App\Searchers\CourseDocumenter;
-use App\Searchers\CourseSearcher;
+use App\Searchers\CourseDocument;
+use App\Searchers\CourseSearch;
 use Phalcon\Cli\Task;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class ManageCourseIndexTask extends Task
 {
@@ -55,7 +57,7 @@ class ManageCourseIndexTask extends Task
      */
     protected function cleanCourseIndex()
     {
-        $searcher = new CourseSearcher();
+        $searcher = new CourseSearch();
 
         $index = $searcher->getXS()->getIndex();
 
@@ -77,9 +79,9 @@ class ManageCourseIndexTask extends Task
             return;
         }
 
-        $searcher = new CourseSearcher();
+        $searcher = new CourseSearch();
 
-        $documenter = new CourseDocumenter();
+        $documenter = new CourseDocument();
 
         $index = $searcher->getXS()->getIndex();
 
@@ -106,7 +108,7 @@ class ManageCourseIndexTask extends Task
      */
     protected function searchCourses($query)
     {
-        $searcher = new CourseSearcher();
+        $searcher = new CourseSearch();
 
         $result = $searcher->search($query);
 
@@ -116,7 +118,7 @@ class ManageCourseIndexTask extends Task
     /**
      * 查找课程
      *
-     * @return \Phalcon\Mvc\Model\ResultsetInterface
+     * @return Resultset|ResultsetInterface
      */
     protected function findCourses()
     {

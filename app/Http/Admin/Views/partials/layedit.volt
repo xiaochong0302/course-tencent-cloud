@@ -6,7 +6,7 @@
         var layedit = layui.layedit;
 
         layedit.set({
-            uploadImage: {url: '/admin/storage/content/img/upload'}
+            uploadImage: {url: '/admin/upload/content/img'}
         });
 
         var index = layedit.build('kg-layedit');

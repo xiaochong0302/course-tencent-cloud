@@ -5,6 +5,7 @@ namespace App\Http\Admin\Services;
 use App\Models\Category as CategoryModel;
 use App\Repos\Category as CategoryRepo;
 use App\Validators\Category as CategoryValidator;
+use Phalcon\Mvc\Model\Resultset;
 
 class Category extends Service
 {
@@ -179,6 +180,9 @@ class Category extends Service
     {
         $categoryRepo = new CategoryRepo();
 
+        /**
+         * @var Resultset|CategoryModel[] $categories
+         */
         $categories = $categoryRepo->findAll(['parent_id' => $parentId]);
 
         if ($categories->count() == 0) {
@@ -195,6 +199,9 @@ class Category extends Service
     {
         $categoryRepo = new CategoryRepo();
 
+        /**
+         * @var Resultset|CategoryModel[] $categories
+         */
         $categories = $categoryRepo->findAll(['parent_id' => $parentId]);
 
         if ($categories->count() == 0) {

@@ -13,7 +13,7 @@
 {%- macro channel_type(value) %}
     {% if value == 'alipay' %}
         <span class="layui-badge layui-bg-blue">支付宝</span>
-    {% elseif value == 'wxpay' %}
+    {% elseif value == 'wechat' %}
         <span class="layui-badge layui-bg-green">微信</span>
     {% endif %}
 {%- endmacro %}

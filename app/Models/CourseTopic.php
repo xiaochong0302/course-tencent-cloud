@@ -35,7 +35,7 @@ class CourseTopic extends Model
 
     public function getSource()
     {
-        return 'course_topic';
+        return 'kg_course_topic';
     }
 
     public function beforeCreate()

@@ -3,20 +3,32 @@
 namespace App\Repos;
 
 use App\Models\Config as ConfigModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Config extends Repository
 {
 
-    public function findItem($section, $key)
+    /**
+     * @param string $section
+     * @param string $itemKey
+     * @return ConfigModel|Model|bool
+     */
+    public function findItem($section, $itemKey)
     {
-        $result = ConfigModel::query()
-            ->where('section = :section:', ['section' => $section])
-            ->andWhere('item_key = :key:', ['key' => $key])
-            ->execute()->getFirst();
+        $result = ConfigModel::findFirst([
+            'conditions' => 'section = :section: AND item_key = :item_key:',
+            'bind' => ['section' => $section, 'item_key' => $itemKey],
+        ]);
 
         return $result;
     }
 
+    /**
+     * @param string $section
+     * @return Resultset|ResultsetInterface|ConfigModel[]
+     */
     public function findBySection($section)
     {
         $query = ConfigModel::query();
@@ -28,13 +40,17 @@ class Config extends Repository
         return $result;
     }
 
+    /**
+     * @param array $where
+     * @return Resultset|ResultsetInterface|ConfigModel[]
+     */
     public function findAll($where = [])
     {
         $query = ConfigModel::query();
 
         $query->where('1 = 1');
 
-        if (isset($where['section'])) {
+        if (!empty($where['section'])) {
             $query->andWhere('section = :section:', ['section' => $where['section']]);
         }
 

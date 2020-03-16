@@ -11,6 +11,7 @@ class CleanLogTask extends Task
     {
         $this->cleanCommonLog();
         $this->cleanConsoleLog();
+        $this->cleanHttpLog();
         $this->cleanSqlLog();
         $this->cleanListenerLog();
         $this->cleanCaptchaLog();
@@ -19,7 +20,7 @@ class CleanLogTask extends Task
         $this->cleanVodLog();
         $this->cleanStorageLog();
         $this->cleanAlipayLog();
-        $this->cleanWxpayLog();
+        $this->cleanWechatLog();
         $this->cleanRefundLog();
     }
 
@@ -29,6 +30,14 @@ class CleanLogTask extends Task
     protected function cleanCommonLog()
     {
         $this->cleanLog('common', 7);
+    }
+
+    /**
+     * 清理Http日志
+     */
+    protected function cleanHttpLog()
+    {
+        $this->cleanLog('http', 7);
     }
 
     /**
@@ -106,9 +115,9 @@ class CleanLogTask extends Task
     /**
      * 清理微信支付服务日志
      */
-    protected function cleanWxpayLog()
+    protected function cleanWechatLog()
     {
-        $this->cleanLog('wxpay', 30);
+        $this->cleanLog('wechat', 30);
     }
 
     /**

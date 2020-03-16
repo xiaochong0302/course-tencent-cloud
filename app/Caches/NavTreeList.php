@@ -2,8 +2,9 @@
 
 namespace App\Caches;
 
-use App\Builders\NavList as NavListBuilder;
+use App\Builders\NavTreeList as NavTreeListBuilder;
 use App\Models\Nav as NavModel;
+use Phalcon\Mvc\Model\Resultset;
 
 class NavTreeList extends Cache
 {
@@ -22,6 +23,9 @@ class NavTreeList extends Cache
 
     public function getContent($id = null)
     {
+        /**
+         * @var Resultset $navs
+         */
         $navs = NavModel::query()
             ->where('published = 1 AND deleted = 0')
             ->orderBy('position ASC, priority ASC')
@@ -35,7 +39,7 @@ class NavTreeList extends Cache
     }
 
     /**
-     * @param \App\Models\Nav[] $navs
+     * @param Resultset $navs
      * @return array
      */
     protected function handleContent($navs)
@@ -53,7 +57,7 @@ class NavTreeList extends Cache
             }
         }
 
-        $builder = new NavListBuilder();
+        $builder = new NavTreeListBuilder();
 
         $content = [
             'top' => $builder->handleTreeList($list['top']),

@@ -79,7 +79,7 @@ class Package extends Model
 
     public function getSource()
     {
-        return 'package';
+        return 'kg_package';
     }
 
     public function initialize()
@@ -102,6 +102,12 @@ class Package extends Model
     public function beforeUpdate()
     {
         $this->updated_at = time();
+    }
+
+    public function afterFetch()
+    {
+        $this->market_price = (float)$this->market_price;
+        $this->vip_price = (float)$this->vip_price;
     }
 
 }

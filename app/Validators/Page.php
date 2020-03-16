@@ -8,11 +8,6 @@ use App\Repos\Page as PageRepo;
 class Page extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Page
-     * @throws BadRequestException
-     */
     public function checkPage($id)
     {
         $pageRepo = new PageRepo();
@@ -53,7 +48,7 @@ class Page extends Validator
             throw new BadRequestException('page.content_too_short');
         }
 
-        if ($length > 65535) {
+        if ($length > 3000) {
             throw new BadRequestException('page.content_too_long');
         }
 

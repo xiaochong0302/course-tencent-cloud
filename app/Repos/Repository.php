@@ -2,7 +2,9 @@
 
 namespace App\Repos;
 
-class Repository extends \Phalcon\Mvc\User\Component
+use Phalcon\Mvc\User\Component;
+
+class Repository extends Component
 {
 
 }

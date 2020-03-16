@@ -38,8 +38,8 @@ class TradeController extends Controller
         $tradeService = new TradeService();
 
         $trade = $tradeService->getTrade($id);
-        $refunds = $tradeService->getRefunds($trade->sn);
-        $order = $tradeService->getOrder($trade->order_sn);
+        $refunds = $tradeService->getRefunds($trade->id);
+        $order = $tradeService->getOrder($trade->order_id);
         $account = $tradeService->getAccount($trade->user_id);
         $user = $tradeService->getUser($trade->user_id);
 

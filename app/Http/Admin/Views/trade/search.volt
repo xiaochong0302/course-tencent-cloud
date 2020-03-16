@@ -7,7 +7,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">订单编号</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="order_sn" placeholder="订单编号精确匹配">
+            <input class="layui-input" type="text" name="order_id" placeholder="订单编号精确匹配">
         </div>
     </div>
 
@@ -22,7 +22,7 @@
         <label class="layui-form-label">交易平台</label>
         <div class="layui-input-block">
             <input type="radio" name="channel" value="alipay" title="支付宝">
-            <input type="radio" name="channel" value="wxpay" title="微信">
+            <input type="radio" name="channel" value="wechat" title="微信">
         </div>
     </div>
 

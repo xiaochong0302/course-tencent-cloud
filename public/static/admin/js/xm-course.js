@@ -38,39 +38,42 @@ function xmCourse(data, url) {
             url: url,
             page: true,
             cols: [[
-                {field: 'id', title: '编号', width: 50},
-                {field: 'title', title: '标题', width: 300},
+                {field: 'id', title: '编号', width: 40},
+                {field: 'title', title: '标题', width: 340},
                 {
-                    field: 'model', title: '类型', width: 50, templet: function (d) {
-                        if (d.model === 'vod') {
-                            return '<span class="layui-badge layui-bg-green">点播</span>';
-                        } else if (d.model === 'live') {
-                            return '<span class="layui-badge layui-bg-orange">直播</span>';
-                        } else if (d.model === 'read') {
-                            return '<span class="layui-badge layui-bg-black">图文</span>';
+                    field: 'model', title: '类型', width: 40, templet: function (d) {
+                        if (d.model === 1) {
+                            return '点播';
+                        } else if (d.model === 2) {
+                            return '直播';
+                        } else if (d.model === 3) {
+                            return '图文';
                         }
                     }
                 },
                 {
-                    field: 'lesson_count', title: '学员数', width: 55, templet: function (d) {
-                        return '<span class="layui-badge layui-bg-gray">' + d.user_count + '</span>';
+                    field: 'level', title: '难度', width: 40, templet: function (d) {
+                        if (d.level === 1) {
+                            return '入门';
+                        } else if (d.level === 2) {
+                            return '初级';
+                        } else if (d.level === 3) {
+                            return '中级';
+                        } else if (d.level === 4) {
+                            return '高级';
+                        }
                     }
                 },
                 {
-                    field: 'lesson_count', title: '课时数', width: 55, templet: function (d) {
-                        return '<span class="layui-badge layui-bg-gray">' + d.lesson_count + '</span>';
+                    field: 'user_count', title: '用户', width: 40, templet: function (d) {
+                        return d.user_count;
                     }
                 },
                 {
-                    field: 'market_price', title: '市场价', width: 60, templet: function (d) {
+                    field: 'market_price', title: '价格', width: 40, templet: function (d) {
                         return '￥' + d.market_price;
                     }
-                },
-                {
-                    field: 'vip_price', title: '会员价', width: 60, templet: function (d) {
-                        return '￥' + d.vip_price;
-                    }
-                },
+                }
             ]]
         });
 

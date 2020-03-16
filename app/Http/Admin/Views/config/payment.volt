@@ -8,7 +8,7 @@
             {{ partial('config/payment_alipay') }}
         </div>
         <div class="layui-tab-item">
-            {{ partial('config/payment_wxpay') }}
+            {{ partial('config/payment_wechat') }}
         </div>
     </div>
 </div>

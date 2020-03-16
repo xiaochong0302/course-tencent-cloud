@@ -2,8 +2,8 @@
 
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
-        <div class="layui-input-inline" style="width:150px;margin:10px 0px 5px 110px;">
-            <div id="qrcode" class="qrcode" qrcode-text="{{ push_url }}"></div>
+        <div class="layui-input-inline" style="width:150px;margin-left:110px;">
+            <img src="/qrcode/img?text={{ push_url|url_encode }}">
         </div>
     </div>
 
@@ -39,22 +39,3 @@
 </form>
 
 {{ partial('partials/clipboard_tips') }}
-
-{{ javascript_include('lib/jquery.min.js') }}
-{{ javascript_include('lib/jquery.qrcode.min.js') }}
-
-<script>
-
-    layui.use(['jquery'], function () {
-
-        var $ = layui.jquery;
-
-        $('#qrcode').qrcode({
-            text: $('#qrcode').attr('qrcode-text'),
-            width: 120,
-            height: 120
-        });
-
-    });
-
-</script>

@@ -3,13 +3,16 @@
 namespace App\Repos;
 
 use App\Models\Nav as NavModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Nav extends Repository
 {
 
     /**
      * @param int $id
-     * @return NavModel
+     * @return NavModel|Model|bool
      */
     public function findById($id)
     {
@@ -18,6 +21,11 @@ class Nav extends Repository
         return $result;
     }
 
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|NavModel[]
+     */
     public function findByIds($ids, $columns = '*')
     {
         $result = NavModel::query()
@@ -28,6 +36,10 @@ class Nav extends Repository
         return $result;
     }
 
+    /**
+     * @param array $where
+     * @return ResultsetInterface|Resultset|NavModel[]
+     */
     public function findAll($where = [])
     {
         $query = NavModel::query();
@@ -68,7 +80,7 @@ class Nav extends Repository
             'bind' => ['parent_id' => $navId],
         ]);
 
-        return (int)$count;
+        return $count;
     }
 
 }

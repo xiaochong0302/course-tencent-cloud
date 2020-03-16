@@ -2,19 +2,21 @@
 
 namespace App\Library;
 
+use App\Library\Cache\Backend\Redis as RedisCache;
 use Phalcon\Di;
+use Phalcon\Session\Adapter\Redis as RedisSession;
 use Phalcon\Text;
 
 class Security
 {
 
     /**
-     * @var \App\Library\Cache\Backend\Redis
+     * @var RedisCache
      */
     protected $cache;
 
     /**
-     * @var \Phalcon\Session\Adapter\Redis
+     * @var RedisSession
      */
     protected $session;
 

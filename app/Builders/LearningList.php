@@ -48,11 +48,11 @@ class LearningList extends Builder
 
         $courseRepo = new CourseRepo();
 
-        $courses = $courseRepo->findByIds($ids, ['id', 'title', 'cover'])->toArray();
+        $courses = $courseRepo->findByIds($ids, ['id', 'title', 'cover']);
 
         $result = [];
 
-        foreach ($courses as $course) {
+        foreach ($courses->toArray() as $course) {
             $result[$course['id']] = $course;
         }
 
@@ -65,11 +65,11 @@ class LearningList extends Builder
 
         $chapterRepo = new ChapterRepo();
 
-        $chapters = $chapterRepo->findByIds($ids, ['id', 'title'])->toArray();
+        $chapters = $chapterRepo->findByIds($ids, ['id', 'title']);
 
         $result = [];
 
-        foreach ($chapters as $chapter) {
+        foreach ($chapters->toArray() as $chapter) {
             $result[$chapter['id']] = $chapter;
         }
 
@@ -82,11 +82,11 @@ class LearningList extends Builder
 
         $userRepo = new UserRepo();
 
-        $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar'])->toArray();
+        $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
 
         $result = [];
 
-        foreach ($users as $user) {
+        foreach ($users->toArray() as $user) {
             $result[$user['id']] = $user;
         }
 

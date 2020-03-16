@@ -8,7 +8,7 @@
 
         upload.render({
             elem: '#choose-cover',
-            url: '/admin/storage/cover/img/upload',
+            url: '/admin/upload/cover/img',
             accept: 'images',
             acceptMime: 'image/*',
             before: function () {

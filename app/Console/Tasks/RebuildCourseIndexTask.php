@@ -2,16 +2,17 @@
 
 namespace App\Console\Tasks;
 
+use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Course as CourseRepo;
-use App\Searchers\CourseDocumenter;
-use App\Searchers\CourseSearcher;
+use App\Searchers\CourseDocument;
+use App\Searchers\CourseSearch;
 use App\Services\CourseIndexSyncer;
 
 class RebuildCourseIndexTask extends Task
 {
 
     /**
-     * @var \App\Library\Cache\Backend\Redis
+     * @var RedisCache
      */
     protected $cache;
 
@@ -31,7 +32,7 @@ class RebuildCourseIndexTask extends Task
 
     protected function rebuild()
     {
-        $key = $this->getCacheKey();
+        $key = $this->getSyncKey();
 
         $courseIds = $this->redis->sRandMember($key, 100);
 
@@ -45,16 +46,18 @@ class RebuildCourseIndexTask extends Task
             return;
         }
 
-        $document = new CourseDocumenter();
+        $document = new CourseDocument();
 
-        $searcher = new CourseSearcher();
+        $searcher = new CourseSearch();
 
         $index = $searcher->getXS()->getIndex();
 
         $index->openBuffer();
 
         foreach ($courses as $course) {
+
             $doc = $document->setDocument($course);
+
             if ($course->published == 1) {
                 $index->update($doc);
             } else {
@@ -67,11 +70,11 @@ class RebuildCourseIndexTask extends Task
         $this->redis->sRem($key, ...$courseIds);
     }
 
-    protected function getCacheKey()
+    protected function getSyncKey()
     {
         $syncer = new CourseIndexSyncer();
 
-        return $syncer->getCacheKey();
+        return $syncer->getSyncKey();
     }
 
 }

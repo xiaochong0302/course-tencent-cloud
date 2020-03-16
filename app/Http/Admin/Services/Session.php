@@ -9,7 +9,7 @@ class Session extends Service
 {
 
     /**
-     * @var \App\Http\Admin\Services\AuthUser
+     * @var AuthUser
      */
     protected $auth;
 

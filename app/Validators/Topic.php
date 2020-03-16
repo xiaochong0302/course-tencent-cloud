@@ -8,11 +8,6 @@ use App\Repos\Topic as TopicRepo;
 class Topic extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Topic
-     * @throws BadRequestException
-     */
     public function checkTopic($id)
     {
         $topicRepo = new TopicRepo();
@@ -46,6 +41,12 @@ class Topic extends Validator
     public function checkSummary($summary)
     {
         $value = $this->filter->sanitize($summary, ['trim', 'string']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 255) {
+            throw new BadRequestException('topic.summary_too_long');
+        }
 
         return $value;
     }

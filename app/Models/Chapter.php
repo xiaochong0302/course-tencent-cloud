@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Caches\MaxChapterId as MaxChapterIdCache;
-use App\Services\ChapterCacheSyncer;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Chapter extends Model
@@ -26,7 +24,7 @@ class Chapter extends Model
     protected $_vod_attrs = [
         'model' => 'vod',
         'duration' => 0,
-        'file_id' => 0,
+        'file_id' => '',
         'file_status' => 'pending',
     ];
 
@@ -109,32 +107,39 @@ class Chapter extends Model
     public $attrs;
 
     /**
-     * 课时数量
+     * 课时数
      *
      * @var int
      */
     public $lesson_count;
 
     /**
-     * 学员数量
+     * 学员数
      *
      * @var int
      */
     public $user_count;
 
     /**
-     * 评论数量
+     * 评论数
      *
      * @var int
      */
     public $comment_count;
 
     /**
-     * 点赞数量
+     * 赞成数
      *
      * @var int
      */
-    public $like_count;
+    public $agree_count;
+
+    /**
+     * 反对数
+     *
+     * @var int
+     */
+    public $oppose_count;
 
     /**
      * 发布标识
@@ -166,7 +171,7 @@ class Chapter extends Model
 
     public function getSource()
     {
-        return 'chapter';
+        return 'kg_chapter';
     }
 
     public function initialize()
@@ -251,15 +256,6 @@ class Chapter extends Model
                     break;
             }
         }
-
-        $maxChapterIdCache = new MaxChapterIdCache();
-        $maxChapterIdCache->rebuild();
-    }
-
-    public function afterUpdate()
-    {
-        $chapterCacheSyncer = new ChapterCacheSyncer();
-        $chapterCacheSyncer->addItem($this->id);
     }
 
 }

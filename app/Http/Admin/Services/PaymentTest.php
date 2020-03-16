@@ -23,7 +23,8 @@ abstract class PaymentTest extends Service
         $order->subject = '测试 - 支付测试0.01元';
         $order->amount = 0.01;
         $order->user_id = $authUser->id;
-        $order->item_type = OrderModel::TYPE_TEST;
+        $order->item_type = OrderModel::ITEM_TEST;
+
         $order->create();
 
         return $order;
@@ -40,10 +41,11 @@ abstract class PaymentTest extends Service
         $trade = new TradeModel();
 
         $trade->user_id = $order->user_id;
-        $trade->order_sn = $order->sn;
+        $trade->order_id = $order->id;
         $trade->subject = $order->subject;
         $trade->amount = $order->amount;
         $trade->channel = TradeModel::CHANNEL_ALIPAY;
+
         $trade->create();
 
         return $trade;

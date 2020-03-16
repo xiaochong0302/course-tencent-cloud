@@ -63,7 +63,7 @@ class ChapterLive extends Model
 
     public function getSource()
     {
-        return 'chapter_live';
+        return 'kg_chapter_live';
     }
 
     public function beforeCreate()

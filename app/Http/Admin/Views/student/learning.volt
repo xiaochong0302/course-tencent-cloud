@@ -8,9 +8,9 @@
 
 {%- macro last_active(created_at, updated_at) %}
     {% if updated_at > 0 %}
-        {{ date('Y-m-d H:i:s', updated_at) }}
+        {{ date('Y-m-d H:i', updated_at) }}
     {% else %}
-        {{ date('Y-m-d H:i:s', created_at) }}
+        {{ date('Y-m-d H:i', created_at) }}
     {% endif %}
 {%- endmacro %}
 

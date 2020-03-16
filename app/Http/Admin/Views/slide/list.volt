@@ -28,7 +28,6 @@
         <col>
         <col>
         <col>
-        <col>
         <col width="12%">
     </colgroup>
     <thead>
@@ -36,7 +35,6 @@
         <th>编号</th>
         <th>标题</th>
         <th>目标类型</th>
-        <th>有效期限</th>
         <th>排序</th>
         <th>发布</th>
         <th>操作</th>
@@ -48,10 +46,6 @@
             <td>{{ item.id }}</td>
             <td>{{ item.title }}</td>
             <td>{{ target_info(item.target) }}</td>
-            <td>
-                <p>开始：{{ date('Y-m-d H:i',item.start_time) }}</p>
-                <p>结束：{{ date('Y-m-d H:i',item.end_time) }}</p>
-            </td>
             <td><input class="layui-input kg-priority-input" type="text" name="priority" value="{{ item.priority }}" slide-id="{{ item.id }}" title="数值越小排序越靠前"></td>
             <td><input type="checkbox" name="published" value="1" lay-filter="switch-published" lay-skin="switch" lay-text="是|否" slide-id="{{ item.id }}"
                        {% if item.published == 1 %}checked{% endif %}></td>
@@ -101,7 +95,7 @@
             var slideId = $(this).attr('slide-id');
             var checked = $(this).is(':checked');
             var published = checked ? 1 : 0;
-            var tips = published == 1 ? '确定要发布轮播？' : '确定要下架轮播？';
+            var tips = published === 1 ? '确定要发布轮播？' : '确定要下架轮播？';
 
             layer.confirm(tips, function () {
                 $.ajax({

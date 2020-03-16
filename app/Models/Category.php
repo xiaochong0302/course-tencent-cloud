@@ -96,7 +96,7 @@ class Category extends Model
 
     public function getSource()
     {
-        return 'category';
+        return 'kg_category';
     }
 
     public function initialize()

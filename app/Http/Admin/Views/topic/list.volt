@@ -62,7 +62,7 @@
             var topicId = $(this).attr('topic-id');
             var checked = $(this).is(':checked');
             var published = checked ? 1 : 0;
-            var tips = published == 1 ? '确定要发布话题？' : '确定要下架话题？';
+            var tips = published === 1 ? '确定要发布话题？' : '确定要下架话题？';
             layer.confirm(tips, function () {
                 $.ajax({
                     type: 'POST',

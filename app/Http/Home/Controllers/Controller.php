@@ -2,6 +2,8 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Caches\Config as ConfigCache;
+use App\Caches\NavTreeList as NavTreeListCache;
 use App\Traits\Ajax as AjaxTrait;
 use App\Traits\Security as SecurityTrait;
 use Phalcon\Mvc\Dispatcher;
@@ -51,14 +53,14 @@ class Controller extends \Phalcon\Mvc\Controller
 
     protected function getNavList()
     {
-        $cache = new \App\Caches\NavTreeList();
+        $cache = new NavTreeListCache();
 
         return $cache->get();
     }
 
     protected function getSiteConfig()
     {
-        $cache = new \App\Caches\Config();
+        $cache = new ConfigCache();
 
         return $cache->getSectionConfig('site');
     }

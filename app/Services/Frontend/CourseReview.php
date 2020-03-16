@@ -2,41 +2,17 @@
 
 namespace App\Services\Frontend;
 
-use App\Builders\ReviewList as ReviewListBuilder;
-use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Review as ReviewModel;
-use App\Repos\Review as ReviewRepo;
+use App\Models\User as UserModel;
 use App\Validators\Review as ReviewValidator;
+use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
 class CourseReview extends Service
 {
 
     use CourseTrait;
 
-    public function getReviews($id)
-    {
-        $course = $this->checkCourseCache($id);
-
-        $pagerQuery = new PagerQuery();
-
-        $sort = $pagerQuery->getSort();
-        $page = $pagerQuery->getPage();
-        $limit = $pagerQuery->getLimit();
-
-        $params = [
-            'course_id' => $course->id,
-            'published' => 1,
-            'deleted' => 0,
-        ];
-
-        $reviewRepo = new ReviewRepo();
-
-        $pager = $reviewRepo->paginate($params, $sort, $page, $limit);
-
-        return $this->handleReviews($pager);
-    }
-
-    public function saveReview($id)
+    public function createReview($id)
     {
         $post = $this->request->getPost();
 
@@ -44,45 +20,36 @@ class CourseReview extends Service
 
         $user = $this->getLoginUser();
 
+        $validator = new UserDailyLimitValidator();
+
+        $validator->checkReviewLimit($user);
+
         $validator = new ReviewValidator();
 
-        $rating = $validator->checkRating($post['rating']);
+        $validator->checkIfReviewed($course->id, $user->id);
+
         $content = $validator->checkContent($post['content']);
+        $rating = $validator->checkRating($post['rating']);
 
-        $reviewRepo = new ReviewRepo();
+        $review = new ReviewModel();
 
-        $review = $reviewRepo->findReview($course->id, $user->id);
+        $review->course_id = $course->id;
+        $review->user_id = $user->id;
+        $review->content = $content;
+        $review->rating = $rating;
 
-        if (!$review) {
-            $review = new ReviewModel();
-            $review->course_id = $course->id;
-            $review->user_id = $user->id;
-            $review->rating = $rating;
-            $review->content = $content;
-            $review->create();
+        $review->create();
 
-            $course->review_count += 1;
-            $course->update();
-        } else {
-            $review->rating = $rating;
-            $review->content = $content;
-            $review->update();
-        }
+        $course->review_count += 1;
+
+        $course->update();
+
+        $this->incrUserDailyReviewCount($user);
     }
 
-    protected function handleReviews($pager)
+    protected function incrUserDailyReviewCount(UserModel $user)
     {
-        if ($pager->total_items > 0) {
-
-            $builder = new ReviewListBuilder();
-
-            $pipeA = $pager->items->toArray();
-            $pipeB = $builder->handleUsers($pipeA);
-
-            $pager->items = $pipeB;
-        }
-
-        return $pager;
+        $this->eventsManager->fire('userDailyCounter:incrReviewCount', $this, $user);
     }
 
 }

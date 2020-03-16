@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Library\Cache\Backend\Redis as RedisCache;
+
 class CourseIndexSyncer extends Service
 {
 
     /**
-     * @var \App\Library\Cache\Backend\Redis
+     * @var RedisCache
      */
     protected $cache;
 
@@ -15,6 +17,9 @@ class CourseIndexSyncer extends Service
      */
     protected $redis;
 
+    /**
+     * @var int
+     */
     protected $lifetime = 86400;
 
     public function __construct()
@@ -26,14 +31,14 @@ class CourseIndexSyncer extends Service
 
     public function addItem($courseId)
     {
-        $key = $this->getCacheKey();
+        $key = $this->getSyncKey();
 
         $this->redis->sAdd($key, $courseId);
 
         $this->redis->expire($key, $this->lifetime);
     }
 
-    public function getCacheKey()
+    public function getSyncKey()
     {
         return 'course_index_sync';
     }

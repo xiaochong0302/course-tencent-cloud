@@ -3,13 +3,16 @@
 namespace App\Repos;
 
 use App\Models\Help as HelpModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Help extends Repository
 {
 
     /**
      * @param int $id
-     * @return HelpModel
+     * @return HelpModel|Model|bool
      */
     public function findById($id)
     {
@@ -18,6 +21,11 @@ class Help extends Repository
         return $result;
     }
 
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|HelpModel[]
+     */
     public function findByIds($ids, $columns = '*')
     {
         $result = HelpModel::query()
@@ -28,6 +36,10 @@ class Help extends Repository
         return $result;
     }
 
+    /**
+     * @param array $where
+     * @return ResultsetInterface|Resultset|HelpModel[]
+     */
     public function findAll($where = [])
     {
         $query = HelpModel::query();

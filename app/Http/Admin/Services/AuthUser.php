@@ -5,8 +5,9 @@ namespace App\Http\Admin\Services;
 use App\Models\Role as RoleModel;
 use App\Models\User as UserModel;
 use App\Repos\Role as RoleRepo;
+use Phalcon\Mvc\User\Component;
 
-class AuthUser extends \Phalcon\Mvc\User\Component
+class AuthUser extends Component
 {
 
     /**

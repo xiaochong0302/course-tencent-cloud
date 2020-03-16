@@ -38,8 +38,8 @@ class OrderController extends Controller
         $orderService = new OrderService();
 
         $order = $orderService->getOrder($id);
-        $trades = $orderService->getTrades($order->sn);
-        $refunds = $orderService->getRefunds($order->sn);
+        $trades = $orderService->getTrades($order->id);
+        $refunds = $orderService->getRefunds($order->id);
         $account = $orderService->getAccount($order->user_id);
         $user = $orderService->getUser($order->user_id);
 

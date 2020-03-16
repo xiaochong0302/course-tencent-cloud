@@ -8,11 +8,6 @@ use App\Repos\Category as CategoryRepo;
 class Category extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Category
-     * @throws BadRequestException
-     */
     public function checkCategory($id)
     {
         $categoryRepo = new CategoryRepo();
@@ -84,7 +79,6 @@ class Category extends Validator
             'parent_id' => $category->id,
             'deleted' => 0,
         ]);
-
 
         if ($list->count() > 0) {
             throw new BadRequestException('category.has_child_node');

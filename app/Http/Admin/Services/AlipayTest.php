@@ -26,7 +26,9 @@ class AlipayTest extends PaymentTest
         ];
 
         $alipayService = new AlipayService();
+
         $qrcode = $alipayService->getQrCode($outOrder);
+
         $result = $qrcode ?: false;
 
         return $result;
@@ -40,12 +42,15 @@ class AlipayTest extends PaymentTest
     public function cancelTestOrder($sn)
     {
         $tradeRepo = new TradeRepo();
+
         $trade = $tradeRepo->findBySn($sn);
 
         $orderRepo = new OrderRepo();
-        $order = $orderRepo->findBySn($trade->order_sn);
+
+        $order = $orderRepo->findById($trade->order_id);
 
         $alipayService = new AlipayService();
+
         $response = $alipayService->cancelOrder($trade->sn);
 
         if ($response) {

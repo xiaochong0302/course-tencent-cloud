@@ -5,65 +5,20 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Trade extends Repository
 {
 
     /**
-     * @param int $id
-     * @return TradeModel
+     * @param array $where
+     * @param string $sort
+     * @param int $page
+     * @param int $limit
+     * @return \stdClass
      */
-    public function findById($id)
-    {
-        $result = TradeModel::findFirst($id);
-
-        return $result;
-    }
-
-    /**
-     * @param string $sn
-     * @return TradeModel
-     */
-    public function findBySn($sn)
-    {
-        $result = TradeModel::findFirst([
-            'conditions' => 'sn = :sn:',
-            'bind' => ['sn' => $sn],
-        ]);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = TradeModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    public function findRefunds($tradeSn)
-    {
-        $result = RefundModel::query()
-            ->where('trade_sn = :trade_sn:', ['trade_sn' => $tradeSn])
-            ->execute();
-
-        return $result;
-    }
-
-    public function findLatestRefund($tradeSn)
-    {
-        $result = RefundModel::query()
-            ->where('trade_sn = :trade_sn:', ['trade_sn' => $tradeSn])
-            ->orderBy('id DESC')
-            ->execute()
-            ->getFirst();
-
-        return $result;
-    }
-
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -84,8 +39,8 @@ class Trade extends Repository
             $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
-        if (!empty($where['order_sn'])) {
-            $builder->andWhere('order_sn = :order_sn:', ['order_sn' => $where['order_sn']]);
+        if (!empty($where['order_id'])) {
+            $builder->andWhere('order_id = :order_id:', ['order_id' => $where['order_id']]);
         }
 
         if (!empty($where['channel'])) {
@@ -94,12 +49,6 @@ class Trade extends Repository
 
         if (!empty($where['status'])) {
             $builder->andWhere('status = :status:', ['status' => $where['status']]);
-        }
-
-        if (!empty($where['start_time']) && !empty($where['end_time'])) {
-            $startTime = strtotime($where['start_time']);
-            $endTime = strtotime($where['end_time']);
-            $builder->betweenWhere('created_at', $startTime, $endTime);
         }
 
         switch ($sort) {
@@ -117,6 +66,74 @@ class Trade extends Repository
         ]);
 
         return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return TradeModel|Model|bool
+     */
+    public function findById($id)
+    {
+        $result = TradeModel::findFirst($id);
+
+        return $result;
+    }
+
+    /**
+     * @param string $sn
+     * @return TradeModel|Model|bool
+     */
+    public function findBySn($sn)
+    {
+        $result = TradeModel::findFirst([
+            'conditions' => 'sn = :sn:',
+            'bind' => ['sn' => $sn],
+        ]);
+
+        return $result;
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|TradeModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        $result = TradeModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $tradeId
+     * @return ResultsetInterface|Resultset|RefundModel[]
+     */
+    public function findRefunds($tradeId)
+    {
+        $result = RefundModel::query()
+            ->where('trade_id = :trade_id:', ['trade_id' => $tradeId])
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $tradeId
+     * @return RefundModel|Model|bool
+     */
+    public function findLastRefund($tradeId)
+    {
+        $result = RefundModel::findFirst([
+            'conditions' => 'trade_id = :trade_id:',
+            'bind' => ['trade_id' => $tradeId],
+            'order' => 'id DESC',
+        ]);
+
+        return $result;
     }
 
 }

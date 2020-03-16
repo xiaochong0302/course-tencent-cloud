@@ -12,11 +12,6 @@ use App\Repos\Course as CourseRepo;
 class Chapter extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Chapter
-     * @throws BadRequestException
-     */
     public function checkChapterCache($id)
     {
         $id = intval($id);
@@ -43,11 +38,6 @@ class Chapter extends Validator
         return $chapter;
     }
 
-    /**
-     * @param int $id
-     * @return \App\Models\Chapter
-     * @throws BadRequestException
-     */
     public function checkChapter($id)
     {
         $chapterRepo = new ChapterRepo();
@@ -71,7 +61,7 @@ class Chapter extends Validator
             throw new BadRequestException('chapter.invalid_course_id');
         }
 
-        return (int)$course->id;
+        return $course->id;
     }
 
     public function checkParentId($parentId)
@@ -84,7 +74,7 @@ class Chapter extends Validator
             throw new BadRequestException('chapter.invalid_parent_id');
         }
 
-        return (int)$chapter->id;
+        return $chapter->id;
     }
 
     public function checkTitle($title)
@@ -108,6 +98,12 @@ class Chapter extends Validator
     {
         $value = $this->filter->sanitize($summary, ['trim', 'string']);
 
+        $length = kg_strlen($value);
+
+        if ($length > 255) {
+            throw new BadRequestException('chapter.summary_too_long');
+        }
+
         return $value;
     }
 
@@ -128,7 +124,7 @@ class Chapter extends Validator
             throw new BadRequestException('chapter.invalid_free_status');
         }
 
-        return (int)$status;
+        return $status;
     }
 
     public function checkPublishStatus($status)
@@ -137,7 +133,7 @@ class Chapter extends Validator
             throw new BadRequestException('course.invalid_publish_status');
         }
 
-        return (int)$status;
+        return $status;
     }
 
     public function checkPublishAbility($chapter)

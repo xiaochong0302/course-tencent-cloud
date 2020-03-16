@@ -11,20 +11,14 @@ use App\Repos\User as UserRepo;
 class CourseUser extends Validator
 {
 
-    /**
-     * @param int $courseId
-     * @param int $userId
-     * @return \App\Models\CourseUser
-     * @throws BadRequestException
-     */
-    public function checkCourseStudent($courseId, $userId)
+    public function checkCourseUser($id)
     {
         $courseUserRepo = new CourseUserRepo();
 
-        $courseUser = $courseUserRepo->findCourseStudent($courseId, $userId);
+        $courseUser = $courseUserRepo->findById($id);
 
         if (!$courseUser) {
-            throw new BadRequestException('course_student.not_found');
+            throw new BadRequestException('course_user.not_found');
         }
 
         return $courseUser;
@@ -39,7 +33,7 @@ class CourseUser extends Validator
         $course = $courseRepo->findById($value);
 
         if (!$course) {
-            throw new BadRequestException('course_student.course_not_found');
+            throw new BadRequestException('course_user.course_not_found');
         }
 
         return $course->id;
@@ -54,32 +48,21 @@ class CourseUser extends Validator
         $user = $userRepo->findById($value);
 
         if (!$user) {
-            throw new BadRequestException('course_student.user_not_found');
+            throw new BadRequestException('course_user.user_not_found');
         }
 
         return $user->id;
     }
 
-    public function checkExpireTime($expireTime)
+    public function checkExpiryTime($expiryTime)
     {
-        $value = $this->filter->sanitize($expireTime, ['trim', 'string']);
+        $value = $this->filter->sanitize($expiryTime, ['trim', 'string']);
 
         if (!CommonValidator::date($value, 'Y-m-d H:i:s')) {
-            throw new BadRequestException('course_student.invalid_expire_time');
+            throw new BadRequestException('course_user.invalid_expiry_time');
         }
 
         return strtotime($value);
-    }
-
-    public function checkLockStatus($status)
-    {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
-            throw new BadRequestException('course_student.invalid_lock_status');
-        }
-
-        return $value;
     }
 
     public function checkIfJoined($courseId, $userId)
@@ -89,7 +72,7 @@ class CourseUser extends Validator
         $courseUser = $repo->findCourseStudent($courseId, $userId);
 
         if ($courseUser) {
-            throw new BadRequestException('course_student.user_has_joined');
+            throw new BadRequestException('course_user.user_has_joined');
         }
     }
 

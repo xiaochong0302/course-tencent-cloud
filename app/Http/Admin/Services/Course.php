@@ -4,10 +4,12 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\CourseList as CourseListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
 use App\Models\CourseRelated as CourseRelatedModel;
 use App\Models\CourseUser as CourseUserModel;
+use App\Models\User as UserModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
@@ -16,6 +18,7 @@ use App\Repos\CourseRelated as CourseRelatedRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\User as UserRepo;
 use App\Validators\Course as CourseValidator;
+use Phalcon\Mvc\Model\Resultset;
 
 class Course extends Service
 {
@@ -61,11 +64,12 @@ class Course extends Service
 
         $data['model'] = $validator->checkModel($post['model']);
         $data['title'] = $validator->checkTitle($post['title']);
-        $data['published'] = 0;
 
         $course = new CourseModel();
 
         $course->create($data);
+
+        $this->eventsManager->fire('courseAdmin:afterCreate', $this, $course);
 
         return $course;
     }
@@ -111,7 +115,8 @@ class Course extends Service
             } else {
                 $data['market_price'] = $validator->checkMarketPrice($post['market_price']);
                 $data['vip_price'] = $validator->checkVipPrice($post['vip_price']);
-                $data['expiry'] = $validator->checkExpiry($post['expiry']);
+                $data['study_expiry'] = $validator->checkStudyExpiry($post['study_expiry']);
+                $data['refund_expiry'] = $validator->checkRefundExpiry($post['refund_expiry']);
             }
         }
 
@@ -136,6 +141,8 @@ class Course extends Service
 
         $course->update($data);
 
+        $this->eventsManager->fire('courseAdmin:afterUpdate', $this, $course);
+
         return $course;
     }
 
@@ -146,6 +153,8 @@ class Course extends Service
         $course->deleted = 1;
 
         $course->update();
+
+        $this->eventsManager->fire('courseAdmin:afterDelete', $this, $course);
 
         return $course;
     }
@@ -158,13 +167,32 @@ class Course extends Service
 
         $course->update();
 
+        $this->eventsManager->fire('courseAdmin:afterRestore', $this, $course);
+
         return $course;
+    }
+
+    public function getStudyExpiryOptions()
+    {
+        $options = CourseModel::studyExpiryOptions();
+
+        return kg_array_object($options);
+    }
+
+    public function getRefundExpiryOptions()
+    {
+        $options = CourseModel::refundExpiryOptions();
+
+        return kg_array_object($options);
     }
 
     public function getXmCategories($id)
     {
         $categoryRepo = new CategoryRepo();
 
+        /**
+         * @var Resultset|CategoryModel[] $allCategories
+         */
         $allCategories = $categoryRepo->findAll(['deleted' => 0]);
 
         if ($allCategories->count() == 0) {
@@ -174,8 +202,14 @@ class Course extends Service
         $courseCategoryIds = [];
 
         if ($id > 0) {
+
             $courseRepo = new CourseRepo();
+
+            /**
+             * @var Resultset|CategoryModel[] $courseCategories
+             */
             $courseCategories = $courseRepo->findCategories($id);
+
             if ($courseCategories->count() > 0) {
                 foreach ($courseCategories as $category) {
                     $courseCategoryIds[] = $category->id;
@@ -214,6 +248,9 @@ class Course extends Service
     {
         $userRepo = new UserRepo();
 
+        /**
+         * @var Resultset|UserModel[] $allTeachers
+         */
         $allTeachers = $userRepo->findTeachers();
 
         if ($allTeachers->count() == 0) {
@@ -223,8 +260,14 @@ class Course extends Service
         $courseTeacherIds = [];
 
         if ($id > 0) {
+
             $courseRepo = new CourseRepo();
+
+            /**
+             * @var Resultset|UserModel[] $courseTeachers
+             */
             $courseTeachers = $courseRepo->findTeachers($id);
+
             if ($courseTeachers->count() > 0) {
                 foreach ($courseTeachers as $teacher) {
                     $courseTeacherIds[] = $teacher->id;
@@ -250,6 +293,9 @@ class Course extends Service
     {
         $courseRepo = new CourseRepo();
 
+        /**
+         * @var Resultset|CourseModel[] $courses
+         */
         $courses = $courseRepo->findRelatedCourses($id);
 
         $list = [];
@@ -297,6 +343,9 @@ class Course extends Service
     {
         $courseRepo = new CourseRepo();
 
+        /**
+         * @var Resultset|UserModel[] $courseTeachers
+         */
         $courseTeachers = $courseRepo->findTeachers($course->id);
 
         $originTeacherIds = [];
@@ -318,7 +367,7 @@ class Course extends Service
                     'user_id' => $teacherId,
                     'role_type' => CourseUserModel::ROLE_TEACHER,
                     'source_type' => CourseUserModel::SOURCE_IMPORT,
-                    'expire_time' => strtotime('+10 years'),
+                    'expiry_time' => strtotime('+10 years'),
                 ]);
             }
         }
@@ -340,6 +389,9 @@ class Course extends Service
     {
         $courseRepo = new CourseRepo();
 
+        /**
+         * @var Resultset|CategoryModel[] $courseCategories
+         */
         $courseCategories = $courseRepo->findCategories($course->id);
 
         $originCategoryIds = [];
@@ -380,6 +432,9 @@ class Course extends Service
     {
         $courseRepo = new CourseRepo();
 
+        /**
+         * @var Resultset|CourseModel[] $relatedCourses
+         */
         $relatedCourses = $courseRepo->findRelatedCourses($course->id);
 
         $originRelatedIds = [];

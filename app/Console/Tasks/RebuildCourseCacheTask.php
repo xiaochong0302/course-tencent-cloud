@@ -4,14 +4,17 @@ namespace App\Console\Tasks;
 
 use App\Caches\Course as CourseCache;
 use App\Caches\CourseCounter as CourseCounterCache;
+use App\Library\Cache\Backend\Redis as RedisCache;
+use App\Models\Course as CourseModel;
 use App\Repos\Course as CourseRepo;
 use App\Services\CourseCacheSyncer;
+use Phalcon\Mvc\Model\Resultset;
 
 class RebuildCourseCacheTask extends Task
 {
 
     /**
-     * @var \App\Library\Cache\Backend\Redis
+     * @var RedisCache
      */
     protected $cache;
 
@@ -39,6 +42,9 @@ class RebuildCourseCacheTask extends Task
 
         $courseRepo = new CourseRepo();
 
+        /**
+         * @var Resultset|CourseModel[] $courses
+         */
         $courses = $courseRepo->findByIds($courseIds);
 
         if ($courses->count() == 0) {
@@ -49,10 +55,12 @@ class RebuildCourseCacheTask extends Task
         $counterCache = new CourseCounterCache();
 
         foreach ($courses as $course) {
+
             $course->user_count = $courseRepo->countUsers($course->id);
             $course->comment_count = $courseRepo->countComments($course->id);
             $course->review_count = $courseRepo->countReviews($course->id);
             $course->favorite_count = $courseRepo->countFavorites($course->id);
+
             $course->update();
 
             $courseCache->rebuild($course->id);

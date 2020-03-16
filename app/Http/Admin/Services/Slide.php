@@ -57,10 +57,7 @@ class Slide extends Service
             $data['content'] = $validator->checkLink($post['content']);
         }
 
-        $data['start_time'] = strtotime(date('Y-m-d'));
-        $data['end_time'] = strtotime('+15 days', $data['start_time']);
         $data['priority'] = 10;
-        $data['published'] = 0;
 
         $slide = new SlideModel();
 
@@ -105,12 +102,6 @@ class Slide extends Service
 
         if (isset($post['priority'])) {
             $data['priority'] = $validator->checkPriority($post['priority']);
-        }
-
-        if (isset($post['start_time']) || isset($post['end_time'])) {
-            $data['start_time'] = $validator->checkStartTime($post['start_time']);
-            $data['end_time'] = $validator->checkEndTime($post['end_time']);
-            $validator->checkTimeRange($post['start_time'], $post['end_time']);
         }
 
         if (isset($post['published'])) {

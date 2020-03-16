@@ -26,7 +26,10 @@ type = string
 [vip_price]
 type = string
 
-[expiry]
+[study_expiry]
+type = string
+
+[refund_expiry]
 type = string
 
 [score]

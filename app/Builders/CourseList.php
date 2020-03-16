@@ -13,7 +13,7 @@ class CourseList extends Builder
     {
         $imgBaseUrl = kg_img_base_url();
 
-        $result = [];
+        $list = [];
 
         foreach ($courses as $course) {
 
@@ -36,13 +36,13 @@ class CourseList extends Builder
                 'categories' => $course['categories'],
                 'user_count' => $course['user_count'],
                 'lesson_count' => $course['lesson_count'],
-                'thread_count' => $course['thread_count'],
+                'comment_count' => $course['comment_count'],
                 'review_count' => $course['review_count'],
                 'favorite_count' => $course['favorite_count'],
             ];
         }
 
-        return $result;
+        return $list;
     }
 
     public function handleCategories($courses)

@@ -67,7 +67,7 @@
             var pageId = $(this).attr('page-id');
             var checked = $(this).is(':checked');
             var published = checked ? 1 : 0;
-            var tips = published == 1 ? '确定要发布页面？' : '确定要下架页面？';
+            var tips = published === 1 ? '确定要发布页面？' : '确定要下架页面？';
             layer.confirm(tips, function () {
                 $.ajax({
                     type: 'POST',

@@ -25,9 +25,9 @@ class NotifyController extends Controller
     }
 
     /**
-     * @Post("/wxpay/notify", name="home.wxpay.notify")
+     * @Post("/wechat/notify", name="home.wechat.notify")
      */
-    public function wxpayNotifyAction()
+    public function wechatNotifyAction()
     {
         $alipayService = new AlipayService();
 

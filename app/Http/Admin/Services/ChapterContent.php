@@ -43,13 +43,13 @@ class ChapterContent extends Service
         return $result;
     }
 
-    public function getVodFiles($chapterId)
+    public function getPlayUrls($chapterId)
     {
         $chapterVodService = new ChapterVodService();
 
-        $vodFiles = $chapterVodService->getVodFiles($chapterId);
+        $playUrls = $chapterVodService->getPlayUrls($chapterId);
 
-        return kg_array_object($vodFiles);
+        return kg_array_object($playUrls);
     }
 
     public function updateChapterContent($chapterId)

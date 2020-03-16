@@ -6,65 +6,20 @@ use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Order as OrderModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Order extends Repository
 {
 
     /**
-     * @param int $id
-     * @return OrderModel
+     * @param array $where
+     * @param string $sort
+     * @param int $page
+     * @param int $limit
+     * @return \stdClass
      */
-    public function findById($id)
-    {
-        $result = OrderModel::findFirst($id);
-
-        return $result;
-    }
-
-    /**
-     * @param string $sn
-     * @return OrderModel
-     */
-    public function findBySn($sn)
-    {
-        $result = OrderModel::findFirst([
-            'conditions' => 'sn = :sn:',
-            'bind' => ['sn' => $sn],
-        ]);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = OrderModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    public function findTrades($orderSn)
-    {
-        $result = TradeModel::query()
-            ->where('order_sn = :order_sn:', ['order_sn' => $orderSn])
-            ->andWhere('deleted = 0')
-            ->execute();
-
-        return $result;
-    }
-
-    public function findRefunds($orderSn)
-    {
-        $result = RefundModel::query()
-            ->where('order_sn = :order_sn:', ['order_sn' => $orderSn])
-            ->andWhere('deleted = 0')
-            ->execute();
-
-        return $result;
-    }
-
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -118,6 +73,122 @@ class Order extends Repository
         ]);
 
         return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return OrderModel|Model|bool
+     */
+    public function findById($id)
+    {
+        $result = OrderModel::findFirst($id);
+
+        return $result;
+    }
+
+    /**
+     * @param string $sn
+     * @return OrderModel|Model|bool
+     */
+    public function findBySn($sn)
+    {
+        $result = OrderModel::findFirst([
+            'conditions' => 'sn = :sn:',
+            'bind' => ['sn' => $sn],
+        ]);
+
+        return $result;
+    }
+
+    /**
+     * @param int $userId
+     * @param string $itemId
+     * @param string $itemType
+     * @return OrderModel|Model|bool
+     */
+    public function findFinishedUserOrder($userId, $itemId, $itemType)
+    {
+        $status = OrderModel::STATUS_FINISHED;
+
+        $result = OrderModel::findFirst([
+            'conditions' => 'user_id = ?1 AND item_id = ?2 AND item_type = ?3 AND status = ?4',
+            'bind' => [1 => $userId, 2 => $itemId, 3 => $itemType, 4 => $status],
+            'order' => 'id DESC',
+        ]);
+
+        return $result;
+    }
+
+    /**
+     * @param int $userId
+     * @param string $itemId
+     * @param string $itemType
+     * @return OrderModel|Model|bool
+     */
+    public function findLastUserOrder($userId, $itemId, $itemType)
+    {
+        $result = OrderModel::findFirst([
+            'conditions' => 'user_id = ?1 AND item_id = ?2 AND item_type = ?3',
+            'bind' => [1 => $userId, 2 => $itemId, 3 => $itemType],
+            'order' => 'id DESC',
+        ]);
+
+        return $result;
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|OrderModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        $result = OrderModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $orderId
+     * @return ResultsetInterface|Resultset|TradeModel[]
+     */
+    public function findTrades($orderId)
+    {
+        $result = TradeModel::query()
+            ->where('order_id = :order_id:', ['order_id' => $orderId])
+            ->andWhere('deleted = 0')
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $orderId
+     * @return ResultsetInterface|Resultset|RefundModel[]
+     */
+    public function findRefunds($orderId)
+    {
+        $result = RefundModel::query()
+            ->where('order_id = :order_id:', ['order_id' => $orderId])
+            ->andWhere('deleted = 0')
+            ->execute();
+
+        return $result;
+    }
+
+    public function countUserDailyOrders($userId)
+    {
+        $createdAt = strtotime(date('Y-m-d'));
+
+        $count = OrderModel::count([
+            'conditions' => 'user_id = :user_id: AND created_at > :created_at:',
+            'bind' => ['user_id' => $userId, 'created_at' => $createdAt],
+        ]);
+
+        return $count;
     }
 
 }

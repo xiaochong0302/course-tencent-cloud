@@ -2,12 +2,14 @@
 
 namespace App\Caches;
 
+use App\Models\Course as CourseModel;
 use App\Repos\Course as CourseRepo;
+use Phalcon\Mvc\Model\Resultset;
 
 class HotCourseList extends Cache
 {
 
-    protected $lifetime = 7 * 86400;
+    protected $lifetime = 86400;
 
     public function getLifetime()
     {
@@ -23,6 +25,9 @@ class HotCourseList extends Cache
     {
         $courseRepo = new CourseRepo();
 
+        /**
+         * @var Resultset $courses
+         */
         $courses = $courseRepo->findRelatedCourses($id);
 
         if ($courses->count() == 0) {
@@ -32,9 +37,8 @@ class HotCourseList extends Cache
         return $this->handleContent($courses);
     }
 
-
     /**
-     * @param \App\Models\Course[] $courses
+     * @param CourseModel[] $courses
      * @return array
      */
     public function handleContent($courses)
@@ -44,12 +48,13 @@ class HotCourseList extends Cache
         foreach ($courses as $course) {
             $result[] = [
                 'id' => $course->id,
-                'model' => $course->model,
                 'title' => $course->title,
                 'summary' => $course->summary,
                 'cover' => $course->cover,
                 'market_price' => $course->market_price,
                 'vip_price' => $course->vip_price,
+                'model' => $course->model,
+                'level' => $course->level,
             ];
         }
 

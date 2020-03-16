@@ -2,7 +2,9 @@
 
 namespace App\Http\Admin\Services;
 
-class Service extends \Phalcon\Mvc\User\Component
+use Phalcon\Mvc\User\Component;
+
+class Service extends Component
 {
 
 }

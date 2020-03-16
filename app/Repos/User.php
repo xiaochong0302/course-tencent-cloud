@@ -4,57 +4,20 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\User as UserModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class User extends Repository
 {
 
     /**
-     * @param int $id
-     * @return UserModel
+     * @param array $where
+     * @param string $sort
+     * @param int $page
+     * @param int $limit
+     * @return \stdClass
      */
-    public function findById($id)
-    {
-        $result = UserModel::findFirst($id);
-
-        return $result;
-    }
-
-    /**
-     * @param string $name
-     * @return UserModel
-     */
-    public function findByName($name)
-    {
-        $result = UserModel::findFirst([
-            'conditions' => 'name = :name:',
-            'bind' => ['name' => $name],
-        ]);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = UserModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    public function findTeachers()
-    {
-        $eduRole = UserModel::EDU_ROLE_TEACHER;
-
-        $result = UserModel::query()
-            ->where('edu_role = :edu_role:', ['edu_role' => $eduRole])
-            ->andWhere('locked = :locked:', ['locked' => 0])
-            ->execute();
-
-        return $result;
-    }
-
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -106,6 +69,61 @@ class User extends Repository
         ]);
 
         return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return UserModel|Model|bool
+     */
+    public function findById($id)
+    {
+        $result = UserModel::findFirst($id);
+
+        return $result;
+    }
+
+    /**
+     * @param string $name
+     * @return UserModel|Model|bool
+     */
+    public function findByName($name)
+    {
+        $result = UserModel::findFirst([
+            'conditions' => 'name = :name:',
+            'bind' => ['name' => $name],
+        ]);
+
+        return $result;
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|UserModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        $result = UserModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @return ResultsetInterface|Resultset|UserModel[]
+     */
+    public function findTeachers()
+    {
+        $eduRole = UserModel::EDU_ROLE_TEACHER;
+
+        $result = UserModel::query()
+            ->where('edu_role = :edu_role:', ['edu_role' => $eduRole])
+            ->andWhere('deleted = 0')
+            ->execute();
+
+        return $result;
     }
 
 }

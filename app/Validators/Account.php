@@ -14,35 +14,29 @@ class Account extends Validator
 
     public function checkPhone($phone)
     {
-        $value = $this->filter->sanitize($phone, ['trim', 'string']);
-
-        if (!CommonValidator::phone($value)) {
+        if (!CommonValidator::phone($phone)) {
             throw new BadRequestException('account.invalid_phone');
         }
 
-        return $value;
+        return $phone;
     }
 
     public function checkEmail($email)
     {
-        $value = $this->filter->sanitize($email, ['trim', 'string']);
-
-        if (!CommonValidator::email($value)) {
+        if (!CommonValidator::email($email)) {
             throw new BadRequestException('account.invalid_email');
         }
 
-        return $value;
+        return $email;
     }
 
     public function checkPassword($password)
     {
-        $value = $this->filter->sanitize($password, ['trim', 'string']);
-
-        if (!CommonValidator::password($value)) {
+        if (!CommonValidator::password($password)) {
             throw new BadRequestException('account.invalid_password');
         }
 
-        return $value;
+        return $password;
     }
 
     public function checkIfPhoneTaken($phone)
@@ -67,19 +61,31 @@ class Account extends Validator
         }
     }
 
-    public function checkOriginPassword($user, $password)
+    public function checkLoginAccount($name)
     {
-        $hash = PasswordUtil::hash($password, $user->salt);
+        $accountRepo = new AccountRepo();
 
-        if ($hash != $user->password) {
-            throw new BadRequestException('user.origin_password_incorrect');
+        $account = null;
+
+        if (CommonValidator::email($name)) {
+            $account = $accountRepo->findByEmail($name);
+        } elseif (CommonValidator::phone($name)) {
+            $account = $accountRepo->findByPhone($name);
         }
+
+        if (!$account) {
+            throw new BadRequestException('account.not_found');
+        }
+
+        return $account;
     }
 
-    public function checkConfirmPassword($newPassword, $confirmPassword)
+    public function checkOriginPassword($account, $password)
     {
-        if ($newPassword != $confirmPassword) {
-            throw new BadRequestException('user.confirm_password_incorrect');
+        $hash = PasswordUtil::hash($password, $account->salt);
+
+        if ($hash != $account->password) {
+            throw new BadRequestException('account.origin_password_incorrect');
         }
     }
 
@@ -96,7 +102,7 @@ class Account extends Validator
         }
 
         if (!$account) {
-            throw new BadRequestException('account.login_name_incorrect');
+            throw new BadRequestException('account.login_account_incorrect');
         }
 
         $hash = PasswordUtil::hash($password, $account->salt);

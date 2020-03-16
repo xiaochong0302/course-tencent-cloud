@@ -9,7 +9,9 @@ trait Client
 
     public function getClientIp()
     {
-        return $this->request->getClientAddress();
+        $clientIp = $this->request->getClientAddress();
+
+        return $clientIp;
     }
 
     public function getClientType()

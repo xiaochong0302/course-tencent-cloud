@@ -4,8 +4,9 @@ namespace App\Validators;
 
 use App\Exceptions\Forbidden as ForbiddenException;
 use App\Exceptions\Unauthorized as UnauthorizedException;
+use Phalcon\Mvc\User\Component;
 
-class Validator extends \Phalcon\Mvc\User\Component
+class Validator extends Component
 {
 
     public function checkAuthToken($token)

@@ -2,8 +2,9 @@
 
 namespace App\Caches;
 
-use App\Builders\CategoryList as CategoryTreeListBuilder;
+use App\Builders\CategoryTreeList as CategoryTreeListBuilder;
 use App\Models\Category as CategoryModel;
+use Phalcon\Mvc\Model\Resultset;
 
 class CategoryTreeList extends Cache
 {
@@ -17,11 +18,14 @@ class CategoryTreeList extends Cache
 
     public function getKey($id = null)
     {
-        return 'category_tree';
+        return 'category_tree_list';
     }
 
     public function getContent($id = null)
     {
+        /**
+         * @var Resultset $categories
+         */
         $categories = CategoryModel::query()
             ->where('published = 1 AND deleted = 0')
             ->execute();
@@ -34,7 +38,7 @@ class CategoryTreeList extends Cache
     }
 
     /**
-     * @param \App\Models\Category[] $categories
+     * @param Resultset $categories
      * @return array
      */
     protected function handleContent($categories)

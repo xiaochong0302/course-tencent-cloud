@@ -157,10 +157,10 @@ class ConfigController extends Controller
         } else {
 
             $alipay = $configService->getSectionConfig('payment.alipay');
-            $wxpay = $configService->getSectionConfig('payment.wxpay');
+            $wechat = $configService->getSectionConfig('payment.wechat');
 
             $this->view->setVar('alipay', $alipay);
-            $this->view->setVar('wxpay', $wxpay);
+            $this->view->setVar('wechat', $wechat);
         }
     }
 
@@ -252,23 +252,21 @@ class ConfigController extends Controller
      */
     public function vipAction()
     {
-        $section = 'vip';
-
         $configService = new ConfigService();
 
         if ($this->request->isPost()) {
 
-            $data = $this->request->getPost();
+            $data = $this->request->getPost('vip');
 
-            $configService->updateSectionConfig($section, $data);
+            $configService->updateVipConfig($data);
 
             return $this->ajaxSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $vip = $configService->getSectionConfig($section);
+            $vips = $configService->getVipConfig();
 
-            $this->view->setVar('vip', $vip);
+            $this->view->setVar('vips', $vips);
         }
     }
 

@@ -35,7 +35,7 @@ class CourseRelated extends Model
 
     public function getSource()
     {
-        return 'course_related';
+        return 'kg_course_related';
     }
 
     public function beforeCreate()

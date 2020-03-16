@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Caches\NavListCache;
+use App\Caches\NavTreeList as NavTreeListCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Nav extends Model
@@ -120,7 +120,7 @@ class Nav extends Model
 
     public function getSource()
     {
-        return 'nav';
+        return 'kg_nav';
     }
 
     public function initialize()
@@ -157,11 +157,11 @@ class Nav extends Model
 
     public function rebuildCache()
     {
-        $navListCache = new NavListCache();
-        $navListCache->rebuild();
+        $cache = new NavTreeListCache();
+        $cache->rebuild();
     }
 
-    public static function positions()
+    public static function positionTypes()
     {
         $list = [
             self::POSITION_TOP => '顶部',
@@ -171,7 +171,7 @@ class Nav extends Model
         return $list;
     }
 
-    public static function targets()
+    public static function targetTypes()
     {
         $list = [
             self::TARGET_BLANK => '新窗口',

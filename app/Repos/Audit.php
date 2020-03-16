@@ -4,31 +4,20 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Audit as AuditModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Audit extends Repository
 {
 
     /**
-     * @param int $id
-     * @return AuditModel
+     * @param array $where
+     * @param string $sort
+     * @param int $page
+     * @param int $limit
+     * @return object
      */
-    public function findById($id)
-    {
-        $result = AuditModel::findFirst($id);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = AuditModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -75,5 +64,32 @@ class Audit extends Repository
 
         return $pager->paginate();
     }
+
+    /**
+     * @param string $id
+     * @return AuditModel|Model|bool
+     */
+    public function findById($id)
+    {
+        $result = AuditModel::findFirst($id);
+
+        return $result;
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|AuditModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        $result = AuditModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+
+        return $result;
+    }
+
 
 }

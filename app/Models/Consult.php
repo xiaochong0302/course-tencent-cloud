@@ -43,11 +43,18 @@ class Consult extends Model
     public $answer;
 
     /**
-     * 点赞数量
+     * 赞成数
      *
      * @var int
      */
-    public $like_count;
+    public $agree_count;
+
+    /**
+     * 反对数
+     *
+     * @var int
+     */
+    public $oppose_count;
 
     /**
      * 发布标识
@@ -79,7 +86,7 @@ class Consult extends Model
 
     public function getSource()
     {
-        return 'consult';
+        return 'kg_consult';
     }
 
     public function initialize()

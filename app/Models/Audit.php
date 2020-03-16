@@ -63,7 +63,7 @@ class Audit extends Model
 
     public function getSource()
     {
-        return 'audit';
+        return 'kg_audit';
     }
 
     public function beforeCreate()

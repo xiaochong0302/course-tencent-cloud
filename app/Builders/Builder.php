@@ -2,9 +2,9 @@
 
 namespace App\Builders;
 
-use Phalcon\Mvc\User\Component as UserComponent;
+use Phalcon\Mvc\User\Component;
 
-class Builder extends UserComponent
+class Builder extends Component
 {
 
     public function arrayToObject($array)

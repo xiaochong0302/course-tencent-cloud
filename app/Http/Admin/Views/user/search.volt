@@ -12,9 +12,9 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">用户名</label>
+        <label class="layui-form-label">昵称</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="name" placeholder="用户名模糊匹配">
+            <input class="layui-input" type="text" name="name" placeholder="昵称模糊匹配">
         </div>
     </div>
 

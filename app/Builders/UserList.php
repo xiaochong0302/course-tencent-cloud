@@ -32,7 +32,7 @@ class UserList extends Builder
 
     public function handleEduRoles($users)
     {
-        $roles = $this->getEduRoles($users);
+        $roles = $this->getEduRoles();
 
         foreach ($users as $key => $user) {
             $users[$key]['edu_role'] = $roles[$user['edu_role']] ?? ['id' => 0, 'name' => 'N/A'];
@@ -41,24 +41,24 @@ class UserList extends Builder
         return $users;
     }
 
-    private function getAdminRoles($users)
+    protected function getAdminRoles($users)
     {
         $ids = kg_array_column($users, 'admin_role');
 
         $roleRepo = new RoleRepo();
 
-        $roles = $roleRepo->findByIds($ids, ['id', 'name'])->toArray();
+        $roles = $roleRepo->findByIds($ids, ['id', 'name']);
 
         $result = [];
 
-        foreach ($roles as $role) {
+        foreach ($roles->toArray() as $role) {
             $result[$role['id']] = $role;
         }
 
         return $result;
     }
 
-    private function getEduRoles()
+    protected function getEduRoles()
     {
         $result = [
             UserModel::EDU_ROLE_STUDENT => [

@@ -123,7 +123,7 @@ function kg_object_array($object)
  *
  * @param $ip
  * @param string $dbFile
- * @return stdClass
+ * @return object
  */
 function kg_ip2region($ip, $dbFile = null)
 {

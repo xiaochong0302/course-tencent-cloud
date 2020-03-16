@@ -35,7 +35,7 @@ class CourseCategory extends Model
 
     public function getSource()
     {
-        return 'course_category';
+        return 'kg_course_category';
     }
 
     public function beforeCreate()

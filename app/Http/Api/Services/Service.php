@@ -5,10 +5,10 @@ namespace App\Http\Api\Services;
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Validators\Filter as BaseFilter;
-use Phalcon\Mvc\User\Component as UserComponent;
+use Phalcon\Mvc\User\Component;
 
 
-class Service extends UserComponent
+class Service extends Component
 {
 
     public function getCurrentUser()

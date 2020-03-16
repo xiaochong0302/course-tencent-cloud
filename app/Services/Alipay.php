@@ -6,16 +6,25 @@ use App\Models\Trade as TradeModel;
 use App\Repos\Trade as TradeRepo;
 use Yansongda\Pay\Log;
 use Yansongda\Pay\Pay;
+use Yansongda\Supports\Collection;
 
 class Alipay extends Service
 {
 
+    /**
+     * @var array
+     */
     protected $config;
+
+    /**
+     * @var \Yansongda\Pay\Gateways\Alipay
+     */
     protected $gateway;
 
     public function __construct()
     {
         $this->config = $this->getSectionConfig('payment.alipay');
+
         $this->gateway = $this->getGateway();
     }
 
@@ -23,7 +32,7 @@ class Alipay extends Service
      * 查询订单（扫码生成订单后可执行）
      *
      * @param string $outTradeNo
-     * @return \Yansongda\Supports\Collection|bool
+     * @return Collection|bool
      */
     public function findOrder($outTradeNo)
     {
@@ -50,7 +59,7 @@ class Alipay extends Service
      * 撤销订单（未生成订单也可执行）
      *
      * @param string $outTradeNo
-     * @return \Yansongda\Supports\Collection|bool
+     * @return Collection|bool
      */
     public function cancelOrder($outTradeNo)
     {
@@ -77,7 +86,7 @@ class Alipay extends Service
      * 关闭订单（扫码生成订单后可执行）
      *
      * @param string $outTradeNo
-     * @return \Yansongda\Supports\Collection|bool
+     * @return Collection|bool
      */
     public function closeOrder($outTradeNo)
     {
@@ -105,13 +114,13 @@ class Alipay extends Service
      *
      * <code>
      * $order = [
-     *      'out_trade_no' => '1514027114',
-     *      'refund_amount' => '0.01',
+     *   'out_trade_no' => '1514027114',
+     *   'refund_amount' => 0.01,
      * ];
      * </code>
      *
      * @param array $order
-     * @return \Yansongda\Supports\Collection|bool
+     * @return Collection|bool
      */
     public function refundOrder($order)
     {
@@ -134,6 +143,14 @@ class Alipay extends Service
 
     /**
      * 获取二维码内容
+     *
+     * <code>
+     * $order = [
+     *   'out_trade_no' =>'1514027114',
+     *   'total_amount' => 0.01,
+     *   'subject' => 'foo',
+     * ];
+     *</code>
      *
      * @param array $order
      * @return bool|string
@@ -218,21 +235,28 @@ class Alipay extends Service
      */
     public function getGateway()
     {
-        $config = [
+        $config = $this->getDI()->get('config');
+
+        $level = $config->env == ENV_DEV ? 'debug' : 'info';
+
+        $payConfig = [
             'app_id' => $this->config['app_id'],
             'ali_public_key' => $this->config['public_key'],
             'private_key' => $this->config['private_key'],
             'notify_url' => $this->config['notify_url'],
             'log' => [
                 'file' => log_path('alipay.log'),
-                'level' => 'debug',
+                'level' => $level,
                 'type' => 'daily',
                 'max_file' => 30,
             ],
-            'mode' => 'dev',
         ];
 
-        $gateway = Pay::alipay($config);
+        if ($config->env == ENV_DEV) {
+            $payConfig['mode'] = 'dev';
+        }
+
+        $gateway = Pay::alipay($payConfig);
 
         return $gateway;
     }

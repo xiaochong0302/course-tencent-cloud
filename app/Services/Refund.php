@@ -8,7 +8,11 @@ use App\Repos\Course as CourseRepo;
 class Refund extends Service
 {
 
-    public function getRefundAmount(OrderModel $order)
+    /**
+     * @param OrderModel $order
+     * @return float
+     */
+    public function getRefundAmount($order)
     {
         $amount = 0.00;
 
@@ -16,23 +20,33 @@ class Refund extends Service
             return $amount;
         }
 
-        if ($order->item_type == OrderModel::TYPE_COURSE) {
+        if ($order->item_type == OrderModel::ITEM_COURSE) {
             $amount = $this->getCourseRefundAmount($order);
-        } elseif ($order->item_type == OrderModel::TYPE_PACKAGE) {
+        } elseif ($order->item_type == OrderModel::ITEM_PACKAGE) {
             $amount = $this->getPackageRefundAmount($order);
         }
 
         return $amount;
     }
 
-    protected function getCourseRefundAmount(OrderModel $order)
+    /**
+     * @param OrderModel $order
+     * @return float
+     */
+    protected function getCourseRefundAmount($order)
     {
-        $course = $order->item_info['course'];
+        /**
+         * @var array $itemInfo
+         */
+        $itemInfo = $order->item_info;
+
+        $course = $itemInfo['course'];
 
         $courseId = $order->item_id;
         $userId = $order->user_id;
         $amount = $order->amount;
-        $expireTime = $course['expire_time'];
+
+        $expireTime = strtotime("+{$course['expiry']} days", $order->created_at);
 
         $refundAmount = 0.00;
 
@@ -44,9 +58,19 @@ class Refund extends Service
         return $refundAmount;
     }
 
-    protected function getPackageRefundAmount(OrderModel $order)
+    /**
+     * @param OrderModel $order
+     * @return float
+     */
+    protected function getPackageRefundAmount($order)
     {
-        $courses = $order->item_info['courses'];
+        /**
+         * @var array $itemInfo
+         */
+        $itemInfo = $order->item_info;
+
+        $courses = $itemInfo['courses'];
+
         $userId = $order->user_id;
         $amount = $order->amount;
 
@@ -62,7 +86,10 @@ class Refund extends Service
          * 按照占比方式计算退款
          */
         foreach ($courses as $course) {
-            if ($course['expire_time'] > time()) {
+
+            $expireTime = strtotime("+{$course['expiry']} days", $order->created_at);
+
+            if ($expireTime > time()) {
                 $pricePercent = round($course['market_price'] / $totalMarketPrice, 4);
                 $refundPercent = $this->getCourseRefundPercent($userId, $course['id']);
                 $refundAmount = round($amount * $pricePercent * $refundPercent, 2);
@@ -73,6 +100,11 @@ class Refund extends Service
         return $totalRefundAmount;
     }
 
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return float
+     */
     protected function getCourseRefundPercent($courseId, $userId)
     {
         $courseRepo = new CourseRepo();

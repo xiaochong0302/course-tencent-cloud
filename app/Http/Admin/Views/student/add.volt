@@ -1,3 +1,5 @@
+{% set course_id = course ? course.id : '' %}
+
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.student.create'}) }}">
 
     <fieldset class="layui-elem-field layui-field-title">
@@ -21,7 +23,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">过期时间</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="expire_time" lay-verify="required">
+            <input class="layui-input" type="text" name="expiry_time" autocomplete="off" lay-verify="required">
         </div>
     </div>
 
@@ -42,7 +44,7 @@
         var laydate = layui.laydate;
 
         laydate.render({
-            elem: 'input[name=expire_time]',
+            elem: 'input[name=expiry_time]',
             type: 'datetime'
         });
 

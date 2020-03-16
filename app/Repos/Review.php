@@ -4,46 +4,21 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Review as ReviewModel;
+use App\Models\ReviewVote as ReviewVoteModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Review extends Repository
 {
 
     /**
-     * @param int $id
-     * @return ReviewModel
+     * @param array $where
+     * @param string $sort
+     * @param int $page
+     * @param int $limit
+     * @return \stdClass
      */
-    public function findById($id)
-    {
-        $result = ReviewModel::findFirst($id);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = ReviewModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    /**
-     * @param int $courseId
-     * @param int $userId
-     * @return ReviewModel
-     */
-    public function findReview($courseId, $userId)
-    {
-        $result = ReviewModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->execute()->getFirst();
-
-        return $result;
-    }
-
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -52,16 +27,16 @@ class Review extends Repository
 
         $builder->where('1 = 1');
 
-        if (isset($where['id'])) {
+        if (!empty($where['id'])) {
             $builder->andWhere('id = :id:', ['id' => $where['id']]);
         }
 
-        if (isset($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['course_id'])) {
+            $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
         }
 
-        if (isset($where['course_id'])) {
-            $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
+        if (!empty($where['user_id'])) {
+            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
         if (isset($where['published'])) {
@@ -101,6 +76,71 @@ class Review extends Repository
         ]);
 
         return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return ReviewModel|Model|bool
+     */
+    public function findById($id)
+    {
+        $result = ReviewModel::findFirst($id);
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return ReviewModel|Model|bool
+     */
+    public function findReview($courseId, $userId)
+    {
+        $result = ReviewModel::findFirst([
+            'conditions' => 'course_id = :course_id: AND user_id = :user_id:',
+            'bind' => ['course_id' => $courseId, 'user_id' => $userId],
+        ]);
+
+        return $result;
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|ReviewModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        $result = ReviewModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+
+        return $result;
+    }
+
+    public function countAgrees($reviewId)
+    {
+        $type = ReviewVoteModel::TYPE_AGREE;
+
+        $count = ReviewVoteModel::count([
+            'conditions' => 'review_id = :review_id: AND type = :type: AND deleted = 0',
+            'bind' => ['review_id' => $reviewId, 'type' => $type],
+        ]);
+
+        return $count;
+    }
+
+    public function countOpposes($reviewId)
+    {
+        $type = ReviewVoteModel::TYPE_OPPOSE;
+
+        $count = ReviewVoteModel::count([
+            'conditions' => 'review_id = :review_id: AND type = :type: AND deleted = 0',
+            'bind' => ['review_id' => $reviewId, 'type' => $type],
+        ]);
+
+        return $count;
     }
 
 }

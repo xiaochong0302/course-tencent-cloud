@@ -88,7 +88,7 @@ class Order extends Service
     {
         $validator = new OrderValidator();
 
-        $result = $validator->checkOrder($id);
+        $result = $validator->checkOrderById($id);
 
         return $result;
     }

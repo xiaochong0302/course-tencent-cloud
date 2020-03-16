@@ -2,9 +2,9 @@
 
 namespace App\Http\Admin\Services;
 
-use Phalcon\Mvc\User\Component as UserComponent;
+use Phalcon\Mvc\User\Component;
 
-class AuthMenu extends UserComponent
+class AuthMenu extends Component
 
 {
 

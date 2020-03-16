@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Services;
 
 use App\Repos\Config as ConfigRepo;
+use App\Repos\Vip as VipRepo;
 
 class Config extends Service
 {
@@ -106,6 +107,26 @@ class Config extends Service
         $config['template'] = kg_json_encode($myTemplate);
 
         $this->updateSectionConfig($section, $config);
+    }
+
+    public function getVipConfig()
+    {
+        $vipRepo = new VipRepo();
+
+        $config = $vipRepo->findAll(['deleted' => 0]);
+
+        return $config;
+    }
+
+    public function updateVipConfig($items)
+    {
+        $vipRepo = new VipRepo();
+
+        foreach ($items as $id => $price) {
+            $vip = $vipRepo->findById($id);
+            $vip->price = $price;
+            $vip->update();
+        }
     }
 
 }

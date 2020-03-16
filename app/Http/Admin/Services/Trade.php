@@ -20,6 +20,16 @@ class Trade extends Service
         $pageQuery = new PaginateQuery();
 
         $params = $pageQuery->getParams();
+
+        /**
+         * 兼容订单编号或订单序号查询
+         */
+        if (isset($params['order_id']) && strlen($params['order_id']) > 10) {
+            $orderRepo = new OrderRepo();
+            $order = $orderRepo->findBySn($params['order_id']);
+            $params['order_id'] = $order ? $order->id : -1000;
+        }
+
         $sort = $pageQuery->getSort();
         $page = $pageQuery->getPage();
         $limit = $pageQuery->getLimit();
@@ -40,29 +50,29 @@ class Trade extends Service
         return $trade;
     }
 
-    public function getOrder($sn)
+    public function getOrder($orderId)
     {
         $orderRepo = new OrderRepo();
 
-        $order = $orderRepo->findBySn($sn);
+        $order = $orderRepo->findById($orderId);
 
         return $order;
     }
 
-    public function getRefunds($sn)
+    public function getRefunds($tradeId)
     {
         $tradeRepo = new TradeRepo();
 
-        $refunds = $tradeRepo->findRefunds($sn);
+        $refunds = $tradeRepo->findRefunds($tradeId);
 
         return $refunds;
     }
 
-    public function getUser($id)
+    public function getUser($userId)
     {
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($id);
+        $user = $userRepo->findById($userId);
 
         return $user;
     }
@@ -103,9 +113,9 @@ class Trade extends Service
         $refund->subject = $trade->subject;
         $refund->amount = $trade->amount;
         $refund->user_id = $trade->user_id;
-        $refund->order_sn = $trade->order_sn;
-        $refund->trade_sn = $trade->sn;
-        $refund->apply_reason = '后台人工申请退款';
+        $refund->order_id = $trade->order_id;
+        $refund->trade_id = $trade->sn;
+        $refund->apply_note = '后台人工申请退款';
 
         $refund->create();
 
@@ -129,9 +139,10 @@ class Trade extends Service
 
             $pipeA = $pager->items->toArray();
             $pipeB = $builder->handleUsers($pipeA);
-            $pipeC = $builder->arrayToObject($pipeB);
+            $pipeC = $builder->handleOrders($pipeB);
+            $pipeD = $builder->arrayToObject($pipeC);
 
-            $pager->items = $pipeC;
+            $pager->items = $pipeD;
         }
 
         return $pager;

@@ -1,15 +1,6 @@
 <?php
 
-use Bootstrap\ConsoleKernel;
-
-require __DIR__ . '/bootstrap/Kernel.php';
-require __DIR__ . '/bootstrap/ConsoleKernel.php';
-
-$kernel = new ConsoleKernel();
-
-$config = $kernel->getDI()->getShared('config');
-
-$db = $config->db;
+$config = require __DIR__ . '/config/config.php';
 
 $options = [
 
@@ -22,21 +13,24 @@ $options = [
 
     'environments' => [
 
-        'default_migration_table' => 'migration',
+        'default_migration_table' => 'kg_migration',
+
         'default_database' => 'production',
 
         'production' => [
             'adapter' => 'mysql',
-            'host' => $db->host,
-            'port' => $db->port,
-            'name' => $db->dbname,
-            'user' => $db->username,
-            'pass' => $db->password,
-            'charset' => $db->charset,
+            'host' => $config['db']['host'],
+            'port' => $config['db']['port'],
+            'name' => $config['db']['dbname'],
+            'user' => $config['db']['username'],
+            'pass' => $config['db']['password'],
+            'charset' => $config['db']['charset'],
         ],
 
     ],
 
 ];
+
+print_r($options);
 
 return $options;

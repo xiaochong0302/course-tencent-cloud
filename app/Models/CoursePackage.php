@@ -35,7 +35,7 @@ class CoursePackage extends Model
 
     public function getSource()
     {
-        return 'course_package';
+        return 'kg_course_package';
     }
 
     public function beforeCreate()

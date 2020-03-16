@@ -72,7 +72,7 @@ class Review extends Model
 
     public function getSource()
     {
-        return 'review';
+        return 'kg_review';
     }
 
     public function initialize()

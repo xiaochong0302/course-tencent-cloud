@@ -7,21 +7,21 @@
     <div class="layui-form-item">
         <label class="layui-form-label">评价编号</label>
         <div class="layui-input-block">
-            <input type="text" name="id" placeholder="评价编号精确匹配" class="layui-input">
+            <input class="layui-input" type="text" name="id" placeholder="评价编号精确匹配">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">课程编号</label>
         <div class="layui-input-block">
-            <input type="text" name="course_id" placeholder="课程编号精确匹配" class="layui-input">
+            <input class="layui-input" type="text" name="course_id" placeholder="课程编号精确匹配">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">用户编号</label>
         <div class="layui-input-block">
-            <input type="text" name="user_id" placeholder="用户编号精确匹配" class="layui-input">
+            <input class="layui-input" type="text" name="author_id" placeholder="用户编号精确匹配">
         </div>
     </div>
 

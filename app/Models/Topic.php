@@ -72,7 +72,7 @@ class Topic extends Model
 
     public function getSource()
     {
-        return 'topic';
+        return 'kg_topic';
     }
 
     public function initialize()

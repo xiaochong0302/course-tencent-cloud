@@ -2,7 +2,6 @@
 
 namespace App\Services\Frontend;
 
-use App\Builders\CourseList as CourseListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Course as CourseRepo;
 use App\Services\Category as CategoryService;
@@ -17,8 +16,11 @@ class CourseList extends Service
         $params = $pagerQuery->getParams();
 
         if (!empty($params['category_id'])) {
+
             $categoryService = new CategoryService();
+
             $childNodeIds = $categoryService->getChildNodeIds($params['category_id']);
+
             $params['category_id'] = $childNodeIds;
         }
 
@@ -38,16 +40,39 @@ class CourseList extends Service
 
     protected function handleCourses($pager)
     {
-        if ($pager->total_items > 0) {
-
-            $builder = new CourseListBuilder();
-
-            $pipeA = $pager->items->toArray();
-            $pipeB = $builder->handleCourses($pipeA);
-            $pipeC = $builder->handleCategories($pipeB);
-
-            $pager->items = $pipeC;
+        if ($pager->total_items == 0) {
+            return $pager;
         }
+
+        $courses = $pager->items->toArray();
+
+        $items = [];
+
+        $imgBaseUrl = kg_img_base_url();
+
+        foreach ($courses as $course) {
+
+            $course['cover'] = $imgBaseUrl . $course['cover'];
+            $course['attrs'] = json_decode($course['attrs'], true);
+
+            $items[] = [
+                'id' => $course['id'],
+                'title' => $course['title'],
+                'cover' => $course['cover'],
+                'summary' => $course['summary'],
+                'market_price' => $course['market_price'],
+                'vip_price' => $course['vip_price'],
+                'model' => $course['model'],
+                'level' => $course['level'],
+                'attrs' => $course['attrs'],
+                'user_count' => $course['user_count'],
+                'lesson_count' => $course['lesson_count'],
+                'review_count' => $course['review_count'],
+                'favorite_count' => $course['favorite_count'],
+            ];
+        }
+
+        $pager->items = $items;
 
         return $pager;
     }

@@ -10,11 +10,10 @@ class Order extends Model
     /**
      * 条目类型
      */
-    const TYPE_COURSE = 'course'; // 课程
-    const TYPE_PACKAGE = 'package'; // 套餐
-    const TYPE_REWARD = 'reward'; // 打赏
-    const TYPE_VIP = 'vip'; // 会员
-    const TYPE_TEST = 'test'; // 测试
+    const ITEM_COURSE = 'course'; // 课程
+    const ITEM_PACKAGE = 'package'; // 套餐
+    const ITEM_VIP = 'vip'; // 会员
+    const ITEM_TEST = 'test'; // 测试
 
     /**
      * 来源类型
@@ -99,7 +98,7 @@ class Order extends Model
      *
      * @var string
      */
-    public $source;
+    public $source_type;
 
     /**
      * 状态类型
@@ -131,7 +130,7 @@ class Order extends Model
 
     public function getSource()
     {
-        return 'order';
+        return 'kg_order';
     }
 
     public function initialize()
@@ -148,14 +147,16 @@ class Order extends Model
 
     public function beforeCreate()
     {
-        $this->sn = date('YmdHis') . rand(1000, 9999);
-
         $this->status = self::STATUS_PENDING;
+
+        $this->sn = date('YmdHis') . rand(1000, 9999);
 
         $this->created_at = time();
 
         if (!empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
+        } else {
+            $this->item_info = '';
         }
     }
 
@@ -177,31 +178,30 @@ class Order extends Model
         }
     }
 
-    public static function types()
+    public static function itemTypes()
     {
         $list = [
-            self::TYPE_COURSE => '课程',
-            self::TYPE_PACKAGE => '套餐',
-            self::TYPE_REWARD => '打赏',
-            self::TYPE_VIP => '会员',
-            self::TYPE_TEST => '测试',
+            self::ITEM_COURSE => '课程',
+            self::ITEM_PACKAGE => '套餐',
+            self::ITEM_VIP => '会员',
+            self::ITEM_TEST => '测试',
         ];
 
         return $list;
     }
 
-    public static function sources()
+    public static function sourceTypes()
     {
         $list = [
-            self::CLIENT_DESKTOP => 'desktop',
-            self::CLIENT_ANDROID => 'android',
-            self::CLIENT_IOS => 'ios',
+            self::SOURCE_DESKTOP => 'desktop',
+            self::SOURCE_ANDROID => 'android',
+            self::SOURCE_IOS => 'ios',
         ];
 
         return $list;
     }
 
-    public static function statuses()
+    public static function statusTypes()
     {
         $list = [
             self::STATUS_PENDING => '待支付',

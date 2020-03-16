@@ -81,9 +81,11 @@ class UserController extends Controller
         $userService = new UserService();
 
         $user = $userService->getUser($id);
+        $account = $userService->getAccount($id);
         $roles = $userService->getRoles();
 
         $this->view->setVar('user', $user);
+        $this->view->setVar('account', $account);
         $this->view->setVar('roles', $roles);
     }
 
@@ -92,9 +94,15 @@ class UserController extends Controller
      */
     public function updateAction($id)
     {
+        $type = $this->request->getPost('type');
+
         $userService = new UserService();
 
-        $userService->updateUser($id);
+        if ($type == 'user') {
+            $userService->updateUser($id);
+        } else {
+            $userService->updateAccount($id);
+        }
 
         $location = $this->url->get(['for' => 'admin.user.list']);
 

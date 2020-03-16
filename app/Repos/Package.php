@@ -6,31 +6,20 @@ use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Course as CourseModel;
 use App\Models\CoursePackage as CoursePackageModel;
 use App\Models\Package as PackageModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Package extends Repository
 {
 
     /**
-     * @param int $id
-     * @return PackageModel
+     * @param array $where
+     * @param string $sort
+     * @param int $page
+     * @param int $limit
+     * @return \stdClass
      */
-    public function findById($id)
-    {
-        $result = PackageModel::findFirst($id);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = PackageModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -68,6 +57,36 @@ class Package extends Repository
         return $pager->paginate();
     }
 
+    /**
+     * @param int $id
+     * @return PackageModel|Model|bool
+     */
+    public function findById($id)
+    {
+        $result = PackageModel::findFirst($id);
+
+        return $result;
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|PackageModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        $result = PackageModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param string $packageId
+     * @return ResultsetInterface|Resultset|CourseModel[]
+     */
     public function findCourses($packageId)
     {
         $result = $this->modelsManager->createBuilder()

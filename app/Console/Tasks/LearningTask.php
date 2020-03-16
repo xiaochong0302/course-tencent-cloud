@@ -2,6 +2,7 @@
 
 namespace App\Console\Tasks;
 
+use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Models\Course as CourseModel;
 use App\Models\Learning as LearningModel;
 use App\Repos\Chapter as ChapterRepo;
@@ -9,88 +10,109 @@ use App\Repos\ChapterUser as ChapterUserRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Learning as LearningRepo;
+use App\Services\LearningSyncer;
 use Phalcon\Cli\Task;
 
 class LearningTask extends Task
 {
 
     /**
-     * @var \App\Library\Cache\Backend\Redis
+     * @var RedisCache
      */
     protected $cache;
+
+    /**
+     * @var \Redis
+     */
+    protected $redis;
 
     public function mainAction()
     {
         $this->cache = $this->getDI()->get('cache');
 
-        $keys = $this->cache->queryKeys('learning:');
+        $this->redis = $this->cache->getRedis();
 
-        if (!$keys) return;
+        $syncer = new LearningSyncer();
 
-        $keys = array_slice($keys, 0, 500);
+        $syncKey = $syncer->getSyncKey();
 
-        foreach ($keys as $key) {
-            $lastKey = $this->cache->getRawKeyName($key);
-            $this->handleLearning($lastKey);
+        $requestIds = $this->redis->sMembers($syncKey);
+
+        if (!$requestIds) return;
+
+        foreach ($requestIds as $requestId) {
+            $itemKey = $syncer->getItemKey($requestId);
+            $this->handleLearning($itemKey);
         }
+
+        $this->redis->sRem($syncKey, ...$requestIds);
     }
 
-    protected function handleLearning($key)
+    /**
+     * @param string $itemKey
+     */
+    protected function handleLearning($itemKey)
     {
-        $content = $this->cache->get($key);
+        /**
+         * @var LearningModel $cacheLearning
+         */
+        $cacheLearning = $this->cache->get($itemKey);
 
-        if (!$content) return;
+        if (!$cacheLearning) return;
 
         $learningRepo = new LearningRepo();
 
-        $learning = $learningRepo->findByRequestId($content['request_id']);
+        $dbLearning = $learningRepo->findByRequestId($cacheLearning->request_id);
 
-        if (!$learning) {
-            $learning = new LearningModel();
-            $learning->create($content);
+        if (!$dbLearning) {
+            $cacheLearning->create();
         } else {
-            $learning->duration += $content['duration'];
-            $learning->update();
+            $dbLearning->duration += $cacheLearning->duration;
+            $dbLearning->update();
         }
 
-        $this->updateChapterUser($content['chapter_id'], $content['user_id'], $content['duration'], $content['position']);
+        $this->updateChapterUser($dbLearning);
 
-        $this->cache->delete($key);
+        $this->cache->delete($itemKey);
     }
 
-    protected function updateChapterUser($chapterId, $userId, $duration = 0, $position = 0)
+    /**
+     * @param LearningModel $learning
+     */
+    protected function updateChapterUser(LearningModel $learning)
     {
         $chapterUserRepo = new ChapterUserRepo();
 
-        $chapterUser = $chapterUserRepo->findChapterUser($chapterId, $userId);
+        $chapterUser = $chapterUserRepo->findChapterUser($learning->chapter_id, $learning->user_id);
 
         if (!$chapterUser) return;
 
         $chapterRepo = new ChapterRepo();
 
-        $chapter = $chapterRepo->findById($chapterId);
+        $chapter = $chapterRepo->findById($learning->chapter_id);
 
         if (!$chapter) return;
 
         $chapterModel = $chapter->attrs['model'];
 
-        $chapterUser->duration += $duration;
+        $chapterUser->duration += $learning->duration;
 
         /**
          * 消费规则
+         *
          * 1.点播观看时间大于时长30%
          * 2.直播观看时间超过10分钟
          * 3.图文浏览即消费
          */
         if ($chapterModel == CourseModel::MODEL_VOD) {
 
-            $chapterDuration = $chapter->attrs['duration'] ?: 300;
+            $duration = $chapter->attrs['duration'] ?: 300;
 
-            $progress = floor(100 * $chapterUser->duration / $chapterDuration);
+            $progress = floor(100 * $chapterUser->duration / $duration);
 
-            $chapterUser->position = floor($position);
+            $chapterUser->position = floor($learning->position);
             $chapterUser->progress = $progress < 100 ? $progress : 100;
-            $chapterUser->consumed = $chapterUser->duration > 0.3 * $chapterDuration ? 1 : 0;
+            $chapterUser->consumed = $chapterUser->duration > 0.3 * $duration ? 1 : 0;
 
         } elseif ($chapterModel == CourseModel::MODEL_LIVE) {
 
@@ -108,6 +130,10 @@ class LearningTask extends Task
         }
     }
 
+    /**
+     * @param int $courseId
+     * @param int $userId
+     */
     protected function updateCourseUser($courseId, $userId)
     {
         $courseRepo = new CourseRepo();
@@ -142,9 +168,11 @@ class LearningTask extends Task
 
         $courseUser = $courseUserRepo->findCourseUser($courseId, $userId);
 
-        $courseUser->progress = $progress;
-        $courseUser->duration = $duration;
-        $courseUser->update();
+        if ($courseUser) {
+            $courseUser->progress = $progress;
+            $courseUser->duration = $duration;
+            $courseUser->update();
+        }
     }
 
 }

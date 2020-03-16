@@ -4,15 +4,17 @@ namespace App\Listeners;
 
 use App\Caches\Config as ConfigCache;
 use App\Library\Logger as AppLogger;
+use Phalcon\Logger\Adapter\File as FileLogger;
+use Phalcon\Mvc\User\Plugin as UserPlugin;
 
-class Listener extends \Phalcon\Mvc\User\Plugin
+class Listener extends UserPlugin
 {
 
     /**
      * 获取Logger
      *
      * @param mixed $channel
-     * @return \Phalcon\Logger\Adapter\File
+     * @return FileLogger
      */
     public function getLogger($channel = null)
     {
@@ -27,7 +29,7 @@ class Listener extends \Phalcon\Mvc\User\Plugin
      * 获取某组配置项
      *
      * @param string $section
-     * @return \stdClass
+     * @return array
      */
     public function getSectionConfig($section)
     {

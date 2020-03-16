@@ -51,7 +51,7 @@ class Page extends Model
 
     public function getSource()
     {
-        return 'page';
+        return 'kg_page';
     }
 
     public function initialize()

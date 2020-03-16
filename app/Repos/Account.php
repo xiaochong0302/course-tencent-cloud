@@ -3,13 +3,16 @@
 namespace App\Repos;
 
 use App\Models\Account as AccountModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Account extends Repository
 {
 
     /**
      * @param int $id
-     * @return AccountModel
+     * @return AccountModel|Model|bool
      */
     public function findById($id)
     {
@@ -20,7 +23,7 @@ class Account extends Repository
 
     /**
      * @param string $phone
-     * @return AccountModel
+     * @return AccountModel|Model|bool
      */
     public function findByPhone($phone)
     {
@@ -34,7 +37,7 @@ class Account extends Repository
 
     /**
      * @param string $email
-     * @return AccountModel
+     * @return AccountModel|Model|bool
      */
     public function findByEmail($email)
     {
@@ -46,6 +49,11 @@ class Account extends Repository
         return $result;
     }
 
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|AccountModel[]
+     */
     public function findByIds($ids, $columns = '*')
     {
         $result = AccountModel::query()

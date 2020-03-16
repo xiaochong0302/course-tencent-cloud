@@ -11,11 +11,6 @@ use Phalcon\Text;
 class Nav extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Nav
-     * @throws BadRequestException
-     */
     public function checkNav($id)
     {
         $navRepo = new NavRepo();
@@ -86,7 +81,7 @@ class Nav extends Validator
 
     public function checkTarget($target)
     {
-        $list = NavModel::targets();
+        $list = NavModel::targetTypes();
 
         if (!isset($list[$target])) {
             throw new BadRequestException('nav.invalid_target');
@@ -97,7 +92,7 @@ class Nav extends Validator
 
     public function checkPosition($position)
     {
-        $list = NavModel::positions();
+        $list = NavModel::positionTypes();
 
         if (!isset($list[$position])) {
             throw new BadRequestException('nav.invalid_position');

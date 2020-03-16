@@ -10,11 +10,6 @@ use App\Repos\Trade as TradeRepo;
 class Trade extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Trade
-     * @throws BadRequestException
-     */
     public function checkTrade($id)
     {
         $tradeRepo = new TradeRepo();
@@ -26,6 +21,15 @@ class Trade extends Validator
         }
 
         return $trade;
+    }
+
+    public function checkChannel($channel)
+    {
+        $list = TradeModel::channelTypes();
+
+        if (!isset($list[$channel])) {
+            throw  new BadRequestException('trade.invalid_channel');
+        }
     }
 
     public function checkIfAllowClose($trade)
@@ -43,9 +47,12 @@ class Trade extends Validator
 
         $tradeRepo = new TradeRepo();
 
-        $refund = $tradeRepo->findLatestRefund($trade->sn);
+        $refund = $tradeRepo->findLastRefund($trade->id);
 
-        $scopes = [RefundModel::STATUS_PENDING, RefundModel::STATUS_APPROVED];
+        $scopes = [
+            RefundModel::STATUS_PENDING,
+            RefundModel::STATUS_APPROVED,
+        ];
 
         if ($refund && in_array($refund->status, $scopes)) {
             throw new BadRequestException('trade.refund_existed');

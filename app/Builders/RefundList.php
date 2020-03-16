@@ -2,10 +2,22 @@
 
 namespace App\Builders;
 
+use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
 
 class RefundList extends Builder
 {
+
+    public function handleOrders($trades)
+    {
+        $orders = $this->getOrders($trades);
+
+        foreach ($trades as $key => $trade) {
+            $trades[$key]['order'] = $orders[$trade['order_id']];
+        }
+
+        return $trades;
+    }
 
     public function handleUsers($refunds)
     {
@@ -18,22 +30,34 @@ class RefundList extends Builder
         return $refunds;
     }
 
-    protected function getUsers($refunds)
+    public function getOrders($trades)
+    {
+        $ids = kg_array_column($trades, 'order_id');
+
+        $orderRepo = new OrderRepo();
+
+        $orders = $orderRepo->findByIds($ids, ['id', 'sn', 'subject', 'amount']);
+
+        $result = [];
+
+        foreach ($orders->toArray() as $order) {
+            $result[$order['id']] = $order;
+        }
+
+        return $result;
+    }
+
+    public function getUsers($refunds)
     {
         $ids = kg_array_column($refunds, 'user_id');
 
         $userRepo = new UserRepo();
 
-        $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
+        $users = $userRepo->findByIds($ids, ['id', 'name']);
 
         $result = [];
 
-        $imgBaseUrl = kg_img_base_url();
-
         foreach ($users->toArray() as $user) {
-
-            $user['avatar'] = $imgBaseUrl . $user['avatar'];
-
             $result[$user['id']] = $user;
         }
 

@@ -120,7 +120,7 @@
             var navId = $(this).attr('nav-id');
             var checked = $(this).is(':checked');
             var published = checked ? 1 : 0;
-            var tips = published == 1 ? '确定要发布导航？' : '确定要下线导航？';
+            var tips = published === 1 ? '确定要发布导航？' : '确定要下线导航？';
             layer.confirm(tips, function () {
                 $.ajax({
                     type: 'POST',

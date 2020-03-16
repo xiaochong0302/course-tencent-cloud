@@ -25,6 +25,8 @@ class Course extends Cache
 
         $course = $courseRepo->findById($id);
 
+        $course->cover = kg_img_url($course->cover);
+
         if (!$course) {
             return new \stdClass();
         }

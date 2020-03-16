@@ -2,7 +2,9 @@
 
 namespace App\Caches;
 
+use App\Models\User as UserModel;
 use App\Repos\Course as CourseRepo;
+use Phalcon\Mvc\Model\Resultset;
 
 class CourseTeacherList extends Cache
 {
@@ -23,6 +25,9 @@ class CourseTeacherList extends Cache
     {
         $courseRepo = new CourseRepo();
 
+        /**
+         * @var Resultset $users
+         */
         $users = $courseRepo->findTeachers($id);
 
         if ($users->count() == 0) {
@@ -33,14 +38,19 @@ class CourseTeacherList extends Cache
     }
 
     /**
-     * @param \App\Models\User[] $users
+     * @param UserModel[] $users
      * @return array
      */
     public function handleContent($users)
     {
         $result = [];
 
+        $imgBaseUrl = kg_img_base_url();
+
         foreach ($users as $user) {
+
+            $user->avatar = $imgBaseUrl . $user->avatar;
+
             $result[] = [
                 'id' => $user->id,
                 'name' => $user->name,

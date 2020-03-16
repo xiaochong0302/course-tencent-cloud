@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Chapter as ChapterModel;
 use App\Repos\Course as CourseRepo;
+use Phalcon\Mvc\Model\Resultset;
 
 class CourseStats extends Service
 {
@@ -39,6 +41,9 @@ class CourseStats extends Service
 
         $course = $courseRepo->findById($courseId);
 
+        /**
+         * @var Resultset|ChapterModel[] $lessons
+         */
         $lessons = $courseRepo->findLessons($courseId);
 
         if ($lessons->count() == 0) {
@@ -50,11 +55,18 @@ class CourseStats extends Service
         $duration = 0;
 
         foreach ($lessons as $lesson) {
-            if (isset($lesson->attrs['word_count'])) {
-                $wordCount += $lesson->attrs['word_count'];
+
+            /**
+             * @var array $attrs
+             */
+            $attrs = $lesson->attrs;
+
+            if (isset($attrs['word_count'])) {
+                $wordCount += $attrs['word_count'];
             }
-            if (isset($lesson->attrs['duration'])) {
-                $duration += $lesson->attrs['duration'];
+
+            if (isset($attrs['duration'])) {
+                $duration += $attrs['duration'];
             }
         }
 
@@ -75,6 +87,9 @@ class CourseStats extends Service
 
         $course = $courseRepo->findById($courseId);
 
+        /**
+         * @var Resultset|ChapterModel[] $lessons
+         */
         $lessons = $courseRepo->findLessons($course->id);
 
         if ($lessons->count() == 0) {
@@ -84,8 +99,14 @@ class CourseStats extends Service
         $scopes = [];
 
         foreach ($lessons as $lesson) {
-            if (isset($lesson->attrs['start_time'])) {
-                $scopes[] = $lesson->attrs['start_time'];
+
+            /**
+             * @var array $attrs
+             */
+            $attrs = $lesson->attrs;
+
+            if (isset($attrs['start_time'])) {
+                $scopes[] = $attrs['start_time'];
             }
         }
 
@@ -108,6 +129,9 @@ class CourseStats extends Service
 
         $course = $courseRepo->findById($courseId);
 
+        /**
+         * @var Resultset|ChapterModel[] $lessons
+         */
         $lessons = $courseRepo->findChapters($course->id);
 
         if ($lessons->count() == 0) {
@@ -117,8 +141,14 @@ class CourseStats extends Service
         $duration = 0;
 
         foreach ($lessons as $lesson) {
-            if (isset($lesson->attrs['duration'])) {
-                $duration += $lesson->attrs['duration'];
+
+            /**
+             * @var array $attrs
+             */
+            $attrs = $lesson->attrs;
+
+            if (isset($attrs['duration'])) {
+                $duration += $attrs['duration'];
             }
         }
 

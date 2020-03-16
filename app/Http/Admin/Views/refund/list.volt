@@ -36,16 +36,16 @@
     {% for item in pager.items %}
         <tr>
             <td>
-                <p>商品：{{ item.subject }}</p>
-                <p>单号：{{ item.order_sn }}</p>
+                <p>商品：{{ item.order.subject }}</p>
+                <p>单号：{{ item.order.sn }}</p>
             </td>
             <td>
-                <p>名称：{{ item.user.name }}</p>
+                <p>昵称：{{ item.user.name }}</p>
                 <p>编号：{{ item.user.id }}</p>
             </td>
             <td>￥{{ item.amount }}</td>
             <td>{{ refund_status(item) }}</td>
-            <td>{{ date('Y-m-d H:i:s',item.created_at) }}</td>
+            <td>{{ date('Y-m-d H:i',item.created_at) }}</td>
             <td align="center">
                 <a class="layui-btn layui-btn-sm layui-bg-green" href="{{ url({'for':'admin.refund.show','id':item.id}) }}">详情</a>
             </td>

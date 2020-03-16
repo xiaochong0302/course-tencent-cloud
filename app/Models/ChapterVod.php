@@ -58,7 +58,7 @@ class ChapterVod extends Model
 
     public function getSource()
     {
-        return 'chapter_vod';
+        return 'kg_chapter_vod';
     }
 
     public function beforeCreate()
@@ -97,8 +97,15 @@ class ChapterVod extends Model
         $transcode = $vodService->getFileTranscode($fileId);
 
         if ($transcode && empty($this->file_transcode)) {
+
             $this->file_transcode = $transcode;
+
             $this->update();
+
+            /**
+             * afterUpdate事件会序列化属性，需再次重设属性
+             */
+            $this->file_transcode = $transcode;
         }
 
         return $transcode;

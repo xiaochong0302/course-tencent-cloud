@@ -5,13 +5,16 @@ namespace App\Repos;
 use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Category extends Repository
 {
 
     /**
      * @param int $id
-     * @return CategoryModel
+     * @return CategoryModel|Model|bool
      */
     public function findById($id)
     {
@@ -20,6 +23,11 @@ class Category extends Repository
         return $result;
     }
 
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|CategoryModel[]
+     */
     public function findByIds($ids, $columns = '*')
     {
         $result = CategoryModel::query()
@@ -30,6 +38,10 @@ class Category extends Repository
         return $result;
     }
 
+    /**
+     * @param array $where
+     * @return ResultsetInterface|Resultset|CategoryModel[]
+     */
     public function findAll($where = [])
     {
         $query = CategoryModel::query();
@@ -59,6 +71,9 @@ class Category extends Repository
         return $result;
     }
 
+    /**
+     * @return ResultsetInterface|Resultset|CategoryModel[]
+     */
     public function findTopCategories()
     {
         $result = CategoryModel::query()
@@ -70,6 +85,10 @@ class Category extends Repository
         return $result;
     }
 
+    /**
+     * @param int $categoryId
+     * @return ResultsetInterface|Resultset|CategoryModel[]
+     */
     public function findChildCategories($categoryId)
     {
         $result = CategoryModel::query()
@@ -88,7 +107,7 @@ class Category extends Repository
             'bind' => ['parent_id' => $categoryId],
         ]);
 
-        return (int)$count;
+        return $count;
     }
 
     public function countCourses($categoryId)
@@ -102,7 +121,7 @@ class Category extends Repository
 
         $record = $this->modelsManager->executeQuery($phql, $bind)->getFirst();
 
-        return (int)$record['total'];
+        return $record['total'];
     }
 
 }

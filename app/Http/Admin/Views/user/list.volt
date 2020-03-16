@@ -1,3 +1,13 @@
+{%- macro gender_info(value) %}
+    {% if value == 1 %}
+        <span class="layui-badge layui-bg-green">男</span>
+    {% elseif value == 2 %}
+        <span class="layui-badge layui-bg-blue">女</span>
+    {% elseif value == 3 %}
+        <span class="layui-badge layui-bg-black">密</span>
+    {% endif %}
+{%- endmacro %}
+
 {%- macro role_info(user) %}
     {% if user.edu_role.id > 0 %}
         <span class="layui-badge layui-bg-green">{{ user.edu_role.name }}</span>
@@ -11,13 +21,13 @@
     {% if user.locked == 0 %}
         <span class="layui-badge layui-bg-green">正常</span>
     {% else %}
-        <span class="layui-badge" title="期限：{{ date('Y-m-d H:i:s',user.lock_expiry) }}">锁定</span>
+        <span class="layui-badge" title="期限：{{ date('Y-m-d H:i',user.lock_expiry_time) }}">锁定</span>
     {% endif %}
 {%- endmacro %}
 
 {%- macro vip_info(user) %}
     {% if user.vip == 1 %}
-        <span class="layui-badge layui-badge-sm layui-bg-orange" title="期限：{{ date('Y-m-d H:i:s',user.vip_expiry) }}">vip</span>
+        <span class="layui-badge layui-bg-orange" title="期限：{{ date('Y-m-d H:i',user.vip_expiry_time) }}">vip</span>
     {% endif %}
 {%- endmacro %}
 
@@ -51,9 +61,9 @@
     <tr>
         <th>编号</th>
         <th>昵称</th>
+        <th>地区</th>
+        <th>性别</th>
         <th>角色</th>
-        <th>最后活跃</th>
-        <th>最后位置</th>
         <th>状态</th>
         <th>操作</th>
     </tr>
@@ -62,10 +72,10 @@
     {% for item in pager.items %}
         <tr>
             <td>{{ item.id }}</td>
-            <td><a href="#" title="{{ item.about }}">{{ item.name }}</a>{{ vip_info(item) }}</td>
+            <td><span title="{{ item.about }}">{{ item.name }}</span>{{ vip_info(item) }}</td>
+            <td>{% if item.location %} {{ item.location }} {% else %} N/A {% endif %}</td>
+            <td>{{ gender_info(item.gender) }}</td>
             <td>{{ role_info(item) }}</td>
-            <td>{{ date('Y-m-d H:i',item.last_active) }}</td>
-            <td><a class="kg-ip2region" href="javascript:;" title="查看位置" ip="{{ item.last_ip }}">{{ item.last_ip }}</a></td>
             <td>{{ status_info(item) }}</td>
             <td align="center">
                 <div class="layui-dropdown">
@@ -81,4 +91,3 @@
 </table>
 
 {{ partial('partials/pager') }}
-{{ partial('partials/ip2region') }}

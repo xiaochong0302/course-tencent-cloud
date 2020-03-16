@@ -63,7 +63,7 @@ class Help extends Model
 
     public function getSource()
     {
-        return 'help';
+        return 'kg_help';
     }
 
     public function beforeCreate()

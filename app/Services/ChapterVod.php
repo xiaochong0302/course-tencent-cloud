@@ -7,7 +7,7 @@ use App\Repos\Chapter as ChapterRepo;
 class ChapterVod extends Service
 {
 
-    public function getVodFiles($chapterId)
+    public function getPlayUrls($chapterId)
     {
         $chapterRepo = new ChapterRepo();
 

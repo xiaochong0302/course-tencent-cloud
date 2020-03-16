@@ -2,9 +2,9 @@
 
 namespace App\Library\Paginator;
 
-use Phalcon\Mvc\User\Component as UserComponent;
+use Phalcon\Mvc\User\Component;
 
-class Query extends UserComponent
+class Query extends Component
 {
 
     public function getPage()

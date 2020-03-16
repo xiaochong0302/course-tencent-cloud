@@ -3,6 +3,7 @@
 namespace App\Caches;
 
 use App\Models\Category as CategoryModel;
+use Phalcon\Mvc\Model\Resultset;
 
 class CategoryList extends Cache
 {
@@ -25,6 +26,9 @@ class CategoryList extends Cache
      */
     public function getContent($id = null)
     {
+        /**
+         * @var Resultset $categories
+         */
         $categories = CategoryModel::query()
             ->columns(['id', 'parent_id', 'name', 'priority', 'level', 'path'])
             ->where('published = 1 AND deleted = 0')

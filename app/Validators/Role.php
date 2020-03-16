@@ -8,11 +8,6 @@ use App\Repos\Role as RoleRepo;
 class Role extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Role
-     * @throws BadRequestException
-     */
     public function checkRole($id)
     {
         $roleRepo = new RoleRepo();

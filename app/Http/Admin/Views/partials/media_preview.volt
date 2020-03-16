@@ -6,10 +6,9 @@
         var layer = layui.layer;
 
         $('.kg-preview').on('click', function () {
-            var courseId = $(this).attr('course-id');
             var chapterId = $(this).attr('chapter-id');
             var playUrl = $(this).attr('play-url');
-            var frameUrl = '/admin/vod/player?course_id=' + courseId + '&chapter_id=' + chapterId + '&play_url=' + playUrl;
+            var frameUrl = '/admin/vod/player?chapter_id=' + chapterId + '&play_url=' + playUrl;
             layer.open({
                 id: 'player',
                 type: 2,

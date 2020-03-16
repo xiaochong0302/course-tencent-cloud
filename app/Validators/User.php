@@ -13,11 +13,6 @@ use App\Repos\User as UserRepo;
 class User extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\User
-     * @throws BadRequestException
-     */
     public function checkUserCache($id)
     {
         $id = intval($id);
@@ -44,11 +39,6 @@ class User extends Validator
         return $user;
     }
 
-    /**
-     * @param int $id
-     * @return \App\Models\User
-     * @throws BadRequestException
-     */
     public function checkUser($id)
     {
         $userRepo = new UserRepo();
@@ -105,23 +95,30 @@ class User extends Validator
         return $value;
     }
 
-    public function checkEduRole($role)
+    public function checkGender($value)
     {
-        $value = $this->filter->sanitize($role, ['trim', 'int']);
+        $list = UserModel::genderTypes();
 
-        $roleIds = [UserModel::EDU_ROLE_STUDENT, UserModel::EDU_ROLE_TEACHER];
+        if (!isset($list[$value])) {
+            throw new BadRequestException('user.invalid_gender');
+        }
 
-        if (!in_array($value, $roleIds)) {
+        return $value;
+    }
+
+    public function checkEduRole($value)
+    {
+        $list = UserModel::eduRoleTypes();
+
+        if (!isset($list[$value])) {
             throw new BadRequestException('user.invalid_edu_role');
         }
 
         return $value;
     }
 
-    public function checkAdminRole($role)
+    public function checkAdminRole($value)
     {
-        $value = $this->filter->sanitize($role, ['trim', 'int']);
-
         if (!$value) return 0;
 
         $roleRepo = new RoleRepo();
@@ -135,6 +132,24 @@ class User extends Validator
         return $role->id;
     }
 
+    public function checkVipStatus($status)
+    {
+        if (!in_array($status, [0, 1])) {
+            throw new BadRequestException('user.invalid_vip_status');
+        }
+
+        return $status;
+    }
+
+    public function checkVipExpiryTime($expiryTime)
+    {
+        if (!CommonValidator::date($expiryTime, 'Y-m-d H:i:s')) {
+            throw new BadRequestException('user.invalid_vip_expiry_time');
+        }
+
+        return strtotime($expiryTime);
+    }
+
     public function checkLockStatus($status)
     {
         if (!in_array($status, [0, 1])) {
@@ -144,13 +159,13 @@ class User extends Validator
         return $status;
     }
 
-    public function checkLockExpiry($expiry)
+    public function checkLockExpiryTime($expiryTime)
     {
-        if (!CommonValidator::date($expiry, 'Y-m-d H:i:s')) {
-            throw new BadRequestException('user.invalid_lock_expiry');
+        if (!CommonValidator::date($expiryTime, 'Y-m-d H:i:s')) {
+            throw new BadRequestException('user.invalid_lock_expiry_time');
         }
 
-        return strtotime($expiry);
+        return strtotime($expiryTime);
     }
 
     public function checkIfNameTaken($name)

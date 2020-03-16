@@ -12,11 +12,6 @@ use App\Repos\Slide as SlideRepo;
 class Slide extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Slide
-     * @throws BadRequestException
-     */
     public function checkSlide($id)
     {
         $slideRepo = new SlideRepo();
@@ -51,6 +46,12 @@ class Slide extends Validator
     {
         $value = $this->filter->sanitize($summary, ['trim', 'string']);
 
+        $length = kg_strlen($value);
+
+        if ($length > 255) {
+            throw new BadRequestException('slide.summary_too_long');
+        }
+
         return $value;
     }
 
@@ -69,7 +70,7 @@ class Slide extends Validator
 
     public function checkTarget($target)
     {
-        $list = SlideModel::targets();
+        $list = SlideModel::targetTypes();
 
         if (!isset($list[$target])) {
             throw new BadRequestException('slide.invalid_target');
@@ -87,31 +88,6 @@ class Slide extends Validator
         }
 
         return $value;
-    }
-
-    public function checkStartTime($startTime)
-    {
-        if (!CommonValidator::date($startTime, 'Y-m-d H:i:s')) {
-            throw new BadRequestException('slide.invalid_start_time');
-        }
-
-        return strtotime($startTime);
-    }
-
-    public function checkEndTime($endTime)
-    {
-        if (!CommonValidator::date($endTime, 'Y-m-d H:i:s')) {
-            throw new BadRequestException('slide.invalid_end_time');
-        }
-
-        return strtotime($endTime);
-    }
-
-    public function checkTimeRange($startTime, $endTime)
-    {
-        if (strtotime($startTime) >= strtotime($endTime)) {
-            throw new BadRequestException('slide.invalid_time_range');
-        }
     }
 
     public function checkPublishStatus($status)

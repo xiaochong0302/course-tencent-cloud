@@ -30,34 +30,47 @@ class CourseUserList extends Builder
         return $relations;
     }
 
-    protected function getCourses($relations)
+    public function getCourses($relations)
     {
         $ids = kg_array_column($relations, 'course_id');
 
         $courseRepo = new CourseRepo();
 
-        $courses = $courseRepo->findByIds($ids, ['id', 'title', 'cover'])->toArray();
+        $columns = [
+            'id', 'title', 'cover', 'summary',
+            'market_price', 'vip_price', 'model', 'level', 'attrs',
+            'user_count', 'lesson_count', 'review_count', 'favorite_count',
+        ];
+
+        $courses = $courseRepo->findByIds($ids, $columns);
+
+        $imgBaseUrl = kg_img_base_url();
 
         $result = [];
 
-        foreach ($courses as $course) {
+        foreach ($courses->toArray() as $course) {
+            $course['cover'] = $imgBaseUrl . $course['cover'];
+            $course['attrs'] = json_decode($course['attrs'], true);
             $result[$course['id']] = $course;
         }
 
         return $result;
     }
 
-    protected function getUsers($relations)
+    public function getUsers($relations)
     {
         $ids = kg_array_column($relations, 'user_id');
 
         $userRepo = new UserRepo();
 
-        $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar'])->toArray();
+        $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
+
+        $imgBaseUrl = kg_img_base_url();
 
         $result = [];
 
-        foreach ($users as $user) {
+        foreach ($users->toArray() as $user) {
+            $user['avatar'] = $imgBaseUrl . $user['avatar'];
             $result[$user['id']] = $user;
         }
 

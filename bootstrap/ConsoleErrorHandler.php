@@ -3,38 +3,33 @@
 namespace Bootstrap;
 
 use App\Library\Logger as AppLogger;
-use Phalcon\Mvc\User\Component as UserComponent;
+use Phalcon\Mvc\User\Component;
 
-class ConsoleErrorHandler extends UserComponent
+class ConsoleErrorHandler extends Component
 {
-
-    protected $logger;
 
     public function __construct()
     {
-        $this->logger = $this->getLogger();
-
         set_error_handler([$this, 'handleError']);
 
         set_exception_handler([$this, 'handleException']);
     }
 
-    public function handleError($no, $str, $file, $line)
+    public function handleError($severity, $message, $file, $line)
     {
-        $content = compact('no', 'str', 'file', 'line');
-
-        $this->logger->error('Console Error ' . kg_json_encode($content));
+        throw new \ErrorException($message, 0, $severity, $file, $line);
     }
 
+    /**
+     * @param \Throwable $e
+     */
     public function handleException($e)
     {
-        $content = [
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'message' => $e->getMessage(),
-        ];
+        $content = sprintf('%s(%d): %s', $e->getFile(), $e->getLine(), $e->getMessage());
 
-        $this->logger->error('Console Exception ' . kg_json_encode($content));
+        $logger = $this->getLogger();
+
+        $logger->error($content);
     }
 
     protected function getLogger()

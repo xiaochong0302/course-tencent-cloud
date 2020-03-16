@@ -6,31 +6,20 @@ use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Course as CourseModel;
 use App\Models\CourseTopic as CourseTopicModel;
 use App\Models\Topic as TopicModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Topic extends Repository
 {
 
     /**
-     * @param int $id
-     * @return TopicModel
+     * @param array $where
+     * @param string $sort
+     * @param int $page
+     * @param int $limit
+     * @return \stdClass
      */
-    public function findById($id)
-    {
-        $result = TopicModel::findFirst($id);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = TopicModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -68,6 +57,36 @@ class Topic extends Repository
         return $pager->paginate();
     }
 
+    /**
+     * @param int $id
+     * @return TopicModel|Model|bool
+     */
+    public function findById($id)
+    {
+        $result = TopicModel::findFirst($id);
+
+        return $result;
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|TopicModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        $result = TopicModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+
+        return $result;
+    }
+
+    /**
+     * @param int $topicId
+     * @return ResultsetInterface|Resultset|CourseModel[]
+     */
     public function findCourses($topicId)
     {
         $result = $this->modelsManager->createBuilder()
@@ -76,8 +95,7 @@ class Topic extends Repository
             ->join(CourseTopicModel::class, 'c.id = ct.course_id', 'ct')
             ->where('ct.topic_id = :topic_id:', ['topic_id' => $topicId])
             ->andWhere('c.deleted = 0')
-            ->getQuery()
-            ->execute();
+            ->getQuery()->execute();
 
         return $result;
     }

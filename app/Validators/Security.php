@@ -3,7 +3,7 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Library\Util\Verification as VerificationUtil;
+use App\Library\Util\Verification as VerifyUtil;
 use App\Services\Captcha as CaptchaService;
 
 class Security extends Validator
@@ -11,7 +11,7 @@ class Security extends Validator
 
     public function checkVerifyCode($key, $code)
     {
-        if (!VerificationUtil::checkCode($key, $code)) {
+        if (!VerifyUtil::checkCode($key, $code)) {
             throw new BadRequestException('security.invalid_verify_code');
         }
     }

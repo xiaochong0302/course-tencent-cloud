@@ -3,19 +3,23 @@
 namespace App\Repos;
 
 use App\Models\Chapter as ChapterModel;
-use App\Models\ChapterLike as ChapterLikeModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Models\ChapterRead as ChapterReadModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\ChapterVod as ChapterVodModel;
+use App\Models\ChapterVote as ChapterVoteModel;
 use App\Models\Comment as CommentModel;
+use App\Models\CommentVote as CommentVoteModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Chapter extends Repository
 {
 
     /**
      * @param int $id
-     * @return ChapterModel
+     * @return ChapterModel|Model|bool
      */
     public function findById($id)
     {
@@ -25,21 +29,10 @@ class Chapter extends Repository
     }
 
     /**
-     * @param string $fileId
-     * @return ChapterModel
+     * @param array $ids
+     * @param string|array $columns
+     * @return ResultsetInterface|Resultset|ChapterModel[]
      */
-    public function findByFileId($fileId)
-    {
-        $result = $this->modelsManager->createBuilder()
-            ->columns('c.*')
-            ->addFrom(ChapterModel::class, 'c')
-            ->join(ChapterVodModel::class, 'c.id = cv.chapter_id', 'cv')
-            ->where('cv.file_id = :file_id:', ['file_id' => $fileId])
-            ->getQuery()->execute()->getFirst();
-
-        return $result;
-    }
-
     public function findByIds($ids, $columns = '*')
     {
         $result = ChapterModel::query()
@@ -50,6 +43,10 @@ class Chapter extends Repository
         return $result;
     }
 
+    /**
+     * @param array $where
+     * @return ResultsetInterface|Resultset|ChapterModel[]
+     */
     public function findAll($where = [])
     {
         $query = ChapterModel::query();
@@ -78,8 +75,26 @@ class Chapter extends Repository
     }
 
     /**
+     * @param string $fileId
+     * @return ChapterModel|Model|bool
+     */
+    public function findByFileId($fileId)
+    {
+        $vod = ChapterVodModel::findFirst([
+            'conditions' => 'file_id = :file_id:',
+            'bind' => ['file_id' => $fileId],
+        ]);
+
+        if (!$vod) return false;
+
+        $result = ChapterModel::findFirst($vod->chapter_id);
+
+        return $result;
+    }
+
+    /**
      * @param int $chapterId
-     * @return ChapterVodModel
+     * @return ChapterVodModel|Model|bool
      */
     public function findChapterVod($chapterId)
     {
@@ -93,7 +108,7 @@ class Chapter extends Repository
 
     /**
      * @param int $chapterId
-     * @return ChapterLiveModel
+     * @return ChapterLiveModel|Model|bool
      */
     public function findChapterLive($chapterId)
     {
@@ -107,7 +122,7 @@ class Chapter extends Repository
 
     /**
      * @param int $chapterId
-     * @return ChapterReadModel
+     * @return ChapterReadModel|Model|bool
      */
     public function findChapterRead($chapterId)
     {
@@ -115,6 +130,24 @@ class Chapter extends Repository
             'conditions' => 'chapter_id = :chapter_id:',
             'bind' => ['chapter_id' => $chapterId],
         ]);
+
+        return $result;
+    }
+
+    /**
+     * @param int $chapterId
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|CommentVoteModel[]
+     */
+    public function findUserCommentVotes($chapterId, $userId)
+    {
+        $result = $this->modelsManager->createBuilder()
+            ->columns('cv.*')
+            ->addFrom(CommentModel::class, 'c')
+            ->join(CommentVoteModel::class, 'c.id = cv.comment_id', 'cv')
+            ->where('c.chapter_id = :chapter_id:', ['chapter_id' => $chapterId])
+            ->andWhere('cv.user_id = :user_id:', ['user_id' => $userId])
+            ->getQuery()->execute();
 
         return $result;
     }
@@ -171,11 +204,35 @@ class Chapter extends Repository
         return $count;
     }
 
-    public function countLikes($chapterId)
+    public function countAgrees($chapterId)
     {
-        $count = ChapterLikeModel::count([
-            'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
-            'bind' => ['chapter_id' => $chapterId],
+        $type = ChapterVoteModel::TYPE_AGREE;
+
+        $count = ChapterVoteModel::count([
+            'conditions' => 'chapter_id = :chapter_id: AND type = :type: AND deleted = 0',
+            'bind' => ['chapter_id' => $chapterId, 'type' => $type],
+        ]);
+
+        return $count;
+    }
+
+    public function countOpposes($chapterId)
+    {
+        $type = ChapterVoteModel::TYPE_OPPOSE;
+
+        $count = ChapterVoteModel::count([
+            'conditions' => 'chapter_id = :chapter_id: AND type = :type: AND deleted = 0',
+            'bind' => ['chapter_id' => $chapterId, 'type' => $type],
+        ]);
+
+        return $count;
+    }
+
+    public function countUserComments($chapterId, $userId)
+    {
+        $count = CommentModel::count([
+            'conditions' => 'chapter_id = :chapter_id: AND user_id = :user_id:',
+            'bind' => ['chapter_id' => $chapterId, 'user_id' => $userId],
         ]);
 
         return $count;

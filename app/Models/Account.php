@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Library\Util\Password;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
-
 
 class Account extends Model
 {
@@ -55,18 +55,18 @@ class Account extends Model
      *
      * @var int
      */
-    public $create_at;
+    public $created_at;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_at;
+    public $updated_at;
 
     public function getSource()
     {
-        return 'account';
+        return 'kg_account';
     }
 
     public function initialize()
@@ -83,12 +83,19 @@ class Account extends Model
 
     public function beforeCreate()
     {
-        $this->create_at = time();
+        $this->salt = Password::salt();
+        $this->password = Password::hash($this->password, $this->salt);
+        $this->created_at = time();
     }
 
     public function beforeUpdate()
     {
-        $this->update_at = time();
+        if (!empty($this->password)) {
+            $this->salt = Password::salt();
+            $this->password = Password::hash($this->password, $this->salt);
+        }
+
+        $this->updated_at = time();
     }
 
     public function afterCreate()

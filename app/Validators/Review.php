@@ -2,6 +2,7 @@
 
 namespace App\Validators;
 
+use App\Exceptions\BadRequest;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Review as ReviewRepo;
@@ -9,11 +10,6 @@ use App\Repos\Review as ReviewRepo;
 class Review extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Review
-     * @throws BadRequestException
-     */
     public function checkReview($id)
     {
         $reviewRepo = new ReviewRepo();
@@ -73,6 +69,17 @@ class Review extends Validator
         }
 
         return $status;
+    }
+
+    public function checkIfReviewed($courseId, $userId)
+    {
+        $reviewRepo = new ReviewRepo();
+
+        $review = $reviewRepo->findReview($courseId, $userId);
+
+        if ($review) {
+            throw new BadRequestException('review.has_reviewed');
+        }
     }
 
 }

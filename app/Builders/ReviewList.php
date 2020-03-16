@@ -30,7 +30,7 @@ class ReviewList extends Builder
         return $reviews;
     }
 
-    protected function getCourses($reviews)
+    public function getCourses($reviews)
     {
         $ids = kg_array_column($reviews, 'course_id');
 
@@ -47,7 +47,7 @@ class ReviewList extends Builder
         return $result;
     }
 
-    protected function getUsers($reviews)
+    public function getUsers($reviews)
     {
         $ids = kg_array_column($reviews, 'user_id');
 
@@ -55,9 +55,9 @@ class ReviewList extends Builder
 
         $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
 
-        $result = [];
-
         $imgBaseUrl = kg_img_base_url();
+
+        $result = [];
 
         foreach ($users->toArray() as $user) {
             $user['avatar'] = $imgBaseUrl . $user['avatar'];

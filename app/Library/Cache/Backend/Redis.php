@@ -3,6 +3,7 @@
 namespace App\Library\Cache\Backend;
 
 use Phalcon\Cache\Exception;
+use Phalcon\Cache\FrontendInterface;
 
 class Redis extends \Phalcon\Cache\Backend\Redis
 {
@@ -24,7 +25,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
         $redis = $this->getRedis();
 
         /**
-         * @var \Phalcon\Cache\FrontendInterface $frontend
+         * @var FrontendInterface $frontend
          */
         $frontend = $this->_frontend;
 
@@ -72,7 +73,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
         $redis = $this->getRedis();
 
         /**
-         * @var \Phalcon\Cache\FrontendInterface $frontend
+         * @var FrontendInterface $frontend
          */
         $frontend = $this->_frontend;
 

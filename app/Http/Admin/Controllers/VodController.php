@@ -18,9 +18,9 @@ class VodController extends Controller
      */
     public function uploadSignatureAction()
     {
-        $service = new VodService();
+        $vodService = new VodService();
 
-        $signature = $service->getUploadSignature();
+        $signature = $vodService->getUploadSignature();
 
         return $this->ajaxSuccess(['signature' => $signature]);
     }
@@ -30,7 +30,6 @@ class VodController extends Controller
      */
     public function playerAction()
     {
-        $courseId = $this->request->getQuery('course_id');
         $chapterId = $this->request->getQuery('chapter_id');
         $playUrl = $this->request->getQuery('play_url');
 
@@ -38,7 +37,6 @@ class VodController extends Controller
 
         $this->view->pick('public/vod_player');
 
-        $this->view->setVar('course_id', $courseId);
         $this->view->setVar('chapter_id', $chapterId);
         $this->view->setVar('play_url', urldecode($playUrl));
     }
@@ -54,13 +52,12 @@ class VodController extends Controller
 
         $learning->user_id = $this->authUser->id;
         $learning->request_id = $query['request_id'];
-        $learning->course_id = $query['course_id'];
         $learning->chapter_id = $query['chapter_id'];
         $learning->position = $query['position'];
 
         $syncerService = new LearningSyncerService();
 
-        $syncerService->save($learning, $query['timeout']);
+        $syncerService->addItem($learning, $query['timeout']);
 
         return $this->ajaxSuccess();
     }

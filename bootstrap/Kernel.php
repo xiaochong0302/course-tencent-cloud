@@ -2,13 +2,26 @@
 
 namespace Bootstrap;
 
+use Phalcon\Application;
+use Phalcon\Di;
+use Phalcon\Loader;
+
 abstract class Kernel
 {
 
+    /**
+     * @var Di
+     */
     protected $di;
 
+    /**
+     * @var Application
+     */
     protected $app;
 
+    /**
+     * @var Loader
+     */
     protected $loader;
 
     protected $configs = [];

@@ -2,11 +2,14 @@
 
 namespace App\Caches;
 
-abstract class Cache extends \Phalcon\Mvc\User\Component
+use Phalcon\Cache\Backend\Redis as RedisCache;
+use Phalcon\Mvc\User\Component;
+
+abstract class Cache extends Component
 {
 
     /**
-     * @var \Phalcon\Cache\Backend\Redis
+     * @var RedisCache
      */
     protected $cache;
 

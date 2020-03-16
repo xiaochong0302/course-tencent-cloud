@@ -8,11 +8,6 @@ use App\Repos\Help as HelpRepo;
 class Help extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return \App\Models\Help
-     * @throws BadRequestException
-     */
     public function checkHelp($id)
     {
         $helpRepo = new HelpRepo();
@@ -53,7 +48,7 @@ class Help extends Validator
             throw new BadRequestException('help.content_too_short');
         }
 
-        if ($length > 65535) {
+        if ($length > 3000) {
             throw new BadRequestException('help.content_too_long');
         }
 

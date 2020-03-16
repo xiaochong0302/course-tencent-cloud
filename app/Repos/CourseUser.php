@@ -4,61 +4,18 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\CourseUser as CourseUserModel;
+use Phalcon\Mvc\Model;
 
 class CourseUser extends Repository
 {
 
     /**
-     * @param int $courseId
-     * @param int $userId
-     * @return CourseUserModel
+     * @param array $where
+     * @param string $sort
+     * @param int $page
+     * @param int $limit
+     * @return \stdClass
      */
-    public function findCourseUser($courseId, $userId)
-    {
-        $result = CourseUserModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->execute()->getFirst();
-
-        return $result;
-    }
-
-    /**
-     * @param int $courseId
-     * @param int $userId
-     * @return CourseUserModel
-     */
-    public function findCourseTeacher($courseId, $userId)
-    {
-        $roleType = CourseUserModel::ROLE_TEACHER;
-
-        $result = CourseUserModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('role_type = :role_type:', ['role_type' => $roleType])
-            ->execute()->getFirst();
-
-        return $result;
-    }
-
-    /**
-     * @param int $courseId
-     * @param int $userId
-     * @return CourseUserModel
-     */
-    public function findCourseStudent($courseId, $userId)
-    {
-        $roleType = CourseUserModel::ROLE_STUDENT;
-
-        $result = CourseUserModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('role_type = :role_type:', ['role_type' => $roleType])
-            ->execute()->getFirst();
-
-        return $result;
-    }
-
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -83,10 +40,6 @@ class CourseUser extends Repository
             $builder->andWhere('source_type = :source_type:', ['source_type' => $where['source_type']]);
         }
 
-        if (isset($where['locked'])) {
-            $builder->andWhere('locked = :locked:', ['locked' => $where['locked']]);
-        }
-
         if (isset($where['deleted'])) {
             $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
@@ -106,6 +59,78 @@ class CourseUser extends Repository
         ]);
 
         return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return CourseUserModel|Model|bool
+     */
+    public function findById($id)
+    {
+        $result = CourseUserModel::findFirst($id);
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return CourseUserModel|Model|bool
+     */
+    public function findCourseUser($courseId, $userId)
+    {
+        $result = CourseUserModel::findFirst([
+            'conditions' => 'course_id = ?1 AND user_id = ?2 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => $userId],
+            'order' => 'id DESC',
+        ]);
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return CourseUserModel|Model|bool
+     */
+    public function findCourseTeacher($courseId, $userId)
+    {
+        $roleType = CourseUserModel::ROLE_TEACHER;
+
+        $result = $this->findRoleCourseUser($courseId, $userId, $roleType);
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return CourseUserModel|Model|bool
+     */
+    public function findCourseStudent($courseId, $userId)
+    {
+        $roleType = CourseUserModel::ROLE_STUDENT;
+
+        $result = $this->findRoleCourseUser($courseId, $userId, $roleType);
+
+        return $result;
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @param string $roleType
+     * @return CourseUserModel|Model|bool
+     */
+    protected function findRoleCourseUser($courseId, $userId, $roleType)
+    {
+        $result = CourseUserModel::findFirst([
+            'conditions' => 'course_id = ?1 AND user_id = ?2 AND role_type = ?3 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => $userId, 3 => $roleType],
+            'order' => 'id DESC',
+        ]);
+
+        return $result;
     }
 
 }

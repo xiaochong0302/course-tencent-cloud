@@ -154,6 +154,68 @@ class AuthNode extends Service
                         ],
                     ],
                 ],
+                [
+                    'id' => '1-5',
+                    'label' => '单页管理',
+                    'type' => 'menu',
+                    'child' => [
+                        [
+                            'id' => '1-5-1',
+                            'label' => '单页列表',
+                            'type' => 'menu',
+                            'route' => 'admin.page.list',
+                        ],
+                        [
+                            'id' => '1-5-2',
+                            'label' => '添加单页',
+                            'type' => 'menu',
+                            'route' => 'admin.page.add',
+                        ],
+                        [
+                            'id' => '1-5-3',
+                            'label' => '编辑单页',
+                            'type' => 'button',
+                            'route' => 'admin.page.edit',
+                        ],
+                        [
+                            'id' => '1-5-4',
+                            'label' => '删除单页',
+                            'type' => 'button',
+                            'route' => 'admin.page.delete',
+                        ],
+                    ],
+                ],
+                [
+                    'id' => '1-6',
+                    'label' => '帮助管理',
+                    'type' => 'menu',
+                    'child' => [
+                        [
+                            'id' => '1-6-1',
+                            'label' => '帮助列表',
+                            'type' => 'menu',
+                            'route' => 'admin.help.list',
+                        ],
+                        [
+                            'id' => '1-6-2',
+                            'label' => '添加帮助',
+                            'type' => 'menu',
+                            'route' => 'admin.help.add',
+                        ],
+                        [
+                            'id' => '1-6-3',
+                            'label' => '编辑帮助',
+                            'type' => 'button',
+                            'route' => 'admin.help.edit',
+                        ],
+                        [
+                            'id' => '1-6-4',
+                            'label' => '删除帮助',
+                            'type' => 'button',
+                            'route' => 'admin.help.delete',
+                        ],
+                    ],
+                ],
             ],
         ];
 
@@ -167,30 +229,30 @@ class AuthNode extends Service
             'label' => '运营管理',
             'child' => [
                 [
-                    'id' => '2-5',
+                    'id' => '2-1',
                     'label' => '学员管理',
                     'type' => 'menu',
                     'child' => [
                         [
-                            'id' => '2-5-1',
+                            'id' => '2-1-1',
                             'label' => '学员列表',
                             'type' => 'menu',
                             'route' => 'admin.student.list',
                         ],
                         [
-                            'id' => '2-5-2',
+                            'id' => '2-1-2',
                             'label' => '搜索学员',
                             'type' => 'menu',
                             'route' => 'admin.student.search',
                         ],
                         [
-                            'id' => '2-5-3',
+                            'id' => '2-1-3',
                             'label' => '添加学员',
                             'type' => 'menu',
                             'route' => 'admin.student.add',
                         ],
                         [
-                            'id' => '2-5-4',
+                            'id' => '2-1-4',
                             'label' => '编辑学员',
                             'type' => 'button',
                             'route' => 'admin.student.edit',
@@ -198,30 +260,61 @@ class AuthNode extends Service
                     ],
                 ],
                 [
-                    'id' => '2-1',
+                    'id' => '2-2',
+                    'label' => '咨询管理',
+                    'type' => 'menu',
+                    'child' => [
+                        [
+                            'id' => '2-2-1',
+                            'label' => '咨询列表',
+                            'type' => 'menu',
+                            'route' => 'admin.consult.list',
+                        ],
+                        [
+                            'id' => '2-2-2',
+                            'label' => '搜索咨询',
+                            'type' => 'menu',
+                            'route' => 'admin.consult.search',
+                        ],
+                        [
+                            'id' => '2-2-3',
+                            'label' => '编辑咨询',
+                            'type' => 'button',
+                            'route' => 'admin.consult.edit',
+                        ],
+                        [
+                            'id' => '2-2-4',
+                            'label' => '删除咨询',
+                            'type' => 'button',
+                            'route' => 'admin.consult.delete',
+                        ],
+                    ],
+                ],
+                [
+                    'id' => '2-3',
                     'label' => '评价管理',
                     'type' => 'menu',
                     'child' => [
                         [
-                            'id' => '2-1-1',
+                            'id' => '2-3-1',
                             'label' => '评价列表',
                             'type' => 'menu',
                             'route' => 'admin.review.list',
                         ],
                         [
-                            'id' => '2-1-2',
+                            'id' => '2-3-2',
                             'label' => '搜索评价',
                             'type' => 'menu',
                             'route' => 'admin.review.search',
                         ],
                         [
-                            'id' => '2-1-3',
+                            'id' => '2-3-3',
                             'label' => '编辑评价',
                             'type' => 'button',
                             'route' => 'admin.review.edit',
                         ],
                         [
-                            'id' => '2-1-4',
+                            'id' => '2-3-4',
                             'label' => '删除评价',
                             'type' => 'button',
                             'route' => 'admin.review.delete',
@@ -229,64 +322,64 @@ class AuthNode extends Service
                     ],
                 ],
                 [
-                    'id' => '2-3',
+                    'id' => '2-4',
+                    'label' => '评论管理',
+                    'type' => 'menu',
+                    'child' => [
+                        [
+                            'id' => '2-4-1',
+                            'label' => '评论列表',
+                            'type' => 'menu',
+                            'route' => 'admin.comment.list',
+                        ],
+                        [
+                            'id' => '2-4-2',
+                            'label' => '搜索评论',
+                            'type' => 'menu',
+                            'route' => 'admin.comment.search',
+                        ],
+                        [
+                            'id' => '2-4-3',
+                            'label' => '编辑评论',
+                            'type' => 'button',
+                            'route' => 'admin.comment.edit',
+                        ],
+                        [
+                            'id' => '2-4-4',
+                            'label' => '删除评论',
+                            'type' => 'button',
+                            'route' => 'admin.comment.delete',
+                        ],
+                    ],
+                ],
+                [
+                    'id' => '2-5',
                     'label' => '轮播管理',
                     'type' => 'menu',
                     'child' => [
                         [
-                            'id' => '2-3-1',
+                            'id' => '2-5-1',
                             'label' => '轮播列表',
                             'type' => 'menu',
                             'route' => 'admin.slide.list',
                         ],
                         [
-                            'id' => '2-3-2',
+                            'id' => '2-5-2',
                             'label' => '添加轮播',
                             'type' => 'menu',
                             'route' => 'admin.slide.add',
                         ],
                         [
-                            'id' => '2-3-3',
+                            'id' => '2-5-3',
                             'label' => '编辑轮播',
                             'type' => 'button',
                             'route' => 'admin.slide.edit',
                         ],
                         [
-                            'id' => '2-3-4',
+                            'id' => '2-5-4',
                             'label' => '删除轮播',
                             'type' => 'button',
                             'route' => 'admin.slide.delete',
-                        ],
-                    ],
-                ],
-                [
-                    'id' => '2-4',
-                    'label' => '单页管理',
-                    'type' => 'menu',
-                    'child' => [
-                        [
-                            'id' => '2-4-1',
-                            'label' => '单页列表',
-                            'type' => 'menu',
-                            'route' => 'admin.page.list',
-                        ],
-                        [
-                            'id' => '2-4-2',
-                            'label' => '添加单页',
-                            'type' => 'menu',
-                            'route' => 'admin.page.add',
-                        ],
-                        [
-                            'id' => '2-4-3',
-                            'label' => '编辑单页',
-                            'type' => 'button',
-                            'route' => 'admin.page.edit',
-                        ],
-                        [
-                            'id' => '2-4-4',
-                            'label' => '删除单页',
-                            'type' => 'button',
-                            'route' => 'admin.page.delete',
                         ],
                     ],
                 ],
@@ -318,37 +411,6 @@ class AuthNode extends Service
                             'label' => '删除导航',
                             'type' => 'button',
                             'route' => 'admin.nav.delete',
-                        ],
-                    ],
-                ],
-                [
-                    'id' => '2-7',
-                    'label' => '帮助管理',
-                    'type' => 'menu',
-                    'child' => [
-                        [
-                            'id' => '2-7-1',
-                            'label' => '帮助列表',
-                            'type' => 'menu',
-                            'route' => 'admin.help.list',
-                        ],
-                        [
-                            'id' => '2-7-2',
-                            'label' => '添加帮助',
-                            'type' => 'menu',
-                            'route' => 'admin.help.add',
-                        ],
-                        [
-                            'id' => '2-7-3',
-                            'label' => '编辑帮助',
-                            'type' => 'button',
-                            'route' => 'admin.help.edit',
-                        ],
-                        [
-                            'id' => '2-7-4',
-                            'label' => '删除帮助',
-                            'type' => 'button',
-                            'route' => 'admin.help.delete',
                         ],
                     ],
                 ],

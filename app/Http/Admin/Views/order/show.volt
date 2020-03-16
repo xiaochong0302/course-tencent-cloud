@@ -8,9 +8,11 @@
 
 <table class="kg-table layui-table">
     <tr>
+        <td colspan="10">订单编号：{{ order.sn }}
         <td>
-            <span class="kg-order-sn">订单编号：{{ order.sn }}</span>
-        </td>
+    <tr>
+    <tr>
+        <td>商品信息</td>
         <td>订单金额</td>
         <td>订单类型</td>
         <td>订单状态</td>
@@ -21,7 +23,7 @@
         <td>￥{{ order.amount }}</td>
         <td>{{ item_type(order.item_type) }}</span></td>
         <td>{{ order_status(order.status) }}</td>
-        <td>{{ date('Y-m-d H:i:s',order.created_at) }}</td>
+        <td>{{ date('Y-m-d H:i',order.created_at) }}</td>
     </tr>
 </table>
 
@@ -50,9 +52,9 @@
             <tr>
                 <td>{{ item.sn }}</td>
                 <td>￥{{ item.amount }}</td>
-                <td><a href="#" title="{{ item.apply_reason }}">{{ substr(item.apply_reason,0,15) }}</td>
+                <td><a href="#" title="{{ item.apply_note }}">{{ substr(item.apply_note,0,15) }}</td>
                 <td>{{ refund_status(item) }}</td>
-                <td>{{ date('Y-m-d H:i:s',item.created_at) }}</td>
+                <td>{{ date('Y-m-d H:i',item.created_at) }}</td>
             </tr>
         {% endfor %}
     </table>
@@ -78,7 +80,7 @@
                 <td>￥{{ item.amount }}</td>
                 <td>{{ channel_type(item.channel) }}</td>
                 <td>{{ trade_status(item.status) }}</td>
-                <td>{{ date('Y-m-d H:i:s',item.created_at) }}</td>
+                <td>{{ date('Y-m-d H:i',item.created_at) }}</td>
             </tr>
         {% endfor %}
     </table>

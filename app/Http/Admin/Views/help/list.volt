@@ -82,7 +82,7 @@
             var helpId = $(this).attr('help-id');
             var checked = $(this).is(':checked');
             var published = checked ? 1 : 0;
-            var tips = published == 1 ? '确定要发布帮助？' : '确定要下架帮助？';
+            var tips = published === 1 ? '确定要发布帮助？' : '确定要下架帮助？';
             layer.confirm(tips, function () {
                 $.ajax({
                     type: 'POST',

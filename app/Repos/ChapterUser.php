@@ -2,8 +2,10 @@
 
 namespace App\Repos;
 
-use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\ChapterUser as ChapterUserModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class ChapterUser extends Repository
 {
@@ -11,18 +13,22 @@ class ChapterUser extends Repository
     /**
      * @param int $chapterId
      * @param int $userId
-     * @return ChapterUserModel
+     * @return ChapterUserModel|Model|bool
      */
     public function findChapterUser($chapterId, $userId)
     {
-        $result = ChapterUserModel::query()
-            ->where('chapter_id = :chapter_id:', ['chapter_id' => $chapterId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->execute()->getFirst();
+        $result = ChapterUserModel::findFirst([
+            'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND deleted = 0',
+            'bind' => [1 => $chapterId, 2 => $userId],
+        ]);
 
         return $result;
     }
 
+    /**
+     * @param array $where
+     * @return ResultsetInterface|Resultset|ChapterUserModel[]
+     */
     public function findAll($where = [])
     {
         $query = ChapterUserModel::query();
@@ -44,43 +50,6 @@ class ChapterUser extends Repository
         $result = $query->execute();
 
         return $result;
-    }
-
-    public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
-    {
-        $builder = $this->modelsManager->createBuilder();
-
-        $builder->from(ChapterUserModel::class);
-
-        $builder->where('1 = 1');
-
-        if (!empty($where['course_id'])) {
-            $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
-        }
-
-        if (!empty($where['chapter_id'])) {
-            $builder->andWhere('chapter_id = :chapter_id:', ['chapter_id' => $where['chapter_id']]);
-        }
-
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
-        }
-
-        switch ($sort) {
-            default:
-                $orderBy = 'id DESC';
-                break;
-        }
-
-        $builder->orderBy($orderBy);
-
-        $pager = new PagerQueryBuilder([
-            'builder' => $builder,
-            'page' => $page,
-            'limit' => $limit,
-        ]);
-
-        return $pager->paginate();
     }
 
 }

@@ -101,7 +101,7 @@
             var categoryId = $(this).attr('category-id');
             var checked = $(this).is(':checked');
             var published = checked ? 1 : 0;
-            var tips = published == 1 ? '确定要发布分类？' : '确定要下线分类？';
+            var tips = published === 1 ? '确定要发布分类？' : '确定要下线分类？';
             layer.confirm(tips, function () {
                 $.ajax({
                     type: 'POST',

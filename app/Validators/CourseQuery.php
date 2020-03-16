@@ -2,46 +2,17 @@
 
 namespace App\Validators;
 
-use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Course as CourseModel;
 use App\Repos\Category as CategoryRepo;
 
 class CourseQuery extends Validator
 {
 
-    public function checkCourseId($courseId)
+    public function checkCategory($id)
     {
-        $value = $this->filter->sanitize($courseId, ['trim', 'int']);
-
-        if ($value > 0) {
-            return $value;
-        }
-
-        return false;
-    }
-
-    public function checkUserId($userId)
-    {
-        $value = $this->filter->sanitize($userId, ['trim', 'int']);
-
-        if ($value > 0) {
-            return $value;
-        }
-
-        return false;
-    }
-
-    public function checkCategoryId($categoryId)
-    {
-        $value = $this->filter->sanitize($categoryId, ['trim', 'int']);
-
-        if ($value <= 0) {
-            return false;
-        }
-
         $categoryRepo = new CategoryRepo();
 
-        $category = $categoryRepo->findById($value);
+        $category = $categoryRepo->findById($id);
 
         if (!$category) {
             return false;
@@ -50,59 +21,23 @@ class CourseQuery extends Validator
         return $category->id;
     }
 
-    public function checkTitle($title)
-    {
-        $value = $this->filter->sanitize($title, ['trim', 'string']);
-        
-        if (!empty($value)) {
-            return $value;
-        }
-        
-        return false;
-    }
-
     public function checkLevel($level)
     {
-        $value = $this->filter->sanitize($level, ['trim', 'int']);
+        $types = CourseModel::levelTypes();
 
-        $scopes = [
-            CourseModel::LEVEL_ENTRY,
-            CourseModel::LEVEL_JUNIOR,
-            CourseModel::LEVEL_MIDDLE,
-            CourseModel::LEVEL_SENIOR,
-        ];
-
-        if (in_array($value, $scopes)) {
-            return $value;
+        if (!isset($types[$level])) {
+            return $level;
         }
 
         return false;
     }
 
-    public function checkPrice($price)
+    public function checkModel($model)
     {
-        $value = $this->filter->sanitize($price, ['trim', 'float']);
+        $types = CourseModel::levelTypes();
 
-        if ($value < 0) {
-            throw new BadRequestException('无效的价格');
-        }
-
-        return $value;
-    }
-
-    public function checkStatus($status)
-    {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        $scopes = [
-            CourseModel::LEVEL_ENTRY,
-            CourseModel::LEVEL_JUNIOR,
-            CourseModel::LEVEL_MIDDLE,
-            CourseModel::LEVEL_SENIOR,
-        ];
-
-        if (in_array($value, $scopes)) {
-            return $value;
+        if (!isset($types[$model])) {
+            return $model;
         }
 
         return false;

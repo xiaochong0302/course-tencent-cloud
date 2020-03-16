@@ -1,7 +1,5 @@
 {% set free = course.market_price == 0 %}
 
-{% set expiry_options = ['30':'一个月','90':'三个月','180':'半年','365':'一年','1095':'三年'] %}
-
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.course.update','id':course.id}) }}">
 
     <div class="layui-form-item">
@@ -32,10 +30,18 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">有效期限</label>
+            <label class="layui-form-label">学习期限</label>
             <div class="layui-input-block">
-                {% for key,value in expiry_options %}
-                    <input type="radio" name="expiry" title="{{ value }}" value="{{ key }}" {% if key == course.expiry %}checked{% endif %}>
+                {% for key,value in study_expiry_options %}
+                    <input type="radio" name="study_expiry" title="{{ value }}" value="{{ key }}" {% if key == course.study_expiry %}checked="checked"{% endif %}>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">退款期限</label>
+            <div class="layui-input-block">
+                {% for key,value in refund_expiry_options %}
+                    <input type="radio" name="refund_expiry" title="{{ value }}" value="{{ key }}" {% if key == course.refund_expiry %}checked="checked"{% endif %}>
                 {% endfor %}
             </div>
         </div>
@@ -53,7 +59,7 @@
 
 <script>
 
-    layui.use(['jquery', 'form', 'layer'], function () {
+    layui.use(['jquery', 'form'], function () {
 
         var $ = layui.jquery;
         var form = layui.form;

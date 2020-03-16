@@ -6,21 +6,15 @@ use App\Exceptions\BadRequest as BadRequestException;
 use App\Exceptions\Forbidden as ForbiddenException;
 use App\Exceptions\NotFound as NotFoundException;
 use App\Exceptions\Unauthorized as UnauthorizedException;
-use Phalcon\Mvc\User\Component as UserComponent;
+use App\Library\Logger as AppLogger;
+use Phalcon\Mvc\User\Component;
 use Phalcon\Text;
 
-class HttpErrorHandler extends UserComponent
+class HttpErrorHandler extends Component
 {
-
-    /**
-     * @var \Phalcon\Logger\Adapter
-     */
-    protected $logger;
 
     public function __construct()
     {
-        $this->logger = $this->getDI()->get('logger');
-
         set_error_handler([$this, 'handleError']);
 
         set_exception_handler([$this, 'handleException']);
@@ -32,7 +26,7 @@ class HttpErrorHandler extends UserComponent
     }
 
     /**
-     * @param \Exception $e
+     * @param \Throwable $e
      */
     public function handleException($e)
     {
@@ -52,7 +46,7 @@ class HttpErrorHandler extends UserComponent
     }
 
     /**
-     * @param \Exception $e
+     * @param \Throwable $e
      */
     protected function setStatusCode($e)
     {
@@ -70,17 +64,19 @@ class HttpErrorHandler extends UserComponent
     }
 
     /**
-     * @param \Exception $e
+     * @param \Throwable $e
      */
     protected function report($e)
     {
         $content = sprintf('%s(%d): %s', $e->getFile(), $e->getLine(), $e->getMessage());
 
-        $this->logger->error($content);
+        $logger = $this->getLogger();
+
+        $logger->error($content);
     }
 
     /**
-     * @param \Exception $e
+     * @param \Throwable $e
      */
     protected function apiError($e)
     {
@@ -92,7 +88,7 @@ class HttpErrorHandler extends UserComponent
     }
 
     /**
-     * @param \Exception $e
+     * @param \Throwable $e
      */
     protected function ajaxError($e)
     {
@@ -104,7 +100,7 @@ class HttpErrorHandler extends UserComponent
     }
 
     /**
-     * @param \Exception $e
+     * @param \Throwable $e
      */
     protected function pageError($e)
     {
@@ -112,9 +108,11 @@ class HttpErrorHandler extends UserComponent
 
         $this->flash->error($content);
 
-        $this->response->redirect([
-            'for' => 'home.error.' . $this->response->getStatusCode()
-        ])->send();
+        $code = $this->response->getStatusCode();
+
+        $for = "home.error.{$code}";
+
+        $this->response->redirect(['for' => $for])->send();
     }
 
     protected function translate($code)
@@ -142,6 +140,13 @@ class HttpErrorHandler extends UserComponent
         }
 
         return false;
+    }
+
+    protected function getLogger()
+    {
+        $logger = new AppLogger();
+
+        return $logger->getInstance('http');
     }
 
 }

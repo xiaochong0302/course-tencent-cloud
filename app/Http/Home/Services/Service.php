@@ -4,8 +4,9 @@ namespace App\Http\Home\Services;
 
 use App\Models\User as UserModel;
 use App\Validators\Validator as AppValidator;
+use Phalcon\Mvc\User\Component;
 
-class Service extends \Phalcon\Mvc\User\Component
+class Service extends Component
 {
 
     public function getCurrentUser()

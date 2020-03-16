@@ -10,6 +10,10 @@
     height: 0;
 }
 
+.kg-cursor-pointer {
+    cursor: pointer;
+}
+
 .kg-login-form {
     width: 420px;
     margin: 100px auto;

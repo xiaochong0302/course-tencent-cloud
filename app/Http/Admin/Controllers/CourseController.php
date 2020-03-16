@@ -75,11 +75,15 @@ class CourseController extends Controller
         $xmTeachers = $courseService->getXmTeachers($id);
         $xmCategories = $courseService->getXmCategories($id);
         $xmCourses = $courseService->getXmCourses($id);
+        $studyExpiryOptions = $courseService->getStudyExpiryOptions();
+        $refundExpiryOptions = $courseService->getRefundExpiryOptions();
 
         $this->view->setVar('course', $course);
         $this->view->setVar('xm_teachers', $xmTeachers);
         $this->view->setVar('xm_categories', $xmCategories);
         $this->view->setVar('xm_courses', $xmCourses);
+        $this->view->setVar('study_expiry_options', $studyExpiryOptions);
+        $this->view->setVar('refund_expiry_options', $refundExpiryOptions);
     }
 
     /**

@@ -4,45 +4,20 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Refund as RefundModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Refund extends Repository
 {
 
     /**
-     * @param int $id
-     * @return RefundModel
+     * @param array $where
+     * @param string $sort
+     * @param int $page
+     * @param int $limit
+     * @return \stdClass
      */
-    public function findById($id)
-    {
-        $result = RefundModel::findFirst($id);
-
-        return $result;
-    }
-
-    /**
-     * @param string $sn
-     * @return RefundModel
-     */
-    public function findBySn($sn)
-    {
-        $result = RefundModel::findFirst([
-            'conditions' => 'sn = :sn:',
-            'bind' => ['sn' => $sn],
-        ]);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = RefundModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -55,8 +30,8 @@ class Refund extends Repository
             $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
-        if (!empty($where['order_sn'])) {
-            $builder->andWhere('order_sn = :order_sn:', ['order_sn' => $where['order_sn']]);
+        if (!empty($where['order_id'])) {
+            $builder->andWhere('order_id = :order_id:', ['order_id' => $where['order_id']]);
         }
 
         if (!empty($where['status'])) {
@@ -84,6 +59,46 @@ class Refund extends Repository
         ]);
 
         return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return RefundModel|Model|bool
+     */
+    public function findById($id)
+    {
+        $result = RefundModel::findFirst($id);
+
+        return $result;
+    }
+
+    /**
+     * @param string $sn
+     * @return RefundModel|Model|bool
+     */
+    public function findBySn($sn)
+    {
+        $result = RefundModel::findFirst([
+            'conditions' => 'sn = :sn:',
+            'bind' => ['sn' => $sn],
+        ]);
+
+        return $result;
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|RefundModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        $result = RefundModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+
+        return $result;
     }
 
 }

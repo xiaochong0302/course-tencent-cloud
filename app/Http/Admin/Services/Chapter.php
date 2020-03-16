@@ -64,6 +64,8 @@ class Chapter extends Service
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
 
+        $this->eventsManager->fire('chapterAdmin:afterCreate', $this, $chapter);
+
         return $chapter;
     }
 
@@ -105,6 +107,8 @@ class Chapter extends Service
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
 
+        $this->eventsManager->fire('chapterAdmin:afterUpdate', $this, $chapter);
+
         return $chapter;
     }
 
@@ -123,6 +127,8 @@ class Chapter extends Service
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
 
+        $this->eventsManager->fire('chapterAdmin:afterDelete', $this, $chapter);
+
         return $chapter;
     }
 
@@ -136,6 +142,8 @@ class Chapter extends Service
 
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
+
+        $this->eventsManager->fire('chapterAdmin:afterRestore', $this, $chapter);
 
         return $chapter;
     }

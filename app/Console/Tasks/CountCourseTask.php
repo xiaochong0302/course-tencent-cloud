@@ -2,6 +2,7 @@
 
 namespace App\Console\Tasks;
 
+use App\Models\Category as CategoryModel;
 use App\Repos\Category as CategoryRepo;
 use Phalcon\Cli\Task;
 
@@ -14,6 +15,9 @@ class CountCourseTask extends Task
 
         $mapping = [];
 
+        /**
+         * @var CategoryModel[] $subCategories
+         */
         $subCategories = $categoryRepo->findAll(['level' => 2, 'deleted' => 0]);
 
         foreach ($subCategories as $category) {
@@ -31,6 +35,9 @@ class CountCourseTask extends Task
             }
         }
 
+        /**
+         * @var CategoryModel[] $topCategories
+         */
         $topCategories = $categoryRepo->findAll(['level' => 1, 'deleted' => 0]);
 
         foreach ($topCategories as $category) {

@@ -86,7 +86,7 @@ class ChapterUser extends Model
 
     public function getSource()
     {
-        return 'chapter_user';
+        return 'kg_chapter_user';
     }
 
     public function initialize()

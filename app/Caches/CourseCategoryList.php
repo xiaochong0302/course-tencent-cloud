@@ -3,6 +3,7 @@
 namespace App\Caches;
 
 use App\Repos\Course as CourseRepo;
+use Phalcon\Mvc\Model\Resultset;
 
 class CourseCategoryList extends Cache
 {
@@ -23,6 +24,9 @@ class CourseCategoryList extends Cache
     {
         $courseRepo = new CourseRepo();
 
+        /**
+         * @var Resultset $categories
+         */
         $categories = $courseRepo->findCategories($id);
 
         if ($categories->count() == 0) {
@@ -33,7 +37,7 @@ class CourseCategoryList extends Cache
     }
 
     /**
-     * @param \App\Models\Category[] $categories
+     * @param Resultset $categories
      * @return array
      */
     public function handleContent($categories)

@@ -23,7 +23,7 @@ class OrderController extends Controller
 
         switch ($itemType) {
 
-            case OrderModel::ITEM_TYPE_COURSE:
+            case OrderModel::ITEM_ITEM_COURSE:
 
                 $course = $service->getCourse($itemId);
 
@@ -31,7 +31,7 @@ class OrderController extends Controller
 
                 break;
 
-            case OrderModel::ITEM_TYPE_PACKAGE:
+            case OrderModel::ITEM_ITEM_PACKAGE:
 
                 $package = $service->getPackage($itemId);
                 $courses = $service->getPackageCourses($itemId);
@@ -41,7 +41,7 @@ class OrderController extends Controller
 
                 break;
 
-            case OrderModel::ITEM_TYPE_REWARD:
+            case OrderModel::ITEM_ITEM_REWARD:
 
                 $course = $service->getCourse($itemId);
 

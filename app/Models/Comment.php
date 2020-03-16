@@ -36,11 +36,11 @@ class Comment extends Model
     public $chapter_id;
 
     /**
-     * 作者编号
+     * 用户编号
      *
      * @var integer
      */
-    public $author_id;
+    public $user_id;
 
     /**
      * 提及用户
@@ -66,11 +66,18 @@ class Comment extends Model
     public $reply_count;
 
     /**
-     * 点赞数
+     * 赞成数
      *
-     * @var integer
+     * @var int
      */
-    public $like_count;
+    public $agree_count;
+
+    /**
+     * 反对数
+     *
+     * @var int
+     */
+    public $oppose_count;
 
     /**
      * 发布标识
@@ -102,7 +109,7 @@ class Comment extends Model
 
     public function getSource()
     {
-        return 'comment';
+        return 'kg_comment';
     }
 
     public function initialize()

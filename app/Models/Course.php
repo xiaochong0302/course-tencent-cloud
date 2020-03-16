@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Caches\MaxCourseId as MaxCourseIdCache;
-use App\Services\CourseCacheSyncer;
-use App\Services\CourseIndexSyncer;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Course extends Model
@@ -110,11 +107,18 @@ class Course extends Model
     public $vip_price;
 
     /**
-     * 有效期限（天）
+     * 学习期限（月）
      *
      * @var int
      */
-    public $expiry;
+    public $study_expiry;
+
+    /**
+     * 退款期限（天）
+     *
+     * @var int
+     */
+    public $refund_expiry;
 
     /**
      * 综合得分
@@ -166,6 +170,13 @@ class Course extends Model
     public $comment_count;
 
     /**
+     * 咨询数
+     *
+     * @var int
+     */
+    public $consult_count;
+
+    /**
      * 评价数
      *
      * @var int
@@ -209,7 +220,7 @@ class Course extends Model
 
     public function getSource()
     {
-        return 'course';
+        return 'kg_course';
     }
 
     public function initialize()
@@ -260,6 +271,7 @@ class Course extends Model
     public function afterFetch()
     {
         $this->market_price = (float)$this->market_price;
+
         $this->vip_price = (float)$this->vip_price;
 
         if (!empty($this->attrs)) {
@@ -267,42 +279,53 @@ class Course extends Model
         }
     }
 
-    public function afterCreate()
+    public static function modelTypes()
     {
-        $maxCourseIdCache = new MaxCourseIdCache();
-        $maxCourseIdCache->rebuild();
-    }
-
-    public function afterUpdate()
-    {
-        $courseCacheSyncer = new CourseCacheSyncer();
-        $courseCacheSyncer->addItem($this->id);
-
-        $courseIndexSyncer = new CourseIndexSyncer();
-        $courseIndexSyncer->addItem($this->id);
-    }
-
-    public static function models()
-    {
-        $list = [
+        $types = [
             self::MODEL_VOD => '点播',
             self::MODEL_LIVE => '直播',
             self::MODEL_READ => '图文',
         ];
 
-        return $list;
+        return $types;
     }
 
-    public static function levels()
+    public static function levelTypes()
     {
-        $list = [
+        $types = [
             self::LEVEL_ENTRY => '入门',
             self::LEVEL_JUNIOR => '初级',
             self::LEVEL_MEDIUM => '中级',
             self::LEVEL_SENIOR => '高级',
         ];
 
-        return $list;
+        return $types;
+    }
+
+    public static function studyExpiryOptions()
+    {
+        $options = [
+            1 => '1个月',
+            3 => '3个月',
+            6 => '6个月',
+            12 => '12个月',
+            36 => '36个月',
+        ];
+
+        return $options;
+    }
+
+    public static function refundExpiryOptions()
+    {
+        $options = [
+            7 => '7天',
+            14 => '14天',
+            30 => '30天',
+            90 => '90天',
+            180 => '180天',
+        ];
+
+        return $options;
     }
 
 }

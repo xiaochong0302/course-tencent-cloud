@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Caches\CourseUser as CourseUserCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class CourseUser extends Model
@@ -17,10 +16,9 @@ class CourseUser extends Model
     /**
      * 来源类型
      */
-    const SOURCE_FREE = 'free'; // 免费课程
-    const SOURCE_PAID = 'paid'; // 付费课程
-    const SOURCE_VIP = 'vip'; // 会员免费
-    const SOURCE_IMPORT = 'import'; // 后台导入
+    const SOURCE_FREE = 'free'; // 免费
+    const SOURCE_CHARGE = 'charge'; // 付费
+    const SOURCE_IMPORT = 'import'; // 导入
 
     /**
      * 主键编号
@@ -62,7 +60,7 @@ class CourseUser extends Model
      *
      * @var int
      */
-    public $expire_time;
+    public $expiry_time;
 
     /**
      * 学习时长
@@ -79,11 +77,11 @@ class CourseUser extends Model
     public $progress;
 
     /**
-     * 锁定标识
+     * 评价标识
      *
      * @var int
      */
-    public $locked;
+    public $reviewed;
 
     /**
      * 删除标识
@@ -108,7 +106,7 @@ class CourseUser extends Model
 
     public function getSource()
     {
-        return 'course_user';
+        return 'kg_course_user';
     }
 
     public function initialize()
@@ -133,26 +131,7 @@ class CourseUser extends Model
         $this->updated_at = time();
     }
 
-    public function afterCreate()
-    {
-        $this->rebuildCache();
-    }
-
-    public function afterUpdate()
-    {
-        $this->rebuildCache();
-    }
-
-    public function rebuildCache()
-    {
-        $key = "{$this->course_id}_{$this->user_id}";
-
-        $courseUserCache = new CourseUserCache();
-
-        $courseUserCache->rebuild($key);
-    }
-
-    public static function roles()
+    public static function roleTypes()
     {
         $list = [
             self::ROLE_STUDENT => '学员',
@@ -162,13 +141,12 @@ class CourseUser extends Model
         return $list;
     }
 
-    public static function sources()
+    public static function sourceTypes()
     {
         $list = [
-            self::SOURCE_FREE => '免费课程',
-            self::SOURCE_PAID => '付费课程',
-            self::SOURCE_VIP => '会员免费',
-            self::SOURCE_IMPORT => '后台导入',
+            self::SOURCE_FREE => '免费',
+            self::SOURCE_CHARGE => '付费',
+            self::SOURCE_IMPORT => '导入',
         ];
 
         return $list;
