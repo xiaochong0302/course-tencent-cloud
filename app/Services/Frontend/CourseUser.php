@@ -18,6 +18,8 @@ class CourseUser extends Service
 
         $validator = new CourseUserValidator();
 
+        $validator->checkIfAllowApply($course, $user);
+
         $validator->checkIfJoined($course->id, $user->id);
 
         $courseUser = new CourseUserModel();

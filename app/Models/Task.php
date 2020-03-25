@@ -9,8 +9,7 @@ class Task extends Model
      * 任务类型
      */
     const TYPE_REFUND = 'refund'; // 退款
-    const TYPE_PROCESS_ORDER = 'process_order'; // 处理订单
-    const TYPE_LIVE_NOTIFY = 'live_notify'; // 直播通知
+    const TYPE_ORDER = 'order'; // 下单
 
     /**
      * 优先级

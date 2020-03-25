@@ -3,37 +3,36 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启支付</label>
         <div class="layui-input-block">
-            <input type="radio" name="enabled" value="1" title="是" {% if wechat.enabled == "1" %}checked{% endif %}>
-            <input type="radio" name="enabled" value="0" title="否" {% if wechat.enabled == "0" %}checked{% endif %}>
+            <input type="radio" name="enabled" value="1" title="是" {% if wxpay.enabled == "1" %}checked{% endif %}>
+            <input type="radio" name="enabled" value="0" title="否" {% if wxpay.enabled == "0" %}checked{% endif %}>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">App ID</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="app_id" value="{{ wechat.app_id }}" lay-verify="required">
+            <input class="layui-input" type="text" name="app_id" value="{{ wxpay.app_id }}" lay-verify="required">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">Mch ID</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="mch_id" value="{{ wechat.mch_id }}" lay-verify="required">
+            <input class="layui-input" type="text" name="mch_id" value="{{ wxpay.mch_id }}" lay-verify="required">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">Private Key</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="key" value="{{ wechat.key }}" lay-verify="required">
+            <input class="layui-input" type="text" name="key" value="{{ wxpay.key }}" lay-verify="required">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">Notify Url</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="notify_url" value="{{ wechat.notify_url }}"
-                   lay-verify="required">
+            <input class="layui-input" type="text" name="notify_url" value="{{ wxpay.notify_url }}" lay-verify="required">
         </div>
     </div>
 
@@ -42,7 +41,7 @@
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
-            <input type="hidden" name="section" value="payment.wechat">
+            <input type="hidden" name="section" value="payment.wxpay">
         </div>
     </div>
 
@@ -71,7 +70,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-block">
-            <button type="button" class="layui-btn" id="show-wechat-test">提交</button>
+            <button type="button" class="layui-btn" id="show-wxpay-test">提交</button>
             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
         </div>
     </div>
@@ -85,8 +84,8 @@
         var $ = layui.jquery;
         var layer = layui.layer;
 
-        $('#show-wechat-test').on('click', function () {
-            var url = '/admin/test/wechat';
+        $('#show-wxpay-test').on('click', function () {
+            var url = '/admin/test/wxpay';
             layer.open({
                 type: 2,
                 title: '微信 - 支付测试',

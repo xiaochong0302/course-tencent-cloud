@@ -28,7 +28,7 @@ class RevokeVipTask extends Task
      * 查找待解锁用户
      *
      * @param int $limit
-     * @return UserModel[]|Resultset|ResultsetInterface
+     * @return ResultsetInterface|Resultset|UserModel[]
      */
     protected function findUsers($limit = 1000)
     {

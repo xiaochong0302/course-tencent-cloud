@@ -19,21 +19,26 @@ class Comment extends Service
 
         $validator = new CommentValidator();
 
-        $validator->checkOwnerPriv($user->id, $comment->user_id);
+        $validator->checkOwner($user->id, $comment->user_id);
 
         $comment->deleted = 1;
+
         $comment->update();
 
         $chapterRepo = new ChapterRepo();
 
         $chapter = $chapterRepo->findById($comment->chapter_id);
+
         $chapter->comment_count -= 1;
+
         $chapter->update();
 
         $courseRepo = new CourseRepo();
 
         $course = $courseRepo->findById($comment->course_id);
+
         $course->comment_count -= 1;
+
         $course->update();
     }
 

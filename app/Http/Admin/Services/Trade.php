@@ -95,6 +95,7 @@ class Trade extends Service
         $validator->checkIfAllowClose($trade);
 
         $trade->status = TradeModel::STATUS_CLOSED;
+
         $trade->update();
 
         return $trade;
@@ -114,7 +115,7 @@ class Trade extends Service
         $refund->amount = $trade->amount;
         $refund->user_id = $trade->user_id;
         $refund->order_id = $trade->order_id;
-        $refund->trade_id = $trade->sn;
+        $refund->trade_id = $trade->id;
         $refund->apply_note = '后台人工申请退款';
 
         $refund->create();

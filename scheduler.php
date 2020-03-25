@@ -17,10 +17,13 @@ $scheduler->php($script, $bin, ['--task' => 'process_order', '--action' => 'main
     ->at('*/5 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'vod_event', '--action' => 'main'])
-    ->at('*/7 * * * *');
+    ->at('*/5 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'close_trade', '--action' => 'main'])
     ->at('*/10 * * * *');
+
+$scheduler->php($script, $bin, ['--task' => 'live_notice_consumer', '--action' => 'main'])
+    ->at('*/15 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'close_order', '--action' => 'main'])
     ->hourly(3);
@@ -42,5 +45,8 @@ $scheduler->php($script, $bin, ['--task' => 'revoke_vip', '--action' => 'main'])
 
 $scheduler->php($script, $bin, ['--task' => 'count_course', '--action' => 'main'])
     ->daily(3, 17);
+
+$scheduler->php($script, $bin, ['--task' => 'live_notice_provider', '--action' => 'main'])
+    ->daily(3, 23);
 
 $scheduler->run();

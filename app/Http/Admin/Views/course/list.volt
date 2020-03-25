@@ -10,7 +10,7 @@
 
 {%- macro category_info(items) %}
     {% for item in items %}
-        <span class="layui-badge layui-bg-green">{{ item.name }}</span>
+        <a class="layui-badge layui-bg-green" href="{{ url({'for':'admin.course.list'},{'category_id':item.id}) }}">{{ item.name }}</a>
     {% endfor %}
 {%- endmacro %}
 

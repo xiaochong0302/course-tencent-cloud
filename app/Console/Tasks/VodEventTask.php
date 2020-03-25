@@ -22,13 +22,17 @@ class VodEventTask extends Task
         $count = 0;
 
         foreach ($events as $event) {
+
             $handles[] = $event['EventHandle'];
+
             if ($event['EventType'] == 'NewFileUpload') {
                 $this->handleNewFileUploadEvent($event);
             } elseif ($event['EventType'] == 'ProcedureStateChanged') {
                 $this->handleProcedureStateChangedEvent($event);
             }
+
             $count++;
+
             if ($count >= 12) {
                 break;
             }
@@ -61,8 +65,10 @@ class VodEventTask extends Task
          * @var array $attrs
          */
         $attrs = $chapter->attrs;
+
         $attrs['file_status'] = ChapterModel::FS_TRANSLATING;
         $attrs['duration'] = (int)$duration;
+
         $chapter->update(['attrs' => $attrs]);
 
         $this->updateVodAttrs($chapter->course_id);
@@ -71,6 +77,7 @@ class VodEventTask extends Task
     protected function handleProcedureStateChangedEvent($event)
     {
         $fileId = $event['ProcedureStateChangeEvent']['FileId'];
+
         $processResult = $event['ProcedureStateChangeEvent']['MediaProcessResultSet'];
 
         $chapterRepo = new ChapterRepo();
@@ -110,7 +117,9 @@ class VodEventTask extends Task
          * @var array $attrs
          */
         $attrs = $chapter->attrs;
+
         $attrs['file_status'] = $fileStatus;
+
         $chapter->update(['attrs' => $attrs]);
     }
 

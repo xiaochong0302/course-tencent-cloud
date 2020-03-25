@@ -27,7 +27,7 @@ class ChapterComment extends Service
 
         $validator = new UserDailyLimitValidator();
 
-        $validator->checkCommentLimit($user->id);
+        $validator->checkCommentLimit($user);
 
         $validator = new CommentValidator();
 
@@ -60,6 +60,11 @@ class ChapterComment extends Service
         $course->update();
 
         $this->incrUserDailyCommentCount($user);
+    }
+
+    protected function handleMentions($mentions)
+    {
+
     }
 
     protected function incrUserDailyCommentCount(UserModel $user)

@@ -3,7 +3,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-inline" style="width:150px;margin-left:110px;">
-            <img src="/qrcode/img?text={{ push_url|url_encode }}">
+            <img class="kg-qrcode" src="{{ code_url }}" alt="二维码图片">
         </div>
     </div>
 

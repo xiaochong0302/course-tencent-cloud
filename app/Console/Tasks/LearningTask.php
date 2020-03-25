@@ -41,11 +41,13 @@ class LearningTask extends Task
         if (!$requestIds) return;
 
         foreach ($requestIds as $requestId) {
-            $itemKey = $syncer->getItemKey($requestId);
-            $this->handleLearning($itemKey);
-        }
 
-        $this->redis->sRem($syncKey, ...$requestIds);
+            $itemKey = $syncer->getItemKey($requestId);
+
+            $this->handleLearning($itemKey);
+
+            $this->redis->sRem($syncKey, $requestId);
+        }
     }
 
     /**

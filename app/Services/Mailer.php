@@ -2,38 +2,31 @@
 
 namespace App\Services;
 
+use Phalcon\Logger\Adapter\File as FileLogger;
 use Phalcon\Mailer\Manager as MailerManager;
 
-class Mailer extends Service
+abstract class Mailer extends Service
 {
 
+    /**
+     * @var MailerManager
+     */
     protected $manager;
+
+    /**
+     * @var FileLogger
+     */
+    protected $logger;
 
     public function __construct()
     {
         $this->manager = $this->getManager();
+
+        $this->logger = $this->getLogger('mailer');
     }
 
     /**
-     * 发送测试邮件
-     *
-     * @param string $email
-     * @return mixed
-     */
-    public function sendTestMail($email)
-    {
-        $message = $this->manager->createMessage();
-
-        $result = $message->to($email)
-            ->subject('这是一封测试邮件')
-            ->content('这是一封测试邮件')
-            ->send();
-
-        return $result;
-    }
-
-    /**
-     * 获取Manager
+     * 获取 Manager
      */
     protected function getManager()
     {

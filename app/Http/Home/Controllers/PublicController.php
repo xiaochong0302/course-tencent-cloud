@@ -66,9 +66,9 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/qrcode/img", name="home.qrcode.img")
+     * @Get("/qr/img", name="home.qr.img")
      */
-    public function qrcodeImageAction()
+    public function qrImageAction()
     {
         $text = $this->request->getQuery('text');
         $level = $this->request->getQuery('level', 'int', 0);
@@ -76,7 +76,9 @@ class PublicController extends \Phalcon\Mvc\Controller
 
         $url = urldecode($text);
 
-        echo QRcode::png($url, false, $level, $size);
+        QRcode::png($url, false, $level, $size);
+
+        $this->response->send();
 
         exit;
     }

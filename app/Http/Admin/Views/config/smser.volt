@@ -32,15 +32,13 @@
     <table class="kg-table layui-table layui-form">
         <colgroup>
             <col width="12%">
-            <col width="10%">
-            <col width="12%">
+            <col width="15%">
             <col>
             <col width="10%">
         </colgroup>
         <thead>
         <tr>
             <th>名称</th>
-            <th>类型</th>
             <th>模板编号</th>
             <th>模板内容</th>
             <th>操作</th>
@@ -48,32 +46,28 @@
         </thead>
         <tbody>
         <tr>
-            <td>注册帐号</td>
-            <td><span class="layui-badge">验证码</span></td>
-            <td><input class="layui-input" type="text" name="template[id][register]" value="{{ template.register.id }}" lay-verify="required"></td>
-            <td><input id="tc1" class="layui-input" type="text" name="template[content][register]" value="{{ template.register.content }}" lay-verify="required"></td>
-            <td><span class="kg-copy layui-btn" data-clipboard-target="#tc1">复制</span></td>
+            <td>身份验证</td>
+            <td><input class="layui-input" type="text" name="template[id][verify]" value="{{ template.verify.id }}" lay-verify="required"></td>
+            <td><input id="tc-verify" class="layui-input" type="text" name="template[content][verify]" value="{{ template.verify.content }}" readonly="readonly" lay-verify="required"></td>
+            <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-verify">复制</span></td>
         </tr>
         <tr>
-            <td>重置密码</td>
-            <td><span class="layui-badge">验证码</span></td>
-            <td><input class="layui-input" type="text" name="template[id][reset_password]" value="{{ template.reset_password.id }}" lay-verify="required"></td>
-            <td><input id="tc2" class="layui-input" type="text" name="template[content][reset_password]" value="{{ template.reset_password.content }}" lay-verify="required"></td>
-            <td><span class="kg-copy layui-btn" data-clipboard-target="#tc2">复制</span></td>
+            <td>订单通知</td>
+            <td><input class="layui-input" type="text" name="template[id][order]" value="{{ template.order.id }}" lay-verify="required"></td>
+            <td><input id="tc-order" class="layui-input" type="text" name="template[content][order]" value="{{ template.order.content }}" readonly="readonly" lay-verify="required"></td>
+            <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-order">复制</span></td>
         </tr>
         <tr>
-            <td>购买课程</td>
-            <td><span class="layui-badge layui-bg-blue">通知</span></td>
-            <td><input class="layui-input" type="text" name="template[id][buy_course]" value="{{ template.buy_course.id }}" lay-verify="required"></td>
-            <td><input id="tc3" class="layui-input" type="text" name="template[content][buy_course]" value="{{ template.buy_course.content }}" lay-verify="required"></td>
-            <td><span class="kg-copy layui-btn" data-clipboard-target="#tc3">复制</span></td>
+            <td>退款通知</td>
+            <td><input class="layui-input" type="text" name="template[id][refund]" value="{{ template.refund.id }}" lay-verify="required"></td>
+            <td><input id="tc-refund" class="layui-input" type="text" name="template[content][refund]" value="{{ template.refund.content }}" readonly="readonly" lay-verify="required"></td>
+            <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-refund">复制</span></td>
         </tr>
         <tr>
-            <td>购买会员</td>
-            <td><span class="layui-badge layui-bg-blue">通知</span></td>
-            <td><input class="layui-input" type="text" name="template[id][buy_member]" value="{{ template.buy_member.id }}" lay-verify="required"></td>
-            <td><input id="tc4" class="layui-input" type="text" name="template[content][buy_member]" value="{{ template.buy_member.content }}" lay-verify="required"></td>
-            <td><span class="kg-copy layui-btn" data-clipboard-target="#tc4">复制</span></td>
+            <td>直播通知</td>
+            <td><input class="layui-input" type="text" name="template[id][live]" value="{{ template.live.id }}" lay-verify="required"></td>
+            <td><input id="tc-live" class="layui-input" type="text" name="template[content][live]" value="{{ template.live.content }}" readonly="readonly" lay-verify="required"></td>
+            <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-live">复制</span></td>
         </tr>
         </tbody>
     </table>

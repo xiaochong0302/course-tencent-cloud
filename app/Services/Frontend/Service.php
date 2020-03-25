@@ -3,52 +3,46 @@
 namespace App\Services\Frontend;
 
 use App\Models\User as UserModel;
+use App\Repos\User as UserRepo;
 use App\Validators\Validator as AppValidator;
-use Phalcon\Mvc\Model;
 use Phalcon\Mvc\User\Component;
 
 class Service extends Component
 {
 
-    /**
-     * @return UserModel|Model
-     */
     public function getCurrentUser()
     {
-        $user = UserModel::findFirst(100015);
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById(100015);
 
         return $user;
     }
 
-    /**
-     * @return UserModel|Model
-     */
     public function getCurrentUser2()
     {
         $authUser = $this->getAuthUser();
 
-        if ($authUser) {
-            $user = UserModel::findFirst($authUser->id);
-        } else {
-            $user = $this->getGuestUser();
+        if (!$authUser) {
+            return $this->getGuestUser();
         }
 
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($authUser->id);
+
         return $user;
     }
 
-    /**
-     * @return UserModel|Model
-     */
     public function getLoginUser()
     {
-        $user = UserModel::findFirst(100015);
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById(100015);
 
         return $user;
     }
 
-    /**
-     * @return UserModel|Model
-     */
     public function getLoginUser2()
     {
         $authUser = $this->getAuthUser();
@@ -57,7 +51,9 @@ class Service extends Component
 
         $validator->checkAuthUser($authUser);
 
-        $user = UserModel::findFirst($authUser->id);
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($authUser->id);
 
         return $user;
     }

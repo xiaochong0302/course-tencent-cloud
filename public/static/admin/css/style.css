@@ -161,12 +161,17 @@ img.kg-cover {
     text-align: center;
 }
 
-.kg-qrcode-block .layui-icon-close-fill {
+.kg-error-tips {
     color: red;
 }
 
-.kg-qrcode-block .layui-icon-ok-circle {
+.kg-success-tips {
     color: green;
+}
+
+img.kg-qrcode {
+    width: 140px;
+    height: 140px;
 }
 
 .kg-order-date {

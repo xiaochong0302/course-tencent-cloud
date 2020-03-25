@@ -3,19 +3,33 @@
 namespace App\Services;
 
 use App\Models\ContentImage as ContentImageModel;
+use Phalcon\Logger\Adapter\File as FileLogger;
 use Qcloud\Cos\Client as CosClient;
 
 class Storage extends Service
 {
 
+    /**
+     * @var array
+     */
     protected $config;
+
+    /**
+     * @var FileLogger
+     */
     protected $logger;
+
+    /**
+     * @var CosClient
+     */
     protected $client;
 
     public function __construct()
     {
         $this->config = $this->getSectionConfig('storage');
+
         $this->logger = $this->getLogger('storage');
+
         $this->client = $this->getCosClient();
     }
 
@@ -49,7 +63,7 @@ class Storage extends Service
     /**
      * 上传内容图片
      *
-     * @return mixed
+     * @return string|bool
      */
     public function uploadContentImage()
     {
@@ -74,7 +88,7 @@ class Storage extends Service
     /**
      * 上传头像图片
      *
-     * @return mixed
+     * @return string|bool
      */
     public function uploadAvatarImage()
     {
@@ -87,7 +101,7 @@ class Storage extends Service
      * 上传图片
      *
      * @param string $prefix
-     * @return mixed
+     * @return string|bool
      */
     public function uploadImage($prefix = '')
     {
@@ -117,7 +131,7 @@ class Storage extends Service
      *
      * @param string $key
      * @param string $body
-     * @return mixed string|bool
+     * @return string|bool
      */
     public function putString($key, $body)
     {
@@ -129,8 +143,6 @@ class Storage extends Service
 
             $result = $response['Location'] ? $key : false;
 
-            return $result;
-
         } catch (\Exception $e) {
 
             $this->logger->error('Put String Exception ' . kg_json_encode([
@@ -138,8 +150,10 @@ class Storage extends Service
                     'message' => $e->getMessage(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -161,8 +175,6 @@ class Storage extends Service
 
             $result = $response['Location'] ? $key : false;
 
-            return $result;
-
         } catch (\Exception $e) {
 
             $this->logger->error('Put File Exception ' . kg_json_encode([
@@ -170,8 +182,10 @@ class Storage extends Service
                     'message' => $e->getMessage(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -271,7 +285,7 @@ class Storage extends Service
 
         $client = new CosClient([
             'region' => $this->config['bucket_region'],
-            'schema' => 'https',
+            'schema' => $this->config['bucket_protocol'],
             'credentials' => [
                 'secretId' => $secret['secret_id'],
                 'secretKey' => $secret['secret_key'],

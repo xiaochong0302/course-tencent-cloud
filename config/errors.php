@@ -91,10 +91,6 @@ $error['course.invalid_publish_status'] = '无效的发布状态';
 $error['course.pub_chapter_not_found'] = '尚未发现已发布的课时';
 $error['course.pub_chapter_not_enough'] = '已发布的课时太少（未过三分之一）';
 
-$error['course.has_applied'] = '已经参加过该课程了';
-$error['course.has_not_applied'] = '尚未参加该课程';
-$error['course.has_reviewed'] = '已经评价过该课程了';
-
 /**
  * 话题相关
  */
@@ -121,7 +117,8 @@ $error['package.invalid_publish_status'] = '无效的发布状态';
 $error['course_user.not_found'] = '课程学员不存在';
 $error['course_user.course_not_found'] = '课程不存在';
 $error['course_user.user_not_found'] = '用户不存在';
-$error['course_user.user_has_joined'] = '课程学员已存在';
+$error['course_user.apply_not_allowed'] = '当前不允许申请课程';
+$error['course_user.has_joined_course'] = '已经加入当前课程';
 $error['course_user.invalid_expiry_time'] = '无效的过期时间';
 
 /**
@@ -240,7 +237,6 @@ $error['slide.invalid_publish_status'] = '无效的发布状态';
  */
 $error['order.not_found'] = '订单不存在';
 $error['order.item_not_found'] = '商品不存在';
-$error['order.reach_daily_limit'] = '超出每日订单限额';
 $error['order.close_not_allowed'] = '当前不允许关闭订单';
 $error['order.has_bought_course'] = '已经够买过该课程';
 $error['order.has_bought_package'] = '已经够买过该套餐';

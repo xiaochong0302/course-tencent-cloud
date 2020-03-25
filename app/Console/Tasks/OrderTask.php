@@ -4,16 +4,20 @@ namespace App\Console\Tasks;
 
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\Order as OrderModel;
+use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
+use App\Models\Trade as TradeModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Smser\Order as OrderSmser;
 use Phalcon\Cli\Task;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ProcessOrderTask extends Task
+class OrderTask extends Task
 {
 
     const TRY_COUNT = 3;
@@ -30,14 +34,16 @@ class ProcessOrderTask extends Task
 
         foreach ($tasks as $task) {
 
+            /**
+             * @var array $itemInfo
+             */
+            $itemInfo = $task->item_info;
+
+            $order = $orderRepo->findById($itemInfo['order']['id']);
+
+            if (!$order) continue;
+
             try {
-
-                /**
-                 * @var array $itemInfo
-                 */
-                $itemInfo = $task->item_info;
-
-                $order = $orderRepo->findById($itemInfo['order']['id']);
 
                 switch ($order->item_type) {
                     case OrderModel::ITEM_COURSE:
@@ -51,6 +57,12 @@ class ProcessOrderTask extends Task
                         break;
                 }
 
+                $task->status = TaskModel::STATUS_FINISHED;
+
+                $task->update();
+
+                $this->handleOrderNotice($order);
+
             } catch (\Exception $e) {
 
                 $task->try_count += 1;
@@ -61,6 +73,13 @@ class ProcessOrderTask extends Task
                 }
 
                 $task->update();
+            }
+
+            /**
+             * 任务失败，申请退款
+             */
+            if ($task->status == TaskModel::STATUS_FAILED) {
+                $this->handleOrderRefund($order);
             }
         }
     }
@@ -144,6 +163,38 @@ class ProcessOrderTask extends Task
     }
 
     /**
+     * @param OrderModel $order
+     */
+    protected function handleOrderNotice(OrderModel $order)
+    {
+        $smser = new OrderSmser();
+
+        $smser->handle($order);
+    }
+
+    /**
+     * @param OrderModel $order
+     */
+    protected function handleOrderRefund(OrderModel $order)
+    {
+        $trade = $this->findFinishedTrade($order->id);
+
+        if (!$trade) return;
+
+        $refund = new RefundModel();
+
+        $refund->subject = $order->subject;
+        $refund->amount = $order->amount;
+        $refund->apply_note = '开通失败，自动退款';
+        $refund->review_note = '自动操作';
+        $refund->user_id = $order->user_id;
+        $refund->order_id = $order->id;
+        $refund->trade_id = $trade->id;
+
+        $refund->create();
+    }
+
+    /**
      * @param int $courseId
      * @param int $userId
      */
@@ -167,12 +218,29 @@ class ProcessOrderTask extends Task
     }
 
     /**
+     * @param $orderId
+     * @return Model|TradeModel
+     */
+    protected function findFinishedTrade($orderId)
+    {
+        $status = TradeModel::STATUS_FINISHED;
+
+        $result = TradeModel::findFirst([
+            'conditions' => ['order_id = :order_id: AND status = :status:'],
+            'bind' => ['order_id' => $orderId, 'status' => $status],
+            'order' => 'id DESC',
+        ]);
+
+        return $result;
+    }
+
+    /**
      * @param int $limit
      * @return ResultsetInterface|Resultset|TaskModel[]
      */
     protected function findTasks($limit = 100)
     {
-        $itemType = TaskModel::TYPE_PROCESS_ORDER;
+        $itemType = TaskModel::TYPE_ORDER;
         $status = TaskModel::STATUS_PENDING;
         $tryCount = self::TRY_COUNT;
 

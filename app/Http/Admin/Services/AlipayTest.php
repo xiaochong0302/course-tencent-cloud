@@ -6,44 +6,38 @@ use App\Models\Order as OrderModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Trade as TradeRepo;
-use App\Services\Alipay as AlipayService;
+use App\Services\Payment\Alipay as AlipayService;
 
 class AlipayTest extends PaymentTest
 {
 
-    /**
-     * 获取测试二维码
-     *
-     * @param TradeModel $trade
-     * @return mixed
-     */
-    public function getTestQrCode($trade)
-    {
-        $outOrder = [
-            'out_trade_no' => $trade->sn,
-            'total_amount' => $trade->amount,
-            'subject' => $trade->subject,
-        ];
+    protected $channel = TradeModel::CHANNEL_ALIPAY;
 
+    public function scan(TradeModel $trade)
+    {
         $alipayService = new AlipayService();
 
-        $qrcode = $alipayService->getQrCode($outOrder);
+        $qrcode = $alipayService->scan($trade);
 
         $result = $qrcode ?: false;
 
         return $result;
     }
 
-    /**
-     * 取消测试订单
-     *
-     * @param string $sn
-     */
-    public function cancelTestOrder($sn)
+    public function status($tradeNo)
+    {
+        $alipayService = new AlipayService();
+
+        $result = $alipayService->status($tradeNo);
+
+        return $result;
+    }
+
+    public function cancel($tradeNo)
     {
         $tradeRepo = new TradeRepo();
 
-        $trade = $tradeRepo->findBySn($sn);
+        $trade = $tradeRepo->findBySn($tradeNo);
 
         $orderRepo = new OrderRepo();
 
@@ -51,11 +45,13 @@ class AlipayTest extends PaymentTest
 
         $alipayService = new AlipayService();
 
-        $response = $alipayService->cancelOrder($trade->sn);
+        $response = $alipayService->cancel($trade->sn);
 
         if ($response) {
+
             $trade->status = TradeModel::STATUS_CLOSED;
             $trade->update();
+
             if ($order->status != OrderModel::STATUS_PENDING) {
                 $order->status = OrderModel::STATUS_PENDING;
                 $order->update();

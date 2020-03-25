@@ -37,7 +37,7 @@ class Vip extends Repository
     }
 
     /**
-     * @param $where
+     * @param array $where
      * @return ResultsetInterface|Resultset|VipModel[]
      */
     public function findAll($where = [])

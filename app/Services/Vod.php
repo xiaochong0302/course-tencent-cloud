@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Phalcon\Logger\Adapter\File as FileLogger;
 use TencentCloud\Common\Credential;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Common\Profile\ClientProfile;
@@ -19,14 +20,27 @@ class Vod extends Service
 
     const END_POINT = 'vod.tencentcloudapi.com';
 
+    /**
+     * @var array
+     */
     protected $config;
+
+    /**
+     * @var VodClient
+     */
     protected $client;
+
+    /**
+     * @var FileLogger
+     */
     protected $logger;
 
     public function __construct()
     {
         $this->config = $this->getSectionConfig('vod');
+
         $this->logger = $this->getLogger('vod');
+
         $this->client = $this->getVodClient();
     }
 
@@ -49,9 +63,7 @@ class Vod extends Service
 
             $this->logger->debug('Describe Audio Track Templates Response ' . $response->toJsonString());
 
-            $result = $response->TotalCount > 0 ? true : false;
-
-            return $result;
+            $result = $response->TotalCount > 0;
 
         } catch (TencentCloudSDKException $e) {
 
@@ -61,8 +73,10 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -205,9 +219,9 @@ class Vod extends Service
 
             $this->logger->debug('Pull Events Response ' . $response->toJsonString());
 
-            $result = json_decode($response->toJsonString(), true);
+            $data = json_decode($response->toJsonString(), true);
 
-            return $result['EventSet'] ?? [];
+            $result = $data['EventSet'] ?? [];
 
         } catch (TencentCloudSDKException $e) {
 
@@ -217,8 +231,10 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -245,8 +261,6 @@ class Vod extends Service
 
             $result = json_decode($response->toJsonString(), true);
 
-            return $result;
-
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Confirm Events Exception ' . kg_json_encode([
@@ -255,8 +269,10 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -289,8 +305,6 @@ class Vod extends Service
                 return false;
             }
 
-            return $result;
-
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Describe Media Info Exception ' . kg_json_encode([
@@ -299,8 +313,10 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -331,8 +347,6 @@ class Vod extends Service
                 return false;
             }
 
-            return $result;
-
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Describe Task Detail Exception ' . kg_json_encode([
@@ -341,8 +355,10 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -364,13 +380,18 @@ class Vod extends Service
         $transCodeTaskSet = [];
 
         foreach ($videoTransTemplates as $key => $template) {
+
             $caseA = $originVideoInfo['width'] >= $template['width'];
             $caseB = $originVideoInfo['bit_rate'] >= 1000 * $template['bit_rate'];
+
             if ($caseA || $caseB) {
+
                 $item = ['Definition' => $key];
+
                 if ($watermarkTemplate) {
                     $item['WatermarkSet'][] = ['Definition' => $watermarkTemplate];
                 }
+
                 $transCodeTaskSet[] = $item;
             }
         }
@@ -379,11 +400,15 @@ class Vod extends Service
          * 无匹配转码模板，取第一项转码
          */
         if (empty($transCodeTaskSet)) {
+
             $keys = array_keys($videoTransTemplates);
+
             $item = ['Definition' => $keys[0]];
+
             if ($watermarkTemplate) {
                 $item['WatermarkSet'][] = ['Definition' => $watermarkTemplate];
             }
+
             $transCodeTaskSet[] = $item;
         }
 
@@ -408,8 +433,6 @@ class Vod extends Service
 
             $result = $response->TaskId ?: false;
 
-            return $result;
-
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Process Media Exception ' . kg_json_encode([
@@ -418,8 +441,10 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -439,8 +464,11 @@ class Vod extends Service
         $transCodeTaskSet = [];
 
         foreach ($audioTransTemplates as $key => $template) {
+
             if ($originAudioInfo['bit_rate'] >= 1000 * $template['bit_rate']) {
+
                 $item = ['Definition' => $key];
+
                 $transCodeTaskSet[] = $item;
             }
         }
@@ -449,8 +477,11 @@ class Vod extends Service
          * 无匹配转码模板，取第一项转码
          */
         if (empty($transCodeTaskSet)) {
+
             $keys = array_keys($audioTransTemplates);
+
             $item = ['Definition' => $keys[0]];
+
             $transCodeTaskSet[] = $item;
         }
 
@@ -475,8 +506,6 @@ class Vod extends Service
 
             $result = $response->TaskId ?: false;
 
-            return $result;
-
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Process Media Exception ' . kg_json_encode([
@@ -485,8 +514,10 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**

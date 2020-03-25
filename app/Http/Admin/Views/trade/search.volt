@@ -22,7 +22,7 @@
         <label class="layui-form-label">交易平台</label>
         <div class="layui-input-block">
             <input type="radio" name="channel" value="alipay" title="支付宝">
-            <input type="radio" name="channel" value="wechat" title="微信">
+            <input type="radio" name="channel" value="wxpay" title="微信">
         </div>
     </div>
 

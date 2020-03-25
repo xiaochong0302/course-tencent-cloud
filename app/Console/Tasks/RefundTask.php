@@ -11,8 +11,9 @@ use App\Repos\Order as OrderRepo;
 use App\Repos\Refund as RefundRepo;
 use App\Repos\Trade as TradeRepo;
 use App\Repos\User as UserRepo;
-use App\Services\Alipay as AlipayService;
-use App\Services\Wechat as WechatService;
+use App\Services\Payment\Alipay as AlipayService;
+use App\Services\Payment\Wxpay as WxpayService;
+use App\Services\Smser\Refund as RefundSmser;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
@@ -49,6 +50,10 @@ class RefundTask extends Task
             $trade = $tradeRepo->findById($itemInfo['refund']['trade_id']);
             $order = $orderRepo->findById($itemInfo['refund']['order_id']);
 
+            if (!$refund || !$trade || !$order) {
+                continue;
+            }
+
             try {
 
                 $this->db->begin();
@@ -83,6 +88,8 @@ class RefundTask extends Task
 
                 $this->db->commit();
 
+                $this->handleRefundNotice($refund);
+
             } catch (\Exception $e) {
 
                 $this->db->rollback();
@@ -92,8 +99,6 @@ class RefundTask extends Task
 
                 if ($task->try_count > self::TRY_COUNT) {
                     $task->status = TaskModel::STATUS_FAILED;
-                    $refund->status = RefundModel::STATUS_FAILED;
-                    $refund->update();
                 }
 
                 $task->update();
@@ -102,6 +107,11 @@ class RefundTask extends Task
                         'message' => $e->getMessage(),
                         'task' => $task->toArray(),
                     ]));
+            }
+
+            if ($task->status == TaskModel::STATUS_FAILED) {
+                $refund->status = RefundModel::STATUS_FAILED;
+                $refund->update();
             }
         }
     }
@@ -120,22 +130,13 @@ class RefundTask extends Task
 
             $alipay = new AlipayService();
 
-            $response = $alipay->refundOrder([
-                'out_trade_no' => $trade->sn,
-                'out_request_no' => $refund->sn,
-                'refund_amount' => $refund->amount,
-            ]);
+            $response = $alipay->refund($refund);
 
-        } elseif ($trade->channel == TradeModel::CHANNEL_WECHAT) {
+        } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
 
-            $wechat = new WechatService();
+            $wxpay = new WxpayService();
 
-            $response = $wechat->refundOrder([
-                'out_trade_no' => $trade->sn,
-                'out_refund_no' => $refund->sn,
-                'total_fee' => 100 * $trade->amount,
-                'refund_fee' => 100 * $refund->amount,
-            ]);
+            $response = $wxpay->refund($refund);
         }
 
         if (!$response) {
@@ -250,6 +251,16 @@ class RefundTask extends Task
     protected function handleTestOrderRefund(OrderModel $order)
     {
 
+    }
+
+    /**
+     * @param RefundModel $refund
+     */
+    protected function handleRefundNotice(RefundModel $refund)
+    {
+        $smser = new RefundSmser();
+
+        $smser->handle($refund);
     }
 
     /**

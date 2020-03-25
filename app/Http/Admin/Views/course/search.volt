@@ -12,13 +12,6 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">用户编号</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="user_id" placeholder="用户编号精确匹配">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
         <label class="layui-form-label">标题</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="title" placeholder="标题模糊匹配">
@@ -37,7 +30,7 @@
         <div class="layui-input-block">
             <input type="radio" name="model" value="vod" title="点播">
             <input type="radio" name="model" value="live" title="直播">
-            <input type="radio" name="model" value="article" title="图文">
+            <input type="radio" name="model" value="read" title="图文">
         </div>
     </div>
 

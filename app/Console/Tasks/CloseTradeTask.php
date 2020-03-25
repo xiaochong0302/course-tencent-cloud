@@ -3,8 +3,8 @@
 namespace App\Console\Tasks;
 
 use App\Models\Trade as TradeModel;
-use App\Services\Alipay as AlipayService;
-use App\Services\Wechat as WechatService;
+use App\Services\Payment\Alipay as AlipayService;
+use App\Services\Payment\Wxpay as WxpayService;
 use Phalcon\Cli\Task;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -23,8 +23,8 @@ class CloseTradeTask extends Task
         foreach ($trades as $trade) {
             if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
                 $this->closeAlipayTrade($trade);
-            } elseif ($trade->channel == TradeModel::CHANNEL_WECHAT) {
-                $this->closeWechatTrade($trade);
+            } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
+                $this->closeWxpayTrade($trade);
             }
         }
     }
@@ -36,19 +36,14 @@ class CloseTradeTask extends Task
      */
     protected function closeAlipayTrade($trade)
     {
-        $service = new AlipayService();
+        $alipay = new AlipayService();
 
-        $alyOrder = $service->findOrder($trade->sn);
+        $success = $alipay->close($trade->sn);
 
-        if ($alyOrder) {
-            if ($alyOrder->trade_status == 'WAIT_BUYER_PAY') {
-                $service->closeOrder($trade->sn);
-            }
+        if ($success) {
+            $trade->status = TradeModel::STATUS_CLOSED;
+            $trade->update();
         }
-
-        $trade->status = TradeModel::STATUS_CLOSED;
-
-        $trade->update();
     }
 
     /**
@@ -56,28 +51,23 @@ class CloseTradeTask extends Task
      *
      * @param TradeModel $trade
      */
-    protected function closeWechatTrade($trade)
+    protected function closeWxpayTrade($trade)
     {
-        $service = new WechatService();
+        $wxpay = new WxpayService();
 
-        $wxOrder = $service->findOrder($trade->sn);
+        $success = $wxpay->close($trade->sn);
 
-        if ($wxOrder) {
-            if ($wxOrder->trade_state == 'NOTPAY') {
-                $service->closeOrder($trade->sn);
-            }
+        if ($success) {
+            $trade->status = TradeModel::STATUS_CLOSED;
+            $trade->update();
         }
-
-        $trade->status = TradeModel::STATUS_CLOSED;
-
-        $trade->update();
     }
 
     /**
      * 查找待关闭交易
      *
      * @param int $limit
-     * @return Resultset|ResultsetInterface
+     * @return ResultsetInterface|Resultset|TradeModel[]
      */
     protected function findTrades($limit = 5)
     {

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Phalcon\Logger\Adapter\File as FileLogger;
 use TencentCloud\Captcha\V20190722\CaptchaClient;
 use TencentCloud\Captcha\V20190722\Models\DescribeCaptchaResultRequest;
 use TencentCloud\Common\Credential;
@@ -14,14 +15,27 @@ class Captcha extends Service
 
     const END_POINT = 'captcha.tencentcloudapi.com';
 
+    /**
+     * @var array
+     */
     protected $config;
+
+    /**
+     * @var FileLogger
+     */
     protected $logger;
+
+    /**
+     * @var CaptchaClient
+     */
     protected $client;
 
     public function __construct()
     {
         $this->config = $this->getSectionConfig('captcha');
+
         $this->logger = $this->getLogger('captcha');
+
         $this->client = $this->getCaptchaClient();
     }
 
@@ -44,6 +58,9 @@ class Captcha extends Service
 
             $request = new DescribeCaptchaResultRequest();
 
+            /**
+             * 注意：CaptchaType 和 CaptchaAppId 强类型要求
+             */
             $params = json_encode([
                 'Ticket' => $ticket,
                 'Randstr' => $rand,
@@ -61,9 +78,9 @@ class Captcha extends Service
 
             $this->logger->debug('Describe Captcha Result Response ' . $response->toJsonString());
 
-            $result = json_decode($response->toJsonString(), true);
+            $data = json_decode($response->toJsonString(), true);
 
-            return $result['CaptchaCode'] == 1 ? true : false;
+            $result = $data['CaptchaCode'] == 1;
 
         } catch (TencentCloudSDKException $e) {
 
@@ -73,8 +90,10 @@ class Captcha extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**

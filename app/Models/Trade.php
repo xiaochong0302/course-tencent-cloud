@@ -11,7 +11,7 @@ class Trade extends Model
      * 平台类型
      */
     const CHANNEL_ALIPAY = 'alipay'; // 支付宝
-    const CHANNEL_WECHAT = 'wechat'; // 微信
+    const CHANNEL_WXPAY = 'wxpay'; // 微信
 
     /**
      * 状态类型
@@ -145,7 +145,7 @@ class Trade extends Model
     {
         $list = [
             self::CHANNEL_ALIPAY => '支付宝',
-            self::CHANNEL_WECHAT => '微信',
+            self::CHANNEL_WXPAY => '微信',
         ];
 
         return $list;

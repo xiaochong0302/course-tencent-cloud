@@ -5,6 +5,9 @@ namespace App\Services;
 class Live extends Service
 {
 
+    /**
+     * @var array
+     */
     protected $config;
 
     public function __construct()
@@ -63,17 +66,26 @@ class Live extends Service
         $urls = [];
 
         if ($transEnabled) {
+
             foreach (['fd', 'sd', 'hd', 'od'] as $rateName) {
+
                 $realStreamName = ($rateName == 'od') ? $streamName : "{$streamName}_{$rateName}";
+
                 $authParams = $this->getAuthParams($realStreamName, $authKey, $expireTime);
+
                 $url = "{$protocol}://{$domain}/{$appName}/{$realStreamName}.{$extension}";
                 $url .= $authEnabled ? "?{$authParams}" : '';
+
                 $urls[$rateName] = $url;
             }
+
         } else {
+
             $authParams = $this->getAuthParams($streamName, $authKey, $expireTime);
+
             $url = "{$protocol}://{$domain}/{$appName}/{$streamName}.{$extension}";
             $url .= $authEnabled ? "?{$authParams}" : '';
+
             $urls['od'] = $url;
         }
 

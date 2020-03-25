@@ -20,7 +20,7 @@ class CleanLogTask extends Task
         $this->cleanVodLog();
         $this->cleanStorageLog();
         $this->cleanAlipayLog();
-        $this->cleanWechatLog();
+        $this->cleanWxpayLog();
         $this->cleanRefundLog();
     }
 
@@ -115,9 +115,9 @@ class CleanLogTask extends Task
     /**
      * 清理微信支付服务日志
      */
-    protected function cleanWechatLog()
+    protected function cleanWxpayLog()
     {
-        $this->cleanLog('wechat', 30);
+        $this->cleanLog('wxpay', 30);
     }
 
     /**

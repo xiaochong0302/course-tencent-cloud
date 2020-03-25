@@ -4,18 +4,25 @@ namespace App\Http\Admin\Services;
 
 use App\Models\Order as OrderModel;
 use App\Models\Trade as TradeModel;
-use App\Repos\Trade as TradeRepo;
 
 abstract class PaymentTest extends Service
 {
 
     /**
-     * 创建测试订单
+     * @var string 支付平台
+     */
+    protected $channel;
+
+    /**
+     * 创建订单
      *
      * @return OrderModel
      */
-    public function createTestOrder()
+    public function createOrder()
     {
+        /**
+         * @var object $authUser
+         */
         $authUser = $this->getDI()->get('auth')->getAuthInfo();
 
         $order = new OrderModel();
@@ -36,7 +43,7 @@ abstract class PaymentTest extends Service
      * @param OrderModel $order
      * @return TradeModel $trade
      */
-    public function createTestTrade($order)
+    public function createTrade(OrderModel $order)
     {
         $trade = new TradeModel();
 
@@ -44,7 +51,7 @@ abstract class PaymentTest extends Service
         $trade->order_id = $order->id;
         $trade->subject = $order->subject;
         $trade->amount = $order->amount;
-        $trade->channel = TradeModel::CHANNEL_ALIPAY;
+        $trade->channel = $this->channel;
 
         $trade->create();
 
@@ -52,33 +59,27 @@ abstract class PaymentTest extends Service
     }
 
     /**
-     * 获取订单状态
+     * 交易状态
      *
-     * @param string $sn
+     * @param string $tradeNo
      * @return string
      */
-    public function getTestStatus($sn)
-    {
-        $tradeRepo = new TradeRepo();
-
-        $trade = $tradeRepo->findBySn($sn);
-
-        return $trade->status;
-    }
+    abstract public function status($tradeNo);
 
     /**
-     * 获取测试二维码
+     * 扫码下单
      *
      * @param TradeModel $trade
-     * @return mixed
+     * @return string|bool
      */
-    abstract public function getTestQrCode($trade);
+    abstract public function scan(TradeModel $trade);
 
     /**
-     * 取消测试订单
+     * 取消交易
      *
-     * @param string $sn
+     * @param string $tradeNo
+     * @return bool
      */
-    abstract public function cancelTestOrder($sn);
+    abstract public function cancel($tradeNo);
 
 }

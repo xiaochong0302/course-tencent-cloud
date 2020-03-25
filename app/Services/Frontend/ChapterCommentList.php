@@ -9,7 +9,6 @@ use App\Models\CommentVote as CommentVoteModel;
 use App\Models\User as UserModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Comment as CommentRepo;
-use Phalcon\Mvc\Model\Resultset;
 
 class ChapterCommentList extends Service
 {
@@ -104,9 +103,6 @@ class ChapterCommentList extends Service
 
         $chapterRepo = new ChapterRepo();
 
-        /**
-         * @var Resultset $votes
-         */
         $votes = $chapterRepo->findUserCommentVotes($chapterId, $userId);
 
         if ($votes->count() == 0) {

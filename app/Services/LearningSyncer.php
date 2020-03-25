@@ -41,7 +41,9 @@ class LearningSyncer extends Service
      */
     public function addItem(LearningModel $learning, $timeout = 10)
     {
-        // 兼容秒和毫秒
+        /**
+         * 兼容秒和毫秒
+         */
         if ($timeout > 1000) {
             $timeout = intval($timeout / 1000);
         }

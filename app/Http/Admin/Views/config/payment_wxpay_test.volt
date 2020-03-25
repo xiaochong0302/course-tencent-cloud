@@ -1,33 +1,32 @@
 <div class="kg-qrcode-block">
 
-    {% if qrcode %}
+    {% if code_url %}
 
-        <div id="qrcode" class="qrcode" qrcode-text="{{ qrcode }}"></div>
-
-        <input type="hidden" name="sn" value="{{ trade.sn }}">
-
-        <div id="success-tips" class="success-tips layui-hide">
-            <span><i class="layui-icon layui-icon-ok-circle"></i> 支付成功</span>
+        <div id="qrcode">
+            <img class="kg-qrcode" src="{{ code_url }}" alt="二维码图片">
         </div>
 
-        <div id="error-tips" class="error-tips layui-hide">
-            <span><i class="layui-icon layui-icon-close-fill"></i> 支付失败</span>
+        <input type="hidden" name="trade_sn" value="{{ trade_sn }}">
+
+        <div id="success-tips" class="kg-success-tips layui-hide">
+            <span>支付成功</span>
+        </div>
+
+        <div id="error-tips" class="kg-error-tips layui-hide">
+            <span>支付失败</span>
         </div>
 
     {% else %}
 
-        <div class="error-tips">
-            <span><i class="layui-icon layui-icon-close-fill"></i> 生成二维码失败</span>
+        <div class="kg-error-tips">
+            <span>生成二维码失败</span>
         </div>
 
     {% endif %}
 
 </div>
 
-{% if qrcode %}
-
-    {{ javascript_include('lib/jquery.min.js') }}
-    {{ javascript_include('lib/jquery.qrcode.min.js') }}
+{% if code_url %}
 
     <script>
 
@@ -35,21 +34,15 @@
 
             var $ = layui.jquery;
 
-            $('#qrcode').qrcode({
-                text: $('#qrcode').attr('qrcode-text'),
-                width: 150,
-                height: 150
-            });
-
             var loopTime = 0;
-            var sn = $('input[name=sn]').val();
+            var tradeSn = $('input[name=trade_sn]').val();
             var interval = setInterval(function () {
                 $.ajax({
                     type: 'POST',
-                    url: '/admin/test/alipay/status',
-                    data: {sn: sn},
+                    url: '/admin/test/wxpay/status',
+                    data: {trade_sn: tradeSn},
                     success: function (res) {
-                        if (res.status == 2) {
+                        if (res.status === 'finished') {
                             $('#success-tips').removeClass('layui-hide');
                             $('#qrcode').addClass('layui-hide');
                             clearInterval(interval);
@@ -65,8 +58,8 @@
                 if (loopTime >= 300) {
                     $.ajax({
                         type: 'POST',
-                        url: '/admin/config/wechat/test/cancel',
-                        data: {sn: sn},
+                        url: '/admin/test/wxpay/cancel',
+                        data: {trade_sn: tradeSn},
                         success: function (res) {
                         },
                         error: function (xhr) {

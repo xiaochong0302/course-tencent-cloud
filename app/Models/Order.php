@@ -12,6 +12,7 @@ class Order extends Model
      */
     const ITEM_COURSE = 'course'; // 课程
     const ITEM_PACKAGE = 'package'; // 套餐
+    const ITEM_REWARD = 'reward'; // 赞赏
     const ITEM_VIP = 'vip'; // 会员
     const ITEM_TEST = 'test'; // 测试
 
@@ -183,6 +184,7 @@ class Order extends Model
         $list = [
             self::ITEM_COURSE => '课程',
             self::ITEM_PACKAGE => '套餐',
+            self::ITEM_REWARD => '赞赏',
             self::ITEM_VIP => '会员',
             self::ITEM_TEST => '测试',
         ];

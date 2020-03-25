@@ -27,7 +27,7 @@ class Validator extends Component
         return $user;
     }
 
-    public function checkOwnerPriv($userId, $ownerId)
+    public function checkOwner($userId, $ownerId)
     {
         if ($userId != $ownerId) {
             throw new ForbiddenException('sys.access_denied');

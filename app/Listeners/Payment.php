@@ -52,7 +52,7 @@ class Payment extends Listener
 
             $task->item_id = $order->id;
             $task->item_info = $itemInfo;
-            $task->item_type = TaskModel::TYPE_PROCESS_ORDER;
+            $task->item_type = TaskModel::TYPE_ORDER;
 
             if ($task->create() === false) {
                 throw new \RuntimeException('Create Order Process Task Failed');

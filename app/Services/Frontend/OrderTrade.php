@@ -3,8 +3,8 @@
 namespace App\Services\Frontend;
 
 use App\Models\Trade as TradeModel;
-use App\Services\Alipay as AlipayService;
-use App\Services\Wechat as WxPayService;
+use App\Services\Payment\Alipay as AlipayService;
+use App\Services\Payment\Wxpay as WxPayService;
 use App\Validators\Trade as TradeValidator;
 
 class OrderTrade extends Service
@@ -68,21 +68,13 @@ class OrderTrade extends Service
 
             $alipayService = new AlipayService();
 
-            $qrCode = $alipayService->getQrCode([
-                'out_trade_no' => $trade->sn,
-                'total_amount' => $trade->amount,
-                'subject' => $trade->subject,
-            ]);
+            $qrCode = $alipayService->scan($trade);
 
-        } elseif ($trade->channel == TradeModel::CHANNEL_WECHAT) {
+        } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
 
-            $wechatService = new WxPayService();
+            $wxpayService = new WxPayService();
 
-            $qrCode = $wechatService->getQrCode([
-                'out_trade_no' => $trade->sn,
-                'total_fee' => 100 * $trade->amount,
-                'body' => $trade->subject,
-            ]);
+            $qrCode = $wxpayService->scan($trade);
         }
 
         return $qrCode;

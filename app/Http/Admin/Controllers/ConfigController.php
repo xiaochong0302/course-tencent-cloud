@@ -148,6 +148,7 @@ class ConfigController extends Controller
         if ($this->request->isPost()) {
 
             $section = $this->request->getPost('section');
+
             $data = $this->request->getPost();
 
             $configService->updateSectionConfig($section, $data);
@@ -157,10 +158,10 @@ class ConfigController extends Controller
         } else {
 
             $alipay = $configService->getSectionConfig('payment.alipay');
-            $wechat = $configService->getSectionConfig('payment.wechat');
+            $wxpay = $configService->getSectionConfig('payment.wxpay');
 
             $this->view->setVar('alipay', $alipay);
-            $this->view->setVar('wechat', $wechat);
+            $this->view->setVar('wxpay', $wxpay);
         }
     }
 

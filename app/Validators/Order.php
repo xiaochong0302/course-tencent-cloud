@@ -38,30 +38,52 @@ class Order extends Validator
         return $order;
     }
 
-    public function checkItem($itemId, $itemType)
+    public function checkItemType($itemType)
     {
-        if ($itemType == OrderModel::ITEM_COURSE) {
-            $courseRepo = new CourseRepo();
-            $item = $courseRepo->findById($itemId);
-            if (!$item) {
-                throw new BadRequestException('order.item_not_found');
-            }
-        } elseif ($itemType == OrderModel::ITEM_PACKAGE) {
-            $packageRepo = new PackageRepo();
-            $item = $packageRepo->findById($itemId);
-            if (!$item) {
-                throw new BadRequestException('order.item_not_found');
-            }
-        } elseif ($itemType == OrderModel::ITEM_VIP) {
-            $vipRepo = new VipRepo();
-            $item = $vipRepo->findById($itemId);
-            if (!$item) {
-                throw new BadRequestException('order.item_not_found');
-            }
-        } else {
+        $list = OrderModel::itemTypes();
+
+        if (!isset($list[$itemType])) {
+            throw new BadRequestException('order.invalid_item_type');
+        }
+
+        return $itemType;
+    }
+
+    public function checkItemCourse($itemId)
+    {
+        $courseRepo = new CourseRepo();
+
+        $item = $courseRepo->findById($itemId);
+
+        if (!$item) {
             throw new BadRequestException('order.item_not_found');
         }
 
+        return $item;
+    }
+
+    public function checkItemPackage($itemId)
+    {
+        $packageRepo = new PackageRepo();
+
+        $item = $packageRepo->findById($itemId);
+
+        if (!$item) {
+            throw new BadRequestException('order.item_not_found');
+        }
+
+        return $item;
+    }
+
+    public function checkItemVip($itemId)
+    {
+        $vipRepo = new VipRepo();
+
+        $item = $vipRepo->findById($itemId);
+
+        if (!$item) {
+            throw new BadRequestException('order.item_not_found');
+        }
         return $item;
     }
 
@@ -80,18 +102,6 @@ class Order extends Validator
     {
         if ($order->status != OrderModel::STATUS_PENDING) {
             throw new BadRequestException('order.invalid_status_action');
-        }
-    }
-
-    public function checkIfBought($userId, $itemId, $itemType)
-    {
-        switch ($itemType) {
-            case OrderModel::ITEM_COURSE:
-                $this->checkIfBoughtCourse($userId, $itemId);
-                break;
-            case OrderModel::ITEM_PACKAGE:
-                $this->checkIfBoughtPackage($userId, $itemId);
-                break;
         }
     }
 
