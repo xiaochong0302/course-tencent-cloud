@@ -177,6 +177,7 @@ class User extends Model
     public function afterCreate()
     {
         $maxUserIdCache = new MaxUserIdCache();
+
         $maxUserIdCache->rebuild();
     }
 
@@ -196,18 +197,6 @@ class User extends Model
         $list = [
             self::EDU_ROLE_STUDENT => '学员',
             self::EDU_ROLE_TEACHER => '讲师',
-        ];
-
-        return $list;
-    }
-
-    public static function vipTypes()
-    {
-        $list = [
-            1 => '1个月',
-            3 => '3个月',
-            6 => '6个月',
-            12 => '12个月',
         ];
 
         return $list;

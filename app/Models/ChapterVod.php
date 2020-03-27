@@ -103,7 +103,7 @@ class ChapterVod extends Model
             $this->update();
 
             /**
-             * afterUpdate事件会序列化属性，需再次重设属性
+             * afterUpdate事件触发序列化，故重设属性
              */
             $this->file_transcode = $transcode;
         }

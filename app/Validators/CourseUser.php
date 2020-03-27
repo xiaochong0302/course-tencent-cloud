@@ -4,8 +4,6 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validator\Common as CommonValidator;
-use App\Models\Course as CourseModel;
-use App\Models\User as UserModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\User as UserRepo;
@@ -65,16 +63,6 @@ class CourseUser extends Validator
         }
 
         return strtotime($value);
-    }
-
-    public function checkIfAllowApply(CourseModel $course, UserModel $user)
-    {
-        $caseA = $course->market_price > 0;
-        $caseB = $user->vip == 0 && $course->vip_price > 0;
-
-        if ($caseA || $caseB) {
-            throw new BadRequestException('course_user.apply_not_allowed');
-        }
     }
 
     public function checkIfJoined($courseId, $userId)

@@ -84,6 +84,7 @@ class Order extends Validator
         if (!$item) {
             throw new BadRequestException('order.item_not_found');
         }
+
         return $item;
     }
 
@@ -101,7 +102,7 @@ class Order extends Validator
     public function checkIfAllowCancel($order)
     {
         if ($order->status != OrderModel::STATUS_PENDING) {
-            throw new BadRequestException('order.invalid_status_action');
+            throw new BadRequestException('order.cancel_not_allowed');
         }
     }
 

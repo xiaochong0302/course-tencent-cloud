@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
+use App\Caches\Course as CourseCache;
 use App\Caches\MaxCourseId as MaxCourseIdCache;
 use App\Models\Course as CourseModel;
-use App\Services\CourseCacheSyncer;
 use App\Services\CourseIndexSyncer;
 use Phalcon\Events\Event;
 
@@ -84,9 +84,9 @@ class CourseAdmin extends Listener
 
     protected function syncCache(CourseModel $course)
     {
-        $cacheSyncer = new CourseCacheSyncer();
+        $courseCache = new CourseCache();
 
-        $cacheSyncer->addItem($course->id);
+        $courseCache->rebuild($course->id);
     }
 
     protected function syncIndex(CourseModel $course)

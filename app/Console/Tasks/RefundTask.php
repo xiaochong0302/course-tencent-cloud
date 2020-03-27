@@ -179,7 +179,9 @@ class RefundTask extends Task
         $courseUser = $courseUserRepo->findCourseStudent($order->item_id, $order->user_id);
 
         if ($courseUser) {
+
             $courseUser->deleted = 1;
+
             if ($courseUser->update() === false) {
                 throw new \RuntimeException('Delete Course User Failed');
             }
@@ -205,7 +207,9 @@ class RefundTask extends Task
             $courseUser = $courseUserRepo->findCourseStudent($course['id'], $order->user_id);
 
             if ($courseUser) {
+
                 $courseUser->deleted = 1;
+
                 if ($courseUser->update() === false) {
                     throw new \RuntimeException('Delete Course User Failed');
                 }

@@ -3,10 +3,10 @@
 namespace App\Http\Home\Controllers;
 
 use App\Services\Frontend\Course as CourseService;
-use App\Services\Frontend\CourseFavorite as CourseFavoriteService;
 use App\Services\Frontend\CourseList as CourseListService;
 use App\Services\Frontend\CourseRelated as CourseRelatedService;
-use App\Services\Frontend\CourseReview as CourseReviewService;
+use App\Services\Frontend\Favorite as CourseFavoriteService;
+use App\Services\Frontend\ReviewCreate as CourseReviewService;
 
 /**
  * @RoutePrefix("/course")

@@ -133,14 +133,17 @@ class Category extends Model
 
     public function rebuildCache()
     {
-        $categoryCache = new CategoryCache();
-        $categoryCache->rebuild($this->id);
+        $cache = new CategoryCache();
 
-        $categoryListCache = new CategoryListCache();
-        $categoryListCache->rebuild();
+        $cache->rebuild($this->id);
 
-        $categoryTreeListCache = new CategoryTreeListCache();
-        $categoryTreeListCache->rebuild();
+        $listCache = new CategoryListCache();
+
+        $listCache->rebuild();
+
+        $treeListCache = new CategoryTreeListCache();
+
+        $treeListCache->rebuild();
     }
 
 }

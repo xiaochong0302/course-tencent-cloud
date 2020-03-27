@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
+use App\Caches\Chapter as ChapterCache;
 use App\Caches\MaxChapterId as MaxChapterIdCache;
 use App\Models\Chapter as ChapterModel;
-use App\Services\ChapterCacheSyncer;
 use Phalcon\Events\Event;
 
 class ChapterAdmin extends Listener
@@ -76,9 +76,9 @@ class ChapterAdmin extends Listener
 
     protected function syncCache(ChapterModel $chapter)
     {
-        $cacheSyncer = new ChapterCacheSyncer();
+        $chapterCache = new ChapterCache();
 
-        $cacheSyncer->addItem($chapter->id);
+        $chapterCache->rebuild($chapter->id);
     }
 
 }

@@ -125,7 +125,7 @@ class Order extends Repository
      * @param string $itemType
      * @return OrderModel|Model|bool
      */
-    public function findLastUserItem($userId, $itemId, $itemType)
+    public function findLastUserOrder($userId, $itemId, $itemType)
     {
         $result = OrderModel::findFirst([
             'conditions' => 'user_id = ?1 AND item_id = ?2 AND item_type = ?3',

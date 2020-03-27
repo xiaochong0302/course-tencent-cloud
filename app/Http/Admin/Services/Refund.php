@@ -94,7 +94,7 @@ class Refund extends Service
 
         $data = [];
 
-        $validator->checkReviewAction($refund);
+        $validator->checkIfAllowReview($refund);
 
         $data['status'] = $validator->checkReviewStatus($post['status']);
         $data['review_note'] = $validator->checkReviewNote($post['review_note']);

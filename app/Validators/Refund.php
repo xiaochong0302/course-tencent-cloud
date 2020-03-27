@@ -22,13 +22,6 @@ class Refund extends Validator
         return $trade;
     }
 
-    public function checkReviewAction($refund)
-    {
-        if ($refund->status != RefundModel::STATUS_PENDING) {
-            throw new BadRequestException('refund.invalid_review_action');
-        }
-    }
-
     public function checkReviewStatus($status)
     {
         $list = [RefundModel::STATUS_APPROVED, RefundModel::STATUS_REFUSED];
@@ -72,6 +65,13 @@ class Refund extends Validator
         }
 
         return $value;
+    }
+
+    public function checkIfAllowReview($refund)
+    {
+        if ($refund->status != RefundModel::STATUS_PENDING) {
+            throw new BadRequestException('refund.review_not_allowed');
+        }
     }
 
 }

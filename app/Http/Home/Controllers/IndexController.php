@@ -13,12 +13,4 @@ class IndexController extends Controller
 
     }
 
-    /**
-     * @Get("/phpinfo", name="home.phpinfo")
-     */
-    public function phpinfoAction()
-    {
-        echo phpinfo(); exit;
-    }
-
 }

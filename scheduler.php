@@ -13,7 +13,7 @@ $bin = '/usr/bin/php';
 $scheduler->php($script, $bin, ['--task' => 'learning', '--action' => 'main'])
     ->at('*/3 * * * *');
 
-$scheduler->php($script, $bin, ['--task' => 'process_order', '--action' => 'main'])
+$scheduler->php($script, $bin, ['--task' => 'order', '--action' => 'main'])
     ->at('*/5 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'vod_event', '--action' => 'main'])
