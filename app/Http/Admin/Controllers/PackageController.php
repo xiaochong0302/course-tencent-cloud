@@ -65,7 +65,7 @@ class PackageController extends Controller
             'msg' => '创建套餐成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -93,7 +93,7 @@ class PackageController extends Controller
 
         $content = ['msg' => '更新套餐成功'];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -110,7 +110,7 @@ class PackageController extends Controller
             'msg' => '删除套餐成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -127,7 +127,7 @@ class PackageController extends Controller
             'msg' => '还原套餐成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

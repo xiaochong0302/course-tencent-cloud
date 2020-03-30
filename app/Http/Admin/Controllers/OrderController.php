@@ -66,7 +66,7 @@ class OrderController extends Controller
             'msg' => '关闭订单成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -87,7 +87,7 @@ class OrderController extends Controller
             'msg' => '订单退款成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

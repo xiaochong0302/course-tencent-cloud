@@ -21,7 +21,7 @@ class ReviewController extends Controller
 
         $data = $service->getReview($review->id);
 
-        return $this->ajaxSuccess($data);
+        return $this->jsonSuccess($data);
     }
 
     /**

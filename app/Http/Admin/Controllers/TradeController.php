@@ -66,7 +66,7 @@ class TradeController extends Controller
             'msg' => '关闭交易成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -85,7 +85,7 @@ class TradeController extends Controller
             'msg' => '申请退款成功，请到退款管理中审核确认',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

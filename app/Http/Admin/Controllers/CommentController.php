@@ -76,7 +76,7 @@ class CommentController extends Controller
             'msg' => '更新评论成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -95,7 +95,7 @@ class CommentController extends Controller
             'msg' => '删除评论成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 
@@ -115,7 +115,7 @@ class CommentController extends Controller
             'msg' => '还原评论成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

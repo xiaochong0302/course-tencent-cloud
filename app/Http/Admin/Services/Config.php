@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\SectionConfig as SectionConfigCache;
 use App\Repos\Config as ConfigRepo;
 use App\Repos\Vip as VipRepo;
 
@@ -36,6 +37,10 @@ class Config extends Service
                 $item->update();
             }
         }
+
+        $cache = new SectionConfigCache();
+
+        $cache->rebuild($section);
     }
 
     public function updateStorageConfig($section, $config)

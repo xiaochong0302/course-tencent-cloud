@@ -22,7 +22,7 @@ class VodController extends Controller
 
         $signature = $vodService->getUploadSignature();
 
-        return $this->ajaxSuccess(['signature' => $signature]);
+        return $this->jsonSuccess(['signature' => $signature]);
     }
 
     /**
@@ -59,7 +59,7 @@ class VodController extends Controller
 
         $syncerService->addItem($learning, $query['timeout']);
 
-        return $this->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
 }

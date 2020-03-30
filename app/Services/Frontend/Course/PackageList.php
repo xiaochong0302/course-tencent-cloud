@@ -43,8 +43,8 @@ class PackageList extends Service
             $result[] = [
                 'id' => $package->id,
                 'title' => $package->title,
-                'market_price' => $package->market_price,
-                'vip_price' => $package->vip_price,
+                'market_price' => (float)$package->market_price,
+                'vip_price' => (float)$package->vip_price,
                 'courses' => $courses,
             ];
         }
@@ -71,8 +71,8 @@ class PackageList extends Service
                 'title' => $course->title,
                 'cover' => $course->cover,
                 'summary' => $course->summary,
-                'market_price' => $course->market_price,
-                'vip_price' => $course->vip_price,
+                'market_price' => (float)$course->market_price,
+                'vip_price' => (float)$course->vip_price,
                 'model' => $course->model,
                 'level' => $course->level,
             ];

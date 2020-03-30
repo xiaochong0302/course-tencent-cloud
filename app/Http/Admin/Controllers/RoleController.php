@@ -49,7 +49,7 @@ class RoleController extends Controller
             'msg' => '创建角色成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -82,7 +82,7 @@ class RoleController extends Controller
             'msg' => '更新角色成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -101,7 +101,7 @@ class RoleController extends Controller
             'msg' => '删除角色成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -120,7 +120,7 @@ class RoleController extends Controller
             'msg' => '还原角色成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

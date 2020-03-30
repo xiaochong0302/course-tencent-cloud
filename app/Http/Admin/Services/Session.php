@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Services\AuthUser as AuthUserService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Security as SecurityValidator;
 
@@ -9,7 +10,7 @@ class Session extends Service
 {
 
     /**
-     * @var AuthUser
+     * @var AuthUserService
      */
     protected $auth;
 
@@ -39,12 +40,12 @@ class Session extends Service
             $securityValidator->checkCaptchaCode($post['ticket'], $post['rand']);
         }
 
-        $this->auth->setAuthInfo($user);
+        $this->auth->saveAuthInfo($user);
     }
 
     public function logout()
     {
-        $this->auth->removeAuthInfo();
+        $this->auth->clearAuthInfo();
     }
 
 }

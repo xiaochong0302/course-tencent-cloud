@@ -60,7 +60,7 @@ class CategoryController extends Controller
             'msg' => '创建分类成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -96,7 +96,7 @@ class CategoryController extends Controller
             'msg' => '更新分类成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -115,7 +115,7 @@ class CategoryController extends Controller
             'msg' => '删除分类成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -134,7 +134,7 @@ class CategoryController extends Controller
             'msg' => '还原分类成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

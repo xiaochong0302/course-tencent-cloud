@@ -23,7 +23,7 @@ class CourseController extends Controller
 
         $pager = $courseListService->getCourses();
 
-        return $this->ajaxSuccess(['pager' => $pager]);
+        return $this->jsonSuccess(['pager' => $pager]);
 
         $this->view->setVar('pager', $pager);
     }
@@ -37,7 +37,7 @@ class CourseController extends Controller
 
         $course = $courseService->getCourse($id);
 
-        return $this->ajaxSuccess(['course' => $course]);
+        return $this->jsonSuccess(['course' => $course]);
 
         $this->view->setVar('course', $course);
     }
@@ -51,7 +51,7 @@ class CourseController extends Controller
 
         $courses = $relatedService->getRelated($id);
 
-        return $this->ajaxSuccess(['courses' => $courses]);
+        return $this->jsonSuccess(['courses' => $courses]);
 
         $this->view->setVar('course', $course);
     }
@@ -65,7 +65,7 @@ class CourseController extends Controller
 
         $pager = $reviewService->getReviews($id);
 
-        return $this->ajaxSuccess(['pager' => $pager]);
+        return $this->jsonSuccess(['pager' => $pager]);
 
         $this->view->setVar('pager', $pager);
     }

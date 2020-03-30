@@ -106,7 +106,7 @@ class Order extends Repository
      * @param string $itemType
      * @return OrderModel|Model|bool
      */
-    public function findFinishedUserOrder($userId, $itemId, $itemType)
+    public function findUserLastFinishedOrder($userId, $itemId, $itemType)
     {
         $status = OrderModel::STATUS_FINISHED;
 
@@ -125,11 +125,13 @@ class Order extends Repository
      * @param string $itemType
      * @return OrderModel|Model|bool
      */
-    public function findLastUserOrder($userId, $itemId, $itemType)
+    public function findUserLastPendingOrder($userId, $itemId, $itemType)
     {
+        $status = OrderModel::STATUS_PENDING;
+
         $result = OrderModel::findFirst([
-            'conditions' => 'user_id = ?1 AND item_id = ?2 AND item_type = ?3',
-            'bind' => [1 => $userId, 2 => $itemId, 3 => $itemType],
+            'conditions' => 'user_id = ?1 AND item_id = ?2 AND item_type = ?3 AND status= ?4',
+            'bind' => [1 => $userId, 2 => $itemId, 3 => $itemType, 4 => $status],
             'order' => 'id DESC',
         ]);
 

@@ -112,9 +112,10 @@ class Order extends Validator
 
         $itemType = OrderModel::ITEM_PACKAGE;
 
-        $order = $orderRepo->findFinishedUserOrder($userId, $courseId, $itemType);
+        $order = $orderRepo->findUserLastFinishedOrder($userId, $courseId, $itemType);
 
         if ($order) {
+
             /**
              * @var array $itemInfo
              */
@@ -132,7 +133,7 @@ class Order extends Validator
 
         $itemType = OrderModel::ITEM_PACKAGE;
 
-        $order = $orderRepo->findFinishedUserOrder($userId, $packageId, $itemType);
+        $order = $orderRepo->findUserLastFinishedOrder($userId, $packageId, $itemType);
 
         if ($order) {
             throw new BadRequestException('order.has_bought_package');

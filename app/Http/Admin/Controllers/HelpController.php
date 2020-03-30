@@ -46,7 +46,7 @@ class HelpController extends Controller
             'msg' => '创建帮助成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -77,7 +77,7 @@ class HelpController extends Controller
             'msg' => '更新帮助成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -96,7 +96,7 @@ class HelpController extends Controller
             'msg' => '删除帮助成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -115,7 +115,7 @@ class HelpController extends Controller
             'msg' => '还原帮助成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

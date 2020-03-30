@@ -4,7 +4,7 @@ namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Config as ConfigService;
 use App\Http\Admin\Services\Session as SessionService;
-use App\Traits\Ajax as AjaxTrait;
+use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 
 /**
@@ -13,7 +13,7 @@ use App\Traits\Security as SecurityTrait;
 class SessionController extends \Phalcon\Mvc\Controller
 {
 
-    use AjaxTrait;
+    use ResponseTrait;
     use SecurityTrait;
 
     /**
@@ -37,7 +37,7 @@ class SessionController extends \Phalcon\Mvc\Controller
 
             $location = $this->url->get(['for' => 'admin.index']);
 
-            return $this->ajaxSuccess(['location' => $location]);
+            return $this->jsonSuccess(['location' => $location]);
         }
 
         $configService = new ConfigService();

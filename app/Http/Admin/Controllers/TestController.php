@@ -29,9 +29,9 @@ class TestController extends Controller
         $result = $storageService->uploadTestFile();
 
         if ($result) {
-            return $this->ajaxSuccess(['msg' => '上传文件成功，请到控制台确认']);
+            return $this->jsonSuccess(['msg' => '上传文件成功，请到控制台确认']);
         } else {
-            return $this->ajaxError(['msg' => '上传文件失败，请检查相关配置']);
+            return $this->jsonError(['msg' => '上传文件失败，请检查相关配置']);
         }
     }
 
@@ -45,9 +45,9 @@ class TestController extends Controller
         $result = $vodService->test();
 
         if ($result) {
-            return $this->ajaxSuccess(['msg' => '接口返回成功']);
+            return $this->jsonSuccess(['msg' => '接口返回成功']);
         } else {
-            return $this->ajaxError(['msg' => '接口返回失败，请检查相关配置']);
+            return $this->jsonError(['msg' => '接口返回失败，请检查相关配置']);
         }
     }
 
@@ -107,9 +107,9 @@ class TestController extends Controller
         $response = $smserService->handle($phone);
 
         if ($response) {
-            return $this->ajaxSuccess(['msg' => '发送短信成功，请到收件箱确认']);
+            return $this->jsonSuccess(['msg' => '发送短信成功，请到收件箱确认']);
         } else {
-            return $this->ajaxError(['msg' => '发送短信失败，请查看短信日志']);
+            return $this->jsonError(['msg' => '发送短信失败，请查看短信日志']);
         }
     }
 
@@ -125,9 +125,9 @@ class TestController extends Controller
         $result = $mailerService->handle($email);
 
         if ($result) {
-            return $this->ajaxSuccess(['msg' => '发送邮件成功，请到收件箱确认']);
+            return $this->jsonSuccess(['msg' => '发送邮件成功，请到收件箱确认']);
         } else {
-            return $this->ajaxError(['msg' => '发送邮件失败，请检查配置']);
+            return $this->jsonError(['msg' => '发送邮件失败，请检查配置']);
         }
     }
 
@@ -148,10 +148,10 @@ class TestController extends Controller
 
             $configService->updateSectionConfig('captcha', ['enabled' => 1]);
 
-            return $this->ajaxSuccess(['msg' => '后台验证成功']);
+            return $this->jsonSuccess(['msg' => '后台验证成功']);
 
         } else {
-            return $this->ajaxError(['msg' => '后台验证失败']);
+            return $this->jsonError(['msg' => '后台验证失败']);
         }
     }
 
@@ -200,7 +200,7 @@ class TestController extends Controller
 
         $status = $alipayTestService->status($tradeSn);
 
-        return $this->ajaxSuccess(['status' => $status]);
+        return $this->jsonSuccess(['status' => $status]);
     }
 
     /**
@@ -214,7 +214,7 @@ class TestController extends Controller
 
         $alipayTestService->cancel($tradeSn);
 
-        return $this->ajaxSuccess(['msg' => '取消订单成功']);
+        return $this->jsonSuccess(['msg' => '取消订单成功']);
     }
 
     /**
@@ -253,7 +253,7 @@ class TestController extends Controller
 
         $status = $wxpayTestService->status($tradeSn);
 
-        return $this->ajaxSuccess(['status' => $status]);
+        return $this->jsonSuccess(['status' => $status]);
     }
 
     /**
@@ -267,7 +267,7 @@ class TestController extends Controller
 
         $wxpayTestService->cancel($tradeSn);
 
-        return $this->ajaxSuccess(['msg' => '取消订单成功']);
+        return $this->jsonSuccess(['msg' => '取消订单成功']);
     }
 
 }

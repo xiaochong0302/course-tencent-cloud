@@ -22,9 +22,9 @@ class UploadController extends Controller
         $url = $storageService->getCiImageUrl($key);
 
         if ($url) {
-            return $this->ajaxSuccess(['data' => ['src' => $url, 'title' => '']]);
+            return $this->jsonSuccess(['data' => ['src' => $url, 'title' => '']]);
         } else {
-            return $this->ajaxError(['msg' => '上传文件失败']);
+            return $this->jsonError(['msg' => '上传文件失败']);
         }
     }
 
@@ -38,9 +38,9 @@ class UploadController extends Controller
         $url = $storageService->uploadContentImage();
 
         if ($url) {
-            return $this->ajaxSuccess(['data' => ['src' => $url, 'title' => '']]);
+            return $this->jsonSuccess(['data' => ['src' => $url, 'title' => '']]);
         } else {
-            return $this->ajaxError(['msg' => '上传文件失败']);
+            return $this->jsonError(['msg' => '上传文件失败']);
         }
     }
 

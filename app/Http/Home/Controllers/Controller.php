@@ -4,7 +4,7 @@ namespace App\Http\Home\Controllers;
 
 use App\Caches\Config as ConfigCache;
 use App\Caches\NavTreeList as NavTreeListCache;
-use App\Traits\Ajax as AjaxTrait;
+use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 use Phalcon\Mvc\Dispatcher;
 
@@ -15,7 +15,7 @@ class Controller extends \Phalcon\Mvc\Controller
     protected $navList;
     protected $authUser;
 
-    use AjaxTrait, SecurityTrait;
+    use ResponseTrait, SecurityTrait;
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {

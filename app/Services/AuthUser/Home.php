@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Home\Services;
+namespace App\Services\AuthUser;
 
 use App\Models\User as UserModel;
-use Phalcon\Mvc\User\Component;
+use App\Services\AuthUser;
 
-class AuthUser extends Component
+class Home extends AuthUser
 {
 
     /**
@@ -13,7 +13,7 @@ class AuthUser extends Component
      *
      * @param UserModel $user
      */
-    public function setAuthInfo(UserModel $user)
+    public function saveAuthInfo(UserModel $user)
     {
         $authKey = $this->getAuthKey();
 
@@ -31,7 +31,7 @@ class AuthUser extends Component
     /**
      * 清除会话
      */
-    public function removeAuthInfo()
+    public function clearAuthInfo()
     {
         $authKey = $this->getAuthKey();
 

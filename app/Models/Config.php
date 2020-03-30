@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Caches\Config as ConfigCache;
-
 class Config extends Model
 {
 
@@ -38,12 +36,6 @@ class Config extends Model
     public function getSource()
     {
         return 'kg_config';
-    }
-
-    public function afterUpdate()
-    {
-        $configCache = new ConfigCache();
-        $configCache->rebuild();
     }
 
 }

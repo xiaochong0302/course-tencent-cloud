@@ -4,12 +4,12 @@ namespace App\Http\Home\Controllers;
 
 use App\Services\Payment\Alipay as AlipayService;
 use App\Services\Payment\Wxpay as WxpayService;
-use App\Traits\Ajax as AjaxTrait;
+use App\Traits\Response as ResponseTrait;
 
 class PaymentController extends \Phalcon\Mvc\Controller
 {
 
-    use AjaxTrait;
+    use ResponseTrait;
 
     /**
      * @Post("/alipay/notify", name="home.alipay.notify")
@@ -54,7 +54,7 @@ class PaymentController extends \Phalcon\Mvc\Controller
 
         $status = $alipayService->status($sn);
 
-        return $this->ajaxSuccess(['status' => $status]);
+        return $this->jsonSuccess(['status' => $status]);
     }
 
     /**
@@ -68,7 +68,7 @@ class PaymentController extends \Phalcon\Mvc\Controller
 
         $status = $wxpayService->status($sn);
 
-        return $this->ajaxSuccess(['status' => $status]);
+        return $this->jsonSuccess(['status' => $status]);
     }
 
 }

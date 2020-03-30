@@ -2,7 +2,7 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Traits\Ajax as AjaxTrait;
+use App\Traits\Response as ResponseTrait;
 use Phalcon\Mvc\View;
 
 /**
@@ -11,7 +11,7 @@ use Phalcon\Mvc\View;
 class ErrorController extends \Phalcon\Mvc\Controller
 {
 
-    use AjaxTrait;
+    use ResponseTrait;
 
     public function initialize()
     {
@@ -50,7 +50,7 @@ class ErrorController extends \Phalcon\Mvc\Controller
         $this->response->setStatusCode(404);
         
         if ($this->request->isAjax()) {
-            return $this->ajaxError(['code' => 'sys.uri_not_found']);
+            return $this->jsonError(['code' => 'sys.uri_not_found']);
         }
     }
 

@@ -58,8 +58,8 @@ class MyController extends Controller
         $orders = $service->getOrders();
 
         $this->view->orders = $orders;
-        
-        return $this->ajaxSuccess($orders);
+
+        return $this->jsonSuccess($orders);
     }
 
     /**

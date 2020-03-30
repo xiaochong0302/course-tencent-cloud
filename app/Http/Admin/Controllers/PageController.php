@@ -46,7 +46,7 @@ class PageController extends Controller
             'msg' => '创建单页成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -77,7 +77,7 @@ class PageController extends Controller
             'msg' => '更新单页成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -96,7 +96,7 @@ class PageController extends Controller
             'msg' => '删除单页成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -115,7 +115,7 @@ class PageController extends Controller
             'msg' => '还原单页成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

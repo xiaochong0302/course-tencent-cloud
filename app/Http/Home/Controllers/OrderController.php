@@ -78,7 +78,7 @@ class OrderController extends Controller
         $this->view->order = $order;
         $this->view->orderItems = $orderItems;
 
-        return $this->ajaxSuccess($order->toArray());
+        return $this->jsonSuccess($order->toArray());
     }
 
     /**
@@ -136,7 +136,7 @@ class OrderController extends Controller
 
         $order = $service->cancel();
 
-        return $this->ajaxSuccess($order->toArray());
+        return $this->jsonSuccess($order->toArray());
     }
 
 }

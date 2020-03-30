@@ -34,7 +34,7 @@ class OrderCreate extends Service
 
         $orderRepo = new OrderRepo();
 
-        $order = $orderRepo->findLastUserOrder($user->id, $post['item_id'], $post['item_type']);
+        $order = $orderRepo->findUserLastPendingOrder($user->id, $post['item_id'], $post['item_type']);
 
         /**
          * 存在新鲜的未支付订单直接返回（减少订单记录）

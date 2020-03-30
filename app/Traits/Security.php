@@ -2,30 +2,54 @@
 
 namespace App\Traits;
 
+use Phalcon\Di;
+use Phalcon\Http\Request;
+
 trait Security
 {
 
     public function checkCsrfToken()
     {
-        $tokenKey = $this->request->getHeader('X-Csrf-Token-Key');
-        $tokenValue = $this->request->getHeader('X-Csrf-Token-Value');
-        $checkToken = $this->security->checkToken($tokenKey, $tokenValue);
+        /**
+         * @var Request $request ;
+         */
+        $request = Di::getDefault()->get('request');
+
+        $tokenKey = $request->getHeader('X-Csrf-Token-Key');
+        $tokenValue = $request->getHeader('X-Csrf-Token-Value');
+
+        /**
+         * @var \App\Library\Security $security
+         */
+        $security = Di::getDefault()->get('security');
+
+        $checkToken = $security->checkToken($tokenKey, $tokenValue);
 
         return $checkToken;
     }
 
     public function checkHttpReferer()
     {
-        $httpHost = parse_url($this->request->getHttpReferer(), PHP_URL_HOST);
+        /**
+         * @var Request $request ;
+         */
+        $request = Di::getDefault()->get('request');
 
-        $checkHost = $httpHost == $this->request->getHttpHost();
+        $httpHost = parse_url($request->getHttpReferer(), PHP_URL_HOST);
+
+        $checkHost = $httpHost == $request->getHttpHost();
 
         return $checkHost;
     }
 
     public function isNotSafeRequest()
     {
-        $method = $this->request->getMethod();
+        /**
+         * @var Request $request ;
+         */
+        $request = Di::getDefault()->get('request');
+
+        $method = $request->getMethod();
 
         $list = ['post', 'put', 'patch', 'delete'];
 

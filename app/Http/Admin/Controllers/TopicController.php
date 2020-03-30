@@ -49,7 +49,7 @@ class TopicController extends Controller
             'msg' => '创建话题成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -77,7 +77,7 @@ class TopicController extends Controller
 
         $content = ['msg' => '更新话题成功'];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -94,7 +94,7 @@ class TopicController extends Controller
             'msg' => '删除话题成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -111,7 +111,7 @@ class TopicController extends Controller
             'msg' => '还原话题成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

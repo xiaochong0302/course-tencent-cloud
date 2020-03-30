@@ -25,7 +25,7 @@ class ConfigController extends Controller
 
             $configService->updateSectionConfig($section, $data);
 
-            return $this->ajaxSuccess(['msg' => '更新配置成功']);
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
@@ -50,7 +50,7 @@ class ConfigController extends Controller
 
             $configService->updateStorageConfig($section, $data);
 
-            return $this->ajaxSuccess(['msg' => '更新配置成功']);
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
@@ -75,7 +75,7 @@ class ConfigController extends Controller
 
             $configService->updateStorageConfig($section, $data);
 
-            return $this->ajaxSuccess(['msg' => '更新配置成功']);
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
@@ -100,7 +100,7 @@ class ConfigController extends Controller
 
             $configService->updateVodConfig($section, $data);
 
-            return $this->ajaxSuccess(['msg' => '更新配置成功']);
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
@@ -125,7 +125,7 @@ class ConfigController extends Controller
 
             $configService->updateLiveConfig($section, $data);
 
-            return $this->ajaxSuccess(['msg' => '更新配置成功']);
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
@@ -153,7 +153,7 @@ class ConfigController extends Controller
 
             $configService->updateSectionConfig($section, $data);
 
-            return $this->ajaxSuccess(['msg' => '更新配置成功']);
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
@@ -180,7 +180,7 @@ class ConfigController extends Controller
 
             $configService->updateSmserConfig($section, $data);
 
-            return $this->ajaxSuccess(['msg' => '更新配置成功']);
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
@@ -208,7 +208,7 @@ class ConfigController extends Controller
 
             $configService->updateSectionConfig($section, $data);
 
-            return $this->ajaxSuccess(['msg' => '更新配置成功']);
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
@@ -238,7 +238,7 @@ class ConfigController extends Controller
                 'msg' => '更新配置成功',
             ];
 
-            return $this->ajaxSuccess($content);
+            return $this->jsonSuccess($content);
 
         } else {
 
@@ -261,7 +261,7 @@ class ConfigController extends Controller
 
             $configService->updateVipConfig($data);
 
-            return $this->ajaxSuccess(['msg' => '更新配置成功']);
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 

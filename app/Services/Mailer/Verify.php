@@ -2,8 +2,8 @@
 
 namespace App\Services\Mailer;
 
-use App\Library\Util\Verification;
 use App\Services\Mailer;
+use App\Services\Verification;
 
 class Verify extends Mailer
 {
@@ -14,11 +14,13 @@ class Verify extends Mailer
 
             $message = $this->manager->createMessage();
 
-            $subject = '邮件验证码';
+            $verification = new Verification();
 
             $minutes = 5;
 
-            $code = Verification::code($email, 60 * $minutes);
+            $code = $verification->getSmsCode($email, 60 * $minutes);
+
+            $subject = '邮件验证码';
 
             $content = $this->formatContent($code, $minutes);
 

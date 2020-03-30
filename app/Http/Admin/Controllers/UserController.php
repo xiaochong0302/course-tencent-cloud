@@ -70,7 +70,7 @@ class UserController extends Controller
             'msg' => '新增用户成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -111,7 +111,7 @@ class UserController extends Controller
             'msg' => '更新用户成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

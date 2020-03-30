@@ -64,7 +64,7 @@ class ReviewController extends Controller
             'msg' => '更新评价成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -83,7 +83,7 @@ class ReviewController extends Controller
             'msg' => '删除评价成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -102,7 +102,7 @@ class ReviewController extends Controller
             'msg' => '还原评价成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

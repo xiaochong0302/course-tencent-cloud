@@ -59,7 +59,7 @@ class AccountController extends Controller
 
         $service->resetPassword();
 
-        return $this->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
     /**
@@ -71,7 +71,7 @@ class AccountController extends Controller
 
         $service->updateMobile();
 
-        return $this->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
     /**
@@ -83,7 +83,7 @@ class AccountController extends Controller
 
         $service->updatePassword();
 
-        return $this->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
     /**
@@ -95,7 +95,7 @@ class AccountController extends Controller
 
         $service->sendCaptcha();
 
-        return $this->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
 }

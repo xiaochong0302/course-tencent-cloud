@@ -2,8 +2,8 @@
 
 namespace App\Services\Smser;
 
-use App\Library\Util\Verification;
 use App\Services\Smser;
+use App\Services\Verification;
 
 class Verify extends Smser
 {
@@ -12,9 +12,11 @@ class Verify extends Smser
 
     public function handle($phone)
     {
+        $verifyCode = new Verification();
+
         $minutes = 5;
 
-        $code = Verification::code($phone, 60 * $minutes);
+        $code = $verifyCode->getSmsCode($phone, 60 * $minutes);
 
         $templateId = $this->getTemplateId($this->templateCode);
 

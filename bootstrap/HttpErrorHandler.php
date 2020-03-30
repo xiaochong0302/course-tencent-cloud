@@ -39,7 +39,7 @@ class HttpErrorHandler extends Component
         if ($this->router->getModuleName() == 'api') {
             $this->apiError($e);
         } else if ($this->isAjax()) {
-            $this->ajaxError($e);
+            $this->jsonError($e);
         } else {
             $this->pageError($e);
         }

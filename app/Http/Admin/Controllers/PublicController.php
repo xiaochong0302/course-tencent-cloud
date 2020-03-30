@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Traits\Ajax as AjaxTrait;
+use App\Traits\Response as ResponseTrait;
 
 /**
  * @RoutePrefix("/admin")
@@ -10,7 +10,7 @@ use App\Traits\Ajax as AjaxTrait;
 class PublicController extends \Phalcon\Mvc\Controller
 {
 
-    use AjaxTrait;
+    use ResponseTrait;
 
     /**
      * @Route("/auth", name="admin.auth")
@@ -18,7 +18,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     public function authAction()
     {
         if ($this->request->isAjax()) {
-            return $this->ajaxError(['msg' => '会话已过期，请重新登录']);
+            return $this->jsonError(['msg' => '会话已过期，请重新登录']);
         }
 
         $this->response->redirect(['for' => 'admin.login']);
@@ -30,7 +30,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     public function robotAction()
     {
         if ($this->request->isAjax()) {
-            return $this->ajaxError(['msg' => '疑似机器人请求']);
+            return $this->jsonError(['msg' => '疑似机器人请求']);
         }
     }
 
@@ -40,7 +40,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     public function forbiddenAction()
     {
         if ($this->request->isAjax()) {
-            return $this->ajaxError(['msg' => '无相关操作权限']);
+            return $this->jsonError(['msg' => '无相关操作权限']);
         }
     }
 

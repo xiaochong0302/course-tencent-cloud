@@ -75,7 +75,7 @@ class ChapterController extends Controller
             'msg' => '创建章节成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -148,7 +148,7 @@ class ChapterController extends Controller
             'msg' => '更新章节成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -167,7 +167,7 @@ class ChapterController extends Controller
             'msg' => '删除章节成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -186,7 +186,7 @@ class ChapterController extends Controller
             'msg' => '删除章节成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -212,7 +212,7 @@ class ChapterController extends Controller
             'msg' => '更新课时内容成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

@@ -1,42 +1,21 @@
 <?php
 
-namespace App\Http\Admin\Services;
+namespace App\Services\AuthUser;
 
 use App\Models\Role as RoleModel;
 use App\Models\User as UserModel;
 use App\Repos\Role as RoleRepo;
-use Phalcon\Mvc\User\Component;
+use App\Services\AuthUser;
 
-class AuthUser extends Component
+class Admin extends AuthUser
 {
-
-    /**
-     * 判断权限
-     *
-     * @param string $route
-     * @return bool
-     */
-    public function hasPermission($route)
-    {
-        $authUser = $this->getAuthInfo();
-
-        if ($authUser->root) {
-            return true;
-        }
-
-        if (in_array($route, $authUser->routes)) {
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * 写入会话
      *
      * @param UserModel $user
      */
-    public function setAuthInfo(UserModel $user)
+    public function saveAuthInfo(UserModel $user)
     {
         $roleRepo = new RoleRepo();
 
@@ -60,7 +39,7 @@ class AuthUser extends Component
     /**
      * 清除会话
      */
-    public function removeAuthInfo()
+    public function clearAuthInfo()
     {
         $authKey = $this->getAuthKey();
 
@@ -87,6 +66,27 @@ class AuthUser extends Component
     public function getAuthKey()
     {
         return 'admin_info';
+    }
+
+    /**
+     * 判断权限
+     *
+     * @param string $route
+     * @return bool
+     */
+    public function hasPermission($route)
+    {
+        $authUser = $this->getAuthInfo();
+
+        if ($authUser->root) {
+            return true;
+        }
+
+        if (in_array($route, $authUser->routes)) {
+            return true;
+        }
+
+        return false;
     }
 
 }

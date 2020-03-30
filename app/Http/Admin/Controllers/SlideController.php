@@ -49,7 +49,7 @@ class SlideController extends Controller
             'msg' => '创建轮播成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -80,7 +80,7 @@ class SlideController extends Controller
             'msg' => '更新轮播成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -99,7 +99,7 @@ class SlideController extends Controller
             'msg' => '删除轮播成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -118,7 +118,7 @@ class SlideController extends Controller
             'msg' => '还原轮播成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

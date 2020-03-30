@@ -3,7 +3,9 @@
 namespace App\Traits;
 
 use App\Models\User as UserModel;
-use App\Validators\Validator;
+use App\Repos\User as UserRepo;
+use App\Services\AuthUser as AuthUserService;
+use App\Validators\Validator as AppValidator;
 
 trait Auth
 {
@@ -12,11 +14,13 @@ trait Auth
     {
         $authUser = $this->getAuthUser();
 
-        if ($authUser) {
-            $user = UserModel::findFirst($authUser->id);
-        } else {
-            $user = new UserModel();
+        if (!$authUser) {
+            return $this->getGuestUser();
         }
+
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($authUser->id);
 
         return $user;
     }
@@ -25,17 +29,32 @@ trait Auth
     {
         $authUser = $this->getAuthUser();
 
-        $validator = new Validator();
+        $validator = new AppValidator();
 
         $validator->checkAuthUser($authUser);
 
-        $user = UserModel::findFirst($authUser->id);
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($authUser->id);
+
+        return $user;
+    }
+
+    public function getGuestUser()
+    {
+        $user = new UserModel();
+
+        $user->id = 0;
+        $user->name = 'guest';
 
         return $user;
     }
 
     public function getAuthUser()
     {
+        /**
+         * @var AuthUserService $auth
+         */
         $auth = $this->getDI()->get('auth');
 
         return $auth->getAuthInfo();

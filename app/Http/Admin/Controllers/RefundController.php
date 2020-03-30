@@ -66,7 +66,7 @@ class RefundController extends Controller
             'msg' => '审核退款成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

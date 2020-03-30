@@ -60,7 +60,7 @@ class NavController extends Controller
             'msg' => '创建导航成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -96,7 +96,7 @@ class NavController extends Controller
             'msg' => '更新导航成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -115,7 +115,7 @@ class NavController extends Controller
             'msg' => '删除导航成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -134,7 +134,7 @@ class NavController extends Controller
             'msg' => '还原导航成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

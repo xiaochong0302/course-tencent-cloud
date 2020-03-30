@@ -3,7 +3,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Models\Audit as AuditModel;
-use App\Traits\Ajax as AjaxTrait;
+use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 use Phalcon\Mvc\Dispatcher;
 
@@ -12,7 +12,7 @@ class Controller extends \Phalcon\Mvc\Controller
 
     protected $authUser;
 
-    use AjaxTrait, SecurityTrait;
+    use ResponseTrait, SecurityTrait;
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {

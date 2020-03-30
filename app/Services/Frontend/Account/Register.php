@@ -7,10 +7,10 @@ use App\Services\Frontend\Service;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Security as SecurityValidator;
 
-class AccountCreate extends Service
+class Register extends Service
 {
 
-    public function createAccount()
+    public function register()
     {
         $post = $this->request->getPost();
 

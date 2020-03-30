@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services\Frontend;
+namespace App\Services\Frontend\Course;
 
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Course as CourseRepo;
 use App\Services\Category as CategoryService;
+use App\Services\Frontend\Service;
 
 class CourseList extends Service
 {
@@ -53,18 +54,16 @@ class CourseList extends Service
         foreach ($courses as $course) {
 
             $course['cover'] = $imgBaseUrl . $course['cover'];
-            $course['attrs'] = json_decode($course['attrs'], true);
 
             $items[] = [
                 'id' => $course['id'],
                 'title' => $course['title'],
                 'cover' => $course['cover'],
                 'summary' => $course['summary'],
-                'market_price' => $course['market_price'],
-                'vip_price' => $course['vip_price'],
+                'market_price' => (float)$course['market_price'],
+                'vip_price' => (float)$course['vip_price'],
                 'model' => $course['model'],
                 'level' => $course['level'],
-                'attrs' => $course['attrs'],
                 'user_count' => $course['user_count'],
                 'lesson_count' => $course['lesson_count'],
                 'review_count' => $course['review_count'],

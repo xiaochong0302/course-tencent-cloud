@@ -64,7 +64,7 @@ class ConsultController extends Controller
             'msg' => '更新咨询成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -83,7 +83,7 @@ class ConsultController extends Controller
             'msg' => '删除咨询成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -102,7 +102,7 @@ class ConsultController extends Controller
             'msg' => '还原咨询成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

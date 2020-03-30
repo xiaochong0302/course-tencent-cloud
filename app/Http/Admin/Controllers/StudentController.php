@@ -76,7 +76,7 @@ class StudentController extends Controller
             'msg' => '添加学员成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -113,7 +113,7 @@ class StudentController extends Controller
             'msg' => '更新学员成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**

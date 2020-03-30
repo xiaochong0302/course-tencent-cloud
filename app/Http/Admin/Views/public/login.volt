@@ -40,7 +40,7 @@
 </form>
 
 <script>
-    if (window != top) {
+    if (window !== top) {
         top.location.href = window.location.href;
     }
 </script>

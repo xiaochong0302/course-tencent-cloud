@@ -61,7 +61,7 @@ class CourseController extends Controller
             'msg' => '创建课程成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -97,7 +97,7 @@ class CourseController extends Controller
 
         $content = ['msg' => '更新课程成功'];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -114,7 +114,7 @@ class CourseController extends Controller
             'msg' => '删除课程成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -131,7 +131,7 @@ class CourseController extends Controller
             'msg' => '还原课程成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Http\Home;
 
-use App\Http\Home\Services\AuthUser;
+use App\Services\AuthUser\Home as HomeAuthUser;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
@@ -27,7 +27,7 @@ class Module implements ModuleDefinitionInterface
         });
 
         $di->setShared('auth', function () {
-            $authUser = new AuthUser();
+            $authUser = new HomeAuthUser();
             return $authUser;
         });
     }
