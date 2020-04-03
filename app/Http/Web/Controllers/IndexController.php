@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Home\Controllers;
+namespace App\Http\Web\Controllers;
 
 class IndexController extends Controller
 {
 
     /**
-     * @Get("/", name="home.index")
+     * @Get("/", name="web.index")
      */
     public function indexAction()
     {

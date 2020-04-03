@@ -12,13 +12,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Review extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -84,9 +77,7 @@ class Review extends Repository
      */
     public function findById($id)
     {
-        $result = ReviewModel::findFirst($id);
-
-        return $result;
+        return ReviewModel::findFirst($id);
     }
 
     /**
@@ -96,12 +87,10 @@ class Review extends Repository
      */
     public function findReview($courseId, $userId)
     {
-        $result = ReviewModel::findFirst([
+        return ReviewModel::findFirst([
             'conditions' => 'course_id = :course_id: AND user_id = :user_id:',
             'bind' => ['course_id' => $courseId, 'user_id' => $userId],
         ]);
-
-        return $result;
     }
 
     /**
@@ -111,36 +100,30 @@ class Review extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = ReviewModel::query()
+        return ReviewModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
 
     public function countAgrees($reviewId)
     {
         $type = ReviewVoteModel::TYPE_AGREE;
 
-        $count = ReviewVoteModel::count([
+        return ReviewVoteModel::count([
             'conditions' => 'review_id = :review_id: AND type = :type: AND deleted = 0',
             'bind' => ['review_id' => $reviewId, 'type' => $type],
         ]);
-
-        return $count;
     }
 
     public function countOpposes($reviewId)
     {
         $type = ReviewVoteModel::TYPE_OPPOSE;
 
-        $count = ReviewVoteModel::count([
+        return ReviewVoteModel::count([
             'conditions' => 'review_id = :review_id: AND type = :type: AND deleted = 0',
             'bind' => ['review_id' => $reviewId, 'type' => $type],
         ]);
-
-        return $count;
     }
 
 }

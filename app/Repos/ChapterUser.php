@@ -11,21 +11,6 @@ class ChapterUser extends Repository
 {
 
     /**
-     * @param int $chapterId
-     * @param int $userId
-     * @return ChapterUserModel|Model|bool
-     */
-    public function findChapterUser($chapterId, $userId)
-    {
-        $result = ChapterUserModel::findFirst([
-            'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND deleted = 0',
-            'bind' => [1 => $chapterId, 2 => $userId],
-        ]);
-
-        return $result;
-    }
-
-    /**
      * @param array $where
      * @return ResultsetInterface|Resultset|ChapterUserModel[]
      */
@@ -47,9 +32,20 @@ class ChapterUser extends Repository
             $query->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
-        $result = $query->execute();
+        return $query->execute();
+    }
 
-        return $result;
+    /**
+     * @param int $chapterId
+     * @param int $userId
+     * @return ChapterUserModel|Model|bool
+     */
+    public function findChapterUser($chapterId, $userId)
+    {
+        return ChapterUserModel::findFirst([
+            'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND deleted = 0',
+            'bind' => [1 => $chapterId, 2 => $userId],
+        ]);
     }
 
 }

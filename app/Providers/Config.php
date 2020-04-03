@@ -15,9 +15,7 @@ class Config extends Provider
 
             $options = require config_path() . '/config.php';
 
-            $config = new PhalconConfig($options);
-
-            return $config;
+            return new PhalconConfig($options);
         });
     }
 

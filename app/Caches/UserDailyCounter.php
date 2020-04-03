@@ -11,9 +11,7 @@ class UserDailyCounter extends Counter
     {
         $tomorrow = strtotime('tomorrow');
 
-        $lifetime = $tomorrow - time();
-
-        return $lifetime;
+        return $tomorrow - time();
     }
 
     public function getKey($id = null)
@@ -23,7 +21,7 @@ class UserDailyCounter extends Counter
 
     public function getContent($id = null)
     {
-        $content = [
+        return [
             'favorite_count' => 0,
             'comment_count' => 0,
             'consult_count' => 0,
@@ -33,8 +31,6 @@ class UserDailyCounter extends Counter
             'consult_vote_count' => 0,
             'review_vote_count' => 0,
         ];
-
-        return $content;
     }
 
 }

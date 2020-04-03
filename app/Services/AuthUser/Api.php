@@ -52,9 +52,7 @@ class Api extends AuthUser
 
     public function getAuthToken()
     {
-        $authToken = $this->request->getHeader('Authorization');
-
-        return $authToken;
+        return $this->request->getHeader('Authorization');
     }
 
     public function getCacheKey($token)
@@ -64,9 +62,7 @@ class Api extends AuthUser
 
     public function getRandToken($userId)
     {
-        $token = md5($userId . time() . rand(1000, 9999));
-
-        return $token;
+        return md5($userId . time() . rand(1000, 9999));
     }
 
     /**
@@ -74,9 +70,7 @@ class Api extends AuthUser
      */
     public function getCache()
     {
-        $cache = $this->getDI()->get('cache');
-
-        return $cache;
+        return $this->getDI()->get('cache');
     }
 
 }

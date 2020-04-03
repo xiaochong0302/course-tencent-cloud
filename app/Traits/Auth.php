@@ -6,6 +6,7 @@ use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\AuthUser as AuthUserService;
 use App\Validators\Validator as AppValidator;
+use Phalcon\Di;
 
 trait Auth
 {
@@ -20,9 +21,7 @@ trait Auth
 
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($authUser->id);
-
-        return $user;
+        return $userRepo->findById($authUser->id);
     }
 
     public function getLoginUser()
@@ -35,9 +34,7 @@ trait Auth
 
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($authUser->id);
-
-        return $user;
+        return $userRepo->findById($authUser->id);
     }
 
     public function getGuestUser()
@@ -55,7 +52,7 @@ trait Auth
         /**
          * @var AuthUserService $auth
          */
-        $auth = $this->getDI()->get('auth');
+        $auth = Di::getDefault()->get('auth');
 
         return $auth->getAuthInfo();
     }

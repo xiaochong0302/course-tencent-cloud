@@ -68,24 +68,20 @@ class LiveNoticeProviderTask extends Task
             CourseUserModel::SOURCE_IMPORT,
         ];
 
-        $rows = $this->modelsManager->createBuilder()
+        return $this->modelsManager->createBuilder()
             ->columns(['cu.course_id', 'cu.user_id', 'cl.chapter_id', 'cl.start_time'])
             ->addFrom(ChapterLiveModel::class, 'cl')
             ->join(CourseUserModel::class, 'cl.course_id = cu.course_id', 'cu')
             ->inWhere('cu.source_type', $sourceTypes)
             ->betweenWhere('start_time', $beginTime, $endTime)
             ->getQuery()->execute();
-
-        return $rows;
     }
 
     public function getLifetime()
     {
         $tomorrow = strtotime('tomorrow');
 
-        $lifetime = $tomorrow - time();
-
-        return $lifetime;
+        return $tomorrow - time();
     }
 
     public function getCacheKey()

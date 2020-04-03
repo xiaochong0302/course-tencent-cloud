@@ -1,6 +1,8 @@
 {
   "require": {
-    "ext-redis": "*",
+    "ext-phalcon": "~3.4",
+    "ext-redis": "~4.3",
+    "ext-pdo": "*",
     "ext-json": "*",
     "phalcon/incubator": "^3.4",
     "guzzlehttp/guzzle": "^6.3",

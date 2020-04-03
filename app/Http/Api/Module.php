@@ -2,7 +2,7 @@
 
 namespace App\Http\Api;
 
-use App\Services\AuthUser\Home as ApiAuthUser;
+use App\Services\AuthUser\Web as ApiAuthUser;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
@@ -24,8 +24,8 @@ class Module implements ModuleDefinitionInterface
         });
 
         $di->setShared('auth', function () {
-            $authUser = new ApiAuthUser();
-            return $authUser;
+            return new ApiAuthUser();
         });
     }
+
 }

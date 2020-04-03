@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Chapter as ChapterModel;
 use App\Repos\Course as CourseRepo;
-use Phalcon\Mvc\Model\Resultset;
 
 class CourseStats extends Service
 {
@@ -41,9 +39,6 @@ class CourseStats extends Service
 
         $course = $courseRepo->findById($courseId);
 
-        /**
-         * @var Resultset|ChapterModel[] $lessons
-         */
         $lessons = $courseRepo->findLessons($courseId);
 
         if ($lessons->count() == 0) {
@@ -87,9 +82,6 @@ class CourseStats extends Service
 
         $course = $courseRepo->findById($courseId);
 
-        /**
-         * @var Resultset|ChapterModel[] $lessons
-         */
         $lessons = $courseRepo->findLessons($course->id);
 
         if ($lessons->count() == 0) {
@@ -129,9 +121,6 @@ class CourseStats extends Service
 
         $course = $courseRepo->findById($courseId);
 
-        /**
-         * @var Resultset|ChapterModel[] $lessons
-         */
         $lessons = $courseRepo->findChapters($course->id);
 
         if ($lessons->count() == 0) {

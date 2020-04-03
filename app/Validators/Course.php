@@ -81,9 +81,7 @@ class Course extends Validator
             throw new BadRequestException('course.invalid_cover');
         }
 
-        $result = parse_url($value, PHP_URL_PATH);
-
-        return $result;
+        return parse_url($value, PHP_URL_PATH);
     }
 
     public function checkTitle($title)
@@ -105,16 +103,12 @@ class Course extends Validator
 
     public function checkDetails($details)
     {
-        $value = $this->filter->sanitize($details, ['trim']);
-
-        return $value;
+        return $this->filter->sanitize($details, ['trim']);
     }
 
     public function checkSummary($summary)
     {
-        $value = $this->filter->sanitize($summary, ['trim', 'string']);
-
-        return $value;
+        return $this->filter->sanitize($summary, ['trim', 'string']);
     }
 
     public function checkKeywords($keywords)

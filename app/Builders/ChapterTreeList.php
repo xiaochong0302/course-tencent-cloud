@@ -56,7 +56,7 @@ class ChapterTreeList extends Builder
             unset($attrs['file_id'], $attrs['file_status']);
         }
 
-        $result = [
+        return [
             'id' => $chapter['id'],
             'title' => $chapter['title'],
             'summary' => $chapter['summary'],
@@ -64,8 +64,6 @@ class ChapterTreeList extends Builder
             'free' => $chapter['free'],
             'attrs' => $attrs,
         ];
-
-        return $result;
     }
 
 }

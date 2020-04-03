@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Home\Controllers;
+namespace App\Http\Web\Controllers;
 
-use App\Http\Home\Services\My as MyService;
+use App\Http\Web\Services\My as MyService;
 
 /**
  * @RoutePrefix("/my")
@@ -11,7 +11,7 @@ class MyController extends Controller
 {
 
     /**
-     * @Get("/courses", name="home.my.courses")
+     * @Get("/courses", name="web.my.courses")
      */
     public function coursesAction()
     {
@@ -25,7 +25,7 @@ class MyController extends Controller
     }
 
     /**
-     * @Get("/consults", name="home.my.consults")
+     * @Get("/consults", name="web.my.consults")
      */
     public function consultsAction()
     {
@@ -37,7 +37,7 @@ class MyController extends Controller
     }
 
     /**
-     * @Get("/reviews", name="home.my.reviews")
+     * @Get("/reviews", name="web.my.reviews")
      */
     public function reviewsAction()
     {
@@ -49,7 +49,7 @@ class MyController extends Controller
     }
 
     /**
-     * @Get("/orders", name="home.my.orders")
+     * @Get("/orders", name="web.my.orders")
      */
     public function ordersAction()
     {
@@ -63,7 +63,7 @@ class MyController extends Controller
     }
 
     /**
-     * @Get("/coupons", name="home.my.coupons")
+     * @Get("/coupons", name="web.my.coupons")
      */
     public function couponsAction()
     {
@@ -75,7 +75,7 @@ class MyController extends Controller
     }
 
     /**
-     * @Get("/balance", name="home.my.balance")
+     * @Get("/balance", name="web.my.balance")
      */
     public function balanceAction()
     {

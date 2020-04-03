@@ -83,18 +83,14 @@ abstract class Counter extends Component
             $this->get($id);
         }
 
-        $value = $this->redis->hGet($key, $hashKey);
-
-        return $value;
+        return $this->redis->hGet($key, $hashKey);
     }
 
     public function hDel($id, $hashKey)
     {
         $key = $this->getKey($id);
 
-        $value = $this->redis->hDel($key, $hashKey);
-
-        return $value;
+        return $this->redis->hDel($key, $hashKey);
     }
 
     public function hIncrBy($id, $hashKey, $value = 1)

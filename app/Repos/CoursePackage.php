@@ -17,12 +17,10 @@ class CoursePackage extends Repository
      */
     public function findCoursePackage($courseId, $packageId)
     {
-        $result = CoursePackageModel::findFirst([
+        return CoursePackageModel::findFirst([
             'conditions' => 'course_id = :course_id: AND package_id = :package_id:',
             'bind' => ['course_id' => $courseId, 'package_id' => $packageId],
         ]);
-
-        return $result;
     }
 
     /**
@@ -31,11 +29,9 @@ class CoursePackage extends Repository
      */
     public function findByCourseId($courseId)
     {
-        $result = CoursePackageModel::query()
+        return CoursePackageModel::query()
             ->where('course_id = :course_id:', ['course_id' => $courseId])
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -44,11 +40,9 @@ class CoursePackage extends Repository
      */
     public function findByPackageId($packageId)
     {
-        $result = CoursePackageModel::query()
+        return CoursePackageModel::query()
             ->where('package_id = :package_id:', ['package_id' => $packageId])
             ->execute();
-
-        return $result;
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Home\Controllers;
+namespace App\Http\Web\Controllers;
 
 use App\Services\Frontend\Course as CourseService;
 use App\Services\Frontend\CourseList as CourseListService;
@@ -15,7 +15,7 @@ class CourseController extends Controller
 {
 
     /**
-     * @Get("/list", name="home.course.list")
+     * @Get("/list", name="web.course.list")
      */
     public function listAction()
     {
@@ -29,7 +29,7 @@ class CourseController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}", name="home.course.show")
+     * @Get("/{id:[0-9]+}", name="web.course.show")
      */
     public function showAction($id)
     {
@@ -43,7 +43,7 @@ class CourseController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/related", name="home.course.related")
+     * @Get("/{id:[0-9]+}/related", name="web.course.related")
      */
     public function relatedAction($id)
     {
@@ -57,7 +57,7 @@ class CourseController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/reviews", name="home.course.reviews")
+     * @Get("/{id:[0-9]+}/reviews", name="web.course.reviews")
      */
     public function reviewsAction($id)
     {
@@ -71,7 +71,7 @@ class CourseController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/favorite", name="home.course.favorite")
+     * @Post("/{id:[0-9]+}/favorite", name="web.course.favorite")
      */
     public function favoriteAction($id)
     {

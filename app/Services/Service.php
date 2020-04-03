@@ -35,9 +35,7 @@ class Service extends Component
     {
         $cache = new SectionConfigCache();
 
-        $result = $cache->get($section);
-
-        return $result;
+        return $cache->get($section);
     }
 
 }

@@ -5,13 +5,9 @@ namespace App\Providers;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\User\Component;
 
-/**
- * \App\Providers\Provider
- *
- * @package App\Providers
- */
 abstract class Provider extends Component implements ProviderInterface
 {
+
     /**
      * Service name
      *
@@ -38,4 +34,5 @@ abstract class Provider extends Component implements ProviderInterface
     {
         return $this->serviceName;
     }
+
 }

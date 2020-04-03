@@ -16,9 +16,7 @@ class Help extends Repository
      */
     public function findById($id)
     {
-        $result = HelpModel::findFirst($id);
-
-        return $result;
+        return HelpModel::findFirst($id);
     }
 
     /**
@@ -28,12 +26,10 @@ class Help extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = HelpModel::query()
+        return HelpModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -56,9 +52,7 @@ class Help extends Repository
 
         $query->orderBy('priority ASC');
 
-        $result = $query->execute();
-
-        return $result;
+        return $query->execute();
     }
 
 }

@@ -13,13 +13,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Order extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -81,9 +74,7 @@ class Order extends Repository
      */
     public function findById($id)
     {
-        $result = OrderModel::findFirst($id);
-
-        return $result;
+        return OrderModel::findFirst($id);
     }
 
     /**
@@ -92,12 +83,10 @@ class Order extends Repository
      */
     public function findBySn($sn)
     {
-        $result = OrderModel::findFirst([
+        return OrderModel::findFirst([
             'conditions' => 'sn = :sn:',
             'bind' => ['sn' => $sn],
         ]);
-
-        return $result;
     }
 
     /**
@@ -110,13 +99,11 @@ class Order extends Repository
     {
         $status = OrderModel::STATUS_FINISHED;
 
-        $result = OrderModel::findFirst([
+        return OrderModel::findFirst([
             'conditions' => 'user_id = ?1 AND item_id = ?2 AND item_type = ?3 AND status = ?4',
             'bind' => [1 => $userId, 2 => $itemId, 3 => $itemType, 4 => $status],
             'order' => 'id DESC',
         ]);
-
-        return $result;
     }
 
     /**
@@ -129,13 +116,11 @@ class Order extends Repository
     {
         $status = OrderModel::STATUS_PENDING;
 
-        $result = OrderModel::findFirst([
+        return OrderModel::findFirst([
             'conditions' => 'user_id = ?1 AND item_id = ?2 AND item_type = ?3 AND status= ?4',
             'bind' => [1 => $userId, 2 => $itemId, 3 => $itemType, 4 => $status],
             'order' => 'id DESC',
         ]);
-
-        return $result;
     }
 
     /**
@@ -145,12 +130,10 @@ class Order extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = OrderModel::query()
+        return OrderModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -159,12 +142,10 @@ class Order extends Repository
      */
     public function findTrades($orderId)
     {
-        $result = TradeModel::query()
+        return TradeModel::query()
             ->where('order_id = :order_id:', ['order_id' => $orderId])
             ->andWhere('deleted = 0')
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -173,24 +154,10 @@ class Order extends Repository
      */
     public function findRefunds($orderId)
     {
-        $result = RefundModel::query()
+        return RefundModel::query()
             ->where('order_id = :order_id:', ['order_id' => $orderId])
             ->andWhere('deleted = 0')
             ->execute();
-
-        return $result;
-    }
-
-    public function countUserDailyOrders($userId)
-    {
-        $createdAt = strtotime(date('Y-m-d'));
-
-        $count = OrderModel::count([
-            'conditions' => 'user_id = :user_id: AND created_at > :created_at:',
-            'bind' => ['user_id' => $userId, 'created_at' => $createdAt],
-        ]);
-
-        return $count;
     }
 
 }

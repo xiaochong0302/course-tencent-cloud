@@ -7,6 +7,10 @@ use App\Services\Mailer;
 class Test extends Mailer
 {
 
+    /**
+     * @param string $email
+     * @return bool
+     */
     public function handle($email)
     {
         try {

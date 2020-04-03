@@ -2,7 +2,9 @@
 
 namespace App\Library\OAuth;
 
-class QQ extends \App\Library\OAuth
+use App\Library\OAuth;
+
+class QQ extends OAuth
 {
 
     const AUTHORIZE_URL = 'https://graph.qq.com/oauth2.0/authorize';

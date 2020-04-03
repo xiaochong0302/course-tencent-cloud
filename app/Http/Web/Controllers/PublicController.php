@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Home\Controllers;
+namespace App\Http\Web\Controllers;
 
 use App\Models\ContentImage as ContentImageModel;
 use App\Services\Storage as StorageService;
@@ -13,7 +13,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     use ResponseTrait;
 
     /**
-     * @Route("/auth", name="home.auth")
+     * @Route("/auth", name="web.auth")
      */
     public function authAction()
     {
@@ -21,11 +21,11 @@ class PublicController extends \Phalcon\Mvc\Controller
             return $this->jsonError(['msg' => '会话已过期，请重新登录']);
         }
 
-        $this->response->redirect(['for' => 'home.login']);
+        $this->response->redirect(['for' => 'web.login']);
     }
 
     /**
-     * @Route("/robot", name="home.robot")
+     * @Route("/robot", name="web.robot")
      */
     public function robotAction()
     {
@@ -35,7 +35,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Route("/forbidden", name="home.forbidden")
+     * @Route("/forbidden", name="web.forbidden")
      */
     public function forbiddenAction()
     {
@@ -45,7 +45,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/content/img/{id:[0-9]+}", name="home.content.img")
+     * @Get("/content/img/{id:[0-9]+}", name="web.content.img")
      */
     public function contentImageAction($id)
     {
@@ -66,7 +66,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/qr/img", name="home.qr.img")
+     * @Get("/qr/img", name="web.qr.img")
      */
     public function qrImageAction()
     {

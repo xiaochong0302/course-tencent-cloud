@@ -4,6 +4,7 @@ namespace App\Console\Tasks;
 
 use App\Caches\Chapter as ChapterCache;
 use App\Caches\ChapterCounter as ChapterCounterCache;
+use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Chapter as ChapterRepo;
 use App\Services\ChapterCacheSyncer;
 use Phalcon\Mvc\Model\Resultset;
@@ -12,7 +13,7 @@ class RebuildChapterCacheTask extends Task
 {
 
     /**
-     * @var \App\Library\Cache\Backend\Redis
+     * @var RedisCache
      */
     protected $cache;
 

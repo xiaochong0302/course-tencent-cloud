@@ -64,18 +64,14 @@ Abstract class Smser extends Service
 
     protected function createSingleSender()
     {
-        $sender = new SmsSingleSender($this->config['app_id'], $this->config['app_key']);
-
-        return $sender;
+        return new SmsSingleSender($this->config['app_id'], $this->config['app_key']);
     }
 
     protected function getTemplateId($code)
     {
         $template = json_decode($this->config['template'], true);
 
-        $templateId = $template[$code]['id'] ?? null;
-
-        return $templateId;
+        return $template[$code]['id'] ?? null;
     }
 
     protected function getSignature()

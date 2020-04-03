@@ -261,9 +261,7 @@ class Alipay extends Payment
             $payConfig['mode'] = 'dev';
         }
 
-        $gateway = Pay::alipay($payConfig);
-
-        return $gateway;
+        return Pay::alipay($payConfig);
     }
 
 }

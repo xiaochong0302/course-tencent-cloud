@@ -20,7 +20,7 @@ class Cache extends Provider
                 'lifetime' => $config->redis->lifetime,
             ]);
 
-            $backend = new RedisBackend($frontend, [
+            return new RedisBackend($frontend, [
                 'host' => $config->redis->host,
                 'port' => $config->redis->port,
                 'auth' => $config->redis->auth,
@@ -28,8 +28,6 @@ class Cache extends Provider
                 'prefix' => $config->redis->prefix,
                 'persistent' => $config->redis->persistent,
             ]);
-
-            return $backend;
         });
     }
 

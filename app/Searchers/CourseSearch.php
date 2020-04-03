@@ -61,12 +61,10 @@ class CourseSearch extends Component
             $items[] = $item;
         }
 
-        $result = [
+        return [
             'total' => $total,
             'items' => $items,
         ];
-
-        return $result;
     }
 
     /**
@@ -83,9 +81,7 @@ class CourseSearch extends Component
 
         $search->setQuery($query);
 
-        $result = $search->getRelatedQuery($query, $limit);
-
-        return $result;
+        return $search->getRelatedQuery($query, $limit);
     }
 
 }

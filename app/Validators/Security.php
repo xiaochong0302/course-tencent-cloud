@@ -5,21 +5,21 @@ namespace App\Validators;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validator\Common as CommonValidator;
 use App\Services\Captcha as CaptchaService;
-use App\Services\Verification as VerificationService;
+use App\Services\VerifyCode as VerifyCodeService;
 
 class Security extends Validator
 {
 
     public function checkVerifyCode($key, $code)
     {
-        $verification = new VerificationService();
+        $verifyCodeService = new VerifyCodeService();
 
         $result = false;
 
         if (CommonValidator::email($key)) {
-            $result = $verification->checkMailCode($key, $code);
+            $result = $verifyCodeService->checkMailCode($key, $code);
         } elseif (CommonValidator::phone($key)) {
-            $result = $verification->checkSmsCode($key, $code);
+            $result = $verifyCodeService->checkSmsCode($key, $code);
         }
 
         if (!$result) {
@@ -29,9 +29,9 @@ class Security extends Validator
 
     public function checkCaptchaCode($ticket, $rand)
     {
-        $captcha = new CaptchaService();
+        $captchaService = new CaptchaService();
 
-        $result = $captcha->verify($ticket, $rand);
+        $result = $captchaService->verify($ticket, $rand);
 
         if (!$result) {
             throw new BadRequestException('security.invalid_captcha_code');

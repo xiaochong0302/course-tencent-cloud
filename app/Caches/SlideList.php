@@ -23,7 +23,7 @@ class SlideList extends Cache
     public function getContent($id = null)
     {
         /**
-         * @var Resultset $slides
+         * @var Resultset|SlideModel[] $slides
          */
         $slides = SlideModel::query()
             ->columns(['id', 'title', 'cover', 'summary', 'target', 'content'])

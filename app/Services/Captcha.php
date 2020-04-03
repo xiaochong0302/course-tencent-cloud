@@ -120,9 +120,7 @@ class Captcha extends Service
 
         $clientProfile->setHttpProfile($httpProfile);
 
-        $client = new CaptchaClient($credential, $region, $clientProfile);
-
-        return $client;
+        return new CaptchaClient($credential, $region, $clientProfile);
     }
 
 }

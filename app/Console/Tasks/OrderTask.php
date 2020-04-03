@@ -225,13 +225,11 @@ class OrderTask extends Task
     {
         $status = TradeModel::STATUS_FINISHED;
 
-        $result = TradeModel::findFirst([
+        return TradeModel::findFirst([
             'conditions' => ['order_id = :order_id: AND status = :status:'],
             'bind' => ['order_id' => $orderId, 'status' => $status],
             'order' => 'id DESC',
         ]);
-
-        return $result;
     }
 
     /**
@@ -244,15 +242,13 @@ class OrderTask extends Task
         $status = TaskModel::STATUS_PENDING;
         $tryCount = self::TRY_COUNT;
 
-        $tasks = TaskModel::query()
+        return TaskModel::query()
             ->where('item_type = :item_type:', ['item_type' => $itemType])
             ->andWhere('status = :status:', ['status' => $status])
             ->andWhere('try_count < :try_count:', ['try_count' => $tryCount])
             ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();
-
-        return $tasks;
     }
 
 }

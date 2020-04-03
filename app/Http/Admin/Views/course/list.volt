@@ -43,6 +43,7 @@
     <tr>
         <th>课程</th>
         <th>课时数</th>
+        <th>用户数</th>
         <th>价格</th>
         <th>发布</th>
         <th>操作</th>
@@ -58,6 +59,11 @@
             <td>
                 <a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">
                     <span class="layui-badge layui-bg-green">{{ item.lesson_count }}</span>
+                </a>
+            </td>
+            <td>
+                <a href="{{ url({'for':'admin.student.list'},{'course_id':item.id}) }}">
+                    <span class="layui-badge layui-bg-green">{{ item.user_count }}</span>
                 </a>
             </td>
             <td>

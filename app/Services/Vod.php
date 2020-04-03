@@ -99,10 +99,10 @@ class Vod extends Service
         ];
 
         $original = http_build_query($params);
-        $hash = hash_hmac('SHA1', $original, $secretKey, true);
-        $signature = base64_encode($hash . $original);
 
-        return $signature;
+        $hash = hash_hmac('SHA1', $original, $secretKey, true);
+
+        return base64_encode($hash . $original);
     }
 
     /**
@@ -191,11 +191,10 @@ class Vod extends Service
         }
 
         $query['us'] = $random;
+
         $query['sign'] = md5($sign);
 
-        $result = $url . '?' . http_build_query($query);
-
-        return $result;
+        return $url . '?' . http_build_query($query);
     }
 
     /**
@@ -534,15 +533,13 @@ class Vod extends Service
 
         $metaData = $response['MediaInfoSet'][0]['MetaData'];
 
-        $result = [
+        return [
             'bit_rate' => $metaData['Bitrate'],
             'size' => $metaData['Size'],
             'width' => $metaData['Width'],
             'height' => $metaData['Height'],
             'duration' => $metaData['Duration'],
         ];
-
-        return $result;
     }
 
     /**
@@ -559,15 +556,13 @@ class Vod extends Service
 
         $metaData = $response['MediaInfoSet'][0]['MetaData'];
 
-        $result = [
+        return [
             'bit_rate' => $metaData['Bitrate'],
             'size' => $metaData['Size'],
             'width' => $metaData['Width'],
             'height' => $metaData['Height'],
             'duration' => $metaData['Duration'],
         ];
-
-        return $result;
     }
 
     /**
@@ -607,9 +602,7 @@ class Vod extends Service
 
         $format = $this->config['video_format'];
 
-        $result = $format == 'hls' ? $hls : $mp4;
-
-        return $result;
+        return $format == 'hls' ? $hls : $mp4;
     }
 
     /**
@@ -628,9 +621,7 @@ class Vod extends Service
             1010 => ['bit_rate' => 128, 'sample_rate' => 44100],
         ];
 
-        $result = $this->config['audio_format'] == 'm4a' ? $m4a : $mp3;
-
-        return $result;
+        return $this->config['audio_format'] == 'm4a' ? $m4a : $mp3;
     }
 
     /**
@@ -657,9 +648,7 @@ class Vod extends Service
 
         $clientProfile->setHttpProfile($httpProfile);
 
-        $client = new VodClient($credential, $region, $clientProfile);
-
-        return $client;
+        return new VodClient($credential, $region, $clientProfile);
     }
 
 }

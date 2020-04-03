@@ -3,16 +3,20 @@
 namespace App\Services\Smser;
 
 use App\Services\Smser;
-use App\Services\Verification;
+use App\Services\VerifyCode;
 
 class Verify extends Smser
 {
 
     protected $templateCode = 'verify';
 
+    /**
+     * @param string $phone
+     * @return bool
+     */
     public function handle($phone)
     {
-        $verifyCode = new Verification();
+        $verifyCode = new VerifyCode();
 
         $minutes = 5;
 

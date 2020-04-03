@@ -5,7 +5,7 @@ namespace App\Services\AuthUser;
 use App\Models\User as UserModel;
 use App\Services\AuthUser;
 
-class Home extends AuthUser
+class Html5 extends AuthUser
 {
 
     /**
@@ -57,7 +57,7 @@ class Home extends AuthUser
      */
     public function getAuthKey()
     {
-        return 'user_info';
+        return 'html5_user_info';
     }
 
 }

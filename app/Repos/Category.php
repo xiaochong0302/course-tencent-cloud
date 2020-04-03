@@ -13,32 +13,6 @@ class Category extends Repository
 {
 
     /**
-     * @param int $id
-     * @return CategoryModel|Model|bool
-     */
-    public function findById($id)
-    {
-        $result = CategoryModel::findFirst($id);
-
-        return $result;
-    }
-
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|CategoryModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = CategoryModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    /**
      * @param array $where
      * @return ResultsetInterface|Resultset|CategoryModel[]
      */
@@ -66,9 +40,29 @@ class Category extends Repository
 
         $query->orderBy('priority ASC');
 
-        $result = $query->execute();
+        return $query->execute();
+    }
 
-        return $result;
+    /**
+     * @param int $id
+     * @return CategoryModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return CategoryModel::findFirst($id);
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|CategoryModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return CategoryModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
     }
 
     /**
@@ -76,13 +70,11 @@ class Category extends Repository
      */
     public function findTopCategories()
     {
-        $result = CategoryModel::query()
+        return CategoryModel::query()
             ->where('parent_id = 0')
             ->andWhere('deleted = 0')
             ->andWhere('published = 1')
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -91,29 +83,25 @@ class Category extends Repository
      */
     public function findChildCategories($categoryId)
     {
-        $result = CategoryModel::query()
+        return CategoryModel::query()
             ->where('parent_id = :parent_id:', ['parent_id' => $categoryId])
             ->andWhere('deleted = 0')
             ->andWhere('published = 1')
             ->execute();
-
-        return $result;
     }
 
     public function countChildCategories($categoryId)
     {
-        $count = CategoryModel::count([
+        return CategoryModel::count([
             'conditions' => 'parent_id = :parent_id: AND deleted = 0 AND published = 1',
             'bind' => ['parent_id' => $categoryId],
         ]);
-
-        return $count;
     }
 
     public function countCourses($categoryId)
     {
-        $phql = "SELECT COUNT(*) AS total FROM %s cc JOIN %s c ON cc.course_id = c.id 
-                 WHERE cc.category_id = :category_id: AND c.published = 1 AND c.deleted = 0";
+        $phql = 'SELECT COUNT(*) AS total FROM %s cc JOIN %s c ON cc.course_id = c.id 
+                 WHERE cc.category_id = :category_id: AND c.published = 1 AND c.deleted = 0';
 
         $phql = sprintf($phql, CourseCategoryModel::class, CourseModel::class);
 

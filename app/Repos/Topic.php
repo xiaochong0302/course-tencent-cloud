@@ -13,13 +13,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Topic extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -63,9 +56,7 @@ class Topic extends Repository
      */
     public function findById($id)
     {
-        $result = TopicModel::findFirst($id);
-
-        return $result;
+        return TopicModel::findFirst($id);
     }
 
     /**
@@ -75,12 +66,10 @@ class Topic extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = TopicModel::query()
+        return TopicModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -89,25 +78,21 @@ class Topic extends Repository
      */
     public function findCourses($topicId)
     {
-        $result = $this->modelsManager->createBuilder()
+        return $this->modelsManager->createBuilder()
             ->columns('c.*')
             ->addFrom(CourseModel::class, 'c')
             ->join(CourseTopicModel::class, 'c.id = ct.course_id', 'ct')
             ->where('ct.topic_id = :topic_id:', ['topic_id' => $topicId])
             ->andWhere('c.deleted = 0')
             ->getQuery()->execute();
-
-        return $result;
     }
 
     public function countCourses($topicId)
     {
-        $count = CourseTopicModel::count([
+        return CourseTopicModel::count([
             'conditions' => 'topic_id = :topic_id:',
             'bind' => ['topic_id' => $topicId],
         ]);
-
-        return $count;
     }
 
 }

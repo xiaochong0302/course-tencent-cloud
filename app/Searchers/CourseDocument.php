@@ -37,7 +37,7 @@ class CourseDocument extends Component
             $course->attrs = kg_json_encode($course->attrs);
         }
 
-        $data = [
+        return [
             'id' => $course->id,
             'title' => $course->title,
             'cover' => $course->cover,
@@ -55,8 +55,6 @@ class CourseDocument extends Component
             'lesson_count' => $course->lesson_count,
             'created_at' => $course->created_at,
         ];
-
-        return $data;
     }
 
 }

@@ -23,4 +23,5 @@ class ChapterRead extends Validator
 
         return $value;
     }
+
 }

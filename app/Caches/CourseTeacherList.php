@@ -4,7 +4,6 @@ namespace App\Caches;
 
 use App\Models\User as UserModel;
 use App\Repos\Course as CourseRepo;
-use Phalcon\Mvc\Model\Resultset;
 
 class CourseTeacherList extends Cache
 {
@@ -25,9 +24,6 @@ class CourseTeacherList extends Cache
     {
         $courseRepo = new CourseRepo();
 
-        /**
-         * @var Resultset $users
-         */
         $users = $courseRepo->findTeachers($id);
 
         if ($users->count() == 0) {

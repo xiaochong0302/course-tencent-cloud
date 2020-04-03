@@ -12,10 +12,7 @@ class Security extends Provider
     public function register()
     {
         $this->di->setShared($this->serviceName, function () {
-
-            $security = new AppSecurity();
-
-            return $security;
+            return new AppSecurity();
         });
     }
 

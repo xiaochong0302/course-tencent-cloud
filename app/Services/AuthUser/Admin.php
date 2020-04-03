@@ -65,7 +65,7 @@ class Admin extends AuthUser
      */
     public function getAuthKey()
     {
-        return 'admin_info';
+        return 'admin_user_info';
     }
 
     /**

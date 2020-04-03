@@ -12,13 +12,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Comment extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -78,9 +71,7 @@ class Comment extends Repository
      */
     public function findById($id)
     {
-        $result = CommentModel::findFirst($id);
-
-        return $result;
+        return CommentModel::findFirst($id);
     }
 
     /**
@@ -90,46 +81,38 @@ class Comment extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = CommentModel::query()
+        return CommentModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
 
     public function countReplies($commentId)
     {
-        $count = CommentModel::count([
+        return CommentModel::count([
             'conditions' => 'parent_id = :parent_id: AND deleted = 0',
             'bind' => ['parent_id' => $commentId],
         ]);
-
-        return $count;
     }
 
     public function countAgrees($commentId)
     {
         $type = CommentVoteModel::TYPE_AGREE;
 
-        $count = CommentVoteModel::count([
+        return CommentVoteModel::count([
             'conditions' => 'comment_id = :comment_id: AND type = :type: AND deleted = 0',
             'bind' => ['comment_id' => $commentId, 'type' => $type],
         ]);
-
-        return $count;
     }
 
     public function countOpposes($commentId)
     {
         $type = CommentVoteModel::TYPE_OPPOSE;
 
-        $count = CommentVoteModel::count([
+        return CommentVoteModel::count([
             'conditions' => 'comment_id = :comment_id: AND type = :type: AND deleted = 0',
             'bind' => ['comment_id' => $commentId, 'type' => $type],
         ]);
-
-        return $count;
     }
 
 }

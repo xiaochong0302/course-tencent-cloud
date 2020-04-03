@@ -43,9 +43,7 @@ class Storage extends Service
         $key = 'hello_world.txt';
         $value = 'hello world';
 
-        $result = $this->putString($key, $value);
-
-        return $result;
+        return $this->putString($key, $value);
     }
 
     /**
@@ -55,9 +53,7 @@ class Storage extends Service
      */
     public function uploadCoverImage()
     {
-        $result = $this->uploadImage('/img/cover/');
-
-        return $result;
+        return $this->uploadImage('/img/cover/');
     }
 
     /**
@@ -77,12 +73,10 @@ class Storage extends Service
 
         $contentImage->create();
 
-        $result = $this->url->get([
-            'for' => 'home.content.img',
+        return $this->url->get([
+            'for' => 'web.content.img',
             'id' => $contentImage->id,
         ]);
-
-        return $result;
     }
 
     /**
@@ -92,9 +86,7 @@ class Storage extends Service
      */
     public function uploadAvatarImage()
     {
-        $result = $this->uploadImage('/img/avatar/');
-
-        return $result;
+        return $this->uploadImage('/img/avatar/');
     }
 
     /**
@@ -121,9 +113,7 @@ class Storage extends Service
             }
         }
 
-        $result = !empty($paths[0]) ? $paths[0] : false;
-
-        return $result;
+        return !empty($paths[0]) ? $paths[0] : false;
     }
 
     /**
@@ -196,9 +186,7 @@ class Storage extends Service
      */
     public function getBucketFileUrl($key)
     {
-        $result = $this->getBucketBaseUrl() . $key;
-
-        return $result;
+        return $this->getBucketBaseUrl() . $key;
     }
 
     /**
@@ -210,9 +198,7 @@ class Storage extends Service
      */
     public function getCiImageUrl($key, $width = 0, $height = 0)
     {
-        $result = $this->getCiBaseUrl() . $key;
-
-        return $result;
+        return $this->getCiBaseUrl() . $key;
     }
 
     /**
@@ -225,9 +211,7 @@ class Storage extends Service
         $protocol = $this->config['bucket_protocol'];
         $domain = $this->config['bucket_domain'];
 
-        $result = $protocol . '://' . $domain;
-
-        return $result;
+        return $protocol . '://' . $domain;
     }
 
     /**
@@ -240,9 +224,7 @@ class Storage extends Service
         $protocol = $this->config['ci_protocol'];
         $domain = $this->config['ci_domain'];
 
-        $result = $protocol . '://' . $domain;
-
-        return $result;
+        return $protocol . '://' . $domain;
     }
 
     /**
@@ -256,9 +238,7 @@ class Storage extends Service
     {
         $randName = date('YmdHis') . rand(1000, 9999);
 
-        $result = $prefix . $randName . '.' . $extension;
-
-        return $result;
+        return $prefix . $randName . '.' . $extension;
     }
 
     /**
@@ -269,9 +249,9 @@ class Storage extends Service
      */
     protected function getFileExtension($fileName)
     {
-        $result = pathinfo($fileName, PATHINFO_EXTENSION);
+        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
 
-        return strtolower($result);
+        return strtolower($extension);
     }
 
     /**
@@ -283,15 +263,13 @@ class Storage extends Service
     {
         $secret = $this->getSectionConfig('secret');
 
-        $client = new CosClient([
+        return new CosClient([
             'region' => $this->config['bucket_region'],
             'schema' => $this->config['bucket_protocol'],
             'credentials' => [
                 'secretId' => $secret['secret_id'],
                 'secretKey' => $secret['secret_key'],
             ]]);
-
-        return $client;
     }
 
 }

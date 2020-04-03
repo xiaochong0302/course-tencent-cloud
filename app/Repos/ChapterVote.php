@@ -15,12 +15,10 @@ class ChapterVote extends Repository
      */
     public function findChapterVote($chapterId, $userId)
     {
-        $result = ChapterVoteModel::findFirst([
+        return ChapterVoteModel::findFirst([
             'conditions' => 'chapter_id = :chapter_id: AND user_id = :user_id:',
             'bind' => ['chapter_id' => $chapterId, 'user_id' => $userId],
         ]);
-
-        return $result;
     }
 
 }

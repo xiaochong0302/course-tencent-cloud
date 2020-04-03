@@ -12,32 +12,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Consult extends Repository
 {
 
-    /**
-     * @param int $id
-     * @return ConsultModel|Model|bool
-     */
-    public function findById($id)
-    {
-        $result = ConsultModel::findFirst($id);
-
-        return $result;
-    }
-
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|ConsultModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = ConsultModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -81,6 +55,28 @@ class Consult extends Repository
         ]);
 
         return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return ConsultModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return ConsultModel::findFirst($id);
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|ConsultModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return ConsultModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
     }
 
     public function countAgrees($consultId)

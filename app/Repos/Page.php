@@ -11,13 +11,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Page extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -57,9 +50,7 @@ class Page extends Repository
      */
     public function findById($id)
     {
-        $result = PageModel::findFirst($id);
-
-        return $result;
+        return PageModel::findFirst($id);
     }
 
     /**
@@ -69,12 +60,10 @@ class Page extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = PageModel::query()
+        return PageModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
 
 }

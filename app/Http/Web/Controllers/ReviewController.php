@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Home\Controllers;
+namespace App\Http\Web\Controllers;
 
-use App\Http\Home\Services\Review as ReviewService;
+use App\Http\Web\Services\Review as ReviewService;
 
 /**
  * @RoutePrefix("/review")
@@ -11,7 +11,7 @@ class ReviewController extends Controller
 {
 
     /**
-     * @Post("/create", name="home.review.create")
+     * @Post("/create", name="web.review.create")
      */
     public function createAction()
     {
@@ -25,7 +25,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}", name="home.review.show")
+     * @Get("/{id:[0-9]+}", name="web.review.show")
      */
     public function showAction($id)
     {
@@ -37,7 +37,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/update", name="home.review.update")
+     * @Post("/{id:[0-9]+}/update", name="web.review.update")
      */
     public function updateAction($id)
     {
@@ -51,7 +51,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/delete", name="home.review.delete")
+     * @Post("/{id:[0-9]+}/delete", name="web.review.delete")
      */
     public function deleteAction($id)
     {
@@ -63,7 +63,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/agree", name="home.review.agree")
+     * @Post("/{id:[0-9]+}/agree", name="web.review.agree")
      */
     public function agreeAction($id)
     {
@@ -75,7 +75,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/oppose", name="home.review.oppose")
+     * @Post("/{id:[0-9]+}/oppose", name="web.review.oppose")
      */
     public function opposeAction($id)
     {
@@ -87,7 +87,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/reply", name="home.review.reply")
+     * @Post("/{id:[0-9]+}/reply", name="web.review.reply")
      */
     public function replyAction($id)
     {

@@ -2,7 +2,9 @@
 
 namespace App\Library\OAuth;
 
-class WeiBo extends \App\Library\OAuth
+use App\Library\OAuth;
+
+class WeiBo extends OAuth
 {
 
     const AUTHORIZE_URL = 'https://api.weibo.com/oauth2/authorize';

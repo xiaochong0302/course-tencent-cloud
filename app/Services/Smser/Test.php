@@ -7,13 +7,15 @@ use App\Services\Smser;
 class Test extends Smser
 {
 
-    public function handle($phoneNumber)
+    /**
+     * @param string $phone
+     * @return bool
+     */
+    public function handle($phone)
     {
         $identity = new Verify();
 
-        $result = $identity->handle($phoneNumber);
-
-        return $result;
+        return $identity->handle($phone);
     }
 
 }

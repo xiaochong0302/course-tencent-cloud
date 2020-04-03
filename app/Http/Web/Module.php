@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Home;
+namespace App\Http\Web;
 
-use App\Services\AuthUser\Home as HomeAuthUser;
+use App\Services\AuthUser\Web as WebAuthUser;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
@@ -27,8 +27,8 @@ class Module implements ModuleDefinitionInterface
         });
 
         $di->setShared('auth', function () {
-            $authUser = new HomeAuthUser();
-            return $authUser;
+            return new WebAuthUser();
         });
     }
+
 }

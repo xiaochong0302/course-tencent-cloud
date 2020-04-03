@@ -4,7 +4,6 @@ namespace App\Caches;
 
 use App\Models\Course as CourseModel;
 use App\Repos\Course as CourseRepo;
-use Phalcon\Mvc\Model\Resultset;
 
 class CourseRelatedList extends Cache
 {
@@ -25,9 +24,6 @@ class CourseRelatedList extends Cache
     {
         $courseRepo = new CourseRepo();
 
-        /**
-         * @var Resultset $courses
-         */
         $courses = $courseRepo->findRelatedCourses($id);
 
         if ($courses->count() == 0) {
@@ -36,7 +32,6 @@ class CourseRelatedList extends Cache
 
         return $this->handleContent($courses);
     }
-
 
     /**
      * @param CourseModel[] $courses

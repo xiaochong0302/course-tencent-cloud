@@ -11,13 +11,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Audit extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return object
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -71,9 +64,7 @@ class Audit extends Repository
      */
     public function findById($id)
     {
-        $result = AuditModel::findFirst($id);
-
-        return $result;
+        return AuditModel::findFirst($id);
     }
 
     /**
@@ -83,13 +74,10 @@ class Audit extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = AuditModel::query()
+        return AuditModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
-
 
 }

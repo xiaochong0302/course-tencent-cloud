@@ -9,13 +9,6 @@ use Phalcon\Mvc\Model;
 class CourseFavorite extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -60,12 +53,10 @@ class CourseFavorite extends Repository
      */
     public function findCourseFavorite($courseId, $userId)
     {
-        $result = CourseFavoriteModel::findFirst([
+        return CourseFavoriteModel::findFirst([
             'conditions' => 'course_id = :course_id: AND user_id = :user_id:',
             'bind' => ['course_id' => $courseId, 'user_id' => $userId],
         ]);
-
-        return $result;
     }
 
 }

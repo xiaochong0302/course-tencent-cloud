@@ -60,7 +60,7 @@ class UserList extends Builder
 
     protected function getEduRoles()
     {
-        $result = [
+        return [
             UserModel::EDU_ROLE_STUDENT => [
                 'id' => UserModel::EDU_ROLE_STUDENT,
                 'name' => '学员',
@@ -70,8 +70,6 @@ class UserList extends Builder
                 'name' => '讲师',
             ],
         ];
-
-        return $result;
     }
 
 }

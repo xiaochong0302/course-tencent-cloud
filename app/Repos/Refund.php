@@ -11,13 +11,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Refund extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -67,9 +60,7 @@ class Refund extends Repository
      */
     public function findById($id)
     {
-        $result = RefundModel::findFirst($id);
-
-        return $result;
+        return RefundModel::findFirst($id);
     }
 
     /**
@@ -78,12 +69,10 @@ class Refund extends Repository
      */
     public function findBySn($sn)
     {
-        $result = RefundModel::findFirst([
+        return RefundModel::findFirst([
             'conditions' => 'sn = :sn:',
             'bind' => ['sn' => $sn],
         ]);
-
-        return $result;
     }
 
     /**
@@ -93,12 +82,10 @@ class Refund extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = RefundModel::query()
+        return RefundModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
 
 }

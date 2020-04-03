@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Home\Controllers;
+namespace App\Http\Web\Controllers;
 
-use App\Http\Home\Services\Chapter as ChapterService;
+use App\Http\Web\Services\Chapter as ChapterService;
 
 /**
  * @RoutePrefix("/chapter")
@@ -11,7 +11,7 @@ class ChapterController extends Controller
 {
 
     /**
-     * @Get("/{id:[0-9]+}", name="home.chapter.show")
+     * @Get("/{id:[0-9]+}", name="web.chapter.show")
      */
     public function showAction($id)
     {
@@ -23,7 +23,7 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/comments", name="home.chapter.comments")
+     * @Get("/{id:[0-9]+}/comments", name="web.chapter.comments")
      */
     public function commentsAction($id)
     {
@@ -35,7 +35,7 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/agree", name="home.chapter.agree")
+     * @Post("/{id:[0-9]+}/agree", name="web.chapter.agree")
      */
     public function agreeAction($id)
     {
@@ -47,7 +47,7 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/oppose", name="home.chapter.oppose")
+     * @Post("/{id:[0-9]+}/oppose", name="web.chapter.oppose")
      */
     public function opposeAction($id)
     {
@@ -59,7 +59,7 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/position", name="home.chapter.position")
+     * @Post("/{id:[0-9]+}/position", name="web.chapter.position")
      */
     public function positionAction($id)
     {
@@ -71,7 +71,7 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/finish", name="home.chapter.finish")
+     * @Post("/{id:[0-9]+}/finish", name="web.chapter.finish")
      */
     public function finishAction($id)
     {

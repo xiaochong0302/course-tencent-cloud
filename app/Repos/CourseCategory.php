@@ -17,12 +17,10 @@ class CourseCategory extends Repository
      */
     public function findCourseCategory($courseId, $categoryId)
     {
-        $result = CourseCategoryModel::findFirst([
+        return CourseCategoryModel::findFirst([
             'conditions' => 'course_id = :course_id: AND category_id = :category_id:',
             'bind' => ['course_id' => $courseId, 'category_id' => $categoryId],
         ]);
-
-        return $result;
     }
 
     /**
@@ -31,11 +29,9 @@ class CourseCategory extends Repository
      */
     public function findByCategoryIds($categoryIds)
     {
-        $result = CourseCategoryModel::query()
+        return CourseCategoryModel::query()
             ->inWhere('category_id', $categoryIds)
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -44,11 +40,9 @@ class CourseCategory extends Repository
      */
     public function findByCourseIds($courseIds)
     {
-        $result = CourseCategoryModel::query()
+        return CourseCategoryModel::query()
             ->inWhere('course_id', $courseIds)
             ->execute();
-
-        return $result;
     }
 
 }

@@ -6,11 +6,9 @@ $error = [];
  * 通用相关
  */
 $error['sys.uri_not_found'] = '资源地址不存在';
-$error['sys.invalid_auth_token'] = '无效的auth_token';
 $error['sys.invalid_referer'] = '无效的请求来源';
 $error['sys.auth_user_failed'] = '用户认证失败';
 $error['sys.access_denied'] = '访问被拒绝';
-$error['sys.session_expired'] = '会话已过期';
 $error['sys.unknown_error'] = '未知错误';
 
 /**
@@ -32,7 +30,6 @@ $error['account.invalid_password'] = '无效的密码（字母或数字6-16位�
 $error['account.email_taken'] = '邮箱被占用';
 $error['account.phone_taken'] = '手机号被占用';
 $error['account.origin_password_incorrect'] = '原密码不正确';
-$error['account.admin_not_authorized'] = '账号没有登录后台的授权';
 
 /**
  * 用户相关
@@ -268,6 +265,7 @@ $error['refund.invalid_review_status'] = '无效的审核状态';
 $error['role.not_found'] = '角色不存在';
 $error['role.name_too_short'] = '名称太短（少于2个字符）';
 $error['role.name_too_long'] = '名称太长（超过30个字符）';
+$error['role.summary_too_long'] = '描述太长（超过255个字符）';
 $error['role.routes_required'] = '角色权限不能为空';
 
 /**

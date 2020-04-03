@@ -3,8 +3,8 @@
 namespace App\Caches;
 
 use App\Models\Course as CourseModel;
-use App\Repos\Course as CourseRepo;
 use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class HotCourseList extends Cache
 {
@@ -23,12 +23,7 @@ class HotCourseList extends Cache
 
     public function getContent($id = null)
     {
-        $courseRepo = new CourseRepo();
-
-        /**
-         * @var Resultset $courses
-         */
-        $courses = $courseRepo->findRelatedCourses($id);
+        $courses = $this->findHotCourses($id);
 
         if ($courses->count() == 0) {
             return [];
@@ -59,6 +54,19 @@ class HotCourseList extends Cache
         }
 
         return $result;
+    }
+
+    /**
+     * @param int $limit
+     * @return ResultsetInterface|Resultset|CourseModel[]
+     */
+    protected function findHotCourses($limit = 10)
+    {
+        return CourseModel::query()
+            ->where('deleted = 0')
+            ->orderBy('score DESC')
+            ->limit($limit)
+            ->execute();
     }
 
 }

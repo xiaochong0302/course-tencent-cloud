@@ -146,7 +146,7 @@ class Refund extends Model
 
     public static function statusTypes()
     {
-        $list = [
+        return [
             self::STATUS_PENDING => '待处理',
             self::STATUS_CANCELED => '已取消',
             self::STATUS_APPROVED => '已审核',
@@ -154,8 +154,6 @@ class Refund extends Model
             self::STATUS_FINISHED => '已完成',
             self::STATUS_FAILED => '已失败',
         ];
-
-        return $list;
     }
 
 }

@@ -15,12 +15,10 @@ class ConsultVote extends Repository
      */
     public function findConsultVote($consultId, $userId)
     {
-        $result = ConsultVoteModel::findFirst([
+        return ConsultVoteModel::findFirst([
             'conditions' => 'consult_id = :consult_id: AND user_id = :user_id:',
             'bind' => ['consult_id' => $consultId, 'user_id' => $userId],
         ]);
-
-        return $result;
     }
 
 }

@@ -17,12 +17,10 @@ class CourseTopic extends Repository
      */
     public function findCourseTopic($courseId, $topicId)
     {
-        $result = CourseTopicModel::findFirst([
+        return CourseTopicModel::findFirst([
             'conditions' => 'course_id = :course_id: AND topic_id = :topic_id:',
             'bind' => ['course_id' => $courseId, 'topic_id' => $topicId],
         ]);
-
-        return $result;
     }
 
     /**
@@ -31,11 +29,9 @@ class CourseTopic extends Repository
      */
     public function findByTopicIds($topicIds)
     {
-        $result = CourseTopicModel::query()
+        return CourseTopicModel::query()
             ->inWhere('topic_id', $topicIds)
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -44,11 +40,9 @@ class CourseTopic extends Repository
      */
     public function findByCourseIds($courseIds)
     {
-        $result = CourseTopicModel::query()
+        return CourseTopicModel::query()
             ->inWhere('course_id', $courseIds)
             ->execute();
-
-        return $result;
     }
 
 }

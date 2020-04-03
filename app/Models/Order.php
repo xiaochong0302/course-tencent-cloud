@@ -181,38 +181,32 @@ class Order extends Model
 
     public static function itemTypes()
     {
-        $list = [
+        return [
             self::ITEM_COURSE => '课程',
             self::ITEM_PACKAGE => '套餐',
             self::ITEM_REWARD => '赞赏',
             self::ITEM_VIP => '会员',
             self::ITEM_TEST => '测试',
         ];
-
-        return $list;
     }
 
     public static function sourceTypes()
     {
-        $list = [
+        return [
             self::SOURCE_DESKTOP => 'desktop',
             self::SOURCE_ANDROID => 'android',
             self::SOURCE_IOS => 'ios',
         ];
-
-        return $list;
     }
 
     public static function statusTypes()
     {
-        $list = [
+        return [
             self::STATUS_PENDING => '待支付',
             self::STATUS_FINISHED => '已完成',
             self::STATUS_CLOSED => '已关闭',
             self::STATUS_REFUNDED => '已退款',
         ];
-
-        return $list;
     }
 
 }

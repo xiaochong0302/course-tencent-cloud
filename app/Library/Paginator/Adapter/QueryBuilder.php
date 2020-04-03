@@ -53,9 +53,7 @@ class QueryBuilder extends BaseQueryBuilder
     {
         $this->params['page'] = $page;
 
-        $queryUrl = $this->url . '?' . http_build_query($this->params);
-
-        return $queryUrl;
+        return $this->url . '?' . http_build_query($this->params);
     }
 
 }

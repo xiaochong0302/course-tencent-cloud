@@ -127,27 +127,21 @@ class VodEventTask extends Task
     {
         $vodService = new VodService();
 
-        $result = $vodService->pullEvents();
-
-        return $result;
+        return $vodService->pullEvents();
     }
 
     protected function confirmEvents($handles)
     {
         $vodService = new VodService();
 
-        $result = $vodService->confirmEvents($handles);
-
-        return $result;
+        return $vodService->confirmEvents($handles);
     }
 
     protected function isAudioFile($format)
     {
         $formats = ['mp3', 'm4a', 'wav', 'flac', 'ogg'];
 
-        $result = in_array(strtolower($format), $formats);
-
-        return $result;
+        return in_array(strtolower($format), $formats);
     }
 
     protected function updateVodAttrs($courseId)

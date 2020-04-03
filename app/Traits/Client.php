@@ -16,9 +16,7 @@ trait Client
          */
         $request = Di::getDefault()->get('request');
 
-        $clientIp = $request->getClientAddress();
-
-        return $clientIp;
+        return $request->getClientAddress();
     }
 
     public function getClientType()

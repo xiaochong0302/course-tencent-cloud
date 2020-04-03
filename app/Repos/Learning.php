@@ -9,13 +9,6 @@ use Phalcon\Mvc\Model;
 class Learning extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -59,9 +52,7 @@ class Learning extends Repository
      */
     public function findById($id)
     {
-        $result = LearningModel::findFirst($id);
-
-        return $result;
+        return LearningModel::findFirst($id);
     }
 
     /**
@@ -70,12 +61,10 @@ class Learning extends Repository
      */
     public function findByRequestId($requestId)
     {
-        $result = LearningModel::findFirst([
+        return LearningModel::findFirst([
             'conditions' => 'request_id = :request_id:',
             'bind' => ['request_id' => $requestId],
         ]);
-
-        return $result;
     }
 
 }

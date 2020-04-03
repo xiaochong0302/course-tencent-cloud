@@ -17,12 +17,10 @@ class CourseRelated extends Repository
      */
     public function findCourseRelated($courseId, $relatedId)
     {
-        $result = CourseRelatedModel::findFirst([
+        return CourseRelatedModel::findFirst([
             'conditions' => 'course_id = :course_id: AND related_id = :related_id:',
             'bind' => ['course_id' => $courseId, 'related_id' => $relatedId],
         ]);
-
-        return $result;
     }
 
     /**
@@ -31,11 +29,9 @@ class CourseRelated extends Repository
      */
     public function findByRelatedIds($relatedIds)
     {
-        $result = CourseRelatedModel::query()
+        return CourseRelatedModel::query()
             ->inWhere('related_id', $relatedIds)
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -44,11 +40,9 @@ class CourseRelated extends Repository
      */
     public function findByCourseIds($courseIds)
     {
-        $result = CourseRelatedModel::query()
+        return CourseRelatedModel::query()
             ->inWhere('course_id', $courseIds)
             ->execute();
-
-        return $result;
     }
 
 }

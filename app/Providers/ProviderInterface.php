@@ -4,13 +4,9 @@ namespace App\Providers;
 
 use Phalcon\Di\InjectionAwareInterface;
 
-/**
- * \App\Providers\ServiceProviderInterface
- *
- * @package App\Providers
- */
 interface ProviderInterface extends InjectionAwareInterface
 {
+
     /**
      * Register application service.
      *
@@ -24,4 +20,5 @@ interface ProviderInterface extends InjectionAwareInterface
      * @return string
      */
     public function getName();
+
 }

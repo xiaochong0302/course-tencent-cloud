@@ -47,9 +47,7 @@ class CategoryTreeList extends Cache
 
         $builder = new CategoryTreeListBuilder();
 
-        $content = $builder->handleTreeList($items);
-
-        return $content;
+        return $builder->handleTreeList($items);
     }
 
 }

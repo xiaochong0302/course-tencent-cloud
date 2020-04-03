@@ -11,39 +11,29 @@ class Query extends Component
     {
         $page = $this->request->get('page', 'int', 1);
 
-        $result = $page > 1000 ? 1000 : $page;
-
-        return $result;
+        return $page > 1000 ? 1000 : $page;
     }
 
     public function getLimit()
     {
         $limit = $this->request->get('limit', 'int', 15);
 
-        $result = $limit > 100 ? 100 : $limit;
-
-        return $result;
+        return $limit > 100 ? 100 : $limit;
     }
 
     public function getSort()
     {
-        $sort = $this->request->get('sort', 'trim', '');
-
-        return $sort;
+        return $this->request->get('sort', 'trim', '');
     }
 
     public function getUrl()
     {
-        $url = $this->request->get('_url', 'trim', '');
-
-        return $url;
+        return $this->request->get('_url', 'trim', '');
     }
 
     public function getParams()
     {
-        $params = $this->request->get();
-
-        return $params;
+        return $this->request->get();
     }
 
 }

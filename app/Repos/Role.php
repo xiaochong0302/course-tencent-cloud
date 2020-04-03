@@ -12,32 +12,6 @@ class Role extends Repository
 {
 
     /**
-     * @param int $id
-     * @return RoleModel|Model|bool
-     */
-    public function findById($id)
-    {
-        $result = RoleModel::findFirst($id);
-
-        return $result;
-    }
-
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|RoleModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = RoleModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    /**
      * @param array $where
      * @return ResultsetInterface|Resultset|RoleModel[]
      */
@@ -51,19 +25,37 @@ class Role extends Repository
             $query->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
-        $result = $query->execute();
+        return $query->execute();
+    }
 
-        return $result;
+    /**
+     * @param int $id
+     * @return RoleModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return RoleModel::findFirst($id);
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|RoleModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return RoleModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
     }
 
     public function countUsers($roleId)
     {
-        $count = UserModel::count([
+        return UserModel::count([
             'conditions' => 'admin_role = :role_id:',
             'bind' => ['role_id' => $roleId],
         ]);
-
-        return $count;
     }
 
 }

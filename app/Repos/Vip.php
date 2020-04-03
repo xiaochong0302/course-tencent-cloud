@@ -11,32 +11,6 @@ class Vip extends Repository
 {
 
     /**
-     * @param int $id
-     * @return VipModel|Model|bool
-     */
-    public function findById($id)
-    {
-        $result = VipModel::findFirst($id);
-
-        return $result;
-    }
-
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|VipModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = VipModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    /**
      * @param array $where
      * @return ResultsetInterface|Resultset|VipModel[]
      */
@@ -50,9 +24,29 @@ class Vip extends Repository
             $query->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
-        $result = $query->execute();
+        return $query->execute();
+    }
 
-        return $result;
+    /**
+     * @param int $id
+     * @return VipModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return VipModel::findFirst($id);
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|VipModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return VipModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
     }
 
 }

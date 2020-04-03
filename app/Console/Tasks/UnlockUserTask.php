@@ -28,19 +28,17 @@ class UnlockUserTask extends Task
      * 查找待解锁用户
      *
      * @param int $limit
-     * @return UserModel[]|Resultset|ResultsetInterface
+     * @return ResultsetInterface|Resultset|UserModel[]
      */
     protected function findUsers($limit = 1000)
     {
         $time = time() - 6 * 3600;
 
-        $users = UserModel::query()
+        return UserModel::query()
             ->where('locked = 1')
-            ->andWhere('lock_expiry < :time:', ['time' => $time])
+            ->andWhere('lock_expiry_time < :time:', ['time' => $time])
             ->limit($limit)
             ->execute();
-
-        return $users;
     }
 
 }

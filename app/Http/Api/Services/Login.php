@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Services\Frontend\Account;
+namespace App\Http\Api\Services;
 
 use App\Services\Frontend\Service;
 use App\Validators\Account as AccountValidator;
-use App\Validators\Security as SecurityValidator;
 
 class Login extends Service
 {
@@ -14,15 +13,18 @@ class Login extends Service
         $validator = new AccountValidator();
 
         $user = $validator->checkUserLogin($account, $password);
-
-        return $user;
     }
 
     public function loginByVerify($account, $code)
     {
-        $validator = new SecurityValidator();
+        $validator = new AccountValidator();
 
-        $validator->checkVerifyCode($account, $code);
+        $user = $validator->checkVerifyLogin($account, $code);
+    }
+
+    protected function grantAuthToken()
+    {
+
     }
 
 }

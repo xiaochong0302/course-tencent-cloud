@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Home\Controllers;
+namespace App\Http\Web\Controllers;
 
 use App\Models\Order as OrderModel;
 use Home\Services\Order as OrderService;
@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
 
     /**
-     * @Post("/confirm", name="home.order.confirm")
+     * @Post("/confirm", name="web.order.confirm")
      */
     public function confirmAction()
     {
@@ -52,7 +52,7 @@ class OrderController extends Controller
     }
 
     /**
-     * @Post("/create", name="home.order.create")
+     * @Post("/create", name="web.order.create")
      */
     public function createAction()
     {
@@ -64,7 +64,7 @@ class OrderController extends Controller
     }
 
     /**
-     * @Get("/cashier", name="home.order.cashier")
+     * @Get("/cashier", name="web.order.cashier")
      */
     public function cashierAction()
     {
@@ -82,7 +82,7 @@ class OrderController extends Controller
     }
 
     /**
-     * @Post("/pay", name="home.order.pay")
+     * @Post("/pay", name="web.order.pay")
      */
     public function payAction()
     {
@@ -102,7 +102,7 @@ class OrderController extends Controller
     }
 
     /**
-     * @Post("/notify/{channel}", name="home.order.notify")
+     * @Post("/notify/{channel}", name="web.order.notify")
      */
     public function notifyAction($channel)
     {
@@ -112,7 +112,7 @@ class OrderController extends Controller
     }
 
     /**
-     * @Post("/status", name="home.order.status")
+     * @Post("/status", name="web.order.status")
      */
     public function statusAction()
     {
@@ -128,7 +128,7 @@ class OrderController extends Controller
     }
 
     /**
-     * @Post("/cancel", name="home.order.cancel")
+     * @Post("/cancel", name="web.order.cancel")
      */
     public function cancelAction()
     {

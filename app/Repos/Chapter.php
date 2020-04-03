@@ -18,32 +18,6 @@ class Chapter extends Repository
 {
 
     /**
-     * @param int $id
-     * @return ChapterModel|Model|bool
-     */
-    public function findById($id)
-    {
-        $result = ChapterModel::findFirst($id);
-
-        return $result;
-    }
-
-    /**
-     * @param array $ids
-     * @param string|array $columns
-     * @return ResultsetInterface|Resultset|ChapterModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = ChapterModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    /**
      * @param array $where
      * @return ResultsetInterface|Resultset|ChapterModel[]
      */
@@ -69,9 +43,29 @@ class Chapter extends Repository
             $query->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
-        $result = $query->execute();
+        return $query->execute();
+    }
 
-        return $result;
+    /**
+     * @param int $id
+     * @return ChapterModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return ChapterModel::findFirst($id);
+    }
+
+    /**
+     * @param array $ids
+     * @param string|array $columns
+     * @return ResultsetInterface|Resultset|ChapterModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return ChapterModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
     }
 
     /**
@@ -87,9 +81,7 @@ class Chapter extends Repository
 
         if (!$vod) return false;
 
-        $result = ChapterModel::findFirst($vod->chapter_id);
-
-        return $result;
+        return ChapterModel::findFirst($vod->chapter_id);
     }
 
     /**
@@ -98,12 +90,10 @@ class Chapter extends Repository
      */
     public function findChapterVod($chapterId)
     {
-        $result = ChapterVodModel::findFirst([
+        return ChapterVodModel::findFirst([
             'conditions' => 'chapter_id = :chapter_id:',
             'bind' => ['chapter_id' => $chapterId],
         ]);
-
-        return $result;
     }
 
     /**
@@ -112,12 +102,10 @@ class Chapter extends Repository
      */
     public function findChapterLive($chapterId)
     {
-        $result = ChapterLiveModel::findFirst([
+        return ChapterLiveModel::findFirst([
             'conditions' => 'chapter_id = :chapter_id:',
             'bind' => ['chapter_id' => $chapterId],
         ]);
-
-        return $result;
     }
 
     /**
@@ -126,12 +114,10 @@ class Chapter extends Repository
      */
     public function findChapterRead($chapterId)
     {
-        $result = ChapterReadModel::findFirst([
+        return ChapterReadModel::findFirst([
             'conditions' => 'chapter_id = :chapter_id:',
             'bind' => ['chapter_id' => $chapterId],
         ]);
-
-        return $result;
     }
 
     /**
@@ -141,101 +127,83 @@ class Chapter extends Repository
      */
     public function findUserCommentVotes($chapterId, $userId)
     {
-        $result = $this->modelsManager->createBuilder()
+        return $this->modelsManager->createBuilder()
             ->columns('cv.*')
             ->addFrom(CommentModel::class, 'c')
             ->join(CommentVoteModel::class, 'c.id = cv.comment_id', 'cv')
             ->where('c.chapter_id = :chapter_id:', ['chapter_id' => $chapterId])
             ->andWhere('cv.user_id = :user_id:', ['user_id' => $userId])
             ->getQuery()->execute();
-
-        return $result;
     }
 
     public function maxChapterPriority($courseId)
     {
-        $result = ChapterModel::maximum([
+        return ChapterModel::maximum([
             'column' => 'priority',
             'conditions' => 'course_id = :course_id: AND parent_id = 0',
             'bind' => ['course_id' => $courseId],
         ]);
-
-        return $result;
     }
 
     public function maxLessonPriority($chapterId)
     {
-        $result = ChapterModel::maximum([
+        return ChapterModel::maximum([
             'column' => 'priority',
             'conditions' => 'parent_id = :parent_id:',
             'bind' => ['parent_id' => $chapterId],
         ]);
-
-        return $result;
     }
 
     public function countLessons($chapterId)
     {
-        $result = ChapterModel::count([
+        return ChapterModel::count([
             'conditions' => 'parent_id = :chapter_id: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId],
         ]);
-
-        return $result;
     }
 
     public function countUsers($chapterId)
     {
-        $count = ChapterUserModel::count([
+        return ChapterUserModel::count([
             'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId],
         ]);
-
-        return $count;
     }
 
     public function countComments($chapterId)
     {
-        $count = CommentModel::count([
+        return CommentModel::count([
             'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId],
         ]);
-
-        return $count;
     }
 
     public function countAgrees($chapterId)
     {
         $type = ChapterVoteModel::TYPE_AGREE;
 
-        $count = ChapterVoteModel::count([
+        return ChapterVoteModel::count([
             'conditions' => 'chapter_id = :chapter_id: AND type = :type: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId, 'type' => $type],
         ]);
-
-        return $count;
     }
 
     public function countOpposes($chapterId)
     {
         $type = ChapterVoteModel::TYPE_OPPOSE;
 
-        $count = ChapterVoteModel::count([
+        return ChapterVoteModel::count([
             'conditions' => 'chapter_id = :chapter_id: AND type = :type: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId, 'type' => $type],
         ]);
-
-        return $count;
     }
 
     public function countUserComments($chapterId, $userId)
     {
-        $count = CommentModel::count([
+        return CommentModel::count([
             'conditions' => 'chapter_id = :chapter_id: AND user_id = :user_id:',
             'bind' => ['chapter_id' => $chapterId, 'user_id' => $userId],
         ]);
-
-        return $count;
     }
 
 }

@@ -277,15 +277,13 @@ class RefundTask extends Task
         $status = TaskModel::STATUS_PENDING;
         $tryCount = self::TRY_COUNT;
 
-        $tasks = TaskModel::query()
+        return TaskModel::query()
             ->where('item_type = :item_type:', ['item_type' => $itemType])
             ->andWhere('status = :status:', ['status' => $status])
             ->andWhere('try_count < :try_count:', ['try_count' => $tryCount])
             ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();
-
-        return $tasks;
     }
 
 }

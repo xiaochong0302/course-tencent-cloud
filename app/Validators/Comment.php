@@ -93,15 +93,4 @@ class Comment extends Validator
         return $status;
     }
 
-    public function checkRateLimit($chapterId, $userId)
-    {
-        $chapterRepo = new ChapterRepo();
-
-        $count = $chapterRepo->countUserComments($chapterId, $userId);
-
-        if ($count >= 50) {
-            throw new BadRequestException('comment.reach_rate_limit');
-        }
-    }
-
 }

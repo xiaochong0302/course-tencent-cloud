@@ -34,13 +34,11 @@ class RevokeVipTask extends Task
     {
         $time = time();
 
-        $users = UserModel::query()
+        return UserModel::query()
             ->where('vip = 1')
-            ->andWhere('vip_expiry < :time:', ['time' => $time])
+            ->andWhere('vip_expiry_time < :time:', ['time' => $time])
             ->limit($limit)
             ->execute();
-
-        return $users;
     }
 
 }

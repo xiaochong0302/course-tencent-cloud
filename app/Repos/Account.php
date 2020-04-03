@@ -16,9 +16,7 @@ class Account extends Repository
      */
     public function findById($id)
     {
-        $result = AccountModel::findFirst($id);
-
-        return $result;
+        return AccountModel::findFirst($id);
     }
 
     /**
@@ -27,12 +25,10 @@ class Account extends Repository
      */
     public function findByPhone($phone)
     {
-        $result = AccountModel::findFirst([
+        return AccountModel::findFirst([
             'conditions' => 'phone = :phone:',
             'bind' => ['phone' => $phone],
         ]);
-
-        return $result;
     }
 
     /**
@@ -41,12 +37,10 @@ class Account extends Repository
      */
     public function findByEmail($email)
     {
-        $result = AccountModel::findFirst([
+        return AccountModel::findFirst([
             'conditions' => 'email = :email:',
             'bind' => ['email' => $email],
         ]);
-
-        return $result;
     }
 
     /**
@@ -56,12 +50,10 @@ class Account extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = AccountModel::query()
+        return AccountModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
 
 }

@@ -11,6 +11,10 @@ class Refund extends Smser
 
     protected $templateCode = 'refund';
 
+    /**
+     * @param RefundModel $refund
+     * @return bool
+     */
     public function handle(RefundModel $refund)
     {
         $accountRepo = new AccountRepo();
@@ -18,7 +22,7 @@ class Refund extends Smser
         $account = $accountRepo->findById($refund->user_id);
 
         if (!$account->phone) {
-            return null;
+            return false;
         }
 
         $templateId = $this->getTemplateId($this->templateCode);

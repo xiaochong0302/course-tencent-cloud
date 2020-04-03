@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Home\Controllers;
+namespace App\Http\Web\Controllers;
 
 use App\Caches\Config as ConfigCache;
 use App\Caches\NavTreeList as NavTreeListCache;

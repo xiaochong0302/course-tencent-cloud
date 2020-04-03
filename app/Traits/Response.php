@@ -61,9 +61,7 @@ trait Response
     {
         $errors = require config_path() . '/errors.php';
 
-        $message = $errors[$code] ?? $code;
-
-        return $message;
+        return $errors[$code] ?? $code;
     }
 
 }

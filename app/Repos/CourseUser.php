@@ -9,13 +9,6 @@ use Phalcon\Mvc\Model;
 class CourseUser extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -67,9 +60,7 @@ class CourseUser extends Repository
      */
     public function findById($id)
     {
-        $result = CourseUserModel::findFirst($id);
-
-        return $result;
+        return CourseUserModel::findFirst($id);
     }
 
     /**
@@ -79,13 +70,11 @@ class CourseUser extends Repository
      */
     public function findCourseUser($courseId, $userId)
     {
-        $result = CourseUserModel::findFirst([
+        return CourseUserModel::findFirst([
             'conditions' => 'course_id = ?1 AND user_id = ?2 AND deleted = 0',
             'bind' => [1 => $courseId, 2 => $userId],
             'order' => 'id DESC',
         ]);
-
-        return $result;
     }
 
     /**
@@ -97,9 +86,7 @@ class CourseUser extends Repository
     {
         $roleType = CourseUserModel::ROLE_TEACHER;
 
-        $result = $this->findRoleCourseUser($courseId, $userId, $roleType);
-
-        return $result;
+        return $this->findRoleCourseUser($courseId, $userId, $roleType);
     }
 
     /**
@@ -111,9 +98,7 @@ class CourseUser extends Repository
     {
         $roleType = CourseUserModel::ROLE_STUDENT;
 
-        $result = $this->findRoleCourseUser($courseId, $userId, $roleType);
-
-        return $result;
+        return $this->findRoleCourseUser($courseId, $userId, $roleType);
     }
 
     /**
@@ -124,13 +109,11 @@ class CourseUser extends Repository
      */
     protected function findRoleCourseUser($courseId, $userId, $roleType)
     {
-        $result = CourseUserModel::findFirst([
+        return CourseUserModel::findFirst([
             'conditions' => 'course_id = ?1 AND user_id = ?2 AND role_type = ?3 AND deleted = 0',
             'bind' => [1 => $courseId, 2 => $userId, 3 => $roleType],
             'order' => 'id DESC',
         ]);
-
-        return $result;
     }
 
 }

@@ -51,9 +51,7 @@ abstract class Mailer extends Service
             $config['password'] = $opt['smtp_password'];
         }
 
-        $manager = new MailerManager($config);
-
-        return $manager;
+        return new MailerManager($config);
     }
 
 }

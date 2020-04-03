@@ -27,8 +27,7 @@ class Module implements ModuleDefinitionInterface
         });
 
         $di->setShared('auth', function () {
-            $authUser = new AdminAuthUser();
-            return $authUser;
+            return new AdminAuthUser();
         });
     }
 

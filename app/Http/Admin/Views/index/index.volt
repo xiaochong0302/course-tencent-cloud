@@ -37,7 +37,7 @@
                 </dl>
             </li>
             <li class="layui-nav-item">
-                <a href="{{ url({'for':'home.index'}) }}" target="_blank">前台</a>
+                <a href="{{ url({'for':'web.index'}) }}" target="_blank">前台</a>
             </li>
         </ul>
     </div>

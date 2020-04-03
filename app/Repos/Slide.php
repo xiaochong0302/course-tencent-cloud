@@ -11,13 +11,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Slide extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'priority', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -61,9 +54,7 @@ class Slide extends Repository
      */
     public function findById($id)
     {
-        $result = SlideModel::findFirst($id);
-
-        return $result;
+        return SlideModel::findFirst($id);
     }
 
     /**
@@ -73,12 +64,10 @@ class Slide extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = SlideModel::query()
+        return SlideModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -87,14 +76,12 @@ class Slide extends Repository
      */
     public function findTopSlides($limit = 5)
     {
-        $result = SlideModel::query()
+        return SlideModel::query()
             ->andWhere('published = :published:', ['published' => 1])
             ->andWhere('deleted = :deleted:', ['deleted' => 0])
             ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();
-
-        return $result;
     }
 
 }

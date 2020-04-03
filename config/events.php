@@ -6,7 +6,7 @@ use App\Listeners\Payment;
 use App\Listeners\Profiler;
 use App\Listeners\UserDailyCounter;
 
-$events = [
+return [
 
     'db' => Profiler::class,
     'payment' => Payment::class,
@@ -15,5 +15,3 @@ $events = [
     'chapterAdmin' => ChapterAdmin::class,
 
 ];
-
-return $events;

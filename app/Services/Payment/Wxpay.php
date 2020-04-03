@@ -176,9 +176,7 @@ class Wxpay extends Payment
      */
     public function cancel($outTradeNo)
     {
-        $result = $this->close($outTradeNo);
-
-        return $result;
+        return $this->close($outTradeNo);
     }
 
     /**
@@ -245,9 +243,7 @@ class Wxpay extends Payment
             $payConfig['mode'] = 'dev';
         }
 
-        $gateway = Pay::wechat($payConfig);
-
-        return $gateway;
+        return Pay::wechat($payConfig);
     }
 
 }

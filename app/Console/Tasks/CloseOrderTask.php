@@ -36,13 +36,11 @@ class CloseOrderTask extends Task
 
         $createdAt = time() - 12 * 3600;
 
-        $orders = OrderModel::query()
+        return OrderModel::query()
             ->where('status = :status:', ['status' => $status])
             ->andWhere('created_at < :created_at:', ['created_at' => $createdAt])
             ->limit($limit)
             ->execute();
-
-        return $orders;
     }
 
 }

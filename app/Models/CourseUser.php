@@ -133,23 +133,19 @@ class CourseUser extends Model
 
     public static function roleTypes()
     {
-        $list = [
+        return [
             self::ROLE_STUDENT => '学员',
             self::ROLE_TEACHER => '讲师',
         ];
-
-        return $list;
     }
 
     public static function sourceTypes()
     {
-        $list = [
+        return [
             self::SOURCE_FREE => '免费',
             self::SOURCE_CHARGE => '付费',
             self::SOURCE_IMPORT => '导入',
         ];
-
-        return $list;
     }
 
 }

@@ -39,7 +39,7 @@ class HttpErrorHandler extends Component
         if ($this->router->getModuleName() == 'api') {
             $this->apiError($e);
         } else if ($this->isAjax()) {
-            $this->jsonError($e);
+            $this->ajaxError($e);
         } else {
             $this->pageError($e);
         }
@@ -110,7 +110,7 @@ class HttpErrorHandler extends Component
 
         $code = $this->response->getStatusCode();
 
-        $for = "home.error.{$code}";
+        $for = "web.error.{$code}";
 
         $this->response->redirect(['for' => $for])->send();
     }
@@ -119,12 +119,10 @@ class HttpErrorHandler extends Component
     {
         $errors = require config_path() . '/errors.php';
 
-        $content = [
+        return [
             'code' => $code,
             'msg' => $errors[$code] ?? $code,
         ];
-
-        return $content;
     }
 
     protected function isAjax()

@@ -183,23 +183,19 @@ class User extends Model
 
     public static function genderTypes()
     {
-        $list = [
+        return [
             self::GENDER_MALE => '男',
             self::GENDER_FEMALE => '女',
             self::GENDER_NONE => '保密',
         ];
-
-        return $list;
     }
 
     public static function eduRoleTypes()
     {
-        $list = [
+        return [
             self::EDU_ROLE_STUDENT => '学员',
             self::EDU_ROLE_TEACHER => '讲师',
         ];
-
-        return $list;
     }
 
 }

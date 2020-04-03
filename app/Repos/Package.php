@@ -13,13 +13,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Package extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -63,9 +56,7 @@ class Package extends Repository
      */
     public function findById($id)
     {
-        $result = PackageModel::findFirst($id);
-
-        return $result;
+        return PackageModel::findFirst($id);
     }
 
     /**
@@ -75,12 +66,10 @@ class Package extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = PackageModel::query()
+        return PackageModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -89,7 +78,7 @@ class Package extends Repository
      */
     public function findCourses($packageId)
     {
-        $result = $this->modelsManager->createBuilder()
+        return $this->modelsManager->createBuilder()
             ->columns('c.*')
             ->addFrom(CourseModel::class, 'c')
             ->join(CoursePackageModel::class, 'c.id = cp.course_id', 'cp')
@@ -97,18 +86,14 @@ class Package extends Repository
             ->andWhere('c.deleted = 0')
             ->getQuery()
             ->execute();
-
-        return $result;
     }
 
     public function countCourses($packageId)
     {
-        $count = CoursePackageModel::count([
+        return CoursePackageModel::count([
             'conditions' => 'package_id = :package_id:',
             'bind' => ['package_id' => $packageId],
         ]);
-
-        return $count;
     }
 
 }

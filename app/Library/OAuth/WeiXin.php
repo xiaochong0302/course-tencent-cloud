@@ -2,7 +2,9 @@
 
 namespace App\Library\OAuth;
 
-class WeiXin extends \App\Library\OAuth
+use App\Library\OAuth;
+
+class WeiXin extends OAuth
 {
 
     const AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/qrconnect';

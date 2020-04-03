@@ -11,6 +11,10 @@ class Order extends Smser
 
     protected $templateCode = 'order';
 
+    /**
+     * @param OrderModel $order
+     * @return bool
+     */
     public function handle(OrderModel $order)
     {
         $accountRepo = new AccountRepo();
@@ -18,7 +22,7 @@ class Order extends Smser
         $account = $accountRepo->findById($order->user_id);
 
         if (!$account->phone) {
-            return null;
+            return false;
         }
 
         $templateId = $this->getTemplateId($this->templateCode);

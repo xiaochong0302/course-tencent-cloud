@@ -89,6 +89,19 @@ class Account extends Validator
         }
     }
 
+    public function checkVerifyLogin($name, $code)
+    {
+        $security = new Security();
+
+        $security->checkVerifyCode($name, $code);
+
+        $account = $this->checkLoginAccount($name);
+
+        $userRepo = new UserRepo();
+
+        return $userRepo->findById($account->id);
+    }
+
     public function checkUserLogin($name, $password)
     {
         $accountRepo = new AccountRepo();
@@ -113,9 +126,7 @@ class Account extends Validator
 
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($account->id);
-
-        return $user;
+        return $userRepo->findById($account->id);
     }
 
     public function checkAdminLogin($name, $password)
@@ -123,7 +134,7 @@ class Account extends Validator
         $user = $this->checkUserLogin($name, $password);
 
         if ($user->admin_role == 0) {
-            throw new ForbiddenException('account.admin_not_authorized');
+            throw new ForbiddenException('sys.access_denied');
         }
 
         return $user;

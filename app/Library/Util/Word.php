@@ -51,9 +51,7 @@ class Word
 
     public static function filterChineseWords($str)
     {
-        $result = preg_replace(self::CHINESE_PATTERN, '', $str);
-
-        return $result;
+        return preg_replace(self::CHINESE_PATTERN, '', $str);
     }
 
     public static function filterChineseSymbols($str)
@@ -65,9 +63,7 @@ class Word
             '？', '！', '：', '；', '“	', '”', '‘', '’',
         ];
 
-        $result = str_replace($search, '', $str);
-
-        return $result;
+        return str_replace($search, '', $str);
     }
 
 }

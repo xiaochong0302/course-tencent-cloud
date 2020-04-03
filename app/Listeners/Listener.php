@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Caches\Config as ConfigCache;
+use App\Caches\SectionConfig as SectionConfigCache;
 use App\Library\Logger as AppLogger;
 use Phalcon\Logger\Adapter\File as FileLogger;
 use Phalcon\Mvc\User\Plugin as UserPlugin;
@@ -33,11 +33,9 @@ class Listener extends UserPlugin
      */
     public function getSectionConfig($section)
     {
-        $configCache = new ConfigCache();
+        $cache = new SectionConfigCache();
 
-        $result = $configCache->getSectionConfig($section);
-
-        return $result;
+        return $cache->get($section);
     }
 
 }

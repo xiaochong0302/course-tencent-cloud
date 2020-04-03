@@ -3,22 +3,26 @@
 namespace App\Services\Mailer;
 
 use App\Services\Mailer;
-use App\Services\Verification;
+use App\Services\VerifyCode;
 
 class Verify extends Mailer
 {
 
+    /**
+     * @param string $email
+     * @return bool
+     */
     public function handle($email)
     {
         try {
 
             $message = $this->manager->createMessage();
 
-            $verification = new Verification();
+            $verifyCode = new VerifyCode();
 
             $minutes = 5;
 
-            $code = $verification->getSmsCode($email, 60 * $minutes);
+            $code = $verifyCode->getSmsCode($email, 60 * $minutes);
 
             $subject = '邮件验证码';
 
@@ -46,9 +50,7 @@ class Verify extends Mailer
 
     protected function formatContent($code, $minutes)
     {
-        $content = sprintf('验证码：%s，%s 分钟内有效，如非本人操作请忽略。', $code, $minutes);
-
-        return $content;
+        return sprintf('验证码：%s，%s 分钟内有效，如非本人操作请忽略。', $code, $minutes);
     }
 
 }

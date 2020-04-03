@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Home\Controllers;
+namespace App\Http\Web\Controllers;
 
 use App\Traits\Response as ResponseTrait;
 use Phalcon\Mvc\View;
@@ -19,7 +19,7 @@ class ErrorController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/400", name="home.error.400")
+     * @Get("/400", name="web.error.400")
      */
     public function show400Action()
     {
@@ -27,7 +27,7 @@ class ErrorController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/401", name="home.error.401")
+     * @Get("/401", name="web.error.401")
      */
     public function show401Action()
     {
@@ -35,7 +35,7 @@ class ErrorController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/403", name="home.error.403")
+     * @Get("/403", name="web.error.403")
      */
     public function show403Action()
     {
@@ -43,7 +43,7 @@ class ErrorController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/404", name="home.error.404")
+     * @Get("/404", name="web.error.404")
      */
     public function show404Action()
     {
@@ -55,7 +55,7 @@ class ErrorController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/500", name="home.error.500")
+     * @Get("/500", name="web.error.500")
      */
     public function show500Action()
     {

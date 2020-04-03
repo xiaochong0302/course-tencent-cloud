@@ -7,7 +7,6 @@ use App\Models\Course as CourseModel;
 class CourseChapterUser extends Builder
 {
 
-
     /**
      * 处理课时进度
      *
@@ -69,8 +68,7 @@ class CourseChapterUser extends Builder
             }
         }
 
-
-        $result = [
+        return [
             'id' => $chapter['id'],
             'title' => $chapter['title'],
             'summary' => $chapter['summary'],
@@ -79,8 +77,6 @@ class CourseChapterUser extends Builder
             'attrs' => $attrs,
             'me' => $me,
         ];
-
-        return $result;
     }
 
 }

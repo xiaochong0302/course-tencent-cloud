@@ -110,23 +110,19 @@ class ManageCourseIndexTask extends Task
     {
         $searcher = new CourseSearch();
 
-        $result = $searcher->search($query);
-
-        return $result;
+        return $searcher->search($query);
     }
 
     /**
      * 查找课程
      *
-     * @return Resultset|ResultsetInterface
+     * @return ResultsetInterface|Resultset|CourseModel[]
      */
     protected function findCourses()
     {
-        $courses = CourseModel::query()
+        return CourseModel::query()
             ->where('published = 1')
             ->execute();
-
-        return $courses;
     }
 
 }

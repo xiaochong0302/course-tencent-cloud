@@ -11,36 +11,6 @@ class Config extends Repository
 {
 
     /**
-     * @param string $section
-     * @param string $itemKey
-     * @return ConfigModel|Model|bool
-     */
-    public function findItem($section, $itemKey)
-    {
-        $result = ConfigModel::findFirst([
-            'conditions' => 'section = :section: AND item_key = :item_key:',
-            'bind' => ['section' => $section, 'item_key' => $itemKey],
-        ]);
-
-        return $result;
-    }
-
-    /**
-     * @param string $section
-     * @return Resultset|ResultsetInterface|ConfigModel[]
-     */
-    public function findBySection($section)
-    {
-        $query = ConfigModel::query();
-
-        $query->where('section = :section:', ['section' => $section]);
-
-        $result = $query->execute();
-
-        return $result;
-    }
-
-    /**
      * @param array $where
      * @return Resultset|ResultsetInterface|ConfigModel[]
      */
@@ -54,9 +24,33 @@ class Config extends Repository
             $query->andWhere('section = :section:', ['section' => $where['section']]);
         }
 
-        $result = $query->execute();
+        return $query->execute();
+    }
 
-        return $result;
+    /**
+     * @param string $section
+     * @param string $itemKey
+     * @return ConfigModel|Model|bool
+     */
+    public function findItem($section, $itemKey)
+    {
+        return ConfigModel::findFirst([
+            'conditions' => 'section = :section: AND item_key = :item_key:',
+            'bind' => ['section' => $section, 'item_key' => $itemKey],
+        ]);
+    }
+
+    /**
+     * @param string $section
+     * @return Resultset|ResultsetInterface|ConfigModel[]
+     */
+    public function findBySection($section)
+    {
+        $query = ConfigModel::query();
+
+        $query->where('section = :section:', ['section' => $section]);
+
+        return $query->execute();
     }
 
 }

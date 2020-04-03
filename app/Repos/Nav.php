@@ -11,32 +11,6 @@ class Nav extends Repository
 {
 
     /**
-     * @param int $id
-     * @return NavModel|Model|bool
-     */
-    public function findById($id)
-    {
-        $result = NavModel::findFirst($id);
-
-        return $result;
-    }
-
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|NavModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = NavModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    /**
      * @param array $where
      * @return ResultsetInterface|Resultset|NavModel[]
      */
@@ -68,19 +42,37 @@ class Nav extends Repository
 
         $query->orderBy('position DESC,priority ASC');
 
-        $result = $query->execute();
+        return $query->execute();
+    }
 
-        return $result;
+    /**
+     * @param int $id
+     * @return NavModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return NavModel::findFirst($id);
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|NavModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return NavModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
     }
 
     public function countChildNavs($navId)
     {
-        $count = NavModel::count([
+        return NavModel::count([
             'conditions' => 'parent_id = :parent_id: AND published = 1 AND deleted = 0',
             'bind' => ['parent_id' => $navId],
         ]);
-
-        return $count;
     }
 
 }

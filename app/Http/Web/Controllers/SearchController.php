@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Home\Controllers;
+namespace App\Http\Web\Controllers;
 
 /**
  * @RoutePrefix("/search")
@@ -9,7 +9,7 @@ class SearchController extends Controller
 {
 
     /**
-     * @Get("/courses", name="home.search.courses")
+     * @Get("/courses", name="web.search.courses")
      */
     public function coursesAction()
     {
@@ -33,7 +33,7 @@ class SearchController extends Controller
     }
 
     /**
-     * @Get("/course/update", name="home.search.update_course")
+     * @Get("/course/update", name="web.search.update_course")
      */
     public function updateCourseAction()
     {
@@ -51,7 +51,7 @@ class SearchController extends Controller
     }
 
     /**
-     * @Get("/course/create", name="home.search.create_course")
+     * @Get("/course/create", name="web.search.create_course")
      */
     public function createCourseAction()
     {
@@ -69,7 +69,7 @@ class SearchController extends Controller
     }
 
     /**
-     * @Get("/course/delete", name="home.search.delete_course")
+     * @Get("/course/delete", name="web.search.delete_course")
      */
     public function deleteCourseAction()
     {

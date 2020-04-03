@@ -23,9 +23,7 @@ trait Security
          */
         $security = Di::getDefault()->get('security');
 
-        $checkToken = $security->checkToken($tokenKey, $tokenValue);
-
-        return $checkToken;
+        return $security->checkToken($tokenKey, $tokenValue);
     }
 
     public function checkHttpReferer()
@@ -37,9 +35,7 @@ trait Security
 
         $httpHost = parse_url($request->getHttpReferer(), PHP_URL_HOST);
 
-        $checkHost = $httpHost == $request->getHttpHost();
-
-        return $checkHost;
+        return $httpHost == $request->getHttpHost();
     }
 
     public function isNotSafeRequest()
@@ -53,9 +49,7 @@ trait Security
 
         $list = ['post', 'put', 'patch', 'delete'];
 
-        $result = in_array(strtolower($method), $list);
-
-        return $result;
+        return in_array(strtolower($method), $list);
     }
 
 }

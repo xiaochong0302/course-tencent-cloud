@@ -59,12 +59,10 @@ class NavTreeList extends Cache
 
         $builder = new NavTreeListBuilder();
 
-        $content = [
+        return [
             'top' => $builder->handleTreeList($list['top']),
             'bottom' => $builder->handleTreeList($list['bottom']),
         ];
-
-        return $content;
     }
 
 }

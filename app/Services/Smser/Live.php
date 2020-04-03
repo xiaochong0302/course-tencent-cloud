@@ -16,7 +16,7 @@ class Live extends Smser
      * @param int $chapterId
      * @param int $userId
      * @param int $startTime
-     * @return bool|null
+     * @return bool
      */
     public function handle($chapterId, $userId, $startTime)
     {
@@ -25,7 +25,7 @@ class Live extends Smser
         $account = $accountRepo->findById($userId);
 
         if (!$account->phone) {
-            return null;
+            return false;
         }
 
         $chapterRepo = new ChapterRepo();

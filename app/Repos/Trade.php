@@ -12,13 +12,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Trade extends Repository
 {
 
-    /**
-     * @param array $where
-     * @param string $sort
-     * @param int $page
-     * @param int $limit
-     * @return \stdClass
-     */
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
@@ -74,9 +67,7 @@ class Trade extends Repository
      */
     public function findById($id)
     {
-        $result = TradeModel::findFirst($id);
-
-        return $result;
+        return TradeModel::findFirst($id);
     }
 
     /**
@@ -85,12 +76,10 @@ class Trade extends Repository
      */
     public function findBySn($sn)
     {
-        $result = TradeModel::findFirst([
+        return TradeModel::findFirst([
             'conditions' => 'sn = :sn:',
             'bind' => ['sn' => $sn],
         ]);
-
-        return $result;
     }
 
     /**
@@ -100,12 +89,10 @@ class Trade extends Repository
      */
     public function findByIds($ids, $columns = '*')
     {
-        $result = TradeModel::query()
+        return TradeModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -114,11 +101,9 @@ class Trade extends Repository
      */
     public function findRefunds($tradeId)
     {
-        $result = RefundModel::query()
+        return RefundModel::query()
             ->where('trade_id = :trade_id:', ['trade_id' => $tradeId])
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -127,13 +112,11 @@ class Trade extends Repository
      */
     public function findLastRefund($tradeId)
     {
-        $result = RefundModel::findFirst([
+        return RefundModel::findFirst([
             'conditions' => 'trade_id = :trade_id:',
             'bind' => ['trade_id' => $tradeId],
             'order' => 'id DESC',
         ]);
-
-        return $result;
     }
 
 }

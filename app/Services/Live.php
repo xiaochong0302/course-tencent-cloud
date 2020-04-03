@@ -106,12 +106,10 @@ class Live extends Service
 
         $txSecret = md5($authKey . $streamName . $txTime);
 
-        $authParams = http_build_query([
+        return http_build_query([
             'txSecret' => $txSecret,
             'txTime' => $txTime
         ]);
-
-        return $authParams;
     }
 
 }

@@ -5,7 +5,6 @@ namespace App\Caches;
 use App\Models\Package as PackageModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Package as PackageRepo;
-use Phalcon\Mvc\Model\Resultset;
 
 class CoursePackageList extends Cache
 {
@@ -26,9 +25,6 @@ class CoursePackageList extends Cache
     {
         $courseRepo = new CourseRepo();
 
-        /**
-         * @var Resultset $packages
-         */
         $packages = $courseRepo->findPackages($id);
 
         if ($packages->count() == 0) {

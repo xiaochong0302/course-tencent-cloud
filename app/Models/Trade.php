@@ -143,24 +143,20 @@ class Trade extends Model
 
     public static function channelTypes()
     {
-        $list = [
+        return [
             self::CHANNEL_ALIPAY => '支付宝',
             self::CHANNEL_WXPAY => '微信',
         ];
-
-        return $list;
     }
 
     public static function statusTypes()
     {
-        $list = [
+        return [
             self::STATUS_PENDING => '待支付',
             self::STATUS_FINISHED => '已完成',
             self::STATUS_CLOSED => '已关闭',
             self::STATUS_REFUNDED => '已退款',
         ];
-
-        return $list;
     }
 
 }

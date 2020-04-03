@@ -16,28 +16,28 @@ class Router extends Provider
             $router = new AnnotationsRouter(false);
 
             $router->removeExtraSlashes(true);
-            $router->setDefaultNamespace('App\Http\Home\Controllers');
+            $router->setDefaultNamespace('App\Http\Web\Controllers');
             $router->notFound([
-                'module' => 'home',
+                'module' => 'web',
                 'controller' => 'error',
                 'action' => 'show404',
             ]);
 
-            $homeFiles = scandir(app_path('Http/Home/Controllers'));
+            $webFiles = scandir(app_path('Http/Web/Controllers'));
 
-            foreach ($homeFiles as $file) {
+            foreach ($webFiles as $file) {
                 if (strpos($file, 'Controller.php')) {
                     $className = str_replace('Controller.php', '', $file);
-                    $router->addModuleResource('home', 'App\Http\Home\Controllers\\' . $className);
+                    $router->addModuleResource('home', 'App\Http\Web\Controllers\\' . $className);
                 }
             }
 
-            $adminFiles = scandir(app_path('Http/Admin/Controllers'));
+            $html5Files = scandir(app_path('Http/Html5/Controllers'));
 
-            foreach ($adminFiles as $file) {
+            foreach ($html5Files as $file) {
                 if (strpos($file, 'Controller.php')) {
                     $className = str_replace('Controller.php', '', $file);
-                    $router->addModuleResource('admin', 'App\Http\Admin\Controllers\\' . $className);
+                    $router->addModuleResource('html5', 'App\Http\Html5\Controllers\\' . $className);
                 }
             }
 
@@ -47,6 +47,15 @@ class Router extends Provider
                 if (strpos($file, 'Controller.php')) {
                     $className = str_replace('Controller.php', '', $file);
                     $router->addModuleResource('api', 'App\Http\Api\Controllers\\' . $className);
+                }
+            }
+
+            $adminFiles = scandir(app_path('Http/Admin/Controllers'));
+
+            foreach ($adminFiles as $file) {
+                if (strpos($file, 'Controller.php')) {
+                    $className = str_replace('Controller.php', '', $file);
+                    $router->addModuleResource('admin', 'App\Http\Admin\Controllers\\' . $className);
                 }
             }
 

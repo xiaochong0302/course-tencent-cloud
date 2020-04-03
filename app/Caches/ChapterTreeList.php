@@ -47,9 +47,7 @@ class ChapterTreeList extends Cache
 
         $builder = new ChapterTreeListBuilder();
 
-        $content = $builder->handleTreeList($items);
-
-        return $content;
+        return $builder->handleTreeList($items);
     }
 
 }

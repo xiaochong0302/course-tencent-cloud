@@ -129,9 +129,7 @@ class Refund extends Service
         $consumedCount = count($consumedLessonIds);
         $refundCount = $totalCount - $consumedCount;
 
-        $percent = round($refundCount / $totalCount, 4);
-
-        return $percent;
+        return round($refundCount / $totalCount, 4);
     }
 
 }

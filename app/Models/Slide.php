@@ -137,13 +137,11 @@ class Slide extends Model
 
     public static function targetTypes()
     {
-        $list = [
+        return [
             self::TARGET_COURSE => '课程',
             self::TARGET_PAGE => '单页',
             self::TARGET_LINK => '链接',
         ];
-
-        return $list;
     }
 
 }

@@ -34,7 +34,7 @@ class IndexController extends Controller
             }
         }
 
-        dd($definitions);
+        return $this->jsonSuccess(['routes' => $definitions]);
     }
 
 }

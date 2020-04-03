@@ -78,15 +78,4 @@ class Consult extends Validator
         return $status;
     }
 
-    public function checkRateLimit($courseId, $userId)
-    {
-        $courseRepo = new CourseRepo();
-
-        $count = $courseRepo->countUserConsults($courseId, $userId);
-
-        if ($count >= 10) {
-            throw new BadRequestException('consult.reach_rate_limit');
-        }
-    }
-
 }

@@ -100,9 +100,7 @@ function kg_array_whitelist($params, $whitelist)
  */
 function kg_array_object($array)
 {
-    $result = json_decode(json_encode($array));
-
-    return $result;
+    return json_decode(json_encode($array));
 }
 
 /**
@@ -113,9 +111,7 @@ function kg_array_object($array)
  */
 function kg_object_array($object)
 {
-    $result = json_decode(json_encode($object), true);
-
-    return $result;
+    return json_decode(json_encode($object), true);
 }
 
 /**
@@ -149,9 +145,7 @@ function kg_site_base_url()
     $host = filter_input(INPUT_SERVER, 'HTTP_HOST');
     $path = filter_input(INPUT_SERVER, 'SCRIPT_NAME');
 
-    $baseUrl = "{$scheme}://{$host}" . rtrim(dirname($path), '/');
-
-    return $baseUrl;
+    return "{$scheme}://{$host}" . rtrim(dirname($path), '/');
 }
 
 /**

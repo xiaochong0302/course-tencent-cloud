@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
+use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Services\Mailer\Verify as VerifyMailer;
 use App\Services\Smser\Verify as VerifySmser;
-use Phalcon\Cache\Backend\Redis;
 use Phalcon\Text;
 
-class Verification extends Service
+class VerifyCode extends Service
 {
 
     /**
-     * @var Redis
+     * @var RedisCache
      */
     protected $cache;
 

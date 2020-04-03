@@ -42,6 +42,12 @@ class Role extends Validator
     {
         $value = $this->filter->sanitize($summary, ['trim', 'string']);
 
+        $length = kg_strlen($value);
+
+        if ($length > 255) {
+            throw new BadRequestException('role.summary_too_long');
+        }
+
         return $value;
     }
 

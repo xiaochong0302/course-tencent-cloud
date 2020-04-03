@@ -9,9 +9,7 @@ class Builder extends Component
 
     public function arrayToObject($array)
     {
-        $result = kg_array_object($array);
-
-        return $result;
+        return kg_array_object($array);
     }
 
 }
