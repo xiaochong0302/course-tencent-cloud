@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Services\Frontend\Account;
+namespace App\Http\Api\Services;
 
-use App\Services\Frontend\Service;
+use App\Services\AuthUser\Api as ApiAuthUser;
 
 class Logout extends Service
 {
 
-    public function logoutBySession()
+    public function logout()
     {
+        $authUser = new ApiAuthUser();
 
-    }
-
-    public function logoutByToken()
-    {
-
+        return $authUser->clearAuthInfo();
     }
 
 }

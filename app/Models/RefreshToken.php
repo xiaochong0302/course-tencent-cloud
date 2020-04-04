@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
-
 class RefreshToken extends Model
 {
 
@@ -22,11 +20,11 @@ class RefreshToken extends Model
     public $user_id;
 
     /**
-     * 删除标识
+     * 回收标识
      *
      * @var int
      */
-    public $deleted;
+    public $revoked;
 
     /**
      * 过期时间
@@ -35,35 +33,9 @@ class RefreshToken extends Model
      */
     public $expired_at;
 
-    /**
-     * 创建时间
-     *
-     * @var int
-     */
-    public $created_at;
-
-    /**
-     * 更新时间
-     *
-     * @var int
-     */
-    public $updated_at;
-
     public function getSource()
     {
         return 'kg_refresh_token';
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->addBehavior(
-            new SoftDelete([
-                'field' => 'deleted',
-                'value' => 1,
-            ])
-        );
     }
 
     public function beforeCreate()
@@ -71,13 +43,6 @@ class RefreshToken extends Model
         $this->id = $this->getRandId($this->user_id);
 
         $this->expired_at = strtotime('+30 days');
-
-        $this->created_at = time();
-    }
-
-    public function beforeUpdate()
-    {
-        $this->updated_at = time();
     }
 
     protected function getRandId($userId, $prefix = 'RT')

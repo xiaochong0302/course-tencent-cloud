@@ -11,7 +11,7 @@ trait Security
     public function checkCsrfToken()
     {
         /**
-         * @var Request $request ;
+         * @var Request $request
          */
         $request = Di::getDefault()->get('request');
 
@@ -29,7 +29,7 @@ trait Security
     public function checkHttpReferer()
     {
         /**
-         * @var Request $request ;
+         * @var Request $request
          */
         $request = Di::getDefault()->get('request');
 
@@ -41,7 +41,7 @@ trait Security
     public function isNotSafeRequest()
     {
         /**
-         * @var Request $request ;
+         * @var Request $request
          */
         $request = Di::getDefault()->get('request');
 

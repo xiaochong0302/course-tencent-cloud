@@ -8,7 +8,6 @@ use App\Exceptions\NotFound as NotFoundException;
 use App\Exceptions\Unauthorized as UnauthorizedException;
 use App\Library\Logger as AppLogger;
 use Phalcon\Mvc\User\Component;
-use Phalcon\Text;
 
 class HttpErrorHandler extends Component
 {
@@ -36,9 +35,12 @@ class HttpErrorHandler extends Component
             $this->report($e);
         }
 
-        if ($this->router->getModuleName() == 'api') {
+        $isApiRequest = is_api_request();
+        $isAjaxRequest = is_ajax_request();
+
+        if ($isApiRequest) {
             $this->apiError($e);
-        } else if ($this->isAjax()) {
+        } elseif ($isAjaxRequest) {
             $this->ajaxError($e);
         } else {
             $this->pageError($e);
@@ -52,11 +54,11 @@ class HttpErrorHandler extends Component
     {
         if ($e instanceof BadRequestException) {
             $this->response->setStatusCode(400);
-        } else if ($e instanceof UnauthorizedException) {
+        } elseif ($e instanceof UnauthorizedException) {
             $this->response->setStatusCode(401);
-        } else if ($e instanceof ForbiddenException) {
+        } elseif ($e instanceof ForbiddenException) {
             $this->response->setStatusCode(403);
-        } else if ($e instanceof NotFoundException) {
+        } elseif ($e instanceof NotFoundException) {
             $this->response->setStatusCode(404);
         } else {
             $this->response->setStatusCode(500);
@@ -123,21 +125,6 @@ class HttpErrorHandler extends Component
             'code' => $code,
             'msg' => $errors[$code] ?? $code,
         ];
-    }
-
-    protected function isAjax()
-    {
-        if ($this->request->isAjax()) {
-            return true;
-        }
-
-        $contentType = $this->request->getContentType();
-
-        if (Text::startsWith($contentType, 'application/json')) {
-            return true;
-        }
-
-        return false;
     }
 
     protected function getLogger()

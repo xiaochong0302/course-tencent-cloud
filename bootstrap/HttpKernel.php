@@ -100,7 +100,7 @@ class HttpKernel extends Kernel
                 'className' => 'App\Http\Admin\Module',
                 'path' => app_path('Http/Admin/Module.php'),
             ],
-            'home' => [
+            'web' => [
                 'className' => 'App\Http\Web\Module',
                 'path' => app_path('Http/Web/Module.php'),
             ],

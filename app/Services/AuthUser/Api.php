@@ -2,7 +2,9 @@
 
 namespace App\Services\AuthUser;
 
-use App\Library\Cache\Backend\Redis as RedisCache;
+use App\Caches\AccessToken as AccessTokenCache;
+use App\Models\AccessToken as AccessTokenModel;
+use App\Models\RefreshToken as RefreshTokenModel;
 use App\Models\User as UserModel;
 use App\Services\AuthUser;
 
@@ -11,66 +13,52 @@ class Api extends AuthUser
 
     public function saveAuthInfo(UserModel $user)
     {
-        $authUser = new \stdClass();
+        $accessToken = new AccessTokenModel();
+        $accessToken->user_id = $user->id;
+        $accessToken->create();
 
-        $authUser->id = $user->id;
-        $authUser->name = $user->name;
-        $authUser->avatar = $user->avatar;
-        $authUser->admin_role = $user->admin_role;
-        $authUser->edu_role = $user->edu_role;
+        $refreshToken = new RefreshTokenModel();
+        $refreshToken->user_id = $user->id;
+        $refreshToken->create();
 
-        $authToken = $this->getRandToken($user->id);
-
-        $cacheKey = $this->getCacheKey($authToken);
-
-        $cache = $this->getCache();
-
-        $cache->save($cacheKey, $authUser);
+        return [
+            'access_token' => $accessToken->id,
+            'refresh_token' => $refreshToken->id,
+            'expiry_time' => $accessToken->expiry_time,
+        ];
     }
 
     public function clearAuthInfo()
     {
         $authToken = $this->getAuthToken();
 
-        $cacheKey = $this->getCacheKey($authToken);
+        $accessTokenCache = new AccessTokenCache();
 
-        $cache = $this->getCache();
+        /**
+         * @var AccessTokenModel $accessToken
+         */
+        $accessToken = $accessTokenCache->get($authToken);
 
-        $cache->delete($cacheKey);
+        if ($accessToken) {
+
+            $accessToken->update(['revoked' => 1]);
+
+            $accessTokenCache->delete($authToken);
+        }
     }
 
     public function getAuthInfo()
     {
         $authToken = $this->getAuthToken();
 
-        $cacheKey = $this->getCacheKey($authToken);
+        $accessTokenCache = new AccessTokenCache();
 
-        $cache = $this->getCache();
-
-        return $cache->get($cacheKey);
+        return $accessTokenCache->get($authToken);
     }
 
     public function getAuthToken()
     {
         return $this->request->getHeader('Authorization');
-    }
-
-    public function getCacheKey($token)
-    {
-        return "token:{$token}";
-    }
-
-    public function getRandToken($userId)
-    {
-        return md5($userId . time() . rand(1000, 9999));
-    }
-
-    /**
-     * @return RedisCache
-     */
-    public function getCache()
-    {
-        return $this->getDI()->get('cache');
     }
 
 }

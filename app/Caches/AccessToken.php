@@ -2,6 +2,8 @@
 
 namespace App\Caches;
 
+use App\Repos\AccessToken as AccessTokenRepo;
+
 class AccessToken extends Cache
 {
 
@@ -19,15 +21,15 @@ class AccessToken extends Cache
 
     public function getContent($id = null)
     {
-        $categoryRepo = new CategoryRepo();
+        $accessTokenRepo = new AccessTokenRepo();
 
-        $category = $categoryRepo->findById($id);
+        $accessToken = $accessTokenRepo->findById($id);
 
-        if (!$category) {
+        if (!$accessToken) {
             return new \stdClass();
         }
 
-        return $category;
+        return $accessToken;
     }
 
 }

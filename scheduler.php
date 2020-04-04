@@ -49,4 +49,7 @@ $scheduler->php($script, $bin, ['--task' => 'count_course', '--action' => 'main'
 $scheduler->php($script, $bin, ['--task' => 'live_notice_provider', '--action' => 'main'])
     ->daily(3, 23);
 
+$scheduler->php($script, $bin, ['--task' => 'clean_auth_token', '--action' => 'main'])
+    ->daily(3, 31);
+
 $scheduler->run();

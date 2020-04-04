@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use App\Caches\AccessToken as AccessTokenCache;
 
 class AccessToken extends Model
 {
@@ -22,11 +22,11 @@ class AccessToken extends Model
     public $user_id;
 
     /**
-     * 删除标识
+     * 回收标识
      *
      * @var int
      */
-    public $deleted;
+    public $revoked;
 
     /**
      * 过期时间
@@ -35,35 +35,9 @@ class AccessToken extends Model
      */
     public $expired_at;
 
-    /**
-     * 创建时间
-     *
-     * @var int
-     */
-    public $created_at;
-
-    /**
-     * 更新时间
-     *
-     * @var int
-     */
-    public $updated_at;
-
     public function getSource()
     {
         return 'kg_access_token';
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->addBehavior(
-            new SoftDelete([
-                'field' => 'deleted',
-                'value' => 1,
-            ])
-        );
     }
 
     public function beforeCreate()
@@ -73,18 +47,11 @@ class AccessToken extends Model
         $this->expired_at = strtotime('+2 hours');
     }
 
-    public function beforeUpdate()
-    {
-        $this->updated_at = time();
-    }
-
     public function afterCreate()
     {
-        $refreshToken = new RefreshToken();
+        $accessTokenCache = new AccessTokenCache();
 
-        $refreshToken->user_id = $this->user_id;
-
-        $refreshToken->create();
+        $accessTokenCache->rebuild($this->id);
     }
 
     protected function getRandId($userId, $prefix = 'AT')

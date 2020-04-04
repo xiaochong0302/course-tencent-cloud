@@ -11,12 +11,15 @@ class AccessToken extends Repository
 {
 
     /**
-     * @param int $id
+     * @param string $id
      * @return AccessTokenModel|Model|bool
      */
     public function findById($id)
     {
-        return AccessTokenModel::findFirst($id);
+        return AccessTokenModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

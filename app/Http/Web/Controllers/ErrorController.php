@@ -48,8 +48,11 @@ class ErrorController extends \Phalcon\Mvc\Controller
     public function show404Action()
     {
         $this->response->setStatusCode(404);
-        
-        if ($this->request->isAjax()) {
+
+        $isApiRequest = is_api_request();
+        $isAjaxRequest = is_ajax_request();
+
+        if ($isAjaxRequest || $isApiRequest) {
             return $this->jsonError(['code' => 'sys.uri_not_found']);
         }
     }

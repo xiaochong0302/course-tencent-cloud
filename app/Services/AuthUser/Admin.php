@@ -23,17 +23,17 @@ class Admin extends AuthUser
 
         $root = $role->id == RoleModel::ROLE_ROOT ? 1 : 0;
 
-        $authUser = new \stdClass();
-
-        $authUser->id = $user->id;
-        $authUser->name = $user->name;
-        $authUser->avatar = $user->avatar;
-        $authUser->routes = $role->routes;
-        $authUser->root = $root;
+        $authInfo = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'avatar' => $user->avatar,
+            'routes' => $role->routes,
+            'root' => $root,
+        ];
 
         $authKey = $this->getAuthKey();
 
-        $this->session->set($authKey, $authUser);
+        $this->session->set($authKey, $authInfo);
     }
 
     /**

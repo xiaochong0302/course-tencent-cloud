@@ -11,12 +11,15 @@ class RefreshToken extends Repository
 {
 
     /**
-     * @param int $id
+     * @param string $id
      * @return RefreshTokenModel|Model|bool
      */
     public function findById($id)
     {
-        return RefreshTokenModel::findFirst($id);
+        return RefreshTokenModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**
