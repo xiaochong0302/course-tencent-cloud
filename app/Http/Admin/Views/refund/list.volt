@@ -45,7 +45,7 @@
             </td>
             <td>￥{{ item.amount }}</td>
             <td>{{ refund_status(item) }}</td>
-            <td>{{ date('Y-m-d H:i',item.created_at) }}</td>
+            <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
             <td align="center">
                 <a class="layui-btn layui-btn-sm layui-bg-green" href="{{ url({'for':'admin.refund.show','id':item.id}) }}">详情</a>
             </td>

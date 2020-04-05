@@ -33,7 +33,21 @@ class AccessToken extends Model
      *
      * @var int
      */
-    public $expired_at;
+    public $expiry_time;
+
+    /**
+     * 创建时间
+     *
+     * @var int
+     */
+    public $create_time;
+
+    /**
+     * 更新时间
+     *
+     * @var int
+     */
+    public $update_time;
 
     public function getSource()
     {
@@ -44,7 +58,14 @@ class AccessToken extends Model
     {
         $this->id = $this->getRandId($this->user_id);
 
-        $this->expired_at = strtotime('+2 hours');
+        $this->expiry_time = strtotime('+2 hours');
+
+        $this->create_time = time();
+    }
+
+    public function beforeUpdate()
+    {
+        $this->update_time = time();
     }
 
     public function afterCreate()

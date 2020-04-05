@@ -59,7 +59,7 @@ class ConsultList extends Service
                 'answer' => $consult['answer'],
                 'agree_count' => $consult['agree_count'],
                 'oppose_count' => $consult['oppose_count'],
-                'created_at' => $consult['created_at'],
+                'create_time' => $consult['create_time'],
                 'course' => $course,
             ];
         }

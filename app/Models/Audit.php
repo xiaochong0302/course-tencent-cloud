@@ -59,7 +59,7 @@ class Audit extends Model
      *
      * @var int
      */
-    public $created_at;
+    public $create_time;
 
     public function getSource()
     {
@@ -68,7 +68,7 @@ class Audit extends Model
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->create_time = time();
 
         if (!empty($this->req_data)) {
             $this->req_data = kg_json_encode($this->req_data);

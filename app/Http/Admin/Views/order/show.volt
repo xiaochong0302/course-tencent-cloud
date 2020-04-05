@@ -23,7 +23,7 @@
         <td>￥{{ order.amount }}</td>
         <td>{{ item_type(order.item_type) }}</span></td>
         <td>{{ order_status(order.status) }}</td>
-        <td>{{ date('Y-m-d H:i',order.created_at) }}</td>
+        <td>{{ date('Y-m-d H:i',order.create_time) }}</td>
     </tr>
 </table>
 
@@ -54,7 +54,7 @@
                 <td>￥{{ item.amount }}</td>
                 <td><a href="#" title="{{ item.apply_note }}">{{ substr(item.apply_note,0,15) }}</td>
                 <td>{{ refund_status(item) }}</td>
-                <td>{{ date('Y-m-d H:i',item.created_at) }}</td>
+                <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
             </tr>
         {% endfor %}
     </table>
@@ -80,7 +80,7 @@
                 <td>￥{{ item.amount }}</td>
                 <td>{{ channel_type(item.channel) }}</td>
                 <td>{{ trade_status(item.status) }}</td>
-                <td>{{ date('Y-m-d H:i',item.created_at) }}</td>
+                <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
             </tr>
         {% endfor %}
     </table>

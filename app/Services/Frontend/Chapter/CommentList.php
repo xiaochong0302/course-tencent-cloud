@@ -86,7 +86,7 @@ class CommentList extends Service
                 'agree_count' => $comment['agree_count'],
                 'oppose_count' => $comment['oppose_count'],
                 'reply_count' => $comment['reply_count'],
-                'created_at' => $comment['created_at'],
+                'create_time' => $comment['create_time'],
                 'user' => $user,
                 'me' => $me,
             ];

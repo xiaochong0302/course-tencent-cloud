@@ -51,13 +51,6 @@ class Course extends Model
     public $id;
 
     /**
-     * 类型
-     *
-     * @var string
-     */
-    public $class_id;
-
-    /**
      * 标题
      *
      * @var string
@@ -209,14 +202,14 @@ class Course extends Model
      *
      * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $updated_at;
+    public $update_time;
 
     public function getSource()
     {
@@ -237,7 +230,7 @@ class Course extends Model
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->create_time = time();
 
         $attrs = [];
 
@@ -256,12 +249,11 @@ class Course extends Model
         if (!empty($attrs)) {
             $this->attrs = kg_json_encode($attrs);
         }
-
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        $this->update_time = time();
 
         if (!empty($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
@@ -281,51 +273,43 @@ class Course extends Model
 
     public static function modelTypes()
     {
-        $types = [
+        return [
             self::MODEL_VOD => '点播',
             self::MODEL_LIVE => '直播',
             self::MODEL_READ => '图文',
         ];
-
-        return $types;
     }
 
     public static function levelTypes()
     {
-        $types = [
+        return [
             self::LEVEL_ENTRY => '入门',
             self::LEVEL_JUNIOR => '初级',
             self::LEVEL_MEDIUM => '中级',
             self::LEVEL_SENIOR => '高级',
         ];
-
-        return $types;
     }
 
     public static function studyExpiryOptions()
     {
-        $options = [
+        return [
             1 => '1个月',
             3 => '3个月',
             6 => '6个月',
             12 => '12个月',
             36 => '36个月',
         ];
-
-        return $options;
     }
 
     public static function refundExpiryOptions()
     {
-        $options = [
+        return [
             7 => '7天',
             14 => '14天',
             30 => '30天',
             90 => '90天',
             180 => '180天',
         ];
-
-        return $options;
     }
 
 }

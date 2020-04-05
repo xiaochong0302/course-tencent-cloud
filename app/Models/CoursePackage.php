@@ -31,7 +31,7 @@ class CoursePackage extends Model
      *
      * @var int
      */
-    public $created_at;
+    public $create_time;
 
     public function getSource()
     {
@@ -40,7 +40,7 @@ class CoursePackage extends Model
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->create_time = time();
     }
 
 }

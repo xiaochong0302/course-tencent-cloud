@@ -10,35 +10,35 @@ class Comment extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 父级编号
      *
-     * @var integer
+     * @var int
      */
     public $parent_id;
 
     /**
      * 课程编号
      *
-     * @var integer
+     * @var int
      */
     public $course_id;
 
     /**
      * 章节编号
      *
-     * @var integer
+     * @var int
      */
     public $chapter_id;
 
     /**
      * 用户编号
      *
-     * @var integer
+     * @var int
      */
     public $user_id;
 
@@ -61,7 +61,7 @@ class Comment extends Model
     /**
      * 回复数
      *
-     * @var integer
+     * @var int
      */
     public $reply_count;
 
@@ -96,16 +96,16 @@ class Comment extends Model
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
     public function getSource()
     {

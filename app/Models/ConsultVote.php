@@ -17,21 +17,21 @@ class ConsultVote extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 咨询编号
      *
-     * @var integer
+     * @var int
      */
     public $consult_id;
 
     /**
      * 用户编号
      *
-     * @var integer
+     * @var int
      */
     public $user_id;
 
@@ -52,9 +52,9 @@ class ConsultVote extends Model
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     public function getSource()
     {
@@ -75,12 +75,12 @@ class ConsultVote extends Model
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        $this->update_time = time();
     }
 
 }

@@ -80,14 +80,14 @@ class Task extends Model
      *
      * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $updated_at;
+    public $update_time;
 
     public function getSource()
     {
@@ -98,7 +98,7 @@ class Task extends Model
     {
         $this->status = self::STATUS_PENDING;
 
-        $this->created_at = time();
+        $this->create_time = time();
 
         if (!empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
@@ -109,7 +109,7 @@ class Task extends Model
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        $this->update_time = time();
 
         if (!empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);

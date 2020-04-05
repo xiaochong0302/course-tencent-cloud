@@ -34,7 +34,7 @@ class CleanAuthTokenTask extends Task
     protected function findAccessTokens()
     {
         return AccessTokenModel::query()
-            ->where('expired_at < :expired_at:', ['expired_at' => time()])
+            ->where('expiry_time < :expiry_time:', ['expiry_time' => time()])
             ->execute();
     }
 
@@ -46,7 +46,7 @@ class CleanAuthTokenTask extends Task
     protected function findRefreshTokens()
     {
         return RefreshTokenModel::query()
-            ->where('expired_at < :expired_at:', ['expired_at' => time()])
+            ->where('expiry_time < :expiry_time:', ['expiry_time' => time()])
             ->execute();
     }
 

@@ -75,14 +75,14 @@ class Role extends Model
      *
      * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $updated_at;
+    public $update_time;
 
     public function getSource()
     {
@@ -103,7 +103,7 @@ class Role extends Model
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->create_time = time();
 
         if (!empty($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
@@ -112,7 +112,7 @@ class Role extends Model
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        $this->update_time = time();
 
         if (!empty($this->routes)) {
             $this->routes = kg_json_encode($this->routes);

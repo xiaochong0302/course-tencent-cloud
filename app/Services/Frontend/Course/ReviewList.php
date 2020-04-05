@@ -83,7 +83,7 @@ class ReviewList extends Service
                 'content' => $review['content'],
                 'agree_count' => $review['agree_count'],
                 'oppose_count' => $review['oppose_count'],
-                'created_at' => $review['created_at'],
+                'create_time' => $review['create_time'],
                 'user' => $user,
                 'me' => $me,
             ];

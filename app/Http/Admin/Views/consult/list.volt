@@ -46,7 +46,7 @@
                 <p>昵称：{{ item.user.name }}</p>
                 <p>编号：{{ item.user.id }}</p>
             </td>
-            <td>{{ date('Y-m-d H:i',item.created_at) }}</td>
+            <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
             <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否"
                        lay-filter="switch-published" consult-id="{{ item.id }}"
                        {% if item.published == 1 %}checked{% endif %}></td>

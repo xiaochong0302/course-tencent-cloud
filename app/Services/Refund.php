@@ -46,7 +46,7 @@ class Refund extends Service
         $userId = $order->user_id;
         $amount = $order->amount;
 
-        $expireTime = strtotime("+{$course['expiry']} days", $order->created_at);
+        $expireTime = strtotime("+{$course['expiry']} days", $order->create_time);
 
         $refundAmount = 0.00;
 
@@ -87,7 +87,7 @@ class Refund extends Service
          */
         foreach ($courses as $course) {
 
-            $expireTime = strtotime("+{$course['expiry']} days", $order->created_at);
+            $expireTime = strtotime("+{$course['expiry']} days", $order->create_time);
 
             if ($expireTime > time()) {
                 $pricePercent = round($course['market_price'] / $totalMarketPrice, 4);

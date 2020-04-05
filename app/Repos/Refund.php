@@ -34,7 +34,7 @@ class Refund extends Repository
         if (!empty($where['start_time']) && !empty($where['end_time'])) {
             $startTime = strtotime($where['start_time']);
             $endTime = strtotime($where['end_time']);
-            $builder->betweenWhere('created_at', $startTime, $endTime);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
         }
 
         switch ($sort) {

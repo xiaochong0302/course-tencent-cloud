@@ -99,14 +99,14 @@ class Refund extends Model
      *
      * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $updated_at;
+    public $update_time;
 
     public function getSource()
     {
@@ -131,12 +131,12 @@ class Refund extends Model
 
         $this->sn = date('YmdHis') . rand(1000, 9999);
 
-        $this->created_at = time();
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        $this->update_time = time();
     }
 
     public function afterFetch()

@@ -31,7 +31,21 @@ class RefreshToken extends Model
      *
      * @var int
      */
-    public $expired_at;
+    public $expiry_time;
+
+    /**
+     * 创建时间
+     *
+     * @var int
+     */
+    public $create_time;
+
+    /**
+     * 更新时间
+     *
+     * @var int
+     */
+    public $update_time;
 
     public function getSource()
     {
@@ -42,7 +56,14 @@ class RefreshToken extends Model
     {
         $this->id = $this->getRandId($this->user_id);
 
-        $this->expired_at = strtotime('+30 days');
+        $this->expiry_time = strtotime('+30 days');
+
+        $this->create_time = time();
+    }
+
+    public function beforeUpdate()
+    {
+        $this->update_time = time();
     }
 
     protected function getRandId($userId, $prefix = 'RT')

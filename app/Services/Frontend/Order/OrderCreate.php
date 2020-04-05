@@ -42,7 +42,7 @@ class OrderCreate extends Service
         if ($order) {
 
             $caseA = $order->status == OrderModel::STATUS_PENDING;
-            $caseB = time() - $order->created_at < 6 * 3600;
+            $caseB = time() - $order->create_time < 6 * 3600;
 
             if ($caseA && $caseB) {
                 return $order;

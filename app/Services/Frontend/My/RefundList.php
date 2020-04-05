@@ -60,7 +60,7 @@ class RefundList extends Service
                 'status' => $refund['status'],
                 'apply_note' => $refund['apply_note'],
                 'review_note' => $refund['review_note'],
-                'created_at' => (int)$refund['created_at'],
+                'create_time' => (int)$refund['create_time'],
             ];
         }
 

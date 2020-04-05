@@ -19,7 +19,7 @@
         <td>￥{{ refund.amount }}</td>
         <td><span title="{{ refund.apply_note }}">{{ substr(refund.apply_note,0,15) }}</span></td>
         <td>{{ refund_status(refund) }}</td>
-        <td>{{ date('Y-m-d H:i',refund.created_at) }}</td>
+        <td>{{ date('Y-m-d H:i',refund.create_time) }}</td>
     </tr>
 </table>
 
@@ -74,7 +74,7 @@
         <td>￥{{ trade.amount }}</td>
         <td>{{ channel_type(trade.channel) }}</td>
         <td>{{ trade_status(trade.status) }}</td>
-        <td>{{ date('Y-m-d H:i',trade.created_at) }}</td>
+        <td>{{ date('Y-m-d H:i',trade.create_time) }}</td>
     </tr>
 </table>
 
@@ -97,7 +97,7 @@
         <td>{{ order.subject }}</td>
         <td>￥{{ order.amount }}</td>
         <td>{{ order_status(order.status) }}</td>
-        <td>{{ date('Y-m-d H:i',order.created_at) }}</td>
+        <td>{{ date('Y-m-d H:i',order.create_time) }}</td>
     </tr>
 </table>
 

@@ -73,11 +73,11 @@ class CloseTradeTask extends Task
     {
         $status = TradeModel::STATUS_PENDING;
 
-        $createdAt = time() - 15 * 60;
+        $createTime = time() - 15 * 60;
 
         return TradeModel::query()
             ->where('status = :status:', ['status' => $status])
-            ->andWhere('created_at < :created_at:', ['created_at' => $createdAt])
+            ->andWhere('create_time < :create_time:', ['create_time' => $createTime])
             ->limit($limit)
             ->execute();
     }

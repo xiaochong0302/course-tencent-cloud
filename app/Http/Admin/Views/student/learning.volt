@@ -6,11 +6,11 @@
     {% endif %}
 {%- endmacro %}
 
-{%- macro last_active(created_at, updated_at) %}
-    {% if updated_at > 0 %}
-        {{ date('Y-m-d H:i', updated_at) }}
+{%- macro last_active(create_time, update_time) %}
+    {% if update_time > 0 %}
+        {{ date('Y-m-d H:i', update_time) }}
     {% else %}
-        {{ date('Y-m-d H:i', created_at) }}
+        {{ date('Y-m-d H:i', create_time) }}
     {% endif %}
 {%- endmacro %}
 
@@ -41,7 +41,7 @@
             <td>{{ item.duration|play_duration }}</td>
             <td>{{ client_type(item.client_type) }}</td>
             <td><a class="kg-ip2region" href="javascript:;" title="查看位置" ip="{{ item.client_ip }}">{{ item.client_ip }}</a></td>
-            <td>{{ last_active(item.created_at, item.updated_at) }}</td>
+            <td>{{ last_active(item.create_time, item.update_time) }}</td>
         </tr>
     {% endfor %}
     </tbody>

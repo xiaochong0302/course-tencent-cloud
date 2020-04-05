@@ -53,7 +53,7 @@ class CourseDocument extends Component
             'attrs' => $course->attrs,
             'user_count' => $course->user_count,
             'lesson_count' => $course->lesson_count,
-            'created_at' => $course->created_at,
+            'create_time' => $course->create_time,
         ];
     }
 

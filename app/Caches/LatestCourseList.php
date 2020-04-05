@@ -69,7 +69,7 @@ class LatestCourseList extends Cache
     {
         return CourseModel::query()
             ->where('deleted = 0')
-            ->orderBy('created_at DESC')
+            ->orderBy('create_time DESC')
             ->limit($limit)
             ->execute();
     }
