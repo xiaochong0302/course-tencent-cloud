@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Services\AuthUser;
+namespace App\Services\Auth;
 
 use App\Models\User as UserModel;
-use App\Services\AuthUser;
+use App\Services\Auth as AuthService;
+use Yansongda\Supports\Collection;
 
-class Html5 extends AuthUser
+class Web extends AuthService
 {
 
     /**
@@ -17,15 +18,12 @@ class Html5 extends AuthUser
     {
         $authKey = $this->getAuthKey();
 
-        $authUser = new \stdClass();
+        $authInfo = new Collection([
+            'id' => $user->id,
+            'name' => $user->name,
+        ]);
 
-        $authUser->id = $user->id;
-        $authUser->name = $user->name;
-        $authUser->avatar = $user->avatar;
-        $authUser->admin_role = $user->admin_role;
-        $authUser->edu_role = $user->edu_role;
-
-        $this->session->set($authKey, $authUser);
+        $this->session->set($authKey, $authInfo);
     }
 
     /**
@@ -41,13 +39,17 @@ class Html5 extends AuthUser
     /**
      * 读取会话
      *
-     * @return mixed
+     * @return Collection
      */
     public function getAuthInfo()
     {
         $authKey = $this->getAuthKey();
 
-        return $this->session->get($authKey);
+        $authInfo = $this->session->get($authKey);
+
+        $items = $authInfo ? $authInfo : [];
+
+        return new Collection($items);
     }
 
     /**
@@ -57,7 +59,7 @@ class Html5 extends AuthUser
      */
     public function getAuthKey()
     {
-        return 'html5_user_info';
+        return 'web_auth_info';
     }
 
 }

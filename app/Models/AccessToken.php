@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Caches\AccessToken as AccessTokenCache;
-
 class AccessToken extends Model
 {
 
@@ -57,22 +55,13 @@ class AccessToken extends Model
     public function beforeCreate()
     {
         $this->id = $this->getRandId($this->user_id);
-
         $this->expiry_time = strtotime('+2 hours');
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
         $this->update_time = time();
-    }
-
-    public function afterCreate()
-    {
-        $accessTokenCache = new AccessTokenCache();
-
-        $accessTokenCache->rebuild($this->id);
     }
 
     protected function getRandId($userId, $prefix = 'AT')

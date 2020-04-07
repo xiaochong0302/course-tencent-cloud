@@ -2,7 +2,7 @@
 
 namespace App\Http\Web;
 
-use App\Services\AuthUser\Web as WebAuthUser;
+use App\Services\Auth\Web as WebAuth;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
@@ -27,7 +27,7 @@ class Module implements ModuleDefinitionInterface
         });
 
         $di->setShared('auth', function () {
-            return new WebAuthUser();
+            return new WebAuth();
         });
     }
 

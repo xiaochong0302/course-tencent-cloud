@@ -9,18 +9,9 @@ use Phalcon\Mvc\User\Component;
 class Validator extends Component
 {
 
-    public function checkAuthToken($token)
-    {
-        if (!$token) {
-            throw new UnauthorizedException('sys.invalid_auth_token');
-        }
-
-        return $token;
-    }
-
     public function checkAuthUser($user)
     {
-        if (!$user) {
+        if (empty($user['id'])) {
             throw new UnauthorizedException('sys.auth_user_failed');
         }
 

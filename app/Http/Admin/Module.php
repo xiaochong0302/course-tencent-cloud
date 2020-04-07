@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin;
 
-use App\Services\AuthUser\Admin as AdminAuthUser;
+use App\Services\Auth\Admin as AdminAuth;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
@@ -27,7 +27,7 @@ class Module implements ModuleDefinitionInterface
         });
 
         $di->setShared('auth', function () {
-            return new AdminAuthUser();
+            return new AdminAuth();
         });
     }
 

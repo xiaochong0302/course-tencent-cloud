@@ -19,7 +19,7 @@ class Session extends Provider
                 'host' => $config->redis->host,
                 'port' => $config->redis->port,
                 'auth' => $config->redis->auth,
-                'index' => $config->session->index,
+                'index' => $config->redis->index,
                 'prefix' => $config->session->prefix,
                 'lifetime' => $config->session->lifetime,
                 'persistent' => $config->redis->persistent,

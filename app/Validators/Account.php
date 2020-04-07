@@ -6,6 +6,7 @@ use App\Exceptions\BadRequest as BadRequestException;
 use App\Exceptions\Forbidden as ForbiddenException;
 use App\Library\Util\Password as PasswordUtil;
 use App\Library\Validator\Common as CommonValidator;
+use App\Models\Account as AccountModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\User as UserRepo;
 
@@ -39,6 +40,15 @@ class Account extends Validator
         return $password;
     }
 
+    public function checkOriginPassword(AccountModel $account, $password)
+    {
+        $hash = PasswordUtil::hash($password, $account->salt);
+
+        if ($hash != $account->password) {
+            throw new BadRequestException('account.origin_password_incorrect');
+        }
+    }
+
     public function checkIfPhoneTaken($phone)
     {
         $accountRepo = new AccountRepo();
@@ -61,7 +71,7 @@ class Account extends Validator
         }
     }
 
-    public function checkLoginAccount($name)
+    public function checkLoginName($name)
     {
         $accountRepo = new AccountRepo();
 
@@ -74,19 +84,10 @@ class Account extends Validator
         }
 
         if (!$account) {
-            throw new BadRequestException('account.not_found');
+            throw new BadRequestException('account.login_name_incorrect');
         }
 
         return $account;
-    }
-
-    public function checkOriginPassword($account, $password)
-    {
-        $hash = PasswordUtil::hash($password, $account->salt);
-
-        if ($hash != $account->password) {
-            throw new BadRequestException('account.origin_password_incorrect');
-        }
     }
 
     public function checkVerifyLogin($name, $code)
@@ -95,7 +96,7 @@ class Account extends Validator
 
         $security->checkVerifyCode($name, $code);
 
-        $account = $this->checkLoginAccount($name);
+        $account = $this->checkLoginName($name);
 
         $userRepo = new UserRepo();
 
@@ -104,19 +105,7 @@ class Account extends Validator
 
     public function checkUserLogin($name, $password)
     {
-        $accountRepo = new AccountRepo();
-
-        $account = null;
-
-        if (CommonValidator::email($name)) {
-            $account = $accountRepo->findByEmail($name);
-        } elseif (CommonValidator::phone($name)) {
-            $account = $accountRepo->findByPhone($name);
-        }
-
-        if (!$account) {
-            throw new BadRequestException('account.login_account_incorrect');
-        }
+        $account = $this->checkLoginName($name);
 
         $hash = PasswordUtil::hash($password, $account->salt);
 

@@ -55,9 +55,7 @@ class RefreshToken extends Model
     public function beforeCreate()
     {
         $this->id = $this->getRandId($this->user_id);
-
         $this->expiry_time = strtotime('+30 days');
-
         $this->create_time = time();
     }
 
@@ -70,4 +68,5 @@ class RefreshToken extends Model
     {
         return md5("{$prefix}-{$userId}" . time() . rand(1000, 9999));
     }
+
 }

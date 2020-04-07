@@ -29,7 +29,7 @@
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:">{{ auth_user['name'] }}</a>
+                <a href="javascript:">{{ auth_user.name }}</a>
                 <dl class="layui-nav-child">
                     <dd><a target="content" href="#">基本资料</a></dd>
                     <dd><a target="content" href="#">安全设置</a></dd>

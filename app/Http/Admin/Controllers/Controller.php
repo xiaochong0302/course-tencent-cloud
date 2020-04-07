@@ -3,16 +3,17 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Models\Audit as AuditModel;
-use App\Services\AuthUser\Admin as AdminAuthUser;
+use App\Services\Auth\Admin as AdminAuth;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 use Phalcon\Mvc\Dispatcher;
+use Yansongda\Supports\Collection;
 
 class Controller extends \Phalcon\Mvc\Controller
 {
 
     /**
-     * @var array
+     * @var Collection
      */
     protected $authUser;
 
@@ -112,11 +113,11 @@ class Controller extends \Phalcon\Mvc\Controller
     protected function getAuthUser()
     {
         /**
-         * @var AdminAuthUser $authUser
+         * @var AdminAuth $auth
          */
-        $authUser = $this->getDI()->get('auth');
+        $auth = $this->getDI()->get('auth');
 
-        return $authUser->getAuthInfo();
+        return $auth->getAuthInfo();
     }
 
 }

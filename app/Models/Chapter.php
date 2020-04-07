@@ -243,16 +243,16 @@ class Chapter extends Model
 
             switch ($course->model) {
                 case Course::MODEL_VOD:
-                    $model = new ChapterVod();
-                    $model->create($data);
+                    $chapterVod = new ChapterVod();
+                    $chapterVod->create($data);
                     break;
                 case Course::MODEL_LIVE:
-                    $model = new ChapterLive();
-                    $model->create($data);
+                    $chapterLive = new ChapterLive();
+                    $chapterLive->create($data);
                     break;
                 case Course::MODEL_READ:
-                    $model = new ChapterRead();
-                    $model->create($data);
+                    $chapterRead = new ChapterRead();
+                    $chapterRead->create($data);
                     break;
             }
         }

@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
-use App\Services\AuthUser as AuthUserService;
+use App\Services\Auth as AuthService;
 use App\Validators\Validator as AppValidator;
 use Phalcon\Di;
 
@@ -50,7 +50,7 @@ trait Auth
     public function getAuthUser()
     {
         /**
-         * @var AuthUserService $auth
+         * @var AuthService $auth
          */
         $auth = Di::getDefault()->get('auth');
 

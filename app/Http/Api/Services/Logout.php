@@ -2,16 +2,16 @@
 
 namespace App\Http\Api\Services;
 
-use App\Services\AuthUser\Api as ApiAuthUser;
+use App\Services\Auth\Api as ApiAuth;
 
 class Logout extends Service
 {
 
     public function logout()
     {
-        $authUser = new ApiAuthUser();
+        $auth = new ApiAuth();
 
-        return $authUser->clearAuthInfo();
+        return $auth->clearAuthInfo();
     }
 
 }

@@ -8,8 +8,7 @@
 
 <table class="kg-table layui-table">
     <tr>
-        <td colspan="10">订单编号：{{ order.sn }}
-        <td>
+        <td colspan="6">订单编号：{{ order.sn }}</td>
     <tr>
     <tr>
         <td>商品信息</td>

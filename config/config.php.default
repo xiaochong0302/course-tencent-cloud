@@ -95,17 +95,12 @@ $config['redis']['lifetime'] = 7 * 86400;
 /**
  * 会话键前缀
  */
-$config['session']['prefix'] = '';
+$config['session']['prefix'] = ':session:';
 
 /**
  * 会话有效期（秒）
  */
 $config['session']['lifetime'] = 2 * 3600;
-
-/**
- * redis库编号
- */
-$config['session']['index'] = 1;
 
 /**
  * 日志级别

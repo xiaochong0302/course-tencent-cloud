@@ -19,18 +19,14 @@ class AlipayTest extends PaymentTest
 
         $qrcode = $alipayService->scan($trade);
 
-        $result = $qrcode ?: false;
-
-        return $result;
+        return $qrcode ?: false;
     }
 
     public function status($tradeNo)
     {
         $alipayService = new AlipayService();
 
-        $result = $alipayService->status($tradeNo);
-
-        return $result;
+        return $alipayService->status($tradeNo);
     }
 
     public function cancel($tradeNo)

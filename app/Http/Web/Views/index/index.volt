@@ -1,1 +1,1 @@
-<img src="/qrcode/img?text=http://ctc.koogua.com">
+<img src="/qr/img?text=http://ctc.koogua.com">

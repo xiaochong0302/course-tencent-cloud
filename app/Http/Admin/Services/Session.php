@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Services\AuthUser as AuthUserService;
+use App\Services\Auth as AuthService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Security as SecurityValidator;
 
@@ -10,7 +10,7 @@ class Session extends Service
 {
 
     /**
-     * @var AuthUserService
+     * @var AuthService
      */
     protected $auth;
 

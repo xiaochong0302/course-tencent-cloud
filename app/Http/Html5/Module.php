@@ -2,7 +2,7 @@
 
 namespace App\Http\Html5;
 
-use App\Services\AuthUser\Html5 as Html5AuthUser;
+use App\Services\Auth\Html5 as Html5Auth;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
@@ -24,7 +24,7 @@ class Module implements ModuleDefinitionInterface
         });
 
         $di->setShared('auth', function () {
-            return new Html5AuthUser();
+            return new Html5Auth();
         });
     }
 

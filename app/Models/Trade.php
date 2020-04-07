@@ -125,9 +125,7 @@ class Trade extends Model
     public function beforeCreate()
     {
         $this->status = self::STATUS_PENDING;
-
         $this->sn = date('YmdHis') . rand(1000, 9999);
-
         $this->create_time = time();
     }
 

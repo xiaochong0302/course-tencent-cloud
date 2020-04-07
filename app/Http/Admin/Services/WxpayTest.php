@@ -16,27 +16,21 @@ class WxpayTest extends PaymentTest
 
         $qrcode = $wxpayService->scan($trade);
 
-        $result = $qrcode ?: false;
-
-        return $result;
+        return $qrcode ?: false;
     }
 
     public function status($tradeNo)
     {
         $wxpayService = new WxpayService();
 
-        $result = $wxpayService->status($tradeNo);
-
-        return $result;
+        return $wxpayService->status($tradeNo);
     }
 
     public function cancel($tradeNo)
     {
         $wxpayService = new WxpayService();
 
-        $response = $wxpayService->close($tradeNo);
-
-        return $response;
+        return $wxpayService->close($tradeNo);
     }
 
 }

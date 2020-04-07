@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Services\AuthUser;
+namespace App\Services\Auth;
 
 use App\Models\Role as RoleModel;
 use App\Models\User as UserModel;
 use App\Repos\Role as RoleRepo;
-use App\Services\AuthUser;
+use App\Services\Auth as AuthService;
+use Yansongda\Supports\Collection;
 
-class Admin extends AuthUser
+class Admin extends AuthService
 {
 
-    /**
-     * 写入会话
-     *
-     * @param UserModel $user
-     */
     public function saveAuthInfo(UserModel $user)
     {
         $roleRepo = new RoleRepo();
@@ -26,7 +22,6 @@ class Admin extends AuthUser
         $authInfo = [
             'id' => $user->id,
             'name' => $user->name,
-            'avatar' => $user->avatar,
             'routes' => $role->routes,
             'root' => $root,
         ];
@@ -36,9 +31,6 @@ class Admin extends AuthUser
         $this->session->set($authKey, $authInfo);
     }
 
-    /**
-     * 清除会话
-     */
     public function clearAuthInfo()
     {
         $authKey = $this->getAuthKey();
@@ -46,43 +38,31 @@ class Admin extends AuthUser
         $this->session->remove($authKey);
     }
 
-    /**
-     * 读取会话
-     *
-     * @return mixed
-     */
     public function getAuthInfo()
     {
         $authKey = $this->getAuthKey();
 
-        return $this->session->get($authKey);
+        $authInfo = $this->session->get($authKey);
+
+        $items = $authInfo ? $authInfo : [];
+
+        return new Collection($items);
     }
 
-    /**
-     * 获取会话键值
-     *
-     * @return string
-     */
     public function getAuthKey()
     {
-        return 'admin_user_info';
+        return 'admin_auth_info';
     }
 
-    /**
-     * 判断权限
-     *
-     * @param string $route
-     * @return bool
-     */
     public function hasPermission($route)
     {
         $authUser = $this->getAuthInfo();
 
-        if ($authUser->root) {
+        if ($authUser['root']) {
             return true;
         }
 
-        if (in_array($route, $authUser->routes)) {
+        if (in_array($route, $authUser['routes'])) {
             return true;
         }
 

@@ -41,6 +41,8 @@ class VerifyCode extends Service
         $code = Text::random(Text::RANDOM_NUMERIC, 6);
 
         $this->cache->save($key, $code, $lifetime);
+
+        return $code;
     }
 
     public function getMailCode($email, $lifetime = 300)
@@ -50,6 +52,8 @@ class VerifyCode extends Service
         $code = Text::random(Text::RANDOM_NUMERIC, 6);
 
         $this->cache->save($key, $code, $lifetime);
+
+        return $code;
     }
 
     public function checkSmsCode($phone, $code)

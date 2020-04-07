@@ -9,6 +9,7 @@ use App\Library\Validator\Common as CommonValidator;
 use App\Models\User as UserModel;
 use App\Repos\Role as RoleRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Auth\Admin as AdminAuth;
 
 class User extends Validator
 {
@@ -181,11 +182,15 @@ class User extends Validator
 
     public function checkIfCanEditUser($user)
     {
+        /**
+         * @var AdminAuth $auth
+         */
         $auth = $this->getDI()->get('auth');
 
         $authUser = $auth->getAuthInfo();
 
-        if ($authUser->id) {
+        if ($authUser['id']) {
+
         }
     }
 

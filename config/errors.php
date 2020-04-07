@@ -22,7 +22,7 @@ $error['security.invalid_verify_code'] = '无效的验证码';
  */
 $error['account.not_found'] = '账号不存在';
 $error['account.login_locked'] = '账号被锁定，无法登录';
-$error['account.login_account_incorrect'] = '登录账号不正确';
+$error['account.login_name_incorrect'] = '登录账号不正确';
 $error['account.login_password_incorrect'] = '登录密码不正确';
 $error['account.invalid_email'] = '无效的电子邮箱';
 $error['account.invalid_phone'] = '无效的手机号';

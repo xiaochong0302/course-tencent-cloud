@@ -263,7 +263,6 @@ class Course extends Model
     public function afterFetch()
     {
         $this->market_price = (float)$this->market_price;
-
         $this->vip_price = (float)$this->vip_price;
 
         if (!empty($this->attrs)) {

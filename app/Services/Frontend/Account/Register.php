@@ -10,7 +10,7 @@ use App\Validators\Security as SecurityValidator;
 class Register extends Service
 {
 
-    public function register()
+    public function registerByPhone()
     {
         $post = $this->request->getPost();
 
@@ -26,6 +26,30 @@ class Register extends Service
         $data['password'] = $accountValidator->checkPassword($post['password']);
 
         $accountValidator->checkIfPhoneTaken($post['phone']);
+
+        $account = new AccountModel();
+
+        $account->create($data);
+
+        return $account;
+    }
+
+    public function registerByEmail()
+    {
+        $post = $this->request->getPost();
+
+        $securityValidator = new SecurityValidator();
+
+        $securityValidator->checkVerifyCode($post['email'], $post['verify_code']);
+
+        $accountValidator = new AccountValidator();
+
+        $data = [];
+
+        $data['email'] = $accountValidator->checkEmail($post['email']);
+        $data['password'] = $accountValidator->checkPassword($post['password']);
+
+        $accountValidator->checkIfEmailTaken($post['email']);
 
         $account = new AccountModel();
 

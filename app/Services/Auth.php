@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\User as UserModel;
 
-abstract class AuthUser extends Service
+abstract class Auth extends Service
 {
 
     abstract function saveAuthInfo(UserModel $user);

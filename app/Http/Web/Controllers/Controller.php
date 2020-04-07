@@ -2,8 +2,9 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Caches\Config as ConfigCache;
 use App\Caches\NavTreeList as NavTreeListCache;
+use App\Caches\SectionConfig as SectionConfigCache;
+use App\Services\Auth\Web as WebAuth;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 use Phalcon\Mvc\Dispatcher;
@@ -46,6 +47,9 @@ class Controller extends \Phalcon\Mvc\Controller
 
     protected function getAuthUser()
     {
+        /**
+         * @var WebAuth $auth
+         */
         $auth = $this->getDI()->get('auth');
 
         return $auth->getAuthInfo();
@@ -53,16 +57,16 @@ class Controller extends \Phalcon\Mvc\Controller
 
     protected function getNavList()
     {
-        $cache = new NavTreeListCache();
+        $treeListCache = new NavTreeListCache();
 
-        return $cache->get();
+        return $treeListCache->get();
     }
 
     protected function getSiteConfig()
     {
-        $cache = new ConfigCache();
+        $sectionCache = new SectionConfigCache();
 
-        return $cache->getSectionConfig('site');
+        return $sectionCache->get('site');
     }
 
 }

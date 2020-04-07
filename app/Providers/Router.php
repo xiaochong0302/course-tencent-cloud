@@ -28,7 +28,7 @@ class Router extends Provider
             foreach ($webFiles as $file) {
                 if (strpos($file, 'Controller.php')) {
                     $className = str_replace('Controller.php', '', $file);
-                    $router->addModuleResource('home', 'App\Http\Web\Controllers\\' . $className);
+                    $router->addModuleResource('web', 'App\Http\Web\Controllers\\' . $className);
                 }
             }
 

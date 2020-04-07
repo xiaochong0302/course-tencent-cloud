@@ -84,18 +84,14 @@ class Account extends Model
     public function beforeCreate()
     {
         $this->salt = Password::salt();
-
         $this->password = Password::hash($this->password, $this->salt);
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
         if (!empty($this->password)) {
-
             $this->salt = Password::salt();
-
             $this->password = Password::hash($this->password, $this->salt);
         }
 
@@ -105,10 +101,8 @@ class Account extends Model
     public function afterCreate()
     {
         $user = new User();
-
         $user->id = $this->id;
         $user->name = "user_{$this->id}";
-
         $user->create();
     }
 

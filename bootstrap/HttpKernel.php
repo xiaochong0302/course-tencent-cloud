@@ -104,7 +104,7 @@ class HttpKernel extends Kernel
                 'className' => 'App\Http\Web\Module',
                 'path' => app_path('Http/Web/Module.php'),
             ],
-            'mobile' => [
+            'html5' => [
                 'className' => 'App\Http\Html5\Module',
                 'path' => app_path('Http/Html5/Module.php'),
             ],

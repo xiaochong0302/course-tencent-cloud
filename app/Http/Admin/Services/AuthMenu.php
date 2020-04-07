@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Services\AuthUser\Admin as AdminAuthUser;
+use App\Services\Auth\Admin as AdminAuth;
 use Phalcon\Mvc\User\Component;
 
 class AuthMenu extends Component
@@ -115,11 +115,11 @@ class AuthMenu extends Component
     protected function getAuthInfo()
     {
         /**
-         * @var AdminAuthUser $authUser
+         * @var AdminAuth $auth
          */
-        $authUser = $this->getDI()->get('auth');
+        $auth = $this->getDI()->get('auth');
 
-        return $authUser->getAuthInfo();
+        return $auth->getAuthInfo();
     }
 
 }

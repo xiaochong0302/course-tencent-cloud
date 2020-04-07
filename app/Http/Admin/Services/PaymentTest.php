@@ -4,6 +4,7 @@ namespace App\Http\Admin\Services;
 
 use App\Models\Order as OrderModel;
 use App\Models\Trade as TradeModel;
+use App\Services\Auth\Admin as AdminAuth;
 
 abstract class PaymentTest extends Service
 {
@@ -21,15 +22,17 @@ abstract class PaymentTest extends Service
     public function createOrder()
     {
         /**
-         * @var object $authUser
+         * @var AdminAuth $auth
          */
-        $authUser = $this->getDI()->get('auth')->getAuthInfo();
+        $auth = $this->getDI()->get('auth');
+
+        $authUser = $auth->getAuthInfo();
 
         $order = new OrderModel();
 
         $order->subject = '测试 - 支付测试0.01元';
         $order->amount = 0.01;
-        $order->user_id = $authUser->id;
+        $order->user_id = $authUser['id'];
         $order->item_type = OrderModel::ITEM_TEST;
 
         $order->create();

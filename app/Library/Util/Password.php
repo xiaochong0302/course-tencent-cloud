@@ -9,7 +9,7 @@ class Password
 
     public static function salt()
     {
-        return Text::random();
+        return Text::random(Text::RANDOM_ALNUM, 8);
     }
 
     public static function hash($password, $salt)

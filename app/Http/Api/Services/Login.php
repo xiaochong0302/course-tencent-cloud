@@ -2,7 +2,7 @@
 
 namespace App\Http\Api\Services;
 
-use App\Services\AuthUser\Api as ApiAuthUser;
+use App\Services\Auth\Api as ApiAuth;
 use App\Validators\Account as AccountValidator;
 
 class Login extends Service
@@ -14,9 +14,9 @@ class Login extends Service
 
         $user = $validator->checkUserLogin($name, $password);
 
-        $authUser = new ApiAuthUser();
+        $auth = new ApiAuth();
 
-        return $authUser->saveAuthInfo($user);
+        return $auth->saveAuthInfo($user);
     }
 
     public function loginByVerify($name, $code)
@@ -25,9 +25,9 @@ class Login extends Service
 
         $user = $validator->checkVerifyLogin($name, $code);
 
-        $authUser = new ApiAuthUser();
+        $auth = new ApiAuth();
 
-        return $authUser->saveAuthInfo($user);
+        return $auth->saveAuthInfo($user);
     }
 
 }

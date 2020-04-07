@@ -4,6 +4,7 @@ namespace App\Services\Frontend;
 
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
+use App\Services\Auth as AuthService;
 use App\Validators\Validator as AppValidator;
 use Phalcon\Mvc\User\Component;
 
@@ -11,15 +12,6 @@ class Service extends Component
 {
 
     public function getCurrentUser()
-    {
-        $userRepo = new UserRepo();
-
-        $user = $userRepo->findById(100015);
-
-        return $user;
-    }
-
-    public function getCurrentUser2()
     {
         $authUser = $this->getAuthUser();
 
@@ -29,21 +21,10 @@ class Service extends Component
 
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($authUser->id);
-
-        return $user;
+        return $userRepo->findById($authUser['id']);
     }
 
     public function getLoginUser()
-    {
-        $userRepo = new UserRepo();
-
-        $user = $userRepo->findById(100015);
-
-        return $user;
-    }
-
-    public function getLoginUser2()
     {
         $authUser = $this->getAuthUser();
 
@@ -51,15 +32,18 @@ class Service extends Component
 
         $validator->checkAuthUser($authUser);
 
+        dd($authUser);
+
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($authUser->id);
-
-        return $user;
+        return $userRepo->findById($authUser['id']);
     }
 
     public function getAuthUser()
     {
+        /**
+         * @var AuthService $auth
+         */
         $auth = $this->getDI()->get('auth');
 
         return $auth->getAuthInfo();

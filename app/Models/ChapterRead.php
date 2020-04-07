@@ -77,12 +77,10 @@ class ChapterRead extends Model
 
     public static function formatTypes()
     {
-        $list = [
+        return [
             self::FORMAT_HTML => 'html',
-            self::FORMAT_MARKDOWN => 'format',
+            self::FORMAT_MARKDOWN => 'markdown',
         ];
-
-        return $list;
     }
 
 }

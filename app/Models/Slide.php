@@ -131,8 +131,8 @@ class Slide extends Model
 
     public function rebuildCache()
     {
-        $slideListCache = new SlideListCache();
-        $slideListCache->rebuild();
+        $listCache = new SlideListCache();
+        $listCache->rebuild();
     }
 
     public static function targetTypes()

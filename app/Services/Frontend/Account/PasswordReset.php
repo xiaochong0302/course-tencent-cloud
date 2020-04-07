@@ -15,7 +15,7 @@ class PasswordReset extends Service
 
         $accountValidator = new AccountValidator();
 
-        $account = $accountValidator->checkLoginAccount($post['account']);
+        $account = $accountValidator->checkLoginName($post['account']);
 
         $accountValidator->checkPassword($post['new_password']);
 
