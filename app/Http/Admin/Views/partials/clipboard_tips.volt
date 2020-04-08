@@ -1,4 +1,4 @@
-{{ javascript_include('lib/clipboard.min.js') }}
+{{ js_include('lib/clipboard.min.js') }}
 
 <script>
 
