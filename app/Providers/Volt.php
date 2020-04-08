@@ -22,6 +22,14 @@ class Volt extends Provider
 
             $compiler = $volt->getCompiler();
 
+            $compiler->addFunction('css_link', function ($resolvedArgs) {
+                return 'kg_css_link(' . $resolvedArgs . ')';
+            });
+
+            $compiler->addFunction('js_include', function ($resolvedArgs) {
+                return 'kg_js_include(' . $resolvedArgs . ')';
+            });
+
             $compiler->addFunction('substr', function ($resolvedArgs) {
                 return 'kg_substr(' . $resolvedArgs . ')';
             });

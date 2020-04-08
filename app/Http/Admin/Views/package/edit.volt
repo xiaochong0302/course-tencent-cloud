@@ -61,8 +61,8 @@
 
 </form>
 
-{{ javascript_include('lib/xm-select.js') }}
-{{ javascript_include('admin/js/xm-course.js') }}
+{{ js_include('lib/xm-select.js') }}
+{{ js_include('admin/js/xm-course.js') }}
 
 <script>
 

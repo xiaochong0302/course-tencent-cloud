@@ -25,8 +25,6 @@ class Cache extends Provider
                 'port' => $config->redis->port,
                 'auth' => $config->redis->auth,
                 'index' => $config->redis->index,
-                'prefix' => $config->redis->prefix,
-                'persistent' => $config->redis->persistent,
             ]);
         });
     }

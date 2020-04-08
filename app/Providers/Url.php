@@ -17,9 +17,9 @@ class Url extends Provider
 
             $url = new UrlResolver();
 
-            $url->setBaseUri($config->url->base);
+            $url->setBaseUri($config->base_uri);
 
-            $url->setStaticBaseUri($config->url->static);
+            $url->setStaticBaseUri($config->static_base_uri);
 
             return $url;
         });

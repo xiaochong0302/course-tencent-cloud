@@ -63,9 +63,17 @@ class Api extends AuthService
 
         $authInfo = $cache->get($key);
 
-        $items = $authInfo ? $authInfo : [];
+        if (!$authInfo) return null;
 
-        return new Collection($items);
+        return new Collection($authInfo);
+    }
+
+    /**
+     * @return RedisCache
+     */
+    protected function getCache()
+    {
+        return $this->getDI()->get('cache');
     }
 
     protected function getAuthToken()
@@ -76,14 +84,6 @@ class Api extends AuthService
     protected function getCacheKey($token)
     {
         return "access_token:{$token}";
-    }
-
-    /**
-     * @return RedisCache
-     */
-    protected function getCache()
-    {
-        return $this->getDI()->get('cache');
     }
 
 }

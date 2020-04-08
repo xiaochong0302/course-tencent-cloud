@@ -3,7 +3,7 @@
 
 </div>
 
-{{ javascript_include('library/chplayer/chplayer.min.js') }}
+{{ js_include('library/chplayer/chplayer.min.js') }}
 
 <script>
 

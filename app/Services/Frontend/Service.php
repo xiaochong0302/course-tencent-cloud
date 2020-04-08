@@ -32,8 +32,6 @@ class Service extends Component
 
         $validator->checkAuthUser($authUser);
 
-        dd($authUser);
-
         $userRepo = new UserRepo();
 
         return $userRepo->findById($authUser['id']);

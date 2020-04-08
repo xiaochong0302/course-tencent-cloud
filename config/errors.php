@@ -6,9 +6,9 @@ $error = [];
  * 通用相关
  */
 $error['sys.uri_not_found'] = '资源地址不存在';
-$error['sys.invalid_referer'] = '无效的请求来源';
-$error['sys.auth_user_failed'] = '用户认证失败';
-$error['sys.access_denied'] = '访问被拒绝';
+$error['sys.invalid_referer'] = '非法的请求来源';
+$error['sys.auth_failed'] = '认证失败';
+$error['sys.access_denied'] = '拒绝访问';
 $error['sys.unknown_error'] = '未知错误';
 
 /**

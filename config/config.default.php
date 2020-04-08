@@ -20,12 +20,17 @@ $config['timezone'] = 'Asia/Shanghai';
 /**
  * 网站根地址，必须以"/"结尾
  */
-$config['url']['base'] = '/';
+$config['base_uri'] = '/';
 
 /**
- * 静态资源地址，必须以"/"结尾
+ * 静态资源根地址，必须以"/"结尾
  */
-$config['url']['static'] = '/static/';
+$config['static_base_uri'] = '/static/';
+
+/**
+ * 静态资源版本
+ */
+$config['static_version'] = '202004080830';
 
 /**
  * 数据库主机名
@@ -78,24 +83,9 @@ $config['redis']['auth'] = '1qaz2wsx3edc';
 $config['redis']['index'] = 0;
 
 /**
- * redis长链接
+ * 缓存有效期（秒）
  */
-$config['redis']['persistent'] = false;
-
-/**
- * redis键前缀
- */
-$config['redis']['prefix'] = '';
-
-/**
- * redis有限期（秒）
- */
-$config['redis']['lifetime'] = 7 * 86400;
-
-/**
- * 会话键前缀
- */
-$config['session']['prefix'] = ':session:';
+$config['redis']['lifetime'] = 24 * 3600;
 
 /**
  * 会话有效期（秒）

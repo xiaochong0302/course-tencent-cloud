@@ -58,7 +58,7 @@
 
 {{ partial('partials/cover_uploader') }}
 
-{{ javascript_include('lib/xm-select.js') }}
+{{ js_include('lib/xm-select.js') }}
 
 <script>
 

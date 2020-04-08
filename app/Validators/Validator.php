@@ -9,13 +9,11 @@ use Phalcon\Mvc\User\Component;
 class Validator extends Component
 {
 
-    public function checkAuthUser($user)
+    public function checkAuthUser($authUser)
     {
-        if (empty($user['id'])) {
-            throw new UnauthorizedException('sys.auth_user_failed');
+        if (empty($authUser['id'])) {
+            throw new UnauthorizedException('sys.auth_failed');
         }
-
-        return $user;
     }
 
     public function checkOwner($userId, $ownerId)

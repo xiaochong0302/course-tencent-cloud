@@ -34,9 +34,9 @@ class Html5 extends AuthService
 
         $authInfo = $this->session->get($authKey);
 
-        $items = $authInfo ? $authInfo : [];
+        if (!$authInfo) return null;
 
-        return new Collection($items);
+        return new Collection($authInfo);
     }
 
     public function getAuthKey()

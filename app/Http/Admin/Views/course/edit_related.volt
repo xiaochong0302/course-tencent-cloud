@@ -17,7 +17,7 @@
 
 </form>
 
-{{ javascript_include('admin/js/xm-course.js') }}
+{{ js_include('admin/js/xm-course.js') }}
 
 <script>
     xmCourse({{ xm_courses|json_encode }}, '/admin/xm/course/all');

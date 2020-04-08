@@ -2,6 +2,7 @@
 
 use App\Services\Storage as StorageService;
 use Koogua\Ip2Region\Searcher as Ip2RegionSearcher;
+use Phalcon\Di;
 
 /**
  * 获取字符长度
@@ -272,4 +273,52 @@ function kg_total_duration($time)
 function kg_can($route = null)
 {
     return true;
+}
+
+/**
+ * 构造css路径
+ *
+ * @param $path
+ * @param bool $local
+ * @param string $version
+ * @return string
+ */
+function kg_css_link($path, $local = true, $version = null)
+{
+    $config = Di::getDefault()->getShared('config');
+
+    $baseUri = rtrim($config->static_base_uri, '/');
+    $path = ltrim($path, '/');
+    $href = $local ? $baseUri . '/' . $path : $path;
+    $version = $version ? $version : $config->static_version;
+
+    if ($version) {
+        $href .= '?v=' . $version;
+    }
+
+    return '<link rel="stylesheet" type="text/css" href="' . $href . '" />' . PHP_EOL;
+}
+
+/**
+ * 构造js引入
+ *
+ * @param $path
+ * @param bool $local
+ * @param string $version
+ * @return string
+ */
+function kg_js_include($path, $local = true, $version = null)
+{
+    $config = Di::getDefault()->getShared('config');
+
+    $baseUri = rtrim($config->static_base_uri, '/');
+    $path = ltrim($path, '/');
+    $src = $local ? $baseUri . '/' . $path : $path;
+    $version = $version ? $version : $config->static_version;
+
+    if ($version) {
+        $src .= '?v=' . $version;
+    }
+
+    return '<script type="text/javascript" src="' . $src . '"></script>' . PHP_EOL;
 }

@@ -17,7 +17,7 @@
 </body>
 </html>
 
-{{ javascript_include('lib/jquery.min.js') }}
+{{ js_include('lib/jquery.min.js') }}
 
 <script>
 

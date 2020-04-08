@@ -1,4 +1,4 @@
-{{ javascript_include('lib/vod-js-sdk-v6.min.js') }}
+{{ js_include('lib/vod-js-sdk-v6.min.js') }}
 
 <script>
 

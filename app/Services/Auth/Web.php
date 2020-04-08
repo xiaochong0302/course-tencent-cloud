@@ -9,11 +9,6 @@ use Yansongda\Supports\Collection;
 class Web extends AuthService
 {
 
-    /**
-     * 写入会话
-     *
-     * @param UserModel $user
-     */
     public function saveAuthInfo(UserModel $user)
     {
         $authKey = $this->getAuthKey();
@@ -26,9 +21,6 @@ class Web extends AuthService
         $this->session->set($authKey, $authInfo);
     }
 
-    /**
-     * 清除会话
-     */
     public function clearAuthInfo()
     {
         $authKey = $this->getAuthKey();
@@ -36,27 +28,17 @@ class Web extends AuthService
         $this->session->remove($authKey);
     }
 
-    /**
-     * 读取会话
-     *
-     * @return Collection
-     */
     public function getAuthInfo()
     {
         $authKey = $this->getAuthKey();
 
         $authInfo = $this->session->get($authKey);
 
-        $items = $authInfo ? $authInfo : [];
+        if (!$authInfo) return null;
 
-        return new Collection($items);
+        return new Collection($authInfo);
     }
 
-    /**
-     * 获取会话键值
-     *
-     * @return string
-     */
     public function getAuthKey()
     {
         return 'web_auth_info';

@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>管理后台</title>
-    {{ stylesheet_link('lib/layui/css/layui.css') }}
-    {{ stylesheet_link('admin/css/style.css') }}
-    {{ javascript_include('lib/layui/layui.js') }}
-    {{ javascript_include('admin/js/index.js') }}
+    {{ css_link('lib/layui/css/layui.css') }}
+    {{ css_link('admin/css/style.css') }}
+    {{ js_include('lib/layui/layui.js') }}
+    {{ js_include('admin/js/index.js') }}
 </head>
 
 <body class="layui-layout-body">
