@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Services\Throttle;
 use Phalcon\Di;
 use Phalcon\Http\Request;
 
@@ -36,6 +37,13 @@ trait Security
         $httpHost = parse_url($request->getHttpReferer(), PHP_URL_HOST);
 
         return $httpHost == $request->getHttpHost();
+    }
+
+    public function checkRateLimit()
+    {
+        $throttle = new Throttle();
+
+        return $throttle->checkRateLimit();
     }
 
     public function isNotSafeRequest()

@@ -14,12 +14,16 @@ class Api extends AuthService
 
     public function saveAuthInfo(UserModel $user)
     {
+        $config = $this->getDI()->get('config');
+
         $accessToken = new AccessTokenModel();
         $accessToken->user_id = $user->id;
+        $accessToken->expiry_time = time() + $config->access_token->lifetime;
         $accessToken->create();
 
         $refreshToken = new RefreshTokenModel();
         $refreshToken->user_id = $user->id;
+        $refreshToken->expiry_time = time() + $config->refresh_token->lifetime;
         $refreshToken->create();
 
         $authInfo = [
@@ -31,7 +35,7 @@ class Api extends AuthService
 
         $key = $this->getCacheKey($accessToken->id);
 
-        $cache->save($key, $authInfo, 2 * 3600);
+        $cache->save($key, $authInfo, $config->access_token->lifetime);
 
         return new Collection([
             'access_token' => $accessToken->id,

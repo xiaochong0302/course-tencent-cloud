@@ -28,6 +28,12 @@
     width: 30px;
 }
 
+.kg-input-inline {
+    float: left;
+    width: 250px;
+    margin-right: 10px;
+}
+
 .kg-btn-verify {
     color: green;
 }

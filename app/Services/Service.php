@@ -4,11 +4,14 @@ namespace App\Services;
 
 use App\Caches\SectionConfig as SectionConfigCache;
 use App\Library\Logger as AppLogger;
+use App\Traits\Auth as AuthTrait;
 use Phalcon\Logger\Adapter\File as FileLogger;
 use Phalcon\Mvc\User\Component;
 
 class Service extends Component
 {
+
+    use AuthTrait;
 
     /**
      * 获取Logger

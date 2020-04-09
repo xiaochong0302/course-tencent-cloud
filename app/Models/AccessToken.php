@@ -55,7 +55,7 @@ class AccessToken extends Model
     public function beforeCreate()
     {
         $this->id = $this->getRandId($this->user_id);
-        $this->expiry_time = strtotime('+2 hours');
+
         $this->create_time = time();
     }
 

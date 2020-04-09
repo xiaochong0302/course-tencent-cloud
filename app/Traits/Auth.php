@@ -2,15 +2,20 @@
 
 namespace App\Traits;
 
+use App\Exceptions\Unauthorized as UnauthorizedException;
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\Auth as AuthService;
 use App\Validators\Validator as AppValidator;
 use Phalcon\Di;
+use Yansongda\Supports\Collection;
 
 trait Auth
 {
 
+    /**
+     * @return UserModel
+     */
     public function getCurrentUser()
     {
         $authUser = $this->getAuthUser();
@@ -24,6 +29,10 @@ trait Auth
         return $userRepo->findById($authUser->id);
     }
 
+    /**
+     * @return UserModel
+     * @throws UnauthorizedException
+     */
     public function getLoginUser()
     {
         $authUser = $this->getAuthUser();
@@ -37,6 +46,9 @@ trait Auth
         return $userRepo->findById($authUser->id);
     }
 
+    /**
+     * @return UserModel
+     */
     public function getGuestUser()
     {
         $user = new UserModel();
@@ -47,6 +59,9 @@ trait Auth
         return $user;
     }
 
+    /**
+     * @return Collection|null
+     */
     public function getAuthUser()
     {
         /**

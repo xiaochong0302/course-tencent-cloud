@@ -85,12 +85,37 @@ $config['redis']['index'] = 0;
 /**
  * 缓存有效期（秒）
  */
-$config['redis']['lifetime'] = 24 * 3600;
+$config['redis']['lifetime'] = 2 * 86400;
 
 /**
  * 会话有效期（秒）
  */
 $config['session']['lifetime'] = 2 * 3600;
+
+/**
+ * 访问令牌有效期（秒）
+ */
+$config['access_token']['lifetime'] = 2 * 3600;
+
+/**
+ * 刷新令牌有效期（秒)
+ */
+$config['refresh_token']['lifetime'] = 30 * 86400;
+
+/**
+ * 限流开启
+ */
+$config['throttle']['enabled'] = true;
+
+/**
+ * 限流有效期（秒)
+ */
+$config['throttle']['lifetime'] = 60;
+
+/**
+ * 限流频率
+ */
+$config['throttle']['rate_limit'] = 60;
 
 /**
  * 日志级别

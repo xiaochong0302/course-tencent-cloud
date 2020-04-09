@@ -35,13 +35,13 @@
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">ICP备案号</label>
-            <div class="layui-input-inline">
+            <div class="kg-input-inline">
                 <input class="layui-input" type="text" name="icp_sn" value="{{ site.icp_sn }}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">备案链接</label>
-            <div class="layui-input-inline">
+            <div class="kg-input-inline">
                 <input class="layui-input" type="text" name="icp_link" value="{{ site.icp_link }}">
             </div>
         </div>
@@ -50,13 +50,13 @@
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">公安备案号</label>
-            <div class="layui-input-inline">
+            <div class="kg-input-inline">
                 <input class="layui-input" type="text" name="police_sn" value="{{ site.police_sn }}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">备案链接</label>
-            <div class="layui-input-inline">
+            <div class="kg-input-inline">
                 <input class="layui-input" type="text" name="police_link" value="{{ site.police_link }}">
             </div>
         </div>

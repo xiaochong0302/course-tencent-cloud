@@ -35,43 +35,49 @@ function xmCourse(data, url) {
         table.render({
             id: 'course-table',
             elem: '#course-table',
+            width: 900,
             url: url,
             page: true,
             cols: [[
-                {field: 'id', title: '编号', width: 40},
-                {field: 'title', title: '标题', width: 340},
+                {field: 'id', title: '编号', width: 50},
+                {field: 'title', title: '标题', width: 390},
                 {
-                    field: 'model', title: '类型', width: 40, templet: function (d) {
-                        if (d.model === 1) {
+                    field: 'model', title: '类型', width: 50, templet: function (d) {
+                        if (d.model === 'vod') {
                             return '点播';
-                        } else if (d.model === 2) {
+                        } else if (d.model === 'live') {
                             return '直播';
-                        } else if (d.model === 3) {
+                        } else if (d.model === 'read') {
                             return '图文';
                         }
                     }
                 },
                 {
-                    field: 'level', title: '难度', width: 40, templet: function (d) {
-                        if (d.level === 1) {
+                    field: 'level', title: '难度', width: 50, templet: function (d) {
+                        if (d.level === 'entry') {
                             return '入门';
-                        } else if (d.level === 2) {
+                        } else if (d.level === 'junior') {
                             return '初级';
-                        } else if (d.level === 3) {
+                        } else if (d.level === 'medium') {
                             return '中级';
-                        } else if (d.level === 4) {
+                        } else if (d.level === 'senior') {
                             return '高级';
                         }
                     }
                 },
                 {
-                    field: 'user_count', title: '用户', width: 40, templet: function (d) {
+                    field: 'user_count', title: '用户', width: 50, templet: function (d) {
                         return d.user_count;
                     }
                 },
                 {
-                    field: 'market_price', title: '价格', width: 40, templet: function (d) {
+                    field: 'market_price', title: '市场价', width: 50, templet: function (d) {
                         return '￥' + d.market_price;
+                    }
+                },
+                {
+                    field: 'vip_price', title: '会员价', width: 50, templet: function (d) {
+                        return '￥' + d.vip_price;
                     }
                 }
             ]]

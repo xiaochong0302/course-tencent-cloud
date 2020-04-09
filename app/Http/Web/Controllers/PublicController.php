@@ -51,6 +51,18 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
+     * @Get("/throttle", name="web.throttle")
+     */
+    public function throttleAction()
+    {
+        $isAjaxRequest = is_ajax_request();
+
+        if ($isAjaxRequest) {
+            return $this->jsonError(['msg' => 'web请求过于频繁']);
+        }
+    }
+
+    /**
      * @Get("/content/img/{id:[0-9]+}", name="web.content.img")
      */
     public function contentImageAction($id)
