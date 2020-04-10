@@ -3,7 +3,7 @@
 namespace App\Http\Web\Controllers;
 
 use App\Caches\NavTreeList as NavTreeListCache;
-use App\Caches\SectionConfig as SectionConfigCache;
+use App\Caches\Setting as SettingCache;
 use App\Services\Auth\Web as WebAuth;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
@@ -12,7 +12,7 @@ use Phalcon\Mvc\Dispatcher;
 class Controller extends \Phalcon\Mvc\Controller
 {
 
-    protected $siteConfig;
+    protected $siteSettings;
     protected $navList;
     protected $authUser;
 
@@ -38,7 +38,7 @@ class Controller extends \Phalcon\Mvc\Controller
             }
         }
 
-        $this->siteConfig = $this->getSiteConfig();
+        $this->siteSettings = $this->getSiteSettings();
         $this->navList = $this->getNavList();
         $this->authUser = $this->getAuthUser();
 
@@ -48,7 +48,7 @@ class Controller extends \Phalcon\Mvc\Controller
     public function initialize()
     {
         $this->view->setVar('auth_user', $this->authUser);
-        $this->view->setVar('site_config', $this->siteConfig);
+        $this->view->setVar('site_settings', $this->siteSettings);
         $this->view->setVar('top_nav_list', $this->navList['top']);
         $this->view->setVar('btm_nav_list', $this->navList['bottom']);
     }
@@ -70,11 +70,11 @@ class Controller extends \Phalcon\Mvc\Controller
         return $treeListCache->get();
     }
 
-    protected function getSiteConfig()
+    protected function getSiteSettings()
     {
-        $sectionCache = new SectionConfigCache();
+        $settingCache = new SettingCache();
 
-        return $sectionCache->get('site');
+        return $settingCache->get('site');
     }
 
 }

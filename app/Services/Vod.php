@@ -23,7 +23,7 @@ class Vod extends Service
     /**
      * @var array
      */
-    protected $config;
+    protected $settings;
 
     /**
      * @var VodClient
@@ -37,7 +37,7 @@ class Vod extends Service
 
     public function __construct()
     {
-        $this->config = $this->getSectionConfig('vod');
+        $this->settings = $this->getSectionSettings('vod');
 
         $this->logger = $this->getLogger('vod');
 
@@ -86,7 +86,7 @@ class Vod extends Service
      */
     public function getUploadSignature()
     {
-        $secret = $this->getSectionConfig('secret');
+        $secret = $this->getSectionSettings('secret');
 
         $secretId = $secret['secret_id'];
         $secretKey = $secret['secret_key'];
@@ -152,12 +152,12 @@ class Vod extends Service
      */
     public function getPlayUrl($url)
     {
-        if ($this->config['key_anti_enabled'] == 0) {
+        if ($this->settings['key_anti_enabled'] == 0) {
             return $url;
         }
 
-        $key = $this->config['key_anti_key'];
-        $expiry = $this->config['key_anti_expiry'] ?: 10800;
+        $key = $this->settings['key_anti_key'];
+        $expiry = $this->settings['key_anti_expiry'] ?: 10800;
 
         $path = parse_url($url, PHP_URL_PATH);
         $pos = strrpos($path, '/');
@@ -574,8 +574,8 @@ class Vod extends Service
     {
         $result = null;
 
-        if ($this->config['watermark_enabled'] && $this->config['watermark_template'] > 0) {
-            $result = (int)$this->config['watermark_template'];
+        if ($this->settings['watermark_enabled'] && $this->settings['watermark_template'] > 0) {
+            $result = (int)$this->settings['watermark_template'];
         }
 
         return $result;
@@ -600,7 +600,7 @@ class Vod extends Service
             30 => ['width' => 1280, 'bit_rate' => 1024, 'frame_rate' => 25],
         ];
 
-        $format = $this->config['video_format'];
+        $format = $this->settings['video_format'];
 
         return $format == 'hls' ? $hls : $mp4;
     }
@@ -621,7 +621,7 @@ class Vod extends Service
             1010 => ['bit_rate' => 128, 'sample_rate' => 44100],
         ];
 
-        return $this->config['audio_format'] == 'm4a' ? $m4a : $mp3;
+        return $this->settings['audio_format'] == 'm4a' ? $m4a : $mp3;
     }
 
     /**
@@ -631,12 +631,12 @@ class Vod extends Service
      */
     public function getVodClient()
     {
-        $secret = $this->getSectionConfig('secret');
+        $secret = $this->getSectionSettings('secret');
 
         $secretId = $secret['secret_id'];
         $secretKey = $secret['secret_key'];
 
-        $region = $this->config['storage_type'] == 'fixed' ? $this->config['storage_region'] : '';
+        $region = $this->settings['storage_type'] == 'fixed' ? $this->settings['storage_region'] : '';
 
         $credential = new Credential($secretId, $secretKey);
 

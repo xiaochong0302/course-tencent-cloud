@@ -1,4 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.config.captcha'}) }}">
+<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.captcha'}) }}">
 
     <fieldset class="layui-elem-field layui-field-title">
         <legend>验证码配置</legend>

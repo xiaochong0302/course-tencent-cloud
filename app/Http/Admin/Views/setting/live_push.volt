@@ -1,4 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.config.live'}) }}">
+<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.live'}) }}">
 
     <fieldset class="layui-elem-field layui-field-title">
         <legend>基础配置</legend>

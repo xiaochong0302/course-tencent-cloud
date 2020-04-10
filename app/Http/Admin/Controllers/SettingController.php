@@ -2,134 +2,134 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Http\Admin\Services\Config as ConfigService;
+use App\Http\Admin\Services\Setting as SettingService;
 
 /**
- * @RoutePrefix("/admin/config")
+ * @RoutePrefix("/admin/setting")
  */
-class ConfigController extends Controller
+class SettingController extends Controller
 {
 
     /**
-     * @Route("/site", name="admin.config.site")
+     * @Route("/site", name="admin.setting.site")
      */
     public function siteAction()
     {
         $section = 'site';
 
-        $configService = new ConfigService();
+        $settingService = new SettingService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $configService->updateSectionConfig($section, $data);
+            $settingService->updateSectionSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $site = $configService->getSectionConfig($section);
+            $site = $settingService->getSectionSettings($section);
 
             $this->view->setVar('site', $site);
         }
     }
 
     /**
-     * @Route("/secret", name="admin.config.secret")
+     * @Route("/secret", name="admin.setting.secret")
      */
     public function secretAction()
     {
         $section = 'secret';
 
-        $configService = new ConfigService();
+        $settingService = new SettingService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $configService->updateStorageConfig($section, $data);
+            $settingService->updateStorageSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $secret = $configService->getSectionConfig($section);
+            $secret = $settingService->getSectionSettings($section);
 
             $this->view->setVar('secret', $secret);
         }
     }
 
     /**
-     * @Route("/storage", name="admin.config.storage")
+     * @Route("/storage", name="admin.setting.storage")
      */
     public function storageAction()
     {
         $section = 'storage';
 
-        $configService = new ConfigService();
+        $settingService = new SettingService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $configService->updateStorageConfig($section, $data);
+            $settingService->updateStorageSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $storage = $configService->getSectionConfig($section);
+            $storage = $settingService->getSectionSettings($section);
 
             $this->view->setVar('storage', $storage);
         }
     }
 
     /**
-     * @Route("/vod", name="admin.config.vod")
+     * @Route("/vod", name="admin.setting.vod")
      */
     public function vodAction()
     {
         $section = 'vod';
 
-        $configService = new ConfigService();
+        $settingService = new SettingService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $configService->updateVodConfig($section, $data);
+            $settingService->updateVodSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $vod = $configService->getSectionConfig($section);
+            $vod = $settingService->getSectionSettings($section);
 
             $this->view->setVar('vod', $vod);
         }
     }
 
     /**
-     * @Route("/live", name="admin.config.live")
+     * @Route("/live", name="admin.setting.live")
      */
     public function liveAction()
     {
         $section = 'live';
 
-        $configService = new ConfigService();
+        $settingService = new SettingService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $configService->updateLiveConfig($section, $data);
+            $settingService->updateLiveSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $live = $configService->getSectionConfig($section);
+            $live = $settingService->getSectionSettings($section);
 
             $ptt = json_decode($live->pull_trans_template);
 
@@ -139,11 +139,11 @@ class ConfigController extends Controller
     }
 
     /**
-     * @Route("/payment", name="admin.config.payment")
+     * @Route("/payment", name="admin.setting.payment")
      */
     public function paymentAction()
     {
-        $configService = new ConfigService();
+        $settingService = new SettingService();
 
         if ($this->request->isPost()) {
 
@@ -151,14 +151,14 @@ class ConfigController extends Controller
 
             $data = $this->request->getPost();
 
-            $configService->updateSectionConfig($section, $data);
+            $settingService->updateSectionSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $alipay = $configService->getSectionConfig('payment.alipay');
-            $wxpay = $configService->getSectionConfig('payment.wxpay');
+            $alipay = $settingService->getSectionSettings('payment.alipay');
+            $wxpay = $settingService->getSectionSettings('payment.wxpay');
 
             $this->view->setVar('alipay', $alipay);
             $this->view->setVar('wxpay', $wxpay);
@@ -166,25 +166,25 @@ class ConfigController extends Controller
     }
 
     /**
-     * @Route("/smser", name="admin.config.smser")
+     * @Route("/smser", name="admin.setting.smser")
      */
     public function smserAction()
     {
         $section = 'smser';
 
-        $configService = new ConfigService();
+        $settingService = new SettingService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $configService->updateSmserConfig($section, $data);
+            $settingService->updateSmserSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $smser = $configService->getSectionConfig($section);
+            $smser = $settingService->getSectionSettings($section);
 
             $template = json_decode($smser->template);
 
@@ -194,44 +194,44 @@ class ConfigController extends Controller
     }
 
     /**
-     * @Route("/mailer", name="admin.config.mailer")
+     * @Route("/mailer", name="admin.setting.mailer")
      */
     public function mailerAction()
     {
         $section = 'mailer';
 
-        $configService = new ConfigService();
+        $settingService = new SettingService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $configService->updateSectionConfig($section, $data);
+            $settingService->updateSectionSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $mailer = $configService->getSectionConfig($section);
+            $mailer = $settingService->getSectionSettings($section);
 
             $this->view->setVar('mailer', $mailer);
         }
     }
 
     /**
-     * @Route("/captcha", name="admin.config.captcha")
+     * @Route("/captcha", name="admin.setting.captcha")
      */
     public function captchaAction()
     {
         $section = 'captcha';
 
-        $configService = new ConfigService();
+        $settingService = new SettingService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost();
 
-            $configService->updateSectionConfig($section, $data);
+            $settingService->updateSectionSettings($section, $data);
 
             $content = [
                 'location' => $this->request->getHTTPReferer(),
@@ -242,30 +242,30 @@ class ConfigController extends Controller
 
         } else {
 
-            $captcha = $configService->getSectionConfig($section);
+            $captcha = $settingService->getSectionSettings($section);
 
             $this->view->setVar('captcha', $captcha);
         }
     }
 
     /**
-     * @Route("/vip", name="admin.config.vip")
+     * @Route("/vip", name="admin.setting.vip")
      */
     public function vipAction()
     {
-        $configService = new ConfigService();
+        $settingService = new SettingService();
 
         if ($this->request->isPost()) {
 
             $data = $this->request->getPost('vip');
 
-            $configService->updateVipConfig($data);
+            $settingService->updateVipSettings($data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $vips = $configService->getVipConfig();
+            $vips = $settingService->getVipSettings();
 
             $this->view->setVar('vips', $vips);
         }

@@ -1,4 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.config.site'}) }}">
+<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.site'}) }}">
 
     <fieldset class="layui-elem-field layui-field-title">
         <legend>站点配置</legend>

@@ -8,11 +8,11 @@ class Live extends Service
     /**
      * @var array
      */
-    protected $config;
+    protected $settings;
 
     public function __construct()
     {
-        $this->config = $this->getSectionConfig('live');
+        $this->settings = $this->getSectionSettings('live');
     }
 
     /**
@@ -23,10 +23,10 @@ class Live extends Service
      */
     function getPushUrl($streamName)
     {
-        $authEnabled = $this->config['push_auth_enabled'];
-        $authKey = $this->config['push_auth_key'];
-        $expireTime = $this->config['push_auth_delta'] + time();
-        $domain = $this->config['push_domain'];
+        $authEnabled = $this->settings['push_auth_enabled'];
+        $authKey = $this->settings['push_auth_key'];
+        $expireTime = $this->settings['push_auth_delta'] + time();
+        $domain = $this->settings['push_domain'];
         $appName = 'live';
 
         $authParams = $this->getAuthParams($streamName, $authKey, $expireTime);
@@ -56,12 +56,12 @@ class Live extends Service
 
         $appName = 'live';
 
-        $protocol = $this->config['pull_protocol'];
-        $domain = $this->config['pull_domain'];
-        $authEnabled = $this->config['pull_auth_enabled'];
-        $transEnabled = $this->config['pull_trans_enabled'];
-        $authKey = $this->config['pull_auth_key'];
-        $expireTime = $this->config['pull_auth_delta'] + time();
+        $protocol = $this->settings['pull_protocol'];
+        $domain = $this->settings['pull_domain'];
+        $authEnabled = $this->settings['pull_auth_enabled'];
+        $transEnabled = $this->settings['pull_trans_enabled'];
+        $authKey = $this->settings['pull_auth_key'];
+        $expireTime = $this->settings['pull_auth_delta'] + time();
 
         $urls = [];
 

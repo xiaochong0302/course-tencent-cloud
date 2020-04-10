@@ -1,4 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.config.mailer'}) }}">
+<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.mailer'}) }}">
 
     <fieldset class="layui-elem-field layui-field-title">
         <legend>邮件配置</legend>

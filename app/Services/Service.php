@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Caches\SectionConfig as SectionConfigCache;
+use App\Caches\Setting as SettingCache;
 use App\Library\Logger as AppLogger;
 use App\Traits\Auth as AuthTrait;
 use Phalcon\Logger\Adapter\File as FileLogger;
@@ -34,11 +34,11 @@ class Service extends Component
      * @param string $section
      * @return array
      */
-    public function getSectionConfig($section)
+    public function getSectionSettings($section)
     {
-        $cache = new SectionConfigCache();
+        $settingCache = new SettingCache();
 
-        return $cache->get($section);
+        return $settingCache->get($section);
     }
 
 }

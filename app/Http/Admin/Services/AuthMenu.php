@@ -8,7 +8,7 @@ use Phalcon\Mvc\User\Component;
 class AuthMenu extends Component
 {
 
-    protected $authUser = [];
+    protected $authUser;
     protected $authNodes = [];
     protected $ownedRoutes = [];
     protected $owned1stLevelIds = [];
@@ -27,7 +27,7 @@ class AuthMenu extends Component
         $menus = [];
 
         foreach ($this->authNodes as $node) {
-            if ($this->authUser['root'] || in_array($node['id'], $this->owned1stLevelIds)) {
+            if ($this->authUser->id || in_array($node['id'], $this->owned1stLevelIds)) {
                 $menus[] = [
                     'id' => $node['id'],
                     'label' => $node['label'],
@@ -45,7 +45,7 @@ class AuthMenu extends Component
         foreach ($this->authNodes as $key => $level) {
             foreach ($level['child'] as $key2 => $level2) {
                 foreach ($level2['child'] as $key3 => $level3) {
-                    $hasRight = $this->authUser['root'] || in_array($level3['id'], $this->owned3rdLevelIds);
+                    $hasRight = $this->authUser->root || in_array($level3['id'], $this->owned3rdLevelIds);
                     if ($level3['type'] == 'menu' && $hasRight) {
                         $menus[$key]['id'] = $level['id'];
                         $menus[$key]['label'] = $level['label'];
@@ -76,7 +76,7 @@ class AuthMenu extends Component
 
         foreach ($routeIdMapping as $key => $value) {
             $ids = explode('-', $value);
-            if (in_array($key, $this->authUser['routes'])) {
+            if (in_array($key, $this->authUser->routes)) {
                 $owned1stLevelIds[] = $ids[0];
                 $owned2ndLevelIds[] = $ids[0] . '-' . $ids[1];
                 $owned3rdLevelIds[] = $value;

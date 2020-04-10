@@ -13,7 +13,7 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-
+        return $this->jsonSuccess(['data' => 'ok']);
     }
 
     /**

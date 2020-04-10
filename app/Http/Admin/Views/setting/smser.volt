@@ -1,4 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.config.smser'}) }}">
+<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.smser'}) }}">
 
     <fieldset class="layui-elem-field layui-field-title">
         <legend>基础配置</legend>

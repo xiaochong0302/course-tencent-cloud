@@ -1,4 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.config.storage'}) }}">
+<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.storage'}) }}">
 
     <fieldset class="layui-elem-field layui-field-title">
         <legend>存储桶配置</legend>

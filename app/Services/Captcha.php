@@ -18,7 +18,7 @@ class Captcha extends Service
     /**
      * @var array
      */
-    protected $config;
+    protected $settings;
 
     /**
      * @var FileLogger
@@ -32,7 +32,7 @@ class Captcha extends Service
 
     public function __construct()
     {
-        $this->config = $this->getSectionConfig('captcha');
+        $this->settings = $this->getSectionSettings('captcha');
 
         $this->logger = $this->getLogger('captcha');
 
@@ -50,8 +50,8 @@ class Captcha extends Service
     {
         $userIp = $this->request->getClientAddress();
 
-        $appId = $this->config['app_id'];
-        $secretKey = $this->config['secret_key'];
+        $appId = $this->settings['app_id'];
+        $secretKey = $this->settings['secret_key'];
         $captchaType = 9;
 
         try {
@@ -103,12 +103,12 @@ class Captcha extends Service
      */
     public function getCaptchaClient()
     {
-        $secret = $this->getSectionConfig('secret');
+        $secret = $this->getSectionSettings('secret');
 
         $secretId = $secret['secret_id'];
         $secretKey = $secret['secret_key'];
 
-        $region = $this->config['region'] ?? 'ap-guangzhou';
+        $region = $this->settings['region'] ?? 'ap-guangzhou';
 
         $credential = new Credential($secretId, $secretKey);
 

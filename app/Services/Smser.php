@@ -11,7 +11,7 @@ Abstract class Smser extends Service
     /**
      * @var array
      */
-    protected $config;
+    protected $settings;
 
     /**
      * @var FileLogger
@@ -20,7 +20,7 @@ Abstract class Smser extends Service
 
     public function __construct()
     {
-        $this->config = $this->getSectionConfig('smser');
+        $this->settings = $this->getSectionSettings('smser');
 
         $this->logger = $this->getLogger('smser');
     }
@@ -64,19 +64,19 @@ Abstract class Smser extends Service
 
     protected function createSingleSender()
     {
-        return new SmsSingleSender($this->config['app_id'], $this->config['app_key']);
+        return new SmsSingleSender($this->settings['app_id'], $this->settings['app_key']);
     }
 
     protected function getTemplateId($code)
     {
-        $template = json_decode($this->config['template'], true);
+        $template = json_decode($this->settings['template'], true);
 
         return $template[$code]['id'] ?? null;
     }
 
     protected function getSignature()
     {
-        return $this->config['signature'];
+        return $this->settings['signature'];
     }
 
 }

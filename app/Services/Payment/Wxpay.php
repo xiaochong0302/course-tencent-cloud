@@ -17,7 +17,7 @@ class Wxpay extends Payment
     /**
      * @var array
      */
-    protected $config;
+    protected $settings;
 
     /**
      * @var Wechat
@@ -26,7 +26,7 @@ class Wxpay extends Payment
 
     public function __construct()
     {
-        $this->config = $this->getSectionConfig('payment.wxpay');
+        $this->settings = $this->getSectionSettings('payment.wxpay');
 
         $this->gateway = $this->getGateway();
     }
@@ -87,7 +87,7 @@ class Wxpay extends Payment
             return false;
         }
 
-        if ($data->mch_id != $this->config['mch_id']) {
+        if ($data->mch_id != $this->settings['mch_id']) {
             return false;
         }
 
@@ -227,10 +227,10 @@ class Wxpay extends Payment
         $level = $config->env == ENV_DEV ? 'debug' : 'info';
 
         $payConfig = [
-            'app_id' => $this->config['app_id'],
-            'mch_id' => $this->config['mch_id'],
-            'key' => $this->config['key'],
-            'notify_url' => $this->config['notify_url'],
+            'app_id' => $this->settings['app_id'],
+            'mch_id' => $this->settings['mch_id'],
+            'key' => $this->settings['key'],
+            'notify_url' => $this->settings['notify_url'],
             'log' => [
                 'file' => log_path('wxpay.log'),
                 'level' => $level,

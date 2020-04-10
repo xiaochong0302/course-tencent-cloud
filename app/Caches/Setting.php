@@ -2,9 +2,9 @@
 
 namespace App\Caches;
 
-use App\Repos\Config as ConfigRepo;
+use App\Repos\Setting as SettingRepo;
 
-class SectionConfig extends Cache
+class Setting extends Cache
 {
 
     protected $lifetime = 365 * 86400;
@@ -16,14 +16,14 @@ class SectionConfig extends Cache
 
     public function getKey($id = null)
     {
-        return "section_config:{$id}";
+        return "setting:{$id}";
     }
 
     public function getContent($id = null)
     {
-        $configRepo = new ConfigRepo();
+        $settingRepo = new SettingRepo();
 
-        $items = $configRepo->findAll(['section' => $id]);
+        $items = $settingRepo->findAll(['section' => $id]);
 
         if ($items->count() == 0) {
             return [];

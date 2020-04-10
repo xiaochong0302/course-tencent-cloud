@@ -2,21 +2,21 @@
 
 namespace App\Repos;
 
-use App\Models\Config as ConfigModel;
+use App\Models\Setting as SettingModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class Config extends Repository
+class Setting extends Repository
 {
 
     /**
      * @param array $where
-     * @return Resultset|ResultsetInterface|ConfigModel[]
+     * @return ResultsetInterface|Resultset|SettingModel[]
      */
     public function findAll($where = [])
     {
-        $query = ConfigModel::query();
+        $query = SettingModel::query();
 
         $query->where('1 = 1');
 
@@ -30,11 +30,11 @@ class Config extends Repository
     /**
      * @param string $section
      * @param string $itemKey
-     * @return ConfigModel|Model|bool
+     * @return SettingModel|Model|bool
      */
     public function findItem($section, $itemKey)
     {
-        return ConfigModel::findFirst([
+        return SettingModel::findFirst([
             'conditions' => 'section = :section: AND item_key = :item_key:',
             'bind' => ['section' => $section, 'item_key' => $itemKey],
         ]);
@@ -42,11 +42,11 @@ class Config extends Repository
 
     /**
      * @param string $section
-     * @return Resultset|ResultsetInterface|ConfigModel[]
+     * @return ResultsetInterface|Resultset|SettingModel[]
      */
     public function findBySection($section)
     {
-        $query = ConfigModel::query();
+        $query = SettingModel::query();
 
         $query->where('section = :section:', ['section' => $section]);
 

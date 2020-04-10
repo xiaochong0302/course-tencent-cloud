@@ -13,14 +13,14 @@ class AuthNode extends Service
         $nodes[] = $this->getOperationNodes();
         $nodes[] = $this->getFinanceNodes();
         $nodes[] = $this->getUserNodes();
-        $nodes[] = $this->getConfigNodes();
+        $nodes[] = $this->getSettingNodes();
 
         return $nodes;
     }
 
     protected function getContentNodes()
     {
-        $nodes = [
+        return [
             'id' => '1',
             'label' => '内容管理',
             'child' => [
@@ -218,13 +218,11 @@ class AuthNode extends Service
                 ],
             ],
         ];
-
-        return $nodes;
     }
 
     protected function getOperationNodes()
     {
-        $nodes = [
+        return [
             'id' => '2',
             'label' => '运营管理',
             'child' => [
@@ -416,13 +414,11 @@ class AuthNode extends Service
                 ],
             ],
         ];
-
-        return $nodes;
     }
 
     protected function getFinanceNodes()
     {
-        $nodes = [
+        return [
             'id' => '3',
             'label' => '财务管理',
             'child' => [
@@ -521,13 +517,11 @@ class AuthNode extends Service
                 ],
             ],
         ];
-
-        return $nodes;
     }
 
     protected function getUserNodes()
     {
-        $nodes = [
+        return [
             'id' => '4',
             'label' => '用户管理',
             'child' => [
@@ -620,13 +614,11 @@ class AuthNode extends Service
                 ],
             ],
         ];
-
-        return $nodes;
     }
 
-    protected function getConfigNodes()
+    protected function getSettingNodes()
     {
-        $nodes = [
+        return [
             'id' => '5',
             'label' => '系统配置',
             'child' => [
@@ -639,68 +631,66 @@ class AuthNode extends Service
                             'id' => '5-1-1',
                             'label' => '网站设置',
                             'type' => 'menu',
-                            'route' => 'admin.config.site',
+                            'route' => 'admin.setting.site',
                         ],
                         [
                             'id' => '5-1-2',
                             'label' => '密钥设置',
                             'type' => 'menu',
-                            'route' => 'admin.config.secret',
+                            'route' => 'admin.setting.secret',
                         ],
                         [
                             'id' => '5-1-3',
                             'label' => '存储设置',
                             'type' => 'menu',
-                            'route' => 'admin.config.storage',
+                            'route' => 'admin.setting.storage',
                         ],
                         [
                             'id' => '5-1-4',
                             'label' => '点播设置',
                             'type' => 'menu',
-                            'route' => 'admin.config.vod',
+                            'route' => 'admin.setting.vod',
                         ],
                         [
                             'id' => '5-1-5',
                             'label' => '直播设置',
                             'type' => 'menu',
-                            'route' => 'admin.config.live',
+                            'route' => 'admin.setting.live',
                         ],
                         [
                             'id' => '5-1-6',
                             'label' => '短信设置',
                             'type' => 'menu',
-                            'route' => 'admin.config.smser',
+                            'route' => 'admin.setting.smser',
                         ],
                         [
                             'id' => '5-1-7',
                             'label' => '邮件设置',
                             'type' => 'menu',
-                            'route' => 'admin.config.mailer',
+                            'route' => 'admin.setting.mailer',
                         ],
                         [
                             'id' => '5-1-8',
                             'label' => '验证码设置',
                             'type' => 'menu',
-                            'route' => 'admin.config.captcha',
+                            'route' => 'admin.setting.captcha',
                         ],
                         [
                             'id' => '5-1-9',
                             'label' => '支付设置',
                             'type' => 'menu',
-                            'route' => 'admin.config.payment',
+                            'route' => 'admin.setting.payment',
                         ],
                         [
                             'id' => '5-1-10',
                             'label' => '会员设置',
                             'type' => 'menu',
-                            'route' => 'admin.config.vip',
+                            'route' => 'admin.setting.vip',
                         ]
                     ],
                 ],
             ],
         ];
-
-        return $nodes;
     }
 
 }

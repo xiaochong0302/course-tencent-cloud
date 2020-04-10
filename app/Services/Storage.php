@@ -12,7 +12,7 @@ class Storage extends Service
     /**
      * @var array
      */
-    protected $config;
+    protected $settings;
 
     /**
      * @var FileLogger
@@ -26,7 +26,7 @@ class Storage extends Service
 
     public function __construct()
     {
-        $this->config = $this->getSectionConfig('storage');
+        $this->settings = $this->getSectionSettings('storage');
 
         $this->logger = $this->getLogger('storage');
 
@@ -125,7 +125,7 @@ class Storage extends Service
      */
     public function putString($key, $body)
     {
-        $bucket = $this->config['bucket_name'];
+        $bucket = $this->settings['bucket_name'];
 
         try {
 
@@ -155,7 +155,7 @@ class Storage extends Service
      */
     public function putFile($key, $fileName)
     {
-        $bucket = $this->config['bucket_name'];
+        $bucket = $this->settings['bucket_name'];
 
         try {
 
@@ -208,8 +208,8 @@ class Storage extends Service
      */
     public function getBucketBaseUrl()
     {
-        $protocol = $this->config['bucket_protocol'];
-        $domain = $this->config['bucket_domain'];
+        $protocol = $this->settings['bucket_protocol'];
+        $domain = $this->settings['bucket_domain'];
 
         return $protocol . '://' . $domain;
     }
@@ -221,8 +221,8 @@ class Storage extends Service
      */
     public function getCiBaseUrl()
     {
-        $protocol = $this->config['ci_protocol'];
-        $domain = $this->config['ci_domain'];
+        $protocol = $this->settings['ci_protocol'];
+        $domain = $this->settings['ci_domain'];
 
         return $protocol . '://' . $domain;
     }
@@ -261,11 +261,11 @@ class Storage extends Service
      */
     public function getCosClient()
     {
-        $secret = $this->getSectionConfig('secret');
+        $secret = $this->getSectionSettings('secret');
 
         return new CosClient([
-            'region' => $this->config['bucket_region'],
-            'schema' => $this->config['bucket_protocol'],
+            'region' => $this->settings['bucket_region'],
+            'schema' => $this->settings['bucket_protocol'],
             'credentials' => [
                 'secretId' => $secret['secret_id'],
                 'secretKey' => $secret['secret_key'],

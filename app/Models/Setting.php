@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Config extends Model
+class Setting extends Model
 {
 
     /**
@@ -35,7 +35,7 @@ class Config extends Model
 
     public function getSource()
     {
-        return 'kg_config';
+        return 'kg_setting';
     }
 
 }

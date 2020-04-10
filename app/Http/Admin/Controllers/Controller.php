@@ -48,7 +48,7 @@ class Controller extends \Phalcon\Mvc\Controller
         /**
          * 管理员忽略权限检查
          */
-        if ($this->authUser['root'] == 1) {
+        if ($this->authUser->root) {
             return true;
         }
 
@@ -77,7 +77,7 @@ class Controller extends \Phalcon\Mvc\Controller
         /**
          * 执行路由权限检查
          */
-        if (!in_array($route->getName(), $this->authUser['routes'])) {
+        if (!in_array($route->getName(), $this->authUser->routes)) {
             $dispatcher->forward([
                 'controller' => 'public',
                 'action' => 'forbidden',
@@ -99,8 +99,8 @@ class Controller extends \Phalcon\Mvc\Controller
 
             $audit = new AuditModel();
 
-            $audit->user_id = $this->authUser['id'];
-            $audit->user_name = $this->authUser['name'];
+            $audit->user_id = $this->authUser->id;
+            $audit->user_name = $this->authUser->name;
             $audit->user_ip = $this->request->getClientAddress();
             $audit->req_route = $this->router->getMatchedRoute()->getName();
             $audit->req_path = $this->request->getServer('REQUEST_URI');

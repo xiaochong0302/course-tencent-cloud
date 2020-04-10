@@ -27,9 +27,9 @@ class Session extends Service
 
         $user = $accountValidator->checkAdminLogin($post['account'], $post['password']);
 
-        $config = new Config();
+        $setting = new Setting();
 
-        $captcha = $config->getSectionConfig('captcha');
+        $captcha = $setting->getSectionSettings('captcha');
 
         $securityValidator = new SecurityValidator();
 

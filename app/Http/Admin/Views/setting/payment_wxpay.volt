@@ -1,4 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.config.payment'}) }}">
+<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.payment'}) }}">
 
     <div class="layui-form-item">
         <label class="layui-form-label">开启支付</label>

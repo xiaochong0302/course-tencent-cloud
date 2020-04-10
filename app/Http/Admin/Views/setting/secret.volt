@@ -1,4 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.config.secret'}) }}">
+<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.secret'}) }}">
 
     <fieldset class="layui-elem-field layui-field-title">
         <legend>密钥配置</legend>

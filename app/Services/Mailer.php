@@ -30,7 +30,7 @@ abstract class Mailer extends Service
      */
     protected function getManager()
     {
-        $opt = $this->getSectionConfig('mailer');
+        $opt = $this->getSectionSettings('mailer');
 
         $config = [
             'driver' => 'smtp',

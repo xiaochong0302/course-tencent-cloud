@@ -3,7 +3,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\AlipayTest as AlipayTestService;
-use App\Http\Admin\Services\Config as ConfigService;
+use App\Http\Admin\Services\Setting as SettingService;
 use App\Http\Admin\Services\WxpayTest as WxpayTestService;
 use App\Services\Captcha as CaptchaService;
 use App\Services\Live as LiveService;
@@ -71,7 +71,7 @@ class TestController extends Controller
         $obs->fms_url = substr($pushUrl, 0, $position + 1);
         $obs->stream_code = substr($pushUrl, $position + 1);
 
-        $this->view->pick('config/live_push_test');
+        $this->view->pick('setting/live_push_test');
 
         $this->view->setVar('code_url', $codeUrl);
         $this->view->setVar('obs', $obs);
@@ -144,9 +144,9 @@ class TestController extends Controller
 
         if ($result) {
 
-            $configService = new ConfigService();
+            $settingService = new SettingService();
 
-            $configService->updateSectionConfig('captcha', ['enabled' => 1]);
+            $settingService->updateSectionSettings('captcha', ['enabled' => 1]);
 
             return $this->jsonSuccess(['msg' => '后台验证成功']);
 
@@ -183,7 +183,7 @@ class TestController extends Controller
             );
         }
 
-        $this->view->pick('config/payment_alipay_test');
+        $this->view->pick('setting/payment_alipay_test');
 
         $this->view->setVar('trade_sn', $trade->sn);
         $this->view->setVar('code_url', $codeUrl);
@@ -236,7 +236,7 @@ class TestController extends Controller
             $this->db->rollback();
         }
 
-        $this->view->pick('config/payment_wxpay_test');
+        $this->view->pick('setting/payment_wxpay_test');
 
         $this->view->setVar('trade_sn', $trade->sn);
         $this->view->setVar('code_url', $codeUrl);

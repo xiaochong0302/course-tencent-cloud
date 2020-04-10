@@ -16,7 +16,7 @@ class Alipay extends Payment
     /**
      * @var array
      */
-    protected $config;
+    protected $settings;
 
     /**
      * @var \Yansongda\Pay\Gateways\Alipay
@@ -25,7 +25,7 @@ class Alipay extends Payment
 
     public function __construct()
     {
-        $this->config = $this->getSectionConfig('payment.alipay');
+        $this->settings = $this->getSectionSettings('payment.alipay');
 
         $this->gateway = $this->getGateway();
     }
@@ -86,7 +86,7 @@ class Alipay extends Payment
             return false;
         }
 
-        if ($data->app_id != $this->config['app_id']) {
+        if ($data->app_id != $this->settings['app_id']) {
             return false;
         }
 
@@ -245,10 +245,10 @@ class Alipay extends Payment
         $level = $config->env == ENV_DEV ? 'debug' : 'info';
 
         $payConfig = [
-            'app_id' => $this->config['app_id'],
-            'ali_public_key' => $this->config['public_key'],
-            'private_key' => $this->config['private_key'],
-            'notify_url' => $this->config['notify_url'],
+            'app_id' => $this->settings['app_id'],
+            'ali_public_key' => $this->settings['public_key'],
+            'private_key' => $this->settings['private_key'],
+            'notify_url' => $this->settings['notify_url'],
             'log' => [
                 'file' => log_path('alipay.log'),
                 'level' => $level,

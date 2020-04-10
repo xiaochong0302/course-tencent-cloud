@@ -2,8 +2,8 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Http\Admin\Services\Config as ConfigService;
 use App\Http\Admin\Services\Session as SessionService;
+use App\Http\Admin\Services\Setting as SettingService;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 
@@ -40,9 +40,9 @@ class SessionController extends \Phalcon\Mvc\Controller
             return $this->jsonSuccess(['location' => $location]);
         }
 
-        $configService = new ConfigService();
+        $settingService = new SettingService();
 
-        $captcha = $configService->getSectionConfig('captcha');
+        $captcha = $settingService->getSectionSettings('captcha');
 
         $this->view->pick('public/login');
 
