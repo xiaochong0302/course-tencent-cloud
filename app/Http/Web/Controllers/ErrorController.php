@@ -53,7 +53,7 @@ class ErrorController extends \Phalcon\Mvc\Controller
         $isAjaxRequest = is_ajax_request();
 
         if ($isAjaxRequest || $isApiRequest) {
-            return $this->jsonError(['code' => 'sys.uri_not_found']);
+            return $this->jsonError(['code' => 'sys.not_found']);
         }
     }
 
@@ -63,6 +63,14 @@ class ErrorController extends \Phalcon\Mvc\Controller
     public function show500Action()
     {
         $this->response->setStatusCode(500);
+    }
+
+    /**
+     * @Get("/503", name="web.error.503")
+     */
+    public function show503Action()
+    {
+        $this->response->setStatusCode(503);
     }
 
 }

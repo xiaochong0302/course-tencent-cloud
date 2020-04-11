@@ -5,6 +5,7 @@ namespace Bootstrap;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Exceptions\Forbidden as ForbiddenException;
 use App\Exceptions\NotFound as NotFoundException;
+use App\Exceptions\ServiceUnavailable as ServiceUnavailableException;
 use App\Exceptions\Unauthorized as UnauthorizedException;
 use App\Library\Logger as AppLogger;
 use Phalcon\Mvc\User\Component;
@@ -60,6 +61,8 @@ class HttpErrorHandler extends Component
             $this->response->setStatusCode(403);
         } elseif ($e instanceof NotFoundException) {
             $this->response->setStatusCode(404);
+        } elseif ($e instanceof ServiceUnavailableException) {
+            $this->response->setStatusCode(503);
         } else {
             $this->response->setStatusCode(500);
         }

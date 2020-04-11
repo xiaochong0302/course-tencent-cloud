@@ -12,14 +12,14 @@ class Validator extends Component
     public function checkAuthUser($authUser)
     {
         if (empty($authUser['id'])) {
-            throw new UnauthorizedException('sys.auth_failed');
+            throw new UnauthorizedException('sys.unauthorized');
         }
     }
 
     public function checkOwner($userId, $ownerId)
     {
         if ($userId != $ownerId) {
-            throw new ForbiddenException('sys.access_denied');
+            throw new ForbiddenException('sys.forbidden');
         }
     }
 

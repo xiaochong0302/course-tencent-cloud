@@ -123,7 +123,7 @@ class Account extends Validator
         $user = $this->checkUserLogin($name, $password);
 
         if ($user->admin_role == 0) {
-            throw new ForbiddenException('sys.access_denied');
+            throw new ForbiddenException('sys.forbidden');
         }
 
         return $user;

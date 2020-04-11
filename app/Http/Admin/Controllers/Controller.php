@@ -22,14 +22,11 @@ class Controller extends \Phalcon\Mvc\Controller
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
         if ($this->isNotSafeRequest()) {
-            if (!$this->checkHttpReferer() || !$this->checkCsrfToken()) {
-                $dispatcher->forward([
-                    'controller' => 'public',
-                    'action' => 'robot',
-                ]);
-                return false;
-            }
+            $this->checkHttpReferer();
+            $this->checkCsrfToken();
         }
+
+        $this->checkRateLimit();
 
         $this->authUser = $this->getAuthUser();
 

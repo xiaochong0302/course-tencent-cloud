@@ -3,17 +3,22 @@
 $error = [];
 
 /**
- * 通用相关
+ * 系统相关
  */
-$error['sys.uri_not_found'] = '资源地址不存在';
-$error['sys.invalid_referer'] = '非法的请求来源';
-$error['sys.auth_failed'] = '认证失败';
-$error['sys.access_denied'] = '拒绝访问';
+$error['sys.unauthorized'] = '认证失败';
+$error['sys.forbidden'] = '拒绝访问';
+$error['sys.bad_request'] = '无效的请求';
+$error['sys.not_found'] = '资源不存在';
+$error['sys.internal_server_error'] = '内部错误';
+$error['sys.service_unavailable'] = '服务不可用';
 $error['sys.unknown_error'] = '未知错误';
 
 /**
  * 安全相关
  */
+$error['security.too_many_requests'] = '请求过于频繁';
+$error['security.invalid_csrf_token'] = '无效的CSRF令牌';
+$error['security.invalid_http_referer'] = '无效请求来源';
 $error['security.invalid_captcha_code'] = '无效的验证码';
 $error['security.invalid_verify_code'] = '无效的验证码';
 

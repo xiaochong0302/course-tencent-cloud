@@ -20,23 +20,12 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
-        if (!$this->checkRateLimit()) {
-            $dispatcher->forward([
-                'controller' => 'public',
-                'action' => 'throttle',
-            ]);
-            return false;
+        if ($this->isNotSafeRequest()) {
+            $this->checkHttpReferer();
+            $this->checkCsrfToken();
         }
 
-        if ($this->isNotSafeRequest()) {
-            if (!$this->checkHttpReferer() || !$this->checkCsrfToken()) {
-                $dispatcher->forward([
-                    'controller' => 'public',
-                    'action' => 'robot',
-                ]);
-                return false;
-            }
-        }
+        $this->checkRateLimit();
 
         $this->siteSettings = $this->getSiteSettings();
         $this->navList = $this->getNavList();

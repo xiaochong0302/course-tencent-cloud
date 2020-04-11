@@ -13,8 +13,7 @@ use App\Traits\Security as SecurityTrait;
 class SessionController extends \Phalcon\Mvc\Controller
 {
 
-    use ResponseTrait;
-    use SecurityTrait;
+    use ResponseTrait, SecurityTrait;
 
     /**
      * @Route("/login", name="admin.login")
@@ -23,13 +22,8 @@ class SessionController extends \Phalcon\Mvc\Controller
     {
         if ($this->request->isPost()) {
 
-            if (!$this->checkHttpReferer() || !$this->checkCsrfToken()) {
-                $this->dispatcher->forward([
-                    'controller' => 'public',
-                    'action' => 'robot',
-                ]);
-                return false;
-            }
+            $this->checkHttpReferer();
+            $this->checkCsrfToken();
 
             $sessionService = new SessionService();
 

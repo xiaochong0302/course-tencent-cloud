@@ -27,18 +27,6 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Route("/robot", name="admin.robot")
-     */
-    public function robotAction()
-    {
-        $isAjaxRequest = is_ajax_request();
-
-        if ($isAjaxRequest) {
-            return $this->jsonError(['msg' => '疑似机器人请求']);
-        }
-    }
-
-    /**
      * @Route("/forbidden", name="admin.forbidden")
      */
     public function forbiddenAction()

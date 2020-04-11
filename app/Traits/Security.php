@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Services\Throttle;
+use App\Validators\Security as SecurityValidator;
 use Phalcon\Di;
 use Phalcon\Http\Request;
 
@@ -11,39 +11,23 @@ trait Security
 
     public function checkCsrfToken()
     {
-        /**
-         * @var Request $request
-         */
-        $request = Di::getDefault()->get('request');
+        $validator = new SecurityValidator();
 
-        $tokenKey = $request->getHeader('X-Csrf-Token-Key');
-        $tokenValue = $request->getHeader('X-Csrf-Token-Value');
-
-        /**
-         * @var \App\Library\Security $security
-         */
-        $security = Di::getDefault()->get('security');
-
-        return $security->checkToken($tokenKey, $tokenValue);
+        $validator->checkCsrfToken();
     }
 
     public function checkHttpReferer()
     {
-        /**
-         * @var Request $request
-         */
-        $request = Di::getDefault()->get('request');
+        $validator = new SecurityValidator();
 
-        $httpHost = parse_url($request->getHttpReferer(), PHP_URL_HOST);
-
-        return $httpHost == $request->getHttpHost();
+        $validator->checkHttpReferer();
     }
 
     public function checkRateLimit()
     {
-        $throttle = new Throttle();
+        $validator = new SecurityValidator();
 
-        return $throttle->checkRateLimit();
+        $validator->checkRateLimit();
     }
 
     public function isNotSafeRequest()
