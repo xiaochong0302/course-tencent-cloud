@@ -60,7 +60,7 @@ class OrderConfirm extends Service
 
         $course = $courseRepo->findById($id);
 
-        $course->cover = kg_img_url($course->cover);
+        $course->cover = kg_ci_img_url($course->cover);
 
         $result = [
             'id' => $course->id,
@@ -97,11 +97,11 @@ class OrderConfirm extends Service
          */
         $courses = $packageRepo->findCourses($id);
 
-        $imgBaseUrl = kg_img_base_url();
+        $baseUrl = kg_ci_base_url();
 
         foreach ($courses as $course) {
 
-            $course->cover = $imgBaseUrl . $course->cover;
+            $course->cover = $baseUrl . $course->cover;
 
             $result['courses'][] = [
                 'id' => $course->id,

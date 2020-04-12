@@ -13,7 +13,7 @@ class Course extends Builder
      */
     public function handleCourse(CourseModel $course)
     {
-        $course->cover = kg_img_url($course->cover);
+        $course->cover = kg_ci_img_url($course->cover);
 
         return $course;
     }

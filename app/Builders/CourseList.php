@@ -11,14 +11,14 @@ class CourseList extends Builder
 
     public function handleCourses($courses)
     {
-        $imgBaseUrl = kg_img_base_url();
+        $baseUrl = kg_ci_base_url();
 
         $list = [];
 
         foreach ($courses as $course) {
 
             $course['categories'] = [];
-            $course['cover'] = $imgBaseUrl . $course['cover'];
+            $course['cover'] = $baseUrl . $course['cover'];
             $course['attrs'] = json_decode($course['attrs'], true);
 
             $result[] = [
@@ -111,12 +111,12 @@ class CourseList extends Builder
 
         $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
 
-        $imgBaseUrl = kg_img_base_url();
+        $baseUrl = kg_ci_base_url();
 
         $result = [];
 
         foreach ($users->toArray() as $user) {
-            $user['avatar'] = $imgBaseUrl . $user['avatar'];
+            $user['avatar'] = $baseUrl . $user['avatar'];
             $result[$user['id']] = $user;
         }
 

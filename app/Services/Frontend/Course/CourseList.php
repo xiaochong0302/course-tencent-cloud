@@ -49,11 +49,11 @@ class CourseList extends Service
 
         $items = [];
 
-        $imgBaseUrl = kg_img_base_url();
+        $baseUrl = kg_ci_base_url();
 
         foreach ($courses as $course) {
 
-            $course['cover'] = $imgBaseUrl . $course['cover'];
+            $course['cover'] = $baseUrl . $course['cover'];
 
             $items[] = [
                 'id' => $course['id'],

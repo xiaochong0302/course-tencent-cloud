@@ -75,7 +75,7 @@ class OrderInfo extends Service
      */
     protected function handleCourseInfo($itemInfo)
     {
-        $itemInfo['course']['cover'] = kg_img_url($itemInfo['course']['cover']);
+        $itemInfo['course']['cover'] = kg_ci_img_url($itemInfo['course']['cover']);
 
         return $itemInfo;
     }
@@ -86,10 +86,10 @@ class OrderInfo extends Service
      */
     protected function handlePackageInfo($itemInfo)
     {
-        $imgBaseUrl = kg_img_base_url();
+        $baseUrl = kg_ci_base_url();
 
         foreach ($itemInfo['package']['courses'] as &$course) {
-            $course['cover'] = $imgBaseUrl . $course['cover'];
+            $course['cover'] = $baseUrl . $course['cover'];
         }
 
         return $itemInfo;

@@ -22,6 +22,10 @@ class Volt extends Provider
 
             $compiler = $volt->getCompiler();
 
+            $compiler->addFunction('icon_link', function ($resolvedArgs) {
+                return 'kg_icon_link(' . $resolvedArgs . ')';
+            });
+
             $compiler->addFunction('css_link', function ($resolvedArgs) {
                 return 'kg_css_link(' . $resolvedArgs . ')';
             });
@@ -30,16 +34,16 @@ class Volt extends Provider
                 return 'kg_js_include(' . $resolvedArgs . ')';
             });
 
+            $compiler->addFunction('ci_img', function ($resolvedArgs) {
+                return 'kg_ci_img_url(' . $resolvedArgs . ')';
+            });
+
             $compiler->addFunction('substr', function ($resolvedArgs) {
                 return 'kg_substr(' . $resolvedArgs . ')';
             });
 
             $compiler->addFunction('can', function ($resolvedArgs) {
                 return 'kg_can(' . $resolvedArgs . ')';
-            });
-
-            $compiler->addFunction('img_url', function ($resolvedArgs) {
-                return 'kg_img_url(' . $resolvedArgs . ')';
             });
 
             $compiler->addFilter('array_object', function ($resolvedArgs) {

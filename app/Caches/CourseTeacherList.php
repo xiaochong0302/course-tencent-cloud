@@ -41,11 +41,11 @@ class CourseTeacherList extends Cache
     {
         $result = [];
 
-        $imgBaseUrl = kg_img_base_url();
+        $baseUrl = kg_ci_base_url();
 
         foreach ($users as $user) {
 
-            $user->avatar = $imgBaseUrl . $user->avatar;
+            $user->avatar = $baseUrl . $user->avatar;
 
             $result[] = [
                 'id' => $user->id,

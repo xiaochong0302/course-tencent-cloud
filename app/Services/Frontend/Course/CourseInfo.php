@@ -74,7 +74,7 @@ class CourseInfo extends Service
         $result = [
             'id' => $course->id,
             'title' => $course->title,
-            'cover' => kg_img_url($course->cover),
+            'cover' => kg_ci_img_url($course->cover),
             'summary' => $course->summary,
             'details' => $course->details,
             'keywords' => $course->keywords,

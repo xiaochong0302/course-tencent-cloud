@@ -8,11 +8,11 @@ use App\Repos\User as UserRepo;
 class OrderList extends Builder
 {
 
-    protected $imgBaseUrl;
+    protected $baseUrl;
 
     public function __construct()
     {
-        $this->imgBaseUrl = kg_img_base_url();
+        $this->imgBaseUrl = kg_ci_base_url();
     }
 
     /**

@@ -6,6 +6,7 @@
     <meta name="csrf-token-key" content="{{ security.getTokenKey() }}">
     <meta name="csrf-token-value" content="{{ security.getTokenValue() }}">
     <title>管理后台</title>
+    {{ icon_link("favicon.ico") }}
     {{ css_link('lib/layui/css/layui.css') }}
     {{ css_link('lib/layui/extends/dropdown.css') }}
     {{ css_link('admin/css/style.css') }}

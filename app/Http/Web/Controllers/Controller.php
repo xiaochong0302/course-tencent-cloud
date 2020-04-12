@@ -38,8 +38,8 @@ class Controller extends \Phalcon\Mvc\Controller
     {
         $this->view->setVar('auth_user', $this->authUser);
         $this->view->setVar('site_settings', $this->siteSettings);
-        $this->view->setVar('top_nav_list', $this->navList['top']);
-        $this->view->setVar('btm_nav_list', $this->navList['bottom']);
+        $this->view->setVar('top_nav_list', $this->navList->top);
+        $this->view->setVar('btm_nav_list', $this->navList->bottom);
     }
 
     protected function getAuthUser()
@@ -54,16 +54,16 @@ class Controller extends \Phalcon\Mvc\Controller
 
     protected function getNavList()
     {
-        $treeListCache = new NavTreeListCache();
+        $cache = new NavTreeListCache();
 
-        return $treeListCache->get();
+        return $cache->get();
     }
 
     protected function getSiteSettings()
     {
-        $settingCache = new SettingCache();
+        $cache = new SettingCache();
 
-        return $settingCache->get('site');
+        return $cache->get('site');
     }
 
 }

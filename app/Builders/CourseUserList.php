@@ -44,12 +44,12 @@ class CourseUserList extends Builder
 
         $courses = $courseRepo->findByIds($ids, $columns);
 
-        $imgBaseUrl = kg_img_base_url();
+        $baseUrl = kg_ci_base_url();
 
         $result = [];
 
         foreach ($courses->toArray() as $course) {
-            $course['cover'] = $imgBaseUrl . $course['cover'];
+            $course['cover'] = $baseUrl . $course['cover'];
             $course['attrs'] = json_decode($course['attrs'], true);
             $result[$course['id']] = $course;
         }
@@ -65,12 +65,12 @@ class CourseUserList extends Builder
 
         $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
 
-        $imgBaseUrl = kg_img_base_url();
+        $baseUrl = kg_ci_base_url();
 
         $result = [];
 
         foreach ($users->toArray() as $user) {
-            $user['avatar'] = $imgBaseUrl . $user['avatar'];
+            $user['avatar'] = $baseUrl . $user['avatar'];
             $result[$user['id']] = $user;
         }
 

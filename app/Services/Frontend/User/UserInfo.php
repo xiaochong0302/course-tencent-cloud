@@ -24,7 +24,7 @@ class UserInfo extends Service
      */
     protected function handleUser($user)
     {
-        $user->avatar = kg_img_url($user->avatar);
+        $user->avatar = kg_ci_img_url($user->avatar);
         $user->vip = $user->vip == 1;
         $user->locked = $user->locked == 1;
 

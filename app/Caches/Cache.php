@@ -4,6 +4,7 @@ namespace App\Caches;
 
 use Phalcon\Cache\Backend\Redis as RedisCache;
 use Phalcon\Mvc\User\Component;
+use Yansongda\Supports\Collection;
 
 abstract class Cache extends Component
 {
@@ -28,8 +29,6 @@ abstract class Cache extends Component
     {
         $key = $this->getKey($id);
 
-        $content = $this->cache->get($key);
-
         if (!$this->cache->exists($key)) {
 
             $content = $this->getContent($id);
@@ -41,7 +40,12 @@ abstract class Cache extends Component
 
             $this->cache->save($key, $content, $lifetime);
 
+        } else {
             $content = $this->cache->get($key);
+        }
+
+        if (is_array($content)) {
+            $content = new Collection($content);
         }
 
         return $content;

@@ -10,10 +10,10 @@ class UserList extends Builder
 
     public function handleUsers($users)
     {
-        $imgBaseUrl = kg_img_base_url();
+        $baseUrl = kg_ci_base_url();
 
         foreach ($users as $key => $user) {
-            $users[$key]['avatar'] = $imgBaseUrl . $user['avatar'];
+            $users[$key]['avatar'] = $baseUrl . $user['avatar'];
         }
 
         return $users;

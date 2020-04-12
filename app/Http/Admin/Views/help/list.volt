@@ -18,12 +18,14 @@
         <col>
         <col>
         <col>
+        <col>
         <col width="12%">
     </colgroup>
     <thead>
     <tr>
         <th>编号</th>
         <th>标题</th>
+        <th>创建时间</th>
         <th>更新时间</th>
         <th>排序</th>
         <th>发布</th>
@@ -35,6 +37,7 @@
         <tr>
             <td>{{ item.id }}</td>
             <td>{{ item.title }}</td>
+            <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
             <td>{{ date('Y-m-d H:i',item.update_time) }}</td>
             <td><input class="layui-input kg-priority-input" type="text" name="priority" value="{{ item.priority }}" help-id="{{ item.id }}" title="数值越小排序越靠前"></td>
             <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="switch-published" help-id="{{ item.id }}" {% if item.published == 1 %}checked{% endif %}>

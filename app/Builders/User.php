@@ -13,7 +13,7 @@ class User extends Builder
      */
     public function handleUser(UserModel $user)
     {
-        $user->avatar = kg_img_url($user->avatar);
+        $user->avatar = kg_ci_img_url($user->avatar);
 
         return $user;
     }

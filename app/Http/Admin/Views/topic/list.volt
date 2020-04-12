@@ -17,6 +17,8 @@
         <col>
         <col>
         <col>
+        <col>
+        <col>
         <col width="12%">
     </colgroup>
     <thead>
@@ -24,6 +26,8 @@
         <th>编号</th>
         <th>标题</th>
         <th>课程数</th>
+        <th>创建时间</th>
+        <th>更新时间</th>
         <th>发布</th>
         <th>操作</th>
     </tr>
@@ -34,6 +38,8 @@
             <td>{{ item.id }}</td>
             <td><a href="{{ url({'for':'admin.topic.edit','id':item.id}) }}">{{ item.title }}</a></td>
             <td><span class="layui-badge layui-bg-gray">{{ item.course_count }}</span></td>
+            <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
+            <td>{{ date('Y-m-d H:i',item.update_time) }}</td>
             <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="switch-published" topic-id="{{ item.id }}" {% if item.published == 1 %}checked{% endif %}></td>
             <td align="center">
                 <div class="layui-dropdown">

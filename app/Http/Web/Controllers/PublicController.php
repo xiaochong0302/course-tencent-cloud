@@ -5,7 +5,7 @@ namespace App\Http\Web\Controllers;
 use App\Models\ContentImage as ContentImageModel;
 use App\Services\Storage as StorageService;
 use App\Traits\Response as ResponseTrait;
-use PHPQRCode\QRcode;
+use PHPQRCode\QRcode as PHPQRCode;
 
 class PublicController extends \Phalcon\Mvc\Controller
 {
@@ -44,7 +44,7 @@ class PublicController extends \Phalcon\Mvc\Controller
 
         $url = urldecode($text);
 
-        QRcode::png($url, false, $level, $size);
+        PHPQRcode::png($url, false, $level, $size);
 
         $this->response->send();
 

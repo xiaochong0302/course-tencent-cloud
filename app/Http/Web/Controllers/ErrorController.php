@@ -15,7 +15,7 @@ class ErrorController extends \Phalcon\Mvc\Controller
 
     public function initialize()
     {
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setRenderLevel(View::LEVEL_LAYOUT);
     }
 
     /**

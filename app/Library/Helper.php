@@ -150,11 +150,11 @@ function kg_site_base_url()
 }
 
 /**
- * 获取图片基准URL
+ * 获取数据万象基准URL
  *
  * @return string
  */
-function kg_img_base_url()
+function kg_ci_base_url()
 {
     $storage = new StorageService();
 
@@ -162,14 +162,14 @@ function kg_img_base_url()
 }
 
 /**
- * 获取图片URL
+ * 获取数据万象图片URL
  *
  * @param string $path
  * @param int $width
  * @param int $height
  * @return string
  */
-function kg_img_url($path, $width = 0, $height = 0)
+function kg_ci_img_url($path, $width = 0, $height = 0)
 {
     $storage = new StorageService();
 
@@ -276,6 +276,21 @@ function kg_can($route = null)
 }
 
 /**
+ * 构造icon路径
+ *
+ * @param $path
+ * @param bool $local
+ * @param string $version
+ * @return string
+ */
+function kg_icon_link($path, $local = true, $version = null)
+{
+    $href = kg_static_url($path, $local, $version);
+
+    return '<link rel="shortcut icon" href="' . $href . '" />' . PHP_EOL;
+}
+
+/**
  * 构造css路径
  *
  * @param $path
@@ -285,16 +300,7 @@ function kg_can($route = null)
  */
 function kg_css_link($path, $local = true, $version = null)
 {
-    $config = Di::getDefault()->getShared('config');
-
-    $baseUri = rtrim($config->static_base_uri, '/');
-    $path = ltrim($path, '/');
-    $href = $local ? $baseUri . '/' . $path : $path;
-    $version = $version ? $version : $config->static_version;
-
-    if ($version) {
-        $href .= '?v=' . $version;
-    }
+    $href = kg_static_url($path, $local, $version);
 
     return '<link rel="stylesheet" type="text/css" href="' . $href . '" />' . PHP_EOL;
 }
@@ -309,16 +315,31 @@ function kg_css_link($path, $local = true, $version = null)
  */
 function kg_js_include($path, $local = true, $version = null)
 {
+    $src = kg_static_url($path, $local, $version);
+
+    return '<script type="text/javascript" src="' . $src . '"></script>' . PHP_EOL;
+}
+
+/**
+ * 构造静态url
+ *
+ * @param $path
+ * @param bool $local
+ * @param string $version
+ * @return string
+ */
+function kg_static_url($path, $local = true, $version = null)
+{
     $config = Di::getDefault()->getShared('config');
 
     $baseUri = rtrim($config->static_base_uri, '/');
     $path = ltrim($path, '/');
-    $src = $local ? $baseUri . '/' . $path : $path;
+    $url = $local ? $baseUri . '/' . $path : $path;
     $version = $version ? $version : $config->static_version;
 
     if ($version) {
-        $src .= '?v=' . $version;
+        $url .= '?v=' . $version;
     }
 
-    return '<script type="text/javascript" src="' . $src . '"></script>' . PHP_EOL;
+    return $url;
 }

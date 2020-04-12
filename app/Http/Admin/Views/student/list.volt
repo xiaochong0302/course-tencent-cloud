@@ -63,7 +63,10 @@
                 <p>时长：{{ item.duration|total_duration }}</p>
             </td>
             <td>{{ source_type_info(item.source_type) }}</td>
-            <td>{{ date('Y-m-d H:i',item.expiry_time) }}</td>
+            <td>
+                <p>开始：{{ date('Y-m-d H:i',item.create_time) }}</p>
+                <p>结束：{{ date('Y-m-d H:i',item.expiry_time) }}</p>
+            </td>
             <td align="center">
                 <div class="layui-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>

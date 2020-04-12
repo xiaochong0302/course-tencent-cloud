@@ -55,12 +55,12 @@ class ReviewList extends Builder
 
         $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
 
-        $imgBaseUrl = kg_img_base_url();
+        $baseUrl = kg_ci_base_url();
 
         $result = [];
 
         foreach ($users->toArray() as $user) {
-            $user['avatar'] = $imgBaseUrl . $user['avatar'];
+            $user['avatar'] = $baseUrl . $user['avatar'];
             $result[$user['id']] = $user;
         }
 

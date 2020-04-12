@@ -21,10 +21,10 @@ class TeacherList extends Service
 
         if (!$teachers) return [];
 
-        $imgBaseUrl = kg_img_base_url();
+        $baseUrl = kg_ci_base_url();
 
         foreach ($teachers as &$teacher) {
-            $teacher['avatar'] = $imgBaseUrl . $teacher['avatar'];
+            $teacher['avatar'] = $baseUrl . $teacher['avatar'];
         }
 
         return $teachers;
