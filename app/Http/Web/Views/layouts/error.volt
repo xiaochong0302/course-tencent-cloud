@@ -6,10 +6,9 @@
     <title>出错啦</title>
     {{ icon_link("favicon.ico") }}
     {{ css_link("lib/layui/css/layui.css") }}
-    {{ css_link("web/css/style.css") }}
-    {{ js_include("lib/layui/layui.js") }}
+    {{ css_link("web/css/error.css") }}
 </head>
-<body class="layui-layout-body">
+<body>
 {{ content() }}
 </body>
 </html>

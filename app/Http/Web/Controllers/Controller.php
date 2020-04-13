@@ -4,16 +4,34 @@ namespace App\Http\Web\Controllers;
 
 use App\Caches\NavTreeList as NavTreeListCache;
 use App\Caches\Setting as SettingCache;
+use App\Library\Seo as SiteSeo;
 use App\Services\Auth\Web as WebAuth;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 use Phalcon\Mvc\Dispatcher;
+use Yansongda\Supports\Collection;
 
 class Controller extends \Phalcon\Mvc\Controller
 {
 
-    protected $siteSettings;
-    protected $navList;
+    /**
+     * @var SiteSeo
+     */
+    protected $seo;
+
+    /**
+     * @var Collection
+     */
+    protected $site;
+
+    /**
+     * @var Collection
+     */
+    protected $nav;
+
+    /**
+     * @var Collection
+     */
     protected $authUser;
 
     use ResponseTrait, SecurityTrait;
@@ -27,8 +45,9 @@ class Controller extends \Phalcon\Mvc\Controller
 
         $this->checkRateLimit();
 
-        $this->siteSettings = $this->getSiteSettings();
-        $this->navList = $this->getNavList();
+        $this->seo = $this->getSiteSeo();
+        $this->site = $this->getSiteSettings();
+        $this->nav = $this->getNavList();
         $this->authUser = $this->getAuthUser();
 
         return true;
@@ -36,10 +55,12 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function initialize()
     {
+        $this->seo->setTitle($this->site->title);
+
+        $this->view->setVar('seo', $this->seo);
+        $this->view->setVar('site', $this->site);
+        $this->view->setVar('nav', $this->nav);
         $this->view->setVar('auth_user', $this->authUser);
-        $this->view->setVar('site_settings', $this->siteSettings);
-        $this->view->setVar('top_nav_list', $this->navList->top);
-        $this->view->setVar('btm_nav_list', $this->navList->bottom);
     }
 
     protected function getAuthUser()
@@ -64,6 +85,11 @@ class Controller extends \Phalcon\Mvc\Controller
         $cache = new SettingCache();
 
         return $cache->get('site');
+    }
+
+    protected function getSiteSeo()
+    {
+        return new SiteSeo();
     }
 
 }

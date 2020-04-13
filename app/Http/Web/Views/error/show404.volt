@@ -1,5 +1,3 @@
-{{ flashSession.output() }}
-
 <div class="layui-fluid">
     <div class="kg-tips">
         <i class="layui-icon layui-icon-face-surprised"></i>
