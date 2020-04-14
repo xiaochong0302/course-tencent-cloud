@@ -291,7 +291,7 @@ class Course extends Repository
     public function countConsults($courseId)
     {
         return ConsultModel::count([
-            'conditions' => 'course_id = :course_id: AND deleted = 0',
+            'conditions' => 'course_id = :course_id: AND published = 1',
             'bind' => ['course_id' => $courseId],
         ]);
     }
@@ -299,7 +299,7 @@ class Course extends Repository
     public function countReviews($courseId)
     {
         return ReviewModel::count([
-            'conditions' => 'course_id = :course_id: AND deleted = 0',
+            'conditions' => 'course_id = :course_id: AND published = 1',
             'bind' => ['course_id' => $courseId],
         ]);
     }
@@ -307,7 +307,7 @@ class Course extends Repository
     public function countComments($courseId)
     {
         return CommentModel::count([
-            'conditions' => 'course_id = :course_id: AND deleted = 0',
+            'conditions' => 'course_id = :course_id: AND published = 1',
             'bind' => ['course_id' => $courseId],
         ]);
     }
@@ -315,7 +315,16 @@ class Course extends Repository
     public function countFavorites($courseId)
     {
         return CourseFavoriteModel::count([
-            'conditions' => 'course_id = :course_id: AND deleted = 0',
+            'conditions' => 'course_id = :course_id: AND published = 1',
+            'bind' => ['course_id' => $courseId],
+        ]);
+    }
+
+    public function averageRating($courseId)
+    {
+        return ReviewModel::average([
+            'column' => 'rating',
+            'conditions' => 'course_id = :course_id: AND published = 1',
             'bind' => ['course_id' => $courseId],
         ]);
     }

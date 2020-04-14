@@ -20,27 +20,21 @@ class ChapterContent extends Service
     {
         $chapterRepo = new ChapterRepo();
 
-        $result = $chapterRepo->findChapterVod($chapterId);
-
-        return $result;
+        return $chapterRepo->findChapterVod($chapterId);
     }
 
     public function getChapterLive($chapterId)
     {
         $chapterRepo = new ChapterRepo();
 
-        $result = $chapterRepo->findChapterLive($chapterId);
-
-        return $result;
+        return $chapterRepo->findChapterLive($chapterId);
     }
 
     public function getChapterRead($chapterId)
     {
         $chapterRepo = new ChapterRepo();
 
-        $result = $chapterRepo->findChapterRead($chapterId);
-
-        return $result;
+        return $chapterRepo->findChapterRead($chapterId);
     }
 
     public function getPlayUrls($chapterId)

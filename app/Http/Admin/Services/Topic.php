@@ -26,16 +26,12 @@ class Topic extends Service
 
         $pageRepo = new TopicRepo();
 
-        $pager = $pageRepo->paginate($params, $sort, $page, $limit);
-
-        return $pager;
+        return $pageRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getTopic($id)
     {
-        $topic = $this->findOrFail($id);
-
-        return $topic;
+        return $this->findOrFail($id);
     }
 
     public function createTopic()
@@ -187,9 +183,7 @@ class Topic extends Service
     {
         $validator = new TopicValidator();
 
-        $result = $validator->checkTopic($id);
-
-        return $result;
+        return $validator->checkTopic($id);
     }
 
 }

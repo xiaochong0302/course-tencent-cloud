@@ -43,45 +43,35 @@ class Refund extends Service
 
     public function getRefund($id)
     {
-        $refund = $this->findOrFail($id);
-
-        return $refund;
+        return $this->findOrFail($id);
     }
 
     public function getTrade($tradeId)
     {
         $tradeRepo = new TradeRepo();
 
-        $trade = $tradeRepo->findById($tradeId);
-
-        return $trade;
+        return $tradeRepo->findById($tradeId);
     }
 
     public function getOrder($orderId)
     {
         $orderRepo = new OrderRepo();
 
-        $order = $orderRepo->findById($orderId);
-
-        return $order;
+        return $orderRepo->findById($orderId);
     }
 
     public function getUser($userId)
     {
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($userId);
-
-        return $user;
+        return $userRepo->findById($userId);
     }
 
     public function getAccount($userId)
     {
         $accountRepo = new AccountRepo();
 
-        $account = $accountRepo->findById($userId);
-
-        return $account;
+        return $accountRepo->findById($userId);
     }
 
     public function reviewRefund($id)
@@ -118,9 +108,7 @@ class Refund extends Service
     {
         $validator = new RefundValidator();
 
-        $result = $validator->checkRefund($id);
-
-        return $result;
+        return $validator->checkRefund($id);
     }
 
     protected function handleRefunds($pager)

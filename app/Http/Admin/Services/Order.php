@@ -33,43 +33,33 @@ class Order extends Service
     {
         $orderRepo = new OrderRepo();
 
-        $trades = $orderRepo->findTrades($sn);
-
-        return $trades;
+        return $orderRepo->findTrades($sn);
     }
 
     public function getRefunds($sn)
     {
         $orderRepo = new OrderRepo();
 
-        $trades = $orderRepo->findRefunds($sn);
-
-        return $trades;
+        return $orderRepo->findRefunds($sn);
     }
 
     public function getUser($userId)
     {
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($userId);
-
-        return $user;
+        return $userRepo->findById($userId);
     }
 
     public function getAccount($userId)
     {
         $accountRepo = new AccountRepo();
 
-        $account = $accountRepo->findById($userId);
-
-        return $account;
+        return $accountRepo->findById($userId);
     }
 
     public function getOrder($id)
     {
-        $order = $this->findOrFail($id);
-
-        return $order;
+        return $this->findOrFail($id);
     }
 
     public function closeOrder($id)
@@ -88,9 +78,7 @@ class Order extends Service
     {
         $validator = new OrderValidator();
 
-        $result = $validator->checkOrderById($id);
-
-        return $result;
+        return $validator->checkOrderById($id);
     }
 
     protected function handleOrders($pager)

@@ -4,12 +4,10 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\CourseList as CourseListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
 use App\Models\CourseRelated as CourseRelatedModel;
 use App\Models\CourseUser as CourseUserModel;
-use App\Models\User as UserModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
@@ -18,7 +16,6 @@ use App\Repos\CourseRelated as CourseRelatedRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\User as UserRepo;
 use App\Validators\Course as CourseValidator;
-use Phalcon\Mvc\Model\Resultset;
 
 class Course extends Service
 {
@@ -49,9 +46,7 @@ class Course extends Service
 
     public function getCourse($id)
     {
-        $course = $this->findOrFail($id);
-
-        return $course;
+        return $this->findOrFail($id);
     }
 
     public function createCourse()
@@ -68,8 +63,6 @@ class Course extends Service
         $course = new CourseModel();
 
         $course->create($data);
-
-        $this->eventsManager->fire('courseAdmin:afterCreate', $this, $course);
 
         return $course;
     }
@@ -141,8 +134,6 @@ class Course extends Service
 
         $course->update($data);
 
-        $this->eventsManager->fire('courseAdmin:afterUpdate', $this, $course);
-
         return $course;
     }
 
@@ -154,8 +145,6 @@ class Course extends Service
 
         $course->update();
 
-        $this->eventsManager->fire('courseAdmin:afterDelete', $this, $course);
-
         return $course;
     }
 
@@ -166,8 +155,6 @@ class Course extends Service
         $course->deleted = 0;
 
         $course->update();
-
-        $this->eventsManager->fire('courseAdmin:afterRestore', $this, $course);
 
         return $course;
     }
@@ -190,9 +177,6 @@ class Course extends Service
     {
         $categoryRepo = new CategoryRepo();
 
-        /**
-         * @var Resultset|CategoryModel[] $allCategories
-         */
         $allCategories = $categoryRepo->findAll(['deleted' => 0]);
 
         if ($allCategories->count() == 0) {
@@ -205,9 +189,6 @@ class Course extends Service
 
             $courseRepo = new CourseRepo();
 
-            /**
-             * @var Resultset|CategoryModel[] $courseCategories
-             */
             $courseCategories = $courseRepo->findCategories($id);
 
             if ($courseCategories->count() > 0) {
@@ -248,9 +229,6 @@ class Course extends Service
     {
         $userRepo = new UserRepo();
 
-        /**
-         * @var Resultset|UserModel[] $allTeachers
-         */
         $allTeachers = $userRepo->findTeachers();
 
         if ($allTeachers->count() == 0) {
@@ -263,9 +241,6 @@ class Course extends Service
 
             $courseRepo = new CourseRepo();
 
-            /**
-             * @var Resultset|UserModel[] $courseTeachers
-             */
             $courseTeachers = $courseRepo->findTeachers($id);
 
             if ($courseTeachers->count() > 0) {
@@ -293,9 +268,6 @@ class Course extends Service
     {
         $courseRepo = new CourseRepo();
 
-        /**
-         * @var Resultset|CourseModel[] $courses
-         */
         $courses = $courseRepo->findRelatedCourses($id);
 
         $list = [];
@@ -321,31 +293,24 @@ class Course extends Service
 
         $chapterRepo = new ChapterRepo();
 
-        $chapters = $chapterRepo->findAll([
+        return $chapterRepo->findAll([
             'parent_id' => 0,
             'course_id' => $course->id,
             'deleted' => $deleted,
         ]);
-
-        return $chapters;
     }
 
     protected function findOrFail($id)
     {
         $validator = new CourseValidator();
 
-        $result = $validator->checkCourse($id);
-
-        return $result;
+        return $validator->checkCourse($id);
     }
 
     protected function saveTeachers(CourseModel $course, $teacherIds)
     {
         $courseRepo = new CourseRepo();
 
-        /**
-         * @var Resultset|UserModel[] $courseTeachers
-         */
         $courseTeachers = $courseRepo->findTeachers($course->id);
 
         $originTeacherIds = [];
@@ -389,9 +354,6 @@ class Course extends Service
     {
         $courseRepo = new CourseRepo();
 
-        /**
-         * @var Resultset|CategoryModel[] $courseCategories
-         */
         $courseCategories = $courseRepo->findCategories($course->id);
 
         $originCategoryIds = [];
@@ -432,9 +394,6 @@ class Course extends Service
     {
         $courseRepo = new CourseRepo();
 
-        /**
-         * @var Resultset|CourseModel[] $relatedCourses
-         */
         $relatedCourses = $courseRepo->findRelatedCourses($course->id);
 
         $originRelatedIds = [];

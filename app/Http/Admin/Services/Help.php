@@ -15,18 +15,14 @@ class Help extends Service
 
         $helpRepo = new HelpRepo();
 
-        $helps = $helpRepo->findAll([
+        return $helpRepo->findAll([
             'deleted' => $deleted,
         ]);
-
-        return $helps;
     }
 
     public function getHelp($id)
     {
-        $help = $this->findOrFail($id);
-
-        return $help;
+        return $this->findOrFail($id);
     }
 
     public function createHelp()
@@ -106,9 +102,7 @@ class Help extends Service
     {
         $validator = new HelpValidator();
 
-        $result = $validator->checkHelp($id);
-
-        return $result;
+        return $validator->checkHelp($id);
     }
 
 }

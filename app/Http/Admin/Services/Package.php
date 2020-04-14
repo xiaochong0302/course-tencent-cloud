@@ -27,16 +27,12 @@ class Package extends Service
 
         $pageRepo = new PackageRepo();
 
-        $pager = $pageRepo->paginate($params, $sort, $page, $limit);
-
-        return $pager;
+        return $pageRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getPackage($id)
     {
-        $package = $this->findOrFail($id);
-
-        return $package;
+        return $this->findOrFail($id);
     }
 
     public function createPackage()
@@ -128,9 +124,7 @@ class Package extends Service
 
         $ids = explode(',', $courseIds);
 
-        $courses = $courseRepo->findByIds($ids);
-
-        return $courses;
+        return $courseRepo->findByIds($ids);
     }
 
     public function getGuidingPrice($courses)
@@ -230,9 +224,7 @@ class Package extends Service
     {
         $validator = new PackageValidator();
 
-        $result = $validator->checkPackage($id);
-
-        return $result;
+        return $validator->checkPackage($id);
     }
 
 }

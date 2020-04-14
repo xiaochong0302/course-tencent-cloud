@@ -18,9 +18,7 @@ class User extends Service
     {
         $roleRepo = new RoleRepo();
 
-        $roles = $roleRepo->findAll(['deleted' => 0]);
-
-        return $roles;
+        return $roleRepo->findAll(['deleted' => 0]);
     }
 
     public function getUsers()
@@ -36,25 +34,19 @@ class User extends Service
 
         $pager = $userRepo->paginate($params, $sort, $page, $limit);
 
-        $result = $this->handleUsers($pager);
-
-        return $result;
+        return $this->handleUsers($pager);
     }
 
     public function getUser($id)
     {
-        $user = $this->findOrFail($id);
-
-        return $user;
+        return $this->findOrFail($id);
     }
 
     public function getAccount($id)
     {
         $accountRepo = new AccountRepo();
 
-        $account = $accountRepo->findById($id);
-
-        return $account;
+        return $accountRepo->findById($id);
     }
 
     public function createUser()
@@ -205,9 +197,7 @@ class User extends Service
     {
         $validator = new UserValidator();
 
-        $result = $validator->checkUser($id);
-
-        return $result;
+        return $validator->checkUser($id);
     }
 
     protected function updateAdminUserCount($roleId)

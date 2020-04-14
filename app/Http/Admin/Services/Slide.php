@@ -24,16 +24,12 @@ class Slide extends Service
 
         $slideRepo = new SlideRepo();
 
-        $pager = $slideRepo->paginate($params, $sort, $page, $limit);
-
-        return $pager;
+        return $slideRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getSlide($id)
     {
-        $slide = $this->findOrFail($id);
-
-        return $slide;
+        return $this->findOrFail($id);
     }
 
     public function createSlide()
@@ -139,9 +135,7 @@ class Slide extends Service
     {
         $validator = new SlideValidator();
 
-        $result = $validator->checkSlide($id);
-
-        return $result;
+        return $validator->checkSlide($id);
     }
 
 }

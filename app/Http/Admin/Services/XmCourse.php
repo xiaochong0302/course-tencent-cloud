@@ -22,9 +22,7 @@ class XmCourse extends Service
 
         $courseRepo = new CourseRepo();
 
-        $pager = $courseRepo->paginate($params, $sort, $page, $limit);
-
-        return $pager;
+        return $courseRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getPaidCourses()
@@ -42,9 +40,7 @@ class XmCourse extends Service
 
         $courseRepo = new CourseRepo();
 
-        $pager = $courseRepo->paginate($params, $sort, $page, $limit);
-
-        return $pager;
+        return $courseRepo->paginate($params, $sort, $page, $limit);
     }
 
 }

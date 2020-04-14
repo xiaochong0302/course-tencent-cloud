@@ -69,9 +69,7 @@ class Student extends Service
 
     public function getPlan($id)
     {
-        $result = $this->findOrFail($id);
-
-        return $result;
+        return $this->findOrFail($id);
     }
 
     public function createPlan()
@@ -134,9 +132,7 @@ class Student extends Service
     {
         $validator = new CourseUserValidator();
 
-        $result = $validator->checkCourseUser($id);
-
-        return $result;
+        return $validator->checkCourseUser($id);
     }
 
     protected function handlePlans($pager)

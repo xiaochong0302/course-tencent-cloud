@@ -20,18 +20,14 @@ class Audit extends Service
 
         $auditRepo = new AuditRepo();
 
-        $pager = $auditRepo->paginate($params, $sort, $page, $limit);
-
-        return $pager;
+        return $auditRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getAudit($id)
     {
         $auditRepo = new AuditRepo();
 
-        $audit = $auditRepo->findById($id);
-
-        return $audit;
+        return $auditRepo->findById($id);
     }
 
 }

@@ -24,16 +24,12 @@ class Page extends Service
 
         $pageRepo = new PageRepo();
 
-        $pager = $pageRepo->paginate($params, $sort, $page, $limit);
-
-        return $pager;
+        return $pageRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getPage($id)
     {
-        $page = $this->findOrFail($id);
-
-        return $page;
+        return $this->findOrFail($id);
     }
 
     public function createPage()
@@ -108,9 +104,7 @@ class Page extends Service
     {
         $validator = new PageValidator();
 
-        $result = $validator->checkPage($id);
-
-        return $result;
+        return $validator->checkPage($id);
     }
 
 }

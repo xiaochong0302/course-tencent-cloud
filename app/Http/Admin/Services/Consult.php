@@ -34,16 +34,12 @@ class Consult extends Service
     {
         $courseRepo = new CourseRepo();
 
-        $result = $courseRepo->findById($courseId);
-
-        return $result;
+        return $courseRepo->findById($courseId);
     }
 
     public function getConsult($id)
     {
-        $result = $this->findOrFail($id);
-
-        return $result;
+        return $this->findOrFail($id);
     }
 
     public function updateConsult($id)
@@ -111,9 +107,7 @@ class Consult extends Service
     {
         $validator = new ConsultValidator();
 
-        $result = $validator->checkConsult($id);
-
-        return $result;
+        return $validator->checkConsult($id);
     }
 
     protected function handleConsults($pager)

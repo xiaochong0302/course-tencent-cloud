@@ -12,8 +12,6 @@ class IndexController extends Controller
     {
         $this->seo->setKeywords($this->site->keywords);
         $this->seo->setDescription($this->site->description);
-
-
     }
 
 }

@@ -157,8 +157,9 @@ class Nav extends Model
 
     public function rebuildCache()
     {
-        $treeListCache = new NavTreeListCache();
-        $treeListCache->rebuild();
+        $cache = new NavTreeListCache();
+
+        $cache->rebuild();
     }
 
     public static function positionTypes()

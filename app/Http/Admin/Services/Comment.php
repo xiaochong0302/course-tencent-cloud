@@ -28,34 +28,26 @@ class Comment extends Service
 
         $pager = $commentRepo->paginate($params, $sort, $page, $limit);
 
-        $result = $this->handleComments($pager);
-
-        return $result;
+        return $this->handleComments($pager);
     }
 
     public function getCourse($courseId)
     {
         $courseRepo = new CourseRepo();
 
-        $result = $courseRepo->findById($courseId);
-
-        return $result;
+        return $courseRepo->findById($courseId);
     }
 
     public function getChapter($chapterId)
     {
         $chapterRepo = new ChapterRepo();
 
-        $result = $chapterRepo->findById($chapterId);
-
-        return $result;
+        return $chapterRepo->findById($chapterId);
     }
 
     public function getComment($id)
     {
-        $comment = $this->findOrFail($id);
-
-        return $comment;
+        return $this->findOrFail($id);
     }
 
     public function updateComment($id)
@@ -135,9 +127,7 @@ class Comment extends Service
     {
         $validator = new CommentValidator();
 
-        $result = $validator->checkComment($id);
-
-        return $result;
+        return $validator->checkComment($id);
     }
 
     private function handleComments($pager)

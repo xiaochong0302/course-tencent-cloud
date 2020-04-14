@@ -33,6 +33,24 @@ class CourseStats extends Service
         $course->update();
     }
 
+    public function updateRating($courseId)
+    {
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($courseId);
+
+        $rating = $courseRepo->averageRating($courseId);
+
+        $course->rating = $rating;
+
+        $course->update();
+    }
+
+    public function updateScore($courseId)
+    {
+
+    }
+
     public function updateReadAttrs($courseId)
     {
         $courseRepo = new CourseRepo();

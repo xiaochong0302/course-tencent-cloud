@@ -18,19 +18,15 @@ class Chapter extends Service
 
         $chapterRepo = new ChapterRepo();
 
-        $result = $chapterRepo->findAll([
+        return $chapterRepo->findAll([
             'parent_id' => $parentId,
             'deleted' => $deleted,
         ]);
-
-        return $result;
     }
 
     public function getChapter($id)
     {
-        $chapter = $this->findOrFail($id);
-
-        return $chapter;
+        return $this->findOrFail($id);
     }
 
     public function createChapter()
@@ -63,8 +59,6 @@ class Chapter extends Service
 
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
-
-        $this->eventsManager->fire('chapterAdmin:afterCreate', $this, $chapter);
 
         return $chapter;
     }
@@ -107,8 +101,6 @@ class Chapter extends Service
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
 
-        $this->eventsManager->fire('chapterAdmin:afterUpdate', $this, $chapter);
-
         return $chapter;
     }
 
@@ -127,8 +119,6 @@ class Chapter extends Service
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
 
-        $this->eventsManager->fire('chapterAdmin:afterDelete', $this, $chapter);
-
         return $chapter;
     }
 
@@ -142,8 +132,6 @@ class Chapter extends Service
 
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
-
-        $this->eventsManager->fire('chapterAdmin:afterRestore', $this, $chapter);
 
         return $chapter;
     }
@@ -184,9 +172,7 @@ class Chapter extends Service
     {
         $validator = new ChapterValidator();
 
-        $result = $validator->checkChapter($id);
-
-        return $result;
+        return $validator->checkChapter($id);
     }
 
 }

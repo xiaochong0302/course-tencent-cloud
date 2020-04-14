@@ -34,16 +34,12 @@ class Review extends Service
     {
         $courseRepo = new CourseRepo();
 
-        $result = $courseRepo->findById($courseId);
-
-        return $result;
+        return $courseRepo->findById($courseId);
     }
 
     public function getReview($id)
     {
-        $result = $this->findOrFail($id);
-
-        return $result;
+        return $this->findOrFail($id);
     }
 
     public function updateReview($id)
@@ -111,9 +107,7 @@ class Review extends Service
     {
         $validator = new ReviewValidator();
 
-        $result = $validator->checkReview($id);
-
-        return $result;
+        return $validator->checkReview($id);
     }
 
     protected function handleReviews($pager)

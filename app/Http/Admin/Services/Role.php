@@ -24,16 +24,12 @@ class Role extends Service
 
         $roleRepo = new RoleRepo();
 
-        $roles = $roleRepo->findAll(['deleted' => $deleted]);
-
-        return $roles;
+        return $roleRepo->findAll(['deleted' => $deleted]);
     }
 
     public function getRole($id)
     {
-        $role = $this->findOrFail($id);
-
-        return $role;
+        return $this->findOrFail($id);
     }
 
     public function createRole()
@@ -105,9 +101,7 @@ class Role extends Service
     {
         $validator = new RoleValidator();
 
-        $result = $validator->checkRole($id);
-
-        return $result;
+        return $validator->checkRole($id);
     }
 
     /**
@@ -159,9 +153,9 @@ class Role extends Service
             $list[] = 'admin.chapter.restore';
         }
 
-        $result = array_values(array_unique($list));
+        $list = array_unique($list);
 
-        return $result;
+        return array_values($list);
     }
 
 }

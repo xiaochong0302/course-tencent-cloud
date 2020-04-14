@@ -47,13 +47,17 @@ class CourseDocument extends Component
             'vip_price' => $course->vip_price,
             'study_expiry' => $course->study_expiry,
             'refund_expiry' => $course->refund_expiry,
+            'rating' => $course->rating,
             'score' => $course->score,
             'model' => $course->model,
             'level' => $course->level,
             'attrs' => $course->attrs,
             'user_count' => $course->user_count,
             'lesson_count' => $course->lesson_count,
-            'create_time' => $course->create_time,
+            'comment_count' => $course->comment_count,
+            'consult_count' => $course->consult_count,
+            'review_count' => $course->review_count,
+            'favorite_count' => $course->favorite_count,
         ];
     }
 

@@ -6,16 +6,13 @@ use App\Caches\NavTreeList as NavTreeListCache;
 use App\Models\Nav as NavModel;
 use App\Repos\Nav as NavRepo;
 use App\Validators\Nav as NavValidator;
-use Phalcon\Mvc\Model\Resultset;
 
 class Nav extends Service
 {
 
     public function getNav($id)
     {
-        $nav = $this->findOrFail($id);
-
-        return $nav;
+        return $this->findOrFail($id);
     }
 
     public function getParentNav($id)
@@ -35,13 +32,11 @@ class Nav extends Service
     {
         $navRepo = new NavRepo();
 
-        $navs = $navRepo->findAll([
+        return $navRepo->findAll([
             'parent_id' => 0,
             'position' => 'top',
             'deleted' => 0,
         ]);
-
-        return $navs;
     }
 
     public function getChildNavs($parentId)
@@ -50,12 +45,10 @@ class Nav extends Service
 
         $navRepo = new NavRepo();
 
-        $navs = $navRepo->findAll([
+        return $navRepo->findAll([
             'parent_id' => $parentId,
             'deleted' => $deleted,
         ]);
-
-        return $navs;
     }
 
     public function createNav()
@@ -200,9 +193,6 @@ class Nav extends Service
     {
         $navRepo = new NavRepo();
 
-        /**
-         * @var Resultset $navs
-         */
         $navs = $navRepo->findAll(['parent_id' => $parentId]);
 
         if ($navs->count() == 0) {
@@ -219,9 +209,6 @@ class Nav extends Service
     {
         $navRepo = new NavRepo();
 
-        /**
-         * @var Resultset $navs
-         */
         $navs = $navRepo->findAll(['parent_id' => $parentId]);
 
         if ($navs->count() == 0) {
@@ -238,9 +225,7 @@ class Nav extends Service
     {
         $validator = new NavValidator();
 
-        $result = $validator->checkNav($id);
-
-        return $result;
+        return $validator->checkNav($id);
     }
 
 }

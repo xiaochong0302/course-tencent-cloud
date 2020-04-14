@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\CourseIndexSyncer;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Course extends Model
@@ -114,6 +115,13 @@ class Course extends Model
     public $refund_expiry;
 
     /**
+     * 用户评价
+     *
+     * @var float
+     */
+    public $rating;
+
+    /**
      * 综合得分
      *
      * @var float
@@ -142,18 +150,18 @@ class Course extends Model
     public $attrs;
 
     /**
-     * 课时数
-     *
-     * @var int
-     */
-    public $lesson_count;
-
-    /**
      * 学员数
      *
      * @var int
      */
     public $user_count;
+
+    /**
+     * 课时数
+     *
+     * @var int
+     */
+    public $lesson_count;
 
     /**
      * 评论数
@@ -260,14 +268,33 @@ class Course extends Model
         }
     }
 
+    public function afterCreate()
+    {
+        $this->rebuildIndex();
+    }
+
+    public function afterUpdate()
+    {
+        $this->rebuildIndex();
+    }
+
     public function afterFetch()
     {
         $this->market_price = (float)$this->market_price;
         $this->vip_price = (float)$this->vip_price;
+        $this->rating = (float)$this->rating;
+        $this->score = (float)$this->score;
 
         if (!empty($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
         }
+    }
+
+    public function rebuildIndex()
+    {
+        $syncer = new CourseIndexSyncer();
+
+        $syncer->addItem($this->id);
     }
 
     public static function modelTypes()

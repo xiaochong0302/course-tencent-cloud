@@ -5,16 +5,13 @@ namespace App\Http\Admin\Services;
 use App\Models\Category as CategoryModel;
 use App\Repos\Category as CategoryRepo;
 use App\Validators\Category as CategoryValidator;
-use Phalcon\Mvc\Model\Resultset;
 
 class Category extends Service
 {
 
     public function getCategory($id)
     {
-        $category = $this->findOrFail($id);
-
-        return $category;
+        return $this->findOrFail($id);
     }
 
     public function getParentCategory($id)
@@ -34,12 +31,10 @@ class Category extends Service
     {
         $categoryRepo = new CategoryRepo();
 
-        $categories = $categoryRepo->findAll([
+        return $categoryRepo->findAll([
             'parent_id' => 0,
             'deleted' => 0,
         ]);
-
-        return $categories;
     }
 
     public function getChildCategories($parentId)
@@ -48,12 +43,10 @@ class Category extends Service
 
         $categoryRepo = new CategoryRepo();
 
-        $categories = $categoryRepo->findAll([
+        return $categoryRepo->findAll([
             'parent_id' => $parentId,
             'deleted' => $deleted,
         ]);
-
-        return $categories;
     }
 
     public function createCategory()
@@ -180,9 +173,6 @@ class Category extends Service
     {
         $categoryRepo = new CategoryRepo();
 
-        /**
-         * @var Resultset|CategoryModel[] $categories
-         */
         $categories = $categoryRepo->findAll(['parent_id' => $parentId]);
 
         if ($categories->count() == 0) {
@@ -199,9 +189,6 @@ class Category extends Service
     {
         $categoryRepo = new CategoryRepo();
 
-        /**
-         * @var Resultset|CategoryModel[] $categories
-         */
         $categories = $categoryRepo->findAll(['parent_id' => $parentId]);
 
         if ($categories->count() == 0) {
@@ -218,9 +205,7 @@ class Category extends Service
     {
         $validator = new CategoryValidator();
 
-        $result = $validator->checkCategory($id);
-
-        return $result;
+        return $validator->checkCategory($id);
     }
 
 }

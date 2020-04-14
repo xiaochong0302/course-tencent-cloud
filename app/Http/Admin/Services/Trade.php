@@ -45,45 +45,35 @@ class Trade extends Service
     {
         $tradeRepo = new TradeRepo();
 
-        $trade = $tradeRepo->findById($id);
-
-        return $trade;
+        return $tradeRepo->findById($id);
     }
 
     public function getOrder($orderId)
     {
         $orderRepo = new OrderRepo();
 
-        $order = $orderRepo->findById($orderId);
-
-        return $order;
+        return $orderRepo->findById($orderId);
     }
 
     public function getRefunds($tradeId)
     {
         $tradeRepo = new TradeRepo();
 
-        $refunds = $tradeRepo->findRefunds($tradeId);
-
-        return $refunds;
+        return $tradeRepo->findRefunds($tradeId);
     }
 
     public function getUser($userId)
     {
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($userId);
-
-        return $user;
+        return $userRepo->findById($userId);
     }
 
     public function getAccount($userId)
     {
         $accountRepo = new AccountRepo();
 
-        $account = $accountRepo->findById($userId);
-
-        return $account;
+        return $accountRepo->findById($userId);
     }
 
     public function closeTrade($id)
@@ -127,9 +117,7 @@ class Trade extends Service
     {
         $validator = new TradeValidator();
 
-        $result = $validator->checkTrade($id);
-
-        return $result;
+        return $validator->checkTrade($id);
     }
 
     protected function handleTrades($pager)

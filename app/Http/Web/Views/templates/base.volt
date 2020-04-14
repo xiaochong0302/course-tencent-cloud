@@ -9,13 +9,21 @@
     {{ icon_link("favicon.ico") }}
     {{ css_link("lib/layui/css/layui.css") }}
     {{ css_link("web/css/style.css") }}
-    {% block header_css %}{% endblock %}
+    {% block link_css %}{% endblock %}
     {% block inline_css %}{% endblock %}
 </head>
 <body>
-{% block content %}{% endblock %}
+<div id="header">
+    {{ partial('partials/header') }}
+</div>
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+<div id="footer">
+    {{ partial('partials/footer') }}
+</div>
 {{ js_include("lib/layui/layui.js") }}
-{% block footer_js %}{% endblock %}
+{% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
 </body>
 </html>
