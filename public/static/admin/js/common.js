@@ -21,27 +21,28 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
 
     form.on('submit(go)', function (data) {
         var submit = $(this);
-        submit.attr('disabled', true).text('提交中...');
+        submit.attr('disabled', true).addClass('layui-btn-disabled');
         $.ajax({
             type: 'POST',
             url: data.form.action,
             data: data.field,
             success: function (res) {
-                var icon = res.code == 0 ? 1 : 2;
-                if (res.msg != '') {
+                var icon = res.code === 0 ? 1 : 2;
+                if (res.msg) {
                     layer.msg(res.msg, {icon: icon});
                 }
                 if (res.location) {
                     setTimeout(function () {
                         window.location.href = res.location;
                     }, 1500);
+                } else {
+                    submit.attr('disabled', false).removeClass('layui-btn-disabled');
                 }
-                submit.attr('disabled', false).text('提交');
             },
             error: function (xhr) {
                 var json = JSON.parse(xhr.responseText);
                 layer.msg(json.msg, {icon: 2});
-                submit.attr('disabled', false).text('提交');
+                submit.attr('disabled', false).removeClass('layui-btn-disabled');
             }
         });
         return false;

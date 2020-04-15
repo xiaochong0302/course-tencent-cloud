@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Services\Frontend;
+namespace App\Services\Frontend\Order;
 
 use App\Models\Order as OrderModel;
+use App\Services\Frontend\OrderTrait;
+use App\Services\Frontend\Service;
 use App\Validators\Order as OrderValidator;
 
 class OrderCancel extends Service

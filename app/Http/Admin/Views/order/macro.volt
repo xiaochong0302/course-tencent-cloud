@@ -21,6 +21,13 @@
             <p>商品名称：{{ order.subject }}</p>
             <p>商品价格：￥{{ order.amount }}</p>
         </div>
+    {% elseif order.item_type == 'reward' %}
+        {% set course = order.item_info['course'] %}
+        {% set reward = order.item_info['reward'] %}
+        <div class="kg-order-item">
+            <p>课程名称：{{ course['title'] }}</p>
+            <p>打赏金额：￥{{ reward['price'] }}</p>
+        </div>
     {% elseif order.item_type == 'test' %}
         <div class="kg-order-item">
             <p>商品名称：{{ order.subject }}</p>
@@ -35,7 +42,9 @@
     {% elseif value == 'package' %}
         <span class="layui-badge layui-bg-blue">套餐</span>
     {% elseif value == 'vip' %}
-        <span class="layui-badge layui-bg-red">会员</span>
+        <span class="layui-badge layui-bg-orange">会员</span>
+    {% elseif value == 'reward' %}
+        <span class="layui-badge layui-bg-red">打赏</span>
     {% elseif value == 'test' %}
         <span class="layui-badge layui-bg-black">测试</span>
     {% endif %}

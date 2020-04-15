@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>管理后台</title>
+    {{ icon_link('favicon.ico') }}
     {{ css_link('lib/layui/css/layui.css') }}
-    {{ css_link('admin/css/style.css') }}
+    {{ css_link('admin/css/common.css') }}
     {{ js_include('lib/layui/layui.js') }}
     {{ js_include('admin/js/index.js') }}
 </head>
@@ -62,15 +63,14 @@
     </div>
 
     <div class="layui-body">
-        <iframe name="content" width="100%" height="100%" frameborder="0" src="{{ url({'for':'admin.main'}) }}"></iframe>
+        <iframe name="content" style="width:100%;height:100%;border:0;" src="{{ url({'for':'admin.main'}) }}"></iframe>
     </div>
 
     <div class="layui-footer">
-        © 2018 <a href="http://koogua.com"><b>koogua.com</b></a> all rights reserved
+        © 2020 <a href="http://koogua.com"><b>koogua.com</b></a> all rights reserved
     </div>
 
 </div>
 
 </body>
-
 </html>

@@ -9,7 +9,7 @@
     {{ icon_link("favicon.ico") }}
     {{ css_link('lib/layui/css/layui.css') }}
     {{ css_link('lib/layui/extends/dropdown.css') }}
-    {{ css_link('admin/css/style.css') }}
+    {{ css_link('admin/css/common.css') }}
     {{ js_include('lib/layui/layui.js') }}
     {{ js_include('admin/js/common.js') }}
 </head>

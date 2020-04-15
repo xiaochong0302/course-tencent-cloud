@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Services\Frontend;
+namespace App\Services\Frontend\Order;
 
 use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
-use App\Repos\Course as CourseRepo;
+use App\Models\Package as PackageModel;
+use App\Models\Reward as RewardModel;
+use App\Models\Vip as VipModel;
 use App\Repos\Package as PackageRepo;
-use App\Repos\Vip as VipRepo;
+use App\Services\Frontend\Service;
 use App\Validators\Order as OrderValidator;
 
 class OrderConfirm extends Service
@@ -20,7 +22,7 @@ class OrderConfirm extends Service
 
         $validator = new OrderValidator();
 
-        $validator->checkItem($query['item_id'], $query['item_type']);
+        $validator->checkItemType($query['item_type']);
 
         $result = [];
 
@@ -29,24 +31,41 @@ class OrderConfirm extends Service
 
         if ($query['item_type'] == OrderModel::ITEM_COURSE) {
 
-            $course = $this->getCourseInfo($query['item_id']);
+            $course = $validator->checkCourseItem($query['item_id']);
+            $courseInfo = $this->handleCourseInfo($course);
 
-            $result['item_info']['course'] = $course;
-            $result['amount'] = $user->vip ? $course['vip_price'] : $course['market_price'];
+            $result['item_info']['course'] = $courseInfo;
+            $result['amount'] = $user->vip ? $course->vip_price : $course->market_price;
 
         } elseif ($query['item_type'] == OrderModel::ITEM_PACKAGE) {
 
-            $package = $this->getPackageInfo($query['item_id']);
+            $package = $validator->checkPackageItem($query['item_id']);
+            $packageInfo = $this->handlePackageInfo($package);
 
-            $result['item_info']['package'] = $package;
-            $result['amount'] = $user->vip ? $package['vip_price'] : $package['market_price'];
+            $result['item_info']['package'] = $packageInfo;
+            $result['amount'] = $user->vip ? $package->vip_price : $package->market_price;
 
         } elseif ($query['item_type'] == OrderModel::ITEM_VIP) {
 
-            $vip = $this->getVipInfo($query['item_id']);
+            $vip = $validator->checkVipItem($query['item_id']);
+            $vipInfo = $this->handleVipInfo($vip);
 
-            $result['item_info']['vip'] = $vip;
-            $result['amount'] = $vip['price'];
+            $result['item_info']['vip'] = $vipInfo;
+            $result['amount'] = $vip->price;
+
+        } elseif ($query['item_type'] == OrderModel::ITEM_REWARD) {
+
+            list($courseId, $rewardId) = explode('-', $query['item_id']);
+
+            $course = $validator->checkCourseItem($courseId);
+            $reward = $validator->checkRewardItem($rewardId);
+
+            $courseInfo = $this->handleCourseInfo($course);
+            $rewardInfo = $this->handleRewardInfo($reward);
+
+            $result['item_info']['course'] = $courseInfo;
+            $result['item_info']['reward'] = $rewardInfo;
+            $result['amount'] = $reward->price;
         }
 
         $validator->checkAmount($result['amount']);
@@ -54,15 +73,11 @@ class OrderConfirm extends Service
         return $result;
     }
 
-    protected function getCourseInfo($id)
+    protected function handleCourseInfo(CourseModel $course)
     {
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($id);
-
         $course->cover = kg_ci_img_url($course->cover);
 
-        $result = [
+        return [
             'id' => $course->id,
             'title' => $course->title,
             'cover' => $course->cover,
@@ -74,16 +89,10 @@ class OrderConfirm extends Service
             'market_price' => $course->market_price,
             'vip_price' => $course->vip_price,
         ];
-
-        return $result;
     }
 
-    protected function getPackageInfo($id)
+    protected function handlePackageInfo(PackageModel $package)
     {
-        $packageRepo = new PackageRepo();
-
-        $package = $packageRepo->findById($id);
-
         $result = [
             'id' => $package->id,
             'title' => $package->title,
@@ -92,10 +101,9 @@ class OrderConfirm extends Service
             'vip_price' => $package->vip_price,
         ];
 
-        /**
-         * @var CourseModel[] $courses
-         */
-        $courses = $packageRepo->findCourses($id);
+        $packageRepo = new PackageRepo();
+
+        $courses = $packageRepo->findCourses($package->id);
 
         $baseUrl = kg_ci_base_url();
 
@@ -120,13 +128,23 @@ class OrderConfirm extends Service
         return $result;
     }
 
-    protected function getVipInfo($id)
+    protected function handleVipInfo(VipModel $vip)
     {
-        $vipRepo = new VipRepo();
+        return [
+            'id' => $vip->id,
+            'title' => $vip->title,
+            'expiry' => $vip->expiry,
+            'price' => $vip->price,
+        ];
+    }
 
-        $result = $vipRepo->findById($id);
-
-        return $result;
+    protected function handleRewardInfo(RewardModel $reward)
+    {
+        return [
+            'id' => $reward->id,
+            'title' => $reward->title,
+            'price' => $reward->price,
+        ];
     }
 
 }

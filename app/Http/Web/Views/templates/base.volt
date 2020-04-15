@@ -8,7 +8,7 @@
     <title>{{ seo.getTitle() }}</title>
     {{ icon_link("favicon.ico") }}
     {{ css_link("lib/layui/css/layui.css") }}
-    {{ css_link("web/css/style.css") }}
+    {{ css_link("web/css/common.css") }}
     {% block link_css %}{% endblock %}
     {% block inline_css %}{% endblock %}
 </head>

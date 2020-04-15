@@ -7,6 +7,7 @@ use App\Models\Order as OrderModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Package as PackageRepo;
+use App\Repos\Reward as RewardRepo;
 use App\Repos\Vip as VipRepo;
 
 class Order extends Validator
@@ -49,7 +50,7 @@ class Order extends Validator
         return $itemType;
     }
 
-    public function checkItemCourse($itemId)
+    public function checkCourseItem($itemId)
     {
         $courseRepo = new CourseRepo();
 
@@ -62,7 +63,7 @@ class Order extends Validator
         return $item;
     }
 
-    public function checkItemPackage($itemId)
+    public function checkPackageItem($itemId)
     {
         $packageRepo = new PackageRepo();
 
@@ -75,11 +76,24 @@ class Order extends Validator
         return $item;
     }
 
-    public function checkItemVip($itemId)
+    public function checkVipItem($itemId)
     {
         $vipRepo = new VipRepo();
 
         $item = $vipRepo->findById($itemId);
+
+        if (!$item) {
+            throw new BadRequestException('order.item_not_found');
+        }
+
+        return $item;
+    }
+
+    public function checkRewardItem($itemId)
+    {
+        $rewardRepo = new RewardRepo();
+
+        $item = $rewardRepo->findById($itemId);
 
         if (!$item) {
             throw new BadRequestException('order.item_not_found');

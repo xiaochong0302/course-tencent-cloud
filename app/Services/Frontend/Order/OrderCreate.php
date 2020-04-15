@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Services\Frontend;
+namespace App\Services\Frontend\Order;
 
 use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
 use App\Models\Package as PackageModel;
+use App\Models\Reward as RewardModel;
 use App\Models\User as UserModel;
 use App\Models\Vip as VipModel;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Package as PackageRepo;
+use App\Services\Frontend\Service;
 use App\Validators\Order as OrderValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
@@ -40,10 +42,8 @@ class OrderCreate extends Service
          * 存在新鲜的未支付订单直接返回（减少订单记录）
          */
         if ($order) {
-
             $caseA = $order->status == OrderModel::STATUS_PENDING;
             $caseB = time() - $order->create_time < 6 * 3600;
-
             if ($caseA && $caseB) {
                 return $order;
             }
@@ -51,7 +51,7 @@ class OrderCreate extends Service
 
         if ($post['item_type'] == OrderModel::ITEM_COURSE) {
 
-            $course = $validator->checkItemCourse($post['item_id']);
+            $course = $validator->checkCourseItem($post['item_id']);
 
             $validator->checkIfBoughtCourse($user->id, $course->id);
 
@@ -59,7 +59,7 @@ class OrderCreate extends Service
 
         } elseif ($post['item_type'] == OrderModel::ITEM_PACKAGE) {
 
-            $package = $validator->checkItemPackage($post['item_id']);
+            $package = $validator->checkPackageItem($post['item_id']);
 
             $validator->checkIfBoughtPackage($user->id, $package->id);
 
@@ -67,9 +67,18 @@ class OrderCreate extends Service
 
         } elseif ($post['item_type'] == OrderModel::ITEM_VIP) {
 
-            $vip = $validator->checkItemVip($post['item_id']);
+            $vip = $validator->checkVipItem($post['item_id']);
 
             $order = $this->createVipOrder($vip, $user);
+
+        } elseif ($post['item_type'] == OrderModel::ITEM_REWARD) {
+
+            list($courseId, $rewardId) = explode('-', $post['item_id']);
+
+            $course = $validator->checkCourseItem($courseId);
+            $reward = $validator->checkRewardItem($rewardId);
+
+            $order = $this->createRewardOrder($course, $reward, $user);
         }
 
         $this->incrUserDailyOrderCount($user);
@@ -77,29 +86,11 @@ class OrderCreate extends Service
         return $order;
     }
 
-    /**
-     * @param CourseModel $course
-     * @param UserModel $user
-     * @return OrderModel $order
-     */
     public function createCourseOrder(CourseModel $course, UserModel $user)
     {
-        $studyExpiryTime = strtotime("+{$course->study_expiry} months");
-        $refundExpiryTime = strtotime("+{$course->refund_expiry} days");
+        $itemInfo = [];
 
-        $itemInfo = [
-            'course' => [
-                'id' => $course->id,
-                'title' => $course->title,
-                'cover' => $course->cover,
-                'market_price' => $course->market_price,
-                'vip_price' => $course->vip_price,
-                'study_expiry' => $course->study_expiry,
-                'refund_expiry' => $course->refund_expiry,
-                'study_expiry_time' => $studyExpiryTime,
-                'refund_expiry_time' => $refundExpiryTime,
-            ]
-        ];
+        $itemInfo['course'] = $this->handleCourseInfo($course);
 
         $amount = $user->vip ? $course->vip_price : $course->market_price;
 
@@ -117,18 +108,10 @@ class OrderCreate extends Service
         return $order;
     }
 
-    /**
-     * @param PackageModel $package
-     * @param UserModel $user
-     * @return OrderModel $order
-     */
     public function createPackageOrder(PackageModel $package, UserModel $user)
     {
         $packageRepo = new PackageRepo();
 
-        /**
-         * @var CourseModel[] $courses
-         */
         $courses = $packageRepo->findCourses($package->id);
 
         $itemInfo = [];
@@ -141,21 +124,7 @@ class OrderCreate extends Service
         ];
 
         foreach ($courses as $course) {
-
-            $studyExpiryTime = strtotime("+{$course->study_expiry} months");
-            $refundExpiryTime = strtotime("+{$course->refund_expiry} days");
-
-            $itemInfo['courses'][] = [
-                'id' => $course->id,
-                'title' => $course->title,
-                'cover' => $course->cover,
-                'market_price' => $course->market_price,
-                'vip_price' => $course->vip_price,
-                'study_expiry' => $course->study_expiry,
-                'refund_expiry' => $course->refund_expiry,
-                'study_expiry_time' => $studyExpiryTime,
-                'refund_expiry_time' => $refundExpiryTime,
-            ];
+            $itemInfo['courses'][] = $this->handleCourseInfo($course);
         }
 
         $amount = $user->vip ? $package->vip_price : $package->market_price;
@@ -174,11 +143,6 @@ class OrderCreate extends Service
         return $order;
     }
 
-    /**
-     * @param VipModel $vip
-     * @param UserModel $user
-     * @return OrderModel
-     */
     public function createVipOrder(VipModel $vip, UserModel $user)
     {
         $baseTime = $user->vip_expiry_time > time() ? $user->vip_expiry_time : time();
@@ -208,9 +172,49 @@ class OrderCreate extends Service
         return $order;
     }
 
-    /**
-     * @param UserModel $user
-     */
+    public function createRewardOrder(CourseModel $course, RewardModel $reward, UserModel $user)
+    {
+        $itemInfo = [
+            'course' => $this->handleCourseInfo($course),
+            'reward' => [
+                'id' => $reward->id,
+                'title' => $reward->title,
+                'price' => $reward->price,
+            ]
+        ];
+
+        $order = new OrderModel();
+
+        $order->user_id = $user->id;
+        $order->item_id = $course->id;
+        $order->item_type = OrderModel::ITEM_REWARD;
+        $order->item_info = $itemInfo;
+        $order->amount = $reward->price;
+        $order->subject = "打赏 - {$course->title}";
+
+        $order->create();
+
+        return $order;
+    }
+
+    protected function handleCourseInfo(CourseModel $course)
+    {
+        $studyExpiryTime = strtotime("+{$course->study_expiry} months");
+        $refundExpiryTime = strtotime("+{$course->refund_expiry} days");
+
+        return [
+            'id' => $course->id,
+            'title' => $course->title,
+            'cover' => $course->cover,
+            'market_price' => $course->market_price,
+            'vip_price' => $course->vip_price,
+            'study_expiry' => $course->study_expiry,
+            'refund_expiry' => $course->refund_expiry,
+            'study_expiry_time' => $studyExpiryTime,
+            'refund_expiry_time' => $refundExpiryTime,
+        ];
+    }
+
     protected function incrUserDailyOrderCount(UserModel $user)
     {
         $this->eventsManager->fire('userDailyCounter:incrOrderCount', $this, $user);

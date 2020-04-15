@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Services\Frontend;
+namespace App\Services\Frontend\Order;
 
 use App\Models\Trade as TradeModel;
+use App\Services\Frontend\OrderTrait;
+use App\Services\Frontend\Service;
 use App\Services\Payment\Alipay as AlipayService;
 use App\Services\Payment\Wxpay as WxPayService;
 use App\Validators\Trade as TradeValidator;
