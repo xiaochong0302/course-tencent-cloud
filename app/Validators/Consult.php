@@ -22,7 +22,7 @@ class Consult extends Validator
         return $consult;
     }
 
-    public function checkCourseId($courseId)
+    public function checkCourse($courseId)
     {
         $courseRepo = new CourseRepo();
 
@@ -32,7 +32,7 @@ class Consult extends Validator
             throw new BadRequestException('consult.invalid_course_id');
         }
 
-        return $course->id;
+        return $course;
     }
 
     public function checkQuestion($question)

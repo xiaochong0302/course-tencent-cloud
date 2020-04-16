@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Exceptions\Unauthorized as UnauthorizedException;
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\Auth as AuthService;
@@ -31,7 +30,6 @@ trait Auth
 
     /**
      * @return UserModel
-     * @throws UnauthorizedException
      */
     public function getLoginUser()
     {

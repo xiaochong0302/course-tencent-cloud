@@ -23,7 +23,7 @@ class Review extends Validator
         return $review;
     }
 
-    public function checkCourseId($courseId)
+    public function checkCourse($courseId)
     {
         $courseRepo = new CourseRepo();
 
@@ -33,7 +33,7 @@ class Review extends Validator
             throw new BadRequestException('review.course_not_found');
         }
 
-        return $courseId;
+        return $course;
     }
 
     public function checkContent($content)

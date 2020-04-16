@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Services\Frontend\Course;
+namespace App\Services\Frontend\Review;
 
 use App\Models\Review as ReviewModel;
 use App\Models\User as UserModel;
-use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service;
 use App\Validators\Review as ReviewValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
@@ -12,13 +11,9 @@ use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 class ReviewCreate extends Service
 {
 
-    use CourseTrait;
-
-    public function createReview($id)
+    public function createReview()
     {
         $post = $this->request->getPost();
-
-        $course = $this->checkCourse($id);
 
         $user = $this->getLoginUser();
 
@@ -28,10 +23,11 @@ class ReviewCreate extends Service
 
         $validator = new ReviewValidator();
 
-        $validator->checkIfReviewed($course->id, $user->id);
-
+        $course = $validator->checkCourse($post['course_id']);
         $content = $validator->checkContent($post['content']);
         $rating = $validator->checkRating($post['rating']);
+
+        $validator->checkIfReviewed($course->id, $user->id);
 
         $review = new ReviewModel();
 

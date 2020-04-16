@@ -11,9 +11,7 @@ trait ReviewTrait
     {
         $validator = new ReviewValidator();
 
-        $review = $validator->checkReview($id);
-
-        return $review;
+        return $validator->checkReview($id);
     }
 
 }

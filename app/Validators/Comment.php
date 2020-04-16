@@ -23,20 +23,7 @@ class Comment extends Validator
         return $comment;
     }
 
-    public function checkCourseId($courseId)
-    {
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($courseId);
-
-        if (!$course) {
-            throw new BadRequestException('comment.invalid_course_id');
-        }
-
-        return $course->id;
-    }
-
-    public function checkChapterId($chapterId)
+    public function checkChapter($chapterId)
     {
         $chapterRepo = new ChapterRepo();
 
@@ -46,20 +33,20 @@ class Comment extends Validator
             throw new BadRequestException('comment.invalid_chapter_id');
         }
 
-        return $chapter->id;
+        return $chapter;
     }
 
-    public function checkParentId($parentId)
+    public function checkParent($parentId)
     {
         $commentRepo = new CourseRepo();
 
-        $comment = $commentRepo->findById($parentId);
+        $parent = $commentRepo->findById($parentId);
 
-        if (!$comment) {
+        if (!$parent) {
             throw new BadRequestException('comment.invalid_parent_id');
         }
 
-        return $comment->id;
+        return $parent;
     }
 
     public function checkContent($content)

@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Services\Frontend;
+namespace App\Services\Frontend\Review;
 
 use App\Models\ReviewVote as ReviewVoteModel;
 use App\Models\User as UserModel;
 use App\Repos\ReviewVote as ReviewVoteRepo;
+use App\Services\Frontend\ReviewTrait;
+use App\Services\Frontend\Service;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
 class ReviewVote extends Service

@@ -11,9 +11,7 @@ trait UserTrait
     {
         $validator = new UserValidator();
 
-        $user = $validator->checkUser($id);
-
-        return $user;
+        return $validator->checkUser($id);
     }
 
 }

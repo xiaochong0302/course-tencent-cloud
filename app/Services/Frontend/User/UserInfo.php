@@ -28,7 +28,7 @@ class UserInfo extends Service
         $user->vip = $user->vip == 1;
         $user->locked = $user->locked == 1;
 
-        $result = [
+        return [
             'id' => $user->id,
             'name' => $user->name,
             'avatar' => $user->avatar,
@@ -45,8 +45,6 @@ class UserInfo extends Service
             'notice_count' => $user->notice_count,
             'msg_count' => $user->msg_count,
         ];
-
-        return $result;
     }
 
 }

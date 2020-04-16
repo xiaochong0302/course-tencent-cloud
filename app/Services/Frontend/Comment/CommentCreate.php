@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Frontend\Chapter;
+namespace App\Services\Frontend\Comment;
 
 use App\Models\Comment as CommentModel;
 use App\Models\User as UserModel;
@@ -15,15 +15,9 @@ class CommentCreate extends Service
 
     use ChapterTrait;
 
-    public function createComment($id)
+    public function createComment()
     {
         $post = $this->request->getPost();
-
-        $chapter = $this->checkChapter($id);
-
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($chapter->course_id);
 
         $user = $this->getLoginUser();
 
@@ -33,12 +27,19 @@ class CommentCreate extends Service
 
         $validator = new CommentValidator();
 
+        $chapter = $validator->checkChapter($post['chapter_id']);
+
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($chapter->course_id);
+
         $data = [];
 
         $data['content'] = $validator->checkContent($post['content']);
 
         if (isset($post['parent_id'])) {
-            $data['parent_id'] = $validator->checkParentId($post['parent_id']);
+            $parent = $validator->checkParent($post['parent_id']);
+            $data['parent_id'] = $parent->id;
         }
 
         if (isset($post['mentions'])) {

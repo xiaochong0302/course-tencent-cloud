@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Frontend\Course;
+namespace App\Services\Frontend\Consult;
 
 use App\Models\Consult as ConsultModel;
 use App\Models\User as UserModel;
@@ -14,11 +14,9 @@ class ConsultCreate extends Service
 
     use CourseTrait;
 
-    public function createConsult($id)
+    public function createConsult()
     {
         $post = $this->request->getPost();
-
-        $course = $this->checkCourse($id);
 
         $user = $this->getLoginUser();
 
@@ -28,6 +26,7 @@ class ConsultCreate extends Service
 
         $validator = new ConsultValidator();
 
+        $course = $validator->checkCourse($post['course_id']);
         $question = $validator->checkQuestion($post['question']);
 
         $consult = new ConsultModel();

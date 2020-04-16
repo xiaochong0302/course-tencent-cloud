@@ -45,41 +45,31 @@ class ChapterInfo extends Service
         $this->user = $user;
 
         $this->setCourseUser($course, $user);
-
         $this->setChapterUser($chapter, $user);
 
         $this->handleCourseUser($course, $user);
-
         $this->handleChapterUser($chapter, $user);
 
         return $this->handleChapter($chapter, $user);
     }
 
-    /**
-     * @param ChapterModel $chapter
-     * @param UserModel $user
-     * @return array
-     */
     protected function handleChapter(ChapterModel $chapter, UserModel $user)
     {
         $result = $this->formatChapter($chapter);
 
         $me = [
-            'agreed' => false,
-            'opposed' => false,
+            'agreed' => 0,
+            'opposed' => 0,
         ];
 
         $me['owned'] = $this->ownedChapter;
 
         if ($user->id > 0) {
-
             $chapterVoteRepo = new ChapterVoteRepo();
-
             $chapterVote = $chapterVoteRepo->findChapterVote($chapter->id, $user->id);
-
             if ($chapterVote) {
-                $me['agreed'] = $chapterVote->type == ChapterVoteModel::TYPE_AGREE;
-                $me['opposed'] = $chapterVote->type == ChapterVoteModel::TYPE_OPPOSE;
+                $me['agreed'] = $chapterVote->type == ChapterVoteModel::TYPE_AGREE ? 1 : 0;
+                $me['opposed'] = $chapterVote->type == ChapterVoteModel::TYPE_OPPOSE ? 1 : 0;
             }
         }
 
@@ -88,10 +78,6 @@ class ChapterInfo extends Service
         return $result;
     }
 
-    /**
-     * @param ChapterModel $chapter
-     * @return array
-     */
     protected function formatChapter(ChapterModel $chapter)
     {
         $item = [];
@@ -111,10 +97,6 @@ class ChapterInfo extends Service
         return $item;
     }
 
-    /**
-     * @param ChapterModel $chapter
-     * @return array
-     */
     protected function formatChapterVod(ChapterModel $chapter)
     {
         $chapterVodService = new ChapterVodService();
@@ -123,7 +105,7 @@ class ChapterInfo extends Service
 
         $course = $this->formatCourse($this->course);
 
-        $item = [
+        return [
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
@@ -134,14 +116,8 @@ class ChapterInfo extends Service
             'comment_count' => $chapter->comment_count,
             'user_count' => $chapter->user_count,
         ];
-
-        return $item;
     }
 
-    /**
-     * @param ChapterModel $chapter
-     * @return array
-     */
     protected function formatChapterLive(ChapterModel $chapter)
     {
         $headers = getallheaders();
@@ -162,7 +138,7 @@ class ChapterInfo extends Service
 
         $live = $chapterRepo->findChapterLive($chapter->id);
 
-        $item = [
+        return [
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
@@ -175,14 +151,8 @@ class ChapterInfo extends Service
             'comment_count' => $chapter->comment_count,
             'user_count' => $chapter->user_count,
         ];
-
-        return $item;
     }
 
-    /**
-     * @param ChapterModel $chapter
-     * @return array
-     */
     protected function formatChapterRead(ChapterModel $chapter)
     {
         $chapterRepo = new ChapterRepo();
@@ -191,7 +161,7 @@ class ChapterInfo extends Service
 
         $course = $this->formatCourse($this->course);
 
-        $item = [
+        return [
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
@@ -202,28 +172,16 @@ class ChapterInfo extends Service
             'comment_count' => $chapter->comment_count,
             'user_count' => $chapter->user_count,
         ];
-
-        return $item;
     }
 
-    /**
-     * @param CourseModel $course
-     * @return array
-     */
     protected function formatCourse(CourseModel $course)
     {
-        $result = [
+        return [
             'id' => $course->id,
             'title' => $course->title,
         ];
-
-        return $result;
     }
 
-    /**
-     * @param CourseModel $course
-     * @param UserModel $user
-     */
     protected function handleCourseUser(CourseModel $course, UserModel $user)
     {
         if ($user->id == 0) return;
@@ -247,10 +205,6 @@ class ChapterInfo extends Service
         $course->update();
     }
 
-    /**
-     * @param ChapterModel $chapter
-     * @param UserModel $user
-     */
     protected function handleChapterUser(ChapterModel $chapter, UserModel $user)
     {
         if ($user->id == 0) return;
@@ -271,6 +225,5 @@ class ChapterInfo extends Service
 
         $chapter->update();
     }
-
 
 }

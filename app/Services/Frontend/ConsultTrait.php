@@ -11,9 +11,7 @@ trait ConsultTrait
     {
         $validator = new ConsultValidator();
 
-        $consult = $validator->checkConsult($id);
-
-        return $consult;
+        return $validator->checkConsult($id);
     }
 
 }

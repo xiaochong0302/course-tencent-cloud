@@ -24,9 +24,7 @@ trait ChapterTrait
     {
         $validator = new ChapterValidator();
 
-        $chapter = $validator->checkChapter($id);
-
-        return $chapter;
+        return $validator->checkChapter($id);
     }
 
     /**

@@ -11,9 +11,7 @@ trait OrderTrait
     {
         $validator = new OrderValidator();
 
-        $order = $validator->checkOrderBySn($sn);
-
-        return $order;
+        return $validator->checkOrderBySn($sn);
     }
 
 }

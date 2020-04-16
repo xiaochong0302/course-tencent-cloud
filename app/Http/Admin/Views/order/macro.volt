@@ -25,8 +25,8 @@
         {% set course = order.item_info['course'] %}
         {% set reward = order.item_info['reward'] %}
         <div class="kg-order-item">
-            <p>课程名称：{{ course['title'] }}</p>
-            <p>打赏金额：￥{{ reward['price'] }}</p>
+            <p>商品名称：{{ order.subject }}</p>
+            <p>商品价格：￥{{ order.amount }}</p>
         </div>
     {% elseif order.item_type == 'test' %}
         <div class="kg-order-item">

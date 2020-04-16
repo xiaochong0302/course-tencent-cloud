@@ -30,9 +30,7 @@ trait CourseTrait
     {
         $validator = new CourseValidator();
 
-        $course = $validator->checkCourse($id);
-
-        return $course;
+        return $validator->checkCourse($id);
     }
 
     /**

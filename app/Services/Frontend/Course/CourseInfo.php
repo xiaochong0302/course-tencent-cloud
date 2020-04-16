@@ -24,20 +24,15 @@ class CourseInfo extends Service
         return $this->handleCourse($course, $user);
     }
 
-    /**
-     * @param CourseModel $course
-     * @param UserModel $user
-     * @return array
-     */
-    protected function handleCourse($course, $user)
+    protected function handleCourse(CourseModel $course, UserModel $user)
     {
         $result = $this->formatCourse($course);
 
         $me = [
-            'joined' => false,
-            'owned' => false,
-            'reviewed' => false,
-            'favorited' => false,
+            'joined' => 0,
+            'owned' => 0,
+            'reviewed' => 0,
+            'favorited' => 0,
             'progress' => 0,
         ];
 
@@ -48,16 +43,16 @@ class CourseInfo extends Service
             $favorite = $favoriteRepo->findCourseFavorite($course->id, $user->id);
 
             if ($favorite && $favorite->deleted == 0) {
-                $me['favorited'] = true;
+                $me['favorited'] = 1;
             }
 
             if ($this->courseUser) {
-                $me['reviewed'] = $this->courseUser->reviewed;
-                $me['progress'] = $this->courseUser->progress;
+                $me['reviewed'] = $this->courseUser->reviewed ? 1 : 0;
+                $me['progress'] = $this->courseUser->progress ? 1 : 0;
             }
 
-            $me['joined'] = $this->joinedCourse;
-            $me['owned'] = $this->ownedCourse;
+            $me['joined'] = $this->joinedCourse ? 1 : 0;
+            $me['owned'] = $this->ownedCourse ? 1 : 0;
         }
 
         $result['me'] = $me;
@@ -65,13 +60,9 @@ class CourseInfo extends Service
         return $result;
     }
 
-    /**
-     * @param CourseModel $course
-     * @return array
-     */
     protected function formatCourse($course)
     {
-        $result = [
+        return [
             'id' => $course->id,
             'title' => $course->title,
             'cover' => kg_ci_img_url($course->cover),
@@ -82,7 +73,8 @@ class CourseInfo extends Service
             'vip_price' => (float)$course->vip_price,
             'study_expiry' => $course->study_expiry,
             'refund_expiry' => $course->refund_expiry,
-            'score' => $course->score,
+            'rating' => (float)$course->rating,
+            'score' => (float)$course->score,
             'model' => $course->model,
             'level' => $course->level,
             'attrs' => $course->attrs,
@@ -91,8 +83,6 @@ class CourseInfo extends Service
             'review_count' => $course->review_count,
             'favorite_count' => $course->favorite_count,
         ];
-
-        return $result;
     }
 
 }

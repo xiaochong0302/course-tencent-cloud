@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Services\Frontend;
+namespace App\Services\Frontend\Account;
 
 use App\Repos\Account as AccountRepo;
+use App\Services\Frontend\Service;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Security as SecurityValidator;
 

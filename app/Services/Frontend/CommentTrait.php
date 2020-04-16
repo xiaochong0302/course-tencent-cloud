@@ -11,9 +11,7 @@ trait CommentTrait
     {
         $validator = new CommentValidator();
 
-        $comment = $validator->checkComment($id);
-
-        return $comment;
+        return $validator->checkComment($id);
     }
 
 }
