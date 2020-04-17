@@ -16,7 +16,7 @@ class QQ extends OAuth
     {
         $params = [
             'client_id' => $this->appId,
-            'redirect_uri' => $this->appCallback,
+            'redirect_uri' => $this->redirectUri,
             'response_type' => 'code',
             'scope' => '',
         ];
@@ -30,7 +30,7 @@ class QQ extends OAuth
             'code' => $code,
             'client_id' => $this->appId,
             'client_secret' => $this->appSecret,
-            'redirect_uri' => $this->appCallback,
+            'redirect_uri' => $this->redirectUri,
             'grant_type' => 'authorization_code',
             'state' => 'ok',
         ];

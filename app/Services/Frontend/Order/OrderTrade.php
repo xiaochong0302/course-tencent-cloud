@@ -5,8 +5,8 @@ namespace App\Services\Frontend\Order;
 use App\Models\Trade as TradeModel;
 use App\Services\Frontend\OrderTrait;
 use App\Services\Frontend\Service;
-use App\Services\Payment\Alipay as AlipayService;
-use App\Services\Payment\Wxpay as WxPayService;
+use App\Services\Pay\Alipay as AlipayService;
+use App\Services\Pay\Wxpay as WxPayService;
 use App\Validators\Trade as TradeValidator;
 
 class OrderTrade extends Service

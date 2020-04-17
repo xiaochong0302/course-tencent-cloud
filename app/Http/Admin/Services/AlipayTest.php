@@ -6,9 +6,9 @@ use App\Models\Order as OrderModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Trade as TradeRepo;
-use App\Services\Payment\Alipay as AlipayService;
+use App\Services\Pay\Alipay as AlipayService;
 
-class AlipayTest extends PaymentTest
+class AlipayTest extends PayTest
 {
 
     protected $channel = TradeModel::CHANNEL_ALIPAY;

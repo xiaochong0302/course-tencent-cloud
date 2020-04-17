@@ -5,10 +5,10 @@
     </ul>
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            {{ partial('setting/payment_alipay') }}
+            {{ partial('setting/pay_alipay') }}
         </div>
         <div class="layui-tab-item">
-            {{ partial('setting/payment_wxpay') }}
+            {{ partial('setting/pay_wxpay') }}
         </div>
     </div>
 </div>

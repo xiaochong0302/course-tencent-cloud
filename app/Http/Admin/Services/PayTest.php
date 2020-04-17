@@ -6,7 +6,7 @@ use App\Models\Order as OrderModel;
 use App\Models\Trade as TradeModel;
 use App\Services\Auth\Admin as AdminAuth;
 
-abstract class PaymentTest extends Service
+abstract class PayTest extends Service
 {
 
     /**

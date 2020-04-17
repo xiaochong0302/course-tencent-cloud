@@ -1,19 +1,16 @@
 <?php
 
-namespace App\Services\Frontend\Teacher;
+namespace App\Services\Frontend\My;
 
 use App\Models\User as UserModel;
 use App\Services\Frontend\Service;
-use App\Services\Frontend\UserTrait;
 
-class TeacherInfo extends Service
+class UserInfo extends Service
 {
 
-    use UserTrait;
-
-    public function getUser($id)
+    public function getUser()
     {
-        $user = $this->checkUser($id);
+        $user = $this->getLoginUser();
 
         return $this->handleUser($user);
     }
@@ -32,6 +29,12 @@ class TeacherInfo extends Service
             'gender' => $user->gender,
             'vip' => $user->vip,
             'locked' => $user->locked,
+            'vip_expiry_time' => $user->vip_expiry_time,
+            'lock_expiry_time' => $user->lock_expiry_time,
+            'edu_role' => $user->edu_role,
+            'admin_role' => $user->admin_role,
+            'notice_count' => $user->notice_count,
+            'msg_count' => $user->msg_count,
         ];
     }
 

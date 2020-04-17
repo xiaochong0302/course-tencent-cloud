@@ -15,7 +15,7 @@ class WeiBo extends OAuth
     {
         $params = [
             'client_id' => $this->appId,
-            'redirect_uri' => $this->appCallback,
+            'redirect_uri' => $this->redirectUri,
             'response_type' => 'code',
         ];
         
@@ -28,7 +28,7 @@ class WeiBo extends OAuth
             'code' => $code,
             'client_id' => $this->appId,
             'client_secret' => $this->appSecret,
-            'redirect_uri' => $this->appCallback,
+            'redirect_uri' => $this->redirectUri,
             'grant_type' => 'authorization_code',
         ];
         

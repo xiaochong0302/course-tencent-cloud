@@ -11,8 +11,8 @@ use App\Repos\Order as OrderRepo;
 use App\Repos\Refund as RefundRepo;
 use App\Repos\Trade as TradeRepo;
 use App\Repos\User as UserRepo;
-use App\Services\Payment\Alipay as AlipayService;
-use App\Services\Payment\Wxpay as WxpayService;
+use App\Services\Pay\Alipay as AlipayService;
+use App\Services\Pay\Wxpay as WxpayService;
 use App\Services\Smser\Refund as RefundSmser;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -140,7 +140,7 @@ class RefundTask extends Task
         }
 
         if (!$response) {
-            throw new \RuntimeException('Payment Refund Failed');
+            throw new \RuntimeException('Pay Refund Failed');
         }
     }
 

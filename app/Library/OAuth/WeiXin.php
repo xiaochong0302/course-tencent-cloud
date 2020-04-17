@@ -15,7 +15,7 @@ class WeiXin extends OAuth
     {
         $params = [
             'appid' => $this->appId,
-            'redirect_uri' => $this->appCallback,
+            'redirect_uri' => $this->redirectUri,
             'response_type' => 'code',
             'scope' => 'snsapi_login',
             'state' => 'dev',

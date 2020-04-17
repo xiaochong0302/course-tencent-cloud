@@ -1,11 +1,11 @@
 <?php
 
-use App\Listeners\Payment;
+use App\Listeners\Pay;
 use App\Listeners\Profiler;
 use App\Listeners\UserDailyCounter;
 
 return [
     'db' => Profiler::class,
-    'payment' => Payment::class,
+    'pay' => Pay::class,
     'userDailyCounter' => UserDailyCounter::class,
 ];

@@ -139,9 +139,9 @@ class SettingController extends Controller
     }
 
     /**
-     * @Route("/payment", name="admin.setting.payment")
+     * @Route("/pay", name="admin.setting.pay")
      */
-    public function paymentAction()
+    public function payAction()
     {
         $settingService = new SettingService();
 
@@ -157,11 +157,40 @@ class SettingController extends Controller
 
         } else {
 
-            $alipay = $settingService->getSectionSettings('payment.alipay');
-            $wxpay = $settingService->getSectionSettings('payment.wxpay');
+            $alipay = $settingService->getSectionSettings('pay.alipay');
+            $wxpay = $settingService->getSectionSettings('pay.wxpay');
 
             $this->view->setVar('alipay', $alipay);
             $this->view->setVar('wxpay', $wxpay);
+        }
+    }
+
+    /**
+     * @Route("/oauth", name="admin.setting.oauth")
+     */
+    public function oauthAction()
+    {
+        $settingService = new SettingService();
+
+        if ($this->request->isPost()) {
+
+            $section = $this->request->getPost('section');
+
+            $data = $this->request->getPost();
+
+            $settingService->updateSectionSettings($section, $data);
+
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
+
+        } else {
+
+            $qq = $settingService->getSectionSettings('oauth.qq');
+            $weibo = $settingService->getSectionSettings('oauth.weibo');
+            $weixin = $settingService->getSectionSettings('oauth.weixin');
+
+            $this->view->setVar('qq', $qq);
+            $this->view->setVar('weibo', $weibo);
+            $this->view->setVar('weixin', $weixin);
         }
     }
 

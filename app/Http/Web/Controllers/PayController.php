@@ -2,17 +2,20 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Services\Payment\Alipay as AlipayService;
-use App\Services\Payment\Wxpay as WxpayService;
+use App\Services\Pay\Alipay as AlipayService;
+use App\Services\Pay\Wxpay as WxpayService;
 use App\Traits\Response as ResponseTrait;
 
-class PaymentController extends \Phalcon\Mvc\Controller
+/**
+ * @RoutePrefix("/pay")
+ */
+class PayController extends \Phalcon\Mvc\Controller
 {
 
     use ResponseTrait;
 
     /**
-     * @Post("/alipay/notify", name="web.alipay.notify")
+     * @Post("/alipay/notify", name="web.pay.alipay.notify")
      */
     public function alipayNotifyAction()
     {
@@ -28,7 +31,7 @@ class PaymentController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Post("/wxpay/notify", name="web.wxpay.notify")
+     * @Post("/wxpay/notify", name="web.pay.wxpay.notify")
      */
     public function wxpayNotifyAction()
     {
@@ -44,7 +47,7 @@ class PaymentController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Post("/alipay/status", name="web.alipay.status")
+     * @Post("/alipay/status", name="web.pay.alipay.status")
      */
     public function alipayStatusAction()
     {
@@ -58,7 +61,7 @@ class PaymentController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Post("/wxpay/status", name="web.wxpay.status")
+     * @Post("/wxpay/status", name="web.pay.wxpay.status")
      */
     public function wxpayStatusAction()
     {

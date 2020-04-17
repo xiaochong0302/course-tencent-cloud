@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Services\Payment;
+namespace App\Services\Pay;
 
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Trade as TradeRepo;
-use App\Services\Payment;
+use App\Services\Pay as AppPay;
+use Yansongda\Pay\Gateways\Wechat;
 use Yansongda\Pay\Log;
 use Yansongda\Pay\Pay;
 use Yansongda\Supports\Collection;
 
-class Alipay extends Payment
+class Wxpay extends AppPay
 {
 
     /**
@@ -19,14 +20,13 @@ class Alipay extends Payment
     protected $settings;
 
     /**
-     * @var \Yansongda\Pay\Gateways\Alipay
+     * @var Wechat
      */
     protected $gateway;
 
     public function __construct()
     {
-        $this->settings = $this->getSectionSettings('payment.alipay');
-
+        $this->settings = $this->getSectionSettings('pay.wxpay');
         $this->gateway = $this->getGateway();
     }
 
@@ -42,15 +42,15 @@ class Alipay extends Payment
 
             $response = $this->gateway->scan([
                 'out_trade_no' => $trade->sn,
-                'total_amount' => $trade->amount,
-                'subject' => $trade->subject,
+                'total_fee' => 100 * $trade->amount,
+                'body' => $trade->subject,
             ]);
 
-            $result = $response->qr_code ?? false;
+            $result = $response->code_url ?? false;
 
         } catch (\Exception $e) {
 
-            Log::error('Alipay Qrcode Exception', [
+            Log::error('Wxpay Scan Error', [
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
             ]);
@@ -70,11 +70,11 @@ class Alipay extends Payment
 
             $data = $this->gateway->verify();
 
-            Log::debug('Alipay Verify Data', $data->all());
+            Log::debug('Wxpay Verify Data', $data->all());
 
         } catch (\Exception $e) {
 
-            Log::error('Alipay Verify Exception', [
+            Log::error('Wxpay Verify Error', [
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
             ]);
@@ -82,11 +82,11 @@ class Alipay extends Payment
             return false;
         }
 
-        if ($data->trade_status != 'TRADE_SUCCESS') {
+        if ($data->result_code != 'SUCCESS') {
             return false;
         }
 
-        if ($data->app_id != $this->settings['app_id']) {
+        if ($data->mch_id != $this->settings['mch_id']) {
             return false;
         }
 
@@ -94,11 +94,9 @@ class Alipay extends Payment
 
         $trade = $tradeRepo->findBySn($data->out_trade_no);
 
-        if (!$trade) {
-            return false;
-        }
+        if (!$trade) return false;
 
-        if ($data->total_amount != $trade->amount) {
+        if ($data->total_fee != 100 * $trade->amount) {
             return false;
         }
 
@@ -106,9 +104,9 @@ class Alipay extends Payment
             return false;
         }
 
-        $trade->channel_sn = $data->trade_no;
+        $trade->channel_sn = $data->transaction_id;
 
-        $this->eventsManager->fire('payment:afterPay', $this, $trade);
+        $this->eventsManager->fire('pay:afterPay', $this, $trade);
 
         return $this->gateway->success();
     }
@@ -154,11 +152,11 @@ class Alipay extends Payment
                 'out_trade_no' => $outTradeNo,
             ]);
 
-            $result = $response->code == '10000';
+            $result = $response->result_code == 'SUCCESS';
 
         } catch (\Exception $e) {
 
-            Log::error('Alipay Close Order Exception', [
+            Log::error('Wxpay Close Order Exception', [
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
             ]);
@@ -170,39 +168,21 @@ class Alipay extends Payment
     }
 
     /**
-     * 撤销交易（未生成订单也可执行）
+     * 取消交易
      *
      * @param string $outTradeNo
      * @return bool
      */
     public function cancel($outTradeNo)
     {
-        try {
-
-            $response = $this->gateway->cancel([
-                'out_trade_no' => $outTradeNo,
-            ]);
-
-            $result = $response->code == '10000';
-
-        } catch (\Exception $e) {
-
-            Log::error('Alipay Cancel Order Exception', [
-                'code' => $e->getCode(),
-                'message' => $e->getMessage(),
-            ]);
-
-            $result = false;
-        }
-
-        return $result;
+        return $this->close($outTradeNo);
     }
 
     /**
      * 申请退款
      *
      * @param RefundModel $refund
-     * @return bool
+     * @return Collection|bool
      */
     public function refund(RefundModel $refund)
     {
@@ -214,15 +194,16 @@ class Alipay extends Payment
 
             $response = $this->gateway->refund([
                 'out_trade_no' => $trade->sn,
-                'out_request_no' => $refund->sn,
-                'refund_amount' => $refund->amount,
+                'out_refund_no' => $refund->sn,
+                'total_fee' => 100 * $trade->amount,
+                'refund_fee' => 100 * $refund->amount,
             ]);
 
-            $result = $response->code == '10000';
+            $result = $response->result_code == 'SUCCESS';
 
         } catch (\Exception $e) {
 
-            Log::error('Alipay Refund Order Exception', [
+            Log::error('Wxpay Refund Order Exception', [
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
             ]);
@@ -236,7 +217,7 @@ class Alipay extends Payment
     /**
      * 获取 Gateway
      *
-     * @return \Yansongda\Pay\Gateways\Alipay
+     * @return Wechat
      */
     public function getGateway()
     {
@@ -246,11 +227,11 @@ class Alipay extends Payment
 
         $payConfig = [
             'app_id' => $this->settings['app_id'],
-            'ali_public_key' => $this->settings['public_key'],
-            'private_key' => $this->settings['private_key'],
+            'mch_id' => $this->settings['mch_id'],
+            'key' => $this->settings['key'],
             'notify_url' => $this->settings['notify_url'],
             'log' => [
-                'file' => log_path('alipay.log'),
+                'file' => log_path('wxpay.log'),
                 'level' => $level,
                 'type' => 'daily',
                 'max_file' => 30,
@@ -261,7 +242,7 @@ class Alipay extends Payment
             $payConfig['mode'] = 'dev';
         }
 
-        return Pay::alipay($payConfig);
+        return Pay::wechat($payConfig);
     }
 
 }

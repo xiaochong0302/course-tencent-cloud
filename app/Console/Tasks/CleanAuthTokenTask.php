@@ -33,8 +33,10 @@ class CleanAuthTokenTask extends Task
      */
     protected function findAccessTokens()
     {
+        $expiryTime = strtotime('-30 days');
+
         return AccessTokenModel::query()
-            ->where('expiry_time < :expiry_time:', ['expiry_time' => time()])
+            ->where('expiry_time < :expiry_time:', ['expiry_time' => $expiryTime])
             ->execute();
     }
 
@@ -45,8 +47,10 @@ class CleanAuthTokenTask extends Task
      */
     protected function findRefreshTokens()
     {
+        $expiryTime = strtotime('-30 days');
+
         return RefreshTokenModel::query()
-            ->where('expiry_time < :expiry_time:', ['expiry_time' => time()])
+            ->where('expiry_time < :expiry_time:', ['expiry_time' => $expiryTime])
             ->execute();
     }
 

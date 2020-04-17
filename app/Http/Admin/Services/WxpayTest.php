@@ -3,9 +3,9 @@
 namespace App\Http\Admin\Services;
 
 use App\Models\Trade as TradeModel;
-use App\Services\Payment\Wxpay as WxpayService;
+use App\Services\Pay\Wxpay as WxpayService;
 
-class WxpayTest extends PaymentTest
+class WxpayTest extends PayTest
 {
 
     protected $channel = TradeModel::CHANNEL_WXPAY;

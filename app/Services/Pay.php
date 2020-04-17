@@ -6,7 +6,7 @@ use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Trade as TradeRepo;
 
-abstract class Payment extends Service
+abstract class Pay extends Service
 {
 
     /**

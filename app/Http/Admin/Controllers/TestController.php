@@ -72,7 +72,6 @@ class TestController extends Controller
         $obs->stream_code = substr($pushUrl, $position + 1);
 
         $this->view->pick('setting/live_push_test');
-
         $this->view->setVar('code_url', $codeUrl);
         $this->view->setVar('obs', $obs);
     }
@@ -90,7 +89,6 @@ class TestController extends Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 
         $this->view->pick('public/live_player');
-
         $this->view->setVar('m3u8_pull_urls', $m3u8PullUrls);
         $this->view->setVar('flv_pull_urls', $flvPullUrls);
     }
@@ -183,8 +181,7 @@ class TestController extends Controller
             );
         }
 
-        $this->view->pick('setting/payment_alipay_test');
-
+        $this->view->pick('setting/pay_alipay_test');
         $this->view->setVar('trade_sn', $trade->sn);
         $this->view->setVar('code_url', $codeUrl);
     }
@@ -236,8 +233,7 @@ class TestController extends Controller
             $this->db->rollback();
         }
 
-        $this->view->pick('setting/payment_wxpay_test');
-
+        $this->view->pick('setting/pay_wxpay_test');
         $this->view->setVar('trade_sn', $trade->sn);
         $this->view->setVar('code_url', $codeUrl);
     }

@@ -37,16 +37,16 @@
     <div class="layui-form-item">
         <label class="layui-form-label"><i class="layui-icon layui-icon-vercode"></i></label>
         <div class="layui-input-inline" style="width:200px;">
-            <span id="captcha-btn" class="layui-btn layui-btn-primary layui-btn-fluid">前台验证</span>
-            <span id="frontend-verify-tips" class="kg-btn-verify layui-btn layui-btn-primary layui-btn-fluid layui-btn-disabled layui-hide"><i class="layui-icon layui-icon-ok"></i>前台验证成功</span>
+            <span id="front-verify-btn" class="layui-btn layui-btn-primary layui-btn-fluid" app-id="{{ captcha.app_id }}">前台验证</span>
+            <span id="front-verify-tips" class="kg-btn-verify layui-btn layui-btn-primary layui-btn-fluid layui-btn-disabled layui-hide"><i class="layui-icon layui-icon-ok"></i>前台验证成功</span>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label"><i class="layui-icon layui-icon-vercode"></i></label>
         <div class="layui-input-inline" style="width:200px;">
-            <span id="verify-submit-btn" class="layui-btn layui-btn-primary layui-btn-fluid" disabled="true" lay-submit="true" lay-filter="backend-verify">后台验证</span>
-            <span id="backend-verify-tips" class="kg-btn-verify layui-btn layui-btn-primary layui-btn-fluid layui-btn-disabled layui-hide"><i class="layui-icon layui-icon-ok"></i>后台验证成功</span>
+            <span id="back-verify-btn" class="layui-btn layui-btn-primary layui-btn-fluid" disabled="true" lay-submit="true" lay-filter="back-verify">后台验证</span>
+            <span id="back-verify-tips" class="kg-btn-verify layui-btn layui-btn-primary layui-btn-fluid layui-btn-disabled layui-hide"><i class="layui-icon layui-icon-ok"></i>后台验证成功</span>
             <input type="hidden" name="ticket">
             <input type="hidden" name="rand">
         </div>
@@ -65,25 +65,29 @@
         var layer = layui.layer;
 
         var captcha = new TencentCaptcha(
-            $('#captcha-btn')[0],
-            $('input[name=app_id]').val(),
+            $('#front-verify-btn')[0],
+            $('#front-verify-btn').attr('app-id'),
             function (res) {
-                $('input[name=ticket]').val(res.ticket);
-                $('input[name=rand]').val(res.randstr);
-                $('#captcha-btn').remove();
-                $('#verify-submit-btn').removeAttr('disabled');
-                $('#frontend-verify-tips').removeClass('layui-hide');
+                if (res.ret === 0) {
+                    $('input[name=ticket]').val(res.ticket);
+                    $('input[name=rand]').val(res.randstr);
+                    $('#front-verify-btn').remove();
+                    $('#back-verify-btn').removeAttr('disabled');
+                    $('#front-verify-tips').removeClass('layui-hide');
+                }
             }
         );
 
-        form.on('submit(backend-verify)', function (data) {
+        form.on('submit(back-verify)', function (data) {
             $.ajax({
                 type: 'POST',
                 url: data.form.action,
                 data: data.field,
                 success: function (res) {
-                    $('#verify-submit-btn').remove();
-                    $('#backend-verify-tips').removeClass('layui-hide');
+                    if (res.code === 0) {
+                        $('#back-verify-btn').remove();
+                        $('#back-verify-tips').removeClass('layui-hide');
+                    }
                     layer.msg(res.msg, {icon: 1});
                 },
                 error: function (xhr) {

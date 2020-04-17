@@ -34,9 +34,7 @@ class VodController extends Controller
         $playUrl = $this->request->getQuery('play_url');
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
         $this->view->pick('public/vod_player');
-
         $this->view->setVar('chapter_id', $chapterId);
         $this->view->setVar('play_url', urldecode($playUrl));
     }

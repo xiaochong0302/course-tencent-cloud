@@ -9,15 +9,15 @@ abstract class OAuth
 
     protected $appId;
     protected $appSecret;
-    protected $appCallback;
+    protected $redirectUri;
     protected $accessToken;
     protected $openId;
 
-    public function __construct($appId, $appSecret, $appCallback)
+    public function __construct($appId, $appSecret, $redirectUri)
     {
         $this->appId = $appId;
         $this->appSecret = $appSecret;
-        $this->appCallback = $appCallback;
+        $this->redirectUri = $redirectUri;
     }
 
     public function httpGet($uri, $params = [], $headers = [])

@@ -8,7 +8,7 @@ use App\Models\Trade as TradeModel;
 use App\Repos\Order as OrderRepo;
 use Phalcon\Events\Event;
 
-class Payment extends Listener
+class Pay extends Listener
 {
 
     protected $logger;

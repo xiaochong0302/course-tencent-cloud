@@ -39,7 +39,6 @@ class SessionController extends \Phalcon\Mvc\Controller
         $captcha = $settingService->getSectionSettings('captcha');
 
         $this->view->pick('public/login');
-
         $this->view->setVar('captcha', $captcha);
     }
 
