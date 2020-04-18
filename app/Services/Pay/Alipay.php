@@ -116,15 +116,16 @@ class Alipay extends AppPay
      * 查询交易（扫码生成订单后可执行）
      *
      * @param string $outTradeNo
+     * @param string $type
      * @return Collection|bool
      */
-    public function find($outTradeNo)
+    public function find($outTradeNo, $type = 'wap')
     {
         try {
 
-            $result = $this->gateway->find([
-                'out_trade_no' => $outTradeNo,
-            ]);
+            $order = ['out_trade_no' => $outTradeNo];
+
+            $result = $this->gateway->find($order, $type);
 
         } catch (\Exception $e) {
 

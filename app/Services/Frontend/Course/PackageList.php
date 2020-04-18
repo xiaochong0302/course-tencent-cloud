@@ -73,8 +73,14 @@ class PackageList extends Service
                 'summary' => $course->summary,
                 'market_price' => (float)$course->market_price,
                 'vip_price' => (float)$course->vip_price,
+                'rating' => (float)$course['rating'],
+                'score' => (float)$course['score'],
                 'model' => $course->model,
                 'level' => $course->level,
+                'user_count' => $course->user_count,
+                'lesson_count' => $course->lesson_count,
+                'review_count' => $course->review_count,
+                'favorite_count' => $course->favorite_count,
             ];
         }
 

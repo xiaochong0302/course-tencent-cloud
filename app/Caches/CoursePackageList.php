@@ -81,6 +81,10 @@ class CoursePackageList extends Cache
                 'vip_price' => $course->vip_price,
                 'model' => $course->model,
                 'level' => $course->level,
+                'user_count' => $course->user_count,
+                'lesson_count' => $course->lesson_count,
+                'review_count' => $course->review_count,
+                'favorite_count' => $course->favorite_count,
             ];
         }
 

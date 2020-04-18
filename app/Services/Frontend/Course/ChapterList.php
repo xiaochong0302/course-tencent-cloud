@@ -40,11 +40,7 @@ class ChapterList extends Service
         return $this->handleChapters($chapters);
     }
 
-    /**
-     * @param Resultset $chapters
-     * @return array
-     */
-    protected function handleChapters($chapters)
+    protected function handleChapters(Resultset $chapters)
     {
         if ($chapters->count() == 0) {
             return [];
@@ -60,7 +56,7 @@ class ChapterList extends Service
 
         foreach ($treeList as &$chapter) {
             foreach ($chapter['children'] as &$lesson) {
-                $owned = $this->ownedCourse || $lesson['free'];
+                $owned = ($this->ownedCourse || $lesson['free']) ? 1 : 0;
                 $progress = $learningMapping[$lesson['id']]['progress'] ?? 0;
                 $lesson['me'] = [
                     'owned' => $owned,
@@ -72,12 +68,7 @@ class ChapterList extends Service
         return $treeList;
     }
 
-    /**
-     * @param CourseModel
-     * @param UserModel
-     * @return array
-     */
-    protected function getLearningMapping($course, $user)
+    protected function getLearningMapping(CourseModel $course, UserModel $user)
     {
         if ($user->id == 0) {
             return [];

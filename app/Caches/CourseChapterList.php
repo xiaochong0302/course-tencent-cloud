@@ -6,7 +6,7 @@ use App\Builders\ChapterTreeList as ChapterTreeListBuilder;
 use App\Repos\Course as CourseRepo;
 use Phalcon\Mvc\Model\Resultset;
 
-class ChapterTreeList extends Cache
+class CourseChapterList extends Cache
 {
 
     protected $lifetime = 7 * 86400;
@@ -18,16 +18,13 @@ class ChapterTreeList extends Cache
 
     public function getKey($id = null)
     {
-        return "chapter_tree_list:{$id}";
+        return "course_chapter_list:{$id}";
     }
 
     public function getContent($id = null)
     {
         $courseRepo = new CourseRepo();
 
-        /**
-         * @var Resultset $chapters
-         */
         $chapters = $courseRepo->findChapters($id);
 
         if ($chapters->count() == 0) {

@@ -27,11 +27,7 @@ trait ChapterTrait
         return $validator->checkChapter($id);
     }
 
-    /**
-     * @param ChapterModel $chapter
-     * @param UserModel $user
-     */
-    public function setChapterUser($chapter, $user)
+    public function setChapterUser(ChapterModel $chapter, UserModel $user)
     {
         $chapterUserRepo = new ChapterUserRepo();
 

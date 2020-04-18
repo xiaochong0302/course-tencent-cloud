@@ -4,6 +4,7 @@ namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Session as SessionService;
 use App\Http\Admin\Services\Setting as SettingService;
+use App\Traits\Auth as AuthTrait;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 
@@ -13,13 +14,19 @@ use App\Traits\Security as SecurityTrait;
 class SessionController extends \Phalcon\Mvc\Controller
 {
 
-    use ResponseTrait, SecurityTrait;
+    use AuthTrait, ResponseTrait, SecurityTrait;
 
     /**
      * @Route("/login", name="admin.login")
      */
     public function loginAction()
     {
+        $currentUser = $this->getCurrentUser();
+
+        if ($currentUser->id > 0) {
+            $this->response->redirect(['for' => 'admin.index']);
+        }
+
         if ($this->request->isPost()) {
 
             $this->checkHttpReferer();

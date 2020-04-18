@@ -87,6 +87,13 @@ class Course extends Model
     public $details;
 
     /**
+     * 主分类编号
+     *
+     * @var int
+     */
+    public $category_id;
+
+    /**
      * 市场价格
      *
      * @var float

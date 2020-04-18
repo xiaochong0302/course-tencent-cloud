@@ -75,8 +75,8 @@ class CommentList extends Service
             $comment['mentions'] = $comment['mentions'] ? json_decode($comment['mentions']) : [];
 
             $me = [
-                'agreed' => $votes[$comment['id']]['agreed'] ?? false,
-                'opposed' => $votes[$comment['id']]['opposed'] ?? false,
+                'agreed' => $votes[$comment['id']]['agreed'] ?? 0,
+                'opposed' => $votes[$comment['id']]['opposed'] ?? 0,
             ];
 
             $items[] = [
@@ -115,8 +115,8 @@ class CommentList extends Service
 
         foreach ($votes as $vote) {
             $result[$vote->comment_id] = [
-                'agreed' => $vote->type == CommentVoteModel::TYPE_AGREE,
-                'opposed' => $vote->type == CommentVoteModel::TYPE_OPPOSE,
+                'agreed' => $vote->type == CommentVoteModel::TYPE_AGREE ? 1 : 0,
+                'opposed' => $vote->type == CommentVoteModel::TYPE_OPPOSE ? 1 : 0,
             ];
         }
 

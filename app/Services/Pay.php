@@ -40,8 +40,9 @@ abstract class Pay extends Service
      * 查找交易
      *
      * @param string $tradeNo
+     * @param string $type
      */
-    abstract public function find($tradeNo);
+    abstract public function find($tradeNo, $type);
 
     /**
      * 关闭交易

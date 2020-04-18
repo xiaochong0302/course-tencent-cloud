@@ -683,12 +683,6 @@ class AuthNode extends Service
                         ],
                         [
                             'id' => '5-1-10',
-                            'label' => '登录设置',
-                            'type' => 'menu',
-                            'route' => 'admin.setting.oauth',
-                        ],
-                        [
-                            'id' => '5-1-11',
                             'label' => '会员设置',
                             'type' => 'menu',
                             'route' => 'admin.setting.vip',

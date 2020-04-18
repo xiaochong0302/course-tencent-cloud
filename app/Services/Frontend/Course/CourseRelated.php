@@ -17,19 +17,7 @@ class CourseRelated extends Service
 
         $listCache = new CourseRelatedListCache();
 
-        $courses = $listCache->get($course->id);
-
-        if (!$courses) {
-            return [];
-        }
-
-        $baseUrl = kg_ci_base_url();
-
-        foreach ($courses as &$course) {
-            $course['cover'] = $baseUrl . $course['cover'];
-        }
-
-        return $courses;
+        return $listCache->get($course->id);
     }
 
 }

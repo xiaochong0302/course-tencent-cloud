@@ -22,45 +22,73 @@ class CloseTradeTask extends Task
 
         foreach ($trades as $trade) {
             if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
-                $this->closeAlipayTrade($trade);
+                $this->handleAlipayTrade($trade);
             } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
-                $this->closeWxpayTrade($trade);
+                $this->handleWxpayTrade($trade);
             }
         }
     }
 
     /**
-     * 关闭支付宝交易
+     * 处理支付宝交易
      *
      * @param TradeModel $trade
      */
-    protected function closeAlipayTrade($trade)
+    protected function handleAlipayTrade($trade)
     {
+        $allowClosed = true;
+
         $alipay = new AlipayService();
 
-        $success = $alipay->close($trade->sn);
+        $alipayTrade = $alipay->find($trade->sn);
 
-        if ($success) {
-            $trade->status = TradeModel::STATUS_CLOSED;
-            $trade->update();
+        if ($alipayTrade) {
+            /**
+             * 异步通知接收异常，补救漏网
+             */
+            if ($alipayTrade->trade_status == 'TRADE_SUCCESS') {
+                $this->eventsManager->fire('pay:afterPay', $this, $trade);
+                $allowClosed = false;
+            } elseif ($alipayTrade->trade_status == 'WAIT_BUYER_PAY') {
+                $alipay->close($trade->sn);
+            }
         }
+
+        if (!$allowClosed) return;
+
+        $trade->status = TradeModel::STATUS_CLOSED;
+        $trade->update();
     }
 
     /**
-     * 关闭微信交易
+     * 处理微信交易
      *
      * @param TradeModel $trade
      */
-    protected function closeWxpayTrade($trade)
+    protected function handleWxpayTrade($trade)
     {
+        $allowClosed = true;
+
         $wxpay = new WxpayService();
 
-        $success = $wxpay->close($trade->sn);
+        $wxpayTrade = $wxpay->find($trade->sn);
 
-        if ($success) {
-            $trade->status = TradeModel::STATUS_CLOSED;
-            $trade->update();
+        if ($wxpayTrade) {
+            /**
+             * 异步通知接收异常，补救漏网
+             */
+            if ($wxpayTrade->trade_state == 'SUCCESS') {
+                $this->eventsManager->fire('pay:afterPay', $this, $trade);
+                $allowClosed = false;
+            } elseif ($wxpayTrade->trade_state == 'NOTPAY') {
+                $wxpay->close($trade->sn);
+            }
         }
+
+        if (!$allowClosed) return;
+
+        $trade->status = TradeModel::STATUS_CLOSED;
+        $trade->update();
     }
 
     /**

@@ -17,17 +17,7 @@ class TeacherList extends Service
 
         $listCache = new CourseTeacherListCache();
 
-        $teachers = $listCache->get($course->id);
-
-        if (!$teachers) return [];
-
-        $baseUrl = kg_ci_base_url();
-
-        foreach ($teachers as &$teacher) {
-            $teacher['avatar'] = $baseUrl . $teacher['avatar'];
-        }
-
-        return $teachers;
+        return $listCache->get($course->id);
     }
 
 }

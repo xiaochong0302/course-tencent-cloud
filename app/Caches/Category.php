@@ -25,11 +25,7 @@ class Category extends Cache
 
         $category = $categoryRepo->findById($id);
 
-        if (!$category) {
-            return new \stdClass();
-        }
-
-        return $category;
+        return $category ?: null;
     }
 
 }

@@ -33,11 +33,7 @@ trait CourseTrait
         return $validator->checkCourse($id);
     }
 
-    /**
-     * @param CourseModel $course
-     * @param UserModel $user
-     */
-    public function setCourseUser($course, $user)
+    public function setCourseUser(CourseModel $course, UserModel $user)
     {
         $courseUserRepo = new CourseUserRepo();
 
