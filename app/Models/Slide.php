@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Caches\SlideList as SlideListCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Slide extends Model
@@ -117,23 +116,6 @@ class Slide extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
-    }
-
-    public function afterCreate()
-    {
-        $this->rebuildCache();
-    }
-
-    public function afterUpdate()
-    {
-        $this->rebuildCache();
-    }
-
-    public function rebuildCache()
-    {
-        $cache = new SlideListCache();
-
-        $cache->rebuild();
     }
 
     public static function targetTypes()

@@ -92,6 +92,8 @@ class Nav extends Service
 
         $this->updateNavStats($nav);
 
+        $this->rebuildNavCache();
+
         return $nav;
     }
 
@@ -140,6 +142,8 @@ class Nav extends Service
 
         $this->updateNavStats($nav);
 
+        $this->rebuildNavCache();
+
         return $nav;
     }
 
@@ -157,6 +161,8 @@ class Nav extends Service
 
         $this->updateNavStats($nav);
 
+        $this->rebuildNavCache();
+
         return $nav;
     }
 
@@ -170,6 +176,8 @@ class Nav extends Service
 
         $this->updateNavStats($nav);
 
+        $this->rebuildNavCache();
+
         return $nav;
     }
 
@@ -182,10 +190,16 @@ class Nav extends Service
         }
 
         $childCount = $navRepo->countChildNavs($nav->id);
-        $nav->child_count = $childCount;
-        $nav->update();
 
+        $nav->child_count = $childCount;
+
+        $nav->update();
+    }
+
+    protected function rebuildNavCache()
+    {
         $cache = new NavTreeListCache();
+
         $cache->rebuild();
     }
 

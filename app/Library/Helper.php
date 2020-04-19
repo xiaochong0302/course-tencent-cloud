@@ -53,7 +53,7 @@ function kg_uniqid($prefix = '', $more = false)
  */
 function kg_json_encode($data)
 {
-    $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+    $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION;
 
     return json_encode($data, $options);
 }

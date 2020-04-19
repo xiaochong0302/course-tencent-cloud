@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\SlideList as SlideListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Slide as SlideModel;
 use App\Repos\Slide as SlideRepo;
@@ -59,6 +60,8 @@ class Slide extends Service
 
         $slide->create($data);
 
+        $this->rebuildSlideCache();
+
         return $slide;
     }
 
@@ -106,6 +109,8 @@ class Slide extends Service
 
         $slide->update($data);
 
+        $this->rebuildSlideCache();
+
         return $slide;
     }
 
@@ -116,6 +121,8 @@ class Slide extends Service
         $slide->deleted = 1;
 
         $slide->update();
+
+        $this->rebuildSlideCache();
 
         return $slide;
     }
@@ -128,7 +135,16 @@ class Slide extends Service
 
         $slide->update();
 
+        $this->rebuildSlideCache();
+
         return $slide;
+    }
+
+    protected function rebuildSlideCache()
+    {
+        $cache = new SlideListCache();
+
+        $cache->rebuild();
     }
 
     protected function findOrFail($id)

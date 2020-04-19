@@ -2,6 +2,7 @@
 
 namespace App\Services\Frontend\Course;
 
+use App\Models\Package as PackageModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Package as PackageRepo;
 use App\Services\Frontend\CourseTrait;
@@ -25,7 +26,7 @@ class PackageList extends Service
     }
 
     /**
-     * @param Resultset $packages
+     * @param Resultset|PackageModel[] $packages
      * @return array
      */
     protected function handlePackages($packages)
@@ -57,6 +58,10 @@ class PackageList extends Service
         $packageRepo = new PackageRepo();
 
         $courses = $packageRepo->findCourses($packageId);
+
+        if ($courses->count() == 0) {
+            return [];
+        }
 
         $result = [];
 

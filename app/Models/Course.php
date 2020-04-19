@@ -270,7 +270,7 @@ class Course extends Model
     {
         $this->update_time = time();
 
-        if (!empty($this->attrs)) {
+        if (is_array($this->attrs) && !empty($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
     }

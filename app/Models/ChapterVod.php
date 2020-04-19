@@ -65,7 +65,7 @@ class ChapterVod extends Model
     {
         $this->create_time = time();
 
-        if (!empty($this->file_transcode)) {
+        if (is_array($this->file_transcode) && !empty($this->file_transcode)) {
             $this->file_transcode = kg_json_encode($this->file_transcode);
         }
     }
@@ -74,7 +74,7 @@ class ChapterVod extends Model
     {
         $this->update_time = time();
 
-        if (!empty($this->file_transcode)) {
+        if (is_array($this->file_transcode) && !empty($this->file_transcode)) {
             $this->file_transcode = kg_json_encode($this->file_transcode);
         }
     }

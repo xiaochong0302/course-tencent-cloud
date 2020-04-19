@@ -5,6 +5,7 @@ namespace App\Caches;
 use App\Models\Package as PackageModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Package as PackageRepo;
+use Phalcon\Mvc\Model\Resultset;
 
 class CoursePackageList extends Cache
 {
@@ -27,19 +28,19 @@ class CoursePackageList extends Cache
 
         $packages = $courseRepo->findPackages($id);
 
-        if ($packages->count() == 0) {
-            return [];
-        }
-
         return $this->handleContent($packages);
     }
 
     /**
-     * @param PackageModel[] $packages
+     * @param Resultset|PackageModel[] $packages
      * @return array
      */
     protected function handleContent($packages)
     {
+        if ($packages->count() == 0) {
+            return [];
+        }
+
         $result = [];
 
         foreach ($packages as $package) {
@@ -63,6 +64,10 @@ class CoursePackageList extends Cache
         $packageRepo = new PackageRepo();
 
         $courses = $packageRepo->findCourses($packageId);
+
+        if ($courses->count() == 0) {
+            return [];
+        }
 
         $result = [];
 

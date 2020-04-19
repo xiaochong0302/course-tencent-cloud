@@ -7,7 +7,6 @@ use App\Caches\ChapterCounter as ChapterCounterCache;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Chapter as ChapterRepo;
 use App\Services\ChapterCacheSyncer;
-use Phalcon\Mvc\Model\Resultset;
 
 class RebuildChapterCacheTask extends Task
 {
@@ -41,9 +40,6 @@ class RebuildChapterCacheTask extends Task
 
         $chapterRepo = new ChapterRepo();
 
-        /**
-         * @var Resultset $chapters
-         */
         $chapters = $chapterRepo->findByIds($chapterIds);
 
         if ($chapters->count() == 0) {
@@ -51,24 +47,32 @@ class RebuildChapterCacheTask extends Task
         }
 
         $chapterCache = new ChapterCache();
+
         $counterCache = new ChapterCounterCache();
 
         foreach ($chapters as $chapter) {
+
             $chapter->user_count = $chapterRepo->countUsers($chapter->id);
+            $chapter->lesson_count = $chapterRepo->countLessons($chapter->id);
             $chapter->comment_count = $chapterRepo->countComments($chapter->id);
-            $chapter->like_count = $chapterRepo->countLikes($chapter->id);
+            $chapter->agree_count = $chapterRepo->countAgrees($chapter->id);
+            $chapter->oppose_count = $chapterRepo->countOpposes($chapter->id);
+
             $chapter->update();
 
             $chapterCache->rebuild($chapter->id);
+
             $counterCache->rebuild($chapter->id);
         }
+
+        $this->redis->sRem($key, ...$chapterIds);
     }
 
     protected function getCacheKey()
     {
         $syncer = new ChapterCacheSyncer();
 
-        return $syncer->getCacheKey();
+        return $syncer->getSyncKey();
     }
 
 }

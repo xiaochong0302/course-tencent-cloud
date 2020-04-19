@@ -3,6 +3,9 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\CourseList as CourseListBuilder;
+use App\Caches\CourseCategoryList as CourseCategoryListCache;
+use App\Caches\CourseRelatedList as CourseRelatedListCache;
+use App\Caches\CourseTeacherList as CourseTeacherListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
@@ -348,6 +351,10 @@ class Course extends Service
                 }
             }
         }
+
+        $cache = new CourseTeacherListCache();
+
+        $cache->rebuild();
     }
 
     protected function saveCategories(CourseModel $course, $categoryIds)
@@ -388,6 +395,17 @@ class Course extends Service
                 }
             }
         }
+
+        $categoryId = $newCategoryIds[0] ?? 0;
+
+        if ($categoryId) {
+            $course->category_id = $categoryId;
+            $course->update();
+        }
+
+        $cache = new CourseCategoryListCache();
+
+        $cache->rebuild($course->id);
     }
 
     protected function saveRelatedCourses(CourseModel $course, $courseIds)
@@ -449,6 +467,10 @@ class Course extends Service
                 }
             }
         }
+
+        $cache = new CourseRelatedListCache();
+
+        $cache->rebuild($course->id);
     }
 
     protected function handleCourses($pager)

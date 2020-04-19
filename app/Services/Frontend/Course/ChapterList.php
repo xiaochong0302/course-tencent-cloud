@@ -40,7 +40,11 @@ class ChapterList extends Service
         return $this->handleChapters($chapters);
     }
 
-    protected function handleChapters(Resultset $chapters)
+    /**
+     * @param Resultset $chapters
+     * @return array
+     */
+    protected function handleChapters($chapters)
     {
         if ($chapters->count() == 0) {
             return [];

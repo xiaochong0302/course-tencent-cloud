@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\CourseChapterList as CourseChapterListCache;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
@@ -59,6 +60,7 @@ class Chapter extends Service
 
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
+        $this->rebuildChapterCache($chapter);
 
         return $chapter;
     }
@@ -100,6 +102,7 @@ class Chapter extends Service
 
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
+        $this->rebuildChapterCache($chapter);
 
         return $chapter;
     }
@@ -118,6 +121,7 @@ class Chapter extends Service
 
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
+        $this->rebuildChapterCache($chapter);
 
         return $chapter;
     }
@@ -132,6 +136,7 @@ class Chapter extends Service
 
         $this->updateChapterStats($chapter);
         $this->updateCourseStats($chapter);
+        $this->rebuildChapterCache($chapter);
 
         return $chapter;
     }
@@ -166,6 +171,13 @@ class Chapter extends Service
         } elseif ($course->model == CourseModel::MODEL_READ) {
             $courseStats->updateReadAttrs($course->id);
         }
+    }
+
+    protected function rebuildChapterCache(ChapterModel $chapter)
+    {
+        $cache = new CourseChapterListCache();
+
+        $cache->rebuild($chapter->course_id);
     }
 
     protected function findOrFail($id)

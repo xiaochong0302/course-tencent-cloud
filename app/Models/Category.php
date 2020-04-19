@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Caches\Category as CategoryCache;
-use App\Caches\CategoryList as CategoryListCache;
-use App\Caches\CategoryTreeList as CategoryTreeListCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Category extends Model
@@ -119,31 +116,6 @@ class Category extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
-    }
-
-    public function afterCreate()
-    {
-        $this->rebuildCache();
-    }
-
-    public function afterUpdate()
-    {
-        $this->rebuildCache();
-    }
-
-    public function rebuildCache()
-    {
-        $itemCache = new CategoryCache();
-
-        $itemCache->rebuild($this->id);
-
-        $listCache = new CategoryListCache();
-
-        $listCache->rebuild();
-
-        $treeListCache = new CategoryTreeListCache();
-
-        $treeListCache->rebuild();
     }
 
 }

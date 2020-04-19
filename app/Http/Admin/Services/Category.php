@@ -2,6 +2,9 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\Category as CategoryCache;
+use App\Caches\CategoryList as CategoryListCache;
+use App\Caches\CategoryTreeList as CategoryTreeListCache;
 use App\Models\Category as CategoryModel;
 use App\Repos\Category as CategoryRepo;
 use App\Validators\Category as CategoryValidator;
@@ -86,6 +89,7 @@ class Category extends Service
         $category->update();
 
         $this->updateCategoryStats($category);
+        $this->rebuildCategoryCache($category);
 
         return $category;
     }
@@ -122,6 +126,7 @@ class Category extends Service
         $category->update($data);
 
         $this->updateCategoryStats($category);
+        $this->rebuildCategoryCache($category);
 
         return $category;
     }
@@ -139,6 +144,7 @@ class Category extends Service
         $category->update();
 
         $this->updateCategoryStats($category);
+        $this->rebuildCategoryCache($category);
 
         return $category;
     }
@@ -152,6 +158,7 @@ class Category extends Service
         $category->update();
 
         $this->updateCategoryStats($category);
+        $this->rebuildCategoryCache($category);
 
         return $category;
     }
@@ -167,6 +174,21 @@ class Category extends Service
         $childCount = $categoryRepo->countChildCategories($category->id);
         $category->child_count = $childCount;
         $category->update();
+    }
+
+    protected function rebuildCategoryCache(CategoryModel $category)
+    {
+        $itemCache = new CategoryCache();
+
+        $itemCache->rebuild($category->id);
+
+        $listCache = new CategoryListCache();
+
+        $listCache->rebuild();
+
+        $treeListCache = new CategoryTreeListCache();
+
+        $treeListCache->rebuild();
     }
 
     protected function enableChildCategories($parentId)

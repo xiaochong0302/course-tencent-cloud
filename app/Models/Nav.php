@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Caches\NavTreeList as NavTreeListCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Nav extends Model
@@ -143,23 +142,6 @@ class Nav extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
-    }
-
-    public function afterCreate()
-    {
-        $this->rebuildCache();
-    }
-
-    public function afterUpdate()
-    {
-        $this->rebuildCache();
-    }
-
-    public function rebuildCache()
-    {
-        $cache = new NavTreeListCache();
-
-        $cache->rebuild();
     }
 
     public static function positionTypes()
