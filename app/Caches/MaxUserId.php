@@ -21,9 +21,9 @@ class MaxUserId extends Cache
 
     public function getContent($id = null)
     {
-        $course = UserModel::findFirst(['order' => 'id DESC']);
+        $user = UserModel::findFirst(['order' => 'id DESC']);
 
-        return $course->id;
+        return $user->id ?? 0;
     }
 
 }

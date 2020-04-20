@@ -118,6 +118,13 @@ class Slide extends Model
         $this->update_time = time();
     }
 
+    public function afterFetch()
+    {
+        if (!empty($this->cover)) {
+            $this->cover = kg_ci_img_url($this->cover);
+        }
+    }
+
     public static function targetTypes()
     {
         return [

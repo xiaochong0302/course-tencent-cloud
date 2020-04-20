@@ -7,7 +7,7 @@ use App\Repos\Course as CourseRepo;
 class CourseCounter extends Counter
 {
 
-    protected $lifetime = 7 * 86400;
+    protected $lifetime = 1 * 86400;
 
     public function getLifetime()
     {

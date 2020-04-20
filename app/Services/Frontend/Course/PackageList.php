@@ -7,7 +7,6 @@ use App\Repos\Course as CourseRepo;
 use App\Repos\Package as PackageRepo;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service;
-use Phalcon\Mvc\Model\Resultset;
 
 class PackageList extends Service
 {
@@ -22,19 +21,19 @@ class PackageList extends Service
 
         $packages = $courseRepo->findPackages($course->id);
 
-        return $this->handlePackages($packages);
-    }
-
-    /**
-     * @param Resultset|PackageModel[] $packages
-     * @return array
-     */
-    protected function handlePackages($packages)
-    {
         if ($packages->count() == 0) {
             return [];
         }
 
+        return $this->handlePackages($packages);
+    }
+
+    /**
+     * @param PackageModel[] $packages
+     * @return array
+     */
+    protected function handlePackages($packages)
+    {
         $result = [];
 
         foreach ($packages as $package) {

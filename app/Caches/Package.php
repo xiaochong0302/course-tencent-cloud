@@ -2,9 +2,9 @@
 
 namespace App\Caches;
 
-use App\Repos\Chapter as ChapterRepo;
+use App\Repos\Package as PackageRepo;
 
-class Chapter extends Cache
+class Package extends Cache
 {
 
     protected $lifetime = 7 * 86400;
@@ -16,16 +16,16 @@ class Chapter extends Cache
 
     public function getKey($id = null)
     {
-        return "chapter:{$id}";
+        return "package:{$id}";
     }
 
     public function getContent($id = null)
     {
-        $chapterRepo = new ChapterRepo();
+        $packageRepo = new PackageRepo();
 
-        $chapter = $chapterRepo->findById($id);
+        $package = $packageRepo->findById($id);
 
-        return $chapter ?: null;
+        return $package ?: null;
     }
 
 }

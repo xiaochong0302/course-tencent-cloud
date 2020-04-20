@@ -23,7 +23,7 @@ class MaxChapterId extends Cache
     {
         $chapter = ChapterModel::findFirst(['order' => 'id DESC']);
 
-        return $chapter->id;
+        return $chapter->id ?? 0;
     }
 
 }

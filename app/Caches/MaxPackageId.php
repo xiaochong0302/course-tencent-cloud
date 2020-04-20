@@ -2,9 +2,9 @@
 
 namespace App\Caches;
 
-use App\Models\Course as CourseModel;
+use App\Models\Package as PackageModel;
 
-class MaxCourseId extends Cache
+class MaxPackageId extends Cache
 {
 
     protected $lifetime = 365 * 86400;
@@ -16,14 +16,14 @@ class MaxCourseId extends Cache
 
     public function getKey($id = null)
     {
-        return 'max_course_id';
+        return 'max_package_id';
     }
 
     public function getContent($id = null)
     {
-        $course = CourseModel::findFirst(['order' => 'id DESC']);
+        $package = PackageModel::findFirst(['order' => 'id DESC']);
 
-        return $course->id ?? 0;
+        return $package->id ?? 0;
     }
 
 }

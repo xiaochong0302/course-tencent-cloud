@@ -25,11 +25,9 @@ class Course extends Cache
 
         $course = $courseRepo->findById($id);
 
-        $course->cover = kg_ci_img_url($course->cover);
+        if (!$course) return null;
 
-        if (!$course) {
-            return new \stdClass();
-        }
+        $course->cover = kg_ci_img_url($course->cover);
 
         return $course;
     }

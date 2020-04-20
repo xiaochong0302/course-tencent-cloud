@@ -11,10 +11,10 @@ use App\Repos\Package as PackageRepo;
 use App\Services\Frontend\Service;
 use App\Validators\Order as OrderValidator;
 
-class OrderConfirm extends Service
+class OrderConfirmInfo extends Service
 {
 
-    public function confirmOrder()
+    public function getConfirmInfo()
     {
         $query = $this->request->getQuery();
 
@@ -75,20 +75,7 @@ class OrderConfirm extends Service
 
     protected function handleCourseInfo(CourseModel $course)
     {
-        $course->cover = kg_ci_img_url($course->cover);
-
-        return [
-            'id' => $course->id,
-            'title' => $course->title,
-            'cover' => $course->cover,
-            'summary' => $course->summary,
-            'model' => $course->model,
-            'level' => $course->level,
-            'study_expiry' => $course->study_expiry,
-            'refund_expiry' => $course->refund_expiry,
-            'market_price' => $course->market_price,
-            'vip_price' => $course->vip_price,
-        ];
+        return $this->formatCourseInfo($course);
     }
 
     protected function handlePackageInfo(PackageModel $package)
@@ -105,24 +92,8 @@ class OrderConfirm extends Service
 
         $courses = $packageRepo->findCourses($package->id);
 
-        $baseUrl = kg_ci_base_url();
-
         foreach ($courses as $course) {
-
-            $course->cover = $baseUrl . $course->cover;
-
-            $result['courses'][] = [
-                'id' => $course->id,
-                'title' => $course->title,
-                'cover' => $course->cover,
-                'summary' => $course->summary,
-                'model' => $course->model,
-                'level' => $course->level,
-                'study_expiry' => $course->study_expiry,
-                'refund_expiry' => $course->refund_expiry,
-                'market_price' => $course->market_price,
-                'vip_price' => $course->vip_price,
-            ];
+            $result['courses'][] = $this->formatCourseInfo($course);
         }
 
         return $result;
@@ -144,6 +115,24 @@ class OrderConfirm extends Service
             'id' => $reward->id,
             'title' => $reward->title,
             'price' => $reward->price,
+        ];
+    }
+
+    protected function formatCourseInfo(CourseModel $course)
+    {
+        $course->cover = kg_ci_img_url($course->cover);
+
+        return [
+            'id' => $course->id,
+            'title' => $course->title,
+            'cover' => $course->cover,
+            'summary' => $course->summary,
+            'model' => $course->model,
+            'level' => $course->level,
+            'study_expiry' => $course->study_expiry,
+            'refund_expiry' => $course->refund_expiry,
+            'market_price' => $course->market_price,
+            'vip_price' => $course->vip_price,
         ];
     }
 

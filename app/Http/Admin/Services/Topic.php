@@ -2,6 +2,8 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\Topic as TopicCache;
+use App\Caches\TopicCourseList as TopicCourseListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\CourseTopic as CourseTopicModel;
 use App\Models\Topic as TopicModel;
@@ -49,6 +51,8 @@ class Topic extends Service
 
         $topic->create($data);
 
+        $this->rebuildTopicCache($topic);
+
         return $topic;
     }
 
@@ -82,6 +86,8 @@ class Topic extends Service
 
         $this->updateCourseCount($topic);
 
+        $this->rebuildTopicCache($topic);
+
         return $topic;
     }
 
@@ -93,6 +99,8 @@ class Topic extends Service
 
         $topic->update();
 
+        $this->rebuildTopicCache($topic);
+
         return $topic;
     }
 
@@ -103,6 +111,8 @@ class Topic extends Service
         $topic->deleted = 0;
 
         $topic->update();
+
+        $this->rebuildTopicCache($topic);
 
         return $topic;
     }
@@ -177,6 +187,17 @@ class Topic extends Service
         $topic->course_count = $courseCount;
 
         $topic->update();
+    }
+
+    protected function rebuildTopicCache(TopicModel $topic)
+    {
+        $cache = new TopicCache();
+
+        $cache->rebuild($topic->id);
+
+        $cache = new TopicCourseListCache();
+
+        $cache->rebuild($topic->id);
     }
 
     protected function findOrFail($id)

@@ -2,6 +2,8 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\Package as PackageCache;
+use App\Caches\PackageCourseList as PackageCourseListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\CoursePackage as CoursePackageModel;
 use App\Models\Package as PackageModel;
@@ -9,6 +11,7 @@ use App\Repos\Course as CourseRepo;
 use App\Repos\CoursePackage as CoursePackageRepo;
 use App\Repos\Package as PackageRepo;
 use App\Validators\Package as PackageValidator;
+use Yansongda\Supports\Collection;
 
 class Package extends Service
 {
@@ -49,6 +52,8 @@ class Package extends Service
         $package = new PackageModel();
 
         $package->create($data);
+
+        $this->rebuildPackageCache($package);
 
         return $package;
     }
@@ -91,6 +96,8 @@ class Package extends Service
 
         $this->updateCourseCount($package);
 
+        $this->rebuildPackageCache($package);
+
         return $package;
     }
 
@@ -102,6 +109,8 @@ class Package extends Service
 
         $package->update();
 
+        $this->rebuildPackageCache($package);
+
         return $package;
     }
 
@@ -112,6 +121,8 @@ class Package extends Service
         $package->deleted = 0;
 
         $package->update();
+
+        $this->rebuildPackageCache($package);
 
         return $package;
     }
@@ -141,11 +152,10 @@ class Package extends Service
         $sgtMarketPrice = sprintf('%0.2f', intval($totalMarketPrice * 0.9));
         $sgtVipPrice = sprintf('%0.2f', intval($totalVipPrice * 0.8));
 
-        $price = new \stdClass();
-        $price->market_price = $sgtMarketPrice;
-        $price->vip_price = $sgtVipPrice;
-
-        return $price;
+        return new Collection([
+            'market_price' => $sgtMarketPrice,
+            'vip_price' => $sgtVipPrice,
+        ]);
     }
 
     public function getXmCourses($id)
@@ -218,6 +228,17 @@ class Package extends Service
         $package->course_count = $courseCount;
 
         $package->update();
+    }
+
+    protected function rebuildPackageCache(PackageModel $package)
+    {
+        $cache = new PackageCache();
+
+        $cache->rebuild($package->id);
+
+        $cache = new PackageCourseListCache();
+
+        $cache->rebuild($package->id);
     }
 
     protected function findOrFail($id)

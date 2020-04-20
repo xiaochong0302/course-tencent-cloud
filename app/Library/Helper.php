@@ -171,6 +171,8 @@ function kg_ci_base_url()
  */
 function kg_ci_img_url($path, $width = 0, $height = 0)
 {
+    if (!$path) return '';
+
     $storage = new StorageService();
 
     return $storage->getCiImageUrl($path, $width, $height);

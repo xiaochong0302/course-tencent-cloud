@@ -33,6 +33,13 @@ trait CourseTrait
         return $validator->checkCourse($id);
     }
 
+    public function checkCourseCache($id)
+    {
+        $validator = new CourseValidator();
+
+        return $validator->checkCourseCache($id);
+    }
+
     public function setCourseUser(CourseModel $course, UserModel $user)
     {
         $courseUserRepo = new CourseUserRepo();

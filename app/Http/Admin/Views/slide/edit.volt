@@ -18,11 +18,11 @@
         <label class="layui-form-label">封面</label>
         <div class="layui-input-inline">
             {% if slide.cover %}
-                <img id="cover-img" class="kg-cover" src="{{ ci_img(slide.cover) }}">
+                <img id="cover-img" class="kg-cover" src="{{ slide.cover }}">
             {% else %}
                 <img id="cover-img" class="kg-cover" src="{{ image('admin/img/default_cover.png') }}">
             {% endif %}
-            <input type="hidden" name="cover" value="{{ ci_img(slide.cover) }}">
+            <input type="hidden" name="cover" value="{{ slide.cover }}">
         </div>
         <div class="layui-input-inline" style="padding-top:35px;">
             <a href="javascript:" class="layui-btn layui-btn-sm" id="choose-cover">编辑</a>
