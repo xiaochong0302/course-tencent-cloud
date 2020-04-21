@@ -8,7 +8,7 @@ use App\Repos\Course as CourseRepo;
 class CoursePackageList extends Cache
 {
 
-    protected $lifetime = 7 * 86400;
+    protected $lifetime = 1 * 86400;
 
     public function getLifetime()
     {

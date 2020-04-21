@@ -5,6 +5,7 @@ namespace App\Http\Admin\Services;
 use App\Caches\Category as CategoryCache;
 use App\Caches\CategoryList as CategoryListCache;
 use App\Caches\CategoryTreeList as CategoryTreeListCache;
+use App\Caches\MaxCategoryId as MaxCategoryIdCache;
 use App\Models\Category as CategoryModel;
 use App\Repos\Category as CategoryRepo;
 use App\Validators\Category as CategoryValidator;
@@ -172,23 +173,29 @@ class Category extends Service
         }
 
         $childCount = $categoryRepo->countChildCategories($category->id);
+
         $category->child_count = $childCount;
+
         $category->update();
     }
 
     protected function rebuildCategoryCache(CategoryModel $category)
     {
-        $itemCache = new CategoryCache();
+        $cache = new CategoryCache();
 
-        $itemCache->rebuild($category->id);
+        $cache->rebuild($category->id);
 
-        $listCache = new CategoryListCache();
+        $cache = new CategoryListCache();
 
-        $listCache->rebuild();
+        $cache->rebuild();
 
-        $treeListCache = new CategoryTreeListCache();
+        $cache = new CategoryTreeListCache();
 
-        $treeListCache->rebuild();
+        $cache->rebuild();
+
+        $cache = new MaxCategoryIdCache();
+
+        $cache->rebuild();
     }
 
     protected function enableChildCategories($parentId)

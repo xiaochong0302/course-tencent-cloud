@@ -2,11 +2,39 @@
 
 namespace App\Validators;
 
+use App\Caches\MaxPageId as MaxPageIdCache;
+use App\Caches\Page as PageCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\Page as PageRepo;
 
 class Page extends Validator
 {
+
+    public function checkPageCache($id)
+    {
+        $id = intval($id);
+
+        $maxPageIdCache = new MaxPageIdCache();
+
+        $maxPageId = $maxPageIdCache->get();
+
+        /**
+         * 防止缓存穿透
+         */
+        if ($id < 1 || $id > $maxPageId) {
+            throw new BadRequestException('page.not_found');
+        }
+
+        $pageCache = new PageCache();
+
+        $page = $pageCache->get($id);
+
+        if (!$page) {
+            throw new BadRequestException('page.not_found');
+        }
+
+        return $page;
+    }
 
     public function checkPage($id)
     {

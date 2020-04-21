@@ -2,7 +2,9 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\Chapter as ChapterCache;
 use App\Caches\CourseChapterList as CourseChapterListCache;
+use App\Caches\MaxChapterId as MaxChapterIdCache;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
@@ -38,7 +40,9 @@ class Chapter extends Service
 
         $data = [];
 
-        $data['course_id'] = $validator->checkCourseId($post['course_id']);
+        $course = $validator->checkCourse($post['course_id']);
+
+        $data['course_id'] = $course->id;
         $data['title'] = $validator->checkTitle($post['title']);
         $data['summary'] = $validator->checkSummary($post['summary']);
         $data['free'] = $validator->checkFreeStatus($post['free']);
@@ -46,7 +50,8 @@ class Chapter extends Service
         $chapterRepo = new ChapterRepo();
 
         if (isset($post['parent_id'])) {
-            $data['parent_id'] = $validator->checkParentId($post['parent_id']);
+            $parent = $validator->checkParent($post['parent_id']);
+            $data['parent_id'] = $parent->id;
             $data['priority'] = $chapterRepo->maxLessonPriority($post['parent_id']);
         } else {
             $data['priority'] = $chapterRepo->maxChapterPriority($post['course_id']);
@@ -175,9 +180,17 @@ class Chapter extends Service
 
     protected function rebuildChapterCache(ChapterModel $chapter)
     {
+        $cache = new ChapterCache();
+
+        $cache->rebuild($chapter->id);
+
         $cache = new CourseChapterListCache();
 
         $cache->rebuild($chapter->course_id);
+
+        $cache = new MaxChapterIdCache();
+
+        $cache->rebuild();
     }
 
     protected function findOrFail($id)

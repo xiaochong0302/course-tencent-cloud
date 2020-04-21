@@ -8,7 +8,7 @@ use App\Repos\Course as CourseRepo;
 class CourseTeacherList extends Cache
 {
 
-    protected $lifetime = 7 * 86400;
+    protected $lifetime = 1 * 86400;
 
     public function getLifetime()
     {
@@ -41,12 +41,7 @@ class CourseTeacherList extends Cache
     {
         $result = [];
 
-        $baseUrl = kg_ci_base_url();
-
         foreach ($users as $user) {
-
-            $user->avatar = $baseUrl . $user->avatar;
-
             $result[] = [
                 'id' => $user->id,
                 'name' => $user->name,

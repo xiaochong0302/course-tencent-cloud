@@ -7,7 +7,7 @@ use App\Repos\CourseUser as CourseUserRepo;
 class CourseUser extends Cache
 {
 
-    protected $lifetime = 7 * 86400;
+    protected $lifetime = 1 * 86400;
 
     public function getLifetime()
     {
@@ -33,11 +33,7 @@ class CourseUser extends Cache
 
         $courseUser = $courseUserRepo->findCourseUser($courseId, $userId);
 
-        if (!$courseUser) {
-            return new \stdClass();
-        }
-
-        return $courseUser;
+        return $courseUser ?: null;
     }
 
 }

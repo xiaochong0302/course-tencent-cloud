@@ -2,6 +2,8 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\MaxPageId as MaxPageIdCache;
+use App\Caches\Page as PageCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Page as PageModel;
 use App\Repos\Page as PageRepo;
@@ -48,6 +50,8 @@ class Page extends Service
 
         $page->create($data);
 
+        $this->rebuildPageCache($page);
+
         return $page;
     }
 
@@ -75,6 +79,8 @@ class Page extends Service
 
         $page->update($data);
 
+        $this->rebuildPageCache($page);
+
         return $page;
     }
 
@@ -85,6 +91,8 @@ class Page extends Service
         $page->deleted = 1;
 
         $page->update();
+
+        $this->rebuildPageCache($page);
 
         return $page;
     }
@@ -97,7 +105,20 @@ class Page extends Service
 
         $page->update();
 
+        $this->rebuildPageCache($page);
+
         return $page;
+    }
+
+    protected function rebuildPageCache(PageModel $help)
+    {
+        $cache = new PageCache();
+
+        $cache->rebuild($help->id);
+
+        $cache = new MaxPageIdCache();
+
+        $cache->rebuild();
     }
 
     protected function findOrFail($id)

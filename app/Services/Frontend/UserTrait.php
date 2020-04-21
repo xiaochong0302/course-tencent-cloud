@@ -14,4 +14,11 @@ trait UserTrait
         return $validator->checkUser($id);
     }
 
+    public function checkUserCache($id)
+    {
+        $validator = new UserValidator();
+
+        return $validator->checkUserCache($id);
+    }
+
 }

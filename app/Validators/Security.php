@@ -7,7 +7,7 @@ use App\Exceptions\ServiceUnavailable as ServiceUnavailableException;
 use App\Library\Validator\Common as CommonValidator;
 use App\Services\Captcha as CaptchaService;
 use App\Services\Throttle as ThrottleService;
-use App\Services\VerifyCode as VerifyCodeService;
+use App\Services\Verification as VerificationService;
 
 class Security extends Validator
 {
@@ -37,9 +37,9 @@ class Security extends Validator
 
     public function checkRateLimit()
     {
-        $throttleService = new ThrottleService();
+        $service = new ThrottleService();
 
-        $result = $throttleService->checkRateLimit();
+        $result = $service->checkRateLimit();
 
         if (!$result) {
             throw new ServiceUnavailableException('security.too_many_requests');
@@ -48,14 +48,14 @@ class Security extends Validator
 
     public function checkVerifyCode($key, $code)
     {
-        $verifyCodeService = new VerifyCodeService();
+        $service = new VerificationService();
 
         $result = false;
 
         if (CommonValidator::email($key)) {
-            $result = $verifyCodeService->checkMailCode($key, $code);
+            $result = $service->checkMailCode($key, $code);
         } elseif (CommonValidator::phone($key)) {
-            $result = $verifyCodeService->checkSmsCode($key, $code);
+            $result = $service->checkSmsCode($key, $code);
         }
 
         if (!$result) {
@@ -65,9 +65,9 @@ class Security extends Validator
 
     public function checkCaptchaCode($ticket, $rand)
     {
-        $captchaService = new CaptchaService();
+        $service = new CaptchaService();
 
-        $result = $captchaService->verify($ticket, $rand);
+        $result = $service->verify($ticket, $rand);
 
         if (!$result) {
             throw new BadRequestException('security.invalid_captcha_code');

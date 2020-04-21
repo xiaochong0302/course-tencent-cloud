@@ -3,9 +3,11 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\CourseList as CourseListBuilder;
+use App\Caches\Course as CourseCache;
 use App\Caches\CourseCategoryList as CourseCategoryListCache;
 use App\Caches\CourseRelatedList as CourseRelatedListCache;
 use App\Caches\CourseTeacherList as CourseTeacherListCache;
+use App\Caches\MaxCourseId as MaxCourseIdCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
@@ -66,6 +68,8 @@ class Course extends Service
         $course = new CourseModel();
 
         $course->create($data);
+
+        $this->rebuildCourseCache($course);
 
         return $course;
     }
@@ -148,6 +152,8 @@ class Course extends Service
 
         $course->update();
 
+        $this->rebuildCourseCache($course);
+
         return $course;
     }
 
@@ -158,6 +164,8 @@ class Course extends Service
         $course->deleted = 0;
 
         $course->update();
+
+        $this->rebuildCourseCache($course);
 
         return $course;
     }
@@ -308,6 +316,17 @@ class Course extends Service
         $validator = new CourseValidator();
 
         return $validator->checkCourse($id);
+    }
+
+    protected function rebuildCourseCache(CourseModel $course)
+    {
+        $cache = new CourseCache();
+
+        $cache->rebuild($course->id);
+
+        $cache = new MaxCourseIdCache();
+
+        $cache->rebuild();
     }
 
     protected function saveTeachers(CourseModel $course, $teacherIds)

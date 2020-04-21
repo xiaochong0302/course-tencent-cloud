@@ -7,7 +7,7 @@ use App\Services\Mailer\Verify as VerifyMailer;
 use App\Services\Smser\Verify as VerifySmser;
 use Phalcon\Text;
 
-class VerifyCode extends Service
+class Verification extends Service
 {
 
     /**

@@ -2,11 +2,39 @@
 
 namespace App\Validators;
 
+use App\Caches\Category as CategoryCache;
+use App\Caches\MaxCategoryId as MaxCategoryIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\Category as CategoryRepo;
 
 class Category extends Validator
 {
+
+    public function checkCategoryCache($id)
+    {
+        $id = intval($id);
+
+        $maxCategoryIdCache = new MaxCategoryIdCache();
+
+        $maxCategoryId = $maxCategoryIdCache->get();
+
+        /**
+         * 防止缓存穿透
+         */
+        if ($id < 1 || $id > $maxCategoryId) {
+            throw new BadRequestException('category.not_found');
+        }
+
+        $categoryCache = new CategoryCache();
+
+        $category = $categoryCache->get($id);
+
+        if (!$category) {
+            throw new BadRequestException('category.not_found');
+        }
+
+        return $category;
+    }
 
     public function checkCategory($id)
     {

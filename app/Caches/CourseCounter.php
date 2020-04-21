@@ -25,6 +25,8 @@ class CourseCounter extends Counter
 
         $course = $courseRepo->findById($id);
 
+        if (!$course) return null;
+
         return [
             'user_count' => $course->user_count,
             'lesson_count' => $course->lesson_count,

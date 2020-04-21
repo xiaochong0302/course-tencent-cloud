@@ -176,8 +176,9 @@ class User extends Model
 
     public function afterCreate()
     {
-        $maxUserIdCache = new MaxUserIdCache();
-        $maxUserIdCache->rebuild();
+        $cache = new MaxUserIdCache();
+
+        $cache->rebuild();
     }
 
     public static function genderTypes()

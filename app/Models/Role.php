@@ -122,7 +122,7 @@ class Role extends Model
     public function afterFetch()
     {
         if (!empty($this->routes)) {
-            $this->routes = json_decode($this->routes);
+            $this->routes = json_decode($this->routes, true);
         }
     }
 

@@ -25,6 +25,8 @@ class ChapterCounter extends Counter
 
         $chapter = $chapterRepo->findById($id);
 
+        if (!$chapter) return null;
+
         return [
             'user_count' => $chapter->user_count,
             'lesson_count' => $chapter->lesson_count,

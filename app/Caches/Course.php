@@ -7,7 +7,7 @@ use App\Repos\Course as CourseRepo;
 class Course extends Cache
 {
 
-    protected $lifetime = 7 * 86400;
+    protected $lifetime = 1 * 86400;
 
     public function getLifetime()
     {
@@ -25,11 +25,7 @@ class Course extends Cache
 
         $course = $courseRepo->findById($id);
 
-        if (!$course) return null;
-
-        $course->cover = kg_ci_img_url($course->cover);
-
-        return $course;
+        return $course ?: null;
     }
 
 }

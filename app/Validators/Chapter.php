@@ -51,7 +51,7 @@ class Chapter extends Validator
         return $chapter;
     }
 
-    public function checkCourseId($courseId)
+    public function checkCourse($courseId)
     {
         $courseRepo = new CourseRepo();
 
@@ -61,10 +61,10 @@ class Chapter extends Validator
             throw new BadRequestException('chapter.invalid_course_id');
         }
 
-        return $course->id;
+        return $course;
     }
 
-    public function checkParentId($parentId)
+    public function checkParent($parentId)
     {
         $chapterRepo = new ChapterRepo();
 
@@ -74,7 +74,7 @@ class Chapter extends Validator
             throw new BadRequestException('chapter.invalid_parent_id');
         }
 
-        return $chapter->id;
+        return $chapter;
     }
 
     public function checkTitle($title)

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
 class Help extends Model
 {
 
@@ -64,6 +66,18 @@ class Help extends Model
     public function getSource()
     {
         return 'kg_help';
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->addBehavior(
+            new SoftDelete([
+                'field' => 'deleted',
+                'value' => 1,
+            ])
+        );
     }
 
     public function beforeCreate()

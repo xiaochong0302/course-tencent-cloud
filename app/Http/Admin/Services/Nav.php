@@ -91,7 +91,6 @@ class Nav extends Service
         $nav->update();
 
         $this->updateNavStats($nav);
-
         $this->rebuildNavCache();
 
         return $nav;
@@ -141,7 +140,6 @@ class Nav extends Service
         $nav->update($data);
 
         $this->updateNavStats($nav);
-
         $this->rebuildNavCache();
 
         return $nav;
@@ -160,7 +158,6 @@ class Nav extends Service
         $nav->update();
 
         $this->updateNavStats($nav);
-
         $this->rebuildNavCache();
 
         return $nav;
@@ -175,7 +172,6 @@ class Nav extends Service
         $nav->update();
 
         $this->updateNavStats($nav);
-
         $this->rebuildNavCache();
 
         return $nav;

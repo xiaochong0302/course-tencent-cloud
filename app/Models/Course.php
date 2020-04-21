@@ -292,10 +292,6 @@ class Course extends Model
         $this->rating = (float)$this->rating;
         $this->score = (float)$this->score;
 
-        if (!empty($this->cover)) {
-            $this->cover = kg_ci_img_url($this->cover);
-        }
-
         if (!empty($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
         }

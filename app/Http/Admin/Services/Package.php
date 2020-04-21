@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\MaxPackageId as MaxPackageIdCache;
 use App\Caches\Package as PackageCache;
 use App\Caches\PackageCourseList as PackageCourseListCache;
 use App\Library\Paginator\Query as PagerQuery;
@@ -239,6 +240,10 @@ class Package extends Service
         $cache = new PackageCourseListCache();
 
         $cache->rebuild($package->id);
+
+        $cache = new MaxPackageIdCache();
+
+        $cache->rebuild();
     }
 
     protected function findOrFail($id)

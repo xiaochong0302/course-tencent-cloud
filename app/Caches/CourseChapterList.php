@@ -9,7 +9,7 @@ use Phalcon\Mvc\Model\Resultset;
 class CourseChapterList extends Cache
 {
 
-    protected $lifetime = 7 * 86400;
+    protected $lifetime = 1 * 86400;
 
     public function getLifetime()
     {

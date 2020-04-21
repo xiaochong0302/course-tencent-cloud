@@ -2,11 +2,39 @@
 
 namespace App\Validators;
 
+use App\Caches\MaxPackageId as MaxPackageIdCache;
+use App\Caches\Package as PackageCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\Package as PackageRepo;
 
 class Package extends Validator
 {
+
+    public function checkPackageCache($id)
+    {
+        $id = intval($id);
+
+        $maxPackageIdCache = new MaxPackageIdCache();
+
+        $maxPackageId = $maxPackageIdCache->get();
+
+        /**
+         * 防止缓存穿透
+         */
+        if ($id < 1 || $id > $maxPackageId) {
+            throw new BadRequestException('package.not_found');
+        }
+
+        $packageCache = new PackageCache();
+
+        $package = $packageCache->get($id);
+
+        if (!$package) {
+            throw new BadRequestException('package.not_found');
+        }
+
+        return $package;
+    }
 
     public function checkPackage($id)
     {

@@ -2,6 +2,8 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\Help as HelpCache;
+use App\Caches\MaxHelpId as MaxHelpIdCache;
 use App\Models\Help as HelpModel;
 use App\Repos\Help as HelpRepo;
 use App\Validators\Help as HelpValidator;
@@ -42,6 +44,8 @@ class Help extends Service
 
         $help->create($data);
 
+        $this->rebuildHelpCache($help);
+
         return $help;
     }
 
@@ -73,6 +77,8 @@ class Help extends Service
 
         $help->update($data);
 
+        $this->rebuildHelpCache($help);
+
         return $help;
     }
 
@@ -83,6 +89,8 @@ class Help extends Service
         $help->deleted = 1;
 
         $help->update();
+
+        $this->rebuildHelpCache($help);
 
         return $help;
     }
@@ -95,7 +103,20 @@ class Help extends Service
 
         $help->update();
 
+        $this->rebuildHelpCache($help);
+
         return $help;
+    }
+
+    protected function rebuildHelpCache(HelpModel $help)
+    {
+        $cache = new HelpCache();
+
+        $cache->rebuild($help->id);
+
+        $cache = new MaxHelpIdCache();
+
+        $cache->rebuild();
     }
 
     protected function findOrFail($id)

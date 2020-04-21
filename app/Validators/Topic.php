@@ -2,11 +2,39 @@
 
 namespace App\Validators;
 
+use App\Caches\MaxTopicId as MaxTopicIdCache;
+use App\Caches\Topic as TopicCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\Topic as TopicRepo;
 
 class Topic extends Validator
 {
+
+    public function checkTopicCache($id)
+    {
+        $id = intval($id);
+
+        $maxTopicIdCache = new MaxTopicIdCache();
+
+        $maxTopicId = $maxTopicIdCache->get();
+
+        /**
+         * 防止缓存穿透
+         */
+        if ($id < 1 || $id > $maxTopicId) {
+            throw new BadRequestException('topic.not_found');
+        }
+
+        $topicCache = new TopicCache();
+
+        $topic = $topicCache->get($id);
+
+        if (!$topic) {
+            throw new BadRequestException('topic.not_found');
+        }
+
+        return $topic;
+    }
 
     public function checkTopic($id)
     {
