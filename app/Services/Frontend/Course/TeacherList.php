@@ -15,9 +15,11 @@ class TeacherList extends Service
     {
         $course = $this->checkCourse($id);
 
-        $listCache = new CourseTeacherListCache();
+        $cache = new CourseTeacherListCache();
 
-        return $listCache->get($course->id);
+        $result = $cache->get($course->id);
+
+        return $result ?: [];
     }
 
 }

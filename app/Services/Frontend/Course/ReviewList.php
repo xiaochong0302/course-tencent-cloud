@@ -73,8 +73,8 @@ class ReviewList extends Service
             $user = $users[$review['user_id']] ?? [];
 
             $me = [
-                'agreed' => $votes[$review['id']]['agreed'] ?? false,
-                'opposed' => $votes[$review['id']]['opposed'] ?? false,
+                'agreed' => $votes[$review['id']]['agreed'] ?? 0,
+                'opposed' => $votes[$review['id']]['opposed'] ?? 0,
             ];
 
             $items[] = [
@@ -112,8 +112,8 @@ class ReviewList extends Service
 
         foreach ($votes as $vote) {
             $result[$vote->review_id] = [
-                'agreed' => $vote->type == ReviewVoteModel::TYPE_AGREE,
-                'opposed' => $vote->type == ReviewVoteModel::TYPE_OPPOSE,
+                'agreed' => $vote->type == ReviewVoteModel::TYPE_AGREE ? 1 : 0,
+                'opposed' => $vote->type == ReviewVoteModel::TYPE_OPPOSE ? 1 : 0,
             ];
         }
 

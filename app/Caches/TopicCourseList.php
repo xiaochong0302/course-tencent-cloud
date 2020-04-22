@@ -46,8 +46,14 @@ class TopicCourseList extends Cache
                 'id' => $course->id,
                 'title' => $course->title,
                 'cover' => $course->cover,
+                'summary' => $course->summary,
                 'market_price' => $course->market_price,
                 'vip_price' => $course->vip_price,
+                'rating' => $course->rating,
+                'model' => $course->model,
+                'level' => $course->level,
+                'user_count' => $course->user_count,
+                'lesson_count' => $course->lesson_count,
             ];
         }
 

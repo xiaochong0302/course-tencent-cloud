@@ -74,8 +74,8 @@ class ConsultList extends Service
             $user = $users[$consult['user_id']] ?? [];
 
             $me = [
-                'agreed' => $votes[$consult['id']]['agreed'] ?? false,
-                'opposed' => $votes[$consult['id']]['opposed'] ?? false,
+                'agreed' => $votes[$consult['id']]['agreed'] ?? 0,
+                'opposed' => $votes[$consult['id']]['opposed'] ?? 0,
             ];
 
             $items[] = [
@@ -116,8 +116,8 @@ class ConsultList extends Service
 
         foreach ($votes as $vote) {
             $result[$vote->consult_id] = [
-                'agreed' => $vote->type == ConsultVoteModel::TYPE_AGREE,
-                'opposed' => $vote->type == ConsultVoteModel::TYPE_OPPOSE,
+                'agreed' => $vote->type == ConsultVoteModel::TYPE_AGREE ? 1 : 0,
+                'opposed' => $vote->type == ConsultVoteModel::TYPE_OPPOSE ? 1 : 0,
             ];
         }
 

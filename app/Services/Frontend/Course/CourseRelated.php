@@ -15,9 +15,11 @@ class CourseRelated extends Service
     {
         $course = $this->checkCourse($id);
 
-        $listCache = new CourseRelatedListCache();
+        $cache = new CourseRelatedListCache();
 
-        return $listCache->get($course->id);
+        $result = $cache->get($course->id);
+
+        return $result ?: [];
     }
 
 }

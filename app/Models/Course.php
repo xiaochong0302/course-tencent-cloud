@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Caches\MaxCourseId as MaxCourseIdCache;
 use App\Services\CourseIndexSyncer;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
 
 class Course extends Model
 {
@@ -261,6 +263,10 @@ class Course extends Model
                 break;
         }
 
+        if (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+
         if (!empty($attrs)) {
             $this->attrs = kg_json_encode($attrs);
         }
@@ -270,6 +276,10 @@ class Course extends Model
     {
         $this->update_time = time();
 
+        if (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+
         if (is_array($this->attrs) && !empty($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
@@ -278,6 +288,10 @@ class Course extends Model
     public function afterCreate()
     {
         $this->rebuildIndex();
+
+        $cache = new MaxCourseIdCache();
+
+        $cache->rebuild();
     }
 
     public function afterUpdate()
@@ -292,6 +306,10 @@ class Course extends Model
         $this->rating = (float)$this->rating;
         $this->score = (float)$this->score;
 
+        if (!Text::startsWith($this->cover, 'http')) {
+            $this->cover = kg_ci_img_url($this->cover);
+        }
+
         if (!empty($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
         }
@@ -302,6 +320,15 @@ class Course extends Model
         $syncer = new CourseIndexSyncer();
 
         $syncer->addItem($this->id);
+    }
+
+    public static function getCoverPath($url)
+    {
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
+
+        return $url;
     }
 
     public static function modelTypes()

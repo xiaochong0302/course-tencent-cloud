@@ -14,7 +14,7 @@ class CourseFavorite extends Service
 
     use CourseTrait;
 
-    public function saveFavorite($id)
+    public function favorite($id)
     {
         $course = $this->checkCourse($id);
 
@@ -41,25 +41,42 @@ class CourseFavorite extends Service
 
         } else {
 
-            if ($favorite->deleted == 0) {
-
-                $favorite->deleted = 1;
-
-                $course->favorite_count -= 1;
-
-            } else {
+            if ($favorite->deleted == 1) {
 
                 $favorite->deleted = 0;
 
                 $course->favorite_count += 1;
+
+                $favorite->update();
             }
 
-            $favorite->update();
         }
 
         $course->update();
 
         $this->incrUserDailyFavoriteCount($user);
+    }
+
+    public function unfavorite($id)
+    {
+        $course = $this->checkCourse($id);
+
+        $user = $this->getLoginUser();
+
+        $favoriteRepo = new CourseFavoriteRepo();
+
+        $favorite = $favoriteRepo->findCourseFavorite($course->id, $user->id);
+
+        if (!$favorite) return;
+
+        if ($favorite->deleted == 0) {
+
+            $favorite->deleted = 1;
+
+            $course->favorite_count -= 1;
+        }
+
+        $favorite->update();
     }
 
     protected function incrUserDailyFavoriteCount(UserModel $user)

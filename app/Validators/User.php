@@ -14,6 +14,11 @@ use App\Services\Auth\Admin as AdminAuth;
 class User extends Validator
 {
 
+    /**
+     * @param int $id
+     * @return UserModel
+     * @throws BadRequestException
+     */
     public function checkUserCache($id)
     {
         $id = intval($id);

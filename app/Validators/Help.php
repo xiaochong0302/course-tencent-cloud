@@ -5,11 +5,17 @@ namespace App\Validators;
 use App\Caches\Help as HelpCache;
 use App\Caches\MaxHelpId as MaxHelpIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Models\Help as HelpModel;
 use App\Repos\Help as HelpRepo;
 
 class Help extends Validator
 {
 
+    /**
+     * @param int $id
+     * @return HelpModel
+     * @throws BadRequestException
+     */
     public function checkHelpCache($id)
     {
         $id = intval($id);

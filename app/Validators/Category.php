@@ -5,11 +5,17 @@ namespace App\Validators;
 use App\Caches\Category as CategoryCache;
 use App\Caches\MaxCategoryId as MaxCategoryIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Models\Category as CategoryModel;
 use App\Repos\Category as CategoryRepo;
 
 class Category extends Validator
 {
 
+    /**
+     * @param int $id
+     * @return CategoryModel
+     * @throws BadRequestException
+     */
     public function checkCategoryCache($id)
     {
         $id = intval($id);

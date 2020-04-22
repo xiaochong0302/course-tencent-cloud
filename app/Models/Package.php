@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Caches\MaxPackageId as MaxPackageIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Package extends Model
@@ -102,6 +103,13 @@ class Package extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public function afterCreate()
+    {
+        $cache = new MaxPackageIdCache();
+
+        $cache->rebuild();
     }
 
     public function afterFetch()

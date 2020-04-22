@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
 
 class Slide extends Model
 {
@@ -111,11 +112,35 @@ class Slide extends Model
     public function beforeCreate()
     {
         $this->create_time = time();
+
+        if (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
     }
 
     public function beforeUpdate()
     {
         $this->update_time = time();
+
+        if (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+    }
+
+    public function afterFetch()
+    {
+        if (!Text::startsWith($this->cover, 'http')) {
+            $this->cover = kg_ci_img_url($this->cover);
+        }
+    }
+
+    public static function getCoverPath($url)
+    {
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
+
+        return $url;
     }
 
     public static function targetTypes()

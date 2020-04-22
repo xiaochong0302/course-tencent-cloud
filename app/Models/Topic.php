@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Caches\MaxTopicId as MaxTopicIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Topic extends Model
@@ -15,18 +16,11 @@ class Topic extends Model
     public $id;
 
     /**
-     * 名称
+     * 标题
      *
      * @var string
      */
-    public $name;
-
-    /**
-     * 别名
-     *
-     * @var string
-     */
-    public $alias;
+    public $title;
 
     /**
      * 简介
@@ -95,6 +89,13 @@ class Topic extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public function afterCreate()
+    {
+        $cache = new MaxTopicIdCache();
+
+        $cache->rebuild();
     }
 
 }

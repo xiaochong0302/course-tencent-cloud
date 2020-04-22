@@ -5,11 +5,17 @@ namespace App\Validators;
 use App\Caches\MaxTopicId as MaxTopicIdCache;
 use App\Caches\Topic as TopicCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Models\Topic as TopicModel;
 use App\Repos\Topic as TopicRepo;
 
 class Topic extends Validator
 {
 
+    /**
+     * @param int $id
+     * @return TopicModel
+     * @throws BadRequestException
+     */
     public function checkTopicCache($id)
     {
         $id = intval($id);

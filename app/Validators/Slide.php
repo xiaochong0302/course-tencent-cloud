@@ -63,7 +63,7 @@ class Slide extends Validator
             throw new BadRequestException('slide.invalid_cover');
         }
 
-        return parse_url($value, PHP_URL_PATH);
+        return $value;
     }
 
     public function checkTarget($target)

@@ -12,6 +12,11 @@ use App\Repos\Course as CourseRepo;
 class Course extends Validator
 {
 
+    /**
+     * @param int $id
+     * @return CourseModel
+     * @throws BadRequestException
+     */
     public function checkCourseCache($id)
     {
         $id = intval($id);
@@ -81,7 +86,7 @@ class Course extends Validator
             throw new BadRequestException('course.invalid_cover');
         }
 
-        return parse_url($value, PHP_URL_PATH);
+        return $value;
     }
 
     public function checkTitle($title)

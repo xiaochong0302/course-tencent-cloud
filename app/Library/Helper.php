@@ -3,6 +3,7 @@
 use App\Services\Storage as StorageService;
 use Koogua\Ip2Region\Searcher as Ip2RegionSearcher;
 use Phalcon\Di;
+use Phalcon\Text;
 
 /**
  * 获取字符长度
@@ -171,7 +172,13 @@ function kg_ci_base_url()
  */
 function kg_ci_img_url($path, $width = 0, $height = 0)
 {
-    if (!$path) return '';
+    if (empty($path)) {
+        return '';
+    }
+
+    if (Text::startsWith($path, 'http')) {
+        return $path;
+    }
 
     $storage = new StorageService();
 

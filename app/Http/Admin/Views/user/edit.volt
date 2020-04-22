@@ -28,8 +28,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">教学角色</label>
         <div class="layui-input-block">
-            <input type="radio" name="edu_role" value="1" title="学员" {% if user.edu_role == 1 %}checked{% endif %}>
-            <input type="radio" name="edu_role" value="2" title="讲师" {% if user.edu_role == 2 %}checked{% endif %}>
+            <input type="radio" name="edu_role" value="student" title="学员" {% if user.edu_role == 'student' %}checked{% endif %}>
+            <input type="radio" name="edu_role" value="teacher" title="讲师" {% if user.edu_role == 'teacher' %}checked{% endif %}>
         </div>
     </div>
 
@@ -151,7 +151,7 @@
 
         form.on('radio(vip)', function (data) {
             var block = $('#vip-expiry-block');
-            if (data.value == 1) {
+            if (data.value === '1') {
                 block.show();
             } else {
                 block.hide();
@@ -165,7 +165,7 @@
 
         form.on('radio(locked)', function (data) {
             var block = $('#lock-expiry-block');
-            if (data.value == 1) {
+            if (data.value === '1') {
                 block.show();
             } else {
                 block.hide();

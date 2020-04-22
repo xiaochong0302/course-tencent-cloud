@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Caches\MaxCategoryId as MaxCategoryIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Category extends Model
@@ -116,6 +117,13 @@ class Category extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public function afterCreate()
+    {
+        $cache = new MaxCategoryIdCache();
+
+        $cache->rebuild();
     }
 
 }

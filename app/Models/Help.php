@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Caches\MaxHelpId as MaxHelpIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Help extends Model
@@ -88,6 +89,13 @@ class Help extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public function afterCreate()
+    {
+        $cache = new MaxHelpIdCache();
+
+        $cache->rebuild();
     }
 
 }

@@ -68,8 +68,6 @@ class CourseList extends Service
                 'level' => $course['level'],
                 'user_count' => $course['user_count'],
                 'lesson_count' => $course['lesson_count'],
-                'review_count' => $course['review_count'],
-                'favorite_count' => $course['favorite_count'],
             ];
         }
 

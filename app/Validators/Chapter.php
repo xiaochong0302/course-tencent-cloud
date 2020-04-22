@@ -5,6 +5,7 @@ namespace App\Validators;
 use App\Caches\Chapter as ChapterCache;
 use App\Caches\MaxChapterId as MaxChapterIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
@@ -12,6 +13,11 @@ use App\Repos\Course as CourseRepo;
 class Chapter extends Validator
 {
 
+    /**
+     * @param int $id
+     * @return ChapterModel
+     * @throws BadRequestException
+     */
     public function checkChapterCache($id)
     {
         $id = intval($id);

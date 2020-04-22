@@ -13,6 +13,19 @@ use App\Repos\User as UserRepo;
 class Account extends Validator
 {
 
+    public function checkAccount($id)
+    {
+        $accountRepo = new AccountRepo();
+
+        $account = $accountRepo->findById($id);
+
+        if (!$account) {
+            throw new BadRequestException('account.not_found');
+        }
+
+        return $account;
+    }
+
     public function checkPhone($phone)
     {
         if (!CommonValidator::phone($phone)) {

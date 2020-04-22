@@ -5,11 +5,17 @@ namespace App\Validators;
 use App\Caches\MaxPackageId as MaxPackageIdCache;
 use App\Caches\Package as PackageCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Models\Package as PackageModel;
 use App\Repos\Package as PackageRepo;
 
 class Package extends Validator
 {
 
+    /**
+     * @param int $id
+     * @return PackageModel
+     * @throws BadRequestException
+     */
     public function checkPackageCache($id)
     {
         $id = intval($id);

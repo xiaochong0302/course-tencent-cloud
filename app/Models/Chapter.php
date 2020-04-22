@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Caches\MaxChapterId as MaxChapterIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Chapter extends Model
@@ -223,13 +224,6 @@ class Chapter extends Model
         }
     }
 
-    public function afterFetch()
-    {
-        if (!empty($this->attrs)) {
-            $this->attrs = json_decode($this->attrs, true);
-        }
-    }
-
     public function afterCreate()
     {
         if ($this->parent_id > 0) {
@@ -255,6 +249,17 @@ class Chapter extends Model
                     $chapterRead->create($data);
                     break;
             }
+        }
+
+        $cache = new MaxChapterIdCache();
+
+        $cache->rebuild();
+    }
+
+    public function afterFetch()
+    {
+        if (!empty($this->attrs)) {
+            $this->attrs = json_decode($this->attrs, true);
         }
     }
 

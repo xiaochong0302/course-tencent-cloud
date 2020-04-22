@@ -3,7 +3,7 @@
 namespace App\Caches;
 
 use App\Models\Slide as SlideModel;
-use Phalcon\Mvc\Model\Resultset;
+use App\Repos\Slide as SlideRepo;
 
 class SlideList extends Cache
 {
@@ -22,14 +22,9 @@ class SlideList extends Cache
 
     public function getContent($id = null)
     {
-        /**
-         * @var Resultset|SlideModel[] $slides
-         */
-        $slides = SlideModel::query()
-            ->columns(['id', 'title', 'cover', 'summary', 'target', 'content'])
-            ->where('published = 1 AND deleted = 0')
-            ->orderBy('priority ASC')
-            ->execute();
+        $slideRepo = new SlideRepo();
+
+        $slides = $slideRepo->findTopSlides();
 
         if ($slides->count() == 0) {
             return [];
@@ -51,7 +46,6 @@ class SlideList extends Cache
                 'id' => $slide->id,
                 'title' => $slide->title,
                 'cover' => $slide->cover,
-                'summary' => $slide->summary,
                 'target' => $slide->target,
                 'content' => $slide->content,
             ];

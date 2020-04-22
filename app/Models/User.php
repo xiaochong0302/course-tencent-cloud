@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Caches\MaxUserId as MaxUserIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
 
 class User extends Model
 {
@@ -11,15 +12,15 @@ class User extends Model
     /**
      * 性别类型
      */
-    const GENDER_MALE = 1; // 男
-    const GENDER_FEMALE = 2; // 女
-    const GENDER_NONE = 3; // 保密
+    const GENDER_MALE = 'male'; // 男
+    const GENDER_FEMALE = 'female'; // 女
+    const GENDER_NONE = 'none'; // 保密
 
     /**
      * 教学角色
      */
-    const EDU_ROLE_STUDENT = 1; // 学员
-    const EDU_ROLE_TEACHER = 2; // 讲师
+    const EDU_ROLE_STUDENT = 'student'; // 学员
+    const EDU_ROLE_TEACHER = 'teacher'; // 讲师
 
     /**
      * 主键编号
@@ -66,7 +67,7 @@ class User extends Model
     /**
      * 性别
      *
-     * @var int
+     * @var string
      */
     public $gender;
 
@@ -167,11 +168,19 @@ class User extends Model
     public function beforeCreate()
     {
         $this->create_time = time();
+
+        if (Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = self::getAvatarPath($this->avatar);
+        }
     }
 
     public function beforeUpdate()
     {
         $this->update_time = time();
+
+        if (Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = self::getAvatarPath($this->avatar);
+        }
     }
 
     public function afterCreate()
@@ -179,6 +188,22 @@ class User extends Model
         $cache = new MaxUserIdCache();
 
         $cache->rebuild();
+    }
+
+    public function afterFetch()
+    {
+        if (!Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = kg_ci_img_url($this->avatar);
+        }
+    }
+
+    public static function getAvatarPath($url)
+    {
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
+
+        return $url;
     }
 
     public static function genderTypes()

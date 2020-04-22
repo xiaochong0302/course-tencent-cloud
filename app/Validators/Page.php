@@ -5,11 +5,17 @@ namespace App\Validators;
 use App\Caches\MaxPageId as MaxPageIdCache;
 use App\Caches\Page as PageCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Models\Page as PageModel;
 use App\Repos\Page as PageRepo;
 
 class Page extends Validator
 {
 
+    /**
+     * @param int $id
+     * @return PageModel
+     * @throws BadRequestException
+     */
     public function checkPageCache($id)
     {
         $id = intval($id);
