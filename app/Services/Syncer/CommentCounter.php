@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Syncer;
 
 use App\Library\Cache\Backend\Redis as RedisCache;
+use App\Services\Service;
 
-class CourseCacheSyncer extends Service
+class CommentCounter extends Service
 {
 
     /**
@@ -29,18 +30,18 @@ class CourseCacheSyncer extends Service
         $this->redis = $this->cache->getRedis();
     }
 
-    public function addItem($courseId)
+    public function addItem($commentId)
     {
         $key = $this->getSyncKey();
 
-        $this->redis->sAdd($key, $courseId);
+        $this->redis->sAdd($key, $commentId);
 
         $this->redis->expire($key, $this->lifetime);
     }
 
     public function getSyncKey()
     {
-        return 'course_cache_sync';
+        return 'comment_counter_sync';
     }
 
 }

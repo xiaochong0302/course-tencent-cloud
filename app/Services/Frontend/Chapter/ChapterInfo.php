@@ -200,9 +200,7 @@ class ChapterInfo extends Service
 
         $courseUser->create();
 
-        $course->user_count += 1;
-
-        $course->update();
+        $this->incrCourseUserCount($course);
     }
 
     protected function handleChapterUser(ChapterModel $chapter, UserModel $user)
@@ -221,9 +219,17 @@ class ChapterInfo extends Service
 
         $chapterUser->create();
 
-        $chapter->user_count += 1;
+        $this->incrChapterUserCount($chapter);
+    }
 
-        $chapter->update();
+    protected function incrCourseUserCount(CourseModel $course)
+    {
+        $this->eventsManager->fire('courseCounter:incrUserCount', $this, $course);
+    }
+
+    protected function incrChapterUserCount(ChapterModel $chapter)
+    {
+        $this->eventsManager->fire('chapterCounter:incrUserCount', $this, $chapter);
     }
 
 }

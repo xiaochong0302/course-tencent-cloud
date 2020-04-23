@@ -127,11 +127,26 @@ class Comment extends Model
     public function beforeCreate()
     {
         $this->create_time = time();
+
+        if (is_array($this->mentions) && !empty($this->mentions)) {
+            $this->mentions = kg_json_encode($this->mentions);
+        }
     }
 
     public function beforeUpdate()
     {
         $this->update_time = time();
+
+        if (is_array($this->mentions) && !empty($this->mentions)) {
+            $this->mentions = kg_json_encode($this->mentions);
+        }
+    }
+
+    public function afterFetch()
+    {
+        if (!empty($this->mentions)) {
+            $this->mentions = json_decode($this->mentions, true);
+        }
     }
 
 }

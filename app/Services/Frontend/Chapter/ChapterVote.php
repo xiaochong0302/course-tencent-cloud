@@ -2,6 +2,7 @@
 
 namespace App\Services\Frontend\Chapter;
 
+use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterVote as ChapterVoteModel;
 use App\Models\User as UserModel;
 use App\Repos\ChapterVote as ChapterVoteRepo;
@@ -38,7 +39,7 @@ class ChapterVote extends Service
 
             $chapterVote->create();
 
-            $chapter->agree_count += 1;
+            $this->incrAgreeCount($chapter);
 
         } else {
 
@@ -46,26 +47,25 @@ class ChapterVote extends Service
 
                 $chapterVote->type = ChapterVoteModel::TYPE_NONE;
 
-                $chapter->agree_count -= 1;
+                $this->decrAgreeCount($chapter);
 
             } elseif ($chapterVote->type == ChapterVoteModel::TYPE_OPPOSE) {
 
                 $chapterVote->type = ChapterVoteModel::TYPE_AGREE;
 
-                $chapter->agree_count += 1;
-                $chapter->oppose_count -= 1;
+                $this->incrAgreeCount($chapter);
+
+                $this->decrOpposeCount($chapter);
 
             } elseif ($chapterVote->type == ChapterVoteModel::TYPE_NONE) {
 
                 $chapterVote->type = ChapterVoteModel::TYPE_AGREE;
 
-                $chapter->agree_count += 1;
+                $this->incrAgreeCount($chapter);
             }
 
             $chapterVote->update();
         }
-
-        $chapter->update();
 
         $this->incrUserDailyChapterVoteCount($user);
 
@@ -96,7 +96,7 @@ class ChapterVote extends Service
 
             $chapterVote->create();
 
-            $chapter->oppose_count += 1;
+            $this->incrOpposeCount($chapter);
 
         } else {
 
@@ -104,30 +104,49 @@ class ChapterVote extends Service
 
                 $chapterVote->type = ChapterVoteModel::TYPE_OPPOSE;
 
-                $chapter->agree_count -= 1;
-                $chapter->oppose_count += 1;
+                $this->decrAgreeCount($chapter);
+
+                $this->incrOpposeCount($chapter);
 
             } elseif ($chapterVote->type == ChapterVoteModel::TYPE_OPPOSE) {
 
                 $chapterVote->type = ChapterVoteModel::TYPE_NONE;
 
-                $chapter->oppose_count -= 1;
+                $this->decrOpposeCount($chapter);
 
             } elseif ($chapterVote->type == ChapterVoteModel::TYPE_NONE) {
 
                 $chapterVote->type = ChapterVoteModel::TYPE_OPPOSE;
 
-                $chapter->oppose_count += 1;
+                $this->incrOpposeCount($chapter);
             }
 
             $chapterVote->update();
         }
 
-        $chapter->update();
-
         $this->incrUserDailyChapterVoteCount($user);
 
         return $chapter;
+    }
+
+    protected function incrAgreeCount(ChapterModel $chapter)
+    {
+        $this->eventsManager->fire('chapterCounter:incrAgreeCount', $this, $chapter);
+    }
+
+    protected function decrAgreeCount(ChapterModel $chapter)
+    {
+        $this->eventsManager->fire('chapterCounter:decrAgreeCount', $this, $chapter);
+    }
+
+    protected function incrOpposeCount(ChapterModel $chapter)
+    {
+        $this->eventsManager->fire('chapterCounter:incrOpposeCount', $this, $chapter);
+    }
+
+    protected function decrOpposeCount(ChapterModel $chapter)
+    {
+        $this->eventsManager->fire('chapterCounter:decrOpposeCount', $this, $chapter);
     }
 
     protected function incrUserDailyChapterVoteCount(UserModel $user)

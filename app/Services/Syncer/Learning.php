@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Syncer;
 
 use App\Library\Cache\Backend\Redis as RedisCache;
-use App\Models\Learning;
 use App\Models\Learning as LearningModel;
 use App\Repos\Chapter as ChapterRepo;
+use App\Services\Service;
 use App\Traits\Client as ClientTrait;
 
-class LearningSyncer extends Service
+class Learning extends Service
 {
 
     use ClientTrait;

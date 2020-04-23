@@ -2,16 +2,18 @@
 
 namespace App\Services\Frontend\Comment;
 
-use App\Repos\Chapter as ChapterRepo;
-use App\Repos\Course as CourseRepo;
+use App\Models\Chapter as ChapterModel;
+use App\Models\Course as CourseModel;
+use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\CommentTrait;
+use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service;
 use App\Validators\Comment as CommentValidator;
 
 class CommentDelete extends Service
 {
 
-    use CommentTrait;
+    use CommentTrait, ChapterTrait, CourseTrait;
 
     public function deleteComment($id)
     {
@@ -27,21 +29,23 @@ class CommentDelete extends Service
 
         $comment->update();
 
-        $chapterRepo = new ChapterRepo();
+        $chapter = $this->checkChapterCache($comment->chapter_id);
 
-        $chapter = $chapterRepo->findById($comment->chapter_id);
+        $this->decrChapterCommentCount($chapter);
 
-        $chapter->comment_count -= 1;
+        $course = $this->checkCourseCache($comment->course_id);
 
-        $chapter->update();
+        $this->decrCourseCommentCount($course);
+    }
 
-        $courseRepo = new CourseRepo();
+    protected function decrChapterCommentCount(ChapterModel $chapter)
+    {
+        $this->eventsManager->fire('chapterCounter:decrCommentCount', $this, $chapter);
+    }
 
-        $course = $courseRepo->findById($comment->course_id);
-
-        $course->comment_count -= 1;
-
-        $course->update();
+    protected function decrCourseCommentCount(CourseModel $course)
+    {
+        $this->eventsManager->fire('courseCounter:decrCommentCount', $this, $course);
     }
 
 }

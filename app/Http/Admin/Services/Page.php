@@ -2,7 +2,6 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\MaxPageId as MaxPageIdCache;
 use App\Caches\Page as PageCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Page as PageModel;
@@ -115,10 +114,6 @@ class Page extends Service
         $cache = new PageCache();
 
         $cache->rebuild($help->id);
-
-        $cache = new MaxPageIdCache();
-
-        $cache->rebuild();
     }
 
     protected function findOrFail($id)

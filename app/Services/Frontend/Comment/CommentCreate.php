@@ -2,10 +2,12 @@
 
 namespace App\Services\Frontend\Comment;
 
+use App\Models\Chapter as ChapterModel;
 use App\Models\Comment as CommentModel;
+use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
-use App\Repos\Course as CourseRepo;
 use App\Services\Frontend\ChapterTrait;
+use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service;
 use App\Validators\Comment as CommentValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
@@ -13,7 +15,7 @@ use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 class CommentCreate extends Service
 {
 
-    use ChapterTrait;
+    use ChapterTrait, CourseTrait;
 
     public function createComment()
     {
@@ -27,11 +29,9 @@ class CommentCreate extends Service
 
         $validator = new CommentValidator();
 
-        $chapter = $validator->checkChapter($post['chapter_id']);
+        $chapter = $this->checkChapterCache($post['chapter_id']);
 
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($chapter->course_id);
+        $course = $this->checkCourseCache($chapter->course_id);
 
         $data = [];
 
@@ -54,13 +54,9 @@ class CommentCreate extends Service
 
         $comment->create($data);
 
-        $chapter->comment_count += 1;
+        $this->incrChapterCommentCount($chapter);
 
-        $chapter->update();
-
-        $course->comment_count += 1;
-
-        $course->update();
+        $this->incrCourseCommentCount($course);
 
         $this->incrUserDailyCommentCount($user);
     }
@@ -68,6 +64,16 @@ class CommentCreate extends Service
     protected function handleMentions($mentions)
     {
 
+    }
+
+    protected function incrChapterCommentCount(ChapterModel $chapter)
+    {
+        $this->eventsManager->fire('chapterCounter:incrCommentCount', $this, $chapter);
+    }
+
+    protected function incrCourseCommentCount(CourseModel $course)
+    {
+        $this->eventsManager->fire('courseCounter:incrCommentCount', $this, $course);
     }
 
     protected function incrUserDailyCommentCount(UserModel $user)

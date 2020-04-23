@@ -2,13 +2,12 @@
 
 namespace App\Console\Tasks;
 
-use App\Caches\Chapter as ChapterCache;
 use App\Caches\ChapterCounter as ChapterCounterCache;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Chapter as ChapterRepo;
-use App\Services\ChapterCacheSyncer;
+use App\Services\ChapterCounterSyncer;
 
-class RebuildChapterCacheTask extends Task
+class SyncChapterCounterTask extends Task
 {
 
     /**
@@ -46,23 +45,22 @@ class RebuildChapterCacheTask extends Task
             return;
         }
 
-        $chapterCache = new ChapterCache();
-
-        $counterCache = new ChapterCounterCache();
+        $cache = new ChapterCounterCache();
 
         foreach ($chapters as $chapter) {
 
-            $chapter->user_count = $chapterRepo->countUsers($chapter->id);
-            $chapter->lesson_count = $chapterRepo->countLessons($chapter->id);
-            $chapter->comment_count = $chapterRepo->countComments($chapter->id);
-            $chapter->agree_count = $chapterRepo->countAgrees($chapter->id);
-            $chapter->oppose_count = $chapterRepo->countOpposes($chapter->id);
+            $counter = $cache->get($chapter->id);
 
-            $chapter->update();
+            if ($counter) {
 
-            $chapterCache->rebuild($chapter->id);
+                $chapter->user_count = $counter['user_count'];
+                $chapter->lesson_count = $counter['lesson_count'];
+                $chapter->comment_count = $counter['comment_count'];
+                $chapter->agree_count = $counter['agree_count'];
+                $chapter->oppose_count = $counter['oppose_count'];
 
-            $counterCache->rebuild($chapter->id);
+                $chapter->update();
+            }
         }
 
         $this->redis->sRem($key, ...$chapterIds);
@@ -70,7 +68,7 @@ class RebuildChapterCacheTask extends Task
 
     protected function getCacheKey()
     {
-        $syncer = new ChapterCacheSyncer();
+        $syncer = new ChapterCounterSyncer();
 
         return $syncer->getSyncKey();
     }

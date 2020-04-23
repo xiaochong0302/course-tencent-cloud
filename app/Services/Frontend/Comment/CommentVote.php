@@ -2,6 +2,7 @@
 
 namespace App\Services\Frontend\Comment;
 
+use App\Models\Comment as CommentModel;
 use App\Models\CommentVote as CommentVoteModel;
 use App\Models\User as UserModel;
 use App\Repos\CommentVote as CommentVoteRepo;
@@ -38,7 +39,7 @@ class CommentVote extends Service
 
             $commentVote->create();
 
-            $comment->agree_count += 1;
+            $this->incrAgreeCount($comment);
 
         } else {
 
@@ -46,26 +47,25 @@ class CommentVote extends Service
 
                 $commentVote->type = CommentVoteModel::TYPE_NONE;
 
-                $comment->agree_count -= 1;
+                $this->decrAgreeCount($comment);
 
             } elseif ($commentVote->type == CommentVoteModel::TYPE_OPPOSE) {
 
                 $commentVote->type = CommentVoteModel::TYPE_AGREE;
 
-                $comment->agree_count += 1;
-                $comment->oppose_count -= 1;
+                $this->incrAgreeCount($comment);
+
+                $this->decrOpposeCount($comment);
 
             } elseif ($commentVote->type == CommentVoteModel::TYPE_NONE) {
 
                 $commentVote->type = CommentVoteModel::TYPE_AGREE;
 
-                $comment->agree_count += 1;
+                $this->incrAgreeCount($comment);
             }
 
             $commentVote->update();
         }
-
-        $comment->update();
 
         $this->incrUserDailyCommentVoteCount($user);
 
@@ -96,7 +96,7 @@ class CommentVote extends Service
 
             $commentVote->create();
 
-            $comment->oppose_count += 1;
+            $this->incrOpposeCount($comment);
 
         } else {
 
@@ -104,30 +104,49 @@ class CommentVote extends Service
 
                 $commentVote->type = CommentVoteModel::TYPE_OPPOSE;
 
-                $comment->agree_count -= 1;
-                $comment->oppose_count += 1;
+                $this->decrAgreeCount($comment);
+
+                $this->incrOpposeCount($comment);
 
             } elseif ($commentVote->type == CommentVoteModel::TYPE_OPPOSE) {
 
                 $commentVote->type = CommentVoteModel::TYPE_NONE;
 
-                $comment->oppose_count -= 1;
+                $this->decrOpposeCount($comment);
 
             } elseif ($commentVote->type == CommentVoteModel::TYPE_NONE) {
 
                 $commentVote->type = CommentVoteModel::TYPE_OPPOSE;
 
-                $comment->oppose_count += 1;
+                $this->incrOpposeCount($comment);
             }
 
             $commentVote->update();
         }
 
-        $comment->update();
-
         $this->incrUserDailyCommentVoteCount($user);
 
         return $comment;
+    }
+
+    protected function incrAgreeCount(CommentModel $comment)
+    {
+        $this->eventsManager->fire('commentCounter:incrAgreeCount', $this, $comment);
+    }
+
+    protected function decrAgreeCount(CommentModel $comment)
+    {
+        $this->eventsManager->fire('commentCounter:decrAgreeCount', $this, $comment);
+    }
+
+    protected function incrOpposeCount(CommentModel $comment)
+    {
+        $this->eventsManager->fire('commentCounter:incrOpposeCount', $this, $comment);
+    }
+
+    protected function decrOpposeCount(CommentModel $comment)
+    {
+        $this->eventsManager->fire('commentCounter:decrOpposeCount', $this, $comment);
     }
 
     protected function incrUserDailyCommentVoteCount(UserModel $user)

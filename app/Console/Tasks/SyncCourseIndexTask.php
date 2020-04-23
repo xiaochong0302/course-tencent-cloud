@@ -8,7 +8,7 @@ use App\Searchers\CourseDocument;
 use App\Searchers\CourseSearch;
 use App\Services\CourseIndexSyncer;
 
-class RebuildCourseIndexTask extends Task
+class SyncCourseIndexTask extends Task
 {
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Services\Frontend\Course;
 
+use App\Models\Course as CourseModel;
 use App\Models\CourseFavorite as FavoriteModel;
 use App\Models\User as UserModel;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
@@ -14,7 +15,7 @@ class CourseFavorite extends Service
 
     use CourseTrait;
 
-    public function favorite($id)
+    public function saveFavorite($id)
     {
         $course = $this->checkCourse($id);
 
@@ -37,46 +38,37 @@ class CourseFavorite extends Service
 
             $favorite->create();
 
-            $course->favorite_count += 1;
+            $this->incrCourseFavoriteCount($course);
 
         } else {
 
-            if ($favorite->deleted == 1) {
+            if ($favorite->deleted == 0) {
+
+                $favorite->deleted = 1;
+
+                $this->decrCourseFavoriteCount($course);
+
+            } else {
 
                 $favorite->deleted = 0;
 
-                $course->favorite_count += 1;
-
-                $favorite->update();
+                $this->incrCourseFavoriteCount($course);
             }
 
+            $favorite->update();
         }
-
-        $course->update();
 
         $this->incrUserDailyFavoriteCount($user);
     }
 
-    public function unfavorite($id)
+    protected function incrCourseFavoriteCount(CourseModel $course)
     {
-        $course = $this->checkCourse($id);
+        $this->eventsManager->fire('courseCounter:incrFavoriteCount', $this, $course);
+    }
 
-        $user = $this->getLoginUser();
-
-        $favoriteRepo = new CourseFavoriteRepo();
-
-        $favorite = $favoriteRepo->findCourseFavorite($course->id, $user->id);
-
-        if (!$favorite) return;
-
-        if ($favorite->deleted == 0) {
-
-            $favorite->deleted = 1;
-
-            $course->favorite_count -= 1;
-        }
-
-        $favorite->update();
+    protected function decrCourseFavoriteCount(CourseModel $course)
+    {
+        $this->eventsManager->fire('courseCounter:decrFavoriteCount', $this, $course);
     }
 
     protected function incrUserDailyFavoriteCount(UserModel $user)

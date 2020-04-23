@@ -7,7 +7,6 @@ use App\Caches\Course as CourseCache;
 use App\Caches\CourseCategoryList as CourseCategoryListCache;
 use App\Caches\CourseRelatedList as CourseRelatedListCache;
 use App\Caches\CourseTeacherList as CourseTeacherListCache;
-use App\Caches\MaxCourseId as MaxCourseIdCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
@@ -20,7 +19,9 @@ use App\Repos\CourseCategory as CourseCategoryRepo;
 use App\Repos\CourseRelated as CourseRelatedRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Syncer\CourseIndex as CourseIndexSyncer;
 use App\Validators\Course as CourseValidator;
+use Yansongda\Supports\Collection;
 
 class Course extends Service
 {
@@ -70,6 +71,8 @@ class Course extends Service
         $course->create($data);
 
         $this->rebuildCourseCache($course);
+
+        $this->rebuildCourseIndex($course);
 
         return $course;
     }
@@ -141,6 +144,10 @@ class Course extends Service
 
         $course->update($data);
 
+        $this->rebuildCourseCache($course);
+
+        $this->rebuildCourseIndex($course);
+
         return $course;
     }
 
@@ -153,6 +160,8 @@ class Course extends Service
         $course->update();
 
         $this->rebuildCourseCache($course);
+
+        $this->rebuildCourseIndex($course);
 
         return $course;
     }
@@ -167,6 +176,8 @@ class Course extends Service
 
         $this->rebuildCourseCache($course);
 
+        $this->rebuildCourseIndex($course);
+
         return $course;
     }
 
@@ -174,14 +185,14 @@ class Course extends Service
     {
         $options = CourseModel::studyExpiryOptions();
 
-        return kg_array_object($options);
+        return new Collection($options);
     }
 
     public function getRefundExpiryOptions()
     {
         $options = CourseModel::refundExpiryOptions();
 
-        return kg_array_object($options);
+        return new Collection($options);
     }
 
     public function getXmCategories($id)
@@ -323,10 +334,13 @@ class Course extends Service
         $cache = new CourseCache();
 
         $cache->rebuild($course->id);
+    }
 
-        $cache = new MaxCourseIdCache();
+    protected function rebuildCourseIndex(CourseModel $course)
+    {
+        $syncer = new CourseIndexSyncer();
 
-        $cache->rebuild();
+        $syncer->addItem($course->id);
     }
 
     protected function saveTeachers(CourseModel $course, $teacherIds)

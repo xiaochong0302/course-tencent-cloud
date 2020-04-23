@@ -2,6 +2,7 @@
 
 namespace App\Services\Frontend\Consult;
 
+use App\Models\Consult as ConsultModel;
 use App\Models\ConsultVote as ConsultVoteModel;
 use App\Models\User as UserModel;
 use App\Repos\ConsultVote as ConsultVoteRepo;
@@ -38,7 +39,7 @@ class ConsultVote extends Service
 
             $consultVote->create();
 
-            $consult->agree_count += 1;
+            $this->incrAgreeCount($consult);
 
         } else {
 
@@ -46,26 +47,25 @@ class ConsultVote extends Service
 
                 $consultVote->type = ConsultVoteModel::TYPE_NONE;
 
-                $consult->agree_count -= 1;
+                $this->decrAgreeCount($consult);
 
             } elseif ($consultVote->type == ConsultVoteModel::TYPE_OPPOSE) {
 
                 $consultVote->type = ConsultVoteModel::TYPE_AGREE;
 
-                $consult->agree_count += 1;
-                $consult->oppose_count -= 1;
+                $this->incrAgreeCount($consult);
+
+                $this->decrOpposeCount($consult);
 
             } elseif ($consultVote->type == ConsultVoteModel::TYPE_NONE) {
 
                 $consultVote->type = ConsultVoteModel::TYPE_AGREE;
 
-                $consult->agree_count += 1;
+                $this->incrAgreeCount($consult);
             }
 
             $consultVote->update();
         }
-
-        $consult->update();
 
         $this->incrUserDailyConsultVoteCount($user);
 
@@ -96,7 +96,7 @@ class ConsultVote extends Service
 
             $consultVote->create();
 
-            $consult->oppose_count += 1;
+            $this->incrOpposeCount($consult);
 
         } else {
 
@@ -104,30 +104,49 @@ class ConsultVote extends Service
 
                 $consultVote->type = ConsultVoteModel::TYPE_OPPOSE;
 
-                $consult->agree_count -= 1;
-                $consult->oppose_count += 1;
+                $this->decrAgreeCount($consult);
+
+                $this->incrOpposeCount($consult);
 
             } elseif ($consultVote->type == ConsultVoteModel::TYPE_OPPOSE) {
 
                 $consultVote->type = ConsultVoteModel::TYPE_NONE;
 
-                $consult->oppose_count -= 1;
+                $this->decrOpposeCount($consult);
 
             } elseif ($consultVote->type == ConsultVoteModel::TYPE_NONE) {
 
                 $consultVote->type = ConsultVoteModel::TYPE_OPPOSE;
 
-                $consult->oppose_count += 1;
+                $this->incrOpposeCount($consult);
             }
 
             $consultVote->update();
         }
 
-        $consult->update();
-
         $this->incrUserDailyConsultVoteCount($user);
 
         return $consult;
+    }
+
+    protected function incrAgreeCount(ConsultModel $consult)
+    {
+        $this->eventsManager->fire('consultCounter:incrAgreeCount', $this, $consult);
+    }
+
+    protected function decrAgreeCount(ConsultModel $consult)
+    {
+        $this->eventsManager->fire('consultCounter:decrAgreeCount', $this, $consult);
+    }
+
+    protected function incrOpposeCount(ConsultModel $consult)
+    {
+        $this->eventsManager->fire('consultCounter:incrOpposeCount', $this, $consult);
+    }
+
+    protected function decrOpposeCount(ConsultModel $consult)
+    {
+        $this->eventsManager->fire('consultCounter:decrOpposeCount', $this, $consult);
     }
 
     protected function incrUserDailyConsultVoteCount(UserModel $user)

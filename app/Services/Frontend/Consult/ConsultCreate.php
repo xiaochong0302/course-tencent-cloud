@@ -3,6 +3,7 @@
 namespace App\Services\Frontend\Consult;
 
 use App\Models\Consult as ConsultModel;
+use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service;
@@ -20,13 +21,14 @@ class ConsultCreate extends Service
 
         $user = $this->getLoginUser();
 
+        $course = $this->checkCourseCache($post['course_id']);
+
         $validator = new UserDailyLimitValidator();
 
         $validator->checkConsultLimit($user);
 
         $validator = new ConsultValidator();
 
-        $course = $validator->checkCourse($post['course_id']);
         $question = $validator->checkQuestion($post['question']);
 
         $consult = new ConsultModel();
@@ -37,13 +39,16 @@ class ConsultCreate extends Service
 
         $consult->create();
 
-        $course->consult_count += 1;
-
-        $course->update();
+        $this->incrCourseConsultCount($course);
 
         $this->incrUserDailyConsultCount($user);
 
         return $consult;
+    }
+
+    protected function incrCourseConsultCount(CourseModel $course)
+    {
+        $this->eventsManager->fire('courseCounter:incrConsultCount', $this, $course);
     }
 
     protected function incrUserDailyConsultCount(UserModel $user)

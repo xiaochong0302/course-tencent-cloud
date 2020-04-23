@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Syncer;
 
 use App\Library\Cache\Backend\Redis as RedisCache;
+use App\Services\Service;
 
-class ChapterCacheSyncer extends Service
+class ChapterCounter extends Service
 {
 
     /**
@@ -40,7 +41,7 @@ class ChapterCacheSyncer extends Service
 
     public function getSyncKey()
     {
-        return 'chapter_cache_sync';
+        return 'chapter_counter_sync';
     }
 
 }

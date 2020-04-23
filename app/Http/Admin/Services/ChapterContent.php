@@ -85,7 +85,7 @@ class ChapterContent extends Service
 
         $vod->update([
             'file_id' => $fileId,
-            'file_attrs' => '',
+            'file_transcode' => '',
         ]);
 
         /**

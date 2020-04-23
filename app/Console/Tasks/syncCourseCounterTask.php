@@ -2,13 +2,12 @@
 
 namespace App\Console\Tasks;
 
-use App\Caches\Course as CourseCache;
 use App\Caches\CourseCounter as CourseCounterCache;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Course as CourseRepo;
-use App\Services\CourseCacheSyncer;
+use App\Services\CourseCounterSyncer;
 
-class RebuildCourseCacheTask extends Task
+class syncCourseCounterTask extends Task
 {
 
     /**
@@ -46,24 +45,23 @@ class RebuildCourseCacheTask extends Task
             return;
         }
 
-        $courseCache = new CourseCache();
-
-        $counterCache = new CourseCounterCache();
+        $cache = new CourseCounterCache();
 
         foreach ($courses as $course) {
 
-            $course->user_count = $courseRepo->countUsers($course->id);
-            $course->lesson_count = $courseRepo->countLessons($course->id);
-            $course->comment_count = $courseRepo->countComments($course->id);
-            $course->consult_count = $courseRepo->countConsults($course->id);
-            $course->review_count = $courseRepo->countReviews($course->id);
-            $course->favorite_count = $courseRepo->countFavorites($course->id);
+            $counter = $cache->get($course->id);
 
-            $course->update();
+            if ($counter) {
 
-            $courseCache->rebuild($course->id);
+                $course->user_count = $counter['user_count'];
+                $course->lesson_count = $counter['lesson_count'];
+                $course->comment_count = $counter['comment_count'];
+                $course->consult_count = $counter['consult_count'];
+                $course->review_count = $counter['review_count'];
+                $course->favorite_count = $counter['favorite_count'];
 
-            $counterCache->rebuild($course->id);
+                $course->update();
+            }
         }
 
         $this->redis->sRem($key, ...$courseIds);
@@ -71,7 +69,7 @@ class RebuildCourseCacheTask extends Task
 
     protected function getCacheKey()
     {
-        $syncer = new CourseCacheSyncer();
+        $syncer = new CourseCounterSyncer();
 
         return $syncer->getSyncKey();
     }

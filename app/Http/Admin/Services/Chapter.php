@@ -4,7 +4,6 @@ namespace App\Http\Admin\Services;
 
 use App\Caches\Chapter as ChapterCache;
 use App\Caches\CourseChapterList as CourseChapterListCache;
-use App\Caches\MaxChapterId as MaxChapterIdCache;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
@@ -64,7 +63,9 @@ class Chapter extends Service
         $chapter->create($data);
 
         $this->updateChapterStats($chapter);
+
         $this->updateCourseStats($chapter);
+
         $this->rebuildChapterCache($chapter);
 
         return $chapter;
@@ -106,7 +107,9 @@ class Chapter extends Service
         $chapter->update($data);
 
         $this->updateChapterStats($chapter);
+
         $this->updateCourseStats($chapter);
+
         $this->rebuildChapterCache($chapter);
 
         return $chapter;
@@ -125,7 +128,9 @@ class Chapter extends Service
         $chapter->update();
 
         $this->updateChapterStats($chapter);
+
         $this->updateCourseStats($chapter);
+
         $this->rebuildChapterCache($chapter);
 
         return $chapter;
@@ -140,7 +145,9 @@ class Chapter extends Service
         $chapter->update();
 
         $this->updateChapterStats($chapter);
+
         $this->updateCourseStats($chapter);
+
         $this->rebuildChapterCache($chapter);
 
         return $chapter;
@@ -187,10 +194,6 @@ class Chapter extends Service
         $cache = new CourseChapterListCache();
 
         $cache->rebuild($chapter->course_id);
-
-        $cache = new MaxChapterIdCache();
-
-        $cache->rebuild();
     }
 
     protected function findOrFail($id)

@@ -287,16 +287,9 @@ class Course extends Model
 
     public function afterCreate()
     {
-        $this->rebuildIndex();
-
         $cache = new MaxCourseIdCache();
 
         $cache->rebuild();
-    }
-
-    public function afterUpdate()
-    {
-        $this->rebuildIndex();
     }
 
     public function afterFetch()
@@ -313,13 +306,6 @@ class Course extends Model
         if (!empty($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
         }
-    }
-
-    public function rebuildIndex()
-    {
-        $syncer = new CourseIndexSyncer();
-
-        $syncer->addItem($this->id);
     }
 
     public static function getCoverPath($url)

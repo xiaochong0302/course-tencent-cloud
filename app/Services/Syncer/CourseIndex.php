@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Syncer;
 
 use App\Library\Cache\Backend\Redis as RedisCache;
+use App\Services\Service;
 
-class CourseIndexSyncer extends Service
+class CourseIndex extends Service
 {
 
     /**

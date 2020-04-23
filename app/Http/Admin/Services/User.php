@@ -3,8 +3,10 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\UserList as UserListBuilder;
+use App\Caches\User as UserCache;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Models\Account as AccountModel;
+use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\Role as RoleRepo;
 use App\Repos\User as UserRepo;
@@ -85,6 +87,8 @@ class User extends Service
             $this->updateAdminUserCount($adminRole);
         }
 
+        $this->rebuildUserCache($user);
+
         return $user;
     }
 
@@ -155,6 +159,8 @@ class User extends Service
             $this->updateAdminUserCount($user->admin_role);
         }
 
+        $this->rebuildUserCache($user);
+
         return $user;
     }
 
@@ -198,6 +204,13 @@ class User extends Service
         $validator = new UserValidator();
 
         return $validator->checkUser($id);
+    }
+
+    protected function rebuildUserCache(UserModel $user)
+    {
+        $cache = new UserCache();
+
+        $cache->rebuild($user->id);
     }
 
     protected function updateAdminUserCount($roleId)

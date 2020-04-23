@@ -81,31 +81,24 @@ class ChapterVod extends Model
 
     public function afterFetch()
     {
-        if (!empty($this->file_transcode)) {
-            $this->file_transcode = json_decode($this->file_transcode, true);
-        } else {
-            $this->getFileTranscode($this->file_id);
+        if (!empty($this->file_id)) {
+            if (!empty($this->file_transcode)) {
+                $this->file_transcode = json_decode($this->file_transcode, true);
+            } else {
+                $this->file_transcode = $this->getFileTranscode($this->file_id);
+            }
         }
     }
 
     protected function getFileTranscode($fileId)
     {
-        if (!$fileId) return [];
-
         $vodService = new VodService();
 
         $transcode = $vodService->getFileTranscode($fileId);
 
         if ($transcode && empty($this->file_transcode)) {
-
             $this->file_transcode = $transcode;
-
             $this->update();
-
-            /**
-             * afterUpdate事件触发序列化，故重设属性
-             */
-            $this->file_transcode = $transcode;
         }
 
         return $transcode;

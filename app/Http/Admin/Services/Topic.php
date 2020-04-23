@@ -2,7 +2,6 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\MaxTopicId as MaxTopicIdCache;
 use App\Caches\Topic as TopicCache;
 use App\Caches\TopicCourseList as TopicCourseListCache;
 use App\Library\Paginator\Query as PagerQuery;
@@ -199,10 +198,6 @@ class Topic extends Service
         $cache = new TopicCourseListCache();
 
         $cache->rebuild($topic->id);
-
-        $cache = new MaxTopicIdCache();
-
-        $cache->rebuild();
     }
 
     protected function findOrFail($id)

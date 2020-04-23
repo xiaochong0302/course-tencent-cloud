@@ -2,6 +2,7 @@
 
 namespace App\Services\Frontend\Review;
 
+use App\Models\Review as ReviewModel;
 use App\Models\ReviewVote as ReviewVoteModel;
 use App\Models\User as UserModel;
 use App\Repos\ReviewVote as ReviewVoteRepo;
@@ -38,7 +39,7 @@ class ReviewVote extends Service
 
             $reviewVote->create();
 
-            $review->agree_count += 1;
+            $this->incrAgreeCount($review);
 
         } else {
 
@@ -46,26 +47,25 @@ class ReviewVote extends Service
 
                 $reviewVote->type = ReviewVoteModel::TYPE_NONE;
 
-                $review->agree_count -= 1;
+                $this->decrAgreeCount($review);
 
             } elseif ($reviewVote->type == ReviewVoteModel::TYPE_OPPOSE) {
 
                 $reviewVote->type = ReviewVoteModel::TYPE_AGREE;
 
-                $review->agree_count += 1;
-                $review->oppose_count -= 1;
+                $this->incrAgreeCount($review);
+
+                $this->decrOpposeCount($review);
 
             } elseif ($reviewVote->type == ReviewVoteModel::TYPE_NONE) {
 
                 $reviewVote->type = ReviewVoteModel::TYPE_AGREE;
 
-                $review->agree_count += 1;
+                $this->incrAgreeCount($review);
             }
 
             $reviewVote->update();
         }
-
-        $review->update();
 
         $this->incrUserDailyReviewVoteCount($user);
 
@@ -96,7 +96,7 @@ class ReviewVote extends Service
 
             $reviewVote->create();
 
-            $review->oppose_count += 1;
+            $this->incrOpposeCount($review);
 
         } else {
 
@@ -104,30 +104,49 @@ class ReviewVote extends Service
 
                 $reviewVote->type = ReviewVoteModel::TYPE_OPPOSE;
 
-                $review->agree_count -= 1;
-                $review->oppose_count += 1;
+                $this->decrAgreeCount($review);
+
+                $this->incrOpposeCount($review);
 
             } elseif ($reviewVote->type == ReviewVoteModel::TYPE_OPPOSE) {
 
                 $reviewVote->type = ReviewVoteModel::TYPE_NONE;
 
-                $review->oppose_count -= 1;
+                $this->decrOpposeCount($review);
 
             } elseif ($reviewVote->type == ReviewVoteModel::TYPE_NONE) {
 
                 $reviewVote->type = ReviewVoteModel::TYPE_OPPOSE;
 
-                $review->oppose_count += 1;
+                $this->incrOpposeCount($review);
             }
 
             $reviewVote->update();
         }
 
-        $review->update();
-
         $this->incrUserDailyReviewVoteCount($user);
 
         return $review;
+    }
+
+    protected function incrAgreeCount(ReviewModel $review)
+    {
+        $this->eventsManager->fire('reviewCounter:incrAgreeCount', $this, $review);
+    }
+
+    protected function decrAgreeCount(ReviewModel $review)
+    {
+        $this->eventsManager->fire('reviewCounter:decrAgreeCount', $this, $review);
+    }
+
+    protected function incrOpposeCount(ReviewModel $review)
+    {
+        $this->eventsManager->fire('reviewCounter:incrOpposeCount', $this, $review);
+    }
+
+    protected function decrOpposeCount(ReviewModel $review)
+    {
+        $this->eventsManager->fire('reviewCounter:decrOpposeCount', $this, $review);
     }
 
     protected function incrUserDailyReviewVoteCount(UserModel $user)
