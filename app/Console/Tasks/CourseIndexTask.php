@@ -9,13 +9,13 @@ use Phalcon\Cli\Task;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ManageCourseIndexTask extends Task
+class CourseIndexTask extends Task
 {
 
     /**
      * 搜索测试
      *
-     * @command: php console.php manage_course_index search {query}
+     * @command: php console.php course_index search {query}
      * @param array $params
      * @throws \XSException
      */
@@ -35,7 +35,7 @@ class ManageCourseIndexTask extends Task
     /**
      * 清空索引
      *
-     * @command: php console.php manage_course_index clean
+     * @command: php console.php course_index clean
      */
     public function cleanAction()
     {
@@ -45,7 +45,7 @@ class ManageCourseIndexTask extends Task
     /**
      * 重建索引
      *
-     * @command: php console.php manage_course_index rebuild
+     * @command: php console.php course_index rebuild
      */
     public function rebuildAction()
     {
@@ -103,7 +103,7 @@ class ManageCourseIndexTask extends Task
      * 搜索课程
      *
      * @param string $query
-     * @return array $result
+     * @return array
      * @throws \XSException
      */
     protected function searchCourses($query)

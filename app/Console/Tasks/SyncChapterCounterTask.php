@@ -5,7 +5,7 @@ namespace App\Console\Tasks;
 use App\Caches\ChapterCounter as ChapterCounterCache;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Chapter as ChapterRepo;
-use App\Services\ChapterCounterSyncer;
+use App\Services\Syncer\ChapterCounter as ChapterCounterSyncer;
 
 class SyncChapterCounterTask extends Task
 {

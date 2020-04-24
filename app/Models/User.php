@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Caches\MaxUserId as MaxUserIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
+use Yansongda\Supports\Collection;
 
 class User extends Model
 {
@@ -208,19 +209,19 @@ class User extends Model
 
     public static function genderTypes()
     {
-        return [
+        return new Collection([
             self::GENDER_MALE => '男',
             self::GENDER_FEMALE => '女',
             self::GENDER_NONE => '保密',
-        ];
+        ]);
     }
 
     public static function eduRoleTypes()
     {
-        return [
+        return new Collection([
             self::EDU_ROLE_STUDENT => '学员',
             self::EDU_ROLE_TEACHER => '讲师',
-        ];
+        ]);
     }
 
 }

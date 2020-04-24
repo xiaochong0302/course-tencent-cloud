@@ -72,8 +72,7 @@
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                     <ul>
                         <li><a href="{{ url({'for':'admin.student.edit'},{'plan_id':item.id}) }}">编辑学员</a></li>
-                        <li><a class="kg-learning" href="javascript:" url="{{ url({'for':'admin.student.learning'},{'plan_id':item.id}) }}">学习记录</a>
-                        </li>
+                        <li><a href="javascript:" class="kg-learning" data-url="{{ url({'for':'admin.student.learning'},{'plan_id':item.id}) }}">学习记录</a></li>
                     </ul>
                 </div>
             </td>
@@ -91,7 +90,7 @@
         var $ = layui.jquery;
 
         $('.kg-learning').on('click', function () {
-            var url = $(this).attr('url');
+            var url = $(this).attr('data-url');
             layer.open({
                 id: 'xm-course',
                 type: 2,

@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Caches\MaxCourseId as MaxCourseIdCache;
-use App\Services\CourseIndexSyncer;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
+use Yansongda\Supports\Collection;
 
 class Course extends Model
 {
@@ -94,6 +94,13 @@ class Course extends Model
      * @var int
      */
     public $category_id;
+
+    /**
+     * 主教师编号
+     *
+     * @var int
+     */
+    public $teacher_id;
 
     /**
      * 市场价格
@@ -319,43 +326,43 @@ class Course extends Model
 
     public static function modelTypes()
     {
-        return [
+        return new Collection([
             self::MODEL_VOD => '点播',
             self::MODEL_LIVE => '直播',
             self::MODEL_READ => '图文',
-        ];
+        ]);
     }
 
     public static function levelTypes()
     {
-        return [
+        return new Collection([
             self::LEVEL_ENTRY => '入门',
             self::LEVEL_JUNIOR => '初级',
             self::LEVEL_MEDIUM => '中级',
             self::LEVEL_SENIOR => '高级',
-        ];
+        ]);
     }
 
     public static function studyExpiryOptions()
     {
-        return [
+        return new Collection([
             1 => '1个月',
             3 => '3个月',
             6 => '6个月',
             12 => '12个月',
             36 => '36个月',
-        ];
+        ]);
     }
 
     public static function refundExpiryOptions()
     {
-        return [
+        return new Collection([
             7 => '7天',
             14 => '14天',
             30 => '30天',
             90 => '90天',
             180 => '180天',
-        ];
+        ]);
     }
 
 }

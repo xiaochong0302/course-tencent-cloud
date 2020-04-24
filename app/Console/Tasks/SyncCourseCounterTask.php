@@ -5,9 +5,9 @@ namespace App\Console\Tasks;
 use App\Caches\CourseCounter as CourseCounterCache;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Course as CourseRepo;
-use App\Services\CourseCounterSyncer;
+use App\Services\Syncer\CourseCounter as CourseCounterSyncer;
 
-class syncCourseCounterTask extends Task
+class SyncCourseCounterTask extends Task
 {
 
     /**

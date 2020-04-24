@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Yansongda\Supports\Collection;
 
 class Order extends Model
 {
@@ -179,32 +180,32 @@ class Order extends Model
 
     public static function itemTypes()
     {
-        return [
+        return new Collection([
             self::ITEM_COURSE => '课程',
             self::ITEM_PACKAGE => '套餐',
             self::ITEM_REWARD => '赞赏',
             self::ITEM_VIP => '会员',
             self::ITEM_TEST => '测试',
-        ];
+        ]);
     }
 
     public static function sourceTypes()
     {
-        return [
+        return new Collection([
             self::SOURCE_DESKTOP => 'desktop',
             self::SOURCE_ANDROID => 'android',
             self::SOURCE_IOS => 'ios',
-        ];
+        ]);
     }
 
     public static function statusTypes()
     {
-        return [
+        return new Collection([
             self::STATUS_PENDING => '待支付',
             self::STATUS_FINISHED => '已完成',
             self::STATUS_CLOSED => '已关闭',
             self::STATUS_REFUNDED => '已退款',
-        ];
+        ]);
     }
 
 }

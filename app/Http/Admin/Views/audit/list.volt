@@ -37,12 +37,12 @@
         <tr>
             <td>{{ item.user_id }}</td>
             <td>{{ item.user_name }}</td>
-            <td><a class="kg-ip2region" href="javascript:;" title="查看位置" ip="{{ item.user_ip }}">{{ item.user_ip }}</a></td>
+            <td><a class="kg-ip2region" href="javascript:" title="查看位置" data-ip="{{ item.user_ip }}">{{ item.user_ip }}</a></td>
             <td>{{ item.req_route }}</td>
             <td>{{ item.req_path }}</td>
             <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
             <td align="center">
-                <button class="kg-view layui-btn layui-btn-sm" audit-id="{{ item.id }}">浏览</button>
+                <button class="kg-view layui-btn layui-btn-sm" data-url="{{ url({'for':'admin.audit.show','id':item.id}) }}">浏览</button>
             </td>
         </tr>
     {% endfor %}
@@ -60,8 +60,7 @@
         var layer = layui.layer;
 
         $('.kg-view').on('click', function () {
-            var auditId = $(this).attr('audit-id');
-            var url = '/admin/audit/' + auditId + '/show';
+            var url = $(this).attr('data-url');
             layer.open({
                 type: 2,
                 title: '请求内容',

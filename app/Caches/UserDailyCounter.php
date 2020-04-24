@@ -5,7 +5,7 @@ namespace App\Caches;
 class UserDailyCounter extends Counter
 {
 
-    protected $lifetime = 86400;
+    protected $lifetime = 1 * 86400;
 
     public function getLifetime()
     {

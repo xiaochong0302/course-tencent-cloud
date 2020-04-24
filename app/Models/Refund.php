@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Yansongda\Supports\Collection;
 
 class Refund extends Model
 {
@@ -144,14 +145,14 @@ class Refund extends Model
 
     public static function statusTypes()
     {
-        return [
+        return new Collection([
             self::STATUS_PENDING => '待处理',
             self::STATUS_CANCELED => '已取消',
             self::STATUS_APPROVED => '已审核',
             self::STATUS_REFUSED => '已拒绝',
             self::STATUS_FINISHED => '已完成',
             self::STATUS_FAILED => '已失败',
-        ];
+        ]);
     }
 
 }

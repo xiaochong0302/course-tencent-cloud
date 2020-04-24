@@ -6,7 +6,7 @@
     {% endif %}
 {%- endmacro %}
 
-{%- macro last_active(create_time, update_time) %}
+{%- macro last_active_time(create_time, update_time) %}
     {% if update_time > 0 %}
         {{ date('Y-m-d H:i', update_time) }}
     {% else %}
@@ -40,8 +40,8 @@
             </td>
             <td>{{ item.duration|play_duration }}</td>
             <td>{{ client_type(item.client_type) }}</td>
-            <td><a class="kg-ip2region" href="javascript:;" title="查看位置" ip="{{ item.client_ip }}">{{ item.client_ip }}</a></td>
-            <td>{{ last_active(item.create_time, item.update_time) }}</td>
+            <td><a href="javascript:" class="kg-ip2region" title="查看位置" data-ip="{{ item.client_ip }}">{{ item.client_ip }}</a></td>
+            <td>{{ last_active_time(item.create_time,item.update_time) }}</td>
         </tr>
     {% endfor %}
     </tbody>
@@ -49,45 +49,3 @@
 
 {{ partial('partials/pager') }}
 {{ partial('partials/ip2region') }}
-
-<script>
-
-    layui.use(['jquery', 'form'], function () {
-
-        var $ = layui.jquery;
-        var form = layui.form;
-
-        form.on('switch(switch-locked)', function (data) {
-            var courseId = $(this).attr('course-id');
-            var userId = $(this).attr('user-id');
-            var checked = $(this).is(':checked');
-            var locked = checked ? 1 : 0;
-            var tips = locked == 1 ? '确定要锁定用户？' : '确定要解锁用户？';
-            layer.confirm(tips, function () {
-                $.ajax({
-                    type: 'POST',
-                    url: '/admin/student/update',
-                    data: {
-                        course_id: courseId,
-                        user_id: userId,
-                        locked: locked
-                    },
-                    success: function (res) {
-                        layer.msg(res.msg, {icon: 1});
-                    },
-                    error: function (xhr) {
-                        var json = JSON.parse(xhr.responseText);
-                        layer.msg(json.msg, {icon: 2});
-                        data.elem.checked = !checked;
-                        form.render();
-                    }
-                });
-            }, function () {
-                data.elem.checked = !checked;
-                form.render();
-            });
-        });
-
-    });
-
-</script>

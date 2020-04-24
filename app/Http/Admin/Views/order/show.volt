@@ -30,7 +30,7 @@
 
 <div style="text-align: center">
     {% if order.status == 'pending' %}
-        <button class="kg-close layui-btn layui-bg-green" order-id="{{ order.id }}">关闭订单</button>
+        <button class="kg-close layui-btn layui-bg-green" data-url="{{ url({'for':'admin.order.close','id':item.id}) }}">关闭订单</button>
     {% endif %}
     <button class="kg-back layui-btn layui-bg-gray">返回上页</button>
 </div>
@@ -113,12 +113,12 @@
         var $ = layui.jquery;
 
         $('.kg-close').on('click', function () {
-            var orderId = $(this).attr('order-id');
+            var url = $(this).attr('data-url');
             var tips = '确定要关闭订单吗？';
             layer.confirm(tips, function () {
                 $.ajax({
                     type: 'POST',
-                    url: '/admin/order/' + orderId + '/close',
+                    url: url,
                     success: function (res) {
                         layer.msg(res.msg, {icon: 1});
                         setTimeout(function () {

@@ -10,7 +10,7 @@ use App\Repos\ChapterUser as ChapterUserRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Learning as LearningRepo;
-use App\Services\LearningSyncer;
+use App\Services\Syncer\Learning as LearningSyncer;
 use Phalcon\Cli\Task;
 
 class LearningTask extends Task

@@ -1,3 +1,12 @@
+{%- macro live_time_info(attrs) %}
+    {% if attrs['start_time'] > 0 %}
+        <p>开始：{{ date('Y-m-d H:i', attrs['start_time']) }}</p>
+        <p>结束：{{ date('Y-m-d H:i', attrs['end_time']) }}</p>
+    {% else %}
+        N/A
+    {% endif %}
+{%- endmacro %}
+
 <table class="kg-table layui-table layui-form">
     <colgroup>
         <col>
@@ -27,24 +36,16 @@
                 <span>{{ item.title }}</span>
                 <span class="layui-badge layui-bg-green">课</span>
             </td>
-            <td>
-                {% if item.attrs['start_time'] > 0 %}
-                    <p>开始：{{ date('Y-m-d H:i',item.attrs['start_time']) }}</p>
-                    <p>结束：{{ date('Y-m-d H:i',item.attrs['end_time']) }}</p>
-                {% else %}
-                    N/A
-                {% endif %}
-            </td>
-            <td><input class="layui-input kg-priority-input" type="text" name="priority" value="{{ item.priority }}" chapter-id="{{ item.id }}"></td>
-            <td><input type="checkbox" name="free" value="1" lay-skin="switch" lay-text="是|否" lay-filter="switch-free" chapter-id="{{ item.id }}" {% if item.free == 1 %}checked{% endif %}></td>
-            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="switch-published" chapter-id="{{ item.id }}"
-                       {% if item.published == 1 %}checked{% endif %}></td>
+            <td>{{ live_time_info(item.attrs) }}</td>
+            <td><input class="layui-input kg-priority-input" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ url({'for':'admin.chapter.update','id':item.id}) }}"></td>
+            <td><input type="checkbox" name="free" value="1" lay-skin="switch" lay-text="是|否" lay-filter="free" data-url="{{ url({'for':'admin.chapter.update','id':item.id}) }}" {% if item.free == 1 %}checked{% endif %}></td>
+            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.chapter.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
             <td align="center">
                 <div class="layui-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                     <ul>
                         <li><a href="{{ url({'for':'admin.chapter.edit','id':item.id}) }}">编辑</a></li>
-                        <li><a href="javascript:" class="kg-delete" url="{{ url({'for':'admin.chapter.delete','id':item.id}) }}">删除</a></li>
+                        <li><a href="javascript:" class="kg-delete" data-url="{{ url({'for':'admin.chapter.delete','id':item.id}) }}">删除</a></li>
                     </ul>
                 </div>
             </td>

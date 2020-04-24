@@ -8,7 +8,7 @@ use Phalcon\Cli\Task;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class CleanAuthTokenTask extends Task
+class CleanTokenTask extends Task
 {
 
     public function mainAction()

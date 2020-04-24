@@ -23,15 +23,15 @@
         <div class="layui-input-block">
             {% for key,level in auth_nodes %}
                 <table class="layui-table">
-                    {% for key2,level2 in level.child %}
+                    {% for key2,level2 in level.children %}
                         <tr>
                             {% if key2 == 0 %}
-                                <td width="15%" rowspan="{{ level.child|length }}">{{ level.label }}</td>
+                                <td width="15%" rowspan="{{ level.children|length }}">{{ level.title }}</td>
                             {% endif %}
-                            <td width="15%">{{ level2.label }}</td>
+                            <td width="15%">{{ level2.title }}</td>
                             <td>
-                                {% for level3 in level2.child %}
-                                    <input type="checkbox" name="routes[]" title="{{ level3.label }}" value="{{ level3.route }}" {% if level3.route in role.routes %}checked{% endif %}>
+                                {% for level3 in level2.children %}
+                                    <input type="checkbox" name="routes[]" title="{{ level3.title }}" value="{{ level3.route }}" {% if level3.route in role.routes %}checked{% endif %}>
                                 {% endfor %}
                             </td>
                         </tr>

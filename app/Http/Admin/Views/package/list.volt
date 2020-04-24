@@ -40,13 +40,13 @@
             <td><span class="layui-badge layui-bg-gray">{{ item.course_count }}</span></td>
             <td>￥{{ item.market_price }}</td>
             <td>￥{{ item.vip_price }}</td>
-            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="switch-published" package-id="{{ item.id }}" {% if item.published == 1 %}checked{% endif %}></td>
+            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.package.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
             <td align="center">
                 <div class="layui-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                     <ul>
                         <li><a href="{{ url({'for':'admin.package.edit','id':item.id}) }}">编辑</a></li>
-                        <li><a href="javascript:" url="{{ url({'for':'admin.package.delete','id':item.id}) }}" class="kg-delete">删除</a></li>
+                        <li><a href="javascript:" class="kg-delete" data-url="{{ url({'for':'admin.package.delete','id':item.id}) }}">删除</a></li>
                     </ul>
                 </div>
             </td>
@@ -56,40 +56,3 @@
 </table>
 
 {{ partial('partials/pager') }}
-
-<script>
-
-    layui.use(['jquery', 'form'], function () {
-
-        var $ = layui.jquery;
-        var form = layui.form;
-
-        form.on('switch(switch-published)', function (data) {
-            var packageId = $(this).attr('package-id');
-            var checked = $(this).is(':checked');
-            var published = checked ? 1 : 0;
-            var tips = published === 1 ? '确定要发布套餐？' : '确定要下架套餐？';
-            layer.confirm(tips, function () {
-                $.ajax({
-                    type: 'POST',
-                    url: '/admin/package/' + packageId + '/update',
-                    data: {published: published},
-                    success: function (res) {
-                        layer.msg(res.msg, {icon: 1});
-                    },
-                    error: function (xhr) {
-                        var json = JSON.parse(xhr.responseText);
-                        layer.msg(json.msg, {icon: 2});
-                        data.elem.checked = !checked;
-                        form.render();
-                    }
-                });
-            }, function () {
-                data.elem.checked = !checked;
-                form.render();
-            });
-        });
-
-    });
-
-</script>

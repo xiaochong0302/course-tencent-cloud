@@ -35,51 +35,14 @@
         var layer = layui.layer;
         var form = layui.form;
 
-        $('input[name=priority]').on('change', function () {
-            var priority = $(this).val();
-            var chapterId = $(this).attr('chapter-id');
-            $.ajax({
-                type: 'POST',
-                url: '/admin/chapter/' + chapterId + '/update',
-                data: {priority: priority},
-                success: function (res) {
-                    layer.msg(res.msg, {icon: 1});
-                },
-                error: function (xhr) {
-                    var json = JSON.parse(xhr.responseText);
-                    layer.msg(json.msg, {icon: 2});
-                }
-            });
-        });
-
-        form.on('switch(switch-free)', function (data) {
-            var chapterId = $(this).attr('chapter-id');
+        form.on('switch(free)', function (data) {
             var checked = $(this).is(':checked');
             var free = checked ? 1 : 0;
+            var url = $(this).attr('data-url');
             $.ajax({
                 type: 'POST',
-                url: '/admin/chapter/' + chapterId + '/update',
+                url: url,
                 data: {free: free},
-                success: function (res) {
-                    layer.msg(res.msg, {icon: 1});
-                },
-                error: function (xhr) {
-                    var json = JSON.parse(xhr.responseText);
-                    layer.msg(json.msg, {icon: 2});
-                    data.elem.checked = !checked;
-                    form.render();
-                }
-            });
-        });
-
-        form.on('switch(switch-published)', function (data) {
-            var chapterId = $(this).attr('chapter-id');
-            var checked = $(this).is(':checked');
-            var published = checked ? 1 : 0;
-            $.ajax({
-                type: 'POST',
-                url: '/admin/chapter/' + chapterId + '/update',
-                data: {published: published},
                 success: function (res) {
                     layer.msg(res.msg, {icon: 1});
                 },

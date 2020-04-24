@@ -30,7 +30,7 @@ class AuthMenu extends Component
             if ($this->authUser->id || in_array($node['id'], $this->owned1stLevelIds)) {
                 $menus[] = [
                     'id' => $node['id'],
-                    'label' => $node['label'],
+                    'title' => $node['title'],
                 ];
             }
         }
@@ -43,17 +43,17 @@ class AuthMenu extends Component
         $menus = [];
 
         foreach ($this->authNodes as $key => $level) {
-            foreach ($level['child'] as $key2 => $level2) {
-                foreach ($level2['child'] as $key3 => $level3) {
+            foreach ($level['children'] as $key2 => $level2) {
+                foreach ($level2['children'] as $key3 => $level3) {
                     $hasRight = $this->authUser->root || in_array($level3['id'], $this->owned3rdLevelIds);
                     if ($level3['type'] == 'menu' && $hasRight) {
                         $menus[$key]['id'] = $level['id'];
-                        $menus[$key]['label'] = $level['label'];
-                        $menus[$key]['child'][$key2]['id'] = $level2['id'];
-                        $menus[$key]['child'][$key2]['label'] = $level2['label'];
-                        $menus[$key]['child'][$key2]['child'][$key3] = [
+                        $menus[$key]['title'] = $level['title'];
+                        $menus[$key]['children'][$key2]['id'] = $level2['id'];
+                        $menus[$key]['children'][$key2]['title'] = $level2['title'];
+                        $menus[$key]['children'][$key2]['children'][$key3] = [
                             'id' => $level3['id'],
-                            'label' => $level3['label'],
+                            'title' => $level3['title'],
                             'url' => $this->url->get(['for' => $level3['route']]),
                         ];
                     }
@@ -93,8 +93,8 @@ class AuthMenu extends Component
         $mapping = [];
 
         foreach ($this->authNodes as $level) {
-            foreach ($level['child'] as $level2) {
-                foreach ($level2['child'] as $level3) {
+            foreach ($level['children'] as $level2) {
+                foreach ($level2['children'] as $level3) {
                     if ($level3['type'] == 'menu') {
                         $mapping[$level3['route']] = $level3['id'];
                     }

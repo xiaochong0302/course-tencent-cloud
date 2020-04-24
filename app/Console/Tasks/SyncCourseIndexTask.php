@@ -6,7 +6,7 @@ use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Course as CourseRepo;
 use App\Searchers\CourseDocument;
 use App\Searchers\CourseSearch;
-use App\Services\CourseIndexSyncer;
+use App\Services\Syncer\CourseIndex as CourseIndexSyncer;
 
 class SyncCourseIndexTask extends Task
 {

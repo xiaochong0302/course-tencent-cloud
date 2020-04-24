@@ -5,7 +5,7 @@ namespace App\Console\Tasks;
 use App\Caches\ConsultCounter as ConsultCounterCache;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Consult as ConsultRepo;
-use App\Services\ConsultCounterSyncer;
+use App\Services\Syncer\ConsultCounter as ConsultCounterSyncer;
 
 class SyncConsultCounterTask extends Task
 {

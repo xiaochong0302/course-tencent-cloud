@@ -42,13 +42,13 @@
                     <span class="layui-badge layui-bg-green">{{ item.lesson_count }}</span>
                 </a>
             </td>
-            <td><input class="layui-input kg-priority-input" type="text" name="priority" value="{{ item.priority }}" chapter-id="{{ item.id }}"></td>
+            <td><input class="layui-input kg-priority-input" type="text" name="priority" value="{{ item.priority }}" data-url="{{ url({'for':'admin.chapter.update','id':item.id}) }}"></td>
             <td align="center">
                 <div class="layui-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                     <ul>
                         <li><a href="{{ url({'for':'admin.chapter.edit','id':item.id}) }}">编辑</a></li>
-                        <li><a href="javascript:" class="kg-delete" url="{{ url({'for':'admin.chapter.delete','id':item.id}) }}">删除</a></li>
+                        <li><a href="javascript:" class="kg-delete" data-url="{{ url({'for':'admin.chapter.delete','id':item.id}) }}">删除</a></li>
                     </ul>
                 </div>
             </td>
@@ -56,34 +56,3 @@
     {% endfor %}
     </tbody>
 </table>
-
-<script>
-
-    layui.use(['jquery', 'layer', 'form', 'element'], function () {
-
-        var $ = layui.jquery;
-        var layer = layui.layer;
-        var form = layui.form;
-
-        $('input[name=priority]').on('change', function () {
-
-            var priority = $(this).val();
-            var chapterId = $(this).attr('chapter-id');
-
-            $.ajax({
-                type: 'POST',
-                url: '/admin/chapter/' + chapterId + '/update',
-                data: {priority: priority},
-                success: function (res) {
-                    layer.msg(res.msg, {icon: 1});
-                },
-                error: function (xhr) {
-                    var json = JSON.parse(xhr.responseText);
-                    layer.msg(json.msg, {icon: 2});
-                }
-            });
-        });
-
-    });
-
-</script>

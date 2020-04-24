@@ -5,7 +5,7 @@ namespace App\Console\Tasks;
 use App\Caches\CommentCounter as CommentCounterCache;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Comment as CommentRepo;
-use App\Services\CommentCounterSyncer;
+use App\Services\Syncer\CommentCounter as CommentCounterSyncer;
 
 class SyncCommentCounterTask extends Task
 {

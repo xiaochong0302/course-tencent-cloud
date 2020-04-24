@@ -24,17 +24,8 @@
         <label class="layui-form-label">加入方式</label>
         <div class="layui-input-block">
             <input type="radio" name="source" value="free" title="免费课程">
-            <input type="radio" name="source" value="paid" title="付费课程">
-            <input type="radio" name="source" value="vip" title="会员免费">
+            <input type="radio" name="source" value="charge" title="付费课程">
             <input type="radio" name="source" value="import" title="后台导入">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">是否锁定</label>
-        <div class="layui-input-block">
-            <input type="radio" name="locked" value="1" title="是">
-            <input type="radio" name="locked" value="0" title="否">
         </div>
     </div>
 

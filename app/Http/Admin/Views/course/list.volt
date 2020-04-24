@@ -70,17 +70,16 @@
                 <p>市场：￥{{ item.market_price }}</p>
                 <p>会员：￥{{ item.vip_price }}</p>
             </td>
-            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="switch-published" course-id="{{ item.id }}"
-                       {% if item.published == 1 %}checked{% endif %}></td>
+            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.course.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
             <td align="center">
                 <div class="layui-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                     <ul>
                         <li><a href="{{ url({'for':'admin.course.edit','id':item.id}) }}">编辑课程</a></li>
                         {% if item.deleted == 0 %}
-                            <li><a href="javascript:" class="kg-delete" url="{{ url({'for':'admin.course.delete','id':item.id}) }}">删除课程</a></li>
+                            <li><a href="javascript:" class="kg-delete" data-url="{{ url({'for':'admin.course.delete','id':item.id}) }}">删除课程</a></li>
                         {% else %}
-                            <li><a href="javascript:" class="kg-restore" url="{{ url({'for':'admin.course.restore','id':item.id}) }}">还原课程</a></li>
+                            <li><a href="javascript:" class="kg-restore" data-url="{{ url({'for':'admin.course.restore','id':item.id}) }}">还原课程</a></li>
                         {% endif %}
                         <hr>
                         <li><a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">章节管理</a></li>
@@ -96,40 +95,3 @@
 </table>
 
 {{ partial('partials/pager') }}
-
-<script>
-
-    layui.use(['jquery', 'form'], function () {
-
-        var $ = layui.jquery;
-        var form = layui.form;
-
-        form.on('switch(switch-published)', function (data) {
-            var courseId = $(this).attr('course-id');
-            var checked = $(this).is(':checked');
-            var published = checked ? 1 : 0;
-            var tips = published === 1 ? '确定要发布课程？' : '确定要下架课程？';
-            layer.confirm(tips, function () {
-                $.ajax({
-                    type: 'POST',
-                    url: '/admin/course/' + courseId + '/update',
-                    data: {published: published},
-                    success: function (res) {
-                        layer.msg(res.msg, {icon: 1});
-                    },
-                    error: function (xhr) {
-                        var json = JSON.parse(xhr.responseText);
-                        layer.msg(json.msg, {icon: 2});
-                        data.elem.checked = !checked;
-                        form.render();
-                    }
-                });
-            }, function () {
-                data.elem.checked = !checked;
-                form.render();
-            });
-        });
-
-    });
-
-</script>

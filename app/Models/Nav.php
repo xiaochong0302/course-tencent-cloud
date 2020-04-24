@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Yansongda\Supports\Collection;
 
 class Nav extends Model
 {
@@ -146,18 +147,18 @@ class Nav extends Model
 
     public static function positionTypes()
     {
-        return [
+        return new Collection([
             self::POSITION_TOP => '顶部',
             self::POSITION_BOTTOM => '底部',
-        ];
+        ]);
     }
 
     public static function targetTypes()
     {
-        return [
+        return new Collection([
             self::TARGET_BLANK => '新窗口',
             self::TARGET_SELF => '原窗口',
-        ];
+        ]);
     }
 
 }

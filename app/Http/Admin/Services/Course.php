@@ -21,7 +21,6 @@ use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Syncer\CourseIndex as CourseIndexSyncer;
 use App\Validators\Course as CourseValidator;
-use Yansongda\Supports\Collection;
 
 class Course extends Service
 {
@@ -183,16 +182,12 @@ class Course extends Service
 
     public function getStudyExpiryOptions()
     {
-        $options = CourseModel::studyExpiryOptions();
-
-        return new Collection($options);
+        return CourseModel::studyExpiryOptions();
     }
 
     public function getRefundExpiryOptions()
     {
-        $options = CourseModel::refundExpiryOptions();
-
-        return new Collection($options);
+        return CourseModel::refundExpiryOptions();
     }
 
     public function getXmCategories($id)
@@ -383,6 +378,13 @@ class Course extends Service
                     $courseTeacher->delete();
                 }
             }
+        }
+
+        $teacherId = $newTeacherIds[0] ?? 0;
+
+        if ($teacherId) {
+            $course->teacher_id = $teacherId;
+            $course->update();
         }
 
         $cache = new CourseTeacherListCache();

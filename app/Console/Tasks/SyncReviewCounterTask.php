@@ -5,7 +5,7 @@ namespace App\Console\Tasks;
 use App\Caches\ReviewCounter as ReviewCounterCache;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Review as ReviewRepo;
-use App\Services\ReviewCounterSyncer;
+use App\Services\Syncer\ReviewCounter as ReviewCounterSyncer;
 
 class SyncReviewCounterTask extends Task
 {
