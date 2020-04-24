@@ -3,8 +3,8 @@
 namespace App\Console\Tasks;
 
 use App\Models\Course as CourseModel;
-use App\Searchers\CourseDocument;
-use App\Searchers\CourseSearch;
+use App\Services\Search\CourseDocument;
+use App\Services\Search\CourseHandler;
 use Phalcon\Cli\Task;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -57,9 +57,9 @@ class CourseIndexTask extends Task
      */
     protected function cleanCourseIndex()
     {
-        $searcher = new CourseSearch();
+        $handler = new CourseHandler();
 
-        $index = $searcher->getXS()->getIndex();
+        $index = $handler->getXS()->getIndex();
 
         echo "start clean index" . PHP_EOL;
 
@@ -79,11 +79,11 @@ class CourseIndexTask extends Task
             return;
         }
 
-        $searcher = new CourseSearch();
+        $handler = new CourseHandler();
 
         $documenter = new CourseDocument();
 
-        $index = $searcher->getXS()->getIndex();
+        $index = $handler->getXS()->getIndex();
 
         echo "start rebuild index" . PHP_EOL;
 
@@ -108,9 +108,9 @@ class CourseIndexTask extends Task
      */
     protected function searchCourses($query)
     {
-        $searcher = new CourseSearch();
+        $handler = new CourseHandler();
 
-        return $searcher->search($query);
+        return $handler->search($query);
     }
 
     /**

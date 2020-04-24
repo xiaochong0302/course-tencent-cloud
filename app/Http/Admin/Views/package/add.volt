@@ -14,7 +14,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">简介</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="summary">
+            <textarea class="layui-textarea" name="summary"></textarea>
         </div>
     </div>
 

@@ -3,6 +3,7 @@
 namespace App\Services\Search;
 
 use Phalcon\Mvc\User\Component;
+use Yansongda\Supports\Collection;
 
 class CourseHandler extends Component
 {
@@ -35,7 +36,7 @@ class CourseHandler extends Component
      * @param string $query
      * @param int $limit
      * @param int $offset
-     * @return array
+     * @return Collection
      * @throws \XSException
      */
     public function search($query, $limit = 15, $offset = 0)
@@ -62,10 +63,10 @@ class CourseHandler extends Component
             $items[] = $item;
         }
 
-        return [
+        return new Collection([
             'total' => $total,
             'items' => $items,
-        ];
+        ]);
     }
 
     /**
