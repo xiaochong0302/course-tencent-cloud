@@ -20,7 +20,7 @@ class CourseList extends Service
 
             $categoryService = new CategoryService();
 
-            $childNodeIds = $categoryService->getChildNodeIds($params['category_id']);
+            $childNodeIds = $categoryService->getChildCategoryIds($params['category_id']);
 
             $params['category_id'] = $childNodeIds;
         }
@@ -63,7 +63,6 @@ class CourseList extends Service
                 'market_price' => (float)$course['market_price'],
                 'vip_price' => (float)$course['vip_price'],
                 'rating' => (float)$course['rating'],
-                'score' => (float)$course['score'],
                 'model' => $course['model'],
                 'level' => $course['level'],
                 'user_count' => $course['user_count'],

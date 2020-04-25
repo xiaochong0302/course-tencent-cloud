@@ -42,13 +42,13 @@ class CourseInfo extends Service
             'study_expiry' => $course->study_expiry,
             'refund_expiry' => $course->refund_expiry,
             'rating' => (float)$course->rating,
-            'score' => (float)$course->score,
             'model' => $course->model,
             'level' => $course->level,
             'attrs' => $course->attrs,
             'user_count' => $course->user_count,
             'lesson_count' => $course->lesson_count,
             'review_count' => $course->review_count,
+            'comment_count' => $course->comment_count,
             'favorite_count' => $course->favorite_count,
         ];
 
@@ -89,9 +89,9 @@ class CourseInfo extends Service
 
     protected function getCategoryPaths(CourseModel $course)
     {
-        $categoryService = new CategoryService();
+        $service = new CategoryService();
 
-        return $categoryService->getNodePaths($course->category_id);
+        return $service->getCategoryPaths($course->category_id);
     }
 
     protected function getTeachers(CourseModel $course)

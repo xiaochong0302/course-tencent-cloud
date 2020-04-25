@@ -14,7 +14,7 @@ class Category extends Service
      * @param int $id
      * @return array
      */
-    public function getNodePaths($id)
+    public function getCategoryPaths($id)
     {
         $categoryCache = new CategoryCache();
 
@@ -53,7 +53,7 @@ class Category extends Service
      * @param int $id
      * @return array
      */
-    public function getChildNodeIds($id)
+    public function getChildCategoryIds($id)
     {
         $categoryCache = new CategoryCache();
 
