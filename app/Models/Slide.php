@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
-use Yansongda\Supports\Collection;
 
 class Slide extends Model
 {
@@ -146,11 +145,11 @@ class Slide extends Model
 
     public static function targetTypes()
     {
-        return new Collection([
+        return [
             self::TARGET_COURSE => '课程',
             self::TARGET_PAGE => '单页',
             self::TARGET_LINK => '链接',
-        ]);
+        ];
     }
 
 }

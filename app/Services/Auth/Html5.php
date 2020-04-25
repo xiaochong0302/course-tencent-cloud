@@ -4,7 +4,6 @@ namespace App\Services\Auth;
 
 use App\Models\User as UserModel;
 use App\Services\Auth as AuthService;
-use Yansongda\Supports\Collection;
 
 class Html5 extends AuthService
 {
@@ -34,14 +33,12 @@ class Html5 extends AuthService
 
         $authInfo = $this->session->get($authKey);
 
-        if (!$authInfo) return null;
-
-        return new Collection($authInfo);
+        return $authInfo ?: null;
     }
 
     public function getAuthKey()
     {
-        return 'html5_auth_info';
+        return 'h5_auth_info';
     }
 
 }

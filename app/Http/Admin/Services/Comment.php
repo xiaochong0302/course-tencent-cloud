@@ -140,7 +140,7 @@ class Comment extends Service
             $pipeB = $builder->handleCourses($pipeA);
             $pipeC = $builder->handleChapters($pipeB);
             $pipeD = $builder->handleUsers($pipeC);
-            $pipeE = $builder->arrayToObject($pipeD);
+            $pipeE = $builder->objects($pipeD);
 
             $pager->items = $pipeE;
         }

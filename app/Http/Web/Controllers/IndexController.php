@@ -10,8 +10,8 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        $this->seo->setKeywords($this->site->keywords);
-        $this->seo->setDescription($this->site->description);
+        $this->siteSeo->setKeywords($this->siteSettings['keywords']);
+        $this->siteSeo->setDescription($this->siteSettings['description']);
     }
 
 }

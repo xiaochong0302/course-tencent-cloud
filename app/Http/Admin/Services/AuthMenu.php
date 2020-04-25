@@ -27,7 +27,7 @@ class AuthMenu extends Component
         $menus = [];
 
         foreach ($this->authNodes as $node) {
-            if ($this->authUser->id || in_array($node['id'], $this->owned1stLevelIds)) {
+            if (($this->authUser['root'] == 1) || in_array($node['id'], $this->owned1stLevelIds)) {
                 $menus[] = [
                     'id' => $node['id'],
                     'title' => $node['title'],
@@ -45,8 +45,8 @@ class AuthMenu extends Component
         foreach ($this->authNodes as $key => $level) {
             foreach ($level['children'] as $key2 => $level2) {
                 foreach ($level2['children'] as $key3 => $level3) {
-                    $hasRight = $this->authUser->root || in_array($level3['id'], $this->owned3rdLevelIds);
-                    if ($level3['type'] == 'menu' && $hasRight) {
+                    $allowed = ($this->authUser['root'] == 1) || in_array($level3['id'], $this->owned3rdLevelIds);
+                    if ($level3['type'] == 'menu' && $allowed) {
                         $menus[$key]['id'] = $level['id'];
                         $menus[$key]['title'] = $level['title'];
                         $menus[$key]['children'][$key2]['id'] = $level2['id'];
@@ -76,7 +76,7 @@ class AuthMenu extends Component
 
         foreach ($routeIdMapping as $key => $value) {
             $ids = explode('-', $value);
-            if (in_array($key, $this->authUser->routes)) {
+            if (in_array($key, $this->authUser['routes'])) {
                 $owned1stLevelIds[] = $ids[0];
                 $owned2ndLevelIds[] = $ids[0] . '-' . $ids[1];
                 $owned3rdLevelIds[] = $value;

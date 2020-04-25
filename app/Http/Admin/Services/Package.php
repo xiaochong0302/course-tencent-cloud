@@ -11,7 +11,6 @@ use App\Repos\Course as CourseRepo;
 use App\Repos\CoursePackage as CoursePackageRepo;
 use App\Repos\Package as PackageRepo;
 use App\Validators\Package as PackageValidator;
-use Yansongda\Supports\Collection;
 
 class Package extends Service
 {
@@ -140,7 +139,8 @@ class Package extends Service
 
     public function getGuidingPrice($courses)
     {
-        $totalMarketPrice = $totalVipPrice = 0;
+        $totalMarketPrice = 0;
+        $totalVipPrice = 0;
 
         if ($courses) {
             foreach ($courses as $course) {
@@ -152,10 +152,10 @@ class Package extends Service
         $sgtMarketPrice = sprintf('%0.2f', intval($totalMarketPrice * 0.9));
         $sgtVipPrice = sprintf('%0.2f', intval($totalVipPrice * 0.8));
 
-        return new Collection([
+        return [
             'market_price' => $sgtMarketPrice,
             'vip_price' => $sgtVipPrice,
-        ]);
+        ];
     }
 
     public function getXmCourses($id)

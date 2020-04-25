@@ -8,23 +8,25 @@
 
 {%- macro gender_info(value) %}
     {% if value == 'male' %}
-        男
+        <span class="layui-badge layui-bg-red">男</span>
     {% elseif value == 'female' %}
-        女
+        <span class="layui-badge layui-bg-green">女</span>
     {% elseif value == 'none' %}
-        密
+        <span class="layui-badge layui-bg-gray">密</span>
     {% endif %}
 {%- endmacro %}
 
 {%- macro edu_role_info(user) %}
-    {% if user.edu_role.id %}
-        {{ user.edu_role.name }}
+    {% if user.edu_role.id == 'student' %}
+        <span class="layui-badge layui-bg-gray">学员</span>
+    {% elseif user.edu_role.id == 'teacher' %}
+        <span class="layui-badge layui-bg-blue">讲师</span>
     {% endif %}
 {%- endmacro %}
 
 {%- macro admin_role_info(user) %}
     {% if user.admin_role.id %}
-        {{ user.admin_role.name }}
+        <span class="layui-badge layui-bg-gray">{{ user.admin_role.name }}</span>
     {% endif %}
 {%- endmacro %}
 

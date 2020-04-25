@@ -120,7 +120,7 @@ class Refund extends Service
             $pipeA = $pager->items->toArray();
             $pipeB = $builder->handleUsers($pipeA);
             $pipeC = $builder->handleOrders($pipeB);
-            $pipeD = $builder->arrayToObject($pipeC);
+            $pipeD = $builder->objects($pipeC);
 
             $pager->items = $pipeD;
         }

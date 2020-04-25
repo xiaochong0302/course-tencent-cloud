@@ -22,8 +22,8 @@
             <a href="javascript:"><i class="layui-icon layui-icon-spread-left"></i></a>
         </div>
         <ul class="layui-nav layui-layout-left kg-nav-module">
-            {% for item in top_menus|array_object %}
-                <li nav-module="module-{{ item.id }}" class="layui-nav-item">
+            {% for item in top_menus %}
+                <li data-module="module-{{ item.id }}" class="layui-nav-item">
                     <a href="javascript:">{{ item.title }}</a>
                 </li>
             {% endfor %}
@@ -45,8 +45,8 @@
 
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
-            {% for key,level in left_menus|array_object %}
-                <ul class="layui-nav layui-nav-tree {% if key != 0 %}layui-hide{% endif %}" nav-module="module-{{ level.id }}" lay-shrink="all">
+            {% for key,level in left_menus %}
+                <ul class="layui-nav layui-nav-tree {% if key != 0 %}layui-hide{% endif %}" lay-shrink="all" data-module="module-{{ level.id }}">
                     {% for key2,level2 in level.children %}
                         <li class="layui-nav-item {% if key2 == 0 %}layui-nav-itemed{% endif %}">
                             <a href="javascript:">{{ level2.title }}</a>

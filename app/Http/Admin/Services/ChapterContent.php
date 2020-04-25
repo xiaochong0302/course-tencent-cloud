@@ -39,11 +39,9 @@ class ChapterContent extends Service
 
     public function getPlayUrls($chapterId)
     {
-        $chapterVodService = new ChapterVodService();
+        $service = new ChapterVodService();
 
-        $playUrls = $chapterVodService->getPlayUrls($chapterId);
-
-        return kg_array_object($playUrls);
+        return $service->getPlayUrls($chapterId);
     }
 
     public function updateChapterContent($chapterId)

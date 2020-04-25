@@ -237,7 +237,7 @@ class User extends Service
             $pipeA = $pager->items->toArray();
             $pipeB = $builder->handleAdminRoles($pipeA);
             $pipeC = $builder->handleEduRoles($pipeB);
-            $pipeD = $builder->arrayToObject($pipeC);
+            $pipeD = $builder->objects($pipeC);
 
             $pager->items = $pipeD;
         }

@@ -90,7 +90,7 @@ class Order extends Service
             $pipeA = $pager->items->toArray();
             $pipeB = $builder->handleItems($pipeA);
             $pipeC = $builder->handleUsers($pipeB);
-            $pipeD = $builder->arrayToObject($pipeC);
+            $pipeD = $builder->objects($pipeC);
 
             $pager->items = $pipeD;
         }

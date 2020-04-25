@@ -9,7 +9,6 @@ use App\Services\Auth\Web as WebAuth;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 use Phalcon\Mvc\Dispatcher;
-use Yansongda\Supports\Collection;
 
 class Controller extends \Phalcon\Mvc\Controller
 {
@@ -17,20 +16,20 @@ class Controller extends \Phalcon\Mvc\Controller
     /**
      * @var SiteSeo
      */
-    protected $seo;
+    protected $siteSeo;
 
     /**
-     * @var Collection
+     * @var array
      */
-    protected $site;
+    protected $siteSettings;
 
     /**
-     * @var Collection
+     * @var array
      */
-    protected $nav;
+    protected $siteNavs;
 
     /**
-     * @var Collection
+     * @var array
      */
     protected $authUser;
 
@@ -45,21 +44,21 @@ class Controller extends \Phalcon\Mvc\Controller
 
         $this->checkRateLimit();
 
-        $this->seo = $this->getSiteSeo();
-        $this->site = $this->getSiteSettings();
-        $this->nav = $this->getNavList();
-        $this->authUser = $this->getAuthUser();
-
         return true;
     }
 
     public function initialize()
     {
-        $this->seo->setTitle($this->site->title);
+        $this->siteSeo = $this->getSiteSeo();
+        $this->siteNavs = $this->getSiteNavs();
+        $this->siteSettings = $this->getSiteSettings();
+        $this->authUser = $this->getAuthUser();
 
-        $this->view->setVar('seo', $this->seo);
-        $this->view->setVar('site', $this->site);
-        $this->view->setVar('nav', $this->nav);
+        $this->siteSeo->setTitle($this->siteSettings['title']);
+
+        $this->view->setVar('site_seo', $this->siteSeo);
+        $this->view->setVar('site_navs', $this->siteNavs);
+        $this->view->setVar('site_settings', $this->siteSettings);
         $this->view->setVar('auth_user', $this->authUser);
     }
 
@@ -70,21 +69,21 @@ class Controller extends \Phalcon\Mvc\Controller
          */
         $auth = $this->getDI()->get('auth');
 
-        return $auth->getAuthInfo();
+        return $auth->getAuthInfo() ?: [];
     }
 
-    protected function getNavList()
+    protected function getSiteNavs()
     {
         $cache = new NavTreeListCache();
 
-        return $cache->get();
+        return $cache->get() ?: [];
     }
 
     protected function getSiteSettings()
     {
         $cache = new SettingCache();
 
-        return $cache->get('site');
+        return $cache->get('site') ?: [];
     }
 
     protected function getSiteSeo()

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
-use Yansongda\Supports\Collection;
 
 class Role extends Model
 {
@@ -129,20 +128,20 @@ class Role extends Model
 
     public static function types()
     {
-        return new Collection([
+        return [
             self::TYPE_SYSTEM => '内置',
             self::TYPE_CUSTOM => '自定',
-        ]);
+        ];
     }
 
     public static function sysRoleTypes()
     {
-        return new Collection([
+        return [
             self::ROLE_ROOT => '管理人员',
             self::ROLE_OPERATOR => '运营人员',
             self::ROLE_EDITOR => '编辑人员',
             self::ROLE_FINANCE => '财务人员',
-        ]);
+        ];
     }
 
 }

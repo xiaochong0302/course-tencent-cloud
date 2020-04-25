@@ -4,7 +4,6 @@ namespace App\Services\Auth;
 
 use App\Models\User as UserModel;
 use App\Services\Auth as AuthService;
-use Yansongda\Supports\Collection;
 
 class Web extends AuthService
 {
@@ -13,10 +12,10 @@ class Web extends AuthService
     {
         $authKey = $this->getAuthKey();
 
-        $authInfo = new Collection([
+        $authInfo = [
             'id' => $user->id,
             'name' => $user->name,
-        ]);
+        ];
 
         $this->session->set($authKey, $authInfo);
     }
@@ -34,9 +33,7 @@ class Web extends AuthService
 
         $authInfo = $this->session->get($authKey);
 
-        if (!$authInfo) return null;
-
-        return new Collection($authInfo);
+        return $authInfo ?: null;
     }
 
     public function getAuthKey()

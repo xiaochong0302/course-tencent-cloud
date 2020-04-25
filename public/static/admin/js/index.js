@@ -4,13 +4,12 @@ layui.use(['jquery', 'element'], function () {
 
     $('.kg-nav-module > li').on('click', function () {
 
-        var navModule = $(this).attr('nav-module');
+        var module = $(this).attr('data-module');
 
         $('.layui-nav-tree').each(function () {
-            if ($(this).attr('nav-module') == navModule) {
+            if ($(this).attr('data-module') === module) {
                 $(this).removeClass('layui-hide');
-                var href = $(this).find('a[target=content]:first').attr('href');
-                window.frames['content'].location.href = href;
+                window.frames['content'].location.href = $(this).find('a[target=content]:first').attr('href');
             } else {
                 $(this).addClass('layui-hide');
             }

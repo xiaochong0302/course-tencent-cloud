@@ -12,10 +12,12 @@ use App\Providers\EventsManager as EventsManagerProvider;
 use App\Providers\Logger as LoggerProvider;
 use App\Providers\MetaData as MetaDataProvider;
 use App\Providers\Provider as AppProvider;
+use App\Providers\Response as ResponseProvider;
 use App\Providers\Router as RouterProvider;
 use App\Providers\Security as SecurityProvider;
 use App\Providers\Session as SessionProvider;
 use App\Providers\Url as UrlProvider;
+use App\Providers\View as ViewProvider;
 use App\Providers\Volt as VoltProvider;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Loader;
@@ -72,10 +74,12 @@ class HttpKernel extends Kernel
             EventsManagerProvider::class,
             LoggerProvider::class,
             MetaDataProvider::class,
+            ResponseProvider::class,
             RouterProvider::class,
             SecurityProvider::class,
             SessionProvider::class,
             UrlProvider::class,
+            ViewProvider::class,
             VoltProvider::class,
         ];
 

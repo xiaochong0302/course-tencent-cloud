@@ -144,7 +144,7 @@ class Student extends Service
             $pipeA = $pager->items->toArray();
             $pipeB = $builder->handleCourses($pipeA);
             $pipeC = $builder->handleUsers($pipeB);
-            $pipeD = $builder->arrayToObject($pipeC);
+            $pipeD = $builder->objects($pipeC);
 
             $pager->items = $pipeD;
         }
@@ -162,7 +162,7 @@ class Student extends Service
             $pipeB = $builder->handleCourses($pipeA);
             $pipeC = $builder->handleChapters($pipeB);
             $pipeD = $builder->handleUsers($pipeC);
-            $pipeE = $builder->arrayToObject($pipeD);
+            $pipeE = $builder->objects($pipeD);
 
             $pager->items = $pipeE;
         }

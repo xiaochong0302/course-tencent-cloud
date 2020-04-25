@@ -2,10 +2,10 @@
 
 namespace App\Http\Admin;
 
+use App\Library\Mvc\View as MyView;
 use App\Services\Auth\Admin as AdminAuth;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
-use Phalcon\Mvc\View;
 
 class Module implements ModuleDefinitionInterface
 {
@@ -18,7 +18,7 @@ class Module implements ModuleDefinitionInterface
     public function registerServices(DiInterface $di)
     {
         $di->setShared('view', function () {
-            $view = new View();
+            $view = new MyView();
             $view->setViewsDir(__DIR__ . '/Views');
             $view->registerEngines([
                 '.volt' => 'volt',

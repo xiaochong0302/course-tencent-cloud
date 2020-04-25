@@ -6,7 +6,6 @@ use App\Models\Role as RoleModel;
 use App\Models\User as UserModel;
 use App\Repos\Role as RoleRepo;
 use App\Services\Auth as AuthService;
-use Yansongda\Supports\Collection;
 
 class Admin extends AuthService
 {
@@ -17,7 +16,9 @@ class Admin extends AuthService
 
         $role = $roleRepo->findById($user->admin_role);
 
-        $root = $role->id == RoleModel::ROLE_ROOT;
+        $root = $role->id == RoleModel::ROLE_ROOT ? 1 : 0;
+
+        $authKey = $this->getAuthKey();
 
         $authInfo = [
             'id' => $user->id,
@@ -25,8 +26,6 @@ class Admin extends AuthService
             'routes' => $role->routes,
             'root' => $root,
         ];
-
-        $authKey = $this->getAuthKey();
 
         $this->session->set($authKey, $authInfo);
     }
@@ -44,9 +43,7 @@ class Admin extends AuthService
 
         $authInfo = $this->session->get($authKey);
 
-        if (!$authInfo) return null;
-
-        return new Collection($authInfo);
+        return $authInfo ?: null;
     }
 
     public function getAuthKey()

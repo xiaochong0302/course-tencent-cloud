@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="{{ seo.getKeywords() }}">
-    <meta name="description" content="{{ seo.getDescription() }}">
-    <title>{{ seo.getTitle() }}</title>
+    <meta name="keywords" content="{{ site_seo.getKeywords() }}">
+    <meta name="description" content="{{ site_seo.getDescription() }}">
+    <title>{{ site_seo.getTitle() }}</title>
     {{ icon_link("favicon.ico") }}
     {{ css_link("lib/layui/css/layui.css") }}
     {{ css_link("web/css/common.css") }}

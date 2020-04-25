@@ -7,7 +7,6 @@ use App\Repos\User as UserRepo;
 use App\Services\Auth as AuthService;
 use App\Validators\Validator as AppValidator;
 use Phalcon\Di;
-use Yansongda\Supports\Collection;
 
 trait Auth
 {
@@ -25,7 +24,7 @@ trait Auth
 
         $userRepo = new UserRepo();
 
-        return $userRepo->findById($authUser->id);
+        return $userRepo->findById($authUser['id']);
     }
 
     /**
@@ -41,7 +40,7 @@ trait Auth
 
         $userRepo = new UserRepo();
 
-        return $userRepo->findById($authUser->id);
+        return $userRepo->findById($authUser['id']);
     }
 
     /**
@@ -58,7 +57,7 @@ trait Auth
     }
 
     /**
-     * @return Collection|null
+     * @return array|null
      */
     public function getAuthUser()
     {

@@ -119,7 +119,7 @@ class Review extends Service
             $pipeA = $pager->items->toArray();
             $pipeB = $builder->handleCourses($pipeA);
             $pipeC = $builder->handleUsers($pipeB);
-            $pipeD = $builder->arrayToObject($pipeC);
+            $pipeD = $builder->objects($pipeC);
 
             $pager->items = $pipeD;
         }

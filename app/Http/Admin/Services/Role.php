@@ -13,9 +13,7 @@ class Role extends Service
     {
         $authNode = new AuthNode();
 
-        $nodes = $authNode->getNodes();
-
-        return kg_array_object($nodes);
+        return $authNode->getNodes();
     }
 
     public function getRoles()

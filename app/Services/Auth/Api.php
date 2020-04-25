@@ -7,7 +7,6 @@ use App\Models\AccessToken as AccessTokenModel;
 use App\Models\RefreshToken as RefreshTokenModel;
 use App\Models\User as UserModel;
 use App\Services\Auth as AuthService;
-use Yansongda\Supports\Collection;
 
 class Api extends AuthService
 {
@@ -37,11 +36,11 @@ class Api extends AuthService
 
         $cache->save($key, $authInfo, $config->access_token->lifetime);
 
-        return new Collection([
+        return [
             'access_token' => $accessToken->id,
             'refresh_token' => $refreshToken->id,
             'expiry_time' => $accessToken->expiry_time,
-        ]);
+        ];
     }
 
     public function clearAuthInfo()
@@ -67,9 +66,7 @@ class Api extends AuthService
 
         $authInfo = $cache->get($key);
 
-        if (!$authInfo) return null;
-
-        return new Collection($authInfo);
+        return $authInfo ?: null;
     }
 
     /**

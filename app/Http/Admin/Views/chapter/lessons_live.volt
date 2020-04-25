@@ -1,7 +1,7 @@
 {%- macro live_time_info(attrs) %}
     {% if attrs['start_time'] > 0 %}
-        <p>开始：{{ date('Y-m-d H:i', attrs['start_time']) }}</p>
-        <p>结束：{{ date('Y-m-d H:i', attrs['end_time']) }}</p>
+        <p>开始：{{ date('Y-m-d H:i',attrs['start_time']) }}</p>
+        <p>结束：{{ date('Y-m-d H:i',attrs['end_time']) }}</p>
     {% else %}
         N/A
     {% endif %}

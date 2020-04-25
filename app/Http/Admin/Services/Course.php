@@ -516,7 +516,7 @@ class Course extends Service
 
             $pipeA = $pager->items->toArray();
             $pipeB = $builder->handleCategories($pipeA);
-            $pipeC = $builder->arrayToObject($pipeB);
+            $pipeC = $builder->objects($pipeB);
 
             $pager->items = $pipeC;
         }

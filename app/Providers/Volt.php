@@ -50,14 +50,6 @@ class Volt extends Provider
                 return 'kg_can(' . $resolvedArgs . ')';
             });
 
-            $compiler->addFilter('array_object', function ($resolvedArgs) {
-                return 'kg_array_object(' . $resolvedArgs . ')';
-            });
-
-            $compiler->addFilter('object_array', function ($resolvedArgs) {
-                return 'kg_object_array(' . $resolvedArgs . ')';
-            });
-
             $compiler->addFilter('play_duration', function ($resolvedArgs) {
                 return 'kg_play_duration(' . $resolvedArgs . ')';
             });
