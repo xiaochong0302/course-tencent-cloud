@@ -18,8 +18,10 @@ class CourseController extends Controller
         $courseService = new CourseService();
 
         $xmCategories = $courseService->getXmCategories(0);
+        $xmTeachers = $courseService->getXmTeachers(0);
 
         $this->view->setVar('xm_categories', $xmCategories);
+        $this->view->setVar('xm_teachers', $xmTeachers);
     }
 
     /**

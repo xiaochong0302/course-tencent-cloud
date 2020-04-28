@@ -44,13 +44,13 @@ class Chapter extends Service
         $data['course_id'] = $course->id;
         $data['title'] = $validator->checkTitle($post['title']);
         $data['summary'] = $validator->checkSummary($post['summary']);
-        $data['free'] = $validator->checkFreeStatus($post['free']);
 
         $chapterRepo = new ChapterRepo();
 
         if (isset($post['parent_id'])) {
             $parent = $validator->checkParent($post['parent_id']);
             $data['parent_id'] = $parent->id;
+            $data['free'] = $validator->checkFreeStatus($post['free']);
             $data['priority'] = $chapterRepo->maxLessonPriority($post['parent_id']);
         } else {
             $data['priority'] = $chapterRepo->maxChapterPriority($post['course_id']);

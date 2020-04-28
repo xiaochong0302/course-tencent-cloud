@@ -47,7 +47,6 @@ class CourseRelatedList extends Cache
                 'id' => $course->id,
                 'title' => $course->title,
                 'cover' => $course->cover,
-                'summary' => $course->summary,
                 'market_price' => $course->market_price,
                 'vip_price' => $course->vip_price,
                 'rating' => $course->rating,

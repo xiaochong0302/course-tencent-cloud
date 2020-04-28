@@ -8,10 +8,16 @@
     {% endif %}
 {%- endmacro %}
 
-{%- macro category_info(items) %}
-    {% for item in items %}
-        <a class="layui-badge layui-bg-green" href="{{ url({'for':'admin.course.list'},{'category_id':item.id}) }}">{{ item.name }}</a>
-    {% endfor %}
+{%- macro category_info(category) %}
+    {% if category %}
+        分类：<a class="layui-badge layui-bg-gray" href="{{ url({'for':'admin.course.list'},{'category_id':category.id}) }}">{{ category.name }}</a>
+    {% endif %}
+{%- endmacro %}
+
+{%- macro teacher_info(teacher) %}
+    {% if teacher %}
+        讲师：<a class="layui-badge layui-bg-gray" href="{{ url({'for':'admin.course.list'},{'teacher_id':teacher.id}) }}">{{ teacher.name }}</a>
+    {% endif %}
 {%- endmacro %}
 
 <div class="kg-nav">
@@ -54,7 +60,7 @@
         <tr>
             <td>
                 <p>标题：<a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">{{ item.title }}</a> {{ model_info(item.model) }}</p>
-                <p>分类：{{ category_info(item.categories) }}</p>
+                <p>{{ category_info(item.category) }}&nbsp;&nbsp;{{ teacher_info(item.teacher) }}</p>
             </td>
             <td>
                 <a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">

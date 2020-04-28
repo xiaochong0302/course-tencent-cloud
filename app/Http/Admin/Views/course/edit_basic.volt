@@ -13,7 +13,7 @@
             {% if course.cover %}
                 <img id="cover-img" class="kg-cover" src="{{ course.cover }}">
             {% else %}
-                <img id="cover-img" class="kg-cover" src="{{ image('admin/img/default_cover.png') }}">
+                {{ image('id':'cover-img','class':'kg-cover','src':'admin/img/default_cover.png') }}
             {% endif %}
             <input type="hidden" name="cover" value="{{ course.cover }}">
         </div>
@@ -49,7 +49,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
+            <button class="layui-btn kg-submit" lay-submit="true" lay-filter="go">提交</button>
             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
         </div>
     </div>
@@ -84,5 +84,28 @@
         },
         data: {{ xm_teachers|json_encode }}
     });
+
+    layui.use(['jquery', 'layer'], function () {
+
+        var $ = layui.jquery;
+        var layer = layui.layer;
+
+        $('.kg-submit').on('click', function () {
+
+            var xm_category_ids = $('input[name=xm_category_ids]');
+            var xm_teacher_ids = $('input[name=xm_teacher_ids]');
+
+            if (xm_category_ids.val() === '') {
+                layer.msg('请选择分类', {icon: 2});
+                return false;
+            }
+
+            if (xm_teacher_ids.val() === '') {
+                layer.msg('请选择讲师', {icon: 2});
+                return false;
+            }
+        });
+
+    })
 
 </script>

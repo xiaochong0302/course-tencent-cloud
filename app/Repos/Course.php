@@ -31,13 +31,16 @@ class Course extends Repository
         $builder = $this->modelsManager->createBuilder();
 
         if (!empty($where['category_id'])) {
+            $where['category_id'] = is_array($where['category_id']) ? $where['category_id'] : [$where['category_id']];
             $builder->addFrom(CourseModel::class, 'c');
             $builder->join(CourseCategoryModel::class, 'c.id = cc.course_id', 'cc');
-            if (is_array($where['category_id'])) {
-                $builder->inWhere('cc.category_id', $where['category_id']);
-            } else {
-                $builder->where('cc.category_id = :category_id:', ['category_id' => $where['category_id']]);
-            }
+            $builder->inWhere('cc.category_id', $where['category_id']);
+        } elseif (!empty($where['teacher_id'])) {
+            $where['teacher_id'] = is_array($where['teacher_id']) ? $where['teacher_id'] : [$where['teacher_id']];
+            $builder->addFrom(CourseModel::class, 'c');
+            $builder->join(CourseUserModel::class, 'c.id = cu.course_id', 'cu');
+            $builder->inWhere('cu.user_id', $where['teacher_id']);
+            $builder->andWhere('cu.role_type = :role_type:', ['role_type' => CourseUserModel::ROLE_TEACHER]);
         } else {
             $builder->addFrom(CourseModel::class, 'c');
             $builder->where('1 = 1');

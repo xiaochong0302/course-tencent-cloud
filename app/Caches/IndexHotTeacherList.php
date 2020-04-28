@@ -2,7 +2,7 @@
 
 namespace App\Caches;
 
-class HotTeacherList extends Cache
+class IndexHotTeacherList extends Cache
 {
 
     protected $lifetime = 365 * 86400;

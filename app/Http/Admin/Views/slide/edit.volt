@@ -20,7 +20,7 @@
             {% if slide.cover %}
                 <img id="cover-img" class="kg-cover" src="{{ slide.cover }}">
             {% else %}
-                <img id="cover-img" class="kg-cover" src="{{ image('admin/img/default_cover.png') }}">
+                {{ image('id':'cover-img','class':'kg-cover','src':'admin/img/default_cover.png') }}
             {% endif %}
             <input type="hidden" name="cover" value="{{ slide.cover }}">
         </div>

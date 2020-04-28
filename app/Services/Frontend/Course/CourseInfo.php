@@ -19,7 +19,7 @@ class CourseInfo extends Service
 
     public function getCourse($id)
     {
-        $course = $this->checkCourse($id);
+        $course = $this->checkCourseCache($id);
 
         $user = $this->getCurrentUser();
 
@@ -49,6 +49,7 @@ class CourseInfo extends Service
             'lesson_count' => $course->lesson_count,
             'review_count' => $course->review_count,
             'comment_count' => $course->comment_count,
+            'consult_count' => $course->consult_count,
             'favorite_count' => $course->favorite_count,
         ];
 
@@ -107,16 +108,24 @@ class CourseInfo extends Service
 
         $chapters = $cache->get($course->id);
 
-        $learningMapping = $this->getLearningMapping($course, $user);
-
-        foreach ($chapters as &$chapter) {
-            foreach ($chapter['children'] as &$lesson) {
-                $owned = ($this->ownedCourse || $lesson['free']) ? 1 : 0;
-                $progress = $learningMapping[$lesson['id']]['progress'] ?? 0;
-                $lesson['me'] = [
-                    'owned' => $owned,
-                    'progress' => $progress,
-                ];
+        if ($user->id == 0) {
+            foreach ($chapters as &$chapter) {
+                foreach ($chapter['children'] as &$lesson) {
+                    $lesson['me'] = [
+                        'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
+                        'progress' => 0,
+                    ];
+                }
+            }
+        } else {
+            $mapping = $this->getLearningMapping($course, $user);
+            foreach ($chapters as &$chapter) {
+                foreach ($chapter['children'] as &$lesson) {
+                    $lesson['me'] = [
+                        'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
+                        'progress' => $mapping[$lesson['id']]['progress'] ?? 0,
+                    ];
+                }
             }
         }
 
@@ -125,10 +134,6 @@ class CourseInfo extends Service
 
     protected function getLearningMapping(CourseModel $course, UserModel $user)
     {
-        if ($user->id == 0) {
-            return [];
-        }
-
         $courseRepo = new CourseRepo();
 
         $userLearnings = $courseRepo->findUserLearnings($course->id, $user->id);

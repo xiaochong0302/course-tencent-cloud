@@ -36,6 +36,11 @@ class Course extends Service
             $params['category_id'] = count($xmCategoryIds) > 1 ? $xmCategoryIds : $xmCategoryIds[0];
         }
 
+        if (!empty($params['xm_teacher_ids'])) {
+            $xmTeacherIds = explode(',', $params['xm_teacher_ids']);
+            $params['teacher_id'] = count($xmTeacherIds) > 1 ? $xmTeacherIds : $xmTeacherIds[0];
+        }
+
         $params['deleted'] = $params['deleted'] ?? 0;
 
         $sort = $pagerQuery->getSort();
@@ -516,9 +521,10 @@ class Course extends Service
 
             $pipeA = $pager->items->toArray();
             $pipeB = $builder->handleCategories($pipeA);
-            $pipeC = $builder->objects($pipeB);
+            $pipeC = $builder->handleTeachers($pipeB);
+            $pipeD = $builder->objects($pipeC);
 
-            $pager->items = $pipeC;
+            $pager->items = $pipeD;
         }
 
         return $pager;

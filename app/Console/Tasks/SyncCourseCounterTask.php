@@ -2,6 +2,7 @@
 
 namespace App\Console\Tasks;
 
+use App\Caches\Course as CourseCache;
 use App\Caches\CourseCounter as CourseCounterCache;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Course as CourseRepo;
@@ -45,11 +46,13 @@ class SyncCourseCounterTask extends Task
             return;
         }
 
-        $cache = new CourseCounterCache();
+        $courseCounterCache = new CourseCounterCache();
+
+        $courseCache = new CourseCache();
 
         foreach ($courses as $course) {
 
-            $counter = $cache->get($course->id);
+            $counter = $courseCounterCache->get($course->id);
 
             if ($counter) {
 
@@ -61,6 +64,8 @@ class SyncCourseCounterTask extends Task
                 $course->favorite_count = $counter['favorite_count'];
 
                 $course->update();
+
+                $courseCache->rebuild($course->id);
             }
         }
 

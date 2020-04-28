@@ -26,6 +26,13 @@
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label">讲师</label>
+        <div class="layui-input-block">
+            <div id="xm-teacher-ids"></div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
         <label class="layui-form-label">模型</label>
         <div class="layui-input-block">
             <input type="radio" name="model" value="vod" title="点播">
@@ -83,6 +90,17 @@
             value: 'id'
         },
         data: {{ xm_categories|json_encode }}
+    });
+
+    xmSelect.render({
+        el: '#xm-teacher-ids',
+        name: 'xm_teacher_ids',
+        max: 5,
+        prop: {
+            name: 'name',
+            value: 'id'
+        },
+        data: {{ xm_teachers|json_encode }}
     });
 
 </script>

@@ -66,7 +66,7 @@
 
         form.on('radio(price-mode)', function (data) {
             var priceBlock = $('#price-block');
-            if (data.value == 'free') {
+            if (data.value === 'free') {
                 priceBlock.hide();
             } else {
                 priceBlock.show();

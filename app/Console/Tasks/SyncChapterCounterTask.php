@@ -2,6 +2,7 @@
 
 namespace App\Console\Tasks;
 
+use App\Caches\Chapter as ChapterCache;
 use App\Caches\ChapterCounter as ChapterCounterCache;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Chapter as ChapterRepo;
@@ -45,11 +46,13 @@ class SyncChapterCounterTask extends Task
             return;
         }
 
-        $cache = new ChapterCounterCache();
+        $chapterCache = new ChapterCache();
+
+        $chapterCounterCache = new ChapterCounterCache();
 
         foreach ($chapters as $chapter) {
 
-            $counter = $cache->get($chapter->id);
+            $counter = $chapterCounterCache->get($chapter->id);
 
             if ($counter) {
 
@@ -60,6 +63,8 @@ class SyncChapterCounterTask extends Task
                 $chapter->oppose_count = $counter['oppose_count'];
 
                 $chapter->update();
+
+                $chapterCache->rebuild($chapter->id);
             }
         }
 
