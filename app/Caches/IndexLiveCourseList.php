@@ -39,7 +39,7 @@ class IndexLiveCourseList extends Cache
         /**
          * 限制每天维度下的输出数（二维限额）
          */
-        $perDayLimit = 5;
+        $perDayLimit = 10;
 
         $beginTime = strtotime('today');
         $endTime = strtotime("+30 days");
@@ -113,25 +113,30 @@ class IndexLiveCourseList extends Cache
             $chapterInfo = [
                 'id' => $chapter->id,
                 'title' => $chapter->title,
+                'start_time' => $live->start_time,
+                'end_time' => $live->end_time,
             ];
 
             $courseInfo = [
                 'id' => $course->id,
                 'title' => $course->title,
                 'cover' => $course->cover,
-            ];
-
-            $teacherInfo = [
-                'id' => $teacher->id,
-                'name' => $teacher->name,
-                'avatar' => $teacher->avatar,
+                'teacher' => [
+                    'id' => $teacher->id,
+                    'name' => $teacher->name,
+                    'avatar' => $teacher->avatar,
+                ],
+                'market_price' => $course->market_price,
+                'vip_price' => $course->vip_price,
+                'model' => $course->model,
+                'level' => $course->level,
+                'user_count' => $course->user_count,
+                'lesson_count' => $course->lesson_count,
             ];
 
             $result[$day][] = [
                 'course' => $courseInfo,
                 'chapter' => $chapterInfo,
-                'teacher' => $teacherInfo,
-                'start_time' => $live->start_time,
             ];
         }
 

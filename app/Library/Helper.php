@@ -163,7 +163,7 @@ function kg_ci_base_url()
 }
 
 /**
- * 获取数据万象图片URL
+ * 获取数据万象URL
  *
  * @param string $path
  * @param int $width
@@ -183,6 +183,36 @@ function kg_ci_img_url($path, $width = 0, $height = 0)
     $storage = new StorageService();
 
     return $storage->getCiImageUrl($path, $width, $height);
+}
+
+/**
+ * 获取头像数据万象URL
+ *
+ * @param string $path
+ * @param int $width
+ * @param int $height
+ * @return string
+ */
+function kg_ci_avatar_img_url($path, $width = 0, $height = 0)
+{
+    $path = $path ?: '/img/avatar/default.png';
+
+    return kg_ci_img_url($path, $width, $height);
+}
+
+/**
+ * 获取封面数据万象URL
+ *
+ * @param string $path
+ * @param int $width
+ * @param int $height
+ * @return string
+ */
+function kg_ci_cover_img_url($path, $width = 0, $height = 0)
+{
+    $path = $path ?: '/img/cover/default.png';
+
+    return kg_ci_img_url($path, $width, $height);
 }
 
 /**

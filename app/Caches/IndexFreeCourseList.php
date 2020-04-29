@@ -4,6 +4,7 @@ namespace App\Caches;
 
 use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
+use App\Repos\User as UserRepo;
 use App\Services\Category as CategoryService;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -35,7 +36,7 @@ class IndexFreeCourseList extends Cache
 
         $categoryLimit = 5;
 
-        $courseLimit = 5;
+        $courseLimit = 10;
 
         $categories = $this->findCategories($categoryLimit);
 
@@ -52,15 +53,23 @@ class IndexFreeCourseList extends Cache
 
             $courses = $this->findCategoryCourses($category->id, $courseLimit);
 
-            if ($courses->count() == 0) continue;
+            if ($courses->count() == 0) {
+                continue;
+            }
+
+            $teacherMappings = $this->getTeacherMappings($courses);
 
             $categoryCourses = [];
 
             foreach ($courses as $course) {
+
+                $teacher = $teacherMappings[$course->teacher_id];
+
                 $categoryCourses[] = [
                     'id' => $course->id,
                     'title' => $course->title,
                     'cover' => $course->cover,
+                    'teacher' => $teacher,
                     'market_price' => $course->market_price,
                     'vip_price' => $course->vip_price,
                     'model' => $course->model,
@@ -76,6 +85,31 @@ class IndexFreeCourseList extends Cache
         }
 
         return $result;
+    }
+
+    /**
+     * @param Resultset|CourseModel[] $courses
+     * @return array
+     */
+    protected function getTeacherMappings($courses)
+    {
+        $teacherIds = kg_array_column($courses->toArray(), 'teacher_id');
+
+        $userRepo = new UserRepo();
+
+        $teachers = $userRepo->findByIds($teacherIds);
+
+        $mappings = [];
+
+        foreach ($teachers as $teacher) {
+            $mappings[$teacher->id] = [
+                'id' => $teacher->id,
+                'name' => $teacher->name,
+                'avatar' => $teacher->avatar,
+            ];
+        }
+
+        return $mappings;
     }
 
     /**
@@ -106,7 +140,7 @@ class IndexFreeCourseList extends Cache
             ->inWhere('category_id', $categoryIds)
             ->andWhere('published = 1')
             ->andWhere('market_price = 0')
-            ->orderBy('id DESC')
+            ->orderBy('score DESC')
             ->limit($limit)
             ->execute();
     }

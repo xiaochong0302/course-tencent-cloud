@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\SlideList as SlideListCache;
+use App\Caches\IndexSlideList as SlideListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Slide as SlideModel;
 use App\Repos\Slide as SlideRepo;

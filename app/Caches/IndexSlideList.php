@@ -5,7 +5,7 @@ namespace App\Caches;
 use App\Models\Slide as SlideModel;
 use App\Repos\Slide as SlideRepo;
 
-class SlideList extends Cache
+class IndexSlideList extends Cache
 {
 
     protected $lifetime = 365 * 86400;
@@ -17,14 +17,16 @@ class SlideList extends Cache
 
     public function getKey($id = null)
     {
-        return 'slide_list';
+        return 'index_slide_list';
     }
 
     public function getContent($id = null)
     {
+        $limit = 5;
+
         $slideRepo = new SlideRepo();
 
-        $slides = $slideRepo->findTopSlides();
+        $slides = $slideRepo->findTopSlides($limit);
 
         if ($slides->count() == 0) {
             return [];

@@ -113,7 +113,7 @@ class Storage extends Service
             }
         }
 
-        return !empty($paths[0]) ? $paths[0] : false;
+        return $paths[0] ?: false;
     }
 
     /**
@@ -168,6 +168,72 @@ class Storage extends Service
         } catch (\Exception $e) {
 
             $this->logger->error('Put File Exception ' . kg_json_encode([
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * 上传对象
+     *
+     * @param string $key
+     * @param resource|string $body
+     * @return bool
+     */
+    public function putObject($key, $body)
+    {
+        $bucket = $this->settings['bucket_name'];
+
+        try {
+
+            $response = $this->client->putObject([
+                'Bucket' => $bucket,
+                'Key' => $key,
+                'Body' => $body,
+            ]);
+
+            $result = $response['Location'] ? $key : false;
+
+        } catch (\Exception $e) {
+
+            $this->logger->error('Put Object Exception ' . kg_json_encode([
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * 删除对象
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function deleteObject($key)
+    {
+        $bucket = $this->settings['bucket_name'];
+
+        try {
+
+            $response = $this->client->deleteObject([
+                'Bucket' => $bucket,
+                'Key' => $key,
+            ]);
+
+            $result = $response['Location'] ? $key : false;
+
+        } catch (\Exception $e) {
+
+            $this->logger->error('Delete Object Exception ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
