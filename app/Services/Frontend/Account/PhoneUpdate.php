@@ -10,7 +10,7 @@ use App\Validators\Security as SecurityValidator;
 class PhoneUpdate extends Service
 {
 
-    public function updatePhone()
+    public function handle()
     {
         $post = $this->request->getPost();
 

@@ -172,9 +172,7 @@ function kg_ci_base_url()
  */
 function kg_ci_img_url($path, $width = 0, $height = 0)
 {
-    if (empty($path)) {
-        return '';
-    }
+    if (!$path) return '';
 
     if (Text::startsWith($path, 'http')) {
         return $path;

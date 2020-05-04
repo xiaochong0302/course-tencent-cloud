@@ -179,46 +179,12 @@ class Storage extends Service
     }
 
     /**
-     * 上传对象
+     * 删除文件
      *
      * @param string $key
-     * @param resource|string $body
-     * @return bool
+     * @return string|bool
      */
-    public function putObject($key, $body)
-    {
-        $bucket = $this->settings['bucket_name'];
-
-        try {
-
-            $response = $this->client->putObject([
-                'Bucket' => $bucket,
-                'Key' => $key,
-                'Body' => $body,
-            ]);
-
-            $result = $response['Location'] ? $key : false;
-
-        } catch (\Exception $e) {
-
-            $this->logger->error('Put Object Exception ' . kg_json_encode([
-                    'code' => $e->getCode(),
-                    'message' => $e->getMessage(),
-                ]));
-
-            $result = false;
-        }
-
-        return $result;
-    }
-
-    /**
-     * 删除对象
-     *
-     * @param string $key
-     * @return bool
-     */
-    public function deleteObject($key)
+    public function deleteFile($key)
     {
         $bucket = $this->settings['bucket_name'];
 

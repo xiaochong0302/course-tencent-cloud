@@ -9,4 +9,10 @@ class CourseList extends Service
 {
 
     use PackageTrait;
+
+    public function handle()
+    {
+
+    }
+
 }

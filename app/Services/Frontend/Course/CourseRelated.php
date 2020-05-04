@@ -11,7 +11,7 @@ class CourseRelated extends Service
 
     use CourseTrait;
 
-    public function getRelated($id)
+    public function handle($id)
     {
         $course = $this->checkCourse($id);
 

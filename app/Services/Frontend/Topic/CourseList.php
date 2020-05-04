@@ -11,7 +11,7 @@ class CourseList extends Service
 
     use TopicTrait;
 
-    public function getCourses($id)
+    public function handle($id)
     {
         $topic = $this->checkTopicCache($id);
 

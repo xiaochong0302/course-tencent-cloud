@@ -11,7 +11,7 @@ class TopicInfo extends Service
 
     use TopicTrait;
 
-    public function getTopic($id)
+    public function handle($id)
     {
         $topic = $this->checkTopicCache($id);
 

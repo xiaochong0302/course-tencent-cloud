@@ -11,7 +11,7 @@ class UserInfo extends Service
 
     use UserTrait;
 
-    public function getUser($id)
+    public function handle($id)
     {
         $user = $this->checkUser($id);
 

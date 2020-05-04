@@ -28,7 +28,7 @@ class ConsultList extends Service
 
     use CourseTrait;
 
-    public function getConsults($courseId)
+    public function handle($courseId)
     {
         $this->course = $this->checkCourse($courseId);
 

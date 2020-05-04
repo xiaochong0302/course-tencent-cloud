@@ -15,7 +15,7 @@ class CourseFavorite extends Service
 
     use CourseTrait;
 
-    public function saveFavorite($id)
+    public function handle($id)
     {
         $course = $this->checkCourse($id);
 

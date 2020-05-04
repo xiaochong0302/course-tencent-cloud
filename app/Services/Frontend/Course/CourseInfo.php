@@ -17,7 +17,7 @@ class CourseInfo extends Service
 
     use CourseTrait;
 
-    public function getCourse($id)
+    public function handle($id)
     {
         $course = $this->checkCourseCache($id);
 

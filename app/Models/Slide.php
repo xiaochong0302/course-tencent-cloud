@@ -130,7 +130,7 @@ class Slide extends Model
     public function afterFetch()
     {
         if (!Text::startsWith($this->cover, 'http')) {
-            $this->cover = kg_ci_img_url($this->cover);
+            $this->cover = kg_ci_cover_img_url($this->cover);
         }
     }
 

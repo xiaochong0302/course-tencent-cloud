@@ -11,7 +11,7 @@ class PackageInfo extends Service
 
     use PackageTrait;
 
-    public function getPackage($id)
+    public function handle($id)
     {
         $package = $this->checkPackageCache($id);
 

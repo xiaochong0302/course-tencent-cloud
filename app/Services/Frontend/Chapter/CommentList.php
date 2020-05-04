@@ -27,7 +27,7 @@ class CommentList extends Service
 
     use ChapterTrait;
 
-    public function getComments($chapterId)
+    public function handle($chapterId)
     {
         $this->chapter = $this->checkChapter($chapterId);
 

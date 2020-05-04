@@ -17,7 +17,7 @@ class CommentCreate extends Service
 
     use ChapterTrait, CourseTrait;
 
-    public function createComment()
+    public function handle()
     {
         $post = $this->request->getPost();
 

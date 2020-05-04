@@ -9,7 +9,7 @@ use App\Validators\Account as AccountValidator;
 class PasswordUpdate extends Service
 {
 
-    public function updatePassword()
+    public function handle()
     {
         $post = $this->request->getPost();
 

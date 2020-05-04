@@ -8,7 +8,7 @@ interface ProviderInterface extends InjectionAwareInterface
 {
 
     /**
-     * Register application service.
+     * RegisterByPhone application service.
      *
      * @return mixed
      */

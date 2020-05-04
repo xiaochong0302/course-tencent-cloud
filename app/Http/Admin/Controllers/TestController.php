@@ -26,9 +26,21 @@ class TestController extends Controller
     {
         $storageService = new StorageService();
 
-        $result = $storageService->uploadTestFile();
+        $result = [];
 
-        if ($result) {
+        $result['hello'] = $storageService->uploadTestFile();
+
+        $avatarPath = public_path('static/admin/img/default_avatar.png');
+        $avatarKey = '/img/avatar/default.png';
+
+        $result['avatar'] = $storageService->putFile($avatarKey, $avatarPath);
+
+        $coverPath = public_path('static/admin/img/default_cover.png');
+        $coverKey = '/img/cover/default.png';
+
+        $result['cover'] = $storageService->putFile($coverKey, $coverPath);
+
+        if ($result['hello'] && $result['avatar'] && $result['cover']) {
             return $this->jsonSuccess(['msg' => '上传文件成功，请到控制台确认']);
         } else {
             return $this->jsonError(['msg' => '上传文件失败，请检查相关配置']);

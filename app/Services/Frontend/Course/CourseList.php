@@ -10,7 +10,7 @@ use App\Services\Frontend\Service;
 class CourseList extends Service
 {
 
-    public function getCourses()
+    public function handle()
     {
         $pagerQuery = new PagerQuery();
 

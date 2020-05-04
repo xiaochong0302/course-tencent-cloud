@@ -15,7 +15,7 @@ class CommentDelete extends Service
 
     use CommentTrait, ChapterTrait, CourseTrait;
 
-    public function deleteComment($id)
+    public function handle($id)
     {
         $comment = $this->checkComment($id);
 

@@ -15,7 +15,7 @@ class ConsultCreate extends Service
 
     use CourseTrait;
 
-    public function createConsult()
+    public function handle()
     {
         $post = $this->request->getPost();
 

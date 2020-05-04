@@ -27,7 +27,7 @@ class ReviewList extends Service
 
     use CourseTrait;
 
-    public function getReviews($id)
+    public function handle($id)
     {
         $this->course = $this->checkCourse($id);
 

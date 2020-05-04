@@ -14,7 +14,7 @@ class CourseList extends Service
 
     use UserTrait;
 
-    public function getCourses($id)
+    public function handle($id)
     {
         $user = $this->checkUser($id);
 

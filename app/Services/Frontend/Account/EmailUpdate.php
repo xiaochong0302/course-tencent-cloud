@@ -10,7 +10,7 @@ use App\Validators\Security as SecurityValidator;
 class EmailUpdate extends Service
 {
 
-    public function updateEmail()
+    public function handle()
     {
         $post = $this->request->getPost();
 

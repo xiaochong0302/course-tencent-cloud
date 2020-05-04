@@ -15,7 +15,7 @@ class ReviewCreate extends Service
 
     use CourseTrait;
 
-    public function createReview()
+    public function handle()
     {
         $post = $this->request->getPost();
 

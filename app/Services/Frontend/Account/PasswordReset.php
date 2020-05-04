@@ -9,7 +9,7 @@ use App\Validators\Security as SecurityValidator;
 class PasswordReset extends Service
 {
 
-    public function resetPassword()
+    public function handle()
     {
         $post = $this->request->getPost();
 

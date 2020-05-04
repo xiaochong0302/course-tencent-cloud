@@ -32,7 +32,7 @@ class ChapterInfo extends Service
 
     use CourseTrait, ChapterTrait;
 
-    public function getChapter($id)
+    public function handle($id)
     {
         $chapter = $this->checkChapter($id);
 

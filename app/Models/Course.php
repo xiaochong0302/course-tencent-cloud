@@ -306,7 +306,7 @@ class Course extends Model
         $this->score = (float)$this->score;
 
         if (!Text::startsWith($this->cover, 'http')) {
-            $this->cover = kg_ci_img_url($this->cover);
+            $this->cover = kg_ci_cover_img_url($this->cover);
         }
 
         if (!empty($this->attrs)) {
