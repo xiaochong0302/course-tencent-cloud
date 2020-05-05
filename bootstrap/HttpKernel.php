@@ -12,6 +12,7 @@ use App\Providers\EventsManager as EventsManagerProvider;
 use App\Providers\Logger as LoggerProvider;
 use App\Providers\MetaData as MetaDataProvider;
 use App\Providers\Provider as AppProvider;
+use App\Providers\Request as RequestProvider;
 use App\Providers\Response as ResponseProvider;
 use App\Providers\Router as RouterProvider;
 use App\Providers\Security as SecurityProvider;
@@ -74,6 +75,7 @@ class HttpKernel extends Kernel
             EventsManagerProvider::class,
             LoggerProvider::class,
             MetaDataProvider::class,
+            RequestProvider::class,
             ResponseProvider::class,
             RouterProvider::class,
             SecurityProvider::class,
