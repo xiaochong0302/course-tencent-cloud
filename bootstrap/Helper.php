@@ -1,8 +1,5 @@
 <?php
 
-use Phalcon\Di;
-use Phalcon\Text;
-
 define('ENV_DEV', 'dev');
 define('ENV_TEST', 'test');
 define('ENV_PRO', 'pro');
@@ -139,36 +136,4 @@ function dd(...$args)
         var_dump($arg);
     }
     exit();
-}
-
-/**
- * @return bool
- */
-function is_ajax_request()
-{
-    $request = Di::getDefault()->get('request');
-
-    if ($request->isAjax()) {
-        return true;
-    }
-
-    $contentType = $request->getContentType();
-
-    if (Text::startsWith($contentType, 'application/json')) {
-        return true;
-    }
-
-    return false;
-}
-
-/**
- * @return bool
- */
-function is_api_request()
-{
-    $request = Di::getDefault()->get('request');
-
-    $_url = $request->get('_url');
-
-    return Text::startsWith($_url, '/api');
 }

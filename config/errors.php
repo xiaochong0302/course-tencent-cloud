@@ -19,8 +19,20 @@ $error['sys.unknown_error'] = '未知错误';
 $error['security.too_many_requests'] = '请求过于频繁';
 $error['security.invalid_csrf_token'] = '无效的CSRF令牌';
 $error['security.invalid_http_referer'] = '无效请求来源';
-$error['security.invalid_captcha_code'] = '无效的验证码';
-$error['security.invalid_verify_code'] = '无效的验证码';
+
+/**
+ * 验证相关
+ */
+$error['verify.invalid_email'] = '无效的邮箱';
+$error['verify.invalid_phone'] = '无效手机号';
+$error['verify.invalid_code'] = '无效的验证码';
+$error['verify.send_sms_failed'] = '发送短信验证码失败';
+$error['verify.send_email_failed'] = '发送邮件验证码失败';
+
+/**
+ * captcha相关
+ */
+$error['captcha.invalid_code'] = '无效的验证码';
 
 /**
  * 帐号相关

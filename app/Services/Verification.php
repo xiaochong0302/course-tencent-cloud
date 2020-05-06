@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Services\Mailer\Verify as VerifyMailer;
 use App\Services\Smser\Verify as VerifySmser;
+use App\Validators\Verify as VerifyValidator;
 use Phalcon\Text;
 
 class Verification extends Service
@@ -22,16 +23,24 @@ class Verification extends Service
 
     public function sendSmsCode($phone)
     {
+        $validator = new VerifyValidator();
+
+        $validator->checkPhone($phone);
+
         $smser = new VerifySmser();
 
-        $smser->handle($phone);
+        return $smser->handle($phone);
     }
 
-    public function sendMailCode($email)
+    public function sendEmailCode($email)
     {
+        $validator = new VerifyValidator();
+
+        $validator->checkEmail($email);
+
         $mailer = new VerifyMailer();
 
-        $mailer->handle($email);
+        return $mailer->handle($email);
     }
 
     public function getSmsCode($phone, $lifetime = 300)
@@ -45,9 +54,9 @@ class Verification extends Service
         return $code;
     }
 
-    public function getMailCode($email, $lifetime = 300)
+    public function getEmailCode($email, $lifetime = 300)
     {
-        $key = $this->getSmsCacheKey($email);
+        $key = $this->getEmailCacheKey($email);
 
         $code = Text::random(Text::RANDOM_NUMERIC, 6);
 
@@ -65,18 +74,18 @@ class Verification extends Service
         return $code == $value;
     }
 
-    public function checkMailCode($email, $code)
+    public function checkEmailCode($email, $code)
     {
-        $key = $this->getMailCacheKey($email);
+        $key = $this->getEmailCacheKey($email);
 
         $value = $this->cache->get($key);
 
         return $code == $value;
     }
 
-    protected function getMailCacheKey($email)
+    protected function getEmailCacheKey($email)
     {
-        return "verify:mail:{$email}";
+        return "verify:email:{$email}";
     }
 
     protected function getSmsCacheKey($phone)

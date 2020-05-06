@@ -36,12 +36,9 @@ class HttpErrorHandler extends Component
             $this->report($e);
         }
 
-        $isApiRequest = is_api_request();
-        $isAjaxRequest = is_ajax_request();
-
-        if ($isApiRequest) {
+        if ($this->request->isApi()) {
             $this->apiError($e);
-        } elseif ($isAjaxRequest) {
+        } elseif ($this->request->isAjax()) {
             $this->ajaxError($e);
         } else {
             $this->pageError($e);

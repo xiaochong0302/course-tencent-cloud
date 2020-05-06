@@ -105,9 +105,9 @@ class Account extends Validator
 
     public function checkVerifyLogin($name, $code)
     {
-        $security = new Security();
+        $verify = new Verify();
 
-        $security->checkVerifyCode($name, $code);
+        $verify->checkCode($name, $code);
 
         $account = $this->checkLoginName($name);
 

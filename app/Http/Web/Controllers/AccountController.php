@@ -11,9 +11,9 @@ class AccountController extends Controller
 {
 
     /**
-     * @Post("/signup", name="web.account.signup")
+     * @Post("/register", name="web.account.register")
      */
-    public function signupAction()
+    public function registerAction()
     {
         $service = new AccountService();
 
@@ -22,32 +22,6 @@ class AccountController extends Controller
         $location = $this->request->getHTTPReferer();
 
         $this->response->redirect($location);
-    }
-
-    /**
-     * @Route("/login", name="web.account.login")
-     */
-    public function loginAction()
-    {
-        $service = new AccountService();
-
-        $service->login();
-
-        $location = $this->request->getHTTPReferer();
-
-        $this->response->redirect($location);
-    }
-
-    /**
-     * @Get("/logout", name="web.account.logout")
-     */
-    public function logoutAction()
-    {
-        $service = new AccountService();
-
-        $service->logout();
-
-        $this->response->redirect(['for' => 'web.index']);
     }
 
     /**
@@ -63,9 +37,21 @@ class AccountController extends Controller
     }
 
     /**
-     * @Post("/mobile/update", name="web.account.update_mobile")
+     * @Post("/phone/update", name="web.account.update_phone")
      */
-    public function updateMobileAction()
+    public function updatePhoneAction()
+    {
+        $service = new AccountService();
+
+        $service->updateMobile();
+
+        return $this->jsonSuccess();
+    }
+
+    /**
+     * @Post("/email/update", name="web.account.update_email")
+     */
+    public function updateEmailAction()
     {
         $service = new AccountService();
 
@@ -82,18 +68,6 @@ class AccountController extends Controller
         $service = new AccountService();
 
         $service->updatePassword();
-
-        return $this->jsonSuccess();
-    }
-
-    /**
-     * @Post("/captcha/send", name="web.account.send_captcha")
-     */
-    public function sendCaptchaAction()
-    {
-        $service = new AccountService();
-
-        $service->sendCaptcha();
 
         return $this->jsonSuccess();
     }

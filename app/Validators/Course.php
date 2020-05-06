@@ -208,7 +208,7 @@ class Course extends Validator
         }
 
         if ($publishedCount < $totalCount / 3) {
-            throw new BadRequestException('course.pub_chapter_too_few');
+            throw new BadRequestException('course.pub_chapter_not_enough');
         }
     }
 

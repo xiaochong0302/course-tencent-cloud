@@ -74,7 +74,7 @@ class Storage extends Service
         $contentImage->create();
 
         return $this->url->get([
-            'for' => 'web.content.img',
+            'for' => 'web.content_img',
             'id' => $contentImage->id,
         ]);
     }

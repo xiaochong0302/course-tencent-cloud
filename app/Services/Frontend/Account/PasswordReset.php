@@ -4,7 +4,7 @@ namespace App\Services\Frontend\Account;
 
 use App\Services\Frontend\Service;
 use App\Validators\Account as AccountValidator;
-use App\Validators\Security as SecurityValidator;
+use App\Validators\Verify as VerifyValidator;
 
 class PasswordReset extends Service
 {
@@ -15,13 +15,13 @@ class PasswordReset extends Service
 
         $accountValidator = new AccountValidator();
 
-        $account = $accountValidator->checkLoginName($post['name']);
+        $account = $accountValidator->checkLoginName($post['login_name']);
 
         $accountValidator->checkPassword($post['new_password']);
 
-        $securityValidator = new SecurityValidator();
+        $verifyValidator = new VerifyValidator();
 
-        $securityValidator->checkVerifyCode($post['name'], $post['verify_code']);
+        $verifyValidator->checkCode($post['login_name'], $post['verify_code']);
 
         $account->password = $post['new_password'];
 

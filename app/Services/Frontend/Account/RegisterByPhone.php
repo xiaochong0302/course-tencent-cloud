@@ -5,7 +5,7 @@ namespace App\Services\Frontend\Account;
 use App\Models\Account as AccountModel;
 use App\Services\Frontend\Service;
 use App\Validators\Account as AccountValidator;
-use App\Validators\Security as SecurityValidator;
+use App\Validators\Verify as VerifyValidator;
 
 class RegisterByPhone extends Service
 {
@@ -14,9 +14,9 @@ class RegisterByPhone extends Service
     {
         $post = $this->request->getPost();
 
-        $securityValidator = new SecurityValidator();
+        $verifyValidator = new VerifyValidator();
 
-        $securityValidator->checkVerifyCode($post['phone'], $post['verify_code']);
+        $verifyValidator->checkSmsCode($post['phone'], $post['verify_code']);
 
         $accountValidator = new AccountValidator();
 

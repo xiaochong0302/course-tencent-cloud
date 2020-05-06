@@ -49,8 +49,8 @@ class ErrorController extends \Phalcon\Mvc\Controller
     {
         $this->response->setStatusCode(404);
 
-        $isApiRequest = is_api_request();
-        $isAjaxRequest = is_ajax_request();
+        $isApiRequest = $this->request->isAjax();
+        $isAjaxRequest = $this->request->isApi();
 
         if ($isAjaxRequest || $isApiRequest) {
             return $this->jsonError(['code' => 'sys.not_found']);

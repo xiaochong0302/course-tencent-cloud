@@ -17,9 +17,7 @@ class PublicController extends \Phalcon\Mvc\Controller
      */
     public function authAction()
     {
-        $isAjaxRequest = is_ajax_request();
-
-        if ($isAjaxRequest) {
+        if ($this->request->isAjax()) {
             return $this->jsonError(['msg' => '会话已过期，请重新登录']);
         }
 
@@ -31,9 +29,7 @@ class PublicController extends \Phalcon\Mvc\Controller
      */
     public function forbiddenAction()
     {
-        $isAjaxRequest = is_ajax_request();
-
-        if ($isAjaxRequest) {
+        if ($this->request->isAjax()) {
             return $this->jsonError(['msg' => '无相关操作权限']);
         }
     }

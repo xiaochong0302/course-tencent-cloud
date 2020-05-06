@@ -73,7 +73,7 @@ class TestController extends Controller
         $pushUrl = $liveService->getPushUrl('test');
 
         $codeUrl = $this->url->get(
-            ['for' => 'web.qr.img'],
+            ['for' => 'web.qrcode_img'],
             ['text' => urlencode($pushUrl)]
         );
 
@@ -188,7 +188,7 @@ class TestController extends Controller
 
         if ($code) {
             $codeUrl = $this->url->get(
-                ['for' => 'web.qr.img'],
+                ['for' => 'web.qrcode_img'],
                 ['text' => urlencode($code)]
             );
         }
