@@ -5,7 +5,7 @@ namespace App\Validators;
 use App\Caches\Course as CourseCache;
 use App\Caches\MaxCourseId as MaxCourseIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Library\Validator\Common as CommonValidator;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Course as CourseModel;
 use App\Repos\Course as CourseRepo;
 

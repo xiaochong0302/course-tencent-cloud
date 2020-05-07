@@ -11,10 +11,10 @@ use Phalcon\Mvc\Model\Resultset;
 /**
  * 直播课程
  *
- * Class IndexLiveCourseList
+ * Class IndexLiveList
  * @package App\Caches
  */
-class IndexLiveCourseList extends Cache
+class IndexLiveList extends Cache
 {
 
     protected $lifetime = 1 * 86400;
@@ -26,7 +26,7 @@ class IndexLiveCourseList extends Cache
 
     public function getKey($id = null)
     {
-        return 'index_live_course_list';
+        return 'index_live_list';
     }
 
     public function getContent($id = null)

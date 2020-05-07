@@ -2,11 +2,13 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Services\Frontend\Course as CourseService;
-use App\Services\Frontend\CourseList as CourseListService;
-use App\Services\Frontend\CourseRelated as CourseRelatedService;
-use App\Services\Frontend\Favorite as CourseFavoriteService;
-use App\Services\Frontend\ReviewCreate as CourseReviewService;
+use App\Http\Web\Services\Course as CourseService;
+use App\Services\Frontend\Course\ConsultList as CourseConsultListService;
+use App\Services\Frontend\Course\CourseFavorite as CourseFavoriteService;
+use App\Services\Frontend\Course\CourseInfo as CourseInfoService;
+use App\Services\Frontend\Course\CourseList as CourseListService;
+use App\Services\Frontend\Course\CourseRelated as CourseRelatedService;
+use App\Services\Frontend\Course\ReviewList as CourseReviewListService;
 
 /**
  * @RoutePrefix("/course")
@@ -21,10 +23,19 @@ class CourseController extends Controller
     {
         $courseListService = new CourseListService();
 
-        $pager = $courseListService->getCourses();
+        $pager = $courseListService->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        $courseService = new CourseService();
 
+        $topCategories = $courseService->handleTopCategories();
+        $subCategories = $courseService->handleSubCategories();
+        $levels = $courseService->handleLevels();
+
+        dd($topCategories, $subCategories, $levels);
+
+        $this->view->setVar('top_categories', $topCategories);
+        $this->view->setVar('sub_categories', $subCategories);
+        $this->view->setVar('levels', $levels);
         $this->view->setVar('pager', $pager);
     }
 
@@ -33,27 +44,28 @@ class CourseController extends Controller
      */
     public function showAction($id)
     {
-        $courseService = new CourseService();
+        $courseInfoService = new CourseInfoService();
 
-        $course = $courseService->getCourse($id);
+        $courseInfo = $courseInfoService->handle($id);
 
-        return $this->jsonSuccess(['course' => $course]);
+        $courseRelatedService = new CourseRelatedService();
 
-        $this->view->setVar('course', $course);
+        $relatedCourses = $courseRelatedService->handle($id);
+
+        $this->view->setVar('course_info', $courseInfo);
+        $this->view->setVar('related_courses', $relatedCourses);
     }
 
     /**
-     * @Get("/{id:[0-9]+}/related", name="web.course.related")
+     * @Get("/{id:[0-9]+}/consults", name="web.course.consults")
      */
-    public function relatedAction($id)
+    public function consultsAction($id)
     {
-        $relatedService = new CourseRelatedService();
+        $consultListService = new CourseConsultListService();
 
-        $courses = $relatedService->getRelated($id);
+        $pager = $consultListService->handle($id);
 
-        return $this->jsonSuccess(['courses' => $courses]);
-
-        $this->view->setVar('course', $course);
+        $this->view->setVar('pager', $pager);
     }
 
     /**
@@ -61,11 +73,9 @@ class CourseController extends Controller
      */
     public function reviewsAction($id)
     {
-        $reviewService = new CourseReviewService();
+        $reviewListService = new CourseReviewListService();
 
-        $pager = $reviewService->getReviews($id);
-
-        return $this->jsonSuccess(['pager' => $pager]);
+        $pager = $reviewListService->handle($id);
 
         $this->view->setVar('pager', $pager);
     }
@@ -77,9 +87,9 @@ class CourseController extends Controller
     {
         $favoriteService = new CourseFavoriteService();
 
-        $favoriteService->saveFavorite($id);
+        $favoriteService->handle($id);
 
-        return $this->response->ajaxSuccess();
+        return $this->jsonSuccess(['msg' => '收藏课程成功']);
     }
 
 }

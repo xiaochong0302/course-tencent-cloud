@@ -5,7 +5,7 @@ namespace App\Validators;
 use App\Caches\MaxUserId as MaxUserIdCache;
 use App\Caches\User as UserCache;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Library\Validator\Common as CommonValidator;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\User as UserModel;
 use App\Repos\Role as RoleRepo;
 use App\Repos\User as UserRepo;

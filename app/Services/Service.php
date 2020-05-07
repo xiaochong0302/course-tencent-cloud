@@ -36,9 +36,9 @@ class Service extends Component
      */
     public function getSectionSettings($section)
     {
-        $settingCache = new SettingCache();
+        $cache = new SettingCache();
 
-        return $settingCache->get($section);
+        return $cache->get($section);
     }
 
 }

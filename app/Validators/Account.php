@@ -4,8 +4,8 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Exceptions\Forbidden as ForbiddenException;
-use App\Library\Util\Password as PasswordUtil;
-use App\Library\Validator\Common as CommonValidator;
+use App\Library\Utils\Password as PasswordUtil;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Account as AccountModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\User as UserRepo;

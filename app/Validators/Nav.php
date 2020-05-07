@@ -3,7 +3,7 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Library\Validator\Common as CommonValidator;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Nav as NavModel;
 use App\Repos\Nav as NavRepo;
 use Phalcon\Text;

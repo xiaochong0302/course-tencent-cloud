@@ -32,7 +32,7 @@ class PhoneUpdate extends Service
 
         $verifyValidator = new VerifyValidator();
 
-        $verifyValidator->checkSmsCode($post['phone'], $post['verify_code']);
+        $verifyValidator->checkCode($post['phone'], $post['verify_code']);
 
         $account->phone = $phone;
 

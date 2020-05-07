@@ -32,7 +32,7 @@ class EmailUpdate extends Service
 
         $verifyValidator = new VerifyValidator();
 
-        $verifyValidator->checkEmailCode($post['email'], $post['verify_code']);
+        $verifyValidator->checkCode($post['email'], $post['verify_code']);
 
         $account->email = $email;
 

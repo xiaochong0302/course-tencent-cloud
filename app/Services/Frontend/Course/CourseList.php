@@ -16,13 +16,21 @@ class CourseList extends Service
 
         $params = $pagerQuery->getParams();
 
-        if (!empty($params['category_id'])) {
+        /**
+         * tc => top_category
+         * sc => sub_category
+         */
+        if (!empty($params['sc'])) {
+
+            $params['category_id'] = $params['sc'];
+
+        } elseif (!empty($params['tc'])) {
 
             $categoryService = new CategoryService();
 
-            $childNodeIds = $categoryService->getChildCategoryIds($params['category_id']);
+            $childCategoryIds = $categoryService->getChildCategoryIds($params['tc']);
 
-            $params['category_id'] = $childNodeIds;
+            $params['category_id'] = $childCategoryIds;
         }
 
         $params['published'] = 1;

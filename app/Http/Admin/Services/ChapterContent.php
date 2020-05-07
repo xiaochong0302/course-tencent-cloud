@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Library\Util\Word as WordUtil;
+use App\Library\Utils\Word as WordUtil;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;

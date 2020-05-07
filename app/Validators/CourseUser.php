@@ -3,7 +3,7 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Library\Validator\Common as CommonValidator;
+use App\Library\Validators\Common as CommonValidator;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\User as UserRepo;

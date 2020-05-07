@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\Validator;
+namespace App\Library\Validators;
 
 class Common
 {

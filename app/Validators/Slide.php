@@ -3,7 +3,7 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Library\Validator\Common as CommonValidator;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Course as CourseModel;
 use App\Models\Page as PageModel;
 use App\Models\Slide as SlideModel;

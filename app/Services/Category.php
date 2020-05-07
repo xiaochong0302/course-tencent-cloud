@@ -48,6 +48,29 @@ class Category extends Service
     }
 
     /**
+     * 获取子节点
+     *
+     * @param int $id
+     * @return array
+     */
+    public function getChildCategories($id = 0)
+    {
+        $categoryListCache = new CategoryListCache();
+
+        $categories = $categoryListCache->get();
+
+        $result = [];
+
+        foreach ($categories as $category) {
+            if ($category['parent_id'] == $id) {
+                $result[] = $category;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * 获取子节点ID
      *
      * @param int $id
@@ -71,15 +94,15 @@ class Category extends Service
 
         $categories = $categoryListCache->get();
 
-        $nodeIds = [];
+        $result = [];
 
         foreach ($categories as $category) {
             if ($category['parent_id'] == $id) {
-                $nodeIds[] = $category['id'];
+                $result[] = $category['id'];
             }
         }
 
-        return $nodeIds;
+        return $result;
     }
 
 }

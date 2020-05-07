@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\Util;
+namespace App\Library\Utils;
 
 use Phalcon\Text;
 

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Library\Util\Password;
+use App\Library\Utils\Password;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Account extends Model

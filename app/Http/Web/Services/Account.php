@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Admin\Services;
+namespace App\Http\Web\Services;
 
 use App\Services\Auth as AuthService;
+use App\Services\Frontend\Account\Register as RegisterService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Captcha as CaptchaValidator;
 
-class Session extends Service
+class Account extends Service
 {
 
     /**
@@ -21,17 +22,11 @@ class Session extends Service
 
     public function login()
     {
-        $currentUser = $this->getCurrentUser();
-
-        if ($currentUser->id > 0) {
-            $this->response->redirect(['for' => 'web.index']);
-        }
-
         $post = $this->request->getPost();
 
         $accountValidator = new AccountValidator();
 
-        $user = $accountValidator->checkAdminLogin($post['account'], $post['password']);
+        $user = $accountValidator->checkUserLogin($post['account'], $post['password']);
 
         $captchaSettings = $this->getSectionSettings('captcha');
 
@@ -51,6 +46,15 @@ class Session extends Service
     public function logout()
     {
         $this->auth->clearAuthInfo();
+    }
+
+    public function register()
+    {
+        $service = new RegisterService();
+
+        $user = $service->handle();
+
+        $this->auth->saveAuthInfo($user);
     }
 
 }

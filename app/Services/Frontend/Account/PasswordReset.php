@@ -15,13 +15,13 @@ class PasswordReset extends Service
 
         $accountValidator = new AccountValidator();
 
-        $account = $accountValidator->checkLoginName($post['login_name']);
+        $account = $accountValidator->checkLoginName($post['account']);
 
         $accountValidator->checkPassword($post['new_password']);
 
         $verifyValidator = new VerifyValidator();
 
-        $verifyValidator->checkCode($post['login_name'], $post['verify_code']);
+        $verifyValidator->checkCode($post['account'], $post['verify_code']);
 
         $account->password = $post['new_password'];
 
