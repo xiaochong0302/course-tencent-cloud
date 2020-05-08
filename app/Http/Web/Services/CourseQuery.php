@@ -5,8 +5,15 @@ namespace App\Http\Web\Services;
 use App\Models\Course as CourseModel;
 use App\Services\Category as CategoryService;
 
-class Course extends Service
+class CourseQuery extends Service
 {
+
+    protected $baseUrl;
+
+    public function __construct()
+    {
+        $this->baseUrl = $this->url->get(['for' => 'web.course.list']);
+    }
 
     public function handleTopCategories()
     {
@@ -92,22 +99,50 @@ class Course extends Service
         return $result;
     }
 
-    public function handleLevels()
+    public function handleModels()
     {
         $params = $this->getQueryParams();
 
-        $defaultParams = $params;
-
-        if (isset($defaultParams['level'])) {
-            unset($defaultParams['level']);
+        if (isset($params['model'])) {
+            unset($params['model']);
         }
-
-        $baseUrl = $this->url->get(['for' => 'web.course.list']);
 
         $defaultItem = [
             'id' => 0,
             'name' => '全部',
-            'href' => $baseUrl . $this->buildQueryParams($defaultParams),
+            'href' => $this->baseUrl . $this->buildQueryParams($params),
+        ];
+
+        $result = [];
+
+        $result[] = $defaultItem;
+
+        $models = CourseModel::modelTypes();
+
+        foreach ($models as $key => $value) {
+            $params['model'] = $key;
+            $result[] = [
+                'id' => $key,
+                'name' => $value,
+                'href' => $this->baseUrl . $this->buildQueryParams($params),
+            ];
+        }
+
+        return $result;
+    }
+
+    public function handleLevels()
+    {
+        $params = $this->getQueryParams();
+
+        if (isset($params['level'])) {
+            unset($params['level']);
+        }
+
+        $defaultItem = [
+            'id' => 0,
+            'name' => '全部',
+            'href' => $this->baseUrl . $this->buildQueryParams($params),
         ];
 
         $result = [];
@@ -121,7 +156,7 @@ class Course extends Service
             $result[] = [
                 'id' => $key,
                 'name' => $value,
-                'href' => $baseUrl . $this->buildQueryParams($params),
+                'href' => $this->baseUrl . $this->buildQueryParams($params),
             ];
         }
 
@@ -130,6 +165,22 @@ class Course extends Service
 
     public function handleSorts()
     {
+        $params = $this->getQueryParams();
+
+        $result = [];
+
+        $sorts = CourseModel::sortTypes();
+
+        foreach ($sorts as $key => $value) {
+            $params['sort'] = $key;
+            $result[] = [
+                'id' => $key,
+                'name' => $value,
+                'href' => $this->baseUrl . $this->buildQueryParams($params),
+            ];
+        }
+
+        return $result;
     }
 
     protected function getQueryParams()
@@ -138,16 +189,31 @@ class Course extends Service
 
         $params = [];
 
+        $validator = new \App\Validators\CourseQuery();
+
         if (!empty($query['tc'])) {
+            $validator->checkTopCategory($query['tc']);
             $params['tc'] = $query['tc'];
         }
 
         if (!empty($query['sc'])) {
+            $validator->checkSubCategory($query['sc']);
             $params['sc'] = $query['sc'];
         }
 
+        if (!empty($query['model'])) {
+            $validator->checkModel($query['model']);
+            $params['model'] = $query['model'];
+        }
+
         if (!empty($query['level'])) {
+            $validator->checkLevel($query['level']);
             $params['level'] = $query['level'];
+        }
+
+        if (!empty($query['sort'])) {
+            $validator->checkSort($query['sort']);
+            $params['sort'] = $query['sort'];
         }
 
         return $params;

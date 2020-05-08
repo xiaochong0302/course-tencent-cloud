@@ -342,6 +342,15 @@ class Course extends Model
         ];
     }
 
+    public static function sortTypes()
+    {
+        return [
+            'score' => '综合',
+            'rating' => '好评',
+            'pop' => '人气',
+        ];
+    }
+
     public static function studyExpiryOptions()
     {
         return [

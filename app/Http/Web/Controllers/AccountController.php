@@ -54,12 +54,12 @@ class AccountController extends Controller
 
             $service->register();
 
-            $location = $this->request->getHTTPReferer();
-
-            return $this->jsonSuccess([
-                'location' => $location,
+            $content = [
+                'location' => $this->request->getHTTPReferer(),
                 'msg' => '注册账户成功',
-            ]);
+            ];
+
+            return $this->jsonSuccess($content);
         }
     }
 

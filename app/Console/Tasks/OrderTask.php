@@ -105,7 +105,7 @@ class OrderTask extends Task
         $courseUser = new CourseUserModel();
 
         if ($courseUser->create($data) === false) {
-            throw new \RuntimeException('Create Course User Failed');
+            throw new \RuntimeException('Create CourseQuery User Failed');
         }
 
         $this->handleCourseHistory($data['course_id'], $data['user_id']);
@@ -134,7 +134,7 @@ class OrderTask extends Task
             $courseUser = new CourseUserModel();
 
             if ($courseUser->create($data) === false) {
-                throw new \RuntimeException('Create Course User Failed');
+                throw new \RuntimeException('Create CourseQuery User Failed');
             }
 
             $this->handleCourseHistory($data['course_id'], $data['user_id']);

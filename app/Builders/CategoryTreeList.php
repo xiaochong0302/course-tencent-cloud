@@ -2,43 +2,64 @@
 
 namespace App\Builders;
 
+use App\Models\Category as CategoryModel;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
+
 class CategoryTreeList extends Builder
 {
 
-    public function handleTreeList($categories)
+    public function handle()
     {
-        $list = [];
+        $topCategories = $this->findChildCategories(0);
 
-        foreach ($categories as $category) {
-            if ($category['parent_id'] == 0) {
-                $key = $category['id'];
-                $list[$key] = [
-                    'id' => $category['id'],
-                    'name' => $category['name'],
-                    'priority' => $category['priority'],
-                    'children' => [],
-                ];
-            } else {
-                $key = $category['parent_id'];
-                $list[$key]['children'][] = [
-                    'id' => $category['id'],
-                    'name' => $category['name'],
-                    'priority' => $category['priority'],
-                ];
-            }
+        if ($topCategories->count() == 0) {
+            return [];
         }
 
-        usort($list, function ($a, $b) {
-            return $a['priority'] > $b['priority'];
-        });
+        $list = [];
 
-        foreach ($list as $key => $value) {
-            usort($list[$key]['children'], function ($a, $b) {
-                return $a['priority'] > $b['priority'];
-            });
+        foreach ($topCategories as $category) {
+            $list[] = [
+                'id' => $category->id,
+                'name' => $category->name,
+                'children' => $this->handleChildren($category),
+            ];
         }
 
         return $list;
+    }
+
+    protected function handleChildren(CategoryModel $category)
+    {
+        $subCategories = $this->findChildCategories($category->id);
+
+        if ($subCategories->count() == 0) {
+            return [];
+        }
+
+        $list = [];
+
+        foreach ($subCategories as $category) {
+            $list[] = [
+                'id' => $category->id,
+                'name' => $category->name,
+            ];
+        }
+
+        return $list;
+    }
+
+    /**
+     * @param int $categoryId
+     * @return ResultsetInterface|Resultset|CategoryModel[]
+     */
+    protected function findChildCategories($categoryId = 0)
+    {
+        return CategoryModel::query()
+            ->where('parent_id = :parent_id:', ['parent_id' => $categoryId])
+            ->andWhere('deleted = 0')
+            ->execute();
     }
 
 }

@@ -8,29 +8,29 @@ use App\Repos\User as UserRepo;
 class RefundList extends Builder
 {
 
-    public function handleOrders($trades)
+    public function handleOrders(array $trades)
     {
         $orders = $this->getOrders($trades);
 
         foreach ($trades as $key => $trade) {
-            $trades[$key]['order'] = $orders[$trade['order_id']];
+            $trades[$key]['order'] = $orders[$trade['order_id']] ?? new \stdClass();
         }
 
         return $trades;
     }
 
-    public function handleUsers($refunds)
+    public function handleUsers(array $refunds)
     {
         $users = $this->getUsers($refunds);
 
         foreach ($refunds as $key => $refund) {
-            $refunds[$key]['user'] = $users[$refund['user_id']];
+            $refunds[$key]['user'] = $users[$refund['user_id']] ?? new \stdClass();
         }
 
         return $refunds;
     }
 
-    public function getOrders($trades)
+    public function getOrders(array $trades)
     {
         $ids = kg_array_column($trades, 'order_id');
 
@@ -47,7 +47,7 @@ class RefundList extends Builder
         return $result;
     }
 
-    public function getUsers($refunds)
+    public function getUsers(array $refunds)
     {
         $ids = kg_array_column($refunds, 'user_id');
 

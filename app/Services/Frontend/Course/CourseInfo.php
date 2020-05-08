@@ -2,11 +2,8 @@
 
 namespace App\Services\Frontend\Course;
 
-use App\Caches\CourseChapterList as CourseChapterListCache;
-use App\Caches\CourseTeacherList as CourseTeacherListCache;
 use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
-use App\Repos\Course as CourseRepo;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Category as CategoryService;
 use App\Services\Frontend\CourseTrait;
@@ -80,77 +77,17 @@ class CourseInfo extends Service
             $me['owned'] = $this->ownedCourse ? 1 : 0;
         }
 
-        $result['category_paths'] = $this->getCategoryPaths($course);
-        $result['teachers'] = $this->getTeachers($course);
-        $result['chapters'] = $this->getChapters($course, $user);
+        $result['paths'] = $this->getPaths($course);
         $result['me'] = $me;
 
         return $result;
     }
 
-    protected function getCategoryPaths(CourseModel $course)
+    protected function getPaths(CourseModel $course)
     {
         $service = new CategoryService();
 
         return $service->getCategoryPaths($course->category_id);
-    }
-
-    protected function getTeachers(CourseModel $course)
-    {
-        $cache = new CourseTeacherListCache();
-
-        return $cache->get($course->id);
-    }
-
-    protected function getChapters(CourseModel $course, UserModel $user)
-    {
-        $cache = new CourseChapterListCache();
-
-        $chapters = $cache->get($course->id);
-
-        if ($user->id == 0) {
-            foreach ($chapters as &$chapter) {
-                foreach ($chapter['children'] as &$lesson) {
-                    $lesson['me'] = [
-                        'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
-                        'progress' => 0,
-                    ];
-                }
-            }
-        } else {
-            $mapping = $this->getLearningMapping($course, $user);
-            foreach ($chapters as &$chapter) {
-                foreach ($chapter['children'] as &$lesson) {
-                    $lesson['me'] = [
-                        'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
-                        'progress' => $mapping[$lesson['id']]['progress'] ?? 0,
-                    ];
-                }
-            }
-        }
-
-        return $chapters;
-    }
-
-    protected function getLearningMapping(CourseModel $course, UserModel $user)
-    {
-        $courseRepo = new CourseRepo();
-
-        $userLearnings = $courseRepo->findUserLearnings($course->id, $user->id);
-
-        if ($userLearnings->count() == 0) {
-            return [];
-        }
-
-        $mapping = [];
-
-        foreach ($userLearnings as $learning) {
-            $mapping[$learning['chapter_id']] = [
-                'progress' => $learning['progress'],
-            ];
-        }
-
-        return $mapping;
     }
 
 }

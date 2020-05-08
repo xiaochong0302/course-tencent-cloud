@@ -8,29 +8,29 @@ use App\Repos\User as UserRepo;
 class ConsultList extends Builder
 {
 
-    public function handleCourses($consults)
+    public function handleCourses(array $consults)
     {
         $courses = $this->getCourses($consults);
 
         foreach ($consults as $key => $consult) {
-            $consults[$key]['course'] = $courses[$consult['course_id']] ?? [];
+            $consults[$key]['course'] = $courses[$consult['course_id']] ?? new \stdClass();
         }
 
         return $consults;
     }
 
-    public function handleUsers($consults)
+    public function handleUsers(array $consults)
     {
         $users = $this->getUsers($consults);
 
         foreach ($consults as $key => $consult) {
-            $consults[$key]['user'] = $users[$consult['user_id']] ?? [];
+            $consults[$key]['user'] = $users[$consult['user_id']] ?? new \stdClass();
         }
 
         return $consults;
     }
 
-    public function getCourses($consults)
+    public function getCourses(array $consults)
     {
         $ids = kg_array_column($consults, 'course_id');
 
@@ -47,7 +47,7 @@ class ConsultList extends Builder
         return $result;
     }
 
-    public function getUsers($consults)
+    public function getUsers(array $consults)
     {
         $ids = kg_array_column($consults, 'user_id');
 

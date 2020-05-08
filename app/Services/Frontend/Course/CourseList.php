@@ -67,7 +67,6 @@ class CourseList extends Service
                 'id' => $course['id'],
                 'title' => $course['title'],
                 'cover' => $course['cover'],
-                'summary' => $course['summary'],
                 'market_price' => (float)$course['market_price'],
                 'vip_price' => (float)$course['vip_price'],
                 'rating' => (float)$course['rating'],

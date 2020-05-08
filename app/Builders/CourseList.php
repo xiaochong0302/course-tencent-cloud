@@ -8,35 +8,37 @@ use App\Repos\User as UserRepo;
 class CourseList extends Builder
 {
 
-    public function handleCategories($courses)
+    public function handleCategories(array $courses)
     {
         $categories = $this->getCategories();
 
         foreach ($courses as $key => $course) {
-            $courses[$key]['category'] = $categories[$course['category_id']] ?? [];
+            $courses[$key]['category'] = $categories[$course['category_id']] ?? new \stdClass();
         }
 
         return $courses;
     }
 
-    public function handleTeachers($courses)
+    public function handleTeachers(array $courses)
     {
         $teachers = $this->getTeachers($courses);
 
         foreach ($courses as $key => $course) {
-            $courses[$key]['teacher'] = $teachers[$course['teacher_id']] ?? [];
+            $courses[$key]['teacher'] = $teachers[$course['teacher_id']] ?? new \stdClass();
         }
 
         return $courses;
     }
 
-    protected function getCategories()
+    public function getCategories()
     {
         $cache = new CategoryListCache();
 
         $items = $cache->get();
 
-        if (!$items) return null;
+        if (empty($items)) {
+            return [];
+        }
 
         $result = [];
 
@@ -50,7 +52,7 @@ class CourseList extends Builder
         return $result;
     }
 
-    protected function getTeachers($courses)
+    public function getTeachers($courses)
     {
         $ids = kg_array_column($courses, 'teacher_id');
 

@@ -8,12 +8,12 @@ use App\Repos\User as UserRepo;
 class TradeList extends Builder
 {
 
-    public function handleOrders($trades)
+    public function handleOrders(array $trades)
     {
         $orders = $this->getOrders($trades);
 
         foreach ($trades as $key => $trade) {
-            $trades[$key]['order'] = $orders[$trade['order_id']];
+            $trades[$key]['order'] = $orders[$trade['order_id']] ?? new \stdClass();
         }
 
         return $trades;
@@ -24,7 +24,7 @@ class TradeList extends Builder
         $users = $this->getUsers($trades);
 
         foreach ($trades as $key => $trade) {
-            $trades[$key]['user'] = $users[$trade['user_id']];
+            $trades[$key]['user'] = $users[$trade['user_id']] ?? new \stdClass();
         }
 
         return $trades;

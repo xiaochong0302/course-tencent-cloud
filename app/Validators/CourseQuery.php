@@ -2,20 +2,34 @@
 
 namespace App\Validators;
 
+use App\Caches\Category as CategoryCache;
+use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Course as CourseModel;
-use App\Repos\Category as CategoryRepo;
 
 class CourseQuery extends Validator
 {
 
-    public function checkCategory($id)
+    public function checkTopCategory($id)
     {
-        $categoryRepo = new CategoryRepo();
+        $categoryCache = new CategoryCache();
 
-        $category = $categoryRepo->findById($id);
+        $category = $categoryCache->get($id);
 
         if (!$category) {
-            return false;
+            throw new BadRequestException('course_query.invalid_top_category');
+        }
+
+        return $category->id;
+    }
+
+    public function checkSubCategory($id)
+    {
+        $categoryCache = new CategoryCache();
+
+        $category = $categoryCache->get($id);
+
+        if (!$category) {
+            throw new BadRequestException('course_query.invalid_sub_category');
         }
 
         return $category->id;
@@ -26,38 +40,32 @@ class CourseQuery extends Validator
         $types = CourseModel::levelTypes();
 
         if (!isset($types[$level])) {
-            return $level;
+            throw new BadRequestException('course_query.invalid_level');
         }
 
-        return false;
+        return $level;
     }
 
     public function checkModel($model)
     {
-        $types = CourseModel::levelTypes();
+        $types = CourseModel::modelTypes();
 
         if (!isset($types[$model])) {
-            return $model;
+            throw new BadRequestException('course_query.invalid_model');
         }
 
-        return false;
+        return $model;
     }
 
     public function checkSort($sort)
     {
-        switch ($sort) {
-            case 'rating':
-                $orderBy = 'rating DESC';
-                break;
-            case 'score':
-                $orderBy = 'score DESC';
-                break;
-            default:
-                $orderBy = 'id DESC';
-                break;
+        $types = CourseModel::sortTypes();
+
+        if (!isset($types[$sort])) {
+            throw new BadRequestException('course_query.invalid_sort');
         }
 
-        return $orderBy;
+        return $sort;
     }
 
 }

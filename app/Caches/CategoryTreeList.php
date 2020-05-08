@@ -3,8 +3,6 @@
 namespace App\Caches;
 
 use App\Builders\CategoryTreeList as CategoryTreeListBuilder;
-use App\Models\Category as CategoryModel;
-use Phalcon\Mvc\Model\Resultset;
 
 class CategoryTreeList extends Cache
 {
@@ -23,31 +21,11 @@ class CategoryTreeList extends Cache
 
     public function getContent($id = null)
     {
-        /**
-         * @var Resultset $categories
-         */
-        $categories = CategoryModel::query()
-            ->where('published = 1 AND deleted = 0')
-            ->execute();
-
-        if ($categories->count() == 0) {
-            return [];
-        }
-
-        return $this->handleContent($categories);
-    }
-
-    /**
-     * @param Resultset $categories
-     * @return array
-     */
-    protected function handleContent($categories)
-    {
-        $items = $categories->toArray();
-
         $builder = new CategoryTreeListBuilder();
 
-        return $builder->handleTreeList($items);
+        $list = $builder->handle();
+
+        return $list ?: [];
     }
 
 }

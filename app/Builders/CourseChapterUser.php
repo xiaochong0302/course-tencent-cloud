@@ -49,7 +49,7 @@ class CourseChapterUser extends Builder
 
         $attrs = json_decode($chapter['attrs'], true);
 
-        $me = $chapter['me'] ?? [];
+        $me = $chapter['me'] ?? new \stdClass();
 
         $clickable = $chapter['published'];
 

@@ -8,29 +8,29 @@ use App\Repos\User as UserRepo;
 class ReviewList extends Builder
 {
 
-    public function handleCourses($reviews)
+    public function handleCourses(array $reviews)
     {
         $courses = $this->getCourses($reviews);
 
         foreach ($reviews as $key => $review) {
-            $reviews[$key]['course'] = $courses[$review['course_id']] ?? [];
+            $reviews[$key]['course'] = $courses[$review['course_id']] ?? new \stdClass();
         }
 
         return $reviews;
     }
 
-    public function handleUsers($reviews)
+    public function handleUsers(array $reviews)
     {
         $users = $this->getUsers($reviews);
 
         foreach ($reviews as $key => $review) {
-            $reviews[$key]['user'] = $users[$review['user_id']] ?? [];
+            $reviews[$key]['user'] = $users[$review['user_id']] ?? new \stdClass();
         }
 
         return $reviews;
     }
 
-    public function getCourses($reviews)
+    public function getCourses(array $reviews)
     {
         $ids = kg_array_column($reviews, 'course_id');
 
@@ -47,7 +47,7 @@ class ReviewList extends Builder
         return $result;
     }
 
-    public function getUsers($reviews)
+    public function getUsers(array $reviews)
     {
         $ids = kg_array_column($reviews, 'user_id');
 

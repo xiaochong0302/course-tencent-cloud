@@ -295,4 +295,13 @@ $error['user_daily_limit.reach_review_limit'] = '超出日评价限额';
 $error['user_daily_limit.reach_order_limit'] = '超出日订单限额';
 $error['user_daily_limit.reach_vote_limit'] = '超出日投票限额';
 
+/**
+ * 课程查询
+ */
+$error['course_query.invalid_top_category'] = '无效的方向类别';
+$error['course_query.invalid_sub_category'] = '无效的分类类别';
+$error['course_query.invalid_model'] = '无效的模型类别';
+$error['course_query.invalid_level'] = '无效的难度类别';
+$error['course_query.invalid_sort'] = '无效的排序类别';
+
 return $error;

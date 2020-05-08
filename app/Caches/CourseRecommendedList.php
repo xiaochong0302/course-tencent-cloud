@@ -3,9 +3,10 @@
 namespace App\Caches;
 
 use App\Models\Course as CourseModel;
-use App\Repos\Topic as TopicRepo;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
-class TopicCourseList extends Cache
+class CourseRecommendedList extends Cache
 {
 
     protected $lifetime = 1 * 86400;
@@ -17,14 +18,12 @@ class TopicCourseList extends Cache
 
     public function getKey($id = null)
     {
-        return "topic_course_list:{$id}";
+        return "course_recommended_list:{$id}";
     }
 
     public function getContent($id = null)
     {
-        $topicRepo = new TopicRepo();
-
-        $courses = $topicRepo->findCourses($id);
+        $courses = $this->findCourses(5);
 
         if ($courses->count() == 0) {
             return [];
@@ -42,6 +41,7 @@ class TopicCourseList extends Cache
         $result = [];
 
         foreach ($courses as $course) {
+
             $result[] = [
                 'id' => $course->id,
                 'title' => $course->title,
@@ -57,6 +57,19 @@ class TopicCourseList extends Cache
         }
 
         return $result;
+    }
+
+    /**
+     * @param int $limit
+     * @return ResultsetInterface|Resultset|CourseModel[]
+     */
+    public function findCourses($limit = 5)
+    {
+        return CourseModel::query()
+            ->where('published = 1 AND deleted = 0')
+            ->orderBy('RAND()')
+            ->limit($limit)
+            ->execute();
     }
 
 }

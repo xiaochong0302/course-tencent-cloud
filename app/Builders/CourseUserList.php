@@ -13,7 +13,7 @@ class CourseUserList extends Builder
         $courses = $this->getCourses($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['course'] = $courses[$value['course_id']];
+            $relations[$key]['course'] = $courses[$value['course_id']] ?? new \stdClass();
         }
 
         return $relations;
@@ -24,7 +24,7 @@ class CourseUserList extends Builder
         $users = $this->getUsers($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['user'] = $users[$value['user_id']];
+            $relations[$key]['user'] = $users[$value['user_id']] ?? new \stdClass();
         }
 
         return $relations;
@@ -37,9 +37,10 @@ class CourseUserList extends Builder
         $courseRepo = new CourseRepo();
 
         $columns = [
-            'id', 'title', 'cover', 'summary',
-            'market_price', 'vip_price', 'model', 'level', 'attrs',
-            'user_count', 'lesson_count', 'review_count', 'favorite_count',
+            'id', 'title', 'cover',
+            'market_price', 'vip_price',
+            'rating', 'model', 'level', 'attrs',
+            'user_count', 'lesson_count',
         ];
 
         $courses = $courseRepo->findByIds($ids, $columns);

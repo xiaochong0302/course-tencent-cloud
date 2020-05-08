@@ -9,40 +9,40 @@ use App\Repos\User as UserRepo;
 class CommentList extends Builder
 {
 
-    public function handleCourses($comments)
+    public function handleCourses(array $comments)
     {
         $courses = $this->getCourses($comments);
 
         foreach ($comments as $key => $comment) {
-            $comments[$key]['course'] = $courses[$comment['course_id']] ?? [];
+            $comments[$key]['course'] = $courses[$comment['course_id']] ?? new \stdClass();
         }
 
         return $comments;
     }
 
-    public function handleChapters($comments)
+    public function handleChapters(array $comments)
     {
         $chapters = $this->getChapters($comments);
 
         foreach ($comments as $key => $comment) {
-            $comments[$key]['chapter'] = $chapters[$comment['chapter_id']] ?? [];
+            $comments[$key]['chapter'] = $chapters[$comment['chapter_id']] ?? new \stdClass();
         }
 
         return $comments;
     }
 
-    public function handleUsers($comments)
+    public function handleUsers(array $comments)
     {
         $users = $this->getUsers($comments);
 
         foreach ($comments as $key => $comment) {
-            $comments[$key]['user'] = $users[$comment['user_id']] ?? [];
+            $comments[$key]['user'] = $users[$comment['user_id']] ?? new \stdClass();
         }
 
         return $comments;
     }
 
-    public function getCourses($comments)
+    public function getCourses(array $comments)
     {
         $ids = kg_array_column($comments, 'course_id');
 
@@ -59,7 +59,7 @@ class CommentList extends Builder
         return $result;
     }
 
-    public function getChapters($comments)
+    public function getChapters(array $comments)
     {
         $ids = kg_array_column($comments, 'chapter_id');
 
@@ -76,7 +76,7 @@ class CommentList extends Builder
         return $result;
     }
 
-    public function getUsers($comments)
+    public function getUsers(array $comments)
     {
         $ids = kg_array_column($comments, 'user_id');
 

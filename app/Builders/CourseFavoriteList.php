@@ -8,38 +8,39 @@ use App\Repos\User as UserRepo;
 class CourseFavoriteList extends Builder
 {
 
-    public function handleCourses($relations)
+    public function handleCourses(array $relations)
     {
         $courses = $this->getCourses($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['course'] = $courses[$value['course_id']];
+            $relations[$key]['course'] = $courses[$value['course_id']] ?? new \stdClass();
         }
 
         return $relations;
     }
 
-    public function handleUsers($relations)
+    public function handleUsers(array $relations)
     {
         $users = $this->getUsers($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['user'] = $users[$value['user_id']];
+            $relations[$key]['user'] = $users[$value['user_id']] ?? new \stdClass();
         }
 
         return $relations;
     }
 
-    public function getCourses($relations)
+    public function getCourses(array $relations)
     {
         $ids = kg_array_column($relations, 'course_id');
 
         $courseRepo = new CourseRepo();
 
         $columns = [
-            'id', 'title', 'cover', 'summary',
-            'market_price', 'vip_price', 'model', 'level', 'attrs',
-            'user_count', 'lesson_count', 'review_count', 'favorite_count',
+            'id', 'title', 'cover',
+            'market_price', 'vip_price',
+            'rating', 'model', 'level', 'attrs',
+            'user_count', 'lesson_count',
         ];
 
         $courses = $courseRepo->findByIds($ids, $columns);
@@ -57,7 +58,7 @@ class CourseFavoriteList extends Builder
         return $result;
     }
 
-    public function getUsers($relations)
+    public function getUsers(array $relations)
     {
         $ids = kg_array_column($relations, 'user_id');
 

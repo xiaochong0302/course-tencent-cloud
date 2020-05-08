@@ -5,7 +5,6 @@ namespace App\Caches;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
-use App\Repos\User as UserRepo;
 use Phalcon\Mvc\Model\Resultset;
 
 /**
@@ -44,8 +43,6 @@ class IndexLiveList extends Cache
         $beginTime = strtotime('today');
         $endTime = strtotime("+30 days");
 
-        $result = [];
-
         /**
          * @var Resultset|ChapterLiveModel[] $lives
          */
@@ -55,8 +52,10 @@ class IndexLiveList extends Cache
             ->execute();
 
         if ($lives->count() == 0) {
-            return $result;
+            return [];
         }
+
+        $result = [];
 
         $chapterIds = kg_array_column($lives->toArray(), 'chapter_id');
 
@@ -82,18 +81,6 @@ class IndexLiveList extends Cache
             $courseMappings[$course->id] = $course;
         }
 
-        $teacherIds = kg_array_column($courses->toArray(), 'teacher_id');
-
-        $userRepo = new UserRepo();
-
-        $teachers = $userRepo->findByIds($teacherIds);
-
-        $teacherMappings = [];
-
-        foreach ($teachers as $teacher) {
-            $teacherMappings[$teacher->id] = $teacher;
-        }
-
         foreach ($lives as $live) {
 
             if (count($result) >= $dayLimit) {
@@ -108,7 +95,6 @@ class IndexLiveList extends Cache
 
             $chapter = $chapterMappings[$live->chapter_id];
             $course = $courseMappings[$chapter->course_id];
-            $teacher = $teacherMappings[$course->teacher_id];
 
             $chapterInfo = [
                 'id' => $chapter->id,
@@ -121,13 +107,9 @@ class IndexLiveList extends Cache
                 'id' => $course->id,
                 'title' => $course->title,
                 'cover' => $course->cover,
-                'teacher' => [
-                    'id' => $teacher->id,
-                    'name' => $teacher->name,
-                    'avatar' => $teacher->avatar,
-                ],
                 'market_price' => $course->market_price,
                 'vip_price' => $course->vip_price,
+                'rating' => $course->rating,
                 'model' => $course->model,
                 'level' => $course->level,
                 'user_count' => $course->user_count,

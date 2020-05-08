@@ -47,7 +47,6 @@ class CourseTeacherList extends Cache
                 'name' => $user->name,
                 'avatar' => $user->avatar,
                 'title' => $user->title,
-                'about' => $user->about,
             ];
         }
 

@@ -8,7 +8,7 @@ use App\Repos\Role as RoleRepo;
 class UserList extends Builder
 {
 
-    public function handleUsers($users)
+    public function handleUsers(array $users)
     {
         $baseUrl = kg_ci_base_url();
 
@@ -19,7 +19,7 @@ class UserList extends Builder
         return $users;
     }
 
-    public function handleAdminRoles($users)
+    public function handleAdminRoles(array $users)
     {
         $roles = $this->getAdminRoles($users);
 
@@ -30,7 +30,7 @@ class UserList extends Builder
         return $users;
     }
 
-    public function handleEduRoles($users)
+    public function handleEduRoles(array $users)
     {
         $roles = $this->getEduRoles();
 
@@ -41,7 +41,7 @@ class UserList extends Builder
         return $users;
     }
 
-    protected function getAdminRoles($users)
+    protected function getAdminRoles(array $users)
     {
         $ids = kg_array_column($users, 'admin_role');
 

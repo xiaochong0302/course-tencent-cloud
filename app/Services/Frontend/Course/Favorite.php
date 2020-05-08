@@ -3,14 +3,14 @@
 namespace App\Services\Frontend\Course;
 
 use App\Models\Course as CourseModel;
-use App\Models\CourseFavorite as FavoriteModel;
+use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\User as UserModel;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
-class CourseFavorite extends Service
+class Favorite extends Service
 {
 
     use CourseTrait;
@@ -31,7 +31,7 @@ class CourseFavorite extends Service
 
         if (!$favorite) {
 
-            $favorite = new FavoriteModel();
+            $favorite = new CourseFavoriteModel();
 
             $favorite->course_id = $course->id;
             $favorite->user_id = $user->id;

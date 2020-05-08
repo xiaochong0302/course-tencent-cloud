@@ -183,7 +183,7 @@ class RefundTask extends Task
             $courseUser->deleted = 1;
 
             if ($courseUser->update() === false) {
-                throw new \RuntimeException('Delete Course User Failed');
+                throw new \RuntimeException('Delete CourseQuery User Failed');
             }
         }
     }
@@ -211,7 +211,7 @@ class RefundTask extends Task
                 $courseUser->deleted = 1;
 
                 if ($courseUser->update() === false) {
-                    throw new \RuntimeException('Delete Course User Failed');
+                    throw new \RuntimeException('Delete CourseQuery User Failed');
                 }
             }
         }

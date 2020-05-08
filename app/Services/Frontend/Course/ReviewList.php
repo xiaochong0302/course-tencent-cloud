@@ -64,7 +64,7 @@ class ReviewList extends Service
 
         $users = $builder->getUsers($reviews);
 
-        $votes = $this->getReviewVotes($this->course->id, $this->user->id);
+        $votes = $this->getReviewVotes($this->course, $this->user);
 
         $items = [];
 
@@ -94,15 +94,15 @@ class ReviewList extends Service
         return $pager;
     }
 
-    protected function getReviewVotes($courseId, $userId)
+    protected function getReviewVotes(CourseModel $course, UserModel $user)
     {
-        if (!$courseId || !$userId) {
+        if ($course->id == 0 || $user->id == 0) {
             return [];
         }
 
         $courseRepo = new CourseRepo();
 
-        $votes = $courseRepo->findUserReviewVotes($courseId, $userId);
+        $votes = $courseRepo->findUserReviewVotes($course->id, $user->id);
 
         if ($votes->count() == 0) {
             return [];

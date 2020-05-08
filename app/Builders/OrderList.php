@@ -8,7 +8,7 @@ use App\Repos\User as UserRepo;
 class OrderList extends Builder
 {
 
-    protected $baseUrl;
+    protected $imgBaseUrl;
 
     public function __construct()
     {
@@ -24,7 +24,7 @@ class OrderList extends Builder
         $users = $this->getUsers($orders);
 
         foreach ($orders as $key => $order) {
-            $orders[$key]['user'] = $users[$order['user_id']];
+            $orders[$key]['user'] = $users[$order['user_id']] ?? new \stdClass();
         }
 
         return $orders;
@@ -37,9 +37,7 @@ class OrderList extends Builder
     public function handleItems(array $orders)
     {
         foreach ($orders as $key => $order) {
-
             $itemInfo = $this->handleItem($order);
-
             $orders[$key]['item_info'] = $itemInfo;
         }
 

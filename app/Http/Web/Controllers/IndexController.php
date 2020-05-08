@@ -17,11 +17,11 @@ class IndexController extends Controller
 
         $indexService = new IndexService();
 
-        $this->view->setVar('slide_list', $indexService->getSlideList());
-        $this->view->setVar('live_list', $indexService->getLiveList());
-        $this->view->setVar('new_course_list', $indexService->getNewCourseList());
-        $this->view->setVar('free_course_list', $indexService->getFreeCourseList());
-        $this->view->setVar('vip_course_list', $indexService->getVipCourseList());
+        $this->view->setVar('slides', $indexService->getSlides());
+        $this->view->setVar('lives', $indexService->getLives());
+        $this->view->setVar('new_courses', $indexService->getNewCourses());
+        $this->view->setVar('free_courses', $indexService->getFreeCourses());
+        $this->view->setVar('vip_courses', $indexService->getVipCourses());
     }
 
 }

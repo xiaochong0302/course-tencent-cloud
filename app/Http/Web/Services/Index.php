@@ -2,46 +2,46 @@
 
 namespace App\Http\Web\Services;
 
-use App\Caches\IndexFreeCourseList;
-use App\Caches\IndexLiveList;
-use App\Caches\IndexNewCourseList;
-use App\Caches\IndexSlideList;
-use App\Caches\IndexVipCourseList;
+use App\Caches\IndexFreeCourseList as IndexFreeCourseListCache;
+use App\Caches\IndexLiveList as IndexLiveListCache;
+use App\Caches\IndexNewCourseList as IndexNewCourseListCache;
+use App\Caches\IndexSlideList as IndexSlideListCache;
+use App\Caches\IndexVipCourseList as IndexVipCourseListCache;
 
 class Index extends Service
 {
 
-    public function getSlideList()
+    public function getSlides()
     {
-        $cache = new IndexSlideList();
+        $cache = new IndexSlideListCache();
 
         return $cache->get();
     }
 
-    public function getLiveList()
+    public function getLives()
     {
-        $cache = new IndexLiveList();
+        $cache = new IndexLiveListCache();
 
         return $cache->get();
     }
 
-    public function getNewCourseList()
+    public function getNewCourses()
     {
-        $cache = new IndexNewCourseList();
+        $cache = new IndexNewCourseListCache();
 
         return $cache->get();
     }
 
-    public function getFreeCourseList()
+    public function getFreeCourses()
     {
-        $cache = new IndexFreeCourseList();
+        $cache = new IndexFreeCourseListCache();
 
         return $cache->get();
     }
 
-    public function getVipCourseList()
+    public function getVipCourses()
     {
-        $cache = new IndexVipCourseList();
+        $cache = new IndexVipCourseListCache();
 
         return $cache->get();
     }

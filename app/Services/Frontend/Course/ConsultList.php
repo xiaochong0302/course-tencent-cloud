@@ -11,7 +11,6 @@ use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service;
-use Phalcon\Mvc\Model\Resultset;
 
 class ConsultList extends Service
 {
@@ -28,9 +27,9 @@ class ConsultList extends Service
 
     use CourseTrait;
 
-    public function handle($courseId)
+    public function handle($id)
     {
-        $this->course = $this->checkCourse($courseId);
+        $this->course = $this->checkCourse($id);
 
         $this->user = $this->getCurrentUser();
 
@@ -65,7 +64,7 @@ class ConsultList extends Service
 
         $users = $builder->getUsers($consults);
 
-        $votes = $this->getConsultVotes($this->course->id, $this->user->id);
+        $votes = $this->getConsultVotes($this->course, $this->user);
 
         $items = [];
 
@@ -95,18 +94,15 @@ class ConsultList extends Service
         return $pager;
     }
 
-    protected function getConsultVotes($courseId, $userId)
+    protected function getConsultVotes(CourseModel $course, UserModel $user)
     {
-        if (!$courseId || !$userId) {
+        if ($course->id == 0 || !$user->id == 0) {
             return [];
         }
 
         $courseRepo = new CourseRepo();
 
-        /**
-         * @var Resultset $votes
-         */
-        $votes = $courseRepo->findUserConsultVotes($courseId, $userId);
+        $votes = $courseRepo->findUserConsultVotes($course->id, $user->id);
 
         if ($votes->count() == 0) {
             return [];

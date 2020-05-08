@@ -2,11 +2,11 @@
 
 namespace App\Services\Frontend\Course;
 
-use App\Caches\CourseTeacherList as CourseTeacherListCache;
+use App\Caches\CourseTopicList as CourseTopicListCache;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service;
 
-class TeacherList extends Service
+class TopicList extends Service
 {
 
     use CourseTrait;
@@ -15,7 +15,7 @@ class TeacherList extends Service
     {
         $course = $this->checkCourse($id);
 
-        $cache = new CourseTeacherListCache();
+        $cache = new CourseTopicListCache();
 
         $result = $cache->get($course->id);
 

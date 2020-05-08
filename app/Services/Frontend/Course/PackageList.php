@@ -20,7 +20,7 @@ class PackageList extends Service
 
         $packages = $cache->get($course->id);
 
-        if (!$packages) {
+        if (empty($packages)) {
             return [];
         }
 
@@ -28,7 +28,7 @@ class PackageList extends Service
 
         $result = [];
 
-        foreach ($packages->toArray() as $package) {
+        foreach ($packages as $package) {
 
             $courses = $cache->get($package['id']);
 
