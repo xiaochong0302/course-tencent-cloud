@@ -3,7 +3,8 @@
 namespace App\Caches;
 
 use App\Models\Slide as SlideModel;
-use App\Repos\Slide as SlideRepo;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class IndexSlideList extends Cache
 {
@@ -24,9 +25,7 @@ class IndexSlideList extends Cache
     {
         $limit = 5;
 
-        $slideRepo = new SlideRepo();
-
-        $slides = $slideRepo->findTopSlides($limit);
+        $slides = $this->findSlides($limit);
 
         if ($slides->count() == 0) {
             return [];
@@ -54,6 +53,19 @@ class IndexSlideList extends Cache
         }
 
         return $result;
+    }
+
+    /**
+     * @param int $limit
+     * @return ResultsetInterface|Resultset|SlideModel[]
+     */
+    public function findSlides($limit = 5)
+    {
+        return SlideModel::query()
+            ->where('published = 1 AND deleted = 0')
+            ->orderBy('priority ASC')
+            ->limit($limit)
+            ->execute();
     }
 
 }

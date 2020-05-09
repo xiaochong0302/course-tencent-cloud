@@ -2,7 +2,12 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Http\Web\Services\Review as ReviewService;
+use App\Services\Frontend\Review\AgreeVote as ReviewAgreeVoteService;
+use App\Services\Frontend\Review\OpposeVote as ReviewOpposeVoteService;
+use App\Services\Frontend\Review\ReviewCreate as ReviewCreateService;
+use App\Services\Frontend\Review\ReviewDelete as ReviewDeleteService;
+use App\Services\Frontend\Review\ReviewInfo as ReviewInfoService;
+use App\Services\Frontend\Review\ReviewUpdate as ReviewUpdateService;
 
 /**
  * @RoutePrefix("/review")
@@ -11,29 +16,31 @@ class ReviewController extends Controller
 {
 
     /**
+     * @Get("/{id:[0-9]+}/info", name="web.review.info")
+     */
+    public function infoAction($id)
+    {
+        $service = new ReviewInfoService();
+
+        $review = $service->handle($id);
+
+        return $this->jsonSuccess(['review' => $review]);
+    }
+
+    /**
      * @Post("/create", name="web.review.create")
      */
     public function createAction()
     {
-        $service = new ReviewService();
+        $service = new ReviewCreateService();
 
-        $review = $service->create();
+        $review = $service->handle();
 
-        $data = $service->getReview($review->id);
+        $service = new ReviewInfoService();
 
-        return $this->jsonSuccess($data);
-    }
+        $review = $service->handle($review->id);
 
-    /**
-     * @Get("/{id:[0-9]+}", name="web.review.show")
-     */
-    public function showAction($id)
-    {
-        $service = new ReviewService();
-
-        $review = $service->getReview($id);
-
-        return $this->response->ajaxSuccess($review);
+        return $this->jsonSuccess(['review' => $review]);
     }
 
     /**
@@ -41,13 +48,11 @@ class ReviewController extends Controller
      */
     public function updateAction($id)
     {
-        $service = new ReviewService();
+        $service = new ReviewUpdateService();
 
-        $review = $service->update($id);
+        $review = $service->handle($id);
 
-        $data = $service->getReview($review->id);
-
-        return $this->response->ajaxSuccess($data);
+        return $this->jsonSuccess(['review' => $review]);
     }
 
     /**
@@ -55,11 +60,11 @@ class ReviewController extends Controller
      */
     public function deleteAction($id)
     {
-        $service = new ReviewService();
+        $service = new ReviewDeleteService();
 
-        $service->delete($id);
+        $service->handle($id);
 
-        return $this->response->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
     /**
@@ -67,11 +72,11 @@ class ReviewController extends Controller
      */
     public function agreeAction($id)
     {
-        $service = new ReviewService();
+        $service = new ReviewAgreeVoteService();
 
-        $service->agree($id);
+        $service->handle($id);
 
-        return $this->response->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
     /**
@@ -79,23 +84,11 @@ class ReviewController extends Controller
      */
     public function opposeAction($id)
     {
-        $service = new ReviewService();
+        $service = new ReviewOpposeVoteService();
 
-        $service->oppose($id);
+        $service->handle($id);
 
-        return $this->response->ajaxSuccess();
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/reply", name="web.review.reply")
-     */
-    public function replyAction($id)
-    {
-        $service = new ReviewService();
-
-        $service->reply($id);
-
-        return $this->response->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
 }

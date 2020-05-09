@@ -9,9 +9,6 @@ use Phalcon\Mvc\Model\Resultset;
 
 /**
  * 直播课程
- *
- * Class IndexLiveList
- * @package App\Caches
  */
 class IndexLiveList extends Cache
 {

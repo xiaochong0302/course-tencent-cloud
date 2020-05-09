@@ -46,6 +46,8 @@ class ReviewCreate extends Service
         $this->incrCourseReviewCount($course);
 
         $this->incrUserDailyReviewCount($user);
+
+        return $review;
     }
 
     protected function incrCourseReviewCount(CourseModel $course)

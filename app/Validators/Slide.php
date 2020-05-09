@@ -35,7 +35,7 @@ class Slide extends Validator
             throw new BadRequestException('slide.title_too_short');
         }
 
-        if ($length > 30) {
+        if ($length > 50) {
             throw new BadRequestException('slide.title_too_long');
         }
 

@@ -10,9 +10,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**
  * 会员特价课程
- *
- * Class IndexNewbieCourseList
- * @package App\Caches
  */
 class IndexVipCourseList extends Cache
 {
@@ -88,7 +85,7 @@ class IndexVipCourseList extends Cache
     protected function findCategories($limit = 5)
     {
         return CategoryModel::query()
-            ->andWhere('published = 1')
+            ->where('level = 1 AND published = 1')
             ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();

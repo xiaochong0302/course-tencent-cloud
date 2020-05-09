@@ -53,7 +53,7 @@ class CourseList extends Service
 
         foreach ($relations as $relation) {
 
-            $course = $courses[$relation['course_id']] ?? [];
+            $course = $courses[$relation['course_id']] ?? new \stdClass();
 
             $items = [
                 'course' => $course,

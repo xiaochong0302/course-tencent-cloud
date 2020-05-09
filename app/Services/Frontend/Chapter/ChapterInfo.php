@@ -65,8 +65,11 @@ class ChapterInfo extends Service
         $me['owned'] = $this->ownedChapter;
 
         if ($user->id > 0) {
+
             $chapterVoteRepo = new ChapterVoteRepo();
+
             $chapterVote = $chapterVoteRepo->findChapterVote($chapter->id, $user->id);
+
             if ($chapterVote) {
                 $me['agreed'] = $chapterVote->type == ChapterVoteModel::TYPE_AGREE ? 1 : 0;
                 $me['opposed'] = $chapterVote->type == ChapterVoteModel::TYPE_OPPOSE ? 1 : 0;
@@ -103,13 +106,10 @@ class ChapterInfo extends Service
 
         $playUrls = $chapterVodService->getPlayUrls($chapter->id);
 
-        $course = $this->formatCourse($this->course);
-
         return [
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
-            'course' => $course,
             'play_urls' => $playUrls,
             'user_count' => $chapter->user_count,
             'agree_count' => $chapter->agree_count,
@@ -132,8 +132,6 @@ class ChapterInfo extends Service
 
         $playUrls = $liveService->getPullUrls($stream, $format);
 
-        $course = $this->formatCourse($this->course);
-
         $chapterRepo = new ChapterRepo();
 
         $live = $chapterRepo->findChapterLive($chapter->id);
@@ -142,7 +140,6 @@ class ChapterInfo extends Service
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
-            'course' => $course,
             'play_urls' => $playUrls,
             'start_time' => $live->start_time,
             'end_time' => $live->end_time,
@@ -159,13 +156,10 @@ class ChapterInfo extends Service
 
         $read = $chapterRepo->findChapterRead($chapter->id);
 
-        $course = $this->formatCourse($this->course);
-
         return [
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
-            'course' => $course,
             'content' => $read->content,
             'user_count' => $chapter->user_count,
             'agree_count' => $chapter->agree_count,
@@ -174,17 +168,9 @@ class ChapterInfo extends Service
         ];
     }
 
-    protected function formatCourse(CourseModel $course)
-    {
-        return [
-            'id' => $course->id,
-            'title' => $course->title,
-        ];
-    }
-
     protected function handleCourseUser(CourseModel $course, UserModel $user)
     {
-        if ($user->id == 0) return;
+        if (empty($user->id)) return;
 
         if ($this->joinedCourse) return;
 
@@ -205,7 +191,7 @@ class ChapterInfo extends Service
 
     protected function handleChapterUser(ChapterModel $chapter, UserModel $user)
     {
-        if ($user->id == 0) return;
+        if (empty($user->id)) return;
 
         if ($this->joinedChapter) return;
 

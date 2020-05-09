@@ -13,9 +13,9 @@ class FavoriteList extends Service
 
     use UserTrait;
 
-    public function getCourses($id)
+    public function handle()
     {
-        $user = $this->checkUser($id);
+        $user = $this->getLoginUser();
 
         $pagerQuery = new PagerQuery();
 
@@ -28,9 +28,9 @@ class FavoriteList extends Service
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $courseFavoriteRepo = new CourseFavoriteRepo();
+        $favoriteRepo = new CourseFavoriteRepo();
 
-        $pager = $courseFavoriteRepo->paginate($params, $sort, $page, $limit);
+        $pager = $favoriteRepo->paginate($params, $sort, $page, $limit);
 
         return $this->handleCourses($pager);
     }
@@ -51,7 +51,7 @@ class FavoriteList extends Service
 
         foreach ($relations as $relation) {
 
-            $course = $courses[$relation['course_id']] ?? [];
+            $course = $courses[$relation['course_id']] ?? new \stdClass();
 
             $items[] = $course;
         }

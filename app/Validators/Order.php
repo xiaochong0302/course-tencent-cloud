@@ -50,7 +50,7 @@ class Order extends Validator
         return $itemType;
     }
 
-    public function checkCourseItem($itemId)
+    public function checkCourse($itemId)
     {
         $courseRepo = new CourseRepo();
 
@@ -63,7 +63,7 @@ class Order extends Validator
         return $item;
     }
 
-    public function checkPackageItem($itemId)
+    public function checkPackage($itemId)
     {
         $packageRepo = new PackageRepo();
 
@@ -76,7 +76,7 @@ class Order extends Validator
         return $item;
     }
 
-    public function checkVipItem($itemId)
+    public function checkVip($itemId)
     {
         $vipRepo = new VipRepo();
 
@@ -89,7 +89,7 @@ class Order extends Validator
         return $item;
     }
 
-    public function checkRewardItem($itemId)
+    public function checkReward($itemId)
     {
         $rewardRepo = new RewardRepo();
 

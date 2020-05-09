@@ -2,7 +2,10 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Http\Web\Services\Chapter as ChapterService;
+use App\Services\Frontend\Chapter\AgreeVote as ChapterAgreeVoteService;
+use App\Services\Frontend\Chapter\ChapterInfo as ChapterInfoService;
+use App\Services\Frontend\Chapter\CommentList as ChapterCommentListService;
+use App\Services\Frontend\Chapter\OpposeVote as ChapterOpposeVoteService;
 
 /**
  * @RoutePrefix("/chapter")
@@ -15,9 +18,9 @@ class ChapterController extends Controller
      */
     public function showAction($id)
     {
-        $service = new ChapterService();
+        $service = new ChapterInfoService();
 
-        $chapter = $service->getChapter($id);
+        $chapter = $service->handle($id);
 
         $this->view->chapter = $chapter;
     }
@@ -27,11 +30,11 @@ class ChapterController extends Controller
      */
     public function commentsAction($id)
     {
-        $service = new ChapterService();
+        $service = new ChapterCommentListService();
 
-        $comments = $service->getComments($id);
+        $comments = $service->handle($id);
 
-        $this->view->comments = $comments;
+        return $this->jsonSuccess(['comments' => $comments]);
     }
 
     /**
@@ -39,11 +42,11 @@ class ChapterController extends Controller
      */
     public function agreeAction($id)
     {
-        $service = new ChapterService();
+        $service = new ChapterAgreeVoteService();
 
-        $service->agree($id);
+        $service->handle($id);
 
-        return $this->response->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
     /**
@@ -51,35 +54,11 @@ class ChapterController extends Controller
      */
     public function opposeAction($id)
     {
-        $service = new ChapterService();
+        $service = new ChapterOpposeVoteService();
 
-        $service->oppose($id);
+        $service->handle($id);
 
-        return $this->response->ajaxSuccess();
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/position", name="web.chapter.position")
-     */
-    public function positionAction($id)
-    {
-        $service = new ChapterService();
-
-        $service->position($id);
-
-        return $this->response->ajaxSuccess();
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/finish", name="web.chapter.finish")
-     */
-    public function finishAction($id)
-    {
-        $service = new ChapterService();
-
-        $service->finish($id);
-
-        return $this->response->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
 }

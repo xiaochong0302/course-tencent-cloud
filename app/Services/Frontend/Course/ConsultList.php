@@ -70,7 +70,7 @@ class ConsultList extends Service
 
         foreach ($consults as $consult) {
 
-            $user = $users[$consult['user_id']] ?? [];
+            $user = $users[$consult['user_id']] ?? new \stdClass();
 
             $me = [
                 'agreed' => $votes[$consult['id']]['agreed'] ?? 0,
@@ -96,7 +96,7 @@ class ConsultList extends Service
 
     protected function getConsultVotes(CourseModel $course, UserModel $user)
     {
-        if ($course->id == 0 || !$user->id == 0) {
+        if ($course->id == 0 || $user->id == 0) {
             return [];
         }
 

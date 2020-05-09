@@ -108,17 +108,40 @@ class Course extends Validator
 
     public function checkDetails($details)
     {
-        return $this->filter->sanitize($details, ['trim']);
+        $value = $this->filter->sanitize($details, ['trim']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 3000) {
+            throw new BadRequestException('course.details_too_long');
+        }
+
+        return $value;
     }
 
     public function checkSummary($summary)
     {
-        return $this->filter->sanitize($summary, ['trim', 'string']);
+        $value = $this->filter->sanitize($summary, ['trim', 'string']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 500) {
+            throw new BadRequestException('course.summary_too_long');
+        }
+
+        return $value;
     }
 
     public function checkKeywords($keywords)
     {
         $keywords = $this->filter->sanitize($keywords, ['trim', 'string']);
+
+        $length = kg_strlen($keywords);
+
+        if ($length > 100) {
+            throw new BadRequestException('course.keywords_too_long');
+        }
+
         $keywords = str_replace(['|', ';', '；', '、', ','], '@', $keywords);
         $keywords = explode('@', $keywords);
 
@@ -154,6 +177,13 @@ class Course extends Validator
         }
 
         return $value;
+    }
+
+    public function checkComparePrice($marketPrice, $vipPrice)
+    {
+        if ($vipPrice > $marketPrice) {
+            throw new BadRequestException('course.invalid_compare_price');
+        }
     }
 
     public function checkStudyExpiry($expiry)
@@ -207,7 +237,7 @@ class Course extends Validator
             }
         }
 
-        if ($publishedCount < $totalCount / 3) {
+        if ($publishedCount / $totalCount < 0.3) {
             throw new BadRequestException('course.pub_chapter_not_enough');
         }
     }

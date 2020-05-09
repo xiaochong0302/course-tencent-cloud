@@ -122,6 +122,7 @@ class Course extends Service
             } else {
                 $data['market_price'] = $validator->checkMarketPrice($post['market_price']);
                 $data['vip_price'] = $validator->checkVipPrice($post['vip_price']);
+                $validator->checkComparePrice($post['market_price'], $post['vip_price']);
                 $data['study_expiry'] = $validator->checkStudyExpiry($post['study_expiry']);
                 $data['refund_expiry'] = $validator->checkRefundExpiry($post['refund_expiry']);
             }

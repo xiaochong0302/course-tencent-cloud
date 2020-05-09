@@ -70,7 +70,7 @@ class ReviewList extends Service
 
         foreach ($reviews as $review) {
 
-            $user = $users[$review['user_id']] ?? [];
+            $user = $users[$review['user_id']] ?? new \stdClass();
 
             $me = [
                 'agreed' => $votes[$review['id']]['agreed'] ?? 0,

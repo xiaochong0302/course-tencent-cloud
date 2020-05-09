@@ -13,7 +13,7 @@ class AgreeVote extends Service
 
     use ConsultTrait, VoteTrait;
 
-    public function handleAgreeVote($id)
+    public function handle($id)
     {
         $consult = $this->checkConsult($id);
 

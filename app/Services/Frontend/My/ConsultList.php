@@ -13,7 +13,7 @@ class ConsultList extends Service
 
     use UserTrait;
 
-    public function getConsults()
+    public function handle()
     {
         $user = $this->getLoginUser();
 
@@ -60,6 +60,7 @@ class ConsultList extends Service
                 'agree_count' => $consult['agree_count'],
                 'oppose_count' => $consult['oppose_count'],
                 'create_time' => $consult['create_time'],
+                'update_time' => $consult['update_time'],
                 'course' => $course,
             ];
         }

@@ -8,7 +8,7 @@ use App\Services\Frontend\Service;
 class UserInfo extends Service
 {
 
-    public function getUser()
+    public function handle()
     {
         $user = $this->getLoginUser();
 

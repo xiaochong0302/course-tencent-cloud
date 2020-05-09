@@ -20,8 +20,6 @@ class UserInfo extends Service
 
     protected function handleUser(UserModel $user)
     {
-        $user->avatar = kg_ci_img_url($user->avatar);
-
         return [
             'id' => $user->id,
             'name' => $user->name,

@@ -8,6 +8,20 @@
     {% endif %}
 {%- endmacro %}
 
+{%- macro level_info(value) %}
+    难度：<span class="layui-badge layui-bg-gray">
+    {% if value == 'entry' %}
+        入门
+    {% elseif value == 'junior' %}
+        初级
+    {% elseif value == 'medium' %}
+        中级
+    {% elseif value == 'senior' %}
+        高级
+    {% endif %}
+    </span>
+{%- endmacro %}
+
 {%- macro category_info(category) %}
     {% if category %}
         分类：<a class="layui-badge layui-bg-gray" href="{{ url({'for':'admin.course.list'},{'category_id':category.id}) }}">{{ category.name }}</a>
@@ -60,7 +74,7 @@
         <tr>
             <td>
                 <p>标题：<a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">{{ item.title }}</a> {{ model_info(item.model) }}</p>
-                <p>{{ category_info(item.category) }}&nbsp;&nbsp;{{ teacher_info(item.teacher) }}</p>
+                <p>{{ category_info(item.category) }}&nbsp;&nbsp;{{ teacher_info(item.teacher) }}&nbsp;&nbsp;{{ level_info(item.level) }}</p>
             </td>
             <td>
                 <a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">

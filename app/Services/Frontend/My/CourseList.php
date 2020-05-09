@@ -14,9 +14,9 @@ class CourseList extends Service
 
     use UserTrait;
 
-    public function getCourses($id)
+    public function handle()
     {
-        $user = $this->checkUser($id);
+        $user = $this->getLoginUser();
 
         $pagerQuery = new PagerQuery();
 
@@ -53,7 +53,7 @@ class CourseList extends Service
 
         foreach ($relations as $relation) {
 
-            $course = $courses[$relation['course_id']] ?? [];
+            $course = $courses[$relation['course_id']] ?? new \stdClass();
 
             $items = [
                 'course' => $course,

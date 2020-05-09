@@ -23,15 +23,15 @@ class CommentCreate extends Service
 
         $user = $this->getLoginUser();
 
+        $chapter = $this->checkChapter($post['chapter_id']);
+
+        $course = $this->checkCourse($chapter->course_id);
+
         $validator = new UserDailyLimitValidator();
 
         $validator->checkCommentLimit($user);
 
         $validator = new CommentValidator();
-
-        $chapter = $this->checkChapterCache($post['chapter_id']);
-
-        $course = $this->checkCourseCache($chapter->course_id);
 
         $data = [];
 
@@ -59,6 +59,8 @@ class CommentCreate extends Service
         $this->incrCourseCommentCount($course);
 
         $this->incrUserDailyCommentCount($user);
+
+        return $comment;
     }
 
     protected function handleMentions($mentions)

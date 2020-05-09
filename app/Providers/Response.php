@@ -7,7 +7,7 @@ use App\Library\Http\Response as MyResponse;
 class Response extends Provider
 {
 
-    protected $serviceName = 'view';
+    protected $serviceName = 'response';
 
     public function register()
     {

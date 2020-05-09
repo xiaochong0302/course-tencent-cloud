@@ -12,9 +12,9 @@ class OrderCancel extends Service
 
     use OrderTrait;
 
-    public function cancelOrder($sn)
+    public function handle($sn)
     {
-        $order = $this->checkOrder($sn);
+        $order = $this->checkOrderBySn($sn);
 
         $user = $this->getLoginUser();
 

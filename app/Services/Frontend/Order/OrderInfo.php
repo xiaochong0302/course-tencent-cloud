@@ -9,27 +9,22 @@ use App\Validators\Order as OrderValidator;
 class OrderInfo extends Service
 {
 
-    public function getOrderInfo()
+    public function handle($sn)
     {
-        $sn = $this->request->getQuery('sn');
-
         $validator = new OrderValidator();
 
         $order = $validator->checkOrderBySn($sn);
 
-        return $this->handleOrderInfo($order);
+        return $this->handleOrder($order);
     }
 
-    /**
-     * @param OrderModel $order
-     * @return array
-     */
-    protected function handleOrderInfo($order)
+    protected function handleOrder(OrderModel $order)
     {
         $order->item_info = $this->handleItemInfo($order);
 
-        $result = [
-            'sn' => $order->id,
+        return [
+            'id' => $order->id,
+            'sn' => $order->sn,
             'subject' => $order->subject,
             'amount' => $order->amount,
             'status' => $order->status,
@@ -39,15 +34,9 @@ class OrderInfo extends Service
             'item_info' => $order->item_info,
             'create_time' => $order->create_time,
         ];
-
-        return $result;
     }
 
-    /**
-     * @param OrderModel $order
-     * @return array
-     */
-    protected function handleItemInfo($order)
+    protected function handleItemInfo(OrderModel $order)
     {
         /**
          * @var array $itemInfo
@@ -70,22 +59,14 @@ class OrderInfo extends Service
         return $itemInfo;
     }
 
-    /**
-     * @param array $itemInfo
-     * @return array
-     */
-    protected function handleCourseInfo($itemInfo)
+    protected function handleCourseInfo(array $itemInfo)
     {
         $itemInfo['course']['cover'] = kg_ci_img_url($itemInfo['course']['cover']);
 
         return $itemInfo;
     }
 
-    /**
-     * @param array $itemInfo
-     * @return array
-     */
-    protected function handlePackageInfo($itemInfo)
+    protected function handlePackageInfo(array $itemInfo)
     {
         $baseUrl = kg_ci_base_url();
 
@@ -96,11 +77,7 @@ class OrderInfo extends Service
         return $itemInfo;
     }
 
-    /**
-     * @param array $itemInfo
-     * @return array
-     */
-    protected function handleVipInfo($itemInfo)
+    protected function handleVipInfo(array $itemInfo)
     {
         return $itemInfo;
     }

@@ -7,7 +7,7 @@ use App\Validators\Order as OrderValidator;
 trait OrderTrait
 {
 
-    public function checkOrder($sn)
+    public function checkOrderBySn($sn)
     {
         $validator = new OrderValidator();
 

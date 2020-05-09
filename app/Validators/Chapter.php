@@ -169,12 +169,12 @@ class Chapter extends Validator
     {
         $chapterRepo = new ChapterRepo();
 
-        $list = $chapterRepo->findAll([
+        $chapters = $chapterRepo->findAll([
             'parent_id' => $chapter->id,
             'deleted' => 0,
         ]);
 
-        if ($list->count() > 0) {
+        if ($chapters->count() > 0) {
             throw new BadRequestException('chapter.has_child_node');
         }
     }

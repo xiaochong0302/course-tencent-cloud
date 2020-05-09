@@ -70,18 +70,4 @@ class Slide extends Repository
             ->execute();
     }
 
-    /**
-     * @param int $limit
-     * @return ResultsetInterface|Resultset|SlideModel[]
-     */
-    public function findTopSlides($limit = 5)
-    {
-        return SlideModel::query()
-            ->andWhere('published = :published:', ['published' => 1])
-            ->andWhere('deleted = :deleted:', ['deleted' => 0])
-            ->orderBy('priority ASC')
-            ->limit($limit)
-            ->execute();
-    }
-
 }

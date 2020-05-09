@@ -19,21 +19,19 @@ class CommentDelete extends Service
     {
         $comment = $this->checkComment($id);
 
+        $chapter = $this->checkChapter($comment->chapter_id);
+
+        $course = $this->checkCourse($comment->course_id);
+
         $user = $this->getLoginUser();
 
         $validator = new CommentValidator();
 
         $validator->checkOwner($user->id, $comment->user_id);
 
-        $comment->deleted = 1;
-
-        $comment->update();
-
-        $chapter = $this->checkChapterCache($comment->chapter_id);
+        $comment->delete();
 
         $this->decrChapterCommentCount($chapter);
-
-        $course = $this->checkCourseCache($comment->course_id);
 
         $this->decrCourseCommentCount($course);
     }

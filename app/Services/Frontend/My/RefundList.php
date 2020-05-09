@@ -13,7 +13,7 @@ class RefundList extends Service
 
     use UserTrait;
 
-    public function getRefunds()
+    public function handle()
     {
         $user = $this->getLoginUser();
 
@@ -38,7 +38,6 @@ class RefundList extends Service
     protected function handleRefunds($pager)
     {
         if ($pager->total_items == 0) {
-            $pager->items = [];
             return $pager;
         }
 
@@ -52,7 +51,7 @@ class RefundList extends Service
 
         foreach ($refunds as $refund) {
 
-            $order = $orders[$refund['order_id']] ?? [];
+            $order = $orders[$refund['order_id']] ?? new \stdClass();
 
             $items[] = [
                 'order' => $order,
@@ -60,7 +59,7 @@ class RefundList extends Service
                 'status' => $refund['status'],
                 'apply_note' => $refund['apply_note'],
                 'review_note' => $refund['review_note'],
-                'create_time' => (int)$refund['create_time'],
+                'create_time' => $refund['create_time'],
             ];
         }
 

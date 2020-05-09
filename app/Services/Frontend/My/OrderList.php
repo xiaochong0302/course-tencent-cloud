@@ -13,7 +13,7 @@ class OrderList extends Service
 
     use UserTrait;
 
-    public function getUserOrders()
+    public function handle()
     {
         $user = $this->getLoginUser();
 
@@ -32,10 +32,10 @@ class OrderList extends Service
 
         $pager = $orderRepo->paginate($params, $sort, $page, $limit);
 
-        return $this->handleUserOrders($pager);
+        return $this->handleOrders($pager);
     }
 
-    public function handleUserOrders($pager)
+    public function handleOrders($pager)
     {
         if ($pager->total_items == 0) {
             return $pager;
@@ -55,11 +55,11 @@ class OrderList extends Service
                 'sn' => $order['sn'],
                 'subject' => $order['subject'],
                 'amount' => $order['amount'],
+                'status' => $order['status'],
                 'item_id' => $order['item_id'],
                 'item_type' => $order['item_type'],
                 'item_info' => $order['item_info'],
                 'source_type' => $order['source_type'],
-                'status' => $order['status'],
                 'create_time' => $order['create_time'],
             ];
         }

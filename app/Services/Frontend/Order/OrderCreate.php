@@ -17,10 +17,7 @@ use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 class OrderCreate extends Service
 {
 
-    /**
-     * @return OrderModel
-     */
-    public function createOrder()
+    public function handle()
     {
         $post = $this->request->getPost();
 
@@ -51,7 +48,7 @@ class OrderCreate extends Service
 
         if ($post['item_type'] == OrderModel::ITEM_COURSE) {
 
-            $course = $validator->checkCourseItem($post['item_id']);
+            $course = $validator->checkCourse($post['item_id']);
 
             $validator->checkIfBoughtCourse($user->id, $course->id);
 
@@ -59,7 +56,7 @@ class OrderCreate extends Service
 
         } elseif ($post['item_type'] == OrderModel::ITEM_PACKAGE) {
 
-            $package = $validator->checkPackageItem($post['item_id']);
+            $package = $validator->checkPackage($post['item_id']);
 
             $validator->checkIfBoughtPackage($user->id, $package->id);
 
@@ -67,7 +64,7 @@ class OrderCreate extends Service
 
         } elseif ($post['item_type'] == OrderModel::ITEM_VIP) {
 
-            $vip = $validator->checkVipItem($post['item_id']);
+            $vip = $validator->checkVip($post['item_id']);
 
             $order = $this->createVipOrder($vip, $user);
 
@@ -75,8 +72,8 @@ class OrderCreate extends Service
 
             list($courseId, $rewardId) = explode('-', $post['item_id']);
 
-            $course = $validator->checkCourseItem($courseId);
-            $reward = $validator->checkRewardItem($rewardId);
+            $course = $validator->checkCourse($courseId);
+            $reward = $validator->checkReward($rewardId);
 
             $order = $this->createRewardOrder($course, $reward, $user);
         }

@@ -2,7 +2,12 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Http\Web\Services\My as MyService;
+use App\Services\Frontend\My\ConsultList as MyConsultListService;
+use App\Services\Frontend\My\CourseList as MyCourseListService;
+use App\Services\Frontend\My\FavoriteList as MyFavoriteListService;
+use App\Services\Frontend\My\OrderList as MyOrderListService;
+use App\Services\Frontend\My\RefundList as MyRefundListService;
+use App\Services\Frontend\My\ReviewList as MyReviewListService;
 
 /**
  * @RoutePrefix("/my")
@@ -15,13 +20,23 @@ class MyController extends Controller
      */
     public function coursesAction()
     {
-        $service = new MyService();
+        $service = new MyCourseListService();
 
-        $courses = $service->getCourses();
-        
-        var_dump($courses);exit;
+        $pager = $service->handle();
 
-        $this->view->courses = $courses;
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/favorites", name="web.my.favorites")
+     */
+    public function favoritesAction()
+    {
+        $service = new MyFavoriteListService();
+
+        $pager = $service->handle();
+
+        $this->view->setVar('pager', $pager);
     }
 
     /**
@@ -29,11 +44,11 @@ class MyController extends Controller
      */
     public function consultsAction()
     {
-        $service = new MyService();
+        $service = new MyConsultListService();
 
-        $consults = $service->getConsults();
+        $pager = $service->handle();
 
-        $this->view->consults = $consults;
+        $this->view->setVar('pager', $pager);
     }
 
     /**
@@ -41,11 +56,11 @@ class MyController extends Controller
      */
     public function reviewsAction()
     {
-        $service = new MyService();
+        $service = new MyReviewListService();
 
-        $reviews = $service->getReviews();
+        $pager = $service->handle();
 
-        $this->view->reviews = $reviews;
+        $this->view->setVar('pager', $pager);
     }
 
     /**
@@ -53,33 +68,23 @@ class MyController extends Controller
      */
     public function ordersAction()
     {
-        $service = new MyService();
+        $service = new MyOrderListService();
 
-        $orders = $service->getOrders();
+        $pager = $service->handle();
 
-        $this->view->orders = $orders;
-
-        return $this->jsonSuccess($orders);
+        $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Get("/coupons", name="web.my.coupons")
+     * @Get("/refunds", name="web.my.refunds")
      */
-    public function couponsAction()
+    public function refundsAction()
     {
-        $service = new MyService();
+        $service = new MyRefundListService();
 
-        $coupons = $service->getCoupons();
+        $pager = $service->handle();
 
-        $this->view->coupons = $coupons;
-    }
-
-    /**
-     * @Get("/balance", name="web.my.balance")
-     */
-    public function balanceAction()
-    {
-        
+        $this->view->setVar('pager', $pager);
     }
 
 }

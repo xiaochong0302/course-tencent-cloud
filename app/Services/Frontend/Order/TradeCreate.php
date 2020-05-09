@@ -9,20 +9,16 @@ use App\Services\Pay\Alipay as AlipayService;
 use App\Services\Pay\Wxpay as WxPayService;
 use App\Validators\Trade as TradeValidator;
 
-class OrderTrade extends Service
+class TradeCreate extends Service
 {
 
     use OrderTrait;
 
-    /**
-     * @param string $sn
-     * @return mixed
-     */
-    public function createTrade($sn)
+    public function handle()
     {
         $post = $this->request->getPost();
 
-        $order = $this->checkOrder($sn);
+        $order = $this->checkOrderBySn($post['order_sn']);
 
         $user = $this->getLoginUser();
 
@@ -58,10 +54,6 @@ class OrderTrade extends Service
         }
     }
 
-    /**
-     * @param TradeModel $trade
-     * @return mixed
-     */
     protected function getQrCode(TradeModel $trade)
     {
         $qrCode = null;

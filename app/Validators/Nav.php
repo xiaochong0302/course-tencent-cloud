@@ -114,12 +114,12 @@ class Nav extends Validator
     {
         $navRepo = new NavRepo();
 
-        $list = $navRepo->findAll([
+        $navs = $navRepo->findAll([
             'parent_id' => $nav->id,
             'deleted' => 0,
         ]);
 
-        if ($list->count() > 0) {
+        if ($navs->count() > 0) {
             throw new BadRequestException('nav.has_child_node');
         }
     }

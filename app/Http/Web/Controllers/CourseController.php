@@ -139,7 +139,7 @@ class CourseController extends Controller
 
         $pager = $consultListService->handle($id);
 
-        $this->view->setVar('pager', $pager);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -151,7 +151,7 @@ class CourseController extends Controller
 
         $pager = $reviewListService->handle($id);
 
-        $this->view->setVar('pager', $pager);
+        return $this->jsonPaginate($pager);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\IndexSlideList as SlideListCache;
+use App\Caches\IndexSlideList as IndexSlideListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Slide as SlideModel;
 use App\Repos\Slide as SlideRepo;
@@ -142,7 +142,7 @@ class Slide extends Service
 
     protected function rebuildSlideCache()
     {
-        $cache = new SlideListCache();
+        $cache = new IndexSlideListCache();
 
         $cache->rebuild();
     }

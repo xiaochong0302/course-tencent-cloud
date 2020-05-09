@@ -72,12 +72,12 @@ $error['category.invalid_priority'] = '无效的排序值（范围：1-255）';
 $error['category.invalid_publish_status'] = '无效的发布状态';
 $error['category.name_too_short'] = '名称太短（少于2个字符）';
 $error['category.name_too_long'] = '名称太长（多于30个字符）';
-$error['category.has_child_node'] = '存在子节点，不允许相关操作';
+$error['category.has_child_node'] = '不允许相关操作（存在子节点）';
 
 /**
  * 导航相关
  */
-$error['nav.not_found'] = '分类不存在';
+$error['nav.not_found'] = '导航不存在';
 $error['nav.parent_not_found'] = '父级分类不存在';
 $error['nav.invalid_url'] = '无效的访问地址';
 $error['nav.invalid_position'] = '无效的位置类型';
@@ -86,31 +86,35 @@ $error['nav.invalid_priority'] = '无效的排序值（范围：1-255）';
 $error['nav.invalid_publish_status'] = '无效的发布状态';
 $error['nav.name_too_short'] = '名称太短（少于2个字符）';
 $error['nav.name_too_long'] = '名称太长（多于30个字符）';
-$error['nav.has_child_node'] = '存在子节点，不允许相关操作';
+$error['nav.has_child_node'] = '不允许相关操作（存在子节点）';
 
 /**
  * 课程相关
  */
 $error['course.not_found'] = '课程不存在';
 $error['course.title_too_short'] = '标题太短（少于5个字符）';
-$error['course.title_too_long'] = '标题太长（多于30个字符）';
+$error['course.title_too_long'] = '标题太长（多于50个字符）';
+$error['course.summary_too_long'] = '标题太长（多于255个字符）';
+$error['course.keywords_too_long'] = '关键字太长（多于100个字符）';
+$error['course.details_too_long'] = '详情太长（多于3000个字符）';
 $error['course.invalid_model'] = '无效的模型类别';
 $error['course.invalid_level'] = '无效的难度级别';
 $error['course.invalid_cover'] = '无效的封面';
-$error['course.invalid_market_price'] = '无效的市场价格';
-$error['course.invalid_vip_price'] = '无效的会员价格';
+$error['course.invalid_market_price'] = '无效的市场价格（范围：0-10000）';
+$error['course.invalid_vip_price'] = '无效的会员价格（范围：0-10000）';
+$error['course.invalid_compare_price'] = '无效的比较定价（会员价格高于市场价格）';
 $error['course.invalid_study_expiry'] = '无效的学习期限';
 $error['course.invalid_refund_expiry'] = '无效的退款期限';
 $error['course.invalid_publish_status'] = '无效的发布状态';
 $error['course.pub_chapter_not_found'] = '尚未发现已发布的课时';
-$error['course.pub_chapter_not_enough'] = '已发布的课时太少（未过三分之一）';
+$error['course.pub_chapter_not_enough'] = '已发布的课时太少（小于30%）';
 
 /**
  * 话题相关
  */
 $error['topic.not_found'] = '话题不存在';
 $error['topic.title_too_short'] = '标题太短（少于2个字符）';
-$error['topic.title_too_long'] = '标题太长（多于30个字符）';
+$error['topic.title_too_long'] = '标题太长（多于50个字符）';
 $error['topic.summary_too_long'] = '简介太长（多于255个字符）';
 $error['topic.invalid_publish_status'] = '无效的发布状态';
 
@@ -119,7 +123,7 @@ $error['topic.invalid_publish_status'] = '无效的发布状态';
  */
 $error['package.not_found'] = '套餐不存在';
 $error['package.title_too_short'] = '标题太短（少于5个字符）';
-$error['package.title_too_long'] = '标题太长（多于30个字符）';
+$error['package.title_too_long'] = '标题太长（多于50个字符）';
 $error['package.summary_too_long'] = '简介太长（多于255个字符）';
 $error['package.invalid_market_price'] = '无效的市场价格';
 $error['package.invalid_vip_price'] = '无效的会员价格';
@@ -151,7 +155,7 @@ $error['chapter.vod_not_ready'] = '点播资源尚未就绪';
 $error['chapter.live_not_start'] = '直播尚未开始';
 $error['chapter.live_time_empty'] = '直播时间尚未设置';
 $error['chapter.read_not_ready'] = '文章内容尚未就绪';
-$error['chapter.has_child_node'] = '存在子节点，不允许相关操作';
+$error['chapter.has_child_node'] = '不允许相关操作（存在子节点）';
 
 /**
  * 点播相关
@@ -213,7 +217,7 @@ $error['comment.content_too_long'] = '评价太长（多于1000个字符）';
  */
 $error['page.not_found'] = '单页不存在';
 $error['page.title_too_short'] = '标题太短（少于2个字符）';
-$error['page.title_too_long'] = '标题太长（多于30个字符）';
+$error['page.title_too_long'] = '标题太长（多于50个字符）';
 $error['page.content_too_short'] = '内容太短（少于10个字符）';
 $error['page.content_too_long'] = '内容太长（多于3000个字符）';
 $error['page.invalid_publish_status'] = '无效的发布状态';
@@ -223,7 +227,7 @@ $error['page.invalid_publish_status'] = '无效的发布状态';
  */
 $error['help.not_found'] = '帮助不存在';
 $error['help.title_too_short'] = '标题太短（少于2个字符）';
-$error['help.title_too_long'] = '标题太长（多于30个字符）';
+$error['help.title_too_long'] = '标题太长（多于50个字符）';
 $error['help.content_too_short'] = '内容太短（少于10个字符）';
 $error['help.content_too_long'] = '内容太长（多于3000个字符）';
 $error['help.invalid_priority'] = '无效的排序数值（范围：1-255）';

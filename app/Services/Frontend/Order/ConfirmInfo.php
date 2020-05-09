@@ -11,54 +11,55 @@ use App\Repos\Package as PackageRepo;
 use App\Services\Frontend\Service;
 use App\Validators\Order as OrderValidator;
 
-class OrderConfirmInfo extends Service
+class ConfirmInfo extends Service
 {
 
-    public function getConfirmInfo()
+    public function handle()
     {
-        $query = $this->request->getQuery();
+        $itemId = $this->request->getQuery('item_id');
+        $itemType = $this->request->getQuery('item_type');
 
         $user = $this->getLoginUser();
 
         $validator = new OrderValidator();
 
-        $validator->checkItemType($query['item_type']);
+        $validator->checkItemType($itemType);
 
         $result = [];
 
-        $result['item_id'] = $query['item_id'];
-        $result['item_type'] = $query['item_type'];
+        $result['item_id'] = $itemId;
+        $result['item_type'] = $itemType;
 
-        if ($query['item_type'] == OrderModel::ITEM_COURSE) {
+        if ($itemType == OrderModel::ITEM_COURSE) {
 
-            $course = $validator->checkCourseItem($query['item_id']);
+            $course = $validator->checkCourse($itemId);
             $courseInfo = $this->handleCourseInfo($course);
 
             $result['item_info']['course'] = $courseInfo;
             $result['amount'] = $user->vip ? $course->vip_price : $course->market_price;
 
-        } elseif ($query['item_type'] == OrderModel::ITEM_PACKAGE) {
+        } elseif ($itemType == OrderModel::ITEM_PACKAGE) {
 
-            $package = $validator->checkPackageItem($query['item_id']);
+            $package = $validator->checkPackage($itemId);
             $packageInfo = $this->handlePackageInfo($package);
 
             $result['item_info']['package'] = $packageInfo;
             $result['amount'] = $user->vip ? $package->vip_price : $package->market_price;
 
-        } elseif ($query['item_type'] == OrderModel::ITEM_VIP) {
+        } elseif ($itemType == OrderModel::ITEM_VIP) {
 
-            $vip = $validator->checkVipItem($query['item_id']);
+            $vip = $validator->checkVip($itemId);
             $vipInfo = $this->handleVipInfo($vip);
 
             $result['item_info']['vip'] = $vipInfo;
             $result['amount'] = $vip->price;
 
-        } elseif ($query['item_type'] == OrderModel::ITEM_REWARD) {
+        } elseif ($itemType == OrderModel::ITEM_REWARD) {
 
-            list($courseId, $rewardId) = explode('-', $query['item_id']);
+            list($courseId, $rewardId) = explode('-', $itemId);
 
-            $course = $validator->checkCourseItem($courseId);
-            $reward = $validator->checkRewardItem($rewardId);
+            $course = $validator->checkCourse($courseId);
+            $reward = $validator->checkReward($rewardId);
 
             $courseInfo = $this->handleCourseInfo($course);
             $rewardInfo = $this->handleRewardInfo($reward);
@@ -83,7 +84,6 @@ class OrderConfirmInfo extends Service
         $result = [
             'id' => $package->id,
             'title' => $package->title,
-            'summary' => $package->summary,
             'market_price' => $package->market_price,
             'vip_price' => $package->vip_price,
         ];
@@ -126,7 +126,6 @@ class OrderConfirmInfo extends Service
             'id' => $course->id,
             'title' => $course->title,
             'cover' => $course->cover,
-            'summary' => $course->summary,
             'model' => $course->model,
             'level' => $course->level,
             'study_expiry' => $course->study_expiry,

@@ -2,6 +2,9 @@
 
 namespace App\Http\Web\Controllers;
 
+use App\Services\Frontend\User\CourseList as UserCourseListService;
+use App\Services\Frontend\User\UserInfo as UserInfoService;
+
 /**
  * @RoutePrefix("/user")
  */
@@ -13,7 +16,11 @@ class UserController extends Controller
      */
     public function showAction($id)
     {
-        
+        $service = new UserInfoService();
+
+        $user = $service->handle($id);
+
+        $this->view->setVar('user', $user);
     }
 
     /**
@@ -21,15 +28,11 @@ class UserController extends Controller
      */
     public function coursesAction($id)
     {
-        
-    }
+        $service = new UserCourseListService();
 
-    /**
-     * @Post("/{id:[0-9]+}/message", name="web.user.message")
-     */
-    public function messageAction($id)
-    {
-        
+        $courses = $service->handle($id);
+
+        return $this->jsonSuccess(['courses' => $courses]);
     }
 
 }

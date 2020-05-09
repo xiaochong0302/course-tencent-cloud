@@ -64,13 +64,13 @@ class CommentList extends Service
 
         $users = $builder->getUsers($comments);
 
-        $votes = $this->getCommentVotes($this->chapter->id, $this->user->id);
+        $votes = $this->getCommentVotes($this->chapter, $this->user);
 
         $items = [];
 
         foreach ($comments as $comment) {
 
-            $user = $users[$comment['user_id']] ?? [];
+            $user = $users[$comment['user_id']] ?? new \stdClass();
 
             $comment['mentions'] = $comment['mentions'] ? json_decode($comment['mentions']) : [];
 
@@ -97,15 +97,15 @@ class CommentList extends Service
         return $pager;
     }
 
-    protected function getCommentVotes($chapterId, $userId)
+    protected function getCommentVotes(ChapterModel $chapter, UserModel $user)
     {
-        if (!$chapterId || !$userId) {
+        if ($chapter->id == 0 || $user->id == 0) {
             return [];
         }
 
         $chapterRepo = new ChapterRepo();
 
-        $votes = $chapterRepo->findUserCommentVotes($chapterId, $userId);
+        $votes = $chapterRepo->findUserCommentVotes($chapter->id, $user->id);
 
         if ($votes->count() == 0) {
             return [];

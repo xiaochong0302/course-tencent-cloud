@@ -29,6 +29,20 @@ class Review extends Model
     public $user_id;
 
     /**
+     * 评价内容
+     *
+     * @var string
+     */
+    public $content;
+
+    /**
+     * 回复内容
+     *
+     * @var string
+     */
+    public $reply;
+
+    /**
      * 课程评分
      *
      * @var int
@@ -36,11 +50,18 @@ class Review extends Model
     public $rating;
 
     /**
-     * 评价内容
-     * 
-     * @var string
+     * 赞同数量
+     *
+     * @var int
      */
-    public $content;
+    public $agree_count;
+
+    /**
+     * 反对数量
+     *
+     * @var int
+     */
+    public $oppose_count;
 
     /**
      * 发布标识

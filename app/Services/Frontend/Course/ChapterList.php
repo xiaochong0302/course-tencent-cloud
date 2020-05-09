@@ -45,12 +45,12 @@ class ChapterList extends Service
                 }
             }
         } else {
-            $mapping = $this->getLearningMapping($course, $user);
+            $mappings = $this->getLearningMappings($course, $user);
             foreach ($chapters as &$chapter) {
                 foreach ($chapter['children'] as &$lesson) {
                     $lesson['me'] = [
                         'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
-                        'progress' => $mapping[$lesson['id']]['progress'] ?? 0,
+                        'progress' => $mappings[$lesson['id']]['progress'] ?? 0,
                     ];
                 }
             }
@@ -59,7 +59,7 @@ class ChapterList extends Service
         return $chapters;
     }
 
-    protected function getLearningMapping(CourseModel $course, UserModel $user)
+    protected function getLearningMappings(CourseModel $course, UserModel $user)
     {
         $courseRepo = new CourseRepo();
 
@@ -69,15 +69,15 @@ class ChapterList extends Service
             return [];
         }
 
-        $mapping = [];
+        $mappings = [];
 
         foreach ($userLearnings as $learning) {
-            $mapping[$learning['chapter_id']] = [
+            $mappings[$learning['chapter_id']] = [
                 'progress' => $learning['progress'],
             ];
         }
 
-        return $mapping;
+        return $mappings;
     }
 
 }

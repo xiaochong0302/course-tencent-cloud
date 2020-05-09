@@ -109,12 +109,12 @@ class Category extends Validator
     {
         $categoryRepo = new CategoryRepo();
 
-        $list = $categoryRepo->findAll([
+        $categories = $categoryRepo->findAll([
             'parent_id' => $category->id,
             'deleted' => 0,
         ]);
 
-        if ($list->count() > 0) {
+        if ($categories->count() > 0) {
             throw new BadRequestException('category.has_child_node');
         }
     }
