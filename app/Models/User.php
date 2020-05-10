@@ -121,6 +121,20 @@ class User extends Model
     public $lock_expiry_time;
 
     /**
+     * 最近登录时间
+     *
+     * @var int
+     */
+    public $last_login_time;
+
+    /**
+     * 最近登录IP
+     *
+     * @var string
+     */
+    public $last_login_ip;
+
+    /**
      * 通知数量
      *
      * @var int

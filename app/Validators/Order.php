@@ -13,6 +13,11 @@ use App\Repos\Vip as VipRepo;
 class Order extends Validator
 {
 
+    public function checkOrder($id)
+    {
+        return $this->checkOrderById($id);
+    }
+
     public function checkOrderById($id)
     {
         $orderRepo = new OrderRepo();

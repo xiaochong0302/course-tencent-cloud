@@ -5,12 +5,13 @@ namespace App\Services\Pay;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Trade as TradeRepo;
-use App\Services\Pay as AppPay;
+use App\Services\Pay as PayService;
+use Yansongda\Pay\Gateways\Alipay as AlipayGateway;
 use Yansongda\Pay\Log;
 use Yansongda\Pay\Pay;
 use Yansongda\Supports\Collection;
 
-class Alipay extends AppPay
+class Alipay extends PayService
 {
 
     /**
@@ -19,13 +20,14 @@ class Alipay extends AppPay
     protected $settings;
 
     /**
-     * @var \Yansongda\Pay\Gateways\Alipay
+     * @var AlipayGateway
      */
     protected $gateway;
 
     public function __construct()
     {
         $this->settings = $this->getSectionSettings('pay.alipay');
+
         $this->gateway = $this->getGateway();
     }
 
@@ -40,6 +42,37 @@ class Alipay extends AppPay
         try {
 
             $response = $this->gateway->scan([
+                'out_trade_no' => $trade->sn,
+                'total_amount' => $trade->amount,
+                'subject' => $trade->subject,
+            ]);
+
+            $result = $response->qr_code ?? false;
+
+        } catch (\Exception $e) {
+
+            Log::error('Alipay Qrcode Exception', [
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+            ]);
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * 移动端支付
+     *
+     * @param TradeModel $trade
+     * @return bool|string
+     */
+    public function wap(TradeModel $trade)
+    {
+        try {
+
+            $response = $this->gateway->wap([
                 'out_trade_no' => $trade->sn,
                 'total_amount' => $trade->amount,
                 'subject' => $trade->subject,
@@ -236,7 +269,7 @@ class Alipay extends AppPay
     /**
      * 获取 Gateway
      *
-     * @return \Yansongda\Pay\Gateways\Alipay
+     * @return AlipayGateway
      */
     public function getGateway()
     {

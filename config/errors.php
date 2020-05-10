@@ -264,6 +264,7 @@ $error['order.trade_expired'] = '交易已过期';
  * 交易相关
  */
 $error['trade.not_found'] = '交易不存在';
+$error['trade.create_failed'] = '创建交易失败';
 $error['trade.invalid_channel'] = '无效的平台类型';
 $error['trade.invalid_close_action'] = '当前不允许关闭交易';
 $error['trade.invalid_refund_action'] = '当前不允许交易退款';

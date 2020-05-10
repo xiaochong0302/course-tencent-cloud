@@ -11,15 +11,33 @@ class Refund extends Validator
 
     public function checkRefund($id)
     {
-        $tradeRepo = new RefundRepo();
+        return $this->checkRefundById($id);
+    }
 
-        $trade = $tradeRepo->findById($id);
+    public function checkRefundById($id)
+    {
+        $refundRepo = new RefundRepo();
 
-        if (!$trade) {
+        $refund = $refundRepo->findById($id);
+
+        if (!$refund) {
             throw new BadRequestException('refund.not_found');
         }
 
-        return $trade;
+        return $refund;
+    }
+
+    public function checkRefundBySn($sn)
+    {
+        $refundRepo = new RefundRepo();
+
+        $refund = $refundRepo->findById($sn);
+
+        if (!$refund) {
+            throw new BadRequestException('refund.not_found');
+        }
+
+        return $refund;
     }
 
     public function checkReviewStatus($status)

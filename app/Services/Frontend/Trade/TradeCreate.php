@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Frontend\Order;
+namespace App\Services\Frontend\Trade;
 
 use App\Models\Trade as TradeModel;
 use App\Services\Frontend\OrderTrait;
@@ -40,38 +40,48 @@ class TradeCreate extends Service
 
             $trade->create();
 
-            $qrCode = $this->getQrCode($trade);
+            $qrCodeUrl = $this->getQrCodeUrl($trade);
 
             $this->db->commit();
 
-            return $qrCode;
+            return [
+                'trade_sn' => $trade->sn,
+                'code_url' => $qrCodeUrl,
+            ];
 
         } catch (\Exception $e) {
 
             $this->db->rollback();
 
-            return false;
+            throw new \RuntimeException('trade.create_failed');
         }
     }
 
-    protected function getQrCode(TradeModel $trade)
+    protected function getQrCodeUrl(TradeModel $trade)
     {
-        $qrCode = null;
+        $qrCodeUrl = null;
 
         if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
 
             $alipayService = new AlipayService();
 
-            $qrCode = $alipayService->scan($trade);
+            $text = $alipayService->scan($trade);
+
+            if ($text) {
+                $qrCodeUrl = $this->url->get(
+                    ['for' => 'web.qrcode_img'],
+                    ['text' => urlencode($text)]
+                );
+            }
 
         } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
 
             $wxpayService = new WxPayService();
 
-            $qrCode = $wxpayService->scan($trade);
+            $qrCodeUrl = $wxpayService->scan($trade);
         }
 
-        return $qrCode;
+        return $qrCodeUrl;
     }
 
 }

@@ -12,9 +12,27 @@ class Trade extends Validator
 
     public function checkTrade($id)
     {
+        return $this->checkTradeById($id);
+    }
+
+    public function checkTradeById($id)
+    {
         $tradeRepo = new TradeRepo();
 
         $trade = $tradeRepo->findById($id);
+
+        if (!$trade) {
+            throw new BadRequestException('trade.not_found');
+        }
+
+        return $trade;
+    }
+
+    public function checkTradeBySn($sn)
+    {
+        $tradeRepo = new TradeRepo();
+
+        $trade = $tradeRepo->findBySn($sn);
 
         if (!$trade) {
             throw new BadRequestException('trade.not_found');

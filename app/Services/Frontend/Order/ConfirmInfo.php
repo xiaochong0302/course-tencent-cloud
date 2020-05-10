@@ -11,7 +11,7 @@ use App\Repos\Package as PackageRepo;
 use App\Services\Frontend\Service;
 use App\Validators\Order as OrderValidator;
 
-class ConfirmInfo extends Service
+class OrderConfirm extends Service
 {
 
     public function handle()
@@ -33,25 +33,22 @@ class ConfirmInfo extends Service
         if ($itemType == OrderModel::ITEM_COURSE) {
 
             $course = $validator->checkCourse($itemId);
-            $courseInfo = $this->handleCourseInfo($course);
 
-            $result['item_info']['course'] = $courseInfo;
+            $result['item_info']['course'] = $this->handleCourse($course);
             $result['amount'] = $user->vip ? $course->vip_price : $course->market_price;
 
         } elseif ($itemType == OrderModel::ITEM_PACKAGE) {
 
             $package = $validator->checkPackage($itemId);
-            $packageInfo = $this->handlePackageInfo($package);
 
-            $result['item_info']['package'] = $packageInfo;
+            $result['item_info']['package'] = $this->handlePackage($package);
             $result['amount'] = $user->vip ? $package->vip_price : $package->market_price;
 
         } elseif ($itemType == OrderModel::ITEM_VIP) {
 
             $vip = $validator->checkVip($itemId);
-            $vipInfo = $this->handleVipInfo($vip);
 
-            $result['item_info']['vip'] = $vipInfo;
+            $result['item_info']['vip'] = $this->handleVip($vip);
             $result['amount'] = $vip->price;
 
         } elseif ($itemType == OrderModel::ITEM_REWARD) {
@@ -61,11 +58,8 @@ class ConfirmInfo extends Service
             $course = $validator->checkCourse($courseId);
             $reward = $validator->checkReward($rewardId);
 
-            $courseInfo = $this->handleCourseInfo($course);
-            $rewardInfo = $this->handleRewardInfo($reward);
-
-            $result['item_info']['course'] = $courseInfo;
-            $result['item_info']['reward'] = $rewardInfo;
+            $result['item_info']['course'] = $this->handleCourse($course);
+            $result['item_info']['reward'] = $this->handleReward($reward);
             $result['amount'] = $reward->price;
         }
 
@@ -74,12 +68,12 @@ class ConfirmInfo extends Service
         return $result;
     }
 
-    protected function handleCourseInfo(CourseModel $course)
+    protected function handleCourse(CourseModel $course)
     {
-        return $this->formatCourseInfo($course);
+        return $this->formatCourse($course);
     }
 
-    protected function handlePackageInfo(PackageModel $package)
+    protected function handlePackage(PackageModel $package)
     {
         $result = [
             'id' => $package->id,
@@ -93,13 +87,13 @@ class ConfirmInfo extends Service
         $courses = $packageRepo->findCourses($package->id);
 
         foreach ($courses as $course) {
-            $result['courses'][] = $this->formatCourseInfo($course);
+            $result['courses'][] = $this->formatCourse($course);
         }
 
         return $result;
     }
 
-    protected function handleVipInfo(VipModel $vip)
+    protected function handleVip(VipModel $vip)
     {
         return [
             'id' => $vip->id,
@@ -109,7 +103,7 @@ class ConfirmInfo extends Service
         ];
     }
 
-    protected function handleRewardInfo(RewardModel $reward)
+    protected function handleReward(RewardModel $reward)
     {
         return [
             'id' => $reward->id,
@@ -118,7 +112,7 @@ class ConfirmInfo extends Service
         ];
     }
 
-    protected function formatCourseInfo(CourseModel $course)
+    protected function formatCourse(CourseModel $course)
     {
         $course->cover = kg_ci_img_url($course->cover);
 

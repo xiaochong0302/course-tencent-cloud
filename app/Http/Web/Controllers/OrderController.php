@@ -2,6 +2,11 @@
 
 namespace App\Http\Web\Controllers;
 
+use App\Services\Frontend\Order\OrderCancel as OrderCancelService;
+use App\Services\Frontend\Order\OrderConfirm as OrderConfirmService;
+use App\Services\Frontend\Order\OrderCreate as OrderCreateService;
+use App\Services\Frontend\Order\OrderInfo as OrderInfoService;
+
 /**
  * @RoutePrefix("/order")
  */
@@ -13,7 +18,11 @@ class OrderController extends Controller
      */
     public function confirmAction()
     {
+        $service = new OrderConfirmService();
 
+        $info = $service->handle();
+
+        $this->view->setVar('info', $info);
     }
 
     /**
@@ -21,47 +30,47 @@ class OrderController extends Controller
      */
     public function createAction()
     {
+        $service = new OrderCreateService();
 
+        $order = $service->handle();
+
+        return $this->jsonSuccess(['sn' => $order->sn]);
     }
 
     /**
-     * @Get("/cashier", name="web.order.cashier")
+     * @Get("/{sn:[0-9]+}/pay", name="web.order.pay")
      */
-    public function cashierAction()
+    public function payAction($sn)
     {
+        $service = new OrderInfoService();
 
+        $order = $service->handle($sn);
+
+        $this->view->setVar('order', $order);
     }
 
     /**
-     * @Post("/pay", name="web.order.pay")
+     * @Get("/{sn:[0-9]+}/info", name="web.order.info")
      */
-    public function payAction()
+    public function infoAction($sn)
     {
+        $service = new OrderInfoService();
 
+        $order = $service->handle($sn);
+
+        return $this->jsonSuccess(['order' => $order]);
     }
 
     /**
-     * @Post("/notify/{channel}", name="web.order.notify")
+     * @Post("/{sn:[0-9]+}/cancel", name="web.order.cancel")
      */
-    public function notifyAction($channel)
+    public function cancelAction($sn)
     {
+        $service = new OrderCancelService();
 
-    }
+        $order = $service->handle($sn);
 
-    /**
-     * @Post("/status", name="web.order.status")
-     */
-    public function statusAction()
-    {
-
-    }
-
-    /**
-     * @Post("/cancel", name="web.order.cancel")
-     */
-    public function cancelAction()
-    {
-
+        return $this->jsonSuccess(['order' => $order]);
     }
 
 }

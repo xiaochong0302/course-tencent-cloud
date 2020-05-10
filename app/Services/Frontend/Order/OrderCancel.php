@@ -27,6 +27,8 @@ class OrderCancel extends Service
         $order->status = OrderModel::STATUS_CLOSED;
 
         $order->update();
+
+        return $order;
     }
 
 }

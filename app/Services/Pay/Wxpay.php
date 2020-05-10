@@ -5,13 +5,13 @@ namespace App\Services\Pay;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Trade as TradeRepo;
-use App\Services\Pay as AppPay;
-use Yansongda\Pay\Gateways\Wechat;
+use App\Services\Pay as PayService;
+use Yansongda\Pay\Gateways\Wechat as WechatGateway;
 use Yansongda\Pay\Log;
 use Yansongda\Pay\Pay;
 use Yansongda\Supports\Collection;
 
-class Wxpay extends AppPay
+class Wxpay extends PayService
 {
 
     /**
@@ -20,13 +20,14 @@ class Wxpay extends AppPay
     protected $settings;
 
     /**
-     * @var Wechat
+     * @var WechatGateway
      */
     protected $gateway;
 
     public function __construct()
     {
         $this->settings = $this->getSectionSettings('pay.wxpay');
+
         $this->gateway = $this->getGateway();
     }
 
@@ -218,7 +219,7 @@ class Wxpay extends AppPay
     /**
      * 获取 Gateway
      *
-     * @return Wechat
+     * @return WechatGateway
      */
     public function getGateway()
     {

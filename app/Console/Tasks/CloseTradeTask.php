@@ -57,6 +57,7 @@ class CloseTradeTask extends Task
         if (!$allowClosed) return;
 
         $trade->status = TradeModel::STATUS_CLOSED;
+
         $trade->update();
     }
 
@@ -88,6 +89,7 @@ class CloseTradeTask extends Task
         if (!$allowClosed) return;
 
         $trade->status = TradeModel::STATUS_CLOSED;
+
         $trade->update();
     }
 

@@ -186,7 +186,7 @@ class TestController extends Controller
 
         $codeUrl = null;
 
-        if ($code) {
+        if (!empty($code)) {
             $codeUrl = $this->url->get(
                 ['for' => 'web.qrcode_img'],
                 ['text' => urlencode($code)]
