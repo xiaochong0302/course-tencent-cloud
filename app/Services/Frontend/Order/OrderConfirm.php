@@ -34,21 +34,21 @@ class OrderConfirm extends Service
 
             $course = $validator->checkCourse($itemId);
 
-            $result['item_info']['course'] = $this->handleCourse($course);
+            $result['item_info']['course'] = $this->handleCourseInfo($course);
             $result['amount'] = $user->vip ? $course->vip_price : $course->market_price;
 
         } elseif ($itemType == OrderModel::ITEM_PACKAGE) {
 
             $package = $validator->checkPackage($itemId);
 
-            $result['item_info']['package'] = $this->handlePackage($package);
+            $result['item_info']['package'] = $this->handlePackageInfo($package);
             $result['amount'] = $user->vip ? $package->vip_price : $package->market_price;
 
         } elseif ($itemType == OrderModel::ITEM_VIP) {
 
             $vip = $validator->checkVip($itemId);
 
-            $result['item_info']['vip'] = $this->handleVip($vip);
+            $result['item_info']['vip'] = $this->handleVipInfo($vip);
             $result['amount'] = $vip->price;
 
         } elseif ($itemType == OrderModel::ITEM_REWARD) {
@@ -58,8 +58,8 @@ class OrderConfirm extends Service
             $course = $validator->checkCourse($courseId);
             $reward = $validator->checkReward($rewardId);
 
-            $result['item_info']['course'] = $this->handleCourse($course);
-            $result['item_info']['reward'] = $this->handleReward($reward);
+            $result['item_info']['course'] = $this->handleCourseInfo($course);
+            $result['item_info']['reward'] = $this->handleRewardInfo($reward);
             $result['amount'] = $reward->price;
         }
 
@@ -68,12 +68,12 @@ class OrderConfirm extends Service
         return $result;
     }
 
-    protected function handleCourse(CourseModel $course)
+    protected function handleCourseInfo(CourseModel $course)
     {
-        return $this->formatCourse($course);
+        return $this->formatCourseInfo($course);
     }
 
-    protected function handlePackage(PackageModel $package)
+    protected function handlePackageInfo(PackageModel $package)
     {
         $result = [
             'id' => $package->id,
@@ -87,13 +87,13 @@ class OrderConfirm extends Service
         $courses = $packageRepo->findCourses($package->id);
 
         foreach ($courses as $course) {
-            $result['courses'][] = $this->formatCourse($course);
+            $result['courses'][] = $this->formatCourseInfo($course);
         }
 
         return $result;
     }
 
-    protected function handleVip(VipModel $vip)
+    protected function handleVipInfo(VipModel $vip)
     {
         return [
             'id' => $vip->id,
@@ -103,7 +103,7 @@ class OrderConfirm extends Service
         ];
     }
 
-    protected function handleReward(RewardModel $reward)
+    protected function handleRewardInfo(RewardModel $reward)
     {
         return [
             'id' => $reward->id,
@@ -112,16 +112,15 @@ class OrderConfirm extends Service
         ];
     }
 
-    protected function formatCourse(CourseModel $course)
+    protected function formatCourseInfo(CourseModel $course)
     {
-        $course->cover = kg_ci_img_url($course->cover);
-
         return [
             'id' => $course->id,
             'title' => $course->title,
             'cover' => $course->cover,
             'model' => $course->model,
             'level' => $course->level,
+            'rating' => $course->rating,
             'study_expiry' => $course->study_expiry,
             'refund_expiry' => $course->refund_expiry,
             'market_price' => $course->market_price,

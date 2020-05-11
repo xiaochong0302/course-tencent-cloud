@@ -176,21 +176,12 @@ class TestController extends Controller
 
         $order = $alipayTestService->createOrder();
         $trade = $alipayTestService->createTrade($order);
-        $code = $alipayTestService->scan($trade);
+        $codeUrl = $alipayTestService->scan($trade);
 
-        if ($order && $trade && $code) {
+        if ($order && $trade && $codeUrl) {
             $this->db->commit();
         } else {
             $this->db->rollback();
-        }
-
-        $codeUrl = null;
-
-        if (!empty($code)) {
-            $codeUrl = $this->url->get(
-                ['for' => 'web.qrcode_img'],
-                ['text' => urlencode($code)]
-            );
         }
 
         $this->view->pick('setting/pay_alipay_test');

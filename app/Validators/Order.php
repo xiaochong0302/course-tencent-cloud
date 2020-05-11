@@ -59,52 +59,52 @@ class Order extends Validator
     {
         $courseRepo = new CourseRepo();
 
-        $item = $courseRepo->findById($itemId);
+        $course = $courseRepo->findById($itemId);
 
-        if (!$item) {
+        if (!$course) {
             throw new BadRequestException('order.item_not_found');
         }
 
-        return $item;
+        return $course;
     }
 
     public function checkPackage($itemId)
     {
         $packageRepo = new PackageRepo();
 
-        $item = $packageRepo->findById($itemId);
+        $package = $packageRepo->findById($itemId);
 
-        if (!$item) {
+        if (!$package) {
             throw new BadRequestException('order.item_not_found');
         }
 
-        return $item;
+        return $package;
     }
 
     public function checkVip($itemId)
     {
         $vipRepo = new VipRepo();
 
-        $item = $vipRepo->findById($itemId);
+        $vip = $vipRepo->findById($itemId);
 
-        if (!$item) {
+        if (!$vip) {
             throw new BadRequestException('order.item_not_found');
         }
 
-        return $item;
+        return $vip;
     }
 
     public function checkReward($itemId)
     {
         $rewardRepo = new RewardRepo();
 
-        $item = $rewardRepo->findById($itemId);
+        $reward = $rewardRepo->findById($itemId);
 
-        if (!$item) {
+        if (!$reward) {
             throw new BadRequestException('order.item_not_found');
         }
 
-        return $item;
+        return $reward;
     }
 
     public function checkAmount($amount)
@@ -118,10 +118,26 @@ class Order extends Validator
         return $value;
     }
 
-    public function checkIfAllowCancel($order)
+    public function checkIfAllowCancel(OrderModel $order)
     {
         if ($order->status != OrderModel::STATUS_PENDING) {
             throw new BadRequestException('order.cancel_not_allowed');
+        }
+    }
+
+    public function checkIfAllowRefund(OrderModel $order)
+    {
+        if ($order->status != OrderModel::STATUS_FINISHED) {
+            throw new BadRequestException('order.refund_not_allowed');
+        }
+
+        $types = [
+            OrderModel::ITEM_COURSE,
+            OrderModel::ITEM_PACKAGE,
+        ];
+
+        if (!in_array($order->item_type, $types)) {
+            throw new BadRequestException('order.refund_not_allowed');
         }
     }
 

@@ -6,6 +6,7 @@ use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Trade as TradeRepo;
 use App\Services\Pay as PayService;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Yansongda\Pay\Gateways\Alipay as AlipayGateway;
 use Yansongda\Pay\Log;
 use Yansongda\Pay\Pay;
@@ -19,16 +20,19 @@ class Alipay extends PayService
      */
     protected $settings;
 
-    /**
-     * @var AlipayGateway
-     */
-    protected $gateway;
-
     public function __construct()
     {
         $this->settings = $this->getSectionSettings('pay.alipay');
+    }
 
-        $this->gateway = $this->getGateway();
+    public function setReturnUrl($returnUrl)
+    {
+        $this->settings['return_url'] = $returnUrl;
+    }
+
+    public function setNotifyUrl($notifyUrl)
+    {
+        $this->settings['notify_url'] = $notifyUrl;
     }
 
     /**
@@ -39,9 +43,11 @@ class Alipay extends PayService
      */
     public function scan(TradeModel $trade)
     {
+        $gateway = $this->getGateway();
+
         try {
 
-            $response = $this->gateway->scan([
+            $response = $gateway->scan([
                 'out_trade_no' => $trade->sn,
                 'total_amount' => $trade->amount,
                 'subject' => $trade->subject,
@@ -66,23 +72,23 @@ class Alipay extends PayService
      * 移动端支付
      *
      * @param TradeModel $trade
-     * @return bool|string
+     * @return HttpResponse|bool
      */
     public function wap(TradeModel $trade)
     {
+        $gateway = $this->getGateway();
+
         try {
 
-            $response = $this->gateway->wap([
+            return $gateway->wap([
                 'out_trade_no' => $trade->sn,
                 'total_amount' => $trade->amount,
                 'subject' => $trade->subject,
             ]);
 
-            $result = $response->qr_code ?? false;
-
         } catch (\Exception $e) {
 
-            Log::error('Alipay Qrcode Exception', [
+            Log::error('Alipay Wap Exception', [
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
             ]);
@@ -95,12 +101,15 @@ class Alipay extends PayService
 
     /**
      * 异步通知
+     * @return HttpResponse|bool
      */
     public function notify()
     {
+        $gateway = $this->getGateway();
+
         try {
 
-            $data = $this->gateway->verify();
+            $data = $gateway->verify();
 
             Log::debug('Alipay Verify Data', $data->all());
 
@@ -142,7 +151,7 @@ class Alipay extends PayService
 
         $this->eventsManager->fire('pay:afterPay', $this, $trade);
 
-        return $this->gateway->success();
+        return $gateway->success();
     }
 
     /**
@@ -154,11 +163,13 @@ class Alipay extends PayService
      */
     public function find($outTradeNo, $type = 'wap')
     {
+        $gateway = $this->getGateway();
+
         try {
 
             $order = ['out_trade_no' => $outTradeNo];
 
-            $result = $this->gateway->find($order, $type);
+            $result = $gateway->find($order, $type);
 
         } catch (\Exception $e) {
 
@@ -181,11 +192,11 @@ class Alipay extends PayService
      */
     public function close($outTradeNo)
     {
+        $gateway = $this->getGateway();
+
         try {
 
-            $response = $this->gateway->close([
-                'out_trade_no' => $outTradeNo,
-            ]);
+            $response = $gateway->close(['out_trade_no' => $outTradeNo]);
 
             $result = $response->code == '10000';
 
@@ -210,11 +221,11 @@ class Alipay extends PayService
      */
     public function cancel($outTradeNo)
     {
+        $gateway = $this->getGateway();
+
         try {
 
-            $response = $this->gateway->cancel([
-                'out_trade_no' => $outTradeNo,
-            ]);
+            $response = $gateway->cancel(['out_trade_no' => $outTradeNo]);
 
             $result = $response->code == '10000';
 
@@ -239,13 +250,15 @@ class Alipay extends PayService
      */
     public function refund(RefundModel $refund)
     {
+        $gateway = $this->getGateway();
+
         try {
 
             $tradeRepo = new TradeRepo();
 
             $trade = $tradeRepo->findById($refund->trade_id);
 
-            $response = $this->gateway->refund([
+            $response = $gateway->refund([
                 'out_trade_no' => $trade->sn,
                 'out_request_no' => $refund->sn,
                 'refund_amount' => $refund->amount,
@@ -281,6 +294,7 @@ class Alipay extends PayService
             'app_id' => $this->settings['app_id'],
             'ali_public_key' => $this->settings['public_key'],
             'private_key' => $this->settings['private_key'],
+            'return_url' => $this->settings['return_url'],
             'notify_url' => $this->settings['notify_url'],
             'log' => [
                 'file' => log_path('alipay.log'),

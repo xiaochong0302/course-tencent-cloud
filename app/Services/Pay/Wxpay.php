@@ -6,6 +6,7 @@ use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Trade as TradeRepo;
 use App\Services\Pay as PayService;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Yansongda\Pay\Gateways\Wechat as WechatGateway;
 use Yansongda\Pay\Log;
 use Yansongda\Pay\Pay;
@@ -19,16 +20,14 @@ class Wxpay extends PayService
      */
     protected $settings;
 
-    /**
-     * @var WechatGateway
-     */
-    protected $gateway;
-
     public function __construct()
     {
         $this->settings = $this->getSectionSettings('pay.wxpay');
+    }
 
-        $this->gateway = $this->getGateway();
+    public function setNotifyUrl($notifyUrl)
+    {
+        $this->settings['notify_url'] = $notifyUrl;
     }
 
     /**
@@ -39,9 +38,11 @@ class Wxpay extends PayService
      */
     public function scan(TradeModel $trade)
     {
+        $gateway = $this->getGateway();
+
         try {
 
-            $response = $this->gateway->scan([
+            $response = $gateway->scan([
                 'out_trade_no' => $trade->sn,
                 'total_fee' => 100 * $trade->amount,
                 'body' => $trade->subject,
@@ -63,13 +64,48 @@ class Wxpay extends PayService
     }
 
     /**
+     * 移动端支付
+     *
+     * @param TradeModel $trade
+     * @return HttpResponse|bool
+     */
+    public function wap(TradeModel $trade)
+    {
+        $gateway = $this->getGateway();
+
+        try {
+
+            return $gateway->wap([
+                'out_trade_no' => $trade->sn,
+                'total_fee' => 100 * $trade->amount,
+                'body' => $trade->subject,
+            ]);
+
+        } catch (\Exception $e) {
+
+            Log::error('Wxpay Wap Exception', [
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+            ]);
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
      * 异步通知
+     *
+     * @return HttpResponse|bool
      */
     public function notify()
     {
+        $gateway = $this->getGateway();
+
         try {
 
-            $data = $this->gateway->verify();
+            $data = $gateway->verify();
 
             Log::debug('Wxpay Verify Data', $data->all());
 
@@ -109,7 +145,7 @@ class Wxpay extends PayService
 
         $this->eventsManager->fire('pay:afterPay', $this, $trade);
 
-        return $this->gateway->success();
+        return $gateway->success();
     }
 
     /**
@@ -121,11 +157,13 @@ class Wxpay extends PayService
      */
     public function find($outTradeNo, $type = 'wap')
     {
+        $gateway = $this->getGateway();
+
         try {
 
             $order = ['out_trade_no' => $outTradeNo];
 
-            $result = $this->gateway->find($order, $type);
+            $result = $gateway->find($order, $type);
 
         } catch (\Exception $e) {
 
@@ -148,11 +186,11 @@ class Wxpay extends PayService
      */
     public function close($outTradeNo)
     {
+        $gateway = $this->getGateway();
+
         try {
 
-            $response = $this->gateway->close([
-                'out_trade_no' => $outTradeNo,
-            ]);
+            $response = $gateway->close(['out_trade_no' => $outTradeNo]);
 
             $result = $response->result_code == 'SUCCESS';
 
@@ -188,13 +226,15 @@ class Wxpay extends PayService
      */
     public function refund(RefundModel $refund)
     {
+        $gateway = $this->getGateway();
+
         try {
 
             $tradeRepo = new TradeRepo();
 
             $trade = $tradeRepo->findById($refund->trade_id);
 
-            $response = $this->gateway->refund([
+            $response = $gateway->refund([
                 'out_trade_no' => $trade->sn,
                 'out_refund_no' => $refund->sn,
                 'total_fee' => 100 * $trade->amount,

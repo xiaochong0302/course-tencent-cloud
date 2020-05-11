@@ -23,12 +23,10 @@ class OrderInfo extends Service
         $order->item_info = $this->handleItemInfo($order);
 
         return [
-            'id' => $order->id,
             'sn' => $order->sn,
             'subject' => $order->subject,
             'amount' => $order->amount,
             'status' => $order->status,
-            'user_id' => $order->user_id,
             'item_id' => $order->item_id,
             'item_type' => $order->item_type,
             'item_info' => $order->item_info,
@@ -43,30 +41,37 @@ class OrderInfo extends Service
          */
         $itemInfo = $order->item_info;
 
-        if ($order->item_type == OrderModel::ITEM_COURSE) {
+        $result = [];
 
-            return $this->handleCourseInfo($itemInfo);
-
-        } elseif ($order->item_type == OrderModel::ITEM_PACKAGE) {
-
-            return $this->handlePackageInfo($itemInfo);
-
-        } elseif ($order->item_type == OrderModel::ITEM_VIP) {
-
-            return $this->handleVipInfo($itemInfo);
+        switch ($order->item_type) {
+            case OrderModel::ITEM_COURSE:
+                $result = $this->handleCourseInfo($itemInfo);
+                break;
+            case OrderModel::ITEM_PACKAGE:
+                $result = $this->handlePackageInfo($itemInfo);
+                break;
+            case OrderModel::ITEM_VIP:
+                $result = $this->handleVipInfo($itemInfo);
+                break;
+            case OrderModel::ITEM_REWARD:
+                $result = $this->handleRewardInfo($itemInfo);
+                break;
+            case OrderModel::ITEM_TEST:
+                $result = $this->handleTestInfo($itemInfo);
+                break;
         }
 
-        return $itemInfo;
+        return $result ?: new \stdClass();
     }
 
-    protected function handleCourseInfo(array $itemInfo)
+    protected function handleCourseInfo($itemInfo)
     {
         $itemInfo['course']['cover'] = kg_ci_img_url($itemInfo['course']['cover']);
 
         return $itemInfo;
     }
 
-    protected function handlePackageInfo(array $itemInfo)
+    protected function handlePackageInfo($itemInfo)
     {
         $baseUrl = kg_ci_base_url();
 
@@ -77,7 +82,17 @@ class OrderInfo extends Service
         return $itemInfo;
     }
 
-    protected function handleVipInfo(array $itemInfo)
+    protected function handleVipInfo($itemInfo)
+    {
+        return $itemInfo;
+    }
+
+    protected function handleRewardInfo($itemInfo)
+    {
+        return $itemInfo;
+    }
+
+    protected function handleTestInfo($itemInfo)
     {
         return $itemInfo;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Services\Frontend\Trade\TradeCreate as TradeCreateService;
+use App\Http\Web\Services\Trade as TradeService;
 use App\Services\Frontend\Trade\TradeInfo as TradeInfoService;
 
 /**
@@ -16,14 +16,11 @@ class TradeController extends Controller
      */
     public function createAction()
     {
-        $service = new TradeCreateService();
+        $service = new TradeService();
 
-        $result = $service->handle();
+        $content = $service->create();
 
-        return $this->jsonSuccess([
-            'trade_sn' => $result['trade_sn'],
-            'code_url' => $result['code_url'],
-        ]);
+        return $this->jsonSuccess($content);
     }
 
     /**

@@ -199,6 +199,8 @@ class OrderCreate extends Service
         $studyExpiryTime = strtotime("+{$course->study_expiry} months");
         $refundExpiryTime = strtotime("+{$course->refund_expiry} days");
 
+        $course->cover = CourseModel::getCoverPath($course->cover);
+
         return [
             'id' => $course->id,
             'title' => $course->title,

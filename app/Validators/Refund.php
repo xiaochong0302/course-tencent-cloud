@@ -42,13 +42,23 @@ class Refund extends Validator
 
     public function checkReviewStatus($status)
     {
-        $list = [RefundModel::STATUS_APPROVED, RefundModel::STATUS_REFUSED];
+        $list = [
+            RefundModel::STATUS_APPROVED,
+            RefundModel::STATUS_REFUSED,
+        ];
 
         if (!in_array($status, $list)) {
             throw new BadRequestException('refund.invalid_review_status');
         }
 
         return $status;
+    }
+
+    public function checkAmount($orderAmount, $refundAmount)
+    {
+        if ($refundAmount > $orderAmount) {
+            throw new BadRequestException('refund.invalid_amount');
+        }
     }
 
     public function checkApplyNote($note)
@@ -85,7 +95,14 @@ class Refund extends Validator
         return $value;
     }
 
-    public function checkIfAllowReview($refund)
+    public function checkIfAllowCancel(RefundModel $refund)
+    {
+        if ($refund->status != RefundModel::STATUS_PENDING) {
+            throw new BadRequestException('refund.cancel_not_allowed');
+        }
+    }
+
+    public function checkIfAllowReview(RefundModel $refund)
     {
         if ($refund->status != RefundModel::STATUS_PENDING) {
             throw new BadRequestException('refund.review_not_allowed');

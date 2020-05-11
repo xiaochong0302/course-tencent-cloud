@@ -21,7 +21,6 @@ class TradeInfo extends Service
     protected function handleTrade(TradeModel $trade)
     {
         return [
-            'id' => $trade->id,
             'sn' => $trade->sn,
             'subject' => $trade->subject,
             'amount' => $trade->amount,

@@ -34,7 +34,11 @@ class OrderController extends Controller
 
         $order = $service->handle();
 
-        return $this->jsonSuccess(['sn' => $order->sn]);
+        $service = new OrderInfoService();
+
+        $order = $service->handle($order->sn);
+
+        return $this->jsonSuccess(['order' => $order]);
     }
 
     /**

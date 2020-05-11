@@ -55,6 +55,9 @@ class OrderTask extends Task
                     case OrderModel::ITEM_VIP:
                         $this->handleVipOrder($order);
                         break;
+                    case OrderModel::ITEM_REWARD:
+                        $this->handleRewardOrder($order);
+                        break;
                 }
 
                 $task->status = TaskModel::STATUS_FINISHED;
@@ -160,6 +163,14 @@ class OrderTask extends Task
         if ($user->update() === false) {
             throw new \RuntimeException('Update Vip Expiry Failed');
         }
+    }
+
+    /**
+     * @param OrderModel $order
+     */
+    protected function handleRewardOrder(OrderModel $order)
+    {
+
     }
 
     /**

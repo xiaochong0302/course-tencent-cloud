@@ -17,9 +17,18 @@ class AlipayTest extends PayTest
     {
         $alipayService = new AlipayService();
 
-        $qrcode = $alipayService->scan($trade);
+        $code = $alipayService->scan($trade);
 
-        return $qrcode ?: false;
+        $codeUrl = null;
+
+        if ($code) {
+            $codeUrl = $this->url->get(
+                ['for' => 'web.qrcode_img'],
+                ['text' => urlencode($code)]
+            );
+        }
+
+        return $codeUrl ?: false;
     }
 
     public function status($tradeNo)
