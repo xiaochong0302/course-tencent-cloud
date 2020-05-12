@@ -39,7 +39,7 @@
 
             uploader.on('media_progress', function (info) {
                 if (!isNaN(info.percent)) {
-                    var percent = parseInt(100 * info.percent);
+                    var percent = Math.ceil(100 * info.percent);
                     element.progress('upload-progress', percent + '%');
                 }
             });

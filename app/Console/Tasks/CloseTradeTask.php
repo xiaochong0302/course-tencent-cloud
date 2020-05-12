@@ -34,7 +34,7 @@ class CloseTradeTask extends Task
      *
      * @param TradeModel $trade
      */
-    protected function handleAlipayTrade($trade)
+    protected function handleAlipayTrade(TradeModel $trade)
     {
         $allowClosed = true;
 
@@ -66,7 +66,7 @@ class CloseTradeTask extends Task
      *
      * @param TradeModel $trade
      */
-    protected function handleWxpayTrade($trade)
+    protected function handleWxpayTrade(TradeModel $trade)
     {
         $allowClosed = true;
 

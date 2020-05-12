@@ -33,8 +33,6 @@
         layui.use(['jquery'], function () {
 
             var $ = layui.jquery;
-
-            var loopTime = 0;
             var tradeSn = $('input[name=trade_sn]').val();
             var interval = setInterval(function () {
                 $.ajax({
@@ -54,21 +52,6 @@
                         clearInterval(interval);
                     }
                 });
-                loopTime += 5;
-                if (loopTime >= 300) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '/admin/test/wxpay/cancel',
-                        data: {trade_sn: tradeSn},
-                        success: function (res) {
-                        },
-                        error: function (xhr) {
-                        }
-                    });
-                    $('#error-tips').removeClass('layui-hide');
-                    $('#qrcode').addClass('layui-hide');
-                    clearInterval(interval);
-                }
             }, 5000);
 
         });

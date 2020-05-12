@@ -45,18 +45,32 @@ class SyncConsultCounterTask extends Task
             return;
         }
 
-        $cache = new ConsultCounterCache();
+        $counterCache = new ConsultCounterCache();
+
+        $hour = date('H');
 
         foreach ($consults as $consult) {
 
-            $counter = $cache->get($consult->id);
+            if ($hour % 3 == 0) {
 
-            if ($counter) {
-
-                $consult->agree_count = $counter['agree_count'];
-                $consult->oppose_count = $counter['oppose_count'];
+                $consult->agree_count = $consultRepo->countAgrees($consult->id);
+                $consult->oppose_count = $consultRepo->countOpposes($consult->id);
 
                 $consult->update();
+
+                $counterCache->rebuild($consult->id);
+
+            } else {
+
+                $counter = $counterCache->get($consult->id);
+
+                if ($counter) {
+
+                    $consult->agree_count = $counter['agree_count'];
+                    $consult->oppose_count = $counter['oppose_count'];
+
+                    $consult->update();
+                }
             }
         }
 

@@ -27,10 +27,10 @@
 
 <div style="text-align: center">
     {% if trade.status == 'pending' %}
-        <button class="kg-close layui-btn layui-bg-green" trade-id="{{ trade.id }}">关闭交易</button>
+        <button class="kg-close layui-btn layui-bg-green" data-url="{{ url('for':'admin.trade.close','id':trade.id}) }}">关闭交易</button>
     {% endif %}
     {% if trade.status == 'finished' %}
-        <button class="kg-refund layui-btn layui-bg-green" trade-id="{{ trade.id }}">申请退款</button>
+        <button class="kg-refund layui-btn layui-bg-green" data-url="{{ url('for':'admin.trade.refund','id':trade.id}) }}">申请退款</button>
     {% endif %}
     <button class="kg-back layui-btn layui-bg-gray">返回上页</button>
 </div>
@@ -110,12 +110,12 @@
         var $ = layui.jquery;
 
         $('.kg-close').on('click', function () {
-            var tradeId = $(this).attr('trade-id');
+            var url = $(this).attr('data-url');
             var tips = '确定要关闭交易吗？';
             layer.confirm(tips, function () {
                 $.ajax({
                     type: 'POST',
-                    url: '/admin/trade/' + tradeId + '/close',
+                    url: url,
                     finished: function (res) {
                         layer.msg(res.msg, {icon: 1});
                         setTimeout(function () {
@@ -133,12 +133,12 @@
         });
 
         $('.kg-refund').on('click', function () {
-            var tradeId = $(this).attr('trade-id');
+            var url = $(this).attr('data-url');
             var tips = '确定要申请退款吗？';
             layer.confirm(tips, function () {
                 $.ajax({
                     type: 'POST',
-                    url: '/admin/trade/' + tradeId + '/refund',
+                    url: url,
                     success: function (res) {
                         layer.msg(res.msg, {icon: 1});
                         setTimeout(function () {

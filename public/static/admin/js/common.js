@@ -16,6 +16,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
             var csrfTokenValue = $('meta[name="csrf-token-value"]').attr('content');
             xhr.setRequestHeader('X-Csrf-Token-Key', csrfTokenKey);
             xhr.setRequestHeader('X-Csrf-Token-Value', csrfTokenValue);
+            xhr.setRequestHeader('Content-Type', 'application/json');
         }
     });
 

@@ -46,26 +46,43 @@ class SyncCourseCounterTask extends Task
             return;
         }
 
-        $courseCounterCache = new CourseCounterCache();
+        $counterCache = new CourseCounterCache();
 
         $courseCache = new CourseCache();
 
+        $hour = date('H');
+
         foreach ($courses as $course) {
 
-            $counter = $courseCounterCache->get($course->id);
+            if ($hour % 3 == 0) {
 
-            if ($counter) {
-
-                $course->user_count = $counter['user_count'];
-                $course->lesson_count = $counter['lesson_count'];
-                $course->comment_count = $counter['comment_count'];
-                $course->consult_count = $counter['consult_count'];
-                $course->review_count = $counter['review_count'];
-                $course->favorite_count = $counter['favorite_count'];
+                $course->user_count = $courseRepo->countUsers($course->id);
+                $course->lesson_count = $courseRepo->countLessons($course->id);
+                $course->comment_count = $courseRepo->countComments($course->id);
+                $course->consult_count = $courseRepo->countConsults($course->id);
+                $course->review_count = $courseRepo->countReviews($course->id);
+                $course->favorite_count = $courseRepo->countFavorites($course->id);
 
                 $course->update();
 
+                $counterCache->rebuild($course->id);
                 $courseCache->rebuild($course->id);
+
+            } else {
+
+                $counter = $counterCache->get($course->id);
+
+                if ($counter) {
+
+                    $course->user_count = $counter['user_count'];
+                    $course->lesson_count = $counter['lesson_count'];
+                    $course->comment_count = $counter['comment_count'];
+                    $course->consult_count = $counter['consult_count'];
+                    $course->review_count = $counter['review_count'];
+                    $course->favorite_count = $counter['favorite_count'];
+
+                    $course->update();
+                }
             }
         }
 

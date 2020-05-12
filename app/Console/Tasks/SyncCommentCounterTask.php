@@ -45,19 +45,34 @@ class SyncCommentCounterTask extends Task
             return;
         }
 
-        $cache = new CommentCounterCache();
+        $counterCache = new CommentCounterCache();
+
+        $hour = date('H');
 
         foreach ($comments as $comment) {
 
-            $counter = $cache->get($comment->id);
+            if ($hour % 3 == 0) {
 
-            if ($counter) {
-
-                $comment->reply_count = $counter['reply_count'];
-                $comment->agree_count = $counter['agree_count'];
-                $comment->oppose_count = $counter['oppose_count'];
+                $comment->reply_count = $commentRepo->countReplies($comment->id);
+                $comment->agree_count = $commentRepo->countAgrees($comment->id);
+                $comment->oppose_count = $commentRepo->countOpposes($comment->id);
 
                 $comment->update();
+
+                $counterCache->rebuild($comment->id);
+
+            } else {
+
+                $counter = $counterCache->get($comment->id);
+
+                if ($counter) {
+
+                    $comment->reply_count = $counter['reply_count'];
+                    $comment->agree_count = $counter['agree_count'];
+                    $comment->oppose_count = $counter['oppose_count'];
+
+                    $comment->update();
+                }
             }
         }
 

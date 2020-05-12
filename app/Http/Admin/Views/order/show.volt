@@ -30,7 +30,7 @@
 
 <div style="text-align: center">
     {% if order.status == 'pending' %}
-        <button class="kg-close layui-btn layui-bg-green" data-url="{{ url({'for':'admin.order.close','id':item.id}) }}">关闭订单</button>
+        <button class="kg-close layui-btn layui-bg-green" data-url="{{ url({'for':'admin.order.close','id':order.id}) }}">关闭订单</button>
     {% endif %}
     <button class="kg-back layui-btn layui-bg-gray">返回上页</button>
 </div>

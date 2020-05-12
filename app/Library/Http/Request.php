@@ -2,8 +2,6 @@
 
 namespace App\Library\Http;
 
-use App\Exceptions\BadRequest;
-
 class Request extends \Phalcon\Http\Request
 {
 
@@ -43,13 +41,13 @@ class Request extends \Phalcon\Http\Request
     {
         $contentType = $this->getContentType();
 
-        if (stripos($contentType, 'form')) {
-            return parent::getPost($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
-        } elseif (stripos($contentType, 'json')) {
-            return $this->getPut($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
+        if (stripos($contentType, 'json')) {
+            $data = $this->getPut($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
         } else {
-            throw new BadRequest('sys.invalid_content_type');
+            $data = parent::getPost($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
         }
+
+        return $data;
     }
 
 }
