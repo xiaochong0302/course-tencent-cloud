@@ -12,15 +12,15 @@ class User extends Model
     /**
      * 性别类型
      */
-    const GENDER_MALE = 'male'; // 男
-    const GENDER_FEMALE = 'female'; // 女
-    const GENDER_NONE = 'none'; // 保密
+    const GENDER_MALE = 1; // 男
+    const GENDER_FEMALE = 2; // 女
+    const GENDER_NONE = 3; // 保密
 
     /**
      * 教学角色
      */
-    const EDU_ROLE_STUDENT = 'student'; // 学员
-    const EDU_ROLE_TEACHER = 'teacher'; // 讲师
+    const EDU_ROLE_STUDENT = 1; // 学员
+    const EDU_ROLE_TEACHER = 2; // 讲师
 
     /**
      * 主键编号
@@ -86,39 +86,11 @@ class User extends Model
     public $admin_role;
 
     /**
-     * VIP标识
+     * 最近登录IP
      *
-     * @var int
+     * @var string
      */
-    public $vip;
-
-    /**
-     * 锁定标识
-     *
-     * @var int
-     */
-    public $locked;
-
-    /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted;
-
-    /**
-     * VIP期限
-     *
-     * @var int
-     */
-    public $vip_expiry_time;
-
-    /**
-     * 锁定期限
-     *
-     * @var int
-     */
-    public $lock_expiry_time;
+    public $last_login_ip;
 
     /**
      * 最近登录时间
@@ -128,11 +100,39 @@ class User extends Model
     public $last_login_time;
 
     /**
-     * 最近登录IP
+     * VIP标识
      *
-     * @var string
+     * @var int
      */
-    public $last_login_ip;
+    public $vip;
+
+    /**
+     * VIP期限
+     *
+     * @var int
+     */
+    public $vip_expiry_time;
+
+    /**
+     * 锁定标识
+     *
+     * @var int
+     */
+    public $block;
+
+    /**
+     * 锁定期限
+     *
+     * @var int
+     */
+    public $lock_expiry_time;
+
+    /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
 
     /**
      * 通知数量
