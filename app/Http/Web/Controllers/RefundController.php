@@ -18,9 +18,13 @@ class RefundController extends Controller
      */
     public function confirmAction()
     {
+        $sn = $this->request->getQuery('order_sn');
+
         $service = new RefundConfirmService();
 
-        $info = $service->handle();
+        $info = $service->handle($sn);
+
+        return $this->jsonSuccess(['info' => $info]);
 
         $this->view->setVar('info', $info);
     }

@@ -56,6 +56,8 @@ class Student extends Service
 
         $params = $pagerQuery->getParams();
 
+        $params['deleted'] = 0;
+
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();

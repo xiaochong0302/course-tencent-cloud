@@ -38,7 +38,7 @@ $error['captcha.invalid_code'] = '无效的验证码';
  * 帐号相关
  */
 $error['account.not_found'] = '账号不存在';
-$error['account.login_locked'] = '账号被锁定，无法登录';
+$error['account.login_block'] = '账号被锁定，无法登录';
 $error['account.login_name_incorrect'] = '登录账号不正确';
 $error['account.login_password_incorrect'] = '登录密码不正确';
 $error['account.invalid_email'] = '无效的电子邮箱';
@@ -60,7 +60,7 @@ $error['user.invalid_edu_role'] = '无效的教学角色';
 $error['user.invalid_admin_role'] = '无效的后台角色';
 $error['user.invalid_vip_status'] = '无效的会员状态';
 $error['user.invalid_vip_expiry_time'] = '无效的会员期限';
-$error['user.invalid_lock_status'] = '无效的锁定状态';
+$error['user.invalid_block_status'] = '无效的锁定状态';
 $error['user.invalid_lock_expiry_time'] = '无效的锁定期限';
 
 /**
@@ -266,8 +266,8 @@ $error['order.trade_expired'] = '交易已过期';
 $error['trade.not_found'] = '交易不存在';
 $error['trade.create_failed'] = '创建交易失败';
 $error['trade.invalid_channel'] = '无效的平台类型';
-$error['trade.invalid_close_action'] = '当前不允许关闭交易';
-$error['trade.invalid_refund_action'] = '当前不允许交易退款';
+$error['trade.close_not_allowed'] = '当前不允许关闭交易';
+$error['trade.refund_not_allowed'] = '当前不允许交易退款';
 $error['trade.refund_existed'] = '退款申请已经存在';
 
 /**

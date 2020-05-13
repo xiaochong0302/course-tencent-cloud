@@ -18,9 +18,12 @@ class OrderController extends Controller
      */
     public function confirmAction()
     {
+        $itemId = $this->request->getQuery('item_id');
+        $itemType = $this->request->getQuery('item_type');
+
         $service = new OrderConfirmService();
 
-        $info = $service->handle();
+        $info = $service->handle($itemId, $itemType);
 
         $this->view->setVar('info', $info);
     }

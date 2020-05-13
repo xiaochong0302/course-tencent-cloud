@@ -69,10 +69,17 @@ class Learning extends Model
 
     /**
      * 客户端IP
-     * 
+     *
      * @var string
      */
     public $client_ip;
+
+    /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
 
     /**
      * 创建时间

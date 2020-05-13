@@ -11,10 +11,9 @@ class Security extends Validator
 
     public function checkCsrfToken()
     {
-        $tokenKey = $this->request->getHeader('X-Csrf-Token-Key');
-        $tokenValue = $this->request->getHeader('X-Csrf-Token-Value');
+        $token = $this->request->getHeader('X-Csrf-Token');
 
-        $result = $this->security->checkToken($tokenKey, $tokenValue);
+        $result = $this->csrfToken->checkToken($token);
 
         if (!$result) {
             throw new BadRequestException('security.invalid_csrf_token');

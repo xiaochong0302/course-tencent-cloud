@@ -111,13 +111,13 @@
     <tr>
         <th>编号</th>
         <th>昵称</th>
-        <th>邮箱</th>
         <th>手机</th>
+        <th>邮箱</th>
     </tr>
     <tr>
         <td>{{ user.id }}</td>
         <td>{{ user.name }}</td>
-        <td>{% if account.phone %}{{ account.phone }}{% else %}N/A{% endif %}</td>
-        <td>{% if account.email %}{{ account.email }}{% else %}N/A{% endif %}</td>
+        <td>{% if account.phone %} {{ account.phone }} {% else %} 未知 {% endif %}</td>
+        <td>{% if account.email %} {{ account.email }} {% else %} 未知 {% endif %}</td>
     </tr>
 </table>

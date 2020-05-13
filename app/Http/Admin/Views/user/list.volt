@@ -1,25 +1,26 @@
-{%- macro location_info(value) %}
-    {% if value %}
-        {{ value }}
-    {% else %}
-        N/A
+{%- macro last_login_info(user) %}
+    {% if user.last_login_ip %}
+        <span class="layui-badge layui-bg-gray">学员</span>
+    {% endif %}
+    {% if user.last_login_time %}
+        <span class="layui-badge layui-bg-gray">学员</span>
     {% endif %}
 {%- endmacro %}
 
 {%- macro gender_info(value) %}
-    {% if value == 'male' %}
+    {% if value == 1 %}
         <span class="layui-badge layui-bg-red">男</span>
-    {% elseif value == 'female' %}
+    {% elseif value == 2 %}
         <span class="layui-badge layui-bg-green">女</span>
-    {% elseif value == 'none' %}
+    {% elseif value == 3 %}
         <span class="layui-badge layui-bg-gray">密</span>
     {% endif %}
 {%- endmacro %}
 
 {%- macro edu_role_info(user) %}
-    {% if user.edu_role.id == 'student' %}
+    {% if user.edu_role.id == 1 %}
         <span class="layui-badge layui-bg-gray">学员</span>
-    {% elseif user.edu_role.id == 'teacher' %}
+    {% elseif user.edu_role.id == 2 %}
         <span class="layui-badge layui-bg-blue">讲师</span>
     {% endif %}
 {%- endmacro %}
@@ -70,8 +71,8 @@
     <tr>
         <th>编号</th>
         <th>昵称</th>
-        <th>地区</th>
         <th>性别</th>
+        <th>最后登录</th>
         <th>教学角色</th>
         <th>后台角色</th>
         <th>注册时间</th>
@@ -83,8 +84,8 @@
         <tr>
             <td>{{ item.id }}</td>
             <td><span title="{{ item.about }}">{{ item.name }}</span>{{ status_info(item) }}</td>
-            <td>{{ location_info(item.location) }}</td>
             <td>{{ gender_info(item.gender) }}</td>
+            <td>{{ last_login_info(item) }}</td>
             <td>{{ edu_role_info(item) }}</td>
             <td>{{ admin_role_info(item) }}</td>
             <td>{{ date('Y-m-d H:i',item.create_time) }}</td>

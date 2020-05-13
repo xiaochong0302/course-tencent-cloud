@@ -2,12 +2,13 @@
 
 namespace App\Console\Tasks;
 
+use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\CourseUser as CourseUserModel;
+use App\Models\Learning as LearningModel;
 use App\Models\Order as OrderModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
-use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
@@ -87,9 +88,6 @@ class OrderTask extends Task
         }
     }
 
-    /**
-     * @param OrderModel $order
-     */
     protected function handleCourseOrder(OrderModel $order)
     {
         /**
@@ -114,9 +112,6 @@ class OrderTask extends Task
         $this->handleCourseHistory($data['course_id'], $data['user_id']);
     }
 
-    /**
-     * @param OrderModel $order
-     */
     protected function handlePackageOrder(OrderModel $order)
     {
         /**
@@ -144,9 +139,6 @@ class OrderTask extends Task
         }
     }
 
-    /**
-     * @param OrderModel $order
-     */
     protected function handleVipOrder(OrderModel $order)
     {
         $userRepo = new UserRepo();
@@ -165,17 +157,11 @@ class OrderTask extends Task
         }
     }
 
-    /**
-     * @param OrderModel $order
-     */
     protected function handleRewardOrder(OrderModel $order)
     {
 
     }
 
-    /**
-     * @param OrderModel $order
-     */
     protected function handleOrderNotice(OrderModel $order)
     {
         $smser = new OrderSmser();
@@ -183,9 +169,6 @@ class OrderTask extends Task
         $smser->handle($order);
     }
 
-    /**
-     * @param OrderModel $order
-     */
     protected function handleOrderRefund(OrderModel $order)
     {
         $trade = $this->findFinishedTrade($order->id);
@@ -205,10 +188,6 @@ class OrderTask extends Task
         $refund->create();
     }
 
-    /**
-     * @param int $courseId
-     * @param int $userId
-     */
     protected function handleCourseHistory($courseId, $userId)
     {
         $courseUserRepo = new CourseUserRepo();
@@ -219,17 +198,49 @@ class OrderTask extends Task
             $courseUser->update(['deleted' => 1]);
         }
 
-        $courseRepo = new CourseRepo();
+        $chapterUsers = $this->findPlanChapterUsers($courseId, $userId);
 
-        $userLearnings = $courseRepo->findUserLearnings($courseId, $userId);
+        if ($chapterUsers->count() > 0) {
+            $chapterUsers->update(['deleted' => 1]);
+        }
 
-        if ($userLearnings->count() > 0) {
-            $userLearnings->update(['deleted' => 1]);
+        $learnings = $this->findPlanLearnings($courseId, $userId);
+
+        if ($learnings->count() > 0) {
+            $learnings->update(['deleted' => 1]);
         }
     }
 
     /**
-     * @param $orderId
+     * @param int $courseId
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|TaskModel[]
+     */
+    protected function findPlanChapterUsers($courseId, $userId)
+    {
+        return ChapterUserModel::query()
+            ->where('course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('deleted = 0')
+            ->execute();
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|TaskModel[]
+     */
+    protected function findPlanLearnings($courseId, $userId)
+    {
+        return LearningModel::query()
+            ->where('course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('deleted = 0')
+            ->execute();
+    }
+
+    /**
+     * @param int $orderId
      * @return Model|TradeModel
      */
     protected function findFinishedTrade($orderId)

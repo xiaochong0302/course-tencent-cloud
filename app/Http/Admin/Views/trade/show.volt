@@ -27,10 +27,10 @@
 
 <div style="text-align: center">
     {% if trade.status == 'pending' %}
-        <button class="kg-close layui-btn layui-bg-green" data-url="{{ url('for':'admin.trade.close','id':trade.id}) }}">关闭交易</button>
+        <button class="kg-close layui-btn layui-bg-green" data-url="{{ url({'for':'admin.trade.close','id':trade.id}) }}">关闭交易</button>
     {% endif %}
     {% if trade.status == 'finished' %}
-        <button class="kg-refund layui-btn layui-bg-green" data-url="{{ url('for':'admin.trade.refund','id':trade.id}) }}">申请退款</button>
+        <button class="kg-refund layui-btn layui-bg-green" data-url="{{ url({'for':'admin.trade.refund','id':trade.id}) }}">申请退款</button>
     {% endif %}
     <button class="kg-back layui-btn layui-bg-gray">返回上页</button>
 </div>
@@ -92,14 +92,14 @@
     <tr>
         <th>编号</th>
         <th>昵称</th>
-        <th>邮箱</th>
         <th>手机</th>
+        <th>邮箱</th>
     </tr>
     <tr>
         <td>{{ user.id }}</td>
         <td>{{ user.name }}</td>
-        <td>{% if account.phone %}{{ account.phone }}{% else %}N/A{% endif %}</td>
-        <td>{% if account.email %}{{ account.email }}{% else %}N/A{% endif %}</td>
+        <td>{% if account.phone %} {{ account.phone }} {% else %} 未知 {% endif %}</td>
+        <td>{% if account.email %} {{ account.email }} {% else %} 未知 {% endif %}</td>
     </tr>
 </table>
 
@@ -116,7 +116,7 @@
                 $.ajax({
                     type: 'POST',
                     url: url,
-                    finished: function (res) {
+                    success: function (res) {
                         layer.msg(res.msg, {icon: 1});
                         setTimeout(function () {
                             window.location.reload();

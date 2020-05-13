@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="csrf-token-key" content="{{ security.getTokenKey() }}">
-    <meta name="csrf-token-value" content="{{ security.getTokenValue() }}">
+    <meta name="csrf-token" content="{{ csrfToken.getToken() }}">
     <title>管理后台</title>
     {{ icon_link("favicon.ico") }}
     {{ css_link('lib/layui/css/layui.css') }}

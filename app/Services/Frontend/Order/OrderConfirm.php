@@ -14,11 +14,8 @@ use App\Validators\Order as OrderValidator;
 class OrderConfirm extends Service
 {
 
-    public function handle()
+    public function handle($itemId, $itemType)
     {
-        $itemId = $this->request->getQuery('item_id');
-        $itemType = $this->request->getQuery('item_type');
-
         $user = $this->getLoginUser();
 
         $validator = new OrderValidator();

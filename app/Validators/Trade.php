@@ -50,14 +50,14 @@ class Trade extends Validator
         }
     }
 
-    public function checkIfAllowClose($trade)
+    public function checkIfAllowClose(TradeModel $trade)
     {
         if ($trade->status != TradeModel::STATUS_PENDING) {
             throw new BadRequestException('trade.close_not_allowed');
         }
     }
 
-    public function checkIfAllowRefund($trade)
+    public function checkIfAllowRefund(TradeModel $trade)
     {
         if ($trade->status != TradeModel::STATUS_FINISHED) {
             throw new BadRequestException('trade.refund_not_allowed');

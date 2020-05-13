@@ -1,9 +1,9 @@
 {%- macro source_type_info(value) %}
-    {% if value == 'free' %}
+    {% if value == 1 %}
         <span class="layui-badge layui-bg-green">免费</span>
-    {% elseif value == 'charge' %}
+    {% elseif value == 2 %}
         <span class="layui-badge layui-bg-orange">付费</span>
-    {% elseif value == 'import' %}
+    {% elseif value == 3 %}
         <span class="layui-badge layui-bg-blue">导入</span>
     {% endif %}
 {%- endmacro %}
@@ -72,7 +72,7 @@
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                     <ul>
                         <li><a href="{{ url({'for':'admin.student.edit'},{'plan_id':item.id}) }}">编辑学员</a></li>
-                        <li><a href="javascript:" class="kg-learning" data-url="{{ url({'for':'admin.student.learning'},{'plan_id':item.id}) }}">学习记录</a></li>
+                        <li><a href="javascript:" class="kg-learning" data-url="{{ url({'for':'admin.student.learning'},{'course_id':item.course_id,'user_id':item.user_id}) }}">学习记录</a></li>
                     </ul>
                 </div>
             </td>

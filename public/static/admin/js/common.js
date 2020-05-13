@@ -12,11 +12,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
 
     $.ajaxSetup({
         beforeSend: function (xhr) {
-            var csrfTokenKey = $('meta[name="csrf-token-key"]').attr('content');
-            var csrfTokenValue = $('meta[name="csrf-token-value"]').attr('content');
-            xhr.setRequestHeader('X-Csrf-Token-Key', csrfTokenKey);
-            xhr.setRequestHeader('X-Csrf-Token-Value', csrfTokenValue);
-            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-Csrf-Token', $('meta[name="csrf-token"]').attr('content'));
         }
     });
 

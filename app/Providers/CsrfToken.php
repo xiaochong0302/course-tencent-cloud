@@ -2,17 +2,17 @@
 
 namespace App\Providers;
 
-use App\Library\Security as AppSecurity;
+use App\Library\CsrfToken as MyCsrfToken;
 
-class Security extends Provider
+class CsrfToken extends Provider
 {
 
-    protected $serviceName = 'security';
+    protected $serviceName = 'csrfToken';
 
     public function register()
     {
         $this->di->setShared($this->serviceName, function () {
-            return new AppSecurity();
+            return new MyCsrfToken();
         });
     }
 

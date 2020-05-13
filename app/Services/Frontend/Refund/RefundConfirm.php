@@ -5,19 +5,20 @@ namespace App\Services\Frontend\Refund;
 use App\Models\Refund as RefundModel;
 use App\Services\Frontend\OrderTrait;
 use App\Services\Frontend\Service;
+use App\Services\RefundCalculator;
 
 class RefundConfirm extends Service
 {
 
     use OrderTrait;
 
-    public function handle()
+    public function handle($sn)
     {
-        $sn = $this->request->getQuery('order_sn');
-
         $order = $this->checkOrderBySn($sn);
 
+        $service = new RefundCalculator();
 
+        return $service->handle($order);
     }
 
     protected function handleRefund(RefundModel $refund)

@@ -10,15 +10,15 @@ class CourseUser extends Model
     /**
      * 角色类型
      */
-    const ROLE_STUDENT = 'student'; // 学员
-    const ROLE_TEACHER = 'teacher'; // 讲师
+    const ROLE_STUDENT = 1; // 学员
+    const ROLE_TEACHER = 2; // 讲师
 
     /**
      * 来源类型
      */
-    const SOURCE_FREE = 'free'; // 免费
-    const SOURCE_CHARGE = 'charge'; // 付费
-    const SOURCE_IMPORT = 'import'; // 导入
+    const SOURCE_FREE = 1; // 免费
+    const SOURCE_CHARGE = 2; // 付费
+    const SOURCE_IMPORT = 3; // 导入
 
     /**
      * 主键编号
