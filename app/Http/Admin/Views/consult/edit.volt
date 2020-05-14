@@ -19,6 +19,14 @@
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label">私密</label>
+        <div class="layui-input-block">
+            <input type="radio" name="private" value="1" title="是" {% if consult.private == 1 %}checked="true"{% endif %}>
+            <input type="radio" name="private" value="0" title="否" {% if consult.private == 0 %}checked="true"{% endif %}>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
         <label class="layui-form-label">发布</label>
         <div class="layui-input-block">
             <input type="radio" name="published" value="1" title="是" {% if consult.published == 1 %}checked="true"{% endif %}>

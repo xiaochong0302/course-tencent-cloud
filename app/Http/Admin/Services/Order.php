@@ -4,7 +4,6 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\OrderList as OrderListBuilder;
 use App\Library\Paginator\Query as PaginateQuery;
-use App\Models\Order as OrderModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
@@ -60,18 +59,6 @@ class Order extends Service
     public function getOrder($id)
     {
         return $this->findOrFail($id);
-    }
-
-    public function closeOrder($id)
-    {
-        $order = $this->findOrFail($id);
-
-        if ($order->status == OrderModel::STATUS_PENDING) {
-            $order->status = OrderModel::STATUS_CLOSED;
-            $order->update();
-        }
-
-        return $order;
     }
 
     protected function findOrFail($id)

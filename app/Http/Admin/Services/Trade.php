@@ -5,7 +5,6 @@ namespace App\Http\Admin\Services;
 use App\Builders\TradeList as TradeListBuilder;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Models\Refund as RefundModel;
-use App\Models\Trade as TradeModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Trade as TradeRepo;
@@ -74,21 +73,6 @@ class Trade extends Service
         $accountRepo = new AccountRepo();
 
         return $accountRepo->findById($userId);
-    }
-
-    public function closeTrade($id)
-    {
-        $trade = $this->findOrFail($id);
-
-        $validator = new TradeValidator();
-
-        $validator->checkIfAllowClose($trade);
-
-        $trade->status = TradeModel::STATUS_CLOSED;
-
-        $trade->update();
-
-        return $trade;
     }
 
     public function refundTrade($id)

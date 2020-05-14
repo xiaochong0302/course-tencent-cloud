@@ -69,6 +69,15 @@ class Consult extends Validator
         return $value;
     }
 
+    public function checkPrivateStatus($status)
+    {
+        if (!in_array($status, [0, 1])) {
+            throw new BadRequestException('consult.invalid_private_status');
+        }
+
+        return $status;
+    }
+
     public function checkPublishStatus($status)
     {
         if (!in_array($status, [0, 1])) {

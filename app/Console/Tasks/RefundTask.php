@@ -97,7 +97,7 @@ class RefundTask extends Task
                 $task->try_count += 1;
                 $task->priority += 1;
 
-                if ($task->try_count > self::TRY_COUNT) {
+                if ($task->try_count >= self::TRY_COUNT) {
                     $task->status = TaskModel::STATUS_FAILED;
                 }
 
@@ -160,6 +160,9 @@ class RefundTask extends Task
                 break;
             case OrderModel::ITEM_VIP:
                 $this->handleVipOrderRefund($order);
+                break;
+            case OrderModel::ITEM_REWARD:
+                $this->handleRewardOrderRefund($order);
                 break;
             case OrderModel::ITEM_TEST:
                 $this->handleTestOrderRefund($order);
@@ -245,6 +248,16 @@ class RefundTask extends Task
         if ($user->update() === false) {
             throw new \RuntimeException('Update User Vip Failed');
         }
+    }
+
+    /**
+     * 处理测试订单退款
+     *
+     * @param OrderModel $order
+     */
+    protected function handleRewardOrderRefund(OrderModel $order)
+    {
+
     }
 
     /**

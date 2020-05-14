@@ -4,7 +4,7 @@
         <div class="kg-order-item">
             <p>课程名称：{{ course['title'] }}</p>
             <p>市场价格：￥{{ course['market_price'] }}，会员价格：￥{{ course['vip_price'] }}</p>
-            <p>学习期限：{{ course['study_expiry'] }}个月，退款期限：{{ course['refund_expiry'] }}天</p>
+            <p>学习期限：{{ date('Y-m-d H:i:s',course['study_expiry_time']) }}，退款期限：{{ date('Y-m-d H:i:s',course['refund_expiry_time']) }}</p>
         </div>
     {% elseif order.item_type == 'package' %}
         {% set courses = order.item_info['courses'] %}
@@ -12,7 +12,7 @@
             <div class="kg-order-item">
                 <p>课程名称：{{ course['title'] }}</p>
                 <p>市场价格：￥{{ course['market_price'] }}，会员价格：￥{{ course['vip_price'] }}</p>
-                <p>学习期限：{{ course['study_expiry'] }}个月，退款期限：{{ course['refund_expiry'] }}天</p>
+                <p>学习期限：{{ date('Y-m-d H:i:s',course['study_expiry_time']) }}，退款期限：{{ date('Y-m-d H:i:s',course['refund_expiry_time']) }}</p>
             </div>
         {% endfor %}
     {% elseif order.item_type == 'vip' %}

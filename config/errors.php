@@ -196,6 +196,7 @@ $error['review.content_too_long'] = '评价内容太长（多于255个字符）'
  */
 $error['consult.not_found'] = '咨询不存在';
 $error['consult.course_not_found'] = '课程不存在';
+$error['consult.invalid_private_status'] = '无效的私密状态';
 $error['consult.invalid_publish_status'] = '无效的发布状态';
 $error['consult.question_too_short'] = '提问太短（少于5个字符）';
 $error['consult.question_too_long'] = '提问太长（多于1000个字符）';
@@ -268,7 +269,7 @@ $error['trade.create_failed'] = '创建交易失败';
 $error['trade.invalid_channel'] = '无效的平台类型';
 $error['trade.close_not_allowed'] = '当前不允许关闭交易';
 $error['trade.refund_not_allowed'] = '当前不允许交易退款';
-$error['trade.refund_existed'] = '退款申请已经存在';
+$error['trade.refund_existed'] = '退款申请已经存在，请等待处理结果';
 
 /**
  * 退款相关

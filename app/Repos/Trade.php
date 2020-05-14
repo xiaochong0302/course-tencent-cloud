@@ -44,6 +44,12 @@ class Trade extends Repository
             $builder->andWhere('status = :status:', ['status' => $where['status']]);
         }
 
+        if (!empty($where['start_time']) && !empty($where['end_time'])) {
+            $startTime = strtotime($where['start_time']);
+            $endTime = strtotime($where['end_time']);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
+        }
+
         switch ($sort) {
             default:
                 $orderBy = 'id DESC';

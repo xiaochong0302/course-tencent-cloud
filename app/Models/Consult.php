@@ -57,6 +57,13 @@ class Consult extends Model
     public $oppose_count;
 
     /**
+     * 私密标识
+     *
+     * @var int
+     */
+    public $private;
+
+    /**
      * 发布标识
      *
      * @var int

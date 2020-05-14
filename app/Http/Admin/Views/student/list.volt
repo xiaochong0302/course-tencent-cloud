@@ -64,8 +64,8 @@
             </td>
             <td>{{ source_type_info(item.source_type) }}</td>
             <td>
-                <p>开始：{{ date('Y-m-d H:i',item.create_time) }}</p>
-                <p>结束：{{ date('Y-m-d H:i',item.expiry_time) }}</p>
+                <p>开始：{{ date('Y-m-d H:i:s',item.create_time) }}</p>
+                <p>结束：{{ date('Y-m-d H:i:s',item.expiry_time) }}</p>
             </td>
             <td align="center">
                 <div class="layui-dropdown">

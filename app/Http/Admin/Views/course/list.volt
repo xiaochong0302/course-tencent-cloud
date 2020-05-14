@@ -105,6 +105,7 @@
                         <li><a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">章节管理</a></li>
                         <li><a href="{{ url({'for':'admin.student.list'},{'course_id':item.id}) }}">学员管理</a></li>
                         <hr>
+                        <li><a href="{{ url({'for':'admin.consult.list'}) }}?course_id={{ item.id }}">咨询管理</a></li>
                         <li><a href="{{ url({'for':'admin.review.list'}) }}?course_id={{ item.id }}">评价管理</a></li>
                     </ul>
                 </div>

@@ -22,11 +22,11 @@ class RefundController extends Controller
 
         $service = new RefundConfirmService();
 
-        $info = $service->handle($sn);
+        $confirmInfo = $service->handle($sn);
 
-        return $this->jsonSuccess(['info' => $info]);
+        return $this->jsonSuccess(['confirm_info' => $confirmInfo]);
 
-        $this->view->setVar('info', $info);
+        $this->view->setVar('confirm_info', $confirmInfo);
     }
 
     /**

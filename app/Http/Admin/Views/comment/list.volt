@@ -43,13 +43,13 @@
                 {% if item.chapter %}
                     <p>章节：<a href="{{ url({'for':'admin.comment.list'},{'chapter_id':item.chapter.id}) }}">{{ item.chapter.title }}</a></p>
                 {% endif %}
-                <p>评论：<a href="javascript:" title="{{ item.content }}">{{ substr(item.content,0,25) }}</a></p>
+                <p>评论：<a href="javascript:" title="{{ item.content }}">{{ substr(item.content,0,30) }}</a></p>
             </td>
             <td>
                 <p>昵称：{{ item.user.name }}</p>
                 <p>编号：{{ item.user.id }}</p>
             </td>
-            <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
+            <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
             <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.comment.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
             <td align="center">
                 <div class="layui-dropdown">

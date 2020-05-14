@@ -8,53 +8,55 @@ use App\Repos\Course as CourseRepo;
 class Refund extends Service
 {
 
-    public function getRefundAmount(OrderModel $order)
+    public function preview(OrderModel $order)
     {
-        $amount = 0.00;
+        $result = [];
 
-        if ($order->status != OrderModel::STATUS_FINISHED) {
-            return $amount;
+        switch ($order->item_type) {
+            case OrderModel::ITEM_COURSE:
+                $result = $this->previewCourseRefund($order);
+                break;
+            case OrderModel::ITEM_PACKAGE:
+                $result = $this->previewPackageRefund($order);
+                break;
         }
 
-        if ($order->item_type == OrderModel::ITEM_COURSE) {
-            $amount = $this->getCourseRefundAmount($order);
-        } elseif ($order->item_type == OrderModel::ITEM_PACKAGE) {
-            $amount = $this->getPackageRefundAmount($order);
-        }
-
-        return $amount;
+        return $result;
     }
 
-    protected function getCourseRefundAmount(OrderModel $order)
+    protected function previewCourseRefund(OrderModel $order)
     {
         /**
          * @var array $itemInfo
          */
         $itemInfo = $order->item_info;
 
-        $courseId = $order->item_id;
-        $userId = $order->user_id;
-        $amount = $order->amount;
+        $itemInfo['course']['cover'] = kg_ci_cover_img_url($itemInfo['course']['cover']);
 
+        $refundPercent = 0.00;
         $refundAmount = 0.00;
 
         if ($itemInfo['course']['refund_expiry_time'] > time()) {
-            $percent = $this->getCourseRefundPercent($courseId, $userId);
-            $refundAmount = $amount * $percent;
+            $refundPercent = $this->getCourseRefundPercent($order->item_id, $order->user_id);
+            $refundAmount = $order->amount * $refundPercent;
         }
 
-        return $refundAmount;
+        $itemInfo['course']['refund_percent'] = $refundPercent;
+        $itemInfo['course']['refund_amount'] = $refundAmount;
+
+        return [
+            'item_type' => $order->item_type,
+            'item_info' => $itemInfo,
+            'refund_amount' => $refundAmount,
+        ];
     }
 
-    protected function getPackageRefundAmount(OrderModel $order)
+    protected function previewPackageRefund(OrderModel $order)
     {
         /**
          * @var array $itemInfo
          */
         $itemInfo = $order->item_info;
-
-        $userId = $order->user_id;
-        $amount = $order->amount;
 
         $totalMarketPrice = 0.00;
 
@@ -67,16 +69,29 @@ class Refund extends Service
         /**
          * 按照占比方式计算退款
          */
-        foreach ($itemInfo['courses'] as $course) {
+        foreach ($itemInfo['courses'] as &$course) {
+
+            $course['cover'] = kg_ci_cover_img_url($course['cover']);
+
+            $refundPercent = 0.00;
+            $refundAmount = 0.00;
+
             if ($course['refund_expiry_time'] > time()) {
                 $pricePercent = round($course['market_price'] / $totalMarketPrice, 4);
-                $refundPercent = $this->getCourseRefundPercent($userId, $course['id']);
-                $refundAmount = round($amount * $pricePercent * $refundPercent, 2);
+                $refundPercent = $this->getCourseRefundPercent($order->user_id, $course['id']);
+                $refundAmount = round($order->amount * $pricePercent * $refundPercent, 2);
                 $totalRefundAmount += $refundAmount;
             }
+
+            $course['refund_percent'] = $refundPercent;
+            $course['refund_amount'] = $refundAmount;
         }
 
-        return $totalRefundAmount;
+        return [
+            'item_type' => $order->item_type,
+            'item_info' => $itemInfo,
+            'refund_amount' => $totalRefundAmount,
+        ];
     }
 
     protected function getCourseRefundPercent($courseId, $userId)

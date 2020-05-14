@@ -60,6 +60,10 @@ class Consult extends Service
             $data['answer'] = $validator->checkAnswer($post['answer']);
         }
 
+        if (isset($post['private'])) {
+            $data['private'] = $validator->checkPrivateStatus($post['private']);
+        }
+
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }

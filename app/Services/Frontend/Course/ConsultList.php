@@ -41,6 +41,7 @@ class ConsultList extends Service
 
         $params = [
             'course_id' => $this->course->id,
+            'private' => 0,
             'published' => 1,
             'deleted' => 0,
         ];

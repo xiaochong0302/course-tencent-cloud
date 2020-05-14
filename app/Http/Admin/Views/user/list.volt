@@ -33,10 +33,10 @@
 
 {%- macro status_info(user) %}
     {% if user.vip == 1 %}
-        <span class="layui-badge layui-bg-orange" title="期限：{{ date('Y-m-d H:i',user.vip_expiry_time) }}">会员</span>
+        <span class="layui-badge layui-bg-orange" title="期限：{{ date('Y-m-d H:i:s',user.vip_expiry_time) }}">会员</span>
     {% endif %}
     {% if user.locked == 1 %}
-        <span class="layui-badge" title="期限：{{ date('Y-m-d H:i',user.lock_expiry_time) }}">锁定</span>
+        <span class="layui-badge" title="期限：{{ date('Y-m-d H:i:s',user.lock_expiry_time) }}">锁定</span>
     {% endif %}
 {%- endmacro %}
 
@@ -88,7 +88,7 @@
             <td>{{ last_login_info(item) }}</td>
             <td>{{ edu_role_info(item) }}</td>
             <td>{{ admin_role_info(item) }}</td>
-            <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
+            <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
             <td align="center">
                 <div class="layui-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>

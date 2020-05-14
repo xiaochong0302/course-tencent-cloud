@@ -32,6 +32,10 @@ class Consult extends Repository
             $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
+        if (isset($where['private'])) {
+            $builder->andWhere('private = :private:', ['private' => $where['private']]);
+        }
+
         if (isset($where['published'])) {
             $builder->andWhere('published = :published:', ['published' => $where['published']]);
         }

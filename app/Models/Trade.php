@@ -85,7 +85,7 @@ class Trade extends Model
     public $status;
 
     /**
-     * 删除表示
+     * 删除标识
      *
      * @var int
      */

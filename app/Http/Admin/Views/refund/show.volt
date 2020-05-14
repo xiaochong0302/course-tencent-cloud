@@ -19,7 +19,7 @@
         <td>￥{{ refund.amount }}</td>
         <td><span title="{{ refund.apply_note }}">{{ substr(refund.apply_note,0,15) }}</span></td>
         <td>{{ refund_status(refund) }}</td>
-        <td>{{ date('Y-m-d H:i',refund.create_time) }}</td>
+        <td>{{ date('Y-m-d H:i:s',refund.create_time) }}</td>
     </tr>
 </table>
 
@@ -52,72 +52,19 @@
         </div>
     </form>
 {% else %}
-    <div style="text-align: center">
+    <div class="kg-text-center">
         <button class="layui-btn layui-bg-gray kg-back">返回上页</button>
     </div>
 {% endif %}
 
-<fieldset class="layui-elem-field layui-field-title">
-    <legend>交易信息</legend>
-</fieldset>
+<br>
 
-<table class="kg-table layui-table">
-    <tr>
-        <th>交易序号</th>
-        <th>交易金额</th>
-        <th>交易平台</th>
-        <th>交易状态</th>
-        <th>创建时间</th>
-    </tr>
-    <tr>
-        <td>{{ trade.sn }}</td>
-        <td>￥{{ trade.amount }}</td>
-        <td>{{ channel_type(trade.channel) }}</td>
-        <td>{{ trade_status(trade.status) }}</td>
-        <td>{{ date('Y-m-d H:i',trade.create_time) }}</td>
-    </tr>
-</table>
+{{ partial('trade/trade_info') }}
 
 <br>
 
-<fieldset class="layui-elem-field layui-field-title">
-    <legend>订单信息</legend>
-</fieldset>
-
-<table class="kg-table layui-table">
-    <tr>
-        <th>订单序号</th>
-        <th>商品名称</th>
-        <th>订单金额</th>
-        <th>订单状态</th>
-        <th>创建时间</th>
-    </tr>
-    <tr>
-        <td>{{ order.sn }}</td>
-        <td>{{ order.subject }}</td>
-        <td>￥{{ order.amount }}</td>
-        <td>{{ order_status(order.status) }}</td>
-        <td>{{ date('Y-m-d H:i',order.create_time) }}</td>
-    </tr>
-</table>
+{{ partial('order/order_info') }}
 
 <br>
 
-<fieldset class="layui-elem-field layui-field-title">
-    <legend>用户信息</legend>
-</fieldset>
-
-<table class="kg-table layui-table">
-    <tr>
-        <th>编号</th>
-        <th>昵称</th>
-        <th>手机</th>
-        <th>邮箱</th>
-    </tr>
-    <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{% if account.phone %} {{ account.phone }} {% else %} 未知 {% endif %}</td>
-        <td>{% if account.email %} {{ account.email }} {% else %} 未知 {% endif %}</td>
-    </tr>
-</table>
+{{ partial('order/user_info') }}

@@ -18,6 +18,10 @@
     cursor: pointer;
 }
 
+.kg-text-center {
+    text-align: center;
+}
+
 .kg-login-form {
     width: 420px;
     margin: 100px auto;

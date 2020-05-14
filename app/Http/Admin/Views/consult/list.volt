@@ -1,3 +1,9 @@
+{%- macro private_info(value) %}
+    {% if value == 1 %}
+        <span class="layui-badge layui-bg-red">密</span>
+    {% endif %}
+{%- endmacro %}
+
 <div class="kg-nav">
     <div class="kg-nav-left">
         <span class="layui-breadcrumb">
@@ -36,17 +42,17 @@
     {% for item in pager.items %}
         <tr>
             <td>
-                <p>课程：<a href="{{ url({'for':'admin.consult.list'},{'course_id':item.course.id}) }}">{{ item.course.title }}</a></p>
-                <p>提问：<a href="javascript:" title="{{ item.question }}">{{ substr(item.question,0,25) }}</a></p>
+                <p>课程：<a href="{{ url({'for':'admin.consult.list'},{'course_id':item.course.id}) }}">{{ item.course.title }}</a>{{ private_info(item.private) }}</p>
+                <p>提问：<a href="javascript:" title="{{ item.question }}">{{ substr(item.question,0,30) }}</a></p>
                 {% if item.answer %}
-                    <p>回复：<a href="javascript:" title="{{ item.answer }}">{{ substr(item.answer,0,25) }}</a></p>
+                    <p>回复：<a href="javascript:" title="{{ item.answer }}">{{ substr(item.answer,0,30) }}</a></p>
                 {% endif %}
             </td>
             <td>
                 <p>昵称：{{ item.user.name }}</p>
                 <p>编号：{{ item.user.id }}</p>
             </td>
-            <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
+            <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
             <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.consult.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
             <td align="center">
                 <div class="layui-dropdown">
