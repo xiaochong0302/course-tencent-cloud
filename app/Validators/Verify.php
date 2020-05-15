@@ -4,7 +4,7 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
-use App\Services\Verification as VerifyService;
+use App\Services\Verify as VerifyService;
 
 class Verify extends Validator
 {
@@ -27,20 +27,34 @@ class Verify extends Validator
         return $email;
     }
 
-    public function checkCode($key, $code)
+    public function checkCode($name, $code)
+    {
+        if (CommonValidator::email($name)) {
+            $this->checkEmailCode($name, $code);
+        } elseif (CommonValidator::phone($name)) {
+            $this->checkSmsCode($name, $code);
+        }
+    }
+
+    public function checkSmsCode($phone, $code)
     {
         $service = new VerifyService();
 
-        $result = false;
-
-        if (CommonValidator::email($key)) {
-            $result = $service->checkEmailCode($key, $code);
-        } elseif (CommonValidator::phone($key)) {
-            $result = $service->checkSmsCode($key, $code);
-        }
+        $result = $service->checkSmsCode($phone, $code);
 
         if (!$result) {
-            throw new BadRequestException('verify.invalid_code');
+            throw new BadRequestException('verify.invalid_sms_code');
+        }
+    }
+
+    public function checkEmailCode($email, $code)
+    {
+        $service = new VerifyService();
+
+        $result = $service->checkEmailCode($email, $code);
+
+        if (!$result) {
+            throw new BadRequestException('verify.invalid_email_code');
         }
     }
 

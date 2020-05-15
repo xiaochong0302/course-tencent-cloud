@@ -4,7 +4,6 @@ namespace App\Http\Web\Controllers;
 
 use App\Models\ContentImage as ContentImageModel;
 use App\Services\Storage as StorageService;
-use App\Services\Verification as VerifyService;
 use App\Traits\Response as ResponseTrait;
 use PHPQRCode\QRcode as PHPQRCode;
 
@@ -50,46 +49,6 @@ class PublicController extends \Phalcon\Mvc\Controller
         $this->response->send();
 
         exit;
-    }
-
-    /**
-     * @Post("/sms/code", name="web.sms_code")
-     */
-    public function smsCodeAction()
-    {
-        $phone = $this->request->getPost('phone', 'trim');
-
-        $service = new VerifyService();
-
-        $success = $service->sendSmsCode($phone);
-
-        if ($success) {
-            return $this->jsonSuccess();
-        } else {
-            return $this->jsonError([
-                'code' => 'verify.send_sms_failed',
-            ]);
-        }
-    }
-
-    /**
-     * @Post("/email/code", name="web.email_code")
-     */
-    public function emailCodeAction()
-    {
-        $email = $this->request->getPost('email', 'trim');
-
-        $service = new VerifyService();
-
-        $success = $service->sendEmailCode($email);
-
-        if ($success) {
-            return $this->jsonSuccess();
-        } else {
-            return $this->jsonError([
-                'code' => 'verify.send_email_failed',
-            ]);
-        }
     }
 
 }

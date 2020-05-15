@@ -26,6 +26,32 @@ class Account extends Validator
         return $account;
     }
 
+    public function checkAccountByEmail($email)
+    {
+        $accountRepo = new AccountRepo();
+
+        $account = $accountRepo->findByEmail($email);
+
+        if (!$account) {
+            throw new BadRequestException('account.not_found');
+        }
+
+        return $account;
+    }
+
+    public function checkAccountByPhone($phone)
+    {
+        $accountRepo = new AccountRepo();
+
+        $account = $accountRepo->findByPhone($phone);
+
+        if (!$account) {
+            throw new BadRequestException('account.not_found');
+        }
+
+        return $account;
+    }
+
     public function checkPhone($phone)
     {
         if (!CommonValidator::phone($phone)) {

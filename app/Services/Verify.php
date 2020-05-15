@@ -3,12 +3,9 @@
 namespace App\Services;
 
 use App\Library\Cache\Backend\Redis as RedisCache;
-use App\Services\Mailer\Verify as VerifyMailer;
-use App\Services\Smser\Verify as VerifySmser;
-use App\Validators\Verify as VerifyValidator;
 use Phalcon\Text;
 
-class Verification extends Service
+class Verify extends Service
 {
 
     /**
@@ -19,28 +16,6 @@ class Verification extends Service
     public function __construct()
     {
         $this->cache = $this->getDI()->get('cache');
-    }
-
-    public function sendSmsCode($phone)
-    {
-        $validator = new VerifyValidator();
-
-        $validator->checkPhone($phone);
-
-        $smser = new VerifySmser();
-
-        return $smser->handle($phone);
-    }
-
-    public function sendEmailCode($email)
-    {
-        $validator = new VerifyValidator();
-
-        $validator->checkEmail($email);
-
-        $mailer = new VerifyMailer();
-
-        return $mailer->handle($email);
     }
 
     public function getSmsCode($phone, $lifetime = 300)

@@ -23,9 +23,10 @@ $error['security.invalid_http_referer'] = '无效请求来源';
 /**
  * 验证相关
  */
-$error['verify.invalid_email'] = '无效的邮箱';
 $error['verify.invalid_phone'] = '无效手机号';
-$error['verify.invalid_code'] = '无效的验证码';
+$error['verify.invalid_email'] = '无效的邮箱';
+$error['verify.invalid_sms_code'] = '无效的短信验证码';
+$error['verify.invalid_email_code'] = '无效的邮件验证码';
 $error['verify.send_sms_failed'] = '发送短信验证码失败';
 $error['verify.send_email_failed'] = '发送邮件验证码失败';
 

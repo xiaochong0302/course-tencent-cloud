@@ -114,6 +114,8 @@ class Trade extends Model
     {
         parent::initialize();
 
+        $this->keepSnapshots(true);
+
         $this->addBehavior(
             new SoftDelete([
                 'field' => 'deleted',
@@ -125,15 +127,23 @@ class Trade extends Model
     public function beforeCreate()
     {
         $this->status = self::STATUS_PENDING;
-
         $this->sn = date('YmdHis') . rand(1000, 9999);
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public function afterSave()
+    {
+        if ($this->hasUpdated('status')) {
+            $tradeStatus = new TradeStatus();
+            $tradeStatus->trade_id = $this->id;
+            $tradeStatus->status = $this->getSnapshotData()['status'];
+            $tradeStatus->create();
+        }
     }
 
     public function afterFetch()

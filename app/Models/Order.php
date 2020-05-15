@@ -19,9 +19,9 @@ class Order extends Model
     /**
      * 来源类型
      */
-    const SOURCE_DESKTOP = 'desktop';
-    const SOURCE_ANDROID = 'android';
-    const SOURCE_IOS = 'ios';
+    const SOURCE_WEB = 'web';
+    const SOURCE_WAP = 'wap';
+    const SOURCE_APP = 'app';
 
     /**
      * 状态类型
@@ -138,6 +138,8 @@ class Order extends Model
     {
         parent::initialize();
 
+        $this->keepSnapshots(true);
+
         $this->addBehavior(
             new SoftDelete([
                 'field' => 'deleted',
@@ -149,9 +151,7 @@ class Order extends Model
     public function beforeCreate()
     {
         $this->status = self::STATUS_PENDING;
-
         $this->sn = date('YmdHis') . rand(1000, 9999);
-
         $this->create_time = time();
 
         if (is_array($this->item_info) && !empty($this->item_info)) {
@@ -167,6 +167,16 @@ class Order extends Model
 
         if (is_array($this->item_info) && !empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
+        }
+    }
+
+    public function afterSave()
+    {
+        if ($this->hasUpdated('status')) {
+            $orderStatus = new OrderStatus();
+            $orderStatus->order_id = $this->id;
+            $orderStatus->status = $this->getSnapshotData()['status'];
+            $orderStatus->create();
         }
     }
 
@@ -193,9 +203,9 @@ class Order extends Model
     public static function sourceTypes()
     {
         return [
-            self::SOURCE_DESKTOP => 'desktop',
-            self::SOURCE_ANDROID => 'android',
-            self::SOURCE_IOS => 'ios',
+            self::SOURCE_WEB => 'web',
+            self::SOURCE_WAP => 'wap',
+            self::SOURCE_APP => 'app',
         ];
     }
 

@@ -117,6 +117,8 @@ class Refund extends Model
     {
         parent::initialize();
 
+        $this->keepSnapshots(true);
+
         $this->addBehavior(
             new SoftDelete([
                 'field' => 'deleted',
@@ -128,15 +130,23 @@ class Refund extends Model
     public function beforeCreate()
     {
         $this->status = self::STATUS_PENDING;
-
         $this->sn = date('YmdHis') . rand(1000, 9999);
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public function afterSave()
+    {
+        if ($this->hasUpdated('status')) {
+            $refundStatus = new RefundStatus();
+            $refundStatus->refund_id = $this->id;
+            $refundStatus->status = $this->getSnapshotData()['status'];
+            $refundStatus->create();
+        }
     }
 
     public function afterFetch()

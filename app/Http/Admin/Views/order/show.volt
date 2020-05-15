@@ -21,6 +21,7 @@
             <th>退款原因</th>
             <th>退款状态</th>
             <th>创建时间</th>
+            <th></th>
         </tr>
         {% for item in refunds %}
             <tr>
@@ -29,6 +30,7 @@
                 <td><a href="#" title="{{ item.apply_note }}">{{ substr(item.apply_note,0,15) }}</td>
                 <td>{{ refund_status(item) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
+                <td><a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.refund.show','id':item.id}) }}">详情</a></td>
             </tr>
         {% endfor %}
     </table>
@@ -41,12 +43,12 @@
     </fieldset>
     <table class="kg-table layui-table">
         <tr>
-            <th>交易号</th>
+            <th>交易序号</th>
             <th>交易金额</th>
             <th>交易平台</th>
             <th>交易状态</th>
             <th>创建时间</th>
-            <th>操作</th>
+            <th></th>
         </tr>
         {% for item in trades %}
             <tr>
@@ -55,7 +57,7 @@
                 <td>{{ channel_type(item.channel) }}</td>
                 <td>{{ trade_status(item.status) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
-                <td><a class="kg-close layui-btn layui-btn-sm" href="{{ url({'for':'admin.trade.show','id':item.id}) }}">详情</a></td>
+                <td><a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.trade.show','id':item.id}) }}">详情</a></td>
             </tr>
         {% endfor %}
     </table>
