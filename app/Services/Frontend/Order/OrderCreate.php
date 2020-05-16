@@ -10,11 +10,11 @@ use App\Models\User as UserModel;
 use App\Models\Vip as VipModel;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Package as PackageRepo;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Order as OrderValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
-class OrderCreate extends Service
+class OrderCreate extends FrontendService
 {
 
     public function handle()

@@ -64,7 +64,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Get("/live/push", name="admin.test.live.push")
+     * @Get("/live/push", name="admin.test.live_push")
      */
     public function livePushAction()
     {
@@ -89,7 +89,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Get("/live/pull", name="admin.test.live.pull")
+     * @Get("/live/pull", name="admin.test.live_pull")
      */
     public function livePullAction()
     {
@@ -190,7 +190,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Post("/alipay/status", name="admin.test.alipay.status")
+     * @Post("/alipay/status", name="admin.test.alipay_status")
      */
     public function alipayStatusAction()
     {
@@ -204,7 +204,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Post("/alipay/cancel", name="admin.test.alipay.cancel")
+     * @Post("/alipay/cancel", name="admin.test.alipay_cancel")
      */
     public function alipayCancelAction()
     {
@@ -242,7 +242,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Post("/wxpay/status", name="admin.test.wxpay.status")
+     * @Post("/wxpay/status", name="admin.test.wxpay_status")
      */
     public function wxpayStatusAction()
     {
@@ -256,7 +256,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Post("/wxpay/cancel", name="admin.test.wxpay.cancel")
+     * @Post("/wxpay/cancel", name="admin.test.wxpay_cancel")
      */
     public function wxpayCancelAction()
     {

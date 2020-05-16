@@ -5,10 +5,10 @@ namespace App\Services\Frontend\My;
 use App\Builders\OrderList as OrderListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Order as OrderRepo;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Frontend\UserTrait;
 
-class OrderList extends Service
+class OrderList extends FrontendService
 {
 
     use UserTrait;

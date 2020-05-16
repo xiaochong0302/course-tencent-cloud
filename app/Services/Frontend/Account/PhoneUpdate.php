@@ -3,11 +3,11 @@
 namespace App\Services\Frontend\Account;
 
 use App\Repos\Account as AccountRepo;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Verify as VerifyValidator;
 
-class PhoneUpdate extends Service
+class PhoneUpdate extends FrontendService
 {
 
     public function handle()

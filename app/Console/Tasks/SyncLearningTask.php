@@ -13,7 +13,7 @@ use App\Repos\Learning as LearningRepo;
 use App\Services\Syncer\Learning as LearningSyncer;
 use Phalcon\Cli\Task;
 
-class LearningTask extends Task
+class SyncLearningTask extends Task
 {
 
     /**
@@ -69,7 +69,8 @@ class LearningTask extends Task
         if (!$dbLearning) {
             $cacheLearning->create();
         } else {
-            $dbLearning->duration += $cacheLearning->duration;
+            $dbLearning->duration = $cacheLearning->duration;
+            $dbLearning->position = $cacheLearning->position;
             $dbLearning->update();
         }
 
@@ -138,6 +139,12 @@ class LearningTask extends Task
      */
     protected function updateCourseUser($courseId, $userId)
     {
+        $courseUserRepo = new CourseUserRepo();
+
+        $courseUser = $courseUserRepo->findCourseUser($courseId, $userId);
+
+        if (!$courseUser) return;
+
         $courseRepo = new CourseRepo();
 
         $courseLessons = $courseRepo->findLessons($courseId);
@@ -166,15 +173,9 @@ class LearningTask extends Task
         $consumedCount = count($consumedLessonIds);
         $progress = intval(100 * $consumedCount / $totalCount);
 
-        $courseUserRepo = new CourseUserRepo();
-
-        $courseUser = $courseUserRepo->findCourseUser($courseId, $userId);
-
-        if ($courseUser) {
-            $courseUser->progress = $progress;
-            $courseUser->duration = $duration;
-            $courseUser->update();
-        }
+        $courseUser->progress = $progress;
+        $courseUser->duration = $duration;
+        $courseUser->update();
     }
 
 }

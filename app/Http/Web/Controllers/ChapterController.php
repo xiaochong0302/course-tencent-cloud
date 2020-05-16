@@ -5,6 +5,7 @@ namespace App\Http\Web\Controllers;
 use App\Services\Frontend\Chapter\AgreeVote as ChapterAgreeVoteService;
 use App\Services\Frontend\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Frontend\Chapter\CommentList as ChapterCommentListService;
+use App\Services\Frontend\Chapter\Learning as ChapterLearningService;
 use App\Services\Frontend\Chapter\OpposeVote as ChapterOpposeVoteService;
 
 /**
@@ -55,6 +56,18 @@ class ChapterController extends Controller
     public function opposeAction($id)
     {
         $service = new ChapterOpposeVoteService();
+
+        $service->handle($id);
+
+        return $this->jsonSuccess();
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/learning", name="web.chapter.learning")
+     */
+    public function learningAction($id)
+    {
+        $service = new ChapterLearningService();
 
         $service->handle($id);
 

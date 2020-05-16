@@ -2,12 +2,12 @@
 
 namespace App\Services\Frontend\Verify;
 
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Mailer\Verify as VerifyMailerService;
 use App\Validators\Captcha as CaptchaValidator;
 use App\Validators\Verify as VerifyValidator;
 
-class EmailCode extends Service
+class EmailCode extends FrontendService
 {
 
     public function handle()

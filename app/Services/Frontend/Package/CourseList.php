@@ -4,9 +4,9 @@ namespace App\Services\Frontend\Package;
 
 use App\Caches\PackageCourseList as PackageCourseListCache;
 use App\Services\Frontend\PackageTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 
-class CourseList extends Service
+class CourseList extends FrontendService
 {
 
     use PackageTrait;

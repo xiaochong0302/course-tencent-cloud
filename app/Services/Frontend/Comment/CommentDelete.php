@@ -7,10 +7,10 @@ use App\Models\Course as CourseModel;
 use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\CommentTrait;
 use App\Services\Frontend\CourseTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Comment as CommentValidator;
 
-class CommentDelete extends Service
+class CommentDelete extends FrontendService
 {
 
     use CommentTrait, ChapterTrait, CourseTrait;

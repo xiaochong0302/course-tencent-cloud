@@ -7,10 +7,10 @@ use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\User as UserModel;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Frontend\CourseTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
-class Favorite extends Service
+class Favorite extends FrontendService
 {
 
     use CourseTrait;

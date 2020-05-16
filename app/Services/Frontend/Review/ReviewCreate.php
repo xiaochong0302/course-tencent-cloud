@@ -6,11 +6,11 @@ use App\Models\Course as CourseModel;
 use App\Models\Review as ReviewModel;
 use App\Models\User as UserModel;
 use App\Services\Frontend\CourseTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Review as ReviewValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
-class ReviewCreate extends Service
+class ReviewCreate extends FrontendService
 {
 
     use CourseTrait;

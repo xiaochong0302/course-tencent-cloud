@@ -5,9 +5,9 @@ namespace App\Services\Frontend\Course;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Course as CourseRepo;
 use App\Services\Category as CategoryService;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 
-class CourseList extends Service
+class CourseList extends FrontendService
 {
 
     public function handle()

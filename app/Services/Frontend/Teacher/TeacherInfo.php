@@ -3,10 +3,10 @@
 namespace App\Services\Frontend\Teacher;
 
 use App\Models\User as UserModel;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Frontend\UserTrait;
 
-class TeacherInfo extends Service
+class TeacherInfo extends FrontendService
 {
 
     use UserTrait;

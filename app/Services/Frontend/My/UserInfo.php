@@ -3,9 +3,9 @@
 namespace App\Services\Frontend\My;
 
 use App\Models\User as UserModel;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 
-class UserInfo extends Service
+class UserInfo extends FrontendService
 {
 
     public function handle()

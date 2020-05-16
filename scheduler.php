@@ -10,7 +10,7 @@ $script = __DIR__ . '/console.php';
 
 $bin = '/usr/bin/php';
 
-$scheduler->php($script, $bin, ['--task' => 'learning', '--action' => 'main'])
+$scheduler->php($script, $bin, ['--task' => 'sync_learning', '--action' => 'main'])
     ->at('*/3 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'order', '--action' => 'main'])

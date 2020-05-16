@@ -5,10 +5,10 @@ namespace App\Services\Frontend\My;
 use App\Builders\ConsultList as ConsultListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Consult as ConsultRepo;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Frontend\UserTrait;
 
-class ConsultList extends Service
+class ConsultList extends FrontendService
 {
 
     use UserTrait;

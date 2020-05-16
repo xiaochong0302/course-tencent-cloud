@@ -4,12 +4,12 @@ namespace App\Services\Frontend\Refund;
 
 use App\Models\Refund as RefundModel;
 use App\Services\Frontend\OrderTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Refund as RefundService;
 use App\Validators\Order as OrderValidator;
 use App\Validators\Refund as RefundValidator;
 
-class RefundCreate extends Service
+class RefundCreate extends FrontendService
 {
 
     use OrderTrait;

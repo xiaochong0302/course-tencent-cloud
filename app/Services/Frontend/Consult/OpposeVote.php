@@ -5,10 +5,10 @@ namespace App\Services\Frontend\Consult;
 use App\Models\ConsultVote as ConsultVoteModel;
 use App\Repos\ConsultVote as ConsultVoteRepo;
 use App\Services\Frontend\ConsultTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
-class OpposeVote extends Service
+class OpposeVote extends FrontendService
 {
 
     use ConsultTrait, VoteTrait;

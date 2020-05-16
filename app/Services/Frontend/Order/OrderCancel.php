@@ -4,10 +4,10 @@ namespace App\Services\Frontend\Order;
 
 use App\Models\Order as OrderModel;
 use App\Services\Frontend\OrderTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Order as OrderValidator;
 
-class OrderCancel extends Service
+class OrderCancel extends FrontendService
 {
 
     use OrderTrait;

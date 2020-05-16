@@ -4,10 +4,10 @@ namespace App\Services\Frontend\Review;
 
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\ReviewTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Review as ReviewValidator;
 
-class ReviewUpdate extends Service
+class ReviewUpdate extends FrontendService
 {
 
     use CourseTrait, ReviewTrait;

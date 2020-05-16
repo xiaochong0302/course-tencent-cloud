@@ -4,9 +4,9 @@ namespace App\Services\Frontend\Refund;
 
 use App\Models\Refund as RefundModel;
 use App\Services\Frontend\RefundTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 
-class RefundInfo extends Service
+class RefundInfo extends FrontendService
 {
 
     use RefundTrait;

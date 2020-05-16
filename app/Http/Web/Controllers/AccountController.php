@@ -43,117 +43,92 @@ class AccountController extends Controller
     }
 
     /**
-     * @Get("/password/reset", name="web.account.reset_password")
+     * @Get("/password/reset", name="web.account.reset_pwd")
      */
     public function resetPasswordAction()
     {
-        if ($this->request->isPost()) {
 
-            $service = new PasswordResetService();
-
-            $service->handle();
-
-            return $this->jsonSuccess(['msg' => '重置密码成功']);
-        }
     }
 
     /**
-     * @Post("/register_by_phone", name="web.account.register_by_phone")
+     * @Post("/phone/register", name="web.account.register_by_phone")
      */
     public function registerByPhoneAction()
     {
-        if ($this->request->isPost()) {
+        $service = new AccountService();
 
-            $service = new AccountService();
+        $service->registerByPhone();
 
-            $service->registerByPhone();
+        $content = [
+            'location' => $this->request->getHTTPReferer(),
+            'msg' => '注册账户成功',
+        ];
 
-            $content = [
-                'location' => $this->request->getHTTPReferer(),
-                'msg' => '注册账户成功',
-            ];
-
-            return $this->jsonSuccess($content);
-        }
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/register_by_email", name="web.account.register_by_email")
+     * @Post("/email/register", name="web.account.register_by_email")
      */
     public function registerByEmailAction()
     {
-        if ($this->request->isPost()) {
+        $service = new AccountService();
 
-            $service = new AccountService();
+        $service->registerByPhone();
 
-            $service->registerByPhone();
+        $content = [
+            'msg' => '注册账户成功',
+        ];
 
-            $content = [
-                'msg' => '注册账户成功',
-            ];
-
-            return $this->jsonSuccess($content);
-        }
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/login_by_pwd", name="web.account.login_by_pwd")
+     * @Post("/password/login", name="web.account.login_by_pwd")
      */
     public function loginByPasswordAction()
     {
-        if ($this->request->isPost()) {
+        $service = new AccountService();
 
-            $service = new AccountService();
+        $service->loginByPassword();
 
-            $service->loginByPassword();
-
-            return $this->jsonSuccess();
-        }
+        return $this->jsonSuccess();
     }
 
     /**
-     * @Post("/login_by_verify", name="web.account.login_by_verify")
+     * @Post("/verify/login", name="web.account.login_by_verify")
      */
     public function loginByVerifyAction()
     {
-        if ($this->request->isPost()) {
+        $service = new AccountService();
 
-            $service = new AccountService();
+        $service->loginByVerify();
 
-            $service->loginByVerify();
-
-            return $this->jsonSuccess();
-        }
+        return $this->jsonSuccess();
     }
 
     /**
-     * @Post("/password/reset_by_email", name="web.account.reset_pwd_by_email")
+     * @Post("/password/email/reset", name="web.account.reset_pwd_by_email")
      */
     public function resetPasswordByEmailAction()
     {
-        if ($this->request->isPost()) {
+        $service = new PasswordResetService();
 
-            $service = new PasswordResetService();
+        $service->handle();
 
-            $service->handle();
-
-            return $this->jsonSuccess(['msg' => '重置密码成功']);
-        }
+        return $this->jsonSuccess(['msg' => '重置密码成功']);
     }
 
     /**
-     * @Post("/password/reset_by_phone", name="web.account.reset_pwd_by_phone")
+     * @Post("/password/phone/reset", name="web.account.reset_pwd_by_phone")
      */
     public function resetPasswordByPhoneAction()
     {
-        if ($this->request->isPost()) {
+        $service = new PasswordResetService();
 
-            $service = new PasswordResetService();
+        $service->handle();
 
-            $service->handle();
-
-            return $this->jsonSuccess(['msg' => '重置密码成功']);
-        }
+        return $this->jsonSuccess(['msg' => '重置密码成功']);
     }
 
     /**

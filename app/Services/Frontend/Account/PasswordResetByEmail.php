@@ -2,11 +2,11 @@
 
 namespace App\Services\Frontend\Account;
 
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Verify as VerifyValidator;
 
-class PasswordResetByEmail extends Service
+class PasswordResetByEmail extends FrontendService
 {
 
     public function handle()

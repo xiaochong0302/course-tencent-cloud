@@ -7,9 +7,9 @@ use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
 use App\Repos\Course as CourseRepo;
 use App\Services\Frontend\CourseTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 
-class ChapterList extends Service
+class ChapterList extends FrontendService
 {
 
     use CourseTrait;

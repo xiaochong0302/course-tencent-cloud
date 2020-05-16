@@ -13,11 +13,11 @@ use App\Repos\ChapterVote as ChapterVoteRepo;
 use App\Services\ChapterVod as ChapterVodService;
 use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\CourseTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Live as LiveService;
 use WhichBrowser\Parser as BrowserParser;
 
-class ChapterInfo extends Service
+class ChapterInfo extends FrontendService
 {
 
     /**

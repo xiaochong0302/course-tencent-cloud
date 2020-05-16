@@ -55,7 +55,7 @@
     {% for item in pager.items %}
         <tr>
             <td>
-                <p>课程：<a href="{{ url({'for':'admin.student.list'},{'course_id':item.course.id}) }}">{{ item.course.title }}</a></p>
+                <p>课程：<a href="{{ url({'for':'admin.student.list'},{'course_id':item.course.id}) }}">{{ item.course.title }}（{{ item.course.id }}）</a></p>
                 <p>学员：<a href="{{ url({'for':'admin.student.list'},{'user_id':item.user_id}) }}">{{ item.user.name }}（{{ item.user.id }}）</a></p>
             </td>
             <td>

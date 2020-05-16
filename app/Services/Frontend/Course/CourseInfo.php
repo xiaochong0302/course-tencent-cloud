@@ -7,9 +7,9 @@ use App\Models\User as UserModel;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Category as CategoryService;
 use App\Services\Frontend\CourseTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 
-class CourseInfo extends Service
+class CourseInfo extends FrontendService
 {
 
     use CourseTrait;

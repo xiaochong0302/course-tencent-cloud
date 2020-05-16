@@ -5,10 +5,10 @@ namespace App\Services\Frontend\My;
 use App\Builders\RefundList as RefundListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Refund as RefundRepo;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Frontend\UserTrait;
 
-class RefundList extends Service
+class RefundList extends FrontendService
 {
 
     use UserTrait;

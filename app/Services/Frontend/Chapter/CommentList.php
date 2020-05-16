@@ -10,9 +10,9 @@ use App\Models\User as UserModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Comment as CommentRepo;
 use App\Services\Frontend\ChapterTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 
-class CommentList extends Service
+class CommentList extends FrontendService
 {
 
     /**

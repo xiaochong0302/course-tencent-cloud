@@ -8,9 +8,9 @@ use App\Models\User as UserModel;
 use App\Repos\CommentVote as CommentVoteRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Frontend\CommentTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 
-class CommentInfo extends Service
+class CommentInfo extends FrontendService
 {
 
     use CommentTrait;

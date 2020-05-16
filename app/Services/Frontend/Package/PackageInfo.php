@@ -4,9 +4,9 @@ namespace App\Services\Frontend\Package;
 
 use App\Models\Package as PackageModel;
 use App\Services\Frontend\PackageTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 
-class PackageInfo extends Service
+class PackageInfo extends FrontendService
 {
 
     use PackageTrait;

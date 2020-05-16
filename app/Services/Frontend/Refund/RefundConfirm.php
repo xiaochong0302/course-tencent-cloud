@@ -3,10 +3,10 @@
 namespace App\Services\Frontend\Refund;
 
 use App\Services\Frontend\OrderTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Refund;
 
-class RefundConfirm extends Service
+class RefundConfirm extends FrontendService
 {
 
     use OrderTrait;

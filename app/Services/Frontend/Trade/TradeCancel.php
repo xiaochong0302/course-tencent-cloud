@@ -3,9 +3,9 @@
 namespace App\Services\Frontend\Trade;
 
 use App\Services\Frontend\OrderTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 
-class TradeCancel extends Service
+class TradeCancel extends FrontendService
 {
 
     use OrderTrait;

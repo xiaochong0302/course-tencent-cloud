@@ -3,10 +3,10 @@
 namespace App\Services\Frontend\Comment;
 
 use App\Services\Frontend\CommentTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Comment as CommentValidator;
 
-class CommentUpdate extends Service
+class CommentUpdate extends FrontendService
 {
 
     use CommentTrait;

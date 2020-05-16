@@ -8,10 +8,10 @@ use App\Models\Package as PackageModel;
 use App\Models\Reward as RewardModel;
 use App\Models\Vip as VipModel;
 use App\Repos\Package as PackageRepo;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Order as OrderValidator;
 
-class OrderConfirm extends Service
+class OrderConfirm extends FrontendService
 {
 
     public function handle($itemId, $itemType)

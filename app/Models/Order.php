@@ -17,11 +17,12 @@ class Order extends Model
     const ITEM_TEST = 'test'; // 测试
 
     /**
-     * 来源类型
+     * 终端类型
      */
-    const SOURCE_WEB = 'web';
-    const SOURCE_WAP = 'wap';
-    const SOURCE_APP = 'app';
+    const CLIENT_DESKTOP = 'desktop';
+    const CLIENT_MOBILE = 'mobile';
+    const CLIENT_APP = 'app';
+    const CLIENT_MINI = 'mini';
 
     /**
      * 状态类型
@@ -95,11 +96,18 @@ class Order extends Model
     public $coupon_info;
 
     /**
-     * 来源类型
+     * 终端类型
      *
      * @var string
      */
-    public $source_type;
+    public $client_type;
+
+    /**
+     * 终端IP
+     *
+     * @var string
+     */
+    public $client_ip;
 
     /**
      * 状态类型
@@ -200,12 +208,13 @@ class Order extends Model
         ];
     }
 
-    public static function sourceTypes()
+    public static function clientTypes()
     {
         return [
-            self::SOURCE_WEB => 'web',
-            self::SOURCE_WAP => 'wap',
-            self::SOURCE_APP => 'app',
+            self::CLIENT_DESKTOP => 'desktop',
+            self::CLIENT_MOBILE => 'mobile',
+            self::CLIENT_APP => 'app',
+            self::CLIENT_MINI => 'mini',
         ];
     }
 

@@ -5,10 +5,10 @@ namespace App\Services\Frontend\Consult;
 use App\Models\Course as CourseModel;
 use App\Services\Frontend\ConsultTrait;
 use App\Services\Frontend\CourseTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Consult as ConsultValidator;
 
-class ConsultDelete extends Service
+class ConsultDelete extends FrontendService
 {
 
     use CourseTrait, ConsultTrait;

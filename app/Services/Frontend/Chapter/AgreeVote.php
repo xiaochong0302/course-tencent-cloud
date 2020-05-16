@@ -5,10 +5,10 @@ namespace App\Services\Frontend\Chapter;
 use App\Models\ChapterVote as ChapterVoteModel;
 use App\Repos\ChapterVote as ChapterVoteRepo;
 use App\Services\Frontend\ChapterTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
-class AgreeVote extends Service
+class AgreeVote extends FrontendService
 {
 
     use ChapterTrait, VoteTrait;

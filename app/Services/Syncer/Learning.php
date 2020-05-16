@@ -37,17 +37,10 @@ class Learning extends Service
 
     /**
      * @param LearningModel $learning
-     * @param int $timeout
+     * @param int $interval
      */
-    public function addItem(LearningModel $learning, $timeout = 10)
+    public function addItem(LearningModel $learning, $interval = 10)
     {
-        /**
-         * 兼容秒和毫秒
-         */
-        if ($timeout > 1000) {
-            $timeout = intval($timeout / 1000);
-        }
-
         $itemKey = $this->getItemKey($learning->request_id);
 
         /**
@@ -64,13 +57,14 @@ class Learning extends Service
             $learning->course_id = $chapter->course_id;
             $learning->client_type = $this->getClientType();
             $learning->client_ip = $this->getClientIp();
-            $learning->duration = $timeout;
+            $learning->duration = $interval;
 
             $this->cache->save($itemKey, $learning, $this->lifetime);
 
         } else {
 
-            $cacheLearning->duration += $timeout;
+            $cacheLearning->duration += $interval;
+            $cacheLearning->position = $learning->position;
 
             $this->cache->save($itemKey, $cacheLearning, $this->lifetime);
         }

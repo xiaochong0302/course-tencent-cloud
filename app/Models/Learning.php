@@ -10,6 +10,8 @@ class Learning extends Model
      */
     const CLIENT_DESKTOP = 'desktop';
     const CLIENT_MOBILE = 'mobile';
+    const CLIENT_APP = 'app';
+    const CLIENT_MINI = 'mini';
 
     /**
      * 主键编号

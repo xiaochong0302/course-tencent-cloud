@@ -4,9 +4,9 @@ namespace App\Services\Frontend\Course;
 
 use App\Caches\CourseTopicList as CourseTopicListCache;
 use App\Services\Frontend\CourseTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 
-class TopicList extends Service
+class TopicList extends FrontendService
 {
 
     use CourseTrait;

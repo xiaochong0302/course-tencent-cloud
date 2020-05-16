@@ -312,4 +312,12 @@ $error['course_query.invalid_model'] = '无效的模型类别';
 $error['course_query.invalid_level'] = '无效的难度类别';
 $error['course_query.invalid_sort'] = '无效的排序类别';
 
+/**
+ * 课时学习
+ */
+$error['learning.invalid_chapter_id'] = '无效的章节编号';
+$error['learning.invalid_request_id'] = '无效的请求编号';
+$error['learning.invalid_position'] = '无效的播放位置';
+$error['learning.invalid_interval'] = '无效的间隔时间';
+
 return $error;

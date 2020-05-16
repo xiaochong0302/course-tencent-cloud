@@ -3,10 +3,10 @@
 namespace App\Services\Frontend\Order;
 
 use App\Models\Order as OrderModel;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Order as OrderValidator;
 
-class OrderInfo extends Service
+class OrderInfo extends FrontendService
 {
 
     public function handle($sn)

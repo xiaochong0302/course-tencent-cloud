@@ -2,12 +2,12 @@
 
 namespace App\Services\Frontend\Verify;
 
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Smser\Verify as VerifySmserService;
 use App\Validators\Captcha as CaptchaValidator;
 use App\Validators\Verify as VerifyValidator;
 
-class SmsCode extends Service
+class SmsCode extends FrontendService
 {
 
     public function handle()

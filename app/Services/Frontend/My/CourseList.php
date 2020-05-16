@@ -6,10 +6,10 @@ use App\Builders\CourseUserList as CourseUserListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\CourseUser as CourseUserModel;
 use App\Repos\CourseUser as CourseUserRepo;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Frontend\UserTrait;
 
-class CourseList extends Service
+class CourseList extends FrontendService
 {
 
     use UserTrait;

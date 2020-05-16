@@ -6,11 +6,11 @@ use App\Models\Consult as ConsultModel;
 use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
 use App\Services\Frontend\CourseTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Consult as ConsultValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
-class ConsultCreate extends Service
+class ConsultCreate extends FrontendService
 {
 
     use CourseTrait;

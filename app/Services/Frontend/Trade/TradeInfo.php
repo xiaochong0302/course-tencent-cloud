@@ -3,10 +3,10 @@
 namespace App\Services\Frontend\Trade;
 
 use App\Models\Trade as TradeModel;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Frontend\TradeTrait;
 
-class TradeInfo extends Service
+class TradeInfo extends FrontendService
 {
 
     use TradeTrait;

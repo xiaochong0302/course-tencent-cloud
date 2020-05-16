@@ -22,8 +22,8 @@
 <script>
 
     var interval = null;
-    var timeout = 5000;
-    var requestId = uniqueId();
+    var intervalTime = 5000;
+    var requestId = getRequestId();
     var chapterId = '{{ chapter_id }}';
     var playUrl = '{{ play_url }}';
     var position = 0;
@@ -53,7 +53,7 @@
             clearInterval(interval);
             interval = null;
         }
-        interval = setInterval(learning, timeout);
+        interval = setInterval(learning, intervalTime);
     }
 
     function stop() {
@@ -68,13 +68,13 @@
             data: {
                 request_id: requestId,
                 chapter_id: chapterId,
-                timeout: timeout,
+                interval: intervalTime,
                 position: player.currentTime(),
             }
         });
     }
 
-    function uniqueId() {
+    function getRequestId() {
         var id = Date.now().toString(36);
         id += Math.random().toString(36).substr(3);
         return id;

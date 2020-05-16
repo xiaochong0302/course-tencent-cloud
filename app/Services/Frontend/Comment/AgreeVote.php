@@ -5,10 +5,10 @@ namespace App\Services\Frontend\Comment;
 use App\Models\CommentVote as CommentVoteModel;
 use App\Repos\CommentVote as CommentVoteRepo;
 use App\Services\Frontend\CommentTrait;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
-class AgreeVote extends Service
+class AgreeVote extends FrontendService
 {
 
     use CommentTrait, VoteTrait;

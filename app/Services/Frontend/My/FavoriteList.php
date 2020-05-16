@@ -5,10 +5,10 @@ namespace App\Services\Frontend\My;
 use App\Builders\CourseFavoriteList as CourseFavoriteListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
-use App\Services\Frontend\Service;
+use App\Services\Frontend\Service as FrontendService;
 use App\Services\Frontend\UserTrait;
 
-class FavoriteList extends Service
+class FavoriteList extends FrontendService
 {
 
     use UserTrait;

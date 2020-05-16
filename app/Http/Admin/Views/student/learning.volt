@@ -1,11 +1,3 @@
-{%- macro client_type(value) %}
-    {% if value == 'desktop' %}
-        <span class="layui-badge layui-bg-green">桌面端</span>
-    {% elseif value == 'mobile' %}
-        <span class="layui-badge layui-bg-blue">手机端</span>
-    {% endif %}
-{%- endmacro %}
-
 {%- macro last_active_time(create_time, update_time) %}
     {% if update_time > 0 %}
         {{ date('Y-m-d H:i', update_time) }}
@@ -39,7 +31,7 @@
                 <p>章节：{{ item.chapter.title }}</p>
             </td>
             <td>{{ item.duration|play_duration }}</td>
-            <td>{{ client_type(item.client_type) }}</td>
+            <td>{{ item.client_type }}</td>
             <td><a href="javascript:" class="kg-ip2region" title="查看位置" data-ip="{{ item.client_ip }}">{{ item.client_ip }}</a></td>
             <td>{{ last_active_time(item.create_time,item.update_time) }}</td>
         </tr>
