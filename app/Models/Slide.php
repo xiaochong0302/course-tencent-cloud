@@ -37,6 +37,13 @@ class Slide extends Model
     public $cover;
 
     /**
+     * 背景色
+     *
+     * @var string
+     */
+    public $bg_color;
+
+    /**
      * 摘要
      *
      * @var string

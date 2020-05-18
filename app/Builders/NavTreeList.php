@@ -23,6 +23,8 @@ class NavTreeList extends Builder
             $list[] = [
                 'id' => $nav->id,
                 'name' => $nav->name,
+                'target' => $nav->target,
+                'url' => $nav->url,
                 'children' => $this->handleChildren($nav),
             ];
         }
@@ -44,6 +46,8 @@ class NavTreeList extends Builder
             $list[] = [
                 'id' => $nav->id,
                 'name' => $nav->name,
+                'target' => $nav->target,
+                'url' => $nav->url,
             ];
         }
 
@@ -70,7 +74,7 @@ class NavTreeList extends Builder
     {
         return NavModel::query()
             ->where('position = :position:', ['position' => $position])
-            ->andWhere('deleted = 0')
+            ->andWhere('level = 1 AND deleted = 0')
             ->execute();
     }
 

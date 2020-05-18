@@ -4,7 +4,7 @@ namespace App\Services\Search;
 
 use Phalcon\Mvc\User\Component;
 
-class CourseHandler extends Component
+class CourseSearcher extends Component
 {
 
     /**
@@ -27,6 +27,16 @@ class CourseHandler extends Component
     public function getXS()
     {
         return $this->xs;
+    }
+
+    /**
+     * 获取高亮字段
+     *
+     * @return array
+     */
+    public function getHighlightFields()
+    {
+        return ['title', 'summary'];
     }
 
     /**

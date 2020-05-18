@@ -30,6 +30,16 @@
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label">背景色</label>
+        <div class="layui-input-inline">
+            <input class="layui-input" type="text" name="bg_color" value="{{ slide.bg_color }}" lay-verify="required">
+        </div>
+        <div class="layui-inline">
+            <div id="bg-color"></div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
         <label class="layui-form-label">标题</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="title" value="{{ slide.title }}" lay-verify="required">
@@ -76,3 +86,18 @@
 </form>
 
 {{ partial('partials/cover_uploader') }}
+
+<script>
+    layui.use(['jquery', 'colorpicker'], function () {
+        var $ = layui.jquery;
+        var colorPicker = layui.colorpicker;
+        colorPicker.render({
+            elem: '#bg-color',
+            color: '{{ slide.bg_color }}',
+            predefine: true,
+            change: function (color) {
+                $('input[name=bg_color]').val(color);
+            }
+        });
+    });
+</script>

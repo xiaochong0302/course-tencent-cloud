@@ -5,7 +5,7 @@ namespace App\Console\Tasks;
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\Course as CourseRepo;
 use App\Services\Search\CourseDocument;
-use App\Services\Search\CourseHandler;
+use App\Services\Search\CourseSearcher;
 use App\Services\Syncer\CourseIndex as CourseIndexSyncer;
 
 class SyncCourseIndexTask extends Task
@@ -48,7 +48,7 @@ class SyncCourseIndexTask extends Task
 
         $document = new CourseDocument();
 
-        $handler = new CourseHandler();
+        $handler = new CourseSearcher();
 
         $index = $handler->getXS()->getIndex();
 
