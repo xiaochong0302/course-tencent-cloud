@@ -34,6 +34,7 @@ class CourseController extends Controller
 
         $topCategories = $courseQueryService->handleTopCategories();
         $subCategories = $courseQueryService->handleSubCategories();
+
         $models = $courseQueryService->handleModels();
         $levels = $courseQueryService->handleLevels();
         $sorts = $courseQueryService->handleSorts();

@@ -63,7 +63,7 @@ class CourseSearcher extends Component
         foreach ($docs as $doc) {
             $item = [];
             foreach ($fields as $field) {
-                if (in_array($field, ['title', 'summary'])) {
+                if (in_array($field, $this->getHighlightFields())) {
                     $item[$field] = $search->highlight($doc->{$field});
                 } else {
                     $item[$field] = $doc->{$field};
@@ -93,6 +93,21 @@ class CourseSearcher extends Component
         $search->setQuery($query);
 
         return $search->getRelatedQuery($query, $limit);
+    }
+
+    /**
+     * @param int $limit
+     * @param string $type [total => 总量, lastnum => 上周, currnum => 本周]
+     * @return array
+     * @throws \XSException
+     */
+    public function getHotQuery($limit = 10, $type = 'total')
+    {
+        $search = $this->xs->getSearch();
+
+        $hotQuery = $search->getHotQuery($limit, $type);
+
+        return array_keys($hotQuery);
     }
 
 }

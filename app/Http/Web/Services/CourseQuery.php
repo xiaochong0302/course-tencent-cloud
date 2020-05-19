@@ -32,7 +32,7 @@ class CourseQuery extends Service
         $defaultItem = [
             'id' => 0,
             'name' => '全部',
-            'href' => $baseUrl . $this->buildQueryParams($params),
+            'url' => $baseUrl . $this->buildQueryParams($params),
         ];
 
         $result = [];
@@ -48,7 +48,7 @@ class CourseQuery extends Service
             $result[] = [
                 'id' => $category['id'],
                 'name' => $category['name'],
-                'href' => $baseUrl . $this->buildQueryParams($params),
+                'url' => $baseUrl . $this->buildQueryParams($params),
             ];
         }
 
@@ -80,7 +80,7 @@ class CourseQuery extends Service
         $defaultItem = [
             'id' => 0,
             'name' => '全部',
-            'href' => $baseUrl . $this->buildQueryParams($params),
+            'url' => $baseUrl . $this->buildQueryParams($params),
         ];
 
         $result = [];
@@ -92,7 +92,7 @@ class CourseQuery extends Service
             $result[] = [
                 'id' => $category['id'],
                 'name' => $category['name'],
-                'href' => $baseUrl . $this->buildQueryParams($params),
+                'url' => $baseUrl . $this->buildQueryParams($params),
             ];
         }
 
@@ -110,7 +110,7 @@ class CourseQuery extends Service
         $defaultItem = [
             'id' => 0,
             'name' => '全部',
-            'href' => $this->baseUrl . $this->buildQueryParams($params),
+            'url' => $this->baseUrl . $this->buildQueryParams($params),
         ];
 
         $result = [];
@@ -124,7 +124,7 @@ class CourseQuery extends Service
             $result[] = [
                 'id' => $key,
                 'name' => $value,
-                'href' => $this->baseUrl . $this->buildQueryParams($params),
+                'url' => $this->baseUrl . $this->buildQueryParams($params),
             ];
         }
 
@@ -142,7 +142,7 @@ class CourseQuery extends Service
         $defaultItem = [
             'id' => 0,
             'name' => '全部',
-            'href' => $this->baseUrl . $this->buildQueryParams($params),
+            'url' => $this->baseUrl . $this->buildQueryParams($params),
         ];
 
         $result = [];
@@ -152,11 +152,11 @@ class CourseQuery extends Service
         $levels = CourseModel::levelTypes();
 
         foreach ($levels as $key => $value) {
-            $params['sc'] = $key;
+            $params['level'] = $key;
             $result[] = [
                 'id' => $key,
                 'name' => $value,
-                'href' => $this->baseUrl . $this->buildQueryParams($params),
+                'url' => $this->baseUrl . $this->buildQueryParams($params),
             ];
         }
 
@@ -176,7 +176,7 @@ class CourseQuery extends Service
             $result[] = [
                 'id' => $key,
                 'name' => $value,
-                'href' => $this->baseUrl . $this->buildQueryParams($params),
+                'url' => $this->baseUrl . $this->buildQueryParams($params),
             ];
         }
 

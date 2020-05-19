@@ -6,12 +6,14 @@
         <div class="layui-tab layui-tab-brief">
             <ul class="layui-tab-title">
                 {% for category in courses %}
-                    <li {% if loop.first %}class="layui-this"{% endif %}>{{ category.name }}</li>
+                    {% set class = loop.first ? 'layui-this' : 'none' %}
+                    <li class="{{ class }}">{{ category.name }}</li>
                 {% endfor %}
             </ul>
             <div class="layui-tab-content">
                 {% for category in courses %}
-                    <div class="layui-tab-item {% if loop.first %}layui-show{% endif %}">
+                    {% set class = loop.first ? 'layui-tab-item layui-show' : 'layui-tab-item' %}
+                    <div class="{{ class }}">
                         {% for course in category.courses %}
                             <div class="course-card">
                                 <div class="cover"></div>

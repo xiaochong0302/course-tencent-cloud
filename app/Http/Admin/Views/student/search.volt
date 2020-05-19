@@ -1,4 +1,4 @@
-{% set course_id = request.getQuery('course_id', 'int', '') %}
+{% set course_id = request.get('course_id', 'int', '') %}
 
 <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.student.list'}) }}">
 

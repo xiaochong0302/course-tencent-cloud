@@ -7,12 +7,11 @@ use App\Library\Paginator\Query as PagerQuery;
 use App\Services\Frontend\Service as FrontendService;
 use App\Services\Search\CourseSearcher as CourseSearcherService;
 
-class CourseSearch extends FrontendService
+class CourseList extends FrontendService
 {
 
     public function handle()
     {
-
         $pagerQuery = new PagerQuery();
 
         $params = $pagerQuery->getParams();
@@ -44,16 +43,18 @@ class CourseSearch extends FrontendService
 
         foreach ($pager->items as $course) {
             $items[] = [
-                'id' => $course['id'],
+                'id' => (int)$course['id'],
                 'title' => $course['title'],
                 'cover' => $course['cover'],
+                'summary' => $course['summary'],
                 'market_price' => (float)$course['market_price'],
                 'vip_price' => (float)$course['vip_price'],
-                'rating' => (float)$course['rating'],
                 'model' => $course['model'],
                 'level' => $course['level'],
-                'user_count' => $course['user_count'],
-                'lesson_count' => $course['lesson_count'],
+                'user_count' => (int)$course['user_count'],
+                'lesson_count' => (int)$course['lesson_count'],
+                'teacher' => json_decode($course['teacher']),
+                'category' => json_decode($course['category']),
             ];
         }
 

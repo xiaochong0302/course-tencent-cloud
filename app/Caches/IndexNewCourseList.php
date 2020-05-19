@@ -62,7 +62,6 @@ class IndexNewCourseList extends Cache
                     'cover' => $course->cover,
                     'market_price' => $course->market_price,
                     'vip_price' => $course->vip_price,
-                    'rating' => $course->rating,
                     'model' => $course->model,
                     'level' => $course->level,
                     'user_count' => $course->user_count,

@@ -117,7 +117,6 @@ class OrderConfirm extends FrontendService
             'cover' => $course->cover,
             'model' => $course->model,
             'level' => $course->level,
-            'rating' => $course->rating,
             'study_expiry' => $course->study_expiry,
             'refund_expiry' => $course->refund_expiry,
             'market_price' => $course->market_price,

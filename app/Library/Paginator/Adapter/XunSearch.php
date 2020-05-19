@@ -109,6 +109,7 @@ class XunSearch extends PaginatorAdapter
         $pager->next = $page < $totalPages ? $page + 1 : $page;
         $pager->last = $totalPages;
         $pager->total_items = $totalCount;
+        $pager->total_pages = $totalPages;
         $pager->items = $items;
 
         $pager->first = $this->buildPageUrl($pager->first);
