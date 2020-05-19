@@ -47,6 +47,7 @@ class IndexSlideList extends Cache
                 'id' => $slide->id,
                 'title' => $slide->title,
                 'cover' => $slide->cover,
+                'bg_color' => $slide->bg_color,
                 'target' => $slide->target,
                 'content' => $slide->content,
             ];

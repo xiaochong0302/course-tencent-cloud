@@ -2,20 +2,24 @@
 
 namespace App\Library\Paginator\Adapter;
 
-use Phalcon\Http\Request as HttpRequest;
+use App\Library\Paginator\Query;
 use Phalcon\Paginator\Adapter\QueryBuilder as BaseQueryBuilder;
 
 class QueryBuilder extends BaseQueryBuilder
 {
 
-    protected $url;
+    protected $baseUrl;
+
     protected $params = [];
 
     public function paginate()
     {
         $pager = parent::paginate();
 
-        $this->initParams();
+        $query = new Query();
+
+        $this->baseUrl = $query->getBaseUrl();
+        $this->params = $query->getParams();
 
         $pager->first = $this->buildPageUrl($pager->first);
         $pager->previous = $this->buildPageUrl($pager->previous);
@@ -25,35 +29,11 @@ class QueryBuilder extends BaseQueryBuilder
         return $pager;
     }
 
-    protected function initParams()
-    {
-        $request = new HttpRequest();
-        
-        $params = $request->get();
-
-        if ($params) {
-            foreach ($params as $key => $value) {
-                if (strlen($value) == 0) {
-                    unset($params[$key]);
-                }
-            }
-        }
-
-        $this->params = $params;
-
-        if (!empty($this->params['_url'])) {
-            $this->url = $this->params['_url'];
-            unset($this->params['_url']);
-        } else {
-            $this->url = $request->get('_url');
-        }
-    }
-
     protected function buildPageUrl($page)
     {
         $this->params['page'] = $page;
 
-        return $this->url . '?' . http_build_query($this->params);
+        return $this->baseUrl . '?' . http_build_query($this->params);
     }
 
 }

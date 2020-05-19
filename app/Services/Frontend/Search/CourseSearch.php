@@ -31,7 +31,35 @@ class CourseSearch extends FrontendService
 
         $pager = $paginator->getPaginate();
 
-        dd($pager);
+        return $this->handleCourses($pager);
+    }
+
+    public function handleCourses($pager)
+    {
+        if ($pager->total_items == 0) {
+            return $pager;
+        }
+
+        $items = [];
+
+        foreach ($pager->items as $course) {
+            $items[] = [
+                'id' => $course['id'],
+                'title' => $course['title'],
+                'cover' => $course['cover'],
+                'market_price' => (float)$course['market_price'],
+                'vip_price' => (float)$course['vip_price'],
+                'rating' => (float)$course['rating'],
+                'model' => $course['model'],
+                'level' => $course['level'],
+                'user_count' => $course['user_count'],
+                'lesson_count' => $course['lesson_count'],
+            ];
+        }
+
+        $pager->items = $items;
+
+        return $pager;
     }
 
 }

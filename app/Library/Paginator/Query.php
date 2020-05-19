@@ -2,10 +2,21 @@
 
 namespace App\Library\Paginator;
 
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di;
+use Phalcon\Http\Request;
 
-class Query extends Component
+class Query
 {
+
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    public function __construct()
+    {
+        $this->request = Di::getDefault()->get('request');
+    }
 
     public function getPage()
     {
@@ -26,14 +37,28 @@ class Query extends Component
         return $this->request->get('sort', 'trim', '');
     }
 
-    public function getUrl()
+    public function getBaseUrl()
     {
         return $this->request->get('_url', 'trim', '');
     }
 
     public function getParams()
     {
-        return $this->request->get();
+        $params = $this->request->get();
+
+        if ($params) {
+            foreach ($params as $key => $value) {
+                if (strlen($value) == 0) {
+                    unset($params[$key]);
+                }
+            }
+        }
+
+        if (isset($params['_url'])) {
+            unset($params['_url']);
+        }
+
+        return $params;
     }
 
 }

@@ -2,7 +2,7 @@
 
 namespace App\Library\Paginator\Adapter;
 
-use Phalcon\Http\Request as HttpRequest;
+use App\Library\Paginator\Query;
 use Phalcon\Paginator\Adapter as PaginatorAdapter;
 use Phalcon\Paginator\Exception as PaginatorException;
 
@@ -29,7 +29,7 @@ class XunSearch extends PaginatorAdapter
 
     protected $config;
 
-    protected $url;
+    protected $baseUrl;
 
     protected $params = [];
 
@@ -58,6 +58,11 @@ class XunSearch extends PaginatorAdapter
         $this->config = $config;
         $this->_page = $config['page'] ?? 1;
         $this->_limitRows = $config['limit'] ?? 15;
+
+        $query = new Query();
+
+        $this->baseUrl = $query->getBaseUrl();
+        $this->params = $query->getParams();
     }
 
     public function paginate()
@@ -106,8 +111,6 @@ class XunSearch extends PaginatorAdapter
         $pager->total_items = $totalCount;
         $pager->items = $items;
 
-        $this->initParams();
-
         $pager->first = $this->buildPageUrl($pager->first);
         $pager->previous = $this->buildPageUrl($pager->previous);
         $pager->next = $this->buildPageUrl($pager->next);
@@ -121,35 +124,11 @@ class XunSearch extends PaginatorAdapter
         return $this->paginate();
     }
 
-    protected function initParams()
-    {
-        $request = new HttpRequest();
-
-        $params = $request->get();
-
-        if ($params) {
-            foreach ($params as $key => $value) {
-                if (strlen($value) == 0) {
-                    unset($params[$key]);
-                }
-            }
-        }
-
-        $this->params = $params;
-
-        if (!empty($this->params['_url'])) {
-            $this->url = $this->params['_url'];
-            unset($this->params['_url']);
-        } else {
-            $this->url = $request->get('_url');
-        }
-    }
-
     protected function buildPageUrl($page)
     {
         $this->params['page'] = $page;
 
-        return $this->url . '?' . http_build_query($this->params);
+        return $this->baseUrl . '?' . http_build_query($this->params);
     }
 
 }
