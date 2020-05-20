@@ -42,7 +42,10 @@
     </div>
 
     <div class="course-sort">
-
+        {% for sort in sorts %}
+            {% set class = request.get('sort','trim','score') == sort.id ? 'layui-badge active' : 'layui-badge' %}
+            <a class="{{ class }}" href="{{ sort.url }}">{{ sort.name }}</a>
+        {% endfor %}
     </div>
 
     <div class="course-list">

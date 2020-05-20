@@ -26,18 +26,18 @@ class CourseController extends Controller
      */
     public function listAction()
     {
-        $courseListService = new CourseListService();
+        $service = new CourseListService();
 
-        $pager = $courseListService->handle();
+        $pager = $service->handle();
 
-        $courseQueryService = new CourseQueryService();
+        $service = new CourseQueryService();
 
-        $topCategories = $courseQueryService->handleTopCategories();
-        $subCategories = $courseQueryService->handleSubCategories();
+        $topCategories = $service->handleTopCategories();
+        $subCategories = $service->handleSubCategories();
 
-        $models = $courseQueryService->handleModels();
-        $levels = $courseQueryService->handleLevels();
-        $sorts = $courseQueryService->handleSorts();
+        $models = $service->handleModels();
+        $levels = $service->handleLevels();
+        $sorts = $service->handleSorts();
 
         $this->view->setVar('top_categories', $topCategories);
         $this->view->setVar('sub_categories', $subCategories);
@@ -52,83 +52,46 @@ class CourseController extends Controller
      */
     public function showAction($id)
     {
-        $courseInfoService = new CourseInfoService();
+        $service = new CourseInfoService();
 
-        $course = $courseInfoService->handle($id);
+        $course = $service->handle($id);
 
-        $this->view->setVar('course', $course);
-    }
+        $service = new CourseQueryService();
 
-    /**
-     * @Get("/{id:[0-9]+}/teachers", name="web.course.teachers")
-     */
-    public function teachersAction($id)
-    {
-        $service = new CourseTeacherListService();
+        $categoryPaths = $service->handleCategoryPaths($course['category_id']);
 
-        $teachers = $service->handle($id);
-
-        return $this->jsonSuccess(['teachers' => $teachers]);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/chapters", name="web.course.chapters")
-     */
-    public function chaptersAction($id)
-    {
         $service = new CourseChapterListService();
 
         $chapters = $service->handle($id);
 
-        return $this->jsonSuccess(['chapters' => $chapters]);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/packages", name="web.course.packages")
-     */
-    public function packagesAction($id)
-    {
         $service = new CoursePackageListService();
 
         $packages = $service->handle($id);
 
-        return $this->jsonSuccess(['packages' => $packages]);
-    }
+        $service = new CourseTeacherListService();
 
-    /**
-     * @Get("/{id:[0-9]+}/recommended", name="web.course.recommended")
-     */
-    public function recommendedAction($id)
-    {
-        $service = new CourseRecommendedListService();
+        $teachers = $service->handle($id);
 
-        $courses = $service->handle($id);
-
-        return $this->jsonSuccess(['courses' => $courses]);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/related", name="web.course.related")
-     */
-    public function relatedAction($id)
-    {
-        $service = new CourseRelatedListService();
-
-        $courses = $service->handle($id);
-
-        return $this->jsonSuccess(['courses' => $courses]);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/topics", name="web.course.topics")
-     */
-    public function topicsAction($id)
-    {
         $service = new CourseTopicListService();
 
         $topics = $service->handle($id);
 
-        return $this->jsonSuccess(['topics' => $topics]);
+        $service = new CourseRecommendedListService();
+
+        $recommendedCourses = $service->handle($id);
+
+        $service = new CourseRelatedListService();
+
+        $relatedCourses = $service->handle($id);
+
+        $this->view->setVar('course', $course);
+        $this->view->setVar('chapters', $chapters);
+        $this->view->setVar('packages', $packages);
+        $this->view->setVar('teachers', $teachers);
+        $this->view->setVar('topics', $topics);
+        $this->view->setVar('recommended_courses', $recommendedCourses);
+        $this->view->setVar('related_courses', $relatedCourses);
+        $this->view->setVar('category_paths', $categoryPaths);
     }
 
     /**
@@ -136,9 +99,9 @@ class CourseController extends Controller
      */
     public function consultsAction($id)
     {
-        $consultListService = new CourseConsultListService();
+        $service = new CourseConsultListService();
 
-        $pager = $consultListService->handle($id);
+        $pager = $service->handle($id);
 
         return $this->jsonPaginate($pager);
     }
@@ -148,9 +111,9 @@ class CourseController extends Controller
      */
     public function reviewsAction($id)
     {
-        $reviewListService = new CourseReviewListService();
+        $service = new CourseReviewListService();
 
-        $pager = $reviewListService->handle($id);
+        $pager = $service->handle($id);
 
         return $this->jsonPaginate($pager);
     }
@@ -160,9 +123,9 @@ class CourseController extends Controller
      */
     public function favoriteAction($id)
     {
-        $favoriteService = new CourseFavoriteService();
+        $service = new CourseFavoriteService();
 
-        $favoriteService->handle($id);
+        $service->handle($id);
 
         return $this->jsonSuccess(['msg' => '收藏课程成功']);
     }

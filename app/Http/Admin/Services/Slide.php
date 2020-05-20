@@ -87,8 +87,8 @@ class Slide extends Service
             $data['cover'] = $validator->checkCover($post['cover']);
         }
 
-        if (isset($post['bg_color'])) {
-            $data['bg_color'] = $validator->checkBgColor($post['bg_color']);
+        if (isset($post['style']['bg_color'])) {
+            $data['style']['bg_color'] = $validator->checkBgColor($post['style']['bg_color']);
         }
 
         if (isset($post['content'])) {

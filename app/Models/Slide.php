@@ -37,11 +37,11 @@ class Slide extends Model
     public $cover;
 
     /**
-     * 背景色
+     * 样式
      *
      * @var string
      */
-    public $bg_color;
+    public $style;
 
     /**
      * 摘要
@@ -123,6 +123,10 @@ class Slide extends Model
         if (Text::startsWith($this->cover, 'http')) {
             $this->cover = self::getCoverPath($this->cover);
         }
+
+        if (is_array($this->style) && !empty($this->style)) {
+            $this->style = kg_json_encode($this->style);
+        }
     }
 
     public function beforeUpdate()
@@ -132,6 +136,10 @@ class Slide extends Model
         if (Text::startsWith($this->cover, 'http')) {
             $this->cover = self::getCoverPath($this->cover);
         }
+
+        if (!empty($this->style)) {
+            $this->style = kg_json_encode($this->style);
+        }
     }
 
     public function afterFetch()
@@ -139,6 +147,21 @@ class Slide extends Model
         if (!Text::startsWith($this->cover, 'http')) {
             $this->cover = kg_ci_cover_img_url($this->cover);
         }
+
+        if (!empty($this->style)) {
+            $this->style = json_decode($this->style, true);
+        }
+    }
+
+    public static function htmlStyle($style)
+    {
+        $result = [];
+
+        if (isset($style['bg_color'])) {
+            $result[] = "background-color:{$style['bg_color']}";
+        }
+
+        return implode(';', $result);
     }
 
     public static function getCoverPath($url)

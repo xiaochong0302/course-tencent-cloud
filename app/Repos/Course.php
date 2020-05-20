@@ -89,7 +89,7 @@ class Course extends Repository
             case 'rating':
                 $orderBy = 'c.rating DESC';
                 break;
-            case 'pop':
+            case 'popular':
                 $orderBy = 'c.user_count DESC';
                 break;
             default:

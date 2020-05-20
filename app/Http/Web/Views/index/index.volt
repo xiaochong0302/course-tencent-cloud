@@ -31,7 +31,7 @@
         <div class="layui-carousel" id="carousel">
             <div class="carousel" carousel-item>
                 {% for slide in slides %}
-                    <div class="item" style="background-color:{{ slide.bg_color }}">
+                    <div class="item" style="{{ slide.style }}">
                         <a href="{{ slide.url }}">
                             <img src="{{ slide.cover }}" alt="{{ slide.title }}">
                         </a>

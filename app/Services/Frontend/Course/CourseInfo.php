@@ -5,7 +5,6 @@ namespace App\Services\Frontend\Course;
 use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
-use App\Services\Category as CategoryService;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
 
@@ -34,6 +33,8 @@ class CourseInfo extends FrontendService
             'summary' => $course->summary,
             'details' => $course->details,
             'keywords' => $course->keywords,
+            'category_id' => $course->category_id,
+            'teacher_id' => $course->teacher_id,
             'market_price' => (float)$course->market_price,
             'vip_price' => (float)$course->vip_price,
             'study_expiry' => $course->study_expiry,
@@ -77,17 +78,9 @@ class CourseInfo extends FrontendService
             $me['owned'] = $this->ownedCourse ? 1 : 0;
         }
 
-        $result['paths'] = $this->getPaths($course);
         $result['me'] = $me;
 
         return $result;
-    }
-
-    protected function getPaths(CourseModel $course)
-    {
-        $service = new CategoryService();
-
-        return $service->getCategoryPaths($course->category_id);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Web\Services;
 
+use App\Caches\Category as CategoryCache;
 use App\Models\Course as CourseModel;
 use App\Services\Category as CategoryService;
 
@@ -179,6 +180,32 @@ class CourseQuery extends Service
                 'url' => $this->baseUrl . $this->buildQueryParams($params),
             ];
         }
+
+        return $result;
+    }
+
+    public function handleCategoryPaths($categoryId)
+    {
+        $result = [];
+
+        $cache = new CategoryCache();
+
+        $subCategory = $cache->get($categoryId);
+        $topCategory = $cache->get($subCategory->parent_id);
+
+        $topParams = ['tc' => $topCategory->id];
+
+        $result['top'] = [
+            'name' => $topCategory->name,
+            'url' => $this->baseUrl . $this->buildQueryParams($topParams),
+        ];
+
+        $subParams = ['tc' => $topCategory->id, 'sc' => $subCategory->id];
+
+        $result['sub'] = [
+            'name' => $subCategory->name,
+            'url' => $this->baseUrl . $this->buildQueryParams($subParams),
+        ];
 
         return $result;
     }

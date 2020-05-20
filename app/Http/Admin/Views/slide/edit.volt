@@ -32,10 +32,10 @@
     <div class="layui-form-item">
         <label class="layui-form-label">背景色</label>
         <div class="layui-input-inline">
-            <input class="layui-input" type="text" name="bg_color" value="{{ slide.bg_color }}" lay-verify="required">
+            <input class="layui-input" type="text" name="style[bg_color]" value="{{ slide.style['bg_color'] }}" lay-verify="required">
         </div>
         <div class="layui-inline">
-            <div id="bg-color"></div>
+            <div id="style-bg-color"></div>
         </div>
     </div>
 
@@ -92,11 +92,11 @@
         var $ = layui.jquery;
         var colorPicker = layui.colorpicker;
         colorPicker.render({
-            elem: '#bg-color',
-            color: '{{ slide.bg_color }}',
+            elem: '#style-bg-color',
+            color: '{{ slide.style['bg_color'] }}',
             predefine: true,
             change: function (color) {
-                $('input[name=bg_color]').val(color);
+                $('input[name="style[bg_color]"]').val(color);
             }
         });
     });

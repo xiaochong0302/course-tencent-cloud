@@ -12,27 +12,20 @@ class TopicController extends Controller
 {
 
     /**
-     * @Get("/{id:[0-9]+}/info", name="web.topic.info")
+     * @Get("/{id:[0-9]+}", name="web.topic.show")
      */
-    public function infoAction($id)
+    public function showAction($id)
     {
         $service = new TopicInfoService();
 
         $topic = $service->handle($id);
 
-        return $this->jsonSuccess(['topic' => $topic]);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/courses", name="web.topic.courses")
-     */
-    public function coursesAction($id)
-    {
         $service = new TopicCourseListService();
 
         $courses = $service->handle($id);
 
-        return $this->jsonSuccess(['courses' => $courses]);
+        $this->view->setVar('topic', $topic);
+        $this->view->setVar('courses', $courses);
     }
 
 }

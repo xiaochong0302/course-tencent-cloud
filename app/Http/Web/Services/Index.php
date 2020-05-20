@@ -24,6 +24,9 @@ class Index extends Service
         if (!$slides) return [];
 
         foreach ($slides as $key => $slide) {
+
+            $slides[$key]['style'] = SlideModel::htmlStyle($slide['style']);
+
             switch ($slide['target']) {
                 case SlideModel::TARGET_COURSE:
                     $slides[$key]['url'] = $this->url->get([
