@@ -31,7 +31,7 @@ class CourseQuery extends Service
         $baseUrl = $this->url->get(['for' => 'web.course.list']);
 
         $defaultItem = [
-            'id' => 0,
+            'id' => 'all',
             'name' => '全部',
             'url' => $baseUrl . $this->buildQueryParams($params),
         ];
@@ -79,7 +79,7 @@ class CourseQuery extends Service
         $baseUrl = $this->url->get(['for' => 'web.course.list']);
 
         $defaultItem = [
-            'id' => 0,
+            'id' => 'all',
             'name' => '全部',
             'url' => $baseUrl . $this->buildQueryParams($params),
         ];
@@ -109,7 +109,7 @@ class CourseQuery extends Service
         }
 
         $defaultItem = [
-            'id' => 0,
+            'id' => 'all',
             'name' => '全部',
             'url' => $this->baseUrl . $this->buildQueryParams($params),
         ];
@@ -141,7 +141,7 @@ class CourseQuery extends Service
         }
 
         $defaultItem = [
-            'id' => 0,
+            'id' => 'all',
             'name' => '全部',
             'url' => $this->baseUrl . $this->buildQueryParams($params),
         ];
@@ -218,27 +218,27 @@ class CourseQuery extends Service
 
         $validator = new \App\Validators\CourseQuery();
 
-        if (!empty($query['tc'])) {
+        if (isset($query['tc']) && $query['tc'] != 'all') {
             $validator->checkTopCategory($query['tc']);
             $params['tc'] = $query['tc'];
         }
 
-        if (!empty($query['sc'])) {
+        if (isset($query['sc']) && $query['tc'] != 'all') {
             $validator->checkSubCategory($query['sc']);
             $params['sc'] = $query['sc'];
         }
 
-        if (!empty($query['model'])) {
+        if (isset($query['model']) && $query['model'] != 'all') {
             $validator->checkModel($query['model']);
             $params['model'] = $query['model'];
         }
 
-        if (!empty($query['level'])) {
+        if (isset($query['level']) && $query['level'] != 'all') {
             $validator->checkLevel($query['level']);
             $params['level'] = $query['level'];
         }
 
-        if (!empty($query['sort'])) {
+        if (isset($query['sort'])) {
             $validator->checkSort($query['sort']);
             $params['sort'] = $query['sort'];
         }

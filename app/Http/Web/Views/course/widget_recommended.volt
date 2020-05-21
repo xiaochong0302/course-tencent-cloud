@@ -1,6 +1,6 @@
-<div class="course-widget widget">
-    <div class="head">推荐课程</div>
-    <div class="body">
+<div class="course-widget layui-card">
+    <div class="layui-card-header">推荐课程</div>
+    <div class="layui-card-body">
         {% for course in courses %}
             <div class="course">
                 <div class="cover"></div>

@@ -95,6 +95,31 @@ class CourseController extends Controller
     }
 
     /**
+     * @Get("/{id:[0-9]+}/chapters", name="web.course.chapters")
+     */
+    public function chaptersAction($id)
+    {
+        $service = new CourseChapterListService();
+
+        $chapters = $service->handle($id);
+
+        return $this->jsonSuccess(['chapters' => $chapters]);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/packages", name="web.course.packages")
+     */
+    public function packagesAction($id)
+    {
+        $service = new CoursePackageListService();
+
+        $packages = $service->handle($id);
+
+        return $this->jsonSuccess(['packages' => $packages]);
+    }
+
+
+    /**
      * @Get("/{id:[0-9]+}/consults", name="web.course.consults")
      */
     public function consultsAction($id)
@@ -116,6 +141,54 @@ class CourseController extends Controller
         $pager = $service->handle($id);
 
         return $this->jsonPaginate($pager);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/teachers", name="web.course.teachers")
+     */
+    public function teachersAction($id)
+    {
+        $service = new CourseTeacherListService();
+
+        $teachers = $service->handle($id);
+
+        return $this->jsonSuccess(['teachers' => $teachers]);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/recommended", name="web.course.recommended")
+     */
+    public function recommendedAction($id)
+    {
+        $service = new CourseRecommendedListService();
+
+        $courses = $service->handle($id);
+
+        return $this->jsonSuccess(['courses' => $courses]);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/related", name="web.course.related")
+     */
+    public function relatedAction($id)
+    {
+        $service = new CourseRelatedListService();
+
+        $courses = $service->handle($id);
+
+        return $this->jsonSuccess(['courses' => $courses]);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/topics", name="web.course.topics")
+     */
+    public function topicsAction($id)
+    {
+        $service = new CourseTopicListService();
+
+        $topics = $service->handle($id);
+
+        return $this->jsonSuccess(['topics' => $topics]);
     }
 
     /**

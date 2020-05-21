@@ -17,8 +17,8 @@
         <div class="right"></div>
     </div>
 
-    <div class="course-body">
-        <div class="left">
+    <div class="course-body layui-clear">
+        <div class="content">
             <div class="layui-tab layui-tab-brief">
                 <ul class="layui-tab-title">
                     <li class="layui-this">详情</li>
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="right">
+        <div class="sidebar">
             {% if teachers %}
                 {{ partial('course/widget_teacher', {'teachers':teachers}) }}
             {% endif %}

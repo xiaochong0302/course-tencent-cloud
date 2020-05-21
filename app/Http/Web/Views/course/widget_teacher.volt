@@ -1,6 +1,6 @@
-<div class="teacher-widget widget">
-    <div class="head">授课教师</div>
-    <div class="body">
+<div class="teacher-widget layui-card">
+    <div class="layui-card-header">授课教师</div>
+    <div class="layui-card-body">
         {% for teacher in teachers %}
             <div class="teacher" title="{{ teacher.about }}">
                 <div class="avatar"></div>

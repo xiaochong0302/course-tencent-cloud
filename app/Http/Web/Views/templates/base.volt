@@ -18,7 +18,7 @@
     {{ partial('partials/header') }}
 </div>
 
-<div id="content">
+<div id="main" class="layui-main">
     {% block content %}{% endblock %}
 </div>
 

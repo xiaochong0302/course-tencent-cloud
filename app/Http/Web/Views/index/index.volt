@@ -14,13 +14,21 @@
                 {% for category in courses %}
                     {% set class = loop.first ? 'layui-tab-item layui-show' : 'layui-tab-item' %}
                     <div class="{{ class }}">
-                        {% for course in category.courses %}
-                            <div class="course-card">
-                                <div class="cover"></div>
-                                <div class="title">{{ course.title }}</div>
-                                <div class="info"></div>
-                            </div>
-                        {% endfor %}
+                        <div class="course-list layui-clear">
+                            {% for course in category.courses %}
+                                <div class="course-card">
+                                    <div class="cover">
+                                        <a href="{{ url({'for':'web.course.show','id':course.id}) }}" title="{{ course.title }}">
+                                            <img lay-src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
+                                        </a>
+                                    </div>
+                                    <div class="title">
+                                        <a href="{{ url({'for':'web.course.show','id':course.id}) }}" title="{{ course.title }}">{{ substr(course.title,0,15) }}</a>
+                                    </div>
+                                    <div class="info"></div>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 {% endfor %}
             </div>
@@ -67,13 +75,15 @@
 {% block inline_js %}
 
     <script>
-        layui.use(['carousel'], function () {
+        layui.use(['carousel', 'flow'], function () {
             var carousel = layui.carousel;
+            var flow = layui.flow;
             carousel.render({
                 elem: '#carousel',
                 width: '600px',
                 height: '338px'
             });
+            flow.lazyimg();
         });
     </script>
 

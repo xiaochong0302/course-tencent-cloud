@@ -3,38 +3,40 @@
 {% block content %}
 
     <div class="course-filter">
-        <div class="group">
+        <div class="course-filter-group">
             <div class="title">方向</div>
             <div class="content">
                 {% for category in top_categories %}
-                    {% set class = request.get('tc') == category.id ? 'layui-badge active' : 'layui-badge' %}
+                    {% set class = request.get('tc','int','all') == category.id ? 'layui-btn layui-btn-xs' : 'none' %}
                     <a class="{{ class }}" href="{{ category.url }}">{{ category.name }}</a>
                 {% endfor %}
             </div>
         </div>
-        <div class="group">
-            <div class="title">分类</div>
-            <div class="content">
-                {% for category in sub_categories %}
-                    {% set class = request.get('sc') == category.id ? 'layui-badge active' : 'layui-badge' %}
-                    <a class="{{ class }}" href="{{ category.url }}">{{ category.name }}</a>
-                {% endfor %}
+        {% if sub_categories %}
+            <div class="course-filter-group">
+                <div class="title">分类</div>
+                <div class="content">
+                    {% for category in sub_categories %}
+                        {% set class = request.get('sc','int','all') == category.id ? 'layui-btn layui-btn-xs' : 'none' %}
+                        <a class="{{ class }}" href="{{ category.url }}">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
-        <div class="group">
+        {% endif %}
+        <div class="course-filter-group">
             <div class="title">类型</div>
             <div class="content">
                 {% for model in models %}
-                    {% set class = request.get('model') == model.id ? 'layui-badge active' : 'layui-badge' %}
+                    {% set class = request.get('model','trim','all') == model.id ? 'layui-btn layui-btn-xs' : 'none' %}
                     <a class="{{ class }}" href="{{ model.url }}">{{ model.name }}</a>
                 {% endfor %}
             </div>
         </div>
-        <div class="group">
+        <div class="course-filter-group">
             <div class="title">难度</div>
             <div class="content">
                 {% for level in levels %}
-                    {% set class = request.get('level') == level.id ? 'layui-badge active' : 'layui-badge' %}
+                    {% set class = request.get('level','trim','all') == level.id ? 'layui-btn layui-btn-xs' : 'none' %}
                     <a class="{{ class }}" href="{{ level.url }}">{{ level.name }}</a>
                 {% endfor %}
             </div>
@@ -48,11 +50,17 @@
         {% endfor %}
     </div>
 
-    <div class="course-list">
+    <div class="course-list layui-clear">
         {% for item in pager.items %}
             <div class="course-card">
-                <div class="cover"></div>
-                <div class="title">{{ item['title'] }}</div>
+                <div class="cover">
+                    <a href="{{ url({'for':'web.course.show','id':item['id']}) }}" title="{{ item['title'] }}">
+                        <img src="{{ item['cover'] }}!cover_270" alt="{{ item['title'] }}">
+                    </a>
+                </div>
+                <div class="title">
+                    <a href="{{ url({'for':'web.course.show','id':item['id']}) }}" title="{{ item['title'] }}">{{ substr(item['title'],0,18) }}</a>
+                </div>
                 <div class="info"></div>
             </div>
         {% endfor %}
