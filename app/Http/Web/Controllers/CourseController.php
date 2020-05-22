@@ -30,6 +30,8 @@ class CourseController extends Controller
 
         $pager = $service->handle();
 
+        $pager->items = kg_array_object($pager->items);
+
         $service = new CourseQueryService();
 
         $topCategories = $service->handleTopCategories();

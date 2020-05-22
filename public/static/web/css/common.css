@@ -1,7 +1,3 @@
-.layui-badge, .layui-badge-rim, .layui-badge-dot {
-    padding-bottom: 1px;
-}
-
 .clearfix:after {
     display: block;
     clear: both;
@@ -14,16 +10,68 @@
     zoom: 1
 }
 
-.float-left {
+.fl {
     float: left;
 }
 
-.float-right {
+.fr {
     float: right;
 }
 
+#header {
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    position: fixed;
+    background-color: #393D49 !important;
+}
+
+.logo {
+
+}
+
+.top-nav {
+    margin-left: 100px;
+}
+
+.search {
+    position: absolute;
+    top: 15px;
+    right: 240px;
+}
+
+.search .layui-input {
+    height: 30px;
+    font-size: 12px;
+}
+
+#main {
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+
 #footer {
+    padding: 30px 0;
     text-align: center;
+    background: #474443;
+}
+
+#footer span, #footer a {
+    color: #999;
+}
+
+#footer a:hover {
+    color: #fff;
+}
+
+.bottom-nav, .copyright {
+    margin-bottom: 10px;
+    line-height: 18px;
+}
+
+.bottom-nav a, .copyright span, .copyright a {
+    margin-right: 10px;
 }
 
 .pager {
@@ -39,7 +87,7 @@
 }
 
 .index-module .layui-tab-content {
-    padding: 20px 10px;
+    padding: 20px 0;
 }
 
 .index-module .header {
@@ -52,15 +100,64 @@
 
 }
 
+.index-carousel {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.index-carousel .slide {
+    width: auto;
+    height: 270px;
+    max-height: 270px;
+}
+
+/**
+ *search
+ */
+.search-course-card .cover {
+    width: 210px;
+    height: 118px;
+    margin-bottom: 10px;
+}
+
+.search-course-card .cover img {
+    width: 100%;
+    height: 100%;
+}
+
+.search-course-card .title {
+    width: 210px;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.search-course-card .meta {
+    color: #999;
+    font-size: 12px;
+}
+
+.search-course-card .meta span {
+    margin-right: 10px;
+}
+
+.search-course-card .price {
+    color: red;
+}
+
+.search-course-card .free {
+    color: green;
+}
+
 .course-card {
     float: left;
-    width: 25%;
-    height: 250px;
+    width: 20%;
+    height: 200px;
 }
 
 .course-card .cover {
-    width: 270px;
-    height: 148px;
+    width: 210px;
+    height: 118px;
     margin-bottom: 10px;
 }
 
@@ -70,38 +167,58 @@
 }
 
 .course-card .title {
+    width: 210px;
+    white-space: nowrap;
     margin-bottom: 10px;
+    overflow: hidden;
 }
 
-.course-card .info {
+.course-card .meta {
+    color: #999;
+    font-size: 12px;
 }
 
-.course-meta .left {
-    float: left;
+.course-card .meta span {
+    margin-right: 10px;
+}
+
+.course-card .price {
+    color: red;
+}
+
+.course-card .free {
+    color: green;
 }
 
 .course-filter {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
-.course-filter-group {
+.filter-group {
+    height: 40px;
     line-height: 40px;
-    margin-bottom: 15px;
-    clear: both;
 }
 
-.course-filter-group .title {
+.filter-group .title {
     float: left;
     width: 50px;
     font-weight: 700;
 }
 
-.course-filter-group .content {
+.filter-group .content {
     float: left;
 }
 
-.course-filter-group .content a {
+.filter-group .content a {
     margin-right: 15px;
+}
+
+.course-list {
+    margin-bottom: 20px;
+}
+
+.course-meta .left {
+    float: left;
 }
 
 .course-meta .right {

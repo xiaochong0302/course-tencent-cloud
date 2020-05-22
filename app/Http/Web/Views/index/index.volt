@@ -14,7 +14,7 @@
                 {% for category in courses %}
                     {% set class = loop.first ? 'layui-tab-item layui-show' : 'layui-tab-item' %}
                     <div class="{{ class }}">
-                        <div class="course-list layui-clear">
+                        <div class="module-course-list clearfix">
                             {% for course in category.courses %}
                                 <div class="course-card">
                                     <div class="cover">
@@ -25,7 +25,19 @@
                                     <div class="title">
                                         <a href="{{ url({'for':'web.course.show','id':course.id}) }}" title="{{ course.title }}">{{ substr(course.title,0,15) }}</a>
                                     </div>
-                                    <div class="info"></div>
+                                    <div class="meta">
+                                        {% if course.market_price > 0 %}
+                                            <span class="price">￥{{ course.market_price }}</span>
+                                            <span class="level">中级</span>
+                                            <span class="lesson">{{ course.lesson_count }}节课</span>
+                                            <span class="user">{{ course.user_count }}人购买</span>
+                                        {% else %}
+                                            <span class="free">免费</span>
+                                            <span class="level">中级</span>
+                                            <span class="lesson">{{ course.lesson_count }}节课</span>
+                                            <span class="user">{{ course.user_count }}人报名</span>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             {% endfor %}
                         </div>
@@ -35,13 +47,13 @@
         </div>
     {%- endmacro %}
 
-    <div class="index-module">
+    <div class="index-module index-carousel">
         <div class="layui-carousel" id="carousel">
             <div class="carousel" carousel-item>
                 {% for slide in slides %}
                     <div class="item" style="{{ slide.style }}">
                         <a href="{{ slide.url }}">
-                            <img src="{{ slide.cover }}" alt="{{ slide.title }}">
+                            <img class="slide" src="{{ slide.cover }}" alt="{{ slide.title }}">
                         </a>
                     </div>
                 {% endfor %}
@@ -80,8 +92,8 @@
             var flow = layui.flow;
             carousel.render({
                 elem: '#carousel',
-                width: '600px',
-                height: '338px'
+                width: '100%',
+                height: '270px'
             });
             flow.lazyimg();
         });

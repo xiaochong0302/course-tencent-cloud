@@ -3,7 +3,7 @@
 {% block content %}
 
     <div class="course-filter">
-        <div class="course-filter-group">
+        <div class="filter-group">
             <div class="title">方向</div>
             <div class="content">
                 {% for category in top_categories %}
@@ -13,7 +13,7 @@
             </div>
         </div>
         {% if sub_categories %}
-            <div class="course-filter-group">
+            <div class="filter-group">
                 <div class="title">分类</div>
                 <div class="content">
                     {% for category in sub_categories %}
@@ -23,7 +23,7 @@
                 </div>
             </div>
         {% endif %}
-        <div class="course-filter-group">
+        <div class="filter-group">
             <div class="title">类型</div>
             <div class="content">
                 {% for model in models %}
@@ -32,7 +32,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="course-filter-group">
+        <div class="filter-group">
             <div class="title">难度</div>
             <div class="content">
                 {% for level in levels %}
@@ -41,27 +41,41 @@
                 {% endfor %}
             </div>
         </div>
+        <div class="filter-group">
+            <div class="title">排序</div>
+            <div class="content">
+                {% for sort in sorts %}
+                    {% set class = request.get('sort','trim','score') == sort.id ? 'layui-btn layui-btn-xs' : 'none' %}
+                    <a class="{{ class }}" href="{{ sort.url }}">{{ sort.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
-    <div class="course-sort">
-        {% for sort in sorts %}
-            {% set class = request.get('sort','trim','score') == sort.id ? 'layui-badge active' : 'layui-badge' %}
-            <a class="{{ class }}" href="{{ sort.url }}">{{ sort.name }}</a>
-        {% endfor %}
-    </div>
-
-    <div class="course-list layui-clear">
+    <div class="course-list clearfix">
         {% for item in pager.items %}
             <div class="course-card">
                 <div class="cover">
-                    <a href="{{ url({'for':'web.course.show','id':item['id']}) }}" title="{{ item['title'] }}">
-                        <img src="{{ item['cover'] }}!cover_270" alt="{{ item['title'] }}">
+                    <a href="{{ url({'for':'web.course.show','id':item.id}) }}" title="{{ item.title }}">
+                        <img src="{{ item.cover }}!cover_270" alt="{{ item.title }}">
                     </a>
                 </div>
                 <div class="title">
-                    <a href="{{ url({'for':'web.course.show','id':item['id']}) }}" title="{{ item['title'] }}">{{ substr(item['title'],0,18) }}</a>
+                    <a href="{{ url({'for':'web.course.show','id':item.id}) }}" title="{{ item.title }}">{{ substr(item.title,0,15) }}</a>
                 </div>
-                <div class="info"></div>
+                <div class="meta">
+                    {% if item.market_price > 0 %}
+                        <span class="price">￥{{ item.market_price }}</span>
+                        <span class="level">中级</span>
+                        <span class="lesson">{{ item.lesson_count }}节课</span>
+                        <span class="user">{{ item.user_count }}人购买</span>
+                    {% else %}
+                        <span class="free">免费</span>
+                        <span class="level">中级</span>
+                        <span class="lesson">{{ item.lesson_count }}节课</span>
+                        <span class="user">{{ item.user_count }}人报名</span>
+                    {% endif %}
+                </div>
             </div>
         {% endfor %}
     </div>

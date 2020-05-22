@@ -29,8 +29,18 @@
 {{ js_include('lib/layui/layui.js') }}
 
 <script>
-    layui.use(['element'], function () {
+    layui.use(['element', 'util'], function () {
         var element = layui.element;
+        var util = layui.util;
+        util.fixbar({
+            bar1: true,
+            click: function (type) {
+                console.log(type);
+                if (type === 'bar1') {
+                    alert('点击了bar1');
+                }
+            }
+        });
     })
 </script>
 
