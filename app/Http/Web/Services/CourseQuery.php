@@ -223,7 +223,7 @@ class CourseQuery extends Service
             $params['tc'] = $query['tc'];
         }
 
-        if (isset($query['sc']) && $query['tc'] != 'all') {
+        if (isset($query['sc']) && $query['sc'] != 'all') {
             $validator->checkSubCategory($query['sc']);
             $params['sc'] = $query['sc'];
         }

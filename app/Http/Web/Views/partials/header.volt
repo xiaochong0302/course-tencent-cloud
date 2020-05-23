@@ -23,9 +23,7 @@
 
 <div class="search">
     <form class="layui-form" action="{{ url({'for':'web.search.list'}) }}">
-        <div class="layui-inline">
-            <input class="layui-input" type="text" name="query" autocomplete="off" placeholder="请输入课程关键字...">
-        </div>
+        <input class="layui-input" type="text" name="query" value="{{ request.get('query','trim','') }}" autocomplete="off" placeholder="请输入课程关键字...">
     </form>
 </div>
 
