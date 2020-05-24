@@ -13,11 +13,19 @@ use App\Repos\User as UserRepo;
 class Account extends Validator
 {
 
-    public function checkAccount($id)
+    public function checkAccount($name)
     {
         $accountRepo = new AccountRepo();
 
-        $account = $accountRepo->findById($id);
+        $account = null;
+
+        if (CommonValidator::email($name)) {
+            $account = $accountRepo->findByEmail($name);
+        } elseif (CommonValidator::phone($name)) {
+            $account = $accountRepo->findByPhone($name);
+        } else {
+            $account = $accountRepo->findById($name);
+        }
 
         if (!$account) {
             throw new BadRequestException('account.not_found');
@@ -50,6 +58,16 @@ class Account extends Validator
         }
 
         return $account;
+    }
+
+    public function checkLoginName($name)
+    {
+        $isPhone = CommonValidator::phone($name);
+        $isEmail = CommonValidator::email($name);
+
+        if (!$isPhone && !$isEmail) {
+            throw new BadRequestException('account.invalid_login_name');
+        }
     }
 
     public function checkPhone($phone)
@@ -110,32 +128,13 @@ class Account extends Validator
         }
     }
 
-    public function checkLoginName($name)
-    {
-        $accountRepo = new AccountRepo();
-
-        $account = null;
-
-        if (CommonValidator::email($name)) {
-            $account = $accountRepo->findByEmail($name);
-        } elseif (CommonValidator::phone($name)) {
-            $account = $accountRepo->findByPhone($name);
-        }
-
-        if (!$account) {
-            throw new BadRequestException('account.login_name_incorrect');
-        }
-
-        return $account;
-    }
-
     public function checkVerifyLogin($name, $code)
     {
         $verify = new Verify();
 
         $verify->checkCode($name, $code);
 
-        $account = $this->checkLoginName($name);
+        $account = $this->checkAccount($name);
 
         $userRepo = new UserRepo();
 
@@ -144,7 +143,7 @@ class Account extends Validator
 
     public function checkUserLogin($name, $password)
     {
-        $account = $this->checkLoginName($name);
+        $account = $this->checkAccount($name);
 
         $hash = PasswordUtil::hash($password, $account->salt);
 

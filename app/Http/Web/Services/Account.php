@@ -2,7 +2,9 @@
 
 namespace App\Http\Web\Services;
 
+use App\Repos\User as UserRepo;
 use App\Services\Auth as AuthService;
+use App\Services\Frontend\Account\Register as RegisterService;
 use App\Services\Frontend\Account\RegisterByEmail as RegisterByEmailService;
 use App\Services\Frontend\Account\RegisterByPhone as RegisterByPhoneService;
 use App\Validators\Account as AccountValidator;
@@ -19,6 +21,19 @@ class Account extends Service
     public function __construct()
     {
         $this->auth = $this->getDI()->get('auth');
+    }
+
+    public function register()
+    {
+        $service = new RegisterService();
+
+        $account = $service->handle();
+
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($account->id);
+
+        $this->auth->saveAuthInfo($user);
     }
 
     public function registerByEmail()

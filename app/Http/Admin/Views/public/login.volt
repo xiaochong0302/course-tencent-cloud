@@ -22,7 +22,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label"><i class="layui-icon layui-icon-vercode"></i></label>
             <div class="layui-input-block">
-                <span id="captcha-btn" class="layui-btn layui-btn-primary layui-btn-fluid" app-id="{{ captcha.app_id }}">点击完成验证</span>
+                <span id="captcha-btn" class="layui-btn layui-btn-primary layui-btn-fluid" data-app-id="{{ captcha.app_id }}">点击完成验证</span>
                 <span id="verify-tips" class="kg-btn-verify layui-btn layui-btn-primary layui-btn-disabled layui-btn-fluid layui-hide"><i class="layui-icon layui-icon-ok"></i>验证成功</span>
             </div>
         </div>
@@ -55,7 +55,7 @@
             var $ = layui.jquery;
             var captcha = new TencentCaptcha(
                 $('#captcha-btn')[0],
-                $('#captcha-btn').attr('app-id'),
+                $('#captcha-btn').attr('data-app-id'),
                 function (res) {
                     if (res.ret === 0) {
                         $('input[name=ticket]').val(res.ticket);

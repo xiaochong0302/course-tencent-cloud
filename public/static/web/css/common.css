@@ -51,8 +51,11 @@ body {
 }
 
 .search .layui-input {
+    border: none;
     height: 30px;
     font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 #main {
@@ -310,4 +313,30 @@ body {
 .course-body .sidebar {
     float: left;
     width: 320px;
+}
+
+.btn-verify {
+    color: green;
+}
+
+.register-container {
+    padding: 50px 30px;
+    background-color: #fff;
+}
+
+.register-container .layui-form {
+    width: 50%;
+}
+
+.login-tab {
+    padding: 30px;
+    background-color: #fff;
+}
+
+.login-tab .layui-tab-content {
+    padding-top: 30px;
+}
+
+.login-tab .layui-form {
+    width: 50%;
 }

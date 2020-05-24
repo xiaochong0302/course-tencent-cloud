@@ -4,7 +4,6 @@ namespace App\Http\Web\Controllers;
 
 use App\Http\Web\Services\Account as AccountService;
 use App\Services\Frontend\Account\EmailUpdate as EmailUpdateService;
-use App\Services\Frontend\Account\PasswordReset as PasswordResetService;
 use App\Services\Frontend\Account\PasswordUpdate as PasswordUpdateService;
 use App\Services\Frontend\Account\PhoneUpdate as PhoneUpdateService;
 
@@ -19,6 +18,21 @@ class AccountController extends Controller
      */
     public function registerAction()
     {
+        $service = new AccountService();
+
+        $captcha = $service->getSectionSettings('captcha');
+
+        $returnUrl = $this->request->getHTTPReferer();
+
+        $this->view->setVar('return_url', $returnUrl);
+        $this->view->setVar('captcha', $captcha);
+    }
+
+    /**
+     * @Post("/register", name="web.account.do_register")
+     */
+    public function doRegisterAction()
+    {
 
     }
 
@@ -27,7 +41,38 @@ class AccountController extends Controller
      */
     public function loginAction()
     {
+        $service = new AccountService();
 
+        $captcha = $service->getSectionSettings('captcha');
+
+        $returnUrl = $this->request->getHTTPReferer();
+
+        $this->view->setVar('return_url', $returnUrl);
+        $this->view->setVar('captcha', $captcha);
+    }
+
+    /**
+     * @Post("/password/login", name="web.account.pwd_login")
+     */
+    public function loginByPasswordAction()
+    {
+        $service = new AccountService();
+
+        $service->loginByPassword();
+
+        return $this->jsonSuccess();
+    }
+
+    /**
+     * @Post("/verify/login", name="web.account.verify_login")
+     */
+    public function loginByVerifyAction()
+    {
+        $service = new AccountService();
+
+        $service->loginByVerify();
+
+        return $this->jsonSuccess();
     }
 
     /**
@@ -47,88 +92,20 @@ class AccountController extends Controller
      */
     public function resetPasswordAction()
     {
-
-    }
-
-    /**
-     * @Post("/phone/register", name="web.account.register_by_phone")
-     */
-    public function registerByPhoneAction()
-    {
         $service = new AccountService();
 
-        $service->registerByPhone();
+        $captcha = $service->getSectionSettings('captcha');
 
-        $content = [
-            'location' => $this->request->getHTTPReferer(),
-            'msg' => '注册账户成功',
-        ];
-
-        return $this->jsonSuccess($content);
+        $this->view->pick('account/reset_password');
+        $this->view->setVar('captcha', $captcha);
     }
 
     /**
-     * @Post("/email/register", name="web.account.register_by_email")
+     * @Post("/password/reset", name="web.account.do_reset_pwd")
      */
-    public function registerByEmailAction()
+    public function doResetPasswordAction()
     {
-        $service = new AccountService();
 
-        $service->registerByPhone();
-
-        $content = [
-            'msg' => '注册账户成功',
-        ];
-
-        return $this->jsonSuccess($content);
-    }
-
-    /**
-     * @Post("/password/login", name="web.account.login_by_pwd")
-     */
-    public function loginByPasswordAction()
-    {
-        $service = new AccountService();
-
-        $service->loginByPassword();
-
-        return $this->jsonSuccess();
-    }
-
-    /**
-     * @Post("/verify/login", name="web.account.login_by_verify")
-     */
-    public function loginByVerifyAction()
-    {
-        $service = new AccountService();
-
-        $service->loginByVerify();
-
-        return $this->jsonSuccess();
-    }
-
-    /**
-     * @Post("/password/email/reset", name="web.account.reset_pwd_by_email")
-     */
-    public function resetPasswordByEmailAction()
-    {
-        $service = new PasswordResetService();
-
-        $service->handle();
-
-        return $this->jsonSuccess(['msg' => '重置密码成功']);
-    }
-
-    /**
-     * @Post("/password/phone/reset", name="web.account.reset_pwd_by_phone")
-     */
-    public function resetPasswordByPhoneAction()
-    {
-        $service = new PasswordResetService();
-
-        $service->handle();
-
-        return $this->jsonSuccess(['msg' => '重置密码成功']);
     }
 
     /**
@@ -156,7 +133,7 @@ class AccountController extends Controller
     }
 
     /**
-     * @Post("/password/update", name="web.account.update_password")
+     * @Post("/password/update", name="web.account.update_pwd")
      */
     public function updatePasswordAction()
     {

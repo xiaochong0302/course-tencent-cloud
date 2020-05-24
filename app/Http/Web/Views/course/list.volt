@@ -2,10 +2,11 @@
 
 {% block content %}
 
+    {{ partial('partials/macro_course') }}
+
     {{ partial('course/list_filter') }}
 
     <div class="course-list clearfix">
-        {{ partial('partials/macro_course') }}
         {% for item in pager.items %}
             {{ course_card(item) }}
         {% endfor %}
