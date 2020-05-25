@@ -12,14 +12,13 @@
         </span>
     </div>
 
-    <div class="course-meta">
-        <div class="left"></div>
-        <div class="right"></div>
-    </div>
-
-    <div class="course-body layui-clear">
-        <div class="content">
-            <div class="layui-tab layui-tab-brief">
+    <div class="layout-main clearfix">
+        <div class="layout-content">
+            <div class="course-meta">
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
+            <div class="layui-tab layui-tab-brief course-info-tab">
                 <ul class="layui-tab-title">
                     <li class="layui-this">详情</li>
                     <li>目录</li>
@@ -36,21 +35,21 @@
                 </div>
             </div>
         </div>
-        <div class="sidebar">
+        <div class="layout-sidebar">
             {% if teachers %}
-                {{ partial('course/widget_teacher', {'teachers':teachers}) }}
+                {{ partial('course/sidebar_teachers') }}
             {% endif %}
 
             {% if topics %}
-                {{ partial('course/widget_topic', {'topics':topics}) }}
+                {{ partial('course/sidebar_topics') }}
             {% endif %}
 
             {% if recommended_courses %}
-                {{ partial('course/widget_recommended', {'courses':recommended_courses}) }}
+                {{ partial('course/sidebar_recommended') }}
             {% endif %}
 
             {% if related_courses %}
-                {{ partial('course/widget_related', {'courses':related_courses}) }}
+                {{ partial('course/sidebar_related') }}
             {% endif %}
         </div>
     </div>

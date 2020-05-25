@@ -88,22 +88,22 @@ class AccountController extends Controller
     }
 
     /**
-     * @Get("/password/reset", name="web.account.reset_pwd")
+     * @Get("/password/forget", name="web.account.forget_pwd")
      */
-    public function resetPasswordAction()
+    public function forgetPasswordAction()
     {
         $service = new AccountService();
 
         $captcha = $service->getSectionSettings('captcha');
 
-        $this->view->pick('account/reset_password');
+        $this->view->pick('account/forget_password');
         $this->view->setVar('captcha', $captcha);
     }
 
     /**
-     * @Post("/password/reset", name="web.account.do_reset_pwd")
+     * @Post("/password/reset", name="web.account.reset_pwd")
      */
-    public function doResetPasswordAction()
+    public function resetPasswordAction()
     {
 
     }

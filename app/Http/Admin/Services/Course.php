@@ -395,7 +395,7 @@ class Course extends Service
 
         $cache = new CourseTeacherListCache();
 
-        $cache->rebuild();
+        $cache->rebuild($course->id);
     }
 
     protected function saveCategories(CourseModel $course, $categoryIds)

@@ -75,26 +75,6 @@ function kg_array_column($rows, $columnKey, $indexKey = null)
 }
 
 /**
- * 依据白名单取数据
- *
- * @param array $params
- * @param array $whitelist
- * @return array
- */
-function kg_array_whitelist($params, $whitelist)
-{
-    $result = [];
-
-    foreach ($params as $key => $value) {
-        if (in_array($key, $whitelist)) {
-            $result[$key] = $value;
-        }
-    }
-
-    return $result;
-}
-
-/**
  * 数组转对象
  *
  * @param array $array

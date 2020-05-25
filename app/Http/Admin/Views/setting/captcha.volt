@@ -37,8 +37,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label"><i class="layui-icon layui-icon-vercode"></i></label>
         <div class="layui-input-inline" style="width:200px;">
-            <span id="front-verify-btn" class="layui-btn layui-btn-primary layui-btn-fluid" app-id="{{ captcha.app_id }}">前台验证</span>
-            <span id="front-verify-tips" class="kg-btn-verify layui-btn layui-btn-primary layui-btn-fluid layui-btn-disabled layui-hide"><i class="layui-icon layui-icon-ok"></i>前台验证成功</span>
+            <span id="front-captcha-btn" class="layui-btn layui-btn-primary layui-btn-fluid" data-app-id="{{ captcha.app_id }}">前台验证</span>
+            <span id="front-verify-tips" class="kg-verify-btn layui-btn layui-btn-primary layui-btn-fluid layui-btn-disabled layui-hide"><i class="layui-icon layui-icon-ok"></i>前台验证成功</span>
         </div>
     </div>
 
@@ -46,7 +46,7 @@
         <label class="layui-form-label"><i class="layui-icon layui-icon-vercode"></i></label>
         <div class="layui-input-inline" style="width:200px;">
             <span id="back-verify-btn" class="layui-btn layui-btn-primary layui-btn-fluid" disabled="true" lay-submit="true" lay-filter="back-verify">后台验证</span>
-            <span id="back-verify-tips" class="kg-btn-verify layui-btn layui-btn-primary layui-btn-fluid layui-btn-disabled layui-hide"><i class="layui-icon layui-icon-ok"></i>后台验证成功</span>
+            <span id="back-verify-tips" class="kg-verify-btn layui-btn layui-btn-primary layui-btn-fluid layui-btn-disabled layui-hide"><i class="layui-icon layui-icon-ok"></i>后台验证成功</span>
             <input type="hidden" name="ticket">
             <input type="hidden" name="rand">
         </div>
@@ -65,13 +65,13 @@
         var layer = layui.layer;
 
         var captcha = new TencentCaptcha(
-            $('#front-verify-btn')[0],
-            $('#front-verify-btn').attr('app-id'),
+            $('#front-captcha-btn')[0],
+            $('#front-captcha-btn').attr('data-app-id'),
             function (res) {
                 if (res.ret === 0) {
                     $('input[name=ticket]').val(res.ticket);
                     $('input[name=rand]').val(res.randstr);
-                    $('#front-verify-btn').remove();
+                    $('#front-captcha-btn').remove();
                     $('#back-verify-btn').removeAttr('disabled');
                     $('#front-verify-tips').removeClass('layui-hide');
                 }

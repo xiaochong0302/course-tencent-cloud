@@ -9,8 +9,9 @@
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
         <a href="#">搜索</a>
-        <a><cite>{{ request.get('query') }}</cite></a>
+        <a><cite>{{ request.get('query')|striptags }}</cite></a>
     </div>
+
     <div class="layout-main clearfix">
         <div class="layout-content">
             {% if type == 'course' %}

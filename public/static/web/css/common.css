@@ -1,5 +1,9 @@
-.layui-badge, .layui-badge-rim {
-    padding-bottom: 1px;
+body {
+    background-color: #f2f2f2;
+}
+
+.clearfix {
+    zoom: 1
 }
 
 .clearfix:after {
@@ -7,15 +11,7 @@
     clear: both;
     content: "";
     visibility: hidden;
-    height: 0
-}
-
-body {
-    background-color: #f2f2f2;
-}
-
-.clearfix {
-    zoom: 1
+    height: 0;
 }
 
 .fl {
@@ -33,6 +29,19 @@ body {
     z-index: 1000;
     position: fixed;
     background-color: #393D49;
+}
+
+#main {
+    margin-top: 80px;
+    margin-bottom: 40px;
+    min-height: 550px;
+}
+
+#footer {
+    padding: 30px 0;
+    text-align: center;
+    font-size: 12px;
+    background: #474443;
 }
 
 .logo {
@@ -56,19 +65,6 @@ body {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.5);
     background-color: rgba(255, 255, 255, 0.05);
-}
-
-#main {
-    margin-top: 80px;
-    margin-bottom: 40px;
-    min-height: 550px;
-}
-
-#footer {
-    padding: 30px 0;
-    text-align: center;
-    font-size: 12px;
-    background: #474443;
 }
 
 #footer span, #footer a {
@@ -98,7 +94,9 @@ body {
 
 .layout-content {
     float: left;
-    width: 800px;
+    width: 730px;
+    padding: 30px;
+    background-color: #fff;
 }
 
 .layout-sidebar {
@@ -122,10 +120,6 @@ body {
     text-align: center;
     font-size: 20px;
     line-height: 30px;
-}
-
-.index-module .content {
-
 }
 
 .index-carousel {
@@ -204,10 +198,6 @@ body {
     max-height: 4.5em;
     word-wrap: break-word;
     overflow: hidden;
-}
-
-.search-course-card .meta {
-
 }
 
 .search-course-card .meta span {
@@ -294,6 +284,11 @@ body {
     margin-bottom: 20px;
 }
 
+.course-meta {
+    border: 1px dashed #ccc;
+    margin-bottom: 30px;
+}
+
 .course-meta .left {
     float: left;
 }
@@ -302,25 +297,111 @@ body {
     float: right;
 }
 
-.course-body {
+.course-info-tab .layui-tab-content {
+    padding-top: 30px;
 }
 
-.course-body .content {
+ul.lesson-list {
+
+}
+
+.lesson-list li {
+    padding-left: 10px;
+    line-height: 40px;
+}
+
+.lesson-list li a {
+    display: block;
+}
+
+.lesson-list li:hover {
+    background-color: #f2f2f2;
+}
+
+.sidebar-teacher-card {
+    margin-bottom: 15px;
+}
+
+.sidebar-teacher-card .avatar {
     float: left;
-    width: 780px;
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
 }
 
-.course-body .sidebar {
+.sidebar-teacher-card .avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 60px;
+}
+
+.sidebar-teacher-card .info {
     float: left;
-    width: 320px;
+    padding: 5px 0;
 }
 
-.btn-verify {
+.sidebar-teacher-card .info .name {
+}
+
+.sidebar-teacher-card .info .title {
+    color: #999;
+    font-size: 12px;
+}
+
+.topic-badge {
+    padding: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.sidebar-course-card {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.sidebar-course-card:last-child {
+    border-bottom: none;
+}
+
+.sidebar-course-card .cover {
+    float: left;
+    width: 90px;
+    height: 50px;
+    margin-right: 5px;
+}
+
+.sidebar-course-card .cover img {
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar-course-card .info {
+    float: left;
+    width: 190px;
+    color: #999;
+    overflow: hidden;
+}
+
+.sidebar-course-card .title {
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.sidebar-course-card .meta {
+    font-size: 10px;
+}
+
+.sidebar-course-card .meta span {
+    margin-right: 10px;
+}
+
+.verify-tips-btn {
     color: green;
 }
 
 .register-container {
-    padding: 50px 30px;
+    padding: 40px 30px;
     background-color: #fff;
 }
 
@@ -329,7 +410,7 @@ body {
 }
 
 .login-tab {
-    padding: 30px;
+    padding: 20px 30px;
     background-color: #fff;
 }
 

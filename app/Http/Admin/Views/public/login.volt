@@ -23,7 +23,7 @@
             <label class="layui-form-label"><i class="layui-icon layui-icon-vercode"></i></label>
             <div class="layui-input-block">
                 <span id="captcha-btn" class="layui-btn layui-btn-primary layui-btn-fluid" data-app-id="{{ captcha.app_id }}">点击完成验证</span>
-                <span id="verify-tips" class="kg-btn-verify layui-btn layui-btn-primary layui-btn-disabled layui-btn-fluid layui-hide"><i class="layui-icon layui-icon-ok"></i>验证成功</span>
+                <span id="verify-btn" class="layui-btn layui-btn-primary layui-btn-disabled layui-btn-fluid layui-hide kg-verify-btn"><i class="layui-icon layui-icon-ok"></i>验证成功</span>
             </div>
         </div>
     {% endif %}
@@ -62,7 +62,7 @@
                         $('input[name=rand]').val(res.randstr);
                         $('#captcha-btn').remove();
                         $('#submit-btn').removeAttr('disabled');
-                        $('#verify-tips').removeClass('layui-hide');
+                        $('#verify-btn').removeClass('layui-hide');
                     }
                 }
             );
