@@ -49,13 +49,14 @@ class SyncReviewCounterTask extends Task
 
         $hour = date('H');
 
+        $recount = $this->checkEnableRecount();
+
         foreach ($reviews as $review) {
 
-            if ($hour % 3 == 0) {
+            if ($recount && $hour % 3 == 0) {
 
                 $review->agree_count = $reviewRepo->countAgrees($review->id);
                 $review->oppose_count = $reviewRepo->countOpposes($review->id);
-
                 $review->update();
 
                 $counterCache->rebuild($review->id);
@@ -65,10 +66,8 @@ class SyncReviewCounterTask extends Task
                 $counter = $counterCache->get($review->id);
 
                 if ($counter) {
-
                     $review->agree_count = $counter['agree_count'];
                     $review->oppose_count = $counter['oppose_count'];
-
                     $review->update();
                 }
             }
@@ -82,6 +81,13 @@ class SyncReviewCounterTask extends Task
         $syncer = new ReviewCounterSyncer();
 
         return $syncer->getSyncKey();
+    }
+
+    protected function checkEnableRecount()
+    {
+        $config = $this->getDI()->get('config');
+
+        return $config['recount_review'] ?? false;
     }
 
 }

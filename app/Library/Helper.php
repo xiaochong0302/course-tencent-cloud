@@ -267,11 +267,11 @@ function kg_total_duration($time)
 
         $format = [];
 
-        if ($hours >= 0) {
+        if ($hours > 0) {
             $format[] = sprintf('%02d小时', $hours);
         }
 
-        if ($minutes >= 0) {
+        if ($minutes > 0) {
             $format[] = sprintf('%02d分钟', $minutes);
         }
 

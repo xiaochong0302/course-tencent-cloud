@@ -52,16 +52,17 @@ class SyncChapterCounterTask extends Task
 
         $hour = date('H');
 
+        $recount = $this->checkEnableRecount();
+
         foreach ($chapters as $chapter) {
 
-            if ($hour % 3 == 0) {
+            if ($recount && $hour % 3 == 0) {
 
                 $chapter->user_count = $chapterRepo->countUsers($chapter->id);
                 $chapter->lesson_count = $chapterRepo->countLessons($chapter->id);
                 $chapter->comment_count = $chapterRepo->countComments($chapter->id);
                 $chapter->agree_count = $chapterRepo->countAgrees($chapter->id);
                 $chapter->oppose_count = $chapterRepo->countOpposes($chapter->id);
-
                 $chapter->update();
 
                 $counterCache->rebuild($chapter->id);
@@ -78,7 +79,6 @@ class SyncChapterCounterTask extends Task
                     $chapter->comment_count = $counter['comment_count'];
                     $chapter->agree_count = $counter['agree_count'];
                     $chapter->oppose_count = $counter['oppose_count'];
-
                     $chapter->update();
 
                     $chapterCache->rebuild($chapter->id);
@@ -94,6 +94,13 @@ class SyncChapterCounterTask extends Task
         $syncer = new ChapterCounterSyncer();
 
         return $syncer->getSyncKey();
+    }
+
+    protected function checkEnableRecount()
+    {
+        $config = $this->getDI()->get('config');
+
+        return $config['recount_chapter'] ?? false;
     }
 
 }

@@ -21,14 +21,15 @@
 {%- endmacro %}
 
 {%- macro course_card(course) %}
+    {% set course_url = url({'for':'web.course.show','id':course.id}) %}
     <div class="course-card">
         <div class="cover">
-            <a href="{{ url({'for':'web.course.show','id':course.id}) }}">
+            <a href="{{ course_url }}">
                 <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
             </a>
         </div>
         <div class="title">
-            <a href="{{ url({'for':'web.course.show','id':course.id}) }}">{{ substr(course.title,0,15) }}</a>
+            <a href="{{ course_url }}">{{ substr(course.title,0,15) }}</a>
         </div>
         <div class="meta">
             {% if course.market_price > 0 %}
@@ -42,6 +43,31 @@
                 <span class="lesson">{{ course.lesson_count }}节课</span>
                 <span class="user">{{ course.user_count }}人报名</span>
             {% endif %}
+        </div>
+    </div>
+{%- endmacro %}
+
+{%- macro sidebar_course_card(course) %}
+    {% set course_url = url({'for':'web.course.show','id':course.id}) %}
+    <div class="sidebar-course-card clearfix">
+        <div class="cover">
+            <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
+        </div>
+        <div class="info">
+            <div class="title">
+                <a href="{{ course_url }}" title="{{ course.title }}">{{ substr(course.title,0,15) }}</a>
+            </div>
+            <div class="meta">
+                {% if course.market_price > 0 %}
+                    <span class="price">￥{{ course.market_price }}</span>
+                    <span class="level">{{ level_info(course.level) }}</span>
+                    <span class="user">{{ course.user_count }}人购买</span>
+                {% else %}
+                    <span class="free">免费</span>
+                    <span class="level">{{ level_info(course.level) }}</span>
+                    <span class="user">{{ course.user_count }}人报名</span>
+                {% endif %}
+            </div>
         </div>
     </div>
 {%- endmacro %}

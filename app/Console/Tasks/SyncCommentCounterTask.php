@@ -49,14 +49,15 @@ class SyncCommentCounterTask extends Task
 
         $hour = date('H');
 
+        $recount = $this->checkEnableRecount();
+
         foreach ($comments as $comment) {
 
-            if ($hour % 3 == 0) {
+            if ($recount && $hour % 3 == 0) {
 
                 $comment->reply_count = $commentRepo->countReplies($comment->id);
                 $comment->agree_count = $commentRepo->countAgrees($comment->id);
                 $comment->oppose_count = $commentRepo->countOpposes($comment->id);
-
                 $comment->update();
 
                 $counterCache->rebuild($comment->id);
@@ -66,11 +67,9 @@ class SyncCommentCounterTask extends Task
                 $counter = $counterCache->get($comment->id);
 
                 if ($counter) {
-
                     $comment->reply_count = $counter['reply_count'];
                     $comment->agree_count = $counter['agree_count'];
                     $comment->oppose_count = $counter['oppose_count'];
-
                     $comment->update();
                 }
             }
@@ -84,6 +83,13 @@ class SyncCommentCounterTask extends Task
         $syncer = new CommentCounterSyncer();
 
         return $syncer->getSyncKey();
+    }
+
+    protected function checkEnableRecount()
+    {
+        $config = $this->getDI()->get('config');
+
+        return $config['recount_comment'] ?? false;
     }
 
 }

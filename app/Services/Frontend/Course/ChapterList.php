@@ -41,6 +41,7 @@ class ChapterList extends FrontendService
                     $lesson['me'] = [
                         'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
                         'progress' => 0,
+                        'duration' => 0,
                     ];
                 }
             }
@@ -51,6 +52,7 @@ class ChapterList extends FrontendService
                     $lesson['me'] = [
                         'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
                         'progress' => $mappings[$lesson['id']]['progress'] ?? 0,
+                        'duration' => $mappings[$lesson['id']]['duration'] ?? 0,
                     ];
                 }
             }
@@ -74,6 +76,8 @@ class ChapterList extends FrontendService
         foreach ($userLearnings as $learning) {
             $mappings[$learning['chapter_id']] = [
                 'progress' => $learning['progress'],
+                'duration' => $learning['duration'],
+                'consumed' => $learning['consumed'],
             ];
         }
 

@@ -32,7 +32,15 @@ class PackageList extends FrontendService
 
             $courses = $cache->get($package['id']);
 
-            $package['courses'] = $courses ?: [];
+            $package['origin_price'] = 0.00;
+            $package['courses'] = [];
+
+            if ($courses) {
+                foreach ($courses as $course) {
+                    $package['origin_price'] += $course['market_price'];
+                }
+                $package['courses'] = $courses;
+            }
 
             $result[] = $package;
         }

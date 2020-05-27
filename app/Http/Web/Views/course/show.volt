@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {{ partial('partials/macro_course') }}
+
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="{{ url({'for':'web.course.list'}) }}">全部课程</a>
@@ -12,26 +14,52 @@
         </span>
     </div>
 
+    <div class="course-meta module clearfix">
+        {{ partial('course/meta') }}
+    </div>
+
+    {% set show_packages = packages ? 1 : 0 %}
+    {% set show_consults = course.market_price > 0 ? 1 : 0 %}
+    {% set show_reviews = course.market_price > 0 ? 1 : 0 %}
+
     <div class="layout-main clearfix">
-        <div class="layout-content">
-            <div class="course-meta">
-                <div class="left"></div>
-                <div class="right"></div>
-            </div>
+        <div class="layout-content module">
             <div class="layui-tab layui-tab-brief course-info-tab">
                 <ul class="layui-tab-title">
                     <li class="layui-this">详情</li>
                     <li>目录</li>
-                    <li>评价</li>
+                    {% if show_packages == 1 %}
+                        <li>套餐</li>
+                    {% endif %}
+                    {% if show_consults == 1 %}
+                        <li>咨询</li>
+                    {% endif %}
+                    {% if show_reviews == 1 %}
+                        <li>评价</li>
+                    {% endif %}
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
                         <div class="course-details">{{ course.details }}</div>
                     </div>
                     <div class="layui-tab-item">
-                        {{ partial('course/chapters', {'chapters':chapters}) }}
+                        {% if course.model == 'vod' %}
+                            {{ partial('course/chapters_vod') }}
+                        {% elseif course.model == 'live' %}
+                            {{ partial('course/chapters_live') }}
+                        {% elseif course.model == 'read' %}
+                            {{ partial('course/chapters_read') }}
+                        {% endif %}
                     </div>
-                    <div class="layui-tab-item">内容3</div>
+                    {% if show_packages == 1 %}
+                        <div class="layui-tab-item">{{ partial('course/packages') }}</div>
+                    {% endif %}
+                    {% if show_consults == 1 %}
+                        <div class="layui-tab-item">咨询</div>
+                    {% endif %}
+                    {% if show_reviews == 1 %}
+                        <div class="layui-tab-item">评价</div>
+                    {% endif %}
                 </div>
             </div>
         </div>

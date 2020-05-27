@@ -49,13 +49,14 @@ class SyncConsultCounterTask extends Task
 
         $hour = date('H');
 
+        $recount = $this->checkEnableRecount();
+
         foreach ($consults as $consult) {
 
-            if ($hour % 3 == 0) {
+            if ($recount && $hour % 3 == 0) {
 
                 $consult->agree_count = $consultRepo->countAgrees($consult->id);
                 $consult->oppose_count = $consultRepo->countOpposes($consult->id);
-
                 $consult->update();
 
                 $counterCache->rebuild($consult->id);
@@ -65,10 +66,8 @@ class SyncConsultCounterTask extends Task
                 $counter = $counterCache->get($consult->id);
 
                 if ($counter) {
-
                     $consult->agree_count = $counter['agree_count'];
                     $consult->oppose_count = $counter['oppose_count'];
-
                     $consult->update();
                 }
             }
@@ -82,6 +81,13 @@ class SyncConsultCounterTask extends Task
         $syncer = new ConsultCounterSyncer();
 
         return $syncer->getSyncKey();
+    }
+
+    protected function checkEnableRecount()
+    {
+        $config = $this->getDI()->get('config');
+
+        return $config['recount_consult'] ?? false;
     }
 
 }

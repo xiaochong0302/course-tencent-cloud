@@ -45,6 +45,7 @@ class CoursePackageList extends Cache
             $result[] = [
                 'id' => $package->id,
                 'title' => $package->title,
+                'course_count' => $package->course_count,
                 'market_price' => $package->market_price,
                 'vip_price' => $package->vip_price,
             ];

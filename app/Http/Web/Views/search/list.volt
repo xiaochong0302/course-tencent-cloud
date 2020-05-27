@@ -13,7 +13,7 @@
     </div>
 
     <div class="layout-main clearfix">
-        <div class="layout-content">
+        <div class="layout-content module">
             {% if type == 'course' %}
                 {{ partial('search/content_course') }}
             {% elseif type == 'other' %}
