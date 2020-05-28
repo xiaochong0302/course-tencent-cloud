@@ -30,70 +30,64 @@ class Course extends Repository
     {
         $builder = $this->modelsManager->createBuilder();
 
+        $builder->from(CourseModel::class);
+
+        $builder->where('1 = 1');
+
         if (!empty($where['category_id'])) {
-            $where['category_id'] = is_array($where['category_id']) ? $where['category_id'] : [$where['category_id']];
-            $builder->addFrom(CourseModel::class, 'c');
-            $builder->join(CourseCategoryModel::class, 'c.id = cc.course_id', 'cc');
-            $builder->inWhere('cc.category_id', $where['category_id']);
+            $where['id'] = $this->getCategoryCourseIds($where['category_id']);
         } elseif (!empty($where['teacher_id'])) {
-            $where['teacher_id'] = is_array($where['teacher_id']) ? $where['teacher_id'] : [$where['teacher_id']];
-            $builder->addFrom(CourseModel::class, 'c');
-            $builder->join(CourseUserModel::class, 'c.id = cu.course_id', 'cu');
-            $builder->inWhere('cu.user_id', $where['teacher_id']);
-            $builder->andWhere('cu.role_type = :role_type:', ['role_type' => CourseUserModel::ROLE_TEACHER]);
-        } else {
-            $builder->addFrom(CourseModel::class, 'c');
-            $builder->where('1 = 1');
+            $where['id'] = $this->getTeacherCourseIds($where['teacher_id']);
         }
 
         if (!empty($where['id'])) {
             if (is_array($where['id'])) {
-                $builder->inWhere('c.id', $where['id']);
+                $builder->inWhere('id', $where['id']);
             } else {
-                $builder->andWhere('c.id = :id:', ['id' => $where['id']]);
+                $builder->andWhere('id = :id:', ['id' => $where['id']]);
             }
         }
 
         if (!empty($where['title'])) {
-            $builder->andWhere('c.title LIKE :title:', ['title' => "%{$where['title']}%"]);
+            $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
         }
 
         if (!empty($where['model'])) {
-            $builder->andWhere('c.model = :model:', ['model' => $where['model']]);
+            $builder->andWhere('model = :model:', ['model' => $where['model']]);
         }
 
         if (!empty($where['level'])) {
-            $builder->andWhere('c.level = :level:', ['level' => $where['level']]);
+            $builder->andWhere('level = :level:', ['level' => $where['level']]);
         }
 
         if (isset($where['free'])) {
             if ($where['free'] == 1) {
-                $builder->andWhere('c.market_price = 0');
+                $builder->andWhere('market_price = 0');
             } else {
-                $builder->andWhere('c.market_price > 0');
+                $builder->andWhere('market_price > 0');
             }
         }
 
         if (isset($where['published'])) {
-            $builder->andWhere('c.published = :published:', ['published' => $where['published']]);
+            $builder->andWhere('published = :published:', ['published' => $where['published']]);
         }
 
         if (isset($where['deleted'])) {
-            $builder->andWhere('c.deleted = :deleted:', ['deleted' => $where['deleted']]);
+            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
         switch ($sort) {
             case 'score':
-                $orderBy = 'c.score DESC';
+                $orderBy = 'score DESC';
                 break;
             case 'rating':
-                $orderBy = 'c.rating DESC';
+                $orderBy = 'rating DESC';
                 break;
             case 'popular':
-                $orderBy = 'c.user_count DESC';
+                $orderBy = 'user_count DESC';
                 break;
             default:
-                $orderBy = 'c.id DESC';
+                $orderBy = 'id DESC';
                 break;
         }
 
@@ -333,6 +327,36 @@ class Course extends Repository
             'conditions' => 'course_id = :course_id: AND published = 1',
             'bind' => ['course_id' => $courseId],
         ]);
+    }
+
+    protected function getCategoryCourseIds($categoryId)
+    {
+        $categoryIds = is_array($categoryId) ? $categoryId : [$categoryId];
+
+        $repo = new CourseCategory();
+
+        $rows = $repo->findByCategoryIds($categoryIds);
+
+        if ($rows->count() == 0) {
+            return [];
+        }
+
+        return kg_array_column($rows->toArray(), 'course_id');
+    }
+
+    protected function getTeacherCourseIds($teacherId)
+    {
+        $teacherIds = is_array($teacherId) ? $teacherId : [$teacherId];
+
+        $repo = new CourseUser();
+
+        $rows = $repo->findByTeacherIds($teacherIds);
+
+        if ($rows->count() == 0) {
+            return [];
+        }
+
+        return kg_array_column($rows->toArray(), 'course_id');
     }
 
 }

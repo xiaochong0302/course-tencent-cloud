@@ -27,7 +27,7 @@ class CourseCategory extends Repository
      * @param array $categoryIds
      * @return ResultsetInterface|Resultset|CourseCategoryModel[]
      */
-    public function findByCategoryIds($categoryIds)
+    public function findByCategoryIds(array $categoryIds)
     {
         return CourseCategoryModel::query()
             ->inWhere('category_id', $categoryIds)
@@ -38,7 +38,7 @@ class CourseCategory extends Repository
      * @param array $courseIds
      * @return ResultsetInterface|Resultset|CourseCategoryModel[]
      */
-    public function findByCourseIds($courseIds)
+    public function findByCourseIds(array $courseIds)
     {
         return CourseCategoryModel::query()
             ->inWhere('course_id', $courseIds)

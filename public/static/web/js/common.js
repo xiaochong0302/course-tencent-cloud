@@ -20,6 +20,16 @@ util.fixbar({
     }
 });
 
+var helper = {};
+
+helper.ajaxPager = function (url, target) {
+    var index = layer.load();
+    $.get(url, function (html) {
+        $('#' + target).html(html);
+        layer.close(index);
+    });
+}
+
 form.on('submit(go)', function (data) {
     var submit = $(this);
     submit.attr('disabled', true).addClass('layui-btn-disabled');
@@ -74,6 +84,8 @@ $('.kg-delete').on('click', function () {
     });
 });
 
-$('.kg-back').on('click', function () {
-    window.history.back();
+$('body').on('click', '.layui-laypage > a', function () {
+    var url = $(this).attr('data-url');
+    var target = $(this).attr('data-target');
+    helper.ajaxPager(url, target);
 });

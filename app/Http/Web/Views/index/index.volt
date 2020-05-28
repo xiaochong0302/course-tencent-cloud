@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {{ partial('partials/macro_course') }}
+
     {%- macro category_courses(courses) %}
         <div class="layui-tab layui-tab-brief">
             <ul class="layui-tab-title">
@@ -14,31 +16,9 @@
                 {% for category in courses %}
                     {% set class = loop.first ? 'layui-tab-item layui-show' : 'layui-tab-item' %}
                     <div class="{{ class }}">
-                        <div class="module-course-list clearfix">
+                        <div class="index-course-list clearfix">
                             {% for course in category.courses %}
-                                <div class="course-card">
-                                    <div class="cover">
-                                        <a href="{{ url({'for':'web.course.show','id':course.id}) }}" title="{{ course.title }}">
-                                            <img lay-src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
-                                        </a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="{{ url({'for':'web.course.show','id':course.id}) }}" title="{{ course.title }}">{{ substr(course.title,0,15) }}</a>
-                                    </div>
-                                    <div class="meta">
-                                        {% if course.market_price > 0 %}
-                                            <span class="price">￥{{ course.market_price }}</span>
-                                            <span class="level">中级</span>
-                                            <span class="lesson">{{ course.lesson_count }}节课</span>
-                                            <span class="user">{{ course.user_count }}人购买</span>
-                                        {% else %}
-                                            <span class="free">免费</span>
-                                            <span class="level">中级</span>
-                                            <span class="lesson">{{ course.lesson_count }}节课</span>
-                                            <span class="user">{{ course.user_count }}人报名</span>
-                                        {% endif %}
-                                    </div>
-                                </div>
+                                {{ course_card(course) }}
                             {% endfor %}
                         </div>
                     </div>
@@ -47,7 +27,7 @@
         </div>
     {%- endmacro %}
 
-    <div class="index-module index-carousel">
+    <div class="index-module index-carousel module">
         <div class="layui-carousel" id="carousel">
             <div class="carousel" carousel-item>
                 {% for slide in slides %}
@@ -61,21 +41,21 @@
         </div>
     </div>
 
-    <div class="index-module">
+    <div class="index-module module">
         <div class="header">新上课程</div>
         <div class="content">
             {{ category_courses(new_courses) }}
         </div>
     </div>
 
-    <div class="index-module">
+    <div class="index-module module">
         <div class="header">免费课程</div>
         <div class="content">
             {{ category_courses(free_courses) }}
         </div>
     </div>
 
-    <div class="index-module">
+    <div class="index-module module">
         <div class="header">会员课程</div>
         <div class="content">
             {{ category_courses(vip_courses) }}

@@ -14,6 +14,7 @@ use App\Services\Frontend\Course\RelatedList as CourseRelatedListService;
 use App\Services\Frontend\Course\ReviewList as CourseReviewListService;
 use App\Services\Frontend\Course\TeacherList as CourseTeacherListService;
 use App\Services\Frontend\Course\TopicList as CourseTopicListService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/course")
@@ -70,6 +71,18 @@ class CourseController extends Controller
 
         $packages = $service->handle($id);
 
+        $service = new CourseReviewListService();
+
+        $reviews = $service->handle($id);
+
+        $reviews->items = kg_array_object($reviews->items);
+
+        $service = new CourseConsultListService();
+
+        $consults = $service->handle($id);
+
+        $consults->items = kg_array_object($consults->items);
+
         $service = new CourseTeacherListService();
 
         $teachers = $service->handle($id);
@@ -89,6 +102,8 @@ class CourseController extends Controller
         $this->view->setVar('course', $course);
         $this->view->setVar('chapters', $chapters);
         $this->view->setVar('packages', $packages);
+        $this->view->setVar('consults', $consults);
+        $this->view->setVar('reviews', $reviews);
         $this->view->setVar('teachers', $teachers);
         $this->view->setVar('topics', $topics);
         $this->view->setVar('recommended_courses', $recommendedCourses);
@@ -130,7 +145,12 @@ class CourseController extends Controller
 
         $pager = $service->handle($id);
 
-        return $this->jsonPaginate($pager);
+        $pager->target = $this->request->get('target', 'trim', 'tab-consults');
+
+        $pager->items = kg_array_object($pager->items);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('pager', $pager);
     }
 
     /**
@@ -142,7 +162,12 @@ class CourseController extends Controller
 
         $pager = $service->handle($id);
 
-        return $this->jsonPaginate($pager);
+        $pager->target = $this->request->get('target', 'trim', 'tab-reviews');
+
+        $pager->items = kg_array_object($pager->items);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('pager', $pager);
     }
 
     /**

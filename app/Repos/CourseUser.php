@@ -5,6 +5,8 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\CourseUser as CourseUserModel;
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class CourseUser extends Repository
 {
@@ -114,6 +116,20 @@ class CourseUser extends Repository
             'bind' => [1 => $courseId, 2 => $userId, 3 => $roleType],
             'order' => 'id DESC',
         ]);
+    }
+
+    /**
+     * @param array $teacherIds
+     * @return ResultsetInterface|Resultset|CourseUserModel[]
+     */
+    public function findByTeacherIds(array $teacherIds)
+    {
+        $roleType = CourseUserModel::ROLE_TEACHER;
+
+        return CourseUserModel::query()
+            ->inWhere('user_id', $teacherIds)
+            ->andWhere('role_type = :role_type:', ['role_type' => $roleType])
+            ->execute();
     }
 
 }

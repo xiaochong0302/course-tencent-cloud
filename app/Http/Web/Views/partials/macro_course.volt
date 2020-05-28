@@ -25,11 +25,11 @@
     <div class="course-card">
         <div class="cover">
             <a href="{{ course_url }}">
-                <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
+                <img src="{{ course.cover }}!cover_270" alt="{{ course.title|e }}" title="{{ course.title|e }}">
             </a>
         </div>
         <div class="title">
-            <a href="{{ course_url }}">{{ substr(course.title,0,15) }}</a>
+            <a href="{{ course_url }}" title="{{ course.title|e }}">{{ substr(course.title,0,15) }}</a>
         </div>
         <div class="meta">
             {% if course.market_price > 0 %}
@@ -51,11 +51,11 @@
     {% set course_url = url({'for':'web.course.show','id':course.id}) %}
     <div class="sidebar-course-card clearfix">
         <div class="cover">
-            <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
+            <img src="{{ course.cover }}!cover_270" alt="{{ course.title|e }}">
         </div>
         <div class="info">
             <div class="title">
-                <a href="{{ course_url }}" title="{{ course.title }}">{{ substr(course.title,0,15) }}</a>
+                <a href="{{ course_url }}" title="{{ course.title|e }}">{{ substr(course.title,0,15) }}</a>
             </div>
             <div class="meta">
                 {% if course.market_price > 0 %}
