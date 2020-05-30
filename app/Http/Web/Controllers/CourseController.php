@@ -14,6 +14,7 @@ use App\Services\Frontend\Course\RelatedList as CourseRelatedListService;
 use App\Services\Frontend\Course\ReviewList as CourseReviewListService;
 use App\Services\Frontend\Course\TeacherList as CourseTeacherListService;
 use App\Services\Frontend\Course\TopicList as CourseTopicListService;
+use App\Services\Frontend\Reward\OptionList as RewardOptionList;
 use Phalcon\Mvc\View;
 
 /**
@@ -61,66 +62,24 @@ class CourseController extends Controller
 
         $service = new CourseQueryService();
 
-        $categoryPaths = $service->handleCategoryPaths($course['category_id']);
+        $course['category_paths'] = $service->handleCategoryPaths($course['category_id']);
 
         $service = new CourseChapterListService();
 
         $chapters = $service->handle($id);
-
-        $service = new CoursePackageListService();
-
-        $packages = $service->handle($id);
-
-        $service = new CourseReviewListService();
-
-        $reviews = $service->handle($id);
-
-        $reviews->items = kg_array_object($reviews->items);
-
-        $service = new CourseConsultListService();
-
-        $consults = $service->handle($id);
-
-        $consults->items = kg_array_object($consults->items);
 
         $service = new CourseTeacherListService();
 
         $teachers = $service->handle($id);
 
-        $service = new CourseTopicListService();
+        $service = new RewardOptionList();
 
-        $topics = $service->handle($id);
-
-        $service = new CourseRecommendedListService();
-
-        $recommendedCourses = $service->handle($id);
-
-        $service = new CourseRelatedListService();
-
-        $relatedCourses = $service->handle($id);
+        $rewardOptions = $service->handle();
 
         $this->view->setVar('course', $course);
         $this->view->setVar('chapters', $chapters);
-        $this->view->setVar('packages', $packages);
-        $this->view->setVar('consults', $consults);
-        $this->view->setVar('reviews', $reviews);
         $this->view->setVar('teachers', $teachers);
-        $this->view->setVar('topics', $topics);
-        $this->view->setVar('recommended_courses', $recommendedCourses);
-        $this->view->setVar('related_courses', $relatedCourses);
-        $this->view->setVar('category_paths', $categoryPaths);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/chapters", name="web.course.chapters")
-     */
-    public function chaptersAction($id)
-    {
-        $service = new CourseChapterListService();
-
-        $chapters = $service->handle($id);
-
-        return $this->jsonSuccess(['chapters' => $chapters]);
+        $this->view->setVar('reward_options', $rewardOptions);
     }
 
     /**
@@ -132,22 +91,23 @@ class CourseController extends Controller
 
         $packages = $service->handle($id);
 
-        return $this->jsonSuccess(['packages' => $packages]);
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('packages', $packages);
     }
-
 
     /**
      * @Get("/{id:[0-9]+}/consults", name="web.course.consults")
      */
     public function consultsAction($id)
     {
+        $target = $this->request->get('target', 'trim', 'tab-consults');
+
         $service = new CourseConsultListService();
 
         $pager = $service->handle($id);
 
-        $pager->target = $this->request->get('target', 'trim', 'tab-consults');
-
         $pager->items = kg_array_object($pager->items);
+        $pager->target = $target;
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);
@@ -158,28 +118,17 @@ class CourseController extends Controller
      */
     public function reviewsAction($id)
     {
+        $target = $this->request->get('target', 'trim', 'tab-reviews');
+
         $service = new CourseReviewListService();
 
         $pager = $service->handle($id);
 
-        $pager->target = $this->request->get('target', 'trim', 'tab-reviews');
-
         $pager->items = kg_array_object($pager->items);
+        $pager->target = $target;
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/teachers", name="web.course.teachers")
-     */
-    public function teachersAction($id)
-    {
-        $service = new CourseTeacherListService();
-
-        $teachers = $service->handle($id);
-
-        return $this->jsonSuccess(['teachers' => $teachers]);
     }
 
     /**
@@ -191,7 +140,8 @@ class CourseController extends Controller
 
         $courses = $service->handle($id);
 
-        return $this->jsonSuccess(['courses' => $courses]);
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('courses', $courses);
     }
 
     /**
@@ -203,7 +153,8 @@ class CourseController extends Controller
 
         $courses = $service->handle($id);
 
-        return $this->jsonSuccess(['courses' => $courses]);
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('courses', $courses);
     }
 
     /**
@@ -215,7 +166,20 @@ class CourseController extends Controller
 
         $topics = $service->handle($id);
 
-        return $this->jsonSuccess(['topics' => $topics]);
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('topics', $topics);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/reward", name="web.course.reward")
+     */
+    public function rewardAction($id)
+    {
+        $service = new RewardOptionList();
+
+        $options = $service->handle();
+
+        $this->view->setVar('options', $options);
     }
 
     /**

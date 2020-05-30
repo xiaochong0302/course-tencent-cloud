@@ -118,6 +118,15 @@ body {
     width: 320px;
 }
 
+.layout-sidebar .loading {
+    padding: 15px;
+    text-align: center;
+}
+
+.layout-sidebar .sidebar {
+    margin-bottom: 15px;
+}
+
 .index-module .layui-tab {
     margin-bottom: 0;
 }
@@ -310,8 +319,39 @@ body {
 }
 
 .course-meta .info {
+    position: relative;
     float: left;
+    width: 80%;
     font-size: 12px;
+}
+
+.course-meta .info .share {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.course-meta .share a {
+    margin-right: 5px;
+    color: #999;
+}
+
+.course-meta .share a:hover {
+    color: #000;
+}
+
+.course-meta .info .price {
+    color: red;
+    font-size: 14px;
+}
+
+.course-meta .info .free {
+    color: green;
+}
+
+.course-meta .info span {
+    color: #999;
+    margin: 0 5px;
 }
 
 .course-meta .cover img {
@@ -323,16 +363,26 @@ body {
     line-height: 30px;
 }
 
-.course-meta .stats span {
-    margin-right: 5px;
-}
-
 .course-tab {
     margin: 0;
 }
 
 .course-tab .layui-tab-content {
-    padding: 30px 0;
+    padding: 20px 0;
+}
+
+.course-tab .loading {
+    text-align: center;
+    padding: 15px;
+}
+
+.course-tab .loading .layui-icon {
+    font-size: 30px;
+}
+
+.course-details {
+    font-size: 12px;
+    color: #999;
 }
 
 .lesson-item {
@@ -448,6 +498,7 @@ body {
 }
 
 .review-card {
+    position: relative;
     padding-bottom: 10px;
     margin-bottom: 10px;
     border-bottom: 1px dashed #ccc;
@@ -473,31 +524,48 @@ body {
 .review-card .info {
     float: left;
     width: 650px;
+    font-size: 12px;
 }
 
 .review-card .rating {
+    position: absolute;
+    top: 0;
+    right: 0;
     margin-bottom: 10px;
 }
 
 .review-card .rating .layui-icon {
     color: orange;
+    font-size: 12px;
 }
 
 .review-card .title {
     margin-bottom: 10px;
 }
 
+.review-card .user {
+    margin-bottom: 10px;
+    color: #999;
+}
+
 .review-card .content {
     margin-bottom: 10px;
     color: #999;
-    font-size: 12px;
     word-wrap: break-word;
     white-space: pre-wrap;
 }
 
 .review-card .footer {
     color: #999;
-    font-size: 12px;
+}
+
+.sidebar-order .order {
+    margin-bottom: 10px;
+}
+
+.sidebar-order .reward-btn {
+    width: 84px;
+    margin: 5px;
 }
 
 .sidebar-teacher-card {

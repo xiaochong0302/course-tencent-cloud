@@ -32,6 +32,10 @@ trait Auth
      */
     public function getLoginUser()
     {
+        $userRepo = new UserRepo();
+
+        return $userRepo->findById(100015);
+
         $authUser = $this->getAuthUser();
 
         $validator = new AppValidator();

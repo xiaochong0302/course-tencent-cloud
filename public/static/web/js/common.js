@@ -22,11 +22,12 @@ util.fixbar({
 
 var helper = {};
 
-helper.ajaxPager = function (url, target) {
-    var index = layer.load();
+helper.ajaxLoadHtml = function (url, target) {
+    var $target = $('#' + target);
+    var html = '<div class="loading"><i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i></div>';
+    $target.html(html);
     $.get(url, function (html) {
-        $('#' + target).html(html);
-        layer.close(index);
+        $target.html(html);
     });
 }
 
@@ -87,5 +88,5 @@ $('.kg-delete').on('click', function () {
 $('body').on('click', '.layui-laypage > a', function () {
     var url = $(this).attr('data-url');
     var target = $(this).attr('data-target');
-    helper.ajaxPager(url, target);
+    helper.ajaxLoadHtml(url, target);
 });

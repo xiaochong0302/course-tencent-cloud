@@ -23,9 +23,9 @@ class OrderController extends Controller
 
         $service = new OrderConfirmService();
 
-        $info = $service->handle($itemId, $itemType);
+        $confirm = $service->handle($itemId, $itemType);
 
-        $this->view->setVar('info', $info);
+        $this->view->setVar('confirm', $confirm);
     }
 
     /**
