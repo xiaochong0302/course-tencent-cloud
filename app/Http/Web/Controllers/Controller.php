@@ -5,6 +5,7 @@ namespace App\Http\Web\Controllers;
 use App\Caches\NavTreeList as NavTreeListCache;
 use App\Caches\Setting as SettingCache;
 use App\Library\Seo as SiteSeo;
+use App\Models\User as UserModel;
 use App\Services\Auth\Web as WebAuth;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
@@ -29,7 +30,7 @@ class Controller extends \Phalcon\Mvc\Controller
     protected $siteNavs;
 
     /**
-     * @var array
+     * @var UserModel
      */
     protected $authUser;
 
@@ -69,7 +70,7 @@ class Controller extends \Phalcon\Mvc\Controller
          */
         $auth = $this->getDI()->get('auth');
 
-        return $auth->getAuthInfo() ?: [];
+        return $auth->getCurrentUser();
     }
 
     protected function getSiteNavs()

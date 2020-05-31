@@ -32,21 +32,35 @@ class OrderConfirm extends FrontendService
             $course = $validator->checkCourse($itemId);
 
             $result['item_info']['course'] = $this->handleCourseInfo($course);
-            $result['amount'] = $user->vip ? $course->vip_price : $course->market_price;
+
+            $result['total_amount'] = $course->market_price;
+            $result['pay_amount'] = $user->vip ? $course->vip_price : $course->market_price;
+            $result['discount_amount'] = $result['total_amount'] - $result['pay_amount'];
 
         } elseif ($itemType == OrderModel::ITEM_PACKAGE) {
 
             $package = $validator->checkPackage($itemId);
 
             $result['item_info']['package'] = $this->handlePackageInfo($package);
-            $result['amount'] = $user->vip ? $package->vip_price : $package->market_price;
+
+            $result['total_amount'] = 0;
+
+            foreach ($result['item_info']['package']['courses'] as $course) {
+                $result['total_amount'] += $course['market_price'];
+            }
+
+            $result['pay_amount'] = $user->vip ? $package->vip_price : $package->market_price;
+            $result['discount_amount'] = $result['total_amount'] - $result['pay_amount'];
 
         } elseif ($itemType == OrderModel::ITEM_VIP) {
 
             $vip = $validator->checkVip($itemId);
 
             $result['item_info']['vip'] = $this->handleVipInfo($vip);
-            $result['amount'] = $vip->price;
+
+            $result['total_amount'] = $vip->price;
+            $result['pay_amount'] = $vip->price;
+            $result['discount_amount'] = 0;
 
         } elseif ($itemType == OrderModel::ITEM_REWARD) {
 
@@ -57,10 +71,13 @@ class OrderConfirm extends FrontendService
 
             $result['item_info']['course'] = $this->handleCourseInfo($course);
             $result['item_info']['reward'] = $this->handleRewardInfo($reward);
-            $result['amount'] = $reward->price;
+
+            $result['total_amount'] = $reward->price;
+            $result['pay_amount'] = $reward->price;
+            $result['discount_amount'] = 0;
         }
 
-        $validator->checkAmount($result['amount']);
+        $validator->checkAmount($result['pay_amount']);
 
         return $result;
     }

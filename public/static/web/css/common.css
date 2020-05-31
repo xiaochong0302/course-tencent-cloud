@@ -171,7 +171,7 @@ body {
 }
 
 .search-empty .text {
-    color: #999;
+    color: #666;
     font-size: 18px;
 }
 
@@ -211,7 +211,7 @@ body {
 .search-course-card .info {
     float: left;
     width: 500px;
-    color: #999;
+    color: #666;
     font-size: 12px;
 }
 
@@ -269,7 +269,7 @@ body {
 }
 
 .course-card .meta {
-    color: #999;
+    color: #666;
     font-size: 12px;
 }
 
@@ -325,7 +325,7 @@ body {
     font-size: 12px;
 }
 
-.course-meta .info .share {
+.course-meta .share {
     position: absolute;
     top: 0;
     right: 0;
@@ -340,17 +340,17 @@ body {
     color: #000;
 }
 
-.course-meta .info .price {
+.course-meta .price {
     color: red;
     font-size: 14px;
 }
 
-.course-meta .info .free {
+.course-meta .free {
     color: green;
 }
 
-.course-meta .info span {
-    color: #999;
+.course-meta span {
+    color: #666;
     margin: 0 5px;
 }
 
@@ -382,7 +382,7 @@ body {
 
 .course-details {
     font-size: 12px;
-    color: #999;
+    color: #666;
 }
 
 .lesson-item {
@@ -407,7 +407,7 @@ body {
     top: 0;
     right: 10px;
     position: absolute;
-    color: #999;
+    color: #666;
 }
 
 .lesson-item .study-time {
@@ -447,7 +447,7 @@ body {
 }
 
 .package-info .origin-price {
-    color: #999;
+    color: #666;
     margin-bottom: 10px;
 }
 
@@ -458,7 +458,7 @@ body {
 }
 
 .package-info .price {
-    color: #999;
+    color: #666;
     margin-bottom: 15px;
 }
 
@@ -545,18 +545,18 @@ body {
 
 .review-card .user {
     margin-bottom: 10px;
-    color: #999;
+    color: #666;
 }
 
 .review-card .content {
     margin-bottom: 10px;
-    color: #999;
+    color: #666;
     word-wrap: break-word;
     white-space: pre-wrap;
 }
 
 .review-card .footer {
-    color: #999;
+    color: #666;
 }
 
 .sidebar-order .order {
@@ -594,7 +594,7 @@ body {
 }
 
 .sidebar-teacher-card .info .title {
-    color: #999;
+    color: #666;
     font-size: 12px;
 }
 
@@ -629,7 +629,7 @@ body {
 .sidebar-course-card .info {
     float: left;
     width: 190px;
-    color: #999;
+    color: #666;
     font-size: 12px;
     overflow: hidden;
 }
@@ -640,6 +640,124 @@ body {
 
 .sidebar-course-card .meta span {
     margin-right: 10px;
+}
+
+.cart-course-card {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.cart-course-card:last-child {
+    padding: 0;
+    margin: 0;
+    border-bottom: none;
+}
+
+.cart-course-card .cover {
+    float: left;
+    margin-right: 10px;
+}
+
+.cart-course-card .cover img {
+    width: 175px;
+    height: 95px;
+}
+
+.cart-course-card p {
+    line-height: 30px;
+}
+
+.cart-course-card .info {
+    float: left;
+    font-size: 12px;
+}
+
+.cart-course-card span {
+    color: #666;
+    margin: 0 5px;
+}
+
+.cart-course-card .price {
+    color: red;
+}
+
+.cart-stats .info {
+    float: left;
+    line-height: 38px;
+}
+
+.cart-stats .amount {
+    color: red;
+}
+
+.cart-stats .pay-amount {
+    color: red;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.cart-stats span {
+    color: #666;
+    margin-right: 15px;
+}
+
+.cart-form {
+    float: right;
+}
+
+.payment .header {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f6f6f6;
+    line-height: 30px;
+    text-align: center;
+}
+
+.payment .header span {
+    color: #666;
+    margin-right: 20px;
+}
+
+.payment .header .amount {
+    color: red;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.payment .channel {
+    margin-top: 50px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.channel .alipay, .channel .wxpay {
+    width: 200px;
+    height: 80px;
+    display: inline-block;
+    margin-right: 15px;
+    background-color: #f2f2f2;
+}
+
+.channel .alipay {
+    background-image: url("/static/web/img/alipay.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.channel .wxpay {
+    background-image: url("/static/web/img/wxpay.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+
+.payment .footer {
+    text-align: center;
+}
+
+.payment .footer .tips {
+    color: #999;
+    font-size: 12px;
 }
 
 .verify-tips-btn {

@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Caches\User as UserCache;
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\Auth as AuthService;
@@ -22,9 +23,9 @@ trait Auth
             return $this->getGuestUser();
         }
 
-        $userRepo = new UserRepo();
+        $userCache = new UserCache();
 
-        return $userRepo->findById($authUser['id']);
+        return $userCache->get($authUser['id']);
     }
 
     /**
@@ -42,9 +43,9 @@ trait Auth
 
         $validator->checkAuthUser($authUser);
 
-        $userRepo = new UserRepo();
+        $userCache = new UserCache();
 
-        return $userRepo->findById($authUser['id']);
+        return $userCache->get($authUser['id']);
     }
 
     /**

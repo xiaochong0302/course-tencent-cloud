@@ -75,7 +75,7 @@ class OrderInfo extends FrontendService
     {
         $baseUrl = kg_ci_base_url();
 
-        foreach ($itemInfo['package']['courses'] as &$course) {
+        foreach ($itemInfo['courses'] as &$course) {
             $course['cover'] = $baseUrl . $course['cover'];
         }
 

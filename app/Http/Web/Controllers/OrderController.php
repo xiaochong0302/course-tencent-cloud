@@ -37,11 +37,9 @@ class OrderController extends Controller
 
         $order = $service->handle();
 
-        $service = new OrderInfoService();
+        $location = $this->url->get(['for' => 'web.order.pay', 'sn' => $order->sn]);
 
-        $order = $service->handle($order->sn);
-
-        return $this->jsonSuccess(['order' => $order]);
+        return $this->jsonSuccess(['location' => $location]);
     }
 
     /**
