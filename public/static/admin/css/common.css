@@ -158,6 +158,7 @@ img.kg-cover {
 img.kg-qrcode {
     width: 140px;
     height: 140px;
+    border: 3px dashed #ccc;
 }
 
 .kg-order-date {

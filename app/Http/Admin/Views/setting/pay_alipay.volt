@@ -90,7 +90,7 @@
                 type: 2,
                 title: '支付宝 - 支付测试',
                 resize: false,
-                area: ['480px', '300px'],
+                area: ['640px', '300px'],
                 content: [url, 'no']
             });
         });

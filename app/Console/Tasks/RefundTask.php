@@ -97,13 +97,15 @@ class RefundTask extends Task
                 $task->try_count += 1;
                 $task->priority += 1;
 
-                if ($task->try_count >= self::TRY_COUNT) {
+                if ($task->try_count > self::TRY_COUNT) {
                     $task->status = TaskModel::STATUS_FAILED;
                 }
 
                 $task->update();
 
                 $logger->info('Refund Task Exception ' . kg_json_encode([
+                        'line' => $e->getLine(),
+                        'code' => $e->getCode(),
                         'message' => $e->getMessage(),
                         'task' => $task->toArray(),
                     ]));
@@ -186,7 +188,7 @@ class RefundTask extends Task
             $courseUser->deleted = 1;
 
             if ($courseUser->update() === false) {
-                throw new \RuntimeException('Delete CourseQuery User Failed');
+                throw new \RuntimeException('Delete Course User Failed');
             }
         }
     }
@@ -214,7 +216,7 @@ class RefundTask extends Task
                 $courseUser->deleted = 1;
 
                 if ($courseUser->update() === false) {
-                    throw new \RuntimeException('Delete CourseQuery User Failed');
+                    throw new \RuntimeException('Delete Course User Failed');
                 }
             }
         }
@@ -293,7 +295,7 @@ class RefundTask extends Task
         return TaskModel::query()
             ->where('item_type = :item_type:', ['item_type' => $itemType])
             ->andWhere('status = :status:', ['status' => $status])
-            ->andWhere('try_count < :try_count:', ['try_count' => $tryCount])
+            ->andWhere('try_count < :try_count:', ['try_count' => $tryCount + 1])
             ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();

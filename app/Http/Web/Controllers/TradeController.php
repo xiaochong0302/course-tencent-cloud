@@ -24,15 +24,17 @@ class TradeController extends Controller
     }
 
     /**
-     * @Get("/{sn:[0-9]+}/status", name="web.trade.status")
+     * @Get("/status", name="web.trade.status")
      */
-    public function statusAction($sn)
+    public function statusAction()
     {
+        $sn = $this->request->getQuery('sn');
+
         $service = new TradeInfoService();
 
         $trade = $service->handle($sn);
 
-        return $this->jsonSuccess(['status' => $trade->status]);
+        return $this->jsonSuccess(['status' => $trade['status']]);
     }
 
 }

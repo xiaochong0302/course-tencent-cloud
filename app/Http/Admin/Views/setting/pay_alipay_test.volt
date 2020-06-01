@@ -1,12 +1,12 @@
 <div class="kg-qrcode-block">
 
-    {% if code_url %}
+    {% if qrcode_url %}
 
         <div id="qrcode">
-            <img class="kg-qrcode" src="{{ code_url }}" alt="二维码图片">
+            <img class="kg-qrcode" src="{{ qrcode_url }}" alt="二维码图片">
         </div>
 
-        <input type="hidden" name="trade_sn" value="{{ trade_sn }}">
+        <input type="hidden" name="sn" value="{{ sn }}">
 
         <div id="success-tips" class="kg-success-tips layui-hide">
             <span>支付成功</span>
@@ -26,19 +26,19 @@
 
 </div>
 
-{% if code_url %}
+{% if qrcode_url %}
 
     <script>
 
         layui.use(['jquery'], function () {
 
             var $ = layui.jquery;
-            var tradeSn = $('input[name=trade_sn]').val();
+            var sn = $('input[name=sn]').val();
             var interval = setInterval(function () {
                 $.ajax({
-                    type: 'POST',
+                    type: 'GET',
                     url: '/admin/test/alipay/status',
-                    data: {trade_sn: tradeSn},
+                    data: {sn: sn},
                     success: function (res) {
                         if (res.status === 'finished') {
                             $('#success-tips').removeClass('layui-hide');

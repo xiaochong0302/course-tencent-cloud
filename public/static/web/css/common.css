@@ -692,7 +692,6 @@ body {
 }
 
 .cart-stats .pay-amount {
-    color: red;
     font-size: 18px;
     font-weight: 700;
 }
@@ -726,7 +725,7 @@ body {
 
 .payment .channel {
     margin-top: 50px;
-    margin-bottom: 40px;
+    margin-bottom: 80px;
     text-align: center;
 }
 
@@ -750,7 +749,6 @@ body {
     background-position: center center;
 }
 
-
 .payment .footer {
     text-align: center;
 }
@@ -758,6 +756,25 @@ body {
 .payment .footer .tips {
     color: #999;
     font-size: 12px;
+}
+
+#pay-layer {
+    padding-top: 50px;
+}
+
+#pay-layer .qrcode {
+    text-align: center;
+}
+
+#pay-layer .qrcode img {
+    width: 160px;
+    height: 160px;
+    border: 3px dashed #ccc;
+}
+
+#pay-layer .success-tips {
+    color: green;
+    text-align: center;
 }
 
 .verify-tips-btn {

@@ -38,13 +38,7 @@ class OrderCreate extends FrontendService
         /**
          * 存在新鲜的未支付订单直接返回（减少订单记录）
          */
-        if ($order) {
-            $caseA = $order->status == OrderModel::STATUS_PENDING;
-            $caseB = time() - $order->create_time < 12 * 3600;
-            if ($caseA && $caseB) {
-                return $order;
-            }
-        }
+        if ($order) return $order;
 
         if ($post['item_type'] == OrderModel::ITEM_COURSE) {
 
@@ -83,7 +77,7 @@ class OrderCreate extends FrontendService
         return $order;
     }
 
-    public function createCourseOrder(CourseModel $course, UserModel $user)
+    protected function createCourseOrder(CourseModel $course, UserModel $user)
     {
         $itemInfo = [];
 
@@ -105,7 +99,7 @@ class OrderCreate extends FrontendService
         return $order;
     }
 
-    public function createPackageOrder(PackageModel $package, UserModel $user)
+    protected function createPackageOrder(PackageModel $package, UserModel $user)
     {
         $packageRepo = new PackageRepo();
 
@@ -140,7 +134,7 @@ class OrderCreate extends FrontendService
         return $order;
     }
 
-    public function createVipOrder(VipModel $vip, UserModel $user)
+    protected function createVipOrder(VipModel $vip, UserModel $user)
     {
         $baseTime = $user->vip_expiry_time > time() ? $user->vip_expiry_time : time();
         $expiryTime = strtotime("+{$vip->expiry} months", $baseTime);
@@ -169,7 +163,7 @@ class OrderCreate extends FrontendService
         return $order;
     }
 
-    public function createRewardOrder(CourseModel $course, RewardModel $reward, UserModel $user)
+    protected function createRewardOrder(CourseModel $course, RewardModel $reward, UserModel $user)
     {
         $itemInfo = [
             'course' => $this->handleCourseInfo($course),

@@ -48,6 +48,8 @@ class Trade extends Validator
         if (!isset($list[$channel])) {
             throw  new BadRequestException('trade.invalid_channel');
         }
+
+        return $channel;
     }
 
     public function checkIfAllowClose(TradeModel $trade)

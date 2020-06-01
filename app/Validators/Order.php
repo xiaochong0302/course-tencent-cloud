@@ -145,7 +145,7 @@ class Order extends Validator
     {
         $orderRepo = new OrderRepo();
 
-        $itemType = OrderModel::ITEM_PACKAGE;
+        $itemType = OrderModel::ITEM_COURSE;
 
         $order = $orderRepo->findUserLastFinishedOrder($userId, $courseId, $itemType);
 
@@ -156,7 +156,7 @@ class Order extends Validator
              */
             $itemInfo = $order->item_info;
 
-            if ($itemInfo['course']['expiry_time'] > time()) {
+            if ($itemInfo['course']['study_expiry_time'] > time()) {
                 throw new BadRequestException('order.has_bought_course');
             }
         }

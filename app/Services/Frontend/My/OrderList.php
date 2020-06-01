@@ -59,7 +59,6 @@ class OrderList extends FrontendService
                 'item_id' => $order['item_id'],
                 'item_type' => $order['item_type'],
                 'item_info' => $order['item_info'],
-                'source_type' => $order['source_type'],
                 'create_time' => $order['create_time'],
             ];
         }

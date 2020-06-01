@@ -13,7 +13,6 @@ use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Smser\Order as OrderSmser;
-use Phalcon\Cli\Task;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -25,6 +24,8 @@ class OrderTask extends Task
 
     public function mainAction()
     {
+        $logger = $this->getLogger('order');
+
         $tasks = $this->findTasks();
 
         if ($tasks->count() == 0) {
@@ -77,6 +78,13 @@ class OrderTask extends Task
                 }
 
                 $task->update();
+
+                $logger->info('Order Task Exception ' . kg_json_encode([
+                        'line' => $e->getLine(),
+                        'code' => $e->getCode(),
+                        'message' => $e->getMessage(),
+                        'task' => $task->toArray(),
+                    ]));
             }
 
             /**
@@ -98,7 +106,7 @@ class OrderTask extends Task
         $data = [
             'user_id' => $order->user_id,
             'course_id' => $order->item_id,
-            'expiry_time' => $itemInfo['course']['expiry_time'],
+            'expiry_time' => $itemInfo['course']['study_expiry_time'],
             'role_type' => CourseUserModel::ROLE_STUDENT,
             'source_type' => CourseUserModel::SOURCE_CHARGE,
         ];
@@ -124,7 +132,7 @@ class OrderTask extends Task
             $data = [
                 'user_id' => $order->user_id,
                 'course_id' => $course['id'],
-                'expiry_time' => $course['expiry_time'],
+                'expiry_time' => $course['study_expiry_time'],
                 'role_type' => CourseUserModel::ROLE_STUDENT,
                 'source_type' => CourseUserModel::SOURCE_CHARGE,
             ];
@@ -179,7 +187,7 @@ class OrderTask extends Task
 
         $refund->subject = $order->subject;
         $refund->amount = $order->amount;
-        $refund->apply_note = '开通失败，自动退款';
+        $refund->apply_note = '开通服务失败，自动退款';
         $refund->review_note = '自动操作';
         $refund->user_id = $order->user_id;
         $refund->order_id = $order->id;
@@ -214,7 +222,7 @@ class OrderTask extends Task
     /**
      * @param int $courseId
      * @param int $userId
-     * @return ResultsetInterface|Resultset|TaskModel[]
+     * @return ResultsetInterface|Resultset|CourseUserModel[]
      */
     protected function findPlanChapterUsers($courseId, $userId)
     {
@@ -228,7 +236,7 @@ class OrderTask extends Task
     /**
      * @param int $courseId
      * @param int $userId
-     * @return ResultsetInterface|Resultset|TaskModel[]
+     * @return ResultsetInterface|Resultset|CourseUserModel[]
      */
     protected function findPlanLearnings($courseId, $userId)
     {
@@ -267,7 +275,7 @@ class OrderTask extends Task
         return TaskModel::query()
             ->where('item_type = :item_type:', ['item_type' => $itemType])
             ->andWhere('status = :status:', ['status' => $status])
-            ->andWhere('try_count < :try_count:', ['try_count' => $tryCount])
+            ->andWhere('try_count < :try_count:', ['try_count' => $tryCount + 1])
             ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();

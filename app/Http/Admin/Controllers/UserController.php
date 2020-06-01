@@ -104,12 +104,7 @@ class UserController extends Controller
             $userService->updateAccount($id);
         }
 
-        $location = $this->url->get(['for' => 'admin.user.list']);
-
-        $content = [
-            'location' => $location,
-            'msg' => '更新用户成功',
-        ];
+        $content = ['msg' => '更新用户成功'];
 
         return $this->jsonSuccess($content);
     }

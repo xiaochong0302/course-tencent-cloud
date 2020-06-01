@@ -21,6 +21,7 @@ class CleanLogTask extends Task
         $this->cleanStorageLog();
         $this->cleanAlipayLog();
         $this->cleanWxpayLog();
+        $this->cleanOrderLog();
         $this->cleanRefundLog();
     }
 
@@ -118,6 +119,14 @@ class CleanLogTask extends Task
     protected function cleanWxpayLog()
     {
         $this->cleanLog('wxpay', 30);
+    }
+
+    /**
+     * 清理订单日志
+     */
+    protected function cleanOrderLog()
+    {
+        $this->cleanLog('order', 30);
     }
 
     /**

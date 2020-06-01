@@ -74,12 +74,12 @@ class CourseController extends Controller
 
         $service = new RewardOptionList();
 
-        $rewardOptions = $service->handle();
+        $rewards = $service->handle();
 
         $this->view->setVar('course', $course);
         $this->view->setVar('chapters', $chapters);
         $this->view->setVar('teachers', $teachers);
-        $this->view->setVar('reward_options', $rewardOptions);
+        $this->view->setVar('rewards', $rewards);
     }
 
     /**

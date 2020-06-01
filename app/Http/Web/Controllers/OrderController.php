@@ -2,6 +2,7 @@
 
 namespace App\Http\Web\Controllers;
 
+use App\Models\Order as OrderModel;
 use App\Services\Frontend\Order\OrderCancel as OrderCancelService;
 use App\Services\Frontend\Order\OrderConfirm as OrderConfirmService;
 use App\Services\Frontend\Order\OrderCreate as OrderCreateService;
@@ -37,28 +38,36 @@ class OrderController extends Controller
 
         $order = $service->handle();
 
-        $location = $this->url->get(['for' => 'web.order.pay', 'sn' => $order->sn]);
+        $location = $this->url->get(['for' => 'web.order.pay'], ['sn' => $order->sn]);
 
         return $this->jsonSuccess(['location' => $location]);
     }
 
     /**
-     * @Get("/{sn:[0-9]+}/pay", name="web.order.pay")
+     * @Get("/pay", name="web.order.pay")
      */
-    public function payAction($sn)
+    public function payAction()
     {
+        $sn = $this->request->getQuery('sn');
+
         $service = new OrderInfoService();
 
         $order = $service->handle($sn);
+
+        if ($order['status'] != OrderModel::STATUS_PENDING) {
+            $this->response->redirect(['for' => 'web.my.orders']);
+        }
 
         $this->view->setVar('order', $order);
     }
 
     /**
-     * @Get("/{sn:[0-9]+}/info", name="web.order.info")
+     * @Get("/info", name="web.order.info")
      */
-    public function infoAction($sn)
+    public function infoAction()
     {
+        $sn = $this->request->getQuery('sn');
+
         $service = new OrderInfoService();
 
         $order = $service->handle($sn);
@@ -67,10 +76,12 @@ class OrderController extends Controller
     }
 
     /**
-     * @Post("/{sn:[0-9]+}/cancel", name="web.order.cancel")
+     * @Post("/cancel", name="web.order.cancel")
      */
-    public function cancelAction($sn)
+    public function cancelAction()
     {
+        $sn = $this->request->getPost('sn');
+
         $service = new OrderCancelService();
 
         $order = $service->handle($sn);

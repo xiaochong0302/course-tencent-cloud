@@ -77,11 +77,11 @@ class TestController extends Controller
             ['text' => urlencode($pushUrl)]
         );
 
-        $obs = new \stdClass();
+        $obs = [];
 
-        $position = strrpos($pushUrl, '/');
-        $obs->fms_url = substr($pushUrl, 0, $position + 1);
-        $obs->stream_code = substr($pushUrl, $position + 1);
+        $pos = strrpos($pushUrl, '/');
+        $obs['fms_url'] = substr($pushUrl, 0, $pos + 1);
+        $obs['stream_code'] = substr($pushUrl, $pos + 1);
 
         $this->view->pick('setting/live_push_test');
         $this->view->setVar('code_url', $codeUrl);
@@ -176,29 +176,29 @@ class TestController extends Controller
 
         $order = $alipayTestService->createOrder();
         $trade = $alipayTestService->createTrade($order);
-        $codeUrl = $alipayTestService->scan($trade);
+        $qrcodeUrl = $alipayTestService->scan($trade);
 
-        if ($order && $trade && $codeUrl) {
+        if ($order && $trade && $qrcodeUrl) {
             $this->db->commit();
         } else {
             $this->db->rollback();
         }
 
         $this->view->pick('setting/pay_alipay_test');
-        $this->view->setVar('trade_sn', $trade->sn);
-        $this->view->setVar('code_url', $codeUrl);
+        $this->view->setVar('sn', $trade->sn);
+        $this->view->setVar('qrcode_url', $qrcodeUrl);
     }
 
     /**
-     * @Post("/alipay/status", name="admin.test.alipay_status")
+     * @Get("/alipay/status", name="admin.test.alipay_status")
      */
     public function alipayStatusAction()
     {
-        $tradeSn = $this->request->getPost('trade_sn');
+        $sn = $this->request->getQuery('sn');
 
         $alipayTestService = new AlipayTestService();
 
-        $status = $alipayTestService->status($tradeSn);
+        $status = $alipayTestService->status($sn);
 
         return $this->jsonSuccess(['status' => $status]);
     }
@@ -208,11 +208,11 @@ class TestController extends Controller
      */
     public function alipayCancelAction()
     {
-        $tradeSn = $this->request->getPost('trade_sn');
+        $sn = $this->request->getPost('sn');
 
         $alipayTestService = new AlipayTestService();
 
-        $alipayTestService->cancel($tradeSn);
+        $alipayTestService->cancel($sn);
 
         return $this->jsonSuccess(['msg' => '取消订单成功']);
     }
@@ -228,29 +228,29 @@ class TestController extends Controller
 
         $order = $wxpayTestService->createOrder();
         $trade = $wxpayTestService->createTrade($order);
-        $codeUrl = $wxpayTestService->scan($trade);
+        $qrcodeUrl = $wxpayTestService->scan($trade);
 
-        if ($order && $trade && $codeUrl) {
+        if ($order && $trade && $qrcodeUrl) {
             $this->db->commit();
         } else {
             $this->db->rollback();
         }
 
         $this->view->pick('setting/pay_wxpay_test');
-        $this->view->setVar('trade_sn', $trade->sn);
-        $this->view->setVar('code_url', $codeUrl);
+        $this->view->setVar('sn', $trade->sn);
+        $this->view->setVar('qrcode_url', $qrcodeUrl);
     }
 
     /**
-     * @Post("/wxpay/status", name="admin.test.wxpay_status")
+     * @Get("/wxpay/status", name="admin.test.wxpay_status")
      */
     public function wxpayStatusAction()
     {
-        $tradeSn = $this->request->getPost('trade_sn');
+        $sn = $this->request->getQuery('sn');
 
         $wxpayTestService = new WxpayTestService();
 
-        $status = $wxpayTestService->status($tradeSn);
+        $status = $wxpayTestService->status($sn);
 
         return $this->jsonSuccess(['status' => $status]);
     }
@@ -260,11 +260,11 @@ class TestController extends Controller
      */
     public function wxpayCancelAction()
     {
-        $tradeSn = $this->request->getPost('trade_sn');
+        $sn = $this->request->getPost('sn');
 
         $wxpayTestService = new WxpayTestService();
 
-        $wxpayTestService->cancel($tradeSn);
+        $wxpayTestService->cancel($sn);
 
         return $this->jsonSuccess(['msg' => '取消订单成功']);
     }

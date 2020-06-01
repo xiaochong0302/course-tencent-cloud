@@ -6,6 +6,7 @@ use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Trade as TradeModel;
 use App\Services\Frontend\Trade\TradeCreate as TradeCreateService;
 use App\Services\Pay\Alipay as AlipayService;
+use App\Services\Pay\Wxpay as WxpayService;
 
 class Trade extends Service
 {
@@ -40,11 +41,24 @@ class Trade extends Service
 
     protected function getQrCodeUrl(TradeModel $trade)
     {
+        $qrcodeUrl = null;
+
+        if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
+            $qrcodeUrl = $this->getAlipayQrCodeUrl($trade);
+        } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
+            $qrcodeUrl = $this->getWxpayQrCodeUrl($trade);
+        }
+
+        return $qrcodeUrl;
+    }
+
+    protected function getAlipayQrCodeUrl(TradeModel $trade)
+    {
         $qrCodeUrl = null;
 
-        $alipayService = new AlipayService();
+        $service = new AlipayService();
 
-        $text = $alipayService->scan($trade);
+        $text = $service->scan($trade);
 
         if ($text) {
             $qrCodeUrl = $this->url->get(
@@ -54,6 +68,13 @@ class Trade extends Service
         }
 
         return $qrCodeUrl;
+    }
+
+    protected function getWxpayQrCodeUrl(TradeModel $trade)
+    {
+        $service = new WxpayService();
+
+        return $service->scan($trade);
     }
 
 }

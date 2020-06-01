@@ -23,9 +23,9 @@
     <div class="layui-form-item">
         <label class="layui-form-label">加入方式</label>
         <div class="layui-input-block">
-            <input type="radio" name="source" value="1" title="免费课程">
-            <input type="radio" name="source" value="2" title="付费课程">
-            <input type="radio" name="source" value="3" title="后台导入">
+            <input type="radio" name="source_type" value="1" title="免费课程">
+            <input type="radio" name="source_type" value="2" title="付费课程">
+            <input type="radio" name="source_type" value="3" title="后台导入">
         </div>
     </div>
 

@@ -90,7 +90,7 @@
                 type: 2,
                 title: '微信 - 支付测试',
                 resize: false,
-                area: ['480px', '270px'],
+                area: ['640px', '300px'],
                 content: [url, 'no']
             });
         });
