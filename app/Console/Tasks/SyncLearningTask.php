@@ -153,21 +153,34 @@ class SyncLearningTask extends Task
             return;
         }
 
-        $userLearnings = $courseRepo->findConsumedUserLearnings($courseId, $userId);
+        $userLearnings = $courseRepo->findUserLearnings($courseId, $userId, $courseUser->plan_id);
 
         if ($userLearnings->count() == 0) {
             return;
         }
 
+        /**
+         * @var array $consumedUserLearnings
+         */
+        $consumedUserLearnings = $userLearnings->filter(function ($item) {
+            if ($item->consumed == 1) {
+                return $item;
+            }
+        });
+
+        if (count($consumedUserLearnings) == 0) {
+            return;
+        }
+
         $duration = 0;
 
-        foreach ($userLearnings as $learning) {
-            $duration += $learning->duration;
+        foreach ($consumedUserLearnings as $learning) {
+            $duration += $learning['duration'];
         }
 
         $courseLessonIds = kg_array_column($courseLessons->toArray(), 'id');
-        $userLessonIds = kg_array_column($userLearnings->toArray(), 'chapter_id');
-        $consumedLessonIds = array_intersect($courseLessonIds, $userLessonIds);
+        $consumedUserLessonIds = kg_array_column($consumedUserLearnings, 'chapter_id');
+        $consumedLessonIds = array_intersect($courseLessonIds, $consumedUserLessonIds);
 
         $totalCount = count($courseLessonIds);
         $consumedCount = count($consumedLessonIds);

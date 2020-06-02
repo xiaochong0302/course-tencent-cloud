@@ -3,6 +3,7 @@
 namespace App\Services\Frontend;
 
 use App\Models\Chapter as ChapterModel;
+use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\User as UserModel;
 use App\Repos\ChapterUser as ChapterUserRepo;
 use App\Validators\Chapter as ChapterValidator;
@@ -19,6 +20,11 @@ trait ChapterTrait
      * @var bool
      */
     protected $joinedChapter = false;
+
+    /**
+     * @var ChapterUserModel
+     */
+    protected $chapterUser;
 
     public function checkChapter($id)
     {
@@ -41,6 +47,7 @@ trait ChapterTrait
         $chapterUser = $chapterUserRepo->findChapterUser($chapter->id, $user->id);
 
         if ($chapterUser) {
+            $this->chapterUser = $chapterUser;
             $this->joinedChapter = true;
         }
 

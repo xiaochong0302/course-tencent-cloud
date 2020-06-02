@@ -21,7 +21,7 @@
 
     <div class="layout-main clearfix">
 
-        {% set show_tab_packages = 1 %}
+        {% set show_tab_packages = course.package_count > 0 ? 1 : 0 %}
         {% set show_tab_consults = course.consult_count > 0 ? 1 : 0 %}
         {% set show_tab_reviews = course.review_count > 0 ? 1 : 0 %}
 

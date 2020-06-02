@@ -28,6 +28,13 @@ class CourseUser extends Model
     public $id;
 
     /**
+     * 计划编号
+     *
+     * @var int
+     */
+    public $plan_id;
+
+    /**
      * 课程编号
      *
      * @var int
@@ -123,6 +130,8 @@ class CourseUser extends Model
 
     public function beforeCreate()
     {
+        $this->plan_id = (int)date('Y-m-d');
+
         $this->create_time = time();
     }
 

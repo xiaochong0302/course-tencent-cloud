@@ -32,10 +32,7 @@ abstract class Cache extends Component
 
             $content = $this->getContent($id);
 
-            /**
-             * 原始内容为空，设置较短的生存时间，简单防止穿透
-             */
-            $lifetime = $content ? $this->getLifetime() : 5 * 60;
+            $lifetime = $this->getLifetime();
 
             $this->cache->save($key, $content, $lifetime);
 

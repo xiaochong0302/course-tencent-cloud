@@ -2,14 +2,11 @@
 
 namespace App\Console\Tasks;
 
-use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\CourseUser as CourseUserModel;
-use App\Models\Learning as LearningModel;
 use App\Models\Order as OrderModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
-use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Smser\Order as OrderSmser;
@@ -116,8 +113,6 @@ class OrderTask extends Task
         if ($courseUser->create($data) === false) {
             throw new \RuntimeException('Create CourseQuery User Failed');
         }
-
-        $this->handleCourseHistory($data['course_id'], $data['user_id']);
     }
 
     protected function handlePackageOrder(OrderModel $order)
@@ -140,10 +135,8 @@ class OrderTask extends Task
             $courseUser = new CourseUserModel();
 
             if ($courseUser->create($data) === false) {
-                throw new \RuntimeException('Create CourseQuery User Failed');
+                throw new \RuntimeException('Create Course User Failed');
             }
-
-            $this->handleCourseHistory($data['course_id'], $data['user_id']);
         }
     }
 
@@ -194,57 +187,6 @@ class OrderTask extends Task
         $refund->trade_id = $trade->id;
 
         $refund->create();
-    }
-
-    protected function handleCourseHistory($courseId, $userId)
-    {
-        $courseUserRepo = new CourseUserRepo();
-
-        $courseUser = $courseUserRepo->findCourseStudent($courseId, $userId);
-
-        if ($courseUser) {
-            $courseUser->update(['deleted' => 1]);
-        }
-
-        $chapterUsers = $this->findPlanChapterUsers($courseId, $userId);
-
-        if ($chapterUsers->count() > 0) {
-            $chapterUsers->update(['deleted' => 1]);
-        }
-
-        $learnings = $this->findPlanLearnings($courseId, $userId);
-
-        if ($learnings->count() > 0) {
-            $learnings->update(['deleted' => 1]);
-        }
-    }
-
-    /**
-     * @param int $courseId
-     * @param int $userId
-     * @return ResultsetInterface|Resultset|CourseUserModel[]
-     */
-    protected function findPlanChapterUsers($courseId, $userId)
-    {
-        return ChapterUserModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('deleted = 0')
-            ->execute();
-    }
-
-    /**
-     * @param int $courseId
-     * @param int $userId
-     * @return ResultsetInterface|Resultset|CourseUserModel[]
-     */
-    protected function findPlanLearnings($courseId, $userId)
-    {
-        return LearningModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('deleted = 0')
-            ->execute();
     }
 
     /**

@@ -4,7 +4,6 @@ namespace App\Traits;
 
 use App\Caches\User as UserCache;
 use App\Models\User as UserModel;
-use App\Repos\User as UserRepo;
 use App\Services\Auth as AuthService;
 use App\Validators\Validator as AppValidator;
 use Phalcon\Di;
@@ -33,10 +32,6 @@ trait Auth
      */
     public function getLoginUser()
     {
-        $userRepo = new UserRepo();
-
-        return $userRepo->findById(100015);
-
         $authUser = $this->getAuthUser();
 
         $validator = new AppValidator();

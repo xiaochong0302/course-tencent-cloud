@@ -45,6 +45,7 @@ class ChapterUser extends Repository
         return ChapterUserModel::findFirst([
             'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND deleted = 0',
             'bind' => [1 => $chapterId, 2 => $userId],
+            'order' => 'id DESC',
         ]);
     }
 

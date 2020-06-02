@@ -22,7 +22,7 @@ trait CourseTrait
     protected $joinedCourse = false;
 
     /**
-     * @var CourseUserModel
+     * @var CourseUserModel|null
      */
     protected $courseUser;
 
@@ -42,12 +42,16 @@ trait CourseTrait
 
     public function setCourseUser(CourseModel $course, UserModel $user)
     {
-        $courseUserRepo = new CourseUserRepo();
+        $courseUser = null;
 
-        $courseUser = $courseUserRepo->findCourseUser($course->id, $user->id);
+        if ($user->id > 0) {
+            $courseUserRepo = new CourseUserRepo();
+            $courseUser = $courseUserRepo->findCourseUser($course->id, $user->id);
+        }
+
+        $this->courseUser = $courseUser;
 
         if ($courseUser) {
-            $this->courseUser = $courseUser;
             $this->joinedCourse = true;
         }
 

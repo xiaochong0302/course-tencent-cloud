@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Order as OrderModel;
 use App\Repos\Course as CourseRepo;
+use App\Repos\CourseUser as CourseUserRepo;
 
 class Refund extends Service
 {
@@ -104,15 +105,36 @@ class Refund extends Service
             return 1.00;
         }
 
-        $userLearnings = $courseRepo->findConsumedUserLearnings($courseId, $userId);
+        $courseUserRepo = new CourseUserRepo();
+
+        $courseUser = $courseUserRepo->findCourseUser($courseId, $userId);
+
+        if (!$courseUser) {
+            return 1.00;
+        }
+
+        $userLearnings = $courseRepo->findUserLearnings($courseId, $userId, $courseUser->plan_id);
 
         if ($userLearnings->count() == 0) {
             return 1.00;
         }
 
+        /**
+         * @var array $consumedUserLearnings
+         */
+        $consumedUserLearnings = $userLearnings->filter(function ($item) {
+            if ($item->consumed == 1) {
+                return $item;
+            }
+        });
+
+        if (count($consumedUserLearnings) == 0) {
+            return 1.00;
+        }
+
         $courseLessonIds = kg_array_column($courseLessons->toArray(), 'id');
-        $userLessonIds = kg_array_column($userLearnings->toArray(), 'chapter_id');
-        $consumedLessonIds = array_intersect($courseLessonIds, $userLessonIds);
+        $consumedUserLessonIds = kg_array_column($consumedUserLearnings, 'chapter_id');
+        $consumedLessonIds = array_intersect($courseLessonIds, $consumedUserLessonIds);
 
         $totalCount = count($courseLessonIds);
         $consumedCount = count($consumedLessonIds);

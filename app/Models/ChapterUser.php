@@ -15,7 +15,7 @@ class ChapterUser extends Model
     public $id;
 
     /**
-     * 计划编号(course_user主键)
+     * 计划编号
      *
      * @var int
      */

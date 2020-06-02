@@ -11,6 +11,14 @@ class PackageController extends Controller
 {
 
     /**
+     * @Get("/search", name="admin.package.search")
+     */
+    public function searchAction()
+    {
+
+    }
+
+    /**
      * @Get("/guiding", name="admin.package.guiding")
      */
     public function guidingAction()

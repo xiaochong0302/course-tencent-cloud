@@ -170,7 +170,7 @@ class ChapterInfo extends FrontendService
 
     protected function handleCourseUser(CourseModel $course, UserModel $user)
     {
-        if (empty($user->id)) return;
+        if ($user->id == 0) return;
 
         if ($this->joinedCourse) return;
 
@@ -182,7 +182,6 @@ class ChapterInfo extends FrontendService
         $courseUser->user_id = $user->id;
         $courseUser->source_type = CourseUserModel::SOURCE_FREE;
         $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
-        $courseUser->expiry_time = strtotime('+3 years');
 
         $courseUser->create();
 
@@ -191,14 +190,22 @@ class ChapterInfo extends FrontendService
 
     protected function handleChapterUser(ChapterModel $chapter, UserModel $user)
     {
-        if (empty($user->id)) return;
+        if ($user->id == 0) return;
 
-        if ($this->joinedChapter) return;
+        /**
+         * 一个课程可能购买学习多次
+         */
+        if ($this->chapterUser && $this->courseUser) {
+            if ($this->chapterUser->plan_id == $this->courseUser->plan_id) {
+                return;
+            }
+        }
 
         if (!$this->ownedChapter) return;
 
         $chapterUser = new ChapterUserModel();
 
+        $chapterUser->plan_id = $this->courseUser->plan_id;
         $chapterUser->course_id = $chapter->course_id;
         $chapterUser->chapter_id = $chapter->id;
         $chapterUser->user_id = $user->id;

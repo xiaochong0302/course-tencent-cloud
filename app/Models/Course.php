@@ -179,6 +179,13 @@ class Course extends Model
     public $lesson_count;
 
     /**
+     * 套餐数
+     *
+     * @var int
+     */
+    public $package_count;
+
+    /**
      * 评论数
      *
      * @var int
@@ -349,6 +356,7 @@ class Course extends Model
             'rating' => '评价',
             'latest' => '最新',
             'popular' => '最热',
+            'free' => '免费',
         ];
     }
 

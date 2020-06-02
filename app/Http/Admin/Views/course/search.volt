@@ -5,9 +5,9 @@
     </fieldset>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">课程编号</label>
+        <label class="layui-form-label">编号</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="id" placeholder="课程编号精确匹配">
+            <input class="layui-input" type="text" name="id" placeholder="编号精确匹配">
         </div>
     </div>
 

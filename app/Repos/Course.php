@@ -60,6 +60,10 @@ class Course extends Repository
             $builder->andWhere('level = :level:', ['level' => $where['level']]);
         }
 
+        if ($sort == 'free') {
+            $where['free'] = 1;
+        }
+
         if (isset($where['free'])) {
             if ($where['free'] == 1) {
                 $builder->andWhere('market_price = 0');
@@ -215,28 +219,15 @@ class Course extends Repository
     /**
      * @param int $courseId
      * @param int $userId
+     * @param int $planId
      * @return ResultsetInterface|Resultset|ChapterUserModel[]
      */
-    public function findUserLearnings($courseId, $userId)
+    public function findUserLearnings($courseId, $userId, $planId)
     {
         return ChapterUserModel::query()
             ->where('course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('deleted = 0')
-            ->execute();
-    }
-
-    /**
-     * @param int $courseId
-     * @param int $userId
-     * @return ResultsetInterface|Resultset|ChapterUserModel[]
-     */
-    public function findConsumedUserLearnings($courseId, $userId)
-    {
-        return ChapterUserModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('consumed = 1 AND deleted = 0')
+            ->andWhere('plan_id = :plan_id:', ['plan_id' => $planId])
             ->execute();
     }
 
@@ -276,6 +267,14 @@ class Course extends Repository
     {
         return ChapterModel::count([
             'conditions' => 'course_id = :course_id: AND parent_id > 0 AND deleted = 0',
+            'bind' => ['course_id' => $courseId],
+        ]);
+    }
+
+    public function countPackages($courseId)
+    {
+        return CoursePackageModel::count([
+            'conditions' => 'course_id = :course_id:',
             'bind' => ['course_id' => $courseId],
         ]);
     }

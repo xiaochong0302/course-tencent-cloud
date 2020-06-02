@@ -105,18 +105,24 @@ class AuthNode extends Service
                         ],
                         [
                             'id' => '1-3-2',
+                            'title' => '搜索套餐',
+                            'type' => 'menu',
+                            'route' => 'admin.package.search',
+                        ],
+                        [
+                            'id' => '1-3-3',
                             'title' => '添加套餐',
                             'type' => 'menu',
                             'route' => 'admin.package.add',
                         ],
                         [
-                            'id' => '1-3-3',
+                            'id' => '1-3-4',
                             'title' => '编辑套餐',
                             'type' => 'button',
                             'route' => 'admin.package.edit',
                         ],
                         [
-                            'id' => '1-3-4',
+                            'id' => '1-3-5',
                             'title' => '删除套餐',
                             'type' => 'button',
                             'route' => 'admin.package.delete',

@@ -40,11 +40,9 @@ abstract class Counter extends Component
         if (!$this->cache->exists($key)) {
 
             $content = $this->getContent($id);
-
             $lifetime = $this->getLifetime();
 
             $this->redis->hMSet($key, $content);
-
             $this->redis->expire($key, $lifetime);
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\CoursePackageList as CoursePackageListCache;
 use App\Caches\Package as PackageCache;
 use App\Caches\PackageCourseList as PackageCourseListCache;
 use App\Library\Paginator\Query as PagerQuery;
@@ -93,7 +94,7 @@ class Package extends Service
 
         $package->update($data);
 
-        $this->updateCourseCount($package);
+        $this->updatePackageCourseCount($package);
 
         $this->rebuildPackageCache($package);
 
@@ -193,7 +194,7 @@ class Package extends Service
             }
         }
 
-        $newCourseIds = explode(',', $courseIds);
+        $newCourseIds = $courseIds ? explode(',', $courseIds) : [];
         $addedCourseIds = array_diff($newCourseIds, $originCourseIds);
 
         if ($addedCourseIds) {
@@ -203,6 +204,8 @@ class Package extends Service
                     'course_id' => $courseId,
                     'package_id' => $package->id,
                 ]);
+                $this->updateCoursePackageCount($courseId);
+                $this->rebuildCoursePackageCache($courseId);
             }
         }
 
@@ -212,14 +215,14 @@ class Package extends Service
             $coursePackageRepo = new CoursePackageRepo();
             foreach ($deletedCourseIds as $courseId) {
                 $coursePackage = $coursePackageRepo->findCoursePackage($courseId, $package->id);
-                if ($coursePackage) {
-                    $coursePackage->delete();
-                }
+                $coursePackage->delete();
+                $this->updateCoursePackageCount($courseId);
+                $this->rebuildCoursePackageCache($courseId);
             }
         }
     }
 
-    protected function updateCourseCount(PackageModel $package)
+    protected function updatePackageCourseCount(PackageModel $package)
     {
         $packageRepo = new PackageRepo();
 
@@ -228,6 +231,19 @@ class Package extends Service
         $package->course_count = $courseCount;
 
         $package->update();
+    }
+
+    protected function updateCoursePackageCount($courseId)
+    {
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($courseId);
+
+        $packageCount = $courseRepo->countPackages($courseId);
+
+        $course->package_count = $packageCount;
+
+        $course->update();
     }
 
     protected function rebuildPackageCache(PackageModel $package)
@@ -239,6 +255,13 @@ class Package extends Service
         $cache = new PackageCourseListCache();
 
         $cache->rebuild($package->id);
+    }
+
+    protected function rebuildCoursePackageCache($courseId)
+    {
+        $cache = new CoursePackageListCache();
+
+        $cache->rebuild($courseId);
     }
 
     protected function findOrFail($id)

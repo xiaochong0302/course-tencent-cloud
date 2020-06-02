@@ -28,7 +28,7 @@ class Learning extends Model
     public $request_id;
 
     /**
-     * 计划编号(course_user主键)
+     * 计划编号
      *
      * @var int
      */

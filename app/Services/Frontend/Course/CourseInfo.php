@@ -45,6 +45,7 @@ class CourseInfo extends FrontendService
             'attrs' => $course->attrs,
             'user_count' => $course->user_count,
             'lesson_count' => $course->lesson_count,
+            'package_count' => $course->package_count,
             'review_count' => $course->review_count,
             'comment_count' => $course->comment_count,
             'consult_count' => $course->consult_count,

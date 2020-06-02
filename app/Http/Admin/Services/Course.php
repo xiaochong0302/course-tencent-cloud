@@ -358,7 +358,7 @@ class Course extends Service
             }
         }
 
-        $newTeacherIds = explode(',', $teacherIds);
+        $newTeacherIds = $teacherIds ? explode(',', $teacherIds) : [];
         $addedTeacherIds = array_diff($newTeacherIds, $originTeacherIds);
 
         if ($addedTeacherIds) {
@@ -412,7 +412,7 @@ class Course extends Service
             }
         }
 
-        $newCategoryIds = explode(',', $categoryIds);
+        $newCategoryIds = $categoryIds ? explode(',', $categoryIds) : [];
         $addedCategoryIds = array_diff($newCategoryIds, $originCategoryIds);
 
         if ($addedCategoryIds) {
@@ -463,7 +463,7 @@ class Course extends Service
             }
         }
 
-        $newRelatedIds = explode(',', $courseIds);
+        $newRelatedIds = $courseIds ? explode(',', $courseIds) : [];
         $addedRelatedIds = array_diff($newRelatedIds, $originRelatedIds);
 
         $courseRelatedRepo = new CourseRelatedRepo();

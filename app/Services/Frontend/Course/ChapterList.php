@@ -31,7 +31,7 @@ class ChapterList extends FrontendService
 
         $chapters = $cache->get($course->id);
 
-        if (empty($chapters)) {
+        if (count($chapters) == 0) {
             return [];
         }
 
@@ -46,7 +46,7 @@ class ChapterList extends FrontendService
                 }
             }
         } else {
-            $mappings = $this->getLearningMappings($course, $user);
+            $mappings = $this->getLearningMappings($course->id, $user->id, $this->courseUser->plan_id);
             foreach ($chapters as &$chapter) {
                 foreach ($chapter['children'] as &$lesson) {
                     $lesson['me'] = [
@@ -61,11 +61,11 @@ class ChapterList extends FrontendService
         return $chapters;
     }
 
-    protected function getLearningMappings(CourseModel $course, UserModel $user)
+    protected function getLearningMappings($courseId, $userId, $planId)
     {
         $courseRepo = new CourseRepo();
 
-        $userLearnings = $courseRepo->findUserLearnings($course->id, $user->id);
+        $userLearnings = $courseRepo->findUserLearnings($courseId, $userId, $planId);
 
         if ($userLearnings->count() == 0) {
             return [];
