@@ -21,6 +21,8 @@ class Register extends FrontendService
 
         $accountValidator = new AccountValidator();
 
+        $accountValidator->checkLoginName($post['account']);
+
         $data = [];
 
         if (CommonValidator::phone($post['account'])) {

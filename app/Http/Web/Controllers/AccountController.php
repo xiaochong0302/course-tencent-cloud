@@ -4,6 +4,7 @@ namespace App\Http\Web\Controllers;
 
 use App\Http\Web\Services\Account as AccountService;
 use App\Services\Frontend\Account\EmailUpdate as EmailUpdateService;
+use App\Services\Frontend\Account\PasswordReset as PasswordResetService;
 use App\Services\Frontend\Account\PasswordUpdate as PasswordUpdateService;
 use App\Services\Frontend\Account\PhoneUpdate as PhoneUpdateService;
 
@@ -18,6 +19,10 @@ class AccountController extends Controller
      */
     public function registerAction()
     {
+        if ($this->authUser->id > 0) {
+            $this->response->redirect('/');
+        }
+
         $service = new AccountService();
 
         $captcha = $service->getSectionSettings('captcha');
@@ -33,7 +38,18 @@ class AccountController extends Controller
      */
     public function doRegisterAction()
     {
+        $service = new AccountService();
 
+        $service->register();
+
+        $returnUrl = $this->request->getPost('return_url');
+
+        $content = [
+            'location' => $returnUrl ?: '/',
+            'msg' => '注册成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -41,6 +57,10 @@ class AccountController extends Controller
      */
     public function loginAction()
     {
+        if ($this->authUser->id > 0) {
+            $this->response->redirect('/');
+        }
+
         $service = new AccountService();
 
         $captcha = $service->getSectionSettings('captcha');
@@ -60,7 +80,14 @@ class AccountController extends Controller
 
         $service->loginByPassword();
 
-        return $this->jsonSuccess();
+        $returnUrl = $this->request->getPost('return_url');
+
+        $content = [
+            'location' => $returnUrl ?: '/',
+            'msg' => '登录成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -72,7 +99,14 @@ class AccountController extends Controller
 
         $service->loginByVerify();
 
-        return $this->jsonSuccess();
+        $returnUrl = $this->request->getPost('return_url');
+
+        $content = [
+            'location' => $returnUrl ?: '/',
+            'msg' => '登录成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -92,6 +126,10 @@ class AccountController extends Controller
      */
     public function forgetPasswordAction()
     {
+        if ($this->authUser->id > 0) {
+            $this->response->redirect('/');
+        }
+
         $service = new AccountService();
 
         $captcha = $service->getSectionSettings('captcha');
@@ -105,7 +143,18 @@ class AccountController extends Controller
      */
     public function resetPasswordAction()
     {
+        $service = new PasswordResetService();
 
+        $service->handle();
+
+        $loginUrl = $this->url->get(['for' => 'web.account.login']);
+
+        $content = [
+            'location' => $loginUrl,
+            'msg' => '重置密码成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
     /**

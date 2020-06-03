@@ -34,9 +34,9 @@ class ChapterInfo extends FrontendService
 
     public function handle($id)
     {
-        $chapter = $this->checkChapter($id);
+        $chapter = $this->checkChapterCache($id);
 
-        $course = $this->checkCourse($chapter->course_id);
+        $course = $this->checkCourseCache($chapter->course_id);
 
         $this->course = $course;
 

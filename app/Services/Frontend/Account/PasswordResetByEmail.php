@@ -15,7 +15,7 @@ class PasswordResetByEmail extends FrontendService
 
         $accountValidator = new AccountValidator();
 
-        $account = $accountValidator->checkAccountByEmail($post['email']);
+        $account = $accountValidator->checkAccount($post['email']);
 
         $accountValidator->checkPassword($post['new_password']);
 

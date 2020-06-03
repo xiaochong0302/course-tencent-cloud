@@ -15,9 +15,9 @@ class Account extends Validator
 
     public function checkAccount($name)
     {
-        $accountRepo = new AccountRepo();
-
         $account = null;
+
+        $accountRepo = new AccountRepo();
 
         if (CommonValidator::email($name)) {
             $account = $accountRepo->findByEmail($name);
@@ -34,38 +34,14 @@ class Account extends Validator
         return $account;
     }
 
-    public function checkAccountByEmail($email)
-    {
-        $accountRepo = new AccountRepo();
-
-        $account = $accountRepo->findByEmail($email);
-
-        if (!$account) {
-            throw new BadRequestException('account.not_found');
-        }
-
-        return $account;
-    }
-
-    public function checkAccountByPhone($phone)
-    {
-        $accountRepo = new AccountRepo();
-
-        $account = $accountRepo->findByPhone($phone);
-
-        if (!$account) {
-            throw new BadRequestException('account.not_found');
-        }
-
-        return $account;
-    }
-
     public function checkLoginName($name)
     {
         $isPhone = CommonValidator::phone($name);
         $isEmail = CommonValidator::email($name);
 
-        if (!$isPhone && !$isEmail) {
+        $loginNameOk = $isPhone || $isEmail;
+
+        if (!$loginNameOk) {
             throw new BadRequestException('account.invalid_login_name');
         }
     }

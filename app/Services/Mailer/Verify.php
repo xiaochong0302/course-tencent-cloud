@@ -22,7 +22,7 @@ class Verify extends MailerService
 
             $minutes = 5;
 
-            $code = $verify->getSmsCode($email, 60 * $minutes);
+            $code = $verify->getEmailCode($email, 60 * $minutes);
 
             $subject = '邮件验证码';
 

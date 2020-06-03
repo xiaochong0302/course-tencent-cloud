@@ -15,7 +15,7 @@ class PasswordResetByPhone extends FrontendService
 
         $accountValidator = new AccountValidator();
 
-        $account = $accountValidator->checkAccountByPhone($post['phone']);
+        $account = $accountValidator->checkAccount($post['phone']);
 
         $accountValidator->checkPassword($post['new_password']);
 

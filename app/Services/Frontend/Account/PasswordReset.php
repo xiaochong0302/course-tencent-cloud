@@ -15,7 +15,7 @@ class PasswordReset extends FrontendService
 
         $accountValidator = new AccountValidator();
 
-        $account = $accountValidator->checkLoginName($post['account']);
+        $account = $accountValidator->checkAccount($post['account']);
 
         $accountValidator->checkPassword($post['new_password']);
 

@@ -5,8 +5,6 @@ namespace App\Http\Web\Services;
 use App\Repos\User as UserRepo;
 use App\Services\Auth as AuthService;
 use App\Services\Frontend\Account\Register as RegisterService;
-use App\Services\Frontend\Account\RegisterByEmail as RegisterByEmailService;
-use App\Services\Frontend\Account\RegisterByPhone as RegisterByPhoneService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Captcha as CaptchaValidator;
 
@@ -34,24 +32,8 @@ class Account extends Service
         $user = $userRepo->findById($account->id);
 
         $this->auth->saveAuthInfo($user);
-    }
 
-    public function registerByEmail()
-    {
-        $service = new RegisterByEmailService();
-
-        $user = $service->handle();
-
-        $this->auth->saveAuthInfo($user);
-    }
-
-    public function registerByPhone()
-    {
-        $service = new RegisterByPhoneService();
-
-        $user = $service->handle();
-
-        $this->auth->saveAuthInfo($user);
+        return $user;
     }
 
     public function loginByPassword()

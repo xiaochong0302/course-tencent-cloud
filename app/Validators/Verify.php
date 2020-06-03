@@ -27,12 +27,14 @@ class Verify extends Validator
         return $email;
     }
 
-    public function checkCode($name, $code)
+    public function checkCode($identity, $code)
     {
-        if (CommonValidator::email($name)) {
-            $this->checkEmailCode($name, $code);
-        } elseif (CommonValidator::phone($name)) {
-            $this->checkSmsCode($name, $code);
+        if (CommonValidator::email($identity)) {
+            $this->checkEmailCode($identity, $code);
+        } elseif (CommonValidator::phone($identity)) {
+            $this->checkSmsCode($identity, $code);
+        } else {
+            throw new BadRequestException('verify.unsupported_identity');
         }
     }
 

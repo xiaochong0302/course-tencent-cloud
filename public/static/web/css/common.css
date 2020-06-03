@@ -419,7 +419,7 @@ body {
 }
 
 .package-item {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     border-bottom: 1px dashed #ccc;
 }
 
@@ -469,7 +469,7 @@ body {
 
 .package-course-list {
     width: 580px;
-    height: 170px;
+    height: 180px;
     overflow-x: auto;
     white-space: nowrap;
 }
@@ -484,9 +484,11 @@ body {
 
 .package-course-card {
     width: 175px;
+    height: 160px;
     display: inline-block;
     margin-right: 8px;
     vertical-align: top;
+    box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.1);
 }
 
 .package-course-card .cover {
@@ -502,6 +504,8 @@ body {
 
 .package-course-card .title {
     font-size: 12px;
+    padding: 0 3px;
+    text-align: center;
     white-space: normal;
 }
 
@@ -785,28 +789,30 @@ body {
     text-align: center;
 }
 
-.verify-tips-btn {
+.verify-btn-ok {
     color: green;
 }
 
-.register-container {
-    padding: 40px 30px;
-    background-color: #fff;
+.account-form {
+    width: 540px;
 }
 
-.register-container .layui-form {
-    width: 50%;
+.account-form .verify-input-inline {
+    width: 308px;
+}
+
+.account-form .verify-btn-inline {
+    margin-right: 0;
+}
+
+.login-container {
+
 }
 
 .login-tab {
-    padding: 20px 30px;
-    background-color: #fff;
+    margin: 0;
 }
 
 .login-tab .layui-tab-content {
     padding-top: 30px;
-}
-
-.login-tab .layui-form {
-    width: 50%;
 }

@@ -28,18 +28,18 @@
 </div>
 
 <div class="user layui-layout-right">
-    {% if auth_user %}
+    {% if auth_user.id > 0 %}
         <ul class="layui-nav">
             <li class="layui-nav-item"><a href="{{ url({'for':'web.my.courses'}) }}">消息</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:">{{ auth_user.name }}</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="{{ url({'for':'web.my.courses'}) }} }}">我的课程</a></dd>
-                    <dd><a href="{{ url({'for':'web.my.courses'}) }} }}">我的收藏</a></dd>
-                    <dd><a href="{{ url({'for':'web.my.courses'}) }} }}">我的咨询</a></dd>
-                    <dd><a href="{{ url({'for':'web.my.courses'}) }} }}">我的订单</a></dd>
-                    <dd><a href="{{ url({'for':'web.my.courses'}) }} }}">个人设置</a></dd>
-                    <dd><a href="{{ url({'for':'web.my.courses'}) }} }}">退出登录</a></dd>
+                    <dd><a href="{{ url({'for':'web.my.courses'}) }}">我的课程</a></dd>
+                    <dd><a href="{{ url({'for':'web.my.courses'}) }}">我的收藏</a></dd>
+                    <dd><a href="{{ url({'for':'web.my.courses'}) }}">我的咨询</a></dd>
+                    <dd><a href="{{ url({'for':'web.my.courses'}) }}">我的订单</a></dd>
+                    <dd><a href="{{ url({'for':'web.my.courses'}) }}">个人设置</a></dd>
+                    <dd><a href="{{ url({'for':'web.account.logout'}) }}">退出登录</a></dd>
                 </dl>
             </li>
         </ul>

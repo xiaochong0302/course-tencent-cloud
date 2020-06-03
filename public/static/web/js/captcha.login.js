@@ -5,11 +5,11 @@ var captcha = new TencentCaptcha(
     $('#captcha-btn').attr('data-app-id'),
     function (res) {
         if (res.ret === 0) {
-            $('input[name=ticket]').val(res.ticket);
-            $('input[name=rand]').val(res.randstr);
+            $('#ticket').val(res.ticket);
+            $('#rand').val(res.randstr);
             $('#captcha-btn').remove();
-            $('#submit-btn').removeAttr('disabled');
             $('#verify-btn').removeClass('layui-hide');
+            $('#submit-btn').removeClass('layui-btn-disabled').removeAttr('disabled');
         }
     }
 );

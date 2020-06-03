@@ -9,7 +9,7 @@ use Phalcon\Mvc\User\Component;
 class Validator extends Component
 {
 
-    public function checkAuthUser(array $authUser)
+    public function checkAuthUser($authUser)
     {
         if (empty($authUser['id'])) {
             throw new UnauthorizedException('sys.unauthorized');

@@ -23,7 +23,7 @@
             <label class="layui-form-label"><i class="layui-icon layui-icon-vercode"></i></label>
             <div class="layui-input-block">
                 <span id="captcha-btn" class="layui-btn layui-btn-primary layui-btn-fluid" data-app-id="{{ captcha.app_id }}">点击完成验证</span>
-                <span id="verify-btn" class="layui-btn layui-btn-primary layui-btn-disabled layui-btn-fluid layui-hide kg-verify-btn"><i class="layui-icon layui-icon-ok"></i>验证成功</span>
+                <span id="verify-btn" class="kg-verify-btn-ok layui-btn layui-btn-primary layui-btn-disabled layui-btn-fluid layui-hide"><i class="layui-icon layui-icon-ok"></i>验证成功</span>
             </div>
         </div>
     {% endif %}
@@ -31,7 +31,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-block">
-            <button id="submit-btn" class="layui-btn layui-btn-fluid" {% if captcha.enabled %}disabled="disabled"{% endif %} lay-submit="true" lay-filter="go">登录</button>
+            {% set disabled = captcha.enabled ? 'disabled="disabled"' : '' %}
+            <button id="submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" {{ disabled }} lay-submit="true" lay-filter="go">登录</button>
             <input type="hidden" name="ticket">
             <input type="hidden" name="rand">
         </div>
@@ -61,8 +62,8 @@
                         $('input[name=ticket]').val(res.ticket);
                         $('input[name=rand]').val(res.randstr);
                         $('#captcha-btn').remove();
-                        $('#submit-btn').removeAttr('disabled');
                         $('#verify-btn').removeClass('layui-hide');
+                        $('#submit-btn').removeClass('layui-btn-disabled').removeAttr('disabled');
                     }
                 }
             );

@@ -35,17 +35,7 @@ class ChapterList extends FrontendService
             return [];
         }
 
-        if ($user->id == 0) {
-            foreach ($chapters as &$chapter) {
-                foreach ($chapter['children'] as &$lesson) {
-                    $lesson['me'] = [
-                        'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
-                        'progress' => 0,
-                        'duration' => 0,
-                    ];
-                }
-            }
-        } else {
+        if ($user->id > 0 && $this->courseUser) {
             $mappings = $this->getLearningMappings($course->id, $user->id, $this->courseUser->plan_id);
             foreach ($chapters as &$chapter) {
                 foreach ($chapter['children'] as &$lesson) {
@@ -53,6 +43,16 @@ class ChapterList extends FrontendService
                         'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
                         'progress' => $mappings[$lesson['id']]['progress'] ?? 0,
                         'duration' => $mappings[$lesson['id']]['duration'] ?? 0,
+                    ];
+                }
+            }
+        } else {
+            foreach ($chapters as &$chapter) {
+                foreach ($chapter['children'] as &$lesson) {
+                    $lesson['me'] = [
+                        'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
+                        'progress' => 0,
+                        'duration' => 0,
                     ];
                 }
             }
