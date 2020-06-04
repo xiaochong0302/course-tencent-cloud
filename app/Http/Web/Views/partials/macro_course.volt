@@ -28,8 +28,8 @@
                 <img src="{{ course.cover }}!cover_270" alt="{{ course.title|e }}" title="{{ course.title|e }}">
             </a>
         </div>
-        <div class="title">
-            <a href="{{ course_url }}" title="{{ course.title|e }}">{{ substr(course.title,0,15) }}</a>
+        <div class="title layui-elip">
+            <a href="{{ course_url }}" title="{{ course.title|e }}">{{ course.title }}</a>
         </div>
         <div class="meta">
             {% if course.market_price > 0 %}
@@ -54,8 +54,8 @@
             <img src="{{ course.cover }}!cover_270" alt="{{ course.title|e }}">
         </div>
         <div class="info">
-            <div class="title">
-                <a href="{{ course_url }}" title="{{ course.title|e }}">{{ substr(course.title,0,15) }}</a>
+            <div class="title layui-elip">
+                <a href="{{ course_url }}" title="{{ course.title|e }}">{{ course.title }}</a>
             </div>
             <div class="meta">
                 {% if course.market_price > 0 %}

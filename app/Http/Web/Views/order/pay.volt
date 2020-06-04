@@ -7,7 +7,7 @@
         <a><cite>支付订单</cite></a>
     </div>
 
-    <div class="payment module">
+    <div class="payment container">
         <div class="header">
             订单名称：<span>{{ order.subject }}</span>
             订单编号：<span>{{ order.sn }}</span>

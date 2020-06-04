@@ -1,21 +1,17 @@
 <form class="layui-form account-form" method="POST" action="{{ url({'for':'web.account.pwd_login'}) }}">
     <div class="layui-form-item">
-        <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i></label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i></label>
         <div class="layui-input-block">
             <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label"><i class="layui-icon layui-icon-vercode"></i></label>
+    <div id="captcha-block" class="layui-form-item">
         <div class="layui-input-block">
-            <span id="captcha-btn" class="layui-btn layui-btn-primary layui-btn-fluid" data-app-id="{{ captcha.app_id }}">点击完成验证</span>
-            <span id="verify-btn" class="verify-btn-ok layui-btn layui-btn-primary layui-btn-fluid layui-btn-disabled layui-hide"><i class="layui-icon layui-icon-ok"></i>验证成功</span>
+            <button id="captcha-btn" class="layui-btn layui-btn-primary layui-btn-fluid" type="button" data-app-id="{{ captcha.app_id }}">点击完成验证</button>
         </div>
     </div>
     <div class="layui-form-item">

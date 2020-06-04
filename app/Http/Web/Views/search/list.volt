@@ -14,7 +14,7 @@
     </div>
 
     <div class="layout-main clearfix">
-        <div class="layout-content module">
+        <div class="layout-content container">
             {% if pager.total_pages > 0 %}
                 {% if type == 'course' %}
                     {{ partial('search/content_course') }}

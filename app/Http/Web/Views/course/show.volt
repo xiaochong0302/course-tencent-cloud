@@ -15,7 +15,7 @@
         </span>
     </div>
 
-    <div class="course-meta module clearfix">
+    <div class="course-meta container clearfix">
         {{ partial('course/meta') }}
     </div>
 
@@ -25,7 +25,7 @@
         {% set show_tab_consults = course.consult_count > 0 ? 1 : 0 %}
         {% set show_tab_reviews = course.review_count > 0 ? 1 : 0 %}
 
-        <div class="layout-content module">
+        <div class="layout-content container">
             <div class="layui-tab layui-tab-brief course-tab">
                 <ul class="layui-tab-title">
                     <li class="layui-this">详情</li>

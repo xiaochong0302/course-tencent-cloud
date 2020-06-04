@@ -27,7 +27,7 @@
         </div>
     {%- endmacro %}
 
-    <div class="index-module index-carousel module">
+    <div class="index-container index-carousel container">
         <div class="layui-carousel" id="carousel">
             <div class="carousel" carousel-item>
                 {% for slide in slides %}
@@ -41,21 +41,21 @@
         </div>
     </div>
 
-    <div class="index-module module">
+    <div class="index-container container">
         <div class="header">新上课程</div>
         <div class="content">
             {{ category_courses(new_courses) }}
         </div>
     </div>
 
-    <div class="index-module module">
+    <div class="index-container container">
         <div class="header">免费课程</div>
         <div class="content">
             {{ category_courses(free_courses) }}
         </div>
     </div>
 
-    <div class="index-module module">
+    <div class="index-container container">
         <div class="header">会员课程</div>
         <div class="content">
             {{ category_courses(vip_courses) }}

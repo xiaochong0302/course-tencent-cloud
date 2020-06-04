@@ -22,10 +22,6 @@ body {
     float: right;
 }
 
-.bg-white {
-    background-color: #fff;
-}
-
 .layui-badge, .layui-badge-rim {
     padding-bottom: 1px;
 }
@@ -96,7 +92,7 @@ body {
     margin-bottom: 20px;
 }
 
-.module {
+.container {
     padding: 20px;
     margin-bottom: 15px;
     background-color: #fff;
@@ -127,19 +123,19 @@ body {
     margin-bottom: 15px;
 }
 
-.index-module .layui-tab {
+.index-container .layui-tab {
     margin-bottom: 0;
 }
 
-.index-module .layui-tab-title {
+.index-container .layui-tab-title {
     border: none;
 }
 
-.index-module .layui-tab-content {
+.index-container .layui-tab-content {
     padding: 20px 0 0 0;
 }
 
-.index-module .header {
+.index-container .header {
     text-align: center;
     font-size: 18px;
     padding-bottom: 15px;
@@ -474,7 +470,7 @@ body {
     white-space: nowrap;
 }
 
-.separator {
+.package-course-list .separator {
     color: #666;
     display: inline-block;
     padding-top: 35px;
@@ -789,30 +785,58 @@ body {
     text-align: center;
 }
 
-.verify-btn-ok {
-    color: green;
+.account-container {
+    padding-top: 40px;
+    padding-bottom: 30px;
 }
 
 .account-form {
-    width: 540px;
+    width: 400px;
+    margin: 0 auto;
+}
+
+.account-form .layui-input-block {
+    margin-left: 0;
 }
 
 .account-form .verify-input-inline {
-    width: 308px;
+    display: inline-block;
+    width: 283px;
+    margin-right: 5px;
 }
 
 .account-form .verify-btn-inline {
-    margin-right: 0;
+    display: inline-block;
+    vertical-align: top;
 }
 
-.login-container {
-
+.verify-btn-inline button {
+    min-width: 108px;
 }
 
 .login-tab {
     margin: 0;
 }
 
+.login-tab .layui-tab-title {
+    text-align: center;
+}
+
 .login-tab .layui-tab-content {
     padding-top: 30px;
+}
+
+.login-container .link {
+    margin-bottom: 30px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.login-container .link a {
+    color: #999;
+}
+
+.login-container .link .separator {
+    margin: 0 15px;
+    color: #999;
 }

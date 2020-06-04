@@ -1,5 +1,5 @@
 {% if course.me.owned == 0 and course.market_price > 0 %}
-    <div class="sidebar-order module">
+    <div class="sidebar-order container">
         <div class="order">
             {% set order_url = url({'for':'web.order.confirm'},{'item_id':course.id,'item_type':'course'}) %}
             <a class="layui-btn layui-btn-fluid layui-bg-red" href="{{ order_url }}">立即购买</a>

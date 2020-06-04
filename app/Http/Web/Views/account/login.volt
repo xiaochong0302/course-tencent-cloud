@@ -7,9 +7,9 @@
         <a><cite>登录</cite></a>
     </div>
 
-    <div class="login-container module">
+    <div class="login-container container">
         <div class="layui-tab layui-tab-brief login-tab">
-            <ul class="layui-tab-title kg-tab-title">
+            <ul class="layui-tab-title login-tab-title">
                 <li class="layui-this">密码登录</li>
                 <li>验证码登录</li>
             </ul>
@@ -22,8 +22,9 @@
                 </div>
             </div>
         </div>
-        <div class="text-center">
+        <div class="link">
             <a class="login-link" href="{{ url({'for':'web.account.register'}) }}">免费注册</a>
+            <span class="separator">·</span>
             <a class="forget-link" href="{{ url({'for':'web.account.forget_pwd'}) }}">忘记密码</a>
         </div>
     </div>

@@ -8,7 +8,7 @@
                 </a>
             </div>
             <div class="info">
-                <div class="title">
+                <div class="title layui-elip">
                     <a href="{{ course_url }}">{{ item.title }}</a>
                 </div>
                 <div class="summary">{{ item.summary }}</div>

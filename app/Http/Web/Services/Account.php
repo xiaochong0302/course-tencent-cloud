@@ -40,13 +40,13 @@ class Account extends Service
     {
         $post = $this->request->getPost();
 
-        $captchaValidator = new CaptchaValidator();
-
-        $captchaValidator->checkCode($post['ticket'], $post['rand']);
-
         $accountValidator = new AccountValidator();
 
         $user = $accountValidator->checkUserLogin($post['account'], $post['password']);
+
+        $captchaValidator = new CaptchaValidator();
+
+        $captchaValidator->checkCode($post['ticket'], $post['rand']);
 
         $this->auth->saveAuthInfo($user);
     }

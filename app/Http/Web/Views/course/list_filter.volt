@@ -1,4 +1,4 @@
-<div class="course-filter module">
+<div class="course-filter container">
     <div class="filter-group">
         <div class="title">方向</div>
         <div class="content">

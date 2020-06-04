@@ -7,8 +7,7 @@ var captcha = new TencentCaptcha(
         if (res.ret === 0) {
             $('#ticket').val(res.ticket);
             $('#rand').val(res.randstr);
-            $('#captcha-btn').remove();
-            $('#verify-btn').removeClass('layui-hide');
+            $('#captcha-block').hide();
             $('#submit-btn').removeClass('layui-btn-disabled').removeAttr('disabled');
         }
     }

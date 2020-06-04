@@ -35,7 +35,7 @@
         <a><cite>确认订单</cite></a>
     </div>
 
-    <div class="cart-item-list module">
+    <div class="cart-item-list container">
         {% if confirm.item_type == 'course' %}
             {% set course = confirm.item_info.course %}
             {{ cart_course_card(course, auth_user) }}
@@ -53,7 +53,7 @@
         {% endif %}
     </div>
 
-    <div class="cart-stats module clearfix">
+    <div class="cart-stats container clearfix">
         <div class="info">
             商品总价：<span class="amount">￥{{ confirm.total_amount }}</span>
             优惠金额：<span class="amount">￥{{ confirm.discount_amount }}</span>

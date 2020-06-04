@@ -23,27 +23,18 @@
 }
 
 .kg-login-form {
-    width: 420px;
+    width: 400px;
     margin: 100px auto;
 }
 
 .kg-login-form .layui-input-block {
-    margin-left: 60px;
-    width: 300px;
-}
-
-.kg-login-form .layui-form-label {
-    width: 30px;
+    margin-left: 0;
 }
 
 .kg-input-inline {
     float: left;
     width: 250px;
     margin-right: 10px;
-}
-
-.kg-verify-btn-ok {
-    color: green;
 }
 
 .kg-side-menu-bar {

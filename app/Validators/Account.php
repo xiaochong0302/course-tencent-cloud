@@ -106,11 +106,11 @@ class Account extends Validator
 
     public function checkVerifyLogin($name, $code)
     {
+        $account = $this->checkAccount($name);
+
         $verify = new Verify();
 
         $verify->checkCode($name, $code);
-
-        $account = $this->checkAccount($name);
 
         $userRepo = new UserRepo();
 
