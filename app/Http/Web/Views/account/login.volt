@@ -1,4 +1,4 @@
-{% extends 'templates/base.volt' %}
+{% extends 'templates/full.volt' %}
 
 {% block content %}
 

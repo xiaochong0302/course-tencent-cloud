@@ -7,6 +7,7 @@ use App\Services\Frontend\Account\EmailUpdate as EmailUpdateService;
 use App\Services\Frontend\Account\PasswordReset as PasswordResetService;
 use App\Services\Frontend\Account\PasswordUpdate as PasswordUpdateService;
 use App\Services\Frontend\Account\PhoneUpdate as PhoneUpdateService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/account")
@@ -135,6 +136,60 @@ class AccountController extends Controller
         $captcha = $service->getSectionSettings('captcha');
 
         $this->view->pick('account/forget_password');
+        $this->view->setVar('captcha', $captcha);
+    }
+
+    /**
+     * @Get("/password/edit", name="web.account.edit_pwd")
+     */
+    public function editPasswordAction()
+    {
+        if ($this->authUser->id == 0) {
+            $this->response->redirect(['for' => 'web.account.login']);
+        }
+
+        $service = new AccountService();
+
+        $captcha = $service->getSectionSettings('captcha');
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('account/edit_password');
+        $this->view->setVar('captcha', $captcha);
+    }
+
+    /**
+     * @Get("/phone/edit", name="web.account.edit_phone")
+     */
+    public function editPhoneAction()
+    {
+        if ($this->authUser->id == 0) {
+            $this->response->redirect(['for' => 'web.account.login']);
+        }
+
+        $service = new AccountService();
+
+        $captcha = $service->getSectionSettings('captcha');
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('account/edit_phone');
+        $this->view->setVar('captcha', $captcha);
+    }
+
+    /**
+     * @Get("/email/edit", name="web.account.edit_email")
+     */
+    public function editEmailAction()
+    {
+        if ($this->authUser->id == 0) {
+            $this->response->redirect(['for' => 'web.account.login']);
+        }
+
+        $service = new AccountService();
+
+        $captcha = $service->getSectionSettings('captcha');
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('account/edit_email');
         $this->view->setVar('captcha', $captcha);
     }
 

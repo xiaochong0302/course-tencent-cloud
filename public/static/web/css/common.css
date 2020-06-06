@@ -106,7 +106,7 @@ body {
 
 .layout-content {
     float: left;
-    width: 760px;
+    width: 800px;
 }
 
 .layout-sidebar {
@@ -250,11 +250,17 @@ body {
     width: 210px;
     height: 118px;
     margin-bottom: 10px;
+    overflow: hidden;
 }
 
 .course-card .cover img {
     width: 100%;
     height: 100%;
+    transition: all 0.6s;
+}
+
+.course-card .cover img:hover {
+    transform: scale(1.2);
 }
 
 .course-card .title {
@@ -271,6 +277,10 @@ body {
 
 .course-card .meta span {
     margin-right: 10px;
+}
+
+.course-card .meta span:last-child {
+    margin-right: 0;
 }
 
 .course-card .price {
@@ -839,4 +849,187 @@ body {
 .login-container .link .separator {
     margin: 0 15px;
     color: #999;
+}
+
+.user-profile {
+    position: relative;
+}
+
+.user-profile .avatar {
+    float: left;
+    margin-right: 30px;
+}
+
+.user-profile .avatar img {
+    width: 96px;
+    height: 96px;
+    border-radius: 100px;
+}
+
+.user-profile .vip-icon {
+    color: orange;
+}
+
+.user-profile .info {
+    float: left;
+}
+
+.user-profile .info h3 {
+    padding-top: 5px;
+    margin-bottom: 10px;
+}
+
+.user-profile .info p {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.user-profile .info span {
+    color: #999;
+    margin-right: 5px;
+}
+
+.user-profile .about {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    width: 400px;
+    height: 70px;
+    padding: 10px;
+    color: #999;
+    font-size: 12px;
+    background-color: #f2f2f2;
+}
+
+.user-tab {
+    margin: 0;
+}
+
+.user-tab .layui-tab-title {
+    text-align: center;
+    border-bottom: none;
+}
+
+.user-tab .layui-tab-content {
+    padding: 25px 0;
+}
+
+.user-tab .loading {
+    text-align: center;
+    padding: 15px;
+}
+
+.user-tab .loading .layui-icon {
+    font-size: 30px;
+}
+
+.learning-course-card {
+    height: 230px;
+}
+
+.learning-course-card .progress {
+    width: 210px;
+    padding: 15px 0;
+}
+
+.learning-course-card .duration {
+    font-size: 12px;
+    color: #666;
+}
+
+.teacher-card {
+    float: left;
+    width: 203px;
+    height: 200px;
+    margin-right: 25px;
+    margin-bottom: 25px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.teacher-card .avatar {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.teacher-card .avatar img {
+    width: 96px;
+    height: 96px;
+    border-radius: 100px;
+    transition: 0.5s;
+}
+
+.teacher-card .avatar img:hover {
+    transform: rotateY(180deg);
+}
+
+.teacher-card .name {
+    margin-bottom: 10px;
+}
+
+.teacher-card .title {
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 12px;
+}
+
+.my-profile-card {
+    text-align: center;
+}
+
+.my-profile-card .avatar {
+    margin-bottom: 10px;
+}
+
+.my-profile-card .avatar img {
+    width: 96px;
+    height: 96px;
+    border-radius: 100px;
+}
+
+.my-profile-card .name {
+    margin-bottom: 10px;
+}
+
+.my-menu li {
+    line-height: 30px;
+}
+
+.my-nav-title {
+    font-size: 16px;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.my-form {
+    width: 95%;
+}
+
+.security-item {
+    padding: 15px;
+    line-height: 50px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.security-item:last-child {
+    border-bottom: none;
+}
+
+.security-item .icon {
+    margin-right: 15px;
+}
+
+.security-item .title {
+    margin-right: 15px;
+}
+
+.security-item .summary {
+    color: #666;
+}
+
+.security-item .action {
+    float: right;
 }

@@ -28,6 +28,7 @@ helper.ajaxLoadHtml = function (url, target) {
     $target.html(html);
     $.get(url, function (html) {
         $target.html(html);
+        element.init();
     });
 }
 

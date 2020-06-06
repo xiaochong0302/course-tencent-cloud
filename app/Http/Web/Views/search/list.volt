@@ -1,4 +1,4 @@
-{% extends 'templates/base.volt' %}
+{% extends 'templates/full.volt' %}
 
 {% block content %}
 
@@ -14,16 +14,18 @@
     </div>
 
     <div class="layout-main clearfix">
-        <div class="layout-content container">
+        <div class="layout-content">
             {% if pager.total_pages > 0 %}
-                {% if type == 'course' %}
-                    {{ partial('search/content_course') }}
-                {% elseif type == 'other' %}
-                    {{ partial('search/content_other') }}
-                {% endif %}
+                <div class="container">
+                    {% if type == 'course' %}
+                        {{ partial('search/content_course') }}
+                    {% elseif type == 'other' %}
+                        {{ partial('search/content_other') }}
+                    {% endif %}
+                </div>
                 {{ partial('partials/pager') }}
             {% else %}
-                <div class="search-empty">
+                <div class="search-empty container">
                     <div class="icon"><i class="layui-icon layui-icon-face-surprised"></i></div>
                     <div class="text">没有找到<span class="query">{{ query }}</span>相关内容，换个关键字试试吧！</div>
                 </div>

@@ -2,12 +2,12 @@
 
 namespace App\Http\Web\Controllers;
 
+use App\Services\Frontend\My\AccountInfo as AccountInfoService;
 use App\Services\Frontend\My\ConsultList as MyConsultListService;
-use App\Services\Frontend\My\CourseList as MyCourseListService;
-use App\Services\Frontend\My\FavoriteList as MyFavoriteListService;
 use App\Services\Frontend\My\OrderList as MyOrderListService;
 use App\Services\Frontend\My\RefundList as MyRefundListService;
 use App\Services\Frontend\My\ReviewList as MyReviewListService;
+use App\Services\Frontend\My\UserInfo as UserInfoService;
 
 /**
  * @RoutePrefix("/my")
@@ -16,27 +16,50 @@ class MyController extends Controller
 {
 
     /**
-     * @Get("/courses", name="web.my.courses")
+     * @Get("/home", name="web.my.home")
      */
-    public function coursesAction()
+    public function homeAction()
     {
-        $service = new MyCourseListService();
-
-        $pager = $service->handle();
-
-        $this->view->setVar('pager', $pager);
+        $this->dispatcher->forward([
+            'for' => 'web.user.show',
+            'id' => $this->authUser->id,
+        ]);
     }
 
     /**
-     * @Get("/favorites", name="web.my.favorites")
+     * @Get("/profile", name="web.my.profile")
      */
-    public function favoritesAction()
+    public function profileAction()
     {
-        $service = new MyFavoriteListService();
+        $service = new UserInfoService();
 
-        $pager = $service->handle();
+        $user = $service->handle();
 
-        $this->view->setVar('pager', $pager);
+        $this->view->setVar('user', $user);
+    }
+
+    /**
+     * @Get("/account", name="web.my.account")
+     */
+    public function accountAction()
+    {
+        $service = new AccountInfoService();
+
+        $account = $service->handle();
+
+        $this->view->setVar('account', $account);
+    }
+
+    /**
+     * @Post("/profile/update", name="web.my.update_profile")
+     */
+    public function updateProfileAction()
+    {
+        $service = new UserInfoService();
+
+        $user = $service->handle();
+
+        $this->view->setVar('user', $user);
     }
 
     /**

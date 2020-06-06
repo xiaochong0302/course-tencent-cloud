@@ -51,6 +51,9 @@ class CourseFavoriteList extends Builder
 
         foreach ($courses->toArray() as $course) {
             $course['cover'] = $baseUrl . $course['cover'];
+            $course['market_price'] = (float)$course['market_price'];
+            $course['vip_price'] = (float)$course['vip_price'];
+            $course['rating'] = (float)$course['rating'];
             $course['attrs'] = json_decode($course['attrs'], true);
             $result[$course['id']] = $course;
         }

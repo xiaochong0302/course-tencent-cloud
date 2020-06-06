@@ -130,8 +130,7 @@ class CourseUser extends Model
 
     public function beforeCreate()
     {
-        $this->plan_id = (int)date('Y-m-d');
-
+        $this->plan_id = (int)date('Ymd');
         $this->create_time = time();
     }
 

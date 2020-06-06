@@ -1,4 +1,4 @@
-{% extends 'templates/base.volt' %}
+{% extends 'templates/full.volt' %}
 
 {% block content %}
 
@@ -25,12 +25,13 @@
         {% set show_tab_consults = course.consult_count > 0 ? 1 : 0 %}
         {% set show_tab_reviews = course.review_count > 0 ? 1 : 0 %}
 
-        <div class="layout-content container">
-            <div class="layui-tab layui-tab-brief course-tab">
-                <ul class="layui-tab-title">
-                    <li class="layui-this">详情</li>
-                    <li>目录</li>
-                    {% if show_tab_packages == 1 %}
+        <div class="layout-content">
+            <div class="container">
+                <div class="layui-tab layui-tab-brief course-tab">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">详情</li>
+                        <li>目录</li>
+                        {% if show_tab_packages == 1 %}
                         <li>套餐</li>
                     {% endif %}
                     {% if show_tab_consults == 1 %}
@@ -59,6 +60,7 @@
                         {% set review_url = url({'for':'web.course.reviews','id':course.id}) %}
                         <div class="layui-tab-item" id="tab-reviews" data-url="{{ review_url }}"></div>
                     {% endif %}
+                </div>
                 </div>
             </div>
         </div>

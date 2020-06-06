@@ -14,25 +14,12 @@
     {% block inline_css %}{% endblock %}
 </head>
 <body>
-
-<div id="header">
-    {{ partial('partials/header') }}
-</div>
-
-<div id="main" class="layui-main">
+<div class="layui-main">
     {% block content %}{% endblock %}
 </div>
-
-<div id="footer">
-    {{ partial('partials/footer') }}
-</div>
-
 {{ js_include('lib/layui/layui.all.js') }}
 {{ js_include('web/js/common.js') }}
-
 {% block include_js %}{% endblock %}
-
 {% block inline_js %}{% endblock %}
-
 </body>
 </html>

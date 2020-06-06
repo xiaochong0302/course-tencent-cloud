@@ -31,7 +31,6 @@ class CourseController extends Controller
         $service = new CourseListService();
 
         $pager = $service->handle();
-
         $pager->items = kg_array_object($pager->items);
 
         $service = new CourseQueryService();
@@ -105,7 +104,6 @@ class CourseController extends Controller
         $service = new CourseConsultListService();
 
         $pager = $service->handle($id);
-
         $pager->items = kg_array_object($pager->items);
         $pager->target = $target;
 
@@ -123,7 +121,6 @@ class CourseController extends Controller
         $service = new CourseReviewListService();
 
         $pager = $service->handle($id);
-
         $pager->items = kg_array_object($pager->items);
         $pager->target = $target;
 

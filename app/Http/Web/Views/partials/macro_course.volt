@@ -71,3 +71,24 @@
         </div>
     </div>
 {%- endmacro %}
+
+{%- macro learning_course_card(item) %}
+    {% set course_title = item.course.title|e %}
+    {% set course_url = url({'for':'web.course.show','id':item.course.id}) %}
+    <div class="course-card learning-course-card">
+        <div class="cover">
+            <a href="{{ course_url }}" title="{{ course_title }}">
+                <img src="{{ item.course.cover }}!cover_270" alt="{{ course_title }}">
+            </a>
+        </div>
+        <div class="title layui-elip">
+            <a href="{{ course_url }}" title="{{ course_title }}">{{ course_title }}</a>
+        </div>
+        <div class="progress">
+            <div class="layui-progress" lay-showPercent="yes">
+                <div class="layui-progress-bar" lay-percent="{{ item.progress }}%"></div>
+            </div>
+        </div>
+        <div class="duration">已学习 {{ item.duration|total_duration }}</div>
+    </div>
+{%- endmacro %}

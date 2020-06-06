@@ -1,14 +1,9 @@
-{% extends 'templates/full.volt' %}
+{% extends 'templates/content.volt' %}
 
 {% block content %}
 
-    <div class="layui-breadcrumb breadcrumb">
-        <a href="/">首页</a>
-        <a><cite>注册</cite></a>
-    </div>
-
     <div class="account-container container">
-        <form class="layui-form account-form" method="POST" action="{{ url({'for':'web.account.do_register'}) }}">
+        <form class="layui-form account-form" method="POST" action="{{ url({'for':'web.account.reset_pwd'}) }}">
             <div class="layui-form-item">
                 <div class="layui-input-block">
                     <input id="cv-account" class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
@@ -16,7 +11,7 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
+                    <input class="layui-input" type="password" name="new_password" autocomplete="off" placeholder="新密码" lay-verify="required">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -29,8 +24,7 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button id="cv-submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" disabled="disabled" lay-submit="true" lay-filter="go">立即注册</button>
-                    <input type="hidden" name="return_url" value="{{ return_url }}">
+                    <button id="cv-submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" disabled="disabled" lay-submit="true" lay-filter="go">立即重置</button>
                     <input id="cv-app-id" type="hidden" value="{{ captcha.app_id }}">
                     <input id="cv-ticket" type="hidden" name="ticket">
                     <input id="cv-rand" type="hidden" name="rand">

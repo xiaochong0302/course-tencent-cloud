@@ -86,6 +86,27 @@ class User extends Model
     public $admin_role;
 
     /**
+     * VIP标识
+     *
+     * @var int
+     */
+    public $vip;
+
+    /**
+     * 锁定标识
+     *
+     * @var int
+     */
+    public $block;
+
+    /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
+
+    /**
      * 最近登录IP
      *
      * @var string
@@ -100,25 +121,12 @@ class User extends Model
     public $last_login_time;
 
     /**
-     * VIP标识
-     *
-     * @var int
-     */
-    public $vip;
-
-    /**
      * VIP期限
      *
      * @var int
      */
     public $vip_expiry_time;
 
-    /**
-     * 锁定标识
-     *
-     * @var int
-     */
-    public $block;
 
     /**
      * 锁定期限
@@ -126,13 +134,6 @@ class User extends Model
      * @var int
      */
     public $lock_expiry_time;
-
-    /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted;
 
     /**
      * 通知数量

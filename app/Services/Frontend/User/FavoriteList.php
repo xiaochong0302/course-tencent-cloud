@@ -2,37 +2,35 @@
 
 namespace App\Services\Frontend\User;
 
-use App\Builders\CourseUserList as CourseUserListBuilder;
+use App\Builders\CourseFavoriteList as CourseFavoriteListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\CourseUser as CourseUserModel;
-use App\Repos\CourseUser as CourseUserRepo;
+use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Frontend\Service as FrontendService;
 use App\Services\Frontend\UserTrait;
 
-class CourseList extends FrontendService
+class FavoriteList extends FrontendService
 {
 
     use UserTrait;
 
     public function handle($id)
     {
-        $user = $this->checkUser($id);
+        $user = $this->checkUserCache($id);
 
         $pagerQuery = new PagerQuery();
 
         $params = $pagerQuery->getParams();
 
         $params['user_id'] = $user->id;
-        $params['role_type'] = CourseUserModel::ROLE_STUDENT;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $courseUserRepo = new CourseUserRepo();
+        $favoriteRepo = new CourseFavoriteRepo();
 
-        $pager = $courseUserRepo->paginate($params, $sort, $page, $limit);
+        $pager = $favoriteRepo->paginate($params, $sort, $page, $limit);
 
         return $this->handleCourses($pager);
     }
@@ -43,7 +41,7 @@ class CourseList extends FrontendService
             return $pager;
         }
 
-        $builder = new CourseUserListBuilder();
+        $builder = new CourseFavoriteListBuilder();
 
         $relations = $pager->items->toArray();
 
@@ -52,14 +50,8 @@ class CourseList extends FrontendService
         $items = [];
 
         foreach ($relations as $relation) {
-
             $course = $courses[$relation['course_id']] ?? new \stdClass();
-
-            $items[] = [
-                'course' => $course,
-                'progress' => $relation['progress'],
-                'duration' => $relation['duration'],
-            ];
+            $items[] = $course;
         }
 
         $pager->items = $items;

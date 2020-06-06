@@ -30,6 +30,8 @@ class UserInfo extends FrontendService
             'gender' => $user->gender,
             'vip' => $user->vip,
             'locked' => $user->locked,
+            'last_login_time' => $user->last_login_time,
+            'create_time' => $user->create_time,
         ];
     }
 
