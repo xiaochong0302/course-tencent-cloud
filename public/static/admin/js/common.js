@@ -18,7 +18,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
 
     form.on('submit(go)', function (data) {
         var submit = $(this);
-        submit.attr('disabled', true).addClass('layui-btn-disabled');
+        submit.attr('disabled', 'disabled').addClass('layui-btn-disabled');
         $.ajax({
             type: 'POST',
             url: data.form.action,
@@ -33,13 +33,13 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
                         window.location.href = res.location;
                     }, 1500);
                 } else {
-                    submit.attr('disabled', false).removeClass('layui-btn-disabled');
+                    submit.removeAttr('disabled').removeClass('layui-btn-disabled');
                 }
             },
             error: function (xhr) {
                 var json = JSON.parse(xhr.responseText);
                 layer.msg(json.msg, {icon: 2});
-                submit.attr('disabled', false).removeClass('layui-btn-disabled');
+                submit.removeAttr('disabled').removeClass('layui-btn-disabled');
             }
         });
         return false;

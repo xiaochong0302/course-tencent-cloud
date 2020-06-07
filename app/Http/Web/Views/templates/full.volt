@@ -13,7 +13,7 @@
     {% block link_css %}{% endblock %}
     {% block inline_css %}{% endblock %}
 </head>
-<body>
+<body class="body">
 <div id="header">
     {{ partial('partials/header') }}
 </div>
@@ -25,6 +25,17 @@
 </div>
 {{ js_include('lib/layui/layui.all.js') }}
 {{ js_include('web/js/common.js') }}
+<script>
+    layui.util.fixbar({
+        bar1: true,
+        click: function (type) {
+            console.log(type);
+            if (type === 'bar1') {
+                alert('点击了bar1');
+            }
+        }
+    });
+</script>
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
 </body>

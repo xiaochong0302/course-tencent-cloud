@@ -5,6 +5,7 @@ namespace App\Http\Admin\Services;
 use App\Builders\UserList as UserListBuilder;
 use App\Caches\User as UserCache;
 use App\Library\Paginator\Query as PaginateQuery;
+use App\Library\Utils\Password as PasswordUtil;
 use App\Models\Account as AccountModel;
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
@@ -69,7 +70,11 @@ class User extends Service
 
         $account = new AccountModel();
 
+        $salt = PasswordUtil::salt();
+        $password = PasswordUtil::hash($password, $salt);
+
         $account->phone = $phone;
+        $account->salt = $salt;
         $account->password = $password;
 
         $account->create();
@@ -191,7 +196,9 @@ class User extends Service
         }
 
         if (!empty($post['password'])) {
-            $data['password'] = $validator->checkPassword($post['password']);
+            $post['password'] = $validator->checkPassword($post['password']);
+            $data['salt'] = PasswordUtil::salt();
+            $data['password'] = PasswordUtil::hash($post['password'], $data['salt']);
         }
 
         $account->update($data);

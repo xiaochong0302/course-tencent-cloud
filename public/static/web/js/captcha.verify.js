@@ -46,7 +46,16 @@ var captcha = new TencentCaptcha(
 );
 
 $account.on('keyup', function () {
-    var accountOk = isEmail($(this).val()) || isPhone($(this).val());
+    var accountOk;
+    var type = $(this).attr('data-type');
+    var account = $(this).val();
+    if (type === 'phone') {
+        accountOk = isPhone(account);
+    } else if (type === 'email') {
+        accountOk = isEmail(account);
+    } else {
+        accountOk = isPhone(account) || isEmail(account);
+    }
     if (accountOk && !timeCounting) {
         $emit.removeClass('layui-btn-disabled').removeAttr('disabled');
     } else {

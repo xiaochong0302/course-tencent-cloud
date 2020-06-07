@@ -66,7 +66,7 @@ class Common
 
     public static function phone($str)
     {
-        $pattern = '/^1(3|4|5|6|7|9)[0-9]{9}$/';
+        $pattern = '/^1(3|4|5|6|7|8|9)[0-9]{9}$/';
 
         return preg_match($pattern, $str) ? true : false;
     }

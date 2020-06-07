@@ -1,4 +1,4 @@
-body {
+.body {
     background-color: #f2f2f2;
 }
 
@@ -394,7 +394,7 @@ body {
 .lesson-item {
     position: relative;
     padding: 0 10px;
-    line-height: 40px;
+    line-height: 35px;
 }
 
 .lesson-item a {
@@ -743,7 +743,7 @@ body {
 
 .payment .channel {
     margin-top: 50px;
-    margin-bottom: 80px;
+    margin-bottom: 50px;
     text-align: center;
 }
 
@@ -1032,4 +1032,8 @@ body {
 
 .security-item .action {
     float: right;
+}
+
+.layer-container .account-form {
+    padding-top: 40px;
 }

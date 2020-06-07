@@ -2,21 +2,10 @@ var $ = layui.jquery;
 var element = layui.element;
 var form = layui.form;
 var layer = layui.layer;
-var util = layui.util;
 
 $.ajaxSetup({
     beforeSend: function (xhr) {
         xhr.setRequestHeader('X-Csrf-Token', $('meta[name="csrf-token"]').attr('content'));
-    }
-});
-
-util.fixbar({
-    bar1: true,
-    click: function (type) {
-        console.log(type);
-        if (type === 'bar1') {
-            alert('点击了bar1');
-        }
     }
 });
 
@@ -34,7 +23,7 @@ helper.ajaxLoadHtml = function (url, target) {
 
 form.on('submit(go)', function (data) {
     var submit = $(this);
-    submit.attr('disabled', true).addClass('layui-btn-disabled');
+    submit.attr('disabled', 'disabled').addClass('layui-btn-disabled');
     $.ajax({
         type: 'POST',
         url: data.form.action,
@@ -49,13 +38,13 @@ form.on('submit(go)', function (data) {
                     window.location.href = res.location;
                 }, 1500);
             } else {
-                submit.attr('disabled', false).removeClass('layui-btn-disabled');
+                submit.removeAttr('disabled').removeClass('layui-btn-disabled');
             }
         },
         error: function (xhr) {
             var json = JSON.parse(xhr.responseText);
             layer.msg(json.msg, {icon: 2});
-            submit.attr('disabled', false).removeClass('layui-btn-disabled');
+            submit.removeAttr('disabled').removeClass('layui-btn-disabled');
         }
     });
     return false;

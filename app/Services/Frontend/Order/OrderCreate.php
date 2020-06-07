@@ -177,11 +177,11 @@ class OrderCreate extends FrontendService
         $order = new OrderModel();
 
         $order->user_id = $user->id;
-        $order->item_id = $course->id;
+        $order->item_id = "{$course->id}-{$reward->id}";
         $order->item_type = OrderModel::ITEM_REWARD;
         $order->item_info = $itemInfo;
         $order->amount = $reward->price;
-        $order->subject = "打赏 - {$course->title}";
+        $order->subject = "赞赏 - {$course->title}";
 
         $order->create();
 

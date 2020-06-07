@@ -2,6 +2,7 @@
 
 namespace App\Services\Frontend\Account;
 
+use App\Library\Utils\Password as PasswordUtil;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Verify as VerifyValidator;
@@ -17,13 +18,17 @@ class PasswordReset extends FrontendService
 
         $account = $accountValidator->checkAccount($post['account']);
 
-        $accountValidator->checkPassword($post['new_password']);
+        $newPassword = $accountValidator->checkPassword($post['new_password']);
 
         $verifyValidator = new VerifyValidator();
 
         $verifyValidator->checkCode($post['account'], $post['verify_code']);
 
-        $account->password = $post['new_password'];
+        $salt = PasswordUtil::salt();
+        $password = PasswordUtil::hash($newPassword, $salt);
+
+        $account->salt = $salt;
+        $account->password = $password;
 
         $account->update();
 

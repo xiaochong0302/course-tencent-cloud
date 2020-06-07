@@ -73,12 +73,28 @@ class Account extends Validator
         return $password;
     }
 
+    public function checkConfirmPassword($newPassword, $confirmPassword)
+    {
+        if ($newPassword != $confirmPassword) {
+            throw new BadRequestException('account.password_not_match');
+        }
+    }
+
     public function checkOriginPassword(AccountModel $account, $password)
     {
         $hash = PasswordUtil::hash($password, $account->salt);
 
         if ($hash != $account->password) {
             throw new BadRequestException('account.origin_password_incorrect');
+        }
+    }
+
+    public function checkLoginPassword(AccountModel $account, $password)
+    {
+        $hash = PasswordUtil::hash($password, $account->salt);
+
+        if ($hash != $account->password) {
+            throw new BadRequestException('account.login_password_incorrect');
         }
     }
 

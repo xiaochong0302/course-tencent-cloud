@@ -14,9 +14,7 @@
     {% block inline_css %}{% endblock %}
 </head>
 <body>
-<div class="layui-main">
-    {% block content %}{% endblock %}
-</div>
+{% block content %}{% endblock %}
 {{ js_include('lib/layui/layui.all.js') }}
 {{ js_include('web/js/common.js') }}
 {% block include_js %}{% endblock %}

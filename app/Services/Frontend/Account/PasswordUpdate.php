@@ -2,6 +2,7 @@
 
 namespace App\Services\Frontend\Account;
 
+use App\Library\Utils\Password as PasswordUtil;
 use App\Repos\Account as AccountRepo;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Account as AccountValidator;
@@ -25,7 +26,13 @@ class PasswordUpdate extends FrontendService
 
         $newPassword = $accountValidator->checkPassword($post['new_password']);
 
-        $account->password = $newPassword;
+        $accountValidator->checkConfirmPassword($post['new_password'], $post['confirm_password']);
+
+        $salt = PasswordUtil::salt();
+        $password = PasswordUtil::hash($newPassword, $salt);
+
+        $account->salt = $salt;
+        $account->password = $password;
 
         $account->update();
 

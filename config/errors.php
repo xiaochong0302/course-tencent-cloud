@@ -41,13 +41,15 @@ $error['captcha.invalid_code'] = '无效的验证码';
 $error['account.not_found'] = '账号不存在';
 $error['account.login_block'] = '账号被锁定，无法登录';
 $error['account.login_password_incorrect'] = '登录密码不正确';
-$error['account.invalid_login_name'] = '无效的登录账户名';
+$error['account.invalid_login_name'] = '无效的登录名';
 $error['account.invalid_email'] = '无效的电子邮箱';
 $error['account.invalid_phone'] = '无效的手机号';
 $error['account.invalid_password'] = '无效的密码（字母或数字6-16位）';
 $error['account.email_taken'] = '邮箱被占用';
 $error['account.phone_taken'] = '手机号被占用';
-$error['account.origin_password_incorrect'] = '原密码不正确';
+$error['account.password_not_match'] = '密码不匹配';
+$error['account.origin_password_incorrect'] = '原有密码不正确';
+$error['account.login_password_incorrect'] = '登录密码不正确';
 
 /**
  * 用户相关

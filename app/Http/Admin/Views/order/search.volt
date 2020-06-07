@@ -23,7 +23,7 @@
         <div class="layui-input-block">
             <input type="radio" name="item_type" value="course" title="课程">
             <input type="radio" name="item_type" value="package" title="套餐">
-            <input type="radio" name="item_type" value="reward" title="打赏">
+            <input type="radio" name="item_type" value="reward" title="赞赏">
             <input type="radio" name="item_type" value="vip" title="会员">
             <input type="radio" name="item_type" value="test" title="测试">
         </div>

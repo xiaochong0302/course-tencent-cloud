@@ -44,7 +44,7 @@
     {% elseif value == 'vip' %}
         <span class="layui-badge layui-bg-orange">会员</span>
     {% elseif value == 'reward' %}
-        <span class="layui-badge layui-bg-red">打赏</span>
+        <span class="layui-badge layui-bg-red">赞赏</span>
     {% elseif value == 'test' %}
         <span class="layui-badge layui-bg-black">测试</span>
     {% endif %}

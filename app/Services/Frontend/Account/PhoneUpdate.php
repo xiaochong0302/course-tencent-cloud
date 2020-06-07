@@ -28,7 +28,7 @@ class PhoneUpdate extends FrontendService
             $accountValidator->checkIfPhoneTaken($post['phone']);
         }
 
-        $accountValidator->checkOriginPassword($account, $post['origin_password']);
+        $accountValidator->checkLoginPassword($account, $post['login_password']);
 
         $verifyValidator = new VerifyValidator();
 

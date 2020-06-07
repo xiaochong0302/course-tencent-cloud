@@ -28,7 +28,7 @@ class EmailUpdate extends FrontendService
             $accountValidator->checkIfEmailTaken($post['email']);
         }
 
-        $accountValidator->checkOriginPassword($account, $post['origin_password']);
+        $accountValidator->checkLoginPassword($account, $post['login_password']);
 
         $verifyValidator = new VerifyValidator();
 
