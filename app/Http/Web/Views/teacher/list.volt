@@ -8,11 +8,11 @@
     </div>
 
     {% if pager.total_pages > 0 %}
-        <div class="teacher-list clearfix">
+        <div class="teach-user-list clearfix">
             {% for item in pager.items %}
                 {% set teacher_title = item.title ? item.title : '小小教书匠' %}
                 {% set teacher_url = url({'for':'web.teacher.show','id':item.id}) %}
-                <div class="teacher-card" title="{{ item.about|e }}">
+                <div class="user-card" title="{{ item.about|e }}">
                     <div class="avatar">
                         <a href="{{ teacher_url }}"><img src="{{ item.avatar }}" alt="{{ item.name }}"></a>
                     </div>

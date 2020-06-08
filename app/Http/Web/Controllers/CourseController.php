@@ -12,8 +12,8 @@ use App\Services\Frontend\Course\PackageList as CoursePackageListService;
 use App\Services\Frontend\Course\RecommendedList as CourseRecommendedListService;
 use App\Services\Frontend\Course\RelatedList as CourseRelatedListService;
 use App\Services\Frontend\Course\ReviewList as CourseReviewListService;
-use App\Services\Frontend\Course\TeacherList as CourseTeacherListService;
 use App\Services\Frontend\Course\TopicList as CourseTopicListService;
+use App\Services\Frontend\Course\UserList as CourseTeacherListService;
 use App\Services\Frontend\Reward\OptionList as RewardOptionList;
 use Phalcon\Mvc\View;
 

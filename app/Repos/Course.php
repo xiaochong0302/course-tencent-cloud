@@ -60,10 +60,6 @@ class Course extends Repository
             $builder->andWhere('level = :level:', ['level' => $where['level']]);
         }
 
-        if ($sort == 'free') {
-            $where['free'] = 1;
-        }
-
         if (isset($where['free'])) {
             if ($where['free'] == 1) {
                 $builder->andWhere('market_price = 0');
@@ -78,6 +74,14 @@ class Course extends Repository
 
         if (isset($where['deleted'])) {
             $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
+        }
+
+        if ($sort == 'free') {
+            $builder->andWhere('market_price = 0');
+        } elseif ($sort == 'vip') {
+            $builder->andWhere('vip_price < market_price');
+        } elseif ($sort == 'vip_free') {
+            $builder->andWhere('vip_price = 0');
         }
 
         switch ($sort) {

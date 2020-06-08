@@ -660,6 +660,58 @@
     margin-right: 10px;
 }
 
+.vip-header {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.vip-reason-list {
+    padding: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.vip-reason-list .reason-badge {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    margin-right: 15px;
+    background-color: #1E9FFF;
+}
+
+.vip-option-list {
+    margin-bottom: 30px;
+}
+
+.vip-option-card {
+    float: left;
+    width: 262px;
+    height: 150px;
+    padding-top: 30px;
+    margin-right: 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    text-align: center;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.vip-option-card:last-child {
+    margin-right: 0;
+}
+
+.vip-option-card .title {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.vip-option-card .price {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: red;
+}
+
 .cart-course-card {
     padding-bottom: 10px;
     margin-bottom: 10px;
@@ -937,40 +989,50 @@
     color: #666;
 }
 
-.teacher-card {
-    float: left;
+.teach-user-list .user-card {
     width: 203px;
-    height: 200px;
-    margin-right: 25px;
     margin-bottom: 25px;
-    text-align: center;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.teacher-card .avatar {
-    margin-top: 20px;
-    margin-bottom: 10px;
+.vip-user-list {
+    margin-bottom: 15px;
 }
 
-.teacher-card .avatar img {
+.vip-user-list .user-card {
+    width: 195px;
+}
+
+.user-card {
+    float: left;
+    height: 210px;
+    margin-right: 25px;
+    text-align: center;
+}
+
+.user-card .avatar {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.user-card .avatar img {
     width: 96px;
     height: 96px;
     border-radius: 100px;
     transition: 0.5s;
 }
 
-.teacher-card .avatar img:hover {
+.user-card .avatar img:hover {
     transform: rotateY(180deg);
 }
 
-.teacher-card .name {
-    margin-bottom: 10px;
+.user-card .name {
+    margin-bottom: 15px;
 }
 
-.teacher-card .title {
-    margin-bottom: 10px;
+.user-card .title {
     color: #666;
     font-size: 12px;
 }
@@ -1032,8 +1094,4 @@
 
 .security-item .action {
     float: right;
-}
-
-.layer-container .account-form {
-    padding-top: 40px;
 }
