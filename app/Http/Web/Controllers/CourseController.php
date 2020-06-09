@@ -12,8 +12,8 @@ use App\Services\Frontend\Course\PackageList as CoursePackageListService;
 use App\Services\Frontend\Course\RecommendedList as CourseRecommendedListService;
 use App\Services\Frontend\Course\RelatedList as CourseRelatedListService;
 use App\Services\Frontend\Course\ReviewList as CourseReviewListService;
+use App\Services\Frontend\Course\TeacherList as CourseTeacherListService;
 use App\Services\Frontend\Course\TopicList as CourseTopicListService;
-use App\Services\Frontend\Course\UserList as CourseTeacherListService;
 use App\Services\Frontend\Reward\OptionList as RewardOptionList;
 use Phalcon\Mvc\View;
 
@@ -28,9 +28,12 @@ class CourseController extends Controller
      */
     public function listAction()
     {
+        $_REQUEST['limit'] = 12;
+
         $service = new CourseListService();
 
         $pager = $service->handle();
+
         $pager->items = kg_array_object($pager->items);
 
         $service = new CourseQueryService();
@@ -73,12 +76,12 @@ class CourseController extends Controller
 
         $service = new RewardOptionList();
 
-        $rewards = $service->handle();
+        $rewardOptions = $service->handle();
 
         $this->view->setVar('course', $course);
         $this->view->setVar('chapters', $chapters);
         $this->view->setVar('teachers', $teachers);
-        $this->view->setVar('rewards', $rewards);
+        $this->view->setVar('reward_options', $rewardOptions);
     }
 
     /**

@@ -5,14 +5,14 @@
             {% set teacher_url = url({'for':'web.user.show','id':teacher.id}) %}
             <div class="sidebar-teacher-card clearfix" title="{{ teacher.about|e }}">
                 <div class="avatar">
-                    <img src="{{ teacher.avatar }}" alt="{{ teacher.about|e }}">
+                    <img src="{{ teacher.avatar }}" alt="{{ teacher.name }}">
                 </div>
                 <div class="info">
-                    <div class="name">
+                    <div class="name layui-elip">
                         <a href="{{ teacher_url }}">{{ teacher.name }}</a>
                     </div>
                     {% set title = teacher.title ? teacher.title : '小小教书匠' %}
-                    <div class="title">{{ title }}</div>
+                    <div class="title layui-elip">{{ title }}</div>
                 </div>
             </div>
         {% endfor %}

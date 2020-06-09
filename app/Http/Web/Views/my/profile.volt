@@ -11,7 +11,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">昵称</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" type="text" name="name" lay-verify="required">
+                            <input class="layui-input" type="text" name="name" value="{{ user.name }}" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">

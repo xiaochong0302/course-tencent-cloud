@@ -9,17 +9,24 @@
 
     {% if pager.total_pages > 0 %}
         <div class="teach-user-list clearfix">
-            {% for item in pager.items %}
-                {% set teacher_title = item.title ? item.title : '小小教书匠' %}
-                {% set teacher_url = url({'for':'web.teacher.show','id':item.id}) %}
-                <div class="user-card" title="{{ item.about|e }}">
-                    <div class="avatar">
-                        <a href="{{ teacher_url }}"><img src="{{ item.avatar }}" alt="{{ item.name }}"></a>
+            <div class="layui-row layui-col-space20">
+                {% for item in pager.items %}
+                    {% set user_title = item.title ? item.title : '小小教书匠' %}
+                    {% set user_about = item.about ? item.about|e : '这个人很懒，什么都没留下' %}
+                    {% set user_url = url({'for':'web.teacher.show','id':item.id}) %}
+                    <div class="layui-col-md3">
+                        <div class="user-card" title="{{ user_about }}">
+                            <div class="avatar">
+                                <a href="{{ user_url }}"><img src="{{ item.avatar }}" alt="{{ item.name }}"></a>
+                            </div>
+                            <div class="name layui-elip">
+                                <a href="{{ user_url }}">{{ item.name }}</a>
+                            </div>
+                            <div class="title layui-elip">{{ user_title }}</div>
+                        </div>
                     </div>
-                    <div class="name"><a href="{{ teacher_url }}">{{ item.name }}</a></div>
-                    <div class="title">{{ teacher_title }}</div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
         {{ partial('partials/pager') }}
     {% endif %}

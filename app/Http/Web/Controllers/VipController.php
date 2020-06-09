@@ -20,9 +20,9 @@ class VipController extends Controller
     {
         $service = new VipOptionListService();
 
-        $vipOptionList = $service->handle();
+        $vipOptions = $service->handle();
 
-        $this->view->setVar('vip_option_list', $vipOptionList);
+        $this->view->setVar('vip_options', $vipOptions);
     }
 
     /**

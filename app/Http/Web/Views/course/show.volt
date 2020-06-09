@@ -49,16 +49,16 @@
                         {{ partial('course/chapters') }}
                     </div>
                     {% if show_tab_packages == 1 %}
-                        {% set package_url = url({'for':'web.course.packages','id':course.id}) %}
-                        <div class="layui-tab-item" id="tab-packages" data-url="{{ package_url }}"></div>
+                        {% set packages_url = url({'for':'web.course.packages','id':course.id}) %}
+                        <div class="layui-tab-item" id="tab-packages" data-url="{{ packages_url }}"></div>
                     {% endif %}
                     {% if show_tab_consults == 1 %}
-                        {% set consult_url = url({'for':'web.course.consults','id':course.id}) %}
-                        <div class="layui-tab-item" id="tab-consults" data-url="{{ consult_url }}"></div>
+                        {% set consults_url = url({'for':'web.course.consults','id':course.id}) %}
+                        <div class="layui-tab-item" id="tab-consults" data-url="{{ consults_url }}"></div>
                     {% endif %}
                     {% if show_tab_reviews == 1 %}
-                        {% set review_url = url({'for':'web.course.reviews','id':course.id}) %}
-                        <div class="layui-tab-item" id="tab-reviews" data-url="{{ review_url }}"></div>
+                        {% set reviews_url = url({'for':'web.course.reviews','id':course.id}) %}
+                        <div class="layui-tab-item" id="tab-reviews" data-url="{{ reviews_url }}"></div>
                     {% endif %}
                 </div>
                 </div>
@@ -74,8 +74,8 @@
             {{ partial('course/order') }}
             {{ partial('course/teachers') }}
             {% if show_sidebar_topics %}
-                {% set topic_url = url({'for':'web.course.topics','id':course.id}) %}
-                <div class="sidebar" id="sidebar-topics" data-url="{{ topic_url }}"></div>
+                {% set topics_url = url({'for':'web.course.topics','id':course.id}) %}
+                <div class="sidebar" id="sidebar-topics" data-url="{{ topics_url }}"></div>
             {% endif %}
             {% if show_sidebar_recommended %}
                 {% set recommended_url = url({'for':'web.course.recommended','id':course.id}) %}

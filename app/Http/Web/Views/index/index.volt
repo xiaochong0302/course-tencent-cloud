@@ -17,9 +17,13 @@
                     {% set class = loop.first ? 'layui-tab-item layui-show' : 'layui-tab-item' %}
                     <div class="{{ class }}">
                         <div class="index-course-list clearfix">
-                            {% for course in category.courses %}
-                                {{ course_card(course) }}
-                            {% endfor %}
+                            <div class="layui-row layui-col-space20">
+                                {% for course in category.courses %}
+                                    <div class="layui-col-md3">
+                                        {{ course_card(course) }}
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 {% endfor %}

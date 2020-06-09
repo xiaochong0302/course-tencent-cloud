@@ -15,21 +15,25 @@
 
     <div class="vip-header">开通会员</div>
 
-    <div class="vip-option-list clearfix">
-        {% for option in vip_option_list %}
-            {% set order_url = url({'for':'web.order.confirm'},{'item_id':option.id,'item_type':'vip'}) %}
-            <div class="vip-option-card">
-                <div class="title">{{ option.title }}</div>
-                <div class="price">￥{{ option.price }}</div>
-                <div class="order"><a class="layui-btn layui-btn-sm layui-bg-red" href="{{ order_url }}">立即开通</a></div>
-            </div>
-        {% endfor %}
+    <div class="vip-option-list">
+        <div class="layui-row layui-col-space20">
+            {% for option in vip_options %}
+                {% set order_url = url({'for':'web.order.confirm'},{'item_id':option.id,'item_type':'vip'}) %}
+                <div class="layui-col-md3">
+                    <div class="vip-option-card">
+                        <div class="title">{{ option.title }}</div>
+                        <div class="price">￥{{ option.price }}</div>
+                        <div class="order"><a class="layui-btn layui-btn-sm layui-bg-red" href="{{ order_url }}">立即开通</a></div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
-    {% set courses_url = url({'for':'web.vip.courses'}) %}
-    {% set users_url = url({'for':'web.vip.users'}) %}
+    {% set courses_url = url({'for':'web.vip.courses'},{'limit':12}) %}
+    {% set users_url = url({'for':'web.vip.users'},{'limit':12}) %}
 
-    <div class="container">
+    <div class="vip-tab-container">
         <div class="layui-tab layui-tab-brief user-tab">
             <ul class="layui-tab-title">
                 <li class="layui-this">课程</li>

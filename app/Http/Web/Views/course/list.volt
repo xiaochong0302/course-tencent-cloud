@@ -6,10 +6,14 @@
     {{ partial('course/list_filter') }}
 
     {% if pager.total_pages > 0 %}
-        <div class="course-list container clearfix">
-            {% for item in pager.items %}
-                {{ course_card(item) }}
-            {% endfor %}
+        <div class="course-list clearfix">
+            <div class="layui-row layui-col-space20">
+                {% for item in pager.items %}
+                    <div class="layui-col-md3">
+                        {{ course_card(item) }}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
         {{ partial('partials/pager') }}
     {% else %}

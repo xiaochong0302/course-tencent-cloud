@@ -39,6 +39,7 @@
                 {% else %}
                     <span class="free">会员免费</span>
                 {% endif %}
+                <span class="level">{{ level_info(course.level) }}</span>
                 <span class="user">{{ course.user_count }}人购买</span>
             {% elseif course.market_price > 0 %}
                 <span class="price">￥{{ course.market_price }}</span>

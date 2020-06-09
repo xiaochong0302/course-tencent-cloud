@@ -62,21 +62,40 @@ class Index extends Service
     {
         $cache = new IndexNewCourseListCache();
 
-        return $cache->get();
+        $courses = $cache->get();
+
+        return $this->handleCategoryCourses($courses);
     }
 
     public function getFreeCourses()
     {
         $cache = new IndexFreeCourseListCache();
 
-        return $cache->get();
+        $courses = $cache->get();
+
+        return $this->handleCategoryCourses($courses);
     }
 
     public function getVipCourses()
     {
         $cache = new IndexVipCourseListCache();
 
-        return $cache->get();
+        $courses = $cache->get();
+
+        return $this->handleCategoryCourses($courses);
+    }
+
+    protected function handleCategoryCourses($items, $limit = 8)
+    {
+        if (count($items) == 0) {
+            return [];
+        }
+
+        foreach ($items as &$item) {
+            $item['courses'] = array_slice($item['courses'], 0, $limit);
+        }
+
+        return $items;
     }
 
 }

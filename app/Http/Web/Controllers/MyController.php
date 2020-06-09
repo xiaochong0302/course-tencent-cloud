@@ -8,6 +8,7 @@ use App\Services\Frontend\My\OrderList as MyOrderListService;
 use App\Services\Frontend\My\RefundList as MyRefundListService;
 use App\Services\Frontend\My\ReviewList as MyReviewListService;
 use App\Services\Frontend\My\UserInfo as UserInfoService;
+use App\Services\Frontend\My\UserUpdate as UserUpdateService;
 
 /**
  * @RoutePrefix("/my")
@@ -51,18 +52,6 @@ class MyController extends Controller
     }
 
     /**
-     * @Post("/profile/update", name="web.my.update_profile")
-     */
-    public function updateProfileAction()
-    {
-        $service = new UserInfoService();
-
-        $user = $service->handle();
-
-        $this->view->setVar('user', $user);
-    }
-
-    /**
      * @Get("/consults", name="web.my.consults")
      */
     public function consultsAction()
@@ -95,6 +84,8 @@ class MyController extends Controller
 
         $pager = $service->handle();
 
+        $pager->items = kg_array_object($pager->items);
+
         $this->view->setVar('pager', $pager);
     }
 
@@ -108,6 +99,20 @@ class MyController extends Controller
         $pager = $service->handle();
 
         $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Post("/profile/update", name="web.my.update_profile")
+     */
+    public function updateProfileAction()
+    {
+        $service = new UserUpdateService();
+
+        $service->handle();
+
+        $content = ['msg' => '更新资料成功'];
+
+        return $this->jsonSuccess($content);
     }
 
 }

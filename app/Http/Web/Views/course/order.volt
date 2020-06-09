@@ -15,10 +15,10 @@
         <div class="layui-card-header">赞赏支持</div>
         <div class="layui-card-body">
             <div class="sidebar-order">
-                {% for reward in rewards %}
-                    {% set item_id = [course.id,reward.id]|join('-') %}
+                {% for option in reward_options %}
+                    {% set item_id = [course.id,option.id]|join('-') %}
                     {% set order_url = url({'for':'web.order.confirm'},{'item_id':item_id,'item_type':'reward'}) %}
-                    <a class="layui-btn layui-btn-xs reward-btn" href="{{ order_url }}">{{ reward.title }}</a>
+                    <a class="layui-btn layui-btn-xs reward-btn" href="{{ order_url }}">{{ option.title }}</a>
                 {% endfor %}
             </div>
         </div>
