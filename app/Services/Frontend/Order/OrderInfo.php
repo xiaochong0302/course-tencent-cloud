@@ -3,6 +3,7 @@
 namespace App\Services\Frontend\Order;
 
 use App\Models\Order as OrderModel;
+use App\Repos\Order as OrderRepo;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Order as OrderValidator;
 
@@ -22,6 +23,8 @@ class OrderInfo extends FrontendService
     {
         $order->item_info = $this->handleItemInfo($order);
 
+        $history = $this->handleHistory($order);
+
         return [
             'sn' => $order->sn,
             'subject' => $order->subject,
@@ -30,8 +33,30 @@ class OrderInfo extends FrontendService
             'item_id' => $order->item_id,
             'item_type' => $order->item_type,
             'item_info' => $order->item_info,
-            'create_time' => $order->create_time,
+            'history' => $history,
         ];
+    }
+
+    protected function handleHistory(OrderModel $order)
+    {
+        $orderRepo = new OrderRepo();
+
+        $records = $orderRepo->findHistory($order->id);
+
+        if ($records->count() == 0) {
+            return [];
+        }
+
+        $result = [];
+
+        foreach ($records as $record) {
+            $result[] = [
+                'status' => $record->status,
+                'create_time' => $record->create_time,
+            ];
+        }
+
+        return $result;
     }
 
     protected function handleItemInfo(OrderModel $order)

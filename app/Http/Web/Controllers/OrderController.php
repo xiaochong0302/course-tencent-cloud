@@ -15,6 +15,20 @@ class OrderController extends Controller
 {
 
     /**
+     * @Get("/info", name="web.order.info")
+     */
+    public function infoAction()
+    {
+        $sn = $this->request->getQuery('sn');
+
+        $service = new OrderInfoService();
+
+        $order = $service->handle($sn);
+
+        $this->view->setVar('order', $order);
+    }
+
+    /**
      * @Get("/confirm", name="web.order.confirm")
      */
     public function confirmAction()
@@ -59,20 +73,6 @@ class OrderController extends Controller
         }
 
         $this->view->setVar('order', $order);
-    }
-
-    /**
-     * @Get("/info", name="web.order.info")
-     */
-    public function infoAction()
-    {
-        $sn = $this->request->getQuery('sn');
-
-        $service = new OrderInfoService();
-
-        $order = $service->handle($sn);
-
-        return $this->jsonSuccess(['order' => $order]);
     }
 
     /**

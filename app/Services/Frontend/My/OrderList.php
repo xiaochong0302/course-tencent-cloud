@@ -54,7 +54,7 @@ class OrderList extends FrontendService
             $items[] = [
                 'sn' => $order['sn'],
                 'subject' => $order['subject'],
-                'amount' => $order['amount'],
+                'amount' => (float)$order['amount'],
                 'status' => $order['status'],
                 'item_id' => $order['item_id'],
                 'item_type' => $order['item_type'],

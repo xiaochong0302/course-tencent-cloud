@@ -11,7 +11,7 @@
     </div>
     <div id="captcha-block" class="layui-form-item">
         <div class="layui-input-block">
-            <button id="captcha-btn" class="layui-btn layui-btn-primary layui-btn-fluid" type="button" data-app-id="{{ captcha.app_id }}">点击完成验证</button>
+            <button id="captcha-btn" class="layui-btn layui-btn-fluid" type="button" data-app-id="{{ captcha.app_id }}">点击完成验证</button>
         </div>
     </div>
     <div class="layui-form-item">

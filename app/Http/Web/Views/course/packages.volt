@@ -6,11 +6,13 @@
                 <div class="title">{{ package.title }}</div>
                 <div class="origin-price">
                     <span>{{ package.course_count }} 门课程</span>
-                    <span>总价 <i>￥{{ package.origin_price }}</i></span>
+                    <span>总价 <i>{{ '￥%0.2f'|format(package.origin_price) }}</i></span>
                 </div>
                 <div class="price">
-                    <span>市场价 <i>￥{{ package.market_price }}</i></span>
-                    <span>会员价 <i>￥{{ package.vip_price }}</i></span>
+                    <span>市场价 <i>{{ '￥%0.2f'|format(package.market_price) }}</i></span>
+                </div>
+                <div class="price">
+                    <span>会员价 <i>{{ '￥%0.2f'|format(package.vip_price) }}</i></span>
                 </div>
                 <div class="order">
                     <a class="layui-btn layui-btn-sm layui-bg-red" href="{{ order_url }}">立即购买</a>

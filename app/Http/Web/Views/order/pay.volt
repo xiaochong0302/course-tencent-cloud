@@ -30,10 +30,10 @@
     <div class="layui-hide">
         <input type="hidden" name="trade_create_url" value="{{ url({'for':'web.trade.create'}) }}">
         <input type="hidden" name="trade_status_url" value="{{ url({'for':'web.trade.status'}) }}">
-        <input type="hidden" name="forward_url" value="{{ url({'for':'web.course.list'}) }}">
+        <input type="hidden" name="forward_url" value="{{ url({'for':'web.my.orders'}) }}">
         <input type="hidden" name="order_sn" value="{{ order.sn }}">
-        <input type="hidden" name="alipay_trade_sn" value="">
-        <input type="hidden" name="wxpay_trade_sn" value="">
+        <input type="hidden" name="alipay_trade_sn">
+        <input type="hidden" name="wxpay_trade_sn">
     </div>
 
 {% endblock %}

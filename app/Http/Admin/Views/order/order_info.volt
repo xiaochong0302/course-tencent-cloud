@@ -16,7 +16,7 @@
     <tr>
         <td>{{ item_info(order) }}</td>
         <td>￥{{ order.amount }}</td>
-        <td>{{ item_type(order.item_type) }}</span></td>
+        <td>{{ item_type(order.item_type) }}</td>
         <td>{{ order_status(order.status) }}</td>
         <td>{{ date('Y-m-d H:i:s',order.create_time) }}</td>
     </tr>

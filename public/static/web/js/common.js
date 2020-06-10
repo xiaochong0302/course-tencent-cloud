@@ -75,6 +75,10 @@ $('.kg-delete').on('click', function () {
     });
 });
 
+$('.kg-back').on('click', function () {
+    window.history.back();
+});
+
 $('body').on('click', '.layui-laypage > a', function () {
     var url = $(this).attr('data-url');
     var target = $(this).attr('data-target');

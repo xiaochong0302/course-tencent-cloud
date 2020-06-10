@@ -4,6 +4,7 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Order as OrderModel;
+use App\Models\OrderStatus as OrderStatusModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use Phalcon\Mvc\Model;
@@ -43,6 +44,10 @@ class Order extends Repository
 
         if (!empty($where['status'])) {
             $builder->andWhere('status = :status:', ['status' => $where['status']]);
+        }
+
+        if (isset($where['deleted'])) {
+            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
         if (!empty($where['start_time']) && !empty($where['end_time'])) {
@@ -157,6 +162,17 @@ class Order extends Repository
         return RefundModel::query()
             ->where('order_id = :order_id:', ['order_id' => $orderId])
             ->andWhere('deleted = 0')
+            ->execute();
+    }
+
+    /**
+     * @param $orderId
+     * @return ResultsetInterface|Resultset|OrderStatusModel[]
+     */
+    public function findHistory($orderId)
+    {
+        return OrderStatusModel::query()
+            ->where('order_id = :order_id:', ['order_id' => $orderId])
             ->execute();
     }
 

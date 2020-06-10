@@ -2,6 +2,7 @@
 
 namespace App\Http\Web\Controllers;
 
+use App\Services\Frontend\Order\OrderInfo as OrderInfoService;
 use App\Services\Frontend\Refund\RefundCancel as RefundCancelService;
 use App\Services\Frontend\Refund\RefundConfirm as RefundConfirmService;
 use App\Services\Frontend\Refund\RefundCreate as RefundCreateService;
@@ -18,15 +19,18 @@ class RefundController extends Controller
      */
     public function confirmAction()
     {
-        $sn = $this->request->getQuery('order_sn');
+        $sn = $this->request->getQuery('sn');
+
+        $service = new OrderInfoService();
+
+        $order = $service->handle($sn);
 
         $service = new RefundConfirmService();
 
-        $confirmInfo = $service->handle($sn);
+        $confirm = $service->handle($sn);
 
-        return $this->jsonSuccess(['confirm_info' => $confirmInfo]);
-
-        $this->view->setVar('confirm_info', $confirmInfo);
+        $this->view->setVar('order', $order);
+        $this->view->setVar('confirm', $confirm);
     }
 
     /**

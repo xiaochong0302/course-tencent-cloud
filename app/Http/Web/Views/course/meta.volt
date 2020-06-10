@@ -16,12 +16,12 @@
     {% endif %}
     <p>
         {% if course.market_price > 0 %}
-            市场价格 <span class="price">￥{{ course.market_price }}</span>
+            市场价格 <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
         {% else %}
             市场价格 <span class="free">免费</span>
         {% endif %}
         {% if course.vip_price > 0 %}
-            会员价格 <span class="price">￥{{ course.vip_price }}</span>
+            会员价格 <span class="price">{{ '￥%0.2f'|format(course.vip_price) }}</span>
         {% else %}
             会员价格 <span class="free">免费</span>
         {% endif %}

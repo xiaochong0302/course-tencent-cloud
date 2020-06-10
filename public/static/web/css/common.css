@@ -22,6 +22,41 @@
     float: right;
 }
 
+.text-center {
+    text-align: center;
+}
+
+.breadcrumb {
+    margin-bottom: 20px;
+}
+
+.container {
+    padding: 20px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.layer-container {
+    padding: 20px;
+}
+
+.pager {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.layout-content {
+    float: left;
+    width: 800px;
+}
+
+.layout-sidebar {
+    float: right;
+    width: 320px;
+}
+
 .layui-badge, .layui-badge-rim {
     padding-bottom: 1px;
 }
@@ -86,33 +121,6 @@
 
 .bottom-nav a, .copyright span, .copyright a {
     margin-right: 10px;
-}
-
-.breadcrumb {
-    margin-bottom: 20px;
-}
-
-.container {
-    padding: 20px;
-    margin-bottom: 15px;
-    background-color: #fff;
-    border-radius: 2px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.pager {
-    margin-top: 25px;
-    text-align: center;
-}
-
-.layout-content {
-    float: left;
-    width: 800px;
-}
-
-.layout-sidebar {
-    float: right;
-    width: 320px;
 }
 
 .layout-sidebar .loading {
@@ -463,14 +471,13 @@
 }
 
 .package-info .origin-price i {
-    color: red;
     font-style: normal;
     text-decoration: line-through;
 }
 
 .package-info .price {
     color: #666;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .package-info .price i {
@@ -1102,4 +1109,24 @@
 
 .kg-table p {
     line-height: 1.8em;
+}
+
+.order-table .price {
+    color: red;
+}
+
+.order-item {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.order-item:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.order-item span {
+    margin-right: 8px;
 }
