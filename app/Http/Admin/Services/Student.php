@@ -30,7 +30,7 @@ class Student extends Service
         return $repo->findById($userId);
     }
 
-    public function getPlans()
+    public function getRelations()
     {
         $pagerQuery = new PagerQuery();
 
@@ -47,7 +47,7 @@ class Student extends Service
 
         $pager = $courseUserRepo->paginate($params, $sort, $page, $limit);
 
-        return $this->handlePlans($pager);
+        return $this->handleRelations($pager);
     }
 
     public function getLearnings()
@@ -69,12 +69,12 @@ class Student extends Service
         return $this->handleLearnings($pager);
     }
 
-    public function getPlan($id)
+    public function getRelation($id)
     {
         return $this->findOrFail($id);
     }
 
-    public function createPlan()
+    public function createRelation()
     {
         $post = $this->request->getPost();
 
@@ -100,11 +100,11 @@ class Student extends Service
         return $courseUser;
     }
 
-    public function updatePlan()
+    public function updateRelation()
     {
         $post = $this->request->getPost();
 
-        $plan = $this->findOrFail($post['plan_id']);
+        $relation = $this->findOrFail($post['relation_id']);
 
         $validator = new CourseUserValidator();
 
@@ -114,9 +114,9 @@ class Student extends Service
             $data['expiry_time'] = $validator->checkExpiryTime($post['expiry_time']);
         }
 
-        $plan->update($data);
+        $relation->update($data);
 
-        return $plan;
+        return $relation;
     }
 
     protected function updateUserCount($courseId)
@@ -137,7 +137,7 @@ class Student extends Service
         return $validator->checkCourseUser($id);
     }
 
-    protected function handlePlans($pager)
+    protected function handleRelations($pager)
     {
         if ($pager->total_items > 0) {
 

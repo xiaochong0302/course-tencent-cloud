@@ -20,11 +20,11 @@
         {% endif %}
     </div>
 
-    {% set course_url = url({'for':'web.user.courses','id':user.id}) %}
-    {% set favorite_url = url({'for':'web.user.favorites','id':user.id}) %}
-    {% set friend_url = url({'for':'web.user.friends','id':user.id}) %}
+    {% set courses_url = url({'for':'web.user.courses','id':user.id},{'limit':12}) %}
+    {% set favorites_url = url({'for':'web.user.favorites','id':user.id},{'limit':12}) %}
+    {% set friends_url = url({'for':'web.user.friends','id':user.id},{'limit':12}) %}
 
-    <div class="container">
+    <div class="tab-container">
         <div class="layui-tab layui-tab-brief user-tab">
             <ul class="layui-tab-title">
                 <li class="layui-this">课程</li>
@@ -32,9 +32,9 @@
                 <li>好友</li>
             </ul>
             <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show" id="tab-courses" data-url="{{ course_url }}"></div>
-                <div class="layui-tab-item" id="tab-favorites" data-url="{{ favorite_url }}"></div>
-                <div class="layui-tab-item" id="tab-friends" data-url="{{ friend_url }}"></div>
+                <div class="layui-tab-item layui-show" id="tab-courses" data-url="{{ courses_url }}"></div>
+                <div class="layui-tab-item" id="tab-favorites" data-url="{{ favorites_url }}"></div>
+                <div class="layui-tab-item" id="tab-friends" data-url="{{ friends_url }}"></div>
             </div>
         </div>
     </div>

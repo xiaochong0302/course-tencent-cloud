@@ -40,13 +40,14 @@ class RefundController extends Controller
     {
         $service = new RefundCreateService();
 
-        $refund = $service->handle();
+        $service->handle();
 
-        $service = new RefundInfoService();
+        $content = [
+            'location' => $this->url->get(['for' => 'web.my.orders']),
+            'msg' => '申请退款成功',
+        ];
 
-        $refund = $service->handle($refund->sn);
-
-        return $this->jsonSuccess(['refund' => $refund]);
+        return $this->jsonSuccess($content);
     }
 
     /**

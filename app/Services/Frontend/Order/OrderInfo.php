@@ -23,25 +23,25 @@ class OrderInfo extends FrontendService
     {
         $order->item_info = $this->handleItemInfo($order);
 
-        $history = $this->handleHistory($order);
+        $statusHistory = $this->handleStatusHistory($order);
 
         return [
             'sn' => $order->sn,
             'subject' => $order->subject,
             'amount' => $order->amount,
             'status' => $order->status,
+            'status_history' => $statusHistory,
             'item_id' => $order->item_id,
             'item_type' => $order->item_type,
             'item_info' => $order->item_info,
-            'history' => $history,
         ];
     }
 
-    protected function handleHistory(OrderModel $order)
+    protected function handleStatusHistory(OrderModel $order)
     {
         $orderRepo = new OrderRepo();
 
-        $records = $orderRepo->findHistory($order->id);
+        $records = $orderRepo->findStatusHistory($order->id);
 
         if ($records->count() == 0) {
             return [];

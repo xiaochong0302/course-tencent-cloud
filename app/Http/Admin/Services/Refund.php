@@ -4,6 +4,7 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\RefundList as RefundListBuilder;
 use App\Library\Paginator\Query as PaginateQuery;
+use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\Order as OrderRepo;
@@ -86,20 +87,20 @@ class Refund extends Service
 
         $validator->checkIfAllowReview($refund);
 
-        $data['status'] = $validator->checkReviewStatus($post['status']);
+        $data['status'] = $validator->checkReviewStatus($post['review_status']);
         $data['review_note'] = $validator->checkReviewNote($post['review_note']);
 
         $refund->update($data);
 
-        $task = new TaskModel();
-
-        $task->item_id = $refund->id;
-        $task->item_type = TaskModel::TYPE_REFUND;
-        $task->item_info = ['refund' => $refund->toArray()];
-        $task->priority = TaskModel::PRIORITY_HIGH;
-        $task->status = TaskModel::STATUS_PENDING;
-
-        $task->create();
+        if ($post['status'] == RefundModel::STATUS_APPROVED) {
+            $task = new TaskModel();
+            $task->item_id = $refund->id;
+            $task->item_type = TaskModel::TYPE_REFUND;
+            $task->item_info = ['refund' => $refund->toArray()];
+            $task->priority = TaskModel::PRIORITY_HIGH;
+            $task->status = TaskModel::STATUS_PENDING;
+            $task->create();
+        }
 
         return $refund;
     }

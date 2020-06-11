@@ -169,11 +169,37 @@ class Order extends Repository
      * @param $orderId
      * @return ResultsetInterface|Resultset|OrderStatusModel[]
      */
-    public function findHistory($orderId)
+    public function findStatusHistory($orderId)
     {
         return OrderStatusModel::query()
             ->where('order_id = :order_id:', ['order_id' => $orderId])
             ->execute();
+    }
+
+    /**
+     * @param int $orderId
+     * @return TradeModel|Model|bool
+     */
+    public function findLastTrade($orderId)
+    {
+        return TradeModel::findFirst([
+            'conditions' => 'order_id = :order_id:',
+            'bind' => ['order_id' => $orderId],
+            'order' => 'id DESC',
+        ]);
+    }
+
+    /**
+     * @param int $orderId
+     * @return RefundModel|Model|bool
+     */
+    public function findLastRefund($orderId)
+    {
+        return RefundModel::findFirst([
+            'conditions' => 'order_id = :order_id:',
+            'bind' => ['order_id' => $orderId],
+            'order' => 'id DESC',
+        ]);
     }
 
 }

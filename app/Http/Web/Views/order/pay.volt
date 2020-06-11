@@ -11,7 +11,7 @@
         <div class="header">
             订单名称：<span>{{ order.subject }}</span>
             订单编号：<span>{{ order.sn }}</span>
-            支付金额：<span class="amount">￥{{ order.amount }}</span>
+            支付金额：<span class="amount">{{ '￥%0.2f'|format(order.amount) }}</span>
         </div>
         <div class="channel">
             {% set create_url = url({'for':'web.trade.create'}) %}

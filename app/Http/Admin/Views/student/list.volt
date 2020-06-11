@@ -53,6 +53,7 @@
     </thead>
     <tbody>
     {% for item in pager.items %}
+        {% set learning_url = url({'for':'admin.student.learning'},{'course_id':item.course_id,'user_id':item.user_id,'plan_id':item.plan_id}) %}
         <tr>
             <td>
                 <p>课程：<a href="{{ url({'for':'admin.student.list'},{'course_id':item.course.id}) }}">{{ item.course.title }}（{{ item.course.id }}）</a></p>
@@ -71,8 +72,8 @@
                 <div class="layui-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                     <ul>
-                        <li><a href="{{ url({'for':'admin.student.edit'},{'plan_id':item.id}) }}">编辑学员</a></li>
-                        <li><a href="javascript:" class="kg-learning" data-url="{{ url({'for':'admin.student.learning'},{'course_id':item.course_id,'user_id':item.user_id}) }}">学习记录</a></li>
+                        <li><a href="{{ url({'for':'admin.student.edit'},{'relation_id':item.id}) }}">编辑学员</a></li>
+                        <li><a href="javascript:" class="kg-learning" data-url="{{ learning_url }}">学习记录</a></li>
                     </ul>
                 </div>
             </td>

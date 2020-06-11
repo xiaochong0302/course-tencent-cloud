@@ -21,7 +21,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">过期时间</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="expiry_time" autocomplete="off" value="{{ date('Y-m-d H:i:s',plan.expiry_time) }}" lay-verify="required">
+            <input class="layui-input" type="text" name="expiry_time" autocomplete="off" value="{{ date('Y-m-d H:i:s',relation.expiry_time) }}" lay-verify="required">
         </div>
     </div>
 
@@ -30,7 +30,7 @@
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
-            <input type="hidden" name="plan_id" value="{{ plan.id }}"/>
+            <input type="hidden" name="relation_id" value="{{ relation.id }}"/>
         </div>
     </div>
 

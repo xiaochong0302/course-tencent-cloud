@@ -259,10 +259,13 @@ $error['slide.invalid_publish_status'] = '无效的发布状态';
  */
 $error['order.not_found'] = '订单不存在';
 $error['order.item_not_found'] = '商品不存在';
-$error['order.close_not_allowed'] = '当前不允许关闭订单';
-$error['order.has_bought_course'] = '已经够买过该课程';
-$error['order.has_bought_package'] = '已经够买过该套餐';
 $error['order.trade_expired'] = '交易已过期';
+$error['order.has_bought_course'] = '已经购买过该课程';
+$error['order.has_bought_package'] = '已经购买过该套餐';
+$error['order.close_not_allowed'] = '当前不允许关闭订单';
+$error['order.refund_not_allowed'] = '当前不允许申请退款';
+$error['order.refund_item_unsupported'] = '该品类不支持退款';
+$error['order.refund_apply_existed'] = '退款申请已经存在';
 
 /**
  * 交易相关
@@ -272,7 +275,7 @@ $error['trade.create_failed'] = '创建交易失败';
 $error['trade.invalid_channel'] = '无效的平台类型';
 $error['trade.close_not_allowed'] = '当前不允许关闭交易';
 $error['trade.refund_not_allowed'] = '当前不允许交易退款';
-$error['trade.refund_existed'] = '退款申请已经存在，请等待处理结果';
+$error['trade.refund_apply_existed'] = '退款申请已经存在，请等待处理结果';
 
 /**
  * 退款相关

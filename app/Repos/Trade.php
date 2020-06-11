@@ -44,6 +44,10 @@ class Trade extends Repository
             $builder->andWhere('status = :status:', ['status' => $where['status']]);
         }
 
+        if (isset($where['deleted'])) {
+            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
+        }
+
         if (!empty($where['start_time']) && !empty($where['end_time'])) {
             $startTime = strtotime($where['start_time']);
             $endTime = strtotime($where['end_time']);

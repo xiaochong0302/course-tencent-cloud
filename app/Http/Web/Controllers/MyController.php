@@ -21,7 +21,7 @@ class MyController extends Controller
      */
     public function homeAction()
     {
-        $this->dispatcher->forward([
+        $this->response->redirect([
             'for' => 'web.user.show',
             'id' => $this->authUser->id,
         ]);

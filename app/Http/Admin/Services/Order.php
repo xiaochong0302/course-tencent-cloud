@@ -17,6 +17,9 @@ class Order extends Service
         $pageQuery = new PaginateQuery();
 
         $params = $pageQuery->getParams();
+
+        $params['deleted'] = $params['deleted'] ?? 0;
+
         $sort = $pageQuery->getSort();
         $page = $pageQuery->getPage();
         $limit = $pageQuery->getLimit();

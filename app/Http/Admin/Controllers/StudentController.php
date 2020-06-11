@@ -27,7 +27,7 @@ class StudentController extends Controller
 
         $studentService = new StudentService();
 
-        $pager = $studentService->getPlans();
+        $pager = $studentService->getRelations();
 
         $course = null;
 
@@ -64,7 +64,7 @@ class StudentController extends Controller
     {
         $studentService = new StudentService();
 
-        $student = $studentService->createPlan();
+        $student = $studentService->createRelation();
 
         $location = $this->url->get(
             ['for' => 'admin.student.list'],
@@ -84,15 +84,15 @@ class StudentController extends Controller
      */
     public function editAction()
     {
-        $planId = $this->request->getQuery('plan_id');
+        $relationId = $this->request->getQuery('relation_id');
 
         $studentService = new StudentService();
 
-        $plan = $studentService->getPlan($planId);
-        $course = $studentService->getCourse($plan->course_id);
-        $student = $studentService->getStudent($plan->user_id);
+        $relation = $studentService->getRelation($relationId);
+        $course = $studentService->getCourse($relation->course_id);
+        $student = $studentService->getStudent($relation->user_id);
 
-        $this->view->setVar('plan', $plan);
+        $this->view->setVar('relation', $relation);
         $this->view->setVar('course', $course);
         $this->view->setVar('student', $student);
     }
@@ -104,7 +104,7 @@ class StudentController extends Controller
     {
         $studentService = new StudentService();
 
-        $studentService->updatePlan();
+        $studentService->updateRelation();
 
         $location = $this->url->get(['for' => 'admin.student.list']);
 

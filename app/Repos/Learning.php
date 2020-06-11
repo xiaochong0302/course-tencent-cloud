@@ -17,6 +17,10 @@ class Learning extends Repository
 
         $builder->where('1 = 1');
 
+        if (!empty($where['plan_id'])) {
+            $builder->andWhere('plan_id = :plan_id:', ['plan_id' => $where['plan_id']]);
+        }
+
         if (!empty($where['course_id'])) {
             $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
         }

@@ -10,14 +10,21 @@
     <tr>
         <th>退款序号</th>
         <th>退款金额</th>
-        <th>退款原因</th>
+        <th>退款备注</th>
         <th>退款状态</th>
         <th>创建时间</th>
     </tr>
     <tr>
         <td>{{ refund.sn }}</td>
         <td>￥{{ refund.amount }}</td>
-        <td><span title="{{ refund.apply_note }}">{{ substr(refund.apply_note,0,15) }}</span></td>
+        <td>
+            {% if refund.apply_note %}
+                <p class="layui-elip" title="{{ refund.apply_note }}">{{ refund.apply_note }}</p>
+            {% endif %}
+            {% if refund.review_note %}
+                <p class="layui-elip" title="{{ refund.review_note }}">{{ refund.review_note }}</p>
+            {% endif %}
+        </td>
         <td>{{ refund_status(refund) }}</td>
         <td>{{ date('Y-m-d H:i:s',refund.create_time) }}</td>
     </tr>
@@ -33,8 +40,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">审核结果</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="approved" title="同意">
-                <input type="radio" name="status" value="refused" title="拒绝">
+                <input type="radio" name="review_status" value="approved" title="同意">
+                <input type="radio" name="review_status" value="refused" title="拒绝">
             </div>
         </div>
         <div class="layui-form-item">

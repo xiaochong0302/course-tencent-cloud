@@ -3,6 +3,7 @@
 namespace App\Services\Frontend\Refund;
 
 use App\Models\Refund as RefundModel;
+use App\Repos\Order as OrderRepo;
 use App\Services\Frontend\OrderTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Services\Refund as RefundService;
@@ -22,27 +23,35 @@ class RefundCreate extends FrontendService
 
         $user = $this->getLoginUser();
 
+        $orderRepo = new OrderRepo();
+
+        $trade = $orderRepo->findLastTrade($order->id);
+
         $validator = new OrderValidator();
+
+        $validator->checkOwner($user->id, $order->user_id);
 
         $validator->checkIfAllowRefund($order);
 
         $refundService = new RefundService();
 
-        $refundAmount = $refundService->getRefundAmount($order);
+        $preview = $refundService->preview($order);
+
+        $refundAmount = $preview['refund_amount'];
 
         $validator = new RefundValidator();
 
-        $validator->checkAmount($order->amount, $refundAmount);
-
         $applyNote = $validator->checkApplyNote($post['apply_note']);
+
+        $validator->checkAmount($order->amount, $refundAmount);
 
         $refund = new RefundModel();
 
         $refund->subject = $order->subject;
-        $refund->amount = $order->amount;
+        $refund->amount = $refundAmount;
         $refund->apply_note = $applyNote;
         $refund->order_id = $order->id;
-        $refund->trade_id = $order->id;
+        $refund->trade_id = $trade->id;
         $refund->user_id = $user->id;
 
         $refund->create();

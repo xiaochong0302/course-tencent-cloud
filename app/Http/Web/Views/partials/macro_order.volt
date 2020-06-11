@@ -39,7 +39,7 @@
     {% endif %}
 {%- endmacro %}
 
-{%- macro history_info(items) %}
+{%- macro status_history(items) %}
     {% for item in items %}
         {% if item.status == 'pending' %}
             <p>创建时间：{{ date('Y-m-d H:i:s',item.create_time) }}</p>

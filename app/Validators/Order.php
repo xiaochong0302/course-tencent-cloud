@@ -4,6 +4,7 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Order as OrderModel;
+use App\Models\Refund as RefundModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Package as PackageRepo;
@@ -137,7 +138,20 @@ class Order extends Validator
         ];
 
         if (!in_array($order->item_type, $types)) {
-            throw new BadRequestException('order.refund_not_allowed');
+            throw new BadRequestException('order.refund_item_unsupported');
+        }
+
+        $orderRepo = new OrderRepo();
+
+        $refund = $orderRepo->findLastRefund($order->id);
+
+        $scopes = [
+            RefundModel::STATUS_PENDING,
+            RefundModel::STATUS_APPROVED,
+        ];
+
+        if ($refund && in_array($refund->status, $scopes)) {
+            throw new BadRequestException('order.refund_apply_existed');
         }
     }
 
