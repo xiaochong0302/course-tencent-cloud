@@ -92,13 +92,16 @@ class Refund extends Service
 
         $refund->update($data);
 
-        if ($post['status'] == RefundModel::STATUS_APPROVED) {
+        if ($refund->status == RefundModel::STATUS_APPROVED) {
+
             $task = new TaskModel();
+
             $task->item_id = $refund->id;
             $task->item_type = TaskModel::TYPE_REFUND;
             $task->item_info = ['refund' => $refund->toArray()];
             $task->priority = TaskModel::PRIORITY_HIGH;
             $task->status = TaskModel::STATUS_PENDING;
+
             $task->create();
         }
 

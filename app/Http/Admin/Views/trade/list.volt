@@ -45,7 +45,7 @@
                 <p>昵称：{{ item.user.name }}</p>
                 <p>编号：{{ item.user.id }}</p>
             </td>
-            <td>￥{{ item.amount }}</td>
+            <td>{{ '￥%0.2f'|format(item.amount) }}</td>
             <td>{{ channel_type(item.channel) }}</td>
             <td>{{ trade_status(item.status) }}</td>
             <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>

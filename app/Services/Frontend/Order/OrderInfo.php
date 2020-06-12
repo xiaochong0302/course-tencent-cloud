@@ -23,7 +23,7 @@ class OrderInfo extends FrontendService
     {
         $order->item_info = $this->handleItemInfo($order);
 
-        $statusHistory = $this->handleStatusHistory($order);
+        $statusHistory = $this->handleStatusHistory($order->id);
 
         return [
             'sn' => $order->sn,
@@ -37,11 +37,11 @@ class OrderInfo extends FrontendService
         ];
     }
 
-    protected function handleStatusHistory(OrderModel $order)
+    protected function handleStatusHistory($orderId)
     {
         $orderRepo = new OrderRepo();
 
-        $records = $orderRepo->findStatusHistory($order->id);
+        $records = $orderRepo->findStatusHistory($orderId);
 
         if ($records->count() == 0) {
             return [];

@@ -58,6 +58,7 @@ class Learning extends Service
             $learning->client_type = $this->getClientType();
             $learning->client_ip = $this->getClientIp();
             $learning->duration = $interval;
+            $learning->active_time = time();
 
             $this->cache->save($itemKey, $learning, $this->lifetime);
 
@@ -65,6 +66,7 @@ class Learning extends Service
 
             $cacheLearning->duration += $interval;
             $cacheLearning->position = $learning->position;
+            $cacheLearning->active_time = time();
 
             $this->cache->save($itemKey, $cacheLearning, $this->lifetime);
         }

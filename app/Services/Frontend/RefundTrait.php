@@ -14,11 +14,11 @@ trait RefundTrait
         return $validator->checkRefund($id);
     }
 
-    public function checkRefundBySn($id)
+    public function checkRefundBySn($sn)
     {
         $validator = new RefundValidator();
 
-        return $validator->checkRefundBySn($id);
+        return $validator->checkRefundBySn($sn);
     }
 
 }

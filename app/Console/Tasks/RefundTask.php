@@ -54,6 +54,13 @@ class RefundTask extends Task
                 continue;
             }
 
+            /**
+             * 退款存在延迟，给取消退款调解机会
+             */
+            if (isset($itemInfo['deadline']) && $itemInfo['deadline'] > time()) {
+                continue;
+            }
+
             try {
 
                 $this->db->begin();

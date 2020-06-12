@@ -43,7 +43,7 @@ class RefundController extends Controller
         $service->handle();
 
         $content = [
-            'location' => $this->url->get(['for' => 'web.my.orders']),
+            'location' => $this->url->get(['for' => 'web.my.refunds']),
             'msg' => '申请退款成功',
         ];
 
@@ -51,27 +51,36 @@ class RefundController extends Controller
     }
 
     /**
-     * @Get("/{sn:[0-9]+}/info", name="web.refund.info")
+     * @Get("/info", name="web.refund.info")
      */
-    public function infoAction($sn)
+    public function infoAction()
     {
+        $sn = $this->request->getQuery('sn');
+
         $service = new RefundInfoService();
 
         $refund = $service->handle($sn);
 
-        return $this->jsonSuccess(['refund' => $refund]);
+        $this->view->setVar('refund', $refund);
     }
 
     /**
-     * @Post("/{sn:[0-9]+}/cancel", name="web.refund.cancel")
+     * @Post("/cancel", name="web.refund.cancel")
      */
-    public function cancelAction($sn)
+    public function cancelAction()
     {
+        $sn = $this->request->getPost('sn');
+
         $service = new RefundCancelService();
 
-        $refund = $service->handle($sn);
+        $service->handle($sn);
 
-        return $this->jsonSuccess(['refund' => $refund]);
+        $content = [
+            'location' => $this->url->get(['for' => 'web.my.refunds']),
+            'msg' => '取消退款成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
 }

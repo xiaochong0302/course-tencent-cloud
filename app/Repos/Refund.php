@@ -4,6 +4,8 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Refund as RefundModel;
+use App\Models\RefundStatus as RefundStatusModel;
+use App\Models\Task as TaskModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -90,6 +92,30 @@ class Refund extends Repository
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
+    }
+
+    /**
+     * @param int $refundId
+     * @return ResultsetInterface|Resultset|RefundStatusModel[]
+     */
+    public function findStatusHistory($refundId)
+    {
+        return RefundStatusModel::query()
+            ->where('refund_id = :refund_id:', ['refund_id' => $refundId])
+            ->execute();
+    }
+
+    /**
+     * @param int $refundId
+     * @return TaskModel|Model|bool
+     */
+    public function findLastRefundTask($refundId)
+    {
+        return TaskModel::findFirst([
+            'conditions' => 'item_id = ?1 AND item_type = ?2',
+            'bind' => [1 => $refundId, 2 => TaskModel::TYPE_REFUND],
+            'order' => 'id DESC',
+        ]);
     }
 
 }

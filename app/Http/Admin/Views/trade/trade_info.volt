@@ -12,7 +12,7 @@
     </tr>
     <tr>
         <td>{{ trade.sn }}</td>
-        <td>￥{{ trade.amount }}</td>
+        <td>{{ '￥%0.2f'|format(trade.amount) }}</td>
         <td>{{ channel_type(trade.channel) }}</td>
         <td>{{ trade_status(trade.status) }}</td>
         <td>{{ date('Y-m-d H:i:s',trade.create_time) }}</td>

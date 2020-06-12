@@ -74,10 +74,10 @@ class ChapterList extends FrontendService
         $mappings = [];
 
         foreach ($userLearnings as $learning) {
-            $mappings[$learning['chapter_id']] = [
-                'progress' => $learning['progress'],
-                'duration' => $learning['duration'],
-                'consumed' => $learning['consumed'],
+            $mappings[$learning->chapter_id] = [
+                'progress' => $learning->progress,
+                'duration' => $learning->duration,
+                'consumed' => $learning->consumed,
             ];
         }
 

@@ -55,7 +55,7 @@
             <br>
             <div class="layui-form-item text-center">
                 <button type="button" class="kg-back layui-btn layui-bg-gray">返回上页</button>
-                <button class="layui-btn layui-bg-blue" lay-submit="true" lay-filter="go">提交申请</button>
+                <button class="layui-btn" lay-submit="true" lay-filter="go">申请退款</button>
                 <input type="hidden" name="order_sn" value="{{ order.sn }}">
             </div>
         </form>

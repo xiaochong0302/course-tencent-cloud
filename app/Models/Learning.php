@@ -91,6 +91,13 @@ class Learning extends Model
     public $deleted;
 
     /**
+     * 活跃时间
+     *
+     * @var int
+     */
+    public $active_time;
+
+    /**
      * 创建时间
      *
      * @var int

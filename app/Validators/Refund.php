@@ -31,7 +31,7 @@ class Refund extends Validator
     {
         $refundRepo = new RefundRepo();
 
-        $refund = $refundRepo->findById($sn);
+        $refund = $refundRepo->findBySn($sn);
 
         if (!$refund) {
             throw new BadRequestException('refund.not_found');

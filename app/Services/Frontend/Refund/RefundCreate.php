@@ -3,6 +3,8 @@
 namespace App\Services\Frontend\Refund;
 
 use App\Models\Refund as RefundModel;
+use App\Models\Task;
+use App\Models\Task as TaskModel;
 use App\Repos\Order as OrderRepo;
 use App\Services\Frontend\OrderTrait;
 use App\Services\Frontend\Service as FrontendService;
@@ -53,8 +55,28 @@ class RefundCreate extends FrontendService
         $refund->order_id = $order->id;
         $refund->trade_id = $trade->id;
         $refund->user_id = $user->id;
+        $refund->status = RefundModel::STATUS_APPROVED;
+        $refund->review_note = '退款周期内无条件审批';
 
         $refund->create();
+
+        $task = new TaskModel();
+
+        /**
+         * 设定延迟，给取消退款一个调解机会
+         */
+        $itemInfo = [
+            'refund' => $refund->toArray(),
+            'deadline' => time() + 3600 * 24 * 2,
+        ];
+
+        $task->item_id = $refund->id;
+        $task->item_type = TaskModel::TYPE_REFUND;
+        $task->item_info = $itemInfo;
+        $task->priority = TaskModel::PRIORITY_MIDDLE;
+        $task->status = TaskModel::STATUS_PENDING;
+
+        $task->create();
 
         return $refund;
     }

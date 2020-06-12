@@ -87,8 +87,8 @@
                 </a>
             </td>
             <td>
-                <p>市场：￥{{ item.market_price }}</p>
-                <p>会员：￥{{ item.vip_price }}</p>
+                <p>市场：{{ '￥%0.2f'|format(item.market_price) }}</p>
+                <p>会员：{{ '￥%0.2f'|format(item.vip_price) }}</p>
             </td>
             <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.course.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
             <td align="center">

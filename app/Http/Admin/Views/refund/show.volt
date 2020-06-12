@@ -16,16 +16,16 @@
     </tr>
     <tr>
         <td>{{ refund.sn }}</td>
-        <td>￥{{ refund.amount }}</td>
+        <td>{{ '￥%0.2f'|format(refund.amount) }}</td>
         <td>
             {% if refund.apply_note %}
-                <p class="layui-elip" title="{{ refund.apply_note }}">{{ refund.apply_note }}</p>
+                <p class="layui-elip" title="{{ refund.apply_note }}">退款原因：{{ refund.apply_note }}</p>
             {% endif %}
             {% if refund.review_note %}
-                <p class="layui-elip" title="{{ refund.review_note }}">{{ refund.review_note }}</p>
+                <p class="layui-elip" title="{{ refund.review_note }}">审核意见：{{ refund.review_note }}</p>
             {% endif %}
         </td>
-        <td>{{ refund_status(refund) }}</td>
+        <td>{{ refund_status(refund.status) }}</td>
         <td>{{ date('Y-m-d H:i:s',refund.create_time) }}</td>
     </tr>
 </table>

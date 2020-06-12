@@ -1,11 +1,3 @@
-{%- macro last_active_time(create_time, update_time) %}
-    {% if update_time > 0 %}
-        {{ date('Y-m-d H:i', update_time) }}
-    {% else %}
-        {{ date('Y-m-d H:i', create_time) }}
-    {% endif %}
-{%- endmacro %}
-
 <table class="kg-table layui-table layui-form">
     <colgroup>
         <col>
@@ -17,23 +9,24 @@
     <thead>
     <tr>
         <th>课时信息</th>
+        <th>终端信息</th>
         <th>学习时长</th>
-        <th>终端类型</th>
-        <th>终端地址</th>
-        <th>最后活跃</th>
+        <th>活跃时间</th>
     </tr>
     </thead>
     <tbody>
     {% for item in pager.items %}
         <tr>
             <td>
-                <p>课程：{{ item.course.title }}</p>
-                <p>章节：{{ item.chapter.title }}</p>
+                <p class="layui-elip">课程：{{ item.course.title }}</p>
+                <p class="layui-elip">章节：{{ item.chapter.title }}</p>
+            </td>
+            <td>
+                <p>类型：{{ item.client_type }}</p>
+                <p>地址：<a href="javascript:" class="kg-ip2region" title="查看位置" data-ip="{{ item.client_ip }}">{{ item.client_ip }}</a></p>
             </td>
             <td>{{ item.duration|play_duration }}</td>
-            <td>{{ item.client_type }}</td>
-            <td><a href="javascript:" class="kg-ip2region" title="查看位置" data-ip="{{ item.client_ip }}">{{ item.client_ip }}</a></td>
-            <td>{{ last_active_time(item.create_time,item.update_time) }}</td>
+            <td>{{ date('Y-m-d H:i:s',item.active_time) }}</td>
         </tr>
     {% endfor %}
     </tbody>

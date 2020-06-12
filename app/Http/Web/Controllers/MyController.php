@@ -98,6 +98,8 @@ class MyController extends Controller
 
         $pager = $service->handle();
 
+        $pager->items = kg_array_object($pager->items);
+
         $this->view->setVar('pager', $pager);
     }
 

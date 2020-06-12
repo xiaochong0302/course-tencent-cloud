@@ -29,7 +29,7 @@
         {% for item in refunds %}
             <tr>
                 <td>{{ item.sn }}</td>
-                <td>￥{{ item.amount }}</td>
+                <td>{{ '￥%0.2f'|format(item.amount) }}</td>
                 <td><a href="#" title="{{ item.apply_note }}">{{ substr(item.apply_note,0,15) }}</td>
                 <td>{{ refund_status(item) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>

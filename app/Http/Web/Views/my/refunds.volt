@@ -2,13 +2,13 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_order') }}
+    {{ partial('partials/macro_refund') }}
 
-    {% set status_types = {'all':'全部','pending':'待支付','finished':'已完成','closed':'已关闭','refunded':'已退款'} %}
+    {% set status_types = {'all':'全部','pending':'待处理','canceled':'已取消','approved':'退款中','finished':'已完成'} %}
 
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
-        <a><cite>我的订单</cite></a>
+        <a><cite>我的退款</cite></a>
     </div>
 
     <div class="container">
@@ -16,7 +16,7 @@
             {% set status = request.get('status','trim','all') %}
             {% for key,value in status_types %}
                 {% set class = (status == key) ? 'layui-btn layui-btn-sm' : 'none' %}
-                {% set url = (key == 'all') ? url({'for':'web.my.orders'}) : url({'for':'web.my.orders'},{'status':key}) %}
+                {% set url = (key == 'all') ? url({'for':'web.my.refunds'}) : url({'for':'web.my.refunds'},{'status':key}) %}
                 <a class="{{ class }}" href="{{ url }}">{{ value }}</a>
             {% endfor %}
         </div>
@@ -27,29 +27,29 @@
                     <col>
                     <col>
                     <col>
+                    <col>
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>基本信息</th>
+                    <th>退款项目</th>
                     <th>订单金额</th>
+                    <th>退款金额</th>
                     <th>创建时间</th>
-                    <th>订单状态</th>
+                    <th>退款状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for item in pager.items %}
-                    {% set info_url = url({'for':'web.order.info'},{'sn':item.sn}) %}
+                    {% set info_url = url({'for':'web.refund.info'},{'sn':item.sn}) %}
                     <tr>
-                        <td>
-                            <p>名称：{{ item.subject }}</p>
-                            <p>单号：{{ item.sn }}</p>
-                        </td>
+                        <td>{{ item.subject }}</td>
+                        <td><span class="price">{{ '￥%0.2f'|format(item.order.amount) }}</span></td>
                         <td><span class="price">{{ '￥%0.2f'|format(item.amount) }}</span></td>
                         <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
-                        <td>{{ order_status(item.status) }}</td>
+                        <td>{{ refund_status(item.status) }}</td>
                         <td align="center">
-                            <a class="layui-btn layui-btn-sm" href="{{ info_url }}">订单详情</a>
+                            <a class="layui-btn layui-btn-sm" href="{{ info_url }}">退款详情</a>
                         </td>
                     </tr>
                 {% endfor %}

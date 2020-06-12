@@ -13,8 +13,8 @@
             <div class="info">
                 <p><a href="{{ course_url }}" target="_blank">{{ course.title }}</a></p>
                 <p>
-                    市场价格 <span class="price">￥{{ course.market_price }}</span>
-                    会员价格 <span class="price">￥{{ course.vip_price }}</span>
+                    市场价格 <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
+                    会员价格 <span class="price">{{ '￥%0.2f'|format(course.vip_price) }}</span>
                 </p>
                 <p>
                     学习期限 <span class="expiry">{{ course.study_expiry }}个月</span>
@@ -34,7 +34,7 @@
             </div>
             <div class="info">
                 <p><a href="{{ course_url }}" target="_blank">{{ course.title }}</a></p>
-                <p>赞赏金额 <span class="price">￥{{ reward.price }}</span></p>
+                <p>赞赏金额 <span class="price">{{ '￥%0.2f'|format(reward.price) }}</span></p>
                 <p>
                     难度 <span>{{ level_info(course.level) }}</span>
                     课时 <span>{{ course.lesson_count }}</span>
@@ -52,7 +52,7 @@
             </div>
             <div class="info">
                 <p>会员服务</p>
-                <p>价格 <span class="price">￥{{ vip.price }}</span></p>
+                <p>价格 <span class="price">{{ '￥%0.2f'|format(vip.price) }}</span></p>
                 <p>期限 <span class="expiry">{{ vip.expiry }}个月</span></p>
             </div>
         </div>
@@ -81,9 +81,9 @@
 
     <div class="cart-stats container clearfix">
         <div class="info">
-            商品总价：<span class="amount">￥{{ confirm.total_amount }}</span>
-            优惠金额：<span class="amount">￥{{ confirm.discount_amount }}</span>
-            支付金额：<span class="amount pay-amount">￥{{ confirm.pay_amount }}</span>
+            商品总价：<span class="amount">{{ '￥%0.2f'|format(confirm.total_amount) }}</span>
+            优惠金额：<span class="amount">{{ '￥%0.2f'|format(confirm.discount_amount) }}</span>
+            支付金额：<span class="amount pay-amount">{{ '￥%0.2f'|format(confirm.pay_amount) }}</span>
         </div>
         <form class="layui-form cart-form" method="post" action="{{ url({'for':'web.order.create'}) }}">
             <button class="layui-btn layui-bg-red order-btn" lay-submit="true" lay-filter="go">提交订单</button>

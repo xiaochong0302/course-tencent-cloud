@@ -129,8 +129,15 @@ class Refund extends Model
 
     public function beforeCreate()
     {
-        $this->status = self::STATUS_PENDING;
+        /**
+         * 退款周期内无条件审批，状态为approved
+         */
+        if (!$this->status) {
+            $this->status = self::STATUS_PENDING;
+        }
+
         $this->sn = date('YmdHis') . rand(1000, 9999);
+
         $this->create_time = time();
     }
 

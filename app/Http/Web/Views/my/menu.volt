@@ -1,5 +1,5 @@
 {%- macro vip_info(user) %}
-    {% set vip_url = '#' %}
+    {% set vip_url = url({'for':'web.vip.index'}) %}
     {% if user.vip == 1 %}
         <a class="layui-badge layui-bg-orange" title="到期时间：{{ date('Y-m-d',user.vip_expiry_time) }}" href="{{ vip_url }}">会员</a>
     {% else %}

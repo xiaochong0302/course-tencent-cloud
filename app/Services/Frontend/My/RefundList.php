@@ -55,6 +55,8 @@ class RefundList extends FrontendService
 
             $items[] = [
                 'order' => $order,
+                'sn' => $refund['sn'],
+                'subject' => $refund['subject'],
                 'amount' => (float)$refund['amount'],
                 'status' => $refund['status'],
                 'apply_note' => $refund['apply_note'],

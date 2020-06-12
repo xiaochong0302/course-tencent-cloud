@@ -22,8 +22,8 @@
             <td><span class="layui-badge layui-bg-gray">{{ item.lesson_count }}</span></td>
             <td>{{ study_expiry_info(item.study_expiry) }}</td>
             <td>
-                <p>市场价：￥{{ item.market_price }}</p>
-                <p>会员价：￥{{ item.vip_price }}</p>
+                <p>市场价：{{ '￥%0.2f'|format(item.market_price) }}</p>
+                <p>会员价：{{ '￥%0.2f'|format(item.vip_price) }}</p>
             </td>
         </tr>
     {% endfor %}

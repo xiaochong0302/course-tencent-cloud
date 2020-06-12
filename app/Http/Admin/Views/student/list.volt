@@ -97,7 +97,7 @@
                 type: 2,
                 title: '学习记录',
                 resize: false,
-                area: ['800px', '450px'],
+                area: ['900px', '450px'],
                 content: [url]
             });
         });

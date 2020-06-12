@@ -258,12 +258,13 @@ function kg_play_duration($time)
  */
 function kg_total_duration($time)
 {
-    $result = '00小时00分钟';
+    $result = '00分钟';
 
     if ($time > 0) {
 
         $hours = floor($time / 3600);
         $minutes = floor(($time - $hours * 3600) / 60);
+        $seconds = $time % 60;
 
         $format = [];
 
@@ -273,6 +274,10 @@ function kg_total_duration($time)
 
         if ($minutes > 0) {
             $format[] = sprintf('%02d分钟', $minutes);
+        }
+
+        if ($seconds > 0) {
+            $format[] = sprintf('%02d秒', $seconds);
         }
 
         $result = implode('', $format);
