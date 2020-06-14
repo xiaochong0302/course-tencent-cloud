@@ -1,3 +1,25 @@
+::-webkit-scrollbar-button {
+    height: 0;
+    width: 0;
+    display: none;
+}
+
+.sidebar-chapter-list::-webkit-scrollbar {
+    background-color: #fff;
+    width: 5px;
+    height: 15px;
+}
+
+.sidebar-chapter-list::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: #393D49;
+}
+
+.sidebar-chapter-list::-webkit-scrollbar-track {
+    border: 0;
+    background-color: #fff;
+}
+
 .body {
     background-color: #f2f2f2;
 }
@@ -414,6 +436,11 @@
     display: block;
 }
 
+.lesson-item .deny {
+    cursor: default;
+    color: gray;
+}
+
 .lesson-item .title {
     margin: 0 5px;
 }
@@ -670,6 +697,97 @@
 
 .sidebar-course-card .meta span {
     margin-right: 10px;
+}
+
+.sidebar-chapter-list {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.sidebar-chapter-list .chapter-title {
+    padding-top: 10px;
+    margin-bottom: 10px;
+    color: #333;
+    background-color: #fff;
+}
+
+.sidebar-lesson-list {
+    margin-left: 15px;
+}
+
+.sidebar-lesson-list .lesson-title {
+    line-height: 30px;
+    font-size: 12px;
+}
+
+.lesson-title .active {
+    color: red;
+}
+
+.lesson-title .deny {
+    color: gray;
+}
+
+.chapter-bg {
+    background-color: #f2f2f2;
+}
+
+.chapter-main {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+.chapter-main .header {
+    height: 50px;
+    line-height: 50px;
+    color: rgba(255, 255, 255, 0.7);
+    background-color: #393D49;
+}
+
+.chapter-main .header a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.chapter-main .header .back {
+    float: left;
+    margin-left: 5px;
+}
+
+.chapter-main .header .stats {
+    float: left;
+    margin-left: 50px;
+    margin-right: 150px;
+}
+
+.chapter-main .header .action {
+    float: right;
+    margin-right: 150px;
+}
+
+.chapter-main .content {
+}
+
+.chapter-sidebar {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    position: absolute;
+    background-color: white;
+}
+
+.chapter-sidebar-btn {
+    top: 15px;
+    right: 15px;
+    position: absolute;
+    cursor: pointer;
+}
+
+.chapter-sidebar-btn .switch-icon {
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .vip-header {

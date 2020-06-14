@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Traits\Response as ResponseTrait;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/admin")
@@ -13,7 +14,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     use ResponseTrait;
 
     /**
-     * @Route("/auth", name="admin.auth")
+     * @Get("/auth", name="admin.auth")
      */
     public function authAction()
     {
@@ -25,17 +26,20 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Route("/forbidden", name="admin.forbidden")
+     * @Get("/forbidden", name="admin.forbidden")
      */
     public function forbiddenAction()
     {
+        $this->view->setRenderLevel(View::LEVEL_LAYOUT);
+        $this->view->setLayout('error');
+
         if ($this->request->isAjax()) {
             return $this->jsonError(['msg' => '无相关操作权限']);
         }
     }
 
     /**
-     * @Route("/ip2region", name="admin.ip2region")
+     * @Get("/ip2region", name="admin.ip2region")
      */
     public function ip2regionAction()
     {

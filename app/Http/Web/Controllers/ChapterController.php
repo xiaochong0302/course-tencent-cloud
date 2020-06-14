@@ -7,6 +7,7 @@ use App\Services\Frontend\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Frontend\Chapter\CommentList as ChapterCommentListService;
 use App\Services\Frontend\Chapter\Learning as ChapterLearningService;
 use App\Services\Frontend\Chapter\OpposeVote as ChapterOpposeVoteService;
+use App\Services\Frontend\Course\ChapterList as CourseChapterListService;
 
 /**
  * @RoutePrefix("/chapter")
@@ -23,7 +24,20 @@ class ChapterController extends Controller
 
         $chapter = $service->handle($id);
 
-        $this->view->chapter = $chapter;
+        $service = new CourseChapterListService();
+
+        $chapters = $service->handle($chapter['course']['id']);
+
+        if ($chapter['model'] == 'vod') {
+            $this->view->pick('chapter/show_vod');
+        } elseif ($chapter['model'] == 'live') {
+            $this->view->pick('chapter/show_live');
+        } elseif ($chapter['model'] == 'read') {
+            $this->view->pick('chapter/show_read');
+        }
+
+        $this->view->setVar('chapter', $chapter);
+        $this->view->setVar('chapters', $chapters);
     }
 
     /**

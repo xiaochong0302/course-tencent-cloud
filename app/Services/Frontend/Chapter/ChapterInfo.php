@@ -57,6 +57,8 @@ class ChapterInfo extends FrontendService
     {
         $result = $this->formatChapter($chapter);
 
+        $result['course'] = $this->handleCourse($this->course);
+
         $me = [
             'agreed' => 0,
             'opposed' => 0,
@@ -81,6 +83,21 @@ class ChapterInfo extends FrontendService
         return $result;
     }
 
+    protected function handleCourse(CourseModel $course)
+    {
+        return [
+            'id' => $course->id,
+            'title' => $course->title,
+            'cover' => $course->cover,
+            'market_price' => $course->market_price,
+            'vip_price' => $course->vip_price,
+            'model' => $course->model,
+            'level' => $course->level,
+            'user_count' => $course->user_count,
+            'lesson_count' => $course->lesson_count,
+        ];
+    }
+
     protected function formatChapter(ChapterModel $chapter)
     {
         $item = [];
@@ -102,14 +119,20 @@ class ChapterInfo extends FrontendService
 
     protected function formatChapterVod(ChapterModel $chapter)
     {
-        $chapterVodService = new ChapterVodService();
+        $service = new ChapterVodService();
 
-        $playUrls = $chapterVodService->getPlayUrls($chapter->id);
+        $playUrls = $service->getPlayUrls($chapter->id);
+
+        /**
+         * @var array $attrs
+         */
+        $attrs = $chapter->attrs;
 
         return [
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
+            'model' => $attrs['model'],
             'play_urls' => $playUrls,
             'user_count' => $chapter->user_count,
             'agree_count' => $chapter->agree_count,
@@ -136,10 +159,16 @@ class ChapterInfo extends FrontendService
 
         $live = $chapterRepo->findChapterLive($chapter->id);
 
+        /**
+         * @var array $attrs
+         */
+        $attrs = $chapter->attrs;
+
         return [
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
+            'model' => $attrs['model'],
             'play_urls' => $playUrls,
             'start_time' => $live->start_time,
             'end_time' => $live->end_time,
@@ -156,10 +185,16 @@ class ChapterInfo extends FrontendService
 
         $read = $chapterRepo->findChapterRead($chapter->id);
 
+        /**
+         * @var array $attrs
+         */
+        $attrs = $chapter->attrs;
+
         return [
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
+            'model' => $attrs['model'],
             'content' => $read->content,
             'user_count' => $chapter->user_count,
             'agree_count' => $chapter->agree_count,
