@@ -24,11 +24,45 @@ class ChapterVod extends Service
 
         $vod = new Vod();
 
+        $result = [];
+
         foreach ($transcode as $key => $file) {
-            $transcode[$key]['url'] = $vod->getPlayUrl($file['url']);
+
+            $file['url'] = $vod->getPlayUrl($file['url']);
+
+            $definition = $this->getDefinitionType($file['height'], $file['rate']);
+
+            $result[$definition] = $file;
         }
 
-        return $transcode;
+        return $result;
+    }
+
+    protected function getDefinitionType($height, $rate)
+    {
+        $default = 'od';
+
+        $vodTemplates = $this->getVodTemplates();
+
+        foreach ($vodTemplates as $key => $template) {
+            if ($height >= $template['height'] || $rate >= $template['rate']) {
+                return $key;
+            }
+        }
+
+        return $default;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getVodTemplates()
+    {
+        return [
+            'hd' => ['height' => 720, 'rate' => 1800],
+            'sd' => ['height' => 540, 'rate' => 1000],
+            'fd' => ['height' => 360, 'rate' => 400],
+        ];
     }
 
 }

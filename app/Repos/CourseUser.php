@@ -68,6 +68,20 @@ class CourseUser extends Repository
     /**
      * @param int $courseId
      * @param int $userId
+     * @param int $planId
+     * @return CourseUserModel|Model|bool
+     */
+    public function findPlanCourseUser($courseId, $userId, $planId)
+    {
+        return CourseUserModel::findFirst([
+            'conditions' => 'course_id = ?1 AND user_id = ?2 AND plan_id = ?3 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => $userId, 3 => $planId],
+        ]);
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
      * @return CourseUserModel|Model|bool
      */
     public function findCourseUser($courseId, $userId)

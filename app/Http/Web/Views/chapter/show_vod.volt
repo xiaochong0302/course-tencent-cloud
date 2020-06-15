@@ -30,17 +30,40 @@
 
         var interval = null;
         var intervalTime = 5000;
-        var requestId = getRequestId();
-        var chapterId = '{{ chapter.id }}';
-        var playUrl = 'https://1255691183.vod2.myqcloud.com/81258db0vodtransgzp1255691183/89b3d8955285890796532522693/v.f220.m3u8?t=5ee5c6ed&exper=0&us=697028&sign=2b7fd89eff92236184eadbaa14a895dd';
         var position = 0;
+        var chapterId = '{{ chapter.id }}';
+        var courseId = '{{ chapter.course.id }}';
+        var planId = '{{ chapter.me.plan_id }}';
+        var userId = '{{ auth_user.id }}';
+        var requestId = getRequestId();
+        var playUrls = JSON.parse('{{ chapter.play_urls|json_encode }}');
 
-        var player = new TcPlayer('player', {
-            m3u8: playUrl,
-            autoplay: true,
+        var options = {
+            autoplay: false,
             width: 760,
             height: 450,
-            listener: function (msg) {
+            clarity: 'hd',
+            clarityLabel: {
+                od: '高清',
+                hd: '标清',
+                sd: '流畅'
+            }
+        };
+
+        if ('hd' in playUrls) {
+            options.m3u8 = playUrls.hd.url;
+        }
+
+        if ('sd' in playUrls) {
+            options.m3u8_hd = playUrls.sd.url;
+        }
+
+        if ('fd' in playUrls) {
+            options.m3u8_sd = playUrls.fd.url;
+        }
+
+        if (userId !== '0') {
+            options.listener = function (msg) {
                 if (msg.type === 'play') {
                     start();
                 } else if (msg.type === 'pause') {
@@ -49,7 +72,9 @@
                     stop();
                 }
             }
-        });
+        }
+
+        var player = new TcPlayer('player', options);
 
         if (position > 0) {
             player.currentTime(position);
@@ -70,11 +95,14 @@
 
         function learning() {
             $.ajax({
-                type: 'GET',
-                url: '/admin/vod/learning',
+                type: 'POST',
+                url: '/learning',
                 data: {
                     request_id: requestId,
                     chapter_id: chapterId,
+                    course_id: courseId,
+                    user_id: userId,
+                    plan_id: planId,
                     interval: intervalTime,
                     position: player.currentTime(),
                 }

@@ -4,7 +4,6 @@ namespace App\Services\Syncer;
 
 use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Models\Learning as LearningModel;
-use App\Repos\Chapter as ChapterRepo;
 use App\Services\Service;
 use App\Traits\Client as ClientTrait;
 
@@ -50,11 +49,6 @@ class Learning extends Service
 
         if (!$cacheLearning) {
 
-            $chapterRepo = new ChapterRepo();
-
-            $chapter = $chapterRepo->findById($learning->chapter_id);
-
-            $learning->course_id = $chapter->course_id;
             $learning->client_type = $this->getClientType();
             $learning->client_ip = $this->getClientIp();
             $learning->duration = $interval;

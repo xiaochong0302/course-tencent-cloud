@@ -1,4 +1,4 @@
-<table class="kg-table layui-table layui-form">
+<table class="kg-table layui-table">
     <colgroup>
         <col>
         <col>
@@ -25,7 +25,7 @@
                 <p>类型：{{ item.client_type }}</p>
                 <p>地址：<a href="javascript:" class="kg-ip2region" title="查看位置" data-ip="{{ item.client_ip }}">{{ item.client_ip }}</a></p>
             </td>
-            <td>{{ item.duration|play_duration }}</td>
+            <td>{{ item.duration|total_duration }}</td>
             <td>{{ date('Y-m-d H:i:s',item.active_time) }}</td>
         </tr>
     {% endfor %}

@@ -157,16 +157,16 @@
 
         var changeVideoTemplate = function (format) {
             var template = $('input[name=video_template]');
-            if (format == 'mp4') {
-                template.val('10,20,30');
+            if (format === 'mp4') {
+                template.val('100010,100020,100030');
             } else {
-                template.val('210,220,230');
+                template.val('100210,100220,100230');
             }
         };
 
         var changeAudioTemplate = function (format) {
             var template = $('input[name=audio_template]');
-            if (format == 'mp3') {
+            if (format === 'mp3') {
                 template.val('1010');
             } else {
                 template.val('1110');
@@ -175,7 +175,7 @@
 
         form.on('radio(storage-type)', function (data) {
             var block = $('#storage-region-block');
-            if (data.value == 'fixed') {
+            if (data.value === 'fixed') {
                 block.show();
             } else {
                 block.hide();
@@ -184,7 +184,7 @@
 
         form.on('radio(watermark-enabled)', function (data) {
             var block = $('#watermark-template-block');
-            if (data.value == 1) {
+            if (data.value === 1) {
                 block.show();
             } else {
                 block.hide();
@@ -193,7 +193,7 @@
 
         form.on('radio(key-anti-enabled)', function (data) {
             var block = $('#key-anti-block');
-            if (data.value == 1) {
+            if (data.value === 1) {
                 block.show();
             } else {
                 block.hide();

@@ -3,6 +3,7 @@
 namespace App\Http\Web\Controllers;
 
 use App\Models\ContentImage as ContentImageModel;
+use App\Services\Frontend\Chapter\Learning as LearningService;
 use App\Services\Storage as StorageService;
 use App\Traits\Response as ResponseTrait;
 use PHPQRCode\QRcode as PHPQRCode;
@@ -49,6 +50,18 @@ class PublicController extends \Phalcon\Mvc\Controller
         $this->response->send();
 
         exit;
+    }
+
+    /**
+     * @Post("/learning", name="web.learning")
+     */
+    public function learningAction()
+    {
+        $service = new LearningService();
+
+        $service->handle();
+
+        return $this->jsonSuccess();
     }
 
 }

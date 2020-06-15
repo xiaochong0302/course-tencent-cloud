@@ -22,7 +22,7 @@ trait ChapterTrait
     protected $joinedChapter = false;
 
     /**
-     * @var ChapterUserModel
+     * @var ChapterUserModel|null
      */
     protected $chapterUser;
 
@@ -42,12 +42,18 @@ trait ChapterTrait
 
     public function setChapterUser(ChapterModel $chapter, UserModel $user)
     {
-        $chapterUserRepo = new ChapterUserRepo();
+        $chapterUser = null;
 
-        $chapterUser = $chapterUserRepo->findChapterUser($chapter->id, $user->id);
+        $courseUser = $this->courseUser;
 
-        if ($chapterUser) {
-            $this->chapterUser = $chapterUser;
+        if ($user->id > 0 && $courseUser) {
+            $chapterUserRepo = new ChapterUserRepo();
+            $chapterUser = $chapterUserRepo->findChapterUser($chapter->id, $user->id);
+        }
+
+        $this->chapterUser = $chapterUser;
+
+        if ($chapterUser && $chapterUser->plan_id == $courseUser->plan_id) {
             $this->joinedChapter = true;
         }
 

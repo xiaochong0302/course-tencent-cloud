@@ -45,9 +45,9 @@ class ChapterInfo extends FrontendService
         $this->user = $user;
 
         $this->setCourseUser($course, $user);
-        $this->setChapterUser($chapter, $user);
-
         $this->handleCourseUser($course, $user);
+
+        $this->setChapterUser($chapter, $user);
         $this->handleChapterUser($chapter, $user);
 
         return $this->handleChapter($chapter, $user);
@@ -60,11 +60,19 @@ class ChapterInfo extends FrontendService
         $result['course'] = $this->handleCourse($this->course);
 
         $me = [
+            'plan_id' => 0,
+            'joined' => 0,
+            'owned' => 0,
             'agreed' => 0,
             'opposed' => 0,
         ];
 
-        $me['owned'] = $this->ownedChapter;
+        if ($this->courseUser) {
+            $me['plan_id'] = $this->courseUser->plan_id;
+        }
+
+        $me['joined'] = $this->joinedChapter ? 1 : 0;
+        $me['owned'] = $this->ownedChapter ? 1 : 0;
 
         if ($user->id > 0) {
 
@@ -217,8 +225,11 @@ class ChapterInfo extends FrontendService
         $courseUser->user_id = $user->id;
         $courseUser->source_type = CourseUserModel::SOURCE_FREE;
         $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
+        $courseUser->expiry_time = strtotime('+3 years');
 
         $courseUser->create();
+
+        $this->courseUser = $courseUser;
 
         $this->incrCourseUserCount($course);
     }
@@ -227,14 +238,7 @@ class ChapterInfo extends FrontendService
     {
         if ($user->id == 0) return;
 
-        /**
-         * 一个课程可能购买学习多次
-         */
-        if ($this->chapterUser && $this->courseUser) {
-            if ($this->chapterUser->plan_id == $this->courseUser->plan_id) {
-                return;
-            }
-        }
+        if ($this->joinedChapter) return;
 
         if (!$this->ownedChapter) return;
 
@@ -246,6 +250,8 @@ class ChapterInfo extends FrontendService
         $chapterUser->user_id = $user->id;
 
         $chapterUser->create();
+
+        $this->chapterUser = $chapterUser;
 
         $this->incrChapterUserCount($chapter);
     }

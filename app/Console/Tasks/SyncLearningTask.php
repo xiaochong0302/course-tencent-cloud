@@ -67,15 +67,21 @@ class SyncLearningTask extends Task
         $dbLearning = $learningRepo->findByRequestId($cacheLearning->request_id);
 
         if (!$dbLearning) {
+
             $cacheLearning->create();
+
+            $this->updateChapterUser($cacheLearning);
+
         } else {
-            $dbLearning->duration = $cacheLearning->duration;
+
+            $dbLearning->duration += $cacheLearning->duration;
             $dbLearning->position = $cacheLearning->position;
             $dbLearning->active_time = $cacheLearning->active_time;
-            $dbLearning->update();
-        }
 
-        $this->updateChapterUser($dbLearning);
+            $dbLearning->update();
+
+            $this->updateChapterUser($dbLearning);
+        }
 
         $this->cache->delete($itemKey);
     }
@@ -87,7 +93,7 @@ class SyncLearningTask extends Task
     {
         $chapterUserRepo = new ChapterUserRepo();
 
-        $chapterUser = $chapterUserRepo->findChapterUser($learning->chapter_id, $learning->user_id);
+        $chapterUser = $chapterUserRepo->findPlanChapterUser($learning->chapter_id, $learning->user_id, $learning->plan_id);
 
         if (!$chapterUser) return;
 
@@ -130,44 +136,42 @@ class SyncLearningTask extends Task
         $chapterUser->update();
 
         if ($chapterUser->consumed == 1) {
-            $this->updateCourseUser($chapterUser->course_id, $chapterUser->user_id);
+            $this->updateCourseUser($learning);
         }
     }
 
     /**
-     * @param int $courseId
-     * @param int $userId
+     * @param LearningModel $learning
      */
-    protected function updateCourseUser($courseId, $userId)
+    protected function updateCourseUser(LearningModel $learning)
     {
         $courseUserRepo = new CourseUserRepo();
 
-        $courseUser = $courseUserRepo->findCourseUser($courseId, $userId);
+        $courseUser = $courseUserRepo->findPlanCourseUser($learning->course_id, $learning->user_id, $learning->plan_id);
 
         if (!$courseUser) return;
 
         $courseRepo = new CourseRepo();
 
-        $courseLessons = $courseRepo->findLessons($courseId);
+        $courseLessons = $courseRepo->findLessons($learning->course_id);
 
         if ($courseLessons->count() == 0) {
             return;
         }
 
-        $userLearnings = $courseRepo->findUserLearnings($courseId, $userId, $courseUser->plan_id);
+        $userLearnings = $courseRepo->findUserLearnings($learning->course_id, $learning->user_id, $learning->plan_id);
 
         if ($userLearnings->count() == 0) {
             return;
         }
 
-        /**
-         * @var array $consumedUserLearnings
-         */
-        $consumedUserLearnings = $userLearnings->filter(function ($item) {
-            if ($item->consumed == 1) {
-                return $item;
+        $consumedUserLearnings = [];
+
+        foreach ($userLearnings->toArray() as $userLearning) {
+            if ($userLearning['consumed'] == 1) {
+                $consumedUserLearnings[] = $userLearning;
             }
-        });
+        }
 
         if (count($consumedUserLearnings) == 0) {
             return;
@@ -175,8 +179,8 @@ class SyncLearningTask extends Task
 
         $duration = 0;
 
-        foreach ($consumedUserLearnings as $learning) {
-            $duration += $learning['duration'];
+        foreach ($consumedUserLearnings as $userLearning) {
+            $duration += $userLearning['duration'];
         }
 
         $courseLessonIds = kg_array_column($courseLessons->toArray(), 'id');

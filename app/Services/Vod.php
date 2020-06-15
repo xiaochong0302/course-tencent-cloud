@@ -380,7 +380,7 @@ class Vod extends Service
 
         foreach ($videoTransTemplates as $key => $template) {
 
-            $caseA = $originVideoInfo['width'] >= $template['width'];
+            $caseA = $originVideoInfo['height'] >= $template['height'];
             $caseB = $originVideoInfo['bit_rate'] >= 1000 * $template['bit_rate'];
 
             if ($caseA || $caseB) {
@@ -589,15 +589,15 @@ class Vod extends Service
     public function getVideoTransTemplates()
     {
         $hls = [
-            210 => ['width' => 480, 'bit_rate' => 256, 'frame_rate' => 24],
-            220 => ['width' => 640, 'bit_rate' => 512, 'frame_rate' => 24],
-            230 => ['width' => 1280, 'bit_rate' => 1024, 'frame_rate' => 25],
+            100210 => ['height' => 360, 'bit_rate' => 400, 'frame_rate' => 25],
+            100220 => ['height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
+            100230 => ['height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
         ];
 
         $mp4 = [
-            10 => ['width' => 480, 'bit_rate' => 256, 'frame_rate' => 24],
-            20 => ['width' => 640, 'bit_rate' => 512, 'frame_rate' => 24],
-            30 => ['width' => 1280, 'bit_rate' => 1024, 'frame_rate' => 25],
+            100010 => ['height' => 360, 'bit_rate' => 400, 'frame_rate' => 25],
+            100020 => ['height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
+            100030 => ['height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
         ];
 
         $format = $this->settings['video_format'];

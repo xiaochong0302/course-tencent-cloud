@@ -3,22 +3,18 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Repos\Chapter as ChapterRepo;
+use App\Library\Validators\Common as CommonValidator;
 
 class Learning extends Validator
 {
 
-    public function checkChapterId($chapterId)
+    public function checkPlanId($planId)
     {
-        $chapterRepo = new ChapterRepo();
-
-        $chapter = $chapterRepo->findById($chapterId);
-
-        if (!$chapter) {
-            throw new BadRequestException('learning.invalid_chapter_id');
+        if (!CommonValidator::date($planId, 'Ymd')) {
+            throw new BadRequestException('learning.invalid_plan_id');
         }
 
-        return $chapterId;
+        return $planId;
     }
 
     public function checkRequestId($requestId)
@@ -50,7 +46,7 @@ class Learning extends Validator
 
     public function checkPosition($position)
     {
-        $value = $this->filter->sanitize($position, ['trim', 'int']);
+        $value = $this->filter->sanitize($position, ['trim', 'float']);
 
         if ($value < 0 || $value > 3 * 3600) {
             throw new BadRequestException('learning.invalid_position');

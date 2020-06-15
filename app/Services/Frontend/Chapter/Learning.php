@@ -14,24 +14,24 @@ class Learning extends FrontendService
 
     use ChapterTrait;
 
-    public function handle($id)
+    public function handle()
     {
-        $chapter = $this->checkChapterCache($id);
-
-        $user = $this->getCurrentUser();
-
         $post = $this->request->getPost();
 
-        if ($user->id == 0) return;
+        $chapter = $this->checkChapterCache($post['chapter_id']);
+
+        $user = $this->getLoginUser();
 
         $validator = new LearningValidator();
 
         $data = [
+            'course_id' => $chapter->course_id,
             'chapter_id' => $chapter->id,
             'user_id' => $user->id,
         ];
 
         $data['request_id'] = $validator->checkRequestId($post['request_id']);
+        $data['plan_id'] = $validator->checkPlanId($post['plan_id']);
 
         /**
          * @var array $attrs
