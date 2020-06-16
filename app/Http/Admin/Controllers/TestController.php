@@ -68,9 +68,11 @@ class TestController extends Controller
      */
     public function livePushAction()
     {
+        $streamName = $this->request->getQuery('stream');
+
         $liveService = new LiveService();
 
-        $pushUrl = $liveService->getPushUrl('test');
+        $pushUrl = $liveService->getPushUrl($streamName);
 
         $codeUrl = $this->url->get(
             ['for' => 'web.qrcode_img'],
@@ -95,14 +97,11 @@ class TestController extends Controller
     {
         $liveService = new LiveService();
 
-        $m3u8PullUrls = $liveService->getPullUrls('test', 'm3u8');
-        $flvPullUrls = $liveService->getPullUrls('test', 'flv');
+        $pullUrls = $liveService->getPullUrls('test');
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
         $this->view->pick('public/live_player');
-        $this->view->setVar('m3u8_pull_urls', $m3u8PullUrls);
-        $this->view->setVar('flv_pull_urls', $flvPullUrls);
+        $this->view->setVar('pull_urls', $pullUrls);
     }
 
     /**

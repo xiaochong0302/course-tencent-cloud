@@ -15,7 +15,6 @@ use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Services\Live as LiveService;
-use WhichBrowser\Parser as BrowserParser;
 
 class ChapterInfo extends FrontendService
 {
@@ -151,21 +150,9 @@ class ChapterInfo extends FrontendService
 
     protected function formatChapterLive(ChapterModel $chapter)
     {
-        $headers = getallheaders();
-
-        $browserParser = new BrowserParser($headers);
-
         $liveService = new LiveService();
 
-        $stream = "chapter-{$chapter->id}";
-
-        $format = $browserParser->isType('desktop') ? 'flv' : 'hls';
-
-        $playUrls = $liveService->getPullUrls($stream, $format);
-
-        $chapterRepo = new ChapterRepo();
-
-        $live = $chapterRepo->findChapterLive($chapter->id);
+        $playUrls = $liveService->getPullUrls("chapter_{$chapter->id}");
 
         /**
          * @var array $attrs
@@ -177,9 +164,9 @@ class ChapterInfo extends FrontendService
             'title' => $chapter->title,
             'summary' => $chapter->summary,
             'model' => $attrs['model'],
+            'start_time' => $attrs['start_time'],
+            'end_time' => $attrs['end_time'],
             'play_urls' => $playUrls,
-            'start_time' => $live->start_time,
-            'end_time' => $live->end_time,
             'user_count' => $chapter->user_count,
             'agree_count' => $chapter->agree_count,
             'oppose_count' => $chapter->oppose_count,
@@ -231,6 +218,8 @@ class ChapterInfo extends FrontendService
 
         $this->courseUser = $courseUser;
 
+        $this->joinedCourse = true;
+
         $this->incrCourseUserCount($course);
     }
 
@@ -238,9 +227,11 @@ class ChapterInfo extends FrontendService
     {
         if ($user->id == 0) return;
 
-        if ($this->joinedChapter) return;
+        if (!$this->joinedCourse) return;
 
         if (!$this->ownedChapter) return;
+
+        if ($this->joinedChapter) return;
 
         $chapterUser = new ChapterUserModel();
 
@@ -252,6 +243,8 @@ class ChapterInfo extends FrontendService
         $chapterUser->create();
 
         $this->chapterUser = $chapterUser;
+
+        $this->joinedChapter = true;
 
         $this->incrChapterUserCount($chapter);
     }

@@ -32,10 +32,35 @@
 
 </form>
 
+<form class="layui-form kg-form">
+
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>推流测试</legend>
+    </fieldset>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">Stream Name</label>
+        <div class="layui-input-block">
+            <input class="layui-input" type="text" name="stream_name" value="chapter_{{ chapter.id }}" readonly="readonly">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="show-push-test">提交</button>
+            <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+
+</form>
+
 <script>
 
-    layui.use(['laydate'], function () {
+    layui.use(['jquery', 'layer', 'laydate'], function () {
 
+        var $ = layui.jquery;
+        var layer = layui.layer;
         var laydate = layui.laydate;
 
         laydate.render({
@@ -46,6 +71,18 @@
         laydate.render({
             elem: 'input[name=end_time]',
             type: 'datetime'
+        });
+
+        $('#show-push-test').on('click', function () {
+            var streamName = $('input[name=stream_name]').val();
+            var url = '/admin/test/live/push?stream=' + streamName;
+            layer.open({
+                type: 2,
+                title: '推流测试',
+                resize: false,
+                area: ['680px', '380px'],
+                content: [url, 'no']
+            });
         });
 
     });

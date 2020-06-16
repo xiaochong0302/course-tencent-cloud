@@ -18,22 +18,23 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启鉴权</label>
         <div class="layui-input-block">
-            <input type="radio" name="push_auth_enabled" value="1" title="是" {% if live.push_auth_enabled == 1 %}checked{% endif %}>
-            <input type="radio" name="push_auth_enabled" value="0" title="否" {% if live.push_auth_enabled == 0 %}checked{% endif %}>
+            <input type="radio" name="push_auth_enabled" value="1" title="是" lay-filter="push_auth_enabled" {% if live.push_auth_enabled == 1 %}checked{% endif %}>
+            <input type="radio" name="push_auth_enabled" value="0" title="否" lay-filter="push_auth_enabled" {% if live.push_auth_enabled == 0 %}checked{% endif %}>
         </div>
     </div>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">鉴权密钥</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="push_auth_key" value="{{ live.push_auth_key }}">
+    <div id="push-auth-block" {% if live.push_auth_enabled == '0' %}style="display:none;"{% endif %}>
+        <div class="layui-form-item">
+            <label class="layui-form-label">鉴权密钥</label>
+            <div class="layui-input-block">
+                <input class="layui-input" type="text" name="push_auth_key" value="{{ live.push_auth_key }}">
+            </div>
         </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">有效时间（秒）</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="push_auth_delta" value="{{ live.push_auth_delta }}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">有效时间（秒）</label>
+            <div class="layui-input-block">
+                <input class="layui-input" type="text" name="push_auth_delta" value="{{ live.push_auth_delta }}">
+            </div>
         </div>
     </div>
 
@@ -56,7 +57,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">Stream Name</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="stream_name" value="test" readonly="true">
+            <input class="layui-input" type="text" name="stream_name" value="test" readonly="readonly">
         </div>
     </div>
 
@@ -72,13 +73,23 @@
 
 <script>
 
-    layui.use(['jquery', 'layer'], function () {
+    layui.use(['jquery', 'form', 'layer'], function () {
 
         var $ = layui.jquery;
+        var form = layui.form;
         var layer = layui.layer;
 
+        form.on('radio(push_auth_enabled)', function (data) {
+            var block = $('#push-auth-block');
+            if (data.value === '1') {
+                block.show();
+            } else {
+                block.hide();
+            }
+        });
+
         $('#show-push-test').on('click', function () {
-            var url = '/admin/test/live/push';
+            var url = '/admin/test/live/push?stream=test';
             layer.open({
                 type: 2,
                 title: '推流测试',

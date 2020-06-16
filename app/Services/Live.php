@@ -41,21 +41,11 @@ class Live extends Service
      * 获取拉流地址
      *
      * @param string $streamName
-     * @param string $format
+     * @param string $appName
      * @return mixed
      */
-    public function getPullUrls($streamName, $format)
+    public function getPullUrls($streamName, $appName = 'live')
     {
-        $extension = ($format == 'hls') ? 'm3u8' : $format;
-
-        $extensions = ['flv', 'm3u8'];
-
-        if (!in_array($extension, $extensions)) {
-            return null;
-        }
-
-        $appName = 'live';
-
         $protocol = $this->settings['pull_protocol'];
         $domain = $this->settings['pull_domain'];
         $authEnabled = $this->settings['pull_auth_enabled'];
@@ -63,30 +53,44 @@ class Live extends Service
         $authKey = $this->settings['pull_auth_key'];
         $expireTime = $this->settings['pull_auth_delta'] + time();
 
+        $formats = ['rtmp', 'flv', 'm3u8'];
+
         $urls = [];
 
         if ($transEnabled) {
 
-            foreach (['fd', 'sd', 'hd', 'od'] as $rateName) {
+            foreach ($formats as $format) {
 
-                $realStreamName = ($rateName == 'od') ? $streamName : "{$streamName}_{$rateName}";
+                foreach (['od', 'hd', 'sd', 'fd'] as $rateName) {
 
-                $authParams = $this->getAuthParams($realStreamName, $authKey, $expireTime);
+                    $realStreamName = $rateName == 'od' ? $streamName : "{$streamName}_{$rateName}";
 
-                $url = "{$protocol}://{$domain}/{$appName}/{$realStreamName}.{$extension}";
-                $url .= $authEnabled ? "?{$authParams}" : '';
+                    $authParams = $this->getAuthParams($realStreamName, $authKey, $expireTime);
 
-                $urls[$rateName] = $url;
+                    $extension = $format != 'rtmp' ? ".{$format}" : '';
+                    $realProtocol = $format != 'rtmp' ? $protocol : 'rtmp';
+
+                    $url = "{$realProtocol}://{$domain}/{$appName}/{$realStreamName}{$extension}";
+                    $url .= $authEnabled ? "?{$authParams}" : '';
+
+                    $urls[$format][$rateName] = $url;
+                }
             }
 
         } else {
 
-            $authParams = $this->getAuthParams($streamName, $authKey, $expireTime);
+            foreach ($formats as $format) {
 
-            $url = "{$protocol}://{$domain}/{$appName}/{$streamName}.{$extension}";
-            $url .= $authEnabled ? "?{$authParams}" : '';
+                $authParams = $this->getAuthParams($streamName, $authKey, $expireTime);
 
-            $urls['od'] = $url;
+                $extension = $format != 'rtmp' ? ".{$format}" : '';
+                $realProtocol = $format != 'rtmp' ? $protocol : 'rtmp';
+
+                $url = "{$realProtocol}://{$domain}/{$appName}/{$streamName}{$extension}";
+                $url .= $authEnabled ? "?{$authParams}" : '';
+
+                $urls[$format]['od'] = $url;
+            }
         }
 
         return $urls;

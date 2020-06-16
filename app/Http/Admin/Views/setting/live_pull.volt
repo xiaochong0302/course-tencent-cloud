@@ -26,22 +26,23 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启鉴权</label>
         <div class="layui-input-block">
-            <input type="radio" name="pull_auth_enabled" value="1" title="是" {% if live.pull_auth_enabled == 1 %}checked{% endif %}>
-            <input type="radio" name="pull_auth_enabled" value="0" title="否" {% if live.pull_auth_enabled == 0 %}checked{% endif %}>
+            <input type="radio" name="pull_auth_enabled" value="1" title="是" lay-filter="pull_auth_enabled" {% if live.pull_auth_enabled == 1 %}checked{% endif %}>
+            <input type="radio" name="pull_auth_enabled" value="0" title="否" lay-filter="pull_auth_enabled" {% if live.pull_auth_enabled == 0 %}checked{% endif %}>
         </div>
     </div>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">鉴权密钥</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="pull_auth_key" value="{{ live.pull_auth_key }}">
+    <div id="pull-auth-block" {% if live.pull_auth_enabled == '0' %}style="display:none;"{% endif %}>
+        <div class="layui-form-item">
+            <label class="layui-form-label">鉴权密钥</label>
+            <div class="layui-input-block">
+                <input class="layui-input" type="text" name="pull_auth_key" value="{{ live.pull_auth_key }}">
+            </div>
         </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">有效时间（秒）</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="pull_auth_delta" value="{{ live.pull_auth_delta }}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">有效时间（秒）</label>
+            <div class="layui-input-block">
+                <input class="layui-input" type="text" name="pull_auth_delta" value="{{ live.pull_auth_delta }}">
+            </div>
         </div>
     </div>
 
@@ -52,12 +53,12 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启转码</label>
         <div class="layui-input-block">
-            <input type="radio" name="pull_trans_enabled" value="1" title="是" {% if live.pull_trans_enabled == 1 %}checked{% endif %}>
-            <input type="radio" name="pull_trans_enabled" value="0" title="否" {% if live.pull_trans_enabled == 0 %}checked{% endif %}>
+            <input type="radio" name="pull_trans_enabled" value="1" title="是" lay-filter="pull_trans_enabled" {% if live.pull_trans_enabled == 1 %}checked{% endif %}>
+            <input type="radio" name="pull_trans_enabled" value="0" title="否" lay-filter="pull_trans_enabled" {% if live.pull_trans_enabled == 0 %}checked{% endif %}>
         </div>
     </div>
 
-    <table class="kg-table layui-table layui-form">
+    <table class="kg-table layui-table layui-form" id="ptt-block" {% if live.pull_trans_enabled == '0' %}style="display:none;"{% endif %}>
         <colgroup>
             <col>
             <col>
@@ -74,22 +75,22 @@
         </thead>
         <tbody>
         <tr>
-            <td><input class="layui-input" type="text" name="ptt[id][fd]" value="{{ ptt.fd.id }}" readonly="true"></td>
-            <td><input class="layui-input" type="text" name="ptt[summary][fd]" value="{{ ptt.fd.summary }}" readonly="true"></td>
-            <td><input class="layui-input" type="text" name="ptt[bit_rate][fd]" value="{{ ptt.fd.bit_rate }}" readonly="true"></td>
-            <td><input class="layui-input" type="text" name="ptt[height][fd]" value="{{ ptt.fd.height }}" readonly="true"></td>
+            <td><input class="layui-input" type="text" name="ptt[id][fd]" value="{{ ptt.fd.id }}" readonly="readonly"></td>
+            <td><input class="layui-input" type="text" name="ptt[summary][fd]" value="{{ ptt.fd.summary }}" readonly="readonly"></td>
+            <td><input class="layui-input" type="text" name="ptt[bit_rate][fd]" value="{{ ptt.fd.bit_rate }}" readonly="readonly"></td>
+            <td><input class="layui-input" type="text" name="ptt[height][fd]" value="{{ ptt.fd.height }}" readonly="readonly"></td>
         </tr>
         <tr>
-            <td><input class="layui-input" type="text" name="ptt[id][sd]" value="{{ ptt.sd.id }}" readonly="true"></td>
-            <td><input class="layui-input" type="text" name="ptt[summary][sd]" value="{{ ptt.sd.summary }}" readonly="true"></td>
-            <td><input class="layui-input" type="text" name="ptt[bit_rate][sd]" value="{{ ptt.sd.bit_rate }}" readonly="true"></td>
-            <td><input class="layui-input" type="text" name="ptt[height][sd]" value="{{ ptt.sd.height }}" readonly="true"></td>
+            <td><input class="layui-input" type="text" name="ptt[id][sd]" value="{{ ptt.sd.id }}" readonly="readonly"></td>
+            <td><input class="layui-input" type="text" name="ptt[summary][sd]" value="{{ ptt.sd.summary }}" readonly="readonly"></td>
+            <td><input class="layui-input" type="text" name="ptt[bit_rate][sd]" value="{{ ptt.sd.bit_rate }}" readonly="readonly"></td>
+            <td><input class="layui-input" type="text" name="ptt[height][sd]" value="{{ ptt.sd.height }}" readonly="readonly"></td>
         </tr>
         <tr>
-            <td><input class="layui-input" type="text" name="ptt[id][hd]" value="{{ ptt.hd.id }}" readonly="true"></td>
-            <td><input class="layui-input" type="text" name="ptt[summary][hd]" value="{{ ptt.hd.summary }}" readonly="true"></td>
-            <td><input class="layui-input" type="text" name="ptt[bit_rate][hd]" value="{{ ptt.hd.bit_rate }}" readonly="true"></td>
-            <td><input class="layui-input" type="text" name="ptt[height][hd]" value="{{ ptt.hd.height }}" readonly="true"></td>
+            <td><input class="layui-input" type="text" name="ptt[id][hd]" value="{{ ptt.hd.id }}" readonly="readonly"></td>
+            <td><input class="layui-input" type="text" name="ptt[summary][hd]" value="{{ ptt.hd.summary }}" readonly="readonly"></td>
+            <td><input class="layui-input" type="text" name="ptt[bit_rate][hd]" value="{{ ptt.hd.bit_rate }}" readonly="readonly"></td>
+            <td><input class="layui-input" type="text" name="ptt[height][hd]" value="{{ ptt.hd.height }}" readonly="readonly"></td>
         </tr>
         </tbody>
     </table>
@@ -113,7 +114,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">Stream Name</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="stream_name" value="test" readonly="true">
+            <input class="layui-input" type="text" name="stream_name" value="test" readonly="readonly">
         </div>
     </div>
 
@@ -129,10 +130,29 @@
 
 <script>
 
-    layui.use(['jquery', 'layer'], function () {
+    layui.use(['jquery', 'form', 'layer'], function () {
 
         var $ = layui.jquery;
+        var form = layui.form;
         var layer = layui.layer;
+
+        form.on('radio(pull_auth_enabled)', function (data) {
+            var block = $('#pull-auth-block');
+            if (data.value === '1') {
+                block.show();
+            } else {
+                block.hide();
+            }
+        });
+
+        form.on('radio(pull_trans_enabled)', function (data) {
+            var block = $('#ptt-block');
+            if (data.value === '1') {
+                block.show();
+            } else {
+                block.hide();
+            }
+        });
 
         $('#show-pull-test').on('click', function () {
             var url = '/admin/test/live/pull';

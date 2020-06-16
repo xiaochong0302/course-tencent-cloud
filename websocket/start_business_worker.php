@@ -23,7 +23,7 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 $worker = new BusinessWorker();
 
 // worker名称
-$worker->name = 'DanmakuBusinessWorker';
+$worker->name = 'CourseBusinessWorker';
 
 // businessWorker进程数量
 $worker->count = 4;

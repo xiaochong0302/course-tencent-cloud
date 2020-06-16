@@ -22,9 +22,13 @@
 
 {% endblock %}
 
-{% block inline_js %}
+{% block include_js %}
 
     <script src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.2.js"></script>
+
+{% endblock %}
+
+{% block inline_js %}
 
     <script>
 
@@ -41,28 +45,22 @@
         var options = {
             autoplay: false,
             width: 760,
-            height: 450,
-            clarity: 'hd',
-            clarityLabel: {
-                od: '高清',
-                hd: '标清',
-                sd: '流畅'
-            }
+            height: 450
         };
 
-        if ('hd' in playUrls) {
-            options.m3u8 = playUrls.hd.url;
+        if (playUrls.od) {
+            options.m3u8 = playUrls.od.url;
         }
 
-        if ('sd' in playUrls) {
-            options.m3u8_hd = playUrls.sd.url;
+        if (playUrls.hd) {
+            options.m3u8_hd = playUrls.hd.url;
         }
 
-        if ('fd' in playUrls) {
-            options.m3u8_sd = playUrls.fd.url;
+        if (playUrls.sd) {
+            options.m3u8_sd = playUrls.sd.url;
         }
 
-        if (userId !== '0') {
+        if (userId !== '0' && planId !== '0') {
             options.listener = function (msg) {
                 if (msg.type === 'play') {
                     start();

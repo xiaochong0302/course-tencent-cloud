@@ -19,20 +19,52 @@
 
 <script>
 
-    var flvPullUrls = '{{ flv_pull_urls|json_encode }}';
-    var flv = JSON.parse(flvPullUrls);
-    var config = {
-        flv: flv.od,
-        flv_sd: flv.sd,
-        flv_hd: flv.hd,
+    var playUrls = JSON.parse('{{ pull_urls|json_encode }}');
+
+    var options = {
         live: true,
-        h5_flv: true,
         autoplay: true,
-        clarity: 'hd',
+        h5_flv: true,
         width: 720,
         height: 405
     };
 
-    var player = new TcPlayer('player', config);
+    if (playUrls.rtmp && playUrls.rtmp.od) {
+        options.rtmp = playUrls.rtmp.od;
+    }
+
+    if (playUrls.rtmp && playUrls.rtmp.hd) {
+        options.rtmp_hd = playUrls.rtmp.hd;
+    }
+
+    if (playUrls.rtmp && playUrls.rtmp.sd) {
+        options.rtmp_sd = playUrls.rtmp.sd;
+    }
+
+    if (playUrls.flv && playUrls.flv.od) {
+        options.flv = playUrls.flv.od;
+    }
+
+    if (playUrls.flv && playUrls.flv.hd) {
+        options.flv_hd = playUrls.flv.hd;
+    }
+
+    if (playUrls.flv && playUrls.flv.sd) {
+        options.flv_sd = playUrls.flv.sd;
+    }
+
+    if (playUrls.m3u8 && playUrls.m3u8.od) {
+        options.m3u8 = playUrls.m3u8.od;
+    }
+
+    if (playUrls.m3u8 && playUrls.m3u8.hd) {
+        options.m3u8_hd = playUrls.m3u8.hd;
+    }
+
+    if (playUrls.m3u8 && playUrls.m3u8.sd) {
+        options.m3u8_sd = playUrls.m3u8.sd;
+    }
+
+    var player = new TcPlayer('player', options);
 
 </script>
