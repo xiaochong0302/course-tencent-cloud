@@ -4,7 +4,7 @@ namespace App\Http\Web\Controllers;
 
 use App\Http\Web\Services\Index as IndexService;
 
-class IndexController extends Controller
+class MessengerController extends Controller
 {
 
     /**
@@ -22,14 +22,6 @@ class IndexController extends Controller
         $this->view->setVar('new_courses', $indexService->getNewCourses());
         $this->view->setVar('free_courses', $indexService->getFreeCourses());
         $this->view->setVar('vip_courses', $indexService->getVipCourses());
-    }
-
-    /**
-     * @Get("/im", name="web.im")
-     */
-    public function imAction()
-    {
-
     }
 
 }

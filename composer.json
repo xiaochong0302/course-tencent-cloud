@@ -14,6 +14,7 @@
     "qcloudsms/qcloudsms_php": "0.1.*",
     "qcloud/cos-sdk-v5": "2.*",
     "workerman/gateway-worker": "^3.0.12",
+    "workerman/gatewayclient": "^3.0.12",
     "whichbrowser/parser": "^2.0",
     "hightman/xunsearch": "^1.4.14",
     "aferrandini/phpqrcode": "1.0.1",

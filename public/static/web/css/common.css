@@ -727,6 +727,11 @@
     color: gray;
 }
 
+.live-player {
+    width: 800px;
+    height: 450px;
+}
+
 .chapter-bg {
     background-color: #f2f2f2;
 }

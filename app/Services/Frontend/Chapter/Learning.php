@@ -14,11 +14,11 @@ class Learning extends FrontendService
 
     use ChapterTrait;
 
-    public function handle()
+    public function handle($id)
     {
         $post = $this->request->getPost();
 
-        $chapter = $this->checkChapterCache($post['chapter_id']);
+        $chapter = $this->checkChapterCache($id);
 
         $user = $this->getLoginUser();
 

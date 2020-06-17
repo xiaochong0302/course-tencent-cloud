@@ -52,6 +52,7 @@ trait Auth
 
         $user->id = 0;
         $user->name = 'guest';
+        $user->avatar = kg_ci_avatar_img_url(null);
 
         return $user;
     }

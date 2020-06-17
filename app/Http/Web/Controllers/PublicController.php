@@ -53,13 +53,13 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Post("/learning", name="web.learning")
+     * @Post("/{id:[0-9]+}/learning", name="web.learning")
      */
-    public function learningAction()
+    public function learningAction($id)
     {
         $service = new LearningService();
 
-        $service->handle();
+        $service->handle($id);
 
         return $this->jsonSuccess();
     }
