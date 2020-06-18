@@ -2,26 +2,18 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Http\Web\Services\Index as IndexService;
-
+/**
+ * @RoutePrefix("/im")
+ */
 class MessengerController extends Controller
 {
 
     /**
-     * @Get("/", name="web.index")
+     * @Get("/init", name="web.index")
      */
-    public function indexAction()
+    public function initAction()
     {
-        $this->siteSeo->setKeywords($this->siteSettings['keywords']);
-        $this->siteSeo->setDescription($this->siteSettings['description']);
 
-        $indexService = new IndexService();
-
-        $this->view->setVar('slides', $indexService->getSlides());
-        $this->view->setVar('lives', $indexService->getLives());
-        $this->view->setVar('new_courses', $indexService->getNewCourses());
-        $this->view->setVar('free_courses', $indexService->getFreeCourses());
-        $this->view->setVar('vip_courses', $indexService->getVipCourses());
     }
 
 }

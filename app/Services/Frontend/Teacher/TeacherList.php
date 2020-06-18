@@ -3,6 +3,7 @@
 namespace App\Services\Frontend\Teacher;
 
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\User;
 use App\Repos\User as UserRepo;
 use App\Services\Frontend\Service as FrontendService;
 
@@ -15,6 +16,7 @@ class TeacherList extends FrontendService
 
         $params = $pagerQuery->getParams();
 
+        $params['edu_role'] = User::EDU_ROLE_TEACHER;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();

@@ -14,28 +14,23 @@
     {% block inline_css %}{% endblock %}
 </head>
 <body class="body">
+
 <div id="header">
     {{ partial('partials/header') }}
 </div>
+
 <div id="main" class="layui-main">
     {% block content %}{% endblock %}
 </div>
+
 <div id="footer">
     {{ partial('partials/footer') }}
 </div>
-{{ js_include('lib/layui/layui.all.js') }}
+
+{{ js_include('lib/layui/layui.js') }}
 {{ js_include('web/js/common.js') }}
-<script>
-    layui.util.fixbar({
-        bar1: true,
-        click: function (type) {
-            console.log(type);
-            if (type === 'bar1') {
-                alert('点击了bar1');
-            }
-        }
-    });
-</script>
+{{ js_include('web/js/fixbar.js') }}
+
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
 </body>

@@ -32,35 +32,35 @@
                         <li class="layui-this">详情</li>
                         <li>目录</li>
                         {% if show_tab_packages == 1 %}
-                        <li>套餐</li>
-                    {% endif %}
-                    {% if show_tab_consults == 1 %}
-                        <li>咨询</li>
-                    {% endif %}
-                    {% if show_tab_reviews == 1 %}
-                        <li>评价</li>
-                    {% endif %}
-                </ul>
-                <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">
-                        <div class="course-details">{{ course.details }}</div>
+                            <li>套餐</li>
+                        {% endif %}
+                        {% if show_tab_consults == 1 %}
+                            <li>咨询</li>
+                        {% endif %}
+                        {% if show_tab_reviews == 1 %}
+                            <li>评价</li>
+                        {% endif %}
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div class="course-details">{{ course.details }}</div>
+                        </div>
+                        <div class="layui-tab-item">
+                            {{ partial('course/chapters') }}
+                        </div>
+                        {% if show_tab_packages == 1 %}
+                            {% set packages_url = url({'for':'web.course.packages','id':course.id}) %}
+                            <div class="layui-tab-item" id="tab-packages" data-url="{{ packages_url }}"></div>
+                        {% endif %}
+                        {% if show_tab_consults == 1 %}
+                            {% set consults_url = url({'for':'web.course.consults','id':course.id}) %}
+                            <div class="layui-tab-item" id="tab-consults" data-url="{{ consults_url }}"></div>
+                        {% endif %}
+                        {% if show_tab_reviews == 1 %}
+                            {% set reviews_url = url({'for':'web.course.reviews','id':course.id}) %}
+                            <div class="layui-tab-item" id="tab-reviews" data-url="{{ reviews_url }}"></div>
+                        {% endif %}
                     </div>
-                    <div class="layui-tab-item">
-                        {{ partial('course/chapters') }}
-                    </div>
-                    {% if show_tab_packages == 1 %}
-                        {% set packages_url = url({'for':'web.course.packages','id':course.id}) %}
-                        <div class="layui-tab-item" id="tab-packages" data-url="{{ packages_url }}"></div>
-                    {% endif %}
-                    {% if show_tab_consults == 1 %}
-                        {% set consults_url = url({'for':'web.course.consults','id':course.id}) %}
-                        <div class="layui-tab-item" id="tab-consults" data-url="{{ consults_url }}"></div>
-                    {% endif %}
-                    {% if show_tab_reviews == 1 %}
-                        {% set reviews_url = url({'for':'web.course.reviews','id':course.id}) %}
-                        <div class="layui-tab-item" id="tab-reviews" data-url="{{ reviews_url }}"></div>
-                    {% endif %}
-                </div>
                 </div>
             </div>
         </div>
@@ -91,33 +91,8 @@
 
 {% endblock %}
 
-{% block inline_js %}
+{% block include_js %}
 
-    <script>
-        if ($('#tab-packages').length > 0) {
-            var $tabPackages = $('#tab-packages');
-            helper.ajaxLoadHtml($tabPackages.attr('data-url'), $tabPackages.attr('id'));
-        }
-        if ($('#tab-consults').length > 0) {
-            var $tabConsults = $('#tab-consults');
-            helper.ajaxLoadHtml($tabConsults.attr('data-url'), $tabConsults.attr('id'));
-        }
-        if ($('#tab-reviews').length > 0) {
-            var $tabReviews = $('#tab-reviews');
-            helper.ajaxLoadHtml($tabReviews.attr('data-url'), $tabReviews.attr('id'));
-        }
-        if ($('#sidebar-topics').length > 0) {
-            var $sdTopics = $('#sidebar-topics');
-            helper.ajaxLoadHtml($sdTopics.attr('data-url'), $sdTopics.attr('id'));
-        }
-        if ($('#sidebar-recommended').length > 0) {
-            var $sdRecommended = $('#sidebar-recommended');
-            helper.ajaxLoadHtml($sdRecommended.attr('data-url'), $sdRecommended.attr('id'));
-        }
-        if ($('#sidebar-related').length > 0) {
-            var $sdRelated = $('#sidebar-related');
-            helper.ajaxLoadHtml($sdRelated.attr('data-url'), $sdRelated.attr('id'));
-        }
-    </script>
+    {{ js_include('web/js/course.show.js') }}
 
 {% endblock %}

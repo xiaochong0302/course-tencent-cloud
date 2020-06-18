@@ -4,6 +4,7 @@ namespace App\Http\Web\Controllers;
 
 use App\Http\Web\Services\Live as LiveService;
 use App\Traits\Response as ResponseTrait;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/live")
@@ -18,33 +19,21 @@ class LiveController extends \Phalcon\Mvc\Controller
      */
     public function membersAction($id)
     {
-        $list = [
-            [
-                'username' => '直飞机',
-                'avatar' => 'http://tp1.sinaimg.cn/5619439268/180/40030060651/1',
-                'status' => 'online',
-                'sign' => '高舍炮打的准',
-                'id' => 1,
-            ],
-            [
-                'username' => '直飞机2',
-                'avatar' => 'http://tp1.sinaimg.cn/5619439268/180/40030060651/1',
-                'status' => 'online',
-                'sign' => '高舍炮打的准',
-                'id' => 2,
-            ],
-            [
-                'username' => '直飞机3',
-                'avatar' => 'http://tp1.sinaimg.cn/5619439268/180/40030060651/1',
-                'status' => 'online',
-                'sign' => '高舍炮打的准',
-                'id' => 3,
-            ],
-        ];
+        return $this->jsonSuccess();
+    }
 
-        $content = ['data' => ['list' => $list]];
+    /**
+     * @Get("/{id:[0-9]+}/stats", name="web.live.stats")
+     */
+    public function statsAction($id)
+    {
+        $service = new LiveService();
 
-        return $this->jsonSuccess($content);
+        $stats = $service->getStats($id);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('chapter/live_stats');
+        $this->view->setVar('stats', $stats);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Web\Services;
 
+use App\Repos\User as UserRepo;
 use App\Services\Frontend\ChapterTrait;
 use GatewayClient\Gateway;
 
@@ -10,21 +11,44 @@ class Live extends Service
 
     use ChapterTrait;
 
-    public function bindUser($id)
+    public function getStats($id)
     {
         $chapter = $this->checkChapterCache($id);
 
-        $user = $this->getCurrentUser();
+        Gateway::$registerAddress = '127.0.0.1:1238';
 
-        $userId = $user->id > 0 ?: $this->session->getId();
+        $groupName = $this->getGroupName($chapter->id);
 
+        $clientCount = Gateway::getClientIdCountByGroup($groupName);
+        $userCount = Gateway::getUidCountByGroup($groupName);
+        $guestCount = $clientCount - $userCount;
+
+        $userIds = Gateway::getUidListByGroup($groupName);
+
+        $users = $this->handleUsers($userIds);
+
+        return [
+            'user_count' => $userCount,
+            'guest_count' => $guestCount,
+            'users' => $users,
+        ];
+    }
+
+    public function bindUser($id)
+    {
         $clientId = $this->request->getPost('client_id');
+
+        $chapter = $this->checkChapterCache($id);
+
+        $user = $this->getCurrentUser();
 
         $groupName = $this->getGroupName($chapter->id);
 
         Gateway::$registerAddress = '127.0.0.1:1238';
 
-        Gateway::bindUid($clientId, $userId);
+        if ($user->id > 0) {
+            Gateway::bindUid($clientId, $user->id);
+        }
 
         Gateway::joinGroup($clientId, $groupName);
     }
@@ -33,8 +57,20 @@ class Live extends Service
     {
         $chapter = $this->checkChapterCache($id);
 
+        $user = $this->getLoginUser();
+
         $from = $this->request->getPost('from');
         $to = $this->request->getPost('to');
+
+        Gateway::$registerAddress = '127.0.0.1:1238';
+
+        $groupName = $this->getGroupName($chapter->id);
+
+        $excludeClientId = null;
+
+        if ($user->id == $from['id']) {
+            $excludeClientId = Gateway::getClientIdByUid($user->id);
+        }
 
         $content = [
             'username' => $from['username'],
@@ -52,11 +88,36 @@ class Live extends Service
             'content' => $content,
         ]);
 
-        $groupName = $this->getGroupName($chapter->id);
 
-        Gateway::$registerAddress = '127.0.0.1:1238';
+        Gateway::sendToGroup($groupName, $message, $excludeClientId);
+    }
 
-        Gateway::sendToGroup($groupName, $message);
+    protected function handleUsers($userIds)
+    {
+        if (!$userIds) return [];
+
+        $userRepo = new UserRepo();
+
+        $users = $userRepo->findByIds($userIds);
+
+        $baseUrl = kg_ci_base_url();
+
+        $result = [];
+
+        foreach ($users->toArray() as $key => $user) {
+
+            $user['avatar'] = $baseUrl . $user['avatar'];
+
+            $result[] = [
+                'id' => $user['id'],
+                'name' => $user['name'],
+                'title' => $user['title'],
+                'vip' => $user['vip'],
+                'avatar' => $user['avatar'],
+            ];
+        }
+
+        return $result;
     }
 
     protected function getGroupName($groupId)

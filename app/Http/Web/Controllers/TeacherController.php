@@ -15,6 +15,8 @@ class TeacherController extends Controller
      */
     public function listAction()
     {
+        $_REQUEST['limit'] = 12;
+
         $service = new TeacherListService();
 
         $pager = $service->handle();

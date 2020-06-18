@@ -9,8 +9,15 @@
         <a><cite>{{ chapter.title }}</cite></a>
     </div>
 
-    <div class="live-player container">
-        <div id="player"></div>
+    <div class="layout-main">
+        <div class="layout-content">
+            <div class="live-player container">
+                <div id="player"></div>
+            </div>
+        </div>
+        <div class="layout-sidebar">
+            <div id="sidebar-live-stats" data-url="{{ url({'for':'web.live.stats','id':chapter.id}) }}"></div>
+        </div>
     </div>
 
     <div class="layui-hide">
@@ -39,5 +46,18 @@
 {% endblock %}
 
 {% block inline_js %}
+
+    <script>
+
+        refreshLiveStats();
+
+        setInterval('refreshLiveStats()', 60000);
+
+        function refreshLiveStats() {
+            var $liveStats = $('#sidebar-live-stats');
+            helper.ajaxLoadHtml($liveStats.attr('data-url'), $liveStats.attr('id'));
+        }
+
+    </script>
 
 {% endblock %}

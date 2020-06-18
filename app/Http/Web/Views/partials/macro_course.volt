@@ -28,30 +28,32 @@
                 <img src="{{ course.cover }}!cover_270" alt="{{ course.title|e }}" title="{{ course.title|e }}">
             </a>
         </div>
-        <div class="title layui-elip">
-            <a href="{{ course_url }}" title="{{ course.title|e }}">{{ course.title }}</a>
-        </div>
-        <div class="meta">
-            {% if course.market_price > course.vip_price %}
-                <span>{{ '￥%0.2f'|format(course.market_price) }}</span>
-                {% if course.vip_price > 0 %}
-                    <span class="price">{{ '会员￥%0.2f'|format(course.vip_price) }}</span>
+        <div class="info">
+            <div class="title layui-elip">
+                <a href="{{ course_url }}" title="{{ course.title|e }}">{{ course.title }}</a>
+            </div>
+            <div class="meta">
+                {% if course.market_price > course.vip_price %}
+                    <span>{{ '￥%0.2f'|format(course.market_price) }}</span>
+                    {% if course.vip_price > 0 %}
+                        <span class="price">{{ '会员￥%0.2f'|format(course.vip_price) }}</span>
+                    {% else %}
+                        <span class="free">会员免费</span>
+                    {% endif %}
+                    <span class="level">{{ level_info(course.level) }}</span>
+                    <span class="user">{{ course.user_count }}人购买</span>
+                {% elseif course.market_price > 0 %}
+                    <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
+                    <span class="level">{{ level_info(course.level) }}</span>
+                    <span class="lesson">{{ course.lesson_count }}节课</span>
+                    <span class="user">{{ course.user_count }}人购买</span>
                 {% else %}
-                    <span class="free">会员免费</span>
+                    <span class="free">免费</span>
+                    <span class="level">{{ level_info(course.level) }}</span>
+                    <span class="lesson">{{ course.lesson_count }}节课</span>
+                    <span class="user">{{ course.user_count }}人报名</span>
                 {% endif %}
-                <span class="level">{{ level_info(course.level) }}</span>
-                <span class="user">{{ course.user_count }}人购买</span>
-            {% elseif course.market_price > 0 %}
-                <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
-                <span class="level">{{ level_info(course.level) }}</span>
-                <span class="lesson">{{ course.lesson_count }}节课</span>
-                <span class="user">{{ course.user_count }}人购买</span>
-            {% else %}
-                <span class="free">免费</span>
-                <span class="level">{{ level_info(course.level) }}</span>
-                <span class="lesson">{{ course.lesson_count }}节课</span>
-                <span class="user">{{ course.user_count }}人报名</span>
-            {% endif %}
+            </div>
         </div>
     </div>
 {%- endmacro %}
@@ -90,14 +92,16 @@
                 <img src="{{ item.course.cover }}!cover_270" alt="{{ course_title }}">
             </a>
         </div>
-        <div class="title layui-elip">
-            <a href="{{ course_url }}" title="{{ course_title }}">{{ course_title }}</a>
-        </div>
-        <div class="progress">
-            <div class="layui-progress" lay-showPercent="yes">
-                <div class="layui-progress-bar" lay-percent="{{ item.progress }}%"></div>
+        <div class="info">
+            <div class="title layui-elip">
+                <a href="{{ course_url }}" title="{{ course_title }}">{{ course_title }}</a>
             </div>
+            <div class="progress">
+                <div class="layui-progress" lay-showPercent="yes">
+                    <div class="layui-progress-bar" lay-percent="{{ item.progress }}%"></div>
+                </div>
+            </div>
+            <div class="duration">已学习 {{ item.duration|total_duration }}</div>
         </div>
-        <div class="duration">已学习 {{ item.duration|total_duration }}</div>
     </div>
 {%- endmacro %}

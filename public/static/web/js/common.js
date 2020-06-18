@@ -1,86 +1,92 @@
-var $ = layui.jquery;
-var element = layui.element;
-var form = layui.form;
-var layer = layui.layer;
-
-$.ajaxSetup({
-    beforeSend: function (xhr) {
-        xhr.setRequestHeader('X-Csrf-Token', $('meta[name="csrf-token"]').attr('content'));
-    }
+layui.define(['jquery', 'element'], function (exports) {
+    exports('ajaxLoadHtml', function (url, target) {
+        var $ = layui.jquery;
+        var element = layui.element;
+        var $target = $('#' + target);
+        var html = '<div class="loading"><i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i></div>';
+        $target.html(html);
+        $.get(url, function (html) {
+            $target.html(html);
+            element.init();
+        });
+    });
 });
 
-var helper = {};
+layui.use(['jquery', 'form', 'element', 'layer'], function () {
 
-helper.ajaxLoadHtml = function (url, target) {
-    var $target = $('#' + target);
-    var html = '<div class="loading"><i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i></div>';
-    $target.html(html);
-    $.get(url, function (html) {
-        $target.html(html);
-        element.init();
-    });
-}
+    var $ = layui.jquery;
+    var element = layui.element;
+    var form = layui.form;
+    var layer = layui.layer;
 
-form.on('submit(go)', function (data) {
-    var submit = $(this);
-    submit.attr('disabled', 'disabled').addClass('layui-btn-disabled');
-    $.ajax({
-        type: 'POST',
-        url: data.form.action,
-        data: data.field,
-        success: function (res) {
-            var icon = res.code === 0 ? 1 : 2;
-            if (res.msg) {
-                layer.msg(res.msg, {icon: icon});
-            }
-            if (res.location) {
-                setTimeout(function () {
-                    window.location.href = res.location;
-                }, 1500);
-            } else {
-                submit.removeAttr('disabled').removeClass('layui-btn-disabled');
-            }
-        },
-        error: function (xhr) {
-            var json = JSON.parse(xhr.responseText);
-            layer.msg(json.msg, {icon: 2});
-            submit.removeAttr('disabled').removeClass('layui-btn-disabled');
+    $.ajaxSetup({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-Csrf-Token', $('meta[name="csrf-token"]').attr('content'));
         }
     });
-    return false;
-});
 
-$('.kg-delete').on('click', function () {
-    var url = $(this).attr('data-url');
-    var tips = '确定要删除吗？';
-    layer.confirm(tips, function () {
+    form.on('submit(go)', function (data) {
+        var submit = $(this);
+        submit.attr('disabled', 'disabled').addClass('layui-btn-disabled');
         $.ajax({
             type: 'POST',
-            url: url,
+            url: data.form.action,
+            data: data.field,
             success: function (res) {
-                layer.msg(res.msg, {icon: 1});
+                var icon = res.code === 0 ? 1 : 2;
+                if (res.msg) {
+                    layer.msg(res.msg, {icon: icon});
+                }
                 if (res.location) {
                     setTimeout(function () {
                         window.location.href = res.location;
                     }, 1500);
                 } else {
-                    window.location.reload();
+                    submit.removeAttr('disabled').removeClass('layui-btn-disabled');
                 }
             },
             error: function (xhr) {
                 var json = JSON.parse(xhr.responseText);
                 layer.msg(json.msg, {icon: 2});
+                submit.removeAttr('disabled').removeClass('layui-btn-disabled');
             }
         });
+        return false;
     });
-});
 
-$('.kg-back').on('click', function () {
-    window.history.back();
-});
+    $('.kg-delete').on('click', function () {
+        var url = $(this).attr('data-url');
+        var tips = '确定要删除吗？';
+        layer.confirm(tips, function () {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                success: function (res) {
+                    layer.msg(res.msg, {icon: 1});
+                    if (res.location) {
+                        setTimeout(function () {
+                            window.location.href = res.location;
+                        }, 1500);
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error: function (xhr) {
+                    var json = JSON.parse(xhr.responseText);
+                    layer.msg(json.msg, {icon: 2});
+                }
+            });
+        });
+    });
 
-$('body').on('click', '.layui-laypage > a', function () {
-    var url = $(this).attr('data-url');
-    var target = $(this).attr('data-target');
-    helper.ajaxLoadHtml(url, target);
+    $('.kg-back').on('click', function () {
+        window.history.back();
+    });
+
+    $('body').on('click', '.layui-laypage > a', function () {
+        var url = $(this).attr('data-url');
+        var target = $(this).attr('data-target');
+        layui.ajaxLoadHtml(url, target);
+    });
+
 });

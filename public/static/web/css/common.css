@@ -174,7 +174,11 @@
 }
 
 .index-course-list .course-card {
-    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: none;
+}
+
+.index-course-list .course-card .info {
+    border: 1px solid #eee;
 }
 
 .index-carousel {
@@ -285,7 +289,6 @@
 }
 
 .course-card .cover {
-    margin-bottom: 10px;
     overflow: hidden;
 }
 
@@ -299,15 +302,17 @@
     transform: scale(1.2);
 }
 
+.course-card .info {
+    padding: 10px 5px;
+}
+
 .course-card .title {
-    padding: 0 5px;
     margin-bottom: 10px;
 }
 
 .course-card .meta {
     color: #666;
     font-size: 12px;
-    padding: 0 5px;
 }
 
 .course-card .meta span {
@@ -728,8 +733,31 @@
 }
 
 .live-player {
-    width: 800px;
-    height: 450px;
+    width: 760px;
+    height: 428px;
+}
+
+.live-stats {
+    color: #666;
+}
+
+.live-stats .stats {
+    margin-bottom: 15px;
+}
+
+.live-stats .count {
+    margin-right: 10px;
+}
+
+.live-user-card {
+    line-height: 30px;
+}
+
+.chat-login-tips {
+    padding-top: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
 }
 
 .chapter-bg {

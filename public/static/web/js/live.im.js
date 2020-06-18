@@ -2,7 +2,6 @@ layui.use(['jquery', 'layim'], function () {
 
     var $ = layui.jquery;
     var layim = layui.layim;
-
     var socket = new WebSocket('ws://127.0.0.1:8282');
 
     var membersUrl = $('input[name="im.members_url"]').val();
@@ -34,15 +33,15 @@ layui.use(['jquery', 'layim'], function () {
                 'sign': user.sign
             }
         },
-        members: {
-            url: membersUrl
-        }
+        members: {url: membersUrl}
     }).chat({
         type: 'group',
         name: group.name,
         avatar: group.avatar,
         id: group.id
     });
+
+    layim.setChatMin();
 
     layim.on('sendMessage', function (res) {
         sendMessage(res.mine, res.to);
@@ -72,6 +71,8 @@ layui.use(['jquery', 'layim'], function () {
         }
     };
 
+    showOrHidePoster();
+
     function bindUser(clientId) {
         $.ajax({
             type: 'POST',
@@ -90,7 +91,16 @@ layui.use(['jquery', 'layim'], function () {
     }
 
     function showMessage(message) {
-        layim.getMessage(message);
+        if (message.fromid !== user.id) {
+            layim.getMessage(message);
+        }
+    }
+
+    function showOrHidePoster() {
+        if (user.id === '0') {
+            var html = '<div class="chat-login-tips">登录用户才可以参与讨论哦</div>';
+            $('.layim-chat-footer').hide().after(html);
+        }
     }
 
 });
