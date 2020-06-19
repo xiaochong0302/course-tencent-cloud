@@ -31,6 +31,10 @@
 {{ js_include('web/js/common.js') }}
 {{ js_include('web/js/fixbar.js') }}
 
+{% if auth_user.id > 0 %}
+    {{ js_include('web/js/im.js') }}
+{% endif %}
+
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
 </body>

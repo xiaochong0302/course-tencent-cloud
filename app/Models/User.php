@@ -51,6 +51,13 @@ class User extends Model
     public $title;
 
     /**
+     * 签名
+     *
+     * @var string
+     */
+    public $sign;
+
+    /**
      * 介绍
      *
      * @var string
