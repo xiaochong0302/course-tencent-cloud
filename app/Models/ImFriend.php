@@ -27,6 +27,13 @@ class ImFriend extends Model
     public $friend_id;
 
     /**
+     * 分组编号
+     *
+     * @var integer
+     */
+    public $group_id;
+
+    /**
      * 屏蔽标识
      *
      * @var integer

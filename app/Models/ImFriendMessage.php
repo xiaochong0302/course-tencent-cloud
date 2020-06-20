@@ -4,11 +4,8 @@ namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class ImMessage extends Model
+class ImFriendMessage extends Model
 {
-
-    const TYPE_FRIEND = 1; // 私聊
-    const TYPE_GROUP = 2; // 群聊
 
     /**
      * 主键编号
@@ -18,32 +15,25 @@ class ImMessage extends Model
     public $id;
 
     /**
-     * 类型
+     * 用户编号
      *
      * @var integer
      */
-    public $type;
+    public $user_id;
 
     /**
-     * 发送方编号
-     *
-     * @var integer
-     */
-    public $sender_id;
-
-    /**
-     * 接收方编号
-     *
-     * @var integer
-     */
-    public $receiver_id;
-
-    /**
-     * 内容编号
+     * 对话编号
      *
      * @var string
      */
-    public $content_id;
+    public $chat_id;
+
+    /**
+     * 内容
+     *
+     * @var string
+     */
+    public $content;
 
     /**
      * 删除标识
@@ -68,7 +58,7 @@ class ImMessage extends Model
 
     public function getSource()
     {
-        return 'kg_im_message';
+        return 'kg_im_friend_message';
     }
 
     public function initialize()
@@ -91,6 +81,15 @@ class ImMessage extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public static function getChatId($aUserId, $bUserId)
+    {
+        $list = [$aUserId, $bUserId];
+
+        sort($list);
+
+        return implode('_', $list);
     }
 
 }

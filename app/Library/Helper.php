@@ -131,6 +131,26 @@ function kg_site_base_url()
 }
 
 /**
+ * 获取默认头像路径
+ *
+ * @return string
+ */
+function kg_default_avatar_path()
+{
+    return '/img/avatar/default.png';
+}
+
+/**
+ * 获取默认封面路径
+ *
+ * @return string
+ */
+function kg_default_cover_path()
+{
+    return '/img/cover/default.png';
+}
+
+/**
  * 获取数据万象基准URL
  *
  * @return string
@@ -146,11 +166,9 @@ function kg_ci_base_url()
  * 获取数据万象URL
  *
  * @param string $path
- * @param int $width
- * @param int $height
  * @return string
  */
-function kg_ci_img_url($path, $width = 0, $height = 0)
+function kg_ci_img_url($path)
 {
     if (!$path) return '';
 
@@ -160,37 +178,33 @@ function kg_ci_img_url($path, $width = 0, $height = 0)
 
     $storage = new StorageService();
 
-    return $storage->getCiImageUrl($path, $width, $height);
+    return $storage->getCiImageUrl($path);
 }
 
 /**
  * 获取头像数据万象URL
  *
  * @param string $path
- * @param int $width
- * @param int $height
  * @return string
  */
-function kg_ci_avatar_img_url($path, $width = 0, $height = 0)
+function kg_ci_avatar_img_url($path)
 {
-    $path = $path ?: '/img/avatar/default.png';
+    $path = $path ?: kg_default_avatar_path();
 
-    return kg_ci_img_url($path, $width, $height);
+    return kg_ci_img_url($path);
 }
 
 /**
  * 获取封面数据万象URL
  *
  * @param string $path
- * @param int $width
- * @param int $height
  * @return string
  */
-function kg_ci_cover_img_url($path, $width = 0, $height = 0)
+function kg_ci_cover_img_url($path)
 {
-    $path = $path ?: '/img/cover/default.png';
+    $path = $path ?: kg_default_cover_path();
 
-    return kg_ci_img_url($path, $width, $height);
+    return kg_ci_img_url($path);
 }
 
 /**

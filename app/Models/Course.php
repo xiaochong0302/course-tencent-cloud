@@ -278,6 +278,8 @@ class Course extends Model
 
         if (Text::startsWith($this->cover, 'http')) {
             $this->cover = self::getCoverPath($this->cover);
+        } elseif (empty($this->cover)) {
+            $this->cover = kg_default_cover_path();
         }
 
         if (!empty($attrs)) {

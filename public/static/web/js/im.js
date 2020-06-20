@@ -4,6 +4,30 @@ layui.use(['jquery', 'layim'], function () {
     var layim = layui.layim;
     var socket = new WebSocket('ws://127.0.0.1:8282');
 
+    socket.onopen = function () {
+        console.log('socket connect success');
+    };
+
+    socket.onclose = function () {
+        console.log('socket connect close');
+    };
+
+    socket.onerror = function () {
+        console.log('socket connect error');
+    };
+
+    socket.onmessage = function (e) {
+        var data = JSON.parse(e.data);
+        console.log(data);
+        if (data.type === 'ping') {
+            socket.send('pong...');
+        } else if (data.type === 'bind_user') {
+            bindUser(data.client_id);
+        } else if (data.type === 'show_message') {
+            showMessage(data.content);
+        }
+    };
+
     layim.config({
         title: '即时聊天',
         init: {
@@ -18,32 +42,10 @@ layui.use(['jquery', 'layim'], function () {
         uploadFile: {
             url: '/im/file/upload'
         },
+        maxLength: 1500,
         find: '/im/find',
         msgbox: '/im/msg/box',
         chatLog: '/im/chat/log'
-    });
-
-    layim.on('ready', function (options) {
-        socket.onopen = function () {
-            console.log('socket connect success');
-        };
-        socket.onclose = function () {
-            console.log('socket connect close');
-        };
-        socket.onerror = function () {
-            console.log('socket connect error');
-        };
-        socket.onmessage = function (e) {
-            var data = JSON.parse(e.data);
-            console.log(data);
-            if (data.type === 'ping') {
-                socket.send('pong...');
-            } else if (data.type === 'bind_user') {
-                bindUser(data.client_id);
-            } else if (data.type === 'show_message') {
-                showMessage(data.content);
-            }
-        };
     });
 
     layim.on('sendMessage', function (res) {
@@ -61,16 +63,13 @@ layui.use(['jquery', 'layim'], function () {
     function sendMessage(from, to) {
         $.ajax({
             type: 'POST',
-            dataType: 'json',
             url: '/im/msg/send',
             data: {from: from, to: to}
         });
     }
 
     function showMessage(message) {
-        if (message.fromid !== user.id) {
-            layim.getMessage(message);
-        }
+        layim.getMessage(message);
     }
 
 });

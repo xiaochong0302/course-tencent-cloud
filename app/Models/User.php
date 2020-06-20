@@ -193,6 +193,8 @@ class User extends Model
 
         if (Text::startsWith($this->avatar, 'http')) {
             $this->avatar = self::getAvatarPath($this->avatar);
+        } elseif (empty($this->avatar)) {
+            $this->avatar = kg_default_avatar_path();
         }
     }
 

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class ImFriendGroupUser extends Model
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
+class ImGroupMessage extends Model
 {
 
     /**
@@ -13,7 +15,7 @@ class ImFriendGroupUser extends Model
     public $id;
 
     /**
-     * 分组编号
+     * 群组编号
      *
      * @var integer
      */
@@ -27,11 +29,18 @@ class ImFriendGroupUser extends Model
     public $user_id;
 
     /**
-     * 优先级
+     * 内容
+     *
+     * @var string
+     */
+    public $content;
+
+    /**
+     * 删除标识
      *
      * @var integer
      */
-    public $priority;
+    public $deleted;
 
     /**
      * 创建时间
@@ -49,7 +58,19 @@ class ImFriendGroupUser extends Model
 
     public function getSource()
     {
-        return 'kg_im_friend_group_user';
+        return 'kg_im_group_message';
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->addBehavior(
+            new SoftDelete([
+                'field' => 'deleted',
+                'value' => 1,
+            ])
+        );
     }
 
     public function beforeCreate()
@@ -63,4 +84,3 @@ class ImFriendGroupUser extends Model
     }
 
 }
-

@@ -51,14 +51,17 @@
 {% block inline_js %}
 
     <script>
-        if ($('#tab-courses').length > 0) {
-            var $tabCourses = $('#tab-courses');
-            helper.ajaxLoadHtml($tabCourses.attr('data-url'), $tabCourses.attr('id'));
-        }
-        if ($('#tab-users').length > 0) {
-            var $tabUsers = $('#tab-users');
-            helper.ajaxLoadHtml($tabUsers.attr('data-url'), $tabUsers.attr('id'));
-        }
+        layui.use(['jquery', 'element'], function () {
+            var $ = layui.jquery;
+            if ($('#tab-courses').length > 0) {
+                var $tabCourses = $('#tab-courses');
+                layui.ajaxLoadHtml($tabCourses.attr('data-url'), $tabCourses.attr('id'));
+            }
+            if ($('#tab-users').length > 0) {
+                var $tabUsers = $('#tab-users');
+                layui.ajaxLoadHtml($tabUsers.attr('data-url'), $tabUsers.attr('id'));
+            }
+        });
     </script>
 
 {% endblock %}

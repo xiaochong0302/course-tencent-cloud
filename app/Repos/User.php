@@ -3,8 +3,10 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\ImChatGroup as ImGroupModel;
-use App\Models\ImChatGroupUser as ImGroupUserModel;
+use App\Models\ImChatGroup as ImChatGroupModel;
+use App\Models\ImChatGroupUser as ImChatGroupUserModel;
+use App\Models\ImFriend as ImFriendModel;
+use App\Models\ImFriendGroup as ImFriendGroupModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -113,17 +115,39 @@ class User extends Repository
             ->execute();
     }
 
+    /**
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|ImFriendModel[]
+     */
     public function findImFriends($userId)
     {
-
+        return ImFriendModel::query()
+            ->where('user_id = :user_id:', ['user_id' => $userId])
+            ->execute();
     }
 
-    public function findImGroups($userId)
+    /**
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|ImFriendGroupModel[]
+     */
+    public function findImFriendGroups($userId)
+    {
+        return ImFriendGroupModel::query()
+            ->where('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('deleted = 0')
+            ->execute();
+    }
+
+    /**
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|ImChatGroupModel[]
+     */
+    public function findImChatGroups($userId)
     {
         return $this->modelsManager->createBuilder()
             ->columns('g.*')
-            ->addFrom(ImGroupModel::class, 'g')
-            ->join(ImGroupUserModel::class, 'g.id = gu.user_id', 'gu')
+            ->addFrom(ImChatGroupModel::class, 'g')
+            ->join(ImChatGroupUserModel::class, 'g.id = gu.group_id', 'gu')
             ->where('gu.user_id = :user_id:', ['user_id' => $userId])
             ->andWhere('g.deleted = 0')
             ->getQuery()->execute();

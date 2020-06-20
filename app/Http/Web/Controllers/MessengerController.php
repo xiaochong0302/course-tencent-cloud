@@ -2,108 +2,25 @@
 
 namespace App\Http\Web\Controllers;
 
+use App\Http\Web\Services\Messenger as MessengerService;
+use App\Traits\Response as ResponseTrait;
+
 /**
  * @RoutePrefix("/im")
  */
 class MessengerController extends \Phalcon\Mvc\Controller
 {
 
+    use ResponseTrait;
+
     /**
      * @Get("/init", name="im.init")
      */
     public function initAction()
     {
-        $data = [
-            'mine' => [
-                'id' => '100000', //我的ID
-                'username' => '纸飞机', //我的昵称
-                'sign' => '在深邃的编码世界，做一枚轻盈的纸飞机', //我的签名
-                'avatar' => '//wx2.sinaimg.cn/mw690/5db11ff4gy1flxmew7edlj203d03wt8n.jpg', //我的头像
-                'status' => 'online', //在线状态 online：在线、hide：隐身
-            ],
-            'friend' => [
-                [
-                    'id' => '1000',
-                    'groupname' => '前端码农',
-                    'online' => 3,
-                    'list' => [
-                        [
-                            'id' => '1000',
-                            'username' => '闲心',
-                            'sign' => '我是如此的不寒而栗',
-                            'avatar' => '//wx2.sinaimg.cn/mw690/5db11ff4gy1flxmew7edlj203d03wt8n.jpg', //我的头像
-                            'status' => 'online',
-                        ],
-                        [
-                            'id' => '1001',
-                            'username' => '妹儿美',
-                            'sign' => '我是如此的不寒而栗',
-                            'avatar' => '//wx2.sinaimg.cn/mw690/5db11ff4gy1flxmew7edlj203d03wt8n.jpg', //我的头像
-                            'status' => 'online',
-                        ]
-                    ],
-                ],
-                [
-                    'id' => '1001',
-                    'groupname' => '后端码农',
-                    'online' => 2,
-                    'list' => [
-                        [
-                            'id' => '1003',
-                            'username' => '合肥马哥',
-                            'sign' => '我是如此的不寒而栗',
-                            'avatar' => '//wx2.sinaimg.cn/mw690/5db11ff4gy1flxmew7edlj203d03wt8n.jpg',
-                            'status' => 'online',
-                        ],
-                        [
-                            'id' => '1004',
-                            'username' => '合肥牛哥',
-                            'sign' => '我是如此的不寒而栗',
-                            'avatar' => '//wx2.sinaimg.cn/mw690/5db11ff4gy1flxmew7edlj203d03wt8n.jpg',
-                            'status' => 'online',
-                        ]
-                    ],
-                ],
-                [
-                    'id' => '1002',
-                    'groupname' => '全栈码农',
-                    'online' => 1,
-                    'list' => [
-                        [
-                            'id' => '1005',
-                            'username' => '南拳',
-                            'sign' => '我是如此的不寒而栗',
-                            'avatar' => '//wx2.sinaimg.cn/mw690/5db11ff4gy1flxmew7edlj203d03wt8n.jpg',
-                            'status' => 'online',
-                        ],
-                        [
-                            'id' => '1006',
-                            'username' => '北腿',
-                            'sign' => '我是如此的不寒而栗',
-                            'avatar' => '//wx2.sinaimg.cn/mw690/5db11ff4gy1flxmew7edlj203d03wt8n.jpg',
-                            'status' => 'online',
-                        ]
-                    ],
-                ],
-            ],
-            'group' => [
-                [
-                    'id' => '1001',
-                    'groupname' => '前端码农',
-                    'avatar' => '//wx2.sinaimg.cn/mw690/5db11ff4gy1flxmew7edlj203d03wt8n.jpg',
-                ],
-                [
-                    'id' => '1002',
-                    'groupname' => '后端码农',
-                    'avatar' => '//wx2.sinaimg.cn/mw690/5db11ff4gy1flxmew7edlj203d03wt8n.jpg',
-                ],
-                [
-                    'id' => '1003',
-                    'groupname' => '全栈码农',
-                    'avatar' => '//wx2.sinaimg.cn/mw690/5db11ff4gy1flxmew7edlj203d03wt8n.jpg',
-                ],
-            ],
-        ];
+        $service = new MessengerService();
+
+        $data = $service->init();
 
         return $this->jsonSuccess(['data' => $data]);
     }
@@ -162,7 +79,11 @@ class MessengerController extends \Phalcon\Mvc\Controller
      */
     public function bindUserAction()
     {
+        $service = new MessengerService();
 
+        $service->bindUser();
+
+        return $this->jsonSuccess();
     }
 
     /**
@@ -170,7 +91,11 @@ class MessengerController extends \Phalcon\Mvc\Controller
      */
     public function sendMessageAction()
     {
+        $service = new MessengerService();
 
+        $service->sendMessage();
+
+        return $this->jsonSuccess();
     }
 
     /**

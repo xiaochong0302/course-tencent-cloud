@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
 
 class ImChatGroup extends Model
 {
@@ -90,11 +91,33 @@ class ImChatGroup extends Model
     public function beforeCreate()
     {
         $this->create_time = time();
+
+        if (Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = self::getAvatarPath($this->avatar);
+        } elseif (empty($this->avatar)) {
+            $this->avatar = kg_default_avatar_path();
+        }
     }
 
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public function afterFetch()
+    {
+        if (!Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = kg_ci_avatar_img_url($this->avatar);
+        }
+    }
+
+    public static function getAvatarPath($url)
+    {
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
+
+        return $url;
     }
 
 }
