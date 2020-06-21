@@ -2,14 +2,19 @@
 
 namespace App\Http\Web\Services;
 
+use App\Builders\ImMessageList as ImMessageListBuilder;
+use App\Library\Paginator\Query as PagerQuery;
+use App\Models\ImFriendMessage as ImFriendMessageModel;
+use App\Repos\ImChatGroup as ImChatGroupRepo;
+use App\Repos\ImFriendMessage as ImFriendMessageRepo;
+use App\Repos\ImGroupMessage as ImGroupMessageRepo;
 use App\Repos\User as UserRepo;
-use App\Services\Frontend\UserTrait;
+use App\Validators\ImChatGroup as ImChatGroupValidator;
+use App\Validators\ImMessage as ImMessageValidator;
 use GatewayClient\Gateway;
 
 class Messenger extends Service
 {
-
-    use UserTrait;
 
     public function init()
     {
@@ -34,6 +39,77 @@ class Messenger extends Service
         ];
     }
 
+    public function getGroupUsers()
+    {
+        $id = $this->request->getQuery('id');
+
+        $validator = new ImChatGroupValidator();
+
+        $group = $validator->checkGroupCache($id);
+
+        $groupRepo = new ImChatGroupRepo();
+
+        $users = $groupRepo->findGroupUsers($group->id);
+
+        if ($users->count() == 0) {
+            return [];
+        }
+
+        $baseUrl = kg_ci_base_url();
+
+        $result = [];
+
+        foreach ($users->toArray() as $user) {
+            $user['avatar'] = $baseUrl . $user['avatar'];
+            $result[] = [
+                'id' => $user['id'],
+                'username' => $user['name'],
+                'avatar' => $user['avatar'],
+                'sign' => $user['sign'],
+            ];
+        }
+
+        return $result;
+    }
+
+    public function getChatLog()
+    {
+        $user = $this->getLoginUser();
+
+        $pagerQuery = new PagerQuery();
+
+        $params = $pagerQuery->getParams();
+
+        $validator = new ImMessageValidator();
+
+        $validator->checkType($params['type']);
+
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
+
+        if ($params['type'] == 'friend') {
+
+            $params['chat_id'] = ImFriendMessageModel::getChatId($user->id, $params['id']);
+
+            $messageRepo = new ImFriendMessageRepo();
+
+            $pager = $messageRepo->paginate($params, $sort, $page, $limit);
+
+            return $this->handleChatLog($pager);
+
+        } elseif ($params['type'] == 'group') {
+
+            $params['group_id'] = $params['id'];
+
+            $messageRepo = new ImGroupMessageRepo();
+
+            $pager = $messageRepo->paginate($params, $sort, $page, $limit);
+
+            return $this->handleChatLog($pager);
+        }
+    }
+
     public function bindUser()
     {
         $user = $this->getLoginUser();
@@ -54,6 +130,13 @@ class Messenger extends Service
             }
         }
 
+        /**
+         * @todo 发送未读消息
+         */
+
+        /**
+         * @todo 发送盒子消息
+         */
     }
 
     public function sendMessage()
@@ -74,6 +157,10 @@ class Messenger extends Service
             'mine' => false,
         ];
 
+        if ($to['type'] == 'group') {
+            $content['id'] = $to['id'];
+        }
+
         $message = json_encode([
             'type' => 'show_message',
             'content' => $content,
@@ -83,12 +170,20 @@ class Messenger extends Service
 
         if ($to['type'] == 'friend') {
 
-            Gateway::sendToUid($to['id'], $message);
+            /**
+             * 不推送自己给自己发送的消息
+             */
+            if ($user->id != $to['id']) {
+                Gateway::sendToUid($to['id'], $message);
+            }
 
         } elseif ($to['type'] == 'group') {
 
             $excludeClientId = null;
 
+            /**
+             * 不推送自己在群组中发的消息
+             */
             if ($user->id == $from['id']) {
                 $excludeClientId = Gateway::getClientIdByUid($user->id);
             }
@@ -174,6 +269,38 @@ class Messenger extends Service
         }
 
         return $result;
+    }
+
+    protected function handleChatLog($pager)
+    {
+        if ($pager->total_items == 0) {
+            return $pager;
+        }
+
+        $messages = $pager->items->toArray();
+
+        $builder = new ImMessageListBuilder();
+
+        $users = $builder->getUsers($messages);
+
+        $items = [];
+
+        foreach ($messages as $message) {
+
+            $user = $user = $users[$message['user_id']] ?? new \stdClass();
+
+            $items[] = [
+                'id' => $message['id'],
+                'content' => $message['content'],
+                'create_time' => $message['create_time'],
+                'timestamp' => $message['create_time'] * 1000,
+                'user' => $user,
+            ];
+        }
+
+        $pager->items = $items;
+
+        return $pager;
     }
 
     protected function getGroupName($groupId)

@@ -1282,3 +1282,13 @@
 .order-item span {
     margin-right: 8px;
 }
+
+.layer .layim-chat-main {
+    height: auto;
+}
+
+.layim-chat-user img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}

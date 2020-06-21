@@ -3,21 +3,21 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\ImChatGroup as ImGroupModel;
+use App\Models\ImChatGroup as ImChatGroupModel;
 use App\Models\ImChatGroupUser as ImGroupUserModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ImGroup extends Repository
+class ImChatGroup extends Repository
 {
 
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
 
-        $builder->from(ImGroupModel::class);
+        $builder->from(ImChatGroupModel::class);
 
         $builder->where('1 = 1');
 
@@ -52,21 +52,21 @@ class ImGroup extends Repository
 
     /**
      * @param int $id
-     * @return ImGroupModel|Model|bool
+     * @return ImChatGroupModel|Model|bool
      */
     public function findById($id)
     {
-        return ImGroupModel::findFirst($id);
+        return ImChatGroupModel::findFirst($id);
     }
 
     /**
      * @param array $ids
      * @param string|array $columns
-     * @return ResultsetInterface|Resultset|ImGroupModel[]
+     * @return ResultsetInterface|Resultset|ImChatGroupModel[]
      */
     public function findByIds($ids, $columns = '*')
     {
-        return ImGroupModel::query()
+        return ImChatGroupModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();

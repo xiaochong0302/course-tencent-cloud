@@ -4,11 +4,12 @@ namespace App\Http\Web\Controllers;
 
 use App\Http\Web\Services\Messenger as MessengerService;
 use App\Traits\Response as ResponseTrait;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/im")
  */
-class MessengerController extends \Phalcon\Mvc\Controller
+class MessengerController extends LayerController
 {
 
     use ResponseTrait;
@@ -30,24 +31,11 @@ class MessengerController extends \Phalcon\Mvc\Controller
      */
     public function groupMembersAction()
     {
-        $data = [
-            'list' => [
-                [
-                    'id' => '1000',
-                    'username' => '闲心',
-                    'sign' => '我是如此的不寒而栗',
-                    'status' => 'online',
-                ],
-                [
-                    'id' => '1001',
-                    'username' => '妹儿美',
-                    'sign' => '我是如此的不寒而栗',
-                    'status' => 'online',
-                ]
-            ]
-        ];
+        $service = new MessengerService();
 
-        return $this->jsonSuccess(['data' => $data]);
+        $list = $service->getGroupUsers();
+
+        return $this->jsonSuccess(['data' => ['list' => $list]]);
     }
 
     /**
@@ -63,7 +51,25 @@ class MessengerController extends \Phalcon\Mvc\Controller
      */
     public function chatLogAction()
     {
+        $service = new MessengerService();
 
+        $pager = $service->getChatLog();
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('messenger/chat_log');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/chat/history", name="im.chat_history")
+     */
+    public function chatHistoryAction()
+    {
+        $service = new MessengerService();
+
+        $pager = $service->getChatLog();
+
+        return $this->jsonPaginate($pager);
     }
 
     /**
