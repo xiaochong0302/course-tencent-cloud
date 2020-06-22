@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class ImFriend extends Model
+class ImFriendUser extends Model
 {
 
     /**
@@ -56,7 +56,7 @@ class ImFriend extends Model
 
     public function getSource()
     {
-        return 'kg_im_friend';
+        return 'kg_im_friend_user';
     }
 
     public function beforeCreate()

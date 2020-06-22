@@ -31,7 +31,6 @@ class Security
         $this->options['lifetime'] = $options['lifetime'] ?? 3600;
 
         $this->cache = Di::getDefault()->get('cache');
-
         $this->session = Di::getDefault()->get('session');
 
         $this->generateToken();

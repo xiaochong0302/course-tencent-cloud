@@ -12,8 +12,10 @@
 </head>
 <body class="layer">
 {% block content %}{% endblock %}
+
 {{ js_include('lib/layui/layui.js') }}
 {{ js_include('web/js/common.js') }}
+
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
 </body>

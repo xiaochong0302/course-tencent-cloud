@@ -65,7 +65,7 @@ class ImChatGroup extends Validator
             throw new BadRequestException('im_chat_group.name_too_short');
         }
 
-        if ($length > 50) {
+        if ($length > 30) {
             throw new BadRequestException('im_chat_group.name_too_long');
         }
 

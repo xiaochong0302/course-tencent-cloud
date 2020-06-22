@@ -20,7 +20,12 @@
     background-color: #fff;
 }
 
-.body {
+.full {
+    background-color: #f2f2f2;
+}
+
+.layer {
+    padding: 20px;
     background-color: #f2f2f2;
 }
 
@@ -58,10 +63,6 @@
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.layer-container {
-    padding: 20px;
 }
 
 .pager {
@@ -1190,6 +1191,10 @@
     font-size: 12px;
 }
 
+.user-card .action span {
+    cursor: pointer;
+}
+
 .my-profile-card {
     text-align: center;
 }
@@ -1283,12 +1288,28 @@
     margin-right: 8px;
 }
 
-.layer .layim-chat-main {
-    height: auto;
+.im-search {
+    margin-bottom: 10px;
 }
 
-.layim-chat-user img {
-    width: 40px;
-    height: 40px;
+.im-user-list .user-card {
+    height: 150px;
+    font-size: 12px;
+    color: #666;
+}
+
+.im-user-list .avatar {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.im-user-list .avatar img {
+    width: 64px;
+    height: 64px;
     border-radius: 100%;
+}
+
+.im-user-list .name {
+    margin-bottom: 10px;
+    padding: 0 5px;
 }

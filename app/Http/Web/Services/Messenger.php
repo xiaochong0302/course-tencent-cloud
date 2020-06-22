@@ -3,14 +3,19 @@
 namespace App\Http\Web\Services;
 
 use App\Builders\ImMessageList as ImMessageListBuilder;
+use App\Caches\ImHotGroupList as ImHotGroupListCache;
+use App\Caches\ImHotUserList as ImHotUserListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\ImFriendMessage as ImFriendMessageModel;
+use App\Models\ImFriendUser as ImFriendUserModel;
 use App\Repos\ImChatGroup as ImChatGroupRepo;
 use App\Repos\ImFriendMessage as ImFriendMessageRepo;
+use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImGroupMessage as ImGroupMessageRepo;
 use App\Repos\User as UserRepo;
 use App\Validators\ImChatGroup as ImChatGroupValidator;
 use App\Validators\ImMessage as ImMessageValidator;
+use App\Validators\User as UserValidator;
 use GatewayClient\Gateway;
 
 class Messenger extends Service
@@ -37,6 +42,46 @@ class Messenger extends Service
             'friend' => $friend,
             'group' => $group,
         ];
+    }
+
+    public function searchUsers($query)
+    {
+
+    }
+
+    public function searchGroups($query)
+    {
+
+    }
+
+    public function getHotUsers()
+    {
+        $cache = new ImHotUserListCache();
+
+        $items = $cache->get();
+
+        $pager = new \stdClass();
+
+        $pager->total_items = count($items);
+        $pager->total_pages = 1;
+        $pager->items = $items;
+
+        return $pager;
+    }
+
+    public function getHotGroups()
+    {
+        $cache = new ImHotGroupListCache();
+
+        $items = $cache->get();
+
+        $pager = new \stdClass();
+
+        $pager->total_items = count($items);
+        $pager->total_pages = 1;
+        $pager->items = $items;
+
+        return $pager;
     }
 
     public function getGroupUsers()
@@ -194,12 +239,106 @@ class Messenger extends Service
         }
     }
 
+    public function updateSignature()
+    {
+        $sign = $this->request->getPost('sign');
+
+        $user = $this->getLoginUser();
+
+        $validator = new UserValidator();
+
+        $validator->checkSign($sign);
+
+        $user->update(['sign' => $sign]);
+
+        return $user;
+    }
+
+    public function applyFriend()
+    {
+        $friendId = $this->request->getPost('friend_id');
+
+        $user = $this->getLoginUser();
+
+        $userValidator = new UserValidator();
+
+        $friend = $userValidator->checkUser($friendId);
+
+        $friendUserRepo = new ImFriendUserRepo();
+
+        $friendUser = $friendUserRepo->findFriendUser($user->id, $friend->id);
+
+        if (!$friendUser) {
+            $model = new ImFriendUserModel();
+            $model->user_id = $user->id;
+            $model->friend_id = $friend->id;
+            $model->create();
+        }
+
+        /**
+         * @todo 向对方发好友申请的系统消息
+         */
+    }
+
+    public function approveFriend()
+    {
+        $friendId = $this->request->getPost('friend_id');
+
+        $user = $this->getLoginUser();
+
+        $userValidator = new UserValidator();
+
+        $friend = $userValidator->checkUser($friendId);
+
+        $friendUserRepo = new ImFriendUserRepo();
+
+        $friendUser = $friendUserRepo->findFriendUser($user->id, $friend->id);
+
+        if (!$friendUser) {
+            $model = new ImFriendUserModel();
+            $model->user_id = $user->id;
+            $model->friend_id = $friend->id;
+            $model->create();
+        }
+
+        /**
+         * @todo 向对方发通过好友申请的系统消息
+         */
+    }
+
+    public function refuseFriend()
+    {
+        $friendId = $this->request->getPost('friend_id');
+
+        $user = $this->getLoginUser();
+
+        $userValidator = new UserValidator();
+
+        $friend = $userValidator->checkUser($friendId);
+
+        /**
+         * @todo 向对方发拒绝添加好友的系统消息
+         */
+    }
+
+    public function applyGroup()
+    {
+    }
+
+    public function approveGroup()
+    {
+    }
+
+    public function refuseGroup()
+    {
+    }
+
     protected function handleFriendList($userId)
     {
         $userRepo = new UserRepo();
 
         $friendGroups = $userRepo->findImFriendGroups($userId);
-        $friends = $userRepo->findImFriends($userId);
+        $friendUsers = $userRepo->findImFriendUsers($userId);
 
         $items = [];
 
@@ -211,11 +350,11 @@ class Messenger extends Service
             }
         }
 
-        if ($friends->count() == 0) {
+        if ($friendUsers->count() == 0) {
             return $items;
         }
 
-        $userIds = kg_array_column($friends->toArray(), 'friend_id');
+        $userIds = kg_array_column($friendUsers->toArray(), 'friend_id');
 
         $users = $userRepo->findByIds($userIds);
 
@@ -232,9 +371,9 @@ class Messenger extends Service
         }
 
         foreach ($items as $key => $item) {
-            foreach ($friends as $friend) {
-                $userId = $friend->friend_id;
-                if ($item['id'] == $friend->group_id) {
+            foreach ($friendUsers as $friendUser) {
+                $userId = $friendUser->friend_id;
+                if ($item['id'] == $friendUser->group_id) {
                     $items[$key]['list'][] = $userMappings[$userId];
                 } else {
                     $items[0]['list'][] = $userMappings[$userId];

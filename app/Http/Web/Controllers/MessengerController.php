@@ -15,7 +15,7 @@ class MessengerController extends LayerController
     use ResponseTrait;
 
     /**
-     * @Get("/init", name="im.init")
+     * @Get("/init", name="web.im.init")
      */
     public function initAction()
     {
@@ -27,7 +27,7 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Get("/group/members", name="im.group_members")
+     * @Get("/group/members", name="web.im.group_members")
      */
     public function groupMembersAction()
     {
@@ -39,7 +39,7 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Get("/msg/box", name="im.msg_box")
+     * @Get("/msg/box", name="web.im.msg_box")
      */
     public function messageBoxAction()
     {
@@ -47,7 +47,7 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Get("/chat/log", name="im.chat_log")
+     * @Get("/chat/log", name="web.im.chat_log")
      */
     public function chatLogAction()
     {
@@ -61,7 +61,7 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Get("/chat/history", name="im.chat_history")
+     * @Get("/chat/history", name="web.im.chat_history")
      */
     public function chatHistoryAction()
     {
@@ -73,15 +73,47 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Get("/find", name="im.find")
+     * @Get("/find", name="web.im.find")
      */
     public function findAction()
     {
+        $service = new MessengerService();
 
+        $usersPager = $service->getHotUsers();
+        $groupsPager = $service->getHotGroups();
+
+        $usersPager->items = kg_array_object($usersPager->items);
+        $groupsPager->items = kg_array_object($groupsPager->items);
+
+        $this->view->setVar('users_pager', $usersPager);
+        $this->view->setVar('groups_pager', $groupsPager);
     }
 
     /**
-     * @Post("/user/bind", name="im.bind_user")
+     * @Get("/search", name="web.im.search")
+     */
+    public function searchAction()
+    {
+        $query = $this->request->getQuery('query', ['trim', 'string']);
+        $type = $this->request->getQuery('type', ['trim', 'string']);
+
+        $service = new MessengerService();
+
+        if ($type == 'user') {
+            $pager = $service->searchUsers($query);
+            $this->view->pick('messenger/find_users');
+        } else {
+            $pager = $service->searchGroups($query);
+            $this->view->pick('messenger/find_groups');
+        }
+
+        $pager->items = kg_array_object($pager->items);
+
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Post("/user/bind", name="web.im.bind_user")
      */
     public function bindUserAction()
     {
@@ -93,7 +125,7 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Post("/msg/send", name="im.send_msg")
+     * @Post("/msg/send", name="web.im.send_msg")
      */
     public function sendMessageAction()
     {
@@ -105,14 +137,14 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Post("/img/upload", name="im.upload_img")
+     * @Post("/img/upload", name="web.im.upload_img")
      */
     public function uploadImageAction()
     {
     }
 
     /**
-     * @Post("/file/upload", name="im.upload_file")
+     * @Post("/file/upload", name="web.im.upload_file")
      */
     public function uploadFileAction()
     {
@@ -120,7 +152,7 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Post("/stats/update", name="im.update_stats")
+     * @Post("/stats/update", name="web.im.update_stats")
      */
     public function updateStatsAction()
     {
@@ -128,30 +160,47 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Post("/sign/update", name="im.update_sign")
+     * @Post("/sign/update", name="web.web.im.update_sign")
      */
-    public function updateSignAction()
+    public function updateSignatureAction()
     {
+        $service = new MessengerService();
 
+        $service->updateSignature();
+
+        return $this->jsonSuccess();
     }
 
     /**
-     * @Post("/friend/apply", name="im.apply_friend")
+     * @Post("/friend/apply", name="web.im.apply_friend")
      */
     public function applyFriendAction()
     {
+        $service = new MessengerService();
+
+        $service->applyFriend();
+
+        $content = ['msg' => '发送申请成功，请等待对方通过'];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/group/apply", name="im.apply_group")
+     * @Post("/group/apply", name="web.im.apply_group")
      */
     public function applyGroupAction()
     {
+        $service = new MessengerService();
 
+        $service->applyGroup();
+
+        $content = ['msg' => '发送申请成功，请等待管理员通过'];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/friend/approve", name="im.approve_friend")
+     * @Post("/friend/approve", name="web.im.approve_friend")
      */
     public function approveFriendAction()
     {
@@ -159,7 +208,7 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Post("/group/approve", name="im.approve_group")
+     * @Post("/group/approve", name="web.web.im.approve_group")
      */
     public function approveGroupAction()
     {

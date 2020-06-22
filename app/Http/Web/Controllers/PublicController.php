@@ -2,6 +2,7 @@
 
 namespace App\Http\Web\Controllers;
 
+use App\Library\Security;
 use App\Models\ContentImage as ContentImageModel;
 use App\Services\Frontend\Chapter\Learning as LearningService;
 use App\Services\Storage as StorageService;
@@ -50,6 +51,16 @@ class PublicController extends \Phalcon\Mvc\Controller
         $this->response->send();
 
         exit;
+    }
+
+    /**
+     * @Post("/token/refresh", name="web.refresh_token")
+     */
+    public function refreshTokenAction()
+    {
+        $security = new Security();
+
+        return $this->jsonSuccess();
     }
 
     /**

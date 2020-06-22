@@ -57,6 +57,7 @@ $error['account.login_password_incorrect'] = '登录密码不正确';
 $error['user.not_found'] = '用户不存在';
 $error['user.name_taken'] = '用户名被占用';
 $error['user.title_too_long'] = '头衔过长（超过30个字符）';
+$error['user.sign_too_long'] = '签名过长（超过50个字符）';
 $error['user.about_too_long'] = '简介过长（超过255个字符）';
 $error['user.invalid_gender'] = '无效的性别类型';
 $error['user.invalid_edu_role'] = '无效的教学角色';
@@ -324,5 +325,30 @@ $error['learning.invalid_plan_id'] = '无效的计划编号';
 $error['learning.invalid_request_id'] = '无效的请求编号';
 $error['learning.invalid_position'] = '无效的播放位置';
 $error['learning.invalid_interval'] = '无效的间隔时间';
+
+/**
+ * 即时通讯
+ */
+
+$error['im_friend_group.not_found'] = '分组不存在';
+$error['im_friend_group.name_too_short'] = '分组名太短（少于2字符）';
+$error['im_friend_group.name_too_long'] = '分组名太长（超过15字符）';
+
+$error['im_chat_group.not_found'] = '群组不存在';
+$error['im_chat_group.name_too_short'] = '群组名太短（少于2字符）';
+$error['im_chat_group.name_too_long'] = '群组名太长（超过30字符）';
+$error['im_chat_group.about_too_long'] = '群组简介太长（超过255字符）';
+
+$error['im_chat_group_user.has_joined'] = '已经加入过群组';
+$error['im_chat_group_user.blocked'] = '被群组屏蔽';
+
+$error['im_friend_user.self_apply'] = '不能添加自己为好友';
+$error['im_friend_user.has_joined'] = '已经是好友啦';
+$error['im_friend_user.blocked'] = '被对方屏蔽';
+
+$error['im_message.not_found'] = '消息不存在';
+$error['im_message.invalid_type'] = '无效的消息类型';
+$error['im_message.content_too_short'] = '消息内容太短（少于1字符）';
+$error['im_message.content_too_long'] = '消息内容太长（超过1000字符）';
 
 return $error;

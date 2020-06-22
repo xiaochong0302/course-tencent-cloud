@@ -42,7 +42,7 @@ layui.use(['jquery', 'layim'], function () {
         uploadFile: {
             url: '/im/file/upload'
         },
-        maxLength: 1500,
+        maxLength: 1000,
         find: '/im/find',
         msgbox: '/im/msg/box',
         chatLog: '/im/chat/log'
@@ -50,6 +50,14 @@ layui.use(['jquery', 'layim'], function () {
 
     layim.on('sendMessage', function (res) {
         sendMessage(res.mine, res.to);
+    });
+
+    layim.on('sign', function (sign) {
+        $.ajax({
+            type: 'POST',
+            url: '/im/sign/update',
+            data: {sign: sign}
+        });
     });
 
     function bindUser(clientId) {

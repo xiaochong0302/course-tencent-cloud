@@ -82,7 +82,7 @@ class User extends Validator
         $length = kg_strlen($value);
 
         if ($length > 30) {
-            throw new BadRequestException('role.title_too_long');
+            throw new BadRequestException('user.title_too_long');
         }
 
         return $value;
@@ -96,6 +96,19 @@ class User extends Validator
 
         if ($length > 255) {
             throw new BadRequestException('user.about_too_long');
+        }
+
+        return $value;
+    }
+
+    public function checkSign($sign)
+    {
+        $value = $this->filter->sanitize($sign, ['trim', 'string']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 50) {
+            throw new BadRequestException('user.sign_too_long');
         }
 
         return $value;

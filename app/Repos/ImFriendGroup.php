@@ -3,8 +3,8 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\ImFriend as ImFriendModel;
 use App\Models\ImFriendGroup as ImFriendGroupModel;
+use App\Models\ImFriendUser as ImFriendUserModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -81,7 +81,7 @@ class ImFriendGroup extends Repository
         return $this->modelsManager->createBuilder()
             ->columns('u.*')
             ->addFrom(UserModel::class, 'u')
-            ->join(ImFriendModel::class, 'u.id = f.user_id', 'f')
+            ->join(ImFriendUserModel::class, 'u.id = f.user_id', 'f')
             ->where('f.group_id = :group_id:', ['group_id' => $groupId])
             ->andWhere('u.deleted = 0')
             ->getQuery()->execute();

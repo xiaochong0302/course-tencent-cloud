@@ -15,13 +15,6 @@ class ImFriendMessage extends Model
     public $id;
 
     /**
-     * 用户编号
-     *
-     * @var integer
-     */
-    public $user_id;
-
-    /**
      * 对话编号
      *
      * @var string
@@ -29,11 +22,32 @@ class ImFriendMessage extends Model
     public $chat_id;
 
     /**
+     * 发送方编号
+     *
+     * @var integer
+     */
+    public $user_id;
+
+    /**
+     * 接收方编号
+     *
+     * @var integer
+     */
+    public $target_id;
+
+    /**
      * 内容
      *
      * @var string
      */
     public $content;
+
+    /**
+     * 阅读标识
+     *
+     * @var integer
+     */
+    public $viewed;
 
     /**
      * 删除标识

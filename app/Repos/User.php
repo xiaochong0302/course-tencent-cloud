@@ -5,8 +5,8 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\ImChatGroup as ImChatGroupModel;
 use App\Models\ImChatGroupUser as ImChatGroupUserModel;
-use App\Models\ImFriend as ImFriendModel;
 use App\Models\ImFriendGroup as ImFriendGroupModel;
+use App\Models\ImFriendUser as ImFriendUserModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -117,11 +117,11 @@ class User extends Repository
 
     /**
      * @param int $userId
-     * @return ResultsetInterface|Resultset|ImFriendModel[]
+     * @return ResultsetInterface|Resultset|ImFriendUserModel[]
      */
-    public function findImFriends($userId)
+    public function findImFriendUsers($userId)
     {
-        return ImFriendModel::query()
+        return ImFriendUserModel::query()
             ->where('user_id = :user_id:', ['user_id' => $userId])
             ->execute();
     }

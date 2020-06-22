@@ -134,7 +134,6 @@ class User extends Model
      */
     public $vip_expiry_time;
 
-
     /**
      * 锁定期限
      *
@@ -143,18 +142,18 @@ class User extends Model
     public $lock_expiry_time;
 
     /**
-     * 通知数量
+     * 关注数量
      *
      * @var int
      */
-    public $notice_count;
+    public $following_count;
 
     /**
-     * 私信数量
+     * 粉丝数量
      *
      * @var int
      */
-    public $msg_count;
+    public $follower_count;
 
     /**
      * 创建时间

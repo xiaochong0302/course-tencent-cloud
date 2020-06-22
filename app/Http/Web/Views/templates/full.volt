@@ -13,7 +13,7 @@
     {% block link_css %}{% endblock %}
     {% block inline_css %}{% endblock %}
 </head>
-<body class="body">
+<body class="full">
 
 <div id="header">
     {{ partial('partials/header') }}

@@ -25,6 +25,23 @@ layui.use(['jquery', 'form', 'element', 'layer'], function () {
         }
     });
 
+    /**
+     * @todo 定时刷新token
+     */
+    /**
+     setInterval(function () {
+        var $token = $('meta[name="csrf-token"]');
+        $.ajax({
+            type: 'POST',
+            url: '/token/refresh',
+            data: {token: $token.val()},
+            success: function (res) {
+                $token.attr('content', res.token);
+            }
+        });
+    }, 300000);
+     */
+
     form.on('submit(go)', function (data) {
         var submit = $(this);
         submit.attr('disabled', 'disabled').addClass('layui-btn-disabled');
@@ -46,8 +63,8 @@ layui.use(['jquery', 'form', 'element', 'layer'], function () {
                 }
             },
             error: function (xhr) {
-                var json = JSON.parse(xhr.responseText);
-                layer.msg(json.msg, {icon: 2});
+                var res = JSON.parse(xhr.responseText);
+                layer.msg(res.msg, {icon: 2});
                 submit.removeAttr('disabled').removeClass('layui-btn-disabled');
             }
         });

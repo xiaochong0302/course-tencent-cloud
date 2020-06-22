@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
-use App\Caches\User as UserCache;
 use App\Models\User as UserModel;
+use App\Repos\User as UserRepo;
 use App\Services\Auth as AuthService;
 use App\Validators\Validator as AppValidator;
 use Phalcon\Di;
@@ -22,9 +22,9 @@ trait Auth
             return $this->getGuestUser();
         }
 
-        $userCache = new UserCache();
+        $userRepo = new UserRepo();
 
-        return $userCache->get($authUser['id']);
+        return $userRepo->findById($authUser['id']);
     }
 
     /**
@@ -38,9 +38,9 @@ trait Auth
 
         $validator->checkAuthUser($authUser);
 
-        $userCache = new UserCache();
+        $userRepo = new UserRepo();
 
-        return $userCache->get($authUser['id']);
+        return $userRepo->findById($authUser['id']);
     }
 
     /**

@@ -41,17 +41,8 @@
 
 {% endblock %}
 
-{% block inline_js %}
+{% block include_js %}
 
-    <script>
-        if ($('#tab-courses').length > 0) {
-            var $tabCourses = $('#tab-courses');
-            helper.ajaxLoadHtml($tabCourses.attr('data-url'), $tabCourses.attr('id'));
-        }
-        if ($('#tab-favorites').length > 0) {
-            var $tabFavorites = $('#tab-favorites');
-            helper.ajaxLoadHtml($tabFavorites.attr('data-url'), $tabFavorites.attr('id'));
-        }
-    </script>
+    {{ js_include('web/js/user.show.js') }}
 
 {% endblock %}
