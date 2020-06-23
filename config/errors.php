@@ -340,11 +340,13 @@ $error['im_chat_group.name_too_long'] = '群组名太长（超过30字符）';
 $error['im_chat_group.about_too_long'] = '群组简介太长（超过255字符）';
 
 $error['im_chat_group_user.has_joined'] = '已经加入过群组';
-$error['im_chat_group_user.blocked'] = '被群组屏蔽';
+$error['im_chat_group_user.blocked'] = '对方拒绝接收消息';
 
+$error['im_friend_user.user_not_found'] = '用户不存在';
+$error['im_friend_user.remark_too_long'] = '验证信息太长（超过30字符）';
 $error['im_friend_user.self_apply'] = '不能添加自己为好友';
 $error['im_friend_user.has_joined'] = '已经是好友啦';
-$error['im_friend_user.blocked'] = '被对方屏蔽';
+$error['im_friend_user.blocked'] = '对方拒绝接收消息';
 
 $error['im_message.not_found'] = '消息不存在';
 $error['im_message.invalid_type'] = '无效的消息类型';

@@ -23,8 +23,10 @@ layui.use(['jquery', 'layim'], function () {
             socket.send('pong...');
         } else if (data.type === 'bind_user') {
             bindUser(data.client_id);
-        } else if (data.type === 'show_message') {
-            showMessage(data.content);
+        } else if (data.type === 'show_chat_msg') {
+            showChatMessage(data.content);
+        } else if (data.type === 'show_msg_box') {
+            showMessageBox(data.content);
         }
     };
 
@@ -49,7 +51,7 @@ layui.use(['jquery', 'layim'], function () {
     });
 
     layim.on('sendMessage', function (res) {
-        sendMessage(res.mine, res.to);
+        sendChatMessage(res.mine, res.to);
     });
 
     layim.on('sign', function (sign) {
@@ -68,7 +70,7 @@ layui.use(['jquery', 'layim'], function () {
         });
     }
 
-    function sendMessage(from, to) {
+    function sendChatMessage(from, to) {
         $.ajax({
             type: 'POST',
             url: '/im/msg/send',
@@ -76,8 +78,12 @@ layui.use(['jquery', 'layim'], function () {
         });
     }
 
-    function showMessage(message) {
-        layim.getMessage(message);
+    function showChatMessage(content) {
+        layim.getMessage(content);
+    }
+
+    function showMessageBox(content) {
+        layim.msgbox(content.msg_count);
     }
 
 });

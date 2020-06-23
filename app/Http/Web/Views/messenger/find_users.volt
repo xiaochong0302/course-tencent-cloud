@@ -9,7 +9,7 @@
                         </div>
                         <div class="name layui-elip" title="{{ item.name|e }}">{{ item.name }}</div>
                         <div class="action">
-                            <a href="javascript:" class="layui-badge-rim apply-friend" data-id="{{ item.id }}">加为好友</a>
+                            <a href="javascript:" class="layui-badge-rim apply-friend" data-id="{{ item.id }}" data-name="{{ item.name }}" data-avatar="{{ item.avatar }}">加为好友</a>
                         </div>
                     </div>
                 </div>

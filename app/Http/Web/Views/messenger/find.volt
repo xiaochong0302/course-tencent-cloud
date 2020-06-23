@@ -3,8 +3,9 @@
 {% block content %}
 
     <div class="im-search">
-        <form class="layui-form" action="{{ url({'for':'web.im.search'}) }}">
-            <input class="layui-input" type="text" name="query" value="{{ request.get('query')|striptags }}" placeholder="请输入关键字...">
+        <form class="layui-form" method="get" action="{{ url({'for':'web.im.find'}) }}">
+            <input class="layui-input" type="text" name="query" placeholder="请输入关键字...">
+            <button class="layui-hide" type="submit" lay-submit="true" lay-filter="im_search">搜索</button>
         </form>
     </div>
 

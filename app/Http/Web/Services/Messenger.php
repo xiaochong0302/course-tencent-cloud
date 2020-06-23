@@ -8,12 +8,15 @@ use App\Caches\ImHotUserList as ImHotUserListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\ImFriendMessage as ImFriendMessageModel;
 use App\Models\ImFriendUser as ImFriendUserModel;
+use App\Models\ImSystemMessage as ImSystemMessageModel;
+use App\Models\User as UserModel;
 use App\Repos\ImChatGroup as ImChatGroupRepo;
 use App\Repos\ImFriendMessage as ImFriendMessageRepo;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImGroupMessage as ImGroupMessageRepo;
 use App\Repos\User as UserRepo;
 use App\Validators\ImChatGroup as ImChatGroupValidator;
+use App\Validators\ImFriendUser as ImFriendUserValidator;
 use App\Validators\ImMessage as ImMessageValidator;
 use App\Validators\User as UserValidator;
 use GatewayClient\Gateway;
@@ -44,14 +47,42 @@ class Messenger extends Service
         ];
     }
 
-    public function searchUsers($query)
+    public function searchUsers($name)
     {
+        $pagerQuery = new PagerQuery();
 
+        $params = $pagerQuery->getParams();
+
+        $params['name'] = $name;
+
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
+
+        $userRepo = new UserRepo();
+
+        $pager = $userRepo->paginate($params, $sort, $page, $limit);
+
+        return $this->handleUserPager($pager);
     }
 
-    public function searchGroups($query)
+    public function searchGroups($name)
     {
+        $pagerQuery = new PagerQuery();
 
+        $params = $pagerQuery->getParams();
+
+        $params['name'] = $name;
+
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
+
+        $groupRepo = new ImChatGroupRepo();
+
+        $pager = $groupRepo->paginate($params, $sort, $page, $limit);
+
+        return $this->handleGroupPager($pager);
     }
 
     public function getHotUsers()
@@ -141,7 +172,7 @@ class Messenger extends Service
 
             $pager = $messageRepo->paginate($params, $sort, $page, $limit);
 
-            return $this->handleChatLog($pager);
+            return $this->handleChatLogPager($pager);
 
         } elseif ($params['type'] == 'group') {
 
@@ -151,7 +182,7 @@ class Messenger extends Service
 
             $pager = $messageRepo->paginate($params, $sort, $page, $limit);
 
-            return $this->handleChatLog($pager);
+            return $this->handleChatLogPager($pager);
         }
     }
 
@@ -207,7 +238,7 @@ class Messenger extends Service
         }
 
         $message = json_encode([
-            'type' => 'show_message',
+            'type' => 'show_chat_msg',
             'content' => $content,
         ]);
 
@@ -256,13 +287,19 @@ class Messenger extends Service
 
     public function applyFriend()
     {
-        $friendId = $this->request->getPost('friend_id');
+        $post = $this->request->getPost();
 
         $user = $this->getLoginUser();
 
-        $userValidator = new UserValidator();
+        $validator = new ImFriendUserValidator();
 
-        $friend = $userValidator->checkUser($friendId);
+        $friend = $validator->checkFriend($post['friend_id']);
+        $group = $validator->checkGroup($post['group_id']);
+        $remark = $validator->checkRemark($post['remark']);
+
+        $validator->checkIfSelfApply($user->id, $friend->id);
+        $validator->checkIfJoined($user->id, $friend->id);
+        $validator->checkIfBlocked($user->id, $friend->id);
 
         $friendUserRepo = new ImFriendUserRepo();
 
@@ -272,23 +309,26 @@ class Messenger extends Service
             $model = new ImFriendUserModel();
             $model->user_id = $user->id;
             $model->friend_id = $friend->id;
+            $model->group_id = $group->id;
             $model->create();
+        } else {
+            $friendUser->group_id = $group->id;
+            $friendUser->update();
         }
 
-        /**
-         * @todo 向对方发好友申请的系统消息
-         */
+        $this->handleApplyFriendNotice($user, $friend, $remark);
     }
 
-    public function approveFriend()
+    public function acceptFriend()
     {
-        $friendId = $this->request->getPost('friend_id');
+        $post = $this->request->getPost();
 
         $user = $this->getLoginUser();
 
-        $userValidator = new UserValidator();
+        $validator = new ImFriendUserValidator();
 
-        $friend = $userValidator->checkUser($friendId);
+        $friend = $validator->checkFriend($post['friend_id']);
+        $group = $validator->checkGroup($post['group_id']);
 
         $friendUserRepo = new ImFriendUserRepo();
 
@@ -298,12 +338,11 @@ class Messenger extends Service
             $model = new ImFriendUserModel();
             $model->user_id = $user->id;
             $model->friend_id = $friend->id;
+            $model->group_id = $group->id;
             $model->create();
         }
 
-        /**
-         * @todo 向对方发通过好友申请的系统消息
-         */
+        $this->handleAcceptFriendNotice();
     }
 
     public function refuseFriend()
@@ -325,7 +364,7 @@ class Messenger extends Service
     {
     }
 
-    public function approveGroup()
+    public function acceptGroup()
     {
     }
 
@@ -342,11 +381,20 @@ class Messenger extends Service
 
         $items = [];
 
-        $items[] = ['id' => 0, 'groupname' => '我的好友', 'list' => []];
+        $items[] = [
+            'id' => 0,
+            'groupname' => '我的好友',
+            'list' => [],
+        ];
 
         if ($friendGroups->count() > 0) {
             foreach ($friendGroups as $group) {
-                $items[] = ['id' => $group->id, 'groupname' => $group->name, 'online' => 0, 'list' => []];
+                $items[] = [
+                    'id' => $group->id,
+                    'groupname' => $group->name,
+                    'online' => 0,
+                    'list' => [],
+                ];
             }
         }
 
@@ -410,7 +458,7 @@ class Messenger extends Service
         return $result;
     }
 
-    protected function handleChatLog($pager)
+    protected function handleChatLogPager($pager)
     {
         if ($pager->total_items == 0) {
             return $pager;
@@ -440,6 +488,135 @@ class Messenger extends Service
         $pager->items = $items;
 
         return $pager;
+    }
+
+    protected function handleUserPager($pager)
+    {
+        if ($pager->total_items == 0) {
+            return $pager;
+        }
+
+        $users = $pager->items->toArray();
+
+        $baseUrl = kg_ci_base_url();
+
+        $items = [];
+
+        foreach ($users as $user) {
+            $user['avatar'] = $baseUrl . $user['avatar'];
+            $items[] = [
+                'id' => $user['id'],
+                'name' => $user['name'],
+                'avatar' => $user['avatar'],
+                'about' => $user['about'],
+                'location' => $user['location'],
+                'gender' => $user['gender'],
+                'vip' => $user['vip'],
+                'follower_count' => $user['follower_count'],
+                'following_count' => $user['following_count'],
+            ];
+        }
+
+        $pager->items = $items;
+
+        return $pager;
+    }
+
+    protected function handleGroupPager($pager)
+    {
+        if ($pager->total_items == 0) {
+            return $pager;
+        }
+
+        $groups = $pager->items->toArray();
+
+        $baseUrl = kg_ci_base_url();
+
+        $items = [];
+
+        foreach ($groups as $group) {
+            $group['avatar'] = $baseUrl . $group['avatar'];
+            $items[] = [
+                'id' => $group['id'],
+                'name' => $group['name'],
+                'avatar' => $group['avatar'],
+                'about' => $group['about'],
+                'user_count' => $group['user_count'],
+            ];
+        }
+
+        $pager->items = $items;
+
+        return $pager;
+    }
+
+    protected function handleApplyFriendNotice(UserModel $user, UserModel $friend, $remark)
+    {
+        $sysMsgModel = new ImSystemMessageModel();
+
+        $sysMsgModel->user_id = $friend->id;
+        $sysMsgModel->item_id = $user->id;
+        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_APPLY_FRIEND;
+        $sysMsgModel->item_info = [
+            'user' => ['id' => $user->id, 'name' => $user->name, 'avatar' => $user->avatar],
+            'remark' => $remark,
+        ];
+
+        $sysMsgModel->create();
+
+        Gateway::$registerAddress = '127.0.0.1:1238';
+
+        $online = Gateway::isUidOnline($friend->id);
+
+        if ($online) {
+
+            $userRepo = new UserRepo();
+
+            $msgCount = $userRepo->countUnreadImSystemMessages($friend->id);
+
+            $message = kg_json_encode([
+                'type' => 'show_msg_box',
+                'content' => ['msg_count' => $msgCount],
+            ]);
+
+            Gateway::sendToUid($friend->id, $message);
+        }
+    }
+
+    protected function handleAcceptFriendNotice(UserModel $user, UserModel $friend)
+    {
+        $sysMsgModel = new ImSystemMessageModel();
+
+        $sysMsgModel->user_id = $friend->id;
+        $sysMsgModel->item_id = $user->id;
+        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_FRIEND_APPROVED;
+        $sysMsgModel->item_info = [
+            'user' => ['id' => $user->id, 'name' => $user->name, 'avatar' => $user->avatar],
+        ];
+
+        $sysMsgModel->create();
+
+        Gateway::$registerAddress = '127.0.0.1:1238';
+
+        $online = Gateway::isUidOnline($friend->id);
+
+        if ($online) {
+
+            $userRepo = new UserRepo();
+
+            $msgCount = $userRepo->countUnreadImSystemMessages($friend->id);
+
+            $message = kg_json_encode([
+                'type' => 'show_msg_box',
+                'content' => ['msg_count' => $msgCount],
+            ]);
+
+            Gateway::sendToUid($friend->id, $message);
+        }
+    }
+
+    protected function handleRefuseFriendNotice()
+    {
     }
 
     protected function getGroupName($groupId)

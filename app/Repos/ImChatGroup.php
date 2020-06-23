@@ -34,6 +34,9 @@ class ImChatGroup extends Repository
         }
 
         switch ($sort) {
+            case 'popular':
+                $orderBy = 'user_count DESC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;

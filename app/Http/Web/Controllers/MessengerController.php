@@ -94,20 +94,26 @@ class MessengerController extends LayerController
      */
     public function searchAction()
     {
-        $query = $this->request->getQuery('query', ['trim', 'string']);
-        $type = $this->request->getQuery('type', ['trim', 'string']);
+        $type = $this->request->getQuery('type');
+        $query = $this->request->getQuery('query');
+        $target = $this->request->getQuery('target');
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 
         $service = new MessengerService();
 
         if ($type == 'user') {
-            $pager = $service->searchUsers($query);
             $this->view->pick('messenger/find_users');
+            $target = $target ?: 'tab-users';
+            $pager = $service->searchUsers($query);
         } else {
-            $pager = $service->searchGroups($query);
             $this->view->pick('messenger/find_groups');
+            $target = $target ?: 'tab-groups';
+            $pager = $service->searchGroups($query);
         }
 
         $pager->items = kg_array_object($pager->items);
+        $pager->target = $target;
 
         $this->view->setVar('pager', $pager);
     }
@@ -200,17 +206,17 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Post("/friend/approve", name="web.im.approve_friend")
+     * @Post("/friend/accept", name="web.im.accept_friend")
      */
-    public function approveFriendAction()
+    public function acceptFriendAction()
     {
 
     }
 
     /**
-     * @Post("/group/approve", name="web.web.im.approve_group")
+     * @Post("/group/accept", name="web.web.im.accept_group")
      */
-    public function approveGroupAction()
+    public function acceptGroupAction()
     {
 
     }

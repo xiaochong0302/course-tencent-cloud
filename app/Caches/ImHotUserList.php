@@ -48,9 +48,11 @@ class ImHotUserList extends Cache
                 'name' => $user->name,
                 'avatar' => $user->avatar,
                 'about' => $user->about,
-                'sign' => $user->sign,
                 'location' => $user->location,
+                'gender' => $user->gender,
                 'vip' => $user->vip,
+                'follower_count' => $user->follower_count,
+                'following_count' => $user->following_count,
             ];
         }
 

@@ -7,6 +7,7 @@ use App\Models\ImChatGroup as ImChatGroupModel;
 use App\Models\ImChatGroupUser as ImChatGroupUserModel;
 use App\Models\ImFriendGroup as ImFriendGroupModel;
 use App\Models\ImFriendUser as ImFriendUserModel;
+use App\Models\ImSystemMessage as ImSystemMessageModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -52,6 +53,9 @@ class User extends Repository
         }
 
         switch ($sort) {
+            case 'popular':
+                $orderBy = 'follower_count DESC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;
@@ -151,6 +155,14 @@ class User extends Repository
             ->where('gu.user_id = :user_id:', ['user_id' => $userId])
             ->andWhere('g.deleted = 0')
             ->getQuery()->execute();
+    }
+
+    public function countUnreadImSystemMessages($userId)
+    {
+        return ImSystemMessageModel::count([
+            'conditions' => 'user_id = ?1 AND viewed = ?2',
+            'bind' => [1 => $userId, 2 => 0],
+        ]);
     }
 
 }

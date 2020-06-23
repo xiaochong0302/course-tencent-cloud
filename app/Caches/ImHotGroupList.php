@@ -48,6 +48,7 @@ class ImHotGroupList extends Cache
                 'name' => $group->name,
                 'avatar' => $group->avatar,
                 'about' => $group->about,
+                'user_count' => $group->user_count,
             ];
         }
 
