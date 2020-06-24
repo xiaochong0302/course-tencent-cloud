@@ -8,12 +8,14 @@ use App\Caches\ImHotUserList as ImHotUserListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\ImFriendMessage as ImFriendMessageModel;
 use App\Models\ImFriendUser as ImFriendUserModel;
+use App\Models\ImGroupMessage as ImGroupMessageModel;
 use App\Models\ImSystemMessage as ImSystemMessageModel;
 use App\Models\User as UserModel;
 use App\Repos\ImChatGroup as ImChatGroupRepo;
 use App\Repos\ImFriendMessage as ImFriendMessageRepo;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImGroupMessage as ImGroupMessageRepo;
+use App\Repos\ImSystemMessage as ImSystemMessageRepo;
 use App\Repos\User as UserRepo;
 use App\Validators\ImChatGroup as ImChatGroupValidator;
 use App\Validators\ImFriendUser as ImFriendUserValidator;
@@ -148,7 +150,35 @@ class Messenger extends Service
         return $result;
     }
 
-    public function getChatLog()
+    public function getUnreadSystemMessagesCount()
+    {
+        $user = $this->getLoginUser();
+
+        $userRepo = new UserRepo();
+
+        return $userRepo->countUnreadImSystemMessages($user->id);
+    }
+
+    public function getSystemMessages()
+    {
+        $user = $this->getLoginUser();
+
+        $pagerQuery = new PagerQuery();
+
+        $params = $pagerQuery->getParams();
+
+        $params['receiver_id'] = $user->id;
+
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
+
+        $messageRepo = new ImSystemMessageRepo();
+
+        return $messageRepo->paginate($params, $sort, $page, $limit);
+    }
+
+    public function getChatMessages()
     {
         $user = $this->getLoginUser();
 
@@ -172,7 +202,7 @@ class Messenger extends Service
 
             $pager = $messageRepo->paginate($params, $sort, $page, $limit);
 
-            return $this->handleChatLogPager($pager);
+            return $this->handleChatMessagePager($pager);
 
         } elseif ($params['type'] == 'group') {
 
@@ -182,7 +212,7 @@ class Messenger extends Service
 
             $pager = $messageRepo->paginate($params, $sort, $page, $limit);
 
-            return $this->handleChatLogPager($pager);
+            return $this->handleChatMessagePager($pager);
         }
     }
 
@@ -222,7 +252,13 @@ class Messenger extends Service
         $from = $this->request->getPost('from');
         $to = $this->request->getPost('to');
 
-        $content = [
+        $validator = new ImMessageValidator();
+
+        $validator->checkReceiver($to['id'], $to['type']);
+
+        $from['content'] = $validator->checkContent($from['content']);
+
+        $message = [
             'username' => $from['username'],
             'avatar' => $from['avatar'],
             'content' => $from['content'],
@@ -237,9 +273,9 @@ class Messenger extends Service
             $content['id'] = $to['id'];
         }
 
-        $message = json_encode([
+        $content = json_encode([
             'type' => 'show_chat_msg',
-            'content' => $content,
+            'message' => $message,
         ]);
 
         Gateway::$registerAddress = '127.0.0.1:1238';
@@ -250,10 +286,32 @@ class Messenger extends Service
              * 不推送自己给自己发送的消息
              */
             if ($user->id != $to['id']) {
-                Gateway::sendToUid($to['id'], $message);
+
+                $online = Gateway::isUidOnline($to['id']);
+
+                $messageModel = new ImFriendMessageModel();
+
+                $messageModel->sender_id = $from['id'];
+                $messageModel->receiver_id = $to['id'];
+                $messageModel->content = $from['content'];
+                $messageModel->viewed = $online ? 1 : 0;
+
+                $messageModel->create();
+
+                if ($online) {
+                    Gateway::sendToUid($to['id'], $content);
+                }
             }
 
         } elseif ($to['type'] == 'group') {
+
+            $messageModel = new ImGroupMessageModel();
+
+            $messageModel->sender_id = $from['id'];
+            $messageModel->group_id = $to['id'];
+            $messageModel->content = $from['content'];
+
+            $messageModel->create();
 
             $excludeClientId = null;
 
@@ -266,7 +324,23 @@ class Messenger extends Service
 
             $groupName = $this->getGroupName($to['id']);
 
-            Gateway::sendToGroup($groupName, $message, $excludeClientId);
+            Gateway::sendToGroup($groupName, $content, $excludeClientId);
+        }
+    }
+
+    public function markSystemMessagesAsRead()
+    {
+        $user = $this->getLoginUser();
+
+        $userRepo = new UserRepo();
+
+        $messages = $userRepo->findUnreadImSystemMessages($user->id);
+
+        if ($messages->count() > 0) {
+            foreach ($messages as $message) {
+                $message->viewed = 1;
+                $message->update();
+            }
         }
     }
 
@@ -458,7 +532,7 @@ class Messenger extends Service
         return $result;
     }
 
-    protected function handleChatLogPager($pager)
+    protected function handleChatMessagePager($pager)
     {
         if ($pager->total_items == 0) {
             return $pager;
@@ -468,20 +542,17 @@ class Messenger extends Service
 
         $builder = new ImMessageListBuilder();
 
-        $users = $builder->getUsers($messages);
+        $senders = $builder->getSenders($messages);
 
         $items = [];
 
         foreach ($messages as $message) {
-
-            $user = $user = $users[$message['user_id']] ?? new \stdClass();
-
+            $sender = $senders[$message['sender_id']] ?? new \stdClass();
             $items[] = [
                 'id' => $message['id'],
                 'content' => $message['content'],
-                'create_time' => $message['create_time'],
                 'timestamp' => $message['create_time'] * 1000,
-                'user' => $user,
+                'user' => $sender,
             ];
         }
 
@@ -550,36 +621,56 @@ class Messenger extends Service
         return $pager;
     }
 
-    protected function handleApplyFriendNotice(UserModel $user, UserModel $friend, $remark)
+    protected function handleApplyFriendNotice(UserModel $sender, UserModel $receiver, $remark)
     {
+        $userRepo = new UserRepo();
+
+        $itemType = ImSystemMessageModel::TYPE_FRIEND_REQUEST;
+
+        $message = $userRepo->findImSystemMessage($receiver->id, $itemType);
+
+        if ($message) {
+
+            /**
+             * 请求未过期
+             */
+            if (time() - $message->create_time < 3 * 86400) {
+                return;
+            }
+
+            if ($message->item_type['accepted'] == 1) {
+                return;
+            }
+        }
+
+        $senderInfo = [
+            'id' => $sender->id,
+            'name' => $sender->name,
+            'avatar' => $sender->avatar,
+        ];
+
         $sysMsgModel = new ImSystemMessageModel();
 
-        $sysMsgModel->user_id = $friend->id;
-        $sysMsgModel->item_id = $user->id;
-        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_APPLY_FRIEND;
+        $sysMsgModel->sender_id = $sender->id;
+        $sysMsgModel->receiver_id = $receiver->id;
+        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_FRIEND_REQUEST;
         $sysMsgModel->item_info = [
-            'user' => ['id' => $user->id, 'name' => $user->name, 'avatar' => $user->avatar],
+            'sender' => $senderInfo,
             'remark' => $remark,
+            'accepted' => 0,
         ];
 
         $sysMsgModel->create();
 
         Gateway::$registerAddress = '127.0.0.1:1238';
 
-        $online = Gateway::isUidOnline($friend->id);
+        $online = Gateway::isUidOnline($receiver->id);
 
         if ($online) {
 
-            $userRepo = new UserRepo();
+            $content = kg_json_encode(['type' => 'show_msg_box']);
 
-            $msgCount = $userRepo->countUnreadImSystemMessages($friend->id);
-
-            $message = kg_json_encode([
-                'type' => 'show_msg_box',
-                'content' => ['msg_count' => $msgCount],
-            ]);
-
-            Gateway::sendToUid($friend->id, $message);
+            Gateway::sendToUid($receiver->id, $content);
         }
     }
 

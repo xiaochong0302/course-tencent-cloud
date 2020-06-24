@@ -26,14 +26,14 @@ class ImFriendMessage extends Model
      *
      * @var integer
      */
-    public $user_id;
+    public $sender_id;
 
     /**
      * 接收方编号
      *
      * @var integer
      */
-    public $target_id;
+    public $receiver_id;
 
     /**
      * 内容
@@ -90,6 +90,8 @@ class ImFriendMessage extends Model
     public function beforeCreate()
     {
         $this->create_time = time();
+
+        $this->chat_id = self::getChatId($this->sender_id, $this->receiver_id);
     }
 
     public function beforeUpdate()

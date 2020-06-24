@@ -7,8 +7,8 @@ use Phalcon\Mvc\Model\Behavior\SoftDelete;
 class ImSystemMessage extends Model
 {
 
-    const TYPE_APPLY_FRIEND = 1;
-    const TYPE_APPLY_GROUP = 2;
+    const TYPE_FRIEND_REQUEST = 1;
+    const TYPE_GROUP_REQUEST = 2;
     const TYPE_FRIEND_ACCEPTED = 3;
     const TYPE_FRIEND_REFUSED = 4;
     const TYPE_GROUP_ACCEPTED = 5;

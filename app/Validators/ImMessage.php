@@ -2,6 +2,8 @@
 
 namespace App\Validators;
 
+use App\Caches\ImChatGroup as ImChatGroupCache;
+use App\Caches\User as UserCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\ImFriendMessage as ImFriendMessageRepo;
 use App\Repos\ImGroupMessage as ImGroupMessageRepo;
@@ -9,11 +11,19 @@ use App\Repos\ImGroupMessage as ImGroupMessageRepo;
 class ImMessage extends Validator
 {
 
-    public function checkFriendMessage($id)
+    public function checkMessage($id, $type)
     {
-        $messageRepo = new ImFriendMessageRepo();
+        $this->checkType($type);
 
-        $message = $messageRepo->findById($id);
+        $message = null;
+
+        if ($type == 'friend') {
+            $repo = new ImFriendMessageRepo();
+            $message = $repo->findById($id);
+        } elseif ($type == 'group') {
+            $repo = new ImGroupMessageRepo();
+            $message = $repo->findById($id);
+        }
 
         if (!$message) {
             throw new BadRequestException('im_message.not_found');
@@ -22,17 +32,27 @@ class ImMessage extends Validator
         return $message;
     }
 
-    public function checkGroupMessage($id)
+    public function checkReceiver($id, $type)
     {
-        $messageRepo = new ImGroupMessageRepo();
+        $this->checkType($type);
 
-        $message = $messageRepo->findById($id);
+        $receiver = null;
 
-        if (!$message) {
-            throw new BadRequestException('im_message.not_found');
+        if ($type == 'friend') {
+            $cache = new UserCache();
+            $receiver = $cache->get($id);
+            if (!$receiver) {
+                throw new BadRequestException('user.not_found');
+            }
+        } elseif ($type == 'group') {
+            $cache = new ImChatGroupCache();
+            $receiver = $cache->get($id);
+            if (!$receiver) {
+                throw new BadRequestException('im_chat_group.not_found');
+            }
         }
 
-        return $message;
+        return $receiver;
     }
 
     public function checkType($type)

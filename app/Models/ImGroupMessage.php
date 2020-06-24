@@ -22,11 +22,11 @@ class ImGroupMessage extends Model
     public $group_id;
 
     /**
-     * 用户编号
+     * 发送方编号
      *
      * @var integer
      */
-    public $user_id;
+    public $sender_id;
 
     /**
      * 内容

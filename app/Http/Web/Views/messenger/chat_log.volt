@@ -9,7 +9,6 @@
         body .layim-chat-main {
             height: auto;
         }
-
         #LAY_page {
             margin-bottom: 20px;
             text-align: center;
@@ -22,7 +21,7 @@
     <ul id="LAY_view"></ul>
 </div>
 
-<div id="LAY_page"></div>
+<div id="LAY_page" data-count="{{ pager.total_items }}"></div>
 
 <textarea title="消息模版" id="LAY_tpl" style="display:none;">
 <%# layui.each(d.data, function(index, item) {
@@ -37,7 +36,7 @@
 <script src="/static/lib/layui/layui.js"></script>
 
 <script>
-    layui.use(['layim', 'laypage'], function () {
+    layui.use(['jquery', 'layim', 'laytpl', 'laypage'], function () {
 
         var $ = layui.jquery;
         var layim = layui.layim;
@@ -49,38 +48,50 @@
             close: '%>'
         });
 
-        var chatHistoryUrl = '/im/chat/history';
+        var $target = $('#LAY_view');
+        var $page = $('#LAY_page');
+        var $tpl = $('#LAY_tpl');
 
-        var currentUrl = layui.url();
+        var count = $page.data('count');
+        var limit = 15;
 
         var params = {
-            id: currentUrl.search.id,
-            type: currentUrl.search.type,
-            page: 1,
-            limit: 15,
-            sort: 'oldest'
+            id: layui.url().search.id,
+            type: layui.url().search.type,
+            limit: limit,
+            sort: 'oldest',
+            page: 1
         };
 
-        loadChatHistoryHtml(params);
+        /**
+         * 加载第一页数据
+         */
+        loadPageHtml($target, params);
 
-        laypage.render({
-            elem: 'LAY_page',
-            limit: 30,
-            count: {{ pager.total_items }},
-            jump: function (obj, first) {
-                if (!first) {
-                    params.page = obj.curr;
-                    loadChatHistoryHtml(params);
+        /**
+         * 两页以上才显示分页
+         */
+        if (count > limit) {
+            laypage.render({
+                elem: $page.attr('id'),
+                limit: limit,
+                count: count,
+                layout: ['page', 'count'],
+                jump: function (obj, first) {
+                    if (!first) {
+                        params.page = obj.curr;
+                        loadPageHtml($target, params);
+                    }
                 }
-            }
-        });
+            });
+        }
 
-        function loadChatHistoryHtml(params) {
-            $.get(chatHistoryUrl, params, function (res) {
-                var html = laytpl(LAY_tpl.value).render({
+        function loadPageHtml(target, params) {
+            $.get('/im/chat/history', params, function (res) {
+                var html = laytpl($tpl.val()).render({
                     data: res.items
                 });
-                $('#LAY_view').html(html);
+                target.html(html);
             });
         }
 

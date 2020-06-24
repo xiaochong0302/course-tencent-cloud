@@ -39,11 +39,55 @@ class MessengerController extends LayerController
     }
 
     /**
+     * @Get("/msg/unread/count", name="web.im.unread_msg_count")
+     */
+    public function unreadMessagesCountAction()
+    {
+        $service = new MessengerService();
+
+        $count = $service->getUnreadSystemMessagesCount();
+
+        return $this->jsonSuccess(['count' => $count]);
+    }
+
+    /**
+     * @Post("/msg/read", name="web.im.read_msg")
+     */
+    public function markMessagesAsReadAction()
+    {
+        $service = new MessengerService();
+
+        $service->markSystemMessagesAsRead();
+
+        return $this->jsonSuccess();
+    }
+
+    /**
      * @Get("/msg/box", name="web.im.msg_box")
      */
     public function messageBoxAction()
     {
+        $service = new MessengerService();
 
+        $pager = $service->getSystemMessages();
+
+        $this->view->pick('messenger/msg_box');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/msg/sys", name="web.im.sys_msg")
+     */
+    public function systemMessagesAction()
+    {
+        $service = new MessengerService();
+
+        $pager = $service->getSystemMessages();
+
+        $pager->items = kg_array_object($pager->items);
+
+        $this->view->pick('messenger/sys_messages');
+        $this->view->setVar('pager', $pager);
     }
 
     /**
@@ -53,7 +97,7 @@ class MessengerController extends LayerController
     {
         $service = new MessengerService();
 
-        $pager = $service->getChatLog();
+        $pager = $service->getChatMessages();
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('messenger/chat_log');
@@ -67,7 +111,7 @@ class MessengerController extends LayerController
     {
         $service = new MessengerService();
 
-        $pager = $service->getChatLog();
+        $pager = $service->getChatMessages();
 
         return $this->jsonPaginate($pager);
     }

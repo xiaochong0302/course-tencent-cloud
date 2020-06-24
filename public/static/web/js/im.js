@@ -23,15 +23,16 @@ layui.use(['jquery', 'layim'], function () {
             socket.send('pong...');
         } else if (data.type === 'bind_user') {
             bindUser(data.client_id);
+            refreshMessageBox();
         } else if (data.type === 'show_chat_msg') {
-            showChatMessage(data.content);
+            showChatMessage(data.message);
         } else if (data.type === 'show_msg_box') {
-            showMessageBox(data.content);
+            refreshMessageBox();
         }
     };
 
     layim.config({
-        title: '即时聊天',
+        title: '菜鸟驿站',
         init: {
             url: '/im/init'
         },
@@ -78,12 +79,20 @@ layui.use(['jquery', 'layim'], function () {
         });
     }
 
-    function showChatMessage(content) {
-        layim.getMessage(content);
+    function showChatMessage(message) {
+        layim.getMessage(message);
     }
 
-    function showMessageBox(content) {
-        layim.msgbox(content.msg_count);
+    function refreshMessageBox() {
+        $.ajax({
+            type: 'GET',
+            url: '/im/msg/unread/count',
+            success: function (res) {
+                if (res.count > 0) {
+                    layim.msgbox(res.count);
+                }
+            }
+        });
     }
 
 });

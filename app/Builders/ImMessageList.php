@@ -7,20 +7,20 @@ use App\Repos\User as UserRepo;
 class ImMessageList extends Builder
 {
 
-    public function handleUsers(array $messages)
+    public function handleSenders(array $messages)
     {
-        $users = $this->getUsers($messages);
+        $users = $this->getSenders($messages);
 
         foreach ($messages as $key => $message) {
-            $messages[$key]['user'] = $users[$message['user_id']] ?? new \stdClass();
+            $messages[$key]['sender'] = $users[$message['sender_id']] ?? new \stdClass();
         }
 
         return $messages;
     }
 
-    public function getUsers(array $messages)
+    public function getSenders(array $messages)
     {
-        $ids = kg_array_column($messages, 'user_id');
+        $ids = kg_array_column($messages, 'sender_id');
 
         $userRepo = new UserRepo();
 

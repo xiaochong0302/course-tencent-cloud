@@ -157,10 +157,36 @@ class User extends Repository
             ->getQuery()->execute();
     }
 
+    /**
+     * @param int $userId
+     * @param int $itemType
+     * @return Model|bool|ImSystemMessageModel
+     */
+    public function findImSystemMessage($userId, $itemType)
+    {
+        return ImSystemMessageModel::findFirst([
+            'conditions' => 'receiver_id = ?1 AND item_type = ?2',
+            'bind' => [1 => $userId, 2 => $itemType],
+            'order' => 'id DESC',
+        ]);
+    }
+
+    /**
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|ImSystemMessageModel[]
+     */
+    public function findUnreadImSystemMessages($userId)
+    {
+        return ImSystemMessageModel::find([
+            'conditions' => 'receiver_id = ?1 AND viewed = ?2',
+            'bind' => [1 => $userId, 2 => 0],
+        ]);
+    }
+
     public function countUnreadImSystemMessages($userId)
     {
         return ImSystemMessageModel::count([
-            'conditions' => 'user_id = ?1 AND viewed = ?2',
+            'conditions' => 'receiver_id = ?1 AND viewed = ?2',
             'bind' => [1 => $userId, 2 => 0],
         ]);
     }

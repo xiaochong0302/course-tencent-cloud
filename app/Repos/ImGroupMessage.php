@@ -23,8 +23,8 @@ class ImGroupMessage extends Repository
             $builder->andWhere('group_id = :group_id:', ['group_id' => $where['group_id']]);
         }
 
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['sender_id'])) {
+            $builder->andWhere('sender_id = :sender_id:', ['sender_id' => $where['sender_id']]);
         }
 
         if (isset($where['deleted'])) {
