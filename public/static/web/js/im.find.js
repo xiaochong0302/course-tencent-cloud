@@ -32,29 +32,42 @@ layui.use(['jquery', 'form', 'layer', 'layim'], function () {
                     },
                     success: function (res) {
                         layer.msg(res.msg, {icon: 1});
+                        layer.close(index);
                     },
                     error: function (xhr) {
                         var res = JSON.parse(xhr.responseText);
                         layer.msg(res.msg, {icon: 2});
                     }
                 });
-                layer.close(index);
             }
         });
     });
 
     $('body').on('click', '.apply-group', function () {
         var groupId = $(this).attr('data-id');
-        $.ajax({
-            type: 'POST',
-            url: '/im/group/apply',
-            data: {group_id: groupId},
-            success: function (res) {
-                layer.msg(res.msg, {icon: 1});
-            },
-            error: function (xhr) {
-                var res = JSON.parse(xhr.responseText);
-                layer.msg(res.msg, {icon: 2});
+        var groupName = $(this).attr('data-name');
+        var avatar = $(this).attr('data-avatar');
+        layim.add({
+            type: 'group',
+            groupname: groupName,
+            avatar: avatar,
+            submit: function (group, remark, index) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/im/group/apply',
+                    data: {
+                        group_id: groupId,
+                        remark: remark
+                    },
+                    success: function (res) {
+                        layer.msg(res.msg, {icon: 1});
+                        layer.close(index);
+                    },
+                    error: function (xhr) {
+                        var res = JSON.parse(xhr.responseText);
+                        layer.msg(res.msg, {icon: 2});
+                    }
+                });
             }
         });
     });

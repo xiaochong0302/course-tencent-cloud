@@ -236,6 +236,30 @@ class MessengerController extends LayerController
     }
 
     /**
+     * @Post("/friend/accept", name="web.im.accept_friend")
+     */
+    public function acceptFriendAction()
+    {
+        $service = new MessengerService();
+
+        $service->acceptFriend();
+
+        return $this->jsonSuccess();
+    }
+
+    /**
+     * @Post("/friend/refuse", name="web.im.refuse_friend")
+     */
+    public function refuseFriendAction()
+    {
+        $service = new MessengerService();
+
+        $service->refuseFriend();
+
+        return $this->jsonSuccess();
+    }
+
+    /**
      * @Post("/group/apply", name="web.im.apply_group")
      */
     public function applyGroupAction()
@@ -247,14 +271,6 @@ class MessengerController extends LayerController
         $content = ['msg' => '发送申请成功，请等待管理员通过'];
 
         return $this->jsonSuccess($content);
-    }
-
-    /**
-     * @Post("/friend/accept", name="web.im.accept_friend")
-     */
-    public function acceptFriendAction()
-    {
-
     }
 
     /**

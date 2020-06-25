@@ -6,6 +6,7 @@ use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\ImChatGroup as ImChatGroupModel;
 use App\Models\ImChatGroupUser as ImChatGroupUserModel;
 use App\Models\ImFriendGroup as ImFriendGroupModel;
+use App\Models\ImFriendMessage as ImFriendMessageModel;
 use App\Models\ImFriendUser as ImFriendUserModel;
 use App\Models\ImSystemMessage as ImSystemMessageModel;
 use App\Models\User as UserModel;
@@ -159,6 +160,18 @@ class User extends Repository
 
     /**
      * @param int $userId
+     * @return ResultsetInterface|Resultset|ImFriendMessageModel[]
+     */
+    public function findUnreadImFriendMessages($userId)
+    {
+        return ImFriendMessageModel::find([
+            'conditions' => 'receiver_id = ?1 AND viewed = ?2',
+            'bind' => [1 => $userId, 2 => 0],
+        ]);
+    }
+
+    /**
+     * @param int $userId
      * @param int $itemType
      * @return Model|bool|ImSystemMessageModel
      */
@@ -173,7 +186,7 @@ class User extends Repository
 
     /**
      * @param int $userId
-     * @return ResultsetInterface|Resultset|ImSystemMessageModel[]
+     * @return ResultsetInterface|Resultset|ImFriendMessageModel[]
      */
     public function findUnreadImSystemMessages($userId)
     {

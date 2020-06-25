@@ -9,7 +9,7 @@
                         </div>
                         <div class="name layui-elip" title="{{ item.name|e }}">{{ item.name }}</div>
                         <div class="action">
-                            <a href="javascript:" class="layui-badge-rim apply-group" data-id="{{ item.id }}">加入群组</a>
+                            <a href="javascript:" class="layui-badge-rim apply-group" data-id="{{ item.id }}" data-name="{{ item.name }}" data-avatar="{{ item.avatar }}">加入群组</a>
                         </div>
                     </div>
                 </div>

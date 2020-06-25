@@ -23,11 +23,11 @@ layui.use(['jquery', 'layim'], function () {
             socket.send('pong...');
         } else if (data.type === 'bind_user') {
             bindUser(data.client_id);
-            refreshMessageBox();
+            refreshSystemMessage();
         } else if (data.type === 'show_chat_msg') {
             showChatMessage(data.message);
-        } else if (data.type === 'show_msg_box') {
-            refreshMessageBox();
+        } else if (data.type === 'refresh_sys_msg') {
+            refreshSystemMessage();
         }
     };
 
@@ -83,7 +83,7 @@ layui.use(['jquery', 'layim'], function () {
         layim.getMessage(message);
     }
 
-    function refreshMessageBox() {
+    function refreshSystemMessage() {
         $.ajax({
             type: 'GET',
             url: '/im/msg/unread/count',

@@ -7,12 +7,22 @@ use Phalcon\Mvc\Model\Behavior\SoftDelete;
 class ImSystemMessage extends Model
 {
 
-    const TYPE_FRIEND_REQUEST = 1;
-    const TYPE_GROUP_REQUEST = 2;
-    const TYPE_FRIEND_ACCEPTED = 3;
-    const TYPE_FRIEND_REFUSED = 4;
-    const TYPE_GROUP_ACCEPTED = 5;
-    const TYPE_GROUP_REFUSED = 6;
+    /**
+     * 请求状态
+     */
+    const REQUEST_PENDING = 'pending'; // 待处理
+    const REQUEST_ACCEPTED = 'accepted'; // 已接受
+    const REQUEST_REFUSED = 'refused'; // 已拒绝
+
+    /**
+     * 消息类型
+     */
+    const TYPE_FRIEND_REQUEST = 1; // 好友请求
+    const TYPE_FRIEND_ACCEPTED = 2; // 好友被接受
+    const TYPE_FRIEND_REFUSED = 3; // 好友被拒绝
+    const TYPE_GROUP_REQUEST = 4; // 入群请求
+    const TYPE_GROUP_ACCEPTED = 5; // 入群被接受
+    const TYPE_GROUP_REFUSED = 6; // 入群被拒绝
 
     /**
      * 主键编号
@@ -115,6 +125,10 @@ class ImSystemMessage extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
+
+        if (is_array($this->item_info) && !empty($this->item_info)) {
+            $this->item_info = kg_json_encode($this->item_info);
+        }
     }
 
     public function afterFetch()

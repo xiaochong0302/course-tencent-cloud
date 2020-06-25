@@ -7,6 +7,7 @@ use App\Caches\User as UserCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\ImFriendMessage as ImFriendMessageRepo;
 use App\Repos\ImGroupMessage as ImGroupMessageRepo;
+use App\Repos\ImSystemMessage as ImSystemMessageRepo;
 
 class ImMessage extends Validator
 {
@@ -22,6 +23,9 @@ class ImMessage extends Validator
             $message = $repo->findById($id);
         } elseif ($type == 'group') {
             $repo = new ImGroupMessageRepo();
+            $message = $repo->findById($id);
+        } elseif ($type == 'system') {
+            $repo = new ImSystemMessageRepo();
             $message = $repo->findById($id);
         }
 
@@ -57,7 +61,7 @@ class ImMessage extends Validator
 
     public function checkType($type)
     {
-        if (!in_array($type, ['friend', 'group'])) {
+        if (!in_array($type, ['friend', 'group', 'system'])) {
             throw new BadRequestException('im_message.invalid_type');
         }
 

@@ -56,6 +56,8 @@ class ImFriendUser extends Validator
         if ($length > 30) {
             throw new BadRequestException('im_friend_user.remark_too_long');
         }
+
+        return $remark;
     }
 
     public function checkIfSelfApply($userId, $friendId)
