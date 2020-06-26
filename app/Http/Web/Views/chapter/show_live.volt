@@ -55,7 +55,7 @@
 
         function refreshLiveStats() {
             var $liveStats = $('#sidebar-live-stats');
-            helper.ajaxLoadHtml($liveStats.attr('data-url'), $liveStats.attr('id'));
+            helper.ajaxLoadHtml($liveStats.data('url'), $liveStats.attr('id'));
         }
 
     </script>

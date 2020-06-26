@@ -103,8 +103,6 @@ class SyncLearningTask extends Task
 
         if (!$chapter) return;
 
-        $chapterModel = $chapter->attrs['model'];
-
         $chapterUser->duration += $learning->duration;
 
         /**
@@ -114,7 +112,7 @@ class SyncLearningTask extends Task
          * 2.直播观看时间超过10分钟
          * 3.图文浏览即消费
          */
-        if ($chapterModel == CourseModel::MODEL_VOD) {
+        if ($chapter->model == CourseModel::MODEL_VOD) {
 
             $duration = $chapter->attrs['duration'] ?: 300;
 
@@ -124,11 +122,11 @@ class SyncLearningTask extends Task
             $chapterUser->progress = $progress < 100 ? $progress : 100;
             $chapterUser->consumed = $chapterUser->duration > 0.3 * $duration ? 1 : 0;
 
-        } elseif ($chapterModel == CourseModel::MODEL_LIVE) {
+        } elseif ($chapter->model == CourseModel::MODEL_LIVE) {
 
             $chapterUser->consumed = $chapterUser->duration > 600 ? 1 : 0;
 
-        } elseif ($chapterModel == CourseModel::MODEL_READ) {
+        } elseif ($chapter->model == CourseModel::MODEL_READ) {
 
             $chapterUser->consumed = 1;
         }

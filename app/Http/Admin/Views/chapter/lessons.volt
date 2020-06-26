@@ -38,7 +38,7 @@
         form.on('switch(free)', function (data) {
             var checked = $(this).is(':checked');
             var free = checked ? 1 : 0;
-            var url = $(this).attr('data-url');
+            var url = $(this).data('url');
             $.ajax({
                 type: 'POST',
                 url: url,

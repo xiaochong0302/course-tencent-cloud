@@ -25,14 +25,9 @@ class ChapterBasic extends FrontendService
 
     protected function handleChapter(ChapterModel $chapter)
     {
-        /**
-         * @var array $attrs
-         */
-        $attrs = $chapter->attrs;
-
         $result = [];
 
-        switch ($attrs['model']) {
+        switch ($chapter->model) {
             case CourseModel::MODEL_VOD:
                 $result = $this->formatChapterVod($chapter);
                 break;
@@ -62,7 +57,7 @@ class ChapterBasic extends FrontendService
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
-            'model' => $attrs['model'],
+            'model' => $chapter->model,
             'play_urls' => $playUrls,
             'user_count' => $chapter->user_count,
             'agree_count' => $chapter->agree_count,
@@ -98,7 +93,7 @@ class ChapterBasic extends FrontendService
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
-            'model' => $attrs['model'],
+            'model' => $chapter->model,
             'play_urls' => $playUrls,
             'start_time' => $live->start_time,
             'end_time' => $live->end_time,
@@ -115,16 +110,11 @@ class ChapterBasic extends FrontendService
 
         $read = $chapterRepo->findChapterRead($chapter->id);
 
-        /**
-         * @var array $attrs
-         */
-        $attrs = $chapter->attrs;
-
         return [
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
-            'model' => $attrs['model'],
+            'model' => $chapter->model,
             'content' => $read->content,
             'user_count' => $chapter->user_count,
             'agree_count' => $chapter->agree_count,

@@ -1,18 +1,19 @@
-layui.use(['jquery', 'element'], function () {
+layui.use(['jquery', 'helper'], function () {
 
     var $ = layui.jquery;
+    var helper = layui.helper;
 
     if ($('#tab-courses').length > 0) {
         var $tabCourses = $('#tab-courses');
-        layui.ajaxLoadHtml($tabCourses.attr('data-url'), $tabCourses.attr('id'));
+        helper.ajaxLoadHtml($tabCourses.data('url'), $tabCourses.attr('id'));
     }
     if ($('#tab-favorites').length > 0) {
         var $tabFavorites = $('#tab-favorites');
-        layui.ajaxLoadHtml($tabFavorites.attr('data-url'), $tabFavorites.attr('id'));
+        helper.ajaxLoadHtml($tabFavorites.data('url'), $tabFavorites.attr('id'));
     }
     if ($('#tab-friends').length > 0) {
         var $tabFriends = $('#tab-friends');
-        layui.ajaxLoadHtml($tabFriends.attr('data-url'), $tabFriends.attr('id'));
+        helper.ajaxLoadHtml($tabFriends.data('url'), $tabFriends.attr('id'));
     }
 
 });

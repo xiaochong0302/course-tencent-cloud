@@ -48,7 +48,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
     form.on('switch(published)', function (data) {
         var checked = $(this).is(':checked');
         var published = checked ? 1 : 0;
-        var url = $(this).attr('data-url');
+        var url = $(this).data('url');
         var tips = published === 1 ? '确定要上线？' : '确定要下线？';
         layer.confirm(tips, function () {
             $.ajax({
@@ -73,7 +73,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
 
     $('.kg-priority-input').on('change', function () {
         var priority = $(this).val();
-        var url = $(this).attr('data-url');
+        var url = $(this).data('url');
         $.ajax({
             type: 'POST',
             url: url,
@@ -89,7 +89,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
     });
 
     $('.kg-delete,.kg-restore').on('click', function () {
-        var url = $(this).attr('data-url');
+        var url = $(this).data('url');
         var tips = $(this).hasClass('kg-delete') ? '确定要删除吗？' : '确定要还原吗？';
         layer.confirm(tips, function () {
             $.ajax({

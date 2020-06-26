@@ -278,7 +278,23 @@ class MessengerController extends LayerController
      */
     public function acceptGroupAction()
     {
+        $service = new MessengerService();
 
+        $service->acceptGroup();
+
+        return $this->jsonSuccess();
+    }
+
+    /**
+     * @Post("/group/refuse", name="web.web.im.refuse_group")
+     */
+    public function refuseGroupAction()
+    {
+        $service = new MessengerService();
+
+        $service->refuseGroup();
+
+        return $this->jsonSuccess();
     }
 
 }

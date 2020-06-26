@@ -82,10 +82,9 @@ class AccountController extends Controller
 
         $returnUrl = $this->request->getPost('return_url');
 
-        $content = [
-            'location' => $returnUrl ?: '/',
-            'msg' => '登录成功',
-        ];
+        $location = $returnUrl ?: $this->url->get(['for' => 'web.index']);
+
+        $content = ['location' => $location];
 
         return $this->jsonSuccess($content);
     }
@@ -101,10 +100,9 @@ class AccountController extends Controller
 
         $returnUrl = $this->request->getPost('return_url');
 
-        $content = [
-            'location' => $returnUrl ?: '/',
-            'msg' => '登录成功',
-        ];
+        $location = $returnUrl ?: $this->url->get(['for' => 'web.index']);
+
+        $content = ['location' => $location];
 
         return $this->jsonSuccess($content);
     }
@@ -127,7 +125,7 @@ class AccountController extends Controller
     public function forgetPasswordAction()
     {
         if ($this->authUser->id > 0) {
-            $this->response->redirect('/');
+            $this->response->redirect(['for' => 'web.index']);
         }
 
         $service = new AccountService();

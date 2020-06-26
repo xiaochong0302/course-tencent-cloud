@@ -9,15 +9,15 @@ class ImChatGroupUser extends Repository
 {
 
     /**
-     * @param int $userId
      * @param int $groupId
+     * @param int $userId
      * @return ImChatGroupUserModel|Model|bool
      */
-    public function findGroupUser($userId, $groupId)
+    public function findGroupUser($groupId, $userId)
     {
         return ImChatGroupUserModel::findFirst([
-            'conditions' => 'user_id = ?1 AND group_id = ?2',
-            'bind' => [1 => $userId, 2 => $groupId],
+            'conditions' => 'group_id = ?1 AND user_id = ?2',
+            'bind' => [1 => $groupId, 2 => $userId],
             'order' => 'id DESC',
         ]);
     }

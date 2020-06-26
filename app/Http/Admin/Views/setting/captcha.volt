@@ -66,7 +66,7 @@
 
         var captcha = new TencentCaptcha(
             $('#front-captcha-btn')[0],
-            $('#front-captcha-btn').attr('data-app-id'),
+            $('#front-captcha-btn').data('app-id'),
             function (res) {
                 if (res.ret === 0) {
                     $('input[name=ticket]').val(res.ticket);

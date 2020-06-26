@@ -42,7 +42,7 @@ layui.use(['jquery', 'util'], function () {
 
     $account.on('keyup', function () {
         var accountOk;
-        var type = $(this).attr('data-type');
+        var type = $(this).data('type');
         var account = $(this).val();
         if (type === 'phone') {
             accountOk = isPhone(account);

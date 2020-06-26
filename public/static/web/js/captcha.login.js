@@ -2,7 +2,7 @@ layui.use(['jquery'], function () {
     var $ = layui.jquery;
     var captcha = new TencentCaptcha(
         $('#captcha-btn')[0],
-        $('#captcha-btn').attr('data-app-id'),
+        $('#captcha-btn').data('app-id'),
         function (res) {
             if (res.ret === 0) {
                 $('#ticket').val(res.ticket);

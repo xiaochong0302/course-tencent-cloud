@@ -1,22 +1,23 @@
-layui.use(['jquery', 'form', 'layer', 'layim'], function () {
+layui.use(['jquery', 'form', 'layer', 'layim', 'helper'], function () {
 
     var $ = layui.jquery;
     var form = layui.form;
     var layer = layui.layer;
     var layim = layui.layim;
+    var helper = layui.helper;
 
     form.on('submit(im_search)', function (data) {
         var usersUrl = '/im/search?limit=12&target=tab-users&type=user&query=' + data.field.query;
         var groupsUrl = '/im/search?limit=12&target=tab-groups&type=group&query=' + data.field.query;
-        layui.ajaxLoadHtml(usersUrl, 'tab-users');
-        layui.ajaxLoadHtml(groupsUrl, 'tab-groups');
+        helper.ajaxLoadHtml(usersUrl, 'tab-users');
+        helper.ajaxLoadHtml(groupsUrl, 'tab-groups');
         return false;
     });
 
     $('body').on('click', '.apply-friend', function () {
-        var friendId = $(this).attr('data-id');
-        var username = $(this).attr('data-name');
-        var avatar = $(this).attr('data-avatar');
+        var friendId = $(this).data('id');
+        var username = $(this).data('name');
+        var avatar = $(this).data('avatar');
         layim.add({
             type: 'friend',
             username: username,
@@ -44,9 +45,9 @@ layui.use(['jquery', 'form', 'layer', 'layim'], function () {
     });
 
     $('body').on('click', '.apply-group', function () {
-        var groupId = $(this).attr('data-id');
-        var groupName = $(this).attr('data-name');
-        var avatar = $(this).attr('data-avatar');
+        var groupId = $(this).data('id');
+        var groupName = $(this).data('name');
+        var avatar = $(this).data('avatar');
         layim.add({
             type: 'group',
             groupname: groupName,

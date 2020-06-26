@@ -22,12 +22,18 @@ layui.use(['jquery', 'layim'], function () {
         if (data.type === 'ping') {
             socket.send('pong...');
         } else if (data.type === 'bind_user') {
-            bindUser(data.client_id);
-            refreshSystemMessage();
+            bindUser(data);
+            showSystemMessage();
         } else if (data.type === 'show_chat_msg') {
-            showChatMessage(data.message);
-        } else if (data.type === 'refresh_sys_msg') {
-            refreshSystemMessage();
+            showChatMessage(data);
+        } else if (data.type === 'show_sys_msg') {
+            showSystemMessage();
+        } else if (data.type === 'friend_accepted') {
+            friendAccepted(data);
+            showSystemMessage();
+        } else if (data.type === 'group_accepted') {
+            groupAccepted(data);
+            showSystemMessage();
         }
     };
 
@@ -52,7 +58,7 @@ layui.use(['jquery', 'layim'], function () {
     });
 
     layim.on('sendMessage', function (res) {
-        sendChatMessage(res.mine, res.to);
+        sendChatMessage(res);
     });
 
     layim.on('sign', function (sign) {
@@ -63,27 +69,27 @@ layui.use(['jquery', 'layim'], function () {
         });
     });
 
-    function bindUser(clientId) {
+    function bindUser(res) {
         $.ajax({
             type: 'POST',
             url: '/im/user/bind',
-            data: {client_id: clientId}
+            data: {client_id: res.client_id}
         });
     }
 
-    function sendChatMessage(from, to) {
+    function sendChatMessage(res) {
         $.ajax({
             type: 'POST',
             url: '/im/msg/send',
-            data: {from: from, to: to}
+            data: {from: res.mine, to: res.to}
         });
     }
 
-    function showChatMessage(message) {
-        layim.getMessage(message);
+    function showChatMessage(res) {
+        layim.getMessage(res.message);
     }
 
-    function refreshSystemMessage() {
+    function showSystemMessage() {
         $.ajax({
             type: 'GET',
             url: '/im/msg/unread/count',
@@ -92,6 +98,25 @@ layui.use(['jquery', 'layim'], function () {
                     layim.msgbox(res.count);
                 }
             }
+        });
+    }
+
+    function friendAccepted(res) {
+        layim.addList({
+            type: 'friend',
+            groupid: res.group.id,
+            username: res.friend.name,
+            avatar: res.friend.avatar,
+            id: res.friend.id
+        });
+    }
+
+    function groupAccepted(res) {
+        layim.addList({
+            type: 'group',
+            groupname: res.group.name,
+            avatar: res.group.avatar,
+            id: res.group.id
         });
     }
 

@@ -60,7 +60,7 @@
         var layer = layui.layer;
 
         $('.kg-view').on('click', function () {
-            var url = $(this).attr('data-url');
+            var url = $(this).data('url');
             layer.open({
                 type: 2,
                 title: '请求内容',

@@ -48,20 +48,8 @@
 
 {% endblock %}
 
-{% block inline_js %}
+{% block include_js %}
 
-    <script>
-        layui.use(['jquery', 'element'], function () {
-            var $ = layui.jquery;
-            if ($('#tab-courses').length > 0) {
-                var $tabCourses = $('#tab-courses');
-                layui.ajaxLoadHtml($tabCourses.attr('data-url'), $tabCourses.attr('id'));
-            }
-            if ($('#tab-users').length > 0) {
-                var $tabUsers = $('#tab-users');
-                layui.ajaxLoadHtml($tabUsers.attr('data-url'), $tabUsers.attr('id'));
-            }
-        });
-    </script>
+    {{ js_include('web/js/vip.js') }}
 
 {% endblock %}

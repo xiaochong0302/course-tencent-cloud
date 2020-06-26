@@ -54,7 +54,7 @@
         var $ = layui.jquery;
 
         $('.kg-refund').on('click', function () {
-            var url = $(this).attr('data-url');
+            var url = $(this).data('url');
             var tips = '确定要申请退款吗？';
             layer.confirm(tips, function () {
                 $.ajax({

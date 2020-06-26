@@ -6,6 +6,8 @@ use App\Builders\ImMessageList as ImMessageListBuilder;
 use App\Caches\ImHotGroupList as ImHotGroupListCache;
 use App\Caches\ImHotUserList as ImHotUserListCache;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\ImChatGroup as ImChatGroupModel;
+use App\Models\ImChatGroupUser as ImChatGroupUserModel;
 use App\Models\ImFriendGroup as ImFriendGroupModel;
 use App\Models\ImFriendMessage as ImFriendMessageModel;
 use App\Models\ImFriendUser as ImFriendUserModel;
@@ -13,12 +15,14 @@ use App\Models\ImGroupMessage as ImGroupMessageModel;
 use App\Models\ImSystemMessage as ImSystemMessageModel;
 use App\Models\User as UserModel;
 use App\Repos\ImChatGroup as ImChatGroupRepo;
+use App\Repos\ImChatGroupUser as ImChatGroupUserRepo;
 use App\Repos\ImFriendMessage as ImFriendMessageRepo;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImGroupMessage as ImGroupMessageRepo;
 use App\Repos\ImSystemMessage as ImSystemMessageRepo;
 use App\Repos\User as UserRepo;
 use App\Validators\ImChatGroup as ImChatGroupValidator;
+use App\Validators\ImChatGroupUser as ImChatGroupUserValidator;
 use App\Validators\ImFriendUser as ImFriendUserValidator;
 use App\Validators\ImMessage as ImMessageValidator;
 use App\Validators\User as UserValidator;
@@ -223,7 +227,7 @@ class Messenger extends Service
 
         $clientId = $this->request->getPost('client_id');
 
-        Gateway::$registerAddress = '127.0.0.1:1238';
+        Gateway::$registerAddress = $this->getRegisterAddress();
 
         Gateway::bindUid($clientId, $user->id);
 
@@ -273,7 +277,7 @@ class Messenger extends Service
             'message' => $message,
         ]);
 
-        Gateway::$registerAddress = '127.0.0.1:1238';
+        Gateway::$registerAddress = $this->getRegisterAddress();
 
         if ($to['type'] == 'friend') {
 
@@ -286,12 +290,12 @@ class Messenger extends Service
 
                 $messageModel = new ImFriendMessageModel();
 
-                $messageModel->sender_id = $from['id'];
-                $messageModel->receiver_id = $to['id'];
-                $messageModel->content = $from['content'];
-                $messageModel->viewed = $online ? 1 : 0;
-
-                $messageModel->create();
+                $messageModel->create([
+                    'sender_id' => $from['id'],
+                    'receiver_id' => $to['id'],
+                    'content' => $from['content'],
+                    'viewed' => $online ? 1 : 0,
+                ]);
 
                 if ($online) {
                     Gateway::sendToUid($to['id'], $content);
@@ -302,11 +306,11 @@ class Messenger extends Service
 
             $messageModel = new ImGroupMessageModel();
 
-            $messageModel->sender_id = $from['id'];
-            $messageModel->group_id = $to['id'];
-            $messageModel->content = $from['content'];
-
-            $messageModel->create();
+            $messageModel->create([
+                'sender_id' => $from['id'],
+                'group_id' => $to['id'],
+                'content' => $from['content'],
+            ]);
 
             $excludeClientId = null;
 
@@ -426,7 +430,7 @@ class Messenger extends Service
         $itemInfo['status'] = ImSystemMessageModel::REQUEST_ACCEPTED;
         $message->update(['item_info' => $itemInfo]);
 
-        $this->handleAcceptFriendNotice($user, $sender);
+        $this->handleAcceptFriendNotice($user, $sender, $message);
     }
 
     public function refuseFriend()
@@ -456,14 +460,97 @@ class Messenger extends Service
 
     public function applyGroup()
     {
+        $post = $this->request->getPost();
+
+        $user = $this->getLoginUser();
+
+        $validator = new ImChatGroupUserValidator();
+
+        $group = $validator->checkGroup($post['group_id']);
+        $remark = $validator->checkRemark($post['remark']);
+
+        $validator->checkIfJoined($user->id, $group->id);
+        $validator->checkIfBlocked($user->id, $group->id);
+
+        $this->handleApplyGroupNotice($user, $group, $remark);
     }
 
     public function acceptGroup()
     {
+        $user = $this->getLoginUser();
+
+        $messageId = $this->request->getPost('message_id');
+
+        $validator = new ImMessageValidator();
+
+        $message = $validator->checkMessage($messageId, 'system');
+
+        if ($message->item_type != ImSystemMessageModel::TYPE_GROUP_REQUEST) {
+            return;
+        }
+
+        $groupId = $message->item_info['group']['id'] ?: 0;
+
+        $validator = new ImChatGroupValidator();
+
+        $group = $validator->checkGroup($groupId);
+
+        $validator->checkOwner($user->id, $group->user_id);
+
+        $userRepo = new UserRepo();
+
+        $sender = $userRepo->findById($message->sender_id);
+
+        $groupUserRepo = new ImChatGroupUserRepo();
+
+        $groupUser = $groupUserRepo->findGroupUser($group->id, $sender->id);
+
+        if (!$groupUser) {
+            $groupUserModel = new ImChatGroupUserModel();
+            $groupUserModel->create([
+                'group_id' => $group->id,
+                'user_id' => $sender->id,
+            ]);
+        }
+
+        $itemInfo = $message->item_info;
+        $itemInfo['status'] = ImSystemMessageModel::REQUEST_ACCEPTED;
+        $message->update(['item_info' => $itemInfo]);
+
+        $this->handleAcceptGroupNotice($user, $sender, $group);
     }
 
     public function refuseGroup()
     {
+        $user = $this->getLoginUser();
+
+        $messageId = $this->request->getPost('message_id');
+
+        $validator = new ImMessageValidator();
+
+        $message = $validator->checkMessage($messageId, 'system');
+
+        if ($message->item_type != ImSystemMessageModel::TYPE_GROUP_REQUEST) {
+            return;
+        }
+
+        $groupId = $message->item_info['group']['id'] ?: 0;
+
+        $validator = new ImChatGroupValidator();
+
+        $group = $validator->checkGroup($groupId);
+
+        $validator->checkOwner($user->id, $group->user_id);
+
+        $itemInfo = $message->item_info;
+        $itemInfo['status'] = ImSystemMessageModel::REQUEST_REFUSED;
+        $message->update(['item_info' => $itemInfo]);
+
+        $userRepo = new UserRepo();
+
+        $sender = $userRepo->findById($message->sender_id);
+
+        $this->handleRefuseGroupNotice($user, $sender);
     }
 
     protected function pullUnreadFriendMessages($userId)
@@ -689,7 +776,7 @@ class Messenger extends Service
 
         if ($message) {
             $expired = time() - $message->create_time > 7 * 86400;
-            $pending = $message->item_type['status'] == ImSystemMessageModel::REQUEST_PENDING;
+            $pending = $message->item_info['status'] == ImSystemMessageModel::REQUEST_PENDING;
             if (!$expired && $pending) {
                 return;
             }
@@ -716,19 +803,17 @@ class Messenger extends Service
 
         $sysMsgModel->create();
 
-        Gateway::$registerAddress = '127.0.0.1:1238';
+        Gateway::$registerAddress = $this->getRegisterAddress();
 
         $online = Gateway::isUidOnline($receiver->id);
 
         if ($online) {
-
-            $content = kg_json_encode(['type' => 'refresh_sys_msg']);
-
+            $content = kg_json_encode(['type' => 'show_sys_msg']);
             Gateway::sendToUid($receiver->id, $content);
         }
     }
 
-    protected function handleAcceptFriendNotice(UserModel $sender, UserModel $receiver)
+    protected function handleAcceptFriendNotice(UserModel $sender, UserModel $receiver, ImSystemMessageModel $message)
     {
         $sysMsgModel = new ImSystemMessageModel();
 
@@ -745,13 +830,29 @@ class Messenger extends Service
 
         $sysMsgModel->create();
 
-        Gateway::$registerAddress = '127.0.0.1:1238';
+        Gateway::$registerAddress = $this->getRegisterAddress();
 
         $online = Gateway::isUidOnline($receiver->id);
 
         if ($online) {
 
-            $content = kg_json_encode(['type' => 'show_msg_box']);
+            /**
+             * @var array $itemInfo
+             */
+            $itemInfo = $message->item_info;
+
+            $content = kg_json_encode([
+                'type' => 'friend_accepted',
+                'friend' => [
+                    'id' => $sender->id,
+                    'name' => $sender->name,
+                    'avatar' => $sender->avatar,
+                ],
+                'group' => [
+                    'id' => $itemInfo['group']['id'],
+                    'name' => $itemInfo['group']['name'],
+                ],
+            ]);
 
             Gateway::sendToUid($receiver->id, $content);
         }
@@ -774,14 +875,123 @@ class Messenger extends Service
 
         $sysMsgModel->create();
 
-        Gateway::$registerAddress = '127.0.0.1:1238';
+        Gateway::$registerAddress = $this->getRegisterAddress();
+
+        $online = Gateway::isUidOnline($receiver->id);
+
+        if ($online) {
+            $content = kg_json_encode(['type' => 'show_sys_msg']);
+            Gateway::sendToUid($receiver->id, $content);
+        }
+    }
+
+    protected function handleApplyGroupNotice(UserModel $sender, ImChatGroupModel $group, $remark)
+    {
+        $userRepo = new UserRepo();
+
+        $receiver = $userRepo->findById($group->user_id);
+
+        $itemType = ImSystemMessageModel::TYPE_GROUP_REQUEST;
+
+        $message = $userRepo->findImSystemMessage($receiver->id, $itemType);
+
+        if ($message) {
+            $expired = time() - $message->create_time > 7 * 86400;
+            $pending = $message->item_info['status'] == ImSystemMessageModel::REQUEST_PENDING;
+            if (!$expired && $pending) {
+                return;
+            }
+        }
+
+        $sysMsgModel = new ImSystemMessageModel();
+
+        $sysMsgModel->sender_id = $sender->id;
+        $sysMsgModel->receiver_id = $receiver->id;
+        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_GROUP_REQUEST;
+        $sysMsgModel->item_info = [
+            'sender' => [
+                'id' => $sender->id,
+                'name' => $sender->name,
+                'avatar' => $sender->avatar,
+            ],
+            'group' => [
+                'id' => $group->id,
+                'name' => $group->name,
+            ],
+            'remark' => $remark,
+            'status' => ImSystemMessageModel::REQUEST_PENDING,
+        ];
+
+        $sysMsgModel->create();
+
+        Gateway::$registerAddress = $this->getRegisterAddress();
+
+        $online = Gateway::isUidOnline($receiver->id);
+
+        if ($online) {
+            $content = kg_json_encode(['type' => 'show_sys_msg']);
+            Gateway::sendToUid($receiver->id, $content);
+        }
+    }
+
+    protected function handleAcceptGroupNotice(UserModel $sender, UserModel $receiver, ImChatGroupModel $group)
+    {
+        $sysMsgModel = new ImSystemMessageModel();
+
+        $sysMsgModel->sender_id = $sender->id;
+        $sysMsgModel->receiver_id = $receiver->id;
+        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_GROUP_ACCEPTED;
+        $sysMsgModel->item_info = [
+            'sender' => [
+                'id' => $sender->id,
+                'name' => $sender->name,
+                'avatar' => $sender->avatar,
+            ]
+        ];
+
+        $sysMsgModel->create();
+
+        Gateway::$registerAddress = $this->getRegisterAddress();
 
         $online = Gateway::isUidOnline($receiver->id);
 
         if ($online) {
 
-            $content = kg_json_encode(['type' => 'show_msg_box']);
+            $content = kg_json_encode([
+                'type' => 'group_accepted',
+                'group' => [
+                    'id' => $group->id,
+                    'name' => $group->name,
+                ],
+            ]);
 
+            Gateway::sendToUid($receiver->id, $content);
+        }
+    }
+
+    protected function handleRefuseGroupNotice(UserModel $sender, UserModel $receiver)
+    {
+        $sysMsgModel = new ImSystemMessageModel();
+
+        $sysMsgModel->sender_id = $sender->id;
+        $sysMsgModel->receiver_id = $receiver->id;
+        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_GROUP_REFUSED;
+        $sysMsgModel->item_info = [
+            'sender' => [
+                'id' => $sender->id,
+                'name' => $sender->name,
+                'avatar' => $sender->avatar,
+            ]
+        ];
+
+        $sysMsgModel->create();
+
+        Gateway::$registerAddress = $this->getRegisterAddress();
+
+        $online = Gateway::isUidOnline($receiver->id);
+
+        if ($online) {
+            $content = kg_json_encode(['type' => 'show_sys_msg']);
             Gateway::sendToUid($receiver->id, $content);
         }
     }
@@ -789,6 +999,11 @@ class Messenger extends Service
     protected function getGroupName($groupId)
     {
         return "group_{$groupId}";
+    }
+
+    protected function getRegisterAddress()
+    {
+        return '127.0.0.1:1238';
     }
 
 }

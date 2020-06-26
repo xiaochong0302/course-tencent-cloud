@@ -6,7 +6,7 @@
         var layer = layui.layer;
 
         $('.kg-ip2region').on('click', function () {
-            var ip = $(this).attr('data-ip');
+            var ip = $(this).data('ip');
             var url = '/admin/ip2region?ip=' + ip;
             layer.open({
                 type: 2,

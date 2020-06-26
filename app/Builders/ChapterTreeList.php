@@ -57,7 +57,7 @@ class ChapterTreeList extends Builder
              */
             $attrs = $lesson->attrs;
 
-            if ($attrs['model'] == CourseModel::MODEL_VOD) {
+            if ($chapter->model == CourseModel::MODEL_VOD) {
                 unset($attrs['file_id'], $attrs['file_status']);
             }
 

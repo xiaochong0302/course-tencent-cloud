@@ -33,12 +33,7 @@ class Learning extends FrontendService
         $data['request_id'] = $validator->checkRequestId($post['request_id']);
         $data['plan_id'] = $validator->checkPlanId($post['plan_id']);
 
-        /**
-         * @var array $attrs
-         */
-        $attrs = $chapter->attrs;
-
-        if ($attrs['model'] == CourseModel::MODEL_VOD) {
+        if ($chapter->model == CourseModel::MODEL_VOD) {
             $data['position'] = $validator->checkPosition($post['position']);
         }
 

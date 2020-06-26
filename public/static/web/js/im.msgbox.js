@@ -46,7 +46,6 @@ layui.use(['jquery', 'layer', 'layim', 'laypage'], function () {
         $.post('/im/msg/read');
     }
 
-    //操作
     var action = {
         acceptFriend: function (othis) {
             var li = othis.parents('li');
@@ -72,7 +71,7 @@ layui.use(['jquery', 'layer', 'layim', 'laypage'], function () {
                                 username: sender.data('name'),
                                 avatar: sender.data('avatar'),
                                 id: sender.data('id'),
-                                groupid: group,
+                                groupid: group
                             });
                             othis.parent().html('已同意');
                             parent.layer.close(index);
@@ -96,8 +95,30 @@ layui.use(['jquery', 'layer', 'layim', 'laypage'], function () {
             });
         },
         acceptGroup: function (othis) {
+            var li = othis.parents('li');
+            $.ajax({
+                type: 'POST',
+                url: '/im/group/accept',
+                data: {message_id: li.data('id')},
+                success: function () {
+                    layer.close(index);
+                    othis.parent().html('已同意');
+                }
+            });
         },
         refuseGroup: function (othis) {
+            var li = othis.parents('li');
+            layer.confirm('确定拒绝吗？', function (index) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/im/group/refuse',
+                    data: {message_id: li.data('id')},
+                    success: function () {
+                        layer.close(index);
+                        othis.parent().html('<em>已拒绝</em>');
+                    }
+                });
+            });
         }
     };
 

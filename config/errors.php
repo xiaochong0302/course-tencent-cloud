@@ -341,6 +341,7 @@ $error['im_chat_group.about_too_long'] = '群组简介太长（超过255字符�
 
 $error['im_chat_group_user.has_joined'] = '已经加入过群组';
 $error['im_chat_group_user.blocked'] = '对方拒绝接收消息';
+$error['im_chat_group_user.remark_too_long'] = '验证信息太长（超过30字符）';
 
 $error['im_friend_user.user_not_found'] = '用户不存在';
 $error['im_friend_user.remark_too_long'] = '验证信息太长（超过30字符）';

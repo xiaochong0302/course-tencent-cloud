@@ -46,8 +46,8 @@
         var $ = layui.jquery;
         var layer = layui.layer;
         $('.kg-refund').on('click', function () {
-            var url = $(this).attr('data-url');
-            var data = {sn: $(this).attr('data-sn')};
+            var url = $(this).data('url');
+            var data = {sn: $(this).data('sn')};
             var tips = '确定要取消退款吗？';
             layer.confirm(tips, function () {
                 $.ajax({

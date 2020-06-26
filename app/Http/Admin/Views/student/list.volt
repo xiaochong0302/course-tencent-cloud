@@ -91,7 +91,7 @@
         var $ = layui.jquery;
 
         $('.kg-learning').on('click', function () {
-            var url = $(this).attr('data-url');
+            var url = $(this).data('url');
             layer.open({
                 id: 'xm-course',
                 type: 2,

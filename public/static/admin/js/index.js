@@ -4,10 +4,10 @@ layui.use(['jquery', 'element'], function () {
 
     $('.kg-nav-module > li').on('click', function () {
 
-        var module = $(this).attr('data-module');
+        var module = $(this).data('module');
 
         $('.layui-nav-tree').each(function () {
-            if ($(this).attr('data-module') === module) {
+            if ($(this).data('module') === module) {
                 $(this).removeClass('layui-hide');
                 window.frames['content'].location.href = $(this).find('a[target=content]:first').attr('href');
             } else {

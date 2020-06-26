@@ -23,7 +23,6 @@ class Chapter extends Model
      * 点播扩展属性
      */
     protected $_vod_attrs = [
-        'model' => 'vod',
         'duration' => 0,
         'file_id' => '',
         'file_status' => 'pending',
@@ -35,7 +34,6 @@ class Chapter extends Model
      * 直播扩展属性
      */
     protected $_live_attrs = [
-        'model' => 'live',
         'start_time' => 0,
         'end_time' => 0,
     ];
@@ -46,7 +44,6 @@ class Chapter extends Model
      * 图文扩展属性
      */
     protected $_read_attrs = [
-        'model' => 'read',
         'duration' => 0,
         'word_count' => 0,
     ];
@@ -99,6 +96,13 @@ class Chapter extends Model
      * @var int
      */
     public $free;
+
+    /**
+     * 模式类型
+     *
+     * @var string
+     */
+    public $model;
 
     /**
      * 扩展属性
@@ -194,6 +198,8 @@ class Chapter extends Model
         if ($this->parent_id > 0) {
 
             $course = Course::findFirst($this->course_id);
+
+            $this->model = $course->model;
 
             $attrs = [];
 

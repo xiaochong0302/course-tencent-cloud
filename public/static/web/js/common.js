@@ -1,23 +1,15 @@
-layui.define(['jquery', 'element'], function (exports) {
-    exports('ajaxLoadHtml', function (url, target) {
-        var $ = layui.jquery;
-        var element = layui.element;
-        var $target = $('#' + target);
-        var html = '<div class="loading"><i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i></div>';
-        $target.html(html);
-        $.get(url, function (html) {
-            $target.html(html);
-            element.init();
-        });
-    });
+layui.config({
+    base: '/static/lib/layui/extends/'
+}).extend({
+    helper: 'helper'
 });
 
-layui.use(['jquery', 'form', 'element', 'layer'], function () {
+layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
 
     var $ = layui.jquery;
-    var element = layui.element;
     var form = layui.form;
     var layer = layui.layer;
+    var helper = layui.helper;
 
     $.ajaxSetup({
         beforeSend: function (xhr) {
@@ -72,7 +64,7 @@ layui.use(['jquery', 'form', 'element', 'layer'], function () {
     });
 
     $('.kg-delete').on('click', function () {
-        var url = $(this).attr('data-url');
+        var url = $(this).data('url');
         var tips = '确定要删除吗？';
         layer.confirm(tips, function () {
             $.ajax({
@@ -101,9 +93,11 @@ layui.use(['jquery', 'form', 'element', 'layer'], function () {
     });
 
     $('body').on('click', '.layui-laypage > a', function () {
-        var url = $(this).attr('data-url');
-        var target = $(this).attr('data-target');
-        layui.ajaxLoadHtml(url, target);
+        var url = $(this).data('url');
+        var target = $(this).data('target');
+        if (url.length > 0 && target.length > 0) {
+            helper.ajaxLoadHtml(url, target);
+        }
     });
 
 });

@@ -53,7 +53,7 @@
             });
         };
         $('.pay-btn').on('click', function () {
-            var channel = $(this).attr('data-channel');
+            var channel = $(this).data('channel');
             var createUrl = $('input[name=trade_create_url]').val();
             var statusUrl = $('input[name=trade_status_url]').val();
             var forwardUrl = $('input[name=forward_url]').val();

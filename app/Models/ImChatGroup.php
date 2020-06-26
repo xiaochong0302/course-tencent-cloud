@@ -23,6 +23,13 @@ class ImChatGroup extends Model
     public $course_id;
 
     /**
+     * 群主编号
+     *
+     * @var string
+     */
+    public $user_id;
+
+    /**
      * 名称
      *
      * @var string
