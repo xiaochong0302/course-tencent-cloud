@@ -15,9 +15,9 @@
                     {% set user_about = item.about ? item.about|e : '这个人很懒，什么都没留下' %}
                     {% set user_url = url({'for':'web.teacher.show','id':item.id}) %}
                     <div class="layui-col-md3">
-                        <div class="user-card" title="{{ user_about }}">
+                        <div class="user-card">
                             <div class="avatar">
-                                <a href="{{ user_url }}"><img src="{{ item.avatar }}" alt="{{ item.name }}"></a>
+                                <a href="{{ user_url }}" title="{{ user_about }}"><img src="{{ item.avatar }}" alt="{{ item.name }}"></a>
                             </div>
                             <div class="name layui-elip">
                                 <a href="{{ user_url }}">{{ item.name }}</a>

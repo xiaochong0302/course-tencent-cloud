@@ -101,7 +101,6 @@ layui.use(['jquery', 'layer', 'layim', 'laypage'], function () {
                 url: '/im/group/accept',
                 data: {message_id: li.data('id')},
                 success: function () {
-                    layer.close(index);
                     othis.parent().html('已同意');
                 }
             });

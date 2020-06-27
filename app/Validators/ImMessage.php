@@ -2,12 +2,14 @@
 
 namespace App\Validators;
 
-use App\Caches\ImChatGroup as ImChatGroupCache;
-use App\Caches\User as UserCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\ImFriendMessage as ImFriendMessageRepo;
 use App\Repos\ImGroupMessage as ImGroupMessageRepo;
 use App\Repos\ImSystemMessage as ImSystemMessageRepo;
+use App\Validators\ImChatGroup as ImChatGroupValidator;
+use App\Validators\ImChatGroupUser as ImChatGroupUserValidator;
+use App\Validators\ImFriendUser as ImFriendUserValidator;
+use App\Validators\User as UserValidator;
 
 class ImMessage extends Validator
 {
@@ -43,17 +45,11 @@ class ImMessage extends Validator
         $receiver = null;
 
         if ($type == 'friend') {
-            $cache = new UserCache();
-            $receiver = $cache->get($id);
-            if (!$receiver) {
-                throw new BadRequestException('user.not_found');
-            }
+            $validator = new UserValidator();
+            $receiver = $validator->checkUserCache($id);
         } elseif ($type == 'group') {
-            $cache = new ImChatGroupCache();
-            $receiver = $cache->get($id);
-            if (!$receiver) {
-                throw new BadRequestException('im_chat_group.not_found');
-            }
+            $validator = new ImChatGroupValidator();
+            $receiver = $validator->checkGroupCache($id);
         }
 
         return $receiver;
@@ -83,6 +79,17 @@ class ImMessage extends Validator
         }
 
         return $value;
+    }
+
+    public function checkIfBlocked($userId, $targetId, $targetType)
+    {
+        if ($targetType == 'friend') {
+            $validator = new ImFriendUserValidator();
+            $validator->checkIfBlocked($userId, $targetId);
+        } elseif ($targetType == 'group') {
+            $validator = new ImChatGroupUserValidator();
+            $validator->checkIfBlocked($userId, $targetId);
+        }
     }
 
 }

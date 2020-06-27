@@ -4,6 +4,7 @@ namespace App\Http\Web\Controllers;
 
 use App\Services\Frontend\User\CourseList as UserCourseListService;
 use App\Services\Frontend\User\FavoriteList as UserFavoriteListService;
+use App\Services\Frontend\User\FriendList as UserFriendListService;
 use App\Services\Frontend\User\UserInfo as UserInfoService;
 use Phalcon\Mvc\View;
 
@@ -66,7 +67,7 @@ class UserController extends Controller
     {
         $target = $this->request->get('target', 'trim', 'tab-friends');
 
-        $service = new UserFavoriteListService();
+        $service = new UserFriendListService();
 
         $pager = $service->handle($id);
         $pager->items = kg_array_object($pager->items);

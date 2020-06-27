@@ -1,5 +1,5 @@
 {% if pager.total_pages > 0 %}
-    <div class="im-user-list clearfix">
+    <div class="teach-user-list clearfix">
         <div class="layui-row layui-col-space20">
             {% for item in pager.items %}
                 <div class="layui-col-md2">

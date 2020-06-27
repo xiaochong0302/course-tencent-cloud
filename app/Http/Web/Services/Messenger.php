@@ -254,6 +254,7 @@ class Messenger extends Service
         $validator = new ImMessageValidator();
 
         $validator->checkReceiver($to['id'], $to['type']);
+        $validator->checkIfBlocked($user->id, $to['id'], $to['type']);
 
         $from['content'] = $validator->checkContent($from['content']);
 
@@ -269,7 +270,7 @@ class Messenger extends Service
         ];
 
         if ($to['type'] == 'group') {
-            $content['id'] = $to['id'];
+            $message['id'] = $to['id'];
         }
 
         $content = json_encode([
@@ -404,9 +405,8 @@ class Messenger extends Service
 
         $friendUser = $friendUserRepo->findFriendUser($user->id, $sender->id);
 
-        $friendUserModel = new ImFriendUserModel();
-
         if (!$friendUser) {
+            $friendUserModel = new ImFriendUserModel();
             $friendUserModel->create([
                 'user_id' => $user->id,
                 'friend_id' => $sender->id,
@@ -419,9 +419,10 @@ class Messenger extends Service
         $groupId = $message->item_info['group']['id'] ?: 0;
 
         if (!$friendUser) {
+            $friendUserModel = new ImFriendUserModel();
             $friendUserModel->create([
-                'user_id' => $user->id,
-                'friend_id' => $sender->id,
+                'user_id' => $sender->id,
+                'friend_id' => $user->id,
                 'group_id' => $groupId,
             ]);
         }
@@ -813,7 +814,7 @@ class Messenger extends Service
         }
     }
 
-    protected function handleAcceptFriendNotice(UserModel $sender, UserModel $receiver, ImSystemMessageModel $message)
+    protected function handleAcceptFriendNotice(UserModel $sender, UserModel $receiver, ImSystemMessageModel $applyMessage)
     {
         $sysMsgModel = new ImSystemMessageModel();
 
@@ -837,8 +838,10 @@ class Messenger extends Service
         if ($online) {
 
             /**
-             * @var array $itemInfo
+             * 上层操作更新了item_info，类型发生了变化，故重新获取
              */
+            $messageRepo = new ImSystemMessageRepo();
+            $message = $messageRepo->findById($applyMessage->id);
             $itemInfo = $message->item_info;
 
             $content = kg_json_encode([
@@ -962,6 +965,7 @@ class Messenger extends Service
                 'group' => [
                     'id' => $group->id,
                     'name' => $group->name,
+                    'avatar' => $group->avatar,
                 ],
             ]);
 

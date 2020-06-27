@@ -52,9 +52,6 @@ class TeacherList extends FrontendService
                 'avatar' => $user['avatar'],
                 'title' => $user['title'],
                 'about' => $user['about'],
-                'location' => $user['location'],
-                'create_time' => $user['create_time'],
-                'last_login_time' => $user['last_login_time'],
             ];
         }
 
