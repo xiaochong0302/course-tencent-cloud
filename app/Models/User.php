@@ -93,7 +93,14 @@ class User extends Model
     public $admin_role;
 
     /**
-     * VIP标识
+     * 在线标识
+     *
+     * @var int
+     */
+    public $online;
+
+    /**
+     * 会员标识
      *
      * @var int
      */
@@ -114,20 +121,6 @@ class User extends Model
     public $deleted;
 
     /**
-     * 最近登录IP
-     *
-     * @var string
-     */
-    public $last_login_ip;
-
-    /**
-     * 最近登录时间
-     *
-     * @var int
-     */
-    public $last_login_time;
-
-    /**
      * VIP期限
      *
      * @var int
@@ -142,18 +135,11 @@ class User extends Model
     public $lock_expiry_time;
 
     /**
-     * 关注数量
+     * 活跃时间
      *
      * @var int
      */
-    public $following_count;
-
-    /**
-     * 粉丝数量
-     *
-     * @var int
-     */
-    public $follower_count;
+    public $active_time;
 
     /**
      * 创建时间

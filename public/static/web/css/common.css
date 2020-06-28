@@ -1153,6 +1153,7 @@
     float: left;
     width: 100%;
     height: 220px;
+    position: relative;
     text-align: center;
     background-color: #fff;
     border-radius: 2px;
@@ -1182,6 +1183,19 @@
 .user-card .title {
     color: #666;
     font-size: 12px;
+}
+
+.user-card .vip {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 1px 3px;
+    border-radius: 2px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.5em;
+    background-color: orange;
+    color: white;
 }
 
 .user-card .action span {
@@ -1312,6 +1326,12 @@
     padding: 0 5px;
 }
 
+.im-user-list .vip {
+    top: 5px;
+    right: 5px;
+    font-size: 10px;
+}
+
 .layim-msgbox {
     margin: 15px;
 }
@@ -1324,15 +1344,7 @@
     border-bottom: 1px dotted #e2e2e2;
 }
 
-.layim-msgbox .layim-msgbox-tips {
-    margin: 0;
-    padding: 10px 0;
-    border: none;
-    text-align: center;
-    color: #999;
-}
-
-.layim-msgbox .layim-msgbox-system {
+.layim-msgbox-system {
     padding: 0 10px 10px 10px;
 }
 

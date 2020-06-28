@@ -43,9 +43,9 @@ class Messenger extends Service
             'status' => 'online',
         ];
 
-        $friend = $this->handleFriendList($user->id);
+        $friend = $this->handleFriendList($user);
 
-        $group = $this->handleGroupList($user->id);
+        $group = $this->handleGroupList($user);
 
         return [
             'mine' => $mine,
@@ -225,6 +225,11 @@ class Messenger extends Service
     {
         $user = $this->getLoginUser();
 
+        $user->update([
+            'online' => 1,
+            'active_time' => time(),
+        ]);
+
         $clientId = $this->request->getPost('client_id');
 
         Gateway::$registerAddress = $this->getRegisterAddress();
@@ -241,7 +246,12 @@ class Messenger extends Service
             }
         }
 
-        $this->pullUnreadFriendMessages($user->id);
+        $this->pullUnreadFriendMessages($user);
+
+        /**
+         * @todo 隐身登录
+         */
+        $this->pushFriendOnlineTips($user, 'online');
     }
 
     public function sendMessage()
@@ -342,6 +352,21 @@ class Messenger extends Service
                 $message->update();
             }
         }
+    }
+
+    public function updateOnline()
+    {
+        $status = $this->request->getPost('status');
+
+        $user = $this->getLoginUser();
+
+        $online = $status == 'online' ? 1 : 0;
+
+        $user->update(['online' => $online]);
+
+        $this->pushFriendOnlineTips($user, $status);
+
+        return $user;
     }
 
     public function updateSignature()
@@ -500,17 +525,17 @@ class Messenger extends Service
 
         $userRepo = new UserRepo();
 
-        $sender = $userRepo->findById($message->sender_id);
+        $applicant = $userRepo->findById($message->sender_id);
 
         $groupUserRepo = new ImChatGroupUserRepo();
 
-        $groupUser = $groupUserRepo->findGroupUser($group->id, $sender->id);
+        $groupUser = $groupUserRepo->findGroupUser($group->id, $applicant->id);
 
         if (!$groupUser) {
             $groupUserModel = new ImChatGroupUserModel();
             $groupUserModel->create([
                 'group_id' => $group->id,
-                'user_id' => $sender->id,
+                'user_id' => $applicant->id,
             ]);
         }
 
@@ -518,7 +543,9 @@ class Messenger extends Service
         $itemInfo['status'] = ImSystemMessageModel::REQUEST_ACCEPTED;
         $message->update(['item_info' => $itemInfo]);
 
-        $this->handleAcceptGroupNotice($user, $sender, $group);
+        $this->handleAcceptGroupNotice($user, $applicant, $group);
+
+        $this->handleNewGroupUserNotice($applicant, $group);
     }
 
     public function refuseGroup()
@@ -554,15 +581,17 @@ class Messenger extends Service
         $this->handleRefuseGroupNotice($user, $sender);
     }
 
-    protected function pullUnreadFriendMessages($userId)
+    protected function pullUnreadFriendMessages(UserModel $user)
     {
         $userRepo = new UserRepo();
 
-        $messages = $userRepo->findUnreadImFriendMessages($userId);
+        $messages = $userRepo->findUnreadImFriendMessages($user->id);
 
         if ($messages->count() == 0) {
             return;
         }
+
+        Gateway::$registerAddress = $this->getRegisterAddress();
 
         $builder = new ImMessageListBuilder();
 
@@ -588,16 +617,55 @@ class Messenger extends Service
                 ],
             ]);
 
-            Gateway::sendToUid($userId, $content);
+            Gateway::sendToUid($user->id, $content);
         }
     }
 
-    protected function handleFriendList($userId)
+    protected function pushFriendOnlineTips(UserModel $user, $status)
+    {
+        /**
+         * 检查间隔，避免频繁提醒干扰
+         */
+        if (time() - $user->update_time < 600) {
+            return;
+        }
+
+        $userRepo = new UserRepo();
+
+        $friendUsers = $userRepo->findImFriendUsers($user->id);
+
+        if ($friendUsers->count() == 0) {
+            return;
+        }
+
+        $friendIds = kg_array_column($friendUsers->toArray(), 'friend_id');
+
+        $friends = $userRepo->findByIds($friendIds);
+
+        Gateway::$registerAddress = $this->getRegisterAddress();
+
+        foreach ($friends as $friend) {
+            if (Gateway::isUidOnline($friend->id)) {
+                $content = kg_json_encode([
+                    'type' => 'show_online_tips',
+                    'friend' => [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'avatar' => $user->avatar,
+                    ],
+                    'status' => $status == 'online' ? 'online' : 'offline',
+                ]);
+                Gateway::sendToUid($friend->id, $content);
+            }
+        }
+    }
+
+    protected function handleFriendList(UserModel $user)
     {
         $userRepo = new UserRepo();
 
-        $friendGroups = $userRepo->findImFriendGroups($userId);
-        $friendUsers = $userRepo->findImFriendUsers($userId);
+        $friendGroups = $userRepo->findImFriendGroups($user->id);
+        $friendUsers = $userRepo->findImFriendUsers($user->id);
 
         $items = [];
 
@@ -634,7 +702,7 @@ class Messenger extends Service
                 'username' => $user->name,
                 'avatar' => $user->avatar,
                 'sign' => $user->sign,
-                'status' => 'online',
+                'status' => $user->online ? 'online' : 'offline',
             ];
         }
 
@@ -652,11 +720,11 @@ class Messenger extends Service
         return $items;
     }
 
-    protected function handleGroupList($userId)
+    protected function handleGroupList(UserModel $user)
     {
         $userRepo = new UserRepo();
 
-        $groups = $userRepo->findImChatGroups($userId);
+        $groups = $userRepo->findImChatGroups($user->id);
 
         if ($groups->count() == 0) {
             return [];
@@ -809,7 +877,7 @@ class Messenger extends Service
         $online = Gateway::isUidOnline($receiver->id);
 
         if ($online) {
-            $content = kg_json_encode(['type' => 'show_sys_msg']);
+            $content = kg_json_encode(['type' => 'refresh_msg_box']);
             Gateway::sendToUid($receiver->id, $content);
         }
     }
@@ -883,7 +951,7 @@ class Messenger extends Service
         $online = Gateway::isUidOnline($receiver->id);
 
         if ($online) {
-            $content = kg_json_encode(['type' => 'show_sys_msg']);
+            $content = kg_json_encode(['type' => 'refresh_msg_box']);
             Gateway::sendToUid($receiver->id, $content);
         }
     }
@@ -932,7 +1000,7 @@ class Messenger extends Service
         $online = Gateway::isUidOnline($receiver->id);
 
         if ($online) {
-            $content = kg_json_encode(['type' => 'show_sys_msg']);
+            $content = kg_json_encode(['type' => 'refresh_msg_box']);
             Gateway::sendToUid($receiver->id, $content);
         }
     }
@@ -992,11 +1060,41 @@ class Messenger extends Service
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
-        $online = Gateway::isUidOnline($receiver->id);
-
-        if ($online) {
-            $content = kg_json_encode(['type' => 'show_sys_msg']);
+        if (Gateway::isUidOnline($receiver->id)) {
+            $content = kg_json_encode(['type' => 'refresh_msg_box']);
             Gateway::sendToUid($receiver->id, $content);
+        }
+    }
+
+    protected function handleNewGroupUserNotice(UserModel $newUser, ImChatGroupModel $group)
+    {
+        $groupRepo = new ImChatGroupRepo();
+
+        $users = $groupRepo->findGroupUsers($group->id);
+
+        if ($users->count() == 0) {
+            return;
+        }
+
+        Gateway::$registerAddress = $this->getRegisterAddress();
+
+        foreach ($users as $user) {
+            $content = kg_json_encode([
+                'type' => 'new_group_user',
+                'user' => [
+                    'id' => $newUser->id,
+                    'name' => $newUser->name,
+                    'avatar' => $newUser->avatar,
+                ],
+                'group' => [
+                    'id' => $group->id,
+                    'name' => $group->name,
+                    'avatar' => $group->avatar,
+                ],
+            ]);
+            if (Gateway::isUidOnline($user->id)) {
+                Gateway::sendToUid($user->id, $content);
+            }
         }
     }
 

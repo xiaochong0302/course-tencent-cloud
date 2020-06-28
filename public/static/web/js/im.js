@@ -23,17 +23,21 @@ layui.use(['jquery', 'layim'], function () {
             socket.send('pong...');
         } else if (data.type === 'bind_user') {
             bindUser(data);
-            showSystemMessage();
+            refreshMessageBox();
+        } else if (data.type === 'new_group_user') {
+            showNewGroupUserMessage(data);
+        } else if (data.type === 'show_online_tips') {
+            showOnlineTips(data);
         } else if (data.type === 'show_chat_msg') {
             showChatMessage(data);
-        } else if (data.type === 'show_sys_msg') {
-            showSystemMessage();
+        } else if (data.type === 'refresh_msg_box') {
+            refreshMessageBox();
         } else if (data.type === 'friend_accepted') {
             friendAccepted(data);
-            showSystemMessage();
+            refreshMessageBox();
         } else if (data.type === 'group_accepted') {
             groupAccepted(data);
-            showSystemMessage();
+            refreshMessageBox();
         }
     };
 
@@ -59,6 +63,14 @@ layui.use(['jquery', 'layim'], function () {
 
     layim.on('sendMessage', function (res) {
         sendChatMessage(res);
+    });
+
+    layim.on('online', function (status) {
+        $.ajax({
+            type: 'POST',
+            url: '/im/online/update',
+            data: {status: status}
+        });
     });
 
     layim.on('sign', function (sign) {
@@ -89,7 +101,17 @@ layui.use(['jquery', 'layim'], function () {
         layim.getMessage(res.message);
     }
 
-    function showSystemMessage() {
+    function showNewGroupUserMessage(res) {
+        var content = '<a href="/user/' + res.user.id + '" target="_blank">[' + res.user.name + ']</a> 加入群聊';
+        layim.getMessage({
+            system: true,
+            type: 'group',
+            id: res.group.id,
+            content: content
+        });
+    }
+
+    function refreshMessageBox() {
         $.ajax({
             type: 'GET',
             url: '/im/msg/unread/count',
@@ -99,6 +121,16 @@ layui.use(['jquery', 'layim'], function () {
                 }
             }
         });
+    }
+
+    function showOnlineTips(res) {
+        var msg = res.friend.name + '上线了';
+        layer.msg(msg, {
+            icon: 6,
+            offset: 'b',
+            anim: 6
+        });
+        layim.setFriendStatus(res.friend.id, res.status);
     }
 
     function friendAccepted(res) {

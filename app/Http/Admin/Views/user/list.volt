@@ -1,12 +1,3 @@
-{%- macro last_login_info(user) %}
-    {% if user.last_login_ip %}
-        <span class="layui-badge layui-bg-gray">学员</span>
-    {% endif %}
-    {% if user.last_login_time %}
-        <span class="layui-badge layui-bg-gray">学员</span>
-    {% endif %}
-{%- endmacro %}
-
 {%- macro gender_info(value) %}
     {% if value == 1 %}
         <span class="layui-badge layui-bg-red">男</span>
@@ -72,9 +63,9 @@
         <th>编号</th>
         <th>昵称</th>
         <th>性别</th>
-        <th>最后登录</th>
         <th>教学角色</th>
         <th>后台角色</th>
+        <th>活跃时间</th>
         <th>注册时间</th>
         <th>操作</th>
     </tr>
@@ -85,9 +76,9 @@
             <td>{{ item.id }}</td>
             <td><span title="{{ item.about }}">{{ item.name }}</span>{{ status_info(item) }}</td>
             <td>{{ gender_info(item.gender) }}</td>
-            <td>{{ last_login_info(item) }}</td>
             <td>{{ edu_role_info(item) }}</td>
             <td>{{ admin_role_info(item) }}</td>
+            <td>{{ date('Y-m-d H:i:s',item.active_time) }}</td>
             <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
             <td align="center">
                 <div class="layui-dropdown">

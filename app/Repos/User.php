@@ -54,9 +54,6 @@ class User extends Repository
         }
 
         switch ($sort) {
-            case 'popular':
-                $orderBy = 'follower_count DESC';
-                break;
             default:
                 $orderBy = 'id DESC';
                 break;

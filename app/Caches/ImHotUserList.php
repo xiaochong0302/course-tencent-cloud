@@ -48,11 +48,7 @@ class ImHotUserList extends Cache
                 'name' => $user->name,
                 'avatar' => $user->avatar,
                 'about' => $user->about,
-                'location' => $user->location,
-                'gender' => $user->gender,
                 'vip' => $user->vip,
-                'follower_count' => $user->follower_count,
-                'following_count' => $user->following_count,
             ];
         }
 
@@ -67,7 +63,7 @@ class ImHotUserList extends Cache
     {
         return UserModel::query()
             ->where('deleted = 0')
-            ->orderBy('follower_count DESC')
+            ->orderBy('id DESC')
             ->limit($limit)
             ->execute();
     }

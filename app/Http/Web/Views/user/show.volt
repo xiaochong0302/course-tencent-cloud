@@ -13,7 +13,7 @@
         <div class="info">
             <h3>{{ user.name }} {{ vip_flag }}</h3>
             <p><span><i class="layui-icon layui-icon-location"></i></span><span>{{ user.location }}</span></p>
-            <p><span><i class="layui-icon layui-icon-time"></i></span><span>{{ date('Y-m-d H:i',user.last_login_time) }}</span></p>
+            <p><span><i class="layui-icon layui-icon-time"></i></span><span>{{ date('Y-m-d H:i',user.active_time) }}</span></p>
         </div>
         {% if user.about %}
             <div class="about">{{ user.about }}</div>

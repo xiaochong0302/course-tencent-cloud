@@ -202,11 +202,15 @@ class MessengerController extends LayerController
     }
 
     /**
-     * @Post("/stats/update", name="web.im.update_stats")
+     * @Post("/online/update", name="web.im.update_online")
      */
-    public function updateStatsAction()
+    public function updateOnlineAction()
     {
+        $service = new MessengerService();
 
+        $service->updateOnline();
+
+        return $this->jsonSuccess();
     }
 
     /**
