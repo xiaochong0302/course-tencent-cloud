@@ -162,10 +162,10 @@ class Order extends Model
         $this->sn = date('YmdHis') . rand(1000, 9999);
         $this->create_time = time();
 
-        if (is_array($this->item_info) && !empty($this->item_info)) {
+        if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         } else {
-            $this->item_info = '';
+            $this->item_info = ''; // text类型不能填充默认值
         }
     }
 
@@ -173,7 +173,7 @@ class Order extends Model
     {
         $this->update_time = time();
 
-        if (is_array($this->item_info) && !empty($this->item_info)) {
+        if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
     }
@@ -192,8 +192,10 @@ class Order extends Model
     {
         $this->amount = (float)$this->amount;
 
-        if (!empty($this->item_info)) {
+        if (!empty($this->item_info) && is_string($this->item_info)) {
             $this->item_info = json_decode($this->item_info, true);
+        } else {
+            $this->item_info = [];
         }
     }
 

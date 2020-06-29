@@ -6,7 +6,7 @@ use App\Models\ImChatGroup as ImChatGroupModel;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ImHotGroupList extends Cache
+class ImNewGroupList extends Cache
 {
 
     protected $lifetime = 1 * 86400;
@@ -18,7 +18,7 @@ class ImHotGroupList extends Cache
 
     public function getKey($id = null)
     {
-        return 'im_hot_group_list';
+        return 'im_new_group_list';
     }
 
     public function getContent($id = null)

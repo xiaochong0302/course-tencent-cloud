@@ -50,7 +50,7 @@ class Task extends Model
     /**
      * 条目内容
      *
-     * @var string
+     * @var string|array
      */
     public $item_info;
 
@@ -103,7 +103,7 @@ class Task extends Model
         if (!empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         } else {
-            $this->item_info = '';
+            $this->item_info = ''; // text类型不能填充默认值
         }
     }
 
@@ -111,15 +111,17 @@ class Task extends Model
     {
         $this->update_time = time();
 
-        if (is_array($this->item_info) && !empty($this->item_info)) {
+        if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
     }
 
     public function afterFetch()
     {
-        if (!empty($this->item_info)) {
+        if (!empty($this->item_info) && is_string($this->item_info)) {
             $this->item_info = json_decode($this->item_info, true);
+        } else {
+            $this->item_info = [];
         }
     }
 

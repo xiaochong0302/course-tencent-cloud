@@ -78,6 +78,10 @@
     padding-bottom: 1px;
 }
 
+.layui-fixbar {
+    bottom: 60px;
+}
+
 #header {
     left: 0;
     top: 0;

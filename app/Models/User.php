@@ -23,6 +23,20 @@ class User extends Model
     const EDU_ROLE_TEACHER = 2; // 讲师
 
     /**
+     * @var array
+     *
+     * 即时通讯设置
+     */
+    protected $_im = [
+        'sign' => '',
+        'skin' => '',
+        'online' => [
+            'status' => 'online',
+            'time' => 0,
+        ],
+    ];
+
+    /**
      * 主键编号
      *
      * @var int
@@ -51,18 +65,18 @@ class User extends Model
     public $title;
 
     /**
-     * 签名
-     *
-     * @var string
-     */
-    public $sign;
-
-    /**
      * 介绍
      *
      * @var string
      */
     public $about;
+
+    /**
+     * im设置
+     *
+     * @var string|array
+     */
+    public $im;
 
     /**
      * 所在地
@@ -74,7 +88,7 @@ class User extends Model
     /**
      * 性别
      *
-     * @var string
+     * @var int
      */
     public $gender;
 
@@ -93,13 +107,6 @@ class User extends Model
     public $admin_role;
 
     /**
-     * 在线标识
-     *
-     * @var int
-     */
-    public $online;
-
-    /**
      * 会员标识
      *
      * @var int
@@ -111,7 +118,7 @@ class User extends Model
      *
      * @var int
      */
-    public $block;
+    public $locked;
 
     /**
      * 删除标识
@@ -176,6 +183,8 @@ class User extends Model
     {
         $this->create_time = time();
 
+        $this->im = kg_json_encode($this->_im);
+
         if (Text::startsWith($this->avatar, 'http')) {
             $this->avatar = self::getAvatarPath($this->avatar);
         } elseif (empty($this->avatar)) {
@@ -190,6 +199,10 @@ class User extends Model
         if (Text::startsWith($this->avatar, 'http')) {
             $this->avatar = self::getAvatarPath($this->avatar);
         }
+
+        if (is_array($this->im)) {
+            $this->im = kg_json_encode($this->im);
+        }
     }
 
     public function afterCreate()
@@ -203,6 +216,12 @@ class User extends Model
     {
         if (!Text::startsWith($this->avatar, 'http')) {
             $this->avatar = kg_ci_avatar_img_url($this->avatar);
+        }
+
+        if (!empty($this->im) && is_string($this->im)) {
+            $this->im = json_decode($this->im, true);
+        } else {
+            $this->im = [];
         }
     }
 
@@ -230,6 +249,11 @@ class User extends Model
             self::EDU_ROLE_STUDENT => '学员',
             self::EDU_ROLE_TEACHER => '讲师',
         ];
+    }
+
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
     }
 
 }

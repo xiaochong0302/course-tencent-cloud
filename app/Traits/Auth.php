@@ -40,7 +40,13 @@ trait Auth
 
         $userRepo = new UserRepo();
 
-        return $userRepo->findById($authUser['id']);
+        $user = $userRepo->findById($authUser['id']);
+
+        if (time() - $user->active_time > 600) {
+            $user->update(['active_time' => time()]);
+        }
+
+        return $user;
     }
 
     /**

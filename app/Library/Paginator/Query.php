@@ -27,7 +27,7 @@ class Query
 
     public function getLimit()
     {
-        $limit = $this->request->get('limit', 'int', 15);
+        $limit = $this->request->get('limit', 'int', 12);
 
         return $limit > 100 ? 100 : $limit;
     }

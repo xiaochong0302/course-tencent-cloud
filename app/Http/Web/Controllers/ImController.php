@@ -2,14 +2,14 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Http\Web\Services\Messenger as MessengerService;
+use App\Http\Web\Services\Im as ImService;
 use App\Traits\Response as ResponseTrait;
 use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/im")
  */
-class MessengerController extends LayerController
+class ImController extends LayerController
 {
 
     use ResponseTrait;
@@ -19,7 +19,7 @@ class MessengerController extends LayerController
      */
     public function initAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $data = $service->init();
 
@@ -31,7 +31,7 @@ class MessengerController extends LayerController
      */
     public function groupMembersAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $list = $service->getGroupUsers();
 
@@ -41,11 +41,11 @@ class MessengerController extends LayerController
     /**
      * @Get("/msg/unread/count", name="web.im.unread_msg_count")
      */
-    public function unreadMessagesCountAction()
+    public function countUnreadMessagesAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
-        $count = $service->getUnreadSystemMessagesCount();
+        $count = $service->countUnreadSystemMessages();
 
         return $this->jsonSuccess(['count' => $count]);
     }
@@ -55,7 +55,7 @@ class MessengerController extends LayerController
      */
     public function markMessagesAsReadAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $service->markSystemMessagesAsRead();
 
@@ -67,7 +67,7 @@ class MessengerController extends LayerController
      */
     public function messageBoxAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $pager = $service->getSystemMessages();
 
@@ -80,7 +80,7 @@ class MessengerController extends LayerController
      */
     public function systemMessagesAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $pager = $service->getSystemMessages();
 
@@ -95,7 +95,7 @@ class MessengerController extends LayerController
      */
     public function chatLogAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $pager = $service->getChatMessages();
 
@@ -109,7 +109,7 @@ class MessengerController extends LayerController
      */
     public function chatHistoryAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $pager = $service->getChatMessages();
 
@@ -121,10 +121,10 @@ class MessengerController extends LayerController
      */
     public function findAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
-        $usersPager = $service->getHotUsers();
-        $groupsPager = $service->getHotGroups();
+        $usersPager = $service->getNewUsers();
+        $groupsPager = $service->getNewGroups();
 
         $usersPager->items = kg_array_object($usersPager->items);
         $groupsPager->items = kg_array_object($groupsPager->items);
@@ -144,7 +144,7 @@ class MessengerController extends LayerController
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 
-        $service = new MessengerService();
+        $service = new ImService();
 
         if ($type == 'user') {
             $this->view->pick('messenger/find_users');
@@ -167,7 +167,7 @@ class MessengerController extends LayerController
      */
     public function bindUserAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $service->bindUser();
 
@@ -179,7 +179,7 @@ class MessengerController extends LayerController
      */
     public function sendMessageAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $service->sendMessage();
 
@@ -206,7 +206,7 @@ class MessengerController extends LayerController
      */
     public function updateOnlineAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $service->updateOnline();
 
@@ -218,9 +218,21 @@ class MessengerController extends LayerController
      */
     public function updateSignatureAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $service->updateSignature();
+
+        return $this->jsonSuccess();
+    }
+
+    /**
+     * @Post("/skin/update", name="web.web.im.update_skin")
+     */
+    public function updateSKinAction()
+    {
+        $service = new ImService();
+
+        $service->updateSkin();
 
         return $this->jsonSuccess();
     }
@@ -230,7 +242,7 @@ class MessengerController extends LayerController
      */
     public function applyFriendAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $service->applyFriend();
 
@@ -244,7 +256,7 @@ class MessengerController extends LayerController
      */
     public function acceptFriendAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $service->acceptFriend();
 
@@ -256,7 +268,7 @@ class MessengerController extends LayerController
      */
     public function refuseFriendAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $service->refuseFriend();
 
@@ -268,7 +280,7 @@ class MessengerController extends LayerController
      */
     public function applyGroupAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $service->applyGroup();
 
@@ -282,7 +294,7 @@ class MessengerController extends LayerController
      */
     public function acceptGroupAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $service->acceptGroup();
 
@@ -294,7 +306,7 @@ class MessengerController extends LayerController
      */
     public function refuseGroupAction()
     {
-        $service = new MessengerService();
+        $service = new ImService();
 
         $service->refuseGroup();
 

@@ -65,6 +65,10 @@ layui.use(['jquery', 'layim'], function () {
         sendChatMessage(res);
     });
 
+    layim.on('chatChange', function (res) {
+        console.log(res);
+    });
+
     layim.on('online', function (status) {
         $.ajax({
             type: 'POST',
@@ -78,6 +82,14 @@ layui.use(['jquery', 'layim'], function () {
             type: 'POST',
             url: '/im/sign/update',
             data: {sign: sign}
+        });
+    });
+
+    layim.on('setSkin', function (file, src) {
+        $.ajax({
+            type: 'POST',
+            url: '/im/skin/update',
+            data: {skin: src}
         });
     });
 

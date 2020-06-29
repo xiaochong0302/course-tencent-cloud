@@ -6,7 +6,7 @@ use App\Models\User as UserModel;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ImHotUserList extends Cache
+class ImNewUserList extends Cache
 {
 
     protected $lifetime = 1 * 86400;
@@ -18,7 +18,7 @@ class ImHotUserList extends Cache
 
     public function getKey($id = null)
     {
-        return 'im_hot_user_list';
+        return 'im_new_user_list';
     }
 
     public function getContent($id = null)

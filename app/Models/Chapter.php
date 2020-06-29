@@ -107,7 +107,7 @@ class Chapter extends Model
     /**
      * 扩展属性
      *
-     * @var string
+     * @var string|array
      */
     public $attrs;
 
@@ -225,7 +225,7 @@ class Chapter extends Model
     {
         $this->update_time = time();
 
-        if (is_array($this->attrs) && !empty($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
     }
@@ -264,8 +264,10 @@ class Chapter extends Model
 
     public function afterFetch()
     {
-        if (!empty($this->attrs)) {
+        if (!empty($this->attrs) && is_string($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
+        } else {
+            $this->attrs = [];
         }
     }
 
