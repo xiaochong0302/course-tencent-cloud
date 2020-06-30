@@ -4,24 +4,16 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\ImFriendGroup as ImFriendGroupModel;
-use App\Repos\ImFriendGroup as ImFriendGroupRepo;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
-use App\Repos\User as UserRepo;
 
 class ImFriendUser extends Validator
 {
 
     public function checkFriend($id)
     {
-        $repo = new UserRepo();
+        $validator = new User();
 
-        $user = $repo->findById($id);
-
-        if (!$user) {
-            throw new BadRequestException('im_friend_user.user_not_found');
-        }
-
-        return $user;
+        return $validator->checkUser($id);
     }
 
     public function checkGroup($id)
@@ -36,13 +28,9 @@ class ImFriendUser extends Validator
             return $group;
         }
 
-        $repo = new ImFriendGroupRepo();
+        $validator = new ImFriendGroup();
 
-        $group = $repo->findById($id);
-
-        if (!$group) {
-            throw new BadRequestException('im_friend_user.group_not_found');
-        }
+        $group = $validator->checkGroup($id);
 
         return $group;
     }
@@ -58,6 +46,19 @@ class ImFriendUser extends Validator
         }
 
         return $remark;
+    }
+
+    public function checkFriendUser($userId, $friendId)
+    {
+        $repo = new ImFriendUserRepo();
+
+        $record = $repo->findFriendUser($userId, $friendId);
+
+        if (!$record) {
+            throw new BadRequestException('im_friend_user.not_found');
+        }
+
+        return $record;
     }
 
     public function checkIfSelfApply($userId, $friendId)

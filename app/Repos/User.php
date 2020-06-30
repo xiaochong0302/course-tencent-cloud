@@ -3,11 +3,11 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\ImChatGroup as ImChatGroupModel;
-use App\Models\ImChatGroupUser as ImChatGroupUserModel;
 use App\Models\ImFriendGroup as ImFriendGroupModel;
 use App\Models\ImFriendMessage as ImFriendMessageModel;
 use App\Models\ImFriendUser as ImFriendUserModel;
+use App\Models\ImGroup as ImGroupModel;
+use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\ImSystemMessage as ImSystemMessageModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
@@ -142,14 +142,14 @@ class User extends Repository
 
     /**
      * @param int $userId
-     * @return ResultsetInterface|Resultset|ImChatGroupModel[]
+     * @return ResultsetInterface|Resultset|ImGroupModel[]
      */
-    public function findImChatGroups($userId)
+    public function findImGroups($userId)
     {
         return $this->modelsManager->createBuilder()
             ->columns('g.*')
-            ->addFrom(ImChatGroupModel::class, 'g')
-            ->join(ImChatGroupUserModel::class, 'g.id = gu.group_id', 'gu')
+            ->addFrom(ImGroupModel::class, 'g')
+            ->join(ImGroupUserModel::class, 'g.id = gu.group_id', 'gu')
             ->where('gu.user_id = :user_id:', ['user_id' => $userId])
             ->andWhere('g.deleted = 0')
             ->getQuery()->execute();
@@ -157,13 +157,14 @@ class User extends Repository
 
     /**
      * @param int $userId
+     * @param int $friendId
      * @return ResultsetInterface|Resultset|ImFriendMessageModel[]
      */
-    public function findUnreadImFriendMessages($userId)
+    public function findUnreadImFriendMessages($userId, $friendId)
     {
         return ImFriendMessageModel::find([
-            'conditions' => 'receiver_id = ?1 AND viewed = ?2',
-            'bind' => [1 => $userId, 2 => 0],
+            'conditions' => 'sender_id = ?1 AND receiver_id = ?2 AND viewed = ?3',
+            'bind' => [1 => $userId, 2 => $friendId, 3 => 0],
         ]);
     }
 

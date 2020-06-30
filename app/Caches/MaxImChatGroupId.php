@@ -2,9 +2,9 @@
 
 namespace App\Caches;
 
-use App\Models\ImChatGroup as ImChatGroupModel;
+use App\Models\ImGroup as ImGroupModel;
 
-class MaxImChatGroupId extends Cache
+class MaxImGroupId extends Cache
 {
 
     protected $lifetime = 365 * 86400;
@@ -21,7 +21,7 @@ class MaxImChatGroupId extends Cache
 
     public function getContent($id = null)
     {
-        $group = ImChatGroupModel::findFirst(['order' => 'id DESC']);
+        $group = ImGroupModel::findFirst(['order' => 'id DESC']);
 
         return $group->id ?? 0;
     }

@@ -34,6 +34,13 @@ class ImFriendUser extends Model
     public $group_id;
 
     /**
+     * 消息数量
+     *
+     * @var integer
+     */
+    public $msg_count;
+
+    /**
      * 屏蔽标识
      *
      * @var integer

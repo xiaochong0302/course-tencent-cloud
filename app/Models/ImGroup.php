@@ -5,7 +5,7 @@ namespace App\Models;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
-class ImChatGroup extends Model
+class ImGroup extends Model
 {
 
     /**
@@ -80,7 +80,7 @@ class ImChatGroup extends Model
 
     public function getSource()
     {
-        return 'kg_im_chat_group';
+        return 'kg_im_group';
     }
 
     public function initialize()

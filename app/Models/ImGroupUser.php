@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class ImChatGroupUser extends Model
+class ImGroupUser extends Model
 {
 
     /**
@@ -56,7 +56,7 @@ class ImChatGroupUser extends Model
 
     public function getSource()
     {
-        return 'kg_im_chat_group_user';
+        return 'kg_im_group_user';
     }
 
     public function beforeCreate()

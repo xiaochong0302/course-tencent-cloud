@@ -3,14 +3,14 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Repos\ImChatGroupUser as ImChatGroupUserRepo;
+use App\Repos\ImGroupUser as ImGroupUserRepo;
 
-class ImChatGroupUser extends Validator
+class ImGroupUser extends Validator
 {
 
     public function checkGroup($groupId)
     {
-        $validator = new ImChatGroup();
+        $validator = new ImGroup();
 
         return $validator->checkGroup($groupId);
     }
@@ -28,9 +28,20 @@ class ImChatGroupUser extends Validator
         return $remark;
     }
 
+    public function checkGroupUser($userId, $groupId)
+    {
+        $repo = new ImGroupUserRepo();
+
+        $record = $repo->findGroupUser($userId, $groupId);
+
+        if (!$record) {
+            throw new BadRequestException('im_chat_group_user.not_found');
+        }
+    }
+
     public function checkIfJoined($userId, $groupId)
     {
-        $repo = new ImChatGroupUserRepo();
+        $repo = new ImGroupUserRepo();
 
         $record = $repo->findGroupUser($userId, $groupId);
 
@@ -41,7 +52,7 @@ class ImChatGroupUser extends Validator
 
     public function checkIfBlocked($userId, $groupId)
     {
-        $repo = new ImChatGroupUserRepo();
+        $repo = new ImGroupUserRepo();
 
         $record = $repo->findGroupUser($userId, $groupId);
 

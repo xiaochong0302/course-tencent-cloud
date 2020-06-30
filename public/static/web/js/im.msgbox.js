@@ -13,7 +13,7 @@ layui.use(['jquery', 'layer', 'layim', 'laypage'], function () {
     /**
      * 标记信息为已读
      */
-    markMessageAsRead();
+    readSystemMessages();
 
     /**
      * 加载第一页数据
@@ -42,8 +42,8 @@ layui.use(['jquery', 'layer', 'layim', 'laypage'], function () {
         });
     }
 
-    function markMessageAsRead() {
-        $.post('/im/msg/read');
+    function readSystemMessages() {
+        $.post('/im/msg/sys/read');
     }
 
     var action = {

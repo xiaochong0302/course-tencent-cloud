@@ -2,7 +2,7 @@
 
 namespace App\Caches;
 
-use App\Models\ImChatGroup as ImChatGroupModel;
+use App\Models\ImGroup as ImGroupModel;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
@@ -35,7 +35,7 @@ class ImNewGroupList extends Cache
     }
 
     /**
-     * @param ImChatGroupModel[] $groups
+     * @param ImGroupModel[] $groups
      * @return array
      */
     protected function handleContent($groups)
@@ -56,11 +56,11 @@ class ImNewGroupList extends Cache
 
     /**
      * @param int $limit
-     * @return ResultsetInterface|Resultset|ImChatGroupModel[]
+     * @return ResultsetInterface|Resultset|ImGroupModel[]
      */
     public function findHotGroups($limit = 12)
     {
-        return ImChatGroupModel::query()
+        return ImGroupModel::query()
             ->where('deleted = 0')
             ->orderBy('user_count DESC')
             ->limit($limit)

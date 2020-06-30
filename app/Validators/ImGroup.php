@@ -2,25 +2,25 @@
 
 namespace App\Validators;
 
-use App\Caches\ImChatGroup as ImChatGroupCache;
-use App\Caches\MaxImChatGroupId as MaxImChatGroupIdCache;
+use App\Caches\ImGroup as ImGroupCache;
+use App\Caches\MaxImGroupId as MaxImGroupIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Models\ImChatGroup as ImChatGroupModel;
-use App\Repos\ImChatGroup as ImChatGroupRepo;
+use App\Models\ImGroup as ImGroupModel;
+use App\Repos\ImGroup as ImGroupRepo;
 
-class ImChatGroup extends Validator
+class ImGroup extends Validator
 {
 
     /**
      * @param int $id
-     * @return ImChatGroupModel
+     * @return ImGroupModel
      * @throws BadRequestException
      */
     public function checkGroupCache($id)
     {
         $id = intval($id);
 
-        $maxGroupIdCache = new MaxImChatGroupIdCache();
+        $maxGroupIdCache = new MaxImGroupIdCache();
 
         $maxGroupId = $maxGroupIdCache->get();
 
@@ -31,7 +31,7 @@ class ImChatGroup extends Validator
             throw new BadRequestException('im_chat_group.not_found');
         }
 
-        $groupCache = new ImChatGroupCache();
+        $groupCache = new ImGroupCache();
 
         $group = $groupCache->get($id);
 
@@ -44,7 +44,7 @@ class ImChatGroup extends Validator
 
     public function checkGroup($id)
     {
-        $groupRepo = new ImChatGroupRepo();
+        $groupRepo = new ImGroupRepo();
 
         $group = $groupRepo->findById($id);
 

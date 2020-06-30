@@ -2,15 +2,15 @@
 
 namespace App\Http\Web\Services;
 
-use App\Models\ImChatGroup as ImChatGroupModel;
-use App\Models\ImChatGroupUser as ImChatGroupUserModel;
+use App\Models\ImGroup as ImGroupModel;
+use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\ImSystemMessage as ImSystemMessageModel;
 use App\Models\User as UserModel;
-use App\Repos\ImChatGroup as ImChatGroupRepo;
-use App\Repos\ImChatGroupUser as ImChatGroupUserRepo;
+use App\Repos\ImGroup as ImGroupRepo;
+use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\User as UserRepo;
-use App\Validators\ImChatGroup as ImChatGroupValidator;
-use App\Validators\ImChatGroupUser as ImChatGroupUserValidator;
+use App\Validators\ImGroup as ImGroupValidator;
+use App\Validators\ImGroupUser as ImGroupUserValidator;
 use App\Validators\ImMessage as ImMessageValidator;
 use GatewayClient\Gateway;
 
@@ -23,7 +23,7 @@ Trait ImGroupTrait
 
         $user = $this->getLoginUser();
 
-        $validator = new ImChatGroupUserValidator();
+        $validator = new ImGroupUserValidator();
 
         $group = $validator->checkGroup($post['group_id']);
         $remark = $validator->checkRemark($post['remark']);
@@ -50,7 +50,7 @@ Trait ImGroupTrait
 
         $groupId = $message->item_info['group']['id'] ?: 0;
 
-        $validator = new ImChatGroupValidator();
+        $validator = new ImGroupValidator();
 
         $group = $validator->checkGroup($groupId);
 
@@ -60,12 +60,12 @@ Trait ImGroupTrait
 
         $applicant = $userRepo->findById($message->sender_id);
 
-        $groupUserRepo = new ImChatGroupUserRepo();
+        $groupUserRepo = new ImGroupUserRepo();
 
-        $groupUser = $groupUserRepo->findGroupUser($group->id, $applicant->id);
+        $groupUser = $groupUserRepo->findGroupUser($applicant->id, $group->id);
 
         if (!$groupUser) {
-            $groupUserModel = new ImChatGroupUserModel();
+            $groupUserModel = new ImGroupUserModel();
             $groupUserModel->create([
                 'group_id' => $group->id,
                 'user_id' => $applicant->id,
@@ -97,7 +97,7 @@ Trait ImGroupTrait
 
         $groupId = $message->item_info['group']['id'] ?: 0;
 
-        $validator = new ImChatGroupValidator();
+        $validator = new ImGroupValidator();
 
         $group = $validator->checkGroup($groupId);
 
@@ -114,7 +114,7 @@ Trait ImGroupTrait
         $this->handleRefuseGroupNotice($user, $sender);
     }
 
-    protected function handleApplyGroupNotice(UserModel $sender, ImChatGroupModel $group, $remark)
+    protected function handleApplyGroupNotice(UserModel $sender, ImGroupModel $group, $remark)
     {
         $userRepo = new UserRepo();
 
@@ -163,7 +163,7 @@ Trait ImGroupTrait
         }
     }
 
-    protected function handleAcceptGroupNotice(UserModel $sender, UserModel $receiver, ImChatGroupModel $group)
+    protected function handleAcceptGroupNotice(UserModel $sender, UserModel $receiver, ImGroupModel $group)
     {
         $sysMsgModel = new ImSystemMessageModel();
 
@@ -224,9 +224,9 @@ Trait ImGroupTrait
         }
     }
 
-    protected function handleNewGroupUserNotice(UserModel $newUser, ImChatGroupModel $group)
+    protected function handleNewGroupUserNotice(UserModel $newUser, ImGroupModel $group)
     {
-        $groupRepo = new ImChatGroupRepo();
+        $groupRepo = new ImGroupRepo();
 
         $users = $groupRepo->findGroupUsers($group->id);
 

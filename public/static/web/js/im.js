@@ -29,6 +29,7 @@ layui.use(['jquery', 'layim'], function () {
         } else if (data.type === 'show_online_tips') {
             showOnlineTips(data);
         } else if (data.type === 'show_chat_msg') {
+            setChatMessageCount(data);
             showChatMessage(data);
         } else if (data.type === 'refresh_msg_box') {
             refreshMessageBox();
@@ -61,12 +62,26 @@ layui.use(['jquery', 'layim'], function () {
         chatLog: '/im/chat/log'
     });
 
+    layim.on('ready', function (options) {
+        console.log(options.friend);
+        if (options.friend.length > 0) {
+            layui.each(options.friend, function (i, group) {
+                layui.each(group.list, function (j, user) {
+                    var $li = $('.layui-layim-list > .layim-friend' + user.id);
+                    if (user.msg_count > 0) {
+                        $li.append('<em class="msg-count">' + user.msg_count + '</em>');
+                    }
+                });
+            });
+        }
+    });
+
     layim.on('sendMessage', function (res) {
         sendChatMessage(res);
     });
 
     layim.on('chatChange', function (res) {
-        console.log(res);
+        resetChatMessageCount(res);
     });
 
     layim.on('online', function (status) {
@@ -113,6 +128,48 @@ layui.use(['jquery', 'layim'], function () {
         layim.getMessage(res.message);
     }
 
+    function setChatMessageCount(res) {
+        var $li = $('.layim-chatlist-' + res.message.type + res.message.id);
+        if ($li.hasClass('layim-this')) {
+            return;
+        }
+        var $msgCount = $li.find('.msg-count');
+        if ($msgCount.length > 0) {
+            var count = parseInt($msgCount.text());
+            $msgCount.text(count + 1).removeClass('layui-hide');
+        } else {
+            $li.append('<em class="msg-count">1</em>');
+        }
+    }
+
+    function resetChatMessageCount(res) {
+        var $tabMsgCount = $('.layim-chatlist-' + res.data.type + res.data.id + ' > .msg-count');
+        var $listMsgCount = $('.layui-layim-list > .layim-friend' + res.data.id + ' > .msg-count');
+        if (res.data.type === 'friend' && $listMsgCount.text() !== '0') {
+            $.ajax({
+                type: 'GET',
+                url: '/im/msg/friend/unread',
+                data: {id: res.data.id}
+            });
+        }
+        $tabMsgCount.text(0).addClass('layui-hide');
+        $listMsgCount.text(0).addClass('layui-hide');
+    }
+
+    function setFriendStatus(res) {
+        $.ajax({
+            type: 'GET',
+            url: '/im/friend/status',
+            data: {id: res.data.id},
+            success: function (data) {
+                if (data.status === 'online') {
+                    layim.setChatStatus('<span style="color:green;">在线</span>');
+                    layim.setFriendStatus(res.data.id, 'online');
+                }
+            }
+        });
+    }
+
     function showNewGroupUserMessage(res) {
         var content = '<a href="/user/' + res.user.id + '" target="_blank">[' + res.user.name + ']</a> 加入群聊';
         layim.getMessage({
@@ -126,7 +183,7 @@ layui.use(['jquery', 'layim'], function () {
     function refreshMessageBox() {
         $.ajax({
             type: 'GET',
-            url: '/im/msg/unread/count',
+            url: '/im/msg/sys/unread/count',
             success: function (res) {
                 if (res.count > 0) {
                     layim.msgbox(res.count);

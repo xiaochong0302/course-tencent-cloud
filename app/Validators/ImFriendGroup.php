@@ -3,14 +3,14 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Repos\ImChatGroup as ImChatGroupRepo;
+use App\Repos\ImGroup as ImGroupRepo;
 
 class ImFriendGroup extends Validator
 {
 
     public function checkGroup($id)
     {
-        $groupRepo = new ImChatGroupRepo();
+        $groupRepo = new ImGroupRepo();
 
         $group = $groupRepo->findById($id);
 

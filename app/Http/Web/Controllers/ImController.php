@@ -39,9 +39,21 @@ class ImController extends LayerController
     }
 
     /**
-     * @Get("/msg/unread/count", name="web.im.unread_msg_count")
+     * @Get("/msg/friend/unread", name="web.im.unread_friend_msg")
      */
-    public function countUnreadMessagesAction()
+    public function unreadFriendMessagesAction()
+    {
+        $service = new ImService();
+
+        $service->pullUnreadFriendMessages();
+
+        return $this->jsonSuccess();
+    }
+
+    /**
+     * @Get("/msg/sys/unread/count", name="web.im.count_unread_sys_msg")
+     */
+    public function countUnreadSystemMessagesAction()
     {
         $service = new ImService();
 
@@ -51,13 +63,13 @@ class ImController extends LayerController
     }
 
     /**
-     * @Post("/msg/read", name="web.im.read_msg")
+     * @Post("/msg/sys/read", name="web.im.read_sys_msg")
      */
-    public function markMessagesAsReadAction()
+    public function readSystemMessagesAction()
     {
         $service = new ImService();
 
-        $service->markSystemMessagesAsRead();
+        $service->readSystemMessages();
 
         return $this->jsonSuccess();
     }
@@ -88,6 +100,18 @@ class ImController extends LayerController
 
         $this->view->pick('messenger/sys_messages');
         $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/friend/status", name="web.im.friend_status")
+     */
+    public function friendStatusAction()
+    {
+        $service = new ImService();
+
+        $status = $service->getFriendStatus();
+
+        return $this->jsonSuccess(['status' => $status]);
     }
 
     /**

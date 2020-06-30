@@ -9,12 +9,14 @@ use App\Library\Paginator\Query as PagerQuery;
 use App\Models\ImFriendMessage as ImFriendMessageModel;
 use App\Models\ImGroupMessage as ImGroupMessageModel;
 use App\Models\User as UserModel;
-use App\Repos\ImChatGroup as ImChatGroupRepo;
 use App\Repos\ImFriendMessage as ImFriendMessageRepo;
+use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupMessage as ImGroupMessageRepo;
 use App\Repos\ImSystemMessage as ImSystemMessageRepo;
 use App\Repos\User as UserRepo;
-use App\Validators\ImChatGroup as ImChatGroupValidator;
+use App\Validators\ImFriendUser as ImFriendUserValidator;
+use App\Validators\ImGroup as ImGroupValidator;
+use App\Validators\ImGroupUser as ImGroupUserValidator;
 use App\Validators\ImMessage as ImMessageValidator;
 use App\Validators\User as UserValidator;
 use GatewayClient\Gateway;
@@ -84,7 +86,7 @@ class Im extends Service
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $groupRepo = new ImChatGroupRepo();
+        $groupRepo = new ImGroupRepo();
 
         $pager = $groupRepo->paginate($params, $sort, $page, $limit);
 
@@ -125,11 +127,11 @@ class Im extends Service
     {
         $id = $this->request->getQuery('id');
 
-        $validator = new ImChatGroupValidator();
+        $validator = new ImGroupValidator();
 
         $group = $validator->checkGroupCache($id);
 
-        $groupRepo = new ImChatGroupRepo();
+        $groupRepo = new ImGroupRepo();
 
         $users = $groupRepo->findGroupUsers($group->id);
 
@@ -152,6 +154,48 @@ class Im extends Service
         }
 
         return $result;
+    }
+
+    public function pullUnreadFriendMessages()
+    {
+        $user = $this->getLoginUser();
+
+        $id = $this->request->getQuery('id');
+
+        $validator = new UserValidator();
+
+        $friend = $validator->checkUser($id);
+
+        $userRepo = new UserRepo();
+
+        $messages = $userRepo->findUnreadImFriendMessages($user->id, $friend->id);
+
+        if ($messages->count() == 0) {
+            return;
+        }
+
+        Gateway::$registerAddress = $this->getRegisterAddress();
+
+        foreach ($messages as $message) {
+
+            $message->update(['viewed' => 1]);
+
+            $content = kg_json_encode([
+                'type' => 'show_chat_msg',
+                'message' => [
+                    'username' => $friend->name,
+                    'avatar' => $friend->avatar,
+                    'content' => $message->content,
+                    'fromid' => $friend->id,
+                    'id' => $friend->id,
+                    'timestamp' => 1000 * $message->create_time,
+                    'type' => 'friend',
+                    'mine' => false,
+                ],
+            ]);
+
+            Gateway::sendToUid($user->id, $content);
+        }
     }
 
     public function countUnreadSystemMessages()
@@ -220,6 +264,36 @@ class Im extends Service
         }
     }
 
+    public function getFriendStatus()
+    {
+        $user = $this->getLoginUser();
+
+        $user->afterFetch();
+
+        $id = $this->request->getQuery('id');
+
+        $validator = new UserValidator();
+
+        $friend = $validator->checkUser($id);
+
+        $status = $friend->im['online']['status'] ?? 'unknown';
+
+        /**
+         * 对方设置隐身，不返回真实情况
+         */
+        if ($status == 'hide') {
+            return 'unknown';
+        }
+
+        Gateway::$registerAddress = $this->getRegisterAddress();
+
+        if (Gateway::isUidOnline($friend->id)) {
+            $status = 'online';
+        }
+
+        return $status;
+    }
+
     public function bindUser()
     {
         $user = $this->getLoginUser();
@@ -234,15 +308,13 @@ class Im extends Service
 
         $userRepo = new UserRepo();
 
-        $chatGroups = $userRepo->findImChatGroups($user->id);
+        $chatGroups = $userRepo->findImGroups($user->id);
 
         if ($chatGroups->count() > 0) {
             foreach ($chatGroups as $group) {
                 Gateway::joinGroup($clientId, $this->getGroupName($group->id));
             }
         }
-
-        $this->pullUnreadFriendMessages($user);
 
         /**
          * 保持上次的在线状态
@@ -256,15 +328,10 @@ class Im extends Service
     {
         $user = $this->getLoginUser();
 
-        $user->afterFetch();
-
         $from = $this->request->getPost('from');
         $to = $this->request->getPost('to');
 
         $validator = new ImMessageValidator();
-
-        $validator->checkReceiver($to['id'], $to['type']);
-        $validator->checkIfBlocked($user->id, $to['id'], $to['type']);
 
         $from['content'] = $validator->checkContent($from['content']);
 
@@ -292,28 +359,46 @@ class Im extends Service
 
         if ($to['type'] == 'friend') {
 
+            $validator = new ImFriendUserValidator();
+
+            $relation = $validator->checkFriendUser($to['id'], $user->id);
+
             /**
-             * 不推送自己给自己发送的消息
+             * 被对方屏蔽，忽略消息
              */
-            if ($user->id != $to['id']) {
+            if ($relation->blocked) {
+                return;
+            }
 
-                $online = Gateway::isUidOnline($to['id']);
+            $online = Gateway::isUidOnline($to['id']);
 
-                $messageModel = new ImFriendMessageModel();
+            $messageModel = new ImFriendMessageModel();
 
-                $messageModel->create([
-                    'sender_id' => $from['id'],
-                    'receiver_id' => $to['id'],
-                    'content' => $from['content'],
-                    'viewed' => $online ? 1 : 0,
-                ]);
+            $messageModel->create([
+                'sender_id' => $from['id'],
+                'receiver_id' => $to['id'],
+                'content' => $from['content'],
+                'viewed' => $online ? 1 : 0,
+            ]);
 
-                if ($online) {
-                    Gateway::sendToUid($to['id'], $content);
-                }
+            if ($online) {
+                Gateway::sendToUid($to['id'], $content);
+            } else {
+                $relation->update(['msg_count' => $relation->msg_count + 1]);
             }
 
         } elseif ($to['type'] == 'group') {
+
+            $validator = new ImGroupUserValidator();
+
+            $relation = $validator->checkGroupUser($user->id, $to['id']);
+
+            /**
+             * 被对方屏蔽，忽略消息
+             */
+            if ($relation->blocked) {
+                return;
+            }
 
             $messageModel = new ImGroupMessageModel();
 
@@ -338,7 +423,7 @@ class Im extends Service
         }
     }
 
-    public function markSystemMessagesAsRead()
+    public function readSystemMessages()
     {
         $user = $this->getLoginUser();
 
@@ -413,46 +498,6 @@ class Im extends Service
         $user->update(['im' => $im]);
 
         return $user;
-    }
-
-    protected function pullUnreadFriendMessages(UserModel $user)
-    {
-        $userRepo = new UserRepo();
-
-        $messages = $userRepo->findUnreadImFriendMessages($user->id);
-
-        if ($messages->count() == 0) {
-            return;
-        }
-
-        Gateway::$registerAddress = $this->getRegisterAddress();
-
-        $builder = new ImMessageListBuilder();
-
-        $senders = $builder->getSenders($messages->toArray());
-
-        foreach ($messages as $message) {
-
-            $message->update(['viewed' => 1]);
-
-            $sender = $senders[$message->sender_id];
-
-            $content = kg_json_encode([
-                'type' => 'show_chat_msg',
-                'message' => [
-                    'username' => $sender['name'],
-                    'avatar' => $sender['avatar'],
-                    'content' => $message->content,
-                    'fromid' => $sender['id'],
-                    'id' => $sender['id'],
-                    'timestamp' => 1000 * $message->create_time,
-                    'type' => 'friend',
-                    'mine' => false,
-                ],
-            ]);
-
-            Gateway::sendToUid($user->id, $content);
-        }
     }
 
     protected function pushFriendOnlineTips(UserModel $user, $status)
@@ -550,11 +595,12 @@ class Im extends Service
 
         foreach ($items as $key => $item) {
             foreach ($friendUsers as $friendUser) {
-                $userId = $friendUser->friend_id;
+                $friend = $userMappings[$friendUser->friend_id];
                 if ($item['id'] == $friendUser->group_id) {
-                    $items[$key]['list'][] = $userMappings[$userId];
+                    $friend['msg_count'] = $friendUser->msg_count;
+                    $items[$key]['list'][] = $friend;
                 } else {
-                    $items[0]['list'][] = $userMappings[$userId];
+                    $items[0]['list'][] = $friend;
                 }
             }
         }
@@ -566,7 +612,7 @@ class Im extends Service
     {
         $userRepo = new UserRepo();
 
-        $groups = $userRepo->findImChatGroups($user->id);
+        $groups = $userRepo->findImGroups($user->id);
 
         if ($groups->count() == 0) {
             return [];
