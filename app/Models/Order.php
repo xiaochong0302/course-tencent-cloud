@@ -194,8 +194,6 @@ class Order extends Model
 
         if (!empty($this->item_info) && is_string($this->item_info)) {
             $this->item_info = json_decode($this->item_info, true);
-        } else {
-            $this->item_info = [];
         }
     }
 

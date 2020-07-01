@@ -10,6 +10,7 @@ use App\Models\ImFriendMessage as ImFriendMessageModel;
 use App\Models\ImGroupMessage as ImGroupMessageModel;
 use App\Models\User as UserModel;
 use App\Repos\ImFriendMessage as ImFriendMessageRepo;
+use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupMessage as ImGroupMessageRepo;
 use App\Repos\ImSystemMessage as ImSystemMessageRepo;
@@ -168,7 +169,7 @@ class Im extends Service
 
         $userRepo = new UserRepo();
 
-        $messages = $userRepo->findUnreadImFriendMessages($user->id, $friend->id);
+        $messages = $userRepo->findUnreadImFriendMessages($friend->id, $user->id);
 
         if ($messages->count() == 0) {
             return;
@@ -185,9 +186,9 @@ class Im extends Service
                 'message' => [
                     'username' => $friend->name,
                     'avatar' => $friend->avatar,
-                    'content' => $message->content,
-                    'fromid' => $friend->id,
                     'id' => $friend->id,
+                    'fromid' => $friend->id,
+                    'content' => $message->content,
                     'timestamp' => 1000 * $message->create_time,
                     'type' => 'friend',
                     'mine' => false,
@@ -196,6 +197,12 @@ class Im extends Service
 
             Gateway::sendToUid($user->id, $content);
         }
+
+        $repo = new ImFriendUserRepo();
+
+        $friendUser = $repo->findFriendUser($user->id, $friend->id);
+
+        $friendUser->update(['msg_count' => 0]);
     }
 
     public function countUnreadSystemMessages()
@@ -287,9 +294,7 @@ class Im extends Service
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
-        if (Gateway::isUidOnline($friend->id)) {
-            $status = 'online';
-        }
+        $status = Gateway::isUidOnline($friend->id) ? 'online' : 'offline';
 
         return $status;
     }
@@ -384,7 +389,8 @@ class Im extends Service
             if ($online) {
                 Gateway::sendToUid($to['id'], $content);
             } else {
-                $relation->update(['msg_count' => $relation->msg_count + 1]);
+                $msgCount = $relation->msg_count + 1;
+                $relation->update(['msg_count' => $msgCount]);
             }
 
         } elseif ($to['type'] == 'group') {
@@ -403,8 +409,8 @@ class Im extends Service
             $messageModel = new ImGroupMessageModel();
 
             $messageModel->create([
-                'sender_id' => $from['id'],
                 'group_id' => $to['id'],
+                'sender_id' => $from['id'],
                 'content' => $from['content'],
             ]);
 
@@ -583,13 +589,19 @@ class Im extends Service
 
         $userMappings = [];
 
+        /**
+         * 用户可以设置状态为 ['online', 'hide']
+         * 列表在线状态识别为 ['online', 'offline']
+         */
         foreach ($users as $user) {
+            $status = $user->im['online']['status'] ?? 'offline';
+            $status = in_array($status, ['online', 'offline']) ? $status : 'offline';
             $userMappings[$user->id] = [
                 'id' => $user->id,
                 'username' => $user->name,
                 'avatar' => $user->avatar,
                 'sign' => $user->im['sign'] ?? '',
-                'status' => $user->im['online']['status'] ?? 'offline',
+                'status' => $status,
             ];
         }
 

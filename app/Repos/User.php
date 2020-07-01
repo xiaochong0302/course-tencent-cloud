@@ -156,15 +156,15 @@ class User extends Repository
     }
 
     /**
-     * @param int $userId
      * @param int $friendId
+     * @param int $userId
      * @return ResultsetInterface|Resultset|ImFriendMessageModel[]
      */
-    public function findUnreadImFriendMessages($userId, $friendId)
+    public function findUnreadImFriendMessages($friendId, $userId)
     {
         return ImFriendMessageModel::find([
             'conditions' => 'sender_id = ?1 AND receiver_id = ?2 AND viewed = ?3',
-            'bind' => [1 => $userId, 2 => $friendId, 3 => 0],
+            'bind' => [1 => $friendId, 2 => $userId, 3 => 0],
         ]);
     }
 

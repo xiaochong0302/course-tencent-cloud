@@ -215,9 +215,7 @@ class Chapter extends Model
                     break;
             }
 
-            if (!empty($attrs)) {
-                $this->attrs = kg_json_encode($attrs);
-            }
+            $this->attrs = kg_json_encode($attrs);
         }
     }
 
@@ -266,8 +264,6 @@ class Chapter extends Model
     {
         if (!empty($this->attrs) && is_string($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
-        } else {
-            $this->attrs = [];
         }
     }
 

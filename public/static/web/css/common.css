@@ -1415,3 +1415,11 @@
     border-radius: 2px;
     font-size: 10px;
 }
+
+.layim-chat-status .online {
+    color: green;
+}
+
+.layim-chat-status .offline {
+    color: gray;
+}

@@ -37,6 +37,8 @@ class ImGroupUser extends Validator
         if (!$record) {
             throw new BadRequestException('im_chat_group_user.not_found');
         }
+
+        return $record;
     }
 
     public function checkIfJoined($userId, $groupId)

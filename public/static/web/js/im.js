@@ -2,7 +2,7 @@ layui.use(['jquery', 'layim'], function () {
 
     var $ = layui.jquery;
     var layim = layui.layim;
-    var socket = new WebSocket('ws://127.0.0.1:8282');
+    var socket = new WebSocket(window.koogua.socketUrl);
 
     socket.onopen = function () {
         console.log('socket connect success');
@@ -48,7 +48,7 @@ layui.use(['jquery', 'layim'], function () {
             url: '/im/init'
         },
         members: {
-            url: '/im/group/members'
+            url: '/im/group/users'
         },
         uploadImage: {
             url: '/im/img/upload'
@@ -63,7 +63,6 @@ layui.use(['jquery', 'layim'], function () {
     });
 
     layim.on('ready', function (options) {
-        console.log(options.friend);
         if (options.friend.length > 0) {
             layui.each(options.friend, function (i, group) {
                 layui.each(group.list, function (j, user) {
@@ -82,6 +81,9 @@ layui.use(['jquery', 'layim'], function () {
 
     layim.on('chatChange', function (res) {
         resetChatMessageCount(res);
+        if (res.data.type === 'friend') {
+            setFriendStatus(res);
+        }
     });
 
     layim.on('online', function (status) {
@@ -145,7 +147,8 @@ layui.use(['jquery', 'layim'], function () {
     function resetChatMessageCount(res) {
         var $tabMsgCount = $('.layim-chatlist-' + res.data.type + res.data.id + ' > .msg-count');
         var $listMsgCount = $('.layui-layim-list > .layim-friend' + res.data.id + ' > .msg-count');
-        if (res.data.type === 'friend' && $listMsgCount.text() !== '0') {
+        var unreadListMsgCount = parseInt($listMsgCount.text());
+        if (res.data.type === 'friend' && unreadListMsgCount > 0) {
             $.ajax({
                 type: 'GET',
                 url: '/im/msg/friend/unread',
@@ -157,14 +160,24 @@ layui.use(['jquery', 'layim'], function () {
     }
 
     function setFriendStatus(res) {
+        var date = new Date();
+        var lastQueryTime = parseInt($('#online-status-' + res.data.id).data('time'));
+        if (lastQueryTime > 0 && date.getTime() - lastQueryTime < 600000) {
+            return;
+        }
         $.ajax({
             type: 'GET',
             url: '/im/friend/status',
             data: {id: res.data.id},
             success: function (data) {
                 if (data.status === 'online') {
-                    layim.setChatStatus('<span style="color:green;">在线</span>');
+                    layim.setChatStatus('<span id="online-status-' + res.data.id + '" class="online" data-time="' + date.getTime() + '">在线</span>');
                     layim.setFriendStatus(res.data.id, 'online');
+                } else if (data.status === 'offline') {
+                    layim.setChatStatus('<span id="online-status-' + res.data.id + '" class="offline" data-time="' + date.getTime() + '">离线</span>');
+                    layim.setFriendStatus(res.data.id, 'offline');
+                } else {
+                    layim.setChatStatus('<span id="online-status-' + res.data.id + '" class="unknown" data-time="' + date.getTime() + '"></span>');
                 }
             }
         });

@@ -320,8 +320,6 @@ class Course extends Model
 
         if (!empty($this->attrs) && is_string($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
-        } else {
-            $this->attrs = [];
         }
     }
 

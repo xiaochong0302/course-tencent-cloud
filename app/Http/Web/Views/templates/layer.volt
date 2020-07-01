@@ -13,6 +13,7 @@
 <body class="layer">
 {% block content %}{% endblock %}
 
+{{ partial('partials/js_global_vars') }}
 {{ js_include('lib/layui/layui.js') }}
 {{ js_include('web/js/common.js') }}
 

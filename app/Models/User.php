@@ -220,8 +220,6 @@ class User extends Model
 
         if (!empty($this->im) && is_string($this->im)) {
             $this->im = json_decode($this->im, true);
-        } else {
-            $this->im = [];
         }
     }
 

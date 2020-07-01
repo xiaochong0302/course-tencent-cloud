@@ -61,6 +61,7 @@ class Controller extends \Phalcon\Mvc\Controller
         $this->view->setVar('site_navs', $this->siteNavs);
         $this->view->setVar('site_settings', $this->siteSettings);
         $this->view->setVar('auth_user', $this->authUser);
+        $this->view->setVar('socket_url', $this->getSocketUrl());
     }
 
     protected function getAuthUser()
@@ -90,6 +91,13 @@ class Controller extends \Phalcon\Mvc\Controller
     protected function getSiteSeo()
     {
         return new SiteSeo();
+    }
+
+    protected function getSocketUrl()
+    {
+        $config = $this->getDI()->get('config');
+
+        return $config->websocket->url;
     }
 
 }

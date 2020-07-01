@@ -114,14 +114,14 @@ class Role extends Model
     {
         $this->update_time = time();
 
-        if (!empty($this->routes)) {
+        if (is_array($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
         }
     }
 
     public function afterFetch()
     {
-        if (!empty($this->routes)) {
+        if (!empty($this->routes) && is_string($this->routes)) {
             $this->routes = json_decode($this->routes, true);
         }
     }

@@ -27,9 +27,9 @@ class ImController extends LayerController
     }
 
     /**
-     * @Get("/group/members", name="web.im.group_members")
+     * @Get("/group/users", name="web.im.group_users")
      */
-    public function groupMembersAction()
+    public function groupUsersAction()
     {
         $service = new ImService();
 
@@ -51,27 +51,15 @@ class ImController extends LayerController
     }
 
     /**
-     * @Get("/msg/sys/unread/count", name="web.im.count_unread_sys_msg")
+     * @Get("/msg/sys/unread/count", name="web.im.unread_sys_msg_count")
      */
-    public function countUnreadSystemMessagesAction()
+    public function unreadSystemMessagesCountAction()
     {
         $service = new ImService();
 
         $count = $service->countUnreadSystemMessages();
 
         return $this->jsonSuccess(['count' => $count]);
-    }
-
-    /**
-     * @Post("/msg/sys/read", name="web.im.read_sys_msg")
-     */
-    public function readSystemMessagesAction()
-    {
-        $service = new ImService();
-
-        $service->readSystemMessages();
-
-        return $this->jsonSuccess();
     }
 
     /**
@@ -83,7 +71,7 @@ class ImController extends LayerController
 
         $pager = $service->getSystemMessages();
 
-        $this->view->pick('messenger/msg_box');
+        $this->view->pick('im/msg_box');
         $this->view->setVar('pager', $pager);
     }
 
@@ -98,8 +86,20 @@ class ImController extends LayerController
 
         $pager->items = kg_array_object($pager->items);
 
-        $this->view->pick('messenger/sys_messages');
+        $this->view->pick('im/sys_messages');
         $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Post("/msg/sys/read", name="web.im.read_sys_msg")
+     */
+    public function readSystemMessagesAction()
+    {
+        $service = new ImService();
+
+        $service->readSystemMessages();
+
+        return $this->jsonSuccess();
     }
 
     /**
@@ -124,7 +124,7 @@ class ImController extends LayerController
         $pager = $service->getChatMessages();
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('messenger/chat_log');
+        $this->view->pick('im/chat_log');
         $this->view->setVar('pager', $pager);
     }
 
@@ -171,11 +171,11 @@ class ImController extends LayerController
         $service = new ImService();
 
         if ($type == 'user') {
-            $this->view->pick('messenger/find_users');
+            $this->view->pick('im/find_users');
             $target = $target ?: 'tab-users';
             $pager = $service->searchUsers($query);
         } else {
-            $this->view->pick('messenger/find_groups');
+            $this->view->pick('im/find_groups');
             $target = $target ?: 'tab-groups';
             $pager = $service->searchGroups($query);
         }

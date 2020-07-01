@@ -17,10 +17,10 @@
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show" id="tab-users">
-                        {{ partial('messenger/find_users',{'pager':users_pager}) }}
+                        {{ partial('im/find_users',{'pager':users_pager}) }}
                     </div>
                     <div class="layui-tab-item" id="tab-groups">
-                        {{ partial('messenger/find_groups',{'pager':groups_pager}) }}
+                        {{ partial('im/find_groups',{'pager':groups_pager}) }}
                     </div>
                 </div>
             </div>
