@@ -101,28 +101,6 @@ class User extends Validator
         return $value;
     }
 
-    public function checkImSign($sign)
-    {
-        $value = $this->filter->sanitize($sign, ['trim', 'string']);
-
-        $length = kg_strlen($value);
-
-        if ($length > 50) {
-            throw new BadRequestException('user.im_sign_too_long');
-        }
-
-        return $value;
-    }
-
-    public function checkImSkin($url)
-    {
-        if (empty($url)) {
-            throw new BadRequestException('user.invalid_im_skin');
-        }
-
-        return $url;
-    }
-
     public function checkGender($value)
     {
         $list = UserModel::genderTypes();

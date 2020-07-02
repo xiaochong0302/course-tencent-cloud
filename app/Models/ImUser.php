@@ -2,25 +2,19 @@
 
 namespace App\Models;
 
-use App\Caches\MaxUserId as MaxUserIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
-class User extends Model
+class ImUser extends Model
 {
 
     /**
-     * 性别类型
+     * 在线状态
      */
-    const GENDER_MALE = 1; // 男
-    const GENDER_FEMALE = 2; // 女
-    const GENDER_NONE = 3; // 保密
-
-    /**
-     * 教学角色
-     */
-    const EDU_ROLE_STUDENT = 1; // 学员
-    const EDU_ROLE_TEACHER = 2; // 讲师
+    const STATUS_ONLINE = 'online';
+    const STATUS_OFFLINE = 'offline';
+    const STATUS_HIDE = 'hide';
+    const STATUS_NONE = 'none';
 
     /**
      * 主键编号
@@ -44,60 +38,25 @@ class User extends Model
     public $avatar;
 
     /**
-     * 头衔
+     * 签名
      *
      * @var string
      */
-    public $title;
+    public $sign;
 
     /**
-     * 介绍
+     * 皮肤
      *
      * @var string
      */
-    public $about;
+    public $skin;
 
     /**
-     * 所在地
+     * 状态
      *
      * @var string
      */
-    public $location;
-
-    /**
-     * 性别
-     *
-     * @var int
-     */
-    public $gender;
-
-    /**
-     * 教学角色
-     *
-     * @var int
-     */
-    public $edu_role;
-
-    /**
-     * 后台角色
-     *
-     * @var int
-     */
-    public $admin_role;
-
-    /**
-     * 会员标识
-     *
-     * @var int
-     */
-    public $vip;
-
-    /**
-     * 锁定标识
-     *
-     * @var int
-     */
-    public $locked;
+    public $status;
 
     /**
      * 删除标识
@@ -105,27 +64,6 @@ class User extends Model
      * @var int
      */
     public $deleted;
-
-    /**
-     * VIP期限
-     *
-     * @var int
-     */
-    public $vip_expiry_time;
-
-    /**
-     * 锁定期限
-     *
-     * @var int
-     */
-    public $lock_expiry_time;
-
-    /**
-     * 活跃时间
-     *
-     * @var int
-     */
-    public $active_time;
 
     /**
      * 创建时间
@@ -143,7 +81,7 @@ class User extends Model
 
     public function getSource()
     {
-        return 'kg_user';
+        return 'kg_im_user';
     }
 
     public function initialize()
@@ -162,8 +100,6 @@ class User extends Model
     {
         $this->create_time = time();
 
-        $this->im = kg_json_encode($this->_im);
-
         if (Text::startsWith($this->avatar, 'http')) {
             $this->avatar = self::getAvatarPath($this->avatar);
         } elseif (empty($this->avatar)) {
@@ -180,23 +116,6 @@ class User extends Model
         }
     }
 
-    public function afterCreate()
-    {
-        $cache = new MaxUserIdCache();
-
-        $cache->rebuild();
-    }
-
-    public function afterUpdate()
-    {
-        $imUser = ImUser::findFirst($this->id);
-
-        $imUser->update([
-            'name' => $this->name,
-            'avatar' => $this->avatar,
-        ]);
-    }
-
     public function afterFetch()
     {
         if (!Text::startsWith($this->avatar, 'http')) {
@@ -211,23 +130,6 @@ class User extends Model
         }
 
         return $url;
-    }
-
-    public static function genderTypes()
-    {
-        return [
-            self::GENDER_MALE => '男',
-            self::GENDER_FEMALE => '女',
-            self::GENDER_NONE => '保密',
-        ];
-    }
-
-    public static function eduRoleTypes()
-    {
-        return [
-            self::EDU_ROLE_STUDENT => '学员',
-            self::EDU_ROLE_TEACHER => '讲师',
-        ];
     }
 
 }

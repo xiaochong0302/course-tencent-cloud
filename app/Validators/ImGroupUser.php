@@ -8,11 +8,18 @@ use App\Repos\ImGroupUser as ImGroupUserRepo;
 class ImGroupUser extends Validator
 {
 
-    public function checkGroup($groupId)
+    public function checkGroup($id)
     {
         $validator = new ImGroup();
 
-        return $validator->checkGroup($groupId);
+        return $validator->checkGroup($id);
+    }
+
+    public function checkUser($id)
+    {
+        $validator = new User();
+
+        return $validator->checkUser($id);
     }
 
     public function checkRemark($remark)
@@ -22,7 +29,7 @@ class ImGroupUser extends Validator
         $length = kg_strlen($value);
 
         if ($length > 30) {
-            throw new BadRequestException('im_chat_group_user.remark_too_long');
+            throw new BadRequestException('im_group_user.remark_too_long');
         }
 
         return $remark;
@@ -35,7 +42,7 @@ class ImGroupUser extends Validator
         $record = $repo->findGroupUser($userId, $groupId);
 
         if (!$record) {
-            throw new BadRequestException('im_chat_group_user.not_found');
+            throw new BadRequestException('im_group_user.not_found');
         }
 
         return $record;
@@ -48,7 +55,7 @@ class ImGroupUser extends Validator
         $record = $repo->findGroupUser($userId, $groupId);
 
         if ($record && $record->blocked == 0) {
-            throw new BadRequestException('im_chat_group_user.has_joined');
+            throw new BadRequestException('im_group_user.has_joined');
         }
     }
 
@@ -59,7 +66,7 @@ class ImGroupUser extends Validator
         $record = $repo->findGroupUser($userId, $groupId);
 
         if ($record && $record->blocked == 1) {
-            throw new BadRequestException('im_chat_group_user.blocked');
+            throw new BadRequestException('im_group_user.blocked');
         }
     }
 

@@ -2,17 +2,17 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Library\Security;
+use App\Library\CsrfToken as CsrfTokenService;
 use App\Models\ContentImage as ContentImageModel;
-use App\Services\Frontend\Chapter\Learning as LearningService;
 use App\Services\Storage as StorageService;
 use App\Traits\Response as ResponseTrait;
+use App\Traits\Security as SecurityTrait;
 use PHPQRCode\QRcode as PHPQRCode;
 
 class PublicController extends \Phalcon\Mvc\Controller
 {
 
-    use ResponseTrait;
+    use ResponseTrait, SecurityTrait;
 
     /**
      * @Get("/content/img/{id:[0-9]+}", name="web.content_img")
@@ -58,21 +58,13 @@ class PublicController extends \Phalcon\Mvc\Controller
      */
     public function refreshTokenAction()
     {
-        $security = new Security();
+        $this->checkCsrfToken();
 
-        return $this->jsonSuccess();
-    }
+        $service = new CsrfTokenService();
 
-    /**
-     * @Post("/{id:[0-9]+}/learning", name="web.learning")
-     */
-    public function learningAction($id)
-    {
-        $service = new LearningService();
+        $token = $service->getToken();
 
-        $service->handle($id);
-
-        return $this->jsonSuccess();
+        return $this->jsonSuccess(['token' => $token]);
     }
 
 }

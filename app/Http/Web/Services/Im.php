@@ -8,18 +8,18 @@ use App\Caches\ImNewUserList as ImNewUserListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\ImFriendMessage as ImFriendMessageModel;
 use App\Models\ImGroupMessage as ImGroupMessageModel;
-use App\Models\User as UserModel;
+use App\Models\ImUser as ImUserModel;
 use App\Repos\ImFriendMessage as ImFriendMessageRepo;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupMessage as ImGroupMessageRepo;
 use App\Repos\ImSystemMessage as ImSystemMessageRepo;
-use App\Repos\User as UserRepo;
+use App\Repos\ImUser as ImUserRepo;
 use App\Validators\ImFriendUser as ImFriendUserValidator;
 use App\Validators\ImGroup as ImGroupValidator;
 use App\Validators\ImGroupUser as ImGroupUserValidator;
 use App\Validators\ImMessage as ImMessageValidator;
-use App\Validators\User as UserValidator;
+use App\Validators\ImUser as ImUserValidator;
 use GatewayClient\Gateway;
 
 /**
@@ -36,18 +36,18 @@ class Im extends Service
     {
         $user = $this->getLoginUser();
 
-        $user->afterFetch();
+        $imUser = $this->getImUser($user->id);
 
         $mine = [
-            'id' => $user->id,
-            'username' => $user->name,
-            'avatar' => $user->avatar,
-            'sign' => $user->im['sign'] ?? '',
-            'status' => $user->im['online']['status'] ?? 'online',
+            'id' => $imUser->id,
+            'username' => $imUser->name,
+            'avatar' => $imUser->avatar,
+            'sign' => $imUser->sign,
+            'status' => $imUser->status,
         ];
 
-        $friend = $this->handleFriendList($user);
-        $group = $this->handleGroupList($user);
+        $friend = $this->handleFriendList($imUser);
+        $group = $this->handleGroupList($imUser);
 
         return [
             'mine' => $mine,
@@ -68,7 +68,7 @@ class Im extends Service
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $userRepo = new UserRepo();
+        $userRepo = new ImUserRepo();
 
         $pager = $userRepo->paginate($params, $sort, $page, $limit);
 
@@ -163,11 +163,11 @@ class Im extends Service
 
         $id = $this->request->getQuery('id');
 
-        $validator = new UserValidator();
+        $validator = new ImUserValidator();
 
         $friend = $validator->checkUser($id);
 
-        $userRepo = new UserRepo();
+        $userRepo = new ImUserRepo();
 
         $messages = $userRepo->findUnreadImFriendMessages($friend->id, $user->id);
 
@@ -209,7 +209,7 @@ class Im extends Service
     {
         $user = $this->getLoginUser();
 
-        $userRepo = new UserRepo();
+        $userRepo = new ImUserRepo();
 
         return $userRepo->countUnreadImSystemMessages($user->id);
     }
@@ -273,37 +273,29 @@ class Im extends Service
 
     public function getFriendStatus()
     {
-        $user = $this->getLoginUser();
-
-        $user->afterFetch();
-
         $id = $this->request->getQuery('id');
 
-        $validator = new UserValidator();
+        $validator = new ImUserValidator();
 
         $friend = $validator->checkUser($id);
-
-        $status = $friend->im['online']['status'] ?? 'unknown';
 
         /**
          * 对方设置隐身，不返回真实情况
          */
-        if ($status == 'hide') {
+        if ($friend->status == 'hide') {
             return 'unknown';
         }
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
-        $status = Gateway::isUidOnline($friend->id) ? 'online' : 'offline';
-
-        return $status;
+        return Gateway::isUidOnline($friend->id) ? 'online' : 'offline';
     }
 
     public function bindUser()
     {
         $user = $this->getLoginUser();
 
-        $user->afterFetch();
+        $imUser = $this->getImUser($user->id);
 
         $clientId = $this->request->getPost('client_id');
 
@@ -311,7 +303,7 @@ class Im extends Service
 
         Gateway::bindUid($clientId, $user->id);
 
-        $userRepo = new UserRepo();
+        $userRepo = new ImUserRepo();
 
         $chatGroups = $userRepo->findImGroups($user->id);
 
@@ -321,12 +313,7 @@ class Im extends Service
             }
         }
 
-        /**
-         * 保持上次的在线状态
-         */
-        $status = $user->im['online']['status'] ?? 'online';
-
-        $this->pushFriendOnlineTips($user, $status);
+        $this->pushOnlineTips($imUser);
     }
 
     public function sendMessage()
@@ -433,7 +420,7 @@ class Im extends Service
     {
         $user = $this->getLoginUser();
 
-        $userRepo = new UserRepo();
+        $userRepo = new ImUserRepo();
 
         $messages = $userRepo->findUnreadImSystemMessages($user->id);
 
@@ -445,91 +432,80 @@ class Im extends Service
         }
     }
 
-    public function updateOnline()
+    public function updateStatus()
     {
         $user = $this->getLoginUser();
 
-        $user->afterFetch();
+        $imUser = $this->getImUser($user->id);
 
         $status = $this->request->getPost('status');
 
-        $im = $user->im ?: [];
+        $validator = new ImUserValidator();
 
-        $im['online']['status'] = $status;
+        $validator->checkSign($status);
 
-        $user->update(['im' => $im]);
+        $imUser->update(['status' => $status]);
 
-        $this->pushFriendOnlineTips($user, $status);
-
-        return $user;
+        $this->pushOnlineTips($imUser);
     }
 
     public function updateSignature()
     {
         $user = $this->getLoginUser();
 
-        $user->afterFetch();
+        $imUser = $this->getImUser($user->id);
 
         $sign = $this->request->getPost('sign');
 
-        $validator = new UserValidator();
+        $validator = new ImUserValidator();
 
-        $sign = $validator->checkImSign($sign);
+        $sign = $validator->checkSign($sign);
 
-        $im = $user->im ?? [];
+        $imUser->update(['sign' => $sign]);
 
-        $im['sign'] = $sign;
-
-        $user->update(['im' => $im]);
-
-        return $user;
+        return $imUser;
     }
 
     public function updateSkin()
     {
         $user = $this->getLoginUser();
 
-        $user->afterFetch();
+        $imUser = $this->getImUser($user->id);
 
         $skin = $this->request->getPost('skin');
 
-        $validator = new UserValidator();
+        $validator = new ImUserValidator();
 
-        $skin = $validator->checkImSkin($skin);
+        $skin = $validator->checkSkin($skin);
 
-        $im = $user->im ?? [];
+        $imUser->update(['skin' => $skin]);
 
-        $im['skin'] = $skin;
-
-        $user->update(['im' => $im]);
-
-        return $user;
+        return $imUser;
     }
 
-    protected function pushFriendOnlineTips(UserModel $user, $status)
+    protected function pushOnlineTips(ImUserModel $user)
     {
-        $user->afterFetch();
-
-        $time = $user->im['online']['time'] ?? 0;
-        $expired = time() - $time > 600;
-
         /**
-         * 检查间隔，避免频繁提醒干扰
+         * 隐身状态不推送消息
          */
-        if ($time > 0 && !$expired) {
+        if ($user->status == 'hide') {
             return;
         }
 
-        $im = $user->im ?: [];
+        $onlinePushTime = $this->persistent->online_push_time;
 
-        $im['online']['status'] = $status;
-        $im['online']['time'] = time();
+        /**
+         * 避免频繁推送消息
+         */
+        if ($onlinePushTime && time() - $onlinePushTime > 600) {
+            return;
+        }
 
-        $user->update(['im' => $im]);
+        $this->persistent->online_push_time = time();
 
-        $userRepo = new UserRepo();
+        $imUserRepo = new ImUserRepo();
 
-        $friendUsers = $userRepo->findImFriendUsers($user->id);
+        $friendUsers = $imUserRepo->findImFriendUsers($user->id);
 
         if ($friendUsers->count() == 0) {
             return;
@@ -546,16 +522,16 @@ class Im extends Service
                         'name' => $user->name,
                         'avatar' => $user->avatar,
                     ],
-                    'status' => $status == 'online' ? 'online' : 'offline',
+                    'status' => $user->status == 'online' ? 'online' : 'offline',
                 ]);
                 Gateway::sendToUid($friendUser->friend_id, $content);
             }
         }
     }
 
-    protected function handleFriendList(UserModel $user)
+    protected function handleFriendList(ImUserModel $user)
     {
-        $userRepo = new UserRepo();
+        $userRepo = new ImUserRepo();
 
         $friendGroups = $userRepo->findImFriendGroups($user->id);
         $friendUsers = $userRepo->findImFriendUsers($user->id);
@@ -583,31 +559,30 @@ class Im extends Service
             return $items;
         }
 
-        $userIds = kg_array_column($friendUsers->toArray(), 'friend_id');
+        $ids = kg_array_column($friendUsers->toArray(), 'friend_id');
 
-        $users = $userRepo->findByIds($userIds);
+        $users = $userRepo->findByIds($ids);
 
-        $userMappings = [];
+        $mappings = [];
 
         /**
          * 用户可以设置状态为 ['online', 'hide']
          * 列表在线状态识别为 ['online', 'offline']
          */
         foreach ($users as $user) {
-            $status = $user->im['online']['status'] ?? 'offline';
-            $status = in_array($status, ['online', 'offline']) ? $status : 'offline';
-            $userMappings[$user->id] = [
+            $status = in_array($user->status, ['online', 'offline']) ? $user->status : 'offline';
+            $mappings[$user->id] = [
                 'id' => $user->id,
                 'username' => $user->name,
                 'avatar' => $user->avatar,
-                'sign' => $user->im['sign'] ?? '',
+                'sign' => $user->sign,
                 'status' => $status,
             ];
         }
 
         foreach ($items as $key => $item) {
             foreach ($friendUsers as $friendUser) {
-                $friend = $userMappings[$friendUser->friend_id];
+                $friend = $mappings[$friendUser->friend_id];
                 if ($item['id'] == $friendUser->group_id) {
                     $friend['msg_count'] = $friendUser->msg_count;
                     $items[$key]['list'][] = $friend;
@@ -620,9 +595,9 @@ class Im extends Service
         return $items;
     }
 
-    protected function handleGroupList(UserModel $user)
+    protected function handleGroupList(ImUserModel $user)
     {
-        $userRepo = new UserRepo();
+        $userRepo = new ImUserRepo();
 
         $groups = $userRepo->findImGroups($user->id);
 
@@ -730,14 +705,23 @@ class Im extends Service
         return $pager;
     }
 
-    protected function getGroupName($groupId)
+    protected function getImUser($id)
     {
-        return "group_{$groupId}";
+        $repo = new ImUserRepo();
+
+        return $repo->findById($id);
+    }
+
+    protected function getGroupName($id)
+    {
+        return "group_{$id}";
     }
 
     protected function getRegisterAddress()
     {
-        return '127.0.0.1:1238';
+        $config = $this->getDI()->get('config');
+
+        return $config->websocket->register_address;
     }
 
 }

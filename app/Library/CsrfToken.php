@@ -14,7 +14,7 @@ class CsrfToken
      */
     protected $crypt;
 
-    protected $lifetime = 60 * 60;
+    protected $lifetime = 600;
 
     protected $delimiter = '@@';
 

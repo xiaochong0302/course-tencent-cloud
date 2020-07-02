@@ -4,14 +4,12 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
-use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
-use App\Repos\User as UserRepo;
 
 class CourseUser extends Validator
 {
 
-    public function checkCourseUser($id)
+    public function checkRelation($id)
     {
         $courseUserRepo = new CourseUserRepo();
 
@@ -24,34 +22,18 @@ class CourseUser extends Validator
         return $courseUser;
     }
 
-    public function checkCourseId($courseId)
+    public function checkCourse($id)
     {
-        $value = $this->filter->sanitize($courseId, ['trim', 'int']);
+        $validator = new Course();
 
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($value);
-
-        if (!$course) {
-            throw new BadRequestException('course_user.course_not_found');
-        }
-
-        return $course->id;
+        return $validator->checkCourse($id);
     }
 
-    public function checkUserId($userId)
+    public function checkUser($id)
     {
-        $value = $this->filter->sanitize($userId, ['trim', 'int']);
+        $validator = new User();
 
-        $userRepo = new UserRepo();
-
-        $user = $userRepo->findById($value);
-
-        if (!$user) {
-            throw new BadRequestException('course_user.user_not_found');
-        }
-
-        return $user->id;
+        return $validator->checkUser($id);
     }
 
     public function checkExpiryTime($expiryTime)

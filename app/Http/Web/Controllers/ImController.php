@@ -226,13 +226,13 @@ class ImController extends LayerController
     }
 
     /**
-     * @Post("/online/update", name="web.im.update_online")
+     * @Post("/status/update", name="web.im.update_status")
      */
-    public function updateOnlineAction()
+    public function updateStatusAction()
     {
         $service = new ImService();
 
-        $service->updateOnline();
+        $service->updateStatus();
 
         return $this->jsonSuccess();
     }

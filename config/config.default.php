@@ -18,6 +18,11 @@ $config['key'] = 'mlq7jQ1Py8kTdW9m';
 $config['timezone'] = 'Asia/Shanghai';
 
 /**
+ * 日志级别
+ */
+$config['log']['level'] = Phalcon\Logger::INFO;
+
+/**
  * 网站根地址，必须以"/"结尾
  */
 $config['base_uri'] = '/';
@@ -118,8 +123,13 @@ $config['throttle']['lifetime'] = 60;
 $config['throttle']['rate_limit'] = 60;
 
 /**
- * 日志级别
+ * 客户端连接地址
  */
-$config['log']['level'] = Phalcon\Logger::INFO;
+$config['websocket']['url'] = 'ws://127.0.0.1:8282';
+
+/**
+ * gateway和worker注册地址
+ */
+$config['websocket']['register_address'] = '127.0.0.1:1238';
 
 return $config;

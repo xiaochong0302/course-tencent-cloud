@@ -22,6 +22,10 @@ class SearchController extends Controller
     {
         $query = $this->request->get('query', ['trim']);
 
+        if (empty($query)) {
+            return $this->response->redirect(['for' => 'web.course.list']);
+        }
+
         $service = new CourseHotQueryService();
 
         $hotQueries = $service->handle();

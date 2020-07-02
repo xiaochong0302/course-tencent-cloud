@@ -137,8 +137,6 @@ $error['package.invalid_publish_status'] = '无效的发布状态';
  * 课程成员
  */
 $error['course_user.not_found'] = '课程学员不存在';
-$error['course_user.course_not_found'] = '课程不存在';
-$error['course_user.user_not_found'] = '用户不存在';
 $error['course_user.apply_not_allowed'] = '当前不允许申请课程';
 $error['course_user.has_joined_course'] = '已经加入当前课程';
 $error['course_user.invalid_expiry_time'] = '无效的过期时间';
@@ -147,19 +145,18 @@ $error['course_user.invalid_expiry_time'] = '无效的过期时间';
  * 章节相关
  */
 $error['chapter.not_found'] = '章节不存在';
-$error['chapter.invalid_free_status'] = '无效的免费状态';
-$error['chapter.invalid_course_id'] = '无效的课程编号';
-$error['chapter.invalid_parent_id'] = '无效的父级编号';
+$error['chapter.parent_not_found'] = '父级章节不存在';
 $error['chapter.invalid_priority'] = '无效的排序值（范围：1-255）';
+$error['chapter.invalid_free_status'] = '无效的免费状态';
 $error['chapter.invalid_publish_status'] = '无效的发布状态';
 $error['chapter.title_too_short'] = '标题太短（少于2个字符）';
 $error['chapter.title_too_long'] = '标题太长（多于30个字符）';
 $error['chapter.summary_too_long'] = '简介太长（多于255个字符）';
 $error['chapter.vod_not_ready'] = '点播资源尚未就绪';
+$error['chapter.read_not_ready'] = '文章内容尚未就绪';
 $error['chapter.live_not_start'] = '直播尚未开始';
 $error['chapter.live_time_empty'] = '直播时间尚未设置';
-$error['chapter.read_not_ready'] = '文章内容尚未就绪';
-$error['chapter.has_child_node'] = '不允许相关操作（存在子节点）';
+$error['chapter.child_existed'] = '不允许相关操作（存在子章节）';
 
 /**
  * 点播相关
@@ -189,7 +186,6 @@ $error['chapter_read.content_too_long'] = '文章内容太长（多于65535个�
  * 评价相关
  */
 $error['review.not_found'] = '评价不存在';
-$error['review.course_not_found'] = '课程不存在';
 $error['review.invalid_rating'] = '无效的评分（范围：1-5）';
 $error['review.invalid_publish_status'] = '无效的发布状态';
 $error['review.content_too_short'] = '评价内容太短（少于5个字符）';
@@ -329,21 +325,21 @@ $error['learning.invalid_interval'] = '无效的间隔时间';
 /**
  * 即时通讯
  */
-
 $error['im_friend_group.not_found'] = '分组不存在';
 $error['im_friend_group.name_too_short'] = '分组名太短（少于2字符）';
 $error['im_friend_group.name_too_long'] = '分组名太长（超过15字符）';
 
-$error['im_chat_group.not_found'] = '群组不存在';
-$error['im_chat_group.name_too_short'] = '群组名太短（少于2字符）';
-$error['im_chat_group.name_too_long'] = '群组名太长（超过30字符）';
-$error['im_chat_group.about_too_long'] = '群组简介太长（超过255字符）';
+$error['im_group.not_found'] = '群组不存在';
+$error['im_group.name_too_short'] = '群组名太短（少于2字符）';
+$error['im_group.name_too_long'] = '群组名太长（超过30字符）';
+$error['im_group.about_too_long'] = '群组简介太长（超过255字符）';
 
-$error['im_chat_group_user.has_joined'] = '已经加入过群组';
-$error['im_chat_group_user.blocked'] = '对方拒绝接收消息';
-$error['im_chat_group_user.remark_too_long'] = '验证信息太长（超过30字符）';
+$error['im_group_user.not_found'] = '群组关系不存在';
+$error['im_group_user.remark_too_long'] = '验证信息太长（超过30字符）';
+$error['im_group_user.has_joined'] = '已经加入过群组';
+$error['im_group_user.blocked'] = '对方拒绝接收消息';
 
-$error['im_friend_user.user_not_found'] = '用户不存在';
+$error['im_friend_user.not_found'] = '好友关系不存在';
 $error['im_friend_user.remark_too_long'] = '验证信息太长（超过30字符）';
 $error['im_friend_user.self_apply'] = '不能添加自己为好友';
 $error['im_friend_user.has_joined'] = '已经是好友啦';

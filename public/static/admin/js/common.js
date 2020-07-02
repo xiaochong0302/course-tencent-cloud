@@ -10,11 +10,23 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
     var form = layui.form;
     var layer = layui.layer;
 
+    var $token = $('meta[name="csrf-token"]');
+
     $.ajaxSetup({
         beforeSend: function (xhr) {
-            xhr.setRequestHeader('X-Csrf-Token', $('meta[name="csrf-token"]').attr('content'));
+            xhr.setRequestHeader('X-Csrf-Token', $token.attr('content'));
         }
     });
+
+    setInterval(function () {
+        $.ajax({
+            type: 'POST',
+            url: '/token/refresh',
+            success: function (res) {
+                $token.attr('content', res.token);
+            }
+        });
+    }, 300000);
 
     form.on('submit(go)', function (data) {
         var submit = $(this);

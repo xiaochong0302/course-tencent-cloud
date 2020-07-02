@@ -55,13 +55,13 @@ class Category extends Validator
         return $category;
     }
 
-    public function checkParent($parentId)
+    public function checkParent($id)
     {
         $categoryRepo = new CategoryRepo();
 
-        $category = $categoryRepo->findById($parentId);
+        $category = $categoryRepo->findById($id);
 
-        if (!$category || $category->deleted == 1) {
+        if (!$category) {
             throw new BadRequestException('category.parent_not_found');
         }
 

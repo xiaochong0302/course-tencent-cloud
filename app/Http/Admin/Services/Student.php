@@ -16,18 +16,18 @@ use App\Validators\CourseUser as CourseUserValidator;
 class Student extends Service
 {
 
-    public function getCourse($courseId)
+    public function getCourse($id)
     {
         $repo = new CourseRepo();
 
-        return $repo->findById($courseId);
+        return $repo->findById($id);
     }
 
-    public function getStudent($userId)
+    public function getStudent($id)
     {
         $repo = new UserRepo();
 
-        return $repo->findById($userId);
+        return $repo->findById($id);
     }
 
     public function getRelations()
@@ -85,9 +85,13 @@ class Student extends Service
             'source_type' => CourseUserModel::SOURCE_IMPORT,
         ];
 
-        $data['course_id'] = $validator->checkCourseId($post['course_id']);
-        $data['user_id'] = $validator->checkUserId($post['user_id']);
-        $data['expiry_time'] = $validator->checkExpiryTime($post['expiry_time']);
+        $course = $validator->checkCourse($post['course_id']);
+        $user = $validator->checkUser($post['user_id']);
+        $expiryTime = $validator->checkExpiryTime($post['expiry_time']);
+
+        $data['course_id'] = $course->id;
+        $data['user_id'] = $user->id;
+        $data['expiry_time'] = $expiryTime;
 
         $validator->checkIfJoined($post['course_id'], $post['user_id']);
 
@@ -134,7 +138,7 @@ class Student extends Service
     {
         $validator = new CourseUserValidator();
 
-        return $validator->checkCourseUser($id);
+        return $validator->checkRelation($id);
     }
 
     protected function handleRelations($pager)

@@ -96,6 +96,11 @@ class Account extends Model
         $user->id = $this->id;
         $user->name = "user_{$this->id}";
         $user->create();
+
+        $imUser = new ImUser();
+        $imUser->id = $this->id;
+        $imUser->name = "user_{$this->id}";
+        $imUser->create();
     }
 
 }

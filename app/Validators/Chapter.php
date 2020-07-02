@@ -57,27 +57,21 @@ class Chapter extends Validator
         return $chapter;
     }
 
-    public function checkCourse($courseId)
+    public function checkCourse($id)
     {
-        $courseRepo = new CourseRepo();
+        $validator = new Course();
 
-        $course = $courseRepo->findById($courseId);
-
-        if (!$course) {
-            throw new BadRequestException('chapter.invalid_course_id');
-        }
-
-        return $course;
+        return $validator->checkCourse($id);
     }
 
-    public function checkParent($parentId)
+    public function checkParent($id)
     {
         $chapterRepo = new ChapterRepo();
 
-        $chapter = $chapterRepo->findById($parentId);
+        $chapter = $chapterRepo->findById($id);
 
         if (!$chapter) {
-            throw new BadRequestException('chapter.invalid_parent_id');
+            throw new BadRequestException('chapter.parent_not_found');
         }
 
         return $chapter;
@@ -175,7 +169,7 @@ class Chapter extends Validator
         ]);
 
         if ($chapters->count() > 0) {
-            throw new BadRequestException('chapter.has_child_node');
+            throw new BadRequestException('chapter.child_existed');
         }
     }
 

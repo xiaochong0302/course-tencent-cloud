@@ -4,7 +4,6 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\Consult as ConsultRepo;
-use App\Repos\Course as CourseRepo;
 
 class Consult extends Validator
 {
@@ -22,17 +21,11 @@ class Consult extends Validator
         return $consult;
     }
 
-    public function checkCourse($courseId)
+    public function checkCourse($id)
     {
-        $courseRepo = new CourseRepo();
+        $validator = new Course();
 
-        $course = $courseRepo->findById($courseId);
-
-        if (!$course) {
-            throw new BadRequestException('consult.invalid_course_id');
-        }
-
-        return $course;
+        return $validator->checkCourse($id);
     }
 
     public function checkQuestion($question)

@@ -89,7 +89,7 @@ layui.use(['jquery', 'layim'], function () {
     layim.on('online', function (status) {
         $.ajax({
             type: 'POST',
-            url: '/im/online/update',
+            url: '/im/status/update',
             data: {status: status}
         });
     });
@@ -102,11 +102,11 @@ layui.use(['jquery', 'layim'], function () {
         });
     });
 
-    layim.on('setSkin', function (file, src) {
+    layim.on('setSkin', function (filename, src) {
         $.ajax({
             type: 'POST',
             url: '/im/skin/update',
-            data: {skin: src}
+            data: {skin: filename}
         });
     });
 

@@ -5,7 +5,7 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\ImGroup as ImGroupModel;
 use App\Models\ImGroupUser as ImGroupUserModel;
-use App\Models\User as UserModel;
+use App\Models\ImUser as ImUserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -77,13 +77,13 @@ class ImGroup extends Repository
 
     /**
      * @param int $groupId
-     * @return ResultsetInterface|Resultset|UserModel[]
+     * @return ResultsetInterface|Resultset|ImUserModel[]
      */
     public function findGroupUsers($groupId)
     {
         return $this->modelsManager->createBuilder()
             ->columns('u.*')
-            ->addFrom(UserModel::class, 'u')
+            ->addFrom(ImUserModel::class, 'u')
             ->join(ImGroupUserModel::class, 'u.id = gu.user_id', 'gu')
             ->where('gu.group_id = :group_id:', ['group_id' => $groupId])
             ->andWhere('u.deleted = 0')

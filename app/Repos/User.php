@@ -3,12 +3,6 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\ImFriendGroup as ImFriendGroupModel;
-use App\Models\ImFriendMessage as ImFriendMessageModel;
-use App\Models\ImFriendUser as ImFriendUserModel;
-use App\Models\ImGroup as ImGroupModel;
-use App\Models\ImGroupUser as ImGroupUserModel;
-use App\Models\ImSystemMessage as ImSystemMessageModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -115,91 +109,6 @@ class User extends Repository
             ->where('edu_role = :edu_role:', ['edu_role' => $eduRole])
             ->andWhere('deleted = 0')
             ->execute();
-    }
-
-    /**
-     * @param int $userId
-     * @return ResultsetInterface|Resultset|ImFriendUserModel[]
-     */
-    public function findImFriendUsers($userId)
-    {
-        return ImFriendUserModel::query()
-            ->where('user_id = :user_id:', ['user_id' => $userId])
-            ->execute();
-    }
-
-    /**
-     * @param int $userId
-     * @return ResultsetInterface|Resultset|ImFriendGroupModel[]
-     */
-    public function findImFriendGroups($userId)
-    {
-        return ImFriendGroupModel::query()
-            ->where('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('deleted = 0')
-            ->execute();
-    }
-
-    /**
-     * @param int $userId
-     * @return ResultsetInterface|Resultset|ImGroupModel[]
-     */
-    public function findImGroups($userId)
-    {
-        return $this->modelsManager->createBuilder()
-            ->columns('g.*')
-            ->addFrom(ImGroupModel::class, 'g')
-            ->join(ImGroupUserModel::class, 'g.id = gu.group_id', 'gu')
-            ->where('gu.user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('g.deleted = 0')
-            ->getQuery()->execute();
-    }
-
-    /**
-     * @param int $friendId
-     * @param int $userId
-     * @return ResultsetInterface|Resultset|ImFriendMessageModel[]
-     */
-    public function findUnreadImFriendMessages($friendId, $userId)
-    {
-        return ImFriendMessageModel::find([
-            'conditions' => 'sender_id = ?1 AND receiver_id = ?2 AND viewed = ?3',
-            'bind' => [1 => $friendId, 2 => $userId, 3 => 0],
-        ]);
-    }
-
-    /**
-     * @param int $userId
-     * @param int $itemType
-     * @return Model|bool|ImSystemMessageModel
-     */
-    public function findImSystemMessage($userId, $itemType)
-    {
-        return ImSystemMessageModel::findFirst([
-            'conditions' => 'receiver_id = ?1 AND item_type = ?2',
-            'bind' => [1 => $userId, 2 => $itemType],
-            'order' => 'id DESC',
-        ]);
-    }
-
-    /**
-     * @param int $userId
-     * @return ResultsetInterface|Resultset|ImFriendMessageModel[]
-     */
-    public function findUnreadImSystemMessages($userId)
-    {
-        return ImSystemMessageModel::find([
-            'conditions' => 'receiver_id = ?1 AND viewed = ?2',
-            'bind' => [1 => $userId, 2 => 0],
-        ]);
-    }
-
-    public function countUnreadImSystemMessages($userId)
-    {
-        return ImSystemMessageModel::count([
-            'conditions' => 'receiver_id = ?1 AND viewed = ?2',
-            'bind' => [1 => $userId, 2 => 0],
-        ]);
     }
 
 }

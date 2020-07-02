@@ -4,7 +4,6 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Repos\Course as CourseRepo;
 use App\Repos\Review as ReviewRepo;
 
 class Review extends Validator
@@ -23,17 +22,11 @@ class Review extends Validator
         return $review;
     }
 
-    public function checkCourse($courseId)
+    public function checkCourse($id)
     {
-        $courseRepo = new CourseRepo();
+        $validator = new Course();
 
-        $course = $courseRepo->findById($courseId);
-
-        if (!$course) {
-            throw new BadRequestException('review.course_not_found');
-        }
-
-        return $course;
+        return $validator->checkCourse($id);
     }
 
     public function checkContent($content)
