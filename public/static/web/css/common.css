@@ -64,6 +64,11 @@
     text-align: center;
 }
 
+.loading {
+    padding: 30px;
+    text-align: center;
+}
+
 .layout-content {
     float: left;
     width: 800px;
@@ -330,6 +335,13 @@
     color: green;
 }
 
+.filter-toggle {
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
 .course-filter {
     margin-bottom: 20px;
 }
@@ -352,6 +364,15 @@
 
 .filter-group .content a {
     margin-right: 15px;
+}
+
+.course-sort {
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.course-sort a {
+    margin-right: 20px;
 }
 
 .course-list {

@@ -5,10 +5,9 @@ namespace App\Http\Web\Services;
 use App\Models\ImFriendGroup as ImFriendGroupModel;
 use App\Models\ImFriendUser as ImFriendUserModel;
 use App\Models\ImSystemMessage as ImSystemMessageModel;
-use App\Models\User as UserModel;
+use App\Models\ImUser as ImUserModel;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
-use App\Repos\ImSystemMessage as ImSystemMessageRepo;
-use App\Repos\User as UserRepo;
+use App\Repos\ImUser as ImUserRepo;
 use App\Validators\ImFriendUser as ImFriendUserValidator;
 use App\Validators\ImMessage as ImMessageValidator;
 use GatewayClient\Gateway;
@@ -18,9 +17,11 @@ Trait ImFriendTrait
 
     public function applyFriend()
     {
-        $post = $this->request->getPost();
+        $loginUser = $this->getLoginUser();
 
-        $user = $this->getLoginUser();
+        $user = $this->getImUser($loginUser->id);
+
+        $post = $this->request->getPost();
 
         $validator = new ImFriendUserValidator();
 
@@ -37,7 +38,9 @@ Trait ImFriendTrait
 
     public function acceptFriend()
     {
-        $user = $this->getLoginUser();
+        $loginUser = $this->getLoginUser();
+
+        $user = $this->getImUser($loginUser->id);
 
         $messageId = $this->request->getPost('message_id');
         $groupId = $this->request->getPost('group_id');
@@ -54,9 +57,7 @@ Trait ImFriendTrait
             return;
         }
 
-        $userRepo = new UserRepo();
-
-        $sender = $userRepo->findById($message->sender_id);
+        $sender = $this->getImUser($message->sender_id);
 
         $friendUserRepo = new ImFriendUserRepo();
 
@@ -85,7 +86,9 @@ Trait ImFriendTrait
         }
 
         $itemInfo = $message->item_info;
+
         $itemInfo['status'] = ImSystemMessageModel::REQUEST_ACCEPTED;
+
         $message->update(['item_info' => $itemInfo]);
 
         $this->handleAcceptFriendNotice($user, $sender, $message);
@@ -93,7 +96,9 @@ Trait ImFriendTrait
 
     public function refuseFriend()
     {
-        $user = $this->getLoginUser();
+        $loginUser = $this->getLoginUser();
+
+        $user = $this->getImUser($loginUser->id);
 
         $messageId = $this->request->getPost('message_id');
 
@@ -106,19 +111,19 @@ Trait ImFriendTrait
         }
 
         $itemInfo = $message->item_info;
+
         $itemInfo['status'] = ImSystemMessageModel::REQUEST_REFUSED;
+
         $message->update(['item_info' => $itemInfo]);
 
-        $userRepo = new UserRepo();
-
-        $sender = $userRepo->findById($message->sender_id);
+        $sender = $this->getImUser($message->sender_id);
 
         $this->handleRefuseFriendNotice($user, $sender);
     }
 
-    protected function handleApplyFriendNotice(UserModel $sender, UserModel $receiver, ImFriendGroupModel $group, $remark)
+    protected function handleApplyFriendNotice(ImUserModel $sender, ImUserModel $receiver, ImFriendGroupModel $group, $remark)
     {
-        $userRepo = new UserRepo();
+        $userRepo = new ImUserRepo();
 
         $itemType = ImSystemMessageModel::TYPE_FRIEND_REQUEST;
 
@@ -163,7 +168,7 @@ Trait ImFriendTrait
         }
     }
 
-    protected function handleAcceptFriendNotice(UserModel $sender, UserModel $receiver, ImSystemMessageModel $applyMessage)
+    protected function handleAcceptFriendNotice(ImUserModel $sender, ImUserModel $receiver, ImSystemMessageModel $applyMessage)
     {
         $sysMsgModel = new ImSystemMessageModel();
 
@@ -189,9 +194,12 @@ Trait ImFriendTrait
             /**
              * 上层操作更新了item_info，类型发生了变化，故重新获取
              */
-            $messageRepo = new ImSystemMessageRepo();
-            $message = $messageRepo->findById($applyMessage->id);
-            $itemInfo = $message->item_info;
+            $applyMessage->afterFetch();
+
+            /**
+             * @var array $itemInfo
+             */
+            $itemInfo = $applyMessage->item_info;
 
             $content = kg_json_encode([
                 'type' => 'friend_accepted',
@@ -210,7 +218,7 @@ Trait ImFriendTrait
         }
     }
 
-    protected function handleRefuseFriendNotice(UserModel $sender, UserModel $receiver)
+    protected function handleRefuseFriendNotice(ImUserModel $sender, ImUserModel $receiver)
     {
         $sysMsgModel = new ImSystemMessageModel();
 

@@ -6,7 +6,6 @@
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
-            <a href="/">首页</a>
             <a href="{{ url({'for':'web.course.list'}) }}">全部课程</a>
             {% for path in course.category_paths %}
                 <a href="{{ path.url }}">{{ path.name }}</a>

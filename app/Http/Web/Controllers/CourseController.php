@@ -28,15 +28,11 @@ class CourseController extends Controller
      */
     public function listAction()
     {
-        $_REQUEST['limit'] = 12;
-
-        $service = new CourseListService();
-
-        $pager = $service->handle();
-
-        $pager->items = kg_array_object($pager->items);
-
         $service = new CourseQueryService();
+
+        $params = $service->getQueryParams();
+
+        $pagerUrl = $this->url->get(['for' => 'web.course.pager'], $params);
 
         $topCategories = $service->handleTopCategories();
         $subCategories = $service->handleSubCategories();
@@ -45,11 +41,27 @@ class CourseController extends Controller
         $levels = $service->handleLevels();
         $sorts = $service->handleSorts();
 
+        $this->view->setVar('pager_url', $pagerUrl);
         $this->view->setVar('top_categories', $topCategories);
         $this->view->setVar('sub_categories', $subCategories);
         $this->view->setVar('models', $models);
         $this->view->setVar('levels', $levels);
         $this->view->setVar('sorts', $sorts);
+    }
+
+    /**
+     * @Get("/pager", name="web.course.pager")
+     */
+    public function pagerAction()
+    {
+        $service = new CourseListService();
+
+        $pager = $service->handle();
+        $pager->items = kg_array_object($pager->items);
+        $pager->target = 'course-list';
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('course/list_pager');
         $this->view->setVar('pager', $pager);
     }
 

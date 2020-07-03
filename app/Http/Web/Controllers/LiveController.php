@@ -9,18 +9,10 @@ use Phalcon\Mvc\View;
 /**
  * @RoutePrefix("/live")
  */
-class LiveController extends \Phalcon\Mvc\Controller
+class LiveController extends Controller
 {
 
     use ResponseTrait;
-
-    /**
-     * @Get("/{id:[0-9]+}/members", name="web.live.members")
-     */
-    public function membersAction($id)
-    {
-        return $this->jsonSuccess();
-    }
 
     /**
      * @Get("/{id:[0-9]+}/stats", name="web.live.stats")
@@ -46,14 +38,6 @@ class LiveController extends \Phalcon\Mvc\Controller
         $service->bindUser($id);
 
         return $this->jsonSuccess();
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/unbind", name="web.live.unbind")
-     */
-    public function unbindAction($id)
-    {
-
     }
 
     /**

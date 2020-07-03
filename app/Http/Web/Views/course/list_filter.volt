@@ -1,3 +1,7 @@
+<div class="filter-toggle">
+    <span class="layui-icon layui-icon-up"></span>
+</div>
+
 <div class="course-filter container">
     <div class="filter-group">
         <div class="title">方向</div>
@@ -41,15 +45,12 @@
             {% endfor %}
         </div>
     </div>
-    <div class="filter-group">
-        <div class="title">排序</div>
-        <div class="content">
-            {% set sort_val = request.get('sort','trim','score') %}
-            {% for sort in sorts %}
-                {% set class = sort_val == sort.id ? 'layui-btn layui-btn-xs' : 'none' %}
-                <a class="{{ class }}" href="{{ sort.url }}">{{ sort.name }}</a>
-            {% endfor %}
-        </div>
-    </div>
 </div>
 
+<div class="course-sort container">
+    {% set sort_val = request.get('sort','trim','score') %}
+    {% for sort in sorts %}
+        {% set class = sort_val == sort.id ? 'layui-btn layui-btn-xs' : 'none' %}
+        <a class="{{ class }}" href="{{ sort.url }}">{{ sort.name }}</a>
+    {% endfor %}
+</div>

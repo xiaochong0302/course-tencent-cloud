@@ -1,51 +1,10 @@
-layui.use(['jquery', 'layim'], function () {
+layui.use(['jquery', 'helper'], function () {
 
     var $ = layui.jquery;
-    var layim = layui.layim;
-    var socket = new WebSocket('ws://127.0.0.1:8282');
+    var helper = layui.helper;
+    var socket = new WebSocket(window.koogua.socketUrl);
 
-    var membersUrl = $('input[name="im.members_url"]').val();
-    var bindUserUrl = $('input[name="im.bind_user_url"]').val();
-    var sendMsgUrl = $('input[name="im.send_msg_url"]').val();
-
-    var group = {
-        id: $('input[name="chapter.id"]').val(),
-        avatar: 'http://tp1.sinaimg.cn/5619439268/180/40030060651/1',
-        name: '直播讨论'
-    };
-
-    var user = {
-        id: $('input[name="user.id"]').val(),
-        name: $('input[name="user.name"]').val(),
-        avatar: $('input[name="user.avatar"]').val(),
-        status: 'online',
-        sign: ''
-    };
-
-    layim.config({
-        brief: true,
-        init: {
-            mine: {
-                'username': user.name,
-                'avatar': user.avatar,
-                'id': user.id,
-                'status': user.status,
-                'sign': user.sign
-            }
-        },
-        members: {url: membersUrl}
-    }).chat({
-        type: 'group',
-        name: group.name,
-        avatar: group.avatar,
-        id: group.id
-    });
-
-    layim.setChatMin();
-
-    layim.on('sendMessage', function (res) {
-        sendMessage(res.mine, res.to);
-    });
+    var $chatMsgList = $('#chat-msg-list');
 
     socket.onopen = function () {
         console.log('socket connect success');
@@ -71,36 +30,44 @@ layui.use(['jquery', 'layim'], function () {
         }
     };
 
-    showOrHidePoster();
+    form.on('submit(chat)', function (data) {
+        $.ajax({
+            type: 'POST',
+            url: data.form.action,
+            data: data.field,
+            success: function (res) {
+                showMessage(res);
+            }
+        });
+        return false;
+    });
+
+    refreshLiveStats();
+
+    setInterval('refreshLiveStats()', 60000);
 
     function bindUser(clientId) {
         $.ajax({
             type: 'POST',
-            url: bindUserUrl,
+            url: '/live/bind',
             data: {client_id: clientId}
         });
     }
 
-    function sendMessage(from, to) {
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            url: sendMsgUrl,
-            data: {from: from, to: to}
-        });
+    function showMessage(res) {
+        var html = '<div class="chat">';
+        html += '<span class="user">' + res.user.name + '</span>';
+        if (res.user.vip === 1) {
+            html += '<span class="layui-badge">VIP</span>';
+        }
+        html += '<span class="content">' + res.content + '</span>';
+        html += '</div>';
+        $chatMsgList.append(html);
     }
 
-    function showMessage(message) {
-        if (message.fromid !== user.id) {
-            layim.getMessage(message);
-        }
-    }
-
-    function showOrHidePoster() {
-        if (user.id === '0') {
-            var html = '<div class="chat-login-tips">登录用户才可以参与讨论哦</div>';
-            $('.layim-chat-footer').hide().after(html);
-        }
+    function refreshLiveStats() {
+        var $liveStats = $('#live-stats');
+        helper.ajaxLoadHtml($liveStats.data('url'), $liveStats.attr('id'));
     }
 
 });

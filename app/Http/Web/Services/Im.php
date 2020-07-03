@@ -15,6 +15,7 @@ use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupMessage as ImGroupMessageRepo;
 use App\Repos\ImSystemMessage as ImSystemMessageRepo;
 use App\Repos\ImUser as ImUserRepo;
+use App\Repos\User as UserRepo;
 use App\Validators\ImFriendUser as ImFriendUserValidator;
 use App\Validators\ImGroup as ImGroupValidator;
 use App\Validators\ImGroupUser as ImGroupUserValidator;
@@ -24,7 +25,7 @@ use GatewayClient\Gateway;
 
 /**
  * 警告：
- * user对象有更新操作会导致afterFetch()中的设置失效，
+ * 对象有更新操作会导致afterFetch()中的设置失效，
  * 有相关依赖的要重新调用一次afterFetch()
  */
 class Im extends Service
@@ -34,20 +35,20 @@ class Im extends Service
 
     public function init()
     {
-        $user = $this->getLoginUser();
+        $loginUser = $this->getLoginUser();
 
-        $imUser = $this->getImUser($user->id);
+        $user = $this->getImUser($loginUser->id);
 
         $mine = [
-            'id' => $imUser->id,
-            'username' => $imUser->name,
-            'avatar' => $imUser->avatar,
-            'sign' => $imUser->sign,
-            'status' => $imUser->status,
+            'id' => $user->id,
+            'username' => $user->name,
+            'avatar' => $user->avatar,
+            'sign' => $user->sign,
+            'status' => $user->status,
         ];
 
-        $friend = $this->handleFriendList($imUser);
-        $group = $this->handleGroupList($imUser);
+        $friend = $this->handleFriendList($user);
+        $group = $this->handleGroupList($user);
 
         return [
             'mine' => $mine,
@@ -68,7 +69,7 @@ class Im extends Service
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $userRepo = new ImUserRepo();
+        $userRepo = new UserRepo();
 
         $pager = $userRepo->paginate($params, $sort, $page, $limit);
 
@@ -293,9 +294,9 @@ class Im extends Service
 
     public function bindUser()
     {
-        $user = $this->getLoginUser();
+        $loginUser = $this->getLoginUser();
 
-        $imUser = $this->getImUser($user->id);
+        $user = $this->getImUser($loginUser->id);
 
         $clientId = $this->request->getPost('client_id');
 
@@ -313,7 +314,7 @@ class Im extends Service
             }
         }
 
-        $this->pushOnlineTips($imUser);
+        $this->pushOnlineTips($user);
     }
 
     public function sendMessage()
@@ -434,9 +435,9 @@ class Im extends Service
 
     public function updateStatus()
     {
-        $user = $this->getLoginUser();
+        $loginUser = $this->getLoginUser();
 
-        $imUser = $this->getImUser($user->id);
+        $user = $this->getImUser($loginUser->id);
 
         $status = $this->request->getPost('status');
 
@@ -444,16 +445,16 @@ class Im extends Service
 
         $validator->checkSign($status);
 
-        $imUser->update(['status' => $status]);
+        $user->update(['status' => $status]);
 
-        $this->pushOnlineTips($imUser);
+        $this->pushOnlineTips($user);
     }
 
     public function updateSignature()
     {
-        $user = $this->getLoginUser();
+        $loginUser = $this->getLoginUser();
 
-        $imUser = $this->getImUser($user->id);
+        $user = $this->getImUser($loginUser->id);
 
         $sign = $this->request->getPost('sign');
 
@@ -461,16 +462,16 @@ class Im extends Service
 
         $sign = $validator->checkSign($sign);
 
-        $imUser->update(['sign' => $sign]);
+        $user->update(['sign' => $sign]);
 
-        return $imUser;
+        return $user;
     }
 
     public function updateSkin()
     {
-        $user = $this->getLoginUser();
+        $loginUser = $this->getLoginUser();
 
-        $imUser = $this->getImUser($user->id);
+        $user = $this->getImUser($loginUser->id);
 
         $skin = $this->request->getPost('skin');
 
@@ -478,9 +479,9 @@ class Im extends Service
 
         $skin = $validator->checkSkin($skin);
 
-        $imUser->update(['skin' => $skin]);
+        $user->update(['skin' => $skin]);
 
-        return $imUser;
+        return $user;
     }
 
     protected function pushOnlineTips(ImUserModel $user)
@@ -503,9 +504,9 @@ class Im extends Service
 
         $this->persistent->online_push_time = time();
 
-        $imUserRepo = new ImUserRepo();
+        $userRepo = new ImUserRepo();
 
-        $friendUsers = $imUserRepo->findImFriendUsers($user->id);
+        $friendUsers = $userRepo->findImFriendUsers($user->id);
 
         if ($friendUsers->count() == 0) {
             return;

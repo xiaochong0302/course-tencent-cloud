@@ -15,7 +15,7 @@ class Live extends Service
     {
         $chapter = $this->checkChapterCache($id);
 
-        Gateway::$registerAddress = '127.0.0.1:1238';
+        Gateway::$registerAddress = $this->getRegisterAddress();
 
         $groupName = $this->getGroupName($chapter->id);
 
@@ -44,7 +44,7 @@ class Live extends Service
 
         $groupName = $this->getGroupName($chapter->id);
 
-        Gateway::$registerAddress = '127.0.0.1:1238';
+        Gateway::$registerAddress = $this->getRegisterAddress();
 
         if ($user->id > 0) {
             Gateway::bindUid($clientId, $user->id);
@@ -59,35 +59,20 @@ class Live extends Service
 
         $user = $this->getLoginUser();
 
-        $from = $this->request->getPost('from');
-        $to = $this->request->getPost('to');
-
-        Gateway::$registerAddress = '127.0.0.1:1238';
+        Gateway::$registerAddress = $this->getRegisterAddress();
 
         $groupName = $this->getGroupName($chapter->id);
 
-        $excludeClientId = null;
-
-        if ($user->id == $from['id']) {
-            $excludeClientId = Gateway::getClientIdByUid($user->id);
-        }
-
-        $content = [
-            'username' => $from['username'],
-            'avatar' => $from['avatar'],
-            'content' => $from['content'],
-            'fromid' => $from['id'],
-            'id' => $to['id'],
-            'type' => $to['type'],
-            'timestamp' => 1000 * time(),
-            'mine' => false,
-        ];
+        $excludeClientId = Gateway::getClientIdByUid($user->id);
 
         $message = json_encode([
             'type' => 'show_message',
-            'content' => $content,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'avatar' => $user->avatar,
+            ],
         ]);
-
 
         Gateway::sendToGroup($groupName, $message, $excludeClientId);
     }
@@ -105,13 +90,10 @@ class Live extends Service
         $result = [];
 
         foreach ($users->toArray() as $key => $user) {
-
             $user['avatar'] = $baseUrl . $user['avatar'];
-
             $result[] = [
                 'id' => $user['id'],
                 'name' => $user['name'],
-                'title' => $user['title'],
                 'vip' => $user['vip'],
                 'avatar' => $user['avatar'],
             ];
@@ -122,7 +104,14 @@ class Live extends Service
 
     protected function getGroupName($groupId)
     {
-        return "chapter_{$groupId}";
+        return "live_{$groupId}";
+    }
+
+    protected function getRegisterAddress()
+    {
+        $config = $this->getDI()->get('config');
+
+        return $config->websocket->register_address;
     }
 
 }

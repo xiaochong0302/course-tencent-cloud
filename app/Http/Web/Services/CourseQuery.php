@@ -210,7 +210,7 @@ class CourseQuery extends Service
         return $result;
     }
 
-    protected function getQueryParams()
+    public function getQueryParams()
     {
         $query = $this->request->getQuery();
 

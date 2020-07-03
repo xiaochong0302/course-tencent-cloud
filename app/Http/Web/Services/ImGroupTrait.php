@@ -5,10 +5,10 @@ namespace App\Http\Web\Services;
 use App\Models\ImGroup as ImGroupModel;
 use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\ImSystemMessage as ImSystemMessageModel;
-use App\Models\User as UserModel;
+use App\Models\ImUser as ImUserModel;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
-use App\Repos\User as UserRepo;
+use App\Repos\ImUser as ImUserRepo;
 use App\Validators\ImGroup as ImGroupValidator;
 use App\Validators\ImGroupUser as ImGroupUserValidator;
 use App\Validators\ImMessage as ImMessageValidator;
@@ -19,9 +19,11 @@ Trait ImGroupTrait
 
     public function applyGroup()
     {
-        $post = $this->request->getPost();
+        $loginUser = $this->getLoginUser();
 
-        $user = $this->getLoginUser();
+        $user = $this->getImUser($loginUser->id);
+
+        $post = $this->request->getPost();
 
         $validator = new ImGroupUserValidator();
 
@@ -36,7 +38,9 @@ Trait ImGroupTrait
 
     public function acceptGroup()
     {
-        $user = $this->getLoginUser();
+        $loginUser = $this->getLoginUser();
+
+        $user = $this->getImUser($loginUser->id);
 
         $messageId = $this->request->getPost('message_id');
 
@@ -56,9 +60,7 @@ Trait ImGroupTrait
 
         $validator->checkOwner($user->id, $group->user_id);
 
-        $userRepo = new UserRepo();
-
-        $applicant = $userRepo->findById($message->sender_id);
+        $applicant = $this->getImUser($message->sender_id);
 
         $groupUserRepo = new ImGroupUserRepo();
 
@@ -73,7 +75,9 @@ Trait ImGroupTrait
         }
 
         $itemInfo = $message->item_info;
+
         $itemInfo['status'] = ImSystemMessageModel::REQUEST_ACCEPTED;
+
         $message->update(['item_info' => $itemInfo]);
 
         $this->handleAcceptGroupNotice($user, $applicant, $group);
@@ -83,7 +87,9 @@ Trait ImGroupTrait
 
     public function refuseGroup()
     {
-        $user = $this->getLoginUser();
+        $loginUser = $this->getLoginUser();
+
+        $user = $this->getImUser($loginUser->id);
 
         $messageId = $this->request->getPost('message_id');
 
@@ -104,19 +110,19 @@ Trait ImGroupTrait
         $validator->checkOwner($user->id, $group->user_id);
 
         $itemInfo = $message->item_info;
+
         $itemInfo['status'] = ImSystemMessageModel::REQUEST_REFUSED;
+
         $message->update(['item_info' => $itemInfo]);
 
-        $userRepo = new UserRepo();
-
-        $sender = $userRepo->findById($message->sender_id);
+        $sender = $this->getImUser($message->sender_id);
 
         $this->handleRefuseGroupNotice($user, $sender);
     }
 
-    protected function handleApplyGroupNotice(UserModel $sender, ImGroupModel $group, $remark)
+    protected function handleApplyGroupNotice(ImUserModel $sender, ImGroupModel $group, $remark)
     {
-        $userRepo = new UserRepo();
+        $userRepo = new ImUserRepo();
 
         $receiver = $userRepo->findById($group->user_id);
 
@@ -163,7 +169,7 @@ Trait ImGroupTrait
         }
     }
 
-    protected function handleAcceptGroupNotice(UserModel $sender, UserModel $receiver, ImGroupModel $group)
+    protected function handleAcceptGroupNotice(ImUserModel $sender, ImUserModel $receiver, ImGroupModel $group)
     {
         $sysMsgModel = new ImSystemMessageModel();
 
@@ -199,7 +205,7 @@ Trait ImGroupTrait
         }
     }
 
-    protected function handleRefuseGroupNotice(UserModel $sender, UserModel $receiver)
+    protected function handleRefuseGroupNotice(ImUserModel $sender, ImUserModel $receiver)
     {
         $sysMsgModel = new ImSystemMessageModel();
 
@@ -224,7 +230,7 @@ Trait ImGroupTrait
         }
     }
 
-    protected function handleNewGroupUserNotice(UserModel $newUser, ImGroupModel $group)
+    protected function handleNewGroupUserNotice(ImUserModel $newUser, ImGroupModel $group)
     {
         $groupRepo = new ImGroupRepo();
 

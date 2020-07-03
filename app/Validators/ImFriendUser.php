@@ -11,7 +11,7 @@ class ImFriendUser extends Validator
 
     public function checkFriend($id)
     {
-        $validator = new User();
+        $validator = new ImUser();
 
         return $validator->checkUser($id);
     }

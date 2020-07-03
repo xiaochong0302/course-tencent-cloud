@@ -16,5 +16,11 @@ layui.define(['jquery', 'element'], function (exports) {
         });
     };
 
+    helper.getRequestId = function () {
+        var id = Date.now().toString(36);
+        id += Math.random().toString(36).substr(3);
+        return id;
+    };
+
     exports(MOD_NAME, helper);
 });

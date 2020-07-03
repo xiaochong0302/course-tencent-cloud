@@ -355,7 +355,7 @@ class Course extends Model
     {
         return [
             'score' => '综合',
-            'rating' => '评价',
+            'rating' => '好评',
             'latest' => '最新',
             'popular' => '最热',
             'free' => '免费',
