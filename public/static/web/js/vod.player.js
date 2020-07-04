@@ -6,9 +6,9 @@ layui.use(['jquery', 'helper'], function () {
     var interval = null;
     var intervalTime = 5000;
     var position = 0;
+    var userId = window.koogua.user.id;
     var chapterId = $('input[name="chapter.id"]').val();
     var planId = $('input[name="chapter.plan_id"]').val();
-    var userId = $('input[name="user.id"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
     var playUrls = JSON.parse($('input[name="chapter.play_urls"]').val());
     var requestId = helper.getRequestId();

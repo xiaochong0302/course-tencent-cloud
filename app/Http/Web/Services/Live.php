@@ -2,7 +2,7 @@
 
 namespace App\Http\Web\Services;
 
-use App\Repos\User as UserRepo;
+use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Services\Frontend\ChapterTrait;
 use GatewayClient\Gateway;
 
@@ -10,6 +10,25 @@ class Live extends Service
 {
 
     use ChapterTrait;
+
+    public function getRecentChats($id)
+    {
+        $redis = $this->getRedis();
+
+        $key = $this->getRedisListKey($id);
+
+        $items = $redis->lRange($key, 0, 10);
+
+        $result = [];
+
+        if ($items) {
+            foreach (array_reverse($items) as $item) {
+                $result[] = json_decode($item, true);
+            }
+        }
+
+        return $result;
+    }
 
     public function getStats($id)
     {
@@ -23,14 +42,10 @@ class Live extends Service
         $userCount = Gateway::getUidCountByGroup($groupName);
         $guestCount = $clientCount - $userCount;
 
-        $userIds = Gateway::getUidListByGroup($groupName);
-
-        $users = $this->handleUsers($userIds);
-
         return [
+            'client_count' => $clientCount,
             'user_count' => $userCount,
             'guest_count' => $guestCount,
-            'users' => $users,
         ];
     }
 
@@ -46,11 +61,23 @@ class Live extends Service
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
-        if ($user->id > 0) {
-            Gateway::bindUid($clientId, $user->id);
-        }
-
         Gateway::joinGroup($clientId, $groupName);
+
+        if ($user->id > 0) {
+
+            Gateway::bindUid($clientId, $user->id);
+
+            $message = kg_json_encode([
+                'type' => 'new_user',
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'vip' => $user->vip,
+                ],
+            ]);
+
+            Gateway::sendToGroup($groupName, $message, $clientId);
+        }
     }
 
     public function sendMessage($id)
@@ -59,52 +86,41 @@ class Live extends Service
 
         $user = $this->getLoginUser();
 
+        $content = $this->request->getPost('content', ['trim', 'striptags']);
+
+        $content = kg_substr($content, 0, 150);
+
         Gateway::$registerAddress = $this->getRegisterAddress();
 
         $groupName = $this->getGroupName($chapter->id);
 
-        $excludeClientId = Gateway::getClientIdByUid($user->id);
+        $clientId = Gateway::getClientIdByUid($user->id);
 
-        $message = json_encode([
-            'type' => 'show_message',
+        $message = [
+            'type' => 'new_message',
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
-                'avatar' => $user->avatar,
+                'vip' => $user->vip,
             ],
-        ]);
+            'content' => $content,
+        ];
 
-        Gateway::sendToGroup($groupName, $message, $excludeClientId);
+        $encodeMessage = kg_json_encode($message);
+
+        Gateway::sendToGroup($groupName, $encodeMessage, $clientId);
+
+        $redis = $this->getRedis();
+        $key = $this->getRedisListKey($id);
+        $redis->lPush($key, $encodeMessage);
+        $redis->lTrim($key, 0, 10);
+
+        return $message;
     }
 
-    protected function handleUsers($userIds)
+    protected function getGroupName($id)
     {
-        if (!$userIds) return [];
-
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findByIds($userIds);
-
-        $baseUrl = kg_ci_base_url();
-
-        $result = [];
-
-        foreach ($users->toArray() as $key => $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $result[] = [
-                'id' => $user['id'],
-                'name' => $user['name'],
-                'vip' => $user['vip'],
-                'avatar' => $user['avatar'],
-            ];
-        }
-
-        return $result;
-    }
-
-    protected function getGroupName($groupId)
-    {
-        return "live_{$groupId}";
+        return "live_{$id}";
     }
 
     protected function getRegisterAddress()
@@ -112,6 +128,21 @@ class Live extends Service
         $config = $this->getDI()->get('config');
 
         return $config->websocket->register_address;
+    }
+
+    protected function getRedisListKey($id)
+    {
+        return "live_recent_chat:{$id}";
+    }
+
+    protected function getRedis()
+    {
+        /**
+         * @var RedisCache $cache
+         */
+        $cache = $this->getDI()->get('cache');
+
+        return $cache->getRedis();
     }
 
 }

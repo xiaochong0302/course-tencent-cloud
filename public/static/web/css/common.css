@@ -757,7 +757,60 @@
     height: 428px;
 }
 
+.chat-container {
+    padding: 10px 20px 20px 20px;
+    background-color: white;
+}
+
+.vip-icon {
+    color: orange;
+}
+
+.chat-msg-list {
+    height: 380px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+}
+
+.chat-msg-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chat-msg-list::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.chat-msg-list .chat, .chat-msg-list .chat-sys {
+    margin-bottom: 10px;
+    line-height: 25px;
+    word-break: break-all;
+}
+
+.chat-sys {
+    color: #999;
+}
+
+.chat-sys span, .chat span {
+    margin-right: 5px;
+}
+
+.chat .user {
+    color: orange;
+}
+
+.chat .content {
+    color: #666;
+}
+
+.chat-msg-form .layui-input {
+    height: 32px;
+    font-size: 12px;
+    color: #666;
+}
+
 .live-stats {
+    height: 420px;
     color: #666;
 }
 
@@ -770,7 +823,8 @@
 }
 
 .live-user-card {
-    line-height: 30px;
+    margin-bottom: 10px;
+    line-height: 25px;
 }
 
 .chat-login-tips {

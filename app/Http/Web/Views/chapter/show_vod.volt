@@ -7,7 +7,8 @@
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
-            <span><i class="layui-icon layui-icon-return"></i> <a href="{{ course_url }}">返回课程主页</a></span>
+            <a><cite>{{ chapter.course.title }}</cite></a>
+            <a><cite>{{ chapter.title }}</cite></a>
         </span>
     </div>
 
@@ -22,9 +23,6 @@
     </div>
 
     <div class="layui-hide">
-        <input type="hidden" name="user.id" value="{{ auth_user.id }}">
-        <input type="hidden" name="user.name" value="{{ auth_user.name }}">
-        <input type="hidden" name="user.avatar" value="{{ auth_user.avatar }}">
         <input type="hidden" name="chapter.id" value="{{ chapter.id }}">
         <input type="hidden" name="chapter.plan_id" value="{{ chapter.me.plan_id }}">
         <input type="hidden" name="chapter.learning_url" value="{{ learning_url }}">

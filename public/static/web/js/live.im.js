@@ -1,9 +1,11 @@
-layui.use(['jquery', 'helper'], function () {
+layui.use(['jquery', 'form', 'helper'], function () {
 
     var $ = layui.jquery;
+    var form = layui.form;
     var helper = layui.helper;
     var socket = new WebSocket(window.koogua.socketUrl);
-
+    var bindUserUrl = $('input[name="bind_user_url"]').val();
+    var $chatContent = $('input[name=content]');
     var $chatMsgList = $('#chat-msg-list');
 
     socket.onopen = function () {
@@ -25,8 +27,10 @@ layui.use(['jquery', 'helper'], function () {
             socket.send('pong...');
         } else if (data.type === 'bind_user') {
             bindUser(data.client_id);
-        } else if (data.type === 'show_message') {
-            showMessage(data.content);
+        } else if (data.type === 'new_message') {
+            showNewMessage(data);
+        } else if (data.type === 'new_user') {
+            showLoginMessage(data);
         }
     };
 
@@ -36,38 +40,64 @@ layui.use(['jquery', 'helper'], function () {
             url: data.form.action,
             data: data.field,
             success: function (res) {
-                showMessage(res);
+                showNewMessage(res);
+                $chatContent.val('');
             }
         });
         return false;
     });
 
+    loadRecentChats();
+
     refreshLiveStats();
 
-    setInterval('refreshLiveStats()', 60000);
+    setInterval(function () {
+        refreshLiveStats();
+    }, 300000);
 
     function bindUser(clientId) {
         $.ajax({
             type: 'POST',
-            url: '/live/bind',
+            url: bindUserUrl,
             data: {client_id: clientId}
         });
     }
 
-    function showMessage(res) {
+    function showNewMessage(res) {
         var html = '<div class="chat">';
-        html += '<span class="user">' + res.user.name + '</span>';
-        if (res.user.vip === 1) {
-            html += '<span class="layui-badge">VIP</span>';
+        if (res.user.vip === 0) {
+            html += '<span class="vip-icon layui-icon layui-icon-diamond"></span>';
         }
+        html += '<span class="user">' + res.user.name + ':</span>';
         html += '<span class="content">' + res.content + '</span>';
         html += '</div>';
         $chatMsgList.append(html);
+        scrollToBottom();
+    }
+
+    function showLoginMessage(res) {
+        var html = '<div class="chat chat-sys">';
+        html += '<span>' + res.user.name + '</span>';
+        html += '<span>进入了直播间</span>';
+        html += '</div>';
+        $chatMsgList.append(html);
+        scrollToBottom();
+    }
+
+    function scrollToBottom() {
+        var $scrollTo = $chatMsgList.find('.chat:last');
+        $chatMsgList.scrollTop(
+            $scrollTo.offset().top - $chatMsgList.offset().top + $chatMsgList.scrollTop()
+        );
     }
 
     function refreshLiveStats() {
-        var $liveStats = $('#live-stats');
-        helper.ajaxLoadHtml($liveStats.data('url'), $liveStats.attr('id'));
+        var $tabStats = $('#tab-stats');
+        helper.ajaxLoadHtml($tabStats.data('url'), $tabStats.attr('id'));
+    }
+
+    function loadRecentChats() {
+        helper.ajaxLoadHtml($chatMsgList.data('url'), $chatMsgList.attr('id'));
     }
 
 });

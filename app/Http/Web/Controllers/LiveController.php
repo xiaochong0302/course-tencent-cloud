@@ -15,6 +15,20 @@ class LiveController extends Controller
     use ResponseTrait;
 
     /**
+     * @Get("/{id:[0-9]+}/chats", name="web.live.chats")
+     */
+    public function chatsAction($id)
+    {
+        $service = new LiveService();
+
+        $chats = $service->getRecentChats($id);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('chapter/live_chats');
+        $this->view->setVar('chats', $chats);
+    }
+
+    /**
      * @Get("/{id:[0-9]+}/stats", name="web.live.stats")
      */
     public function statsAction($id)
@@ -29,9 +43,9 @@ class LiveController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/bind", name="web.live.bind")
+     * @Post("/{id:[0-9]+}/user/bind", name="web.live.bind_user")
      */
-    public function bindAction($id)
+    public function bindUserAction($id)
     {
         $service = new LiveService();
 
@@ -41,15 +55,15 @@ class LiveController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/message", name="web.live.message")
+     * @Post("/{id:[0-9]+}/msg/send", name="web.live.send_msg")
      */
-    public function messageAction($id)
+    public function sendMessageAction($id)
     {
         $service = new LiveService();
 
-        $service->sendMessage($id);
+        $response = $service->sendMessage($id);
 
-        return $this->jsonSuccess();
+        return $this->jsonSuccess($response);
     }
 
 }
