@@ -68,19 +68,8 @@
 
 {% endblock %}
 
-{% block inline_js %}
+{% block include_js %}
 
-    <script>
-        layui.use(['carousel', 'flow'], function () {
-            var carousel = layui.carousel;
-            var flow = layui.flow;
-            carousel.render({
-                elem: '#carousel',
-                width: '100%',
-                height: '270px'
-            });
-            flow.lazyimg();
-        });
-    </script>
+    {{ js_include('web/js/index.js') }}
 
 {% endblock %}

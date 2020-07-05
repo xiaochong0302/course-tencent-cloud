@@ -130,11 +130,6 @@ class ChapterInfo extends FrontendService
 
         $playUrls = $service->getPlayUrls($chapter->id);
 
-        /**
-         * @var array $attrs
-         */
-        $attrs = $chapter->attrs;
-
         return [
             'id' => $chapter->id,
             'title' => $chapter->title,
@@ -150,22 +145,36 @@ class ChapterInfo extends FrontendService
 
     protected function formatChapterLive(ChapterModel $chapter)
     {
-        $liveService = new LiveService();
+        $service = new LiveService();
 
-        $playUrls = $liveService->getPullUrls("chapter_{$chapter->id}");
+        $streamName = $this->getLiveStreamName($chapter->id);
 
-        /**
-         * @var array $attrs
-         */
-        $attrs = $chapter->attrs;
+        $chapterRepo = new ChapterRepo();
+
+        $live = $chapterRepo->findChapterLive($chapter->id);
+
+        $playUrls = [];
+
+        if ($live->start_time - time() > 1800) {
+            $status = 'pending';
+        } elseif (time() - $live->end_time > 1800) {
+            $status = 'finished';
+        } else {
+            $status = $service->getStreamState($streamName);
+        }
+
+        if ($status == 'active') {
+            $playUrls = $service->getPullUrls($streamName);
+        }
 
         return [
             'id' => $chapter->id,
             'title' => $chapter->title,
             'summary' => $chapter->summary,
             'model' => $chapter->model,
-            'start_time' => $attrs['start_time'],
-            'end_time' => $attrs['end_time'],
+            'status' => $status,
+            'start_time' => $live->start_time,
+            'end_time' => $live->end_time,
             'play_urls' => $playUrls,
             'user_count' => $chapter->user_count,
             'agree_count' => $chapter->agree_count,
@@ -179,11 +188,6 @@ class ChapterInfo extends FrontendService
         $chapterRepo = new ChapterRepo();
 
         $read = $chapterRepo->findChapterRead($chapter->id);
-
-        /**
-         * @var array $attrs
-         */
-        $attrs = $chapter->attrs;
 
         return [
             'id' => $chapter->id,
@@ -257,6 +261,11 @@ class ChapterInfo extends FrontendService
     protected function incrChapterUserCount(ChapterModel $chapter)
     {
         $this->eventsManager->fire('chapterCounter:incrUserCount', $this, $chapter);
+    }
+
+    protected function getLiveStreamName($id)
+    {
+        return "chapter_{$id}";
     }
 
 }

@@ -31,12 +31,16 @@
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
                             <div class="chat-msg-list" id="chat-msg-list" data-url="{{ live_chats_url }}"></div>
-                            <div class="chat-msg-form">
-                                <form class="layui-form" method="post" action="{{ send_msg_url }}">
-                                    <input class="layui-input" type="text" name="content" maxlength="150" placeholder="快来和大家一起互动吧~" lay-verType="tips" lay-verify="required">
-                                    <button class="layui-hide" type="submit" lay-submit="true" lay-filter="chat">发送</button>
-                                </form>
-                            </div>
+                            {% if auth_user.id > 0 %}
+                                <div class="chat-msg-form">
+                                    <form class="layui-form" method="post" action="{{ send_msg_url }}">
+                                        <input class="layui-input" type="text" name="content" maxlength="80" placeholder="快来和大家一起互动吧~" lay-verType="tips" lay-verify="required">
+                                        <button class="layui-hide" type="submit" lay-submit="true" lay-filter="chat">发送</button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <div class="chat-login-tips">登录后才可以发言哦～</div>
+                            {% endif %}
                         </div>
                         <div class="layui-tab-item" id="tab-stats" data-url="{{ live_stats_url }}"></div>
                     </div>

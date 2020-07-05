@@ -65,7 +65,7 @@ layui.use(['jquery', 'form', 'helper'], function () {
 
     function showNewMessage(res) {
         var html = '<div class="chat">';
-        if (res.user.vip === 0) {
+        if (res.user.vip === 1) {
             html += '<span class="vip-icon layui-icon layui-icon-diamond"></span>';
         }
         html += '<span class="user">' + res.user.name + ':</span>';

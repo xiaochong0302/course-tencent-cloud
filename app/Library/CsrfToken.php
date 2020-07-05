@@ -34,15 +34,21 @@ class CsrfToken
 
     public function checkToken($token)
     {
+        if (!$token) return false;
+
         $text = $this->crypt->decryptBase64($token);
 
-        list($time, $fixed, $random) = explode($this->delimiter, $text);
+        $params = explode($this->delimiter, $text);
 
-        if ($time != intval($time) || $fixed != $this->fixed || strlen($random) != 8) {
+        if (!isset($params[0]) || !isset($params[1]) || !isset($params[2])) {
             return false;
         }
 
-        if (time() - $time > $this->lifetime) {
+        if ($params[0] != intval($params[0]) || $params[1] != $this->fixed || strlen($params[2]) != 8) {
+            return false;
+        }
+
+        if (time() - $params[0] > $this->lifetime) {
             return false;
         }
 

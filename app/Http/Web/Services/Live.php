@@ -17,7 +17,9 @@ class Live extends Service
 
         $key = $this->getRedisListKey($id);
 
-        $items = $redis->lRange($key, 0, 10);
+        $redis->expire($key, 3 * 3600);
+
+        $items = $redis->lRange($key, 0, 15);
 
         $result = [];
 
@@ -88,7 +90,7 @@ class Live extends Service
 
         $content = $this->request->getPost('content', ['trim', 'striptags']);
 
-        $content = kg_substr($content, 0, 150);
+        $content = kg_substr($content, 0, 80);
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
@@ -111,9 +113,14 @@ class Live extends Service
         Gateway::sendToGroup($groupName, $encodeMessage, $clientId);
 
         $redis = $this->getRedis();
+
         $key = $this->getRedisListKey($id);
+
         $redis->lPush($key, $encodeMessage);
-        $redis->lTrim($key, 0, 10);
+
+        if ($redis->lLen($key) % 20 == 0) {
+            $redis->lTrim($key, 0, 15);
+        }
 
         return $message;
     }

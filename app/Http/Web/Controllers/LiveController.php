@@ -15,6 +15,20 @@ class LiveController extends Controller
     use ResponseTrait;
 
     /**
+     * @Get("/{id:[0-9]+}/preview", name="web.live.preview")
+     */
+    public function previewAction($id)
+    {
+        $service = new LiveService();
+
+        $stats = $service->getStats($id);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('chapter/live_stats');
+        $this->view->setVar('stats', $stats);
+    }
+
+    /**
      * @Get("/{id:[0-9]+}/chats", name="web.live.chats")
      */
     public function chatsAction($id)

@@ -4,6 +4,8 @@ namespace App\Http\Web\Controllers;
 
 use App\Library\CsrfToken as CsrfTokenService;
 use App\Models\ContentImage as ContentImageModel;
+use App\Services\Pay\Alipay as AlipayService;
+use App\Services\Pay\Wxpay as WxpayService;
 use App\Services\Storage as StorageService;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
@@ -65,6 +67,46 @@ class PublicController extends \Phalcon\Mvc\Controller
         $token = $service->getToken();
 
         return $this->jsonSuccess(['token' => $token]);
+    }
+
+    /**
+     * @Post("/alipay/notify", name="web.alipay_notify")
+     */
+    public function alipayNotifyAction()
+    {
+        $alipayService = new AlipayService();
+
+        $response = $alipayService->notify();
+
+        if (!$response) exit;
+
+        $response->send();
+
+        exit;
+    }
+
+    /**
+     * @Post("/wxpay/notify", name="web.wxpay_notify")
+     */
+    public function wxpayNotifyAction()
+    {
+        $wxpayService = new WxpayService();
+
+        $response = $wxpayService->notify();
+
+        if (!$response) exit;
+
+        $response->send();
+
+        exit;
+    }
+
+    /**
+     * @Post("/live/notify", name="web.live_notify")
+     */
+    public function liveNotifyAction()
+    {
+
     }
 
 }
