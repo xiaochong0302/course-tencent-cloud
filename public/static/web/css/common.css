@@ -54,7 +54,7 @@
 
 .container {
     padding: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -284,6 +284,36 @@
     margin-bottom: 5px;
 }
 
+.page-title {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #d3d3d3;
+    text-align: center;
+    color: #666;
+}
+
+.page-content {
+    min-height: 450px;
+    color: #666;
+}
+
+.topic-info {
+    margin-bottom: 20px;
+}
+
+.topic-info .title {
+    text-align: center;
+}
+
+.topic-info .summary {
+    padding: 15px 0;
+    color: #666;
+}
+
+.course-list {
+    margin-bottom: 20px;
+}
+
 .course-card {
     float: left;
     width: 100%;
@@ -374,10 +404,6 @@
 
 .course-sort a {
     margin-right: 20px;
-}
-
-.course-list {
-    margin-bottom: 20px;
 }
 
 .course-meta .cover {

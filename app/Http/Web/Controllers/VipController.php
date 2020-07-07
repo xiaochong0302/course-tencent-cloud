@@ -30,13 +30,11 @@ class VipController extends Controller
      */
     public function coursesAction()
     {
-        $target = $this->request->get('target', 'trim', 'tab-courses');
-
         $service = new VipCourseListService();
 
         $pager = $service->handle();
         $pager->items = kg_array_object($pager->items);
-        $pager->target = $target;
+        $pager->target = 'tab-courses';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);
@@ -47,13 +45,11 @@ class VipController extends Controller
      */
     public function usersAction()
     {
-        $target = $this->request->get('target', 'trim', 'tab-users');
-
         $service = new VipUserListService();
 
         $pager = $service->handle();
         $pager->items = kg_array_object($pager->items);
-        $pager->target = $target;
+        $pager->target = 'tab-users';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);

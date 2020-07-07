@@ -33,7 +33,7 @@ class OrderStatus extends Model
      */
     public $create_time;
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'kg_order_status';
     }

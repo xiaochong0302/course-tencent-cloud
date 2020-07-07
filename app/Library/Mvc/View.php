@@ -2,10 +2,12 @@
 
 namespace App\Library\Mvc;
 
-class View extends \Phalcon\Mvc\View
+use Phalcon\Mvc\View as PhView;
+
+class View extends PhView
 {
 
-    public function setVars(array $params, $merge = true)
+    public function setVars(array $params, bool $merge = true): PhView
     {
         foreach ($params as $key => $param) {
             if (is_array($param)) {
@@ -13,16 +15,16 @@ class View extends \Phalcon\Mvc\View
             }
         }
 
-        parent::setVars($params, $merge);
+        return parent::setVars($params, $merge);
     }
 
-    public function setVar($key, $value)
+    public function setVar(string $key, $value): PhView
     {
         if (is_array($value)) {
             $value = kg_array_object($value);
         }
 
-        parent::setVar($key, $value);
+        return parent::setVar($key, $value);
     }
 
 }

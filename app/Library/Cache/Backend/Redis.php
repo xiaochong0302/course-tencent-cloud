@@ -16,8 +16,8 @@ class Redis extends \Phalcon\Cache\Backend\Redis
     /**
      * {@inheritdoc}
      *
-     * @param  string $keyName
-     * @param  int $lifetime
+     * @param string $keyName
+     * @param int $lifetime
      * @return mixed|null
      */
     public function get($keyName, $lifetime = null)
@@ -49,15 +49,15 @@ class Redis extends \Phalcon\Cache\Backend\Redis
     /**
      * {@inheritdoc}
      *
-     * @param  string $keyName
-     * @param  string $content
-     * @param  int $lifetime
-     * @param  bool $stopBuffer
+     * @param string $keyName
+     * @param string $content
+     * @param int $lifetime
+     * @param bool $stopBuffer
      * @return bool
      *
      * @throws Exception
      */
-    public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true)
+    public function save($keyName = null, $content = null, $lifetime = null, bool $stopBuffer = true): bool
     {
         if ($keyName === null) {
             $lastKey = $this->_lastKey;
@@ -127,10 +127,10 @@ class Redis extends \Phalcon\Cache\Backend\Redis
     /**
      * {@inheritdoc}
      *
-     * @param  string $keyName
+     * @param string $keyName
      * @return bool
      */
-    public function delete($keyName)
+    public function delete($keyName): bool
     {
         $redis = $this->getRedis();
 
@@ -142,10 +142,10 @@ class Redis extends \Phalcon\Cache\Backend\Redis
     /**
      * {@inheritdoc}
      *
-     * @param  string $prefix
+     * @param string $prefix
      * @return array
      */
-    public function queryKeys($prefix = null)
+    public function queryKeys($prefix = null): array
     {
         $result = [];
 
@@ -167,11 +167,11 @@ class Redis extends \Phalcon\Cache\Backend\Redis
     /**
      * {@inheritdoc}
      *
-     * @param  string $keyName
-     * @param  string $lifetime
+     * @param string $keyName
+     * @param string $lifetime
      * @return bool
      */
-    public function exists($keyName = null, $lifetime = null)
+    public function exists($keyName = null, $lifetime = null): bool
     {
         $redis = $this->getRedis();
 
@@ -191,7 +191,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
      * @param int $value
      * @return int
      */
-    public function increment($keyName = null, $value = 1)
+    public function increment($keyName = null, $value = 1): int
     {
         $redis = $this->getRedis();
 
@@ -211,7 +211,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
      * @param int $value
      * @return int
      */
-    public function decrement($keyName = null, $value = 1)
+    public function decrement($keyName = null, $value = 1): int
     {
         $redis = $this->getRedis();
 
@@ -229,7 +229,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
      *
      * @return bool
      */
-    public function flush()
+    public function flush(): bool
     {
 
     }

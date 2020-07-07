@@ -4,6 +4,7 @@ namespace App\Http\Web\Controllers;
 
 use App\Services\Frontend\Topic\CourseList as TopicCourseListService;
 use App\Services\Frontend\Topic\TopicInfo as TopicInfoService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/topic")
@@ -20,12 +21,24 @@ class TopicController extends Controller
 
         $topic = $service->handle($id);
 
+        $this->view->setVar('topic', $topic);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/courses", name="web.topic.courses")
+     */
+    public function coursesAction($id)
+    {
+        $target = $this->request->get('target', 'trim', 'course-list');
+
         $service = new TopicCourseListService();
 
-        $courses = $service->handle($id);
+        $pager = $service->handle($id);
+        $pager->items = kg_array_object($pager->items);
+        $pager->target = $target;
 
-        $this->view->setVar('topic', $topic);
-        $this->view->setVar('courses', $courses);
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('pager', $pager);
     }
 
 }

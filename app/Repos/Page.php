@@ -19,6 +19,10 @@ class Page extends Repository
 
         $builder->where('1 = 1');
 
+        if (!empty($where['title'])) {
+            $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
+        }
+
         if (isset($where['published'])) {
             $builder->andWhere('published = :published:', ['published' => $where['published']]);
         }

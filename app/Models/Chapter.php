@@ -174,7 +174,7 @@ class Chapter extends Model
      */
     public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'kg_chapter';
     }

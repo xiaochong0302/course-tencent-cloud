@@ -30,23 +30,20 @@ class CourseController extends Controller
     {
         $service = new CourseQueryService();
 
-        $params = $service->getQueryParams();
-
-        $pagerUrl = $this->url->get(['for' => 'web.course.pager'], $params);
-
         $topCategories = $service->handleTopCategories();
         $subCategories = $service->handleSubCategories();
 
         $models = $service->handleModels();
         $levels = $service->handleLevels();
         $sorts = $service->handleSorts();
+        $params = $service->getParams();
 
-        $this->view->setVar('pager_url', $pagerUrl);
         $this->view->setVar('top_categories', $topCategories);
         $this->view->setVar('sub_categories', $subCategories);
         $this->view->setVar('models', $models);
         $this->view->setVar('levels', $levels);
         $this->view->setVar('sorts', $sorts);
+        $this->view->setVar('params', $params);
     }
 
     /**
@@ -114,13 +111,11 @@ class CourseController extends Controller
      */
     public function consultsAction($id)
     {
-        $target = $this->request->get('target', 'trim', 'tab-consults');
-
         $service = new CourseConsultListService();
 
         $pager = $service->handle($id);
         $pager->items = kg_array_object($pager->items);
-        $pager->target = $target;
+        $pager->target = 'tab-consults';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);
@@ -131,13 +126,11 @@ class CourseController extends Controller
      */
     public function reviewsAction($id)
     {
-        $target = $this->request->get('target', 'trim', 'tab-reviews');
-
         $service = new CourseReviewListService();
 
         $pager = $service->handle($id);
         $pager->items = kg_array_object($pager->items);
-        $pager->target = $target;
+        $pager->target = 'tab-reviews';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);

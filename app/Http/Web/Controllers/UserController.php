@@ -31,13 +31,11 @@ class UserController extends Controller
      */
     public function coursesAction($id)
     {
-        $target = $this->request->get('target', 'trim', 'tab-courses');
-
         $service = new UserCourseListService();
 
         $pager = $service->handle($id);
         $pager->items = kg_array_object($pager->items);
-        $pager->target = $target;
+        $pager->target = 'tab-courses';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);
@@ -48,13 +46,11 @@ class UserController extends Controller
      */
     public function favoritesAction($id)
     {
-        $target = $this->request->get('target', 'trim', 'tab-favorites');
-
         $service = new UserFavoriteListService();
 
         $pager = $service->handle($id);
         $pager->items = kg_array_object($pager->items);
-        $pager->target = $target;
+        $pager->target = 'tab-favorites';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);
@@ -65,13 +61,11 @@ class UserController extends Controller
      */
     public function friendsAction($id)
     {
-        $target = $this->request->get('target', 'trim', 'tab-friends');
-
         $service = new UserFriendListService();
 
         $pager = $service->handle($id);
         $pager->items = kg_array_object($pager->items);
-        $pager->target = $target;
+        $pager->target = 'tab-friends';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);

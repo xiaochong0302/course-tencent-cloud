@@ -2,6 +2,7 @@
 
 namespace App\Repos;
 
+use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\CourseTopic as CourseTopicModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -9,6 +10,40 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 
 class CourseTopic extends Repository
 {
+
+    public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
+    {
+        $builder = $this->modelsManager->createBuilder();
+
+
+        $builder->from(CourseTopicModel::class);
+
+        $builder->where('1 = 1');
+
+        if (!empty($where['course_id'])) {
+            $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
+        }
+
+        if (!empty($where['topic_id'])) {
+            $builder->andWhere('topic_id = :topic_id:', ['topic_id' => $where['topic_id']]);
+        }
+
+        switch ($sort) {
+            default:
+                $orderBy = 'id DESC';
+                break;
+        }
+
+        $builder->orderBy($orderBy);
+
+        $pager = new PagerQueryBuilder([
+            'builder' => $builder,
+            'page' => $page,
+            'limit' => $limit,
+        ]);
+
+        return $pager->paginate();
+    }
 
     /**
      * @param int $courseId

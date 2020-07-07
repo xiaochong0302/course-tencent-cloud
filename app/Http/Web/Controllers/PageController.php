@@ -2,7 +2,7 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Services\Frontend\Page\PageInfo as PageInfoService;
+use App\Services\Frontend\Page\HelpInfo as PageInfoService;
 
 /**
  * @RoutePrefix("/page")

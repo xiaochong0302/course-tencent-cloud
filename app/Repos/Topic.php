@@ -21,8 +21,8 @@ class Topic extends Repository
 
         $builder->where('1 = 1');
 
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['title'])) {
+            $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
         }
 
         if (isset($where['published'])) {

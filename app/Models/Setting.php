@@ -33,7 +33,7 @@ class Setting extends Model
      */
     public $item_value;
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'kg_setting';
     }

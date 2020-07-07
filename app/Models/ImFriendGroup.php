@@ -56,7 +56,7 @@ class ImFriendGroup extends Model
      */
     public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
         return 'kg_im_friend_group';
     }

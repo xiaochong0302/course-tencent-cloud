@@ -18,7 +18,7 @@ class CourseQuery extends Service
 
     public function handleTopCategories()
     {
-        $params = $this->getQueryParams();
+        $params = $this->getParams();
 
         if (isset($params['tc'])) {
             unset($params['tc']);
@@ -33,7 +33,7 @@ class CourseQuery extends Service
         $defaultItem = [
             'id' => 'all',
             'name' => '全部',
-            'url' => $baseUrl . $this->buildQueryParams($params),
+            'url' => $baseUrl . $this->buildParams($params),
         ];
 
         $result = [];
@@ -49,7 +49,7 @@ class CourseQuery extends Service
             $result[] = [
                 'id' => $category['id'],
                 'name' => $category['name'],
-                'url' => $baseUrl . $this->buildQueryParams($params),
+                'url' => $baseUrl . $this->buildParams($params),
             ];
         }
 
@@ -58,7 +58,7 @@ class CourseQuery extends Service
 
     public function handleSubCategories()
     {
-        $params = $this->getQueryParams();
+        $params = $this->getParams();
 
         if (empty($params['tc'])) {
             return [];
@@ -81,7 +81,7 @@ class CourseQuery extends Service
         $defaultItem = [
             'id' => 'all',
             'name' => '全部',
-            'url' => $baseUrl . $this->buildQueryParams($params),
+            'url' => $baseUrl . $this->buildParams($params),
         ];
 
         $result = [];
@@ -93,7 +93,7 @@ class CourseQuery extends Service
             $result[] = [
                 'id' => $category['id'],
                 'name' => $category['name'],
-                'url' => $baseUrl . $this->buildQueryParams($params),
+                'url' => $baseUrl . $this->buildParams($params),
             ];
         }
 
@@ -102,7 +102,7 @@ class CourseQuery extends Service
 
     public function handleModels()
     {
-        $params = $this->getQueryParams();
+        $params = $this->getParams();
 
         if (isset($params['model'])) {
             unset($params['model']);
@@ -111,7 +111,7 @@ class CourseQuery extends Service
         $defaultItem = [
             'id' => 'all',
             'name' => '全部',
-            'url' => $this->baseUrl . $this->buildQueryParams($params),
+            'url' => $this->baseUrl . $this->buildParams($params),
         ];
 
         $result = [];
@@ -125,7 +125,7 @@ class CourseQuery extends Service
             $result[] = [
                 'id' => $key,
                 'name' => $value,
-                'url' => $this->baseUrl . $this->buildQueryParams($params),
+                'url' => $this->baseUrl . $this->buildParams($params),
             ];
         }
 
@@ -134,7 +134,7 @@ class CourseQuery extends Service
 
     public function handleLevels()
     {
-        $params = $this->getQueryParams();
+        $params = $this->getParams();
 
         if (isset($params['level'])) {
             unset($params['level']);
@@ -143,7 +143,7 @@ class CourseQuery extends Service
         $defaultItem = [
             'id' => 'all',
             'name' => '全部',
-            'url' => $this->baseUrl . $this->buildQueryParams($params),
+            'url' => $this->baseUrl . $this->buildParams($params),
         ];
 
         $result = [];
@@ -157,7 +157,7 @@ class CourseQuery extends Service
             $result[] = [
                 'id' => $key,
                 'name' => $value,
-                'url' => $this->baseUrl . $this->buildQueryParams($params),
+                'url' => $this->baseUrl . $this->buildParams($params),
             ];
         }
 
@@ -166,7 +166,7 @@ class CourseQuery extends Service
 
     public function handleSorts()
     {
-        $params = $this->getQueryParams();
+        $params = $this->getParams();
 
         $result = [];
 
@@ -177,7 +177,7 @@ class CourseQuery extends Service
             $result[] = [
                 'id' => $key,
                 'name' => $value,
-                'url' => $this->baseUrl . $this->buildQueryParams($params),
+                'url' => $this->baseUrl . $this->buildParams($params),
             ];
         }
 
@@ -197,20 +197,20 @@ class CourseQuery extends Service
 
         $result['top'] = [
             'name' => $topCategory->name,
-            'url' => $this->baseUrl . $this->buildQueryParams($topParams),
+            'url' => $this->baseUrl . $this->buildParams($topParams),
         ];
 
         $subParams = ['tc' => $topCategory->id, 'sc' => $subCategory->id];
 
         $result['sub'] = [
             'name' => $subCategory->name,
-            'url' => $this->baseUrl . $this->buildQueryParams($subParams),
+            'url' => $this->baseUrl . $this->buildParams($subParams),
         ];
 
         return $result;
     }
 
-    public function getQueryParams()
+    public function getParams()
     {
         $query = $this->request->getQuery();
 
@@ -246,7 +246,7 @@ class CourseQuery extends Service
         return $params;
     }
 
-    protected function buildQueryParams($params)
+    protected function buildParams($params)
     {
         return $params ? '?' . http_build_query($params) : '';
     }

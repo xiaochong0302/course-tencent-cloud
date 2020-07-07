@@ -23,8 +23,7 @@ class TopicInfo extends FrontendService
         return [
             'id' => $topic->id,
             'title' => $topic->title,
-            'summary' => $topic->about,
-            'course_count' => $topic->course_count,
+            'summary' => $topic->summary,
         ];
     }
 

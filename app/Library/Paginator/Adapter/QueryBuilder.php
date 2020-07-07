@@ -4,6 +4,7 @@ namespace App\Library\Paginator\Adapter;
 
 use App\Library\Paginator\Query;
 use Phalcon\Paginator\Adapter\QueryBuilder as BaseQueryBuilder;
+use stdClass;
 
 class QueryBuilder extends BaseQueryBuilder
 {
@@ -12,7 +13,7 @@ class QueryBuilder extends BaseQueryBuilder
 
     protected $params = [];
 
-    public function paginate()
+    public function paginate(): stdClass
     {
         $pager = parent::paginate();
 

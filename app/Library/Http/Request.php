@@ -8,7 +8,7 @@ class Request extends \Phalcon\Http\Request
     /**
      * @return bool
      */
-    public function isAjax()
+    public function isAjax(): bool
     {
         if (parent::isAjax()) {
             return true;
@@ -26,7 +26,7 @@ class Request extends \Phalcon\Http\Request
     /**
      * @return bool
      */
-    public function isApi()
+    public function isApi(): bool
     {
         $url = $this->get('_url');
 
