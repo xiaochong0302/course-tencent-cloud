@@ -4,7 +4,7 @@ layui.use(['jquery', 'helper'], function () {
     var helper = layui.helper;
 
     var interval = null;
-    var intervalTime = 5000;
+    var intervalTime = 15000;
     var position = 0;
     var userId = window.koogua.user.id;
     var chapterId = $('input[name="chapter.id"]').val();

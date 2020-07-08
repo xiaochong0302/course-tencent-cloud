@@ -4,22 +4,6 @@
     display: none;
 }
 
-.sidebar-chapter-list::-webkit-scrollbar {
-    background-color: #fff;
-    width: 5px;
-    height: 15px;
-}
-
-.sidebar-chapter-list::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background: #393D49;
-}
-
-.sidebar-chapter-list::-webkit-scrollbar-track {
-    border: 0;
-    background-color: #fff;
-}
-
 .full {
     background-color: #f2f2f2;
 }
@@ -79,10 +63,6 @@
     width: 320px;
 }
 
-.layui-badge, .layui-badge-rim {
-    padding-bottom: 1px;
-}
-
 .layui-fixbar {
     bottom: 60px;
 }
@@ -98,7 +78,7 @@
 
 #main {
     margin-top: 80px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     min-height: 550px;
 }
 
@@ -284,30 +264,35 @@
     margin-bottom: 5px;
 }
 
-.page-title {
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #d3d3d3;
-    text-align: center;
-    color: #666;
+.page-info {
+    padding: 20px 50px;
+    min-height: 500px;
 }
 
-.page-content {
-    min-height: 450px;
-    color: #666;
+.page-info .page-content {
+}
+
+.page-info .help-content {
+    min-height: 50px;
+}
+
+.page-info .layui-field-title legend {
+    margin: 0 10px 10px 0;
+    padding: 0 10px;
+    text-align: center;
 }
 
 .topic-info {
-    margin-bottom: 20px;
+    padding-top: 10px;
+    margin-bottom: 40px;
 }
 
-.topic-info .title {
+.topic-info .layui-field-title {
+    border-color: #d2d2d2;
+}
+
+.topic-info .layui-field-title legend {
     text-align: center;
-}
-
-.topic-info .summary {
-    padding: 15px 0;
-    color: #666;
 }
 
 .course-list {
@@ -750,8 +735,17 @@
     margin-right: 10px;
 }
 
+.sidebar-chapter-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar-chapter-list::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
 .sidebar-chapter-list {
-    max-height: 500px;
+    height: 405px;
     overflow-y: auto;
 }
 
@@ -779,7 +773,12 @@
     color: gray;
 }
 
-.live-player {
+.read-info {
+    min-height: 428px;
+    margin-bottom: 0;
+}
+
+.player {
     width: 760px;
     height: 428px;
 }
@@ -855,68 +854,6 @@
 
 .live-stats .count {
     margin-right: 10px;
-}
-
-.chapter-bg {
-    background-color: #f2f2f2;
-}
-
-.chapter-main {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-}
-
-.chapter-main .header {
-    height: 50px;
-    line-height: 50px;
-    color: rgba(255, 255, 255, 0.7);
-    background-color: #393D49;
-}
-
-.chapter-main .header a {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.chapter-main .header .back {
-    float: left;
-    margin-left: 5px;
-}
-
-.chapter-main .header .stats {
-    float: left;
-    margin-left: 50px;
-    margin-right: 150px;
-}
-
-.chapter-main .header .action {
-    float: right;
-    margin-right: 150px;
-}
-
-.chapter-main .content {
-}
-
-.chapter-sidebar {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 0;
-    position: absolute;
-    background-color: white;
-}
-
-.chapter-sidebar-btn {
-    top: 15px;
-    right: 15px;
-    position: absolute;
-    cursor: pointer;
-}
-
-.chapter-sidebar-btn .switch-icon {
-    color: rgba(255, 255, 255, 0.7);
 }
 
 .vip-header {

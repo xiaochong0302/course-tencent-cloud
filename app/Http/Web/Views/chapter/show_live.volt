@@ -17,9 +17,7 @@
 
     <div class="layout-main">
         <div class="layout-content">
-            <div class="live-player container">
-                <div id="player"></div>
-            </div>
+            <div id="player" class="player container"></div>
         </div>
         <div class="layout-sidebar">
             <div class="chat-container">

@@ -68,6 +68,13 @@ class ChapterRead extends Model
     public function beforeCreate()
     {
         $this->create_time = time();
+
+        /**
+         * text类型不能填充默认值
+         */
+        if (empty($this->content)) {
+            $this->content = '';
+        }
     }
 
     public function beforeUpdate()

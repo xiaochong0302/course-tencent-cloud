@@ -5,48 +5,21 @@ layui.use(['jquery', 'helper'], function () {
 
     var interval = null;
     var intervalTime = 15000;
-    var position = 0;
     var userId = window.koogua.user.id;
     var chapterId = $('input[name="chapter.id"]').val();
     var planId = $('input[name="chapter.plan_id"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
-    var playUrls = JSON.parse($('input[name="chapter.play_urls"]').val());
     var requestId = helper.getRequestId();
 
-    var options = {
-        autoplay: false,
-        width: 760,
-        height: 428
-    };
-
-    if (playUrls.od) {
-        options.m3u8 = playUrls.od.url;
-    }
-
-    if (playUrls.hd) {
-        options.m3u8_hd = playUrls.hd.url;
-    }
-
-    if (playUrls.sd) {
-        options.m3u8_sd = playUrls.sd.url;
-    }
-
     if (userId !== '0' && planId !== '0') {
-        options.listener = function (msg) {
-            if (msg.type === 'play') {
+        start();
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'hidden') {
+                stop();
+            } else if (document.visibilityState === 'visible') {
                 start();
-            } else if (msg.type === 'pause') {
-                stop();
-            } else if (msg.type === 'end') {
-                stop();
             }
-        }
-    }
-
-    var player = new TcPlayer('player', options);
-
-    if (position > 0) {
-        player.currentTime(position);
+        });
     }
 
     function start() {
@@ -71,7 +44,6 @@ layui.use(['jquery', 'helper'], function () {
                 chapter_id: chapterId,
                 plan_id: planId,
                 interval: intervalTime,
-                position: player.currentTime(),
             }
         });
     }

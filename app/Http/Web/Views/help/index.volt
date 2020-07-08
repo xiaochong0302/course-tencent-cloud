@@ -2,13 +2,20 @@
 
 {% block content %}
 
-    <div class="layui-collapse">
-        {% for help in helps %}
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">{{ help.title }}</h2>
-                <div class="layui-colla-content layui-show">{{ help.content }}</div>
+    <div class="page-info container">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>帮助中心</legend>
+            <div class="layui-field-box">
+                <div class="layui-collapse" lay-accordion="true">
+                    {% for help in helps %}
+                        <div class="layui-colla-item">
+                            <h2 class="layui-colla-title">{{ help.title }}</h2>
+                            <div class="layui-colla-content help-content">{{ help.content }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        {% endfor %}
+        </fieldset>
     </div>
 
 {% endblock %}

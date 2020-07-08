@@ -2,7 +2,6 @@
 
 {% block content %}
 
-    {% set course_url = url({'for':'web.course.show','id':chapter.course.id}) %}
     {% set learning_url = url({'for':'web.chapter.learning','id':chapter.id}) %}
 
     <div class="breadcrumb">
@@ -14,8 +13,7 @@
 
     <div class="layout-main clearfix">
         <div class="layout-content">
-            <div id="player" class="container"></div>
-            <div class="comment-list container"></div>
+            <div id="player" class="player container"></div>
         </div>
         <div class="layout-sidebar">
             {{ partial('chapter/menu') }}

@@ -4,9 +4,9 @@
 
     <div class="page-info container">
         <fieldset class="layui-elem-field layui-field-title">
-            <legend>{{ page.title }}</legend>
+            <legend>{{ help.title }}</legend>
             <div class="layui-field-box page-content">
-                {{ page.content }}
+                {{ help.content }}
             </div>
         </fieldset>
     </div>
