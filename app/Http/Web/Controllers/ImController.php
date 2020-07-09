@@ -51,9 +51,9 @@ class ImController extends LayerController
     }
 
     /**
-     * @Get("/msg/sys/unread/count", name="web.im.unread_sys_msg_count")
+     * @Get("/msg/sys/unread", name="web.im.unread_sys_msg")
      */
-    public function unreadSystemMessagesCountAction()
+    public function unreadSystemMessagesAction()
     {
         $service = new ImService();
 

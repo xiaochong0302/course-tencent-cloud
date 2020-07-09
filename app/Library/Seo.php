@@ -47,12 +47,16 @@ class Seo
 
     public function appendTitle($text)
     {
-        $this->title = $this->title . $this->titleSeparator . $text;
+        $append = is_array($text) ? implode($this->titleSeparator, $text) : $text;
+
+        $this->title = $this->title . $this->titleSeparator . $append;
     }
 
     public function prependTitle($text)
     {
-        $this->title = $text . $this->titleSeparator . $this->title;
+        $prepend = is_array($text) ? implode($this->titleSeparator, $text) : $text;
+
+        $this->title = $prepend . $this->titleSeparator . $this->title;
     }
 
     public function getTitle()

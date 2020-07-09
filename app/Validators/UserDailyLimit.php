@@ -38,6 +38,17 @@ class UserDailyLimit extends Validator
         }
     }
 
+    public function checkDanmuLimit(UserModel $user)
+    {
+        $count = $this->counter->hGet($user->id, 'danmu_count');
+
+        $limit = $user->vip ? 100 : 50;
+
+        if ($count > $limit) {
+            throw new BadRequestException('user_daily_limit.reach_danmu_limit');
+        }
+    }
+
     public function checkConsultLimit(UserModel $user)
     {
         $count = $this->counter->hGet($user->id, 'consult_count');

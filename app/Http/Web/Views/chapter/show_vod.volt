@@ -13,7 +13,25 @@
 
     <div class="layout-main clearfix">
         <div class="layout-content">
-            <div id="player" class="player container"></div>
+            <div class="player-container container">
+                <div id="player"></div>
+                <div id="danmu"></div>
+            </div>
+            <div class="danmu-action container">
+                <form class="layui-form" action="{{ url({'for':'web.danmu.create'}) }}">
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="checkbox" name="status" title="弹幕" checked="checked" lay-filter="status">
+                    </div>
+                    <div class="layui-input-inline" style="width: 655px;">
+                        {% if auth_user.id > 0 %}
+                            <input class="layui-input" type="text" name="text" maxlength="50" placeholder="快来发个弹幕吧" lay-verType="tips" lay-verify="required">
+                        {% else %}
+                            <input class="layui-input" type="text" name="text" placeholder="登录后才可以发送弹幕哦" readonly="readonly">
+                        {% endif %}
+                        <button class="layui-hide" type="submit" lay-submit="true" lay-filter="chat">发送</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="layout-sidebar">
             {{ partial('chapter/menu') }}
@@ -33,6 +51,8 @@
 
     <script src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.2.js"></script>
 
+    {{ js_include('lib/jquery.min.js') }}
+    {{ js_include('lib/jquery.danmu.min.js') }}
     {{ js_include('web/js/vod.player.js') }}
 
 {% endblock %}

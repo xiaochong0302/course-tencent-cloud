@@ -778,7 +778,19 @@
     margin-bottom: 0;
 }
 
-.player {
+.danmu-action {
+    padding: 15px 20px;
+    margin-bottom: 0;
+}
+
+.danmu-action .layui-input {
+    height: 32px;
+    line-height: 32px;
+    font-size: 12px;
+}
+
+.player-container {
+    position: relative;
     width: 760px;
     height: 428px;
 }
@@ -1425,30 +1437,16 @@
     color: #999;
 }
 
-.layui-layim-list li .msg-count, .layim-chat-list li .msg-count {
-    position: absolute;
-    color: white;
-    background-color: red;
-}
-
 .layui-layim-list li .msg-count {
+    position: absolute;
     top: 10px;
     right: 10px;
-    padding: 2px 5px;
-    line-height: 16px;
-    height: 16px;
-    border-radius: 2px;
-    font-size: 12px;
 }
 
 .layim-chat-list li .msg-count {
+    position: absolute;
     top: 5px;
     right: 30px;
-    padding: 1px 3px;
-    line-height: 12px;
-    height: 12px;
-    border-radius: 2px;
-    font-size: 10px;
 }
 
 .layim-chat-status .online {

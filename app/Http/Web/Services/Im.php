@@ -498,7 +498,7 @@ class Im extends Service
         /**
          * 避免频繁推送消息
          */
-        if ($onlinePushTime && time() - $onlinePushTime > 600) {
+        if ($onlinePushTime && time() - $onlinePushTime < 600) {
             return;
         }
 

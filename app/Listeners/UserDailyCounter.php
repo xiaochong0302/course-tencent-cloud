@@ -26,6 +26,11 @@ class UserDailyCounter extends Listener
         $this->counter->hIncrBy($user->id, 'comment_count');
     }
 
+    public function incrDanmuCount(Event $event, $source, UserModel $user)
+    {
+        $this->counter->hIncrBy($user->id, 'danmu_count');
+    }
+
     public function incrConsultCount(Event $event, $source, UserModel $user)
     {
         $this->counter->hIncrBy($user->id, 'consult_count');

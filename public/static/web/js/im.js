@@ -68,7 +68,7 @@ layui.use(['jquery', 'layim'], function () {
                 layui.each(group.list, function (j, user) {
                     var $li = $('.layui-layim-list > .layim-friend' + user.id);
                     if (user.msg_count > 0) {
-                        $li.append('<em class="msg-count">' + user.msg_count + '</em>');
+                        $li.append('<em class="msg-count layui-badge">' + user.msg_count + '</em>');
                     }
                 });
             });
@@ -140,7 +140,7 @@ layui.use(['jquery', 'layim'], function () {
             var count = parseInt($msgCount.text());
             $msgCount.text(count + 1).removeClass('layui-hide');
         } else {
-            $li.append('<em class="msg-count">1</em>');
+            $li.append('<em class="msg-count layui-badge">1</em>');
         }
     }
 
@@ -196,7 +196,7 @@ layui.use(['jquery', 'layim'], function () {
     function refreshMessageBox() {
         $.ajax({
             type: 'GET',
-            url: '/im/msg/sys/unread/count',
+            url: '/im/msg/sys/unread',
             success: function (res) {
                 if (res.count > 0) {
                     layim.msgbox(res.count);

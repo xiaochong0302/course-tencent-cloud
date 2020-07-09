@@ -17,7 +17,9 @@
 
     <div class="layout-main">
         <div class="layout-content">
-            <div id="player" class="player container"></div>
+            <div class="player-container container">
+                <div id=player"></div>
+            </div>
         </div>
         <div class="layout-sidebar">
             <div class="chat-container">
@@ -32,12 +34,12 @@
                             {% if auth_user.id > 0 %}
                                 <div class="chat-msg-form">
                                     <form class="layui-form" method="post" action="{{ send_msg_url }}">
-                                        <input class="layui-input" type="text" name="content" maxlength="80" placeholder="快来和大家一起互动吧~" lay-verType="tips" lay-verify="required">
+                                        <input class="layui-input" type="text" name="content" maxlength="50" placeholder="快来一起互动吧" lay-verType="tips" lay-verify="required">
                                         <button class="layui-hide" type="submit" lay-submit="true" lay-filter="chat">发送</button>
                                     </form>
                                 </div>
                             {% else %}
-                                <div class="chat-login-tips">登录后才可以发言哦～</div>
+                                <div class="chat-login-tips">登录后才可以发言哦</div>
                             {% endif %}
                         </div>
                         <div class="layui-tab-item" id="tab-stats" data-url="{{ live_stats_url }}"></div>

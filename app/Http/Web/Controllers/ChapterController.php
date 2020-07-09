@@ -24,9 +24,22 @@ class ChapterController extends Controller
 
         $chapter = $service->handle($id);
 
+        $owned = $chapter['me']['owned'] ?? false;
+
+        if (!$owned) {
+            $this->response->redirect([
+                'for' => 'web.course.show',
+                'id' => $chapter['course']['id'],
+            ]);
+        }
+
         $service = new CourseChapterListService();
 
         $chapters = $service->handle($chapter['course']['id']);
+
+        $this->siteSeo->prependTitle([$chapter['title'], $chapter['course']['title']]);
+        $this->siteSeo->setKeywords($chapter['title']);
+        $this->siteSeo->setDescription($chapter['summary']);
 
         if ($chapter['model'] == 'vod') {
             $this->view->pick('chapter/show_vod');

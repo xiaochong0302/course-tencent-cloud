@@ -24,6 +24,7 @@ class UserDailyCounter extends Counter
         return [
             'favorite_count' => 0,
             'comment_count' => 0,
+            'danmu_count' => 0,
             'consult_count' => 0,
             'order_count' => 0,
             'chapter_vote_count' => 0,

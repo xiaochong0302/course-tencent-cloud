@@ -87,6 +87,10 @@ class CourseController extends Controller
 
         $rewardOptions = $service->handle();
 
+        $this->siteSeo->prependTitle($course['title']);
+        $this->siteSeo->setKeywords($course['keywords']);
+        $this->siteSeo->setDescription($course['summary']);
+
         $this->view->setVar('course', $course);
         $this->view->setVar('chapters', $chapters);
         $this->view->setVar('teachers', $teachers);
