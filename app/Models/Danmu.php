@@ -16,9 +16,18 @@ class Danmu extends Model
     /**
      * 位置类型
      */
-    const POS_MOVE = 0; // 滚动
-    const POS_TOP = 1; // 顶部
-    const POS_BOTTOM = 2; // 底部
+    const POSITION_MOVE = 0; // 滚动
+    const POSITION_TOP = 1; // 顶部
+    const POSITION_BOTTOM = 2; // 底部
+
+    /**
+     * 颜色类型
+     */
+    const COLOR_WHITE = 'white'; // 白色
+    const COLOR_RED = 'red'; // 红色
+    const COLOR_BLUE = 'blue'; // 蓝色
+    const COLOR_GREEN = 'green'; // 绿色
+    const COLOR_YELLOW = 'yellow'; // 黄色
 
     /**
      * 主键编号
@@ -141,17 +150,51 @@ class Danmu extends Model
     public static function sizeTypes()
     {
         return [
-            '0' => '小号',
-            '1' => '大号',
+            self::SIZE_SMALL => '小号',
+            self::SIZE_BIG => '大号',
         ];
     }
 
-    public static function positionTypes()
+    public static function posTypes()
     {
         return [
-            '0' => '滚动',
-            '1' => '顶部',
-            '２' => '底部',
+            self::POSITION_MOVE => '滚动',
+            self::POSITION_TOP => '顶部',
+            self::POSITION_BOTTOM => '底部',
         ];
     }
+
+    public static function colorTypes()
+    {
+        return [
+            self::COLOR_WHITE => '白色',
+            self::COLOR_RED => '红色',
+            self::COLOR_GREEN => '绿色',
+            self::COLOR_BLUE => '蓝色',
+            self::COLOR_YELLOW => '黄色',
+        ];
+    }
+
+    public static function randPos()
+    {
+        $types = self::positionTypes();
+
+        $keys = array_keys($types);
+
+        $index = array_rand($keys);
+
+        return $keys[$index];
+    }
+
+    public static function randColor()
+    {
+        $types = self::colorTypes();
+
+        $keys = array_keys($types);
+
+        $index = array_rand($keys);
+
+        return $keys[$index];
+    }
+
 }

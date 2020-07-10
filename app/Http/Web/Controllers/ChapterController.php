@@ -5,6 +5,7 @@ namespace App\Http\Web\Controllers;
 use App\Services\Frontend\Chapter\AgreeVote as ChapterAgreeVoteService;
 use App\Services\Frontend\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Frontend\Chapter\CommentList as ChapterCommentListService;
+use App\Services\Frontend\Chapter\DanmuList as ChapterDanmuListService;
 use App\Services\Frontend\Chapter\Learning as ChapterLearningService;
 use App\Services\Frontend\Chapter\OpposeVote as ChapterOpposeVoteService;
 use App\Services\Frontend\Course\ChapterList as CourseChapterListService;
@@ -51,6 +52,18 @@ class ChapterController extends Controller
 
         $this->view->setVar('chapter', $chapter);
         $this->view->setVar('chapters', $chapters);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/danmu", name="web.chapter.danmu")
+     */
+    public function danmuAction($id)
+    {
+        $service = new ChapterDanmuListService();
+
+        $items = $service->handle($id);
+
+        return $this->jsonSuccess(['items' => $items]);
     }
 
     /**

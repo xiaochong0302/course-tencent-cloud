@@ -60,6 +60,7 @@ class ChapterInfo extends FrontendService
 
         $me = [
             'plan_id' => 0,
+            'position' => 0,
             'joined' => 0,
             'owned' => 0,
             'agreed' => 0,
@@ -68,6 +69,10 @@ class ChapterInfo extends FrontendService
 
         if ($this->courseUser) {
             $me['plan_id'] = $this->courseUser->plan_id;
+        }
+
+        if ($this->chapterUser) {
+            $me['position'] = $this->chapterUser->position;
         }
 
         $me['joined'] = $this->joinedChapter ? 1 : 0;
@@ -253,6 +258,16 @@ class ChapterInfo extends FrontendService
         $this->incrChapterUserCount($chapter);
     }
 
+    protected function getVodPosition(ChapterModel $chapter, UserModel $user)
+    {
+
+    }
+
+    protected function getLiveStreamName($id)
+    {
+        return "chapter_{$id}";
+    }
+
     protected function incrCourseUserCount(CourseModel $course)
     {
         $this->eventsManager->fire('courseCounter:incrUserCount', $this, $course);
@@ -261,11 +276,6 @@ class ChapterInfo extends FrontendService
     protected function incrChapterUserCount(ChapterModel $chapter)
     {
         $this->eventsManager->fire('chapterCounter:incrUserCount', $this, $chapter);
-    }
-
-    protected function getLiveStreamName($id)
-    {
-        return "chapter_{$id}";
     }
 
 }

@@ -82,4 +82,43 @@ class Danmu extends Repository
             ->execute();
     }
 
+    /**
+     * @param array $where
+     * @return ResultsetInterface|Resultset|DanmuModel[]
+     */
+    public function findAll($where = [])
+    {
+        $query = DanmuModel::query();
+
+        $query->where('1 = 1');
+
+        if (!empty($where['course_id'])) {
+            $query->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
+        }
+
+        if (!empty($where['chapter_id'])) {
+            $query->andWhere('chapter_id = :chapter_id:', ['chapter_id' => $where['chapter_id']]);
+        }
+
+        if (!empty($where['user_id'])) {
+            $query->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        }
+
+        if (!empty($where['start_time']) && !empty($where['end_time'])) {
+            $query->betweenWhere('time', $where['start_time'], $where['end_time']);
+        }
+
+        if (isset($where['published'])) {
+            $query->andWhere('published = :published:', ['published' => $where['published']]);
+        }
+
+        if (isset($where['deleted'])) {
+            $query->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
+        }
+
+        $query->orderBy('id DESC');
+
+        return $query->execute();
+    }
+
 }

@@ -17,9 +17,13 @@ class HelpList extends FrontendService
 
         $helps = $helpRepo->findAll($params);
 
+        $result = [];
+
         if ($helps->count() > 0) {
-            return $this->handleHelps($helps);
+            $result = $this->handleHelps($helps);
         }
+
+        return $result;
     }
 
     /**
@@ -31,7 +35,6 @@ class HelpList extends FrontendService
         $items = [];
 
         foreach ($helps as $help) {
-
             $items[] = [
                 'id' => $help->id,
                 'title' => $help->title,

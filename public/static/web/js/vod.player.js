@@ -1,18 +1,21 @@
-layui.use(['jquery', 'form', 'helper'], function () {
+layui.use(['jquery', 'form', 'layer', 'helper'], function () {
 
     var $ = layui.jquery;
     var form = layui.form;
+    var layer = layui.layer;
     var helper = layui.helper;
 
     var interval = null;
     var intervalTime = 15000;
-    var position = 0;
     var userId = window.koogua.user.id;
+    var requestId = helper.getRequestId();
     var chapterId = $('input[name="chapter.id"]').val();
     var planId = $('input[name="chapter.plan_id"]').val();
+    var lastPosition = $('input[name="chapter.position"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
+    var danmuListUrl = $('input[name="chapter.danmu_url"]').val();
     var playUrls = JSON.parse($('input[name="chapter.play_urls"]').val());
-    var requestId = helper.getRequestId();
+    var $danmuText = $('input[name="danmu.text"]');
 
     var options = {
         autoplay: false,
@@ -34,17 +37,22 @@ layui.use(['jquery', 'form', 'helper'], function () {
 
     options.listener = function (msg) {
         if (msg.type === 'play') {
-            start();
+            play();
         } else if (msg.type === 'pause') {
-            stop();
-        } else if (msg.type === 'end') {
-            stop();
+            pause();
+        } else if (msg.type === 'ended') {
+            ended();
         }
     };
 
     var player = new TcPlayer('player', options);
 
-    if (position > 0) {
+    var position = parseInt(lastPosition);
+
+    /**
+     * 过于接近结束位置当作已结束处理
+     */
+    if (position > 0 && player.duration() - position > 10) {
         player.currentTime(position);
     }
 
@@ -55,14 +63,9 @@ layui.use(['jquery', 'form', 'helper'], function () {
         height: 380
     });
 
-    //再添加三个弹幕
-    $("#danmu").danmu("addDanmu", [
-        {text: "这是滚动弹幕", color: "white", size: 0, position: 0, time: 120}
-        , {text: "这是顶部弹幕", color: "yellow", size: 0, position: 1, time: 120}
-        , {text: "这是底部弹幕", color: "red", size: 0, position: 2, time: 120}
-    ]);
+    initDanmu();
 
-    form.on('checkbox(status)', function (data) {
+    form.on('checkbox(danmu.status)', function (data) {
         if (data.elem.checked) {
             $('#danmu').danmu('setOpacity', 1);
         } else {
@@ -70,35 +73,65 @@ layui.use(['jquery', 'form', 'helper'], function () {
         }
     });
 
-    form.on('submit(chat)', function (data) {
+    form.on('submit(danmu.send)', function (data) {
         $.ajax({
             type: 'POST',
             url: data.form.action,
             data: {
-                text: data.field.text,
+                text: $danmuText.val(),
                 time: player.currentTime(),
-                chapter_id: chapterId,
+                chapter_id: chapterId
             },
             success: function (res) {
-                showDanmu(res);
+                $('#danmu').danmu('addDanmu', {
+                    text: res.danmu.text,
+                    color: res.danmu.color,
+                    size: res.danmu.size,
+                    time: (res.danmu.time + 1) * 10, //十分之一秒
+                    position: res.danmu.position,
+                    isnew: 1
+                });
+                $danmuText.val('');
+            },
+            error: function (xhr) {
+                var res = JSON.parse(xhr.responseText);
+                layer.msg(res.msg, {icon: 2});
             }
         });
         return false;
     });
 
-    function start() {
+    function clearLearningInterval() {
         if (interval != null) {
             clearInterval(interval);
             interval = null;
         }
-        interval = setInterval(learning, intervalTime);
-        startDanmu();
     }
 
-    function stop() {
-        clearInterval(interval);
-        interval = null;
-        pauseDanmu();
+    function setLearningInterval() {
+        interval = setInterval(learning, intervalTime);
+    }
+
+    function play() {
+        startDanmu();
+        clearLearningInterval();
+        setLearningInterval();
+    }
+
+    function pause() {
+        /**
+         * 视频结束也会触发暂停事件，此时弹幕可能尚未结束
+         * 时间差区分暂停是手动还是结束触发
+         */
+        if (player.currentTime() < player.duration() - 5) {
+            pauseDanmu();
+        }
+        clearLearningInterval();
+    }
+
+    function ended() {
+        clearLearningInterval();
+        learning();
     }
 
     function learning() {
@@ -107,41 +140,45 @@ layui.use(['jquery', 'form', 'helper'], function () {
                 type: 'POST',
                 url: learningUrl,
                 data: {
-                    request_id: requestId,
-                    chapter_id: chapterId,
                     plan_id: planId,
+                    chapter_id: chapterId,
+                    request_id: requestId,
                     interval: intervalTime,
-                    position: player.currentTime(),
+                    position: player.currentTime()
                 }
             });
         }
     }
 
     function startDanmu() {
-        $('#danmu').danmu('danmuStart');
+        $('#danmu').danmu('danmuResume');
     }
 
     function pauseDanmu() {
         $('#danmu').danmu('danmuPause');
     }
 
-    function showDanmu(res) {
-        /*
-        $('#danmu').danmu('addDanmu', {
-            text: res.danmu.text,
-            color: res.danmu.color,
-            size: res.danmu.size,
-            time: res.danmu.time,
-            position: res.danmu.position,
-            isnew: 1
+    /**
+     * 一次性获取弹幕，待改进为根据时间轴区间获取
+     */
+    function initDanmu() {
+        $.ajax({
+            type: 'GET',
+            url: danmuListUrl,
+            success: function (res) {
+                var items = [];
+                layui.each(res.items, function (index, item) {
+                    items.push({
+                        text: item.text,
+                        color: item.color,
+                        size: item.size,
+                        time: (item.time + 1) * 10,
+                        position: item.position
+                    });
+                });
+                $('#danmu').danmu('addDanmu', items);
+            }
         });
-        */
-        $("#danmu").danmu("addDanmu", [
-            {text: "这是滚动弹幕", color: "white", size: 0, position: 0, time: 300}
-            , {text: "这是顶部弹幕", color: "yellow", size: 0, position: 0, time: 300}
-            , {text: "这是底部弹幕", color: "red", size: 0, position: 0, time: 300}
-        ]);
-        $('input[name=text]').val('');
     }
 
 });

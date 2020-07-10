@@ -5,7 +5,6 @@ layui.use(['jquery', 'helper'], function () {
 
     var interval = null;
     var intervalTime = 15000;
-    var position = 0;
     var userId = window.koogua.user.id;
     var chapterId = $('input[name="chapter.id"]').val();
     var planId = $('input[name="chapter.plan_id"]').val();
@@ -57,23 +56,17 @@ layui.use(['jquery', 'helper'], function () {
         options.m3u8_sd = playUrls.m3u8.sd;
     }
 
-    if (userId !== '0' && planId !== '0') {
-        options.listener = function (msg) {
-            if (msg.type === 'play') {
-                start();
-            } else if (msg.type === 'pause') {
-                stop();
-            } else if (msg.type === 'end') {
-                stop();
-            }
+    options.listener = function (msg) {
+        if (msg.type === 'play') {
+            start();
+        } else if (msg.type === 'pause') {
+            stop();
+        } else if (msg.type === 'end') {
+            stop();
         }
-    }
+    };
 
     var player = new TcPlayer('player', options);
-
-    if (position > 0) {
-        player.currentTime(position);
-    }
 
     function start() {
         if (interval != null) {
@@ -84,22 +77,26 @@ layui.use(['jquery', 'helper'], function () {
     }
 
     function stop() {
-        clearInterval(interval);
-        interval = null;
+        if (interval != null) {
+            clearInterval(interval);
+            interval = null;
+        }
     }
 
     function learning() {
-        $.ajax({
-            type: 'POST',
-            url: learningUrl,
-            data: {
-                request_id: requestId,
-                chapter_id: chapterId,
-                plan_id: planId,
-                interval: intervalTime,
-                position: player.currentTime(),
-            }
-        });
+        if (userId !== '0' && planId !== '0') {
+            $.ajax({
+                type: 'POST',
+                url: learningUrl,
+                data: {
+                    plan_id: planId,
+                    chapter_id: chapterId,
+                    request_id: requestId,
+                    interval: intervalTime,
+                    position: player.currentTime(),
+                }
+            });
+        }
     }
 
 });

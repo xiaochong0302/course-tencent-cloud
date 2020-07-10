@@ -38,7 +38,9 @@ class DanmuCreate extends FrontendService
         $data['course_id'] = $chapter->course_id;
         $data['chapter_id'] = $chapter->id;
         $data['user_id'] = $user->id;
-        $data['color'] = 'white';
+        $data['position'] = DanmuModel::POSITION_MOVE;
+        $data['color'] = DanmuModel::COLOR_WHITE;
+        $data['size'] = DanmuModel::SIZE_SMALL;
         $data['published'] = 1;
 
         $danmu->create($data);
