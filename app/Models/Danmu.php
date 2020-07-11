@@ -155,7 +155,7 @@ class Danmu extends Model
         ];
     }
 
-    public static function posTypes()
+    public static function positionTypes()
     {
         return [
             self::POSITION_MOVE => '滚动',
@@ -175,7 +175,7 @@ class Danmu extends Model
         ];
     }
 
-    public static function randPos()
+    public static function randPosition()
     {
         $types = self::positionTypes();
 

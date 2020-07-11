@@ -7,7 +7,7 @@
         <a><cite>登录</cite></a>
     </div>
 
-    <div class="login-container container">
+    <div class="login-wrap wrap">
         <div class="layui-tab layui-tab-brief login-tab">
             <ul class="layui-tab-title login-tab-title">
                 <li class="layui-this">密码登录</li>

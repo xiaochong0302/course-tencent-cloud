@@ -33,14 +33,15 @@ class DanmuCreate extends FrontendService
         $data = [];
 
         $data['text'] = $validator->checkText($post['text']);
+        $data['position'] = $validator->checkPosition($post['position']);
+        $data['color'] = $validator->checkColor($post['color']);
+        $data['size'] = $validator->checkSize($post['size']);
         $data['time'] = $validator->checkTime($post['time']);
 
         $data['course_id'] = $chapter->course_id;
         $data['chapter_id'] = $chapter->id;
         $data['user_id'] = $user->id;
-        $data['position'] = DanmuModel::POSITION_MOVE;
-        $data['color'] = DanmuModel::COLOR_WHITE;
-        $data['size'] = DanmuModel::SIZE_SMALL;
+
         $data['published'] = 1;
 
         $danmu->create($data);

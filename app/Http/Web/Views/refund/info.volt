@@ -11,7 +11,7 @@
         <a><cite>{{ refund.subject }}</cite></a>
     </div>
 
-    <div class="container">
+    <div class="wrap">
         <table class="layui-table kg-table order-table" lay-size="lg">
             <tr>
                 <td>退款项目</td>

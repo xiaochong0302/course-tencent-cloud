@@ -4,7 +4,7 @@
 
     <div class="vip-header">会员权益</div>
 
-    <div class="vip-reason-list container">
+    <div class="vip-reason-list wrap">
         <span class="layui-badge reason-badge">好课畅学</span>
         <span class="layui-badge reason-badge">会员折扣</span>
         <span class="layui-badge reason-badge">高清视频</span>
@@ -33,7 +33,7 @@
     {% set courses_url = url({'for':'web.vip.courses'},{'limit':12}) %}
     {% set users_url = url({'for':'web.vip.users'},{'limit':12}) %}
 
-    <div class="vip-tab-container">
+    <div class="vip-tab-wrap">
         <div class="layui-tab layui-tab-brief user-tab">
             <ul class="layui-tab-title">
                 <li class="layui-this">课程</li>

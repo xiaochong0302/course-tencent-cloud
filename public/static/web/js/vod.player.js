@@ -1,7 +1,8 @@
-layui.use(['jquery', 'form', 'layer', 'helper'], function () {
+layui.use(['jquery', 'form', 'slider', 'layer', 'helper'], function () {
 
     var $ = layui.jquery;
     var form = layui.form;
+    var slider = layui.slider;
     var layer = layui.layer;
     var helper = layui.helper;
 
@@ -16,26 +17,29 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
     var danmuListUrl = $('input[name="chapter.danmu_url"]').val();
     var playUrls = JSON.parse($('input[name="chapter.play_urls"]').val());
     var $danmuText = $('input[name="danmu.text"]');
+    var $danmuColor = $('input[name="danmu.color"]');
+    var $danmuSize = $('input[name="danmu.size"]');
+    var $danmuPosition = $('input[name="danmu.position"]');
 
-    var options = {
+    var playerOptions = {
         autoplay: false,
         width: 760,
         height: 428
     };
 
     if (playUrls.od) {
-        options.m3u8 = playUrls.od.url;
+        playerOptions.m3u8 = playUrls.od.url;
     }
 
     if (playUrls.hd) {
-        options.m3u8_hd = playUrls.hd.url;
+        playerOptions.m3u8_hd = playUrls.hd.url;
     }
 
     if (playUrls.sd) {
-        options.m3u8_sd = playUrls.sd.url;
+        playerOptions.m3u8_sd = playUrls.sd.url;
     }
 
-    options.listener = function (msg) {
+    playerOptions.listener = function (msg) {
         if (msg.type === 'play') {
             play();
         } else if (msg.type === 'pause') {
@@ -45,7 +49,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         }
     };
 
-    var player = new TcPlayer('player', options);
+    var player = new TcPlayer('player', playerOptions);
 
     var position = parseInt(lastPosition);
 
@@ -65,7 +69,11 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
 
     initDanmu();
 
-    form.on('checkbox(danmu.status)', function (data) {
+    $('.icon-danmu-set').on('click', function () {
+        showMyDanmuSet();
+    });
+
+    form.on('switch(danmu.status)', function (data) {
         if (data.elem.checked) {
             $('#danmu').danmu('setOpacity', 1);
         } else {
@@ -73,12 +81,21 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         }
     });
 
+    form.on('radio(danmu.opacity)', function (data) {
+        $('#danmu').danmu('setOpacity', parseFloat(data.value));
+    });
+
     form.on('submit(danmu.send)', function (data) {
+        var setFormData = form.val('danmu.form.set');
+        var formData = form.val('danmu.form');
         $.ajax({
             type: 'POST',
             url: data.form.action,
             data: {
-                text: $danmuText.val(),
+                text: formData['danmu.text'],
+                color: setFormData['danmu.color'],
+                size: setFormData['danmu.size'],
+                position: setFormData['danmu.position'],
                 time: player.currentTime(),
                 chapter_id: chapterId
             },
@@ -148,6 +165,15 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
                 }
             });
         }
+    }
+
+    function showMyDanmuSet() {
+        layer.open({
+            type: 1,
+            title: '弹幕设置',
+            area: '600px',
+            content: $('#my-danmu-set')
+        });
     }
 
     function startDanmu() {

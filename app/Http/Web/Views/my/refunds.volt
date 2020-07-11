@@ -11,7 +11,7 @@
         <a><cite>我的退款</cite></a>
     </div>
 
-    <div class="container">
+    <div class="wrap">
         <div class="order-filter">
             {% set status = request.get('status','trim','all') %}
             {% for key,value in status_types %}

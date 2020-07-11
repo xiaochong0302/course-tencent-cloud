@@ -8,7 +8,7 @@
         <a><cite>绑定手机</cite></a>
     </div>
 
-    <div class="account-container container">
+    <div class="account-wrap wrap">
         <form class="layui-form account-form" method="POST" action="{{ url({'for':'web.account.update_phone'}) }}">
             <div class="layui-form-item">
                 <div class="layui-input-block">

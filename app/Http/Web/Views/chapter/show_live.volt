@@ -17,12 +17,12 @@
 
     <div class="layout-main">
         <div class="layout-content">
-            <div class="player-container container">
+            <div class="player-wrap wrap">
                 <div id=player"></div>
             </div>
         </div>
         <div class="layout-sidebar">
-            <div class="chat-container">
+            <div class="chat-wrap">
                 <div class="layui-tab layui-tab-brief user-tab">
                     <ul class="layui-tab-title">
                         <li class="layui-this">讨论</li>

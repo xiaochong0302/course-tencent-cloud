@@ -2,7 +2,7 @@
     <span class="layui-icon layui-icon-up"></span>
 </div>
 
-<div class="course-filter container">
+<div class="course-filter wrap">
     <div class="filter-group">
         <div class="title">方向</div>
         <div class="content">
@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<div class="course-sort container">
+<div class="course-sort wrap">
     {% set sort_val = request.get('sort','trim','score') %}
     {% for sort in sorts %}
         {% set class = sort_val == sort.id ? 'layui-btn layui-btn-xs' : 'none' %}

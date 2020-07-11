@@ -9,7 +9,7 @@
     <div class="layout-main">
         <div class="layout-sidebar">{{ partial('my/menu') }}</div>
         <div class="layout-content">
-            <div class="container">
+            <div class="wrap">
                 <div class="my-nav-title">账号安全</div>
                 <div class="security-item-list">
                     <div class="security-item">

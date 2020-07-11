@@ -7,7 +7,7 @@
     {% endif %}
 {%- endmacro %}
 
-<div class="my-profile-card container">
+<div class="my-profile-card wrap">
     <div class="avatar">
         <a href="javascript:"><img src="{{ auth_user.avatar }}" alt="{{ auth_user.name }}"></a>
     </div>

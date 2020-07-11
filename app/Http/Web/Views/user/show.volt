@@ -6,7 +6,7 @@
 
     {% set vip_flag = user.vip ? '<i class="layui-icon layui-icon-diamond vip-icon"></i>' : '' %}
 
-    <div class="user-profile container clearfix">
+    <div class="user-profile wrap clearfix">
         <div class="avatar">
             <img src="{{ user.avatar }}" alt="{{ user.name }}">
         </div>
@@ -24,7 +24,7 @@
     {% set favorites_url = url({'for':'web.user.favorites','id':user.id},{'limit':12}) %}
     {% set friends_url = url({'for':'web.user.friends','id':user.id},{'limit':12}) %}
 
-    <div class="tab-container">
+    <div class="tab-wrap">
         <div class="layui-tab layui-tab-brief user-tab">
             <ul class="layui-tab-title">
                 <li class="layui-this">课程</li>

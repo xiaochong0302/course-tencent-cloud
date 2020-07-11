@@ -5,7 +5,7 @@
     <div class="layout-main">
         <div class="layout-sidebar">{{ partial('my/menu') }}</div>
         <div class="layout-content">
-            <div class="container">
+            <div class="wrap">
                 <div class="my-nav-title">个人信息</div>
                 <form class="layui-form my-form" method="post" action="{{ url({'for':'web.my.update_profile'}) }}">
                     <div class="layui-form-item">

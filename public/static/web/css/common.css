@@ -36,7 +36,7 @@
     margin-bottom: 20px;
 }
 
-.container {
+.wrap {
     padding: 20px;
     margin-bottom: 20px;
     background-color: #fff;
@@ -138,19 +138,19 @@
     margin-bottom: 15px;
 }
 
-.index-container .layui-tab {
+.index-wrap .layui-tab {
     margin-bottom: 0;
 }
 
-.index-container .layui-tab-title {
+.index-wrap .layui-tab-title {
     border: none;
 }
 
-.index-container .layui-tab-content {
+.index-wrap .layui-tab-content {
     padding: 20px 0 0 0;
 }
 
-.index-container .header {
+.index-wrap .header {
     text-align: center;
     font-size: 18px;
     padding-bottom: 15px;
@@ -735,6 +735,10 @@
     margin-right: 10px;
 }
 
+.sidebar-chapter-wrap .layui-field-title legend {
+    text-align: center;
+}
+
 .sidebar-chapter-list::-webkit-scrollbar {
     width: 5px;
 }
@@ -789,13 +793,13 @@
     font-size: 12px;
 }
 
-.player-container {
+.player-wrap {
     position: relative;
     width: 760px;
     height: 428px;
 }
 
-.chat-container {
+.chat-wrap {
     padding: 10px 20px 20px 20px;
     background-color: white;
 }
@@ -1050,7 +1054,7 @@
     text-align: center;
 }
 
-.account-container {
+.account-wrap {
     padding-top: 40px;
     padding-bottom: 30px;
 }
@@ -1091,17 +1095,17 @@
     padding-top: 30px;
 }
 
-.login-container .link {
+.login-wrap .link {
     margin-bottom: 30px;
     font-size: 12px;
     text-align: center;
 }
 
-.login-container .link a {
+.login-wrap .link a {
     color: #999;
 }
 
-.login-container .link .separator {
+.login-wrap .link .separator {
     margin: 0 15px;
     color: #999;
 }
@@ -1346,7 +1350,7 @@
     margin-right: 8px;
 }
 
-.im-search-container {
+.im-search-wrap {
     padding: 20px;
     background-color: #f2f2f2;
 }

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div class="im-search-container">
+    <div class="im-search-wrap">
         <div class="im-search">
             <form class="layui-form" method="get" action="{{ url({'for':'web.im.search'}) }}">
                 <input class="layui-input" type="text" name="query" placeholder="请输入关键字...">

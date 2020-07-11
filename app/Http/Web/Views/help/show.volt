@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div class="page-info container">
+    <div class="page-info wrap">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>{{ help.title }}</legend>
             <div class="layui-field-box page-content">

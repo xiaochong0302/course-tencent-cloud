@@ -13,7 +13,7 @@
 
     <div class="layout-main clearfix">
         <div class="layout-content">
-            <div class="read-info container">{{ chapter.content }}</div>
+            <div class="read-info wrap">{{ chapter.content }}</div>
         </div>
         <div class="layout-sidebar">
             {{ partial('chapter/menu') }}

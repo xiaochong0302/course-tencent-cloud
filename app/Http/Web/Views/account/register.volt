@@ -7,7 +7,7 @@
         <a><cite>注册</cite></a>
     </div>
 
-    <div class="account-container container">
+    <div class="account-wrap wrap">
         <form class="layui-form account-form" method="POST" action="{{ url({'for':'web.account.do_register'}) }}">
             <div class="layui-form-item">
                 <div class="layui-input-block">

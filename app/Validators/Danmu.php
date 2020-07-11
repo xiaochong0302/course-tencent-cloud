@@ -46,6 +46,17 @@ class Danmu extends Validator
         return $value;
     }
 
+    public function checkColor($color)
+    {
+        $list = DanmuModel::colorTypes();
+
+        if (!isset($list[$color])) {
+            throw new BadRequestException('danmu.invalid_color');
+        }
+
+        return $color;
+    }
+
     public function checkSize($size)
     {
         $list = DanmuModel::sizeTypes();
