@@ -36,20 +36,6 @@ class CourseCounter extends Listener
         $this->syncCourseIndex($course);
     }
 
-    public function incrCommentCount(Event $event, $source, CourseModel $course)
-    {
-        $this->counter->hIncrBy($course->id, 'comment_count');
-
-        $this->syncCourseCounter($course);
-    }
-
-    public function decrCommentCount(Event $event, $source, CourseModel $course)
-    {
-        $this->counter->hDecrBy($course->id, 'comment_count');
-
-        $this->syncCourseCounter($course);
-    }
-
     public function incrConsultCount(Event $event, $source, CourseModel $course)
     {
         $this->counter->hIncrBy($course->id, 'consult_count');
@@ -88,20 +74,6 @@ class CourseCounter extends Listener
     public function decrFavoriteCount(Event $event, $source, CourseModel $course)
     {
         $this->counter->hDecrBy($course->id, 'favorite_count');
-
-        $this->syncCourseCounter($course);
-    }
-
-    public function incrLessonCount(Event $event, $source, CourseModel $course)
-    {
-        $this->counter->hIncrBy($course->id, 'lesson_count');
-
-        $this->syncCourseCounter($course);
-    }
-
-    public function decrLessonCount(Event $event, $source, CourseModel $course)
-    {
-        $this->counter->hDecrBy($course->id, 'lesson_count');
 
         $this->syncCourseCounter($course);
     }

@@ -43,25 +43,39 @@ class Review extends Model
     public $reply;
 
     /**
-     * 课程评分
+     * 综合评分
      *
-     * @var int
+     * @var float
      */
     public $rating;
 
     /**
-     * 赞同数量
+     * 维度1评分
      *
-     * @var int
+     * @var float
      */
-    public $agree_count;
+    public $rating1;
 
     /**
-     * 反对数量
+     * 维度2评分
+     *
+     * @var float
+     */
+    public $rating2;
+
+    /**
+     * 维度3评分
+     *
+     * @var float
+     */
+    public $rating3;
+
+    /**
+     * 点赞数量
      *
      * @var int
      */
-    public $oppose_count;
+    public $like_count;
 
     /**
      * 发布标识

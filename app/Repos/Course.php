@@ -8,7 +8,7 @@ use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\Comment as CommentModel;
 use App\Models\Consult as ConsultModel;
-use App\Models\ConsultVote as ConsultVoteModel;
+use App\Models\ConsultLike as ConsultLikeModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
 use App\Models\CourseFavorite as CourseFavoriteModel;
@@ -17,7 +17,7 @@ use App\Models\CourseRelated as CourseRelatedModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\Package as PackageModel;
 use App\Models\Review as ReviewModel;
-use App\Models\ReviewVote as ReviewVoteModel;
+use App\Models\ReviewLike as ReviewLikeModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -238,14 +238,14 @@ class Course extends Repository
     /**
      * @param int $courseId
      * @param int $userId
-     * @return ResultsetInterface|Resultset|ConsultVoteModel[]
+     * @return ResultsetInterface|Resultset|ConsultLikeModel[]
      */
-    public function findUserConsultVotes($courseId, $userId)
+    public function findUserConsultLikes($courseId, $userId)
     {
         return $this->modelsManager->createBuilder()
             ->columns('cv.*')
             ->addFrom(ConsultModel::class, 'c')
-            ->join(ConsultVoteModel::class, 'c.id = cv.consult_id', 'cv')
+            ->join(ConsultLikeModel::class, 'c.id = cv.consult_id', 'cv')
             ->where('c.course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('cv.user_id = :user_id:', ['user_id' => $userId])
             ->getQuery()->execute();
@@ -254,14 +254,14 @@ class Course extends Repository
     /**
      * @param int $courseId
      * @param int $userId
-     * @return ResultsetInterface|Resultset|ReviewVoteModel[]
+     * @return ResultsetInterface|Resultset|ReviewLikeModel[]
      */
-    public function findUserReviewVotes($courseId, $userId)
+    public function findUserReviewLikes($courseId, $userId)
     {
         return $this->modelsManager->createBuilder()
             ->columns('rv.*')
             ->addFrom(ReviewModel::class, 'r')
-            ->join(ReviewVoteModel::class, 'r.id = rv.review_id', 'rv')
+            ->join(ReviewLikeModel::class, 'r.id = rv.review_id', 'rv')
             ->where('r.course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('rv.user_id = :user_id:', ['user_id' => $userId])
             ->getQuery()->execute();

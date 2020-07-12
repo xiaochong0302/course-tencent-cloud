@@ -17,30 +17,16 @@ class ReviewCounter extends Listener
         $this->counter = new CacheReviewCounter();
     }
 
-    public function incrAgreeCount(Event $event, $source, ReviewModel $review)
+    public function incrLikeCount(Event $event, $source, ReviewModel $review)
     {
-        $this->counter->hIncrBy($review->id, 'agree_count');
+        $this->counter->hIncrBy($review->id, 'like_count');
 
         $this->syncReviewCounter($review);
     }
 
-    public function decrAgreeCount(Event $event, $source, ReviewModel $review)
+    public function decrLikeCount(Event $event, $source, ReviewModel $review)
     {
-        $this->counter->hDecrBy($review->id, 'agree_count');
-
-        $this->syncReviewCounter($review);
-    }
-
-    public function incrOpposeCount(Event $event, $source, ReviewModel $review)
-    {
-        $this->counter->hIncrBy($review->id, 'oppose_count');
-
-        $this->syncReviewCounter($review);
-    }
-
-    public function decrOpposeCount(Event $event, $source, ReviewModel $review)
-    {
-        $this->counter->hDecrBy($review->id, 'oppose_count');
+        $this->counter->hDecrBy($review->id, 'like_count');
 
         $this->syncReviewCounter($review);
     }

@@ -29,8 +29,7 @@ class CommentCounter extends Counter
 
         return [
             'reply_count' => $comment->reply_count,
-            'agree_count' => $comment->agree_count,
-            'oppose_count' => $comment->oppose_count,
+            'like_count' => $comment->like_count,
         ];
     }
 

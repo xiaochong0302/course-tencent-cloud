@@ -55,8 +55,7 @@ class SyncReviewCounterTask extends Task
 
             if ($recount && $hour % 3 == 0) {
 
-                $review->agree_count = $reviewRepo->countAgrees($review->id);
-                $review->oppose_count = $reviewRepo->countOpposes($review->id);
+                $review->like_count = $reviewRepo->countLikes($review->id);
                 $review->update();
 
                 $counterCache->rebuild($review->id);
@@ -66,8 +65,7 @@ class SyncReviewCounterTask extends Task
                 $counter = $counterCache->get($review->id);
 
                 if ($counter) {
-                    $review->agree_count = $counter['agree_count'];
-                    $review->oppose_count = $counter['oppose_count'];
+                    $review->like_count = $counter['like_count'];
                     $review->update();
                 }
             }

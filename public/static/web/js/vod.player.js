@@ -69,7 +69,7 @@ layui.use(['jquery', 'form', 'slider', 'layer', 'helper'], function () {
 
     initDanmu();
 
-    $('.icon-danmu-set').on('click', function () {
+    $('#icon-danmu-set').on('click', function () {
         showMyDanmuSet();
     });
 

@@ -45,44 +45,16 @@ class ChapterCounter extends Listener
         $this->syncChapterCounter($chapter);
     }
 
-    public function incrAgreeCount(Event $event, $source, ChapterModel $chapter)
+    public function incrLikeCount(Event $event, $source, ChapterModel $chapter)
     {
-        $this->counter->hIncrBy($chapter->id, 'agree_count');
+        $this->counter->hIncrBy($chapter->id, 'like_count');
 
         $this->syncChapterCounter($chapter);
     }
 
-    public function decrAgreeCount(Event $event, $source, ChapterModel $chapter)
+    public function decrLikeCount(Event $event, $source, ChapterModel $chapter)
     {
-        $this->counter->hDecrBy($chapter->id, 'agree_count');
-
-        $this->syncChapterCounter($chapter);
-    }
-
-    public function incrOpposeCount(Event $event, $source, ChapterModel $chapter)
-    {
-        $this->counter->hIncrBy($chapter->id, 'oppose_count');
-
-        $this->syncChapterCounter($chapter);
-    }
-
-    public function decrOpposeCount(Event $event, $source, ChapterModel $chapter)
-    {
-        $this->counter->hDecrBy($chapter->id, 'oppose_count');
-
-        $this->syncChapterCounter($chapter);
-    }
-
-    public function incrLessonCount(Event $event, $source, ChapterModel $chapter)
-    {
-        $this->counter->hIncrBy($chapter->id, 'lesson_count');
-
-        $this->syncChapterCounter($chapter);
-    }
-
-    public function decrLessonCount(Event $event, $source, ChapterModel $chapter)
-    {
-        $this->counter->hDecrBy($chapter->id, 'lesson_count');
+        $this->counter->hDecrBy($chapter->id, 'like_count');
 
         $this->syncChapterCounter($chapter);
     }

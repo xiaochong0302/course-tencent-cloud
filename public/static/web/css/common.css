@@ -735,7 +735,11 @@
     margin-right: 10px;
 }
 
-.sidebar-chapter-wrap .layui-field-title legend {
+.sidebar-chapter .layui-field-title {
+    margin-top: 0;
+}
+
+.sidebar-chapter .layui-field-title legend {
     text-align: center;
 }
 
@@ -782,12 +786,45 @@
     margin-bottom: 0;
 }
 
-.danmu-action {
-    padding: 15px 20px;
+.chapter-action {
+    position: relative;
+    padding: 20px;
     margin-bottom: 0;
 }
 
-.danmu-action .layui-input {
+.chapter-action .layui-icon {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.chapter-action .active, .chapter-action .layui-icon:hover {
+    color: green;
+}
+
+.chapter-action span {
+    margin-right: 5px;
+}
+
+.chapter-action i {
+    margin-right: 5px;
+}
+
+.chapter-action em {
+    font-style: normal;
+    color: #999;
+}
+
+#icon-danmu-set {
+    position: absolute;
+    top: 22px;
+    right: 530px;
+}
+
+.chapter-action .layui-input {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    width: 500px;
     height: 32px;
     line-height: 32px;
     font-size: 12px;

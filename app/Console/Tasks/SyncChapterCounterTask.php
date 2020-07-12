@@ -61,8 +61,7 @@ class SyncChapterCounterTask extends Task
                 $chapter->user_count = $chapterRepo->countUsers($chapter->id);
                 $chapter->lesson_count = $chapterRepo->countLessons($chapter->id);
                 $chapter->comment_count = $chapterRepo->countComments($chapter->id);
-                $chapter->agree_count = $chapterRepo->countAgrees($chapter->id);
-                $chapter->oppose_count = $chapterRepo->countOpposes($chapter->id);
+                $chapter->like_count = $chapterRepo->countLikes($chapter->id);
                 $chapter->update();
 
                 $counterCache->rebuild($chapter->id);
@@ -77,8 +76,7 @@ class SyncChapterCounterTask extends Task
                     $chapter->user_count = $counter['user_count'];
                     $chapter->lesson_count = $counter['lesson_count'];
                     $chapter->comment_count = $counter['comment_count'];
-                    $chapter->agree_count = $counter['agree_count'];
-                    $chapter->oppose_count = $counter['oppose_count'];
+                    $chapter->like_count = $counter['like_count'];
                     $chapter->update();
 
                     $chapterCache->rebuild($chapter->id);

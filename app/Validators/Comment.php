@@ -5,6 +5,7 @@ namespace App\Validators;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Comment as CommentRepo;
+use App\Repos\CommentLike as CommentLikeRepo;
 use App\Repos\Course as CourseRepo;
 
 class Comment extends Validator
@@ -66,11 +67,6 @@ class Comment extends Validator
         return $value;
     }
 
-    public function checkMentions($mentions)
-    {
-
-    }
-
     public function checkPublishStatus($status)
     {
         if (!in_array($status, [0, 1])) {
@@ -78,6 +74,17 @@ class Comment extends Validator
         }
 
         return $status;
+    }
+
+    public function checkIfLiked($chapterId, $userId)
+    {
+        $repo = new CommentLikeRepo();
+
+        $record = $repo->findCommentLike($chapterId, $userId);
+
+        if ($record && time() - $record->create_time > 86400) {
+            throw new BadRequestException('comment.has_liked');
+        }
     }
 
 }

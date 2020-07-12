@@ -4,10 +4,6 @@ namespace App\Services\Frontend\Course;
 
 use App\Builders\ReviewList as ReviewListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\Course as CourseModel;
-use App\Models\ReviewVote as ReviewVoteModel;
-use App\Models\User as UserModel;
-use App\Repos\Course as CourseRepo;
 use App\Repos\Review as ReviewRepo;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
@@ -15,23 +11,11 @@ use App\Services\Frontend\Service as FrontendService;
 class ReviewList extends FrontendService
 {
 
-    /**
-     * @var CourseModel
-     */
-    protected $course;
-
-    /**
-     * @var UserModel
-     */
-    protected $user;
-
     use CourseTrait;
 
     public function handle($id)
     {
-        $this->course = $this->checkCourse($id);
-
-        $this->user = $this->getCurrentUser();
+        $course = $this->checkCourse($id);
 
         $pagerQuery = new PagerQuery();
 
@@ -40,7 +24,7 @@ class ReviewList extends FrontendService
         $limit = $pagerQuery->getLimit();
 
         $params = [
-            'course_id' => $this->course->id,
+            'course_id' => $course->id,
             'published' => 1,
             'deleted' => 0,
         ];
@@ -64,60 +48,25 @@ class ReviewList extends FrontendService
 
         $users = $builder->getUsers($reviews);
 
-        $votes = $this->getReviewVotes($this->course, $this->user);
-
         $items = [];
 
         foreach ($reviews as $review) {
 
             $user = $users[$review['user_id']] ?? new \stdClass();
 
-            $me = [
-                'agreed' => $votes[$review['id']]['agreed'] ?? 0,
-                'opposed' => $votes[$review['id']]['opposed'] ?? 0,
-            ];
-
             $items[] = [
                 'id' => $review['id'],
                 'rating' => $review['rating'],
                 'content' => $review['content'],
-                'agree_count' => $review['agree_count'],
-                'oppose_count' => $review['oppose_count'],
+                'like_count' => $review['like_count'],
                 'create_time' => $review['create_time'],
                 'user' => $user,
-                'me' => $me,
             ];
         }
 
         $pager->items = $items;
 
         return $pager;
-    }
-
-    protected function getReviewVotes(CourseModel $course, UserModel $user)
-    {
-        if ($course->id == 0 || $user->id == 0) {
-            return [];
-        }
-
-        $courseRepo = new CourseRepo();
-
-        $votes = $courseRepo->findUserReviewVotes($course->id, $user->id);
-
-        if ($votes->count() == 0) {
-            return [];
-        }
-
-        $result = [];
-
-        foreach ($votes as $vote) {
-            $result[$vote->review_id] = [
-                'agreed' => $vote->type == ReviewVoteModel::TYPE_AGREE ? 1 : 0,
-                'opposed' => $vote->type == ReviewVoteModel::TYPE_OPPOSE ? 1 : 0,
-            ];
-        }
-
-        return $result;
     }
 
 }

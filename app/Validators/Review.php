@@ -5,6 +5,7 @@ namespace App\Validators;
 use App\Exceptions\BadRequest;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\Review as ReviewRepo;
+use App\Repos\ReviewLike as ReviewLikeRepo;
 
 class Review extends Validator
 {
@@ -72,6 +73,17 @@ class Review extends Validator
 
         if ($review) {
             throw new BadRequestException('review.has_reviewed');
+        }
+    }
+
+    public function checkIfLiked($chapterId, $userId)
+    {
+        $repo = new ReviewLikeRepo();
+
+        $record = $repo->findReviewLike($chapterId, $userId);
+
+        if ($record && time() - $record->create_time > 86400) {
+            throw new BadRequestException('review.has_liked');
         }
     }
 

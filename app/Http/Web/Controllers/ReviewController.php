@@ -2,11 +2,10 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Services\Frontend\Review\AgreeVote as ReviewAgreeVoteService;
-use App\Services\Frontend\Review\OpposeVote as ReviewOpposeVoteService;
 use App\Services\Frontend\Review\ReviewCreate as ReviewCreateService;
 use App\Services\Frontend\Review\ReviewDelete as ReviewDeleteService;
 use App\Services\Frontend\Review\ReviewInfo as ReviewInfoService;
+use App\Services\Frontend\Review\ReviewLike as ReviewLikeService;
 use App\Services\Frontend\Review\ReviewUpdate as ReviewUpdateService;
 
 /**
@@ -68,23 +67,11 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/agree", name="web.review.agree")
+     * @Post("/{id:[0-9]+}/like", name="web.review.like")
      */
-    public function agreeAction($id)
+    public function likeAction($id)
     {
-        $service = new ReviewAgreeVoteService();
-
-        $service->handle($id);
-
-        return $this->jsonSuccess();
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/oppose", name="web.review.oppose")
-     */
-    public function opposeAction($id)
-    {
-        $service = new ReviewOpposeVoteService();
+        $service = new ReviewLikeService();
 
         $service->handle($id);
 

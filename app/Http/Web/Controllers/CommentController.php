@@ -2,12 +2,11 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Services\Frontend\Comment\AgreeVote as CommentAgreeVoteService;
 use App\Services\Frontend\Comment\CommentCreate as CommentCreateService;
 use App\Services\Frontend\Comment\CommentDelete as CommentDeleteService;
 use App\Services\Frontend\Comment\CommentInfo as CommentInfoService;
+use App\Services\Frontend\Comment\CommentLike as CommentLikeService;
 use App\Services\Frontend\Comment\CommentUpdate as CommentUpdateService;
-use App\Services\Frontend\Comment\OpposeVote as CommentOpposeVoteService;
 
 /**
  * @RoutePrefix("/comment")
@@ -68,23 +67,11 @@ class CommentController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/agree", name="web.comment.agree")
+     * @Post("/{id:[0-9]+}/like", name="web.comment.like")
      */
-    public function agreeAction($id)
+    public function likeAction($id)
     {
-        $service = new CommentAgreeVoteService();
-
-        $service->handle($id);
-
-        return $this->jsonSuccess();
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/oppose", name="web.comment.oppose")
-     */
-    public function opposeAction($id)
-    {
-        $service = new CommentOpposeVoteService();
+        $service = new CommentLikeService();
 
         $service->handle($id);
 

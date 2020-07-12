@@ -4,7 +4,7 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Comment as CommentModel;
-use App\Models\CommentVote as CommentVoteModel;
+use App\Models\CommentLike as CommentLikeModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -95,23 +95,11 @@ class Comment extends Repository
         ]);
     }
 
-    public function countAgrees($commentId)
+    public function countLikes($commentId)
     {
-        $type = CommentVoteModel::TYPE_AGREE;
-
-        return CommentVoteModel::count([
-            'conditions' => 'comment_id = :comment_id: AND type = :type: AND deleted = 0',
-            'bind' => ['comment_id' => $commentId, 'type' => $type],
-        ]);
-    }
-
-    public function countOpposes($commentId)
-    {
-        $type = CommentVoteModel::TYPE_OPPOSE;
-
-        return CommentVoteModel::count([
-            'conditions' => 'comment_id = :comment_id: AND type = :type: AND deleted = 0',
-            'bind' => ['comment_id' => $commentId, 'type' => $type],
+        return CommentLikeModel::count([
+            'conditions' => 'comment_id = :comment_id: AND deleted = 0',
+            'bind' => ['comment_id' => $commentId],
         ]);
     }
 

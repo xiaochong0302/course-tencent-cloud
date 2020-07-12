@@ -1,4 +1,4 @@
-<div class="sidebar-chapter-wrap wrap">
+<div class="sidebar-chapter wrap">
     <fieldset class="layui-elem-field layui-field-title">
         <legend>课程目录</legend>
         <div class="layui-field-box">

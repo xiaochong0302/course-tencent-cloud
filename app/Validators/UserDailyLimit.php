@@ -78,47 +78,47 @@ class UserDailyLimit extends Validator
         }
     }
 
-    public function checkChapterVoteLimit(UserModel $user)
+    public function checkChapterLikeLimit(UserModel $user)
     {
-        $count = $this->counter->hGet($user->id, 'chapter_vote_count');
+        $count = $this->counter->hGet($user->id, 'chapter_like_count');
 
         $limit = $user->vip ? 200 : 100;
 
         if ($count > $limit) {
-            throw new BadRequestException('user_daily_limit.reach_vote_limit');
+            throw new BadRequestException('user_daily_limit.reach_like_limit');
         }
     }
 
-    public function checkCommentVoteLimit(UserModel $user)
+    public function checkCommentLikeLimit(UserModel $user)
     {
-        $count = $this->counter->hGet($user->id, 'comment_vote_count');
+        $count = $this->counter->hGet($user->id, 'comment_like_count');
 
         $limit = $user->vip ? 200 : 100;
 
         if ($count > $limit) {
-            throw new BadRequestException('user_daily_limit.reach_vote_limit');
+            throw new BadRequestException('user_daily_limit.reach_like_limit');
         }
     }
 
-    public function checkConsultVoteLimit(UserModel $user)
+    public function checkConsultLikeLimit(UserModel $user)
     {
-        $count = $this->counter->hGet($user->id, 'consult_vote_count');
+        $count = $this->counter->hGet($user->id, 'consult_like_count');
 
         $limit = $user->vip ? 200 : 100;
 
         if ($count > $limit) {
-            throw new BadRequestException('user_daily_limit.reach_vote_limit');
+            throw new BadRequestException('user_daily_limit.reach_like_limit');
         }
     }
 
-    public function checkReviewVoteLimit(UserModel $user)
+    public function checkReviewLikeLimit(UserModel $user)
     {
-        $count = $this->counter->hGet($user->id, 'review_vote_count');
+        $count = $this->counter->hGet($user->id, 'review_like_count');
 
         $limit = $user->vip ? 200 : 100;
 
         if ($count > $limit) {
-            throw new BadRequestException('user_daily_limit.reach_vote_limit');
+            throw new BadRequestException('user_daily_limit.reach_like_limit');
         }
     }
 

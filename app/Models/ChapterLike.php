@@ -4,15 +4,8 @@ namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class ChapterVote extends Model
+class ChapterLike extends Model
 {
-
-    /**
-     * 投票类型
-     */
-    const TYPE_AGREE = 1; // 赞成
-    const TYPE_OPPOSE = 2; // 反对
-    const TYPE_NONE = 3; // 中立
 
     /**
      * 主键编号
@@ -34,13 +27,6 @@ class ChapterVote extends Model
      * @var int
      */
     public $user_id;
-
-    /**
-     * 投票类型
-     *
-     * @var int
-     */
-    public $type;
 
     /**
      * 删除标识
@@ -65,7 +51,7 @@ class ChapterVote extends Model
 
     public function getSource(): string
     {
-        return 'kg_chapter_vote';
+        return 'kg_chapter_like';
     }
 
     public function initialize()

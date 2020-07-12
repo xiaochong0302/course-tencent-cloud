@@ -8,6 +8,7 @@ use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
+use App\Repos\ChapterLike as ChapterLikeRepo;
 use App\Repos\Course as CourseRepo;
 
 class Chapter extends Validator
@@ -170,6 +171,17 @@ class Chapter extends Validator
 
         if ($chapters->count() > 0) {
             throw new BadRequestException('chapter.child_existed');
+        }
+    }
+
+    public function checkIfLiked($chapterId, $userId)
+    {
+        $repo = new ChapterLikeRepo();
+
+        $record = $repo->findChapterLike($chapterId, $userId);
+
+        if ($record && time() - $record->create_time > 86400) {
+            throw new BadRequestException('chapter.has_liked');
         }
     }
 

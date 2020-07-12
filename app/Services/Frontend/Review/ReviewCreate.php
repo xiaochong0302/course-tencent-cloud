@@ -29,25 +29,33 @@ class ReviewCreate extends FrontendService
 
         $validator = new ReviewValidator();
 
-        $content = $validator->checkContent($post['content']);
-        $rating = $validator->checkRating($post['rating']);
+        $data = [];
+
+        $data['content'] = $validator->checkContent($post['content']);
+        $data['rating1'] = $validator->checkRating($post['rating1']);
+        $data['rating2'] = $validator->checkRating($post['rating2']);
+        $data['rating3'] = $validator->checkRating($post['rating3']);
 
         $validator->checkIfReviewed($course->id, $user->id);
 
+        $data['rating'] = $this->getAvgRating($data['rating1'], $data['rating2'], $data['rating3']);
+        $data['course_id'] = $course->id;
+        $data['user_id'] = $user->id;
+
         $review = new ReviewModel();
 
-        $review->course_id = $course->id;
-        $review->user_id = $user->id;
-        $review->content = $content;
-        $review->rating = $rating;
-
-        $review->create();
+        $review->create($data);
 
         $this->incrCourseReviewCount($course);
 
         $this->incrUserDailyReviewCount($user);
 
         return $review;
+    }
+
+    protected function getAvgRating($rating1, $rating2, $rating3)
+    {
+        return round(($rating1 + $rating2 + $rating3) / 3, 2);
     }
 
     protected function incrCourseReviewCount(CourseModel $course)

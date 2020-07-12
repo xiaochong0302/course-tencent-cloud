@@ -28,8 +28,7 @@ class ReviewCounter extends Counter
         if (!$review) return null;
 
         return [
-            'agree_count' => $review->agree_count,
-            'oppose_count' => $review->oppose_count,
+            'like_count' => $review->like_count,
         ];
     }
 

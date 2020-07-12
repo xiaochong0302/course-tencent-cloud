@@ -2,25 +2,23 @@
 
 namespace App\Repos;
 
-use App\Models\ReviewVote as ReviewVoteModel;
+use App\Models\ReviewLike as ReviewLikeModel;
 use Phalcon\Mvc\Model;
 
-class ReviewVote extends Repository
+class ReviewLike extends Repository
 {
 
     /**
      * @param int $reviewId
      * @param int $userId
-     * @return ReviewVoteModel|Model|bool
+     * @return ReviewLikeModel|Model|bool
      */
-    public function findReviewVote($reviewId, $userId)
+    public function findReviewLike($reviewId, $userId)
     {
-        $result = ReviewVoteModel::findFirst([
+        return ReviewLikeModel::findFirst([
             'conditions' => 'review_id = :review_id: AND user_id = :user_id:',
             'bind' => ['review_id' => $reviewId, 'user_id' => $userId],
         ]);
-
-        return $result;
     }
 
 }

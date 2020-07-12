@@ -17,30 +17,16 @@ class ConsultCounter extends Listener
         $this->counter = new CacheConsultCounter();
     }
 
-    public function incrAgreeCount(Event $event, $source, ConsultModel $consult)
+    public function incrLikeCount(Event $event, $source, ConsultModel $consult)
     {
-        $this->counter->hIncrBy($consult->id, 'agree_count');
+        $this->counter->hIncrBy($consult->id, 'like_count');
 
         $this->syncConsultCounter($consult);
     }
 
-    public function decrAgreeCount(Event $event, $source, ConsultModel $consult)
+    public function decrLikeCount(Event $event, $source, ConsultModel $consult)
     {
-        $this->counter->hDecrBy($consult->id, 'agree_count');
-
-        $this->syncConsultCounter($consult);
-    }
-
-    public function incrOpposeCount(Event $event, $source, ConsultModel $consult)
-    {
-        $this->counter->hIncrBy($consult->id, 'oppose_count');
-
-        $this->syncConsultCounter($consult);
-    }
-
-    public function decrOpposeCount(Event $event, $source, ConsultModel $consult)
-    {
-        $this->counter->hDecrBy($consult->id, 'oppose_count');
+        $this->counter->hDecrBy($consult->id, 'like_count');
 
         $this->syncConsultCounter($consult);
     }

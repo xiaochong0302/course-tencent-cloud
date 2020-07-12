@@ -28,8 +28,7 @@ class ConsultCounter extends Counter
         if (!$consult) return null;
 
         return [
-            'agree_count' => $consult->agree_count,
-            'oppose_count' => $consult->oppose_count,
+            'like_count' => $consult->like_count,
         ];
     }
 

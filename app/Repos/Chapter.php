@@ -3,13 +3,12 @@
 namespace App\Repos;
 
 use App\Models\Chapter as ChapterModel;
+use App\Models\ChapterLike as ChapterLikeModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Models\ChapterRead as ChapterReadModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\ChapterVod as ChapterVodModel;
-use App\Models\ChapterVote as ChapterVoteModel;
 use App\Models\Comment as CommentModel;
-use App\Models\CommentVote as CommentVoteModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -120,22 +119,6 @@ class Chapter extends Repository
         ]);
     }
 
-    /**
-     * @param int $chapterId
-     * @param int $userId
-     * @return ResultsetInterface|Resultset|CommentVoteModel[]
-     */
-    public function findUserCommentVotes($chapterId, $userId)
-    {
-        return $this->modelsManager->createBuilder()
-            ->columns('cv.*')
-            ->addFrom(CommentModel::class, 'c')
-            ->join(CommentVoteModel::class, 'c.id = cv.comment_id', 'cv')
-            ->where('c.chapter_id = :chapter_id:', ['chapter_id' => $chapterId])
-            ->andWhere('cv.user_id = :user_id:', ['user_id' => $userId])
-            ->getQuery()->execute();
-    }
-
     public function maxChapterPriority($courseId)
     {
         return ChapterModel::maximum([
@@ -178,31 +161,11 @@ class Chapter extends Repository
         ]);
     }
 
-    public function countAgrees($chapterId)
+    public function countLikes($chapterId)
     {
-        $type = ChapterVoteModel::TYPE_AGREE;
-
-        return ChapterVoteModel::count([
-            'conditions' => 'chapter_id = :chapter_id: AND type = :type: AND deleted = 0',
-            'bind' => ['chapter_id' => $chapterId, 'type' => $type],
-        ]);
-    }
-
-    public function countOpposes($chapterId)
-    {
-        $type = ChapterVoteModel::TYPE_OPPOSE;
-
-        return ChapterVoteModel::count([
-            'conditions' => 'chapter_id = :chapter_id: AND type = :type: AND deleted = 0',
-            'bind' => ['chapter_id' => $chapterId, 'type' => $type],
-        ]);
-    }
-
-    public function countUserComments($chapterId, $userId)
-    {
-        return CommentModel::count([
-            'conditions' => 'chapter_id = :chapter_id: AND user_id = :user_id:',
-            'bind' => ['chapter_id' => $chapterId, 'user_id' => $userId],
+        return ChapterLikeModel::count([
+            'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
+            'bind' => ['chapter_id' => $chapterId],
         ]);
     }
 

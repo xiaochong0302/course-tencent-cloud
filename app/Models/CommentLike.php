@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class Comment extends Model
+class CommentLike extends Model
 {
 
     /**
@@ -15,25 +15,11 @@ class Comment extends Model
     public $id;
 
     /**
-     * 父级编号
+     * 评论编号
      *
      * @var int
      */
-    public $parent_id;
-
-    /**
-     * 课程编号
-     *
-     * @var int
-     */
-    public $course_id;
-
-    /**
-     * 章节编号
-     *
-     * @var int
-     */
-    public $chapter_id;
+    public $comment_id;
 
     /**
      * 用户编号
@@ -41,34 +27,6 @@ class Comment extends Model
      * @var int
      */
     public $user_id;
-
-    /**
-     * 内容
-     *
-     * @var string
-     */
-    public $content;
-
-    /**
-     * 回复数
-     *
-     * @var int
-     */
-    public $reply_count;
-
-    /**
-     * 点赞数
-     *
-     * @var int
-     */
-    public $like_count;
-
-    /**
-     * 发布标识
-     *
-     * @var int
-     */
-    public $published;
 
     /**
      * 删除标识
@@ -93,7 +51,7 @@ class Comment extends Model
 
     public function getSource(): string
     {
-        return 'kg_comment';
+        return 'kg_comment_like';
     }
 
     public function initialize()

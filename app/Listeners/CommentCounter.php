@@ -31,30 +31,16 @@ class CommentCounter extends Listener
         $this->syncCommentCounter($comment);
     }
 
-    public function incrAgreeCount(Event $event, $source, CommentModel $comment)
+    public function incrLikeCount(Event $event, $source, CommentModel $comment)
     {
-        $this->counter->hIncrBy($comment->id, 'agree_count');
+        $this->counter->hIncrBy($comment->id, 'like_count');
 
         $this->syncCommentCounter($comment);
     }
 
-    public function decrAgreeCount(Event $event, $source, CommentModel $comment)
+    public function decrLikeCount(Event $event, $source, CommentModel $comment)
     {
-        $this->counter->hDecrBy($comment->id, 'agree_count');
-
-        $this->syncCommentCounter($comment);
-    }
-
-    public function incrOpposeCount(Event $event, $source, CommentModel $comment)
-    {
-        $this->counter->hIncrBy($comment->id, 'oppose_count');
-
-        $this->syncCommentCounter($comment);
-    }
-
-    public function decrOpposeCount(Event $event, $source, CommentModel $comment)
-    {
-        $this->counter->hDecrBy($comment->id, 'oppose_count');
+        $this->counter->hDecrBy($comment->id, 'like_count');
 
         $this->syncCommentCounter($comment);
     }

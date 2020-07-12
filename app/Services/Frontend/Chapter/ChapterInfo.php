@@ -4,12 +4,10 @@ namespace App\Services\Frontend\Chapter;
 
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
-use App\Models\ChapterVote as ChapterVoteModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\User as UserModel;
 use App\Repos\Chapter as ChapterRepo;
-use App\Repos\ChapterVote as ChapterVoteRepo;
 use App\Services\ChapterVod as ChapterVodService;
 use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\CourseTrait;
@@ -49,10 +47,10 @@ class ChapterInfo extends FrontendService
         $this->setChapterUser($chapter, $user);
         $this->handleChapterUser($chapter, $user);
 
-        return $this->handleChapter($chapter, $user);
+        return $this->handleChapter($chapter);
     }
 
-    protected function handleChapter(ChapterModel $chapter, UserModel $user)
+    protected function handleChapter(ChapterModel $chapter)
     {
         $result = $this->formatChapter($chapter);
 
@@ -63,8 +61,6 @@ class ChapterInfo extends FrontendService
             'position' => 0,
             'joined' => 0,
             'owned' => 0,
-            'agreed' => 0,
-            'opposed' => 0,
         ];
 
         if ($this->courseUser) {
@@ -77,18 +73,6 @@ class ChapterInfo extends FrontendService
 
         $me['joined'] = $this->joinedChapter ? 1 : 0;
         $me['owned'] = $this->ownedChapter ? 1 : 0;
-
-        if ($user->id > 0) {
-
-            $chapterVoteRepo = new ChapterVoteRepo();
-
-            $chapterVote = $chapterVoteRepo->findChapterVote($chapter->id, $user->id);
-
-            if ($chapterVote) {
-                $me['agreed'] = $chapterVote->type == ChapterVoteModel::TYPE_AGREE ? 1 : 0;
-                $me['opposed'] = $chapterVote->type == ChapterVoteModel::TYPE_OPPOSE ? 1 : 0;
-            }
-        }
 
         $result['me'] = $me;
 
@@ -142,8 +126,7 @@ class ChapterInfo extends FrontendService
             'model' => $chapter->model,
             'play_urls' => $playUrls,
             'user_count' => $chapter->user_count,
-            'agree_count' => $chapter->agree_count,
-            'oppose_count' => $chapter->oppose_count,
+            'like_count' => $chapter->like_count,
             'comment_count' => $chapter->comment_count,
         ];
     }
@@ -182,8 +165,7 @@ class ChapterInfo extends FrontendService
             'end_time' => $live->end_time,
             'play_urls' => $playUrls,
             'user_count' => $chapter->user_count,
-            'agree_count' => $chapter->agree_count,
-            'oppose_count' => $chapter->oppose_count,
+            'like_count' => $chapter->like_count,
             'comment_count' => $chapter->comment_count,
         ];
     }
@@ -201,8 +183,7 @@ class ChapterInfo extends FrontendService
             'model' => $chapter->model,
             'content' => $read->content,
             'user_count' => $chapter->user_count,
-            'agree_count' => $chapter->agree_count,
-            'oppose_count' => $chapter->oppose_count,
+            'like_count' => $chapter->like_count,
             'comment_count' => $chapter->comment_count,
         ];
     }

@@ -4,15 +4,8 @@ namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class ReviewVote extends Model
+class CourseRating extends Model
 {
-
-    /**
-     * 投票类型
-     */
-    const TYPE_AGREE = 1; // 赞成
-    const TYPE_OPPOSE = 2; // 反对
-    const TYPE_NONE = 3; // 中立
 
     /**
      * 主键编号
@@ -22,25 +15,39 @@ class ReviewVote extends Model
     public $id;
 
     /**
-     * 评价编号
+     * 课程编号
      *
      * @var int
      */
-    public $review_id;
+    public $course_id;
 
     /**
-     * 用户编号
+     * 综合评分
      *
-     * @var int
+     * @var float
      */
-    public $user_id;
+    public $rating;
 
     /**
-     * 投票类型
+     * 维度1评分
      *
-     * @var int
+     * @var float
      */
-    public $type;
+    public $rating1;
+
+    /**
+     * 维度2评分
+     *
+     * @var float
+     */
+    public $rating2;
+
+    /**
+     * 维度3评分
+     *
+     * @var float
+     */
+    public $rating3;
 
     /**
      * 删除标识
@@ -56,9 +63,16 @@ class ReviewVote extends Model
      */
     public $create_time;
 
+    /**
+     * 更新时间
+     *
+     * @var int
+     */
+    public $update_time;
+
     public function getSource(): string
     {
-        return 'kg_review_vote';
+        return 'kg_course_rating';
     }
 
     public function initialize()

@@ -60,8 +60,7 @@ class ChapterBasic extends FrontendService
             'model' => $chapter->model,
             'play_urls' => $playUrls,
             'user_count' => $chapter->user_count,
-            'agree_count' => $chapter->agree_count,
-            'oppose_count' => $chapter->oppose_count,
+            'like_count' => $chapter->like_count,
             'comment_count' => $chapter->comment_count,
         ];
     }
@@ -98,8 +97,7 @@ class ChapterBasic extends FrontendService
             'start_time' => $live->start_time,
             'end_time' => $live->end_time,
             'user_count' => $chapter->user_count,
-            'agree_count' => $chapter->agree_count,
-            'oppose_count' => $chapter->oppose_count,
+            'like_count' => $chapter->like_count,
             'comment_count' => $chapter->comment_count,
         ];
     }
@@ -117,8 +115,7 @@ class ChapterBasic extends FrontendService
             'model' => $chapter->model,
             'content' => $read->content,
             'user_count' => $chapter->user_count,
-            'agree_count' => $chapter->agree_count,
-            'oppose_count' => $chapter->oppose_count,
+            'like_count' => $chapter->like_count,
             'comment_count' => $chapter->comment_count,
         ];
     }

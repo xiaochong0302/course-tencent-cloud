@@ -4,15 +4,8 @@ namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class ConsultVote extends Model
+class ConsultLike extends Model
 {
-
-    /**
-     * 投票类型
-     */
-    const TYPE_AGREE = 1; // 赞成
-    const TYPE_OPPOSE = 2; // 反对
-    const TYPE_NONE = 3; // 中立
 
     /**
      * 主键编号
@@ -36,13 +29,6 @@ class ConsultVote extends Model
     public $user_id;
 
     /**
-     * 投票类型
-     *
-     * @var int
-     */
-    public $type;
-
-    /**
      * 删除标识
      *
      * @var int
@@ -58,7 +44,7 @@ class ConsultVote extends Model
 
     public function getSource(): string
     {
-        return 'kg_consult_vote';
+        return 'kg_consult_like';
     }
 
     public function initialize()

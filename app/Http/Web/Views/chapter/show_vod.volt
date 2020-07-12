@@ -2,6 +2,7 @@
 
 {% block content %}
 
+    {% set like_url = url({'for':'web.chapter.like','id':chapter.id}) %}
     {% set learning_url = url({'for':'web.chapter.learning','id':chapter.id}) %}
     {% set danmu_url = url({'for':'web.chapter.danmu','id':chapter.id}) %}
 
@@ -18,19 +19,18 @@
                 <div id="player"></div>
                 <div id="danmu"></div>
             </div>
-            <div class="danmu-action-wrap wrap">
-                <form class="layui-form" lay-filter="danmu.form" action="{{ url({'for':'web.danmu.create'}) }}">
-                    <div class="layui-input-inline" style="width: 50px;">
-                        <a href="javascript:" class="layui-icon layui-icon-set icon-danmu-set"></a>
-                    </div>
-                    <div class="layui-input-inline" style="width: 655px;">
-                        {% if auth_user.id > 0 %}
-                            <input class="layui-input" type="text" name="danmu.text" maxlength="50" placeholder="快来发个弹幕吧" lay-verType="tips" lay-verify="required">
-                        {% else %}
-                            <input class="layui-input" type="text" name="danmu.text" placeholder="登录后才可以发送弹幕哦" readonly="readonly">
-                        {% endif %}
-                        <button class="layui-hide" type="submit" lay-submit="true" lay-filter="danmu.send">发送</button>
-                    </div>
+            <div class="chapter-action wrap">
+                <span><i class="layui-icon layui-icon-praise" id="icon-like" title="点赞" data-url="{{ like_url }}"></i><em id="like-count">{{ chapter.like_count }}</em></span>
+                <span><i class="layui-icon layui-icon-user" id="icon-user" title="学习人次"></i><em>{{ chapter.user_count }}</em></span>
+                <span><i class="layui-icon layui-icon-share" id="icon-share" title="分享"></i></span>
+                <span><i class="layui-icon layui-icon-set" id="icon-danmu-set" title="弹幕设置"></i></span>
+                <form class="layui-form danmu-form" lay-filter="danmu.form" action="{{ url({'for':'web.danmu.create'}) }}">
+                    {% if auth_user.id > 0 %}
+                        <input class="layui-input" type="text" name="danmu.text" maxlength="50" placeholder="快来发个弹幕吧" lay-verType="tips" lay-verify="required">
+                    {% else %}
+                        <input class="layui-input" type="text" name="danmu.text" placeholder="登录后才可以发送弹幕哦" readonly="readonly">
+                    {% endif %}
+                    <button class="layui-hide" type="submit" lay-submit="true" lay-filter="danmu.send">发送</button>
                 </form>
             </div>
         </div>
@@ -103,5 +103,6 @@
     {{ js_include('lib/jquery.min.js') }}
     {{ js_include('lib/jquery.danmu.min.js') }}
     {{ js_include('web/js/vod.player.js') }}
+    {{ js_include('web/js/chapter.action.js') }}
 
 {% endblock %}

@@ -133,18 +133,11 @@ class Chapter extends Model
     public $comment_count;
 
     /**
-     * 赞成数
+     * 点赞数
      *
      * @var int
      */
-    public $agree_count;
-
-    /**
-     * 反对数
-     *
-     * @var int
-     */
-    public $oppose_count;
+    public $like_count;
 
     /**
      * 发布标识

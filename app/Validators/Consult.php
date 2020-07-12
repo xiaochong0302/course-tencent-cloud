@@ -4,6 +4,7 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\Consult as ConsultRepo;
+use App\Repos\ConsultLike as ConsultLikeRepo;
 
 class Consult extends Validator
 {
@@ -78,6 +79,17 @@ class Consult extends Validator
         }
 
         return $status;
+    }
+
+    public function checkIfLiked($chapterId, $userId)
+    {
+        $repo = new ConsultLikeRepo();
+
+        $record = $repo->findConsultLike($chapterId, $userId);
+
+        if ($record && time() - $record->create_time > 86400) {
+            throw new BadRequestException('consult.has_liked');
+        }
     }
 
 }

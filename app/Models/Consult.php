@@ -47,14 +47,7 @@ class Consult extends Model
      *
      * @var int
      */
-    public $agree_count;
-
-    /**
-     * 反对数
-     *
-     * @var int
-     */
-    public $oppose_count;
+    public $like_count;
 
     /**
      * 私密标识

@@ -56,8 +56,7 @@ class SyncCommentCounterTask extends Task
             if ($recount && $hour % 3 == 0) {
 
                 $comment->reply_count = $commentRepo->countReplies($comment->id);
-                $comment->agree_count = $commentRepo->countAgrees($comment->id);
-                $comment->oppose_count = $commentRepo->countOpposes($comment->id);
+                $comment->like_count = $commentRepo->countLikes($comment->id);
                 $comment->update();
 
                 $counterCache->rebuild($comment->id);
@@ -68,8 +67,7 @@ class SyncCommentCounterTask extends Task
 
                 if ($counter) {
                     $comment->reply_count = $counter['reply_count'];
-                    $comment->agree_count = $counter['agree_count'];
-                    $comment->oppose_count = $counter['oppose_count'];
+                    $comment->like_count = $counter['like_count'];
                     $comment->update();
                 }
             }

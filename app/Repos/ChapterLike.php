@@ -2,20 +2,20 @@
 
 namespace App\Repos;
 
-use App\Models\ChapterVote as ChapterVoteModel;
+use App\Models\ChapterLike as ChapterLikeModel;
 use Phalcon\Mvc\Model;
 
-class ChapterVote extends Repository
+class ChapterLike extends Repository
 {
 
     /**
      * @param int $chapterId
      * @param int $userId
-     * @return ChapterVoteModel|Model|bool
+     * @return ChapterLikeModel|Model|bool
      */
-    public function findChapterVote($chapterId, $userId)
+    public function findChapterLike($chapterId, $userId)
     {
-        return ChapterVoteModel::findFirst([
+        return ChapterLikeModel::findFirst([
             'conditions' => 'chapter_id = :chapter_id: AND user_id = :user_id:',
             'bind' => ['chapter_id' => $chapterId, 'user_id' => $userId],
         ]);

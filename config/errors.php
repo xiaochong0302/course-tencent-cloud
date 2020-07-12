@@ -157,6 +157,7 @@ $error['chapter.read_not_ready'] = '文章内容尚未就绪';
 $error['chapter.live_not_start'] = '直播尚未开始';
 $error['chapter.live_time_empty'] = '直播时间尚未设置';
 $error['chapter.child_existed'] = '不允许相关操作（存在子章节）';
+$error['chapter.has_liked'] = '你已经点过赞啦';
 
 /**
  * 点播相关
@@ -190,28 +191,28 @@ $error['review.invalid_rating'] = '无效的评分（范围：1-5）';
 $error['review.invalid_publish_status'] = '无效的发布状态';
 $error['review.content_too_short'] = '评价内容太短（少于5个字符）';
 $error['review.content_too_long'] = '评价内容太长（多于255个字符）';
+$error['review.has_liked'] = '你已经点过赞啦';
 
 /**
  * 咨询相关
  */
 $error['consult.not_found'] = '咨询不存在';
-$error['consult.course_not_found'] = '课程不存在';
 $error['consult.invalid_private_status'] = '无效的私密状态';
 $error['consult.invalid_publish_status'] = '无效的发布状态';
 $error['consult.question_too_short'] = '提问太短（少于5个字符）';
 $error['consult.question_too_long'] = '提问太长（多于1000个字符）';
 $error['consult.answer_too_short'] = '回复太短（少于5个字符）';
 $error['consult.answer_too_long'] = '回复太长（多于1000个字符）';
+$error['consult.has_liked'] = '你已经点过赞啦';
 
 /**
  * 评论相关
  */
 $error['comment.not_found'] = '评价不存在';
-$error['comment.course_not_found'] = '课程不存在';
-$error['comment.chapter_not_found'] = '章节不存在';
 $error['comment.invalid_publish_status'] = '无效的发布状态';
 $error['comment.content_too_short'] = '评价太短（少于1个字符）';
 $error['comment.content_too_long'] = '评价太长（多于1000个字符）';
+$error['comment.has_liked'] = '你已经点过赞啦';
 
 /**
  * 单页相关
@@ -303,7 +304,7 @@ $error['user_daily_limit.reach_comment_limit'] = '超出日评论限额';
 $error['user_daily_limit.reach_consult_limit'] = '超出日咨询限额';
 $error['user_daily_limit.reach_review_limit'] = '超出日评价限额';
 $error['user_daily_limit.reach_order_limit'] = '超出日订单限额';
-$error['user_daily_limit.reach_vote_limit'] = '超出日投票限额';
+$error['user_daily_limit.reach_like_limit'] = '超出日点赞限额';
 
 /**
  * 课程查询

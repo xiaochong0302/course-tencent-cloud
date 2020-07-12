@@ -186,13 +186,6 @@ class Course extends Model
     public $package_count;
 
     /**
-     * 评论数
-     *
-     * @var int
-     */
-    public $comment_count;
-
-    /**
      * 咨询数
      *
      * @var int
@@ -302,6 +295,10 @@ class Course extends Model
 
     public function afterCreate()
     {
+        $courseRating = new CourseRating();
+
+        $courseRating->create(['course_id' => $this->id]);
+
         $cache = new MaxCourseIdCache();
 
         $cache->rebuild();

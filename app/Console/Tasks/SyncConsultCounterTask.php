@@ -55,8 +55,7 @@ class SyncConsultCounterTask extends Task
 
             if ($recount && $hour % 3 == 0) {
 
-                $consult->agree_count = $consultRepo->countAgrees($consult->id);
-                $consult->oppose_count = $consultRepo->countOpposes($consult->id);
+                $consult->like_count = $consultRepo->countLikes($consult->id);
                 $consult->update();
 
                 $counterCache->rebuild($consult->id);
@@ -66,8 +65,7 @@ class SyncConsultCounterTask extends Task
                 $counter = $counterCache->get($consult->id);
 
                 if ($counter) {
-                    $consult->agree_count = $counter['agree_count'];
-                    $consult->oppose_count = $counter['oppose_count'];
+                    $consult->like_count = $counter['like_count'];
                     $consult->update();
                 }
             }

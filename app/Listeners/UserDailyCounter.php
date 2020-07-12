@@ -46,24 +46,24 @@ class UserDailyCounter extends Listener
         $this->counter->hIncrBy($user->id, 'order_count');
     }
 
-    public function incrCommentVoteCount(Event $event, $source, UserModel $user)
+    public function incrCommentLikeCount(Event $event, $source, UserModel $user)
     {
-        $this->counter->hIncrBy($user->id, 'comment_vote_count');
+        $this->counter->hIncrBy($user->id, 'comment_like_count');
     }
 
-    public function incrConsultVoteCount(Event $event, $source, UserModel $user)
+    public function incrConsultLikeCount(Event $event, $source, UserModel $user)
     {
-        $this->counter->hIncrBy($user->id, 'consult_vote_count');
+        $this->counter->hIncrBy($user->id, 'consult_like_count');
     }
 
-    public function incrChapterVoteCount(Event $event, $source, UserModel $user)
+    public function incrChapterLikeCount(Event $event, $source, UserModel $user)
     {
-        $this->counter->hIncrBy($user->id, 'chapter_vote_count');
+        $this->counter->hIncrBy($user->id, 'chapter_like_count');
     }
 
-    public function incrReviewVoteCount(Event $event, $source, UserModel $user)
+    public function incrReviewLikeCount(Event $event, $source, UserModel $user)
     {
-        $this->counter->hIncrBy($user->id, 'review_vote_count');
+        $this->counter->hIncrBy($user->id, 'review_like_count');
     }
 
 }

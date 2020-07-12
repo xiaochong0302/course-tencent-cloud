@@ -4,7 +4,7 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Consult as ConsultModel;
-use App\Models\ConsultVote as ConsultVoteModel;
+use App\Models\ConsultLike as ConsultLikeModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -83,28 +83,12 @@ class Consult extends Repository
             ->execute();
     }
 
-    public function countAgrees($consultId)
+    public function countLikes($consultId)
     {
-        $type = ConsultVoteModel::TYPE_AGREE;
-
-        $count = ConsultVoteModel::count([
-            'conditions' => 'consult_id = :consult_id: AND type = :type: AND deleted = 0',
-            'bind' => ['consult_id' => $consultId, 'type' => $type],
+        return ConsultLikeModel::count([
+            'conditions' => 'consult_id = :consult_id: AND deleted = 0',
+            'bind' => ['consult_id' => $consultId],
         ]);
-
-        return $count;
-    }
-
-    public function countOpposes($consultId)
-    {
-        $type = ConsultVoteModel::TYPE_OPPOSE;
-
-        $count = ConsultVoteModel::count([
-            'conditions' => 'consult_id = :consult_id: AND type = :type: AND deleted = 0',
-            'bind' => ['consult_id' => $consultId, 'type' => $type],
-        ]);
-
-        return $count;
     }
 
 }

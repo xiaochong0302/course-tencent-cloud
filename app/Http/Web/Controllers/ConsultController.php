@@ -2,12 +2,11 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Services\Frontend\Consult\AgreeVote as ConsultAgreeVoteService;
 use App\Services\Frontend\Consult\ConsultCreate as ConsultCreateService;
 use App\Services\Frontend\Consult\ConsultDelete as ConsultDeleteService;
 use App\Services\Frontend\Consult\ConsultInfo as ConsultInfoService;
+use App\Services\Frontend\Consult\ConsultLike as ConsultLikeService;
 use App\Services\Frontend\Consult\ConsultUpdate as ConsultUpdateService;
-use App\Services\Frontend\Consult\OpposeVote as ConsultOpposeVoteService;
 
 /**
  * @RoutePrefix("/consult")
@@ -68,23 +67,11 @@ class ConsultController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/agree", name="web.consult.agree")
+     * @Post("/{id:[0-9]+}/like", name="web.consult.like")
      */
-    public function agreeAction($id)
+    public function likeAction($id)
     {
-        $service = new ConsultAgreeVoteService();
-
-        $service->handle($id);
-
-        return $this->jsonSuccess();
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/oppose", name="web.consult.oppose")
-     */
-    public function opposeAction($id)
-    {
-        $service = new ConsultOpposeVoteService();
+        $service = new ConsultLikeService();
 
         $service->handle($id);
 

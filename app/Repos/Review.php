@@ -4,7 +4,7 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Review as ReviewModel;
-use App\Models\ReviewVote as ReviewVoteModel;
+use App\Models\ReviewLike as ReviewLikeModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -106,23 +106,11 @@ class Review extends Repository
             ->execute();
     }
 
-    public function countAgrees($reviewId)
+    public function countLikes($reviewId)
     {
-        $type = ReviewVoteModel::TYPE_AGREE;
-
-        return ReviewVoteModel::count([
-            'conditions' => 'review_id = :review_id: AND type = :type: AND deleted = 0',
-            'bind' => ['review_id' => $reviewId, 'type' => $type],
-        ]);
-    }
-
-    public function countOpposes($reviewId)
-    {
-        $type = ReviewVoteModel::TYPE_OPPOSE;
-
-        return ReviewVoteModel::count([
-            'conditions' => 'review_id = :review_id: AND type = :type: AND deleted = 0',
-            'bind' => ['review_id' => $reviewId, 'type' => $type],
+        return ReviewLikeModel::count([
+            'conditions' => 'review_id = :review_id: AND deleted = 0',
+            'bind' => ['review_id' => $reviewId],
         ]);
     }
 
