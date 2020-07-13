@@ -80,11 +80,13 @@ class Comment extends Validator
     {
         $repo = new CommentLikeRepo();
 
-        $record = $repo->findCommentLike($chapterId, $userId);
+        $commentLike = $repo->findCommentLike($chapterId, $userId);
 
-        if ($record && time() - $record->create_time > 86400) {
+        if ($commentLike && time() - $commentLike->create_time > 5 * 60) {
             throw new BadRequestException('comment.has_liked');
         }
+
+        return $commentLike;
     }
 
 }

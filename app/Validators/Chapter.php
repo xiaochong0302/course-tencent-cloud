@@ -178,11 +178,13 @@ class Chapter extends Validator
     {
         $repo = new ChapterLikeRepo();
 
-        $record = $repo->findChapterLike($chapterId, $userId);
+        $chapterLike = $repo->findChapterLike($chapterId, $userId);
 
-        if ($record && time() - $record->create_time > 86400) {
+        if ($chapterLike && time() - $chapterLike->create_time > 5 * 60) {
             throw new BadRequestException('chapter.has_liked');
         }
+
+        return $chapterLike;
     }
 
 }

@@ -36,7 +36,7 @@ class Review extends Validator
 
         $length = kg_strlen($value);
 
-        if ($length < 5) {
+        if ($length < 10) {
             throw new BadRequestException('review.content_too_short');
         }
 
@@ -65,26 +65,17 @@ class Review extends Validator
         return $status;
     }
 
-    public function checkIfReviewed($courseId, $userId)
-    {
-        $reviewRepo = new ReviewRepo();
-
-        $review = $reviewRepo->findReview($courseId, $userId);
-
-        if ($review) {
-            throw new BadRequestException('review.has_reviewed');
-        }
-    }
-
-    public function checkIfLiked($chapterId, $userId)
+    public function checkIfLiked($reviewId, $userId)
     {
         $repo = new ReviewLikeRepo();
 
-        $record = $repo->findReviewLike($chapterId, $userId);
+        $reviewLike = $repo->findReviewLike($reviewId, $userId);
 
-        if ($record && time() - $record->create_time > 86400) {
+        if ($reviewLike && time() - $reviewLike->create_time > 5 * 60) {
             throw new BadRequestException('review.has_liked');
         }
+
+        return $reviewLike;
     }
 
 }

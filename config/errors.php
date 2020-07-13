@@ -136,10 +136,11 @@ $error['package.invalid_publish_status'] = '无效的发布状态';
 /**
  * 课程成员
  */
-$error['course_user.not_found'] = '课程学员不存在';
-$error['course_user.apply_not_allowed'] = '当前不允许申请课程';
-$error['course_user.has_joined_course'] = '已经加入当前课程';
+$error['course_user.not_found'] = '课程学员关系不存在';
 $error['course_user.invalid_expiry_time'] = '无效的过期时间';
+$error['course_user.review_not_allowed'] = '当前不允许评价课程';
+$error['course_user.has_joined'] = '已经加入过该课程';
+$error['course_user.has_reviewed'] = '已经评价过该课程';
 
 /**
  * 章节相关
@@ -189,7 +190,7 @@ $error['chapter_read.content_too_long'] = '文章内容太长（多于65535个�
 $error['review.not_found'] = '评价不存在';
 $error['review.invalid_rating'] = '无效的评分（范围：1-5）';
 $error['review.invalid_publish_status'] = '无效的发布状态';
-$error['review.content_too_short'] = '评价内容太短（少于5个字符）';
+$error['review.content_too_short'] = '评价内容太短（少于10个字符）';
 $error['review.content_too_long'] = '评价内容太长（多于255个字符）';
 $error['review.has_liked'] = '你已经点过赞啦';
 

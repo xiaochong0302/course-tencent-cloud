@@ -192,6 +192,18 @@ class CourseController extends Controller
     }
 
     /**
+     * @Get("/{id:[0-9]+}/rating", name="web.course.rating")
+     */
+    public function ratingAction($id)
+    {
+        $service = new CourseInfoService();
+
+        $course = $service->handle($id);
+
+        $this->view->setVar('course', $course);
+    }
+
+    /**
      * @Post("/{id:[0-9]+}/favorite", name="web.course.favorite")
      */
     public function favoriteAction($id)

@@ -39,7 +39,12 @@ class ReviewController extends Controller
 
         $review = $service->handle($review->id);
 
-        return $this->jsonSuccess(['review' => $review]);
+        $content = [
+            'review' => $review,
+            'msg' => '发布课程评价成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -51,7 +56,12 @@ class ReviewController extends Controller
 
         $review = $service->handle($id);
 
-        return $this->jsonSuccess(['review' => $review]);
+        $content = [
+            'review' => $review,
+            'msg' => '更新课程评价成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
     /**

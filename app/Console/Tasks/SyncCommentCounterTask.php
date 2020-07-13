@@ -87,7 +87,7 @@ class SyncCommentCounterTask extends Task
     {
         $config = $this->getDI()->get('config');
 
-        return $config['recount_comment'] ?? false;
+        return $config->syncer->recount_comment ?? false;
     }
 
 }

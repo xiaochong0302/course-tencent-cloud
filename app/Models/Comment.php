@@ -43,6 +43,13 @@ class Comment extends Model
     public $user_id;
 
     /**
+     * 回复用户
+     *
+     * @var int
+     */
+    public $to_user_id;
+
+    /**
      * 内容
      *
      * @var string

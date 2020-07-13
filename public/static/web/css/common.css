@@ -8,6 +8,10 @@
     background-color: #f2f2f2;
 }
 
+.layer {
+    padding: 20px;
+}
+
 .clearfix {
     zoom: 1
 }
@@ -28,6 +32,14 @@
     float: right;
 }
 
+.mb0 {
+    margin-bottom: 0;
+}
+
+.padding20 {
+    padding: 20px;
+}
+
 .text-center {
     text-align: center;
 }
@@ -42,6 +54,11 @@
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.layer-wrap {
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 .pager {
@@ -617,7 +634,6 @@
 .review-card .info {
     float: left;
     width: 650px;
-    font-size: 12px;
 }
 
 .review-card .rating {
@@ -637,19 +653,37 @@
 }
 
 .review-card .user {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     color: #666;
 }
 
 .review-card .content {
-    margin-bottom: 10px;
-    color: #666;
+    margin-bottom: 15px;
     word-wrap: break-word;
     white-space: pre-wrap;
+    color: #666;
 }
 
 .review-card .footer {
+    line-height: 1.2em;
     color: #666;
+}
+
+.review-card .footer span {
+    margin-right: 10px;
+}
+
+.review-card .like-icon {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.like .active, .like .like-icon:hover {
+    color: green;
+}
+
+.review-card .like-count {
+    font-style: normal;
 }
 
 .sidebar-order .order {
@@ -779,6 +813,10 @@
 
 .lesson-title .deny {
     color: gray;
+}
+
+.rating-form .layui-rate {
+    padding-top: 6px;
 }
 
 .read-info {

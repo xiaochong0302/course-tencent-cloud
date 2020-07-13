@@ -5,11 +5,10 @@ namespace App\Services\Frontend\Comment;
 use App\Models\Comment as CommentModel;
 use App\Models\CommentLike as CommentLikeModel;
 use App\Models\User as UserModel;
-use App\Repos\CommentLike as CommentLikeRepo;
 use App\Services\Frontend\CommentTrait;
 use App\Services\Frontend\Service as FrontendService;
+use App\Validators\Comment as CommentValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
-use Phalcon\Di as Di;
 use Phalcon\Events\Manager as EventsManager;
 
 class CommentLike extends FrontendService
@@ -27,9 +26,9 @@ class CommentLike extends FrontendService
 
         $validator->checkCommentLikeLimit($user);
 
-        $commentLikeRepo = new CommentLikeRepo();
+        $validator = new CommentValidator();
 
-        $commentLike = $commentLikeRepo->findCommentLike($comment->id, $user->id);
+        $commentLike = $validator->checkIfLiked($comment->id, $user->id);
 
         if (!$commentLike) {
 
@@ -83,7 +82,7 @@ class CommentLike extends FrontendService
      */
     protected function getPhEventsManager()
     {
-        return Di::getDefault()->get('eventsManager');
+        return $this->getDI()->get('eventsManager');
     }
 
 }

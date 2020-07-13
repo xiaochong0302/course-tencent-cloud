@@ -7,6 +7,7 @@ use App\Models\Review as ReviewModel;
 use App\Models\User as UserModel;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
+use App\Validators\CourseUser as CourseUserValidator;
 use App\Validators\Review as ReviewValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
@@ -27,6 +28,11 @@ class ReviewCreate extends FrontendService
 
         $validator->checkReviewLimit($user);
 
+        $validator = new CourseUserValidator();
+
+        $validator->checkCourseUser($course->id, $user->id);
+        $validator->checkIfReviewed($course->id, $user->id);
+
         $validator = new ReviewValidator();
 
         $data = [];
@@ -35,10 +41,6 @@ class ReviewCreate extends FrontendService
         $data['rating1'] = $validator->checkRating($post['rating1']);
         $data['rating2'] = $validator->checkRating($post['rating2']);
         $data['rating3'] = $validator->checkRating($post['rating3']);
-
-        $validator->checkIfReviewed($course->id, $user->id);
-
-        $data['rating'] = $this->getAvgRating($data['rating1'], $data['rating2'], $data['rating3']);
         $data['course_id'] = $course->id;
         $data['user_id'] = $user->id;
 
@@ -51,11 +53,6 @@ class ReviewCreate extends FrontendService
         $this->incrUserDailyReviewCount($user);
 
         return $review;
-    }
-
-    protected function getAvgRating($rating1, $rating2, $rating3)
-    {
-        return round(($rating1 + $rating2 + $rating3) / 3, 2);
     }
 
     protected function incrCourseReviewCount(CourseModel $course)

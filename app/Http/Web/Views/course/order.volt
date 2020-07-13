@@ -10,6 +10,12 @@
     </div>
 {% endif %}
 
+{% set rating_url = url({'for':'web.course.rating','id':course.id}) %}
+
+<div class="sidebar-rating wrap">
+    <a class="layui-btn layui-btn-fluid layui-bg-green rating-btn" href="javascript:" data-url="{{ rating_url }}">课程评价</a>
+</div>
+
 {% if course.market_price == 0 %}
     <div class="layui-card">
         <div class="layui-card-header">赞赏支持</div>

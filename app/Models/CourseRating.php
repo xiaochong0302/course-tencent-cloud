@@ -8,13 +8,6 @@ class CourseRating extends Model
 {
 
     /**
-     * 主键编号
-     *
-     * @var int
-     */
-    public $id;
-
-    /**
      * 课程编号
      *
      * @var int

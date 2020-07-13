@@ -5,11 +5,10 @@ namespace App\Services\Frontend\Review;
 use App\Models\Review as ReviewModel;
 use App\Models\ReviewLike as ReviewLikeModel;
 use App\Models\User as UserModel;
-use App\Repos\ReviewLike as ReviewLikeRepo;
 use App\Services\Frontend\ReviewTrait;
 use App\Services\Frontend\Service as FrontendService;
+use App\Validators\Review as ReviewValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
-use Phalcon\Di as Di;
 use Phalcon\Events\Manager as EventsManager;
 
 class ReviewLike extends FrontendService
@@ -27,9 +26,9 @@ class ReviewLike extends FrontendService
 
         $validator->checkReviewLikeLimit($user);
 
-        $reviewLikeRepo = new ReviewLikeRepo();
+        $validator = new ReviewValidator();
 
-        $reviewLike = $reviewLikeRepo->findReviewLike($review->id, $user->id);
+        $reviewLike = $validator->checkIfLiked($review->id, $user->id);
 
         if (!$reviewLike) {
 
@@ -56,8 +55,6 @@ class ReviewLike extends FrontendService
 
                 $this->incrLikeCount($review);
             }
-
-            $reviewLike->update();
         }
 
         $this->incrUserDailyReviewLikeCount($user);
@@ -85,7 +82,7 @@ class ReviewLike extends FrontendService
      */
     protected function getPhEventsManager()
     {
-        return Di::getDefault()->get('eventsManager');
+        return $this->getDI()->get('eventsManager');
     }
 
 }

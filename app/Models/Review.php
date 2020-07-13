@@ -125,11 +125,22 @@ class Review extends Model
     public function beforeCreate()
     {
         $this->create_time = time();
+
+        $this->rating = $this->getAvgRating();
     }
 
     public function beforeUpdate()
     {
         $this->update_time = time();
+
+        $this->rating = $this->getAvgRating();
+    }
+
+    protected function getAvgRating()
+    {
+        $sumRating = $this->rating1 + $this->rating2 + $this->rating3;
+
+        return round($sumRating / 3, 2);
     }
 
 }

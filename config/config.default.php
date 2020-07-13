@@ -132,4 +132,13 @@ $config['websocket']['url'] = 'ws://127.0.0.1:8282';
  */
 $config['websocket']['register_address'] = '127.0.0.1:1238';
 
+/**
+ * 同步器设置
+ */
+$config['syncer']['recount_course'] = false;
+$config['syncer']['recount_chapter'] = false;
+$config['syncer']['recount_consult'] = false;
+$config['syncer']['recount_review'] = false;
+$config['syncer']['recount_comment'] = false;
+
 return $config;

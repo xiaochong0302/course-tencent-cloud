@@ -42,10 +42,6 @@ class CommentCreate extends FrontendService
             $data['parent_id'] = $parent->id;
         }
 
-        if (isset($post['mentions'])) {
-            $data['mentions'] = $validator->checkMentions($post['mentions']);
-        }
-
         $comment = new CommentModel();
 
         $data['course_id'] = $course->id;
@@ -61,11 +57,6 @@ class CommentCreate extends FrontendService
         $this->incrUserDailyCommentCount($user);
 
         return $comment;
-    }
-
-    protected function handleMentions($mentions)
-    {
-
     }
 
     protected function incrChapterCommentCount(ChapterModel $chapter)

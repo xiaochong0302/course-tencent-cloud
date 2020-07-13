@@ -1,7 +1,43 @@
-layui.use(['jquery', 'helper'], function () {
+layui.use(['jquery', 'layer', 'helper'], function () {
 
     var $ = layui.jquery;
+    var layer = layui.layer;
     var helper = layui.helper;
+
+    $('.rating-btn').on('click', function () {
+        var url = $(this).data('url');
+        layer.open({
+            type: 2,
+            title: '课程评分',
+            content: [url, 'no'],
+            area: ['640px', '400px']
+        });
+    });
+
+    $('body').on('click', '.like-icon', function () {
+        var $this = $(this);
+        var $likeCount = $this.next();
+        var likeCount = parseInt($likeCount.text());
+        $.ajax({
+            type: 'POST',
+            url: $this.data('url'),
+            success: function (res) {
+                if ($this.hasClass('active')) {
+                    $this.removeClass('active');
+                    $likeCount.text(likeCount - 1);
+                    likeCount -= 1;
+                } else {
+                    $this.addClass('active');
+                    $likeCount.text(likeCount + 1);
+                    likeCount += 1;
+                }
+            },
+            error: function (xhr) {
+                var res = JSON.parse(xhr.responseText);
+                layer.msg(res.msg, {icon: 2});
+            }
+        });
+    });
 
     if ($('#tab-packages').length > 0) {
         var $tabPackages = $('#tab-packages');

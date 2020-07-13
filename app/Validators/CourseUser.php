@@ -22,6 +22,19 @@ class CourseUser extends Validator
         return $courseUser;
     }
 
+    public function checkCourseUser($courseId, $userId)
+    {
+        $repo = new CourseUserRepo();
+
+        $courseUser = $repo->findCourseUser($courseId, $userId);
+
+        if (!$courseUser) {
+            throw new BadRequestException('course_user.not_found');
+        }
+
+        return $courseUser;
+    }
+
     public function checkCourse($id)
     {
         $validator = new Course();
@@ -54,7 +67,18 @@ class CourseUser extends Validator
         $courseUser = $repo->findCourseStudent($courseId, $userId);
 
         if ($courseUser) {
-            throw new BadRequestException('course_user.has_joined_course');
+            throw new BadRequestException('course_user.has_joined');
+        }
+    }
+
+    public function checkIfReviewed($courseId, $userId)
+    {
+        $repo = new CourseUserRepo();
+
+        $courseUser = $repo->findCourseUser($courseId, $userId);
+
+        if ($courseUser && $courseUser->reviewed) {
+            throw new BadRequestException('course_user.has_reviewed');
         }
     }
 

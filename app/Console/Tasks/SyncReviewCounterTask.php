@@ -85,7 +85,7 @@ class SyncReviewCounterTask extends Task
     {
         $config = $this->getDI()->get('config');
 
-        return $config['recount_review'] ?? false;
+        return $config->syncer->recount_review ?? false;
     }
 
 }

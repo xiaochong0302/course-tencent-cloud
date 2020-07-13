@@ -99,7 +99,7 @@ class SyncCourseCounterTask extends Task
     {
         $config = $this->getDI()->get('config');
 
-        return $config['recount_course'] ?? false;
+        return $config->syncer->recount_course ?? false;
     }
 
 }

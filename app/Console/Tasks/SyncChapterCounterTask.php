@@ -98,7 +98,7 @@ class SyncChapterCounterTask extends Task
     {
         $config = $this->getDI()->get('config');
 
-        return $config['recount_chapter'] ?? false;
+        return $config->syncer->recount_chapter ?? false;
     }
 
 }

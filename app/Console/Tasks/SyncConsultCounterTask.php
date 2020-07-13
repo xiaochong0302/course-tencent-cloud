@@ -85,7 +85,7 @@ class SyncConsultCounterTask extends Task
     {
         $config = $this->getDI()->get('config');
 
-        return $config['recount_consult'] ?? false;
+        return $config->syncer->recount_consult ?? false;
     }
 
 }

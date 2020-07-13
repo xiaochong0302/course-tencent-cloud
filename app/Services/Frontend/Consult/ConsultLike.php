@@ -5,11 +5,10 @@ namespace App\Services\Frontend\Consult;
 use App\Models\Consult as ConsultModel;
 use App\Models\ConsultLike as ConsultLikeModel;
 use App\Models\User as UserModel;
-use App\Repos\ConsultLike as ConsultLikeRepo;
 use App\Services\Frontend\ConsultTrait;
 use App\Services\Frontend\Service as FrontendService;
+use App\Validators\Consult as ConsultValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
-use Phalcon\Di as Di;
 use Phalcon\Events\Manager as EventsManager;
 
 class ConsultLike extends FrontendService
@@ -27,9 +26,9 @@ class ConsultLike extends FrontendService
 
         $validator->checkConsultLikeLimit($user);
 
-        $consultLikeRepo = new ConsultLikeRepo();
+        $validator = new ConsultValidator();
 
-        $consultLike = $consultLikeRepo->findConsultLike($consult->id, $user->id);
+        $consultLike = $validator->checkIfLiked($consult->id, $user->id);
 
         if (!$consultLike) {
 
@@ -83,7 +82,7 @@ class ConsultLike extends FrontendService
      */
     protected function getPhEventsManager()
     {
-        return Di::getDefault()->get('eventsManager');
+        return $this->getDI()->get('eventsManager');
     }
 
 }
