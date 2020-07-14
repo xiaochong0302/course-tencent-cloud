@@ -87,7 +87,7 @@ class Package extends Repository
             ->addFrom(CourseModel::class, 'c')
             ->join(CoursePackageModel::class, 'c.id = cp.course_id', 'cp')
             ->where('cp.package_id = :package_id:', ['package_id' => $packageId])
-            ->andWhere('c.deleted = 0')
+            ->andWhere('c.published = 1')
             ->getQuery()
             ->execute();
     }

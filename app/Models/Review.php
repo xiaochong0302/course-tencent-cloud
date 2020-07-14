@@ -134,6 +134,10 @@ class Review extends Model
         $this->update_time = time();
 
         $this->rating = $this->getAvgRating();
+
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
     }
 
     protected function getAvgRating()

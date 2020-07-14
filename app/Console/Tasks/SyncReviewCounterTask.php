@@ -47,13 +47,11 @@ class SyncReviewCounterTask extends Task
 
         $counterCache = new ReviewCounterCache();
 
-        $hour = date('H');
-
-        $recount = $this->checkEnableRecount();
+        $allowRecount = $this->allowRecount();
 
         foreach ($reviews as $review) {
 
-            if ($recount && $hour % 3 == 0) {
+            if ($allowRecount) {
 
                 $review->like_count = $reviewRepo->countLikes($review->id);
                 $review->update();
@@ -81,11 +79,9 @@ class SyncReviewCounterTask extends Task
         return $syncer->getSyncKey();
     }
 
-    protected function checkEnableRecount()
+    protected function allowRecount()
     {
-        $config = $this->getDI()->get('config');
-
-        return $config->syncer->recount_review ?? false;
+        return date('H') == 2;
     }
 
 }

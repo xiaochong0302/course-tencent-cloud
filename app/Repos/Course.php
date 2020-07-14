@@ -146,7 +146,6 @@ class Course extends Repository
             ->join(CourseUserModel::class, 'u.id = cu.user_id', 'cu')
             ->where('cu.course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('cu.role_type = :role_type:', ['role_type' => $roleType])
-            ->andWhere('u.deleted = 0')
             ->getQuery()->execute();
     }
 
@@ -161,7 +160,7 @@ class Course extends Repository
             ->addFrom(CategoryModel::class, 'c')
             ->join(CourseCategoryModel::class, 'c.id = cc.category_id', 'cc')
             ->where('cc.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('c.deleted = 0')
+            ->andWhere('c.published = 1')
             ->getQuery()->execute();
     }
 
@@ -176,7 +175,7 @@ class Course extends Repository
             ->addFrom(PackageModel::class, 'p')
             ->join(CoursePackageModel::class, 'p.id = cp.package_id', 'cp')
             ->where('cp.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('p.deleted = 0')
+            ->andWhere('p.published = 1')
             ->getQuery()->execute();
     }
 
@@ -191,7 +190,7 @@ class Course extends Repository
             ->addFrom(CourseModel::class, 'c')
             ->join(CourseRelatedModel::class, 'c.id = cr.related_id', 'cr')
             ->where('cr.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('c.deleted = 0')
+            ->andWhere('c.published = 1')
             ->getQuery()->execute();
     }
 

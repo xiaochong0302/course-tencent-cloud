@@ -5,9 +5,9 @@ namespace App\Services\Frontend\Course;
 use App\Models\Course as CourseModel;
 use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\User as UserModel;
-use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
+use App\Validators\Course as CourseValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
 class Favorite extends FrontendService
@@ -25,18 +25,18 @@ class Favorite extends FrontendService
 
         $validator->checkFavoriteLimit($user);
 
-        $favoriteRepo = new CourseFavoriteRepo();
+        $validator = new CourseValidator();
 
-        $favorite = $favoriteRepo->findCourseFavorite($course->id, $user->id);
+        $favorite = $validator->checkIfFavorited($course->id, $user->id);
 
         if (!$favorite) {
 
             $favorite = new CourseFavoriteModel();
 
-            $favorite->course_id = $course->id;
-            $favorite->user_id = $user->id;
-
-            $favorite->create();
+            $favorite->create([
+                'course_id' => $course->id,
+                'user_id' => $user->id,
+            ]);
 
             $this->incrCourseFavoriteCount($course);
 
@@ -44,18 +44,16 @@ class Favorite extends FrontendService
 
             if ($favorite->deleted == 0) {
 
-                $favorite->deleted = 1;
+                $favorite->update(['deleted' => 1]);
 
                 $this->decrCourseFavoriteCount($course);
 
             } else {
 
-                $favorite->deleted = 0;
+                $favorite->update(['deleted' => 0]);
 
                 $this->incrCourseFavoriteCount($course);
             }
-
-            $favorite->update();
         }
 
         $this->incrUserDailyFavoriteCount($user);

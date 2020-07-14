@@ -69,13 +69,13 @@ class Review extends Validator
     {
         $repo = new ReviewLikeRepo();
 
-        $reviewLike = $repo->findReviewLike($reviewId, $userId);
+        $like = $repo->findReviewLike($reviewId, $userId);
 
-        if ($reviewLike && time() - $reviewLike->create_time > 5 * 60) {
+        if ($like && time() - $like->create_time > 5 * 60) {
             throw new BadRequestException('review.has_liked');
         }
 
-        return $reviewLike;
+        return $like;
     }
 
 }

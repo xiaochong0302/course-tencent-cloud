@@ -58,7 +58,8 @@ class CategoryTreeList extends Builder
     {
         return CategoryModel::query()
             ->where('parent_id = :parent_id:', ['parent_id' => $categoryId])
-            ->andWhere('deleted = 0')
+            ->andWhere('published = 1')
+            ->orderBy('priority ASC')
             ->execute();
     }
 

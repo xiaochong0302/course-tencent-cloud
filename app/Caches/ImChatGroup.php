@@ -16,7 +16,7 @@ class ImGroup extends Cache
 
     public function getKey($id = null)
     {
-        return "im_chat_group:{$id}";
+        return "im_group:{$id}";
     }
 
     public function getContent($id = null)

@@ -28,6 +28,7 @@ class Learning extends FrontendService
             'course_id' => $chapter->course_id,
             'chapter_id' => $chapter->id,
             'user_id' => $user->id,
+            'position' => 0,
         ];
 
         $data['request_id'] = $validator->checkRequestId($post['request_id']);

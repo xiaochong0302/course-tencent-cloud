@@ -112,6 +112,7 @@ $error['course.invalid_refund_expiry'] = '无效的退款期限';
 $error['course.invalid_publish_status'] = '无效的发布状态';
 $error['course.pub_chapter_not_found'] = '尚未发现已发布的课时';
 $error['course.pub_chapter_not_enough'] = '已发布的课时太少（小于30%）';
+$error['course.has_favorited'] = '你已收藏过该课程啦';
 
 /**
  * 话题相关

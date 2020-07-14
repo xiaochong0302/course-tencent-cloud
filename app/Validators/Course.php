@@ -8,6 +8,7 @@ use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\Course as CourseModel;
 use App\Repos\Course as CourseRepo;
+use App\Repos\CourseFavorite as CourseFavoriteRepo;
 
 class Course extends Validator
 {
@@ -217,7 +218,7 @@ class Course extends Validator
         return $status;
     }
 
-    public function checkPublishAbility($course)
+    public function checkPublishAbility(CourseModel $course)
     {
         $courseRepo = new CourseRepo();
 
@@ -240,6 +241,19 @@ class Course extends Validator
         if ($publishedCount / $totalCount < 0.3) {
             throw new BadRequestException('course.pub_chapter_not_enough');
         }
+    }
+
+    public function checkIfFavorited($courseId, $userId)
+    {
+        $repo = new CourseFavoriteRepo();
+
+        $favorite = $repo->findCourseFavorite($courseId, $userId);
+
+        if ($favorite && time() - $favorite->create_time > 5 * 60) {
+            throw new BadRequestException('course.has_favorited');
+        }
+
+        return $favorite;
     }
 
 }

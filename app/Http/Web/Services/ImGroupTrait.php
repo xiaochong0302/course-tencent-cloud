@@ -72,6 +72,8 @@ Trait ImGroupTrait
                 'group_id' => $group->id,
                 'user_id' => $applicant->id,
             ]);
+            $group->user_count += 1;
+            $group->update();
         }
 
         $itemInfo = $message->item_info;

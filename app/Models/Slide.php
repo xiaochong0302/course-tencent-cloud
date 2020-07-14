@@ -135,6 +135,10 @@ class Slide extends Model
     {
         $this->update_time = time();
 
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
+
         if (Text::startsWith($this->cover, 'http')) {
             $this->cover = self::getCoverPath($this->cover);
         }

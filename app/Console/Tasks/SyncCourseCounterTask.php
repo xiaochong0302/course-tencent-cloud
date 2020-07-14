@@ -50,16 +50,13 @@ class SyncCourseCounterTask extends Task
 
         $courseCache = new CourseCache();
 
-        $hour = date('H');
-
-        $recount = $this->checkEnableRecount();
+        $allowRecount = $this->allowRecount();
 
         foreach ($courses as $course) {
 
-            if ($recount && $hour % 3 == 0) {
+            if ($allowRecount) {
 
                 $course->user_count = $courseRepo->countUsers($course->id);
-                $course->lesson_count = $courseRepo->countLessons($course->id);
                 $course->comment_count = $courseRepo->countComments($course->id);
                 $course->consult_count = $courseRepo->countConsults($course->id);
                 $course->review_count = $courseRepo->countReviews($course->id);
@@ -75,7 +72,6 @@ class SyncCourseCounterTask extends Task
 
                 if ($counter) {
                     $course->user_count = $counter['user_count'];
-                    $course->lesson_count = $counter['lesson_count'];
                     $course->comment_count = $counter['comment_count'];
                     $course->consult_count = $counter['consult_count'];
                     $course->review_count = $counter['review_count'];
@@ -95,11 +91,9 @@ class SyncCourseCounterTask extends Task
         return $syncer->getSyncKey();
     }
 
-    protected function checkEnableRecount()
+    protected function allowRecount()
     {
-        $config = $this->getDI()->get('config');
-
-        return $config->syncer->recount_course ?? false;
+        return date('H') % 2 == 0;
     }
 
 }

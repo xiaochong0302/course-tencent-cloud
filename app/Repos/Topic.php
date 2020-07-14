@@ -83,7 +83,7 @@ class Topic extends Repository
             ->addFrom(CourseModel::class, 'c')
             ->join(CourseTopicModel::class, 'c.id = ct.course_id', 'ct')
             ->where('ct.topic_id = :topic_id:', ['topic_id' => $topicId])
-            ->andWhere('c.deleted = 0')
+            ->andWhere('c.published = 1')
             ->getQuery()->execute();
     }
 

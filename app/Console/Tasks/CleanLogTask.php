@@ -18,6 +18,7 @@ class CleanLogTask extends Task
         $this->cleanMailerLog();
         $this->cleanSmserLog();
         $this->cleanVodLog();
+        $this->cleanLiveLog();
         $this->cleanStorageLog();
         $this->cleanAlipayLog();
         $this->cleanWxpayLog();
@@ -79,6 +80,14 @@ class CleanLogTask extends Task
     protected function cleanVodLog()
     {
         $this->cleanLog('vod', 7);
+    }
+
+    /**
+     * 清理直播服务日志
+     */
+    protected function cleanLiveLog()
+    {
+        $this->cleanLog('live', 7);
     }
 
     /**

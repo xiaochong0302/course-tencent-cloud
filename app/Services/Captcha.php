@@ -59,7 +59,7 @@ class Captcha extends Service
             $request = new DescribeCaptchaResultRequest();
 
             /**
-             * 注意：CaptchaType 和 CaptchaAppId 强类型要求
+             * 注意：CaptchaType和CaptchaAppId强类型要求
              */
             $params = json_encode([
                 'Ticket' => $ticket,

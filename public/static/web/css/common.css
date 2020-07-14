@@ -84,6 +84,12 @@
     bottom: 60px;
 }
 
+body {
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh;
+}
+
 #header {
     left: 0;
     top: 0;
@@ -96,14 +102,15 @@
 #main {
     margin-top: 80px;
     margin-bottom: 30px;
-    min-height: 550px;
+    flex: 1;
 }
 
 #footer {
+    width: 100%;
     padding: 30px 0;
+    background: #474443;
     text-align: center;
     font-size: 12px;
-    background: #474443;
 }
 
 .logo {
@@ -137,8 +144,12 @@
     color: #fff;
 }
 
-.bottom-nav, .copyright {
+.bottom-nav {
     margin-bottom: 10px;
+    line-height: 18px;
+}
+
+.copyright {
     line-height: 18px;
 }
 

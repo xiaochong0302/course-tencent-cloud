@@ -137,7 +137,7 @@ class Chapter extends Validator
         return $status;
     }
 
-    public function checkPublishAbility($chapter)
+    public function checkPublishAbility(ChapterModel $chapter)
     {
         $courseRepo = new CourseRepo();
 
@@ -160,7 +160,7 @@ class Chapter extends Validator
         }
     }
 
-    public function checkDeleteAbility($chapter)
+    public function checkDeleteAbility(ChapterModel $chapter)
     {
         $chapterRepo = new ChapterRepo();
 
@@ -178,13 +178,13 @@ class Chapter extends Validator
     {
         $repo = new ChapterLikeRepo();
 
-        $chapterLike = $repo->findChapterLike($chapterId, $userId);
+        $like = $repo->findChapterLike($chapterId, $userId);
 
-        if ($chapterLike && time() - $chapterLike->create_time > 5 * 60) {
+        if ($like && time() - $like->create_time > 5 * 60) {
             throw new BadRequestException('chapter.has_liked');
         }
 
-        return $chapterLike;
+        return $like;
     }
 
 }

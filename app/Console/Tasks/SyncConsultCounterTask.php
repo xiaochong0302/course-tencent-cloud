@@ -47,13 +47,11 @@ class SyncConsultCounterTask extends Task
 
         $counterCache = new ConsultCounterCache();
 
-        $hour = date('H');
-
-        $recount = $this->checkEnableRecount();
+        $allowRecount = $this->allowRecount();
 
         foreach ($consults as $consult) {
 
-            if ($recount && $hour % 3 == 0) {
+            if ($allowRecount) {
 
                 $consult->like_count = $consultRepo->countLikes($consult->id);
                 $consult->update();
@@ -81,11 +79,9 @@ class SyncConsultCounterTask extends Task
         return $syncer->getSyncKey();
     }
 
-    protected function checkEnableRecount()
+    protected function allowRecount()
     {
-        $config = $this->getDI()->get('config');
-
-        return $config->syncer->recount_consult ?? false;
+        return date('H') == 1;
     }
 
 }

@@ -31,7 +31,7 @@ class CategoryList extends Cache
          */
         $categories = CategoryModel::query()
             ->columns(['id', 'parent_id', 'name', 'priority', 'level', 'path'])
-            ->where('published = 1 AND deleted = 0')
+            ->where('published = 1')
             ->execute();
 
         if ($categories->count() == 0) {

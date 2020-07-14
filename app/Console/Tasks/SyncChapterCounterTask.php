@@ -50,13 +50,11 @@ class SyncChapterCounterTask extends Task
 
         $chapterCache = new ChapterCache();
 
-        $hour = date('H');
-
-        $recount = $this->checkEnableRecount();
+        $allowRecount = $this->allowRecount();
 
         foreach ($chapters as $chapter) {
 
-            if ($recount && $hour % 3 == 0) {
+            if ($allowRecount) {
 
                 $chapter->user_count = $chapterRepo->countUsers($chapter->id);
                 $chapter->lesson_count = $chapterRepo->countLessons($chapter->id);
@@ -94,11 +92,9 @@ class SyncChapterCounterTask extends Task
         return $syncer->getSyncKey();
     }
 
-    protected function checkEnableRecount()
+    protected function allowRecount()
     {
-        $config = $this->getDI()->get('config');
-
-        return $config->syncer->recount_chapter ?? false;
+        return date('H') % 2 == 0;
     }
 
 }

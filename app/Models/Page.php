@@ -30,6 +30,13 @@ class Page extends Model
     public $content;
 
     /**
+     * 发布标识
+     *
+     * @var int
+     */
+    public $published;
+
+    /**
      * 删除标识
      *
      * @var int
@@ -75,6 +82,10 @@ class Page extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
+
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
     }
 
     public function afterCreate()

@@ -216,6 +216,10 @@ class Chapter extends Model
     {
         $this->update_time = time();
 
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
+
         if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }

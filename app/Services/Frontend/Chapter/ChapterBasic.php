@@ -48,11 +48,6 @@ class ChapterBasic extends FrontendService
 
         $playUrls = $chapterVodService->getPlayUrls($chapter->id);
 
-        /**
-         * @var array $attrs
-         */
-        $attrs = $chapter->attrs;
-
         return [
             'id' => $chapter->id,
             'title' => $chapter->title,
@@ -82,11 +77,6 @@ class ChapterBasic extends FrontendService
         $chapterRepo = new ChapterRepo();
 
         $live = $chapterRepo->findChapterLive($chapter->id);
-
-        /**
-         * @var array $attrs
-         */
-        $attrs = $chapter->attrs;
 
         return [
             'id' => $chapter->id,
