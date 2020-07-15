@@ -23,7 +23,7 @@
                     <div class="footer">
                         <span class="time">{{ date('Y-m-d H:i',item.create_time) }}</span>
                         <span class="like">
-                            <i class="layui-icon layui-icon-praise like-icon" title="点赞" data-url="{{ like_url }}"></i>
+                            <i class="layui-icon layui-icon-praise icon-praise" title="点赞" data-url="{{ like_url }}"></i>
                             <em class="like-count">{{ item.like_count }}</em>
                         </span>
                     </div>

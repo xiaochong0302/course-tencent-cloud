@@ -81,7 +81,7 @@ class SyncReviewCounterTask extends Task
 
     protected function allowRecount()
     {
-        return date('H') == 2;
+        return date('H') % 4 == 0;
     }
 
 }

@@ -30,14 +30,24 @@
         难度 <span>{{ level_info(course.level) }}</span>
         课时 <span>{{ course.lesson_count }}</span>
         学员 <span>{{ course.user_count }}</span>
-        收藏 <span>{{ course.favorite_count }}</span>
         评分 <span>{{ course.rating }}</span>
     </p>
+
+    {% set favorite_url = url({'for':'web.course.favorite','id':course.id}) %}
+    {% set course_url = url({'for':'web.course.show','id':course.id}) %}
+    {% set qrcode_url = url({'for':'web.qrcode_img'},{'text':'http://baidu.com','size':5}) %}
+
+    <div class="layui-hide">
+        <input type="hidden" name="course.title" value="{{ course.title }}">
+        <input type="hidden" name="course.cover" value="{{ course.cover }}">
+        <input type="hidden" name="course.url" value="{{ course_url }}">
+        <input type="hidden" name="course.qrcode" value="{{ qrcode_url }}">
+    </div>
+
     <div class="share">
-        <a class="favorite" href="javascript:"><i class="layui-icon layui-icon-heart"></i></a>
-        <a class="mobile" href="javascript:"><i class="layui-icon layui-icon-cellphone"></i></a>
-        <a class="weibo" href="javascript:"><i class="layui-icon layui-icon-login-weibo"></i></a>
-        <a class="wechat" href="javascript:"><i class="layui-icon layui-icon-login-wechat"></i></a>
-        <a class="qq" href="javascript:"><i class="layui-icon layui-icon-login-qq"></i></a>
+        <a href="javascript:" title="收藏" data-url="{{ favorite_url }}"><i class="layui-icon layui-icon-heart icon-heart"></i></a>
+        <a href="javascript:" title="分享到微信" data-url="{{ qrcode_url }}"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
+        <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
+        <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
     </div>
 </div>

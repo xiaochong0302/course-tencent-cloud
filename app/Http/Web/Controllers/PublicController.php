@@ -44,7 +44,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     {
         $text = $this->request->getQuery('text');
         $level = $this->request->getQuery('level', 'int', 0);
-        $size = $this->request->getQuery('size', 'int', 3);
+        $size = $this->request->getQuery('size', 'int', 5);
 
         $url = urldecode($text);
 

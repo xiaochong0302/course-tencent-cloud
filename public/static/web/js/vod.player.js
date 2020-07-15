@@ -17,9 +17,6 @@ layui.use(['jquery', 'form', 'slider', 'layer', 'helper'], function () {
     var danmuListUrl = $('input[name="chapter.danmu_url"]').val();
     var playUrls = JSON.parse($('input[name="chapter.play_urls"]').val());
     var $danmuText = $('input[name="danmu.text"]');
-    var $danmuColor = $('input[name="danmu.color"]');
-    var $danmuSize = $('input[name="danmu.size"]');
-    var $danmuPosition = $('input[name="danmu.position"]');
 
     var playerOptions = {
         autoplay: false,

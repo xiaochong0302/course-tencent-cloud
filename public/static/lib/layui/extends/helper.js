@@ -1,8 +1,9 @@
-layui.define(['jquery', 'element'], function (exports) {
+layui.define(['jquery', 'element', 'layer'], function (exports) {
 
     var MOD_NAME = 'helper';
     var $ = layui.jquery;
     var element = layui.element;
+    var layer = layui.layer;
 
     var helper = {};
 
@@ -14,6 +15,14 @@ layui.define(['jquery', 'element'], function (exports) {
             $target.html(html);
             element.init();
         });
+    };
+
+    helper.checkLogin = function () {
+        if (window.koogua.user.id === '0') {
+            layer.msg('继续操作前请登录或者注册', {icon: 2, anim: 6});
+            return false;
+        }
+        return true;
     };
 
     helper.getRequestId = function () {

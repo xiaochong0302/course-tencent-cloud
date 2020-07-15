@@ -57,7 +57,6 @@ class SyncChapterCounterTask extends Task
             if ($allowRecount) {
 
                 $chapter->user_count = $chapterRepo->countUsers($chapter->id);
-                $chapter->lesson_count = $chapterRepo->countLessons($chapter->id);
                 $chapter->comment_count = $chapterRepo->countComments($chapter->id);
                 $chapter->like_count = $chapterRepo->countLikes($chapter->id);
                 $chapter->update();
@@ -72,7 +71,6 @@ class SyncChapterCounterTask extends Task
                 if ($counter) {
 
                     $chapter->user_count = $counter['user_count'];
-                    $chapter->lesson_count = $counter['lesson_count'];
                     $chapter->comment_count = $counter['comment_count'];
                     $chapter->like_count = $counter['like_count'];
                     $chapter->update();
@@ -94,7 +92,7 @@ class SyncChapterCounterTask extends Task
 
     protected function allowRecount()
     {
-        return date('H') % 2 == 0;
+        return date('H') % 3 == 0;
     }
 
 }

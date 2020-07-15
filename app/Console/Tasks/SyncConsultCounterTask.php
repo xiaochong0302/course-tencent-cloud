@@ -81,7 +81,7 @@ class SyncConsultCounterTask extends Task
 
     protected function allowRecount()
     {
-        return date('H') == 1;
+        return date('H') % 4 == 0;
     }
 
 }

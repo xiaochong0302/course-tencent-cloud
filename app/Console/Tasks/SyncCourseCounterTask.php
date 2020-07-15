@@ -71,12 +71,15 @@ class SyncCourseCounterTask extends Task
                 $counter = $counterCache->get($course->id);
 
                 if ($counter) {
+
                     $course->user_count = $counter['user_count'];
                     $course->comment_count = $counter['comment_count'];
                     $course->consult_count = $counter['consult_count'];
                     $course->review_count = $counter['review_count'];
                     $course->favorite_count = $counter['favorite_count'];
                     $course->update();
+
+                    $courseCache->rebuild($course->id);
                 }
             }
         }
@@ -93,7 +96,7 @@ class SyncCourseCounterTask extends Task
 
     protected function allowRecount()
     {
-        return date('H') % 2 == 0;
+        return date('H') % 3 == 0;
     }
 
 }

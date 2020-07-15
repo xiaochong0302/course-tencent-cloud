@@ -1,9 +1,3 @@
-::-webkit-scrollbar-button {
-    height: 0;
-    width: 0;
-    display: none;
-}
-
 .full {
     background-color: #f2f2f2;
 }
@@ -42,6 +36,12 @@
 
 .text-center {
     text-align: center;
+}
+
+.qrcode img {
+    width: 160px;
+    height: 160px;
+    border: 3px dashed #ccc;
 }
 
 .breadcrumb {
@@ -468,6 +468,29 @@ body {
     line-height: 30px;
 }
 
+.course-tab-wrap {
+    position: relative;
+}
+
+.course-tab-wrap .tab-count {
+    position: absolute;
+    top: 25px;
+    font-size: 12px;
+    color: #666;
+}
+
+.course-tab-wrap .package-count {
+    left: 275px;
+}
+
+.course-tab-wrap .consult-count {
+    left: 370px;
+}
+
+.course-tab-wrap .review-count {
+    left: 465px;
+}
+
 .course-tab {
     margin: 0;
 }
@@ -613,7 +636,7 @@ body {
 
 .package-course-card .title {
     font-size: 12px;
-    padding: 0 3px;
+    padding: 0 5px;
     text-align: center;
     white-space: normal;
 }
@@ -684,16 +707,16 @@ body {
     margin-right: 10px;
 }
 
-.review-card .like-icon {
+.like .icon-praise {
     margin-right: 5px;
     cursor: pointer;
 }
 
-.like .active, .like .like-icon:hover {
+.like .active, .like .icon-praise:hover {
     color: green;
 }
 
-.review-card .like-count {
+.like .like-count {
     font-style: normal;
 }
 
@@ -786,15 +809,6 @@ body {
 
 .sidebar-chapter .layui-field-title legend {
     text-align: center;
-}
-
-.sidebar-chapter-list::-webkit-scrollbar {
-    width: 5px;
-}
-
-.sidebar-chapter-list::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-chapter-list {
@@ -898,15 +912,6 @@ body {
     height: 380px;
     margin-bottom: 10px;
     overflow-y: auto;
-}
-
-.chat-msg-list::-webkit-scrollbar {
-    width: 5px;
-}
-
-.chat-msg-list::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.1);
 }
 
 .chat-msg-list .chat, .chat-msg-list .chat-sys {

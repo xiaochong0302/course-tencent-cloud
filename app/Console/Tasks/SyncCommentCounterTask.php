@@ -83,7 +83,7 @@ class SyncCommentCounterTask extends Task
 
     protected function allowRecount()
     {
-        return date('H') == 5;
+        return date('H') % 4 == 0;
     }
 
 }

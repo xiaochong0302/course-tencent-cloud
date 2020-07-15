@@ -25,7 +25,16 @@
         {% set show_tab_reviews = course.review_count > 0 ? 1 : 0 %}
 
         <div class="layout-content">
-            <div class="wrap">
+            <div class="course-tab-wrap wrap">
+                {% if show_tab_packages == 1 %}
+                    <span class="tab-count package-count">{{ course.package_count }}</span>
+                {% endif %}
+                {% if show_tab_consults == 1 %}
+                    <span class="tab-count consult-count">{{ course.consult_count }}</span>
+                {% endif %}
+                {% if show_tab_reviews == 1 %}
+                    <span class="tab-count review-count">{{ course.review_count }}</span>
+                {% endif %}
                 <div class="layui-tab layui-tab-brief course-tab">
                     <ul class="layui-tab-title">
                         <li class="layui-this">详情</li>
@@ -92,6 +101,7 @@
 
 {% block include_js %}
 
+    {{ js_include('web/js/share.js') }}
     {{ js_include('web/js/course.show.js') }}
 
 {% endblock %}
