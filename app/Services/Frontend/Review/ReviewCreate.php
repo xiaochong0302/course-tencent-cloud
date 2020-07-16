@@ -5,6 +5,7 @@ namespace App\Services\Frontend\Review;
 use App\Models\Course as CourseModel;
 use App\Models\Review as ReviewModel;
 use App\Models\User as UserModel;
+use App\Repos\CourseRating as CourseRatingRepo;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\CourseUser as CourseUserValidator;
@@ -48,11 +49,29 @@ class ReviewCreate extends FrontendService
 
         $review->create($data);
 
+        $this->updateCourseRating($course);
+
         $this->incrCourseReviewCount($course);
 
         $this->incrUserDailyReviewCount($user);
 
         return $review;
+    }
+
+    protected function updateCourseRating(CourseModel $course)
+    {
+        $repo = new CourseRatingRepo();
+
+        $courseRating = $repo->findByCourseId($course->id);
+
+        $courseRating->rating = $repo->averageRating($course->id);
+        $courseRating->rating1 = $repo->averageRating1($course->id);
+        $courseRating->rating2 = $repo->averageRating2($course->id);
+        $courseRating->rating3 = $repo->averageRating3($course->id);
+        $courseRating->update();
+
+        $course->rating = $courseRating->rating;
+        $course->update();
     }
 
     protected function incrCourseReviewCount(CourseModel $course)

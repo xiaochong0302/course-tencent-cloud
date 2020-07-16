@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
-
 class CourseRating extends Model
 {
 
@@ -43,13 +41,6 @@ class CourseRating extends Model
     public $rating3;
 
     /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted;
-
-    /**
      * 创建时间
      *
      * @var int
@@ -66,18 +57,6 @@ class CourseRating extends Model
     public function getSource(): string
     {
         return 'kg_course_rating';
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->addBehavior(
-            new SoftDelete([
-                'field' => 'deleted',
-                'value' => 1,
-            ])
-        );
     }
 
     public function beforeCreate()

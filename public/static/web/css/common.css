@@ -468,27 +468,16 @@ body {
     line-height: 30px;
 }
 
-.course-tab-wrap {
+.layui-tab-title li {
     position: relative;
 }
 
-.course-tab-wrap .tab-count {
+.layui-tab-title .tab-count {
     position: absolute;
-    top: 25px;
+    top: -10px;
+    left: 70px;
     font-size: 12px;
     color: #666;
-}
-
-.course-tab-wrap .package-count {
-    left: 275px;
-}
-
-.course-tab-wrap .consult-count {
-    left: 370px;
-}
-
-.course-tab-wrap .review-count {
-    left: 465px;
 }
 
 .course-tab {
@@ -803,8 +792,13 @@ body {
     margin-right: 10px;
 }
 
+.sidebar-chapter {
+    padding: 20px 15px;
+}
+
 .sidebar-chapter .layui-field-title {
     margin-top: 0;
+    margin-bottom: 0;
 }
 
 .sidebar-chapter .layui-field-title legend {
@@ -820,11 +814,10 @@ body {
     padding-top: 10px;
     margin-bottom: 10px;
     color: #333;
-    background-color: #fff;
 }
 
 .sidebar-lesson-list {
-    margin-left: 15px;
+    margin-left: 10px;
 }
 
 .sidebar-lesson-list .lesson-title {
@@ -845,50 +838,54 @@ body {
 }
 
 .read-info {
-    min-height: 428px;
+    min-height: 454px;
     margin-bottom: 0;
 }
 
 .chapter-action {
-    position: relative;
-    padding: 20px;
+    height: 32px;
+    line-height: 32px;
     margin-bottom: 0;
 }
 
-.chapter-action .layui-icon {
+.chapter-action .share {
+    float: left;
+}
+
+.chapter-action .danmu-form {
+    float: right;
+}
+
+.share .layui-icon {
     margin-right: 5px;
     cursor: pointer;
 }
 
-.chapter-action .active, .chapter-action .layui-icon:hover {
+.share .active, .share .layui-icon:hover {
     color: green;
 }
 
-.chapter-action span {
+.share a {
     margin-right: 5px;
 }
 
-.chapter-action i {
+.share i {
     margin-right: 5px;
 }
 
-.chapter-action em {
+.share em {
     font-style: normal;
-    color: #999;
+    color: #666;
 }
 
-#icon-danmu-set {
-    position: absolute;
-    top: 22px;
-    right: 530px;
+.danmu-form .icon-danmu-set {
+    margin-right: 5px;
 }
 
-.chapter-action .layui-input {
-    position: absolute;
-    top: 15px;
-    right: 20px;
+.danmu-form .layui-input {
     width: 500px;
     height: 32px;
+    display: inline;
     line-height: 32px;
     font-size: 12px;
 }

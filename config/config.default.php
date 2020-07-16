@@ -83,19 +83,24 @@ $config['redis']['port'] = 6379;
 $config['redis']['auth'] = '1qaz2wsx3edc';
 
 /**
- * redis库编号
+ * 缓存所用redis库编号
  */
-$config['redis']['index'] = 0;
+$config['cache']['db'] = 0;
 
 /**
  * 缓存有效期（秒）
  */
-$config['redis']['lifetime'] = 2 * 86400;
+$config['cache']['lifetime'] = 2 * 3600;
+
+/**
+ * 会话所用redis库编号
+ */
+$config['session']['db'] = 0;
 
 /**
  * 会话有效期（秒）
  */
-$config['session']['lifetime'] = 2 * 3600;
+$config['session']['lifetime'] = 24 * 3600;
 
 /**
  * 访问令牌有效期（秒）

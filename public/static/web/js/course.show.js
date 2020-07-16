@@ -4,11 +4,11 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     var layer = layui.layer;
     var helper = layui.helper;
 
-    var course = {
-        title: $('input[name="course.title"]').val(),
-        cover: $('input[name="course.cover"]').val(),
-        url: $('input[name="course.url"]').val(),
-        qrcode: $('input[name="course.qrcode"]').val()
+    var myShare = {
+        title: $('input[name="share.title"]').val(),
+        pic: $('input[name="share.cover"]').val(),
+        url: $('input[name="share.url"]').val(),
+        qrcode: $('input[name="share.qrcode"]').val()
     };
 
     $('.rating-btn').on('click', function () {
@@ -44,7 +44,7 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     });
 
     $('.icon-wechat').on('click', function () {
-        var content = '<div class="qrcode"><img src="' + course.qrcode + '" alt="分享到微信"></div>';
+        var content = '<div class="qrcode"><img src="' + myShare.qrcode + '" alt="分享到微信"></div>';
         layer.open({
             type: 1,
             title: false,
@@ -55,13 +55,13 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     });
 
     $('.icon-qq').on('click', function () {
-        var title = '推荐一门好课：' + course.title + '，快来和我一起学习吧！';
-        Share.qq(title, null, course.cover);
+        var title = '推荐一门好课：' + myShare.title + '，快来和我一起学习吧！';
+        Share.qq(title, myShare.url, myShare.pic);
     });
 
     $('.icon-weibo').on('click', function () {
-        var title = '推荐一门好课：' + course.title + '，快来和我一起学习吧！';
-        Share.weibo(title, null, course.cover);
+        var title = '推荐一门好课：' + myShare.title + '，快来和我一起学习吧！';
+        Share.weibo(title, myShare.url, myShare.pic);
     });
 
     $('body').on('click', '.icon-praise', function () {

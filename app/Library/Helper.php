@@ -314,7 +314,7 @@ function kg_can($route = null)
 /**
  * 构造icon路径
  *
- * @param $path
+ * @param string $path
  * @param bool $local
  * @param string $version
  * @return string
@@ -329,7 +329,7 @@ function kg_icon_link($path, $local = true, $version = null)
 /**
  * 构造css路径
  *
- * @param $path
+ * @param string $path
  * @param bool $local
  * @param string $version
  * @return string
@@ -344,7 +344,7 @@ function kg_css_link($path, $local = true, $version = null)
 /**
  * 构造js引入
  *
- * @param $path
+ * @param string $path
  * @param bool $local
  * @param string $version
  * @return string
@@ -359,7 +359,7 @@ function kg_js_include($path, $local = true, $version = null)
 /**
  * 构造静态url
  *
- * @param $path
+ * @param string $path
  * @param bool $local
  * @param string $version
  * @return string
@@ -378,4 +378,23 @@ function kg_static_url($path, $local = true, $version = null)
     }
 
     return $url;
+}
+
+/**
+ * 构造全路径url
+ *
+ * @param mixed $uri
+ * @param mixed $args
+ * @return string
+ */
+function kg_full_url($uri, $args = null)
+{
+    /**
+     * @var $url Phalcon\Mvc\Url
+     */
+    $url = Di::getDefault()->getShared('url');
+
+    $baseUrl = kg_site_base_url();
+
+    return $baseUrl . $url->get($uri, $args);
 }

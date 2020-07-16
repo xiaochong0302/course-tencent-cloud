@@ -108,7 +108,7 @@ class HttpErrorHandler extends Component
     {
         $content = $this->translate($e->getMessage());
 
-        $this->flash->error($content);
+        $this->flashSession->error($content['msg']);
 
         $code = $this->response->getStatusCode();
 

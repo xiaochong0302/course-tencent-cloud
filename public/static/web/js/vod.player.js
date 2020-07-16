@@ -1,8 +1,7 @@
-layui.use(['jquery', 'form', 'slider', 'layer', 'helper'], function () {
+layui.use(['jquery', 'form', 'layer', 'helper'], function () {
 
     var $ = layui.jquery;
     var form = layui.form;
-    var slider = layui.slider;
     var layer = layui.layer;
     var helper = layui.helper;
 
@@ -65,10 +64,6 @@ layui.use(['jquery', 'form', 'slider', 'layer', 'helper'], function () {
     });
 
     initDanmu();
-
-    $('#icon-danmu-set').on('click', function () {
-        showMyDanmuSet();
-    });
 
     form.on('switch(danmu.status)', function (data) {
         if (data.elem.checked) {
@@ -162,15 +157,6 @@ layui.use(['jquery', 'form', 'slider', 'layer', 'helper'], function () {
                 }
             });
         }
-    }
-
-    function showMyDanmuSet() {
-        layer.open({
-            type: 1,
-            title: '弹幕设置',
-            area: '600px',
-            content: $('#my-danmu-set')
-        });
     }
 
     function startDanmu() {

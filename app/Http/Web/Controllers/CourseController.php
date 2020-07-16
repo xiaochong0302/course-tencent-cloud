@@ -107,6 +107,7 @@ class CourseController extends Controller
         $packages = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('course/show_packages');
         $this->view->setVar('packages', $packages);
     }
 
@@ -122,6 +123,7 @@ class CourseController extends Controller
         $pager->target = 'tab-consults';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('course/show_consults');
         $this->view->setVar('pager', $pager);
     }
 
@@ -137,6 +139,7 @@ class CourseController extends Controller
         $pager->target = 'tab-reviews';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('course/show_reviews');
         $this->view->setVar('pager', $pager);
     }
 
@@ -150,6 +153,7 @@ class CourseController extends Controller
         $courses = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('course/show_recommended');
         $this->view->setVar('courses', $courses);
     }
 
@@ -163,6 +167,7 @@ class CourseController extends Controller
         $courses = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('course/show_related');
         $this->view->setVar('courses', $courses);
     }
 
@@ -176,19 +181,8 @@ class CourseController extends Controller
         $topics = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('course/show_topics');
         $this->view->setVar('topics', $topics);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/reward", name="web.course.reward")
-     */
-    public function rewardAction($id)
-    {
-        $service = new RewardOptionList();
-
-        $options = $service->handle();
-
-        $this->view->setVar('options', $options);
     }
 
     /**
@@ -200,6 +194,7 @@ class CourseController extends Controller
 
         $course = $service->handle($id);
 
+        $this->view->pick('course/rating');
         $this->view->setVar('course', $course);
     }
 

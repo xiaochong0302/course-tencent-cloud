@@ -43,12 +43,16 @@ class CloseTradeTask extends Task
         $alipayTrade = $alipay->find($trade->sn);
 
         if ($alipayTrade) {
+
             /**
              * 异步通知接收异常，补救漏网
              */
             if ($alipayTrade->trade_status == 'TRADE_SUCCESS') {
+
                 $this->eventsManager->fire('pay:afterPay', $this, $trade);
+
                 $allowClosed = false;
+
             } elseif ($alipayTrade->trade_status == 'WAIT_BUYER_PAY') {
                 $alipay->close($trade->sn);
             }
@@ -75,12 +79,16 @@ class CloseTradeTask extends Task
         $wxpayTrade = $wxpay->find($trade->sn);
 
         if ($wxpayTrade) {
+
             /**
              * 异步通知接收异常，补救漏网
              */
             if ($wxpayTrade->trade_state == 'SUCCESS') {
+
                 $this->eventsManager->fire('pay:afterPay', $this, $trade);
+
                 $allowClosed = false;
+
             } elseif ($wxpayTrade->trade_state == 'NOTPAY') {
                 $wxpay->close($trade->sn);
             }

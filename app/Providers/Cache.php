@@ -17,14 +17,14 @@ class Cache extends Provider
             $config = $this->getShared('config');
 
             $frontend = new IgbinaryFrontend([
-                'lifetime' => $config->redis->lifetime,
+                'lifetime' => $config->cache->lifetime,
             ]);
 
             return new RedisBackend($frontend, [
                 'host' => $config->redis->host,
                 'port' => $config->redis->port,
                 'auth' => $config->redis->auth,
-                'index' => $config->redis->index,
+                'index' => $config->cache->db,
             ]);
         });
     }

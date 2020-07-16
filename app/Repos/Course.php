@@ -8,16 +8,15 @@ use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\Comment as CommentModel;
 use App\Models\Consult as ConsultModel;
-use App\Models\ConsultLike as ConsultLikeModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
 use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\CoursePackage as CoursePackageModel;
+use App\Models\CourseRating as CourseRatingModel;
 use App\Models\CourseRelated as CourseRelatedModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\Package as PackageModel;
 use App\Models\Review as ReviewModel;
-use App\Models\ReviewLike as ReviewLikeModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -134,6 +133,18 @@ class Course extends Repository
 
     /**
      * @param int $courseId
+     * @return CourseRatingModel|Model|bool
+     */
+    public function findCourseRating($courseId)
+    {
+        return CourseRatingModel::findFirst([
+            'conditions' => 'course_id = :course_id:',
+            'bind' => ['course_id' => $courseId],
+        ]);
+    }
+
+    /**
+     * @param int $courseId
      * @return ResultsetInterface|Resultset|UserModel[]
      */
     public function findTeachers($courseId)
@@ -232,38 +243,6 @@ class Course extends Repository
             ->andWhere('user_id = :user_id:', ['user_id' => $userId])
             ->andWhere('plan_id = :plan_id:', ['plan_id' => $planId])
             ->execute();
-    }
-
-    /**
-     * @param int $courseId
-     * @param int $userId
-     * @return ResultsetInterface|Resultset|ConsultLikeModel[]
-     */
-    public function findUserConsultLikes($courseId, $userId)
-    {
-        return $this->modelsManager->createBuilder()
-            ->columns('cv.*')
-            ->addFrom(ConsultModel::class, 'c')
-            ->join(ConsultLikeModel::class, 'c.id = cv.consult_id', 'cv')
-            ->where('c.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('cv.user_id = :user_id:', ['user_id' => $userId])
-            ->getQuery()->execute();
-    }
-
-    /**
-     * @param int $courseId
-     * @param int $userId
-     * @return ResultsetInterface|Resultset|ReviewLikeModel[]
-     */
-    public function findUserReviewLikes($courseId, $userId)
-    {
-        return $this->modelsManager->createBuilder()
-            ->columns('rv.*')
-            ->addFrom(ReviewModel::class, 'r')
-            ->join(ReviewLikeModel::class, 'r.id = rv.review_id', 'rv')
-            ->where('r.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('rv.user_id = :user_id:', ['user_id' => $userId])
-            ->getQuery()->execute();
     }
 
     public function countLessons($courseId)

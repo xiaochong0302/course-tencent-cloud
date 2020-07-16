@@ -34,14 +34,14 @@
     </p>
 
     {% set favorite_url = url({'for':'web.course.favorite','id':course.id}) %}
-    {% set course_url = url({'for':'web.course.show','id':course.id}) %}
-    {% set qrcode_url = url({'for':'web.qrcode_img'},{'text':'http://baidu.com','size':5}) %}
+    {% set full_course_url = full_url({'for':'web.course.show','id':course.id}) %}
+    {% set qrcode_url = url({'for':'web.qrcode_img'},{'text':full_course_url}) %}
 
     <div class="layui-hide">
-        <input type="hidden" name="course.title" value="{{ course.title }}">
-        <input type="hidden" name="course.cover" value="{{ course.cover }}">
-        <input type="hidden" name="course.url" value="{{ course_url }}">
-        <input type="hidden" name="course.qrcode" value="{{ qrcode_url }}">
+        <input type="hidden" name="share.title" value="{{ course.title }}">
+        <input type="hidden" name="share.pic" value="{{ course.cover }}">
+        <input type="hidden" name="share.url" value="{{ full_course_url }}">
+        <input type="hidden" name="share.qrcode" value="{{ qrcode_url }}">
     </div>
 
     <div class="share">
