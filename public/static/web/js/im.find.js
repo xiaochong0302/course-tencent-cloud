@@ -34,10 +34,6 @@ layui.use(['jquery', 'form', 'layer', 'layim', 'helper'], function () {
                     success: function (res) {
                         layer.msg(res.msg, {icon: 1});
                         layer.close(index);
-                    },
-                    error: function (xhr) {
-                        var res = JSON.parse(xhr.responseText);
-                        layer.msg(res.msg, {icon: 2});
                     }
                 });
             }
@@ -63,10 +59,6 @@ layui.use(['jquery', 'form', 'layer', 'layim', 'helper'], function () {
                     success: function (res) {
                         layer.msg(res.msg, {icon: 1});
                         layer.close(index);
-                    },
-                    error: function (xhr) {
-                        var res = JSON.parse(xhr.responseText);
-                        layer.msg(res.msg, {icon: 2});
                     }
                 });
             }

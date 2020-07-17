@@ -35,22 +35,22 @@ class ChapterController extends Controller
 
         $service = new CourseChapterListService();
 
-        $chapters = $service->handle($chapter['course']['id']);
+        $contents = $service->handle($chapter['course']['id']);
 
         $this->siteSeo->prependTitle([$chapter['title'], $chapter['course']['title']]);
         $this->siteSeo->setKeywords($chapter['title']);
         $this->siteSeo->setDescription($chapter['summary']);
 
         if ($chapter['model'] == 'vod') {
-            $this->view->pick('chapter/show_vod');
+            $this->view->pick('chapter/vod');
         } elseif ($chapter['model'] == 'live') {
-            $this->view->pick('chapter/show_live');
+            $this->view->pick('chapter/live');
         } elseif ($chapter['model'] == 'read') {
-            $this->view->pick('chapter/show_read');
+            $this->view->pick('chapter/read');
         }
 
         $this->view->setVar('chapter', $chapter);
-        $this->view->setVar('chapters', $chapters);
+        $this->view->setVar('contents', $contents);
     }
 
     /**

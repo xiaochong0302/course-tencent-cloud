@@ -4,7 +4,7 @@
 
     {{ partial('partials/macro_course') }}
 
-    {% set vip_flag = user.vip ? '<i class="layui-icon layui-icon-diamond vip-icon"></i>' : '' %}
+    {% set vip_flag = user.vip ? '<i class="layui-icon layui-icon-diamond icon-vip"></i>' : '' %}
 
     <div class="user-profile wrap clearfix">
         <div class="avatar">

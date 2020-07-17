@@ -92,7 +92,7 @@
 
 {% block include_js %}
 
-    {{ js_include('web/js/share.js') }}
     {{ js_include('web/js/course.show.js') }}
+    {{ js_include('web/js/course.share.js') }}
 
 {% endblock %}

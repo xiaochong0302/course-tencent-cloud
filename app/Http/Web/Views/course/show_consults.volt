@@ -14,10 +14,10 @@
                     <div class="content">{{ item.answer }}</div>
                     <div class="footer">
                         <span class="time">{{ date('Y-m-d H:i',item.create_time) }}</span>
-                        <span class="like">
-                            <i class="layui-icon layui-icon-praise icon-praise" data-url="{{ like_url }}"></i>
+                        <a href="javascript:" class="like" title="点赞" data-url="{{ like_url }}">
+                            <i class="layui-icon layui-icon-praise icon-praise"></i>
                             <em class="like-count">{{ item.like_count }}</em>
-                        </span>
+                        </a>
                     </div>
                 </div>
             </div>

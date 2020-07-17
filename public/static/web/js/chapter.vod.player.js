@@ -56,10 +56,34 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         player.currentTime(position);
     }
 
+    $('.icon-danmu-set').on('click', function () {
+        layer.open({
+            type: 1,
+            title: '弹幕设置',
+            area: '600px',
+            shadeClose: true,
+            content: $('#my-danmu-set')
+        });
+    });
+
+    var dt = null;
+
+    /**
+     * 控制弹幕表单的可见性
+     */
+    $('#player').hover(function () {
+        clearTimeout(dt);
+        $('.danmu-form').show();
+    }, function () {
+        dt = setTimeout(function () {
+            $('.danmu-form').hide();
+        }, 2500);
+    });
+
     $('#danmu').danmu({
         left: 20,
         top: 20,
-        width: 750,
+        width: 760,
         height: 380
     });
 
@@ -101,10 +125,6 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
                     isnew: 1
                 });
                 $danmuText.val('');
-            },
-            error: function (xhr) {
-                var res = JSON.parse(xhr.responseText);
-                layer.msg(res.msg, {icon: 2});
             }
         });
         return false;

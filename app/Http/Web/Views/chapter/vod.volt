@@ -2,16 +2,23 @@
 
 {% block content %}
 
-    {% set chapter_url = url({'for':'web.chapter.show','id':chapter.id}) %}
-    {% set danmu_url = url({'for':'web.chapter.danmu','id':chapter.id}) %}
+    {% set chapter_full_url = full_url({'for':'web.chapter.show','id':chapter.id}) %}
     {% set learning_url = url({'for':'web.chapter.learning','id':chapter.id}) %}
+    {% set danmu_url = url({'for':'web.chapter.danmu','id':chapter.id}) %}
     {% set like_url = url({'for':'web.chapter.like','id':chapter.id}) %}
-    {% set qrcode_url = url({'for':'web.qrcode_img'},{'text':'http://baidu.com','size':5}) %}
+    {% set qrcode_url = url({'for':'web.qrcode_img'},{'text':chapter_full_url}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a><cite>{{ chapter.course.title }}</cite></a>
             <a><cite>{{ chapter.title }}</cite></a>
+        </span>
+        <span class="share">
+            <a href="javascript:" title="点赞" data-url="{{ like_url }}"><i class="layui-icon layui-icon-praise icon-praise"></i><em class="like-count">{{ chapter.like_count }}</em></a>
+            <a href="javascript:" title="学习人次"><i class="layui-icon layui-icon-user"></i><em>{{ chapter.user_count }}</em></a>
+            <a href="javascript:" title="分享到微信" data-url=""><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
+            <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
+            <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
         </span>
     </div>
 
@@ -20,19 +27,10 @@
             <div class="player-wrap wrap">
                 <div id="player"></div>
                 <div id="danmu"></div>
-            </div>
-            <div class="chapter-action wrap clearfix">
-                <div class="share">
-                    <a href="javascript:" title="点赞" data-url="{{ like_url }}"><i class="layui-icon layui-icon-praise icon-praise"></i><em class="like-count">{{ chapter.like_count }}</em></a>
-                    <a href="javascript:" title="学习人次"><i class="layui-icon layui-icon-user"></i><em>{{ chapter.user_count }}</em></a>
-                    <a href="javascript:" title="分享到微信" data-url=""><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
-                    <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
-                    <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
-                </div>
                 <form class="layui-form danmu-form" lay-filter="danmu.form" action="{{ url({'for':'web.danmu.create'}) }}">
-                    <a href="javascript:" title="弹幕设置"><i class="layui-icon layui-icon-set icon-danmu-set"></i></a>
                     {% if auth_user.id > 0 %}
-                        <input class="layui-input" type="text" name="danmu.text" maxlength="50" placeholder="快来发个弹幕吧" lay-verType="tips" lay-verify="required">
+                        <a href="javascript:" title="弹幕设置"><i class="layui-icon layui-icon-set icon-danmu-set"></i></a>
+                        <input class="layui-input" type="text" name="danmu.text" autocomplete="off" maxlength="50" placeholder="快来发个弹幕吧" lay-verType="tips" lay-verify="required">
                     {% else %}
                         <input class="layui-input" type="text" name="danmu.text" placeholder="登录后才可以发送弹幕哦" readonly="readonly">
                     {% endif %}
@@ -41,7 +39,7 @@
             </div>
         </div>
         <div class="layout-sidebar">
-            {{ partial('chapter/menu') }}
+            {{ partial('chapter/contents') }}
         </div>
     </div>
 
@@ -103,7 +101,7 @@
     <div class="layui-hide">
         <input type="hidden" name="share.title" value="{{ chapter.course.title }}">
         <input type="hidden" name="share.pic" value="{{ chapter.course.cover }}">
-        <input type="hidden" name="share.url" value="{{ chapter_url }}">
+        <input type="hidden" name="share.url" value="{{ chapter_full_url }}">
         <input type="hidden" name="share.qrcode" value="{{ qrcode_url }}">
     </div>
 
@@ -115,8 +113,7 @@
 
     {{ js_include('lib/jquery.min.js') }}
     {{ js_include('lib/jquery.danmu.min.js') }}
-    {{ js_include('web/js/share.js') }}
-    {{ js_include('web/js/vod.player.js') }}
-    {{ js_include('web/js/chapter.action.js') }}
+    {{ js_include('web/js/course.share.js') }}
+    {{ js_include('web/js/chapter.vod.player.js') }}
 
 {% endblock %}

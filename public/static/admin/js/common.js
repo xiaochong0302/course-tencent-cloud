@@ -15,6 +15,24 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
     $.ajaxSetup({
         beforeSend: function (xhr) {
             xhr.setRequestHeader('X-Csrf-Token', $token.attr('content'));
+        },
+        statusCode: {
+            400: function (xhr) {
+                var res = JSON.parse(xhr.responseText);
+                layer.msg(res.msg, {icon: 2, anim: 6});
+            },
+            401: function () {
+                layer.msg('操作之前请先登录', {icon: 2, anim: 6});
+            },
+            403: function () {
+                layer.msg('操作受限', {icon: 2, anim: 6});
+            },
+            404: function () {
+                layer.msg('资源不存在', {icon: 2, anim: 6});
+            },
+            500: function () {
+                layer.msg('服务器内部错误', {icon: 2, anim: 6});
+            }
         }
     });
 
@@ -92,10 +110,6 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
             data: {priority: priority},
             success: function (res) {
                 layer.msg(res.msg, {icon: 1});
-            },
-            error: function (xhr) {
-                var json = JSON.parse(xhr.responseText);
-                layer.msg(json.msg, {icon: 2});
             }
         });
     });
@@ -116,10 +130,6 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
                     } else {
                         window.location.reload();
                     }
-                },
-                error: function (xhr) {
-                    var json = JSON.parse(xhr.responseText);
-                    layer.msg(json.msg, {icon: 2});
                 }
             });
         });

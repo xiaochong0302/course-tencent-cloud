@@ -45,6 +45,7 @@
 }
 
 .breadcrumb {
+    position: relative;
     margin-bottom: 20px;
 }
 
@@ -419,6 +420,12 @@ body {
     margin-right: 20px;
 }
 
+.breadcrumb .share {
+    position: absolute;
+    top: 2px;
+    right: -5px;
+}
+
 .course-meta .cover {
     float: left;
     margin-right: 10px;
@@ -498,7 +505,7 @@ body {
 }
 
 .course-details {
-    font-size: 12px;
+    line-height: 1.8em;
     color: #666;
 }
 
@@ -709,6 +716,10 @@ body {
     font-style: normal;
 }
 
+.sidebar-card .layui-card-header {
+    text-align: center;
+}
+
 .sidebar-order .order {
     margin-bottom: 10px;
 }
@@ -792,19 +803,6 @@ body {
     margin-right: 10px;
 }
 
-.sidebar-chapter {
-    padding: 20px 15px;
-}
-
-.sidebar-chapter .layui-field-title {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.sidebar-chapter .layui-field-title legend {
-    text-align: center;
-}
-
 .sidebar-chapter-list {
     height: 405px;
     overflow-y: auto;
@@ -822,7 +820,6 @@ body {
 
 .sidebar-lesson-list .lesson-title {
     line-height: 30px;
-    font-size: 12px;
 }
 
 .lesson-title .active {
@@ -838,22 +835,8 @@ body {
 }
 
 .read-info {
-    min-height: 454px;
+    min-height: 428px;
     margin-bottom: 0;
-}
-
-.chapter-action {
-    height: 32px;
-    line-height: 32px;
-    margin-bottom: 0;
-}
-
-.chapter-action .share {
-    float: left;
-}
-
-.chapter-action .danmu-form {
-    float: right;
 }
 
 .share .layui-icon {
@@ -878,35 +861,46 @@ body {
     color: #666;
 }
 
-.danmu-form .icon-danmu-set {
-    margin-right: 5px;
-}
-
-.danmu-form .layui-input {
-    width: 500px;
-    height: 32px;
-    display: inline;
-    line-height: 32px;
-    font-size: 12px;
-}
-
 .player-wrap {
     position: relative;
     width: 760px;
     height: 428px;
+    margin-bottom: 0;
 }
 
-.chat-wrap {
-    padding: 10px 20px 20px 20px;
-    background-color: white;
+.danmu-form {
+    position: relative;
+    left: 180px;
+    bottom: 38px;
+    width: 420px;
+    display: none;
 }
 
-.vip-icon {
-    color: orange;
+.danmu-form .icon-danmu-set {
+    margin-right: 5px;
+    color: white;
+}
+
+.danmu-form .layui-input {
+    width: 380px;
+    height: 28px;
+    display: inline;
+    line-height: 28px;
+    font-size: 12px;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.chat-wrap .layui-card-header {
+    text-align: center;
+}
+
+.chat-wrap .layui-card-body {
+    padding-bottom: 20px;
 }
 
 .chat-msg-list {
-    height: 380px;
+    height: 354px;
     margin-bottom: 10px;
     overflow-y: auto;
 }
@@ -929,35 +923,19 @@ body {
     color: orange;
 }
 
+.chat .icon-vip {
+    color: orange;
+}
+
 .chat .content {
     color: #666;
 }
 
-.chat-login-tips {
-    border-top: 1px solid #f2f2f2;
-    padding-top: 10px;
-    text-align: center;
-    font-size: 12px;
-    color: #999;
-}
-
 .chat-msg-form .layui-input {
     height: 32px;
+    line-height: 32px;
     font-size: 12px;
     color: #666;
-}
-
-.live-stats {
-    height: 420px;
-    color: #666;
-}
-
-.live-stats .stats {
-    margin-bottom: 15px;
-}
-
-.live-stats .count {
-    margin-right: 10px;
 }
 
 .vip-header {
@@ -1213,7 +1191,7 @@ body {
     border-radius: 100px;
 }
 
-.user-profile .vip-icon {
+.user-profile .icon-vip {
     color: orange;
 }
 
