@@ -82,8 +82,10 @@ class Comment extends Validator
 
         $like = $repo->findCommentLike($chapterId, $userId);
 
-        if ($like && time() - $like->create_time > 5 * 60) {
-            throw new BadRequestException('comment.has_liked');
+        if ($like) {
+            if ($like->deleted == 0 && time() - $like->create_time > 5 * 60) {
+                throw new BadRequestException('comment.has_liked');
+            }
         }
 
         return $like;

@@ -31,7 +31,7 @@ class TeacherController extends Controller
         $pager->target = 'teacher-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('teacher/list_pager');
+        $this->view->pick('teacher/ajax_pager');
         $this->view->setVar('pager', $pager);
     }
 

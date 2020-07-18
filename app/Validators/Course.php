@@ -249,8 +249,10 @@ class Course extends Validator
 
         $favorite = $repo->findCourseFavorite($courseId, $userId);
 
-        if ($favorite && time() - $favorite->create_time > 5 * 60) {
-            throw new BadRequestException('course.has_favorited');
+        if ($favorite) {
+            if ($favorite->deleted == 0 && time() - $favorite->create_time > 5 * 60) {
+                throw new BadRequestException('course.has_favorited');
+            }
         }
 
         return $favorite;

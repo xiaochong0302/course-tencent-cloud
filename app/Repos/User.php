@@ -111,4 +111,9 @@ class User extends Repository
             ->execute();
     }
 
+    public function countUsers()
+    {
+        return (int)UserModel::count(['conditions' => 'deleted = 0']);
+    }
+
 }

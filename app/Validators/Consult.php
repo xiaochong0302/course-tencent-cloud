@@ -87,8 +87,10 @@ class Consult extends Validator
 
         $like = $repo->findConsultLike($chapterId, $userId);
 
-        if ($like && time() - $like->create_time > 5 * 60) {
-            throw new BadRequestException('consult.has_liked');
+        if ($like) {
+            if ($like->deleted == 0 && time() - $like->create_time > 5 * 60) {
+                throw new BadRequestException('consult.has_liked');
+            }
         }
 
         return $like;

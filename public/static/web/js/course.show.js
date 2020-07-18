@@ -4,7 +4,40 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     var layer = layui.layer;
     var helper = layui.helper;
 
-    $('.rating-btn').on('click', function () {
+    $('.icon-star').on('click', function () {
+        var $this = $(this);
+        helper.checkLogin(function () {
+            $.ajax({
+                type: 'POST',
+                url: $this.parent().data('url'),
+                success: function () {
+                    if ($this.hasClass('layui-icon-star-fill')) {
+                        $this.removeClass('layui-icon-star-fill');
+                        $this.addClass('layui-icon-star');
+                    } else {
+                        $this.removeClass('layui-icon-star');
+                        $this.addClass('layui-icon-star-fill');
+                    }
+                }
+            });
+        });
+    });
+
+    $('.btn-reward').on('click', function () {
+        var url = $(this).data('url');
+        helper.checkLogin(function () {
+            window.location.href = url;
+        });
+    });
+
+    $('.btn-buy').on('click', function () {
+        var url = $(this).data('url');
+        helper.checkLogin(function () {
+            window.location.href = url;
+        });
+    });
+
+    $('.btn-rating').on('click', function () {
         var url = $(this).data('url');
         layer.open({
             type: 2,
@@ -18,22 +51,29 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         var $this = $(this);
         var $likeCount = $this.next();
         var likeCount = parseInt($likeCount.text());
-        $.ajax({
-            type: 'POST',
-            url: $this.parent().data('url'),
-            success: function () {
-                if ($this.hasClass('active')) {
-                    $this.removeClass('active');
-                    $likeCount.text(likeCount - 1);
-                    likeCount -= 1;
-                } else {
-                    $this.addClass('active');
-                    $likeCount.text(likeCount + 1);
-                    likeCount += 1;
+        helper.checkLogin(function () {
+            $.ajax({
+                type: 'POST',
+                url: $this.parent().data('url'),
+                success: function () {
+                    if ($this.hasClass('active')) {
+                        $this.removeClass('active');
+                        $likeCount.text(likeCount - 1);
+                        likeCount -= 1;
+                    } else {
+                        $this.addClass('active');
+                        $likeCount.text(likeCount + 1);
+                        likeCount += 1;
+                    }
                 }
-            }
+            });
         });
     });
+
+    if ($('#tab-chapters').length > 0) {
+        var $tabChapters = $('#tab-chapters');
+        helper.ajaxLoadHtml($tabChapters.data('url'), $tabChapters.attr('id'));
+    }
 
     if ($('#tab-packages').length > 0) {
         var $tabPackages = $('#tab-packages');
@@ -48,6 +88,11 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     if ($('#tab-reviews').length > 0) {
         var $tabReviews = $('#tab-reviews');
         helper.ajaxLoadHtml($tabReviews.data('url'), $tabReviews.attr('id'));
+    }
+
+    if ($('#sidebar-teachers').length > 0) {
+        var $sdTeachers = $('#sidebar-teachers');
+        helper.ajaxLoadHtml($sdTeachers.data('url'), $sdTeachers.attr('id'));
     }
 
     if ($('#sidebar-topics').length > 0) {

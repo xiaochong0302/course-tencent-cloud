@@ -4,7 +4,7 @@
             {% for item in pager.items %}
                 <div class="layui-col-md2">
                     <div class="user-card">
-                        {% if item.vip == 0 %}
+                        {% if item.vip == 1 %}
                             <span class="vip">会员</span>
                         {% endif %}
                         <div class="avatar">

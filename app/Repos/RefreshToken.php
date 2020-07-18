@@ -36,7 +36,7 @@ class RefreshToken extends Repository
 
     public function countByUserId($userId)
     {
-        return RefreshTokenModel::count([
+        return (int)RefreshTokenModel::count([
             'conditions' => 'user_id = :user_id: AND deleted = 0',
             'bind' => ['user_id' => $userId],
         ]);

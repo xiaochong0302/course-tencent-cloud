@@ -29,15 +29,14 @@ class TopicController extends Controller
      */
     public function coursesAction($id)
     {
-        $target = $this->request->get('target', 'trim', 'course-list');
-
         $service = new TopicCourseListService();
 
         $pager = $service->handle($id);
         $pager->items = kg_array_object($pager->items);
-        $pager->target = $target;
+        $pager->target = 'course-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('topic/ajax_courses');
         $this->view->setVar('pager', $pager);
     }
 

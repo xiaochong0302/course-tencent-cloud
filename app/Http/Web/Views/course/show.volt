@@ -20,6 +20,7 @@
 
     <div class="layout-main clearfix">
 
+        {% set show_tab_chapters = course.lesson_count > 0 ? 1 : 0 %}
         {% set show_tab_packages = course.package_count > 0 ? 1 : 0 %}
         {% set show_tab_consults = course.consult_count > 0 ? 1 : 0 %}
         {% set show_tab_reviews = course.review_count > 0 ? 1 : 0 %}
@@ -29,24 +30,27 @@
                 <div class="layui-tab layui-tab-brief course-tab">
                     <ul class="layui-tab-title">
                         <li class="layui-this">详情</li>
-                        <li>目录</li>
+                        {% if show_tab_chapters == 1 %}
+                            <li>目录<span class="tab-count">{{ course.lesson_count }}</span></li>
+                        {% endif %}
                         {% if show_tab_packages == 1 %}
-                            <li>套餐<span class="tab-count package-count">{{ course.package_count }}</span></li>
+                            <li>套餐<span class="tab-count">{{ course.package_count }}</span></li>
                         {% endif %}
                         {% if show_tab_consults == 1 %}
-                            <li>咨询<span class="tab-count consult-count">{{ course.consult_count }}</span></li>
+                            <li>咨询<span class="tab-count">{{ course.consult_count }}</span></li>
                         {% endif %}
                         {% if show_tab_reviews == 1 %}
-                            <li>评价<span class="tab-count review-count">{{ course.review_count }}</span></li>
+                            <li>评价<span class="tab-count">{{ course.review_count }}</span></li>
                         {% endif %}
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
                             <div class="course-details">{{ course.details }}</div>
                         </div>
-                        <div class="layui-tab-item">
-                            {{ partial('course/show_chapters') }}
-                        </div>
+                        {% if show_tab_chapters == 1 %}
+                            {% set chapters_url = url({'for':'web.course.chapters','id':course.id}) %}
+                            <div class="layui-tab-item" id="tab-chapters" data-url="{{ chapters_url }}"></div>
+                        {% endif %}
                         {% if show_tab_packages == 1 %}
                             {% set packages_url = url({'for':'web.course.packages','id':course.id}) %}
                             <div class="layui-tab-item" id="tab-packages" data-url="{{ packages_url }}"></div>
@@ -71,7 +75,10 @@
 
         <div class="layout-sidebar">
             {{ partial('course/show_order') }}
-            {{ partial('course/show_teachers') }}
+            {% if show_sidebar_teachers %}
+                {% set teachers_url = url({'for':'web.course.teachers','id':course.id}) %}
+                <div class="sidebar" id="sidebar-teachers" data-url="{{ teachers_url }}"></div>
+            {% endif %}
             {% if show_sidebar_topics %}
                 {% set topics_url = url({'for':'web.course.topics','id':course.id}) %}
                 <div class="sidebar" id="sidebar-topics" data-url="{{ topics_url }}"></div>

@@ -90,7 +90,7 @@ class Category extends Repository
 
     public function countChildCategories($categoryId)
     {
-        return CategoryModel::count([
+        return (int)CategoryModel::count([
             'conditions' => 'parent_id = :parent_id: AND published = 1',
             'bind' => ['parent_id' => $categoryId],
         ]);
@@ -98,8 +98,7 @@ class Category extends Repository
 
     public function countCourses($categoryId)
     {
-        $phql = 'SELECT COUNT(*) AS total FROM %s cc JOIN %s c ON cc.course_id = c.id 
-                 WHERE cc.category_id = :category_id: AND c.published = 1 AND c.published = 1';
+        $phql = 'SELECT COUNT(*) AS total FROM %s cc JOIN %s c ON cc.course_id = c.id WHERE cc.category_id = :category_id: AND c.published = 1';
 
         $phql = sprintf($phql, CourseCategoryModel::class, CourseModel::class);
 
@@ -107,7 +106,7 @@ class Category extends Repository
 
         $record = $this->modelsManager->executeQuery($phql, $bind)->getFirst();
 
-        return $record['total'];
+        return (int)$record['total'];
     }
 
 }

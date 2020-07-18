@@ -76,15 +76,22 @@ class ImFriendGroup extends Repository
      * @param int $groupId
      * @return ResultsetInterface|Resultset|UserModel[]
      */
-    public function findGroupUsers($groupId)
+    public function findUsers($groupId)
     {
         return $this->modelsManager->createBuilder()
             ->columns('u.*')
             ->addFrom(UserModel::class, 'u')
-            ->join(ImFriendUserModel::class, 'u.id = f.user_id', 'f')
-            ->where('f.group_id = :group_id:', ['group_id' => $groupId])
-            ->andWhere('u.deleted = 0')
+            ->join(ImFriendUserModel::class, 'u.id = fu.user_id', 'fu')
+            ->where('fu.group_id = :group_id:', ['group_id' => $groupId])
             ->getQuery()->execute();
+    }
+
+    public function countUsers($groupId)
+    {
+        return (int)ImFriendUserModel::count([
+            'conditions' => 'group_id = :group_id: AND blocked = 0',
+            'bind' => ['group_id' => $groupId],
+        ]);
     }
 
 }

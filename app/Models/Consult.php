@@ -50,6 +50,13 @@ class Consult extends Model
     public $like_count;
 
     /**
+     * 优先级
+     *
+     * @var int
+     */
+    public $priority;
+
+    /**
      * 私密标识
      *
      * @var int

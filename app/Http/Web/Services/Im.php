@@ -135,7 +135,7 @@ class Im extends Service
 
         $groupRepo = new ImGroupRepo();
 
-        $users = $groupRepo->findGroupUsers($group->id);
+        $users = $groupRepo->findUsers($group->id);
 
         if ($users->count() == 0) {
             return [];
@@ -170,7 +170,7 @@ class Im extends Service
 
         $userRepo = new ImUserRepo();
 
-        $messages = $userRepo->findUnreadImFriendMessages($friend->id, $user->id);
+        $messages = $userRepo->findUnreadFriendMessages($friend->id, $user->id);
 
         if ($messages->count() == 0) {
             return;
@@ -212,7 +212,7 @@ class Im extends Service
 
         $userRepo = new ImUserRepo();
 
-        return $userRepo->countUnreadImSystemMessages($user->id);
+        return $userRepo->countUnreadSystemMessages($user->id);
     }
 
     public function getSystemMessages()
@@ -306,7 +306,7 @@ class Im extends Service
 
         $userRepo = new ImUserRepo();
 
-        $chatGroups = $userRepo->findImGroups($user->id);
+        $chatGroups = $userRepo->findGroups($user->id);
 
         if ($chatGroups->count() > 0) {
             foreach ($chatGroups as $group) {
@@ -385,7 +385,7 @@ class Im extends Service
 
             $validator = new ImGroupUserValidator();
 
-            $relation = $validator->checkGroupUser($user->id, $to['id']);
+            $relation = $validator->checkGroupUser($to['id'], $user->id);
 
             /**
              * 被对方屏蔽，忽略消息
@@ -423,7 +423,7 @@ class Im extends Service
 
         $userRepo = new ImUserRepo();
 
-        $messages = $userRepo->findUnreadImSystemMessages($user->id);
+        $messages = $userRepo->findUnreadSystemMessages($user->id);
 
         if ($messages->count() > 0) {
             foreach ($messages as $message) {
@@ -506,7 +506,7 @@ class Im extends Service
 
         $userRepo = new ImUserRepo();
 
-        $friendUsers = $userRepo->findImFriendUsers($user->id);
+        $friendUsers = $userRepo->findFriendUsers($user->id);
 
         if ($friendUsers->count() == 0) {
             return;
@@ -534,8 +534,8 @@ class Im extends Service
     {
         $userRepo = new ImUserRepo();
 
-        $friendGroups = $userRepo->findImFriendGroups($user->id);
-        $friendUsers = $userRepo->findImFriendUsers($user->id);
+        $friendGroups = $userRepo->findFriendGroups($user->id);
+        $friendUsers = $userRepo->findFriendUsers($user->id);
 
         $items = [];
 
@@ -600,7 +600,7 @@ class Im extends Service
     {
         $userRepo = new ImUserRepo();
 
-        $groups = $userRepo->findImGroups($user->id);
+        $groups = $userRepo->findGroups($user->id);
 
         if ($groups->count() == 0) {
             return [];

@@ -58,8 +58,8 @@ layui.use(['jquery', 'layim'], function () {
         },
         maxLength: 1000,
         find: '/im/find',
-        msgbox: '/im/msg/box',
-        chatLog: '/im/chat/log'
+        msgbox: '/im/msgbox',
+        chatLog: '/im/chatlog'
     });
 
     layim.on('ready', function (options) {

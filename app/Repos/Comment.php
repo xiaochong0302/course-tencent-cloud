@@ -87,9 +87,14 @@ class Comment extends Repository
             ->execute();
     }
 
+    public function countComments()
+    {
+        return (int)CommentModel::count(['conditions' => 'deleted = 0']);
+    }
+
     public function countReplies($commentId)
     {
-        return CommentModel::count([
+        return (int)CommentModel::count([
             'conditions' => 'parent_id = :parent_id: AND deleted = 0',
             'bind' => ['parent_id' => $commentId],
         ]);
@@ -97,7 +102,7 @@ class Comment extends Repository
 
     public function countLikes($commentId)
     {
-        return CommentLikeModel::count([
+        return (int)CommentLikeModel::count([
             'conditions' => 'comment_id = :comment_id: AND deleted = 0',
             'bind' => ['comment_id' => $commentId],
         ]);

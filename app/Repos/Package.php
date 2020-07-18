@@ -94,7 +94,7 @@ class Package extends Repository
 
     public function countCourses($packageId)
     {
-        return CoursePackageModel::count([
+        return (int)CoursePackageModel::count([
             'conditions' => 'package_id = :package_id:',
             'bind' => ['package_id' => $packageId],
         ]);

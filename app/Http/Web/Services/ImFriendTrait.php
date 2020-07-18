@@ -127,7 +127,7 @@ Trait ImFriendTrait
 
         $itemType = ImSystemMessageModel::TYPE_FRIEND_REQUEST;
 
-        $message = $userRepo->findImSystemMessage($receiver->id, $itemType);
+        $message = $userRepo->findSystemMessage($receiver->id, $itemType);
 
         if ($message) {
             $expired = time() - $message->create_time > 7 * 86400;

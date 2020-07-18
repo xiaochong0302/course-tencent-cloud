@@ -53,11 +53,11 @@
             <div class="layui-colla-content layui-show">
                 <ul class="lesson-list">
                     {% for lesson in chapter.children %}
-                        {% if course.model == 'vod' %}
+                        {% if lesson.model == 'vod' %}
                             <li class="lesson-item clearfix">{{ vod_lesson_info(lesson) }}</li>
-                        {% elseif course.model == 'live' %}
+                        {% elseif lesson.model == 'live' %}
                             <li class="lesson-item clearfix">{{ live_lesson_info(lesson) }}</li>
-                        {% elseif course.model == 'read' %}
+                        {% elseif lesson.model == 'read' %}
                             <li class="lesson-item clearfix">{{ read_lesson_info(lesson) }}</li>
                         {% endif %}
                     {% endfor %}

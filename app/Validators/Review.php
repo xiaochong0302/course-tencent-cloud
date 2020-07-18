@@ -71,8 +71,10 @@ class Review extends Validator
 
         $like = $repo->findReviewLike($reviewId, $userId);
 
-        if ($like && time() - $like->create_time > 5 * 60) {
-            throw new BadRequestException('review.has_liked');
+        if ($like) {
+            if ($like->deleted == 0 && time() - $like->create_time > 5 * 60) {
+                throw new BadRequestException('review.has_liked');
+            }
         }
 
         return $like;

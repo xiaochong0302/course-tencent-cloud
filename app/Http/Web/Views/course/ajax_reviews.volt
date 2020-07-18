@@ -8,7 +8,7 @@
 {% if pager.total_pages > 0 %}
     <div class="review-list">
         {% for item in pager.items %}
-            {% set user_url = url({'for':'web.user.show','id':item.id}) %}
+            {% set user_url = url({'for':'web.user.show','id':item.user.id}) %}
             {% set like_url = url({'for':'web.review.like','id':item.id}) %}
             <div class="review-card clearfix">
                 <div class="avatar">
@@ -21,7 +21,7 @@
                     </div>
                     <div class="content">{{ item.content }}</div>
                     <div class="footer">
-                        <span class="time">{{ date('Y-m-d H:i',item.create_time) }}</span>
+                        <span class="time">{{ date('Y-m-d',item.create_time) }}</span>
                         <a href="javascript:" class="like" title="点赞" data-url="{{ like_url }}">
                             <i class="layui-icon layui-icon-praise icon-praise"></i>
                             <em class="like-count">{{ item.like_count }}</em>

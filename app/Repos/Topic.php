@@ -87,9 +87,14 @@ class Topic extends Repository
             ->getQuery()->execute();
     }
 
+    public function countTopics()
+    {
+        return (int)TopicModel::count(['conditions' => 'deleted = 0']);
+    }
+
     public function countCourses($topicId)
     {
-        return CourseTopicModel::count([
+        return (int)CourseTopicModel::count([
             'conditions' => 'topic_id = :topic_id:',
             'bind' => ['topic_id' => $topicId],
         ]);

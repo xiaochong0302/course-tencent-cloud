@@ -136,7 +136,7 @@ class CourseUser extends Repository
      * @param array $teacherIds
      * @return ResultsetInterface|Resultset|CourseUserModel[]
      */
-    public function findByTeacherIds(array $teacherIds)
+    public function findByTeacherIds($teacherIds)
     {
         $roleType = CourseUserModel::ROLE_TEACHER;
 

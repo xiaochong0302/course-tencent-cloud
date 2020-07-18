@@ -121,7 +121,7 @@ class Chapter extends Repository
 
     public function maxChapterPriority($courseId)
     {
-        return ChapterModel::maximum([
+        return (int)ChapterModel::maximum([
             'column' => 'priority',
             'conditions' => 'course_id = :course_id: AND parent_id = 0',
             'bind' => ['course_id' => $courseId],
@@ -130,7 +130,7 @@ class Chapter extends Repository
 
     public function maxLessonPriority($chapterId)
     {
-        return ChapterModel::maximum([
+        return (int)ChapterModel::maximum([
             'column' => 'priority',
             'conditions' => 'parent_id = :parent_id:',
             'bind' => ['parent_id' => $chapterId],
@@ -139,7 +139,7 @@ class Chapter extends Repository
 
     public function countLessons($chapterId)
     {
-        return ChapterModel::count([
+        return (int)ChapterModel::count([
             'conditions' => 'parent_id = :chapter_id: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId],
         ]);
@@ -147,7 +147,7 @@ class Chapter extends Repository
 
     public function countUsers($chapterId)
     {
-        return ChapterUserModel::count([
+        return (int)ChapterUserModel::count([
             'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId],
         ]);
@@ -155,7 +155,7 @@ class Chapter extends Repository
 
     public function countComments($chapterId)
     {
-        return CommentModel::count([
+        return (int)CommentModel::count([
             'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId],
         ]);
@@ -163,7 +163,7 @@ class Chapter extends Repository
 
     public function countLikes($chapterId)
     {
-        return ChapterLikeModel::count([
+        return (int)ChapterLikeModel::count([
             'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId],
         ]);

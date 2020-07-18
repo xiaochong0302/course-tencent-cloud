@@ -180,8 +180,10 @@ class Chapter extends Validator
 
         $like = $repo->findChapterLike($chapterId, $userId);
 
-        if ($like && time() - $like->create_time > 5 * 60) {
-            throw new BadRequestException('chapter.has_liked');
+        if ($like) {
+            if ($like->deleted == 0 && time() - $like->create_time > 5 * 60) {
+                throw new BadRequestException('chapter.has_liked');
+            }
         }
 
         return $like;

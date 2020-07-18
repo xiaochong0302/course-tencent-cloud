@@ -166,7 +166,7 @@ class Order extends Repository
     }
 
     /**
-     * @param $orderId
+     * @param int $orderId
      * @return ResultsetInterface|Resultset|OrderStatusModel[]
      */
     public function findStatusHistory($orderId)
@@ -200,6 +200,11 @@ class Order extends Repository
             'bind' => ['order_id' => $orderId],
             'order' => 'id DESC',
         ]);
+    }
+
+    public function countOrders()
+    {
+        return (int)OrderModel::count(['conditions' => 'deleted = 0']);
     }
 
 }

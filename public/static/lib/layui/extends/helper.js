@@ -17,12 +17,12 @@ layui.define(['jquery', 'element', 'layer'], function (exports) {
         });
     };
 
-    helper.checkLogin = function () {
+    helper.checkLogin = function (callback) {
         if (window.koogua.user.id === '0') {
-            layer.msg('继续操作前请登录或者注册', {icon: 2, anim: 6});
+            layer.msg('继续操作前请先登录', {icon: 2, anim: 6});
             return false;
         }
-        return true;
+        callback();
     };
 
     helper.getRequestId = function () {

@@ -1,7 +1,8 @@
-layui.use(['jquery', 'layer'], function () {
+layui.use(['jquery', 'layer', 'helper'], function () {
 
     var $ = layui.jquery;
     var layer = layui.layer;
+    var helper = layui.helper;
 
     var myShare = {
         title: $('input[name="share.title"]').val(),
@@ -10,39 +11,26 @@ layui.use(['jquery', 'layer'], function () {
         qrcode: $('input[name="share.qrcode"]').val()
     };
 
-    $('.icon-heart').on('click', function () {
-        var $this = $(this);
-        $.ajax({
-            type: 'POST',
-            url: $this.parent().data('url'),
-            success: function () {
-                if ($this.hasClass('active')) {
-                    $this.removeClass('active');
-                } else {
-                    $this.addClass('active');
-                }
-            }
-        });
-    });
-
     $('.icon-praise').on('click', function () {
         var $this = $(this);
         var $likeCount = $this.next();
         var likeCount = parseInt($likeCount.text());
-        $.ajax({
-            type: 'POST',
-            url: $this.parent().data('url'),
-            success: function () {
-                if ($this.hasClass('active')) {
-                    $this.removeClass('active');
-                    $likeCount.text(likeCount - 1);
-                    likeCount -= 1;
-                } else {
-                    $this.addClass('active');
-                    $likeCount.text(likeCount + 1);
-                    likeCount += 1;
+        helper.checkLogin(function () {
+            $.ajax({
+                type: 'POST',
+                url: $this.parent().data('url'),
+                success: function () {
+                    if ($this.hasClass('active')) {
+                        $this.removeClass('active');
+                        $likeCount.text(likeCount - 1);
+                        likeCount -= 1;
+                    } else {
+                        $this.addClass('active');
+                        $likeCount.text(likeCount + 1);
+                        likeCount += 1;
+                    }
                 }
-            }
+            });
         });
     });
 

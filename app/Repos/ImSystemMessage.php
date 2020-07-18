@@ -73,8 +73,4 @@ class ImSystemMessage extends Repository
             ->execute();
     }
 
-    public function findUserMessage($userId, $itemType)
-    {
-    }
-
 }

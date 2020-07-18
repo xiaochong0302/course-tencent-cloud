@@ -80,7 +80,7 @@ class ImUser extends Repository
      * @param int $userId
      * @return ResultsetInterface|Resultset|ImFriendUserModel[]
      */
-    public function findImFriendUsers($userId)
+    public function findFriendUsers($userId)
     {
         return ImFriendUserModel::query()
             ->where('user_id = :user_id:', ['user_id' => $userId])
@@ -91,7 +91,7 @@ class ImUser extends Repository
      * @param int $userId
      * @return ResultsetInterface|Resultset|ImFriendGroupModel[]
      */
-    public function findImFriendGroups($userId)
+    public function findFriendGroups($userId)
     {
         return ImFriendGroupModel::query()
             ->where('user_id = :user_id:', ['user_id' => $userId])
@@ -103,7 +103,7 @@ class ImUser extends Repository
      * @param int $userId
      * @return ResultsetInterface|Resultset|ImGroupModel[]
      */
-    public function findImGroups($userId)
+    public function findGroups($userId)
     {
         return $this->modelsManager->createBuilder()
             ->columns('g.*')
@@ -119,7 +119,7 @@ class ImUser extends Repository
      * @param int $userId
      * @return ResultsetInterface|Resultset|ImFriendMessageModel[]
      */
-    public function findUnreadImFriendMessages($friendId, $userId)
+    public function findUnreadFriendMessages($friendId, $userId)
     {
         return ImFriendMessageModel::find([
             'conditions' => 'sender_id = ?1 AND receiver_id = ?2 AND viewed = ?3',
@@ -130,9 +130,9 @@ class ImUser extends Repository
     /**
      * @param int $userId
      * @param int $itemType
-     * @return Model|bool|ImSystemMessageModel
+     * @return ImSystemMessageModel|Model|bool
      */
-    public function findImSystemMessage($userId, $itemType)
+    public function findSystemMessage($userId, $itemType)
     {
         return ImSystemMessageModel::findFirst([
             'conditions' => 'receiver_id = ?1 AND item_type = ?2',
@@ -145,7 +145,7 @@ class ImUser extends Repository
      * @param int $userId
      * @return ResultsetInterface|Resultset|ImFriendMessageModel[]
      */
-    public function findUnreadImSystemMessages($userId)
+    public function findUnreadSystemMessages($userId)
     {
         return ImSystemMessageModel::find([
             'conditions' => 'receiver_id = ?1 AND viewed = ?2',
@@ -153,9 +153,9 @@ class ImUser extends Repository
         ]);
     }
 
-    public function countUnreadImSystemMessages($userId)
+    public function countUnreadSystemMessages($userId)
     {
-        return ImSystemMessageModel::count([
+        return (int)ImSystemMessageModel::count([
             'conditions' => 'receiver_id = ?1 AND viewed = ?2',
             'bind' => [1 => $userId, 2 => 0],
         ]);

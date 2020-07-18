@@ -45,6 +45,9 @@ class Consult extends Repository
         }
 
         switch ($sort) {
+            case 'priority':
+                $orderBy = 'priority ASC, id DESC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;
@@ -83,9 +86,14 @@ class Consult extends Repository
             ->execute();
     }
 
+    public function countConsults()
+    {
+        return (int)ConsultModel::count(['conditions' => 'deleted = 0']);
+    }
+
     public function countLikes($consultId)
     {
-        return ConsultLikeModel::count([
+        return (int)ConsultLikeModel::count([
             'conditions' => 'consult_id = :consult_id: AND deleted = 0',
             'bind' => ['consult_id' => $consultId],
         ]);

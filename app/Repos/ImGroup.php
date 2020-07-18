@@ -79,15 +79,27 @@ class ImGroup extends Repository
      * @param int $groupId
      * @return ResultsetInterface|Resultset|ImUserModel[]
      */
-    public function findGroupUsers($groupId)
+    public function findUsers($groupId)
     {
         return $this->modelsManager->createBuilder()
             ->columns('u.*')
             ->addFrom(ImUserModel::class, 'u')
             ->join(ImGroupUserModel::class, 'u.id = gu.user_id', 'gu')
             ->where('gu.group_id = :group_id:', ['group_id' => $groupId])
-            ->andWhere('u.deleted = 0')
             ->getQuery()->execute();
+    }
+
+    public function countGroups()
+    {
+        return (int)ImGroupModel::count(['conditions' => 'deleted = 0']);
+    }
+
+    public function countUsers($groupId)
+    {
+        return (int)ImGroupUserModel::count([
+            'conditions' => 'group_id = :group_id: AND blocked = 0',
+            'bind' => ['group_id' => $groupId],
+        ]);
     }
 
 }

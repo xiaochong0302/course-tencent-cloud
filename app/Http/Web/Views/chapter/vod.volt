@@ -114,6 +114,7 @@
     {{ js_include('lib/jquery.min.js') }}
     {{ js_include('lib/jquery.danmu.min.js') }}
     {{ js_include('web/js/course.share.js') }}
+    {{ js_include('web/js/chapter.like.js') }}
     {{ js_include('web/js/chapter.vod.player.js') }}
 
 {% endblock %}

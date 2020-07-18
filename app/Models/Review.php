@@ -78,6 +78,13 @@ class Review extends Model
     public $like_count;
 
     /**
+     * 匿名标识
+     *
+     * @var int
+     */
+    public $anonymous;
+
+    /**
      * 发布标识
      *
      * @var int

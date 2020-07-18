@@ -28,7 +28,7 @@ class ChapterTreeList extends Builder
             $list[] = [
                 'id' => $chapter->id,
                 'title' => $chapter->title,
-                'priority' => $chapter->priority,
+                'model' => $chapter->model,
                 'children' => $this->handleChildren($chapter),
             ];
         }
@@ -64,6 +64,7 @@ class ChapterTreeList extends Builder
             $list[] = [
                 'id' => $lesson->id,
                 'title' => $lesson->title,
+                'model' => $lesson->model,
                 'free' => $lesson->free,
                 'attrs' => $attrs,
             ];

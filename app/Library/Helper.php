@@ -229,6 +229,29 @@ function kg_human_number($number)
 }
 
 /**
+ * 格式化之前时间
+ *
+ * @param int $time
+ * @return string
+ */
+function kg_time_ago($time)
+{
+    $diff = time() - $time;
+
+    if ($diff > 7 * 86400) {
+        return date('Y-m-d', $time);
+    } elseif ($diff > 86400) {
+        return floor($diff / 86400) . '天前';
+    } elseif ($diff > 3600) {
+        return floor($diff / 3600) . '小时前';
+    } elseif ($diff > 60) {
+        return floor($diff / 60) . '分钟前';
+    } else {
+        return $diff . '秒前';
+    }
+}
+
+/**
  * 播放时长
  *
  * @param int $time

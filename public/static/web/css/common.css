@@ -720,11 +720,7 @@ body {
     text-align: center;
 }
 
-.sidebar-order .order {
-    margin-bottom: 10px;
-}
-
-.sidebar-order .reward-btn {
+.sidebar-order .btn-reward {
     width: 84px;
     margin: 5px;
 }
@@ -1013,7 +1009,6 @@ body {
 
 .cart-course-card .info {
     float: left;
-    font-size: 12px;
 }
 
 .cart-course-card span {
@@ -1421,8 +1416,12 @@ body {
     background-color: #f2f2f2;
 }
 
-.im-search {
+.im-search-form {
     margin-bottom: 10px;
+}
+
+.im-search-tab .layui-tab-content {
+    min-height: 300px;
 }
 
 .im-user-list .user-card {

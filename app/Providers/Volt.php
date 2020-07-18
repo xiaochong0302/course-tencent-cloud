@@ -66,6 +66,10 @@ class Volt extends Provider
                 return 'kg_human_number(' . $resolvedArgs . ')';
             });
 
+            $compiler->addFilter('time_ago', function ($resolvedArgs) {
+                return 'kg_time_ago(' . $resolvedArgs . ')';
+            });
+
             return $volt;
         });
     }

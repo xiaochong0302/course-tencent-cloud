@@ -35,11 +35,11 @@ class ImGroupUser extends Validator
         return $remark;
     }
 
-    public function checkGroupUser($userId, $groupId)
+    public function checkGroupUser($groupId, $userId)
     {
         $repo = new ImGroupUserRepo();
 
-        $record = $repo->findGroupUser($userId, $groupId);
+        $record = $repo->findGroupUser($groupId, $userId);
 
         if (!$record) {
             throw new BadRequestException('im_group_user.not_found');
@@ -48,22 +48,22 @@ class ImGroupUser extends Validator
         return $record;
     }
 
-    public function checkIfJoined($userId, $groupId)
+    public function checkIfJoined($groupId, $userId)
     {
         $repo = new ImGroupUserRepo();
 
-        $record = $repo->findGroupUser($userId, $groupId);
+        $record = $repo->findGroupUser($groupId, $userId);
 
         if ($record && $record->blocked == 0) {
             throw new BadRequestException('im_group_user.has_joined');
         }
     }
 
-    public function checkIfBlocked($userId, $groupId)
+    public function checkIfBlocked($groupId, $userId)
     {
         $repo = new ImGroupUserRepo();
 
-        $record = $repo->findGroupUser($userId, $groupId);
+        $record = $repo->findGroupUser($groupId, $userId);
 
         if ($record && $record->blocked == 1) {
             throw new BadRequestException('im_group_user.blocked');

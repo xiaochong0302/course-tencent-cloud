@@ -48,6 +48,7 @@
 {% block include_js %}
 
     {{ js_include('web/js/chapter.read.js') }}
+    {{ js_include('web/js/chapter.like.js') }}
     {{ js_include('web/js/course.share.js') }}
 
 {% endblock %}

@@ -106,6 +106,11 @@ class Review extends Repository
             ->execute();
     }
 
+    public function countReviews()
+    {
+        return (int)ReviewModel::count(['conditions' => 'deleted = 0']);
+    }
+
     public function countLikes($reviewId)
     {
         return ReviewLikeModel::count([

@@ -30,8 +30,8 @@ Trait ImGroupTrait
         $group = $validator->checkGroup($post['group_id']);
         $remark = $validator->checkRemark($post['remark']);
 
-        $validator->checkIfJoined($user->id, $group->id);
-        $validator->checkIfBlocked($user->id, $group->id);
+        $validator->checkIfJoined($group->id, $user->id);
+        $validator->checkIfBlocked($group->id, $user->id);
 
         $this->handleApplyGroupNotice($user, $group, $remark);
     }
@@ -64,7 +64,7 @@ Trait ImGroupTrait
 
         $groupUserRepo = new ImGroupUserRepo();
 
-        $groupUser = $groupUserRepo->findGroupUser($applicant->id, $group->id);
+        $groupUser = $groupUserRepo->findGroupUser($group->id, $applicant->id);
 
         if (!$groupUser) {
             $groupUserModel = new ImGroupUserModel();
@@ -130,7 +130,7 @@ Trait ImGroupTrait
 
         $itemType = ImSystemMessageModel::TYPE_GROUP_REQUEST;
 
-        $message = $userRepo->findImSystemMessage($receiver->id, $itemType);
+        $message = $userRepo->findSystemMessage($receiver->id, $itemType);
 
         if ($message) {
             $expired = time() - $message->create_time > 7 * 86400;
@@ -236,7 +236,7 @@ Trait ImGroupTrait
     {
         $groupRepo = new ImGroupRepo();
 
-        $users = $groupRepo->findGroupUsers($group->id);
+        $users = $groupRepo->findUsers($group->id);
 
         if ($users->count() == 0) {
             return;

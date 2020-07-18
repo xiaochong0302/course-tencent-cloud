@@ -45,7 +45,7 @@
     </div>
 
     <div class="share">
-        <a href="javascript:" title="收藏" data-url="{{ favorite_url }}"><i class="layui-icon layui-icon-heart icon-heart"></i></a>
+        <a href="javascript:" title="收藏" data-url="{{ favorite_url }}"><i class="layui-icon layui-icon-star icon-star"></i></a>
         <a href="javascript:" title="分享到微信" data-url="{{ qrcode_url }}"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
         <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
         <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>

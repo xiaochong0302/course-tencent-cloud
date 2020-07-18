@@ -39,6 +39,33 @@ class ImController extends LayerController
     }
 
     /**
+     * @Get("/msgbox", name="web.im.msgbox")
+     */
+    public function msgboxAction()
+    {
+        $service = new ImService();
+
+        $pager = $service->getSystemMessages();
+
+        $this->view->pick('im/msgbox');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/chatlog", name="web.im.chatlog")
+     */
+    public function chatlogAction()
+    {
+        $service = new ImService();
+
+        $pager = $service->getChatMessages();
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('im/chatlog');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
      * @Get("/msg/friend/unread", name="web.im.unread_friend_msg")
      */
     public function unreadFriendMessagesAction()
@@ -60,19 +87,6 @@ class ImController extends LayerController
         $count = $service->countUnreadSystemMessages();
 
         return $this->jsonSuccess(['count' => $count]);
-    }
-
-    /**
-     * @Get("/msg/box", name="web.im.msg_box")
-     */
-    public function messageBoxAction()
-    {
-        $service = new ImService();
-
-        $pager = $service->getSystemMessages();
-
-        $this->view->pick('im/msg_box');
-        $this->view->setVar('pager', $pager);
     }
 
     /**
@@ -112,20 +126,6 @@ class ImController extends LayerController
         $status = $service->getFriendStatus();
 
         return $this->jsonSuccess(['status' => $status]);
-    }
-
-    /**
-     * @Get("/chat/log", name="web.im.chat_log")
-     */
-    public function chatLogAction()
-    {
-        $service = new ImService();
-
-        $pager = $service->getChatMessages();
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('im/chat_log');
-        $this->view->setVar('pager', $pager);
     }
 
     /**

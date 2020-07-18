@@ -121,4 +121,9 @@ class Danmu extends Repository
         return $query->execute();
     }
 
+    public function countDanmus()
+    {
+        return (int)DanmuModel::count(['conditions' => 'deleted = 0']);
+    }
+
 }

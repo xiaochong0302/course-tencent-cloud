@@ -5,6 +5,7 @@ namespace App\Library\Paginator\Adapter;
 use App\Library\Paginator\Query;
 use Phalcon\Paginator\Adapter as PaginatorAdapter;
 use Phalcon\Paginator\Exception as PaginatorException;
+use stdClass;
 
 /**
  *
@@ -65,7 +66,7 @@ class XunSearch extends PaginatorAdapter
         $this->params = $query->getParams();
     }
 
-    public function paginate()
+    public function paginate(): stdClass
     {
         /**
          * @var \XS $xs
@@ -102,7 +103,7 @@ class XunSearch extends PaginatorAdapter
 
         $totalPages = ceil($totalCount / $limit);
 
-        $pager = new \stdClass();
+        $pager = new stdClass();
 
         $pager->first = 1;
         $pager->previous = $page > 1 ? $page - 1 : 1;
@@ -120,7 +121,7 @@ class XunSearch extends PaginatorAdapter
         return $pager;
     }
 
-    public function getPaginate()
+    public function getPaginate(): stdClass
     {
         return $this->paginate();
     }

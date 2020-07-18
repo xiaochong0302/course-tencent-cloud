@@ -38,6 +38,7 @@ class UserController extends Controller
         $pager->target = 'tab-courses';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('user/ajax_courses');
         $this->view->setVar('pager', $pager);
     }
 
@@ -53,6 +54,7 @@ class UserController extends Controller
         $pager->target = 'tab-favorites';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('user/ajax_favorites');
         $this->view->setVar('pager', $pager);
     }
 
@@ -68,6 +70,7 @@ class UserController extends Controller
         $pager->target = 'tab-friends';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('user/ajax_friends');
         $this->view->setVar('pager', $pager);
     }
 
