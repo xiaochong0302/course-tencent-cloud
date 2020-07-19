@@ -30,7 +30,7 @@
             <label class="layui-form-label"></label>
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
-                <button type="button" class="layui-btn layui-btn-primary cancel-rating">取消</button>
+                <button type="button" class="layui-btn layui-btn-primary btn-cancel">取消</button>
                 <input type="hidden" name="course_id" value="{{ course.id }}">
                 <input type="hidden" name="rating1" value="5">
                 <input type="hidden" name="rating2" value="5">

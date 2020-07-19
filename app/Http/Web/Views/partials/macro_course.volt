@@ -20,6 +20,13 @@
     {% endif %}
 {%- endmacro %}
 
+{%- macro star_info(rating) %}
+    {% set stars = [1,2,3,4,5] %}
+    {% for val in stars if val <= rating %}
+        <i class="layui-icon layui-icon-star-fill"></i>
+    {% endfor %}
+{%- endmacro %}
+
 {%- macro course_card(course) %}
     {% set course_url = url({'for':'web.course.show','id':course.id}) %}
     <div class="course-card">

@@ -51,7 +51,14 @@ class ImGroup extends Model
     public $about;
 
     /**
-     * 状态
+     * 发布状态
+     *
+     * @var integer
+     */
+    public $published;
+
+    /**
+     * 删除状态
      *
      * @var integer
      */
@@ -109,6 +116,10 @@ class ImGroup extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
+
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
     }
 
     public function afterFetch()

@@ -143,9 +143,10 @@ class Redis extends \Phalcon\Cache\Backend\Redis
      * {@inheritdoc}
      *
      * @param string $prefix
+     * @param int $limit
      * @return array
      */
-    public function queryKeys($prefix = null): array
+    public function queryKeys($prefix = null, $limit = 1000): array
     {
         $result = [];
 
@@ -158,6 +159,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
         $it = null;
 
         while ($keys = $redis->scan($it, $pattern)) {
+            if (count($result) > $limit) break;
             $result = array_merge($result, $keys);
         }
 

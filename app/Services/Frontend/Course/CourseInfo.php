@@ -4,6 +4,7 @@ namespace App\Services\Frontend\Course;
 
 use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
+use App\Repos\Course as CourseRepo;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
@@ -26,6 +27,17 @@ class CourseInfo extends FrontendService
 
     protected function handleCourse(CourseModel $course, UserModel $user)
     {
+        $repo = new CourseRepo();
+
+        $rating = $repo->findCourseRating($course->id);
+
+        $ratings = [
+            'rating' => $rating->rating,
+            'rating1' => $rating->rating1,
+            'rating2' => $rating->rating2,
+            'rating3' => $rating->rating3,
+        ];
+
         $result = [
             'id' => $course->id,
             'title' => $course->title,
@@ -39,7 +51,7 @@ class CourseInfo extends FrontendService
             'vip_price' => $course->vip_price,
             'study_expiry' => $course->study_expiry,
             'refund_expiry' => $course->refund_expiry,
-            'rating' => $course->rating,
+            'ratings' => $ratings,
             'model' => $course->model,
             'level' => $course->level,
             'attrs' => $course->attrs,
@@ -47,7 +59,6 @@ class CourseInfo extends FrontendService
             'lesson_count' => $course->lesson_count,
             'package_count' => $course->package_count,
             'review_count' => $course->review_count,
-            'comment_count' => $course->comment_count,
             'consult_count' => $course->consult_count,
             'favorite_count' => $course->favorite_count,
         ];

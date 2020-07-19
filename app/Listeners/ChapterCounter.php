@@ -31,16 +31,16 @@ class ChapterCounter extends Listener
         $this->syncChapterCounter($chapter);
     }
 
-    public function incrCommentCount(Event $event, $source, ChapterModel $chapter)
+    public function incrConsultCount(Event $event, $source, ChapterModel $chapter)
     {
-        $this->counter->hIncrBy($chapter->id, 'comment_count');
+        $this->counter->hIncrBy($chapter->id, 'consult_count');
 
         $this->syncChapterCounter($chapter);
     }
 
-    public function decrCommentCount(Event $event, $source, ChapterModel $chapter)
+    public function decrConsultCount(Event $event, $source, ChapterModel $chapter)
     {
-        $this->counter->hDecrBy($chapter->id, 'comment_count');
+        $this->counter->hDecrBy($chapter->id, 'consult_count');
 
         $this->syncChapterCounter($chapter);
     }

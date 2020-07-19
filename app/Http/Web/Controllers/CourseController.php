@@ -5,7 +5,6 @@ namespace App\Http\Web\Controllers;
 use App\Http\Web\Services\CourseQuery as CourseQueryService;
 use App\Services\Frontend\Course\ChapterList as CourseChapterListService;
 use App\Services\Frontend\Course\ConsultList as CourseConsultListService;
-use App\Services\Frontend\Course\CourseBasic as CourseBasicService;
 use App\Services\Frontend\Course\CourseInfo as CourseInfoService;
 use App\Services\Frontend\Course\CourseList as CourseListService;
 use App\Services\Frontend\Course\Favorite as CourseFavoriteService;
@@ -59,7 +58,7 @@ class CourseController extends Controller
         $pager->target = 'course-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('course/ajax_pager');
+        $this->view->pick('course/pager');
         $this->view->setVar('pager', $pager);
     }
 
@@ -98,7 +97,7 @@ class CourseController extends Controller
         $teachers = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('course/ajax_teachers');
+        $this->view->pick('course/teachers');
         $this->view->setVar('teachers', $teachers);
     }
 
@@ -112,7 +111,7 @@ class CourseController extends Controller
         $chapters = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('course/ajax_chapters');
+        $this->view->pick('course/chapters');
         $this->view->setVar('chapters', $chapters);
     }
 
@@ -126,7 +125,7 @@ class CourseController extends Controller
         $packages = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('course/ajax_packages');
+        $this->view->pick('course/packages');
         $this->view->setVar('packages', $packages);
     }
 
@@ -142,7 +141,7 @@ class CourseController extends Controller
         $pager->target = 'tab-consults';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('course/ajax_consults');
+        $this->view->pick('course/consults');
         $this->view->setVar('pager', $pager);
     }
 
@@ -158,7 +157,7 @@ class CourseController extends Controller
         $pager->target = 'tab-reviews';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('course/ajax_reviews');
+        $this->view->pick('course/reviews');
         $this->view->setVar('pager', $pager);
     }
 
@@ -172,7 +171,7 @@ class CourseController extends Controller
         $courses = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('course/ajax_recommended');
+        $this->view->pick('course/recommended');
         $this->view->setVar('courses', $courses);
     }
 
@@ -186,7 +185,7 @@ class CourseController extends Controller
         $courses = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('course/ajax_related');
+        $this->view->pick('course/related');
         $this->view->setVar('courses', $courses);
     }
 
@@ -200,21 +199,8 @@ class CourseController extends Controller
         $topics = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('course/ajax_topics');
+        $this->view->pick('course/topics');
         $this->view->setVar('topics', $topics);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/rating", name="web.course.rating")
-     */
-    public function ratingAction($id)
-    {
-        $service = new CourseBasicService();
-
-        $course = $service->handle($id);
-
-        $this->view->pick('course/rating');
-        $this->view->setVar('course', $course);
     }
 
     /**

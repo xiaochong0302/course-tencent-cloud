@@ -65,7 +65,7 @@ class CourseRecommendedList extends Cache
     public function findCourses($limit = 5)
     {
         return CourseModel::query()
-            ->where('published = 1 AND deleted = 0 AND market_price > 0')
+            ->where('published = 1 AND market_price > 0')
             ->orderBy('RAND()')
             ->limit($limit)
             ->execute();

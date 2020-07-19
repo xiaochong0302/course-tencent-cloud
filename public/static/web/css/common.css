@@ -432,38 +432,17 @@ body {
 }
 
 .course-meta .info {
-    position: relative;
     float: left;
-    width: 80%;
+    width: 400px;
 }
 
-.course-meta .share {
-    position: absolute;
-    top: 0;
-    right: 0;
+.course-meta .rating {
+    float: right;
+    padding: 10px 50px 0 0;
 }
 
-.course-meta .share a {
-    margin-right: 5px;
-    color: #999;
-}
-
-.course-meta .share a:hover {
-    color: #000;
-}
-
-.course-meta .price {
-    color: red;
-    font-size: 14px;
-}
-
-.course-meta .free {
-    color: green;
-}
-
-.course-meta span {
-    color: #666;
-    margin: 0 5px;
+.course-meta p {
+    line-height: 30px;
 }
 
 .course-meta .cover img {
@@ -471,8 +450,30 @@ body {
     height: 118px;
 }
 
-.course-meta p {
-    line-height: 30px;
+.course-meta .info .price {
+    color: red;
+    font-size: 14px;
+}
+
+.course-meta .info .free {
+    color: green;
+}
+
+.course-meta .info span {
+    color: #666;
+    margin: 0 5px;
+}
+
+.course-meta .rating span {
+    margin: 0 3px;
+}
+
+.course-meta .rating .layui-icon {
+    color: orange;
+}
+
+.course-meta .rating .score {
+    color: #666;
 }
 
 .layui-tab-title li {

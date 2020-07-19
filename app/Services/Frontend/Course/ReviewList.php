@@ -26,7 +26,6 @@ class ReviewList extends FrontendService
         $params = [
             'course_id' => $course->id,
             'published' => 1,
-            'deleted' => 0,
         ];
 
         $reviewRepo = new ReviewRepo();

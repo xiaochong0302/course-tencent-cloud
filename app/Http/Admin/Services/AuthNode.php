@@ -326,37 +326,6 @@ class AuthNode extends Service
                     ],
                 ],
                 [
-                    'id' => '2-4',
-                    'title' => '评论管理',
-                    'type' => 'menu',
-                    'children' => [
-                        [
-                            'id' => '2-4-1',
-                            'title' => '评论列表',
-                            'type' => 'menu',
-                            'route' => 'admin.comment.list',
-                        ],
-                        [
-                            'id' => '2-4-2',
-                            'title' => '搜索评论',
-                            'type' => 'menu',
-                            'route' => 'admin.comment.search',
-                        ],
-                        [
-                            'id' => '2-4-3',
-                            'title' => '编辑评论',
-                            'type' => 'button',
-                            'route' => 'admin.comment.edit',
-                        ],
-                        [
-                            'id' => '2-4-4',
-                            'title' => '删除评论',
-                            'type' => 'button',
-                            'route' => 'admin.comment.delete',
-                        ],
-                    ],
-                ],
-                [
                     'id' => '2-5',
                     'title' => '轮播管理',
                     'type' => 'menu',

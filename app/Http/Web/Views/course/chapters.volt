@@ -1,7 +1,7 @@
 {%- macro vod_lesson_info(lesson) %}
-    {% set url = lesson.me.owned ? url({'for':'web.chapter.show','id':lesson.id}) : 'javascript:' %}
+    {% set url = lesson.me.owned ? url({'for':'web.chapter.show','id':lesson.id}) : '' %}
     {% set priv = lesson.me.owned ? 'allow' : 'deny' %}
-    <a class="{{ priv }}" href="{{ url }}">
+    <a class="{{ priv }} view-lesson" href="javascript:" data-url="{{ url }}">
         <i class="layui-icon layui-icon-play"></i>
         <span class="title">{{ lesson.title }}</span>
         {% if lesson.free == 1 %}
@@ -15,10 +15,10 @@
 {%- endmacro %}
 
 {%- macro live_lesson_info(lesson) %}
-    {% set url = lesson.me.owned ? url({'for':'web.chapter.show','id':lesson.id}) : 'javascript:' %}
+    {% set url = lesson.me.owned ? url({'for':'web.chapter.show','id':lesson.id}) : '' %}
     {% set priv = lesson.me.owned ? 'allow' : 'deny' %}
     {% set over_flag = lesson.attrs.end_time < time() ? '已结束' : '' %}
-    <a class="{{ priv }}" href="{{ url }}">
+    <a class="{{ priv }} view-lesson" href="javascript:" data-url="{{ url }}">
         <i class="layui-icon layui-icon-video"></i>
         <span class="title">{{ lesson.title }}</span>
         {% if lesson.free == 1 %}
@@ -32,9 +32,9 @@
 {%- endmacro %}
 
 {%- macro read_lesson_info(lesson) %}
-    {% set url = lesson.me.owned ? url({'for':'web.chapter.show','id':lesson.id}) : 'javascript:' %}
+    {% set url = lesson.me.owned ? url({'for':'web.chapter.show','id':lesson.id}) : '' %}
     {% set priv = lesson.me.owned ? 'allow' : 'deny' %}
-    <a class="{{ priv }}" href="{{ url }}">
+    <a class="{{ priv }} view-lesson" href="javascript:" data-url="{{ url }}">
         <i class="layui-icon layui-icon-read"></i>
         <span class="title">{{ lesson.title|e }}</span>
         {% if lesson.free == 1 %}

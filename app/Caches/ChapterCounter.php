@@ -29,8 +29,7 @@ class ChapterCounter extends Counter
 
         return [
             'user_count' => $chapter->user_count,
-            'lesson_count' => $chapter->lesson_count,
-            'comment_count' => $chapter->comment_count,
+            'consult_count' => $chapter->consult_count,
             'like_count' => $chapter->like_count,
         ];
     }

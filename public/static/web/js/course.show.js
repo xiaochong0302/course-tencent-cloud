@@ -4,6 +4,9 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     var layer = layui.layer;
     var helper = layui.helper;
 
+    /**
+     * 收藏
+     */
     $('.icon-star').on('click', function () {
         var $this = $(this);
         helper.checkLogin(function () {
@@ -23,6 +26,9 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         });
     });
 
+    /**
+     * 打赏
+     */
     $('.btn-reward').on('click', function () {
         var url = $(this).data('url');
         helper.checkLogin(function () {
@@ -30,7 +36,10 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         });
     });
 
-    $('.btn-buy').on('click', function () {
+    /**
+     * 购买（课程|套餐)
+     */
+    $('body').on('click', '.btn-buy', function () {
         var url = $(this).data('url');
         helper.checkLogin(function () {
             window.location.href = url;
@@ -47,6 +56,22 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         });
     });
 
+    /**
+     * 浏览章节
+     */
+    $('body').on('click', '.view-lesson', function () {
+        if ($(this).hasClass('deny')) {
+            return false;
+        }
+        var url = $(this).data('url');
+        helper.checkLogin(function () {
+            window.location.href = url;
+        });
+    });
+
+    /**
+     * 点赞（咨询|评价）
+     */
     $('body').on('click', '.icon-praise', function () {
         var $this = $(this);
         var $likeCount = $this.next();

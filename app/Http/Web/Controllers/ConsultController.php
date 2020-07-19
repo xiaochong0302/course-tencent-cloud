@@ -15,6 +15,16 @@ class ConsultController extends Controller
 {
 
     /**
+     * @Get("/add", name="web.consult.add")
+     */
+    public function addAction()
+    {
+        $chapterId = $this->request->getQuery('chapter_id');
+
+        $this->view->setVar('chapter_id', $chapterId);
+    }
+
+    /**
      * @Get("/{id:[0-9]+}/info", name="web.consult.info")
      */
     public function infoAction($id)
@@ -39,7 +49,12 @@ class ConsultController extends Controller
 
         $consult = $service->handle($consult->id);
 
-        return $this->jsonSuccess(['consult' => $consult]);
+        $content = [
+            'consult' => $consult,
+            'msg' => '提交课程咨询成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -51,7 +66,12 @@ class ConsultController extends Controller
 
         $consult = $service->handle($id);
 
-        return $this->jsonSuccess(['consult' => $consult]);
+        $content = [
+            'consult' => $consult,
+            'msg' => '更新课程咨询成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -63,7 +83,9 @@ class ConsultController extends Controller
 
         $service->handle($id);
 
-        return $this->jsonSuccess();
+        $content = ['msg' => '删除课程咨询成功'];
+
+        return $this->jsonSuccess($content);
     }
 
     /**

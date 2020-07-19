@@ -15,7 +15,7 @@
                     <span>会员价 <i>{{ '￥%0.2f'|format(package.vip_price) }}</i></span>
                 </div>
                 <div class="order">
-                    <a class="layui-btn layui-btn-sm layui-bg-red" href="{{ order_url }}">立即购买</a>
+                    <a class="layui-btn layui-btn-sm layui-bg-red btn-buy" href="javascript:" data-url="{{ order_url }}">立即购买</a>
                 </div>
             </div>
             <div class="package-course-list">

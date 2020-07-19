@@ -13,7 +13,7 @@
                     <div class="title">{{ item.question }}</div>
                     <div class="content">{{ item.answer }}</div>
                     <div class="footer">
-                        <span class="time">{{ time_ago('Y-m-d',item.create_time) }}</span>
+                        <span class="time">{{ item.create_time|time_ago }}</span>
                         <a href="javascript:" class="like" title="点赞" data-url="{{ like_url }}">
                             <i class="layui-icon layui-icon-praise icon-praise"></i>
                             <em class="like-count">{{ item.like_count }}</em>

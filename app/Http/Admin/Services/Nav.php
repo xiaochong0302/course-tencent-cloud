@@ -35,19 +35,17 @@ class Nav extends Service
         return $navRepo->findAll([
             'parent_id' => 0,
             'position' => 'top',
-            'deleted' => 0,
+            'published' => 1,
         ]);
     }
 
     public function getChildNavs($parentId)
     {
-        $deleted = $this->request->getQuery('deleted', 'int', 0);
-
         $navRepo = new NavRepo();
 
         return $navRepo->findAll([
             'parent_id' => $parentId,
-            'deleted' => $deleted,
+            'published' => 1,
         ]);
     }
 

@@ -8,6 +8,13 @@ class Consult extends Model
 {
 
     /**
+     * 优先级
+     */
+    const PRIORITY_HIGH = 10; // 高
+    const PRIORITY_MIDDLE = 20; // 中
+    const PRIORITY_LOW = 30; // 低
+
+    /**
      * 主键编号
      *
      * @var int
@@ -20,6 +27,13 @@ class Consult extends Model
      * @var int
      */
     public $course_id;
+
+    /**
+     * 章节编号
+     *
+     * @var int
+     */
+    public $chapter_id;
 
     /**
      * 用户编号

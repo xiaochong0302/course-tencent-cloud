@@ -15,6 +15,16 @@ class ReviewController extends Controller
 {
 
     /**
+     * @Get("/add", name="web.review.add")
+     */
+    public function addAction()
+    {
+        $courseId = $this->request->getQuery('course_id');
+
+        $this->view->setVar('course_id', $courseId);
+    }
+
+    /**
      * @Get("/{id:[0-9]+}/info", name="web.review.info")
      */
     public function infoAction($id)
@@ -73,7 +83,9 @@ class ReviewController extends Controller
 
         $service->handle($id);
 
-        return $this->jsonSuccess();
+        $content = ['msg' => '删除课程评价成功'];
+
+        return $this->jsonSuccess($content);
     }
 
     /**

@@ -27,7 +27,6 @@ class ConsultList extends FrontendService
             'course_id' => $course->id,
             'private' => 0,
             'published' => 1,
-            'deleted' => 0,
         ];
 
         $consultRepo = new ConsultRepo();

@@ -4,6 +4,11 @@
 
     {{ partial('partials/macro_course') }}
 
+    {% set favorite_star_class = course.me.favorited ? 'layui-icon-star-fill' : 'layui-icon-star' %}
+    {% set full_course_url = full_url({'for':'web.course.show','id':course.id}) %}
+    {% set favorite_url = url({'for':'web.course.favorite','id':course.id}) %}
+    {% set qrcode_url = url({'for':'web.qrcode_img'},{'text':full_course_url}) %}
+
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="{{ url({'for':'web.course.list'}) }}">全部课程</a>
@@ -12,11 +17,15 @@
             {% endfor %}
             <a><cite>{{ course.title }}</cite></a>
         </span>
+        <div class="share">
+            <a href="javascript:" title="收藏" data-url="{{ favorite_url }}"><i class="layui-icon {{ favorite_star_class }} icon-star"></i></a>
+            <a href="javascript:" title="分享到微信" data-url="{{ qrcode_url }}"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
+            <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
+            <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
+        </div>
     </div>
 
-    <div class="course-meta wrap clearfix">
-        {{ partial('course/show_meta') }}
-    </div>
+    {{ partial('course/show_meta') }}
 
     <div class="layout-main clearfix">
 
@@ -93,6 +102,13 @@
             {% endif %}
         </div>
 
+    </div>
+
+    <div class="layui-hide">
+        <input type="hidden" name="share.title" value="{{ course.title }}">
+        <input type="hidden" name="share.pic" value="{{ course.cover }}">
+        <input type="hidden" name="share.url" value="{{ full_course_url }}">
+        <input type="hidden" name="share.qrcode" value="{{ qrcode_url }}">
     </div>
 
 {% endblock %}

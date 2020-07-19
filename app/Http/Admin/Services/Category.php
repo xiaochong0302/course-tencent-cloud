@@ -36,7 +36,7 @@ class Category extends Service
 
         return $categoryRepo->findAll([
             'parent_id' => 0,
-            'deleted' => 0,
+            'published' => 1,
         ]);
     }
 

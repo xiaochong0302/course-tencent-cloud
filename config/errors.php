@@ -201,20 +201,11 @@ $error['review.has_liked'] = '你已经点过赞啦';
 $error['consult.not_found'] = '咨询不存在';
 $error['consult.invalid_private_status'] = '无效的私密状态';
 $error['consult.invalid_publish_status'] = '无效的发布状态';
-$error['consult.question_too_short'] = '提问太短（少于5个字符）';
-$error['consult.question_too_long'] = '提问太长（多于1000个字符）';
-$error['consult.answer_too_short'] = '回复太短（少于5个字符）';
-$error['consult.answer_too_long'] = '回复太长（多于1000个字符）';
+$error['consult.question_too_short'] = '问题内容太短（少于5个字符）';
+$error['consult.question_too_long'] = '问题内容太长（多于1000个字符）';
+$error['consult.answer_too_short'] = '回复内容太短（少于5个字符）';
+$error['consult.answer_too_long'] = '回复内容太长（多于1000个字符）';
 $error['consult.has_liked'] = '你已经点过赞啦';
-
-/**
- * 评论相关
- */
-$error['comment.not_found'] = '评价不存在';
-$error['comment.invalid_publish_status'] = '无效的发布状态';
-$error['comment.content_too_short'] = '评价太短（少于1个字符）';
-$error['comment.content_too_long'] = '评价太长（多于1000个字符）';
-$error['comment.has_liked'] = '你已经点过赞啦';
 
 /**
  * 单页相关
