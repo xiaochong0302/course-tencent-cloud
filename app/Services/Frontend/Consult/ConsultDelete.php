@@ -11,7 +11,8 @@ use App\Validators\Consult as ConsultValidator;
 class ConsultDelete extends FrontendService
 {
 
-    use CourseTrait, ConsultTrait;
+    use ConsultTrait;
+    use CourseTrait;
 
     public function handle($id)
     {

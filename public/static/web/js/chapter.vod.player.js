@@ -16,6 +16,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
     var danmuListUrl = $('input[name="chapter.danmu_url"]').val();
     var playUrls = JSON.parse($('input[name="chapter.play_urls"]').val());
     var $danmuText = $('input[name="danmu.text"]');
+    var $danmuForm = $('.danmu-form');
 
     var playerOptions = {
         autoplay: false,
@@ -73,12 +74,23 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
      */
     $('#player').hover(function () {
         clearTimeout(dt);
-        $('.danmu-form').show();
+        $danmuForm.show();
     }, function () {
         dt = setTimeout(function () {
-            $('.danmu-form').hide();
+            $danmuForm.hide();
         }, 2500);
     });
+
+    /**
+     * 文本框获得焦点后清理dt，不然对输入有干扰
+     */
+    $danmuText.focus(function () {
+        clearTimeout(dt);
+    });
+
+    /**
+     * @todo 弹幕层和播放器控制层css有抵触，待解决
+     */
 
     $('#danmu').danmu({
         left: 20,

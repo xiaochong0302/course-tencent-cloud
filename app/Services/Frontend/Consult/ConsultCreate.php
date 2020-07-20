@@ -15,7 +15,8 @@ use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 class ConsultCreate extends FrontendService
 {
 
-    use CourseTrait, ChapterTrait;
+    use CourseTrait;
+    use ChapterTrait;
 
     public function handle()
     {
@@ -35,6 +36,8 @@ class ConsultCreate extends FrontendService
 
         $question = $validator->checkQuestion($post['question']);
 
+        $validator->checkIfDuplicated($chapter->id, $user->id, $question);
+
         $priority = $this->getPriority($course, $user);
 
         $consult = new ConsultModel();
@@ -44,6 +47,7 @@ class ConsultCreate extends FrontendService
         $consult->course_id = $course->id;
         $consult->chapter_id = $chapter->id;
         $consult->user_id = $user->id;
+        $consult->published = 1;
 
         $consult->create();
 

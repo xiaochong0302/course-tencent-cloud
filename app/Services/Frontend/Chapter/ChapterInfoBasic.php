@@ -11,7 +11,7 @@ use App\Services\Frontend\Service as FrontendService;
 use App\Services\Live as LiveService;
 use WhichBrowser\Parser as BrowserParser;
 
-class ChapterBasic extends FrontendService
+class ChapterInfoBasic extends FrontendService
 {
 
     use ChapterTrait;

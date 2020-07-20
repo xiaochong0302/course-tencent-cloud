@@ -6,7 +6,7 @@ use App\Models\Course as CourseModel;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
 
-class CourseBasic extends FrontendService
+class CourseInfoBasic extends FrontendService
 {
 
     use CourseTrait;

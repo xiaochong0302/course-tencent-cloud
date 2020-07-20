@@ -14,7 +14,8 @@ use PHPQRCode\QRcode as PHPQRCode;
 class PublicController extends \Phalcon\Mvc\Controller
 {
 
-    use ResponseTrait, SecurityTrait;
+    use ResponseTrait;
+    use SecurityTrait;
 
     /**
      * @Get("/content/img/{id:[0-9]+}", name="web.content_img")

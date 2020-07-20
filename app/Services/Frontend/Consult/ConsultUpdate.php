@@ -10,7 +10,8 @@ use App\Validators\Consult as ConsultValidator;
 class ConsultUpdate extends FrontendService
 {
 
-    use CourseTrait, ConsultTrait;
+    use CourseTrait;
+    use ConsultTrait;
 
     public function handle($id)
     {

@@ -9,17 +9,20 @@ layui.use(['jquery', 'layer', 'helper'], function () {
      */
     $('.icon-star').on('click', function () {
         var $this = $(this);
+        var $parent = $this.parent();
         helper.checkLogin(function () {
             $.ajax({
                 type: 'POST',
-                url: $this.parent().data('url'),
+                url: $parent.data('url'),
                 success: function () {
                     if ($this.hasClass('layui-icon-star-fill')) {
                         $this.removeClass('layui-icon-star-fill');
                         $this.addClass('layui-icon-star');
+                        $parent.attr('title', '收藏');
                     } else {
                         $this.removeClass('layui-icon-star');
                         $this.addClass('layui-icon-star-fill');
+                        $parent.attr('title', '取消收藏');
                     }
                 }
             });
@@ -74,19 +77,22 @@ layui.use(['jquery', 'layer', 'helper'], function () {
      */
     $('body').on('click', '.icon-praise', function () {
         var $this = $(this);
+        var $parent = $this.parent();
         var $likeCount = $this.next();
         var likeCount = parseInt($likeCount.text());
         helper.checkLogin(function () {
             $.ajax({
                 type: 'POST',
-                url: $this.parent().data('url'),
+                url: $parent.data('url'),
                 success: function () {
                     if ($this.hasClass('active')) {
                         $this.removeClass('active');
+                        $parent.attr('title', '点赞');
                         $likeCount.text(likeCount - 1);
                         likeCount -= 1;
                     } else {
                         $this.addClass('active');
+                        $parent.attr('title', '取消点赞');
                         $likeCount.text(likeCount + 1);
                         likeCount += 1;
                     }

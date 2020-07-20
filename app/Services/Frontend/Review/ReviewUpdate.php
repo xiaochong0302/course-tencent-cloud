@@ -10,7 +10,8 @@ use App\Validators\Review as ReviewValidator;
 class ReviewUpdate extends FrontendService
 {
 
-    use CourseTrait, ReviewTrait;
+    use CourseTrait;
+    use ReviewTrait;
 
     public function handle($id)
     {

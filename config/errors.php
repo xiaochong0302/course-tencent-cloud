@@ -112,7 +112,6 @@ $error['course.invalid_refund_expiry'] = '无效的退款期限';
 $error['course.invalid_publish_status'] = '无效的发布状态';
 $error['course.pub_chapter_not_found'] = '尚未发现已发布的课时';
 $error['course.pub_chapter_not_enough'] = '已发布的课时太少（小于30%）';
-$error['course.has_favorited'] = '你已收藏过该课程啦';
 
 /**
  * 话题相关
@@ -159,7 +158,6 @@ $error['chapter.read_not_ready'] = '文章内容尚未就绪';
 $error['chapter.live_not_start'] = '直播尚未开始';
 $error['chapter.live_time_empty'] = '直播时间尚未设置';
 $error['chapter.child_existed'] = '不允许相关操作（存在子章节）';
-$error['chapter.has_liked'] = '你已经点过赞啦';
 
 /**
  * 点播相关
@@ -201,9 +199,10 @@ $error['review.has_liked'] = '你已经点过赞啦';
 $error['consult.not_found'] = '咨询不存在';
 $error['consult.invalid_private_status'] = '无效的私密状态';
 $error['consult.invalid_publish_status'] = '无效的发布状态';
-$error['consult.question_too_short'] = '问题内容太短（少于5个字符）';
+$error['consult.question_duplicated'] = '你已经咨询过类似问题啦';
+$error['consult.question_too_short'] = '问题内容太短（少于15个字符）';
 $error['consult.question_too_long'] = '问题内容太长（多于1000个字符）';
-$error['consult.answer_too_short'] = '回复内容太短（少于5个字符）';
+$error['consult.answer_too_short'] = '回复内容太短（少于15个字符）';
 $error['consult.answer_too_long'] = '回复内容太长（多于1000个字符）';
 $error['consult.has_liked'] = '你已经点过赞啦';
 

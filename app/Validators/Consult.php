@@ -42,7 +42,7 @@ class Consult extends Validator
 
         $length = kg_strlen($value);
 
-        if ($length < 5) {
+        if ($length < 15) {
             throw new BadRequestException('consult.question_too_short');
         }
 
@@ -59,7 +59,7 @@ class Consult extends Validator
 
         $length = kg_strlen($value);
 
-        if ($length < 5) {
+        if ($length < 15) {
             throw new BadRequestException('consult.answer_too_short');
         }
 
@@ -86,6 +86,30 @@ class Consult extends Validator
         }
 
         return $status;
+    }
+
+    public function checkIfDuplicated($chapterId, $userId, $question)
+    {
+        $repo = new ConsultRepo();
+
+        $consult = $repo->findUserLastChapterConsult($chapterId, $userId);
+
+        if (!$consult) return;
+
+        $subInQuestion = kg_substr($question, 0, 20);
+        $subDbQuestion = kg_substr($consult->question, 0, 20);
+
+        similar_text($subInQuestion, $subDbQuestion, $percent);
+
+        if ($percent > 80) {
+            throw new BadRequestException('consult.question_duplicated');
+        }
+
+        similar_text($question, $consult->question, $percent);
+
+        if ($percent > 80) {
+            throw new BadRequestException('consult.question_duplicated');
+        }
     }
 
     public function checkIfLiked($chapterId, $userId)

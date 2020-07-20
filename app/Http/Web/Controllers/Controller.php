@@ -34,7 +34,8 @@ class Controller extends \Phalcon\Mvc\Controller
      */
     protected $authUser;
 
-    use ResponseTrait, SecurityTrait;
+    use ResponseTrait;
+    use SecurityTrait;
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {

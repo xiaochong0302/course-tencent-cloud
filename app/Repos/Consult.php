@@ -86,6 +86,20 @@ class Consult extends Repository
             ->execute();
     }
 
+    /**
+     * @param int $chapterId
+     * @param int $userId
+     * @return ConsultModel|Model|bool
+     */
+    public function findUserLastChapterConsult($chapterId, $userId)
+    {
+        return ConsultModel::findFirst([
+            'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND deleted = 0',
+            'bind' => [1 => $chapterId, 2 => $userId],
+            'order' => 'id DESC',
+        ]);
+    }
+
     public function countConsults()
     {
         return (int)ConsultModel::count(['conditions' => 'deleted = 0']);

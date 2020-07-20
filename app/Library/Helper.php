@@ -1,5 +1,6 @@
 <?php
 
+use App\Library\Validators\Common as CommonValidator;
 use App\Services\Storage as StorageService;
 use Koogua\Ip2Region\Searcher as Ip2RegionSearcher;
 use Phalcon\Di;
@@ -208,6 +209,39 @@ function kg_ci_cover_img_url($path)
 }
 
 /**
+ * 隐藏部分字符
+ *
+ * @param string $str
+ * @return string
+ */
+function kg_anonymous($str)
+{
+    $length = mb_strlen($str);
+
+    if (CommonValidator::email($str)) {
+        $start = 3;
+        $end = mb_stripos($str, '@');
+    } elseif (CommonValidator::phone($str)) {
+        $start = 3;
+        $end = $length - 4;
+    } elseif (CommonValidator::idCard($str)) {
+        $start = 3;
+        $end = $length - 4;
+    } else {
+        $start = 1;
+        $end = $length - 2;
+    }
+
+    $list = [];
+
+    for ($i = 0; $i < $length; $i++) {
+        $list[] = ($i < $start || $i > $end) ? mb_substr($str, $i, 1) : '*';
+    }
+
+    return join('', $list);
+}
+
+/**
  * 格式化数字
  *
  * @param int $number
@@ -252,48 +286,12 @@ function kg_time_ago($time)
 }
 
 /**
- * 播放时长
+ * 格式化时长
  *
  * @param int $time
  * @return string
  */
-function kg_play_duration($time)
-{
-    $result = '00:00';
-
-    if ($time > 0) {
-
-        $hours = floor($time / 3600);
-        $minutes = floor(($time - $hours * 3600) / 60);
-        $seconds = $time % 60;
-
-        $format = [];
-
-        if ($hours > 0) {
-            $format[] = sprintf('%02d', $hours);
-        }
-
-        if ($minutes >= 0) {
-            $format[] = sprintf('%02d', $minutes);
-        }
-
-        if ($seconds >= 0) {
-            $format[] = sprintf('%02d', $seconds);
-        }
-
-        $result = implode(':', $format);
-    }
-
-    return $result;
-}
-
-/**
- * 总时长
- *
- * @param int $time
- * @return string
- */
-function kg_total_duration($time)
+function kg_duration($time)
 {
     $result = '00分钟';
 

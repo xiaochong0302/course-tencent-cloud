@@ -8,6 +8,7 @@ use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\User as UserModel;
 use App\Repos\Chapter as ChapterRepo;
+use App\Repos\ChapterLike as ChapterLikeRepo;
 use App\Services\ChapterVod as ChapterVodService;
 use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\CourseTrait;
@@ -27,7 +28,8 @@ class ChapterInfo extends FrontendService
      */
     protected $user;
 
-    use CourseTrait, ChapterTrait;
+    use CourseTrait;
+    use ChapterTrait;
 
     public function handle($id)
     {
@@ -47,10 +49,10 @@ class ChapterInfo extends FrontendService
         $this->setChapterUser($chapter, $user);
         $this->handleChapterUser($chapter, $user);
 
-        return $this->handleChapter($chapter);
+        return $this->handleChapter($chapter, $user);
     }
 
-    protected function handleChapter(ChapterModel $chapter)
+    protected function handleChapter(ChapterModel $chapter, UserModel $user)
     {
         $result = $this->formatChapter($chapter);
 
@@ -61,18 +63,30 @@ class ChapterInfo extends FrontendService
             'position' => 0,
             'joined' => 0,
             'owned' => 0,
+            'liked' => 0,
         ];
 
-        if ($this->courseUser) {
-            $me['plan_id'] = $this->courseUser->plan_id;
-        }
+        if ($user->id) {
 
-        if ($this->chapterUser) {
-            $me['position'] = $this->chapterUser->position;
-        }
+            $likeRepo = new ChapterLikeRepo();
 
-        $me['joined'] = $this->joinedChapter ? 1 : 0;
-        $me['owned'] = $this->ownedChapter ? 1 : 0;
+            $like = $likeRepo->findChapterLike($chapter->id, $user->id);
+
+            if ($like && $like->deleted == 0) {
+                $me['liked'] = 1;
+            }
+
+            if ($this->courseUser) {
+                $me['plan_id'] = $this->courseUser->plan_id;
+            }
+
+            if ($this->chapterUser) {
+                $me['position'] = $this->chapterUser->position;
+            }
+
+            $me['joined'] = $this->joinedChapter ? 1 : 0;
+            $me['owned'] = $this->ownedChapter ? 1 : 0;
+        }
 
         $result['me'] = $me;
 
@@ -85,12 +99,6 @@ class ChapterInfo extends FrontendService
             'id' => $course->id,
             'title' => $course->title,
             'cover' => $course->cover,
-            'market_price' => $course->market_price,
-            'vip_price' => $course->vip_price,
-            'model' => $course->model,
-            'level' => $course->level,
-            'user_count' => $course->user_count,
-            'lesson_count' => $course->lesson_count,
         ];
     }
 
@@ -98,7 +106,7 @@ class ChapterInfo extends FrontendService
     {
         $item = [];
 
-        switch ($this->course->model) {
+        switch ($chapter->model) {
             case CourseModel::MODEL_VOD:
                 $item = $this->formatChapterVod($chapter);
                 break;
@@ -127,7 +135,7 @@ class ChapterInfo extends FrontendService
             'play_urls' => $playUrls,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
-            'comment_count' => $chapter->comment_count,
+            'consult_count' => $chapter->consult_count,
         ];
     }
 
@@ -166,7 +174,7 @@ class ChapterInfo extends FrontendService
             'play_urls' => $playUrls,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
-            'comment_count' => $chapter->comment_count,
+            'consult_count' => $chapter->consult_count,
         ];
     }
 
@@ -184,7 +192,7 @@ class ChapterInfo extends FrontendService
             'content' => $read->content,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
-            'comment_count' => $chapter->comment_count,
+            'consult_count' => $chapter->consult_count,
         ];
     }
 

@@ -5,9 +5,9 @@ namespace App\Services\Frontend\Chapter;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLike as ChapterLikeModel;
 use App\Models\User as UserModel;
+use App\Repos\ChapterLike as ChapterLikeRepo;
 use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\Service as FrontendService;
-use App\Validators\Chapter as ChapterValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 use Phalcon\Events\Manager as EventsManager;
 
@@ -26,9 +26,9 @@ class ChapterLike extends FrontendService
 
         $validator->checkChapterLikeLimit($user);
 
-        $validator = new ChapterValidator();
+        $likeRepo = new ChapterLikeRepo();
 
-        $chapterLike = $validator->checkIfLiked($chapter->id, $user->id);
+        $chapterLike = $likeRepo->findChapterLike($chapter->id, $user->id);
 
         if (!$chapterLike) {
 

@@ -9,7 +9,8 @@ use Phalcon\Mvc\Dispatcher;
 class Controller extends \Phalcon\Mvc\Controller
 {
 
-    use ResponseTrait, SecurityTrait;
+    use ResponseTrait;
+    use SecurityTrait;
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {

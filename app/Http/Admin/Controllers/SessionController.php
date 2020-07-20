@@ -14,7 +14,9 @@ use App\Traits\Security as SecurityTrait;
 class SessionController extends \Phalcon\Mvc\Controller
 {
 
-    use AuthTrait, ResponseTrait, SecurityTrait;
+    use AuthTrait;
+    use ResponseTrait;
+    use SecurityTrait;
 
     /**
      * @Route("/login", name="admin.login")

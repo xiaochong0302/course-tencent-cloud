@@ -11,7 +11,7 @@
                 </div>
                 <div class="info">
                     <div class="title">{{ item.question }}</div>
-                    <div class="content">{{ item.answer }}</div>
+                    <div class="content">{% if item.answer %} {{ item.answer }} {% else %} 稍安勿燥，请耐心等待我们的回复吧 {% endif %}</div>
                     <div class="footer">
                         <span class="time">{{ item.create_time|time_ago }}</span>
                         <a href="javascript:" class="like" title="点赞" data-url="{{ like_url }}">

@@ -3,6 +3,7 @@
 {% block content %}
 
     {% set chapter_full_url = full_url({'for':'web.chapter.show','id':chapter.id}) %}
+    {% set course_url = url({'for':'web.course.show','id':chapter.course.id}) %}
     {% set learning_url = url({'for':'web.chapter.learning','id':chapter.id}) %}
     {% set live_chats_url = url({'for':'web.live.chats','id':chapter.id}) %}
     {% set live_stats_url = url({'for':'web.live.stats','id':chapter.id}) %}
@@ -13,6 +14,7 @@
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
+            <a href="{{ course_url }}"><i class="layui-icon layui-icon-return"></i> 返回课程</a>
             <a><cite>{{ chapter.course.title }}</cite></a>
             <a><cite>{{ chapter.title }}</cite></a>
         </span>

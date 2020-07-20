@@ -33,8 +33,6 @@ class UserInfo extends FrontendService
             'lock_expiry_time' => $user->lock_expiry_time,
             'edu_role' => $user->edu_role,
             'admin_role' => $user->admin_role,
-            'notice_count' => $user->notice_count,
-            'msg_count' => $user->msg_count,
         ];
     }
 

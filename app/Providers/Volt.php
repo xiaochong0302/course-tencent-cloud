@@ -54,12 +54,8 @@ class Volt extends Provider
                 return 'kg_can(' . $resolvedArgs . ')';
             });
 
-            $compiler->addFilter('play_duration', function ($resolvedArgs) {
-                return 'kg_play_duration(' . $resolvedArgs . ')';
-            });
-
-            $compiler->addFilter('total_duration', function ($resolvedArgs) {
-                return 'kg_total_duration(' . $resolvedArgs . ')';
+            $compiler->addFilter('duration', function ($resolvedArgs) {
+                return 'kg_duration(' . $resolvedArgs . ')';
             });
 
             $compiler->addFilter('human_number', function ($resolvedArgs) {
@@ -68,6 +64,10 @@ class Volt extends Provider
 
             $compiler->addFilter('time_ago', function ($resolvedArgs) {
                 return 'kg_time_ago(' . $resolvedArgs . ')';
+            });
+
+            $compiler->addFilter('anonymous', function ($resolvedArgs) {
+                return 'kg_anonymous(' . $resolvedArgs . ')';
             });
 
             return $volt;

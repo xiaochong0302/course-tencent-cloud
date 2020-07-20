@@ -22,7 +22,7 @@
                         <span class="icon"><i class="layui-icon layui-icon-cellphone"></i></span>
                         <span class="title">手机绑定</span>
                         {% if account.phone %}
-                            <span class="summary">已绑定手机：{{ account.phone }}</span>
+                            <span class="summary">已绑定手机：{{ account.phone|anonymous }}</span>
                             <span class="action"><a class="layui-btn layui-btn-sm" href="{{ act_phone_url }}">修改</a></span>
                         {% else %}
                             <span class="summary">可用于登录和重置密码</span>
@@ -33,7 +33,7 @@
                         <span class="icon"><i class="layui-icon layui-icon-email"></i></span>
                         <span class="title">邮箱绑定</span>
                         {% if account.phone %}
-                            <span class="summary">已绑定邮箱：{{ account.email }}</span>
+                            <span class="summary">已绑定邮箱：{{ account.email|anonymous }}</span>
                             <span class="action"><a class="layui-btn layui-btn-sm" href="{{ act_email_url }}">修改</a></span>
                         {% else %}
                             <span class="summary">可用于登录和重置密码</span>

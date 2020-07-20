@@ -450,6 +450,14 @@ body {
     height: 118px;
 }
 
+.course-meta .info span {
+    margin-right: 5px;
+}
+
+.course-meta .info .value {
+    color: #666;
+}
+
 .course-meta .info .price {
     color: red;
     font-size: 14px;
@@ -459,13 +467,8 @@ body {
     color: green;
 }
 
-.course-meta .info span {
-    color: #666;
-    margin: 0 5px;
-}
-
 .course-meta .rating span {
-    margin: 0 3px;
+    margin-right: 5px;
 }
 
 .course-meta .rating .layui-icon {
@@ -841,6 +844,10 @@ body {
     cursor: pointer;
 }
 
+.share .layui-icon-star-fill {
+    color: orange;
+}
+
 .share .active, .share .layui-icon:hover {
     color: green;
 }
@@ -870,6 +877,7 @@ body {
     left: 180px;
     bottom: 38px;
     width: 420px;
+    z-index: 999;
     display: none;
 }
 

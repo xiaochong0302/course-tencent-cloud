@@ -31,7 +31,8 @@ use GatewayClient\Gateway;
 class Im extends Service
 {
 
-    use ImFriendTrait, ImGroupTrait;
+    use ImFriendTrait;
+    use ImGroupTrait;
 
     public function init()
     {

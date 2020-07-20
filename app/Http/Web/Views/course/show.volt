@@ -4,7 +4,8 @@
 
     {{ partial('partials/macro_course') }}
 
-    {% set favorite_star_class = course.me.favorited ? 'layui-icon-star-fill' : 'layui-icon-star' %}
+    {% set favorite_title = course.me.favorited ? '取消收藏' : '收藏' %}
+    {% set favorite_star = course.me.favorited ? 'layui-icon-star-fill' : 'layui-icon-star' %}
     {% set full_course_url = full_url({'for':'web.course.show','id':course.id}) %}
     {% set favorite_url = url({'for':'web.course.favorite','id':course.id}) %}
     {% set qrcode_url = url({'for':'web.qrcode_img'},{'text':full_course_url}) %}
@@ -18,7 +19,7 @@
             <a><cite>{{ course.title }}</cite></a>
         </span>
         <div class="share">
-            <a href="javascript:" title="收藏" data-url="{{ favorite_url }}"><i class="layui-icon {{ favorite_star_class }} icon-star"></i></a>
+            <a href="javascript:" title="{{ favorite_title }}" data-url="{{ favorite_url }}"><i class="layui-icon {{ favorite_star }} icon-star"></i></a>
             <a href="javascript:" title="分享到微信" data-url="{{ qrcode_url }}"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
             <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
             <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
