@@ -7,13 +7,10 @@ use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\User as UserModel;
-use App\Repos\Chapter as ChapterRepo;
 use App\Repos\ChapterLike as ChapterLikeRepo;
-use App\Services\ChapterVod as ChapterVodService;
 use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
-use App\Services\Live as LiveService;
 
 class ChapterInfo extends FrontendService
 {
@@ -30,12 +27,13 @@ class ChapterInfo extends FrontendService
 
     use CourseTrait;
     use ChapterTrait;
+    use ChapterBasicInfoTrait;
 
     public function handle($id)
     {
-        $chapter = $this->checkChapterCache($id);
+        $chapter = $this->checkChapter($id);
 
-        $course = $this->checkCourseCache($chapter->course_id);
+        $course = $this->checkCourse($chapter->course_id);
 
         $this->course = $course;
 
@@ -54,9 +52,9 @@ class ChapterInfo extends FrontendService
 
     protected function handleChapter(ChapterModel $chapter, UserModel $user)
     {
-        $result = $this->formatChapter($chapter);
+        $result = $this->handleBasicInfo($chapter);
 
-        $result['course'] = $this->handleCourse($this->course);
+        $result['course'] = $this->handleCourseInfo($this->course);
 
         $me = [
             'plan_id' => 0,
@@ -91,109 +89,6 @@ class ChapterInfo extends FrontendService
         $result['me'] = $me;
 
         return $result;
-    }
-
-    protected function handleCourse(CourseModel $course)
-    {
-        return [
-            'id' => $course->id,
-            'title' => $course->title,
-            'cover' => $course->cover,
-        ];
-    }
-
-    protected function formatChapter(ChapterModel $chapter)
-    {
-        $item = [];
-
-        switch ($chapter->model) {
-            case CourseModel::MODEL_VOD:
-                $item = $this->formatChapterVod($chapter);
-                break;
-            case CourseModel::MODEL_LIVE:
-                $item = $this->formatChapterLive($chapter);
-                break;
-            case CourseModel::MODEL_READ:
-                $item = $this->formatChapterRead($chapter);
-                break;
-        }
-
-        return $item;
-    }
-
-    protected function formatChapterVod(ChapterModel $chapter)
-    {
-        $service = new ChapterVodService();
-
-        $playUrls = $service->getPlayUrls($chapter->id);
-
-        return [
-            'id' => $chapter->id,
-            'title' => $chapter->title,
-            'summary' => $chapter->summary,
-            'model' => $chapter->model,
-            'play_urls' => $playUrls,
-            'user_count' => $chapter->user_count,
-            'like_count' => $chapter->like_count,
-            'consult_count' => $chapter->consult_count,
-        ];
-    }
-
-    protected function formatChapterLive(ChapterModel $chapter)
-    {
-        $service = new LiveService();
-
-        $streamName = $this->getLiveStreamName($chapter->id);
-
-        $chapterRepo = new ChapterRepo();
-
-        $live = $chapterRepo->findChapterLive($chapter->id);
-
-        $playUrls = [];
-
-        if ($live->start_time - time() > 1800) {
-            $status = 'pending';
-        } elseif (time() - $live->end_time > 1800) {
-            $status = 'finished';
-        } else {
-            $status = $service->getStreamState($streamName);
-        }
-
-        if ($status == 'active') {
-            $playUrls = $service->getPullUrls($streamName);
-        }
-
-        return [
-            'id' => $chapter->id,
-            'title' => $chapter->title,
-            'summary' => $chapter->summary,
-            'model' => $chapter->model,
-            'status' => $status,
-            'start_time' => $live->start_time,
-            'end_time' => $live->end_time,
-            'play_urls' => $playUrls,
-            'user_count' => $chapter->user_count,
-            'like_count' => $chapter->like_count,
-            'consult_count' => $chapter->consult_count,
-        ];
-    }
-
-    protected function formatChapterRead(ChapterModel $chapter)
-    {
-        $chapterRepo = new ChapterRepo();
-
-        $read = $chapterRepo->findChapterRead($chapter->id);
-
-        return [
-            'id' => $chapter->id,
-            'title' => $chapter->title,
-            'summary' => $chapter->summary,
-            'model' => $chapter->model,
-            'content' => $read->content,
-            'user_count' => $chapter->user_count,
-            'like_count' => $chapter->like_count,
-            'consult_count' => $chapter->consult_count,
-        ];
     }
 
     protected function handleCourseUser(CourseModel $course, UserModel $user)
@@ -247,11 +142,6 @@ class ChapterInfo extends FrontendService
         $this->incrChapterUserCount($chapter);
     }
 
-    protected function getVodPosition(ChapterModel $chapter, UserModel $user)
-    {
-
-    }
-
     protected function getLiveStreamName($id)
     {
         return "chapter_{$id}";
@@ -259,12 +149,16 @@ class ChapterInfo extends FrontendService
 
     protected function incrCourseUserCount(CourseModel $course)
     {
-        $this->eventsManager->fire('courseCounter:incrUserCount', $this, $course);
+        $course->user_count += 1;
+
+        $course->update();
     }
 
     protected function incrChapterUserCount(ChapterModel $chapter)
     {
-        $this->eventsManager->fire('chapterCounter:incrUserCount', $this, $chapter);
+        $chapter->user_count += 1;
+
+        $chapter->update();
     }
 
 }

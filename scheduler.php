@@ -40,9 +40,6 @@ $scheduler->php($script, $bin, ['--task' => 'sync_course_counter', '--action' =>
 $scheduler->php($script, $bin, ['--task' => 'sync_chapter_counter', '--action' => 'main'])
     ->hourly(17);
 
-$scheduler->php($script, $bin, ['--task' => 'sync_comment_counter', '--action' => 'main'])
-    ->hourly(19);
-
 $scheduler->php($script, $bin, ['--task' => 'sync_consult_counter', '--action' => 'main'])
     ->hourly(23);
 

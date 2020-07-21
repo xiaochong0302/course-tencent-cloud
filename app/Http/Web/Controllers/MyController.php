@@ -52,6 +52,30 @@ class MyController extends Controller
     }
 
     /**
+     * @Get("/courses", name="web.my.courses")
+     */
+    public function coursesAction()
+    {
+        $service = new MyConsultListService();
+
+        $pager = $service->handle();
+
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/favorites", name="web.my.favorites")
+     */
+    public function favoritesAction()
+    {
+        $service = new MyConsultListService();
+
+        $pager = $service->handle();
+
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
      * @Get("/consults", name="web.my.consults")
      */
     public function consultsAction()

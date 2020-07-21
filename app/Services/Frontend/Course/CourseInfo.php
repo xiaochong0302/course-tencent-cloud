@@ -4,7 +4,6 @@ namespace App\Services\Frontend\Course;
 
 use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
-use App\Repos\Course as CourseRepo;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
@@ -13,10 +12,11 @@ class CourseInfo extends FrontendService
 {
 
     use CourseTrait;
+    use CourseBasicInfoTrait;
 
     public function handle($id)
     {
-        $course = $this->checkCourseCache($id);
+        $course = $this->checkCourse($id);
 
         $user = $this->getCurrentUser();
 
@@ -27,41 +27,7 @@ class CourseInfo extends FrontendService
 
     protected function handleCourse(CourseModel $course, UserModel $user)
     {
-        $repo = new CourseRepo();
-
-        $rating = $repo->findCourseRating($course->id);
-
-        $ratings = [
-            'rating' => $rating->rating,
-            'rating1' => $rating->rating1,
-            'rating2' => $rating->rating2,
-            'rating3' => $rating->rating3,
-        ];
-
-        $result = [
-            'id' => $course->id,
-            'title' => $course->title,
-            'cover' => $course->cover,
-            'summary' => $course->summary,
-            'details' => $course->details,
-            'keywords' => $course->keywords,
-            'category_id' => $course->category_id,
-            'teacher_id' => $course->teacher_id,
-            'market_price' => $course->market_price,
-            'vip_price' => $course->vip_price,
-            'study_expiry' => $course->study_expiry,
-            'refund_expiry' => $course->refund_expiry,
-            'ratings' => $ratings,
-            'model' => $course->model,
-            'level' => $course->level,
-            'attrs' => $course->attrs,
-            'user_count' => $course->user_count,
-            'lesson_count' => $course->lesson_count,
-            'package_count' => $course->package_count,
-            'review_count' => $course->review_count,
-            'consult_count' => $course->consult_count,
-            'favorite_count' => $course->favorite_count,
-        ];
+        $result = $this->handleBasicInfo($course);
 
         $me = [
             'plan_id' => 0,

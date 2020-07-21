@@ -121,11 +121,6 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         helper.ajaxLoadHtml($tabReviews.data('url'), $tabReviews.attr('id'));
     }
 
-    if ($('#sidebar-teachers').length > 0) {
-        var $sdTeachers = $('#sidebar-teachers');
-        helper.ajaxLoadHtml($sdTeachers.data('url'), $sdTeachers.attr('id'));
-    }
-
     if ($('#sidebar-topics').length > 0) {
         var $sdTopics = $('#sidebar-topics');
         helper.ajaxLoadHtml($sdTopics.data('url'), $sdTopics.attr('id'));

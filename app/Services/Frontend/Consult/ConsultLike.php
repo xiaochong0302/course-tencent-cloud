@@ -9,7 +9,6 @@ use App\Services\Frontend\ConsultTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Consult as ConsultValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
-use Phalcon\Events\Manager as EventsManager;
 
 class ConsultLike extends FrontendService
 {
@@ -64,25 +63,21 @@ class ConsultLike extends FrontendService
 
     protected function incrLikeCount(ConsultModel $consult)
     {
-        $this->getPhEventsManager()->fire('consultCounter:incrLikeCount', $this, $consult);
+        $consult->like_count += 1;
+
+        $consult->update();
     }
 
     protected function decrLikeCount(ConsultModel $consult)
     {
-        $this->getPhEventsManager()->fire('consultCounter:decrLikeCount', $this, $consult);
+        $consult->like_count -= 1;
+
+        $consult->update();
     }
 
     protected function incrUserDailyConsultLikeCount(UserModel $user)
     {
-        $this->getPhEventsManager()->fire('userDailyCounter:incrConsultLikeCount', $this, $user);
-    }
-
-    /**
-     * @return EventsManager
-     */
-    protected function getPhEventsManager()
-    {
-        return $this->getDI()->get('eventsManager');
+        $this->eventsManager->fire('userDailyCounter:incrConsultLikeCount', $this, $user);
     }
 
 }

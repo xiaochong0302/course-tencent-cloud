@@ -71,10 +71,6 @@ class CourseController extends Controller
 
         $course = $service->handle($id);
 
-        $service = new CourseQueryService();
-
-        $course['category_paths'] = $service->handleCategoryPaths($course['category_id']);
-
         $service = new RewardOptionList();
 
         $rewards = $service->handle();

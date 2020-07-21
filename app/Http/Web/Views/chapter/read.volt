@@ -6,6 +6,7 @@
     {% set course_url = url({'for':'web.course.show','id':chapter.course.id}) %}
     {% set learning_url = url({'for':'web.chapter.learning','id':chapter.id}) %}
     {% set like_url = url({'for':'web.chapter.like','id':chapter.id}) %}
+    {% set consult_url = url({'for':'web.consult.add'},{'chapter_id':chapter.id}) %}
     {% set qrcode_url = url({'for':'web.qrcode_img'},{'text':chapter_full_url}) %}
 
     <div class="breadcrumb">
@@ -17,6 +18,7 @@
         <span class="share">
             <a href="javascript:" title="点赞" data-url="{{ like_url }}"><i class="layui-icon layui-icon-praise icon-praise"></i><em class="like-count">{{ chapter.like_count }}</em></a>
             <a href="javascript:" title="学习人次"><i class="layui-icon layui-icon-user"></i><em>{{ chapter.user_count }}</em></a>
+            <a href="javascript:" title="我要提问" data-url="{{ consult_url }}"><i class="layui-icon layui-icon-help icon-help"></i></a>
             <a href="javascript:" title="分享到微信" data-url=""><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
             <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
             <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
@@ -49,8 +51,8 @@
 
 {% block include_js %}
 
-    {{ js_include('web/js/chapter.read.js') }}
-    {{ js_include('web/js/chapter.like.js') }}
     {{ js_include('web/js/course.share.js') }}
+    {{ js_include('web/js/chapter.read.js') }}
+    {{ js_include('web/js/chapter.action.js') }}
 
 {% endblock %}

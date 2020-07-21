@@ -18,7 +18,7 @@ class ReviewDelete extends FrontendService
     {
         $review = $this->checkReview($id);
 
-        $course = $this->checkCourseCache($review->course_id);
+        $course = $this->checkCourse($review->course_id);
 
         $user = $this->getLoginUser();
 
@@ -29,11 +29,15 @@ class ReviewDelete extends FrontendService
         $review->delete();
 
         $this->decrCourseReviewCount($course);
+
+        $this->updateCourseRating($course);
     }
 
     protected function decrCourseReviewCount(CourseModel $course)
     {
-        $this->eventsManager->fire('courseCounter:decrReviewCount', $this, $course);
+        $course->review_count -= 1;
+
+        $course->update();
     }
 
 }

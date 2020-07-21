@@ -61,7 +61,7 @@
             </td>
             <td>
                 <p>进度：{{ item.progress }}%</p>
-                <p>时长：{{ item.duration|total_duration }}</p>
+                <p>时长：{{ item.duration|duration }}</p>
             </td>
             <td>{{ source_type_info(item.source_type) }}</td>
             <td>

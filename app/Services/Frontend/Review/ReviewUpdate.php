@@ -19,18 +19,24 @@ class ReviewUpdate extends FrontendService
 
         $review = $this->checkReview($id);
 
+        $course = $this->checkCourse($review->course_id);
+
         $user = $this->getLoginUser();
 
         $validator = new ReviewValidator();
 
         $validator->checkOwner($user->id, $review->user_id);
 
-        $content = $validator->checkContent($post['content']);
-        $rating = $validator->checkRating($post['rating']);
+        $data = [];
 
-        $review->content = $content;
-        $review->rating = $rating;
-        $review->update();
+        $data['content'] = $validator->checkContent($post['content']);
+        $data['rating1'] = $validator->checkRating($post['rating1']);
+        $data['rating2'] = $validator->checkRating($post['rating2']);
+        $data['rating3'] = $validator->checkRating($post['rating3']);
+
+        $review->update($data);
+
+        $this->updateCourseRating($course);
     }
 
 }

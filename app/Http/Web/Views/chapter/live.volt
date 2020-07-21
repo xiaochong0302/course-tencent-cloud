@@ -74,7 +74,7 @@
 
     {{ js_include('web/js/chapter.live.player.js') }}
     {{ js_include('web/js/chapter.live.im.js') }}
-    {{ js_include('web/js/chapter.like.js') }}
+    {{ js_include('web/js/chapter.action.js') }}
     {{ js_include('web/js/course.share.js') }}
 
 {% endblock %}

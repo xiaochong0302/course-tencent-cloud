@@ -9,7 +9,6 @@ use App\Repos\ChapterLike as ChapterLikeRepo;
 use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
-use Phalcon\Events\Manager as EventsManager;
 
 class ChapterLike extends FrontendService
 {
@@ -64,25 +63,21 @@ class ChapterLike extends FrontendService
 
     protected function incrLikeCount(ChapterModel $chapter)
     {
-        $this->getPhEventsManager()->fire('chapterCounter:incrLikeCount', $this, $chapter);
+        $chapter->like_count += 1;
+
+        $chapter->update();
     }
 
     protected function decrLikeCount(ChapterModel $chapter)
     {
-        $this->getPhEventsManager()->fire('chapterCounter:decrLikeCount', $this, $chapter);
+        $chapter->like_count -= 1;
+
+        $chapter->update();
     }
 
     protected function incrUserDailyChapterLikeCount(UserModel $user)
     {
-        $this->getPhEventsManager()->fire('userDailyCounter:incrChapterLikeCount', $this, $user);
-    }
-
-    /**
-     * @return EventsManager
-     */
-    protected function getPhEventsManager()
-    {
-        return $this->getDI()->get('eventsManager');
+        $this->eventsManager->fire('userDailyCounter:incrChapterLikeCount', $this, $user);
     }
 
 }

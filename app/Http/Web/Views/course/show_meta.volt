@@ -5,7 +5,7 @@
     <div class="info">
         {% if course.model == 'vod' %}
             <p class="item">
-                <span class="key">课程时长</span><span class="value">{{ course.attrs.duration|total_duration }}</span>
+                <span class="key">课程时长</span><span class="value">{{ course.attrs.duration|duration }}</span>
             </p>
         {% elseif course.model == 'live' %}
             <p class="item">

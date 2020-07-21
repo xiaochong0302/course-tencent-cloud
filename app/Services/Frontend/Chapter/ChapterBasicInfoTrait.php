@@ -6,24 +6,13 @@ use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Services\ChapterVod as ChapterVodService;
-use App\Services\Frontend\ChapterTrait;
-use App\Services\Frontend\Service as FrontendService;
 use App\Services\Live as LiveService;
 use WhichBrowser\Parser as BrowserParser;
 
-class ChapterInfoBasic extends FrontendService
+trait ChapterBasicInfoTrait
 {
 
-    use ChapterTrait;
-
-    public function handle($id)
-    {
-        $chapter = $this->checkChapterCache($id);
-
-        return $this->handleChapter($chapter);
-    }
-
-    protected function handleChapter(ChapterModel $chapter)
+    protected function handleBasicInfo(ChapterModel $chapter)
     {
         $result = [];
 
@@ -42,6 +31,15 @@ class ChapterInfoBasic extends FrontendService
         return $result;
     }
 
+    protected function handleCourseInfo(CourseModel $course)
+    {
+        return [
+            'id' => $course->id,
+            'title' => $course->title,
+            'cover' => $course->cover,
+        ];
+    }
+
     protected function formatChapterVod(ChapterModel $chapter)
     {
         $chapterVodService = new ChapterVodService();
@@ -56,7 +54,6 @@ class ChapterInfoBasic extends FrontendService
             'play_urls' => $playUrls,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
-            'comment_count' => $chapter->comment_count,
         ];
     }
 
@@ -88,7 +85,6 @@ class ChapterInfoBasic extends FrontendService
             'end_time' => $live->end_time,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
-            'comment_count' => $chapter->comment_count,
         ];
     }
 
@@ -106,7 +102,6 @@ class ChapterInfoBasic extends FrontendService
             'content' => $read->content,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
-            'comment_count' => $chapter->comment_count,
         ];
     }
 

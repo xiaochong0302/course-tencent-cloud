@@ -5,8 +5,8 @@ namespace App\Services\Frontend\Review;
 use App\Models\Course as CourseModel;
 use App\Models\Review as ReviewModel;
 use App\Models\User as UserModel;
-use App\Repos\CourseRating as CourseRatingRepo;
 use App\Services\Frontend\CourseTrait;
+use App\Services\Frontend\ReviewTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\CourseUser as CourseUserValidator;
 use App\Validators\Review as ReviewValidator;
@@ -16,6 +16,7 @@ class ReviewCreate extends FrontendService
 {
 
     use CourseTrait;
+    use ReviewTrait;
 
     public function handle()
     {
@@ -36,14 +37,15 @@ class ReviewCreate extends FrontendService
 
         $validator = new ReviewValidator();
 
-        $data = [];
+        $data = [
+            'course_id' => $course->id,
+            'user_id' => $user->id,
+        ];
 
         $data['content'] = $validator->checkContent($post['content']);
         $data['rating1'] = $validator->checkRating($post['rating1']);
         $data['rating2'] = $validator->checkRating($post['rating2']);
         $data['rating3'] = $validator->checkRating($post['rating3']);
-        $data['course_id'] = $course->id;
-        $data['user_id'] = $user->id;
 
         $review = new ReviewModel();
 
@@ -58,25 +60,11 @@ class ReviewCreate extends FrontendService
         return $review;
     }
 
-    protected function updateCourseRating(CourseModel $course)
-    {
-        $repo = new CourseRatingRepo();
-
-        $courseRating = $repo->findByCourseId($course->id);
-
-        $courseRating->rating = $repo->averageRating($course->id);
-        $courseRating->rating1 = $repo->averageRating1($course->id);
-        $courseRating->rating2 = $repo->averageRating2($course->id);
-        $courseRating->rating3 = $repo->averageRating3($course->id);
-        $courseRating->update();
-
-        $course->rating = $courseRating->rating;
-        $course->update();
-    }
-
     protected function incrCourseReviewCount(CourseModel $course)
     {
-        $this->eventsManager->fire('courseCounter:incrReviewCount', $this, $course);
+        $course->review_count += 1;
+
+        $course->update();
     }
 
     protected function incrUserDailyReviewCount(UserModel $user)

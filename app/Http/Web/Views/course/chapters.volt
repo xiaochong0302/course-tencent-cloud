@@ -8,9 +8,9 @@
             <span class="layui-badge free-badge">免费</span>
         {% endif %}
         {% if lesson.me.duration > 0 %}
-            <span class="study-time" title="学习时长：{{ lesson.me.duration|total_duration }}"><i class="layui-icon layui-icon-time"></i></span>
+            <span class="study-time" title="学习时长：{{ lesson.me.duration|duration }}"><i class="layui-icon layui-icon-time"></i></span>
         {% endif %}
-        <span class="duration">{{ lesson.attrs.duration|total_duration }}</span>
+        <span class="duration">{{ lesson.attrs.duration|duration }}</span>
     </a>
 {%- endmacro %}
 
@@ -25,7 +25,7 @@
             <span class="layui-badge free-badge">免费</span>
         {% endif %}
         {% if lesson.me.duration > 0 %}
-            <span class="study-time" title="学习时长：{{ lesson.me.duration|total_duration }}"><i class="layui-icon layui-icon-time"></i></span>
+            <span class="study-time" title="学习时长：{{ lesson.me.duration|duration }}"><i class="layui-icon layui-icon-time"></i></span>
         {% endif %}
         <span class="live">{{ date('m月d日',lesson.attrs.start_time) }} {{ date('H:i',lesson.attrs.start_time) }}~{{ date('H:i',lesson.attrs.end_time) }} {{ over_flag }}</span>
     </a>
@@ -41,7 +41,7 @@
             <span class="layui-badge free-badge">免费</span>
         {% endif %}
         {% if lesson.me.duration > 0 %}
-            <span class="study-time" title="学习时长：{{ lesson.me.duration|total_duration }}"><i class="layui-icon layui-icon-time"></i></span>
+            <span class="study-time" title="学习时长：{{ lesson.me.duration|duration }}"><i class="layui-icon layui-icon-time"></i></span>
         {% endif %}
     </a>
 {%- endmacro %}

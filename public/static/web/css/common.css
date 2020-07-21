@@ -1327,6 +1327,16 @@ body {
     cursor: pointer;
 }
 
+.my-sidebar {
+    float: left;
+    width: 220px;
+}
+
+.my-content {
+    float: right;
+    width: 900px;
+}
+
 .my-profile-card {
     text-align: center;
 }
@@ -1336,8 +1346,8 @@ body {
 }
 
 .my-profile-card .avatar img {
-    width: 96px;
-    height: 96px;
+    width: 90px;
+    height: 90px;
     border-radius: 100px;
 }
 
@@ -1347,7 +1357,7 @@ body {
 
 .my-menu li {
     line-height: 30px;
-    text-align: center;
+    padding-left: 30px;
 }
 
 .my-nav-title {
@@ -1388,8 +1398,7 @@ body {
 }
 
 .order-filter {
-    line-height: 40px;
-    margin-bottom: 20px;
+    padding: 15px;
 }
 
 .order-filter a {
@@ -1404,20 +1413,56 @@ body {
     color: red;
 }
 
-.order-item {
+.order-card {
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.order-card .header {
     padding-bottom: 10px;
     margin-bottom: 10px;
     border-bottom: 1px solid #e6e6e6;
 }
 
-.order-item:last-child {
-    padding-bottom: 0;
-    margin-bottom: 0;
-    border-bottom: none;
+.order-card .header span {
+    margin-right: 10px;
 }
 
-.order-item span {
-    margin-right: 8px;
+.order-card .header .sn {
+    color: #666;
+}
+
+.order-card .header .time {
+    color: #666;
+}
+
+.order-card .body {
+}
+
+.order-card .column {
+    float: left;
+    line-height: 40px;
+}
+
+.order-card .subject {
+    width: 50%;
+    color: #666;
+}
+
+.order-card .price {
+    width: 20%;
+    color: red;
+}
+
+.order-card .status {
+    width: 20%;
+    color: #666;
+}
+
+.order-card .action {
+    width: 10%;
 }
 
 .im-search-wrap {

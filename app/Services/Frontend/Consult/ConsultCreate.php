@@ -52,7 +52,9 @@ class ConsultCreate extends FrontendService
         $consult->create();
 
         $this->incrCourseConsultCount($course);
+
         $this->incrChapterConsultCount($chapter);
+
         $this->incrUserDailyConsultCount($user);
 
         return $consult;
@@ -76,12 +78,16 @@ class ConsultCreate extends FrontendService
 
     protected function incrCourseConsultCount(CourseModel $course)
     {
-        $this->eventsManager->fire('courseCounter:incrConsultCount', $this, $course);
+        $course->consult_count += 1;
+
+        $course->update();
     }
 
     protected function incrChapterConsultCount(ChapterModel $chapter)
     {
-        $this->eventsManager->fire('chapterCounter:incrConsultCount', $this, $chapter);
+        $chapter->consult_count += 1;
+
+        $chapter->update();
     }
 
     protected function incrUserDailyConsultCount(UserModel $user)

@@ -9,7 +9,6 @@ use App\Services\Frontend\ReviewTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Review as ReviewValidator;
 use App\Validators\UserDailyLimit as UserDailyLimitValidator;
-use Phalcon\Events\Manager as EventsManager;
 
 class ReviewLike extends FrontendService
 {
@@ -64,25 +63,21 @@ class ReviewLike extends FrontendService
 
     protected function incrLikeCount(ReviewModel $review)
     {
-        $this->getPhEventsManager()->fire('reviewCounter:incrLikeCount', $this, $review);
+        $review->like_count += 1;
+
+        $review->update();
     }
 
     protected function decrLikeCount(ReviewModel $review)
     {
-        $this->getPhEventsManager()->fire('reviewCounter:decrLikeCount', $this, $review);
+        $review->like_count -= 1;
+
+        $review->update();
     }
 
     protected function incrUserDailyReviewLikeCount(UserModel $user)
     {
-        $this->getPhEventsManager()->fire('userDailyCounter:incrReviewLikeCount', $this, $user);
-    }
-
-    /**
-     * @return EventsManager
-     */
-    protected function getPhEventsManager()
-    {
-        return $this->getDI()->get('eventsManager');
+        $this->eventsManager->fire('userDailyCounter:incrReviewLikeCount', $this, $user);
     }
 
 }

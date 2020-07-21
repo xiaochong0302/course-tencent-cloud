@@ -3,8 +3,8 @@
 {% block content %}
 
     <div class="layout-main">
-        <div class="layout-sidebar">{{ partial('my/menu') }}</div>
-        <div class="layout-content">
+        <div class="my-sidebar">{{ partial('my/menu') }}</div>
+        <div class="my-content">
             <div class="wrap">
                 <div class="my-nav-title">个人信息</div>
                 <form class="layui-form my-form" method="post" action="{{ url({'for':'web.my.update_profile'}) }}">
@@ -42,4 +42,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

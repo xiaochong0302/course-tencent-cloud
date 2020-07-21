@@ -2,7 +2,9 @@
 
 namespace App\Services\Frontend\Consult;
 
+use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
+use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\ConsultTrait;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
@@ -11,8 +13,9 @@ use App\Validators\Consult as ConsultValidator;
 class ConsultDelete extends FrontendService
 {
 
-    use ConsultTrait;
     use CourseTrait;
+    use ChapterTrait;
+    use ConsultTrait;
 
     public function handle($id)
     {
@@ -20,20 +23,33 @@ class ConsultDelete extends FrontendService
 
         $course = $this->checkCourse($consult->course_id);
 
+        $chapter = $this->checkChapter($consult->chapter_id);
+
         $user = $this->getLoginUser();
 
         $validator = new ConsultValidator();
 
         $validator->checkOwner($user->id, $consult->user_id);
 
-        $consult->delete();
+        $consult->update(['deleted' => 1]);
 
         $this->decrCourseConsultCount($course);
+
+        $this->decrChapterConsultCount($chapter);
     }
 
     protected function decrCourseConsultCount(CourseModel $course)
     {
-        $this->eventsManager->fire('courseCounter:decrConsultCount', $this, $course);
+        $course->consult_count -= 1;
+
+        $course->update();
+    }
+
+    protected function decrChapterConsultCount(ChapterModel $chapter)
+    {
+        $chapter->consult_count -= 1;
+
+        $chapter->update();
     }
 
 }

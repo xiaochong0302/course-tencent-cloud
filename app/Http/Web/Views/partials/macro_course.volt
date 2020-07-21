@@ -108,7 +108,7 @@
                     <div class="layui-progress-bar" lay-percent="{{ item.progress }}%"></div>
                 </div>
             </div>
-            <div class="duration">已学习 {{ item.duration|total_duration }}</div>
+            <div class="duration">已学习 {{ item.duration|duration }}</div>
         </div>
     </div>
 {%- endmacro %}

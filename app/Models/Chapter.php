@@ -126,11 +126,11 @@ class Chapter extends Model
     public $user_count;
 
     /**
-     * 评论数
+     * 咨询数
      *
      * @var int
      */
-    public $comment_count;
+    public $consult_count;
 
     /**
      * 点赞数
