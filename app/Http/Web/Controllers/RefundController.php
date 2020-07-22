@@ -7,6 +7,7 @@ use App\Services\Frontend\Refund\RefundCancel as RefundCancelService;
 use App\Services\Frontend\Refund\RefundConfirm as RefundConfirmService;
 use App\Services\Frontend\Refund\RefundCreate as RefundCreateService;
 use App\Services\Frontend\Refund\RefundInfo as RefundInfoService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/refund")
@@ -29,6 +30,7 @@ class RefundController extends Controller
 
         $confirm = $service->handle($sn);
 
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('order', $order);
         $this->view->setVar('confirm', $confirm);
     }
@@ -61,6 +63,7 @@ class RefundController extends Controller
 
         $refund = $service->handle($sn);
 
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('refund', $refund);
     }
 

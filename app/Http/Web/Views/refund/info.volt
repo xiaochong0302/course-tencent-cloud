@@ -1,41 +1,30 @@
-{% extends 'templates/full.volt' %}
+{% extends 'templates/layer.volt' %}
 
 {% block content %}
 
     {{ partial('partials/macro_refund') }}
 
-    <div class="layui-breadcrumb breadcrumb">
-        <a href="/">首页</a>
-        <a href="{{ url({'for':'web.my.refunds'}) }}">我的退款</a>
-        <a><cite>退款详情</cite></a>
-        <a><cite>{{ refund.subject }}</cite></a>
-    </div>
+    {% set cancel_url = url({'for':'web.refund.cancel'}) %}
 
-    <div class="wrap">
-        <table class="layui-table kg-table order-table" lay-size="lg">
-            <tr>
-                <td>退款项目</td>
-                <td>订单金额</td>
-                <td>退款金额</td>
-                <td>退款状态</td>
-                <td>流转时间</td>
-            </tr>
-            <tr>
-                <td>{{ refund.subject }}</td>
-                <td><span class="price">{{ '￥%0.2f'|format(refund.order.amount) }}</span></td>
-                <td><span class="price">{{ '￥%0.2f'|format(refund.amount) }}</span></td>
-                <td>{{ refund_status(refund.status) }}</td>
-                <td>{{ status_history(refund.status_history) }}</td>
-            </tr>
-        </table>
-        <br>
-        <div class="text-center">
-            <button class="kg-back layui-btn layui-bg-gray">返回上页</button>
-            {% if refund.status == 'approved' %}
-                <button class="kg-refund layui-btn" data-sn="{{ refund.sn }}" data-url="{{ url({'for':'web.refund.cancel'}) }}">取消退款</button>
-            {% endif %}
-        </div>
-        <br>
+    <table class="layui-table order-table" lay-size="lg">
+        <tr>
+            <td colspan="2">
+                订单金额：<span class="price">{{ '￥%0.2f'|format(refund.order.amount) }}</span>
+                退款金额：<span class="price">{{ '￥%0.2f'|format(refund.amount) }}</span>
+                退款状态：<span class="status">{{ refund_status(refund.status) }}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>{{ refund.subject }}</td>
+            <td>{{ status_history(refund.status_history) }}</td>
+        </tr>
+    </table>
+    <br>
+    <div class="text-center">
+        <button class="layui-btn layui-bg-gray btn-close">关闭窗口</button>
+        {% if refund.status == 'approved' %}
+            <button class="kg-refund layui-btn" data-sn="{{ refund.sn }}" data-url="{{ cancel_url }}">取消退款</button>
+        {% endif %}
     </div>
 
 {% endblock %}
@@ -43,30 +32,30 @@
 {% block inline_js %}
 
     <script>
-        var $ = layui.jquery;
-        var layer = layui.layer;
-        $('.kg-refund').on('click', function () {
-            var url = $(this).data('url');
-            var data = {sn: $(this).data('sn')};
-            var tips = '确定要取消退款吗？';
-            layer.confirm(tips, function () {
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: data,
-                    success: function (res) {
-                        layer.msg(res.msg, {icon: 1});
-                        setTimeout(function () {
-                            window.location.href = '/my/refunds';
-                        }, 1500);
-                    },
-                    error: function (xhr) {
-                        var json = JSON.parse(xhr.responseText);
-                        layer.msg(json.msg, {icon: 2});
-                    }
-                });
-            }, function () {
+        layui.use(['jquery', 'layer'], function () {
 
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var index = parent.layer.getFrameIndex(window.name);
+
+            parent.layer.iframeAuto(index);
+
+            $('.kg-refund').on('click', function () {
+                layer.confirm('确定要取消退款吗？', function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: $(this).data('url'),
+                        data: {sn: $(this).data('sn')},
+                        success: function (res) {
+                            layer.msg(res.msg, {icon: 1});
+                            setTimeout(function () {
+                                parent.window.location.href = '/my/refunds';
+                            }, 1500);
+                        }
+                    });
+                }, function () {
+
+                });
             });
         });
     </script>

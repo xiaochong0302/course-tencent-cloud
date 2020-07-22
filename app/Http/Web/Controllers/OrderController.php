@@ -7,6 +7,7 @@ use App\Services\Frontend\Order\OrderCancel as OrderCancelService;
 use App\Services\Frontend\Order\OrderConfirm as OrderConfirmService;
 use App\Services\Frontend\Order\OrderCreate as OrderCreateService;
 use App\Services\Frontend\Order\OrderInfo as OrderInfoService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/order")
@@ -25,6 +26,7 @@ class OrderController extends Controller
 
         $order = $service->handle($sn);
 
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('order', $order);
     }
 

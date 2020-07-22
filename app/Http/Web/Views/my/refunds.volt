@@ -20,6 +20,7 @@
             {% if pager.total_pages > 0 %}
                 <div class="order-list">
                     {% for item in pager.items %}
+                        {% set refund_info_url = url({'for':'web.refund.info'},{'sn':item.sn}) %}
                         <div class="order-card">
                             <div class="header">
                                 <span class="sn">编号：{{ item.sn }}</span>
@@ -30,7 +31,7 @@
                                 <div class="column price">{{ '￥%0.2f'|format(item.amount) }}</div>
                                 <div class="column status">{{ refund_status(item.status) }}</div>
                                 <div class="column action">
-                                    <a class="layui-btn layui-btn-sm" href="javascript:">详情</a>
+                                    <a class="layui-btn layui-btn-sm btn-refund-info" href="javascript:" data-url="{{ refund_info_url }}">详情</a>
                                 </div>
                             </div>
                         </div>
@@ -40,5 +41,11 @@
             {% endif %}
         </div>
     </div>
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('web/js/my.js') }}
 
 {% endblock %}

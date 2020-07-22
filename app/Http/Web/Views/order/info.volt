@@ -1,44 +1,43 @@
-{% extends 'templates/full.volt' %}
+{% extends 'templates/layer.volt' %}
 
 {% block content %}
 
     {{ partial('partials/macro_order') }}
 
-    <div class="layui-breadcrumb breadcrumb">
-        <a href="/">首页</a>
-        <a href="{{ url({'for':'web.my.orders'}) }}">我的订单</a>
-        <a><cite>订单详情</cite></a>
-        <a><cite>{{ order.subject }}</cite></a>
+    {% set order_pay_url = url({'for':'web.order.pay'},{'sn':order.sn}) %}
+    {% set refund_confirm_url = url({'for':'web.refund.confirm'},{'sn':order.sn}) %}
+
+    <table class="layui-table order-table" lay-size="lg">
+        <tr>
+            <td colspan="2">
+                订单金额：<span class="price">{{ '￥%0.2f'|format(order.amount) }}</span>
+                订单状态：<span class="status">{{ order_status(order.status) }}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>{{ item_info(order) }}</td>
+            <td>{{ status_history(order.status_history) }}</td>
+        </tr>
+    </table>
+    <br>
+    <div class="text-center">
+        {% if order.status == 'pending' %}
+            <a class="layui-btn layui-bg-blue" href="{{ order_pay_url }}" target="_top">立即支付</a>
+        {% endif %}
+        {% if (order.item_type in ['course','package']) and (order.status == 'finished') %}
+            <a class="layui-btn layui-bg-blue" href="{{ refund_confirm_url }}">申请退款</a>
+        {% endif %}
     </div>
 
-    <div class="wrap">
-        <table class="layui-table kg-table order-table" lay-size="lg">
-            <tr>
-                <td>基本信息</td>
-                <td>订单金额</td>
-                <td>订单类型</td>
-                <td>订单状态</td>
-                <td>流转时间</td>
-            </tr>
-            <tr>
-                <td>{{ item_info(order) }}</td>
-                <td><span class="price">{{ '￥%0.2f'|format(order.amount) }}</span></td>
-                <td>{{ item_type(order.item_type) }}</td>
-                <td>{{ order_status(order.status) }}</td>
-                <td>{{ status_history(order.status_history) }}</td>
-            </tr>
-        </table>
-        <br>
-        <div class="text-center">
-            <a href="javascript:" class="kg-back layui-btn layui-bg-gray">返回上页</a>
-            {% if order.status == 'pending' %}
-                <a class="layui-btn layui-bg-blue" href="{{ url({'for':'web.order.pay'},{'sn':order.sn}) }}">立即支付</a>
-            {% endif %}
-            {% if (order.item_type in ['course','package']) and (order.status == 'finished') %}
-                <a class="layui-btn layui-bg-blue" href="{{ url({'for':'web.refund.confirm'},{'sn':order.sn}) }}">申请退款</a>
-            {% endif %}
-        </div>
-        <br>
-    </div>
+{% endblock %}
+
+{% block inline_js %}
+
+    <script>
+        layui.use(['jquery', 'layer'], function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.iframeAuto(index);
+        });
+    </script>
 
 {% endblock %}

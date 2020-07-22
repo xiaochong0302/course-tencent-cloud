@@ -1405,18 +1405,39 @@ body {
     margin-right: 30px;
 }
 
-.kg-table p {
+.order-table {
+    margin: 0;
+}
+
+.order-table p {
     line-height: 1.8em;
+}
+
+.order-table span {
+    margin-right: 10px;
 }
 
 .order-table .price {
     color: red;
 }
 
+.order-item {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.order-item:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
 .order-card {
     padding: 15px;
     margin-bottom: 20px;
     background-color: white;
+    color: #666;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
@@ -1428,17 +1449,6 @@ body {
 
 .order-card .header span {
     margin-right: 10px;
-}
-
-.order-card .header .sn {
-    color: #666;
-}
-
-.order-card .header .time {
-    color: #666;
-}
-
-.order-card .body {
 }
 
 .order-card .column {
