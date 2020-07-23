@@ -19,20 +19,34 @@ class UserInfo extends FrontendService
     {
         $user->avatar = kg_ci_img_url($user->avatar);
 
+        $area = $this->handleArea($user->location);
+
         return [
             'id' => $user->id,
             'name' => $user->name,
             'avatar' => $user->avatar,
             'title' => $user->title,
             'about' => $user->about,
-            'location' => $user->location,
             'gender' => $user->gender,
+            'location' => $user->location,
+            'area' => $area,
             'vip' => $user->vip,
             'locked' => $user->locked,
             'vip_expiry_time' => $user->vip_expiry_time,
             'lock_expiry_time' => $user->lock_expiry_time,
             'edu_role' => $user->edu_role,
             'admin_role' => $user->admin_role,
+        ];
+    }
+
+    protected function handleArea($location)
+    {
+        $area = explode('/', $location);
+
+        return [
+            'province' => $area[0] ?? '',
+            'city' => $area[1] ?? '',
+            'county' => $area[2] ?? '',
         ];
     }
 

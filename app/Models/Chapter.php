@@ -227,31 +227,6 @@ class Chapter extends Model
 
     public function afterCreate()
     {
-        if ($this->parent_id > 0) {
-
-            $course = Course::findFirst($this->course_id);
-
-            $data = [
-                'course_id' => $course->id,
-                'chapter_id' => $this->id,
-            ];
-
-            switch ($course->model) {
-                case Course::MODEL_VOD:
-                    $chapterVod = new ChapterVod();
-                    $chapterVod->create($data);
-                    break;
-                case Course::MODEL_LIVE:
-                    $chapterLive = new ChapterLive();
-                    $chapterLive->create($data);
-                    break;
-                case Course::MODEL_READ:
-                    $chapterRead = new ChapterRead();
-                    $chapterRead->create($data);
-                    break;
-            }
-        }
-
         $cache = new MaxChapterIdCache();
 
         $cache->rebuild();

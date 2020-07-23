@@ -10,7 +10,7 @@ class ImFriendGroup extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -24,35 +24,35 @@ class ImFriendGroup extends Model
     /**
      * 优先级
      *
-     * @var integer
+     * @var int
      */
     public $priority;
 
     /**
      * 状态
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 成员数
      *
-     * @var integer
+     * @var int
      */
     public $user_count;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $update_time;
 

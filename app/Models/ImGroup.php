@@ -9,25 +9,38 @@ class ImGroup extends Model
 {
 
     /**
+     * 群组类型
+     */
+    const TYPE_COURSE = 'course'; // 课程
+    const TYPE_CHAT = 'chat'; // 聊天
+
+    /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 课程编号
      *
-     * @var integer
+     * @var int
      */
     public $course_id;
 
     /**
      * 群主编号
      *
-     * @var string
+     * @var int
      */
     public $user_id;
+
+    /**
+     * 群组类型
+     *
+     * @var string
+     */
+    public $type;
 
     /**
      * 名称
@@ -53,35 +66,35 @@ class ImGroup extends Model
     /**
      * 发布状态
      *
-     * @var integer
+     * @var int
      */
     public $published;
 
     /**
      * 删除状态
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 成员数
      *
-     * @var integer
+     * @var int
      */
     public $user_count;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $update_time;
 

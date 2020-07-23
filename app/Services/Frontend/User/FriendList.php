@@ -2,7 +2,7 @@
 
 namespace App\Services\Frontend\User;
 
-use App\Builders\FriendUserList as FriendUserListBuilder;
+use App\Builders\ImFriendUserList as ImFriendUserListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Services\Frontend\Service as FrontendService;
@@ -15,7 +15,7 @@ class FriendList extends FrontendService
 
     public function handle($id)
     {
-        $user = $this->checkUserCache($id);
+        $user = $this->checkUser($id);
 
         $pagerQuery = new PagerQuery();
 
@@ -40,7 +40,7 @@ class FriendList extends FrontendService
             return $pager;
         }
 
-        $builder = new FriendUserListBuilder();
+        $builder = new ImFriendUserListBuilder();
 
         $relations = $pager->items->toArray();
 

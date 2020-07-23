@@ -112,6 +112,15 @@ class User extends Validator
         return $value;
     }
 
+    public function checkArea($area)
+    {
+        if (empty($area['province'] || empty($area['city']) || empty($area['county']))) {
+            throw new BadRequestException('user.invalid_area');
+        }
+
+        return join('/', $area);
+    }
+
     public function checkEduRole($value)
     {
         $list = UserModel::eduRoleTypes();

@@ -299,10 +299,6 @@ class Course extends Model
 
     public function afterCreate()
     {
-        $courseRating = new CourseRating();
-
-        $courseRating->create(['course_id' => $this->id]);
-
         $cache = new MaxCourseIdCache();
 
         $cache->rebuild();

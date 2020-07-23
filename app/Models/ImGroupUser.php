@@ -8,49 +8,49 @@ class ImGroupUser extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 群组编号
      *
-     * @var integer
+     * @var int
      */
     public $group_id;
 
     /**
      * 用户编号
      *
-     * @var integer
+     * @var int
      */
     public $user_id;
 
     /**
      * 优先级
      *
-     * @var integer
+     * @var int
      */
     public $priority;
 
     /**
      * 屏蔽标识
      *
-     * @var integer
+     * @var int
      */
     public $blocked;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $update_time;
 

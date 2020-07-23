@@ -5,6 +5,7 @@ namespace App\Http\Web\Controllers;
 use App\Services\Frontend\User\CourseList as UserCourseListService;
 use App\Services\Frontend\User\FavoriteList as UserFavoriteListService;
 use App\Services\Frontend\User\FriendList as UserFriendListService;
+use App\Services\Frontend\User\GroupList as UserGroupListService;
 use App\Services\Frontend\User\UserInfo as UserInfoService;
 use Phalcon\Mvc\View;
 
@@ -71,6 +72,22 @@ class UserController extends Controller
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('user/friends');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/groups", name="web.user.groups")
+     */
+    public function groupsAction($id)
+    {
+        $service = new UserGroupListService();
+
+        $pager = $service->handle($id);
+        $pager->items = kg_array_object($pager->items);
+        $pager->target = 'tab-groups';
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('user/groups');
         $this->view->setVar('pager', $pager);
     }
 

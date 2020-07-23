@@ -2,13 +2,13 @@
 
 namespace App\Services\Frontend\User;
 
-use App\Builders\CourseFavoriteList as CourseFavoriteListBuilder;
+use App\Builders\ImGroupUserList as ImGroupUserListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Repos\CourseFavorite as CourseFavoriteRepo;
+use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Services\Frontend\Service as FrontendService;
 use App\Services\Frontend\UserTrait;
 
-class FavoriteList extends FrontendService
+class GroupList extends FrontendService
 {
 
     use UserTrait;
@@ -22,36 +22,35 @@ class FavoriteList extends FrontendService
         $params = $pagerQuery->getParams();
 
         $params['user_id'] = $user->id;
-        $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $favoriteRepo = new CourseFavoriteRepo();
+        $repo = new ImGroupUserRepo();
 
-        $pager = $favoriteRepo->paginate($params, $sort, $page, $limit);
+        $pager = $repo->paginate($params, $sort, $page, $limit);
 
-        return $this->handleCourses($pager);
+        return $this->handleGroups($pager);
     }
 
-    protected function handleCourses($pager)
+    protected function handleGroups($pager)
     {
         if ($pager->total_items == 0) {
             return $pager;
         }
 
-        $builder = new CourseFavoriteListBuilder();
+        $builder = new ImGroupUserListBuilder();
 
         $relations = $pager->items->toArray();
 
-        $courses = $builder->getCourses($relations);
+        $groups = $builder->getGroups($relations);
 
         $items = [];
 
         foreach ($relations as $relation) {
-            $course = $courses[$relation['course_id']] ?? new \stdClass();
-            $items[] = $course;
+            $group = $groups[$relation['group_id']] ?? new \stdClass();
+            $items[] = $group;
         }
 
         $pager->items = $items;

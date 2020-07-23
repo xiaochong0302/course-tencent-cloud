@@ -10,8 +10,10 @@ use App\Caches\CourseTeacherList as CourseTeacherListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
+use App\Models\CourseRating as CourseRatingModel;
 use App\Models\CourseRelated as CourseRelatedModel;
 use App\Models\CourseUser as CourseUserModel;
+use App\Models\ImGroup as ImGroupModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
@@ -65,20 +67,57 @@ class Course extends Service
 
         $validator = new CourseValidator();
 
-        $data = [];
+        $model = $validator->checkModel($post['model']);
+        $title = $validator->checkTitle($post['title']);
 
-        $data['model'] = $validator->checkModel($post['model']);
-        $data['title'] = $validator->checkTitle($post['title']);
+        try {
 
-        $course = new CourseModel();
+            $this->db->begin();
 
-        $course->create($data);
+            $course = new CourseModel();
 
-        $this->rebuildCourseCache($course);
+            $course->model = $model;
+            $course->title = $title;
 
-        $this->rebuildCourseIndex($course);
+            if ($course->create() === false) {
+                throw new \RuntimeException('Create Course Failed');
+            }
 
-        return $course;
+            $courseRating = new CourseRatingModel();
+
+            $courseRating->course_id = $course->id;
+
+            if ($courseRating->create() === false) {
+                throw new \RuntimeException('Create CourseRating Failed');
+            }
+
+            $imGroup = new ImGroupModel();
+
+            $imGroup->course_id = $course->id;
+            $imGroup->name = $course->title;
+            $imGroup->about = $course->summary;
+
+            if ($imGroup->create() === false) {
+                throw new \RuntimeException('Create ImGroup Failed');
+            }
+
+            $this->db->commit();
+
+            return $course;
+
+        } catch (\Exception $e) {
+
+            $this->db->rollback();
+
+            $logger = $this->getLogger();
+
+            $logger->error('Create Course Error ' . kg_json_encode([
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            throw new \RuntimeException('sys.trans_rollback');
+        }
     }
 
     public function updateCourse($id)
@@ -149,8 +188,6 @@ class Course extends Service
 
         $course->update($data);
 
-        $this->rebuildCourseCache($course);
-
         $this->rebuildCourseIndex($course);
 
         return $course;
@@ -164,8 +201,6 @@ class Course extends Service
 
         $course->update();
 
-        $this->rebuildCourseCache($course);
-
         $this->rebuildCourseIndex($course);
 
         return $course;
@@ -178,8 +213,6 @@ class Course extends Service
         $course->deleted = 0;
 
         $course->update();
-
-        $this->rebuildCourseCache($course);
 
         $this->rebuildCourseIndex($course);
 

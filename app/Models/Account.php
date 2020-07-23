@@ -90,17 +90,4 @@ class Account extends Model
         $this->update_time = time();
     }
 
-    public function afterCreate()
-    {
-        $user = new User();
-        $user->id = $this->id;
-        $user->name = "user_{$this->id}";
-        $user->create();
-
-        $imUser = new ImUser();
-        $imUser->id = $this->id;
-        $imUser->name = "user_{$this->id}";
-        $imUser->create();
-    }
-
 }

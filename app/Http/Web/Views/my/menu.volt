@@ -40,8 +40,8 @@
     <div class="layui-card-header">聊天设置</div>
     <div class="layui-card-body">
         <ul class="my-menu">
-            <li><a href="{{ url({'for':'web.my.profile'}) }}">我的好友</a></li>
-            <li><a href="{{ url({'for':'web.my.account'}) }}">我的群组</a></li>
+            <li><a href="{{ url({'for':'web.my.friends'}) }}">我的好友</a></li>
+            <li><a href="{{ url({'for':'web.my.groups'}) }}">我的群组</a></li>
         </ul>
     </div>
 </div>

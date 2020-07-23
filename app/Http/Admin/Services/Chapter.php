@@ -5,6 +5,9 @@ namespace App\Http\Admin\Services;
 use App\Caches\Chapter as ChapterCache;
 use App\Caches\CourseChapterList as CourseChapterListCache;
 use App\Models\Chapter as ChapterModel;
+use App\Models\ChapterLive as ChapterLiveModel;
+use App\Models\ChapterRead as ChapterReadModel;
+use App\Models\ChapterVod as ChapterVodModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
@@ -47,6 +50,8 @@ class Chapter extends Service
 
         $chapterRepo = new ChapterRepo();
 
+        $parentId = 0;
+
         if (isset($post['parent_id'])) {
             $parent = $validator->checkParent($post['parent_id']);
             $data['parent_id'] = $parent->id;
@@ -54,21 +59,72 @@ class Chapter extends Service
             $data['priority'] = $chapterRepo->maxLessonPriority($post['parent_id']);
         } else {
             $data['priority'] = $chapterRepo->maxChapterPriority($post['course_id']);
+            $data['parent_id'] = $parentId;
         }
 
         $data['priority'] += 1;
 
-        $chapter = new ChapterModel();
+        try {
 
-        $chapter->create($data);
+            $this->db->begin();
 
-        $this->updateChapterStats($chapter);
+            $chapter = new ChapterModel();
 
-        $this->updateCourseStats($chapter);
+            if ($chapter->create($data) === false) {
+                throw new \RuntimeException('Create Chapter Failed');
+            }
 
-        $this->rebuildChapterCache($chapter);
+            $data = [
+                'course_id' => $course->id,
+                'chapter_id' => $chapter->id,
+            ];
 
-        return $chapter;
+            if ($parentId > 0) {
+
+                $attrs = false;
+
+                switch ($course->model) {
+                    case CourseMOdel::MODEL_VOD:
+                        $chapterVod = new ChapterVodModel();
+                        $attrs = $chapterVod->create($data);
+                        break;
+                    case CourseModel::MODEL_LIVE:
+                        $chapterLive = new ChapterLiveModel();
+                        $attrs = $chapterLive->create($data);
+                        break;
+                    case CourseModel::MODEL_READ:
+                        $chapterRead = new ChapterReadModel();
+                        $attrs = $chapterRead->create($data);
+                        break;
+                }
+
+                if ($attrs === false) {
+                    throw new \RuntimeException("Create Chapter {$course->model} Attrs Failed");
+                }
+            }
+
+            $this->db->commit();
+
+            $this->updateChapterStats($chapter);
+
+            $this->updateCourseStats($chapter);
+
+            return $chapter;
+
+        } catch (\Exception $e) {
+
+            $this->db->rollback();
+
+            $logger = $this->getLogger();
+
+            $logger->error('Create Chapter Error ' . kg_json_encode([
+                    'line' => $e->getLine(),
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            throw new \RuntimeException('sys.trans_rollback');
+        }
     }
 
     public function updateChapter($id)
@@ -110,8 +166,6 @@ class Chapter extends Service
 
         $this->updateCourseStats($chapter);
 
-        $this->rebuildChapterCache($chapter);
-
         return $chapter;
     }
 
@@ -131,8 +185,6 @@ class Chapter extends Service
 
         $this->updateCourseStats($chapter);
 
-        $this->rebuildChapterCache($chapter);
-
         return $chapter;
     }
 
@@ -147,8 +199,6 @@ class Chapter extends Service
         $this->updateChapterStats($chapter);
 
         $this->updateCourseStats($chapter);
-
-        $this->rebuildChapterCache($chapter);
 
         return $chapter;
     }

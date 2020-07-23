@@ -11,6 +11,7 @@ $error['sys.bad_request'] = '无效的请求';
 $error['sys.not_found'] = '资源不存在';
 $error['sys.internal_server_error'] = '内部错误';
 $error['sys.service_unavailable'] = '服务不可用';
+$error['sys.trans_rollback'] = '事务回滚';
 $error['sys.unknown_error'] = '未知错误';
 
 /**
@@ -60,6 +61,7 @@ $error['user.title_too_long'] = '头衔过长（超过30个字符）';
 $error['user.sign_too_long'] = '签名过长（超过50个字符）';
 $error['user.about_too_long'] = '简介过长（超过255个字符）';
 $error['user.invalid_gender'] = '无效的性别类型';
+$error['user.invalid_area'] = '无效的省市地区';
 $error['user.invalid_edu_role'] = '无效的教学角色';
 $error['user.invalid_admin_role'] = '无效的后台角色';
 $error['user.invalid_vip_status'] = '无效的会员状态';

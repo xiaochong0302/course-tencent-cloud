@@ -7,6 +7,7 @@ use App\Services\Frontend\Account\EmailUpdate as EmailUpdateService;
 use App\Services\Frontend\Account\PasswordReset as PasswordResetService;
 use App\Services\Frontend\Account\PasswordUpdate as PasswordUpdateService;
 use App\Services\Frontend\Account\PhoneUpdate as PhoneUpdateService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/account")
@@ -149,6 +150,7 @@ class AccountController extends Controller
 
         $captcha = $service->getSectionSettings('captcha');
 
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('account/edit_password');
         $this->view->setVar('captcha', $captcha);
     }
@@ -166,6 +168,7 @@ class AccountController extends Controller
 
         $captcha = $service->getSectionSettings('captcha');
 
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('account/edit_phone');
         $this->view->setVar('captcha', $captcha);
     }
@@ -183,6 +186,7 @@ class AccountController extends Controller
 
         $captcha = $service->getSectionSettings('captcha');
 
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('account/edit_email');
         $this->view->setVar('captcha', $captcha);
     }
@@ -215,10 +219,7 @@ class AccountController extends Controller
 
         $service->handle();
 
-        $content = [
-            'location' => $this->url->get(['for' => 'web.my.account']),
-            'msg' => '更新手机成功',
-        ];
+        $content = ['msg' => '更新手机成功'];
 
         return $this->jsonSuccess($content);
     }
@@ -232,10 +233,7 @@ class AccountController extends Controller
 
         $service->handle();
 
-        $content = [
-            'location' => $this->url->get(['for' => 'web.my.account']),
-            'msg' => '更新邮箱成功',
-        ];
+        $content = ['msg' => '更新邮箱成功'];
 
         return $this->jsonSuccess($content);
     }
@@ -249,10 +247,7 @@ class AccountController extends Controller
 
         $service->handle();
 
-        $content = [
-            'location' => $this->url->get(['for' => 'web.my.account']),
-            'msg' => '更新密码成功',
-        ];
+        $content = ['msg' => '更新密码成功'];
 
         return $this->jsonSuccess($content);
     }

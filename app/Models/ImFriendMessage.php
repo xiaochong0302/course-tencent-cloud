@@ -10,7 +10,7 @@ class ImFriendMessage extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -24,14 +24,14 @@ class ImFriendMessage extends Model
     /**
      * 发送方编号
      *
-     * @var integer
+     * @var int
      */
     public $sender_id;
 
     /**
      * 接收方编号
      *
-     * @var integer
+     * @var int
      */
     public $receiver_id;
 
@@ -45,28 +45,28 @@ class ImFriendMessage extends Model
     /**
      * 阅读标识
      *
-     * @var integer
+     * @var int
      */
     public $viewed;
 
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
     public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
     public $update_time;
 

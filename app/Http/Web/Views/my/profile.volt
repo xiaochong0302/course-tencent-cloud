@@ -25,6 +25,24 @@
                             <input type="radio" name="gender" value="3" title="保密" {{ none_checked }}>
                         </div>
                     </div>
+                    <div class="layui-form-item" id="area-picker" style="margin-bottom: 25px;">
+                        <div class="layui-form-label">所在地</div>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <select name="area[province]" class="province-selector" data-value="{{ user.area.province }}" lay-verify="required">
+                                <option value="">请选择省</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <select name="area[city]" class="city-selector" data-value="{{ user.area.city }}" lay-verify="required">
+                                <option value="">请选择市</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline" style="width: 200px;">
+                            <select name="area[county]" class="county-selector" data-value="{{ user.area.county }}" lay-verify="required">
+                                <option value="">请选择区</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">简介</label>
                         <div class="layui-input-block">
@@ -42,5 +60,11 @@
             </div>
         </div>
     </div>
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('web/js/my.profile.js') }}
 
 {% endblock %}

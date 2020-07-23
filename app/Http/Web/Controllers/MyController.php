@@ -9,12 +9,23 @@ use App\Services\Frontend\My\RefundList as MyRefundListService;
 use App\Services\Frontend\My\ReviewList as MyReviewListService;
 use App\Services\Frontend\My\UserInfo as UserInfoService;
 use App\Services\Frontend\My\UserUpdate as UserUpdateService;
+use App\Services\Frontend\User\FriendList as UserFriendListService;
+use App\Services\Frontend\User\GroupList as UserGroupListService;
 
 /**
  * @RoutePrefix("/my")
  */
 class MyController extends Controller
 {
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        if ($this->authUser->id == 0) {
+            $this->response->redirect(['for' => 'web.account.login']);
+        }
+    }
 
     /**
      * @Get("/home", name="web.my.home")
@@ -128,6 +139,34 @@ class MyController extends Controller
     }
 
     /**
+     * @Get("/friends", name="web.my.friends")
+     */
+    public function friendsAction()
+    {
+        $service = new UserFriendListService();
+
+        $pager = $service->handle($this->authUser->id);
+
+        $pager->items = kg_array_object($pager->items);
+
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/groups", name="web.my.groups")
+     */
+    public function groupsAction()
+    {
+        $service = new UserGroupListService();
+
+        $pager = $service->handle($this->authUser->id);
+
+        $pager->items = kg_array_object($pager->items);
+
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
      * @Post("/profile/update", name="web.my.update_profile")
      */
     public function updateProfileAction()
@@ -139,6 +178,22 @@ class MyController extends Controller
         $content = ['msg' => '更新资料成功'];
 
         return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/friend/delete", name="web.my.delete_friend")
+     */
+    public function deleteFriendAction()
+    {
+
+    }
+
+    /**
+     * @Post("/group/delete", name="web.my.delete_group")
+     */
+    public function deleteGroupAction()
+    {
+
     }
 
 }

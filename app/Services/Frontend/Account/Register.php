@@ -4,6 +4,8 @@ namespace App\Services\Frontend\Account;
 
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\Account as AccountModel;
+use App\Models\ImUser as ImUserModel;
+use App\Models\User as UserModel;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Verify as VerifyValidator;
@@ -40,11 +42,49 @@ class Register extends FrontendService
 
         $data['password'] = $accountValidator->checkPassword($post['password']);
 
-        $account = new AccountModel();
+        try {
 
-        $account->create($data);
+            $this->db->begin();
 
-        return $account;
+            $account = new AccountModel();
+
+            if ($account->create($data) === false) {
+                throw new \RuntimeException('Create Account Failed');
+            }
+
+            $user = new UserModel();
+            $user->id = $this->id;
+            $user->name = "user_{$this->id}";
+
+            if ($user->create() === false) {
+                throw new \RuntimeException('Create User Failed');
+            }
+
+            $imUser = new ImUserModel();
+            $imUser->id = $this->id;
+            $imUser->name = "user_{$this->id}";
+
+            if ($imUser->create() === false) {
+                throw new \RuntimeException('Create ImUser Failed');
+            }
+
+            $this->db->commit();
+
+            return $account;
+
+        } catch (\Exception $e) {
+
+            $this->db->rollback();
+
+            $logger = $this->getLogger();
+
+            $logger->error('Register Error ' . kg_json_encode([
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            throw new \RuntimeException('sys.trans_rollback');
+        }
     }
 
 }

@@ -4,7 +4,7 @@ namespace App\Builders;
 
 use App\Repos\User as UserRepo;
 
-class FriendUserList extends Builder
+class ImFriendUserList extends Builder
 {
 
     public function handleFriends(array $relations)
@@ -24,7 +24,12 @@ class FriendUserList extends Builder
 
         $userRepo = new UserRepo();
 
-        $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar', 'about', 'vip']);
+        $columns = [
+            'id', 'name', 'avatar', 'gender', 'vip',
+            'location', 'about', 'active_time',
+        ];
+
+        $users = $userRepo->findByIds($ids, $columns);
 
         $baseUrl = kg_ci_base_url();
 

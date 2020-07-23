@@ -32,6 +32,7 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         });
     });
 
+
     if ($('#tab-courses').length > 0) {
         var $tabCourses = $('#tab-courses');
         helper.ajaxLoadHtml($tabCourses.data('url'), $tabCourses.attr('id'));

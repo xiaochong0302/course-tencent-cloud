@@ -30,6 +30,10 @@ class UserUpdate extends FrontendService
             $data['gender'] = $validator->checkGender($post['gender']);
         }
 
+        if (!empty($post['area'])) {
+            $data['location'] = $validator->checkArea($post['area']);
+        }
+
         if (!empty($post['about'])) {
             $data['about'] = $validator->checkAbout($post['about']);
         }
