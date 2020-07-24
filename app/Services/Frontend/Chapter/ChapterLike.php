@@ -64,15 +64,15 @@ class ChapterLike extends FrontendService
     protected function incrLikeCount(ChapterModel $chapter)
     {
         $chapter->like_count += 1;
-
         $chapter->update();
     }
 
     protected function decrLikeCount(ChapterModel $chapter)
     {
-        $chapter->like_count -= 1;
-
-        $chapter->update();
+        if ($chapter->like_count > 0) {
+            $chapter->like_count -= 1;
+            $chapter->update();
+        }
     }
 
     protected function incrUserDailyChapterLikeCount(UserModel $user)

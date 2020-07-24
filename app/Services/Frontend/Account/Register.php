@@ -53,16 +53,18 @@ class Register extends FrontendService
             }
 
             $user = new UserModel();
-            $user->id = $this->id;
-            $user->name = "user_{$this->id}";
+
+            $user->id = $account->id;
+            $user->name = "user_{$account->id}";
 
             if ($user->create() === false) {
                 throw new \RuntimeException('Create User Failed');
             }
 
             $imUser = new ImUserModel();
-            $imUser->id = $this->id;
-            $imUser->name = "user_{$this->id}";
+
+            $imUser->id = $user->id;
+            $imUser->name = $user->name;
 
             if ($imUser->create() === false) {
                 throw new \RuntimeException('Create ImUser Failed');
@@ -79,6 +81,7 @@ class Register extends FrontendService
             $logger = $this->getLogger();
 
             $logger->error('Register Error ' . kg_json_encode([
+                    'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));

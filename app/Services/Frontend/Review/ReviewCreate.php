@@ -63,7 +63,6 @@ class ReviewCreate extends FrontendService
     protected function incrCourseReviewCount(CourseModel $course)
     {
         $course->review_count += 1;
-
         $course->update();
     }
 

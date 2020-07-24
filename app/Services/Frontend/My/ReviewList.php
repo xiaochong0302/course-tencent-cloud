@@ -6,12 +6,9 @@ use App\Builders\ReviewList as ReviewListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Review as ReviewRepo;
 use App\Services\Frontend\Service as FrontendService;
-use App\Services\Frontend\UserTrait;
 
 class ReviewList extends FrontendService
 {
-
-    use UserTrait;
 
     public function handle()
     {
@@ -22,7 +19,7 @@ class ReviewList extends FrontendService
         $params = $pagerQuery->getParams();
 
         $params['user_id'] = $user->id;
-        $params['deleted'] = 0;
+        $params['published'] = 1;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
@@ -51,12 +48,16 @@ class ReviewList extends FrontendService
 
         foreach ($reviews as $review) {
 
-            $course = $courses[$review['course_id']] ?? [];
+            $course = $courses[$review['course_id']] ?? new \stdClass();
 
             $items[] = [
                 'id' => $review['id'],
-                'question' => $review['question'],
-                'answer' => $review['answer'],
+                'content' => $review['content'],
+                'reply' => $review['reply'],
+                'rating' => $review['rating'],
+                'rating1' => $review['rating1'],
+                'rating2' => $review['rating2'],
+                'rating3' => $review['rating3'],
                 'like_count' => $review['like_count'],
                 'create_time' => $review['create_time'],
                 'update_time' => $review['update_time'],

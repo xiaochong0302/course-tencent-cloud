@@ -31,11 +31,13 @@
                         </thead>
                         <tbody>
                         {% for item in pager.items %}
-                            {% set delete_group_url = url({'for':'web.my.delete_group'}) %}
+                            {% set delete_url = url({'for':'web.my.delete_group','id':item.id}) %}
                             <tr>
                                 <td><span title="{{ item.about|e }}">{{ item.name }}</span> {{ type_info(item.type) }}</td>
                                 <td><span class="layui-badge-rim">{{ item.user_count }}</span></td>
-                                <td><a class="layui-btn layui-btn-sm btn-delete-group" href="javascript:" data-groupId="{{ item.id }}" data-url="{{ delete_group_url }}">退出群组</a></td>
+                                <td>
+                                    <button class="layui-btn layui-btn-sm kg-delete" data-tips="确定要退出吗？" data-url="{{ delete_url }}">退出</button>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>

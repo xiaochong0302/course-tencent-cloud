@@ -35,9 +35,10 @@ class ReviewDelete extends FrontendService
 
     protected function decrCourseReviewCount(CourseModel $course)
     {
-        $course->review_count -= 1;
-
-        $course->update();
+        if ($course->review_count > 0) {
+            $course->review_count -= 1;
+            $course->update();
+        }
     }
 
 }

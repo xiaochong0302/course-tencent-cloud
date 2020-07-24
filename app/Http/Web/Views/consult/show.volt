@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">私密</label>
+            <label class="layui-form-label">私密问题</label>
             <div class="layui-input-block">
                 <input type="radio" name="private" value="1" title="是">
                 <input type="radio" name="private" value="0" title="否" checked="checked">

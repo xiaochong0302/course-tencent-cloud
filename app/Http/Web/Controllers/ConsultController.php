@@ -7,6 +7,7 @@ use App\Services\Frontend\Consult\ConsultDelete as ConsultDeleteService;
 use App\Services\Frontend\Consult\ConsultInfo as ConsultInfoService;
 use App\Services\Frontend\Consult\ConsultLike as ConsultLikeService;
 use App\Services\Frontend\Consult\ConsultUpdate as ConsultUpdateService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/consult")
@@ -19,21 +20,33 @@ class ConsultController extends Controller
      */
     public function addAction()
     {
-        $chapterId = $this->request->getQuery('chapter_id');
-
-        $this->view->setVar('chapter_id', $chapterId);
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
     /**
-     * @Get("/{id:[0-9]+}/info", name="web.consult.info")
+     * @Get("/{id:[0-9]+}/edit", name="web.consult.edit")
      */
-    public function infoAction($id)
+    public function editAction($id)
     {
         $service = new ConsultInfoService();
 
         $consult = $service->handle($id);
 
-        return $this->jsonSuccess(['consult' => $consult]);
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('consult', $consult);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/show", name="web.consult.show")
+     */
+    public function showAction($id)
+    {
+        $service = new ConsultInfoService();
+
+        $consult = $service->handle($id);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('consult', $consult);
     }
 
     /**
@@ -51,7 +64,7 @@ class ConsultController extends Controller
 
         $content = [
             'consult' => $consult,
-            'msg' => '提交课程咨询成功',
+            'msg' => '提交咨询成功',
         ];
 
         return $this->jsonSuccess($content);
@@ -68,7 +81,7 @@ class ConsultController extends Controller
 
         $content = [
             'consult' => $consult,
-            'msg' => '更新课程咨询成功',
+            'msg' => '更新咨询成功',
         ];
 
         return $this->jsonSuccess($content);
@@ -83,7 +96,7 @@ class ConsultController extends Controller
 
         $service->handle($id);
 
-        $content = ['msg' => '删除课程咨询成功'];
+        $content = ['msg' => '删除咨询成功'];
 
         return $this->jsonSuccess($content);
     }

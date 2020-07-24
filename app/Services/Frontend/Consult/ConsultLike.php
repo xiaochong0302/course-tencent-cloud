@@ -64,15 +64,15 @@ class ConsultLike extends FrontendService
     protected function incrLikeCount(ConsultModel $consult)
     {
         $consult->like_count += 1;
-
         $consult->update();
     }
 
     protected function decrLikeCount(ConsultModel $consult)
     {
-        $consult->like_count -= 1;
-
-        $consult->update();
+        if ($consult->like_count > 0) {
+            $consult->like_count -= 1;
+            $consult->update();
+        }
     }
 
     protected function incrUserDailyConsultLikeCount(UserModel $user)

@@ -2,25 +2,14 @@
 
 {% block content %}
 
-    {%- macro gender_info(value) %}
-        {% if value == 1 %}
-            男
-        {% elseif value == 2 %}
-            女
-        {% elseif value == 3 %}
-            保密
-        {% endif %}
-    {%- endmacro %}
-
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
-                <div class="my-nav-title">我的好友</div>
+                <div class="my-nav-title">我的课程</div>
                 {% if pager.total_pages > 0 %}
                     <table class="layui-table" lay-size="lg">
                         <colgroup>
-                            <col>
                             <col>
                             <col>
                             <col>
@@ -28,24 +17,25 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th>昵称</th>
-                            <th>性别</th>
-                            <th>地区</th>
-                            <th>最后活跃</th>
+                            <th>课程</th>
+                            <th>进度</th>
+                            <th>过期时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for item in pager.items %}
-                            {% set user_url = url({'for':'web.user.show','id':item.id}) %}
-                            {% set delete_url = url({'for':'web.my.delete_friend','id':item.id}) %}
+                            {% set course_url = url({'for':'web.course.show','id':item.course.id}) %}
+                            {% set review_url = url({'for':'web.review.add'},{'id':item.course.id}) %}
                             <tr>
-                                <td><a href="{{ user_url }}" title="{{ item.about|e }}">{{ item.name }}</a></td>
-                                <td>{{ gender_info(item.gender) }}</td>
-                                <td>{{ item.location }}</td>
-                                <td>{{ item.active_time|time_ago }}</td>
+                                <td><a href="{{ course_url }}">{{ item.course.title }}</a></td>
                                 <td>
-                                    <button class="layui-btn layui-btn-sm kg-delete" data-url="{{ delete_url }}">删除</button>
+                                    <p>用时：{{ item.duration|duration }}</p>
+                                    <p>进度：{{ item.progress }}%</p>
+                                </td>
+                                <td>{{ date('Y-m-d', item.expiry_time) }}</td>
+                                <td>
+                                    <button class="layui-btn layui-btn-sm btn-add-review" data-url="{{ review_url }}">评价</button>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -61,6 +51,6 @@
 
 {% block include_js %}
 
-    {{ js_include('web/js/my.im.js') }}
+    {{ js_include('web/js/my.js') }}
 
 {% endblock %}

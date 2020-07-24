@@ -34,18 +34,6 @@ $scheduler->php($script, $bin, ['--task' => 'refund', '--action' => 'main'])
 $scheduler->php($script, $bin, ['--task' => 'sync_course_index', '--action' => 'main'])
     ->hourly(11);
 
-$scheduler->php($script, $bin, ['--task' => 'sync_course_counter', '--action' => 'main'])
-    ->hourly(13);
-
-$scheduler->php($script, $bin, ['--task' => 'sync_chapter_counter', '--action' => 'main'])
-    ->hourly(17);
-
-$scheduler->php($script, $bin, ['--task' => 'sync_consult_counter', '--action' => 'main'])
-    ->hourly(23);
-
-$scheduler->php($script, $bin, ['--task' => 'sync_review_counter', '--action' => 'main'])
-    ->hourly(29);
-
 $scheduler->php($script, $bin, ['--task' => 'clean_log', '--action' => 'main'])
     ->daily(3, 3);
 

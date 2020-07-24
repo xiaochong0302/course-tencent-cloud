@@ -4,6 +4,9 @@ namespace App\Http\Web\Controllers;
 
 use App\Services\Frontend\My\AccountInfo as AccountInfoService;
 use App\Services\Frontend\My\ConsultList as MyConsultListService;
+use App\Services\Frontend\My\CourseList as MyCourseListService;
+use App\Services\Frontend\My\ImFriendDelete as MyFriendDeleteService;
+use App\Services\Frontend\My\ImGroupDelete as MyGroupDeleteService;
 use App\Services\Frontend\My\OrderList as MyOrderListService;
 use App\Services\Frontend\My\RefundList as MyRefundListService;
 use App\Services\Frontend\My\ReviewList as MyReviewListService;
@@ -67,9 +70,11 @@ class MyController extends Controller
      */
     public function coursesAction()
     {
-        $service = new MyConsultListService();
+        $service = new MyCourseListService();
 
         $pager = $service->handle();
+
+        $pager->items = kg_array_object($pager->items);
 
         $this->view->setVar('pager', $pager);
     }
@@ -95,6 +100,8 @@ class MyController extends Controller
 
         $pager = $service->handle();
 
+        $pager->items = kg_array_object($pager->items);
+
         $this->view->setVar('pager', $pager);
     }
 
@@ -106,6 +113,8 @@ class MyController extends Controller
         $service = new MyReviewListService();
 
         $pager = $service->handle();
+
+        $pager->items = kg_array_object($pager->items);
 
         $this->view->setVar('pager', $pager);
     }
@@ -181,19 +190,31 @@ class MyController extends Controller
     }
 
     /**
-     * @Post("/friend/delete", name="web.my.delete_friend")
+     * @Post("/friend/{id:[0-9]+}/delete", name="web.my.delete_friend")
      */
-    public function deleteFriendAction()
+    public function deleteFriendAction($id)
     {
+        $service = new MyFriendDeleteService();
 
+        $service->handle($id);
+
+        $content = ['msg' => '删除好友成功'];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/group/delete", name="web.my.delete_group")
+     * @Post("/group/{id:[0-9]+}/delete", name="web.my.delete_group")
      */
-    public function deleteGroupAction()
+    public function deleteGroupAction($id)
     {
+        $service = new MyGroupDeleteService();
 
+        $service->handle($id);
+
+        $content = ['msg' => '退出群组成功'];
+
+        return $this->jsonSuccess($content);
     }
 
 }

@@ -60,8 +60,13 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
                     layer.msg(res.msg, {icon: icon});
                 }
                 if (res.location) {
+                    var target = res.target || 'self';
                     setTimeout(function () {
-                        window.location.href = res.location;
+                        if (target === 'parent') {
+                            parent.location.href = res.location;
+                        } else {
+                            window.location.href = res.location;
+                        }
                     }, 1500);
                 } else {
                     submit.removeAttr('disabled').removeClass('layui-btn-disabled');
@@ -78,7 +83,8 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
 
     $('.kg-delete').on('click', function () {
         var url = $(this).data('url');
-        var tips = '确定要删除吗？';
+        var tips = $(this).data('tips');
+        tips = tips || '确定要删除吗？';
         layer.confirm(tips, function () {
             $.ajax({
                 type: 'POST',

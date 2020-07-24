@@ -1,9 +1,4 @@
-{%- macro star_info(rating) %}
-    {% set stars = [1,2,3,4,5] %}
-    {% for val in stars if val <= rating %}
-        <i class="layui-icon layui-icon-star-fill"></i>
-    {% endfor %}
-{%- endmacro %}
+{{ partial('partials/macro_course') }}
 
 {% if pager.total_pages > 0 %}
     <div class="review-list">

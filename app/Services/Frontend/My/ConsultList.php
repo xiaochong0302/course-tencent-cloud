@@ -6,12 +6,9 @@ use App\Builders\ConsultList as ConsultListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Consult as ConsultRepo;
 use App\Services\Frontend\Service as FrontendService;
-use App\Services\Frontend\UserTrait;
 
 class ConsultList extends FrontendService
 {
-
-    use UserTrait;
 
     public function handle()
     {
@@ -22,7 +19,7 @@ class ConsultList extends FrontendService
         $params = $pagerQuery->getParams();
 
         $params['user_id'] = $user->id;
-        $params['deleted'] = 0;
+        $params['published'] = 1;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
@@ -46,12 +43,14 @@ class ConsultList extends FrontendService
         $consults = $pager->items->toArray();
 
         $courses = $builder->getCourses($consults);
+        $chapters = $builder->getChapters($consults);
 
         $items = [];
 
         foreach ($consults as $consult) {
 
-            $course = $courses[$consult['course_id']] ?? [];
+            $course = $courses[$consult['course_id']] ?? new \stdClass();
+            $chapter = $chapters[$consult['chapter_id']] ?? new \stdClass();
 
             $items[] = [
                 'id' => $consult['id'],
@@ -61,6 +60,7 @@ class ConsultList extends FrontendService
                 'create_time' => $consult['create_time'],
                 'update_time' => $consult['update_time'],
                 'course' => $course,
+                'chapter' => $chapter,
             ];
         }
 

@@ -40,16 +40,18 @@ class ConsultDelete extends FrontendService
 
     protected function decrCourseConsultCount(CourseModel $course)
     {
-        $course->consult_count -= 1;
-
-        $course->update();
+        if ($course->consult_count > 0) {
+            $course->consult_count -= 1;
+            $course->update();
+        }
     }
 
     protected function decrChapterConsultCount(ChapterModel $chapter)
     {
-        $chapter->consult_count -= 1;
-
-        $chapter->update();
+        if ($chapter->consult_count > 0) {
+            $chapter->consult_count -= 1;
+            $chapter->update();
+        }
     }
 
 }

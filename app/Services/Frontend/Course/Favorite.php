@@ -61,12 +61,16 @@ class Favorite extends FrontendService
 
     protected function incrCourseFavoriteCount(CourseModel $course)
     {
-        $this->eventsManager->fire('courseCounter:incrFavoriteCount', $this, $course);
+        $course->favorite_count += 1;
+        $course->update();
     }
 
     protected function decrCourseFavoriteCount(CourseModel $course)
     {
-        $this->eventsManager->fire('courseCounter:decrFavoriteCount', $this, $course);
+        if ($course->favorite_count > 0) {
+            $course->favorite_count -= 1;
+            $course->update();
+        }
     }
 
     protected function incrUserDailyFavoriteCount(UserModel $user)

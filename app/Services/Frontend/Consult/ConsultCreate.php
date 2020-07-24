@@ -79,14 +79,12 @@ class ConsultCreate extends FrontendService
     protected function incrCourseConsultCount(CourseModel $course)
     {
         $course->consult_count += 1;
-
         $course->update();
     }
 
     protected function incrChapterConsultCount(ChapterModel $chapter)
     {
         $chapter->consult_count += 1;
-
         $chapter->update();
     }
 

@@ -830,10 +830,6 @@ body {
     color: gray;
 }
 
-.rating-form .layui-rate {
-    padding-top: 6px;
-}
-
 .read-info {
     min-height: 428px;
     margin-bottom: 0;
@@ -1371,6 +1367,19 @@ body {
     width: 95%;
 }
 
+.review-table .title, .review-table .content {
+    width: 350px;
+}
+
+.review-table .rating .layui-icon {
+    color: orange;
+    font-size: 14px;
+}
+
+.review-form .layui-rate {
+    padding-top: 6px;
+}
+
 .security-item {
     padding: 15px;
     line-height: 50px;
@@ -1405,12 +1414,12 @@ body {
     margin-right: 30px;
 }
 
-.order-table {
-    margin: 0;
+.layui-table p {
+    line-height: 1.8em;
 }
 
-.order-table p {
-    line-height: 1.8em;
+.order-table {
+    margin: 0;
 }
 
 .order-table span {

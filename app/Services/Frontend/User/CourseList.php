@@ -56,9 +56,12 @@ class CourseList extends FrontendService
             $course = $courses[$relation['course_id']] ?? new \stdClass();
 
             $items[] = [
-                'course' => $course,
                 'progress' => $relation['progress'],
                 'duration' => $relation['duration'],
+                'reviewed' => $relation['reviewed'],
+                'expiry_time' => $relation['expiry_time'],
+                'create_time' => $relation['create_time'],
+                'course' => $course,
             ];
         }
 

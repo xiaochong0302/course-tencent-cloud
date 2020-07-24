@@ -7,6 +7,7 @@ use App\Services\Frontend\Review\ReviewDelete as ReviewDeleteService;
 use App\Services\Frontend\Review\ReviewInfo as ReviewInfoService;
 use App\Services\Frontend\Review\ReviewLike as ReviewLikeService;
 use App\Services\Frontend\Review\ReviewUpdate as ReviewUpdateService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/review")
@@ -19,9 +20,20 @@ class ReviewController extends Controller
      */
     public function addAction()
     {
-        $courseId = $this->request->getQuery('course_id');
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
 
-        $this->view->setVar('course_id', $courseId);
+    /**
+     * @Get("/{id:[0-9]+}/edit", name="web.review.edit")
+     */
+    public function editAction($id)
+    {
+        $service = new ReviewInfoService();
+
+        $review = $service->handle($id);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('review', $review);
     }
 
     /**
@@ -51,7 +63,7 @@ class ReviewController extends Controller
 
         $content = [
             'review' => $review,
-            'msg' => '发布课程评价成功',
+            'msg' => '发布评价成功',
         ];
 
         return $this->jsonSuccess($content);
@@ -64,11 +76,15 @@ class ReviewController extends Controller
     {
         $service = new ReviewUpdateService();
 
+        $service->handle($id);
+
+        $service = new ReviewInfoService();
+
         $review = $service->handle($id);
 
         $content = [
             'review' => $review,
-            'msg' => '更新课程评价成功',
+            'msg' => '更新评价成功',
         ];
 
         return $this->jsonSuccess($content);
@@ -83,7 +99,7 @@ class ReviewController extends Controller
 
         $service->handle($id);
 
-        $content = ['msg' => '删除课程评价成功'];
+        $content = ['msg' => '删除评价成功'];
 
         return $this->jsonSuccess($content);
     }

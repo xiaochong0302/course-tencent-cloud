@@ -2,6 +2,7 @@
 
 namespace App\Builders;
 
+use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\User as UserRepo;
 
@@ -42,6 +43,23 @@ class ConsultList extends Builder
 
         foreach ($courses->toArray() as $course) {
             $result[$course['id']] = $course;
+        }
+
+        return $result;
+    }
+
+    public function getChapters(array $consults)
+    {
+        $ids = kg_array_column($consults, 'chapter_id');
+
+        $chapterRepo = new ChapterRepo();
+
+        $chapters = $chapterRepo->findByIds($ids, ['id', 'title']);
+
+        $result = [];
+
+        foreach ($chapters->toArray() as $chapter) {
+            $result[$chapter['id']] = $chapter;
         }
 
         return $result;

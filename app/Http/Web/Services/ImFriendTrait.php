@@ -29,7 +29,7 @@ Trait ImFriendTrait
         $group = $validator->checkGroup($post['group_id']);
         $remark = $validator->checkRemark($post['remark']);
 
-        $validator->checkIfSelfApply($user->id, $friend->id);
+        $validator->checkIfSelf($user->id, $friend->id);
         $validator->checkIfJoined($user->id, $friend->id);
         $validator->checkIfBlocked($user->id, $friend->id);
 
