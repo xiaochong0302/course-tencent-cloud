@@ -52,11 +52,11 @@ class Consult extends Service
 
         $data = [];
 
-        if (isset($post['question'])) {
+        if (!empty($post['question'])) {
             $data['question'] = $validator->checkQuestion($post['question']);
         }
 
-        if (isset($post['answer'])) {
+        if (!empty($post['answer'])) {
             $data['answer'] = $validator->checkAnswer($post['answer']);
         }
 

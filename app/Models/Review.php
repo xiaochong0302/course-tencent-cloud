@@ -26,7 +26,7 @@ class Review extends Model
      *
      * @var int
      */
-    public $user_id;
+    public $owner_id;
 
     /**
      * 评价内容

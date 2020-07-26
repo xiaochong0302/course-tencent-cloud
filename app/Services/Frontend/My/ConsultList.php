@@ -56,6 +56,7 @@ class ConsultList extends FrontendService
                 'id' => $consult['id'],
                 'question' => $consult['question'],
                 'answer' => $consult['answer'],
+                'rating' => $consult['rating'],
                 'like_count' => $consult['like_count'],
                 'create_time' => $consult['create_time'],
                 'update_time' => $consult['update_time'],

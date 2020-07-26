@@ -21,12 +21,24 @@ class ImGroup extends Repository
 
         $builder->where('1 = 1');
 
-        if (!empty($where['course_id'])) {
-            $builder->andWhere('sender_id = :sender_id:', ['sender_id' => $where['sender_id']]);
+        if (!empty($where['id'])) {
+            $builder->andWhere('id = :id:', ['id' => $where['id']]);
         }
 
         if (!empty($where['name'])) {
             $builder->andWhere('name LIKE :name:', ['name' => "%{$where['name']}%"]);
+        }
+
+        if (!empty($where['course_id'])) {
+            $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
+        }
+
+        if (!empty($where['owner_id'])) {
+            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
+        }
+
+        if (isset($where['published'])) {
+            $builder->andWhere('published = :published:', ['published' => $where['published']]);
         }
 
         if (isset($where['deleted'])) {

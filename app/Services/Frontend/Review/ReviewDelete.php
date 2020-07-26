@@ -24,9 +24,9 @@ class ReviewDelete extends FrontendService
 
         $validator = new ReviewValidator();
 
-        $validator->checkOwner($user->id, $review->user_id);
+        $validator->checkOwner($user->id, $review->owner_id);
 
-        $review->delete();
+        $review->update(['deleted' => 1]);
 
         $this->decrCourseReviewCount($course);
 

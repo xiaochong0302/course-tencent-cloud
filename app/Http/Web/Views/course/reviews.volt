@@ -3,16 +3,16 @@
 {% if pager.total_pages > 0 %}
     <div class="review-list">
         {% for item in pager.items %}
-            {% set user_url = url({'for':'web.user.show','id':item.user.id}) %}
+            {% set owner_url = url({'for':'web.user.show','id':item.owner.id}) %}
             {% set like_url = url({'for':'web.review.like','id':item.id}) %}
             <div class="review-card clearfix">
                 <div class="avatar">
-                    <img src="{{ item.user.avatar }}" alt="{{ item.user.name }}">
+                    <img src="{{ item.owner.avatar }}" alt="{{ item.owner.name }}">
                 </div>
                 <div class="info">
                     <div class="rating">{{ star_info(item.rating) }}</div>
                     <div class="user">
-                        <a href="{{ user_url }}">{{ item.user.name }}</a>
+                        <a href="{{ owner_url }}">{{ item.owner.name }}</a>
                     </div>
                     <div class="content">{{ item.content }}</div>
                     <div class="footer">

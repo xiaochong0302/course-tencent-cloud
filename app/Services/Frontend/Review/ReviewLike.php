@@ -8,7 +8,7 @@ use App\Models\User as UserModel;
 use App\Services\Frontend\ReviewTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Review as ReviewValidator;
-use App\Validators\UserDailyLimit as UserDailyLimitValidator;
+use App\Validators\UserLimit as UserLimitValidator;
 
 class ReviewLike extends FrontendService
 {
@@ -21,9 +21,9 @@ class ReviewLike extends FrontendService
 
         $user = $this->getLoginUser();
 
-        $validator = new UserDailyLimitValidator();
+        $validator = new UserLimitValidator();
 
-        $validator->checkReviewLikeLimit($user);
+        $validator->checkDailyReviewLikeLimit($user);
 
         $validator = new ReviewValidator();
 
@@ -58,7 +58,7 @@ class ReviewLike extends FrontendService
 
         $this->incrUserDailyReviewLikeCount($user);
 
-        return $review;
+        return $reviewLike;
     }
 
     protected function incrLikeCount(ReviewModel $review)

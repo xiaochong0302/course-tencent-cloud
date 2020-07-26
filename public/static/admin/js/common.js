@@ -59,8 +59,13 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
                     layer.msg(res.msg, {icon: icon});
                 }
                 if (res.location) {
+                    var target = res.target || 'self';
                     setTimeout(function () {
-                        window.location.href = res.location;
+                        if (target === 'parent') {
+                            parent.location.href = res.location;
+                        } else {
+                            window.location.href = res.location;
+                        }
                     }, 1500);
                 } else {
                     submit.removeAttr('disabled').removeClass('layui-btn-disabled');
@@ -101,7 +106,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
         });
     });
 
-    $('.kg-priority-input').on('change', function () {
+    $('.kg-priority').on('change', function () {
         var priority = $(this).val();
         var url = $(this).data('url');
         $.ajax({

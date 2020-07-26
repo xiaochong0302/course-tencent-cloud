@@ -7,7 +7,7 @@ use App\Models\Course as CourseModel;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ChapterTreeList extends Builder
+class CourseCatalog extends Builder
 {
 
     /**

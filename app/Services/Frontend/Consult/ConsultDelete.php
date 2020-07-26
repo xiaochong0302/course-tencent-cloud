@@ -29,7 +29,7 @@ class ConsultDelete extends FrontendService
 
         $validator = new ConsultValidator();
 
-        $validator->checkOwner($user->id, $consult->user_id);
+        $validator->checkOwner($user->id, $consult->owner_id);
 
         $consult->update(['deleted' => 1]);
 

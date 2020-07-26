@@ -4,10 +4,9 @@ namespace App\Http\Web\Controllers;
 
 use App\Services\Frontend\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Frontend\Chapter\ChapterLike as ChapterLikeService;
-use App\Services\Frontend\Chapter\CommentList as ChapterCommentListService;
 use App\Services\Frontend\Chapter\DanmuList as ChapterDanmuListService;
 use App\Services\Frontend\Chapter\Learning as ChapterLearningService;
-use App\Services\Frontend\Course\ChapterList as CourseChapterListService;
+use App\Services\Frontend\Course\ChapterList as CourseCatalogService;
 
 /**
  * @RoutePrefix("/chapter")
@@ -33,7 +32,7 @@ class ChapterController extends Controller
             ]);
         }
 
-        $service = new CourseChapterListService();
+        $service = new CourseCatalogService();
 
         $contents = $service->handle($chapter['course']['id']);
 
@@ -66,27 +65,19 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/comments", name="web.chapter.comments")
-     */
-    public function commentsAction($id)
-    {
-        $service = new ChapterCommentListService();
-
-        $comments = $service->handle($id);
-
-        return $this->jsonSuccess(['comments' => $comments]);
-    }
-
-    /**
      * @Post("/{id:[0-9]+}/like", name="web.chapter.like")
      */
     public function likeAction($id)
     {
         $service = new ChapterLikeService();
 
-        $service->handle($id);
+        $like = $service->handle($id);
 
-        return $this->jsonSuccess();
+        $msg = $like->deleted == 0 ? '点赞成功' : '取消点赞成功';
+
+        $content = ['msg' => $msg];
+
+        return $this->jsonSuccess($content);
     }
 
     /**

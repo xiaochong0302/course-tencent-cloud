@@ -52,16 +52,17 @@ class ConsultList extends FrontendService
 
         foreach ($consults as $consult) {
 
-            $user = $users[$consult['user_id']] ?? new \stdClass();
+            $owner = $users[$consult['owner_id']] ?? new \stdClass();
 
             $items[] = [
                 'id' => $consult['id'],
                 'question' => $consult['question'],
                 'answer' => $consult['answer'],
+                'rating' => $consult['rating'],
                 'like_count' => $consult['like_count'],
                 'create_time' => $consult['create_time'],
                 'update_time' => $consult['update_time'],
-                'user' => $user,
+                'owner' => $owner,
             ];
         }
 

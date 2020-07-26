@@ -33,7 +33,7 @@ class ImGroup extends Model
      *
      * @var int
      */
-    public $user_id;
+    public $owner_id;
 
     /**
      * 群组类型
@@ -119,10 +119,10 @@ class ImGroup extends Model
     {
         $this->create_time = time();
 
-        if (Text::startsWith($this->avatar, 'http')) {
-            $this->avatar = self::getAvatarPath($this->avatar);
-        } elseif (empty($this->avatar)) {
+        if (empty($this->avatar)) {
             $this->avatar = kg_default_avatar_path();
+        } elseif (Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = self::getAvatarPath($this->avatar);
         }
     }
 
@@ -149,6 +149,14 @@ class ImGroup extends Model
         }
 
         return $url;
+    }
+
+    public static function types()
+    {
+        return [
+            self::TYPE_COURSE => '课程',
+            self::TYPE_CHAT => '聊天',
+        ];
     }
 
 }

@@ -96,7 +96,9 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
                             window.location.href = res.location;
                         }, 1500);
                     } else {
-                        window.location.reload();
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500);
                     }
                 }
             });

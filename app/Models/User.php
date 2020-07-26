@@ -107,7 +107,21 @@ class User extends Model
     public $deleted;
 
     /**
-     * VIP期限
+     * 课程数
+     *
+     * @var int
+     */
+    public $course_count;
+
+    /**
+     * 收藏数
+     *
+     * @var int
+     */
+    public $favorite_count;
+
+    /**
+     * 会员期限
      *
      * @var int
      */
@@ -162,12 +176,10 @@ class User extends Model
     {
         $this->create_time = time();
 
-        $this->im = kg_json_encode($this->_im);
-
-        if (Text::startsWith($this->avatar, 'http')) {
-            $this->avatar = self::getAvatarPath($this->avatar);
-        } elseif (empty($this->avatar)) {
+        if (empty($this->avatar)) {
             $this->avatar = kg_default_avatar_path();
+        } elseif (Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = self::getAvatarPath($this->avatar);
         }
     }
 

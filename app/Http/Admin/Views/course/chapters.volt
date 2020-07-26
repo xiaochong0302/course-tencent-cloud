@@ -42,7 +42,7 @@
                     <span class="layui-badge layui-bg-green">{{ item.lesson_count }}</span>
                 </a>
             </td>
-            <td><input class="layui-input kg-priority-input" type="text" name="priority" value="{{ item.priority }}" data-url="{{ url({'for':'admin.chapter.update','id':item.id}) }}"></td>
+            <td><input class="layui-input kg-priority" type="text" name="priority" value="{{ item.priority }}" data-url="{{ url({'for':'admin.chapter.update','id':item.id}) }}"></td>
             <td align="center">
                 <div class="layui-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>

@@ -42,6 +42,13 @@ class ConsultLike extends Model
      */
     public $create_time;
 
+    /**
+     * 更新时间
+     *
+     * @var int
+     */
+    public $update_time;
+
     public function getSource(): string
     {
         return 'kg_consult_like';

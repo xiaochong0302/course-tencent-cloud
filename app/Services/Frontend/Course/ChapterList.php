@@ -2,7 +2,7 @@
 
 namespace App\Services\Frontend\Course;
 
-use App\Caches\CourseChapterList as CourseChapterListCache;
+use App\Caches\CourseCatalog as CourseCatalogCache;
 use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
 use App\Repos\Course as CourseRepo;
@@ -27,7 +27,7 @@ class ChapterList extends FrontendService
 
     protected function getChapters(CourseModel $course, UserModel $user)
     {
-        $cache = new CourseChapterListCache();
+        $cache = new CourseCatalogCache();
 
         $chapters = $cache->get($course->id);
 

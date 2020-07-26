@@ -11,9 +11,9 @@
         <label class="layui-form-label">封面</label>
         <div class="layui-input-inline">
             {% if course.cover %}
-                <img id="cover-img" class="kg-cover" src="{{ course.cover }}">
+                <img id="img-cover" class="kg-cover" src="{{ course.cover }}">
             {% else %}
-                {{ image('id':'cover-img','class':'kg-cover','src':'admin/img/default_cover.png') }}
+                {{ image('id':'img-cover','class':'kg-cover','src':'admin/img/default_cover.png') }}
             {% endif %}
             <input type="hidden" name="cover" value="{{ course.cover }}">
         </div>

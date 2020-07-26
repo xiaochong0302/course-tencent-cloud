@@ -67,13 +67,17 @@ Trait ImGroupTrait
         $groupUser = $groupUserRepo->findGroupUser($group->id, $applicant->id);
 
         if (!$groupUser) {
+
             $groupUserModel = new ImGroupUserModel();
+
             $groupUserModel->create([
                 'group_id' => $group->id,
                 'user_id' => $applicant->id,
             ]);
-            $group->user_count += 1;
-            $group->update();
+
+            $this->incrGroupUserCount($group);
+
+            $this->incrUserGroupCount($applicant);
         }
 
         $itemInfo = $message->item_info;
@@ -261,6 +265,34 @@ Trait ImGroupTrait
             if (Gateway::isUidOnline($user->id)) {
                 Gateway::sendToUid($user->id, $content);
             }
+        }
+    }
+
+    protected function incrUserGroupCount(ImUserModel $user)
+    {
+        $user->group_count += 1;
+        $user->update();
+    }
+
+    protected function decrUserGroupCount(ImUserModel $user)
+    {
+        if ($user->group_count > 0) {
+            $user->group_count -= 1;
+            $user->update();
+        }
+    }
+
+    protected function incrGroupUserCount(ImGroupModel $group)
+    {
+        $group->user_count += 1;
+        $group->update();
+    }
+
+    protected function decrGroupUserCount(ImGroupModel $group)
+    {
+        if ($group->user_count > 0) {
+            $group->user_count -= 1;
+            $group->update();
         }
     }
 

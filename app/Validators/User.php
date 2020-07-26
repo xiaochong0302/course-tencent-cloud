@@ -114,8 +114,12 @@ class User extends Validator
 
     public function checkArea($area)
     {
-        if (empty($area['province'] || empty($area['city']) || empty($area['county']))) {
+        if (empty($area['province'] || empty($area['city']))) {
             throw new BadRequestException('user.invalid_area');
+        }
+
+        if (empty($area['county'])) {
+            $area['county'] = '***';
         }
 
         return join('/', $area);

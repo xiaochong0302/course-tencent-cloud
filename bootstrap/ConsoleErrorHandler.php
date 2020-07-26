@@ -30,6 +30,10 @@ class ConsoleErrorHandler extends Component
         $logger = $this->getLogger();
 
         $logger->error($content);
+
+        if ($this->config->env == ENV_DEV) {
+            echo $content;
+        }
     }
 
     protected function getLogger()

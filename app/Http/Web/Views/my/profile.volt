@@ -2,12 +2,14 @@
 
 {% block content %}
 
+    {% set update_profile_url = url({'for':'web.my.update_profile'}) %}
+
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
                 <div class="my-nav-title">个人信息</div>
-                <form class="layui-form my-form" method="post" action="{{ url({'for':'web.my.update_profile'}) }}">
+                <form class="layui-form my-form" method="post" action="{{ update_profile_url }}">
                     <div class="layui-form-item">
                         <label class="layui-form-label">昵称</label>
                         <div class="layui-input-block">
@@ -38,7 +40,7 @@
                             </select>
                         </div>
                         <div class="layui-input-inline" style="width: 200px;">
-                            <select name="area[county]" class="county-selector" data-value="{{ user.area.county }}" lay-verify="required">
+                            <select name="area[county]" class="county-selector" data-value="{{ user.area.county }}">
                                 <option value="">请选择区</option>
                             </select>
                         </div>

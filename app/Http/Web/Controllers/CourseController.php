@@ -3,7 +3,7 @@
 namespace App\Http\Web\Controllers;
 
 use App\Http\Web\Services\CourseQuery as CourseQueryService;
-use App\Services\Frontend\Course\ChapterList as CourseChapterListService;
+use App\Services\Frontend\Course\ChapterList as CourseCatalogService;
 use App\Services\Frontend\Course\ConsultList as CourseConsultListService;
 use App\Services\Frontend\Course\CourseInfo as CourseInfoService;
 use App\Services\Frontend\Course\CourseList as CourseListService;
@@ -102,7 +102,7 @@ class CourseController extends Controller
      */
     public function chaptersAction($id)
     {
-        $service = new CourseChapterListService();
+        $service = new CourseCatalogService();
 
         $chapters = $service->handle($id);
 
@@ -206,9 +206,11 @@ class CourseController extends Controller
     {
         $service = new CourseFavoriteService();
 
-        $service->handle($id);
+        $favorite = $service->handle($id);
 
-        return $this->jsonSuccess(['msg' => '收藏课程成功']);
+        $msg = $favorite->deleted == 0 ? '收藏成功' : '取消收藏成功';
+
+        return $this->jsonSuccess(['msg' => $msg]);
     }
 
 }

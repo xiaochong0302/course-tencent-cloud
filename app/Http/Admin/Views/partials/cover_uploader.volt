@@ -15,7 +15,7 @@
                 layer.load();
             },
             done: function (res, index, upload) {
-                $('#cover-img').attr('src', res.data.src);
+                $('#img-cover').attr('src', res.data.src);
                 $('input[name=cover]').val(res.data.src);
                 layer.closeAll('loading');
             },

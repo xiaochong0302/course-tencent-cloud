@@ -193,12 +193,14 @@ $error['review.invalid_rating'] = '无效的评分（范围：1-5）';
 $error['review.invalid_publish_status'] = '无效的发布状态';
 $error['review.content_too_short'] = '评价内容太短（少于10个字符）';
 $error['review.content_too_long'] = '评价内容太长（多于255个字符）';
+$error['review.edit_not_allowed'] = '当前不允许修改操作';
 $error['review.has_liked'] = '你已经点过赞啦';
 
 /**
  * 咨询相关
  */
 $error['consult.not_found'] = '咨询不存在';
+$error['consult.invalid_rating'] = '无效的评分（范围：1-5）';
 $error['consult.invalid_private_status'] = '无效的私密状态';
 $error['consult.invalid_publish_status'] = '无效的发布状态';
 $error['consult.question_duplicated'] = '你已经咨询过类似问题啦';
@@ -206,6 +208,8 @@ $error['consult.question_too_short'] = '问题内容太短（少于15个字符�
 $error['consult.question_too_long'] = '问题内容太长（多于1000个字符）';
 $error['consult.answer_too_short'] = '回复内容太短（少于15个字符）';
 $error['consult.answer_too_long'] = '回复内容太长（多于1000个字符）';
+$error['consult.edit_not_allowed'] = '当前不允许修改操作';
+$error['consult.rate_not_allowed'] = '当前不允许评价';
 $error['consult.has_liked'] = '你已经点过赞啦';
 
 /**
@@ -293,12 +297,10 @@ $error['role.routes_required'] = '角色权限不能为空';
 /**
  * 用户限额
  */
-$error['user_daily_limit.reach_favorite_limit'] = '超出日收藏限额';
-$error['user_daily_limit.reach_comment_limit'] = '超出日评论限额';
-$error['user_daily_limit.reach_consult_limit'] = '超出日咨询限额';
-$error['user_daily_limit.reach_review_limit'] = '超出日评价限额';
-$error['user_daily_limit.reach_order_limit'] = '超出日订单限额';
-$error['user_daily_limit.reach_like_limit'] = '超出日点赞限额';
+$error['user_limit.reach_favorite_limit'] = '超出收藏限额';
+$error['user_limit.reach_daily_consult_limit'] = '超出日咨询限额';
+$error['user_limit.reach_daily_order_limit'] = '超出日订单限额';
+$error['user_limit.reach_daily_like_limit'] = '超出日点赞限额';
 
 /**
  * 课程查询
@@ -328,6 +330,9 @@ $error['im_group.not_found'] = '群组不存在';
 $error['im_group.name_too_short'] = '群组名太短（少于2字符）';
 $error['im_group.name_too_long'] = '群组名太长（超过30字符）';
 $error['im_group.about_too_long'] = '群组简介太长（超过255字符）';
+$error['im_group.invalid_avatar'] = '无效的头像';
+$error['im_group.invalid_type'] = '无效的类型';
+$error['im_group.invalid_publish_status'] = '无效的发布状态';
 
 $error['im_group_user.not_found'] = '群组关系不存在';
 $error['im_group_user.remark_too_long'] = '验证信息太长（超过30字符）';

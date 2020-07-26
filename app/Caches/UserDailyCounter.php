@@ -22,7 +22,6 @@ class UserDailyCounter extends Counter
     public function getContent($id = null)
     {
         return [
-            'favorite_count' => 0,
             'danmu_count' => 0,
             'consult_count' => 0,
             'order_count' => 0,

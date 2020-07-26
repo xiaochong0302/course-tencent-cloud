@@ -14,7 +14,7 @@
             <div class="layui-form-mid">{{ consult.chapter.title }}</div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">咨询内容</label>
+            <label class="layui-form-label">问题</label>
             <div class="layui-input-block">
                 <textarea name="question" class="layui-textarea" lay-verify="required">{{ consult.question }}</textarea>
             </div>
@@ -34,4 +34,5 @@
             </div>
         </div>
     </form>
+
 {% endblock %}

@@ -96,6 +96,7 @@ class Course extends Service
             $imGroup->course_id = $course->id;
             $imGroup->name = $course->title;
             $imGroup->about = $course->summary;
+            $imGroup->published = 1;
 
             if ($imGroup->create() === false) {
                 throw new \RuntimeException('Create ImGroup Failed');

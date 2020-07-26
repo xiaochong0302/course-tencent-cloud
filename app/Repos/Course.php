@@ -6,7 +6,6 @@ use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Category as CategoryModel;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
-use App\Models\Comment as CommentModel;
 use App\Models\Consult as ConsultModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
@@ -285,14 +284,6 @@ class Course extends Repository
     public function countReviews($courseId)
     {
         return (int)ReviewModel::count([
-            'conditions' => 'course_id = :course_id: AND published = 1',
-            'bind' => ['course_id' => $courseId],
-        ]);
-    }
-
-    public function countComments($courseId)
-    {
-        return (int)CommentModel::count([
             'conditions' => 'course_id = :course_id: AND published = 1',
             'bind' => ['course_id' => $courseId],
         ]);

@@ -22,6 +22,11 @@
     text-align: center;
 }
 
+.kg-pager {
+    margin-top: 20px;
+    text-align: center;
+}
+
 .kg-login-form {
     width: 400px;
     margin: 100px auto;
@@ -107,13 +112,20 @@
     margin: 0;
 }
 
-.kg-priority-input {
+input.kg-priority {
     width: 60px;
 }
 
 img.kg-cover {
     width: 185px;
     height: 100px;
+    cursor: pointer;
+}
+
+img.kg-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 96px;
     cursor: pointer;
 }
 

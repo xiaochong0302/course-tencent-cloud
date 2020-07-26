@@ -4,11 +4,11 @@
 
     {%- macro gender_info(value) %}
         {% if value == 1 %}
-            男
+            <span class="layui-badge layui-bg-red">男</span>
         {% elseif value == 2 %}
-            女
+            <span class="layui-badge layui-bg-green">女</span>
         {% elseif value == 3 %}
-            保密
+            <span class="layui-badge layui-bg-gray">密</span>
         {% endif %}
     {%- endmacro %}
 

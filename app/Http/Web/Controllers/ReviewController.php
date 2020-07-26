@@ -111,9 +111,13 @@ class ReviewController extends Controller
     {
         $service = new ReviewLikeService();
 
-        $service->handle($id);
+        $like = $service->handle($id);
 
-        return $this->jsonSuccess();
+        $msg = $like->deleted == 0 ? '点赞成功' : '取消点赞成功';
+
+        $content = ['msg' => $msg];
+
+        return $this->jsonSuccess($content);
     }
 
 }

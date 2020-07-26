@@ -4,13 +4,11 @@ namespace App\Services\Frontend\Review;
 
 use App\Models\Course as CourseModel;
 use App\Models\Review as ReviewModel;
-use App\Models\User as UserModel;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\ReviewTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\CourseUser as CourseUserValidator;
 use App\Validators\Review as ReviewValidator;
-use App\Validators\UserDailyLimit as UserDailyLimitValidator;
 
 class ReviewCreate extends FrontendService
 {
@@ -26,10 +24,6 @@ class ReviewCreate extends FrontendService
 
         $user = $this->getLoginUser();
 
-        $validator = new UserDailyLimitValidator();
-
-        $validator->checkReviewLimit($user);
-
         $validator = new CourseUserValidator();
 
         $validator->checkCourseUser($course->id, $user->id);
@@ -39,7 +33,7 @@ class ReviewCreate extends FrontendService
 
         $data = [
             'course_id' => $course->id,
-            'user_id' => $user->id,
+            'owner_id' => $user->id,
         ];
 
         $data['content'] = $validator->checkContent($post['content']);
@@ -55,8 +49,6 @@ class ReviewCreate extends FrontendService
 
         $this->incrCourseReviewCount($course);
 
-        $this->incrUserDailyReviewCount($user);
-
         return $review;
     }
 
@@ -64,11 +56,6 @@ class ReviewCreate extends FrontendService
     {
         $course->review_count += 1;
         $course->update();
-    }
-
-    protected function incrUserDailyReviewCount(UserModel $user)
-    {
-        $this->eventsManager->fire('userDailyCounter:incrReviewCount', $this, $user);
     }
 
 }

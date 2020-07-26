@@ -5,6 +5,7 @@ namespace App\Http\Web\Controllers;
 use App\Services\Frontend\My\AccountInfo as AccountInfoService;
 use App\Services\Frontend\My\ConsultList as MyConsultListService;
 use App\Services\Frontend\My\CourseList as MyCourseListService;
+use App\Services\Frontend\My\FavoriteList as MyFavoriteListService;
 use App\Services\Frontend\My\ImFriendDelete as MyFriendDeleteService;
 use App\Services\Frontend\My\ImGroupDelete as MyGroupDeleteService;
 use App\Services\Frontend\My\OrderList as MyOrderListService;
@@ -84,9 +85,11 @@ class MyController extends Controller
      */
     public function favoritesAction()
     {
-        $service = new MyConsultListService();
+        $service = new MyFavoriteListService();
 
         $pager = $service->handle();
+
+        $pager->items = kg_array_object($pager->items);
 
         $this->view->setVar('pager', $pager);
     }

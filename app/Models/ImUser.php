@@ -66,6 +66,20 @@ class ImUser extends Model
     public $deleted;
 
     /**
+     * 好友数
+     *
+     * @var int
+     */
+    public $friend_count;
+
+    /**
+     * 群组数
+     *
+     * @var int
+     */
+    public $group_count;
+
+    /**
      * 创建时间
      *
      * @var int
@@ -100,10 +114,10 @@ class ImUser extends Model
     {
         $this->create_time = time();
 
-        if (Text::startsWith($this->avatar, 'http')) {
-            $this->avatar = self::getAvatarPath($this->avatar);
-        } elseif (empty($this->avatar)) {
+        if (empty($this->avatar)) {
             $this->avatar = kg_default_avatar_path();
+        } elseif (Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = self::getAvatarPath($this->avatar);
         }
     }
 

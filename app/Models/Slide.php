@@ -120,10 +120,10 @@ class Slide extends Model
     {
         $this->create_time = time();
 
-        if (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
-        } elseif (empty($this->cover)) {
+        if (empty($this->cover)) {
             $this->cover = kg_default_cover_path();
+        } elseif (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
         }
 
         if (is_array($this->style) && !empty($this->style)) {

@@ -28,8 +28,8 @@ class Consult extends Repository
             $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
         }
 
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['owner_id'])) {
+            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
         if (isset($where['private'])) {
@@ -94,7 +94,7 @@ class Consult extends Repository
     public function findUserLastChapterConsult($chapterId, $userId)
     {
         return ConsultModel::findFirst([
-            'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND deleted = 0',
+            'conditions' => 'chapter_id = ?1 AND owner_id = ?2 AND deleted = 0',
             'bind' => [1 => $chapterId, 2 => $userId],
             'order' => 'id DESC',
         ]);

@@ -64,12 +64,16 @@ Trait ImFriendTrait
         $friendUser = $friendUserRepo->findFriendUser($user->id, $sender->id);
 
         if (!$friendUser) {
+
             $friendUserModel = new ImFriendUserModel();
+
             $friendUserModel->create([
                 'user_id' => $user->id,
                 'friend_id' => $sender->id,
                 'group_id' => $groupId,
             ]);
+
+            $this->incrUserFriendCount($user);
         }
 
         $friendUser = $friendUserRepo->findFriendUser($sender->id, $user->id);
@@ -77,12 +81,16 @@ Trait ImFriendTrait
         $groupId = $message->item_info['group']['id'] ?: 0;
 
         if (!$friendUser) {
+
             $friendUserModel = new ImFriendUserModel();
+
             $friendUserModel->create([
                 'user_id' => $sender->id,
                 'friend_id' => $user->id,
                 'group_id' => $groupId,
             ]);
+
+            $this->incrUserFriendCount($sender);
         }
 
         $itemInfo = $message->item_info;
@@ -242,6 +250,20 @@ Trait ImFriendTrait
         if ($online) {
             $content = kg_json_encode(['type' => 'refresh_msg_box']);
             Gateway::sendToUid($receiver->id, $content);
+        }
+    }
+
+    protected function incrUserFriendCount(ImUserModel $user)
+    {
+        $user->friend_count += 1;
+        $user->update();
+    }
+
+    protected function decrUserFriendCount(ImUserModel $user)
+    {
+        if ($user->friend_count > 0) {
+            $user->friend_count -= 1;
+            $user->update();
         }
     }
 

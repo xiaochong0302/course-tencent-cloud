@@ -28,8 +28,8 @@ class Review extends Repository
             $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
         }
 
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['owner_id'])) {
+            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
         if (isset($where['published'])) {
@@ -88,8 +88,8 @@ class Review extends Repository
     public function findReview($courseId, $userId)
     {
         return ReviewModel::findFirst([
-            'conditions' => 'course_id = :course_id: AND user_id = :user_id:',
-            'bind' => ['course_id' => $courseId, 'user_id' => $userId],
+            'conditions' => 'course_id = :course_id: AND owner_id = :owner_id:',
+            'bind' => ['course_id' => $courseId, 'owner_id' => $userId],
         ]);
     }
 

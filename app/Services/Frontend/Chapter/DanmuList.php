@@ -48,7 +48,7 @@ class DanmuList extends FrontendService
 
         foreach ($items as $item) {
 
-            $user = $users[$item['user_id']] ?? new \stdClass();
+            $owner = $users[$item['owner_id']] ?? new \stdClass();
 
             $result[] = [
                 'id' => $item['id'],
@@ -57,7 +57,7 @@ class DanmuList extends FrontendService
                 'size' => $item['size'],
                 'time' => $item['time'],
                 'position' => $item['position'],
-                'user' => $user,
+                'owner' => $owner,
             ];
         }
 

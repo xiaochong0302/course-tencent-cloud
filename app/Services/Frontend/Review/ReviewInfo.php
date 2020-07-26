@@ -36,9 +36,9 @@ class ReviewInfo extends FrontendService
 
         $userRepo = new UserRepo();
 
-        $owner = $userRepo->findById($review->user_id);
+        $owner = $userRepo->findById($review->owner_id);
 
-        $result['user'] = [
+        $result['owner'] = [
             'id' => $owner->id,
             'name' => $owner->name,
             'avatar' => $owner->avatar,

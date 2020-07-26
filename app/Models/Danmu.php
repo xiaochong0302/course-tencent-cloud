@@ -55,7 +55,7 @@ class Danmu extends Model
      *
      * @var int
      */
-    public $user_id;
+    public $owner_id;
 
     /**
      * 内容

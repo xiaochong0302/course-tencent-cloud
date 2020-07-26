@@ -8,7 +8,7 @@ use App\Models\User as UserModel;
 use App\Services\Frontend\ConsultTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Consult as ConsultValidator;
-use App\Validators\UserDailyLimit as UserDailyLimitValidator;
+use App\Validators\UserLimit as UserLimitValidator;
 
 class ConsultLike extends FrontendService
 {
@@ -21,9 +21,9 @@ class ConsultLike extends FrontendService
 
         $user = $this->getLoginUser();
 
-        $validator = new UserDailyLimitValidator();
+        $validator = new UserLimitValidator();
 
-        $validator->checkConsultLikeLimit($user);
+        $validator->checkDailyConsultLikeLimit($user);
 
         $validator = new ConsultValidator();
 
@@ -58,7 +58,7 @@ class ConsultLike extends FrontendService
 
         $this->incrUserDailyConsultLikeCount($user);
 
-        return $consult;
+        return $consultLike;
     }
 
     protected function incrLikeCount(ConsultModel $consult)

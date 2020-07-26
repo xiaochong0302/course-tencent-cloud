@@ -114,6 +114,8 @@ class ChapterInfo extends FrontendService
         $this->joinedCourse = true;
 
         $this->incrCourseUserCount($course);
+
+        $this->incrUserCourseCount($course);
     }
 
     protected function handleChapterUser(ChapterModel $chapter, UserModel $user)
@@ -140,6 +142,12 @@ class ChapterInfo extends FrontendService
         $this->joinedChapter = true;
 
         $this->incrChapterUserCount($chapter);
+    }
+
+    protected function incrUserCourseCount(UserModel $user)
+    {
+        $user->course_count += 1;
+        $user->update();
     }
 
     protected function incrCourseUserCount(CourseModel $course)

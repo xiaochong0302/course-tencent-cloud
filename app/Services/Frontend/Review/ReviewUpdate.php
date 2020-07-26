@@ -25,7 +25,9 @@ class ReviewUpdate extends FrontendService
 
         $validator = new ReviewValidator();
 
-        $validator->checkOwner($user->id, $review->user_id);
+        $validator->checkOwner($user->id, $review->owner_id);
+
+        $validator->checkIfAllowEdit($review);
 
         $data = [];
 

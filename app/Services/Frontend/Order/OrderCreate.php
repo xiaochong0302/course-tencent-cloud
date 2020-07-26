@@ -12,7 +12,7 @@ use App\Repos\Order as OrderRepo;
 use App\Repos\Package as PackageRepo;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Order as OrderValidator;
-use App\Validators\UserDailyLimit as UserDailyLimitValidator;
+use App\Validators\UserLimit as UserLimitValidator;
 
 class OrderCreate extends FrontendService
 {
@@ -23,9 +23,9 @@ class OrderCreate extends FrontendService
 
         $user = $this->getLoginUser();
 
-        $validator = new UserDailyLimitValidator();
+        $validator = new UserLimitValidator();
 
-        $validator->checkOrderLimit($user);
+        $validator->checkDailyOrderLimit($user);
 
         $validator = new OrderValidator();
 

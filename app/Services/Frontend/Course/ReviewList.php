@@ -51,7 +51,7 @@ class ReviewList extends FrontendService
 
         foreach ($reviews as $review) {
 
-            $user = $users[$review['user_id']] ?? new \stdClass();
+            $owner = $users[$review['owner_id']] ?? new \stdClass();
 
             $items[] = [
                 'id' => $review['id'],
@@ -59,7 +59,7 @@ class ReviewList extends FrontendService
                 'content' => $review['content'],
                 'like_count' => $review['like_count'],
                 'create_time' => $review['create_time'],
-                'user' => $user,
+                'owner' => $owner,
             ];
         }
 

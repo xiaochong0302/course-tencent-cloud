@@ -24,7 +24,7 @@ class ReviewList extends Builder
         $users = $this->getUsers($reviews);
 
         foreach ($reviews as $key => $review) {
-            $reviews[$key]['user'] = $users[$review['user_id']] ?? new \stdClass();
+            $reviews[$key]['owner'] = $users[$review['owner_id']] ?? new \stdClass();
         }
 
         return $reviews;
@@ -49,7 +49,7 @@ class ReviewList extends Builder
 
     public function getUsers(array $reviews)
     {
-        $ids = kg_array_column($reviews, 'user_id');
+        $ids = kg_array_column($reviews, 'owner_id');
 
         $userRepo = new UserRepo();
 

@@ -52,7 +52,7 @@
             <td><span class="layui-badge layui-bg-gray">{{ item.level }}</span></td>
             <td><span class="layui-badge layui-bg-gray">{{ item.child_count }}</span></td>
             <td><span class="layui-badge layui-bg-gray">{{ item.course_count }}</span></td>
-            <td><input class="layui-input kg-priority-input" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ url({'for':'admin.category.update','id':item.id}) }}"></td>
+            <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ url({'for':'admin.category.update','id':item.id}) }}"></td>
             <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.category.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
             <td align="center">
                 <div class="layui-dropdown">

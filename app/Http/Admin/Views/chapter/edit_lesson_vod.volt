@@ -14,7 +14,7 @@
         {% for item in play_urls %}
             <tr>
                 <td>{{ item.format }}</td>
-                <td>{{ item.duration|play_duration }}</td>
+                <td>{{ item.duration|duration }}</td>
                 <td>{{ item.width }} x {{ item.height }}</td>
                 <td>{{ item.rate }}kbps</td>
                 <td>{{ item.size }}M</td>

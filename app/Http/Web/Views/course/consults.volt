@@ -1,17 +1,21 @@
+{{ partial('partials/macro_course') }}
+
 {% if pager.total_pages > 0 %}
     <div class="review-list">
         {% for item in pager.items %}
-            {% set user_url = url({'for':'web.user.show','id':item.id}) %}
+            {% set item.answer = item.answer ? item.answer : '稍安勿燥，请耐心等待回复吧' %}
+            {% set owner_url = url({'for':'web.user.show','id':item.id}) %}
             {% set like_url = url({'for':'web.consult.like','id':item.id}) %}
             <div class="review-card clearfix">
                 <div class="avatar">
-                    <a href="{{ user_url }}">
-                        <img src="{{ item.user.avatar }}" alt="{{ item.user.name }}" title="{{ item.user.name }}">
+                    <a href="{{ owner_url }}">
+                        <img src="{{ item.owner.avatar }}" alt="{{ item.owner.name }}" title="{{ item.owner.name }}">
                     </a>
                 </div>
                 <div class="info">
+                    <div class="rating">{{ star_info(item.rating) }}</div>
                     <div class="title">{{ item.question }}</div>
-                    <div class="content">{% if item.answer %} {{ item.answer }} {% else %} 稍安勿燥，请耐心等待我们的回复吧 {% endif %}</div>
+                    <div class="content">{{ item.answer }}</div>
                     <div class="footer">
                         <span class="time">{{ item.create_time|time_ago }}</span>
                         <a href="javascript:" class="like" title="点赞" data-url="{{ like_url }}">

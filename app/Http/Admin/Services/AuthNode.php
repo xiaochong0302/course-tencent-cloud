@@ -326,6 +326,43 @@ class AuthNode extends Service
                     ],
                 ],
                 [
+                    'id' => '2-4',
+                    'title' => '群组管理',
+                    'type' => 'menu',
+                    'children' => [
+                        [
+                            'id' => '2-4-1',
+                            'title' => '群组列表',
+                            'type' => 'menu',
+                            'route' => 'admin.group.list',
+                        ],
+                        [
+                            'id' => '2-4-2',
+                            'title' => '搜索群组',
+                            'type' => 'menu',
+                            'route' => 'admin.group.search',
+                        ],
+                        [
+                            'id' => '2-4-3',
+                            'title' => '添加群组',
+                            'type' => 'menu',
+                            'route' => 'admin.group.add',
+                        ],
+                        [
+                            'id' => '2-4-4',
+                            'title' => '编辑群组',
+                            'type' => 'button',
+                            'route' => 'admin.group.edit',
+                        ],
+                        [
+                            'id' => '2-4-5',
+                            'title' => '删除群组',
+                            'type' => 'button',
+                            'route' => 'admin.group.delete',
+                        ],
+                    ],
+                ],
+                [
                     'id' => '2-5',
                     'title' => '轮播管理',
                     'type' => 'menu',

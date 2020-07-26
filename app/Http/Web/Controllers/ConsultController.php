@@ -6,6 +6,7 @@ use App\Services\Frontend\Consult\ConsultCreate as ConsultCreateService;
 use App\Services\Frontend\Consult\ConsultDelete as ConsultDeleteService;
 use App\Services\Frontend\Consult\ConsultInfo as ConsultInfoService;
 use App\Services\Frontend\Consult\ConsultLike as ConsultLikeService;
+use App\Services\Frontend\Consult\ConsultRating as ConsultRatingService;
 use App\Services\Frontend\Consult\ConsultUpdate as ConsultUpdateService;
 use Phalcon\Mvc\View;
 
@@ -108,9 +109,27 @@ class ConsultController extends Controller
     {
         $service = new ConsultLikeService();
 
+        $like = $service->handle($id);
+
+        $msg = $like->deleted == 0 ? '点赞成功' : '取消点赞成功';
+
+        $content = ['msg' => $msg];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/rating", name="web.consult.rating")
+     */
+    public function ratingAction($id)
+    {
+        $service = new ConsultRatingService();
+
         $service->handle($id);
 
-        return $this->jsonSuccess();
+        $content = ['msg' => '评价成功'];
+
+        return $this->jsonSuccess($content);
     }
 
 }

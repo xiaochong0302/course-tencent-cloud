@@ -36,7 +36,7 @@ class DanmuList extends Builder
         $users = $this->getUsers($danmus);
 
         foreach ($danmus as $key => $danmu) {
-            $danmus[$key]['user'] = $users[$danmu['user_id']] ?? new \stdClass();
+            $danmus[$key]['owner'] = $users[$danmu['owner_id']] ?? new \stdClass();
         }
 
         return $danmus;
@@ -78,7 +78,7 @@ class DanmuList extends Builder
 
     public function getUsers(array $danmus)
     {
-        $ids = kg_array_column($danmus, 'user_id');
+        $ids = kg_array_column($danmus, 'owner_id');
 
         $userRepo = new UserRepo();
 

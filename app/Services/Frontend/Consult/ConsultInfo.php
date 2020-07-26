@@ -28,6 +28,7 @@ class ConsultInfo extends FrontendService
             'question' => $consult->question,
             'answer' => $consult->answer,
             'private' => $consult->private,
+            'rating' => $consult->rating,
             'like_count' => $consult->like_count,
             'create_time' => $consult->create_time,
             'update_time' => $consult->update_time,
@@ -53,12 +54,12 @@ class ConsultInfo extends FrontendService
 
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($consult->user_id);
+        $owner = $userRepo->findById($consult->owner_id);
 
-        $result['user'] = [
-            'id' => $user->id,
-            'name' => $user->name,
-            'avatar' => $user->avatar,
+        $result['owner'] = [
+            'id' => $owner->id,
+            'name' => $owner->name,
+            'avatar' => $owner->avatar,
         ];
 
         return $result;

@@ -34,7 +34,7 @@
         <label class="layui-form-label">免费</label>
         <div class="layui-input-block">
             <input type="radio" name="free" value="1" title="是">
-            <input type="radio" name="free" value="0" title="否" checked="true">
+            <input type="radio" name="free" value="0" title="否" checked="checked">
         </div>
     </div>
 

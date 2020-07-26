@@ -32,12 +32,12 @@ class DanmuInfo extends FrontendService
 
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($danmu->user_id);
+        $owner = $userRepo->findById($danmu->user_id);
 
-        $result['user'] = [
-            'id' => $user->id,
-            'name' => $user->name,
-            'avatar' => $user->avatar,
+        $result['owner'] = [
+            'id' => $owner->id,
+            'name' => $owner->name,
+            'avatar' => $owner->avatar,
         ];
 
         return $result;

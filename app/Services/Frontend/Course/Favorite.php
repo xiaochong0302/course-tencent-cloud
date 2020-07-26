@@ -8,7 +8,7 @@ use App\Models\User as UserModel;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
-use App\Validators\UserDailyLimit as UserDailyLimitValidator;
+use App\Validators\UserLimit as UserLimitValidator;
 
 class Favorite extends FrontendService
 {
@@ -21,7 +21,7 @@ class Favorite extends FrontendService
 
         $user = $this->getLoginUser();
 
-        $validator = new UserDailyLimitValidator();
+        $validator = new UserLimitValidator();
 
         $validator->checkFavoriteLimit($user);
 
@@ -48,15 +48,19 @@ class Favorite extends FrontendService
 
                 $this->decrCourseFavoriteCount($course);
 
+                $this->decrUserFavoriteCount($user);
+
             } else {
 
                 $favorite->update(['deleted' => 0]);
 
                 $this->incrCourseFavoriteCount($course);
+
+                $this->incrUserFavoriteCount($user);
             }
         }
 
-        $this->incrUserDailyFavoriteCount($user);
+        return $favorite;
     }
 
     protected function incrCourseFavoriteCount(CourseModel $course)
@@ -73,9 +77,18 @@ class Favorite extends FrontendService
         }
     }
 
-    protected function incrUserDailyFavoriteCount(UserModel $user)
+    protected function incrUserFavoriteCount(UserModel $user)
     {
-        $this->eventsManager->fire('userDailyCounter:incrFavoriteCount', $this, $user);
+        $user->favorite_count += 1;
+        $user->update();
+    }
+
+    protected function decrUserFavoriteCount(UserModel $user)
+    {
+        if ($user->favorite_count > 0) {
+            $user->favorite_count -= 1;
+            $user->update();
+        }
     }
 
 }

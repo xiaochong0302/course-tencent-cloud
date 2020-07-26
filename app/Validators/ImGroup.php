@@ -5,6 +5,7 @@ namespace App\Validators;
 use App\Caches\ImGroup as ImGroupCache;
 use App\Caches\MaxImGroupId as MaxImGroupIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\ImGroup as ImGroupModel;
 use App\Repos\ImGroup as ImGroupRepo;
 
@@ -28,7 +29,7 @@ class ImGroup extends Validator
          * 防止缓存穿透
          */
         if ($id < 1 || $id > $maxGroupId) {
-            throw new BadRequestException('im_chat_group.not_found');
+            throw new BadRequestException('im_group.not_found');
         }
 
         $groupCache = new ImGroupCache();
@@ -36,7 +37,7 @@ class ImGroup extends Validator
         $group = $groupCache->get($id);
 
         if (!$group) {
-            throw new BadRequestException('im_chat_group.not_found');
+            throw new BadRequestException('im_group.not_found');
         }
 
         return $group;
@@ -49,7 +50,7 @@ class ImGroup extends Validator
         $group = $groupRepo->findById($id);
 
         if (!$group) {
-            throw new BadRequestException('im_chat_group.not_found');
+            throw new BadRequestException('im_group.not_found');
         }
 
         return $group;
@@ -62,11 +63,11 @@ class ImGroup extends Validator
         $length = kg_strlen($value);
 
         if ($length < 2) {
-            throw new BadRequestException('im_chat_group.name_too_short');
+            throw new BadRequestException('im_group.name_too_short');
         }
 
         if ($length > 30) {
-            throw new BadRequestException('im_chat_group.name_too_long');
+            throw new BadRequestException('im_group.name_too_long');
         }
 
         return $value;
@@ -79,10 +80,48 @@ class ImGroup extends Validator
         $length = kg_strlen($value);
 
         if ($length > 255) {
-            throw new BadRequestException('im_chat_group.about_too_long');
+            throw new BadRequestException('im_group.about_too_long');
         }
 
         return $value;
+    }
+
+    public function checkAvatar($avatar)
+    {
+        $value = $this->filter->sanitize($avatar, ['trim', 'string']);
+
+        if (!CommonValidator::url($value)) {
+            throw new BadRequestException('im_group.invalid_avatar');
+        }
+
+        return $value;
+    }
+
+    public function checkType($type)
+    {
+        $list = ImGroupModel::types();
+
+        if (!isset($list[$type])) {
+            throw new BadRequestException('im_group.invalid_type');
+        }
+
+        return $type;
+    }
+
+    public function checkPublishStatus($status)
+    {
+        if (!in_array($status, [0, 1])) {
+            throw new BadRequestException('im_group.invalid_publish_status');
+        }
+
+        return $status;
+    }
+
+    public function checkGroupOwner($userId)
+    {
+        $validator = new User();
+
+        return $validator->checkUser($userId);
     }
 
 }

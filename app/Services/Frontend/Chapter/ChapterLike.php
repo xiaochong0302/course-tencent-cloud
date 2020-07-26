@@ -8,7 +8,7 @@ use App\Models\User as UserModel;
 use App\Repos\ChapterLike as ChapterLikeRepo;
 use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\Service as FrontendService;
-use App\Validators\UserDailyLimit as UserDailyLimitValidator;
+use App\Validators\UserLimit as UserLimitValidator;
 
 class ChapterLike extends FrontendService
 {
@@ -21,9 +21,9 @@ class ChapterLike extends FrontendService
 
         $user = $this->getLoginUser();
 
-        $validator = new UserDailyLimitValidator();
+        $validator = new UserLimitValidator();
 
-        $validator->checkChapterLikeLimit($user);
+        $validator->checkDailyChapterLikeLimit($user);
 
         $likeRepo = new ChapterLikeRepo();
 
@@ -58,7 +58,7 @@ class ChapterLike extends FrontendService
 
         $this->incrUserDailyChapterLikeCount($user);
 
-        return $chapter;
+        return $chapterLike;
     }
 
     protected function incrLikeCount(ChapterModel $chapter)

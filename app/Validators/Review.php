@@ -4,6 +4,7 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Models\Review as ReviewModel;
 use App\Repos\Review as ReviewRepo;
 use App\Repos\ReviewLike as ReviewLikeRepo;
 
@@ -63,6 +64,15 @@ class Review extends Validator
         }
 
         return $status;
+    }
+
+    public function checkIfAllowEdit(ReviewModel $review)
+    {
+        $case = time() - $review->create_time > 7 * 86400;
+
+        if ($case) {
+            throw new BadRequestException('review.edit_not_allowed');
+        }
     }
 
     public function checkIfLiked($reviewId, $userId)

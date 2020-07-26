@@ -10,7 +10,7 @@
             <div class="wrap">
                 <div class="my-nav-title">我的咨询</div>
                 {% if pager.total_pages > 0 %}
-                    <table class="layui-table review-table">
+                    <table class="layui-table consult-table">
                         <colgroup>
                             <col>
                             <col>
@@ -25,14 +25,14 @@
                         </thead>
                         <tbody>
                         {% for item in pager.items %}
-                            {% set item.answer = item.answer ? item.answer : '请耐心等待我们的回复吧' %}
+                            {% set answer = item.answer ? item.answer : '<span class="gray">稍安勿燥，请耐心等待回复吧</span>' %}
                             {% set show_url = url({'for':'web.consult.show','id':item.id}) %}
                             {% set edit_url = url({'for':'web.consult.edit','id':item.id}) %}
                             {% set delete_url = url({'for':'web.consult.delete','id':item.id}) %}
                             <tr>
                                 <td>
-                                    <p class="content layui-elip" title="{{ item.question|e }}">提问：{{ item.question }}</p>
-                                    <p class="content layui-elip" title="{{ item.answer|e }}">回复：{{ item.answer }}</p>
+                                    <p class="question layui-elip" title="{{ item.question }}">提问：{{ item.question }}</p>
+                                    <p class="answer layui-elip" title="{{ item.answer }}">回复：{{ answer }}</p>
                                 </td>
                                 <td>{{ date('Y-m-d',item.create_time) }}</td>
                                 <td>

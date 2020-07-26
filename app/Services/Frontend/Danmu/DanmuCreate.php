@@ -7,7 +7,7 @@ use App\Models\User as UserModel;
 use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Danmu as DanmuValidator;
-use App\Validators\UserDailyLimit as UserDailyLimitValidator;
+use App\Validators\UserLimit as UserLimitValidator;
 
 class DanmuCreate extends FrontendService
 {
@@ -22,9 +22,9 @@ class DanmuCreate extends FrontendService
 
         $chapter = $this->checkChapter($post['chapter_id']);
 
-        $validator = new UserDailyLimitValidator();
+        $validator = new UserLimitValidator();
 
-        $validator->checkDanmuLimit($user);
+        $validator->checkDailyDanmuLimit($user);
 
         $validator = new DanmuValidator();
 
@@ -40,7 +40,7 @@ class DanmuCreate extends FrontendService
 
         $data['course_id'] = $chapter->course_id;
         $data['chapter_id'] = $chapter->id;
-        $data['user_id'] = $user->id;
+        $data['owner_id'] = $user->id;
 
         $data['published'] = 1;
 

@@ -39,7 +39,7 @@
             <td>{{ item.title }}</td>
             <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
             <td>{{ date('Y-m-d H:i',item.update_time) }}</td>
-            <td><input class="layui-input kg-priority-input" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ url({'for':'admin.help.update','id':item.id}) }}"></td>
+            <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ url({'for':'admin.help.update','id':item.id}) }}"></td>
             <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.help.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}>
             </td>
             <td align="center">

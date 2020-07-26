@@ -31,8 +31,8 @@ class Danmu extends Repository
             $builder->andWhere('chapter_id = :chapter_id:', ['chapter_id' => $where['chapter_id']]);
         }
 
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['owner_id'])) {
+            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
         if (isset($where['published'])) {
@@ -100,8 +100,8 @@ class Danmu extends Repository
             $query->andWhere('chapter_id = :chapter_id:', ['chapter_id' => $where['chapter_id']]);
         }
 
-        if (!empty($where['user_id'])) {
-            $query->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['owner_id'])) {
+            $query->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
         if (!empty($where['start_time']) && !empty($where['end_time'])) {
@@ -123,7 +123,7 @@ class Danmu extends Repository
 
     public function countDanmus()
     {
-        return (int)DanmuModel::count(['conditions' => 'deleted = 0']);
+        return (int)DanmuModel::count(['conditions' => 'published = 1']);
     }
 
 }
