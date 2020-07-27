@@ -21,8 +21,8 @@ class Refund extends Repository
 
         $builder->where('1 = 1');
 
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['owner_id'])) {
+            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
         if (!empty($where['order_id'])) {

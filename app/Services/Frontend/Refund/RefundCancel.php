@@ -22,7 +22,7 @@ class RefundCancel extends FrontendService
 
         $validator = new RefundValidator();
 
-        $validator->checkOwner($user->id, $refund->user_id);
+        $validator->checkOwner($user->id, $refund->owner_id);
 
         $refund->status = RefundModel::STATUS_CANCELED;
 

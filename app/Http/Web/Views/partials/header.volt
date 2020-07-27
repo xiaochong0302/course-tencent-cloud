@@ -3,20 +3,16 @@
 <div class="top-nav">
     <ul class="layui-nav">
         {% for nav in site_navs.top %}
-            {% if nav.children %}
-                <li class="layui-nav-item">
-                    <a href="javascript:">{{ nav.name }}</a>
+            <li class="layui-nav-item">
+                <a href="{{ nav.url }}" target="{{ nav.target }}">{{ nav.name }}</a>
+                {% if nav.children %}
                     <dl class="layui-nav-child">
                         {% for child in nav.children %}
                             <dd><a href="{{ child.url }}" target="{{ child.target }}">{{ child.name }}</a></dd>
                         {% endfor %}
                     </dl>
-                </li>
-            {% else %}
-                <li class="layui-nav-item">
-                    <a href="{{ nav.url }}">{{ nav.name }}</a>
-                </li>
-            {% endif %}
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
 </div>

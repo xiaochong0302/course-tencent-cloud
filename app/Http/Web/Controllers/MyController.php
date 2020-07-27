@@ -6,15 +6,13 @@ use App\Services\Frontend\My\AccountInfo as AccountInfoService;
 use App\Services\Frontend\My\ConsultList as MyConsultListService;
 use App\Services\Frontend\My\CourseList as MyCourseListService;
 use App\Services\Frontend\My\FavoriteList as MyFavoriteListService;
-use App\Services\Frontend\My\ImFriendDelete as MyFriendDeleteService;
-use App\Services\Frontend\My\ImGroupDelete as MyGroupDeleteService;
+use App\Services\Frontend\My\FriendList as MyFriendListService;
+use App\Services\Frontend\My\GroupList as MyGroupListService;
 use App\Services\Frontend\My\OrderList as MyOrderListService;
 use App\Services\Frontend\My\RefundList as MyRefundListService;
 use App\Services\Frontend\My\ReviewList as MyReviewListService;
 use App\Services\Frontend\My\UserInfo as UserInfoService;
 use App\Services\Frontend\My\UserUpdate as UserUpdateService;
-use App\Services\Frontend\User\FriendList as UserFriendListService;
-use App\Services\Frontend\User\GroupList as UserGroupListService;
 
 /**
  * @RoutePrefix("/my")
@@ -155,9 +153,9 @@ class MyController extends Controller
      */
     public function friendsAction()
     {
-        $service = new UserFriendListService();
+        $service = new MyFriendListService();
 
-        $pager = $service->handle($this->authUser->id);
+        $pager = $service->handle();
 
         $pager->items = kg_array_object($pager->items);
 
@@ -169,9 +167,9 @@ class MyController extends Controller
      */
     public function groupsAction()
     {
-        $service = new UserGroupListService();
+        $service = new MyGroupListService();
 
-        $pager = $service->handle($this->authUser->id);
+        $pager = $service->handle();
 
         $pager->items = kg_array_object($pager->items);
 
@@ -188,34 +186,6 @@ class MyController extends Controller
         $service->handle();
 
         $content = ['msg' => '更新资料成功'];
-
-        return $this->jsonSuccess($content);
-    }
-
-    /**
-     * @Post("/friend/{id:[0-9]+}/delete", name="web.my.delete_friend")
-     */
-    public function deleteFriendAction($id)
-    {
-        $service = new MyFriendDeleteService();
-
-        $service->handle($id);
-
-        $content = ['msg' => '删除好友成功'];
-
-        return $this->jsonSuccess($content);
-    }
-
-    /**
-     * @Post("/group/{id:[0-9]+}/delete", name="web.my.delete_group")
-     */
-    public function deleteGroupAction($id)
-    {
-        $service = new MyGroupDeleteService();
-
-        $service->handle($id);
-
-        $content = ['msg' => '退出群组成功'];
 
         return $this->jsonSuccess($content);
     }

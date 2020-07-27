@@ -30,7 +30,7 @@ class TradeCreate extends FrontendService
         $trade->amount = $order->amount;
         $trade->channel = $channel;
         $trade->order_id = $order->id;
-        $trade->user_id = $user->id;
+        $trade->owner_id = $user->id;
 
         $trade->create();
 

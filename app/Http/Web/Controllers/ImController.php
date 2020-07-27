@@ -337,4 +337,32 @@ class ImController extends LayerController
         return $this->jsonSuccess();
     }
 
+    /**
+     * @Post("/friend/{id:[0-9]+}/quit", name="web.im.quit_friend")
+     */
+    public function quitFriendAction($id)
+    {
+        $service = new ImService();
+
+        $service->quitFriend($id);
+
+        $content = ['msg' => '解除好友成功'];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/group/{id:[0-9]+}/quit", name="web.im.quit_group")
+     */
+    public function quitGroupAction($id)
+    {
+        $service = new ImService();
+
+        $service->quitGroup($id);
+
+        $content = ['msg' => '退出群组成功'];
+
+        return $this->jsonSuccess($content);
+    }
+
 }

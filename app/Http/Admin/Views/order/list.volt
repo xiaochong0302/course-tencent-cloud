@@ -40,8 +40,8 @@
                 <p>单号：{{ item.sn }}</p>
             </td>
             <td>
-                <p>昵称：{{ item.user.name }}</p>
-                <p>编号：{{ item.user.id }}</p>
+                <p>昵称：{{ item.owner.name }}</p>
+                <p>编号：{{ item.owner.id }}</p>
             </td>
             <td>{{ '￥%0.2f'|format(item.amount) }}</td>
             <td>{{ order_status(item.status) }}</td>

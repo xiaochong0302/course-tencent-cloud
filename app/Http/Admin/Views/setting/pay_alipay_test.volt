@@ -46,7 +46,7 @@
                             clearInterval(interval);
                         }
                     },
-                    error: function (xhr) {
+                    error: function () {
                         $('#error-tips').removeClass('layui-hide');
                         $('#qrcode').addClass('layui-hide');
                         clearInterval(interval);

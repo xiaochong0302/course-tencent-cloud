@@ -38,9 +38,9 @@
                         <tbody>
                         {% for item in pager.items %}
                             {% set user_url = url({'for':'web.user.show','id':item.id}) %}
-                            {% set delete_url = url({'for':'web.my.delete_friend','id':item.id}) %}
+                            {% set delete_url = url({'for':'web.im.quit_friend','id':item.id}) %}
                             <tr>
-                                <td><a href="{{ user_url }}" title="{{ item.about|e }}">{{ item.name }}</a></td>
+                                <td><a href="{{ user_url }}" title="{{ item.about }}">{{ item.name }}</a></td>
                                 <td>{{ gender_info(item.gender) }}</td>
                                 <td>{{ item.location }}</td>
                                 <td>{{ item.active_time|time_ago }}</td>

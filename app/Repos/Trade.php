@@ -5,6 +5,7 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
+use App\Models\TradeStatus as TradeStatusModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -28,8 +29,8 @@ class Trade extends Repository
             $builder->andWhere('sn = :sn:', ['sn' => $where['sn']]);
         }
 
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['owner_id'])) {
+            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
         if (!empty($where['order_id'])) {
@@ -112,6 +113,17 @@ class Trade extends Repository
     public function findRefunds($tradeId)
     {
         return RefundModel::query()
+            ->where('trade_id = :trade_id:', ['trade_id' => $tradeId])
+            ->execute();
+    }
+
+    /**
+     * @param int $tradeId
+     * @return ResultsetInterface|Resultset|TradeStatusModel[]
+     */
+    public function findStatusHistory($tradeId)
+    {
+        return TradeStatusModel::query()
             ->where('trade_id = :trade_id:', ['trade_id' => $tradeId])
             ->execute();
     }

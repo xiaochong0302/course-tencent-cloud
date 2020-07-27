@@ -47,6 +47,13 @@ class Trade extends Service
         return $tradeRepo->findById($id);
     }
 
+    public function getStatusHistory($id)
+    {
+        $tradeRepo = new TradeRepo();
+
+        return $tradeRepo->findStatusHistory($id);
+    }
+
     public function getOrder($orderId)
     {
         $orderRepo = new OrderRepo();
@@ -87,7 +94,7 @@ class Trade extends Service
 
         $refund->subject = $trade->subject;
         $refund->amount = $trade->amount;
-        $refund->user_id = $trade->user_id;
+        $refund->owner_id = $trade->owner_id;
         $refund->order_id = $trade->order_id;
         $refund->trade_id = $trade->id;
         $refund->apply_note = '后台人工申请退款';

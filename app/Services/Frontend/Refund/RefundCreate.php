@@ -31,7 +31,7 @@ class RefundCreate extends FrontendService
 
         $validator = new OrderValidator();
 
-        $validator->checkOwner($user->id, $order->user_id);
+        $validator->checkOwner($user->id, $order->owner_id);
 
         $validator->checkIfAllowRefund($order);
 
@@ -54,7 +54,7 @@ class RefundCreate extends FrontendService
         $refund->apply_note = $applyNote;
         $refund->order_id = $order->id;
         $refund->trade_id = $trade->id;
-        $refund->user_id = $user->id;
+        $refund->owner_id = $user->id;
         $refund->status = RefundModel::STATUS_APPROVED;
         $refund->review_note = '退款周期内无条件审批';
 

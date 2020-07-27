@@ -133,6 +133,10 @@ class ImGroup extends Model
         if ($this->deleted == 1) {
             $this->published = 0;
         }
+
+        if (Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = self::getAvatarPath($this->avatar);
+        }
     }
 
     public function afterFetch()

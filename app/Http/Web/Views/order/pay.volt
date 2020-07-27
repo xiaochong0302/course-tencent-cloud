@@ -24,8 +24,8 @@
         </div>
     </div>
 
-    <div id="alipay-qr-box" class="layui-hide"></div>
-    <div id="wxpay-qr-box" class="layui-hide"></div>
+    <div id="alipay-qrcode" class="layui-hide"></div>
+    <div id="wxpay-qrcode" class="layui-hide"></div>
 
     <div class="layui-hide">
         <input type="hidden" name="trade_create_url" value="{{ url({'for':'web.trade.create'}) }}">

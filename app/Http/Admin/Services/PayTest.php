@@ -32,7 +32,7 @@ abstract class PayTest extends Service
 
         $order->subject = '测试 - 支付测试0.01元';
         $order->amount = 0.01;
-        $order->user_id = $authUser['id'];
+        $order->owner_id = $authUser['id'];
         $order->item_type = OrderModel::ITEM_TEST;
 
         $order->create();
@@ -50,7 +50,7 @@ abstract class PayTest extends Service
     {
         $trade = new TradeModel();
 
-        $trade->user_id = $order->user_id;
+        $trade->owner_id = $order->owner_id;
         $trade->order_id = $order->id;
         $trade->subject = $order->subject;
         $trade->amount = $order->amount;

@@ -30,8 +30,8 @@ class Order extends Repository
             $builder->andWhere('sn = :sn:', ['sn' => $where['sn']]);
         }
 
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['owner_id'])) {
+            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
         if (!empty($where['item_id'])) {
@@ -105,7 +105,7 @@ class Order extends Repository
         $status = OrderModel::STATUS_FINISHED;
 
         return OrderModel::findFirst([
-            'conditions' => 'user_id = ?1 AND item_id = ?2 AND item_type = ?3 AND status = ?4',
+            'conditions' => 'owner_id = ?1 AND item_id = ?2 AND item_type = ?3 AND status = ?4',
             'bind' => [1 => $userId, 2 => $itemId, 3 => $itemType, 4 => $status],
             'order' => 'id DESC',
         ]);
@@ -122,7 +122,7 @@ class Order extends Repository
         $status = OrderModel::STATUS_PENDING;
 
         return OrderModel::findFirst([
-            'conditions' => 'user_id = ?1 AND item_id = ?2 AND item_type = ?3 AND status= ?4',
+            'conditions' => 'owner_id = ?1 AND item_id = ?2 AND item_type = ?3 AND status= ?4',
             'bind' => [1 => $userId, 2 => $itemId, 3 => $itemType, 4 => $status],
             'order' => 'id DESC',
         ]);

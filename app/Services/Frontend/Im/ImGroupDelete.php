@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\Frontend\My;
+namespace App\Services\Frontend\Im;
 
 use App\Models\ImGroup as ImGroupModel;
-use App\Repos\ImGroup as ImGroupRepo;
+use App\Models\ImUser as ImUserModel;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\ImGroupUser as ImGroupUserValidator;
 
@@ -22,18 +22,23 @@ class ImGroupDelete extends FrontendService
 
         $groupUser->delete();
 
-        $this->updateGroupUserCount($group);
+        $this->decrGroupUserCount($group);
     }
 
-    protected function updateGroupUserCount(ImGroupModel $group)
+    protected function decrGroupUserCount(ImGroupModel $group)
     {
-        $repo = new ImGroupRepo();
+        if ($group->user_count > 0) {
+            $group->user_count -= 1;
+            $group->update();
+        }
+    }
 
-        $userCount = $repo->countUsers($group->id);
-
-        $group->user_count = $userCount;
-
-        $group->update();
+    protected function decrUserGroupCount(ImUserModel $user)
+    {
+        if ($user->group_count > 0) {
+            $user->group_count -= 1;
+            $user->update();
+        }
     }
 
 }

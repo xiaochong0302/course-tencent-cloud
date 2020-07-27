@@ -40,8 +40,8 @@ class TradeController extends Controller
         $trade = $tradeService->getTrade($id);
         $refunds = $tradeService->getRefunds($trade->id);
         $order = $tradeService->getOrder($trade->order_id);
-        $account = $tradeService->getAccount($trade->user_id);
-        $user = $tradeService->getUser($trade->user_id);
+        $account = $tradeService->getAccount($trade->owner_id);
+        $user = $tradeService->getUser($trade->owner_id);
 
         $this->view->setVar('refunds', $refunds);
         $this->view->setVar('trade', $trade);
@@ -51,22 +51,15 @@ class TradeController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/close", name="admin.trade.close")
+     * @Get("/{id:[0-9]+}/statuses", name="admin.trade.statuses")
      */
-    public function closeAction($id)
+    public function statusesAction($id)
     {
         $tradeService = new TradeService();
 
-        $tradeService->closeTrade($id);
+        $statuses = $tradeService->getStatusHistory($id);
 
-        $location = $this->request->getHTTPReferer();
-
-        $content = [
-            'location' => $location,
-            'msg' => '关闭交易成功',
-        ];
-
-        return $this->jsonSuccess($content);
+        $this->view->setVar('statuses', $statuses);
     }
 
     /**

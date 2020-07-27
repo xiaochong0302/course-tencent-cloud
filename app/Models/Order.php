@@ -65,7 +65,7 @@ class Order extends Model
      *
      * @var int
      */
-    public $user_id;
+    public $owner_id;
 
     /**
      * 条目编号

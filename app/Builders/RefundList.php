@@ -24,7 +24,7 @@ class RefundList extends Builder
         $users = $this->getUsers($refunds);
 
         foreach ($refunds as $key => $refund) {
-            $refunds[$key]['user'] = $users[$refund['user_id']] ?? new \stdClass();
+            $refunds[$key]['owner'] = $users[$refund['owner_id']] ?? new \stdClass();
         }
 
         return $refunds;
@@ -49,7 +49,7 @@ class RefundList extends Builder
 
     public function getUsers(array $refunds)
     {
-        $ids = kg_array_column($refunds, 'user_id');
+        $ids = kg_array_column($refunds, 'owner_id');
 
         $userRepo = new UserRepo();
 

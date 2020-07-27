@@ -87,7 +87,7 @@ class OrderCreate extends FrontendService
 
         $order = new OrderModel();
 
-        $order->user_id = $user->id;
+        $order->owner_id = $user->id;
         $order->item_id = $course->id;
         $order->item_type = OrderModel::ITEM_COURSE;
         $order->item_info = $itemInfo;
@@ -122,7 +122,7 @@ class OrderCreate extends FrontendService
 
         $order = new OrderModel();
 
-        $order->user_id = $user->id;
+        $order->owner_id = $user->id;
         $order->item_id = $package->id;
         $order->item_type = OrderModel::ITEM_PACKAGE;
         $order->item_info = $itemInfo;
@@ -151,7 +151,7 @@ class OrderCreate extends FrontendService
 
         $order = new OrderModel();
 
-        $order->user_id = $user->id;
+        $order->owner_id = $user->id;
         $order->item_id = $vip->id;
         $order->item_type = OrderModel::ITEM_VIP;
         $order->item_info = $itemInfo;
@@ -176,7 +176,7 @@ class OrderCreate extends FrontendService
 
         $order = new OrderModel();
 
-        $order->user_id = $user->id;
+        $order->owner_id = $user->id;
         $order->item_id = "{$course->id}-{$reward->id}";
         $order->item_type = OrderModel::ITEM_REWARD;
         $order->item_info = $itemInfo;

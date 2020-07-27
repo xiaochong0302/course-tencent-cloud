@@ -64,6 +64,13 @@ class Order extends Service
         return $this->findOrFail($id);
     }
 
+    public function getStatusHistory($id)
+    {
+        $orderRepo = new OrderRepo();
+
+        return $orderRepo->findStatusHistory($id);
+    }
+
     protected function findOrFail($id)
     {
         $validator = new OrderValidator();

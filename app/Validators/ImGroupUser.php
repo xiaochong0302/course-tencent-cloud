@@ -17,7 +17,7 @@ class ImGroupUser extends Validator
 
     public function checkUser($id)
     {
-        $validator = new User();
+        $validator = new ImUser();
 
         return $validator->checkUser($id);
     }

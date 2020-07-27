@@ -24,7 +24,7 @@ class OrderList extends Builder
         $users = $this->getUsers($orders);
 
         foreach ($orders as $key => $order) {
-            $orders[$key]['user'] = $users[$order['user_id']] ?? new \stdClass();
+            $orders[$key]['owner'] = $users[$order['owner_id']] ?? new \stdClass();
         }
 
         return $orders;
@@ -130,7 +130,7 @@ class OrderList extends Builder
      */
     protected function getUsers(array $orders)
     {
-        $ids = kg_array_column($orders, 'user_id');
+        $ids = kg_array_column($orders, 'owner_id');
 
         $userRepo = new UserRepo();
 

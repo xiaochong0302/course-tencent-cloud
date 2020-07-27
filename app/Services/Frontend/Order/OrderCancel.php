@@ -20,7 +20,7 @@ class OrderCancel extends FrontendService
 
         $validator = new OrderValidator();
 
-        $validator->checkOwner($user->id, $order->user_id);
+        $validator->checkOwner($user->id, $order->owner_id);
 
         $validator->checkIfAllowCancel($order);
 

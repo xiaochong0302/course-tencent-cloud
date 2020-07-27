@@ -40,8 +40,8 @@ class OrderController extends Controller
         $order = $orderService->getOrder($id);
         $trades = $orderService->getTrades($order->id);
         $refunds = $orderService->getRefunds($order->id);
-        $account = $orderService->getAccount($order->user_id);
-        $user = $orderService->getUser($order->user_id);
+        $account = $orderService->getAccount($order->owner_id);
+        $user = $orderService->getUser($order->owner_id);
 
         $this->view->setVar('order', $order);
         $this->view->setVar('trades', $trades);
@@ -51,43 +51,15 @@ class OrderController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/close", name="admin.order.close")
+     * @Get("/{id:[0-9]+}/statuses", name="admin.order.statuses")
      */
-    public function closeAction($id)
+    public function statusesAction($id)
     {
         $orderService = new OrderService();
 
-        $orderService->closeOrder($id);
+        $statuses = $orderService->getStatusHistory($id);
 
-        $location = $this->request->getHTTPReferer();
-
-        $content = [
-            'location' => $location,
-            'msg' => '关闭订单成功',
-        ];
-
-        return $this->jsonSuccess($content);
-    }
-
-    /**
-     * @Post("/refund", name="admin.order.refund")
-     */
-    public function refundAction()
-    {
-        $tradeId = $this->request->getPost('trade_id', 'int');
-
-        $orderService = new OrderService;
-
-        $orderService->refundTrade($tradeId);
-
-        $location = $this->request->getHTTPReferer();
-
-        $content = [
-            'location' => $location,
-            'msg' => '订单退款成功',
-        ];
-
-        return $this->jsonSuccess($content);
+        $this->view->setVar('statuses', $statuses);
     }
 
 }

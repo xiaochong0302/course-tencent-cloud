@@ -47,6 +47,13 @@ class Refund extends Service
         return $this->findOrFail($id);
     }
 
+    public function getStatusHistory($id)
+    {
+        $refundRepo = new RefundRepo();
+
+        return $refundRepo->findStatusHistory($id);
+    }
+
     public function getTrade($tradeId)
     {
         $tradeRepo = new TradeRepo();

@@ -2,6 +2,8 @@
 {{ partial('trade/macro') }}
 {{ partial('refund/macro') }}
 
+{% set refund_status_url = url({'for':'admin.refund.statuses','id':refund.id}) %}
+
 <fieldset class="layui-elem-field layui-field-title">
     <legend>退款信息</legend>
 </fieldset>
@@ -12,6 +14,7 @@
         <th>退款金额</th>
         <th>退款备注</th>
         <th>退款状态</th>
+        <th>历史状态</th>
         <th>创建时间</th>
     </tr>
     <tr>
@@ -26,6 +29,9 @@
             {% endif %}
         </td>
         <td>{{ refund_status(refund.status) }}</td>
+        <td>
+            <button class="layui-btn layui-btn-xs layui-bg-green refund-status" data-url="{{ refund_status_url }}">详情</button>
+        </td>
         <td>{{ date('Y-m-d H:i:s',refund.create_time) }}</td>
     </tr>
 </table>
@@ -75,3 +81,18 @@
 <br>
 
 {{ partial('order/user_info') }}
+
+<script>
+    layui.use(['jquery', 'layer'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        $('.refund-status').on('click', function () {
+            layer.open({
+                type: 2,
+                title: '历史状态',
+                content: $(this).data('url'),
+                area: ['640px', '320px']
+            });
+        });
+    });
+</script>

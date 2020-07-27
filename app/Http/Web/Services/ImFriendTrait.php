@@ -129,6 +129,19 @@ Trait ImFriendTrait
         $this->handleRefuseFriendNotice($user, $sender);
     }
 
+    public function quitFriend($id)
+    {
+        $user = $this->getLoginUser();
+
+        $validator = new ImFriendUserValidator();
+
+        $friend = $validator->checkFriend($id);
+
+        $friendUser = $validator->checkFriendUser($user->id, $friend->id);
+
+        $friendUser->delete();
+    }
+
     protected function handleApplyFriendNotice(ImUserModel $sender, ImUserModel $receiver, ImFriendGroupModel $group, $remark)
     {
         $userRepo = new ImUserRepo();

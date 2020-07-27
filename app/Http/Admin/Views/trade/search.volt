@@ -14,7 +14,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">用户编号</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="user_id" placeholder="用户编号精确匹配">
+            <input class="layui-input" type="text" name="owner_id" placeholder="用户编号精确匹配">
         </div>
     </div>
 

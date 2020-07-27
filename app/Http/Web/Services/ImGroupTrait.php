@@ -126,6 +126,25 @@ Trait ImGroupTrait
         $this->handleRefuseGroupNotice($user, $sender);
     }
 
+    public function quitGroup($id)
+    {
+        $loginUser = $this->getLoginUser();
+
+        $user = $this->getImUser($loginUser->id);
+
+        $validator = new ImGroupUserValidator();
+
+        $group = $validator->checkGroup($id);
+
+        $groupUser = $validator->checkGroupUser($group->id, $user->id);
+
+        $groupUser->delete();
+
+        $this->decrGroupUserCount($group);
+
+        $this->decrUserGroupCount($user);
+    }
+
     protected function handleApplyGroupNotice(ImUserModel $sender, ImGroupModel $group, $remark)
     {
         $userRepo = new ImUserRepo();

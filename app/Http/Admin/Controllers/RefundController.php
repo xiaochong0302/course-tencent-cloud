@@ -40,14 +40,26 @@ class RefundController extends Controller
         $refund = $refundService->getRefund($id);
         $order = $refundService->getOrder($refund->order_id);
         $trade = $refundService->getTrade($refund->trade_id);
-        $account = $refundService->getAccount($trade->user_id);
-        $user = $refundService->getUser($trade->user_id);
+        $account = $refundService->getAccount($trade->owner_id);
+        $user = $refundService->getUser($trade->owner_id);
 
         $this->view->setVar('refund', $refund);
         $this->view->setVar('order', $order);
         $this->view->setVar('trade', $trade);
         $this->view->setVar('account', $account);
         $this->view->setVar('user', $user);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/statuses", name="admin.refund.statuses")
+     */
+    public function statusesAction($id)
+    {
+        $refundService = new RefundService();
+
+        $statuses = $refundService->getStatusHistory($id);
+
+        $this->view->setVar('statuses', $statuses);
     }
 
     /**

@@ -29,7 +29,7 @@ class Refund extends Model
      *
      * @var string
      */
-    public $user_id;
+    public $owner_id;
 
     /**
      * 订单编号

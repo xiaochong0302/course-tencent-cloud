@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Frontend\My;
+namespace App\Services\Frontend\Im;
 
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\ImFriendUser as ImFriendUserValidator;

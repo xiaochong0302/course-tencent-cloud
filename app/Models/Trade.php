@@ -33,7 +33,7 @@ class Trade extends Model
      *
      * @var int
      */
-    public $user_id;
+    public $owner_id;
 
     /**
      * 订单编号

@@ -24,7 +24,7 @@ class TradeList extends Builder
         $users = $this->getUsers($trades);
 
         foreach ($trades as $key => $trade) {
-            $trades[$key]['user'] = $users[$trade['user_id']] ?? new \stdClass();
+            $trades[$key]['owner'] = $users[$trade['owner_id']] ?? new \stdClass();
         }
 
         return $trades;
@@ -49,7 +49,7 @@ class TradeList extends Builder
 
     public function getUsers($trades)
     {
-        $ids = kg_array_column($trades, 'user_id');
+        $ids = kg_array_column($trades, 'owner_id');
 
         $userRepo = new UserRepo();
 

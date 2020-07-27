@@ -27,8 +27,8 @@
             <tr>
                 <td>{{ item.sn }}</td>
                 <td>{{ '￥%0.2f'|format(item.amount) }}</td>
-                <td><a href="#" title="{{ item.apply_note }}">{{ substr(item.apply_note,0,15) }}</td>
-                <td>{{ refund_status(item) }}</td>
+                <td><a href="javascript:" title="{{ item.apply_note }}">{{ substr(item.apply_note,0,15) }}</td>
+                <td>{{ refund_status(item.status) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td><a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.refund.show','id':item.id}) }}">详情</a></td>
             </tr>

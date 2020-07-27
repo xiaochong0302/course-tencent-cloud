@@ -1,3 +1,11 @@
+{%- macro type_info(value) %}
+    {% if value == 'course' %}
+        <span class="layui-badge layui-bg-green">课</span>
+    {% elseif value == 'chat' %}
+        <span class="layui-badge layui-bg-blue">聊</span>
+    {% endif %}
+{%- endmacro %}
+
 {%- macro owner_info(owner) %}
     {% if owner %}
         {{ owner.name }}（{{ owner.id }}）
@@ -42,7 +50,7 @@
     {% for item in pager.items %}
         <tr>
             <td>{{ item.id }}</td>
-            <td>{{ item.name }}</td>
+            <td>{{ item.name }} {{ type_info(item.type) }}</td>
             <td>{{ owner_info(item.owner) }}</td>
             <td><span class="layui-badge layui-bg-gray">{{ item.user_count }}</span></td>
             <td><input type="checkbox" name="published" value="1" lay-filter="published" lay-skin="switch" lay-text="是|否" data-url="{{ url({'for':'admin.group.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
