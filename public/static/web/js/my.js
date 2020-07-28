@@ -93,6 +93,20 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         });
     });
 
+    /**
+     * 群组管理
+     */
+    $('.btn-manage-group').on('click', function () {
+        var url = $(this).data('url');
+        layer.open({
+            type: 2,
+            title: '群组管理',
+            maxmin: true,
+            resize: false,
+            content: [url, 'no'],
+            area: ['1000px', '510px']
+        });
+    });
 
     if ($('#tab-courses').length > 0) {
         var $tabCourses = $('#tab-courses');

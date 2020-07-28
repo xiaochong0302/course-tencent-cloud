@@ -2,6 +2,8 @@
 
 namespace App\Http\Web\Controllers;
 
+use App\Http\Web\Services\ImGroup as ImGroupService;
+
 /**
  * @RoutePrefix("/im/group")
  */
@@ -17,43 +19,51 @@ class ImGroupController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/manage", name="web.im_group.manage")
-     */
-    public function manageAction()
-    {
-
-    }
-
-    /**
      * @Get("/{id:[0-9]+}/users", name="web.im_group.users")
      */
-    public function usersAction()
+    public function usersAction($id)
     {
+        $service = new ImGroupService();
 
+        $group = $service->getGroup($id);
+
+        $pager = $service->getGroupUsers($id);
+
+        $pager->items = kg_array_object($pager->items);
+
+        $this->view->setVar('group', $group);
+        $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Post("/user/delete", name="web.im_group.delete_user")
+     * @Post("/{id:[0-9]+}/update", name="web.im_group.update")
      */
-    public function deleteUserAction()
+    public function updateAction()
     {
+        $service = new ImGroupService();
 
+        $service->updateGroup($id);
+
+        $content = ['msg' => '更新群组成功'];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/user/block", name="web.im_group.block_user")
+     * @Post("/{gid:[0-9]+}/user/{uid:[0-9]+}/delete", name="web.im_group.delete_user")
      */
-    public function blockUserAction()
+    public function deleteGroupUserAction($gid, $uid)
     {
+        $service = new ImGroupService();
 
-    }
+        $service->deleteGroupUser($gid, $uid);
 
-    /**
-     * @Post("/user/unblock", name="web.im_group.unblock_user")
-     */
-    public function unblockUserAction()
-    {
+        $content = [
+            'location' => $this->request->getHTTPReferer(),
+            'msg' => '移除用户成功',
+        ];
 
+        return $this->jsonSuccess($content);
     }
 
 }

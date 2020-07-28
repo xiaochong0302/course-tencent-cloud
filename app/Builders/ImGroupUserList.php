@@ -19,6 +19,39 @@ class ImGroupUserList extends Builder
         return $relations;
     }
 
+    public function handleUsers(array $relations)
+    {
+        $users = $this->getUsers($relations);
+
+        foreach ($relations as $key => $value) {
+            $relations[$key]['user'] = $users[$value['user_id']] ?? new \stdClass();
+        }
+
+        return $relations;
+    }
+
+    public function getUsers(array $relations)
+    {
+        $ids = kg_array_column($relations, 'user_id');
+
+        $userRepo = new UserRepo();
+
+        $columns = ['id', 'name', 'avatar', 'about', 'vip'];
+
+        $users = $userRepo->findByIds($ids, $columns);
+
+        $baseUrl = kg_ci_base_url();
+
+        $result = [];
+
+        foreach ($users->toArray() as $user) {
+            $user['avatar'] = $baseUrl . $user['avatar'];
+            $result[$user['id']] = $user;
+        }
+
+        return $result;
+    }
+
     public function getGroups(array $relations)
     {
         $ids = kg_array_column($relations, 'group_id');

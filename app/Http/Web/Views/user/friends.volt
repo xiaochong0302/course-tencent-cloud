@@ -8,9 +8,9 @@
                             <span class="vip">会员</span>
                         {% endif %}
                         <div class="avatar">
-                            <a href="javascript:" title="{{ item.about|e }}"><img src="{{ item.avatar }}" alt="{{ item.name }}"></a>
+                            <a href="javascript:" title="{{ item.about }}"><img src="{{ item.avatar }}" alt="{{ item.name }}"></a>
                         </div>
-                        <div class="name layui-elip" title="{{ item.name|e }}">{{ item.name }}</div>
+                        <div class="name layui-elip" title="{{ item.name }}">{{ item.name }}</div>
                         <div class="action">
                             <a href="javascript:" class="layui-badge-rim apply-friend" data-id="{{ item.id }}" data-name="{{ item.name }}" data-avatar="{{ item.avatar }}">加为好友</a>
                         </div>

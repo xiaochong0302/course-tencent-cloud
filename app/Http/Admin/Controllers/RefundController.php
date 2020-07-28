@@ -51,15 +51,16 @@ class RefundController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/statuses", name="admin.refund.statuses")
+     * @Get("/{id:[0-9]+}/status/history", name="admin.refund.status_history")
      */
-    public function statusesAction($id)
+    public function statusHistoryAction($id)
     {
         $refundService = new RefundService();
 
-        $statuses = $refundService->getStatusHistory($id);
+        $statusHistory = $refundService->getStatusHistory($id);
 
-        $this->view->setVar('statuses', $statuses);
+        $this->view->pick('refund/status_history');
+        $this->view->setVar('status_history', $statusHistory);
     }
 
     /**

@@ -51,15 +51,16 @@ class TradeController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/statuses", name="admin.trade.statuses")
+     * @Get("/{id:[0-9]+}/status/history", name="admin.trade.status_history")
      */
-    public function statusesAction($id)
+    public function statusHistoryAction($id)
     {
         $tradeService = new TradeService();
 
-        $statuses = $tradeService->getStatusHistory($id);
+        $statusHistory = $tradeService->getStatusHistory($id);
 
-        $this->view->setVar('statuses', $statuses);
+        $this->view->pick('trade/status_history');
+        $this->view->setVar('status_history', $statusHistory);
     }
 
     /**

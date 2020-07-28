@@ -51,15 +51,16 @@ class OrderController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/statuses", name="admin.order.statuses")
+     * @Get("/{id:[0-9]+}/status/history", name="admin.order.status_history")
      */
-    public function statusesAction($id)
+    public function statusHistoryAction($id)
     {
         $orderService = new OrderService();
 
-        $statuses = $orderService->getStatusHistory($id);
+        $statusHistory = $orderService->getStatusHistory($id);
 
-        $this->view->setVar('statuses', $statuses);
+        $this->view->pick('order/status_history');
+        $this->view->setVar('status_history', $statusHistory);
     }
 
 }

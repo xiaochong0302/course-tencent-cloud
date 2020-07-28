@@ -179,12 +179,3 @@ img.kg-qrcode {
     padding-top: 0;
     border-top: none;
 }
-
-.kg-status-history {
-    line-height: 30px;
-}
-
-.kg-status-history .time {
-    margin-left: 10px;
-    color: #666;
-}

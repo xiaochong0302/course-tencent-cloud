@@ -147,14 +147,14 @@ class ImController extends LayerController
     {
         $service = new ImService();
 
-        $usersPager = $service->getNewUsers();
-        $groupsPager = $service->getNewGroups();
+        $userPager = $service->getNewUsers();
+        $groupPager = $service->getNewGroups();
 
-        $usersPager->items = kg_array_object($usersPager->items);
-        $groupsPager->items = kg_array_object($groupsPager->items);
+        $userPager->items = kg_array_object($userPager->items);
+        $groupPager->items = kg_array_object($groupPager->items);
 
-        $this->view->setVar('users_pager', $usersPager);
-        $this->view->setVar('groups_pager', $groupsPager);
+        $this->view->setVar('user_pager', $userPager);
+        $this->view->setVar('group_pager', $groupPager);
     }
 
     /**

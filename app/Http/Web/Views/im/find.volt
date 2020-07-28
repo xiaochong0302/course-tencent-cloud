@@ -15,10 +15,10 @@
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show" id="tab-users">
-                        {{ partial('im/find_users',{'pager':users_pager}) }}
+                        {{ partial('im/find_users',{'pager':user_pager}) }}
                     </div>
                     <div class="layui-tab-item" id="tab-groups">
-                        {{ partial('im/find_groups',{'pager':groups_pager}) }}
+                        {{ partial('im/find_groups',{'pager':group_pager}) }}
                     </div>
                 </div>
             </div>

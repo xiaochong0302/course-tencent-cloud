@@ -24,13 +24,15 @@
             <th></th>
         </tr>
         {% for item in refunds %}
+            {% set refund_sh_url = url({'for':'admin.refund.status_history','id':item.id}) %}
+            {% set refund_show_url = url({'for':'admin.refund.show','id':item.id}) %}
             <tr>
                 <td>{{ item.sn }}</td>
                 <td>{{ '￥%0.2f'|format(item.amount) }}</td>
                 <td><a href="javascript:" title="{{ item.apply_note }}">{{ substr(item.apply_note,0,15) }}</td>
-                <td>{{ refund_status(item.status) }}</td>
+                <td><a class="kg-status-history" href="javascript:" title="查看历史状态" data-url="{{ refund_sh_url }}">{{ refund_status(item.status) }}</a></td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
-                <td><a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.refund.show','id':item.id}) }}">详情</a></td>
+                <td><a class="layui-btn layui-btn-sm" href="{{ refund_show_url }}">详情</a></td>
             </tr>
         {% endfor %}
     </table>
@@ -51,13 +53,15 @@
             <th></th>
         </tr>
         {% for item in trades %}
+            {% set trade_sh_url = url({'for':'admin.trade.status_history','id':item.id}) %}
+            {% set trade_show_url = url({'for':'admin.trade.show','id':item.id}) %}
             <tr>
                 <td>{{ item.sn }}</td>
                 <td>{{ '￥%0.2f'|format(item.amount) }}</td>
                 <td>{{ channel_type(item.channel) }}</td>
-                <td>{{ trade_status(item.status) }}</td>
+                <td><a class="kg-status-history" href="javascript:" title="查看历史状态" data-url="{{ trade_sh_url }}">{{ trade_status(item.status) }}</a></td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
-                <td><a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.trade.show','id':item.id}) }}">详情</a></td>
+                <td><a class="layui-btn layui-btn-sm" href="{{ trade_show_url }}">详情</a></td>
             </tr>
         {% endfor %}
     </table>
@@ -65,3 +69,5 @@
 {% endif %}
 
 {{ partial('order/user_info') }}
+
+{{ js_include('admin/js/status-history.js') }}

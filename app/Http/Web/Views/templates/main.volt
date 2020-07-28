@@ -14,16 +14,13 @@
     {% block link_css %}{% endblock %}
     {% block inline_css %}{% endblock %}
 </head>
-<body class="full">
-
+<body class="main">
 <div id="header">
     {{ partial('partials/header') }}
 </div>
-
 <div id="main" class="layui-main">
     {% block content %}{% endblock %}
 </div>
-
 <div id="footer">
     {{ partial('partials/footer') }}
 </div>

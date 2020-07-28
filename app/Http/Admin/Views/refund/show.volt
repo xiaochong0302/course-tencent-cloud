@@ -2,7 +2,8 @@
 {{ partial('trade/macro') }}
 {{ partial('refund/macro') }}
 
-{% set refund_status_url = url({'for':'admin.refund.statuses','id':refund.id}) %}
+{% set refund_sh_url = url({'for':'admin.refund.status_history','id':refund.id}) %}
+{% set refund_review_url = url({'for':'admin.refund.review','id':refund.id}) %}
 
 <fieldset class="layui-elem-field layui-field-title">
     <legend>退款信息</legend>
@@ -14,7 +15,6 @@
         <th>退款金额</th>
         <th>退款备注</th>
         <th>退款状态</th>
-        <th>历史状态</th>
         <th>创建时间</th>
     </tr>
     <tr>
@@ -28,10 +28,7 @@
                 <p class="layui-elip" title="{{ refund.review_note }}">审核意见：{{ refund.review_note }}</p>
             {% endif %}
         </td>
-        <td>{{ refund_status(refund.status) }}</td>
-        <td>
-            <button class="layui-btn layui-btn-xs layui-bg-green refund-status" data-url="{{ refund_status_url }}">详情</button>
-        </td>
+        <td><a class="kg-status-history" href="javascript:" title="查看历史状态" data-url="{{ refund_sh_url }}">{{ refund_status(refund.status) }}</a></td>
         <td>{{ date('Y-m-d H:i:s',refund.create_time) }}</td>
     </tr>
 </table>
@@ -39,7 +36,7 @@
 <br>
 
 {% if refund.status == 'pending' %}
-    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.refund.review','id':refund.id}) }}">
+    <form class="layui-form kg-form" method="POST" action="{{ refund_review_url }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>审核退款</legend>
         </fieldset>
@@ -82,17 +79,4 @@
 
 {{ partial('order/user_info') }}
 
-<script>
-    layui.use(['jquery', 'layer'], function () {
-        var $ = layui.jquery;
-        var layer = layui.layer;
-        $('.refund-status').on('click', function () {
-            layer.open({
-                type: 2,
-                title: '历史状态',
-                content: $(this).data('url'),
-                area: ['640px', '320px']
-            });
-        });
-    });
-</script>
+{{ js_include('admin/js/status-history.js') }}

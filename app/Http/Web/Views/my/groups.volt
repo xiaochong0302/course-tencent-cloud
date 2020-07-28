@@ -1,4 +1,4 @@
-{% extends 'templates/full.volt' %}
+{% extends 'templates/main.volt' %}
 
 {% block content %}
 
@@ -34,7 +34,7 @@
                         <tbody>
                         {% for item in pager.items %}
                             {% set owner_url = url({'for':'web.user.show','id':item.owner.id}) %}
-                            {% set manage_url = url({'for':'web.im_group.manage','id':item.id}) %}
+                            {% set manage_url = url({'for':'web.im_group.users','id':item.id}) %}
                             {% set delete_url = url({'for':'web.im.quit_group','id':item.id}) %}
                             <tr>
                                 <td><span title="{{ item.about }}">{{ item.name }}</span> {{ type_info(item.type) }}</td>
@@ -42,7 +42,7 @@
                                 <td><span class="layui-badge-rim">{{ item.user_count }}</span></td>
                                 <td>
                                     {% if auth_user.id == item.owner.id %}
-                                        <button class="layui-btn layui-btn-sm layui-bg-blue" data-url="{{ manage_url }}">管理</button>
+                                        <button class="layui-btn layui-btn-sm layui-bg-blue btn-manage-group" data-url="{{ manage_url }}">管理</button>
                                     {% else %}
                                         <button class="layui-btn layui-btn-sm kg-delete" data-tips="确定要退出吗？" data-url="{{ delete_url }}">退出</button>
                                     {% endif %}
@@ -61,6 +61,6 @@
 
 {% block include_js %}
 
-    {{ js_include('web/js/my.im.js') }}
+    {{ js_include('web/js/my.js') }}
 
 {% endblock %}

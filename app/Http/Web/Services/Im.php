@@ -132,7 +132,7 @@ class Im extends Service
 
         $validator = new ImGroupValidator();
 
-        $group = $validator->checkGroupCache($id);
+        $group = $validator->checkGroup($id);
 
         $groupRepo = new ImGroupRepo();
 
