@@ -36,9 +36,21 @@ class ImGroupController extends Controller
     }
 
     /**
+     * @Get("/{id:[0-9]+}/edit", name="web.im_group.edit")
+     */
+    public function editAction($id)
+    {
+        $service = new ImGroupService();
+
+        $group = $service->getGroup($id);
+
+        $this->view->setVar('group', $group);
+    }
+
+    /**
      * @Post("/{id:[0-9]+}/update", name="web.im_group.update")
      */
-    public function updateAction()
+    public function updateAction($id)
     {
         $service = new ImGroupService();
 

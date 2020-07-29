@@ -8,7 +8,9 @@
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
-                <div class="my-nav-title">我的咨询</div>
+                <div class="my-nav">
+                    <span class="title">我的咨询</span>
+                </div>
                 {% if pager.total_pages > 0 %}
                     <table class="layui-table consult-table">
                         <colgroup>

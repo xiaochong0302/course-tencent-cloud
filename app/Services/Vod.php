@@ -84,7 +84,7 @@ class Vod extends Service
      *
      * @return string
      */
-    public function getUploadSignature()
+    public function getUploadSign()
     {
         $secret = $this->getSectionSettings('secret');
 

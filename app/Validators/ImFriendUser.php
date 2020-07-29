@@ -79,15 +79,4 @@ class ImFriendUser extends Validator
         }
     }
 
-    public function checkIfBlocked($userId, $friendId)
-    {
-        $repo = new ImFriendUserRepo();
-
-        $record = $repo->findFriendUser($friendId, $userId);
-
-        if ($record && $record->blocked == 1) {
-            throw new BadRequestException('im_friend_user.blocked');
-        }
-    }
-
 }

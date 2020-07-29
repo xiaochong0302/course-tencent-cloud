@@ -7,15 +7,11 @@
     <div class="layui-form-item">
         <label class="layui-form-label">头像</label>
         <div class="layui-input-inline" style="width: 110px;">
-            {% if group.avatar %}
-                <img id="img-cover" class="kg-avatar" src="{{ group.avatar }}">
-            {% else %}
-                {{ image('id':'img-cover','class':'kg-cover','src':'admin/img/default_cover.png') }}
-            {% endif %}
-            <input type="hidden" name="cover" value="{{ group.avatar }}">
+            <img id="img-avatar" class="kg-avatar" src="{{ group.avatar }}">
+            <input type="hidden" name="avatar" value="{{ group.avatar }}">
         </div>
         <div class="layui-input-inline" style="padding-top:35px;">
-            <a href="javascript:" class="layui-btn layui-btn-sm" id="choose-cover">编辑</a>
+            <button id="change-avatar" class="layui-btn layui-btn-sm" type="button">更换</button>
         </div>
     </div>
 
@@ -58,4 +54,4 @@
 
 </form>
 
-{{ partial('partials/cover_uploader') }}
+{{ partial('partials/avatar_uploader') }}

@@ -5,12 +5,13 @@
     {{ partial('partials/macro_order') }}
 
     {% set status_types = {'all':'全部','pending':'待支付','finished':'已完成','closed':'已关闭','refunded':'已退款'} %}
+    {% set status = request.get('status','trim','all') %}
 
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
         <div class="my-content">
-            <div class="order-filter wrap">
-                {% set status = request.get('status','trim','all') %}
+            <div class="my-nav">
+                <span class="title">我的订单</span>
                 {% for key,value in status_types %}
                     {% set class = (status == key) ? 'layui-btn layui-btn-xs' : 'none' %}
                     {% set url = (key == 'all') ? url({'for':'web.my.orders'}) : url({'for':'web.my.orders'},{'status':key}) %}
@@ -31,7 +32,7 @@
                                 <div class="column price">{{ '￥%0.2f'|format(item.amount) }}</div>
                                 <div class="column status">{{ order_status(item.status) }}</div>
                                 <div class="column action">
-                                    <a class="layui-btn layui-btn-sm btn-order-info" href="javascript:" data-url="{{ order_info_url }}">详情</a>
+                                    <button class="layui-btn layui-btn-xs btn-order-info" data-url="{{ order_info_url }}">详情</button>
                                 </div>
                             </div>
                         </div>

@@ -31,7 +31,6 @@ Trait ImGroupTrait
         $remark = $validator->checkRemark($post['remark']);
 
         $validator->checkIfJoined($group->id, $user->id);
-        $validator->checkIfBlocked($group->id, $user->id);
 
         $this->handleApplyGroupNotice($user, $group, $remark);
     }

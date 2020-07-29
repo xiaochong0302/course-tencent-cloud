@@ -5,12 +5,13 @@
     {{ partial('partials/macro_refund') }}
 
     {% set status_types = {'all':'全部','pending':'待处理','canceled':'已取消','approved':'退款中','finished':'已完成'} %}
+    {% set status = request.get('status','trim','all') %}
 
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
         <div class="my-content">
-            <div class="order-filter wrap">
-                {% set status = request.get('status','trim','all') %}
+            <div class="my-nav">
+                <span class="title">我的退款</span>
                 {% for key,value in status_types %}
                     {% set class = (status == key) ? 'layui-btn layui-btn-xs' : 'none' %}
                     {% set url = (key == 'all') ? url({'for':'web.my.refunds'}) : url({'for':'web.my.refunds'},{'status':key}) %}
@@ -31,7 +32,7 @@
                                 <div class="column price">{{ '￥%0.2f'|format(item.amount) }}</div>
                                 <div class="column status">{{ refund_status(item.status) }}</div>
                                 <div class="column action">
-                                    <a class="layui-btn layui-btn-sm btn-refund-info" href="javascript:" data-url="{{ refund_info_url }}">详情</a>
+                                    <button class="layui-btn layui-btn-xs btn-refund-info" data-url="{{ refund_info_url }}">详情</button>
                                 </div>
                             </div>
                         </div>

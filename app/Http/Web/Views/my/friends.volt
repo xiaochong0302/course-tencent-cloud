@@ -16,7 +16,9 @@
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
-                <div class="my-nav-title">我的好友</div>
+                <div class="my-nav">
+                    <span class="title">我的好友</span>
+                </div>
                 {% if pager.total_pages > 0 %}
                     <table class="layui-table" lay-size="lg">
                         <colgroup>
@@ -45,7 +47,7 @@
                                 <td>{{ item.location }}</td>
                                 <td>{{ item.active_time|time_ago }}</td>
                                 <td>
-                                    <button class="layui-btn layui-btn-sm kg-delete" data-url="{{ delete_url }}">删除</button>
+                                    <button class="layui-btn layui-btn-xs kg-delete" data-url="{{ delete_url }}">删除</button>
                                 </td>
                             </tr>
                         {% endfor %}

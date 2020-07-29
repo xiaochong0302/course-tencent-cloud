@@ -62,6 +62,7 @@ $error['user.sign_too_long'] = '签名过长（超过50个字符）';
 $error['user.about_too_long'] = '简介过长（超过255个字符）';
 $error['user.invalid_gender'] = '无效的性别类型';
 $error['user.invalid_area'] = '无效的省市地区';
+$error['user.invalid_avatar'] = '无效的头像';
 $error['user.invalid_edu_role'] = '无效的教学角色';
 $error['user.invalid_admin_role'] = '无效的后台角色';
 $error['user.invalid_vip_status'] = '无效的会员状态';
@@ -337,13 +338,11 @@ $error['im_group.invalid_publish_status'] = '无效的发布状态';
 $error['im_group_user.not_found'] = '群组关系不存在';
 $error['im_group_user.remark_too_long'] = '验证信息太长（超过30字符）';
 $error['im_group_user.has_joined'] = '已经加入过群组';
-$error['im_group_user.blocked'] = '对方拒绝接收消息';
 
 $error['im_friend_user.not_found'] = '好友关系不存在';
 $error['im_friend_user.remark_too_long'] = '验证信息太长（超过30字符）';
 $error['im_friend_user.self_apply'] = '不能添加自己为好友';
 $error['im_friend_user.has_joined'] = '已经是好友啦';
-$error['im_friend_user.blocked'] = '对方拒绝接收消息';
 
 $error['im_message.not_found'] = '消息不存在';
 $error['im_message.invalid_type'] = '无效的消息类型';

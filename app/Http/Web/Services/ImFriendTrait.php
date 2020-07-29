@@ -31,7 +31,6 @@ Trait ImFriendTrait
 
         $validator->checkIfSelf($user->id, $friend->id);
         $validator->checkIfJoined($user->id, $friend->id);
-        $validator->checkIfBlocked($user->id, $friend->id);
 
         $this->handleApplyFriendNotice($user, $friend, $group, $remark);
     }

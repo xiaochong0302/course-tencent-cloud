@@ -34,13 +34,6 @@ class ImGroupUser extends Model
     public $priority;
 
     /**
-     * 屏蔽标识
-     *
-     * @var int
-     */
-    public $blocked;
-
-    /**
      * 创建时间
      *
      * @var int

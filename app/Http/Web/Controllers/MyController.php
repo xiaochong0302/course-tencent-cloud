@@ -9,10 +9,10 @@ use App\Services\Frontend\My\FavoriteList as MyFavoriteListService;
 use App\Services\Frontend\My\FriendList as MyFriendListService;
 use App\Services\Frontend\My\GroupList as MyGroupListService;
 use App\Services\Frontend\My\OrderList as MyOrderListService;
+use App\Services\Frontend\My\ProfileInfo as ProfileInfoService;
+use App\Services\Frontend\My\ProfileUpdate as ProfileUpdateService;
 use App\Services\Frontend\My\RefundList as MyRefundListService;
 use App\Services\Frontend\My\ReviewList as MyReviewListService;
-use App\Services\Frontend\My\UserInfo as UserInfoService;
-use App\Services\Frontend\My\UserUpdate as UserUpdateService;
 
 /**
  * @RoutePrefix("/my")
@@ -45,7 +45,7 @@ class MyController extends Controller
      */
     public function profileAction()
     {
-        $service = new UserInfoService();
+        $service = new ProfileInfoService();
 
         $user = $service->handle();
 
@@ -167,12 +167,15 @@ class MyController extends Controller
      */
     public function groupsAction()
     {
+        $type = $this->request->getQuery('type', 'trim', 'joined');
+
         $service = new MyGroupListService();
 
-        $pager = $service->handle();
+        $pager = $service->handle($type);
 
         $pager->items = kg_array_object($pager->items);
 
+        $this->view->setVar('type', $type);
         $this->view->setVar('pager', $pager);
     }
 
@@ -181,11 +184,14 @@ class MyController extends Controller
      */
     public function updateProfileAction()
     {
-        $service = new UserUpdateService();
+        $service = new ProfileUpdateService();
 
         $service->handle();
 
-        $content = ['msg' => '更新资料成功'];
+        $content = [
+            'location' => $this->request->getHTTPReferer(),
+            'msg' => '更新资料成功',
+        ];
 
         return $this->jsonSuccess($content);
     }

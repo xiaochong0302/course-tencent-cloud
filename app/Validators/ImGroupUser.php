@@ -59,15 +59,4 @@ class ImGroupUser extends Validator
         }
     }
 
-    public function checkIfBlocked($groupId, $userId)
-    {
-        $repo = new ImGroupUserRepo();
-
-        $record = $repo->findGroupUser($groupId, $userId);
-
-        if ($record && $record->blocked == 1) {
-            throw new BadRequestException('im_group_user.blocked');
-        }
-    }
-
 }

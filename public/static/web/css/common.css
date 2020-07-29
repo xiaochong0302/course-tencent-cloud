@@ -1337,18 +1337,18 @@ body {
     width: 900px;
 }
 
+.my-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 100px;
+}
+
 .my-profile-card {
     text-align: center;
 }
 
 .my-profile-card .avatar {
     margin-bottom: 10px;
-}
-
-.my-profile-card .avatar img {
-    width: 90px;
-    height: 90px;
-    border-radius: 100px;
 }
 
 .my-profile-card .name {
@@ -1360,15 +1360,28 @@ body {
     padding-left: 30px;
 }
 
-.my-nav-title {
-    font-size: 16px;
-    padding-bottom: 15px;
-    margin-bottom: 30px;
+.my-nav {
+    line-height: 30px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
     border-bottom: 1px solid #e6e6e6;
 }
 
-.my-form {
+.my-nav .title {
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+.my-nav a {
+    margin-right: 20px;
+}
+
+.profile-form {
     width: 95%;
+}
+
+.wrap .layui-table {
+    margin-top: 0;
 }
 
 .layui-table p {
@@ -1428,11 +1441,11 @@ body {
 }
 
 .order-filter {
-    padding: 15px;
+    padding: 15px 20px;
 }
 
 .order-filter a {
-    margin-right: 30px;
+    margin-right: 20px;
 }
 
 .order-table {
@@ -1460,7 +1473,7 @@ body {
 }
 
 .order-card {
-    padding: 15px;
+    padding: 15px 20px;
     margin-bottom: 20px;
     background-color: white;
     color: #666;
@@ -1479,7 +1492,7 @@ body {
 
 .order-card .column {
     float: left;
-    line-height: 40px;
+    line-height: 30px;
 }
 
 .order-card .subject {

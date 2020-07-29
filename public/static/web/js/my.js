@@ -94,13 +94,29 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     });
 
     /**
-     * 群组管理
+     * 修改群组
      */
-    $('.btn-manage-group').on('click', function () {
+    $('.btn-edit-group').on('click', function () {
         var url = $(this).data('url');
         layer.open({
             type: 2,
-            title: '群组管理',
+            title: '修改群组',
+            content: [url, 'no'],
+            area: ['640px', '400px'],
+            cancel: function () {
+                parent.location.reload();
+            }
+        });
+    });
+
+    /**
+     * 群组成员管理
+     */
+    $('.btn-group-user').on('click', function () {
+        var url = $(this).data('url');
+        layer.open({
+            type: 2,
+            title: '成员管理',
             maxmin: true,
             resize: false,
             content: [url, 'no'],

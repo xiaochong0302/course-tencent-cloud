@@ -84,6 +84,7 @@ class ImUser extends Repository
     {
         return ImFriendUserModel::query()
             ->where('user_id = :user_id:', ['user_id' => $userId])
+            ->orderBy('update_time DESC')
             ->execute();
     }
 
@@ -110,7 +111,7 @@ class ImUser extends Repository
             ->addFrom(ImGroupModel::class, 'g')
             ->join(ImGroupUserModel::class, 'g.id = gu.group_id', 'gu')
             ->where('gu.user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('g.deleted = 0')
+            ->andWhere('g.published = 0')
             ->getQuery()->execute();
     }
 

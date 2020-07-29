@@ -8,7 +8,9 @@
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
-                <div class="my-nav-title">我的收藏</div>
+                <div class="my-nav">
+                    <span class="title">我的收藏</span>
+                </div>
                 {% if pager.total_pages > 0 %}
                     <table class="layui-table" lay-size="lg">
                         <colgroup>
@@ -34,7 +36,7 @@
                                 <td><span class="layui-badge-rim">{{ item.user_count }}</span></td>
                                 <td>{{ star_info(item.rating) }}</td>
                                 <td align="center">
-                                    <button class="layui-btn layui-btn-sm kg-delete" data-tips="确定要取消收藏吗？" data-url="{{ favorite_url }}">取消</button>
+                                    <button class="layui-btn layui-btn-xs kg-delete" data-tips="确定要取消收藏吗？" data-url="{{ favorite_url }}">取消</button>
                                 </td>
                             </tr>
                         {% endfor %}

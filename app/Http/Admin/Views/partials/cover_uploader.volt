@@ -1,14 +1,14 @@
 <script>
 
-    layui.use(['jquery', 'upload'], function () {
+    layui.use(['jquery', 'layer', 'upload'], function () {
 
         var $ = layui.jquery;
         var layer = layui.layer;
         var upload = layui.upload;
 
         upload.render({
-            elem: '#choose-cover',
-            url: '/admin/upload/cover/img',
+            elem: '#change-cover',
+            url: '/admin/upload/img/cover',
             accept: 'images',
             acceptMime: 'image/*',
             before: function () {

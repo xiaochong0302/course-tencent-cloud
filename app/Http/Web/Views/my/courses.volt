@@ -8,7 +8,9 @@
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
-                <div class="my-nav-title">我的课程</div>
+                <div class="my-nav">
+                    <span class="title">我的课程</span>
+                </div>
                 {% if pager.total_pages > 0 %}
                     <table class="layui-table">
                         <colgroup>
@@ -37,7 +39,7 @@
                                     <p>进度：{{ item.progress }}%</p>
                                 </td>
                                 <td align="center">
-                                    <button class="layui-btn layui-btn-sm btn-add-review" data-url="{{ review_url }}">评价</button>
+                                    <button class="layui-btn layui-btn-xs btn-add-review" data-url="{{ review_url }}">评价</button>
                                 </td>
                             </tr>
                         {% endfor %}

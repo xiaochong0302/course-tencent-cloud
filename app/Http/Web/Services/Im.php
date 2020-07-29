@@ -357,13 +357,6 @@ class Im extends Service
 
             $relation = $validator->checkFriendUser($to['id'], $user->id);
 
-            /**
-             * 被对方屏蔽，忽略消息
-             */
-            if ($relation->blocked) {
-                return;
-            }
-
             $online = Gateway::isUidOnline($to['id']);
 
             $messageModel = new ImFriendMessageModel();
@@ -386,14 +379,7 @@ class Im extends Service
 
             $validator = new ImGroupUserValidator();
 
-            $relation = $validator->checkGroupUser($to['id'], $user->id);
-
-            /**
-             * 被对方屏蔽，忽略消息
-             */
-            if ($relation->blocked) {
-                return;
-            }
+            $validator->checkGroupUser($to['id'], $user->id);
 
             $messageModel = new ImGroupMessageModel();
 

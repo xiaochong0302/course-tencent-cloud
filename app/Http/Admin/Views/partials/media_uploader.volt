@@ -11,10 +11,10 @@
             var result = '';
             $.ajax({
                 type: 'POST',
-                url: '/admin/vod/upload/signature',
+                url: '/admin/vod/upload/sign',
                 async: false,
                 success: function (res) {
-                    result = res.signature;
+                    result = res.sign;
                 }
             });
             return result;

@@ -30,8 +30,17 @@ class ImGroup extends Service
 
         $data = [];
 
-        $data['name'] = $validator->checkName($post['name']);
-        $data['about'] = $validator->checkAbout($post['about']);
+        if (!empty($post['name'])) {
+            $data['name'] = $validator->checkName($post['name']);
+        }
+
+        if (!empty($post['about'])) {
+            $data['about'] = $validator->checkAbout($post['about']);
+        }
+
+        if (!empty($post['avatar'])) {
+            $data['avatar'] = $validator->checkAvatar($post['avatar']);
+        }
 
         $group->update($data);
 

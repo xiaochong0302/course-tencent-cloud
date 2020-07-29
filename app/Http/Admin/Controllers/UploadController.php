@@ -11,7 +11,7 @@ class UploadController extends Controller
 {
 
     /**
-     * @Post("/cover/img", name="admin.upload.cover.img")
+     * @Post("/img/cover", name="admin.upload.cover_img")
      */
     public function uploadCoverImageAction()
     {
@@ -29,7 +29,25 @@ class UploadController extends Controller
     }
 
     /**
-     * @Post("/content/img", name="admin.upload.content.img")
+     * @Post("/img/avatar", name="admin.upload.avatar_img")
+     */
+    public function uploadAvatarImageAction()
+    {
+        $storageService = new StorageService();
+
+        $key = $storageService->uploadAvatarImage();
+
+        $url = $storageService->getCiImageUrl($key);
+
+        if ($url) {
+            return $this->jsonSuccess(['data' => ['src' => $url, 'title' => '']]);
+        } else {
+            return $this->jsonError(['msg' => '上传文件失败']);
+        }
+    }
+
+    /**
+     * @Post("/img/content", name="admin.upload.content_img")
      */
     public function uploadContentImageAction()
     {

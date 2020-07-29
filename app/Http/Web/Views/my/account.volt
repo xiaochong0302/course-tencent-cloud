@@ -10,7 +10,9 @@
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
-                <div class="my-nav-title">账号安全</div>
+                <div class="my-nav">
+                    <span class="title">账号安全</span>
+                </div>
                 <div class="security-item-list">
                     <div class="security-item">
                         <span class="icon"><i class="layui-icon layui-icon-password"></i></span>

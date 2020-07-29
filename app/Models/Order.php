@@ -84,14 +84,14 @@ class Order extends Model
     /**
      * 条目信息
      *
-     * @var string
+     * @var string|array
      */
     public $item_info;
 
     /**
      * 优惠信息
      *
-     * @var string
+     * @var string|array
      */
     public $coupon_info;
 

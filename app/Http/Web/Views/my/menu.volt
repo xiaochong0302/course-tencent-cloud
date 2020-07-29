@@ -9,7 +9,7 @@
 
 <div class="my-profile-card wrap">
     <div class="avatar">
-        <a href="javascript:"><img src="{{ auth_user.avatar }}" alt="{{ auth_user.name }}"></a>
+        <img class="my-avatar" src="{{ auth_user.avatar }}" alt="{{ auth_user.name }}">
     </div>
     <div class="name">{{ auth_user.name }} {{ vip_info(auth_user) }}</div>
 </div>

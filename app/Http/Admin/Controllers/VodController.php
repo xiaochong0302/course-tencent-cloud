@@ -12,15 +12,15 @@ class VodController extends Controller
 {
 
     /**
-     * @Post("/upload/signature", name="admin.vod.upload_signature")
+     * @Post("/upload/sign", name="admin.vod.upload_sign")
      */
-    public function uploadSignatureAction()
+    public function uploadSignAction()
     {
         $vodService = new VodService();
 
-        $signature = $vodService->getUploadSignature();
+        $sign = $vodService->getUploadSign();
 
-        return $this->jsonSuccess(['signature' => $signature]);
+        return $this->jsonSuccess(['sign' => $sign]);
     }
 
     /**

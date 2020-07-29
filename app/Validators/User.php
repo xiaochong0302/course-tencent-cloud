@@ -125,6 +125,17 @@ class User extends Validator
         return join('/', $area);
     }
 
+    public function checkAvatar($avatar)
+    {
+        $value = $this->filter->sanitize($avatar, ['trim', 'string']);
+
+        if (!CommonValidator::url($value)) {
+            throw new BadRequestException('user.invalid_avatar');
+        }
+
+        return $value;
+    }
+
     public function checkEduRole($value)
     {
         $list = UserModel::eduRoleTypes();

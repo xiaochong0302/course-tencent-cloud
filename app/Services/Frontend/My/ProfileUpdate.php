@@ -6,7 +6,7 @@ use App\Caches\User as UserCache;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\User as UserValidator;
 
-class UserUpdate extends FrontendService
+class ProfileUpdate extends FrontendService
 {
 
     public function handle()
@@ -36,6 +36,10 @@ class UserUpdate extends FrontendService
 
         if (!empty($post['about'])) {
             $data['about'] = $validator->checkAbout($post['about']);
+        }
+
+        if (!empty($post['avatar'])) {
+            $data['avatar'] = $validator->checkAvatar($post['avatar']);
         }
 
         $user->update($data);

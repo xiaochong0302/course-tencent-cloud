@@ -2,14 +2,29 @@
 
 {% block content %}
 
-    {% set update_profile_url = url({'for':'web.my.update_profile'}) %}
+    {% set update_url = url({'for':'web.my.update_profile'}) %}
+    {% set gender_male_checked = user.gender == 1 ? 'checked' : '' %}
+    {% set gender_female_checked = user.gender == 2 ? 'checked' : '' %}
+    {% set gender_none_checked = user.gender == 3 ? 'checked' : '' %}
 
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
-                <div class="my-nav-title">个人信息</div>
-                <form class="layui-form my-form" method="post" action="{{ update_profile_url }}">
+                <div class="my-nav">
+                    <span class="title">个人信息</span>
+                </div>
+                <form class="layui-form profile-form" method="post" action="{{ update_url }}">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">头像</label>
+                        <div class="layui-input-inline" style="width: 110px;">
+                            <img id="img-avatar" class="my-avatar" src="{{ user.avatar }}">
+                            <input type="hidden" name="avatar" value="{{ user.avatar }}">
+                        </div>
+                        <div class="layui-input-inline" style="padding-top:35px;">
+                            <button id="change-avatar" class="layui-btn layui-btn-sm" type="button">更换</button>
+                        </div>
+                    </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">昵称</label>
                         <div class="layui-input-block">
@@ -19,12 +34,9 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">性别</label>
                         <div class="layui-input-block">
-                            {% set male_checked = user.gender == 1 ? 'checked' : '' %}
-                            {% set female_checked = user.gender == 2 ? 'checked' : '' %}
-                            {% set none_checked = user.gender == 3 ? 'checked' : '' %}
-                            <input type="radio" name="gender" value="1" title="男" {{ male_checked }}>
-                            <input type="radio" name="gender" value="2" title="女" {{ female_checked }}>
-                            <input type="radio" name="gender" value="3" title="保密" {{ none_checked }}>
+                            <input type="radio" name="gender" value="1" title="男" {{ gender_male_checked }}>
+                            <input type="radio" name="gender" value="2" title="女" {{ gender_female_checked }}>
+                            <input type="radio" name="gender" value="3" title="保密" {{ gender_none_checked }}>
                         </div>
                     </div>
                     <div class="layui-form-item" id="area-picker" style="margin-bottom: 25px;">
@@ -67,6 +79,7 @@
 
 {% block include_js %}
 
+    {{ js_include('web/js/upload.avatar.js') }}
     {{ js_include('web/js/my.profile.js') }}
 
 {% endblock %}
