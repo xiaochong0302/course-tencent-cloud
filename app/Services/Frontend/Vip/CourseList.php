@@ -9,7 +9,7 @@ use App\Services\Frontend\Service as FrontendService;
 class CourseList extends FrontendService
 {
 
-    public function handle()
+    public function handle($type)
     {
         $pagerQuery = new PagerQuery();
 
@@ -18,7 +18,7 @@ class CourseList extends FrontendService
         $params['published'] = 1;
         $params['deleted'] = 0;
 
-        $sort = 'vip';
+        $sort = $type == 'discount' ? 'vip_discount' : 'vip_free';
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 

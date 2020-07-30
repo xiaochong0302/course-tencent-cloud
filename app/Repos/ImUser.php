@@ -162,4 +162,20 @@ class ImUser extends Repository
         ]);
     }
 
+    public function countFriends($userId)
+    {
+        return (int)ImFriendUserModel::count([
+            'conditions' => 'user_id = :user_id:',
+            'bind' => ['user_id' => $userId],
+        ]);
+    }
+
+    public function countGroups($userId)
+    {
+        return (int)ImGroupUserModel::count([
+            'conditions' => 'user_id = :user_id:',
+            'bind' => ['user_id' => $userId],
+        ]);
+    }
+
 }

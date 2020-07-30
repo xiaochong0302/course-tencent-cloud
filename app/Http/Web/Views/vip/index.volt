@@ -30,17 +30,20 @@
         </div>
     </div>
 
-    {% set courses_url = url({'for':'web.vip.courses'},{'limit':12}) %}
-    {% set users_url = url({'for':'web.vip.users'},{'limit':12}) %}
+    {% set free_courses_url = url({'for':'web.vip.courses'},{'type':'free'}) %}
+    {% set discount_courses_url = url({'for':'web.vip.courses'},{'type':'discount'}) %}
+    {% set users_url = url({'for':'web.vip.users'}) %}
 
     <div class="vip-tab-wrap">
         <div class="layui-tab layui-tab-brief user-tab">
             <ul class="layui-tab-title">
-                <li class="layui-this">课程</li>
-                <li>成员</li>
+                <li class="layui-this">优惠课程</li>
+                <li>畅学课程</li>
+                <li>新进会员</li>
             </ul>
             <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show" id="tab-courses" data-url="{{ courses_url }}"></div>
+                <div class="layui-tab-item layui-show" id="tab-discount-courses" data-url="{{ discount_courses_url }}"></div>
+                <div class="layui-tab-item" id="tab-free-courses" data-url="{{ free_courses_url }}"></div>
                 <div class="layui-tab-item" id="tab-users" data-url="{{ users_url }}"></div>
             </div>
         </div>

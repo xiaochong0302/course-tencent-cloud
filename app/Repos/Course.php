@@ -76,9 +76,11 @@ class Course extends Repository
 
         if ($sort == 'free') {
             $builder->andWhere('market_price = 0');
-        } elseif ($sort == 'vip') {
+        } elseif ($sort == 'vip_discount') {
             $builder->andWhere('vip_price < market_price');
+            $builder->andWhere('vip_price > 0');
         } elseif ($sort == 'vip_free') {
+            $builder->andWhere('market_price > 0');
             $builder->andWhere('vip_price = 0');
         }
 

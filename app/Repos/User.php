@@ -3,6 +3,9 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
+use App\Models\CourseFavorite as CourseFavoriteModel;
+use App\Models\CourseUser as CourseUserModel;
+use App\Models\ImUser as ImUserModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -99,6 +102,15 @@ class User extends Repository
     }
 
     /**
+     * @param int $id
+     * @return ImUserModel|Model|bool
+     */
+    public function findImUser($id)
+    {
+        return ImUserModel::findFirst($id);
+    }
+
+    /**
      * @return ResultsetInterface|Resultset|UserModel[]
      */
     public function findTeachers()
@@ -113,7 +125,23 @@ class User extends Repository
 
     public function countUsers()
     {
-        return (int)UserModel::count(['conditions' => 'deleted = 0']);
+        return (int)UserModel::count();
+    }
+
+    public function countCourses($userId)
+    {
+        return (int)CourseUserModel::count([
+            'conditions' => 'user_id = :user_id: AND deleted = 0',
+            'bind' => ['user_id' => $userId],
+        ]);
+    }
+
+    public function countFavorites($userId)
+    {
+        return (int)CourseFavoriteModel::count([
+            'conditions' => 'user_id = :user_id: AND deleted = 0',
+            'bind' => ['user_id' => $userId],
+        ]);
     }
 
 }

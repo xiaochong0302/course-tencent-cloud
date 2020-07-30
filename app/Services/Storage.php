@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Library\Utils\FileInfo;
 use App\Models\ContentImage as ContentImageModel;
 use Phalcon\Logger\Adapter\File as FileLogger;
 use Qcloud\Cos\Client as CosClient;
@@ -104,6 +105,9 @@ class Storage extends Service
             $files = $this->request->getUploadedFiles(true);
 
             foreach ($files as $file) {
+                if (!FileInfo::isImage($file->getRealType())) {
+                    continue;
+                }
                 $extension = $this->getFileExtension($file->getName());
                 $keyName = $this->generateFileName($extension, $prefix);
                 $path = $this->putFile($keyName, $file->getTempName());
@@ -136,6 +140,7 @@ class Storage extends Service
         } catch (\Exception $e) {
 
             $this->logger->error('Put String Exception ' . kg_json_encode([
+                    'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
@@ -168,6 +173,7 @@ class Storage extends Service
         } catch (\Exception $e) {
 
             $this->logger->error('Put File Exception ' . kg_json_encode([
+                    'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
@@ -200,6 +206,7 @@ class Storage extends Service
         } catch (\Exception $e) {
 
             $this->logger->error('Delete Object Exception ' . kg_json_encode([
+                    'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
@@ -223,12 +230,11 @@ class Storage extends Service
 
     /**
      *  获取数据万象图片URL
+     *
      * @param string $key
-     * @param int $width
-     * @param int $height
      * @return string
      */
-    public function getCiImageUrl($key, $width = 0, $height = 0)
+    public function getCiImageUrl($key)
     {
         return $this->getCiBaseUrl() . $key;
     }
@@ -287,7 +293,7 @@ class Storage extends Service
     }
 
     /**
-     * 获取 CosClient
+     * 获取CosClient
      *
      * @return CosClient
      */

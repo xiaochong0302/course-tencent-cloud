@@ -4,7 +4,6 @@ namespace App\Services\Frontend\User;
 
 use App\Builders\CourseUserList as CourseUserListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\CourseUser as CourseUserModel;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Services\Frontend\Service as FrontendService;
 use App\Services\Frontend\UserTrait;
@@ -23,7 +22,6 @@ class CourseList extends FrontendService
         $params = $pagerQuery->getParams();
 
         $params['user_id'] = $user->id;
-        $params['role_type'] = CourseUserModel::ROLE_STUDENT;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();

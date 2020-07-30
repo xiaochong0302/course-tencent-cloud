@@ -5,7 +5,7 @@ namespace App\Library\Utils;
 class FileInfo
 {
 
-    static function isVideo($mine)
+    public static function isVideo($mine)
     {
         $case1 = self::isSecure($mine);
 
@@ -14,7 +14,7 @@ class FileInfo
         return $case1 && $case2;
     }
 
-    static function isAudio($mine)
+    public static function isAudio($mine)
     {
         $case1 = self::isSecure($mine);
 
@@ -23,7 +23,7 @@ class FileInfo
         return $case1 && $case2;
     }
 
-    static function isImage($mine)
+    public static function isImage($mine)
     {
         $case1 = self::isSecure($mine);
 
@@ -32,12 +32,26 @@ class FileInfo
         return $case1 && $case2;
     }
 
-    static function isSecure($mine)
+    public static function isSecure($mine)
     {
-        return in_array($mine, self::mineTypes());
+        return in_array($mine, self::getMineTypes());
     }
 
-    static function mineTypes()
+    public static function getMineType($file)
+    {
+        $info = new \finfo(FILEINFO_MIME_TYPE);
+
+        return $info->file($file);
+    }
+
+    public static function getMineTypeByExt($ext)
+    {
+        $mineTypes = self::getMineTypes();
+
+        return $mineTypes[$ext] ?? null;
+    }
+
+    public static function getMineTypes()
     {
         return [
             'aac' => 'audio/aac',

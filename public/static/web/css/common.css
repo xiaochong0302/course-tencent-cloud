@@ -1266,12 +1266,8 @@ body {
     color: #666;
 }
 
-.teach-user-list {
-    margin-bottom: 30px;
-}
-
-.vip-user-list {
-    margin-bottom: 30px;
+.user-list {
+    margin-bottom: 20px;
 }
 
 .user-card {
@@ -1302,11 +1298,19 @@ body {
 }
 
 .user-card .name {
+    padding: 0 10px;
     margin-bottom: 15px;
 }
 
 .user-card .title {
     color: #666;
+    font-size: 12px;
+}
+
+.user-card .action button {
+    padding: 0 5px;
+    height: 20px;
+    line-height: 20px;
     font-size: 12px;
 }
 
@@ -1317,14 +1321,10 @@ body {
     padding: 1px 3px;
     border-radius: 2px;
     text-align: center;
-    font-size: 12px;
+    font-size: 10px;
     line-height: 1.5em;
     background-color: orange;
     color: white;
-}
-
-.user-card .action span {
-    cursor: pointer;
 }
 
 .my-sidebar {

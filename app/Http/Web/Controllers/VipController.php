@@ -30,11 +30,13 @@ class VipController extends Controller
      */
     public function coursesAction()
     {
+        $type = $this->request->getQuery('type', 'trim', 'discount');
+
         $service = new VipCourseListService();
 
-        $pager = $service->handle();
+        $pager = $service->handle($type);
         $pager->items = kg_array_object($pager->items);
-        $pager->target = 'tab-courses';
+        $pager->target = "tab-{$type}-courses";
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);

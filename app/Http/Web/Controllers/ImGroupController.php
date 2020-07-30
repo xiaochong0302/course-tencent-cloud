@@ -19,6 +19,14 @@ class ImGroupController extends Controller
     }
 
     /**
+     * @Get("/{id:[0-9]+}", name="web.im_group.show")
+     */
+    public function showAction($id)
+    {
+
+    }
+
+    /**
      * @Get("/{id:[0-9]+}/users", name="web.im_group.users")
      */
     public function usersAction($id)

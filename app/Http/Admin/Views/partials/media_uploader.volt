@@ -50,10 +50,9 @@
 
             uploader.done().then(function (result) {
                 $('input[name=file_id]').val(result.fileId);
-                var chapterId = $('input[name=chapter_id]').val();
                 $.ajax({
                     type: 'POST',
-                    url: '/admin/chapter/' + chapterId + '/content',
+                    url: $('#vod-form').attr('action'),
                     data: {file_id: result.fileId}
                 });
             });

@@ -5,7 +5,7 @@
                 <div class="layui-col-md2">
                     <div class="user-card">
                         {% if item.vip == 1 %}
-                            <span class="vip">会员</span>
+                            <span class="vip">VIP</span>
                         {% endif %}
                         <div class="avatar">
                             <a href="javascript:" title="{{ item.about|e }}"><img src="{{ item.avatar }}" alt="{{ item.name }}"></a>

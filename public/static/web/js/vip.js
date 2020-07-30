@@ -3,9 +3,14 @@ layui.use(['jquery', 'helper'], function () {
     var $ = layui.jquery;
     var helper = layui.helper;
 
-    if ($('#tab-courses').length > 0) {
-        var $tabCourses = $('#tab-courses');
-        helper.ajaxLoadHtml($tabCourses.data('url'), $tabCourses.attr('id'));
+    if ($('#tab-discount-courses').length > 0) {
+        var $tabDiscountCourses = $('#tab-discount-courses');
+        helper.ajaxLoadHtml($tabDiscountCourses.data('url'), $tabDiscountCourses.attr('id'));
+    }
+
+    if ($('#tab-free-courses').length > 0) {
+        var $tabFreeCourses = $('#tab-free-courses');
+        helper.ajaxLoadHtml($tabFreeCourses.data('url'), $tabFreeCourses.attr('id'));
     }
 
     if ($('#tab-users').length > 0) {

@@ -51,6 +51,7 @@ class UserList extends FrontendService
                 'avatar' => $user['avatar'],
                 'title' => $user['title'],
                 'about' => $user['about'],
+                'vip' => $user['vip'],
             ];
         }
 

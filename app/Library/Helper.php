@@ -293,9 +293,10 @@ function kg_time_ago($time)
  * 格式化时长
  *
  * @param int $time
+ * @param string $mode
  * @return string
  */
-function kg_duration($time)
+function kg_duration($time, $mode = 'simple')
 {
     $result = '00分钟';
 
@@ -317,6 +318,10 @@ function kg_duration($time)
 
         if ($seconds > 0) {
             $format[] = sprintf('%02d秒', $seconds);
+        }
+
+        if ($mode == 'simple') {
+            $format = array_slice($format, 0, 2);
         }
 
         $result = implode('', $format);

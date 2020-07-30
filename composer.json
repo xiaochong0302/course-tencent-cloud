@@ -4,6 +4,7 @@
     "ext-redis": "~4.3",
     "ext-pdo": "*",
     "ext-json": "*",
+    "ext-fileinfo": "*",
     "phalcon/incubator": "^3.4",
     "guzzlehttp/guzzle": "^6.3",
     "swiftmailer/swiftmailer": "^6.0",

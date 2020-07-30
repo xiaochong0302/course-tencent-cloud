@@ -32,7 +32,7 @@
     <legend>上传视频</legend>
 </fieldset>
 
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.chapter.content','id':chapter.id}) }}">
+<form class="layui-form kg-form" id="vod-form" method="POST" action="{{ url({'for':'admin.chapter.content','id':chapter.id}) }}">
 
     <div class="layui-form-item" id="upload-block">
         <label class="layui-form-label">视频文件</label>
@@ -54,7 +54,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">文件编号</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="file_id" value="{{ vod.file_id }}" readonly="true" lay-verify="required">
+            <input class="layui-input" type="text" name="file_id" value="{{ vod.file_id }}" readonly="readonly" lay-verify="required">
         </div>
     </div>
 
