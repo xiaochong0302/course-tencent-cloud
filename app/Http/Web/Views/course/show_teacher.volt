@@ -4,16 +4,16 @@
         <div class="layui-card-body">
             {% for teacher in course.teachers %}
                 {% set teacher_url = url({'for':'web.user.show','id':teacher.id}) %}
-                <div class="sidebar-teacher-card clearfix" title="{{ teacher.about|e }}">
+                {% set teacher.title = teacher.title ? teacher.title : '小小教书匠' %}
+                <div class="sidebar-teacher-card clearfix">
                     <div class="avatar">
-                        <img src="{{ teacher.avatar }}" alt="{{ teacher.name }}">
+                        <img src="{{ teacher.avatar }}" alt="{{ teacher.name }}" title="{{ teacher.about }}">
                     </div>
                     <div class="info">
                         <div class="name layui-elip">
                             <a href="{{ teacher_url }}">{{ teacher.name }}</a>
                         </div>
-                        {% set title = teacher.title ? teacher.title : '小小教书匠' %}
-                        <div class="title layui-elip">{{ title }}</div>
+                        <div class="title layui-elip">{{ teacher.title }}</div>
                     </div>
                 </div>
             {% endfor %}

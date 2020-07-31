@@ -21,6 +21,9 @@ class TopicController extends Controller
 
         $topic = $service->handle($id);
 
+        $this->siteSeo->prependTitle($topic['title']);
+        $this->siteSeo->setDescription($topic['summary']);
+
         $this->view->setVar('topic', $topic);
     }
 
@@ -36,7 +39,7 @@ class TopicController extends Controller
         $pager->target = 'course-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('topic/ajax_courses');
+        $this->view->pick('topic/courses');
         $this->view->setVar('pager', $pager);
     }
 

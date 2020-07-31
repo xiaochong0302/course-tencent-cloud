@@ -3,6 +3,7 @@
 namespace App\Http\Web\Controllers;
 
 use App\Http\Web\Services\ImGroup as ImGroupService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/im/group")
@@ -15,7 +16,23 @@ class ImGroupController extends Controller
      */
     public function listAction()
     {
+        $this->siteSeo->prependTitle('群组');
+    }
 
+    /**
+     * @Get("/pager", name="web.im_group.pager")
+     */
+    public function pagerAction()
+    {
+        $service = new ImGroupService();
+
+        $pager = $service->getGroups();
+        $pager->items = kg_array_object($pager->items);
+        $pager->target = 'group-list';
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('im_group/pager');
+        $this->view->setVar('pager', $pager);
     }
 
     /**
@@ -23,7 +40,11 @@ class ImGroupController extends Controller
      */
     public function showAction($id)
     {
+        $service = new ImGroupService();
 
+        $group = $service->getGroup($id);
+
+        $this->view->setVar('group', $group);
     }
 
     /**

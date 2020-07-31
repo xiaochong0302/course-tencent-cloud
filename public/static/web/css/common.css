@@ -265,12 +265,10 @@ body {
     float: left;
     width: 500px;
     color: #666;
-    font-size: 12px;
 }
 
 .search-course-card .title {
     margin-bottom: 10px;
-    font-size: 14px;
     white-space: nowrap;
 }
 
@@ -278,6 +276,7 @@ body {
     margin-bottom: 10px;
     line-height: 1.5em;
     max-height: 4.5em;
+    font-size: 12px;
     word-wrap: break-word;
     overflow: hidden;
 }
@@ -990,6 +989,10 @@ body {
     color: red;
 }
 
+.vip-user-list .user-card {
+    height: 180px;
+}
+
 .cart-course-card {
     padding-bottom: 10px;
     margin-bottom: 10px;
@@ -1316,15 +1319,17 @@ body {
 
 .user-card .vip {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    padding: 1px 3px;
-    border-radius: 2px;
-    text-align: center;
-    font-size: 10px;
-    line-height: 1.5em;
-    background-color: orange;
-    color: white;
+    top: 10px;
+    right: 10px;
+    height: 16px;
+    line-height: 16px;
+    padding: 0 3px;
+}
+
+.user-card .type {
+    position: absolute;
+    top: 18px;
+    right: 28px;
 }
 
 .my-sidebar {
@@ -1555,16 +1560,21 @@ body {
 }
 
 .im-user-list .vip {
-    top: 5px;
-    right: 5px;
+    top: 8px;
+    right: 8px;
+    height: 14px;
+    line-height: 14px;
     font-size: 10px;
 }
 
-.im-user-list .action button {
-    padding: 0 5px;
-    height: 20px;
-    line-height: 20px;
-    font-size: 12px;
+.im-user-list .type {
+    top: 10px;
+    right: 10px;
+    padding: 0 3px;
+}
+
+.im-user-list .action .layui-badge-rim {
+    cursor: pointer;
 }
 
 .im-user-list .layui-btn + .layui-btn {

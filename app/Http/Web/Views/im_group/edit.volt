@@ -3,6 +3,7 @@
 {% block content %}
 
     {% set update_url = url({'for':'web.im_group.update','id':group.id}) %}
+    {% set name_readonly = group.type == 'course' ? 'readonly="readonly"' : '' %}
 
     <form class="layui-form" method="post" action="{{ update_url }}">
         <div class="layui-form-item">
@@ -18,7 +19,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">名称</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="name" value="{{ group.name }}" lay-verify="required">
+                <input class="layui-input" type="text" name="name" value="{{ group.name }}" {{ name_readonly }} lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">

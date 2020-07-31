@@ -26,6 +26,8 @@ class SearchController extends Controller
             return $this->response->redirect(['for' => 'web.course.list']);
         }
 
+        $this->siteSeo->prependTitle([$query, '搜索']);
+
         $service = new CourseHotQueryService();
 
         $hotQueries = $service->handle();

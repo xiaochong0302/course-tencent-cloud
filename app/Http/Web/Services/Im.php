@@ -682,6 +682,7 @@ class Im extends Service
             $group['avatar'] = $baseUrl . $group['avatar'];
             $items[] = [
                 'id' => $group['id'],
+                'type' => $group['type'],
                 'name' => $group['name'],
                 'avatar' => $group['avatar'],
                 'about' => $group['about'],

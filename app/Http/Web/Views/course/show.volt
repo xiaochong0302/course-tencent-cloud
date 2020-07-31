@@ -18,12 +18,12 @@
             {% endfor %}
             <a><cite>{{ course.title }}</cite></a>
         </span>
-        <div class="share">
+        <span class="share">
             <a href="javascript:" title="{{ favorite_title }}" data-url="{{ favorite_url }}"><i class="layui-icon {{ favorite_star }} icon-star"></i></a>
             <a href="javascript:" title="分享到微信" data-url="{{ qrcode_url }}"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
             <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
             <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
-        </div>
+        </span>
     </div>
 
     {{ partial('course/show_meta') }}

@@ -5,14 +5,14 @@
                 <div class="layui-col-md2">
                     <div class="user-card">
                         {% if item.vip == 1 %}
-                            <span class="vip">VIP</span>
+                            <span class="layui-badge layui-bg-orange vip">VIP</span>
                         {% endif %}
                         <div class="avatar">
                             <a href="javascript:" title="{{ item.about|e }}"><img src="{{ item.avatar }}" alt="{{ item.name }}"></a>
                         </div>
                         <div class="name layui-elip" title="{{ item.name|e }}">{{ item.name }}</div>
                         <div class="action">
-                            <button class="layui-btn apply-friend" data-id="{{ item.id }}" data-name="{{ item.name }}" data-avatar="{{ item.avatar }}">加为好友</button>
+                            <span class="layui-badge-rim apply-friend" data-id="{{ item.id }}" data-name="{{ item.name }}" data-avatar="{{ item.avatar }}">申请好友</span>
                         </div>
                     </div>
                 </div>

@@ -2,9 +2,13 @@
 
 namespace App\Http\Web\Services;
 
+use App\Builders\ImGroupList as ImGroupListBuilder;
 use App\Builders\ImGroupUserList as ImGroupUserListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\ImGroup as ImGroupModel;
+use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
+use App\Repos\User as UserRepo;
 use App\Validators\ImGroup as ImGroupValidator;
 use App\Validators\ImGroupUser as ImGroupUserValidator;
 
@@ -13,7 +17,21 @@ class ImGroup extends Service
 
     public function getGroups()
     {
+        $pagerQuery = new PagerQuery();
 
+        $params = $pagerQuery->getParams();
+
+        $params['published'] = 1;
+
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
+
+        $groupRepo = new ImGroupRepo();
+
+        $pager = $groupRepo->paginate($params, $sort, $page, $limit);
+
+        return $this->handleGroups($pager);
     }
 
     public function updateGroup($id)
@@ -30,7 +48,10 @@ class ImGroup extends Service
 
         $data = [];
 
-        if (!empty($post['name'])) {
+        /**
+         * 课程群组不允许改名
+         */
+        if (!empty($post['name']) && $group->type == ImGroupModel::TYPE_CHAT) {
             $data['name'] = $validator->checkName($post['name']);
         }
 
@@ -51,7 +72,25 @@ class ImGroup extends Service
     {
         $validator = new ImGroupValidator();
 
-        return $validator->checkGroup($id);
+        $group = $validator->checkGroup($id);
+
+        $userRepo = new UserRepo();
+
+        $owner = $userRepo->findById($group->owner_id);
+
+        return [
+            'id' => $group->id,
+            'name' => $group->name,
+            'about' => $group->about,
+            'user_count' => $group->user_count,
+            'owner' => [
+                'id' => $owner->id,
+                'name' => $owner->name,
+                'avatar' => $owner->avatar,
+                'title' => $owner->title,
+                'about' => $owner->about,
+            ],
+        ];
     }
 
     public function getGroupUsers($id)
@@ -109,6 +148,43 @@ class ImGroup extends Service
         foreach ($relations as $relation) {
             $user = $users[$relation['user_id']] ?? new \stdClass();
             $items[] = $user;
+        }
+
+        $pager->items = $items;
+
+        return $pager;
+    }
+
+    protected function handleGroups($pager)
+    {
+        if ($pager->total_items == 0) {
+            return $pager;
+        }
+
+        $builder = new ImGroupListBuilder();
+
+        $groups = $pager->items->toArray();
+
+        $users = $builder->getUsers($groups);
+
+        $baseUrl = kg_ci_base_url();
+
+        $items = [];
+
+        foreach ($groups as $group) {
+
+            $group['avatar'] = $baseUrl . $group['avatar'];
+            $group['owner'] = $users[$group['owner_id']] ?? new \stdClass();
+
+            $items[] = [
+                'id' => $group['id'],
+                'type' => $group['type'],
+                'name' => $group['name'],
+                'avatar' => $group['avatar'],
+                'about' => $group['about'],
+                'user_count' => $group['user_count'],
+                'owner' => $group['owner'],
+            ];
         }
 
         $pager->items = $items;

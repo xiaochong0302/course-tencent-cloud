@@ -38,6 +38,8 @@ class CourseController extends Controller
         $sorts = $service->handleSorts();
         $params = $service->getParams();
 
+        $this->siteSeo->prependTitle('课程');
+
         $this->view->setVar('top_categories', $topCategories);
         $this->view->setVar('sub_categories', $subCategories);
         $this->view->setVar('models', $models);

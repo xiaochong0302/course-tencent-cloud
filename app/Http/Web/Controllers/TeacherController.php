@@ -16,7 +16,7 @@ class TeacherController extends Controller
      */
     public function listAction()
     {
-
+        $this->siteSeo->prependTitle('教师');
     }
 
     /**
@@ -38,9 +38,13 @@ class TeacherController extends Controller
     /**
      * @Get("/{id:[0-9]+}", name="web.teacher.show")
      */
-    public function showAction()
+    public function showAction($id)
     {
-
+        return $this->dispatcher->forward([
+            'controller' => 'user',
+            'action' => 'show',
+            'params' => ['id' => $id],
+        ]);
     }
 
 }
