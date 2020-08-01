@@ -78,6 +78,7 @@ class GroupList extends FrontendService
                 'avatar' => $group['avatar'],
                 'about' => $group['about'],
                 'user_count' => $group['user_count'],
+                'msg_count' => $group['msg_count'],
                 'owner' => $group['owner'],
             ];
         }

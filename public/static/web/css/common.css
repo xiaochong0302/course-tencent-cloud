@@ -1269,10 +1269,6 @@ body {
     color: #666;
 }
 
-.user-list {
-    margin-bottom: 20px;
-}
-
 .user-card {
     float: left;
     width: 100%;
@@ -1305,9 +1301,21 @@ body {
     margin-bottom: 15px;
 }
 
+.user-card .owner {
+    margin-bottom: 15px;
+    color: #666;
+}
+
 .user-card .title {
     color: #666;
-    font-size: 12px;
+}
+
+.user-card .meta {
+    color: #666;
+}
+
+.user-card .meta span {
+    margin-right: 5px;
 }
 
 .user-card .action button {
@@ -1330,6 +1338,30 @@ body {
     position: absolute;
     top: 18px;
     right: 28px;
+}
+
+.user-list {
+    margin-bottom: 20px;
+}
+
+.group-user-list .user-card {
+    height: 200px;
+    box-shadow: none;
+}
+
+.group-user-list .user-card .avatar {
+    margin-top: 15px;
+}
+
+.im-group-list .user-card {
+    height: 250px;
+}
+
+.group-about {
+    padding: 15px;
+    min-height: 65px;
+    font-size: 12px;
+    color: #666;
 }
 
 .my-sidebar {
@@ -1386,7 +1418,7 @@ body {
 }
 
 .wrap .layui-table {
-    margin-top: 0;
+    margin: 0;
 }
 
 .layui-table p {
@@ -1639,12 +1671,14 @@ body {
     position: absolute;
     top: 10px;
     right: 10px;
+    font-size: 12px;
 }
 
 .layim-chat-list li .msg-count {
     position: absolute;
     top: 5px;
     right: 30px;
+    font-size: 12px;
 }
 
 .layim-chat-status .online {

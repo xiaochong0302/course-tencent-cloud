@@ -1,31 +1,26 @@
-{% extends 'templates/layer.volt' %}
-
-{% block content %}
-
-    <div class="bg-wrap">
-        <div class="im-user-list clearfix">
-            <div class="layui-row layui-col-space20">
-                {% for item in pager.items %}
-                    {% set delete_url = url({'for':'web.im_group.delete_user','gid':group.id,'uid':item.id}) %}
-                    <div class="layui-col-md2">
-                        <div class="user-card">
-                            {% if item.vip == 1 %}
-                                <span class="vip">会员</span>
-                            {% endif %}
-                            <div class="avatar">
-                                <a href="javascript:" title="{{ item.about }}"><img src="{{ item.avatar }}" alt="{{ item.name }}"></a>
-                            </div>
-                            <div class="name layui-elip" title="{{ item.name }}">{{ item.name }}</div>
-                            <div class="action">
-                                <button class="layui-btn kg-delete" data-tips="你确定要移除该用户吗？" data-url="{{ delete_url }}">移除</button>
-                            </div>
-                        </div>
+<div class="group-user-list clearfix">
+    <div class="layui-row layui-col-space20">
+        {% for item in pager.items %}
+            {% set user_url = url({'for':'web.user.show','id':item.id}) %}
+            <div class="layui-col-md3">
+                <div class="user-card">
+                    {% if item.vip == 1 %}
+                        <span class="layui-badge layui-bg-orange vip">VIP</span>
+                    {% endif %}
+                    <div class="avatar">
+                        <a href="{{ user_url }}" title="{{ item.about }}">
+                            <img src="{{ item.avatar }}" alt="{{ item.name }}">
+                        </a>
                     </div>
-                {% endfor %}
+                    <div class="name layui-elip">
+                        <a href="{{ user_url }}" title="{{ item.about }}">{{ item.name }}</a>
+                    </div>
+                    <div class="action">
+                        <span class="layui-btn layui-btn-xs apply-friend">添加好友</span>
+                    </div>
+                </div>
             </div>
-        </div>
-        {{ partial('partials/pager') }}
+        {% endfor %}
     </div>
-
-{% endblock %}
-
+</div>
+{{ partial('partials/pager_ajax') }}

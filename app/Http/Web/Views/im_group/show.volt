@@ -3,7 +3,9 @@
 {% block content %}
 
     {% set group.about = group.about ? group.about : '这个家伙真懒，什么都没有留下~' %}
+    {% set apply_group_url = '' %}
     {% set users_url = url({'for':'web.im_group.users','id':group.id}) %}
+    {% set active_users_url = url({'for':'web.im_group.active_users','id':group.id}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
@@ -13,24 +15,28 @@
         </span>
     </div>
 
-    <div class="layout-main">
+    <div class="layout-main clearfix">
         <div class="layout-content">
-            <div class="layui-card group-about">
+            <div class="layui-card">
                 <div class="layui-card-header">小组介绍</div>
-                <div class="layui-card-body">
-                    <blockquote class="layui-elem-quote">{{ group.about }}</blockquote>
-                </div>
+                <div class="layui-card-body group-about">{{ group.about }}</div>
             </div>
-            <div class="layui-card group-about">
+            <div class="layui-card">
                 <div class="layui-card-header">小组成员</div>
                 <div class="layui-card-body">
-                    <div id="group-user-list" data-url="{{ users_url }}"></div>
+                    <div id="user-list" data-url="{{ users_url }}"></div>
                 </div>
             </div>
+            <br>
         </div>
         <div class="layout-sidebar">
-            {{ partial('im_group/show_owner') }}
-            {{ partial('im_group/show_active_users') }}
+            <div class="sidebar">
+                {{ partial('im_group/show_owner') }}
+            </div>
+            <div class="sidebar wrap">
+                <button class="layui-btn layui-btn-fluid apply-group" data-url="{{ apply_group_url }}">申请加入</button>
+            </div>
+            <div class="sidebar" id="active-user-list" data-url="{{ active_users_url }}"></div>
         </div>
     </div>
 
@@ -38,6 +44,6 @@
 
 {% block include_js %}
 
-    {{ js_include('web/js/user.show.js') }}
+    {{ js_include('web/js/im_group.show.js') }}
 
 {% endblock %}

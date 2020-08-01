@@ -148,7 +148,7 @@ Trait ImGroupTrait
     {
         $userRepo = new ImUserRepo();
 
-        $receiver = $userRepo->findById($group->user_id);
+        $receiver = $userRepo->findById($group->owner_id);
 
         $itemType = ImSystemMessageModel::TYPE_GROUP_REQUEST;
 
@@ -312,6 +312,12 @@ Trait ImGroupTrait
             $group->user_count -= 1;
             $group->update();
         }
+    }
+
+    protected function incrGroupMessageCount(ImGroupModel $group)
+    {
+        $group->msg_count += 1;
+        $group->update();
     }
 
 }

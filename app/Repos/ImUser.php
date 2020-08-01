@@ -111,7 +111,7 @@ class ImUser extends Repository
             ->addFrom(ImGroupModel::class, 'g')
             ->join(ImGroupUserModel::class, 'g.id = gu.group_id', 'gu')
             ->where('gu.user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('g.published = 0')
+            ->andWhere('g.published = 1')
             ->getQuery()->execute();
     }
 

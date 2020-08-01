@@ -36,7 +36,7 @@ class ImGroupUserList extends Builder
 
         $userRepo = new UserRepo();
 
-        $columns = ['id', 'name', 'avatar', 'about', 'vip'];
+        $columns = ['id', 'name', 'avatar', 'title', 'about', 'vip'];
 
         $users = $userRepo->findByIds($ids, $columns);
 

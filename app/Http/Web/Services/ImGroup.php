@@ -4,6 +4,7 @@ namespace App\Http\Web\Services;
 
 use App\Builders\ImGroupList as ImGroupListBuilder;
 use App\Builders\ImGroupUserList as ImGroupUserListBuilder;
+use App\Caches\ImGroupActiveUserList as ImGroupActiveUserListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\ImGroup as ImGroupModel;
 use App\Repos\ImGroup as ImGroupRepo;
@@ -32,6 +33,67 @@ class ImGroup extends Service
         $pager = $groupRepo->paginate($params, $sort, $page, $limit);
 
         return $this->handleGroups($pager);
+    }
+
+    public function getGroup($id)
+    {
+        $validator = new ImGroupValidator();
+
+        $group = $validator->checkGroup($id);
+
+        $userRepo = new UserRepo();
+
+        $owner = $userRepo->findById($group->owner_id);
+
+        return [
+            'id' => $group->id,
+            'type' => $group->type,
+            'name' => $group->name,
+            'avatar' => $group->avatar,
+            'about' => $group->about,
+            'user_count' => $group->user_count,
+            'msg_count' => $group->msg_count,
+            'owner' => [
+                'id' => $owner->id,
+                'name' => $owner->name,
+                'avatar' => $owner->avatar,
+                'title' => $owner->title,
+                'about' => $owner->about,
+                'vip' => $owner->vip,
+            ],
+        ];
+    }
+
+    public function getGroupUsers($id)
+    {
+        $validator = new ImGroupValidator();
+
+        $group = $validator->checkGroup($id);
+
+        $pagerQuery = new PagerQuery();
+
+        $params = $pagerQuery->getParams();
+
+        $params['group_id'] = $group->id;
+
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
+
+        $repo = new ImGroupUserRepo();
+
+        $pager = $repo->paginate($params, $sort, $page, $limit);
+
+        return $this->handleGroupUsers($pager);
+    }
+
+    public function getActiveGroupUsers($id)
+    {
+        $cache = new ImGroupActiveUserListCache();
+
+        $result = $cache->get($id);
+
+        return $result ?: [];
     }
 
     public function updateGroup($id)
@@ -66,54 +128,6 @@ class ImGroup extends Service
         $group->update($data);
 
         return $group;
-    }
-
-    public function getGroup($id)
-    {
-        $validator = new ImGroupValidator();
-
-        $group = $validator->checkGroup($id);
-
-        $userRepo = new UserRepo();
-
-        $owner = $userRepo->findById($group->owner_id);
-
-        return [
-            'id' => $group->id,
-            'name' => $group->name,
-            'about' => $group->about,
-            'user_count' => $group->user_count,
-            'owner' => [
-                'id' => $owner->id,
-                'name' => $owner->name,
-                'avatar' => $owner->avatar,
-                'title' => $owner->title,
-                'about' => $owner->about,
-            ],
-        ];
-    }
-
-    public function getGroupUsers($id)
-    {
-        $validator = new ImGroupValidator();
-
-        $group = $validator->checkGroup($id);
-
-        $pagerQuery = new PagerQuery();
-
-        $params = $pagerQuery->getParams();
-
-        $params['group_id'] = $group->id;
-
-        $sort = $pagerQuery->getSort();
-        $page = $pagerQuery->getPage();
-        $limit = $pagerQuery->getLimit();
-
-        $repo = new ImGroupUserRepo();
-
-        $pager = $repo->paginate($params, $sort, $page, $limit);
-
-        return $this->handleGroupUsers($pager);
     }
 
     public function deleteGroupUser($groupId, $userId)
@@ -183,6 +197,7 @@ class ImGroup extends Service
                 'avatar' => $group['avatar'],
                 'about' => $group['about'],
                 'user_count' => $group['user_count'],
+                'msg_count' => $group['msg_count'],
                 'owner' => $group['owner'],
             ];
         }

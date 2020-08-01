@@ -15,6 +15,6 @@
 
 {% block include_js %}
 
-    {{ js_include('web/js/group.list.js') }}
+    {{ js_include('web/js/im_group.list.js') }}
 
 {% endblock %}

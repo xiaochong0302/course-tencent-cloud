@@ -4,6 +4,7 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\ImGroup as ImGroupModel;
+use App\Models\ImGroupMessage as ImGroupMessageModel;
 use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\ImUser as ImUserModel;
 use Phalcon\Mvc\Model;
@@ -103,13 +104,21 @@ class ImGroup extends Repository
 
     public function countGroups()
     {
-        return (int)ImGroupModel::count(['conditions' => 'deleted = 0']);
+        return (int)ImGroupModel::count(['conditions' => 'published = 1']);
     }
 
     public function countUsers($groupId)
     {
         return (int)ImGroupUserModel::count([
-            'conditions' => 'group_id = :group_id: AND blocked = 0',
+            'conditions' => 'group_id = :group_id:',
+            'bind' => ['group_id' => $groupId],
+        ]);
+    }
+
+    public function countMessages($groupId)
+    {
+        return (int)ImGroupMessageModel::count([
+            'conditions' => 'group_id = :group_id: AND published = 1',
             'bind' => ['group_id' => $groupId],
         ]);
     }

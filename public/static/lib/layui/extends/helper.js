@@ -1,8 +1,7 @@
-layui.define(['jquery', 'element', 'layer'], function (exports) {
+layui.define(['jquery', 'layer'], function (exports) {
 
     var MOD_NAME = 'helper';
     var $ = layui.jquery;
-    var element = layui.element;
     var layer = layui.layer;
 
     var helper = {};
@@ -13,7 +12,6 @@ layui.define(['jquery', 'element', 'layer'], function (exports) {
         $target.html(html);
         $.get(url, function (html) {
             $target.html(html);
-            element.init();
         });
     };
 

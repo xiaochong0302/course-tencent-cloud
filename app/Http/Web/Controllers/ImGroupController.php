@@ -54,57 +54,26 @@ class ImGroupController extends Controller
     {
         $service = new ImGroupService();
 
-        $group = $service->getGroup($id);
-
         $pager = $service->getGroupUsers($id);
-
         $pager->items = kg_array_object($pager->items);
+        $pager->target = 'user-list';
 
-        $this->view->setVar('group', $group);
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Get("/{id:[0-9]+}/edit", name="web.im_group.edit")
+     * @Get("/{id:[0-9]+}/users/active", name="web.im_group.active_users")
      */
-    public function editAction($id)
+    public function activeUsersAction($id)
     {
         $service = new ImGroupService();
 
-        $group = $service->getGroup($id);
+        $users = $service->getActiveGroupUsers($id);
 
-        $this->view->setVar('group', $group);
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/update", name="web.im_group.update")
-     */
-    public function updateAction($id)
-    {
-        $service = new ImGroupService();
-
-        $service->updateGroup($id);
-
-        $content = ['msg' => '更新群组成功'];
-
-        return $this->jsonSuccess($content);
-    }
-
-    /**
-     * @Post("/{gid:[0-9]+}/user/{uid:[0-9]+}/delete", name="web.im_group.delete_user")
-     */
-    public function deleteGroupUserAction($gid, $uid)
-    {
-        $service = new ImGroupService();
-
-        $service->deleteGroupUser($gid, $uid);
-
-        $content = [
-            'location' => $this->request->getHTTPReferer(),
-            'msg' => '移除用户成功',
-        ];
-
-        return $this->jsonSuccess($content);
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('im_group/active_users');
+        $this->view->setVar('users', $users);
     }
 
 }

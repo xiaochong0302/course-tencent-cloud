@@ -371,15 +371,18 @@ class Im extends Service
             if ($online) {
                 Gateway::sendToUid($to['id'], $content);
             } else {
-                $msgCount = $relation->msg_count + 1;
-                $relation->update(['msg_count' => $msgCount]);
+                $this->incrFriendUserMsgCount($relation);
             }
 
         } elseif ($to['type'] == 'group') {
 
+            $validator = new ImGroupValidator();
+
+            $group = $validator->checkGroup($to['id']);
+
             $validator = new ImGroupUserValidator();
 
-            $validator->checkGroupUser($to['id'], $user->id);
+            $validator->checkGroupUser($group->id, $user->id);
 
             $messageModel = new ImGroupMessageModel();
 
@@ -388,6 +391,8 @@ class Im extends Service
                 'sender_id' => $from['id'],
                 'content' => $from['content'],
             ]);
+
+            $this->incrGroupMessageCount($group);
 
             $excludeClientId = null;
 

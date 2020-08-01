@@ -10,7 +10,7 @@
             </div>
             <div class="info">
                 <div class="name layui-elip">
-                    <a href="{{ owner_url }}">{{ group.owner.name }}</a>
+                    <a href="{{ owner_url }}" title="{{ group.owner.about }}">{{ group.owner.name }}</a>
                 </div>
                 <div class="title layui-elip">{{ group.owner.title }}</div>
             </div>

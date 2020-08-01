@@ -279,4 +279,10 @@ Trait ImFriendTrait
         }
     }
 
+    protected function incrFriendUserMsgCount(ImFriendUserModel $friendUser)
+    {
+        $friendUser->msg_count += 1;
+        $friendUser->update();
+    }
+
 }

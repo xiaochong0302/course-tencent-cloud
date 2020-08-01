@@ -85,6 +85,13 @@ class ImGroup extends Model
     public $user_count;
 
     /**
+     * 消息数
+     *
+     * @var int
+     */
+    public $msg_count;
+
+    /**
      * 创建时间
      *
      * @var int
