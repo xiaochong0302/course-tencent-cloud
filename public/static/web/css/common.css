@@ -989,10 +989,6 @@ body {
     color: red;
 }
 
-.vip-user-list .user-card {
-    height: 180px;
-}
-
 .cart-course-card {
     padding-bottom: 10px;
     margin-bottom: 10px;
@@ -1272,7 +1268,7 @@ body {
 .user-card {
     float: left;
     width: 100%;
-    height: 220px;
+    height: 240px;
     position: relative;
     text-align: center;
     background-color: #fff;
@@ -1281,7 +1277,7 @@ body {
 }
 
 .user-card .avatar {
-    margin-top: 25px;
+    margin-top: 20px;
     margin-bottom: 15px;
 }
 
@@ -1298,11 +1294,11 @@ body {
 
 .user-card .name {
     padding: 0 10px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .user-card .owner {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     color: #666;
 }
 
@@ -1318,7 +1314,11 @@ body {
     margin-right: 5px;
 }
 
-.user-card .action button {
+.user-card .action {
+    margin-top: 15px;
+}
+
+.user-card .action .layui-btn {
     padding: 0 5px;
     height: 20px;
     line-height: 20px;
@@ -1344,13 +1344,21 @@ body {
     margin-bottom: 20px;
 }
 
-.group-user-list .user-card {
+.teacher-list .user-card {
+    height: 240px;
+}
+
+.vip-user-list .user-card {
     height: 200px;
+}
+
+.group-user-list .user-card {
     box-shadow: none;
+    height: 220px;
 }
 
 .group-user-list .user-card .avatar {
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .im-group-list .user-card {

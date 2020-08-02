@@ -84,12 +84,8 @@
         {% set show_sidebar_related = 1 %}
 
         <div class="layout-sidebar">
-            <div class="sidebar">
-                {{ partial('course/show_order') }}
-            </div>
-            <div class="sidebar">
-                {{ partial('course/show_teacher') }}
-            </div>
+            {{ partial('course/show_order') }}
+            {{ partial('course/show_teacher') }}
             {% if show_sidebar_topics %}
                 {% set topics_url = url({'for':'web.course.topics','id':course.id}) %}
                 <div class="sidebar" id="sidebar-topics" data-url="{{ topics_url }}"></div>

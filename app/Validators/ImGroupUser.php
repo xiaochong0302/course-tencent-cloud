@@ -54,7 +54,7 @@ class ImGroupUser extends Validator
 
         $record = $repo->findGroupUser($groupId, $userId);
 
-        if ($record && $record->blocked == 0) {
+        if ($record) {
             throw new BadRequestException('im_group_user.has_joined');
         }
     }

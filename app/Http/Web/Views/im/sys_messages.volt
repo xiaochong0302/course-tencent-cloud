@@ -9,7 +9,7 @@
         {% set group = item_info.group %}
         {% set remark = item_info.remark ? '附言：' ~ item_info.remark : '' %}
         <li data-id="{{ item.id }}">
-            <a href="{{ sender_url }}" target="_blank"><img src="{{ sender.avatar }}" class="layui-circle layim-msgbox-avatar"></a>
+            <a href="{{ sender_url }}" target="_blank"><img class="layui-circle layim-msgbox-avatar" alt="{{ sender.name }}" src="{{ sender.avatar }}"></a>
             <p class="layim-msgbox-user" data-id="{{ sender.id }}" data-name="{{ sender.name }}" data-avatar="{{ sender.avatar }}" data-group="{{ group.id }}">
                 <a href="{{ sender_url }}" target="_blank">{{ sender.name }}</a>
                 <span>{{ item.create_time|time_ago }}</span>
@@ -45,7 +45,7 @@
     {% elseif item_type == '4' %}
         {% set remark = item_info.remark ? '附言：' ~ item_info.remark : '' %}
         <li data-id="{{ item.id }}">
-            <a href="{{ sender_url }}" target="_blank"><img src="{{ sender.avatar }}" class="layui-circle layim-msgbox-avatar"></a>
+            <a href="{{ sender_url }}" target="_blank"><img class="layui-circle layim-msgbox-avatar" alt="{{ sender.name }}" src="{{ sender.avatar }}"></a>
             <p class="layim-msgbox-user">
                 <a href="{{ sender_url }}" target="_blank">{{ sender.name }}</a>
                 <span>{{ item.create_time|time_ago }}</span>

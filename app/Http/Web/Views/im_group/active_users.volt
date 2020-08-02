@@ -4,7 +4,7 @@
         <div class="layui-card-body">
             {% for user in users %}
                 {% set user_url = url({'for':'web.user.show','id':user.id}) %}
-                {% set user.title = user.title ? user.title : '暂无头衔' %}
+                {% set user.title = user.title ? user.title : '暂露头角' %}
                 <div class="sidebar-teacher-card clearfix">
                     <div class="avatar">
                         <img src="{{ user.avatar }}" alt="{{ user.name }}">

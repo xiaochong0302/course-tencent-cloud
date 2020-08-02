@@ -30,5 +30,6 @@
 {% block include_js %}
 
     {{ js_include('web/js/im.find.js') }}
+    {{ js_include('web/js/im.apply.js') }}
 
 {% endblock %}

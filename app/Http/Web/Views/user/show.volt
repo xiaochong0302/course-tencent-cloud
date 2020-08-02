@@ -64,5 +64,6 @@
 {% block include_js %}
 
     {{ js_include('web/js/user.show.js') }}
+    {{ js_include('web/js/im.apply.js') }}
 
 {% endblock %}

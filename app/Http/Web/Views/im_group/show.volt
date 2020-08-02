@@ -34,7 +34,7 @@
                 {{ partial('im_group/show_owner') }}
             </div>
             <div class="sidebar wrap">
-                <button class="layui-btn layui-btn-fluid apply-group" data-url="{{ apply_group_url }}">申请加入</button>
+                <button class="layui-btn layui-btn-fluid apply-group" data-id="{{ group.id }}" data-name="{{ group.name }}" data-avatar="{{ group.avatar }}">加入群组</button>
             </div>
             <div class="sidebar" id="active-user-list" data-url="{{ active_users_url }}"></div>
         </div>
@@ -45,5 +45,6 @@
 {% block include_js %}
 
     {{ js_include('web/js/im_group.show.js') }}
+    {{ js_include('web/js/im.apply.js') }}
 
 {% endblock %}

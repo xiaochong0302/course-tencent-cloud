@@ -74,7 +74,7 @@ class ImFriendUser extends Validator
 
         $record = $repo->findFriendUser($friendId, $userId);
 
-        if ($record && $record->blocked == 0) {
+        if ($record) {
             throw new BadRequestException('im_friend_user.has_joined');
         }
     }
