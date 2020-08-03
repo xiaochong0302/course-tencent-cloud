@@ -30,14 +30,11 @@ class MyController extends Controller
     }
 
     /**
-     * @Get("/home", name="web.my.home")
+     * @Get("/", name="web.my.index")
      */
-    public function homeAction()
+    public function indexAction()
     {
-        $this->response->redirect([
-            'for' => 'web.user.show',
-            'id' => $this->authUser->id,
-        ]);
+        return $this->dispatcher->forward(['action' => 'courses']);
     }
 
     /**

@@ -93,8 +93,7 @@
             layer.open({
                 type: 2,
                 title: '推流测试',
-                resize: false,
-                area: ['680px', '380px'],
+                area: ['680px', '450px'],
                 content: [url, 'no']
             });
         });

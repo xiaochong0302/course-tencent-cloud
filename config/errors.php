@@ -210,7 +210,6 @@ $error['consult.question_too_long'] = '问题内容太长（多于1000个字符�
 $error['consult.answer_too_short'] = '回复内容太短（少于15个字符）';
 $error['consult.answer_too_long'] = '回复内容太长（多于1000个字符）';
 $error['consult.edit_not_allowed'] = '当前不允许修改操作';
-$error['consult.rate_not_allowed'] = '当前不允许评价';
 $error['consult.has_liked'] = '你已经点过赞啦';
 
 /**

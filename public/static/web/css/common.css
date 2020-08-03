@@ -48,6 +48,12 @@
     border: 3px dashed #ccc;
 }
 
+.qrcode-sm img {
+    width: 100px;
+    height: 100px;
+    border: 3px dashed #ccc;
+}
+
 .breadcrumb {
     position: relative;
     margin-bottom: 20px;

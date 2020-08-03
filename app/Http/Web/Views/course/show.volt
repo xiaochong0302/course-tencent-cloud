@@ -8,7 +8,7 @@
     {% set favorite_star = course.me.favorited ? 'layui-icon-star-fill' : 'layui-icon-star' %}
     {% set full_course_url = full_url({'for':'web.course.show','id':course.id}) %}
     {% set favorite_url = url({'for':'web.course.favorite','id':course.id}) %}
-    {% set qrcode_url = url({'for':'web.qrcode_img'},{'text':full_course_url}) %}
+    {% set qrcode_url = url({'for':'web.qrcode'},{'text':full_course_url}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">

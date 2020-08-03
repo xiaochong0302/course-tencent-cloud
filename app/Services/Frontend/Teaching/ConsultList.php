@@ -21,6 +21,7 @@ class ConsultList extends FrontendService
 
         $pagerQuery = new PagerQuery();
 
+        $params = $pagerQuery->getParams();
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
@@ -30,9 +31,17 @@ class ConsultList extends FrontendService
             return [];
         }
 
-        $courseIds = kg_array_column($courses->toArray(), 'id');
+        $params['status'] = $params['status'] ?? null;
 
-        $pager = $this->paginate($courseIds, $page, $limit);
+        if ($params['status'] == 'pending') {
+            $params['replied'] = 0;
+        } elseif ($params['status'] == 'replied') {
+            $params['replied'] = 1;
+        }
+
+        $params['course_id'] = kg_array_column($courses->toArray(), 'id');
+
+        $pager = $this->paginate($params, $page, $limit);
 
         return $this->handleConsults($pager);
     }
@@ -63,8 +72,8 @@ class ConsultList extends FrontendService
                 'id' => $consult['id'],
                 'question' => $consult['question'],
                 'answer' => $consult['answer'],
-                'rating' => $consult['rating'],
                 'like_count' => $consult['like_count'],
+                'reply_time' => $consult['reply_time'],
                 'create_time' => $consult['create_time'],
                 'update_time' => $consult['update_time'],
                 'course' => $course,
@@ -78,13 +87,27 @@ class ConsultList extends FrontendService
         return $pager;
     }
 
-    protected function paginate($courseIds, $page = 1, $limit = 15)
+    protected function paginate($where, $page = 1, $limit = 15)
     {
-        $builder = $this->modelsManager->createBuilder()
-            ->from(ConsultModel::class)
-            ->inWhere('course_id', $courseIds)
-            ->andWhere('published = 1')
-            ->orderBy('priority ASC');
+        $builder = $this->modelsManager->createBuilder();
+
+        $builder->from(ConsultModel::class);
+
+        $builder->where('published = 1');
+
+        if (!empty($where['course_id'])) {
+            $builder->inWhere('course_id', $where['course_id']);
+        }
+
+        if (isset($where['replied'])) {
+            if ($where['replied'] == 1) {
+                $builder->andWhere('reply_time > 0');
+            } else {
+                $builder->andWhere('reply_time = 0');
+            }
+        }
+
+        $builder->orderBy('id DESC');
 
         $pager = new PagerQueryBuilder([
             'builder' => $builder,

@@ -3,9 +3,13 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Exceptions\Forbidden as ForbiddenException;
 use App\Models\Consult as ConsultModel;
+use App\Models\CourseUser as CourseUserModel;
+use App\Models\User as UserModel;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\ConsultLike as ConsultLikeRepo;
+use App\Repos\CourseUser as CourseUserRepo;
 
 class Consult extends Validator
 {
@@ -71,15 +75,6 @@ class Consult extends Validator
         return $value;
     }
 
-    public function checkRating($rating)
-    {
-        if (!in_array($rating, [1, 2, 3, 4, 5])) {
-            throw new BadRequestException('consult.invalid_rating');
-        }
-
-        return $rating;
-    }
-
     public function checkPrivateStatus($status)
     {
         if (!in_array($status, [0, 1])) {
@@ -98,37 +93,30 @@ class Consult extends Validator
         return $status;
     }
 
-    public function checkIfAllowEdit(ConsultModel $consult)
+    public function checkTeacher(ConsultModel $consult, UserModel $user)
+    {
+        $repo = new CourseUserRepo();
+
+        $record = $repo->findCourseUser($consult->course_id, $user->id);
+
+        $privOk = $record && $record->role_type == CourseUserModel::ROLE_TEACHER;
+
+        if (!$privOk) {
+            throw new ForbiddenException('sys.forbidden');
+        }
+    }
+
+    public function checkConsultEdit(ConsultModel $consult)
     {
         /**
          * (1)已回复不允许修改提问
          * (2)发表三天以后不能修改提问
          */
-        $case1 = !empty($consult->answer);
+        $case1 = $consult->reply_time > 0;
         $case2 = time() - $consult->create_time > 3 * 86400;
 
         if ($case1 || $case2) {
             throw new BadRequestException('consult.edit_not_allowed');
-        }
-    }
-
-    public function checkIfAllowRate(ConsultModel $consult)
-    {
-        /**
-         * 未回复不允许评价
-         */
-        if (empty($consult->answer)) {
-            throw new BadRequestException('consult.rate_not_allowed');
-        }
-
-        /**
-         * 已评价，三天后不能更改评价
-         */
-        $case1 = $consult->rating > 0;
-        $case2 = time() - $consult->answer_time > 3 * 86400;
-
-        if ($case1 && $case2) {
-            throw new BadRequestException('consult.rate_not_allowed');
         }
     }
 

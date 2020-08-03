@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services\Frontend\Course;
+namespace App\Services\Frontend\Teaching;
 
+use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Repos\Course as CourseRepo;
-use App\Services\Category as CategoryService;
+use App\Models\Course as CourseModel;
+use App\Models\CourseUser as CourseUserModel;
 use App\Services\Frontend\Service as FrontendService;
 
 class CourseList extends FrontendService
@@ -12,37 +13,14 @@ class CourseList extends FrontendService
 
     public function handle()
     {
+        $user = $this->getLoginUser();
+
         $pagerQuery = new PagerQuery();
 
-        $params = $pagerQuery->getParams();
-
-        /**
-         * tc => top_category
-         * sc => sub_category
-         */
-        if (!empty($params['sc'])) {
-
-            $params['category_id'] = $params['sc'];
-
-        } elseif (!empty($params['tc'])) {
-
-            $categoryService = new CategoryService();
-
-            $childCategoryIds = $categoryService->getChildCategoryIds($params['tc']);
-
-            $params['category_id'] = $childCategoryIds;
-        }
-
-        $params['published'] = 1;
-        $params['deleted'] = 0;
-
-        $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $courseRepo = new CourseRepo();
-
-        $pager = $courseRepo->paginate($params, $sort, $page, $limit);
+        $pager = $this->paginate($user->id, $page, $limit);
 
         return $this->handleCourses($pager);
     }
@@ -53,13 +31,11 @@ class CourseList extends FrontendService
             return $pager;
         }
 
-        $courses = $pager->items->toArray();
-
         $items = [];
 
         $baseUrl = kg_ci_base_url();
 
-        foreach ($courses as $course) {
+        foreach ($pager->items->toArray() as $course) {
 
             $course['cover'] = $baseUrl . $course['cover'];
 
@@ -82,6 +58,27 @@ class CourseList extends FrontendService
         $pager->items = $items;
 
         return $pager;
+    }
+
+    protected function paginate($userId, $page = 1, $limit = 15)
+    {
+        $builder = $this->modelsManager->createBuilder();
+
+        $builder->columns('c.*');
+        $builder->addFrom(CourseModel::class, 'c');
+        $builder->join(CourseUserModel::class, 'c.id = cu.course_id', 'cu');
+        $builder->where('cu.user_id = :user_id:', ['user_id' => $userId]);
+        $builder->andWhere('cu.role_type = :role_type:', ['role_type' => CourseUserModel::ROLE_TEACHER]);
+        $builder->andWhere('c.published = 1');
+        $builder->orderBy('c.id DESC');
+
+        $pager = new PagerQueryBuilder([
+            'builder' => $builder,
+            'page' => $page,
+            'limit' => $limit,
+        ]);
+
+        return $pager->paginate();
     }
 
 }

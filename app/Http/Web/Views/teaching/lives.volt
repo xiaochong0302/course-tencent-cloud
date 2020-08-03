@@ -5,11 +5,11 @@
     {{ partial('partials/macro_course') }}
 
     <div class="layout-main">
-        <div class="my-sidebar">{{ partial('my/menu') }}</div>
+        <div class="my-sidebar">{{ partial('teaching/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
                 <div class="my-nav">
-                    <span class="title">我的课程</span>
+                    <span class="title">课程直播</span>
                 </div>
                 {% if pager.total_pages > 0 %}
                     <table class="layui-table">
@@ -20,30 +20,28 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th>课程</th>
-                            <th>进度</th>
+                            <th>课程/章节</th>
+                            <th>直播时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for item in pager.items %}
                             {% set course_url = url({'for':'web.course.show','id':item.course.id}) %}
-                            {% set review_url = url({'for':'web.review.add'},{'id':item.course.id}) %}
-                            {% set allow_review = item.progress > 30 and item.reviewed == 0 %}
+                            {% set chapter_url = url({'for':'web.chapter.show','id':item.chapter.id}) %}
+                            {% set live_push_url = url({'for':'web.teaching.live_push','id':item.chapter.id}) %}
+                            {% set allow_push = (item.start_time - 1800 < time()) and (time() < item.start_time + 1800) %}
                             <tr>
                                 <td>
-                                    <p>标题：<a href="{{ course_url }}">{{ item.course.title }}</a> {{ model_info(item.course.model) }}</p>
-                                    <p>期限：{{ date('Y-m-d',item.expiry_time) }}</p>
+                                    <p>课程：<a href="{{ course_url }}" target="_blank">{{ item.course.title }}</a></p>
+                                    <p>章节：<a href="{{ chapter_url }}" target="_blank">{{ item.chapter.title }}</a></p>
                                 </td>
-                                <td>
-                                    <p>用时：{{ item.duration|duration }}</p>
-                                    <p>进度：{{ item.progress }}%</p>
-                                </td>
+                                <td>{{ date('m-d',item.start_time) }} {{ date('H:i',item.start_time) }} ~ {{ date('H:i',item.end_time) }}</td>
                                 <td align="center">
-                                    {% if allow_review %}
-                                        <button class="layui-btn layui-btn-sm btn-add-review" data-url="{{ review_url }}">评价</button>
+                                    {% if allow_push %}
+                                        <button class="layui-btn layui-btn-sm btn-live-push" data-url="{{ live_push_url }}">推流</button>
                                     {% else %}
-                                        <button class="layui-btn layui-btn-sm layui-btn-disabled" title="学习进度过30%才允许评价">评价</button>
+                                        <button class="layui-btn layui-btn-sm layui-btn-disabled" title="开播前后半小时之内才允许推流">推流</button>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -60,6 +58,6 @@
 
 {% block include_js %}
 
-    {{ js_include('web/js/my.js') }}
+    {{ js_include('web/js/teaching.js') }}
 
 {% endblock %}

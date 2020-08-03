@@ -62,7 +62,7 @@ class Trade extends Service
 
         if ($text) {
             $qrCodeUrl = $this->url->get(
-                ['for' => 'web.qrcode_img'],
+                ['for' => 'web.qrcode'],
                 ['text' => urlencode($text)]
             );
         }

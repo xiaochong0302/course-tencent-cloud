@@ -7,7 +7,7 @@
     {% set learning_url = url({'for':'web.chapter.learning','id':chapter.id}) %}
     {% set danmu_url = url({'for':'web.chapter.danmu','id':chapter.id}) %}
     {% set like_url = url({'for':'web.chapter.like','id':chapter.id}) %}
-    {% set qrcode_url = url({'for':'web.qrcode_img'},{'text':chapter_full_url}) %}
+    {% set qrcode_url = url({'for':'web.qrcode'},{'text':chapter_full_url}) %}
     {% set consult_url = url({'for':'web.consult.add'},{'chapter_id':chapter.id}) %}
     {% set liked_class = chapter.me.liked ? 'active' : '' %}
 

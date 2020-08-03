@@ -10,7 +10,7 @@
     {% set send_msg_url = url({'for':'web.live.send_msg','id':chapter.id}) %}
     {% set bind_user_url = url({'for':'web.live.bind_user','id':chapter.id}) %}
     {% set like_url = url({'for':'web.chapter.like','id':chapter.id}) %}
-    {% set qrcode_url = url({'for':'web.qrcode_img'},{'text':chapter_full_url}) %}
+    {% set qrcode_url = url({'for':'web.qrcode'},{'text':chapter_full_url}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">

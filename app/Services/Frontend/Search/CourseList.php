@@ -53,6 +53,8 @@ class CourseList extends FrontendService
                 'level' => $course['level'],
                 'user_count' => (int)$course['user_count'],
                 'lesson_count' => (int)$course['lesson_count'],
+                'review_count' => (int)$course['review_count'],
+                'favorite_count' => (int)$course['favorite_count'],
                 'teacher' => json_decode($course['teacher']),
                 'category' => json_decode($course['category']),
             ];

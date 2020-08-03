@@ -23,13 +23,19 @@ class ConsultUpdate extends FrontendService
 
         $validator->checkOwner($user->id, $consult->owner_id);
 
-        $validator->checkIfAllowEdit($consult);
+        $validator->checkConsultEdit($consult);
 
-        $question = $validator->checkQuestion($post['question']);
+        $data = [];
 
-        $consult->question = $question;
+        if (isset($post['question'])) {
+            $data['question'] = $validator->checkQuestion($post['question']);
+        }
 
-        $consult->update();
+        if (isset($post['private'])) {
+            $data['private'] = $validator->checkPrivateStatus($post['private']);
+        }
+
+        $consult->update($data);
 
         return $consult;
     }

@@ -2,28 +2,25 @@
 
 {% block content %}
 
-    {% set update_url = url({'for':'web.consult.update','id':consult.id}) %}
+    {% set update_url = url({'for':'web.consult.reply','id':consult.id}) %}
 
     <form class="layui-form" method="post" action="{{ update_url }}">
         <div class="layui-form-item mb0">
             <label class="layui-form-label">课程</label>
             <div class="layui-form-mid">{{ consult.course.title }}</div>
         </div>
-        <div class="layui-form-item">
+        <div class="layui-form-item mb0">
             <label class="layui-form-label">章节</label>
             <div class="layui-form-mid">{{ consult.chapter.title }}</div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label" for="answer">问题</label>
-            <div class="layui-input-block">
-                <textarea id="answer" class="layui-textarea" name="question" lay-verify="required">{{ consult.question }}</textarea>
-            </div>
+            <label class="layui-form-label">问题</label>
+            <div class="layui-form-mid">{{ consult.question }}</div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">私密</label>
+            <label class="layui-form-label" for="answer">回复</label>
             <div class="layui-input-block">
-                <input type="radio" name="private" value="1" title="是" {% if consult.private == 1 %}checked="checked"{% endif %}>
-                <input type="radio" name="private" value="0" title="否" {% if consult.private == 0 %}checked="checked"{% endif %}>
+                <textarea id="answer" class="layui-textarea" name="answer" lay-verify="required">{{ consult.answer }}</textarea>
             </div>
         </div>
         <div class="layui-form-item">

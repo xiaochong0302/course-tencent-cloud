@@ -39,9 +39,9 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/qrcode/img", name="web.qrcode_img")
+     * @Get("/qrcode", name="web.qrcode")
      */
-    public function qrcodeImageAction()
+    public function qrcodeAction()
     {
         $text = $this->request->getQuery('text');
         $level = $this->request->getQuery('level', 'int', 0);

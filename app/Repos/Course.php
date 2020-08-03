@@ -348,7 +348,7 @@ class Course extends Repository
 
         $result = [];
 
-        if ($rows->count() == 0) {
+        if ($rows->count() > 0) {
             $result = kg_array_column($rows->toArray(), 'course_id');
         }
 

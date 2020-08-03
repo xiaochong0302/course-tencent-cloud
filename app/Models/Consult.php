@@ -57,13 +57,6 @@ class Consult extends Model
     public $answer;
 
     /**
-     * 评分
-     *
-     * @var int
-     */
-    public $rating;
-
-    /**
      * 赞成数
      *
      * @var int
@@ -103,7 +96,7 @@ class Consult extends Model
      *
      * @var int
      */
-    public $answer_time;
+    public $reply_time;
 
     /**
      * 创建时间
@@ -144,10 +137,6 @@ class Consult extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
-
-        if (!empty($this->answer) && $this->answer_time == 0) {
-            $this->answer_time = time();
-        }
 
         if ($this->deleted == 1) {
             $this->published = 0;

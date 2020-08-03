@@ -30,8 +30,11 @@
             <li class="layui-nav-item">
                 <a href="javascript:">{{ auth_user.name }}</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="{{ url({'for':'web.my.home'}) }}">我的主页</a></dd>
-                    <dd><a href="{{ url({'for':'web.my.profile'}) }}">个人设置</a></dd>
+                    <dd><a href="{{ url({'for':'web.user.show','id':auth_user.id}) }}">我的主页</a></dd>
+                    {% if auth_user.edu_role == 2 %}
+                        <dd><a href="{{ url({'for':'web.teaching.index'}) }}">教学中心</a></dd>
+                    {% endif %}
+                    <dd><a href="{{ url({'for':'web.my.index'}) }}">用户中心</a></dd>
                     <dd><a href="{{ url({'for':'web.account.logout'}) }}">退出登录</a></dd>
                 </dl>
             </li>

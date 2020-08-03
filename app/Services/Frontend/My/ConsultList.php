@@ -18,7 +18,7 @@ class ConsultList extends FrontendService
 
         $params = $pagerQuery->getParams();
 
-        $params['user_id'] = $user->id;
+        $params['owner_id'] = $user->id;
         $params['published'] = 1;
 
         $sort = $pagerQuery->getSort();
@@ -56,8 +56,8 @@ class ConsultList extends FrontendService
                 'id' => $consult['id'],
                 'question' => $consult['question'],
                 'answer' => $consult['answer'],
-                'rating' => $consult['rating'],
                 'like_count' => $consult['like_count'],
+                'reply_time' => $consult['reply_time'],
                 'create_time' => $consult['create_time'],
                 'update_time' => $consult['update_time'],
                 'course' => $course,

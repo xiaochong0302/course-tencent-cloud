@@ -73,6 +73,7 @@ class Live extends Service
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Describe Live Stream State Exception ' . kg_json_encode([
+                    'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -118,6 +119,7 @@ class Live extends Service
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Forbid Live Stream Exception ' . kg_json_encode([
+                    'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -161,6 +163,7 @@ class Live extends Service
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Resume Live Stream Exception ' . kg_json_encode([
+                    'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),

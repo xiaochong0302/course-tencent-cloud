@@ -68,12 +68,15 @@ class LiveList extends FrontendService
 
     protected function paginate($courseIds, $page = 1, $limit = 15)
     {
+        $startTime = strtotime('today');
+
         $builder = $this->modelsManager->createBuilder()
             ->columns(['c.id', 'c.title', 'c.course_id', 'cl.start_time', 'cl.end_time'])
             ->addFrom(ChapterModel::class, 'c')
             ->join(ChapterLiveModel::class, 'c.id = cl.chapter_id', 'cl')
             ->inWhere('cl.course_id', $courseIds)
-            ->orderBy('cl.start_time DESC');
+            ->andWhere('cl.start_time > :start_time:', ['start_time' => $startTime])
+            ->orderBy('cl.start_time ASC');
 
         $pager = new PagerQueryBuilder([
             'builder' => $builder,

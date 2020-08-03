@@ -6,7 +6,7 @@ use App\Services\Frontend\ConsultTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\Consult as ConsultValidator;
 
-class ConsultRating extends FrontendService
+class ConsultReply extends FrontendService
 {
 
     use ConsultTrait;
@@ -21,14 +21,10 @@ class ConsultRating extends FrontendService
 
         $validator = new ConsultValidator();
 
-        $validator->checkOwner($user->id, $consult->user_id);
+        $validator->checkTeacher($consult, $user);
 
-        $validator->checkIfAllowRate($consult);
-
-        $rating = $validator->checkRating($post['rating']);
-
-        $consult->rating = $rating;
-
+        $consult->answer = $validator->checkAnswer($post['answer']);
+        $consult->reply_time = time();
         $consult->update();
 
         return $consult;

@@ -1,5 +1,3 @@
-{{ partial('partials/macro_course') }}
-
 {% if pager.total_pages > 0 %}
     <div class="review-list">
         {% for item in pager.items %}
@@ -13,7 +11,6 @@
                     </a>
                 </div>
                 <div class="info">
-                    <div class="rating">{{ star_info(item.rating) }}</div>
                     <div class="title">{{ item.question }}</div>
                     <div class="content">{{ item.answer }}</div>
                     <div class="footer">

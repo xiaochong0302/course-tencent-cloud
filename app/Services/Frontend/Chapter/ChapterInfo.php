@@ -115,7 +115,7 @@ class ChapterInfo extends FrontendService
 
         $this->incrCourseUserCount($course);
 
-        $this->incrUserCourseCount($course);
+        $this->incrUserCourseCount($user);
     }
 
     protected function handleChapterUser(ChapterModel $chapter, UserModel $user)
@@ -160,11 +160,6 @@ class ChapterInfo extends FrontendService
     {
         $chapter->user_count += 1;
         $chapter->update();
-    }
-
-    protected function getLiveStreamName($id)
-    {
-        return "chapter_{$id}";
     }
 
 }

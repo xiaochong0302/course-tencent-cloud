@@ -12,6 +12,8 @@ use WhichBrowser\Parser as BrowserParser;
 trait ChapterBasicInfoTrait
 {
 
+    use ChapterLiveTrait;
+
     protected function handleBasicInfo(ChapterModel $chapter)
     {
         $result = [];
@@ -65,7 +67,7 @@ trait ChapterBasicInfoTrait
 
         $liveService = new LiveService();
 
-        $stream = "chapter-{$chapter->id}";
+        $stream = $this->getLiveStreamName($chapter->id);
 
         $format = $browserParser->isType('desktop') ? 'flv' : 'hls';
 

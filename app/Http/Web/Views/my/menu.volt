@@ -15,16 +15,6 @@
 </div>
 
 <div class="layui-card">
-    <div class="layui-card-header">教学中心</div>
-    <div class="layui-card-body">
-        <ul class="my-menu">
-            <li><a href="{{ url({'for':'web.my.refunds'}) }}">我的直播</a></li>
-            <li><a href="{{ url({'for':'web.my.orders'}) }}">用户咨询</a></li>
-        </ul>
-    </div>
-</div>
-
-<div class="layui-card">
     <div class="layui-card-header">课程中心</div>
     <div class="layui-card-body">
         <ul class="my-menu">

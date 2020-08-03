@@ -6,9 +6,8 @@ use App\Services\Frontend\Consult\ConsultCreate as ConsultCreateService;
 use App\Services\Frontend\Consult\ConsultDelete as ConsultDeleteService;
 use App\Services\Frontend\Consult\ConsultInfo as ConsultInfoService;
 use App\Services\Frontend\Consult\ConsultLike as ConsultLikeService;
-use App\Services\Frontend\Consult\ConsultRating as ConsultRatingService;
+use App\Services\Frontend\Consult\ConsultReply as ConsultReplyService;
 use App\Services\Frontend\Consult\ConsultUpdate as ConsultUpdateService;
-use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/consult")
@@ -21,20 +20,7 @@ class ConsultController extends Controller
      */
     public function addAction()
     {
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-    }
 
-    /**
-     * @Get("/{id:[0-9]+}/edit", name="web.consult.edit")
-     */
-    public function editAction($id)
-    {
-        $service = new ConsultInfoService();
-
-        $consult = $service->handle($id);
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->setVar('consult', $consult);
     }
 
     /**
@@ -46,8 +32,44 @@ class ConsultController extends Controller
 
         $consult = $service->handle($id);
 
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('consult', $consult);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/edit", name="web.consult.edit")
+     */
+    public function editAction($id)
+    {
+        $service = new ConsultInfoService();
+
+        $consult = $service->handle($id);
+
+        $this->view->setVar('consult', $consult);
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}/reply", name="web.consult.reply")
+     */
+    public function replyAction($id)
+    {
+        if ($this->request->isPost()) {
+
+            $service = new ConsultReplyService();
+
+            $service->handle($id);
+
+            $content = ['msg' => '回复咨询成功'];
+
+            return $this->jsonSuccess($content);
+
+        } else {
+
+            $service = new ConsultInfoService();
+
+            $consult = $service->handle($id);
+
+            $this->view->setVar('consult', $consult);
+        }
     }
 
     /**
@@ -61,12 +83,9 @@ class ConsultController extends Controller
 
         $service = new ConsultInfoService();
 
-        $consult = $service->handle($consult->id);
+        $service->handle($consult->id);
 
-        $content = [
-            'consult' => $consult,
-            'msg' => '提交咨询成功',
-        ];
+        $content = ['msg' => '提交咨询成功'];
 
         return $this->jsonSuccess($content);
     }
@@ -78,12 +97,9 @@ class ConsultController extends Controller
     {
         $service = new ConsultUpdateService();
 
-        $consult = $service->handle($id);
+        $service->handle($id);
 
-        $content = [
-            'consult' => $consult,
-            'msg' => '更新咨询成功',
-        ];
+        $content = ['msg' => '更新咨询成功'];
 
         return $this->jsonSuccess($content);
     }
@@ -114,20 +130,6 @@ class ConsultController extends Controller
         $msg = $like->deleted == 0 ? '点赞成功' : '取消点赞成功';
 
         $content = ['msg' => $msg];
-
-        return $this->jsonSuccess($content);
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/rating", name="web.consult.rating")
-     */
-    public function ratingAction($id)
-    {
-        $service = new ConsultRatingService();
-
-        $service->handle($id);
-
-        $content = ['msg' => '评价成功'];
 
         return $this->jsonSuccess($content);
     }

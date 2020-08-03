@@ -74,19 +74,20 @@ class TestController extends Controller
 
         $pushUrl = $liveService->getPushUrl($streamName);
 
-        $codeUrl = $this->url->get(
-            ['for' => 'web.qrcode_img'],
+        $qrcode = $this->url->get(
+            ['for' => 'web.qrcode'],
             ['text' => urlencode($pushUrl)]
         );
 
-        $obs = [];
-
         $pos = strrpos($pushUrl, '/');
-        $obs['fms_url'] = substr($pushUrl, 0, $pos + 1);
-        $obs['stream_code'] = substr($pushUrl, $pos + 1);
+
+        $obs = [
+            'fms_url' => substr($pushUrl, 0, $pos + 1),
+            'stream_code' => substr($pushUrl, $pos + 1),
+        ];
 
         $this->view->pick('setting/live_push_test');
-        $this->view->setVar('code_url', $codeUrl);
+        $this->view->setVar('qrcode', $qrcode);
         $this->view->setVar('obs', $obs);
     }
 
