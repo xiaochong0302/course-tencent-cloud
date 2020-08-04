@@ -5,7 +5,7 @@
     {% set type = request.get('type','trim','course') %}
     {% set query = request.get('query','striptags','') %}
 
-    {{ partial('partials/macro_course') }}
+    {{ partial('macros/course') }}
 
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>

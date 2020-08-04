@@ -4,12 +4,12 @@
             <col>
             <col>
             <col>
-            <col width="15%">
+            <col width="12%">
         </colgroup>
         <thead>
         <tr>
             <th>名称</th>
-            <th>群主</th>
+            <th>组长</th>
             <th>成员</th>
             <th>操作</th>
         </tr>
@@ -21,9 +21,9 @@
             <tr>
                 <td><span title="{{ item.about }}">{{ item.name }}</span> {{ type_info(item.type) }}</td>
                 <td><a href="{{ owner_url }}">{{ item.owner.name }}</a></td>
-                <td><span class="layui-badge-rim">{{ item.user_count }}</span></td>
+                <td>{{ item.user_count }}</td>
                 <td>
-                    <button class="layui-btn layui-btn-xs kg-delete" data-tips="确定要退出吗？" data-url="{{ delete_url }}">退出</button>
+                    <button class="layui-btn layui-btn-sm kg-delete" data-tips="确定要退出吗？" data-url="{{ delete_url }}">退出</button>
                 </td>
             </tr>
         {% endfor %}

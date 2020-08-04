@@ -5,11 +5,10 @@ namespace App\Validators;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Exceptions\Forbidden as ForbiddenException;
 use App\Models\Consult as ConsultModel;
-use App\Models\CourseUser as CourseUserModel;
 use App\Models\User as UserModel;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\ConsultLike as ConsultLikeRepo;
-use App\Repos\CourseUser as CourseUserRepo;
+use App\Repos\Course as CourseRepo;
 
 class Consult extends Validator
 {
@@ -95,13 +94,18 @@ class Consult extends Validator
 
     public function checkTeacher(ConsultModel $consult, UserModel $user)
     {
-        $repo = new CourseUserRepo();
+        $repo = new CourseRepo();
 
-        $record = $repo->findCourseUser($consult->course_id, $user->id);
+        $teachers = $repo->findTeachers($consult->course_id);
 
-        $privOk = $record && $record->role_type == CourseUserModel::ROLE_TEACHER;
+        $isTeacher = false;
 
-        if (!$privOk) {
+        if ($teachers->count() > 0) {
+            $teacherIds = kg_array_column($teachers->toArray(), 'id');
+            $isTeacher = in_array($user->id, $teacherIds);
+        }
+
+        if (!$isTeacher) {
             throw new ForbiddenException('sys.forbidden');
         }
     }

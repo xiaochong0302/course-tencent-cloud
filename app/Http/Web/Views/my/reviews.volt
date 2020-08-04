@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_course') }}
+    {{ partial('macros/course') }}
 
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
@@ -33,12 +33,12 @@
                             <tr>
                                 <td>
                                     <p class="title layui-elip">课程：<a href="{{ course_url }}">{{ item.course.title }}</a></p>
-                                    <p class="content layui-elip" title="{{ item.content|e }}">评价：{{ item.content }}</p>
+                                    <p class="content layui-elip" title="{{ item.content }}">评价：{{ item.content }}</p>
                                 </td>
                                 <td>
-                                    <p class="rating">内容实用：{{ star_info(item.rating1) }}</p>
-                                    <p class="rating">通俗易懂：{{ star_info(item.rating2) }}</p>
-                                    <p class="rating">逻辑清晰：{{ star_info(item.rating3) }}</p>
+                                    <p class="rating">内容实用：{{ item.rating1 }}</p>
+                                    <p class="rating">通俗易懂：{{ item.rating2 }}</p>
+                                    <p class="rating">逻辑清晰：{{ item.rating3 }}</p>
                                 </td>
                                 <td>
                                     <button class="layui-btn layui-btn-xs btn-edit-review" data-url="{{ edit_url }}">修改</button>

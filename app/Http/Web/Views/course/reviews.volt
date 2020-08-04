@@ -1,4 +1,4 @@
-{{ partial('partials/macro_course') }}
+{{ partial('macros/course') }}
 
 {% if pager.total_pages > 0 %}
     <div class="review-list">
@@ -7,7 +7,9 @@
             {% set like_url = url({'for':'web.review.like','id':item.id}) %}
             <div class="review-card clearfix">
                 <div class="avatar">
-                    <img src="{{ item.owner.avatar }}" alt="{{ item.owner.name }}">
+                    <a href="{{ owner_url }}" title="{{ item.owner.name }}">
+                        <img src="{{ item.owner.avatar }}" alt="{{ item.owner.name }}">
+                    </a>
                 </div>
                 <div class="info">
                     <div class="rating">{{ star_info(item.rating) }}</div>

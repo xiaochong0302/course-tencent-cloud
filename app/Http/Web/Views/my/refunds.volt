@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_refund') }}
+    {{ partial('macros/refund') }}
 
     {% set status_types = {'all':'全部','pending':'待处理','canceled':'已取消','approved':'退款中','finished':'已完成'} %}
     {% set status = request.get('status','trim','all') %}

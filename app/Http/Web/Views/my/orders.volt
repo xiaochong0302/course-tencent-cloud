@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_order') }}
+    {{ partial('macros/order') }}
 
     {% set status_types = {'all':'全部','pending':'待支付','finished':'已完成','closed':'已关闭','refunded':'已退款'} %}
     {% set status = request.get('status','trim','all') %}

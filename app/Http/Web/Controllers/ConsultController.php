@@ -48,31 +48,6 @@ class ConsultController extends Controller
     }
 
     /**
-     * @Route("/{id:[0-9]+}/reply", name="web.consult.reply")
-     */
-    public function replyAction($id)
-    {
-        if ($this->request->isPost()) {
-
-            $service = new ConsultReplyService();
-
-            $service->handle($id);
-
-            $content = ['msg' => '回复咨询成功'];
-
-            return $this->jsonSuccess($content);
-
-        } else {
-
-            $service = new ConsultInfoService();
-
-            $consult = $service->handle($id);
-
-            $this->view->setVar('consult', $consult);
-        }
-    }
-
-    /**
      * @Post("/create", name="web.consult.create")
      */
     public function createAction()
@@ -116,6 +91,31 @@ class ConsultController extends Controller
         $content = ['msg' => '删除咨询成功'];
 
         return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}/reply", name="web.consult.reply")
+     */
+    public function replyAction($id)
+    {
+        if ($this->request->isPost()) {
+
+            $service = new ConsultReplyService();
+
+            $service->handle($id);
+
+            $content = ['msg' => '回复咨询成功'];
+
+            return $this->jsonSuccess($content);
+
+        } else {
+
+            $service = new ConsultInfoService();
+
+            $consult = $service->handle($id);
+
+            $this->view->setVar('consult', $consult);
+        }
     }
 
     /**

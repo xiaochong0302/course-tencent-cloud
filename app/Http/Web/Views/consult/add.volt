@@ -1,11 +1,11 @@
 {% extends 'templates/layer.volt' %}
 
 {% block content %}
-    <form class="layui-form" method="post" action="{{ url({'for':'web.consult.create'}) }}">
+    <form class="layui-form consult-form" method="post" action="{{ url({'for':'web.consult.create'}) }}">
         <div class="layui-form-item">
-            <label class="layui-form-label">问题</label>
+            <label class="layui-form-label" for="question">问题</label>
             <div class="layui-input-block">
-                <textarea name="question" class="layui-textarea" placeholder="请详细描述问题，我们会尽快回复您" lay-verify="required"></textarea>
+                <textarea class="layui-textarea" id="question" name="question" placeholder="请详细描述问题，我们会尽快回复您" lay-verify="required"></textarea>
             </div>
         </div>
         <div class="layui-form-item">

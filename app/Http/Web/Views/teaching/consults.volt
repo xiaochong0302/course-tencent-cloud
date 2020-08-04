@@ -22,33 +22,34 @@
                         <colgroup>
                             <col>
                             <col>
-                            <col width="20%">
+                            <col>
+                            <col width="15%">
                         </colgroup>
                         <thead>
                         <tr>
                             <th>内容</th>
+                            <th>优先级</th>
                             <th>时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for item in pager.items %}
-                            {% set answer = item.answer ? item.answer : '<span class="gray">等待回复ing...</span>' %}
+                            {% set answer = item.answer ? item.answer : '<span class="gray">等待回复中...</span>' %}
                             {% set course_url = url({'for':'web.course.show','id':item.course.id}) %}
                             {% set show_url = url({'for':'web.consult.show','id':item.id}) %}
                             {% set reply_url = url({'for':'web.consult.reply','id':item.id}) %}
-                            {% set delete_url = url({'for':'web.consult.delete','id':item.id}) %}
                             <tr>
                                 <td>
                                     <p>课程：<a href="{{ course_url }}" target="_blank">{{ item.course.title }}</a></p>
                                     <p class="question layui-elip" title="{{ item.question }}">提问：{{ item.question }}</p>
                                     <p class="answer layui-elip" title="{{ item.answer }}">回复：{{ answer }}</p>
                                 </td>
+                                <td>{{ item.priority }}</td>
                                 <td>{{ date('Y-m-d',item.create_time) }}</td>
                                 <td>
                                     <button class="layui-btn layui-btn-xs layui-bg-green btn-show-consult" data-url="{{ show_url }}">详情</button>
                                     <button class="layui-btn layui-btn-xs layui-bg-blue btn-reply-consult" data-url="{{ reply_url }}">回复</button>
-                                    <button class="layui-btn layui-btn-xs layui-bg-red kg-delete" data-url="{{ delete_url }}">删除</button>
                                 </td>
                             </tr>
                         {% endfor %}

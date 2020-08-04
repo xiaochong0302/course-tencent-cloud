@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_course') }}
+    {{ partial('macros/course') }}
 
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
@@ -17,12 +17,14 @@
                             <col>
                             <col>
                             <col>
+                            <col>
                             <col width="12%">
                         </colgroup>
                         <thead>
                         <tr>
                             <th>课程</th>
-                            <th>人气</th>
+                            <th>学员</th>
+                            <th>收藏</th>
                             <th>评分</th>
                             <th>操作</th>
                         </tr>
@@ -33,10 +35,11 @@
                             {% set favorite_url = url({'for':'web.course.favorite','id':item.id}) %}
                             <tr>
                                 <td><a href="{{ course_url }}">{{ item.title }}</a> {{ model_info(item.model) }}</td>
-                                <td><span class="layui-badge-rim">{{ item.user_count }}</span></td>
-                                <td>{{ star_info(item.rating) }}</td>
+                                <td>{{ item.user_count }}</td>
+                                <td>{{ item.favorite_count }}</td>
+                                <td>{{ item.rating }}</td>
                                 <td align="center">
-                                    <button class="layui-btn layui-btn-xs kg-delete" data-tips="确定要取消收藏吗？" data-url="{{ favorite_url }}">取消</button>
+                                    <button class="layui-btn layui-btn-sm kg-delete" data-tips="确定要取消收藏吗？" data-url="{{ favorite_url }}">取消</button>
                                 </td>
                             </tr>
                         {% endfor %}

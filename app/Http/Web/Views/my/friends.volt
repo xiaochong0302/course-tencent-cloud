@@ -4,11 +4,11 @@
 
     {%- macro gender_info(value) %}
         {% if value == 1 %}
-            <span class="layui-badge layui-bg-red">男</span>
+            男
         {% elseif value == 2 %}
-            <span class="layui-badge layui-bg-green">女</span>
+            女
         {% elseif value == 3 %}
-            <span class="layui-badge layui-bg-gray">密</span>
+            密
         {% endif %}
     {%- endmacro %}
 
@@ -47,7 +47,7 @@
                                 <td>{{ item.location }}</td>
                                 <td>{{ item.active_time|time_ago }}</td>
                                 <td>
-                                    <button class="layui-btn layui-btn-xs kg-delete" data-url="{{ delete_url }}">删除</button>
+                                    <button class="layui-btn layui-btn-sm kg-delete" data-url="{{ delete_url }}">删除</button>
                                 </td>
                             </tr>
                         {% endfor %}

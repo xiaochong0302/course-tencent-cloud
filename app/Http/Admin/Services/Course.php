@@ -192,20 +192,14 @@ class Course extends Service
 
         $this->updateCourseGroup($course);
 
-        $this->rebuildCourseIndex($course);
-
         return $course;
     }
 
     public function deleteCourse($id)
     {
         $course = $this->findOrFail($id);
-
         $course->deleted = 1;
-
         $course->update();
-
-        $this->rebuildCourseIndex($course);
 
         return $course;
     }
@@ -213,12 +207,8 @@ class Course extends Service
     public function restoreCourse($id)
     {
         $course = $this->findOrFail($id);
-
         $course->deleted = 0;
-
         $course->update();
-
-        $this->rebuildCourseIndex($course);
 
         return $course;
     }

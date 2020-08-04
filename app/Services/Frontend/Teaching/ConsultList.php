@@ -72,6 +72,7 @@ class ConsultList extends FrontendService
                 'id' => $consult['id'],
                 'question' => $consult['question'],
                 'answer' => $consult['answer'],
+                'priority' => $consult['priority'],
                 'like_count' => $consult['like_count'],
                 'reply_time' => $consult['reply_time'],
                 'create_time' => $consult['create_time'],
@@ -107,7 +108,7 @@ class ConsultList extends FrontendService
             }
         }
 
-        $builder->orderBy('id DESC');
+        $builder->orderBy('priority ASC,id DESC');
 
         $pager = new PagerQueryBuilder([
             'builder' => $builder,

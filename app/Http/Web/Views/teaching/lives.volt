@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_course') }}
+    {{ partial('macros/course') }}
 
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('teaching/menu') }}</div>

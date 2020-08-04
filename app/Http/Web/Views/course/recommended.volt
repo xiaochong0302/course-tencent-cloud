@@ -1,4 +1,4 @@
-{{ partial('partials/macro_course') }}
+{{ partial('macros/course') }}
 
 {% if courses %}
     <div class="layui-card">

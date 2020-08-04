@@ -23,9 +23,12 @@ class ConsultReply extends FrontendService
 
         $validator->checkTeacher($consult, $user);
 
-        $consult->answer = $validator->checkAnswer($post['answer']);
-        $consult->reply_time = time();
-        $consult->update();
+        $answer = $validator->checkAnswer($post['answer']);
+
+        $consult->update([
+            'answer' => $answer,
+            'reply_time' => time(),
+        ]);
 
         return $consult;
     }

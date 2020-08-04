@@ -32,35 +32,44 @@ class ConsultInfo extends FrontendService
             'like_count' => $consult->like_count,
             'create_time' => $consult->create_time,
             'update_time' => $consult->update_time,
+            'course' => new \stdClass(),
+            'chapter' => new \stdClass(),
+            'owner' => new \stdClass(),
         ];
 
         $courseRepo = new CourseRepo();
 
         $course = $courseRepo->findById($consult->course_id);
 
-        $result['course'] = [
-            'id' => $course->id,
-            'title' => $course->title,
-        ];
+        if ($course) {
+            $result['course'] = [
+                'id' => $course->id,
+                'title' => $course->title,
+            ];
+        }
 
         $chapterRepo = new ChapterRepo();
 
         $chapter = $chapterRepo->findById($consult->chapter_id);
 
-        $result['chapter'] = [
-            'id' => $chapter->id,
-            'title' => $chapter->title,
-        ];
+        if ($chapter) {
+            $result['chapter'] = [
+                'id' => $chapter->id,
+                'title' => $chapter->title,
+            ];
+        }
 
         $userRepo = new UserRepo();
 
         $owner = $userRepo->findById($consult->owner_id);
 
-        $result['owner'] = [
-            'id' => $owner->id,
-            'name' => $owner->name,
-            'avatar' => $owner->avatar,
-        ];
+        if ($owner) {
+            $result['owner'] = [
+                'id' => $owner->id,
+                'name' => $owner->name,
+                'avatar' => $owner->avatar,
+            ];
+        }
 
         return $result;
     }

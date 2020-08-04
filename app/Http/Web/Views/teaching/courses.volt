@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_course') }}
+    {{ partial('macros/course') }}
 
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('teaching/menu') }}</div>
@@ -34,10 +34,10 @@
                             {% set course_url = url({'for':'web.course.show','id':item.id}) %}
                             <tr>
                                 <td><a href="{{ course_url }}">{{ item.title }}</a> {{ model_info(item.model) }}</td>
-                                <td><span class="layui-badge-rim">{{ item.lesson_count }}</span></td>
-                                <td><span class="layui-badge-rim">{{ item.user_count }}</span></td>
-                                <td><span class="layui-badge-rim">{{ item.favorite_count }}</span></td>
-                                <td><span class="layui-badge-rim">{{ item.rating }}</span></td>
+                                <td>{{ item.lesson_count }}</td>
+                                <td>{{ item.user_count }}</td>
+                                <td>{{ item.favorite_count }}</td>
+                                <td>{{ item.rating }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

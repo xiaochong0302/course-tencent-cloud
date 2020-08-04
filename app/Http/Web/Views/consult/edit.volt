@@ -4,7 +4,7 @@
 
     {% set update_url = url({'for':'web.consult.update','id':consult.id}) %}
 
-    <form class="layui-form" method="post" action="{{ update_url }}">
+    <form class="layui-form consult-form" method="post" action="{{ update_url }}">
         <div class="layui-form-item mb0">
             <label class="layui-form-label">课程</label>
             <div class="layui-form-mid">{{ consult.course.title }}</div>

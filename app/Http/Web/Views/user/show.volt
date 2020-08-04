@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_course') }}
+    {{ partial('macros/course') }}
 
     {% set vip_flag = user.vip ? '<i class="layui-icon layui-icon-diamond icon-vip"></i>' : '' %}
 

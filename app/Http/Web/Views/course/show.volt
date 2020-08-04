@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_course') }}
+    {{ partial('macros/course') }}
 
     {% set favorite_title = course.me.favorited ? '取消收藏' : '收藏' %}
     {% set favorite_star = course.me.favorited ? 'layui-icon-star-fill' : 'layui-icon-star' %}

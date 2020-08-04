@@ -40,7 +40,7 @@ class CourseFavoriteList extends Builder
             'id', 'title', 'cover',
             'market_price', 'vip_price',
             'rating', 'model', 'level', 'attrs',
-            'user_count', 'lesson_count',
+            'user_count', 'lesson_count', 'review_count', 'favorite_count',
         ];
 
         $courses = $courseRepo->findByIds($ids, $columns);

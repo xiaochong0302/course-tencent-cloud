@@ -1,8 +1,6 @@
-layui.use(['jquery', 'form', 'layer', 'helper'], function () {
+layui.use(['jquery', 'helper'], function () {
 
     var $ = layui.jquery;
-    var form = layui.form;
-    var layer = layui.layer;
     var helper = layui.helper;
 
     var interval = null;
@@ -13,30 +11,27 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
     var planId = $('input[name="chapter.plan_id"]').val();
     var lastPosition = $('input[name="chapter.position"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
-    var danmuListUrl = $('input[name="chapter.danmu_url"]').val();
     var playUrls = JSON.parse($('input[name="chapter.play_urls"]').val());
-    var $danmuText = $('input[name="danmu.text"]');
-    var $danmuForm = $('.danmu-form');
 
-    var playerOptions = {
+    var options = {
         autoplay: false,
         width: 760,
         height: 428
     };
 
     if (playUrls.od) {
-        playerOptions.m3u8 = playUrls.od.url;
+        options.m3u8 = playUrls.od.url;
     }
 
     if (playUrls.hd) {
-        playerOptions.m3u8_hd = playUrls.hd.url;
+        options.m3u8_hd = playUrls.hd.url;
     }
 
     if (playUrls.sd) {
-        playerOptions.m3u8_sd = playUrls.sd.url;
+        options.m3u8_sd = playUrls.sd.url;
     }
 
-    playerOptions.listener = function (msg) {
+    options.listener = function (msg) {
         if (msg.type === 'play') {
             play();
         } else if (msg.type === 'pause') {
@@ -46,7 +41,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         }
     };
 
-    var player = new TcPlayer('player', playerOptions);
+    var player = new TcPlayer('player', options);
 
     var position = parseInt(lastPosition);
 
@@ -56,91 +51,6 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
     if (position > 0 && player.duration() - position > 10) {
         player.currentTime(position);
     }
-
-    $('.icon-danmu-set').on('click', function () {
-        layer.open({
-            type: 1,
-            title: '弹幕设置',
-            area: '600px',
-            shadeClose: true,
-            content: $('#my-danmu-set')
-        });
-    });
-
-    var dt = null;
-
-    /**
-     * 控制弹幕表单的可见性
-     */
-    $('#player').hover(function () {
-        clearTimeout(dt);
-        $danmuForm.show();
-    }, function () {
-        dt = setTimeout(function () {
-            $danmuForm.hide();
-        }, 2500);
-    });
-
-    /**
-     * 文本框获得焦点后清理dt，不然对输入有干扰
-     */
-    $danmuText.focus(function () {
-        clearTimeout(dt);
-    });
-
-    /**
-     * @todo 弹幕层和播放器控制层css有抵触，待解决
-     */
-
-    $('#danmu').danmu({
-        left: 20,
-        top: 20,
-        width: 760,
-        height: 380
-    });
-
-    initDanmu();
-
-    form.on('switch(danmu.status)', function (data) {
-        if (data.elem.checked) {
-            $('#danmu').danmu('setOpacity', 1);
-        } else {
-            $('#danmu').danmu('setOpacity', 0);
-        }
-    });
-
-    form.on('radio(danmu.opacity)', function (data) {
-        $('#danmu').danmu('setOpacity', parseFloat(data.value));
-    });
-
-    form.on('submit(danmu.send)', function (data) {
-        var setFormData = form.val('danmu.form.set');
-        var formData = form.val('danmu.form');
-        $.ajax({
-            type: 'POST',
-            url: data.form.action,
-            data: {
-                text: formData['danmu.text'],
-                color: setFormData['danmu.color'],
-                size: setFormData['danmu.size'],
-                position: setFormData['danmu.position'],
-                time: player.currentTime(),
-                chapter_id: chapterId
-            },
-            success: function (res) {
-                $('#danmu').danmu('addDanmu', {
-                    text: res.danmu.text,
-                    color: res.danmu.color,
-                    size: res.danmu.size,
-                    time: (res.danmu.time + 1) * 10, //十分之一秒
-                    position: res.danmu.position,
-                    isnew: 1
-                });
-                $danmuText.val('');
-            }
-        });
-        return false;
-    });
 
     function clearLearningInterval() {
         if (interval != null) {
@@ -154,19 +64,11 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
     }
 
     function play() {
-        startDanmu();
         clearLearningInterval();
         setLearningInterval();
     }
 
     function pause() {
-        /**
-         * 视频结束也会触发暂停事件，此时弹幕可能尚未结束
-         * 时间差区分暂停是手动还是结束触发
-         */
-        if (player.currentTime() < player.duration() - 5) {
-            pauseDanmu();
-        }
         clearLearningInterval();
     }
 
@@ -189,37 +91,6 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
                 }
             });
         }
-    }
-
-    function startDanmu() {
-        $('#danmu').danmu('danmuResume');
-    }
-
-    function pauseDanmu() {
-        $('#danmu').danmu('danmuPause');
-    }
-
-    /**
-     * 一次性获取弹幕，待改进为根据时间轴区间获取
-     */
-    function initDanmu() {
-        $.ajax({
-            type: 'GET',
-            url: danmuListUrl,
-            success: function (res) {
-                var items = [];
-                layui.each(res.items, function (index, item) {
-                    items.push({
-                        text: item.text,
-                        color: item.color,
-                        size: item.size,
-                        time: (item.time + 1) * 10,
-                        position: item.position
-                    });
-                });
-                $('#danmu').danmu('addDanmu', items);
-            }
-        });
     }
 
 });

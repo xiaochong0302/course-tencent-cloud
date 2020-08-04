@@ -11,8 +11,8 @@ layui.use(['jquery', 'layer'], function () {
         layer.open({
             type: 2,
             title: '咨询详情',
-            content: url,
-            area: ['720px', '480px']
+            content: [url, 'no'],
+            area: ['720px', '320px']
         });
     });
 
@@ -25,7 +25,7 @@ layui.use(['jquery', 'layer'], function () {
             type: 2,
             title: '回复咨询',
             content: [url, 'no'],
-            area: ['720px', '400px'],
+            area: ['720px', '300px'],
             cancel: function () {
                 parent.location.reload();
             }

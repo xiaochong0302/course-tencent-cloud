@@ -73,6 +73,7 @@
 }
 
 .pager {
+    margin-top: 20px;
     text-align: center;
 }
 
@@ -239,10 +240,6 @@ body {
     padding: 0 5px;
 }
 
-.search-course-list {
-    margin-bottom: 30px;
-}
-
 .search-course-card {
     padding-bottom: 15px;
     margin-bottom: 15px;
@@ -270,7 +267,6 @@ body {
 .search-course-card .info {
     float: left;
     width: 500px;
-    color: #666;
 }
 
 .search-course-card .title {
@@ -283,8 +279,13 @@ body {
     line-height: 1.5em;
     max-height: 4.5em;
     font-size: 12px;
-    word-wrap: break-word;
+    color: #666;
     overflow: hidden;
+    overflow-wrap: break-word;
+}
+
+.search-course-card .meta {
+    color: #666;
 }
 
 .search-course-card .meta span {
@@ -679,7 +680,7 @@ body {
     width: 650px;
 }
 
-.review-card .rating {
+.review-card .rating, .review-card .more {
     position: absolute;
     top: 0;
     right: 0;
@@ -689,6 +690,11 @@ body {
 .review-card .rating .layui-icon {
     color: orange;
     font-size: 12px;
+}
+
+.review-card .more {
+    color: #666;
+    cursor: pointer;
 }
 
 .review-card .title {
@@ -702,8 +708,11 @@ body {
 
 .review-card .content {
     margin-bottom: 15px;
-    word-wrap: break-word;
+    line-height: 1.5em;
+    max-height: 6em;
+    overflow-wrap: break-word;
     white-space: pre-wrap;
+    overflow: hidden;
     color: #666;
 }
 
@@ -875,30 +884,6 @@ body {
     width: 760px;
     height: 428px;
     margin-bottom: 0;
-}
-
-.danmu-form {
-    position: relative;
-    left: 180px;
-    bottom: 38px;
-    width: 420px;
-    z-index: 999;
-    display: none;
-}
-
-.danmu-form .icon-danmu-set {
-    margin-right: 5px;
-    color: white;
-}
-
-.danmu-form .layui-input {
-    width: 380px;
-    height: 28px;
-    display: inline;
-    line-height: 28px;
-    font-size: 12px;
-    color: white;
-    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .chat-wrap .layui-card-header {
@@ -1445,24 +1430,62 @@ body {
 }
 
 .consult-table .question {
-    width: 400px;
+    width: 450px;
 }
 
 .consult-table .answer {
-    width: 400px;
+    width: 450px;
 }
 
 .review-table .title {
-    width: 350px;
+    width: 400px;
 }
 
 .review-table .content {
-    width: 350px;
-    color: #999;
+    width: 400px;
+    color: #666;
 }
 
 .review-form .layui-rate {
     padding-top: 6px;
+}
+
+.consult-form .layui-form-label {
+    width: 50px;
+    padding: 9px 0;
+}
+
+.consult-form .layui-input-block {
+    margin-left: 70px;
+}
+
+.consult-form .layui-form-mid {
+    float: none;
+    margin-left: 70px;
+}
+
+.consult-info .item {
+    clear: both;
+    margin-bottom: 15px;
+}
+
+.consult-info .item .label {
+    float: left;
+    width: 50px;
+    height: 32px;
+    text-align: right;
+}
+
+.consult-info .item .title {
+    float: left;
+    width: 600px;
+}
+
+.consult-info .item .content {
+    float: left;
+    width: 600px;
+    color: #666;
+    word-wrap: break-word;
 }
 
 .security-item {

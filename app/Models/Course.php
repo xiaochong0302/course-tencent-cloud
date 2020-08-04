@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Caches\MaxCourseId as MaxCourseIdCache;
+use App\Services\Syncer\CourseIndex as CourseIndexSyncer;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
@@ -302,6 +303,13 @@ class Course extends Model
         $cache = new MaxCourseIdCache();
 
         $cache->rebuild();
+    }
+
+    public function afterUpdate()
+    {
+        $syncer = new CourseIndexSyncer();
+
+        $syncer->addItem($this->id);
     }
 
     public function afterFetch()

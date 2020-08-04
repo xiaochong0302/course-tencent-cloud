@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_course') }}
+    {{ partial('macros/course') }}
 
     {%- macro cart_course_card(course, user) %}
         {% set course_url = url({'for':'web.course.show','id':course.id}) %}

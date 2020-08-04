@@ -2,25 +2,38 @@
 
 {% block content %}
 
-    {% set answer = consult.answer ? consult.answer : '<span class="gray">稍安勿燥，请耐心等待回复吧</span>' %}
+    {% set consult.answer = consult.answer ? consult.answer : '请耐心等待回复吧' %}
 
-    <form class="layui-form review-form">
-        <div class="layui-form-item mb0">
-            <label class="layui-form-label">课程：</label>
-            <div class="layui-form-mid">{{ consult.course.title }}</div>
+    <div class="consult-info">
+        {% if consult.course.id is defined %}
+            <div class="item">
+                <div class="label">课程：</div>
+                <div class="title">{{ consult.course.title }}</div>
+            </div>
+        {% endif %}
+        {% if consult.chapter.id is defined %}
+            <div class="item">
+                <div class="label">章节：</div>
+                <div class="title">{{ consult.chapter.title }}</div>
+            </div>
+        {% endif %}
+        <div class="item">
+            <div class="label">提问：</div>
+            <div class="content">{{ consult.question }}</div>
         </div>
-        <div class="layui-form-item mb0">
-            <label class="layui-form-label">章节：</label>
-            <div class="layui-form-mid">{{ consult.chapter.title }}</div>
+        <div class="item">
+            <div class="label">回答：</div>
+            <div class="content">{{ consult.answer }}</div>
         </div>
-        <div class="layui-form-item mb0">
-            <label class="layui-form-label">提问：</label>
-            <div class="layui-form-mid">{{ consult.question }}</div>
-        </div>
-        <div class="layui-form-item mb0">
-            <label class="layui-form-label">回复：</label>
-            <div class="layui-form-mid">{{ answer }}</div>
-        </div>
-    </form>
+    </div>
+
+{% endblock %}
+
+{% block inline_js %}
+
+    <script>
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.iframeAuto(index);
+    </script>
 
 {% endblock %}

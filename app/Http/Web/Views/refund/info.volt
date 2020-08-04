@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_refund') }}
+    {{ partial('macros/refund') }}
 
     {% set cancel_url = url({'for':'web.refund.cancel'}) %}
 

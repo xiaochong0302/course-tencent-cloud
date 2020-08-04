@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_course') }}
+    {{ partial('macros/course') }}
 
     {%- macro category_courses(courses) %}
         <div class="layui-tab layui-tab-brief">

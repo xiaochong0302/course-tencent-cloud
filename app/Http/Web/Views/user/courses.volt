@@ -1,4 +1,4 @@
-{{ partial('partials/macro_course') }}
+{{ partial('macros/course') }}
 
 {% if pager.total_pages > 0 %}
     <div class="course-list learning-course-list clearfix">

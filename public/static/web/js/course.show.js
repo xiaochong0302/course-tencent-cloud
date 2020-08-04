@@ -73,6 +73,19 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     });
 
     /**
+     * 咨询详情
+     */
+    $('body').on('click', '.consult-details', function () {
+        var url = $(this).data('url');
+        layer.open({
+            type: 2,
+            title: '咨询详情',
+            content: [url, 'no'],
+            area: ['720px', '320px']
+        });
+    });
+
+    /**
      * 点赞（咨询|评价）
      */
     $('body').on('click', '.icon-praise', function () {

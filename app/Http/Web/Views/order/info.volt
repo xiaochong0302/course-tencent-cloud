@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('partials/macro_order') }}
+    {{ partial('macros/order') }}
 
     {% set order_pay_url = url({'for':'web.order.pay'},{'sn':order.sn}) %}
     {% set refund_confirm_url = url({'for':'web.refund.confirm'},{'sn':order.sn}) %}

@@ -19,9 +19,9 @@
     <div class="layui-card-body">
         <ul class="my-menu">
             <li><a href="{{ url({'for':'web.my.courses'}) }}">我的课程</a></li>
-            <li><a href="{{ url({'for':'web.my.consults'}) }}">我的咨询</a></li>
             <li><a href="{{ url({'for':'web.my.favorites'}) }}">我的收藏</a></li>
             <li><a href="{{ url({'for':'web.my.reviews'}) }}">我的评价</a></li>
+            <li><a href="{{ url({'for':'web.my.consults'}) }}">我的咨询</a></li>
         </ul>
     </div>
 </div>
