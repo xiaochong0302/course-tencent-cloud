@@ -1,7 +1,7 @@
 {% if pager.total_pages > 0 %}
     <div class="review-list">
         {% for item in pager.items %}
-            {% set item.answer = item.answer ? item.answer : '稍安勿燥，请耐心等待回复吧' %}
+            {% set item.answer = item.answer ? item.answer : '请耐心等待回复吧' %}
             {% set owner_url = url({'for':'web.user.show','id':item.owner.id}) %}
             {% set consult_url = url({'for':'web.consult.show','id':item.id}) %}
             {% set like_url = url({'for':'web.consult.like','id':item.id}) %}

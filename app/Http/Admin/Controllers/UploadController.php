@@ -15,14 +15,17 @@ class UploadController extends Controller
      */
     public function uploadCoverImageAction()
     {
-        $storageService = new StorageService();
+        $service = new StorageService();
 
-        $key = $storageService->uploadCoverImage();
+        $file = $service->uploadCoverImage();
 
-        $url = $storageService->getCiImageUrl($key);
-
-        if ($url) {
-            return $this->jsonSuccess(['data' => ['src' => $url, 'title' => '']]);
+        if ($file) {
+            return $this->jsonSuccess([
+                'data' => [
+                    'src' => $service->getCiImageUrl($file->path),
+                    'title' => $file->name,
+                ]
+            ]);
         } else {
             return $this->jsonError(['msg' => '上传文件失败']);
         }
@@ -33,30 +36,38 @@ class UploadController extends Controller
      */
     public function uploadAvatarImageAction()
     {
-        $storageService = new StorageService();
+        $service = new StorageService();
 
-        $key = $storageService->uploadAvatarImage();
+        $file = $service->uploadAvatarImage();
 
-        $url = $storageService->getCiImageUrl($key);
-
-        if ($url) {
-            return $this->jsonSuccess(['data' => ['src' => $url, 'title' => '']]);
+        if ($file) {
+            return $this->jsonSuccess([
+                'data' => [
+                    'src' => $service->getCiImageUrl($file->path),
+                    'title' => $file->name,
+                ]
+            ]);
         } else {
             return $this->jsonError(['msg' => '上传文件失败']);
         }
     }
 
     /**
-     * @Post("/img/content", name="admin.upload.content_img")
+     * @Post("/img/editor", name="admin.upload.editor_img")
      */
-    public function uploadContentImageAction()
+    public function uploadEditorImageAction()
     {
-        $storageService = new StorageService();
+        $service = new StorageService();
 
-        $url = $storageService->uploadContentImage();
+        $file = $service->uploadEditorImage();
 
-        if ($url) {
-            return $this->jsonSuccess(['data' => ['src' => $url, 'title' => '']]);
+        if ($file) {
+            return $this->jsonSuccess([
+                'data' => [
+                    'src' => $service->getCiImageUrl($file->path),
+                    'title' => $file->name,
+                ]
+            ]);
         } else {
             return $this->jsonError(['msg' => '上传文件失败']);
         }

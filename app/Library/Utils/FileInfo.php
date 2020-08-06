@@ -5,53 +5,53 @@ namespace App\Library\Utils;
 class FileInfo
 {
 
-    public static function isVideo($mine)
+    public static function isVideo($mime)
     {
-        $case1 = self::isSecure($mine);
+        $case1 = self::isSecure($mime);
 
-        $case2 = strpos($mine, 'video') !== false;
+        $case2 = strpos($mime, 'video') !== false;
 
         return $case1 && $case2;
     }
 
-    public static function isAudio($mine)
+    public static function isAudio($mime)
     {
-        $case1 = self::isSecure($mine);
+        $case1 = self::isSecure($mime);
 
-        $case2 = strpos($mine, 'audio') !== false;
+        $case2 = strpos($mime, 'audio') !== false;
 
         return $case1 && $case2;
     }
 
-    public static function isImage($mine)
+    public static function isImage($mime)
     {
-        $case1 = self::isSecure($mine);
+        $case1 = self::isSecure($mime);
 
-        $case2 = strpos($mine, 'image') !== false;
+        $case2 = strpos($mime, 'image') !== false;
 
         return $case1 && $case2;
     }
 
-    public static function isSecure($mine)
+    public static function isSecure($mime)
     {
-        return in_array($mine, self::getMineTypes());
+        return in_array($mime, self::getMimeTypes());
     }
 
-    public static function getMineType($file)
+    public static function getMimeType($file)
     {
         $info = new \finfo(FILEINFO_MIME_TYPE);
 
         return $info->file($file);
     }
 
-    public static function getMineTypeByExt($ext)
+    public static function getMimeTypeByExt($ext)
     {
-        $mineTypes = self::getMineTypes();
+        $mimeTypes = self::getMimeTypes();
 
-        return $mineTypes[$ext] ?? null;
+        return $mimeTypes[$ext] ?? null;
     }
 
-    public static function getMineTypes()
+    public static function getMimeTypes()
     {
         return [
             'aac' => 'audio/aac',

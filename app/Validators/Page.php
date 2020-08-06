@@ -74,7 +74,7 @@ class Page extends Validator
 
     public function checkContent($content)
     {
-        $value = $this->filter->sanitize($content, ['trim']);
+        $value = $this->filter->sanitize($content, ['trim', 'striptags']);
 
         $length = kg_strlen($value);
 

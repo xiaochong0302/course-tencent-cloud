@@ -92,7 +92,7 @@ class Consult extends Validator
         return $status;
     }
 
-    public function checkTeacher(ConsultModel $consult, UserModel $user)
+    public function checkReplyPriv(ConsultModel $consult, UserModel $user)
     {
         $repo = new CourseRepo();
 
@@ -110,8 +110,10 @@ class Consult extends Validator
         }
     }
 
-    public function checkConsultEdit(ConsultModel $consult)
+    public function checkEditPriv(ConsultModel $consult, UserModel $user)
     {
+        $this->checkOwner($user->id, $consult->owner_id);
+
         /**
          * (1)已回复不允许修改提问
          * (2)发表三天以后不能修改提问

@@ -275,7 +275,7 @@ function kg_time_ago($time)
     if ($diff > 365 * 86400) {
         return date('Y-m-d', $time);
     } elseif ($diff > 30 * 86400) {
-        return floor($diff / 30 / 86400) . '月前';
+        return floor($diff / 30 / 86400) . '个月前';
     } elseif ($diff > 7 * 86400) {
         return floor($diff / 7 / 86400) . '周前';
     } elseif ($diff > 86400) {

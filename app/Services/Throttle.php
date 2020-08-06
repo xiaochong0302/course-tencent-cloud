@@ -43,8 +43,8 @@ class Throttle extends Service
     {
         $authUser = $this->getAuthUser();
 
-        if (!empty($authUser->id)) {
-            return md5($authUser->id);
+        if (!empty($authUser['id'])) {
+            return md5($authUser['id']);
         }
 
         $httpHost = $this->request->getHttpHost();

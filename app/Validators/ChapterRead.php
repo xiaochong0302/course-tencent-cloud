@@ -9,7 +9,7 @@ class ChapterRead extends Validator
 
     public function checkContent($content)
     {
-        $value = $this->filter->sanitize($content, ['trim']);
+        $value = $this->filter->sanitize($content, ['trim', 'striptags']);
 
         $length = kg_strlen($value);
 
@@ -17,7 +17,7 @@ class ChapterRead extends Validator
             throw new BadRequestException('chapter_read.content_too_short');
         }
 
-        if ($length > 65535) {
+        if ($length > 60000) {
             throw new BadRequestException('chapter_read.content_too_long');
         }
 

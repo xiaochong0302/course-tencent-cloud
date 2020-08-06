@@ -1,7 +1,7 @@
 {
   "require": {
     "ext-phalcon": "~3.4",
-    "ext-redis": "~4.3",
+    "ext-redis": "~5.0",
     "ext-pdo": "*",
     "ext-json": "*",
     "ext-fileinfo": "*",
@@ -19,7 +19,8 @@
     "whichbrowser/parser": "^2.0",
     "hightman/xunsearch": "^1.4.14",
     "aferrandini/phpqrcode": "1.0.1",
-    "xiaochong0302/ip2region": "^1.0"
+    "xiaochong0302/ip2region": "^1.0",
+    "joyqi/hyper-down": "dev-master"
   },
   "require-dev": {
     "odan/phinx-migrations-generator": "^4.6",

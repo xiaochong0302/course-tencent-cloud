@@ -103,7 +103,7 @@ $error['course.title_too_short'] = '标题太短（少于5个字符）';
 $error['course.title_too_long'] = '标题太长（多于50个字符）';
 $error['course.summary_too_long'] = '标题太长（多于255个字符）';
 $error['course.keywords_too_long'] = '关键字太长（多于100个字符）';
-$error['course.details_too_long'] = '详情太长（多于3000个字符）';
+$error['course.details_too_long'] = '详情太长（多于5000个字符）';
 $error['course.invalid_model'] = '无效的模型类别';
 $error['course.invalid_level'] = '无效的难度级别';
 $error['course.invalid_cover'] = '无效的封面';
@@ -184,7 +184,7 @@ $error['chapter_live.time_too_long'] = '直播时间太长（超过3小时）';
  */
 $error['chapter_read.not_found'] = '文章不存在';
 $error['chapter_read.content_too_short'] = '文章内容太短（少于10个字符）';
-$error['chapter_read.content_too_long'] = '文章内容太长（多于65535个字符）';
+$error['chapter_read.content_too_long'] = '文章内容太长（多于60000个字符）';
 
 /**
  * 评价相关
@@ -229,7 +229,7 @@ $error['help.not_found'] = '帮助不存在';
 $error['help.title_too_short'] = '标题太短（少于2个字符）';
 $error['help.title_too_long'] = '标题太长（多于50个字符）';
 $error['help.content_too_short'] = '内容太短（少于10个字符）';
-$error['help.content_too_long'] = '内容太长（多于3000个字符）';
+$error['help.content_too_long'] = '内容太长（多于60000个字符）';
 $error['help.invalid_priority'] = '无效的排序数值（范围：1-255）';
 $error['help.invalid_publish_status'] = '无效的发布状态';
 

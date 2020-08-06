@@ -112,22 +112,23 @@ class ChapterContent extends Service
 
         $validator = new ChapterLiveValidator();
 
-        $data = [];
+        $startTime = $validator->checkStartTime($post['start_time']);
+        $endTime = $validator->checkEndTime($post['end_time']);
 
-        $data['start_time'] = $validator->checkStartTime($post['start_time']);
-        $data['end_time'] = $validator->checkEndTime($post['end_time']);
+        $validator->checkTimeRange($startTime, $endTime);
 
-        $validator->checkTimeRange($post['start_time'], $post['end_time']);
-
-        $live->update($data);
+        $live->update([
+            'start_time' => $startTime,
+            'end_time' => $endTime,
+        ]);
 
         /**
          * @var array $attrs
          */
         $attrs = $chapter->attrs;
 
-        $attrs['start_time'] = $data['start_time'];
-        $attrs['end_time'] = $data['end_time'];
+        $attrs['start_time'] = $startTime;
+        $attrs['end_time'] = $endTime;
 
         $chapter->update(['attrs' => $attrs]);
 
@@ -146,19 +147,17 @@ class ChapterContent extends Service
 
         $validator = new ChapterReadValidator();
 
-        $data = [];
+        $content = $validator->checkContent($post['content']);
 
-        $data['content'] = $validator->checkContent($post['content']);
-
-        $read->update($data);
+        $read->update(['content' => $content]);
 
         /**
          * @var array $attrs
          */
         $attrs = $chapter->attrs;
 
-        $attrs['word_count'] = WordUtil::getWordCount($read->content);
-        $attrs['duration'] = WordUtil::getWordDuration($read->content);
+        $attrs['word_count'] = WordUtil::getWordCount($content);
+        $attrs['duration'] = WordUtil::getWordDuration($content);
 
         $chapter->update(['attrs' => $attrs]);
 

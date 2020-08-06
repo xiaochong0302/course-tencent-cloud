@@ -6,12 +6,6 @@ class ChapterRead extends Model
 {
 
     /**
-     * 格式类型
-     */
-    const FORMAT_HTML = 'html';
-    const FORMAT_MARKDOWN = 'markdown';
-
-    /**
      * 主键编号
      *
      * @var int
@@ -38,13 +32,6 @@ class ChapterRead extends Model
      * @var string
      */
     public $content;
-
-    /**
-     * 格式
-     *
-     * @var string
-     */
-    public $format;
 
     /**
      * 创建时间
@@ -80,14 +67,6 @@ class ChapterRead extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
-    }
-
-    public static function formatTypes()
-    {
-        return [
-            self::FORMAT_HTML => 'html',
-            self::FORMAT_MARKDOWN => 'markdown',
-        ];
     }
 
 }

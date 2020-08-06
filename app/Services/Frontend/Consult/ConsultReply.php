@@ -21,7 +21,7 @@ class ConsultReply extends FrontendService
 
         $validator = new ConsultValidator();
 
-        $validator->checkTeacher($consult, $user);
+        $validator->checkReplyPriv($consult, $user);
 
         $answer = $validator->checkAnswer($post['answer']);
 

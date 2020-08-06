@@ -3,13 +3,14 @@
 namespace App\Http\Web\Controllers;
 
 use App\Library\CsrfToken as CsrfTokenService;
-use App\Models\ContentImage as ContentImageModel;
+use App\Repos\UploadFile as UploadFileRepo;
 use App\Services\Pay\Alipay as AlipayService;
 use App\Services\Pay\Wxpay as WxpayService;
 use App\Services\Storage as StorageService;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
-use PHPQRCode\QRcode as PHPQRCode;
+use Phalcon\Text;
+use PHPQRCode\QRcode;
 
 class PublicController extends \Phalcon\Mvc\Controller
 {
@@ -18,24 +19,28 @@ class PublicController extends \Phalcon\Mvc\Controller
     use SecurityTrait;
 
     /**
-     * @Get("/content/img/{id:[0-9]+}", name="web.content_img")
+     * @Get("/img/{id:[0-9]+}", name="web.img")
      */
-    public function contentImageAction($id)
+    public function imageAction($id)
     {
-        $image = ContentImageModel::findFirst($id);
+        $repo = new UploadFileRepo();
 
-        if (!$image) {
+        $file = $repo->findById($id);
+
+        if ($file && Text::startsWith($file->mime, 'image')) {
+
+            $service = new StorageService();
+
+            $location = $service->getCiImageUrl($file->path);
+
+            $this->response->redirect($location);
+
+        } else {
 
             $this->response->setStatusCode(404);
 
             return $this->response;
         }
-
-        $storageService = new StorageService();
-
-        $location = $storageService->getCiImageUrl($image->path);
-
-        $this->response->redirect($location);
     }
 
     /**
@@ -49,7 +54,7 @@ class PublicController extends \Phalcon\Mvc\Controller
 
         $url = urldecode($text);
 
-        PHPQRcode::png($url, false, $level, $size);
+        QRcode::png($url, false, $level, $size);
 
         $this->response->send();
 

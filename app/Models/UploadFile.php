@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class ContentImage extends Model
+class UploadFile extends Model
 {
 
     /**
@@ -15,11 +15,39 @@ class ContentImage extends Model
     public $id;
 
     /**
-     * 图片路径
+     * 名称
+     *
+     * @var string
+     */
+    public $name;
+
+    /**
+     * 路径
      *
      * @var string
      */
     public $path;
+
+    /**
+     * mime
+     *
+     * @var string
+     */
+    public $mime;
+
+    /**
+     * md5
+     *
+     * @var string
+     */
+    public $md5;
+
+    /**
+     * 大小
+     *
+     * @var int
+     */
+    public $size;
 
     /**
      * 删除标识
@@ -44,7 +72,7 @@ class ContentImage extends Model
 
     public function getSource(): string
     {
-        return 'kg_content_image';
+        return 'kg_upload_file';
     }
 
     public function initialize()

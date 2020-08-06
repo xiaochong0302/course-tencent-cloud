@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "d847018715ab8103c3b5e04db1807223",
+  "content-hash": "d95c023895ee3acc72bcd13024da3eb3",
   "packages": [
     {
       "name": "aferrandini/phpqrcode",
@@ -77,16 +77,16 @@
           }
         ]
       },
-            "require": {
-                "php": "^7.2"
-            },
-            "require-dev": {
-                "doctrine/coding-standard": "^6.0",
-                "phpstan/phpstan": "^0.11.8",
-                "phpunit/phpunit": "^8.2"
-            },
-            "type": "library",
-            "extra": {
+      "require": {
+        "php": "^7.2"
+      },
+      "require-dev": {
+        "doctrine/coding-standard": "^6.0",
+        "phpstan/phpstan": "^0.11.8",
+        "phpunit/phpunit": "^8.2"
+      },
+      "type": "library",
+      "extra": {
                 "branch-alias": {
                     "dev-master": "1.1.x-dev"
                 }
@@ -574,35 +574,77 @@
                 }
             ],
             "description": "xunsearch php sdk, include yii, yii2 supports",
-            "homepage": "http://www.xunsearch.com/",
-            "keywords": [
-                "search engine",
-                "xunsearch",
-                "yii",
-                "yii2"
-            ],
-            "time": "2019-11-01T02:17:32+00:00"
+          "homepage": "http://www.xunsearch.com/",
+          "keywords": [
+            "search engine",
+            "xunsearch",
+            "yii",
+            "yii2"
+          ],
+          "time": "2019-11-01T02:17:32+00:00"
         },
+    {
+      "name": "joyqi/hyper-down",
+      "version": "dev-master",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/SegmentFault/HyperDown.git",
+        "reference": "e9bf808ff8cc1736b15a669e46f1d81f77ce026b"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/SegmentFault/HyperDown/zipball/e9bf808ff8cc1736b15a669e46f1d81f77ce026b",
+        "reference": "e9bf808ff8cc1736b15a669e46f1d81f77ce026b",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
+      "require": {
+        "php": ">=5.4.0"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "HyperDown\\": "./"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "BSD"
+      ],
+      "authors": [
         {
-            "name": "monolog/monolog",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "68545165e19249013afd1d6f7485aecff07a2d22"
-            },
-            "dist": {
-              "type": "zip",
-              "url": "https://api.github.com/repos/Seldaek/monolog/zipball/68545165e19249013afd1d6f7485aecff07a2d22",
-              "reference": "68545165e19249013afd1d6f7485aecff07a2d22",
-              "shasum": "",
-              "mirrors": [
-                {
-                  "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                  "preferred": true
-                }
-              ]
-            },
+          "name": "joyqi",
+          "email": "joyqi@segmentfault.com"
+        }
+      ],
+      "description": "A light weight markdown parser library",
+      "time": "2019-11-18T09:50:06+00:00"
+    },
+    {
+      "name": "monolog/monolog",
+      "version": "2.0.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/Seldaek/monolog.git",
+        "reference": "68545165e19249013afd1d6f7485aecff07a2d22"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/Seldaek/monolog/zipball/68545165e19249013afd1d6f7485aecff07a2d22",
+        "reference": "68545165e19249013afd1d6f7485aecff07a2d22",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
             "require": {
                 "php": "^7.2",
                 "psr/log": "^1.0.1"
@@ -693,16 +735,16 @@
             "require": {
                 "php": ">=5.3.2"
             },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0|~5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Cron\\": "src/Cron/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
+          "require-dev": {
+            "phpunit/phpunit": "~4.0|~5.0"
+          },
+          "type": "library",
+          "autoload": {
+            "psr-4": {
+              "Cron\\": "src/Cron/"
+            }
+          },
+          "notification-url": "https://packagist.org/downloads/",
           "license": [
             "MIT"
           ],
@@ -1890,16 +1932,16 @@
             "require": {
                 "workerman/workerman": ">=3.1.8"
             },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "GatewayWorker\\": "./src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-              "MIT"
-            ],
+          "type": "library",
+          "autoload": {
+            "psr-4": {
+              "GatewayWorker\\": "./src"
+            }
+          },
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "MIT"
+          ],
           "homepage": "http://www.workerman.net",
           "keywords": [
             "communication",
@@ -1960,30 +2002,30 @@
           }
         ]
       },
-            "require": {
-                "php": ">=5.3"
-            },
-            "suggest": {
-                "ext-event": "For better performance. "
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Workerman\\": "./"
+      "require": {
+        "php": ">=5.3"
+      },
+      "suggest": {
+        "ext-event": "For better performance. "
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Workerman\\": "./"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+              "MIT"
             ],
-            "authors": [
-                {
-                    "name": "walkor",
-                    "email": "walkor@workerman.net",
-                    "homepage": "http://www.workerman.net",
-                    "role": "Developer"
-                }
-            ],
+      "authors": [
+        {
+          "name": "walkor",
+          "email": "walkor@workerman.net",
+          "homepage": "http://www.workerman.net",
+          "role": "Developer"
+        }
+      ],
       "description": "An asynchronous event driven PHP framework for easily building fast, scalable network applications.",
       "homepage": "http://www.workerman.net",
       "keywords": [
@@ -2022,16 +2064,16 @@
         }
       },
       "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "xiaochong0302",
-                    "email": "xiaochong0302@gmail.com"
-                }
-            ],
-            "description": "ip2region扩展包",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "xiaochong0302",
+          "email": "xiaochong0302@gmail.com"
+        }
+      ],
+      "description": "ip2region扩展包",
             "keywords": [
                 "Ip2Region"
             ],
@@ -2077,16 +2119,16 @@
                     "Yansongda\\Pay\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "yansongda",
-                    "email": "me@yansongda.cn"
-                }
-            ],
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "MIT"
+          ],
+          "authors": [
+            {
+              "name": "yansongda",
+              "email": "me@yansongda.cn"
+            }
+          ],
           "description": "专注 Alipay 和 WeChat 的支付扩展包",
           "keywords": [
             "alipay",
@@ -2125,16 +2167,16 @@
         "phpunit/phpunit": "^7.5",
         "predis/predis": "^1.1"
       },
-            "suggest": {
-                "predis/predis": "Allows to use throttle feature"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Yansongda\\Supports\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
+      "suggest": {
+        "predis/predis": "Allows to use throttle feature"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Yansongda\\Supports\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2390,16 +2432,16 @@
           "psr-4": {
             "Cake\\Cache\\": "."
           }
-            },
-            "notification-url": "https://packagist.jp/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "CakePHP Community",
-                    "homepage": "https://github.com/cakephp/cache/graphs/contributors"
-                }
+        },
+        "notification-url": "https://packagist.jp/downloads/",
+        "license": [
+          "MIT"
+        ],
+        "authors": [
+          {
+            "name": "CakePHP Community",
+            "homepage": "https://github.com/cakephp/cache/graphs/contributors"
+          }
             ],
             "description": "Easy to use Caching library with support for multiple caching backends",
             "homepage": "https://cakephp.org",
@@ -2718,16 +2760,16 @@
             },
             "notification-url": "https://packagist.jp/downloads/",
             "license": [
-                "MIT"
+              "MIT"
             ],
-            "authors": [
-                {
-                    "name": "CakePHP Community",
-                    "homepage": "https://github.com/cakephp/utility/graphs/contributors"
-                }
-            ],
-            "description": "CakePHP Utility classes such as Inflector, String, Hash, and Security",
-            "homepage": "https://cakephp.org",
+          "authors": [
+            {
+              "name": "CakePHP Community",
+              "homepage": "https://github.com/cakephp/utility/graphs/contributors"
+            }
+          ],
+          "description": "CakePHP Utility classes such as Inflector, String, Hash, and Security",
+          "homepage": "https://cakephp.org",
           "keywords": [
             "cakephp",
             "hash",
@@ -3005,23 +3047,23 @@
           "overtrue/phplint": "^1.1",
           "phpstan/phpstan-shim": "^0.11",
           "phpunit/phpunit": "^7.0",
-                "squizlabs/php_codesniffer": "^3.4"
-            },
-            "bin": [
-                "./bin/phinx-migrations"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Odan\\Migration\\": "src/Migration/"
-                }
-            },
-            "notification-url": "https://packagist.jp/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Migration generator for Phinx",
-            "homepage": "https://github.com/odan/phinx-migrations-generator",
+          "squizlabs/php_codesniffer": "^3.4"
+        },
+        "bin": [
+          "./bin/phinx-migrations"
+        ],
+        "type": "library",
+        "autoload": {
+          "psr-4": {
+            "Odan\\Migration\\": "src/Migration/"
+          }
+        },
+        "notification-url": "https://packagist.jp/downloads/",
+        "license": [
+          "MIT"
+        ],
+        "description": "Migration generator for Phinx",
+        "homepage": "https://github.com/odan/phinx-migrations-generator",
         "keywords": [
           "database",
           "generator",
@@ -3106,16 +3148,16 @@
             }
           ]
         },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
+        "require": {
+          "php": ">=5.3.0"
+        },
+        "type": "library",
+        "extra": {
+          "branch-alias": {
+            "dev-master": "1.0.x-dev"
+          }
+        },
+        "autoload": {
                 "psr-4": {
                     "Psr\\Container\\": "src/"
                 }
@@ -3715,16 +3757,16 @@
             ],
             "authors": [
                 {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
+                  "name": "Nicolas Grekas",
+                  "email": "p@tchwork.com"
                 },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
+              {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+              }
             ],
-            "description": "Generic abstractions related to writing services",
-            "homepage": "https://symfony.com",
+          "description": "Generic abstractions related to writing services",
+          "homepage": "https://symfony.com",
           "keywords": [
             "abstractions",
             "contracts",
@@ -3837,16 +3879,16 @@
             }
           ]
         },
-            "require": {
-                "php": "^7.2.5",
-                "symfony/polyfill-ctype": "~1.8"
-            },
-            "conflict": {
-                "symfony/console": "<4.4"
-            },
-            "require-dev": {
-                "symfony/console": "^4.4|^5.0"
-            },
+        "require": {
+          "php": "^7.2.5",
+          "symfony/polyfill-ctype": "~1.8"
+        },
+        "conflict": {
+          "symfony/console": "<4.4"
+        },
+        "require-dev": {
+          "symfony/console": "^4.4|^5.0"
+        },
             "suggest": {
                 "symfony/console": "For validating YAML files using the lint command"
             },
@@ -3858,16 +3900,16 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Symfony\\Component\\Yaml\\": ""
+                  "Symfony\\Component\\Yaml\\": ""
                 },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+              "exclude-from-classmap": [
+                "/Tests/"
+              ]
             },
-            "notification-url": "https://packagist.jp/downloads/",
-            "license": [
-                "MIT"
-            ],
+        "notification-url": "https://packagist.jp/downloads/",
+        "license": [
+          "MIT"
+        ],
         "authors": [
           {
             "name": "Fabien Potencier",
@@ -3941,14 +3983,17 @@
     ],
   "aliases": [],
   "minimum-stability": "stable",
-  "stability-flags": [],
+  "stability-flags": {
+    "joyqi/hyper-down": 20
+  },
   "prefer-stable": false,
   "prefer-lowest": false,
   "platform": {
     "ext-phalcon": "~3.4",
-    "ext-redis": "~4.3",
+    "ext-redis": "~5.0",
     "ext-pdo": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-fileinfo": "*"
   },
   "platform-dev": [],
   "plugin-api-version": "1.1.0"

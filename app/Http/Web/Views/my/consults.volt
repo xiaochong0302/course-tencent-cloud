@@ -27,7 +27,7 @@
                         </thead>
                         <tbody>
                         {% for item in pager.items %}
-                            {% set answer = item.answer ? item.answer : '<span class="gray">稍安勿燥，请耐心等待回复吧</span>' %}
+                            {% set answer = item.answer ? item.answer : '请耐心等待回复吧' %}
                             {% set show_url = url({'for':'web.consult.show','id':item.id}) %}
                             {% set edit_url = url({'for':'web.consult.edit','id':item.id}) %}
                             {% set delete_url = url({'for':'web.consult.delete','id':item.id}) %}

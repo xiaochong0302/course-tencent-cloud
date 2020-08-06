@@ -8,7 +8,6 @@ use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
-use App\Repos\Course as CourseRepo;
 
 class Chapter extends Validator
 {
@@ -138,21 +137,17 @@ class Chapter extends Validator
 
     public function checkPublishAbility(ChapterModel $chapter)
     {
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($chapter->course_id);
-
         $attrs = $chapter->attrs;
 
-        if ($course->model == CourseModel::MODEL_VOD) {
+        if ($chapter->model == CourseModel::MODEL_VOD) {
             if ($attrs['duration'] == 0) {
                 throw new BadRequestException('chapter.vod_not_ready');
             }
-        } elseif ($course->model == CourseModel::MODEL_LIVE) {
+        } elseif ($chapter->model == CourseModel::MODEL_LIVE) {
             if ($attrs['start_time'] == 0) {
                 throw new BadRequestException('chapter.live_time_empty');
             }
-        } elseif ($course->model == CourseModel::MODEL_READ) {
+        } elseif ($chapter->model == CourseModel::MODEL_READ) {
             if ($attrs['word_count'] == 0) {
                 throw new BadRequestException('chapter.read_not_ready');
             }

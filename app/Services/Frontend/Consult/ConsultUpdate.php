@@ -21,9 +21,7 @@ class ConsultUpdate extends FrontendService
 
         $validator = new ConsultValidator();
 
-        $validator->checkOwner($user->id, $consult->owner_id);
-
-        $validator->checkConsultEdit($consult);
+        $validator->checkEditPriv($consult, $user);
 
         $data = [];
 

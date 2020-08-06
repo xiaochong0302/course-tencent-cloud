@@ -108,11 +108,11 @@ class Course extends Validator
 
     public function checkDetails($details)
     {
-        $value = $this->filter->sanitize($details, ['trim']);
+        $value = $this->filter->sanitize($details, ['trim', 'striptags']);
 
         $length = kg_strlen($value);
 
-        if ($length > 3000) {
+        if ($length > 5000) {
             throw new BadRequestException('course.details_too_long');
         }
 

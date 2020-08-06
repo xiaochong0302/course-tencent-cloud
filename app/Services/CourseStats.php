@@ -48,7 +48,9 @@ class CourseStats extends Service
 
     public function updateScore($courseId)
     {
-
+        /**
+         * @todo 计算综合评分
+         */
     }
 
     public function updateReadAttrs($courseId)
