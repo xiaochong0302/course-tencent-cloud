@@ -4,7 +4,7 @@
     <legend>交易信息</legend>
 </fieldset>
 
-<table class="kg-table layui-table">
+<table class="layui-table kg-table">
     <tr>
         <th>交易序号</th>
         <th>交易金额</th>

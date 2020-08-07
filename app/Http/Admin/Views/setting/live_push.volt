@@ -1,20 +1,18 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.live'}) }}">
+{% set push_auth_display = live.push_auth_enabled == 0 ? 'style="display:none;"' : '' %}
 
+<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.live'}) }}">
     <fieldset class="layui-elem-field layui-field-title">
         <legend>基础配置</legend>
     </fieldset>
-
     <div class="layui-form-item">
         <label class="layui-form-label">推流域名</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="push_domain" value="{{ live.push_domain }}" layui-verify="required">
         </div>
     </div>
-
     <fieldset class="layui-elem-field layui-field-title">
         <legend>鉴权配置</legend>
     </fieldset>
-
     <div class="layui-form-item">
         <label class="layui-form-label">开启鉴权</label>
         <div class="layui-input-block">
@@ -22,8 +20,7 @@
             <input type="radio" name="push_auth_enabled" value="0" title="否" lay-filter="push_auth_enabled" {% if live.push_auth_enabled == 0 %}checked{% endif %}>
         </div>
     </div>
-
-    <div id="push-auth-block" {% if live.push_auth_enabled == '0' %}style="display:none;"{% endif %}>
+    <div id="push-auth-block" {{ push_auth_display }}>
         <div class="layui-form-item">
             <label class="layui-form-label">鉴权密钥</label>
             <div class="layui-input-block">
@@ -37,7 +34,6 @@
             </div>
         </div>
     </div>
-
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-block">
@@ -45,22 +41,18 @@
             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
         </div>
     </div>
-
 </form>
 
 <form class="layui-form kg-form">
-
     <fieldset class="layui-elem-field layui-field-title">
         <legend>推流测试</legend>
     </fieldset>
-
     <div class="layui-form-item">
         <label class="layui-form-label">Stream Name</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="stream_name" value="test" readonly="readonly">
         </div>
     </div>
-
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-block">
@@ -68,36 +60,4 @@
             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
         </div>
     </div>
-
 </form>
-
-<script>
-
-    layui.use(['jquery', 'form', 'layer'], function () {
-
-        var $ = layui.jquery;
-        var form = layui.form;
-        var layer = layui.layer;
-
-        form.on('radio(push_auth_enabled)', function (data) {
-            var block = $('#push-auth-block');
-            if (data.value === '1') {
-                block.show();
-            } else {
-                block.hide();
-            }
-        });
-
-        $('#show-push-test').on('click', function () {
-            var url = '/admin/test/live/push?stream=test';
-            layer.open({
-                type: 2,
-                title: '推流测试',
-                area: ['680px', '450px'],
-                content: [url, 'no']
-            });
-        });
-
-    });
-
-</script>

@@ -1,34 +1,33 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.course.update','id':course.id}) }}">
+{% extends 'templates/main.volt' %}
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">详情</label>
-        <div class="layui-input-block">
-            <textarea name="details" class="layui-hide" id="kg-layedit">{{ course.details }}</textarea>
+{% block content %}
+
+    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.course.update','id':course.id}) }}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">详情</label>
+            <div class="layui-input-block">
+                <textarea name="details" class="layui-hide" id="kg-layedit">{{ course.details }}</textarea>
+            </div>
         </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">简介</label>
-        <div class="layui-input-block">
-            <textarea name="summary" class="layui-textarea">{{ course.summary }}</textarea>
+        <div class="layui-form-item">
+            <label class="layui-form-label">简介</label>
+            <div class="layui-input-block">
+                <textarea name="summary" class="layui-textarea">{{ course.summary }}</textarea>
+            </div>
         </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">关键字</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="keywords" value="{{ course.keywords }}" placeholder="多个关键字逗号分隔">
+        <div class="layui-form-item">
+            <label class="layui-form-label">关键字</label>
+            <div class="layui-input-block">
+                <input class="layui-input" type="text" name="keywords" value="{{ course.keywords }}" placeholder="多个关键字逗号分隔">
+            </div>
         </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label"></label>
-        <div class="layui-input-block">
-            <button class="kg-submit layui-btn" lay-submit="true" lay-filter="go">提交</button>
-            <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <button class="kg-submit layui-btn" lay-submit="true" lay-filter="go">提交</button>
+                <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
+            </div>
         </div>
-    </div>
+    </form>
 
-</form>
-
-{{ partial('partials/layedit') }}
+{% endblock %}

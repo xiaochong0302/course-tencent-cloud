@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh-CN-Hans">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -11,11 +10,8 @@
     {{ js_include('lib/layui/layui.js') }}
     {{ js_include('admin/js/index.js') }}
 </head>
-
 <body class="layui-layout-body">
-
 <div class="layui-layout layui-layout-admin">
-
     <div class="layui-header">
         <div class="layui-logo">COURSE ADMIN</div>
         <div class="kg-side-menu-bar">
@@ -42,7 +38,6 @@
             </li>
         </ul>
     </div>
-
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             {% for key,level in left_menus %}
@@ -61,16 +56,12 @@
             {% endfor %}
         </div>
     </div>
-
     <div class="layui-body">
         <iframe name="content" style="width:100%;height:100%;border:0;" src="{{ url({'for':'admin.main'}) }}"></iframe>
     </div>
-
     <div class="layui-footer">
         © 2020 <a href="http://koogua.com"><b>koogua.com</b></a> all rights reserved
     </div>
-
 </div>
-
 </body>
 </html>

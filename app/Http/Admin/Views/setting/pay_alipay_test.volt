@@ -1,61 +1,62 @@
-<div class="kg-qrcode-block">
+{% extends 'templates/main.volt' %}
+
+{% block content %}
+
+    <div class="kg-qrcode-block">
+
+        {% if qrcode_url %}
+            <div id="qrcode">
+                <img class="kg-qrcode" src="{{ qrcode_url }}" alt="二维码图片">
+            </div>
+            <input type="hidden" name="sn" value="{{ sn }}">
+            <div id="success-tips" class="kg-success-tips layui-hide">
+                <span>支付成功</span>
+            </div>
+            <div id="error-tips" class="kg-error-tips layui-hide">
+                <span>支付失败</span>
+            </div>
+        {% else %}
+            <div class="kg-error-tips">
+                <span>生成二维码失败</span>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+
+{% block inline_js %}
 
     {% if qrcode_url %}
+        <script>
 
-        <div id="qrcode">
-            <img class="kg-qrcode" src="{{ qrcode_url }}" alt="二维码图片">
-        </div>
+            layui.use(['jquery'], function () {
 
-        <input type="hidden" name="sn" value="{{ sn }}">
-
-        <div id="success-tips" class="kg-success-tips layui-hide">
-            <span>支付成功</span>
-        </div>
-
-        <div id="error-tips" class="kg-error-tips layui-hide">
-            <span>支付失败</span>
-        </div>
-
-    {% else %}
-
-        <div class="kg-error-tips">
-            <span>生成二维码失败</span>
-        </div>
-
-    {% endif %}
-
-</div>
-
-{% if qrcode_url %}
-
-    <script>
-
-        layui.use(['jquery'], function () {
-
-            var $ = layui.jquery;
-            var sn = $('input[name=sn]').val();
-            var interval = setInterval(function () {
-                $.ajax({
-                    type: 'GET',
-                    url: '/admin/test/alipay/status',
-                    data: {sn: sn},
-                    success: function (res) {
-                        if (res.status === 'finished') {
-                            $('#success-tips').removeClass('layui-hide');
+                var $ = layui.jquery;
+                var sn = $('input[name=sn]').val();
+                var interval = setInterval(function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/admin/test/alipay/status',
+                        data: {sn: sn},
+                        success: function (res) {
+                            if (res.status === 'finished') {
+                                $('#success-tips').removeClass('layui-hide');
+                                $('#qrcode').addClass('layui-hide');
+                                clearInterval(interval);
+                            }
+                        },
+                        error: function () {
+                            $('#error-tips').removeClass('layui-hide');
                             $('#qrcode').addClass('layui-hide');
                             clearInterval(interval);
                         }
-                    },
-                    error: function () {
-                        $('#error-tips').removeClass('layui-hide');
-                        $('#qrcode').addClass('layui-hide');
-                        clearInterval(interval);
-                    }
-                });
-            }, 5000);
+                    });
+                }, 5000);
 
-        });
+            });
 
-    </script>
+        </script>
+    {% endif %}
 
-{% endif %}
+{% endblock %}
