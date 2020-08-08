@@ -1,8 +1,7 @@
-<div id="vditor"></div>
-
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.chapter.content','id':chapter.id}) }}">
     <div class="layui-form-item">
-        <textarea id="vditor-textarea" class="layui-hide" name="content">{{ read.content }}</textarea>
+        <div id="vditor"></div>
+        <textarea name="content" class="layui-hide" id="vditor-textarea">{{ read.content }}</textarea>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label"></label>

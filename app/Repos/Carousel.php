@@ -3,19 +3,19 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\Slide as SlideModel;
+use App\Models\Carousel as CarouselModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class Slide extends Repository
+class Carousel extends Repository
 {
 
     public function paginate($where = [], $sort = 'priority', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
 
-        $builder->from(SlideModel::class);
+        $builder->from(CarouselModel::class);
 
         $builder->where('1 = 1');
 
@@ -50,21 +50,21 @@ class Slide extends Repository
 
     /**
      * @param int $id
-     * @return SlideModel|Model|bool
+     * @return CarouselModel|Model|bool
      */
     public function findById($id)
     {
-        return SlideModel::findFirst($id);
+        return CarouselModel::findFirst($id);
     }
 
     /**
      * @param array $ids
      * @param array|string $columns
-     * @return ResultsetInterface|Resultset|SlideModel[]
+     * @return ResultsetInterface|Resultset|CarouselModel[]
      */
     public function findByIds($ids, $columns = '*')
     {
-        return SlideModel::query()
+        return CarouselModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();

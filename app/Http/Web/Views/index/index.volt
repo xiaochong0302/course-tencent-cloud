@@ -34,10 +34,10 @@
     <div class="index-wrap index-carousel wrap">
         <div class="layui-carousel" id="carousel">
             <div class="carousel" carousel-item>
-                {% for slide in slides %}
-                    <div class="item" style="{{ slide.style }}">
-                        <a href="{{ slide.url }}">
-                            <img class="slide" src="{{ slide.cover }}" alt="{{ slide.title }}">
+                {% for carousel in carousels %}
+                    <div class="item" style="{{ carousel.style }}">
+                        <a href="{{ carousel.url }}">
+                            <img class="carousel" src="{{ carousel.cover }}" alt="{{ carousel.title }}">
                         </a>
                     </div>
                 {% endfor %}

@@ -40,9 +40,7 @@
                 <div class="layui-tab layui-tab-brief course-tab">
                     <ul class="layui-tab-title">
                         <li class="layui-this">详情</li>
-                        {% if show_tab_chapters %}
-                            <li>目录<span class="tab-count">{{ course.lesson_count }}</span></li>
-                        {% endif %}
+                        <li>目录<span class="tab-count">{{ course.lesson_count }}</span></li>
                         {% if show_tab_packages %}
                             <li>套餐<span class="tab-count">{{ course.package_count }}</span></li>
                         {% endif %}
@@ -57,10 +55,9 @@
                         <div class="layui-tab-item layui-show">
                             <div class="course-details">{{ course.details }}</div>
                         </div>
-                        {% if show_tab_chapters %}
-                            {% set chapters_url = url({'for':'web.course.chapters','id':course.id}) %}
-                            <div class="layui-tab-item" id="tab-chapters" data-url="{{ chapters_url }}"></div>
-                        {% endif %}
+                        <div class="layui-tab-item">
+                            {{ partial('course/show_catalog') }}
+                        </div>
                         {% if show_tab_packages %}
                             {% set packages_url = url({'for':'web.course.packages','id':course.id}) %}
                             <div class="layui-tab-item" id="tab-packages" data-url="{{ packages_url }}"></div>

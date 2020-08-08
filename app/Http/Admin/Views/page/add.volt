@@ -15,7 +15,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">内容</label>
             <div class="layui-input-block">
-                <textarea name="content" class="layui-hide" id="kg-layedit"></textarea>
+                <div id="vditor"></div>
+                <textarea name="content" class="layui-hide" id="vditor-textarea"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -32,6 +33,19 @@
                 <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
             </div>
         </div>
-</form>
+    </form>
+
+{% endblock %}
+
+{% block link_css %}
+
+    {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js', false) }}
+    {{ js_include('admin/js/vditor.js') }}
 
 {% endblock %}

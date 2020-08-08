@@ -17,7 +17,7 @@ class IndexController extends Controller
 
         $indexService = new IndexService();
 
-        $this->view->setVar('slides', $indexService->getSlides());
+        $this->view->setVar('carousels', $indexService->getCarousels());
         $this->view->setVar('lives', $indexService->getLives());
         $this->view->setVar('new_courses', $indexService->getNewCourses());
         $this->view->setVar('free_courses', $indexService->getFreeCourses());

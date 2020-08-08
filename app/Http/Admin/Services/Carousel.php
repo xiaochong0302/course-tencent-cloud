@@ -2,16 +2,16 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\IndexSlideList as IndexSlideListCache;
+use App\Caches\IndexCarouselList as IndexCarouselListCache;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\Slide as SlideModel;
-use App\Repos\Slide as SlideRepo;
-use App\Validators\Slide as SlideValidator;
+use App\Models\Carousel as CarouselModel;
+use App\Repos\Carousel as CarouselRepo;
+use App\Validators\Carousel as CarouselValidator;
 
-class Slide extends Service
+class Carousel extends Service
 {
 
-    public function getSlides()
+    public function getCarousels()
     {
         $pagerQuery = new PagerQuery();
 
@@ -23,55 +23,55 @@ class Slide extends Service
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $slideRepo = new SlideRepo();
+        $carouselRepo = new CarouselRepo();
 
-        return $slideRepo->paginate($params, $sort, $page, $limit);
+        return $carouselRepo->paginate($params, $sort, $page, $limit);
     }
 
-    public function getSlide($id)
+    public function getCarousel($id)
     {
         return $this->findOrFail($id);
     }
 
-    public function createSlide()
+    public function createCarousel()
     {
         $post = $this->request->getPost();
 
-        $validator = new SlideValidator();
+        $validator = new CarouselValidator();
 
         $data['title'] = $validator->checkTitle($post['title']);
         $data['target'] = $validator->checkTarget($post['target']);
 
-        if ($post['target'] == SlideModel::TARGET_COURSE) {
+        if ($post['target'] == CarouselModel::TARGET_COURSE) {
             $course = $validator->checkCourse($post['content']);
             $data['content'] = $course->id;
             $data['cover'] = $course->cover;
             $data['summary'] = $course->summary;
-        } elseif ($post['target'] == SlideModel::TARGET_PAGE) {
+        } elseif ($post['target'] == CarouselModel::TARGET_PAGE) {
             $page = $validator->checkPage($post['content']);
             $data['content'] = $page->id;
-        } elseif ($post['target'] == SlideModel::TARGET_LINK) {
+        } elseif ($post['target'] == CarouselModel::TARGET_LINK) {
             $data['content'] = $validator->checkLink($post['content']);
         }
 
-        $data['priority'] = 10;
+        $data['priority'] = 20;
 
-        $slide = new SlideModel();
+        $carousel = new CarouselModel();
 
-        $slide->create($data);
+        $carousel->create($data);
 
-        $this->rebuildSlideCache();
+        $this->rebuildCarouselCache();
 
-        return $slide;
+        return $carousel;
     }
 
-    public function updateSlide($id)
+    public function updateCarousel($id)
     {
-        $slide = $this->findOrFail($id);
+        $carousel = $this->findOrFail($id);
 
         $post = $this->request->getPost();
 
-        $validator = new SlideValidator();
+        $validator = new CarouselValidator();
 
         $data = [];
 
@@ -92,13 +92,13 @@ class Slide extends Service
         }
 
         if (isset($post['content'])) {
-            if ($slide->target == SlideModel::TARGET_COURSE) {
+            if ($carousel->target == CarouselModel::TARGET_COURSE) {
                 $course = $validator->checkCourse($post['content']);
                 $data['content'] = $course->id;
-            } elseif ($slide->target == SlideModel::TARGET_PAGE) {
+            } elseif ($carousel->target == CarouselModel::TARGET_PAGE) {
                 $page = $validator->checkPage($post['content']);
                 $data['content'] = $page->id;
-            } elseif ($slide->target == SlideModel::TARGET_LINK) {
+            } elseif ($carousel->target == CarouselModel::TARGET_LINK) {
                 $data['content'] = $validator->checkLink($post['content']);
             }
         }
@@ -111,51 +111,51 @@ class Slide extends Service
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
-        $slide->update($data);
+        $carousel->update($data);
 
-        $this->rebuildSlideCache();
+        $this->rebuildCarouselCache();
 
-        return $slide;
+        return $carousel;
     }
 
-    public function deleteSlide($id)
+    public function deleteCarousel($id)
     {
-        $slide = $this->findOrFail($id);
+        $carousel = $this->findOrFail($id);
 
-        $slide->deleted = 1;
+        $carousel->deleted = 1;
 
-        $slide->update();
+        $carousel->update();
 
-        $this->rebuildSlideCache();
+        $this->rebuildCarouselCache();
 
-        return $slide;
+        return $carousel;
     }
 
-    public function restoreSlide($id)
+    public function restoreCarousel($id)
     {
-        $slide = $this->findOrFail($id);
+        $carousel = $this->findOrFail($id);
 
-        $slide->deleted = 0;
+        $carousel->deleted = 0;
 
-        $slide->update();
+        $carousel->update();
 
-        $this->rebuildSlideCache();
+        $this->rebuildCarouselCache();
 
-        return $slide;
+        return $carousel;
     }
 
-    protected function rebuildSlideCache()
+    protected function rebuildCarouselCache()
     {
-        $cache = new IndexSlideListCache();
+        $cache = new IndexCarouselListCache();
 
         $cache->rebuild();
     }
 
     protected function findOrFail($id)
     {
-        $validator = new SlideValidator();
+        $validator = new CarouselValidator();
 
-        return $validator->checkSlide($id);
+        return $validator->checkCarousel($id);
     }
 
 }

@@ -22,7 +22,7 @@
         {% endif %}
         <div class="layui-form-item">
             <div class="layui-input-block">
-                {% set disabled = captcha.enabled ? 'disabled="disabled"' : '' %}
+                {% set disabled = captcha.enabled ? 'disabled' : '' %}
                 <button id="submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" {{ disabled }} lay-submit="true" lay-filter="go">立即登录</button>
                 <input type="hidden" name="ticket">
                 <input type="hidden" name="rand">
@@ -42,7 +42,7 @@
 
     {% if captcha.enabled == 1 %}
 
-        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        {{ js_include('https://ssl.captcha.qq.com/TCaptcha.js', false) }}
 
         <script>
 

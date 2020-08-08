@@ -19,10 +19,10 @@ class Order extends Model
     /**
      * 终端类型
      */
-    const CLIENT_DESKTOP = 'desktop';
-    const CLIENT_MOBILE = 'mobile';
-    const CLIENT_APP = 'app';
-    const CLIENT_MINI = 'mini';
+    const CLIENT_PC = 'pc'; // pc
+    const CLIENT_H5 = 'h5'; // h5
+    const CLIENT_APP = 'app'; // app
+    const CLIENT_MINI = 'mini'; // 小程序
 
     /**
      * 状态类型

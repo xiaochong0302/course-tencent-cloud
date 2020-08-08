@@ -5,7 +5,7 @@ layui.use(['jquery'], function () {
     var $textarea = $('#vditor-textarea');
 
     var vditor = new Vditor('vditor', {
-        minHeight: 420,
+        minHeight: 300,
         outline: false,
         resize: {
             enable: true
@@ -41,6 +41,16 @@ layui.use(['jquery'], function () {
         value: $textarea.val()
     });
 
+    /**
+     * 取消提交表单行为
+     */
+    $('body').on('click', '.vditor-preview__action > button', function () {
+        return false;
+    });
+
+    /**
+     * 同步编辑器内容到表单
+     */
     $('.kg-submit').on('click', function () {
         $textarea.val(vditor.getValue());
     });

@@ -102,7 +102,7 @@ function kg_object_array($object)
  *
  * @param $ip
  * @param string $dbFile
- * @return object
+ * @return array
  */
 function kg_ip2region($ip, $dbFile = null)
 {
@@ -112,9 +112,7 @@ function kg_ip2region($ip, $dbFile = null)
 
     list($country, $area, $province, $city, $isp) = explode('|', $ip2region['region']);
 
-    $result = compact('country', 'area', 'province', 'city', 'isp');
-
-    return kg_array_object($result);
+    return compact('country', 'area', 'province', 'city', 'isp');
 }
 
 /**

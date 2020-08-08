@@ -3,7 +3,6 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Traits\Response as ResponseTrait;
-use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/admin")
@@ -30,9 +29,6 @@ class PublicController extends \Phalcon\Mvc\Controller
      */
     public function forbiddenAction()
     {
-        $this->view->setRenderLevel(View::LEVEL_LAYOUT);
-        $this->view->setLayout('error');
-
         if ($this->request->isAjax()) {
             return $this->jsonError(['msg' => '无相关操作权限']);
         }

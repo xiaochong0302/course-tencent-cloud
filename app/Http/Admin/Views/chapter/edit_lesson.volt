@@ -8,7 +8,7 @@
         {% elseif model == 'live' %}
             直播信息
         {% elseif model == 'read' %}
-            文章信息
+            图文信息
         {% endif %}
     {%- endmacro %}
 
@@ -41,15 +41,28 @@
 
 {% block link_css %}
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css"/>
+    {% if chapter.model == 'read' %}
+        {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
+    {% endif %}
 
 {% endblock %}
 
 {% block include_js %}
 
-    <script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer></script>
+    {% if chapter.model == 'read' %}
 
-    {{ js_include('admin/js/vditor.js') }}
+        {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js', false) }}
+        {{ js_include('admin/js/vditor.js') }}
+
+    {% elseif chapter.model == 'vod' %}
+
+        {{ js_include('lib/vod-js-sdk-v6.min.js') }}
+        {{ js_include('lib/clipboard.min.js') }}
+        {{ js_include('admin/js/media.upload.js') }}
+        {{ js_include('admin/js/media.preview.js') }}
+        {{ js_include('admin/js/copy.js') }}
+
+    {% endif %}
 
 {% endblock %}
 

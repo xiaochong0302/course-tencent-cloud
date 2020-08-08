@@ -50,8 +50,8 @@
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                         <ul>
-                            <li><a href="{{ url({'for':'admin.page.edit','id':item.id}) }}">编辑</a></li>
-                            <li><a href="javascript:" class="kg-delete" data-url="{{ url({'for':'admin.page.delete','id':item.id}) }}">删除</a></li>
+                            <li><a href="{{ url({'for':'admin.help.edit','id':item.id}) }}">编辑</a></li>
+                            <li><a href="javascript:" class="kg-delete" data-url="{{ url({'for':'admin.help.delete','id':item.id}) }}">删除</a></li>
                         </ul>
                     </div>
                 </td>

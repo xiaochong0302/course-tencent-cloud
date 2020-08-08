@@ -49,16 +49,6 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         });
     });
 
-    $('.btn-rating').on('click', function () {
-        var url = $(this).data('url');
-        layer.open({
-            type: 2,
-            title: '课程评分',
-            content: [url, 'no'],
-            area: ['640px', '400px']
-        });
-    });
-
     /**
      * 浏览章节
      */
@@ -113,11 +103,6 @@ layui.use(['jquery', 'layer', 'helper'], function () {
             });
         });
     });
-
-    if ($('#tab-chapters').length > 0) {
-        var $tabChapters = $('#tab-chapters');
-        helper.ajaxLoadHtml($tabChapters.data('url'), $tabChapters.attr('id'));
-    }
 
     if ($('#tab-packages').length > 0) {
         var $tabPackages = $('#tab-packages');

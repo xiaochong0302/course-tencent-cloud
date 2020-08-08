@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.slide.create'}) }}">
+    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.carousel.create'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>添加轮播</legend>
         </fieldset>

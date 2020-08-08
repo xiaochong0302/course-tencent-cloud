@@ -4,25 +4,25 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
+use App\Models\Carousel as CarouselModel;
 use App\Models\Course as CourseModel;
 use App\Models\Page as PageModel;
-use App\Models\Slide as SlideModel;
-use App\Repos\Slide as SlideRepo;
+use App\Repos\Carousel as CarouselRepo;
 
-class Slide extends Validator
+class Carousel extends Validator
 {
 
-    public function checkSlide($id)
+    public function checkCarousel($id)
     {
-        $slideRepo = new SlideRepo();
+        $carouselRepo = new CarouselRepo();
 
-        $slide = $slideRepo->findById($id);
+        $carousel = $carouselRepo->findById($id);
 
-        if (!$slide) {
-            throw new BadRequestException('slide.not_found');
+        if (!$carousel) {
+            throw new BadRequestException('carousel.not_found');
         }
 
-        return $slide;
+        return $carousel;
     }
 
     public function checkTitle($title)
@@ -32,11 +32,11 @@ class Slide extends Validator
         $length = kg_strlen($value);
 
         if ($length < 2) {
-            throw new BadRequestException('slide.title_too_short');
+            throw new BadRequestException('carousel.title_too_short');
         }
 
         if ($length > 50) {
-            throw new BadRequestException('slide.title_too_long');
+            throw new BadRequestException('carousel.title_too_long');
         }
 
         return $value;
@@ -49,7 +49,7 @@ class Slide extends Validator
         $length = kg_strlen($value);
 
         if ($length > 255) {
-            throw new BadRequestException('slide.summary_too_long');
+            throw new BadRequestException('carousel.summary_too_long');
         }
 
         return $value;
@@ -60,7 +60,7 @@ class Slide extends Validator
         $value = $this->filter->sanitize($cover, ['trim', 'string']);
 
         if (!CommonValidator::url($value)) {
-            throw new BadRequestException('slide.invalid_cover');
+            throw new BadRequestException('carousel.invalid_cover');
         }
 
         return $value;
@@ -71,18 +71,29 @@ class Slide extends Validator
         $value = $this->filter->sanitize($bgColor, ['trim', 'string']);
 
         if (!preg_match('/^#[0-9a-fA-F]{6}$/', $bgColor)) {
-            throw new BadRequestException('slide.invalid_bg_color');
+            throw new BadRequestException('carousel.invalid_bg_color');
         }
 
         return $value;
     }
 
+    public function checkPlatform($platform)
+    {
+        $list = CarouselModel::platformTypes();
+
+        if (!isset($list[$platform])) {
+            throw new BadRequestException('carousel.invalid_platform');
+        }
+
+        return $platform;
+    }
+
     public function checkTarget($target)
     {
-        $list = SlideModel::targetTypes();
+        $list = CarouselModel::targetTypes();
 
         if (!isset($list[$target])) {
-            throw new BadRequestException('slide.invalid_target');
+            throw new BadRequestException('carousel.invalid_target');
         }
 
         return $target;
@@ -93,7 +104,7 @@ class Slide extends Validator
         $value = $this->filter->sanitize($priority, ['trim', 'int']);
 
         if ($value < 1 || $value > 255) {
-            throw new BadRequestException('slide.invalid_priority');
+            throw new BadRequestException('carousel.invalid_priority');
         }
 
         return $value;
@@ -102,7 +113,7 @@ class Slide extends Validator
     public function checkPublishStatus($status)
     {
         if (!in_array($status, [0, 1])) {
-            throw new BadRequestException('slide.invalid_publish_status');
+            throw new BadRequestException('carousel.invalid_publish_status');
         }
 
         return $status;
@@ -113,11 +124,11 @@ class Slide extends Validator
         $course = CourseModel::findFirst($courseId);
 
         if (!$course || $course->deleted == 1) {
-            throw new BadRequestException('slide.course_not_found');
+            throw new BadRequestException('carousel.course_not_found');
         }
 
         if ($course->published == 0) {
-            throw new BadRequestException('slide.course_not_published');
+            throw new BadRequestException('carousel.course_not_published');
         }
 
         return $course;
@@ -128,11 +139,11 @@ class Slide extends Validator
         $page = PageModel::findFirst($pageId);
 
         if (!$page || $page->deleted == 1) {
-            throw new BadRequestException('slide.page_not_found');
+            throw new BadRequestException('carousel.page_not_found');
         }
 
         if ($page->published == 0) {
-            throw new BadRequestException('slide.page_not_published');
+            throw new BadRequestException('carousel.page_not_published');
         }
 
         return $page;
@@ -143,7 +154,7 @@ class Slide extends Validator
         $value = $this->filter->sanitize($link, ['trim', 'string']);
 
         if (!CommonValidator::url($value)) {
-            throw new BadRequestException('slide.invalid_link');
+            throw new BadRequestException('carousel.invalid_link');
         }
 
         return $value;

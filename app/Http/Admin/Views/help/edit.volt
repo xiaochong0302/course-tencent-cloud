@@ -9,13 +9,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">标题</label>
             <div class="layui-input-block">
-                <input type="text" name="title" value="{{ help.title }}" class="layui-input" lay-verify="required">
+                <input class="layui-input" type="text" name="title" value="{{ help.title }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">内容</label>
             <div class="layui-input-block">
-                <textarea name="content" class="layui-hide" id="kg-layedit">{{ help.content }}</textarea>
+                <div id="vditor"></div>
+                <textarea name="content" class="layui-hide" id="vditor-textarea">{{ help.content }}</textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -42,3 +43,15 @@
 
 {% endblock %}
 
+{% block link_css %}
+
+    {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js', false) }}
+    {{ js_include('admin/js/vditor.js') }}
+
+{% endblock %}

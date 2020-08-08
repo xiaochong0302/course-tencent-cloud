@@ -5,12 +5,13 @@ namespace App\Http\Admin\Services;
 use App\Builders\CourseUserList as CourseUserListBuilder;
 use App\Builders\LearningList as LearningListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
+use App\Models\User as UserModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Learning as LearningRepo;
 use App\Repos\User as UserRepo;
-use App\Services\CourseStats as CourseStatsUpdater;
 use App\Validators\CourseUser as CourseUserValidator;
 
 class Student extends Service
@@ -99,7 +100,9 @@ class Student extends Service
 
         $courseUser->create($data);
 
-        $this->updateUserCount($data['course_id']);
+        $this->incrCourseUserCount($course);
+
+        $this->incrUserCourseCount($user);
 
         return $courseUser;
     }
@@ -123,15 +126,18 @@ class Student extends Service
         return $relation;
     }
 
-    protected function updateUserCount($courseId)
+    protected function incrCourseUserCount(CourseModel $course)
     {
-        $courseRepo = new CourseRepo();
+        $course->user_count += 1;
 
-        $course = $courseRepo->findById($courseId);
+        $course->update();
+    }
 
-        $updater = new CourseStatsUpdater();
+    protected function incrUserCourseCount(UserModel $user)
+    {
+        $user->course_count += 1;
 
-        $updater->updateUserCount($course->id);
+        $user->update();
     }
 
     protected function findOrFail($id)

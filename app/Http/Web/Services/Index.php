@@ -2,53 +2,53 @@
 
 namespace App\Http\Web\Services;
 
+use App\Caches\IndexCarouselList as IndexCarouselListCache;
 use App\Caches\IndexFreeCourseList as IndexFreeCourseListCache;
 use App\Caches\IndexLiveList as IndexLiveListCache;
 use App\Caches\IndexNewCourseList as IndexNewCourseListCache;
-use App\Caches\IndexSlideList as IndexSlideListCache;
 use App\Caches\IndexVipCourseList as IndexVipCourseListCache;
-use App\Models\Slide as SlideModel;
+use App\Models\Carousel as CarouselModel;
 
 class Index extends Service
 {
 
-    public function getSlides()
+    public function getCarousels()
     {
-        $cache = new IndexSlideListCache();
+        $cache = new IndexCarouselListCache();
 
         /**
-         * @var array $slides
+         * @var array $carousels
          */
-        $slides = $cache->get();
+        $carousels = $cache->get();
 
-        if (!$slides) return [];
+        if (!$carousels) return [];
 
-        foreach ($slides as $key => $slide) {
+        foreach ($carousels as $key => $carousel) {
 
-            $slides[$key]['style'] = SlideModel::htmlStyle($slide['style']);
+            $carousels[$key]['style'] = CarouselModel::htmlStyle($carousel['style']);
 
-            switch ($slide['target']) {
-                case SlideModel::TARGET_COURSE:
-                    $slides[$key]['url'] = $this->url->get([
+            switch ($carousel['target']) {
+                case CarouselModel::TARGET_COURSE:
+                    $carousels[$key]['url'] = $this->url->get([
                         'for' => 'web.course.show',
-                        'id' => $slide['content'],
+                        'id' => $carousel['content'],
                     ]);
                     break;
-                case SlideModel::TARGET_PAGE:
-                    $slides[$key]['url'] = $this->url->get([
+                case CarouselModel::TARGET_PAGE:
+                    $carousels[$key]['url'] = $this->url->get([
                         'for' => 'web.page.show',
-                        'id' => $slide['content'],
+                        'id' => $carousel['content'],
                     ]);
                     break;
-                case SlideModel::TARGET_LINK:
-                    $slides[$key]['url'] = $slide['content'];
+                case CarouselModel::TARGET_LINK:
+                    $carousels[$key]['url'] = $carousel['content'];
                     break;
                 default:
                     break;
             }
         }
 
-        return $slides;
+        return $carousels;
     }
 
     public function getLives()

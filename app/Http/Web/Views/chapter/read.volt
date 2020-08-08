@@ -27,10 +27,10 @@
 
     <div class="layout-main clearfix">
         <div class="layout-content">
-            <div class="read-info wrap">{{ chapter.content }}</div>
+            <div class="read-info wrap" id="preview">{{ chapter.content }}</div>
         </div>
         <div class="layout-sidebar">
-            {{ partial('chapter/contents') }}
+            {{ partial('chapter/catalog') }}
         </div>
     </div>
 
@@ -49,8 +49,16 @@
 
 {% endblock %}
 
+{% block link_css %}
+
+    {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
+
+{% endblock %}
+
 {% block include_js %}
 
+    {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/method.min.js', false) }}
+    {{ js_include('web/js/markdown.preview.js') }}
     {{ js_include('web/js/course.share.js') }}
     {{ js_include('web/js/chapter.read.js') }}
     {{ js_include('web/js/chapter.action.js') }}

@@ -2,28 +2,28 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Http\Admin\Services\Slide as SlideService;
+use App\Http\Admin\Services\Carousel as CarouselService;
 
 /**
- * @RoutePrefix("/admin/slide")
+ * @RoutePrefix("/admin/carousel")
  */
-class SlideController extends Controller
+class CarouselController extends Controller
 {
 
     /**
-     * @Get("/list", name="admin.slide.list")
+     * @Get("/list", name="admin.carousel.list")
      */
     public function listAction()
     {
-        $slideService = new SlideService();
+        $carouselService = new CarouselService();
 
-        $pager = $slideService->getSlides();
+        $pager = $carouselService->getCarousels();
 
         $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Get("/add", name="admin.slide.add")
+     * @Get("/add", name="admin.carousel.add")
      */
     public function addAction()
     {
@@ -31,17 +31,17 @@ class SlideController extends Controller
     }
 
     /**
-     * @Post("/create", name="admin.slide.create")
+     * @Post("/create", name="admin.carousel.create")
      */
     public function createAction()
     {
-        $slideService = new SlideService();
+        $carouselService = new CarouselService();
 
-        $slide = $slideService->createSlide();
+        $carousel = $carouselService->createCarousel();
 
         $location = $this->url->get([
-            'for' => 'admin.slide.edit',
-            'id' => $slide->id,
+            'for' => 'admin.carousel.edit',
+            'id' => $carousel->id,
         ]);
 
         $content = [
@@ -53,27 +53,27 @@ class SlideController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/edit", name="admin.slide.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.carousel.edit")
      */
     public function editAction($id)
     {
-        $slideService = new SlideService();
+        $carouselService = new CarouselService();
 
-        $slide = $slideService->getSlide($id);
+        $carousel = $carouselService->getCarousel($id);
 
-        $this->view->setVar('slide', $slide);
+        $this->view->setVar('carousel', $carousel);
     }
 
     /**
-     * @Post("/{id:[0-9]+}/update", name="admin.slide.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.carousel.update")
      */
     public function updateAction($id)
     {
-        $slideService = new SlideService();
+        $carouselService = new CarouselService();
 
-        $slideService->updateSlide($id);
+        $carouselService->updateCarousel($id);
 
-        $location = $this->url->get(['for' => 'admin.slide.list']);
+        $location = $this->url->get(['for' => 'admin.carousel.list']);
 
         $content = [
             'location' => $location,
@@ -84,13 +84,13 @@ class SlideController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/delete", name="admin.slide.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.carousel.delete")
      */
     public function deleteAction($id)
     {
-        $slideService = new SlideService();
+        $carouselService = new CarouselService();
 
-        $slideService->deleteSlide($id);
+        $carouselService->deleteCarousel($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -103,13 +103,13 @@ class SlideController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/restore", name="admin.slide.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.carousel.restore")
      */
     public function restoreAction($id)
     {
-        $slideService = new SlideService();
+        $carouselService = new CarouselService();
 
-        $slideService->restoreSlide($id);
+        $carouselService->restoreCarousel($id);
 
         $location = $this->request->getHTTPReferer();
 

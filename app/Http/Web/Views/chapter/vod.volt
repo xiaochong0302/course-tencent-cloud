@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="layout-sidebar">
-            {{ partial('chapter/contents') }}
+            {{ partial('chapter/catalog') }}
         </div>
     </div>
 

@@ -12,7 +12,6 @@ use App\Services\Frontend\Course\PackageList as CoursePackageListService;
 use App\Services\Frontend\Course\RecommendedList as CourseRecommendedListService;
 use App\Services\Frontend\Course\RelatedList as CourseRelatedListService;
 use App\Services\Frontend\Course\ReviewList as CourseReviewListService;
-use App\Services\Frontend\Course\TeacherList as CourseTeacherListService;
 use App\Services\Frontend\Course\TopicList as CourseTopicListService;
 use App\Services\Frontend\Reward\OptionList as RewardOptionList;
 use Phalcon\Mvc\View;
@@ -73,6 +72,10 @@ class CourseController extends Controller
 
         $course = $service->handle($id);
 
+        $service = new CourseCatalogService();
+
+        $chapters = $service->handle($id);
+
         $service = new RewardOptionList();
 
         $rewards = $service->handle();
@@ -82,35 +85,8 @@ class CourseController extends Controller
         $this->siteSeo->setDescription($course['summary']);
 
         $this->view->setVar('course', $course);
-        $this->view->setVar('rewards', $rewards);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/teachers", name="web.course.teachers")
-     */
-    public function teachersAction($id)
-    {
-        $service = new CourseTeacherListService();
-
-        $teachers = $service->handle($id);
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('course/teachers');
-        $this->view->setVar('teachers', $teachers);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/chapters", name="web.course.chapters")
-     */
-    public function chaptersAction($id)
-    {
-        $service = new CourseCatalogService();
-
-        $chapters = $service->handle($id);
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('course/chapters');
         $this->view->setVar('chapters', $chapters);
+        $this->view->setVar('rewards', $rewards);
     }
 
     /**

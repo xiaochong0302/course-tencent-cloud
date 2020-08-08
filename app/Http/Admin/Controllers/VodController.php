@@ -16,9 +16,9 @@ class VodController extends Controller
      */
     public function uploadSignAction()
     {
-        $vodService = new VodService();
+        $service = new VodService();
 
-        $sign = $vodService->getUploadSign();
+        $sign = $service->getUploadSign();
 
         return $this->jsonSuccess(['sign' => $sign]);
     }

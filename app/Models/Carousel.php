@@ -5,8 +5,16 @@ namespace App\Models;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
-class Slide extends Model
+class Carousel extends Model
 {
+
+    /**
+     * 平台类型
+     */
+    const PLATFORM_PC = 'pc';
+    const PLATFORM_H5 = 'h5';
+    const PLATFORM_APP = 'app';
+    const PLATFORM_MINI = 'mini';
 
     /**
      * 目标类型
@@ -49,6 +57,13 @@ class Slide extends Model
      * @var string
      */
     public $summary;
+
+    /**
+     * 平台
+     *
+     * @var string
+     */
+    public $platform;
 
     /**
      * 目标
@@ -101,7 +116,7 @@ class Slide extends Model
 
     public function getSource(): string
     {
-        return 'kg_slide';
+        return 'kg_carousel';
     }
 
     public function initialize()
@@ -185,6 +200,16 @@ class Slide extends Model
             self::TARGET_COURSE => '课程',
             self::TARGET_PAGE => '单页',
             self::TARGET_LINK => '链接',
+        ];
+    }
+
+    public static function platformTypes()
+    {
+        return [
+            self::PLATFORM_PC => 'pc',
+            self::PLATFORM_H5 => 'h5',
+            self::PLATFORM_APP => 'app',
+            self::PLATFORM_MINI => '小程序',
         ];
     }
 

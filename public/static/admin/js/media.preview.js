@@ -5,8 +5,8 @@ layui.use(['jquery', 'layer'], function () {
 
     $('.kg-preview').on('click', function () {
 
-        var chapterId = $(this).attr('chapter-id');
-        var playUrl = $(this).attr('play-url');
+        var chapterId = $(this).data('chapter-id');
+        var playUrl = $(this).data('play-url');
         var frameUrl = '/admin/vod/player?chapter_id=' + chapterId + '&play_url=' + playUrl;
 
         layer.open({
