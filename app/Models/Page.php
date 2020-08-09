@@ -16,11 +16,25 @@ class Page extends Model
     public $id;
 
     /**
+     * 别名
+     *
+     * @var string
+     */
+    public $alias;
+
+    /**
      * 标题
      *
      * @var string
      */
     public $title;
+
+    /**
+     * 关键字
+     *
+     * @var string
+     */
+    public $keywords;
 
     /**
      * 内容
@@ -77,6 +91,13 @@ class Page extends Model
     public function beforeCreate()
     {
         $this->create_time = time();
+
+        /**
+         * text类型不会自动填充默认值
+         */
+        if (is_null($this->content)) {
+            $this->content = '';
+        }
     }
 
     public function beforeUpdate()

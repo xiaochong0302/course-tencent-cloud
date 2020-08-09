@@ -4,7 +4,7 @@ namespace App\Http\Web\Controllers;
 
 use App\Caches\NavTreeList as NavTreeListCache;
 use App\Caches\Setting as SettingCache;
-use App\Library\Seo as SiteSeo;
+use App\Library\Seo as Seo;
 use App\Models\User as UserModel;
 use App\Services\Auth\Web as WebAuth;
 use App\Traits\Response as ResponseTrait;
@@ -15,19 +15,19 @@ class Controller extends \Phalcon\Mvc\Controller
 {
 
     /**
-     * @var SiteSeo
+     * @var Seo
      */
-    protected $siteSeo;
+    protected $seo;
 
     /**
      * @var array
      */
-    protected $siteSettings;
+    protected $settings;
 
     /**
      * @var array
      */
-    protected $siteNavs;
+    protected $navs;
 
     /**
      * @var UserModel
@@ -51,16 +51,16 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function initialize()
     {
-        $this->siteSeo = $this->getSiteSeo();
-        $this->siteNavs = $this->getSiteNavs();
-        $this->siteSettings = $this->getSiteSettings();
+        $this->seo = $this->getSeo();
+        $this->navs = $this->getNavs();
+        $this->settings = $this->getSettings();
         $this->authUser = $this->getAuthUser();
 
-        $this->siteSeo->setTitle($this->siteSettings['title']);
+        $this->seo->setTitle($this->settings['title']);
 
-        $this->view->setVar('site_seo', $this->siteSeo);
-        $this->view->setVar('site_navs', $this->siteNavs);
-        $this->view->setVar('site_settings', $this->siteSettings);
+        $this->view->setVar('seo', $this->seo);
+        $this->view->setVar('navs', $this->navs);
+        $this->view->setVar('settings', $this->settings);
         $this->view->setVar('auth_user', $this->authUser);
         $this->view->setVar('socket_url', $this->getSocketUrl());
     }
@@ -75,23 +75,23 @@ class Controller extends \Phalcon\Mvc\Controller
         return $auth->getCurrentUser();
     }
 
-    protected function getSiteNavs()
+    protected function getNavs()
     {
         $cache = new NavTreeListCache();
 
         return $cache->get() ?: [];
     }
 
-    protected function getSiteSettings()
+    protected function getSeo()
+    {
+        return new Seo();
+    }
+
+    protected function getSettings()
     {
         $cache = new SettingCache();
 
         return $cache->get('site') ?: [];
-    }
-
-    protected function getSiteSeo()
-    {
-        return new SiteSeo();
     }
 
     protected function getSocketUrl()

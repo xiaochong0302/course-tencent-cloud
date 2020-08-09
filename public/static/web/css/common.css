@@ -92,10 +92,6 @@
     width: 320px;
 }
 
-.layui-fixbar {
-    bottom: 60px;
-}
-
 body {
     display: flex;
     flex-flow: column;
@@ -131,6 +127,14 @@ body {
 
 .top-nav {
     margin-left: 100px;
+}
+
+.top-nav .im {
+
+}
+
+.im .layui-icon-chat {
+
 }
 
 .search {
@@ -308,30 +312,16 @@ body {
     min-height: 500px;
 }
 
-.page-info .page-content {
-}
-
-.page-info .help-content {
-    min-height: 50px;
-}
-
-.page-info .layui-field-title legend {
-    margin: 0 10px 10px 0;
-    padding: 0 10px;
+.page-info .title {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e6e6e6;
     text-align: center;
+    font-size: 18px;
 }
 
-.topic-info {
-    padding-top: 10px;
-    margin-bottom: 40px;
-}
-
-.topic-info .layui-field-title {
-    border-color: #d2d2d2;
-}
-
-.topic-info .layui-field-title legend {
-    text-align: center;
+.help-list li {
+    line-height: 30px;
 }
 
 .course-list {

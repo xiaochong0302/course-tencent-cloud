@@ -276,6 +276,13 @@ class Course extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
+        /**
+         * text类型不会自动填充默认值
+         */
+        if (is_null($this->details)) {
+            $this->details = '';
+        }
+
         if (!empty($attrs)) {
             $this->attrs = kg_json_encode($attrs);
         }

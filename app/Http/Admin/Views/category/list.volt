@@ -29,7 +29,6 @@
             <col>
             <col>
             <col>
-            <col>
             <col width="12%">
         </colgroup>
         <thead>
@@ -37,8 +36,7 @@
             <th>编号</th>
             <th>名称</th>
             <th>层级</th>
-            <th>节点数</th>
-            <th>课程数</th>
+            <th>子节点</th>
             <th>排序</th>
             <th>发布</th>
             <th>操作</th>
@@ -55,7 +53,6 @@
                 {% endif %}
                 <td><span class="layui-badge layui-bg-gray">{{ item.level }}</span></td>
                 <td><span class="layui-badge layui-bg-gray">{{ item.child_count }}</span></td>
-                <td><span class="layui-badge layui-bg-gray">{{ item.course_count }}</span></td>
                 <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ url({'for':'admin.category.update','id':item.id}) }}"></td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.category.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
                 <td align="center">

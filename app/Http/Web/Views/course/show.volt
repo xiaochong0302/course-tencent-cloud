@@ -39,8 +39,8 @@
             <div class="course-tab-wrap wrap">
                 <div class="layui-tab layui-tab-brief course-tab">
                     <ul class="layui-tab-title">
-                        <li class="layui-this">详情</li>
-                        <li>目录<span class="tab-count">{{ course.lesson_count }}</span></li>
+                        <li class="layui-this">目录</li>
+                        <li>详情</li>
                         {% if show_tab_packages %}
                             <li>套餐<span class="tab-count">{{ course.package_count }}</span></li>
                         {% endif %}
@@ -53,10 +53,10 @@
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
-                            <div class="course-details">{{ course.details }}</div>
+                            {{ partial('course/show_catalog') }}
                         </div>
                         <div class="layui-tab-item">
-                            {{ partial('course/show_catalog') }}
+                            <div class="course-details" id="preview">{{ course.details }}</div>
                         </div>
                         {% if show_tab_packages %}
                             {% set packages_url = url({'for':'web.course.packages','id':course.id}) %}
@@ -108,8 +108,16 @@
 
 {% endblock %}
 
+{% block link_css %}
+
+    {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
+
+{% endblock %}
+
 {% block include_js %}
 
+    {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/method.min.js', false) }}
+    {{ js_include('web/js/markdown.preview.js') }}
     {{ js_include('web/js/course.show.js') }}
     {{ js_include('web/js/course.share.js') }}
 

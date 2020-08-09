@@ -37,7 +37,7 @@ class CourseController extends Controller
         $sorts = $service->handleSorts();
         $params = $service->getParams();
 
-        $this->siteSeo->prependTitle('课程');
+        $this->seo->prependTitle('课程');
 
         $this->view->setVar('top_categories', $topCategories);
         $this->view->setVar('sub_categories', $subCategories);
@@ -80,9 +80,9 @@ class CourseController extends Controller
 
         $rewards = $service->handle();
 
-        $this->siteSeo->prependTitle($course['title']);
-        $this->siteSeo->setKeywords($course['keywords']);
-        $this->siteSeo->setDescription($course['summary']);
+        $this->seo->prependTitle(['课程', $course['title']]);
+        $this->seo->setKeywords($course['keywords']);
+        $this->seo->setDescription($course['summary']);
 
         $this->view->setVar('course', $course);
         $this->view->setVar('chapters', $chapters);

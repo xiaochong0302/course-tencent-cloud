@@ -24,7 +24,7 @@ class UserController extends Controller
 
         $user = $service->handle($id);
 
-        $this->siteSeo->prependTitle("{$user['name']}的个人主页");
+        $this->seo->prependTitle("{$user['name']}的个人主页");
 
         $this->view->setVar('user', $user);
     }

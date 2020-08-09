@@ -9,6 +9,12 @@ class Category extends Model
 {
 
     /**
+     * 类型
+     */
+    const TYPE_COURSE = 'course'; // 课程
+    const TYPE_HELP = 'help'; // 帮助
+
+    /**
      * 主键编号
      *
      * @var int
@@ -21,6 +27,20 @@ class Category extends Model
      * @var int
      */
     public $parent_id;
+
+    /**
+     * 别名
+     *
+     * @var string
+     */
+    public $alias;
+
+    /**
+     * 类型
+     *
+     * @var string
+     */
+    public $type;
 
     /**
      * 名称
@@ -70,13 +90,6 @@ class Category extends Model
      * @var int
      */
     public $child_count;
-
-    /**
-     * 课程数
-     *
-     * @var int
-     */
-    public $course_count;
 
     /**
      * 创建时间

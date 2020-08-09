@@ -16,7 +16,7 @@ class TeacherController extends Controller
      */
     public function listAction()
     {
-        $this->siteSeo->prependTitle('教师');
+        $this->seo->prependTitle('教师');
     }
 
     /**

@@ -30,8 +30,8 @@
         <thead>
         <tr>
             <th>內容</th>
+            <th>评分</th>
             <th>用户</th>
-            <th>时间</th>
             <th>发布</th>
             <th>操作</th>
         </tr>
@@ -40,15 +40,19 @@
         {% for item in pager.items %}
             <tr>
                 <td>
-                    <p>评分：<span class="kg-rating">{{ item.rating }}</span></p>
-                    <p>课程：<a href="{{ url({'for':'admin.consult.list'},{'course_id':item.course.id}) }}">{{ item.course.title }}</a></p>
+                    <p>课程：<a href="{{ url({'for':'admin.review.list'},{'course_id':item.course.id}) }}">{{ item.course.title }}</a></p>
                     <p>评价：<a href="javascript:" title="{{ item.content }}">{{ substr(item.content,0,30) }}</a></p>
+                    <p>时间：{{ date('Y-m-d H:i:s',item.create_time) }}</p>
                 </td>
                 <td>
-                    <p>昵称：{{ item.owner.name }}</p>
+                    <p>内容实用：{{ item.rating1 }}</p>
+                    <p>通俗易懂：{{ item.rating2 }}</p>
+                    <p>逻辑清晰：{{ item.rating3 }}</p>
+                </td>
+                <td>
+                    <p>昵称：<a href="{{ url({'for':'admin.review.list'},{'owner_id':item.owner.id}) }}">{{ item.owner.name }}</a></p>
                     <p>编号：{{ item.owner.id }}</p>
                 </td>
-                <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.review.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
                 <td align="center">
                     <div class="layui-dropdown">

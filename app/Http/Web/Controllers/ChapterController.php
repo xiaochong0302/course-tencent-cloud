@@ -34,11 +34,10 @@ class ChapterController extends Controller
 
         $service = new CourseCatalogService();
 
-        $contents = $service->handle($chapter['course']['id']);
+        $catalog = $service->handle($chapter['course']['id']);
 
-        $this->siteSeo->prependTitle([$chapter['title'], $chapter['course']['title']]);
-        $this->siteSeo->setKeywords($chapter['title']);
-        $this->siteSeo->setDescription($chapter['summary']);
+        $this->seo->prependTitle(['章节', $chapter['title'], $chapter['course']['title']]);
+        $this->seo->setDescription($chapter['summary']);
 
         if ($chapter['model'] == 'vod') {
             $this->view->pick('chapter/vod');
@@ -49,7 +48,7 @@ class ChapterController extends Controller
         }
 
         $this->view->setVar('chapter', $chapter);
-        $this->view->setVar('contents', $contents);
+        $this->view->setVar('catalog', $catalog);
     }
 
     /**

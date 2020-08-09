@@ -103,7 +103,7 @@ class Task extends Model
         if (!empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         } else {
-            $this->item_info = ''; // text类型不能填充默认值
+            $this->item_info = ''; // text类型不会自动填充默认值
         }
     }
 

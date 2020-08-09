@@ -12,8 +12,8 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        $this->siteSeo->setKeywords($this->siteSettings['keywords']);
-        $this->siteSeo->setDescription($this->siteSettings['description']);
+        $this->seo->setKeywords($this->settings['keywords']);
+        $this->seo->setDescription($this->settings['description']);
 
         $indexService = new IndexService();
 

@@ -22,7 +22,7 @@ class VipController extends Controller
 
         $vipOptions = $service->handle();
 
-        $this->siteSeo->prependTitle('会员');
+        $this->seo->prependTitle('会员');
 
         $this->view->setVar('vip_options', $vipOptions);
     }

@@ -2,7 +2,7 @@
 
 <div class="top-nav">
     <ul class="layui-nav">
-        {% for nav in site_navs.top %}
+        {% for nav in navs.top %}
             <li class="layui-nav-item">
                 <a href="{{ nav.url }}" target="{{ nav.target }}">{{ nav.name }}</a>
                 {% if nav.children %}
@@ -26,7 +26,9 @@
 <div class="user layui-layout-right">
     {% if auth_user.id > 0 %}
         <ul class="layui-nav">
-            <li class="layui-nav-item"><a href="#">消息</a></li>
+            <li class="layui-nav-item">
+                <a href="{{ url({'for':'web.im'}) }}" target="im">微聊<span class="layui-badge-dot"></span></a>
+            </li>
             <li class="layui-nav-item">
                 <a href="javascript:">{{ auth_user.name }}</a>
                 <dl class="layui-nav-child">

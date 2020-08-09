@@ -2,13 +2,17 @@
 
 {% block content %}
 
+    <div class="breadcrumb">
+        <span class="layui-breadcrumb">
+            <a href="/">首页</a>
+            <a href="{{ url({'for':'web.help.index'}) }}">帮助</a>
+            <a><cite>{{ help.title }}</cite></a>
+        </span>
+    </div>
+
     <div class="page-info wrap">
-        <fieldset class="layui-elem-field layui-field-title">
-            <legend>{{ help.title }}</legend>
-            <div class="layui-field-box page-content">
-                {{ help.content }}
-            </div>
-        </fieldset>
+        <div class="title">{{ help.title }}</div>
+        <div class="content" id="preview">{{ help.content }}</div>
     </div>
 
 {% endblock %}

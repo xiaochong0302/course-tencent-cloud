@@ -2,13 +2,16 @@
 
 {% block content %}
 
+    <div class="breadcrumb">
+        <span class="layui-breadcrumb">
+            <a href="/">首页</a>
+            <a><cite>{{ page.title }}</cite></a>
+        </span>
+    </div>
+
     <div class="page-info wrap">
-        <fieldset class="layui-elem-field layui-field-title">
-            <legend>{{ page.title }}</legend>
-            <div class="layui-field-box page-content" id="preview">
-                {{ page.content }}
-            </div>
-        </fieldset>
+        <div class="title">{{ page.title }}</div>
+        <div class="content" id="preview">{{ page.content }}</div>
     </div>
 
 {% endblock %}

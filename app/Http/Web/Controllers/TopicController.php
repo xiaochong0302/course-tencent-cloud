@@ -21,8 +21,8 @@ class TopicController extends Controller
 
         $topic = $service->handle($id);
 
-        $this->siteSeo->prependTitle($topic['title']);
-        $this->siteSeo->setDescription($topic['summary']);
+        $this->seo->prependTitle($topic['title']);
+        $this->seo->setDescription($topic['summary']);
 
         $this->view->setVar('topic', $topic);
     }

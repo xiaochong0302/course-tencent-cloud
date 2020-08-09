@@ -84,7 +84,6 @@ class CourseDocument extends Component
             'teacher' => $teacher,
             'user_count' => $course->user_count,
             'lesson_count' => $course->lesson_count,
-            'consult_count' => $course->consult_count,
             'review_count' => $course->review_count,
             'favorite_count' => $course->favorite_count,
         ];

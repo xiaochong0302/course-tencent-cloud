@@ -2,7 +2,7 @@
     <div class="layui-card-header">课程目录</div>
     <div class="layui-card-body">
         <div class="sidebar-chapter-list">
-            {% for item in contents %}
+            {% for item in catalog %}
                 <div class="chapter-title layui-elip">{{ item.title }}</div>
                 <ul class="sidebar-lesson-list">
                     {% for lesson in item.children %}

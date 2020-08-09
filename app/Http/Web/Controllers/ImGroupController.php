@@ -16,7 +16,7 @@ class ImGroupController extends Controller
      */
     public function listAction()
     {
-        $this->siteSeo->prependTitle('群组');
+        $this->seo->prependTitle('群组');
     }
 
     /**

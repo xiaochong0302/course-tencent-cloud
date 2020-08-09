@@ -20,6 +20,8 @@ class HelpController extends Controller
 
         $helps = $service->handle();
 
+        $this->seo->prependTitle('帮助');
+
         $this->view->setVar('helps', $helps);
     }
 
@@ -31,6 +33,8 @@ class HelpController extends Controller
         $service = new HelpInfoService();
 
         $help = $service->handle($id);
+
+        $this->seo->prependTitle(['帮助', $help['title']]);
 
         $this->view->setVar('help', $help);
     }
