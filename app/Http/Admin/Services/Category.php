@@ -30,19 +30,20 @@ class Category extends Service
         return $parent;
     }
 
-    public function getTopCategories()
+    public function getTopCategories($type)
     {
         $categoryRepo = new CategoryRepo();
 
         return $categoryRepo->findAll([
             'parent_id' => 0,
-            'published' => 1,
+            'deleted' => 0,
+            'type' => $type,
         ]);
     }
 
     public function getChildCategories($parentId)
     {
-        $deleted = $this->request->getQuery('deleted', 'int', 0);
+        $deleted = $this->request->getQuery('deleted', ['int'], 0);
 
         $categoryRepo = new CategoryRepo();
 
@@ -70,6 +71,7 @@ class Category extends Service
             $data['parent_id'] = $parent->id;
         }
 
+        $data['type'] = $validator->checkType($post['type']);
         $data['name'] = $validator->checkName($post['name']);
         $data['priority'] = $validator->checkPriority($post['priority']);
         $data['published'] = $validator->checkPublishStatus($post['published']);
@@ -190,11 +192,11 @@ class Category extends Service
 
         $cache = new CategoryListCache();
 
-        $cache->rebuild();
+        $cache->rebuild($category->type);
 
         $cache = new CategoryTreeListCache();
 
-        $cache->rebuild();
+        $cache->rebuild($category->type);
     }
 
     protected function enableChildCategories($parentId)

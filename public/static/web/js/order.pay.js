@@ -4,22 +4,24 @@ layui.use(['jquery', 'layer'], function () {
     var layer = layui.layer;
 
     $('.btn-pay').on('click', function () {
+
         var channel = $(this).data('channel');
         var createUrl = $('input[name=trade_create_url]').val();
         var statusUrl = $('input[name=trade_status_url]').val();
         var forwardUrl = $('input[name=forward_url]').val();
         var orderSn = $('input[name=order_sn]').val();
         var $qrBlock = $('#' + channel + '-qrcode');
-        var $snInput = $('input[name=' + channel + '_trade_sn]');
+        var $tradeSn = $('input[name=' + channel + '_trade_sn]');
         var qrTitle = channel === 'alipay' ? '支付宝扫码支付' : '微信扫码支付';
         var qrHtml = $qrBlock.html();
+
         if (qrHtml.length === 0) {
             var postData = {order_sn: orderSn, channel: channel};
             $.post(createUrl, postData, function (res) {
-                qrHtml = '<div class="qrcode"><img src="' + res.qrcode_url + '" alt="支付二维码"></div>';
+                qrHtml = '<div class="qrcode"><img src="' + res.qrcode + '" alt="支付二维码"></div>';
                 showQrLayer(qrTitle, qrHtml);
                 $qrBlock.html(qrHtml);
-                $snInput.html(res.sn);
+                $tradeSn.val(res.sn);
                 var interval = setInterval(function () {
                     var queryData = {sn: res.sn};
                     $.get(statusUrl, queryData, function (res) {
@@ -31,7 +33,7 @@ layui.use(['jquery', 'layer'], function () {
                             }, 5000);
                         }
                     });
-                }, 3000)
+                }, 5000);
             });
         } else {
             showQrLayer(qrTitle, qrHtml);

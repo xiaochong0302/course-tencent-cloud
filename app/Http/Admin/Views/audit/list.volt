@@ -38,6 +38,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set show_url = url({'for':'admin.audit.show','id':item.id}) %}
             <tr>
                 <td>{{ item.user_id }}</td>
                 <td>{{ item.user_name }}</td>
@@ -46,7 +47,7 @@
                 <td>{{ item.req_path }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td align="center">
-                    <button class="kg-view layui-btn layui-btn-sm" data-url="{{ url({'for':'admin.audit.show','id':item.id}) }}">浏览</button>
+                    <button class="kg-view layui-btn layui-btn-sm" data-url="{{ show_url }}">浏览</button>
                 </td>
             </tr>
         {% endfor %}

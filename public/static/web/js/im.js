@@ -23,7 +23,7 @@ layui.use(['jquery', 'layim'], function () {
             socket.send('pong...');
         } else if (data.type === 'bind_user') {
             bindUser(data);
-            refreshMessageBox();
+            refreshMsgBox();
         } else if (data.type === 'new_group_user') {
             showNewGroupUserMessage(data);
         } else if (data.type === 'show_online_tips') {
@@ -32,13 +32,13 @@ layui.use(['jquery', 'layim'], function () {
             setChatMessageCount(data);
             showChatMessage(data);
         } else if (data.type === 'refresh_msg_box') {
-            refreshMessageBox();
+            refreshMsgBox();
         } else if (data.type === 'friend_accepted') {
             friendAccepted(data);
-            refreshMessageBox();
+            refreshMsgBox();
         } else if (data.type === 'group_accepted') {
             groupAccepted(data);
-            refreshMessageBox();
+            refreshMsgBox();
         }
     };
 
@@ -51,10 +51,10 @@ layui.use(['jquery', 'layim'], function () {
             url: '/im/group/users'
         },
         uploadImage: {
-            url: '/im/img/upload'
+            url: '/upload/im/image'
         },
         uploadFile: {
-            url: '/im/file/upload'
+            url: '/upload/im/file'
         },
         maxLength: 1000,
         find: '/im/find',
@@ -151,7 +151,7 @@ layui.use(['jquery', 'layim'], function () {
         if (res.data.type === 'friend' && unreadListMsgCount > 0) {
             $.ajax({
                 type: 'GET',
-                url: '/im/msg/friend/unread',
+                url: '/im/friend/msg/unread',
                 data: {id: res.data.id}
             });
         }
@@ -193,10 +193,10 @@ layui.use(['jquery', 'layim'], function () {
         });
     }
 
-    function refreshMessageBox() {
+    function refreshMsgBox() {
         $.ajax({
             type: 'GET',
-            url: '/im/msg/sys/unread',
+            url: '/im/sys/msg/unread',
             success: function (res) {
                 if (res.count > 0) {
                     layim.msgbox(res.count);

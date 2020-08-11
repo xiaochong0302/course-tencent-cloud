@@ -151,6 +151,19 @@ class Role extends Service
             $list[] = 'admin.chapter.restore';
         }
 
+        if (in_array('admin.category.list', $routes)) {
+            $list[] = 'admin.course.category';
+            $list[] = 'admin.help.category';
+        }
+
+        if (in_array('admin.course.category', $routes)) {
+            $list[] = 'admin.category.list';
+        }
+
+        if (in_array('admin.help.category', $routes)) {
+            $list[] = 'admin.category.list';
+        }
+
         $list = array_unique($list);
 
         return array_values($list);

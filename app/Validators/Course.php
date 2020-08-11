@@ -147,10 +147,10 @@ class Course extends Validator
 
         $list = [];
 
-        foreach ($keywords as $keywords) {
-            $keywords = trim($keywords);
-            if (kg_strlen($keywords) > 1) {
-                $list[] = $keywords;
+        foreach ($keywords as $keyword) {
+            $keyword = trim($keyword);
+            if (kg_strlen($keyword) > 1) {
+                $list[] = $keyword;
             }
         }
 

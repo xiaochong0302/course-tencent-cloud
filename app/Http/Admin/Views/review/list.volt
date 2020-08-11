@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {% set search_review_url = url({'for':'admin.review.search'}) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
         <span class="layui-breadcrumb">
@@ -13,7 +15,7 @@
         </span>
         </div>
         <div class="kg-nav-right">
-            <a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.review.search'}) }}">
+            <a class="layui-btn layui-btn-sm" href="{{ search_review_url }}">
                 <i class="layui-icon layui-icon-search"></i>搜索评价
             </a>
         </div>
@@ -38,9 +40,15 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set list_by_course_url = url({'for':'admin.review.list'},{'course_id':item.course.id}) %}
+            {% set list_by_owner_url = url({'for':'admin.review.list'},{'owner_id':item.owner.id}) %}
+            {% set edit_url = url({'for':'admin.review.edit','id':item.id}) %}
+            {% set update_url = url({'for':'admin.review.update','id':item.id}) %}
+            {% set delete_url = url({'for':'admin.review.delete','id':item.id}) %}
+            {% set restore_url = url({'for':'admin.review.restore','id':item.id}) %}
             <tr>
                 <td>
-                    <p>课程：<a href="{{ url({'for':'admin.review.list'},{'course_id':item.course.id}) }}">{{ item.course.title }}</a></p>
+                    <p>课程：<a href="{{ list_by_course_url }}">{{ item.course.title }}</a></p>
                     <p>评价：<a href="javascript:" title="{{ item.content }}">{{ substr(item.content,0,30) }}</a></p>
                     <p>时间：{{ date('Y-m-d H:i:s',item.create_time) }}</p>
                 </td>
@@ -50,19 +58,19 @@
                     <p>逻辑清晰：{{ item.rating3 }}</p>
                 </td>
                 <td>
-                    <p>昵称：<a href="{{ url({'for':'admin.review.list'},{'owner_id':item.owner.id}) }}">{{ item.owner.name }}</a></p>
+                    <p>昵称：<a href="{{ list_by_owner_url }}">{{ item.owner.name }}</a></p>
                     <p>编号：{{ item.owner.id }}</p>
                 </td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.review.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
+                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
                 <td align="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                         <ul>
-                            <li><a href="{{ url({'for':'admin.review.edit','id':item.id}) }}">编辑</a></li>
+                            <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}
-                                <li><a href="javascript:" class="kg-delete" data-url="{{ url({'for':'admin.review.delete','id':item.id}) }}">删除</a></li>
+                                <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
                             {% else %}
-                                <li><a href="javascript:" class="kg-restore" data-url="{{ url({'for':'admin.review.restore','id':item.id}) }}">还原</a></li>
+                                <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原</a></li>
                             {% endif %}
                         </ul>
                     </div>

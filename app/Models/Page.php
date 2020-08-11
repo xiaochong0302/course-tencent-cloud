@@ -16,25 +16,11 @@ class Page extends Model
     public $id;
 
     /**
-     * 别名
-     *
-     * @var string
-     */
-    public $alias;
-
-    /**
      * 标题
      *
      * @var string
      */
     public $title;
-
-    /**
-     * 关键字
-     *
-     * @var string
-     */
-    public $keywords;
 
     /**
      * 内容

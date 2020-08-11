@@ -2,23 +2,48 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\Help as HelpCache;
+use App\Builders\HelpList as HelpListBuilder;
+use App\Caches\HelpList as HelpListCache;
+use App\Models\Category as CategoryModel;
 use App\Models\Help as HelpModel;
+use App\Repos\Category as CategoryRepo;
 use App\Repos\Help as HelpRepo;
 use App\Validators\Help as HelpValidator;
+use Phalcon\Mvc\Model\Resultset;
 
 class Help extends Service
 {
 
+    public function getCategories()
+    {
+        $categoryRepo = new CategoryRepo();
+
+        return $categoryRepo->findTopCategories(CategoryModel::TYPE_HELP);
+    }
+
     public function getHelps()
     {
-        $deleted = $this->request->getQuery('deleted', 'int', 0);
+        $query = $this->request->getQuery();
+
+        $params = [];
+
+        $params['deleted'] = $query['deleted'] ?? 0;
+
+        if (isset($query['category_id'])) {
+            $params['category_id'] = $query['category_id'];
+        }
 
         $helpRepo = new HelpRepo();
 
-        return $helpRepo->findAll([
-            'deleted' => $deleted,
-        ]);
+        $helps = $helpRepo->findAll($params);
+
+        $result = [];
+
+        if ($helps->count() > 0) {
+            $result = $this->handleHelps($helps);
+        }
+
+        return $result;
     }
 
     public function getHelp($id)
@@ -34,16 +59,19 @@ class Help extends Service
 
         $data = [];
 
+        $category = $validator->checkCategory($post['category_id']);
+
         $data['title'] = $validator->checkTitle($post['title']);
         $data['content'] = $validator->checkContent($post['content']);
         $data['priority'] = $validator->checkPriority($post['priority']);
         $data['published'] = $validator->checkPublishStatus($post['published']);
+        $data['category_id'] = $category->id;
 
         $help = new HelpModel();
 
         $help->create($data);
 
-        $this->rebuildHelpCache($help);
+        $this->rebuildHelpListCache();
 
         return $help;
     }
@@ -57,6 +85,11 @@ class Help extends Service
         $validator = new HelpValidator();
 
         $data = [];
+
+        if (isset($post['category_id'])) {
+            $category = $validator->checkCategory($post['category_id']);
+            $data['category_id'] = $category->id;
+        }
 
         if (isset($post['title'])) {
             $data['title'] = $validator->checkTitle($post['title']);
@@ -76,7 +109,7 @@ class Help extends Service
 
         $help->update($data);
 
-        $this->rebuildHelpCache($help);
+        $this->rebuildHelpListCache();
 
         return $help;
     }
@@ -89,7 +122,7 @@ class Help extends Service
 
         $help->update();
 
-        $this->rebuildHelpCache($help);
+        $this->rebuildHelpListCache();
 
         return $help;
     }
@@ -102,16 +135,16 @@ class Help extends Service
 
         $help->update();
 
-        $this->rebuildHelpCache($help);
+        $this->rebuildHelpListCache();
 
         return $help;
     }
 
-    protected function rebuildHelpCache(HelpModel $help)
+    protected function rebuildHelpListCache()
     {
-        $cache = new HelpCache();
+        $cache = new HelpListCache();
 
-        $cache->rebuild($help->id);
+        $cache->rebuild();
     }
 
     protected function findOrFail($id)
@@ -119,6 +152,25 @@ class Help extends Service
         $validator = new HelpValidator();
 
         return $validator->checkHelp($id);
+    }
+
+    /**
+     * @param Resultset $helps
+     * @return array|object
+     */
+    protected function handleHelps($helps)
+    {
+        if ($helps->count() == 0) {
+            return [];
+        }
+
+        $builder = new HelpListBuilder();
+
+        $items = $helps->toArray();
+
+        $items = $builder->handleCategories($items);
+
+        return $builder->objects($items);
     }
 
 }

@@ -4,9 +4,9 @@
 
     <div class="kg-qrcode-block">
 
-        {% if qrcode_url %}
+        {% if qrcode %}
             <div id="qrcode">
-                <img class="kg-qrcode" src="{{ qrcode_url }}" alt="二维码图片">
+                <img class="kg-qrcode" src="{{ qrcode }}" alt="二维码图片">
             </div>
             <input type="hidden" name="sn" value="{{ sn }}">
             <div id="success-tips" class="kg-success-tips layui-hide">
@@ -27,7 +27,7 @@
 
 {% block inline_js %}
 
-    {% if qrcode_url %}
+    {% if Code %}
         <script>
 
             layui.use(['jquery'], function () {

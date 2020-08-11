@@ -68,6 +68,17 @@ class Category extends Validator
         return $category;
     }
 
+    public function checkType($type)
+    {
+        $list = CategoryModel::types();
+
+        if (!isset($list[$type])) {
+            throw new BadRequestException('category.invalid_type');
+        }
+
+        return $type;
+    }
+
     public function checkName($name)
     {
         $value = $this->filter->sanitize($name, ['trim', 'string']);

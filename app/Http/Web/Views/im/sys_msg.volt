@@ -1,4 +1,4 @@
-{%- macro message_info(item) %}
+{%- macro notice_info(item) %}
 
     {% set item_type = item.item_type %}
     {% set item_info = item.item_info %}
@@ -84,7 +84,7 @@
 {% if pager.items %}
     <ul class="layim-msgbox">
         {% for item in pager.items %}
-            {{ message_info(item) }}
+            {{ notice_info(item) }}
         {% endfor %}
     </ul>
 {% endif %}

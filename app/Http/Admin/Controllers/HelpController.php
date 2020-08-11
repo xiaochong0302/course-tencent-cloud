@@ -11,6 +11,19 @@ class HelpController extends Controller
 {
 
     /**
+     * @Get("/category", name="admin.help.category")
+     */
+    public function categoryAction()
+    {
+        $location = $this->url->get(
+            ['for' => 'admin.category.list'],
+            ['type' => 'help'],
+            );
+
+        return $this->response->redirect($location);
+    }
+
+    /**
      * @Get("/list", name="admin.help.list")
      */
     public function listAction()
@@ -27,7 +40,11 @@ class HelpController extends Controller
      */
     public function addAction()
     {
+        $helpService = new HelpService();
 
+        $categories = $helpService->getCategories();
+
+        $this->view->setVar('categories', $categories);
     }
 
     /**
@@ -56,8 +73,11 @@ class HelpController extends Controller
     {
         $helpService = new HelpService;
 
+        $categories = $helpService->getCategories();
+
         $help = $helpService->getHelp($id);
 
+        $this->view->setVar('categories', $categories);
         $this->view->setVar('help', $help);
     }
 

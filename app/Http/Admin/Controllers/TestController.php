@@ -8,8 +8,8 @@ use App\Http\Admin\Services\WxpayTest as WxpayTestService;
 use App\Services\Captcha as CaptchaService;
 use App\Services\Live as LiveService;
 use App\Services\Mailer\Test as TestMailerService;
+use App\Services\MyStorage as StorageService;
 use App\Services\Smser\Test as TestSmserService;
-use App\Services\Storage as StorageService;
 use App\Services\Vod as VodService;
 use Phalcon\Mvc\View;
 
@@ -29,16 +29,8 @@ class TestController extends Controller
         $result = [];
 
         $result['hello'] = $storageService->uploadTestFile();
-
-        $avatarPath = public_path('static/admin/img/default_avatar.png');
-        $avatarKey = '/img/avatar/default.png';
-
-        $result['avatar'] = $storageService->putFile($avatarKey, $avatarPath);
-
-        $coverPath = public_path('static/admin/img/default_cover.png');
-        $coverKey = '/img/cover/default.png';
-
-        $result['cover'] = $storageService->putFile($coverKey, $coverPath);
+        $result['avatar'] = $storageService->uploadDefaultAvatarImage();
+        $result['cover'] = $storageService->uploadDefaultCoverImage();
 
         if ($result['hello'] && $result['avatar'] && $result['cover']) {
             return $this->jsonSuccess(['msg' => '上传文件成功，请到控制台确认']);
@@ -176,9 +168,9 @@ class TestController extends Controller
 
         $order = $alipayTestService->createOrder();
         $trade = $alipayTestService->createTrade($order);
-        $qrcodeUrl = $alipayTestService->scan($trade);
+        $qrcode = $alipayTestService->scan($trade);
 
-        if ($order && $trade && $qrcodeUrl) {
+        if ($order && $trade && $qrcode) {
             $this->db->commit();
         } else {
             $this->db->rollback();
@@ -186,7 +178,7 @@ class TestController extends Controller
 
         $this->view->pick('setting/pay_alipay_test');
         $this->view->setVar('sn', $trade->sn);
-        $this->view->setVar('qrcode_url', $qrcodeUrl);
+        $this->view->setVar('qrcode', $qrcode);
     }
 
     /**
@@ -228,9 +220,9 @@ class TestController extends Controller
 
         $order = $wxpayTestService->createOrder();
         $trade = $wxpayTestService->createTrade($order);
-        $qrcodeUrl = $wxpayTestService->scan($trade);
+        $qrcode = $wxpayTestService->scan($trade);
 
-        if ($order && $trade && $qrcodeUrl) {
+        if ($order && $trade && $qrcode) {
             $this->db->commit();
         } else {
             $this->db->rollback();
@@ -238,7 +230,7 @@ class TestController extends Controller
 
         $this->view->pick('setting/pay_wxpay_test');
         $this->view->setVar('sn', $trade->sn);
-        $this->view->setVar('qrcode_url', $qrcodeUrl);
+        $this->view->setVar('qrcode', $qrcode);
     }
 
     /**

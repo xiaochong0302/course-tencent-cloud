@@ -6,14 +6,12 @@ use App\Builders\ImMessageList as ImMessageListBuilder;
 use App\Caches\ImNewGroupList as ImNewGroupListCache;
 use App\Caches\ImNewUserList as ImNewUserListCache;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\ImFriendMessage as ImFriendMessageModel;
-use App\Models\ImGroupMessage as ImGroupMessageModel;
+use App\Models\ImMessage as ImMessageModel;
 use App\Models\ImUser as ImUserModel;
-use App\Repos\ImFriendMessage as ImFriendMessageRepo;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImGroup as ImGroupRepo;
-use App\Repos\ImGroupMessage as ImGroupMessageRepo;
-use App\Repos\ImSystemMessage as ImSystemMessageRepo;
+use App\Repos\ImMessage as ImMessageRepo;
+use App\Repos\ImNotice as ImNoticeRepo;
 use App\Repos\ImUser as ImUserRepo;
 use App\Repos\User as UserRepo;
 use App\Validators\ImFriendUser as ImFriendUserValidator;
@@ -207,16 +205,16 @@ class Im extends Service
         $friendUser->update(['msg_count' => 0]);
     }
 
-    public function countUnreadSystemMessages()
+    public function countUnreadNotices()
     {
         $user = $this->getLoginUser();
 
         $userRepo = new ImUserRepo();
 
-        return $userRepo->countUnreadSystemMessages($user->id);
+        return $userRepo->countUnreadNotices($user->id);
     }
 
-    public function getSystemMessages()
+    public function getNotices()
     {
         $user = $this->getLoginUser();
 
@@ -230,9 +228,9 @@ class Im extends Service
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $messageRepo = new ImSystemMessageRepo();
+        $noticeRepo = new ImNoticeRepo();
 
-        return $messageRepo->paginate($params, $sort, $page, $limit);
+        return $noticeRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getChatMessages()
@@ -251,23 +249,28 @@ class Im extends Service
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        if ($params['type'] == 'friend') {
+        if ($params['type'] == ImMessageModel::TYPE_FRIEND) {
 
-            $params['chat_id'] = ImFriendMessageModel::getChatId($user->id, $params['id']);
+            $chatId = ImMessageModel::getChatId($user->id, $params['id']);
 
-            $messageRepo = new ImFriendMessageRepo();
+            $where = ['chat_id' => $chatId];
 
-            $pager = $messageRepo->paginate($params, $sort, $page, $limit);
+            $messageRepo = new ImMessageRepo();
+
+            $pager = $messageRepo->paginate($where, $sort, $page, $limit);
 
             return $this->handleChatMessagePager($pager);
 
-        } elseif ($params['type'] == 'group') {
+        } elseif ($params['type'] == ImMessageModel::TYPE_GROUP) {
 
-            $params['group_id'] = $params['id'];
+            $where = [
+                'receiver_type' => $params['type'],
+                'receiver_id' => $params['id'],
+            ];
 
-            $messageRepo = new ImGroupMessageRepo();
+            $messageRepo = new ImMessageRepo();
 
-            $pager = $messageRepo->paginate($params, $sort, $page, $limit);
+            $pager = $messageRepo->paginate($where, $sort, $page, $limit);
 
             return $this->handleChatMessagePager($pager);
         }
@@ -351,7 +354,7 @@ class Im extends Service
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
-        if ($to['type'] == 'friend') {
+        if ($to['type'] == ImMessageModel::TYPE_FRIEND) {
 
             $validator = new ImFriendUserValidator();
 
@@ -359,11 +362,12 @@ class Im extends Service
 
             $online = Gateway::isUidOnline($to['id']);
 
-            $messageModel = new ImFriendMessageModel();
+            $messageModel = new ImMessageModel();
 
             $messageModel->create([
                 'sender_id' => $from['id'],
                 'receiver_id' => $to['id'],
+                'chat_type' => $to['type'],
                 'content' => $from['content'],
                 'viewed' => $online ? 1 : 0,
             ]);
@@ -374,7 +378,7 @@ class Im extends Service
                 $this->incrFriendUserMsgCount($relation);
             }
 
-        } elseif ($to['type'] == 'group') {
+        } elseif ($to['type'] == ImMessageModel::TYPE_GROUP) {
 
             $validator = new ImGroupValidator();
 
@@ -384,11 +388,12 @@ class Im extends Service
 
             $validator->checkGroupUser($group->id, $user->id);
 
-            $messageModel = new ImGroupMessageModel();
+            $messageModel = new ImMessageModel();
 
             $messageModel->create([
-                'group_id' => $to['id'],
                 'sender_id' => $from['id'],
+                'receiver_id' => $to['id'],
+                'chat_type' => $to['type'],
                 'content' => $from['content'],
             ]);
 
@@ -409,13 +414,13 @@ class Im extends Service
         }
     }
 
-    public function readSystemMessages()
+    public function readNotices()
     {
         $user = $this->getLoginUser();
 
         $userRepo = new ImUserRepo();
 
-        $messages = $userRepo->findUnreadSystemMessages($user->id);
+        $messages = $userRepo->findUnreadNotices($user->id);
 
         if ($messages->count() > 0) {
             foreach ($messages as $message) {

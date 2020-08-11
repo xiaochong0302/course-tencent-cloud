@@ -14,16 +14,16 @@ class CategoryTreeList extends Cache
         return $this->lifetime;
     }
 
-    public function getKey($id = null)
+    public function getKey($type = null)
     {
-        return 'category_tree_list';
+        return "category_tree_list:{$type}";
     }
 
-    public function getContent($id = null)
+    public function getContent($type = null)
     {
         $builder = new CategoryTreeListBuilder();
 
-        $list = $builder->handle();
+        $list = $builder->handle($type);
 
         return $list ?: [];
     }

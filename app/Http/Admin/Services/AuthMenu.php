@@ -18,7 +18,9 @@ class AuthMenu extends Component
     public function __construct()
     {
         $this->authUser = $this->getAuthInfo();
+
         $this->authNodes = $this->getAuthNodes();
+
         $this->setOwnedLevelIds();
     }
 
@@ -46,6 +48,7 @@ class AuthMenu extends Component
             foreach ($level['children'] as $key2 => $level2) {
                 foreach ($level2['children'] as $key3 => $level3) {
                     $allowed = ($this->authUser['root'] == 1) || in_array($level3['id'], $this->owned3rdLevelIds);
+                    $params = $level3['params'] ?? [];
                     if ($level3['type'] == 'menu' && $allowed) {
                         $menus[$key]['id'] = $level['id'];
                         $menus[$key]['title'] = $level['title'];
@@ -54,7 +57,7 @@ class AuthMenu extends Component
                         $menus[$key]['children'][$key2]['children'][$key3] = [
                             'id' => $level3['id'],
                             'title' => $level3['title'],
-                            'url' => $this->url->get(['for' => $level3['route']]),
+                            'url' => $this->url->get(['for' => $level3['route']], $params),
                         ];
                     }
                 }

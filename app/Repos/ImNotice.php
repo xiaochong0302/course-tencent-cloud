@@ -3,19 +3,19 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\ImSystemMessage as ImSystemMessageModel;
+use App\Models\ImNotice as ImNoticeModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ImSystemMessage extends Repository
+class ImNotice extends Repository
 {
 
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
 
-        $builder->from(ImSystemMessageModel::class);
+        $builder->from(ImNoticeModel::class);
 
         $builder->where('1 = 1');
 
@@ -53,21 +53,21 @@ class ImSystemMessage extends Repository
 
     /**
      * @param int $id
-     * @return ImSystemMessageModel|Model|bool
+     * @return ImNoticeModel|Model|bool
      */
     public function findById($id)
     {
-        return ImSystemMessageModel::findFirst($id);
+        return ImNoticeModel::findFirst($id);
     }
 
     /**
      * @param array $ids
      * @param string|array $columns
-     * @return ResultsetInterface|Resultset|ImSystemMessageModel[]
+     * @return ResultsetInterface|Resultset|ImNoticeModel[]
      */
     public function findByIds($ids, $columns = '*')
     {
-        return ImSystemMessageModel::query()
+        return ImNoticeModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();

@@ -55,6 +55,13 @@ class Help extends Validator
         return $help;
     }
 
+    public function checkCategory($id)
+    {
+        $validator = new Category();
+
+        return $validator->checkCategory($id);
+    }
+
     public function checkTitle($title)
     {
         $value = $this->filter->sanitize($title, ['trim', 'string']);

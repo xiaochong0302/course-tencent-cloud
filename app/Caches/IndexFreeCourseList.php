@@ -84,7 +84,8 @@ class IndexFreeCourseList extends Cache
     protected function findCategories($limit = 5)
     {
         return CategoryModel::query()
-            ->where('level = 1 AND published = 1')
+            ->where('type = :type:', ['type' => CategoryModel::TYPE_COURSE])
+            ->andWhere('level = 1 AND published = 1')
             ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();

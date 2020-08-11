@@ -16,12 +16,20 @@ class CategoryController extends Controller
     public function listAction()
     {
         $parentId = $this->request->get('parent_id', 'int', 0);
+        $type = $this->request->get('type', 'string', 'course');
 
         $categoryService = new CategoryService();
 
         $parent = $categoryService->getParentCategory($parentId);
-        $categories = $categoryService->getChildCategories($parentId);
 
+        if ($parent->id > 0) {
+            $type = $parent->type;
+            $categories = $categoryService->getChildCategories($parentId);
+        } else {
+            $categories = $categoryService->getTopCategories($type);
+        }
+
+        $this->view->setVar('type', $type);
         $this->view->setVar('parent', $parent);
         $this->view->setVar('categories', $categories);
     }
@@ -32,12 +40,20 @@ class CategoryController extends Controller
     public function addAction()
     {
         $parentId = $this->request->get('parent_id', 'int', 0);
+        $type = $this->request->get('type', 'string', 'course');
 
         $categoryService = new CategoryService();
 
-        $topCategories = $categoryService->getTopCategories();
+        $parent = $categoryService->getParentCategory($parentId);
 
-        $this->view->setVar('parent_id', $parentId);
+        if ($parent->id > 0) {
+            $type = $parent->type;
+        }
+
+        $topCategories = $categoryService->getTopCategories($type);
+
+        $this->view->setVar('type', $type);
+        $this->view->setVar('parent', $parent);
         $this->view->setVar('top_categories', $topCategories);
     }
 
@@ -52,7 +68,7 @@ class CategoryController extends Controller
 
         $location = $this->url->get(
             ['for' => 'admin.category.list'],
-            ['parent_id' => $category->parent_id]
+            ['type' => $category->type, 'parent_id' => $category->parent_id],
         );
 
         $content = [
@@ -88,7 +104,7 @@ class CategoryController extends Controller
 
         $location = $this->url->get(
             ['for' => 'admin.category.list'],
-            ['parent_id' => $category->parent_id]
+            ['type' => $category->type, 'parent_id' => $category->parent_id],
         );
 
         $content = [

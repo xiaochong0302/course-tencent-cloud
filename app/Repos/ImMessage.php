@@ -3,19 +3,19 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\ImFriendMessage as ImFriendMessageModel;
+use App\Models\ImMessage as ImMessageModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ImFriendMessage extends Repository
+class ImMessage extends Repository
 {
 
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
 
-        $builder->from(ImFriendMessageModel::class);
+        $builder->from(ImMessageModel::class);
 
         $builder->where('1 = 1');
 
@@ -29,6 +29,10 @@ class ImFriendMessage extends Repository
 
         if (!empty($where['receiver_id'])) {
             $builder->andWhere('receiver_id = :receiver_id:', ['receiver_id' => $where['receiver_id']]);
+        }
+
+        if (!empty($where['receiver_type'])) {
+            $builder->andWhere('receiver_type = :receiver_type:', ['receiver_type' => $where['receiver_type']]);
         }
 
         if (isset($where['deleted'])) {
@@ -57,21 +61,21 @@ class ImFriendMessage extends Repository
 
     /**
      * @param int $id
-     * @return ImFriendMessageModel|Model|bool
+     * @return ImMessageModel|Model|bool
      */
     public function findById($id)
     {
-        return ImFriendMessageModel::findFirst($id);
+        return ImMessageModel::findFirst($id);
     }
 
     /**
      * @param array $ids
      * @param string|array $columns
-     * @return ResultsetInterface|Resultset|ImFriendMessageModel[]
+     * @return ResultsetInterface|Resultset|ImMessageModel[]
      */
     public function findByIds($ids, $columns = '*')
     {
-        return ImFriendMessageModel::query()
+        return ImMessageModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();

@@ -2,9 +2,9 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Caches\NavTreeList as NavTreeListCache;
+use App\Caches\NavTreeList as NavCache;
 use App\Caches\Setting as SettingCache;
-use App\Library\Seo as Seo;
+use App\Library\Seo as SiteSeo;
 use App\Models\User as UserModel;
 use App\Services\Auth\Web as WebAuth;
 use App\Traits\Response as ResponseTrait;
@@ -15,19 +15,19 @@ class Controller extends \Phalcon\Mvc\Controller
 {
 
     /**
-     * @var Seo
+     * @var SiteSeo
      */
     protected $seo;
 
     /**
      * @var array
      */
-    protected $settings;
+    protected $navs;
 
     /**
      * @var array
      */
-    protected $navs;
+    protected $settings;
 
     /**
      * @var UserModel
@@ -75,16 +75,16 @@ class Controller extends \Phalcon\Mvc\Controller
         return $auth->getCurrentUser();
     }
 
-    protected function getNavs()
-    {
-        $cache = new NavTreeListCache();
-
-        return $cache->get() ?: [];
-    }
-
     protected function getSeo()
     {
-        return new Seo();
+        return new SiteSeo();
+    }
+
+    protected function getNavs()
+    {
+        $cache = new NavCache();
+
+        return $cache->get() ?: [];
     }
 
     protected function getSettings()

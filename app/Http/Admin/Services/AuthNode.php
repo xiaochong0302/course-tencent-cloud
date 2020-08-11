@@ -30,6 +30,12 @@ class AuthNode extends Service
                     'type' => 'menu',
                     'children' => [
                         [
+                            'id' => '1-1-0',
+                            'title' => '课程分类',
+                            'type' => 'menu',
+                            'route' => 'admin.course.category',
+                        ],
+                        [
                             'id' => '1-1-1',
                             'title' => '课程列表',
                             'type' => 'menu',
@@ -71,12 +77,14 @@ class AuthNode extends Service
                             'title' => '分类列表',
                             'type' => 'menu',
                             'route' => 'admin.category.list',
+                            'params' => ['type' => 'course'],
                         ],
                         [
                             'id' => '1-2-2',
                             'title' => '添加分类',
                             'type' => 'menu',
                             'route' => 'admin.category.add',
+                            'params' => ['type' => 'course'],
                         ],
                         [
                             'id' => '1-2-3',
@@ -196,6 +204,12 @@ class AuthNode extends Service
                     'title' => '帮助管理',
                     'type' => 'menu',
                     'children' => [
+                        [
+                            'id' => '1-6-0',
+                            'title' => '帮助分类',
+                            'type' => 'menu',
+                            'route' => 'admin.help.category',
+                        ],
                         [
                             'id' => '1-6-1',
                             'title' => '帮助列表',

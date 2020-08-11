@@ -1,19 +1,18 @@
-layui.use(['jquery', 'layer', 'layim', 'laypage'], function () {
+layui.use(['jquery', 'layer', 'laypage'], function () {
 
     var $ = layui.jquery;
     var layer = layui.layer;
-    var layim = layui.layim;
     var laypage = layui.laypage;
 
     var $target = $('#LAY_view');
     var $page = $('#LAY_page');
     var count = $page.data('count');
-    var limit = 15;
+    var limit = 12;
 
     /**
-     * 标记信息为已读
+     * 标记通知为已读
      */
-    readSystemMessages();
+    readNotices();
 
     /**
      * 加载第一页数据
@@ -37,13 +36,13 @@ layui.use(['jquery', 'layer', 'layim', 'laypage'], function () {
     }
 
     function loadPageHtml(target, page) {
-        $.get('/im/msg/sys', {page: page}, function (html) {
+        $.get('/im/sys/msg', {page: page}, function (html) {
             target.html(html);
         });
     }
 
-    function readSystemMessages() {
-        $.post('/im/msg/sys/read');
+    function readNotices() {
+        $.post('/im/sys/msg/read');
     }
 
     var action = {

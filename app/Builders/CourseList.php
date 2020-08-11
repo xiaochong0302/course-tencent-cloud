@@ -3,6 +3,7 @@
 namespace App\Builders;
 
 use App\Caches\CategoryList as CategoryListCache;
+use App\Models\Category as CategoryModel;
 use App\Repos\User as UserRepo;
 
 class CourseList extends Builder
@@ -34,7 +35,7 @@ class CourseList extends Builder
     {
         $cache = new CategoryListCache();
 
-        $items = $cache->get();
+        $items = $cache->get(CategoryModel::TYPE_COURSE);
 
         if (empty($items)) {
             return [];

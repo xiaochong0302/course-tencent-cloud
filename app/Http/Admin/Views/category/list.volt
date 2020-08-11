@@ -2,6 +2,9 @@
 
 {% block content %}
 
+    {% set add_category_url = url({'for':'admin.category.add'},{'type':type,'parent_id':parent.id}) %}
+    {% set allow_add_category = (type == 'course' and parent.level < 2) or (type == 'help' and parent.level < 1) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
         <span class="layui-breadcrumb">
@@ -15,9 +18,11 @@
         </span>
         </div>
         <div class="kg-nav-right">
-            <a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.category.add'},{'parent_id':parent.id}) }}">
-                <i class="layui-icon layui-icon-add-1"></i>添加分类
-            </a>
+            {% if allow_add_category %}
+                <a class="layui-btn layui-btn-sm" href="{{ add_category_url }}">
+                    <i class="layui-icon layui-icon-add-1"></i>添加分类
+                </a>
+            {% endif %}
         </div>
     </div>
 
@@ -44,26 +49,32 @@
         </thead>
         <tbody>
         {% for item in categories %}
+            {% set show_child_url = item.type == 'course' and item.level < 2 %}
+            {% set child_url = url({'for':'admin.category.list'},{'type':item.type,'parent_id':item.id}) %}
+            {% set edit_url = url({'for':'admin.category.edit','id':item.id}) %}
+            {% set update_url = url({'for':'admin.category.update','id':item.id}) %}
+            {% set delete_url = url({'for':'admin.category.delete','id':item.id}) %}
+            {% set restore_url = url({'for':'admin.category.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                {% if item.level < 2 %}
-                    <td><a href="{{ url({'for':'admin.category.list'}) }}?parent_id={{ item.id }}">{{ item.name }}</a></td>
+                {% if show_child_url %}
+                    <td><a href="{{ child_url }}">{{ item.name }}</a></td>
                 {% else %}
                     <td>{{ item.name }}</td>
                 {% endif %}
                 <td><span class="layui-badge layui-bg-gray">{{ item.level }}</span></td>
                 <td><span class="layui-badge layui-bg-gray">{{ item.child_count }}</span></td>
-                <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ url({'for':'admin.category.update','id':item.id}) }}"></td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.category.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
+                <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
+                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
                 <td align="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                         <ul>
-                            <li><a href="{{ url({'for':'admin.category.edit','id':item.id}) }}">编辑</a></li>
+                            <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}
-                                <li><a href="javascript:" class="kg-delete" data-url="{{ url({'for':'admin.category.delete','id':item.id}) }}">删除</a></li>
+                                <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
                             {% else %}
-                                <li><a href="javascript:" class="kg-restore" data-url="{{ url({'for':'admin.category.restore','id':item.id}) }}">还原</a></li>
+                                <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原</a></li>
                             {% endif %}
                         </ul>
                     </div>

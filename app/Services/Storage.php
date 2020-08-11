@@ -2,22 +2,11 @@
 
 namespace App\Services;
 
-use App\Library\Utils\FileInfo;
-use App\Models\UploadFile as UploadFileModel;
-use App\Repos\UploadFile as UploadFileRepo;
 use Phalcon\Logger\Adapter\File as FileLogger;
 use Qcloud\Cos\Client as CosClient;
 
 class Storage extends Service
 {
-
-    /**
-     * 文件类型
-     */
-    const TYPE_IMAGE = 'image';
-    const TYPE_VIDEO = 'video';
-    const TYPE_AUDIO = 'audio';
-    const TYPE_FILE = 'file';
 
     /**
      * @var array
@@ -44,124 +33,13 @@ class Storage extends Service
     }
 
     /**
-     * 上传测试文件
-     *
-     * @return bool
-     */
-    public function uploadTestFile()
-    {
-        $key = 'hello_world.txt';
-        $value = 'hello world';
-
-        return $this->putString($key, $value);
-    }
-
-    /**
-     * 上传封面图片
-     *
-     * @return UploadFileModel|bool
-     */
-    public function uploadCoverImage()
-    {
-        return $this->upload('/img/cover/', self::TYPE_IMAGE);
-    }
-
-    /**
-     * 上传编辑器图片
-     *
-     * @return UploadFileModel|bool
-     */
-    public function uploadEditorImage()
-    {
-        return $this->upload('/img/editor/', self::TYPE_IMAGE);
-    }
-
-    /**
-     * 上传头像图片
-     *
-     * @return UploadFileModel|bool
-     */
-    public function uploadAvatarImage()
-    {
-        return $this->upload('/img/avatar/', self::TYPE_IMAGE);
-    }
-
-    /**
-     * 上传im图片
-     *
-     * @return UploadFileModel|bool
-     */
-    public function uploadImImage()
-    {
-        return $this->upload('/im/img/', self::TYPE_IMAGE);
-    }
-
-    /**
-     * 上传im文件
-     */
-    public function uploadImFile()
-    {
-        return $this->upload('/im/file/', self::TYPE_FILE);
-    }
-
-    /**
-     * 上传文件
-     *
-     * @param string $prefix
-     * @param string $type
-     * @return UploadFileModel|bool
-     */
-    protected function upload($prefix = '', $type = self::TYPE_IMAGE)
-    {
-        $list = [];
-
-        if ($this->request->hasFiles(true)) {
-
-            $files = $this->request->getUploadedFiles(true);
-
-            $uploadFileRepo = new UploadFileRepo();
-
-            foreach ($files as $file) {
-
-                if ($this->checkUploadFile($file->getRealType(), $type) == false) {
-                    continue;
-                }
-
-                $md5 = md5_file($file->getTempName());
-
-                $uploadFile = $uploadFileRepo->findByMd5($md5);
-
-                if ($uploadFile == false) {
-
-                    $extension = $this->getFileExtension($file->getName());
-                    $keyName = $this->generateFileName($extension, $prefix);
-                    $path = $this->putFile($keyName, $file->getTempName());
-
-                    $uploadFile = new UploadFileModel();
-
-                    $uploadFile->mime = $file->getRealType();
-                    $uploadFile->size = $file->getSize();
-                    $uploadFile->path = $path;
-                    $uploadFile->md5 = $md5;
-
-                    $uploadFile->create();
-                }
-
-                $list[] = $uploadFile;
-            }
-        }
-
-        return $list[0] ?: false;
-    }
-
-    /**
      * 上传字符内容
      *
      * @param string $key
      * @param string $body
      * @return string|bool
      */
-    protected function putString($key, $body)
+    public function putString($key, $body)
     {
         $bucket = $this->settings['bucket_name'];
 
@@ -189,16 +67,16 @@ class Storage extends Service
      * 上传文件
      *
      * @param string $key
-     * @param string $fileName
+     * @param string $filename
      * @return mixed string|bool
      */
-    protected function putFile($key, $fileName)
+    public function putFile($key, $filename)
     {
         $bucket = $this->settings['bucket_name'];
 
         try {
 
-            $body = fopen($fileName, 'rb');
+            $body = fopen($filename, 'rb');
 
             $response = $this->client->upload($bucket, $key, $body);
 
@@ -224,7 +102,7 @@ class Storage extends Service
      * @param string $key
      * @return string|bool
      */
-    protected function deleteObject($key)
+    public function deleteObject($key)
     {
         $bucket = $this->settings['bucket_name'];
 
@@ -316,41 +194,14 @@ class Storage extends Service
     /**
      * 获取文件扩展名
      *
-     * @param $fileName
+     * @param $filename
      * @return string
      */
-    protected function getFileExtension($fileName)
+    protected function getFileExtension($filename)
     {
-        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
         return strtolower($extension);
-    }
-
-    /**
-     * 检查上传文件
-     *
-     * @param string $mime
-     * @param string $type
-     * @return bool
-     */
-    protected function checkUploadFile($mime, $type)
-    {
-        switch ($type) {
-            case self::TYPE_IMAGE:
-                $result = FileInfo::isImage($mime);
-                break;
-            case self::TYPE_VIDEO:
-                $result = FileInfo::isVideo($mime);
-                break;
-            case self::TYPE_AUDIO:
-                $result = FileInfo::isAudio($mime);
-                break;
-            default:
-                $result = FileInfo::isSecure($mime);
-                break;
-        }
-
-        return $result;
     }
 
     /**

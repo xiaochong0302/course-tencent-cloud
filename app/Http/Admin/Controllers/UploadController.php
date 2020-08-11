@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Services\Storage as StorageService;
+use App\Services\MyStorage as StorageService;
 
 /**
  * @RoutePrefix("/admin/upload")
@@ -11,7 +11,7 @@ class UploadController extends Controller
 {
 
     /**
-     * @Post("/img/cover", name="admin.upload.cover_img")
+     * @Post("/cover/img", name="admin.upload.cover_img")
      */
     public function uploadCoverImageAction()
     {
@@ -32,7 +32,7 @@ class UploadController extends Controller
     }
 
     /**
-     * @Post("/img/avatar", name="admin.upload.avatar_img")
+     * @Post("/avatar/img", name="admin.upload.avatar_img")
      */
     public function uploadAvatarImageAction()
     {
@@ -53,7 +53,7 @@ class UploadController extends Controller
     }
 
     /**
-     * @Post("/img/editor", name="admin.upload.editor_img")
+     * @Post("/editor/img", name="admin.upload.editor_img")
      */
     public function uploadEditorImageAction()
     {

@@ -19,16 +19,16 @@ class Trade extends Service
 
         $trade = $service->handle();
 
-        $qrCodeUrl = $this->getQrCodeUrl($trade);
+        $qrCode = $this->getQrCode($trade);
 
-        if ($trade && $qrCodeUrl) {
+        if ($trade && $qrCode) {
 
             $this->db->commit();
 
             return [
                 'sn' => $trade->sn,
                 'channel' => $trade->channel,
-                'qrcode_url' => $qrCodeUrl,
+                'qrcode' => $qrCode,
             ];
 
         } else {
@@ -39,38 +39,38 @@ class Trade extends Service
         }
     }
 
-    protected function getQrCodeUrl(TradeModel $trade)
+    protected function getQrCode(TradeModel $trade)
     {
-        $qrcodeUrl = null;
+        $qrCode = null;
 
         if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
-            $qrcodeUrl = $this->getAlipayQrCodeUrl($trade);
+            $qrCode = $this->getAlipayQrCode($trade);
         } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
-            $qrcodeUrl = $this->getWxpayQrCodeUrl($trade);
+            $qrCode = $this->getWxpayQrCode($trade);
         }
 
-        return $qrcodeUrl;
+        return $qrCode;
     }
 
-    protected function getAlipayQrCodeUrl(TradeModel $trade)
+    protected function getAlipayQrCode(TradeModel $trade)
     {
-        $qrCodeUrl = null;
+        $qrCode = null;
 
         $service = new AlipayService();
 
         $text = $service->scan($trade);
 
         if ($text) {
-            $qrCodeUrl = $this->url->get(
+            $qrCode = $this->url->get(
                 ['for' => 'web.qrcode'],
                 ['text' => urlencode($text)]
             );
         }
 
-        return $qrCodeUrl;
+        return $qrCode;
     }
 
-    protected function getWxpayQrCodeUrl(TradeModel $trade)
+    protected function getWxpayQrCode(TradeModel $trade)
     {
         $service = new WxpayService();
 

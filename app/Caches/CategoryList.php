@@ -15,23 +15,24 @@ class CategoryList extends Cache
         return $this->lifetime;
     }
 
-    public function getKey($id = null)
+    public function getKey($type = null)
     {
-        return 'category_list';
+        return "category_list:{$type}";
     }
 
     /**
-     * @param null $id
+     * @param null $type
      * @return array
      */
-    public function getContent($id = null)
+    public function getContent($type = null)
     {
         /**
          * @var Resultset $categories
          */
         $categories = CategoryModel::query()
             ->columns(['id', 'parent_id', 'name', 'priority', 'level', 'path'])
-            ->where('published = 1')
+            ->where('type = :type:', ['type' => $type])
+            ->andWhere('published = 1')
             ->execute();
 
         if ($categories->count() == 0) {

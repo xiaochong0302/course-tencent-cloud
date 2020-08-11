@@ -15,6 +15,14 @@ class ImController extends LayerController
     use ResponseTrait;
 
     /**
+     * @Get("/", name="web.im.index")
+     */
+    public function indexAction()
+    {
+
+    }
+
+    /**
      * @Get("/init", name="web.im.init")
      */
     public function initAction()
@@ -66,9 +74,9 @@ class ImController extends LayerController
     }
 
     /**
-     * @Get("/msg/friend/unread", name="web.im.unread_friend_msg")
+     * @Get("/friend/msg/unread", name="web.im.unread_friend_msg")
      */
-    public function unreadFriendMessagesAction()
+    public function unreadFriendMsgAction()
     {
         $service = new ImService();
 
@@ -78,40 +86,40 @@ class ImController extends LayerController
     }
 
     /**
-     * @Get("/msg/sys/unread", name="web.im.unread_sys_msg")
+     * @Get("/sys/msg/unread", name="web.im.unread_sys_msg")
      */
-    public function unreadSystemMessagesAction()
+    public function unreadSysMsgAction()
     {
         $service = new ImService();
 
-        $count = $service->countUnreadSystemMessages();
+        $count = $service->countUnreadNotices();
 
         return $this->jsonSuccess(['count' => $count]);
     }
 
     /**
-     * @Get("/msg/sys", name="web.im.sys_msg")
+     * @Get("/sys/msg", name="web.im.sys_msg")
      */
-    public function systemMessagesAction()
+    public function sysMsgAction()
     {
         $service = new ImService();
 
-        $pager = $service->getSystemMessages();
+        $pager = $service->getNotices();
 
         $pager->items = kg_array_object($pager->items);
 
-        $this->view->pick('im/sys_messages');
+        $this->view->pick('im/sys_msg');
         $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Post("/msg/sys/read", name="web.im.read_sys_msg")
+     * @Post("/sys/msg/read", name="web.im.read_sys_msg")
      */
-    public function readSystemMessagesAction()
+    public function readSysMsgAction()
     {
         $service = new ImService();
 
-        $service->readSystemMessages();
+        $service->readNotices();
 
         return $this->jsonSuccess();
     }
@@ -208,21 +216,6 @@ class ImController extends LayerController
         $service->sendMessage();
 
         return $this->jsonSuccess();
-    }
-
-    /**
-     * @Post("/img/upload", name="web.im.upload_img")
-     */
-    public function uploadImageAction()
-    {
-    }
-
-    /**
-     * @Post("/file/upload", name="web.im.upload_file")
-     */
-    public function uploadFileAction()
-    {
-
     }
 
     /**

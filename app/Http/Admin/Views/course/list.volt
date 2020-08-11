@@ -28,13 +28,15 @@
 
     {%- macro category_info(category) %}
         {% if category %}
-            分类：<a class="layui-badge layui-bg-gray" href="{{ url({'for':'admin.course.list'},{'category_id':category.id}) }}">{{ category.name }}</a>
+            {% set url = url({'for':'admin.course.list'},{'category_id':category.id}) %}
+            分类：<a class="layui-badge layui-bg-gray" href="{{ url }}">{{ category.name }}</a>
         {% endif %}
     {%- endmacro %}
 
     {%- macro teacher_info(teacher) %}
         {% if teacher %}
-            讲师：<a class="layui-badge layui-bg-gray" href="{{ url({'for':'admin.course.list'},{'teacher_id':teacher.id}) }}">{{ teacher.name }}</a>
+            {% set url = url({'for':'admin.course.list'},{'teacher_id':teacher.id}) %}
+            讲师：<a class="layui-badge layui-bg-gray" href="{{ url }}">{{ teacher.name }}</a>
         {% endif %}
     {%- endmacro %}
 
@@ -75,18 +77,26 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set edit_url = url({'for':'admin.course.edit','id':item.id}) %}
+            {% set update_url = url({'for':'admin.course.update','id':item.id}) %}
+            {% set delete_url = url({'for':'admin.course.delete','id':item.id}) %}
+            {% set restore_url = url({'for':'admin.course.restore','id':item.id}) %}
+            {% set catalog_url = url({'for':'admin.course.chapters','id':item.id}) %}
+            {% set student_url = url({'for':'admin.student.list'},{'course_id':item.id}) %}
+            {% set review_url = url({'for':'admin.review.list'},{'course_id':item.id}) %}
+            {% set consult_url = url({'for':'admin.consult.list'},{'course_id':item.id}) %}
             <tr>
                 <td>
-                    <p>标题：<a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">{{ item.title }}</a> {{ model_info(item.model) }}</p>
+                    <p>标题：<a href="{{ catalog_url }}">{{ item.title }}</a> {{ model_info(item.model) }}</p>
                     <p>{{ category_info(item.category) }}&nbsp;&nbsp;{{ teacher_info(item.teacher) }}&nbsp;&nbsp;{{ level_info(item.level) }}</p>
                 </td>
                 <td>
-                    <a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">
+                    <a href="{{ catalog_url }}">
                         <span class="layui-badge layui-bg-green">{{ item.lesson_count }}</span>
                     </a>
                 </td>
                 <td>
-                    <a href="{{ url({'for':'admin.student.list'},{'course_id':item.id}) }}">
+                    <a href="{{ student_url }}">
                         <span class="layui-badge layui-bg-green">{{ item.user_count }}</span>
                     </a>
                 </td>
@@ -94,23 +104,23 @@
                     <p>市场：{{ '￥%0.2f'|format(item.market_price) }}</p>
                     <p>会员：{{ '￥%0.2f'|format(item.vip_price) }}</p>
                 </td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.course.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
+                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
                 <td align="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                         <ul>
-                            <li><a href="{{ url({'for':'admin.course.edit','id':item.id}) }}">编辑课程</a></li>
+                            <li><a href="{{ edit_url }}">编辑课程</a></li>
                             {% if item.deleted == 0 %}
-                                <li><a href="javascript:" class="kg-delete" data-url="{{ url({'for':'admin.course.delete','id':item.id}) }}">删除课程</a></li>
+                                <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除课程</a></li>
                             {% else %}
-                                <li><a href="javascript:" class="kg-restore" data-url="{{ url({'for':'admin.course.restore','id':item.id}) }}">还原课程</a></li>
+                                <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原课程</a></li>
                             {% endif %}
                             <hr>
-                            <li><a href="{{ url({'for':'admin.course.chapters','id':item.id}) }}">章节管理</a></li>
-                            <li><a href="{{ url({'for':'admin.student.list'},{'course_id':item.id}) }}">学员管理</a></li>
+                            <li><a href="{{ catalog_url }}">章节管理</a></li>
+                            <li><a href="{{ student_url }}">学员管理</a></li>
                             <hr>
-                            <li><a href="{{ url({'for':'admin.consult.list'}) }}?course_id={{ item.id }}">咨询管理</a></li>
-                            <li><a href="{{ url({'for':'admin.review.list'}) }}?course_id={{ item.id }}">评价管理</a></li>
+                            <li><a href="{{ consult_url }}">咨询管理</a></li>
+                            <li><a href="{{ review_url }}">评价管理</a></li>
                         </ul>
                     </div>
                 </td>

@@ -4,11 +4,11 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\ImFriendGroup as ImFriendGroupModel;
-use App\Models\ImFriendMessage as ImFriendMessageModel;
 use App\Models\ImFriendUser as ImFriendUserModel;
 use App\Models\ImGroup as ImGroupModel;
 use App\Models\ImGroupUser as ImGroupUserModel;
-use App\Models\ImSystemMessage as ImSystemMessageModel;
+use App\Models\ImMessage as ImMessageModel;
+use App\Models\ImNotice as ImNoticeModel;
 use App\Models\ImUser as ImUserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -111,31 +111,30 @@ class ImUser extends Repository
             ->addFrom(ImGroupModel::class, 'g')
             ->join(ImGroupUserModel::class, 'g.id = gu.group_id', 'gu')
             ->where('gu.user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('g.published = 1')
             ->getQuery()->execute();
     }
 
     /**
      * @param int $friendId
      * @param int $userId
-     * @return ResultsetInterface|Resultset|ImFriendMessageModel[]
+     * @return ResultsetInterface|Resultset|ImMessageModel[]
      */
     public function findUnreadFriendMessages($friendId, $userId)
     {
-        return ImFriendMessageModel::find([
-            'conditions' => 'sender_id = ?1 AND receiver_id = ?2 AND viewed = ?3',
-            'bind' => [1 => $friendId, 2 => $userId, 3 => 0],
+        return ImMessageModel::find([
+            'conditions' => 'sender_id = ?1 AND receiver_id = ?2 AND viewed = 0',
+            'bind' => [1 => $friendId, 2 => $userId],
         ]);
     }
 
     /**
      * @param int $userId
      * @param int $itemType
-     * @return ImSystemMessageModel|Model|bool
+     * @return ImNoticeModel|Model|bool
      */
-    public function findSystemMessage($userId, $itemType)
+    public function findNotice($userId, $itemType)
     {
-        return ImSystemMessageModel::findFirst([
+        return ImNoticeModel::findFirst([
             'conditions' => 'receiver_id = ?1 AND item_type = ?2',
             'bind' => [1 => $userId, 2 => $itemType],
             'order' => 'id DESC',
@@ -144,21 +143,21 @@ class ImUser extends Repository
 
     /**
      * @param int $userId
-     * @return ResultsetInterface|Resultset|ImFriendMessageModel[]
+     * @return ResultsetInterface|Resultset|ImNoticeModel[]
      */
-    public function findUnreadSystemMessages($userId)
+    public function findUnreadNotices($userId)
     {
-        return ImSystemMessageModel::find([
-            'conditions' => 'receiver_id = ?1 AND viewed = ?2',
-            'bind' => [1 => $userId, 2 => 0],
+        return ImNoticeModel::find([
+            'conditions' => 'receiver_id = :receiver_id: AND viewed = 0',
+            'bind' => ['receiver_id' => $userId],
         ]);
     }
 
-    public function countUnreadSystemMessages($userId)
+    public function countUnreadNotices($userId)
     {
-        return (int)ImSystemMessageModel::count([
-            'conditions' => 'receiver_id = ?1 AND viewed = ?2',
-            'bind' => [1 => $userId, 2 => 0],
+        return (int)ImNoticeModel::count([
+            'conditions' => 'receiver_id = :receiver_id: AND viewed = 0',
+            'bind' => ['receiver_id' => $userId],
         ]);
     }
 

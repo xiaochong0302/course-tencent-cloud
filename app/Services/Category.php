@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Caches\Category as CategoryCache;
 use App\Caches\CategoryList as CategoryListCache;
+use App\Models\Category as CategoryModel;
 
 class Category extends Service
 {
@@ -50,14 +51,15 @@ class Category extends Service
     /**
      * 获取子节点
      *
+     * @param string $type
      * @param int $id
      * @return array
      */
-    public function getChildCategories($id = 0)
+    public function getChildCategories($type, $id)
     {
         $categoryListCache = new CategoryListCache();
 
-        $categories = $categoryListCache->get();
+        $categories = $categoryListCache->get($type);
 
         $result = [];
 
@@ -80,6 +82,9 @@ class Category extends Service
     {
         $categoryCache = new CategoryCache();
 
+        /**
+         * @var CategoryModel $category
+         */
         $category = $categoryCache->get($id);
 
         if (!$category) {
@@ -92,7 +97,7 @@ class Category extends Service
 
         $categoryListCache = new CategoryListCache();
 
-        $categories = $categoryListCache->get();
+        $categories = $categoryListCache->get($category->type);
 
         $result = [];
 

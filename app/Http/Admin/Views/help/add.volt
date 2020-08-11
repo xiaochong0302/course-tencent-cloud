@@ -7,6 +7,17 @@
             <legend>添加帮助</legend>
         </fieldset>
         <div class="layui-form-item">
+            <label class="layui-form-label">分类</label>
+            <div class="layui-input-block">
+                <select name="category_id" lay-verify="required">
+                    <option value="">选择分类</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">标题</label>
             <div class="layui-input-block">
                 <input class="layui-input" type="text" name="title" lay-verify="required">

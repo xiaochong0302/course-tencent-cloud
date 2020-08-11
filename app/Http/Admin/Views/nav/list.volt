@@ -18,11 +18,14 @@
         {% endif %}
     {%- endmacro %}
 
+    {% set back_url = url({'for':'admin.nav.list'}) %}
+    {% set add_nav_url = url({'for':'admin.nav.add'},{'parent_id':parent.id}) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
         <span class="layui-breadcrumb">
             {% if parent.id > 0 %}
-                <a class="kg-back" href="{{ url({'for':'admin.nav.list'}) }}">
+                <a class="kg-back" href="{{ back_url }}">
                     <i class="layui-icon layui-icon-return"></i> 返回
                 </a>
                 <a><cite>{{ parent.name }}</cite></a>
@@ -31,7 +34,7 @@
         </span>
         </div>
         <div class="kg-nav-right">
-            <a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.nav.add'},{'parent_id':parent.id}) }}">
+            <a class="layui-btn layui-btn-sm" href="{{ add_nav_url }}">
                 <i class="layui-icon layui-icon-add-1"></i>添加导航
             </a>
         </div>
@@ -64,10 +67,15 @@
         </thead>
         <tbody>
         {% for item in navs %}
+            {% set child_url = url({'for':'admin.nav.list'},{'parent_id':item.id}) %}
+            {% set edit_url = url({'for':'admin.nav.edit','id':item.id}) %}
+            {% set update_url = url({'for':'admin.nav.update','id':item.id}) %}
+            {% set delete_url = url({'for':'admin.nav.delete','id':item.id}) %}
+            {% set restore_url = url({'for':'admin.nav.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
                 {% if item.position == 'top' and item.level < 2 %}
-                    <td><a href="{{ url({'for':'admin.nav.list'},{'parent_id':item.id}) }}">{{ item.name }}</a></td>
+                    <td><a href="{{ child_url }}">{{ item.name }}</a></td>
                 {% else %}
                     <td>{{ item.name }}</td>
                 {% endif %}
@@ -75,17 +83,17 @@
                 <td><span class="layui-badge layui-bg-gray">{{ item.child_count }}</span></td>
                 <td>{{ position_info(item.position) }}</td>
                 <td>{{ target_info(item.target) }}</td>
-                <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ url({'for':'admin.nav.update','id':item.id}) }}"></td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.nav.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
+                <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
+                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
                 <td align="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
                         <ul>
-                            <li><a href="{{ url({'for':'admin.nav.edit','id':item.id}) }}">编辑</a></li>
+                            <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}
-                                <li><a href="javascript:" class="kg-delete" data-url="{{ url({'for':'admin.nav.delete','id':item.id}) }}">删除</a></li>
+                                <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
                             {% else %}
-                                <li><a href="javascript:" class="kg-restore" data-url="{{ url({'for':'admin.nav.restore','id':item.id}) }}">还原</a></li>
+                                <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原</a></li>
                             {% endif %}
                         </ul>
                     </div>

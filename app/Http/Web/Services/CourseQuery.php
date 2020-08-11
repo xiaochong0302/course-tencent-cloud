@@ -3,8 +3,10 @@
 namespace App\Http\Web\Services;
 
 use App\Caches\Category as CategoryCache;
+use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
 use App\Services\Category as CategoryService;
+use App\Validators\CourseQuery as CourseQueryValidator;
 
 class CourseQuery extends Service
 {
@@ -42,7 +44,7 @@ class CourseQuery extends Service
 
         $categoryService = new CategoryService();
 
-        $topCategories = $categoryService->getChildCategories(0);
+        $topCategories = $categoryService->getChildCategories(CategoryModel::TYPE_COURSE, 0);
 
         foreach ($topCategories as $key => $category) {
             $params['tc'] = $category['id'];
@@ -66,7 +68,7 @@ class CourseQuery extends Service
 
         $categoryService = new CategoryService();
 
-        $subCategories = $categoryService->getChildCategories($params['tc']);
+        $subCategories = $categoryService->getChildCategories(CategoryModel::TYPE_COURSE, $params['tc']);
 
         if (empty($subCategories)) {
             return [];
@@ -216,7 +218,7 @@ class CourseQuery extends Service
 
         $params = [];
 
-        $validator = new \App\Validators\CourseQuery();
+        $validator = new CourseQueryValidator();
 
         if (isset($query['tc']) && $query['tc'] != 'all') {
             $validator->checkTopCategory($query['tc']);

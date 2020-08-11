@@ -1,5 +1,6 @@
 <?php
 
+use App\Caches\Setting as SettingCache;
 use App\Library\Validators\Common as CommonValidator;
 use App\Services\Storage as StorageService;
 use Koogua\Ip2Region\Searcher as Ip2RegionSearcher;
@@ -127,6 +128,24 @@ function kg_site_base_url()
     $path = filter_input(INPUT_SERVER, 'SCRIPT_NAME');
 
     return "{$scheme}://{$host}" . rtrim(dirname($path), '/');
+}
+
+/**
+ * 获取站点设置
+ *
+ * @param string $section
+ * @param string $key
+ * @return mixed
+ */
+function kg_site_setting($section, $key = null)
+{
+    $cache = new SettingCache();
+
+    $settings = $cache->get($section);
+
+    if (!$key) return $settings;
+
+    return $settings[$key] ?? null;
 }
 
 /**

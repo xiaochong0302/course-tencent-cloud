@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class ImSystemMessage extends Model
+class ImNotice extends Model
 {
 
     /**
@@ -15,7 +15,7 @@ class ImSystemMessage extends Model
     const REQUEST_REFUSED = 'refused'; // 已拒绝
 
     /**
-     * 消息类型
+     * 通知类型
      */
     const TYPE_FRIEND_REQUEST = 1; // 好友请求
     const TYPE_FRIEND_ACCEPTED = 2; // 好友被接受
@@ -96,7 +96,7 @@ class ImSystemMessage extends Model
 
     public function getSource(): string
     {
-        return 'kg_im_system_message';
+        return 'kg_im_notice';
     }
 
     public function initialize()

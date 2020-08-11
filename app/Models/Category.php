@@ -29,13 +29,6 @@ class Category extends Model
     public $parent_id;
 
     /**
-     * 别名
-     *
-     * @var string
-     */
-    public $alias;
-
-    /**
      * 类型
      *
      * @var string
@@ -141,6 +134,14 @@ class Category extends Model
         $cache = new MaxCategoryIdCache();
 
         $cache->rebuild();
+    }
+
+    public static function types()
+    {
+        return [
+            self::TYPE_COURSE => '课程',
+            self::TYPE_HELP => '帮助',
+        ];
     }
 
 }

@@ -13,7 +13,7 @@ class HelpInfo extends FrontendService
 
     public function handle($id)
     {
-        $help = $this->checkHelpCache($id);
+        $help = $this->checkHelp($id);
 
         return $this->handleHelp($help);
     }

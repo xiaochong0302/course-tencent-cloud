@@ -11,6 +11,19 @@ class CourseController extends Controller
 {
 
     /**
+     * @Get("/category", name="admin.course.category")
+     */
+    public function categoryAction()
+    {
+        $location = $this->url->get(
+            ['for' => 'admin.category.list'],
+            ['type' => 'course'],
+            );
+
+        return $this->response->redirect($location);
+    }
+
+    /**
      * @Get("/search", name="admin.course.search")
      */
     public function searchAction()

@@ -9,9 +9,9 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class CategoryTreeList extends Builder
 {
 
-    public function handle()
+    public function handle($type)
     {
-        $topCategories = $this->findChildCategories(0);
+        $topCategories = $this->findChildCategories($type, 0);
 
         if ($topCategories->count() == 0) {
             return [];
@@ -32,7 +32,7 @@ class CategoryTreeList extends Builder
 
     protected function handleChildren(CategoryModel $category)
     {
-        $subCategories = $this->findChildCategories($category->id);
+        $subCategories = $this->findChildCategories($category->type, $category->id);
 
         if ($subCategories->count() == 0) {
             return [];
@@ -51,16 +51,27 @@ class CategoryTreeList extends Builder
     }
 
     /**
-     * @param int $categoryId
+     * @param string $type
+     * @param int $parentId
      * @return ResultsetInterface|Resultset|CategoryModel[]
      */
-    protected function findChildCategories($categoryId = 0)
+    protected function findChildCategories($type = 'course', $parentId = 0)
     {
-        return CategoryModel::query()
-            ->where('parent_id = :parent_id:', ['parent_id' => $categoryId])
-            ->andWhere('published = 1')
-            ->orderBy('priority ASC')
-            ->execute();
+        $query = CategoryModel::query();
+
+        $query->where('published = 1');
+
+        if ($type) {
+            $query->andWhere('type = :type:', ['type' => $type]);
+        }
+
+        if ($parentId) {
+            $query->andWhere('parent_id = :parent_id:', ['parent_id' => $parentId]);
+        }
+
+        $query->orderBy('priority ASC');
+
+        return $query->execute();
     }
 
 }

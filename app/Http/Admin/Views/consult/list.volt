@@ -44,9 +44,14 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set list_url = url({'for':'admin.consult.list'},{'course_id':item.course.id}) %}
+            {% set edit_url = url({'for':'admin.consult.edit','id':item.id}) %}
+            {% set update_url = url({'for':'admin.consult.update','id':item.id}) %}
+            {% set delete_url = url({'for':'admin.consult.delete','id':item.id}) %}
+            {% set restore_url = url({'for':'admin.consult.restore','id':item.id}) %}
             <tr>
                 <td>
-                    <p>课程：<a href="{{ url({'for':'admin.consult.list'},{'course_id':item.course.id}) }}">{{ item.course.title }}</a>{{ private_info(item.private) }}</p>
+                    <p>课程：<a href="{{ list_url }}">{{ item.course.title }}</a>{{ private_info(item.private) }}</p>
                     <p>提问：<a href="javascript:" title="{{ item.question }}">{{ substr(item.question,0,30) }}</a></p>
                     {% if item.answer %}
                         <p>回复：<a href="javascript:" title="{{ item.answer }}">{{ substr(item.answer,0,30) }}</a></p>
@@ -57,17 +62,17 @@
                     <p>编号：{{ item.owner.id }}</p>
                 </td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ url({'for':'admin.consult.update','id':item.id}) }}" {% if item.published == 1 %}checked{% endif %}></td>
+                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
                 <td align="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span>
                         </button>
                         <ul>
-                            <li><a href="{{ url({'for':'admin.consult.edit','id':item.id}) }}">编辑</a></li>
+                            <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}
-                                <li><a href="javascript:" class="kg-delete" data-url="{{ url({'for':'admin.consult.delete','id':item.id}) }}">删除</a></li>
+                                <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
                             {% else %}
-                                <li><a href="javascript:" class="kg-restore" data-url="{{ url({'for':'admin.consult.restore','id':item.id}) }}">还原</a></li>
+                                <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原</a></li>
                             {% endif %}
                         </ul>
                     </div>

@@ -16,11 +16,11 @@ class Help extends Model
     public $id;
 
     /**
-     * 别名
+     * 分类编号
      *
-     * @var string
+     * @var int
      */
-    public $alias;
+    public $category_id;
 
     /**
      * 标题
@@ -28,13 +28,6 @@ class Help extends Model
      * @var string
      */
     public $title;
-
-    /**
-     * 关键字
-     *
-     * @var string
-     */
-    public $keywords;
 
     /**
      * 内容

@@ -6,7 +6,7 @@ layui.use(['jquery', 'layer', 'upload'], function () {
 
     upload.render({
         elem: '#change-cover',
-        url: '/admin/upload/img/cover',
+        url: '/admin/upload/cover/img',
         accept: 'images',
         acceptMime: 'image/*',
         before: function () {

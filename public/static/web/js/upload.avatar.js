@@ -6,7 +6,7 @@ layui.use(['jquery', 'layer', 'upload'], function () {
 
     upload.render({
         elem: '#change-avatar',
-        url: '/upload/img/avatar',
+        url: '/upload/avatar/img',
         accept: 'images',
         acceptMime: 'image/*',
         size: 512,

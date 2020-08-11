@@ -3,8 +3,6 @@
 namespace App\Repos;
 
 use App\Models\Category as CategoryModel;
-use App\Models\Course as CourseModel;
-use App\Models\CourseCategory as CourseCategoryModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -24,6 +22,10 @@ class Category extends Repository
 
         if (isset($where['parent_id'])) {
             $query->andWhere('parent_id = :parent_id:', ['parent_id' => $where['parent_id']]);
+        }
+
+        if (isset($where['type'])) {
+            $query->andWhere('type = :type:', ['type' => $where['type']]);
         }
 
         if (isset($where['level'])) {
@@ -66,13 +68,16 @@ class Category extends Repository
     }
 
     /**
+     * @param string $type
      * @return ResultsetInterface|Resultset|CategoryModel[]
      */
-    public function findTopCategories()
+    public function findTopCategories($type)
     {
         return CategoryModel::query()
-            ->where('parent_id = 0')
+            ->where('type = :type:', ['type' => $type])
+            ->andWhere('parent_id = 0')
             ->andWhere('published = 1')
+            ->orderBy('priority ASC')
             ->execute();
     }
 
@@ -85,6 +90,7 @@ class Category extends Repository
         return CategoryModel::query()
             ->where('parent_id = :parent_id:', ['parent_id' => $categoryId])
             ->andWhere('published = 1')
+            ->orderBy('priority ASC')
             ->execute();
     }
 
@@ -94,19 +100,6 @@ class Category extends Repository
             'conditions' => 'parent_id = :parent_id: AND published = 1',
             'bind' => ['parent_id' => $categoryId],
         ]);
-    }
-
-    public function countCourses($categoryId)
-    {
-        $phql = 'SELECT COUNT(*) AS total FROM %s cc JOIN %s c ON cc.course_id = c.id WHERE cc.category_id = :category_id: AND c.published = 1';
-
-        $phql = sprintf($phql, CourseCategoryModel::class, CourseModel::class);
-
-        $bind = ['category_id' => $categoryId];
-
-        $record = $this->modelsManager->executeQuery($phql, $bind)->getFirst();
-
-        return (int)$record['total'];
     }
 
 }

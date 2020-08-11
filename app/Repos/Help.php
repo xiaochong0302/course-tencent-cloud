@@ -42,6 +42,10 @@ class Help extends Repository
 
         $query->where('1 = 1');
 
+        if (!empty($where['category_id'])) {
+            $query->andWhere('category_id = :category_id:', ['category_id' => $where['category_id']]);
+        }
+
         if (!empty($where['title'])) {
             $query->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
         }
@@ -54,7 +58,7 @@ class Help extends Repository
             $query->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
-        $query->orderBy('priority ASC');
+        $query->orderBy('category_id ASC,priority ASC');
 
         return $query->execute();
     }
