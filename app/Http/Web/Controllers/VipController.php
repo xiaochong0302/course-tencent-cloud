@@ -37,7 +37,7 @@ class VipController extends Controller
         $service = new VipCourseListService();
 
         $pager = $service->handle($type);
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = "tab-{$type}-courses";
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
@@ -52,7 +52,7 @@ class VipController extends Controller
         $service = new VipUserListService();
 
         $pager = $service->handle();
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = 'tab-users';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);

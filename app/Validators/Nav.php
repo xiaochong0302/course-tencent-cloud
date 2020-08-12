@@ -70,9 +70,10 @@ class Nav extends Validator
         $value = $this->filter->sanitize($url, ['trim']);
 
         $stageA = Text::startsWith($value, '/');
-        $stageB = CommonValidator::url($value);
+        $stageB = Text::startsWith($value, '#');
+        $stageC = CommonValidator::url($value);
 
-        if (!$stageA && !$stageB) {
+        if (!$stageA && !$stageB && !$stageC) {
             throw new BadRequestException('nav.invalid_url');
         }
 

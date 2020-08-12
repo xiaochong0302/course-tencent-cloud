@@ -39,7 +39,10 @@ class AuditController extends Controller
 
         $audit = $auditService->getAudit($id);
 
+        $region = kg_ip2region($audit->user_ip);
+
         $this->view->setVar('audit', $audit);
+        $this->view->setVar('region', $region);
     }
 
 }

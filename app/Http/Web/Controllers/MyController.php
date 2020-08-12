@@ -146,9 +146,9 @@ class MyController extends Controller
     }
 
     /**
-     * @Get("/friends", name="web.my.friends")
+     * @Get("/im/friends", name="web.my.im_friends")
      */
-    public function friendsAction()
+    public function imFriendsAction()
     {
         $service = new MyFriendListService();
 
@@ -156,13 +156,14 @@ class MyController extends Controller
 
         $pager->items = kg_array_object($pager->items);
 
+        $this->view->pick('my/im_friends');
         $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Get("/groups", name="web.my.groups")
+     * @Get("/im/groups", name="web.my.im_groups")
      */
-    public function groupsAction()
+    public function imGroupsAction()
     {
         $type = $this->request->getQuery('type', 'trim', 'joined');
 
@@ -172,6 +173,7 @@ class MyController extends Controller
 
         $pager->items = kg_array_object($pager->items);
 
+        $this->view->pick('my/im_groups');
         $this->view->setVar('type', $type);
         $this->view->setVar('pager', $pager);
     }

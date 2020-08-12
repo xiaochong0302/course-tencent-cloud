@@ -10,8 +10,8 @@
     </div>
 
     <div class="page-info wrap">
-        <div class="title">{{ page.title }}</div>
-        <div class="content" id="preview">{{ page.content }}</div>
+        <div class="page-title">{{ page.title }}</div>
+        <div class="page-content" id="preview">{{ page.content }}</div>
     </div>
 
 {% endblock %}

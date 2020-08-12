@@ -4,18 +4,11 @@
 
     {{ partial('refund/macro') }}
 
-    {% set search_refund_url = url({'for':'admin.refund.search'}) %}
-
     <div class="kg-nav">
         <div class="kg-nav-left">
-        <span class="layui-breadcrumb">
-            <a><cite>退款管理</cite></a>
-        </span>
-        </div>
-        <div class="kg-nav-right">
-            <a class="layui-btn layui-btn-sm" href="{{ search_refund_url }}">
-                <i class="layui-icon layui-icon-search"></i>搜索退款
-            </a>
+            <span class="layui-breadcrumb">
+                <a><cite>退款管理</cite></a>
+            </span>
         </div>
     </div>
 
@@ -53,8 +46,8 @@
                 <td>{{ '￥%0.2f'|format(item.amount) }}</td>
                 <td>{{ refund_status(item.status) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
-                <td align="center">
-                    <a class="layui-btn layui-btn-sm layui-bg-green" href="{{ show_url }}">详情</a>
+                <td class="center">
+                    <a class="layui-btn layui-btn-sm" href="{{ show_url }}">详情</a>
                 </td>
             </tr>
         {% endfor %}

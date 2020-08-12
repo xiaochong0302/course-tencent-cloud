@@ -2,26 +2,23 @@
 
 {% block content %}
 
-    {% set add_category_url = url({'for':'admin.category.add'},{'type':type,'parent_id':parent.id}) %}
-    {% set allow_add_category = (type == 'course' and parent.level < 2) or (type == 'help' and parent.level < 1) %}
+    {% set back_url = url({'for':'admin.category.list'}) %}
+    {% set add_url = url({'for':'admin.category.add'},{'type':type,'parent_id':parent.id}) %}
+    {% set allow_add = (type == 'course' and parent.level < 2) or (type == 'help' and parent.level < 1) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
-        <span class="layui-breadcrumb">
-            {% if parent.id > 0 %}
-                <a class="kg-back" href="{{ url({'for':'admin.category.list'}) }}">
-                    <i class="layui-icon layui-icon-return"></i> 返回
-                </a>
-                <a><cite>{{ parent.name }}</cite></a>
-            {% endif %}
-            <a><cite>分类管理</cite></a>
-        </span>
+            <span class="layui-breadcrumb">
+                {% if parent.id > 0 %}
+                    <a class="kg-back" href="{{ back_url }}"><i class="layui-icon layui-icon-return"></i>返回</a>
+                    <a><cite>{{ parent.name }}</cite></a>
+                {% endif %}
+                <a><cite>分类管理</cite></a>
+            </span>
         </div>
         <div class="kg-nav-right">
-            {% if allow_add_category %}
-                <a class="layui-btn layui-btn-sm" href="{{ add_category_url }}">
-                    <i class="layui-icon layui-icon-add-1"></i>添加分类
-                </a>
+            {% if allow_add %}
+                <a class="layui-btn layui-btn-sm" href="{{ add_url }}"><i class="layui-icon layui-icon-add-1"></i>添加分类</a>
             {% endif %}
         </div>
     </div>
@@ -66,9 +63,9 @@
                 <td><span class="layui-badge layui-bg-gray">{{ item.child_count }}</span></td>
                 <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
-                <td align="center">
+                <td class="center">
                     <div class="layui-dropdown">
-                        <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
+                        <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
                             <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}

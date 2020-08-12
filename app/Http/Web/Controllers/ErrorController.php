@@ -3,7 +3,6 @@
 namespace App\Http\Web\Controllers;
 
 use App\Traits\Response as ResponseTrait;
-use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/error")
@@ -12,11 +11,6 @@ class ErrorController extends \Phalcon\Mvc\Controller
 {
 
     use ResponseTrait;
-
-    public function initialize()
-    {
-        $this->view->setRenderLevel(View::LEVEL_LAYOUT);
-    }
 
     /**
      * @Get("/400", name="web.error.400")
@@ -49,8 +43,8 @@ class ErrorController extends \Phalcon\Mvc\Controller
     {
         $this->response->setStatusCode(404);
 
-        $isApiRequest = $this->request->isAjax();
-        $isAjaxRequest = $this->request->isApi();
+        $isAjaxRequest = $this->request->isAjax();
+        $isApiRequest = $this->request->isApi();
 
         if ($isAjaxRequest || $isApiRequest) {
             return $this->jsonError(['code' => 'sys.not_found']);

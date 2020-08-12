@@ -7,24 +7,34 @@ use Phalcon\Mvc\View as PhView;
 class View extends PhView
 {
 
-    public function setVars(array $params, bool $merge = true): PhView
+    public function setVars(array $params, $merge = true): PhView
     {
         foreach ($params as $key => $param) {
-            if (is_array($param)) {
-                $params[$key] = kg_array_object($param);
-            }
+            $params[$key] = $this->handleVar($param);
         }
 
         return parent::setVars($params, $merge);
     }
 
-    public function setVar(string $key, $value): PhView
+    public function setVar($key, $value): PhView
     {
-        if (is_array($value)) {
-            $value = kg_array_object($value);
-        }
+        $value = $this->handleVar($value);
 
         return parent::setVar($key, $value);
+    }
+
+    protected function handleVar($var)
+    {
+        /**
+         * 分页数据
+         */
+        if (isset($var->total_items)) {
+            $var->items = kg_array_object($var->items);
+        } elseif (is_array($var)) {
+            $var = kg_array_object($var);
+        }
+
+        return $var;
     }
 
 }

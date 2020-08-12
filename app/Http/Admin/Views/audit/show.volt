@@ -2,7 +2,9 @@
 
 {% block content %}
 
-    <pre class="layui-code" id="kg-code"></pre>
+    {% set audit.req_data = audit.req_data ? audit.req_data : '{}' %}
+
+    <pre class="layui-code" id="kg-code">{{ audit.req_data }}</pre>
 
 {% endblock %}
 
@@ -11,10 +13,13 @@
     <script>
 
         layui.use(['jquery'], function () {
+
             var $ = layui.jquery;
-            var obj = JSON.parse('{{ audit.req_data }}');
+            var $code = $('#kg-code');
+            var obj = JSON.parse($code.html());
             var str = JSON.stringify(obj, undefined, 2);
-            $('#kg-code').html(str);
+
+            $code.html(str);
         });
 
     </script>

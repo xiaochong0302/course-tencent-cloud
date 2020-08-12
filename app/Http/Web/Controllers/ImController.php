@@ -188,7 +188,6 @@ class ImController extends LayerController
             $pager = $service->searchGroups($query);
         }
 
-        $pager->items = kg_array_object($pager->items);
         $pager->target = $target;
 
         $this->view->setVar('pager', $pager);

@@ -1,31 +1,31 @@
-.error-tips {
+.kg-tips {
     margin-top: 30px;
     text-align: center;
 }
 
-.error-tips .layui-icon-face-surprised {
+.kg-tips .layui-icon-face-surprised {
     display: inline-block;
     font-size: 200px;
     color: #393D49;
 }
 
-.error-tips .message {
+.kg-tips .message {
     margin-top: 30px;
 }
 
-.error-tips .layui-text {
+.kg-tips .layui-text {
     width: 500px;
     margin: 30px auto;
     padding-top: 20px;
     border-top: 5px solid #009688;
 }
 
-.error-tips h1 {
+.kg-tips h1 {
     font-size: 100px;
     line-height: 100px;
     color: #009688;
 }
 
-.error-tips .layui-text span {
+.kg-tips .layui-text span {
     display: inline-block;
 }

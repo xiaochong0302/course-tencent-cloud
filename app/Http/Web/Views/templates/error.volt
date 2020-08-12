@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hans-CN">
+<html lang="zh-CN-Hans">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -9,6 +9,6 @@
     {{ css_link("web/css/error.css") }}
 </head>
 <body>
-{{ content() }}
+{% block content %}{% endblock %}
 </body>
 </html>

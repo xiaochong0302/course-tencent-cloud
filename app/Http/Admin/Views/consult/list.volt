@@ -10,18 +10,13 @@
 
     <div class="kg-nav">
         <div class="kg-nav-left">
-        <span class="layui-breadcrumb">
-            <a class="kg-back"><i class="layui-icon layui-icon-return"></i> 返回</a>
-            {% if course %}
-                <a><cite>{{ course.title }}</cite></a>
-            {% endif %}
-            <a><cite>咨询管理</cite></a>
-        </span>
-        </div>
-        <div class="kg-nav-right">
-            <a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.consult.search'}) }}">
-                <i class="layui-icon layui-icon-search"></i>搜索咨询
-            </a>
+            <span class="layui-breadcrumb">
+                <a class="kg-back"><i class="layui-icon layui-icon-return"></i>返回</a>
+                {% if course %}
+                    <a><cite>{{ course.title }}</cite></a>
+                {% endif %}
+                <a><cite>咨询管理</cite></a>
+            </span>
         </div>
     </div>
 
@@ -63,9 +58,9 @@
                 </td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
-                <td align="center">
+                <td class="center">
                     <div class="layui-dropdown">
-                        <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span>
+                        <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i>
                         </button>
                         <ul>
                             <li><a href="{{ edit_url }}">编辑</a></li>

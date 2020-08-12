@@ -112,6 +112,10 @@
     margin: 0;
 }
 
+.kg-table .center {
+    text-align: center;
+}
+
 input.kg-priority {
     width: 60px;
 }

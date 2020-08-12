@@ -37,17 +37,9 @@
 
     <div class="kg-nav">
         <div class="kg-nav-left">
-        <span class="layui-breadcrumb">
-            <a><cite>用户管理</cite></a>
-        </span>
-        </div>
-        <div class="kg-nav-right">
-            <a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.user.search'}) }}">
-                <i class="layui-icon layui-icon-search"></i>搜索用户
-            </a>
-            <a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.user.add'}) }}">
-                <i class="layui-icon layui-icon-add-1"></i>添加用户
-            </a>
+            <span class="layui-breadcrumb">
+                <a><cite>用户管理</cite></a>
+            </span>
         </div>
     </div>
 
@@ -76,6 +68,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set edit_url = url({'for':'admin.user.edit','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
                 <td><span title="{{ item.about }}">{{ item.name }}</span>{{ status_info(item) }}</td>
@@ -84,11 +77,11 @@
                 <td>{{ admin_role_info(item) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.active_time) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
-                <td align="center">
+                <td class="center">
                     <div class="layui-dropdown">
-                        <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
+                        <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
-                            <li><a href="{{ url({'for':'admin.user.edit','id':item.id}) }}">编辑</a></li>
+                            <li><a href="{{ edit_url }}">编辑</a></li>
                         </ul>
                     </div>
                 </td>

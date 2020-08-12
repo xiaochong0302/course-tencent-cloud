@@ -55,7 +55,7 @@ class CourseController extends Controller
         $service = new CourseListService();
 
         $pager = $service->handle();
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = 'course-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
@@ -111,7 +111,7 @@ class CourseController extends Controller
         $service = new CourseConsultListService();
 
         $pager = $service->handle($id);
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = 'tab-consults';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
@@ -127,7 +127,7 @@ class CourseController extends Controller
         $service = new CourseReviewListService();
 
         $pager = $service->handle($id);
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = 'tab-reviews';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);

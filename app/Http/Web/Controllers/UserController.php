@@ -37,7 +37,7 @@ class UserController extends Controller
         $service = new UserCourseListService();
 
         $pager = $service->handle($id);
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = 'tab-courses';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
@@ -53,7 +53,7 @@ class UserController extends Controller
         $service = new UserFavoriteListService();
 
         $pager = $service->handle($id);
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = 'tab-favorites';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
@@ -69,7 +69,7 @@ class UserController extends Controller
         $service = new UserFriendListService();
 
         $pager = $service->handle($id);
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = 'tab-friends';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
@@ -85,7 +85,7 @@ class UserController extends Controller
         $service = new UserGroupListService();
 
         $pager = $service->handle($id);
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = 'tab-groups';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);

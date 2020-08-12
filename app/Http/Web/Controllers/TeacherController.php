@@ -27,7 +27,7 @@ class TeacherController extends Controller
         $service = new TeacherListService();
 
         $pager = $service->handle();
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = 'teacher-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);

@@ -21,7 +21,7 @@ class RefundList extends FrontendService
 
         $params = $pagerQuery->getParams();
 
-        $params['user_id'] = $user->id;
+        $params['owner_id'] = $user->id;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();

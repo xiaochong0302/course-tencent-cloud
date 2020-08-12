@@ -39,7 +39,7 @@
                                     <p>用时：{{ item.duration|duration }}</p>
                                     <p>进度：{{ item.progress }}%</p>
                                 </td>
-                                <td align="center">
+                                <td class="center">
                                     {% if allow_review %}
                                         <button class="layui-btn layui-btn-sm btn-add-review" data-url="{{ review_url }}">评价</button>
                                     {% else %}

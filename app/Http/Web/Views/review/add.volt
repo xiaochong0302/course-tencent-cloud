@@ -24,9 +24,9 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">评价内容</label>
+            <label class="layui-form-label" for="content">评价内容</label>
             <div class="layui-input-block">
-                <textarea name="content" class="layui-textarea" placeholder="请描述你的学习经历，例如学习成果、课程内容、讲师风格、教学服务等。"></textarea>
+                <textarea name="content" id="content" class="layui-textarea" placeholder="请描述你的学习经历，例如学习成果、课程内容、讲师风格、教学服务等。"></textarea>
             </div>
         </div>
         <div class="layui-form-item">

@@ -18,7 +18,7 @@ class ReviewList extends FrontendService
 
         $params = $pagerQuery->getParams();
 
-        $params['user_id'] = $user->id;
+        $params['owner_id'] = $user->id;
         $params['published'] = 1;
 
         $sort = $pagerQuery->getSort();

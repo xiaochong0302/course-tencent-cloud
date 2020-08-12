@@ -5,13 +5,13 @@ namespace App\Http\Admin\Controllers;
 use App\Http\Admin\Services\ImGroup as ImGroupService;
 
 /**
- * @RoutePrefix("/admin/group")
+ * @RoutePrefix("/admin/im/group")
  */
-class GroupController extends Controller
+class ImGroupController extends Controller
 {
 
     /**
-     * @Get("/list", name="admin.group.list")
+     * @Get("/list", name="admin.im_group.list")
      */
     public function listAction()
     {
@@ -23,7 +23,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Get("/search", name="admin.group.search")
+     * @Get("/search", name="admin.im_group.search")
      */
     public function searchAction()
     {
@@ -31,7 +31,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Get("/add", name="admin.group.add")
+     * @Get("/add", name="admin.im_group.add")
      */
     public function addAction()
     {
@@ -39,7 +39,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Post("/create", name="admin.group.create")
+     * @Post("/create", name="admin.im_group.create")
      */
     public function createAction()
     {
@@ -48,7 +48,7 @@ class GroupController extends Controller
         $group = $groupService->createGroup();
 
         $location = $this->url->get([
-            'for' => 'admin.group.edit',
+            'for' => 'admin.im_group.edit',
             'id' => $group->id,
         ]);
 
@@ -61,7 +61,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/edit", name="admin.group.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.im_group.edit")
      */
     public function editAction($id)
     {
@@ -73,7 +73,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/update", name="admin.group.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.im_group.update")
      */
     public function updateAction($id)
     {
@@ -81,7 +81,7 @@ class GroupController extends Controller
 
         $groupService->updateGroup($id);
 
-        $location = $this->url->get(['for' => 'admin.group.list']);
+        $location = $this->url->get(['for' => 'admin.im_group.list']);
 
         $content = [
             'location' => $location,
@@ -92,7 +92,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/delete", name="admin.group.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.im_group.delete")
      */
     public function deleteAction($id)
     {
@@ -111,7 +111,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/restore", name="admin.group.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.im_group.restore")
      */
     public function restoreAction($id)
     {

@@ -37,7 +37,7 @@
                                     <p>章节：<a href="{{ chapter_url }}" target="_blank">{{ item.chapter.title }}</a></p>
                                 </td>
                                 <td>{{ date('m-d',item.start_time) }} {{ date('H:i',item.start_time) }} ~ {{ date('H:i',item.end_time) }}</td>
-                                <td align="center">
+                                <td class="center">
                                     {% if allow_push %}
                                         <button class="layui-btn layui-btn-sm btn-live-push" data-url="{{ live_push_url }}">推流</button>
                                     {% else %}

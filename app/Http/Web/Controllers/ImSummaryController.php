@@ -43,7 +43,7 @@ class ImSummaryController extends Controller
         $service = new ImGroupService();
 
         $pager = $service->getGroups();
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = 'group-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);

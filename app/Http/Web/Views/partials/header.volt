@@ -17,9 +17,11 @@
     </ul>
 </div>
 
+{% set query = request.get('query','striptags','') %}
+
 <div class="search">
-    <form class="layui-form" action="{{ url({'for':'web.search.list'}) }}">
-        <input class="layui-input" type="text" name="query" maxlength="30" autocomplete="off" placeholder="请输入课程关键字..." value="{{ request.get('query')|striptags }}">
+    <form class="layui-form" action="{{ url({'for':'web.search.index'}) }}">
+        <input class="layui-input" type="text" name="query" maxlength="30" autocomplete="off" placeholder="请输入课程关键字..." value="{{ query }}">
     </form>
 </div>
 

@@ -35,7 +35,7 @@ class TopicController extends Controller
         $service = new TopicCourseListService();
 
         $pager = $service->handle($id);
-        $pager->items = kg_array_object($pager->items);
+
         $pager->target = 'course-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);

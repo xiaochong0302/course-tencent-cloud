@@ -18,9 +18,9 @@
             {% if pager.total_pages > 0 %}
                 <div class="wrap">
                     {% if type == 'course' %}
-                        {{ partial('search/content_course') }}
+                        {{ partial('search/course') }}
                     {% elseif type == 'other' %}
-                        {{ partial('search/content_other') }}
+                        {{ partial('search/other') }}
                     {% endif %}
                 </div>
                 {{ partial('partials/pager') }}

@@ -16,9 +16,9 @@ class SearchController extends Controller
     use ResponseTrait;
 
     /**
-     * @Get("/", name="web.search.list")
+     * @Get("/", name="web.search.index")
      */
-    public function listAction()
+    public function indexAction()
     {
         $query = $this->request->get('query', ['trim']);
 
@@ -40,37 +40,9 @@ class SearchController extends Controller
 
         $pager = $service->handle();
 
-        $pager->items = kg_array_object($pager->items);
-
         $this->view->setVar('hot_queries', $hotQueries);
         $this->view->setVar('related_queries', $relatedQueries);
         $this->view->setVar('pager', $pager);
-    }
-
-    /**
-     * @Get("/queries/hot", name="web.search.hot_queries")
-     */
-    public function hotQueriesAction()
-    {
-        $service = new CourseHotQueryService();
-
-        $queries = $service->handle();
-
-        return $this->jsonSuccess(['queries' => $queries]);
-    }
-
-    /**
-     * @Get("/queries/related", name="web.search.related_queries")
-     */
-    public function relatedQueriesAction()
-    {
-        $query = $this->request->get('query', ['trim']);
-
-        $service = new CourseRelatedQueryService();
-
-        $queries = $service->handle($query);
-
-        return $this->jsonSuccess(['queries' => $queries]);
     }
 
 }

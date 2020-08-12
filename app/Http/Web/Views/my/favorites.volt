@@ -38,7 +38,7 @@
                                 <td>{{ item.user_count }}</td>
                                 <td>{{ item.favorite_count }}</td>
                                 <td>{{ item.rating }}</td>
-                                <td align="center">
+                                <td class="center">
                                     <button class="layui-btn layui-btn-sm kg-delete" data-tips="确定要取消收藏吗？" data-url="{{ favorite_url }}">取消</button>
                                 </td>
                             </tr>

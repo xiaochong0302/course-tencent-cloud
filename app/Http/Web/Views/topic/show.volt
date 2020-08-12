@@ -5,9 +5,7 @@
     {% set courses_url = url({'for':'web.topic.courses','id':topic.id}) %}
 
     <div class="topic-info">
-        <fieldset class="layui-elem-field layui-field-title">
-            <legend>{{ topic.title }}</legend>
-        </fieldset>
+        <div class="topic-title">{{ topic.title }}</div>
     </div>
 
     <div id="course-list" data-url="{{ courses_url }}"></div>

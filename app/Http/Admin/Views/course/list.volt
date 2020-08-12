@@ -42,17 +42,9 @@
 
     <div class="kg-nav">
         <div class="kg-nav-left">
-        <span class="layui-breadcrumb">
-            <a><cite>课程管理</cite></a>
-        </span>
-        </div>
-        <div class="kg-nav-right">
-            <a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.course.search'}) }}">
-                <i class="layui-icon layui-icon-search"></i>搜索课程
-            </a>
-            <a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.course.add'}) }}">
-                <i class="layui-icon layui-icon-add-1"></i>添加课程
-            </a>
+            <span class="layui-breadcrumb">
+                <a><cite>课程管理</cite></a>
+            </span>
         </div>
     </div>
 
@@ -105,9 +97,9 @@
                     <p>会员：{{ '￥%0.2f'|format(item.vip_price) }}</p>
                 </td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
-                <td align="center">
+                <td class="center">
                     <div class="layui-dropdown">
-                        <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
+                        <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
                             <li><a href="{{ edit_url }}">编辑课程</a></li>
                             {% if item.deleted == 0 %}

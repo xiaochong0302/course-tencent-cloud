@@ -23,6 +23,10 @@ class Audit extends Repository
             $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
+        if (!empty($where['user_ip'])) {
+            $builder->andWhere('user_ip = :user_ip:', ['user_ip' => $where['user_ip']]);
+        }
+
         if (!empty($where['user_name'])) {
             $builder->andWhere('user_name = :user_name:', ['user_name' => $where['user_name']]);
         }
