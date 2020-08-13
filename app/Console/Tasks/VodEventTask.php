@@ -4,7 +4,7 @@ namespace App\Console\Tasks;
 
 use App\Models\Chapter as ChapterModel;
 use App\Repos\Chapter as ChapterRepo;
-use App\Services\CourseStats as CourseStatsService;
+use App\Services\CourseStat as CourseStatService;
 use App\Services\Vod as VodService;
 use Phalcon\Cli\Task;
 
@@ -146,7 +146,7 @@ class VodEventTask extends Task
 
     protected function updateVodAttrs($courseId)
     {
-        $courseStats = new CourseStatsService();
+        $courseStats = new CourseStatService();
 
         $courseStats->updateVodAttrs($courseId);
     }

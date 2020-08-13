@@ -3,8 +3,9 @@
 namespace App\Services;
 
 use App\Repos\Course as CourseRepo;
+use App\Repos\CourseRating as CourseRatingRepo;
 
-class CourseStats extends Service
+class CourseStat extends Service
 {
 
     public function updateLessonCount($courseId)
@@ -39,9 +40,18 @@ class CourseStats extends Service
 
         $course = $courseRepo->findById($courseId);
 
-        $rating = $courseRepo->averageRating($courseId);
+        $courseRatingRepo = new CourseRatingRepo();
 
-        $course->rating = $rating;
+        $courseRating = $courseRatingRepo->findByCourseId($course->id);
+
+        $courseRating->rating = $courseRatingRepo->averageRating($course->id);
+        $courseRating->rating1 = $courseRatingRepo->averageRating1($course->id);
+        $courseRating->rating2 = $courseRatingRepo->averageRating2($course->id);
+        $courseRating->rating3 = $courseRatingRepo->averageRating3($course->id);
+
+        $courseRating->update();
+
+        $course->rating = $courseRating->rating;
 
         $course->update();
     }

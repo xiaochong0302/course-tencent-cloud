@@ -3,6 +3,7 @@
 namespace App\Services\Frontend\Review;
 
 use App\Models\Course as CourseModel;
+use App\Services\CourseStat as CourseStatService;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\ReviewTrait;
 use App\Services\Frontend\Service as FrontendService;
@@ -30,7 +31,7 @@ class ReviewDelete extends FrontendService
 
         $this->decrCourseReviewCount($course);
 
-        $this->updateCourseRating($course);
+        $this->updateCourseRating($course->id);
     }
 
     protected function decrCourseReviewCount(CourseModel $course)
@@ -39,6 +40,13 @@ class ReviewDelete extends FrontendService
             $course->review_count -= 1;
             $course->update();
         }
+    }
+
+    protected function updateCourseRating($courseId)
+    {
+        $service = new CourseStatService();
+
+        $service->updateRating($courseId);
     }
 
 }

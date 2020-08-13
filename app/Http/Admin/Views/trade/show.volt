@@ -88,8 +88,6 @@
                             layer.msg(json.msg, {icon: 2});
                         }
                     });
-                }, function () {
-
                 });
             });
 

@@ -43,13 +43,10 @@ $scheduler->php($script, $bin, ['--task' => 'unlock_user', '--action' => 'main']
 $scheduler->php($script, $bin, ['--task' => 'revoke_vip', '--action' => 'main'])
     ->daily(3, 11);
 
-$scheduler->php($script, $bin, ['--task' => 'count_course', '--action' => 'main'])
+$scheduler->php($script, $bin, ['--task' => 'live_notice_provider', '--action' => 'main'])
     ->daily(3, 17);
 
-$scheduler->php($script, $bin, ['--task' => 'live_notice_provider', '--action' => 'main'])
-    ->daily(3, 23);
-
 $scheduler->php($script, $bin, ['--task' => 'clean_token', '--action' => 'main'])
-    ->daily(3, 31);
+    ->daily(3, 23);
 
 $scheduler->run();

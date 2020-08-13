@@ -4,6 +4,7 @@ namespace App\Services\Frontend\Review;
 
 use App\Models\Course as CourseModel;
 use App\Models\Review as ReviewModel;
+use App\Services\CourseStat as CourseStatService;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\ReviewTrait;
 use App\Services\Frontend\Service as FrontendService;
@@ -45,9 +46,9 @@ class ReviewCreate extends FrontendService
 
         $review->create($data);
 
-        $this->updateCourseRating($course);
-
         $this->incrCourseReviewCount($course);
+
+        $this->updateCourseRating($course->id);
 
         return $review;
     }
@@ -55,7 +56,15 @@ class ReviewCreate extends FrontendService
     protected function incrCourseReviewCount(CourseModel $course)
     {
         $course->review_count += 1;
+
         $course->update();
+    }
+
+    public function updateCourseRating($courseId)
+    {
+        $service = new CourseStatService();
+
+        $service->updateRating($courseId);
     }
 
 }

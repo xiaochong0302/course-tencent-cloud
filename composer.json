@@ -20,7 +20,7 @@
     "hightman/xunsearch": "^1.4.14",
     "aferrandini/phpqrcode": "1.0.1",
     "xiaochong0302/ip2region": "^1.0",
-    "joyqi/hyper-down": "dev-master"
+    "samdark/sitemap": "^2.2"
   },
   "require-dev": {
     "odan/phinx-migrations-generator": "^4.6",

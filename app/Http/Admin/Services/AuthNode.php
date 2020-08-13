@@ -471,12 +471,6 @@ class AuthNode extends Service
                             'type' => 'button',
                             'route' => 'admin.order.show',
                         ],
-                        [
-                            'id' => '3-1-4',
-                            'title' => '关闭订单',
-                            'type' => 'button',
-                            'route' => 'admin.order.close',
-                        ],
                     ],
                 ],
                 [
@@ -486,7 +480,7 @@ class AuthNode extends Service
                     'children' => [
                         [
                             'id' => '3-2-1',
-                            'title' => '交易记录',
+                            'title' => '交易列表',
                             'type' => 'menu',
                             'route' => 'admin.trade.list',
                         ],
@@ -498,12 +492,6 @@ class AuthNode extends Service
                         ],
                         [
                             'id' => '3-2-3',
-                            'title' => '关闭交易',
-                            'type' => 'button',
-                            'route' => 'admin.trade.close',
-                        ],
-                        [
-                            'id' => '3-2-4',
                             'title' => '交易退款',
                             'type' => 'button',
                             'route' => 'admin.trade.refund',

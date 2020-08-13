@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "d95c023895ee3acc72bcd13024da3eb3",
+  "content-hash": "c572e75b0438b57f01c4b4a6ff65f174",
   "packages": [
     {
       "name": "aferrandini/phpqrcode",
@@ -87,16 +87,16 @@
       },
       "type": "library",
       "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Common\\Lexer\\": "lib/Doctrine/Common/Lexer"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
+        "branch-alias": {
+          "dev-master": "1.1.x-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Doctrine\\Common\\Lexer\\": "lib/Doctrine/Common/Lexer"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -564,16 +564,16 @@
             },
             "notification-url": "https://packagist.jp/downloads/",
             "license": [
-                "GPL-2.0+"
+              "GPL-2.0+"
             ],
-            "authors": [
-                {
-                    "name": "hightman",
-                    "email": "hightman@twomice.net",
-                    "role": "Founder and project leader"
-                }
-            ],
-            "description": "xunsearch php sdk, include yii, yii2 supports",
+          "authors": [
+            {
+              "name": "hightman",
+              "email": "hightman@twomice.net",
+              "role": "Founder and project leader"
+            }
+          ],
+          "description": "xunsearch php sdk, include yii, yii2 supports",
           "homepage": "http://www.xunsearch.com/",
           "keywords": [
             "search engine",
@@ -583,48 +583,6 @@
           ],
           "time": "2019-11-01T02:17:32+00:00"
         },
-    {
-      "name": "joyqi/hyper-down",
-      "version": "dev-master",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/SegmentFault/HyperDown.git",
-        "reference": "e9bf808ff8cc1736b15a669e46f1d81f77ce026b"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/SegmentFault/HyperDown/zipball/e9bf808ff8cc1736b15a669e46f1d81f77ce026b",
-        "reference": "e9bf808ff8cc1736b15a669e46f1d81f77ce026b",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "php": ">=5.4.0"
-      },
-      "type": "library",
-      "autoload": {
-        "psr-4": {
-          "HyperDown\\": "./"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "BSD"
-      ],
-      "authors": [
-        {
-          "name": "joyqi",
-          "email": "joyqi@segmentfault.com"
-        }
-      ],
-      "description": "A light weight markdown parser library",
-      "time": "2019-11-18T09:50:06+00:00"
-    },
     {
       "name": "monolog/monolog",
       "version": "2.0.0",
@@ -645,16 +603,16 @@
           }
         ]
       },
-            "require": {
-                "php": "^7.2",
-                "psr/log": "^1.0.1"
-            },
-            "provide": {
-                "psr/log-implementation": "1.0.0"
-            },
-            "require-dev": {
-                "aws/aws-sdk-php": "^2.4.9 || ^3.0",
-                "doctrine/couchdb": "~1.0@dev",
+      "require": {
+        "php": "^7.2",
+        "psr/log": "^1.0.1"
+      },
+      "provide": {
+        "psr/log-implementation": "1.0.0"
+      },
+      "require-dev": {
+        "aws/aws-sdk-php": "^2.4.9 || ^3.0",
+        "doctrine/couchdb": "~1.0@dev",
                 "elasticsearch/elasticsearch": "^6.0",
                 "graylog2/gelf-php": "^1.4.2",
                 "jakub-onderka/php-parallel-lint": "^0.9",
@@ -732,9 +690,9 @@
                 }
               ]
             },
-            "require": {
-                "php": ">=5.3.2"
-            },
+          "require": {
+            "php": ">=5.3.2"
+          },
           "require-dev": {
             "phpunit/phpunit": "~4.0|~5.0"
           },
@@ -1192,35 +1150,86 @@
             "license": [
                 "MIT"
             ],
-            "authors": [
-                {
-                    "name": "Ralph Khattar",
-                    "email": "ralph.khattar@gmail.com"
-                }
-            ],
-            "description": "A polyfill for getallheaders.",
-            "time": "2019-03-08T08:55:37+00:00"
+          "authors": [
+            {
+              "name": "Ralph Khattar",
+              "email": "ralph.khattar@gmail.com"
+            }
+          ],
+          "description": "A polyfill for getallheaders.",
+          "time": "2019-03-08T08:55:37+00:00"
         },
+    {
+      "name": "samdark/sitemap",
+      "version": "2.2.1",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/samdark/sitemap.git",
+        "reference": "dcfef471e79abca9d3c4d83dd6a7861cec1a596a"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/samdark/sitemap/zipball/dcfef471e79abca9d3c4d83dd6a7861cec1a596a",
+        "reference": "dcfef471e79abca9d3c4d83dd6a7861cec1a596a",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
+      "require": {
+        "ext-xmlwriter": "*",
+        "php": ">=5.3.0"
+      },
+      "require-dev": {
+        "phpunit/phpunit": "~4.4"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "samdark\\sitemap\\": ""
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "BSD-3-Clause"
+      ],
+      "authors": [
         {
-            "name": "swiftmailer/swiftmailer",
-            "version": "v6.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a"
-            },
-            "dist": {
-              "type": "zip",
-              "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a",
-              "reference": "5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a",
-              "shasum": "",
-              "mirrors": [
-                {
-                  "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                  "preferred": true
-                }
-              ]
-            },
+          "name": "Alexander Makarov",
+          "email": "sam@rmcreative.ru",
+          "homepage": "http://rmcreative.ru/"
+        }
+      ],
+      "description": "Sitemap and sitemap index builder",
+      "homepage": "https://github.com/samdark/sitemap",
+      "keywords": [
+        "Sitemap"
+      ],
+      "time": "2019-03-27T09:31:20+00:00"
+    },
+    {
+      "name": "swiftmailer/swiftmailer",
+      "version": "v6.2.1",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/swiftmailer/swiftmailer.git",
+        "reference": "5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a",
+        "reference": "5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
             "require": {
                 "egulias/email-validator": "~2.0",
                 "php": ">=7.0.0",
@@ -1929,9 +1938,9 @@
                 }
               ]
             },
-            "require": {
-                "workerman/workerman": ">=3.1.8"
-            },
+          "require": {
+            "workerman/workerman": ">=3.1.8"
+          },
           "type": "library",
           "autoload": {
             "psr-4": {
@@ -2012,12 +2021,12 @@
       "autoload": {
         "psr-4": {
           "Workerman\\": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-              "MIT"
-            ],
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
       "authors": [
         {
           "name": "walkor",
@@ -2074,16 +2083,16 @@
         }
       ],
       "description": "ip2region扩展包",
-            "keywords": [
-                "Ip2Region"
-            ],
-            "time": "2019-08-18T14:57:02+00:00"
-        },
-        {
-            "name": "yansongda/pay",
-            "version": "v2.8.6",
-            "source": {
-                "type": "git",
+      "keywords": [
+        "Ip2Region"
+      ],
+      "time": "2019-08-18T14:57:02+00:00"
+    },
+    {
+      "name": "yansongda/pay",
+      "version": "v2.8.6",
+      "source": {
+        "type": "git",
                 "url": "https://github.com/yansongda/pay.git",
                 "reference": "841999b65f97466ed1b405c52400c0c73aeaa3b5"
             },
@@ -2109,34 +2118,34 @@
                 "symfony/http-foundation": "^4.0",
                 "yansongda/supports": "^2.0"
             },
-            "require-dev": {
-                "mockery/mockery": "^1.2",
-                "phpunit/phpunit": "^7.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Yansongda\\Pay\\": "src"
-                }
-            },
-          "notification-url": "https://packagist.org/downloads/",
-          "license": [
-            "MIT"
-          ],
-          "authors": [
-            {
-              "name": "yansongda",
-              "email": "me@yansongda.cn"
-            }
-          ],
-          "description": "专注 Alipay 和 WeChat 的支付扩展包",
-          "keywords": [
-            "alipay",
-            "pay",
-            "wechat"
-          ],
-          "time": "2019-09-21T15:05:57+00:00"
-        },
+      "require-dev": {
+        "mockery/mockery": "^1.2",
+        "phpunit/phpunit": "^7.5"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Yansongda\\Pay\\": "src"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "yansongda",
+          "email": "me@yansongda.cn"
+        }
+      ],
+      "description": "专注 Alipay 和 WeChat 的支付扩展包",
+      "keywords": [
+        "alipay",
+        "pay",
+        "wechat"
+      ],
+      "time": "2019-09-21T15:05:57+00:00"
+    },
     {
       "name": "yansongda/supports",
       "version": "v2.1.3",
@@ -2177,16 +2186,16 @@
         }
       },
       "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "yansongda",
-                    "email": "me@yansongda.cn"
-                }
-            ],
-            "description": "common components",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "yansongda",
+          "email": "me@yansongda.cn"
+        }
+      ],
+      "description": "common components",
             "keywords": [
                 "Guzzle",
                 "array",
@@ -2442,16 +2451,16 @@
             "name": "CakePHP Community",
             "homepage": "https://github.com/cakephp/cache/graphs/contributors"
           }
-            ],
-            "description": "Easy to use Caching library with support for multiple caching backends",
-            "homepage": "https://cakephp.org",
-            "keywords": [
-                "cache",
-                "caching",
-                "cakephp"
-            ],
-            "time": "2019-11-20T00:00:46+00:00"
-        },
+        ],
+        "description": "Easy to use Caching library with support for multiple caching backends",
+        "homepage": "https://cakephp.org",
+        "keywords": [
+          "cache",
+          "caching",
+          "cakephp"
+        ],
+        "time": "2019-11-20T00:00:46+00:00"
+      },
         {
             "name": "cakephp/collection",
             "version": "3.8.7",
@@ -2752,16 +2761,16 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Cake\\Utility\\": "."
+                  "Cake\\Utility\\": "."
                 },
-                "files": [
-                    "bootstrap.php"
-                ]
+              "files": [
+                "bootstrap.php"
+              ]
             },
-            "notification-url": "https://packagist.jp/downloads/",
-            "license": [
-              "MIT"
-            ],
+          "notification-url": "https://packagist.jp/downloads/",
+          "license": [
+            "MIT"
+          ],
           "authors": [
             {
               "name": "CakePHP Community",
@@ -3158,16 +3167,16 @@
           }
         },
         "autoload": {
-                "psr-4": {
-                    "Psr\\Container\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.jp/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
+          "psr-4": {
+            "Psr\\Container\\": "src/"
+          }
+        },
+        "notification-url": "https://packagist.jp/downloads/",
+        "license": [
+          "MIT"
+        ],
+        "authors": [
+          {
                     "name": "PHP-FIG",
                     "homepage": "http://www.php-fig.org/"
                 }
@@ -3755,16 +3764,16 @@
             "license": [
                 "MIT"
             ],
-            "authors": [
-                {
-                  "name": "Nicolas Grekas",
-                  "email": "p@tchwork.com"
-                },
-              {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-              }
-            ],
+          "authors": [
+            {
+              "name": "Nicolas Grekas",
+              "email": "p@tchwork.com"
+            },
+            {
+              "name": "Symfony Community",
+              "homepage": "https://symfony.com/contributors"
+            }
+          ],
           "description": "Generic abstractions related to writing services",
           "homepage": "https://symfony.com",
           "keywords": [
@@ -3889,23 +3898,23 @@
         "require-dev": {
           "symfony/console": "^4.4|^5.0"
         },
-            "suggest": {
-                "symfony/console": "For validating YAML files using the lint command"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                  "Symfony\\Component\\Yaml\\": ""
-                },
-              "exclude-from-classmap": [
-                "/Tests/"
-              ]
-            },
+        "suggest": {
+          "symfony/console": "For validating YAML files using the lint command"
+        },
+        "type": "library",
+        "extra": {
+          "branch-alias": {
+            "dev-master": "5.0-dev"
+          }
+        },
+        "autoload": {
+          "psr-4": {
+            "Symfony\\Component\\Yaml\\": ""
+          },
+          "exclude-from-classmap": [
+            "/Tests/"
+          ]
+        },
         "notification-url": "https://packagist.jp/downloads/",
         "license": [
           "MIT"
@@ -3983,9 +3992,7 @@
     ],
   "aliases": [],
   "minimum-stability": "stable",
-  "stability-flags": {
-    "joyqi/hyper-down": 20
-  },
+  "stability-flags": [],
   "prefer-stable": false,
   "prefer-lowest": false,
   "platform": {

@@ -4,7 +4,7 @@
 
     {%- macro private_info(value) %}
         {% if value == 1 %}
-            <span class="layui-badge layui-bg-red">密</span>
+            <span class="layui-badge">密</span>
         {% endif %}
     {%- endmacro %}
 
@@ -39,29 +39,28 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set list_url = url({'for':'admin.consult.list'},{'course_id':item.course.id}) %}
+            {% set item.answer = item.answer ? item.answer : '等待回复ING...' %}
+            {% set list_by_course_url = url({'for':'admin.consult.list'},{'course_id':item.course.id}) %}
+            {% set list_by_user_url = url({'for':'admin.consult.list'},{'owner_id':item.owner.id}) %}
             {% set edit_url = url({'for':'admin.consult.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.consult.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.consult.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.consult.restore','id':item.id}) %}
             <tr>
                 <td>
-                    <p>课程：<a href="{{ list_url }}">{{ item.course.title }}</a>{{ private_info(item.private) }}</p>
-                    <p>提问：<a href="javascript:" title="{{ item.question }}">{{ substr(item.question,0,30) }}</a></p>
-                    {% if item.answer %}
-                        <p>回复：<a href="javascript:" title="{{ item.answer }}">{{ substr(item.answer,0,30) }}</a></p>
-                    {% endif %}
+                    <p>课程：<a href="{{ list_by_course_url }}">{{ item.course.title }}</a>{{ private_info(item.private) }}</p>
+                    <p class="layui-elip kg-item-elip" title="{{ item.question }}">提问：{{ item.question }}</p>
+                    <p class="layui-elip kg-item-elip" title="{{ item.answer }}">回复：{{ item.answer }}</p>
                 </td>
                 <td>
-                    <p>昵称：{{ item.owner.name }}</p>
+                    <p>昵称：<a href="{{ list_by_user_url }}">{{ item.owner.name }}</a></p>
                     <p>编号：{{ item.owner.id }}</p>
                 </td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
                 <td class="center">
                     <div class="layui-dropdown">
-                        <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i>
-                        </button>
+                        <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
                             <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}

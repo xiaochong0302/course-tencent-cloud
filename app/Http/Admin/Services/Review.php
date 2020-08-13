@@ -6,6 +6,7 @@ use App\Builders\ReviewList as ReviewListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Review as ReviewRepo;
+use App\Services\CourseStat as CourseStatService;
 use App\Validators\Review as ReviewValidator;
 
 class Review extends Service
@@ -56,8 +57,16 @@ class Review extends Service
             $data['content'] = $validator->checkContent($post['content']);
         }
 
-        if (isset($post['rating'])) {
-            $data['rating'] = $validator->checkRating($post['rating']);
+        if (isset($post['rating1'])) {
+            $data['rating1'] = $validator->checkRating($post['rating1']);
+        }
+
+        if (isset($post['rating2'])) {
+            $data['rating2'] = $validator->checkRating($post['rating2']);
+        }
+
+        if (isset($post['rating3'])) {
+            $data['rating3'] = $validator->checkRating($post['rating3']);
         }
 
         if (isset($post['published'])) {
@@ -65,6 +74,8 @@ class Review extends Service
         }
 
         $review->update($data);
+
+        $this->updateCourseRating($review->course_id);
 
         return $review;
     }
@@ -77,13 +88,7 @@ class Review extends Service
 
         $review->update();
 
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($review->course_id);
-
-        $course->review_count -= 1;
-
-        $course->update();
+        $this->decrCourseReviewCount($review->course_id);
     }
 
     public function restoreReview($id)
@@ -94,13 +99,7 @@ class Review extends Service
 
         $review->update();
 
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($review->course_id);
-
-        $course->review_count += 1;
-
-        $course->update();
+        $this->incrCourseReviewCount($review->course_id);
     }
 
     protected function findOrFail($id)
@@ -108,6 +107,35 @@ class Review extends Service
         $validator = new ReviewValidator();
 
         return $validator->checkReview($id);
+    }
+
+    protected function incrCourseReviewCount($courseId)
+    {
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($courseId);
+
+        $course->review_count -= 1;
+
+        $course->update();
+    }
+
+    protected function decrCourseReviewCount($courseId)
+    {
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($courseId);
+
+        $course->review_count += 1;
+
+        $course->update();
+    }
+
+    protected function updateCourseRating($courseId)
+    {
+        $service = new CourseStatService();
+
+        $service->updateRating($courseId);
     }
 
     protected function handleReviews($pager)

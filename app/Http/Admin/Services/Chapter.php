@@ -11,7 +11,7 @@ use App\Models\ChapterVod as ChapterVodModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
-use App\Services\CourseStats as CourseStatsService;
+use App\Services\CourseStat as CourseStatService;
 use App\Validators\Chapter as ChapterValidator;
 
 class Chapter extends Service
@@ -107,7 +107,7 @@ class Chapter extends Service
 
             $this->updateChapterStats($chapter);
 
-            $this->updateCourseStats($chapter);
+            $this->updateCourseStat($chapter);
 
             return $chapter;
 
@@ -164,7 +164,7 @@ class Chapter extends Service
 
         $this->updateChapterStats($chapter);
 
-        $this->updateCourseStats($chapter);
+        $this->updateCourseStat($chapter);
 
         $this->rebuildCatalogCache($chapter);
 
@@ -185,7 +185,7 @@ class Chapter extends Service
 
         $this->updateChapterStats($chapter);
 
-        $this->updateCourseStats($chapter);
+        $this->updateCourseStat($chapter);
 
         $this->rebuildCatalogCache($chapter);
 
@@ -202,7 +202,7 @@ class Chapter extends Service
 
         $this->updateChapterStats($chapter);
 
-        $this->updateCourseStats($chapter);
+        $this->updateCourseStat($chapter);
 
         $this->rebuildCatalogCache($chapter);
 
@@ -222,13 +222,13 @@ class Chapter extends Service
         $chapter->update();
     }
 
-    protected function updateCourseStats(ChapterModel $chapter)
+    protected function updateCourseStat(ChapterModel $chapter)
     {
         $courseRepo = new CourseRepo();
 
         $course = $courseRepo->findById($chapter->course_id);
 
-        $courseStats = new CourseStatsService();
+        $courseStats = new CourseStatService();
 
         $courseStats->updateLessonCount($course->id);
 

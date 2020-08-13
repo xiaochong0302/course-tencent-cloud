@@ -7,16 +7,30 @@
             <legend>编辑评价</legend>
         </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">评分</label>
+            <label class="layui-form-label">内容实用</label>
             <div class="layui-input-block">
-                <div id="rating">{{ review.rating }}</div>
-                <input type="hidden" name="rating" value="{{ review.rating }}"/>
+                <div id="rating1" class="kg-rating"></div>
+                <input type="hidden" name="rating1" value="{{ review.rating1 }}"/>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">评价</label>
+            <label class="layui-form-label">通俗易懂</label>
             <div class="layui-input-block">
-                <textarea name="content" class="layui-textarea" lay-verify="required">{{ review.content }}</textarea>
+                <div id="rating2" class="kg-rating"></div>
+                <input type="hidden" name="rating2" value="{{ review.rating2 }}"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">逻辑清晰</label>
+            <div class="layui-input-block">
+                <div id="rating3" class="kg-rating"></div>
+                <input type="hidden" name="rating3" value="{{ review.rating3 }}"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="content">评价</label>
+            <div class="layui-input-block">
+                <textarea name="content" id="content" class="layui-textarea" lay-verify="required">{{ review.content }}</textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -46,11 +60,31 @@
             var $ = layui.jquery;
             var rate = layui.rate;
 
+            var $rating1 = $('input[name=rating1]');
+            var $rating2 = $('input[name=rating2]');
+            var $rating3 = $('input[name=rating3]');
+
             rate.render({
-                elem: '#rating',
-                value: $('#rating').text(),
+                elem: '#rating1',
+                value: $rating1.val(),
                 choose: function (value) {
-                    $('input[name=rating]').val(value);
+                    $rating1.val(value);
+                }
+            });
+
+            rate.render({
+                elem: '#rating2',
+                value: $rating2.val(),
+                choose: function (value) {
+                    $rating2.val(value);
+                }
+            });
+
+            rate.render({
+                elem: '#rating3',
+                value: $rating3.val(),
+                choose: function (value) {
+                    $rating3.val(value);
                 }
             });
 

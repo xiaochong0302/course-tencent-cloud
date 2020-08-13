@@ -8,7 +8,7 @@ use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Services\ChapterVod as ChapterVodService;
-use App\Services\CourseStats as CourseStatsService;
+use App\Services\CourseStat as CourseStatService;
 use App\Validators\ChapterLive as ChapterLiveValidator;
 use App\Validators\ChapterRead as ChapterReadValidator;
 use App\Validators\ChapterVod as ChapterVodValidator;
@@ -97,7 +97,7 @@ class ChapterContent extends Service
 
         $chapter->update(['attrs' => $attrs]);
 
-        $courseStats = new CourseStatsService();
+        $courseStats = new CourseStatService();
 
         $courseStats->updateVodAttrs($chapter->course_id);
     }
@@ -132,7 +132,7 @@ class ChapterContent extends Service
 
         $chapter->update(['attrs' => $attrs]);
 
-        $courseStats = new CourseStatsService();
+        $courseStats = new CourseStatService();
 
         $courseStats->updateLiveAttrs($chapter->course_id);
     }
@@ -161,7 +161,7 @@ class ChapterContent extends Service
 
         $chapter->update(['attrs' => $attrs]);
 
-        $courseStats = new CourseStatsService();
+        $courseStats = new CourseStatService();
 
         $courseStats->updateReadAttrs($chapter->course_id);
     }

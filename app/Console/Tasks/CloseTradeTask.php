@@ -54,7 +54,8 @@ class CloseTradeTask extends Task
                 $allowClosed = false;
 
             } elseif ($alipayTrade->trade_status == 'WAIT_BUYER_PAY') {
-                $alipay->close($trade->sn);
+
+                $allowClosed = $alipay->close($trade->sn);
             }
         }
 
@@ -90,7 +91,8 @@ class CloseTradeTask extends Task
                 $allowClosed = false;
 
             } elseif ($wxpayTrade->trade_state == 'NOTPAY') {
-                $wxpay->close($trade->sn);
+
+                $allowClosed = $wxpay->close($trade->sn);
             }
         }
 
@@ -107,7 +109,7 @@ class CloseTradeTask extends Task
      * @param int $limit
      * @return ResultsetInterface|Resultset|TradeModel[]
      */
-    protected function findTrades($limit = 5)
+    protected function findTrades($limit = 15)
     {
         $status = TradeModel::STATUS_PENDING;
 

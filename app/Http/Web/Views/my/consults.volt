@@ -27,14 +27,14 @@
                         </thead>
                         <tbody>
                         {% for item in pager.items %}
-                            {% set answer = item.answer ? item.answer : '请耐心等待回复吧' %}
+                            {% set item.answer = item.answer ? item.answer : '请耐心等待回复吧' %}
                             {% set show_url = url({'for':'web.consult.show','id':item.id}) %}
                             {% set edit_url = url({'for':'web.consult.edit','id':item.id}) %}
                             {% set delete_url = url({'for':'web.consult.delete','id':item.id}) %}
                             <tr>
                                 <td>
-                                    <p class="question layui-elip" title="{{ item.question }}">提问：{{ item.question }}</p>
-                                    <p class="answer layui-elip" title="{{ item.answer }}">回复：{{ answer }}</p>
+                                    <p class="layui-elip item-elip" title="{{ item.question }}">提问：{{ item.question }}</p>
+                                    <p class="layui-elip item-elip" title="{{ item.answer }}">回复：{{ item.answer }}</p>
                                 </td>
                                 <td>{{ date('Y-m-d',item.create_time) }}</td>
                                 <td>

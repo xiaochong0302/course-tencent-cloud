@@ -182,6 +182,31 @@ body {
     margin-bottom: 15px;
 }
 
+.topic-title {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e6e6e6;
+    text-align: center;
+    font-size: 18px;
+}
+
+.page-info {
+    padding: 20px 50px;
+    min-height: 500px;
+}
+
+.page-title {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e6e6e6;
+    text-align: center;
+    font-size: 18px;
+}
+
+.help-list li {
+    line-height: 30px;
+}
+
 .index-wrap .layui-tab {
     margin-bottom: 0;
 }
@@ -305,31 +330,6 @@ body {
     padding: 2px 5px;
     margin-right: 5px;
     margin-bottom: 5px;
-}
-
-.topic-title {
-    margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #e6e6e6;
-    text-align: center;
-    font-size: 18px;
-}
-
-.page-info {
-    padding: 20px 50px;
-    min-height: 500px;
-}
-
-.page-title {
-    margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #e6e6e6;
-    text-align: center;
-    font-size: 18px;
-}
-
-.help-list li {
-    line-height: 30px;
 }
 
 .course-list {
@@ -1426,11 +1426,7 @@ body {
     text-align: center;
 }
 
-.consult-table .question {
-    width: 450px;
-}
-
-.consult-table .answer {
+.consult-table .item-elip {
     width: 450px;
 }
 

@@ -42,7 +42,7 @@
             <tr>
                 <td>
                     <p>课程：<a href="{{ list_by_course_url }}">{{ item.course.title }}</a></p>
-                    <p>评价：<a href="javascript:" title="{{ item.content }}">{{ substr(item.content,0,30) }}</a></p>
+                    <p class="layui-elip kg-item-elip" title="{{ item.content }}">评价：{{ item.content }}</p>
                     <p>时间：{{ date('Y-m-d H:i:s',item.create_time) }}</p>
                 </td>
                 <td>

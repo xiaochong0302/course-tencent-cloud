@@ -21,7 +21,6 @@
     </table>
     <br>
     <div class="text-center">
-        <button class="layui-btn layui-bg-gray btn-close">关闭窗口</button>
         {% if refund.status == 'approved' %}
             <button class="kg-refund layui-btn" data-sn="{{ refund.sn }}" data-url="{{ cancel_url }}">取消退款</button>
         {% endif %}
@@ -53,8 +52,6 @@
                             }, 1500);
                         }
                     });
-                }, function () {
-
                 });
             });
         });

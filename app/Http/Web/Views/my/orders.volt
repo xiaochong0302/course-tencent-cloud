@@ -32,7 +32,7 @@
                                 <div class="column price">{{ '￥%0.2f'|format(item.amount) }}</div>
                                 <div class="column status">{{ order_status(item.status) }}</div>
                                 <div class="column action">
-                                    <button class="layui-btn layui-btn-xs btn-order-info" data-url="{{ order_info_url }}">详情</button>
+                                    <button class="layui-btn layui-btn-sm btn-order-info" data-url="{{ order_info_url }}">详情</button>
                                 </div>
                             </div>
                         </div>

@@ -116,6 +116,18 @@
     text-align: center;
 }
 
+.kg-item-elip {
+    width: 400px;
+}
+
+.layui-form .kg-rating {
+    margin-bottom: 0;
+}
+
+.kg-rating .layui-rate {
+    padding: 5px 0 0 0;
+}
+
 input.kg-priority {
     width: 60px;
 }
