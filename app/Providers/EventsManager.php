@@ -13,7 +13,7 @@ class EventsManager extends Provider
     {
         $this->di->setShared($this->serviceName, function () {
 
-            $events = require config_path() . '/events.php';
+            $events = require config_path('events.php');
 
             $eventsManager = new PhalconEventsManager();
 

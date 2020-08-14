@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "c572e75b0438b57f01c4b4a6ff65f174",
+  "content-hash": "d9361d1256bd13d5bdf13ef8469f2acc",
   "packages": [
     {
       "name": "aferrandini/phpqrcode",
@@ -97,16 +97,16 @@
         }
       },
       "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
-                {
-                    "name": "Roman Borschel",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Guilherme Blanco",
+          "email": "guilhermeblanco@gmail.com"
+        },
+        {
+          "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
                 },
                 {
@@ -556,16 +556,16 @@
             "autoload": {
                 "classmap": [
                     "lib/",
-                    "wrapper/yii-ext/"
+                  "wrapper/yii-ext/"
                 ],
-                "psr-4": {
-                    "hightman\\xunsearch\\": "wrapper/yii2-ext/"
-                }
+              "psr-4": {
+                "hightman\\xunsearch\\": "wrapper/yii2-ext/"
+              }
             },
-            "notification-url": "https://packagist.jp/downloads/",
-            "license": [
-              "GPL-2.0+"
-            ],
+          "notification-url": "https://packagist.jp/downloads/",
+          "license": [
+            "GPL-2.0+"
+          ],
           "authors": [
             {
               "name": "hightman",
@@ -613,16 +613,16 @@
       "require-dev": {
         "aws/aws-sdk-php": "^2.4.9 || ^3.0",
         "doctrine/couchdb": "~1.0@dev",
-                "elasticsearch/elasticsearch": "^6.0",
-                "graylog2/gelf-php": "^1.4.2",
-                "jakub-onderka/php-parallel-lint": "^0.9",
-                "php-amqplib/php-amqplib": "~2.4",
-                "php-console/php-console": "^3.1.3",
-                "phpspec/prophecy": "^1.6.1",
-                "phpunit/phpunit": "^8.3",
-                "predis/predis": "^1.1",
-                "rollbar/rollbar": "^1.3",
-                "ruflin/elastica": ">=0.90 <3.0",
+        "elasticsearch/elasticsearch": "^6.0",
+        "graylog2/gelf-php": "^1.4.2",
+        "jakub-onderka/php-parallel-lint": "^0.9",
+        "php-amqplib/php-amqplib": "~2.4",
+        "php-console/php-console": "^3.1.3",
+        "phpspec/prophecy": "^1.6.1",
+        "phpunit/phpunit": "^8.3",
+        "predis/predis": "^1.1",
+        "rollbar/rollbar": "^1.3",
+        "ruflin/elastica": ">=0.90 <3.0",
                 "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
@@ -1140,16 +1140,16 @@
                 "php-coveralls/php-coveralls": "^2.1",
                 "phpunit/phpunit": "^5 || ^6.5"
             },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/getallheaders.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
+          "type": "library",
+          "autoload": {
+            "files": [
+              "src/getallheaders.php"
+            ]
+          },
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "MIT"
+          ],
           "authors": [
             {
               "name": "Ralph Khattar",
@@ -1159,57 +1159,6 @@
           "description": "A polyfill for getallheaders.",
           "time": "2019-03-08T08:55:37+00:00"
         },
-    {
-      "name": "samdark/sitemap",
-      "version": "2.2.1",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/samdark/sitemap.git",
-        "reference": "dcfef471e79abca9d3c4d83dd6a7861cec1a596a"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/samdark/sitemap/zipball/dcfef471e79abca9d3c4d83dd6a7861cec1a596a",
-        "reference": "dcfef471e79abca9d3c4d83dd6a7861cec1a596a",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "ext-xmlwriter": "*",
-        "php": ">=5.3.0"
-      },
-      "require-dev": {
-        "phpunit/phpunit": "~4.4"
-      },
-      "type": "library",
-      "autoload": {
-        "psr-4": {
-          "samdark\\sitemap\\": ""
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "BSD-3-Clause"
-      ],
-      "authors": [
-        {
-          "name": "Alexander Makarov",
-          "email": "sam@rmcreative.ru",
-          "homepage": "http://rmcreative.ru/"
-        }
-      ],
-      "description": "Sitemap and sitemap index builder",
-      "homepage": "https://github.com/samdark/sitemap",
-      "keywords": [
-        "Sitemap"
-      ],
-      "time": "2019-03-27T09:31:20+00:00"
-    },
     {
       "name": "swiftmailer/swiftmailer",
       "version": "v6.2.1",
@@ -1230,16 +1179,16 @@
           }
         ]
       },
-            "require": {
-                "egulias/email-validator": "~2.0",
-                "php": ">=7.0.0",
-                "symfony/polyfill-iconv": "^1.0",
-                "symfony/polyfill-intl-idn": "^1.10",
-                "symfony/polyfill-mbstring": "^1.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9.1",
-                "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+      "require": {
+        "egulias/email-validator": "~2.0",
+        "php": ">=7.0.0",
+        "symfony/polyfill-iconv": "^1.0",
+        "symfony/polyfill-intl-idn": "^1.10",
+        "symfony/polyfill-mbstring": "^1.0"
+      },
+      "require-dev": {
+        "mockery/mockery": "~0.9.1",
+        "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
             },
             "suggest": {
                 "ext-intl": "Needed to support internationalized email addresses",
@@ -2093,31 +2042,31 @@
       "version": "v2.8.6",
       "source": {
         "type": "git",
-                "url": "https://github.com/yansongda/pay.git",
-                "reference": "841999b65f97466ed1b405c52400c0c73aeaa3b5"
-            },
-            "dist": {
-              "type": "zip",
-              "url": "https://api.github.com/repos/yansongda/pay/zipball/841999b65f97466ed1b405c52400c0c73aeaa3b5",
-              "reference": "841999b65f97466ed1b405c52400c0c73aeaa3b5",
-              "shasum": "",
-              "mirrors": [
-                {
-                  "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                  "preferred": true
-                }
-              ]
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-libxml": "*",
-                "ext-openssl": "*",
-                "ext-simplexml": "*",
-                "php": ">=7.1.3",
-                "symfony/event-dispatcher": "^4.0",
-                "symfony/http-foundation": "^4.0",
-                "yansongda/supports": "^2.0"
-            },
+        "url": "https://github.com/yansongda/pay.git",
+        "reference": "841999b65f97466ed1b405c52400c0c73aeaa3b5"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/yansongda/pay/zipball/841999b65f97466ed1b405c52400c0c73aeaa3b5",
+        "reference": "841999b65f97466ed1b405c52400c0c73aeaa3b5",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
+      "require": {
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-openssl": "*",
+        "ext-simplexml": "*",
+        "php": ">=7.1.3",
+        "symfony/event-dispatcher": "^4.0",
+        "symfony/http-foundation": "^4.0",
+        "yansongda/supports": "^2.0"
+      },
       "require-dev": {
         "mockery/mockery": "^1.2",
         "phpunit/phpunit": "^7.5"
@@ -2196,15 +2145,15 @@
         }
       ],
       "description": "common components",
-            "keywords": [
-                "Guzzle",
-                "array",
-                "collection",
-                "config",
-                "http",
-                "support",
-                "throttle"
-            ],
+      "keywords": [
+        "Guzzle",
+        "array",
+        "collection",
+        "config",
+        "http",
+        "support",
+        "throttle"
+      ],
       "time": "2019-12-30T02:00:50+00:00"
         }
     ],
@@ -2461,26 +2410,26 @@
         ],
         "time": "2019-11-20T00:00:46+00:00"
       },
-        {
-            "name": "cakephp/collection",
-            "version": "3.8.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cakephp/collection.git",
-                "reference": "3541cdd1739334fcbe301daed8d6cb9458903fdd"
-            },
-            "dist": {
-              "type": "zip",
-              "url": "https://api.github.com/repos/cakephp/collection/zipball/3541cdd1739334fcbe301daed8d6cb9458903fdd",
-              "reference": "3541cdd1739334fcbe301daed8d6cb9458903fdd",
-              "shasum": "",
-              "mirrors": [
-                {
-                  "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                  "preferred": true
-                }
-              ]
-            },
+      {
+        "name": "cakephp/collection",
+        "version": "3.8.7",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/cakephp/collection.git",
+          "reference": "3541cdd1739334fcbe301daed8d6cb9458903fdd"
+        },
+        "dist": {
+          "type": "zip",
+          "url": "https://api.github.com/repos/cakephp/collection/zipball/3541cdd1739334fcbe301daed8d6cb9458903fdd",
+          "reference": "3541cdd1739334fcbe301daed8d6cb9458903fdd",
+          "shasum": "",
+          "mirrors": [
+            {
+              "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+              "preferred": true
+            }
+          ]
+        },
             "require": {
                 "php": ">=5.6.0"
             },
@@ -2758,15 +2707,15 @@
                 "ext-intl": "To use Text::transliterate() or Text::slug()",
                 "lib-ICU": "To use Text::transliterate() or Text::slug()"
             },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                  "Cake\\Utility\\": "."
-                },
-              "files": [
-                "bootstrap.php"
-              ]
+          "type": "library",
+          "autoload": {
+            "psr-4": {
+              "Cake\\Utility\\": "."
             },
+            "files": [
+              "bootstrap.php"
+            ]
+          },
           "notification-url": "https://packagist.jp/downloads/",
           "license": [
             "MIT"
@@ -3177,16 +3126,16 @@
         ],
         "authors": [
           {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common Container Interface (PHP FIG PSR-11)",
-            "homepage": "https://github.com/php-fig/container",
-            "keywords": [
-                "PSR-11",
-                "container",
-                "container-interface",
+            "name": "PHP-FIG",
+            "homepage": "http://www.php-fig.org/"
+          }
+        ],
+        "description": "Common Container Interface (PHP FIG PSR-11)",
+        "homepage": "https://github.com/php-fig/container",
+        "keywords": [
+          "PSR-11",
+          "container",
+          "container-interface",
                 "container-interop",
                 "psr"
             ],
@@ -3755,15 +3704,15 @@
                     "dev-master": "2.0-dev"
                 }
             },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Contracts\\Service\\": ""
-                }
-            },
-            "notification-url": "https://packagist.jp/downloads/",
-            "license": [
-                "MIT"
-            ],
+          "autoload": {
+            "psr-4": {
+              "Symfony\\Contracts\\Service\\": ""
+            }
+          },
+          "notification-url": "https://packagist.jp/downloads/",
+          "license": [
+            "MIT"
+          ],
           "authors": [
             {
               "name": "Nicolas Grekas",

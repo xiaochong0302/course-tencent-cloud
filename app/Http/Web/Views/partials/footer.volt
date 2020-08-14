@@ -6,12 +6,15 @@
             {% endfor %}
         </div>
         <div class="copyright">
-            <span>{{ settings.copyright }}</span>
-            {% if settings.icp_sn %}
-                <a href="{{ settings.icp_link }}">{{ settings.icp_sn }}</a>
+            {% if site.copyright %}
+                <span>&copy; {{ site.copyright }}</span>
             {% endif %}
-            {% if settings.police_sn %}
-                <a href="{{ settings.police_link }}">{{ settings.police_sn }}</a>
+            <a href="{{ app_info.link }}" title="{{ app_info.name }}">Powered by {{ app_info.alias }} {{ app_info.version }}</a>
+            {% if site.icp_sn %}
+                <a href="{{ site.icp_link }}">{{ site.icp_sn }}</a>
+            {% endif %}
+            {% if site.police_sn %}
+                <a href="{{ site.police_link }}">{{ site.police_sn }}</a>
             {% endif %}
         </div>
     </div>

@@ -13,7 +13,7 @@ class Config extends Provider
     {
         $this->di->setShared($this->serviceName, function () {
 
-            $options = require config_path() . '/config.php';
+            $options = require config_path('config.php');
 
             return new PhalconConfig($options);
         });

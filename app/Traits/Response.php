@@ -59,7 +59,7 @@ trait Response
 
     public function getErrorMessage($code)
     {
-        $errors = require config_path() . '/errors.php';
+        $errors = require config_path('errors.php');
 
         return $errors[$code] ?? $code;
     }

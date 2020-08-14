@@ -31,6 +31,8 @@ class SettingController extends Controller
 
             $site = $settingService->getSectionSettings($section);
 
+            $site->base_url = $site->base_url ?: kg_site_base_url();
+
             $this->view->setVar('site', $site);
         }
     }

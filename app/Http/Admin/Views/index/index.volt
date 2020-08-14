@@ -60,7 +60,7 @@
         <iframe name="content" style="width:100%;height:100%;border:0;" src="{{ url({'for':'admin.main'}) }}"></iframe>
     </div>
     <div class="layui-footer">
-        © 2020 <a href="http://koogua.com"><b>koogua.com</b></a> all rights reserved
+        <span>Powered by <a href="{{ app_info.link }}" title="{{ app_info.name }}">{{ app_info.alias }} {{ app_info.version }}</a></span>
     </div>
 </div>
 </body>

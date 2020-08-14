@@ -43,7 +43,7 @@ abstract class Kernel
 
     protected function initAppConfigs()
     {
-        $this->configs = require config_path() . '/config.php';
+        $this->configs = require config_path('config.php');
     }
 
     protected function initAppSettings()

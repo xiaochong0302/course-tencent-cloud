@@ -119,7 +119,7 @@ class HttpErrorHandler extends Component
 
     protected function translate($code)
     {
-        $errors = require config_path() . '/errors.php';
+        $errors = require config_path('errors.php');
 
         return [
             'code' => $code,

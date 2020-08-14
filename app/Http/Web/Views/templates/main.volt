@@ -36,8 +36,8 @@
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
 
-{% if settings.analytics %}
-    {{ settings.analytics }}
+{% if site.analytics %}
+    {{ site.analytics }}
 {% endif %}
 
 </body>

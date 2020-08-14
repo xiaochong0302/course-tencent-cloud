@@ -14,9 +14,9 @@ class CourseSearcher extends Component
 
     public function __construct()
     {
-        $fileName = config_path() . '/xs.course.ini';
+        $filename = config_path('xs.course.ini');
 
-        $this->xs = new \XS($fileName);
+        $this->xs = new \XS($filename);
     }
 
     /**

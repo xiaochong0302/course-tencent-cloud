@@ -49,4 +49,7 @@ $scheduler->php($script, $bin, ['--task' => 'live_notice_provider', '--action' =
 $scheduler->php($script, $bin, ['--task' => 'clean_token', '--action' => 'main'])
     ->daily(3, 23);
 
+$scheduler->php($script, $bin, ['--task' => 'site_map', '--action' => 'main'])
+    ->daily(4, 3);
+
 $scheduler->run();
