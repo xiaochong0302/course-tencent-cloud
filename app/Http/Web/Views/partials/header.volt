@@ -17,20 +17,18 @@
     </ul>
 </div>
 
-{% set query = request.get('query','striptags','') %}
-
-<div class="search">
-    <form class="layui-form" action="{{ url({'for':'web.search.index'}) }}">
-        <input class="layui-input" type="text" name="query" maxlength="30" autocomplete="off" placeholder="请输入课程关键字..." value="{{ query }}">
-    </form>
-</div>
+{% set query = request.get('query',['trim','striptags'],'') %}
+{% set type = request.get('type',['trim','string'],'course') %}
 
 <div class="user layui-layout-right">
-    {% if auth_user.id > 0 %}
-        <ul class="layui-nav">
-            <li class="layui-nav-item">
-                <a href="{{ url({'for':'web.im'}) }}" target="im">微聊<span class="layui-badge-dot"></span></a>
-            </li>
+    <ul class="layui-nav">
+        <li class="layui-nav-item">
+            <a href="javascript:" class="kg-search" data-type="{{ type }}" data-query="{{ query }}"><i class="layui-icon layui-icon-search"></i> 搜索</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="{{ url({'for':'web.im'}) }}" target="im">微聊<span class="layui-badge-dot"></span></a>
+        </li>
+        {% if auth_user.id > 0 %}
             <li class="layui-nav-item">
                 <a href="javascript:">{{ auth_user.name }}</a>
                 <dl class="layui-nav-child">
@@ -42,11 +40,9 @@
                     <dd><a href="{{ url({'for':'web.account.logout'}) }}">退出登录</a></dd>
                 </dl>
             </li>
-        </ul>
-    {% else %}
-        <ul class="layui-nav">
+        {% else %}
             <li class="layui-nav-item"><a href="{{ url({'for':'web.account.login'}) }}">登录</a></li>
             <li class="layui-nav-item"><a href="{{ url({'for':'web.account.register'}) }}">注册</a></li>
-        </ul>
-    {% endif %}
+        {% endif %}
+    </ul>
 </div>

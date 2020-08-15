@@ -2,9 +2,9 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Services\Frontend\Search\CourseHotQuery as CourseHotQueryService;
-use App\Services\Frontend\Search\CourseList as CourseListService;
-use App\Services\Frontend\Search\CourseRelatedQuery as CourseRelatedQueryService;
+use App\Services\Frontend\Search\Course as CourseSearchService;
+use App\Services\Frontend\Search\Group as GroupSearchService;
+use App\Services\Frontend\Search\User as UserSearchService;
 use App\Traits\Response as ResponseTrait;
 
 /**
@@ -20,7 +20,8 @@ class SearchController extends Controller
      */
     public function indexAction()
     {
-        $query = $this->request->get('query', ['trim']);
+        $query = $this->request->get('query', ['trim', 'string']);
+        $type = $this->request->get('type', ['trim'], 'course');
 
         if (empty($query)) {
             return $this->response->redirect(['for' => 'web.course.list']);
@@ -28,21 +29,38 @@ class SearchController extends Controller
 
         $this->seo->prependTitle(['搜索', $query]);
 
-        $service = new CourseHotQueryService();
+        $service = $this->getSearchService($type);
 
-        $hotQueries = $service->handle();
+        $hotQueries = $service->hotQuery();
 
-        $service = new CourseRelatedQueryService();
+        $relatedQueries = $service->relatedQuery($query);
 
-        $relatedQueries = $service->handle($query);
-
-        $service = new CourseListService();
-
-        $pager = $service->handle();
+        $pager = $service->search();
 
         $this->view->setVar('hot_queries', $hotQueries);
         $this->view->setVar('related_queries', $relatedQueries);
         $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @param string $type
+     * @return CourseSearchService|GroupSearchService|UserSearchService
+     */
+    protected function getSearchService($type)
+    {
+        switch ($type) {
+            case 'group':
+                $service = new GroupSearchService;
+                break;
+            case 'user':
+                $service = new UserSearchService();
+                break;
+            default:
+                $service = new CourseSearchService();
+                break;
+        }
+
+        return $service;
     }
 
 }

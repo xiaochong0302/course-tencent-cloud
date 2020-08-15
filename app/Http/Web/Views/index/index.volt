@@ -4,21 +4,21 @@
 
     {{ partial('macros/course') }}
 
-    {%- macro category_courses(courses) %}
+    {%- macro category_courses(items) %}
         <div class="layui-tab layui-tab-brief">
             <ul class="layui-tab-title">
-                {% for category in courses %}
+                {% for item in items %}
                     {% set class = loop.first ? 'layui-this' : 'none' %}
-                    <li class="{{ class }}">{{ category.name }}</li>
+                    <li class="{{ class }}">{{ item.category.name }}</li>
                 {% endfor %}
             </ul>
             <div class="layui-tab-content">
-                {% for category in courses %}
+                {% for item in items %}
                     {% set class = loop.first ? 'layui-tab-item layui-show' : 'layui-tab-item' %}
                     <div class="{{ class }}">
                         <div class="index-course-list clearfix">
                             <div class="layui-row layui-col-space20">
-                                {% for course in category.courses %}
+                                {% for course in item.courses %}
                                     <div class="layui-col-md3">
                                         {{ course_card(course) }}
                                     </div>

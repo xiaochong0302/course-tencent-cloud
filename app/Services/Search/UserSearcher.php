@@ -2,7 +2,7 @@
 
 namespace App\Services\Search;
 
-class CourseSearcher extends Searcher
+class UserSearcher extends Searcher
 {
 
     public function __construct()
@@ -12,14 +12,14 @@ class CourseSearcher extends Searcher
 
     public function getXS()
     {
-        $filename = config_path('xs.course.ini');
+        $filename = config_path('xs.user.ini');
 
         return new \XS($filename);
     }
 
     public function getHighlightFields()
     {
-        return ['title', 'summary'];
+        return ['name', 'about'];
     }
 
 }

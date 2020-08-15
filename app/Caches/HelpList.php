@@ -42,13 +42,13 @@ class HelpList extends Cache
                 'name' => $category->name,
             ];
 
-            $item['list'] = [];
+            $item['helps'] = [];
 
             $helps = $this->findHelps($category->id);
 
             if ($helps->count() > 0) {
                 foreach ($helps as $help) {
-                    $item['list'][] = [
+                    $item['helps'][] = [
                         'id' => $help->id,
                         'title' => $help->title,
                     ];

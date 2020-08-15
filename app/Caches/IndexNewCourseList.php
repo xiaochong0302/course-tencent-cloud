@@ -28,8 +28,6 @@ class IndexNewCourseList extends Cache
 
     public function getContent($id = null)
     {
-        $result = [];
-
         $categoryLimit = 5;
 
         $courseLimit = 10;
@@ -40,12 +38,18 @@ class IndexNewCourseList extends Cache
             return [];
         }
 
+        $result = [];
+
         foreach ($categories as $category) {
 
-            $categoryItem = [
+            $item = [];
+
+            $item['category'] = [
                 'id' => $category->id,
                 'name' => $category->name,
             ];
+
+            $item['courses'] = [];
 
             $courses = $this->findCategoryCourses($category->id, $courseLimit);
 
@@ -69,9 +73,9 @@ class IndexNewCourseList extends Cache
                 ];
             }
 
-            $categoryItem['courses'] = $categoryCourses;
+            $item['courses'] = $categoryCourses;
 
-            $result[] = $categoryItem;
+            $result[] = $item;
         }
 
         return $result;

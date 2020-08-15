@@ -2,10 +2,11 @@
 
 {% block content %}
 
+    {{ partial('macros/course') }}
+
+    {% set types = {'course':'课程','group':'群组','user':'用户'} %}
     {% set type = request.get('type','trim','course') %}
     {% set query = request.get('query','striptags','') %}
-
-    {{ partial('macros/course') }}
 
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
@@ -15,12 +16,21 @@
 
     <div class="layout-main clearfix">
         <div class="layout-content">
+            <div class="search-tab wrap">
+                {% for key,value in types %}
+                    {% set class = (type == key) ? 'layui-btn layui-btn-xs' : 'none' %}
+                    {% set url = url({'for':'web.search.index'},{'type':key,'query':query}) %}
+                    <a class="{{ class }}" href="{{ url }}">{{ value }}</a>
+                {% endfor %}
+            </div>
             {% if pager.total_pages > 0 %}
                 <div class="wrap">
                     {% if type == 'course' %}
                         {{ partial('search/course') }}
-                    {% elseif type == 'other' %}
-                        {{ partial('search/other') }}
+                    {% elseif type == 'group' %}
+                        {{ partial('search/group') }}
+                    {% elseif type == 'user' %}
+                        {{ partial('search/user') }}
                     {% endif %}
                 </div>
                 {{ partial('partials/pager') }}

@@ -13,12 +13,12 @@
         <div class="layout-content">
             <div class="wrap">
                 <div class="layui-collapse">
-                    {% for item in helps %}
+                    {% for item in items %}
                         <div class="layui-colla-item">
                             <h2 class="layui-colla-title">{{ item.category.name }}</h2>
                             <div class="layui-colla-content layui-show">
                                 <ul class="help-list">
-                                    {% for help in item.list %}
+                                    {% for help in item.helps %}
                                         <li><a href="{{ url({'for':'web.help.show','id':help.id}) }}"><i class="layui-icon layui-icon-right"></i>{{ help.title }}</a></li>
                                     {% endfor %}
                                 </ul>

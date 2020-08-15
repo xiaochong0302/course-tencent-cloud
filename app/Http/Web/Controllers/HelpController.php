@@ -18,11 +18,11 @@ class HelpController extends Controller
     {
         $service = new HelpListService();
 
-        $helps = $service->handle();
+        $items = $service->handle();
 
         $this->seo->prependTitle('帮助');
 
-        $this->view->setVar('helps', $helps);
+        $this->view->setVar('items', $items);
     }
 
     /**
