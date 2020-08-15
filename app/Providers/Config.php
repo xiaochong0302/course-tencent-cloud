@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Phalcon\Config as PhalconConfig;
+use Phalcon\Config as PhConfig;
 
 class Config extends Provider
 {
@@ -15,7 +15,7 @@ class Config extends Provider
 
             $options = require config_path('config.php');
 
-            return new PhalconConfig($options);
+            return new PhConfig($options);
         });
     }
 

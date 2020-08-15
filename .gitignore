@@ -2,4 +2,6 @@
 /vendor
 /config/config.php
 /config/xs.course.ini
+/public/robots.txt
+/public/sitemap.xml
 *KgTest*
