@@ -2,7 +2,7 @@
 
 namespace App\Caches;
 
-use App\Models\ImGroupMessage as ImGroupMessageModel;
+use App\Models\ImMessage as ImMessageModel;
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use Phalcon\Mvc\Model\Resultset;
@@ -58,11 +58,12 @@ class ImGroupActiveUserList extends Cache
         $startTime = strtotime("-{$days} days");
         $endTime = time();
 
-        $rows = ImGroupMessageModel::query()
+        $rows = ImMessageModel::query()
             ->columns(['sender_id', 'total_count' => 'count(sender_id)'])
             ->groupBy('sender_id')
             ->orderBy('total_count DESC')
-            ->where('group_id = :group_id:', ['group_id' => $groupId])
+            ->where('receiver_id = :group_id:', ['group_id' => $groupId])
+            ->andWhere('receiver_type = :type:', ['type' => ImMessageModel::TYPE_GROUP])
             ->betweenWhere('create_time', $startTime, $endTime)
             ->limit($limit)
             ->execute();

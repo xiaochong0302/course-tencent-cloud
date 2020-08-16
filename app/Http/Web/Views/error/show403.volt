@@ -1,6 +1,7 @@
 {% extends 'templates/error.volt' %}
 
 {% block content %}
+
     <div class="layui-fluid">
         <div class="kg-tips">
             <i class="layui-icon layui-icon-face-surprised"></i>
@@ -13,4 +14,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

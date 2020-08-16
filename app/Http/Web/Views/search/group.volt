@@ -1,6 +1,7 @@
 <div class="search-group-list">
     {% for item in pager.items %}
         {% set group_url = url({'for':'web.im_group.show','id':item.id}) %}
+        {% set owner_url = url({'for':'web.user.show','id':item.onwer.id}) %}
         {% set item.about = item.about ? item.about : '这个家伙真懒，什么也没有留下！' %}
         <div class="search-group-card clearfix">
             <div class="avatar">
@@ -14,8 +15,8 @@
                 </div>
                 <div class="about layui-elip">{{ item.about }}</div>
                 <div class="meta">
-                    <span>组长：{{ item.owner.name }}</span>
-                    <span>组员：{{ item.user_count }}</span>
+                    <span>组长：<a href="{{ owner_url }}">{{ item.owner.name }}</a></span>
+                    <span>成员：{{ item.user_count }}</span>
                 </div>
             </div>
         </div>

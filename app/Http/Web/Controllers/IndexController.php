@@ -32,4 +32,11 @@ class IndexController extends Controller
 
     }
 
+    protected function getSocketUrl()
+    {
+        $config = $this->getDI()->get('config');
+
+        return $config->websocket->url;
+    }
+
 }

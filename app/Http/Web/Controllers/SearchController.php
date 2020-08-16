@@ -43,6 +43,14 @@ class SearchController extends Controller
     }
 
     /**
+     * @Get("/form", name="web.search.form")
+     */
+    public function formAction()
+    {
+
+    }
+
+    /**
      * @param string $type
      * @return CourseSearchService|GroupSearchService|UserSearchService
      */

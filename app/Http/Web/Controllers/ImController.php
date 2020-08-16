@@ -15,14 +15,6 @@ class ImController extends LayerController
     use ResponseTrait;
 
     /**
-     * @Get("/", name="web.im.index")
-     */
-    public function indexAction()
-    {
-
-    }
-
-    /**
      * @Get("/init", name="web.im.init")
      */
     public function initAction()

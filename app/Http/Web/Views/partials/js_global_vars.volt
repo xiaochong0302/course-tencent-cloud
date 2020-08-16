@@ -8,7 +8,9 @@
             locked: '{{ auth_user.locked }}',
             vip: '{{ auth_user.vip }}'
         },
-        socketUrl: '{{ socket_url }}'
+        im: {
+            socket_url: '{{ im.socket_url }}'
+        }
     };
 
 </script>

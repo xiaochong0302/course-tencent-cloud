@@ -129,27 +129,14 @@ body {
     margin-left: 100px;
 }
 
-.top-nav .im {
-
-}
-
-.im .layui-icon-chat {
-
-}
-
-.search {
-    position: absolute;
-    top: 15px;
-    right: 240px;
-    width: 250px;
-}
-
-.search .layui-input {
-    border: none;
-    height: 30px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
-    background-color: rgba(255, 255, 255, 0.05);
+.layer-search input {
+    height: 75px;
+    line-height: 75px;
+    width: 500px;
+    padding: 0 15px;
+    font-size: 18px;
+    border: none 0;
+    background: none;
 }
 
 #footer span, #footer a {
@@ -246,12 +233,15 @@ body {
 }
 
 .search-tab {
-    padding: 10px 20px;
+    margin: 0;
 }
 
-.search-tab a {
-    min-width: 50px;
-    margin-right: 30px;
+.search-tab .layui-tab-title {
+    margin-bottom: 10px;
+}
+
+.search-tab .layui-tab-content {
+    padding: 10px 0;
 }
 
 .search-empty {
@@ -302,7 +292,7 @@ body {
     height: 100%;
 }
 
-.search-course-card .info, .search-group-card .info {
+.search-course-card .info {
     float: left;
     width: 500px;
 }
@@ -344,6 +334,11 @@ body {
 
 .search-group-card .avatar img {
     border-radius: 100%;
+}
+
+.search-group-card .info {
+    float: left;
+    width: 600px;
 }
 
 .search-group-card .about {
@@ -1248,12 +1243,13 @@ body {
 }
 
 .user-tab .layui-tab-title {
+    margin-bottom: 10px;
     text-align: center;
     border-bottom: none;
 }
 
 .user-tab .layui-tab-content {
-    padding: 20px 0 0 0;
+    padding: 10px 0;
 }
 
 .user-tab .loading {

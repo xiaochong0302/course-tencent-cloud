@@ -34,7 +34,7 @@ class Live extends Service
 
     public function getStats($id)
     {
-        $chapter = $this->checkChapterCache($id);
+        $chapter = $this->checkChapter($id);
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
@@ -55,7 +55,7 @@ class Live extends Service
     {
         $clientId = $this->request->getPost('client_id');
 
-        $chapter = $this->checkChapterCache($id);
+        $chapter = $this->checkChapter($id);
 
         $user = $this->getCurrentUser();
 

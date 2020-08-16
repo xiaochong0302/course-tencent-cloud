@@ -3,12 +3,12 @@
 namespace App\Console\Tasks;
 
 use App\Library\Cache\Backend\Redis as RedisCache;
-use App\Repos\Course as CourseRepo;
-use App\Services\Search\CourseDocument;
-use App\Services\Search\CourseSearcher;
-use App\Services\Syncer\CourseIndex as CourseIndexSyncer;
+use App\Repos\User as UserRepo;
+use App\Services\Search\UserDocument;
+use App\Services\Search\UserSearcher;
+use App\Services\Syncer\UserIndex as UserIndexSyncer;
 
-class SyncCourseIndexTask extends Task
+class SyncUserIndexTask extends Task
 {
 
     /**
@@ -34,45 +34,45 @@ class SyncCourseIndexTask extends Task
     {
         $key = $this->getSyncKey();
 
-        $courseIds = $this->redis->sRandMember($key, 1000);
+        $userIds = $this->redis->sRandMember($key, 1000);
 
-        if (!$courseIds) return;
+        if (!$userIds) return;
 
-        $courseRepo = new CourseRepo();
+        $userRepo = new UserRepo();
 
-        $courses = $courseRepo->findByIds($courseIds);
+        $users = $userRepo->findByIds($userIds);
 
-        if ($courses->count() == 0) {
+        if ($users->count() == 0) {
             return;
         }
 
-        $document = new CourseDocument();
+        $document = new UserDocument();
 
-        $handler = new CourseSearcher();
+        $handler = new UserSearcher();
 
         $index = $handler->getXS()->getIndex();
 
         $index->openBuffer();
 
-        foreach ($courses as $course) {
+        foreach ($users as $user) {
 
-            $doc = $document->setDocument($course);
+            $doc = $document->setDocument($user);
 
-            if ($course->published == 1) {
+            if ($user->deleted == 0) {
                 $index->update($doc);
             } else {
-                $index->del($course->id);
+                $index->del($user->id);
             }
         }
 
         $index->closeBuffer();
 
-        $this->redis->sRem($key, ...$courseIds);
+        $this->redis->sRem($key, ...$userIds);
     }
 
     protected function getSyncKey()
     {
-        $syncer = new CourseIndexSyncer();
+        $syncer = new UserIndexSyncer();
 
         return $syncer->getSyncKey();
     }

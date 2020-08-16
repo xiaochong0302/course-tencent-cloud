@@ -2,10 +2,27 @@
 
 {% block content %}
 
+    {% set closed_tips_display = site.status == 'normal' ? 'style="display:none;"' : '' %}
+
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.site'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>站点配置</legend>
         </fieldset>
+        <div class="layui-form-item">
+            <label class="layui-form-label">站点状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="status" value="normal" title="正常" lay-filter="status" {% if site.status == "normal" %}checked{% endif %}>
+                <input type="radio" name="status" value="closed" title="关闭" lay-filter="status" {% if site.status == "closed" %}checked{% endif %}>
+            </div>
+        </div>
+        <div id="closed-tips-block" {{ closed_tips_display }}>
+            <div class="layui-form-item">
+                <label class="layui-form-label">关闭原因</label>
+                <div class="layui-input-block">
+                    <textarea name="closed_tips" class="layui-textarea">{{ site.closed_tips }}</textarea>
+                </div>
+            </div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">网站名称</label>
             <div class="layui-input-block">
@@ -78,5 +95,30 @@
             </div>
         </div>
     </form>
+
+{% endblock %}
+
+
+{% block inline_js %}
+
+    <script>
+
+        layui.use(['jquery', 'form', 'layer'], function () {
+
+            var $ = layui.jquery;
+            var form = layui.form;
+
+            form.on('radio(status)', function (data) {
+                var block = $('#closed-tips-block');
+                if (data.value === 'closed') {
+                    block.show();
+                } else {
+                    block.hide();
+                }
+            });
+
+        });
+
+    </script>
 
 {% endblock %}

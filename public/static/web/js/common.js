@@ -105,6 +105,33 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
         });
     });
 
+    $('.kg-search').on('click', function () {
+        var content = '<form action="' + $(this).data('url') + '">';
+        content += '<input type="text" name="query" autocomplete="off" placeholder="搜索内容，回车跳转">';
+        content += '<input type="hidden" name="type" value="' + $(this).data('type') + '">';
+        content += '</form>';
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: false,
+            shadeClose: true,
+            offset: '120px',
+            maxWidth: 10000,
+            skin: 'layer-search',
+            content: content,
+            success: function (dom) {
+                var form = dom.find('form');
+                var query = dom.find('input[name=query]');
+                query.focus();
+                $(form).submit(function () {
+                    if (query.val().replace(/\s/g, '') === '') {
+                        return false;
+                    }
+                });
+            }
+        });
+    });
+
     $('.kg-back').on('click', function () {
         window.history.back();
     });

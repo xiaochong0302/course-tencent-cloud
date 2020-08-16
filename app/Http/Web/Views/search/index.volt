@@ -14,25 +14,36 @@
         <a><cite>{{ query }}</cite></a>
     </div>
 
+    {% set tab_show = type %}
     <div class="layout-main clearfix">
         <div class="layout-content">
-            <div class="search-tab wrap">
-                {% for key,value in types %}
-                    {% set class = (type == key) ? 'layui-btn layui-btn-xs' : 'none' %}
-                    {% set url = url({'for':'web.search.index'},{'type':key,'query':query}) %}
-                    <a class="{{ class }}" href="{{ url }}">{{ value }}</a>
-                {% endfor %}
+            <div class="search-tab-wrap wrap">
+                <div class="layui-tab layui-tab-brief search-tab">
+                    <ul class="layui-tab-title">
+                        {% for key,value in types %}
+                            {% set class = (type == key) ? 'layui-this' : 'none' %}
+                            {% set url = url({'for':'web.search.index'},{'type':key,'query':query}) %}
+                            <li class="{{ class }}"><a href="{{ url }}">{{ value }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    <div class="layui-tab-content">
+                        {% if type == 'course' %}
+                            <div class="layui-tab-item layui-show">
+                                {{ partial('search/course') }}
+                            </div>
+                        {% elseif type == 'group' %}
+                            <div class="layui-tab-item layui-show">
+                                {{ partial('search/group') }}
+                            </div>
+                        {% elseif type == 'user' %}
+                            <div class="layui-tab-item layui-show">
+                                {{ partial('search/user') }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
             {% if pager.total_pages > 0 %}
-                <div class="wrap">
-                    {% if type == 'course' %}
-                        {{ partial('search/course') }}
-                    {% elseif type == 'group' %}
-                        {{ partial('search/group') }}
-                    {% elseif type == 'user' %}
-                        {{ partial('search/user') }}
-                    {% endif %}
-                </div>
                 {{ partial('partials/pager') }}
             {% else %}
                 <div class="search-empty wrap">

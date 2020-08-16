@@ -67,4 +67,16 @@ class ErrorController extends \Phalcon\Mvc\Controller
         $this->response->setStatusCode(503);
     }
 
+    /**
+     * @Get("/shutdown", name="web.error.shutdown")
+     */
+    public function shutdownAction()
+    {
+        $message = $this->dispatcher->getParam('message');
+
+        $this->response->setStatusCode(503);
+
+        $this->view->setVar('message', $message);
+    }
+
 }

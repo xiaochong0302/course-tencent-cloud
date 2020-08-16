@@ -17,16 +17,17 @@
     </ul>
 </div>
 
-{% set query = request.get('query',['trim','striptags'],'') %}
-{% set type = request.get('type',['trim','string'],'course') %}
+{% set s_type = request.get('type',['trim','string'],'course') %}
+{% set s_query = request.get('query',['trim','striptags'],'') %}
+{% set s_url = url({'for':'web.search.index'}) %}
 
 <div class="user layui-layout-right">
     <ul class="layui-nav">
         <li class="layui-nav-item">
-            <a href="javascript:" class="kg-search" data-type="{{ type }}" data-query="{{ query }}"><i class="layui-icon layui-icon-search"></i> 搜索</a>
+            <a href="javascript:" class="kg-search" data-type="{{ s_type }}" data-query="{{ s_query }}" data-url="{{ s_url }}"><i class="layui-icon layui-icon-search"></i> 搜索</a>
         </li>
         <li class="layui-nav-item">
-            <a href="{{ url({'for':'web.im'}) }}" target="im">微聊<span class="layui-badge-dot"></span></a>
+            <a href="{{ url({'for':'web.im.index'}) }}" target="im">微聊<span class="layui-badge-dot"></span></a>
         </li>
         {% if auth_user.id > 0 %}
             <li class="layui-nav-item">

@@ -1,16 +1,23 @@
+html {
+    background-color: #f2f2f2;
+}
+
 .kg-tips {
-    margin-top: 30px;
+    width: 500px;
+    margin: 0 auto;
     text-align: center;
 }
 
 .kg-tips .layui-icon-face-surprised {
     display: inline-block;
+    margin-top: 20px;
     font-size: 200px;
     color: #393D49;
 }
 
 .kg-tips .message {
-    margin-top: 30px;
+    margin-top: 20px;
+    color: #666;
 }
 
 .kg-tips .layui-text {

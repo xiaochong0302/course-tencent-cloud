@@ -45,6 +45,10 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
+        $this->site = $this->getSiteSettings();
+
+        $this->checkSiteStatus();
+
         if ($this->isNotSafeRequest()) {
             $this->checkHttpReferer();
             $this->checkCsrfToken();
@@ -57,16 +61,15 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function initialize()
     {
-        $this->navs = $this->getNavs();
         $this->seo = $this->getSeo();
-        $this->site = $this->getSiteSettings();
+        $this->navs = $this->getNavs();
         $this->appInfo = $this->getAppInfo();
         $this->authUser = $this->getAuthUser();
 
         $this->seo->setTitle($this->site['title']);
 
-        $this->view->setVar('seo', $this->seo);
         $this->view->setVar('site', $this->site);
+        $this->view->setVar('seo', $this->seo);
         $this->view->setVar('navs', $this->navs);
         $this->view->setVar('app_info', $this->appInfo);
         $this->view->setVar('auth_user', $this->authUser);
@@ -112,6 +115,17 @@ class Controller extends \Phalcon\Mvc\Controller
         $config = $this->getDI()->get('config');
 
         return $config->websocket->url;
+    }
+
+    protected function checkSiteStatus()
+    {
+        if ($this->site['status'] == 'closed') {
+            $this->dispatcher->forward([
+                'controller' => 'error',
+                'action' => 'shutdown',
+                'params' => ['message' => $this->site['closed_tips']],
+            ]);
+        }
     }
 
 }

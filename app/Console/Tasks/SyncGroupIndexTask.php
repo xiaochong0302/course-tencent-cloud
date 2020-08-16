@@ -3,12 +3,12 @@
 namespace App\Console\Tasks;
 
 use App\Library\Cache\Backend\Redis as RedisCache;
-use App\Repos\Course as CourseRepo;
-use App\Services\Search\CourseDocument;
-use App\Services\Search\CourseSearcher;
-use App\Services\Syncer\CourseIndex as CourseIndexSyncer;
+use App\Repos\ImGroup as GroupRepo;
+use App\Services\Search\GroupDocument;
+use App\Services\Search\GroupSearcher;
+use App\Services\Syncer\GroupIndex as GroupIndexSyncer;
 
-class SyncCourseIndexTask extends Task
+class SyncGroupIndexTask extends Task
 {
 
     /**
@@ -34,45 +34,45 @@ class SyncCourseIndexTask extends Task
     {
         $key = $this->getSyncKey();
 
-        $courseIds = $this->redis->sRandMember($key, 1000);
+        $groupIds = $this->redis->sRandMember($key, 1000);
 
-        if (!$courseIds) return;
+        if (!$groupIds) return;
 
-        $courseRepo = new CourseRepo();
+        $groupRepo = new GroupRepo();
 
-        $courses = $courseRepo->findByIds($courseIds);
+        $groups = $groupRepo->findByIds($groupIds);
 
-        if ($courses->count() == 0) {
+        if ($groups->count() == 0) {
             return;
         }
 
-        $document = new CourseDocument();
+        $document = new GroupDocument();
 
-        $handler = new CourseSearcher();
+        $handler = new GroupSearcher();
 
         $index = $handler->getXS()->getIndex();
 
         $index->openBuffer();
 
-        foreach ($courses as $course) {
+        foreach ($groups as $group) {
 
-            $doc = $document->setDocument($course);
+            $doc = $document->setDocument($group);
 
-            if ($course->published == 1) {
+            if ($group->published == 1) {
                 $index->update($doc);
             } else {
-                $index->del($course->id);
+                $index->del($group->id);
             }
         }
 
         $index->closeBuffer();
 
-        $this->redis->sRem($key, ...$courseIds);
+        $this->redis->sRem($key, ...$groupIds);
     }
 
     protected function getSyncKey()
     {
-        $syncer = new CourseIndexSyncer();
+        $syncer = new GroupIndexSyncer();
 
         return $syncer->getSyncKey();
     }
