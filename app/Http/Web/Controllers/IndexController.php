@@ -12,8 +12,8 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        $this->seo->setKeywords($this->site['keywords']);
-        $this->seo->setDescription($this->site['description']);
+        $this->seo->setKeywords($this->siteInfo['keywords']);
+        $this->seo->setDescription($this->siteInfo['description']);
 
         $indexService = new IndexService();
 
@@ -22,21 +22,6 @@ class IndexController extends Controller
         $this->view->setVar('new_courses', $indexService->getNewCourses());
         $this->view->setVar('free_courses', $indexService->getFreeCourses());
         $this->view->setVar('vip_courses', $indexService->getVipCourses());
-    }
-
-    /**
-     * @Get("/im", name="web.im")
-     */
-    public function imAction()
-    {
-
-    }
-
-    protected function getSocketUrl()
-    {
-        $config = $this->getDI()->get('config');
-
-        return $config->websocket->url;
     }
 
 }

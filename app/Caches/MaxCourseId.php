@@ -16,7 +16,7 @@ class MaxCourseId extends Cache
 
     public function getKey($id = null)
     {
-        return 'max_course_id';
+        return 'max_id:course';
     }
 
     public function getContent($id = null)

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% set closed_tips_display = site.status == 'normal' ? 'style="display:none;"' : '' %}
+    {% set closed_tips_display = site.enabled == 1 ? 'style="display:none;"' : '' %}
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.site'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
@@ -11,8 +11,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">站点状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="normal" title="正常" lay-filter="status" {% if site.status == "normal" %}checked{% endif %}>
-                <input type="radio" name="status" value="closed" title="关闭" lay-filter="status" {% if site.status == "closed" %}checked{% endif %}>
+                <input type="radio" name="enabled" value="1" title="正常" lay-filter="status" {% if site.enabled == 1 %}checked{% endif %}>
+                <input type="radio" name="enabled" value="0" title="关闭" lay-filter="status" {% if site.enabled == 0 %}checked{% endif %}>
             </div>
         </div>
         <div id="closed-tips-block" {{ closed_tips_display }}>
@@ -110,7 +110,7 @@
 
             form.on('radio(status)', function (data) {
                 var block = $('#closed-tips-block');
-                if (data.value === 'closed') {
+                if (data.value === '0') {
                     block.show();
                 } else {
                     block.hide();

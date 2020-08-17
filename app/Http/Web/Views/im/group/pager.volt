@@ -1,8 +1,8 @@
 {% if pager.total_pages > 0 %}
-    <div class="im-group-list clearfix">
+    <div class="group-list clearfix">
         <div class="layui-row layui-col-space20">
             {% for item in pager.items %}
-                {% set group_url = url({'for':'web.im_group.show','id':item.id}) %}
+                {% set group_url = url({'for':'web.group.show','id':item.id}) %}
                 {% set owner_url = url({'for':'web.user.show','id':item.owner.id}) %}
                 {% set item.about = item.about ? item.about : '这家伙真懒，什么都没留下！' %}
                 <div class="layui-col-md3">

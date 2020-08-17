@@ -36,13 +36,13 @@ layui.use(['jquery', 'layer', 'laypage'], function () {
     }
 
     function loadPageHtml(target, page) {
-        $.get('/im/sys/msg', {page: page}, function (html) {
+        $.get('/im/notice', {page: page}, function (html) {
             target.html(html);
         });
     }
 
     function readNotices() {
-        $.post('/im/sys/msg/read');
+        $.post('/im/notice/read');
     }
 
     var action = {

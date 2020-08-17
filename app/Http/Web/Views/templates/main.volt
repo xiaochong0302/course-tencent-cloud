@@ -29,15 +29,15 @@
 {{ js_include('lib/layui/layui.js') }}
 {{ js_include('web/js/common.js') }}
 
-{% if router.getActionName() != 'im' %}
+{% if router.getControllerName() != 'im' %}
     {{ js_include('web/js/fixbar.js') }}
 {% endif %}
 
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
 
-{% if site.analytics %}
-    {{ site.analytics }}
+{% if site_info.analytics %}
+    {{ site_info.analytics }}
 {% endif %}
 
 </body>

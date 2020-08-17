@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Syncer\GroupIndex as GroupIndexSyncer;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
@@ -13,6 +14,7 @@ class ImGroup extends Model
      */
     const TYPE_COURSE = 'course'; // 课程
     const TYPE_CHAT = 'chat'; // 聊天
+    const TYPE_STAFF = 'staff'; // 员工
 
     /**
      * 主键编号
@@ -135,15 +137,20 @@ class ImGroup extends Model
 
     public function beforeUpdate()
     {
-        $this->update_time = time();
-
-        if ($this->deleted == 1) {
-            $this->published = 0;
+        if (time() - $this->update_time > 3 * 3600) {
+            $syncer = new GroupIndexSyncer();
+            $syncer->addItem($this->id);
         }
 
         if (Text::startsWith($this->avatar, 'http')) {
             $this->avatar = self::getAvatarPath($this->avatar);
         }
+
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
+
+        $this->update_time = time();
     }
 
     public function afterFetch()
@@ -167,6 +174,7 @@ class ImGroup extends Model
         return [
             self::TYPE_COURSE => '课程',
             self::TYPE_CHAT => '聊天',
+            self::TYPE_STAFF => '员工',
         ];
     }
 

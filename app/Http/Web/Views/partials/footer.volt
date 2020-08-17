@@ -6,15 +6,15 @@
             {% endfor %}
         </div>
         <div class="copyright">
-            {% if site.copyright %}
-                <span>&copy; {{ site.copyright }}</span>
+            {% if site_info.copyright %}
+                <span>&copy; {{ site_info.copyright }}</span>
             {% endif %}
             <a href="{{ app_info.link }}" title="{{ app_info.name }}">Powered by {{ app_info.alias }} {{ app_info.version }}</a>
-            {% if site.icp_sn %}
-                <a href="{{ site.icp_link }}">{{ site.icp_sn }}</a>
+            {% if site_info.icp_sn %}
+                <a href="{{ site_info.icp_link }}">{{ site_info.icp_sn }}</a>
             {% endif %}
-            {% if site.police_sn %}
-                <a href="{{ site.police_link }}">{{ site.police_sn }}</a>
+            {% if site_info.police_sn %}
+                <a href="{{ site_info.police_link }}">{{ site_info.police_sn }}</a>
             {% endif %}
         </div>
     </div>

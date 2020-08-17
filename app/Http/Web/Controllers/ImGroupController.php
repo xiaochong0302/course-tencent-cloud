@@ -12,15 +12,17 @@ class ImGroupController extends Controller
 {
 
     /**
-     * @Get("/list", name="web.im_group.list")
+     * @Get("/list", name="web.group.list")
      */
     public function listAction()
     {
         $this->seo->prependTitle('群组');
+
+        $this->view->pick('im/group/list');
     }
 
     /**
-     * @Get("/pager", name="web.im_group.pager")
+     * @Get("/pager", name="web.group.pager")
      */
     public function pagerAction()
     {
@@ -31,12 +33,12 @@ class ImGroupController extends Controller
         $pager->target = 'group-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('im_group/pager');
+        $this->view->pick('im/group/pager');
         $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Get("/{id:[0-9]+}", name="web.im_group.show")
+     * @Get("/{id:[0-9]+}", name="web.group.show")
      */
     public function showAction($id)
     {
@@ -44,11 +46,12 @@ class ImGroupController extends Controller
 
         $group = $service->getGroup($id);
 
+        $this->view->pick('im/group/show');
         $this->view->setVar('group', $group);
     }
 
     /**
-     * @Get("/{id:[0-9]+}/users", name="web.im_group.users")
+     * @Get("/{id:[0-9]+}/users", name="web.group.users")
      */
     public function usersAction($id)
     {
@@ -59,11 +62,12 @@ class ImGroupController extends Controller
         $pager->target = 'user-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('im/group/users');
         $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Get("/{id:[0-9]+}/users/active", name="web.im_group.active_users")
+     * @Get("/{id:[0-9]+}/users/active", name="web.group.active_users")
      */
     public function activeUsersAction($id)
     {
@@ -72,7 +76,7 @@ class ImGroupController extends Controller
         $users = $service->getActiveGroupUsers($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('im_group/active_users');
+        $this->view->pick('im/group/active_users');
         $this->view->setVar('users', $users);
     }
 

@@ -16,7 +16,7 @@ class MaxPackageId extends Cache
 
     public function getKey($id = null)
     {
-        return 'max_package_id';
+        return 'max_id:package';
     }
 
     public function getContent($id = null)

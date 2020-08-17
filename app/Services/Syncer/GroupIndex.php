@@ -41,7 +41,7 @@ class GroupIndex extends Service
 
     public function getSyncKey()
     {
-        return 'group_index_sync';
+        return 'sync:group_index';
     }
 
 }

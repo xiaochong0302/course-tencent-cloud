@@ -190,8 +190,6 @@ class Course extends Service
 
         $course->update($data);
 
-        $this->updateCourseGroup($course);
-
         return $course;
     }
 
@@ -355,15 +353,6 @@ class Course extends Service
         $validator = new CourseValidator();
 
         return $validator->checkCourse($id);
-    }
-
-    protected function updateCourseGroup(CourseModel $course)
-    {
-        $courseRepo = new CourseRepo();
-
-        $imGroup = $courseRepo->findImGroup($course->id);
-
-        $imGroup->update(['name' => $course->title]);
     }
 
     protected function rebuildCourseCache(CourseModel $course)

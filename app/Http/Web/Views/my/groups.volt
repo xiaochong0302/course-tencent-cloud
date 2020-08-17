@@ -25,9 +25,9 @@
             </div>
             <div class="my-group-wrap wrap">
                 {% if type == 'owned' %}
-                    {{ partial('my/im_groups_owned') }}
+                    {{ partial('my/groups_owned') }}
                 {% else %}
-                    {{ partial('my/im_groups_joined') }}
+                    {{ partial('my/groups_joined') }}
                 {% endif %}
             </div>
         </div>

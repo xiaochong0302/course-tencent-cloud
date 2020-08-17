@@ -6,7 +6,7 @@
         <div class="im-user-list clearfix">
             <div class="layui-row layui-col-space20">
                 {% for item in pager.items %}
-                    {% set delete_url = url({'for':'web.im_group.delete_user','gid':group.id,'uid':item.id}) %}
+                    {% set delete_url = url({'for':'web.igm.delete_user','gid':group.id,'uid':item.id}) %}
                     <div class="layui-col-md2">
                         <div class="user-card">
                             {% if item.vip == 1 %}

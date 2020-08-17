@@ -3,8 +3,6 @@
 namespace App\Http\Web\Services;
 
 use App\Builders\ImMessageList as ImMessageListBuilder;
-use App\Caches\ImNewGroupList as ImNewGroupListCache;
-use App\Caches\ImNewUserList as ImNewUserListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\ImMessage as ImMessageModel;
 use App\Models\ImUser as ImUserModel;
@@ -13,7 +11,6 @@ use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImMessage as ImMessageRepo;
 use App\Repos\ImNotice as ImNoticeRepo;
 use App\Repos\ImUser as ImUserRepo;
-use App\Repos\User as UserRepo;
 use App\Validators\ImFriendUser as ImFriendUserValidator;
 use App\Validators\ImGroup as ImGroupValidator;
 use App\Validators\ImGroupUser as ImGroupUserValidator;
@@ -21,11 +18,6 @@ use App\Validators\ImMessage as ImMessageValidator;
 use App\Validators\ImUser as ImUserValidator;
 use GatewayClient\Gateway;
 
-/**
- * 警告：
- * 对象有更新操作会导致afterFetch()中的设置失效，
- * 有相关依赖的要重新调用一次afterFetch()
- */
 class Im extends Service
 {
 
@@ -54,74 +46,6 @@ class Im extends Service
             'friend' => $friend,
             'group' => $group,
         ];
-    }
-
-    public function searchUsers($name)
-    {
-        $pagerQuery = new PagerQuery();
-
-        $params = $pagerQuery->getParams();
-
-        $params['name'] = $name;
-
-        $sort = $pagerQuery->getSort();
-        $page = $pagerQuery->getPage();
-        $limit = $pagerQuery->getLimit();
-
-        $userRepo = new UserRepo();
-
-        $pager = $userRepo->paginate($params, $sort, $page, $limit);
-
-        return $this->handleUserPager($pager);
-    }
-
-    public function searchGroups($name)
-    {
-        $pagerQuery = new PagerQuery();
-
-        $params = $pagerQuery->getParams();
-
-        $params['name'] = $name;
-
-        $sort = $pagerQuery->getSort();
-        $page = $pagerQuery->getPage();
-        $limit = $pagerQuery->getLimit();
-
-        $groupRepo = new ImGroupRepo();
-
-        $pager = $groupRepo->paginate($params, $sort, $page, $limit);
-
-        return $this->handleGroupPager($pager);
-    }
-
-    public function getNewUsers()
-    {
-        $cache = new ImNewUserListCache();
-
-        $items = $cache->get();
-
-        $pager = new \stdClass();
-
-        $pager->total_items = count($items);
-        $pager->total_pages = 1;
-        $pager->items = $items;
-
-        return $pager;
-    }
-
-    public function getNewGroups()
-    {
-        $cache = new ImNewGroupListCache();
-
-        $items = $cache->get();
-
-        $pager = new \stdClass();
-
-        $pager->total_items = count($items);
-        $pager->total_pages = 1;
-        $pager->items = $items;
-
-        return $pager;
     }
 
     public function getGroupUsers()
@@ -640,62 +564,6 @@ class Im extends Service
                 'content' => $message['content'],
                 'timestamp' => $message['create_time'] * 1000,
                 'user' => $sender,
-            ];
-        }
-
-        $pager->items = $items;
-
-        return $pager;
-    }
-
-    protected function handleUserPager($pager)
-    {
-        if ($pager->total_items == 0) {
-            return $pager;
-        }
-
-        $users = $pager->items->toArray();
-
-        $baseUrl = kg_ci_base_url();
-
-        $items = [];
-
-        foreach ($users as $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $items[] = [
-                'id' => $user['id'],
-                'name' => $user['name'],
-                'avatar' => $user['avatar'],
-                'about' => $user['about'],
-                'vip' => $user['vip'],
-            ];
-        }
-
-        $pager->items = $items;
-
-        return $pager;
-    }
-
-    protected function handleGroupPager($pager)
-    {
-        if ($pager->total_items == 0) {
-            return $pager;
-        }
-
-        $groups = $pager->items->toArray();
-
-        $baseUrl = kg_ci_base_url();
-
-        $items = [];
-
-        foreach ($groups as $group) {
-            $group['avatar'] = $baseUrl . $group['avatar'];
-            $items[] = [
-                'id' => $group['id'],
-                'type' => $group['type'],
-                'name' => $group['name'],
-                'avatar' => $group['avatar'],
-                'about' => $group['about'],
             ];
         }
 

@@ -158,9 +158,11 @@ class Order extends Model
 
     public function beforeCreate()
     {
-        $this->status = self::STATUS_PENDING;
-        $this->sn = date('YmdHis') . rand(1000, 9999);
         $this->create_time = time();
+
+        $this->status = self::STATUS_PENDING;
+
+        $this->sn = date('YmdHis') . rand(1000, 9999);
 
         if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
@@ -211,8 +213,8 @@ class Order extends Model
     public static function clientTypes()
     {
         return [
-            self::CLIENT_DESKTOP => 'desktop',
-            self::CLIENT_MOBILE => 'mobile',
+            self::CLIENT_PC => 'pc',
+            self::CLIENT_H5 => 'h5',
             self::CLIENT_APP => 'app',
             self::CLIENT_MINI => 'mini',
         ];

@@ -23,17 +23,17 @@ class Controller extends \Phalcon\Mvc\Controller
     /**
      * @var array
      */
-    protected $site;
-
-    /**
-     * @var array
-     */
     protected $navs;
 
     /**
      * @var array
      */
     protected $appInfo;
+
+    /**
+     * @var array
+     */
+    protected $siteInfo;
 
     /**
      * @var UserModel
@@ -45,7 +45,7 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
-        $this->site = $this->getSiteSettings();
+        $this->siteInfo = $this->getSiteInfo();
 
         $this->checkSiteStatus();
 
@@ -66,12 +66,12 @@ class Controller extends \Phalcon\Mvc\Controller
         $this->appInfo = $this->getAppInfo();
         $this->authUser = $this->getAuthUser();
 
-        $this->seo->setTitle($this->site['title']);
+        $this->seo->setTitle($this->siteInfo['title']);
 
-        $this->view->setVar('site', $this->site);
         $this->view->setVar('seo', $this->seo);
         $this->view->setVar('navs', $this->navs);
         $this->view->setVar('app_info', $this->appInfo);
+        $this->view->setVar('site_info', $this->siteInfo);
         $this->view->setVar('auth_user', $this->authUser);
         $this->view->setVar('socket_url', $this->getSocketUrl());
     }
@@ -98,7 +98,7 @@ class Controller extends \Phalcon\Mvc\Controller
         return $cache->get() ?: [];
     }
 
-    protected function getSiteSettings()
+    protected function getSiteInfo()
     {
         $cache = new SettingCache();
 
@@ -119,11 +119,11 @@ class Controller extends \Phalcon\Mvc\Controller
 
     protected function checkSiteStatus()
     {
-        if ($this->site['status'] == 'closed') {
+        if ($this->siteInfo['enabled'] == 0) {
             $this->dispatcher->forward([
                 'controller' => 'error',
                 'action' => 'shutdown',
-                'params' => ['message' => $this->site['closed_tips']],
+                'params' => ['message' => $this->siteInfo['closed_tips']],
             ]);
         }
     }

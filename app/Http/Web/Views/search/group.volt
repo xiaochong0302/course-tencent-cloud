@@ -1,7 +1,7 @@
 <div class="search-group-list">
     {% for item in pager.items %}
-        {% set group_url = url({'for':'web.im_group.show','id':item.id}) %}
-        {% set owner_url = url({'for':'web.user.show','id':item.onwer.id}) %}
+        {% set group_url = url({'for':'web.group.show','id':item.id}) %}
+        {% set owner_url = url({'for':'web.user.show','id':item.owner.id}) %}
         {% set item.about = item.about ? item.about : '这个家伙真懒，什么也没有留下！' %}
         <div class="search-group-card clearfix">
             <div class="avatar">

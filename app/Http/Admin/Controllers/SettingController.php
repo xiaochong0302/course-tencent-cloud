@@ -278,4 +278,34 @@ class SettingController extends Controller
         }
     }
 
+    /**
+     * @Route("/im", name="admin.setting.im")
+     */
+    public function imAction()
+    {
+        $section = 'im';
+
+        $settingService = new SettingService();
+
+        if ($this->request->isPost()) {
+
+            $data = $this->request->getPost();
+
+            $settingService->updateSectionSettings($section, $data);
+
+            $content = [
+                'location' => $this->request->getHTTPReferer(),
+                'msg' => '更新配置成功',
+            ];
+
+            return $this->jsonSuccess($content);
+
+        } else {
+
+            $im = $settingService->getSectionSettings($section);
+
+            $this->view->setVar('im', $im);
+        }
+    }
+
 }

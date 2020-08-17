@@ -2,9 +2,6 @@
 
 namespace App\Http\Web\Controllers;
 
-use App\Http\Web\Services\ImGroup as ImGroupService;
-use Phalcon\Mvc\View;
-
 /**
  * @RoutePrefix("/im")
  */
@@ -33,22 +30,6 @@ class ImSummaryController extends Controller
     public function onlineUsersAction()
     {
         $this->seo->prependTitle('群组');
-    }
-
-    /**
-     * @Get("/pager", name="web.im_group.pager")
-     */
-    public function pagerAction()
-    {
-        $service = new ImGroupService();
-
-        $pager = $service->getGroups();
-
-        $pager->target = 'group-list';
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('im_group/pager');
-        $this->view->setVar('pager', $pager);
     }
 
 }

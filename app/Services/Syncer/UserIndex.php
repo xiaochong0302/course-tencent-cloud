@@ -41,7 +41,7 @@ class UserIndex extends Service
 
     public function getSyncKey()
     {
-        return 'user_index_sync';
+        return 'sync:user_index';
     }
 
 }

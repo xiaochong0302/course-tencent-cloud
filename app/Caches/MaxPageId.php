@@ -16,7 +16,7 @@ class MaxPageId extends Cache
 
     public function getKey($id = null)
     {
-        return 'max_page_id';
+        return 'max_id:page';
     }
 
     public function getContent($id = null)

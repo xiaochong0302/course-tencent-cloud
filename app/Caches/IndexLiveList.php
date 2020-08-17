@@ -22,7 +22,7 @@ class IndexLiveList extends Cache
 
     public function getKey($id = null)
     {
-        return 'index_live_list';
+        return 'index:live_list';
     }
 
     public function getContent($id = null)

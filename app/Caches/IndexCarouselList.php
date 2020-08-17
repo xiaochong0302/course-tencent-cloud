@@ -18,7 +18,7 @@ class IndexCarouselList extends Cache
 
     public function getKey($id = null)
     {
-        return 'index_carousel_list';
+        return 'index:carousel_list';
     }
 
     public function getContent($id = null)

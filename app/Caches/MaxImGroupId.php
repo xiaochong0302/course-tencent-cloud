@@ -16,7 +16,7 @@ class MaxImGroupId extends Cache
 
     public function getKey($id = null)
     {
-        return 'max_im_group_id';
+        return 'max_id:im_group';
     }
 
     public function getContent($id = null)

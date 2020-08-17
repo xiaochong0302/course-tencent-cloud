@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.im_group.list'}) }}">
+    <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.group.list'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>搜索群组</legend>
         </fieldset>

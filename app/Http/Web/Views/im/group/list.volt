@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% set pager_url = url({'for':'web.im_group.pager'}) %}
+    {% set pager_url = url({'for':'web.group.pager'}) %}
 
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
@@ -15,6 +15,6 @@
 
 {% block include_js %}
 
-    {{ js_include('web/js/im_group.list.js') }}
+    {{ js_include('web/js/im.group.list.js') }}
 
 {% endblock %}

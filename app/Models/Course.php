@@ -244,6 +244,8 @@ class Course extends Model
     {
         parent::initialize();
 
+        $this->keepSnapshots(true);
+
         $this->addBehavior(
             new SoftDelete([
                 'field' => 'deleted',
@@ -290,10 +292,9 @@ class Course extends Model
 
     public function beforeUpdate()
     {
-        $this->update_time = time();
-
-        if ($this->deleted == 1) {
-            $this->published = 0;
+        if (time() - $this->update_time > 3 * 3600) {
+            $syncer = new CourseIndexSyncer();
+            $syncer->addItem($this->id);
         }
 
         if (Text::startsWith($this->cover, 'http')) {
@@ -303,6 +304,12 @@ class Course extends Model
         if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
+
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
+
+        $this->update_time = time();
     }
 
     public function afterCreate()
@@ -314,9 +321,13 @@ class Course extends Model
 
     public function afterUpdate()
     {
-        $syncer = new CourseIndexSyncer();
-
-        $syncer->addItem($this->id);
+        /**
+         * 课程标题和群组名称保持一致
+         */
+        if ($this->hasUpdated('title')) {
+            $imGroup = ImGroup::findFirst(['course_id' => $this->id]);
+            $imGroup->update(['name' => $this->title]);
+        }
     }
 
     public function afterFetch()

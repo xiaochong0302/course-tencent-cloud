@@ -9,7 +9,11 @@
             vip: '{{ auth_user.vip }}'
         },
         im: {
-            socket_url: '{{ im.socket_url }}'
+            title: '',
+            cs_user1_id: '',
+            cs_user2_id: '',
+            cs_user3_id: '',
+            socket_url: ''
         }
     };
 

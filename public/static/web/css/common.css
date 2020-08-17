@@ -73,7 +73,6 @@
 }
 
 .pager {
-    margin-top: 20px;
     text-align: center;
 }
 
@@ -1371,7 +1370,11 @@ body {
     margin-top: 10px;
 }
 
-.im-group-list .user-card {
+.group-list {
+    margin-bottom: 20px;
+}
+
+.group-list .user-card {
     height: 250px;
 }
 
@@ -1602,24 +1605,6 @@ body {
     width: 10%;
 }
 
-.im-manage-wrap {
-    padding: 20px 20px 10px 20px;
-    background-color: #f2f2f2;
-}
-
-.im-search-wrap {
-    padding: 20px;
-    background-color: #f2f2f2;
-}
-
-.im-search-form {
-    margin-bottom: 10px;
-}
-
-.im-search-tab .layui-tab-content {
-    min-height: 300px;
-}
-
 .im-user-list .user-card {
     height: 150px;
     font-size: 12px;
@@ -1648,20 +1633,6 @@ body {
     height: 14px;
     line-height: 14px;
     font-size: 10px;
-}
-
-.im-user-list .type {
-    top: 10px;
-    right: 10px;
-    padding: 0 3px;
-}
-
-.im-user-list .action .layui-badge-rim {
-    cursor: pointer;
-}
-
-.im-user-list .layui-btn + .layui-btn {
-    margin-left: 5px;
 }
 
 .layim-msgbox {

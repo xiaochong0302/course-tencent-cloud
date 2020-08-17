@@ -41,7 +41,7 @@ class CourseIndex extends Service
 
     public function getSyncKey()
     {
-        return 'course_index_sync';
+        return 'sync:course_index';
     }
 
 }

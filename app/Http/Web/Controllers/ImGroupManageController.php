@@ -21,8 +21,7 @@ class ImGroupManageController extends Controller
 
         $pager = $service->getGroupUsers($id);
 
-        $pager->items = kg_array_object($pager->items);
-
+        $this->view->pick('im/group/manage/users');
         $this->view->setVar('group', $group);
         $this->view->setVar('pager', $pager);
     }
@@ -36,6 +35,7 @@ class ImGroupManageController extends Controller
 
         $group = $service->getGroup($id);
 
+        $this->view->pick('im/group/manage/edit');
         $this->view->setVar('group', $group);
     }
 

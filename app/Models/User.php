@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Caches\MaxUserId as MaxUserIdCache;
+use App\Services\Syncer\UserIndex as UserIndexSyncer;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
@@ -164,6 +165,8 @@ class User extends Model
     {
         parent::initialize();
 
+        $this->keepSnapshots(true);
+
         $this->addBehavior(
             new SoftDelete([
                 'field' => 'deleted',
@@ -185,11 +188,16 @@ class User extends Model
 
     public function beforeUpdate()
     {
-        $this->update_time = time();
+        if (time() - $this->update_time > 3 * 3600) {
+            $syncer = new UserIndexSyncer();
+            $syncer->addItem($this->id);
+        }
 
         if (Text::startsWith($this->avatar, 'http')) {
             $this->avatar = self::getAvatarPath($this->avatar);
         }
+
+        $this->update_time = time();
     }
 
     public function afterCreate()
@@ -201,12 +209,13 @@ class User extends Model
 
     public function afterUpdate()
     {
-        $imUser = ImUser::findFirst($this->id);
-
-        $imUser->update([
-            'name' => $this->name,
-            'avatar' => $this->avatar,
-        ]);
+        if ($this->hasUpdated('name') || $this->hasUpdated('avatar')) {
+            $imUser = ImUser::findFirst($this->id);
+            $imUser->update([
+                'name' => $this->name,
+                'avatar' => $this->avatar,
+            ]);
+        }
     }
 
     public function afterFetch()

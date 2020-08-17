@@ -47,10 +47,10 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set edit_url = url({'for':'admin.im_group.edit','id':item.id}) %}
-            {% set update_url = url({'for':'admin.im_group.update','id':item.id}) %}
-            {% set delete_url = url({'for':'admin.im_group.delete','id':item.id}) %}
-            {% set restore_url = url({'for':'admin.im_group.restore','id':item.id}) %}
+            {% set edit_url = url({'for':'admin.group.edit','id':item.id}) %}
+            {% set update_url = url({'for':'admin.group.update','id':item.id}) %}
+            {% set delete_url = url({'for':'admin.group.delete','id':item.id}) %}
+            {% set restore_url = url({'for':'admin.group.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }} {{ type_info(item.type) }}</td>

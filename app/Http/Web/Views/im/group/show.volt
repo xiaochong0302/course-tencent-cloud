@@ -4,13 +4,13 @@
 
     {% set group.about = group.about ? group.about : '这个家伙真懒，什么都没有留下~' %}
     {% set apply_group_url = '' %}
-    {% set users_url = url({'for':'web.im_group.users','id':group.id}) %}
-    {% set active_users_url = url({'for':'web.im_group.active_users','id':group.id}) %}
+    {% set users_url = url({'for':'web.group.users','id':group.id}) %}
+    {% set active_users_url = url({'for':'web.group.active_users','id':group.id}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
-            <a href="{{ url({'for':'web.im_group.list'}) }}">群组</a>
+            <a href="{{ url({'for':'web.group.list'}) }}">群组</a>
             <a><cite>{{ group.name }}</cite></a>
         </span>
     </div>
@@ -31,7 +31,7 @@
         </div>
         <div class="layout-sidebar">
             <div class="sidebar">
-                {{ partial('im_group/show_owner') }}
+                {{ partial('im/group/show_owner') }}
             </div>
             <div class="sidebar wrap">
                 <button class="layui-btn layui-btn-fluid apply-group" data-id="{{ group.id }}" data-name="{{ group.name }}" data-avatar="{{ group.avatar }}">加入群组</button>
@@ -44,7 +44,7 @@
 
 {% block include_js %}
 
-    {{ js_include('web/js/im_group.show.js') }}
+    {{ js_include('web/js/im.group.show.js') }}
     {{ js_include('web/js/im.apply.js') }}
 
 {% endblock %}

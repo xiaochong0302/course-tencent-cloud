@@ -120,12 +120,15 @@ class MyStorage extends Storage
 
                 if ($uploadFile == false) {
 
+                    $name = $this->filter->sanitize($file->getName(), ['trim', 'string']);
+
                     $extension = $this->getFileExtension($file->getName());
                     $keyName = $this->generateFileName($extension, $prefix);
                     $path = $this->putFile($keyName, $file->getTempName());
 
                     $uploadFile = new UploadFileModel();
 
+                    $uploadFile->name = $name;
                     $uploadFile->mime = $file->getRealType();
                     $uploadFile->size = $file->getSize();
                     $uploadFile->path = $path;

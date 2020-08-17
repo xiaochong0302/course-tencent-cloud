@@ -9,10 +9,38 @@ use Phalcon\Mvc\View;
 /**
  * @RoutePrefix("/im")
  */
-class ImController extends LayerController
+class ImController extends Controller
 {
 
     use ResponseTrait;
+
+    /**
+     * @Get("/", name="web.im.index")
+     */
+    public function indexAction()
+    {
+
+    }
+
+    /**
+     * @Get("/cs", name="web.im.cs")
+     */
+    public function csAction()
+    {
+        /**
+         * @todo 在线客服
+         */
+    }
+
+    /**
+     * @Get("/robot", name="web.im.robot")
+     */
+    public function robotAction()
+    {
+        /**
+         * @todo 聊天机器人
+         */
+    }
 
     /**
      * @Get("/init", name="web.im.init")
@@ -68,7 +96,7 @@ class ImController extends LayerController
     /**
      * @Get("/friend/msg/unread", name="web.im.unread_friend_msg")
      */
-    public function unreadFriendMsgAction()
+    public function unreadFriendMessageAction()
     {
         $service = new ImService();
 
@@ -78,9 +106,9 @@ class ImController extends LayerController
     }
 
     /**
-     * @Get("/sys/msg/unread", name="web.im.unread_sys_msg")
+     * @Get("/notice/unread", name="web.im.unread_notice")
      */
-    public function unreadSysMsgAction()
+    public function unreadNoticeAction()
     {
         $service = new ImService();
 
@@ -90,24 +118,21 @@ class ImController extends LayerController
     }
 
     /**
-     * @Get("/sys/msg", name="web.im.sys_msg")
+     * @Get("/notice", name="web.im.notice")
      */
-    public function sysMsgAction()
+    public function noticeAction()
     {
         $service = new ImService();
 
         $pager = $service->getNotices();
 
-        $pager->items = kg_array_object($pager->items);
-
-        $this->view->pick('im/sys_msg');
         $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Post("/sys/msg/read", name="web.im.read_sys_msg")
+     * @Post("/notice/read", name="web.im.read_notice")
      */
-    public function readSysMsgAction()
+    public function readNoticeAction()
     {
         $service = new ImService();
 
@@ -138,51 +163,6 @@ class ImController extends LayerController
         $pager = $service->getChatMessages();
 
         return $this->jsonPaginate($pager);
-    }
-
-    /**
-     * @Get("/find", name="web.im.find")
-     */
-    public function findAction()
-    {
-        $service = new ImService();
-
-        $userPager = $service->getNewUsers();
-        $groupPager = $service->getNewGroups();
-
-        $userPager->items = kg_array_object($userPager->items);
-        $groupPager->items = kg_array_object($groupPager->items);
-
-        $this->view->setVar('user_pager', $userPager);
-        $this->view->setVar('group_pager', $groupPager);
-    }
-
-    /**
-     * @Get("/search", name="web.im.search")
-     */
-    public function searchAction()
-    {
-        $type = $this->request->getQuery('type');
-        $query = $this->request->getQuery('query');
-        $target = $this->request->getQuery('target');
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
-        $service = new ImService();
-
-        if ($type == 'user') {
-            $this->view->pick('im/find_users');
-            $target = $target ?: 'tab-users';
-            $pager = $service->searchUsers($query);
-        } else {
-            $this->view->pick('im/find_groups');
-            $target = $target ?: 'tab-groups';
-            $pager = $service->searchGroups($query);
-        }
-
-        $pager->target = $target;
-
-        $this->view->setVar('pager', $pager);
     }
 
     /**

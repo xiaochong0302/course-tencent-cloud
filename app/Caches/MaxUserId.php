@@ -16,7 +16,7 @@ class MaxUserId extends Cache
 
     public function getKey($id = null)
     {
-        return 'max_user_id';
+        return 'max_id:user';
     }
 
     public function getContent($id = null)

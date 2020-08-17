@@ -23,7 +23,7 @@ class IndexVipCourseList extends Cache
 
     public function getKey($id = null)
     {
-        return 'index_vip_course_list';
+        return 'index:vip_course_list';
     }
 
     public function getContent($id = null)
