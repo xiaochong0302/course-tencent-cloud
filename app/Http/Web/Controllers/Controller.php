@@ -36,6 +36,11 @@ class Controller extends \Phalcon\Mvc\Controller
     protected $siteInfo;
 
     /**
+     * @var array
+     */
+    protected $imInfo;
+
+    /**
      * @var UserModel
      */
     protected $authUser;
@@ -63,17 +68,18 @@ class Controller extends \Phalcon\Mvc\Controller
     {
         $this->seo = $this->getSeo();
         $this->navs = $this->getNavs();
-        $this->appInfo = $this->getAppInfo();
         $this->authUser = $this->getAuthUser();
+        $this->appInfo = $this->getAppInfo();
+        $this->imInfo = $this->getImInfo();
 
         $this->seo->setTitle($this->siteInfo['title']);
 
         $this->view->setVar('seo', $this->seo);
         $this->view->setVar('navs', $this->navs);
+        $this->view->setVar('auth_user', $this->authUser);
         $this->view->setVar('app_info', $this->appInfo);
         $this->view->setVar('site_info', $this->siteInfo);
-        $this->view->setVar('auth_user', $this->authUser);
-        $this->view->setVar('socket_url', $this->getSocketUrl());
+        $this->view->setVar('im_info', $this->imInfo);
     }
 
     protected function getAuthUser()
@@ -95,14 +101,14 @@ class Controller extends \Phalcon\Mvc\Controller
     {
         $cache = new NavCache();
 
-        return $cache->get() ?: [];
+        return $cache->get();
     }
 
     protected function getSiteInfo()
     {
         $cache = new SettingCache();
 
-        return $cache->get('site') ?: [];
+        return $cache->get('site');
     }
 
     protected function getAppInfo()
@@ -110,11 +116,24 @@ class Controller extends \Phalcon\Mvc\Controller
         return new AppInfo();
     }
 
-    protected function getSocketUrl()
+    protected function getImInfo()
     {
-        $config = $this->getDI()->get('config');
+        $cache = new SettingCache();
 
-        return $config->websocket->url;
+        $im = $cache->get('im');
+
+        return [
+            'title' => $im['title'],
+            'cs' => [
+                'enabled' => $im['cs_enabled'],
+            ],
+            'robot' => [
+                'enabled' => $im['robot_enabled'],
+            ],
+            'websocket' => [
+                'url' => $this->config->websocket->url,
+            ],
+        ];
     }
 
     protected function checkSiteStatus()

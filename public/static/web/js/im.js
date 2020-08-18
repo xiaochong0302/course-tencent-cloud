@@ -2,7 +2,7 @@ layui.use(['jquery', 'layim'], function () {
 
     var $ = layui.jquery;
     var layim = layui.layim;
-    var socket = new WebSocket(window.koogua.im.socket_url);
+    var socket = new WebSocket(window.im.websocket.url);
 
     socket.onopen = function () {
         console.log('socket connect success');
@@ -43,7 +43,7 @@ layui.use(['jquery', 'layim'], function () {
     };
 
     layim.config({
-        title: '菜鸟驿站',
+        title: window.im.title,
         init: {
             url: '/im/init'
         },
@@ -114,7 +114,7 @@ layui.use(['jquery', 'layim'], function () {
     function sendChatMessage(res) {
         $.ajax({
             type: 'POST',
-            url: '/im/msg/send',
+            url: '/im/msg/chat/send',
             data: {from: res.mine, to: res.to}
         });
     }

@@ -1,19 +1,23 @@
 <script>
 
-    window.koogua = {
-        user: {
-            id: '{{ auth_user.id }}',
-            name: '{{ auth_user.name }}',
-            avatar: '{{ auth_user.avatar }}',
-            locked: '{{ auth_user.locked }}',
-            vip: '{{ auth_user.vip }}'
+    window.user = {
+        id: '{{ auth_user.id }}',
+        name: '{{ auth_user.name }}',
+        avatar: '{{ auth_user.avatar }}',
+        locked: '{{ auth_user.locked }}',
+        vip: '{{ auth_user.vip }}'
+    };
+
+    window.im = {
+        title: '{{ im_info.title }}',
+        cs: {
+            enabled: '{{ im_info.cs.enabled }}'
         },
-        im: {
-            title: '',
-            cs_user1_id: '',
-            cs_user2_id: '',
-            cs_user3_id: '',
-            socket_url: ''
+        robot: {
+            enabled: '{{ im_info.robot.enabled }}'
+        },
+        websocket: {
+            url: '{{ im_info.websocket.url }}'
         }
     };
 

@@ -14,12 +14,21 @@ class ImController extends Controller
 
     use ResponseTrait;
 
+    public function initialize()
+    {
+        parent::initialize();
+
+        if ($this->authUser->id == 0) {
+            return $this->response->redirect(['for' => 'web.account.login']);
+        }
+    }
+
     /**
      * @Get("/", name="web.im.index")
      */
     public function indexAction()
     {
-
+        $this->seo->prependTitle('微聊');
     }
 
     /**
@@ -27,9 +36,13 @@ class ImController extends Controller
      */
     public function csAction()
     {
-        /**
-         * @todo 在线客服
-         */
+        $this->seo->prependTitle('在线客服');
+
+        $service = new ImService();
+
+        $csUser = $service->getCsUser();
+
+        $this->view->setVar('cs_user', $csUser);
     }
 
     /**
@@ -37,9 +50,13 @@ class ImController extends Controller
      */
     public function robotAction()
     {
-        /**
-         * @todo 聊天机器人
-         */
+        $this->seo->prependTitle('智能聊天');
+
+        $service = new ImService();
+
+        $csUser = $service->getRobotUser();
+
+        $this->view->setVar('cs_user', $csUser);
     }
 
     /**
@@ -49,7 +66,7 @@ class ImController extends Controller
     {
         $service = new ImService();
 
-        $data = $service->init();
+        $data = $service->getInitInfo();
 
         return $this->jsonSuccess(['data' => $data]);
     }
@@ -178,13 +195,25 @@ class ImController extends Controller
     }
 
     /**
-     * @Post("/msg/send", name="web.im.send_msg")
+     * @Post("/msg/chat/send", name="web.im.send_chat_msg")
      */
-    public function sendMessageAction()
+    public function sendChatMessageAction()
     {
         $service = new ImService();
 
-        $service->sendMessage();
+        $service->sendChatMessage();
+
+        return $this->jsonSuccess();
+    }
+
+    /**
+     * @Post("/msg/cs/send", name="web.im.send_cs_msg")
+     */
+    public function sendCsMessageAction()
+    {
+        $service = new ImService();
+
+        $service->sendCsMessage();
 
         return $this->jsonSuccess();
     }

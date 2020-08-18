@@ -16,7 +16,7 @@ layui.define(['jquery', 'layer'], function (exports) {
     };
 
     helper.checkLogin = function (callback) {
-        if (window.koogua.user.id === '0') {
+        if (window.user.id === '0') {
             layer.msg('继续操作前请先登录', {icon: 2, anim: 6});
             return false;
         }

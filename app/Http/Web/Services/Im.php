@@ -2,19 +2,11 @@
 
 namespace App\Http\Web\Services;
 
-use App\Builders\ImMessageList as ImMessageListBuilder;
-use App\Library\Paginator\Query as PagerQuery;
-use App\Models\ImMessage as ImMessageModel;
+use App\Caches\Setting as SettingCache;
 use App\Models\ImUser as ImUserModel;
-use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImGroup as ImGroupRepo;
-use App\Repos\ImMessage as ImMessageRepo;
-use App\Repos\ImNotice as ImNoticeRepo;
 use App\Repos\ImUser as ImUserRepo;
-use App\Validators\ImFriendUser as ImFriendUserValidator;
 use App\Validators\ImGroup as ImGroupValidator;
-use App\Validators\ImGroupUser as ImGroupUserValidator;
-use App\Validators\ImMessage as ImMessageValidator;
 use App\Validators\ImUser as ImUserValidator;
 use GatewayClient\Gateway;
 
@@ -23,8 +15,64 @@ class Im extends Service
 
     use ImFriendTrait;
     use ImGroupTrait;
+    use ImMessageTrait;
+    use ImNoticeTrait;
 
-    public function init()
+    public function getRobotUser()
+    {
+        $imUser = new ImUserModel();
+
+        $imUser->id = -10000;
+        $imUser->name = '聊天机器人';
+        $imUser->avatar = kg_ci_avatar_img_url(null);
+
+        return $imUser;
+    }
+
+    public function getCsUser()
+    {
+        $userIds = [];
+        $onlineUserIds = [];
+
+        $cache = new SettingCache();
+
+        $imInfo = $cache->get('im');
+
+        Gateway::$registerAddress = $this->getRegisterAddress();
+
+        if (!empty($imInfo['cs_user1_id'])) {
+            $userIds[] = $imInfo['cs_user1_id'];
+            if (Gateway::isUidOnline($imInfo['cs_user1_id'])) {
+                $onlineUserIds[] = $imInfo['cs_user1_id'];
+            }
+        }
+
+        if (!empty($imInfo['cs_user2_id'])) {
+            $userIds[] = $imInfo['cs_user2_id'];
+            if (Gateway::isUidOnline($imInfo['cs_user2_id'])) {
+                $onlineUserIds[] = $imInfo['cs_user2_id'];
+            }
+        }
+
+        if (!empty($imInfo['cs_user3_id'])) {
+            $userIds[] = $imInfo['cs_user3_id'];
+            if (Gateway::isUidOnline($imInfo['cs_user3_id'])) {
+                $onlineUserIds[] = $imInfo['cs_user3_id'];
+            }
+        }
+
+        if (count($onlineUserIds) > 0) {
+            $key = array_rand($onlineUserIds);
+            $userId = $onlineUserIds[$key];
+        } else {
+            $key = array_rand($userIds);
+            $userId = $userIds[$key];
+        }
+
+        return $this->getImUser($userId);
+    }
+
+    public function getInitInfo()
     {
         $loginUser = $this->getLoginUser();
 
@@ -81,125 +129,6 @@ class Im extends Service
         return $result;
     }
 
-    public function pullUnreadFriendMessages()
-    {
-        $user = $this->getLoginUser();
-
-        $id = $this->request->getQuery('id');
-
-        $validator = new ImUserValidator();
-
-        $friend = $validator->checkUser($id);
-
-        $userRepo = new ImUserRepo();
-
-        $messages = $userRepo->findUnreadFriendMessages($friend->id, $user->id);
-
-        if ($messages->count() == 0) {
-            return;
-        }
-
-        Gateway::$registerAddress = $this->getRegisterAddress();
-
-        foreach ($messages as $message) {
-
-            $message->update(['viewed' => 1]);
-
-            $content = kg_json_encode([
-                'type' => 'show_chat_msg',
-                'message' => [
-                    'username' => $friend->name,
-                    'avatar' => $friend->avatar,
-                    'id' => $friend->id,
-                    'fromid' => $friend->id,
-                    'content' => $message->content,
-                    'timestamp' => 1000 * $message->create_time,
-                    'type' => 'friend',
-                    'mine' => false,
-                ],
-            ]);
-
-            Gateway::sendToUid($user->id, $content);
-        }
-
-        $repo = new ImFriendUserRepo();
-
-        $friendUser = $repo->findFriendUser($user->id, $friend->id);
-
-        $friendUser->update(['msg_count' => 0]);
-    }
-
-    public function countUnreadNotices()
-    {
-        $user = $this->getLoginUser();
-
-        $userRepo = new ImUserRepo();
-
-        return $userRepo->countUnreadNotices($user->id);
-    }
-
-    public function getNotices()
-    {
-        $user = $this->getLoginUser();
-
-        $pagerQuery = new PagerQuery();
-
-        $params = $pagerQuery->getParams();
-
-        $params['receiver_id'] = $user->id;
-
-        $sort = $pagerQuery->getSort();
-        $page = $pagerQuery->getPage();
-        $limit = $pagerQuery->getLimit();
-
-        $noticeRepo = new ImNoticeRepo();
-
-        return $noticeRepo->paginate($params, $sort, $page, $limit);
-    }
-
-    public function getChatMessages()
-    {
-        $user = $this->getLoginUser();
-
-        $pagerQuery = new PagerQuery();
-
-        $params = $pagerQuery->getParams();
-
-        $validator = new ImMessageValidator();
-
-        $validator->checkType($params['type']);
-
-        $sort = $pagerQuery->getSort();
-        $page = $pagerQuery->getPage();
-        $limit = $pagerQuery->getLimit();
-
-        if ($params['type'] == ImMessageModel::TYPE_FRIEND) {
-
-            $chatId = ImMessageModel::getChatId($user->id, $params['id']);
-
-            $where = ['chat_id' => $chatId];
-
-            $messageRepo = new ImMessageRepo();
-
-            $pager = $messageRepo->paginate($where, $sort, $page, $limit);
-
-            return $this->handleChatMessagePager($pager);
-
-        } elseif ($params['type'] == ImMessageModel::TYPE_GROUP) {
-
-            $where = [
-                'receiver_type' => $params['type'],
-                'receiver_id' => $params['id'],
-            ];
-
-            $messageRepo = new ImMessageRepo();
-
-            $pager = $messageRepo->paginate($where, $sort, $page, $limit);
-
-            return $this->handleChatMessagePager($pager);
-        }
-    }
-
     public function getFriendStatus()
     {
         $id = $this->request->getQuery('id');
@@ -243,115 +172,6 @@ class Im extends Service
         }
 
         $this->pushOnlineTips($user);
-    }
-
-    public function sendMessage()
-    {
-        $user = $this->getLoginUser();
-
-        $from = $this->request->getPost('from');
-        $to = $this->request->getPost('to');
-
-        $validator = new ImMessageValidator();
-
-        $from['content'] = $validator->checkContent($from['content']);
-
-        $message = [
-            'username' => $from['username'],
-            'avatar' => $from['avatar'],
-            'content' => $from['content'],
-            'fromid' => $from['id'],
-            'id' => $from['id'],
-            'type' => $to['type'],
-            'timestamp' => 1000 * time(),
-            'mine' => false,
-        ];
-
-        if ($to['type'] == 'group') {
-            $message['id'] = $to['id'];
-        }
-
-        $content = json_encode([
-            'type' => 'show_chat_msg',
-            'message' => $message,
-        ]);
-
-        Gateway::$registerAddress = $this->getRegisterAddress();
-
-        if ($to['type'] == ImMessageModel::TYPE_FRIEND) {
-
-            $validator = new ImFriendUserValidator();
-
-            $relation = $validator->checkFriendUser($to['id'], $user->id);
-
-            $online = Gateway::isUidOnline($to['id']);
-
-            $messageModel = new ImMessageModel();
-
-            $messageModel->create([
-                'sender_id' => $from['id'],
-                'receiver_id' => $to['id'],
-                'chat_type' => $to['type'],
-                'content' => $from['content'],
-                'viewed' => $online ? 1 : 0,
-            ]);
-
-            if ($online) {
-                Gateway::sendToUid($to['id'], $content);
-            } else {
-                $this->incrFriendUserMsgCount($relation);
-            }
-
-        } elseif ($to['type'] == ImMessageModel::TYPE_GROUP) {
-
-            $validator = new ImGroupValidator();
-
-            $group = $validator->checkGroup($to['id']);
-
-            $validator = new ImGroupUserValidator();
-
-            $validator->checkGroupUser($group->id, $user->id);
-
-            $messageModel = new ImMessageModel();
-
-            $messageModel->create([
-                'sender_id' => $from['id'],
-                'receiver_id' => $to['id'],
-                'chat_type' => $to['type'],
-                'content' => $from['content'],
-            ]);
-
-            $this->incrGroupMessageCount($group);
-
-            $excludeClientId = null;
-
-            /**
-             * 不推送自己在群组中发的消息
-             */
-            if ($user->id == $from['id']) {
-                $excludeClientId = Gateway::getClientIdByUid($user->id);
-            }
-
-            $groupName = $this->getGroupName($to['id']);
-
-            Gateway::sendToGroup($groupName, $content, $excludeClientId);
-        }
-    }
-
-    public function readNotices()
-    {
-        $user = $this->getLoginUser();
-
-        $userRepo = new ImUserRepo();
-
-        $messages = $userRepo->findUnreadNotices($user->id);
-
-        if ($messages->count() > 0) {
-            foreach ($messages as $message) {
-                $message->viewed = 1;
-                $message->update();
-            }
-        }
     }
 
     public function updateStatus()
@@ -541,35 +361,6 @@ class Im extends Service
         }
 
         return $result;
-    }
-
-    protected function handleChatMessagePager($pager)
-    {
-        if ($pager->total_items == 0) {
-            return $pager;
-        }
-
-        $messages = $pager->items->toArray();
-
-        $builder = new ImMessageListBuilder();
-
-        $senders = $builder->getSenders($messages);
-
-        $items = [];
-
-        foreach ($messages as $message) {
-            $sender = $senders[$message['sender_id']] ?? new \stdClass();
-            $items[] = [
-                'id' => $message['id'],
-                'content' => $message['content'],
-                'timestamp' => $message['create_time'] * 1000,
-                'user' => $sender,
-            ];
-        }
-
-        $pager->items = $items;
-
-        return $pager;
     }
 
     protected function getImUser($id)
