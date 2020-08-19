@@ -11,7 +11,7 @@
 
     {% set trade_refund_url = url({'for':'admin.trade.refund','id':trade.id}) %}
 
-    <div class="kg-text-center">
+    <div class="kg-center">
         {% if trade.status == 'finished' %}
             <button class="kg-refund layui-btn layui-bg-green" data-url="{{ trade_refund_url }}">申请退款</button>
         {% endif %}

@@ -16,7 +16,7 @@ class MaxCategoryId extends Cache
 
     public function getKey($id = null)
     {
-        return 'max_id:category';
+        return 'max_category_id';
     }
 
     public function getContent($id = null)

@@ -16,7 +16,7 @@ class MaxTopicId extends Cache
 
     public function getKey($id = null)
     {
-        return 'max_id:topic';
+        return 'max_topic_id';
     }
 
     public function getContent($id = null)

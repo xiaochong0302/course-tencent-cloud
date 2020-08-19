@@ -23,6 +23,15 @@ layui.define(['jquery', 'layer'], function (exports) {
         callback();
     };
 
+    helper.cs = function () {
+        layer.open({
+            type: 2,
+            title: '在线客服',
+            area: ['600px', '560px'],
+            content: ['/im/cs', 'no']
+        });
+    };
+
     helper.getRequestId = function () {
         var id = Date.now().toString(36);
         id += Math.random().toString(36).substr(3);

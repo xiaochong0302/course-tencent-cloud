@@ -4,6 +4,8 @@ namespace App\Http\Web\Services;
 
 use App\Builders\ImMessageList as ImMessageListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\ImFriendUser as ImFriendUserModel;
+use App\Models\ImGroup as ImGroupModel;
 use App\Models\ImMessage as ImMessageModel;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImMessage as ImMessageRepo;
@@ -22,11 +24,9 @@ use GatewayClient\Gateway;
 Trait ImMessageTrait
 {
 
-    public function pullUnreadFriendMessages()
+    public function pullUnreadFriendMessages($id)
     {
         $user = $this->getLoginUser();
-
-        $id = $this->request->getQuery('id');
 
         $validator = new ImUserValidator();
 
@@ -113,14 +113,11 @@ Trait ImMessageTrait
         }
     }
 
-    public function sendChatMessage()
+    public function sendChatMessage($from, $to)
     {
-        $user = $this->getLoginUser();
-
-        $from = $this->request->getPost('from');
-        $to = $this->request->getPost('to');
-
         $validator = new ImMessageValidator();
+
+        $validator->checkIfSelfChat($from['id'], $to['id']);
 
         $from['content'] = $validator->checkContent($from['content']);
 
@@ -146,11 +143,11 @@ Trait ImMessageTrait
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
-        if ($to['type'] == ImMessageModel::TYPE_FRIEND) {
+        if ($to['type'] == 'friend') {
 
             $validator = new ImFriendUserValidator();
 
-            $relation = $validator->checkFriendUser($to['id'], $user->id);
+            $relation = $validator->checkFriendUser($to['id'], $from['id']);
 
             $online = Gateway::isUidOnline($to['id']);
 
@@ -159,7 +156,7 @@ Trait ImMessageTrait
             $messageModel->create([
                 'sender_id' => $from['id'],
                 'receiver_id' => $to['id'],
-                'receiver_type' => $to['type'],
+                'receiver_type' => ImMessageModel::TYPE_FRIEND,
                 'content' => $from['content'],
                 'viewed' => $online ? 1 : 0,
             ]);
@@ -170,7 +167,9 @@ Trait ImMessageTrait
                 $this->incrFriendUserMsgCount($relation);
             }
 
-        } elseif ($to['type'] == ImMessageModel::TYPE_GROUP) {
+        } elseif ($to['type'] == 'group') {
+
+            $user = $this->getLoginUser();
 
             $validator = new ImGroupValidator();
 
@@ -185,11 +184,11 @@ Trait ImMessageTrait
             $messageModel->create([
                 'sender_id' => $from['id'],
                 'receiver_id' => $to['id'],
-                'receiver_type' => $to['type'],
+                'receiver_type' => ImMessageModel::TYPE_GROUP,
                 'content' => $from['content'],
             ]);
 
-            $this->incrGroupMessageCount($group);
+            $this->incrGroupMsgCount($group);
 
             $excludeClientId = null;
 
@@ -200,26 +199,59 @@ Trait ImMessageTrait
                 $excludeClientId = Gateway::getClientIdByUid($user->id);
             }
 
-            $groupName = $this->getGroupName($to['id']);
+            $groupName = $this->getGroupName($group->id);
 
             Gateway::sendToGroup($groupName, $content, $excludeClientId);
         }
     }
 
-    public function sendCsMessage()
+    protected function sendCsMessage($from, $to)
     {
-        $from = $this->request->getPost('from');
-        $to = $this->request->getPost('to');
-
         $validator = new ImMessageValidator();
 
-        $from['content'] = $validator->checkContent($from['content']);
+        $validator->checkIfSelfChat($from['id'], $to['id']);
 
-        if ($to['id'] > 0) {
-            $this->sendCsUserMessage($from, $to);
-        } else {
-            $this->sendCsRobotMessage($from, $to);
+        $sender = $this->getImUser($from['id']);
+        $receiver = $this->getImUser($to['id']);
+
+        $friendUserRepo = new ImFriendUserRepo();
+
+        $friendUser = $friendUserRepo->findFriendUser($sender->id, $receiver->id);
+
+        if (!$friendUser) {
+
+            $friendUserModel = new ImFriendUserModel();
+
+            $friendUserModel->create([
+                'user_id' => $sender->id,
+                'friend_id' => $receiver->id,
+            ]);
+
+            $this->incrUserFriendCount($sender);
         }
+
+        $friendUser = $friendUserRepo->findFriendUser($receiver->id, $sender->id);
+
+        if (!$friendUser) {
+
+            $friendUserModel = new ImFriendUserModel();
+
+            $friendUserModel->create([
+                'user_id' => $receiver->id,
+                'friend_id' => $sender->id,
+            ]);
+
+            $this->incrUserFriendCount($receiver);
+        }
+
+        /**
+         * 统一普通聊天和自定义聊天的用户名字段
+         */
+        $to['username'] = $to['name'];
+
+        unset($to['name']);
+
+        $this->sendChatMessage($from, $to);
     }
 
     protected function handleChatMessagePager($pager)
@@ -251,81 +283,18 @@ Trait ImMessageTrait
         return $pager;
     }
 
-    /**
-     * 向客服发送消息，建立临时好友关系
-     *
-     * @param array $from
-     * @param array $to
-     */
-    protected function sendCsUserMessage($from, $to)
+    protected function incrFriendUserMsgCount(ImFriendUserModel $friendUser)
     {
-        $message = [
-            'username' => $from['username'],
-            'avatar' => $from['avatar'],
-            'content' => $from['content'],
-            'fromid' => $from['id'],
-            'id' => $from['id'],
-            'type' => $to['type'],
-            'timestamp' => 1000 * time(),
-            'mine' => false,
-        ];
+        $friendUser->msg_count += 1;
 
-        $content = kg_json_encode([
-            'type' => 'show_cs_msg',
-            'message' => $message,
-        ]);
-
-        Gateway::$registerAddress = $this->getRegisterAddress();
-
-        $online = Gateway::isUidOnline($to['id']);
-
-        $messageModel = new ImMessageModel();
-
-        $messageModel->create([
-            'sender_id' => $from['id'],
-            'receiver_id' => $to['id'],
-            'receiver_type' => $to['type'],
-            'content' => $from['content'],
-            'viewed' => $online ? 1 : 0,
-        ]);
-
-        if ($online) {
-            Gateway::sendToUid($to['id'], $content);
-        }
+        $friendUser->update();
     }
 
-    /**
-     * 向机器人发送消息，机器人自动应答
-     *
-     * @param array $from
-     * @param array $to
-     */
-    protected function sendCsRobotMessage($from, $to)
+    protected function incrGroupMsgCount(ImGroupModel $group)
     {
-        /**
-         * @todo 从腾讯平台获取应答内容
-         */
-        $content = '不知道你在说什么...';
+        $group->msg_count += 1;
 
-        $message = [
-            'username' => $to['name'],
-            'avatar' => $to['avatar'],
-            'content' => $content,
-            'fromid' => $to['id'],
-            'id' => $to['id'],
-            'type' => $to['type'],
-            'timestamp' => 1000 * time(),
-            'mine' => false,
-        ];
-
-        $content = kg_json_encode([
-            'type' => 'show_cs_msg',
-            'message' => $message,
-        ]);
-
-        Gateway::$registerAddress = $this->getRegisterAddress();
-
-        Gateway::sendToUid($from['id'], $content);
+        $group->update();
     }
 
 }

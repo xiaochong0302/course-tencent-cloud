@@ -46,13 +46,13 @@
                 </div>
             </div>
             <br>
-            <div class="layui-form-item text-center">
+            <div class="layui-form-item center">
                 <button class="layui-btn" lay-submit="true" lay-filter="go">申请退款</button>
                 <input type="hidden" name="order_sn" value="{{ order.sn }}">
             </div>
         </form>
     {% else %}
-        <div class="text-center">没有符合条件的退款项目</div>
+        <div class="center">没有符合条件的退款项目</div>
     {% endif %}
 
 {% endblock %}

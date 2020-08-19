@@ -16,7 +16,7 @@ class MaxHelpId extends Cache
 
     public function getKey($id = null)
     {
-        return 'max_id:help';
+        return 'max_help_id';
     }
 
     public function getContent($id = null)

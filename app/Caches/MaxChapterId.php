@@ -16,7 +16,7 @@ class MaxChapterId extends Cache
 
     public function getKey($id = null)
     {
-        return 'max_id:chapter';
+        return 'max_chapter_id';
     }
 
     public function getContent($id = null)

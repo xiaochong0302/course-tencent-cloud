@@ -13,9 +13,6 @@
         cs: {
             enabled: '{{ im_info.cs.enabled }}'
         },
-        robot: {
-            enabled: '{{ im_info.robot.enabled }}'
-        },
         websocket: {
             url: '{{ im_info.websocket.url }}'
         }

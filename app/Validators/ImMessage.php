@@ -3,29 +3,16 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Repos\ImFriendMessage as ImFriendMessageRepo;
-use App\Repos\ImGroupMessage as ImGroupMessageRepo;
-use App\Repos\ImSystemMessage as ImSystemMessageRepo;
+use App\Repos\ImMessage as ImMessageRepo;
 
 class ImMessage extends Validator
 {
 
-    public function checkMessage($id, $type)
+    public function checkMessage($id)
     {
-        $this->checkType($type);
+        $repo = new ImMessageRepo();
 
-        $message = null;
-
-        if ($type == 'friend') {
-            $repo = new ImFriendMessageRepo();
-            $message = $repo->findById($id);
-        } elseif ($type == 'group') {
-            $repo = new ImGroupMessageRepo();
-            $message = $repo->findById($id);
-        } elseif ($type == 'system') {
-            $repo = new ImSystemMessageRepo();
-            $message = $repo->findById($id);
-        }
+        $message = $repo->findById($id);
 
         if (!$message) {
             throw new BadRequestException('im_message.not_found');
@@ -36,7 +23,7 @@ class ImMessage extends Validator
 
     public function checkType($type)
     {
-        if (!in_array($type, ['friend', 'group', 'system'])) {
+        if (!in_array($type, ['friend', 'group'])) {
             throw new BadRequestException('im_message.invalid_type');
         }
 
@@ -58,6 +45,13 @@ class ImMessage extends Validator
         }
 
         return $value;
+    }
+
+    public function checkIfSelfChat($fromId, $toId)
+    {
+        if ($fromId == $toId) {
+            throw new BadRequestException('im_message.self_chat');
+        }
     }
 
 }

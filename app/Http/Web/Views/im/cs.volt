@@ -1,13 +1,6 @@
-{% extends 'templates/main.volt' %}
+{% extends 'templates/layer.volt' %}
 
 {% block content %}
-
-    <div class="breadcrumb">
-        <span class="layui-breadcrumb">
-            <a href="/">首页</a>
-            <a><cite>在线客服</cite></a>
-        </span>
-    </div>
 
     <div class="layui-hide">
         <input type="hidden" name="cs_user.id" value="{{ cs_user.id }}">

@@ -79,7 +79,7 @@ class Learning extends Service
 
     public function getSyncKey()
     {
-        return 'sync:learning';
+        return 'sync_learning';
     }
 
 }

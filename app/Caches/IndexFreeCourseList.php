@@ -23,7 +23,7 @@ class IndexFreeCourseList extends Cache
 
     public function getKey($id = null)
     {
-        return 'index:free_course_list';
+        return 'index_free_course_list';
     }
 
     public function getContent($id = null)

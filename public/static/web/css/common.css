@@ -34,7 +34,7 @@
     padding: 20px;
 }
 
-.text-center {
+.center {
     text-align: center;
 }
 
@@ -191,6 +191,10 @@ body {
 
 .help-list li {
     line-height: 30px;
+}
+
+.cs-sidebar p {
+    line-height: 40px;
 }
 
 .index-wrap .layui-tab {

@@ -37,8 +37,8 @@ layui.use(['jquery', 'layim'], function () {
             socket.send('pong...');
         } else if (data.type === 'bind_user') {
             bindUser(data);
-        } else if (data.type === 'show_cs_msg') {
-            showCsMessage(data);
+        } else if (data.type === 'show_chat_msg') {
+            showChatMessage(data);
         }
     };
 
@@ -77,7 +77,6 @@ layui.use(['jquery', 'layim'], function () {
     }
 
     function sendCsMessage(res) {
-        console.log(res);
         $.ajax({
             type: 'POST',
             url: '/im/msg/cs/send',
@@ -85,7 +84,7 @@ layui.use(['jquery', 'layim'], function () {
         });
     }
 
-    function showCsMessage(res) {
+    function showChatMessage(res) {
         layim.getMessage(res.message);
     }
 

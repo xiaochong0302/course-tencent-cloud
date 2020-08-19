@@ -84,7 +84,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">站点统计</label>
             <div class="layui-input-block">
-                <textarea name="analytics" class="layui-textarea" placeholder="使用百度统计，腾讯分析等第三方统计分析站点流量">{{ site.analytics }}</textarea>
+                <textarea name="analytics" class="layui-textarea" placeholder="使用百度统计等第三方统计分析站点流量">{{ site.analytics }}</textarea>
             </div>
         </div>
         <div class="layui-form-item">

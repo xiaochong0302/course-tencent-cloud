@@ -7,8 +7,11 @@ use Phalcon\Mvc\Model\Behavior\SoftDelete;
 class ImMessage extends Model
 {
 
-    const TYPE_FRIEND = 'friend';
-    const TYPE_GROUP = 'group';
+    /**
+     * 接受者类型
+     */
+    const TYPE_FRIEND = 1; // 好友
+    const TYPE_GROUP = 2; // 群组
 
     /**
      * 主键编号
@@ -101,7 +104,9 @@ class ImMessage extends Model
     {
         $this->create_time = time();
 
-        if ($this->chat_type == self::TYPE_FRIEND) {
+        $this->chat_id = 0;
+
+        if ($this->receiver_type == self::TYPE_FRIEND) {
             $this->chat_id = self::getChatId($this->sender_id, $this->receiver_id);
         }
     }

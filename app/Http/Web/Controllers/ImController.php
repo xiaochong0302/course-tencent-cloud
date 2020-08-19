@@ -36,25 +36,9 @@ class ImController extends Controller
      */
     public function csAction()
     {
-        $this->seo->prependTitle('在线客服');
-
         $service = new ImService();
 
         $csUser = $service->getCsUser();
-
-        $this->view->setVar('cs_user', $csUser);
-    }
-
-    /**
-     * @Get("/robot", name="web.im.robot")
-     */
-    public function robotAction()
-    {
-        $this->seo->prependTitle('智能聊天');
-
-        $service = new ImService();
-
-        $csUser = $service->getRobotUser();
 
         $this->view->setVar('cs_user', $csUser);
     }
@@ -117,7 +101,9 @@ class ImController extends Controller
     {
         $service = new ImService();
 
-        $service->pullUnreadFriendMessages();
+        $id = $this->request->getQuery('id');
+
+        $service->pullUnreadFriendMessages($id);
 
         return $this->jsonSuccess();
     }
@@ -199,9 +185,12 @@ class ImController extends Controller
      */
     public function sendChatMessageAction()
     {
+        $from = $this->request->getPost('from');
+        $to = $this->request->getPost('to');
+
         $service = new ImService();
 
-        $service->sendChatMessage();
+        $service->sendChatMessage($from, $to);
 
         return $this->jsonSuccess();
     }
@@ -211,9 +200,12 @@ class ImController extends Controller
      */
     public function sendCsMessageAction()
     {
+        $from = $this->request->getPost('from');
+        $to = $this->request->getPost('to');
+
         $service = new ImService();
 
-        $service->sendCsMessage();
+        $service->sendCsMessage($from, $to);
 
         return $this->jsonSuccess();
     }

@@ -25,7 +25,7 @@ class ImNewGroupList extends Cache
     {
         $limit = 12;
 
-        $groups = $this->findHotGroups($limit);
+        $groups = $this->findGroups($limit);
 
         if ($groups->count() == 0) {
             return [];
@@ -49,6 +49,8 @@ class ImNewGroupList extends Cache
                 'name' => $group->name,
                 'avatar' => $group->avatar,
                 'about' => $group->about,
+                'user_count' => $group->user_count,
+                'msg_count' => $group->msg_count,
             ];
         }
 
@@ -59,11 +61,11 @@ class ImNewGroupList extends Cache
      * @param int $limit
      * @return ResultsetInterface|Resultset|ImGroupModel[]
      */
-    public function findHotGroups($limit = 12)
+    public function findGroups($limit = 12)
     {
         return ImGroupModel::query()
-            ->where('deleted = 0')
-            ->orderBy('user_count DESC')
+            ->where('published = 1')
+            ->orderBy('id DESC')
             ->limit($limit)
             ->execute();
     }

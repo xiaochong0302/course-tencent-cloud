@@ -17,21 +17,11 @@ class Im extends Service
     use ImGroupTrait;
     use ImMessageTrait;
     use ImNoticeTrait;
-
-    public function getRobotUser()
-    {
-        $imUser = new ImUserModel();
-
-        $imUser->id = -10000;
-        $imUser->name = '聊天机器人';
-        $imUser->avatar = kg_ci_avatar_img_url(null);
-
-        return $imUser;
-    }
+    use ImStatTrait;
 
     public function getCsUser()
     {
-        $userIds = [];
+        $csUserIds = [];
         $onlineUserIds = [];
 
         $cache = new SettingCache();
@@ -41,21 +31,21 @@ class Im extends Service
         Gateway::$registerAddress = $this->getRegisterAddress();
 
         if (!empty($imInfo['cs_user1_id'])) {
-            $userIds[] = $imInfo['cs_user1_id'];
+            $csUserIds[] = $imInfo['cs_user1_id'];
             if (Gateway::isUidOnline($imInfo['cs_user1_id'])) {
                 $onlineUserIds[] = $imInfo['cs_user1_id'];
             }
         }
 
         if (!empty($imInfo['cs_user2_id'])) {
-            $userIds[] = $imInfo['cs_user2_id'];
+            $csUserIds[] = $imInfo['cs_user2_id'];
             if (Gateway::isUidOnline($imInfo['cs_user2_id'])) {
                 $onlineUserIds[] = $imInfo['cs_user2_id'];
             }
         }
 
         if (!empty($imInfo['cs_user3_id'])) {
-            $userIds[] = $imInfo['cs_user3_id'];
+            $csUserIds[] = $imInfo['cs_user3_id'];
             if (Gateway::isUidOnline($imInfo['cs_user3_id'])) {
                 $onlineUserIds[] = $imInfo['cs_user3_id'];
             }
@@ -65,8 +55,8 @@ class Im extends Service
             $key = array_rand($onlineUserIds);
             $userId = $onlineUserIds[$key];
         } else {
-            $key = array_rand($userIds);
-            $userId = $userIds[$key];
+            $key = array_rand($csUserIds);
+            $userId = $csUserIds[$key];
         }
 
         return $this->getImUser($userId);

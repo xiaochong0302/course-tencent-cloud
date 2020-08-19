@@ -60,7 +60,7 @@ layui.use(['jquery', 'layer', 'laypage'], function () {
                         type: 'POST',
                         url: '/im/friend/accept',
                         data: {
-                            message_id: li.data('id'),
+                            notice_id: li.data('id'),
                             group_id: group
                         },
                         success: function () {
@@ -85,7 +85,7 @@ layui.use(['jquery', 'layer', 'laypage'], function () {
                 $.ajax({
                     type: 'POST',
                     url: '/im/friend/refuse',
-                    data: {message_id: li.data('id')},
+                    data: {notice_id: li.data('id')},
                     success: function () {
                         layer.close(index);
                         othis.parent().html('<em>已拒绝</em>');
@@ -98,7 +98,7 @@ layui.use(['jquery', 'layer', 'laypage'], function () {
             $.ajax({
                 type: 'POST',
                 url: '/im/group/accept',
-                data: {message_id: li.data('id')},
+                data: {notice_id: li.data('id')},
                 success: function () {
                     othis.parent().html('已同意');
                 }
@@ -110,7 +110,7 @@ layui.use(['jquery', 'layer', 'laypage'], function () {
                 $.ajax({
                     type: 'POST',
                     url: '/im/group/refuse',
-                    data: {message_id: li.data('id')},
+                    data: {notice_id: li.data('id')},
                     success: function () {
                         layer.close(index);
                         othis.parent().html('<em>已拒绝</em>');

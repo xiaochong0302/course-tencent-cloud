@@ -2,11 +2,13 @@
 
 namespace App\Caches;
 
+use App\Models\ImMessage as ImMessageModel;
 use App\Models\User as UserModel;
+use App\Repos\User as UserRepo;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ImNewUserList extends Cache
+class ImActiveUserList extends Cache
 {
 
     protected $lifetime = 1 * 86400;
@@ -18,28 +20,15 @@ class ImNewUserList extends Cache
 
     public function getKey($id = null)
     {
-        return 'im_new_user_list';
+        return 'im_active_user_list';
     }
 
     public function getContent($id = null)
     {
-        $limit = 12;
+        $users = $this->findUsers($id);
 
-        $users = $this->findUsers($limit);
+        if (!$users) return [];
 
-        if ($users->count() == 0) {
-            return [];
-        }
-
-        return $this->handleContent($users);
-    }
-
-    /**
-     * @param UserModel[] $users
-     * @return array
-     */
-    protected function handleContent($users)
-    {
         $result = [];
 
         foreach ($users as $user) {
@@ -57,16 +46,35 @@ class ImNewUserList extends Cache
     }
 
     /**
+     * @param int $days
      * @param int $limit
      * @return ResultsetInterface|Resultset|UserModel[]
      */
-    public function findUsers($limit = 12)
+    protected function findUsers($days = 7, $limit = 12)
     {
-        return UserModel::query()
-            ->where('deleted = 0')
-            ->orderBy('id DESC')
+        $result = [];
+
+        $startTime = strtotime("-{$days} days");
+        $endTime = time();
+
+        $rows = ImMessageModel::query()
+            ->columns(['sender_id', 'total_count' => 'count(sender_id)'])
+            ->groupBy('sender_id')
+            ->orderBy('total_count DESC')
+            ->betweenWhere('create_time', $startTime, $endTime)
             ->limit($limit)
             ->execute();
+
+        if ($rows->count() > 0) {
+
+            $ids = kg_array_column($rows->toArray(), 'sender_id');
+
+            $userRepo = new UserRepo();
+
+            $result = $userRepo->findByIds($ids);
+        }
+
+        return $result;
     }
 
 }

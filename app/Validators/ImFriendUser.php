@@ -61,7 +61,7 @@ class ImFriendUser extends Validator
         return $record;
     }
 
-    public function checkIfSelf($userId, $friendId)
+    public function checkIfSelfApply($userId, $friendId)
     {
         if ($userId == $friendId) {
             throw new BadRequestException('im_friend_user.self_apply');

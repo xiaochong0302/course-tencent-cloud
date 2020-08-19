@@ -20,7 +20,7 @@
         </tr>
     </table>
     <br>
-    <div class="text-center">
+    <div class="center">
         {% if order.status == 'pending' %}
             <a class="layui-btn layui-bg-blue" href="{{ order_pay_url }}" target="_top">立即支付</a>
         {% endif %}

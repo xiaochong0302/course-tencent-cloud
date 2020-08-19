@@ -4,14 +4,14 @@ namespace App\Http\Web\Services;
 
 use App\Models\ImGroup as ImGroupModel;
 use App\Models\ImGroupUser as ImGroupUserModel;
-use App\Models\ImSystemMessage as ImSystemMessageModel;
+use App\Models\ImNotice as ImNoticeModel;
 use App\Models\ImUser as ImUserModel;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\ImUser as ImUserRepo;
 use App\Validators\ImGroup as ImGroupValidator;
 use App\Validators\ImGroupUser as ImGroupUserValidator;
-use App\Validators\ImMessage as ImMessageValidator;
+use App\Validators\ImNotice as ImNoticeValidator;
 use GatewayClient\Gateway;
 
 Trait ImGroupTrait
@@ -41,17 +41,17 @@ Trait ImGroupTrait
 
         $user = $this->getImUser($loginUser->id);
 
-        $messageId = $this->request->getPost('message_id');
+        $noticeId = $this->request->getPost('notice_id');
 
-        $validator = new ImMessageValidator();
+        $validator = new ImNoticeValidator();
 
-        $message = $validator->checkMessage($messageId, 'system');
+        $notice = $validator->checkNotice($noticeId, 'system');
 
-        if ($message->item_type != ImSystemMessageModel::TYPE_GROUP_REQUEST) {
+        if ($notice->item_type != ImNoticeModel::TYPE_GROUP_REQUEST) {
             return;
         }
 
-        $groupId = $message->item_info['group']['id'] ?: 0;
+        $groupId = $notice->item_info['group']['id'] ?: 0;
 
         $validator = new ImGroupValidator();
 
@@ -59,7 +59,7 @@ Trait ImGroupTrait
 
         $validator->checkOwner($user->id, $group->user_id);
 
-        $applicant = $this->getImUser($message->sender_id);
+        $applicant = $this->getImUser($notice->sender_id);
 
         $groupUserRepo = new ImGroupUserRepo();
 
@@ -79,11 +79,11 @@ Trait ImGroupTrait
             $this->incrUserGroupCount($applicant);
         }
 
-        $itemInfo = $message->item_info;
+        $itemInfo = $notice->item_info;
 
-        $itemInfo['status'] = ImSystemMessageModel::REQUEST_ACCEPTED;
+        $itemInfo['status'] = ImNoticeModel::REQUEST_ACCEPTED;
 
-        $message->update(['item_info' => $itemInfo]);
+        $notice->update(['item_info' => $itemInfo]);
 
         $this->handleAcceptGroupNotice($user, $applicant, $group);
 
@@ -96,17 +96,17 @@ Trait ImGroupTrait
 
         $user = $this->getImUser($loginUser->id);
 
-        $messageId = $this->request->getPost('message_id');
+        $noticeId = $this->request->getPost('notice_id');
 
-        $validator = new ImMessageValidator();
+        $validator = new ImNoticeValidator();
 
-        $message = $validator->checkMessage($messageId, 'system');
+        $notice = $validator->checkNotice($noticeId);
 
-        if ($message->item_type != ImSystemMessageModel::TYPE_GROUP_REQUEST) {
+        if ($notice->item_type != ImNoticeModel::TYPE_GROUP_REQUEST) {
             return;
         }
 
-        $groupId = $message->item_info['group']['id'] ?: 0;
+        $groupId = $notice->item_info['group']['id'] ?: 0;
 
         $validator = new ImGroupValidator();
 
@@ -114,13 +114,13 @@ Trait ImGroupTrait
 
         $validator->checkOwner($user->id, $group->user_id);
 
-        $itemInfo = $message->item_info;
+        $itemInfo = $notice->item_info;
 
-        $itemInfo['status'] = ImSystemMessageModel::REQUEST_REFUSED;
+        $itemInfo['status'] = ImNoticeModel::REQUEST_REFUSED;
 
-        $message->update(['item_info' => $itemInfo]);
+        $notice->update(['item_info' => $itemInfo]);
 
-        $sender = $this->getImUser($message->sender_id);
+        $sender = $this->getImUser($notice->sender_id);
 
         $this->handleRefuseGroupNotice($user, $sender);
     }
@@ -150,24 +150,24 @@ Trait ImGroupTrait
 
         $receiver = $userRepo->findById($group->owner_id);
 
-        $itemType = ImSystemMessageModel::TYPE_GROUP_REQUEST;
+        $itemType = ImNoticeModel::TYPE_GROUP_REQUEST;
 
-        $message = $userRepo->findSystemMessage($receiver->id, $itemType);
+        $notice = $userRepo->findNotice($receiver->id, $itemType);
 
-        if ($message) {
-            $expired = time() - $message->create_time > 7 * 86400;
-            $pending = $message->item_info['status'] == ImSystemMessageModel::REQUEST_PENDING;
+        if ($notice) {
+            $expired = time() - $notice->create_time > 7 * 86400;
+            $pending = $notice->item_info['status'] == ImNoticeModel::REQUEST_PENDING;
             if (!$expired && $pending) {
                 return;
             }
         }
 
-        $sysMsgModel = new ImSystemMessageModel();
+        $noticeModel = new ImNoticeModel();
 
-        $sysMsgModel->sender_id = $sender->id;
-        $sysMsgModel->receiver_id = $receiver->id;
-        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_GROUP_REQUEST;
-        $sysMsgModel->item_info = [
+        $noticeModel->sender_id = $sender->id;
+        $noticeModel->receiver_id = $receiver->id;
+        $noticeModel->item_type = ImNoticeModel::TYPE_GROUP_REQUEST;
+        $noticeModel->item_info = [
             'sender' => [
                 'id' => $sender->id,
                 'name' => $sender->name,
@@ -178,29 +178,31 @@ Trait ImGroupTrait
                 'name' => $group->name,
             ],
             'remark' => $remark,
-            'status' => ImSystemMessageModel::REQUEST_PENDING,
+            'status' => ImNoticeModel::REQUEST_PENDING,
         ];
 
-        $sysMsgModel->create();
+        $noticeModel->create();
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
         $online = Gateway::isUidOnline($receiver->id);
 
         if ($online) {
+
             $content = kg_json_encode(['type' => 'refresh_msg_box']);
+
             Gateway::sendToUid($receiver->id, $content);
         }
     }
 
     protected function handleAcceptGroupNotice(ImUserModel $sender, ImUserModel $receiver, ImGroupModel $group)
     {
-        $sysMsgModel = new ImSystemMessageModel();
+        $noticeModel = new ImNoticeModel();
 
-        $sysMsgModel->sender_id = $sender->id;
-        $sysMsgModel->receiver_id = $receiver->id;
-        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_GROUP_ACCEPTED;
-        $sysMsgModel->item_info = [
+        $noticeModel->sender_id = $sender->id;
+        $noticeModel->receiver_id = $receiver->id;
+        $noticeModel->item_type = ImNoticeModel::TYPE_GROUP_ACCEPTED;
+        $noticeModel->item_info = [
             'sender' => [
                 'id' => $sender->id,
                 'name' => $sender->name,
@@ -208,7 +210,7 @@ Trait ImGroupTrait
             ]
         ];
 
-        $sysMsgModel->create();
+        $noticeModel->create();
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
@@ -231,12 +233,12 @@ Trait ImGroupTrait
 
     protected function handleRefuseGroupNotice(ImUserModel $sender, ImUserModel $receiver)
     {
-        $sysMsgModel = new ImSystemMessageModel();
+        $noticeModel = new ImNoticeModel();
 
-        $sysMsgModel->sender_id = $sender->id;
-        $sysMsgModel->receiver_id = $receiver->id;
-        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_GROUP_REFUSED;
-        $sysMsgModel->item_info = [
+        $noticeModel->sender_id = $sender->id;
+        $noticeModel->receiver_id = $receiver->id;
+        $noticeModel->item_type = ImNoticeModel::TYPE_GROUP_REFUSED;
+        $noticeModel->item_info = [
             'sender' => [
                 'id' => $sender->id,
                 'name' => $sender->name,
@@ -244,12 +246,14 @@ Trait ImGroupTrait
             ]
         ];
 
-        $sysMsgModel->create();
+        $noticeModel->create();
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
         if (Gateway::isUidOnline($receiver->id)) {
+
             $content = kg_json_encode(['type' => 'refresh_msg_box']);
+
             Gateway::sendToUid($receiver->id, $content);
         }
     }
@@ -289,6 +293,7 @@ Trait ImGroupTrait
     protected function incrUserGroupCount(ImUserModel $user)
     {
         $user->group_count += 1;
+
         $user->update();
     }
 
@@ -303,6 +308,7 @@ Trait ImGroupTrait
     protected function incrGroupUserCount(ImGroupModel $group)
     {
         $group->user_count += 1;
+
         $group->update();
     }
 
@@ -312,12 +318,6 @@ Trait ImGroupTrait
             $group->user_count -= 1;
             $group->update();
         }
-    }
-
-    protected function incrGroupMessageCount(ImGroupModel $group)
-    {
-        $group->msg_count += 1;
-        $group->update();
     }
 
 }

@@ -20,7 +20,7 @@
         </tr>
     </table>
     <br>
-    <div class="text-center">
+    <div class="center">
         {% if refund.status == 'approved' %}
             <button class="kg-refund layui-btn" data-sn="{{ refund.sn }}" data-url="{{ cancel_url }}">取消退款</button>
         {% endif %}

@@ -7,7 +7,7 @@
             <legend>手机推流</legend>
         </fieldset>
         <div class="layui-form-item">
-            <div class="kg-text-center">
+            <div class="kg-center">
                 <img class="kg-qrcode" src="{{ qrcode }}" alt="二维码图片">
             </div>
         </div>

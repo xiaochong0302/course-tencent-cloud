@@ -349,5 +349,6 @@ $error['im_message.not_found'] = '消息不存在';
 $error['im_message.invalid_type'] = '无效的消息类型';
 $error['im_message.content_too_short'] = '消息内容太短（少于1字符）';
 $error['im_message.content_too_long'] = '消息内容太长（超过1000字符）';
+$error['im_message.self_chat'] = '不能给自己发送消息';
 
 return $error;

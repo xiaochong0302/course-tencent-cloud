@@ -4,12 +4,12 @@ namespace App\Http\Web\Services;
 
 use App\Models\ImFriendGroup as ImFriendGroupModel;
 use App\Models\ImFriendUser as ImFriendUserModel;
-use App\Models\ImSystemMessage as ImSystemMessageModel;
+use App\Models\ImNotice as ImNoticeModel;
 use App\Models\ImUser as ImUserModel;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImUser as ImUserRepo;
 use App\Validators\ImFriendUser as ImFriendUserValidator;
-use App\Validators\ImMessage as ImMessageValidator;
+use App\Validators\ImNotice as ImNoticeValidator;
 use GatewayClient\Gateway;
 
 Trait ImFriendTrait
@@ -29,7 +29,7 @@ Trait ImFriendTrait
         $group = $validator->checkGroup($post['group_id']);
         $remark = $validator->checkRemark($post['remark']);
 
-        $validator->checkIfSelf($user->id, $friend->id);
+        $validator->checkIfSelfApply($user->id, $friend->id);
         $validator->checkIfJoined($user->id, $friend->id);
 
         $this->handleApplyFriendNotice($user, $friend, $group, $remark);
@@ -41,22 +41,22 @@ Trait ImFriendTrait
 
         $user = $this->getImUser($loginUser->id);
 
-        $messageId = $this->request->getPost('message_id');
+        $noticeId = $this->request->getPost('notice_id');
         $groupId = $this->request->getPost('group_id');
 
         $validator = new ImFriendUserValidator();
 
         $validator->checkGroup($groupId);
 
-        $validator = new ImMessageValidator();
+        $validator = new ImNoticeValidator();
 
-        $message = $validator->checkMessage($messageId, 'system');
+        $notice = $validator->checkNotice($noticeId);
 
-        if ($message->item_type != ImSystemMessageModel::TYPE_FRIEND_REQUEST) {
+        if ($notice->item_type != ImNoticeModel::TYPE_FRIEND_REQUEST) {
             return;
         }
 
-        $sender = $this->getImUser($message->sender_id);
+        $sender = $this->getImUser($notice->sender_id);
 
         $friendUserRepo = new ImFriendUserRepo();
 
@@ -77,7 +77,7 @@ Trait ImFriendTrait
 
         $friendUser = $friendUserRepo->findFriendUser($sender->id, $user->id);
 
-        $groupId = $message->item_info['group']['id'] ?: 0;
+        $groupId = $notice->item_info['group']['id'] ?: 0;
 
         if (!$friendUser) {
 
@@ -92,13 +92,13 @@ Trait ImFriendTrait
             $this->incrUserFriendCount($sender);
         }
 
-        $itemInfo = $message->item_info;
+        $itemInfo = $notice->item_info;
 
-        $itemInfo['status'] = ImSystemMessageModel::REQUEST_ACCEPTED;
+        $itemInfo['status'] = ImNoticeModel::REQUEST_ACCEPTED;
 
-        $message->update(['item_info' => $itemInfo]);
+        $notice->update(['item_info' => $itemInfo]);
 
-        $this->handleAcceptFriendNotice($user, $sender, $message);
+        $this->handleAcceptFriendNotice($user, $sender, $notice);
     }
 
     public function refuseFriend()
@@ -107,23 +107,23 @@ Trait ImFriendTrait
 
         $user = $this->getImUser($loginUser->id);
 
-        $messageId = $this->request->getPost('message_id');
+        $noticeId = $this->request->getPost('notice_id');
 
-        $validator = new ImMessageValidator();
+        $validator = new ImNoticeValidator();
 
-        $message = $validator->checkMessage($messageId, 'system');
+        $notice = $validator->checkNotice($noticeId);
 
-        if ($message->item_type != ImSystemMessageModel::TYPE_FRIEND_REQUEST) {
+        if ($notice->item_type != ImNoticeModel::TYPE_FRIEND_REQUEST) {
             return;
         }
 
-        $itemInfo = $message->item_info;
+        $itemInfo = $notice->item_info;
 
-        $itemInfo['status'] = ImSystemMessageModel::REQUEST_REFUSED;
+        $itemInfo['status'] = ImNoticeModel::REQUEST_REFUSED;
 
-        $message->update(['item_info' => $itemInfo]);
+        $notice->update(['item_info' => $itemInfo]);
 
-        $sender = $this->getImUser($message->sender_id);
+        $sender = $this->getImUser($notice->sender_id);
 
         $this->handleRefuseFriendNotice($user, $sender);
     }
@@ -145,24 +145,24 @@ Trait ImFriendTrait
     {
         $userRepo = new ImUserRepo();
 
-        $itemType = ImSystemMessageModel::TYPE_FRIEND_REQUEST;
+        $itemType = ImNoticeModel::TYPE_FRIEND_REQUEST;
 
-        $message = $userRepo->findSystemMessage($receiver->id, $itemType);
+        $notice = $userRepo->findNotice($receiver->id, $itemType);
 
-        if ($message) {
-            $expired = time() - $message->create_time > 7 * 86400;
-            $pending = $message->item_info['status'] == ImSystemMessageModel::REQUEST_PENDING;
+        if ($notice) {
+            $expired = time() - $notice->create_time > 7 * 86400;
+            $pending = $notice->item_info['status'] == ImNoticeModel::REQUEST_PENDING;
             if (!$expired && $pending) {
                 return;
             }
         }
 
-        $sysMsgModel = new ImSystemMessageModel();
+        $noticeModel = new ImNoticeModel();
 
-        $sysMsgModel->sender_id = $sender->id;
-        $sysMsgModel->receiver_id = $receiver->id;
-        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_FRIEND_REQUEST;
-        $sysMsgModel->item_info = [
+        $noticeModel->sender_id = $sender->id;
+        $noticeModel->receiver_id = $receiver->id;
+        $noticeModel->item_type = ImNoticeModel::TYPE_FRIEND_REQUEST;
+        $noticeModel->item_info = [
             'sender' => [
                 'id' => $sender->id,
                 'name' => $sender->name,
@@ -173,29 +173,31 @@ Trait ImFriendTrait
                 'name' => $group->name,
             ],
             'remark' => $remark,
-            'status' => ImSystemMessageModel::REQUEST_PENDING,
+            'status' => ImNoticeModel::REQUEST_PENDING,
         ];
 
-        $sysMsgModel->create();
+        $noticeModel->create();
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
         $online = Gateway::isUidOnline($receiver->id);
 
         if ($online) {
+
             $content = kg_json_encode(['type' => 'refresh_msg_box']);
+
             Gateway::sendToUid($receiver->id, $content);
         }
     }
 
-    protected function handleAcceptFriendNotice(ImUserModel $sender, ImUserModel $receiver, ImSystemMessageModel $applyMessage)
+    protected function handleAcceptFriendNotice(ImUserModel $sender, ImUserModel $receiver, ImNoticeModel $applyNotice)
     {
-        $sysMsgModel = new ImSystemMessageModel();
+        $noticeModel = new ImNoticeModel();
 
-        $sysMsgModel->sender_id = $sender->id;
-        $sysMsgModel->receiver_id = $receiver->id;
-        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_FRIEND_ACCEPTED;
-        $sysMsgModel->item_info = [
+        $noticeModel->sender_id = $sender->id;
+        $noticeModel->receiver_id = $receiver->id;
+        $noticeModel->item_type = ImNoticeModel::TYPE_FRIEND_ACCEPTED;
+        $noticeModel->item_info = [
             'sender' => [
                 'id' => $sender->id,
                 'name' => $sender->name,
@@ -203,7 +205,7 @@ Trait ImFriendTrait
             ]
         ];
 
-        $sysMsgModel->create();
+        $noticeModel->create();
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
@@ -214,12 +216,12 @@ Trait ImFriendTrait
             /**
              * 上层操作更新了item_info，类型发生了变化，故重新获取
              */
-            $applyMessage->afterFetch();
+            $applyNotice->afterFetch();
 
             /**
              * @var array $itemInfo
              */
-            $itemInfo = $applyMessage->item_info;
+            $itemInfo = $applyNotice->item_info;
 
             $content = kg_json_encode([
                 'type' => 'friend_accepted',
@@ -240,12 +242,12 @@ Trait ImFriendTrait
 
     protected function handleRefuseFriendNotice(ImUserModel $sender, ImUserModel $receiver)
     {
-        $sysMsgModel = new ImSystemMessageModel();
+        $noticeModel = new ImNoticeModel();
 
-        $sysMsgModel->sender_id = $sender->id;
-        $sysMsgModel->receiver_id = $receiver->id;
-        $sysMsgModel->item_type = ImSystemMessageModel::TYPE_FRIEND_REFUSED;
-        $sysMsgModel->item_info = [
+        $noticeModel->sender_id = $sender->id;
+        $noticeModel->receiver_id = $receiver->id;
+        $noticeModel->item_type = ImNoticeModel::TYPE_FRIEND_REFUSED;
+        $noticeModel->item_info = [
             'sender' => [
                 'id' => $sender->id,
                 'name' => $sender->name,
@@ -253,14 +255,16 @@ Trait ImFriendTrait
             ]
         ];
 
-        $sysMsgModel->create();
+        $noticeModel->create();
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
         $online = Gateway::isUidOnline($receiver->id);
 
         if ($online) {
+
             $content = kg_json_encode(['type' => 'refresh_msg_box']);
+
             Gateway::sendToUid($receiver->id, $content);
         }
     }
@@ -268,6 +272,7 @@ Trait ImFriendTrait
     protected function incrUserFriendCount(ImUserModel $user)
     {
         $user->friend_count += 1;
+
         $user->update();
     }
 
@@ -277,12 +282,6 @@ Trait ImFriendTrait
             $user->friend_count -= 1;
             $user->update();
         }
-    }
-
-    protected function incrFriendUserMsgCount(ImFriendUserModel $friendUser)
-    {
-        $friendUser->msg_count += 1;
-        $friendUser->update();
     }
 
 }
