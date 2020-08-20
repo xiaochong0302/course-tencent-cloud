@@ -46,6 +46,8 @@ class ImGroupController extends Controller
 
         $group = $service->getGroup($id);
 
+        $this->seo->prependTitle([$group['name'], '群组']);
+
         $this->view->pick('im/group/show');
         $this->view->setVar('group', $group);
     }

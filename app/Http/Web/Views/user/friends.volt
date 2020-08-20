@@ -1,3 +1,5 @@
+{{ partial('macros/user') }}
+
 {% if pager.total_pages > 0 %}
     <div class="user-list clearfix">
         <div class="layui-row layui-col-space20">
@@ -7,9 +9,7 @@
                 {% set user_url = url({'for':'web.user.show','id':item.id}) %}
                 <div class="layui-col-md2">
                     <div class="user-card">
-                        {% if item.vip == 1 %}
-                            <span class="vip">VIP</span>
-                        {% endif %}
+                        {{ vip_info(item.vip) }}
                         <div class="avatar">
                             <a href="{{ user_url }}" title="{{ item.about }}">
                                 <img src="{{ item.avatar }}" alt="{{ item.name }}">

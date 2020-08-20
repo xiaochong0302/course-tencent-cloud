@@ -1,3 +1,5 @@
+{{ partial('macros/user') }}
+
 {% if pager.total_pages > 0 %}
     <div class="user-list vip-user-list clearfix">
         <div class="layui-row layui-col-space20">
@@ -7,9 +9,7 @@
                 {% set item.about = item.about ? item.about : '这个人很懒，什么都没留下' %}
                 <div class="layui-col-md2">
                     <div class="user-card">
-                        {% if item.vip == 1 %}
-                            <span class="layui-badge layui-bg-orange vip">VIP</span>
-                        {% endif %}
+                        {{ vip_info(item.vip) }}
                         <div class="avatar">
                             <a href="{{ user_url }}" title="{{ item.about }}">
                                 <img src="{{ item.avatar }}" alt="{{ item.name }}">

@@ -1,3 +1,5 @@
+{{ partial('macros/group') }}
+
 {% if pager.total_pages > 0 %}
     <div class="user-list clearfix">
         <div class="layui-row layui-col-space20">
@@ -6,11 +8,7 @@
                 {% set item.about = item.about ? item.about : '这家伙真懒，什么都没留下！' %}
                 <div class="layui-col-md3">
                     <div class="user-card">
-                        {% if item.type == 'course' %}
-                            <span class="layui-badge layui-bg-green type">课</span>
-                        {% elseif item.type == 'chat' %}
-                            <span class="layui-badge layui-bg-blue type">聊</span>
-                        {% endif %}
+                        {{ type_info(item.type) }}
                         <div class="avatar">
                             <a href="{{ group_url }}" title="{{ item.about }}">
                                 <img src="{{ item.avatar }}" alt="{{ item.name }}">

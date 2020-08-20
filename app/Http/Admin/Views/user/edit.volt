@@ -43,23 +43,6 @@
             </div>
         {% endif %}
         <div class="layui-form-item">
-            <label class="layui-form-label">会员服务</label>
-            <div class="layui-input-block">
-                <input type="radio" name="vip" value="1" title="是" lay-filter="vip" {% if user.vip == 1 %}checked="checked"{% endif %}>
-                <input type="radio" name="vip" value="0" title="否" lay-filter="vip" {% if user.vip == 0 %}checked="checked"{% endif %}>
-            </div>
-        </div>
-        <div class="layui-form-item" id="vip-expiry-block" {% if user.vip == 0 %}style="display:none;"{% endif %}>
-            <label class="layui-form-label">会员期限</label>
-            <div class="layui-input-block">
-                {% if user.vip_expiry_time > 0 %}
-                    <input class="layui-input" type="text" name="vip_expiry_time" autocomplete="off" value="{{ date('Y-m-d H:i:s',user.vip_expiry_time) }}">
-                {% else %}
-                    <input class="layui-input" type="text" name="vip_expiry_time" autocomplete="off">
-                {% endif %}
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">锁定帐号</label>
             <div class="layui-input-block">
                 <input type="radio" name="locked" value="1" title="是" lay-filter="locked" {% if user.locked == 1 %}checked="checked"{% endif %}>
@@ -133,22 +116,8 @@
             var laydate = layui.laydate;
 
             laydate.render({
-                elem: 'input[name=vip_expiry_time]',
-                type: 'datetime'
-            });
-
-            laydate.render({
                 elem: 'input[name=lock_expiry_time]',
                 type: 'datetime'
-            });
-
-            form.on('radio(vip)', function (data) {
-                var block = $('#vip-expiry-block');
-                if (data.value === '1') {
-                    block.show();
-                } else {
-                    block.hide();
-                }
             });
 
             form.on('radio(locked)', function (data) {

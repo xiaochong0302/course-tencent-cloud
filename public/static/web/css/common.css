@@ -1345,6 +1345,7 @@ body {
     height: 16px;
     line-height: 16px;
     padding: 0 3px;
+    font-size: 10px;
 }
 
 .user-card .type {
@@ -1379,7 +1380,7 @@ body {
 }
 
 .group-list .user-card {
-    height: 250px;
+    height: 240px;
 }
 
 .group-about {

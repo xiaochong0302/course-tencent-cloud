@@ -2,7 +2,6 @@
 
 namespace App\Http\Web\Services;
 
-use App\Caches\Setting as SettingCache;
 use App\Models\ImUser as ImUserModel;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImUser as ImUserRepo;
@@ -13,54 +12,12 @@ use GatewayClient\Gateway;
 class Im extends Service
 {
 
+    use ImCsTrait;
     use ImFriendTrait;
     use ImGroupTrait;
     use ImMessageTrait;
     use ImNoticeTrait;
     use ImStatTrait;
-
-    public function getCsUser()
-    {
-        $csUserIds = [];
-        $onlineUserIds = [];
-
-        $cache = new SettingCache();
-
-        $imInfo = $cache->get('im');
-
-        Gateway::$registerAddress = $this->getRegisterAddress();
-
-        if (!empty($imInfo['cs_user1_id'])) {
-            $csUserIds[] = $imInfo['cs_user1_id'];
-            if (Gateway::isUidOnline($imInfo['cs_user1_id'])) {
-                $onlineUserIds[] = $imInfo['cs_user1_id'];
-            }
-        }
-
-        if (!empty($imInfo['cs_user2_id'])) {
-            $csUserIds[] = $imInfo['cs_user2_id'];
-            if (Gateway::isUidOnline($imInfo['cs_user2_id'])) {
-                $onlineUserIds[] = $imInfo['cs_user2_id'];
-            }
-        }
-
-        if (!empty($imInfo['cs_user3_id'])) {
-            $csUserIds[] = $imInfo['cs_user3_id'];
-            if (Gateway::isUidOnline($imInfo['cs_user3_id'])) {
-                $onlineUserIds[] = $imInfo['cs_user3_id'];
-            }
-        }
-
-        if (count($onlineUserIds) > 0) {
-            $key = array_rand($onlineUserIds);
-            $userId = $onlineUserIds[$key];
-        } else {
-            $key = array_rand($csUserIds);
-            $userId = $csUserIds[$key];
-        }
-
-        return $this->getImUser($userId);
-    }
 
     public function getInitInfo()
     {
@@ -295,26 +252,29 @@ class Im extends Service
 
         $users = $userRepo->findByIds($ids);
 
-        $mappings = [];
+        $baseUrl = kg_ci_base_url();
+
+        $mapping = [];
 
         /**
          * 用户可以设置状态为 ['online', 'hide']
          * 列表在线状态识别为 ['online', 'offline']
          */
-        foreach ($users as $user) {
-            $status = in_array($user->status, ['online', 'offline']) ? $user->status : 'offline';
-            $mappings[$user->id] = [
-                'id' => $user->id,
-                'username' => $user->name,
-                'avatar' => $user->avatar,
-                'sign' => $user->sign,
+        foreach ($users->toArray() as $user) {
+            $status = in_array($user['status'], ['online', 'offline']) ? $user['status'] : 'offline';
+            $user['avatar'] = $baseUrl . $user['avatar'];
+            $mapping[$user['id']] = [
+                'id' => $user['id'],
+                'username' => $user['name'],
+                'avatar' => $user['avatar'],
+                'sign' => $user['sign'],
                 'status' => $status,
             ];
         }
 
         foreach ($items as $key => $item) {
             foreach ($friendUsers as $friendUser) {
-                $friend = $mappings[$friendUser->friend_id];
+                $friend = $mapping[$friendUser->friend_id];
                 if ($item['id'] == $friendUser->group_id) {
                     $friend['msg_count'] = $friendUser->msg_count;
                     $items[$key]['list'][] = $friend;
@@ -331,23 +291,34 @@ class Im extends Service
     {
         $userRepo = new ImUserRepo();
 
-        $groups = $userRepo->findGroups($user->id);
+        $groupUsers = $userRepo->findGroupUsers($user->id);
 
-        if ($groups->count() == 0) {
+        if ($groupUsers->count() == 0) {
             return [];
         }
 
+        $groupRepo = new ImGroupRepo();
+
+        $ids = kg_array_column($groupUsers->toArray(), 'group_id');
+
+        $groups = $groupRepo->findByIds($ids);
+
         $baseUrl = kg_ci_base_url();
+
+        $mapping = [];
+
+        foreach ($groups->toArray() as $group) {
+            $mapping[$group['id']] = [
+                'id' => $group['id'],
+                'groupname' => $group['name'],
+                'avatar' => $baseUrl . $group['avatar'],
+            ];
+        }
 
         $result = [];
 
-        foreach ($groups->toArray() as $group) {
-            $group['avatar'] = $baseUrl . $group['avatar'];
-            $result[] = [
-                'id' => $group['id'],
-                'groupname' => $group['name'],
-                'avatar' => $group['avatar'],
-            ];
+        foreach ($groupUsers as $groupUser) {
+            $result[] = $mapping[$groupUser->group_id];
         }
 
         return $result;

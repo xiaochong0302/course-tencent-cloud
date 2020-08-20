@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {% set expiry_editable = relation.source_type in [1,3] %}
+
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.student.update'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>编辑学员</legend>
@@ -18,12 +20,21 @@
                 <div class="layui-form-mid layui-word-aux">{{ student.name }}</div>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">过期时间</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="expiry_time" autocomplete="off" value="{{ date('Y-m-d H:i:s',relation.expiry_time) }}" lay-verify="required">
+        {% if expiry_editable %}
+            <div class="layui-form-item">
+                <label class="layui-form-label">过期时间</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text" name="expiry_time" autocomplete="off" value="{{ date('Y-m-d H:i:s',relation.expiry_time) }}" lay-verify="required">
+                </div>
             </div>
-        </div>
+        {% else %}
+            <div class="layui-form-item">
+                <label class="layui-form-label">过期时间</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">{{ date('Y-m-d H:i:s',relation.expiry_time) }}</div>
+                </div>
+            </div>
+        {% endif %}
         <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-block">

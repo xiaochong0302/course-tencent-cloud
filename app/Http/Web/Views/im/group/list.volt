@@ -16,5 +16,6 @@
 {% block include_js %}
 
     {{ js_include('web/js/im.group.list.js') }}
+    {{ js_include('web/js/im.apply.js') }}
 
 {% endblock %}

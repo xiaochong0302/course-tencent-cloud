@@ -6,6 +6,7 @@ use App\Builders\ImMessageList as ImMessageListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\ImFriendUser as ImFriendUserModel;
 use App\Models\ImGroup as ImGroupModel;
+use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\ImMessage as ImMessageModel;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImMessage as ImMessageRepo;
@@ -24,52 +25,6 @@ use GatewayClient\Gateway;
 Trait ImMessageTrait
 {
 
-    public function pullUnreadFriendMessages($id)
-    {
-        $user = $this->getLoginUser();
-
-        $validator = new ImUserValidator();
-
-        $friend = $validator->checkUser($id);
-
-        $userRepo = new ImUserRepo();
-
-        $messages = $userRepo->findUnreadFriendMessages($friend->id, $user->id);
-
-        if ($messages->count() == 0) {
-            return;
-        }
-
-        Gateway::$registerAddress = $this->getRegisterAddress();
-
-        foreach ($messages as $message) {
-
-            $message->update(['viewed' => 1]);
-
-            $content = kg_json_encode([
-                'type' => 'show_chat_msg',
-                'message' => [
-                    'username' => $friend->name,
-                    'avatar' => $friend->avatar,
-                    'id' => $friend->id,
-                    'fromid' => $friend->id,
-                    'content' => $message->content,
-                    'timestamp' => 1000 * $message->create_time,
-                    'type' => 'friend',
-                    'mine' => false,
-                ],
-            ]);
-
-            Gateway::sendToUid($user->id, $content);
-        }
-
-        $repo = new ImFriendUserRepo();
-
-        $friendUser = $repo->findFriendUser($user->id, $friend->id);
-
-        $friendUser->update(['msg_count' => 0]);
-    }
-
     public function getChatMessages()
     {
         $user = $this->getLoginUser();
@@ -86,7 +41,7 @@ Trait ImMessageTrait
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        if ($params['type'] == ImMessageModel::TYPE_FRIEND) {
+        if ($params['type'] == 'friend') {
 
             $chatId = ImMessageModel::getChatId($user->id, $params['id']);
 
@@ -98,7 +53,7 @@ Trait ImMessageTrait
 
             return $this->handleChatMessagePager($pager);
 
-        } elseif ($params['type'] == ImMessageModel::TYPE_GROUP) {
+        } elseif ($params['type'] == 'group') {
 
             $where = [
                 'receiver_type' => $params['type'],
@@ -161,6 +116,8 @@ Trait ImMessageTrait
                 'viewed' => $online ? 1 : 0,
             ]);
 
+            $this->updateFriendUserChatTime($relation);
+
             if ($online) {
                 Gateway::sendToUid($to['id'], $content);
             } else {
@@ -177,7 +134,7 @@ Trait ImMessageTrait
 
             $validator = new ImGroupUserValidator();
 
-            $validator->checkGroupUser($group->id, $user->id);
+            $relation = $validator->checkGroupUser($group->id, $user->id);
 
             $messageModel = new ImMessageModel();
 
@@ -187,6 +144,8 @@ Trait ImMessageTrait
                 'receiver_type' => ImMessageModel::TYPE_GROUP,
                 'content' => $from['content'],
             ]);
+
+            $this->updateGroupUserChatTime($relation);
 
             $this->incrGroupMsgCount($group);
 
@@ -254,6 +213,52 @@ Trait ImMessageTrait
         $this->sendChatMessage($from, $to);
     }
 
+    public function pullUnreadFriendMessages($id)
+    {
+        $user = $this->getLoginUser();
+
+        $validator = new ImUserValidator();
+
+        $friend = $validator->checkUser($id);
+
+        $userRepo = new ImUserRepo();
+
+        $messages = $userRepo->findUnreadFriendMessages($friend->id, $user->id);
+
+        if ($messages->count() == 0) {
+            return;
+        }
+
+        Gateway::$registerAddress = $this->getRegisterAddress();
+
+        foreach ($messages as $message) {
+
+            $message->update(['viewed' => 1]);
+
+            $content = kg_json_encode([
+                'type' => 'show_chat_msg',
+                'message' => [
+                    'username' => $friend->name,
+                    'avatar' => $friend->avatar,
+                    'id' => $friend->id,
+                    'fromid' => $friend->id,
+                    'content' => $message->content,
+                    'timestamp' => 1000 * $message->create_time,
+                    'type' => 'friend',
+                    'mine' => false,
+                ],
+            ]);
+
+            Gateway::sendToUid($user->id, $content);
+        }
+
+        $repo = new ImFriendUserRepo();
+
+        $friendUser = $repo->findFriendUser($user->id, $friend->id);
+
+        $friendUser->update(['msg_count' => 0]);
+    }
+
     protected function handleChatMessagePager($pager)
     {
         if ($pager->total_items == 0) {
@@ -281,6 +286,34 @@ Trait ImMessageTrait
         $pager->items = $items;
 
         return $pager;
+    }
+
+    protected function updateFriendUserChatTime(ImFriendUserModel $hisFriendUser)
+    {
+        /**
+         * 用于联系人排序，近期有联系的排上面
+         */
+        if (time() - $hisFriendUser->update_time > 15 * 60) {
+
+            $hisFriendUser->update(['update_time' => time()]);
+
+            $repo = new ImFriendUserRepo();
+
+            $myFriendUser = $repo->findFriendUser($hisFriendUser->friend_id, $hisFriendUser->user_id);
+
+            $myFriendUser->update(['update_time' => time()]);
+        }
+    }
+
+    protected function updateGroupUserChatTime(ImGroupUserModel $groupUser)
+    {
+        /**
+         * 用于联系人排序，近期有联系的排上面
+         */
+        if (time() - $groupUser->update_time > 15 * 60) {
+            $groupUser->update_time = time();
+            $groupUser->update();
+        }
     }
 
     protected function incrFriendUserMsgCount(ImFriendUserModel $friendUser)

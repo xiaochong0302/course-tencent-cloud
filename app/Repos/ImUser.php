@@ -78,6 +78,18 @@ class ImUser extends Repository
 
     /**
      * @param int $userId
+     * @return ResultsetInterface|Resultset|ImGroupUserModel[]
+     */
+    public function findGroupUsers($userId)
+    {
+        return ImGroupUserModel::query()
+            ->where('user_id = :user_id:', ['user_id' => $userId])
+            ->orderBy('update_time DESC')
+            ->execute();
+    }
+
+    /**
+     * @param int $userId
      * @return ResultsetInterface|Resultset|ImFriendUserModel[]
      */
     public function findFriendUsers($userId)

@@ -36,13 +36,13 @@ class ChapterList extends FrontendService
         }
 
         if ($user->id > 0 && $this->courseUser) {
-            $mappings = $this->getLearningMappings($course->id, $user->id, $this->courseUser->plan_id);
+            $mapping = $this->getLearningMapping($course->id, $user->id, $this->courseUser->plan_id);
             foreach ($chapters as &$chapter) {
                 foreach ($chapter['children'] as &$lesson) {
                     $lesson['me'] = [
                         'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
-                        'progress' => $mappings[$lesson['id']]['progress'] ?? 0,
-                        'duration' => $mappings[$lesson['id']]['duration'] ?? 0,
+                        'progress' => $mapping[$lesson['id']]['progress'] ?? 0,
+                        'duration' => $mapping[$lesson['id']]['duration'] ?? 0,
                     ];
                 }
             }
@@ -61,7 +61,7 @@ class ChapterList extends FrontendService
         return $chapters;
     }
 
-    protected function getLearningMappings($courseId, $userId, $planId)
+    protected function getLearningMapping($courseId, $userId, $planId)
     {
         $courseRepo = new CourseRepo();
 
@@ -71,17 +71,17 @@ class ChapterList extends FrontendService
             return [];
         }
 
-        $mappings = [];
+        $mapping = [];
 
         foreach ($userLearnings as $learning) {
-            $mappings[$learning->chapter_id] = [
+            $mapping[$learning->chapter_id] = [
                 'progress' => $learning->progress,
                 'duration' => $learning->duration,
                 'consumed' => $learning->consumed,
             ];
         }
 
-        return $mappings;
+        return $mapping;
     }
 
 }

@@ -27,13 +27,24 @@
     text-align: center;
 }
 
-.kg-login-form {
+.kg-login-wrap {
     width: 400px;
     margin: 100px auto;
 }
 
+.kg-login-form {
+    padding: 15px 10px 5px 10px;
+}
+
 .kg-login-form .layui-input-block {
     margin-left: 0;
+}
+
+.kg-login-copyright {
+    margin-top: -80px;
+    color: #999;
+    font-size: 12px;
+    text-align: center;
 }
 
 .kg-input-inline {

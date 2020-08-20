@@ -60,10 +60,10 @@ class IndexLiveList extends Cache
 
         $chapters = $chapterRepo->findByIds($chapterIds);
 
-        $chapterMappings = [];
+        $chapterMapping = [];
 
         foreach ($chapters as $chapter) {
-            $chapterMappings[$chapter->id] = $chapter;
+            $chapterMapping[$chapter->id] = $chapter;
         }
 
         $courseIds = kg_array_column($lives->toArray(), 'course_id');
@@ -72,10 +72,10 @@ class IndexLiveList extends Cache
 
         $courses = $courseRepo->findByIds($courseIds);
 
-        $courseMappings = [];
+        $courseMapping = [];
 
         foreach ($courses as $course) {
-            $courseMappings[$course->id] = $course;
+            $courseMapping[$course->id] = $course;
         }
 
         foreach ($lives as $live) {
@@ -90,8 +90,8 @@ class IndexLiveList extends Cache
                 continue;
             }
 
-            $chapter = $chapterMappings[$live->chapter_id];
-            $course = $courseMappings[$chapter->course_id];
+            $chapter = $chapterMapping[$live->chapter_id];
+            $course = $courseMapping[$chapter->course_id];
 
             $chapterInfo = [
                 'id' => $chapter->id,

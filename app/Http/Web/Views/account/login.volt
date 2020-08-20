@@ -38,3 +38,13 @@
     {{ js_include('web/js/captcha.verify.js') }}
 
 {% endblock %}
+
+{% block inline_js %}
+
+    <script>
+        if (window !== top) {
+            top.location.href = window.location.href;
+        }
+    </script>
+
+{% endblock %}

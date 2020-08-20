@@ -2,33 +2,54 @@
 
 {% block content %}
 
-    <form class="kg-login-form layui-form" method="POST" action="{{ url({'for':'admin.login'}) }}">
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
+    <div class="kg-login-wrap">
+        <div class="layui-card">
+            <div class="layui-card-header">管理登录</div>
+            <div class="layui-card-body">
+                <form class="layui-form kg-login-form" method="POST" action="{{ url({'for':'admin.login'}) }}">
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
+                        </div>
+                    </div>
+                    {% if captcha.enabled == 1 %}
+                        <div id="captcha-block" class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button id="captcha-btn" class="layui-btn layui-btn-fluid" type="button" data-app-id="{{ captcha.app_id }}">点击完成验证</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            {% set disabled = captcha.enabled ? 'disabled' : '' %}
+                            <button id="submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" {{ disabled }} lay-submit="true" lay-filter="go">立即登录</button>
+                            <input type="hidden" name="ticket">
+                            <input type="hidden" name="rand">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
-            </div>
-        </div>
-        {% if captcha.enabled == 1 %}
-            <div id="captcha-block" class="layui-form-item">
-                <div class="layui-input-block">
-                    <button id="captcha-btn" class="layui-btn layui-btn-fluid" type="button" data-app-id="{{ captcha.app_id }}">点击完成验证</button>
-                </div>
-            </div>
-        {% endif %}
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                {% set disabled = captcha.enabled ? 'disabled' : '' %}
-                <button id="submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" {{ disabled }} lay-submit="true" lay-filter="go">立即登录</button>
-                <input type="hidden" name="ticket">
-                <input type="hidden" name="rand">
-            </div>
-        </div>
-    </form>
+    </div>
+
+    <div class="kg-login-copyright">
+        Powered by <a href="{{ app_info.link }}" title="{{ app_info.name }}">{{ app_info.alias }} {{ app_info.version }}</a>
+    </div>
+
+{% endblock %}
+
+{% block inline_css %}
+
+    <style>
+        body {
+            background: #f2f2f2;
+        }
+    </style>
 
 {% endblock %}
 

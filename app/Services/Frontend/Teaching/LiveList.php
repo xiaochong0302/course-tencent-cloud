@@ -25,10 +25,10 @@ class LiveList extends FrontendService
             return [];
         }
 
-        $courseMappings = [];
+        $courseMapping = [];
 
         foreach ($courses as $course) {
-            $courseMappings[$course->id] = [
+            $courseMapping[$course->id] = [
                 'id' => $course->id,
                 'title' => $course->title,
             ];
@@ -51,7 +51,7 @@ class LiveList extends FrontendService
 
         foreach ($pager->items as $item) {
             $items[] = [
-                'course' => $courseMappings[$item->course_id],
+                'course' => $courseMapping[$item->course_id],
                 'chapter' => [
                     'id' => $item->id,
                     'title' => $item->title,

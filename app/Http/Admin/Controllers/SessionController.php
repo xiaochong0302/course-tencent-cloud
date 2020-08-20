@@ -4,6 +4,7 @@ namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Session as SessionService;
 use App\Http\Admin\Services\Setting as SettingService;
+use App\Library\AppInfo as AppInfo;
 use App\Traits\Auth as AuthTrait;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
@@ -23,9 +24,9 @@ class SessionController extends \Phalcon\Mvc\Controller
      */
     public function loginAction()
     {
-        $currentUser = $this->getCurrentUser();
+        $user = $this->getCurrentUser();
 
-        if ($currentUser->id > 0) {
+        if ($user->id > 0) {
             $this->response->redirect(['for' => 'admin.index']);
         }
 
@@ -43,11 +44,14 @@ class SessionController extends \Phalcon\Mvc\Controller
             return $this->jsonSuccess(['location' => $location]);
         }
 
+        $appInfo = new AppInfo();
+
         $settingService = new SettingService();
 
         $captcha = $settingService->getSectionSettings('captcha');
 
         $this->view->pick('public/login');
+        $this->view->setVar('app_info', $appInfo);
         $this->view->setVar('captcha', $captcha);
     }
 
@@ -56,9 +60,9 @@ class SessionController extends \Phalcon\Mvc\Controller
      */
     public function logoutAction()
     {
-        $service = new SessionService();
+        $sessionService = new SessionService();
 
-        $service->logout();
+        $sessionService->logout();
 
         $this->response->redirect(['for' => 'admin.login']);
     }

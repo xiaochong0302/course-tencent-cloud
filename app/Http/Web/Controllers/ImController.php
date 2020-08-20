@@ -29,6 +29,18 @@ class ImController extends Controller
     public function indexAction()
     {
         $this->seo->prependTitle('微聊');
+
+        $service = new ImService();
+
+        $activeGroups = $service->getActiveGroups();
+        $activeUsers = $service->getActiveUsers();
+        $newGroups = $service->getNewGroups();
+        $newUsers = $service->getNewUsers();
+
+        $this->view->setVar('active_users', $activeUsers);
+        $this->view->setVar('active_groups', $activeGroups);
+        $this->view->setVar('new_groups', $newGroups);
+        $this->view->setVar('new_users', $newUsers);
     }
 
     /**
@@ -74,7 +86,7 @@ class ImController extends Controller
     {
         $service = new ImService();
 
-        $pager = $service->getSystemMessages();
+        $pager = $service->getNotices();
 
         $this->view->pick('im/msgbox');
         $this->view->setVar('pager', $pager);
