@@ -3,7 +3,6 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Index as IndexService;
-use App\Library\AppInfo;
 use Phalcon\Mvc\View;
 
 /**
@@ -21,8 +20,7 @@ class IndexController extends Controller
 
         $topMenus = $indexService->getTopMenus();
         $leftMenus = $indexService->getLeftMenus();
-
-        $appInfo = new AppInfo();
+        $appInfo = $indexService->getAppInfo();
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('app_info', $appInfo);
@@ -35,7 +33,15 @@ class IndexController extends Controller
      */
     public function mainAction()
     {
+        $indexService = new IndexService();
 
+        $statInfo = $indexService->getStatInfo();
+        $appInfo = $indexService->getAppInfo();
+        $serverInfo = $indexService->getServerInfo();
+
+        $this->view->setVar('stat_info', $statInfo);
+        $this->view->setVar('app_info', $appInfo);
+        $this->view->setVar('server_info', $serverInfo);
     }
 
 }

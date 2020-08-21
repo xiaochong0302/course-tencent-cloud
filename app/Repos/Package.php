@@ -92,6 +92,11 @@ class Package extends Repository
             ->execute();
     }
 
+    public function countPackages()
+    {
+        return (int)PackageModel::count(['conditions' => 'deleted = 0']);
+    }
+
     public function countCourses($packageId)
     {
         return (int)CoursePackageModel::count([

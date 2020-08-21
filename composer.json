@@ -10,7 +10,6 @@
     "swiftmailer/swiftmailer": "^6.0",
     "peppeocchi/php-cron-scheduler": "^2.4",
     "yansongda/pay": "^2.8",
-    "yansongda/supports": "^2.0",
     "tencentcloud/tencentcloud-sdk-php": "3.*",
     "qcloudsms/qcloudsms_php": "0.1.*",
     "qcloud/cos-sdk-v5": "2.*",
@@ -19,12 +18,13 @@
     "whichbrowser/parser": "^2.0",
     "hightman/xunsearch": "^1.4.14",
     "aferrandini/phpqrcode": "1.0.1",
-    "xiaochong0302/ip2region": "^1.0"
+    "xiaochong0302/ip2region": "^1.0",
+    "robmorgan/phinx": "^0.12"
   },
   "require-dev": {
-    "odan/phinx-migrations-generator": "^4.6",
     "phalcon/ide-stubs": "^3.4.3",
-    "jaeger/querylist": "^4.1"
+    "jaeger/querylist": "^4.1",
+    "odan/phinx-migrations-generator": "^5.1"
   },
   "repositories": {
     "packagist": {

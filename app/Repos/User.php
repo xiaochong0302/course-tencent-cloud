@@ -125,7 +125,7 @@ class User extends Repository
 
     public function countUsers()
     {
-        return (int)UserModel::count();
+        return (int)UserModel::count(['conditions' => 'deleted = 0']);
     }
 
     public function countCourses($userId)

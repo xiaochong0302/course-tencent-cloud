@@ -2,6 +2,25 @@
     padding-bottom: 1px;
 }
 
+.layui-layout-admin .layui-body {
+    bottom: 0;
+}
+
+.layui-copyright {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    bottom: 0;
+    width: 180px;
+    padding: 10px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, .7);
+}
+
+.layui-copyright a {
+    color: rgba(255, 255, 255, .7);
+}
+
 .kg-body {
     padding: 15px;
 }
@@ -205,4 +224,20 @@ img.kg-qrcode {
     margin-top: 0;
     padding-top: 0;
     border-top: none;
+}
+
+.kg-stat-card {
+    padding: 10px 0;
+    text-align: center;
+    background: #f2f2f2;
+}
+
+.kg-stat-card .name {
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.kg-stat-card .count {
+    font-size: 20px;
+    color: rgb(0, 150, 136);
 }
