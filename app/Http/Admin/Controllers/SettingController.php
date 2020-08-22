@@ -161,11 +161,11 @@ class SettingController extends Controller
 
             $alipay = $settingService->getSectionSettings('pay.alipay');
 
-            $alipay->notify_url = $alipay->notify_url ?: kg_full_url(['for' => 'web.alipay_notify']);
+            $alipay->notify_url = $alipay->notify_url ?: kg_full_url(['for' => 'desktop.alipay_notify']);
 
             $wxpay = $settingService->getSectionSettings('pay.wxpay');
 
-            $wxpay->notify_url = $wxpay->notify_url ?: kg_full_url(['for' => 'web.wxpay_notify']);
+            $wxpay->notify_url = $wxpay->notify_url ?: kg_full_url(['for' => 'desktop.wxpay_notify']);
 
             $this->view->setVar('alipay', $alipay);
             $this->view->setVar('wxpay', $wxpay);

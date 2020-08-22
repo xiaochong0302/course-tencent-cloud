@@ -106,13 +106,13 @@ class HttpKernel extends Kernel
                 'className' => 'App\Http\Admin\Module',
                 'path' => app_path('Http/Admin/Module.php'),
             ],
-            'web' => [
-                'className' => 'App\Http\Web\Module',
-                'path' => app_path('Http/Web/Module.php'),
+            'desktop' => [
+                'className' => 'App\Http\Desktop\Module',
+                'path' => app_path('Http/Desktop/Module.php'),
             ],
-            'html5' => [
-                'className' => 'App\Http\Html5\Module',
-                'path' => app_path('Http/Html5/Module.php'),
+            'mobile' => [
+                'className' => 'App\Http\Mobile\Module',
+                'path' => app_path('Http/Mobile/Module.php'),
             ],
         ];
 

@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Library\Utils\FileInfo;
-use App\Models\UploadFile as UploadFileModel;
-use App\Repos\UploadFile as UploadFileRepo;
+use App\Models\Upload as UploadModel;
+use App\Repos\Upload as UploadRepo;
 
 class MyStorage extends Storage
 {
@@ -46,7 +46,7 @@ class MyStorage extends Storage
     /**
      * 上传封面图片
      *
-     * @return UploadFileModel|bool
+     * @return UploadModel|bool
      */
     public function uploadCoverImage()
     {
@@ -56,7 +56,7 @@ class MyStorage extends Storage
     /**
      * 上传编辑器图片
      *
-     * @return UploadFileModel|bool
+     * @return UploadModel|bool
      */
     public function uploadEditorImage()
     {
@@ -66,7 +66,7 @@ class MyStorage extends Storage
     /**
      * 上传头像图片
      *
-     * @return UploadFileModel|bool
+     * @return UploadModel|bool
      */
     public function uploadAvatarImage()
     {
@@ -76,7 +76,7 @@ class MyStorage extends Storage
     /**
      * 上传im图片
      *
-     * @return UploadFileModel|bool
+     * @return UploadModel|bool
      */
     public function uploadImImage()
     {
@@ -96,7 +96,7 @@ class MyStorage extends Storage
      *
      * @param string $prefix
      * @param string $type
-     * @return UploadFileModel|bool
+     * @return UploadModel|bool
      */
     protected function upload($prefix = '', $type = self::TYPE_IMAGE)
     {
@@ -106,7 +106,7 @@ class MyStorage extends Storage
 
             $files = $this->request->getUploadedFiles(true);
 
-            $uploadFileRepo = new UploadFileRepo();
+            $uploadRepo = new UploadRepo();
 
             foreach ($files as $file) {
 
@@ -116,9 +116,9 @@ class MyStorage extends Storage
 
                 $md5 = md5_file($file->getTempName());
 
-                $uploadFile = $uploadFileRepo->findByMd5($md5);
+                $upload = $uploadRepo->findByMd5($md5);
 
-                if ($uploadFile == false) {
+                if ($upload == false) {
 
                     $name = $this->filter->sanitize($file->getName(), ['trim', 'string']);
 
@@ -126,18 +126,18 @@ class MyStorage extends Storage
                     $keyName = $this->generateFileName($extension, $prefix);
                     $path = $this->putFile($keyName, $file->getTempName());
 
-                    $uploadFile = new UploadFileModel();
+                    $upload = new UploadModel();
 
-                    $uploadFile->name = $name;
-                    $uploadFile->mime = $file->getRealType();
-                    $uploadFile->size = $file->getSize();
-                    $uploadFile->path = $path;
-                    $uploadFile->md5 = $md5;
+                    $upload->name = $name;
+                    $upload->mime = $file->getRealType();
+                    $upload->size = $file->getSize();
+                    $upload->path = $path;
+                    $upload->md5 = $md5;
 
-                    $uploadFile->create();
+                    $upload->create();
                 }
 
-                $list[] = $uploadFile;
+                $list[] = $upload;
             }
         }
 

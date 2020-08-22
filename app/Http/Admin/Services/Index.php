@@ -2,7 +2,8 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\SiteStat;
+use App\Caches\SiteGlobalStat;
+use App\Caches\SiteTodayStat;
 use App\Library\AppInfo;
 use App\Library\Utils\ServerInfo;
 
@@ -37,9 +38,16 @@ class Index extends Service
         ];
     }
 
-    public function getStatInfo()
+    public function getGlobalStat()
     {
-        $cache = new SiteStat();
+        $cache = new SiteGlobalStat();
+
+        return $cache->get();
+    }
+
+    public function getTodayStat()
+    {
+        $cache = new SiteTodayStat();
 
         return $cache->get();
     }

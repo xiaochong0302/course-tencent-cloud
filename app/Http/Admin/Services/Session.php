@@ -24,7 +24,7 @@ class Session extends Service
         $currentUser = $this->getCurrentUser();
 
         if ($currentUser->id > 0) {
-            $this->response->redirect(['for' => 'web.index']);
+            $this->response->redirect(['for' => 'desktop.index']);
         }
 
         $post = $this->request->getPost();

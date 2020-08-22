@@ -19,8 +19,8 @@ class Order extends Model
     /**
      * 终端类型
      */
-    const CLIENT_PC = 'pc'; // pc
-    const CLIENT_H5 = 'h5'; // h5
+    const CLIENT_DESKTOP = 'desktop'; // pc
+    const CLIENT_MOBILE = 'mobile'; // mobile
     const CLIENT_APP = 'app'; // app
     const CLIENT_MINI = 'mini'; // 小程序
 
@@ -213,8 +213,8 @@ class Order extends Model
     public static function clientTypes()
     {
         return [
-            self::CLIENT_PC => 'pc',
-            self::CLIENT_H5 => 'h5',
+            self::CLIENT_DESKTOP => 'desktop',
+            self::CLIENT_MOBILE => 'mobile',
             self::CLIENT_APP => 'app',
             self::CLIENT_MINI => 'mini',
         ];

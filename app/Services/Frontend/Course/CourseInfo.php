@@ -12,7 +12,7 @@ class CourseInfo extends FrontendService
 {
 
     use CourseTrait;
-    use CourseBasicInfoTrait;
+    use BasicInfoTrait;
 
     public function handle($id)
     {

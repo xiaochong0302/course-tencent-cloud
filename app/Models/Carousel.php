@@ -11,8 +11,8 @@ class Carousel extends Model
     /**
      * 平台类型
      */
-    const PLATFORM_PC = 'pc';
-    const PLATFORM_H5 = 'h5';
+    const PLATFORM_DESKTOP = 'desktop';
+    const PLATFORM_MOBILE = 'mobile';
     const PLATFORM_APP = 'app';
     const PLATFORM_MINI = 'mini';
 
@@ -206,8 +206,8 @@ class Carousel extends Model
     public static function platformTypes()
     {
         return [
-            self::PLATFORM_PC => 'pc',
-            self::PLATFORM_H5 => 'h5',
+            self::PLATFORM_DESKTOP => 'desktop',
+            self::PLATFORM_MOBILE => 'mobile',
             self::PLATFORM_APP => 'app',
             self::PLATFORM_MINI => '小程序',
         ];

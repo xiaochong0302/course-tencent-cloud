@@ -6,29 +6,29 @@ $router = new Router(false);
 
 $router->removeExtraSlashes(true);
 
-$router->setDefaultNamespace('App\Http\Web\Controllers');
+$router->setDefaultNamespace('App\Http\Desktop\Controllers');
 
 $router->notFound([
-    'module' => 'web',
+    'module' => 'desktop',
     'controller' => 'error',
     'action' => 'show404',
 ]);
 
-$webFiles = scandir(app_path('Http/Web/Controllers'));
+$webFiles = scandir(app_path('Http/Desktop/Controllers'));
 
 foreach ($webFiles as $file) {
     if (strpos($file, 'Controller.php')) {
         $className = str_replace('Controller.php', '', $file);
-        $router->addModuleResource('web', 'App\Http\Web\Controllers\\' . $className);
+        $router->addModuleResource('desktop', 'App\Http\Desktop\Controllers\\' . $className);
     }
 }
 
-$html5Files = scandir(app_path('Http/Html5/Controllers'));
+$mobileFiles = scandir(app_path('Http/Mobile/Controllers'));
 
-foreach ($html5Files as $file) {
+foreach ($mobileFiles as $file) {
     if (strpos($file, 'Controller.php')) {
         $className = str_replace('Controller.php', '', $file);
-        $router->addModuleResource('html5', 'App\Http\Html5\Controllers\\' . $className);
+        $router->addModuleResource('mobile', 'App\Http\Mobile\Controllers\\' . $className);
     }
 }
 

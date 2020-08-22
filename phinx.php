@@ -2,7 +2,7 @@
 
 $config = require __DIR__ . '/config/config.php';
 
-$options = [
+return [
 
     'version_order' => 'creation',
 
@@ -26,11 +26,6 @@ $options = [
             'pass' => $config['db']['password'],
             'charset' => $config['db']['charset'],
         ],
-
     ],
 
 ];
-
-print_r($options);
-
-return $options;

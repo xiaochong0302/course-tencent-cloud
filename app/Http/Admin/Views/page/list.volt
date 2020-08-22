@@ -31,7 +31,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set show_url = url({'for':'web.page.show','id':item.id}) %}
+            {% set show_url = url({'for':'desktop.page.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.page.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.page.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.page.delete','id':item.id}) %}

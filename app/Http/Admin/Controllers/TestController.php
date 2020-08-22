@@ -67,7 +67,7 @@ class TestController extends Controller
         $pushUrl = $liveService->getPushUrl($streamName);
 
         $qrcode = $this->url->get(
-            ['for' => 'web.qrcode'],
+            ['for' => 'desktop.qrcode'],
             ['text' => urlencode($pushUrl)]
         );
 

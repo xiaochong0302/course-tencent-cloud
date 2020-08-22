@@ -35,13 +35,25 @@ class IndexController extends Controller
     {
         $indexService = new IndexService();
 
-        $statInfo = $indexService->getStatInfo();
+        $globalStat = $indexService->getGlobalStat();
+        $todayStat = $indexService->getTodayStat();
         $appInfo = $indexService->getAppInfo();
         $serverInfo = $indexService->getServerInfo();
 
-        $this->view->setVar('stat_info', $statInfo);
+        $this->view->setVar('global_stat', $globalStat);
+        $this->view->setVar('today_stat', $todayStat);
         $this->view->setVar('app_info', $appInfo);
         $this->view->setVar('server_info', $serverInfo);
+    }
+
+    /**
+     * @Get("/phpinfo", name="admin.phpinfo")
+     */
+    public function phpinfoAction()
+    {
+        echo phpinfo();
+
+        exit;
     }
 
 }
