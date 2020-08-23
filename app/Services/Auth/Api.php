@@ -2,56 +2,41 @@
 
 namespace App\Services\Auth;
 
-use App\Library\Cache\Backend\Redis as RedisCache;
-use App\Models\AccessToken as AccessTokenModel;
-use App\Models\RefreshToken as RefreshTokenModel;
 use App\Models\User as UserModel;
 use App\Services\Auth as AuthService;
+use Lcobucci\JWT\Builder as JwtBuilder;
+use Lcobucci\JWT\Parser as JwtParser;
+use Lcobucci\JWT\Signer\Hmac\Sha256 as JwtSingerSha256;
+use Lcobucci\JWT\Signer\Key as JwtSingerKey;
+use Lcobucci\JWT\ValidationData as JwtValidationData;
 
 class Api extends AuthService
 {
 
     public function saveAuthInfo(UserModel $user)
     {
-        $config = $this->getDI()->get('config');
+        $builder = new JwtBuilder();
 
-        $accessToken = new AccessTokenModel();
-        $accessToken->user_id = $user->id;
-        $accessToken->expiry_time = time() + $config->access_token->lifetime;
-        $accessToken->create();
+        $config = $this->getConfig();
 
-        $refreshToken = new RefreshTokenModel();
-        $refreshToken->user_id = $user->id;
-        $refreshToken->expiry_time = time() + $config->refresh_token->lifetime;
-        $refreshToken->create();
+        $expireTime = time() + $config->jwt->lifetime;
 
-        $authInfo = [
-            'id' => $user->id,
-            'name' => $user->name,
-        ];
+        $builder->expiresAt($expireTime);
+        $builder->withClaim('user_id', $user->id);
+        $builder->withClaim('user_name', $user->name);
 
-        $cache = $this->getCache();
+        $singer = new JwtSingerSha256();
 
-        $key = $this->getCacheKey($accessToken->id);
+        $key = new JwtSingerKey($config->jwt->key);
 
-        $cache->save($key, $authInfo, $config->access_token->lifetime);
+        $token = $builder->getToken($singer, $key);
 
-        return [
-            'access_token' => $accessToken->id,
-            'refresh_token' => $refreshToken->id,
-            'expiry_time' => $accessToken->expiry_time,
-        ];
+        return $token->__toString();
     }
 
     public function clearAuthInfo()
     {
-        $authToken = $this->getAuthToken();
 
-        $cache = $this->getCache();
-
-        $key = $this->getCacheKey($authToken);
-
-        $cache->delete($key);
     }
 
     public function getAuthInfo()
@@ -60,31 +45,40 @@ class Api extends AuthService
 
         if (!$authToken) return null;
 
-        $cache = $this->getCache();
+        $config = $this->getConfig();
 
-        $key = $this->getCacheKey($authToken);
+        $parser = new JWTParser();
 
-        $authInfo = $cache->get($key);
+        $token = $parser->parse($authToken);
 
-        return $authInfo ?: null;
-    }
+        $data = new JWTValidationData(time(), $config->jwt->leeway);
 
-    /**
-     * @return RedisCache
-     */
-    protected function getCache()
-    {
-        return $this->getDI()->get('cache');
+        if (!$token->validate($data)) {
+            return null;
+        }
+
+        $singer = new JwtSingerSha256();
+
+        if (!$token->verify($singer, $config->jwt->key)) {
+            return null;
+        }
+
+        return [
+            'id' => $token->getClaim('user_id'),
+            'name' => $token->getClaim('user_name'),
+        ];
     }
 
     protected function getAuthToken()
     {
-        return $this->request->getHeader('Authorization');
+        $authorization = $this->request->getHeader('Authorization');
+
+        return trim(str_ireplace('Bearer', '', $authorization));
     }
 
-    protected function getCacheKey($token)
+    protected function getConfig()
     {
-        return "access_token:{$token}";
+        return $this->getDI()->get('config');
     }
 
 }

@@ -71,13 +71,6 @@ class Review extends Model
     public $rating3;
 
     /**
-     * 点赞数量
-     *
-     * @var int
-     */
-    public $like_count;
-
-    /**
      * 匿名标识
      *
      * @var int
@@ -97,6 +90,13 @@ class Review extends Model
      * @var int
      */
     public $deleted;
+
+    /**
+     * 点赞数量
+     *
+     * @var int
+     */
+    public $like_count;
 
     /**
      * 创建时间

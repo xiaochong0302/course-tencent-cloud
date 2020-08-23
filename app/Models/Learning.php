@@ -70,6 +70,13 @@ class Learning extends Model
     public $position;
 
     /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
+
+    /**
      * 客户端类型
      *
      * @var string
@@ -82,13 +89,6 @@ class Learning extends Model
      * @var string
      */
     public $client_ip;
-
-    /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted;
 
     /**
      * 活跃时间

@@ -112,6 +112,20 @@ class Chapter extends Model
     public $attrs;
 
     /**
+     * 发布标识
+     *
+     * @var int
+     */
+    public $published;
+
+    /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
+
+    /**
      * 课时数
      *
      * @var int
@@ -138,20 +152,6 @@ class Chapter extends Model
      * @var int
      */
     public $like_count;
-
-    /**
-     * 发布标识
-     *
-     * @var int
-     */
-    public $published;
-
-    /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted;
 
     /**
      * 创建时间

@@ -166,6 +166,20 @@ class Course extends Model
     public $attrs;
 
     /**
+     * 发布标识
+     *
+     * @var int
+     */
+    public $published;
+
+    /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
+
+    /**
      * 学员数
      *
      * @var int
@@ -206,20 +220,6 @@ class Course extends Model
      * @var int
      */
     public $favorite_count;
-
-    /**
-     * 发布标识
-     *
-     * @var int
-     */
-    public $published;
-
-    /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted;
 
     /**
      * 创建时间

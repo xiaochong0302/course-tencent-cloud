@@ -8,9 +8,9 @@ class Area extends Model
     /**
      * 区域类型
      */
-    const TYPE_PROVINCE = 'province';
-    const TYPE_CITY = 'city';
-    const TYPE_COUNTY = 'county';
+    const TYPE_PROVINCE = 1; // 省
+    const TYPE_CITY = 2; // 市
+    const TYPE_COUNTY = 3; // 区
 
     /**
      * 主键
@@ -22,7 +22,7 @@ class Area extends Model
     /**
      * 类型
      *
-     * @var string
+     * @var int
      */
     public $type;
 

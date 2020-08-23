@@ -61,9 +61,13 @@
 
 .kg-login-copyright {
     margin-top: -80px;
-    color: #999;
+    color: #666;
     font-size: 12px;
     text-align: center;
+}
+
+.kg-login-copyright a {
+    color: #666;
 }
 
 .kg-input-inline {

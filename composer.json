@@ -19,7 +19,8 @@
     "hightman/xunsearch": "^1.4.14",
     "aferrandini/phpqrcode": "1.0.1",
     "xiaochong0302/ip2region": "^1.0",
-    "robmorgan/phinx": "^0.12"
+    "robmorgan/phinx": "^0.12",
+    "lcobucci/jwt": "^3.3"
   },
   "require-dev": {
     "phalcon/ide-stubs": "^3.4.3",

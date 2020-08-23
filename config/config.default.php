@@ -103,14 +103,19 @@ $config['session']['db'] = 0;
 $config['session']['lifetime'] = 24 * 3600;
 
 /**
- * 访问令牌有效期（秒）
+ * 加密密钥
  */
-$config['access_token']['lifetime'] = 2 * 3600;
+$config['jwt']['key'] = 'fu6ckEc8pv8k5K7m';
 
 /**
- * 刷新令牌有效期（秒)
+ * 有效期（秒)
  */
-$config['refresh_token']['lifetime'] = 30 * 86400;
+$config['jwt']['lifetime'] = 7 * 86400;
+
+/**
+ * 回旋时间（秒)
+ */
+$config['jwt']['leeway'] = 30;
 
 /**
  * 限流开启

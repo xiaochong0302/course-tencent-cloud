@@ -1206,12 +1206,18 @@ body {
     border-radius: 100px;
 }
 
-.user-profile .icon-vip {
-    color: orange;
+.user-profile .vip {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    height: 16px;
+    padding: 0 3px;
+    font-size: 10px;
 }
 
 .user-profile .info {
     float: left;
+    padding-top: 10px;
 }
 
 .user-profile .info h3 {

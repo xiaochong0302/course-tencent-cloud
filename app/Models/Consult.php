@@ -57,13 +57,6 @@ class Consult extends Model
     public $answer;
 
     /**
-     * 赞成数
-     *
-     * @var int
-     */
-    public $like_count;
-
-    /**
      * 优先级
      *
      * @var int
@@ -90,6 +83,13 @@ class Consult extends Model
      * @var int
      */
     public $deleted;
+
+    /**
+     * 赞成数
+     *
+     * @var int
+     */
+    public $like_count;
 
     /**
      * 回复时间

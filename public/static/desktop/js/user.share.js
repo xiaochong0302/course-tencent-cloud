@@ -15,12 +15,12 @@ layui.use(['jquery', 'helper'], function () {
     });
 
     $('.icon-qq').on('click', function () {
-        var title = '推荐一门好课：' + myShare.title + '，快来和我一起学习吧！';
+        var title = '推荐一个有趣的朋友：' + myShare.title + '，快来和Ta一起学习吧！';
         helper.qqShare(title, myShare.url, myShare.pic);
     });
 
     $('.icon-weibo').on('click', function () {
-        var title = '推荐一门好课：' + myShare.title + '，快来和我一起学习吧！';
+        var title = '推荐一个有趣的朋友：' + myShare.title + '，快来和Ta一起学习吧！';
         helper.weiboShare(title, myShare.url, myShare.pic);
     });
 

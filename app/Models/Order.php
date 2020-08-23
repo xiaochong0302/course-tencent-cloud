@@ -166,8 +166,6 @@ class Order extends Model
 
         if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
-        } else {
-            $this->item_info = ''; // text类型不会自动填充默认值
         }
     }
 
