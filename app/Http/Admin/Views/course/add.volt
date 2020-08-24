@@ -9,9 +9,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="model" value="vod" title="点播" lay-filter="model" checked="checked">
-                <input type="radio" name="model" value="live" title="直播" lay-filter="model">
-                <input type="radio" name="model" value="read" title="图文" lay-filter="model">
+                <input type="radio" name="model" value="1" title="点播" lay-filter="model" checked="checked">
+                <input type="radio" name="model" value="2" title="直播" lay-filter="model">
+                <input type="radio" name="model" value="3" title="图文" lay-filter="model">
             </div>
         </div>
         <div class="layui-form-item">
@@ -47,9 +47,9 @@
             var form = layui.form;
 
             var modelTips = {
-                vod: '通过音视频呈现课程内容，内容可视化，有图像有声音，适合大部分场景',
-                live: '通过直播呈现课程内容，交互性强，适合需要交互反馈、情绪表达的场景',
-                read: '通过图文呈现课程内容，简单直接，适合撰写文档、书籍、教程的场景'
+                '1': '通过音视频呈现课程内容，内容可视化，有图像有声音，适合大部分场景',
+                '2': '通过直播呈现课程内容，交互性强，适合需要交互反馈、情绪表达的场景',
+                '3': '通过图文呈现课程内容，简单直接，适合撰写文档、书籍、教程的场景'
             };
 
             var modelTipsBlock = $('#model-tips');
@@ -58,8 +58,7 @@
                 modelTipsBlock.html(modelTips[data.value]);
             });
 
-            modelTipsBlock.html(modelTips.vod);
-
+            modelTipsBlock.html(modelTips['1']);
         });
 
     </script>

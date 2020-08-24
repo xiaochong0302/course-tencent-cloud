@@ -3,11 +3,11 @@
 {% block content %}
 
     {%- macro content_title(model) %}
-        {% if model == 'vod' %}
+        {% if model == '1' %}
             点播信息
-        {% elseif model == 'live' %}
+        {% elseif model == '2' %}
             直播信息
-        {% elseif model == 'read' %}
+        {% elseif model == '3' %}
             图文信息
         {% endif %}
     {%- endmacro %}
@@ -26,11 +26,11 @@
                 {{ partial('chapter/edit_lesson_basic') }}
             </div>
             <div class="layui-tab-item">
-                {% if course.model == 'vod' %}
+                {% if course.model == '1' %}
                     {{ partial('chapter/edit_lesson_vod') }}
-                {% elseif course.model == 'live' %}
+                {% elseif course.model == '2' %}
                     {{ partial('chapter/edit_lesson_live') }}
-                {% elseif course.model == 'read' %}
+                {% elseif course.model == '3' %}
                     {{ partial('chapter/edit_lesson_read') }}
                 {% endif %}
             </div>
@@ -41,7 +41,7 @@
 
 {% block link_css %}
 
-    {% if chapter.model == 'read' %}
+    {% if chapter.model == '3' %}
         {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
     {% endif %}
 
@@ -49,12 +49,12 @@
 
 {% block include_js %}
 
-    {% if chapter.model == 'read' %}
+    {% if chapter.model == '3' %}
 
         {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js', false) }}
         {{ js_include('admin/js/vditor.js') }}
 
-    {% elseif chapter.model == 'vod' %}
+    {% elseif chapter.model == '1' %}
 
         {{ js_include('lib/vod-js-sdk-v6.min.js') }}
         {{ js_include('lib/clipboard.min.js') }}

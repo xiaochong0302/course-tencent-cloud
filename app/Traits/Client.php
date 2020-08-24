@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Client as ClientModel;
 use Phalcon\Di;
 use Phalcon\Http\Request;
 use WhichBrowser\Parser as BrowserParser;
@@ -30,10 +31,10 @@ trait Client
 
         $result = new BrowserParser($userAgent);
 
-        $clientType = 'desktop';
+        $clientType = ClientModel::TYPE_DESKTOP;
 
         if ($result->isMobile()) {
-            $clientType = 'mobile';
+            $clientType = ClientModel::TYPE_MOBILE;
         }
 
         return $clientType;

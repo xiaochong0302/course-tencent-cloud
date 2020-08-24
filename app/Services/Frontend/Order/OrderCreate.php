@@ -11,11 +11,14 @@ use App\Models\Vip as VipModel;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Package as PackageRepo;
 use App\Services\Frontend\Service as FrontendService;
+use App\Traits\Client as ClientTrait;
 use App\Validators\Order as OrderValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
 class OrderCreate extends FrontendService
 {
+
+    use ClientTrait;
 
     public function handle()
     {
@@ -91,6 +94,8 @@ class OrderCreate extends FrontendService
         $order->item_id = $course->id;
         $order->item_type = OrderModel::ITEM_COURSE;
         $order->item_info = $itemInfo;
+        $order->client_type = $this->getClientType();
+        $order->client_ip = $this->getClientIp();
         $order->amount = $amount;
         $order->subject = "课程 - {$course->title}";
 
@@ -127,6 +132,8 @@ class OrderCreate extends FrontendService
         $order->item_type = OrderModel::ITEM_PACKAGE;
         $order->item_info = $itemInfo;
         $order->amount = $amount;
+        $order->client_type = $this->getClientType();
+        $order->client_ip = $this->getClientIp();
         $order->subject = "套餐 - {$package->title}";
 
         $order->create();
@@ -155,6 +162,8 @@ class OrderCreate extends FrontendService
         $order->item_id = $vip->id;
         $order->item_type = OrderModel::ITEM_VIP;
         $order->item_info = $itemInfo;
+        $order->client_type = $this->getClientType();
+        $order->client_ip = $this->getClientIp();
         $order->amount = $vip->price;
         $order->subject = "会员 - 会员服务（{$vip->title}）";
 
@@ -180,6 +189,8 @@ class OrderCreate extends FrontendService
         $order->item_id = "{$course->id}-{$reward->id}";
         $order->item_type = OrderModel::ITEM_REWARD;
         $order->item_info = $itemInfo;
+        $order->client_type = $this->getClientType();
+        $order->client_ip = $this->getClientIp();
         $order->amount = $reward->price;
         $order->subject = "赞赏 - {$course->title}";
 

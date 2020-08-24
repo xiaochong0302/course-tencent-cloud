@@ -21,9 +21,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="type" value="course" title="课程" disabled="disabled">
-                <input type="radio" name="type" value="chat" title="聊天" checked="checked">
-                <input type="radio" name="type" value="staff" title="员工">
+                <input type="radio" name="type" value="1" title="课程" disabled="disabled">
+                <input type="radio" name="type" value="2" title="聊天" checked="checked">
+                <input type="radio" name="type" value="3" title="员工">
             </div>
         </div>
         <div class="layui-form-item">

@@ -6,14 +6,6 @@ class Learning extends Model
 {
 
     /**
-     * 客户端类型
-     */
-    const CLIENT_DESKTOP = 'desktop';
-    const CLIENT_MOBILE = 'mobile';
-    const CLIENT_APP = 'app';
-    const CLIENT_MINI = 'mini';
-
-    /**
      * 主键编号
      *
      * @var int
@@ -79,7 +71,7 @@ class Learning extends Model
     /**
      * 客户端类型
      *
-     * @var string
+     * @var int
      */
     public $client_type;
 

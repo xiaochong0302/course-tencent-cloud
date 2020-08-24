@@ -34,7 +34,7 @@ class Pay extends Listener
 
             $order = $orderRepo->findById($trade->order_id);
 
-            $order->status = OrderModel::STATUS_FINISHED;
+            $order->status = OrderModel::STATUS_SHIPPING;
 
             if ($order->update() === false) {
                 throw new \RuntimeException('Update Order Status Failed');

@@ -54,16 +54,13 @@ class OrderTask extends Task
                     case OrderModel::ITEM_VIP:
                         $this->handleVipOrder($order);
                         break;
-                    case OrderModel::ITEM_REWARD:
-                        $this->handleRewardOrder($order);
-                        break;
                 }
+
+                $this->finishOrder($order);
 
                 $task->status = TaskModel::STATUS_FINISHED;
 
                 $task->update();
-
-                $this->handleOrderNotice($order);
 
             } catch (\Exception $e) {
 
@@ -76,7 +73,7 @@ class OrderTask extends Task
 
                 $task->update();
 
-                $logger->info('Order Task Exception ' . kg_json_encode([
+                $logger->info('Order Process Exception ' . kg_json_encode([
                         'line' => $e->getLine(),
                         'code' => $e->getCode(),
                         'message' => $e->getMessage(),
@@ -84,12 +81,20 @@ class OrderTask extends Task
                     ]));
             }
 
-            /**
-             * 任务失败，申请退款
-             */
-            if ($task->status == TaskModel::STATUS_FAILED) {
+            if ($task->status == TaskModel::STATUS_FINISHED) {
+                $this->handleOrderNotice($order);
+            } elseif ($task->status == TaskModel::STATUS_FAILED) {
                 $this->handleOrderRefund($order);
             }
+        }
+    }
+
+    protected function finishOrder(OrderModel $order)
+    {
+        $order->status = OrderModel::STATUS_FINISHED;
+
+        if ($order->update() === false) {
+            throw new \RuntimeException('Finish Order Failed');
         }
     }
 
@@ -101,7 +106,7 @@ class OrderTask extends Task
         $itemInfo = $order->item_info;
 
         $data = [
-            'user_id' => $order->user_id,
+            'user_id' => $order->owner_id,
             'course_id' => $order->item_id,
             'expiry_time' => $itemInfo['course']['study_expiry_time'],
             'role_type' => CourseUserModel::ROLE_STUDENT,
@@ -111,7 +116,7 @@ class OrderTask extends Task
         $courseUser = new CourseUserModel();
 
         if ($courseUser->create($data) === false) {
-            throw new \RuntimeException('Create CourseQuery User Failed');
+            throw new \RuntimeException('Create Course User Failed');
         }
     }
 
@@ -125,7 +130,7 @@ class OrderTask extends Task
         foreach ($itemInfo['courses'] as $course) {
 
             $data = [
-                'user_id' => $order->user_id,
+                'user_id' => $order->owner_id,
                 'course_id' => $course['id'],
                 'expiry_time' => $course['study_expiry_time'],
                 'role_type' => CourseUserModel::ROLE_STUDENT,
@@ -144,7 +149,7 @@ class OrderTask extends Task
     {
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($order->user_id);
+        $user = $userRepo->findById($order->owner_id);
 
         /**
          * @var array $itemInfo
@@ -156,11 +161,6 @@ class OrderTask extends Task
         if ($user->update() === false) {
             throw new \RuntimeException('Update Vip Expiry Failed');
         }
-    }
-
-    protected function handleRewardOrder(OrderModel $order)
-    {
-
     }
 
     protected function handleOrderNotice(OrderModel $order)
@@ -180,11 +180,11 @@ class OrderTask extends Task
 
         $refund->subject = $order->subject;
         $refund->amount = $order->amount;
-        $refund->apply_note = '开通服务失败，自动退款';
-        $refund->review_note = '自动操作';
         $refund->user_id = $order->user_id;
         $refund->order_id = $order->id;
         $refund->trade_id = $trade->id;
+        $refund->apply_note = '开通服务失败，自动退款';
+        $refund->review_note = '自动操作';
 
         $refund->create();
     }

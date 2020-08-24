@@ -91,6 +91,7 @@ class ConsoleKernel extends Kernel
         ];
 
         foreach ($providers as $provider) {
+
             /**
              * @var AppProvider $service
              */

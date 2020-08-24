@@ -33,8 +33,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="type" value="course" title="课程">
-                <input type="radio" name="type" value="chat" title="聊天">
+                <input type="radio" name="type" value="1" title="课程">
+                <input type="radio" name="type" value="2" title="聊天">
+                <input type="radio" name="type" value="3" title="职工">
             </div>
         </div>
         <div class="layui-form-item">

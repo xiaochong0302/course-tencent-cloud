@@ -8,8 +8,8 @@ class Task extends Model
     /**
      * 任务类型
      */
-    const TYPE_REFUND = 'refund'; // 退款
-    const TYPE_ORDER = 'order'; // 下单
+    const TYPE_ORDER = 1; // 下单
+    const TYPE_REFUND = 2; // 退款
 
     /**
      * 优先级
@@ -21,10 +21,10 @@ class Task extends Model
     /**
      * 状态类型
      */
-    const STATUS_PENDING = 'pending'; // 待定
-    const STATUS_FINISHED = 'finished'; // 完成
-    const STATUS_CANCELED = 'canceled'; // 取消
-    const STATUS_FAILED = 'failed'; // 失败
+    const STATUS_PENDING = 1; // 待定
+    const STATUS_FINISHED = 2; // 完成
+    const STATUS_CANCELED = 3; // 取消
+    const STATUS_FAILED = 4; // 失败
 
     /**
      * 主键编号

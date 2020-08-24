@@ -10,27 +10,20 @@ class Order extends Model
     /**
      * 条目类型
      */
-    const ITEM_COURSE = 'course'; // 课程
-    const ITEM_PACKAGE = 'package'; // 套餐
-    const ITEM_REWARD = 'reward'; // 赞赏
-    const ITEM_VIP = 'vip'; // 会员
-    const ITEM_TEST = 'test'; // 测试
-
-    /**
-     * 终端类型
-     */
-    const CLIENT_DESKTOP = 'desktop'; // pc
-    const CLIENT_MOBILE = 'mobile'; // mobile
-    const CLIENT_APP = 'app'; // app
-    const CLIENT_MINI = 'mini'; // 小程序
+    const ITEM_COURSE = 1; // 课程
+    const ITEM_PACKAGE = 2; // 套餐
+    const ITEM_REWARD = 3; // 赞赏
+    const ITEM_VIP = 4; // 会员
+    const ITEM_TEST = 99; // 测试
 
     /**
      * 状态类型
      */
-    const STATUS_PENDING = 'pending'; // 待支付
-    const STATUS_FINISHED = 'finished'; // 已完成
-    const STATUS_CLOSED = 'closed'; // 已关闭
-    const STATUS_REFUNDED = 'refunded'; // 已退款
+    const STATUS_PENDING = 1; // 待支付
+    const STATUS_SHIPPING = 2; // 发货中
+    const STATUS_FINISHED = 3; // 已完成
+    const STATUS_CLOSED = 4; // 已关闭
+    const STATUS_REFUNDED = 5; // 已退款
 
     /**
      * 主键编号
@@ -61,6 +54,20 @@ class Order extends Model
     public $amount;
 
     /**
+     * 状态类型
+     *
+     * @var string
+     */
+    public $status;
+
+    /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
+
+    /**
      * 用户编号
      *
      * @var int
@@ -89,16 +96,9 @@ class Order extends Model
     public $item_info;
 
     /**
-     * 优惠信息
-     *
-     * @var string|array
-     */
-    public $coupon_info;
-
-    /**
      * 终端类型
      *
-     * @var string
+     * @var int
      */
     public $client_type;
 
@@ -108,20 +108,6 @@ class Order extends Model
      * @var string
      */
     public $client_ip;
-
-    /**
-     * 状态类型
-     *
-     * @var string
-     */
-    public $status;
-
-    /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted;
 
     /**
      * 创建时间
@@ -158,11 +144,11 @@ class Order extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
+        $this->sn = date('YmdHis') . rand(1000, 9999);
 
         $this->status = self::STATUS_PENDING;
 
-        $this->sn = date('YmdHis') . rand(1000, 9999);
+        $this->create_time = time();
 
         if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
@@ -205,16 +191,6 @@ class Order extends Model
             self::ITEM_REWARD => '赞赏',
             self::ITEM_VIP => '会员',
             self::ITEM_TEST => '测试',
-        ];
-    }
-
-    public static function clientTypes()
-    {
-        return [
-            self::CLIENT_DESKTOP => 'desktop',
-            self::CLIENT_MOBILE => 'mobile',
-            self::CLIENT_APP => 'app',
-            self::CLIENT_MINI => 'mini',
         ];
     }
 

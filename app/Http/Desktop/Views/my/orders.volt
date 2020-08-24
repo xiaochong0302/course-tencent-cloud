@@ -4,8 +4,8 @@
 
     {{ partial('macros/order') }}
 
-    {% set status_types = {'all':'全部','pending':'待支付','finished':'已完成','closed':'已关闭','refunded':'已退款'} %}
-    {% set status = request.get('status','trim','all') %}
+    {% set status_types = {'0':'全部','1':'待支付','3':'已完成','4':'已关闭','5':'已退款'} %}
+    {% set status = request.get('status','trim','0') %}
 
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
@@ -14,7 +14,7 @@
                 <span class="title">我的订单</span>
                 {% for key,value in status_types %}
                     {% set class = (status == key) ? 'layui-btn layui-btn-xs' : 'none' %}
-                    {% set url = (key == 'all') ? url({'for':'desktop.my.orders'}) : url({'for':'desktop.my.orders'},{'status':key}) %}
+                    {% set url = (key == '0') ? url({'for':'desktop.my.orders'}) : url({'for':'desktop.my.orders'},{'status':key}) %}
                     <a class="{{ class }}" href="{{ url }}">{{ value }}</a>
                 {% endfor %}
             </div>

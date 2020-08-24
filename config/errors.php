@@ -256,6 +256,7 @@ $error['carousel.invalid_publish_status'] = '无效的发布状态';
  * 订单相关
  */
 $error['order.not_found'] = '订单不存在';
+$error['order.invalid_status'] = '无效的状态类型';
 $error['order.item_not_found'] = '商品不存在';
 $error['order.trade_expired'] = '交易已过期';
 $error['order.has_bought_course'] = '已经购买过该课程';
@@ -271,6 +272,7 @@ $error['order.refund_apply_existed'] = '退款申请已经存在';
 $error['trade.not_found'] = '交易不存在';
 $error['trade.create_failed'] = '创建交易失败';
 $error['trade.invalid_channel'] = '无效的平台类型';
+$error['trade.invalid_status'] = '无效的状态类型';
 $error['trade.close_not_allowed'] = '当前不允许关闭交易';
 $error['trade.refund_not_allowed'] = '当前不允许交易退款';
 $error['trade.refund_apply_existed'] = '退款申请已经存在，请等待处理结果';
@@ -285,7 +287,7 @@ $error['refund.review_note_too_short'] = '审核备注太短（少于2个字符�
 $error['refund.review_note_too_long'] = '审核备注太长（多于255个字符）';
 $error['refund.cancel_not_allowed'] = '当前不允许取消退款';
 $error['refund.review_not_allowed'] = '当前不允许审核退款';
-$error['refund.invalid_review_status'] = '无效的审核状态';
+$error['refund.invalid_status'] = '无效的状态类型';
 
 /**
  * 角色相关

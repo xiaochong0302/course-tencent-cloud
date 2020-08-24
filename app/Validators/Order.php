@@ -119,6 +119,17 @@ class Order extends Validator
         return $value;
     }
 
+    public function checkStatus($status)
+    {
+        $list = OrderModel::statusTypes();
+
+        if (!array_key_exists($status, $list)) {
+            throw new BadRequestException('order.invalid_status');
+        }
+
+        return $status;
+    }
+
     public function checkIfAllowCancel(OrderModel $order)
     {
         if ($order->status != OrderModel::STATUS_PENDING) {

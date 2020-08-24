@@ -21,11 +21,11 @@
         <div class="layui-form-item">
             <label class="layui-form-label">退款状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="pending" title="待处理">
-                <input type="radio" name="status" value="canceled" title="已取消">
-                <input type="radio" name="status" value="approved" title="已审核">
-                <input type="radio" name="status" value="refused" title="已拒绝">
-                <input type="radio" name="status" value="finished" title="已完成">
+                <input type="radio" name="status" value="1" title="待处理">
+                <input type="radio" name="status" value="2" title="已取消">
+                <input type="radio" name="status" value="3" title="已审核">
+                <input type="radio" name="status" value="4" title="已拒绝">
+                <input type="radio" name="status" value="5" title="已完成">
             </div>
         </div>
         <div class="layui-form-item">

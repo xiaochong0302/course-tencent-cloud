@@ -30,10 +30,10 @@
     <div class="layui-form-item">
         <label class="layui-form-label">难度</label>
         <div class="layui-input-block">
-            <input type="radio" name="level" value="entry" title="入门" {% if course.level == 'entry' %}checked{% endif %}>
-            <input type="radio" name="level" value="junior" title="初级" {% if course.level == 'junior' %}checked{% endif %}>
-            <input type="radio" name="level" value="medium" title="中级" {% if course.level == 'medium' %}checked{% endif %}>
-            <input type="radio" name="level" value="senior" title="高级" {% if course.level == 'senior' %}checked{% endif %}>
+            <input type="radio" name="level" value="1" title="入门" {% if course.level == '1' %}checked{% endif %}>
+            <input type="radio" name="level" value="2" title="初级" {% if course.level == '2' %}checked{% endif %}>
+            <input type="radio" name="level" value="3" title="中级" {% if course.level == '3' %}checked{% endif %}>
+            <input type="radio" name="level" value="4" title="高级" {% if course.level == '4' %}checked{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">

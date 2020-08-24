@@ -188,11 +188,11 @@ class Chapter extends Model
     {
         $this->create_time = time();
 
+        $course = Course::findFirst($this->course_id);
+
+        $this->model = $course->model;
+
         if ($this->parent_id > 0) {
-
-            $course = Course::findFirst($this->course_id);
-
-            $this->model = $course->model;
 
             $attrs = [];
 

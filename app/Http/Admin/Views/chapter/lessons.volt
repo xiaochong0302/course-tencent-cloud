@@ -21,11 +21,11 @@
         </div>
     </div>
 
-    {% if course.model == 'vod' %}
+    {% if course.model == '1' %}
         {{ partial('chapter/lessons_vod') }}
-    {% elseif course.model == 'live' %}
+    {% elseif course.model == '2' %}
         {{ partial('chapter/lessons_live') }}
-    {% elseif course.model == 'read' %}
+    {% elseif course.model == '3' %}
         {{ partial('chapter/lessons_read') }}
     {% endif %}
 

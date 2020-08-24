@@ -10,16 +10,16 @@ class Trade extends Model
     /**
      * 平台类型
      */
-    const CHANNEL_ALIPAY = 'alipay'; // 支付宝
-    const CHANNEL_WXPAY = 'wxpay'; // 微信
+    const CHANNEL_ALIPAY = 1; // 支付宝
+    const CHANNEL_WXPAY = 2; // 微信
 
     /**
      * 状态类型
      */
-    const STATUS_PENDING = 'pending'; // 待支付
-    const STATUS_FINISHED = 'finished'; // 已完成
-    const STATUS_CLOSED = 'closed'; // 已关闭
-    const STATUS_REFUNDED = 'refunded'; // 已退款
+    const STATUS_PENDING = 1; // 待支付
+    const STATUS_FINISHED = 2; // 已完成
+    const STATUS_CLOSED = 3; // 已关闭
+    const STATUS_REFUNDED = 4; // 已退款
 
     /**
      * 主键编号

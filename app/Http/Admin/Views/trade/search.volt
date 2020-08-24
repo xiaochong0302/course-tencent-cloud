@@ -21,17 +21,17 @@
         <div class="layui-form-item">
             <label class="layui-form-label">交易平台</label>
             <div class="layui-input-block">
-                <input type="radio" name="channel" value="alipay" title="支付宝">
-                <input type="radio" name="channel" value="wxpay" title="微信">
+                <input type="radio" name="channel" value="1" title="支付宝">
+                <input type="radio" name="channel" value="2" title="微信">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">交易状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="pending" title="待支付">
-                <input type="radio" name="status" value="finished" title="已完成">
-                <input type="radio" name="status" value="closed" title="已关闭">
-                <input type="radio" name="status" value="refunded" title="已退款">
+                <input type="radio" name="status" value="1" title="待支付">
+                <input type="radio" name="status" value="2" title="已完成">
+                <input type="radio" name="status" value="3" title="已关闭">
+                <input type="radio" name="status" value="4" title="已退款">
             </div>
         </div>
         <div class="layui-form-item">

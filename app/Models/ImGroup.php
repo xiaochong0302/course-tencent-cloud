@@ -12,9 +12,9 @@ class ImGroup extends Model
     /**
      * 群组类型
      */
-    const TYPE_COURSE = 'course'; // 课程
-    const TYPE_CHAT = 'chat'; // 聊天
-    const TYPE_STAFF = 'staff'; // 员工
+    const TYPE_COURSE = 1; // 课程
+    const TYPE_CHAT = 2; // 聊天
+    const TYPE_STAFF = 3; // 员工
 
     /**
      * 主键编号

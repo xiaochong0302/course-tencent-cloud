@@ -10,12 +10,12 @@ class Refund extends Model
     /**
      * 状态类型
      */
-    const STATUS_PENDING = 'pending'; // 待处理
-    const STATUS_CANCELED = 'canceled'; // 已取消
-    const STATUS_APPROVED = 'approved'; // 已审核
-    const STATUS_REFUSED = 'refused'; // 已拒绝
-    const STATUS_FINISHED = 'finished'; // 已完成
-    const STATUS_FAILED = 'failed'; // 已失败
+    const STATUS_PENDING = 1; // 待处理
+    const STATUS_CANCELED = 2; // 已取消
+    const STATUS_APPROVED = 3; // 已审核
+    const STATUS_REFUSED = 4; // 已拒绝
+    const STATUS_FINISHED = 5; // 已完成
+    const STATUS_FAILED = 6; // 已失败
 
     /**
      * 主键编号
@@ -67,20 +67,6 @@ class Refund extends Model
     public $amount;
 
     /**
-     * 申请备注
-     *
-     * @var string
-     */
-    public $apply_note;
-
-    /**
-     * 审核备注
-     *
-     * @var string
-     */
-    public $review_note;
-
-    /**
      * 状态类型
      *
      * @var string
@@ -93,6 +79,20 @@ class Refund extends Model
      * @var int
      */
     public $deleted;
+
+    /**
+     * 申请备注
+     *
+     * @var string
+     */
+    public $apply_note;
+
+    /**
+     * 审核备注
+     *
+     * @var string
+     */
+    public $review_note;
 
     /**
      * 创建时间
@@ -129,16 +129,16 @@ class Refund extends Model
 
     public function beforeCreate()
     {
+        $this->sn = date('YmdHis') . rand(1000, 9999);
+
+        $this->create_time = time();
+
         /**
          * 退款周期内无条件审批，状态为approved
          */
         if (!$this->status) {
             $this->status = self::STATUS_PENDING;
         }
-
-        $this->sn = date('YmdHis') . rand(1000, 9999);
-
-        $this->create_time = time();
     }
 
     public function beforeUpdate()

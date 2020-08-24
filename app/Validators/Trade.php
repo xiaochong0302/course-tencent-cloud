@@ -45,11 +45,22 @@ class Trade extends Validator
     {
         $list = TradeModel::channelTypes();
 
-        if (!isset($list[$channel])) {
+        if (!array_key_exists($channel, $list)) {
             throw  new BadRequestException('trade.invalid_channel');
         }
 
         return $channel;
+    }
+
+    public function checkStatus($status)
+    {
+        $list = TradeModel::statusTypes();
+
+        if (!array_key_exists($status, $list)) {
+            throw new BadRequestException('trade.invalid_status');
+        }
+
+        return $status;
     }
 
     public function checkIfAllowClose(TradeModel $trade)

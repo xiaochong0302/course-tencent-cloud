@@ -46,24 +46,24 @@ class LiveNoticeConsumerTask extends Task
 
         $now = time();
 
+        $removeList = [];
+
         foreach ($members as $member) {
 
             list($chapterId, $userId, $startTime) = explode(':', $member);
 
-            $remove = false;
-
             if ($now - $startTime < 3600) {
                 $smser->handle($chapterId, $userId, $startTime);
-                $remove = true;
+                $removeList[] = $member;
             }
 
             if ($now > $startTime) {
-                $remove = true;
+                $removeList[] = $member;
             }
+        }
 
-            if ($remove) {
-                $this->redis->sRem($cacheKey, $member);
-            }
+        if (count($removeList) > 0) {
+            $this->redis->sRem($cacheKey, ...$removeList);
         }
     }
 

@@ -26,6 +26,10 @@ class ImGroup extends Repository
             $builder->andWhere('id = :id:', ['id' => $where['id']]);
         }
 
+        if (!empty($where['type'])) {
+            $builder->andWhere('type = :type:', ['type' => $where['type']]);
+        }
+
         if (!empty($where['name'])) {
             $builder->andWhere('name LIKE :name:', ['name' => "%{$where['name']}%"]);
         }

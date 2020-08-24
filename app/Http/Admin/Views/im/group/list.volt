@@ -3,10 +3,12 @@
 {% block content %}
 
     {%- macro type_info(value) %}
-        {% if value == 'course' %}
+        {% if value == 1 %}
             <span class="layui-badge layui-bg-green">课</span>
-        {% elseif value == 'chat' %}
+        {% elseif value == 2 %}
             <span class="layui-badge layui-bg-blue">聊</span>
+        {% elseif value == 3 %}
+            <span class="layui-badge layui-bg-cyan">职</span>
         {% endif %}
     {%- endmacro %}
 

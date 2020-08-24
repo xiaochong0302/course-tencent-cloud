@@ -1,6 +1,6 @@
 <div class="package-list">
     {% for package in packages %}
-        {% set order_url = url({'for':'desktop.order.confirm'},{'item_id':package.id,'item_type':'package'}) %}
+        {% set order_url = url({'for':'desktop.order.confirm'},{'item_id':package.id,'item_type':2}) %}
         <div class="package-item clearfix">
             <div class="package-info">
                 <div class="title">{{ package.title }}</div>

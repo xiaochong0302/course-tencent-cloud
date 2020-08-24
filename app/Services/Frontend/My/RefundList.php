@@ -7,6 +7,7 @@ use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Refund as RefundRepo;
 use App\Services\Frontend\Service as FrontendService;
 use App\Services\Frontend\UserTrait;
+use App\Validators\Refund as RefundValidator;
 
 class RefundList extends FrontendService
 {
@@ -20,6 +21,12 @@ class RefundList extends FrontendService
         $pagerQuery = new PagerQuery();
 
         $params = $pagerQuery->getParams();
+
+        $validator = new RefundValidator();
+
+        if (!empty($params['status'])) {
+            $params['status'] = $validator->checkStatus($params['status']);
+        }
 
         $params['owner_id'] = $user->id;
         $params['deleted'] = 0;

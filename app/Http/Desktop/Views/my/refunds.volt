@@ -4,8 +4,8 @@
 
     {{ partial('macros/refund') }}
 
-    {% set status_types = {'all':'全部','pending':'待处理','canceled':'已取消','approved':'退款中','finished':'已完成'} %}
-    {% set status = request.get('status','trim','all') %}
+    {% set status_types = {'0':'全部','1':'待处理','2':'已取消','3':'退款中','5':'已完成'} %}
+    {% set status = request.get('status','int','0') %}
 
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('my/menu') }}</div>

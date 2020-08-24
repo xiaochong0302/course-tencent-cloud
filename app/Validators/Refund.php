@@ -40,6 +40,24 @@ class Refund extends Validator
         return $refund;
     }
 
+    public function checkAmount($orderAmount, $refundAmount)
+    {
+        if ($refundAmount > $orderAmount) {
+            throw new BadRequestException('refund.invalid_amount');
+        }
+    }
+
+    public function checkStatus($status)
+    {
+        $list = RefundModel::statusTypes();
+
+        if (!array_key_exists($status, $list)) {
+            throw new BadRequestException('refund.invalid_status');
+        }
+
+        return $status;
+    }
+
     public function checkReviewStatus($status)
     {
         $list = [
@@ -48,17 +66,10 @@ class Refund extends Validator
         ];
 
         if (!in_array($status, $list)) {
-            throw new BadRequestException('refund.invalid_review_status');
+            throw new BadRequestException('refund.invalid_status');
         }
 
         return $status;
-    }
-
-    public function checkAmount($orderAmount, $refundAmount)
-    {
-        if ($refundAmount > $orderAmount) {
-            throw new BadRequestException('refund.invalid_amount');
-        }
     }
 
     public function checkApplyNote($note)

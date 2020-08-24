@@ -10,6 +10,7 @@ use App\Providers\Crypt as CryptProvider;
 use App\Providers\CsrfToken as CsrfTokenProvider;
 use App\Providers\Database as DatabaseProvider;
 use App\Providers\EventsManager as EventsManagerProvider;
+use App\Providers\FlashSession as FlashSessionProvider;
 use App\Providers\Logger as LoggerProvider;
 use App\Providers\MetaData as MetaDataProvider;
 use App\Providers\Provider as AppProvider;
@@ -74,6 +75,7 @@ class HttpKernel extends Kernel
             CsrfTokenProvider::class,
             DatabaseProvider::class,
             EventsManagerProvider::class,
+            FlashSessionProvider::class,
             LoggerProvider::class,
             MetaDataProvider::class,
             RequestProvider::class,
@@ -86,6 +88,7 @@ class HttpKernel extends Kernel
         ];
 
         foreach ($providers as $provider) {
+
             /**
              * @var AppProvider $service
              */

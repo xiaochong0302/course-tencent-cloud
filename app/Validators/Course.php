@@ -21,14 +21,14 @@ class Course extends Validator
     {
         $id = intval($id);
 
-        $maxCourseIdCache = new MaxCourseIdCache();
+        $maxCache = new MaxCourseIdCache();
 
-        $maxCourseId = $maxCourseIdCache->get();
+        $maxId = $maxCache->get();
 
         /**
          * 防止缓存穿透
          */
-        if ($id < 1 || $id > $maxCourseId) {
+        if ($id < 1 || $id > $maxId) {
             throw new BadRequestException('course.not_found');
         }
 
@@ -60,7 +60,7 @@ class Course extends Validator
     {
         $list = CourseModel::modelTypes();
 
-        if (!isset($list[$model])) {
+        if (!array_key_exists($model, $list)) {
             throw new BadRequestException('course.invalid_model');
         }
 
@@ -71,7 +71,7 @@ class Course extends Validator
     {
         $list = CourseModel::levelTypes();
 
-        if (!isset($list[$level])) {
+        if (!array_key_exists($level, $list)) {
             throw new BadRequestException('course.invalid_level');
         }
 

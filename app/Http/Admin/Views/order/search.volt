@@ -21,20 +21,21 @@
         <div class="layui-form-item">
             <label class="layui-form-label">订单类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="item_type" value="course" title="课程">
-                <input type="radio" name="item_type" value="package" title="套餐">
-                <input type="radio" name="item_type" value="reward" title="赞赏">
-                <input type="radio" name="item_type" value="vip" title="会员">
-                <input type="radio" name="item_type" value="test" title="测试">
+                <input type="radio" name="item_type" value="1" title="课程">
+                <input type="radio" name="item_type" value="2" title="套餐">
+                <input type="radio" name="item_type" value="3" title="赞赏">
+                <input type="radio" name="item_type" value="4" title="会员">
+                <input type="radio" name="item_type" value="99" title="测试">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">订单状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="pending" title="待支付">
-                <input type="radio" name="status" value="finished" title="已完成">
-                <input type="radio" name="status" value="closed" title="已关闭">
-                <input type="radio" name="status" value="refunded" title="已退款">
+                <input type="radio" name="status" value="1" title="待支付">
+                <input type="radio" name="status" value="2" title="发货中">
+                <input type="radio" name="status" value="3" title="已完成">
+                <input type="radio" name="status" value="4" title="已关闭">
+                <input type="radio" name="status" value="5" title="已退款">
             </div>
         </div>
         <div class="layui-form-item">

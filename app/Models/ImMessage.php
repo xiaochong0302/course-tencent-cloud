@@ -122,7 +122,7 @@ class ImMessage extends Model
 
         sort($list);
 
-        return implode('_', $list);
+        return implode('-', $list);
     }
 
 }

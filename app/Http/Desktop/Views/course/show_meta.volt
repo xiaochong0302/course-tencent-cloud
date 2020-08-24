@@ -3,11 +3,11 @@
         <img src="{{ course.cover }}" alt="{{ course.title|e }}">
     </div>
     <div class="info">
-        {% if course.model == 'vod' %}
+        {% if course.model == '1' %}
             <p class="item">
                 <span class="key">课程时长</span><span class="value">{{ course.attrs.duration|duration }}</span>
             </p>
-        {% elseif course.model == 'live' %}
+        {% elseif course.model == '2' %}
             <p class="item">
                 <span class="key">直播时间</span><span>{{ course.attrs.start_date }} ~ {{ course.attrs.end_date }}</span>
             </p>

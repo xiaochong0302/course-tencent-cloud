@@ -1,21 +1,21 @@
 {%- macro model_info(value) %}
-    {% if value == 'vod' %}
+    {% if value == '1' %}
         <span class="layui-badge layui-bg-green">点播</span>
-    {% elseif value == 'live' %}
+    {% elseif value == '2' %}
         <span class="layui-badge layui-bg-blue">直播</span>
-    {% elseif value == 'read' %}
+    {% elseif value == '3' %}
         <span class="layui-badge layui-bg-black">图文</span>
     {% endif %}
 {%- endmacro %}
 
 {%- macro level_info(value) %}
-    {% if value == 'entry' %}
+    {% if value == '1' %}
         入门
-    {% elseif value == 'junior' %}
+    {% elseif value == '2' %}
         初级
-    {% elseif value == 'medium' %}
+    {% elseif value == '3' %}
         中级
-    {% elseif value == 'senior' %}
+    {% elseif value == '4' %}
         高级
     {% endif %}
 {%- endmacro %}

@@ -70,8 +70,6 @@ class MyController extends Controller
 
         $pager = $service->handle();
 
-        $pager->items = kg_array_object($pager->items);
-
         $this->view->setVar('pager', $pager);
     }
 
@@ -83,8 +81,6 @@ class MyController extends Controller
         $service = new MyFavoriteListService();
 
         $pager = $service->handle();
-
-        $pager->items = kg_array_object($pager->items);
 
         $this->view->setVar('pager', $pager);
     }
@@ -98,8 +94,6 @@ class MyController extends Controller
 
         $pager = $service->handle();
 
-        $pager->items = kg_array_object($pager->items);
-
         $this->view->setVar('pager', $pager);
     }
 
@@ -111,8 +105,6 @@ class MyController extends Controller
         $service = new MyReviewListService();
 
         $pager = $service->handle();
-
-        $pager->items = kg_array_object($pager->items);
 
         $this->view->setVar('pager', $pager);
     }
@@ -126,8 +118,6 @@ class MyController extends Controller
 
         $pager = $service->handle();
 
-        $pager->items = kg_array_object($pager->items);
-
         $this->view->setVar('pager', $pager);
     }
 
@@ -139,8 +129,6 @@ class MyController extends Controller
         $service = new MyRefundListService();
 
         $pager = $service->handle();
-
-        $pager->items = kg_array_object($pager->items);
 
         $this->view->setVar('pager', $pager);
     }

@@ -47,8 +47,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">审核结果</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="review_status" value="approved" title="同意">
-                    <input type="radio" name="review_status" value="refused" title="拒绝">
+                    <input type="radio" name="review_status" value="3" title="同意">
+                    <input type="radio" name="review_status" value="4" title="拒绝">
                 </div>
             </div>
             <div class="layui-form-item">

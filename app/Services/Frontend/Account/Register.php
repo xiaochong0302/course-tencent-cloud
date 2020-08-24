@@ -67,7 +67,7 @@ class Register extends FrontendService
             $imUser->name = $user->name;
 
             if ($imUser->create() === false) {
-                throw new \RuntimeException('Create ImUser Failed');
+                throw new \RuntimeException('Create Im User Failed');
             }
 
             $this->db->commit();
