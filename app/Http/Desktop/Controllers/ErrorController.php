@@ -68,9 +68,9 @@ class ErrorController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/shutdown", name="desktop.error.shutdown")
+     * @Get("/maintain", name="desktop.error.maintain")
      */
-    public function shutdownAction()
+    public function maintainAction()
     {
         $message = $this->dispatcher->getParam('message');
 

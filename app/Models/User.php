@@ -59,11 +59,11 @@ class User extends Model
     public $about;
 
     /**
-     * 所在地
+     * 地区
      *
      * @var string
      */
-    public $location;
+    public $area;
 
     /**
      * 性别
@@ -71,20 +71,6 @@ class User extends Model
      * @var int
      */
     public $gender;
-
-    /**
-     * 教学角色
-     *
-     * @var int
-     */
-    public $edu_role;
-
-    /**
-     * 后台角色
-     *
-     * @var int
-     */
-    public $admin_role;
 
     /**
      * 会员标识
@@ -106,6 +92,20 @@ class User extends Model
      * @var int
      */
     public $deleted;
+
+    /**
+     * 教学角色
+     *
+     * @var int
+     */
+    public $edu_role;
+
+    /**
+     * 后台角色
+     *
+     * @var int
+     */
+    public $admin_role;
 
     /**
      * 课程数

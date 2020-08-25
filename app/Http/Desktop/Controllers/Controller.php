@@ -127,9 +127,6 @@ class Controller extends \Phalcon\Mvc\Controller
             'cs' => [
                 'enabled' => $im['cs_enabled'],
             ],
-            'robot' => [
-                'enabled' => $im['robot_enabled'],
-            ],
             'websocket' => [
                 'url' => $this->config->websocket->url,
             ],
@@ -141,7 +138,7 @@ class Controller extends \Phalcon\Mvc\Controller
         if ($this->siteInfo['enabled'] == 0) {
             $this->dispatcher->forward([
                 'controller' => 'error',
-                'action' => 'shutdown',
+                'action' => 'maintain',
                 'params' => ['message' => $this->siteInfo['closed_tips']],
             ]);
         }

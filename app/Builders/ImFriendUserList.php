@@ -26,7 +26,7 @@ class ImFriendUserList extends Builder
 
         $columns = [
             'id', 'name', 'avatar', 'title', 'about', 'vip',
-            'gender', 'location', 'active_time',
+            'gender', 'area', 'active_time',
         ];
 
         $users = $userRepo->findByIds($ids, $columns);

@@ -17,9 +17,11 @@ class Logger
     {
         $config = Di::getDefault()->get('config');
 
-        $channel = $channel ? $channel . '-' : '';
+        $channel = $channel ? $channel : 'common';
 
-        $path = log_path() . '/' . $channel . date('Y-m-d') . '.log';
+        $filename = sprintf('%s-%s.log', $channel, date('Y-m-d'));
+
+        $path = log_path($filename);
 
         $level = $config->env != ENV_DEV ? $config->log->level : PhalconLogger::DEBUG;
 

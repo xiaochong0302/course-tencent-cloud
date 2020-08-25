@@ -59,12 +59,6 @@ class OrderCreate extends FrontendService
 
             $order = $this->createPackageOrder($package, $user);
 
-        } elseif ($post['item_type'] == OrderModel::ITEM_VIP) {
-
-            $vip = $validator->checkVip($post['item_id']);
-
-            $order = $this->createVipOrder($vip, $user);
-
         } elseif ($post['item_type'] == OrderModel::ITEM_REWARD) {
 
             list($courseId, $rewardId) = explode('-', $post['item_id']);
@@ -73,6 +67,12 @@ class OrderCreate extends FrontendService
             $reward = $validator->checkReward($rewardId);
 
             $order = $this->createRewardOrder($course, $reward, $user);
+
+        } elseif ($post['item_type'] == OrderModel::ITEM_VIP) {
+
+            $vip = $validator->checkVip($post['item_id']);
+
+            $order = $this->createVipOrder($vip, $user);
         }
 
         $this->incrUserDailyOrderCount($user);
@@ -186,7 +186,7 @@ class OrderCreate extends FrontendService
         $order = new OrderModel();
 
         $order->owner_id = $user->id;
-        $order->item_id = "{$course->id}-{$reward->id}";
+        $order->item_id = $course->id;
         $order->item_type = OrderModel::ITEM_REWARD;
         $order->item_info = $itemInfo;
         $order->client_type = $this->getClientType();

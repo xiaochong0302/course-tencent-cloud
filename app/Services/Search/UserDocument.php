@@ -40,7 +40,7 @@ class UserDocument extends Component
             'avatar' => $user->avatar,
             'about' => $user->about,
             'gender' => $user->gender,
-            'location' => $user->location,
+            'area' => $user->area,
             'vip' => $user->vip,
         ];
     }

@@ -31,7 +31,7 @@ class UserInfo extends FrontendService
             'avatar' => $user->avatar,
             'title' => $user->title,
             'about' => $user->about,
-            'location' => $user->location,
+            'area' => $user->area,
             'gender' => $user->gender,
             'vip' => $user->vip,
             'locked' => $user->locked,

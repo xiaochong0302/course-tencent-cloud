@@ -36,14 +36,14 @@ class Task extends Model
     /**
      * 条目编号
      *
-     * @var string
+     * @var int
      */
     public $item_id;
 
     /**
      * 条目类型
      *
-     * @var string
+     * @var int
      */
     public $item_type;
 

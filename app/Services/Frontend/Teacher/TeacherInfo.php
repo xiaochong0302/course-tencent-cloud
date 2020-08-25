@@ -2,37 +2,17 @@
 
 namespace App\Services\Frontend\Teacher;
 
-use App\Models\User as UserModel;
 use App\Services\Frontend\Service as FrontendService;
-use App\Services\Frontend\UserTrait;
+use App\Services\Frontend\User\UserInfo as UserInfoService;
 
 class TeacherInfo extends FrontendService
 {
 
-    use UserTrait;
-
     public function getUser($id)
     {
-        $user = $this->checkUser($id);
+        $service = new UserInfoService();
 
-        return $this->handleUser($user);
-    }
-
-    protected function handleUser(UserModel $user)
-    {
-        $user->avatar = kg_ci_img_url($user->avatar);
-
-        return [
-            'id' => $user->id,
-            'name' => $user->name,
-            'avatar' => $user->avatar,
-            'title' => $user->title,
-            'about' => $user->about,
-            'location' => $user->location,
-            'gender' => $user->gender,
-            'vip' => $user->vip,
-            'locked' => $user->locked,
-        ];
+        return $service->handle($id);
     }
 
 }

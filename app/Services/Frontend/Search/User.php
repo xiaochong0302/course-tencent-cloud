@@ -64,7 +64,7 @@ class User extends FrontendService
                 'about' => $item['about'],
                 'vip' => (int)$item['vip'],
                 'gender' => (int)$item['gender'],
-                'location' => $item['location'],
+                'area' => $item['area'],
             ];
         }
 

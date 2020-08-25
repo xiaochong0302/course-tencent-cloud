@@ -40,7 +40,7 @@ class ImGroup extends Model
     /**
      * 群组类型
      *
-     * @var string
+     * @var int
      */
     public $type;
 

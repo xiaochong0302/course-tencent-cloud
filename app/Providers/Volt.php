@@ -54,10 +54,6 @@ class Volt extends Provider
                 return 'kg_substr(' . $resolvedArgs . ')';
             });
 
-            $compiler->addFunction('can', function ($resolvedArgs) {
-                return 'kg_can(' . $resolvedArgs . ')';
-            });
-
             $compiler->addFilter('duration', function ($resolvedArgs) {
                 return 'kg_duration(' . $resolvedArgs . ')';
             });

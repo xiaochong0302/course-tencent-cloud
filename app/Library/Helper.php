@@ -125,9 +125,8 @@ function kg_site_base_url()
 {
     $scheme = filter_input(INPUT_SERVER, 'REQUEST_SCHEME');
     $host = filter_input(INPUT_SERVER, 'HTTP_HOST');
-    $path = filter_input(INPUT_SERVER, 'SCRIPT_NAME');
 
-    return "{$scheme}://{$host}" . rtrim(dirname($path), '/');
+    return sprintf('%s://%s', $scheme, $host);
 }
 
 /**
@@ -184,9 +183,10 @@ function kg_ci_base_url()
  * 获取数据万象URL
  *
  * @param string $path
+ * @param string $style
  * @return string
  */
-function kg_ci_img_url($path)
+function kg_ci_img_url($path, $style = null)
 {
     if (!$path) return '';
 
@@ -196,33 +196,35 @@ function kg_ci_img_url($path)
 
     $storage = new StorageService();
 
-    return $storage->getCiImageUrl($path);
+    return $storage->getCiImageUrl($path, $style);
 }
 
 /**
  * 获取头像数据万象URL
  *
  * @param string $path
+ * @param string $style
  * @return string
  */
-function kg_ci_avatar_img_url($path)
+function kg_ci_avatar_img_url($path, $style = null)
 {
     $path = $path ?: kg_default_avatar_path();
 
-    return kg_ci_img_url($path);
+    return kg_ci_img_url($path, $style);
 }
 
 /**
  * 获取封面数据万象URL
  *
  * @param string $path
+ * @param string $style
  * @return string
  */
-function kg_ci_cover_img_url($path)
+function kg_ci_cover_img_url($path, $style = null)
 {
     $path = $path ?: kg_default_cover_path();
 
-    return kg_ci_img_url($path);
+    return kg_ci_img_url($path, $style);
 }
 
 /**
@@ -348,17 +350,6 @@ function kg_duration($time, $mode = 'simple')
 }
 
 /**
- * 判断是否有路由权限
- *
- * @param string $route
- * @return bool
- */
-function kg_can($route = null)
-{
-    return true;
-}
-
-/**
  * 构造icon路径
  *
  * @param string $path
@@ -370,7 +361,7 @@ function kg_icon_link($path, $local = true, $version = null)
 {
     $href = kg_static_url($path, $local, $version);
 
-    return '<link rel="shortcut icon" href="' . $href . '" />' . PHP_EOL;
+    return sprintf('<link rel="shortcut icon" href="%s">', $href);
 }
 
 /**
@@ -385,7 +376,7 @@ function kg_css_link($path, $local = true, $version = null)
 {
     $href = kg_static_url($path, $local, $version);
 
-    return '<link rel="stylesheet" type="text/css" href="' . $href . '" />' . PHP_EOL;
+    return sprintf('<link rel="stylesheet" type="text/css" href="%s">', $href);
 }
 
 /**
@@ -400,7 +391,7 @@ function kg_js_include($path, $local = true, $version = null)
 {
     $src = kg_static_url($path, $local, $version);
 
-    return '<script type="text/javascript" src="' . $src . '"></script>' . PHP_EOL;
+    return sprintf('<script type="text/javascript" src="%s"></script>', $src);
 }
 
 /**

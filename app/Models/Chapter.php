@@ -100,7 +100,7 @@ class Chapter extends Model
     /**
      * 模式类型
      *
-     * @var string
+     * @var int
      */
     public $model;
 

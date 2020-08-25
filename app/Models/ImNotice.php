@@ -8,13 +8,6 @@ class ImNotice extends Model
 {
 
     /**
-     * 请求状态
-     */
-    const REQUEST_PENDING = 'pending'; // 待处理
-    const REQUEST_ACCEPTED = 'accepted'; // 已接受
-    const REQUEST_REFUSED = 'refused'; // 已拒绝
-
-    /**
      * 通知类型
      */
     const TYPE_FRIEND_REQUEST = 1; // 好友请求
@@ -117,8 +110,6 @@ class ImNotice extends Model
 
         if (!empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
-        } else {
-            $this->item_info = '';
         }
     }
 
@@ -126,14 +117,14 @@ class ImNotice extends Model
     {
         $this->update_time = time();
 
-        if (is_array($this->item_info) && !empty($this->item_info)) {
+        if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
     }
 
     public function afterFetch()
     {
-        if (!empty($this->item_info)) {
+        if (!empty($this->item_info) && is_string($this->item_info)) {
             $this->item_info = json_decode($this->item_info, true);
         }
     }

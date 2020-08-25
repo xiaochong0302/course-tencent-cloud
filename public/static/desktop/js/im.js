@@ -50,9 +50,9 @@ layui.use(['jquery', 'layim'], function () {
         members: {
             url: '/im/group/users'
         },
-        maxLength: 1000,
         msgbox: '/im/msgbox',
-        chatLog: '/im/chatlog'
+        chatLog: '/im/chatlog',
+        maxLength: 1000
     });
 
     layim.on('ready', function (options) {

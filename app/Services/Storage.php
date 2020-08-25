@@ -144,11 +144,14 @@ class Storage extends Service
      *  获取数据万象图片URL
      *
      * @param string $key
+     * @param string $style
      * @return string
      */
-    public function getCiImageUrl($key)
+    public function getCiImageUrl($key, $style = null)
     {
-        return $this->getCiBaseUrl() . $key;
+        $style = $style ?: '';
+
+        return $this->getCiBaseUrl() . $key . $style;
     }
 
     /**
@@ -161,7 +164,7 @@ class Storage extends Service
         $protocol = $this->settings['bucket_protocol'];
         $domain = $this->settings['bucket_domain'];
 
-        return $protocol . '://' . $domain;
+        return sprintf('%s://%s', $protocol, trim($domain, '/'));
     }
 
     /**
@@ -174,7 +177,7 @@ class Storage extends Service
         $protocol = $this->settings['ci_protocol'];
         $domain = $this->settings['ci_domain'];
 
-        return $protocol . '://' . $domain;
+        return sprintf('%s://%s', $protocol, trim($domain, '/'));
     }
 
     /**

@@ -31,7 +31,7 @@ class ProfileUpdate extends FrontendService
         }
 
         if (!empty($post['area'])) {
-            $data['location'] = $validator->checkArea($post['area']);
+            $data['area'] = $validator->checkArea($post['area']);
         }
 
         if (!empty($post['about'])) {

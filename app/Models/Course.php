@@ -147,14 +147,14 @@ class Course extends Model
     /**
      * 模式类型
      *
-     * @var string
+     * @var int
      */
     public $model;
 
     /**
      * 难度级别
      *
-     * @var string
+     * @var int
      */
     public $level;
 

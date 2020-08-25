@@ -19,7 +19,7 @@ class ProfileInfo extends FrontendService
     {
         $user->avatar = kg_ci_img_url($user->avatar);
 
-        $area = $this->handleArea($user->location);
+        $user->area = $this->handleArea($user->area);
 
         return [
             'id' => $user->id,
@@ -27,9 +27,8 @@ class ProfileInfo extends FrontendService
             'avatar' => $user->avatar,
             'title' => $user->title,
             'about' => $user->about,
+            'area' => $user->area,
             'gender' => $user->gender,
-            'location' => $user->location,
-            'area' => $area,
             'vip' => $user->vip,
             'locked' => $user->locked,
             'vip_expiry_time' => $user->vip_expiry_time,
@@ -39,9 +38,9 @@ class ProfileInfo extends FrontendService
         ];
     }
 
-    protected function handleArea($location)
+    protected function handleArea($area)
     {
-        $area = explode('/', $location);
+        $area = explode('/', $area);
 
         return [
             'province' => $area[0] ?? '',

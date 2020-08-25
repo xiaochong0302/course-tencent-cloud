@@ -44,7 +44,7 @@ class ImMessage extends Model
     /**
      * 接收方类型
      *
-     * @var string
+     * @var int
      */
     public $receiver_type;
 

@@ -29,7 +29,7 @@
         </div>
         <div class="info">
             <p><span class="name">{{ user.name }}</span><span>{{ gender_info(user.gender) }}</span></p>
-            <p><span><i class="layui-icon layui-icon-location"></i></span><span>{{ user.location }}</span></p>
+            <p><span><i class="layui-icon layui-icon-location"></i></span><span>{{ user.area }}</span></p>
             <p><span><i class="layui-icon layui-icon-time"></i></span><span>{{ date('Y-m-d H:i',user.active_time) }}</span></p>
         </div>
         {% if user.about %}
