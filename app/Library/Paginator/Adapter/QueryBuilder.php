@@ -2,11 +2,11 @@
 
 namespace App\Library\Paginator\Adapter;
 
-use App\Library\Paginator\Query;
-use Phalcon\Paginator\Adapter\QueryBuilder as BaseQueryBuilder;
+use App\Library\Paginator\Query as PaginatorQuery;
+use Phalcon\Paginator\Adapter\QueryBuilder as PhQueryBuilder;
 use stdClass;
 
-class QueryBuilder extends BaseQueryBuilder
+class QueryBuilder extends PhQueryBuilder
 {
 
     protected $baseUrl;
@@ -17,7 +17,7 @@ class QueryBuilder extends BaseQueryBuilder
     {
         $pager = parent::paginate();
 
-        $query = new Query();
+        $query = new PaginatorQuery();
 
         $this->baseUrl = $query->getBaseUrl();
         $this->params = $query->getParams();

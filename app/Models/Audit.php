@@ -70,7 +70,7 @@ class Audit extends Model
     {
         $this->create_time = time();
 
-        if (!empty($this->req_data)) {
+        if (is_array($this->req_data) && !empty($this->req_data)) {
             $this->req_data = kg_json_encode($this->req_data);
         } else {
             $this->req_data = '';

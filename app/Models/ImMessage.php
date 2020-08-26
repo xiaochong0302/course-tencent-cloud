@@ -102,13 +102,11 @@ class ImMessage extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
-
-        $this->chat_id = 0;
-
         if ($this->receiver_type == self::TYPE_FRIEND) {
             $this->chat_id = self::getChatId($this->sender_id, $this->receiver_id);
         }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()

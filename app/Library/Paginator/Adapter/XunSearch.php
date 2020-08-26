@@ -2,7 +2,8 @@
 
 namespace App\Library\Paginator\Adapter;
 
-use App\Library\Paginator\Query;
+use App\Library\Paginator\Query as PaginatorQuery;
+use App\Library\Validators\Common as CommonValidator;
 use Phalcon\Paginator\Adapter as PaginatorAdapter;
 use Phalcon\Paginator\Exception as PaginatorException;
 use stdClass;
@@ -44,11 +45,11 @@ class XunSearch extends PaginatorAdapter
             throw new PaginatorException('Invalid query parameter');
         }
 
-        if (empty($config['page']) || $config['page'] != intval($config['page'])) {
+        if (isset($config['page']) && !CommonValidator::positiveNumber($config['page'])) {
             throw new PaginatorException('Invalid page parameter');
         }
 
-        if (empty($config['limit']) || $config['limit'] != intval($config['limit'])) {
+        if (isset($config['limit']) && !CommonValidator::positiveNumber($config['limit'])) {
             throw new PaginatorException('Invalid limit parameter');
         }
 
@@ -60,7 +61,7 @@ class XunSearch extends PaginatorAdapter
         $this->_page = $config['page'] ?? 1;
         $this->_limitRows = $config['limit'] ?? 15;
 
-        $query = new Query();
+        $query = new PaginatorQuery();
 
         $this->baseUrl = $query->getBaseUrl();
         $this->params = $query->getParams();

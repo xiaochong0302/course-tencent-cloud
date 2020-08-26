@@ -186,8 +186,6 @@ class Chapter extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
-
         $course = Course::findFirst($this->course_id);
 
         $this->model = $course->model;
@@ -210,19 +208,21 @@ class Chapter extends Model
 
             $this->attrs = kg_json_encode($attrs);
         }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->update_time = time();
+        if (is_array($this->attrs) && !empty($this->attrs)) {
+            $this->attrs = kg_json_encode($this->attrs);
+        }
 
         if ($this->deleted == 1) {
             $this->published = 0;
         }
 
-        if (is_array($this->attrs)) {
-            $this->attrs = kg_json_encode($this->attrs);
-        }
+        $this->update_time = time();
     }
 
     public function afterCreate()
@@ -234,7 +234,7 @@ class Chapter extends Model
 
     public function afterFetch()
     {
-        if (!empty($this->attrs) && is_string($this->attrs)) {
+        if (is_string($this->attrs) && !empty($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
         }
     }

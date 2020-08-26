@@ -90,23 +90,23 @@ class Help extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
-
         /**
          * text类型不会自动填充默认值
          */
         if (is_null($this->content)) {
             $this->content = '';
         }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->update_time = time();
-
         if ($this->deleted == 1) {
             $this->published = 0;
         }
+
+        $this->update_time = time();
     }
 
     public function afterCreate()

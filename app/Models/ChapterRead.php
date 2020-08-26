@@ -57,9 +57,9 @@ class ChapterRead extends Model
         $this->create_time = time();
 
         /**
-         * text类型不能填充默认值
+         * text类型不能自动填充默认值
          */
-        if (empty($this->content)) {
+        if (is_null($this->content)) {
             $this->content = '';
         }
     }

@@ -9,14 +9,6 @@ class Carousel extends Model
 {
 
     /**
-     * 平台类型
-     */
-    const PLATFORM_DESKTOP = 'desktop';
-    const PLATFORM_MOBILE = 'mobile';
-    const PLATFORM_APP = 'app';
-    const PLATFORM_MINI = 'mini';
-
-    /**
      * 目标类型
      */
     const TARGET_COURSE = 'course'; // 课程
@@ -59,13 +51,6 @@ class Carousel extends Model
     public $summary;
 
     /**
-     * 平台
-     *
-     * @var string
-     */
-    public $platform;
-
-    /**
      * 目标
      *
      * @var string
@@ -78,6 +63,13 @@ class Carousel extends Model
      * @var string
      */
     public $content;
+
+    /**
+     * 平台
+     *
+     * @var int
+     */
+    public $platform;
 
     /**
      * 优先级
@@ -133,8 +125,6 @@ class Carousel extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
-
         if (empty($this->cover)) {
             $this->cover = kg_default_cover_path();
         } elseif (Text::startsWith($this->cover, 'http')) {
@@ -144,23 +134,25 @@ class Carousel extends Model
         if (is_array($this->style) && !empty($this->style)) {
             $this->style = kg_json_encode($this->style);
         }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->update_time = time();
+        if (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+
+        if (is_array($this->style) && !empty($this->style)) {
+            $this->style = kg_json_encode($this->style);
+        }
 
         if ($this->deleted == 1) {
             $this->published = 0;
         }
 
-        if (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
-        }
-
-        if (!empty($this->style)) {
-            $this->style = kg_json_encode($this->style);
-        }
+        $this->update_time = time();
     }
 
     public function afterFetch()
@@ -169,7 +161,7 @@ class Carousel extends Model
             $this->cover = kg_ci_cover_img_url($this->cover);
         }
 
-        if (!empty($this->style)) {
+        if (is_string($this->style) && !empty($this->style)) {
             $this->style = json_decode($this->style, true);
         }
     }
@@ -200,16 +192,6 @@ class Carousel extends Model
             self::TARGET_COURSE => '课程',
             self::TARGET_PAGE => '单页',
             self::TARGET_LINK => '链接',
-        ];
-    }
-
-    public static function platformTypes()
-    {
-        return [
-            self::PLATFORM_DESKTOP => 'desktop',
-            self::PLATFORM_MOBILE => 'mobile',
-            self::PLATFORM_APP => 'app',
-            self::PLATFORM_MINI => '小程序',
         ];
     }
 

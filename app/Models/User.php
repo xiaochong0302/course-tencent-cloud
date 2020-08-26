@@ -177,13 +177,13 @@ class User extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
-
         if (empty($this->avatar)) {
             $this->avatar = kg_default_avatar_path();
         } elseif (Text::startsWith($this->avatar, 'http')) {
             $this->avatar = self::getAvatarPath($this->avatar);
         }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()

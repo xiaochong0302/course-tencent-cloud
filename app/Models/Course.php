@@ -256,8 +256,6 @@ class Course extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
-
         $attrs = [];
 
         switch ($this->model) {
@@ -288,6 +286,8 @@ class Course extends Model
         if (!empty($attrs)) {
             $this->attrs = kg_json_encode($attrs);
         }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
@@ -301,7 +301,7 @@ class Course extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
-        if (is_array($this->attrs)) {
+        if (is_array($this->attrs) && !empty($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -322,7 +322,7 @@ class Course extends Model
     public function afterUpdate()
     {
         /**
-         * 课程标题和群组名称保持一致
+         * 群组名称和课程标题保持一致
          */
         if ($this->hasUpdated('title')) {
             $imGroup = ImGroup::findFirst(['course_id' => $this->id]);
@@ -341,7 +341,7 @@ class Course extends Model
             $this->cover = kg_ci_cover_img_url($this->cover);
         }
 
-        if (!empty($this->attrs) && is_string($this->attrs)) {
+        if (is_string($this->attrs) && !empty($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
         }
     }

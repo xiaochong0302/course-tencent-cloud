@@ -88,11 +88,11 @@ class Topic extends Model
 
     public function beforeUpdate()
     {
-        $this->update_time = time();
-
         if ($this->deleted == 1) {
             $this->published = 0;
         }
+
+        $this->update_time = time();
     }
 
     public function afterCreate()

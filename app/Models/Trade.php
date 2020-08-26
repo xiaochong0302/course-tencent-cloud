@@ -66,7 +66,7 @@ class Trade extends Model
     /**
      * 平台类型
      *
-     * @var string
+     * @var int
      */
     public $channel;
 
@@ -80,7 +80,7 @@ class Trade extends Model
     /**
      * 状态类型
      *
-     * @var string
+     * @var int
      */
     public $status;
 
@@ -126,11 +126,11 @@ class Trade extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
-
         $this->status = self::STATUS_PENDING;
 
         $this->sn = date('YmdHis') . rand(1000, 9999);
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()

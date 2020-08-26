@@ -77,14 +77,14 @@ class Order extends Model
     /**
      * 条目编号
      *
-     * @var string
+     * @var int
      */
     public $item_id;
 
     /**
      * 条目类型
      *
-     * @var string
+     * @var int
      */
     public $item_type;
 
@@ -144,24 +144,24 @@ class Order extends Model
 
     public function beforeCreate()
     {
-        $this->sn = date('YmdHis') . rand(1000, 9999);
-
         $this->status = self::STATUS_PENDING;
 
-        $this->create_time = time();
+        $this->sn = date('YmdHis') . rand(1000, 9999);
 
-        if (is_array($this->item_info)) {
+        if (is_array($this->item_info) && !empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->update_time = time();
-
-        if (is_array($this->item_info)) {
+        if (is_array($this->item_info) && !empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
+
+        $this->update_time = time();
     }
 
     public function afterSave()
@@ -178,7 +178,7 @@ class Order extends Model
     {
         $this->amount = (float)$this->amount;
 
-        if (!empty($this->item_info) && is_string($this->item_info)) {
+        if (is_string($this->item_info) && !empty($this->item_info)) {
             $this->item_info = json_decode($this->item_info, true);
         }
     }
@@ -198,6 +198,7 @@ class Order extends Model
     {
         return [
             self::STATUS_PENDING => '待支付',
+            self::STATUS_SHIPPING => '发货中',
             self::STATUS_FINISHED => '已完成',
             self::STATUS_CLOSED => '已关闭',
             self::STATUS_REFUNDED => '已退款',

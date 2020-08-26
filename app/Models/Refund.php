@@ -27,7 +27,7 @@ class Refund extends Model
     /**
      * 用户编号
      *
-     * @var string
+     * @var int
      */
     public $owner_id;
 
@@ -69,7 +69,7 @@ class Refund extends Model
     /**
      * 状态类型
      *
-     * @var string
+     * @var int
      */
     public $status;
 
@@ -132,13 +132,6 @@ class Refund extends Model
         $this->sn = date('YmdHis') . rand(1000, 9999);
 
         $this->create_time = time();
-
-        /**
-         * 退款周期内无条件审批，状态为approved
-         */
-        if (!$this->status) {
-            $this->status = self::STATUS_PENDING;
-        }
     }
 
     public function beforeUpdate()

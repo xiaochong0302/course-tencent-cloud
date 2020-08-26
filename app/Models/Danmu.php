@@ -144,11 +144,11 @@ class Danmu extends Model
 
     public function beforeUpdate()
     {
-        $this->update_time = time();
-
         if ($this->deleted == 1) {
             $this->published = 0;
         }
+
+        $this->update_time = time();
     }
 
     public static function sizeTypes()
@@ -184,7 +184,6 @@ class Danmu extends Model
         $types = self::positionTypes();
 
         $keys = array_keys($types);
-
         $index = array_rand($keys);
 
         return $keys[$index];
@@ -195,7 +194,6 @@ class Danmu extends Model
         $types = self::colorTypes();
 
         $keys = array_keys($types);
-
         $index = array_rand($keys);
 
         return $keys[$index];

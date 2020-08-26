@@ -51,14 +51,14 @@ class CourseUser extends Model
     /**
      * 角色类型
      *
-     * @var string
+     * @var int
      */
     public $role_type;
 
     /**
      * 来源类型
      *
-     * @var string
+     * @var int
      */
     public $source_type;
 
@@ -130,9 +130,9 @@ class CourseUser extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
-
         $this->plan_id = (int)date('Ymd');
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()

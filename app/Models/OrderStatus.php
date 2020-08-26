@@ -22,7 +22,7 @@ class OrderStatus extends Model
     /**
      * 状态类型
      *
-     * @var string
+     * @var int
      */
     public $status;
 

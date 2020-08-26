@@ -22,7 +22,7 @@ class Common
 
     public static function email($str)
     {
-        return filter_var($str, FILTER_VALIDATE_EMAIL) ? true : false;
+        return filter_var($str, FILTER_VALIDATE_EMAIL) !== false;
     }
 
     public static function url($str)
@@ -31,30 +31,40 @@ class Common
             $str = 'http:' . $str;
         }
 
-        return filter_var($str, FILTER_VALIDATE_URL) ? true : false;
+        return filter_var($str, FILTER_VALIDATE_URL) !== false;
     }
 
-    public static function intNumber($str)
+    public static function intNumber($value)
     {
-        return filter_var($str, FILTER_VALIDATE_INT) ? true : false;
+        return filter_var($value, FILTER_VALIDATE_INT) !== false;
     }
 
-    public static function floatNumber($str)
+    public static function floatNumber($value)
     {
-        return filter_var($str, FILTER_VALIDATE_FLOAT) === false;
-    }
-
-    public static function natureNumber($number)
-    {
-        if (preg_match('/^0$/', $number)) {
-            return true;
+        if (filter_var($value, FILTER_VALIDATE_FLOAT) === false) {
+            return false;
         }
 
-        if (preg_match('/^[1-9][0-9]?/', $number)) {
-            return true;
+        if (strpos($value, '.') === false) {
+            return false;
         }
 
-        return false;
+        $head = strstr($value, '.', true);
+
+        if ($head[0] == '0' && strlen($head) > 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function positiveNumber($value)
+    {
+        if (!self::intNumber($value)) {
+            return false;
+        }
+
+        return $value > 0;
     }
 
     public static function idCard($str)

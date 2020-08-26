@@ -20,13 +20,6 @@ class Learning extends Model
     public $request_id;
 
     /**
-     * 计划编号
-     *
-     * @var int
-     */
-    public $plan_id;
-
-    /**
      * 课程编号
      *
      * @var int
@@ -46,6 +39,13 @@ class Learning extends Model
      * @var int
      */
     public $user_id;
+
+    /**
+     * 计划编号
+     *
+     * @var int
+     */
+    public $plan_id;
 
     /**
      * 持续时长

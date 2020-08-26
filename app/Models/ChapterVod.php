@@ -63,20 +63,20 @@ class ChapterVod extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
-
         if (is_array($this->file_transcode) && !empty($this->file_transcode)) {
             $this->file_transcode = kg_json_encode($this->file_transcode);
         }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->update_time = time();
-
         if (is_array($this->file_transcode) && !empty($this->file_transcode)) {
             $this->file_transcode = kg_json_encode($this->file_transcode);
         }
+
+        $this->update_time = time();
     }
 
     public function afterFetch()
