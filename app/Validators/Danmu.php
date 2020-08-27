@@ -70,7 +70,7 @@ class Danmu extends Validator
 
     public function checkPosition($pos)
     {
-        $list = DanmuModel::positionTypes();
+        $list = DanmuModel::posTypes();
 
         if (!isset($list[$pos])) {
             throw new BadRequestException('danmu.invalid_position');

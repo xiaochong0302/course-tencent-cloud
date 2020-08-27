@@ -54,20 +54,6 @@ class Order extends Model
     public $amount;
 
     /**
-     * 状态类型
-     *
-     * @var string
-     */
-    public $status;
-
-    /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted;
-
-    /**
      * 用户编号
      *
      * @var int
@@ -108,6 +94,20 @@ class Order extends Model
      * @var string
      */
     public $client_ip;
+
+    /**
+     * 状态类型
+     *
+     * @var int
+     */
+    public $status;
+
+    /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
 
     /**
      * 创建时间

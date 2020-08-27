@@ -29,6 +29,13 @@ class Category extends Model
     public $parent_id;
 
     /**
+     * 层级
+     *
+     * @var int
+     */
+    public $level;
+
+    /**
      * 类型
      *
      * @var string
@@ -43,25 +50,18 @@ class Category extends Model
     public $name;
 
     /**
-     * 优先级
-     *
-     * @var int
-     */
-    public $priority;
-
-    /**
-     * 层级
-     *
-     * @var int
-     */
-    public $level;
-
-    /**
      * 路径
      *
      * @var string
      */
     public $path;
+
+    /**
+     * 优先级
+     *
+     * @var int
+     */
+    public $priority;
 
     /**
      * 发布标识

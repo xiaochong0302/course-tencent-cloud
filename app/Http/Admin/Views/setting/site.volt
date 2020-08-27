@@ -19,7 +19,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">关闭原因</label>
                 <div class="layui-input-block">
-                    <textarea name="closed_tips" class="layui-textarea">{{ site.closed_tips }}</textarea>
+                    <input class="layui-input" type="text" name="closed_tips" value="{{ site.closed_tips }}">
                 </div>
             </div>
         </div>

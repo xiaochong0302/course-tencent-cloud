@@ -3,6 +3,7 @@
 namespace App\Caches;
 
 use App\Builders\NavTreeList as NavTreeListBuilder;
+use App\Models\Nav as NavModel;
 
 class NavTreeList extends Cache
 {
@@ -24,8 +25,8 @@ class NavTreeList extends Cache
         $builder = new NavTreeListBuilder();
 
         return [
-            'top' => $builder->handle('top'),
-            'bottom' => $builder->handle('bottom'),
+            'top' => $builder->handle(NavModel::POS_TOP),
+            'bottom' => $builder->handle(NavModel::POS_BOTTOM),
         ];
     }
 

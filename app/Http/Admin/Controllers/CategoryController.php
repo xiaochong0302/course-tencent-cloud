@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Category as CategoryService;
+use App\Models\Category as CategoryModel;
 
 /**
  * @RoutePrefix("/admin/category")
@@ -16,7 +17,7 @@ class CategoryController extends Controller
     public function listAction()
     {
         $parentId = $this->request->get('parent_id', 'int', 0);
-        $type = $this->request->get('type', 'string', 'course');
+        $type = $this->request->get('type', 'string', CategoryModel::TYPE_COURSE);
 
         $categoryService = new CategoryService();
 

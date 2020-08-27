@@ -283,28 +283,25 @@ class SettingController extends Controller
      */
     public function imAction()
     {
-        $section = 'im';
-
         $settingService = new SettingService();
 
         if ($this->request->isPost()) {
+
+            $section = $this->request->getPost('section');
 
             $data = $this->request->getPost();
 
             $settingService->updateSectionSettings($section, $data);
 
-            $content = [
-                'location' => $this->request->getHTTPReferer(),
-                'msg' => '更新配置成功',
-            ];
-
-            return $this->jsonSuccess($content);
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $im = $settingService->getSectionSettings($section);
+            $main = $settingService->getSectionSettings('im.main');
+            $cs = $settingService->getSectionSettings('im.cs');
 
-            $this->view->setVar('im', $im);
+            $this->view->setVar('main', $main);
+            $this->view->setVar('cs', $cs);
         }
     }
 

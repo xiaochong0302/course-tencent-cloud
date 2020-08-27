@@ -9,7 +9,7 @@
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                {{ partial('setting/im_basic') }}
+                {{ partial('setting/im_main') }}
             </div>
             <div class="layui-tab-item">
                 {{ partial('setting/im_cs') }}

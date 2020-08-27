@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Course as CourseService;
+use App\Models\Category as CategoryModel;
 
 /**
  * @RoutePrefix("/admin/course")
@@ -17,8 +18,8 @@ class CourseController extends Controller
     {
         $location = $this->url->get(
             ['for' => 'admin.category.list'],
-            ['type' => 'course'],
-            );
+            ['type' => CategoryModel::TYPE_COURSE]
+        );
 
         return $this->response->redirect($location);
     }

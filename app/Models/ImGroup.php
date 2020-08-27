@@ -24,18 +24,18 @@ class ImGroup extends Model
     public $id;
 
     /**
-     * 课程编号
-     *
-     * @var int
-     */
-    public $course_id;
-
-    /**
      * 群主编号
      *
      * @var int
      */
     public $owner_id;
+
+    /**
+     * 课程编号
+     *
+     * @var int
+     */
+    public $course_id;
 
     /**
      * 群组类型

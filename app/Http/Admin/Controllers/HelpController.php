@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Help as HelpService;
+use App\Models\Category as CategoryModel;
 
 /**
  * @RoutePrefix("/admin/help")
@@ -17,8 +18,8 @@ class HelpController extends Controller
     {
         $location = $this->url->get(
             ['for' => 'admin.category.list'],
-            ['type' => 'help'],
-            );
+            ['type' => CategoryModel::TYPE_HELP]
+        );
 
         return $this->response->redirect($location);
     }

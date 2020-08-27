@@ -42,18 +42,34 @@ layui.use(['jquery', 'layim'], function () {
         }
     };
 
-    layim.config({
-        title: window.im.title,
-        init: {
-            url: '/im/init'
-        },
-        members: {
-            url: '/im/group/users'
-        },
+    var options = {
+        init: {url: '/im/init'},
+        members: {url: '/im/group/users'},
         msgbox: '/im/msgbox',
         chatLog: '/im/chatlog',
-        maxLength: 1000
-    });
+        title: window.im.main.title,
+        maxLength: window.im.main.msg_max_length,
+        isAudio: false,
+        isVideo: false
+    };
+
+    if (window.im.main.upload_img_enabled === '1') {
+        options.uploadImage = {url: '/upload/im/img'};
+    }
+
+    if (window.im.main.upload_file_enabled === '1') {
+        options.uploadFile = {url: '/upload/im/file'};
+    }
+
+    if (window.im.main.tool_audio_enabled === '1') {
+        options.isAudio = true;
+    }
+
+    if (window.im.main.tool_video_enabled === '1') {
+        options.isVideo = true;
+    }
+
+    layim.config(options);
 
     layim.on('ready', function (options) {
         if (options.friend.length > 0) {

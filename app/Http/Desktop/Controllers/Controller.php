@@ -120,16 +120,10 @@ class Controller extends \Phalcon\Mvc\Controller
     {
         $cache = new SettingCache();
 
-        $im = $cache->get('im');
-
         return [
-            'title' => $im['title'],
-            'cs' => [
-                'enabled' => $im['cs_enabled'],
-            ],
-            'websocket' => [
-                'url' => $this->config->websocket->url,
-            ],
+            'main' => $cache->get('im.main'),
+            'cs' => $cache->get('im.cs'),
+            'websocket' => $this->config->websocket,
         ];
     }
 

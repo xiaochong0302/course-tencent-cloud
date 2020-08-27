@@ -93,7 +93,7 @@ class Nav extends Validator
 
     public function checkPosition($position)
     {
-        $list = NavModel::positionTypes();
+        $list = NavModel::posTypes();
 
         if (!isset($list[$position])) {
             throw new BadRequestException('nav.invalid_position');

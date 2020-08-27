@@ -32,7 +32,7 @@
             <label class="layui-form-label">视频格式</label>
             <div class="layui-input-block">
                 <input type="radio" name="video_format" value="hls" title="HLS" lay-filter="video_format" {% if vod.video_format == "hls" %}checked{% endif %}>
-                <input type="radio" name="video_format" value="mp4" title="MP4" lay-filter="video_format" {% if vod.video_format == "mp4" %}checked{% endif %}>
+                <input type="radio" name="video_format" value="mp4" title="MP4" disabled="disabled" lay-filter="video_format" {% if vod.video_format == "mp4" %}checked{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">
@@ -44,8 +44,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">音频格式</label>
             <div class="layui-input-block">
-                <input type="radio" name="audio_format" value="m4a" title="M4A" lay-filter="audio_format" {% if vod.audio_format == "m4a" %}checked{% endif %}>
                 <input type="radio" name="audio_format" value="mp3" title="MP3" lay-filter="audio_format" {% if vod.audio_format == "mp3" %}checked{% endif %}>
+                <input type="radio" name="audio_format" value="m4a" title="M4A" disabled="disabled" lay-filter="audio_format" {% if vod.audio_format == "m4a" %}checked{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">

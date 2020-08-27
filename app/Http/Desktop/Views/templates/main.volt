@@ -25,7 +25,7 @@
     {{ partial('partials/footer') }}
 </div>
 
-{{ partial('partials/js_global_vars') }}
+{{ partial('partials/js_vars') }}
 {{ js_include('lib/layui/layui.js') }}
 {{ js_include('desktop/js/common.js') }}
 

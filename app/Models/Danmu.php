@@ -16,9 +16,9 @@ class Danmu extends Model
     /**
      * 位置类型
      */
-    const POSITION_MOVE = 0; // 滚动
-    const POSITION_TOP = 1; // 顶部
-    const POSITION_BOTTOM = 2; // 底部
+    const POS_MOVE = 0; // 滚动
+    const POS_TOP = 1; // 顶部
+    const POS_BOTTOM = 2; // 底部
 
     /**
      * 颜色类型
@@ -159,12 +159,12 @@ class Danmu extends Model
         ];
     }
 
-    public static function positionTypes()
+    public static function posTypes()
     {
         return [
-            self::POSITION_MOVE => '滚动',
-            self::POSITION_TOP => '顶部',
-            self::POSITION_BOTTOM => '底部',
+            self::POS_MOVE => '滚动',
+            self::POS_TOP => '顶部',
+            self::POS_BOTTOM => '底部',
         ];
     }
 
@@ -181,7 +181,7 @@ class Danmu extends Model
 
     public static function randPosition()
     {
-        $types = self::positionTypes();
+        $types = self::posTypes();
 
         $keys = array_keys($types);
         $index = array_rand($keys);

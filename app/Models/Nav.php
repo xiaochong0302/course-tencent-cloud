@@ -10,8 +10,8 @@ class Nav extends Model
     /**
      * 位置类型
      */
-    const POSITION_TOP = 'top';
-    const POSITION_BOTTOM = 'bottom';
+    const POS_TOP = 'top';
+    const POS_BOTTOM = 'bottom';
 
     /**
      * 打开方式
@@ -34,25 +34,18 @@ class Nav extends Model
     public $parent_id;
 
     /**
-     * 名称
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
-     * 优先级
-     *
-     * @var int
-     */
-    public $priority;
-
-    /**
      * 层级
      *
      * @var int
      */
     public $level;
+
+    /**
+     * 名称
+     *
+     * @var string
+     */
+    public $name;
 
     /**
      * 路径
@@ -69,18 +62,25 @@ class Nav extends Model
     public $position;
 
     /**
-     * 链接
+     * 打开方式
+     *
+     * @var string
+     */
+    public $target;
+
+    /**
+     * 链接地址
      *
      * @var string
      */
     public $url;
 
     /**
-     * 打开方式
+     * 优先级
      *
-     * @var string
+     * @var int
      */
-    public $target;
+    public $priority;
 
     /**
      * 发布标识
@@ -148,11 +148,11 @@ class Nav extends Model
         $this->update_time = time();
     }
 
-    public static function positionTypes()
+    public static function posTypes()
     {
         return [
-            self::POSITION_TOP => '顶部',
-            self::POSITION_BOTTOM => '底部',
+            self::POS_TOP => '顶部',
+            self::POS_BOTTOM => '底部',
         ];
     }
 
