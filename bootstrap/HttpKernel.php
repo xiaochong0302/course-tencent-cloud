@@ -67,10 +67,10 @@ class HttpKernel extends Kernel
     protected function registerServices()
     {
         $providers = [
+            ConfigProvider::class,
             AnnotationProvider::class,
             CacheProvider::class,
             CookieProvider::class,
-            ConfigProvider::class,
             CryptProvider::class,
             CsrfTokenProvider::class,
             DatabaseProvider::class,

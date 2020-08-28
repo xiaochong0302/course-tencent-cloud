@@ -16,7 +16,7 @@ final class InsertUserData extends AbstractMigration
             'salt' => 'MbZWxN3L',
         ];
 
-        $this->table('kg_account')->insert($account)->save();
+        $this->table('kg_account')->insert($account)->saveData();
 
         $user = [
             'id' => $account['id'],
@@ -28,7 +28,7 @@ final class InsertUserData extends AbstractMigration
             'edu_role' => 2,
         ];
 
-        $this->table('kg_user')->insert($user)->save();
+        $this->table('kg_user')->insert($user)->saveData();
 
         $imUser = [
             'id' => $user['id'],
@@ -36,7 +36,7 @@ final class InsertUserData extends AbstractMigration
             'avatar' => $user['avatar'],
         ];
 
-        $this->table('kg_im_user')->insert($imUser)->save();
+        $this->table('kg_im_user')->insert($imUser)->saveData();
     }
 
     public function down()

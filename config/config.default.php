@@ -8,7 +8,7 @@ $config = [];
 $config['env'] = 'pro';
 
 /**
- * 加解密钥
+ * 密钥
  */
 $config['key'] = 'mlq7jQ1Py8kTdW9m';
 
@@ -83,27 +83,37 @@ $config['redis']['port'] = 6379;
 $config['redis']['auth'] = '1qaz2wsx3edc';
 
 /**
- * 缓存所用redis库编号
+ * redis库编号
  */
 $config['cache']['db'] = 0;
 
 /**
- * 缓存有效期（秒）
+ * 有效期（秒）
  */
 $config['cache']['lifetime'] = 2 * 3600;
 
 /**
- * 会话所用redis库编号
+ * redis库编号
  */
 $config['session']['db'] = 0;
 
 /**
- * 会话有效期（秒）
+ * 有效期（秒）
  */
 $config['session']['lifetime'] = 24 * 3600;
 
 /**
- * 加密密钥
+ * redis库编号
+ */
+$config['metadata']['db'] = 2;
+
+/**
+ * 有效期（秒）
+ */
+$config['metadata']['lifetime'] = 7 * 86400;
+
+/**
+ * 密钥
  */
 $config['jwt']['key'] = 'fu6ckEc8pv8k5K7m';
 
@@ -123,7 +133,7 @@ $config['jwt']['leeway'] = 30;
 $config['throttle']['enabled'] = true;
 
 /**
- * 限流有效期（秒)
+ * 有效期（秒)
  */
 $config['throttle']['lifetime'] = 60;
 
@@ -141,14 +151,5 @@ $config['websocket']['url'] = 'ws://127.0.0.1:8282';
  * gateway和worker注册地址（内部访问）
  */
 $config['websocket']['register_address'] = '127.0.0.1:1238';
-
-/**
- * 同步器设置
- */
-$config['syncer']['recount_course'] = false;
-$config['syncer']['recount_chapter'] = false;
-$config['syncer']['recount_consult'] = false;
-$config['syncer']['recount_review'] = false;
-$config['syncer']['recount_comment'] = false;
 
 return $config;

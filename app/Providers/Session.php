@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Phalcon\Config;
 use Phalcon\Session\Adapter\Redis as RedisSession;
 
 class Session extends Provider
@@ -11,16 +12,19 @@ class Session extends Provider
 
     public function register()
     {
-        $this->di->setShared($this->serviceName, function () {
+        /**
+         * @var Config $config
+         */
+        $config = $this->di->getShared('config');
 
-            $config = $this->getShared('config');
+        $this->di->setShared($this->serviceName, function () use ($config) {
 
             $session = new RedisSession([
-                'host' => $config->redis->host,
-                'port' => $config->redis->port,
-                'auth' => $config->redis->auth,
-                'index' => $config->session->db,
-                'lifetime' => $config->session->lifetime,
+                'host' => $config->path('redis.host'),
+                'port' => $config->path('redis.port'),
+                'auth' => $config->path('redis.auth'),
+                'index' => $config->path('session.db'),
+                'lifetime' => $config->path('session.lifetime'),
             ]);
 
             $session->start();

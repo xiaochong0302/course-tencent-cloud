@@ -14,6 +14,7 @@ use App\Providers\Provider as AppProvider;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault\Cli;
 use Phalcon\Loader;
+use Phalcon\Text;
 
 class ConsoleKernel extends Kernel
 {
@@ -48,9 +49,9 @@ class ConsoleKernel extends Kernel
 
             foreach ($_SERVER['argv'] as $k => $arg) {
                 if ($k == 1) {
-                    $options['task'] = $arg;
+                    $options['task'] = $this->handleTaskName($arg);
                 } elseif ($k == 2) {
-                    $options['action'] = $arg;
+                    $options['action'] = $this->handleActionName($arg);
                 } elseif ($k >= 3) {
                     $options['params'][] = $arg;
                 }
@@ -80,8 +81,8 @@ class ConsoleKernel extends Kernel
     protected function registerServices()
     {
         $providers = [
-            CacheProvider::class,
             ConfigProvider::class,
+            CacheProvider::class,
             CryptProvider::class,
             DatabaseProvider::class,
             EventsManagerProvider::class,
@@ -104,6 +105,18 @@ class ConsoleKernel extends Kernel
     protected function registerErrorHandler()
     {
         return new ConsoleErrorHandler();
+    }
+
+    protected function handleTaskName($name)
+    {
+        return Text::uncamelize($name);
+    }
+
+    protected function handleActionName($name)
+    {
+        $name = Text::uncamelize($name);
+
+        return lcfirst(Text::camelize($name));
     }
 
 }

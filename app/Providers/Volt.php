@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Phalcon\Mvc\View\Engine\Volt as PhalconVolt;
+use Phalcon\Mvc\View\Engine\Volt as PhVolt;
 
 class Volt extends Provider
 {
@@ -13,7 +13,7 @@ class Volt extends Provider
     {
         $this->di->setShared('volt', function ($view, $di) {
 
-            $volt = new PhalconVolt($view, $di);
+            $volt = new PhVolt($view, $di);
 
             $volt->setOptions([
                 'compiledPath' => cache_path() . '/volt/',

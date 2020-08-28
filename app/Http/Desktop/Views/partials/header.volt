@@ -4,11 +4,11 @@
     <ul class="layui-nav">
         {% for nav in navs.top %}
             <li class="layui-nav-item">
-                <a href="{{ nav.url }}" target="{{ nav.target }}">{{ nav.name }}</a>
+                <a href="{{ nav.url }}" class="nav-{{ nav.id }}" target="{{ nav.target }}">{{ nav.name }}</a>
                 {% if nav.children %}
                     <dl class="layui-nav-child">
                         {% for child in nav.children %}
-                            <dd><a href="{{ child.url }}" target="{{ child.target }}">{{ child.name }}</a></dd>
+                            <dd><a href="{{ child.url }}" class="nav-{{ child.id }}" target="{{ child.target }}">{{ child.name }}</a></dd>
                         {% endfor %}
                     </dl>
                 {% endif %}
@@ -24,10 +24,13 @@
 <div class="user layui-layout-right">
     <ul class="layui-nav">
         <li class="layui-nav-item">
-            <a href="javascript:" class="kg-search" data-type="{{ s_type }}" data-query="{{ s_query }}" data-url="{{ s_url }}"><i class="layui-icon layui-icon-search"></i> 搜索</a>
+            <a href="javascript:" class="nav-search" data-type="{{ s_type }}" data-query="{{ s_query }}" data-url="{{ s_url }}"><i class="layui-icon layui-icon-search"></i> 搜索</a>
         </li>
         <li class="layui-nav-item">
-            <a href="{{ url({'for':'desktop.im.index'}) }}" target="im">微聊<span class="layui-badge-dot"></span></a>
+            <a href="{{ url({'for':'desktop.vip.index'}) }}" class="nav-vip" target="vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="{{ url({'for':'desktop.im.index'}) }}" class="nav-im" target="im"><i class="layui-icon layui-icon-chat"></i> 微聊</a>
         </li>
         {% if auth_user.id > 0 %}
             <li class="layui-nav-item">

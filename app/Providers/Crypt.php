@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use Phalcon\Crypt as PhalconCrypt;
+use Phalcon\Config;
+use Phalcon\Crypt as PhCrypt;
 
 class Crypt extends Provider
 {
@@ -11,13 +12,16 @@ class Crypt extends Provider
 
     public function register()
     {
-        $this->di->setShared($this->serviceName, function () {
+        /**
+         * @var Config $config
+         */
+        $config = $this->di->getShared('config');
 
-            $config = $this->getShared('config');
+        $this->di->setShared($this->serviceName, function () use ($config) {
 
-            $crypt = new PhalconCrypt();
+            $crypt = new PhCrypt();
 
-            $crypt->setKey($config->key);
+            $crypt->setKey($config->get('key'));
 
             return $crypt;
         });

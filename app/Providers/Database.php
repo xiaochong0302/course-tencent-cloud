@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Phalcon\Config;
 use Phalcon\Db\Adapter\Pdo\Mysql as MySqlAdapter;
 
 class Database extends Provider
@@ -11,17 +12,20 @@ class Database extends Provider
 
     public function register()
     {
-        $this->di->setShared($this->serviceName, function () {
+        /**
+         * @var Config $config
+         */
+        $config = $this->di->getShared('config');
 
-            $config = $this->getShared('config');
+        $this->di->setShared($this->serviceName, function () use ($config) {
 
             $options = [
-                'host' => $config->db->host,
-                'port' => $config->db->port,
-                'dbname' => $config->db->dbname,
-                'username' => $config->db->username,
-                'password' => $config->db->password,
-                'charset' => $config->db->charset,
+                'host' => $config->path('db.host'),
+                'port' => $config->path('db.port'),
+                'dbname' => $config->path('db.dbname'),
+                'username' => $config->path('db.username'),
+                'password' => $config->path('db.password'),
+                'charset' => $config->path('db.charset'),
                 'options' => [
                     \PDO::ATTR_EMULATE_PREPARES => false,
                     \PDO::ATTR_STRINGIFY_FETCHES => false,
@@ -30,7 +34,7 @@ class Database extends Provider
 
             $connection = new MySqlAdapter($options);
 
-            if ($config->env == ENV_DEV) {
+            if ($config->get('env') == ENV_DEV) {
                 $connection->setEventsManager($this->getEventsManager());
             }
 

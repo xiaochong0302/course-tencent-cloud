@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Phalcon\Annotations\Adapter\Files as FileAnnotations;
 use Phalcon\Annotations\Adapter\Memory as MemoryAnnotations;
+use Phalcon\Annotations\Adapter\Redis as RedisAnnotations;
 
 class Annotation extends Provider
 {
@@ -19,8 +19,13 @@ class Annotation extends Provider
             if ($config->env == ENV_DEV) {
                 $annotations = new MemoryAnnotations();
             } else {
-                $annotations = new FileAnnotations([
-                    'annotationsDir' => cache_path() . '/annotations/',
+                $annotations = new RedisAnnotations([
+                    'host' => $config->redis->host,
+                    'port' => $config->redis->port,
+                    'auth' => $config->redis->auth,
+                    'index' => $config->annotation->db,
+                    'lifetime' => $config->annotation->lifetime,
+                    'statsKey' => $config->annotation->statsKey,
                 ]);
             }
 
