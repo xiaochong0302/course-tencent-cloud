@@ -196,20 +196,6 @@ class TestController extends Controller
     }
 
     /**
-     * @Post("/alipay/cancel", name="admin.test.alipay_cancel")
-     */
-    public function alipayCancelAction()
-    {
-        $sn = $this->request->getPost('sn');
-
-        $alipayTestService = new AlipayTestService();
-
-        $alipayTestService->cancel($sn);
-
-        return $this->jsonSuccess(['msg' => '取消订单成功']);
-    }
-
-    /**
      * @Get("/wxpay", name="admin.test.wxpay")
      */
     public function wxpayAction()
@@ -245,20 +231,6 @@ class TestController extends Controller
         $status = $wxpayTestService->status($sn);
 
         return $this->jsonSuccess(['status' => $status]);
-    }
-
-    /**
-     * @Post("/wxpay/cancel", name="admin.test.wxpay_cancel")
-     */
-    public function wxpayCancelAction()
-    {
-        $sn = $this->request->getPost('sn');
-
-        $wxpayTestService = new WxpayTestService();
-
-        $wxpayTestService->cancel($sn);
-
-        return $this->jsonSuccess(['msg' => '取消订单成功']);
     }
 
 }

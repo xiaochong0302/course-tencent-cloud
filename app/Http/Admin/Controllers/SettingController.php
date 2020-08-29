@@ -131,7 +131,7 @@ class SettingController extends Controller
 
         } else {
 
-            $live = $settingService->getSectionSettings($section);
+            $live = $settingService->getLiveSettings();
 
             $ptt = json_decode($live->pull_trans_template);
 

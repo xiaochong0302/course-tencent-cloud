@@ -27,7 +27,7 @@ class ChapterInfo extends FrontendService
 
     use CourseTrait;
     use ChapterTrait;
-    use ChapterBasicInfoTrait;
+    use BasicInfoTrait;
 
     public function handle($id)
     {

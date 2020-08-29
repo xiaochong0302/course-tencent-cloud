@@ -77,12 +77,4 @@ abstract class PayTest extends Service
      */
     abstract public function scan(TradeModel $trade);
 
-    /**
-     * 取消交易
-     *
-     * @param string $tradeNo
-     * @return bool
-     */
-    abstract public function cancel($tradeNo);
-
 }

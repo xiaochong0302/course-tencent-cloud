@@ -16,8 +16,8 @@
         <div class="channel">
             {% set create_url = url({'for':'desktop.trade.create'}) %}
             {% set status_url = url({'for':'desktop.trade.status'}) %}
-            <a class="alipay btn-pay" href="javascript:" data-channel="alipay"></a>
-            <a class="wxpay btn-pay" href="javascript:" data-channel="wxpay"></a>
+            <a class="alipay btn-pay" href="javascript:" data-channel="1"></a>
+            <a class="wxpay btn-pay" href="javascript:" data-channel="2"></a>
         </div>
         <div class="footer">
             <span class="tips">友情提示：请在12小时内完成支付，有问题请联系客服</span>

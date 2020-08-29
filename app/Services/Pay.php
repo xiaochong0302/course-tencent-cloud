@@ -13,7 +13,7 @@ abstract class Pay extends Service
      * 交易状态
      *
      * @param string $tradeNo
-     * @return string
+     * @return int
      */
     public function status($tradeNo)
     {

@@ -90,12 +90,12 @@ $config['cache']['db'] = 0;
 /**
  * 有效期（秒）
  */
-$config['cache']['lifetime'] = 2 * 3600;
+$config['cache']['lifetime'] = 24 * 3600;
 
 /**
  * redis库编号
  */
-$config['session']['db'] = 0;
+$config['session']['db'] = 1;
 
 /**
  * 有效期（秒）
@@ -111,6 +111,26 @@ $config['metadata']['db'] = 2;
  * 有效期（秒）
  */
 $config['metadata']['lifetime'] = 7 * 86400;
+
+/**
+ * statsKey
+ */
+$config['metadata']['statsKey'] = '_PH_METADATA_';
+
+/**
+ * redis库编号
+ */
+$config['annotation']['db'] = 2;
+
+/**
+ * 有效期（秒）
+ */
+$config['annotation']['lifetime'] = 7 * 86400;
+
+/**
+ * statsKey
+ */
+$config['annotation']['statsKey'] = '_PH_ANNOTATION_';
 
 /**
  * 密钥

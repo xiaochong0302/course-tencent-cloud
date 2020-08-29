@@ -6,12 +6,12 @@ use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
 
-class ChapterBasicInfo extends FrontendService
+class BasicInfo extends FrontendService
 {
 
     use CourseTrait;
     use ChapterTrait;
-    use ChapterBasicInfoTrait;
+    use BasicInfoTrait;
 
     public function handle($id)
     {

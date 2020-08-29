@@ -71,7 +71,7 @@ class VodEventTask extends Task
 
         $chapter->update(['attrs' => $attrs]);
 
-        $this->updateVodAttrs($chapter->course_id);
+        $this->updateVodAttrs($chapter);
     }
 
     protected function handleProcedureStateChangedEvent($event)
@@ -144,11 +144,11 @@ class VodEventTask extends Task
         return in_array(strtolower($format), $formats);
     }
 
-    protected function updateVodAttrs($courseId)
+    protected function updateVodAttrs(ChapterModel $chapter)
     {
         $courseStats = new CourseStatService();
 
-        $courseStats->updateVodAttrs($courseId);
+        $courseStats->updateVodAttrs($chapter->course_id);
     }
 
 }

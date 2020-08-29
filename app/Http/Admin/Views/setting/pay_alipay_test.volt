@@ -27,7 +27,7 @@
 
 {% block inline_js %}
 
-    {% if Code %}
+    {% if qrcode %}
         <script>
 
             layui.use(['jquery'], function () {
@@ -40,7 +40,7 @@
                         url: '/admin/test/alipay/status',
                         data: {sn: sn},
                         success: function (res) {
-                            if (res.status === 'finished') {
+                            if ($.inArray(res.status, [2, 3]) > -1) {
                                 $('#success-tips').removeClass('layui-hide');
                                 $('#qrcode').addClass('layui-hide');
                                 clearInterval(interval);

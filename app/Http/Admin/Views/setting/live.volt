@@ -6,6 +6,7 @@
         <ul class="layui-tab-title kg-tab-title">
             <li class="layui-this">推流配置</li>
             <li>拉流配置</li>
+            <li>回调配置</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -13,6 +14,9 @@
             </div>
             <div class="layui-tab-item">
                 {{ partial('setting/live_pull') }}
+            </div>
+            <div class="layui-tab-item">
+                {{ partial('setting/live_callback') }}
             </div>
         </div>
     </div>

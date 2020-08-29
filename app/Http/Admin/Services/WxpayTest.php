@@ -26,11 +26,4 @@ class WxpayTest extends PayTest
         return $wxpayService->status($tradeNo);
     }
 
-    public function cancel($tradeNo)
-    {
-        $wxpayService = new WxpayService();
-
-        return $wxpayService->close($tradeNo);
-    }
-
 }

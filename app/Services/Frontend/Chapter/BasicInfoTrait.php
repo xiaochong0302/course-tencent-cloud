@@ -9,7 +9,7 @@ use App\Services\ChapterVod as ChapterVodService;
 use App\Services\Live as LiveService;
 use WhichBrowser\Parser as BrowserParser;
 
-trait ChapterBasicInfoTrait
+trait BasicInfoTrait
 {
 
     use ChapterLiveTrait;

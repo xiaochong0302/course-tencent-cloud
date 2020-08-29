@@ -132,4 +132,17 @@ class Setting extends Service
         }
     }
 
+    public function getLiveSettings()
+    {
+        $live = $this->getSectionSettings('live');
+
+        $live->notify_stream_begin_url = $live->notify_stream_begin_url ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'streamBegin']);
+        $live->notify_stream_end_url = $live->notify_stream_end_url ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'streamEnd']);
+        $live->notify_record_url = $live->notify_record_url ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'record']);
+        $live->notify_snapshot_url = $live->notify_snapshot_url ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'snapshot']);
+        $live->notify_porn_url = $live->notify_porn_url ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'porn']);
+
+        return $live;
+    }
+
 }
