@@ -3,8 +3,9 @@ layui.use(['jquery', 'form', 'helper'], function () {
     var $ = layui.jquery;
     var form = layui.form;
     var helper = layui.helper;
-    var socket = new WebSocket(window.koogua.socketUrl);
+    var socket = new WebSocket(window.im.websocket.url);
     var bindUserUrl = $('input[name="bind_user_url"]').val();
+    var liveStatsUrl = $('input[name="live_stats_url"]').val();
     var $chatContent = $('input[name=content]');
     var $chatMsgList = $('#chat-msg-list');
 
@@ -53,7 +54,7 @@ layui.use(['jquery', 'form', 'helper'], function () {
 
     setInterval(function () {
         refreshLiveStats();
-    }, 300000);
+    }, 30000);
 
     function bindUser(clientId) {
         $.ajax({
@@ -92,8 +93,10 @@ layui.use(['jquery', 'form', 'helper'], function () {
     }
 
     function refreshLiveStats() {
-        var $tabStats = $('#tab-stats');
-        helper.ajaxLoadHtml($tabStats.data('url'), $tabStats.attr('id'));
+        var $count = $('.layui-icon-user').next();
+        $.get(liveStatsUrl, function (res) {
+            $count.text(res.client_count);
+        });
     }
 
     function loadRecentChats() {

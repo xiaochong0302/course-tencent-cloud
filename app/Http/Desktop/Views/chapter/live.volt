@@ -20,7 +20,7 @@
         </span>
         <span class="share">
             <a href="javascript:" title="点赞" data-url="{{ like_url }}"><i class="layui-icon layui-icon-praise icon-praise"></i><em class="like-count">{{ chapter.like_count }}</em></a>
-            <a href="javascript:" title="在线人数"><i class="layui-icon layui-icon-user"></i><em>15</em></a>
+            <a href="javascript:" title="在线人数"><i class="layui-icon layui-icon-user"></i><em>0</em></a>
             <a href="javascript:" title="分享到微信" data-url=""><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
             <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
             <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
@@ -56,6 +56,7 @@
         <input type="hidden" name="chapter.plan_id" value="{{ chapter.me.plan_id }}">
         <input type="hidden" name="chapter.learning_url" value="{{ learning_url }}">
         <input type="hidden" name="chapter.play_urls" value='{{ chapter.play_urls|json_encode }}'>
+        <input type="hidden" name="live_stats_url" value='{{ live_stats_url }}'>
         <input type="hidden" name="bind_user_url" value='{{ bind_user_url }}'>
     </div>
 

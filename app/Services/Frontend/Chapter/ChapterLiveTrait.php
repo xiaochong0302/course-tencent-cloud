@@ -5,7 +5,7 @@ namespace App\Services\Frontend\Chapter;
 trait ChapterLiveTrait
 {
 
-    protected function getLiveStreamName($id)
+    protected function getStreamName($id)
     {
         return "chapter_{$id}";
     }

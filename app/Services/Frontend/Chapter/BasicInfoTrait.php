@@ -67,7 +67,7 @@ trait BasicInfoTrait
 
         $liveService = new LiveService();
 
-        $stream = $this->getLiveStreamName($chapter->id);
+        $stream = $this->getStreamName($chapter->id);
 
         $format = $browserParser->isType('desktop') ? 'flv' : 'hls';
 

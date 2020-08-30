@@ -9,7 +9,7 @@
             </p>
         {% elseif course.model == '2' %}
             <p class="item">
-                <span class="key">直播时间</span><span>{{ course.attrs.start_date }} ~ {{ course.attrs.end_date }}</span>
+                <span class="key">直播时间</span><span class="value">{{ course.attrs.start_date }} ~ {{ course.attrs.end_date }}</span>
             </p>
         {% endif %}
         {% if course.market_price > 0 %}

@@ -138,6 +138,10 @@ body {
     background: none;
 }
 
+#header .layui-nav {
+    background: none;
+}
+
 #footer span, #footer a {
     color: #999;
 }

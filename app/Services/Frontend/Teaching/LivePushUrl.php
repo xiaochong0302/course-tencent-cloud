@@ -21,7 +21,7 @@ class LivePushUrl extends FrontendService
 
         $service = new LiveService();
 
-        $steamName = $this->getLiveStreamName($chapter->id);
+        $steamName = $this->getStreamName($chapter->id);
 
         return $service->getPushUrl($steamName);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Desktop\Controllers;
 
+use App\Models\Course as CourseModel;
 use App\Services\Frontend\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Frontend\Chapter\ChapterLike as ChapterLikeService;
 use App\Services\Frontend\Chapter\DanmuList as ChapterDanmuListService;
@@ -39,11 +40,11 @@ class ChapterController extends Controller
         $this->seo->prependTitle(['章节', $chapter['title'], $chapter['course']['title']]);
         $this->seo->setDescription($chapter['summary']);
 
-        if ($chapter['model'] == 'vod') {
+        if ($chapter['model'] == CourseModel::MODEL_VOD) {
             $this->view->pick('chapter/vod');
-        } elseif ($chapter['model'] == 'live') {
+        } elseif ($chapter['model'] == CourseModel::MODEL_LIVE) {
             $this->view->pick('chapter/live');
-        } elseif ($chapter['model'] == 'read') {
+        } elseif ($chapter['model'] == CourseModel::MODEL_READ) {
             $this->view->pick('chapter/read');
         }
 

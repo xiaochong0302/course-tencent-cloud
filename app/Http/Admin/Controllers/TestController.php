@@ -182,20 +182,6 @@ class TestController extends Controller
     }
 
     /**
-     * @Get("/alipay/status", name="admin.test.alipay_status")
-     */
-    public function alipayStatusAction()
-    {
-        $sn = $this->request->getQuery('sn');
-
-        $alipayTestService = new AlipayTestService();
-
-        $status = $alipayTestService->status($sn);
-
-        return $this->jsonSuccess(['status' => $status]);
-    }
-
-    /**
      * @Get("/wxpay", name="admin.test.wxpay")
      */
     public function wxpayAction()
@@ -217,6 +203,20 @@ class TestController extends Controller
         $this->view->pick('setting/pay_wxpay_test');
         $this->view->setVar('sn', $trade->sn);
         $this->view->setVar('qrcode', $qrcode);
+    }
+
+    /**
+     * @Get("/alipay/status", name="admin.test.alipay_status")
+     */
+    public function alipayStatusAction()
+    {
+        $sn = $this->request->getQuery('sn');
+
+        $alipayTestService = new AlipayTestService();
+
+        $status = $alipayTestService->status($sn);
+
+        return $this->jsonSuccess(['status' => $status]);
     }
 
     /**

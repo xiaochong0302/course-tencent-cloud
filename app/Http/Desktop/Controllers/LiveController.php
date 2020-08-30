@@ -51,9 +51,7 @@ class LiveController extends Controller
 
         $stats = $service->getStats($id);
 
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('chapter/live_stats');
-        $this->view->setVar('stats', $stats);
+        return $this->jsonSuccess($stats);
     }
 
     /**

@@ -2,6 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Chapter as ChapterModel;
+use App\Models\ChapterLive as ChapterLiveModel;
+use App\Repos\Chapter as ChapterRepo;
+
 class LiveNotify extends Service
 {
 
@@ -11,28 +15,27 @@ class LiveNotify extends Service
         $sign = $this->request->getPost('sign');
         $type = $this->request->getQuery('action');
 
-        if (!$this->checkSign($time, $sign)) {
+        if (!$this->checkSign($sign, $time)) {
             return false;
         }
 
+        $result = false;
+
         switch ($type) {
             case 'streamBegin':
-                $result = $this->streamBegin();
+                $result = $this->handleStreamBegin();
                 break;
             case 'streamEnd':
-                $result = $this->streamEnd();
+                $result = $this->handleStreamEnd();
                 break;
             case 'record':
-                $result = $this->record();
+                $result = $this->handleRecord();
                 break;
             case 'snapshot':
-                $result = $this->snapshot();
+                $result = $this->handleSnapshot();
                 break;
             case 'porn':
-                $result = $this->porn();
-                break;
-            default:
-                $result = false;
+                $result = $this->handlePorn();
                 break;
         }
 
@@ -42,45 +45,98 @@ class LiveNotify extends Service
     /**
      * 推流
      */
-    protected function streamBegin()
+    protected function handleStreamBegin()
     {
+        $steamId = $this->request->getPost('stream_id');
 
+        $chapter = $this->getChapter($steamId);
+
+        if (!$chapter) return false;
+
+        $attrs = $chapter->attrs;
+
+        $attrs['stream']['status'] = ChapterModel::SS_ACTIVE;
+
+        $chapter->update(['attrs' => $attrs]);
+
+        $chapterLive = $this->getChapterLive($chapter->id);
+
+        $chapterLive->update(['status' => ChapterLiveModel::STATUS_ACTIVE]);
+
+        /**
+         * @todo 发送直播通知
+         */
+
+        return true;
     }
 
     /**
      * 断流
      */
-    protected function streamEnd()
+    protected function handleStreamEnd()
+    {
+        $steamId = $this->request->getPost('stream_id');
+
+        $chapter = $this->getChapter($steamId);
+
+        if (!$chapter) return false;
+
+        $attrs = $chapter->attrs;
+
+        $attrs['stream']['status'] = ChapterModel::SS_INACTIVE;
+
+        $chapter->update(['attrs' => $attrs]);
+
+        $chapterLive = $this->getChapterLive($chapter->id);
+
+        $chapterLive->update(['status' => ChapterLiveModel::STATUS_INACTIVE]);
+
+        return true;
+    }
+
+    /**
+     * 录制
+     */
+    protected function handleRecord()
     {
 
     }
 
     /**
-     * 断流
+     * 截图
      */
-    protected function record()
+    protected function handleSnapshot()
     {
 
     }
 
     /**
-     * 断流
+     * 鉴黄
      */
-    protected function snapshot()
+    protected function handlePorn()
     {
 
     }
 
-    /**
-     * 断流
-     */
-    protected function porn()
+    protected function getChapter($streamId)
     {
+        $id = (int)str_replace('chapter_', '', $streamId);
 
+        $chapterRepo = new ChapterRepo();
+
+        return $chapterRepo->findById($id);
+    }
+
+    protected function getChapterLive($chapterId)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        return $chapterRepo->findChapterLive($chapterId);
     }
 
     /**
      * 检查签名
+     *
      * @param string $sign
      * @param int $time
      * @return bool
@@ -91,7 +147,7 @@ class LiveNotify extends Service
             return false;
         }
 
-        if ($time < time() + 600) {
+        if ($time < time()) {
             return false;
         }
 

@@ -18,14 +18,20 @@ class Chapter extends Model
     const FS_FAILED = 'failed'; // 已失败
 
     /**
+     * 推流状态
+     */
+    const SS_ACTIVE = 'active'; // 活跃
+    const SS_INACTIVE = 'inactive'; // 非活跃
+    const SS_FORBID = 'forbid'; // 禁播
+
+    /**
      * @var array
      *
      * 点播扩展属性
      */
     protected $_vod_attrs = [
         'duration' => 0,
-        'file_id' => '',
-        'file_status' => 'pending',
+        'file' => ['id' => '', 'status' => self::FS_PENDING],
     ];
 
     /**
@@ -36,6 +42,7 @@ class Chapter extends Model
     protected $_live_attrs = [
         'start_time' => 0,
         'end_time' => 0,
+        'stream' => ['status' => self::SS_INACTIVE],
     ];
 
     /**

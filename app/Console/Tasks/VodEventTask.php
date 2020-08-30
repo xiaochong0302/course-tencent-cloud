@@ -66,7 +66,8 @@ class VodEventTask extends Task
          */
         $attrs = $chapter->attrs;
 
-        $attrs['file_status'] = ChapterModel::FS_TRANSLATING;
+        $attrs['file']['status'] = ChapterModel::FS_TRANSLATING;
+
         $attrs['duration'] = (int)$duration;
 
         $chapter->update(['attrs' => $attrs]);
@@ -118,7 +119,7 @@ class VodEventTask extends Task
          */
         $attrs = $chapter->attrs;
 
-        $attrs['file_status'] = $fileStatus;
+        $attrs['file']['status'] = $fileStatus;
 
         $chapter->update(['attrs' => $attrs]);
     }

@@ -2,7 +2,7 @@
 
 use Phinx\Db\Adapter\MysqlAdapter;
 
-class InitTable extends Phinx\Migration\AbstractMigration
+class InitDb extends Phinx\Migration\AbstractMigration
 {
     public function change()
     {
@@ -643,19 +643,12 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'comment' => '章节编号',
                 'after' => 'course_id',
             ])
-            ->addColumn('user_limit', 'integer', [
-                'null' => false,
-                'default' => '100',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'comment' => '用户限额',
-                'after' => 'chapter_id',
-            ])
             ->addColumn('start_time', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'comment' => '开始时间',
-                'after' => 'user_limit',
+                'after' => 'chapter_id',
             ])
             ->addColumn('end_time', 'integer', [
                 'null' => false,
@@ -664,12 +657,26 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'comment' => '结束时间',
                 'after' => 'start_time',
             ])
+            ->addColumn('user_limit', 'integer', [
+                'null' => false,
+                'default' => '100',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'comment' => '用户限额',
+                'after' => 'end_time',
+            ])
+            ->addColumn('status', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'comment' => '状态标识',
+                'after' => 'user_limit',
+            ])
             ->addColumn('create_time', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'comment' => '创建时间',
-                'after' => 'end_time',
+                'after' => 'status',
             ])
             ->addColumn('update_time', 'integer', [
                 'null' => false,
@@ -2251,7 +2258,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('content', 'string', [
                 'null' => false,
                 'default' => '',
-                'limit' => 1500,
+                'limit' => 3000,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
                 'comment' => '内容',

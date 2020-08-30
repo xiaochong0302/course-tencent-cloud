@@ -6,6 +6,13 @@ class ChapterLive extends Model
 {
 
     /**
+     * 状态类型
+     */
+    const STATUS_ACTIVE = 1; // 活跃
+    const STATUS_INACTIVE = 2; // 非活跃
+    const STATUS_FORBID = 3; // 禁播
+
+    /**
      * 主键编号
      *
      * @var int
@@ -46,6 +53,13 @@ class ChapterLive extends Model
      * @var int
      */
     public $user_limit;
+
+    /**
+     * 直播状态
+     *
+     * @var int
+     */
+    public $status;
 
     /**
      * 创建时间

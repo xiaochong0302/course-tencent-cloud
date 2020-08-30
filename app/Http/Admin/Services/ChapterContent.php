@@ -92,8 +92,8 @@ class ChapterContent extends Service
         $attrs = $chapter->attrs;
 
         $attrs['duration'] = 0;
-        $attrs['file_id'] = $fileId;
-        $attrs['file_status'] = ChapterModel::FS_UPLOADED;
+
+        $attrs['file']['status'] = ChapterModel::FS_UPLOADED;
 
         $chapter->update(['attrs' => $attrs]);
 
