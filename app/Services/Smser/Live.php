@@ -24,7 +24,7 @@ class Live extends Smser
 
         $account = $accountRepo->findById($userId);
 
-        if (!$account->phone) {
+        if (empty($account->phone)) {
             return false;
         }
 

@@ -3,9 +3,9 @@
 {% block content %}
 
     {%- macro position_info(value) %}
-        {% if value == 'top' %}
+        {% if value == 1 %}
             <span class="layui-badge layui-bg-green">顶部</span>
-        {% elseif value == 'bottom' %}
+        {% elseif value == 2 %}
             <span class="layui-badge layui-bg-blue">底部</span>
         {% endif %}
     {%- endmacro %}

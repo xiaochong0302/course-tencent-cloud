@@ -10,20 +10,20 @@ $script = __DIR__ . '/console.php';
 
 $bin = '/usr/bin/php';
 
-$scheduler->php($script, $bin, ['--task' => 'sync_learning', '--action' => 'main'])
+$scheduler->php($script, $bin, ['--task' => 'deliver', '--action' => 'main'])
     ->at('*/3 * * * *');
 
-$scheduler->php($script, $bin, ['--task' => 'order', '--action' => 'main'])
+$scheduler->php($script, $bin, ['--task' => 'live_notify', '--action' => 'main'])
     ->at('*/5 * * * *');
+
+$scheduler->php($script, $bin, ['--task' => 'sync_learning', '--action' => 'main'])
+    ->at('*/7 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'vod_event', '--action' => 'main'])
-    ->at('*/5 * * * *');
+    ->at('*/9 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'close_trade', '--action' => 'main'])
-    ->at('*/10 * * * *');
-
-$scheduler->php($script, $bin, ['--task' => 'live_notice_consumer', '--action' => 'main'])
-    ->at('*/15 * * * *');
+    ->at('*/13 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'close_order', '--action' => 'main'])
     ->hourly(3);
@@ -43,11 +43,8 @@ $scheduler->php($script, $bin, ['--task' => 'unlock_user', '--action' => 'main']
 $scheduler->php($script, $bin, ['--task' => 'revoke_vip', '--action' => 'main'])
     ->daily(3, 11);
 
-$scheduler->php($script, $bin, ['--task' => 'live_notice_provider', '--action' => 'main'])
-    ->daily(3, 17);
-
 $scheduler->php($script, $bin, ['--task' => 'clean_token', '--action' => 'main'])
-    ->daily(3, 23);
+    ->daily(3, 17);
 
 $scheduler->php($script, $bin, ['--task' => 'site_map', '--action' => 'main'])
     ->daily(4, 3);

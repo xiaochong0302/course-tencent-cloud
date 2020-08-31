@@ -52,42 +52,45 @@
             <input type="radio" name="pull_trans_enabled" value="0" title="否" lay-filter="pull_trans_enabled" {% if live.pull_trans_enabled == 0 %}checked{% endif %}>
         </div>
     </div>
-    <table class="layui-table kg-table layui-form" id="ptt-block" {{ ppt_display }}>
-        <colgroup>
-            <col>
-            <col>
-            <col>
-            <col>
-        </colgroup>
-        <thead>
-        <tr>
-            <th>模板名称</th>
-            <th>模板描述</th>
-            <th>视频码率（kbps）</th>
-            <th>视频高度（px）</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><input class="layui-input" type="text" name="ptt[id][fd]" value="{{ ptt.fd.id }}" readonly="readonly"></td>
-            <td><input class="layui-input" type="text" name="ptt[summary][fd]" value="{{ ptt.fd.summary }}" readonly="readonly"></td>
-            <td><input class="layui-input" type="text" name="ptt[bit_rate][fd]" value="{{ ptt.fd.bit_rate }}" readonly="readonly"></td>
-            <td><input class="layui-input" type="text" name="ptt[height][fd]" value="{{ ptt.fd.height }}" readonly="readonly"></td>
-        </tr>
-        <tr>
-            <td><input class="layui-input" type="text" name="ptt[id][sd]" value="{{ ptt.sd.id }}" readonly="readonly"></td>
-            <td><input class="layui-input" type="text" name="ptt[summary][sd]" value="{{ ptt.sd.summary }}" readonly="readonly"></td>
-            <td><input class="layui-input" type="text" name="ptt[bit_rate][sd]" value="{{ ptt.sd.bit_rate }}" readonly="readonly"></td>
-            <td><input class="layui-input" type="text" name="ptt[height][sd]" value="{{ ptt.sd.height }}" readonly="readonly"></td>
-        </tr>
-        <tr>
-            <td><input class="layui-input" type="text" name="ptt[id][hd]" value="{{ ptt.hd.id }}" readonly="readonly"></td>
-            <td><input class="layui-input" type="text" name="ptt[summary][hd]" value="{{ ptt.hd.summary }}" readonly="readonly"></td>
-            <td><input class="layui-input" type="text" name="ptt[bit_rate][hd]" value="{{ ptt.hd.bit_rate }}" readonly="readonly"></td>
-            <td><input class="layui-input" type="text" name="ptt[height][hd]" value="{{ ptt.hd.height }}" readonly="readonly"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div id="ptt-block" {{ ppt_display }}>
+        <table class="layui-table kg-table layui-form">
+            <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>模板名称</th>
+                <th>模板描述</th>
+                <th>视频码率（kbps）</th>
+                <th>视频高度（px）</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>fd</td>
+                <td>流畅</td>
+                <td>500</td>
+                <td>540</td>
+            </tr>
+            <tr>
+                <td>sd</td>
+                <td>标清</td>
+                <td>1000</td>
+                <td>720</td>
+            </tr>
+            <tr>
+                <td>hd</td>
+                <td>高清</td>
+                <td>2000</td>
+                <td>1080</td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+    </div>
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-block">

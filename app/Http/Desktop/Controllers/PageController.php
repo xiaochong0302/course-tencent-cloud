@@ -19,7 +19,7 @@ class PageController extends Controller
 
         $page = $service->handle($id);
 
-        $this->seo->prependTitle($page['title']);
+        $this->seo->prependTitle(['单页', $page['title']]);
 
         $this->view->setVar('page', $page);
     }

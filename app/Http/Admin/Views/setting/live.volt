@@ -16,7 +16,7 @@
                 {{ partial('setting/live_pull') }}
             </div>
             <div class="layui-tab-item">
-                {{ partial('setting/live_callback') }}
+                {{ partial('setting/live_notify') }}
             </div>
         </div>
     </div>

@@ -11,7 +11,7 @@
                         {{ type_info(item.type) }}
                         <div class="avatar">
                             <a href="{{ group_url }}" title="{{ item.about }}">
-                                <img src="{{ item.avatar }}" alt="{{ item.name }}">
+                                <img src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
                             </a>
                         </div>
                         <div class="name layui-elip">

@@ -109,7 +109,7 @@ class CloseTradeTask extends Task
      * @param int $limit
      * @return ResultsetInterface|Resultset|TradeModel[]
      */
-    protected function findTrades($limit = 15)
+    protected function findTrades($limit = 50)
     {
         $status = TradeModel::STATUS_PENDING;
 

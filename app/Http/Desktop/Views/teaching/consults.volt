@@ -42,8 +42,8 @@
                             <tr>
                                 <td>
                                     <p>课程：<a href="{{ course_url }}" target="_blank">{{ item.course.title }}</a></p>
-                                    <p class="question layui-elip" title="{{ item.question }}">提问：{{ item.question }}</p>
-                                    <p class="answer layui-elip" title="{{ item.answer }}">回复：{{ answer }}</p>
+                                    <p class="content layui-elip" title="{{ item.question }}">提问：{{ item.question }}</p>
+                                    <p class="content layui-elip" title="{{ item.answer }}">回复：{{ answer }}</p>
                                 </td>
                                 <td>{{ item.priority }}</td>
                                 <td>{{ date('Y-m-d',item.create_time) }}</td>

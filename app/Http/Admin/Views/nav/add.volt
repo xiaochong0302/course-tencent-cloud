@@ -40,8 +40,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">位置</label>
             <div class="layui-input-block">
-                <input type="radio" name="position" value="top" title="顶部" checked="checked">
-                <input type="radio" name="position" value="bottom" title="底部">
+                <input type="radio" name="position" value="1" title="顶部" checked="checked">
+                <input type="radio" name="position" value="2" title="底部">
             </div>
         </div>
         <div class="layui-form-item">

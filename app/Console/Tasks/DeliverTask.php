@@ -14,7 +14,7 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class OrderTask extends Task
+class DeliverTask extends Task
 {
 
     const TRY_COUNT = 3;
@@ -178,11 +178,11 @@ class OrderTask extends Task
 
         $refund = new RefundModel();
 
-        $refund->subject = $order->subject;
-        $refund->amount = $order->amount;
-        $refund->user_id = $order->user_id;
+        $refund->owner_id = $order->owner_id;
         $refund->order_id = $order->id;
         $refund->trade_id = $trade->id;
+        $refund->subject = $order->subject;
+        $refund->amount = $order->amount;
         $refund->apply_note = '开通服务失败，自动退款';
         $refund->review_note = '自动操作';
 
@@ -210,7 +210,7 @@ class OrderTask extends Task
      */
     protected function findTasks($limit = 100)
     {
-        $itemType = TaskModel::TYPE_ORDER;
+        $itemType = TaskModel::TYPE_DELIVER;
         $status = TaskModel::STATUS_PENDING;
         $tryCount = self::TRY_COUNT;
 

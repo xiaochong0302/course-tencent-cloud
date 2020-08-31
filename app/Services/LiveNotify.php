@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Repos\Chapter as ChapterRepo;
@@ -13,7 +14,7 @@ class LiveNotify extends Service
     {
         $time = $this->request->getPost('t');
         $sign = $this->request->getPost('sign');
-        $type = $this->request->getQuery('action');
+        $action = $this->request->getQuery('action');
 
         if (!$this->checkSign($sign, $time)) {
             return false;
@@ -21,7 +22,7 @@ class LiveNotify extends Service
 
         $result = false;
 
-        switch ($type) {
+        switch ($action) {
             case 'streamBegin':
                 $result = $this->handleStreamBegin();
                 break;
@@ -42,14 +43,24 @@ class LiveNotify extends Service
         return $result;
     }
 
+    public function getNotifyKey()
+    {
+        return 'live_notify';
+    }
+
+    public function getSentNotifyKey()
+    {
+        return 'live_notify_sent';
+    }
+
     /**
      * 推流
      */
     protected function handleStreamBegin()
     {
-        $steamId = $this->request->getPost('stream_id');
+        $streamId = $this->request->getPost('stream_id');
 
-        $chapter = $this->getChapter($steamId);
+        $chapter = $this->getChapter($streamId);
 
         if (!$chapter) return false;
 
@@ -63,9 +74,7 @@ class LiveNotify extends Service
 
         $chapterLive->update(['status' => ChapterLiveModel::STATUS_ACTIVE]);
 
-        /**
-         * @todo 发送直播通知
-         */
+        $this->sendBeginNotify($chapter);
 
         return true;
     }
@@ -75,9 +84,9 @@ class LiveNotify extends Service
      */
     protected function handleStreamEnd()
     {
-        $steamId = $this->request->getPost('stream_id');
+        $streamId = $this->request->getPost('stream_id');
 
-        $chapter = $this->getChapter($steamId);
+        $chapter = $this->getChapter($streamId);
 
         if (!$chapter) return false;
 
@@ -116,6 +125,22 @@ class LiveNotify extends Service
     protected function handlePorn()
     {
 
+    }
+
+    protected function sendBeginNotify(ChapterModel $chapter)
+    {
+        /**
+         * @var RedisCache $cache
+         */
+        $cache = $this->getDI()->get('cache');
+
+        $redis = $cache->getRedis();
+
+        $keyName = $this->getNotifyKeyName();
+
+        $redis->sAdd($keyName, $chapter->id);
+
+        $redis->expire($keyName, 86400);
     }
 
     protected function getChapter($streamId)

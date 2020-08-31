@@ -17,7 +17,7 @@ class CategoryController extends Controller
     public function listAction()
     {
         $parentId = $this->request->get('parent_id', 'int', 0);
-        $type = $this->request->get('type', 'string', CategoryModel::TYPE_COURSE);
+        $type = $this->request->get('type', 'int', CategoryModel::TYPE_COURSE);
 
         $categoryService = new CategoryService();
 
@@ -41,7 +41,7 @@ class CategoryController extends Controller
     public function addAction()
     {
         $parentId = $this->request->get('parent_id', 'int', 0);
-        $type = $this->request->get('type', 'string', 'course');
+        $type = $this->request->get('type', 'int', CategoryModel::TYPE_COURSE);
 
         $categoryService = new CategoryService();
 
@@ -69,7 +69,7 @@ class CategoryController extends Controller
 
         $location = $this->url->get(
             ['for' => 'admin.category.list'],
-            ['type' => $category->type, 'parent_id' => $category->parent_id],
+            ['type' => $category->type, 'parent_id' => $category->parent_id]
         );
 
         $content = [
@@ -105,7 +105,7 @@ class CategoryController extends Controller
 
         $location = $this->url->get(
             ['for' => 'admin.category.list'],
-            ['type' => $category->type, 'parent_id' => $category->parent_id],
+            ['type' => $category->type, 'parent_id' => $category->parent_id]
         );
 
         $content = [

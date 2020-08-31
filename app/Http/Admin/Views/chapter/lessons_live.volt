@@ -7,6 +7,12 @@
     {% endif %}
 {%- endmacro %}
 
+{%- macro live_status_info(attrs) %}
+    {% if attrs['stream']['status'] != 'active' %}
+        <span class="layui-badge layui-bg-blue">直播中</span>
+    {% endif %}
+{%- endmacro %}
+
 <table class="layui-table kg-table layui-form">
     <colgroup>
         <col>
@@ -21,7 +27,7 @@
     <tr>
         <th>编号</th>
         <th>名称</th>
-        <th>直播时间</th>
+        <th>时间</th>
         <th>排序</th>
         <th>免费</th>
         <th>发布</th>
@@ -30,6 +36,7 @@
     </thead>
     <tbody>
     {% for item in lessons %}
+        {% set preview_url = url({'for':'desktop.chapter.show','id':item.id}) %}
         {% set edit_url = url({'for':'admin.chapter.edit','id':item.id}) %}
         {% set update_url = url({'for':'admin.chapter.update','id':item.id}) %}
         {% set delete_url = url({'for':'admin.chapter.delete','id':item.id}) %}
@@ -39,6 +46,7 @@
             <td>
                 <span><a href="{{ edit_url }}">{{ item.title }}</a></span>
                 <span class="layui-badge layui-bg-green">课</span>
+                {{ live_status_info(item.attrs) }}
             </td>
             <td>{{ live_time_info(item.attrs) }}</td>
             <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
@@ -48,6 +56,7 @@
                 <div class="layui-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                     <ul>
+                        <li><a href="{{ preview_url }}" target="_blank">预览</a></li>
                         <li><a href="{{ edit_url }}">编辑</a></li>
                         {% if item.deleted == 0 %}
                             <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>

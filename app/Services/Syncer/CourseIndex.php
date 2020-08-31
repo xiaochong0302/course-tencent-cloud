@@ -36,7 +36,9 @@ class CourseIndex extends Service
 
         $this->redis->sAdd($key, $courseId);
 
-        $this->redis->expire($key, $this->lifetime);
+        if ($this->redis->sCard($key) == 1) {
+            $this->redis->expire($key, $this->lifetime);
+        }
     }
 
     public function getSyncKey()

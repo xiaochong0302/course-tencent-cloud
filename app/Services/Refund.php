@@ -38,7 +38,7 @@ class Refund extends Service
         $refundAmount = 0.00;
 
         if ($itemInfo['course']['refund_expiry_time'] > time()) {
-            $refundPercent = $this->getCourseRefundPercent($order->item_id, $order->user_id);
+            $refundPercent = $this->getCourseRefundPercent($order->item_id, $order->owner_id);
             $refundAmount = $order->amount * $refundPercent;
         }
 
@@ -79,7 +79,7 @@ class Refund extends Service
 
             if ($course['refund_expiry_time'] > time()) {
                 $pricePercent = round($course['market_price'] / $totalMarketPrice, 4);
-                $refundPercent = $this->getCourseRefundPercent($order->user_id, $course['id']);
+                $refundPercent = $this->getCourseRefundPercent($course['id'], $order->owner_id);
                 $refundAmount = round($order->amount * $pricePercent * $refundPercent, 2);
                 $totalRefundAmount += $refundAmount;
             }

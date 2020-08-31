@@ -68,10 +68,11 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set preview_url = url({'for':'desktop.user.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.user.edit','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                <td><span title="{{ item.about }}">{{ item.name }}</span>{{ status_info(item) }}</td>
+                <td><a href="{{ edit_url }}" title="{{ item.about }}">{{ item.name }}</a>{{ status_info(item) }}</td>
                 <td>{{ gender_info(item.gender) }}</td>
                 <td>{{ edu_role_info(item) }}</td>
                 <td>{{ admin_role_info(item) }}</td>
@@ -81,6 +82,7 @@
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
+                            <li><a href="{{ preview_url }}" target="_blank">预览</a></li>
                             <li><a href="{{ edit_url }}">编辑</a></li>
                         </ul>
                     </div>

@@ -65,11 +65,13 @@ class Learning extends Service
             $this->cache->save($itemKey, $cacheLearning, $this->lifetime);
         }
 
-        $syncKey = $this->getSyncKey();
+        $key = $this->getSyncKey();
 
-        $this->redis->sAdd($syncKey, $learning->request_id);
+        $this->redis->sAdd($key, $learning->request_id);
 
-        $this->redis->expire($syncKey, $this->lifetime);
+        if ($this->redis->sCard($key) == 1) {
+            $this->redis->expire($key, $this->lifetime);
+        }
     }
 
     public function getItemKey($id)

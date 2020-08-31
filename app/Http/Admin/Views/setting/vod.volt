@@ -36,22 +36,10 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">视频模板ID</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="video_template" readonly="readonly" layui-verify="required">
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">音频格式</label>
             <div class="layui-input-block">
                 <input type="radio" name="audio_format" value="mp3" title="MP3" lay-filter="audio_format" {% if vod.audio_format == "mp3" %}checked{% endif %}>
                 <input type="radio" name="audio_format" value="m4a" title="M4A" disabled="disabled" lay-filter="audio_format" {% if vod.audio_format == "m4a" %}checked{% endif %}>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">音频模板ID</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="audio_template" readonly="readonly" layui-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
@@ -148,24 +136,6 @@
             var $ = layui.jquery;
             var form = layui.form;
 
-            var changeVideoTemplate = function (format) {
-                var template = $('input[name=video_template]');
-                if (format === 'mp4') {
-                    template.val('100010,100020,100030');
-                } else {
-                    template.val('100210,100220,100230');
-                }
-            };
-
-            var changeAudioTemplate = function (format) {
-                var template = $('input[name=audio_template]');
-                if (format === 'mp3') {
-                    template.val('1010');
-                } else {
-                    template.val('1110');
-                }
-            };
-
             form.on('radio(storage_type)', function (data) {
                 var block = $('#storage-region-block');
                 if (data.value === 'fixed') {
@@ -192,20 +162,6 @@
                     block.hide();
                 }
             });
-
-            form.on('radio(video_format)', function (data) {
-                changeVideoTemplate(data.value);
-            });
-
-            form.on('radio(audio_format)', function (data) {
-                changeAudioTemplate(data.value);
-            });
-
-            var videoFormat = $('input[name=video_format]:checked').val();
-            var audioFormat = $('input[name=audio_format]:checked').val();
-
-            changeVideoTemplate(videoFormat);
-            changeAudioTemplate(audioFormat);
 
         });
 

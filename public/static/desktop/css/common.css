@@ -1465,15 +1465,11 @@ body {
     text-align: center;
 }
 
-.consult-table .item-elip {
-    width: 450px;
-}
-
 .review-table .title {
     width: 400px;
 }
 
-.review-table .content {
+.review-table .content, .consult-table .content {
     width: 400px;
     color: #666;
 }

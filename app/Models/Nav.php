@@ -10,8 +10,8 @@ class Nav extends Model
     /**
      * 位置类型
      */
-    const POS_TOP = 'top';
-    const POS_BOTTOM = 'bottom';
+    const POS_TOP = 1; // 顶部
+    const POS_BOTTOM = 2; // 底部
 
     /**
      * 打开方式
@@ -55,13 +55,6 @@ class Nav extends Model
     public $path;
 
     /**
-     * 位置
-     *
-     * @var string
-     */
-    public $position;
-
-    /**
      * 打开方式
      *
      * @var string
@@ -74,6 +67,13 @@ class Nav extends Model
      * @var string
      */
     public $url;
+
+    /**
+     * 位置
+     *
+     * @var int
+     */
+    public $position;
 
     /**
      * 优先级

@@ -188,7 +188,7 @@ class RefundTask extends Task
     {
         $courseUserRepo = new CourseUserRepo();
 
-        $courseUser = $courseUserRepo->findCourseStudent($order->item_id, $order->user_id);
+        $courseUser = $courseUserRepo->findCourseStudent($order->item_id, $order->owner_id);
 
         if ($courseUser) {
 
@@ -216,7 +216,7 @@ class RefundTask extends Task
 
         foreach ($itemInfo['courses'] as $course) {
 
-            $courseUser = $courseUserRepo->findCourseStudent($course['id'], $order->user_id);
+            $courseUser = $courseUserRepo->findCourseStudent($course['id'], $order->owner_id);
 
             if ($courseUser) {
 
@@ -238,7 +238,7 @@ class RefundTask extends Task
     {
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($order->user_id);
+        $user = $userRepo->findById($order->owner_id);
 
         /**
          * @var array $itemInfo
@@ -293,7 +293,7 @@ class RefundTask extends Task
      * @param int $limit
      * @return ResultsetInterface|Resultset|TaskModel[]
      */
-    protected function findTasks($limit = 5)
+    protected function findTasks($limit = 30)
     {
         $itemType = TaskModel::TYPE_REFUND;
         $status = TaskModel::STATUS_PENDING;

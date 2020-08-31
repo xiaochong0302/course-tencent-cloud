@@ -8,7 +8,7 @@ class Task extends Model
     /**
      * 任务类型
      */
-    const TYPE_ORDER = 1; // 下单
+    const TYPE_DELIVER = 1; // 发货
     const TYPE_REFUND = 2; // 退款
 
     /**

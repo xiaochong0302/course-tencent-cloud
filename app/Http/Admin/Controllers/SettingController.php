@@ -133,10 +133,7 @@ class SettingController extends Controller
 
             $live = $settingService->getLiveSettings();
 
-            $ptt = json_decode($live->pull_trans_template);
-
             $this->view->setVar('live', $live);
-            $this->view->setVar('ptt', $ptt);
         }
     }
 

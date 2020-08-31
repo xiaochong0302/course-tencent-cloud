@@ -82,11 +82,6 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'live',
-                'item_key' => 'pull_trans_template',
-                'item_value' => '{"fd":{"id":"fd","bit_rate":"500","summary":"流畅","height":"540"},"sd":{"id":"sd","bit_rate":"1000","summary":"标清","height":"720"},"hd":{"id":"hd","bit_rate":"2000","summary":"高清","height":"1080"}}',
-            ],
-            [
-                'section' => 'live',
                 'item_key' => 'pull_trans_enabled',
                 'item_value' => '1',
             ],
@@ -124,11 +119,6 @@ final class InsertSettingData extends AbstractMigration
                 'section' => 'live',
                 'item_key' => 'pull_domain',
                 'item_value' => 'play.abc.com',
-            ],
-            [
-                'section' => 'live',
-                'item_key' => 'push_template',
-                'item_value' => '',
             ],
             [
                 'section' => 'live',
@@ -377,11 +367,6 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'vod',
-                'item_key' => 'video_template',
-                'item_value' => '100210,100220,100230',
-            ],
-            [
-                'section' => 'vod',
                 'item_key' => 'audio_format',
                 'item_value' => 'mp3',
             ],
@@ -402,11 +387,6 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'vod',
-                'item_key' => 'template',
-                'item_value' => '',
-            ],
-            [
-                'section' => 'vod',
                 'item_key' => 'key_anti_ip_limit',
                 'item_value' => '',
             ],
@@ -414,11 +394,6 @@ final class InsertSettingData extends AbstractMigration
                 'section' => 'vod',
                 'item_key' => 'dist_domain',
                 'item_value' => '',
-            ],
-            [
-                'section' => 'vod',
-                'item_key' => 'audio_template',
-                'item_value' => '1110',
             ],
             [
                 'section' => 'vod',

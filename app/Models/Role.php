@@ -10,8 +10,8 @@ class Role extends Model
     /**
      * 角色类型
      */
-    const TYPE_SYSTEM = 'system'; // 内置
-    const TYPE_CUSTOM = 'custom'; // 自定
+    const TYPE_SYSTEM = 1; // 内置
+    const TYPE_CUSTOM = 2; // 自定
 
     /**
      * 内置角色

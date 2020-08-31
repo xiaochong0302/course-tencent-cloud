@@ -2,14 +2,22 @@
 
 namespace App\Listeners;
 
+use Phalcon\Db\Adapter as DbAdapter;
 use Phalcon\Db\Profiler as DbProfiler;
-use Phalcon\Events\Event;
+use Phalcon\Events\Event as PhEvent;
+use Phalcon\Logger\Adapter\File as FileLogger;
 
 class Profiler extends Listener
 {
 
+    /**
+     * @var FileLogger
+     */
     protected $logger;
 
+    /**
+     * @var DbProfiler
+     */
     protected $profiler;
 
     public function __construct()
@@ -19,12 +27,20 @@ class Profiler extends Listener
         $this->profiler = new DbProfiler();
     }
 
-    public function beforeQuery(Event $event, $connection)
+    /**
+     * @param PhEvent $event
+     * @param DbAdapter $connection
+     */
+    public function beforeQuery(PhEvent $event, $connection)
     {
-        $this->profiler->startProfile($connection->getSQLStatement(), $connection->getSQLVariables());
+        $this->profiler->startProfile($connection->getSqlStatement(), $connection->getSqlVariables());
     }
 
-    public function afterQuery(Event $event, $connection)
+    /**
+     * @param PhEvent $event
+     * @param DbAdapter $connection
+     */
+    public function afterQuery(PhEvent $event, $connection)
     {
         $this->profiler->stopProfile();
 

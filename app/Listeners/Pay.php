@@ -6,11 +6,15 @@ use App\Models\Order as OrderModel;
 use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Order as OrderRepo;
-use Phalcon\Events\Event;
+use Phalcon\Events\Event as PhEvent;
+use Phalcon\Logger\Adapter\File as FileLogger;
 
 class Pay extends Listener
 {
 
+    /**
+     * @var FileLogger
+     */
     protected $logger;
 
     public function __construct()
@@ -18,7 +22,7 @@ class Pay extends Listener
         $this->logger = $this->getLogger();
     }
 
-    public function afterPay(Event $event, $source, TradeModel $trade)
+    public function afterPay(PhEvent $event, $source, TradeModel $trade)
     {
         try {
 
@@ -34,7 +38,7 @@ class Pay extends Listener
 
             $order = $orderRepo->findById($trade->order_id);
 
-            $order->status = OrderModel::STATUS_SHIPPING;
+            $order->status = OrderModel::STATUS_DELIVERING;
 
             if ($order->update() === false) {
                 throw new \RuntimeException('Update Order Status Failed');
@@ -52,7 +56,7 @@ class Pay extends Listener
 
             $task->item_id = $order->id;
             $task->item_info = $itemInfo;
-            $task->item_type = TaskModel::TYPE_ORDER;
+            $task->item_type = TaskModel::TYPE_DELIVER;
 
             if ($task->create() === false) {
                 throw new \RuntimeException('Create Order Process Task Failed');
@@ -69,15 +73,15 @@ class Pay extends Listener
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
+
+            $this->logger->debug('Event: {event}, Source: {source}, Data: {data}', [
+                'event' => $event->getType(),
+                'source' => get_class($source),
+                'data' => kg_json_encode($trade),
+            ]);
+
+            throw new \RuntimeException('sys.trans_rollback');
         }
-
-        $this->logger->debug('Event: {event}, Source: {source}, Data: {data}', [
-            'event' => $event->getType(),
-            'source' => get_class($source),
-            'data' => kg_json_encode($trade),
-        ]);
-
-        throw new \RuntimeException('sys.trans_rollback');
     }
 
 }

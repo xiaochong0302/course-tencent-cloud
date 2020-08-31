@@ -50,7 +50,9 @@
     <div class="tab-wrap">
         <div class="layui-tab layui-tab-brief user-tab">
             <ul class="layui-tab-title">
-                <li class="layui-this">课程<span class="tab-count">{{ user.course_count }}</span></li>
+                {% if show_tab_courses %}
+                    <li class="layui-this">课程<span class="tab-count">{{ user.course_count }}</span></li>
+                {% endif %}
                 {% if show_tab_favorites %}
                     <li>收藏<span class="tab-count">{{ user.favorite_count }}</span></li>
                 {% endif %}
@@ -62,7 +64,9 @@
                 {% endif %}
             </ul>
             <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show" id="tab-courses" data-url="{{ courses_url }}"></div>
+                {% if show_tab_courses %}
+                    <div class="layui-tab-item layui-show" id="tab-courses" data-url="{{ courses_url }}"></div>
+                {% endif %}
                 {% if show_tab_favorites %}
                     <div class="layui-tab-item" id="tab-favorites" data-url="{{ favorites_url }}"></div>
                 {% endif %}

@@ -19,9 +19,9 @@ class Order extends Smser
     {
         $accountRepo = new AccountRepo();
 
-        $account = $accountRepo->findById($order->user_id);
+        $account = $accountRepo->findById($order->owner_id);
 
-        if (!$account->phone) {
+        if (empty($account->phone)) {
             return false;
         }
 

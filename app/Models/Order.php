@@ -20,7 +20,7 @@ class Order extends Model
      * 状态类型
      */
     const STATUS_PENDING = 1; // 待支付
-    const STATUS_SHIPPING = 2; // 发货中
+    const STATUS_DELIVERING = 2; // 发货中
     const STATUS_FINISHED = 3; // 已完成
     const STATUS_CLOSED = 4; // 已关闭
     const STATUS_REFUNDED = 5; // 已退款
@@ -198,7 +198,7 @@ class Order extends Model
     {
         return [
             self::STATUS_PENDING => '待支付',
-            self::STATUS_SHIPPING => '发货中',
+            self::STATUS_DELIVERING => '发货中',
             self::STATUS_FINISHED => '已完成',
             self::STATUS_CLOSED => '已关闭',
             self::STATUS_REFUNDED => '已退款',

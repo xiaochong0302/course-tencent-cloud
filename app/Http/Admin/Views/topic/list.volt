@@ -33,6 +33,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set preview_url = url({'for':'desktop.topic.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.topic.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.topic.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.topic.delete','id':item.id}) %}
@@ -48,6 +49,7 @@
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
+                            <li><a href="{{ preview_url }}" target="_blank">预览</a></li>
                             <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}
                                 <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>

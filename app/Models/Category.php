@@ -11,8 +11,8 @@ class Category extends Model
     /**
      * 类型
      */
-    const TYPE_COURSE = 'course'; // 课程
-    const TYPE_HELP = 'help'; // 帮助
+    const TYPE_COURSE = 1; // 课程
+    const TYPE_HELP = 2; // 帮助
 
     /**
      * 主键编号
@@ -38,7 +38,7 @@ class Category extends Model
     /**
      * 类型
      *
-     * @var string
+     * @var int
      */
     public $type;
 

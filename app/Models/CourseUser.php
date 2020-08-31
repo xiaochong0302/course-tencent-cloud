@@ -18,7 +18,8 @@ class CourseUser extends Model
      */
     const SOURCE_FREE = 1; // 免费
     const SOURCE_CHARGE = 2; // 付费
-    const SOURCE_IMPORT = 3; // 导入
+    const SOURCE_VIP = 3; // 会员
+    const SOURCE_IMPORT = 4; // 导入
 
     /**
      * 主键编号
@@ -153,6 +154,7 @@ class CourseUser extends Model
         return [
             self::SOURCE_FREE => '免费',
             self::SOURCE_CHARGE => '付费',
+            self::SOURCE_VIP => '会员',
             self::SOURCE_IMPORT => '导入',
         ];
     }

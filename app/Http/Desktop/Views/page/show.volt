@@ -5,6 +5,7 @@
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
+            <a><cite>单页</cite></a>
             <a><cite>{{ page.title }}</cite></a>
         </span>
     </div>

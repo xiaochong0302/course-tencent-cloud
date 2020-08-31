@@ -19,9 +19,9 @@ class Refund extends Smser
     {
         $accountRepo = new AccountRepo();
 
-        $account = $accountRepo->findById($refund->user_id);
+        $account = $accountRepo->findById($refund->owner_id);
 
-        if (!$account->phone) {
+        if (empty($account->phone)) {
             return false;
         }
 
