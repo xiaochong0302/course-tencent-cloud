@@ -9,11 +9,14 @@ final class InsertUserData extends AbstractMigration
 
     public function up()
     {
+        $now = time();
+
         $account = [
             'id' => 10000,
             'email' => '10000@163.com',
             'password' => '772b6a120699280eb2cce32ec706656a',
             'salt' => 'MbZWxN3L',
+            'create_time' => $now,
         ];
 
         $this->table('kg_account')->insert($account)->saveData();
@@ -26,6 +29,7 @@ final class InsertUserData extends AbstractMigration
             'about' => '酷瓜云课堂，依托腾讯云基础服务，使用C扩展框架PHALCON开发',
             'admin_role' => 1,
             'edu_role' => 2,
+            'create_time' => $now,
         ];
 
         $this->table('kg_user')->insert($user)->saveData();
@@ -34,6 +38,7 @@ final class InsertUserData extends AbstractMigration
             'id' => $user['id'],
             'name' => $user['name'],
             'avatar' => $user['avatar'],
+            'create_time' => $now,
         ];
 
         $this->table('kg_im_user')->insert($imUser)->saveData();

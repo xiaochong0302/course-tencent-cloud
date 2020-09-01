@@ -9,6 +9,8 @@ final class InsertNavData extends AbstractMigration
 
     public function up()
     {
+        $now = time();
+
         $rows = [
             [
                 'id' => 1,
@@ -21,6 +23,7 @@ final class InsertNavData extends AbstractMigration
                 'position' => 1,
                 'priority' => 1,
                 'published' => 1,
+                'create_time' => $now,
             ],
             [
                 'id' => 2,
@@ -33,6 +36,7 @@ final class InsertNavData extends AbstractMigration
                 'position' => 1,
                 'priority' => 2,
                 'published' => 1,
+                'create_time' => $now,
             ],
             [
                 'id' => 3,
@@ -45,6 +49,7 @@ final class InsertNavData extends AbstractMigration
                 'position' => 1,
                 'priority' => 3,
                 'published' => 1,
+                'create_time' => $now,
             ],
             [
                 'id' => 4,
@@ -57,6 +62,7 @@ final class InsertNavData extends AbstractMigration
                 'position' => 1,
                 'priority' => 4,
                 'published' => 1,
+                'create_time' => $now,
             ],
             [
                 'id' => 5,
@@ -69,6 +75,7 @@ final class InsertNavData extends AbstractMigration
                 'position' => 1,
                 'priority' => 5,
                 'published' => 1,
+                'create_time' => $now,
             ],
             [
                 'id' => 6,
@@ -81,6 +88,7 @@ final class InsertNavData extends AbstractMigration
                 'position' => 1,
                 'priority' => 6,
                 'published' => 1,
+                'create_time' => $now,
             ],
             [
                 'id' => 7,
@@ -93,6 +101,7 @@ final class InsertNavData extends AbstractMigration
                 'position' => 2,
                 'priority' => 1,
                 'published' => 1,
+                'create_time' => $now,
             ],
             [
                 'id' => 8,
@@ -105,6 +114,7 @@ final class InsertNavData extends AbstractMigration
                 'position' => 2,
                 'priority' => 2,
                 'published' => 1,
+                'create_time' => $now,
             ],
             [
                 'id' => 9,
@@ -117,6 +127,7 @@ final class InsertNavData extends AbstractMigration
                 'position' => 2,
                 'priority' => 3,
                 'published' => 1,
+                'create_time' => $now,
             ],
             [
                 'id' => 10,
@@ -129,6 +140,7 @@ final class InsertNavData extends AbstractMigration
                 'position' => 2,
                 'priority' => 4,
                 'published' => 1,
+                'create_time' => $now,
             ],
             [
                 'id' => 11,
@@ -141,6 +153,7 @@ final class InsertNavData extends AbstractMigration
                 'position' => 2,
                 'priority' => 5,
                 'published' => 1,
+                'create_time' => $now,
             ],
         ];
 
