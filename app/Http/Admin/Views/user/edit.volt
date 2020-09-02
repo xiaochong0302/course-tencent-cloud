@@ -27,8 +27,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">教学角色</label>
             <div class="layui-input-block">
-                <input type="radio" name="edu_role" value="1" title="学员" {% if user.edu_role == '1' %}checked{% endif %}>
-                <input type="radio" name="edu_role" value="2" title="讲师" {% if user.edu_role == '2' %}checked{% endif %}>
+                <input type="radio" name="edu_role" value="1" title="学员" {% if user.edu_role == 1 %}checked{% endif %}>
+                <input type="radio" name="edu_role" value="2" title="讲师" {% if user.edu_role == 2 %}checked{% endif %}>
             </div>
         </div>
         {% if auth_user.root == 1 %}
@@ -36,8 +36,10 @@
                 <label class="layui-form-label">后台角色</label>
                 <div class="layui-input-block">
                     <input type="radio" name="admin_role" value="0" title="无" {% if user.admin_role == 0 %}checked{% endif %}>
-                    {% for item in roles %}
-                        <input type="radio" name="admin_role" value="{{ item.id }}" title="{{ item.name }}" {% if user.admin_role == item.id %}checked{% endif %}>
+                    {% for role in roles %}
+                        {% if role.id > 1 %}
+                            <input type="radio" name="admin_role" value="{{ role.id }}" title="{{ role.name }}" {% if user.admin_role == role.id %}checked{% endif %}>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -67,7 +69,7 @@
                 <input type="hidden" name="type" value="user">
             </div>
         </div>
-</form>
+    </form>
 
     {% if auth_user.root == 1 %}
         <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.user.update','id':user.id}) }}">

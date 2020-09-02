@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\User as UserService;
+use App\Models\Role as RoleModel;
 
 /**
  * @RoutePrefix("/admin/user")
@@ -35,14 +36,6 @@ class UserController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/show", name="admin.user.show")
-     */
-    public function showAction($id)
-    {
-
-    }
-
-    /**
      * @Get("/add", name="admin.user.add")
      */
     public function addAction()
@@ -59,6 +52,12 @@ class UserController extends Controller
      */
     public function createAction()
     {
+        $adminRole = $this->request->getPost('admin_role', 'int', 0);
+
+        if ($adminRole == RoleModel::ROLE_ROOT) {
+            return $this->response->redirect(['action' => 'list']);
+        }
+
         $userService = new UserService();
 
         $userService->createUser();
@@ -84,6 +83,10 @@ class UserController extends Controller
         $account = $userService->getAccount($id);
         $roles = $userService->getRoles();
 
+        if ($user->admin_role == RoleModel::ROLE_ROOT) {
+            return $this->response->redirect(['action' => 'list']);
+        }
+
         $this->view->setVar('user', $user);
         $this->view->setVar('account', $account);
         $this->view->setVar('roles', $roles);
@@ -94,7 +97,13 @@ class UserController extends Controller
      */
     public function updateAction($id)
     {
-        $type = $this->request->getPost('type');
+        $adminRole = $this->request->getPost('admin_role', 'int', 0);
+
+        if ($adminRole == RoleModel::ROLE_ROOT) {
+            return $this->response->redirect(['action' => 'list']);
+        }
+
+        $type = $this->request->getPost('type', 'string', 'user');
 
         $userService = new UserService();
 

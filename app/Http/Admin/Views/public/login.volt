@@ -68,7 +68,9 @@
         <script>
 
             layui.use(['jquery', 'form'], function () {
+
                 var $ = layui.jquery;
+
                 var captcha = new TencentCaptcha(
                     $('#captcha-btn')[0],
                     $('#captcha-btn').data('app-id'),
@@ -81,6 +83,7 @@
                         }
                     }
                 );
+
             });
 
         </script>

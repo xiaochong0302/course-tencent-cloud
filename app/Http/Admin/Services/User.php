@@ -7,6 +7,7 @@ use App\Caches\User as UserCache;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Library\Utils\Password as PasswordUtil;
 use App\Models\Account as AccountModel;
+use App\Models\ImUser as ImUserModel;
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\Role as RoleRepo;
@@ -68,33 +69,55 @@ class User extends Service
         $eduRole = $userValidator->checkEduRole($post['edu_role']);
         $adminRole = $userValidator->checkAdminRole($post['admin_role']);
 
-        $account = new AccountModel();
+        try {
 
-        $salt = PasswordUtil::salt();
-        $password = PasswordUtil::hash($password, $salt);
+            $this->db->begin();
 
-        $account->phone = $phone;
-        $account->salt = $salt;
-        $account->password = $password;
+            $account = new AccountModel();
 
-        $account->create();
+            $salt = PasswordUtil::salt();
+            $password = PasswordUtil::hash($password, $salt);
 
-        $userRepo = new UserRepo();
+            $account->phone = $phone;
+            $account->salt = $salt;
+            $account->password = $password;
 
-        $user = $userRepo->findById($account->id);
+            if ($account->create() === false) {
+                throw new \RuntimeException('Create Account Failed');
+            }
 
-        $user->edu_role = $eduRole;
-        $user->admin_role = $adminRole;
+            $user = new UserModel();
 
-        $user->update();
+            $user->id = $account->id;
+            $user->name = "user_{$account->id}";
+            $user->edu_role = $eduRole;
+            $user->admin_role = $adminRole;
 
-        if ($adminRole > 0) {
-            $this->updateAdminUserCount($adminRole);
+            if ($user->create() === false) {
+                throw new \RuntimeException('Create User Failed');
+            }
+
+            $imUser = new ImUserModel();
+
+            $imUser->id = $user->id;
+            $imUser->name = $user->name;
+
+            if ($imUser->create() === false) {
+                throw new \RuntimeException('Create Im User Failed');
+            }
+
+            $this->db->commit();
+
+            if ($adminRole > 0) {
+                $this->updateAdminUserCount($adminRole);
+            }
+
+        } catch (\Exception $e) {
+
+            $this->db->rollback();
+
+            throw new \RuntimeException('sys.trans_rollback');
         }
-
-        $this->rebuildUserCache($user);
-
-        return $user;
     }
 
     public function updateUser($id)
@@ -163,8 +186,6 @@ class User extends Service
         if ($user->admin_role > 0) {
             $this->updateAdminUserCount($user->admin_role);
         }
-
-        $this->rebuildUserCache($user);
 
         return $user;
     }

@@ -30,8 +30,10 @@
                 <label class="layui-form-label">后台角色</label>
                 <div class="layui-input-block">
                     <input type="radio" name="admin_role" value="0" title="无" checked="checked">
-                    {% for item in roles %}
-                        <input type="radio" name="admin_role" value="{{ item.id }}" title="{{ item.name }}">
+                    {% for role in roles %}
+                        {% if role.id > 1 %}
+                            <input type="radio" name="admin_role" value="{{ role.id }}" title="{{ role.name }}">
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
