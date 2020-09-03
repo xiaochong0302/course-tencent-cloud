@@ -75,24 +75,6 @@ class Setting extends Service
             $settings['pull_domain'] = str_replace($protocol, '', $settings['pull_domain']);
         }
 
-        if (isset($settings['ptt'])) {
-
-            $ptt = $settings['ptt'];
-            $keys = array_keys($ptt['id']);
-            $myPtt = [];
-
-            foreach ($keys as $key) {
-                $myPtt[$key] = [
-                    'id' => $ptt['id'][$key],
-                    'bit_rate' => $ptt['bit_rate'][$key],
-                    'summary' => $ptt['summary'][$key],
-                    'height' => $ptt['height'][$key],
-                ];
-            }
-
-            $settings['pull_trans_template'] = kg_json_encode($myPtt);
-        }
-
         $this->updateSectionSettings($section, $settings);
     }
 

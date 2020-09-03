@@ -1,39 +1,70 @@
-# course-tencent-cloud
+# 酷瓜云课堂
 
-#### 介绍
-{**以下是码云平台说明，您可以替换此简介**
-码云是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用码云实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+#### 项目介绍
 
-#### 软件架构
-软件架构说明
+酷瓜云课堂，依托腾讯云基础服务架构，采用 C 扩展框架 Phalcon 开发，致力网络教育软件。
 
+都有些什么功能？我也不想写一大堆，自己体验吧！
 
-#### 安装教程
+- [前台演示](https://ctc.koogua.com)
+- [后台演示](https://ctc.koogua.com/admin)
+- [系统截图](https://gitee.com/koogua/course-tencent-cloud/wikis/系统截图)
 
-1. xxxx
-2. xxxx
-3. xxxx
+体验帐号： 100015@163.com / 123456
 
-#### 使用说明
+#### 项目组件
 
-1. xxxx
-2. xxxx
-3. xxxx
+- 后台框架：[phalcon 3.4.5](https://phalcon.io)
+- 前端框架：[layui 2.5.6](https://layui.com)， [layim 3.9.5](https://www.layui.com/layim)（已授权）
+- 即时通讯：[workerman 3.5.22](https://workerman.net)
+- 其它依赖：[php7.3](https://php.net)， [mysql5.7](https://mysql.com)， [redis5.0](https://redis.io)
 
-#### 参与贡献
+#### 使用协议
 
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+虽然尝试了解开源协议，但是似乎不得要领，干脆用自己的协议吧，算不算开源我也不很清楚。
 
+1. 本系统属于强业务类型，非通用类库框架，不适合再次衍生发布。
+2. 在保留我们版权标识的前提下，用户可以修改以满足自己的需求，可以用于商业用途。
+3. 有限社区支持，用户对自己的行为负责。
 
-#### 码云特技
+#### 会推出商业服务吗？
 
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+如果不符合您对“开源”的认知，请移步其它同类产品，毕竟同类“免费”产品也很多。
+
+如果“开源”版本不能满足您的需求，或者您更希望有更好的支持，商业服务是不错的选择。
+
+我们目前提供的服务：
+
+1. 安装服务
+2. 会员服务
+3. 定制服务
+
+#### 会有阿里云版吗？
+
+阿里云版规划中，之前阿里云服务过期未续费，所以腾讯云版本先出。
+
+#### 代码有加密吗？
+
+所有代码都公开（授权代码除外，例如layim），没有所谓的商业版和付费插件。
+
+#### 通过这个项目能学到什么？
+
+把所有代码看完，希望对你有启发。把各个环节跑通，会引出很多知识。
+
+1. 项目规划，phalcon实战，缓存，JWT，websocket即时通讯
+2. docker操作，docker服务编排
+3. git，linux，php，mysql，redis，nginx ...
+
+#### 开发计划
+
+- 桌面端：进行中
+- 移动端：待启动
+- 小程序：待启动
+
+#### 加入我们
+
+这是我的创业项目，个人能力和精力有限，要兼顾产品规划以及开发，还要处理除报税记账之外的所有琐碎事情。
+
+目前在南山科技园这边，希望有能独挡一面的**深圳前端同学**加入我们。
+
+联系邮箱：xiaochong0302@qq.com
