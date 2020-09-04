@@ -7,14 +7,19 @@
     {% endif %}
 {%- endmacro %}
 
-{%- macro live_status_info(attrs) %}
-    {% if attrs['stream']['status'] != 'active' %}
-        <span class="layui-badge layui-bg-blue">直播中</span>
+{%- macro live_status_info(status) %}
+    {% if status == 'active' %}
+        <span class="layui-badge layui-bg-blue">活跃</span>
+    {% elseif status == 'inactive' %}
+        <span class="layui-badge layui-bg-gray">沉默</span>
+    {% elseif status == 'forbid' %}
+        <span class="layui-badge layui-bg-red">禁播</span>
     {% endif %}
 {%- endmacro %}
 
 <table class="layui-table kg-table layui-form">
     <colgroup>
+        <col>
         <col>
         <col>
         <col>
@@ -27,7 +32,8 @@
     <tr>
         <th>编号</th>
         <th>名称</th>
-        <th>时间</th>
+        <th>直播时间</th>
+        <th>推流状态</th>
         <th>排序</th>
         <th>免费</th>
         <th>发布</th>
@@ -46,9 +52,9 @@
             <td>
                 <span><a href="{{ edit_url }}">{{ item.title }}</a></span>
                 <span class="layui-badge layui-bg-green">课</span>
-                {{ live_status_info(item.attrs) }}
             </td>
             <td>{{ live_time_info(item.attrs) }}</td>
+            <td>{{ live_status_info(item.attrs['stream']['status']) }}</td>
             <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
             <td><input type="checkbox" name="free" value="1" lay-skin="switch" lay-text="是|否" lay-filter="free" data-url="{{ update_url }}" {% if item.free == 1 %}checked{% endif %}></td>
             <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>

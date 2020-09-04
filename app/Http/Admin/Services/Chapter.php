@@ -118,7 +118,6 @@ class Chapter extends Service
             $logger = $this->getLogger();
 
             $logger->error('Create Chapter Error ' . kg_json_encode([
-                    'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));

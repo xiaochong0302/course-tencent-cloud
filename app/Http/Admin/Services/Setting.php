@@ -9,17 +9,57 @@ use App\Repos\Vip as VipRepo;
 class Setting extends Service
 {
 
+    public function getAlipaySettings()
+    {
+        $alipay = $this->getSectionSettings('pay.alipay');
+
+        $alipay['notify_url'] = $alipay['notify_url'] ?: kg_full_url(['for' => 'desktop.alipay_notify']);
+
+        return $alipay;
+    }
+
+    public function getWxpaySettings()
+    {
+        $wxpay = $this->getSectionSettings('pay.wxpay');
+
+        $wxpay['notify_url'] = $wxpay['notify_url'] ?: kg_full_url(['for' => 'desktop.wxpay_notify']);
+
+        return $wxpay;
+    }
+
+    public function getVipSettings()
+    {
+        $vipRepo = new VipRepo();
+
+        return $vipRepo->findAll(['deleted' => 0]);
+    }
+
+    public function getLiveSettings($section)
+    {
+        $result = $this->getSectionSettings($section);
+
+        if ($section == 'live.notify') {
+            $result['stream_begin_url'] = $result['stream_begin_url'] ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'streamBegin']);
+            $result['stream_end_url'] = $result['stream_end_url'] ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'streamEnd']);
+            $result['record_url'] = $result['record_url'] ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'record']);
+            $result['snapshot_url'] = $result['snapshot_url'] ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'snapshot']);
+            $result['porn_url'] = $result['porn_url'] ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'porn']);
+        }
+
+        return $result;
+    }
+
     public function getSectionSettings($section)
     {
         $settingsRepo = new SettingRepo();
 
         $items = $settingsRepo->findBySection($section);
 
-        $result = new \stdClass();
+        $result = [];
 
         if ($items->count() > 0) {
             foreach ($items as $item) {
-                $result->{$item->item_key} = $item->item_value;
+                $result[$item->item_key] = $item->item_value;
             }
         }
 
@@ -81,7 +121,9 @@ class Setting extends Service
     public function updateSmserSettings($section, $settings)
     {
         $template = $settings['template'];
+
         $keys = array_keys($template['id']);
+
         $myTemplate = [];
 
         foreach ($keys as $key) {
@@ -96,13 +138,6 @@ class Setting extends Service
         $this->updateSectionSettings($section, $settings);
     }
 
-    public function getVipSettings()
-    {
-        $vipRepo = new VipRepo();
-
-        return $vipRepo->findAll(['deleted' => 0]);
-    }
-
     public function updateVipSettings($items)
     {
         $vipRepo = new VipRepo();
@@ -112,19 +147,6 @@ class Setting extends Service
             $vip->price = $price;
             $vip->update();
         }
-    }
-
-    public function getLiveSettings()
-    {
-        $live = $this->getSectionSettings('live');
-
-        $live->notify_stream_begin_url = $live->notify_stream_begin_url ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'streamBegin']);
-        $live->notify_stream_end_url = $live->notify_stream_end_url ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'streamEnd']);
-        $live->notify_record_url = $live->notify_record_url ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'record']);
-        $live->notify_snapshot_url = $live->notify_snapshot_url ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'snapshot']);
-        $live->notify_porn_url = $live->notify_porn_url ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'porn']);
-
-        return $live;
     }
 
 }

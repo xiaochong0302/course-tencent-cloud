@@ -31,7 +31,7 @@ class SettingController extends Controller
 
             $site = $settingService->getSectionSettings($section);
 
-            $site->base_url = $site->base_url ?: kg_site_base_url();
+            $site['base_url'] = $site['base_url'] ?: kg_site_base_url();
 
             $this->view->setVar('site', $site);
         }
@@ -117,11 +117,11 @@ class SettingController extends Controller
      */
     public function liveAction()
     {
-        $section = 'live';
-
         $settingService = new SettingService();
 
         if ($this->request->isPost()) {
+
+            $section = $this->request->getPost('section');
 
             $data = $this->request->getPost();
 
@@ -131,9 +131,13 @@ class SettingController extends Controller
 
         } else {
 
-            $live = $settingService->getLiveSettings();
+            $push = $settingService->getLiveSettings('live.push');
+            $pull = $settingService->getLiveSettings('live.pull');
+            $notify = $settingService->getLiveSettings('live.notify');
 
-            $this->view->setVar('live', $live);
+            $this->view->setVar('push', $push);
+            $this->view->setVar('pull', $pull);
+            $this->view->setVar('notify', $notify);
         }
     }
 
@@ -156,13 +160,8 @@ class SettingController extends Controller
 
         } else {
 
-            $alipay = $settingService->getSectionSettings('pay.alipay');
-
-            $alipay->notify_url = $alipay->notify_url ?: kg_full_url(['for' => 'desktop.alipay_notify']);
-
-            $wxpay = $settingService->getSectionSettings('pay.wxpay');
-
-            $wxpay->notify_url = $wxpay->notify_url ?: kg_full_url(['for' => 'desktop.wxpay_notify']);
+            $alipay = $settingService->getAlipaySettings();
+            $wxpay = $settingService->getWxpaySettings();
 
             $this->view->setVar('alipay', $alipay);
             $this->view->setVar('wxpay', $wxpay);
@@ -190,10 +189,7 @@ class SettingController extends Controller
 
             $smser = $settingService->getSectionSettings($section);
 
-            $template = json_decode($smser->template);
-
             $this->view->setVar('smser', $smser);
-            $this->view->setVar('template', $template);
         }
     }
 

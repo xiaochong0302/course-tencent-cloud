@@ -1,4 +1,4 @@
-{% set push_auth_display = live.push_auth_enabled == 0 ? 'style="display:none;"' : '' %}
+{% set auth_display = push.auth_enabled == 0 ? 'style="display:none;"' : '' %}
 
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.live'}) }}">
     <fieldset class="layui-elem-field layui-field-title">
@@ -7,7 +7,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">推流域名</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="push_domain" value="{{ live.push_domain }}" layui-verify="required">
+            <input class="layui-input" type="text" name="domain" value="{{ push.domain }}" layui-verify="required">
         </div>
     </div>
     <fieldset class="layui-elem-field layui-field-title">
@@ -16,21 +16,21 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启鉴权</label>
         <div class="layui-input-block">
-            <input type="radio" name="push_auth_enabled" value="1" title="是" lay-filter="push_auth_enabled" {% if live.push_auth_enabled == 1 %}checked{% endif %}>
-            <input type="radio" name="push_auth_enabled" value="0" title="否" lay-filter="push_auth_enabled" {% if live.push_auth_enabled == 0 %}checked{% endif %}>
+            <input type="radio" name="auth_enabled" value="1" title="是" lay-filter="auth_enabled" {% if push.auth_enabled == 1 %}checked{% endif %}>
+            <input type="radio" name="auth_enabled" value="0" title="否" lay-filter="auth_enabled" {% if push.auth_enabled == 0 %}checked{% endif %}>
         </div>
     </div>
-    <div id="push-auth-block" {{ push_auth_display }}>
+    <div id="push-auth-block" {{ auth_display }}>
         <div class="layui-form-item">
             <label class="layui-form-label">鉴权密钥</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="push_auth_key" value="{{ live.push_auth_key }}">
+                <input class="layui-input" type="text" name="auth_key" value="{{ push.auth_key }}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">有效时间（秒）</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="push_auth_delta" value="{{ live.push_auth_delta }}">
+                <input class="layui-input" type="text" name="auth_delta" value="{{ push.auth_delta }}">
             </div>
         </div>
     </div>
@@ -39,6 +39,7 @@
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
+            <input type="hidden" name="section" value="push">
         </div>
     </div>
 </form>

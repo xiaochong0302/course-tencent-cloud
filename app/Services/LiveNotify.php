@@ -136,11 +136,11 @@ class LiveNotify extends Service
 
         $redis = $cache->getRedis();
 
-        $keyName = $this->getNotifyKeyName();
+        $key = $this->getNotifyKey();
 
-        $redis->sAdd($keyName, $chapter->id);
+        $redis->sAdd($key, $chapter->id);
 
-        $redis->expire($keyName, 86400);
+        $redis->expire($key, 86400);
     }
 
     protected function getChapter($streamId)
@@ -176,9 +176,9 @@ class LiveNotify extends Service
             return false;
         }
 
-        $live = $this->getSectionSettings('live');
+        $notify = $this->getSectionSettings('live.notify');
 
-        $mySign = md5($live['notify_auth_key'] . $time);
+        $mySign = md5($notify['auth_key'] . $time);
 
         return $sign == $mySign;
     }

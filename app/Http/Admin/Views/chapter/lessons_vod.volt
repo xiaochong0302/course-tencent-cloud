@@ -27,8 +27,8 @@
     <tr>
         <th>编号</th>
         <th>名称</th>
-        <th>视频状态</th>
-        <th>视频时长</th>
+        <th>状态</th>
+        <th>时长</th>
         <th>排序</th>
         <th>免费</th>
         <th>发布</th>
@@ -37,7 +37,7 @@
     </thead>
     <tbody>
     {% for item in lessons %}
-        {% set show_url = url({'for':'desktop.chapter.show','id':item.id}) %}
+        {% set preview_url = url({'for':'desktop.chapter.show','id':item.id}) %}
         {% set edit_url = url({'for':'admin.chapter.edit','id':item.id}) %}
         {% set update_url = url({'for':'admin.chapter.update','id':item.id}) %}
         {% set delete_url = url({'for':'admin.chapter.delete','id':item.id}) %}

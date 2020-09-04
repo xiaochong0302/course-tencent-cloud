@@ -113,7 +113,6 @@ class Course extends Service
             $logger = $this->getLogger();
 
             $logger->error('Create Course Error ' . kg_json_encode([
-                    'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
