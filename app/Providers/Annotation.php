@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Annotations\Adapter\Memory as MemoryAnnotations;
 use Phalcon\Annotations\Adapter\Redis as RedisAnnotations;
+use Phalcon\Config;
 
 class Annotation extends Provider
 {
@@ -12,20 +13,23 @@ class Annotation extends Provider
 
     public function register()
     {
-        $this->di->setShared($this->serviceName, function () {
+        /**
+         * @var Config $config
+         */
+        $config = $this->di->getShared('config');
 
-            $config = $this->getShared('config');
+        $this->di->setShared($this->serviceName, function () use ($config) {
 
-            if ($config->env == ENV_DEV) {
+            if ($config->get('env') == ENV_DEV) {
                 $annotations = new MemoryAnnotations();
             } else {
                 $annotations = new RedisAnnotations([
-                    'host' => $config->redis->host,
-                    'port' => $config->redis->port,
-                    'auth' => $config->redis->auth,
-                    'index' => $config->annotation->db,
-                    'lifetime' => $config->annotation->lifetime,
-                    'statsKey' => $config->annotation->statsKey,
+                    'host' => $config->path('redis.host'),
+                    'port' => $config->path('redis.port'),
+                    'auth' => $config->path('redis.auth'),
+                    'index' => $config->path('annotation.db'),
+                    'lifetime' => $config->path('annotation.lifetime'),
+                    'statsKey' => $config->path('annotation.statsKey'),
                 ]);
             }
 
