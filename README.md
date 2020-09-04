@@ -18,27 +18,33 @@ PS：**系统后台已禁止提交并隐藏私人配置**
 
 - 后台框架：[phalcon 3.4.5](https://phalcon.io)
 - 前端框架：[layui 2.5.6](https://layui.com)， [layim 3.9.5](https://www.layui.com/layim)（已授权）
+- 全文检索：[xunsearch 1.4.9](http://www.xunsearch.com)
 - 即时通讯：[workerman 3.5.22](https://workerman.net)
 - 其它依赖：[php7.3](https://php.net)， [mysql5.7](https://mysql.com)， [redis5.0](https://redis.io)
 
 #### 使用协议
 
-虽然尝试了解开源协议，但是似乎不得要领，干脆用自己的协议吧，算不算开源我也不很清楚。
+虽然尝试了解过开源协议，但是理解的模棱两可，干脆用自己的协议吧，算不算开源我也不很清楚。
 
 1. 本系统属于强业务类型，非通用类库框架，不适合再次衍生发布。
 2. 在保留我们版权标识的前提下，用户可以修改以满足自己的需求，可以用于商业用途。
 3. 有限社区支持，用户对自己的行为负责。
+
+#### 安装指南
+
+- [运行环境搭建](https://gitee.com/koogua/course-tencent-cloud-docker)
+- [腾讯服务配置](https://gitee.com/koogua/course-tencent-cloud-docker/wikis/腾讯服务配置)
 
 #### 会推出商业服务吗？
 
 - 如果不符合您对“开源”的认知，请移步其它同类产品，毕竟同类“免费”产品也很多。
 - 如果“开源”版本不能满足您的需求，或者您更希望有更好的支持，商业服务是不错的选择。
 
-我们目前提供的服务：
+我们为用户提供的服务包括：
 
-- 安装服务
-- 会员服务
-- 定制服务
+- 系统安装
+- 系统定制
+- 企业会员
 
 #### 会有阿里云版吗？
 
@@ -50,11 +56,9 @@ PS：**系统后台已禁止提交并隐藏私人配置**
 
 #### 通过这个项目能学到什么？
 
-把所有代码看完，希望对你有启发。把各个环节跑通，会引出很多知识。
-
-1. 项目规划，phalcon实战，缓存，JWT，websocket即时通讯
-2. docker操作，docker服务编排
-3. git，linux，php，mysql，redis，nginx ...
+1. 项目规划，phalcon实战，缓存，JWT，即时通讯，全文检索
+2. docker操作，docker服务编排，supervisor，devOps
+3. git，linux，php，mysql，redis，nginx
 
 #### 开发计划
 

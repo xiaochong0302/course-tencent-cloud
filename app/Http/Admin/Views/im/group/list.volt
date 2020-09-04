@@ -49,13 +49,14 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set preview_url = url({'for':'desktop.group.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.group.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.group.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.group.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.group.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                <td>{{ item.name }} {{ type_info(item.type) }}</td>
+                <td><a href="{{ edit_url }}">{{ item.name }}</a> {{ type_info(item.type) }}</td>
                 <td>{{ owner_info(item.owner) }}</td>
                 <td><span class="layui-badge layui-bg-gray">{{ item.user_count }}</span></td>
                 <td><input type="checkbox" name="published" value="1" lay-filter="published" lay-skin="switch" lay-text="是|否" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
@@ -63,6 +64,7 @@
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
+                            <li><a href="{{ preview_url }}" target="_blank">预览</a></li>
                             <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}
                                 <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
