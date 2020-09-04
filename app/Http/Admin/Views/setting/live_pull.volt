@@ -1,5 +1,5 @@
-{% set pull_auth_display = live.pull_auth_enabled == 0 ? 'style="display:none;"' : '' %}
-{% set ppt_display = live.pull_trans_enabled == 0 ? 'style="display:none;"' : '' %}
+{% set auth_display = pull.auth_enabled == 0 ? 'style="display:none;"' : '' %}
+{% set ppt_display = pull.trans_enabled == 0 ? 'style="display:none;"' : '' %}
 
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.live'}) }}">
     <fieldset class="layui-elem-field layui-field-title">
@@ -8,14 +8,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label">拉流协议</label>
         <div class="layui-input-block">
-            <input type="radio" name="pull_protocol" value="http" title="HTTP" {% if live.pull_protocol == "http" %}checked{% endif %}>
-            <input type="radio" name="pull_protocol" value="https" title="HTTPS" {% if live.pull_protocol == "https" %}checked{% endif %}>
+            <input type="radio" name="protocol" value="http" title="HTTP" {% if pull.protocol == "http" %}checked{% endif %}>
+            <input type="radio" name="protocol" value="https" title="HTTPS" {% if pull.protocol == "https" %}checked{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">拉流域名</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="pull_domain" value="{{ live.pull_domain }}" layui-verify="required">
+            <input class="layui-input" type="text" name="domain" value="{{ pull.domain }}" layui-verify="required">
         </div>
     </div>
     <fieldset class="layui-elem-field layui-field-title">
@@ -24,21 +24,21 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启鉴权</label>
         <div class="layui-input-block">
-            <input type="radio" name="pull_auth_enabled" value="1" title="是" lay-filter="pull_auth_enabled" {% if live.pull_auth_enabled == 1 %}checked{% endif %}>
-            <input type="radio" name="pull_auth_enabled" value="0" title="否" lay-filter="pull_auth_enabled" {% if live.pull_auth_enabled == 0 %}checked{% endif %}>
+            <input type="radio" name="auth_enabled" value="1" title="是" lay-filter="pull_auth_enabled" {% if pull.auth_enabled == 1 %}checked{% endif %}>
+            <input type="radio" name="auth_enabled" value="0" title="否" lay-filter="pull_auth_enabled" {% if pull.auth_enabled == 0 %}checked{% endif %}>
         </div>
     </div>
-    <div id="pull-auth-block" {{ pull_auth_display }}>
+    <div id="pull-auth-block" {{ auth_display }}>
         <div class="layui-form-item">
             <label class="layui-form-label">鉴权密钥</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="pull_auth_key" value="{{ live.pull_auth_key }}">
+                <input class="layui-input" type="text" name="auth_key" value="{{ pull.auth_key }}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">有效时间（秒）</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="pull_auth_delta" value="{{ live.pull_auth_delta }}">
+                <input class="layui-input" type="text" name="auth_delta" value="{{ pull.auth_delta }}">
             </div>
         </div>
     </div>
@@ -48,8 +48,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启转码</label>
         <div class="layui-input-block">
-            <input type="radio" name="pull_trans_enabled" value="1" title="是" lay-filter="pull_trans_enabled" {% if live.pull_trans_enabled == 1 %}checked{% endif %}>
-            <input type="radio" name="pull_trans_enabled" value="0" title="否" lay-filter="pull_trans_enabled" {% if live.pull_trans_enabled == 0 %}checked{% endif %}>
+            <input type="radio" name="trans_enabled" value="1" title="是" lay-filter="pull_trans_enabled" {% if pull.trans_enabled == 1 %}checked{% endif %}>
+            <input type="radio" name="trans_enabled" value="0" title="否" lay-filter="pull_trans_enabled" {% if pull.trans_enabled == 0 %}checked{% endif %}>
         </div>
     </div>
     <div id="ptt-block" {{ ppt_display }}>
@@ -96,6 +96,7 @@
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
+            <input type="hidden" name="section" value="pull">
         </div>
     </div>
 </form>

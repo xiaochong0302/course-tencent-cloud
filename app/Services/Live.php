@@ -34,7 +34,9 @@ class Live extends Service
 
     public function __construct()
     {
-        $this->settings = $this->getSectionSettings('live');
+        $this->settings['push'] = $this->getSectionSettings('live.push');
+        $this->settings['pull'] = $this->getSectionSettings('live.pull');
+        $this->settings['notify'] = $this->getSectionSettings('live.notify');
 
         $this->logger = $this->getLogger('live');
 
@@ -55,7 +57,7 @@ class Live extends Service
             $request = new DescribeLiveStreamStateRequest();
 
             $params = json_encode([
-                'DomainName' => $this->settings['push_domain'],
+                'DomainName' => $this->settings['push']['domain'],
                 'AppName' => $appName ?: 'live',
                 'StreamName' => $streamName,
             ]);
@@ -73,7 +75,6 @@ class Live extends Service
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Describe Live Stream State Exception ' . kg_json_encode([
-                    'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -100,7 +101,7 @@ class Live extends Service
             $request = new ForbidLiveStreamRequest();
 
             $params = json_encode([
-                'DomainName' => $this->settings['push_domain'],
+                'DomainName' => $this->settings['push']['domain'],
                 'AppName' => $appName ?: 'live',
                 'StreamName' => $streamName,
                 'Reason' => $reason,
@@ -119,7 +120,6 @@ class Live extends Service
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Forbid Live Stream Exception ' . kg_json_encode([
-                    'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -145,7 +145,7 @@ class Live extends Service
             $request = new ResumeLiveStreamRequest();
 
             $params = json_encode([
-                'DomainName' => $this->settings['push_domain'],
+                'DomainName' => $this->settings['push']['domain'],
                 'AppName' => $appName ?: 'live',
                 'StreamName' => $streamName,
             ]);
@@ -163,7 +163,6 @@ class Live extends Service
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Resume Live Stream Exception ' . kg_json_encode([
-                    'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -186,10 +185,10 @@ class Live extends Service
     {
         $appName = $appName ?: 'live';
 
-        $authEnabled = $this->settings['push_auth_enabled'];
-        $authKey = $this->settings['push_auth_key'];
-        $expireTime = $this->settings['push_auth_delta'] + time();
-        $domain = $this->settings['push_domain'];
+        $authEnabled = $this->settings['push']['auth_enabled'];
+        $authKey = $this->settings['push']['auth_key'];
+        $expireTime = $this->settings['push']['auth_delta'] + time();
+        $domain = $this->settings['push']['domain'];
 
         $authParams = $this->getAuthParams($streamName, $authKey, $expireTime);
 
@@ -210,12 +209,12 @@ class Live extends Service
     {
         $appName = $appName ?: 'live';
 
-        $protocol = $this->settings['pull_protocol'];
-        $domain = $this->settings['pull_domain'];
-        $authEnabled = $this->settings['pull_auth_enabled'];
-        $transEnabled = $this->settings['pull_trans_enabled'];
-        $authKey = $this->settings['pull_auth_key'];
-        $expireTime = $this->settings['pull_auth_delta'] + time();
+        $protocol = $this->settings['pull']['protocol'];
+        $domain = $this->settings['pull']['domain'];
+        $authEnabled = $this->settings['pull']['auth_enabled'];
+        $transEnabled = $this->settings['pull']['trans_enabled'];
+        $authKey = $this->settings['pull']['auth_key'];
+        $expireTime = $this->settings['pull']['auth_delta'] + time();
 
         $formats = ['rtmp', 'flv', 'm3u8'];
 
