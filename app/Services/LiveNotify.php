@@ -176,9 +176,9 @@ class LiveNotify extends Service
             return false;
         }
 
-        $live = $this->getSectionSettings('live.notify');
+        $notify = $this->getSectionSettings('live.notify');
 
-        $mySign = md5($live['auth_key'] . $time);
+        $mySign = md5($notify['auth_key'] . $time);
 
         return $sign == $mySign;
     }
