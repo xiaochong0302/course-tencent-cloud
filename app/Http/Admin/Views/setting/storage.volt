@@ -32,20 +32,35 @@
             </div>
         </div>
         <fieldset class="layui-elem-field layui-field-title">
-            <legend>数据万象</legend>
+            <legend>图片处理样式</legend>
         </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">访问协议</label>
-            <div class="layui-input-block">
-                <input type="radio" name="ci_protocol" value="http" title="HTTP" {% if storage.ci_protocol == "http" %}checked{% endif %}>
-                <input type="radio" name="ci_protocol" value="https" title="HTTPS" {% if storage.ci_protocol == "https" %}checked{% endif %}>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">访问域名</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="ci_domain" value="{{ storage.ci_domain }}" lay-verify="required">
-            </div>
+            <table class="layui-table" lay-size="lg">
+                <colgroup>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>样式名称</th>
+                    <th>样式描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>avatar_160</td>
+                    <td>imageMogr2/thumbnail/160x/interlace/0</td>
+                </tr>
+                <tr>
+                    <td>cover_270</td>
+                    <td>mageMogr2/thumbnail/270x/interlace/0</td>
+                </tr>
+                <tr>
+                    <td>carousel_1100</td>
+                    <td>imageMogr2/thumbnail/1100x/interlace/0</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"></label>

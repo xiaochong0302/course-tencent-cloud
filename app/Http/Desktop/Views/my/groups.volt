@@ -2,13 +2,7 @@
 
 {% block content %}
 
-    {%- macro type_info(value) %}
-        {% if value == 'course' %}
-            <span class="layui-badge layui-bg-green">课</span>
-        {% elseif value == 'chat' %}
-            <span class="layui-badge layui-bg-blue">聊</span>
-        {% endif %}
-    {%- endmacro %}
+    {{ partial('macros/group') }}
 
     {% set joined_url = url({'for':'desktop.my.groups'},{'type':'joined'}) %}
     {% set owned_url = url({'for':'desktop.my.groups'},{'type':'owned'}) %}

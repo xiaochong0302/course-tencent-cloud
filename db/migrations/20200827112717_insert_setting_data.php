@@ -82,52 +82,52 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'live.push',
-                'item_key' => 'push_auth_enabled',
+                'item_key' => 'auth_enabled',
                 'item_value' => '1',
             ],
             [
                 'section' => 'live.push',
-                'item_key' => 'push_auth_key',
+                'item_key' => 'auth_key',
                 'item_value' => '',
             ],
             [
                 'section' => 'live.push',
-                'item_key' => 'push_auth_delta',
+                'item_key' => 'auth_delta',
                 'item_value' => '18000',
             ],
             [
                 'section' => 'live.pull',
-                'item_key' => 'pull_protocol',
+                'item_key' => 'protocol',
                 'item_value' => 'http',
             ],
             [
                 'section' => 'live.pull',
-                'item_key' => 'pull_domain',
+                'item_key' => 'domain',
                 'item_value' => '',
             ],
             [
                 'section' => 'live.pull',
-                'item_key' => 'pull_trans_enabled',
+                'item_key' => 'trans_enabled',
                 'item_value' => '0',
             ],
             [
                 'section' => 'live.pull',
-                'item_key' => 'pull_auth_enabled',
+                'item_key' => 'auth_enabled',
                 'item_value' => '1',
             ],
             [
                 'section' => 'live.pull',
-                'item_key' => 'pull_auth_key',
+                'item_key' => 'auth_key',
                 'item_value' => '',
             ],
             [
                 'section' => 'live.pull',
-                'item_key' => 'pull_auth_delta',
+                'item_key' => 'auth_delta',
                 'item_value' => '18000',
             ],
             [
                 'section' => 'live.notify',
-                'item_key' => 'pull_auth_key',
+                'item_key' => 'auth_key',
                 'item_value' => '',
             ],
             [

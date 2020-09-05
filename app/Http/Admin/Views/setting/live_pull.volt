@@ -53,43 +53,44 @@
         </div>
     </div>
     <div id="ptt-block" {{ ppt_display }}>
-        <table class="layui-table kg-table layui-form">
-            <colgroup>
-                <col>
-                <col>
-                <col>
-                <col>
-            </colgroup>
-            <thead>
-            <tr>
-                <th>模板名称</th>
-                <th>模板描述</th>
-                <th>视频码率（kbps）</th>
-                <th>视频高度（px）</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>fd</td>
-                <td>流畅</td>
-                <td>500</td>
-                <td>540</td>
-            </tr>
-            <tr>
-                <td>sd</td>
-                <td>标清</td>
-                <td>1000</td>
-                <td>720</td>
-            </tr>
-            <tr>
-                <td>hd</td>
-                <td>高清</td>
-                <td>2000</td>
-                <td>1080</td>
-            </tr>
-            </tbody>
-        </table>
-        <br>
+        <div class="layui-form-item">
+            <table class="layui-table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>模板名称</th>
+                    <th>模板描述</th>
+                    <th>视频码率（kbps）</th>
+                    <th>视频高度（px）</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>fd</td>
+                    <td>流畅</td>
+                    <td>500</td>
+                    <td>540</td>
+                </tr>
+                <tr>
+                    <td>sd</td>
+                    <td>标清</td>
+                    <td>1000</td>
+                    <td>720</td>
+                </tr>
+                <tr>
+                    <td>hd</td>
+                    <td>高清</td>
+                    <td>2000</td>
+                    <td>1080</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
