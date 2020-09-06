@@ -22,7 +22,7 @@ class UploadController extends Controller
         if ($file) {
             return $this->jsonSuccess([
                 'data' => [
-                    'src' => $service->getCiImageUrl($file->path),
+                    'src' => $service->getImageUrl($file->path),
                     'title' => $file->name,
                 ]
             ]);
@@ -43,7 +43,7 @@ class UploadController extends Controller
         if ($file) {
             return $this->jsonSuccess([
                 'data' => [
-                    'src' => $service->getCiImageUrl($file->path),
+                    'src' => $service->getImageUrl($file->path),
                     'title' => $file->name,
                 ]
             ]);
@@ -64,7 +64,7 @@ class UploadController extends Controller
         if ($file) {
             return $this->jsonSuccess([
                 'data' => [
-                    'src' => $service->getCiImageUrl($file->path),
+                    'src' => $service->getImageUrl($file->path),
                     'title' => $file->name,
                 ]
             ]);

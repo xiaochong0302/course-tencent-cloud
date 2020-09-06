@@ -25,7 +25,7 @@ class Storage extends Service
 
     public function __construct()
     {
-        $this->settings = $this->getSectionSettings('storage');
+        $this->settings = $this->getSectionSettings('cos');
 
         $this->logger = $this->getLogger('storage');
 
@@ -41,7 +41,7 @@ class Storage extends Service
      */
     public function putString($key, $body)
     {
-        $bucket = $this->settings['bucket_name'];
+        $bucket = $this->settings['bucket'];
 
         try {
 
@@ -52,7 +52,6 @@ class Storage extends Service
         } catch (\Exception $e) {
 
             $this->logger->error('Put String Exception ' . kg_json_encode([
-                    'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
@@ -72,7 +71,7 @@ class Storage extends Service
      */
     public function putFile($key, $filename)
     {
-        $bucket = $this->settings['bucket_name'];
+        $bucket = $this->settings['bucket'];
 
         try {
 
@@ -85,7 +84,6 @@ class Storage extends Service
         } catch (\Exception $e) {
 
             $this->logger->error('Put File Exception ' . kg_json_encode([
-                    'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
@@ -104,7 +102,7 @@ class Storage extends Service
      */
     public function deleteObject($key)
     {
-        $bucket = $this->settings['bucket_name'];
+        $bucket = $this->settings['bucket'];
 
         try {
 
@@ -118,7 +116,6 @@ class Storage extends Service
         } catch (\Exception $e) {
 
             $this->logger->error('Delete Object Exception ' . kg_json_encode([
-                    'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
@@ -130,52 +127,39 @@ class Storage extends Service
     }
 
     /**
-     * 获取存储桶文件URL
+     * 获取文件URL
      *
      * @param string $key
      * @return string
      */
-    public function getBucketFileUrl($key)
+    public function getFileUrl($key)
     {
-        return $this->getBucketBaseUrl() . $key;
+        return $this->getBaseUrl() . $key;
     }
 
     /**
-     *  获取数据万象图片URL
+     *  获取图片URL
      *
      * @param string $key
      * @param string $style
      * @return string
      */
-    public function getCiImageUrl($key, $style = null)
+    public function getImageUrl($key, $style = null)
     {
         $style = $style ?: '';
 
-        return $this->getCiBaseUrl() . $key . $style;
+        return $this->getBaseUrl() . $key . $style;
     }
 
     /**
-     * 获取存储桶根URL
+     * 获取基准URL
      *
      * @return string
      */
-    public function getBucketBaseUrl()
+    public function getBaseUrl()
     {
-        $protocol = $this->settings['bucket_protocol'];
-        $domain = $this->settings['bucket_domain'];
-
-        return sprintf('%s://%s', $protocol, trim($domain, '/'));
-    }
-
-    /**
-     * 获取数据万象根URL
-     *
-     * @return string
-     */
-    public function getCiBaseUrl()
-    {
-        $protocol = $this->settings['ci_protocol'];
-        $domain = $this->settings['ci_domain'];
+        $protocol = $this->settings['protocol'];
+        $domain = $this->settings['domain'];
 
         return sprintf('%s://%s', $protocol, trim($domain, '/'));
     }
@@ -217,8 +201,8 @@ class Storage extends Service
         $secret = $this->getSectionSettings('secret');
 
         return new CosClient([
-            'region' => $this->settings['bucket_region'],
-            'schema' => $this->settings['bucket_protocol'],
+            'region' => $this->settings['region'],
+            'schema' => $this->settings['protocol'],
             'credentials' => [
                 'secretId' => $secret['secret_id'],
                 'secretKey' => $secret['secret_key'],

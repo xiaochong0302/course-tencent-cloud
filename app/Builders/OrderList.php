@@ -12,7 +12,7 @@ class OrderList extends Builder
 
     public function __construct()
     {
-        $this->imgBaseUrl = kg_ci_base_url();
+        $this->imgBaseUrl = kg_ss_url();
     }
 
     /**

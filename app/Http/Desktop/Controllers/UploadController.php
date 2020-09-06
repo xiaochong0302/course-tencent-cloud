@@ -18,12 +18,15 @@ class UploadController extends Controller
     {
         $service = new StorageService();
 
-        $key = $service->uploadAvatarImage();
+        $file = $service->uploadAvatarImage();
 
-        $url = $service->getCiImageUrl($key);
-
-        if ($url) {
-            return $this->jsonSuccess(['data' => ['src' => $url, 'title' => '']]);
+        if ($file) {
+            return $this->jsonSuccess([
+                'data' => [
+                    'src' => $service->getImageUrl($file->path),
+                    'title' => $file->name,
+                ]
+            ]);
         } else {
             return $this->jsonError(['msg' => '上传文件失败']);
         }

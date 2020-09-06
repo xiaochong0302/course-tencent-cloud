@@ -151,14 +151,14 @@ class MyController extends Controller
      */
     public function groupsAction()
     {
-        $type = $this->request->getQuery('type', 'trim', 'joined');
+        $scope = $this->request->getQuery('scope', 'trim', 'joined');
 
         $service = new MyGroupListService();
 
-        $pager = $service->handle($type);
+        $pager = $service->handle($scope);
 
         $this->view->pick('my/groups');
-        $this->view->setVar('type', $type);
+        $this->view->setVar('scope', $scope);
         $this->view->setVar('pager', $pager);
     }
 

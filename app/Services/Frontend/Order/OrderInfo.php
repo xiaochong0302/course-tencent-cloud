@@ -91,14 +91,14 @@ class OrderInfo extends FrontendService
 
     protected function handleCourseInfo($itemInfo)
     {
-        $itemInfo['course']['cover'] = kg_ci_img_url($itemInfo['course']['cover']);
+        $itemInfo['course']['cover'] = kg_ss_cover_url($itemInfo['course']['cover']);
 
         return $itemInfo;
     }
 
     protected function handlePackageInfo($itemInfo)
     {
-        $baseUrl = kg_ci_base_url();
+        $baseUrl = kg_ss_url();
 
         foreach ($itemInfo['courses'] as &$course) {
             $course['cover'] = $baseUrl . $course['cover'];

@@ -6,13 +6,12 @@
 
 都有些什么功能？我也不想写一大堆，自己体验吧！
 
+帐号：100015@163.com / 123456 (前后台通用)
+
 PS：**系统后台已禁止提交并隐藏私人配置**
 
 - [前台演示](https://ctc.koogua.com)
 - [后台演示](https://ctc.koogua.com/admin)
-- [系统截图](https://gitee.com/koogua/course-tencent-cloud/wikis/系统截图)
-
-体验帐号： 100015@163.com / 123456
 
 #### 项目组件
 
@@ -33,7 +32,7 @@ PS：**系统后台已禁止提交并隐藏私人配置**
 #### 安装指南
 
 - [运行环境搭建](https://gitee.com/koogua/course-tencent-cloud-docker)
-- [腾讯服务配置](https://gitee.com/koogua/course-tencent-cloud-docker/wikis/腾讯服务配置)
+- [系统服务配置](https://gitee.com/koogua/course-tencent-cloud/wikis/服务配置)
 
 #### 会推出商业服务吗？
 

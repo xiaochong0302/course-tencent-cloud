@@ -4,10 +4,10 @@
 
     {{ partial('macros/group') }}
 
-    {% set joined_url = url({'for':'desktop.my.groups'},{'type':'joined'}) %}
-    {% set owned_url = url({'for':'desktop.my.groups'},{'type':'owned'}) %}
-    {% set joined_class = type == 'joined' ? 'layui-btn layui-btn-xs' : 'none' %}
-    {% set owned_class = type == 'owned' ? 'layui-btn layui-btn-xs' : 'none' %}
+    {% set joined_url = url({'for':'desktop.my.groups'},{'scope':'joined'}) %}
+    {% set owned_url = url({'for':'desktop.my.groups'},{'scope':'owned'}) %}
+    {% set joined_class = scope == 'joined' ? 'layui-btn layui-btn-xs' : 'none' %}
+    {% set owned_class = scope == 'owned' ? 'layui-btn layui-btn-xs' : 'none' %}
 
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('my/menu') }}</div>
@@ -18,7 +18,7 @@
                 <a class="{{ owned_class }}" href="{{ owned_url }}">管理的</a>
             </div>
             <div class="my-group-wrap wrap">
-                {% if type == 'owned' %}
+                {% if scope == 'owned' %}
                     {{ partial('my/groups_owned') }}
                 {% else %}
                     {{ partial('my/groups_joined') }}

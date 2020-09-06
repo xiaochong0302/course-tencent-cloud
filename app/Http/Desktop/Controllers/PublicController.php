@@ -32,7 +32,7 @@ class PublicController extends \Phalcon\Mvc\Controller
 
             $service = new StorageService();
 
-            $location = $service->getCiImageUrl($file->path);
+            $location = $service->getImageUrl($file->path);
 
             $this->response->redirect($location);
 

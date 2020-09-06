@@ -31,7 +31,7 @@ class SettingController extends Controller
 
             $site = $settingService->getSectionSettings($section);
 
-            $site['base_url'] = $site['base_url'] ?: kg_site_base_url();
+            $site['url'] = $site['url'] ?: kg_site_url();
 
             $this->view->setVar('site', $site);
         }
@@ -67,7 +67,7 @@ class SettingController extends Controller
      */
     public function storageAction()
     {
-        $section = 'storage';
+        $section = 'cos';
 
         $settingService = new SettingService();
 
@@ -81,9 +81,9 @@ class SettingController extends Controller
 
         } else {
 
-            $storage = $settingService->getSectionSettings($section);
+            $cos = $settingService->getSectionSettings($section);
 
-            $this->view->setVar('storage', $storage);
+            $this->view->setVar('cos', $cos);
         }
     }
 

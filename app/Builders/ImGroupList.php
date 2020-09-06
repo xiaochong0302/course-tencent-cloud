@@ -55,7 +55,7 @@ class ImGroupList extends Builder
 
         $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
 
-        $baseUrl = kg_ci_base_url();
+        $baseUrl = kg_ss_url();
 
         $result = [];
 

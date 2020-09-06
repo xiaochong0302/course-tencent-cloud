@@ -2,14 +2,14 @@
     <div class="user-list teacher-list clearfix">
         <div class="layui-row layui-col-space20">
             {% for item in pager.items %}
-                {% set item.title = item.title ? item.title : '暂露头角' %}
+                {% set item.title = item.title ? item.title : '小小教书匠' %}
                 {% set item.about = item.about ? item.about : '这个人很懒，什么都没留下' %}
                 {% set user_url = url({'for':'desktop.teacher.show','id':item.id}) %}
                 <div class="layui-col-md2">
                     <div class="user-card">
                         <div class="avatar">
                             <a href="{{ user_url }}" title="{{ item.about }}">
-                                <img src="{{ item.avatar }}" alt="{{ item.name }}">
+                                <img src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
                             </a>
                         </div>
                         <div class="name layui-elip">

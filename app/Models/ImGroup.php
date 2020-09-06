@@ -156,7 +156,7 @@ class ImGroup extends Model
     public function afterFetch()
     {
         if (!Text::startsWith($this->avatar, 'http')) {
-            $this->avatar = kg_ci_avatar_img_url($this->avatar);
+            $this->avatar = kg_ss_avatar_url($this->avatar);
         }
     }
 

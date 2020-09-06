@@ -11,13 +11,13 @@ use App\Services\Frontend\User\GroupList as UserGroupListService;
 class GroupList extends FrontendService
 {
 
-    public function handle($type)
+    public function handle($scope)
     {
         $result = [];
 
-        if ($type == 'joined') {
+        if ($scope == 'joined') {
             $result = $this->handleJoinedGroups();
-        } elseif ($type == 'owned') {
+        } elseif ($scope == 'owned') {
             $result = $this->handleOwnedGroups();
         }
 
@@ -62,7 +62,7 @@ class GroupList extends FrontendService
 
         $users = $builder->getUsers($groups);
 
-        $baseUrl = kg_ci_base_url();
+        $baseUrl = kg_ss_url();
 
         $items = [];
 

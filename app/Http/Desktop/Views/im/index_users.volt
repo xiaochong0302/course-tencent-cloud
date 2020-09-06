@@ -9,7 +9,7 @@
                     {{ vip_info(user.vip) }}
                     <div class="avatar">
                         <a href="{{ user_url }}" title="{{ user.about }}" target="user">
-                            <img src="{{ user.avatar }}" alt="{{ user.name }}">
+                            <img src="{{ user.avatar }}!avatar_160" alt="{{ user.name }}">
                         </a>
                     </div>
                     <div class="name layui-elip">
