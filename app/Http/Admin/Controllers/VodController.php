@@ -16,6 +16,11 @@ class VodController extends Controller
      */
     public function uploadSignAction()
     {
+        /**
+         * demo分支禁止上传,返回一个空签名
+         */
+        return $this->jsonSuccess(['sign' => '']);
+
         $service = new VodService();
 
         $sign = $service->getUploadSign();
