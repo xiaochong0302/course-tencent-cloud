@@ -33,8 +33,8 @@
                             {% set delete_url = url({'for':'desktop.consult.delete','id':item.id}) %}
                             <tr>
                                 <td>
-                                    <p class="layui-elip item-elip" title="{{ item.question }}">提问：{{ item.question }}</p>
-                                    <p class="layui-elip item-elip" title="{{ item.answer }}">回复：{{ item.answer }}</p>
+                                    <p class="content layui-elip" title="{{ item.question }}">提问：{{ item.question }}</p>
+                                    <p class="content layui-elip" title="{{ item.answer }}">回复：{{ item.answer }}</p>
                                 </td>
                                 <td>{{ date('Y-m-d',item.create_time) }}</td>
                                 <td>

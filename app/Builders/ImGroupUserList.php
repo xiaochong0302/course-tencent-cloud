@@ -40,7 +40,7 @@ class ImGroupUserList extends Builder
 
         $users = $userRepo->findByIds($ids, $columns);
 
-        $baseUrl = kg_ci_base_url();
+        $baseUrl = kg_ss_url();
 
         $result = [];
 
@@ -64,7 +64,7 @@ class ImGroupUserList extends Builder
 
         $users = $this->getGroupOwners($groups->toArray());
 
-        $baseUrl = kg_ci_base_url();
+        $baseUrl = kg_ss_url();
 
         $result = [];
 

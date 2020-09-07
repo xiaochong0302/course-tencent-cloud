@@ -26,11 +26,11 @@
                 {{ partial('chapter/edit_lesson_basic') }}
             </div>
             <div class="layui-tab-item">
-                {% if course.model == '1' %}
+                {% if course.model == 1 %}
                     {{ partial('chapter/edit_lesson_vod') }}
-                {% elseif course.model == '2' %}
+                {% elseif course.model == 2 %}
                     {{ partial('chapter/edit_lesson_live') }}
-                {% elseif course.model == '3' %}
+                {% elseif course.model == 3 %}
                     {{ partial('chapter/edit_lesson_read') }}
                 {% endif %}
             </div>

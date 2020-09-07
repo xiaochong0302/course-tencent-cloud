@@ -94,12 +94,8 @@ class Setting extends Service
     {
         $protocol = ['http://', 'https://'];
 
-        if (isset($settings['bucket_domain'])) {
-            $settings['bucket_domain'] = str_replace($protocol, '', $settings['bucket_domain']);
-        }
-
-        if (isset($settings['ci_domain'])) {
-            $settings['ci_domain'] = str_replace($protocol, '', $settings['ci_domain']);
+        if (isset($settings['domain'])) {
+            $settings['domain'] = str_replace($protocol, '', $settings['domain']);
         }
 
         $this->updateSectionSettings($section, $settings);
@@ -114,12 +110,10 @@ class Setting extends Service
     {
         $protocol = ['http://', 'https://'];
 
-        if (isset($settings['push_domain'])) {
-            $settings['push_domain'] = str_replace($protocol, '', $settings['push_domain']);
-        }
-
-        if (isset($settings['pull_domain'])) {
-            $settings['pull_domain'] = str_replace($protocol, '', $settings['pull_domain']);
+        if (in_array($section, ['live.push', 'live.pull'])) {
+            if (isset($settings['domain'])) {
+                $settings['domain'] = str_replace($protocol, '', $settings['domain']);
+            }
         }
 
         $this->updateSectionSettings($section, $settings);

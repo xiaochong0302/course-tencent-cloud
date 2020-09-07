@@ -45,7 +45,7 @@ class CourseTopicList extends Builder
 
         $courses = $courseRepo->findByIds($ids, $columns);
 
-        $baseUrl = kg_ci_base_url();
+        $baseUrl = kg_ss_url();
 
         $result = [];
 

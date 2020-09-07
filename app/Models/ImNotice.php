@@ -18,6 +18,13 @@ class ImNotice extends Model
     const TYPE_GROUP_REFUSED = 6; // 入群被拒绝
 
     /**
+     * 请求状态
+     */
+    const REQUEST_PENDING = 'pending'; // 待定
+    const REQUEST_ACCEPTED = 'accepted'; // 接受
+    const REQUEST_REFUSED = 'refused'; // 拒绝
+
+    /**
      * 主键编号
      *
      * @var int

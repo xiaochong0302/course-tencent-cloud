@@ -46,8 +46,8 @@ class Volt extends Provider
                 return 'kg_js_include(' . $resolvedArgs . ')';
             });
 
-            $compiler->addFunction('ci_img_url', function ($resolvedArgs) {
-                return 'kg_ci_img_url(' . $resolvedArgs . ')';
+            $compiler->addFunction('ss_img_url', function ($resolvedArgs) {
+                return 'kg_ss_img_url(' . $resolvedArgs . ')';
             });
 
             $compiler->addFunction('substr', function ($resolvedArgs) {

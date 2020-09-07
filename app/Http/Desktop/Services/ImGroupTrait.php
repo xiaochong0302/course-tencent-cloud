@@ -45,7 +45,7 @@ Trait ImGroupTrait
 
         $validator = new ImNoticeValidator();
 
-        $notice = $validator->checkNotice($noticeId, 'system');
+        $notice = $validator->checkNotice($noticeId);
 
         if ($notice->item_type != ImNoticeModel::TYPE_GROUP_REQUEST) {
             return;

@@ -2,8 +2,8 @@
 
 {% block content %}
 
-    {% set update_url = url({'for':'desktop.group.update','id':group.id}) %}
-    {% set name_readonly = group.type == 'course' ? 'readonly="readonly"' : '' %}
+    {% set update_url = url({'for':'desktop.igm.update','id':group.id}) %}
+    {% set name_readonly = group.type == 1 ? 'readonly="readonly"' : '' %}
 
     <form class="layui-form" method="post" action="{{ update_url }}">
         <div class="layui-form-item">

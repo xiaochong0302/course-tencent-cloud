@@ -5,7 +5,6 @@ namespace App\Http\Admin\Controllers;
 use App\Http\Admin\Services\Chapter as ChapterService;
 use App\Http\Admin\Services\ChapterContent as ChapterContentService;
 use App\Http\Admin\Services\Course as CourseService;
-use App\Http\Admin\Services\Setting as SettingService;
 use App\Models\Course as CourseModel;
 
 /**
@@ -86,13 +85,10 @@ class ChapterController extends Controller
         $contentService = new ChapterContentService();
         $chapterService = new ChapterService();
         $courseService = new CourseService();
-        $settingService = new SettingService();
 
         $chapter = $chapterService->getChapter($id);
         $course = $courseService->getCourse($chapter->course_id);
-        $storage = $settingService->getSectionSettings('storage');
 
-        $this->view->setVar('storage', $storage);
         $this->view->setVar('chapter', $chapter);
         $this->view->setVar('course', $course);
 

@@ -45,6 +45,8 @@ class WxpayGateway extends Service
             'mch_id' => $this->settings['mch_id'],
             'key' => $this->settings['key'],
             'notify_url' => $this->settings['notify_url'],
+            'cert_client' => '',
+            'cert_key' => '',
             'log' => [
                 'file' => log_path('wxpay.log'),
                 'level' => $level,

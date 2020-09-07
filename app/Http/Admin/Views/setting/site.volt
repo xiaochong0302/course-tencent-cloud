@@ -32,7 +32,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">网站URL</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="base_url" value="{{ site.base_url }}">
+                <input class="layui-input" type="text" name="url" value="{{ site.url }}">
             </div>
         </div>
         <div class="layui-form-item">

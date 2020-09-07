@@ -7,6 +7,7 @@ use App\Builders\ImGroupUserList as ImGroupUserListBuilder;
 use App\Caches\ImGroupActiveUserList as ImGroupActiveUserListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\ImGroup as ImGroupModel;
+use App\Models\ImUser as ImUserModel;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\User as UserRepo;
@@ -138,11 +139,17 @@ class ImGroup extends Service
 
         $group = $validator->checkGroup($groupId);
 
+        $user = $validator->checkUser($userId);
+
         $validator->checkOwner($loginUser->id, $group->owner_id);
 
         $groupUser = $validator->checkGroupUser($groupId, $userId);
 
         $groupUser->delete();
+
+        $this->decrGroupUserCount($group);
+
+        $this->decrUserGroupCount($user);
     }
 
     protected function handleGroupUsers($pager)
@@ -181,7 +188,7 @@ class ImGroup extends Service
 
         $users = $builder->getUsers($groups);
 
-        $baseUrl = kg_ci_base_url();
+        $baseUrl = kg_ss_url();
 
         $items = [];
 
@@ -205,6 +212,22 @@ class ImGroup extends Service
         $pager->items = $items;
 
         return $pager;
+    }
+
+    protected function decrGroupUserCount(ImGroupModel $group)
+    {
+        if ($group->user_count > 0) {
+            $group->user_count -= 1;
+            $group->update();
+        }
+    }
+
+    protected function decrUserGroupCount(ImUserModel $user)
+    {
+        if ($user->group_count > 0) {
+            $user->group_count -= 1;
+            $user->update();
+        }
     }
 
 }

@@ -16,10 +16,11 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set show_url = url({'for':'desktop.group.show','id':item.id}) %}
             {% set owner_url = url({'for':'desktop.user.show','id':item.owner.id}) %}
             {% set delete_url = url({'for':'desktop.im.quit_group','id':item.id}) %}
             <tr>
-                <td><span title="{{ item.about }}">{{ item.name }}</span> {{ type_info(item.type) }}</td>
+                <td><a href="{{ show_url }}" title="{{ item.about }}">{{ item.name }}</a> {{ type_info(item.type) }}</td>
                 <td><a href="{{ owner_url }}">{{ item.owner.name }}</a></td>
                 <td>{{ item.user_count }}</td>
                 <td>

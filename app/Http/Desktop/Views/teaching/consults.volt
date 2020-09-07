@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {{ partial('macros/consult') }}
+
     {% set status_types = {'all':'全部','pending':'待回复','replied':'已回复'} %}
     {% set status = request.get('status','trim','all') %}
 
@@ -45,7 +47,7 @@
                                     <p class="content layui-elip" title="{{ item.question }}">提问：{{ item.question }}</p>
                                     <p class="content layui-elip" title="{{ item.answer }}">回复：{{ answer }}</p>
                                 </td>
-                                <td>{{ item.priority }}</td>
+                                <td>{{ priority_info(item.priority) }}</td>
                                 <td>{{ date('Y-m-d',item.create_time) }}</td>
                                 <td>
                                     <button class="layui-btn layui-btn-xs layui-bg-green btn-show-consult" data-url="{{ show_url }}">详情</button>

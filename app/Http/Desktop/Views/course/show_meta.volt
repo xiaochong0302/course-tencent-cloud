@@ -33,24 +33,24 @@
         <p class="item">
             <span class="key">难度级别</span><span class="value">{{ level_info(course.level) }}</span>
             <span class="key">学习人次</span><span class="value">{{ course.user_count }}</span>
-            <span class="key">综合评分</span><span class="value">{{ course.ratings.rating }}</span>
+            <span class="key">综合评分</span><span class="value">{{ "%0.1f"|format(course.ratings.rating) }}</span>
         </p>
     </div>
     <div class="rating">
         <p class="item">
             <span class="name">内容实用</span>
             <span class="star">{{ star_info(course.ratings.rating1) }}</span>
-            <span class="score">{{ course.ratings.rating1 }}分</span>
+            <span class="score">{{ "%0.1f"|format(course.ratings.rating1) }}分</span>
         </p>
         <p class="item">
             <span class="name">简洁易懂</span>
             <span class="star">{{ star_info(course.ratings.rating2) }}</span>
-            <span class="score">{{ course.ratings.rating2 }}分</span>
+            <span class="score">{{ "%0.1f"|format(course.ratings.rating2) }}分</span>
         </p>
         <p class="item">
             <span class="name">逻辑清晰</span>
             <span class="star">{{ star_info(course.ratings.rating3) }}</span>
-            <span class="score">{{ course.ratings.rating3 }}分</span>
+            <span class="score">{{ "%0.1f"|format(course.ratings.rating3) }}分</span>
         </p>
     </div>
 </div>

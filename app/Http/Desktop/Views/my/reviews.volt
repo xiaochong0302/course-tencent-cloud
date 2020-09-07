@@ -36,9 +36,9 @@
                                     <p class="content layui-elip" title="{{ item.content }}">评价：{{ item.content }}</p>
                                 </td>
                                 <td>
-                                    <p class="rating">内容实用：{{ item.rating1 }}</p>
-                                    <p class="rating">通俗易懂：{{ item.rating2 }}</p>
-                                    <p class="rating">逻辑清晰：{{ item.rating3 }}</p>
+                                    <p class="rating">内容实用：{{ "%0.1f"|format(item.rating1) }}</p>
+                                    <p class="rating">通俗易懂：{{ "%0.1f"|format(item.rating2) }}</p>
+                                    <p class="rating">逻辑清晰：{{ "%0.1f"|format(item.rating3) }}</p>
                                 </td>
                                 <td>
                                     <button class="layui-btn layui-btn-xs btn-edit-review" data-url="{{ edit_url }}">修改</button>

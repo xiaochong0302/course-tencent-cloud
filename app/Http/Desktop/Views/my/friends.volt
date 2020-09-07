@@ -44,7 +44,7 @@
                             <tr>
                                 <td><a href="{{ user_url }}" title="{{ item.about }}">{{ item.name }}</a></td>
                                 <td>{{ gender_info(item.gender) }}</td>
-                                <td>{{ item.location }}</td>
+                                <td>{{ item.area }}</td>
                                 <td>{{ item.active_time|time_ago }}</td>
                                 <td>
                                     <button class="layui-btn layui-btn-sm kg-delete" data-url="{{ delete_url }}">删除</button>

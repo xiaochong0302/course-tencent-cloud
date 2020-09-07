@@ -5,7 +5,7 @@
     {% set sender = item_info.sender %}
     {% set sender_url = url({'for':'desktop.user.show','id':sender.id}) %}
 
-    {% if item_type == '1' %}
+    {% if item_type == 1 %}
         {% set group = item_info.group %}
         {% set remark = item_info.remark ? '附言：' ~ item_info.remark : '' %}
         <li data-id="{{ item.id }}">
@@ -26,7 +26,7 @@
                 {% endif %}
             </p>
         </li>
-    {% elseif item_type == '2' %}
+    {% elseif item_type == 2 %}
         <li class="layim-msgbox-system">
             <p>
                 <em>系统：</em>
@@ -34,7 +34,7 @@
                 接受了你的好友申请<span>{{ item.create_time|time_ago }}</span>
             </p>
         </li>
-    {% elseif item_type == '3' %}
+    {% elseif item_type == 3 %}
         <li class="layim-msgbox-system">
             <p>
                 <em>系统：</em>
@@ -42,7 +42,7 @@
                 拒绝了你的好友申请<span>{{ item.create_time|time_ago }}</span>
             </p>
         </li>
-    {% elseif item_type == '4' %}
+    {% elseif item_type == 4 %}
         {% set remark = item_info.remark ? '附言：' ~ item_info.remark : '' %}
         <li data-id="{{ item.id }}">
             <a href="{{ sender_url }}" target="_blank"><img class="layui-circle layim-msgbox-avatar" alt="{{ sender.name }}" src="{{ sender.avatar }}"></a>
@@ -62,7 +62,7 @@
                 {% endif %}
             </p>
         </li>
-    {% elseif item_type == '5' %}
+    {% elseif item_type == 5 %}
         <li class="layim-msgbox-system">
             <p>
                 <em>系统：</em>
@@ -70,7 +70,7 @@
                 接受了你的入群申请<span>{{ item.create_time|time_ago }}</span>
             </p>
         </li>
-    {% elseif item_type == '6' %}
+    {% elseif item_type == 6 %}
         <li class="layim-msgbox-system">
             <p>
                 <em>系统：</em>

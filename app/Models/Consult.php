@@ -57,6 +57,13 @@ class Consult extends Model
     public $answer;
 
     /**
+     * 评分
+     *
+     * @var int
+     */
+    public $rating;
+
+    /**
      * 优先级
      *
      * @var int

@@ -8,7 +8,7 @@
                     {{ type_info(group.type) }}
                     <div class="avatar">
                         <a href="{{ group_url }}" title="{{ group.about }}" target="group">
-                            <img src="{{ group.avatar }}" alt="{{ group.name }}">
+                            <img src="{{ group.avatar }}!avatar_160" alt="{{ group.name }}">
                         </a>
                     </div>
                     <div class="name layui-elip">

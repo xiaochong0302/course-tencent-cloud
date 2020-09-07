@@ -37,7 +37,7 @@
                                 <td>{{ item.lesson_count }}</td>
                                 <td>{{ item.user_count }}</td>
                                 <td>{{ item.favorite_count }}</td>
-                                <td>{{ item.rating }}</td>
+                                <td>{{ "%0.1f"|format(item.rating) }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

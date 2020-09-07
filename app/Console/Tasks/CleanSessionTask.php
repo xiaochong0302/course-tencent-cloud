@@ -4,39 +4,32 @@ namespace App\Console\Tasks;
 
 use App\Library\Cache\Backend\Redis as RedisCache;
 use Phalcon\Cli\Task;
+use Phalcon\Config;
 
 class CleanSessionTask extends Task
 {
 
-    /**
-     * @var RedisCache
-     */
-    protected $cache;
-
-    /**
-     * @var \Redis
-     */
-    protected $redis;
-
     public function mainAction()
     {
-        $this->cache = $this->getDI()->get('cache');
+        $config = $this->getConfig();
 
-        $this->redis = $this->cache->getRedis();
+        $cache = $this->getCache();
+
+        $redis = $cache->getRedis();
+
+        $redis->select($config->path('session.db'));
 
         $keys = $this->querySessionKeys(10000);
 
         if (count($keys) == 0) return;
 
-        $config = $this->getDI()->get('config');
-
-        $lifetime = $config->session->lifetime;
+        $lifetime = $config->path('session.lifetime');
 
         foreach ($keys as $key) {
-            $ttl = $this->redis->ttl($key);
-            $content = $this->redis->get($key);
+            $ttl = $redis->ttl($key);
+            $content = $redis->get($key);
             if (empty($content) && $ttl < $lifetime * 0.5) {
-                $this->redis->del($key);
+                $redis->del($key);
             }
         }
     }
@@ -49,7 +42,29 @@ class CleanSessionTask extends Task
      */
     protected function querySessionKeys($limit)
     {
-        return $this->cache->queryKeys('_PHCR', $limit);
+        $cache = $this->getCache();
+
+        return $cache->queryKeys('_PHCR', $limit);
+    }
+
+    protected function getConfig()
+    {
+        /**
+         * @var Config $config
+         */
+        $config = $this->getDI()->get('config');
+
+        return $config;
+    }
+
+    protected function getCache()
+    {
+        /**
+         * @var RedisCache $cache
+         */
+        $cache = $this->getDI()->get('cache');
+
+        return $cache;
     }
 
 }

@@ -121,7 +121,7 @@ function kg_ip2region($ip, $dbFile = null)
  *
  * @return string
  */
-function kg_site_base_url()
+function kg_site_url()
 {
     $scheme = filter_input(INPUT_SERVER, 'REQUEST_SCHEME');
     $host = filter_input(INPUT_SERVER, 'HTTP_HOST');
@@ -168,25 +168,25 @@ function kg_default_cover_path()
 }
 
 /**
- * 获取数据万象基准URL
+ * 获取存储基准URL
  *
  * @return string
  */
-function kg_ci_base_url()
+function kg_ss_url()
 {
     $storage = new StorageService();
 
-    return $storage->getCiBaseUrl();
+    return $storage->getBaseUrl();
 }
 
 /**
- * 获取数据万象URL
+ * 获取存储图片URL
  *
  * @param string $path
  * @param string $style
  * @return string
  */
-function kg_ci_img_url($path, $style = null)
+function kg_ss_img_url($path, $style = null)
 {
     if (!$path) return '';
 
@@ -196,35 +196,35 @@ function kg_ci_img_url($path, $style = null)
 
     $storage = new StorageService();
 
-    return $storage->getCiImageUrl($path, $style);
+    return $storage->getImageUrl($path, $style);
 }
 
 /**
- * 获取头像数据万象URL
+ * 获取头像URL
  *
  * @param string $path
  * @param string $style
  * @return string
  */
-function kg_ci_avatar_img_url($path, $style = null)
+function kg_ss_avatar_url($path, $style = null)
 {
     $path = $path ?: kg_default_avatar_path();
 
-    return kg_ci_img_url($path, $style);
+    return kg_ss_img_url($path, $style);
 }
 
 /**
- * 获取封面数据万象URL
+ * 获取封面URL
  *
  * @param string $path
  * @param string $style
  * @return string
  */
-function kg_ci_cover_img_url($path, $style = null)
+function kg_ss_cover_url($path, $style = null)
 {
     $path = $path ?: kg_default_cover_path();
 
-    return kg_ci_img_url($path, $style);
+    return kg_ss_img_url($path, $style);
 }
 
 /**
@@ -432,7 +432,7 @@ function kg_full_url($uri, $args = null)
      */
     $url = Di::getDefault()->getShared('url');
 
-    $baseUrl = kg_site_base_url();
+    $baseUrl = kg_site_url();
 
     return $baseUrl . $url->get($uri, $args);
 }
