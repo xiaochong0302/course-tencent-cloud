@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% set closed_tips_display = site.enabled == 1 ? 'style="display:none;"' : '' %}
+    {% set closed_tips_display = site.enabled == 0 ? 'display:block' : 'display:none' %}
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.site'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
@@ -15,7 +15,7 @@
                 <input type="radio" name="enabled" value="0" title="关闭" lay-filter="status" {% if site.enabled == 0 %}checked{% endif %}>
             </div>
         </div>
-        <div id="closed-tips-block" {{ closed_tips_display }}>
+        <div id="closed-tips-block" style="{{ closed_tips_display }}">
             <div class="layui-form-item">
                 <label class="layui-form-label">关闭原因</label>
                 <div class="layui-input-block">

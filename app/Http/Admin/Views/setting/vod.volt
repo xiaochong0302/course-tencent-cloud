@@ -2,9 +2,9 @@
 
 {% block content %}
 
-    {% set storage_region_display = vod.storage_type == 'nearby' ? 'style="display:none;"' : '' %}
-    {% set watermark_tpl_display = vod.watermark_enabled == 0 ? 'style="display:none;"' : '' %}
-    {% set key_anti_display = vod.key_anti_enabled == 0 ? 'style="display:none;"' : '' %}
+    {% set storage_region_display = vod.storage_type == 'fixed' ? 'display:block' : 'display:none' %}
+    {% set watermark_template_display = vod.watermark_enabled == 1 ? 'display:block' : 'display:none' %}
+    {% set key_anti_display = vod.key_anti_enabled == 1 ? 'display:block': 'display:none' %}
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.vod'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
@@ -17,7 +17,7 @@
                 <input type="radio" name="storage_type" value="fixed" title="固定区域" lay-filter="storage_type" {% if vod.storage_type == "fixed" %}checked{% endif %}>
             </div>
         </div>
-        <div id="storage-region-block" {{ storage_region_display }}>
+        <div id="storage-region-block" style="{{ storage_region_display }}">
             <div class="layui-form-item">
                 <label class="layui-form-label">所在区域</label>
                 <div class="layui-input-block">
@@ -49,7 +49,7 @@
                 <input type="radio" name="watermark_enabled" value="0" title="否" lay-filter="watermark_enabled" {% if vod.watermark_enabled == 0 %}checked{% endif %}>
             </div>
         </div>
-        <div id="watermark-template-block" {{ watermark_tpl_display }}>
+        <div id="watermark-template-block" style="{{ watermark_template_display }}">
             <div class="layui-form-item">
                 <label class="layui-form-label">水印模板ID</label>
                 <div class="layui-input-block">
@@ -63,14 +63,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">分发协议</label>
             <div class="layui-input-block">
-                <input type="radio" name="dist_protocol" value="https" title="HTTPS" {% if vod.dist_protocol == "https" %}checked{% endif %}>
-                <input type="radio" name="dist_protocol" value="http" title="HTTP" {% if vod.dist_protocol == "http" %}checked{% endif %}>
+                <input type="radio" name="protocol" value="https" title="HTTPS" {% if vod.protocol == "https" %}checked{% endif %}>
+                <input type="radio" name="protocol" value="http" title="HTTP" {% if vod.protocol == "http" %}checked{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">分发域名</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="dist_domain" value="{{ vod.dist_domain }}" lay-verify="required">
+                <input class="layui-input" type="text" name="domain" value="{{ vod.domain }}" lay-verify="required">
             </div>
         </div>
         <fieldset class="layui-elem-field layui-field-title">

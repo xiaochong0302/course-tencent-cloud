@@ -1,4 +1,4 @@
-{% set auth_display = push.auth_enabled == 0 ? 'style="display:none;"' : '' %}
+{% set push_auth_display = push.auth_enabled == 1 ? 'display:block' : 'display:none' %}
 
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.live'}) }}">
     <fieldset class="layui-elem-field layui-field-title">
@@ -16,11 +16,11 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启鉴权</label>
         <div class="layui-input-block">
-            <input type="radio" name="auth_enabled" value="1" title="是" lay-filter="auth_enabled" {% if push.auth_enabled == 1 %}checked{% endif %}>
-            <input type="radio" name="auth_enabled" value="0" title="否" lay-filter="auth_enabled" {% if push.auth_enabled == 0 %}checked{% endif %}>
+            <input type="radio" name="auth_enabled" value="1" title="是" lay-filter="push_auth_enabled" {% if push.auth_enabled == 1 %}checked{% endif %}>
+            <input type="radio" name="auth_enabled" value="0" title="否" lay-filter="push_auth_enabled" {% if push.auth_enabled == 0 %}checked{% endif %}>
         </div>
     </div>
-    <div id="push-auth-block" {{ auth_display }}>
+    <div id="push-auth-block" style="{{ push_auth_display }}">
         <div class="layui-form-item">
             <label class="layui-form-label">鉴权密钥</label>
             <div class="layui-input-block">

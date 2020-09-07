@@ -402,12 +402,12 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'vod',
-                'item_key' => 'dist_protocol',
+                'item_key' => 'protocol',
                 'item_value' => 'https',
             ],
             [
                 'section' => 'vod',
-                'item_key' => 'dist_domain',
+                'item_key' => 'domain',
                 'item_value' => '',
             ],
             [

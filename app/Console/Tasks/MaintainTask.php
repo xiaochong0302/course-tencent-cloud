@@ -2,7 +2,9 @@
 
 namespace App\Console\Tasks;
 
+use App\Caches\Setting as SettingCache;
 use App\Library\Cache\Backend\Redis as RedisCache;
+use App\Models\Setting as SettingModel;
 use Phalcon\Cli\Task;
 use Phalcon\Config;
 
@@ -11,9 +13,29 @@ class MaintainTask extends Task
 
     public function mainAction()
     {
+        $this->resetSettingAction();
         $this->resetAnnotationAction();
         $this->resetMetadataAction();
         $this->resetVoltAction();
+    }
+
+    /**
+     * 重置设置
+     *
+     * @command: php console.php maintain reset_setting
+     */
+    public function resetSettingAction()
+    {
+        echo "start reset setting..." . PHP_EOL;
+
+        $rows = SettingModel::query()->columns('section')->distinct(true)->execute();
+
+        foreach ($rows as $row) {
+            $cache = new SettingCache();
+            $cache->rebuild($row->section);
+        }
+
+        echo "end reset setting..." . PHP_EOL;
     }
 
     /**
@@ -38,7 +60,7 @@ class MaintainTask extends Task
 
         if (count($keys) > 0) {
 
-            $keys = $this->handleKeys($keys);
+            $keys = $this->handlePhKeys($keys);
 
             $redis->del(...$keys);
             $redis->del($statsKey);
@@ -69,7 +91,7 @@ class MaintainTask extends Task
 
         if (count($keys) > 0) {
 
-            $keys = $this->handleKeys($keys);
+            $keys = $this->handlePhKeys($keys);
 
             $redis->del(...$keys);
             $redis->del($statsKey);
@@ -118,7 +140,7 @@ class MaintainTask extends Task
         return $cache;
     }
 
-    protected function handleKeys($keys)
+    protected function handlePhKeys($keys)
     {
         return array_map(function ($key) {
             return "_PHCR{$key}";
