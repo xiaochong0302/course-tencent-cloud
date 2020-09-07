@@ -33,6 +33,8 @@ class UserDocument extends Component
      */
     public function formatDocument(UserModel $user)
     {
+        $user->avatar = UserModel::getAvatarPath($user->avatar);
+
         return [
             'id' => $user->id,
             'name' => $user->name,

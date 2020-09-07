@@ -133,7 +133,7 @@ class ImUser extends Model
     public function afterFetch()
     {
         if (!Text::startsWith($this->avatar, 'http')) {
-            $this->avatar = kg_ss_avatar_url($this->avatar);
+            $this->avatar = kg_cos_avatar_url($this->avatar);
         }
     }
 

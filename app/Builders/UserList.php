@@ -10,7 +10,7 @@ class UserList extends Builder
 
     public function handleUsers(array $users)
     {
-        $baseUrl = kg_ss_url();
+        $baseUrl = kg_cos_url();
 
         foreach ($users as $key => $user) {
             $users[$key]['avatar'] = $baseUrl . $user['avatar'];

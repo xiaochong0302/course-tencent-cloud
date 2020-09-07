@@ -59,7 +59,7 @@ class Im extends Service
             return [];
         }
 
-        $baseUrl = kg_ss_url();
+        $baseUrl = kg_cos_url();
 
         $result = [];
 
@@ -252,7 +252,7 @@ class Im extends Service
 
         $users = $userRepo->findByIds($ids);
 
-        $baseUrl = kg_ss_url();
+        $baseUrl = kg_cos_url();
 
         $mapping = [];
 
@@ -303,7 +303,7 @@ class Im extends Service
 
         $groups = $groupRepo->findByIds($ids);
 
-        $baseUrl = kg_ss_url();
+        $baseUrl = kg_cos_url();
 
         $mapping = [];
 

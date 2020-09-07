@@ -55,7 +55,7 @@ class ReviewList extends Builder
 
         $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
 
-        $baseUrl = kg_ss_url();
+        $baseUrl = kg_cos_url();
 
         $result = [];
 

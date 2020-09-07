@@ -45,7 +45,7 @@ class Nav extends Service
 
         return $navRepo->findAll([
             'parent_id' => $parentId,
-            'published' => 1,
+            'deleted' => 0,
         ]);
     }
 

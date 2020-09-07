@@ -343,7 +343,7 @@ final class InsertSettingData extends AbstractMigration
             [
                 'section' => 'smser',
                 'item_key' => 'signature',
-                'item_value' => 'abc',
+                'item_value' => '酷瓜云课堂',
             ],
             [
                 'section' => 'smser',

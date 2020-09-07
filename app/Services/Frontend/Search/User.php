@@ -55,7 +55,12 @@ class User extends FrontendService
 
         $items = [];
 
+        $baseUrl = kg_cos_url();
+
         foreach ($pager->items as $item) {
+
+            $item['avatar'] = $baseUrl . $item['avatar'];
+
             $items[] = [
                 'id' => (int)$item['id'],
                 'name' => $item['name'],

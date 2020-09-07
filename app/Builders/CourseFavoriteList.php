@@ -45,7 +45,7 @@ class CourseFavoriteList extends Builder
 
         $courses = $courseRepo->findByIds($ids, $columns);
 
-        $baseUrl = kg_ss_url();
+        $baseUrl = kg_cos_url();
 
         $result = [];
 
@@ -69,7 +69,7 @@ class CourseFavoriteList extends Builder
 
         $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
 
-        $baseUrl = kg_ss_url();
+        $baseUrl = kg_cos_url();
 
         $result = [];
 

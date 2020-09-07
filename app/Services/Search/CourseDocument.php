@@ -63,6 +63,8 @@ class CourseDocument extends Component
             ]);
         }
 
+        $course->cover = CourseModel::getCoverPath($course->cover);
+
         return [
             'id' => $course->id,
             'title' => $course->title,
