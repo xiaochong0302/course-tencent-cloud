@@ -72,7 +72,7 @@ class Category extends Validator
     {
         $list = CategoryModel::types();
 
-        if (!isset($list[$type])) {
+        if (!array_key_exists($type, $list)) {
             throw new BadRequestException('category.invalid_type');
         }
 

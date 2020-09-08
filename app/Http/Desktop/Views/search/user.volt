@@ -26,7 +26,7 @@
                     <div class="about layui-elip">{{ item.about }}</div>
                     <div class="meta">
                         <span>性别：{{ gender_info(item.gender) }}</span>
-                        <span>地区：{{ item.location }}</span>
+                        <span>地区：{{ item.area }}</span>
                     </div>
                 </div>
             </div>

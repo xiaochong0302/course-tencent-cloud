@@ -3,6 +3,7 @@
 namespace App\Library\Paginator;
 
 use Phalcon\Di;
+use Phalcon\Filter;
 use Phalcon\Http\Request;
 
 class Query
@@ -13,42 +14,52 @@ class Query
      */
     protected $request;
 
+    /**
+     * @var Filter
+     */
+    protected $filter;
+
     public function __construct()
     {
         $this->request = Di::getDefault()->get('request');
+
+        $this->filter = Di::getDefault()->get('filter');
     }
 
     public function getPage()
     {
-        $page = $this->request->get('page', 'int', 1);
+        $page = $this->request->getQuery('page', ['trim', 'int'], 1);
 
-        return $page > 1000 ? 1000 : $page;
+        return $page > 100 ? 100 : $page;
     }
 
     public function getLimit()
     {
-        $limit = $this->request->get('limit', 'int', 12);
+        $limit = $this->request->getQuery('limit', ['trim', 'int'], 12);
 
         return $limit > 100 ? 100 : $limit;
     }
 
     public function getSort()
     {
-        return $this->request->get('sort', 'trim', '');
+        return $this->request->getQuery('sort', ['trim', 'string'], '');
     }
 
     public function getBaseUrl()
     {
-        return $this->request->get('_url', 'trim', '');
+        return $this->request->getQuery('_url', ['trim', 'string'], '');
     }
 
-    public function getParams()
+    public function getParams(array $whitelist = [])
     {
-        $params = $this->request->get();
+        $params = $this->request->getQuery();
 
         if ($params) {
             foreach ($params as $key => $value) {
-                if (strlen($value) == 0) {
+                $value = $this->filter->sanitize($value, ['trim', 'string']);
+                if ($whitelist && !in_array($value, $whitelist)) {
+                    unset($params[$key]);
+                } elseif (strlen($value) == 0) {
                     unset($params[$key]);
                 }
             }

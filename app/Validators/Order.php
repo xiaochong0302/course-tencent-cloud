@@ -49,7 +49,7 @@ class Order extends Validator
     {
         $list = OrderModel::itemTypes();
 
-        if (!isset($list[$itemType])) {
+        if (!array_key_exists($itemType, $list)) {
             throw new BadRequestException('order.invalid_item_type');
         }
 
