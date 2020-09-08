@@ -46,6 +46,8 @@ class GroupDocument extends Component
             ]);
         }
 
+        $group->avatar = GroupModel::getAvatarPath($group->avatar);
+
         return [
             'id' => $group->id,
             'type' => $group->type,

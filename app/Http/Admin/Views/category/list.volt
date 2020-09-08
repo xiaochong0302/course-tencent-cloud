@@ -2,9 +2,9 @@
 
 {% block content %}
 
-    {% set back_url = url({'for':'admin.category.list'}) %}
+    {% set back_url = url({'for':'admin.category.list'},{'type':type}) %}
     {% set add_url = url({'for':'admin.category.add'},{'type':type,'parent_id':parent.id}) %}
-    {% set allow_add = (type == 'course' and parent.level < 2) or (type == 'help' and parent.level < 1) %}
+    {% set allow_add = (type == 1 and parent.level < 2) or (type == 2 and parent.level < 1) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
@@ -46,7 +46,6 @@
         </thead>
         <tbody>
         {% for item in categories %}
-            {% set show_child_url = item.type == 'course' and item.level < 2 %}
             {% set child_url = url({'for':'admin.category.list'},{'type':item.type,'parent_id':item.id}) %}
             {% set edit_url = url({'for':'admin.category.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.category.update','id':item.id}) %}
@@ -54,10 +53,10 @@
             {% set restore_url = url({'for':'admin.category.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                {% if show_child_url %}
+                {% if item.type == 1 and item.level < 2 %}
                     <td><a href="{{ child_url }}">{{ item.name }}</a></td>
                 {% else %}
-                    <td>{{ item.name }}</td>
+                    <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
                 {% endif %}
                 <td><span class="layui-badge layui-bg-gray">{{ item.level }}</span></td>
                 <td><span class="layui-badge layui-bg-gray">{{ item.child_count }}</span></td>

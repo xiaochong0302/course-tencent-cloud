@@ -1,5 +1,5 @@
-{% set auth_display = pull.auth_enabled == 0 ? 'style="display:none;"' : '' %}
-{% set ppt_display = pull.trans_enabled == 0 ? 'style="display:none;"' : '' %}
+{% set pull_auth_display = pull.auth_enabled == 1 ? 'display:block' : 'display:none' %}
+{% set pull_trans_tpl_display = pull.trans_enabled == 1 ? 'display:block' : 'display:none' %}
 
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.live'}) }}">
     <fieldset class="layui-elem-field layui-field-title">
@@ -28,7 +28,7 @@
             <input type="radio" name="auth_enabled" value="0" title="否" lay-filter="pull_auth_enabled" {% if pull.auth_enabled == 0 %}checked{% endif %}>
         </div>
     </div>
-    <div id="pull-auth-block" {{ auth_display }}>
+    <div id="pull-auth-block" style="{{ pull_auth_display }}">
         <div class="layui-form-item">
             <label class="layui-form-label">鉴权密钥</label>
             <div class="layui-input-block">
@@ -52,7 +52,7 @@
             <input type="radio" name="trans_enabled" value="0" title="否" lay-filter="pull_trans_enabled" {% if pull.trans_enabled == 0 %}checked{% endif %}>
         </div>
     </div>
-    <div id="ptt-block" {{ ppt_display }}>
+    <div id="pull-trans-tpl-block" style="{{ pull_trans_tpl_display }}">
         <div class="layui-form-item">
             <table class="layui-table">
                 <colgroup>

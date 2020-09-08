@@ -188,7 +188,7 @@ class ImGroup extends Service
 
         $users = $builder->getUsers($groups);
 
-        $baseUrl = kg_ss_url();
+        $baseUrl = kg_cos_url();
 
         $items = [];
 

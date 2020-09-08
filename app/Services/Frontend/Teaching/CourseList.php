@@ -33,7 +33,7 @@ class CourseList extends FrontendService
 
         $items = [];
 
-        $baseUrl = kg_ss_url();
+        $baseUrl = kg_cos_url();
 
         foreach ($pager->items->toArray() as $course) {
 

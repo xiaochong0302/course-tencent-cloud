@@ -1,4 +1,5 @@
 {% set free = course.market_price == 0 %}
+{% set price_display = course.market_price > 0 ? 'display:block' : 'display:none' %}
 
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.course.update','id':course.id}) }}">
     <div class="layui-form-item">
@@ -8,7 +9,7 @@
             <input type="radio" name="price_mode" value="charge" title="收费" lay-filter="price_mode" {% if not free %}checked="checked"{% endif %}>
         </div>
     </div>
-    <div id="price-block" {% if free %}style="display:none;"{% endif %}>
+    <div id="price-block" style="{{ price_display }}">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">市场价格</label>

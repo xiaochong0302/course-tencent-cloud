@@ -172,7 +172,7 @@ function kg_default_cover_path()
  *
  * @return string
  */
-function kg_ss_url()
+function kg_cos_url()
 {
     $storage = new StorageService();
 
@@ -186,7 +186,7 @@ function kg_ss_url()
  * @param string $style
  * @return string
  */
-function kg_ss_img_url($path, $style = null)
+function kg_cos_img_url($path, $style = null)
 {
     if (!$path) return '';
 
@@ -206,11 +206,11 @@ function kg_ss_img_url($path, $style = null)
  * @param string $style
  * @return string
  */
-function kg_ss_avatar_url($path, $style = null)
+function kg_cos_avatar_url($path, $style = null)
 {
     $path = $path ?: kg_default_avatar_path();
 
-    return kg_ss_img_url($path, $style);
+    return kg_cos_img_url($path, $style);
 }
 
 /**
@@ -220,11 +220,11 @@ function kg_ss_avatar_url($path, $style = null)
  * @param string $style
  * @return string
  */
-function kg_ss_cover_url($path, $style = null)
+function kg_cos_cover_url($path, $style = null)
 {
     $path = $path ?: kg_default_cover_path();
 
-    return kg_ss_img_url($path, $style);
+    return kg_cos_img_url($path, $style);
 }
 
 /**

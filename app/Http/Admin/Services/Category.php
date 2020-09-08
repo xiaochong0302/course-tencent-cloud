@@ -43,7 +43,7 @@ class Category extends Service
 
     public function getChildCategories($parentId)
     {
-        $deleted = $this->request->getQuery('deleted', ['int'], 0);
+        $deleted = $this->request->getQuery('deleted', 'int', 0);
 
         $categoryRepo = new CategoryRepo();
 

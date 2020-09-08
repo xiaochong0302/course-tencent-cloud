@@ -52,7 +52,7 @@
             });
 
             form.on('radio(pull_trans_enabled)', function (data) {
-                var block = $('#ptt-block');
+                var block = $('#pull-trans-tpl-block');
                 if (data.value === '1') {
                     block.show();
                 } else {

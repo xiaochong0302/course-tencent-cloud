@@ -55,7 +55,12 @@ class Course extends FrontendService
 
         $items = [];
 
+        $baseUrl = kg_cos_url();
+
         foreach ($pager->items as $item) {
+
+            $item['cover'] = $baseUrl . $item['cover'];
+
             $items[] = [
                 'id' => (int)$item['id'],
                 'title' => $item['title'],

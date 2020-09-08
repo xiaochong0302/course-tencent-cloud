@@ -37,7 +37,7 @@ class UserList extends FrontendService
 
         $users = $pager->items->toArray();
 
-        $baseUrl = kg_ss_url();
+        $baseUrl = kg_cos_url();
 
         $items = [];
 

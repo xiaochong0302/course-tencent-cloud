@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {% set lock_expiry_display = user.locked == 1 ? 'display:block': 'display:none' %}
+
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.user.update','id':user.id}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>编辑用户</legend>
@@ -51,14 +53,16 @@
                 <input type="radio" name="locked" value="0" title="否" lay-filter="locked" {% if user.locked == 0 %}checked="checked"{% endif %}>
             </div>
         </div>
-        <div class="layui-form-item" id="lock-expiry-block" {% if user.locked == 0 %}style="display:none;"{% endif %}>
-            <label class="layui-form-label">锁定期限</label>
-            <div class="layui-input-block">
-                {% if user.lock_expiry_time > 0 %}
-                    <input class="layui-input" type="text" name="lock_expiry_time" autocomplete="off" value="{{ date('Y-m-d H:i:s',user.lock_expiry_time) }}">
-                {% else %}
-                    <input class="layui-input" type="text" name="lock_expiry_time" autocomplete="off">
-                {% endif %}
+        <div id="lock-expiry-block" style="{{ lock_expiry_display }}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">锁定期限</label>
+                <div class="layui-input-block">
+                    {% if user.lock_expiry_time > 0 %}
+                        <input class="layui-input" type="text" name="lock_expiry_time" autocomplete="off" value="{{ date('Y-m-d H:i:s',user.lock_expiry_time) }}">
+                    {% else %}
+                        <input class="layui-input" type="text" name="lock_expiry_time" autocomplete="off">
+                    {% endif %}
+                </div>
             </div>
         </div>
         <div class="layui-form-item">
