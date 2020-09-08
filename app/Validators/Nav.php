@@ -69,11 +69,11 @@ class Nav extends Validator
     {
         $value = $this->filter->sanitize($url, ['trim']);
 
-        $stageA = Text::startsWith($value, '/');
-        $stageB = Text::startsWith($value, '#');
-        $stageC = CommonValidator::url($value);
+        $case1 = Text::startsWith($value, '/');
+        $case2 = Text::startsWith($value, '#');
+        $case3 = CommonValidator::url($value);
 
-        if (!$stageA && !$stageB && !$stageC) {
+        if (!$case1 && !$case2 && !$case3) {
             throw new BadRequestException('nav.invalid_url');
         }
 
@@ -84,7 +84,7 @@ class Nav extends Validator
     {
         $list = NavModel::targetTypes();
 
-        if (!isset($list[$target])) {
+        if (!array_key_exists($target, $list)) {
             throw new BadRequestException('nav.invalid_target');
         }
 
@@ -95,7 +95,7 @@ class Nav extends Validator
     {
         $list = NavModel::posTypes();
 
-        if (!isset($list[$position])) {
+        if (!array_key_exists($position, $list)) {
             throw new BadRequestException('nav.invalid_position');
         }
 
