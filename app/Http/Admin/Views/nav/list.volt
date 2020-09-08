@@ -72,10 +72,10 @@
             {% set restore_url = url({'for':'admin.nav.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                {% if item.position == 'top' and item.level < 2 %}
+                {% if item.position == 1 and item.level < 2 %}
                     <td><a href="{{ child_url }}">{{ item.name }}</a></td>
                 {% else %}
-                    <td>{{ item.name }}</td>
+                    <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
                 {% endif %}
                 <td><span class="layui-badge layui-bg-gray">{{ item.level }}</span></td>
                 <td><span class="layui-badge layui-bg-gray">{{ item.child_count }}</span></td>

@@ -114,20 +114,7 @@ class Setting extends Service
 
     public function updateSmserSettings($section, $settings)
     {
-        $template = $settings['template'];
-
-        $keys = array_keys($template['id']);
-
-        $myTemplate = [];
-
-        foreach ($keys as $key) {
-            $myTemplate[$key] = [
-                'id' => $template['id'][$key],
-                'content' => $template['content'][$key],
-            ];
-        }
-
-        $settings['template'] = kg_json_encode($myTemplate);
+        $settings['template'] = kg_json_encode($settings['template']);
 
         $this->updateSectionSettings($section, $settings);
     }

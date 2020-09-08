@@ -47,26 +47,26 @@
             <tbody>
             <tr>
                 <td>身份验证</td>
-                <td><input class="layui-input" type="text" name="template[id][verify]" value="{{ template.verify.id }}" lay-verify="required"></td>
-                <td><input id="tc-verify" class="layui-input" type="text" name="template[content][verify]" value="{{ template.verify.content }}" readonly="readonly" lay-verify="required"></td>
+                <td><input class="layui-input" type="text" name="template[verify]" value="{{ template.verify }}" lay-verify="required"></td>
+                <td><input id="tc-verify" class="layui-input" type="text" value="验证码：{1}，{2} 分钟内有效，如非本人操作请忽略。" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-verify">复制</span></td>
             </tr>
             <tr>
                 <td>订单通知</td>
-                <td><input class="layui-input" type="text" name="template[id][order]" value="{{ template.order.id }}" lay-verify="required"></td>
-                <td><input id="tc-order" class="layui-input" type="text" name="template[content][order]" value="{{ template.order.content }}" readonly="readonly" lay-verify="required"></td>
+                <td><input class="layui-input" type="text" name="template[order]" value="{{ template.order }}" lay-verify="required"></td>
+                <td><input id="tc-order" class="layui-input" type="text" value="下单成功，商品名称：{1}，订单序号：{2}，订单金额：￥{3}" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-order">复制</span></td>
             </tr>
             <tr>
                 <td>退款通知</td>
-                <td><input class="layui-input" type="text" name="template[id][refund]" value="{{ template.refund.id }}" lay-verify="required"></td>
-                <td><input id="tc-refund" class="layui-input" type="text" name="template[content][refund]" value="{{ template.refund.content }}" readonly="readonly" lay-verify="required"></td>
+                <td><input class="layui-input" type="text" name="template[refund]" value="{{ template.refund }}" lay-verify="required"></td>
+                <td><input id="tc-refund" class="layui-input" type="text" value="退款成功，商品名称：{1}，订单序号：{2}，退款金额：￥{3}" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-refund">复制</span></td>
             </tr>
             <tr>
                 <td>直播通知</td>
-                <td><input class="layui-input" type="text" name="template[id][live]" value="{{ template.live.id }}" lay-verify="required"></td>
-                <td><input id="tc-live" class="layui-input" type="text" name="template[content][live]" value="{{ template.live.content }}" readonly="readonly" lay-verify="required"></td>
+                <td><input class="layui-input" type="text" name="template[live]" value="{{ template.live }}" lay-verify="required"></td>
+                <td><input id="tc-live" class="layui-input" type="text" value="直播预告，课程名称：{1}，章节名称：{2}，开播时间：{3}" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-live">复制</span></td>
             </tr>
             </tbody>

@@ -348,7 +348,7 @@ final class InsertSettingData extends AbstractMigration
             [
                 'section' => 'smser',
                 'item_key' => 'template',
-                'item_value' => '{"verify":{"id":"561282","content":"验证码：{1}，{2} 分钟内有效，如非本人操作请忽略。"},"order":{"id":"561954","content":"下单成功，商品名称：{1}，订单序号：{2}，订单金额：￥{3}"},"refund":{"id":"561286","content":"退款成功，商品名称：{1}，订单序号：{2}，退款金额：￥{3}"},"live":{"id":"561288","content":"直播预告，课程名称：{1}，章节名称：{2}，开播时间：{3}"}}',
+                'item_value' => '{"verify":"561282","order":"561954","refund":"561286","live":"561288"}',
             ],
             [
                 'section' => 'cos',

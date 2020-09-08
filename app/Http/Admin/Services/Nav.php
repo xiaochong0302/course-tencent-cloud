@@ -35,7 +35,7 @@ class Nav extends Service
         return $navRepo->findAll([
             'position' => NavModel::POS_TOP,
             'parent_id' => 0,
-            'published' => 1,
+            'deleted' => 0,
         ]);
     }
 
