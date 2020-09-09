@@ -4,7 +4,7 @@
     {% elseif gender == 2 %}
         女
     {% else %}
-        保密
+        密
     {% endif %}
 {%- endmacro %}
 

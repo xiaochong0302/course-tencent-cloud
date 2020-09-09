@@ -6,6 +6,9 @@ layui.use(['jquery', 'layim'], function () {
 
     socket.onopen = function () {
         console.log('socket connect success');
+        setInterval(function () {
+            socket.send('ping');
+        }, 30000);
     };
 
     socket.onclose = function () {
@@ -19,9 +22,7 @@ layui.use(['jquery', 'layim'], function () {
     socket.onmessage = function (e) {
         var data = JSON.parse(e.data);
         console.log(data);
-        if (data.type === 'ping') {
-            socket.send('pong...');
-        } else if (data.type === 'bind_user') {
+        if (data.type === 'bind_user') {
             bindUser(data);
             refreshMessageBox();
         } else if (data.type === 'new_group_user') {

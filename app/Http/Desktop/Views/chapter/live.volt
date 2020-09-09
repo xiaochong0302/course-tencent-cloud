@@ -71,10 +71,9 @@
 
 {% block include_js %}
 
-    <script src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.2.js"></script>
-
+    {{ js_include('https://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.3.js', false) }}
     {{ js_include('desktop/js/chapter.live.player.js') }}
-    {{ js_include('desktop/js/chapter.live.im.js') }}
+    {{ js_include('desktop/js/chapter.live.chat.js') }}
     {{ js_include('desktop/js/chapter.action.js') }}
     {{ js_include('desktop/js/course.share.js') }}
 

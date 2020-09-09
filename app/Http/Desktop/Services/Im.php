@@ -51,13 +51,17 @@ class Im extends Service
 
         $group = $validator->checkGroup($id);
 
-        $groupRepo = new ImGroupRepo();
+        Gateway::$registerAddress = $this->getRegisterAddress();
 
-        $users = $groupRepo->findUsers($group->id);
+        $userIds = Gateway::getUidListByGroup($this->getGroupName($group->id));
 
-        if ($users->count() == 0) {
+        if (count($userIds) == 0) {
             return [];
         }
+
+        $userRepo = new ImUserRepo();
+
+        $users = $userRepo->findByIds($userIds);
 
         $baseUrl = kg_cos_url();
 
@@ -211,7 +215,6 @@ class Im extends Service
                         'name' => $user->name,
                         'avatar' => $user->avatar,
                     ],
-                    'status' => $user->status == 'online' ? 'online' : 'offline',
                 ]);
                 Gateway::sendToUid($friendUser->friend_id, $content);
             }
