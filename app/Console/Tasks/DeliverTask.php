@@ -74,7 +74,6 @@ class DeliverTask extends Task
                 $task->update();
 
                 $logger->info('Order Process Exception ' . kg_json_encode([
-                        'line' => $e->getLine(),
                         'code' => $e->getCode(),
                         'message' => $e->getMessage(),
                         'task' => $task->toArray(),

@@ -111,7 +111,6 @@ class RefundTask extends Task
                 $task->update();
 
                 $logger->info('Refund Task Exception ' . kg_json_encode([
-                        'line' => $e->getLine(),
                         'code' => $e->getCode(),
                         'message' => $e->getMessage(),
                         'task' => $task->toArray(),

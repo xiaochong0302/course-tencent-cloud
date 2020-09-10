@@ -2,7 +2,6 @@
 
 namespace App\Console\Tasks;
 
-use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\User as UserRepo;
 use App\Services\Search\UserDocument;
 use App\Services\Search\UserSearcher;
@@ -11,30 +10,15 @@ use App\Services\Syncer\UserIndex as UserIndexSyncer;
 class SyncUserIndexTask extends Task
 {
 
-    /**
-     * @var RedisCache
-     */
-    protected $cache;
-
-    /**
-     * @var \Redis
-     */
-    protected $redis;
-
     public function mainAction()
     {
-        $this->cache = $this->getDI()->get('cache');
+        $cache = $this->getCache();
 
-        $this->redis = $this->cache->getRedis();
+        $redis = $cache->getRedis();
 
-        $this->rebuild();
-    }
-
-    protected function rebuild()
-    {
         $key = $this->getSyncKey();
 
-        $userIds = $this->redis->sRandMember($key, 1000);
+        $userIds = $redis->sRandMember($key, 1000);
 
         if (!$userIds) return;
 
@@ -42,9 +26,7 @@ class SyncUserIndexTask extends Task
 
         $users = $userRepo->findByIds($userIds);
 
-        if ($users->count() == 0) {
-            return;
-        }
+        if ($users->count() == 0) return;
 
         $document = new UserDocument();
 
@@ -67,7 +49,7 @@ class SyncUserIndexTask extends Task
 
         $index->closeBuffer();
 
-        $this->redis->sRem($key, ...$userIds);
+        $redis->sRem($key, ...$userIds);
     }
 
     protected function getSyncKey()

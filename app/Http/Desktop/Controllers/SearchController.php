@@ -21,7 +21,7 @@ class SearchController extends Controller
     public function indexAction()
     {
         $query = $this->request->get('query', ['trim', 'string']);
-        $type = $this->request->get('type', ['trim'], 'course');
+        $type = $this->request->get('type', ['trim', 'string'], 'course');
 
         if (empty($query)) {
             return $this->response->redirect(['for' => 'desktop.course.list']);
@@ -31,9 +31,9 @@ class SearchController extends Controller
 
         $service = $this->getSearchService($type);
 
-        $hotQueries = $service->hotQuery();
+        $hotQueries = $service->getHotQuery();
 
-        $relatedQueries = $service->relatedQuery($query);
+        $relatedQueries = $service->getRelatedQuery($query);
 
         $pager = $service->search();
 

@@ -15,7 +15,7 @@ class Live extends Service
     {
         $redis = $this->getRedis();
 
-        $key = $this->getRedisListKey($id);
+        $key = $this->getRecentChatKey($id);
 
         $redis->expire($key, 3 * 3600);
 
@@ -132,12 +132,12 @@ class Live extends Service
 
     protected function getRegisterAddress()
     {
-        $config = $this->getDI()->get('config');
+        $config = $this->getConfig();
 
-        return $config->websocket->register_address;
+        return $config->path('websocket.register_address');
     }
 
-    protected function getRedisListKey($id)
+    protected function getRecentChatKey($id)
     {
         return "live_recent_chat:{$id}";
     }

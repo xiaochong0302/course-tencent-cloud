@@ -21,7 +21,8 @@
             enabled: '{{ im_info.cs.enabled }}'
         },
         websocket: {
-            url: '{{ im_info.websocket.url }}'
+            connect_url: '{{ im_info.websocket.connect_url }}',
+            ping_interval: '{{ im_info.websocket.ping_interval }}'
         }
     };
 

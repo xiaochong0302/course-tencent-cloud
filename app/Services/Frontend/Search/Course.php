@@ -4,10 +4,9 @@ namespace App\Services\Frontend\Search;
 
 use App\Library\Paginator\Adapter\XunSearch as XunSearchPaginator;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Services\Frontend\Service as FrontendService;
 use App\Services\Search\CourseSearcher as CourseSearcherService;
 
-class Course extends FrontendService
+class Course extends Handler
 {
 
     public function search()
@@ -33,14 +32,14 @@ class Course extends FrontendService
         return $this->handleCourses($pager);
     }
 
-    public function hotQuery($limit = 10, $type = 'total')
+    public function getHotQuery($limit = 10, $type = 'total')
     {
         $searcher = new CourseSearcherService();
 
         return $searcher->getHotQuery($limit, $type);
     }
 
-    public function relatedQuery($query, $limit = 10)
+    public function getRelatedQuery($query, $limit = 10)
     {
         $searcher = new CourseSearcherService();
 

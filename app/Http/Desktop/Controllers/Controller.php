@@ -10,6 +10,7 @@ use App\Models\User as UserModel;
 use App\Services\Auth\Desktop as DesktopAuth;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
+use Phalcon\Config;
 use Phalcon\Mvc\Dispatcher;
 
 class Controller extends \Phalcon\Mvc\Controller
@@ -120,11 +121,30 @@ class Controller extends \Phalcon\Mvc\Controller
     {
         $cache = new SettingCache();
 
+        $websocket = $this->getConfig()->get('websocket');
+
+        /**
+         * ssl通过nginx转发实现
+         */
+        if ($this->request->isSecure()) {
+            $websocket->connect_url = sprintf('wss://%s/wss', $this->request->getHttpHost());
+        } else {
+            $websocket->connect_url = sprintf('ws://%s', $websocket->connect_address);
+        }
+
         return [
             'main' => $cache->get('im.main'),
             'cs' => $cache->get('im.cs'),
-            'websocket' => $this->config->websocket,
+            'websocket' => $websocket,
         ];
+    }
+
+    /**
+     * @return Config
+     */
+    protected function getConfig()
+    {
+        return $this->getDI()->get('config');
     }
 
     protected function checkSiteStatus()

@@ -341,9 +341,9 @@ class Im extends Service
 
     protected function getRegisterAddress()
     {
-        $config = $this->getDI()->get('config');
+        $config = $this->getConfig();
 
-        return $config->websocket->register_address;
+        return $config->path('websocket.register_address');
     }
 
 }

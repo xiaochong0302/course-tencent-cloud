@@ -3,7 +3,6 @@
 namespace App\Console\Tasks;
 
 use App\Models\User as UserModel;
-use Phalcon\Cli\Task;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
@@ -14,13 +13,10 @@ class UnlockUserTask extends Task
     {
         $users = $this->findUsers();
 
-        if ($users->count() == 0) {
-            return;
-        }
+        if ($users->count() == 0) return;
 
         foreach ($users as $user) {
-            $user->locked = 0;
-            $user->update();
+            $user->update(['locked' => 0]);
         }
     }
 

@@ -3,7 +3,7 @@
 namespace App\Library;
 
 use Phalcon\Di;
-use Phalcon\Logger as PhalconLogger;
+use Phalcon\Logger as PhLogger;
 use Phalcon\Logger\Adapter\File as FileLogger;
 
 class Logger
@@ -23,7 +23,7 @@ class Logger
 
         $path = log_path($filename);
 
-        $level = $config->env != ENV_DEV ? $config->log->level : PhalconLogger::DEBUG;
+        $level = $config->env != ENV_DEV ? $config->log->level : PhLogger::DEBUG;
 
         $logger = new FileLogger($path);
 

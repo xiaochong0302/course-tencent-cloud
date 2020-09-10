@@ -51,7 +51,7 @@ class SiteMapTask extends Task
 
         $settings = $service->getSectionSettings('site');
 
-        return $settings['base_url'] ?? '';
+        return $settings['url'] ?? '';
     }
 
     protected function addIndex()
@@ -62,7 +62,7 @@ class SiteMapTask extends Task
     protected function addCourses()
     {
         /**
-         * @var Resultset $courses
+         * @var Resultset|CourseModel[] $courses
          */
         $courses = CourseModel::query()->where('published = 1')->execute();
 

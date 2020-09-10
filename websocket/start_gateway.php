@@ -23,7 +23,7 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 $gateway = new Gateway("websocket://0.0.0.0:8282");
 
 // gateway名称，status方便查看
-$gateway->name = 'ChatGateway';
+$gateway->name = 'ImGateway';
 
 // gateway进程数
 $gateway->count = 4;

@@ -2,13 +2,14 @@ layui.use(['jquery', 'layim'], function () {
 
     var $ = layui.jquery;
     var layim = layui.layim;
-    var socket = new WebSocket(window.im.websocket.url);
+    var socket = new WebSocket(window.im.websocket.connect_url);
 
     socket.onopen = function () {
         console.log('socket connect success');
         setInterval(function () {
             socket.send('ping');
-        }, 30000);
+            console.log('ping...');
+        }, 1000 * parseInt(window.im.websocket.ping_interval));
     };
 
     socket.onclose = function () {

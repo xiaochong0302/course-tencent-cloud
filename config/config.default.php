@@ -163,12 +163,17 @@ $config['throttle']['lifetime'] = 60;
 $config['throttle']['rate_limit'] = 60;
 
 /**
- * 客户端连接地址（外部可访问的ip或域名）
+ * 客户端ping服务端间隔（秒）
  */
-$config['websocket']['url'] = 'ws://127.0.0.1:8282';
+$config['websocket']['ping_interval'] = 50;
 
 /**
- * gateway和worker注册地址（内部访问）
+ * 客户端连接地址（外部可访问的域名或ip），带端口号
+ */
+$config['websocket']['connect_address'] = 'your_domain.com:8282';
+
+/**
+ * gateway和worker注册地址，带端口号
  */
 $config['websocket']['register_address'] = '127.0.0.1:1238';
 

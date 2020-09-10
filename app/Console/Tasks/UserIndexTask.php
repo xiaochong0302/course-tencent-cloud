@@ -5,7 +5,6 @@ namespace App\Console\Tasks;
 use App\Models\User as UserModel;
 use App\Services\Search\UserDocument;
 use App\Services\Search\UserSearcher;
-use Phalcon\Cli\Task;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
@@ -24,7 +23,7 @@ class UserIndexTask extends Task
         $query = $params[0] ?? null;
 
         if (!$query) {
-            exit("please special a query word" . PHP_EOL);
+            exit('please special a query word' . PHP_EOL);
         }
 
         $result = $this->searchUsers($query);
@@ -61,11 +60,11 @@ class UserIndexTask extends Task
 
         $index = $handler->getXS()->getIndex();
 
-        echo "start clean index" . PHP_EOL;
+        echo 'start clean index' . PHP_EOL;
 
         $index->clean();
 
-        echo "end clean index" . PHP_EOL;
+        echo 'end clean index' . PHP_EOL;
     }
 
     /**
@@ -75,9 +74,7 @@ class UserIndexTask extends Task
     {
         $users = $this->findUsers();
 
-        if ($users->count() == 0) {
-            return;
-        }
+        if ($users->count() == 0) return;
 
         $handler = new UserSearcher();
 
@@ -85,7 +82,7 @@ class UserIndexTask extends Task
 
         $index = $handler->getXS()->getIndex();
 
-        echo "start rebuild index" . PHP_EOL;
+        echo 'start rebuild index' . PHP_EOL;
 
         $index->beginRebuild();
 
@@ -96,7 +93,7 @@ class UserIndexTask extends Task
 
         $index->endRebuild();
 
-        echo "end rebuild index" . PHP_EOL;
+        echo 'end rebuild index' . PHP_EOL;
     }
 
     /**

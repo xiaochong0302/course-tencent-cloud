@@ -3,7 +3,7 @@ layui.use(['jquery', 'form', 'helper'], function () {
     var $ = layui.jquery;
     var form = layui.form;
     var helper = layui.helper;
-    var socket = new WebSocket(window.im.websocket.url);
+    var socket = new WebSocket(window.im.websocket.connect_url);
     var bindUserUrl = $('input[name="bind_user_url"]').val();
     var liveStatsUrl = $('input[name="live_stats_url"]').val();
     var $chatContent = $('input[name=content]');
@@ -13,7 +13,7 @@ layui.use(['jquery', 'form', 'helper'], function () {
         console.log('socket connect success');
         setInterval(function () {
             socket.send('ping');
-        }, 30000);
+        }, 1000 * parseInt(window.im.websocket.ping_interval));
     };
 
     socket.onclose = function () {

@@ -16,10 +16,13 @@ layui.use(['jquery', 'layim'], function () {
         welcome: $('input[name="cs_user.welcome"]').val()
     };
 
-    var socket = new WebSocket(window.im.websocket.url);
+    var socket = new WebSocket(window.im.websocket.connect_url);
 
     socket.onopen = function () {
         console.log('socket connect success');
+        setInterval(function () {
+            socket.send('ping');
+        }, 1000 * parseInt(window.im.websocket.ping_interval));
     };
 
     socket.onclose = function () {
@@ -33,9 +36,7 @@ layui.use(['jquery', 'layim'], function () {
     socket.onmessage = function (e) {
         var data = JSON.parse(e.data);
         console.log(data);
-        if (data.type === 'ping') {
-            socket.send('pong...');
-        } else if (data.type === 'bind_user') {
+        if (data.type === 'bind_user') {
             bindUser(data);
         } else if (data.type === 'show_chat_msg') {
             showChatMessage(data);
@@ -48,18 +49,18 @@ layui.use(['jquery', 'layim'], function () {
                 id: me.id,
                 username: me.name,
                 avatar: me.avatar,
-                status: 'online',
+                status: 'online'
             }
         },
         brief: true,
-        maxLength: 1000,
+        maxLength: window.im.main.msg_max_length
     });
 
     layim.chat({
         id: csUser.id,
         name: csUser.name,
         avatar: csUser.avatar,
-        type: 'friend',
+        type: 'friend'
     });
 
     layim.on('sendMessage', function (res) {
@@ -95,7 +96,7 @@ layui.use(['jquery', 'layim'], function () {
             avatar: csUser.avatar,
             content: csUser.welcome,
             timestamp: new Date().getTime(),
-            type: 'friend',
+            type: 'friend'
         });
     }
 

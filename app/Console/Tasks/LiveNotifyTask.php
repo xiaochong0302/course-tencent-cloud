@@ -2,54 +2,42 @@
 
 namespace App\Console\Tasks;
 
-use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Models\CourseUser as CourseUserModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Services\LiveNotify as LiveNotifyService;
 use App\Services\Smser\Live as LiveSmser;
-use Phalcon\Cli\Task;
 
 class LiveNotifyTask extends Task
 {
 
-    /**
-     * @var RedisCache
-     */
-    protected $cache;
-
-    /**
-     * @var \Redis
-     */
-    protected $redis;
-
     public function mainAction()
     {
-        $this->cache = $this->getDI()->get('cache');
+        $cache = $this->getCache();
 
-        $this->redis = $this->cache->getRedis();
+        $redis = $cache->getRedis();
 
         $service = new LiveNotifyService();
 
         $key = $service->getNotifyKey();
 
-        $chapterIds = $this->redis->sMembers($key);
+        $chapterIds = $redis->sMembers($key);
 
         if (!$chapterIds) return;
 
         $sentKey = $service->getSentNotifyKey();
 
-        $sentChapterIds = $this->redis->sMembers($sentKey);
+        $sentChapterIds = $redis->sMembers($sentKey);
 
         foreach ($chapterIds as $chapterId) {
             if (!in_array($chapterId, $sentChapterIds)) {
                 $this->sendNotification($chapterId);
             } else {
-                $this->redis->sAdd($sentKey, $chapterId);
+                $redis->sAdd($sentKey, $chapterId);
             }
         }
 
-        if ($this->redis->sCard($sentKey) == 1) {
-            $this->redis->expire($sentKey, 86400);
+        if ($redis->sCard($sentKey) == 1) {
+            $redis->expire($sentKey, 86400);
         }
     }
 
@@ -74,9 +62,6 @@ class LiveNotifyTask extends Task
 
     protected function findTargetUserIds($courseId)
     {
-        /**
-         * 只给付费和vip用户发通知
-         */
         $sourceTypes = [
             CourseUserModel::SOURCE_CHARGE,
             CourseUserModel::SOURCE_VIP,
@@ -88,11 +73,11 @@ class LiveNotifyTask extends Task
             ->inWhere('source_type', $sourceTypes)
             ->execute();
 
-        if ($rows->count() > 0) {
-            return kg_array_column($rows->toArray(), 'user_id');
+        if ($rows->count() == 0) {
+            return [];
         }
 
-        return [];
+        return kg_array_column($rows->toArray(), 'user_id');
     }
 
 }
