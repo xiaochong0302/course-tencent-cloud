@@ -232,6 +232,16 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'pay.wxpay',
+                'item_key' => 'mp_app_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'mini_app_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.wxpay',
                 'item_key' => 'app_id',
                 'item_value' => '',
             ],
@@ -299,6 +309,11 @@ final class InsertSettingData extends AbstractMigration
                 'section' => 'site',
                 'item_key' => 'closed_tips',
                 'item_value' => '站点维护中，请稍后再访问。',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'index_template',
+                'item_value' => 'simple',
             ],
             [
                 'section' => 'site',

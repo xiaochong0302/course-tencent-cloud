@@ -202,6 +202,10 @@ body {
     line-height: 40px;
 }
 
+.index-wrap {
+    padding-bottom: 15px;
+}
+
 .index-wrap .layui-tab {
     margin-bottom: 0;
 }

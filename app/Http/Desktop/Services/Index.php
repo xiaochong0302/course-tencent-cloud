@@ -2,11 +2,14 @@
 
 namespace App\Http\Desktop\Services;
 
-use App\Caches\IndexCarouselList as IndexCarouselListCache;
-use App\Caches\IndexFreeCourseList as IndexFreeCourseListCache;
-use App\Caches\IndexLiveList as IndexLiveListCache;
-use App\Caches\IndexNewCourseList as IndexNewCourseListCache;
-use App\Caches\IndexVipCourseList as IndexVipCourseListCache;
+use App\Caches\IndexCarouselList;
+use App\Caches\IndexFreeCourseList;
+use App\Caches\IndexLiveList;
+use App\Caches\IndexNewCourseList;
+use App\Caches\IndexSimpleFreeCourseList;
+use App\Caches\IndexSimpleNewCourseList;
+use App\Caches\IndexSimpleVipCourseList;
+use App\Caches\IndexVipCourseList;
 use App\Models\Carousel as CarouselModel;
 
 class Index extends Service
@@ -14,7 +17,7 @@ class Index extends Service
 
     public function getCarousels()
     {
-        $cache = new IndexCarouselListCache();
+        $cache = new IndexCarouselList();
 
         /**
          * @var array $carousels
@@ -53,14 +56,14 @@ class Index extends Service
 
     public function getLives()
     {
-        $cache = new IndexLiveListCache();
+        $cache = new IndexLiveList();
 
         return $cache->get();
     }
 
     public function getNewCourses()
     {
-        $cache = new IndexNewCourseListCache();
+        $cache = new IndexNewCourseList();
 
         $courses = $cache->get();
 
@@ -69,7 +72,7 @@ class Index extends Service
 
     public function getFreeCourses()
     {
-        $cache = new IndexFreeCourseListCache();
+        $cache = new IndexFreeCourseList();
 
         $courses = $cache->get();
 
@@ -78,11 +81,32 @@ class Index extends Service
 
     public function getVipCourses()
     {
-        $cache = new IndexVipCourseListCache();
+        $cache = new IndexVipCourseList();
 
         $courses = $cache->get();
 
         return $this->handleCategoryCourses($courses);
+    }
+
+    public function getSimpleNewCourses()
+    {
+        $cache = new IndexSimpleNewCourseList();
+
+        return $cache->get();
+    }
+
+    public function getSimpleFreeCourses()
+    {
+        $cache = new IndexSimpleFreeCourseList();
+
+        return $cache->get();
+    }
+
+    public function getSimpleVipCourses()
+    {
+        $cache = new IndexSimpleVipCourseList();
+
+        return $cache->get();
     }
 
     protected function handleCategoryCourses($items, $limit = 8)

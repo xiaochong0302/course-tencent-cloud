@@ -15,13 +15,37 @@ class IndexController extends Controller
         $this->seo->setKeywords($this->siteInfo['keywords']);
         $this->seo->setDescription($this->siteInfo['description']);
 
-        $indexService = new IndexService();
+        $template = $this->siteInfo['index_template'] ?? 'full';
 
-        $this->view->setVar('lives', $indexService->getLives());
-        $this->view->setVar('carousels', $indexService->getCarousels());
-        $this->view->setVar('new_courses', $indexService->getNewCourses());
-        $this->view->setVar('free_courses', $indexService->getFreeCourses());
-        $this->view->setVar('vip_courses', $indexService->getVipCourses());
+        if ($template == 'full') {
+            $this->fullIndex();
+        } else {
+            $this->simpleIndex();
+        }
+    }
+
+    protected function fullIndex()
+    {
+        $service = new IndexService();
+
+        $this->view->pick('index/full');
+        $this->view->setVar('lives', $service->getLives());
+        $this->view->setVar('carousels', $service->getCarousels());
+        $this->view->setVar('new_courses', $service->getNewCourses());
+        $this->view->setVar('free_courses', $service->getFreeCourses());
+        $this->view->setVar('vip_courses', $service->getVipCourses());
+    }
+
+    protected function simpleIndex()
+    {
+        $service = new IndexService();
+
+        $this->view->pick('index/simple');
+        $this->view->setVar('lives', $service->getLives());
+        $this->view->setVar('carousels', $service->getCarousels());
+        $this->view->setVar('new_courses', $service->getSimpleNewCourses());
+        $this->view->setVar('free_courses', $service->getSimpleFreeCourses());
+        $this->view->setVar('vip_courses', $service->getSimpleVipCourses());
     }
 
 }
