@@ -28,22 +28,19 @@ class ChapterLive extends Validator
 
     public function checkTimeRange($startTime, $endTime)
     {
-        $startTimeStamp = strtotime($startTime);
-        $endTimeStamp = strtotime($endTime);
-
-        if ($startTimeStamp < time()) {
+        if ($startTime < time()) {
             throw new BadRequestException('chapter_live.start_lt_now');
         }
 
-        if ($endTimeStamp < time()) {
+        if ($startTime < time()) {
             throw new BadRequestException('chapter_live.end_lt_now');
         }
 
-        if ($startTimeStamp >= $endTimeStamp) {
+        if ($startTime >= $endTime) {
             throw new BadRequestException('chapter_live.start_gt_end');
         }
 
-        if ($endTimeStamp - $startTimeStamp > 3 * 3600) {
+        if ($endTime - $startTime > 3 * 3600) {
             throw new BadRequestException('chapter_live.time_too_long');
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Desktop\Controllers;
 
+use App\Models\ChapterLive as LiveModel;
 use App\Models\Course as CourseModel;
 use App\Services\Frontend\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Frontend\Chapter\ChapterLike as ChapterLikeService;
@@ -38,12 +39,21 @@ class ChapterController extends Controller
         $catalog = $service->handle($chapter['course']['id']);
 
         $this->seo->prependTitle(['章节', $chapter['title'], $chapter['course']['title']]);
-        $this->seo->setDescription($chapter['summary']);
+
+        if (!empty($chapter['summary'])) {
+            $this->seo->setDescription($chapter['summary']);
+        }
 
         if ($chapter['model'] == CourseModel::MODEL_VOD) {
             $this->view->pick('chapter/vod');
         } elseif ($chapter['model'] == CourseModel::MODEL_LIVE) {
-            $this->view->pick('chapter/live');
+            if ($chapter['status'] == LiveModel::STATUS_ACTIVE) {
+                $this->view->pick('chapter/live_active');
+            } elseif ($chapter['status'] == LiveModel::STATUS_INACTIVE) {
+                $this->view->pick('chapter/live_inactive');
+            } elseif ($chapter['status'] == LiveModel::STATUS_FORBID) {
+                $this->view->pick('chapter/live_forbid');
+            }
         } elseif ($chapter['model'] == CourseModel::MODEL_READ) {
             $this->view->pick('chapter/read');
         }

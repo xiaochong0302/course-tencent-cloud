@@ -7,19 +7,19 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">App ID</label>
+        <label class="layui-form-label">公众号ID</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="app_id" value="{{ wxpay.app_id }}" lay-verify="required">
+            <input class="layui-input" type="text" name="app_id" value="{{ wxpay.mp_app_id }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">Mch ID</label>
+        <label class="layui-form-label">商户ID</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="mch_id" value="{{ wxpay.mch_id }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">Private Key</label>
+        <label class="layui-form-label">支付Key</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="key" value="{{ wxpay.key }}" lay-verify="required">
         </div>

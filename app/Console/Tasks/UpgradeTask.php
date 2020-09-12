@@ -44,7 +44,7 @@ class UpgradeTask extends Task
     {
         $config = $this->getConfig();
         $cache = $this->getCache();
-        $redis = $cache->getRedis();
+        $redis = $this->getRedis();
 
         $dbIndex = $config->path('annotation.db');
         $statsKey = $config->path('annotation.statsKey');
@@ -75,7 +75,7 @@ class UpgradeTask extends Task
     {
         $config = $this->getConfig();
         $cache = $this->getCache();
-        $redis = $cache->getRedis();
+        $redis = $this->getRedis();
 
         $dbIndex = $config->path('metadata.db');
         $statsKey = $config->path('metadata.statsKey');

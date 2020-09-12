@@ -36,8 +36,8 @@
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
 
-{% if site_info.analytics %}
-    {{ site_info.analytics }}
+{% if site_info.analytics_enabled == 1 %}
+    {{ site_info.analytics_script }}
 {% endif %}
 
 </body>

@@ -14,7 +14,7 @@ class SyncGroupIndexTask extends Task
     {
         $cache = $this->getCache();
 
-        $redis = $cache->getRedis();
+        $redis = $this->getRedis();
 
         $key = $this->getSyncKey();
 

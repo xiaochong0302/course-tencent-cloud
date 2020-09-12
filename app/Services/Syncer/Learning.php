@@ -2,7 +2,6 @@
 
 namespace App\Services\Syncer;
 
-use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Models\Learning as LearningModel;
 use App\Services\Service;
 use App\Traits\Client as ClientTrait;
@@ -13,26 +12,9 @@ class Learning extends Service
     use ClientTrait;
 
     /**
-     * @var RedisCache
-     */
-    protected $cache;
-
-    /**
-     * @var \Redis
-     */
-    protected $redis;
-
-    /**
      * @var int
      */
     protected $lifetime = 86400;
-
-    public function __construct()
-    {
-        $this->cache = $this->getDI()->get('cache');
-
-        $this->redis = $this->cache->getRedis();
-    }
 
     /**
      * @param LearningModel $learning
@@ -40,12 +22,16 @@ class Learning extends Service
      */
     public function addItem(LearningModel $learning, $interval = 10)
     {
+        $cache = $this->getCache();
+
+        $redis = $this->getRedis();
+
         $itemKey = $this->getItemKey($learning->request_id);
 
         /**
          * @var LearningModel $cacheLearning
          */
-        $cacheLearning = $this->cache->get($itemKey);
+        $cacheLearning = $cache->get($itemKey);
 
         if (!$cacheLearning) {
 
@@ -54,7 +40,7 @@ class Learning extends Service
             $learning->duration = $interval;
             $learning->active_time = time();
 
-            $this->cache->save($itemKey, $learning, $this->lifetime);
+            $cache->save($itemKey, $learning, $this->lifetime);
 
         } else {
 
@@ -62,15 +48,15 @@ class Learning extends Service
             $cacheLearning->position = $learning->position;
             $cacheLearning->active_time = time();
 
-            $this->cache->save($itemKey, $cacheLearning, $this->lifetime);
+            $cache->save($itemKey, $cacheLearning, $this->lifetime);
         }
 
         $key = $this->getSyncKey();
 
-        $this->redis->sAdd($key, $learning->request_id);
+        $redis->sAdd($key, $learning->request_id);
 
-        if ($this->redis->sCard($key) == 1) {
-            $this->redis->expire($key, $this->lifetime);
+        if ($redis->sCard($key) == 1) {
+            $redis->expire($key, $this->lifetime);
         }
     }
 

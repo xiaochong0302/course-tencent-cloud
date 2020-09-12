@@ -15,7 +15,7 @@ class Verify extends Service
 
     public function __construct()
     {
-        $this->cache = $this->getDI()->get('cache');
+        $this->cache = $this->getCache();
     }
 
     public function getSmsCode($phone, $lifetime = 300)

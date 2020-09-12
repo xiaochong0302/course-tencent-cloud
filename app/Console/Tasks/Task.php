@@ -16,7 +16,7 @@ class Task extends \Phalcon\Cli\Task
      */
     public function getConfig()
     {
-        return $this->getDI()->get('config');
+        return $this->getDI()->getShared('config');
     }
 
     /**
@@ -24,7 +24,15 @@ class Task extends \Phalcon\Cli\Task
      */
     public function getCache()
     {
-        return $this->getDI()->get('cache');
+        return $this->getDI()->getShared('cache');
+    }
+
+    /**
+     * @return \Redis
+     */
+    public function getRedis()
+    {
+        return $this->getCache()->getRedis();
     }
 
     /**

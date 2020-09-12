@@ -2,7 +2,6 @@
 
 namespace App\Http\Desktop\Services;
 
-use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Services\Frontend\ChapterTrait;
 use GatewayClient\Gateway;
 
@@ -30,6 +29,13 @@ class Live extends Service
         }
 
         return $result;
+    }
+
+    public function getStatus($id)
+    {
+        $chapterLive = $this->checkChapterLive($id);
+
+        return $chapterLive->status;
     }
 
     public function getStats($id)
@@ -84,7 +90,7 @@ class Live extends Service
 
     public function sendMessage($id)
     {
-        $chapter = $this->checkChapterCache($id);
+        $chapter = $this->checkChapter($id);
 
         $user = $this->getLoginUser();
 
@@ -114,7 +120,7 @@ class Live extends Service
 
         $redis = $this->getRedis();
 
-        $key = $this->getRedisListKey($id);
+        $key = $this->getRecentChatKey($id);
 
         $redis->lPush($key, $encodeMessage);
 
@@ -123,11 +129,6 @@ class Live extends Service
         }
 
         return $message;
-    }
-
-    protected function getGroupName($id)
-    {
-        return "live_{$id}";
     }
 
     protected function getRegisterAddress()
@@ -139,17 +140,12 @@ class Live extends Service
 
     protected function getRecentChatKey($id)
     {
-        return "live_recent_chat:{$id}";
+        return "chapter_recent_chat:{$id}";
     }
 
-    protected function getRedis()
+    protected function getGroupName($id)
     {
-        /**
-         * @var RedisCache $cache
-         */
-        $cache = $this->getDI()->get('cache');
-
-        return $cache->getRedis();
+        return "chapter_{$id}";
     }
 
 }

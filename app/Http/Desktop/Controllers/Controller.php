@@ -60,7 +60,11 @@ class Controller extends \Phalcon\Mvc\Controller
             $this->checkCsrfToken();
         }
 
-        $this->checkRateLimit();
+        $config = $this->getConfig();
+
+        if ($config->path('throttle.enabled')) {
+            $this->checkRateLimit();
+        }
 
         return true;
     }
@@ -149,7 +153,7 @@ class Controller extends \Phalcon\Mvc\Controller
 
     protected function checkSiteStatus()
     {
-        if ($this->siteInfo['enabled'] == 0) {
+        if ($this->siteInfo['status'] == 'closed') {
             $this->dispatcher->forward([
                 'controller' => 'error',
                 'action' => 'maintain',

@@ -9,7 +9,7 @@ class CleanSessionTask extends Task
     {
         $config = $this->getConfig();
         $cache = $this->getCache();
-        $redis = $cache->getRedis();
+        $redis = $this->getRedis();
 
         $redis->select($config->path('session.db'));
 

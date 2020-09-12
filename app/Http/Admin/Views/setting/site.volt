@@ -2,7 +2,8 @@
 
 {% block content %}
 
-    {% set closed_tips_display = site.enabled == 0 ? 'display:block' : 'display:none' %}
+    {% set closed_tips_display = site.status == 'closed' ? 'display:block' : 'display:none' %}
+    {% set analytics_script_display = site.analytics_enabled == 1 ? 'display:block' : 'display:none' %}
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.site'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
@@ -11,8 +12,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">站点状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="enabled" value="1" title="正常" lay-filter="status" {% if site.enabled == 1 %}checked{% endif %}>
-                <input type="radio" name="enabled" value="0" title="关闭" lay-filter="status" {% if site.enabled == 0 %}checked{% endif %}>
+                <input type="radio" name="status" value="normal" title="正常" lay-filter="status" {% if site.status == 'normal' %}checked{% endif %}>
+                <input type="radio" name="status" value="closed" title="关闭" lay-filter="status" {% if site.status == 'closed' %}checked{% endif %}>
             </div>
         </div>
         <div id="closed-tips-block" style="{{ closed_tips_display }}">
@@ -89,9 +90,18 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">站点统计</label>
+            <label class="layui-form-label">开启统计</label>
             <div class="layui-input-block">
-                <textarea name="analytics" class="layui-textarea" placeholder="使用百度统计等第三方统计分析站点流量">{{ site.analytics }}</textarea>
+                <input type="radio" name="analytics_enabled" value="1" title="是" lay-filter="analytics_enabled" {% if site.analytics_enabled == 1 %}checked{% endif %}>
+                <input type="radio" name="analytics_enabled" value="0" title="否" lay-filter="analytics_enabled" {% if site.analytics_enabled == 0 %}checked{% endif %}>
+            </div>
+        </div>
+        <div id="analytics-script-block" style="{{ analytics_script_display }}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">统计代码</label>
+                <div class="layui-input-block">
+                    <textarea name="analytics_script" class="layui-textarea" placeholder="使用百度统计等第三方统计分析站点流量">{{ site.analytics_script }}</textarea>
+                </div>
             </div>
         </div>
         <div class="layui-form-item">
@@ -117,7 +127,16 @@
 
             form.on('radio(status)', function (data) {
                 var block = $('#closed-tips-block');
-                if (data.value === '0') {
+                if (data.value === 'closed') {
+                    block.show();
+                } else {
+                    block.hide();
+                }
+            });
+
+            form.on('radio(analytics_enabled)', function (data) {
+                var block = $('#analytics-script-block');
+                if (data.value === '1') {
                     block.show();
                 } else {
                     block.hide();

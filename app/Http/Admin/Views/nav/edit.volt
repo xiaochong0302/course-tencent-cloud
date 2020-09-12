@@ -27,8 +27,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">位置</label>
             <div class="layui-input-block">
-                <input type="radio" name="position" value="top" title="顶部" {% if nav.position == 1 %}checked{% endif %}>
-                <input type="radio" name="position" value="bottom" title="底部" {% if nav.position == 2 %}checked{% endif %}>
+                <input type="radio" name="position" value="1" title="顶部" {% if nav.position == 1 %}checked{% endif %}>
+                <input type="radio" name="position" value="2" title="底部" {% if nav.position == 2 %}checked{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">

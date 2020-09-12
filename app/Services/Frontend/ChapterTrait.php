@@ -26,6 +26,27 @@ trait ChapterTrait
      */
     protected $chapterUser;
 
+    public function checkChapterVod($id)
+    {
+        $validator = new ChapterValidator();
+
+        return $validator->checkChapterVod($id);
+    }
+
+    public function checkChapterLive($id)
+    {
+        $validator = new ChapterValidator();
+
+        return $validator->checkChapterLive($id);
+    }
+
+    public function checkChapterRead($id)
+    {
+        $validator = new ChapterValidator();
+
+        return $validator->checkChapterRead($id);
+    }
+
     public function checkChapter($id)
     {
         $validator = new ChapterValidator();

@@ -6,6 +6,7 @@ use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Services\ChapterVod as ChapterVodService;
+use App\Services\Frontend\ChapterLiveTrait;
 use App\Services\Live as LiveService;
 use WhichBrowser\Parser as BrowserParser;
 
@@ -85,6 +86,7 @@ trait BasicInfoTrait
             'play_urls' => $playUrls,
             'start_time' => $live->start_time,
             'end_time' => $live->end_time,
+            'status' => $live->status,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
         ];

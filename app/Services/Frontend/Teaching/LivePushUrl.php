@@ -2,7 +2,7 @@
 
 namespace App\Services\Frontend\Teaching;
 
-use App\Services\Frontend\Chapter\ChapterLiveTrait;
+use App\Services\Frontend\ChapterLiveTrait;
 use App\Services\Frontend\ChapterTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Services\Live as LiveService;

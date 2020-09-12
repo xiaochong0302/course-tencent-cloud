@@ -55,6 +55,18 @@ class LiveController extends Controller
     }
 
     /**
+     * @Get("/{id:[0-9]+}/status", name="desktop.live.status")
+     */
+    public function statusAction($id)
+    {
+        $service = new LiveService();
+
+        $status = $service->getStatus($id);
+
+        return $this->jsonSuccess(['status' => $status]);
+    }
+
+    /**
      * @Post("/{id:[0-9]+}/user/bind", name="desktop.live.bind_user")
      */
     public function bindUserAction($id)

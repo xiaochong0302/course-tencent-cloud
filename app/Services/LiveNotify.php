@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Repos\Chapter as ChapterRepo;
@@ -129,12 +128,9 @@ class LiveNotify extends Service
 
     protected function sendBeginNotify(ChapterModel $chapter)
     {
-        /**
-         * @var RedisCache $cache
-         */
-        $cache = $this->getDI()->get('cache');
+        $cache = $this->getCache();
 
-        $redis = $cache->getRedis();
+        $redis = $this->getRedis();
 
         $key = $this->getNotifyKey();
 

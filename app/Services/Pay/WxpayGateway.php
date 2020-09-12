@@ -36,17 +36,19 @@ class WxpayGateway extends Service
      */
     public function getInstance()
     {
-        $config = $this->getDI()->get('config');
+        $config = $this->getConfig();
 
-        $level = $config->env == ENV_DEV ? 'debug' : 'info';
+        $level = $config->get('env') == ENV_DEV ? 'debug' : 'info';
 
-        $payConfig = [
-            'app_id' => $this->settings['app_id'],
+        $options = [
+            'appid' => $this->settings['app_id'], // App AppId
+            'app_id' => $this->settings['mp_app_id'], // 公众号 AppId
+            'miniapp_id' => $this->settings['mini_app_id'], // 小程序 AppId
             'mch_id' => $this->settings['mch_id'],
             'key' => $this->settings['key'],
             'notify_url' => $this->settings['notify_url'],
-            'cert_client' => '',
-            'cert_key' => '',
+            'cert_client' => config_path('wxpay/client_cert.pem'),
+            'cert_key' => config_path('wxpay/client_key.pem'),
             'log' => [
                 'file' => log_path('wxpay.log'),
                 'level' => $level,
@@ -55,11 +57,11 @@ class WxpayGateway extends Service
             ],
         ];
 
-        if ($config->env == ENV_DEV) {
-            $payConfig['mode'] = 'dev';
+        if ($config->get('env') == ENV_DEV) {
+            $options['mode'] = 'dev';
         }
 
-        return Pay::wechat($payConfig);
+        return Pay::wechat($options);
     }
 
 }

@@ -14,7 +14,7 @@ class LiveNotifyTask extends Task
     {
         $cache = $this->getCache();
 
-        $redis = $cache->getRedis();
+        $redis = $this->getRedis();
 
         $service = new LiveNotifyService();
 

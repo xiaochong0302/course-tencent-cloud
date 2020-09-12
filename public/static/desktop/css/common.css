@@ -909,6 +909,34 @@ body {
     color: #666;
 }
 
+.countdown {
+    color: #666;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.countdown .icon {
+    margin-bottom: 10px;
+}
+
+.countdown .icon .layui-icon {
+    font-size: 150px;
+}
+
+.countdown .tips {
+    font-size: 18px;
+    margin: 20px 0;
+}
+
+.countdown .timer {
+    font-size: 32px;
+}
+
+.countdown .timer span {
+    color: green;
+    padding: 10px;
+}
+
 .player-wrap {
     position: relative;
     width: 760px;

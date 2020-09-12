@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Frontend\Chapter;
+namespace App\Services\Frontend;
 
 trait ChapterLiveTrait
 {
