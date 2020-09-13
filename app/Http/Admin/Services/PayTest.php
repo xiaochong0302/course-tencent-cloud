@@ -15,11 +15,11 @@ abstract class PayTest extends Service
     protected $channel;
 
     /**
-     * 创建订单
+     * 创建支付宝订单
      *
      * @return OrderModel
      */
-    public function createOrder()
+    public function createAlipayOrder()
     {
         /**
          * @var AdminAuth $auth
@@ -30,8 +30,45 @@ abstract class PayTest extends Service
 
         $order = new OrderModel();
 
-        $order->subject = '测试 - 支付测试0.01元';
-        $order->amount = 0.01;
+        $order->subject = '测试 - 支付测试3.01元';
+        $order->amount = 3.01;
+        $order->owner_id = $authUser['id'];
+        $order->item_type = OrderModel::ITEM_TEST;
+
+        $order->create();
+
+        return $order;
+    }
+
+    /**
+     * 创建微信订单
+     *
+     * @return OrderModel
+     */
+    public function createWxpayOrder()
+    {
+        /**
+         * @var AdminAuth $auth
+         */
+        $auth = $this->getDI()->get('auth');
+
+        $authUser = $auth->getAuthInfo();
+
+        $config = $this->getConfig();
+
+        $order = new OrderModel();
+
+        /**
+         * 微信沙箱环境金额不能自定义，只能是测试用例值（沙吊的不行）
+         */
+        if ($config->get('env') == ENV_DEV) {
+            $order->subject = '测试 - 支付测试3.01元';
+            $order->amount = 3.01;
+        } else {
+            $order->subject = '测试 - 支付测试0.01元';
+            $order->amount = 0.01;
+        }
+
         $order->owner_id = $authUser['id'];
         $order->item_type = OrderModel::ITEM_TEST;
 

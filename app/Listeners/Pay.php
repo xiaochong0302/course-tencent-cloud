@@ -69,7 +69,6 @@ class Pay extends Listener
             $this->db->rollback();
 
             $this->logger->error('After Pay Event Error ' . kg_json_encode([
-                    'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));

@@ -20,7 +20,7 @@ class RefundController extends Controller
      */
     public function confirmAction()
     {
-        $sn = $this->request->getQuery('sn');
+        $sn = $this->request->getQuery('sn', 'string');
 
         $service = new OrderInfoService();
 
@@ -57,7 +57,7 @@ class RefundController extends Controller
      */
     public function infoAction()
     {
-        $sn = $this->request->getQuery('sn');
+        $sn = $this->request->getQuery('sn', 'string');
 
         $service = new RefundInfoService();
 
@@ -72,7 +72,7 @@ class RefundController extends Controller
      */
     public function cancelAction()
     {
-        $sn = $this->request->getPost('sn');
+        $sn = $this->request->getPost('sn', 'string');
 
         $service = new RefundCancelService();
 

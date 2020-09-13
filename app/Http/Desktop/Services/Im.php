@@ -45,7 +45,7 @@ class Im extends Service
 
     public function getGroupUsers()
     {
-        $id = $this->request->getQuery('id');
+        $id = $this->request->getQuery('id', 'int');
 
         $validator = new ImGroupValidator();
 
@@ -82,7 +82,7 @@ class Im extends Service
 
     public function getFriendStatus()
     {
-        $id = $this->request->getQuery('id');
+        $id = $this->request->getQuery('id', 'int');
 
         $validator = new ImUserValidator();
 
@@ -106,7 +106,7 @@ class Im extends Service
 
         $user = $this->getImUser($loginUser->id);
 
-        $clientId = $this->request->getPost('client_id');
+        $clientId = $this->request->getPost('client_id', 'string');
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
@@ -131,7 +131,7 @@ class Im extends Service
 
         $user = $this->getImUser($loginUser->id);
 
-        $status = $this->request->getPost('status');
+        $status = $this->request->getPost('status', 'string');
 
         $validator = new ImUserValidator();
 
@@ -148,7 +148,7 @@ class Im extends Service
 
         $user = $this->getImUser($loginUser->id);
 
-        $sign = $this->request->getPost('sign');
+        $sign = $this->request->getPost('sign', 'string');
 
         $validator = new ImUserValidator();
 
@@ -165,7 +165,7 @@ class Im extends Service
 
         $user = $this->getImUser($loginUser->id);
 
-        $skin = $this->request->getPost('skin');
+        $skin = $this->request->getPost('skin', 'string');
 
         $validator = new ImUserValidator();
 

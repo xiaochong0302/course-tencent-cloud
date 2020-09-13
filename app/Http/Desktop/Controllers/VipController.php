@@ -32,7 +32,7 @@ class VipController extends Controller
      */
     public function coursesAction()
     {
-        $type = $this->request->getQuery('type', 'trim', 'discount');
+        $type = $this->request->getQuery('type', 'string', 'discount');
 
         $service = new VipCourseListService();
 

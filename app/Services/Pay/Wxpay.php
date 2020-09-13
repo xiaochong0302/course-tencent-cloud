@@ -131,7 +131,13 @@ class Wxpay extends PayService
 
         $this->eventsManager->fire('pay:afterPay', $this, $trade);
 
-        return $this->gateway->success();
+        $trade = $tradeRepo->findById($trade->id);
+
+        if ($trade->status == TradeModel::STATUS_FINISHED) {
+            return $this->gateway->success();
+        }
+
+        return false;
     }
 
     /**

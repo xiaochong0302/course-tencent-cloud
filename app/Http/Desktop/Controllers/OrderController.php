@@ -20,7 +20,7 @@ class OrderController extends Controller
      */
     public function infoAction()
     {
-        $sn = $this->request->getQuery('sn');
+        $sn = $this->request->getQuery('sn', 'string');
 
         $service = new OrderInfoService();
 
@@ -35,8 +35,8 @@ class OrderController extends Controller
      */
     public function confirmAction()
     {
-        $itemId = $this->request->getQuery('item_id');
-        $itemType = $this->request->getQuery('item_type');
+        $itemId = $this->request->getQuery('item_id', 'int');
+        $itemType = $this->request->getQuery('item_type', 'int');
 
         $service = new OrderConfirmService();
 
@@ -64,7 +64,7 @@ class OrderController extends Controller
      */
     public function payAction()
     {
-        $sn = $this->request->getQuery('sn');
+        $sn = $this->request->getQuery('sn', 'string');
 
         $service = new OrderInfoService();
 
@@ -82,7 +82,7 @@ class OrderController extends Controller
      */
     public function cancelAction()
     {
-        $sn = $this->request->getPost('sn');
+        $sn = $this->request->getPost('sn', 'string');
 
         $service = new OrderCancelService();
 

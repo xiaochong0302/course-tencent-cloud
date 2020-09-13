@@ -59,7 +59,7 @@ class Live extends Service
 
     public function bindUser($id)
     {
-        $clientId = $this->request->getPost('client_id');
+        $clientId = $this->request->getPost('client_id', 'string');
 
         $chapter = $this->checkChapter($id);
 

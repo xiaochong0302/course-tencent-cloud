@@ -9,7 +9,7 @@ class ChapterLive extends Model
      * 状态类型
      */
     const STATUS_ACTIVE = 1; // 活跃
-    const STATUS_INACTIVE = 2; // 非活跃
+    const STATUS_INACTIVE = 2; // 静默
     const STATUS_FORBID = 3; // 禁播
 
     /**
@@ -82,6 +82,8 @@ class ChapterLive extends Model
 
     public function beforeCreate()
     {
+        $this->status = self::STATUS_INACTIVE;
+
         $this->create_time = time();
     }
 

@@ -15,7 +15,7 @@ class LivePushUrl extends FrontendService
 
     public function handle()
     {
-        $chapterId = $this->request->getQuery('chapter_id');
+        $chapterId = $this->request->getQuery('chapter_id', 'int');
 
         $chapter = $this->checkChapter($chapterId);
 

@@ -3,7 +3,7 @@
 namespace App\Http\Admin\Services;
 
 use App\Caches\Chapter as ChapterCache;
-use App\Caches\CourseCatalog as CourseCatalogCache;
+use App\Caches\CourseChapterList as CourseCatalogCache;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Models\ChapterRead as ChapterReadModel;

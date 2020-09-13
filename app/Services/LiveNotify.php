@@ -11,9 +11,9 @@ class LiveNotify extends Service
 
     public function handle()
     {
-        $time = $this->request->getPost('t');
-        $sign = $this->request->getPost('sign');
-        $action = $this->request->getQuery('action');
+        $time = $this->request->getPost('t', 'int');
+        $sign = $this->request->getPost('sign', 'string');
+        $action = $this->request->getQuery('action', 'string');
 
         if (!$this->checkSign($sign, $time)) {
             return false;
@@ -57,7 +57,7 @@ class LiveNotify extends Service
      */
     protected function handleStreamBegin()
     {
-        $streamId = $this->request->getPost('stream_id');
+        $streamId = $this->request->getPost('stream_id', 'string');
 
         $chapter = $this->getChapter($streamId);
 
@@ -83,7 +83,7 @@ class LiveNotify extends Service
      */
     protected function handleStreamEnd()
     {
-        $streamId = $this->request->getPost('stream_id');
+        $streamId = $this->request->getPost('stream_id', 'string');
 
         $chapter = $this->getChapter($streamId);
 

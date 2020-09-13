@@ -113,7 +113,7 @@ class ImController extends Controller
     {
         $service = new ImService();
 
-        $id = $this->request->getQuery('id');
+        $id = $this->request->getQuery('id', 'int');
 
         $service->pullUnreadFriendMessages($id);
 
@@ -197,8 +197,8 @@ class ImController extends Controller
      */
     public function sendChatMessageAction()
     {
-        $from = $this->request->getPost('from');
-        $to = $this->request->getPost('to');
+        $from = $this->request->getPost('from', 'string');
+        $to = $this->request->getPost('to', 'string');
 
         $service = new ImService();
 
@@ -212,8 +212,8 @@ class ImController extends Controller
      */
     public function sendCsMessageAction()
     {
-        $from = $this->request->getPost('from');
-        $to = $this->request->getPost('to');
+        $from = $this->request->getPost('from', 'string');
+        $to = $this->request->getPost('to', 'string');
 
         $service = new ImService();
 

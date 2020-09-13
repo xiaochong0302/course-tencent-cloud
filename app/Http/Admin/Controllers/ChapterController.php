@@ -35,9 +35,9 @@ class ChapterController extends Controller
      */
     public function addAction()
     {
-        $courseId = $this->request->getQuery('course_id');
-        $parentId = $this->request->getQuery('parent_id');
-        $type = $this->request->getQuery('type');
+        $courseId = $this->request->getQuery('course_id', 'int');
+        $parentId = $this->request->getQuery('parent_id', 'int');
+        $type = $this->request->getQuery('type', 'string', 'chapter');
 
         $courseService = new CourseService();
 

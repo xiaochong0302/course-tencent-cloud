@@ -9,17 +9,17 @@
     <div class="layui-form-item">
         <label class="layui-form-label">公众号ID</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="app_id" value="{{ wxpay.mp_app_id }}" lay-verify="required">
+            <input class="layui-input" type="text" name="mp_app_id" value="{{ wxpay.mp_app_id }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">商户ID</label>
+        <label class="layui-form-label">商户号ID</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="mch_id" value="{{ wxpay.mch_id }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">支付Key</label>
+        <label class="layui-form-label">API密钥</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="key" value="{{ wxpay.key }}" lay-verify="required">
         </div>
@@ -40,6 +40,9 @@
     </div>
 </form>
 
+{% set subject = config.get('env') == 'dev' ? '支付测试3.01元' : '支付测试0.01元' %}
+{% set total_amount = config.get('env') == 'dev' ? 3.01 : 0.01 %}
+
 <form class="layui-form kg-form">
     <fieldset class="layui-elem-field layui-field-title">
         <legend>支付测试</legend>
@@ -47,13 +50,13 @@
     <div class="layui-form-item">
         <label class="layui-form-label">支付项目</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="subject" value="支付测试0.01元" readonly="readonly">
+            <input class="layui-input" type="text" name="subject" value="{{ subject }}" readonly="readonly">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">支付金额</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="total_amount" value="0.01" readonly="readonly">
+            <input class="layui-input" type="text" name="total_amount" value="{{ total_amount }}" readonly="readonly">
         </div>
     </div>
     <div class="layui-form-item">

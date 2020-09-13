@@ -121,7 +121,7 @@ class SettingController extends Controller
 
         if ($this->request->isPost()) {
 
-            $section = $this->request->getPost('section');
+            $section = $this->request->getPost('section', 'string');
 
             $data = $this->request->getPost();
 
@@ -150,7 +150,7 @@ class SettingController extends Controller
 
         if ($this->request->isPost()) {
 
-            $section = $this->request->getPost('section');
+            $section = $this->request->getPost('section', 'string');
 
             $data = $this->request->getPost();
 
@@ -257,7 +257,7 @@ class SettingController extends Controller
 
         if ($this->request->isPost()) {
 
-            $data = $this->request->getPost('vip');
+            $data = $this->request->getPost('vip', 'string');
 
             $settingService->updateVipSettings($data);
 
@@ -280,7 +280,7 @@ class SettingController extends Controller
 
         if ($this->request->isPost()) {
 
-            $section = $this->request->getPost('section');
+            $section = $this->request->getPost('section', 'string');
 
             $data = $this->request->getPost();
 

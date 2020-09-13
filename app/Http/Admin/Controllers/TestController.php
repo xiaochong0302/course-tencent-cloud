@@ -60,7 +60,7 @@ class TestController extends Controller
      */
     public function livePushAction()
     {
-        $streamName = $this->request->getQuery('stream');
+        $streamName = $this->request->getQuery('stream', 'string');
 
         $liveService = new LiveService();
 
@@ -102,7 +102,7 @@ class TestController extends Controller
      */
     public function smserAction()
     {
-        $phone = $this->request->getPost('phone');
+        $phone = $this->request->getPost('phone', 'string');
 
         $smserService = new TestSmserService();
 
@@ -120,7 +120,7 @@ class TestController extends Controller
      */
     public function mailerAction()
     {
-        $email = $this->request->getPost('email');
+        $email = $this->request->getPost('email', 'string');
 
         $mailerService = new TestMailerService();
 
@@ -166,7 +166,7 @@ class TestController extends Controller
 
         $this->db->begin();
 
-        $order = $alipayTestService->createOrder();
+        $order = $alipayTestService->createAlipayOrder();
         $trade = $alipayTestService->createTrade($order);
         $qrcode = $alipayTestService->scan($trade);
 
@@ -190,7 +190,7 @@ class TestController extends Controller
 
         $this->db->begin();
 
-        $order = $wxpayTestService->createOrder();
+        $order = $wxpayTestService->createWxpayOrder();
         $trade = $wxpayTestService->createTrade($order);
         $qrcode = $wxpayTestService->scan($trade);
 
@@ -210,7 +210,7 @@ class TestController extends Controller
      */
     public function alipayStatusAction()
     {
-        $sn = $this->request->getQuery('sn');
+        $sn = $this->request->getQuery('sn', 'string');
 
         $alipayTestService = new AlipayTestService();
 
@@ -224,7 +224,7 @@ class TestController extends Controller
      */
     public function wxpayStatusAction()
     {
-        $sn = $this->request->getQuery('sn');
+        $sn = $this->request->getQuery('sn', 'string');
 
         $wxpayTestService = new WxpayTestService();
 

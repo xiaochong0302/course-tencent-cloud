@@ -2,9 +2,9 @@
 
 namespace App\Caches;
 
-use App\Builders\CourseCatalog as CourseCatalogBuilder;
+use App\Builders\CourseChapterList as CourseChapterListBuilder;
 
-class CourseCatalog extends Cache
+class CourseChapterList extends Cache
 {
 
     protected $lifetime = 7 * 86400;
@@ -16,12 +16,12 @@ class CourseCatalog extends Cache
 
     public function getKey($id = null)
     {
-        return "course_catalog:{$id}";
+        return "course_chapter_list:{$id}";
     }
 
     public function getContent($id = null)
     {
-        $builder = new CourseCatalogBuilder();
+        $builder = new CourseChapterListBuilder();
 
         $list = $builder->handle($id);
 

@@ -151,7 +151,7 @@ class MyController extends Controller
      */
     public function groupsAction()
     {
-        $scope = $this->request->getQuery('scope', 'trim', 'joined');
+        $scope = $this->request->getQuery('scope', 'string', 'joined');
 
         $service = new MyGroupListService();
 

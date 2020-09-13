@@ -49,7 +49,7 @@ class PublicController extends \Phalcon\Mvc\Controller
      */
     public function qrcodeAction()
     {
-        $text = $this->request->getQuery('text');
+        $text = $this->request->getQuery('text', 'string');
         $level = $this->request->getQuery('level', 'int', 0);
         $size = $this->request->getQuery('size', 'int', 5);
 

@@ -43,7 +43,7 @@ class AccountController extends Controller
 
         $service->register();
 
-        $returnUrl = $this->request->getPost('return_url');
+        $returnUrl = $this->request->getPost('return_url', 'string');
 
         $content = [
             'location' => $returnUrl ?: '/',
@@ -81,7 +81,7 @@ class AccountController extends Controller
 
         $service->loginByPassword();
 
-        $returnUrl = $this->request->getPost('return_url');
+        $returnUrl = $this->request->getPost('return_url', 'string');
 
         $location = $returnUrl ?: $this->url->get(['for' => 'desktop.index']);
 
@@ -99,7 +99,7 @@ class AccountController extends Controller
 
         $service->loginByVerify();
 
-        $returnUrl = $this->request->getPost('return_url');
+        $returnUrl = $this->request->getPost('return_url', 'string');
 
         $location = $returnUrl ?: $this->url->get(['for' => 'desktop.index']);
 

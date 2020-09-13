@@ -3,7 +3,7 @@
 namespace App\Http\Desktop\Controllers;
 
 use App\Http\Desktop\Services\CourseQuery as CourseQueryService;
-use App\Services\Frontend\Course\ChapterList as CourseCatalogService;
+use App\Services\Frontend\Course\ChapterList as CourseChapterListService;
 use App\Services\Frontend\Course\ConsultList as CourseConsultListService;
 use App\Services\Frontend\Course\CourseInfo as CourseInfoService;
 use App\Services\Frontend\Course\CourseList as CourseListService;
@@ -72,7 +72,7 @@ class CourseController extends Controller
 
         $course = $service->handle($id);
 
-        $service = new CourseCatalogService();
+        $service = new CourseChapterListService();
 
         $chapters = $service->handle($id);
 

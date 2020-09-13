@@ -41,7 +41,7 @@ Trait ImGroupTrait
 
         $user = $this->getImUser($loginUser->id);
 
-        $noticeId = $this->request->getPost('notice_id');
+        $noticeId = $this->request->getPost('notice_id', 'int');
 
         $validator = new ImNoticeValidator();
 
@@ -96,7 +96,7 @@ Trait ImGroupTrait
 
         $user = $this->getImUser($loginUser->id);
 
-        $noticeId = $this->request->getPost('notice_id');
+        $noticeId = $this->request->getPost('notice_id', 'int');
 
         $validator = new ImNoticeValidator();
 

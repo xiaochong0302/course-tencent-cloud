@@ -28,7 +28,7 @@ class TradeController extends Controller
      */
     public function statusAction()
     {
-        $sn = $this->request->getQuery('sn');
+        $sn = $this->request->getQuery('sn', 'string');
 
         $service = new TradeInfoService();
 

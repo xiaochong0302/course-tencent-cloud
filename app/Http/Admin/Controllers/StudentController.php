@@ -84,7 +84,7 @@ class StudentController extends Controller
      */
     public function editAction()
     {
-        $relationId = $this->request->getQuery('relation_id');
+        $relationId = $this->request->getQuery('relation_id', 'int');
 
         $studentService = new StudentService();
 

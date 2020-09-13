@@ -8,7 +8,7 @@ use App\Services\Frontend\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Frontend\Chapter\ChapterLike as ChapterLikeService;
 use App\Services\Frontend\Chapter\DanmuList as ChapterDanmuListService;
 use App\Services\Frontend\Chapter\Learning as ChapterLearningService;
-use App\Services\Frontend\Course\ChapterList as CourseCatalogService;
+use App\Services\Frontend\Course\ChapterList as CourseChapterListService;
 
 /**
  * @RoutePrefix("/chapter")
@@ -34,7 +34,7 @@ class ChapterController extends Controller
             ]);
         }
 
-        $service = new CourseCatalogService();
+        $service = new CourseChapterListService();
 
         $catalog = $service->handle($chapter['course']['id']);
 
@@ -46,6 +46,8 @@ class ChapterController extends Controller
 
         if ($chapter['model'] == CourseModel::MODEL_VOD) {
             $this->view->pick('chapter/vod');
+        } elseif ($chapter['model'] == CourseModel::MODEL_READ) {
+            $this->view->pick('chapter/read');
         } elseif ($chapter['model'] == CourseModel::MODEL_LIVE) {
             if ($chapter['status'] == LiveModel::STATUS_ACTIVE) {
                 $this->view->pick('chapter/live_active');
@@ -54,8 +56,6 @@ class ChapterController extends Controller
             } elseif ($chapter['status'] == LiveModel::STATUS_FORBID) {
                 $this->view->pick('chapter/live_forbid');
             }
-        } elseif ($chapter['model'] == CourseModel::MODEL_READ) {
-            $this->view->pick('chapter/read');
         }
 
         $this->view->setVar('chapter', $chapter);
