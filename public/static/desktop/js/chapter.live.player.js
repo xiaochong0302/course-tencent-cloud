@@ -20,41 +20,19 @@ layui.use(['jquery', 'helper'], function () {
         height: 428
     };
 
-    if (playUrls.rtmp && playUrls.rtmp.od) {
-        options.rtmp = playUrls.rtmp.od;
-    }
+    var formats = ['rtmp', 'flv', 'm3u8'];
+    var rates = ['od', 'hd', 'sd'];
 
-    if (playUrls.rtmp && playUrls.rtmp.hd) {
-        options.rtmp_hd = playUrls.rtmp.hd;
-    }
+    $.each(formats, function (i, format) {
+        $.each(rates, function (k, rate) {
+            if (playUrls.hasOwnProperty(format) && playUrls[format].hasOwnProperty(rate)) {
+                var key = k === 0 ? format : format + '_' + rate;
+                options[key] = playUrls[format][rate];
+            }
+        });
+    });
 
-    if (playUrls.rtmp && playUrls.rtmp.sd) {
-        options.rtmp_sd = playUrls.rtmp.sd;
-    }
-
-    if (playUrls.flv && playUrls.flv.od) {
-        options.flv = playUrls.flv.od;
-    }
-
-    if (playUrls.flv && playUrls.flv.hd) {
-        options.flv_hd = playUrls.flv.hd;
-    }
-
-    if (playUrls.flv && playUrls.flv.sd) {
-        options.flv_sd = playUrls.flv.sd;
-    }
-
-    if (playUrls.m3u8 && playUrls.m3u8.od) {
-        options.m3u8 = playUrls.m3u8.od;
-    }
-
-    if (playUrls.m3u8 && playUrls.m3u8.hd) {
-        options.m3u8_hd = playUrls.m3u8.hd;
-    }
-
-    if (playUrls.m3u8 && playUrls.m3u8.sd) {
-        options.m3u8_sd = playUrls.m3u8.sd;
-    }
+    console.log(options);
 
     options.listener = function (msg) {
         if (msg.type === 'play') {

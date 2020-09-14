@@ -39,7 +39,7 @@
 
     <br>
 
-    {% if refund.status == 'pending' %}
+    {% if refund.status == 1 %}
         <form class="layui-form kg-form" method="POST" action="{{ refund_review_url }}">
             <fieldset class="layui-elem-field layui-field-title">
                 <legend>审核退款</legend>

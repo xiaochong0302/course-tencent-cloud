@@ -574,8 +574,8 @@ class Vod extends Service
     {
         $result = null;
 
-        if ($this->settings['watermark_enabled'] && $this->settings['watermark_template'] > 0) {
-            $result = (int)$this->settings['watermark_template'];
+        if ($this->settings['wmk_enabled'] && $this->settings['wmk_tpl_id'] > 0) {
+            $result = (int)$this->settings['wmk_tpl_id'];
         }
 
         return $result;

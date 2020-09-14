@@ -53,6 +53,8 @@ class Controller extends \Phalcon\Mvc\Controller
     {
         $this->siteInfo = $this->getSiteInfo();
 
+        $this->authUser = $this->getAuthUser();
+
         $this->checkSiteStatus();
 
         if ($this->isNotSafeRequest()) {
@@ -73,7 +75,6 @@ class Controller extends \Phalcon\Mvc\Controller
     {
         $this->seo = $this->getSeo();
         $this->navs = $this->getNavs();
-        $this->authUser = $this->getAuthUser();
         $this->appInfo = $this->getAppInfo();
         $this->imInfo = $this->getImInfo();
 

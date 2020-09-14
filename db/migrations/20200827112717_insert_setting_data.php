@@ -312,7 +312,7 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'site',
-                'item_key' => 'index_template',
+                'item_key' => 'index_tpl',
                 'item_value' => 'simple',
             ],
             [
@@ -407,12 +407,12 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'vod',
-                'item_key' => 'watermark_enabled',
+                'item_key' => 'wmk_enabled',
                 'item_value' => '1',
             ],
             [
                 'section' => 'vod',
-                'item_key' => 'watermark_template',
+                'item_key' => 'wmk_tpl_id',
                 'item_value' => '462027',
             ],
             [

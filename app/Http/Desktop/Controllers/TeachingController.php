@@ -7,6 +7,7 @@ use App\Services\Frontend\Teaching\ConsultList as ConsultListService;
 use App\Services\Frontend\Teaching\CourseList as CourseListService;
 use App\Services\Frontend\Teaching\LiveList as LiveListService;
 use App\Services\Frontend\Teaching\LivePushUrl as LivePushUrlService;
+use Phalcon\Mvc\Dispatcher;
 
 
 /**
@@ -14,6 +15,18 @@ use App\Services\Frontend\Teaching\LivePushUrl as LivePushUrlService;
  */
 class TeachingController extends Controller
 {
+
+    public function beforeExecuteRoute(Dispatcher $dispatcher)
+    {
+        parent::beforeExecuteRoute($dispatcher);
+
+        if ($this->authUser->id == 0) {
+            $this->response->redirect(['for' => 'desktop.account.login']);
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * @Get("/", name="desktop.teaching.index")

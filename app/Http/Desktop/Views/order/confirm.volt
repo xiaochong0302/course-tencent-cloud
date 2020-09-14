@@ -48,7 +48,7 @@
         {% set vip = item_info.vip %}
         <div class="cart-course-card clearfix">
             <div class="cover">
-                <img src="/static/web/img/vip_cover.png" alt="会员服务">
+                <img src="/static/desktop/img/vip_cover.png" alt="会员服务">
             </div>
             <div class="info">
                 <p>会员服务</p>
@@ -64,17 +64,17 @@
     </div>
 
     <div class="cart-item-list wrap">
-        {% if confirm.item_type == 'course' %}
+        {% if confirm.item_type == 1 %}
             {% set course = confirm.item_info.course %}
             {{ cart_course_card(course, auth_user) }}
-        {% elseif confirm.item_type == 'package' %}
+        {% elseif confirm.item_type == 2 %}
             {% set package = confirm.item_info.package %}
             {% for course in package.courses %}
                 {{ cart_course_card(course, auth_user) }}
             {% endfor %}
-        {% elseif confirm.item_type == 'reward' %}
+        {% elseif confirm.item_type == 3 %}
             {{ cart_reward_card(confirm.item_info) }}
-        {% elseif confirm.item_type == 'vip' %}
+        {% elseif confirm.item_type == 4 %}
             {{ cart_vip_card(confirm.item_info) }}
         {% endif %}
     </div>

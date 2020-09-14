@@ -40,7 +40,7 @@
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
-            <input type="hidden" name="section" value="notify">
+            <input type="hidden" name="section" value="live.notify">
         </div>
     </div>
 </form>

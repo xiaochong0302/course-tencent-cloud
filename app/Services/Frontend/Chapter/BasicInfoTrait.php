@@ -8,7 +8,6 @@ use App\Repos\Chapter as ChapterRepo;
 use App\Services\ChapterVod as ChapterVodService;
 use App\Services\Frontend\ChapterLiveTrait;
 use App\Services\Live as LiveService;
-use WhichBrowser\Parser as BrowserParser;
 
 trait BasicInfoTrait
 {
@@ -62,17 +61,11 @@ trait BasicInfoTrait
 
     protected function formatChapterLive(ChapterModel $chapter)
     {
-        $headers = getallheaders();
-
-        $browserParser = new BrowserParser($headers);
-
         $liveService = new LiveService();
 
         $stream = $this->getStreamName($chapter->id);
 
-        $format = $browserParser->isType('desktop') ? 'flv' : 'hls';
-
-        $playUrls = $liveService->getPullUrls($stream, $format);
+        $playUrls = $liveService->getPullUrls($stream);
 
         $chapterRepo = new ChapterRepo();
 

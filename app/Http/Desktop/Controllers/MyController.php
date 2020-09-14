@@ -13,6 +13,7 @@ use App\Services\Frontend\My\ProfileInfo as ProfileInfoService;
 use App\Services\Frontend\My\ProfileUpdate as ProfileUpdateService;
 use App\Services\Frontend\My\RefundList as MyRefundListService;
 use App\Services\Frontend\My\ReviewList as MyReviewListService;
+use Phalcon\Mvc\Dispatcher;
 
 /**
  * @RoutePrefix("/my")
@@ -20,13 +21,16 @@ use App\Services\Frontend\My\ReviewList as MyReviewListService;
 class MyController extends Controller
 {
 
-    public function initialize()
+    public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
-        parent::initialize();
+        parent::beforeExecuteRoute($dispatcher);
 
         if ($this->authUser->id == 0) {
             $this->response->redirect(['for' => 'desktop.account.login']);
+            return false;
         }
+
+        return true;
     }
 
     /**

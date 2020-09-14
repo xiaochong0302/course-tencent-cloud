@@ -63,18 +63,22 @@ trait CourseTrait
 
             $this->ownedCourse = true;
 
-        } elseif ($courseUser) {
+        } elseif ($courseUser && $courseUser->role_type == CourseUserModel::ROLE_TEACHER) {
+
+            $this->ownedCourse = true;
+
+        } elseif ($courseUser && $courseUser->role_type == CourseUserModel::ROLE_STUDENT) {
 
             $sourceTypes = [
                 CourseUserModel::SOURCE_CHARGE,
                 CourseUserModel::SOURCE_IMPORT,
             ];
 
-            $caseA = $courseUser->deleted == 0;
-            $caseB = $courseUser->expiry_time > time();
-            $caseC = in_array($courseUser->source_type, $sourceTypes);
+            $case1 = $courseUser->deleted == 0;
+            $case2 = $courseUser->expiry_time > time();
+            $case3 = in_array($courseUser->source_type, $sourceTypes);
 
-            if ($caseA && $caseB && $caseC) {
+            if ($case1 && $case2 && $case3) {
                 $this->ownedCourse = true;
             }
         }

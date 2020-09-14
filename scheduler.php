@@ -34,6 +34,12 @@ $scheduler->php($script, $bin, ['--task' => 'refund', '--action' => 'main'])
 $scheduler->php($script, $bin, ['--task' => 'sync_course_index', '--action' => 'main'])
     ->hourly(11);
 
+$scheduler->php($script, $bin, ['--task' => 'sync_group_index', '--action' => 'main'])
+    ->hourly(17);
+
+$scheduler->php($script, $bin, ['--task' => 'sync_user_index', '--action' => 'main'])
+    ->hourly(23);
+
 $scheduler->php($script, $bin, ['--task' => 'clean_log', '--action' => 'main'])
     ->daily(3, 3);
 

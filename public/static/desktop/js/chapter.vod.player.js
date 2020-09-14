@@ -5,7 +5,7 @@ layui.use(['jquery', 'helper'], function () {
 
     var interval = null;
     var intervalTime = 15000;
-    var userId = window.koogua.user.id;
+    var userId = window.user.id;
     var requestId = helper.getRequestId();
     var chapterId = $('input[name="chapter.id"]').val();
     var planId = $('input[name="chapter.plan_id"]').val();
@@ -19,15 +19,15 @@ layui.use(['jquery', 'helper'], function () {
         height: 428
     };
 
-    if (playUrls.od) {
+    if (playUrls.hasOwnProperty('od')) {
         options.m3u8 = playUrls.od.url;
     }
 
-    if (playUrls.hd) {
+    if (playUrls.hasOwnProperty('hd')) {
         options.m3u8_hd = playUrls.hd.url;
     }
 
-    if (playUrls.sd) {
+    if (playUrls.hasOwnProperty('sd')) {
         options.m3u8_sd = playUrls.sd.url;
     }
 

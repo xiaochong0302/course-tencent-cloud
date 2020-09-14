@@ -7,6 +7,7 @@ use App\Services\Frontend\Order\OrderCancel as OrderCancelService;
 use App\Services\Frontend\Order\OrderConfirm as OrderConfirmService;
 use App\Services\Frontend\Order\OrderCreate as OrderCreateService;
 use App\Services\Frontend\Order\OrderInfo as OrderInfoService;
+use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
 
 /**
@@ -14,6 +15,18 @@ use Phalcon\Mvc\View;
  */
 class OrderController extends Controller
 {
+
+    public function beforeExecuteRoute(Dispatcher $dispatcher)
+    {
+        parent::beforeExecuteRoute($dispatcher);
+
+        if ($this->authUser->id == 0) {
+            $this->response->redirect(['for' => 'desktop.account.login']);
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * @Get("/info", name="desktop.order.info")

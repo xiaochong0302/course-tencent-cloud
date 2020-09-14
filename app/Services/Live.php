@@ -58,7 +58,7 @@ class Live extends Service
 
             $params = json_encode([
                 'DomainName' => $this->settings['push']['domain'],
-                'AppName' => $appName ?: 'live',
+                'AppName' => $appName,
                 'StreamName' => $streamName,
             ]);
 
@@ -102,7 +102,7 @@ class Live extends Service
 
             $params = json_encode([
                 'DomainName' => $this->settings['push']['domain'],
-                'AppName' => $appName ?: 'live',
+                'AppName' => $appName,
                 'StreamName' => $streamName,
                 'Reason' => $reason,
             ]);
@@ -146,7 +146,7 @@ class Live extends Service
 
             $params = json_encode([
                 'DomainName' => $this->settings['push']['domain'],
-                'AppName' => $appName ?: 'live',
+                'AppName' => $appName,
                 'StreamName' => $streamName,
             ]);
 
@@ -183,8 +183,6 @@ class Live extends Service
      */
     function getPushUrl($streamName, $appName = 'live')
     {
-        $appName = $appName ?: 'live';
-
         $authEnabled = $this->settings['push']['auth_enabled'];
         $authKey = $this->settings['push']['auth_key'];
         $expireTime = $this->settings['push']['auth_delta'] + time();
@@ -207,8 +205,6 @@ class Live extends Service
      */
     public function getPullUrls($streamName, $appName = 'live')
     {
-        $appName = $appName ?: 'live';
-
         $protocol = $this->settings['pull']['protocol'];
         $domain = $this->settings['pull']['domain'];
         $authEnabled = $this->settings['pull']['auth_enabled'];

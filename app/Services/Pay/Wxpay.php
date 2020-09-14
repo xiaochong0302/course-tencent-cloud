@@ -123,6 +123,10 @@ class Wxpay extends PayService
             return false;
         }
 
+        if ($trade->status == TradeModel::STATUS_FINISHED) {
+            return $this->gateway->success();
+        }
+
         if ($trade->status != TradeModel::STATUS_PENDING) {
             return false;
         }

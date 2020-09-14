@@ -1,12 +1,12 @@
 {%- macro item_info(order) %}
-    {% if order.item_type == '1' %}
+    {% if order.item_type == 1 %}
         {% set course = order.item_info['course'] %}
         <div class="kg-order-item">
             <p>课程名称：{{ course['title'] }}</p>
             <p>市场价格：{{ '￥%0.2f'|format(course['market_price']) }}，会员价格：{{ '￥%0.2f'|format(course['vip_price']) }}</p>
             <p>学习期限：{{ date('Y-m-d H:i:s',course['study_expiry_time']) }}，退款期限：{{ date('Y-m-d H:i:s',course['refund_expiry_time']) }}</p>
         </div>
-    {% elseif order.item_type == '2' %}
+    {% elseif order.item_type == 2 %}
         {% set courses = order.item_info['courses'] %}
         {% for course in courses %}
             <div class="kg-order-item">
@@ -15,20 +15,20 @@
                 <p>学习期限：{{ date('Y-m-d H:i:s',course['study_expiry_time']) }}，退款期限：{{ date('Y-m-d H:i:s',course['refund_expiry_time']) }}</p>
             </div>
         {% endfor %}
-    {% elseif order.item_type == '3' %}
+    {% elseif order.item_type == 3 %}
         {% set course = order.item_info['course'] %}
         {% set reward = order.item_info['reward'] %}
         <div class="kg-order-item">
             <p>商品名称：{{ order.subject }}</p>
             <p>商品价格：{{ '￥%0.2f'|format(order.amount) }}</p>
         </div>
-    {% elseif order.item_type == '4' %}
+    {% elseif order.item_type == 4 %}
         {% set vip = order.item_info['vip'] %}
         <div class="kg-order-item">
             <p>商品名称：{{ order.subject }}</p>
             <p>商品价格：{{ '￥%0.2f'|format(order.amount) }}</p>
         </div>
-    {% elseif order.item_type == '99' %}
+    {% elseif order.item_type == 99 %}
         <div class="kg-order-item">
             <p>商品名称：{{ order.subject }}</p>
             <p>商品价格：{{ '￥%0.2f'|format(order.amount) }}</p>

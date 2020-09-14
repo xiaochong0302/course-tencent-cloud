@@ -12,7 +12,7 @@
     <tr>
         <td>{{ user.id }}</td>
         <td>{{ user.name }}</td>
-        <td>{% if account.phone %} {{ account.phone }} {% else %} 未知 {% endif %}</td>
-        <td>{% if account.email %} {{ account.email }} {% else %} 未知 {% endif %}</td>
+        <td>{{ account.phone }}</td>
+        <td>{{ account.email }}</td>
     </tr>
 </table>

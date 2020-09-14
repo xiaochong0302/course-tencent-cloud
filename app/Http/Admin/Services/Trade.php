@@ -101,7 +101,7 @@ class Trade extends Service
 
         $refund->create();
 
-        return $trade;
+        return $refund;
     }
 
     protected function findOrFail($id)

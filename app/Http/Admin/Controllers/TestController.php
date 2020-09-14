@@ -11,7 +11,6 @@ use App\Services\Mailer\Test as TestMailerService;
 use App\Services\MyStorage as StorageService;
 use App\Services\Smser\Test as TestSmserService;
 use App\Services\Vod as VodService;
-use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/admin/test")
@@ -92,7 +91,6 @@ class TestController extends Controller
 
         $pullUrls = $liveService->getPullUrls('test');
 
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('public/live_player');
         $this->view->setVar('pull_urls', $pullUrls);
     }

@@ -3,7 +3,7 @@
 {% block content %}
 
     {% set storage_region_display = vod.storage_type == 'fixed' ? 'display:block' : 'display:none' %}
-    {% set watermark_template_display = vod.watermark_enabled == 1 ? 'display:block' : 'display:none' %}
+    {% set wmk_tpl_display = vod.wmk_enabled == 1 ? 'display:block' : 'display:none' %}
     {% set key_anti_display = vod.key_anti_enabled == 1 ? 'display:block': 'display:none' %}
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.vod'}) }}">
@@ -45,15 +45,15 @@
         <div class="layui-form-item">
             <label class="layui-form-label">开启水印</label>
             <div class="layui-input-block">
-                <input type="radio" name="watermark_enabled" value="1" title="是" lay-filter="watermark_enabled" {% if vod.watermark_enabled == 1 %}checked{% endif %}>
-                <input type="radio" name="watermark_enabled" value="0" title="否" lay-filter="watermark_enabled" {% if vod.watermark_enabled == 0 %}checked{% endif %}>
+                <input type="radio" name="wmk_enabled" value="1" title="是" lay-filter="wmk_enabled" {% if vod.wmk_enabled == 1 %}checked{% endif %}>
+                <input type="radio" name="wmk_enabled" value="0" title="否" lay-filter="wmk_enabled" {% if vod.wmk_enabled == 0 %}checked{% endif %}>
             </div>
         </div>
-        <div id="watermark-template-block" style="{{ watermark_template_display }}">
+        <div id="wmk-tpl-block" style="{{ wmk_tpl_display }}">
             <div class="layui-form-item">
                 <label class="layui-form-label">水印模板ID</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" type="text" name="watermark_template" value="{{ vod.watermark_template }}">
+                    <input class="layui-input" type="text" name="wmk_tpl_id" value="{{ vod.wmk_tpl_id }}">
                 </div>
             </div>
         </div>
@@ -145,8 +145,8 @@
                 }
             });
 
-            form.on('radio(watermark_enabled)', function (data) {
-                var block = $('#watermark-template-block');
+            form.on('radio(wmk_enabled)', function (data) {
+                var block = $('#wmk-tpl-block');
                 if (data.value === '1') {
                     block.show();
                 } else {
