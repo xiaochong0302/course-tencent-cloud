@@ -23,7 +23,9 @@
                     <div class="vip-option-card">
                         <div class="title">{{ option.title }}</div>
                         <div class="price">￥{{ option.price }}</div>
-                        <div class="order"><a class="layui-btn layui-btn-sm layui-bg-red" href="{{ order_url }}">立即开通</a></div>
+                        <div class="order">
+                            <button class="layui-btn layui-btn-sm layui-bg-red btn-order" data-url="{{ order_url }}">立即开通</button>
+                        </div>
                     </div>
                 </div>
             {% endfor %}

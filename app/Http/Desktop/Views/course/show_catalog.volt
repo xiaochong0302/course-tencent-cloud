@@ -27,7 +27,7 @@
         {% if lesson.me.duration > 0 %}
             <span class="study-time" title="学习时长：{{ lesson.me.duration|duration }}"><i class="layui-icon layui-icon-time"></i></span>
         {% endif %}
-        <span class="live">{{ date('m月d日',lesson.attrs.start_time) }} {{ date('H:i',lesson.attrs.start_time) }}~{{ date('H:i',lesson.attrs.end_time) }} {{ over_flag }}</span>
+        <span class="live" title="{{ date('Y-m-d H:i',lesson.attrs.start_time) }}">{{ live_status_info(lesson) }}</span>
     </a>
 {%- endmacro %}
 
@@ -46,6 +46,16 @@
     </a>
 {%- endmacro %}
 
+{%- macro live_status_info(lesson) %}
+    {% if lesson.attrs.stream.status == 'active' %}
+        <span class="active">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 直播中</span>
+    {% elseif lesson.attrs.start_time > time() %}
+        <span class="pending">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 倒计时</span>
+    {% elseif lesson.attrs.end_time < time() %}
+        <span class="finished">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 已结束</span>
+    {% endif %}
+{%- endmacro %}
+
 <div class="layui-collapse">
     {% for chapter in chapters %}
         <div class="layui-colla-item">
@@ -53,11 +63,11 @@
             <div class="layui-colla-content layui-show">
                 <ul class="lesson-list">
                     {% for lesson in chapter.children %}
-                        {% if lesson.model == '1' %}
+                        {% if lesson.model == 1 %}
                             <li class="lesson-item clearfix">{{ vod_lesson_info(lesson) }}</li>
-                        {% elseif lesson.model == '2' %}
+                        {% elseif lesson.model == 2 %}
                             <li class="lesson-item clearfix">{{ live_lesson_info(lesson) }}</li>
-                        {% elseif lesson.model == '3' %}
+                        {% elseif lesson.model == 3 %}
                             <li class="lesson-item clearfix">{{ read_lesson_info(lesson) }}</li>
                         {% endif %}
                     {% endfor %}

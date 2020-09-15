@@ -10,7 +10,7 @@ use App\Services\Frontend\CourseTrait;
 use App\Services\Frontend\Service as FrontendService;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class Favorite extends FrontendService
+class CourseFavorite extends FrontendService
 {
 
     use CourseTrait;
@@ -66,6 +66,7 @@ class Favorite extends FrontendService
     protected function incrCourseFavoriteCount(CourseModel $course)
     {
         $course->favorite_count += 1;
+
         $course->update();
     }
 
@@ -80,6 +81,7 @@ class Favorite extends FrontendService
     protected function incrUserFavoriteCount(UserModel $user)
     {
         $user->favorite_count += 1;
+
         $user->update();
     }
 

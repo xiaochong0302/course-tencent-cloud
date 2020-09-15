@@ -64,6 +64,7 @@ class ReviewLike extends FrontendService
     protected function incrLikeCount(ReviewModel $review)
     {
         $review->like_count += 1;
+
         $review->update();
     }
 

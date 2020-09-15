@@ -9,7 +9,7 @@
 - [前台演示](https://ctc.koogua.com)
 - [后台演示](https://ctc.koogua.com/admin)
 
-帐号：100015@163.com / 123456 (前后台通用)
+> 帐号：100015@163.com / 123456 (前后台通用)
 
 PS：**管理后台已禁止提交并隐藏私人配置**
 
@@ -19,7 +19,7 @@ PS：**管理后台已禁止提交并隐藏私人配置**
 - 前端框架：[layui 2.5.6](https://layui.com)， [layim 3.9.5](https://www.layui.com/layim)（已授权）
 - 全文检索：[xunsearch 1.4.9](http://www.xunsearch.com)
 - 即时通讯：[workerman 3.5.22](https://workerman.net)
-- 其它依赖：[php7.3](https://php.net)， [mysql5.7](https://mysql.com)， [redis5.0](https://redis.io)
+- 基础依赖：[php7.3](https://php.net)， [mysql5.7](https://mysql.com)， [redis5.0](https://redis.io)
 
 #### 使用协议
 
@@ -56,7 +56,7 @@ PS：**管理后台已禁止提交并隐藏私人配置**
 #### 通过这个项目能学到什么？
 
 1. 项目规划，phalcon实战，缓存，JWT，即时通讯，全文检索
-2. docker操作，docker服务编排，supervisor，devops
+2. docker，supervisor，devops
 3. git，linux，php，mysql，redis，nginx
 
 #### 开发计划
@@ -73,7 +73,7 @@ PS：**管理后台已禁止提交并隐藏私人配置**
 
 #### 加入我们
 
-这是我的创业项目，个人能力和精力有限，要兼顾产品规划以及开发，还要处理除报税记账之外的所有琐碎事情。
-目前在南山科技园某个众创空间，希望有能独挡一面的**深圳前端同学**加入我们。
+这是我的创业项目，个人能力和精力有限，要兼顾产品规划以及开发，还要处理很多琐碎事情。
+目前在南山科技园某个众创空间，希望有 **深圳前端同学** 加入我们。
 
 联系邮箱：76632555@qq.com

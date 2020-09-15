@@ -3,6 +3,13 @@ layui.use(['jquery', 'helper'], function () {
     var $ = layui.jquery;
     var helper = layui.helper;
 
+    $('.btn-order').on('click', function () {
+        var url = $(this).data('url');
+        helper.checkLogin(function () {
+            window.location.href = url;
+        });
+    });
+
     if ($('#tab-discount-courses').length > 0) {
         var $tabDiscountCourses = $('#tab-discount-courses');
         helper.ajaxLoadHtml($tabDiscountCourses.data('url'), $tabDiscountCourses.attr('id'));

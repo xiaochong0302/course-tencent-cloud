@@ -92,6 +92,11 @@
     width: 320px;
 }
 
+.layui-main .vditor-reset {
+    font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+    color: #666;
+}
+
 body {
     display: flex;
     flex-flow: column;
@@ -500,7 +505,6 @@ body {
 
 .course-meta .info .price {
     color: red;
-    font-size: 14px;
 }
 
 .course-meta .info .free {
@@ -548,11 +552,6 @@ body {
     font-size: 30px;
 }
 
-.course-details {
-    line-height: 1.8em;
-    color: #666;
-}
-
 .lesson-item {
     position: relative;
     padding: 0 10px;
@@ -581,6 +580,10 @@ body {
     right: 10px;
     position: absolute;
     color: #666;
+}
+
+.lesson-item .live .active {
+    color: red;
 }
 
 .lesson-item .study-time {

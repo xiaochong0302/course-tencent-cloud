@@ -64,6 +64,7 @@ class ConsultLike extends FrontendService
     protected function incrLikeCount(ConsultModel $consult)
     {
         $consult->like_count += 1;
+
         $consult->update();
     }
 
