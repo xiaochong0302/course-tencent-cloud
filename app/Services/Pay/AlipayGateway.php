@@ -16,7 +16,7 @@ class AlipayGateway extends Service
 
     public function __construct($options = [])
     {
-        $defaults = $this->getSectionSettings('pay.alipay');
+        $defaults = $this->getSettings('pay.alipay');
 
         $this->settings = array_merge($defaults, $options);
     }

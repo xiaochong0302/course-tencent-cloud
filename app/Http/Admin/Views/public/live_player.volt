@@ -18,15 +18,13 @@
 
 {% block inline_js %}
 
-    <script src="https://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.2.js"></script>
+    <script src="https://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.3.js"></script>
 
     <script>
 
         layui.use(['jquery'], function () {
 
             var $ = layui.jquery;
-
-            var playUrls = JSON.parse('{{ pull_urls|json_encode }}');
 
             var options = {
                 live: true,
@@ -36,6 +34,7 @@
                 height: 405
             };
 
+            var playUrls = JSON.parse('{{ pull_urls|json_encode }}');
             var formats = ['rtmp', 'flv', 'm3u8'];
             var rates = ['od', 'hd', 'sd'];
 
@@ -48,9 +47,8 @@
                 });
             });
 
-            console.log(options);
+            new TcPlayer('player', options);
 
-            var player = new TcPlayer('player', options);
         });
 
     </script>

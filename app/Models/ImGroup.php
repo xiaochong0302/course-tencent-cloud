@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\Syncer\GroupIndex as GroupIndexSyncer;
+use App\Services\Sync\GroupIndex as GroupIndexSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
@@ -138,8 +138,8 @@ class ImGroup extends Model
     public function beforeUpdate()
     {
         if (time() - $this->update_time > 3 * 3600) {
-            $syncer = new GroupIndexSyncer();
-            $syncer->addItem($this->id);
+            $sync = new GroupIndexSync();
+            $sync->addItem($this->id);
         }
 
         if (Text::startsWith($this->avatar, 'http')) {

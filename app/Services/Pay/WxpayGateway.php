@@ -16,7 +16,7 @@ class WxpayGateway extends Service
 
     public function __construct($options = [])
     {
-        $defaults = $this->getSectionSettings('pay.wxpay');
+        $defaults = $this->getSettings('pay.wxpay');
 
         $this->settings = array_merge($defaults, $options);
     }

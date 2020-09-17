@@ -28,13 +28,13 @@
             <li class="layui-nav-item">
                 <a href="javascript:">{{ auth_user.name }}</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="{{ url({'for':'desktop.my.profile'}) }}" target="_blank">基本资料</a></dd>
-                    <dd><a href="{{ url({'for':'desktop.my.account'}) }}" target="_blank">安全设置</a></dd>
+                    <dd><a href="{{ url({'for':'home.uc.profile'}) }}" target="_blank">基本资料</a></dd>
+                    <dd><a href="{{ url({'for':'home.uc.account'}) }}" target="_blank">安全设置</a></dd>
                     <dd><a href="{{ url({'for':'admin.logout'}) }}">退出登录</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item">
-                <a href="{{ url({'for':'desktop.index'}) }}" target="_blank">前台</a>
+                <a href="{{ url({'for':'home.index'}) }}" target="_blank">前台</a>
             </li>
         </ul>
     </div>

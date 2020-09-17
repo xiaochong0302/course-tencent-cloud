@@ -8,8 +8,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">拉流协议</label>
         <div class="layui-input-block">
-            <input type="radio" name="protocol" value="http" title="HTTP" {% if pull.protocol == "http" %}checked{% endif %}>
-            <input type="radio" name="protocol" value="https" title="HTTPS" {% if pull.protocol == "https" %}checked{% endif %}>
+            <input type="radio" name="protocol" value="http" title="HTTP" {% if pull.protocol == "http" %}checked="checked"{% endif %}>
+            <input type="radio" name="protocol" value="https" title="HTTPS" {% if pull.protocol == "https" %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">
@@ -24,8 +24,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启鉴权</label>
         <div class="layui-input-block">
-            <input type="radio" name="auth_enabled" value="1" title="是" lay-filter="pull_auth_enabled" {% if pull.auth_enabled == 1 %}checked{% endif %}>
-            <input type="radio" name="auth_enabled" value="0" title="否" lay-filter="pull_auth_enabled" {% if pull.auth_enabled == 0 %}checked{% endif %}>
+            <input type="radio" name="auth_enabled" value="1" title="是" lay-filter="pull_auth_enabled" {% if pull.auth_enabled == 1 %}checked="checked"{% endif %}>
+            <input type="radio" name="auth_enabled" value="0" title="否" lay-filter="pull_auth_enabled" {% if pull.auth_enabled == 0 %}checked="checked"{% endif %}>
         </div>
     </div>
     <div id="pull-auth-block" style="{{ pull_auth_display }}">
@@ -48,8 +48,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启转码</label>
         <div class="layui-input-block">
-            <input type="radio" name="trans_enabled" value="1" title="是" lay-filter="pull_trans_enabled" {% if pull.trans_enabled == 1 %}checked{% endif %}>
-            <input type="radio" name="trans_enabled" value="0" title="否" lay-filter="pull_trans_enabled" {% if pull.trans_enabled == 0 %}checked{% endif %}>
+            <input type="radio" name="trans_enabled" value="1" title="是" lay-filter="pull_trans_enabled" {% if pull.trans_enabled == 1 %}checked="checked"{% endif %}>
+            <input type="radio" name="trans_enabled" value="0" title="否" lay-filter="pull_trans_enabled" {% if pull.trans_enabled == 0 %}checked="checked"{% endif %}>
         </div>
     </div>
     <div id="pull-trans-tpl-block" style="{{ pull_trans_tpl_display }}">

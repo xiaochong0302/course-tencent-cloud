@@ -1,0 +1,1752 @@
+.main {
+    background-color: #f2f2f2;
+}
+
+.layer {
+    padding: 20px;
+}
+
+.clearfix {
+    zoom: 1
+}
+
+.clearfix:after {
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.mb0 {
+    margin-bottom: 0;
+}
+
+.padding20 {
+    padding: 20px;
+}
+
+.center {
+    text-align: center;
+}
+
+.gray {
+    color: #999;
+}
+
+.qrcode img {
+    width: 160px;
+    height: 160px;
+    border: 3px dashed #ccc;
+}
+
+.qrcode-sm img {
+    width: 100px;
+    height: 100px;
+    border: 3px dashed #ccc;
+}
+
+.breadcrumb {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.wrap {
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.bg-wrap {
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+.pager {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.loading {
+    padding: 30px;
+    text-align: center;
+}
+
+.layout-content {
+    float: left;
+    width: 800px;
+}
+
+.layout-sidebar {
+    float: right;
+    width: 320px;
+}
+
+.layui-main .vditor-reset {
+    font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+    color: #666;
+}
+
+.vditor-reset ul > li {
+    list-style: disc;
+}
+
+.vditor-reset ol > li {
+    list-style: decimal;
+}
+
+body {
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh;
+}
+
+#header {
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    position: fixed;
+    background-color: #393D49;
+}
+
+#main {
+    margin-top: 80px;
+    margin-bottom: 30px;
+    flex: 1;
+}
+
+#footer {
+    width: 100%;
+    padding: 30px 0;
+    background: #474443;
+    text-align: center;
+    font-size: 12px;
+}
+
+.logo {
+
+}
+
+.top-nav {
+    margin-left: 100px;
+}
+
+.layer-search input {
+    height: 75px;
+    line-height: 75px;
+    width: 500px;
+    padding: 0 15px;
+    font-size: 18px;
+    border: none 0;
+    background: none;
+}
+
+#header .layui-nav {
+    background: none;
+}
+
+#footer span, #footer a {
+    color: #999;
+}
+
+#footer a:hover {
+    color: #fff;
+}
+
+.bottom-nav {
+    margin-bottom: 10px;
+    line-height: 18px;
+}
+
+.copyright {
+    line-height: 18px;
+}
+
+.bottom-nav a, .copyright span, .copyright a {
+    margin-right: 10px;
+}
+
+.layout-sidebar .loading {
+    padding: 15px;
+    text-align: center;
+}
+
+.layout-sidebar .sidebar {
+    margin-bottom: 15px;
+}
+
+.page-info {
+    min-height: 500px;
+}
+
+.help-list li {
+    line-height: 30px;
+}
+
+.cs-sidebar p {
+    line-height: 40px;
+}
+
+.index-wrap {
+    padding-bottom: 15px;
+}
+
+.index-wrap .layui-tab {
+    margin-bottom: 0;
+}
+
+.index-wrap .layui-tab-title {
+    border: none;
+}
+
+.index-wrap .layui-tab-content {
+    padding: 20px 0 0 0;
+}
+
+.index-wrap .header {
+    text-align: center;
+    font-size: 18px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.index-course-list .course-card {
+    box-shadow: none;
+}
+
+.index-course-list .course-card .info {
+    border: 1px solid #eee;
+    padding-bottom: 18px;
+}
+
+.index-carousel {
+    width: 1100px;
+    height: 330px;
+    text-align: center;
+}
+
+.index-carousel .carousel {
+    width: 100%;
+    height: 100%;
+}
+
+.search-tab {
+    margin: 0;
+}
+
+.search-tab .layui-tab-title {
+    margin-bottom: 10px;
+}
+
+.search-tab .layui-tab-content {
+    padding: 10px 0;
+}
+
+.search-empty {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.search-empty .icon {
+    margin-bottom: 30px;
+}
+
+.search-empty .icon .layui-icon {
+    font-size: 150px;
+    color: #393D49;
+}
+
+.search-empty .text {
+    color: #666;
+    font-size: 18px;
+}
+
+.search-empty .text .query {
+    color: red;
+    padding: 0 5px;
+}
+
+.search-course-card, .search-group-card {
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.search-course-card:last-child, .search-group-card:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border: none;
+}
+
+.search-course-card .cover {
+    float: left;
+    width: 210px;
+    height: 118px;
+    margin-right: 15px;
+}
+
+.search-course-card .cover img, .search-group-card .avatar img {
+    width: 100%;
+    height: 100%;
+}
+
+.search-course-card .info {
+    float: left;
+    width: 500px;
+}
+
+.search-course-card .title, .search-group-card .name {
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+
+.search-course-card .summary {
+    margin-bottom: 10px;
+    line-height: 1.5em;
+    max-height: 4.5em;
+    font-size: 12px;
+    color: #666;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
+
+.search-course-card .meta, .search-group-card .meta {
+    color: #666;
+}
+
+.search-course-card .meta span, .search-group-card .meta span {
+    margin-right: 10px;
+}
+
+.search-course-card em, .search-group-card em {
+    color: red;
+    font-style: normal;
+}
+
+.search-group-card .avatar {
+    float: left;
+    width: 90px;
+    height: 90px;
+    margin-right: 15px;
+}
+
+.search-group-card .avatar img {
+    border-radius: 100%;
+}
+
+.search-group-card .info {
+    float: left;
+    width: 600px;
+}
+
+.search-group-card .about {
+    margin-bottom: 10px;
+    line-height: 1.5em;
+    color: #666;
+}
+
+.query-badge {
+    padding: 2px 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.course-list {
+    margin-bottom: 20px;
+}
+
+.course-card {
+    float: left;
+    width: 100%;
+    height: 230px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.course-card .cover {
+    overflow: hidden;
+}
+
+.course-card .cover img {
+    width: 270px;
+    height: 152px;
+    transition: all 0.6s;
+}
+
+.course-card .cover img:hover {
+    transform: scale(1.2);
+}
+
+.course-card .info {
+    padding: 10px 5px;
+}
+
+.course-card .title {
+    margin-bottom: 10px;
+}
+
+.course-card .meta {
+    color: #666;
+    font-size: 12px;
+}
+
+.course-card .meta span {
+    margin-right: 10px;
+}
+
+.course-card .meta span:last-child {
+    margin-right: 0;
+}
+
+.course-card .price {
+    color: red;
+}
+
+.course-card .free {
+    color: green;
+}
+
+.filter-toggle {
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.course-filter {
+    margin-bottom: 20px;
+}
+
+.filter-group {
+    padding-bottom: 5px;
+    height: 40px;
+    line-height: 40px;
+}
+
+.filter-group .title {
+    float: left;
+    width: 50px;
+    font-weight: 700;
+}
+
+.filter-group .content {
+    float: left;
+}
+
+.filter-group .content a {
+    margin-right: 15px;
+}
+
+.course-sort {
+    padding: 10px 20px;
+}
+
+.course-sort a {
+    margin-right: 20px;
+}
+
+.breadcrumb .share {
+    position: absolute;
+    top: 2px;
+    right: -5px;
+}
+
+.course-meta .cover {
+    float: left;
+    margin-right: 10px;
+}
+
+.course-meta .info {
+    float: left;
+    width: 400px;
+}
+
+.course-meta .rating {
+    float: right;
+    padding: 10px 50px 0 0;
+}
+
+.course-meta p {
+    line-height: 30px;
+}
+
+.course-meta .cover img {
+    width: 210px;
+    height: 118px;
+}
+
+.course-meta .info span {
+    margin-right: 5px;
+}
+
+.course-meta .info .value {
+    color: #666;
+}
+
+.course-meta .info .price {
+    color: red;
+}
+
+.course-meta .info .free {
+    color: green;
+}
+
+.course-meta .rating span {
+    margin-right: 5px;
+}
+
+.course-meta .rating .layui-icon {
+    color: orange;
+}
+
+.course-meta .rating .score {
+    color: #666;
+}
+
+.layui-tab-title li {
+    position: relative;
+}
+
+.layui-tab-title .tab-count {
+    position: absolute;
+    top: -10px;
+    left: 70px;
+    font-size: 12px;
+    color: #666;
+}
+
+.course-tab {
+    margin: 0;
+}
+
+.course-tab .layui-tab-content {
+    padding: 20px 0;
+}
+
+.course-tab .loading {
+    text-align: center;
+    padding: 15px;
+}
+
+.course-tab .loading .layui-icon {
+    font-size: 30px;
+}
+
+.lesson-item {
+    position: relative;
+    padding: 0 10px;
+    line-height: 35px;
+}
+
+.lesson-item a {
+    display: block;
+}
+
+.lesson-item .deny {
+    cursor: default;
+    color: gray;
+}
+
+.lesson-item .title {
+    margin: 0 5px;
+}
+
+.lesson-item .free-badge {
+    margin-right: 5px;
+}
+
+.lesson-item .duration, .lesson-item .live {
+    top: 0;
+    right: 10px;
+    position: absolute;
+    color: #666;
+}
+
+.lesson-item .live .active {
+    color: red;
+}
+
+.lesson-item .study-time {
+    color: green;
+}
+
+.lesson-item:hover {
+    background-color: #f2f2f2;
+}
+
+.package-item {
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.package-item:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border: none;
+}
+
+.package-info {
+    float: left;
+    width: 180px;
+    font-size: 12px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.package-info span {
+    margin-right: 5px;
+}
+
+.package-info .title {
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+
+.package-info .origin-price {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.package-info .origin-price i {
+    font-style: normal;
+    text-decoration: line-through;
+}
+
+.package-info .price {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.package-info .price i {
+    color: red;
+    font-style: normal;
+}
+
+.package-course-list {
+    width: 580px;
+    height: 180px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.package-course-list .separator {
+    color: #666;
+    display: inline-block;
+    padding-top: 35px;
+    margin-left: -5px;
+    margin-right: 4px;
+}
+
+.package-course-card {
+    width: 175px;
+    height: 160px;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: top;
+    box-shadow: 0 4px 8px 0 rgba(7, 17, 27, 0.1);
+}
+
+.package-course-card .cover {
+    width: 175px;
+    height: 95px;
+    margin-bottom: 10px;
+}
+
+.package-course-card .cover img {
+    width: 100%;
+    height: 100%;
+}
+
+.package-course-card .title {
+    font-size: 12px;
+    padding: 0 5px;
+    text-align: center;
+    white-space: normal;
+}
+
+.review-card {
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.review-card:last-child {
+    border-bottom: none;
+}
+
+.review-card .avatar {
+    float: left;
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+.review-card .avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 60px;
+}
+
+.review-card .info {
+    float: left;
+    width: 650px;
+}
+
+.review-card .rating, .review-card .more {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-bottom: 10px;
+}
+
+.review-card .rating .layui-icon {
+    color: orange;
+    font-size: 12px;
+}
+
+.review-card .more {
+    color: #666;
+    cursor: pointer;
+}
+
+.review-card .title {
+    margin-bottom: 10px;
+}
+
+.review-card .user {
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.review-card .content {
+    margin-bottom: 15px;
+    line-height: 1.5em;
+    max-height: 6em;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    overflow: hidden;
+    color: #666;
+}
+
+.review-card .footer {
+    line-height: 1.2em;
+    color: #666;
+}
+
+.review-card .footer span {
+    margin-right: 10px;
+}
+
+.like .icon-praise {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.like .active, .like .icon-praise:hover {
+    color: green;
+}
+
+.like .like-count {
+    font-style: normal;
+}
+
+.sidebar-card .layui-card-header {
+    text-align: center;
+}
+
+.sidebar-order .btn-reward {
+    width: 84px;
+    margin: 5px;
+}
+
+.sidebar-teacher-card {
+    margin-bottom: 15px;
+}
+
+.sidebar-teacher-card .avatar {
+    float: left;
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+.sidebar-teacher-card .avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 60px;
+}
+
+.sidebar-teacher-card .info {
+    float: left;
+    padding: 5px 0;
+}
+
+.sidebar-teacher-card .info .name {
+}
+
+.sidebar-teacher-card .info .title {
+    color: #666;
+    font-size: 12px;
+}
+
+.topic-badge {
+    padding: 2px 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.sidebar-course-card {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.sidebar-course-card:last-child {
+    border-bottom: none;
+}
+
+.sidebar-course-card .cover {
+    float: left;
+    width: 90px;
+    height: 50px;
+    margin-right: 5px;
+}
+
+.sidebar-course-card .cover img {
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar-course-card .info {
+    float: left;
+    width: 190px;
+    color: #666;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+.sidebar-course-card .title {
+    white-space: nowrap;
+}
+
+.sidebar-course-card .meta span {
+    margin-right: 10px;
+}
+
+.sidebar-chapter-list {
+    height: 405px;
+    overflow-y: auto;
+}
+
+.sidebar-chapter-list .chapter-title {
+    padding-top: 10px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.sidebar-lesson-list {
+    margin-left: 10px;
+}
+
+.sidebar-lesson-list .lesson-title {
+    line-height: 30px;
+}
+
+.lesson-title .active {
+    color: red;
+}
+
+.lesson-title .deny {
+    color: gray;
+}
+
+.read-info {
+    min-height: 428px;
+    margin-bottom: 0;
+}
+
+.share .layui-icon {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.share .layui-icon-star-fill {
+    color: orange;
+}
+
+.share .active, .share .layui-icon:hover {
+    color: green;
+}
+
+.share a {
+    margin-right: 5px;
+}
+
+.share i {
+    margin-right: 5px;
+}
+
+.share em {
+    font-style: normal;
+    color: #666;
+}
+
+.countdown {
+    color: #666;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.countdown .icon {
+    margin-bottom: 10px;
+}
+
+.countdown .icon .layui-icon {
+    font-size: 150px;
+}
+
+.countdown .tips {
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+.countdown .timer {
+    font-size: 32px;
+}
+
+.countdown .timer span {
+    color: green;
+    font-size: 36px;
+    padding: 10px;
+}
+
+.player-wrap {
+    position: relative;
+    width: 760px;
+    height: 428px;
+    margin-bottom: 0;
+}
+
+.chat-wrap .layui-card-header {
+    text-align: center;
+}
+
+.chat-wrap .layui-card-body {
+    padding-bottom: 20px;
+}
+
+.chat-msg-list {
+    height: 354px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+}
+
+.chat-msg-list .chat, .chat-msg-list .chat-sys {
+    margin-bottom: 10px;
+    line-height: 25px;
+    word-break: break-all;
+}
+
+.chat-sys {
+    color: #999;
+}
+
+.chat-sys span, .chat span {
+    margin-right: 5px;
+}
+
+.chat .user {
+    color: orange;
+}
+
+.chat .icon-vip {
+    color: orange;
+}
+
+.chat .content {
+    color: #666;
+}
+
+.chat-msg-form .layui-input {
+    height: 32px;
+    line-height: 32px;
+    font-size: 12px;
+    color: #666;
+}
+
+.vip-header {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.vip-reason-list {
+    padding: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.vip-reason-list .reason-badge {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    margin-right: 15px;
+    background-color: #1E9FFF;
+}
+
+.vip-option-list {
+    margin-bottom: 30px;
+}
+
+.vip-option-card {
+    float: left;
+    width: 100%;
+    height: 170px;
+    background-color: #fff;
+    border-radius: 2px;
+    text-align: center;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.vip-option-card .title {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.vip-option-card .price {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: red;
+}
+
+.cart-course-card {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.cart-course-card:last-child {
+    padding: 0;
+    margin: 0;
+    border-bottom: none;
+}
+
+.cart-course-card .cover {
+    float: left;
+    margin-right: 10px;
+}
+
+.cart-course-card .cover img {
+    width: 175px;
+    height: 95px;
+}
+
+.cart-course-card p {
+    line-height: 30px;
+}
+
+.cart-course-card .info {
+    float: left;
+}
+
+.cart-course-card span {
+    color: #666;
+    margin: 0 5px;
+}
+
+.cart-course-card .price {
+    color: red;
+}
+
+.cart-stats .info {
+    float: left;
+    line-height: 38px;
+}
+
+.cart-stats .amount {
+    color: red;
+}
+
+.cart-stats .pay-amount {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.cart-stats span {
+    color: #666;
+    margin-right: 15px;
+}
+
+.cart-form {
+    float: right;
+}
+
+.payment .header {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f6f6f6;
+    line-height: 30px;
+    text-align: center;
+}
+
+.payment .header span {
+    color: #666;
+    margin-right: 20px;
+}
+
+.payment .header .amount {
+    color: red;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.payment .channel {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.channel .alipay, .channel .wxpay {
+    width: 200px;
+    height: 80px;
+    display: inline-block;
+    margin-right: 15px;
+    background-color: #f2f2f2;
+}
+
+.channel .alipay {
+    background-image: url("/static/web/img/alipay.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.channel .wxpay {
+    background-image: url("/static/web/img/wxpay.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.payment .footer {
+    text-align: center;
+}
+
+.payment .footer .tips {
+    color: #999;
+    font-size: 12px;
+}
+
+#pay-layer {
+    padding-top: 50px;
+}
+
+#pay-layer .qrcode {
+    text-align: center;
+}
+
+#pay-layer .qrcode img {
+    width: 160px;
+    height: 160px;
+    border: 3px dashed #ccc;
+}
+
+#pay-layer .success-tips {
+    color: green;
+    text-align: center;
+}
+
+.account-wrap {
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+
+.account-form {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.account-form .layui-input-block {
+    margin-left: 0;
+}
+
+.account-form .verify-input-inline {
+    display: inline-block;
+    width: 283px;
+    margin-right: 5px;
+}
+
+.account-form .verify-btn-inline {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.verify-btn-inline button {
+    min-width: 108px;
+}
+
+.login-tab {
+    margin: 0;
+}
+
+.login-tab .layui-tab-title {
+    text-align: center;
+}
+
+.login-tab .layui-tab-content {
+    padding-top: 30px;
+}
+
+.login-wrap .link {
+    margin-bottom: 30px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.login-wrap .link a {
+    color: #999;
+}
+
+.login-wrap .link .separator {
+    margin: 0 15px;
+    color: #999;
+}
+
+.user-profile {
+    position: relative;
+}
+
+.user-profile .avatar {
+    float: left;
+    margin-right: 30px;
+}
+
+.user-profile .avatar img {
+    width: 96px;
+    height: 96px;
+    border-radius: 100px;
+}
+
+.user-profile .vip {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    height: 16px;
+    padding: 0 3px;
+    font-size: 10px;
+}
+
+.user-profile .info {
+    float: left;
+    padding-top: 10px;
+}
+
+.user-profile .info h3 {
+    padding-top: 5px;
+    margin-bottom: 10px;
+}
+
+.user-profile .info p {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.user-profile .info span {
+    color: #999;
+    margin-right: 5px;
+}
+
+.user-profile .about {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    width: 400px;
+    height: 70px;
+    padding: 10px;
+    color: #999;
+    font-size: 12px;
+    background-color: #f2f2f2;
+}
+
+.user-tab {
+    margin: 0;
+}
+
+.user-tab .layui-tab-title {
+    margin-bottom: 10px;
+    text-align: center;
+    border-bottom: none;
+}
+
+.user-tab .layui-tab-content {
+    padding: 10px 0;
+}
+
+.user-tab .loading {
+    text-align: center;
+    padding: 15px;
+}
+
+.user-tab .loading .layui-icon {
+    font-size: 30px;
+}
+
+.learning-course-card {
+    height: 260px;
+}
+
+.learning-course-card .progress {
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.learning-course-card .duration {
+    font-size: 12px;
+    color: #666;
+}
+
+.user-card {
+    float: left;
+    width: 100%;
+    height: 240px;
+    position: relative;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.user-card .avatar {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.user-card .avatar img {
+    width: 96px;
+    height: 96px;
+    border-radius: 100px;
+    transition: 0.5s;
+}
+
+.user-card .avatar img:hover {
+    transform: rotateY(180deg);
+}
+
+.user-card .name {
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+
+.user-card .owner {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.user-card .title {
+    color: #666;
+}
+
+.user-card .meta {
+    color: #666;
+}
+
+.user-card .meta span {
+    margin-right: 5px;
+}
+
+.user-card .action {
+    margin-top: 15px;
+}
+
+.user-card .action .layui-btn {
+    padding: 0 5px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+}
+
+.user-card .vip {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 16px;
+    line-height: 16px;
+    padding: 0 3px;
+    font-size: 10px;
+}
+
+.user-card .type {
+    position: absolute;
+    top: 18px;
+    right: 28px;
+}
+
+.user-list {
+    margin-bottom: 20px;
+}
+
+.teacher-list .user-card {
+    height: 240px;
+}
+
+.vip-user-list .user-card {
+    height: 200px;
+}
+
+.group-user-list .user-card {
+    box-shadow: none;
+    height: 220px;
+}
+
+.group-user-list .user-card .avatar {
+    margin-top: 10px;
+}
+
+.group-list {
+    margin-bottom: 20px;
+}
+
+.group-list .user-card {
+    height: 240px;
+}
+
+.group-about {
+    padding: 15px;
+    min-height: 65px;
+    font-size: 12px;
+    color: #666;
+}
+
+.my-sidebar {
+    float: left;
+    width: 220px;
+}
+
+.my-content {
+    float: right;
+    width: 900px;
+}
+
+.my-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 100px;
+}
+
+.my-profile-card {
+    text-align: center;
+}
+
+.my-profile-card .avatar {
+    margin-bottom: 10px;
+}
+
+.my-profile-card .name {
+    margin-bottom: 10px;
+}
+
+.my-menu li {
+    line-height: 30px;
+    padding-left: 30px;
+}
+
+.my-nav {
+    line-height: 30px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.my-nav .title {
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+.my-nav a {
+    margin-right: 20px;
+}
+
+.profile-form {
+    width: 95%;
+}
+
+.wrap .layui-table {
+    margin: 0;
+}
+
+.layui-table p {
+    line-height: 1.8em;
+}
+
+.layui-table .center {
+    text-align: center;
+}
+
+.review-table .title {
+    width: 400px;
+}
+
+.review-table .content, .consult-table .content {
+    width: 400px;
+    color: #666;
+}
+
+.review-form .layui-rate {
+    padding-top: 6px;
+}
+
+.consult-form .layui-form-label {
+    width: 50px;
+    padding: 9px 0;
+}
+
+.consult-form .layui-input-block {
+    margin-left: 70px;
+}
+
+.consult-form .layui-form-mid {
+    float: none;
+    margin-left: 70px;
+}
+
+.consult-info .item {
+    clear: both;
+    margin-bottom: 15px;
+}
+
+.consult-info .item .label {
+    float: left;
+    width: 50px;
+    height: 32px;
+    text-align: right;
+}
+
+.consult-info .item .title {
+    float: left;
+    width: 600px;
+}
+
+.consult-info .item .content {
+    float: left;
+    width: 600px;
+    color: #666;
+    word-wrap: break-word;
+}
+
+.security-item {
+    padding: 15px;
+    line-height: 50px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.security-item:last-child {
+    border-bottom: none;
+}
+
+.security-item .icon {
+    margin-right: 15px;
+}
+
+.security-item .title {
+    margin-right: 15px;
+}
+
+.security-item .summary {
+    color: #666;
+}
+
+.security-item .action {
+    float: right;
+}
+
+.order-filter {
+    padding: 15px 20px;
+}
+
+.order-filter a {
+    margin-right: 20px;
+}
+
+.order-table {
+    margin: 0;
+}
+
+.order-table span {
+    margin-right: 10px;
+}
+
+.order-table .price {
+    color: red;
+}
+
+.order-item {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.order-item:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.order-card {
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    color: #666;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.order-card .header {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.order-card .header span {
+    margin-right: 10px;
+}
+
+.order-card .column {
+    float: left;
+    line-height: 30px;
+}
+
+.order-card .subject {
+    width: 50%;
+    color: #666;
+}
+
+.order-card .price {
+    width: 20%;
+    color: red;
+}
+
+.order-card .status {
+    width: 20%;
+    color: #666;
+}
+
+.order-card .action {
+    width: 10%;
+}
+
+.im-user-list .user-card {
+    height: 150px;
+    font-size: 12px;
+    color: #666;
+}
+
+.im-user-list .avatar {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.im-user-list .avatar img {
+    width: 64px;
+    height: 64px;
+    border-radius: 100%;
+}
+
+.im-user-list .name {
+    margin-bottom: 10px;
+    padding: 0 5px;
+}
+
+.im-user-list .vip {
+    top: 8px;
+    right: 8px;
+    height: 14px;
+    line-height: 14px;
+    font-size: 10px;
+}
+
+.layim-msgbox {
+    margin: 15px;
+}
+
+.layim-msgbox li {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 0 130px 10px 60px;
+    line-height: 22px;
+    border-bottom: 1px dotted #e2e2e2;
+}
+
+.layim-msgbox-system {
+    padding: 0 10px 10px 10px;
+}
+
+.layim-msgbox li p span {
+    padding-left: 5px;
+    color: #999;
+}
+
+.layim-msgbox li p em {
+    font-style: normal;
+    color: #FF5722;
+}
+
+.layim-msgbox-avatar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+}
+
+.layim-msgbox-user {
+    padding-top: 5px;
+}
+
+.layim-msgbox-content {
+    margin-top: 3px;
+}
+
+.layim-msgbox .layui-btn-small {
+    padding: 0 15px;
+    margin-left: 5px;
+}
+
+.layim-msgbox-btn {
+    position: absolute;
+    right: 0;
+    top: 12px;
+    color: #999;
+}
+
+.layui-layim-list li .msg-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+}
+
+.layim-chat-list li .msg-count {
+    position: absolute;
+    top: 5px;
+    right: 30px;
+    font-size: 12px;
+}
+
+.layim-chat-status .online {
+    color: green;
+}
+
+.layim-chat-status .offline {
+    color: gray;
+}

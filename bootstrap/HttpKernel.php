@@ -109,9 +109,9 @@ class HttpKernel extends Kernel
                 'className' => 'App\Http\Admin\Module',
                 'path' => app_path('Http/Admin/Module.php'),
             ],
-            'desktop' => [
-                'className' => 'App\Http\Desktop\Module',
-                'path' => app_path('Http/Desktop/Module.php'),
+            'home' => [
+                'className' => 'App\Http\Home\Module',
+                'path' => app_path('Http/Home/Module.php'),
             ],
             'mobile' => [
                 'className' => 'App\Http\Mobile\Module',

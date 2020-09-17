@@ -11,18 +11,18 @@ class Setting extends Service
 
     public function getAlipaySettings()
     {
-        $alipay = $this->getSectionSettings('pay.alipay');
+        $alipay = $this->getSettings('pay.alipay');
 
-        $alipay['notify_url'] = $alipay['notify_url'] ?: kg_full_url(['for' => 'desktop.alipay_notify']);
+        $alipay['notify_url'] = $alipay['notify_url'] ?: kg_full_url(['for' => 'home.alipay_notify']);
 
         return $alipay;
     }
 
     public function getWxpaySettings()
     {
-        $wxpay = $this->getSectionSettings('pay.wxpay');
+        $wxpay = $this->getSettings('pay.wxpay');
 
-        $wxpay['notify_url'] = $wxpay['notify_url'] ?: kg_full_url(['for' => 'desktop.wxpay_notify']);
+        $wxpay['notify_url'] = $wxpay['notify_url'] ?: kg_full_url(['for' => 'home.wxpay_notify']);
 
         return $wxpay;
     }
@@ -36,20 +36,20 @@ class Setting extends Service
 
     public function getLiveSettings($section)
     {
-        $result = $this->getSectionSettings($section);
+        $result = $this->getSettings($section);
 
         if ($section == 'live.notify') {
-            $result['stream_begin_url'] = $result['stream_begin_url'] ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'streamBegin']);
-            $result['stream_end_url'] = $result['stream_end_url'] ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'streamEnd']);
-            $result['record_url'] = $result['record_url'] ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'record']);
-            $result['snapshot_url'] = $result['snapshot_url'] ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'snapshot']);
-            $result['porn_url'] = $result['porn_url'] ?: kg_full_url(['for' => 'desktop.live_notify'], ['action' => 'porn']);
+            $result['stream_begin_url'] = $result['stream_begin_url'] ?: kg_full_url(['for' => 'home.live_notify'], ['action' => 'streamBegin']);
+            $result['stream_end_url'] = $result['stream_end_url'] ?: kg_full_url(['for' => 'home.live_notify'], ['action' => 'streamEnd']);
+            $result['record_url'] = $result['record_url'] ?: kg_full_url(['for' => 'home.live_notify'], ['action' => 'record']);
+            $result['snapshot_url'] = $result['snapshot_url'] ?: kg_full_url(['for' => 'home.live_notify'], ['action' => 'snapshot']);
+            $result['porn_url'] = $result['porn_url'] ?: kg_full_url(['for' => 'home.live_notify'], ['action' => 'porn']);
         }
 
         return $result;
     }
 
-    public function getSectionSettings($section)
+    public function getSettings($section)
     {
         $settingsRepo = new SettingRepo();
 
@@ -112,7 +112,7 @@ class Setting extends Service
         $this->updateSectionSettings($section, $settings);
     }
 
-    public function updateSmserSettings($section, $settings)
+    public function updateSmsSettings($section, $settings)
     {
         $settings['template'] = kg_json_encode($settings['template']);
 

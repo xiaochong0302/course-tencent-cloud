@@ -5,7 +5,7 @@ namespace App\Console\Tasks;
 use App\Repos\User as UserRepo;
 use App\Services\Search\UserDocument;
 use App\Services\Search\UserSearcher;
-use App\Services\Syncer\UserIndex as UserIndexSyncer;
+use App\Services\Sync\UserIndex as UserIndexSync;
 
 class SyncUserIndexTask extends Task
 {
@@ -54,9 +54,9 @@ class SyncUserIndexTask extends Task
 
     protected function getSyncKey()
     {
-        $syncer = new UserIndexSyncer();
+        $sync = new UserIndexSync();
 
-        return $syncer->getSyncKey();
+        return $sync->getSyncKey();
     }
 
 }

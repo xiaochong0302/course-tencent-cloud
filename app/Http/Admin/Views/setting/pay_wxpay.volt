@@ -2,8 +2,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启支付</label>
         <div class="layui-input-block">
-            <input type="radio" name="enabled" value="1" title="是" {% if wxpay.enabled == "1" %}checked{% endif %}>
-            <input type="radio" name="enabled" value="0" title="否" {% if wxpay.enabled == "0" %}checked{% endif %}>
+            <input type="radio" name="enabled" value="1" title="是" {% if wxpay.enabled == "1" %}checked="checked"{% endif %}>
+            <input type="radio" name="enabled" value="0" title="否" {% if wxpay.enabled == "0" %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">

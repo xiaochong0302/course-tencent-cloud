@@ -53,13 +53,13 @@ class UploadController extends Controller
     }
 
     /**
-     * @Post("/editor/img", name="admin.upload.editor_img")
+     * @Post("/content/img", name="admin.upload.content_img")
      */
-    public function uploadEditorImageAction()
+    public function uploadContentImageAction()
     {
         $service = new StorageService();
 
-        $file = $service->uploadEditorImage();
+        $file = $service->uploadContentImage();
 
         if ($file) {
             return $this->jsonSuccess([

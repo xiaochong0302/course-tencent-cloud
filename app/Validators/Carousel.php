@@ -4,25 +4,26 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
-use App\Models\Carousel as CarouselModel;
+use App\Models\Client as ClientModel;
 use App\Models\Course as CourseModel;
 use App\Models\Page as PageModel;
-use App\Repos\Carousel as CarouselRepo;
+use App\Models\Slide as SlideModel;
+use App\Repos\Slide as SlideRepo;
 
-class Carousel extends Validator
+class Slide extends Validator
 {
 
-    public function checkCarousel($id)
+    public function checkSlide($id)
     {
-        $carouselRepo = new CarouselRepo();
+        $slideRepo = new SlideRepo();
 
-        $carousel = $carouselRepo->findById($id);
+        $slide = $slideRepo->findById($id);
 
-        if (!$carousel) {
-            throw new BadRequestException('carousel.not_found');
+        if (!$slide) {
+            throw new BadRequestException('slide.not_found');
         }
 
-        return $carousel;
+        return $slide;
     }
 
     public function checkTitle($title)
@@ -32,11 +33,11 @@ class Carousel extends Validator
         $length = kg_strlen($value);
 
         if ($length < 2) {
-            throw new BadRequestException('carousel.title_too_short');
+            throw new BadRequestException('slide.title_too_short');
         }
 
         if ($length > 50) {
-            throw new BadRequestException('carousel.title_too_long');
+            throw new BadRequestException('slide.title_too_long');
         }
 
         return $value;
@@ -49,7 +50,7 @@ class Carousel extends Validator
         $length = kg_strlen($value);
 
         if ($length > 255) {
-            throw new BadRequestException('carousel.summary_too_long');
+            throw new BadRequestException('slide.summary_too_long');
         }
 
         return $value;
@@ -60,7 +61,7 @@ class Carousel extends Validator
         $value = $this->filter->sanitize($cover, ['trim', 'string']);
 
         if (!CommonValidator::url($value)) {
-            throw new BadRequestException('carousel.invalid_cover');
+            throw new BadRequestException('slide.invalid_cover');
         }
 
         return $value;
@@ -71,7 +72,7 @@ class Carousel extends Validator
         $value = $this->filter->sanitize($bgColor, ['trim', 'string']);
 
         if (!preg_match('/^#[0-9a-fA-F]{6}$/', $bgColor)) {
-            throw new BadRequestException('carousel.invalid_bg_color');
+            throw new BadRequestException('slide.invalid_bg_color');
         }
 
         return $value;
@@ -79,10 +80,10 @@ class Carousel extends Validator
 
     public function checkPlatform($platform)
     {
-        $list = CarouselModel::platformTypes();
+        $list = ClientModel::types();
 
-        if (!isset($list[$platform])) {
-            throw new BadRequestException('carousel.invalid_platform');
+        if (!array_key_exists($platform, $list)) {
+            throw new BadRequestException('slide.invalid_platform');
         }
 
         return $platform;
@@ -90,10 +91,10 @@ class Carousel extends Validator
 
     public function checkTarget($target)
     {
-        $list = CarouselModel::targetTypes();
+        $list = SlideModel::targetTypes();
 
-        if (!isset($list[$target])) {
-            throw new BadRequestException('carousel.invalid_target');
+        if (!array_key_exists($target, $list)) {
+            throw new BadRequestException('slide.invalid_target');
         }
 
         return $target;
@@ -104,7 +105,7 @@ class Carousel extends Validator
         $value = $this->filter->sanitize($priority, ['trim', 'int']);
 
         if ($value < 1 || $value > 255) {
-            throw new BadRequestException('carousel.invalid_priority');
+            throw new BadRequestException('slide.invalid_priority');
         }
 
         return $value;
@@ -113,7 +114,7 @@ class Carousel extends Validator
     public function checkPublishStatus($status)
     {
         if (!in_array($status, [0, 1])) {
-            throw new BadRequestException('carousel.invalid_publish_status');
+            throw new BadRequestException('slide.invalid_publish_status');
         }
 
         return $status;
@@ -124,11 +125,11 @@ class Carousel extends Validator
         $course = CourseModel::findFirst($courseId);
 
         if (!$course || $course->deleted == 1) {
-            throw new BadRequestException('carousel.course_not_found');
+            throw new BadRequestException('slide.course_not_found');
         }
 
         if ($course->published == 0) {
-            throw new BadRequestException('carousel.course_not_published');
+            throw new BadRequestException('slide.course_not_published');
         }
 
         return $course;
@@ -139,11 +140,11 @@ class Carousel extends Validator
         $page = PageModel::findFirst($pageId);
 
         if (!$page || $page->deleted == 1) {
-            throw new BadRequestException('carousel.page_not_found');
+            throw new BadRequestException('slide.page_not_found');
         }
 
         if ($page->published == 0) {
-            throw new BadRequestException('carousel.page_not_published');
+            throw new BadRequestException('slide.page_not_published');
         }
 
         return $page;
@@ -154,7 +155,7 @@ class Carousel extends Validator
         $value = $this->filter->sanitize($link, ['trim', 'string']);
 
         if (!CommonValidator::url($value)) {
-            throw new BadRequestException('carousel.invalid_link');
+            throw new BadRequestException('slide.invalid_link');
         }
 
         return $value;

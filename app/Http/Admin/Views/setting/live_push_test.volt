@@ -17,7 +17,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">推流地址</label>
             <div class="layui-input-inline" style="width:350px;">
-                <input id="tc1" class="layui-input" type="text" name="obs.fms_url" value="{{ obs.fms_url }}" readonly="readonly">
+                <input id="tc1" class="layui-input" type="text" name="obs_fms_url" value="{{ obs.fms_url }}" readonly="readonly">
             </div>
             <div class="layui-input-inline" style="width:100px;">
                 <span class="kg-copy layui-btn" data-clipboard-target="#tc1">复制</span>

@@ -21,7 +21,7 @@
     </thead>
     <tbody>
     {% for item in lessons %}
-        {% set preview_url = url({'for':'desktop.chapter.show','id':item.id}) %}
+        {% set preview_url = url({'for':'home.chapter.show','id':item.id}) %}
         {% set edit_url = url({'for':'admin.chapter.edit','id':item.id}) %}
         {% set update_url = url({'for':'admin.chapter.update','id':item.id}) %}
         {% set delete_url = url({'for':'admin.chapter.delete','id':item.id}) %}
@@ -34,8 +34,8 @@
             </td>
             <td><span class="layui-badge layui-bg-gray">{{ item.attrs['word_count'] }}</span></td>
             <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
-            <td><input type="checkbox" name="free" value="1" lay-skin="switch" lay-text="是|否" lay-filter="free" data-url="{{ update_url }}" {% if item.free == 1 %}checked{% endif %}></td>
-            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
+            <td><input type="checkbox" name="free" value="1" lay-skin="switch" lay-text="是|否" lay-filter="free" data-url="{{ update_url }}" {% if item.free == 1 %}checked="checked"{% endif %}></td>
+            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
             <td class="center">
                 <div class="layui-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>

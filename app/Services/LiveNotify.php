@@ -172,7 +172,7 @@ class LiveNotify extends Service
             return false;
         }
 
-        $notify = $this->getSectionSettings('live.notify');
+        $notify = $this->getSettings('live.notify');
 
         $mySign = md5($notify['auth_key'] . $time);
 

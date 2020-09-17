@@ -20,7 +20,7 @@ class AlipayTest extends PayTest
 
         if ($code) {
             $codeUrl = $this->url->get(
-                ['for' => 'desktop.qrcode'],
+                ['for' => 'home.qrcode'],
                 ['text' => urlencode($code)]
             );
         }

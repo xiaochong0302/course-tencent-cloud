@@ -3,67 +3,58 @@
 {% block content %}
 
     {%- macro content_label(target) %}
-        {% if target == 'course' %}
+        {% if target == 1 %}
             课程编号
-        {% elseif target == 'page' %}
+        {% elseif target == 2 %}
             单页编号
-        {% elseif target == 'link' %}
+        {% elseif target == 3 %}
             链接地址
         {% endif %}
     {%- endmacro %}
 
-    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.carousel.update','id':carousel.id}) }}">
+    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.slide.update','id':slide.id}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>编辑轮播</legend>
         </fieldset>
         <div class="layui-form-item">
             <label class="layui-form-label">封面</label>
             <div class="layui-input-inline">
-                <img id="img-cover" class="kg-cover" src="{{ carousel.cover }}">
-                <input type="hidden" name="cover" value="{{ carousel.cover }}">
+                <img id="img-cover" class="kg-cover" src="{{ slide.cover }}">
+                <input type="hidden" name="cover" value="{{ slide.cover }}">
             </div>
             <div class="layui-input-inline" style="padding-top:35px;">
                 <button id="change-cover" class="layui-btn layui-btn-sm" type="button">更换</button>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">背景色</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="style[bg_color]" value="{{ carousel.style['bg_color'] }}" lay-verify="required">
-            </div>
-            <div class="layui-inline">
-                <div id="style-bg-color"></div>
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">标题</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="title" value="{{ carousel.title }}" lay-verify="required">
+                <input class="layui-input" type="text" name="title" value="{{ slide.title }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">概要</label>
             <div class="layui-input-block">
-                <textarea class="layui-textarea" name="summary">{{ carousel.summary }}</textarea>
+                <input class="layui-input" type="text" name="summary" value="{{ slide.summary }}">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">{{ content_label(carousel.target) }}</label>
+            <label class="layui-form-label">{{ content_label(slide.target) }}</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="content" value="{{ carousel.content }}" lay-verify="required">
+                <input class="layui-input" type="text" name="content" value="{{ slide.content }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">排序</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="priority" value="{{ carousel.priority }}" lay-verify="number">
+                <input class="layui-input" type="text" name="priority" value="{{ slide.priority }}" lay-verify="number">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">发布</label>
             <div class="layui-input-block">
-                <input type="radio" name="published" value="1" title="是" {% if carousel.published == 1 %}checked{% endif %}>
-                <input type="radio" name="published" value="0" title="否" {% if carousel.published == 0 %}checked{% endif %}>
+                <input type="radio" name="published" value="1" title="是" {% if slide.published == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="published" value="0" title="否" {% if slide.published == 0 %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">
@@ -80,29 +71,5 @@
 {% block include_js %}
 
     {{ js_include('admin/js/cover.upload.js') }}
-
-{% endblock %}
-
-{% block inline_js %}
-
-    <script>
-
-        layui.use(['jquery', 'colorpicker'], function () {
-
-            var $ = layui.jquery;
-            var colorPicker = layui.colorpicker;
-
-            colorPicker.render({
-                elem: '#style-bg-color',
-                color: '{{ carousel.style['bg_color'] }}',
-                predefine: true,
-                change: function (color) {
-                    $('input[name="style[bg_color]"]').val(color);
-                }
-            });
-
-        });
-
-    </script>
 
 {% endblock %}

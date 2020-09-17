@@ -49,7 +49,7 @@ class SiteMapTask extends Task
     {
         $service = new AppService();
 
-        $settings = $service->getSectionSettings('site');
+        $settings = $service->getSettings('site');
 
         return $settings['url'] ?? '';
     }

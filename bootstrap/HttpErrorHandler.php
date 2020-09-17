@@ -112,7 +112,7 @@ class HttpErrorHandler extends Component
 
         $code = $this->response->getStatusCode();
 
-        $for = "desktop.error.{$code}";
+        $for = "home.error.{$code}";
 
         $this->response->redirect(['for' => $for])->send();
     }

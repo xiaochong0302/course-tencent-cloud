@@ -31,7 +31,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set preview_url = url({'for':'desktop.page.show','id':item.id}) %}
+            {% set preview_url = url({'for':'home.page.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.page.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.page.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.page.delete','id':item.id}) %}
@@ -40,7 +40,7 @@
                 <td><a href="{{ edit_url }}">{{ item.title }}</a></td>
                 <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
                 <td>{{ date('Y-m-d H:i',item.update_time) }}</td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}>
+                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}>
                 </td>
                 <td class="center">
                     <div class="layui-dropdown">

@@ -41,7 +41,7 @@
 
 {% block link_css %}
 
-    {% if chapter.model == '3' %}
+    {% if chapter.model == 3 %}
         {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
     {% endif %}
 
@@ -49,12 +49,12 @@
 
 {% block include_js %}
 
-    {% if chapter.model == '3' %}
+    {% if chapter.model == 3 %}
 
         {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js', false) }}
         {{ js_include('admin/js/vditor.js') }}
 
-    {% elseif chapter.model == '1' %}
+    {% elseif chapter.model == 1 %}
 
         {{ js_include('lib/vod-js-sdk-v6.min.js') }}
         {{ js_include('lib/clipboard.min.js') }}

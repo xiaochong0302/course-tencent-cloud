@@ -7,9 +7,9 @@ use App\Http\Admin\Services\Setting as SettingService;
 use App\Http\Admin\Services\WxpayTest as WxpayTestService;
 use App\Services\Captcha as CaptchaService;
 use App\Services\Live as LiveService;
-use App\Services\Mailer\Test as TestMailerService;
+use App\Services\Mail\Test as TestMailService;
 use App\Services\MyStorage as StorageService;
-use App\Services\Smser\Test as TestSmserService;
+use App\Services\Sms\Test as TestSmsService;
 use App\Services\Vod as VodService;
 
 /**
@@ -66,7 +66,7 @@ class TestController extends Controller
         $pushUrl = $liveService->getPushUrl($streamName);
 
         $qrcode = $this->url->get(
-            ['for' => 'desktop.qrcode'],
+            ['for' => 'home.qrcode'],
             ['text' => urlencode($pushUrl)]
         );
 
@@ -96,15 +96,15 @@ class TestController extends Controller
     }
 
     /**
-     * @Post("/smser", name="admin.test.smser")
+     * @Post("/sms", name="admin.test.sms")
      */
-    public function smserAction()
+    public function smsAction()
     {
         $phone = $this->request->getPost('phone', 'string');
 
-        $smserService = new TestSmserService();
+        $smsService = new TestSmsService();
 
-        $response = $smserService->handle($phone);
+        $response = $smsService->handle($phone);
 
         if ($response) {
             return $this->jsonSuccess(['msg' => '发送短信成功，请到收件箱确认']);
@@ -114,15 +114,15 @@ class TestController extends Controller
     }
 
     /**
-     * @Post("/mailer", name="admin.test.mailer")
+     * @Post("/mail", name="admin.test.mail")
      */
-    public function mailerAction()
+    public function mailAction()
     {
         $email = $this->request->getPost('email', 'string');
 
-        $mailerService = new TestMailerService();
+        $mailService = new TestMailService();
 
-        $result = $mailerService->handle($email);
+        $result = $mailService->handle($email);
 
         if ($result) {
             return $this->jsonSuccess(['msg' => '发送邮件成功，请到收件箱确认']);

@@ -68,7 +68,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set preview_url = url({'for':'desktop.user.show','id':item.id}) %}
+            {% set preview_url = url({'for':'home.user.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.user.edit','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>

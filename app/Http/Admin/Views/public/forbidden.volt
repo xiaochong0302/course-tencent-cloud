@@ -19,6 +19,6 @@
 
 {% block link_css %}
 
-    {{ css_link("desktop/css/error.css") }}
+    {{ css_link("home/css/error.css") }}
 
 {% endblock %}

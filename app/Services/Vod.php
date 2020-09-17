@@ -37,7 +37,7 @@ class Vod extends Service
 
     public function __construct()
     {
-        $this->settings = $this->getSectionSettings('vod');
+        $this->settings = $this->getSettings('vod');
 
         $this->logger = $this->getLogger('vod');
 
@@ -86,7 +86,7 @@ class Vod extends Service
      */
     public function getUploadSignature()
     {
-        $secret = $this->getSectionSettings('secret');
+        $secret = $this->getSettings('secret');
 
         $secretId = $secret['secret_id'];
         $secretKey = $secret['secret_key'];
@@ -631,7 +631,7 @@ class Vod extends Service
      */
     public function getVodClient()
     {
-        $secret = $this->getSectionSettings('secret');
+        $secret = $this->getSettings('secret');
 
         $secretId = $secret['secret_id'];
         $secretKey = $secret['secret_key'];

@@ -16,8 +16,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启鉴权</label>
         <div class="layui-input-block">
-            <input type="radio" name="auth_enabled" value="1" title="是" lay-filter="push_auth_enabled" {% if push.auth_enabled == 1 %}checked{% endif %}>
-            <input type="radio" name="auth_enabled" value="0" title="否" lay-filter="push_auth_enabled" {% if push.auth_enabled == 0 %}checked{% endif %}>
+            <input type="radio" name="auth_enabled" value="1" title="是" lay-filter="push_auth_enabled" {% if push.auth_enabled == 1 %}checked="checked"{% endif %}>
+            <input type="radio" name="auth_enabled" value="0" title="否" lay-filter="push_auth_enabled" {% if push.auth_enabled == 0 %}checked="checked"{% endif %}>
         </div>
     </div>
     <div id="push-auth-block" style="{{ push_auth_display }}">

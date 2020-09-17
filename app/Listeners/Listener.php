@@ -31,7 +31,7 @@ class Listener extends UserPlugin
      * @param string $section
      * @return array
      */
-    public function getSectionSettings($section)
+    public function getSettings($section)
     {
         $cache = new SectionConfigCache();
 

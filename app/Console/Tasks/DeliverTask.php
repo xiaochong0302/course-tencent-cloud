@@ -9,7 +9,7 @@ use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
-use App\Services\Smser\Order as OrderSmser;
+use App\Services\Sms\Order as OrderSms;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -164,9 +164,9 @@ class DeliverTask extends Task
 
     protected function handleOrderNotice(OrderModel $order)
     {
-        $smser = new OrderSmser();
+        $sms = new OrderSms();
 
-        $smser->handle($order);
+        $sms->handle($order);
     }
 
     protected function handleOrderRefund(OrderModel $order)

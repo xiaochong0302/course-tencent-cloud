@@ -26,7 +26,7 @@
                     {% endif %}
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            {% set disabled = captcha.enabled ? 'disabled' : '' %}
+                            {% set disabled = captcha.enabled ? 'disabled="disabled"' : '' %}
                             <button id="submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" {{ disabled }} lay-submit="true" lay-filter="go">立即登录</button>
                             <input type="hidden" name="ticket">
                             <input type="hidden" name="rand">
@@ -71,7 +71,7 @@
 
                 var $ = layui.jquery;
 
-                var captcha = new TencentCaptcha(
+                new TencentCaptcha(
                     $('#captcha-btn')[0],
                     $('#captcha-btn').data('app-id'),
                     function (res) {

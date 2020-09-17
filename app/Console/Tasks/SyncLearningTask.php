@@ -9,7 +9,7 @@ use App\Repos\ChapterUser as ChapterUserRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Learning as LearningRepo;
-use App\Services\Syncer\Learning as LearningSyncer;
+use App\Services\Sync\Learning as LearningSync;
 
 class SyncLearningTask extends Task
 {
@@ -20,9 +20,9 @@ class SyncLearningTask extends Task
 
         $redis = $this->getRedis();
 
-        $syncer = new LearningSyncer();
+        $sync = new LearningSync();
 
-        $syncKey = $syncer->getSyncKey();
+        $syncKey = $sync->getSyncKey();
 
         $requestIds = $redis->sMembers($syncKey);
 
@@ -30,7 +30,7 @@ class SyncLearningTask extends Task
 
         foreach ($requestIds as $requestId) {
 
-            $itemKey = $syncer->getItemKey($requestId);
+            $itemKey = $sync->getItemKey($requestId);
 
             $this->handleLearning($itemKey);
 

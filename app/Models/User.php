@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Caches\MaxUserId as MaxUserIdCache;
-use App\Services\Syncer\UserIndex as UserIndexSyncer;
+use App\Services\Sync\UserIndex as UserIndexSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
@@ -189,8 +189,8 @@ class User extends Model
     public function beforeUpdate()
     {
         if (time() - $this->update_time > 3 * 3600) {
-            $syncer = new UserIndexSyncer();
-            $syncer->addItem($this->id);
+            $sync = new UserIndexSync();
+            $sync->addItem($this->id);
         }
 
         if (Text::startsWith($this->avatar, 'http')) {

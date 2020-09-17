@@ -21,7 +21,7 @@ use App\Repos\CourseCategory as CourseCategoryRepo;
 use App\Repos\CourseRelated as CourseRelatedRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\User as UserRepo;
-use App\Services\Syncer\CourseIndex as CourseIndexSyncer;
+use App\Services\Sync\CourseIndex as CourseIndexSync;
 use App\Validators\Course as CourseValidator;
 
 class Course extends Service
@@ -363,9 +363,9 @@ class Course extends Service
 
     protected function rebuildCourseIndex(CourseModel $course)
     {
-        $syncer = new CourseIndexSyncer();
+        $sync = new CourseIndexSync();
 
-        $syncer->addItem($course->id);
+        $sync->addItem($course->id);
     }
 
     protected function saveTeachers(CourseModel $course, $teacherIds)

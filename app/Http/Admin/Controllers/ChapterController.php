@@ -44,15 +44,15 @@ class ChapterController extends Controller
         $course = $courseService->getCourse($courseId);
         $chapters = $courseService->getChapters($courseId);
 
+        $this->view->pick('chapter/add_chapter');
+
+        if ($type == 'lesson') {
+            $this->view->pick('chapter/add_lesson');
+        }
+
         $this->view->setVar('course', $course);
         $this->view->setVar('parent_id', $parentId);
         $this->view->setVar('chapters', $chapters);
-
-        if ($type == 'chapter') {
-            $this->view->pick('chapter/add_chapter');
-        } else {
-            $this->view->pick('chapter/add_lesson');
-        }
     }
 
     /**
@@ -89,10 +89,11 @@ class ChapterController extends Controller
         $chapter = $chapterService->getChapter($id);
         $course = $courseService->getCourse($chapter->course_id);
 
-        $this->view->setVar('chapter', $chapter);
-        $this->view->setVar('course', $course);
+        $this->view->pick('chapter/edit_chapter');
 
         if ($chapter->parent_id > 0) {
+
+            $this->view->pick('chapter/edit_lesson');
 
             switch ($course->model) {
                 case CourseModel::MODEL_VOD:
@@ -110,12 +111,10 @@ class ChapterController extends Controller
                     $this->view->setVar('read', $read);
                     break;
             }
-
-            $this->view->pick('chapter/edit_lesson');
-
-        } else {
-            $this->view->pick('chapter/edit_chapter');
         }
+
+        $this->view->setVar('chapter', $chapter);
+        $this->view->setVar('course', $course);
     }
 
     /**

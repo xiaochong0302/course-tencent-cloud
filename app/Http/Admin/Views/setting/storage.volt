@@ -21,8 +21,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">访问协议</label>
             <div class="layui-input-block">
-                <input type="radio" name="protocol" value="http" title="HTTP" {% if cos.protocol == "http" %}checked{% endif %}>
-                <input type="radio" name="protocol" value="https" title="HTTPS" {% if cos.protocol == "https" %}checked{% endif %}>
+                <input type="radio" name="protocol" value="http" title="HTTP" {% if cos.protocol == "http" %}checked="checked"{% endif %}>
+                <input type="radio" name="protocol" value="https" title="HTTPS" {% if cos.protocol == "https" %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">
@@ -56,7 +56,7 @@
                     <td>mageMogr2/thumbnail/270x/interlace/0</td>
                 </tr>
                 <tr>
-                    <td>carousel_1100</td>
+                    <td>slide_1100</td>
                     <td>imageMogr2/thumbnail/1100x/interlace/0</td>
                 </tr>
                 </tbody>

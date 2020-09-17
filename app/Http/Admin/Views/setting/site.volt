@@ -12,8 +12,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">站点状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="normal" title="正常" lay-filter="status" {% if site.status == 'normal' %}checked{% endif %}>
-                <input type="radio" name="status" value="closed" title="关闭" lay-filter="status" {% if site.status == 'closed' %}checked{% endif %}>
+                <input type="radio" name="status" value="normal" title="正常" lay-filter="status" {% if site.status == 'normal' %}checked="checked"{% endif %}>
+                <input type="radio" name="status" value="closed" title="关闭" lay-filter="status" {% if site.status == 'closed' %}checked="checked"{% endif %}>
             </div>
         </div>
         <div id="closed-tips-block" style="{{ closed_tips_display }}">
@@ -27,8 +27,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">首页版式</label>
             <div class="layui-input-block">
-                <input type="radio" name="index_tpl" value="simple" title="简洁" {% if site.index_tpl == 'simple' %}checked{% endif %}>
-                <input type="radio" name="index_tpl" value="full" title="丰富" {% if site.index_tpl == 'full' %}checked{% endif %}>
+                <input type="radio" name="index_tpl" value="simple" title="简洁" {% if site.index_tpl == 'simple' %}checked="checked"{% endif %}>
+                <input type="radio" name="index_tpl" value="full" title="丰富" {% if site.index_tpl == 'full' %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">
@@ -92,8 +92,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">开启统计</label>
             <div class="layui-input-block">
-                <input type="radio" name="analytics_enabled" value="1" title="是" lay-filter="analytics_enabled" {% if site.analytics_enabled == 1 %}checked{% endif %}>
-                <input type="radio" name="analytics_enabled" value="0" title="否" lay-filter="analytics_enabled" {% if site.analytics_enabled == 0 %}checked{% endif %}>
+                <input type="radio" name="analytics_enabled" value="1" title="是" lay-filter="analytics_enabled" {% if site.analytics_enabled == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="analytics_enabled" value="0" title="否" lay-filter="analytics_enabled" {% if site.analytics_enabled == 0 %}checked="checked"{% endif %}>
             </div>
         </div>
         <div id="analytics-script-block" style="{{ analytics_script_display }}">

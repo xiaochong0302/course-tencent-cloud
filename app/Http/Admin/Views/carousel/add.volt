@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.carousel.create'}) }}">
+    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.slide.create'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>添加轮播</legend>
         </fieldset>
@@ -15,9 +15,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">目标类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="target" value="course" title="课程" lay-filter="target" checked="checked">
-                <input type="radio" name="target" value="page" title="单页" lay-filter="target">
-                <input type="radio" name="target" value="link" title="链接" lay-filter="target">
+                <input type="radio" name="target" value="1" title="课程" lay-filter="target" checked="checked">
+                <input type="radio" name="target" value="2" title="单页" lay-filter="target">
+                <input type="radio" name="target" value="3" title="链接" lay-filter="target">
             </div>
         </div>
         <div class="layui-form-item">

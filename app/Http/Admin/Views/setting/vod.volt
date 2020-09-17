@@ -13,8 +13,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">存储方式</label>
             <div class="layui-input-block">
-                <input type="radio" name="storage_type" value="nearby" title="就近存储" lay-filter="storage_type" {% if vod.storage_type == "nearby" %}checked{% endif %}>
-                <input type="radio" name="storage_type" value="fixed" title="固定区域" lay-filter="storage_type" {% if vod.storage_type == "fixed" %}checked{% endif %}>
+                <input type="radio" name="storage_type" value="nearby" title="就近存储" lay-filter="storage_type" {% if vod.storage_type == "nearby" %}checked="checked"{% endif %}>
+                <input type="radio" name="storage_type" value="fixed" title="固定区域" lay-filter="storage_type" {% if vod.storage_type == "fixed" %}checked="checked"{% endif %}>
             </div>
         </div>
         <div id="storage-region-block" style="{{ storage_region_display }}">
@@ -31,22 +31,22 @@
         <div class="layui-form-item">
             <label class="layui-form-label">视频格式</label>
             <div class="layui-input-block">
-                <input type="radio" name="video_format" value="hls" title="HLS" lay-filter="video_format" {% if vod.video_format == "hls" %}checked{% endif %}>
-                <input type="radio" name="video_format" value="mp4" title="MP4" disabled="disabled" lay-filter="video_format" {% if vod.video_format == "mp4" %}checked{% endif %}>
+                <input type="radio" name="video_format" value="hls" title="HLS" lay-filter="video_format" {% if vod.video_format == "hls" %}checked="checked"{% endif %}>
+                <input type="radio" name="video_format" value="mp4" title="MP4" disabled="disabled" lay-filter="video_format" {% if vod.video_format == "mp4" %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">音频格式</label>
             <div class="layui-input-block">
-                <input type="radio" name="audio_format" value="mp3" title="MP3" lay-filter="audio_format" {% if vod.audio_format == "mp3" %}checked{% endif %}>
-                <input type="radio" name="audio_format" value="m4a" title="M4A" disabled="disabled" lay-filter="audio_format" {% if vod.audio_format == "m4a" %}checked{% endif %}>
+                <input type="radio" name="audio_format" value="mp3" title="MP3" lay-filter="audio_format" {% if vod.audio_format == "mp3" %}checked="checked"{% endif %}>
+                <input type="radio" name="audio_format" value="m4a" title="M4A" disabled="disabled" lay-filter="audio_format" {% if vod.audio_format == "m4a" %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">开启水印</label>
             <div class="layui-input-block">
-                <input type="radio" name="wmk_enabled" value="1" title="是" lay-filter="wmk_enabled" {% if vod.wmk_enabled == 1 %}checked{% endif %}>
-                <input type="radio" name="wmk_enabled" value="0" title="否" lay-filter="wmk_enabled" {% if vod.wmk_enabled == 0 %}checked{% endif %}>
+                <input type="radio" name="wmk_enabled" value="1" title="是" lay-filter="wmk_enabled" {% if vod.wmk_enabled == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="wmk_enabled" value="0" title="否" lay-filter="wmk_enabled" {% if vod.wmk_enabled == 0 %}checked="checked"{% endif %}>
             </div>
         </div>
         <div id="wmk-tpl-block" style="{{ wmk_tpl_display }}">
@@ -63,8 +63,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">分发协议</label>
             <div class="layui-input-block">
-                <input type="radio" name="protocol" value="https" title="HTTPS" {% if vod.protocol == "https" %}checked{% endif %}>
-                <input type="radio" name="protocol" value="http" title="HTTP" {% if vod.protocol == "http" %}checked{% endif %}>
+                <input type="radio" name="protocol" value="https" title="HTTPS" {% if vod.protocol == "https" %}checked="checked"{% endif %}>
+                <input type="radio" name="protocol" value="http" title="HTTP" {% if vod.protocol == "http" %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">
@@ -79,8 +79,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">开启防盗链</label>
             <div class="layui-input-block">
-                <input type="radio" name="key_anti_enabled" value="1" title="是" lay-filter="key_anti_enabled" {% if vod.key_anti_enabled == 1 %}checked{% endif %}>
-                <input type="radio" name="key_anti_enabled" value="0" title="否" lay-filter="key_anti_enabled" {% if vod.key_anti_enabled == 0 %}checked{% endif %}>
+                <input type="radio" name="key_anti_enabled" value="1" title="是" lay-filter="key_anti_enabled" {% if vod.key_anti_enabled == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="key_anti_enabled" value="0" title="否" lay-filter="key_anti_enabled" {% if vod.key_anti_enabled == 0 %}checked="checked"{% endif %}>
             </div>
         </div>
         <div id="key-anti-block" {{ key_anti_display }}>

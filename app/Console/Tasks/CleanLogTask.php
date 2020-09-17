@@ -13,8 +13,8 @@ class CleanLogTask extends Task
         $this->cleanSqlLog();
         $this->cleanListenerLog();
         $this->cleanCaptchaLog();
-        $this->cleanMailerLog();
-        $this->cleanSmserLog();
+        $this->cleanMailLog();
+        $this->cleanSmsLog();
         $this->cleanVodLog();
         $this->cleanLiveLog();
         $this->cleanStorageLog();
@@ -99,17 +99,17 @@ class CleanLogTask extends Task
     /**
      * 清理短信服务日志
      */
-    protected function cleanSmserLog()
+    protected function cleanSmsLog()
     {
-        $this->cleanLog('smser', 7);
+        $this->cleanLog('sms', 7);
     }
 
     /**
      * 清理邮件服务日志
      */
-    protected function cleanMailerLog()
+    protected function cleanMailLog()
     {
-        $this->cleanLog('mailer', 7);
+        $this->cleanLog('mail', 7);
     }
 
     /**

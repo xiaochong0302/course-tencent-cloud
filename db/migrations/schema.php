@@ -11485,11 +11485,11 @@ return array(
                         ),
                     'foreign_keys' => NULL,
                 ),
-            'kg_carousel' =>
+            'kg_slide' =>
                 array(
                     'table' =>
                         array(
-                            'table_name' => 'kg_carousel',
+                            'table_name' => 'kg_slide',
                             'engine' => 'InnoDB',
                             'table_comment' => '',
                             'table_collation' => 'utf8mb4_general_ci',
@@ -11501,7 +11501,7 @@ return array(
                             'id' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'id',
                                     'ORDINAL_POSITION' => '1',
                                     'COLUMN_DEFAULT' => NULL,
@@ -11525,7 +11525,7 @@ return array(
                             'title' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'title',
                                     'ORDINAL_POSITION' => '2',
                                     'COLUMN_DEFAULT' => '',
@@ -11549,7 +11549,7 @@ return array(
                             'cover' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'cover',
                                     'ORDINAL_POSITION' => '3',
                                     'COLUMN_DEFAULT' => '',
@@ -11573,7 +11573,7 @@ return array(
                             'style' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'style',
                                     'ORDINAL_POSITION' => '4',
                                     'COLUMN_DEFAULT' => '',
@@ -11597,7 +11597,7 @@ return array(
                             'summary' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'summary',
                                     'ORDINAL_POSITION' => '5',
                                     'COLUMN_DEFAULT' => '',
@@ -11621,7 +11621,7 @@ return array(
                             'target' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'target',
                                     'ORDINAL_POSITION' => '6',
                                     'COLUMN_DEFAULT' => 'course',
@@ -11645,7 +11645,7 @@ return array(
                             'content' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'content',
                                     'ORDINAL_POSITION' => '7',
                                     'COLUMN_DEFAULT' => '',
@@ -11669,7 +11669,7 @@ return array(
                             'platform' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'platform',
                                     'ORDINAL_POSITION' => '8',
                                     'COLUMN_DEFAULT' => '1',
@@ -11693,7 +11693,7 @@ return array(
                             'priority' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'priority',
                                     'ORDINAL_POSITION' => '9',
                                     'COLUMN_DEFAULT' => '10',
@@ -11717,7 +11717,7 @@ return array(
                             'published' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'published',
                                     'ORDINAL_POSITION' => '10',
                                     'COLUMN_DEFAULT' => '0',
@@ -11741,7 +11741,7 @@ return array(
                             'deleted' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'deleted',
                                     'ORDINAL_POSITION' => '11',
                                     'COLUMN_DEFAULT' => '0',
@@ -11765,7 +11765,7 @@ return array(
                             'create_time' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'create_time',
                                     'ORDINAL_POSITION' => '12',
                                     'COLUMN_DEFAULT' => '0',
@@ -11789,7 +11789,7 @@ return array(
                             'update_time' =>
                                 array(
                                     'TABLE_CATALOG' => 'def',
-                                    'TABLE_NAME' => 'kg_carousel',
+                                    'TABLE_NAME' => 'kg_slide',
                                     'COLUMN_NAME' => 'update_time',
                                     'ORDINAL_POSITION' => '13',
                                     'COLUMN_DEFAULT' => '0',
@@ -11817,7 +11817,7 @@ return array(
                                 array(
                                     1 =>
                                         array(
-                                            'Table' => 'kg_carousel',
+                                            'Table' => 'kg_slide',
                                             'Non_unique' => '0',
                                             'Key_name' => 'PRIMARY',
                                             'Seq_in_index' => '1',

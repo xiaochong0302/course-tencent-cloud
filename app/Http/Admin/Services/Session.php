@@ -24,7 +24,7 @@ class Session extends Service
         $currentUser = $this->getCurrentUser();
 
         if ($currentUser->id > 0) {
-            $this->response->redirect(['for' => 'desktop.index']);
+            $this->response->redirect(['for' => 'home.index']);
         }
 
         $post = $this->request->getPost();
@@ -33,7 +33,7 @@ class Session extends Service
 
         $user = $accountValidator->checkAdminLogin($post['account'], $post['password']);
 
-        $captchaSettings = $this->getSectionSettings('captcha');
+        $captchaSettings = $this->getSettings('captcha');
 
         /**
          * 验证码是一次性的，放到最后检查，减少第三方调用

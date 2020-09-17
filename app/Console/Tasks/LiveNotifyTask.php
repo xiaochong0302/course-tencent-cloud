@@ -5,7 +5,7 @@ namespace App\Console\Tasks;
 use App\Models\CourseUser as CourseUserModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Services\LiveNotify as LiveNotifyService;
-use App\Services\Smser\Live as LiveSmser;
+use App\Services\Sms\Live as LiveSms;
 
 class LiveNotifyTask extends Task
 {
@@ -53,10 +53,10 @@ class LiveNotifyTask extends Task
 
         if (!$targetUserIds) return;
 
-        $smser = new LiveSmser();
+        $sms = new LiveSms();
 
         foreach ($targetUserIds as $userId) {
-            $smser->handle($chapterId, $userId, $chapterLive->start_time);
+            $sms->handle($chapterId, $userId, $chapterLive->start_time);
         }
     }
 

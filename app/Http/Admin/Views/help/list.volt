@@ -32,7 +32,7 @@
         <tbody>
         {% for item in helps %}
             {% set list_url = url({'for':'admin.help.list'},{'category_id':item.category.id}) %}
-            {% set preview_url = url({'for':'desktop.help.show','id':item.id}) %}
+            {% set preview_url = url({'for':'home.help.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.help.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.help.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.help.delete','id':item.id}) %}
@@ -42,7 +42,7 @@
                 <td><a href="{{ edit_url }}">{{ item.title }}</a></td>
                 <td><a href="{{ list_url }}">{{ item.category.name }}</a></td>
                 <td class="center"><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
-                <td class="center"><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
+                <td class="center"><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>

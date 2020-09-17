@@ -60,7 +60,7 @@ class Service extends Component
      * @param string $section
      * @return array
      */
-    public function getSectionSettings($section)
+    public function getSettings($section)
     {
         $cache = new SettingCache();
 

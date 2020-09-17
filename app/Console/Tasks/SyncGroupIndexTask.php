@@ -5,7 +5,7 @@ namespace App\Console\Tasks;
 use App\Repos\ImGroup as GroupRepo;
 use App\Services\Search\GroupDocument;
 use App\Services\Search\GroupSearcher;
-use App\Services\Syncer\GroupIndex as GroupIndexSyncer;
+use App\Services\Sync\GroupIndex as GroupIndexSync;
 
 class SyncGroupIndexTask extends Task
 {
@@ -54,9 +54,9 @@ class SyncGroupIndexTask extends Task
 
     protected function getSyncKey()
     {
-        $syncer = new GroupIndexSyncer();
+        $sync = new GroupIndexSync();
 
-        return $syncer->getSyncKey();
+        return $sync->getSyncKey();
     }
 
 }

@@ -20,9 +20,9 @@ Abstract class Smser extends Service
 
     public function __construct()
     {
-        $this->settings = $this->getSectionSettings('smser');
+        $this->settings = $this->getSettings('sms');
 
-        $this->logger = $this->getLogger('smser');
+        $this->logger = $this->getLogger('sms');
     }
 
     /**

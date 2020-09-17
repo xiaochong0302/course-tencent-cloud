@@ -5,7 +5,7 @@ namespace App\Console\Tasks;
 use App\Repos\Course as CourseRepo;
 use App\Services\Search\CourseDocument;
 use App\Services\Search\CourseSearcher;
-use App\Services\Syncer\CourseIndex as CourseIndexSyncer;
+use App\Services\Sync\CourseIndex as CourseIndexSync;
 
 class SyncCourseIndexTask extends Task
 {
@@ -54,9 +54,9 @@ class SyncCourseIndexTask extends Task
 
     protected function getSyncKey()
     {
-        $syncer = new CourseIndexSyncer();
+        $sync = new CourseIndexSync();
 
-        return $syncer->getSyncKey();
+        return $sync->getSyncKey();
     }
 
 }

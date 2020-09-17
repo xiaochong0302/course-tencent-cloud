@@ -27,22 +27,22 @@
         <div class="layui-form-item">
             <label class="layui-form-label">位置</label>
             <div class="layui-input-block">
-                <input type="radio" name="position" value="1" title="顶部" {% if nav.position == 1 %}checked{% endif %}>
-                <input type="radio" name="position" value="2" title="底部" {% if nav.position == 2 %}checked{% endif %}>
+                <input type="radio" name="position" value="1" title="顶部" {% if nav.position == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="position" value="2" title="底部" {% if nav.position == 2 %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">目标</label>
             <div class="layui-input-block">
-                <input type="radio" name="target" value="_blank" title="新窗口" {% if nav.target == '_blank' %}checked{% endif %}>
-                <input type="radio" name="target" value="_self" title="原窗口" {% if nav.target == '_self' %}checked{% endif %}>
+                <input type="radio" name="target" value="_blank" title="新窗口" {% if nav.target == '_blank' %}checked="checked"{% endif %}>
+                <input type="radio" name="target" value="_self" title="原窗口" {% if nav.target == '_self' %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">发布</label>
             <div class="layui-input-block">
-                <input type="radio" name="published" value="1" title="是" {% if nav.published == 1 %}checked{% endif %}>
-                <input type="radio" name="published" value="0" title="否" {% if nav.published == 0 %}checked{% endif %}>
+                <input type="radio" name="published" value="1" title="是" {% if nav.published == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="published" value="0" title="否" {% if nav.published == 0 %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">

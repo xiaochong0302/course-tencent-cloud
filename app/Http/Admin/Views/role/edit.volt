@@ -31,7 +31,7 @@
                                 <td width="15%">{{ level2.title }}</td>
                                 <td>
                                     {% for level3 in level2.children %}
-                                        <input type="checkbox" name="routes[]" title="{{ level3.title }}" value="{{ level3.route }}" {% if level3.route in role.routes %}checked{% endif %}>
+                                        <input type="checkbox" name="routes[]" title="{{ level3.title }}" value="{{ level3.route }}" {% if level3.route in role.routes %}checked="checked"{% endif %}>
                                     {% endfor %}
                                 </td>
                             </tr>

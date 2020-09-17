@@ -3,7 +3,7 @@
 namespace App\Http\Admin\Services;
 
 use App\Caches\Chapter as ChapterCache;
-use App\Caches\CourseChapterList as CourseCatalogCache;
+use App\Caches\CourseChapterList as CatalogCache;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Models\ChapterRead as ChapterReadModel;
@@ -249,7 +249,7 @@ class Chapter extends Service
 
     protected function rebuildCatalogCache(ChapterModel $chapter)
     {
-        $cache = new CourseCatalogCache();
+        $cache = new CatalogCache();
 
         $cache->rebuild($chapter->course_id);
     }

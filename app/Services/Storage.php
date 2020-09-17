@@ -25,7 +25,7 @@ class Storage extends Service
 
     public function __construct()
     {
-        $this->settings = $this->getSectionSettings('cos');
+        $this->settings = $this->getSettings('cos');
 
         $this->logger = $this->getLogger('storage');
 
@@ -198,7 +198,7 @@ class Storage extends Service
      */
     protected function getCosClient()
     {
-        $secret = $this->getSectionSettings('secret');
+        $secret = $this->getSettings('secret');
 
         return new CosClient([
             'region' => $this->settings['region'],
