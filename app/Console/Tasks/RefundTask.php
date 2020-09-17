@@ -13,7 +13,7 @@ use App\Repos\Trade as TradeRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Pay\Alipay as AlipayService;
 use App\Services\Pay\Wxpay as WxpayService;
-use App\Services\Smser\Refund as RefundSmser;
+use App\Services\Sms\Refund as RefundSms;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
@@ -111,7 +111,6 @@ class RefundTask extends Task
                 $task->update();
 
                 $logger->info('Refund Task Exception ' . kg_json_encode([
-                        'line' => $e->getLine(),
                         'code' => $e->getCode(),
                         'message' => $e->getMessage(),
                         'task' => $task->toArray(),
@@ -284,9 +283,9 @@ class RefundTask extends Task
      */
     protected function handleRefundNotice(RefundModel $refund)
     {
-        $smser = new RefundSmser();
+        $sms = new RefundSms();
 
-        $smser->handle($refund);
+        $sms->handle($refund);
     }
 
     /**

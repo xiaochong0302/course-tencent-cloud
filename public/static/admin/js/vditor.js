@@ -21,7 +21,7 @@ layui.use(['jquery'], function () {
         },
         counter: {
             enable: true,
-            max: 60000
+            max: 30000
         },
         upload: {
             url: '/admin/upload/img/editor',

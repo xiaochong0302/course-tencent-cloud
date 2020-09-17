@@ -33,7 +33,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set preview_url = url({'for':'desktop.topic.show','id':item.id}) %}
+            {% set preview_url = url({'for':'home.topic.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.topic.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.topic.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.topic.delete','id':item.id}) %}
@@ -44,7 +44,7 @@
                 <td><span class="layui-badge layui-bg-gray">{{ item.course_count }}</span></td>
                 <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
                 <td>{{ date('Y-m-d H:i',item.update_time) }}</td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
+                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>

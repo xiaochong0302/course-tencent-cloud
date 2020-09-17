@@ -6,7 +6,6 @@ use App\Models\Chapter as ChapterModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Services\CourseStat as CourseStatService;
 use App\Services\Vod as VodService;
-use Phalcon\Cli\Task;
 
 class VodEventTask extends Task
 {

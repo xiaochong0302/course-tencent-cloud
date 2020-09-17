@@ -237,20 +237,20 @@ $error['help.invalid_publish_status'] = '无效的发布状态';
 /**
  * 轮播相关
  */
-$error['carousel.not_found'] = '轮播不存在';
-$error['carousel.invalid_platform'] = '无效的平台类型';
-$error['carousel.invalid_target'] = '无效的目标类型';
-$error['carousel.invalid_link'] = '无效的链接地址';
-$error['carousel.invalid_priority'] = '无效的排序数值（范围：1-255）';
-$error['carousel.invalid_cover'] = '无效的封面图片';
-$error['carousel.title_too_short'] = '标题太短（少于2个字符）';
-$error['carousel.title_too_long'] = '标题太长（多于50个字符）';
-$error['carousel.summary_too_long'] = '简介太长（多于255个字符）';
-$error['carousel.course_not_found'] = '课程不存在';
-$error['carousel.course_not_published'] = '课程尚未发布';
-$error['carousel.page_not_found'] = '单页不存在';
-$error['carousel.page_not_published'] = '单页尚未发布';
-$error['carousel.invalid_publish_status'] = '无效的发布状态';
+$error['slide.not_found'] = '轮播不存在';
+$error['slide.invalid_platform'] = '无效的平台类型';
+$error['slide.invalid_target'] = '无效的目标类型';
+$error['slide.invalid_link'] = '无效的链接地址';
+$error['slide.invalid_priority'] = '无效的排序数值（范围：1-255）';
+$error['slide.invalid_cover'] = '无效的封面图片';
+$error['slide.title_too_short'] = '标题太短（少于2个字符）';
+$error['slide.title_too_long'] = '标题太长（多于50个字符）';
+$error['slide.summary_too_long'] = '简介太长（多于255个字符）';
+$error['slide.course_not_found'] = '课程不存在';
+$error['slide.course_not_published'] = '课程尚未发布';
+$error['slide.page_not_found'] = '单页不存在';
+$error['slide.page_not_published'] = '单页尚未发布';
+$error['slide.invalid_publish_status'] = '无效的发布状态';
 
 /**
  * 订单相关

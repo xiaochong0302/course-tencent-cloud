@@ -7,11 +7,10 @@ use App\Http\Admin\Services\Setting as SettingService;
 use App\Http\Admin\Services\WxpayTest as WxpayTestService;
 use App\Services\Captcha as CaptchaService;
 use App\Services\Live as LiveService;
-use App\Services\Mailer\Test as TestMailerService;
+use App\Services\Mail\Test as TestMailService;
 use App\Services\MyStorage as StorageService;
-use App\Services\Smser\Test as TestSmserService;
+use App\Services\Sms\Test as TestSmsService;
 use App\Services\Vod as VodService;
-use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/admin/test")
@@ -60,14 +59,14 @@ class TestController extends Controller
      */
     public function livePushAction()
     {
-        $streamName = $this->request->getQuery('stream');
+        $streamName = $this->request->getQuery('stream', 'string');
 
         $liveService = new LiveService();
 
         $pushUrl = $liveService->getPushUrl($streamName);
 
         $qrcode = $this->url->get(
-            ['for' => 'desktop.qrcode'],
+            ['for' => 'home.qrcode'],
             ['text' => urlencode($pushUrl)]
         );
 
@@ -92,21 +91,20 @@ class TestController extends Controller
 
         $pullUrls = $liveService->getPullUrls('test');
 
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('public/live_player');
         $this->view->setVar('pull_urls', $pullUrls);
     }
 
     /**
-     * @Post("/smser", name="admin.test.smser")
+     * @Post("/sms", name="admin.test.sms")
      */
-    public function smserAction()
+    public function smsAction()
     {
-        $phone = $this->request->getPost('phone');
+        $phone = $this->request->getPost('phone', 'string');
 
-        $smserService = new TestSmserService();
+        $smsService = new TestSmsService();
 
-        $response = $smserService->handle($phone);
+        $response = $smsService->handle($phone);
 
         if ($response) {
             return $this->jsonSuccess(['msg' => '发送短信成功，请到收件箱确认']);
@@ -116,15 +114,15 @@ class TestController extends Controller
     }
 
     /**
-     * @Post("/mailer", name="admin.test.mailer")
+     * @Post("/mail", name="admin.test.mail")
      */
-    public function mailerAction()
+    public function mailAction()
     {
-        $email = $this->request->getPost('email');
+        $email = $this->request->getPost('email', 'string');
 
-        $mailerService = new TestMailerService();
+        $mailService = new TestMailService();
 
-        $result = $mailerService->handle($email);
+        $result = $mailService->handle($email);
 
         if ($result) {
             return $this->jsonSuccess(['msg' => '发送邮件成功，请到收件箱确认']);
@@ -166,7 +164,7 @@ class TestController extends Controller
 
         $this->db->begin();
 
-        $order = $alipayTestService->createOrder();
+        $order = $alipayTestService->createAlipayOrder();
         $trade = $alipayTestService->createTrade($order);
         $qrcode = $alipayTestService->scan($trade);
 
@@ -190,7 +188,7 @@ class TestController extends Controller
 
         $this->db->begin();
 
-        $order = $wxpayTestService->createOrder();
+        $order = $wxpayTestService->createWxpayOrder();
         $trade = $wxpayTestService->createTrade($order);
         $qrcode = $wxpayTestService->scan($trade);
 
@@ -210,7 +208,7 @@ class TestController extends Controller
      */
     public function alipayStatusAction()
     {
-        $sn = $this->request->getQuery('sn');
+        $sn = $this->request->getQuery('sn', 'string');
 
         $alipayTestService = new AlipayTestService();
 
@@ -224,7 +222,7 @@ class TestController extends Controller
      */
     public function wxpayStatusAction()
     {
-        $sn = $this->request->getQuery('sn');
+        $sn = $this->request->getQuery('sn', 'string');
 
         $wxpayTestService = new WxpayTestService();
 

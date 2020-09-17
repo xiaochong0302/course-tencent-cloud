@@ -2,7 +2,6 @@
 
 namespace App\Console\Tasks;
 
-use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Models\Course as CourseModel;
 use App\Models\Learning as LearningModel;
 use App\Repos\Chapter as ChapterRepo;
@@ -10,43 +9,32 @@ use App\Repos\ChapterUser as ChapterUserRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Learning as LearningRepo;
-use App\Services\Syncer\Learning as LearningSyncer;
-use Phalcon\Cli\Task;
+use App\Services\Sync\Learning as LearningSync;
 
 class SyncLearningTask extends Task
 {
 
-    /**
-     * @var RedisCache
-     */
-    protected $cache;
-
-    /**
-     * @var \Redis
-     */
-    protected $redis;
-
     public function mainAction()
     {
-        $this->cache = $this->getDI()->get('cache');
+        $cache = $this->getCache();
 
-        $this->redis = $this->cache->getRedis();
+        $redis = $this->getRedis();
 
-        $syncer = new LearningSyncer();
+        $sync = new LearningSync();
 
-        $syncKey = $syncer->getSyncKey();
+        $syncKey = $sync->getSyncKey();
 
-        $requestIds = $this->redis->sMembers($syncKey);
+        $requestIds = $redis->sMembers($syncKey);
 
         if (!$requestIds) return;
 
         foreach ($requestIds as $requestId) {
 
-            $itemKey = $syncer->getItemKey($requestId);
+            $itemKey = $sync->getItemKey($requestId);
 
             $this->handleLearning($itemKey);
 
-            $this->redis->sRem($syncKey, $requestId);
+            $redis->sRem($syncKey, $requestId);
         }
     }
 
@@ -153,15 +141,11 @@ class SyncLearningTask extends Task
 
         $courseLessons = $courseRepo->findLessons($learning->course_id);
 
-        if ($courseLessons->count() == 0) {
-            return;
-        }
+        if ($courseLessons->count() == 0) return;
 
         $userLearnings = $courseRepo->findUserLearnings($learning->course_id, $learning->user_id, $learning->plan_id);
 
-        if ($userLearnings->count() == 0) {
-            return;
-        }
+        if ($userLearnings->count() == 0) return;
 
         $consumedUserLearnings = [];
 
@@ -171,9 +155,7 @@ class SyncLearningTask extends Task
             }
         }
 
-        if (count($consumedUserLearnings) == 0) {
-            return;
-        }
+        if (count($consumedUserLearnings) == 0) return;
 
         $duration = 0;
 

@@ -121,6 +121,10 @@ class Alipay extends PayService
             return false;
         }
 
+        if ($trade->status == TradeModel::STATUS_FINISHED) {
+            return $this->gateway->success();
+        }
+
         if ($trade->status != TradeModel::STATUS_PENDING) {
             return false;
         }
@@ -129,7 +133,13 @@ class Alipay extends PayService
 
         $this->eventsManager->fire('pay:afterPay', $this, $trade);
 
-        return $this->gateway->success();
+        $trade = $tradeRepo->findById($trade->id);
+
+        if ($trade->status == TradeModel::STATUS_FINISHED) {
+            return $this->gateway->success();
+        }
+
+        return false;
     }
 
     /**

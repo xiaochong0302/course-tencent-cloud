@@ -39,8 +39,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">发布</label>
             <div class="layui-input-block">
-                <input type="radio" name="published" value="1" title="是" {% if help.published == 1 %}checked{% endif %}>
-                <input type="radio" name="published" value="0" title="否" {% if help.published == 0 %}checked{% endif %}>
+                <input type="radio" name="published" value="1" title="是" {% if help.published == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="published" value="0" title="否" {% if help.published == 0 %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">

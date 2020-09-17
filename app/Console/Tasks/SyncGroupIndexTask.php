@@ -2,39 +2,23 @@
 
 namespace App\Console\Tasks;
 
-use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Repos\ImGroup as GroupRepo;
 use App\Services\Search\GroupDocument;
 use App\Services\Search\GroupSearcher;
-use App\Services\Syncer\GroupIndex as GroupIndexSyncer;
+use App\Services\Sync\GroupIndex as GroupIndexSync;
 
 class SyncGroupIndexTask extends Task
 {
 
-    /**
-     * @var RedisCache
-     */
-    protected $cache;
-
-    /**
-     * @var \Redis
-     */
-    protected $redis;
-
     public function mainAction()
     {
-        $this->cache = $this->getDI()->get('cache');
+        $cache = $this->getCache();
 
-        $this->redis = $this->cache->getRedis();
+        $redis = $this->getRedis();
 
-        $this->rebuild();
-    }
-
-    protected function rebuild()
-    {
         $key = $this->getSyncKey();
 
-        $groupIds = $this->redis->sRandMember($key, 1000);
+        $groupIds = $redis->sRandMember($key, 1000);
 
         if (!$groupIds) return;
 
@@ -42,9 +26,7 @@ class SyncGroupIndexTask extends Task
 
         $groups = $groupRepo->findByIds($groupIds);
 
-        if ($groups->count() == 0) {
-            return;
-        }
+        if ($groups->count() == 0) return;
 
         $document = new GroupDocument();
 
@@ -67,14 +49,14 @@ class SyncGroupIndexTask extends Task
 
         $index->closeBuffer();
 
-        $this->redis->sRem($key, ...$groupIds);
+        $redis->sRem($key, ...$groupIds);
     }
 
     protected function getSyncKey()
     {
-        $syncer = new GroupIndexSyncer();
+        $sync = new GroupIndexSync();
 
-        return $syncer->getSyncKey();
+        return $sync->getSyncKey();
     }
 
 }

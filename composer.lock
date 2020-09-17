@@ -1,20 +1,20 @@
 {
-    "_readme": [
-        "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-        "This file is @generated automatically"
-    ],
-    "content-hash": "66628b38c16e2071e5636757472860e8",
-    "packages": [
-        {
-            "name": "aferrandini/phpqrcode",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aferrandini/PHPQRCode.git",
-                "reference": "3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46"
-            },
-            "dist": {
+  "_readme": [
+    "This file locks the dependencies of your project to a known state",
+    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+    "This file is @generated automatically"
+  ],
+  "content-hash": "cce345a8509cd31ff8492310a2a2332a",
+  "packages": [
+    {
+      "name": "aferrandini/phpqrcode",
+      "version": "1.0.1",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/aferrandini/PHPQRCode.git",
+        "reference": "3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46"
+      },
+      "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/aferrandini/PHPQRCode/zipball/3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46",
                 "reference": "3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46",
@@ -747,26 +747,26 @@
             ],
             "time": "2019-07-01T23:21:34+00:00"
         },
-        {
-            "name": "hightman/xunsearch",
-            "version": "1.4.14",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hightman/xs-sdk-php.git",
-                "reference": "d2faba65b9b4c0c0ea6e8b2ad5bafdefcbf3db87"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hightman/xs-sdk-php/zipball/d2faba65b9b4c0c0ea6e8b2ad5bafdefcbf3db87",
-                "reference": "d2faba65b9b4c0c0ea6e8b2ad5bafdefcbf3db87",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
+    {
+      "name": "hightman/xunsearch",
+      "version": "1.4.15",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/hightman/xs-sdk-php.git",
+        "reference": "8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/hightman/xs-sdk-php/zipball/8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9",
+        "reference": "8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
             "require": {
                 "ext-mbstring": "*",
                 "lib-pcre": "*",
@@ -781,26 +781,26 @@
                     "dev-master": "1.4.x-dev"
                 }
             },
-            "autoload": {
-                "classmap": [
-                    "lib/",
-                    "wrapper/yii-ext/"
-                ],
-                "psr-4": {
-                    "hightman\\xunsearch\\": "wrapper/yii2-ext/"
-                }
-            },
-            "notification-url": "https://packagist.jp/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "hightman",
-                    "email": "hightman@twomice.net",
-                    "role": "Founder and project leader"
-                }
-            ],
+      "autoload": {
+        "classmap": [
+          "lib/",
+          "wrapper/yii-ext/"
+        ],
+        "psr-4": {
+          "hightman\\xunsearch\\": "wrapper/yii2-ext/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "GPL-2.0+"
+      ],
+      "authors": [
+        {
+          "name": "hightman",
+          "email": "hightman@twomice.net",
+          "role": "Founder and project leader"
+        }
+      ],
             "description": "xunsearch php sdk, include yii, yii2 supports",
             "homepage": "http://www.xunsearch.com/",
             "keywords": [
@@ -809,7 +809,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2019-11-01T02:17:32+00:00"
+      "time": "2020-09-03T16:46:04+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -1436,26 +1436,26 @@
             ],
             "time": "2017-10-23T01:57:42+00:00"
         },
-        {
-            "name": "qcloud/cos-sdk-v5",
-            "version": "v2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tencentyun/cos-php-sdk-v5.git",
-                "reference": "a8ac2dc1f58ddb36e5d702d19f9d7cb8d6f1dc5e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/a8ac2dc1f58ddb36e5d702d19f9d7cb8d6f1dc5e",
-                "reference": "a8ac2dc1f58ddb36e5d702d19f9d7cb8d6f1dc5e",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
+    {
+      "name": "qcloud/cos-sdk-v5",
+      "version": "v2.0.9",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/tencentyun/cos-php-sdk-v5.git",
+        "reference": "d9fa5e8468ce4462d671976555efaa9acd2896e4"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/d9fa5e8468ce4462d671976555efaa9acd2896e4",
+        "reference": "d9fa5e8468ce4462d671976555efaa9acd2896e4",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
             "require": {
                 "guzzlehttp/guzzle": "~6.3",
                 "guzzlehttp/guzzle-services": "~1.1",
@@ -1487,7 +1487,7 @@
                 "php",
                 "qcloud"
             ],
-            "time": "2019-09-25T12:28:54+00:00"
+      "time": "2020-06-16T13:09:21+00:00"
         },
         {
             "name": "qcloudsms/qcloudsms_php",
@@ -2949,30 +2949,30 @@
             ],
             "time": "2020-07-06T13:23:11+00:00"
         },
-        {
-            "name": "tencentcloud/tencentcloud-sdk-php",
-            "version": "3.0.92",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TencentCloud/tencentcloud-sdk-php.git",
-                "reference": "71164956c234368c65c00e321e96f6dbd0f8d9c0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/71164956c234368c65c00e321e96f6dbd0f8d9c0",
-                "reference": "71164956c234368c65c00e321e96f6dbd0f8d9c0",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
+    {
+      "name": "tencentcloud/tencentcloud-sdk-php",
+      "version": "3.0.251",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/TencentCloud/tencentcloud-sdk-php.git",
+        "reference": "a3b3054262e48776e8014d5e385a8932b0102f29"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/a3b3054262e48776e8014d5e385a8932b0102f29",
+        "reference": "a3b3054262e48776e8014d5e385a8932b0102f29",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
             "require": {
                 "guzzlehttp/guzzle": "^6.3",
                 "guzzlehttp/psr7": "^1.4",
-                "php": ">=5.6.33"
+              "php": ">=5.6.0"
             },
             "type": "library",
             "autoload": {
@@ -2997,7 +2997,7 @@
             ],
             "description": "TencentCloudApi php sdk",
             "homepage": "https://github.com/TencentCloud/tencentcloud-sdk-php",
-            "time": "2019-09-27T09:23:30+00:00"
+      "time": "2020-09-15T00:59:07+00:00"
         },
         {
             "name": "whichbrowser/parser",
@@ -3064,28 +3064,28 @@
             ],
             "time": "2018-10-02T09:26:41+00:00"
         },
-        {
-            "name": "workerman/gateway-worker",
-            "version": "v3.0.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/walkor/GatewayWorker.git",
-                "reference": "38b44c95f21cd340b5a9cff3987ddb2abb9a2a38"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/38b44c95f21cd340b5a9cff3987ddb2abb9a2a38",
-                "reference": "38b44c95f21cd340b5a9cff3987ddb2abb9a2a38",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
+    {
+      "name": "workerman/gateway-worker",
+      "version": "v3.0.18",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/walkor/GatewayWorker.git",
+        "reference": "50d3a77deb7f7fb206d641ee0307ae1c41d5d41d"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/50d3a77deb7f7fb206d641ee0307ae1c41d5d41d",
+        "reference": "50d3a77deb7f7fb206d641ee0307ae1c41d5d41d",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
             "require": {
-                "workerman/workerman": ">=3.1.8"
+              "workerman/workerman": ">=3.5.0"
             },
             "type": "library",
             "autoload": {
@@ -3102,7 +3102,7 @@
                 "communication",
                 "distributed"
             ],
-            "time": "2019-07-02T11:55:24+00:00"
+      "time": "2020-07-15T06:45:01+00:00"
         },
         {
             "name": "workerman/gatewayclient",

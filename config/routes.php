@@ -6,20 +6,20 @@ $router = new Router(false);
 
 $router->removeExtraSlashes(true);
 
-$router->setDefaultNamespace('App\Http\Desktop\Controllers');
+$router->setDefaultNamespace('App\Http\Home\Controllers');
 
 $router->notFound([
-    'module' => 'desktop',
+    'module' => 'home',
     'controller' => 'error',
     'action' => 'show404',
 ]);
 
-$webFiles = scandir(app_path('Http/Desktop/Controllers'));
+$webFiles = scandir(app_path('Http/Home/Controllers'));
 
 foreach ($webFiles as $file) {
     if (strpos($file, 'Controller.php')) {
         $className = str_replace('Controller.php', '', $file);
-        $router->addModuleResource('desktop', 'App\Http\Desktop\Controllers\\' . $className);
+        $router->addModuleResource('home', 'App\Http\Home\Controllers\\' . $className);
     }
 }
 

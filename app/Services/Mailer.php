@@ -22,7 +22,7 @@ abstract class Mailer extends Service
     {
         $this->manager = $this->getManager();
 
-        $this->logger = $this->getLogger('mailer');
+        $this->logger = $this->getLogger('mail');
     }
 
     /**
@@ -30,7 +30,7 @@ abstract class Mailer extends Service
      */
     protected function getManager()
     {
-        $opt = $this->getSectionSettings('mailer');
+        $opt = $this->getSettings('mail');
 
         $config = [
             'driver' => 'smtp',
@@ -46,7 +46,7 @@ abstract class Mailer extends Service
             $config['encryption'] = $opt['smtp_encryption'];
         }
 
-        if ($opt['smtp_authentication']) {
+        if ($opt['smtp_auth_enabled']) {
             $config['username'] = $opt['smtp_username'];
             $config['password'] = $opt['smtp_password'];
         }

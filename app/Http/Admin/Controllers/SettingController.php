@@ -29,7 +29,7 @@ class SettingController extends Controller
 
         } else {
 
-            $site = $settingService->getSectionSettings($section);
+            $site = $settingService->getSettings($section);
 
             $site['url'] = $site['url'] ?: kg_site_url();
 
@@ -56,7 +56,7 @@ class SettingController extends Controller
 
         } else {
 
-            $secret = $settingService->getSectionSettings($section);
+            $secret = $settingService->getSettings($section);
 
             $this->view->setVar('secret', $secret);
         }
@@ -81,7 +81,7 @@ class SettingController extends Controller
 
         } else {
 
-            $cos = $settingService->getSectionSettings($section);
+            $cos = $settingService->getSettings($section);
 
             $this->view->setVar('cos', $cos);
         }
@@ -106,7 +106,7 @@ class SettingController extends Controller
 
         } else {
 
-            $vod = $settingService->getSectionSettings($section);
+            $vod = $settingService->getSettings($section);
 
             $this->view->setVar('vod', $vod);
         }
@@ -121,7 +121,7 @@ class SettingController extends Controller
 
         if ($this->request->isPost()) {
 
-            $section = $this->request->getPost('section');
+            $section = $this->request->getPost('section', 'string');
 
             $data = $this->request->getPost();
 
@@ -150,7 +150,7 @@ class SettingController extends Controller
 
         if ($this->request->isPost()) {
 
-            $section = $this->request->getPost('section');
+            $section = $this->request->getPost('section', 'string');
 
             $data = $this->request->getPost();
 
@@ -169,11 +169,11 @@ class SettingController extends Controller
     }
 
     /**
-     * @Route("/smser", name="admin.setting.smser")
+     * @Route("/sms", name="admin.setting.sms")
      */
-    public function smserAction()
+    public function smsAction()
     {
-        $section = 'smser';
+        $section = 'sms';
 
         $settingService = new SettingService();
 
@@ -181,24 +181,24 @@ class SettingController extends Controller
 
             $data = $this->request->getPost();
 
-            $settingService->updateSmserSettings($section, $data);
+            $settingService->updateSmsSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $smser = $settingService->getSectionSettings($section);
+            $sms = $settingService->getSettings($section);
 
-            $this->view->setVar('smser', $smser);
+            $this->view->setVar('sms', $sms);
         }
     }
 
     /**
-     * @Route("/mailer", name="admin.setting.mailer")
+     * @Route("/mail", name="admin.setting.mail")
      */
-    public function mailerAction()
+    public function mailAction()
     {
-        $section = 'mailer';
+        $section = 'mail';
 
         $settingService = new SettingService();
 
@@ -212,9 +212,9 @@ class SettingController extends Controller
 
         } else {
 
-            $mailer = $settingService->getSectionSettings($section);
+            $mail = $settingService->getSettings($section);
 
-            $this->view->setVar('mailer', $mailer);
+            $this->view->setVar('mail', $mail);
         }
     }
 
@@ -242,7 +242,7 @@ class SettingController extends Controller
 
         } else {
 
-            $captcha = $settingService->getSectionSettings($section);
+            $captcha = $settingService->getSettings($section);
 
             $this->view->setVar('captcha', $captcha);
         }
@@ -257,7 +257,7 @@ class SettingController extends Controller
 
         if ($this->request->isPost()) {
 
-            $data = $this->request->getPost('vip');
+            $data = $this->request->getPost('vip', 'string');
 
             $settingService->updateVipSettings($data);
 
@@ -280,7 +280,7 @@ class SettingController extends Controller
 
         if ($this->request->isPost()) {
 
-            $section = $this->request->getPost('section');
+            $section = $this->request->getPost('section', 'string');
 
             $data = $this->request->getPost();
 
@@ -290,8 +290,8 @@ class SettingController extends Controller
 
         } else {
 
-            $main = $settingService->getSectionSettings('im.main');
-            $cs = $settingService->getSectionSettings('im.cs');
+            $main = $settingService->getSettings('im.main');
+            $cs = $settingService->getSettings('im.cs');
 
             $this->view->setVar('main', $main);
             $this->view->setVar('cs', $cs);

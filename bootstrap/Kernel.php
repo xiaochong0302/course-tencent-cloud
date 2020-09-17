@@ -24,6 +24,9 @@ abstract class Kernel
      */
     protected $loader;
 
+    /**
+     * @var array
+     */
     protected $configs = [];
 
     public function getApp()

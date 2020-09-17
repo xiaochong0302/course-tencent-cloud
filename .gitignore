@@ -4,6 +4,8 @@
 /config/xs.course.ini
 /config/xs.group.ini
 /config/xs.user.ini
+/config/alipay/*.crt
+/config/wxpay/*.pem
 /public/robots.txt
 /public/sitemap.xml
 *KgTest*

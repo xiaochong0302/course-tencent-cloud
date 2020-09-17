@@ -30,7 +30,7 @@ class IndexFreeCourseList extends Cache
     {
         $categoryLimit = 5;
 
-        $courseLimit = 10;
+        $courseLimit = 8;
 
         $categories = $this->findCategories($categoryLimit);
 
@@ -100,7 +100,7 @@ class IndexFreeCourseList extends Cache
      * @param int $limit
      * @return ResultsetInterface|Resultset|CourseModel[]
      */
-    protected function findCategoryCourses($categoryId, $limit = 10)
+    protected function findCategoryCourses($categoryId, $limit = 8)
     {
         $categoryService = new CategoryService();
 

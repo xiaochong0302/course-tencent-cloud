@@ -19,7 +19,7 @@
                 <td>获取渠道</td>
                 <td>
                     <a href="https://gitee.com/koogua/course-tencent-cloud" target="_blank">Gitee</a>&nbsp;
-                    <a href="https://github.com/koogua/course-tencent-cloud" target="_blank">Github</a>
+                    <a href="https://github.com/xiaochong0302/course-tencent-cloud" target="_blank">Github</a>
                 </td>
             </tr>
             </tbody>

@@ -69,7 +69,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set preview_url = url({'for':'desktop.course.show','id':item.id}) %}
+            {% set preview_url = url({'for':'home.course.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.course.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.course.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.course.delete','id':item.id}) %}
@@ -97,7 +97,7 @@
                     <p>市场：{{ '￥%0.2f'|format(item.market_price) }}</p>
                     <p>会员：{{ '￥%0.2f'|format(item.vip_price) }}</p>
                 </td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
+                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>

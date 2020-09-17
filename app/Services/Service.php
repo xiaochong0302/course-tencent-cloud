@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Caches\Setting as SettingCache;
+use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Library\Logger as AppLogger;
 use App\Traits\Auth as AuthTrait;
-use Phalcon\Logger\Adapter\File as FileLogger;
+use Phalcon\Config as PhConfig;
+use Phalcon\Logger\Adapter\File as PhLogger;
 use Phalcon\Mvc\User\Component;
 
 class Service extends Component
@@ -14,10 +16,34 @@ class Service extends Component
     use AuthTrait;
 
     /**
+     * @return PhConfig
+     */
+    public function getConfig()
+    {
+        return $this->getDI()->getShared('config');
+    }
+
+    /**
+     * @return RedisCache
+     */
+    public function getCache()
+    {
+        return $this->getDI()->getShared('cache');
+    }
+
+    /**
+     * @return \Redis
+     */
+    public function getRedis()
+    {
+        return $this->getCache()->getRedis();
+    }
+
+    /**
      * 获取Logger
      *
      * @param string $channel
-     * @return FileLogger
+     * @return PhLogger
      */
     public function getLogger($channel = null)
     {
@@ -34,7 +60,7 @@ class Service extends Component
      * @param string $section
      * @return array
      */
-    public function getSectionSettings($section)
+    public function getSettings($section)
     {
         $cache = new SettingCache();
 

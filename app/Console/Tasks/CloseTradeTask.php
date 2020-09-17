@@ -5,7 +5,6 @@ namespace App\Console\Tasks;
 use App\Models\Trade as TradeModel;
 use App\Services\Pay\Alipay as AlipayService;
 use App\Services\Pay\Wxpay as WxpayService;
-use Phalcon\Cli\Task;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 

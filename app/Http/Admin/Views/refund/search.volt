@@ -26,6 +26,7 @@
                 <input type="radio" name="status" value="3" title="已审核">
                 <input type="radio" name="status" value="4" title="已拒绝">
                 <input type="radio" name="status" value="5" title="已完成">
+                <input type="radio" name="status" value="6" title="已失败">
             </div>
         </div>
         <div class="layui-form-item">

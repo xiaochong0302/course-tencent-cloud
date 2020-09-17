@@ -3,7 +3,6 @@
 namespace App\Console\Tasks;
 
 use App\Models\User as UserModel;
-use Phalcon\Cli\Task;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 

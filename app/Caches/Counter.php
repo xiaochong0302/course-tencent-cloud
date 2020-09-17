@@ -20,7 +20,7 @@ abstract class Counter extends Component
 
     public function __construct()
     {
-        $this->cache = $this->getDI()->get('cache');
+        $this->cache = $this->getDI()->getShared('cache');
 
         $this->redis = $this->cache->getRedis();
     }

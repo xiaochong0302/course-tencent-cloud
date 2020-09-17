@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Caches\MaxCourseId as MaxCourseIdCache;
-use App\Services\Syncer\CourseIndex as CourseIndexSyncer;
+use App\Services\Sync\CourseIndex as CourseIndexSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
@@ -293,8 +293,8 @@ class Course extends Model
     public function beforeUpdate()
     {
         if (time() - $this->update_time > 3 * 3600) {
-            $syncer = new CourseIndexSyncer();
-            $syncer->addItem($this->id);
+            $sync = new CourseIndexSync();
+            $sync->addItem($this->id);
         }
 
         if (Text::startsWith($this->cover, 'http')) {

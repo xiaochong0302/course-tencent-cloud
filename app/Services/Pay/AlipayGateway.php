@@ -16,7 +16,7 @@ class AlipayGateway extends Service
 
     public function __construct($options = [])
     {
-        $defaults = $this->getSectionSettings('pay.alipay');
+        $defaults = $this->getSettings('pay.alipay');
 
         $this->settings = array_merge($defaults, $options);
     }
@@ -41,11 +41,11 @@ class AlipayGateway extends Service
      */
     public function getInstance()
     {
-        $config = $this->getDI()->get('config');
+        $config = $this->getConfig();
 
-        $level = $config->env == ENV_DEV ? 'debug' : 'info';
+        $level = $config->get('env') == ENV_DEV ? 'debug' : 'info';
 
-        $payConfig = [
+        $options = [
             'app_id' => $this->settings['app_id'],
             'ali_public_key' => $this->settings['public_key'],
             'private_key' => $this->settings['private_key'],
@@ -59,11 +59,11 @@ class AlipayGateway extends Service
             ],
         ];
 
-        if ($config->env == ENV_DEV) {
-            $payConfig['mode'] = 'dev';
+        if ($config->get('env') == ENV_DEV) {
+            $options['mode'] = 'dev';
         }
 
-        return Pay::alipay($payConfig);
+        return Pay::alipay($options);
     }
 
 }

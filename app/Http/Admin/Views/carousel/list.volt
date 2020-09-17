@@ -3,16 +3,14 @@
 {% block content %}
 
     {%- macro target_info(value) %}
-        {% if value == 'course' %}
+        {% if value == 1 %}
             <span class="layui-badge layui-bg-green">课程</span>
-        {% elseif value == 'page' %}
+        {% elseif value == 2 %}
             <span class="layui-badge layui-bg-blue">单页</span>
-        {% elseif value == 'link' %}
-            <span class="layui-badge layui-bg-orange">链接</span>
+        {% elseif value == 3 %}
+            <span class="layui-badge layui-bg-gray">链接</span>
         {% endif %}
     {%- endmacro %}
-
-    {% set add_url = url({'for':'admin.carousel.add'}) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
@@ -43,16 +41,16 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set edit_url = url({'for':'admin.carousel.edit','id':item.id}) %}
-            {% set update_url = url({'for':'admin.carousel.update','id':item.id}) %}
-            {% set delete_url = url({'for':'admin.carousel.delete','id':item.id}) %}
-            {% set restore_url = url({'for':'admin.carousel.restore','id':item.id}) %}
+            {% set edit_url = url({'for':'admin.slide.edit','id':item.id}) %}
+            {% set update_url = url({'for':'admin.slide.update','id':item.id}) %}
+            {% set delete_url = url({'for':'admin.slide.delete','id':item.id}) %}
+            {% set restore_url = url({'for':'admin.slide.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                <td>{{ item.title }}</td>
+                <td><a href="{{ edit_url }}">{{ item.title }}</a></td>
                 <td>{{ target_info(item.target) }}</td>
                 <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
-                <td><input type="checkbox" name="published" value="1" lay-filter="published" lay-skin="switch" lay-text="是|否" data-url="{{ update_url }}" {% if item.published == 1 %}checked{% endif %}></td>
+                <td><input type="checkbox" name="published" value="1" lay-filter="published" lay-skin="switch" lay-text="是|否" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm"> 操作 <i class="layui-icon layui-icon-triangle-d"></i></button>

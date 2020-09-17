@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\CourseChapterList as CatalogCache;
 use App\Library\Utils\Word as WordUtil;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
@@ -63,6 +64,8 @@ class ChapterContent extends Service
                 $this->updateChapterRead($chapter);
                 break;
         }
+
+        $this->rebuildCatalogCache($chapter);
     }
 
     protected function updateChapterVod(ChapterModel $chapter)
@@ -164,6 +167,13 @@ class ChapterContent extends Service
         $courseStats = new CourseStatService();
 
         $courseStats->updateReadAttrs($chapter->course_id);
+    }
+
+    protected function rebuildCatalogCache(ChapterModel $chapter)
+    {
+        $cache = new CatalogCache();
+
+        $cache->rebuild($chapter->course_id);
     }
 
 }

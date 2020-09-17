@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Repos\Chapter as ChapterRepo;
@@ -12,9 +11,9 @@ class LiveNotify extends Service
 
     public function handle()
     {
-        $time = $this->request->getPost('t');
-        $sign = $this->request->getPost('sign');
-        $action = $this->request->getQuery('action');
+        $time = $this->request->getPost('t', 'int');
+        $sign = $this->request->getPost('sign', 'string');
+        $action = $this->request->getQuery('action', 'string');
 
         if (!$this->checkSign($sign, $time)) {
             return false;
@@ -58,7 +57,7 @@ class LiveNotify extends Service
      */
     protected function handleStreamBegin()
     {
-        $streamId = $this->request->getPost('stream_id');
+        $streamId = $this->request->getPost('stream_id', 'string');
 
         $chapter = $this->getChapter($streamId);
 
@@ -84,7 +83,7 @@ class LiveNotify extends Service
      */
     protected function handleStreamEnd()
     {
-        $streamId = $this->request->getPost('stream_id');
+        $streamId = $this->request->getPost('stream_id', 'string');
 
         $chapter = $this->getChapter($streamId);
 
@@ -129,12 +128,9 @@ class LiveNotify extends Service
 
     protected function sendBeginNotify(ChapterModel $chapter)
     {
-        /**
-         * @var RedisCache $cache
-         */
-        $cache = $this->getDI()->get('cache');
+        $cache = $this->getCache();
 
-        $redis = $cache->getRedis();
+        $redis = $this->getRedis();
 
         $key = $this->getNotifyKey();
 
@@ -176,7 +172,7 @@ class LiveNotify extends Service
             return false;
         }
 
-        $notify = $this->getSectionSettings('live.notify');
+        $notify = $this->getSettings('live.notify');
 
         $mySign = md5($notify['auth_key'] . $time);
 

@@ -14,29 +14,29 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启图片上传</label>
         <div class="layui-input-block">
-            <input type="radio" name="upload_img_enabled" value="1" title="是" {% if main.upload_img_enabled == "1" %}checked{% endif %}>
-            <input type="radio" name="upload_img_enabled" value="0" title="否" {% if main.upload_img_enabled == "0" %}checked{% endif %}>
+            <input type="radio" name="upload_img_enabled" value="1" title="是" {% if main.upload_img_enabled == "1" %}checked="checked"{% endif %}>
+            <input type="radio" name="upload_img_enabled" value="0" title="否" {% if main.upload_img_enabled == "0" %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">开启文件上传</label>
         <div class="layui-input-block">
-            <input type="radio" name="upload_file_enabled" value="1" title="是" {% if main.upload_file_enabled == "1" %}checked{% endif %}>
-            <input type="radio" name="upload_file_enabled" value="0" title="否" {% if main.upload_file_enabled == "0" %}checked{% endif %}>
+            <input type="radio" name="upload_file_enabled" value="1" title="是" {% if main.upload_file_enabled == "1" %}checked="checked"{% endif %}>
+            <input type="radio" name="upload_file_enabled" value="0" title="否" {% if main.upload_file_enabled == "0" %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">开启音频栏</label>
         <div class="layui-input-block">
-            <input type="radio" name="tool_audio_enabled" value="1" title="是" {% if main.tool_audio_enabled == "1" %}checked{% endif %}>
-            <input type="radio" name="tool_audio_enabled" value="0" title="否" {% if main.tool_audio_enabled == "0" %}checked{% endif %}>
+            <input type="radio" name="tool_audio_enabled" value="1" title="是" {% if main.tool_audio_enabled == "1" %}checked="checked"{% endif %}>
+            <input type="radio" name="tool_audio_enabled" value="0" title="否" {% if main.tool_audio_enabled == "0" %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">开启视频栏</label>
         <div class="layui-input-block">
-            <input type="radio" name="tool_video_enabled" value="1" title="是" {% if main.tool_video_enabled == "1" %}checked{% endif %}>
-            <input type="radio" name="tool_video_enabled" value="0" title="否" {% if main.tool_video_enabled == "0" %}checked{% endif %}>
+            <input type="radio" name="tool_video_enabled" value="1" title="是" {% if main.tool_video_enabled == "1" %}checked="checked"{% endif %}>
+            <input type="radio" name="tool_video_enabled" value="0" title="否" {% if main.tool_video_enabled == "0" %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">

@@ -4,6 +4,7 @@ use App\Caches\Setting as SettingCache;
 use App\Library\Validators\Common as CommonValidator;
 use App\Services\Storage as StorageService;
 use Koogua\Ip2Region\Searcher as Ip2RegionSearcher;
+use Phalcon\Config;
 use Phalcon\Di;
 use Phalcon\Text;
 
@@ -404,12 +405,15 @@ function kg_js_include($path, $local = true, $version = null)
  */
 function kg_static_url($path, $local = true, $version = null)
 {
+    /**
+     * @var Config $config
+     */
     $config = Di::getDefault()->getShared('config');
 
-    $baseUri = rtrim($config->static_base_uri, '/');
+    $baseUri = rtrim($config->get('static_base_uri'), '/');
     $path = ltrim($path, '/');
     $url = $local ? $baseUri . '/' . $path : $path;
-    $version = $version ? $version : $config->static_version;
+    $version = $version ? $version : $config->get('static_version');
 
     if ($version) {
         $url .= '?v=' . $version;

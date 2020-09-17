@@ -70,13 +70,16 @@ class TradeController extends Controller
     {
         $tradeService = new TradeService();
 
-        $tradeService->refundTrade($id);
+        $refund = $tradeService->refundTrade($id);
 
-        $location = $this->request->getHTTPReferer();
+        $location = $this->url->get([
+            'for' => 'admin.refund.show',
+            'id' => $refund->id,
+        ]);
 
         $content = [
             'location' => $location,
-            'msg' => '申请退款成功，请到退款管理中审核确认',
+            'msg' => '申请退款成功',
         ];
 
         return $this->jsonSuccess($content);

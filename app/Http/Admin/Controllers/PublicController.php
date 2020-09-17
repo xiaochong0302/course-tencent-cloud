@@ -43,7 +43,7 @@ class PublicController extends \Phalcon\Mvc\Controller
      */
     public function ip2regionAction()
     {
-        $ip = $this->request->getQuery('ip', 'trim');
+        $ip = $this->request->getQuery('ip', 'string');
 
         $region = kg_ip2region($ip);
 

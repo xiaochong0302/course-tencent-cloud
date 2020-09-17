@@ -3218,7 +3218,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_carousel', [
+        $this->table('kg_slide', [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',

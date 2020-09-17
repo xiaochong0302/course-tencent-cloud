@@ -19,7 +19,7 @@ class Api extends AuthService
 
         $config = $this->getConfig();
 
-        $expireTime = time() + $config->jwt->lifetime;
+        $expireTime = time() + $config->path('jwt.lifetime');
 
         $builder->expiresAt($expireTime);
         $builder->withClaim('user_id', $user->id);
@@ -27,7 +27,7 @@ class Api extends AuthService
 
         $singer = new JwtSingerSha256();
 
-        $key = new JwtSingerKey($config->jwt->key);
+        $key = new JwtSingerKey($config->path('jwt.key'));
 
         $token = $builder->getToken($singer, $key);
 
@@ -51,7 +51,7 @@ class Api extends AuthService
 
         $token = $parser->parse($authToken);
 
-        $data = new JWTValidationData(time(), $config->jwt->leeway);
+        $data = new JWTValidationData(time(), $config->path('jwt.leeway'));
 
         if (!$token->validate($data)) {
             return null;
@@ -59,7 +59,7 @@ class Api extends AuthService
 
         $singer = new JwtSingerSha256();
 
-        if (!$token->verify($singer, $config->jwt->key)) {
+        if (!$token->verify($singer, $config->path('jwt.key'))) {
             return null;
         }
 
@@ -74,11 +74,6 @@ class Api extends AuthService
         $authorization = $this->request->getHeader('Authorization');
 
         return trim(str_ireplace('Bearer', '', $authorization));
-    }
-
-    protected function getConfig()
-    {
-        return $this->getDI()->get('config');
     }
 
 }

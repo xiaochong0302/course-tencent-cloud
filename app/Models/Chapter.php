@@ -21,7 +21,7 @@ class Chapter extends Model
      * 推流状态
      */
     const SS_ACTIVE = 'active'; // 活跃
-    const SS_INACTIVE = 'inactive'; // 非活跃
+    const SS_INACTIVE = 'inactive'; // 静默
     const SS_FORBID = 'forbid'; // 禁播
 
     /**

@@ -43,6 +43,45 @@ class Chapter extends Validator
         return $chapter;
     }
 
+    public function checkChapterVod($id)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        $chapterVod = $chapterRepo->findChapterVod($id);
+
+        if (!$chapterVod) {
+            throw new BadRequestException('chapter.vod_not_found');
+        }
+
+        return $chapterVod;
+    }
+
+    public function checkChapterLive($id)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        $chapterLive = $chapterRepo->findChapterLive($id);
+
+        if (!$chapterLive) {
+            throw new BadRequestException('chapter.live_not_found');
+        }
+
+        return $chapterLive;
+    }
+
+    public function checkChapterRead($id)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        $chapterRead = $chapterRepo->findChapterRead($id);
+
+        if (!$chapterRead) {
+            throw new BadRequestException('chapter.read_not_found');
+        }
+
+        return $chapterRead;
+    }
+
     public function checkChapter($id)
     {
         $chapterRepo = new ChapterRepo();

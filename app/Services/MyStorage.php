@@ -54,13 +54,13 @@ class MyStorage extends Storage
     }
 
     /**
-     * 上传编辑器图片
+     * 上传内容图片
      *
      * @return UploadModel|bool
      */
-    public function uploadEditorImage()
+    public function uploadContentImage()
     {
-        return $this->upload('/img/editor/', self::TYPE_IMAGE);
+        return $this->upload('/img/content/', self::TYPE_IMAGE);
     }
 
     /**

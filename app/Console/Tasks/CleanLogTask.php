@@ -2,8 +2,6 @@
 
 namespace App\Console\Tasks;
 
-use Phalcon\Cli\Task;
-
 class CleanLogTask extends Task
 {
 
@@ -15,8 +13,8 @@ class CleanLogTask extends Task
         $this->cleanSqlLog();
         $this->cleanListenerLog();
         $this->cleanCaptchaLog();
-        $this->cleanMailerLog();
-        $this->cleanSmserLog();
+        $this->cleanMailLog();
+        $this->cleanSmsLog();
         $this->cleanVodLog();
         $this->cleanLiveLog();
         $this->cleanStorageLog();
@@ -101,17 +99,17 @@ class CleanLogTask extends Task
     /**
      * 清理短信服务日志
      */
-    protected function cleanSmserLog()
+    protected function cleanSmsLog()
     {
-        $this->cleanLog('smser', 7);
+        $this->cleanLog('sms', 7);
     }
 
     /**
      * 清理邮件服务日志
      */
-    protected function cleanMailerLog()
+    protected function cleanMailLog()
     {
-        $this->cleanLog('mailer', 7);
+        $this->cleanLog('mail', 7);
     }
 
     /**
@@ -165,9 +163,9 @@ class CleanLogTask extends Task
             if (strtotime($today) - strtotime($date) >= $keepDays * 86400) {
                 $deleted = unlink($file);
                 if ($deleted) {
-                    echo "Delete {$file} success" . PHP_EOL;
+                    echo "delete {$file} success" . PHP_EOL;
                 } else {
-                    echo "Delete {$file} failed" . PHP_EOL;
+                    echo "delete {$file} failed" . PHP_EOL;
                 }
             }
         }

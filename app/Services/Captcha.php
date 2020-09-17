@@ -32,7 +32,7 @@ class Captcha extends Service
 
     public function __construct()
     {
-        $this->settings = $this->getSectionSettings('captcha');
+        $this->settings = $this->getSettings('captcha');
 
         $this->logger = $this->getLogger('captcha');
 
@@ -103,7 +103,7 @@ class Captcha extends Service
      */
     public function getCaptchaClient()
     {
-        $secret = $this->getSectionSettings('secret');
+        $secret = $this->getSettings('secret');
 
         $secretId = $secret['secret_id'];
         $secretKey = $secret['secret_key'];

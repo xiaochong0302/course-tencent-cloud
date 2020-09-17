@@ -1,31 +1,38 @@
-<!DOCTYPE html>
-<html lang="zh-Hans-CN">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>视频点播</title>
-    <script src="https://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.2.js"></script>
+{% extends 'templates/main.volt' %}
+
+{% block content %}
+
+    <div id="player"></div>
+
+{% endblock %}
+
+{% block inline_css %}
+
     <style>
-        html, body {
-            margin: 0;
+        .kg-body {
             padding: 0;
         }
     </style>
-</head>
-<body>
-<div id="player"></div>
-</body>
-</html>
 
-<script>
+{% endblock %}
 
-    var playUrl = '{{ play_url }}';
+{% block inline_js %}
 
-    var player = new TcPlayer('player', {
-        m3u8: playUrl,
-        autoplay: false,
-        width: 720,
-        height: 405
-    });
+    <script src="https://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.3.js"></script>
 
-</script>
+    <script>
+
+        layui.use(['jquery'], function () {
+
+            new TcPlayer('player', {
+                m3u8: '{{ play_url }}',
+                autoplay: false,
+                width: 720,
+                height: 405
+            });
+
+        });
+
+    </script>
+
+{% endblock %}

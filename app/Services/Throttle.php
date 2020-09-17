@@ -2,23 +2,18 @@
 
 namespace App\Services;
 
-use Phalcon\Cache\Backend\Redis as RedisCache;
-
 class Throttle extends Service
 {
 
     public function checkRateLimit()
     {
-        $config = $this->getDI()->get('config');
+        $config = $this->getConfig();
 
-        if ($config->throttle->enabled == false) {
+        if ($config->path('throttle.enabled') == false) {
             return true;
         }
 
-        /**
-         * @var RedisCache $cache
-         */
-        $cache = $this->getDI()->get('cache');
+        $cache = $this->getCache();
 
         $sign = $this->getRequestSignature();
 
@@ -27,13 +22,13 @@ class Throttle extends Service
         $rateLimit = $cache->get($cacheKey);
 
         if ($rateLimit) {
-            if ($rateLimit >= $config->throttle->rate_limit) {
+            if ($rateLimit >= $config->path('throttle.rate_limit')) {
                 return false;
             } else {
                 $cache->increment($cacheKey, 1);
             }
         } else {
-            $cache->save($cacheKey, 1, $config->throttle->lifetime);
+            $cache->save($cacheKey, 1, $config->path('throttle.lifetime'));
         }
 
         return true;

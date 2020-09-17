@@ -156,42 +156,42 @@ final class InsertSettingData extends AbstractMigration
                 'item_value' => '',
             ],
             [
-                'section' => 'mailer',
+                'section' => 'mail',
                 'item_key' => 'smtp_host',
                 'item_value' => 'smtp.163.com',
             ],
             [
-                'section' => 'mailer',
+                'section' => 'mail',
                 'item_key' => 'smtp_port',
                 'item_value' => '465',
             ],
             [
-                'section' => 'mailer',
+                'section' => 'mail',
                 'item_key' => 'smtp_encryption',
                 'item_value' => 'ssl',
             ],
             [
-                'section' => 'mailer',
-                'item_key' => 'smtp_authentication',
+                'section' => 'mail',
+                'item_key' => 'smtp_auth_enabled',
                 'item_value' => '1',
             ],
             [
-                'section' => 'mailer',
+                'section' => 'mail',
                 'item_key' => 'smtp_username',
                 'item_value' => 'abc@163.com',
             ],
             [
-                'section' => 'mailer',
+                'section' => 'mail',
                 'item_key' => 'smtp_password',
                 'item_value' => '888888',
             ],
             [
-                'section' => 'mailer',
+                'section' => 'mail',
                 'item_key' => 'smtp_from_email',
                 'item_value' => 'abc@163.com',
             ],
             [
-                'section' => 'mailer',
+                'section' => 'mail',
                 'item_key' => 'smtp_from_name',
                 'item_value' => 'ABC有限公司',
             ],
@@ -229,6 +229,16 @@ final class InsertSettingData extends AbstractMigration
                 'section' => 'pay.wxpay',
                 'item_key' => 'enabled',
                 'item_value' => '1',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'mp_app_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'mini_app_id',
+                'item_value' => '',
             ],
             [
                 'section' => 'pay.wxpay',
@@ -302,6 +312,11 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'site',
+                'item_key' => 'index_tpl',
+                'item_value' => 'simple',
+            ],
+            [
+                'section' => 'site',
                 'item_key' => 'copyright',
                 'item_value' => '2016-2020 深圳市酷瓜软件有限公司',
             ],
@@ -331,22 +346,22 @@ final class InsertSettingData extends AbstractMigration
                 'item_value' => '',
             ],
             [
-                'section' => 'smser',
+                'section' => 'sms',
                 'item_key' => 'app_id',
                 'item_value' => '',
             ],
             [
-                'section' => 'smser',
+                'section' => 'sms',
                 'item_key' => 'app_key',
                 'item_value' => '',
             ],
             [
-                'section' => 'smser',
+                'section' => 'sms',
                 'item_key' => 'signature',
                 'item_value' => '酷瓜云课堂',
             ],
             [
-                'section' => 'smser',
+                'section' => 'sms',
                 'item_key' => 'template',
                 'item_value' => '{"verify":"561282","order":"561954","refund":"561286","live":"561288"}',
             ],
@@ -392,12 +407,12 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'vod',
-                'item_key' => 'watermark_enabled',
+                'item_key' => 'wmk_enabled',
                 'item_value' => '1',
             ],
             [
                 'section' => 'vod',
-                'item_key' => 'watermark_template',
+                'item_key' => 'wmk_tpl_id',
                 'item_value' => '462027',
             ],
             [
