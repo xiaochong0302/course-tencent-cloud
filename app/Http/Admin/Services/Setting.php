@@ -62,7 +62,7 @@ class Setting extends Service
          */
         if ($items->count() > 0) {
             foreach ($items as $item) {
-                $pattern = '/(auth|key|secret|pwd|password)/';
+                $pattern = '/(id|auth|key|secret|pwd|pass)/';
                 if (preg_match($pattern, $item->item_key)) {
                     $item->item_value = '***';
                 }
