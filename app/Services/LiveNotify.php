@@ -128,8 +128,6 @@ class LiveNotify extends Service
 
     protected function sendBeginNotify(ChapterModel $chapter)
     {
-        $cache = $this->getCache();
-
         $redis = $this->getRedis();
 
         $key = $this->getNotifyKey();
@@ -141,7 +139,7 @@ class LiveNotify extends Service
 
     protected function getChapter($streamId)
     {
-        $id = (int)str_replace('chapter_', '', $streamId);
+        $id = str_replace('chapter_', '', $streamId);
 
         $chapterRepo = new ChapterRepo();
 
@@ -164,13 +162,9 @@ class LiveNotify extends Service
      */
     protected function checkSign($sign, $time)
     {
-        if (empty($sign) || empty($time)) {
-            return false;
-        }
+        if (!$sign || !$time) return false;
 
-        if ($time < time()) {
-            return false;
-        }
+        if ($time < time()) return false;
 
         $notify = $this->getSettings('live.notify');
 

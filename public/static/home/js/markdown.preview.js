@@ -1,7 +1,6 @@
-layui.use(['jquery', 'layer'], function () {
+layui.use(['jquery'], function () {
 
     var $ = layui.jquery;
-    var layer = layui.layer;
     var element = document.getElementById('preview');
     var markdown = element.innerHTML;
     var options = {
@@ -14,13 +13,8 @@ layui.use(['jquery', 'layer'], function () {
 
     Vditor.preview(element, markdown, options);
 
-    layer.ready(function () {
-        layer.load(1);
-    });
-
     setTimeout(function () {
         $(element).removeClass('layui-hide');
-        layer.closeAll();
-    }, 1000);
+    }, 500);
 
 });

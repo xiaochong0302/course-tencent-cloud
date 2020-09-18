@@ -2,7 +2,7 @@
 
 namespace App\Console\Tasks;
 
-use App\Library\SiteMap;
+use App\Library\Sitemap;
 use App\Models\Course as CourseModel;
 use App\Models\Help as HelpModel;
 use App\Models\ImGroup as ImGroupModel;
@@ -12,7 +12,7 @@ use App\Models\User as UserModel;
 use App\Services\Service as AppService;
 use Phalcon\Mvc\Model\Resultset;
 
-class SiteMapTask extends Task
+class SitemapTask extends Task
 {
 
     /**
@@ -21,15 +21,15 @@ class SiteMapTask extends Task
     protected $siteUrl;
 
     /**
-     * @var SiteMap
+     * @var Sitemap
      */
-    protected $siteMap;
+    protected $sitemap;
 
     public function mainAction()
     {
         $this->siteUrl = $this->getSiteUrl();
 
-        $this->siteMap = new SiteMap();
+        $this->sitemap = new Sitemap();
 
         $filename = public_path('sitemap.xml');
 
@@ -42,7 +42,7 @@ class SiteMapTask extends Task
         $this->addPages();
         $this->addOthers();
 
-        $this->siteMap->build($filename);
+        $this->sitemap->build($filename);
     }
 
     protected function getSiteUrl()
@@ -56,7 +56,7 @@ class SiteMapTask extends Task
 
     protected function addIndex()
     {
-        $this->siteMap->addItem($this->siteUrl, 1);
+        $this->sitemap->addItem($this->siteUrl, 1);
     }
 
     protected function addCourses()
@@ -70,7 +70,7 @@ class SiteMapTask extends Task
 
         foreach ($courses as $course) {
             $loc = sprintf('%s/course/%s', $this->siteUrl, $course->id);
-            $this->siteMap->addItem($loc, 0.8);
+            $this->sitemap->addItem($loc, 0.8);
         }
     }
 
@@ -85,7 +85,7 @@ class SiteMapTask extends Task
 
         foreach ($teachers as $teacher) {
             $loc = sprintf('%s/teacher/%s', $this->siteUrl, $teacher->id);
-            $this->siteMap->addItem($loc, 0.6);
+            $this->sitemap->addItem($loc, 0.6);
         }
     }
 
@@ -100,7 +100,7 @@ class SiteMapTask extends Task
 
         foreach ($topics as $topic) {
             $loc = sprintf('%s/topic/%s', $this->siteUrl, $topic->id);
-            $this->siteMap->addItem($loc, 0.6);
+            $this->sitemap->addItem($loc, 0.6);
         }
     }
 
@@ -115,7 +115,7 @@ class SiteMapTask extends Task
 
         foreach ($groups as $group) {
             $loc = sprintf('%s/im/group/%s', $this->siteUrl, $group->id);
-            $this->siteMap->addItem($loc, 0.6);
+            $this->sitemap->addItem($loc, 0.6);
         }
     }
 
@@ -130,7 +130,7 @@ class SiteMapTask extends Task
 
         foreach ($pages as $page) {
             $loc = sprintf('%s/page/%s', $this->siteUrl, $page->id);
-            $this->siteMap->addItem($loc, 0.7);
+            $this->sitemap->addItem($loc, 0.7);
         }
     }
 
@@ -145,18 +145,18 @@ class SiteMapTask extends Task
 
         foreach ($helps as $help) {
             $loc = sprintf('%s/help/%s', $this->siteUrl, $help->id);
-            $this->siteMap->addItem($loc, 0.7);
+            $this->sitemap->addItem($loc, 0.7);
         }
     }
 
     protected function addOthers()
     {
-        $this->siteMap->addItem('/course/list', 0.6);
-        $this->siteMap->addItem('/im/group/list', 0.6);
-        $this->siteMap->addItem('/teacher/list', 0.6);
-        $this->siteMap->addItem('/vip', 0.6);
-        $this->siteMap->addItem('/help', 0.6);
-        $this->siteMap->addItem('/search', 0.6);
+        $this->sitemap->addItem('/course/list', 0.6);
+        $this->sitemap->addItem('/im/group/list', 0.6);
+        $this->sitemap->addItem('/teacher/list', 0.6);
+        $this->sitemap->addItem('/vip', 0.6);
+        $this->sitemap->addItem('/help', 0.6);
+        $this->sitemap->addItem('/search', 0.6);
     }
 
 }

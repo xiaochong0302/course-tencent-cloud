@@ -5,7 +5,7 @@
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
-            <a><cite>帮助</cite></a>
+            <a><cite>帮助中心</cite></a>
         </span>
     </div>
 
