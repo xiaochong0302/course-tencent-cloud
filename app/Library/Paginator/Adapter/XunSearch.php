@@ -59,7 +59,7 @@ class XunSearch extends PaginatorAdapter
 
         $this->config = $config;
         $this->_page = $config['page'] ?? 1;
-        $this->_limitRows = $config['limit'] ?? 15;
+        $this->_limitRows = $config['limit'] ?? 12;
 
         $query = new PaginatorQuery();
 

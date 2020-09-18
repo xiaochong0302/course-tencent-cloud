@@ -12,7 +12,7 @@ class HelpController extends Controller
 {
 
     /**
-     * @Get("/", name="home.help.index")
+     * @Get("/index", name="home.help.index")
      */
     public function indexAction()
     {

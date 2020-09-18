@@ -42,12 +42,12 @@ class Query
 
     public function getSort()
     {
-        return $this->request->getQuery('sort', ['trim', 'string'], '');
+        return $this->request->getQuery('sort', ['trim', 'string']);
     }
 
     public function getBaseUrl()
     {
-        return $this->request->getQuery('_url', ['trim', 'string'], '');
+        return $this->request->getQuery('_url', ['trim', 'string']);
     }
 
     public function getParams(array $whitelist = [])

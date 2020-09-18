@@ -49,6 +49,10 @@ Abstract class Smser extends Service
 
             $result = $content['result'] == 0;
 
+            if ($result == false) {
+                $this->logger->error('Send Message Failed ' . $response);
+            }
+
         } catch (\Exception $e) {
 
             $this->logger->error('Send Message Exception ' . kg_json_encode([
@@ -71,7 +75,7 @@ Abstract class Smser extends Service
     {
         $template = json_decode($this->settings['template'], true);
 
-        return $template[$code]['id'] ?? null;
+        return $template[$code] ?? null;
     }
 
     protected function getSignature()

@@ -27,7 +27,13 @@ class CsrfToken
 
     public function getToken()
     {
-        $text = implode($this->delimiter, [time(), $this->fixed, Text::random(8)]);
+        $content = [
+            time() + $this->lifetime,
+            $this->fixed,
+            Text::random(8),
+        ];
+
+        $text = implode($this->delimiter, $content);
 
         return $this->crypt->encryptBase64($text);
     }
@@ -40,15 +46,11 @@ class CsrfToken
 
         $params = explode($this->delimiter, $text);
 
-        if (!isset($params[0]) || !isset($params[1]) || !isset($params[2])) {
+        if (count($params) != 3) {
             return false;
         }
 
-        if ($params[0] != intval($params[0]) || $params[1] != $this->fixed || strlen($params[2]) != 8) {
-            return false;
-        }
-
-        if (time() - $params[0] > $this->lifetime) {
+        if ($params[0] < time() || $params[1] != $this->fixed || strlen($params[2]) != 8) {
             return false;
         }
 

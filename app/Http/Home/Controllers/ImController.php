@@ -24,7 +24,7 @@ class ImController extends Controller
     }
 
     /**
-     * @Get("/", name="home.im.index")
+     * @Get("/index", name="home.im.index")
      */
     public function indexAction()
     {

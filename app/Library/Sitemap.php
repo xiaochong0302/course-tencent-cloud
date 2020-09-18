@@ -2,7 +2,7 @@
 
 namespace App\Library;
 
-class SiteMap
+class Sitemap
 {
 
     /**

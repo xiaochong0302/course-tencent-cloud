@@ -5,7 +5,7 @@ layui.use(['jquery', 'helper'], function () {
 
     var interval = null;
     var intervalTime = 15000;
-    var userId = window.koogua.user.id;
+    var userId = window.user.id;
     var chapterId = $('input[name="chapter.id"]').val();
     var planId = $('input[name="chapter.plan_id"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
