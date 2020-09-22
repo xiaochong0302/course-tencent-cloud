@@ -25,7 +25,7 @@
                 <input type="radio" name="edu_role" value="2" title="讲师">
             </div>
         </div>
-        {% if auth_user.root == 1 %}
+        {% if auth_info.root == 1 %}
             <div class="layui-form-item">
                 <label class="layui-form-label">后台角色</label>
                 <div class="layui-input-block">

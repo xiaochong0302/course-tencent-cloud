@@ -14,24 +14,13 @@ class Controller extends \Phalcon\Mvc\Controller
     /**
      * @var array
      */
-    protected $authUser;
+    protected $authInfo;
 
     use ResponseTrait;
     use SecurityTrait;
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
-        /**
-         * demo分支拒绝数据提交
-         */
-        if ($this->isNotSafeRequest()) {
-            $dispatcher->forward([
-                'controller' => 'public',
-                'action' => 'forbidden',
-            ]);
-            return false;
-        }
-
         if ($this->isNotSafeRequest()) {
             $this->checkHttpReferer();
             $this->checkCsrfToken();
@@ -39,9 +28,9 @@ class Controller extends \Phalcon\Mvc\Controller
 
         $this->checkRateLimit();
 
-        $this->authUser = $this->getAuthUser();
+        $this->authInfo = $this->getAuthInfo();
 
-        if (!$this->authUser) {
+        if (!$this->authInfo) {
             $dispatcher->forward([
                 'controller' => 'public',
                 'action' => 'auth',
@@ -49,14 +38,10 @@ class Controller extends \Phalcon\Mvc\Controller
             return false;
         }
 
-        $controller = $dispatcher->getControllerName();
-
-        $route = $this->router->getMatchedRoute();
-
         /**
          * 管理员忽略权限检查
          */
-        if ($this->authUser['root'] == 1) {
+        if ($this->authInfo['root'] == 1) {
             return true;
         }
 
@@ -68,12 +53,16 @@ class Controller extends \Phalcon\Mvc\Controller
             'routes' => ['admin.package.guiding'],
         ];
 
+        $controller = $dispatcher->getControllerName();
+
         /**
          * 特定控制器忽略权限检查
          */
         if (in_array($controller, $whitelist['controllers'])) {
             return true;
         }
+
+        $route = $this->router->getMatchedRoute();
 
         /**
          * 特定路由忽略权限检查
@@ -85,7 +74,7 @@ class Controller extends \Phalcon\Mvc\Controller
         /**
          * 执行路由权限检查
          */
-        if (!in_array($route->getName(), $this->authUser['routes'])) {
+        if (!in_array($route->getName(), $this->authInfo['routes'])) {
             $dispatcher->forward([
                 'controller' => 'public',
                 'action' => 'forbidden',
@@ -98,7 +87,7 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function initialize()
     {
-        $this->view->setVar('auth_user', $this->authUser);
+        $this->view->setVar('auth_info', $this->authInfo);
     }
 
     public function afterExecuteRoute(Dispatcher $dispatcher)
@@ -107,8 +96,8 @@ class Controller extends \Phalcon\Mvc\Controller
 
             $audit = new AuditModel();
 
-            $audit->user_id = $this->authUser['id'];
-            $audit->user_name = $this->authUser['name'];
+            $audit->user_id = $this->authInfo['id'];
+            $audit->user_name = $this->authInfo['name'];
             $audit->user_ip = $this->request->getClientAddress();
             $audit->req_route = $this->router->getMatchedRoute()->getName();
             $audit->req_path = $this->request->getServer('REQUEST_URI');
@@ -118,7 +107,7 @@ class Controller extends \Phalcon\Mvc\Controller
         }
     }
 
-    protected function getAuthUser()
+    protected function getAuthInfo()
     {
         /**
          * @var AdminAuth $auth

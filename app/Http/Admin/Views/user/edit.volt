@@ -33,7 +33,7 @@
                 <input type="radio" name="edu_role" value="2" title="讲师" {% if user.edu_role == 2 %}checked="checked"{% endif %}>
             </div>
         </div>
-        {% if auth_user.root == 1 %}
+        {% if auth_info.root == 1 %}
             <div class="layui-form-item">
                 <label class="layui-form-label">后台角色</label>
                 <div class="layui-input-block">
@@ -75,7 +75,7 @@
         </div>
     </form>
 
-    {% if auth_user.root == 1 %}
+    {% if auth_info.root == 1 %}
         <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.user.update','id':user.id}) }}">
             <fieldset class="layui-elem-field layui-field-title">
                 <legend>编辑帐号</legend>

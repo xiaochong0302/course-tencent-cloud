@@ -8,7 +8,7 @@ use Phalcon\Mvc\User\Component;
 class AuthMenu extends Component
 {
 
-    protected $authUser;
+    protected $authInfo;
     protected $authNodes = [];
     protected $ownedRoutes = [];
     protected $owned1stLevelIds = [];
@@ -17,10 +17,8 @@ class AuthMenu extends Component
 
     public function __construct()
     {
-        $this->authUser = $this->getAuthInfo();
-
+        $this->authInfo = $this->getAuthInfo();
         $this->authNodes = $this->getAuthNodes();
-
         $this->setOwnedLevelIds();
     }
 
@@ -29,7 +27,7 @@ class AuthMenu extends Component
         $menus = [];
 
         foreach ($this->authNodes as $node) {
-            if (($this->authUser['root'] == 1) || in_array($node['id'], $this->owned1stLevelIds)) {
+            if (($this->authInfo['root'] == 1) || in_array($node['id'], $this->owned1stLevelIds)) {
                 $menus[] = [
                     'id' => $node['id'],
                     'title' => $node['title'],
@@ -47,7 +45,7 @@ class AuthMenu extends Component
         foreach ($this->authNodes as $key => $level) {
             foreach ($level['children'] as $key2 => $level2) {
                 foreach ($level2['children'] as $key3 => $level3) {
-                    $allowed = ($this->authUser['root'] == 1) || in_array($level3['id'], $this->owned3rdLevelIds);
+                    $allowed = ($this->authInfo['root'] == 1) || in_array($level3['id'], $this->owned3rdLevelIds);
                     $params = $level3['params'] ?? [];
                     if ($level3['type'] == 'menu' && $allowed) {
                         $menus[$key]['id'] = $level['id'];
@@ -79,7 +77,7 @@ class AuthMenu extends Component
 
         foreach ($routeIdMapping as $key => $value) {
             $ids = explode('-', $value);
-            if (in_array($key, $this->authUser['routes'])) {
+            if (in_array($key, $this->authInfo['routes'])) {
                 $owned1stLevelIds[] = $ids[0];
                 $owned2ndLevelIds[] = $ids[0] . '-' . $ids[1];
                 $owned3rdLevelIds[] = $value;
