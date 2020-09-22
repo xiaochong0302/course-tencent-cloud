@@ -66,7 +66,7 @@ class Setting extends Service
         return $result;
     }
 
-    public function updateSectionSettings($section, $settings)
+    public function updateSettings($section, $settings)
     {
         $settingsRepo = new SettingRepo();
 
@@ -91,12 +91,12 @@ class Setting extends Service
             $settings['domain'] = str_replace($protocol, '', $settings['domain']);
         }
 
-        $this->updateSectionSettings($section, $settings);
+        $this->updateSettings($section, $settings);
     }
 
     public function updateVodSettings($section, $settings)
     {
-        $this->updateSectionSettings($section, $settings);
+        $this->updateSettings($section, $settings);
     }
 
     public function updateLiveSettings($section, $settings)
@@ -109,14 +109,14 @@ class Setting extends Service
             }
         }
 
-        $this->updateSectionSettings($section, $settings);
+        $this->updateSettings($section, $settings);
     }
 
     public function updateSmsSettings($section, $settings)
     {
         $settings['template'] = kg_json_encode($settings['template']);
 
-        $this->updateSectionSettings($section, $settings);
+        $this->updateSettings($section, $settings);
     }
 
     public function updateVipSettings($items)

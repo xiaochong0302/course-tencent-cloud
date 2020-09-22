@@ -3,7 +3,6 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Session as SessionService;
-use App\Http\Admin\Services\Setting as SettingService;
 use App\Library\AppInfo as AppInfo;
 use App\Traits\Auth as AuthTrait;
 use App\Traits\Response as ResponseTrait;
@@ -30,12 +29,15 @@ class SessionController extends \Phalcon\Mvc\Controller
             $this->response->redirect(['for' => 'admin.index']);
         }
 
+        $sessionService = new SessionService();
+
+        $captcha = $sessionService->getCaptchaSettings();
+
         if ($this->request->isPost()) {
 
             $this->checkHttpReferer();
-            $this->checkCsrfToken();
 
-            $sessionService = new SessionService();
+            $this->checkCsrfToken();
 
             $sessionService->login();
 
@@ -45,10 +47,6 @@ class SessionController extends \Phalcon\Mvc\Controller
         }
 
         $appInfo = new AppInfo();
-
-        $settingService = new SettingService();
-
-        $captcha = $settingService->getSettings('captcha');
 
         $this->view->pick('public/login');
         $this->view->setVar('app_info', $appInfo);

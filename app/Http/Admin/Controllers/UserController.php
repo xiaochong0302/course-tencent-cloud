@@ -55,7 +55,7 @@ class UserController extends Controller
         $adminRole = $this->request->getPost('admin_role', 'int', 0);
 
         if ($adminRole == RoleModel::ROLE_ROOT) {
-            return $this->response->redirect(['action' => 'list']);
+            $this->response->redirect(['action' => 'list']);
         }
 
         $userService = new UserService();
@@ -84,7 +84,7 @@ class UserController extends Controller
         $roles = $userService->getRoles();
 
         if ($user->admin_role == RoleModel::ROLE_ROOT) {
-            return $this->response->redirect(['action' => 'list']);
+            $this->response->redirect(['action' => 'list']);
         }
 
         $this->view->setVar('user', $user);
@@ -100,7 +100,7 @@ class UserController extends Controller
         $adminRole = $this->request->getPost('admin_role', 'int', 0);
 
         if ($adminRole == RoleModel::ROLE_ROOT) {
-            return $this->response->redirect(['action' => 'list']);
+            $this->response->redirect(['action' => 'list']);
         }
 
         $type = $this->request->getPost('type', 'string', 'user');

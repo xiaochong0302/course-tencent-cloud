@@ -146,7 +146,7 @@ class TestController extends Controller
 
             $settingService = new SettingService();
 
-            $settingService->updateSectionSettings('captcha', ['enabled' => 1]);
+            $settingService->updateSettings('captcha', ['enabled' => 1]);
 
             return $this->jsonSuccess(['msg' => '后台验证成功']);
 

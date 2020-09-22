@@ -23,7 +23,7 @@ class SettingController extends Controller
 
             $data = $this->request->getPost();
 
-            $settingService->updateSectionSettings($section, $data);
+            $settingService->updateSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
@@ -154,7 +154,7 @@ class SettingController extends Controller
 
             $data = $this->request->getPost();
 
-            $settingService->updateSectionSettings($section, $data);
+            $settingService->updateSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
@@ -206,7 +206,7 @@ class SettingController extends Controller
 
             $data = $this->request->getPost();
 
-            $settingService->updateSectionSettings($section, $data);
+            $settingService->updateSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
@@ -231,7 +231,7 @@ class SettingController extends Controller
 
             $data = $this->request->getPost();
 
-            $settingService->updateSectionSettings($section, $data);
+            $settingService->updateSettings($section, $data);
 
             $content = [
                 'location' => $this->request->getHTTPReferer(),
@@ -284,7 +284,7 @@ class SettingController extends Controller
 
             $data = $this->request->getPost();
 
-            $settingService->updateSectionSettings($section, $data);
+            $settingService->updateSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 

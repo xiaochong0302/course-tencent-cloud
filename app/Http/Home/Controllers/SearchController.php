@@ -24,7 +24,7 @@ class SearchController extends Controller
         $type = $this->request->get('type', ['trim', 'string'], 'course');
 
         if (empty($query)) {
-            return $this->response->redirect(['for' => 'home.course.list']);
+            $this->response->redirect(['for' => 'home.course.list']);
         }
 
         $this->seo->prependTitle(['搜索', $query]);

@@ -19,7 +19,7 @@ class ImController extends Controller
         parent::initialize();
 
         if ($this->authUser->id == 0) {
-            return $this->response->redirect(['for' => 'home.account.login']);
+            $this->response->redirect(['for' => 'home.account.login']);
         }
     }
 

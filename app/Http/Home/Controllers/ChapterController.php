@@ -28,7 +28,7 @@ class ChapterController extends Controller
         $owned = $chapter['me']['owned'] ?? false;
 
         if (!$owned) {
-            return $this->response->redirect([
+            $this->response->redirect([
                 'for' => 'home.course.show',
                 'id' => $chapter['course']['id'],
             ]);

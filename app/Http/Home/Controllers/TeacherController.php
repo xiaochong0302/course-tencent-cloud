@@ -39,7 +39,7 @@ class TeacherController extends Controller
      */
     public function showAction($id)
     {
-        return $this->dispatcher->forward([
+        $this->dispatcher->forward([
             'controller' => 'user',
             'action' => 'show',
             'params' => ['id' => $id],
