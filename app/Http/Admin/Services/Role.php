@@ -116,7 +116,9 @@ class Role extends Service
      */
     protected function handleRoutes($routes)
     {
-        if (!$routes) return [];
+        if (empty($routes)) {
+            return [];
+        }
 
         $list = [];
 

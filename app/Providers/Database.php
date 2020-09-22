@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use Phalcon\Config;
+use App\Listeners\Db as DbListener;
+use Phalcon\Config as Config;
 use Phalcon\Db\Adapter\Pdo\Mysql as MySqlAdapter;
+use Phalcon\Events\Manager as EventsManager;
 
 class Database extends Provider
 {
@@ -35,7 +37,9 @@ class Database extends Provider
             $connection = new MySqlAdapter($options);
 
             if ($config->get('env') == ENV_DEV) {
-                $connection->setEventsManager($this->getEventsManager());
+                $eventsManager = new EventsManager();
+                $eventsManager->attach('db', new DbListener());
+                $connection->setEventsManager($eventsManager);
             }
 
             return $connection;

@@ -8,9 +8,9 @@ use App\Library\AppInfo as AppInfo;
 use App\Library\Seo as Seo;
 use App\Models\User as UserModel;
 use App\Services\Auth\Home as HomeAuth;
+use App\Services\Service as AppService;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
-use Phalcon\Config;
 use Phalcon\Mvc\Dispatcher;
 
 class Controller extends \Phalcon\Mvc\Controller
@@ -54,7 +54,12 @@ class Controller extends \Phalcon\Mvc\Controller
         $this->siteInfo = $this->getSiteInfo();
         $this->authUser = $this->getAuthUser();
 
-        $this->checkSiteStatus();
+        if ($this->siteInfo['status'] == 'closed') {
+            $dispatcher->forward([
+                'controller' => 'error',
+                'action' => 'maintain',
+            ]);
+        }
 
         if ($this->isNotSafeRequest()) {
             $this->checkHttpReferer();
@@ -111,9 +116,9 @@ class Controller extends \Phalcon\Mvc\Controller
 
     protected function getSiteInfo()
     {
-        $cache = new SettingCache();
+        $appService = new AppService();
 
-        return $cache->get('site');
+        return $appService->getSettings('site');
     }
 
     protected function getAppInfo()
@@ -143,23 +148,11 @@ class Controller extends \Phalcon\Mvc\Controller
         ];
     }
 
-    /**
-     * @return Config
-     */
     protected function getConfig()
     {
-        return $this->getDI()->get('config');
-    }
+        $appService = new AppService();
 
-    protected function checkSiteStatus()
-    {
-        if ($this->siteInfo['status'] == 'closed') {
-            $this->dispatcher->forward([
-                'controller' => 'error',
-                'action' => 'maintain',
-                'params' => ['message' => $this->siteInfo['closed_tips']],
-            ]);
-        }
+        return $appService->getConfig();
     }
 
 }

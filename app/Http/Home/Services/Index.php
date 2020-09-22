@@ -24,7 +24,9 @@ class Index extends Service
          */
         $slides = $cache->get();
 
-        if (!$slides) return [];
+        if (empty($slides)) {
+            return [];
+        }
 
         foreach ($slides as $key => $slide) {
 

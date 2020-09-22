@@ -2,7 +2,6 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Repos\Setting as SettingRepo;
 use App\Services\Auth\Admin as AdminAuth;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Captcha as CaptchaValidator;
@@ -34,7 +33,7 @@ class Session extends Service
 
         $user = $accountValidator->checkAdminLogin($post['account'], $post['password']);
 
-        $captchaSettings = $this->getCaptchaSettings();
+        $captchaSettings = $this->getSettings('captcha');
 
         /**
          * 验证码是一次性的，放到最后检查，减少第三方调用
@@ -52,23 +51,6 @@ class Session extends Service
     public function logout()
     {
         $this->auth->clearAuthInfo();
-    }
-
-    public function getCaptchaSettings()
-    {
-        $settingsRepo = new SettingRepo();
-
-        $items = $settingsRepo->findBySection('captcha');
-
-        $result = [];
-
-        if ($items->count() > 0) {
-            foreach ($items as $item) {
-                $result[$item->item_key] = $item->item_value;
-            }
-        }
-
-        return $result;
     }
 
 }

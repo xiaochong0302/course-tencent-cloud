@@ -55,7 +55,7 @@ class Admin extends AuthService
     {
         $authUser = $this->getAuthInfo();
 
-        if ($authUser['root']) {
+        if ($authUser['root'] == 1) {
             return true;
         }
 

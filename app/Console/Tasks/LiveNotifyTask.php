@@ -12,8 +12,6 @@ class LiveNotifyTask extends Task
 
     public function mainAction()
     {
-        $cache = $this->getCache();
-
         $redis = $this->getRedis();
 
         $service = new LiveNotifyService();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Services\Service as AppService;
 use App\Traits\Response as ResponseTrait;
 
 /**
@@ -72,11 +73,13 @@ class ErrorController extends \Phalcon\Mvc\Controller
      */
     public function maintainAction()
     {
-        $message = $this->dispatcher->getParam('message');
+        $appService = new AppService();
+
+        $siteInfo = $appService->getSettings('site');
 
         $this->response->setStatusCode(503);
 
-        $this->view->setVar('message', $message);
+        $this->view->setVar('message', $siteInfo['closed_tips']);
     }
 
 }

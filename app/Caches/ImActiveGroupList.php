@@ -28,7 +28,9 @@ class ImActiveGroupList extends Cache
     {
         $groups = $this->findGroups();
 
-        if (!$groups) return [];
+        if (empty($groups)) {
+            return [];
+        }
 
         $result = [];
 
