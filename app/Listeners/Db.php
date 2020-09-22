@@ -7,7 +7,7 @@ use Phalcon\Db\Profiler as DbProfiler;
 use Phalcon\Events\Event as PhEvent;
 use Phalcon\Logger\Adapter\File as FileLogger;
 
-class Profiler extends Listener
+class Db extends Listener
 {
 
     /**

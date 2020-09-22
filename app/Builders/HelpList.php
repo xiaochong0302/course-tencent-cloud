@@ -25,7 +25,9 @@ class HelpList extends Builder
 
         $items = $cache->get(CategoryModel::TYPE_HELP);
 
-        if (!$items) return [];
+        if (empty($items)) {
+            return [];
+        }
 
         $result = [];
 

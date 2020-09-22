@@ -129,7 +129,9 @@ class Package extends Service
 
     public function getGuidingCourses($courseIds)
     {
-        if (!$courseIds) return [];
+        if (empty($courseIds)) {
+            return [];
+        }
 
         $courseRepo = new CourseRepo();
 

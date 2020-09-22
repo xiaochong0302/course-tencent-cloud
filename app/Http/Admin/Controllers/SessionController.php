@@ -31,12 +31,11 @@ class SessionController extends \Phalcon\Mvc\Controller
 
         $sessionService = new SessionService();
 
-        $captcha = $sessionService->getCaptchaSettings();
+        $captcha = $sessionService->getSettings('captcha');
 
         if ($this->request->isPost()) {
 
             $this->checkHttpReferer();
-
             $this->checkCsrfToken();
 
             $sessionService->login();

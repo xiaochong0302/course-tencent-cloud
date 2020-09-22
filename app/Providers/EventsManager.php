@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Phalcon\Events\Manager as PhalconEventsManager;
+use Phalcon\Events\Manager as PhEventsManager;
 
 class EventsManager extends Provider
 {
@@ -15,7 +15,7 @@ class EventsManager extends Provider
 
             $events = require config_path('events.php');
 
-            $eventsManager = new PhalconEventsManager();
+            $eventsManager = new PhEventsManager();
 
             foreach ($events as $eventType => $handler) {
                 $eventsManager->attach($eventType, new $handler());

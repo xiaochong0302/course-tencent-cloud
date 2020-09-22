@@ -11,7 +11,7 @@ class CleanLogTask extends Task
         $this->cleanConsoleLog();
         $this->cleanHttpLog();
         $this->cleanSqlLog();
-        $this->cleanListenerLog();
+        $this->cleanListenLog();
         $this->cleanCaptchaLog();
         $this->cleanMailLog();
         $this->cleanSmsLog();
@@ -57,11 +57,11 @@ class CleanLogTask extends Task
     }
 
     /**
-     * 清理监听者日志
+     * 清理监听日志
      */
-    protected function cleanListenerLog()
+    protected function cleanListenLog()
     {
-        $this->cleanLog('listener', 7);
+        $this->cleanLog('listen', 7);
     }
 
     /**

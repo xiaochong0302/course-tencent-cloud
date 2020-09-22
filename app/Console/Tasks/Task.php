@@ -2,48 +2,46 @@
 
 namespace App\Console\Tasks;
 
-use App\Library\Cache\Backend\Redis as RedisCache;
-use App\Library\Logger as AppLogger;
-use Phalcon\Config as PhConfig;
-use Phalcon\Logger\Adapter\File as PhLogger;
+use App\Services\Service as AppService;
 
 
 class Task extends \Phalcon\Cli\Task
 {
 
-    /**
-     * @return PhConfig
-     */
     public function getConfig()
     {
-        return $this->getDI()->getShared('config');
+        $appService = new AppService();
+
+        return $appService->getConfig();
     }
 
-    /**
-     * @return RedisCache
-     */
+
     public function getCache()
     {
-        return $this->getDI()->getShared('cache');
+        $appService = new AppService();
+
+        return $appService->getCache();
     }
 
-    /**
-     * @return \Redis
-     */
     public function getRedis()
     {
-        return $this->getCache()->getRedis();
+        $appService = new AppService();
+
+        return $appService->getRedis();
     }
 
-    /**
-     * @param null $channel
-     * @return PhLogger
-     */
     public function getLogger($channel = null)
     {
-        $logger = new AppLogger();
+        $appService = new AppService();
 
-        return $logger->getInstance($channel);
+        return $appService->getLogger($channel);
+    }
+
+    public function getSettings($section)
+    {
+        $appService = new AppService();
+
+        return $appService->getLogger($section);
     }
 
 }
