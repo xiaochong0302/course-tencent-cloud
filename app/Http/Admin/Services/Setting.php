@@ -62,8 +62,9 @@ class Setting extends Service
          */
         if ($items->count() > 0) {
             foreach ($items as $item) {
-                $pattern = '/(id|auth|key|secret|pwd|pass)/';
-                if (preg_match($pattern, $item->item_key)) {
+                $case1 = preg_match('/(id|auth|key|secret|pass|pwd)/', $item->item_key);
+                $case2 = $this->dispatcher->getControllerName() == 'setting';
+                if ($case1 && $case2) {
                     $item->item_value = '***';
                 }
                 $result[$item->item_key] = $item->item_value;
