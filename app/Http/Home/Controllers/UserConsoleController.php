@@ -38,7 +38,7 @@ class UserConsoleController extends Controller
      */
     public function indexAction()
     {
-        return $this->dispatcher->forward(['action' => 'courses']);
+        $this->dispatcher->forward(['action' => 'courses']);
     }
 
     /**

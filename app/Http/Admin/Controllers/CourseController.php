@@ -21,7 +21,7 @@ class CourseController extends Controller
             ['type' => CategoryModel::TYPE_COURSE]
         );
 
-        return $this->response->redirect($location);
+        $this->response->redirect($location);
     }
 
     /**

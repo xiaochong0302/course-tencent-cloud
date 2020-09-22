@@ -21,7 +21,7 @@ class AccountController extends Controller
     public function registerAction()
     {
         if ($this->authUser->id > 0) {
-            return $this->response->redirect('/');
+            $this->response->redirect('/');
         }
 
         $service = new AccountService();
