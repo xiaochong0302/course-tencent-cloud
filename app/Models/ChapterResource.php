@@ -4,18 +4,8 @@ namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class Upload extends Model
+class ChapterResource extends Model
 {
-
-    /**
-     * 资源类型
-     */
-    const TYPE_COVER_IMG = 1; // 封面图
-    const TYPE_CONTENT_IMG = 2; // 内容图
-    const TYPE_AVATAR_IMG = 3; // 头像
-    const TYPE_COURSE_RES = 4; // 课件资源
-    const TYPE_IM_IMG = 5; // IM图片
-    const TYPE_IM_FILE = 6; // IM文件
 
     /**
      * 主键编号
@@ -25,46 +15,25 @@ class Upload extends Model
     public $id;
 
     /**
-     * 名称
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
-     * 路径
-     *
-     * @var string
-     */
-    public $path;
-
-    /**
-     * mime
-     *
-     * @var string
-     */
-    public $mime;
-
-    /**
-     * md5
-     *
-     * @var string
-     */
-    public $md5;
-
-    /**
-     * 大小
+     * 课程编号
      *
      * @var int
      */
-    public $size;
+    public $course_id;
 
     /**
-     * 类型
+     * 章节编号
      *
      * @var int
      */
-    public $type;
+    public $chapter_id;
+
+    /**
+     * 上传编号
+     *
+     * @var int
+     */
+    public $upload_id;
 
     /**
      * 删除标识
@@ -89,7 +58,7 @@ class Upload extends Model
 
     public function getSource(): string
     {
-        return 'kg_upload';
+        return 'kg_chapter_resource';
     }
 
     public function initialize()

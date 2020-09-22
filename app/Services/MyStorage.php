@@ -10,12 +10,12 @@ class MyStorage extends Storage
 {
 
     /**
-     * 文件类型
+     * mime类型
      */
-    const TYPE_IMAGE = 'image';
-    const TYPE_VIDEO = 'video';
-    const TYPE_AUDIO = 'audio';
-    const TYPE_FILE = 'file';
+    const MIME_IMAGE = 'image';
+    const MIME_VIDEO = 'video';
+    const MIME_AUDIO = 'audio';
+    const MIME_FILE = 'file';
 
     public function uploadTestFile()
     {
@@ -50,7 +50,7 @@ class MyStorage extends Storage
      */
     public function uploadCoverImage()
     {
-        return $this->upload('/img/cover/', self::TYPE_IMAGE);
+        return $this->upload('/img/cover/', self::MIME_IMAGE, UploadModel::TYPE_COVER_IMG);
     }
 
     /**
@@ -60,7 +60,7 @@ class MyStorage extends Storage
      */
     public function uploadContentImage()
     {
-        return $this->upload('/img/content/', self::TYPE_IMAGE);
+        return $this->upload('/img/content/', self::MIME_IMAGE, UploadModel::TYPE_CONTENT_IMG);
     }
 
     /**
@@ -70,7 +70,17 @@ class MyStorage extends Storage
      */
     public function uploadAvatarImage()
     {
-        return $this->upload('/img/avatar/', self::TYPE_IMAGE);
+        return $this->upload('/img/avatar/', self::MIME_IMAGE, UploadModel::TYPE_AVATAR_IMG);
+    }
+
+    /**
+     * 上传课件资源
+     *
+     * @return UploadModel|bool
+     */
+    public function uploadCourseResource()
+    {
+        return $this->upload('/res/course/', self::MIME_FILE, UploadModel::TYPE_COURSE_RES);
     }
 
     /**
@@ -80,7 +90,7 @@ class MyStorage extends Storage
      */
     public function uploadImImage()
     {
-        return $this->upload('/im/img/', self::TYPE_IMAGE);
+        return $this->upload('/im/img/', self::MIME_IMAGE, UploadModel::TYPE_IM_IMG);
     }
 
     /**
@@ -88,17 +98,18 @@ class MyStorage extends Storage
      */
     public function uploadImFile()
     {
-        return $this->upload('/im/file/', self::TYPE_FILE);
+        return $this->upload('/im/file/', self::MIME_FILE, UploadModel::TYPE_IM_FILE);
     }
 
     /**
      * 上传文件
      *
      * @param string $prefix
-     * @param string $type
+     * @param string $mimeType
+     * @param string $uploadType
      * @return UploadModel|bool
      */
-    protected function upload($prefix = '', $type = self::TYPE_IMAGE)
+    protected function upload($prefix, $mimeType, $uploadType)
     {
         $list = [];
 
@@ -110,7 +121,7 @@ class MyStorage extends Storage
 
             foreach ($files as $file) {
 
-                if ($this->checkFile($file->getRealType(), $type) == false) {
+                if ($this->checkFile($file->getRealType(), $mimeType) == false) {
                     continue;
                 }
 
@@ -131,6 +142,7 @@ class MyStorage extends Storage
                     $upload->name = $name;
                     $upload->mime = $file->getRealType();
                     $upload->size = $file->getSize();
+                    $upload->type = $uploadType;
                     $upload->path = $path;
                     $upload->md5 = $md5;
 
@@ -148,19 +160,19 @@ class MyStorage extends Storage
      * 检查上传文件
      *
      * @param string $mime
-     * @param string $type
+     * @param string $alias
      * @return bool
      */
-    protected function checkFile($mime, $type)
+    protected function checkFile($mime, $alias)
     {
-        switch ($type) {
-            case self::TYPE_IMAGE:
+        switch ($alias) {
+            case self::MIME_IMAGE:
                 $result = FileInfo::isImage($mime);
                 break;
-            case self::TYPE_VIDEO:
+            case self::MIME_VIDEO:
                 $result = FileInfo::isVideo($mime);
                 break;
-            case self::TYPE_AUDIO:
+            case self::MIME_AUDIO:
                 $result = FileInfo::isAudio($mime);
                 break;
             default:

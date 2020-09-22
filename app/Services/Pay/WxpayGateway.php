@@ -21,11 +21,6 @@ class WxpayGateway extends Service
         $this->settings = array_merge($defaults, $options);
     }
 
-    public function getSettings()
-    {
-        return $this->settings;
-    }
-
     public function setNotifyUrl($notifyUrl)
     {
         $this->settings['notify_url'] = $notifyUrl;

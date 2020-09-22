@@ -161,6 +161,13 @@ class Chapter extends Model
     public $like_count;
 
     /**
+     * 资源数
+     *
+     * @var int
+     */
+    public $res_count;
+
+    /**
      * 创建时间
      *
      * @var int

@@ -21,11 +21,6 @@ class AlipayGateway extends Service
         $this->settings = array_merge($defaults, $options);
     }
 
-    public function getSettings()
-    {
-        return $this->settings;
-    }
-
     public function setReturnUrl($returnUrl)
     {
         $this->settings['return_url'] = $returnUrl;
