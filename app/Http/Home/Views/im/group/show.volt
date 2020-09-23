@@ -3,7 +3,6 @@
 {% block content %}
 
     {% set group.about = group.about ? group.about : '这个家伙真懒，什么都没有留下~' %}
-    {% set apply_group_url = '' %}
     {% set users_url = url({'for':'home.group.users','id':group.id}) %}
     {% set active_users_url = url({'for':'home.group.active_users','id':group.id}) %}
 

@@ -30,11 +30,11 @@ class Verify extends Validator
     public function checkCode($identity, $code)
     {
         if (CommonValidator::email($identity)) {
-            $this->checkEmailCode($identity, $code);
+            $this->checkMailCode($identity, $code);
         } elseif (CommonValidator::phone($identity)) {
             $this->checkSmsCode($identity, $code);
         } else {
-            throw new BadRequestException('verify.unsupported_identity');
+            throw new BadRequestException('verify.invalid_code');
         }
     }
 
@@ -49,14 +49,14 @@ class Verify extends Validator
         }
     }
 
-    public function checkEmailCode($email, $code)
+    public function checkMailCode($email, $code)
     {
         $service = new VerifyService();
 
-        $result = $service->checkEmailCode($email, $code);
+        $result = $service->checkMailCode($email, $code);
 
         if (!$result) {
-            throw new BadRequestException('verify.invalid_email_code');
+            throw new BadRequestException('verify.invalid_mail_code');
         }
     }
 

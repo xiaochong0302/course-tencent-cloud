@@ -45,7 +45,7 @@ class ConsoleErrorHandler extends Component
      */
     protected function getConfig()
     {
-        return $this->getDI()->get('config');
+        return $this->getDI()->getShared('config');
     }
 
     /**

@@ -3816,7 +3816,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('channel_sn', 'string', [
                 'null' => false,
                 'default' => '',
-                'limit' => 32,
+                'limit' => 64,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
                 'comment' => '平台序号',

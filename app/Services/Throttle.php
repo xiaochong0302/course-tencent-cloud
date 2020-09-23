@@ -49,7 +49,7 @@ class Throttle extends Service
             return md5($httpHost . '|' . $clientAddress);
         }
 
-        throw new \RuntimeException('Unable to generate the request signature.');
+        throw new \RuntimeException('Unable to generate request signature');
     }
 
     protected function getCacheKey($sign)

@@ -106,7 +106,7 @@ class MyStorage extends Storage
      *
      * @param string $prefix
      * @param string $mimeType
-     * @param string $uploadType
+     * @param int $uploadType
      * @return UploadModel|bool
      */
     protected function upload($prefix, $mimeType, $uploadType)

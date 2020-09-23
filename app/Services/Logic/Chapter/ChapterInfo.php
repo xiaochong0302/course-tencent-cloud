@@ -6,8 +6,10 @@ use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
+use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\User as UserModel;
 use App\Repos\ChapterLike as ChapterLikeRepo;
+use App\Repos\ImGroup as ImGroupRepo;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Service;
@@ -113,6 +115,17 @@ class ChapterInfo extends Service
         $this->courseUser = $courseUser;
 
         $this->joinedCourse = true;
+
+        $groupRepo = new ImGroupRepo();
+
+        $group = $groupRepo->findByCourseId($course->id);
+
+        $groupUser = new ImGroupUserModel();
+
+        $groupUser->group_id = $group->id;
+        $groupUser->user_id = $user->id;
+
+        $groupUser->create();
 
         $this->incrCourseUserCount($course);
 

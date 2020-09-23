@@ -162,9 +162,13 @@ class LiveNotify extends Service
      */
     protected function checkSign($sign, $time)
     {
-        if (!$sign || !$time) return false;
+        if (!$sign || !$time) {
+            return false;
+        }
 
-        if ($time < time()) return false;
+        if ($time < time()) {
+            return false;
+        }
 
         $notify = $this->getSettings('live.notify');
 

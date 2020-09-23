@@ -3,10 +3,13 @@
 namespace App\Console\Tasks;
 
 use App\Models\CourseUser as CourseUserModel;
+use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\Order as OrderModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
+use App\Repos\ImGroup as ImGroupRepo;
+use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Sms\Order as OrderSms;
@@ -104,18 +107,35 @@ class DeliverTask extends Task
          */
         $itemInfo = $order->item_info;
 
-        $data = [
-            'user_id' => $order->owner_id,
-            'course_id' => $order->item_id,
-            'expiry_time' => $itemInfo['course']['study_expiry_time'],
-            'role_type' => CourseUserModel::ROLE_STUDENT,
-            'source_type' => CourseUserModel::SOURCE_CHARGE,
-        ];
-
         $courseUser = new CourseUserModel();
 
-        if ($courseUser->create($data) === false) {
+        $courseUser->user_id = $order->owner_id;
+        $courseUser->course_id = $order->item_id;
+        $courseUser->expiry_time = $itemInfo['course']['study_expiry_time'];
+        $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
+        $courseUser->source_type = CourseUserModel::SOURCE_CHARGE;
+
+        if ($courseUser->create() === false) {
             throw new \RuntimeException('Create Course User Failed');
+        }
+
+        $groupRepo = new ImGroupRepo();
+
+        $group = $groupRepo->findByCourseId($order->item_id);
+
+        $groupUserRepo = new ImGroupUserRepo();
+
+        $groupUser = $groupUserRepo->findGroupUser($group->id, $order->owner_id);
+
+        if ($groupUser) return;
+
+        $groupUser = new ImGroupUserModel();
+
+        $groupUser->group_id = $group->id;
+        $groupUser->user_id = $order->owner_id;
+
+        if ($groupUser->create() === false) {
+            throw new \RuntimeException('Create Group User Failed');
         }
     }
 
@@ -128,32 +148,49 @@ class DeliverTask extends Task
 
         foreach ($itemInfo['courses'] as $course) {
 
-            $data = [
-                'user_id' => $order->owner_id,
-                'course_id' => $course['id'],
-                'expiry_time' => $course['study_expiry_time'],
-                'role_type' => CourseUserModel::ROLE_STUDENT,
-                'source_type' => CourseUserModel::SOURCE_CHARGE,
-            ];
-
             $courseUser = new CourseUserModel();
 
-            if ($courseUser->create($data) === false) {
+            $courseUser->user_id = $order->owner_id;
+            $courseUser->course_id = $course['id'];
+            $courseUser->expiry_time = $course['study_expiry_time'];
+            $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
+            $courseUser->source_type = CourseUserModel::SOURCE_CHARGE;
+
+            if ($courseUser->create() === false) {
                 throw new \RuntimeException('Create Course User Failed');
+            }
+
+            $groupRepo = new ImGroupRepo();
+
+            $group = $groupRepo->findByCourseId($course['id']);
+
+            $groupUserRepo = new ImGroupUserRepo();
+
+            $groupUser = $groupUserRepo->findGroupUser($group->id, $order->owner_id);
+
+            if ($groupUser) continue;
+
+            $groupUser = new ImGroupUserModel();
+
+            $groupUser->group_id = $group->id;
+            $groupUser->user_id = $order->owner_id;
+
+            if ($groupUser->create() === false) {
+                throw new \RuntimeException('Create Group User Failed');
             }
         }
     }
 
     protected function handleVipOrder(OrderModel $order)
     {
-        $userRepo = new UserRepo();
-
-        $user = $userRepo->findById($order->owner_id);
-
         /**
          * @var array $itemInfo
          */
         $itemInfo = $order->item_info;
+
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($order->owner_id);
 
         $user->vip_expiry_time = $itemInfo['vip']['expiry_time'];
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Home\Services;
 
-use App\Caches\Setting as SettingCache;
+use App\Services\Service as AppService;
 use GatewayClient\Gateway;
 
 trait ImCsTrait
@@ -11,32 +11,33 @@ trait ImCsTrait
     public function getCsUser()
     {
         $csUserIds = [];
+
         $onlineUserIds = [];
 
-        $cache = new SettingCache();
+        $appService = new AppService();
 
-        $imInfo = $cache->get('im');
+        $csInfo = $appService->getSettings('im.cs');
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
-        if (!empty($imInfo['cs_user1_id'])) {
-            $csUserIds[] = $imInfo['cs_user1_id'];
-            if (Gateway::isUidOnline($imInfo['cs_user1_id'])) {
-                $onlineUserIds[] = $imInfo['cs_user1_id'];
+        if (!empty($csInfo['user1_id'])) {
+            $csUserIds[] = $csInfo['user1_id'];
+            if (Gateway::isUidOnline($csInfo['user1_id'])) {
+                $onlineUserIds[] = $csInfo['user1_id'];
             }
         }
 
-        if (!empty($imInfo['cs_user2_id'])) {
-            $csUserIds[] = $imInfo['cs_user2_id'];
-            if (Gateway::isUidOnline($imInfo['cs_user2_id'])) {
-                $onlineUserIds[] = $imInfo['cs_user2_id'];
+        if (!empty($csInfo['user2_id'])) {
+            $csUserIds[] = $csInfo['user2_id'];
+            if (Gateway::isUidOnline($csInfo['user2_id'])) {
+                $onlineUserIds[] = $csInfo['user2_id'];
             }
         }
 
-        if (!empty($imInfo['cs_user3_id'])) {
-            $csUserIds[] = $imInfo['cs_user3_id'];
-            if (Gateway::isUidOnline($imInfo['cs_user3_id'])) {
-                $onlineUserIds[] = $imInfo['cs_user3_id'];
+        if (!empty($csInfo['user3_id'])) {
+            $csUserIds[] = $csInfo['user3_id'];
+            if (Gateway::isUidOnline($csInfo['user3_id'])) {
+                $onlineUserIds[] = $csInfo['user3_id'];
             }
         }
 

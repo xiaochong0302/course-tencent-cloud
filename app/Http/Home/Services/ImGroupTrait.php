@@ -13,35 +13,48 @@ use App\Validators\ImGroup as ImGroupValidator;
 use App\Validators\ImGroupUser as ImGroupUserValidator;
 use App\Validators\ImNotice as ImNoticeValidator;
 use GatewayClient\Gateway;
+use Phalcon\Di;
+use Phalcon\Http\Request;
 
 Trait ImGroupTrait
 {
 
     public function applyGroup()
     {
+        /**
+         * @var Request $request
+         */
+        $request = Di::getDefault()->get('request');
+
         $loginUser = $this->getLoginUser();
 
         $user = $this->getImUser($loginUser->id);
 
-        $post = $this->request->getPost();
-
         $validator = new ImGroupUserValidator();
+
+        $post = $request->getPost();
 
         $group = $validator->checkGroup($post['group_id']);
         $remark = $validator->checkRemark($post['remark']);
 
         $validator->checkIfJoined($group->id, $user->id);
+        $validator->checkIfAllowJoin($group->id, $user->id);
 
         $this->handleApplyGroupNotice($user, $group, $remark);
     }
 
     public function acceptGroup()
     {
+        /**
+         * @var Request $request
+         */
+        $request = Di::getDefault()->get('request');
+
         $loginUser = $this->getLoginUser();
 
         $user = $this->getImUser($loginUser->id);
 
-        $noticeId = $this->request->getPost('notice_id', 'int');
+        $noticeId = $request->getPost('notice_id', 'int');
 
         $validator = new ImNoticeValidator();
 
@@ -92,11 +105,16 @@ Trait ImGroupTrait
 
     public function refuseGroup()
     {
+        /**
+         * @var Request $request
+         */
+        $request = Di::getDefault()->get('request');
+
         $loginUser = $this->getLoginUser();
 
         $user = $this->getImUser($loginUser->id);
 
-        $noticeId = $this->request->getPost('notice_id', 'int');
+        $noticeId = $request->getPost('notice_id', 'int');
 
         $validator = new ImNoticeValidator();
 
