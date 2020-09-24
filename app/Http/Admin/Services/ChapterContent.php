@@ -10,6 +10,7 @@ use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Services\ChapterVod as ChapterVodService;
 use App\Services\CourseStat as CourseStatService;
+use App\Services\Vod as VodService;
 use App\Validators\ChapterLive as ChapterLiveValidator;
 use App\Validators\ChapterRead as ChapterReadValidator;
 use App\Validators\ChapterVod as ChapterVodValidator;
@@ -100,9 +101,11 @@ class ChapterContent extends Service
 
         $chapter->update(['attrs' => $attrs]);
 
-        $courseStats = new CourseStatService();
+        $this->updateCourseVodAttrs($vod->course_id);
 
-        $courseStats->updateVodAttrs($chapter->course_id);
+        if (!empty($vod->file_id)) {
+            $this->deleteVodFile($vod->file_id);
+        }
     }
 
     protected function updateChapterLive(ChapterModel $chapter)
@@ -135,9 +138,7 @@ class ChapterContent extends Service
 
         $chapter->update(['attrs' => $attrs]);
 
-        $courseStats = new CourseStatService();
-
-        $courseStats->updateLiveAttrs($chapter->course_id);
+        $this->updateCourseLiveAttrs($live->course_id);
     }
 
     protected function updateChapterRead(ChapterModel $chapter)
@@ -164,9 +165,35 @@ class ChapterContent extends Service
 
         $chapter->update(['attrs' => $attrs]);
 
-        $courseStats = new CourseStatService();
+        $this->updateCourseReadAttrs($read->course_id);
+    }
 
-        $courseStats->updateReadAttrs($chapter->course_id);
+    protected function updateCourseVodAttrs($courseId)
+    {
+        $statService = new CourseStatService();
+
+        $statService->updateVodAttrs($courseId);
+    }
+
+    protected function updateCourseLiveAttrs($courseId)
+    {
+        $statService = new CourseStatService();
+
+        $statService->updateLiveAttrs($courseId);
+    }
+
+    protected function updateCourseReadAttrs($courseId)
+    {
+        $statService = new CourseStatService();
+
+        $statService->updateReadAttrs($courseId);
+    }
+
+    protected function deleteVodFile($fileId)
+    {
+        $vodService = new VodService();
+
+        $vodService->deleteMedia($fileId);
     }
 
     protected function rebuildCatalogCache(ChapterModel $chapter)

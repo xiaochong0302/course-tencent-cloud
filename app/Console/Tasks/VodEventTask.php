@@ -28,6 +28,8 @@ class VodEventTask extends Task
                 $this->handleNewFileUploadEvent($event);
             } elseif ($event['EventType'] == 'ProcedureStateChanged') {
                 $this->handleProcedureStateChangedEvent($event);
+            } elseif ($event['EventType'] == 'FileDeleted') {
+                $this->handleFileDeletedEvent($event);
             }
 
             $count++;
@@ -121,6 +123,11 @@ class VodEventTask extends Task
         $attrs['file']['status'] = $fileStatus;
 
         $chapter->update(['attrs' => $attrs]);
+    }
+
+    protected function handleFileDeletedEvent($event)
+    {
+
     }
 
     protected function pullEvents()

@@ -37,6 +37,8 @@ Abstract class Smser extends Service
     {
         $sender = $this->createSingleSender();
 
+        $params = $this->formatParams($params);
+
         $signature = $this->getSignature();
 
         try {
@@ -69,6 +71,17 @@ Abstract class Smser extends Service
     protected function createSingleSender()
     {
         return new SmsSingleSender($this->settings['app_id'], $this->settings['app_key']);
+    }
+
+    protected function formatParams($params)
+    {
+        if (!empty($params)) {
+            $params = array_map(function ($value) {
+                return strval($value);
+            }, $params);
+        }
+
+        return $params;
     }
 
     protected function getTemplateId($code)

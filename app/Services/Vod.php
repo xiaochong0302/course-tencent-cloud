@@ -8,9 +8,10 @@ use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Common\Profile\ClientProfile;
 use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Vod\V20180717\Models\ConfirmEventsRequest;
-use TencentCloud\Vod\V20180717\Models\DescribeAudioTrackTemplatesRequest;
+use TencentCloud\Vod\V20180717\Models\DeleteMediaRequest;
 use TencentCloud\Vod\V20180717\Models\DescribeMediaInfosRequest;
 use TencentCloud\Vod\V20180717\Models\DescribeTaskDetailRequest;
+use TencentCloud\Vod\V20180717\Models\DescribeTranscodeTemplatesRequest;
 use TencentCloud\Vod\V20180717\Models\ProcessMediaRequest;
 use TencentCloud\Vod\V20180717\Models\PullEventsRequest;
 use TencentCloud\Vod\V20180717\VodClient;
@@ -53,21 +54,21 @@ class Vod extends Service
     {
         try {
 
-            $request = new DescribeAudioTrackTemplatesRequest();
+            $request = new DescribeTranscodeTemplatesRequest();
 
             $params = '{}';
 
             $request->fromJsonString($params);
 
-            $response = $this->client->DescribeAudioTrackTemplates($request);
+            $response = $this->client->DescribeTranscodeTemplates($request);
 
-            $this->logger->debug('Describe Audio Track Templates Response ' . $response->toJsonString());
+            $this->logger->debug('Describe Transcode Templates Response ' . $response->toJsonString());
 
             $result = $response->TotalCount > 0;
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Describe Audio Track Templates Exception ' . kg_json_encode([
+            $this->logger->error('Describe Transcode Templates Exception ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -263,6 +264,44 @@ class Vod extends Service
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Confirm Events Exception ' . kg_json_encode([
+                    'code' => $e->getErrorCode(),
+                    'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
+                ]));
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * 删除媒体
+     *
+     * @param string $fileId
+     * @return bool
+     */
+    public function deleteMedia($fileId)
+    {
+        try {
+
+            $request = new DeleteMediaRequest();
+
+            $params = json_encode(['FileId' => $fileId]);
+
+            $request->fromJsonString($params);
+
+            $this->logger->debug('Delete Media Request ' . $params);
+
+            $response = $this->client->DeleteMedia($request);
+
+            $this->logger->debug('Delete Media Response ' . $response->toJsonString());
+
+            $result = !empty($response->RequestId);
+
+        } catch (TencentCloudSDKException $e) {
+
+            $this->logger->error('Delete Media Exception ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -574,7 +613,7 @@ class Vod extends Service
     {
         $result = null;
 
-        if ($this->settings['wmk_enabled'] && $this->settings['wmk_tpl_id'] > 0) {
+        if ($this->settings['wmk_enabled'] == 1 && $this->settings['wmk_tpl_id'] > 0) {
             $result = (int)$this->settings['wmk_tpl_id'];
         }
 

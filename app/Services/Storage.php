@@ -173,7 +173,7 @@ class Storage extends Service
      */
     protected function generateFileName($extension = '', $prefix = '')
     {
-        $randName = date('YmdHis') . rand(1000, 9999);
+        $randName = date('YmdHis') . rand(100, 999) . rand(100, 999);
 
         return $prefix . $randName . '.' . $extension;
     }

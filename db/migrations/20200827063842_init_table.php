@@ -3668,10 +3668,6 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'after' => 'create_time',
             ])
-            ->addIndex(['item_type', 'status'], [
-                'name' => 'type_status',
-                'unique' => false,
-            ])
             ->create();
         $this->table('kg_topic', [
             'id' => false,
