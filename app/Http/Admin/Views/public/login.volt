@@ -2,6 +2,9 @@
 
 {% block content %}
 
+    {% set disabled_submit = captcha.enabled == 1 ? 'disabled="disabled"' : '' %}
+    {% set disabled_class = captcha.enabled == 1 ? 'layui-btn-disabled' : '' %}
+
     <div class="kg-login-wrap">
         <div class="layui-card">
             <div class="layui-card-header">管理登录</div>
@@ -26,8 +29,8 @@
                     {% endif %}
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            {% set disabled = captcha.enabled ? 'disabled="disabled"' : '' %}
-                            <button id="submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" {{ disabled }} lay-submit="true" lay-filter="go">立即登录</button>
+
+                            <button id="submit-btn" class="layui-btn layui-btn-fluid {{ disabled_class }}" {{ disabled_submit }} lay-submit="true" lay-filter="go">立即登录</button>
                             <input type="hidden" name="ticket">
                             <input type="hidden" name="rand">
                         </div>

@@ -113,7 +113,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">请求方法</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="file" value="DescribeAudioTrackTemplates" readonly="readonly">
+                <input class="layui-input" type="text" name="file" value="DescribeTranscodeTemplates" readonly="readonly">
             </div>
         </div>
         <div class="layui-form-item">

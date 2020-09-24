@@ -26,10 +26,11 @@ $error['security.invalid_http_referer'] = '无效请求来源';
  */
 $error['verify.invalid_phone'] = '无效手机号';
 $error['verify.invalid_email'] = '无效的邮箱';
+$error['verify.invalid_code'] = '无效的验证码';
 $error['verify.invalid_sms_code'] = '无效的短信验证码';
-$error['verify.invalid_email_code'] = '无效的邮件验证码';
-$error['verify.send_sms_failed'] = '发送短信验证码失败';
-$error['verify.send_email_failed'] = '发送邮件验证码失败';
+$error['verify.invalid_mail_code'] = '无效的邮件验证码';
+$error['verify.send_sms_failed'] = '发送短信失败';
+$error['verify.send_mail_failed'] = '发送邮件失败';
 
 /**
  * captcha相关
@@ -41,16 +42,16 @@ $error['captcha.invalid_code'] = '无效的验证码';
  */
 $error['account.not_found'] = '账号不存在';
 $error['account.login_block'] = '账号被锁定，无法登录';
-$error['account.login_password_incorrect'] = '登录密码不正确';
+$error['account.login_pwd_incorrect'] = '登录密码不正确';
 $error['account.invalid_login_name'] = '无效的登录名';
 $error['account.invalid_email'] = '无效的电子邮箱';
 $error['account.invalid_phone'] = '无效的手机号';
-$error['account.invalid_password'] = '无效的密码（字母或数字6-16位）';
+$error['account.invalid_pwd'] = '无效的密码（字母或数字6-16位）';
 $error['account.email_taken'] = '邮箱被占用';
 $error['account.phone_taken'] = '手机号被占用';
-$error['account.password_not_match'] = '密码不匹配';
-$error['account.origin_password_incorrect'] = '原有密码不正确';
-$error['account.login_password_incorrect'] = '登录密码不正确';
+$error['account.pwd_not_match'] = '密码不匹配';
+$error['account.origin_pwd_incorrect'] = '原有密码不正确';
+$error['account.login_pwd_incorrect'] = '登录密码不正确';
 
 /**
  * 用户相关
@@ -341,6 +342,7 @@ $error['im_group.invalid_publish_status'] = '无效的发布状态';
 $error['im_group_user.not_found'] = '群组关系不存在';
 $error['im_group_user.remark_too_long'] = '验证信息太长（超过30字符）';
 $error['im_group_user.has_joined'] = '已经加入过群组';
+$error['im_group_user.join_not_allowed'] = '当前不允许加入群组';
 
 $error['im_friend_user.not_found'] = '好友关系不存在';
 $error['im_friend_user.remark_too_long'] = '验证信息太长（超过30字符）';

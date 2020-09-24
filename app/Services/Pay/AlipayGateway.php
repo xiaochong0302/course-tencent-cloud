@@ -42,9 +42,10 @@ class AlipayGateway extends Service
 
         $options = [
             'app_id' => $this->settings['app_id'],
-            'ali_public_key' => $this->settings['public_key'],
             'private_key' => $this->settings['private_key'],
-            'return_url' => $this->settings['return_url'],
+            'ali_public_key' => config_path('alipay/alipayCertPublicKey.crt'), // 支付宝公钥证书
+            'alipay_root_cert' => config_path('alipay/alipayRootCert.crt'), // 支付宝根证书
+            'app_cert_public_key' => config_path('alipay/appCertPublicKey.crt'), // 应用公钥证书
             'notify_url' => $this->settings['notify_url'],
             'log' => [
                 'file' => log_path('alipay.log'),

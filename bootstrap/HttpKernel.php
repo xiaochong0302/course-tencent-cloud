@@ -35,8 +35,8 @@ class HttpKernel extends Kernel
         $this->loader = new Loader();
 
         $this->initAppEnv();
-        $this->initAppConfigs();
-        $this->initAppSettings();
+        $this->initAppConfig();
+        $this->initAppSetting();
         $this->registerLoaders();
         $this->registerServices();
         $this->registerModules();

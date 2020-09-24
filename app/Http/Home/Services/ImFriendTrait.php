@@ -11,17 +11,24 @@ use App\Repos\ImUser as ImUserRepo;
 use App\Validators\ImFriendUser as ImFriendUserValidator;
 use App\Validators\ImNotice as ImNoticeValidator;
 use GatewayClient\Gateway;
+use Phalcon\Di;
+use Phalcon\Http\Request;
 
 Trait ImFriendTrait
 {
 
     public function applyFriend()
     {
+        /**
+         * @var Request $request
+         */
+        $request = Di::getDefault()->get('request');
+
         $loginUser = $this->getLoginUser();
 
         $user = $this->getImUser($loginUser->id);
 
-        $post = $this->request->getPost();
+        $post = $request->getPost();
 
         $validator = new ImFriendUserValidator();
 
@@ -37,12 +44,17 @@ Trait ImFriendTrait
 
     public function acceptFriend()
     {
+        /**
+         * @var Request $request
+         */
+        $request = Di::getDefault()->get('request');
+
         $loginUser = $this->getLoginUser();
 
         $user = $this->getImUser($loginUser->id);
 
-        $noticeId = $this->request->getPost('notice_id');
-        $groupId = $this->request->getPost('group_id');
+        $noticeId = $request->getPost('notice_id');
+        $groupId = $request->getPost('group_id');
 
         $validator = new ImFriendUserValidator();
 
@@ -103,11 +115,16 @@ Trait ImFriendTrait
 
     public function refuseFriend()
     {
+        /**
+         * @var Request $request
+         */
+        $request = Di::getDefault()->get('request');
+
         $loginUser = $this->getLoginUser();
 
         $user = $this->getImUser($loginUser->id);
 
-        $noticeId = $this->request->getPost('notice_id');
+        $noticeId = $request->getPost('notice_id');
 
         $validator = new ImNoticeValidator();
 

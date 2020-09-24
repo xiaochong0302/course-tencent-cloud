@@ -24,7 +24,7 @@ class Sitemap
      * @param string $changefreq 更新频率的单位
      * @param string $lastmod 日期格式 YYYY-MM-DD
      */
-    function addItem($loc, $priority = null, $changefreq = null, $lastmod = null)
+    public function addItem($loc, $priority = null, $changefreq = null, $lastmod = null)
     {
         $this->items[] = array(
             'loc' => $loc,
@@ -38,7 +38,7 @@ class Sitemap
      * @param string $filename
      * @return mixed
      */
-    function build($filename = null)
+    public function build($filename = null)
     {
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";

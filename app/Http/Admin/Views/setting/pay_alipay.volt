@@ -13,13 +13,6 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">Public Key</label>
-        <div class="layui-input-block">
-            <textarea class="layui-textarea" name="public_key" lay-verify="required">{{ alipay.public_key }}</textarea>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
         <label class="layui-form-label">Private Key</label>
         <div class="layui-input-block">
             <textarea class="layui-textarea" name="private_key" lay-verify="required">{{ alipay.private_key }}</textarea>

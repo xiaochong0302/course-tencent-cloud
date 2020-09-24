@@ -271,7 +271,7 @@ class Live extends Service
 
         return http_build_query([
             'txSecret' => $txSecret,
-            'txTime' => $txTime
+            'txTime' => $txTime,
         ]);
     }
 

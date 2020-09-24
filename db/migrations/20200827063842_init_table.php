@@ -3668,10 +3668,6 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'after' => 'create_time',
             ])
-            ->addIndex(['item_type', 'status'], [
-                'name' => 'type_status',
-                'unique' => false,
-            ])
             ->create();
         $this->table('kg_topic', [
             'id' => false,
@@ -3816,7 +3812,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('channel_sn', 'string', [
                 'null' => false,
                 'default' => '',
-                'limit' => 32,
+                'limit' => 64,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
                 'comment' => '平台序号',

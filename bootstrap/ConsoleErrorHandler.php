@@ -27,17 +27,13 @@ class ConsoleErrorHandler extends Component
      */
     public function handleException($e)
     {
-        $config = $this->getConfig();
-
         $logger = $this->getLogger();
 
         $content = sprintf('%s(%d): %s', $e->getFile(), $e->getLine(), $e->getMessage());
 
         $logger->error($content);
 
-        if ($config->get('env') == ENV_DEV) {
-            echo $content;
-        }
+        echo $content . PHP_EOL;
     }
 
     /**
@@ -45,7 +41,7 @@ class ConsoleErrorHandler extends Component
      */
     protected function getConfig()
     {
-        return $this->getDI()->get('config');
+        return $this->getDI()->getShared('config');
     }
 
     /**

@@ -1,6 +1,6 @@
 {% extends 'templates/main.volt' %}
 
-{% block contnet %}
+{% block content %}
 
     <div class="kg-qrcode-block">
         {% if qrcode %}

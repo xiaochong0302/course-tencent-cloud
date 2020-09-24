@@ -67,7 +67,7 @@ class Account extends Validator
     public function checkPassword($password)
     {
         if (!CommonValidator::password($password)) {
-            throw new BadRequestException('account.invalid_password');
+            throw new BadRequestException('account.invalid_pwd');
         }
 
         return $password;
@@ -76,7 +76,7 @@ class Account extends Validator
     public function checkConfirmPassword($newPassword, $confirmPassword)
     {
         if ($newPassword != $confirmPassword) {
-            throw new BadRequestException('account.password_not_match');
+            throw new BadRequestException('account.pwd_not_match');
         }
     }
 
@@ -85,7 +85,7 @@ class Account extends Validator
         $hash = PasswordUtil::hash($password, $account->salt);
 
         if ($hash != $account->password) {
-            throw new BadRequestException('account.origin_password_incorrect');
+            throw new BadRequestException('account.origin_pwd_incorrect');
         }
     }
 
@@ -94,7 +94,7 @@ class Account extends Validator
         $hash = PasswordUtil::hash($password, $account->salt);
 
         if ($hash != $account->password) {
-            throw new BadRequestException('account.login_password_incorrect');
+            throw new BadRequestException('account.login_pwd_incorrect');
         }
     }
 
@@ -140,7 +140,7 @@ class Account extends Validator
         $hash = PasswordUtil::hash($password, $account->salt);
 
         if ($hash != $account->password) {
-            throw new BadRequestException('account.login_password_incorrect');
+            throw new BadRequestException('account.login_pwd_incorrect');
         }
 
         $userRepo = new UserRepo();

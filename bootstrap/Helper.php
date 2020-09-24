@@ -115,7 +115,7 @@ function tmp_path($path = '')
 }
 
 /**
- * Rtrim slash
+ * Trim path slash
  *
  * @param string $path
  * @return string

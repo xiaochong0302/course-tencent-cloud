@@ -29,9 +29,9 @@ class Verify extends Service
         return $code;
     }
 
-    public function getEmailCode($email, $lifetime = 300)
+    public function getMailCode($email, $lifetime = 300)
     {
-        $key = $this->getEmailCacheKey($email);
+        $key = $this->getMailCacheKey($email);
 
         $code = Text::random(Text::RANDOM_NUMERIC, 6);
 
@@ -49,18 +49,18 @@ class Verify extends Service
         return $code == $value;
     }
 
-    public function checkEmailCode($email, $code)
+    public function checkMailCode($email, $code)
     {
-        $key = $this->getEmailCacheKey($email);
+        $key = $this->getMailCacheKey($email);
 
         $value = $this->cache->get($key);
 
         return $code == $value;
     }
 
-    protected function getEmailCacheKey($email)
+    protected function getMailCacheKey($email)
     {
-        return "verify:email:{$email}";
+        return "verify:mail:{$email}";
     }
 
     protected function getSmsCacheKey($phone)

@@ -80,6 +80,18 @@ class ImGroup extends Repository
     }
 
     /**
+     * @param int $courseId
+     * @return ImGroupModel|Model|bool
+     */
+    public function findByCourseId($courseId)
+    {
+        return ImGroupModel::findFirst([
+            'conditions' => 'course_id = :course_id:',
+            'bind' => ['course_id' => $courseId],
+        ]);
+    }
+
+    /**
      * @param array $ids
      * @param string|array $columns
      * @return ResultsetInterface|Resultset|ImGroupModel[]
