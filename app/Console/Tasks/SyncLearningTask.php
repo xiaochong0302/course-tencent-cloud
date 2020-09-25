@@ -16,8 +16,6 @@ class SyncLearningTask extends Task
 
     public function mainAction()
     {
-        $cache = $this->getCache();
-
         $redis = $this->getRedis();
 
         $sync = new LearningSync();

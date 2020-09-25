@@ -72,9 +72,20 @@ class Trade extends Service
 
     protected function getWxpayQrCode(TradeModel $trade)
     {
+        $qrCode = null;
+
         $service = new WxpayService();
 
-        return $service->scan($trade);
+        $text = $service->scan($trade);
+
+        if ($text) {
+            $qrCode = $this->url->get(
+                ['for' => 'home.qrcode'],
+                ['text' => urlencode($text)]
+            );
+        }
+
+        return $qrCode;
     }
 
 }

@@ -27,7 +27,7 @@
             <a href="javascript:" class="nav-search" data-type="{{ s_type }}" data-query="{{ s_query }}" data-url="{{ s_url }}"><i class="layui-icon layui-icon-search"></i> 搜索</a>
         </li>
         <li class="layui-nav-item">
-            <a href="{{ url({'for':'home.vip.index'}) }}" class="nav-vip" target="vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
+            <a href="{{ url({'for':'home.vip.index'}) }}" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
         </li>
         <li class="layui-nav-item">
             <a href="{{ url({'for':'home.im.index'}) }}" class="nav-im" target="im"><i class="layui-icon layui-icon-chat"></i> 微聊</a>

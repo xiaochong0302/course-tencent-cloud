@@ -43,7 +43,7 @@ class UpgradeTask extends Task
     public function resetAnnotationAction()
     {
         $config = $this->getConfig();
-        $cache = $this->getCache();
+
         $redis = $this->getRedis();
 
         $dbIndex = $config->path('annotation.db');
@@ -74,7 +74,7 @@ class UpgradeTask extends Task
     public function resetMetadataAction()
     {
         $config = $this->getConfig();
-        $cache = $this->getCache();
+
         $redis = $this->getRedis();
 
         $dbIndex = $config->path('metadata.db');

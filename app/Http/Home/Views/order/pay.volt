@@ -2,6 +2,9 @@
 
 {% block content %}
 
+    {% set create_url = url({'for':'home.trade.create'}) %}
+    {% set status_url = url({'for':'home.trade.status'}) %}
+
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
         <a><cite>支付订单</cite></a>
@@ -14,8 +17,6 @@
             支付金额：<span class="amount">{{ '￥%0.2f'|format(order.amount) }}</span>
         </div>
         <div class="channel">
-            {% set create_url = url({'for':'home.trade.create'}) %}
-            {% set status_url = url({'for':'home.trade.status'}) %}
             <a class="alipay btn-pay" href="javascript:" data-channel="1"></a>
             <a class="wxpay btn-pay" href="javascript:" data-channel="2"></a>
         </div>
