@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">API密钥</label>
+        <label class="layui-form-label">API Key</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="key" value="{{ wxpay.key }}" lay-verify="required">
         </div>

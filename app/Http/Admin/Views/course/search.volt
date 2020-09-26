@@ -35,7 +35,7 @@
             <div class="layui-input-block">
                 <input type="radio" name="model" value="1" title="点播">
                 <input type="radio" name="model" value="2" title="直播">
-                <input type="radio" name="model" value="3" title="图文">
+                <input type="radio" name="model" value="3" title="专栏">
             </div>
         </div>
         <div class="layui-form-item">

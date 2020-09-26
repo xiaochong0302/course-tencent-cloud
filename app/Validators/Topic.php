@@ -18,18 +18,7 @@ class Topic extends Validator
      */
     public function checkTopicCache($id)
     {
-        $id = intval($id);
-
-        $maxTopicIdCache = new MaxTopicIdCache();
-
-        $maxTopicId = $maxTopicIdCache->get();
-
-        /**
-         * 防止缓存穿透
-         */
-        if ($id < 1 || $id > $maxTopicId) {
-            throw new BadRequestException('topic.not_found');
-        }
+        $this->checkId($id);
 
         $topicCache = new TopicCache();
 
@@ -44,6 +33,8 @@ class Topic extends Validator
 
     public function checkTopic($id)
     {
+        $this->checkId($id);
+
         $topicRepo = new TopicRepo();
 
         $topic = $topicRepo->findById($id);
@@ -53,6 +44,19 @@ class Topic extends Validator
         }
 
         return $topic;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxIdCache = new MaxTopicIdCache();
+
+        $maxId = $maxIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('topic.not_found');
+        }
     }
 
     public function checkTitle($title)

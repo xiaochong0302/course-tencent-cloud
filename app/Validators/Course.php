@@ -19,18 +19,7 @@ class Course extends Validator
      */
     public function checkCourseCache($id)
     {
-        $id = intval($id);
-
-        $maxCache = new MaxCourseIdCache();
-
-        $maxId = $maxCache->get();
-
-        /**
-         * 防止缓存穿透
-         */
-        if ($id < 1 || $id > $maxId) {
-            throw new BadRequestException('course.not_found');
-        }
+        $this->checkId($id);
 
         $courseCache = new CourseCache();
 
@@ -45,6 +34,8 @@ class Course extends Validator
 
     public function checkCourse($id)
     {
+        $this->checkId($id);
+
         $courseRepo = new CourseRepo();
 
         $course = $courseRepo->findById($id);
@@ -54,6 +45,19 @@ class Course extends Validator
         }
 
         return $course;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxIdCache = new MaxCourseIdCache();
+
+        $maxId = $maxIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('course.not_found');
+        }
     }
 
     public function checkModel($model)

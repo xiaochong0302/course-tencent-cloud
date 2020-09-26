@@ -3,7 +3,6 @@
 namespace App\Http\Home\Controllers;
 
 use App\Caches\NavTreeList as NavCache;
-use App\Caches\Setting as SettingCache;
 use App\Library\AppInfo as AppInfo;
 use App\Library\Seo as Seo;
 use App\Models\User as UserModel;
@@ -116,9 +115,7 @@ class Controller extends \Phalcon\Mvc\Controller
 
     protected function getSiteInfo()
     {
-        $appService = new AppService();
-
-        return $appService->getSettings('site');
+        return $this->getSettings('site');
     }
 
     protected function getAppInfo()
@@ -128,8 +125,6 @@ class Controller extends \Phalcon\Mvc\Controller
 
     protected function getImInfo()
     {
-        $cache = new SettingCache();
-
         $websocket = $this->getConfig()->get('websocket');
 
         /**
@@ -142,8 +137,8 @@ class Controller extends \Phalcon\Mvc\Controller
         }
 
         return [
-            'main' => $cache->get('im.main'),
-            'cs' => $cache->get('im.cs'),
+            'main' => $this->getSettings('im.main'),
+            'cs' => $this->getSettings('im.cs'),
             'ws' => $websocket,
         ];
     }
@@ -153,6 +148,13 @@ class Controller extends \Phalcon\Mvc\Controller
         $appService = new AppService();
 
         return $appService->getConfig();
+    }
+
+    protected function getSettings($section)
+    {
+        $appService = new AppService();
+
+        return $appService->getSettings($section);
     }
 
 }

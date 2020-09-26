@@ -6,7 +6,7 @@
     {% set edit_phone_url = url({'for':'home.account.edit_phone'}) %}
     {% set edit_email_url = url({'for':'home.account.edit_email'}) %}
 
-    <div class="layout-main">
+    <div class="layout-main clearfix">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">
             <div class="wrap">

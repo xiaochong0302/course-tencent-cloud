@@ -18,18 +18,7 @@ class Package extends Validator
      */
     public function checkPackageCache($id)
     {
-        $id = intval($id);
-
-        $maxPackageIdCache = new MaxPackageIdCache();
-
-        $maxPackageId = $maxPackageIdCache->get();
-
-        /**
-         * 防止缓存穿透
-         */
-        if ($id < 1 || $id > $maxPackageId) {
-            throw new BadRequestException('package.not_found');
-        }
+        $this->checkId($id);
 
         $packageCache = new PackageCache();
 
@@ -44,6 +33,8 @@ class Package extends Validator
 
     public function checkPackage($id)
     {
+        $this->checkId($id);
+
         $packageRepo = new PackageRepo();
 
         $package = $packageRepo->findById($id);
@@ -53,6 +44,19 @@ class Package extends Validator
         }
 
         return $package;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxIdCache = new MaxPackageIdCache();
+
+        $maxId = $maxIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('package.not_found');
+        }
     }
 
     public function checkTitle($title)

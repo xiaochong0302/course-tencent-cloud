@@ -17,8 +17,8 @@
             支付金额：<span class="amount">{{ '￥%0.2f'|format(order.amount) }}</span>
         </div>
         <div class="channel">
-            <a class="alipay btn-pay" href="javascript:" data-channel="1"></a>
-            <a class="wxpay btn-pay" href="javascript:" data-channel="2"></a>
+            <a class="alipay btn-pay" href="javascript:" data-channel="alipay">{{ image('home/img/alipay.png') }}</a>
+            <a class="wxpay btn-pay" href="javascript:" data-channel="wxpay">{{ image('home/img/wxpay.png') }}</a>
         </div>
         <div class="footer">
             <span class="tips">友情提示：请在12小时内完成支付，有问题请联系客服</span>

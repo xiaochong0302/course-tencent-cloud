@@ -8,7 +8,7 @@
         {% elseif value == 2 %}
             <span class="layui-badge layui-bg-blue">直播</span>
         {% elseif value == 3 %}
-            <span class="layui-badge layui-bg-black">图文</span>
+            <span class="layui-badge layui-bg-black">专栏</span>
         {% endif %}
     {%- endmacro %}
 
