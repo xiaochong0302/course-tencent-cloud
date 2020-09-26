@@ -312,7 +312,7 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'site',
-                'item_key' => 'index_tpl',
+                'item_key' => 'index_tpl_type',
                 'item_value' => 'simple',
             ],
             [
@@ -338,7 +338,7 @@ final class InsertSettingData extends AbstractMigration
             [
                 'section' => 'site',
                 'item_key' => 'police_link',
-                'item_value' => 'http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=abc',
+                'item_value' => '',
             ],
             [
                 'section' => 'site',

@@ -27,8 +27,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">首页版式</label>
             <div class="layui-input-block">
-                <input type="radio" name="index_tpl" value="simple" title="简洁" {% if site.index_tpl == 'simple' %}checked="checked"{% endif %}>
-                <input type="radio" name="index_tpl" value="full" title="丰富" {% if site.index_tpl == 'full' %}checked="checked"{% endif %}>
+                <input type="radio" name="index_tpl_type" value="simple" title="简洁" {% if site.index_tpl_type == 'simple' %}checked="checked"{% endif %}>
+                <input type="radio" name="index_tpl_type" value="full" title="丰富" {% if site.index_tpl_type == 'full' %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">
