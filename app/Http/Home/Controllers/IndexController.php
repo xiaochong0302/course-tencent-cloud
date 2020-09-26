@@ -15,9 +15,9 @@ class IndexController extends Controller
         $this->seo->setKeywords($this->siteInfo['keywords']);
         $this->seo->setDescription($this->siteInfo['description']);
 
-        $template = $this->siteInfo['index_tpl'] ?? 'full';
+        $type = $this->siteInfo['index_tpl_type'] ?? 'full';
 
-        if ($template == 'full') {
+        if ($type == 'full') {
             $this->fullIndex();
         } else {
             $this->simpleIndex();
