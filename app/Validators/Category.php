@@ -18,18 +18,7 @@ class Category extends Validator
      */
     public function checkCategoryCache($id)
     {
-        $id = intval($id);
-
-        $maxCategoryIdCache = new MaxCategoryIdCache();
-
-        $maxCategoryId = $maxCategoryIdCache->get();
-
-        /**
-         * 防止缓存穿透
-         */
-        if ($id < 1 || $id > $maxCategoryId) {
-            throw new BadRequestException('category.not_found');
-        }
+        $this->checkId($id);
 
         $categoryCache = new CategoryCache();
 
@@ -44,6 +33,8 @@ class Category extends Validator
 
     public function checkCategory($id)
     {
+        $this->checkId($id);
+
         $categoryRepo = new CategoryRepo();
 
         $category = $categoryRepo->findById($id);
@@ -53,6 +44,19 @@ class Category extends Validator
         }
 
         return $category;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxIdCache = new MaxCategoryIdCache();
+
+        $maxId = $maxIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('category.not_found');
+        }
     }
 
     public function checkParent($id)

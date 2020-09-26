@@ -14,9 +14,18 @@ class WxpayTest extends PayTest
     {
         $wxpayService = new WxpayService();
 
-        $qrcode = $wxpayService->scan($trade);
+        $code = $wxpayService->scan($trade);
 
-        return $qrcode ?: false;
+        $codeUrl = null;
+
+        if ($code) {
+            $codeUrl = $this->url->get(
+                ['for' => 'home.qrcode'],
+                ['text' => urlencode($code)]
+            );
+        }
+
+        return $codeUrl ?: false;
     }
 
     public function status($tradeNo)

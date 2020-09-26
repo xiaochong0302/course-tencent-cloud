@@ -12,8 +12,6 @@ class SyncUserIndexTask extends Task
 
     public function mainAction()
     {
-        $cache = $this->getCache();
-
         $redis = $this->getRedis();
 
         $key = $this->getSyncKey();

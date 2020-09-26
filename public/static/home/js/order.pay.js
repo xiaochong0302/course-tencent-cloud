@@ -16,7 +16,10 @@ layui.use(['jquery', 'layer'], function () {
         var qrHtml = $qrBlock.html();
 
         if (qrHtml.length === 0) {
-            var postData = {order_sn: orderSn, channel: channel};
+            var postData = {
+                order_sn: orderSn,
+                channel: channel === 'alipay' ? 1 : 2
+            };
             $.post(createUrl, postData, function (res) {
                 qrHtml = '<div class="qrcode"><img src="' + res.qrcode + '" alt="支付二维码"></div>';
                 showQrLayer(qrTitle, qrHtml);

@@ -367,7 +367,7 @@ class Course extends Model
         return [
             self::MODEL_VOD => '点播',
             self::MODEL_LIVE => '直播',
-            self::MODEL_READ => '图文',
+            self::MODEL_READ => '专栏',
         ];
     }
 

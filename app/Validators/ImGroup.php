@@ -19,18 +19,7 @@ class ImGroup extends Validator
      */
     public function checkGroupCache($id)
     {
-        $id = intval($id);
-
-        $maxGroupIdCache = new MaxImGroupIdCache();
-
-        $maxGroupId = $maxGroupIdCache->get();
-
-        /**
-         * 防止缓存穿透
-         */
-        if ($id < 1 || $id > $maxGroupId) {
-            throw new BadRequestException('im_group.not_found');
-        }
+        $this->checkId($id);
 
         $groupCache = new ImGroupCache();
 
@@ -45,6 +34,8 @@ class ImGroup extends Validator
 
     public function checkGroup($id)
     {
+        $this->checkId($id);
+
         $groupRepo = new ImGroupRepo();
 
         $group = $groupRepo->findById($id);
@@ -54,6 +45,19 @@ class ImGroup extends Validator
         }
 
         return $group;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxGroupIdCache = new MaxImGroupIdCache();
+
+        $maxId = $maxGroupIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('im_group.not_found');
+        }
     }
 
     public function checkName($name)

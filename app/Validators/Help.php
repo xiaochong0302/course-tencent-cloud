@@ -18,18 +18,7 @@ class Help extends Validator
      */
     public function checkHelpCache($id)
     {
-        $id = intval($id);
-
-        $maxHelpIdCache = new MaxHelpIdCache();
-
-        $maxHelpId = $maxHelpIdCache->get();
-
-        /**
-         * 防止缓存穿透
-         */
-        if ($id < 1 || $id > $maxHelpId) {
-            throw new BadRequestException('help.not_found');
-        }
+        $this->checkId($id);
 
         $helpCache = new HelpCache();
 
@@ -53,6 +42,19 @@ class Help extends Validator
         }
 
         return $help;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxIdCache = new MaxHelpIdCache();
+
+        $maxId = $maxIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('help.not_found');
+        }
     }
 
     public function checkCategory($id)

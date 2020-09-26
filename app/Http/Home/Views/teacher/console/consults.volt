@@ -7,7 +7,7 @@
     {% set status_types = {'all':'全部','pending':'待回复','replied':'已回复'} %}
     {% set status = request.get('status','trim','all') %}
 
-    <div class="layout-main">
+    <div class="layout-main clearfix">
         <div class="my-sidebar">{{ partial('teacher/console/menu') }}</div>
         <div class="my-content">
             <div class="wrap">

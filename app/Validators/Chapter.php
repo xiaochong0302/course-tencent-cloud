@@ -19,18 +19,7 @@ class Chapter extends Validator
      */
     public function checkChapterCache($id)
     {
-        $id = intval($id);
-
-        $maxChapterIdCache = new MaxChapterIdCache();
-
-        $maxChapterId = $maxChapterIdCache->get();
-
-        /**
-         * 防止缓存穿透
-         */
-        if ($id < 1 || $id > $maxChapterId) {
-            throw new BadRequestException('chapter.not_found');
-        }
+        $this->checkId($id);
 
         $chapterCache = new ChapterCache();
 
@@ -45,6 +34,8 @@ class Chapter extends Validator
 
     public function checkChapterVod($id)
     {
+        $this->checkId($id);
+
         $chapterRepo = new ChapterRepo();
 
         $chapterVod = $chapterRepo->findChapterVod($id);
@@ -58,6 +49,8 @@ class Chapter extends Validator
 
     public function checkChapterLive($id)
     {
+        $this->checkId($id);
+
         $chapterRepo = new ChapterRepo();
 
         $chapterLive = $chapterRepo->findChapterLive($id);
@@ -71,6 +64,8 @@ class Chapter extends Validator
 
     public function checkChapterRead($id)
     {
+        $this->checkId($id);
+
         $chapterRepo = new ChapterRepo();
 
         $chapterRead = $chapterRepo->findChapterRead($id);
@@ -84,6 +79,8 @@ class Chapter extends Validator
 
     public function checkChapter($id)
     {
+        $this->checkId($id);
+
         $chapterRepo = new ChapterRepo();
 
         $chapter = $chapterRepo->findById($id);
@@ -93,6 +90,19 @@ class Chapter extends Validator
         }
 
         return $chapter;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxIdCache = new MaxChapterIdCache();
+
+        $maxId = $maxIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('chapter.not_found');
+        }
     }
 
     public function checkCourse($id)

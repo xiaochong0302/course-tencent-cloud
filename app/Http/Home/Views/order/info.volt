@@ -21,10 +21,10 @@
     </table>
     <br>
     <div class="center">
-        {% if order.status == 'pending' %}
+        {% if order.status == 1 %}
             <a class="layui-btn layui-bg-blue" href="{{ order_pay_url }}" target="_top">立即支付</a>
         {% endif %}
-        {% if (order.item_type in ['course','package']) and (order.status == 'finished') %}
+        {% if (order.item_type in [1,2]) and (order.status == 3) %}
             <a class="layui-btn layui-bg-blue" href="{{ refund_confirm_url }}">申请退款</a>
         {% endif %}
     </div>

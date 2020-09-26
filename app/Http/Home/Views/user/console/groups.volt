@@ -9,7 +9,7 @@
     {% set joined_class = scope == 'joined' ? 'layui-btn layui-btn-xs' : 'none' %}
     {% set owned_class = scope == 'owned' ? 'layui-btn layui-btn-xs' : 'none' %}
 
-    <div class="layout-main">
+    <div class="layout-main clearfix">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">
             <div class="my-nav">

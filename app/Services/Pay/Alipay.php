@@ -87,6 +87,7 @@ class Alipay extends PayService
 
     /**
      * 异步通知
+     *
      * @return Response|bool
      */
     public function notify()

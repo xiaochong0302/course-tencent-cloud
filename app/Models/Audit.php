@@ -71,6 +71,11 @@ class Audit extends Model
         $this->create_time = time();
 
         if (is_array($this->req_data) && !empty($this->req_data)) {
+            foreach ($this->req_data as $key => $value) {
+                if (kg_strlen($value) > 255) {
+                    $this->req_data[$key] = kg_substr($value, 0, 255);
+                }
+            }
             $this->req_data = kg_json_encode($this->req_data);
         } else {
             $this->req_data = '';

@@ -21,18 +21,7 @@ class User extends Validator
      */
     public function checkUserCache($id)
     {
-        $id = intval($id);
-
-        $maxUserIdCache = new MaxUserIdCache();
-
-        $maxUserId = $maxUserIdCache->get();
-
-        /**
-         * 防止缓存穿透
-         */
-        if ($id < 1 || $id > $maxUserId) {
-            throw new BadRequestException('user.not_found');
-        }
+        $this->checkId($id);
 
         $userCache = new UserCache();
 
@@ -47,6 +36,8 @@ class User extends Validator
 
     public function checkUser($id)
     {
+        $this->checkId($id);
+
         $userRepo = new UserRepo();
 
         $user = $userRepo->findById($id);
@@ -56,6 +47,19 @@ class User extends Validator
         }
 
         return $user;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxUserIdCache = new MaxUserIdCache();
+
+        $maxUserId = $maxUserIdCache->get();
+
+        if ($id < 1 || $id > $maxUserId) {
+            throw new BadRequestException('user.not_found');
+        }
     }
 
     public function checkName($name)

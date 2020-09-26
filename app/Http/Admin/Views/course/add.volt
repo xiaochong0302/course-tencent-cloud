@@ -11,7 +11,7 @@
             <div class="layui-input-block">
                 <input type="radio" name="model" value="1" title="点播" lay-filter="model" checked="checked">
                 <input type="radio" name="model" value="2" title="直播" lay-filter="model">
-                <input type="radio" name="model" value="3" title="图文" lay-filter="model">
+                <input type="radio" name="model" value="3" title="专栏" lay-filter="model">
             </div>
         </div>
         <div class="layui-form-item">

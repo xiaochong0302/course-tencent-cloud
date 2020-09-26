@@ -18,18 +18,7 @@ class Page extends Validator
      */
     public function checkPageCache($id)
     {
-        $id = intval($id);
-
-        $maxPageIdCache = new MaxPageIdCache();
-
-        $maxPageId = $maxPageIdCache->get();
-
-        /**
-         * 防止缓存穿透
-         */
-        if ($id < 1 || $id > $maxPageId) {
-            throw new BadRequestException('page.not_found');
-        }
+        $this->checkId($id);
 
         $pageCache = new PageCache();
 
@@ -44,6 +33,8 @@ class Page extends Validator
 
     public function checkPage($id)
     {
+        $this->checkId($id);
+
         $pageRepo = new PageRepo();
 
         $page = $pageRepo->findById($id);
@@ -53,6 +44,19 @@ class Page extends Validator
         }
 
         return $page;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxIdCache = new MaxPageIdCache();
+
+        $maxId = $maxIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('page.not_found');
+        }
     }
 
     public function checkTitle($title)

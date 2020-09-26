@@ -7,7 +7,7 @@
     {% set status_types = {'0':'全部','1':'待处理','2':'已取消','3':'退款中','5':'已完成'} %}
     {% set status = request.get('status','int','0') %}
 
-    <div class="layout-main">
+    <div class="layout-main clearfix">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">
             <div class="my-nav">
