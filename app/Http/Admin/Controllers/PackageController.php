@@ -11,6 +11,14 @@ class PackageController extends Controller
 {
 
     /**
+     * @Get("/search", name="admin.package.search")
+     */
+    public function searchAction()
+    {
+
+    }
+
+    /**
      * @Get("/guiding", name="admin.package.guiding")
      */
     public function guidingAction()
@@ -65,11 +73,11 @@ class PackageController extends Controller
             'msg' => '创建套餐成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.package.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.package.edit")
      */
     public function editAction($id)
     {
@@ -83,7 +91,7 @@ class PackageController extends Controller
     }
 
     /**
-     * @Post("/{id}/update", name="admin.package.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.package.update")
      */
     public function updateAction($id)
     {
@@ -93,11 +101,11 @@ class PackageController extends Controller
 
         $content = ['msg' => '更新套餐成功'];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.package.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.package.delete")
      */
     public function deleteAction($id)
     {
@@ -110,11 +118,11 @@ class PackageController extends Controller
             'msg' => '删除套餐成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.package.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.package.restore")
      */
     public function restoreAction($id)
     {
@@ -127,7 +135,7 @@ class PackageController extends Controller
             'msg' => '还原套餐成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

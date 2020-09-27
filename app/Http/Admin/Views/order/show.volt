@@ -1,141 +1,82 @@
-{{ partial('order/macro') }}
-{{ partial('trade/macro') }}
-{{ partial('refund/macro') }}
+{% extends 'templates/main.volt' %}
 
-<fieldset class="layui-elem-field layui-field-title">
-    <legend>订单信息</legend>
-</fieldset>
+{% block content %}
 
-<table class="kg-table layui-table">
-    <tr>
-        <td>
-            <span class="kg-order-sn">订单编号：{{ order.sn }}</span>
-        </td>
-        <td>订单金额</td>
-        <td>订单类型</td>
-        <td>订单状态</td>
-        <td>创建时间</td>
-    </tr>
-    <tr>
-        <td>{{ item_info(order) }}</td>
-        <td>￥{{ order.amount }}</td>
-        <td>{{ item_type(order.item_type) }}</span></td>
-        <td>{{ order_status(order.status) }}</td>
-        <td>{{ date('Y-m-d H:i:s',order.created_at) }}</td>
-    </tr>
-</table>
+    {{ partial('order/macro') }}
+    {{ partial('trade/macro') }}
+    {{ partial('refund/macro') }}
+    {{ partial('order/order_info') }}
 
-<br>
+    <br>
 
-<div style="text-align: center">
-    {% if order.status == 'pending' %}
-        <button class="kg-close layui-btn layui-bg-green" order-id="{{ order.id }}">关闭订单</button>
+    <div class="kg-center">
+        <button class="layui-btn layui-bg-gray kg-back">返回上页</button>
+    </div>
+
+    {% if refunds.count() > 0 %}
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>退款信息</legend>
+        </fieldset>
+        <table class="layui-table kg-table">
+            <tr>
+                <th>退款序号</th>
+                <th>退款金额</th>
+                <th>退款原因</th>
+                <th>退款状态</th>
+                <th>创建时间</th>
+                <th></th>
+            </tr>
+            {% for item in refunds %}
+                {% set refund_sh_url = url({'for':'admin.refund.status_history','id':item.id}) %}
+                {% set refund_show_url = url({'for':'admin.refund.show','id':item.id}) %}
+                <tr>
+                    <td>{{ item.sn }}</td>
+                    <td>{{ '￥%0.2f'|format(item.amount) }}</td>
+                    <td><a href="javascript:" title="{{ item.apply_note }}">{{ substr(item.apply_note,0,15) }}</td>
+                    <td><a class="kg-status-history" href="javascript:" title="查看历史状态" data-url="{{ refund_sh_url }}">{{ refund_status(item.status) }}</a></td>
+                    <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
+                    <td><a class="layui-btn layui-btn-sm" href="{{ refund_show_url }}">详情</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br>
     {% endif %}
-    <button class="kg-back layui-btn layui-bg-gray">返回上页</button>
-</div>
 
-{% if refunds.count() > 0 %}
-    <fieldset class="layui-elem-field layui-field-title">
-        <legend>退款信息</legend>
-    </fieldset>
-    <table class="kg-table layui-table">
-        <tr>
-            <th>退款序号</th>
-            <th>退款金额</th>
-            <th>退款原因</th>
-            <th>退款状态</th>
-            <th>创建时间</th>
-        </tr>
-        {% for item in refunds %}
+    {% if trades.count() > 0 %}
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>交易信息</legend>
+        </fieldset>
+        <table class="layui-table kg-table">
             <tr>
-                <td>{{ item.sn }}</td>
-                <td>￥{{ item.amount }}</td>
-                <td><a href="#" title="{{ item.apply_reason }}">{{ substr(item.apply_reason,0,15) }}</td>
-                <td>{{ refund_status(item) }}</td>
-                <td>{{ date('Y-m-d H:i:s',item.created_at) }}</td>
+                <th>交易序号</th>
+                <th>交易金额</th>
+                <th>交易平台</th>
+                <th>交易状态</th>
+                <th>创建时间</th>
+                <th></th>
             </tr>
-        {% endfor %}
-    </table>
-{% endif %}
+            {% for item in trades %}
+                {% set trade_sh_url = url({'for':'admin.trade.status_history','id':item.id}) %}
+                {% set trade_show_url = url({'for':'admin.trade.show','id':item.id}) %}
+                <tr>
+                    <td>{{ item.sn }}</td>
+                    <td>{{ '￥%0.2f'|format(item.amount) }}</td>
+                    <td>{{ channel_type(item.channel) }}</td>
+                    <td><a class="kg-status-history" href="javascript:" title="查看历史状态" data-url="{{ trade_sh_url }}">{{ trade_status(item.status) }}</a></td>
+                    <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
+                    <td><a class="layui-btn layui-btn-sm" href="{{ trade_show_url }}">详情</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br>
+    {% endif %}
 
-<br>
+    {{ partial('order/user_info') }}
 
-{% if trades.count() > 0 %}
-    <fieldset class="layui-elem-field layui-field-title">
-        <legend>交易信息</legend>
-    </fieldset>
-    <table class="kg-table layui-table">
-        <tr>
-            <th>交易号</th>
-            <th>交易金额</th>
-            <th>交易平台</th>
-            <th>交易状态</th>
-            <th>创建时间</th>
-        </tr>
-        {% for item in trades %}
-            <tr>
-                <td>{{ item.sn }}</td>
-                <td>￥{{ item.amount }}</td>
-                <td>{{ channel_type(item.channel) }}</td>
-                <td>{{ trade_status(item.status) }}</td>
-                <td>{{ date('Y-m-d H:i:s',item.created_at) }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-{% endif %}
+{% endblock %}
 
-<br>
+{% block include_js %}
 
-<fieldset class="layui-elem-field layui-field-title">
-    <legend>买家信息</legend>
-</fieldset>
+    {{ js_include('admin/js/status-history.js') }}
 
-<table class="kg-table layui-table">
-    <tr>
-        <th>编号</th>
-        <th>用户名</th>
-        <th>邮箱</th>
-        <th>手机号</th>
-        <th>注册时间</th>
-    </tr>
-    <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.phone }}</td>
-        <td>{{ date('Y-m-d H:i:s',user.created_at) }}</td>
-    </tr>
-</table>
-
-<script>
-
-    layui.use(['jquery', 'layer'], function () {
-
-        var $ = layui.jquery;
-
-        $('.kg-close').on('click', function () {
-            var orderId = $(this).attr('order-id');
-            var tips = '确定要关闭订单吗？';
-            layer.confirm(tips, function () {
-                $.ajax({
-                    type: 'POST',
-                    url: '/admin/order/' + orderId + '/close',
-                    success: function (res) {
-                        layer.msg(res.msg, {icon: 1});
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1500);
-                    },
-                    error: function (xhr) {
-                        var json = JSON.parse(xhr.responseText);
-                        layer.msg(json.msg, {icon: 2});
-                    }
-                });
-            }, function () {
-
-            });
-        });
-
-    });
-
-</script>
+{% endblock %}

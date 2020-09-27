@@ -2,114 +2,34 @@
 
 namespace App\Services;
 
-use App\Models\ContentImage as ContentImageModel;
+use Phalcon\Logger\Adapter\File as FileLogger;
 use Qcloud\Cos\Client as CosClient;
 
 class Storage extends Service
 {
 
-    protected $config;
+    /**
+     * @var array
+     */
+    protected $settings;
+
+    /**
+     * @var FileLogger
+     */
     protected $logger;
+
+    /**
+     * @var CosClient
+     */
     protected $client;
 
     public function __construct()
     {
-        $this->config = $this->getSectionConfig('storage');
+        $this->settings = $this->getSettings('cos');
+
         $this->logger = $this->getLogger('storage');
+
         $this->client = $this->getCosClient();
-    }
-
-    /**
-     * 上传测试文件
-     *
-     * @return bool
-     */
-    public function uploadTestFile()
-    {
-        $key = 'hello_world.txt';
-        $value = 'hello world';
-
-        $result = $this->putString($key, $value);
-
-        return $result;
-    }
-
-    /**
-     * 上传封面图片
-     *
-     * @return mixed
-     */
-    public function uploadCoverImage()
-    {
-        $result = $this->uploadImage('/img/cover/');
-
-        return $result;
-    }
-
-    /**
-     * 上传内容图片
-     *
-     * @return mixed
-     */
-    public function uploadContentImage()
-    {
-        $path = $this->uploadImage('/img/content/');
-
-        if (!$path) return false;
-
-        $contentImage = new ContentImageModel();
-
-        $contentImage->path = $path;
-
-        $contentImage->create();
-
-        $result = $this->url->get([
-            'for' => 'home.content.img',
-            'id' => $contentImage->id,
-        ]);
-
-        return $result;
-    }
-
-    /**
-     * 上传头像图片
-     *
-     * @return mixed
-     */
-    public function uploadAvatarImage()
-    {
-        $result = $this->uploadImage('/img/avatar/');
-
-        return $result;
-    }
-
-    /**
-     * 上传图片
-     *
-     * @param string $prefix
-     * @return mixed
-     */
-    public function uploadImage($prefix = '')
-    {
-        $paths = [];
-
-        if ($this->request->hasFiles(true)) {
-
-            $files = $this->request->getUploadedFiles(true);
-
-            foreach ($files as $file) {
-                $extension = $this->getFileExtension($file->getName());
-                $keyName = $this->generateFileName($extension, $prefix);
-                $path = $this->putFile($keyName, $file->getTempName());
-                if ($path) {
-                    $paths[] = $path;
-                }
-            }
-        }
-
-        $result = !empty($paths[0]) ? $paths[0] : false;
-
-        return $result;
     }
 
     /**
@@ -117,19 +37,17 @@ class Storage extends Service
      *
      * @param string $key
      * @param string $body
-     * @return mixed string|bool
+     * @return string|bool
      */
     public function putString($key, $body)
     {
-        $bucket = $this->config->bucket_name;
+        $bucket = $this->settings['bucket'];
 
         try {
 
             $response = $this->client->upload($bucket, $key, $body);
 
             $result = $response['Location'] ? $key : false;
-
-            return $result;
 
         } catch (\Exception $e) {
 
@@ -138,30 +56,30 @@ class Storage extends Service
                     'message' => $e->getMessage(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
      * 上传文件
      *
      * @param string $key
-     * @param string $fileName
+     * @param string $filename
      * @return mixed string|bool
      */
-    public function putFile($key, $fileName)
+    public function putFile($key, $filename)
     {
-        $bucket = $this->config->bucket_name;
+        $bucket = $this->settings['bucket'];
 
         try {
 
-            $body = fopen($fileName, 'rb');
+            $body = fopen($filename, 'rb');
 
             $response = $this->client->upload($bucket, $key, $body);
 
             $result = $response['Location'] ? $key : false;
-
-            return $result;
 
         } catch (\Exception $e) {
 
@@ -170,63 +88,80 @@ class Storage extends Service
                     'message' => $e->getMessage(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
-     * 获取存储桶文件URL
+     * 删除文件
+     *
+     * @param string $key
+     * @return string|bool
+     */
+    public function deleteObject($key)
+    {
+        $bucket = $this->settings['bucket'];
+
+        try {
+
+            $response = $this->client->deleteObject([
+                'Bucket' => $bucket,
+                'Key' => $key,
+            ]);
+
+            $result = $response['Location'] ? $key : false;
+
+        } catch (\Exception $e) {
+
+            $this->logger->error('Delete Object Exception ' . kg_json_encode([
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * 获取文件URL
      *
      * @param string $key
      * @return string
      */
-    public function getBucketFileUrl($key)
+    public function getFileUrl($key)
     {
-        $result = $this->getBucketBaseUrl() . $key;
-
-        return $result;
+        return $this->getBaseUrl() . $key;
     }
 
     /**
-     *  获取数据万象图片URL
+     *  获取图片URL
+     *
      * @param string $key
-     * @param integer $width
-     * @param integer $height
+     * @param string $style
      * @return string
      */
-    public function getCiImageUrl($key, $width = 0, $height = 0)
+    public function getImageUrl($key, $style = null)
     {
-        $result = $this->getCiBaseUrl() . $key;
+        $style = $style ?: '';
 
-        return $result;
+        return $this->getBaseUrl() . $key . $style;
     }
 
     /**
-     * 获取存储桶根URL
+     * 获取基准URL
      *
      * @return string
      */
-    public function getBucketBaseUrl()
+    public function getBaseUrl()
     {
-        $protocol = $this->config->bucket_protocol;
-        $domain = $this->config->bucket_domain;
-        $result = $protocol . '://' . $domain;
+        $protocol = $this->settings['protocol'];
+        $domain = $this->settings['domain'];
 
-        return $result;
-    }
-
-    /**
-     * 获取数据万象根URL
-     *
-     * @return string
-     */
-    public function getCiBaseUrl()
-    {
-        $protocol = $this->config->ci_protocol;
-        $domain = $this->config->ci_domain;
-        $result = $protocol . '://' . $domain;
-
-        return $result;
+        return sprintf('%s://%s', $protocol, trim($domain, '/'));
     }
 
     /**
@@ -238,44 +173,40 @@ class Storage extends Service
      */
     protected function generateFileName($extension = '', $prefix = '')
     {
-        $randName = date('YmdHis') . rand(1000, 9999);
+        $randName = date('YmdHis') . rand(100, 999) . rand(100, 999);
 
-        $result = $prefix . $randName . '.' . $extension;
-
-        return $result;
+        return $prefix . $randName . '.' . $extension;
     }
 
     /**
      * 获取文件扩展名
      *
-     * @param $fileName
+     * @param $filename
      * @return string
      */
-    protected function getFileExtension($fileName)
+    protected function getFileExtension($filename)
     {
-        $result = pathinfo($fileName, PATHINFO_EXTENSION);
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-        return strtolower($result);
+        return strtolower($extension);
     }
 
     /**
-     * 获取 CosClient
+     * 获取CosClient
      *
      * @return CosClient
      */
-    public function getCosClient()
+    protected function getCosClient()
     {
-        $secret = $this->getSectionConfig('secret');
+        $secret = $this->getSettings('secret');
 
-        $client = new CosClient([
-            'region' => $this->config->bucket_region,
-            'schema' => 'https',
+        return new CosClient([
+            'region' => $this->settings['region'],
+            'schema' => $this->settings['protocol'],
             'credentials' => [
-                'secretId' => $secret->secret_id,
-                'secretKey' => $secret->secret_key,
+                'secretId' => $secret['secret_id'],
+                'secretKey' => $secret['secret_key'],
             ]]);
-
-        return $client;
     }
 
 }

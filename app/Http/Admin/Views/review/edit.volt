@@ -1,57 +1,95 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.review.update','id':review.id}) }}">
+{% extends 'templates/main.volt' %}
 
-    <fieldset class="layui-elem-field layui-field-title">
-        <legend>编辑评价</legend>
-    </fieldset>
+{% block content %}
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">评分</label>
-        <div class="layui-input-block">
-            <div id="rating">{{ review.rating }}</div>
-            <input type="hidden" name="rating" value="{{ review.rating }}"/>
+    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.review.update','id':review.id}) }}">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>编辑评价</legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <label class="layui-form-label">内容实用</label>
+            <div class="layui-input-block">
+                <div id="rating1" class="kg-rating"></div>
+                <input type="hidden" name="rating1" value="{{ review.rating1 }}"/>
+            </div>
         </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">评价</label>
-        <div class="layui-input-block">
-            <textarea name="content" class="layui-textarea" lay-verify="required">{{ review.content }}</textarea>
+        <div class="layui-form-item">
+            <label class="layui-form-label">通俗易懂</label>
+            <div class="layui-input-block">
+                <div id="rating2" class="kg-rating"></div>
+                <input type="hidden" name="rating2" value="{{ review.rating2 }}"/>
+            </div>
         </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">发布</label>
-        <div class="layui-input-block">
-            <input type="radio" name="published" value="1" title="是" {% if review.published == 1 %}checked="true"{% endif %}>
-            <input type="radio" name="published" value="0" title="否" {% if review.published == 0 %}checked="true"{% endif %}>
+        <div class="layui-form-item">
+            <label class="layui-form-label">逻辑清晰</label>
+            <div class="layui-input-block">
+                <div id="rating3" class="kg-rating"></div>
+                <input type="hidden" name="rating3" value="{{ review.rating3 }}"/>
+            </div>
         </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label"></label>
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
-            <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="content">评价</label>
+            <div class="layui-input-block">
+                <textarea name="content" id="content" class="layui-textarea" lay-verify="required">{{ review.content }}</textarea>
+            </div>
         </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">发布</label>
+            <div class="layui-input-block">
+                <input type="radio" name="published" value="1" title="是" {% if review.published == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="published" value="0" title="否" {% if review.published == 0 %}checked="checked"{% endif %}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
+                <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
+            </div>
+        </div>
+    </form>
 
-</form>
+{% endblock %}
 
-<script>
+{% block inline_js %}
 
-    layui.use(['jquery', 'rate'], function () {
+    <script>
 
-        var $ = layui.jquery;
-        var rate = layui.rate;
+        layui.use(['jquery', 'rate'], function () {
 
-        rate.render({
-            elem: '#rating',
-            value: $('#rating').text(),
-            choose: function (value) {
-                $('input[name=rating]').val(value);
-            }
+            var $ = layui.jquery;
+            var rate = layui.rate;
+
+            var $rating1 = $('input[name=rating1]');
+            var $rating2 = $('input[name=rating2]');
+            var $rating3 = $('input[name=rating3]');
+
+            rate.render({
+                elem: '#rating1',
+                value: $rating1.val(),
+                choose: function (value) {
+                    $rating1.val(value);
+                }
+            });
+
+            rate.render({
+                elem: '#rating2',
+                value: $rating2.val(),
+                choose: function (value) {
+                    $rating2.val(value);
+                }
+            });
+
+            rate.render({
+                elem: '#rating3',
+                value: $rating3.val(),
+                choose: function (value) {
+                    $rating3.val(value);
+                }
+            });
+
         });
 
-    });
+    </script>
 
-</script>
+{% endblock %}

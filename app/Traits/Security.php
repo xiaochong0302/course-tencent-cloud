@@ -2,37 +2,46 @@
 
 namespace App\Traits;
 
+use App\Validators\Security as SecurityValidator;
+use Phalcon\Di;
+use Phalcon\Http\Request;
+
 trait Security
 {
 
     public function checkCsrfToken()
     {
-        $tokenKey = $this->request->getHeader('X-Csrf-Token-Key');
-        $tokenValue = $this->request->getHeader('X-Csrf-Token-Value');
-        $checkToken = $this->security->checkToken($tokenKey, $tokenValue);
+        $validator = new SecurityValidator();
 
-        return $checkToken;
+        $validator->checkCsrfToken();
     }
 
     public function checkHttpReferer()
     {
-        $httpHost = parse_url($this->request->getHttpReferer(), PHP_URL_HOST);
+        $validator = new SecurityValidator();
 
-        $checkHost = $httpHost == $this->request->getHttpHost();
-
-        return $checkHost;
+        $validator->checkHttpReferer();
     }
 
-    public function notSafeRequest()
+    public function checkRateLimit()
     {
-        $method = $this->request->getMethod();
+        $validator = new SecurityValidator();
 
-        $whitelist = ['post', 'put', 'patch', 'delete'];
+        $validator->checkRateLimit();
+    }
 
-        $result = in_array(strtolower($method), $whitelist);
+    public function isNotSafeRequest()
+    {
+        /**
+         * @var Request $request
+         */
+        $request = Di::getDefault()->get('request');
 
-        return $result;
+        $method = $request->getMethod();
 
+        $list = ['post', 'put', 'patch', 'delete'];
+
+        return in_array(strtolower($method), $list);
     }
 
 }

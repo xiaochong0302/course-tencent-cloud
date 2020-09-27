@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\Page as PageCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Page as PageModel;
 use App\Repos\Page as PageRepo;
@@ -24,16 +25,12 @@ class Page extends Service
 
         $pageRepo = new PageRepo();
 
-        $pager = $pageRepo->paginate($params, $sort, $page, $limit);
-
-        return $pager;
+        return $pageRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getPage($id)
     {
-        $page = $this->findOrFail($id);
-
-        return $page;
+        return $this->findOrFail($id);
     }
 
     public function createPage()
@@ -51,6 +48,8 @@ class Page extends Service
         $page = new PageModel();
 
         $page->create($data);
+
+        $this->rebuildPageCache($page);
 
         return $page;
     }
@@ -79,6 +78,8 @@ class Page extends Service
 
         $page->update($data);
 
+        $this->rebuildPageCache($page);
+
         return $page;
     }
 
@@ -86,13 +87,11 @@ class Page extends Service
     {
         $page = $this->findOrFail($id);
 
-        if ($page->deleted == 1) {
-            return false;
-        }
-
         $page->deleted = 1;
 
         $page->update();
+
+        $this->rebuildPageCache($page);
 
         return $page;
     }
@@ -101,24 +100,27 @@ class Page extends Service
     {
         $page = $this->findOrFail($id);
 
-        if ($page->deleted == 0) {
-            return false;
-        }
-
         $page->deleted = 0;
 
         $page->update();
 
+        $this->rebuildPageCache($page);
+
         return $page;
+    }
+
+    protected function rebuildPageCache(PageModel $help)
+    {
+        $cache = new PageCache();
+
+        $cache->rebuild($help->id);
     }
 
     protected function findOrFail($id)
     {
         $validator = new PageValidator();
 
-        $result = $validator->checkPage($id);
-
-        return $result;
+        return $validator->checkPage($id);
     }
 
 }

@@ -15,9 +15,9 @@ class PageController extends Controller
      */
     public function listAction()
     {
-        $service = new PageService();
+        $pageService = new PageService();
 
-        $pager = $service->getPages();
+        $pager = $pageService->getPages();
 
         $this->view->setVar('pager', $pager);
     }
@@ -35,9 +35,9 @@ class PageController extends Controller
      */
     public function createAction()
     {
-        $service = new PageService();
+        $pageService = new PageService();
 
-        $service->createPage();
+        $pageService->createPage();
 
         $location = $this->url->get(['for' => 'admin.page.list']);
 
@@ -46,29 +46,29 @@ class PageController extends Controller
             'msg' => '创建单页成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.page.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.page.edit")
      */
     public function editAction($id)
     {
-        $service = new PageService;
+        $pageService = new PageService;
 
-        $page = $service->getPage($id);
+        $page = $pageService->getPage($id);
 
         $this->view->setVar('page', $page);
     }
 
     /**
-     * @Post("/{id}/update", name="admin.page.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.page.update")
      */
     public function updateAction($id)
     {
-        $service = new PageService();
+        $pageService = new PageService();
 
-        $service->updatePage($id);
+        $pageService->updatePage($id);
 
         $location = $this->url->get(['for' => 'admin.page.list']);
 
@@ -77,17 +77,17 @@ class PageController extends Controller
             'msg' => '更新单页成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.page.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.page.delete")
      */
     public function deleteAction($id)
     {
-        $service = new PageService();
+        $pageService = new PageService();
 
-        $service->deletePage($id);
+        $pageService->deletePage($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -96,17 +96,17 @@ class PageController extends Controller
             'msg' => '删除单页成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.page.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.page.restore")
      */
     public function restoreAction($id)
     {
-        $service = new PageService();
+        $pageService = new PageService();
 
-        $service->restorePage($id);
+        $pageService->restorePage($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -115,7 +115,7 @@ class PageController extends Controller
             'msg' => '还原单页成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

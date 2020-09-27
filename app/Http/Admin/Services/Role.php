@@ -9,22 +9,25 @@ use App\Validators\Role as RoleValidator;
 class Role extends Service
 {
 
+    public function getAuthNodes()
+    {
+        $authNode = new AuthNode();
+
+        return $authNode->getNodes();
+    }
+
     public function getRoles()
     {
         $deleted = $this->request->getQuery('deleted', 'int', 0);
 
         $roleRepo = new RoleRepo();
 
-        $roles = $roleRepo->findAll(['deleted' => $deleted]);
-
-        return $roles;
+        return $roleRepo->findAll(['deleted' => $deleted]);
     }
 
     public function getRole($id)
     {
-        $role = $this->findOrFail($id);
-
-        return $role;
+        return $this->findOrFail($id);
     }
 
     public function createRole()
@@ -70,10 +73,6 @@ class Role extends Service
     {
         $role = $this->findOrFail($id);
 
-        if ($role->deleted == 1) {
-            return false;
-        }
-
         if ($role->type == RoleModel::TYPE_SYSTEM) {
             return false;
         }
@@ -89,10 +88,6 @@ class Role extends Service
     {
         $role = $this->findOrFail($id);
 
-        if ($role->deleted == 0) {
-            return false;
-        }
-
         $role->deleted = 0;
 
         $role->update();
@@ -104,9 +99,7 @@ class Role extends Service
     {
         $validator = new RoleValidator();
 
-        $result = $validator->checkRole($id);
-
-        return $result;
+        return $validator->checkRole($id);
     }
 
     /**
@@ -123,7 +116,9 @@ class Role extends Service
      */
     protected function handleRoutes($routes)
     {
-        if (!$routes) return [];
+        if (empty($routes)) {
+            return [];
+        }
 
         $list = [];
 
@@ -144,7 +139,7 @@ class Role extends Service
 
         if (in_array('admin.course.list', $routes)) {
             $list[] = 'admin.course.chapters';
-            $list[] = 'admin.chapter.sections';
+            $list[] = 'admin.chapter.lessons';
         }
 
         if (array_intersect(['admin.course.add', 'admin.course.edit'], $routes)) {
@@ -158,9 +153,22 @@ class Role extends Service
             $list[] = 'admin.chapter.restore';
         }
 
-        $result = array_values(array_unique($list));
+        if (in_array('admin.category.list', $routes)) {
+            $list[] = 'admin.course.category';
+            $list[] = 'admin.help.category';
+        }
 
-        return $result;
+        if (in_array('admin.course.category', $routes)) {
+            $list[] = 'admin.category.list';
+        }
+
+        if (in_array('admin.help.category', $routes)) {
+            $list[] = 'admin.category.list';
+        }
+
+        $list = array_unique($list);
+
+        return array_values($list);
     }
 
 }

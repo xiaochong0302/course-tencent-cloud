@@ -3,60 +3,116 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Models\Order as OrderModel;
-use App\Repos\CourseStudent as CourseUserRepo;
+use App\Models\Refund as RefundModel;
+use App\Repos\Course as CourseRepo;
 use App\Repos\Order as OrderRepo;
+use App\Repos\Package as PackageRepo;
+use App\Repos\Reward as RewardRepo;
+use App\Repos\Vip as VipRepo;
 
 class Order extends Validator
 {
 
-    /**
-     * @param integer $id
-     * @return \App\Models\Order
-     * @throws NotFoundException
-     */
     public function checkOrder($id)
+    {
+        return $this->checkOrderById($id);
+    }
+
+    public function checkOrderById($id)
     {
         $orderRepo = new OrderRepo();
 
         $order = $orderRepo->findById($id);
 
         if (!$order) {
-            throw new NotFoundException('order.not_found');
+            throw new BadRequestException('order.not_found');
         }
 
         return $order;
     }
 
-    public function checkItemId($id)
+    public function checkOrderBySn($sn)
     {
-        $value = $this->filter->sanitize($id, ['trim', 'int']);
+        $orderRepo = new OrderRepo();
 
-        return $value;
+        $order = $orderRepo->findBySn($sn);
+
+        if (!$order) {
+            throw new BadRequestException('order.not_found');
+        }
+
+        return $order;
     }
 
-    public function checkItemType($type)
+    public function checkItemType($itemType)
     {
-        $scopes = [
-            OrderModel::ITEM_TYPE_COURSE,
-            OrderModel::ITEM_TYPE_PACKAGE,
-            OrderModel::ITEM_TYPE_REWARD,
-        ];
+        $list = OrderModel::itemTypes();
 
-        if (!in_array($type, $scopes)) {
+        if (!array_key_exists($itemType, $list)) {
             throw new BadRequestException('order.invalid_item_type');
         }
 
-        return $type;
+        return $itemType;
+    }
+
+    public function checkCourse($itemId)
+    {
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($itemId);
+
+        if (!$course) {
+            throw new BadRequestException('order.item_not_found');
+        }
+
+        return $course;
+    }
+
+    public function checkPackage($itemId)
+    {
+        $packageRepo = new PackageRepo();
+
+        $package = $packageRepo->findById($itemId);
+
+        if (!$package) {
+            throw new BadRequestException('order.item_not_found');
+        }
+
+        return $package;
+    }
+
+    public function checkVip($itemId)
+    {
+        $vipRepo = new VipRepo();
+
+        $vip = $vipRepo->findById($itemId);
+
+        if (!$vip) {
+            throw new BadRequestException('order.item_not_found');
+        }
+
+        return $vip;
+    }
+
+    public function checkReward($itemId)
+    {
+        $rewardRepo = new RewardRepo();
+
+        $reward = $rewardRepo->findById($itemId);
+
+        if (!$reward) {
+            throw new BadRequestException('order.item_not_found');
+        }
+
+        return $reward;
     }
 
     public function checkAmount($amount)
     {
         $value = $this->filter->sanitize($amount, ['trim', 'float']);
 
-        if ($value < 0.01) {
+        if ($value < 0.01 || $value > 10000) {
             throw new BadRequestException('order.invalid_pay_amount');
         }
 
@@ -65,83 +121,67 @@ class Order extends Validator
 
     public function checkStatus($status)
     {
-        $scopes = [
-            OrderModel::STATUS_PENDING,
-            OrderModel::STATUS_FINISHED,
-            OrderModel::STATUS_CLOSED,
-            OrderModel::STATUS_REFUND,
-        ];
+        $list = OrderModel::statusTypes();
 
-        if (!in_array($status, $scopes)) {
+        if (!array_key_exists($status, $list)) {
             throw new BadRequestException('order.invalid_status');
         }
 
         return $status;
     }
 
-    public function checkPayChannel($channel)
+    public function checkIfAllowCancel(OrderModel $order)
     {
-        $scopes = [
-            OrderModel::PAY_CHANNEL_ALIPAY,
-            OrderModel::PAY_CHANNEL_WXPAY,
+        if ($order->status != OrderModel::STATUS_PENDING) {
+            throw new BadRequestException('order.cancel_not_allowed');
+        }
+    }
+
+    public function checkIfAllowRefund(OrderModel $order)
+    {
+        if ($order->status != OrderModel::STATUS_FINISHED) {
+            throw new BadRequestException('order.refund_not_allowed');
+        }
+
+        $types = [
+            OrderModel::ITEM_COURSE,
+            OrderModel::ITEM_PACKAGE,
         ];
 
-        if (!in_array($channel, $scopes)) {
-            throw new BadRequestException('order.invalid_pay_channel');
+        if (!in_array($order->item_type, $types)) {
+            throw new BadRequestException('order.refund_item_unsupported');
         }
 
-        return $channel;
-    }
-
-    public function checkDailyLimit($userId)
-    {
         $orderRepo = new OrderRepo();
 
-        $count = $orderRepo->countUserTodayOrders($userId);
+        $refund = $orderRepo->findLastRefund($order->id);
 
-        if ($count > 50) {
-            throw new BadRequestException('order.reach_daily_limit');
-        }
-    }
+        $scopes = [
+            RefundModel::STATUS_PENDING,
+            RefundModel::STATUS_APPROVED,
+        ];
 
-    public function checkIfAllowPay($order)
-    {
-        if (time() - $order->created_at > 3600) {
-
-            if ($order->status == OrderModel::STATUS_PENDING) {
-
-                $order->status = OrderModel::STATUS_CLOSED;
-
-                $order->update();
-            }
-
-            throw new BadRequestException('order.trade_expired');
-        }
-
-        if ($order->status != OrderModel::STATUS_PENDING) {
-            throw new BadRequestException('order.invalid_status_action');
-        }
-    }
-
-    public function checkIfAllowCancel($order)
-    {
-        if ($order->status != OrderModel::STATUS_PENDING) {
-            throw new BadRequestException('order.invalid_status_action');
+        if ($refund && in_array($refund->status, $scopes)) {
+            throw new BadRequestException('order.refund_apply_existed');
         }
     }
 
     public function checkIfBoughtCourse($userId, $courseId)
     {
-        $courseUserRepo = new CourseUserRepo();
+        $orderRepo = new OrderRepo();
 
-        $record = $courseUserRepo->find($userId, $courseId);
+        $itemType = OrderModel::ITEM_COURSE;
 
-        if ($record) {
+        $order = $orderRepo->findUserLastFinishedOrder($userId, $courseId, $itemType);
 
-            $conditionA = $record->expire_time == 0;
-            $conditionB = $record->expire_time > time();
+        if ($order) {
 
-            if ($conditionA || $conditionB) {
+            /**
+             * @var array $itemInfo
+             */
+            $itemInfo = $order->item_info;
+
+            if ($itemInfo['course']['study_expiry_time'] > time()) {
                 throw new BadRequestException('order.has_bought_course');
             }
         }
@@ -151,9 +191,9 @@ class Order extends Validator
     {
         $orderRepo = new OrderRepo();
 
-        $itemType = OrderModel::ITEM_TYPE_PACKAGE;
+        $itemType = OrderModel::ITEM_PACKAGE;
 
-        $order = $orderRepo->findSuccessUserOrder($userId, $packageId, $itemType);
+        $order = $orderRepo->findUserLastFinishedOrder($userId, $packageId, $itemType);
 
         if ($order) {
             throw new BadRequestException('order.has_bought_package');

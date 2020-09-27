@@ -3,14 +3,14 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\AlipayTest as AlipayTestService;
-use App\Http\Admin\Services\Config as ConfigService;
+use App\Http\Admin\Services\Setting as SettingService;
+use App\Http\Admin\Services\WxpayTest as WxpayTestService;
 use App\Services\Captcha as CaptchaService;
 use App\Services\Live as LiveService;
-use App\Services\Mailer as MailerService;
-use App\Services\Smser as SmserService;
-use App\Services\Storage as StorageService;
+use App\Services\Mail\Test as TestMailService;
+use App\Services\MyStorage as StorageService;
+use App\Services\Sms\Test as TestSmsService;
 use App\Services\Vod as VodService;
-use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/admin/test")
@@ -21,111 +21,120 @@ class TestController extends Controller
     /**
      * @Post("/storage", name="admin.test.storage")
      */
-    public function storageTestAction()
+    public function storageAction()
     {
         $storageService = new StorageService();
 
-        $result = $storageService->uploadTestFile();
+        $result = [];
 
-        if ($result) {
-            return $this->ajaxSuccess(['msg' => '上传文件成功，请到控制台确认']);
+        $result['hello'] = $storageService->uploadTestFile();
+        $result['avatar'] = $storageService->uploadDefaultAvatarImage();
+        $result['cover'] = $storageService->uploadDefaultCoverImage();
+
+        if ($result['hello'] && $result['avatar'] && $result['cover']) {
+            return $this->jsonSuccess(['msg' => '上传文件成功，请到控制台确认']);
         } else {
-            return $this->ajaxError(['msg' => '上传文件失败，请检查相关配置']);
+            return $this->jsonError(['msg' => '上传文件失败，请检查相关配置']);
         }
     }
 
     /**
      * @Post("/vod", name="admin.test.vod")
      */
-    public function vodTestAction()
+    public function vodAction()
     {
         $vodService = new VodService();
 
         $result = $vodService->test();
 
         if ($result) {
-            return $this->ajaxSuccess(['msg' => '接口返回成功']);
+            return $this->jsonSuccess(['msg' => '接口返回成功']);
         } else {
-            return $this->ajaxError(['msg' => '接口返回失败，请检查相关配置']);
+            return $this->jsonError(['msg' => '接口返回失败，请检查相关配置']);
         }
     }
 
     /**
-     * @Get("/live/push", name="admin.test.live.push")
+     * @Get("/live/push", name="admin.test.live_push")
      */
-    public function livePushTestAction()
+    public function livePushAction()
     {
+        $streamName = $this->request->getQuery('stream', 'string');
+
         $liveService = new LiveService();
 
-        $pushUrl = $liveService->getPushUrl('test');
+        $pushUrl = $liveService->getPushUrl($streamName);
 
-        $obs = new \stdClass();
+        $qrcode = $this->url->get(
+            ['for' => 'home.qrcode'],
+            ['text' => urlencode($pushUrl)]
+        );
 
-        $position = strrpos($pushUrl, '/');
-        $obs->fms_url = substr($pushUrl, 0, $position + 1);
-        $obs->stream_code = substr($pushUrl, $position + 1);
+        $pos = strrpos($pushUrl, '/');
 
-        $this->view->pick('config/live_push_test');
-        $this->view->setVar('push_url', $pushUrl);
+        $obs = [
+            'fms_url' => substr($pushUrl, 0, $pos + 1),
+            'stream_code' => substr($pushUrl, $pos + 1),
+        ];
+
+        $this->view->pick('setting/live_push_test');
+        $this->view->setVar('qrcode', $qrcode);
         $this->view->setVar('obs', $obs);
     }
 
     /**
-     * @Get("/live/pull", name="admin.test.live.pull")
+     * @Get("/live/pull", name="admin.test.live_pull")
      */
-    public function livePullTestAction()
+    public function livePullAction()
     {
         $liveService = new LiveService();
 
-        $m3u8PullUrls = $liveService->getPullUrls('test', 'm3u8');
-        $flvPullUrls = $liveService->getPullUrls('test', 'flv');
+        $pullUrls = $liveService->getPullUrls('test');
 
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('public/live_player');
-        $this->view->setVar('m3u8_pull_urls', $m3u8PullUrls);
-        $this->view->setVar('flv_pull_urls', $flvPullUrls);
+        $this->view->setVar('pull_urls', $pullUrls);
     }
 
     /**
-     * @Post("/smser", name="admin.test.smser")
+     * @Post("/sms", name="admin.test.sms")
      */
-    public function smserTestAction()
+    public function smsAction()
     {
-        $phone = $this->request->getPost('phone');
+        $phone = $this->request->getPost('phone', 'string');
 
-        $smserService = new SmserService();
+        $smsService = new TestSmsService();
 
-        $response = $smserService->sendTestMessage($phone);
+        $response = $smsService->handle($phone);
 
         if ($response) {
-            return $this->ajaxSuccess(['msg' => '发送短信成功，请到收件箱确认']);
+            return $this->jsonSuccess(['msg' => '发送短信成功，请到收件箱确认']);
         } else {
-            return $this->ajaxError(['msg' => '发送短信失败，请查看短信日志']);
+            return $this->jsonError(['msg' => '发送短信失败，请查看短信日志']);
         }
     }
 
     /**
-     * @Post("/mailer", name="admin.test.mailer")
+     * @Post("/mail", name="admin.test.mail")
      */
-    public function mailerTestAction()
+    public function mailAction()
     {
-        $email = $this->request->getPost('email');
+        $email = $this->request->getPost('email', 'string');
 
-        $mailerService = new MailerService();
+        $mailService = new TestMailService();
 
-        $result = $mailerService->sendTestMail($email);
+        $result = $mailService->handle($email);
 
         if ($result) {
-            return $this->ajaxSuccess(['msg' => '发送邮件成功，请到收件箱确认']);
+            return $this->jsonSuccess(['msg' => '发送邮件成功，请到收件箱确认']);
         } else {
-            return $this->ajaxError(['msg' => '发送邮件失败，请检查配置']);
+            return $this->jsonError(['msg' => '发送邮件失败，请检查配置']);
         }
     }
 
     /**
      * @Post("/captcha", name="admin.test.captcha")
      */
-    public function captchaTestAction()
+    public function captchaAction()
     {
         $post = $this->request->getPost();
 
@@ -135,67 +144,91 @@ class TestController extends Controller
 
         if ($result) {
 
-            $configService = new ConfigService();
+            $settingService = new SettingService();
 
-            $configService->updateSectionConfig('captcha', ['enabled' => 1]);
+            $settingService->updateSettings('captcha', ['enabled' => 1]);
 
-            return $this->ajaxSuccess(['msg' => '后台验证成功']);
+            return $this->jsonSuccess(['msg' => '后台验证成功']);
 
         } else {
-            return $this->ajaxError(['msg' => '后台验证失败']);
+            return $this->jsonError(['msg' => '后台验证失败']);
         }
     }
 
     /**
      * @Get("/alipay", name="admin.test.alipay")
      */
-    public function alipayTestAction()
+    public function alipayAction()
     {
         $alipayTestService = new AlipayTestService();
 
         $this->db->begin();
 
-        $order = $alipayTestService->createTestOrder();
-        $trade = $alipayTestService->createTestTrade($order);
-        $qrcode = $alipayTestService->getTestQrCode($trade);
+        $order = $alipayTestService->createAlipayOrder();
+        $trade = $alipayTestService->createTrade($order);
+        $qrcode = $alipayTestService->scan($trade);
 
-        if ($order->id > 0 && $trade->id > 0 && $qrcode) {
+        if ($order && $trade && $qrcode) {
             $this->db->commit();
         } else {
             $this->db->rollback();
         }
 
-        $this->view->pick('config/alipay_test');
-        $this->view->setVar('trade', $trade);
+        $this->view->pick('setting/pay_alipay_test');
+        $this->view->setVar('sn', $trade->sn);
         $this->view->setVar('qrcode', $qrcode);
     }
 
     /**
-     * @Post("/alipay/status", name="admin.test.alipay.status")
+     * @Get("/wxpay", name="admin.test.wxpay")
      */
-    public function alipayTestStatusAction()
+    public function wxpayAction()
     {
-        $sn = $this->request->getPost('sn');
+        $wxpayTestService = new WxpayTestService();
 
-        $alipayTestService = new AlipayTestService();
+        $this->db->begin();
 
-        $status = $alipayTestService->getTestStatus($sn);
+        $order = $wxpayTestService->createWxpayOrder();
+        $trade = $wxpayTestService->createTrade($order);
+        $qrcode = $wxpayTestService->scan($trade);
 
-        return $this->ajaxSuccess(['status' => $status]);
+        if ($order && $trade && $qrcode) {
+            $this->db->commit();
+        } else {
+            $this->db->rollback();
+        }
+
+        $this->view->pick('setting/pay_wxpay_test');
+        $this->view->setVar('sn', $trade->sn);
+        $this->view->setVar('qrcode', $qrcode);
     }
 
     /**
-     * @Post("/alipay/cancel", name="admin.test.alipay.cancel")
+     * @Get("/alipay/status", name="admin.test.alipay_status")
      */
-    public function alipayTestCancelAction()
+    public function alipayStatusAction()
     {
-        $sn = $this->request->getPost('sn');
+        $sn = $this->request->getQuery('sn', 'string');
 
         $alipayTestService = new AlipayTestService();
 
-        $alipayTestService->cancelTestOrder($sn);
+        $status = $alipayTestService->status($sn);
 
-        return $this->ajaxSuccess(['msg' => '取消订单成功']);
+        return $this->jsonSuccess(['status' => $status]);
+    }
+
+    /**
+     * @Get("/wxpay/status", name="admin.test.wxpay_status")
+     */
+    public function wxpayStatusAction()
+    {
+        $sn = $this->request->getQuery('sn', 'string');
+
+        $wxpayTestService = new WxpayTestService();
+
+        $status = $wxpayTestService->status($sn);
+
+        return $this->jsonSuccess(['status' => $status]);
     }
 
 }

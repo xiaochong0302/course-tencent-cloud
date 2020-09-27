@@ -10,26 +10,40 @@ class Trade extends Model
     /**
      * 平台类型
      */
-    const CHANNEL_ALIPAY = 'alipay'; // 阿里支付
-    const CHANNEL_WXPAY = 'wxpay'; // 微信支付
+    const CHANNEL_ALIPAY = 1; // 支付宝
+    const CHANNEL_WXPAY = 2; // 微信
 
     /**
      * 状态类型
      */
-    const STATUS_PENDING = 'pending'; // 待支付
-    const STATUS_FINISHED = 'finished'; // 已完成
-    const STATUS_CLOSED = 'closed'; // 已关闭
-    const STATUS_REFUNDED = 'refunded'; // 已退款
+    const STATUS_PENDING = 1; // 待支付
+    const STATUS_FINISHED = 2; // 已完成
+    const STATUS_CLOSED = 3; // 已关闭
+    const STATUS_REFUNDED = 4; // 已退款
 
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
-     * 序号（商户流水号）
+     * 用户编号
+     *
+     * @var int
+     */
+    public $owner_id;
+
+    /**
+     * 订单编号
+     *
+     * @var int
+     */
+    public $order_id;
+
+    /**
+     * 商户流水号
      *
      * @var string
      */
@@ -50,30 +64,9 @@ class Trade extends Model
     public $amount;
 
     /**
-     * 用户编号
-     *
-     * @var string
-     */
-    public $user_id;
-
-    /**
-     * 订单编号
-     *
-     * @var integer
-     */
-    public $order_id;
-
-    /**
-     * 订单序号
-     *
-     * @var string
-     */
-    public $order_sn;
-
-    /**
      * 平台类型
      *
-     * @var string
+     * @var int
      */
     public $channel;
 
@@ -87,39 +80,41 @@ class Trade extends Model
     /**
      * 状态类型
      *
-     * @var string
+     * @var int
      */
     public $status;
 
     /**
-     * 删除表示
+     * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'trade';
+        return 'kg_trade';
     }
 
     public function initialize()
     {
         parent::initialize();
+
+        $this->keepSnapshots(true);
 
         $this->addBehavior(
             new SoftDelete([
@@ -131,38 +126,49 @@ class Trade extends Model
 
     public function beforeCreate()
     {
-        $this->sn = date('YmdHis') . rand(1000, 9999);
-
         $this->status = self::STATUS_PENDING;
 
-        $this->created_at = time();
+        $this->sn = date('YmdHis') . rand(1000, 9999);
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        $this->update_time = time();
     }
 
-    public static function channels()
+    public function afterSave()
     {
-        $list = [
-            self::CHANNEL_ALIPAY => '阿里支付',
-            self::CHANNEL_WXPAY => '微信支付',
+        if ($this->hasUpdated('status')) {
+            $tradeStatus = new TradeStatus();
+            $tradeStatus->trade_id = $this->id;
+            $tradeStatus->status = $this->getSnapshotData()['status'];
+            $tradeStatus->create();
+        }
+    }
+
+    public function afterFetch()
+    {
+        $this->amount = (float)$this->amount;
+    }
+
+    public static function channelTypes()
+    {
+        return [
+            self::CHANNEL_ALIPAY => '支付宝',
+            self::CHANNEL_WXPAY => '微信',
         ];
-
-        return $list;
     }
 
-    public static function statuses()
+    public static function statusTypes()
     {
-        $list = [
+        return [
             self::STATUS_PENDING => '待支付',
             self::STATUS_FINISHED => '已完成',
             self::STATUS_CLOSED => '已关闭',
             self::STATUS_REFUNDED => '已退款',
         ];
-
-        return $list;
     }
 
 }

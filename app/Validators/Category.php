@@ -2,42 +2,85 @@
 
 namespace App\Validators;
 
+use App\Caches\Category as CategoryCache;
+use App\Caches\MaxCategoryId as MaxCategoryIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
+use App\Models\Category as CategoryModel;
 use App\Repos\Category as CategoryRepo;
 
 class Category extends Validator
 {
 
     /**
-     * @param integer $id
-     * @return \App\Models\Category
-     * @throws NotFoundException
+     * @param int $id
+     * @return CategoryModel
+     * @throws BadRequestException
      */
+    public function checkCategoryCache($id)
+    {
+        $this->checkId($id);
+
+        $categoryCache = new CategoryCache();
+
+        $category = $categoryCache->get($id);
+
+        if (!$category) {
+            throw new BadRequestException('category.not_found');
+        }
+
+        return $category;
+    }
+
     public function checkCategory($id)
+    {
+        $this->checkId($id);
+
+        $categoryRepo = new CategoryRepo();
+
+        $category = $categoryRepo->findById($id);
+
+        if (!$category) {
+            throw new BadRequestException('category.not_found');
+        }
+
+        return $category;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxIdCache = new MaxCategoryIdCache();
+
+        $maxId = $maxIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('category.not_found');
+        }
+    }
+
+    public function checkParent($id)
     {
         $categoryRepo = new CategoryRepo();
 
         $category = $categoryRepo->findById($id);
 
         if (!$category) {
-            throw new NotFoundException('category.not_found');
+            throw new BadRequestException('category.parent_not_found');
         }
 
         return $category;
     }
 
-    public function checkParent($parentId)
+    public function checkType($type)
     {
-        $categoryRepo = new CategoryRepo();
+        $list = CategoryModel::types();
 
-        $category = $categoryRepo->findById($parentId);
-
-        if (!$category || $category->deleted == 1) {
-            throw new BadRequestException('category.parent_not_found');
+        if (!array_key_exists($type, $list)) {
+            throw new BadRequestException('category.invalid_type');
         }
 
-        return $category;
+        return $type;
     }
 
     public function checkName($name)
@@ -70,13 +113,25 @@ class Category extends Validator
 
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('category.invalid_publish_status');
         }
 
-        return $value;
+        return $status;
+    }
+
+    public function checkDeleteAbility($category)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        $categories = $categoryRepo->findAll([
+            'parent_id' => $category->id,
+            'deleted' => 0,
+        ]);
+
+        if ($categories->count() > 0) {
+            throw new BadRequestException('category.has_child_node');
+        }
     }
 
 }

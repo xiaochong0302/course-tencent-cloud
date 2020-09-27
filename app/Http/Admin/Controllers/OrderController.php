@@ -31,61 +31,36 @@ class OrderController extends Controller
     }
 
     /**
-     * @Get("/{id}/show", name="admin.order.show")
+     * @Get("/{id:[0-9]+}/show", name="admin.order.show")
      */
     public function showAction($id)
     {
         $orderService = new OrderService();
 
         $order = $orderService->getOrder($id);
-        $trades = $orderService->getTrades($order->sn);
-        $refunds = $orderService->getRefunds($order->sn);
-        $user = $orderService->getUser($order->user_id);
+        $trades = $orderService->getTrades($order->id);
+        $refunds = $orderService->getRefunds($order->id);
+        $account = $orderService->getAccount($order->owner_id);
+        $user = $orderService->getUser($order->owner_id);
 
         $this->view->setVar('order', $order);
         $this->view->setVar('trades', $trades);
         $this->view->setVar('refunds', $refunds);
+        $this->view->setVar('account', $account);
         $this->view->setVar('user', $user);
     }
 
     /**
-     * @Post("/{id}/close", name="admin.order.close")
+     * @Get("/{id:[0-9]+}/status/history", name="admin.order.status_history")
      */
-    public function closeAction($id)
+    public function statusHistoryAction($id)
     {
         $orderService = new OrderService();
 
-        $orderService->closeOrder($id);
+        $statusHistory = $orderService->getStatusHistory($id);
 
-        $location = $this->request->getHTTPReferer();
-
-        $content = [
-            'location' => $location,
-            'msg' => '关闭订单成功',
-        ];
-
-        return $this->ajaxSuccess($content);
-    }
-
-    /**
-     * @Post("/refund", name="admin.order.refund")
-     */
-    public function refundAction()
-    {
-        $tradeId = $this->request->getPost('trade_id', 'int');
-
-        $orderService = new OrderService;
-
-        $orderService->refundTrade($tradeId);
-
-        $location = $this->request->getHTTPReferer();
-
-        $content = [
-            'location' => $location,
-            'msg' => '订单退款成功',
-        ];
-
-        return $this->ajaxSuccess($content);
+        $this->view->pick('order/status_history');
+        $this->view->setVar('status_history', $statusHistory);
     }
 
 }

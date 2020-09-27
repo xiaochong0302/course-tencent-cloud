@@ -1,13 +1,18 @@
 <?php
 
+use App\Caches\Setting as SettingCache;
+use App\Library\Validators\Common as CommonValidator;
 use App\Services\Storage as StorageService;
 use Koogua\Ip2Region\Searcher as Ip2RegionSearcher;
+use Phalcon\Config;
+use Phalcon\Di;
+use Phalcon\Text;
 
 /**
  * 获取字符长度
  *
  * @param string $str
- * @return integer
+ * @return int
  */
 function kg_strlen($str)
 {
@@ -18,8 +23,8 @@ function kg_strlen($str)
  * 字符截取
  *
  * @param string $str
- * @param integer $start
- * @param integer $length
+ * @param int $start
+ * @param int $length
  * @param string $suffix
  * @return string
  */
@@ -47,14 +52,14 @@ function kg_uniqid($prefix = '', $more = false)
 /**
  * json_encode(不转义斜杠和中文)
  *
- * @param string $value
+ * @param mixed $data
  * @return false|string
  */
-function kg_json_encode($value)
+function kg_json_encode($data)
 {
-    $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+    $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION;
 
-    return json_encode($value, $options);
+    return json_encode($data, $options);
 }
 
 /**
@@ -73,26 +78,6 @@ function kg_array_column($rows, $columnKey, $indexKey = null)
 }
 
 /**
- * 依据白名单取数据
- *
- * @param array $params
- * @param array $whitelist
- * @return array
- */
-function kg_array_whitelist($params, $whitelist)
-{
-    $result = [];
-
-    foreach ($params as $key => $value) {
-        if (in_array($key, $whitelist)) {
-            $result[$key] = $value;
-        }
-    }
-
-    return $result;
-}
-
-/**
  * 数组转对象
  *
  * @param array $array
@@ -100,22 +85,18 @@ function kg_array_whitelist($params, $whitelist)
  */
 function kg_array_object($array)
 {
-    $result = json_decode(json_encode($array));
-
-    return $result;
+    return json_decode(json_encode($array));
 }
 
 /**
  * 对象转数组
  *
  * @param object $object
- * @return object
+ * @return array
  */
 function kg_object_array($object)
 {
-    $result = json_decode(json_encode($object), true);
-
-    return $result;
+    return json_decode(json_encode($object), true);
 }
 
 /**
@@ -123,7 +104,7 @@ function kg_object_array($object)
  *
  * @param $ip
  * @param string $dbFile
- * @return stdClass
+ * @return array
  */
 function kg_ip2region($ip, $dbFile = null)
 {
@@ -133,9 +114,7 @@ function kg_ip2region($ip, $dbFile = null)
 
     list($country, $area, $province, $city, $isp) = explode('|', $ip2region['region']);
 
-    $result = compact('country', 'area', 'province', 'city', 'isp');
-
-    return kg_array_object($result);
+    return compact('country', 'area', 'province', 'city', 'isp');
 }
 
 /**
@@ -143,48 +122,149 @@ function kg_ip2region($ip, $dbFile = null)
  *
  * @return string
  */
-function kg_site_base_url()
+function kg_site_url()
 {
     $scheme = filter_input(INPUT_SERVER, 'REQUEST_SCHEME');
     $host = filter_input(INPUT_SERVER, 'HTTP_HOST');
-    $path = filter_input(INPUT_SERVER, 'SCRIPT_NAME');
 
-    $baseUrl = "{$scheme}://{$host}" . rtrim(dirname($path), '/');
-
-    return $baseUrl;
+    return sprintf('%s://%s', $scheme, $host);
 }
 
 /**
- * 获取图片基准URL
+ * 获取站点设置
+ *
+ * @param string $section
+ * @param string $key
+ * @return mixed
+ */
+function kg_site_setting($section, $key = null)
+{
+    $cache = new SettingCache();
+
+    $settings = $cache->get($section);
+
+    if (!$key) return $settings;
+
+    return $settings[$key] ?? null;
+}
+
+/**
+ * 获取默认头像路径
  *
  * @return string
  */
-function kg_img_base_url()
+function kg_default_avatar_path()
 {
-    $storage = new StorageService();
-
-    return $storage->getCiBaseUrl();
+    return '/img/avatar/default.png';
 }
 
 /**
- * 获取图片URL
+ * 获取默认封面路径
+ *
+ * @return string
+ */
+function kg_default_cover_path()
+{
+    return '/img/cover/default.png';
+}
+
+/**
+ * 获取存储基准URL
+ *
+ * @return string
+ */
+function kg_cos_url()
+{
+    $storage = new StorageService();
+
+    return $storage->getBaseUrl();
+}
+
+/**
+ * 获取存储图片URL
  *
  * @param string $path
- * @param integer $width
- * @param integer $height
+ * @param string $style
  * @return string
  */
-function kg_img_url($path, $width = 0, $height = 0)
+function kg_cos_img_url($path, $style = null)
 {
+    if (!$path) return '';
+
+    if (Text::startsWith($path, 'http')) {
+        return $path;
+    }
+
     $storage = new StorageService();
 
-    return $storage->getCiImageUrl($path, $width, $height);
+    return $storage->getImageUrl($path, $style);
+}
+
+/**
+ * 获取头像URL
+ *
+ * @param string $path
+ * @param string $style
+ * @return string
+ */
+function kg_cos_avatar_url($path, $style = null)
+{
+    $path = $path ?: kg_default_avatar_path();
+
+    return kg_cos_img_url($path, $style);
+}
+
+/**
+ * 获取封面URL
+ *
+ * @param string $path
+ * @param string $style
+ * @return string
+ */
+function kg_cos_cover_url($path, $style = null)
+{
+    $path = $path ?: kg_default_cover_path();
+
+    return kg_cos_img_url($path, $style);
+}
+
+/**
+ * 隐藏部分字符
+ *
+ * @param string $str
+ * @return string
+ */
+function kg_anonymous($str)
+{
+    $length = mb_strlen($str);
+
+    if (CommonValidator::email($str)) {
+        $start = 3;
+        $end = mb_stripos($str, '@');
+    } elseif (CommonValidator::phone($str)) {
+        $start = 3;
+        $end = $length - 4;
+    } elseif (CommonValidator::idCard($str)) {
+        $start = 3;
+        $end = $length - 4;
+    } else {
+        $start = 1;
+        $end = $length - 2;
+    }
+
+    $list = [];
+
+    for ($i = 0; $i < $length; $i++) {
+        $list[] = ($i < $start || $i > $end) ? mb_substr($str, $i, 1) : '*';
+    }
+
+    return join('', $list);
 }
 
 /**
  * 格式化数字
  *
- * @param integer $number
+ * @param int $number
  * @return string
  */
 function kg_human_number($number)
@@ -203,14 +283,42 @@ function kg_human_number($number)
 }
 
 /**
- * 播放时长
+ * 格式化之前时间
  *
- * @param integer $time
+ * @param int $time
  * @return string
  */
-function kg_play_duration($time)
+function kg_time_ago($time)
 {
-    $result = '00:00';
+    $diff = time() - $time;
+
+    if ($diff > 365 * 86400) {
+        return date('Y-m-d', $time);
+    } elseif ($diff > 30 * 86400) {
+        return floor($diff / 30 / 86400) . '个月前';
+    } elseif ($diff > 7 * 86400) {
+        return floor($diff / 7 / 86400) . '周前';
+    } elseif ($diff > 86400) {
+        return floor($diff / 86400) . '天前';
+    } elseif ($diff > 3600) {
+        return floor($diff / 3600) . '小时前';
+    } elseif ($diff > 60) {
+        return floor($diff / 60) . '分钟前';
+    } else {
+        return $diff . '秒前';
+    }
+}
+
+/**
+ * 格式化时长
+ *
+ * @param int $time
+ * @param string $mode
+ * @return string
+ */
+function kg_duration($time, $mode = 'simple')
+{
+    $result = '00分钟';
 
     if ($time > 0) {
 
@@ -221,46 +329,19 @@ function kg_play_duration($time)
         $format = [];
 
         if ($hours > 0) {
-            $format[] = sprintf('%02d', $hours);
-        }
-
-        if ($minutes >= 0) {
-            $format[] = sprintf('%02d', $minutes);
-        }
-
-        if ($seconds >= 0) {
-            $format[] = sprintf('%02d', $seconds);
-        }
-
-        $result = implode(':', $format);
-    }
-
-    return $result;
-}
-
-/**
- * 总时长
- *
- * @param integer $time
- * @return string
- */
-function kg_total_duration($time)
-{
-    $result = '00小时00分钟';
-
-    if ($time > 0) {
-
-        $hours = floor($time / 3600);
-        $minutes = floor(($time - $hours * 3600) / 60);
-
-        $format = [];
-
-        if ($hours >= 0) {
             $format[] = sprintf('%02d小时', $hours);
         }
 
-        if ($minutes >= 0) {
+        if ($minutes > 0) {
             $format[] = sprintf('%02d分钟', $minutes);
+        }
+
+        if ($seconds > 0) {
+            $format[] = sprintf('%02d秒', $seconds);
+        }
+
+        if ($mode == 'simple') {
+            $format = array_slice($format, 0, 2);
         }
 
         $result = implode('', $format);
@@ -270,12 +351,92 @@ function kg_total_duration($time)
 }
 
 /**
- * 判断是否有路由权限
+ * 构造icon路径
  *
- * @param string $route
- * @return bool
+ * @param string $path
+ * @param bool $local
+ * @param string $version
+ * @return string
  */
-function kg_can($route = null)
+function kg_icon_link($path, $local = true, $version = null)
 {
-    return true;
+    $href = kg_static_url($path, $local, $version);
+
+    return sprintf('<link rel="shortcut icon" href="%s">', $href);
+}
+
+/**
+ * 构造css路径
+ *
+ * @param string $path
+ * @param bool $local
+ * @param string $version
+ * @return string
+ */
+function kg_css_link($path, $local = true, $version = null)
+{
+    $href = kg_static_url($path, $local, $version);
+
+    return sprintf('<link rel="stylesheet" type="text/css" href="%s">', $href);
+}
+
+/**
+ * 构造js引入
+ *
+ * @param string $path
+ * @param bool $local
+ * @param string $version
+ * @return string
+ */
+function kg_js_include($path, $local = true, $version = null)
+{
+    $src = kg_static_url($path, $local, $version);
+
+    return sprintf('<script type="text/javascript" src="%s"></script>', $src);
+}
+
+/**
+ * 构造静态url
+ *
+ * @param string $path
+ * @param bool $local
+ * @param string $version
+ * @return string
+ */
+function kg_static_url($path, $local = true, $version = null)
+{
+    /**
+     * @var Config $config
+     */
+    $config = Di::getDefault()->getShared('config');
+
+    $baseUri = rtrim($config->get('static_base_uri'), '/');
+    $path = ltrim($path, '/');
+    $url = $local ? $baseUri . '/' . $path : $path;
+    $version = $version ? $version : $config->get('static_version');
+
+    if ($version) {
+        $url .= '?v=' . $version;
+    }
+
+    return $url;
+}
+
+/**
+ * 构造全路径url
+ *
+ * @param mixed $uri
+ * @param mixed $args
+ * @return string
+ */
+function kg_full_url($uri, $args = null)
+{
+    /**
+     * @var $url Phalcon\Mvc\Url
+     */
+    $url = Di::getDefault()->getShared('url');
+
+    $baseUrl = kg_site_url();
+
+    return $baseUrl . $url->get($uri, $args);
 }

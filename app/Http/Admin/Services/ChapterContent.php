@@ -2,15 +2,17 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Library\Util\Word as WordUtil;
+use App\Caches\CourseChapterList as CatalogCache;
+use App\Library\Utils\Word as WordUtil;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
-use App\Services\CourseStats as CourseStatsService;
+use App\Services\ChapterVod as ChapterVodService;
+use App\Services\CourseStat as CourseStatService;
 use App\Services\Vod as VodService;
-use App\Validators\ChapterArticle as ChapterArticleValidator;
 use App\Validators\ChapterLive as ChapterLiveValidator;
+use App\Validators\ChapterRead as ChapterReadValidator;
 use App\Validators\ChapterVod as ChapterVodValidator;
 
 class ChapterContent extends Service
@@ -20,62 +22,28 @@ class ChapterContent extends Service
     {
         $chapterRepo = new ChapterRepo();
 
-        $result = $chapterRepo->findChapterVod($chapterId);
-
-        return $result;
+        return $chapterRepo->findChapterVod($chapterId);
     }
 
     public function getChapterLive($chapterId)
     {
         $chapterRepo = new ChapterRepo();
 
-        $result = $chapterRepo->findChapterLive($chapterId);
-
-        return $result;
+        return $chapterRepo->findChapterLive($chapterId);
     }
 
-    public function getChapterArticle($chapterId)
+    public function getChapterRead($chapterId)
     {
         $chapterRepo = new ChapterRepo();
 
-        $result = $chapterRepo->findChapterArticle($chapterId);
-
-        return $result;
+        return $chapterRepo->findChapterRead($chapterId);
     }
 
-    public function getTranslatedFiles($fileId)
+    public function getPlayUrls($chapterId)
     {
-        if (!$fileId) return;
+        $service = new ChapterVodService();
 
-        $vodService = new VodService();
-
-        $mediaInfo = $vodService->getMediaInfo($fileId);
-
-        if (!$mediaInfo) return;
-
-        $result = [];
-
-        $files = $mediaInfo['MediaInfoSet'][0]['TranscodeInfo']['TranscodeSet'];
-
-        foreach ($files as $file) {
-
-            if ($file['Definition'] == 0) {
-                continue;
-            }
-
-            $result[] = [
-                'play_url' => $vodService->getPlayUrl($file['Url']),
-                'width' => $file['Width'],
-                'height' => $file['Height'],
-                'definition' => $file['Definition'],
-                'duration' => kg_play_duration($file['Duration']),
-                'format' => pathinfo($file['Url'], PATHINFO_EXTENSION),
-                'size' => sprintf('%0.2f', $file['Size'] / 1024 / 1024),
-                'bit_rate' => intval($file['Bitrate'] / 1024),
-            ];
-        }
-
-        return kg_array_object($result);
+        return $service->getPlayUrls($chapterId);
     }
 
     public function updateChapterContent($chapterId)
@@ -93,13 +61,15 @@ class ChapterContent extends Service
             case CourseModel::MODEL_LIVE:
                 $this->updateChapterLive($chapter);
                 break;
-            case CourseModel::MODEL_ARTICLE:
-                $this->updateChapterArticle($chapter);
+            case CourseModel::MODEL_READ:
+                $this->updateChapterRead($chapter);
                 break;
         }
+
+        $this->rebuildCatalogCache($chapter);
     }
 
-    protected function updateChapterVod($chapter)
+    protected function updateChapterVod(ChapterModel $chapter)
     {
         $post = $this->request->getPost();
 
@@ -115,15 +85,30 @@ class ChapterContent extends Service
             return;
         }
 
-        $vod->update(['file_id' => $fileId]);
+        $vod->update([
+            'file_id' => $fileId,
+            'file_transcode' => '',
+        ]);
 
+        /**
+         * @var array $attrs
+         */
         $attrs = $chapter->attrs;
-        $attrs->file_id = $fileId;
-        $attrs->file_status = ChapterModel::FS_UPLOADED;
+
+        $attrs['duration'] = 0;
+
+        $attrs['file']['status'] = ChapterModel::FS_UPLOADED;
+
         $chapter->update(['attrs' => $attrs]);
+
+        $this->updateCourseVodAttrs($vod->course_id);
+
+        if (!empty($vod->file_id)) {
+            $this->deleteVodFile($vod->file_id);
+        }
     }
 
-    protected function updateChapterLive($chapter)
+    protected function updateChapterLive(ChapterModel $chapter)
     {
         $post = $this->request->getPost();
 
@@ -133,46 +118,89 @@ class ChapterContent extends Service
 
         $validator = new ChapterLiveValidator();
 
-        $data = [];
+        $startTime = $validator->checkStartTime($post['start_time']);
+        $endTime = $validator->checkEndTime($post['end_time']);
 
-        $data['start_time'] = $validator->checkStartTime($post['start_time']);
-        $data['end_time'] = $validator->checkEndTime($post['end_time']);
+        $validator->checkTimeRange($startTime, $endTime);
 
-        $validator->checkTimeRange($post['start_time'], $post['end_time']);
+        $live->update([
+            'start_time' => $startTime,
+            'end_time' => $endTime,
+        ]);
 
-        $live->update($data);
-
+        /**
+         * @var array $attrs
+         */
         $attrs = $chapter->attrs;
-        $attrs->start_time = $data['start_time'];
-        $attrs->end_time = $data['end_time'];
+
+        $attrs['start_time'] = $startTime;
+        $attrs['end_time'] = $endTime;
+
         $chapter->update(['attrs' => $attrs]);
 
-        $courseStats = new CourseStatsService();
-        $courseStats->updateLiveDateRange($chapter->course_id);
+        $this->updateCourseLiveAttrs($live->course_id);
     }
 
-    protected function updateChapterArticle($chapter)
+    protected function updateChapterRead(ChapterModel $chapter)
     {
         $post = $this->request->getPost();
 
         $chapterRepo = new ChapterRepo();
 
-        $article = $chapterRepo->findChapterArticle($chapter->id);
+        $read = $chapterRepo->findChapterRead($chapter->id);
 
-        $validator = new ChapterArticleValidator();
+        $validator = new ChapterReadValidator();
 
-        $data = [];
+        $content = $validator->checkContent($post['content']);
 
-        $data['content'] = $validator->checkContent($post['content']);
+        $read->update(['content' => $content]);
 
-        $article->update($data);
-
+        /**
+         * @var array $attrs
+         */
         $attrs = $chapter->attrs;
-        $attrs->word_count = WordUtil::getWordCount($article->content);
+
+        $attrs['word_count'] = WordUtil::getWordCount($content);
+        $attrs['duration'] = WordUtil::getWordDuration($content);
+
         $chapter->update(['attrs' => $attrs]);
 
-        $courseStats = new CourseStatsService();
-        $courseStats->updateArticleWordCount($chapter->course_id);
+        $this->updateCourseReadAttrs($read->course_id);
+    }
+
+    protected function updateCourseVodAttrs($courseId)
+    {
+        $statService = new CourseStatService();
+
+        $statService->updateVodAttrs($courseId);
+    }
+
+    protected function updateCourseLiveAttrs($courseId)
+    {
+        $statService = new CourseStatService();
+
+        $statService->updateLiveAttrs($courseId);
+    }
+
+    protected function updateCourseReadAttrs($courseId)
+    {
+        $statService = new CourseStatService();
+
+        $statService->updateReadAttrs($courseId);
+    }
+
+    protected function deleteVodFile($fileId)
+    {
+        $vodService = new VodService();
+
+        $vodService->deleteMedia($fileId);
+    }
+
+    protected function rebuildCatalogCache(ChapterModel $chapter)
+    {
+        $cache = new CatalogCache();
+
+        $cache->rebuild($chapter->course_id);
     }
 
 }

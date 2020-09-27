@@ -10,19 +10,40 @@ class Refund extends Model
     /**
      * 状态类型
      */
-    const STATUS_PENDING = 'pending'; // 待处理
-    const STATUS_CANCELED = 'canceled'; // 已取消
-    const STATUS_APPROVED = 'approved'; // 已审核
-    const STATUS_REFUSED = 'refused'; // 已拒绝
-    const STATUS_FINISHED = 'finished'; // 已完成
-    const STATUS_FAILED = 'failed'; // 已失败
+    const STATUS_PENDING = 1; // 待处理
+    const STATUS_CANCELED = 2; // 已取消
+    const STATUS_APPROVED = 3; // 已审核
+    const STATUS_REFUSED = 4; // 已拒绝
+    const STATUS_FINISHED = 5; // 已完成
+    const STATUS_FAILED = 6; // 已失败
 
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
+
+    /**
+     * 用户编号
+     *
+     * @var int
+     */
+    public $owner_id;
+
+    /**
+     * 订单编号
+     *
+     * @var int
+     */
+    public $order_id;
+
+    /**
+     * 交易编号
+     *
+     * @var int
+     */
+    public $trade_id;
 
     /**
      * 序号
@@ -46,78 +67,57 @@ class Refund extends Model
     public $amount;
 
     /**
-     * 申请原因
-     *
-     * @var string
-     */
-    public $apply_reason;
-
-    /**
-     * 审核说明
-     *
-     * @var string
-     */
-    public $review_note;
-
-    /**
-     * 用户编号
-     *
-     * @var string
-     */
-    public $user_id;
-
-    /**
-     * 交易序号
-     *
-     * @var string
-     */
-    public $trade_sn;
-
-    /**
-     * 订单序号
-     *
-     * @var string
-     */
-    public $order_sn;
-
-
-
-    /**
      * 状态类型
      *
-     * @var string
+     * @var int
      */
     public $status;
 
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
+     * 申请备注
+     *
+     * @var string
+     */
+    public $apply_note;
+
+    /**
+     * 审核备注
+     *
+     * @var string
+     */
+    public $review_note;
+
+    /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'refund';
+        return 'kg_refund';
     }
 
     public function initialize()
     {
         parent::initialize();
+
+        $this->keepSnapshots(true);
 
         $this->addBehavior(
             new SoftDelete([
@@ -131,19 +131,32 @@ class Refund extends Model
     {
         $this->sn = date('YmdHis') . rand(1000, 9999);
 
-        $this->status = self::STATUS_PENDING;
-
-        $this->created_at = time();
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        $this->update_time = time();
     }
 
-    public static function statuses()
+    public function afterSave()
     {
-        $list = [
+        if ($this->hasUpdated('status')) {
+            $refundStatus = new RefundStatus();
+            $refundStatus->refund_id = $this->id;
+            $refundStatus->status = $this->getSnapshotData()['status'];
+            $refundStatus->create();
+        }
+    }
+
+    public function afterFetch()
+    {
+        $this->amount = (float)$this->amount;
+    }
+
+    public static function statusTypes()
+    {
+        return [
             self::STATUS_PENDING => '待处理',
             self::STATUS_CANCELED => '已取消',
             self::STATUS_APPROVED => '已审核',
@@ -151,8 +164,6 @@ class Refund extends Model
             self::STATUS_FINISHED => '已完成',
             self::STATUS_FAILED => '已失败',
         ];
-
-        return $list;
     }
 
 }

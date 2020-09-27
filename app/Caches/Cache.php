@@ -2,36 +2,41 @@
 
 namespace App\Caches;
 
-use Phalcon\Mvc\User\Component as UserComponent;
+use Phalcon\Cache\Backend\Redis as RedisCache;
+use Phalcon\Mvc\User\Component;
 
-abstract class Cache extends UserComponent
+abstract class Cache extends Component
 {
 
     /**
-     * @var \Phalcon\Cache\Backend
+     * @var RedisCache
      */
     protected $cache;
 
     public function __construct()
     {
-        $this->cache = $this->getDI()->get('cache');
+        $this->cache = $this->getDI()->getShared('cache');
     }
 
     /**
      * 获取缓存内容
      *
-     * @param mixed $params
+     * @param mixed $id
      * @return mixed
      */
-    public function get($params = null)
+    public function get($id = null)
     {
-        $key = $this->getKey($params);
-        $content = $this->cache->get($key);
-        $lifetime = $this->getLifetime();
+        $key = $this->getKey($id);
 
-        if (!$content) {
-            $content = $this->getContent($params);
+        if (!$this->cache->exists($key)) {
+
+            $content = $this->getContent($id);
+
+            $lifetime = $this->getLifetime();
+
             $this->cache->save($key, $content, $lifetime);
+
+        } else {
             $content = $this->cache->get($key);
         }
 
@@ -41,35 +46,48 @@ abstract class Cache extends UserComponent
     /**
      * 删除缓存内容
      *
-     * @param mixed $params
+     * @param mixed $id
      */
-    public function delete($params = null)
+    public function delete($id = null)
     {
-        $key = $this->getKey($params);
+        $key = $this->getKey($id);
+
         $this->cache->delete($key);
+    }
+
+    /**
+     * 重建缓存内容
+     *
+     * @param mixed $id
+     */
+    public function rebuild($id = null)
+    {
+        $this->delete($id);
+
+        $this->get($id);
     }
 
     /**
      * 获取缓存有效期
      *
-     * @return integer
+     * @return int
      */
-    abstract protected function getLifetime();
+    abstract public function getLifetime();
 
     /**
      * 获取键值
      *
-     * @param mixed $params
+     * @param mixed $id
      * @return string
      */
-    abstract protected function getKey($params = null);
+    abstract public function getKey($id = null);
 
     /**
      * 获取原始内容
      *
-     * @param mixed $params
+     * @param mixed $id
      * @return mixed
      */
-    abstract protected function getContent($params = null);
+    abstract public function getContent($id = null);
 
 }

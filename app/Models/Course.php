@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Caches\MaxCourseId as MaxCourseIdCache;
+use App\Services\Sync\CourseIndex as CourseIndexSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
 
 class Course extends Model
 {
@@ -10,17 +13,17 @@ class Course extends Model
     /**
      * 模型
      */
-    const MODEL_VOD = 'vod'; // 点播
-    const MODEL_LIVE = 'live'; // 直播
-    const MODEL_ARTICLE = 'article'; // 图文
+    const MODEL_VOD = 1; // 点播
+    const MODEL_LIVE = 2; // 直播
+    const MODEL_READ = 3; // 图文
 
     /**
      * 级别
      */
-    const LEVEL_ENTRY = 'entry'; // 入门
-    const LEVEL_JUNIOR = 'junior'; // 初级
-    const LEVEL_MEDIUM = 'medium'; // 中级
-    const LEVEL_SENIOR = 'senior'; // 高级
+    const LEVEL_ENTRY = 1; // 入门
+    const LEVEL_JUNIOR = 2; // 初级
+    const LEVEL_MEDIUM = 3; // 中级
+    const LEVEL_SENIOR = 4; // 高级
 
     /**
      * @var array
@@ -41,28 +44,14 @@ class Course extends Model
      *
      * 图文扩展属性
      */
-    protected $_article_attrs = ['word_count' => 0];
+    protected $_read_attrs = ['duration' => 0, 'word_count' => 0];
 
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
-
-    /**
-     * 作者编号
-     *
-     * @var integer
-     */
-    public $user_id;
-
-    /**
-     * 类型
-     *
-     * @var string
-     */
-    public $model;
 
     /**
      * 标题
@@ -100,6 +89,20 @@ class Course extends Model
     public $details;
 
     /**
+     * 主分类编号
+     *
+     * @var int
+     */
+    public $category_id;
+
+    /**
+     * 主教师编号
+     *
+     * @var int
+     */
+    public $teacher_id;
+
+    /**
      * 市场价格
      *
      * @var float
@@ -114,11 +117,25 @@ class Course extends Model
     public $vip_price;
 
     /**
-     * 有效期限（天）
+     * 学习期限（月）
      *
-     * @var integer
+     * @var int
      */
-    public $expiry;
+    public $study_expiry;
+
+    /**
+     * 退款期限（天）
+     *
+     * @var int
+     */
+    public $refund_expiry;
+
+    /**
+     * 用户评价
+     *
+     * @var float
+     */
+    public $rating;
 
     /**
      * 综合得分
@@ -128,90 +145,113 @@ class Course extends Model
     public $score;
 
     /**
+     * 模式类型
+     *
+     * @var int
+     */
+    public $model;
+
+    /**
      * 难度级别
      *
-     * @var string
+     * @var int
      */
     public $level;
 
     /**
+     * 扩展属性
+     *
+     * @var string|array
+     */
+    public $attrs;
+
+    /**
      * 发布标识
      *
-     * @var integer
+     * @var int
      */
     public $published;
 
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
-     * 扩展属性
+     * 学员数
      *
-     * @var string
+     * @var int
      */
-    public $attrs;
+    public $user_count;
 
     /**
      * 课时数
      *
-     * @var integer
+     * @var int
      */
     public $lesson_count;
 
     /**
-     * 学员数
+     * 套餐数
      *
-     * @var integer
+     * @var int
      */
-    public $student_count;
+    public $package_count;
 
     /**
-     * 讨论数
+     * 咨询数
      *
-     * @var integer
+     * @var int
      */
-    public $thread_count;
+    public $consult_count;
 
     /**
      * 评价数
      *
-     * @var integer
+     * @var int
      */
     public $review_count;
 
     /**
      * 收藏数
      *
-     * @var integer
+     * @var int
      */
     public $favorite_count;
 
     /**
+     * 资源数
+     *
+     * @var int
+     */
+    public $res_count;
+
+    /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'course';
+        return 'kg_course';
     }
 
     public function initialize()
     {
         parent::initialize();
+
+        $this->keepSnapshots(true);
 
         $this->addBehavior(
             new SoftDelete([
@@ -223,8 +263,6 @@ class Course extends Model
 
     public function beforeCreate()
     {
-        $this->created_at = time();
-
         $attrs = [];
 
         switch ($this->model) {
@@ -234,51 +272,146 @@ class Course extends Model
             case Course::MODEL_LIVE:
                 $attrs = $this->_live_attrs;
                 break;
-            case Course::MODEL_ARTICLE:
-                $attrs = $this->_article_attrs;
+            case Course::MODEL_READ:
+                $attrs = $this->_read_attrs;
                 break;
         }
 
-        $this->attrs = $attrs ? kg_json_encode($attrs) : '';
+        if (empty($this->cover)) {
+            $this->cover = kg_default_cover_path();
+        } elseif (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+
+        /**
+         * text类型不会自动填充默认值
+         */
+        if (is_null($this->details)) {
+            $this->details = '';
+        }
+
+        if (!empty($attrs)) {
+            $this->attrs = kg_json_encode($attrs);
+        }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        if (time() - $this->update_time > 3 * 3600) {
+            $sync = new CourseIndexSync();
+            $sync->addItem($this->id);
+        }
 
-        if (!empty($this->attrs)) {
+        if (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+
+        if (is_array($this->attrs) && !empty($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
+        }
+
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
+
+        $this->update_time = time();
+    }
+
+    public function afterCreate()
+    {
+        $cache = new MaxCourseIdCache();
+
+        $cache->rebuild();
+    }
+
+    public function afterUpdate()
+    {
+        /**
+         * 群组名称和课程标题保持一致
+         */
+        if ($this->hasUpdated('title')) {
+            $imGroup = ImGroup::findFirst(['course_id' => $this->id]);
+            $imGroup->update(['name' => $this->title]);
         }
     }
 
     public function afterFetch()
     {
-        if (!empty($this->attrs)) {
-            $this->attrs = json_decode($this->attrs);
+        $this->market_price = (float)$this->market_price;
+        $this->vip_price = (float)$this->vip_price;
+        $this->rating = (float)$this->rating;
+        $this->score = (float)$this->score;
+
+        if (!Text::startsWith($this->cover, 'http')) {
+            $this->cover = kg_cos_cover_url($this->cover);
+        }
+
+        if (is_string($this->attrs) && !empty($this->attrs)) {
+            $this->attrs = json_decode($this->attrs, true);
         }
     }
 
-    public static function models()
+    public static function getCoverPath($url)
     {
-        $list = [
-            self::MODEL_VOD => '点播',
-            self::MODEL_LIVE => '直播',
-            self::MODEL_ARTICLE => '图文',
-        ];
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
 
-        return $list;
+        return $url;
     }
 
-    public static function levels()
+    public static function modelTypes()
     {
-        $list = [
+        return [
+            self::MODEL_VOD => '点播',
+            self::MODEL_LIVE => '直播',
+            self::MODEL_READ => '专栏',
+        ];
+    }
+
+    public static function levelTypes()
+    {
+        return [
             self::LEVEL_ENTRY => '入门',
             self::LEVEL_JUNIOR => '初级',
             self::LEVEL_MEDIUM => '中级',
             self::LEVEL_SENIOR => '高级',
         ];
+    }
 
-        return $list;
+    public static function sortTypes()
+    {
+        return [
+            'score' => '综合',
+            'rating' => '好评',
+            'latest' => '最新',
+            'popular' => '最热',
+            'free' => '免费',
+        ];
+    }
+
+    public static function studyExpiryOptions()
+    {
+        return [
+            1 => '1个月',
+            3 => '3个月',
+            6 => '6个月',
+            12 => '12个月',
+            36 => '36个月',
+        ];
+    }
+
+    public static function refundExpiryOptions()
+    {
+        return [
+            7 => '7天',
+            14 => '14天',
+            30 => '30天',
+            90 => '90天',
+            180 => '180天',
+        ];
     }
 
 }

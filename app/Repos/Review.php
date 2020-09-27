@@ -4,41 +4,13 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Review as ReviewModel;
+use App\Models\ReviewLike as ReviewLikeModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Review extends Repository
 {
-
-    /**
-     * @param integer $id
-     * @return ReviewModel
-     */
-    public function findById($id)
-    {
-        $result = ReviewModel::findFirstById($id);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = ReviewModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    public function findByUserCourseId($userId, $courseId)
-    {
-        $result = ReviewModel::query()
-            ->where('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('course_id = :course_id:', ['course_id' => $courseId])
-            ->execute()
-            ->getFirst();
-
-        return $result;
-    }
 
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
@@ -48,16 +20,16 @@ class Review extends Repository
 
         $builder->where('1 = 1');
 
-        if (isset($where['id'])) {
+        if (!empty($where['id'])) {
             $builder->andWhere('id = :id:', ['id' => $where['id']]);
         }
 
-        if (isset($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['course_id'])) {
+            $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
         }
 
-        if (isset($where['course_id'])) {
-            $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
+        if (!empty($where['owner_id'])) {
+            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
         if (isset($where['published'])) {
@@ -96,7 +68,55 @@ class Review extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return ReviewModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return ReviewModel::findFirst($id);
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return ReviewModel|Model|bool
+     */
+    public function findReview($courseId, $userId)
+    {
+        return ReviewModel::findFirst([
+            'conditions' => 'course_id = :course_id: AND owner_id = :owner_id:',
+            'bind' => ['course_id' => $courseId, 'owner_id' => $userId],
+        ]);
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|ReviewModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return ReviewModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+    }
+
+    public function countReviews()
+    {
+        return (int)ReviewModel::count(['conditions' => 'deleted = 0']);
+    }
+
+    public function countLikes($reviewId)
+    {
+        return ReviewLikeModel::count([
+            'conditions' => 'review_id = :review_id: AND deleted = 0',
+            'bind' => ['review_id' => $reviewId],
+        ]);
     }
 
 }

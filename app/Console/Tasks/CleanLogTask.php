@@ -2,8 +2,6 @@
 
 namespace App\Console\Tasks;
 
-use Phalcon\Cli\Task;
-
 class CleanLogTask extends Task
 {
 
@@ -11,15 +9,18 @@ class CleanLogTask extends Task
     {
         $this->cleanCommonLog();
         $this->cleanConsoleLog();
+        $this->cleanHttpLog();
         $this->cleanSqlLog();
-        $this->cleanListenerLog();
+        $this->cleanListenLog();
         $this->cleanCaptchaLog();
-        $this->cleanMailerLog();
-        $this->cleanSmserLog();
+        $this->cleanMailLog();
+        $this->cleanSmsLog();
         $this->cleanVodLog();
+        $this->cleanLiveLog();
         $this->cleanStorageLog();
         $this->cleanAlipayLog();
         $this->cleanWxpayLog();
+        $this->cleanOrderLog();
         $this->cleanRefundLog();
     }
 
@@ -29,6 +30,14 @@ class CleanLogTask extends Task
     protected function cleanCommonLog()
     {
         $this->cleanLog('common', 7);
+    }
+
+    /**
+     * 清理Http日志
+     */
+    protected function cleanHttpLog()
+    {
+        $this->cleanLog('http', 7);
     }
 
     /**
@@ -48,11 +57,11 @@ class CleanLogTask extends Task
     }
 
     /**
-     * 清理监听者日志
+     * 清理监听日志
      */
-    protected function cleanListenerLog()
+    protected function cleanListenLog()
     {
-        $this->cleanLog('listener', 7);
+        $this->cleanLog('listen', 7);
     }
 
     /**
@@ -72,6 +81,14 @@ class CleanLogTask extends Task
     }
 
     /**
+     * 清理直播服务日志
+     */
+    protected function cleanLiveLog()
+    {
+        $this->cleanLog('live', 7);
+    }
+
+    /**
      * 清理存储服务日志
      */
     protected function cleanStorageLog()
@@ -82,17 +99,17 @@ class CleanLogTask extends Task
     /**
      * 清理短信服务日志
      */
-    protected function cleanSmserLog()
+    protected function cleanSmsLog()
     {
-        $this->cleanLog('smser', 7);
+        $this->cleanLog('sms', 7);
     }
 
     /**
      * 清理邮件服务日志
      */
-    protected function cleanMailerLog()
+    protected function cleanMailLog()
     {
-        $this->cleanLog('mailer', 7);
+        $this->cleanLog('mail', 7);
     }
 
     /**
@@ -112,6 +129,14 @@ class CleanLogTask extends Task
     }
 
     /**
+     * 清理订单日志
+     */
+    protected function cleanOrderLog()
+    {
+        $this->cleanLog('order', 30);
+    }
+
+    /**
      * 清理退款日志
      */
     protected function cleanRefundLog()
@@ -123,7 +148,7 @@ class CleanLogTask extends Task
      * 清理日志文件
      *
      * @param string $prefix
-     * @param integer $keepDays 保留天数
+     * @param int $keepDays 保留天数
      * @return mixed
      */
     protected function cleanLog($prefix, $keepDays)
@@ -138,9 +163,9 @@ class CleanLogTask extends Task
             if (strtotime($today) - strtotime($date) >= $keepDays * 86400) {
                 $deleted = unlink($file);
                 if ($deleted) {
-                    echo "Delete {$file} success" . PHP_EOL;
+                    echo "delete {$file} success" . PHP_EOL;
                 } else {
-                    echo "Delete {$file} failed" . PHP_EOL;
+                    echo "delete {$file} failed" . PHP_EOL;
                 }
             }
         }

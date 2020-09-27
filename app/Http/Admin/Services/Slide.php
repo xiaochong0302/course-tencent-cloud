@@ -2,10 +2,10 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\IndexSlideList as IndexSlideListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Slide as SlideModel;
 use App\Repos\Slide as SlideRepo;
-use App\Services\Storage as StorageService;
 use App\Validators\Slide as SlideValidator;
 
 class Slide extends Service
@@ -25,16 +25,12 @@ class Slide extends Service
 
         $slideRepo = new SlideRepo();
 
-        $pager = $slideRepo->paginate($params, $sort, $page, $limit);
-
-        return $pager;
+        return $slideRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getSlide($id)
     {
-        $slide = $this->findOrFail($id);
-
-        return $slide;
+        return $this->findOrFail($id);
     }
 
     public function createSlide()
@@ -58,14 +54,13 @@ class Slide extends Service
             $data['content'] = $validator->checkLink($post['content']);
         }
 
-        $data['start_time'] = strtotime(date('Y-m-d'));
-        $data['end_time'] = strtotime('+15 days', $data['start_time']);
-        $data['priority'] = 10;
-        $data['published'] = 0;
+        $data['priority'] = 20;
 
         $slide = new SlideModel();
 
         $slide->create($data);
+
+        $this->rebuildSlideCache();
 
         return $slide;
     }
@@ -108,17 +103,13 @@ class Slide extends Service
             $data['priority'] = $validator->checkPriority($post['priority']);
         }
 
-        if (isset($post['start_time']) || isset($post['end_time'])) {
-            $data['start_time'] = $validator->checkStartTime($post['start_time']);
-            $data['end_time'] = $validator->checkEndTime($post['end_time']);
-            $validator->checkTimeRange($post['start_time'], $post['end_time']);
-        }
-
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
         $slide->update($data);
+
+        $this->rebuildSlideCache();
 
         return $slide;
     }
@@ -127,11 +118,11 @@ class Slide extends Service
     {
         $slide = $this->findOrFail($id);
 
-        if ($slide->deleted == 1) return false;
-
         $slide->deleted = 1;
 
         $slide->update();
+
+        $this->rebuildSlideCache();
 
         return $slide;
     }
@@ -140,22 +131,27 @@ class Slide extends Service
     {
         $slide = $this->findOrFail($id);
 
-        if ($slide->deleted == 0) return false;
-
         $slide->deleted = 0;
 
         $slide->update();
 
+        $this->rebuildSlideCache();
+
         return $slide;
+    }
+
+    protected function rebuildSlideCache()
+    {
+        $cache = new IndexSlideListCache();
+
+        $cache->rebuild();
     }
 
     protected function findOrFail($id)
     {
         $validator = new SlideValidator();
 
-        $result = $validator->checkSlide($id);
-
-        return $result;
+        return $validator->checkSlide($id);
     }
 
 }

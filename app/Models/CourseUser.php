@@ -2,149 +2,161 @@
 
 namespace App\Models;
 
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
 class CourseUser extends Model
 {
 
     /**
      * 角色类型
      */
-    const ROLE_STUDENT = 'student'; // 学员
-    const ROLE_TEACHER = 'teacher'; // 讲师
+    const ROLE_STUDENT = 1; // 学员
+    const ROLE_TEACHER = 2; // 讲师
 
     /**
      * 来源类型
      */
-    const SOURCE_FREE = 'free'; // 免费课程
-    const SOURCE_PAID = 'paid'; // 付费课程
-    const SOURCE_VIP = 'vip'; // 会员免费
-    const SOURCE_IMPORT = 'import'; // 后台导入
+    const SOURCE_FREE = 1; // 免费
+    const SOURCE_CHARGE = 2; // 付费
+    const SOURCE_VIP = 3; // 会员
+    const SOURCE_IMPORT = 4; // 导入
 
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 课程编号
      *
-     * @var integer
+     * @var int
      */
     public $course_id;
 
     /**
      * 用户编号
      *
-     * @var integer
+     * @var int
      */
     public $user_id;
 
     /**
+     * 计划编号
+     *
+     * @var int
+     */
+    public $plan_id;
+
+    /**
      * 角色类型
      *
-     * @var string
+     * @var int
      */
     public $role_type;
 
     /**
      * 来源类型
      *
-     * @var string
+     * @var int
      */
     public $source_type;
 
     /**
      * 过期时间
      *
-     * @var integer
+     * @var int
      */
-    public $expire_time;
+    public $expiry_time;
 
     /**
      * 学习时长
      *
-     * @var integer
+     * @var int
      */
     public $duration;
 
     /**
      * 学习进度
      *
-     * @var integer
+     * @var int
      */
     public $progress;
 
     /**
      * 评价标识
      *
-     * @var integer
+     * @var int
      */
     public $reviewed;
 
     /**
-     * 锁定标识
-     *
-     * @var integer
-     */
-    public $locked;
-
-    /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'course_user';
+        return 'kg_course_user';
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->addBehavior(
+            new SoftDelete([
+                'field' => 'deleted',
+                'value' => 1,
+            ])
+        );
     }
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->plan_id = (int)date('Ymd');
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        $this->update_time = time();
     }
 
-    public static function roles()
+    public static function roleTypes()
     {
-        $list = [
+        return [
             self::ROLE_STUDENT => '学员',
             self::ROLE_TEACHER => '讲师',
         ];
-
-        return $list;
     }
 
-    public static function sources()
+    public static function sourceTypes()
     {
-        $list = [
-            self::SOURCE_FREE => '免费课程',
-            self::SOURCE_PAID => '付费课程',
-            self::SOURCE_VIP => '会员免费',
-            self::SOURCE_IMPORT => '后台导入',
+        return [
+            self::SOURCE_FREE => '免费',
+            self::SOURCE_CHARGE => '付费',
+            self::SOURCE_VIP => '会员',
+            self::SOURCE_IMPORT => '导入',
         ];
-
-        return $list;
     }
 
 }

@@ -2,16 +2,32 @@
 
 namespace Bootstrap;
 
+use Phalcon\Application;
+use Phalcon\Di;
+use Phalcon\Loader;
+
 abstract class Kernel
 {
 
+    /**
+     * @var Di
+     */
     protected $di;
 
+    /**
+     * @var Application
+     */
     protected $app;
 
+    /**
+     * @var Loader
+     */
     protected $loader;
 
-    protected $configs = [];
+    /**
+     * @var array
+     */
+    protected $config = [];
 
     public function getApp()
     {
@@ -28,16 +44,16 @@ abstract class Kernel
         require __DIR__ . '/Helper.php';
     }
 
-    protected function initAppConfigs()
+    protected function initAppConfig()
     {
-        $this->configs = require config_path() . '/config.php';
+        $this->config = require config_path('config.php');
     }
 
-    protected function initAppSettings()
+    protected function initAppSetting()
     {
-        ini_set('date.timezone', $this->configs['timezone']);
+        ini_set('date.timezone', $this->config['timezone']);
 
-        if ($this->configs['env'] == ENV_DEV) {
+        if ($this->config['env'] == ENV_DEV) {
             ini_set('display_errors', 1);
             error_reporting(E_ALL);
         } else {

@@ -2,127 +2,70 @@
 
 namespace App\Validators;
 
+use App\Caches\Category as CategoryCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Course as CourseModel;
-use App\Repos\Category as CategoryRepo;
 
 class CourseQuery extends Validator
 {
 
-    public function checkCourseId($courseId)
+    public function checkTopCategory($id)
     {
-        $value = $this->filter->sanitize($courseId, ['trim', 'int']);
+        $categoryCache = new CategoryCache();
 
-        if ($value > 0) {
-            return $value;
-        }
-
-        return false;
-    }
-
-    public function checkUserId($userId)
-    {
-        $value = $this->filter->sanitize($userId, ['trim', 'int']);
-
-        if ($value > 0) {
-            return $value;
-        }
-
-        return false;
-    }
-
-    public function checkCategoryId($categoryId)
-    {
-        $value = $this->filter->sanitize($categoryId, ['trim', 'int']);
-
-        if ($value <= 0) {
-            return false;
-        }
-
-        $categoryRepo = new CategoryRepo();
-
-        $category = $categoryRepo->findById($value);
+        $category = $categoryCache->get($id);
 
         if (!$category) {
-            return false;
+            throw new BadRequestException('course_query.invalid_top_category');
         }
 
         return $category->id;
     }
 
-    public function checkTitle($title)
+    public function checkSubCategory($id)
     {
-        $value = $this->filter->sanitize($title, ['trim', 'string']);
-        
-        if (!empty($value)) {
-            return $value;
+        $categoryCache = new CategoryCache();
+
+        $category = $categoryCache->get($id);
+
+        if (!$category) {
+            throw new BadRequestException('course_query.invalid_sub_category');
         }
-        
-        return false;
+
+        return $category->id;
     }
 
     public function checkLevel($level)
     {
-        $value = $this->filter->sanitize($level, ['trim', 'int']);
+        $types = CourseModel::levelTypes();
 
-        $scopes = [
-            CourseModel::LEVEL_ENTRY,
-            CourseModel::LEVEL_JUNIOR,
-            CourseModel::LEVEL_MIDDLE,
-            CourseModel::LEVEL_SENIOR,
-        ];
-
-        if (in_array($value, $scopes)) {
-            return $value;
+        if (!isset($types[$level])) {
+            throw new BadRequestException('course_query.invalid_level');
         }
 
-        return false;
+        return $level;
     }
 
-    public function checkPrice($price)
+    public function checkModel($model)
     {
-        $value = $this->filter->sanitize($price, ['trim', 'float']);
+        $types = CourseModel::modelTypes();
 
-        if ($value < 0) {
-            throw new BadRequestException('无效的价格');
+        if (!isset($types[$model])) {
+            throw new BadRequestException('course_query.invalid_model');
         }
 
-        return $value;
-    }
-
-    public function checkStatus($status)
-    {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        $scopes = [
-            CourseModel::LEVEL_ENTRY,
-            CourseModel::LEVEL_JUNIOR,
-            CourseModel::LEVEL_MIDDLE,
-            CourseModel::LEVEL_SENIOR,
-        ];
-
-        if (in_array($value, $scopes)) {
-            return $value;
-        }
-
-        return false;
+        return $model;
     }
 
     public function checkSort($sort)
     {
-        switch ($sort) {
-            case 'rating':
-                $orderBy = 'rating DESC';
-                break;
-            case 'score':
-                $orderBy = 'score DESC';
-                break;
-            default:
-                $orderBy = 'id DESC';
-                break;
+        $types = CourseModel::sortTypes();
+
+        if (!isset($types[$sort])) {
+            throw new BadRequestException('course_query.invalid_sort');
         }
 
-        return $orderBy;
+        return $sort;
     }
 
 }

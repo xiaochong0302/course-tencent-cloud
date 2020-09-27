@@ -2,40 +2,26 @@
 
 namespace App\Listeners;
 
-use App\Caches\Config as ConfigCache;
-use App\Library\Logger as AppLogger;
+use App\Services\Service as AppService;
+use Phalcon\Mvc\User\Plugin as UserPlugin;
 
-class Listener extends \Phalcon\Mvc\User\Plugin
+class Listener extends UserPlugin
 {
 
-    /**
-     * 获取Logger
-     *
-     * @param mixed $channel
-     * @return \Phalcon\Logger\Adapter\File
-     */
     public function getLogger($channel = null)
     {
-        $logger = new AppLogger();
+        $appService = new AppService();
 
-        $channel = $channel ?: 'listener';
+        $channel = $channel ?: 'listen';
 
-        return $logger->getInstance($channel);
+        return $appService->getLogger($channel);
     }
 
-    /**
-     * 获取某组配置项
-     *
-     * @param string $section
-     * @return \stdClass
-     */
-    public function getSectionConfig($section)
+    public function getSettings($section)
     {
-        $configCache = new ConfigCache();
+        $appService = new AppService();
 
-        $result = $configCache->getSectionConfig($section);
-
-        return $result;
+        return $appService->getSettings($section);
     }
 
 }

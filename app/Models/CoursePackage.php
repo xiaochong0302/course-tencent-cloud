@@ -7,40 +7,40 @@ class CoursePackage extends Model
 
     /**
      * 主键编号
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $id;
 
     /**
-     * 套餐编号
-     * 
-     * @var integer
-     */
-    public $package_id;
-
-    /**
      * 课程编号
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $course_id;
 
     /**
-     * 创建时间
-     * 
-     * @var integer
+     * 套餐编号
+     *
+     * @var int
      */
-    public $created_at;
+    public $package_id;
 
-    public function getSource()
+    /**
+     * 创建时间
+     *
+     * @var int
+     */
+    public $create_time;
+
+    public function getSource(): string
     {
-        return 'course_package';
+        return 'kg_course_package';
     }
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->create_time = time();
     }
 
 }

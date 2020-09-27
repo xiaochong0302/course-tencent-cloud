@@ -1,0 +1,38 @@
+html {
+    background-color: #f2f2f2;
+}
+
+.kg-tips {
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.kg-tips .layui-icon-face-surprised {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 200px;
+    color: #393D49;
+}
+
+.kg-tips .message {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.kg-tips .layui-text {
+    width: 500px;
+    margin: 30px auto;
+    padding-top: 20px;
+    border-top: 5px solid #009688;
+}
+
+.kg-tips h1 {
+    font-size: 100px;
+    line-height: 100px;
+    color: #009688;
+}
+
+.kg-tips .layui-text span {
+    display: inline-block;
+}

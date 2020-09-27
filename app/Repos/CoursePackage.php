@@ -3,38 +3,46 @@
 namespace App\Repos;
 
 use App\Models\CoursePackage as CoursePackageModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class CoursePackage extends Repository
 {
 
+    /**
+     * @param int $courseId
+     * @param int $packageId
+     * @return CoursePackageModel|Model|bool
+     */
     public function findCoursePackage($courseId, $packageId)
     {
-        $result = CoursePackageModel::query()
+        return CoursePackageModel::findFirst([
+            'conditions' => 'course_id = :course_id: AND package_id = :package_id:',
+            'bind' => ['course_id' => $courseId, 'package_id' => $packageId],
+        ]);
+    }
+
+    /**
+     * @param int $courseId
+     * @return ResultsetInterface|Resultset|CoursePackageModel[]
+     */
+    public function findByCourseId($courseId)
+    {
+        return CoursePackageModel::query()
             ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('package_id = :package_id:', ['package_id' => $packageId])
-            ->orderBy('id DESC')
-            ->execute()
-            ->getFirst();
-
-        return $result;
+            ->execute();
     }
 
-    public function findByCategoryIds($packageIds)
+    /**
+     * @param int $packageId
+     * @return ResultsetInterface|Resultset|CoursePackageModel[]
+     */
+    public function findByPackageId($packageId)
     {
-        $result = CoursePackageModel::query()
-            ->inWhere('package_id', $packageIds)
+        return CoursePackageModel::query()
+            ->where('package_id = :package_id:', ['package_id' => $packageId])
             ->execute();
-
-        return $result;
-    }
-
-    public function findByCourseIds($courseIds)
-    {
-        $result = CoursePackageModel::query()
-            ->inWhere('course_id', $courseIds)
-            ->execute();
-
-        return $result;
     }
 
 }

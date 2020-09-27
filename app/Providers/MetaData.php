@@ -2,25 +2,34 @@
 
 namespace App\Providers;
 
-use Phalcon\Mvc\Model\MetaData\Files as FileMetaData;
+use Phalcon\Config;
 use Phalcon\Mvc\Model\MetaData\Memory as MemoryMetaData;
+use Phalcon\Mvc\Model\MetaData\Redis as RedisMetaData;
 
-class MetaData extends AbstractProvider
+class MetaData extends Provider
 {
 
     protected $serviceName = 'modelsMetadata';
 
     public function register()
     {
-        $this->di->setShared($this->serviceName, function () {
+        /**
+         * @var Config $config
+         */
+        $config = $this->di->getShared('config');
 
-            $config = $this->getShared('config');
+        $this->di->setShared($this->serviceName, function () use ($config) {
 
-            if ($config->env == ENV_DEV) {
+            if ($config->get('env') == ENV_DEV) {
                 $metaData = new MemoryMetaData();
             } else {
-                $metaData = new FileMetaData([
-                    'metaDataDir' => cache_path() . '/metadata/',
+                $metaData = new RedisMetaData([
+                    'host' => $config->path('redis.host'),
+                    'port' => $config->path('redis.port'),
+                    'auth' => $config->path('redis.auth'),
+                    'index' => $config->path('metadata.db'),
+                    'statsKey' => $config->path('metadata.statsKey'),
+                    'lifetime' => $config->path('metadata.lifetime'),
                 ]);
             }
 

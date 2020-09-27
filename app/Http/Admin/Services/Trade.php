@@ -2,13 +2,13 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\TradeList as TradeListBuilder;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Models\Refund as RefundModel;
-use App\Models\Trade as TradeModel;
+use App\Repos\Account as AccountRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Trade as TradeRepo;
 use App\Repos\User as UserRepo;
-use App\Transformers\TradeList as TradeListTransformer;
 use App\Validators\Trade as TradeValidator;
 
 class Trade extends Service
@@ -19,6 +19,16 @@ class Trade extends Service
         $pageQuery = new PaginateQuery();
 
         $params = $pageQuery->getParams();
+
+        /**
+         * 兼容订单编号或订单序号查询
+         */
+        if (isset($params['order_id']) && strlen($params['order_id']) > 10) {
+            $orderRepo = new OrderRepo();
+            $order = $orderRepo->findBySn($params['order_id']);
+            $params['order_id'] = $order ? $order->id : -1000;
+        }
+
         $sort = $pageQuery->getSort();
         $page = $pageQuery->getPage();
         $limit = $pageQuery->getLimit();
@@ -34,50 +44,42 @@ class Trade extends Service
     {
         $tradeRepo = new TradeRepo();
 
-        $trade = $tradeRepo->findById($id);
-
-        return $trade;
+        return $tradeRepo->findById($id);
     }
 
-    public function getOrder($sn)
-    {
-        $orderRepo = new OrderRepo();
-
-        $order = $orderRepo->findBySn($sn);
-
-        return $order;
-    }
-
-    public function getRefunds($sn)
+    public function getStatusHistory($id)
     {
         $tradeRepo = new TradeRepo();
 
-        $refunds = $tradeRepo->findRefunds($sn);
-
-        return $refunds;
+        return $tradeRepo->findStatusHistory($id);
     }
 
-    public function getUser($id)
+    public function getOrder($orderId)
+    {
+        $orderRepo = new OrderRepo();
+
+        return $orderRepo->findById($orderId);
+    }
+
+    public function getRefunds($tradeId)
+    {
+        $tradeRepo = new TradeRepo();
+
+        return $tradeRepo->findRefunds($tradeId);
+    }
+
+    public function getUser($userId)
     {
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($id);
-
-        return $user;
+        return $userRepo->findById($userId);
     }
 
-    public function closeTrade($id)
+    public function getAccount($userId)
     {
-        $trade = $this->findOrFail($id);
+        $accountRepo = new AccountRepo();
 
-        $validator = new TradeValidator();
-
-        $validator->checkIfAllowClose($trade);
-
-        $trade->status = TradeModel::STATUS_CLOSED;
-        $trade->update();
-
-        return $trade;
+        return $accountRepo->findById($userId);
     }
 
     public function refundTrade($id)
@@ -92,36 +94,35 @@ class Trade extends Service
 
         $refund->subject = $trade->subject;
         $refund->amount = $trade->amount;
-        $refund->user_id = $trade->user_id;
-        $refund->order_sn = $trade->order_sn;
-        $refund->trade_sn = $trade->sn;
-        $refund->apply_reason = '后台人工申请退款';
+        $refund->owner_id = $trade->owner_id;
+        $refund->order_id = $trade->order_id;
+        $refund->trade_id = $trade->id;
+        $refund->apply_note = '后台人工申请退款';
 
         $refund->create();
 
-        return $trade;
+        return $refund;
     }
 
     protected function findOrFail($id)
     {
         $validator = new TradeValidator();
 
-        $result = $validator->checkTrade($id);
-
-        return $result;
+        return $validator->checkTrade($id);
     }
 
     protected function handleTrades($pager)
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new TradeListTransformer();
+            $builder = new TradeListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleUsers($pipeA);
-            $pipeC = $transformer->arrayToObject($pipeB);
+            $pipeB = $builder->handleUsers($pipeA);
+            $pipeC = $builder->handleOrders($pipeB);
+            $pipeD = $builder->objects($pipeC);
 
-            $pager->items = $pipeC;
+            $pager->items = $pipeD;
         }
 
         return $pager;

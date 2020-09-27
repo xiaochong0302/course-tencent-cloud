@@ -2,8 +2,9 @@
 
 namespace App\Library;
 
+use Phalcon\Config;
 use Phalcon\Di;
-use Phalcon\Logger as PhalconLogger;
+use Phalcon\Logger as PhLogger;
 use Phalcon\Logger\Adapter\File as FileLogger;
 
 class Logger
@@ -15,13 +16,18 @@ class Logger
      */
     public function getInstance($channel = null)
     {
-        $config = Di::getDefault()->get('config');
+        /**
+         * @var Config $config
+         */
+        $config = Di::getDefault()->getShared('config');
 
-        $channel = $channel ? $channel . '-' : '';
+        $channel = $channel ? $channel : 'common';
 
-        $path = log_path() . '/' . $channel . date('Y-m-d') . '.log';
+        $filename = sprintf('%s-%s.log', $channel, date('Y-m-d'));
 
-        $level = $config->env != ENV_DEV ? $config->log->level : PhalconLogger::DEBUG;
+        $path = log_path($filename);
+
+        $level = $config->get('env') != ENV_DEV ? $config->path('log.level') : PhLogger::DEBUG;
 
         $logger = new FileLogger($path);
 

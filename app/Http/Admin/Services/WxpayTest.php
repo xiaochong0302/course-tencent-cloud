@@ -3,39 +3,36 @@
 namespace App\Http\Admin\Services;
 
 use App\Models\Trade as TradeModel;
+use App\Services\Pay\Wxpay as WxpayService;
 
-class WxpayTest extends PaymentTest
+class WxpayTest extends PayTest
 {
 
-    /**
-     * 获取测试二维码
-     *
-     * @param TradeModel $trade
-     * @return mixed
-     */
-    public function getTestQrcode($trade)
+    protected $channel = TradeModel::CHANNEL_WXPAY;
+
+    public function scan(TradeModel $trade)
     {
-        $outOrder = [
-            'out_trade_no' => $trade->sn,
-            'total_fee' => 100 * $trade->amount,
-            'body' => $trade->subject,
-        ];
-
         $wxpayService = new WxpayService();
-        $qrcode = $wxpayService->qrcode($outOrder);
-        $result = $qrcode ?: false;
 
-        return $result;
+        $code = $wxpayService->scan($trade);
+
+        $codeUrl = null;
+
+        if ($code) {
+            $codeUrl = $this->url->get(
+                ['for' => 'home.qrcode'],
+                ['text' => urlencode($code)]
+            );
+        }
+
+        return $codeUrl ?: false;
     }
 
-    /**
-     * 取消测试订单
-     *
-     * @param string $sn
-     */
-    public function cancelTestOrder($sn)
+    public function status($tradeNo)
     {
+        $wxpayService = new WxpayService();
 
+        return $wxpayService->status($tradeNo);
     }
 
 }

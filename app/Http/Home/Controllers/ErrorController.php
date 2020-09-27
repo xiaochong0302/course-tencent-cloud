@@ -2,8 +2,8 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Traits\Ajax as AjaxTrait;
-use Phalcon\Mvc\View;
+use App\Services\Service as AppService;
+use App\Traits\Response as ResponseTrait;
 
 /**
  * @RoutePrefix("/error")
@@ -11,15 +11,10 @@ use Phalcon\Mvc\View;
 class ErrorController extends \Phalcon\Mvc\Controller
 {
 
-    use AjaxTrait;
-
-    public function initialize()
-    {
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-    }
+    use ResponseTrait;
 
     /**
-     * @Get("/400", name="error.400") 
+     * @Get("/400", name="home.error.400")
      */
     public function show400Action()
     {
@@ -27,7 +22,7 @@ class ErrorController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/401", name="error.401") 
+     * @Get("/401", name="home.error.401")
      */
     public function show401Action()
     {
@@ -35,7 +30,7 @@ class ErrorController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/403", name="error.403") 
+     * @Get("/403", name="home.error.403")
      */
     public function show403Action()
     {
@@ -43,23 +38,48 @@ class ErrorController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/404", name="error.404") 
+     * @Get("/404", name="home.error.404")
      */
     public function show404Action()
     {
         $this->response->setStatusCode(404);
-        
-        if ($this->request->isAjax()) {
-            return $this->ajaxError(['code' => 'sys.uri_not_found']);
+
+        $isAjaxRequest = $this->request->isAjax();
+        $isApiRequest = $this->request->isApi();
+
+        if ($isAjaxRequest || $isApiRequest) {
+            return $this->jsonError(['code' => 'sys.not_found']);
         }
     }
 
     /**
-     * @Get("/500", name="error.500") 
+     * @Get("/500", name="home.error.500")
      */
     public function show500Action()
     {
         $this->response->setStatusCode(500);
+    }
+
+    /**
+     * @Get("/503", name="home.error.503")
+     */
+    public function show503Action()
+    {
+        $this->response->setStatusCode(503);
+    }
+
+    /**
+     * @Get("/maintain", name="home.error.maintain")
+     */
+    public function maintainAction()
+    {
+        $appService = new AppService();
+
+        $siteInfo = $appService->getSettings('site');
+
+        $this->response->setStatusCode(503);
+
+        $this->view->setVar('message', $siteInfo['closed_tips']);
     }
 
 }

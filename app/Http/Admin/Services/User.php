@@ -2,12 +2,17 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\UserList as UserListBuilder;
+use App\Caches\User as UserCache;
 use App\Library\Paginator\Query as PaginateQuery;
-use App\Library\Util\Password as PasswordUtil;
+use App\Library\Utils\Password as PasswordUtil;
+use App\Models\Account as AccountModel;
+use App\Models\ImUser as ImUserModel;
 use App\Models\User as UserModel;
+use App\Repos\Account as AccountRepo;
 use App\Repos\Role as RoleRepo;
 use App\Repos\User as UserRepo;
-use App\Transformers\UserList as UserListTransformer;
+use App\Validators\Account as AccountValidator;
 use App\Validators\User as UserValidator;
 
 class User extends Service
@@ -17,9 +22,7 @@ class User extends Service
     {
         $roleRepo = new RoleRepo();
 
-        $roles = $roleRepo->findAll(['deleted' => 0]);
-
-        return $roles;
+        return $roleRepo->findAll(['deleted' => 0]);
     }
 
     public function getUsers()
@@ -35,48 +38,86 @@ class User extends Service
 
         $pager = $userRepo->paginate($params, $sort, $page, $limit);
 
-        $result = $this->handleUsers($pager);
-
-        return $result;
+        return $this->handleUsers($pager);
     }
 
     public function getUser($id)
     {
-        $user = $this->findOrFail($id);
+        return $this->findOrFail($id);
+    }
 
-        return $user;
+    public function getAccount($id)
+    {
+        $accountRepo = new AccountRepo();
+
+        return $accountRepo->findById($id);
     }
 
     public function createUser()
     {
         $post = $this->request->getPost();
 
-        $validator = new UserValidator();
+        $accountValidator = new AccountValidator();
 
-        $name = $validator->checkName($post['name']);
-        $password = $validator->checkPassword($post['password']);
-        $eduRole = $validator->checkEduRole($post['edu_role']);
-        $adminRole = $validator->checkAdminRole($post['admin_role']);
+        $phone = $accountValidator->checkPhone($post['phone']);
+        $password = $accountValidator->checkPassword($post['password']);
 
-        $validator->checkIfNameTaken($name);
+        $accountValidator->checkIfPhoneTaken($post['phone']);
 
-        $data = [];
+        $userValidator = new UserValidator();
 
-        $data['name'] = $name;
-        $data['salt'] = PasswordUtil::salt();
-        $data['password'] = PasswordUtil::hash($password, $data['salt']);
-        $data['edu_role'] = $eduRole;
-        $data['admin_role'] = $adminRole;
+        $eduRole = $userValidator->checkEduRole($post['edu_role']);
+        $adminRole = $userValidator->checkAdminRole($post['admin_role']);
 
-        $user = new UserModel();
+        try {
 
-        $user->create($data);
+            $this->db->begin();
 
-        if ($user->admin_role > 0) {
-            $this->updateAdminUserCount($user->admin_role);
+            $account = new AccountModel();
+
+            $salt = PasswordUtil::salt();
+            $password = PasswordUtil::hash($password, $salt);
+
+            $account->phone = $phone;
+            $account->salt = $salt;
+            $account->password = $password;
+
+            if ($account->create() === false) {
+                throw new \RuntimeException('Create Account Failed');
+            }
+
+            $user = new UserModel();
+
+            $user->id = $account->id;
+            $user->name = "user_{$account->id}";
+            $user->edu_role = $eduRole;
+            $user->admin_role = $adminRole;
+
+            if ($user->create() === false) {
+                throw new \RuntimeException('Create User Failed');
+            }
+
+            $imUser = new ImUserModel();
+
+            $imUser->id = $user->id;
+            $imUser->name = $user->name;
+
+            if ($imUser->create() === false) {
+                throw new \RuntimeException('Create Im User Failed');
+            }
+
+            $this->db->commit();
+
+            if ($adminRole > 0) {
+                $this->updateAdminUserCount($adminRole);
+            }
+
+        } catch (\Exception $e) {
+
+            $this->db->rollback();
+
+            throw new \RuntimeException('sys.trans_rollback');
         }
-
-        return $user;
     }
 
     public function updateUser($id)
@@ -88,6 +129,13 @@ class User extends Service
         $validator = new UserValidator();
 
         $data = [];
+
+        if (isset($post['name'])) {
+            $data['name'] = $validator->checkName($post['name']);
+            if ($post['name'] != $user->name) {
+                $validator->checkIfNameTaken($post['name']);
+            }
+        }
 
         if (isset($post['title'])) {
             $data['title'] = $validator->checkTitle($post['title']);
@@ -105,13 +153,24 @@ class User extends Service
             $data['admin_role'] = $validator->checkAdminRole($post['admin_role']);
         }
 
+        if (isset($post['vip'])) {
+            $data['vip'] = $validator->checkVipStatus($post['vip']);
+        }
+
+        if (!empty($post['vip_expiry_time'])) {
+            $data['vip_expiry_time'] = $validator->checkVipExpiryTime($post['vip_expiry_time']);
+            if ($data['vip_expiry_time'] < time()) {
+                $data['vip'] = 0;
+            }
+        }
+
         if (isset($post['locked'])) {
             $data['locked'] = $validator->checkLockStatus($post['locked']);
         }
 
-        if (isset($post['locked_expiry'])) {
-            $data['locked_expiry'] = $validator->checkLockExpiry($post['locked_expiry']);
-            if ($data['locked_expiry'] < time()) {
+        if (!empty($post['lock_expiry_time'])) {
+            $data['lock_expiry_time'] = $validator->checkLockExpiryTime($post['lock_expiry_time']);
+            if ($data['lock_expiry_time'] < time()) {
                 $data['locked'] = 0;
             }
         }
@@ -131,28 +190,64 @@ class User extends Service
         return $user;
     }
 
+    public function updateAccount($id)
+    {
+        $post = $this->request->getPost();
+
+        $accountRepo = new AccountRepo();
+
+        $account = $accountRepo->findById($id);
+
+        $validator = new AccountValidator();
+
+        $data = [];
+
+        if (!empty($post['phone'])) {
+            $data['phone'] = $validator->checkPhone($post['phone']);
+            if ($post['phone'] != $account->phone) {
+                $validator->checkIfPhoneTaken($post['phone']);
+            }
+        }
+
+        if (!empty($post['email'])) {
+            $data['email'] = $validator->checkEmail($post['email']);
+            if ($post['email'] != $account->email) {
+                $validator->checkIfEmailTaken($post['email']);
+            }
+        }
+
+        if (!empty($post['password'])) {
+            $post['password'] = $validator->checkPassword($post['password']);
+            $data['salt'] = PasswordUtil::salt();
+            $data['password'] = PasswordUtil::hash($post['password'], $data['salt']);
+        }
+
+        $account->update($data);
+
+        return $account;
+    }
+
     protected function findOrFail($id)
     {
         $validator = new UserValidator();
 
-        $result = $validator->checkUser($id);
+        return $validator->checkUser($id);
+    }
 
-        return $result;
+    protected function rebuildUserCache(UserModel $user)
+    {
+        $cache = new UserCache();
+
+        $cache->rebuild($user->id);
     }
 
     protected function updateAdminUserCount($roleId)
     {
-        if (!$roleId) {
-            return false;
-        }
-
         $roleRepo = new RoleRepo();
 
         $role = $roleRepo->findById($roleId);
 
-        if (!$role) {
-            return false;
-        }
+        if (!$role) return;
 
         $userCount = $roleRepo->countUsers($roleId);
 
@@ -165,12 +260,12 @@ class User extends Service
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new UserListTransformer();
+            $builder = new UserListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleAdminRoles($pipeA);
-            $pipeC = $transformer->handleEduRoles($pipeB);
-            $pipeD = $transformer->arrayToObject($pipeC);
+            $pipeB = $builder->handleAdminRoles($pipeA);
+            $pipeC = $builder->handleEduRoles($pipeB);
+            $pipeD = $builder->objects($pipeC);
 
             $pager->items = $pipeD;
         }

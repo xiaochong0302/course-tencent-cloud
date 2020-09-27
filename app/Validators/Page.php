@@ -2,29 +2,61 @@
 
 namespace App\Validators;
 
+use App\Caches\MaxPageId as MaxPageIdCache;
+use App\Caches\Page as PageCache;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
+use App\Models\Page as PageModel;
 use App\Repos\Page as PageRepo;
 
 class Page extends Validator
 {
 
     /**
-     * @param integer $id
-     * @return \App\Models\Page
-     * @throws NotFoundException
+     * @param int $id
+     * @return PageModel
+     * @throws BadRequestException
      */
+    public function checkPageCache($id)
+    {
+        $this->checkId($id);
+
+        $pageCache = new PageCache();
+
+        $page = $pageCache->get($id);
+
+        if (!$page) {
+            throw new BadRequestException('page.not_found');
+        }
+
+        return $page;
+    }
+
     public function checkPage($id)
     {
+        $this->checkId($id);
+
         $pageRepo = new PageRepo();
 
         $page = $pageRepo->findById($id);
 
         if (!$page) {
-            throw new NotFoundException('page.not_found');
+            throw new BadRequestException('page.not_found');
         }
 
         return $page;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxIdCache = new MaxPageIdCache();
+
+        $maxId = $maxIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('page.not_found');
+        }
     }
 
     public function checkTitle($title)
@@ -46,7 +78,7 @@ class Page extends Validator
 
     public function checkContent($content)
     {
-        $value = $this->filter->sanitize($content, ['trim']);
+        $value = $this->filter->sanitize($content, ['trim', 'striptags']);
 
         $length = kg_strlen($value);
 
@@ -54,7 +86,7 @@ class Page extends Validator
             throw new BadRequestException('page.content_too_short');
         }
 
-        if ($length > 65535) {
+        if ($length > 3000) {
             throw new BadRequestException('page.content_too_long');
         }
 
@@ -63,13 +95,11 @@ class Page extends Validator
 
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('page.invalid_publish_status');
         }
 
-        return $value;
+        return $status;
     }
 
 }

@@ -2,21 +2,12 @@
 
 namespace App\Repos;
 
+use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\CourseFavorite as CourseFavoriteModel;
+use Phalcon\Mvc\Model;
 
 class CourseFavorite extends Repository
 {
-
-    public function findCourseFavorite($courseId, $userId)
-    {
-        $result = CourseFavoriteModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
-            ->execute()
-            ->getFirst();
-
-        return $result;
-    }
 
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
@@ -26,12 +17,16 @@ class CourseFavorite extends Repository
 
         $builder->where('1 = 1');
 
-        if (isset($where['course_id'])) {
+        if (!empty($where['course_id'])) {
             $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
         }
 
-        if (isset($where['user_id'])) {
+        if (!empty($where['user_id'])) {
             $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        }
+
+        if (isset($where['deleted'])) {
+            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
         switch ($sort) {
@@ -48,7 +43,20 @@ class CourseFavorite extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager;
+        return $pager->paginate();
+    }
+
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return CourseFavoriteModel|Model|bool
+     */
+    public function findCourseFavorite($courseId, $userId)
+    {
+        return CourseFavoriteModel::findFirst([
+            'conditions' => 'course_id = :course_id: AND user_id = :user_id:',
+            'bind' => ['course_id' => $courseId, 'user_id' => $userId],
+        ]);
     }
 
 }

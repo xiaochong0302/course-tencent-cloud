@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Http\Admin\Services\CourseStudent as CourseStudentService;
+use App\Http\Admin\Services\Student as StudentService;
 
 /**
  * @RoutePrefix("/admin/student")
@@ -23,14 +23,20 @@ class StudentController extends Controller
      */
     public function listAction()
     {
-        $courseId = $this->request->getQuery('course_id', 'int', '');
+        $courseId = $this->request->getQuery('course_id', 'int', 0);
 
-        $service = new CourseStudentService();
+        $studentService = new StudentService();
 
-        $pager = $service->getCourseStudents();
+        $pager = $studentService->getRelations();
+
+        $course = null;
+
+        if ($courseId > 0) {
+            $course = $studentService->getCourse($courseId);
+        }
 
         $this->view->setVar('pager', $pager);
-        $this->view->setVar('course_id', $courseId);
+        $this->view->setVar('course', $course);
     }
 
     /**
@@ -38,9 +44,17 @@ class StudentController extends Controller
      */
     public function addAction()
     {
-        $courseId = $this->request->getQuery('course_id', 'int', '');
+        $courseId = $this->request->getQuery('course_id', 'int', 0);
 
-        $this->view->setVar('course_id', $courseId);
+        $studentService = new StudentService();
+
+        $course = null;
+
+        if ($courseId > 0) {
+            $course = $studentService->getCourse($courseId);
+        }
+
+        $this->view->setVar('course', $course);
     }
 
     /**
@@ -48,9 +62,9 @@ class StudentController extends Controller
      */
     public function createAction()
     {
-        $service = new CourseStudentService();
+        $studentService = new StudentService();
 
-        $student = $service->createCourseStudent();
+        $student = $studentService->createRelation();
 
         $location = $this->url->get(
             ['for' => 'admin.student.list'],
@@ -62,7 +76,7 @@ class StudentController extends Controller
             'msg' => '添加学员成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -70,16 +84,15 @@ class StudentController extends Controller
      */
     public function editAction()
     {
-        $courseId = $this->request->getQuery('course_id', 'int');
-        $userId = $this->request->getQuery('user_id', 'int');
+        $relationId = $this->request->getQuery('relation_id', 'int');
 
-        $service = new CourseStudentService();
+        $studentService = new StudentService();
 
-        $courseStudent = $service->getCourseStudent($courseId, $userId);
-        $course = $service->getCourse($courseId);
-        $student = $service->getStudent($userId);
+        $relation = $studentService->getRelation($relationId);
+        $course = $studentService->getCourse($relation->course_id);
+        $student = $studentService->getStudent($relation->user_id);
 
-        $this->view->setVar('course_student', $courseStudent);
+        $this->view->setVar('relation', $relation);
         $this->view->setVar('course', $course);
         $this->view->setVar('student', $student);
     }
@@ -89,21 +102,18 @@ class StudentController extends Controller
      */
     public function updateAction()
     {
-        $service = new CourseStudentService();
+        $studentService = new StudentService();
 
-        $student = $service->updateCourseStudent();
+        $studentService->updateRelation();
 
-        $location = $this->url->get(
-            ['for' => 'admin.student.list'],
-            ['course_id' => $student->course_id]
-        );
+        $location = $this->url->get(['for' => 'admin.student.list']);
 
         $content = [
             'location' => $location,
             'msg' => '更新学员成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -111,9 +121,9 @@ class StudentController extends Controller
      */
     public function learningAction()
     {
-        $service = new CourseStudentService();
+        $studentService = new StudentService();
 
-        $pager = $service->getCourseLearnings();
+        $pager = $studentService->getLearnings();
 
         $this->view->setVar('pager', $pager);
     }

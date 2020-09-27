@@ -2,7 +2,13 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\Chapter as ChapterService;
+use App\Models\ChapterLive as LiveModel;
+use App\Models\Course as CourseModel;
+use App\Services\Logic\Chapter\ChapterInfo as ChapterInfoService;
+use App\Services\Logic\Chapter\ChapterLike as ChapterLikeService;
+use App\Services\Logic\Chapter\DanmuList as ChapterDanmuListService;
+use App\Services\Logic\Chapter\Learning as ChapterLearningService;
+use App\Services\Logic\Course\ChapterList as CourseChapterListService;
 
 /**
  * @RoutePrefix("/chapter")
@@ -11,75 +17,89 @@ class ChapterController extends Controller
 {
 
     /**
-     * @Get("/{id}", name="home.chapter.show")
+     * @Get("/{id:[0-9]+}", name="home.chapter.show")
      */
     public function showAction($id)
     {
-        $service = new ChapterService();
+        $service = new ChapterInfoService();
 
-        $chapter = $service->getChapter($id);
+        $chapter = $service->handle($id);
 
-        $this->view->chapter = $chapter;
+        $owned = $chapter['me']['owned'] ?? false;
+
+        if (!$owned) {
+            $this->response->redirect([
+                'for' => 'home.course.show',
+                'id' => $chapter['course']['id'],
+            ]);
+        }
+
+        $service = new CourseChapterListService();
+
+        $catalog = $service->handle($chapter['course']['id']);
+
+        $this->seo->prependTitle(['章节', $chapter['title'], $chapter['course']['title']]);
+
+        if (!empty($chapter['summary'])) {
+            $this->seo->setDescription($chapter['summary']);
+        }
+
+        if ($chapter['model'] == CourseModel::MODEL_VOD) {
+            $this->view->pick('chapter/vod');
+        } elseif ($chapter['model'] == CourseModel::MODEL_READ) {
+            $this->view->pick('chapter/read');
+        } elseif ($chapter['model'] == CourseModel::MODEL_LIVE) {
+            if ($chapter['status'] == LiveModel::STATUS_ACTIVE) {
+                $this->view->pick('chapter/live/active');
+            } elseif ($chapter['status'] == LiveModel::STATUS_INACTIVE) {
+                $this->view->pick('chapter/live/inactive');
+            } elseif ($chapter['status'] == LiveModel::STATUS_FORBID) {
+                $this->view->pick('chapter/live/forbid');
+            }
+        }
+
+        $this->view->setVar('chapter', $chapter);
+        $this->view->setVar('catalog', $catalog);
     }
 
     /**
-     * @Get("/{id}/comments", name="home.chapter.comments")
+     * @Get("/{id:[0-9]+}/danmu", name="home.chapter.danmu")
      */
-    public function commentsAction($id)
+    public function danmuAction($id)
     {
-        $service = new ChapterService();
+        $service = new ChapterDanmuListService();
 
-        $comments = $service->getComments($id);
+        $items = $service->handle($id);
 
-        $this->view->comments = $comments;
+        return $this->jsonSuccess(['items' => $items]);
     }
 
     /**
-     * @Post("/{id}/agree", name="home.chapter.agree")
+     * @Post("/{id:[0-9]+}/like", name="home.chapter.like")
      */
-    public function agreeAction($id)
+    public function likeAction($id)
     {
-        $service = new ChapterService();
+        $service = new ChapterLikeService();
 
-        $service->agree($id);
+        $like = $service->handle($id);
 
-        return $this->response->ajaxSuccess();
+        $msg = $like->deleted == 0 ? '点赞成功' : '取消点赞成功';
+
+        $content = ['msg' => $msg];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/oppose", name="home.chapter.oppose")
+     * @Post("/{id:[0-9]+}/learning", name="home.chapter.learning")
      */
-    public function opposeAction($id)
+    public function learningAction($id)
     {
-        $service = new ChapterService();
+        $service = new ChapterLearningService();
 
-        $service->oppose($id);
+        $service->handle($id);
 
-        return $this->response->ajaxSuccess();
-    }
-
-    /**
-     * @Post("/{id}/position", name="home.chapter.position")
-     */
-    public function positionAction($id)
-    {
-        $service = new ChapterService();
-
-        $service->position($id);
-
-        return $this->response->ajaxSuccess();
-    }
-
-    /**
-     * @Post("/{id}/finish", name="home.chapter.finish")
-     */
-    public function finishAction($id)
-    {
-        $service = new ChapterService();
-
-        $service->finish($id);
-
-        return $this->response->ajaxSuccess();
+        return $this->jsonSuccess();
     }
 
 }

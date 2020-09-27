@@ -3,12 +3,26 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Course as CourseService;
+use App\Models\Category as CategoryModel;
 
 /**
  * @RoutePrefix("/admin/course")
  */
 class CourseController extends Controller
 {
+
+    /**
+     * @Get("/category", name="admin.course.category")
+     */
+    public function categoryAction()
+    {
+        $location = $this->url->get(
+            ['for' => 'admin.category.list'],
+            ['type' => CategoryModel::TYPE_COURSE]
+        );
+
+        $this->response->redirect($location);
+    }
 
     /**
      * @Get("/search", name="admin.course.search")
@@ -18,8 +32,10 @@ class CourseController extends Controller
         $courseService = new CourseService();
 
         $xmCategories = $courseService->getXmCategories(0);
+        $xmTeachers = $courseService->getXmTeachers(0);
 
         $this->view->setVar('xm_categories', $xmCategories);
+        $this->view->setVar('xm_teachers', $xmTeachers);
     }
 
     /**
@@ -61,11 +77,11 @@ class CourseController extends Controller
             'msg' => '创建课程成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.course.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.course.edit")
      */
     public function editAction($id)
     {
@@ -75,15 +91,19 @@ class CourseController extends Controller
         $xmTeachers = $courseService->getXmTeachers($id);
         $xmCategories = $courseService->getXmCategories($id);
         $xmCourses = $courseService->getXmCourses($id);
+        $studyExpiryOptions = $courseService->getStudyExpiryOptions();
+        $refundExpiryOptions = $courseService->getRefundExpiryOptions();
 
         $this->view->setVar('course', $course);
         $this->view->setVar('xm_teachers', $xmTeachers);
         $this->view->setVar('xm_categories', $xmCategories);
         $this->view->setVar('xm_courses', $xmCourses);
+        $this->view->setVar('study_expiry_options', $studyExpiryOptions);
+        $this->view->setVar('refund_expiry_options', $refundExpiryOptions);
     }
 
     /**
-     * @Post("/{id}/update", name="admin.course.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.course.update")
      */
     public function updateAction($id)
     {
@@ -93,11 +113,11 @@ class CourseController extends Controller
 
         $content = ['msg' => '更新课程成功'];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.course.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.course.delete")
      */
     public function deleteAction($id)
     {
@@ -110,11 +130,11 @@ class CourseController extends Controller
             'msg' => '删除课程成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.course.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.course.restore")
      */
     public function restoreAction($id)
     {
@@ -127,11 +147,11 @@ class CourseController extends Controller
             'msg' => '还原课程成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Get("/{id}/chapters", name="admin.course.chapters")
+     * @Get("/{id:[0-9]+}/chapters", name="admin.course.chapters")
      */
     public function chaptersAction($id)
     {

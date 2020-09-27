@@ -2,8 +2,20 @@
 
 namespace App\Models;
 
+use App\Caches\MaxUserId as MaxUserIdCache;
+use App\Services\Sync\UserIndex as UserIndexSync;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
+
 class User extends Model
 {
+
+    /**
+     * 性别类型
+     */
+    const GENDER_MALE = 1; // 男
+    const GENDER_FEMALE = 2; // 女
+    const GENDER_NONE = 3; // 保密
 
     /**
      * 教学角色
@@ -14,7 +26,7 @@ class User extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -24,34 +36,6 @@ class User extends Model
      * @var string
      */
     public $name;
-
-    /**
-     * 邮箱
-     *
-     * @var string
-     */
-    public $email;
-
-    /**
-     * 手机
-     *
-     * @var string
-     */
-    public $phone;
-
-    /**
-     * 密码
-     *
-     * @var string
-     */
-    public $password;
-
-    /**
-     * 密盐
-     *
-     * @var string
-     */
-    public $salt;
 
     /**
      * 头像
@@ -75,98 +59,196 @@ class User extends Model
     public $about;
 
     /**
+     * 地区
+     *
+     * @var string
+     */
+    public $area;
+
+    /**
+     * 性别
+     *
+     * @var int
+     */
+    public $gender;
+
+    /**
+     * 会员标识
+     *
+     * @var int
+     */
+    public $vip;
+
+    /**
+     * 锁定标识
+     *
+     * @var int
+     */
+    public $locked;
+
+    /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted;
+
+    /**
      * 教学角色
      *
-     * @var integer
+     * @var int
      */
     public $edu_role;
 
     /**
      * 后台角色
      *
-     * @var integer
+     * @var int
      */
     public $admin_role;
 
     /**
-     * VIP标识
+     * 课程数
      *
-     * @var integer
+     * @var int
      */
-    public $vip;
+    public $course_count;
 
     /**
-     * VIP期限
+     * 收藏数
      *
-     * @var integer
+     * @var int
      */
-    public $vip_expiry;
+    public $favorite_count;
 
     /**
-     * 锁定标识
+     * 会员期限
      *
-     * @var integer
+     * @var int
      */
-    public $locked;
+    public $vip_expiry_time;
 
     /**
      * 锁定期限
      *
-     * @var integer
+     * @var int
      */
-    public $locked_expiry;
+    public $lock_expiry_time;
 
     /**
-     * 最后活跃
+     * 活跃时间
      *
-     * @var integer
+     * @var int
      */
-    public $last_active;
-
-    /**
-     * 最后IP
-     *
-     * @var string
-     */
-    public $last_ip;
+    public $active_time;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'user';
+        return 'kg_user';
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->keepSnapshots(true);
+
+        $this->addBehavior(
+            new SoftDelete([
+                'field' => 'deleted',
+                'value' => 1,
+            ])
+        );
     }
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        if (empty($this->avatar)) {
+            $this->avatar = kg_default_avatar_path();
+        } elseif (Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = self::getAvatarPath($this->avatar);
+        }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        if (time() - $this->update_time > 3 * 3600) {
+            $sync = new UserIndexSync();
+            $sync->addItem($this->id);
+        }
+
+        if (Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = self::getAvatarPath($this->avatar);
+        }
+
+        $this->update_time = time();
     }
 
-    public static function eduRoles()
+    public function afterCreate()
     {
-        $list = [
+        $cache = new MaxUserIdCache();
+
+        $cache->rebuild();
+    }
+
+    public function afterUpdate()
+    {
+        if ($this->hasUpdated('name') || $this->hasUpdated('avatar')) {
+            $imUser = ImUser::findFirst($this->id);
+            $imUser->update([
+                'name' => $this->name,
+                'avatar' => $this->avatar,
+            ]);
+        }
+    }
+
+    public function afterFetch()
+    {
+        if (!Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = kg_cos_avatar_url($this->avatar);
+        }
+    }
+
+    public static function getAvatarPath($url)
+    {
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
+
+        return $url;
+    }
+
+    public static function genderTypes()
+    {
+        return [
+            self::GENDER_MALE => '男',
+            self::GENDER_FEMALE => '女',
+            self::GENDER_NONE => '保密',
+        ];
+    }
+
+    public static function eduRoleTypes()
+    {
+        return [
             self::EDU_ROLE_STUDENT => '学员',
             self::EDU_ROLE_TEACHER => '讲师',
         ];
-
-        return $list;
     }
 
 }

@@ -3,17 +3,11 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Repos\Role as RoleRepo;
 
 class Role extends Validator
 {
 
-    /**
-     * @param integer $id
-     * @return \App\Models\Role
-     * @throws NotFoundException
-     */
     public function checkRole($id)
     {
         $roleRepo = new RoleRepo();
@@ -21,7 +15,7 @@ class Role extends Validator
         $role = $roleRepo->findById($id);
 
         if (!$role) {
-            throw new NotFoundException('role.not_found');
+            throw new BadRequestException('role.not_found');
         }
 
         return $role;
@@ -47,6 +41,12 @@ class Role extends Validator
     public function checkSummary($summary)
     {
         $value = $this->filter->sanitize($summary, ['trim', 'string']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 255) {
+            throw new BadRequestException('role.summary_too_long');
+        }
 
         return $value;
     }

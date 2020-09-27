@@ -4,9 +4,8 @@ namespace App\Console\Tasks;
 
 use App\Models\Chapter as ChapterModel;
 use App\Repos\Chapter as ChapterRepo;
-use App\Services\CourseStats as CourseStatsService;
+use App\Services\CourseStat as CourseStatService;
 use App\Services\Vod as VodService;
-use Phalcon\Cli\Task;
 
 class VodEventTask extends Task
 {
@@ -15,22 +14,26 @@ class VodEventTask extends Task
     {
         $events = $this->pullEvents();
 
-        if (!$events) {
-            return;
-        }
+        if (!$events) return;
 
         $handles = [];
 
         $count = 0;
 
         foreach ($events as $event) {
+
             $handles[] = $event['EventHandle'];
+
             if ($event['EventType'] == 'NewFileUpload') {
                 $this->handleNewFileUploadEvent($event);
             } elseif ($event['EventType'] == 'ProcedureStateChanged') {
                 $this->handleProcedureStateChangedEvent($event);
+            } elseif ($event['EventType'] == 'FileDeleted') {
+                $this->handleFileDeletedEvent($event);
             }
+
             $count++;
+
             if ($count >= 12) {
                 break;
             }
@@ -49,9 +52,7 @@ class VodEventTask extends Task
 
         $chapter = $chapterRepo->findByFileId($fileId);
 
-        if (!$chapter) {
-            return;
-        }
+        if (!$chapter) return;
 
         $vodService = new VodService();
 
@@ -62,28 +63,30 @@ class VodEventTask extends Task
         }
 
         /**
-         * @var \stdClass $attrs
+         * @var array $attrs
          */
         $attrs = $chapter->attrs;
-        $attrs->file_status = ChapterModel::FS_TRANSLATING;
-        $attrs->duration = $duration;
+
+        $attrs['file']['status'] = ChapterModel::FS_TRANSLATING;
+
+        $attrs['duration'] = (int)$duration;
+
         $chapter->update(['attrs' => $attrs]);
 
-        $this->updateCourseDuration($chapter->course_id);
+        $this->updateVodAttrs($chapter);
     }
 
     protected function handleProcedureStateChangedEvent($event)
     {
         $fileId = $event['ProcedureStateChangeEvent']['FileId'];
+
         $processResult = $event['ProcedureStateChangeEvent']['MediaProcessResultSet'];
 
         $chapterRepo = new ChapterRepo();
 
         $chapter = $chapterRepo->findByFileId($fileId);
 
-        if (!$chapter) {
-            return;
-        }
+        if (!$chapter) return;
 
         $failCount = $successCount = 0;
 
@@ -97,61 +100,62 @@ class VodEventTask extends Task
             }
         }
 
-        $status = ChapterModel::FS_TRANSLATING;
+        $fileStatus = ChapterModel::FS_TRANSLATING;
 
         /**
          * 当有一个成功标记为成功
          */
         if ($successCount > 0) {
-            $status = ChapterModel::FS_TRANSLATED;
+            $fileStatus = ChapterModel::FS_TRANSLATED;
         } elseif ($failCount > 0) {
-            $status = ChapterModel::FS_FAILED;
+            $fileStatus = ChapterModel::FS_FAILED;
         }
 
-        if ($status == ChapterModel::FS_TRANSLATING) {
+        if ($fileStatus == ChapterModel::FS_TRANSLATING) {
             return;
         }
 
         /**
-         * @var \stdClass $attrs
+         * @var array $attrs
          */
         $attrs = $chapter->attrs;
-        $attrs->file_status = $status;
+
+        $attrs['file']['status'] = $fileStatus;
+
         $chapter->update(['attrs' => $attrs]);
+    }
+
+    protected function handleFileDeletedEvent($event)
+    {
+
     }
 
     protected function pullEvents()
     {
         $vodService = new VodService();
 
-        $result = $vodService->pullEvents();
-
-        return $result;
+        return $vodService->pullEvents();
     }
 
     protected function confirmEvents($handles)
     {
         $vodService = new VodService();
 
-        $result = $vodService->confirmEvents($handles);
-
-        return $result;
+        return $vodService->confirmEvents($handles);
     }
 
     protected function isAudioFile($format)
     {
         $formats = ['mp3', 'm4a', 'wav', 'flac', 'ogg'];
 
-        $result = in_array(strtolower($format), $formats);
-
-        return $result;
+        return in_array(strtolower($format), $formats);
     }
 
-    protected function updateCourseDuration($courseId)
+    protected function updateVodAttrs(ChapterModel $chapter)
     {
-        $courseStats = new CourseStatsService();
+        $courseStats = new CourseStatService();
 
-        $courseStats->updateVodDuration($courseId);
+        $courseStats->updateVodAttrs($chapter->course_id);
     }
 
 }

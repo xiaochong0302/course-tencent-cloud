@@ -2,7 +2,9 @@
 
 namespace App\Library\OAuth;
 
-class WeiXin extends \App\Library\OAuth
+use App\Library\OAuth;
+
+class WeiXin extends OAuth
 {
 
     const AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/qrconnect';
@@ -13,7 +15,7 @@ class WeiXin extends \App\Library\OAuth
     {
         $params = [
             'appid' => $this->appId,
-            'redirect_uri' => $this->appCallback,
+            'redirect_uri' => $this->redirectUri,
             'response_type' => 'code',
             'scope' => 'snsapi_login',
             'state' => 'dev',

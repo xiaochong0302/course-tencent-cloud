@@ -1,12 +1,27 @@
-<pre class="layui-code" id="kg-code"></pre>
+{% extends 'templates/main.volt' %}
 
-<script>
+{% block content %}
 
-    layui.use(['jquery'], function () {
-        var $ = layui.jquery;
-        var obj = JSON.parse('{{ audit.req_data }}');
-        var str = JSON.stringify(obj, undefined, 2);
-        $('#kg-code').html(str);
-    });
+    {% set audit.req_data = audit.req_data ? audit.req_data : '{}' %}
 
-</script>
+    <pre class="layui-code" id="kg-code">{{ audit.req_data }}</pre>
+
+{% endblock %}
+
+{% block inline_js %}
+
+    <script>
+
+        layui.use(['jquery'], function () {
+
+            var $ = layui.jquery;
+            var $code = $('#kg-code');
+            var obj = JSON.parse($code.html());
+            var str = JSON.stringify(obj, undefined, 2);
+
+            $code.html(str);
+        });
+
+    </script>
+
+{% endblock %}

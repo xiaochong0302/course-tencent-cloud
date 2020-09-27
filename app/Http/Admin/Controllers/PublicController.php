@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Traits\Ajax as AjaxTrait;
+use App\Traits\Response as ResponseTrait;
 
 /**
  * @RoutePrefix("/admin")
@@ -10,50 +10,40 @@ use App\Traits\Ajax as AjaxTrait;
 class PublicController extends \Phalcon\Mvc\Controller
 {
 
-    use AjaxTrait;
+    use ResponseTrait;
 
     /**
-     * @Route("/auth", name="admin.auth")
+     * @Get("/auth", name="admin.auth")
      */
     public function authAction()
     {
+        $this->response->setStatusCode(401);
+
         if ($this->request->isAjax()) {
-            return $this->ajaxError(['msg' => '会话已过期，请重新登录']);
+            return $this->jsonError(['msg' => '会话已过期，请重新登录']);
         }
 
         $this->response->redirect(['for' => 'admin.login']);
     }
 
     /**
-     * @Route("/csrf", name="admin.csrf")
-     */
-    public function csrfAction()
-    {
-        if ($this->request->isAjax()) {
-            return $this->ajaxError(['msg' => 'CSRF令牌验证失败']);
-        }
-
-        $this->view->pick('public/csrf');
-    }
-
-    /**
-     * @Route("/forbidden", name="admin.forbidden")
+     * @Get("/forbidden", name="admin.forbidden")
      */
     public function forbiddenAction()
     {
-        if ($this->request->isAjax()) {
-            return $this->ajaxError(['msg' => '无相关操作权限']);
-        }
+        $this->response->setStatusCode(403);
 
-        $this->view->pick('public/forbidden');
+        if ($this->request->isAjax()) {
+            return $this->jsonError(['msg' => '无相关操作权限']);
+        }
     }
 
     /**
-     * @Route("/ip2region", name="admin.ip2region")
+     * @Get("/ip2region", name="admin.ip2region")
      */
     public function ip2regionAction()
     {
-        $ip = $this->request->getQuery('ip', 'trim');
+        $ip = $this->request->getQuery('ip', 'string');
 
         $region = kg_ip2region($ip);
 

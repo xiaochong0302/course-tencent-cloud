@@ -1,38 +1,56 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>视频直播</title>
-    <script src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.2.js"></script>
+{% extends 'templates/main.volt' %}
+
+{% block content %}
+
+    <div id="player"></div>
+
+{% endblock %}
+
+{% block inline_css %}
+
     <style>
-        html, body {
-            margin: 0;
+        .kg-body {
             padding: 0;
         }
     </style>
-</head>
-<body>
-<div id="player"></div>
-</body>
-</html>
 
-<script>
+{% endblock %}
 
-    var flvPullUrls = '{{ flv_pull_urls|json_encode }}';
-    var flv = JSON.parse(flvPullUrls);
-    var config = {
-        flv: flv.od,
-        flv_sd: flv.sd,
-        flv_hd: flv.hd,
-        live: true,
-        h5_flv: true,
-        autoplay: true,
-        clarity: 'hd',
-        width: 720,
-        height: 405
-    };
+{% block inline_js %}
 
-    var player = new TcPlayer('player', config);
+    <script src="https://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.3.js"></script>
 
-</script>
+    <script>
+
+        layui.use(['jquery'], function () {
+
+            var $ = layui.jquery;
+
+            var options = {
+                live: true,
+                autoplay: true,
+                h5_flv: true,
+                width: 720,
+                height: 405
+            };
+
+            var playUrls = JSON.parse('{{ pull_urls|json_encode }}');
+            var formats = ['rtmp', 'flv', 'm3u8'];
+            var rates = ['od', 'hd', 'sd'];
+
+            $.each(formats, function (i, format) {
+                $.each(rates, function (k, rate) {
+                    if (playUrls.hasOwnProperty(format) && playUrls[format].hasOwnProperty(rate)) {
+                        var key = k === 0 ? format : format + '_' + rate;
+                        options[key] = playUrls[format][rate];
+                    }
+                });
+            });
+
+            new TcPlayer('player', options);
+
+        });
+
+    </script>
+
+{% endblock %}

@@ -6,74 +6,100 @@ class ChapterLive extends Model
 {
 
     /**
+     * 状态类型
+     */
+    const STATUS_ACTIVE = 1; // 活跃
+    const STATUS_INACTIVE = 2; // 静默
+    const STATUS_FORBID = 3; // 禁播
+
+    /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 课程编号
      *
-     * @var integer
+     * @var int
      */
     public $course_id;
 
     /**
      * 章节编号
      *
-     * @var integer
+     * @var int
      */
     public $chapter_id;
 
     /**
      * 开始时间
      *
-     * @var integer
+     * @var int
      */
     public $start_time;
 
     /**
      * 结束时间
      *
-     * @var integer
+     * @var int
      */
     public $end_time;
 
     /**
      * 用户限额
      *
-     * @var integer
+     * @var int
      */
     public $user_limit;
 
     /**
+     * 直播状态
+     *
+     * @var int
+     */
+    public $status;
+
+    /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'chapter_live';
+        return 'kg_chapter_live';
     }
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->status = self::STATUS_INACTIVE;
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        $this->update_time = time();
+    }
+
+    public static function generateStreamName($id)
+    {
+        return "chapter_{$id}";
+    }
+
+    public static function parseFromStreamName($streamName)
+    {
+        return str_replace('chapter_', '', $streamName);
     }
 
 }

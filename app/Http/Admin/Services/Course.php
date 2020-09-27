@@ -2,11 +2,18 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\CourseList as CourseListBuilder;
+use App\Caches\Course as CourseCache;
+use App\Caches\CourseCategoryList as CourseCategoryListCache;
+use App\Caches\CourseRelatedList as CourseRelatedListCache;
+use App\Caches\CourseTeacherList as CourseTeacherListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
+use App\Models\CourseRating as CourseRatingModel;
 use App\Models\CourseRelated as CourseRelatedModel;
 use App\Models\CourseUser as CourseUserModel;
+use App\Models\ImGroup as ImGroupModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
@@ -14,7 +21,7 @@ use App\Repos\CourseCategory as CourseCategoryRepo;
 use App\Repos\CourseRelated as CourseRelatedRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\User as UserRepo;
-use App\Transformers\CourseList as CourseListTransformer;
+use App\Services\Sync\CourseIndex as CourseIndexSync;
 use App\Validators\Course as CourseValidator;
 
 class Course extends Service
@@ -26,8 +33,14 @@ class Course extends Service
 
         $params = $pagerQuery->getParams();
 
-        if (isset($params['xm_category_ids'])) {
-            $params['id'] = $this->getCategoryCourseIds($params['xm_category_ids']);
+        if (!empty($params['xm_category_ids'])) {
+            $xmCategoryIds = explode(',', $params['xm_category_ids']);
+            $params['category_id'] = count($xmCategoryIds) > 1 ? $xmCategoryIds : $xmCategoryIds[0];
+        }
+
+        if (!empty($params['xm_teacher_ids'])) {
+            $xmTeacherIds = explode(',', $params['xm_teacher_ids']);
+            $params['teacher_id'] = count($xmTeacherIds) > 1 ? $xmTeacherIds : $xmTeacherIds[0];
         }
 
         $params['deleted'] = $params['deleted'] ?? 0;
@@ -45,9 +58,7 @@ class Course extends Service
 
     public function getCourse($id)
     {
-        $course = $this->findOrFail($id);
-
-        return $course;
+        return $this->findOrFail($id);
     }
 
     public function createCourse()
@@ -56,17 +67,58 @@ class Course extends Service
 
         $validator = new CourseValidator();
 
-        $data = [];
+        $model = $validator->checkModel($post['model']);
+        $title = $validator->checkTitle($post['title']);
 
-        $data['model'] = $validator->checkModel($post['model']);
-        $data['title'] = $validator->checkTitle($post['title']);
-        $data['published'] = 0;
+        try {
 
-        $course = new CourseModel();
+            $this->db->begin();
 
-        $course->create($data);
+            $course = new CourseModel();
 
-        return $course;
+            $course->model = $model;
+            $course->title = $title;
+
+            if ($course->create() === false) {
+                throw new \RuntimeException('Create Course Failed');
+            }
+
+            $courseRating = new CourseRatingModel();
+
+            $courseRating->course_id = $course->id;
+
+            if ($courseRating->create() === false) {
+                throw new \RuntimeException('Create CourseRating Failed');
+            }
+
+            $imGroup = new ImGroupModel();
+
+            $imGroup->course_id = $course->id;
+            $imGroup->name = $course->title;
+            $imGroup->about = $course->summary;
+            $imGroup->published = 1;
+
+            if ($imGroup->create() === false) {
+                throw new \RuntimeException('Create ImGroup Failed');
+            }
+
+            $this->db->commit();
+
+            return $course;
+
+        } catch (\Exception $e) {
+
+            $this->db->rollback();
+
+            $logger = $this->getLogger();
+
+            $logger->error('Create Course Error ' . kg_json_encode([
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            throw new \RuntimeException('sys.trans_rollback');
+        }
     }
 
     public function updateCourse($id)
@@ -110,7 +162,9 @@ class Course extends Service
             } else {
                 $data['market_price'] = $validator->checkMarketPrice($post['market_price']);
                 $data['vip_price'] = $validator->checkVipPrice($post['vip_price']);
-                $data['expiry'] = $validator->checkExpiry($post['expiry']);
+                $validator->checkComparePrice($post['market_price'], $post['vip_price']);
+                $data['study_expiry'] = $validator->checkStudyExpiry($post['study_expiry']);
+                $data['refund_expiry'] = $validator->checkRefundExpiry($post['refund_expiry']);
             }
         }
 
@@ -141,13 +195,7 @@ class Course extends Service
     public function deleteCourse($id)
     {
         $course = $this->findOrFail($id);
-
-        if ($course->deleted == 1) {
-            return false;
-        }
-
         $course->deleted = 1;
-
         $course->update();
 
         return $course;
@@ -156,16 +204,20 @@ class Course extends Service
     public function restoreCourse($id)
     {
         $course = $this->findOrFail($id);
-
-        if ($course->deleted == 0) {
-            return false;
-        }
-
         $course->deleted = 0;
-
         $course->update();
 
         return $course;
+    }
+
+    public function getStudyExpiryOptions()
+    {
+        return CourseModel::studyExpiryOptions();
+    }
+
+    public function getRefundExpiryOptions()
+    {
+        return CourseModel::refundExpiryOptions();
     }
 
     public function getXmCategories($id)
@@ -181,8 +233,11 @@ class Course extends Service
         $courseCategoryIds = [];
 
         if ($id > 0) {
+
             $courseRepo = new CourseRepo();
+
             $courseCategories = $courseRepo->findCategories($id);
+
             if ($courseCategories->count() > 0) {
                 foreach ($courseCategories as $category) {
                     $courseCategoryIds[] = $category->id;
@@ -230,8 +285,11 @@ class Course extends Service
         $courseTeacherIds = [];
 
         if ($id > 0) {
+
             $courseRepo = new CourseRepo();
+
             $courseTeachers = $courseRepo->findTeachers($id);
+
             if ($courseTeachers->count() > 0) {
                 foreach ($courseTeachers as $teacher) {
                     $courseTeacherIds[] = $teacher->id;
@@ -282,25 +340,35 @@ class Course extends Service
 
         $chapterRepo = new ChapterRepo();
 
-        $chapters = $chapterRepo->findAll([
+        return $chapterRepo->findAll([
             'parent_id' => 0,
             'course_id' => $course->id,
             'deleted' => $deleted,
         ]);
-
-        return $chapters;
     }
 
     protected function findOrFail($id)
     {
         $validator = new CourseValidator();
 
-        $result = $validator->checkCourse($id);
-
-        return $result;
+        return $validator->checkCourse($id);
     }
 
-    protected function saveTeachers($course, $teacherIds)
+    protected function rebuildCourseCache(CourseModel $course)
+    {
+        $cache = new CourseCache();
+
+        $cache->rebuild($course->id);
+    }
+
+    protected function rebuildCourseIndex(CourseModel $course)
+    {
+        $sync = new CourseIndexSync();
+
+        $sync->addItem($course->id);
+    }
+
+    protected function saveTeachers(CourseModel $course, $teacherIds)
     {
         $courseRepo = new CourseRepo();
 
@@ -314,7 +382,7 @@ class Course extends Service
             }
         }
 
-        $newTeacherIds = explode(',', $teacherIds);
+        $newTeacherIds = $teacherIds ? explode(',', $teacherIds) : [];
         $addedTeacherIds = array_diff($newTeacherIds, $originTeacherIds);
 
         if ($addedTeacherIds) {
@@ -325,7 +393,7 @@ class Course extends Service
                     'user_id' => $teacherId,
                     'role_type' => CourseUserModel::ROLE_TEACHER,
                     'source_type' => CourseUserModel::SOURCE_IMPORT,
-                    'expire_time' => strtotime('+10 years'),
+                    'expiry_time' => strtotime('+10 years'),
                 ]);
             }
         }
@@ -341,9 +409,20 @@ class Course extends Service
                 }
             }
         }
+
+        $teacherId = $newTeacherIds[0] ?? 0;
+
+        if ($teacherId) {
+            $course->teacher_id = $teacherId;
+            $course->update();
+        }
+
+        $cache = new CourseTeacherListCache();
+
+        $cache->rebuild($course->id);
     }
 
-    protected function saveCategories($course, $categoryIds)
+    protected function saveCategories(CourseModel $course, $categoryIds)
     {
         $courseRepo = new CourseRepo();
 
@@ -357,7 +436,7 @@ class Course extends Service
             }
         }
 
-        $newCategoryIds = explode(',', $categoryIds);
+        $newCategoryIds = $categoryIds ? explode(',', $categoryIds) : [];
         $addedCategoryIds = array_diff($newCategoryIds, $originCategoryIds);
 
         if ($addedCategoryIds) {
@@ -381,9 +460,20 @@ class Course extends Service
                 }
             }
         }
+
+        $categoryId = $newCategoryIds[0] ?? 0;
+
+        if ($categoryId) {
+            $course->category_id = $categoryId;
+            $course->update();
+        }
+
+        $cache = new CourseCategoryListCache();
+
+        $cache->rebuild($course->id);
     }
 
-    protected function saveRelatedCourses($course, $courseIds)
+    protected function saveRelatedCourses(CourseModel $course, $courseIds)
     {
         $courseRepo = new CourseRepo();
 
@@ -397,7 +487,7 @@ class Course extends Service
             }
         }
 
-        $newRelatedIds = explode(',', $courseIds);
+        $newRelatedIds = $courseIds ? explode(',', $courseIds) : [];
         $addedRelatedIds = array_diff($newRelatedIds, $originRelatedIds);
 
         $courseRelatedRepo = new CourseRelatedRepo();
@@ -442,39 +532,22 @@ class Course extends Service
                 }
             }
         }
-    }
 
-    protected function getCategoryCourseIds($categoryIds)
-    {
-        if (empty($categoryIds)) return [];
+        $cache = new CourseRelatedListCache();
 
-        $courseCategoryRepo = new CourseCategoryRepo();
-
-        $categoryIds = explode(',', $categoryIds);
-
-        $relations = $courseCategoryRepo->findByCategoryIds($categoryIds);
-
-        $result = [];
-
-        if ($relations->count() > 0) {
-            foreach ($relations as $relation) {
-                $result[] = $relation->course_id;
-            }
-        }
-
-        return $result;
+        $cache->rebuild($course->id);
     }
 
     protected function handleCourses($pager)
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new CourseListTransformer();
+            $builder = new CourseListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleCourses($pipeA);
-            $pipeC = $transformer->handleCategories($pipeB);
-            $pipeD = $transformer->arrayToObject($pipeC);
+            $pipeB = $builder->handleCategories($pipeA);
+            $pipeC = $builder->handleTeachers($pipeB);
+            $pipeD = $builder->objects($pipeC);
 
             $pager->items = $pipeD;
         }

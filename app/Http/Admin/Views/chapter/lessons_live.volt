@@ -1,5 +1,25 @@
-<table class="kg-table layui-table layui-form">
+{%- macro live_time_info(attrs) %}
+    {% if attrs['start_time'] > 0 %}
+        <p>开始：{{ date('Y-m-d H:i',attrs['start_time']) }}</p>
+        <p>结束：{{ date('Y-m-d H:i',attrs['end_time']) }}</p>
+    {% else %}
+        N/A
+    {% endif %}
+{%- endmacro %}
+
+{%- macro live_status_info(status) %}
+    {% if status == 'active' %}
+        <span class="layui-badge layui-bg-blue">活跃</span>
+    {% elseif status == 'inactive' %}
+        <span class="layui-badge layui-bg-gray">沉默</span>
+    {% elseif status == 'forbid' %}
+        <span class="layui-badge layui-bg-red">禁播</span>
+    {% endif %}
+{%- endmacro %}
+
+<table class="layui-table kg-table layui-form">
     <colgroup>
+        <col>
         <col>
         <col>
         <col>
@@ -13,6 +33,7 @@
         <th>编号</th>
         <th>名称</th>
         <th>直播时间</th>
+        <th>推流状态</th>
         <th>排序</th>
         <th>免费</th>
         <th>发布</th>
@@ -21,30 +42,33 @@
     </thead>
     <tbody>
     {% for item in lessons %}
+        {% set preview_url = url({'for':'home.chapter.show','id':item.id}) %}
+        {% set edit_url = url({'for':'admin.chapter.edit','id':item.id}) %}
+        {% set update_url = url({'for':'admin.chapter.update','id':item.id}) %}
+        {% set delete_url = url({'for':'admin.chapter.delete','id':item.id}) %}
+        {% set restore_url = url({'for':'admin.chapter.restore','id':item.id}) %}
         <tr>
             <td>{{ item.id }}</td>
             <td>
-                <span>{{ item.title }}</span>
+                <span><a href="{{ edit_url }}">{{ item.title }}</a></span>
                 <span class="layui-badge layui-bg-green">课</span>
             </td>
-            <td>
-                {% if item.attrs.start_time > 0 %}
-                    <p>开始：{{ date('Y-m-d H:i',item.attrs.start_time) }}</p>
-                    <p>结束：{{ date('Y-m-d H:i',item.attrs.end_time) }}</p>
-                {% else %}
-                    N/A
-                {% endif %}
-            </td>
-            <td><input class="layui-input kg-priority-input" type="text" name="priority" value="{{ item.priority }}" chapter-id="{{ item.id }}"></td>
-            <td><input type="checkbox" name="free" value="1" lay-skin="switch" lay-text="是|否" lay-filter="switch-free" chapter-id="{{ item.id }}" {% if item.free == 1 %}checked{% endif %}></td>
-            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="switch-published" chapter-id="{{ item.id }}"
-                       {% if item.published == 1 %}checked{% endif %}></td>
-            <td align="center">
+            <td>{{ live_time_info(item.attrs) }}</td>
+            <td>{{ live_status_info(item.attrs['stream']['status']) }}</td>
+            <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
+            <td><input type="checkbox" name="free" value="1" lay-skin="switch" lay-text="是|否" lay-filter="free" data-url="{{ update_url }}" {% if item.free == 1 %}checked="checked"{% endif %}></td>
+            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
+            <td class="center">
                 <div class="layui-dropdown">
-                    <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
+                    <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                     <ul>
-                        <li><a href="{{ url({'for':'admin.chapter.edit','id':item.id}) }}">编辑</a></li>
-                        <li><a href="javascript:;" class="kg-delete" url="{{ url({'for':'admin.chapter.delete','id':item.id}) }}">删除</a></li>
+                        <li><a href="{{ preview_url }}" target="_blank">预览</a></li>
+                        <li><a href="{{ edit_url }}">编辑</a></li>
+                        {% if item.deleted == 0 %}
+                            <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
+                        {% else %}
+                            <li><a href="javascript:" class="kg-restore" data-url="{{ delete_url }}">还原</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </td>

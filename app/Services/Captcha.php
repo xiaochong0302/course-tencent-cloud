@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Phalcon\Logger\Adapter\File as FileLogger;
 use TencentCloud\Captcha\V20190722\CaptchaClient;
 use TencentCloud\Captcha\V20190722\Models\DescribeCaptchaResultRequest;
 use TencentCloud\Common\Credential;
@@ -14,14 +15,27 @@ class Captcha extends Service
 
     const END_POINT = 'captcha.tencentcloudapi.com';
 
-    protected $config;
+    /**
+     * @var array
+     */
+    protected $settings;
+
+    /**
+     * @var FileLogger
+     */
     protected $logger;
+
+    /**
+     * @var CaptchaClient
+     */
     protected $client;
 
     public function __construct()
     {
-        $this->config = $this->getSectionConfig('captcha');
+        $this->settings = $this->getSettings('captcha');
+
         $this->logger = $this->getLogger('captcha');
+
         $this->client = $this->getCaptchaClient();
     }
 
@@ -34,15 +48,19 @@ class Captcha extends Service
      */
     function verify($ticket, $rand)
     {
-        $appId = $this->config->app_id;
-        $secretKey = $this->config->secret_key;
         $userIp = $this->request->getClientAddress();
+
+        $appId = $this->settings['app_id'];
+        $secretKey = $this->settings['secret_key'];
         $captchaType = 9;
 
         try {
 
             $request = new DescribeCaptchaResultRequest();
 
+            /**
+             * 注意：CaptchaType和CaptchaAppId强类型要求
+             */
             $params = json_encode([
                 'Ticket' => $ticket,
                 'Randstr' => $rand,
@@ -60,9 +78,9 @@ class Captcha extends Service
 
             $this->logger->debug('Describe Captcha Result Response ' . $response->toJsonString());
 
-            $result = json_decode($response->toJsonString(), true);
+            $data = json_decode($response->toJsonString(), true);
 
-            return $result['CaptchaCode'] == 1 ? true : false;
+            $result = $data['CaptchaCode'] == 1;
 
         } catch (TencentCloudSDKException $e) {
 
@@ -72,8 +90,10 @@ class Captcha extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -83,12 +103,12 @@ class Captcha extends Service
      */
     public function getCaptchaClient()
     {
-        $secret = $this->getSectionConfig('secret');
+        $secret = $this->getSettings('secret');
 
-        $secretId = $secret->secret_id;
-        $secretKey = $secret->secret_key;
+        $secretId = $secret['secret_id'];
+        $secretKey = $secret['secret_key'];
 
-        $region = $this->config->region ?? 'ap-guangzhou';
+        $region = $this->settings['region'] ?? 'ap-guangzhou';
 
         $credential = new Credential($secretId, $secretKey);
 
@@ -100,9 +120,7 @@ class Captcha extends Service
 
         $clientProfile->setHttpProfile($httpProfile);
 
-        $client = new CaptchaClient($credential, $region, $clientProfile);
-
-        return $client;
+        return new CaptchaClient($credential, $region, $clientProfile);
     }
 
 }

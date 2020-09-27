@@ -1,0 +1,260 @@
+.layui-badge, .layui-badge-rim {
+    padding-bottom: 1px;
+}
+
+.layui-layout-admin .layui-body {
+    bottom: 0;
+}
+
+.layui-copyright {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    bottom: 0;
+    width: 180px;
+    padding: 10px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, .7);
+}
+
+.layui-copyright a {
+    color: rgba(255, 255, 255, .7);
+}
+
+.layui-main .vditor-reset {
+    font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+    color: #666;
+}
+
+.vditor-reset ul > li {
+    list-style: disc;
+}
+
+.vditor-reset ol > li {
+    list-style: decimal;
+}
+
+.kg-body {
+    padding: 15px;
+}
+
+.kg-clearfix:after {
+    content: ".";
+    display: block;
+    visibility: hidden;
+    clear: both;
+    height: 0;
+}
+
+.kg-cursor-pointer {
+    cursor: pointer;
+}
+
+.kg-center {
+    text-align: center;
+}
+
+.kg-pager {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.kg-login-wrap {
+    width: 400px;
+    margin: 100px auto;
+}
+
+.kg-login-form {
+    padding: 15px 10px 5px 10px;
+}
+
+.kg-login-form .layui-input-block {
+    margin-left: 0;
+}
+
+.kg-login-copyright {
+    margin-top: -80px;
+    color: #666;
+    font-size: 12px;
+    text-align: center;
+}
+
+.kg-login-copyright a {
+    color: #666;
+}
+
+.kg-input-inline {
+    float: left;
+    width: 250px;
+    margin-right: 10px;
+}
+
+.kg-side-menu-bar {
+    position: absolute;
+    top: 0;
+    left: 200px;
+    line-height: 60px;
+}
+
+.kg-side-menu-bar .layui-icon {
+    color: #009688;
+    font-size: 25px;
+}
+
+.kg-nav-module {
+    position: absolute;
+    top: 0;
+    left: 230px;
+}
+
+.kg-breadcrumb {
+    margin-left: 3px;
+    margin-bottom: 15px;
+}
+
+.kg-nav {
+    position: relative;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 17px;
+}
+
+.kg-nav-left {
+    position: absolute;
+    top: 0;
+    left: 5px;
+}
+
+.kg-nav-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.kg-back {
+    cursor: pointer;
+}
+
+.kg-tab-title {
+    margin: 0 0 15px 0;
+}
+
+.kg-table td {
+    padding: 10px;
+}
+
+.kg-table p {
+    line-height: 1.8em;
+}
+
+.kg-table .kg-progress {
+    margin: 15px 0 5px 0;
+}
+
+.kg-table .layui-rate {
+    padding: 0;
+}
+
+.kg-table .layui-form-switch {
+    margin: 0;
+}
+
+.kg-table .center {
+    text-align: center;
+}
+
+.kg-item-elip {
+    width: 400px;
+}
+
+.layui-form .kg-rating {
+    margin-bottom: 0;
+}
+
+.kg-rating .layui-rate {
+    padding: 5px 0 0 0;
+}
+
+input.kg-priority {
+    width: 60px;
+}
+
+img.kg-cover {
+    width: 185px;
+    height: 100px;
+    cursor: pointer;
+}
+
+img.kg-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 96px;
+    cursor: pointer;
+}
+
+.kg-form .layui-form-label {
+    width: 120px;
+}
+
+.kg-form .layui-input-block {
+    margin-left: 150px;
+}
+
+.kg-form .xm-body {
+    padding: 10px;
+}
+
+.kg-search-box .layui-input {
+    width: 250px;
+}
+
+.kg-qrcode-block {
+    padding: 20px;
+    text-align: center;
+}
+
+.kg-error-tips {
+    color: red;
+}
+
+.kg-success-tips {
+    color: green;
+}
+
+img.kg-qrcode {
+    width: 140px;
+    height: 140px;
+    border: 3px dashed #ccc;
+}
+
+.kg-order-date {
+    margin-left: 30px;
+}
+
+.kg-order-item {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e6e6e6;
+}
+
+.kg-order-item:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.kg-stat-card {
+    padding: 10px 0;
+    text-align: center;
+    background: #f2f2f2;
+}
+
+.kg-stat-card .name {
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.kg-stat-card .count {
+    font-size: 20px;
+    color: rgb(0, 150, 136);
+}

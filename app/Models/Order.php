@@ -10,31 +10,25 @@ class Order extends Model
     /**
      * 条目类型
      */
-    const TYPE_COURSE = 'course'; // 课程
-    const TYPE_PACKAGE = 'package'; // 套餐
-    const TYPE_REWARD = 'reward'; // 打赏
-    const TYPE_VIP = 'vip'; // 会员
-    const TYPE_TEST = 'test'; // 测试
-
-    /**
-     * 来源类型
-     */
-    const SOURCE_DESKTOP = 'desktop';
-    const SOURCE_ANDROID = 'android';
-    const SOURCE_IOS = 'ios';
+    const ITEM_COURSE = 1; // 课程
+    const ITEM_PACKAGE = 2; // 套餐
+    const ITEM_REWARD = 3; // 赞赏
+    const ITEM_VIP = 4; // 会员
+    const ITEM_TEST = 99; // 测试
 
     /**
      * 状态类型
      */
-    const STATUS_PENDING = 'pending'; // 待支付
-    const STATUS_FINISHED = 'finished'; // 已完成
-    const STATUS_CLOSED = 'closed'; // 已关闭
-    const STATUS_REFUNDED = 'refunded'; // 已退款
+    const STATUS_PENDING = 1; // 待支付
+    const STATUS_DELIVERING = 2; // 发货中
+    const STATUS_FINISHED = 3; // 已完成
+    const STATUS_CLOSED = 4; // 已关闭
+    const STATUS_REFUNDED = 5; // 已退款
 
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -62,81 +56,83 @@ class Order extends Model
     /**
      * 用户编号
      *
-     * @var integer
+     * @var int
      */
-    public $user_id;
+    public $owner_id;
 
     /**
      * 条目编号
      *
-     * @var string
+     * @var int
      */
     public $item_id;
 
     /**
      * 条目类型
      *
-     * @var string
+     * @var int
      */
     public $item_type;
 
     /**
      * 条目信息
      *
-     * @var string
+     * @var string|array
      */
     public $item_info;
 
     /**
-     * 优惠信息
+     * 终端类型
      *
-     * @var string
+     * @var int
      */
-    public $coupon_info;
+    public $client_type;
 
     /**
-     * 来源类型
+     * 终端IP
      *
      * @var string
      */
-    public $source;
+    public $client_ip;
 
     /**
      * 状态类型
      *
-     * @var string
+     * @var int
      */
     public $status;
 
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'order';
+        return 'kg_order';
     }
 
     public function initialize()
     {
         parent::initialize();
+
+        $this->keepSnapshots(true);
 
         $this->addBehavior(
             new SoftDelete([
@@ -148,67 +144,65 @@ class Order extends Model
 
     public function beforeCreate()
     {
-        $this->sn = date('YmdHis') . rand(1000, 9999);
-
         $this->status = self::STATUS_PENDING;
 
-        $this->created_at = time();
+        $this->sn = date('YmdHis') . rand(1000, 9999);
 
         if (is_array($this->item_info) && !empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
-
-        if (!empty($this->item_info)) {
+        if (is_array($this->item_info) && !empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
+        }
+
+        $this->update_time = time();
+    }
+
+    public function afterSave()
+    {
+        if ($this->hasUpdated('status')) {
+            $orderStatus = new OrderStatus();
+            $orderStatus->order_id = $this->id;
+            $orderStatus->status = $this->getSnapshotData()['status'];
+            $orderStatus->create();
         }
     }
 
     public function afterFetch()
     {
-        if (!empty($this->item_info)) {
-            $this->item_info = json_decode($this->item_info);
+        $this->amount = (float)$this->amount;
+
+        if (is_string($this->item_info) && !empty($this->item_info)) {
+            $this->item_info = json_decode($this->item_info, true);
         }
     }
 
-    public static function types()
+    public static function itemTypes()
     {
-        $list = [
-            self::TYPE_COURSE => '课程',
-            self::TYPE_PACKAGE => '套餐',
-            self::TYPE_REWARD => '打赏',
-            self::TYPE_VIP => '会员',
-            self::TYPE_TEST => '测试',
+        return [
+            self::ITEM_COURSE => '课程',
+            self::ITEM_PACKAGE => '套餐',
+            self::ITEM_REWARD => '赞赏',
+            self::ITEM_VIP => '会员',
+            self::ITEM_TEST => '测试',
         ];
-
-        return $list;
     }
 
-    public static function sources()
+    public static function statusTypes()
     {
-        $list = [
-            self::CLIENT_DESKTOP => 'desktop',
-            self::CLIENT_ANDROID => 'android',
-            self::CLIENT_IOS => 'ios',
-        ];
-
-        return $list;
-    }
-
-    public static function statuses()
-    {
-        $list = [
+        return [
             self::STATUS_PENDING => '待支付',
+            self::STATUS_DELIVERING => '发货中',
             self::STATUS_FINISHED => '已完成',
             self::STATUS_CLOSED => '已关闭',
             self::STATUS_REFUNDED => '已退款',
         ];
-
-        return $list;
     }
 
 }

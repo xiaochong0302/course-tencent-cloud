@@ -2,46 +2,72 @@
 
 namespace App\Library\Paginator;
 
-use Phalcon\Mvc\User\Component as UserComponent;
+use Phalcon\Di;
+use Phalcon\Filter;
+use Phalcon\Http\Request;
 
-class Query extends UserComponent
+class Query
 {
+
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * @var Filter
+     */
+    protected $filter;
+
+    public function __construct()
+    {
+        $this->request = Di::getDefault()->get('request');
+
+        $this->filter = Di::getDefault()->get('filter');
+    }
 
     public function getPage()
     {
-        $page = $this->request->get('page', 'int', 1);
+        $page = $this->request->getQuery('page', ['trim', 'int'], 1);
 
-        $result = $page > 1000 ? 1000 : $page;
-
-        return $result;
+        return $page > 100 ? 100 : $page;
     }
 
     public function getLimit()
     {
-        $limit = $this->request->get('limit', 'int', 15);
+        $limit = $this->request->getQuery('limit', ['trim', 'int'], 12);
 
-        $result = $limit > 100 ? 100 : $limit;
-
-        return $result;
+        return $limit > 100 ? 100 : $limit;
     }
 
     public function getSort()
     {
-        $sort = $this->request->get('sort', 'trim', '');
-
-        return $sort;
+        return $this->request->getQuery('sort', ['trim', 'string']);
     }
 
-    public function getUrl()
+    public function getBaseUrl()
     {
-        $url = $this->request->get('_url', 'trim', '');
-
-        return $url;
+        return $this->request->getQuery('_url', ['trim', 'string']);
     }
 
-    public function getParams()
+    public function getParams(array $whitelist = [])
     {
-        $params = $this->request->get();
+        $params = $this->request->getQuery();
+
+        if ($params) {
+            foreach ($params as $key => $value) {
+                $value = $this->filter->sanitize($value, ['trim', 'string']);
+                if ($whitelist && !in_array($value, $whitelist)) {
+                    unset($params[$key]);
+                } elseif (strlen($value) == 0) {
+                    unset($params[$key]);
+                }
+            }
+        }
+
+        if (isset($params['_url'])) {
+            unset($params['_url']);
+        }
 
         return $params;
     }

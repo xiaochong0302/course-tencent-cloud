@@ -2,6 +2,9 @@
 
 namespace App\Traits;
 
+use App\Models\Client as ClientModel;
+use Phalcon\Di;
+use Phalcon\Http\Request;
 use WhichBrowser\Parser as BrowserParser;
 
 trait Client
@@ -9,19 +12,29 @@ trait Client
 
     public function getClientIp()
     {
-        return $this->request->getClientAddress();
+        /**
+         * @var Request $request
+         */
+        $request = Di::getDefault()->get('request');
+
+        return $request->getClientAddress();
     }
 
     public function getClientType()
     {
-        $userAgent = $this->request->getServer('HTTP_USER_AGENT');
+        /**
+         * @var Request $request
+         */
+        $request = Di::getDefault()->get('request');
+
+        $userAgent = $request->getServer('HTTP_USER_AGENT');
 
         $result = new BrowserParser($userAgent);
 
-        $clientType = 'desktop';
+        $clientType = ClientModel::TYPE_DESKTOP;
 
         if ($result->isMobile()) {
-            $clientType = 'mobile';
+            $clientType = ClientModel::TYPE_MOBILE;
         }
 
         return $clientType;

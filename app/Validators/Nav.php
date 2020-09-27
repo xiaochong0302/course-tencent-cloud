@@ -3,8 +3,7 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
-use App\Library\Validator\Common as CommonValidator;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Nav as NavModel;
 use App\Repos\Nav as NavRepo;
 use Phalcon\Text;
@@ -12,11 +11,6 @@ use Phalcon\Text;
 class Nav extends Validator
 {
 
-    /**
-     * @param integer $id
-     * @return \App\Models\Nav
-     * @throws NotFoundException
-     */
     public function checkNav($id)
     {
         $navRepo = new NavRepo();
@@ -24,7 +18,7 @@ class Nav extends Validator
         $nav = $navRepo->findById($id);
 
         if (!$nav) {
-            throw new NotFoundException('nav.not_found');
+            throw new BadRequestException('nav.not_found');
         }
 
         return $nav;
@@ -75,10 +69,11 @@ class Nav extends Validator
     {
         $value = $this->filter->sanitize($url, ['trim']);
 
-        $stageA = Text::startsWith($value, '/');
-        $stageB = CommonValidator::url($value);
+        $case1 = Text::startsWith($value, '/');
+        $case2 = Text::startsWith($value, '#');
+        $case3 = CommonValidator::url($value);
 
-        if (!$stageA && !$stageB) {
+        if (!$case1 && !$case2 && !$case3) {
             throw new BadRequestException('nav.invalid_url');
         }
 
@@ -87,39 +82,47 @@ class Nav extends Validator
 
     public function checkTarget($target)
     {
-        $value = $this->filter->sanitize($target, ['trim']);
+        $list = NavModel::targetTypes();
 
-        $scopes = NavModel::targets();
-
-        if (!isset($scopes[$value])) {
+        if (!array_key_exists($target, $list)) {
             throw new BadRequestException('nav.invalid_target');
         }
 
-        return $value;
+        return $target;
     }
 
     public function checkPosition($position)
     {
-        $value = $this->filter->sanitize($position, ['trim']);
+        $list = NavModel::posTypes();
 
-        $scopes = NavModel::positions();
-
-        if (!isset($scopes[$value])) {
+        if (!array_key_exists($position, $list)) {
             throw new BadRequestException('nav.invalid_position');
         }
 
-        return $value;
+        return $position;
     }
 
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('nav.invalid_publish_status');
         }
 
-        return $value;
+        return $status;
+    }
+
+    public function checkDeleteAbility($nav)
+    {
+        $navRepo = new NavRepo();
+
+        $navs = $navRepo->findAll([
+            'parent_id' => $nav->id,
+            'deleted' => 0,
+        ]);
+
+        if ($navs->count() > 0) {
+            throw new BadRequestException('nav.has_child_node');
+        }
     }
 
 }

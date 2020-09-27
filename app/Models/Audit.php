@@ -8,28 +8,28 @@ class Audit extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 用户编号
      *
-     * @var integer
+     * @var int
      */
     public $user_id;
 
     /**
      * 用户名称
      *
-     * @var integer
+     * @var int
      */
     public $user_name;
 
     /**
      * 用户IP
      *
-     * @var integer
+     * @var int
      */
     public $user_ip;
 
@@ -57,20 +57,25 @@ class Audit extends Model
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'audit';
+        return 'kg_audit';
     }
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->create_time = time();
 
-        if (!empty($this->req_data) && is_array($this->req_data)) {
+        if (is_array($this->req_data) && !empty($this->req_data)) {
+            foreach ($this->req_data as $key => $value) {
+                if (kg_strlen($value) > 255) {
+                    $this->req_data[$key] = kg_substr($value, 0, 255);
+                }
+            }
             $this->req_data = kg_json_encode($this->req_data);
         } else {
             $this->req_data = '';

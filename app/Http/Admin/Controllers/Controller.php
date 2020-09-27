@@ -3,32 +3,34 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Models\Audit as AuditModel;
-use App\Traits\Ajax as AjaxTrait;
+use App\Services\Auth\Admin as AdminAuth;
+use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 use Phalcon\Mvc\Dispatcher;
 
 class Controller extends \Phalcon\Mvc\Controller
 {
 
-    protected $authUser;
+    /**
+     * @var array
+     */
+    protected $authInfo;
 
-    use AjaxTrait, SecurityTrait;
+    use ResponseTrait;
+    use SecurityTrait;
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
-        if ($this->notSafeRequest()) {
-            if (!$this->checkHttpReferer() || !$this->checkCsrfToken()) {
-                $dispatcher->forward([
-                    'controller' => 'public',
-                    'action' => 'csrf',
-                ]);
-                return false;
-            }
+        if ($this->isNotSafeRequest()) {
+            $this->checkHttpReferer();
+            $this->checkCsrfToken();
         }
 
-        $this->authUser = $this->getDI()->get('auth')->getAuthUser();
+        $this->checkRateLimit();
 
-        if (!$this->authUser) {
+        $this->authInfo = $this->getAuthInfo();
+
+        if (!$this->authInfo) {
             $dispatcher->forward([
                 'controller' => 'public',
                 'action' => 'auth',
@@ -36,14 +38,10 @@ class Controller extends \Phalcon\Mvc\Controller
             return false;
         }
 
-        $controller = $dispatcher->getControllerName();
-
-        $route = $this->router->getMatchedRoute();
-
         /**
          * 管理员忽略权限检查
          */
-        if ($this->authUser->admin) {
+        if ($this->authInfo['root'] == 1) {
             return true;
         }
 
@@ -51,33 +49,32 @@ class Controller extends \Phalcon\Mvc\Controller
          * 特例白名单
          */
         $whitelist = [
-            'controller' => [
-                'public', 'index', 'storage', 'vod', 'test',
-                'xm_course',
-            ],
-            'route' => [
-                'admin.package.guiding',
-            ],
+            'controllers' => ['public', 'index', 'vod', 'test', 'xm_course'],
+            'routes' => ['admin.package.guiding'],
         ];
+
+        $controller = $dispatcher->getControllerName();
 
         /**
          * 特定控制器忽略权限检查
          */
-        if (in_array($controller, $whitelist['controller'])) {
+        if (in_array($controller, $whitelist['controllers'])) {
             return true;
         }
+
+        $route = $this->router->getMatchedRoute();
 
         /**
          * 特定路由忽略权限检查
          */
-        if (in_array($route->getName(), $whitelist['route'])) {
+        if (in_array($route->getName(), $whitelist['routes'])) {
             return true;
         }
 
         /**
          * 执行路由权限检查
          */
-        if (!in_array($route->getName(), $this->authUser->routes)) {
+        if (!in_array($route->getName(), $this->authInfo['routes'])) {
             $dispatcher->forward([
                 'controller' => 'public',
                 'action' => 'forbidden',
@@ -90,7 +87,7 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function initialize()
     {
-        $this->view->setVar('auth_user', $this->authUser);
+        $this->view->setVar('auth_info', $this->authInfo);
     }
 
     public function afterExecuteRoute(Dispatcher $dispatcher)
@@ -99,8 +96,8 @@ class Controller extends \Phalcon\Mvc\Controller
 
             $audit = new AuditModel();
 
-            $audit->user_id = $this->authUser->id;
-            $audit->user_name = $this->authUser->name;
+            $audit->user_id = $this->authInfo['id'];
+            $audit->user_name = $this->authInfo['name'];
             $audit->user_ip = $this->request->getClientAddress();
             $audit->req_route = $this->router->getMatchedRoute()->getName();
             $audit->req_path = $this->request->getServer('REQUEST_URI');
@@ -108,6 +105,16 @@ class Controller extends \Phalcon\Mvc\Controller
 
             $audit->create();
         }
+    }
+
+    protected function getAuthInfo()
+    {
+        /**
+         * @var AdminAuth $auth
+         */
+        $auth = $this->getDI()->get('auth');
+
+        return $auth->getAuthInfo();
     }
 
 }

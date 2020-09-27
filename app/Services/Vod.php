@@ -2,14 +2,16 @@
 
 namespace App\Services;
 
+use Phalcon\Logger\Adapter\File as FileLogger;
 use TencentCloud\Common\Credential;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Common\Profile\ClientProfile;
 use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Vod\V20180717\Models\ConfirmEventsRequest;
-use TencentCloud\Vod\V20180717\Models\DescribeAudioTrackTemplatesRequest;
+use TencentCloud\Vod\V20180717\Models\DeleteMediaRequest;
 use TencentCloud\Vod\V20180717\Models\DescribeMediaInfosRequest;
 use TencentCloud\Vod\V20180717\Models\DescribeTaskDetailRequest;
+use TencentCloud\Vod\V20180717\Models\DescribeTranscodeTemplatesRequest;
 use TencentCloud\Vod\V20180717\Models\ProcessMediaRequest;
 use TencentCloud\Vod\V20180717\Models\PullEventsRequest;
 use TencentCloud\Vod\V20180717\VodClient;
@@ -19,14 +21,27 @@ class Vod extends Service
 
     const END_POINT = 'vod.tencentcloudapi.com';
 
-    protected $config;
+    /**
+     * @var array
+     */
+    protected $settings;
+
+    /**
+     * @var VodClient
+     */
     protected $client;
+
+    /**
+     * @var FileLogger
+     */
     protected $logger;
 
     public function __construct()
     {
-        $this->config = $this->getSectionConfig('vod');
+        $this->settings = $this->getSettings('vod');
+
         $this->logger = $this->getLogger('vod');
+
         $this->client = $this->getVodClient();
     }
 
@@ -39,30 +54,30 @@ class Vod extends Service
     {
         try {
 
-            $request = new DescribeAudioTrackTemplatesRequest();
+            $request = new DescribeTranscodeTemplatesRequest();
 
             $params = '{}';
 
             $request->fromJsonString($params);
 
-            $response = $this->client->DescribeAudioTrackTemplates($request);
+            $response = $this->client->DescribeTranscodeTemplates($request);
 
-            $this->logger->debug('Describe Audio Track Templates Response ' . $response->toJsonString());
+            $this->logger->debug('Describe Transcode Templates Response ' . $response->toJsonString());
 
-            $result = $response->TotalCount > 0 ? true : false;
-
-            return $result;
+            $result = $response->TotalCount > 0;
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Describe Audio Track Templates Exception ', kg_json_encode([
-                'code' => $e->getErrorCode(),
-                'message' => $e->getMessage(),
-                'requestId' => $e->getRequestId(),
-            ]));
+            $this->logger->error('Describe Transcode Templates Exception ' . kg_json_encode([
+                    'code' => $e->getErrorCode(),
+                    'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
+                ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -72,10 +87,10 @@ class Vod extends Service
      */
     public function getUploadSignature()
     {
-        $secret = $this->getSectionConfig('secret');
+        $secret = $this->getSettings('secret');
 
-        $secretId = $secret->secret_id;
-        $secretKey = $secret->secret_key;
+        $secretId = $secret['secret_id'];
+        $secretKey = $secret['secret_key'];
 
         $params = [
             'secretId' => $secretId,
@@ -85,33 +100,72 @@ class Vod extends Service
         ];
 
         $original = http_build_query($params);
-        $hash = hash_hmac('SHA1', $original, $secretKey, true);
-        $signature = base64_encode($hash . $original);
 
-        return $signature;
+        $hash = hash_hmac('SHA1', $original, $secretKey, true);
+
+        return base64_encode($hash . $original);
+    }
+
+    /**
+     * 获取文件转码
+     *
+     * @param string $fileId
+     * @return array|null
+     */
+    public function getFileTranscode($fileId)
+    {
+        if (!$fileId) return null;
+
+        $mediaInfo = $this->getMediaInfo($fileId);
+
+        if (!$mediaInfo) return null;
+
+        $result = [];
+
+        $files = $mediaInfo['MediaInfoSet'][0]['TranscodeInfo']['TranscodeSet'];
+
+        foreach ($files as $file) {
+
+            if ($file['Definition'] == 0) {
+                continue;
+            }
+
+            $result[] = [
+                'url' => $file['Url'],
+                'width' => $file['Width'],
+                'height' => $file['Height'],
+                'definition' => $file['Definition'],
+                'duration' => intval($file['Duration']),
+                'format' => pathinfo($file['Url'], PATHINFO_EXTENSION),
+                'size' => sprintf('%0.2f', $file['Size'] / 1024 / 1024),
+                'rate' => intval($file['Bitrate'] / 1024),
+            ];
+        }
+
+        return $result;
     }
 
     /**
      * 获取播放地址
      *
-     * @param string $playUrl
+     * @param string $url
      * @return string
      */
-    public function getPlayUrl($playUrl)
+    public function getPlayUrl($url)
     {
-        if ($this->config->key_anti_enabled == 0) {
-            return $playUrl;
+        if ($this->settings['key_anti_enabled'] == 0) {
+            return $url;
         }
 
-        $key = $this->config->key_anti_key;
-        $expiry = $this->config->key_anti_expiry ?: 10800;
+        $key = $this->settings['key_anti_key'];
+        $expiry = $this->settings['key_anti_expiry'] ?: 10800;
 
-        $path = parse_url($playUrl, PHP_URL_PATH);
+        $path = parse_url($url, PHP_URL_PATH);
         $pos = strrpos($path, '/');
         $fileName = substr($path, $pos + 1);
         $dirName = str_replace($fileName, '', $path);
 
-        $expiredTime = base_convert(time() + $expiry, 10, 16); // 过期时间(十六进制)
+        $expiredTime = base_convert(time() + $expiry, 10, 16);
         $tryTime = 0; // 试看时间，0不限制
         $ipLimit = 0; // ip数量限制，0不限制
         $random = rand(100000, 999999); // 随机数
@@ -123,7 +177,7 @@ class Vod extends Service
          */
         $myTryTime = $tryTime >= 0 ? $tryTime : 0;
         $myIpLimit = $ipLimit > 0 ? $ipLimit : '';
-        $sign = $key . $dirName . $expiredTime . $myTryTime . $myIpLimit . $random; // 签名串
+        $sign = $key . $dirName . $expiredTime . $myTryTime . $myIpLimit . $random;
 
         $query = [];
 
@@ -138,11 +192,10 @@ class Vod extends Service
         }
 
         $query['us'] = $random;
+
         $query['sign'] = md5($sign);
 
-        $result = $playUrl . '?' . http_build_query($query);
-
-        return $result;
+        return $url . '?' . http_build_query($query);
     }
 
     /**
@@ -166,9 +219,9 @@ class Vod extends Service
 
             $this->logger->debug('Pull Events Response ' . $response->toJsonString());
 
-            $result = json_decode($response->toJsonString(), true);
+            $data = json_decode($response->toJsonString(), true);
 
-            return $result['EventSet'] ?? [];
+            $result = $data['EventSet'] ?? [];
 
         } catch (TencentCloudSDKException $e) {
 
@@ -178,15 +231,17 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
      * 确认事件
      *
      * @param array $eventHandles
-     * @return bool|mixed
+     * @return array|bool
      */
     public function confirmEvents($eventHandles)
     {
@@ -206,8 +261,6 @@ class Vod extends Service
 
             $result = json_decode($response->toJsonString(), true);
 
-            return $result;
-
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Confirm Events Exception ' . kg_json_encode([
@@ -216,8 +269,48 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
+    }
+
+    /**
+     * 删除媒体
+     *
+     * @param string $fileId
+     * @return bool
+     */
+    public function deleteMedia($fileId)
+    {
+        try {
+
+            $request = new DeleteMediaRequest();
+
+            $params = json_encode(['FileId' => $fileId]);
+
+            $request->fromJsonString($params);
+
+            $this->logger->debug('Delete Media Request ' . $params);
+
+            $response = $this->client->DeleteMedia($request);
+
+            $this->logger->debug('Delete Media Response ' . $response->toJsonString());
+
+            $result = !empty($response->RequestId);
+
+        } catch (TencentCloudSDKException $e) {
+
+            $this->logger->error('Delete Media Exception ' . kg_json_encode([
+                    'code' => $e->getErrorCode(),
+                    'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
+                ]));
+
+            $result = false;
+        }
+
+        return $result;
     }
 
     /**
@@ -250,8 +343,6 @@ class Vod extends Service
                 return false;
             }
 
-            return $result;
-
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Describe Media Info Exception ' . kg_json_encode([
@@ -260,8 +351,10 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -292,8 +385,6 @@ class Vod extends Service
                 return false;
             }
 
-            return $result;
-
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Describe Task Detail Exception ' . kg_json_encode([
@@ -302,8 +393,10 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -325,13 +418,18 @@ class Vod extends Service
         $transCodeTaskSet = [];
 
         foreach ($videoTransTemplates as $key => $template) {
-            if ($originVideoInfo['width'] >= $template['width'] ||
-                $originVideoInfo['bit_rate'] >= 1000 * $template['bit_rate']
-            ) {
+
+            $caseA = $originVideoInfo['height'] >= $template['height'];
+            $caseB = $originVideoInfo['bit_rate'] >= 1000 * $template['bit_rate'];
+
+            if ($caseA || $caseB) {
+
                 $item = ['Definition' => $key];
+
                 if ($watermarkTemplate) {
                     $item['WatermarkSet'][] = ['Definition' => $watermarkTemplate];
                 }
+
                 $transCodeTaskSet[] = $item;
             }
         }
@@ -340,11 +438,15 @@ class Vod extends Service
          * 无匹配转码模板，取第一项转码
          */
         if (empty($transCodeTaskSet)) {
+
             $keys = array_keys($videoTransTemplates);
+
             $item = ['Definition' => $keys[0]];
+
             if ($watermarkTemplate) {
                 $item['WatermarkSet'][] = ['Definition' => $watermarkTemplate];
             }
+
             $transCodeTaskSet[] = $item;
         }
 
@@ -369,8 +471,6 @@ class Vod extends Service
 
             $result = $response->TaskId ?: false;
 
-            return $result;
-
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Process Media Exception ' . kg_json_encode([
@@ -379,8 +479,10 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -400,8 +502,11 @@ class Vod extends Service
         $transCodeTaskSet = [];
 
         foreach ($audioTransTemplates as $key => $template) {
+
             if ($originAudioInfo['bit_rate'] >= 1000 * $template['bit_rate']) {
+
                 $item = ['Definition' => $key];
+
                 $transCodeTaskSet[] = $item;
             }
         }
@@ -410,8 +515,11 @@ class Vod extends Service
          * 无匹配转码模板，取第一项转码
          */
         if (empty($transCodeTaskSet)) {
+
             $keys = array_keys($audioTransTemplates);
+
             $item = ['Definition' => $keys[0]];
+
             $transCodeTaskSet[] = $item;
         }
 
@@ -436,8 +544,6 @@ class Vod extends Service
 
             $result = $response->TaskId ?: false;
 
-            return $result;
-
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Process Media Exception ' . kg_json_encode([
@@ -446,8 +552,10 @@ class Vod extends Service
                     'requestId' => $e->getRequestId(),
                 ]));
 
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -464,15 +572,13 @@ class Vod extends Service
 
         $metaData = $response['MediaInfoSet'][0]['MetaData'];
 
-        $result = [
+        return [
             'bit_rate' => $metaData['Bitrate'],
             'size' => $metaData['Size'],
             'width' => $metaData['Width'],
             'height' => $metaData['Height'],
             'duration' => $metaData['Duration'],
         ];
-
-        return $result;
     }
 
     /**
@@ -489,15 +595,13 @@ class Vod extends Service
 
         $metaData = $response['MediaInfoSet'][0]['MetaData'];
 
-        $result = [
+        return [
             'bit_rate' => $metaData['Bitrate'],
             'size' => $metaData['Size'],
             'width' => $metaData['Width'],
             'height' => $metaData['Height'],
             'duration' => $metaData['Duration'],
         ];
-
-        return $result;
     }
 
     /**
@@ -509,8 +613,8 @@ class Vod extends Service
     {
         $result = null;
 
-        if ($this->config->watermark_enabled && $this->config->watermark_template > 0) {
-            $result = (int)$this->config->watermark_template;
+        if ($this->settings['wmk_enabled'] == 1 && $this->settings['wmk_tpl_id'] > 0) {
+            $result = (int)$this->settings['wmk_tpl_id'];
         }
 
         return $result;
@@ -524,22 +628,20 @@ class Vod extends Service
     public function getVideoTransTemplates()
     {
         $hls = [
-            210 => ['width' => 480, 'bit_rate' => 256, 'frame_rate' => 24],
-            220 => ['width' => 640, 'bit_rate' => 512, 'frame_rate' => 24],
-            230 => ['width' => 1280, 'bit_rate' => 1024, 'frame_rate' => 25],
+            100210 => ['height' => 360, 'bit_rate' => 400, 'frame_rate' => 25],
+            100220 => ['height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
+            100230 => ['height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
         ];
 
         $mp4 = [
-            10 => ['width' => 480, 'bit_rate' => 256, 'frame_rate' => 24],
-            20 => ['width' => 640, 'bit_rate' => 512, 'frame_rate' => 24],
-            30 => ['width' => 1280, 'bit_rate' => 1024, 'frame_rate' => 25],
+            100010 => ['height' => 360, 'bit_rate' => 400, 'frame_rate' => 25],
+            100020 => ['height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
+            100030 => ['height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
         ];
 
-        $format = $this->config->video_format;
+        $format = $this->settings['video_format'];
 
-        $result = $format == 'hls' ? $hls : $mp4;
-
-        return $result;
+        return $format == 'hls' ? $hls : $mp4;
     }
 
     /**
@@ -558,9 +660,7 @@ class Vod extends Service
             1010 => ['bit_rate' => 128, 'sample_rate' => 44100],
         ];
 
-        $result = $this->config->audio_format == 'm4a' ? $m4a : $mp3;
-
-        return $result;
+        return $this->settings['audio_format'] == 'm4a' ? $m4a : $mp3;
     }
 
     /**
@@ -570,12 +670,12 @@ class Vod extends Service
      */
     public function getVodClient()
     {
-        $secret = $this->getSectionConfig('secret');
+        $secret = $this->getSettings('secret');
 
-        $secretId = $secret->secret_id;
-        $secretKey = $secret->secret_key;
+        $secretId = $secret['secret_id'];
+        $secretKey = $secret['secret_key'];
 
-        $region = $this->config->storage_type == 'fixed' ? $this->config->storage_region : '';
+        $region = $this->settings['storage_type'] == 'fixed' ? $this->settings['storage_region'] : '';
 
         $credential = new Credential($secretId, $secretKey);
 
@@ -587,9 +687,7 @@ class Vod extends Service
 
         $clientProfile->setHttpProfile($httpProfile);
 
-        $client = new VodClient($credential, $region, $clientProfile);
-
-        return $client;
+        return new VodClient($credential, $region, $clientProfile);
     }
 
 }

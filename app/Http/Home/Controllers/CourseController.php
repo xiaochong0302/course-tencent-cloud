@@ -2,7 +2,18 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\Course as CourseService;
+use App\Http\Home\Services\CourseQuery as CourseQueryService;
+use App\Services\Logic\Course\ChapterList as CourseChapterListService;
+use App\Services\Logic\Course\ConsultList as CourseConsultListService;
+use App\Services\Logic\Course\CourseFavorite as CourseFavoriteService;
+use App\Services\Logic\Course\CourseInfo as CourseInfoService;
+use App\Services\Logic\Course\CourseList as CourseListService;
+use App\Services\Logic\Course\PackageList as CoursePackageListService;
+use App\Services\Logic\Course\RecommendedList as CourseRecommendedListService;
+use App\Services\Logic\Course\RelatedList as CourseRelatedListService;
+use App\Services\Logic\Course\ReviewList as CourseReviewListService;
+use App\Services\Logic\Course\TopicList as CourseTopicListService;
+use App\Services\Logic\Reward\OptionList as RewardOptionList;
 use Phalcon\Mvc\View;
 
 /**
@@ -16,144 +27,162 @@ class CourseController extends Controller
      */
     public function listAction()
     {
-        $service = new CourseService();
+        $service = new CourseQueryService();
 
-        $courses = $service->getCourses();
+        $topCategories = $service->handleTopCategories();
+        $subCategories = $service->handleSubCategories();
 
-        $this->view->courses = $courses;
+        $models = $service->handleModels();
+        $levels = $service->handleLevels();
+        $sorts = $service->handleSorts();
+        $params = $service->getParams();
+
+        $this->seo->prependTitle('课程');
+
+        $this->view->setVar('top_categories', $topCategories);
+        $this->view->setVar('sub_categories', $subCategories);
+        $this->view->setVar('models', $models);
+        $this->view->setVar('levels', $levels);
+        $this->view->setVar('sorts', $sorts);
+        $this->view->setVar('params', $params);
     }
 
     /**
-     * @Get("/{id}", name="home.course.show")
+     * @Get("/pager", name="home.course.pager")
+     */
+    public function pagerAction()
+    {
+        $service = new CourseListService();
+
+        $pager = $service->handle();
+
+        $pager->target = 'course-list';
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('course/pager');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}", name="home.course.show")
      */
     public function showAction($id)
     {
-        $service = new CourseService();
+        $service = new CourseInfoService();
 
-        $course = $service->getCourse($id);
+        $course = $service->handle($id);
 
-        $this->view->course = $course;
+        $service = new CourseChapterListService();
+
+        $chapters = $service->handle($id);
+
+        $service = new RewardOptionList();
+
+        $rewards = $service->handle();
+
+        $this->seo->prependTitle(['课程', $course['title']]);
+        $this->seo->setKeywords($course['keywords']);
+        $this->seo->setDescription($course['summary']);
+
+        $this->view->setVar('course', $course);
+        $this->view->setVar('chapters', $chapters);
+        $this->view->setVar('rewards', $rewards);
     }
 
     /**
-     * @Get("/{id}/chapters", name="home.course.chapters")
+     * @Get("/{id:[0-9]+}/packages", name="home.course.packages")
      */
-    public function chaptersAction($id)
+    public function packagesAction($id)
     {
-        $service = new CourseService();
+        $service = new CoursePackageListService();
 
-        $chapters = $service->getChapters($id);
+        $packages = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
-        $this->view->chapters = $chapters;
+        $this->view->setVar('packages', $packages);
     }
 
     /**
-     * @Get("/{id}/consults", name="home.course.consults")
+     * @Get("/{id:[0-9]+}/consults", name="home.course.consults")
      */
     public function consultsAction($id)
     {
-        $service = new CourseService();
+        $service = new CourseConsultListService();
 
-        $consults = $service->getConsults($id);
+        $pager = $service->handle($id);
+
+        $pager->target = 'tab-consults';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
-        $this->view->consults = $consults;
+        $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Get("/{id}/reviews", name="home.course.reviews")
+     * @Get("/{id:[0-9]+}/reviews", name="home.course.reviews")
      */
     public function reviewsAction($id)
     {
-        $service = new CourseService();
+        $service = new CourseReviewListService();
 
-        $reviews = $service->getReviews($id);
+        $pager = $service->handle($id);
+
+        $pager->target = 'tab-reviews';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
-        $this->view->reviews = $reviews;
+        $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Get("/{id}/comments", name="home.course.comments")
+     * @Get("/{id:[0-9]+}/recommended", name="home.course.recommended")
      */
-    public function commentsAction($id)
+    public function recommendedAction($id)
     {
-        $service = new CourseService();
+        $service = new CourseRecommendedListService();
 
-        $comments = $service->getComments($id);
+        $courses = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
-        $this->view->comments = $comments;
+        $this->view->setVar('courses', $courses);
     }
 
     /**
-     * @Get("/{id}/users", name="home.course.users")
+     * @Get("/{id:[0-9]+}/related", name="home.course.related")
      */
-    public function usersAction($id)
+    public function relatedAction($id)
     {
-        $service = new CourseService();
+        $service = new CourseRelatedListService();
 
-        $users = $service->getUsers($id);
+        $courses = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
-        $this->view->users = $users;
+        $this->view->setVar('courses', $courses);
     }
 
     /**
-     * @Post("/{id}/favorite", name="home.course.favorite")
+     * @Get("/{id:[0-9]+}/topics", name="home.course.topics")
+     */
+    public function topicsAction($id)
+    {
+        $service = new CourseTopicListService();
+
+        $topics = $service->handle($id);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('topics', $topics);
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/favorite", name="home.course.favorite")
      */
     public function favoriteAction($id)
     {
-        $service = new CourseService();
+        $service = new CourseFavoriteService();
 
-        $service->favorite($id);
+        $favorite = $service->handle($id);
 
-        return $this->response->ajaxSuccess();
-    }
+        $msg = $favorite->deleted == 0 ? '收藏成功' : '取消收藏成功';
 
-    /**
-     * @Post("/{id}/unfavorite", name="home.course.unfavorite")
-     */
-    public function unfavoriteAction($id)
-    {
-        $service = new CourseService();
-
-        $service->unfavorite($id);
-
-        return $this->response->ajaxSuccess();
-    }
-
-    /**
-     * @Post("/{id}/apply", name="home.course.apply")
-     */
-    public function applyAction($id)
-    {
-        $service = new CourseService();
-
-        $service->apply($id);
-
-        return $this->response->ajaxSuccess();
-    }
-
-    /**
-     * @Get("/{id}/start", name="home.course.start")
-     */
-    public function startAction($id)
-    {
-        $service = new CourseService();
-
-        $chapter = $service->getStartChapter($id);
-
-        $this->response->redirect([
-            'for' => 'home.chapter.show',
-            'id' => $chapter->id,
-        ]);
+        return $this->jsonSuccess(['msg' => $msg]);
     }
 
 }

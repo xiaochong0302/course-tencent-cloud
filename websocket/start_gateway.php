@@ -13,8 +13,8 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-use \GatewayWorker\Gateway;
-use \Workerman\Worker;
+use GatewayWorker\Gateway;
+use Workerman\Worker;
 
 // 自动加载类
 require_once dirname(__DIR__) . '/vendor/autoload.php';
@@ -23,7 +23,7 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 $gateway = new Gateway("websocket://0.0.0.0:8282");
 
 // gateway名称，status方便查看
-$gateway->name = 'DanmakuGateway';
+$gateway->name = 'ImGateway';
 
 // gateway进程数
 $gateway->count = 4;

@@ -3,8 +3,8 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
-use App\Library\Validator\Common as CommonValidator;
+use App\Library\Validators\Common as CommonValidator;
+use App\Models\Client as ClientModel;
 use App\Models\Course as CourseModel;
 use App\Models\Page as PageModel;
 use App\Models\Slide as SlideModel;
@@ -13,11 +13,6 @@ use App\Repos\Slide as SlideRepo;
 class Slide extends Validator
 {
 
-    /**
-     * @param integer $id
-     * @return \App\Models\Slide
-     * @throws NotFoundException
-     */
     public function checkSlide($id)
     {
         $slideRepo = new SlideRepo();
@@ -25,7 +20,7 @@ class Slide extends Validator
         $slide = $slideRepo->findById($id);
 
         if (!$slide) {
-            throw new NotFoundException('slide.not_found');
+            throw new BadRequestException('slide.not_found');
         }
 
         return $slide;
@@ -41,7 +36,7 @@ class Slide extends Validator
             throw new BadRequestException('slide.title_too_short');
         }
 
-        if ($length > 30) {
+        if ($length > 50) {
             throw new BadRequestException('slide.title_too_long');
         }
 
@@ -51,6 +46,12 @@ class Slide extends Validator
     public function checkSummary($summary)
     {
         $value = $this->filter->sanitize($summary, ['trim', 'string']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 255) {
+            throw new BadRequestException('slide.summary_too_long');
+        }
 
         return $value;
     }
@@ -63,16 +64,36 @@ class Slide extends Validator
             throw new BadRequestException('slide.invalid_cover');
         }
 
-        $result = parse_url($value, PHP_URL_PATH);
+        return $value;
+    }
 
-        return $result;
+    public function checkBgColor($bgColor)
+    {
+        $value = $this->filter->sanitize($bgColor, ['trim', 'string']);
+
+        if (!preg_match('/^#[0-9a-fA-F]{6}$/', $bgColor)) {
+            throw new BadRequestException('slide.invalid_bg_color');
+        }
+
+        return $value;
+    }
+
+    public function checkPlatform($platform)
+    {
+        $list = ClientModel::types();
+
+        if (!array_key_exists($platform, $list)) {
+            throw new BadRequestException('slide.invalid_platform');
+        }
+
+        return $platform;
     }
 
     public function checkTarget($target)
     {
-        $targets = array_keys(SlideModel::targets());
+        $list = SlideModel::targetTypes();
 
-        if (!in_array($target, $targets)) {
+        if (!array_key_exists($target, $list)) {
             throw new BadRequestException('slide.invalid_target');
         }
 
@@ -90,45 +111,18 @@ class Slide extends Validator
         return $value;
     }
 
-    public function checkStartTime($startTime)
-    {
-        if (!CommonValidator::date($startTime, 'Y-m-d H:i:s')) {
-            throw new BadRequestException('slide.invalid_start_time');
-        }
-
-        return strtotime($startTime);
-    }
-
-    public function checkEndTime($endTime)
-    {
-        if (!CommonValidator::date($endTime, 'Y-m-d H:i:s')) {
-            throw new BadRequestException('slide.invalid_end_time');
-        }
-
-        return strtotime($endTime);
-    }
-
-    public function checkTimeRange($startTime, $endTime)
-    {
-        if (strtotime($startTime) >= strtotime($endTime)) {
-            throw new BadRequestException('slide.invalid_time_range');
-        }
-    }
-
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('slide.invalid_publish_status');
         }
 
-        return $value;
+        return $status;
     }
 
     public function checkCourse($courseId)
     {
-        $course = CourseModel::findFirstById($courseId);
+        $course = CourseModel::findFirst($courseId);
 
         if (!$course || $course->deleted == 1) {
             throw new BadRequestException('slide.course_not_found');
@@ -143,7 +137,7 @@ class Slide extends Validator
 
     public function checkPage($pageId)
     {
-        $page = PageModel::findFirstById($pageId);
+        $page = PageModel::findFirst($pageId);
 
         if (!$page || $page->deleted == 1) {
             throw new BadRequestException('slide.page_not_found');

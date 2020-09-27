@@ -3,83 +3,61 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Library\Validator\Common as CommonValidator;
-use App\Repos\Course as CourseRepo;
+use App\Library\Validators\Common as CommonValidator;
 use App\Repos\CourseUser as CourseUserRepo;
-use App\Repos\User as UserRepo;
 
 class CourseUser extends Validator
 {
 
-    /**
-     * @param integer $courseId
-     * @param integer $userId
-     * @return \App\Models\CourseUser
-     * @throws BadRequestException
-     */
-    public function checkCourseStudent($courseId, $userId)
+    public function checkRelation($id)
     {
         $courseUserRepo = new CourseUserRepo();
 
-        $courseUser = $courseUserRepo->findCourseStudent($courseId, $userId);
+        $courseUser = $courseUserRepo->findById($id);
 
         if (!$courseUser) {
-            throw new BadRequestException('course_student.not_found');
+            throw new BadRequestException('course_user.not_found');
         }
 
         return $courseUser;
     }
 
-    public function checkCourseId($courseId)
+    public function checkCourseUser($courseId, $userId)
     {
-        $value = $this->filter->sanitize($courseId, ['trim', 'int']);
+        $repo = new CourseUserRepo();
 
-        $courseRepo = new CourseRepo();
+        $courseUser = $repo->findCourseUser($courseId, $userId);
 
-        $course = $courseRepo->findById($value);
-
-        if (!$course) {
-            throw new BadRequestException('course_student.course_not_found');
+        if (!$courseUser) {
+            throw new BadRequestException('course_user.not_found');
         }
 
-        return $course->id;
+        return $courseUser;
     }
 
-    public function checkUserId($userId)
+    public function checkCourse($id)
     {
-        $value = $this->filter->sanitize($userId, ['trim', 'int']);
+        $validator = new Course();
 
-        $userRepo = new UserRepo();
-
-        $user = $userRepo->findById($value);
-
-        if (!$user) {
-            throw new BadRequestException('course_student.user_not_found');
-        }
-
-        return $user->id;
+        return $validator->checkCourse($id);
     }
 
-    public function checkExpireTime($expireTime)
+    public function checkUser($id)
     {
-        $value = $this->filter->sanitize($expireTime, ['trim', 'string']);
+        $validator = new User();
+
+        return $validator->checkUser($id);
+    }
+
+    public function checkExpiryTime($expiryTime)
+    {
+        $value = $this->filter->sanitize($expiryTime, ['trim', 'string']);
 
         if (!CommonValidator::date($value, 'Y-m-d H:i:s')) {
-            throw new BadRequestException('course_student.invalid_expire_time');
+            throw new BadRequestException('course_user.invalid_expiry_time');
         }
 
         return strtotime($value);
-    }
-
-    public function checkLockStatus($status)
-    {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
-            throw new BadRequestException('course_student.invalid_lock_status');
-        }
-
-        return $value;
     }
 
     public function checkIfJoined($courseId, $userId)
@@ -89,7 +67,18 @@ class CourseUser extends Validator
         $courseUser = $repo->findCourseStudent($courseId, $userId);
 
         if ($courseUser) {
-            throw new BadRequestException('course_student.user_has_joined');
+            throw new BadRequestException('course_user.has_joined');
+        }
+    }
+
+    public function checkIfReviewed($courseId, $userId)
+    {
+        $repo = new CourseUserRepo();
+
+        $courseUser = $repo->findCourseUser($courseId, $userId);
+
+        if ($courseUser && $courseUser->reviewed) {
+            throw new BadRequestException('course_user.has_reviewed');
         }
     }
 

@@ -13,7 +13,7 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-
+        return $this->jsonSuccess(['data' => 'ok']);
     }
 
     /**
@@ -34,7 +34,7 @@ class IndexController extends Controller
             }
         }
 
-        dd($definitions);
+        return $this->jsonSuccess(['routes' => $definitions]);
     }
 
 }

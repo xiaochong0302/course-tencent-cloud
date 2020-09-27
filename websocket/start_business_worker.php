@@ -13,8 +13,8 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-use \GatewayWorker\BusinessWorker;
-use \Workerman\Worker;
+use GatewayWorker\BusinessWorker;
+use Workerman\Worker;
 
 // 自动加载类
 require_once dirname(__DIR__) . '/vendor/autoload.php';
@@ -23,7 +23,7 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 $worker = new BusinessWorker();
 
 // worker名称
-$worker->name = 'DanmakuBusinessWorker';
+$worker->name = 'ImBusinessWorker';
 
 // businessWorker进程数量
 $worker->count = 4;

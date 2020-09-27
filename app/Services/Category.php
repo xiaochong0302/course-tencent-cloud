@@ -2,33 +2,70 @@
 
 namespace App\Services;
 
-use App\Repos\Category as CategoryRepo;
-use App\Repos\CourseCategory as CourseCategoryRepo;
+use App\Caches\Category as CategoryCache;
+use App\Caches\CategoryList as CategoryListCache;
+use App\Models\Category as CategoryModel;
 
 class Category extends Service
 {
 
     /**
-     * 通过多个子级分类查找课程号
+     * 获取节点路径
      *
-     * @param mixed $categoryIds
+     * @param int $id
      * @return array
      */
-    public function getCourseIdsByMultiCategory($categoryIds)
+    public function getCategoryPaths($id)
     {
-        $courseCategoryRepo = new CourseCategoryRepo();
+        $categoryCache = new CategoryCache();
 
-        if (!is_array($categoryIds)) {
-            $categoryIds = explode(',', $categoryIds);
+        $category = $categoryCache->get($id);
+
+        if (!$category) {
+            return [];
         }
 
-        $relations = $courseCategoryRepo->findByCategoryIds($categoryIds);
+        if ($category->level == 1) {
+            return [
+                [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                ]
+            ];
+        }
+
+        $parent = $categoryCache->get($category->parent_id);
+
+        return [
+            [
+                'id' => $parent->id,
+                'name' => $parent->name,
+            ],
+            [
+                'id' => $category->id,
+                'name' => $category->name,
+            ]
+        ];
+    }
+
+    /**
+     * 获取子节点
+     *
+     * @param string $type
+     * @param int $id
+     * @return array
+     */
+    public function getChildCategories($type, $id)
+    {
+        $categoryListCache = new CategoryListCache();
+
+        $categories = $categoryListCache->get($type);
 
         $result = [];
 
-        if ($relations->count() > 0) {
-            foreach ($relations as $relation) {
-                $result[] = $relation->course_id;
+        foreach ($categories as $category) {
+            if ($category['parent_id'] == $id) {
+                $result[] = $category;
             }
         }
 
@@ -36,43 +73,37 @@ class Category extends Service
     }
 
     /**
-     * 通过单个分类（顶级|子级）查找课程号
+     * 获取子节点ID
      *
-     * @param integer $categoryId
+     * @param int $id
      * @return array
      */
-    public function getCourseIdsBySingleCategory($categoryId)
+    public function getChildCategoryIds($id)
     {
-        $categoryRepo = new CategoryRepo();
+        $categoryCache = new CategoryCache();
 
-        $category = $categoryRepo->findById($categoryId);
+        /**
+         * @var CategoryModel $category
+         */
+        $category = $categoryCache->get($id);
 
-        $childCategoryIds = [];
-
-        if ($category->level == 1) {
-            $childCategories = $categoryRepo->findChildCategories($categoryId);
-            if ($childCategories->count() > 0) {
-                foreach ($childCategories as $category) {
-                    $childCategoryIds[] = $category->id;
-                }
-            }
-        } else {
-            $childCategoryIds[] = $categoryId;
-        }
-
-        if (empty($childCategoryIds)) {
+        if (!$category) {
             return [];
         }
 
-        $courseCategoryRepo = new CourseCategoryRepo();
+        if ($category->level == 2) {
+            return [$id];
+        }
 
-        $relations = $courseCategoryRepo->findByCategoryIds($childCategoryIds);
+        $categoryListCache = new CategoryListCache();
+
+        $categories = $categoryListCache->get($category->type);
 
         $result = [];
 
-        if ($relations->count() > 0) {
-            foreach ($relations as $relation) {
-                $result[] = $relation->course_id;
+        foreach ($categories as $category) {
+            if ($category['parent_id'] == $id) {
+                $result[] = $category['id'];
             }
         }
 

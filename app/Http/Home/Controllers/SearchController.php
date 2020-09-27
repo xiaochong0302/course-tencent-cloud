@@ -2,88 +2,73 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Services\Logic\Search\Course as CourseSearchService;
+use App\Services\Logic\Search\Group as GroupSearchService;
+use App\Services\Logic\Search\User as UserSearchService;
+use App\Traits\Response as ResponseTrait;
+
 /**
  * @RoutePrefix("/search")
  */
 class SearchController extends Controller
 {
 
+    use ResponseTrait;
+
     /**
-     * @Get("/courses", name="home.search.courses")
+     * @Get("/", name="home.search.index")
      */
-    public function coursesAction()
+    public function indexAction()
     {
-        $query = $this->request->getQuery('q');
+        $query = $this->request->get('query', ['trim', 'string']);
+        $type = $this->request->get('type', ['trim', 'string'], 'course');
 
-        $indexer = new \App\Library\Indexer\Course();
-
-        $courses = $indexer->search($query);
-        
-        echo "total: {$courses['total']}<br>";
-        echo "<hr>";
-
-        foreach ($courses['items'] as $course) {
-            echo "title:{$course->title}<br>";
-            echo "summary:{$course->summary}<br>";
-            echo "tags:{$course->tags}<br>";
-            echo "<hr>";
+        if (empty($query)) {
+            $this->response->redirect(['for' => 'home.course.list']);
         }
 
-        exit;
+        $this->seo->prependTitle(['搜索', $query]);
+
+        $service = $this->getSearchService($type);
+
+        $hotQueries = $service->getHotQuery();
+
+        $relatedQueries = $service->getRelatedQuery($query);
+
+        $pager = $service->search();
+
+        $this->view->setVar('hot_queries', $hotQueries);
+        $this->view->setVar('related_queries', $relatedQueries);
+        $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Get("/course/update", name="home.search.update_course")
+     * @Get("/form", name="home.search.form")
      */
-    public function updateCourseAction()
+    public function formAction()
     {
-        $indexer = new \App\Library\Indexer\Course();
 
-        $courseRepo = new \App\Repos\Course();
-
-        $course = $courseRepo->findById(1);
-
-        $indexer->updateIndex($course);
-        
-        echo "update ok";
-
-        exit;
     }
 
     /**
-     * @Get("/course/create", name="home.search.create_course")
+     * @param string $type
+     * @return CourseSearchService|GroupSearchService|UserSearchService
      */
-    public function createCourseAction()
+    protected function getSearchService($type)
     {
-        $indexer = new \App\Library\Indexer\Course();
+        switch ($type) {
+            case 'group':
+                $service = new GroupSearchService;
+                break;
+            case 'user':
+                $service = new UserSearchService();
+                break;
+            default:
+                $service = new CourseSearchService();
+                break;
+        }
 
-        $courseRepo = new \App\Repos\Course();
-
-        $course = $courseRepo->findById(1);
-
-        $indexer->addIndex($course);
-        
-        echo "create ok";
-
-        exit;
-    }
-
-    /**
-     * @Get("/course/delete", name="home.search.delete_course")
-     */
-    public function deleteCourseAction()
-    {
-        $indexer = new \App\Library\Indexer\Course();
-
-        $courseRepo = new \App\Repos\Course();
-
-        $course = $courseRepo->findById(1);
-
-        $indexer->deleteIndex($course);
-        
-        echo "delete ok";
-        
-        exit;
+        return $service;
     }
 
 }

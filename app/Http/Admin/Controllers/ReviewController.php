@@ -23,16 +23,16 @@ class ReviewController extends Controller
      */
     public function listAction()
     {
-        $service = new ReviewService();
+        $reviewService = new ReviewService();
 
-        $pager = $service->getReviews();
+        $pager = $reviewService->getReviews();
 
         $courseId = $this->request->getQuery('course_id', 'int', 0);
 
         $course = null;
 
         if ($courseId > 0) {
-            $course = $service->getCourse($courseId);
+            $course = $reviewService->getCourse($courseId);
         }
 
         $this->view->setVar('pager', $pager);
@@ -40,41 +40,41 @@ class ReviewController extends Controller
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.review.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.review.edit")
      */
     public function editAction($id)
     {
-        $service = new ReviewService();
+        $reviewService = new ReviewService();
 
-        $review = $service->getReview($id);
+        $review = $reviewService->getReview($id);
 
         $this->view->setVar('review', $review);
     }
 
     /**
-     * @Post("/{id}/update", name="admin.review.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.review.update")
      */
     public function updateAction($id)
     {
-        $service = new ReviewService();
+        $reviewService = new ReviewService();
 
-        $service->updateReview($id);
+        $reviewService->updateReview($id);
 
         $content = [
             'msg' => '更新评价成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.review.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.review.delete")
      */
     public function deleteAction($id)
     {
-        $service = new ReviewService();
+        $reviewService = new ReviewService();
 
-        $service->deleteReview($id);
+        $reviewService->deleteReview($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -83,17 +83,17 @@ class ReviewController extends Controller
             'msg' => '删除评价成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.review.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.review.restore")
      */
     public function restoreAction($id)
     {
-        $service = new ReviewService();
+        $reviewService = new ReviewService();
 
-        $service->restoreReview($id);
+        $reviewService->restoreReview($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -102,7 +102,7 @@ class ReviewController extends Controller
             'msg' => '还原评价成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

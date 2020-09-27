@@ -31,59 +31,58 @@ class TradeController extends Controller
     }
 
     /**
-     * @Get("/{id}/show", name="admin.trade.show")
+     * @Get("/{id:[0-9]+}/show", name="admin.trade.show")
      */
     public function showAction($id)
     {
         $tradeService = new TradeService();
 
         $trade = $tradeService->getTrade($id);
-        $refunds = $tradeService->getRefunds($trade->sn);
-        $order = $tradeService->getOrder($trade->order_sn);
-        $user = $tradeService->getUser($trade->user_id);
+        $refunds = $tradeService->getRefunds($trade->id);
+        $order = $tradeService->getOrder($trade->order_id);
+        $account = $tradeService->getAccount($trade->owner_id);
+        $user = $tradeService->getUser($trade->owner_id);
 
         $this->view->setVar('refunds', $refunds);
         $this->view->setVar('trade', $trade);
         $this->view->setVar('order', $order);
+        $this->view->setVar('account', $account);
         $this->view->setVar('user', $user);
     }
 
     /**
-     * @Post("/{id}/close", name="admin.trade.close")
+     * @Get("/{id:[0-9]+}/status/history", name="admin.trade.status_history")
      */
-    public function closeAction($id)
+    public function statusHistoryAction($id)
     {
         $tradeService = new TradeService();
 
-        $tradeService->closeTrade($id);
+        $statusHistory = $tradeService->getStatusHistory($id);
 
-        $location = $this->request->getHTTPReferer();
-
-        $content = [
-            'location' => $location,
-            'msg' => '关闭交易成功',
-        ];
-
-        return $this->ajaxSuccess($content);
+        $this->view->pick('trade/status_history');
+        $this->view->setVar('status_history', $statusHistory);
     }
 
     /**
-     * @Post("/{id}/refund", name="admin.trade.refund")
+     * @Post("/{id:[0-9]+}/refund", name="admin.trade.refund")
      */
     public function refundAction($id)
     {
         $tradeService = new TradeService();
 
-        $tradeService->refundTrade($id);
+        $refund = $tradeService->refundTrade($id);
 
-        $location = $this->request->getHTTPReferer();
+        $location = $this->url->get([
+            'for' => 'admin.refund.show',
+            'id' => $refund->id,
+        ]);
 
         $content = [
             'location' => $location,
-            'msg' => '申请退款成功，请到退款管理中审核确认',
+            'msg' => '申请退款成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

@@ -2,29 +2,61 @@
 
 namespace App\Validators;
 
+use App\Caches\MaxPackageId as MaxPackageIdCache;
+use App\Caches\Package as PackageCache;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
+use App\Models\Package as PackageModel;
 use App\Repos\Package as PackageRepo;
 
 class Package extends Validator
 {
 
     /**
-     * @param integer $id
-     * @return \App\Models\Package
-     * @throws NotFoundException
+     * @param int $id
+     * @return PackageModel
+     * @throws BadRequestException
      */
+    public function checkPackageCache($id)
+    {
+        $this->checkId($id);
+
+        $packageCache = new PackageCache();
+
+        $package = $packageCache->get($id);
+
+        if (!$package) {
+            throw new BadRequestException('package.not_found');
+        }
+
+        return $package;
+    }
+
     public function checkPackage($id)
     {
+        $this->checkId($id);
+
         $packageRepo = new PackageRepo();
 
         $package = $packageRepo->findById($id);
 
         if (!$package) {
-            throw new NotFoundException('package.not_found');
+            throw new BadRequestException('package.not_found');
         }
 
         return $package;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxIdCache = new MaxPackageIdCache();
+
+        $maxId = $maxIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('package.not_found');
+        }
     }
 
     public function checkTitle($title)
@@ -47,6 +79,12 @@ class Package extends Validator
     public function checkSummary($summary)
     {
         $value = $this->filter->sanitize($summary, ['trim', 'string']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 255) {
+            throw new BadRequestException('package.summary_too_long');
+        }
 
         return $value;
     }
@@ -75,13 +113,11 @@ class Package extends Validator
 
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('package.invalid_publish_status');
         }
 
-        return $value;
+        return $status;
     }
 
 }

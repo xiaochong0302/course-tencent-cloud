@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Phalcon\Events\Manager as PhalconEventsManager;
+use Phalcon\Events\Manager as PhEventsManager;
 
-class EventsManager extends AbstractProvider
+class EventsManager extends Provider
 {
 
     protected $serviceName = 'eventsManager';
@@ -13,9 +13,9 @@ class EventsManager extends AbstractProvider
     {
         $this->di->setShared($this->serviceName, function () {
 
-            $events = require config_path() . '/events.php';
+            $events = require config_path('events.php');
 
-            $eventsManager = new PhalconEventsManager();
+            $eventsManager = new PhEventsManager();
 
             foreach ($events as $eventType => $handler) {
                 $eventsManager->attach($eventType, new $handler());

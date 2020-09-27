@@ -4,30 +4,12 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Page as PageModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Page extends Repository
 {
-
-    /**
-     * @param integer $id
-     * @return PageModel
-     */
-    public function findById($id)
-    {
-        $result = PageModel::findFirstById($id);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = PageModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
 
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
@@ -36,6 +18,10 @@ class Page extends Repository
         $builder->from(PageModel::class);
 
         $builder->where('1 = 1');
+
+        if (!empty($where['title'])) {
+            $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
+        }
 
         if (isset($where['published'])) {
             $builder->andWhere('published = :published:', ['published' => $where['published']]);
@@ -59,7 +45,29 @@ class Page extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return PageModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return PageModel::findFirst($id);
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|PageModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return PageModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
     }
 
 }

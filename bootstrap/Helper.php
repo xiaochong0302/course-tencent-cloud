@@ -12,7 +12,7 @@ define('ENV_PRO', 'pro');
  */
 function root_path($path = '')
 {
-    return dirname(__DIR__) . ($path ? "/{$path}" : '');
+    return dirname(__DIR__) . trim_path($path);
 }
 
 /**
@@ -23,7 +23,7 @@ function root_path($path = '')
  */
 function app_path($path = '')
 {
-    return root_path('app') . ($path ? "/{$path}" : '');
+    return root_path('app') . trim_path($path);
 }
 
 /**
@@ -34,7 +34,7 @@ function app_path($path = '')
  */
 function bootstrap_path($path = '')
 {
-    return root_path('bootstrap') . ($path ? "/{$path}" : '');
+    return root_path('bootstrap') . trim_path($path);
 }
 
 /**
@@ -45,7 +45,7 @@ function bootstrap_path($path = '')
  */
 function config_path($path = '')
 {
-    return root_path('config') . ($path ? "/{$path}" : '');
+    return root_path('config') . trim_path($path);
 }
 
 /**
@@ -56,7 +56,7 @@ function config_path($path = '')
  */
 function storage_path($path = '')
 {
-    return root_path('storage') . ($path ? "/{$path}" : '');
+    return root_path('storage') . trim_path($path);
 }
 
 /**
@@ -67,7 +67,7 @@ function storage_path($path = '')
  */
 function vendor_path($path = '')
 {
-    return root_path('vendor') . ($path ? "/{$path}" : '');
+    return root_path('vendor') . trim_path($path);
 }
 
 /**
@@ -78,7 +78,7 @@ function vendor_path($path = '')
  */
 function public_path($path = '')
 {
-    return root_path('public') . ($path ? "/{$path}" : '');
+    return root_path('public') . trim_path($path);
 }
 
 /**
@@ -89,7 +89,7 @@ function public_path($path = '')
  */
 function cache_path($path = '')
 {
-    return storage_path('cache') . ($path ? "/{$path}" : '');
+    return storage_path('cache') . trim_path($path);
 }
 
 /**
@@ -100,7 +100,7 @@ function cache_path($path = '')
  */
 function log_path($path = '')
 {
-    return storage_path('log') . ($path ? "/{$path}" : '');
+    return storage_path('log') . trim_path($path);
 }
 
 /**
@@ -111,18 +111,20 @@ function log_path($path = '')
  */
 function tmp_path($path = '')
 {
-    return storage_path('tmp') . ($path ? "/{$path}" : '');
+    return storage_path('tmp') . trim_path($path);
 }
 
 /**
- * Rtrim slash
+ * Trim path slash
  *
- * @param string $str
+ * @param string $path
  * @return string
  */
-function rtrim_slash($str)
+function trim_path($path)
 {
-    return rtrim($str, '/');
+    $path = trim($path, '/');
+
+    return $path ? "/{$path}" : '';
 }
 
 /**

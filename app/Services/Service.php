@@ -2,23 +2,54 @@
 
 namespace App\Services;
 
-use App\Caches\Config as ConfigCache;
+use App\Caches\Setting as SettingCache;
+use App\Library\Cache\Backend\Redis as RedisCache;
 use App\Library\Logger as AppLogger;
+use App\Traits\Auth as AuthTrait;
+use Phalcon\Config as PhConfig;
+use Phalcon\Logger\Adapter\File as PhLogger;
+use Phalcon\Mvc\User\Component;
 
-class Service extends \Phalcon\Mvc\User\Component
+class Service extends Component
 {
+
+    use AuthTrait;
+
+    /**
+     * @return PhConfig
+     */
+    public function getConfig()
+    {
+        return $this->getDI()->getShared('config');
+    }
+
+    /**
+     * @return RedisCache
+     */
+    public function getCache()
+    {
+        return $this->getDI()->getShared('cache');
+    }
+
+    /**
+     * @return \Redis
+     */
+    public function getRedis()
+    {
+        return $this->getCache()->getRedis();
+    }
 
     /**
      * 获取Logger
      *
      * @param string $channel
-     * @return \Phalcon\Logger\Adapter\File
+     * @return PhLogger
      */
     public function getLogger($channel = null)
     {
         $logger = new AppLogger();
 
-        $channel = $channel ?: 'service';
+        $channel = $channel ?: 'common';
 
         return $logger->getInstance($channel);
     }
@@ -27,15 +58,13 @@ class Service extends \Phalcon\Mvc\User\Component
      * 获取某组配置项
      *
      * @param string $section
-     * @return \stdClass
+     * @return array
      */
-    public function getSectionConfig($section)
+    public function getSettings($section)
     {
-        $configCache = new ConfigCache();
+        $cache = new SettingCache();
 
-        $result = $configCache->getSectionConfig($section);
-
-        return $result;
+        return $cache->get($section);
     }
 
 }

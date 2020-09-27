@@ -1,10 +1,9 @@
 <?php
 
-$events = [
+use App\Listeners\Pay;
+use App\Listeners\UserDailyCounter;
 
-    'db' => \App\Listeners\Profiler::class,
-    'payment' => \App\Listeners\Payment::class,
-
+return [
+    'pay' => Pay::class,
+    'userDailyCounter' => UserDailyCounter::class,
 ];
-
-return $events;

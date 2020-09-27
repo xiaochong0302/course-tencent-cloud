@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
-class Cookie extends AbstractProvider
+use Phalcon\Http\Response\Cookies as PhCookies;
+
+class Cookie extends Provider
 {
 
     protected $serviceName = 'cookies';
@@ -11,6 +13,11 @@ class Cookie extends AbstractProvider
     {
         $this->di->setShared($this->serviceName, function () {
 
+            $cookies = new PhCookies();
+
+            $cookies->useEncryption(true);
+
+            return $cookies;
         });
     }
 

@@ -2,24 +2,45 @@
 
 namespace App\Models;
 
+use App\Caches\MaxCategoryId as MaxCategoryIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Category extends Model
 {
 
     /**
+     * 类型
+     */
+    const TYPE_COURSE = 1; // 课程
+    const TYPE_HELP = 2; // 帮助
+
+    /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 上级编号
      *
-     * @var integer
+     * @var int
      */
     public $parent_id;
+
+    /**
+     * 层级
+     *
+     * @var int
+     */
+    public $level;
+
+    /**
+     * 类型
+     *
+     * @var int
+     */
+    public $type;
 
     /**
      * 名称
@@ -29,20 +50,6 @@ class Category extends Model
     public $name;
 
     /**
-     * 优先级
-     *
-     * @var integer
-     */
-    public $priority;
-
-    /**
-     * 层级
-     *
-     * @var integer
-     */
-    public $level;
-
-    /**
      * 路径
      *
      * @var string
@@ -50,43 +57,50 @@ class Category extends Model
     public $path;
 
     /**
+     * 优先级
+     *
+     * @var int
+     */
+    public $priority;
+
+    /**
      * 发布标识
      *
-     * @var integer
+     * @var int
      */
     public $published;
 
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
-     * 课程数
+     * 节点数
      *
-     * @var integer
+     * @var int
      */
-    public $course_count;
+    public $child_count;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'category';
+        return 'kg_category';
     }
 
     public function initialize()
@@ -103,12 +117,31 @@ class Category extends Model
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
+
+        $this->update_time = time();
+    }
+
+    public function afterCreate()
+    {
+        $cache = new MaxCategoryIdCache();
+
+        $cache->rebuild();
+    }
+
+    public static function types()
+    {
+        return [
+            self::TYPE_COURSE => '课程',
+            self::TYPE_HELP => '帮助',
+        ];
     }
 
 }

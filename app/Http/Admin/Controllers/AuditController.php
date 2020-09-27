@@ -31,7 +31,7 @@ class AuditController extends Controller
     }
 
     /**
-     * @Get("/{id}/show", name="admin.audit.show")
+     * @Get("/{id:[0-9]+}/show", name="admin.audit.show")
      */
     public function showAction($id)
     {
@@ -39,7 +39,10 @@ class AuditController extends Controller
 
         $audit = $auditService->getAudit($id);
 
+        $region = kg_ip2region($audit->user_ip);
+
         $this->view->setVar('audit', $audit);
+        $this->view->setVar('region', $region);
     }
 
 }

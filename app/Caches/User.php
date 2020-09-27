@@ -1,57 +1,31 @@
 <?php
 
-namespace App\Library\Cache;
+namespace App\Caches;
 
-use App\Models\User as UserModel;
-use App\Exceptions\NotFound as ModelNotFoundException;
+use App\Repos\User as UserRepo;
 
-class User extends \Phalcon\Di\Injectable
+class User extends Cache
 {
 
-    private $lifetime = 86400 * 30;
-
-    public function getOrFail($id)
-    {
-        $result = $this->getById($id);
-
-        if (!$result) {
-            throw new ModelNotFoundException('user.not_found');
-        }
-
-        return $result;
-    }
-
-    public function get($id)
-    {
-        $cacheOptions = [
-            'key' => $this->getKey($id),
-            'lifetime' => $this->getLifetime(),
-        ];
-
-        $result = UserModel::query()
-                ->where('id = :id:', ['id' => $id])
-                ->cache($cacheOptions)
-                ->execute()
-                ->getFirst();
-
-        return $result;
-    }
-
-    public function delete($id)
-    {
-        $key = $this->getKey($id);
-
-        $this->modelsCache->delete($key);
-    }
-
-    public function getKey($id)
-    {
-        return "user:{$id}";
-    }
+    protected $lifetime = 1 * 86400;
 
     public function getLifetime()
     {
         return $this->lifetime;
+    }
+
+    public function getKey($id = null)
+    {
+        return "user:{$id}";
+    }
+
+    public function getContent($id = null)
+    {
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($id);
+
+        return $user ?: null;
     }
 
 }

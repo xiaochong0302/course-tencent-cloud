@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Phalcon\Config as PhalconConfig;
+use Phalcon\Config as PhConfig;
 
-class Config extends AbstractProvider
+class Config extends Provider
 {
 
     protected $serviceName = 'config';
@@ -13,11 +13,9 @@ class Config extends AbstractProvider
     {
         $this->di->setShared($this->serviceName, function () {
 
-            $options = require config_path() . '/config.php';
+            $options = require config_path('config.php');
 
-            $config = new PhalconConfig($options);
-
-            return $config;
+            return new PhConfig($options);
         });
     }
 

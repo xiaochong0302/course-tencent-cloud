@@ -19,7 +19,7 @@ class XmCourseController extends Controller
 
         $pager = $xmCourseService->getAllCourses();
 
-        return $this->ajaxSuccess([
+        return $this->jsonSuccess([
             'count' => $pager->total_items,
             'data' => $pager->items,
         ]);
@@ -34,7 +34,7 @@ class XmCourseController extends Controller
 
         $pager = $xmCourseService->getPaidCourses();
 
-        return $this->ajaxSuccess([
+        return $this->jsonSuccess([
             'count' => $pager->total_items,
             'data' => $pager->items,
         ]);

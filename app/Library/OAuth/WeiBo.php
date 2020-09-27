@@ -2,7 +2,9 @@
 
 namespace App\Library\OAuth;
 
-class WeiBo extends \App\Library\OAuth
+use App\Library\OAuth;
+
+class WeiBo extends OAuth
 {
 
     const AUTHORIZE_URL = 'https://api.weibo.com/oauth2/authorize';
@@ -13,7 +15,7 @@ class WeiBo extends \App\Library\OAuth
     {
         $params = [
             'client_id' => $this->appId,
-            'redirect_uri' => $this->appCallback,
+            'redirect_uri' => $this->redirectUri,
             'response_type' => 'code',
         ];
         
@@ -26,7 +28,7 @@ class WeiBo extends \App\Library\OAuth
             'code' => $code,
             'client_id' => $this->appId,
             'client_secret' => $this->appSecret,
-            'redirect_uri' => $this->appCallback,
+            'redirect_uri' => $this->redirectUri,
             'grant_type' => 'authorization_code',
         ];
         

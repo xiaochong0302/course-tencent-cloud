@@ -2,25 +2,34 @@
 
 namespace App\Providers;
 
-use Phalcon\Annotations\Adapter\Files as FileAnnotations;
 use Phalcon\Annotations\Adapter\Memory as MemoryAnnotations;
+use Phalcon\Annotations\Adapter\Redis as RedisAnnotations;
+use Phalcon\Config;
 
-class Annotation extends AbstractProvider
+class Annotation extends Provider
 {
 
     protected $serviceName = 'annotations';
 
     public function register()
     {
-        $this->di->setShared($this->serviceName, function () {
+        /**
+         * @var Config $config
+         */
+        $config = $this->di->getShared('config');
 
-            $config = $this->getShared('config');
+        $this->di->setShared($this->serviceName, function () use ($config) {
 
-            if ($config->env == ENV_DEV) {
+            if ($config->get('env') == ENV_DEV) {
                 $annotations = new MemoryAnnotations();
             } else {
-                $annotations = new FileAnnotations([
-                    'annotationsDir' => cache_path() . '/annotations/',
+                $annotations = new RedisAnnotations([
+                    'host' => $config->path('redis.host'),
+                    'port' => $config->path('redis.port'),
+                    'auth' => $config->path('redis.auth'),
+                    'index' => $config->path('annotation.db'),
+                    'lifetime' => $config->path('annotation.lifetime'),
+                    'statsKey' => $config->path('annotation.statsKey'),
                 ]);
             }
 

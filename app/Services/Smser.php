@@ -2,109 +2,98 @@
 
 namespace App\Services;
 
-use Qcloud\Sms\SmsMultiSender;
+use Phalcon\Logger\Adapter\File as FileLogger;
 use Qcloud\Sms\SmsSingleSender;
 
-class Smser extends Service
+Abstract class Smser extends Service
 {
 
-    protected $config;
+    /**
+     * @var array
+     */
+    protected $settings;
+
+    /**
+     * @var FileLogger
+     */
     protected $logger;
 
     public function __construct()
     {
-        $this->config = $this->getSectionConfig('smser');
-        $this->logger = $this->getLogger('smser');
-    }
+        $this->settings = $this->getSettings('sms');
 
-    public function register()
-    {
-
-    }
-
-    public function resetPassword()
-    {
-
-    }
-
-    public function buyCourse()
-    {
-
-    }
-
-    public function buyMember()
-    {
-
+        $this->logger = $this->getLogger('sms');
     }
 
     /**
-     * 发送测试短信
+     * 发送短信
      *
-     * @param string $phone
+     * @param string $phoneNumber
+     * @param string $templateId
+     * @param array $params
      * @return bool
      */
-    public function sendTestMessage($phone)
+    public function send($phoneNumber, $templateId, $params)
     {
         $sender = $this->createSingleSender();
-        $templateId = $this->getTemplateId('register');
-        $signature = $this->getSignature();
 
-        $params = [888888, 5];
+        $params = $this->formatParams($params);
+
+        $signature = $this->getSignature();
 
         try {
 
-            $response = $sender->sendWithParam('86', $phone, $templateId, $params, $signature);
+            $response = $sender->sendWithParam('86', $phoneNumber, $templateId, $params, $signature);
 
-            $this->logger->debug('Send Test Message Response ' . $response);
+            $this->logger->debug('Send Message Response ' . $response);
 
             $content = json_decode($response, true);
 
-            return $content['result'] == 0 ? true : false;
+            $result = $content['result'] == 0;
+
+            if ($result == false) {
+                $this->logger->error('Send Message Failed ' . $response);
+            }
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Send Test Message Exception ' . kg_json_encode([
+            $this->logger->error('Send Message Exception ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
 
-            return false;
+            $result = false;
         }
-    }
-
-    protected function createSingleSender()
-    {
-        $sender = new SmsSingleSender($this->config->app_id, $this->config->app_key);
-
-        return $sender;
-    }
-
-    protected function createMultiSender()
-    {
-        $sender = new SmsMultiSender($this->config->app_id, $this->config->app_key);
-
-        return $sender;
-    }
-
-    protected function getRandNumber()
-    {
-        $result = rand(100, 999) . rand(100, 999);
 
         return $result;
     }
 
+    protected function createSingleSender()
+    {
+        return new SmsSingleSender($this->settings['app_id'], $this->settings['app_key']);
+    }
+
+    protected function formatParams($params)
+    {
+        if (!empty($params)) {
+            $params = array_map(function ($value) {
+                return strval($value);
+            }, $params);
+        }
+
+        return $params;
+    }
+
     protected function getTemplateId($code)
     {
-        $template = json_decode($this->config->template);
+        $template = json_decode($this->settings['template'], true);
 
-        $templateId = $template->{$code}->id ?? null;
-
-        return $templateId;
+        return $template[$code] ?? null;
     }
 
     protected function getSignature()
     {
-        return $this->config->signature;
+        return $this->settings['signature'];
     }
 
 }

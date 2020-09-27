@@ -2,99 +2,120 @@
 
 namespace App\Models;
 
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
 class ChapterUser extends Model
 {
 
     /**
      * 主键编号
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $id;
 
     /**
      * 课程编号
      *
-     * @var integer
+     * @var int
      */
     public $course_id;
 
     /**
      * 章节编号
      *
-     * @var integer
+     * @var int
      */
     public $chapter_id;
 
     /**
      * 用户编号
-     * 
-     * @var integer
+     *
+     * @var int
      */
     public $user_id;
 
     /**
+     * 计划编号
+     *
+     * @var int
+     */
+    public $plan_id;
+
+    /**
      * 学习时长
      *
-     * @var integer
+     * @var int
      */
     public $duration;
 
     /**
      * 播放位置
      *
-     * @var integer
+     * @var int
      */
     public $position;
 
     /**
-     * 完成标识
+     * 学习进度
      *
-     * @var integer
+     * @var int
      */
-    public $finished;
+    public $progress;
 
     /**
-     * 收藏标识
+     * 消费标识
      *
-     * @var integer
+     * @var int
      */
-    public $favorited;
+    public $consumed;
 
     /**
-     * 喜欢标识
+     * 删除标识
      *
-     * @var integer
+     * @var int
      */
-    public $liked;
+    public $deleted;
 
     /**
      * 创建时间
-     * 
-     * @var integer
+     *
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
-     * 
-     * @var integer
+     *
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'chapter_user';
+        return 'kg_chapter_user';
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->addBehavior(
+            new SoftDelete([
+                'field' => 'deleted',
+                'value' => 1,
+            ])
+        );
     }
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        $this->update_time = time();
     }
 
 }

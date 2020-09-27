@@ -1,76 +1,92 @@
-<div class="kg-nav">
-    <div class="kg-nav-left">
-        <span class="layui-breadcrumb">
-            <a><cite>操作记录</cite></a>
-        </span>
-    </div>
-    <div class="kg-nav-right">
-        <a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.audit.search'}) }}">
-            <i class="layui-icon layui-icon-add-1"></i>搜索记录
-        </a>
-    </div>
-</div>
+{% extends 'templates/main.volt' %}
 
-<table class="kg-table layui-table layui-form">
-    <colgroup>
-        <col>
-        <col>
-        <col>
-        <col>
-        <col>
-        <col>
-        <col width="10%">
-    </colgroup>
-    <thead>
-    <tr>
-        <th>用户编号</th>
-        <th>用户名称</th>
-        <th>用户IP</th>
-        <th>请求路由</th>
-        <th>请求路径</th>
-        <th>请求时间</th>
-        <th>请求内容</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for item in pager.items %}
+{% block content %}
+
+    <div class="kg-nav">
+        <div class="kg-nav-left">
+            <span class="layui-breadcrumb">
+                <a><cite>操作记录</cite></a>
+            </span>
+        </div>
+    </div>
+
+    <table class="layui-table kg-table">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col width="10%">
+        </colgroup>
+        <thead>
         <tr>
-            <td>{{ item.user_id }}</td>
-            <td>{{ item.user_name }}</td>
-            <td><a class="kg-ip2region" href="javascript:;" title="查看位置" ip="{{ item.user_ip }}">{{ item.user_ip }}</a></td>
-            <td>{{ item.req_route }}</td>
-            <td>{{ item.req_path }}</td>
-            <td>{{ date('Y-m-d H:i:s',item.created_at) }}</td>
-            <td align="center">
-                <button class="kg-view layui-btn layui-btn-sm" audit-id="{{ item.id }}">浏览</button>
-            </td>
+            <th>用户编号</th>
+            <th>用户名称</th>
+            <th>用户IP</th>
+            <th>请求路由</th>
+            <th>请求路径</th>
+            <th>请求时间</th>
+            <th>请求内容</th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {% for item in pager.items %}
+            {% set list_by_id_url = url({'for':'admin.audit.list'},{'user_id':item.user_id}) %}
+            {% set list_by_ip_url = url({'for':'admin.audit.list'},{'user_ip':item.user_ip}) %}
+            {% set list_by_route_url = url({'for':'admin.audit.list'},{'req_route':item.req_route}) %}
+            {% set list_by_path_url = url({'for':'admin.audit.list'},{'req_path':item.req_path}) %}
+            {% set show_url = url({'for':'admin.audit.show','id':item.id}) %}
+            <tr>
+                <td>{{ item.user_id }}</td>
+                <td><a href="{{ list_by_id_url }}">{{ item.user_name }}</a></td>
+                <td>
+                    <a href="{{ list_by_ip_url }}">{{ item.user_ip }}</a>
+                    <span class="layui-btn layui-btn-xs kg-ip2region" data-ip="{{ item.user_ip }}">位置</span>
+                </td>
+                <td><a href="{{ list_by_route_url }}">{{ item.req_route }}</a></td>
+                <td><a href="{{ list_by_path_url }}">{{ item.req_path }}</a></td>
+                <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
+                <td class="center">
+                    <button class="kg-view layui-btn layui-btn-sm" data-url="{{ show_url }}">详情</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-{{ partial('partials/pager') }}
-{{ partial('partials/ip2region') }}
+    {{ partial('partials/pager') }}
 
-<script>
+{% endblock %}
 
-    layui.use(['jquery', 'layer'], function () {
+{% block include_js %}
 
-        var $ = layui.jquery;
-        var layer = layui.layer;
+    {{ js_include('admin/js/ip2region.js') }}
 
-        $('.kg-view').on('click', function () {
-            var auditId = $(this).attr('audit-id');
-            var url = '/admin/audit/' + auditId + '/show';
-            layer.open({
-                type: 2,
-                title: '请求内容',
-                resize: false,
-                area: ['640px', '360px'],
-                content: [url]
+{% endblock %}
+
+{% block inline_js %}
+
+    <script>
+
+        layui.use(['jquery', 'layer'], function () {
+
+            var $ = layui.jquery;
+            var layer = layui.layer;
+
+            $('.kg-view').on('click', function () {
+                var url = $(this).data('url');
+                layer.open({
+                    type: 2,
+                    title: '数据内容',
+                    area: ['640px', '360px'],
+                    content: url
+                });
             });
+
         });
 
-    });
+    </script>
 
-</script>
+{% endblock %}

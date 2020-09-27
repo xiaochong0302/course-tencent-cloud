@@ -5,121 +5,133 @@ namespace Bootstrap;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Exceptions\Forbidden as ForbiddenException;
 use App\Exceptions\NotFound as NotFoundException;
+use App\Exceptions\ServiceUnavailable as ServiceUnavailableException;
 use App\Exceptions\Unauthorized as UnauthorizedException;
-use Phalcon\Mvc\User\Component as UserComponent;
-use Phalcon\Text;
+use App\Library\Logger as AppLogger;
+use Phalcon\Mvc\User\Component;
 
-class HttpErrorHandler extends UserComponent
+class HttpErrorHandler extends Component
 {
-
-    protected $logger;
 
     public function __construct()
     {
-        $this->logger = $this->getDI()->get('logger');
-
         set_error_handler([$this, 'handleError']);
 
         set_exception_handler([$this, 'handleException']);
     }
 
-    public function handleError($no, $str, $file, $line)
+    public function handleError($severity, $message, $file, $line)
     {
-        $content = compact('no', 'str', 'file', 'line');
-
-        $error = json_encode($content);
-
-        $this->logger->log($error);
+        throw new \ErrorException($message, 0, $severity, $file, $line);
     }
 
+    /**
+     * @param \Throwable $e
+     */
     public function handleException($e)
     {
         $this->setStatusCode($e);
 
-        if ($this->router->getModuleName() == 'api') {
+        if ($this->response->getStatusCode() == 500) {
+            $this->report($e);
+        }
+
+        if ($this->request->isApi()) {
             $this->apiError($e);
-        } else if ($this->isAjax()) {
+        } elseif ($this->request->isAjax()) {
             $this->ajaxError($e);
         } else {
             $this->pageError($e);
         }
     }
 
+    /**
+     * @param \Throwable $e
+     */
     protected function setStatusCode($e)
     {
         if ($e instanceof BadRequestException) {
             $this->response->setStatusCode(400);
-        } else if ($e instanceof UnauthorizedException) {
+        } elseif ($e instanceof UnauthorizedException) {
             $this->response->setStatusCode(401);
-        } else if ($e instanceof ForbiddenException) {
+        } elseif ($e instanceof ForbiddenException) {
             $this->response->setStatusCode(403);
-        } else if ($e instanceof NotFoundException) {
+        } elseif ($e instanceof NotFoundException) {
             $this->response->setStatusCode(404);
+        } elseif ($e instanceof ServiceUnavailableException) {
+            $this->response->setStatusCode(503);
         } else {
             $this->response->setStatusCode(500);
-            $this->report($e);
         }
     }
 
+    /**
+     * @param \Throwable $e
+     */
     protected function report($e)
     {
         $content = sprintf('%s(%d): %s', $e->getFile(), $e->getLine(), $e->getMessage());
 
-        $this->logger->error($content);
+        $logger = $this->getLogger();
+
+        $logger->error($content);
     }
 
+    /**
+     * @param \Throwable $e
+     */
     protected function apiError($e)
     {
         $content = $this->translate($e->getMessage());
 
         $this->response->setJsonContent($content);
+
         $this->response->send();
     }
 
+    /**
+     * @param \Throwable $e
+     */
     protected function ajaxError($e)
     {
         $content = $this->translate($e->getMessage());
 
         $this->response->setJsonContent($content);
+
         $this->response->send();
     }
 
+    /**
+     * @param \Throwable $e
+     */
     protected function pageError($e)
     {
         $content = $this->translate($e->getMessage());
 
-        $this->flash->error($content);
+        $this->flashSession->error($content['msg']);
 
-        $this->response->redirect([
-            'for' => 'error.' . $this->response->getStatusCode()
-        ])->send();
+        $code = $this->response->getStatusCode();
+
+        $for = "home.error.{$code}";
+
+        $this->response->redirect(['for' => $for])->send();
     }
 
     protected function translate($code)
     {
-        $errors = require config_path() . '/errors.php';
+        $errors = require config_path('errors.php');
 
-        $content = [
+        return [
             'code' => $code,
             'msg' => $errors[$code] ?? $code,
         ];
-
-        return $content;
     }
 
-    protected function isAjax()
+    protected function getLogger()
     {
-        if ($this->request->isAjax()) {
-            return true;
-        }
+        $logger = new AppLogger();
 
-        $contentType = $this->request->getContentType();
-
-        if (Text::startsWith($contentType, 'application/json')) {
-            return true;
-        }
-
-        return false;
+        return $logger->getInstance('http');
     }
 
 }

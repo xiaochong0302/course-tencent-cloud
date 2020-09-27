@@ -8,115 +8,115 @@ class Task extends Model
     /**
      * 任务类型
      */
-    const TYPE_REFUND = 'refund';
+    const TYPE_DELIVER = 1; // 发货
+    const TYPE_REFUND = 2; // 退款
 
     /**
      * 优先级
      */
-    const PRIORITY_HIGH = 1;
-    const PRIORITY_MIDDLE = 2;
-    const PRIORITY_LOW = 3;
+    const PRIORITY_HIGH = 10; // 高
+    const PRIORITY_MIDDLE = 20; // 中
+    const PRIORITY_LOW = 30; // 低
 
     /**
      * 状态类型
      */
-    const STATUS_PENDING = 'pending';
-    const STATUS_FINISHED = 'finished';
-    const STATUS_FAILED = 'failed';
+    const STATUS_PENDING = 1; // 待定
+    const STATUS_FINISHED = 2; // 完成
+    const STATUS_CANCELED = 3; // 取消
+    const STATUS_FAILED = 4; // 失败
 
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 条目编号
      *
-     * @var integer
+     * @var int
      */
     public $item_id;
 
     /**
      * 条目类型
      *
-     * @var integer
+     * @var int
      */
     public $item_type;
 
     /**
      * 条目内容
      *
-     * @var string
+     * @var string|array
      */
     public $item_info;
 
     /**
      * 优先级
      *
-     * @var integer
+     * @var int
      */
     public $priority;
 
     /**
      * 状态标识
      *
-     * @var integer
+     * @var int
      */
     public $status;
 
     /**
      * 重试次数
      *
-     * @var integer
+     * @var int
      */
     public $try_count;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'task';
+        return 'kg_task';
     }
 
     public function beforeCreate()
     {
-        $this->created_at = time();
-
         $this->status = self::STATUS_PENDING;
 
         if (is_array($this->item_info) && !empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
-        } else {
-            $this->item_info = '';
         }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
-
         if (is_array($this->item_info) && !empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
+
+        $this->update_time = time();
     }
 
     public function afterFetch()
     {
-        if (!empty($this->item_info)) {
+        if (is_string($this->item_info) && !empty($this->item_info)) {
             $this->item_info = json_decode($this->item_info, true);
         }
     }

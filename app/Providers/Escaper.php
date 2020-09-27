@@ -2,16 +2,16 @@
 
 namespace App\Providers;
 
-use Phalcon\Escaper as PhalconEscaper;
+use Phalcon\Escaper as PhEscaper;
 
-class Escaper extends AbstractProvider
+class Escaper extends Provider
 {
 
     protected $serviceName = 'escaper';
 
     public function register()
     {
-        $this->di->setShared($this->serviceName, PhalconEscaper::class);
+        $this->di->setShared($this->serviceName, PhEscaper::class);
     }
 
 }

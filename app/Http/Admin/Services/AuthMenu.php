@@ -2,23 +2,23 @@
 
 namespace App\Http\Admin\Services;
 
-use Phalcon\Mvc\User\Component as UserComponent;
+use App\Services\Auth\Admin as AdminAuth;
+use Phalcon\Mvc\User\Component;
 
-class AuthMenu extends UserComponent
-
+class AuthMenu extends Component
 {
 
-    protected $nodes = [];
+    protected $authInfo;
+    protected $authNodes = [];
     protected $ownedRoutes = [];
     protected $owned1stLevelIds = [];
     protected $owned2ndLevelIds = [];
     protected $owned3rdLevelIds = [];
-    protected $authUser;
 
     public function __construct()
     {
-        $this->authUser = $this->getAuthUser();
-        $this->nodes = $this->getAllNodes();
+        $this->authInfo = $this->getAuthInfo();
+        $this->authNodes = $this->getAuthNodes();
         $this->setOwnedLevelIds();
     }
 
@@ -26,42 +26,43 @@ class AuthMenu extends UserComponent
     {
         $menus = [];
 
-        foreach ($this->nodes as $node) {
-            if ($this->authUser->admin || in_array($node['id'], $this->owned1stLevelIds)) {
+        foreach ($this->authNodes as $node) {
+            if (($this->authInfo['root'] == 1) || in_array($node['id'], $this->owned1stLevelIds)) {
                 $menus[] = [
                     'id' => $node['id'],
-                    'label' => $node['label'],
+                    'title' => $node['title'],
                 ];
             }
         }
 
-        return kg_array_object($menus);
+        return $menus;
     }
 
     public function getLeftMenus()
     {
         $menus = [];
 
-        foreach ($this->nodes as $key => $level) {
-            foreach ($level['child'] as $key2 => $level2) {
-                foreach ($level2['child'] as $key3 => $level3) {
-                    $hasRight = $this->authUser->admin || in_array($level3['id'], $this->owned3rdLevelIds);
-                    if ($level3['type'] == 'menu' && $hasRight) {
+        foreach ($this->authNodes as $key => $level) {
+            foreach ($level['children'] as $key2 => $level2) {
+                foreach ($level2['children'] as $key3 => $level3) {
+                    $allowed = ($this->authInfo['root'] == 1) || in_array($level3['id'], $this->owned3rdLevelIds);
+                    $params = $level3['params'] ?? [];
+                    if ($level3['type'] == 'menu' && $allowed) {
                         $menus[$key]['id'] = $level['id'];
-                        $menus[$key]['label'] = $level['label'];
-                        $menus[$key]['child'][$key2]['id'] = $level2['id'];
-                        $menus[$key]['child'][$key2]['label'] = $level2['label'];
-                        $menus[$key]['child'][$key2]['child'][$key3] = [
+                        $menus[$key]['title'] = $level['title'];
+                        $menus[$key]['children'][$key2]['id'] = $level2['id'];
+                        $menus[$key]['children'][$key2]['title'] = $level2['title'];
+                        $menus[$key]['children'][$key2]['children'][$key3] = [
                             'id' => $level3['id'],
-                            'label' => $level3['label'],
-                            'url' => $this->url->get(['for' => $level3['route']]),
+                            'title' => $level3['title'],
+                            'url' => $this->url->get(['for' => $level3['route']], $params),
                         ];
                     }
                 }
             }
         }
 
-        return kg_array_object($menus);
+        return $menus;
     }
 
     protected function setOwnedLevelIds()
@@ -76,7 +77,7 @@ class AuthMenu extends UserComponent
 
         foreach ($routeIdMapping as $key => $value) {
             $ids = explode('-', $value);
-            if (in_array($key, $this->authUser->routes)) {
+            if (in_array($key, $this->authInfo['routes'])) {
                 $owned1stLevelIds[] = $ids[0];
                 $owned2ndLevelIds[] = $ids[0] . '-' . $ids[1];
                 $owned3rdLevelIds[] = $value;
@@ -92,9 +93,9 @@ class AuthMenu extends UserComponent
     {
         $mapping = [];
 
-        foreach ($this->nodes as $level) {
-            foreach ($level['child'] as $level2) {
-                foreach ($level2['child'] as $level3) {
+        foreach ($this->authNodes as $level) {
+            foreach ($level['children'] as $level2) {
+                foreach ($level2['children'] as $level3) {
                     if ($level3['type'] == 'menu') {
                         $mapping[$level3['route']] = $level3['id'];
                     }
@@ -105,18 +106,21 @@ class AuthMenu extends UserComponent
         return $mapping;
     }
 
-    protected function getAllNodes()
+    protected function getAuthNodes()
     {
         $authNode = new AuthNode();
 
-        return $authNode->getAllNodes();
+        return $authNode->getNodes();
     }
 
-    protected function getAuthUser()
+    protected function getAuthInfo()
     {
+        /**
+         * @var AdminAuth $auth
+         */
         $auth = $this->getDI()->get('auth');
 
-        return $auth->getAuthUser();
+        return $auth->getAuthInfo();
     }
 
 }

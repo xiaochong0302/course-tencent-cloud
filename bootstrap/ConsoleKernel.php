@@ -2,18 +2,32 @@
 
 namespace Bootstrap;
 
+use App\Providers\Cache as CacheProvider;
+use App\Providers\CliDispatcher as DispatcherProvider;
+use App\Providers\Config as ConfigProvider;
+use App\Providers\Crypt as CryptProvider;
+use App\Providers\Database as DatabaseProvider;
+use App\Providers\EventsManager as EventsManagerProvider;
+use App\Providers\Logger as LoggerProvider;
+use App\Providers\MetaData as MetaDataProvider;
+use App\Providers\Provider as AppProvider;
+use Phalcon\Cli\Console;
+use Phalcon\Di\FactoryDefault\Cli;
+use Phalcon\Loader;
+use Phalcon\Text;
+
 class ConsoleKernel extends Kernel
 {
 
     public function __construct()
     {
-        $this->di = new \Phalcon\Di\FactoryDefault\Cli();
-        $this->app = new \Phalcon\Cli\Console();
-        $this->loader = new \Phalcon\Loader();
+        $this->di = new Cli();
+        $this->app = new Console();
+        $this->loader = new Loader();
 
         $this->initAppEnv();
-        $this->initAppConfigs();
-        $this->initAppSettings();
+        $this->initAppConfig();
+        $this->initAppSetting();
         $this->registerLoaders();
         $this->registerServices();
         $this->registerErrorHandler();
@@ -35,9 +49,9 @@ class ConsoleKernel extends Kernel
 
             foreach ($_SERVER['argv'] as $k => $arg) {
                 if ($k == 1) {
-                    $options['task'] = $arg;
+                    $options['task'] = $this->handleTaskName($arg);
                 } elseif ($k == 2) {
-                    $options['action'] = $arg;
+                    $options['action'] = $this->handleActionName($arg);
                 } elseif ($k >= 3) {
                     $options['params'][] = $arg;
                 }
@@ -67,19 +81,23 @@ class ConsoleKernel extends Kernel
     protected function registerServices()
     {
         $providers = [
-            \App\Providers\Cache::class,
-            \App\Providers\Config::class,
-            \App\Providers\Crypt::class,
-            \App\Providers\Database::class,
-            \App\Providers\EventsManager::class,
-            \App\Providers\Logger::class,
-            \App\Providers\MetaData::class,
-            \App\Providers\Redis::class,
-            \App\Providers\CliDispatcher::class,
+            ConfigProvider::class,
+            CacheProvider::class,
+            CryptProvider::class,
+            DatabaseProvider::class,
+            EventsManagerProvider::class,
+            LoggerProvider::class,
+            MetaDataProvider::class,
+            DispatcherProvider::class,
         ];
 
         foreach ($providers as $provider) {
+
+            /**
+             * @var AppProvider $service
+             */
             $service = new $provider($this->di);
+
             $service->register();
         }
     }
@@ -87,6 +105,18 @@ class ConsoleKernel extends Kernel
     protected function registerErrorHandler()
     {
         return new ConsoleErrorHandler();
+    }
+
+    protected function handleTaskName($name)
+    {
+        return Text::uncamelize($name);
+    }
+
+    protected function handleActionName($name)
+    {
+        $name = Text::uncamelize($name);
+
+        return lcfirst(Text::camelize($name));
     }
 
 }

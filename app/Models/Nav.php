@@ -10,8 +10,8 @@ class Nav extends Model
     /**
      * 位置类型
      */
-    const POSITION_TOP = 'top';
-    const POSITION_BOTTOM = 'bottom';
+    const POS_TOP = 1; // 顶部
+    const POS_BOTTOM = 2; // 底部
 
     /**
      * 打开方式
@@ -22,16 +22,23 @@ class Nav extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
      * 上级编号
      *
-     * @var integer
+     * @var int
      */
     public $parent_id;
+
+    /**
+     * 层级
+     *
+     * @var int
+     */
+    public $level;
 
     /**
      * 名称
@@ -41,39 +48,11 @@ class Nav extends Model
     public $name;
 
     /**
-     * 优先级
-     *
-     * @var integer
-     */
-    public $priority;
-
-    /**
-     * 层级
-     *
-     * @var integer
-     */
-    public $level;
-
-    /**
      * 路径
      *
      * @var string
      */
     public $path;
-
-    /**
-     * 位置
-     *
-     * @var string
-     */
-    public $position;
-
-    /**
-     * 链接
-     *
-     * @var string
-     */
-    public $url;
 
     /**
      * 打开方式
@@ -83,36 +62,64 @@ class Nav extends Model
     public $target;
 
     /**
+     * 链接地址
+     *
+     * @var string
+     */
+    public $url;
+
+    /**
+     * 位置
+     *
+     * @var int
+     */
+    public $position;
+
+    /**
+     * 优先级
+     *
+     * @var int
+     */
+    public $priority;
+
+    /**
      * 发布标识
      *
-     * @var integer
+     * @var int
      */
     public $published;
 
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
+     * 节点数
+     *
+     * @var int
+     */
+    public $child_count;
+
+    /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'nav';
+        return 'kg_nav';
     }
 
     public function initialize()
@@ -129,32 +136,32 @@ class Nav extends Model
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
+
+        $this->update_time = time();
     }
 
-    public static function positions()
+    public static function posTypes()
     {
-        $list = [
-            self::POSITION_TOP => '顶部',
-            self::POSITION_BOTTOM => '底部',
+        return [
+            self::POS_TOP => '顶部',
+            self::POS_BOTTOM => '底部',
         ];
-
-        return $list;
     }
 
-    public static function targets()
+    public static function targetTypes()
     {
-        $list = [
+        return [
             self::TARGET_BLANK => '新窗口',
             self::TARGET_SELF => '原窗口',
         ];
-
-        return $list;
     }
 
 }

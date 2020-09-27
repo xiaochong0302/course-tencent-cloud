@@ -60,11 +60,11 @@ class NavController extends Controller
             'msg' => '创建导航成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.nav.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.nav.edit")
      */
     public function editAction($id)
     {
@@ -76,7 +76,7 @@ class NavController extends Controller
     }
 
     /**
-     * @Post("/{id}/update", name="admin.nav.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.nav.update")
      */
     public function updateAction($id)
     {
@@ -96,11 +96,11 @@ class NavController extends Controller
             'msg' => '更新导航成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.nav.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.nav.delete")
      */
     public function deleteAction($id)
     {
@@ -115,11 +115,11 @@ class NavController extends Controller
             'msg' => '删除导航成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.nav.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.nav.restore")
      */
     public function restoreAction($id)
     {
@@ -134,7 +134,7 @@ class NavController extends Controller
             'msg' => '还原导航成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

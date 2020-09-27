@@ -15,9 +15,9 @@ class SlideController extends Controller
      */
     public function listAction()
     {
-        $service = new SlideService();
+        $slideService = new SlideService();
 
-        $pager = $service->getSlides();
+        $pager = $slideService->getSlides();
 
         $this->view->setVar('pager', $pager);
     }
@@ -35,9 +35,9 @@ class SlideController extends Controller
      */
     public function createAction()
     {
-        $service = new SlideService();
+        $slideService = new SlideService();
 
-        $slide = $service->createSlide();
+        $slide = $slideService->createSlide();
 
         $location = $this->url->get([
             'for' => 'admin.slide.edit',
@@ -49,29 +49,29 @@ class SlideController extends Controller
             'msg' => '创建轮播成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.slide.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.slide.edit")
      */
     public function editAction($id)
     {
-        $service = new SlideService();
+        $slideService = new SlideService();
 
-        $slide = $service->getSlide($id);
+        $slide = $slideService->getSlide($id);
 
         $this->view->setVar('slide', $slide);
     }
 
     /**
-     * @Post("/{id}/update", name="admin.slide.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.slide.update")
      */
     public function updateAction($id)
     {
-        $service = new SlideService();
+        $slideService = new SlideService();
 
-        $service->updateSlide($id);
+        $slideService->updateSlide($id);
 
         $location = $this->url->get(['for' => 'admin.slide.list']);
 
@@ -80,17 +80,17 @@ class SlideController extends Controller
             'msg' => '更新轮播成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.slide.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.slide.delete")
      */
     public function deleteAction($id)
     {
-        $service = new SlideService();
+        $slideService = new SlideService();
 
-        $service->deleteSlide($id);
+        $slideService->deleteSlide($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -99,17 +99,17 @@ class SlideController extends Controller
             'msg' => '删除轮播成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.slide.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.slide.restore")
      */
     public function restoreAction($id)
     {
-        $service = new SlideService();
+        $slideService = new SlideService();
 
-        $service->restoreSlide($id);
+        $slideService->restoreSlide($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -118,7 +118,7 @@ class SlideController extends Controller
             'msg' => '还原轮播成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

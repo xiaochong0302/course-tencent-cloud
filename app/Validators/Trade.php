@@ -3,7 +3,6 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Trade as TradeRepo;
@@ -11,32 +10,67 @@ use App\Repos\Trade as TradeRepo;
 class Trade extends Validator
 {
 
-    /**
-     * @param integer $id
-     * @return \App\Models\Trade
-     * @throws NotFoundException
-     */
     public function checkTrade($id)
+    {
+        return $this->checkTradeById($id);
+    }
+
+    public function checkTradeById($id)
     {
         $tradeRepo = new TradeRepo();
 
         $trade = $tradeRepo->findById($id);
 
         if (!$trade) {
-            throw new NotFoundException('trade.not_found');
+            throw new BadRequestException('trade.not_found');
         }
 
         return $trade;
     }
 
-    public function checkIfAllowClose($trade)
+    public function checkTradeBySn($sn)
+    {
+        $tradeRepo = new TradeRepo();
+
+        $trade = $tradeRepo->findBySn($sn);
+
+        if (!$trade) {
+            throw new BadRequestException('trade.not_found');
+        }
+
+        return $trade;
+    }
+
+    public function checkChannel($channel)
+    {
+        $list = TradeModel::channelTypes();
+
+        if (!array_key_exists($channel, $list)) {
+            throw  new BadRequestException('trade.invalid_channel');
+        }
+
+        return $channel;
+    }
+
+    public function checkStatus($status)
+    {
+        $list = TradeModel::statusTypes();
+
+        if (!array_key_exists($status, $list)) {
+            throw new BadRequestException('trade.invalid_status');
+        }
+
+        return $status;
+    }
+
+    public function checkIfAllowClose(TradeModel $trade)
     {
         if ($trade->status != TradeModel::STATUS_PENDING) {
             throw new BadRequestException('trade.close_not_allowed');
         }
     }
 
-    public function checkIfAllowRefund($trade)
+    public function checkIfAllowRefund(TradeModel $trade)
     {
         if ($trade->status != TradeModel::STATUS_FINISHED) {
             throw new BadRequestException('trade.refund_not_allowed');
@@ -44,12 +78,15 @@ class Trade extends Validator
 
         $tradeRepo = new TradeRepo();
 
-        $refund = $tradeRepo->findLatestRefund($trade->sn);
+        $refund = $tradeRepo->findLastRefund($trade->id);
 
-        $scopes = [RefundModel::STATUS_PENDING, RefundModel::STATUS_APPROVED];
+        $scopes = [
+            RefundModel::STATUS_PENDING,
+            RefundModel::STATUS_APPROVED,
+        ];
 
         if ($refund && in_array($refund->status, $scopes)) {
-            throw new BadRequestException('trade.refund_existed');
+            throw new BadRequestException('trade.refund_apply_existed');
         }
     }
 

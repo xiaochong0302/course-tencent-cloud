@@ -2,9 +2,10 @@
 
 namespace App\Validators;
 
+use App\Caches\Course as CourseCache;
+use App\Caches\MaxCourseId as MaxCourseIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\NotFound as NotFoundException;
-use App\Library\Validator\Common as CommonValidator;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Course as CourseModel;
 use App\Repos\Course as CourseRepo;
 
@@ -12,34 +13,73 @@ class Course extends Validator
 {
 
     /**
-     * @param integer $id
-     * @return \App\Models\Course
-     * @throws NotFoundException
+     * @param int $id
+     * @return CourseModel
+     * @throws BadRequestException
      */
-    public function checkCourse($id)
+    public function checkCourseCache($id)
     {
-        $courseRepo = new CourseRepo();
+        $this->checkId($id);
 
-        $course = $courseRepo->findById($id);
+        $courseCache = new CourseCache();
+
+        $course = $courseCache->get($id);
 
         if (!$course) {
-            throw new NotFoundException('course.not_found');
+            throw new BadRequestException('course.not_found');
         }
 
         return $course;
     }
 
+    public function checkCourse($id)
+    {
+        $this->checkId($id);
+
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($id);
+
+        if (!$course) {
+            throw new BadRequestException('course.not_found');
+        }
+
+        return $course;
+    }
+
+    public function checkId($id)
+    {
+        $id = intval($id);
+
+        $maxIdCache = new MaxCourseIdCache();
+
+        $maxId = $maxIdCache->get();
+
+        if ($id < 1 || $id > $maxId) {
+            throw new BadRequestException('course.not_found');
+        }
+    }
+
     public function checkModel($model)
     {
-        $value = $this->filter->sanitize($model, ['trim', 'string']);
+        $list = CourseModel::modelTypes();
 
-        $scopes = CourseModel::models();
-
-        if (!isset($scopes[$value])) {
+        if (!array_key_exists($model, $list)) {
             throw new BadRequestException('course.invalid_model');
         }
 
-        return $value;
+        return $model;
+    }
+
+    public function checkLevel($level)
+    {
+        $list = CourseModel::levelTypes();
+
+        if (!array_key_exists($level, $list)) {
+            throw new BadRequestException('course.invalid_level');
+        }
+
+        return $level;
     }
 
     public function checkCover($cover)
@@ -50,9 +90,7 @@ class Course extends Validator
             throw new BadRequestException('course.invalid_cover');
         }
 
-        $result = parse_url($value, PHP_URL_PATH);
-
-        return $result;
+        return $value;
     }
 
     public function checkTitle($title)
@@ -74,7 +112,13 @@ class Course extends Validator
 
     public function checkDetails($details)
     {
-        $value = $this->filter->sanitize($details, ['trim']);
+        $value = $this->filter->sanitize($details, ['trim', 'striptags']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 5000) {
+            throw new BadRequestException('course.details_too_long');
+        }
 
         return $value;
     }
@@ -83,14 +127,38 @@ class Course extends Validator
     {
         $value = $this->filter->sanitize($summary, ['trim', 'string']);
 
+        $length = kg_strlen($value);
+
+        if ($length > 500) {
+            throw new BadRequestException('course.summary_too_long');
+        }
+
         return $value;
     }
 
     public function checkKeywords($keywords)
     {
-        $value = $this->filter->sanitize($keywords, ['trim', 'string']);
+        $keywords = $this->filter->sanitize($keywords, ['trim', 'string']);
 
-        return $value;
+        $length = kg_strlen($keywords);
+
+        if ($length > 100) {
+            throw new BadRequestException('course.keywords_too_long');
+        }
+
+        $keywords = str_replace(['|', ';', '；', '、', ','], '@', $keywords);
+        $keywords = explode('@', $keywords);
+
+        $list = [];
+
+        foreach ($keywords as $keyword) {
+            $keyword = trim($keyword);
+            if (kg_strlen($keyword) > 1) {
+                $list[] = $keyword;
+            }
+        }
+
+        return implode('，', $list);
     }
 
     public function checkMarketPrice($price)
@@ -115,42 +183,45 @@ class Course extends Validator
         return $value;
     }
 
-    public function checkExpiry($expiry)
+    public function checkComparePrice($marketPrice, $vipPrice)
     {
-        $value = $this->filter->sanitize($expiry, ['trim', 'int']);
-
-        if ($value < 1 || $value > 3 * 365) {
-            throw new BadRequestException('course.invalid_expiry');
+        if ($vipPrice > $marketPrice) {
+            throw new BadRequestException('course.invalid_compare_price');
         }
-
-        return $value;
     }
 
-    public function checkLevel($level)
+    public function checkStudyExpiry($expiry)
     {
-        $value = $this->filter->sanitize($level, ['trim', 'string']);
+        $options = CourseModel::studyExpiryOptions();
 
-        $scopes = CourseModel::levels();
-
-        if (!isset($scopes[$value])) {
-            throw new BadRequestException('course.invalid_level');
+        if (!isset($options[$expiry])) {
+            throw new BadRequestException('course.invalid_study_expiry');
         }
 
-        return $value;
+        return $expiry;
+    }
+
+    public function checkRefundExpiry($expiry)
+    {
+        $options = CourseModel::refundExpiryOptions();
+
+        if (!isset($options[$expiry])) {
+            throw new BadRequestException('course.invalid_refund_expiry');
+        }
+
+        return $expiry;
     }
 
     public function checkPublishStatus($status)
     {
-        $value = $this->filter->sanitize($status, ['trim', 'int']);
-
-        if (!in_array($value, [0, 1])) {
+        if (!in_array($status, [0, 1])) {
             throw new BadRequestException('course.invalid_publish_status');
         }
 
-        return $value;
+        return $status;
     }
 
-    public function checkPublishAbility($course)
+    public function checkPublishAbility(CourseModel $course)
     {
         $courseRepo = new CourseRepo();
 
@@ -158,7 +229,7 @@ class Course extends Validator
 
         $totalCount = $chapters->count();
 
-        if ($totalCount < 1) {
+        if ($totalCount == 0) {
             throw new BadRequestException('course.pub_chapter_not_found');
         }
 
@@ -170,8 +241,8 @@ class Course extends Validator
             }
         }
 
-        if ($publishedCount < $totalCount / 3) {
-            throw new BadRequestException('course.pub_chapter_too_few');
+        if ($publishedCount / $totalCount < 0.3) {
+            throw new BadRequestException('course.pub_chapter_not_enough');
         }
     }
 

@@ -1,19 +1,30 @@
 {
   "require": {
+    "ext-phalcon": "~3.4",
+    "ext-redis": "~5.0",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-fileinfo": "*",
     "phalcon/incubator": "^3.4",
     "guzzlehttp/guzzle": "^6.3",
     "swiftmailer/swiftmailer": "^6.0",
     "peppeocchi/php-cron-scheduler": "^2.4",
-    "yansongda/pay": "^2.8",
-    "xiaochong0302/ip2region": "dev-master",
-    "tencentcloud/tencentcloud-sdk-php": "3.*",
-    "qcloudsms/qcloudsms_php": "0.1.*",
-    "qcloud/cos-sdk-v5": "2.*",
-    "workerman/gateway-worker": "^3.0.12",
+    "yansongda/pay": "^2.9",
+    "tencentcloud/tencentcloud-sdk-php": "^3.0",
+    "qcloudsms/qcloudsms_php": "^0.1",
+    "qcloud/cos-sdk-v5": "^2.0",
+    "workerman/gateway-worker": "^3.0",
+    "workerman/gatewayclient": "^3.0",
     "whichbrowser/parser": "^2.0",
-    "hightman/xunsearch": "^1.4.14"
+    "hightman/xunsearch": "^1.4",
+    "aferrandini/phpqrcode": "1.0.1",
+    "xiaochong0302/ip2region": "^1.0",
+    "robmorgan/phinx": "^0.12",
+    "lcobucci/jwt": "^3.3"
   },
   "require-dev": {
+    "odan/phinx-migrations-generator": "^5.1",
+    "phalcon/ide-stubs": "^3.4"
   },
   "repositories": {
     "packagist": {

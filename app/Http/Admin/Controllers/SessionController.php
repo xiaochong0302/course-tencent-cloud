@@ -2,9 +2,10 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Http\Admin\Services\Config as ConfigService;
 use App\Http\Admin\Services\Session as SessionService;
-use App\Traits\Ajax as AjaxTrait;
+use App\Library\AppInfo as AppInfo;
+use App\Traits\Auth as AuthTrait;
+use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 
 /**
@@ -13,7 +14,8 @@ use App\Traits\Security as SecurityTrait;
 class SessionController extends \Phalcon\Mvc\Controller
 {
 
-    use AjaxTrait;
+    use AuthTrait;
+    use ResponseTrait;
     use SecurityTrait;
 
     /**
@@ -21,31 +23,32 @@ class SessionController extends \Phalcon\Mvc\Controller
      */
     public function loginAction()
     {
+        $user = $this->getCurrentUser();
+
+        if ($user->id > 0) {
+            $this->response->redirect(['for' => 'admin.index']);
+        }
+
+        $sessionService = new SessionService();
+
+        $captcha = $sessionService->getSettings('captcha');
+
         if ($this->request->isPost()) {
 
-            if (!$this->checkHttpReferer() || !$this->checkCsrfToken()) {
-                $this->dispatcher->forward([
-                    'controller' => 'public',
-                    'action' => 'forbidden',
-                ]);
-                return false;
-            }
-
-            $sessionService = new SessionService();
+            $this->checkHttpReferer();
+            $this->checkCsrfToken();
 
             $sessionService->login();
 
             $location = $this->url->get(['for' => 'admin.index']);
 
-            return $this->ajaxSuccess(['location' => $location]);
+            return $this->jsonSuccess(['location' => $location]);
         }
 
-        $configService = new ConfigService();
-
-        $captcha = $configService->getSectionConfig('captcha');
+        $appInfo = new AppInfo();
 
         $this->view->pick('public/login');
-
+        $this->view->setVar('app_info', $appInfo);
         $this->view->setVar('captcha', $captcha);
     }
 
@@ -54,9 +57,9 @@ class SessionController extends \Phalcon\Mvc\Controller
      */
     public function logoutAction()
     {
-        $service = new SessionService();
+        $sessionService = new SessionService();
 
-        $service->logout();
+        $sessionService->logout();
 
         $this->response->redirect(['for' => 'admin.login']);
     }

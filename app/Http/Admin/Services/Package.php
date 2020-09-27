@@ -2,6 +2,9 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\CoursePackageList as CoursePackageListCache;
+use App\Caches\Package as PackageCache;
+use App\Caches\PackageCourseList as PackageCourseListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\CoursePackage as CoursePackageModel;
 use App\Models\Package as PackageModel;
@@ -27,16 +30,12 @@ class Package extends Service
 
         $pageRepo = new PackageRepo();
 
-        $pager = $pageRepo->paginate($params, $sort, $page, $limit);
-
-        return $pager;
+        return $pageRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getPackage($id)
     {
-        $package = $this->findOrFail($id);
-
-        return $package;
+        return $this->findOrFail($id);
     }
 
     public function createPackage()
@@ -53,6 +52,8 @@ class Package extends Service
         $package = new PackageModel();
 
         $package->create($data);
+
+        $this->rebuildPackageCache($package);
 
         return $package;
     }
@@ -93,7 +94,9 @@ class Package extends Service
 
         $package->update($data);
 
-        $this->updateCourseCount($package);
+        $this->updatePackageCourseCount($package);
+
+        $this->rebuildPackageCache($package);
 
         return $package;
     }
@@ -102,13 +105,11 @@ class Package extends Service
     {
         $package = $this->findOrFail($id);
 
-        if ($package->deleted == 1) {
-            return false;
-        }
-
         $package->deleted = 1;
 
         $package->update();
+
+        $this->rebuildPackageCache($package);
 
         return $package;
     }
@@ -117,33 +118,32 @@ class Package extends Service
     {
         $package = $this->findOrFail($id);
 
-        if ($package->deleted == 0) {
-            return false;
-        }
-
         $package->deleted = 0;
 
         $package->update();
+
+        $this->rebuildPackageCache($package);
 
         return $package;
     }
 
     public function getGuidingCourses($courseIds)
     {
-        if (!$courseIds) return [];
+        if (empty($courseIds)) {
+            return [];
+        }
 
         $courseRepo = new CourseRepo();
 
         $ids = explode(',', $courseIds);
 
-        $courses = $courseRepo->findByIds($ids);
-
-        return $courses;
+        return $courseRepo->findByIds($ids);
     }
 
     public function getGuidingPrice($courses)
     {
-        $totalMarketPrice = $totalVipPrice = 0;
+        $totalMarketPrice = 0;
+        $totalVipPrice = 0;
 
         if ($courses) {
             foreach ($courses as $course) {
@@ -155,11 +155,10 @@ class Package extends Service
         $sgtMarketPrice = sprintf('%0.2f', intval($totalMarketPrice * 0.9));
         $sgtVipPrice = sprintf('%0.2f', intval($totalVipPrice * 0.8));
 
-        $price = new \stdClass();
-        $price->market_price = $sgtMarketPrice;
-        $price->vip_price = $sgtVipPrice;
-
-        return $price;
+        return [
+            'market_price' => $sgtMarketPrice,
+            'vip_price' => $sgtVipPrice,
+        ];
     }
 
     public function getXmCourses($id)
@@ -183,7 +182,7 @@ class Package extends Service
         return $list;
     }
 
-    protected function saveCourses($package, $courseIds)
+    protected function saveCourses(PackageModel $package, $courseIds)
     {
         $packageRepo = new PackageRepo();
 
@@ -197,7 +196,7 @@ class Package extends Service
             }
         }
 
-        $newCourseIds = explode(',', $courseIds);
+        $newCourseIds = $courseIds ? explode(',', $courseIds) : [];
         $addedCourseIds = array_diff($newCourseIds, $originCourseIds);
 
         if ($addedCourseIds) {
@@ -207,6 +206,8 @@ class Package extends Service
                     'course_id' => $courseId,
                     'package_id' => $package->id,
                 ]);
+                $this->updateCoursePackageCount($courseId);
+                $this->rebuildCoursePackageCache($courseId);
             }
         }
 
@@ -216,14 +217,14 @@ class Package extends Service
             $coursePackageRepo = new CoursePackageRepo();
             foreach ($deletedCourseIds as $courseId) {
                 $coursePackage = $coursePackageRepo->findCoursePackage($courseId, $package->id);
-                if ($coursePackage) {
-                    $coursePackage->delete();
-                }
+                $coursePackage->delete();
+                $this->updateCoursePackageCount($courseId);
+                $this->rebuildCoursePackageCache($courseId);
             }
         }
     }
 
-    protected function updateCourseCount($package)
+    protected function updatePackageCourseCount(PackageModel $package)
     {
         $packageRepo = new PackageRepo();
 
@@ -234,13 +235,42 @@ class Package extends Service
         $package->update();
     }
 
+    protected function updateCoursePackageCount($courseId)
+    {
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($courseId);
+
+        $packageCount = $courseRepo->countPackages($courseId);
+
+        $course->package_count = $packageCount;
+
+        $course->update();
+    }
+
+    protected function rebuildPackageCache(PackageModel $package)
+    {
+        $cache = new PackageCache();
+
+        $cache->rebuild($package->id);
+
+        $cache = new PackageCourseListCache();
+
+        $cache->rebuild($package->id);
+    }
+
+    protected function rebuildCoursePackageCache($courseId)
+    {
+        $cache = new CoursePackageListCache();
+
+        $cache->rebuild($courseId);
+    }
+
     protected function findOrFail($id)
     {
         $validator = new PackageValidator();
 
-        $result = $validator->checkPackage($id);
-
-        return $result;
+        return $validator->checkPackage($id);
     }
 
 }

@@ -2,32 +2,44 @@
 
 namespace App\Providers;
 
+use App\Listeners\Db as DbListener;
+use Phalcon\Config as Config;
 use Phalcon\Db\Adapter\Pdo\Mysql as MySqlAdapter;
+use Phalcon\Events\Manager as EventsManager;
 
-class Database extends AbstractProvider
+class Database extends Provider
 {
 
     protected $serviceName = 'db';
 
     public function register()
     {
-        $this->di->setShared($this->serviceName, function () {
+        /**
+         * @var Config $config
+         */
+        $config = $this->di->getShared('config');
 
-            $config = $this->getShared('config');
+        $this->di->setShared($this->serviceName, function () use ($config) {
 
             $options = [
-                'host' => $config->db->host ?: '127.0.0.1',
-                'port' => $config->db->host ?: 3306,
-                'dbname' => $config->db->dbname,
-                'username' => $config->db->username,
-                'password' => $config->db->password,
-                'charset' => $config->db->charset ?: 'utf8',
+                'host' => $config->path('db.host'),
+                'port' => $config->path('db.port'),
+                'dbname' => $config->path('db.dbname'),
+                'username' => $config->path('db.username'),
+                'password' => $config->path('db.password'),
+                'charset' => $config->path('db.charset'),
+                'options' => [
+                    \PDO::ATTR_EMULATE_PREPARES => false,
+                    \PDO::ATTR_STRINGIFY_FETCHES => false,
+                ],
             ];
 
             $connection = new MySqlAdapter($options);
 
-            if ($config->env == ENV_DEV) {
-                $connection->setEventsManager($this->getEventsManager());
+            if ($config->get('env') == ENV_DEV) {
+                $eventsManager = new EventsManager();
+                $eventsManager->attach('db', new DbListener());
+                $connection->setEventsManager($eventsManager);
             }
 
             return $connection;

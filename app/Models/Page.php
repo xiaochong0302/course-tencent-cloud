@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Caches\MaxPageId as MaxPageIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Page extends Model
@@ -10,7 +11,7 @@ class Page extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -29,29 +30,36 @@ class Page extends Model
     public $content;
 
     /**
+     * 发布标识
+     *
+     * @var int
+     */
+    public $published;
+
+    /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'page';
+        return 'kg_page';
     }
 
     public function initialize()
@@ -68,12 +76,30 @@ class Page extends Model
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        /**
+         * text类型不会自动填充默认值
+         */
+        if (is_null($this->content)) {
+            $this->content = '';
+        }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
+
+        $this->update_time = time();
+    }
+
+    public function afterCreate()
+    {
+        $cache = new MaxPageIdCache();
+
+        $cache->rebuild();
     }
 
 }

@@ -1,122 +1,106 @@
-<div class="kg-nav">
-    <div class="kg-nav-left">
-        <span class="layui-breadcrumb">
-            <a class="kg-back"><i class="layui-icon layui-icon-return"></i> 返回</a>
-            <a><cite>学员管理</cite></a>
-        </span>
-    </div>
-    <div class="kg-nav-right">
-        <a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.student.search'}) }}">
-            <i class="layui-icon layui-icon-search"></i>搜索学员
-        </a>
-        <a class="layui-btn layui-btn-sm" href="{{ url({'for':'admin.student.add'},{'course_id':course_id}) }}">
-            <i class="layui-icon layui-icon-add-1"></i>添加学员
-        </a>
-    </div>
-</div>
+{% extends 'templates/main.volt' %}
 
-<table class="kg-table layui-table layui-form">
-    <colgroup>
-        <col>
-        <col>
-        <col>
-        <col>
-        <col width="10%">
-    </colgroup>
-    <thead>
-    <tr>
-        <th>基本信息</th>
-        <th>学习情况</th>
-        <th>加入时间</th>
-        <th>过期时间</th>
-        <th>锁定</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for item in pager.items %}
+{% block content %}
+
+    {%- macro source_type_info(value) %}
+        {% if value == 1 %}
+            <span class="layui-badge layui-bg-green">免费</span>
+        {% elseif value == 2 %}
+            <span class="layui-badge layui-bg-orange">付费</span>
+        {% elseif value == 3 %}
+            <span class="layui-badge layui-bg-blue">导入</span>
+        {% endif %}
+    {%- endmacro %}
+
+    <div class="kg-nav">
+        <div class="kg-nav-left">
+            <span class="layui-breadcrumb">
+                <a class="kg-back"><i class="layui-icon layui-icon-return"></i>返回</a>
+                {% if course %}
+                    <a><cite>{{ course.title }}</cite></a>
+                {% endif %}
+                <a><cite>学员管理</cite></a>
+            </span>
+        </div>
+    </div>
+
+    <table class="layui-table kg-table">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col width="12%">
+        </colgroup>
+        <thead>
         <tr>
-            <td>
-                <p>课程：{{ item.course.title }}</p>
-                <p>学员：{{ item.user.name }}</p>
-            </td>
-            <td>
-                <div class="kg-progress">
-                    <div class="layui-progress layui-progress" lay-showPercent="yes">
-                        <div class="layui-progress-bar layui-bg-green" lay-percent="{{ item.progress }}%"></div>
-                    </div>
-                </div>
-                <p>时长：{{ item.duration|total_duration }}</p>
-            </td>
-            <td>{{ date('Y-m-d',item.created_at) }}</td>
-            <td>{{ date('Y-m-d',item.expire_time) }}</td>
-            <td><input type="checkbox" name="locked" value="1" lay-filter="switch-locked" lay-skin="switch" lay-text="是|否" course-id="{{ item.course_id }}" user-id="{{ item.user_id }}" {% if item.locked == 1 %}checked{% endif %}></td>
-            <td align="center">
-                <div class="layui-dropdown">
-                    <button class="layui-btn layui-btn-sm">操作 <span class="layui-icon layui-icon-triangle-d"></span></button>
-                    <ul>
-                        <li><a href="{{ url({'for':'admin.student.edit'},{'course_id':item.course_id,'user_id':item.user_id}) }}">编辑学员</a></li>
-                        <li><a class="kg-learning" href="javascript:;" url="{{ url({'for':'admin.student.learning'},{'course_id':item.course_id,'user_id':item.user_id}) }}">学习记录</a></li>
-                    </ul>
-                </div>
-            </td>
+            <th>基本信息</th>
+            <th>学习情况</th>
+            <th>成员来源</th>
+            <th>有效期限</th>
+            <th>操作</th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {% for item in pager.items %}
+            {% set learning_url = url({'for':'admin.student.learning'},{'course_id':item.course_id,'user_id':item.user_id,'plan_id':item.plan_id}) %}
+            {% set list_by_course_url = url({'for':'admin.student.list'},{'course_id':item.course.id}) %}
+            {% set list_by_user_url = url({'for':'admin.student.list'},{'user_id':item.user_id}) %}
+            {% set edit_url = url({'for':'admin.student.edit'},{'relation_id':item.id}) %}
+            <tr>
+                <td>
+                    <p>课程：<a href="{{ list_by_course_url }}">{{ item.course.title }}（{{ item.course.id }}）</a></p>
+                    <p>学员：<a href="{{ list_by_user_url }}">{{ item.user.name }}（{{ item.user.id }}）</a></p>
+                </td>
+                <td>
+                    <p>进度：<a href="javascript:" class="kg-learning" title="学习记录" data-url="{{ learning_url }}">{{ item.progress }}%</a></p>
+                    <p>时长：{{ item.duration|duration }}</p>
+                </td>
+                <td>{{ source_type_info(item.source_type) }}</td>
+                <td>
+                    <p>开始：{{ date('Y-m-d H:i:s',item.create_time) }}</p>
+                    <p>结束：{{ date('Y-m-d H:i:s',item.expiry_time) }}</p>
+                </td>
+                <td class="center">
+                    <div class="layui-dropdown">
+                        <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
+                        <ul>
+                            <li><a href="{{ edit_url }}">编辑学员</a></li>
+                            <li><a href="javascript:" class="kg-learning" data-url="{{ learning_url }}">学习记录</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-{{ partial('partials/pager') }}
+    {{ partial('partials/pager') }}
 
-<script>
+{% endblock %}
 
-    layui.use(['jquery', 'form'], function () {
+{% block inline_js %}
 
-        var $ = layui.jquery;
-        var form = layui.form;
+    <script>
 
-        form.on('switch(switch-locked)', function (data) {
-            var courseId = $(this).attr('course-id');
-            var userId = $(this).attr('user-id');
-            var checked = $(this).is(':checked');
-            var locked = checked ? 1 : 0;
-            var tips = locked == 1 ? '确定要锁定用户？' : '确定要解锁用户？';
-            layer.confirm(tips, function () {
-                $.ajax({
-                    type: 'POST',
-                    url: '/admin/student/update',
-                    data: {
-                        course_id: courseId,
-                        user_id: userId,
-                        locked: locked
-                    },
-                    success: function (res) {
-                        layer.msg(res.msg, {icon: 1});
-                    },
-                    error: function (xhr) {
-                        var json = JSON.parse(xhr.responseText);
-                        layer.msg(json.msg, {icon: 2});
-                        data.elem.checked = !checked;
-                        form.render();
-                    }
+        layui.use(['jquery', 'form'], function () {
+
+            var $ = layui.jquery;
+
+            $('.kg-learning').on('click', function () {
+                var url = $(this).data('url');
+                layer.open({
+                    id: 'xm-course',
+                    type: 2,
+                    title: '学习记录',
+                    resize: false,
+                    area: ['900px', '450px'],
+                    content: [url]
                 });
-            }, function () {
-                data.elem.checked = !checked;
-                form.render();
             });
+
         });
 
-        $('.kg-learning').on('click', function () {
-            var url = $(this).attr('url');
-            layer.open({
-                id: 'xm-course',
-                type: 2,
-                title: '学习记录',
-                resize: false,
-                area: ['800px', '450px'],
-                content: [url]
-            });
-        });
+    </script>
 
-    });
-
-</script>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Caches\MaxChapterId as MaxChapterIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Chapter extends Model
@@ -17,14 +18,20 @@ class Chapter extends Model
     const FS_FAILED = 'failed'; // 已失败
 
     /**
+     * 推流状态
+     */
+    const SS_ACTIVE = 'active'; // 活跃
+    const SS_INACTIVE = 'inactive'; // 静默
+    const SS_FORBID = 'forbid'; // 禁播
+
+    /**
      * @var array
      *
      * 点播扩展属性
      */
     protected $_vod_attrs = [
         'duration' => 0,
-        'file_id' => 0,
-        'file_status' => 'pending',
+        'file' => ['id' => '', 'status' => self::FS_PENDING],
     ];
 
     /**
@@ -35,6 +42,7 @@ class Chapter extends Model
     protected $_live_attrs = [
         'start_time' => 0,
         'end_time' => 0,
+        'stream' => ['status' => self::SS_INACTIVE],
     ];
 
     /**
@@ -42,28 +50,31 @@ class Chapter extends Model
      *
      * 图文扩展属性
      */
-    protected $_article_attrs = ['word_count' => 0];
+    protected $_read_attrs = [
+        'duration' => 0,
+        'word_count' => 0,
+    ];
 
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
-     * 课程编号
-     *
-     * @var integer
-     */
-    public $course_id;
-
-    /**
      * 父级编号
      *
-     * @var integer
+     * @var int
      */
     public $parent_id;
+
+    /**
+     * 课程编号
+     *
+     * @var int
+     */
+    public $course_id;
 
     /**
      * 标题
@@ -82,83 +93,97 @@ class Chapter extends Model
     /**
      * 优先级
      *
-     * @var integer
+     * @var int
      */
     public $priority;
 
     /**
      * 免费标识
      *
-     * @var integer
+     * @var int
      */
     public $free;
 
     /**
+     * 模式类型
+     *
+     * @var int
+     */
+    public $model;
+
+    /**
+     * 扩展属性
+     *
+     * @var string|array
+     */
+    public $attrs;
+
+    /**
      * 发布标识
      *
-     * @var integer
+     * @var int
      */
     public $published;
 
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
-     * 扩展属性
+     * 课时数
      *
-     * @var string
+     * @var int
      */
-    public $attrs;
+    public $lesson_count;
 
     /**
      * 学员数
      *
-     * @var integer
+     * @var int
      */
-    public $student_count;
+    public $user_count;
 
     /**
-     * 讨论数
+     * 咨询数
      *
-     * @var integer
+     * @var int
      */
-    public $thread_count;
-
-    /**
-     * 收藏数
-     *
-     * @var integer
-     */
-    public $favorite_count;
+    public $consult_count;
 
     /**
      * 点赞数
      *
-     * @var integer
+     * @var int
      */
     public $like_count;
 
     /**
+     * 资源数
+     *
+     * @var int
+     */
+    public $res_count;
+
+    /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'chapter';
+        return 'kg_chapter';
     }
 
     public function initialize()
@@ -175,11 +200,11 @@ class Chapter extends Model
 
     public function beforeCreate()
     {
-        $this->created_at = time();
+        $course = Course::findFirst($this->course_id);
+
+        $this->model = $course->model;
 
         if ($this->parent_id > 0) {
-
-            $course = Course::findFirstById($this->course_id);
 
             $attrs = [];
 
@@ -190,57 +215,41 @@ class Chapter extends Model
                 case Course::MODEL_LIVE:
                     $attrs = $this->_live_attrs;
                     break;
-                case Course::MODEL_ARTICLE:
-                    $attrs = $this->_article_attrs;
+                case Course::MODEL_READ:
+                    $attrs = $this->_read_attrs;
                     break;
             }
 
-            $this->attrs = $attrs ? kg_json_encode($attrs) : '';
+            $this->attrs = kg_json_encode($attrs);
         }
 
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
-
-        if (!empty($this->attrs)) {
+        if (is_array($this->attrs) && !empty($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
-    }
 
-    public function afterFetch()
-    {
-        if (!empty($this->attrs)) {
-            $this->attrs = json_decode($this->attrs);
+        if ($this->deleted == 1) {
+            $this->published = 0;
         }
+
+        $this->update_time = time();
     }
 
     public function afterCreate()
     {
-        if ($this->parent_id > 0) {
+        $cache = new MaxChapterIdCache();
 
-            $course = Course::findFirstById($this->course_id);
+        $cache->rebuild();
+    }
 
-            $data = [
-                'course_id' => $course->id,
-                'chapter_id' => $this->id,
-            ];
-
-            switch ($course->model) {
-                case Course::MODEL_VOD:
-                    $model = new ChapterVod();
-                    $model->create($data);
-                    break;
-                case Course::MODEL_LIVE:
-                    $model = new ChapterLive();
-                    $model->create($data);
-                    break;
-                case Course::MODEL_ARTICLE:
-                    $model = new ChapterArticle();
-                    $model->create($data);
-                    break;
-            }
+    public function afterFetch()
+    {
+        if (is_string($this->attrs) && !empty($this->attrs)) {
+            $this->attrs = json_decode($this->attrs, true);
         }
     }
 

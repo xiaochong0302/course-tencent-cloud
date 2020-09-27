@@ -4,20 +4,10 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Learning as LearningModel;
+use Phalcon\Mvc\Model;
 
 class Learning extends Repository
 {
-
-    /**
-     * @param string $requestId
-     * @return LearningModel $result
-     */
-    public function findByRequestId($requestId)
-    {
-        $result = LearningModel::findFirstByRequestId($requestId);
-
-        return $result;
-    }
 
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
@@ -27,8 +17,8 @@ class Learning extends Repository
 
         $builder->where('1 = 1');
 
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['plan_id'])) {
+            $builder->andWhere('plan_id = :plan_id:', ['plan_id' => $where['plan_id']]);
         }
 
         if (!empty($where['course_id'])) {
@@ -37,6 +27,14 @@ class Learning extends Repository
 
         if (!empty($where['chapter_id'])) {
             $builder->andWhere('chapter_id = :chapter_id:', ['chapter_id' => $where['chapter_id']]);
+        }
+
+        if (!empty($where['user_id'])) {
+            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        }
+
+        if (isset($where['deleted'])) {
+            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
         switch ($sort) {
@@ -53,7 +51,28 @@ class Learning extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return LearningModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return LearningModel::findFirst($id);
+    }
+
+    /**
+     * @param string $requestId
+     * @return LearningModel|Model|bool
+     */
+    public function findByRequestId($requestId)
+    {
+        return LearningModel::findFirst([
+            'conditions' => 'request_id = :request_id:',
+            'bind' => ['request_id' => $requestId],
+        ]);
     }
 
 }

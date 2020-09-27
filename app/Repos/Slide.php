@@ -4,42 +4,12 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Slide as SlideModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Slide extends Repository
 {
-
-    /**
-     * @param integer $id
-     * @return SlideModel
-     */
-    public function findById($id)
-    {
-        $result = SlideModel::findFirstById($id);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = SlideModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    public function findTopSlides($limit = 5)
-    {
-        $result = SlideModel::query()
-            ->andWhere('published = :published:', ['published' => 1])
-            ->andWhere('deleted = :deleted:', ['deleted' => 0])
-            ->orderBy('priority ASC')
-            ->limit($limit)
-            ->execute();
-
-        return $result;
-    }
 
     public function paginate($where = [], $sort = 'priority', $page = 1, $limit = 15)
     {
@@ -75,7 +45,29 @@ class Slide extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return SlideModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return SlideModel::findFirst($id);
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|SlideModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return SlideModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
     }
 
 }

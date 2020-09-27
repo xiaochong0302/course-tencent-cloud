@@ -2,10 +2,11 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\ReviewList as ReviewListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Review as ReviewRepo;
-use App\Transformers\ReviewList as ReviewListTransformer;
+use App\Services\CourseStat as CourseStatService;
 use App\Validators\Review as ReviewValidator;
 
 class Review extends Service
@@ -34,16 +35,12 @@ class Review extends Service
     {
         $courseRepo = new CourseRepo();
 
-        $result = $courseRepo->findById($courseId);
-
-        return $result;
+        return $courseRepo->findById($courseId);
     }
 
     public function getReview($id)
     {
-        $result = $this->findOrFail($id);
-
-        return $result;
+        return $this->findOrFail($id);
     }
 
     public function updateReview($id)
@@ -60,8 +57,16 @@ class Review extends Service
             $data['content'] = $validator->checkContent($post['content']);
         }
 
-        if (isset($post['rating'])) {
-            $data['rating'] = $validator->checkRating($post['rating']);
+        if (isset($post['rating1'])) {
+            $data['rating1'] = $validator->checkRating($post['rating1']);
+        }
+
+        if (isset($post['rating2'])) {
+            $data['rating2'] = $validator->checkRating($post['rating2']);
+        }
+
+        if (isset($post['rating3'])) {
+            $data['rating3'] = $validator->checkRating($post['rating3']);
         }
 
         if (isset($post['published'])) {
@@ -70,6 +75,8 @@ class Review extends Service
 
         $review->update($data);
 
+        $this->updateCourseRating($review->course_id);
+
         return $review;
     }
 
@@ -77,59 +84,70 @@ class Review extends Service
     {
         $review = $this->findOrFail($id);
 
-        if ($review->deleted == 1) return false;
-
         $review->deleted = 1;
 
         $review->update();
 
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($review->course_id);
-
-        $course->review_count -= 1;
-
-        $course->update();
+        $this->decrCourseReviewCount($review->course_id);
     }
 
     public function restoreReview($id)
     {
         $review = $this->findOrFail($id);
 
-        if ($review->deleted == 0) return false;
-
         $review->deleted = 0;
 
         $review->update();
 
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($review->course_id);
-
-        $course->review_count += 1;
-
-        $course->update();
+        $this->incrCourseReviewCount($review->course_id);
     }
 
     protected function findOrFail($id)
     {
         $validator = new ReviewValidator();
 
-        $result = $validator->checkReview($id);
+        return $validator->checkReview($id);
+    }
 
-        return $result;
+    protected function incrCourseReviewCount($courseId)
+    {
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($courseId);
+
+        $course->review_count -= 1;
+
+        $course->update();
+    }
+
+    protected function decrCourseReviewCount($courseId)
+    {
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($courseId);
+
+        $course->review_count += 1;
+
+        $course->update();
+    }
+
+    protected function updateCourseRating($courseId)
+    {
+        $service = new CourseStatService();
+
+        $service->updateRating($courseId);
     }
 
     protected function handleReviews($pager)
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new ReviewListTransformer();
+            $builder = new ReviewListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleCourses($pipeA);
-            $pipeC = $transformer->handleUsers($pipeB);
-            $pipeD = $transformer->arrayToObject($pipeC);
+            $pipeB = $builder->handleCourses($pipeA);
+            $pipeC = $builder->handleUsers($pipeB);
+            $pipeD = $builder->objects($pipeC);
 
             $pager->items = $pipeD;
         }

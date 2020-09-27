@@ -31,25 +31,40 @@ class RefundController extends Controller
     }
 
     /**
-     * @Get("/{id}/show", name="admin.refund.show")
+     * @Get("/{id:[0-9]+}/show", name="admin.refund.show")
      */
     public function showAction($id)
     {
         $refundService = new RefundService();
 
         $refund = $refundService->getRefund($id);
-        $order = $refundService->getOrder($refund->order_sn);
-        $trade = $refundService->getTrade($refund->trade_sn);
-        $user = $refundService->getUser($trade->user_id);
+        $order = $refundService->getOrder($refund->order_id);
+        $trade = $refundService->getTrade($refund->trade_id);
+        $account = $refundService->getAccount($trade->owner_id);
+        $user = $refundService->getUser($trade->owner_id);
 
         $this->view->setVar('refund', $refund);
         $this->view->setVar('order', $order);
         $this->view->setVar('trade', $trade);
+        $this->view->setVar('account', $account);
         $this->view->setVar('user', $user);
     }
 
     /**
-     * @Post("/{id}/review", name="admin.refund.review")
+     * @Get("/{id:[0-9]+}/status/history", name="admin.refund.status_history")
+     */
+    public function statusHistoryAction($id)
+    {
+        $refundService = new RefundService();
+
+        $statusHistory = $refundService->getStatusHistory($id);
+
+        $this->view->pick('refund/status_history');
+        $this->view->setVar('status_history', $statusHistory);
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/review", name="admin.refund.review")
      */
     public function reviewAction($id)
     {
@@ -64,7 +79,7 @@ class RefundController extends Controller
             'msg' => '审核退款成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

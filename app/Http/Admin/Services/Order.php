@@ -2,11 +2,11 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Builders\OrderList as OrderListBuilder;
 use App\Library\Paginator\Query as PaginateQuery;
-use App\Models\Order as OrderModel;
+use App\Repos\Account as AccountRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
-use App\Transformers\OrderList as OrderListTransformer;
 use App\Validators\Order as OrderValidator;
 
 class Order extends Service
@@ -17,6 +17,9 @@ class Order extends Service
         $pageQuery = new PaginateQuery();
 
         $params = $pageQuery->getParams();
+
+        $params['deleted'] = $params['deleted'] ?? 0;
+
         $sort = $pageQuery->getSort();
         $page = $pageQuery->getPage();
         $limit = $pageQuery->getLimit();
@@ -32,67 +35,59 @@ class Order extends Service
     {
         $orderRepo = new OrderRepo();
 
-        $trades = $orderRepo->findTrades($sn);
-
-        return $trades;
+        return $orderRepo->findTrades($sn);
     }
 
     public function getRefunds($sn)
     {
         $orderRepo = new OrderRepo();
 
-        $trades = $orderRepo->findRefunds($sn);
-
-        return $trades;
+        return $orderRepo->findRefunds($sn);
     }
 
     public function getUser($userId)
     {
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($userId);
+        return $userRepo->findById($userId);
+    }
 
-        return $user;
+    public function getAccount($userId)
+    {
+        $accountRepo = new AccountRepo();
+
+        return $accountRepo->findById($userId);
     }
 
     public function getOrder($id)
     {
-        $order = $this->findOrFail($id);
-
-        return $order;
+        return $this->findOrFail($id);
     }
 
-    public function closeOrder($id)
+    public function getStatusHistory($id)
     {
-        $order = $this->findOrFail($id);
+        $orderRepo = new OrderRepo();
 
-        if ($order->status == OrderModel::STATUS_PENDING) {
-            $order->status = OrderModel::STATUS_CLOSED;
-            $order->update();
-        }
-
-        return $order;
+        return $orderRepo->findStatusHistory($id);
     }
 
     protected function findOrFail($id)
     {
         $validator = new OrderValidator();
 
-        $result = $validator->checkOrder($id);
-
-        return $result;
+        return $validator->checkOrderById($id);
     }
 
     protected function handleOrders($pager)
     {
         if ($pager->total_items > 0) {
 
-            $transformer = new OrderListTransformer();
+            $builder = new OrderListBuilder();
 
             $pipeA = $pager->items->toArray();
-            $pipeB = $transformer->handleItems($pipeA);
-            $pipeC = $transformer->handleUsers($pipeB);
-            $pipeD = $transformer->arrayToObject($pipeC);
+            $pipeB = $builder->handleItems($pipeA);
+            $pipeC = $builder->handleUsers($pipeB);
+            $pipeD = $builder->objects($pipeC);
 
             $pager->items = $pipeD;
         }

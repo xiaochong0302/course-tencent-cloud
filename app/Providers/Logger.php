@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Library\Logger as AppLogger;
 
-class Logger extends AbstractProvider
+class Logger extends Provider
 {
 
     protected $serviceName = 'logger';

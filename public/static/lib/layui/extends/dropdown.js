@@ -51,7 +51,7 @@ layui.define(['jquery'], function (exports) {
                 });
             }
         })
-    }
+    };
 
     //自动完成渲染
     dropdown.render();

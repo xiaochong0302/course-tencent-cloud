@@ -2,13 +2,15 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Validators\User as UserValidator;
+use App\Services\Auth\Admin as AdminAuth;
+use App\Validators\Account as AccountValidator;
+use App\Validators\Captcha as CaptchaValidator;
 
 class Session extends Service
 {
 
     /**
-     * @var $auth \App\Http\Admin\Services\AuthUser
+     * @var AdminAuth
      */
     protected $auth;
 
@@ -19,33 +21,36 @@ class Session extends Service
 
     public function login()
     {
+        $currentUser = $this->getCurrentUser();
+
+        if ($currentUser->id > 0) {
+            $this->response->redirect(['for' => 'home.index']);
+        }
+
         $post = $this->request->getPost();
 
-        $validator = new UserValidator();
+        $accountValidator = new AccountValidator();
 
-        $user = $validator->checkLoginAccount($post['account']);
+        $user = $accountValidator->checkAdminLogin($post['account'], $post['password']);
 
-        $validator->checkLoginPassword($user, $post['password']);
-
-        $validator->checkAdminLogin($user);
-
-        $config = new Config();
-
-        $captcha = $config->getSectionConfig('captcha');
+        $captchaSettings = $this->getSettings('captcha');
 
         /**
          * 验证码是一次性的，放到最后检查，减少第三方调用
          */
-        if ($captcha->enabled) {
-            $validator->checkCaptchaCode($post['ticket'], $post['rand']);
+        if ($captchaSettings['enabled'] == 1) {
+
+            $captchaValidator = new CaptchaValidator();
+
+            $captchaValidator->checkCode($post['ticket'], $post['rand']);
         }
 
-        $this->auth->setAuthUser($user);
+        $this->auth->saveAuthInfo($user);
     }
 
     public function logout()
     {
-        $this->auth->removeAuthUser();
+        $this->auth->clearAuthInfo();
     }
 
 }

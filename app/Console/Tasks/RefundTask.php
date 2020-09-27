@@ -10,13 +10,20 @@ use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Refund as RefundRepo;
 use App\Repos\Trade as TradeRepo;
-use App\Services\Alipay as AlipayService;
-use App\Services\Wxpay as WxpayService;
+use App\Repos\User as UserRepo;
+use App\Services\Pay\Alipay as AlipayService;
+use App\Services\Pay\Wxpay as WxpayService;
+use App\Services\Sms\Refund as RefundSms;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class RefundTask extends Task
 {
 
-    const TRY_COUNT = 5;
+    /**
+     * 重试次数
+     */
+    const TRY_COUNT = 3;
 
     public function mainAction()
     {
@@ -34,15 +41,32 @@ class RefundTask extends Task
 
         foreach ($tasks as $task) {
 
-            $refund = $refundRepo->findBySn($task->item_info['refund']['sn']);
-            $trade = $tradeRepo->findBySn($task->item_info['refund']['trade_sn']);
-            $order = $orderRepo->findBySn($task->item_info['refund']['order_sn']);
+            /**
+             * @var array $itemInfo
+             */
+            $itemInfo = $task->item_info;
+
+            $refund = $refundRepo->findById($itemInfo['refund']['id']);
+            $trade = $tradeRepo->findById($itemInfo['refund']['trade_id']);
+            $order = $orderRepo->findById($itemInfo['refund']['order_id']);
+
+            if (!$refund || !$trade || !$order) {
+                continue;
+            }
+
+            /**
+             * 退款存在延迟，给取消退款调解机会
+             */
+            if (isset($itemInfo['deadline']) && $itemInfo['deadline'] > time()) {
+                continue;
+            }
 
             try {
 
                 $this->db->begin();
 
                 $this->handleTradeRefund($trade, $refund);
+
                 $this->handleOrderRefund($order);
 
                 $refund->status = RefundModel::STATUS_FINISHED;
@@ -71,24 +95,31 @@ class RefundTask extends Task
 
                 $this->db->commit();
 
+                $this->handleRefundNotice($refund);
+
             } catch (\Exception $e) {
 
                 $this->db->rollback();
 
                 $task->try_count += 1;
+                $task->priority += 1;
 
                 if ($task->try_count > self::TRY_COUNT) {
                     $task->status = TaskModel::STATUS_FAILED;
-                    $refund->status = RefundModel::STATUS_FAILED;
-                    $refund->update();
                 }
 
                 $task->update();
 
                 $logger->info('Refund Task Exception ' . kg_json_encode([
+                        'code' => $e->getCode(),
                         'message' => $e->getMessage(),
                         'task' => $task->toArray(),
                     ]));
+            }
+
+            if ($task->status == TaskModel::STATUS_FAILED) {
+                $refund->status = RefundModel::STATUS_FAILED;
+                $refund->update();
             }
         }
     }
@@ -104,24 +135,20 @@ class RefundTask extends Task
         $response = false;
 
         if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
+
             $alipay = new AlipayService();
-            $response = $alipay->refundOrder([
-                'out_trade_no' => $trade->sn,
-                'out_request_no' => $refund->sn,
-                'refund_amount' => $refund->amount,
-            ]);
+
+            $response = $alipay->refund($refund);
+
         } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
+
             $wxpay = new WxpayService();
-            $response = $wxpay->refundOrder([
-                'out_trade_no' => $trade->sn,
-                'out_refund_no' => $refund->sn,
-                'total_fee' => 100 * $trade->order_amount,
-                'refund_fee' => 100 * $refund->amount,
-            ]);
+
+            $response = $wxpay->refund($refund);
         }
 
         if (!$response) {
-            throw new \RuntimeException('Payment Refund Failed');
+            throw new \RuntimeException('Pay Refund Failed');
         }
     }
 
@@ -133,19 +160,19 @@ class RefundTask extends Task
     protected function handleOrderRefund(OrderModel $order)
     {
         switch ($order->item_type) {
-            case OrderModel::TYPE_COURSE:
+            case OrderModel::ITEM_COURSE:
                 $this->handleCourseOrderRefund($order);
                 break;
-            case OrderModel::TYPE_PACKAGE:
+            case OrderModel::ITEM_PACKAGE:
                 $this->handlePackageOrderRefund($order);
                 break;
-            case OrderModel::TYPE_REWARD:
-                $this->handleRewardOrderRefund($order);
-                break;
-            case OrderModel::TYPE_VIP:
+            case OrderModel::ITEM_VIP:
                 $this->handleVipOrderRefund($order);
                 break;
-            case OrderModel::TYPE_TEST:
+            case OrderModel::ITEM_REWARD:
+                $this->handleRewardOrderRefund($order);
+                break;
+            case OrderModel::ITEM_TEST:
                 $this->handleTestOrderRefund($order);
                 break;
         }
@@ -160,10 +187,12 @@ class RefundTask extends Task
     {
         $courseUserRepo = new CourseUserRepo();
 
-        $courseUser = $courseUserRepo->findCourseStudent($order->item_id, $order->user_id);
+        $courseUser = $courseUserRepo->findCourseStudent($order->item_id, $order->owner_id);
 
         if ($courseUser) {
+
             $courseUser->deleted = 1;
+
             if ($courseUser->update() === false) {
                 throw new \RuntimeException('Delete Course User Failed');
             }
@@ -179,10 +208,19 @@ class RefundTask extends Task
     {
         $courseUserRepo = new CourseUserRepo();
 
-        foreach ($order->item_info['courses'] as $course) {
-            $courseUser = $courseUserRepo->findCourseStudent($course['id'], $order->user_id);
+        /**
+         * @var array $itemInfo
+         */
+        $itemInfo = $order->item_info;
+
+        foreach ($itemInfo['courses'] as $course) {
+
+            $courseUser = $courseUserRepo->findCourseStudent($course['id'], $order->owner_id);
+
             if ($courseUser) {
+
                 $courseUser->deleted = 1;
+
                 if ($courseUser->update() === false) {
                     throw new \RuntimeException('Delete Course User Failed');
                 }
@@ -199,26 +237,19 @@ class RefundTask extends Task
     {
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($order->user_id);
+        $user = $userRepo->findById($order->owner_id);
 
-        $baseTime = $user->vip_expiry;
+        /**
+         * @var array $itemInfo
+         */
+        $itemInfo = $order->item_info;
 
-        switch ($order->item_info['vip']['duration']) {
-            case 'one_month':
-                $user->vip_expiry = strtotime('-1 months', $baseTime);
-                break;
-            case 'three_month':
-                $user->vip_expiry = strtotime('-3 months', $baseTime);
-                break;
-            case 'six_month':
-                $user->vip_expiry = strtotime('-6 months', $baseTime);
-                break;
-            case 'twelve_month':
-                $user->vip_expiry = strtotime('-12 months', $baseTime);
-                break;
-        }
+        $diffTime = "-{$itemInfo['vip']['expiry']} months";
+        $baseTime = $itemInfo['vip']['expiry_time'];
 
-        if ($user->vip_expiry < time()) {
+        $user->vip_expiry_time = strtotime($diffTime, $baseTime);
+
+        if ($user->vip_expiry_time < time()) {
             $user->vip = 0;
         }
 
@@ -228,7 +259,7 @@ class RefundTask extends Task
     }
 
     /**
-     * 处理打赏订单退款
+     * 处理测试订单退款
      *
      * @param OrderModel $order
      */
@@ -248,26 +279,32 @@ class RefundTask extends Task
     }
 
     /**
-     * 查找退款任务
-     *
-     * @param integer $limit
-     * @return \Phalcon\Mvc\Model\ResultsetInterface
+     * @param RefundModel $refund
      */
-    protected function findTasks($limit = 5)
+    protected function handleRefundNotice(RefundModel $refund)
+    {
+        $sms = new RefundSms();
+
+        $sms->handle($refund);
+    }
+
+    /**
+     * @param int $limit
+     * @return ResultsetInterface|Resultset|TaskModel[]
+     */
+    protected function findTasks($limit = 30)
     {
         $itemType = TaskModel::TYPE_REFUND;
         $status = TaskModel::STATUS_PENDING;
         $tryCount = self::TRY_COUNT;
 
-        $tasks = TaskModel::query()
+        return TaskModel::query()
             ->where('item_type = :item_type:', ['item_type' => $itemType])
             ->andWhere('status = :status:', ['status' => $status])
-            ->andWhere('try_count < :try_count:', ['try_count' => $tryCount])
-            ->orderBy('priority ASC,try_count DESC')
+            ->andWhere('try_count < :try_count:', ['try_count' => $tryCount + 1])
+            ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();
-
-        return $tasks;
     }
 
 }

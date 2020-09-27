@@ -3,8 +3,10 @@
 namespace App\Console\Tasks;
 
 use App\Models\Trade as TradeModel;
-use App\Services\Alipay as AlipayService;
-use Phalcon\Cli\Task;
+use App\Services\Pay\Alipay as AlipayService;
+use App\Services\Pay\Wxpay as WxpayService;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class CloseTradeTask extends Task
 {
@@ -19,29 +21,44 @@ class CloseTradeTask extends Task
 
         foreach ($trades as $trade) {
             if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
-                $this->closeAlipayTrade($trade);
+                $this->handleAlipayTrade($trade);
             } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
-                $this->closeWxpayTrade($trade);
+                $this->handleWxpayTrade($trade);
             }
         }
     }
 
     /**
-     * 关闭支付宝交易
+     * 处理支付宝交易
      *
      * @param TradeModel $trade
      */
-    protected function closeAlipayTrade($trade)
+    protected function handleAlipayTrade(TradeModel $trade)
     {
-        $service = new AlipayService();
+        $allowClosed = true;
 
-        $alyOrder = $service->findOrder($trade->sn);
+        $alipay = new AlipayService();
 
-        if ($alyOrder) {
-            if ($alyOrder->trade_status == 'WAIT_BUYER_PAY') {
-                $service->closeOrder($trade->sn);
+        $alipayTrade = $alipay->find($trade->sn);
+
+        if ($alipayTrade) {
+
+            /**
+             * 异步通知接收异常，补救漏网
+             */
+            if ($alipayTrade->trade_status == 'TRADE_SUCCESS') {
+
+                $this->eventsManager->fire('pay:afterPay', $this, $trade);
+
+                $allowClosed = false;
+
+            } elseif ($alipayTrade->trade_status == 'WAIT_BUYER_PAY') {
+
+                $allowClosed = $alipay->close($trade->sn);
             }
         }
+
+        if (!$allowClosed) return;
 
         $trade->status = TradeModel::STATUS_CLOSED;
 
@@ -49,21 +66,36 @@ class CloseTradeTask extends Task
     }
 
     /**
-     * 关闭微信交易
+     * 处理微信交易
      *
      * @param TradeModel $trade
      */
-    protected function closeWxpayTrade($trade)
+    protected function handleWxpayTrade(TradeModel $trade)
     {
-        $service = new WxpayService();
+        $allowClosed = true;
 
-        $wxOrder = $service->findOrder($trade->sn);
+        $wxpay = new WxpayService();
 
-        if ($wxOrder) {
-            if ($wxOrder->trade_state == 'NOTPAY') {
-                $service->closeOrder($trade->sn);
+        $wxpayTrade = $wxpay->find($trade->sn);
+
+        if ($wxpayTrade) {
+
+            /**
+             * 异步通知接收异常，补救漏网
+             */
+            if ($wxpayTrade->trade_state == 'SUCCESS') {
+
+                $this->eventsManager->fire('pay:afterPay', $this, $trade);
+
+                $allowClosed = false;
+
+            } elseif ($wxpayTrade->trade_state == 'NOTPAY') {
+
+                $allowClosed = $wxpay->close($trade->sn);
             }
         }
+
+        if (!$allowClosed) return;
 
         $trade->status = TradeModel::STATUS_CLOSED;
 
@@ -73,22 +105,20 @@ class CloseTradeTask extends Task
     /**
      * 查找待关闭交易
      *
-     * @param integer $limit
-     * @return \Phalcon\Mvc\Model\ResultsetInterface
+     * @param int $limit
+     * @return ResultsetInterface|Resultset|TradeModel[]
      */
-    protected function findTrades($limit = 5)
+    protected function findTrades($limit = 50)
     {
         $status = TradeModel::STATUS_PENDING;
 
-        $createdAt = time() - 15 * 60;
+        $createTime = time() - 15 * 60;
 
-        $trades = TradeModel::query()
+        return TradeModel::query()
             ->where('status = :status:', ['status' => $status])
-            ->andWhere('created_at < :created_at:', ['created_at' => $createdAt])
+            ->andWhere('create_time < :create_time:', ['create_time' => $createTime])
             ->limit($limit)
             ->execute();
-
-        return $trades;
     }
 
 }

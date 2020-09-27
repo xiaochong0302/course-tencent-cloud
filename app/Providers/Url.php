@@ -2,24 +2,27 @@
 
 namespace App\Providers;
 
-use Phalcon\Mvc\Url as UrlResolver;
+use Phalcon\Config;
+use Phalcon\Mvc\Url as PhUrl;
 
-class Url extends AbstractProvider
+class Url extends Provider
 {
 
     protected $serviceName = 'url';
 
     public function register()
     {
-        $this->di->setShared($this->serviceName, function() {
+        /**
+         * @var Config $config
+         */
+        $config = $this->di->getShared('config');
 
-            $config = $this->getShared('config');
+        $this->di->setShared($this->serviceName, function () use ($config) {
 
-            $url = new UrlResolver();
+            $url = new PhUrl();
 
-            $url->setBaseUri($config->url->base);
-
-            $url->setStaticBaseUri($config->url->static);
+            $url->setBaseUri($config->get('base_uri'));
+            $url->setStaticBaseUri($config->get('static_base_uri'));
 
             return $url;
         });

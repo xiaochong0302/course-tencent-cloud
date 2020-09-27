@@ -2,7 +2,6 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Http\Admin\Services\AuthNode;
 use App\Http\Admin\Services\Role as RoleService;
 
 /**
@@ -50,30 +49,25 @@ class RoleController extends Controller
             'msg' => '创建角色成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.role.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.role.edit")
      */
     public function editAction($id)
     {
         $roleService = new RoleService();
 
         $role = $roleService->getRole($id);
-
-        //dd($role->routes);
-
-        $adminNode = new AuthNode();
-
-        $nodes = $adminNode->getAllNodes();
+        $authNodes = $roleService->getAuthNodes();
 
         $this->view->setVar('role', $role);
-        $this->view->setVar('nodes', kg_array_object($nodes));
+        $this->view->setVar('auth_nodes', $authNodes);
     }
 
     /**
-     * @Post("/{id}/update", name="admin.role.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.role.update")
      */
     public function updateAction($id)
     {
@@ -88,11 +82,11 @@ class RoleController extends Controller
             'msg' => '更新角色成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.role.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.role.delete")
      */
     public function deleteAction($id)
     {
@@ -107,11 +101,11 @@ class RoleController extends Controller
             'msg' => '删除角色成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.role.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.role.restore")
      */
     public function restoreAction($id)
     {
@@ -126,7 +120,7 @@ class RoleController extends Controller
             'msg' => '还原角色成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

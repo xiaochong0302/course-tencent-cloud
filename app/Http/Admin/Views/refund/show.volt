@@ -1,125 +1,92 @@
-{{ partial('order/macro') }}
-{{ partial('trade/macro') }}
-{{ partial('refund/macro') }}
+{% extends 'templates/main.volt' %}
 
-<fieldset class="layui-elem-field layui-field-title">
-    <legend>退款信息</legend>
-</fieldset>
+{% block content %}
 
-<table class="kg-table layui-table">
-    <tr>
-        <th>退款序号</th>
-        <th>退款金额</th>
-        <th>退款原因</th>
-        <th>退款状态</th>
-        <th>创建时间</th>
-    </tr>
-    <tr>
-        <td>{{ refund.sn }}</td>
-        <td>￥{{ refund.amount }}</td>
-        <td><a href="#" title="{{ refund.apply_reason }}">{{ substr(refund.apply_reason,0,15) }}</td>
-        <td>{{ refund_status(refund) }}</td>
-        <td>{{ date('Y-m-d H:i:s',refund.created_at) }}</td>
-    </tr>
-</table>
+    {{ partial('order/macro') }}
+    {{ partial('trade/macro') }}
+    {{ partial('refund/macro') }}
 
-<br>
+    {% set refund_sh_url = url({'for':'admin.refund.status_history','id':refund.id}) %}
+    {% set refund_review_url = url({'for':'admin.refund.review','id':refund.id}) %}
 
-{% if refund.status == 'pending' %}
-    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.refund.review','id':refund.id}) }}">
-        <fieldset class="layui-elem-field layui-field-title">
-            <legend>审核退款</legend>
-        </fieldset>
-        <div class="layui-form-item">
-            <label class="layui-form-label">审核结果</label>
-            <div class="layui-input-block">
-                <input type="radio" name="status" value="approved" title="同意">
-                <input type="radio" name="status" value="refused" title="拒绝">
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>退款信息</legend>
+    </fieldset>
+
+    <table class="layui-table kg-table">
+        <tr>
+            <th>退款序号</th>
+            <th>退款金额</th>
+            <th>退款备注</th>
+            <th>退款状态</th>
+            <th>创建时间</th>
+        </tr>
+        <tr>
+            <td>{{ refund.sn }}</td>
+            <td>{{ '￥%0.2f'|format(refund.amount) }}</td>
+            <td>
+                {% if refund.apply_note %}
+                    <p class="layui-elip" title="{{ refund.apply_note }}">退款原因：{{ refund.apply_note }}</p>
+                {% endif %}
+                {% if refund.review_note %}
+                    <p class="layui-elip" title="{{ refund.review_note }}">审核意见：{{ refund.review_note }}</p>
+                {% endif %}
+            </td>
+            <td><a class="kg-status-history" href="javascript:" title="查看历史状态" data-url="{{ refund_sh_url }}">{{ refund_status(refund.status) }}</a></td>
+            <td>{{ date('Y-m-d H:i:s',refund.create_time) }}</td>
+        </tr>
+    </table>
+
+    <br>
+
+    {% if refund.status == 1 %}
+        <form class="layui-form kg-form" method="POST" action="{{ refund_review_url }}">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>审核退款</legend>
+            </fieldset>
+            <div class="layui-form-item">
+                <label class="layui-form-label">审核结果</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="review_status" value="3" title="同意">
+                    <input type="radio" name="review_status" value="4" title="拒绝">
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">审核说明</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="review_note" lay-verify="required">
+            <div class="layui-form-item">
+                <label class="layui-form-label">审核说明</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text" name="review_note" lay-verify="required">
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label"></label>
-            <div class="layui-input-block">
-                <button class="kg-submit layui-btn" lay-submit="true" lay-filter="go">提交</button>
-                <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block">
+                    <button class="kg-submit layui-btn" lay-submit="true" lay-filter="go">提交</button>
+                    <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
+                </div>
             </div>
+        </form>
+    {% else %}
+        <div class="kg-center">
+            <button class="layui-btn layui-bg-gray kg-back">返回上页</button>
         </div>
-    </form>
-{% else %}
-    <div style="text-align: center">
-        <button class="layui-btn layui-bg-gray kg-back">返回上页</button>
-    </div>
-{% endif %}
+    {% endif %}
 
-<fieldset class="layui-elem-field layui-field-title">
-    <legend>交易信息</legend>
-</fieldset>
+    <br>
 
-<table class="kg-table layui-table">
-    <tr>
-        <th>交易序号</th>
-        <th>交易金额</th>
-        <th>交易平台</th>
-        <th>交易状态</th>
-        <th>创建时间</th>
-    </tr>
-    <tr>
-        <td>{{ trade.sn }}</td>
-        <td>￥{{ trade.amount }}</td>
-        <td>{{ channel_type(trade.channel) }}</td>
-        <td>{{ trade_status(trade.status) }}</td>
-        <td>{{ date('Y-m-d H:i:s',trade.created_at) }}</td>
-    </tr>
-</table>
+    {{ partial('trade/trade_info') }}
 
-<br>
+    <br>
 
-<fieldset class="layui-elem-field layui-field-title">
-    <legend>订单信息</legend>
-</fieldset>
+    {{ partial('order/order_info') }}
 
-<table class="kg-table layui-table">
-    <tr>
-        <th>订单序号</th>
-        <th>商品名称</th>
-        <th>订单金额</th>
-        <th>订单状态</th>
-        <th>创建时间</th>
-    </tr>
-    <tr>
-        <td>{{ order.sn }}</td>
-        <td>{{ order.subject }}</td>
-        <td>￥{{ order.amount }}</td>
-        <td>{{ order_status(order.status) }}</td>
-        <td>{{ date('Y-m-d H:i:s',order.created_at) }}</td>
-    </tr>
-</table>
+    <br>
 
-<br>
+    {{ partial('order/user_info') }}
 
-<fieldset class="layui-elem-field layui-field-title">
-    <legend>用户信息</legend>
-</fieldset>
+{% endblock %}
 
-<table class="kg-table layui-table">
-    <tr>
-        <th>编号</th>
-        <th>用户名</th>
-        <th>邮箱</th>
-        <th>手机号</th>
-        <th>注册时间</th>
-    </tr>
-    <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.phone }}</td>
-        <td>{{ date('Y-m-d H:i:s',user.created_at) }}</td>
-    </tr>
-</table>
+{% block include_js %}
+
+    {{ js_include('admin/js/status-history.js') }}
+
+{% endblock %}

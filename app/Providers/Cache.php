@@ -3,30 +3,33 @@
 namespace App\Providers;
 
 use App\Library\Cache\Backend\Redis as RedisBackend;
-use Phalcon\Cache\Frontend\Json as JsonFrontend;
+use Phalcon\Cache\Frontend\Igbinary as IgbinaryFrontend;
+use Phalcon\Config;
 
-class Cache extends AbstractProvider
+class Cache extends Provider
 {
 
     protected $serviceName = 'cache';
 
     public function register()
     {
-        $this->di->setShared($this->serviceName, function () {
+        /**
+         * @var Config $config
+         */
+        $config = $this->di->getShared('config');
 
-            $config = $this->getShared('config');
+        $this->di->setShared($this->serviceName, function () use ($config) {
 
-            $frontend = new JsonFrontend([
-                'lifetime' => $config->redis->lifetime,
+            $frontend = new IgbinaryFrontend([
+                'lifetime' => $config->path('cache.lifetime'),
             ]);
 
-            $backend = new RedisBackend($frontend, [
-                'host' => $config->redis->host,
-                'port' => $config->redis->port,
-                'auth' => $config->redis->auth,
+            return new RedisBackend($frontend, [
+                'host' => $config->path('redis.host'),
+                'port' => $config->path('redis.port'),
+                'auth' => $config->path('redis.auth'),
+                'index' => $config->path('cache.db'),
             ]);
-
-            return $backend;
         });
     }
 

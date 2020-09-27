@@ -38,8 +38,8 @@ class Events
     public static function onConnect($clientId)
     {
         $message = json_encode([
-            'type' => 'welcome',
-            'message' => 'just enjoy it',
+            'type' => 'bind_user',
+            'client_id' => $clientId,
         ]);
 
         Gateway::sendToClient($clientId, $message);
@@ -53,25 +53,7 @@ class Events
      */
     public static function onMessage($clientId, $message)
     {
-        $content = json_decode($message, true);
 
-        if (!isset($content['type'])) return;
-
-        if ($content['type'] == 'join_group') {
-
-            $_SESSION['group'] = $content['group'];
-
-            Gateway::joinGroup($clientId, $content['group']);
-
-        } elseif ($content['type'] == 'send_danmaku') {
-
-            $message = [
-                'type' => 'show_danmaku',
-                'danmaku' => $content['danmaku'],
-            ];
-
-            Gateway::sendToGroup($_SESSION['group'], json_encode($message), [$clientId]);
-        }
     }
 
     /**

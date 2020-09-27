@@ -3,7 +3,12 @@
 namespace App\Http\Home\Controllers;
 
 use App\Models\Order as OrderModel;
-use \Home\Services\Order as OrderService;
+use App\Services\Logic\Order\OrderCancel as OrderCancelService;
+use App\Services\Logic\Order\OrderConfirm as OrderConfirmService;
+use App\Services\Logic\Order\OrderCreate as OrderCreateService;
+use App\Services\Logic\Order\OrderInfo as OrderInfoService;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/order")
@@ -11,44 +16,46 @@ use \Home\Services\Order as OrderService;
 class OrderController extends Controller
 {
 
+    public function beforeExecuteRoute(Dispatcher $dispatcher)
+    {
+        parent::beforeExecuteRoute($dispatcher);
+
+        if ($this->authUser->id == 0) {
+            $this->response->redirect(['for' => 'home.account.login']);
+            return false;
+        }
+
+        return true;
+    }
+
     /**
-     * @Post("/confirm", name="home.order.confirm")
+     * @Get("/info", name="home.order.info")
+     */
+    public function infoAction()
+    {
+        $sn = $this->request->getQuery('sn', 'string');
+
+        $service = new OrderInfoService();
+
+        $order = $service->handle($sn);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('order', $order);
+    }
+
+    /**
+     * @Get("/confirm", name="home.order.confirm")
      */
     public function confirmAction()
     {
-        $itemType = $this->request->get('item_type');
-        $itemId = $this->request->get('item_id');
+        $itemId = $this->request->getQuery('item_id', 'int');
+        $itemType = $this->request->getQuery('item_type', 'int');
 
-        $service = new OrderService();
+        $service = new OrderConfirmService();
 
-        switch ($itemType) {
+        $confirm = $service->handle($itemId, $itemType);
 
-            case OrderModel::ITEM_TYPE_COURSE:
-
-                $course = $service->getCourse($itemId);
-
-                $this->view->course = $course;
-
-                break;
-
-            case OrderModel::ITEM_TYPE_PACKAGE:
-
-                $package = $service->getPackage($itemId);
-                $courses = $service->getPackageCourses($itemId);
-
-                $this->view->package = $package;
-                $this->view->courses = $courses;
-
-                break;
-
-            case OrderModel::ITEM_TYPE_REWARD:
-
-                $course = $service->getCourse($itemId);
-
-                $this->view->course = $course;
-
-                break;
-        }
+        $this->view->setVar('confirm', $confirm);
     }
 
     /**
@@ -56,75 +63,34 @@ class OrderController extends Controller
      */
     public function createAction()
     {
-        $service = new OrderService();
+        $service = new OrderCreateService();
 
-        $order = $service->create();
+        $order = $service->handle();
 
-        return $this->response->ajaxSuccess($order);
+        $location = $this->url->get(
+            ['for' => 'home.order.pay'],
+            ['sn' => $order->sn]
+        );
+
+        return $this->jsonSuccess(['location' => $location]);
     }
 
     /**
-     * @Get("/cashier", name="home.order.cashier")
-     */
-    public function cashierAction()
-    {
-        $service = new OrderService();
-
-        $tradeNo = $this->request->getQuery('trade_no');
-
-        $order = $service->getOrder($tradeNo);
-        $orderItems = $service->getOrderItems($order->id);
-
-        $this->view->order = $order;
-        $this->view->orderItems = $orderItems;
-
-        return $this->ajaxSuccess($order->toArray());
-    }
-
-    /**
-     * @Post("/pay", name="home.order.pay")
+     * @Get("/pay", name="home.order.pay")
      */
     public function payAction()
     {
-        $service = new OrderService();
+        $sn = $this->request->getQuery('sn', 'string');
 
-        $tradeNo = $this->request->getPost('trade_no');
-        $payChannel = $this->request->getPost('pay_channel');
+        $service = new OrderInfoService();
 
-        $order = $service->getOrder($tradeNo);
+        $order = $service->handle($sn);
 
-        $qrCodeText = $service->qrCode($tradeNo, $payChannel);
+        if ($order['status'] != OrderModel::STATUS_PENDING) {
+            $this->response->redirect(['for' => 'home.my.orders']);
+        }
 
-        //$qrCodeUrl = "http://qr.liantu.com/api.php?text={$qrCodeText}";
-
-        $this->view->order = $order;
-        $this->view->qrCodeText = $qrCodeText;
-    }
-
-    /**
-     * @Post("/notify/{channel}", name="home.order.notify")
-     */
-    public function notifyAction($channel)
-    {
-        $service = new OrderService();
-
-        $service->notify($channel);
-    }
-
-    /**
-     * @Post("/status", name="home.order.status")
-     */
-    public function statusAction()
-    {
-        $service = new OrderService();
-
-        $tradeNo = $this->request->getPost('trade_no');
-
-        $order = $service->getOrder($tradeNo);
-
-        $this->response->ajaxSuccess([
-            'status' => $order->status
-        ]);
+        $this->view->setVar('order', $order);
     }
 
     /**
@@ -132,11 +98,13 @@ class OrderController extends Controller
      */
     public function cancelAction()
     {
-        $service = new OrderService();
+        $sn = $this->request->getPost('sn', 'string');
 
-        $order = $service->cancel();
+        $service = new OrderCancelService();
 
-        return $this->ajaxSuccess($order->toArray());
+        $order = $service->handle($sn);
+
+        return $this->jsonSuccess(['order' => $order]);
     }
 
 }

@@ -2,37 +2,20 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\Chapter as ChapterCache;
+use App\Caches\CourseChapterList as CatalogCache;
 use App\Models\Chapter as ChapterModel;
+use App\Models\ChapterLive as ChapterLiveModel;
+use App\Models\ChapterRead as ChapterReadModel;
+use App\Models\ChapterVod as ChapterVodModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
-use App\Services\CourseStats as CourseStatsService;
+use App\Services\CourseStat as CourseStatService;
 use App\Validators\Chapter as ChapterValidator;
 
 class Chapter extends Service
 {
-
-    public function getCourse($courseId)
-    {
-        $courseRepo = new CourseRepo();
-
-        $result = $courseRepo->findById($courseId);
-
-        return $result;
-    }
-
-    public function getCourseChapters($courseId)
-    {
-        $chapterRepo = new ChapterRepo();
-
-        $result = $chapterRepo->findAll([
-            'course_id' => $courseId,
-            'parent_id' => 0,
-            'deleted' => 0,
-        ]);
-
-        return $result;
-    }
 
     public function getLessons($parentId)
     {
@@ -40,19 +23,15 @@ class Chapter extends Service
 
         $chapterRepo = new ChapterRepo();
 
-        $result = $chapterRepo->findAll([
+        return $chapterRepo->findAll([
             'parent_id' => $parentId,
             'deleted' => $deleted,
         ]);
-
-        return $result;
     }
 
     public function getChapter($id)
     {
-        $chapter = $this->findOrFail($id);
-
-        return $chapter;
+        return $this->findOrFail($id);
     }
 
     public function createChapter()
@@ -63,30 +42,88 @@ class Chapter extends Service
 
         $data = [];
 
-        $data['course_id'] = $validator->checkCourseId($post['course_id']);
+        $course = $validator->checkCourse($post['course_id']);
+
+        $data['course_id'] = $course->id;
         $data['title'] = $validator->checkTitle($post['title']);
         $data['summary'] = $validator->checkSummary($post['summary']);
-        $data['free'] = $validator->checkFreeStatus($post['free']);
 
         $chapterRepo = new ChapterRepo();
 
+        $parentId = 0;
+
         if (isset($post['parent_id'])) {
-            $data['parent_id'] = $validator->checkParentId($post['parent_id']);
+            $parent = $validator->checkParent($post['parent_id']);
+            $data['parent_id'] = $parent->id;
+            $data['free'] = $validator->checkFreeStatus($post['free']);
             $data['priority'] = $chapterRepo->maxLessonPriority($post['parent_id']);
         } else {
             $data['priority'] = $chapterRepo->maxChapterPriority($post['course_id']);
+            $data['parent_id'] = $parentId;
         }
 
         $data['priority'] += 1;
 
-        $chapter = new ChapterModel();
+        try {
 
-        $chapter->create($data);
+            $this->db->begin();
 
-        $this->updateChapterStats($chapter);
-        $this->updateCourseStats($chapter);
+            $chapter = new ChapterModel();
 
-        return $chapter;
+            if ($chapter->create($data) === false) {
+                throw new \RuntimeException('Create Chapter Failed');
+            }
+
+            $data = [
+                'course_id' => $course->id,
+                'chapter_id' => $chapter->id,
+            ];
+
+            if ($parentId > 0) {
+
+                $attrs = false;
+
+                switch ($course->model) {
+                    case CourseMOdel::MODEL_VOD:
+                        $chapterVod = new ChapterVodModel();
+                        $attrs = $chapterVod->create($data);
+                        break;
+                    case CourseModel::MODEL_LIVE:
+                        $chapterLive = new ChapterLiveModel();
+                        $attrs = $chapterLive->create($data);
+                        break;
+                    case CourseModel::MODEL_READ:
+                        $chapterRead = new ChapterReadModel();
+                        $attrs = $chapterRead->create($data);
+                        break;
+                }
+
+                if ($attrs === false) {
+                    throw new \RuntimeException("Create Chapter {$course->model} Attrs Failed");
+                }
+            }
+
+            $this->db->commit();
+
+            $this->updateChapterStats($chapter);
+
+            $this->updateCourseStat($chapter);
+
+            return $chapter;
+
+        } catch (\Exception $e) {
+
+            $this->db->rollback();
+
+            $logger = $this->getLogger();
+
+            $logger->error('Create Chapter Error ' . kg_json_encode([
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            throw new \RuntimeException('sys.trans_rollback');
+        }
     }
 
     public function updateChapter($id)
@@ -117,7 +154,7 @@ class Chapter extends Service
 
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
-            if ($post['published'] == 1) {
+            if ($chapter->published == 0 && $post['published'] == 1) {
                 $validator->checkPublishAbility($chapter);
             }
         }
@@ -125,7 +162,10 @@ class Chapter extends Service
         $chapter->update($data);
 
         $this->updateChapterStats($chapter);
-        $this->updateCourseStats($chapter);
+
+        $this->updateCourseStat($chapter);
+
+        $this->rebuildCatalogCache($chapter);
 
         return $chapter;
     }
@@ -134,17 +174,19 @@ class Chapter extends Service
     {
         $chapter = $this->findOrFail($id);
 
-        if ($chapter->deleted == 1) {
-            return false;
-        }
+        $validator = new ChapterValidator();
+
+        $validator->checkDeleteAbility($chapter);
 
         $chapter->deleted = 1;
 
         $chapter->update();
 
-        if ($chapter->parent_id == 0) {
-            $this->deleteChildChapters($chapter->id);
-        }
+        $this->updateChapterStats($chapter);
+
+        $this->updateCourseStat($chapter);
+
+        $this->rebuildCatalogCache($chapter);
 
         return $chapter;
     }
@@ -153,57 +195,20 @@ class Chapter extends Service
     {
         $chapter = $this->findOrFail($id);
 
-        if ($chapter->deleted == 0) {
-            return false;
-        }
-
         $chapter->deleted = 0;
 
         $chapter->update();
 
-        if ($chapter->parent_id == 0) {
-            $this->restoreChildChapters($chapter->id);
-        }
-
         $this->updateChapterStats($chapter);
-        $this->updateCourseStats($chapter);
+
+        $this->updateCourseStat($chapter);
+
+        $this->rebuildCatalogCache($chapter);
 
         return $chapter;
     }
 
-    protected function deleteChildChapters($parentId)
-    {
-        $chapterRepo = new ChapterRepo();
-
-        $chapters = $chapterRepo->findAll(['parent_id' => $parentId]);
-
-        if ($chapters->count() == 0) {
-            return;
-        }
-
-        foreach ($chapters as $chapter) {
-            $chapter->deleted = 1;
-            $chapter->update();
-        }
-    }
-
-    protected function restoreChildChapters($parentId)
-    {
-        $chapterRepo = new ChapterRepo();
-
-        $chapters = $chapterRepo->findAll(['parent_id' => $parentId]);
-
-        if ($chapters->count() == 0) {
-            return;
-        }
-
-        foreach ($chapters as $chapter) {
-            $chapter->deleted = 0;
-            $chapter->update();
-        }
-    }
-
-    protected function updateChapterStats($chapter)
+    protected function updateChapterStats(ChapterModel $chapter)
     {
         $chapterRepo = new ChapterRepo();
 
@@ -214,35 +219,46 @@ class Chapter extends Service
         $lessonCount = $chapterRepo->countLessons($chapter->id);
         $chapter->lesson_count = $lessonCount;
         $chapter->update();
-
     }
 
-    protected function updateCourseStats($chapter)
+    protected function updateCourseStat(ChapterModel $chapter)
     {
         $courseRepo = new CourseRepo();
 
         $course = $courseRepo->findById($chapter->course_id);
 
-        $courseStats = new CourseStatsService();
+        $courseStats = new CourseStatService();
 
         $courseStats->updateLessonCount($course->id);
 
         if ($course->model == CourseModel::MODEL_VOD) {
-            $courseStats->updateVodDuration($course->id);
+            $courseStats->updateVodAttrs($course->id);
         } elseif ($course->model == CourseModel::MODEL_LIVE) {
-            $courseStats->updateLiveDateRange($course->id);
-        } elseif ($course->model == CourseModel::MODEL_ARTICLE) {
-            $courseStats->updateArticleWordCount($course->id);
+            $courseStats->updateLiveAttrs($course->id);
+        } elseif ($course->model == CourseModel::MODEL_READ) {
+            $courseStats->updateReadAttrs($course->id);
         }
+    }
+
+    protected function rebuildChapterCache(ChapterModel $chapter)
+    {
+        $cache = new ChapterCache();
+
+        $cache->rebuild($chapter->id);
+    }
+
+    protected function rebuildCatalogCache(ChapterModel $chapter)
+    {
+        $cache = new CatalogCache();
+
+        $cache->rebuild($chapter->course_id);
     }
 
     protected function findOrFail($id)
     {
         $validator = new ChapterValidator();
 
-        $result = $validator->checkChapter($id);
-
-        return $result;
+        return $validator->checkChapter($id);
     }
 
 }

@@ -5,61 +5,13 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
+use App\Models\TradeStatus as TradeStatusModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Trade extends Repository
 {
-
-    /**
-     * @param integer $id
-     * @return TradeModel
-     */
-    public function findById($id)
-    {
-        $result = TradeModel::findFirstById($id);
-
-        return $result;
-    }
-
-    /**
-     * @param string $sn
-     * @return TradeModel
-     */
-    public function findBySn($sn)
-    {
-        $result = TradeModel::findFirstBySn($sn);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = TradeModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
-
-    public function findRefunds($tradeSn)
-    {
-        $result = RefundModel::query()
-            ->where('trade_sn = :trade_sn:', ['trade_sn' => $tradeSn])
-            ->execute();
-
-        return $result;
-    }
-
-    public function findLatestRefund($tradeSn)
-    {
-        $result = RefundModel::query()
-            ->where('trade_sn = :trade_sn:', ['trade_sn' => $tradeSn])
-            ->orderBy('id DESC')
-            ->execute()
-            ->getFirst();
-
-        return $result;
-    }
 
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
@@ -77,12 +29,12 @@ class Trade extends Repository
             $builder->andWhere('sn = :sn:', ['sn' => $where['sn']]);
         }
 
-        if (!empty($where['user_id'])) {
-            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        if (!empty($where['owner_id'])) {
+            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
-        if (!empty($where['order_sn'])) {
-            $builder->andWhere('order_sn = :order_sn:', ['order_sn' => $where['order_sn']]);
+        if (!empty($where['order_id'])) {
+            $builder->andWhere('order_id = :order_id:', ['order_id' => $where['order_id']]);
         }
 
         if (!empty($where['channel'])) {
@@ -93,10 +45,14 @@ class Trade extends Repository
             $builder->andWhere('status = :status:', ['status' => $where['status']]);
         }
 
+        if (isset($where['deleted'])) {
+            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
+        }
+
         if (!empty($where['start_time']) && !empty($where['end_time'])) {
             $startTime = strtotime($where['start_time']);
             $endTime = strtotime($where['end_time']);
-            $builder->betweenWhere('created_at', $startTime, $endTime);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
         }
 
         switch ($sort) {
@@ -113,7 +69,76 @@ class Trade extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return TradeModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return TradeModel::findFirst($id);
+    }
+
+    /**
+     * @param string $sn
+     * @return TradeModel|Model|bool
+     */
+    public function findBySn($sn)
+    {
+        return TradeModel::findFirst([
+            'conditions' => 'sn = :sn:',
+            'bind' => ['sn' => $sn],
+        ]);
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|TradeModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return TradeModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+    }
+
+    /**
+     * @param int $tradeId
+     * @return ResultsetInterface|Resultset|RefundModel[]
+     */
+    public function findRefunds($tradeId)
+    {
+        return RefundModel::query()
+            ->where('trade_id = :trade_id:', ['trade_id' => $tradeId])
+            ->execute();
+    }
+
+    /**
+     * @param int $tradeId
+     * @return ResultsetInterface|Resultset|TradeStatusModel[]
+     */
+    public function findStatusHistory($tradeId)
+    {
+        return TradeStatusModel::query()
+            ->where('trade_id = :trade_id:', ['trade_id' => $tradeId])
+            ->execute();
+    }
+
+    /**
+     * @param int $tradeId
+     * @return RefundModel|Model|bool
+     */
+    public function findLastRefund($tradeId)
+    {
+        return RefundModel::findFirst([
+            'conditions' => 'trade_id = :trade_id:',
+            'bind' => ['trade_id' => $tradeId],
+            'order' => 'id DESC',
+        ]);
     }
 
 }

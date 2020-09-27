@@ -2,6 +2,9 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\Category as CategoryCache;
+use App\Caches\CategoryList as CategoryListCache;
+use App\Caches\CategoryTreeList as CategoryTreeListCache;
 use App\Models\Category as CategoryModel;
 use App\Repos\Category as CategoryRepo;
 use App\Validators\Category as CategoryValidator;
@@ -11,9 +14,7 @@ class Category extends Service
 
     public function getCategory($id)
     {
-        $category = $this->findOrFail($id);
-
-        return $category;
+        return $this->findOrFail($id);
     }
 
     public function getParentCategory($id)
@@ -29,16 +30,15 @@ class Category extends Service
         return $parent;
     }
 
-    public function getTopCategories()
+    public function getTopCategories($type)
     {
         $categoryRepo = new CategoryRepo();
 
-        $categories = $categoryRepo->findAll([
+        return $categoryRepo->findAll([
             'parent_id' => 0,
             'deleted' => 0,
+            'type' => $type,
         ]);
-
-        return $categories;
     }
 
     public function getChildCategories($parentId)
@@ -47,12 +47,10 @@ class Category extends Service
 
         $categoryRepo = new CategoryRepo();
 
-        $categories = $categoryRepo->findAll([
+        return $categoryRepo->findAll([
             'parent_id' => $parentId,
             'deleted' => $deleted,
         ]);
-
-        return $categories;
     }
 
     public function createCategory()
@@ -73,6 +71,7 @@ class Category extends Service
             $data['parent_id'] = $parent->id;
         }
 
+        $data['type'] = $validator->checkType($post['type']);
         $data['name'] = $validator->checkName($post['name']);
         $data['priority'] = $validator->checkPriority($post['priority']);
         $data['published'] = $validator->checkPublishStatus($post['published']);
@@ -90,6 +89,10 @@ class Category extends Service
         }
 
         $category->update();
+
+        $this->updateCategoryStats($category);
+
+        $this->rebuildCategoryCache($category);
 
         return $category;
     }
@@ -114,9 +117,20 @@ class Category extends Service
 
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
+            if ($category->parent_id == 0) {
+                if ($category->published == 0 && $post['published'] == 1) {
+                    $this->enableChildCategories($category->id);
+                } elseif ($category->published == 1 && $post['published'] == 0) {
+                    $this->disableChildCategories($category->id);
+                }
+            }
         }
 
         $category->update($data);
+
+        $this->updateCategoryStats($category);
+
+        $this->rebuildCategoryCache($category);
 
         return $category;
     }
@@ -125,13 +139,17 @@ class Category extends Service
     {
         $category = $this->findOrFail($id);
 
-        if ($category->deleted == 1) {
-            return false;
-        }
+        $validator = new CategoryValidator();
+
+        $validator->checkDeleteAbility($category);
 
         $category->deleted = 1;
 
         $category->update();
+
+        $this->updateCategoryStats($category);
+
+        $this->rebuildCategoryCache($category);
 
         return $category;
     }
@@ -140,24 +158,84 @@ class Category extends Service
     {
         $category = $this->findOrFail($id);
 
-        if ($category->deleted == 0) {
-            return false;
-        }
-
         $category->deleted = 0;
 
         $category->update();
 
+        $this->updateCategoryStats($category);
+
+        $this->rebuildCategoryCache($category);
+
         return $category;
+    }
+
+    protected function updateCategoryStats(CategoryModel $category)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        if ($category->parent_id > 0) {
+            $category = $categoryRepo->findById($category->parent_id);
+        }
+
+        $childCount = $categoryRepo->countChildCategories($category->id);
+
+        $category->child_count = $childCount;
+
+        $category->update();
+    }
+
+    protected function rebuildCategoryCache(CategoryModel $category)
+    {
+        $cache = new CategoryCache();
+
+        $cache->rebuild($category->id);
+
+        $cache = new CategoryListCache();
+
+        $cache->rebuild($category->type);
+
+        $cache = new CategoryTreeListCache();
+
+        $cache->rebuild($category->type);
+    }
+
+    protected function enableChildCategories($parentId)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        $categories = $categoryRepo->findAll(['parent_id' => $parentId]);
+
+        if ($categories->count() == 0) {
+            return;
+        }
+
+        foreach ($categories as $category) {
+            $category->published = 1;
+            $category->update();
+        }
+    }
+
+    protected function disableChildCategories($parentId)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        $categories = $categoryRepo->findAll(['parent_id' => $parentId]);
+
+        if ($categories->count() == 0) {
+            return;
+        }
+
+        foreach ($categories as $category) {
+            $category->published = 0;
+            $category->update();
+        }
     }
 
     protected function findOrFail($id)
     {
         $validator = new CategoryValidator();
 
-        $result = $validator->checkCategory($id);
-
-        return $result;
+        return $validator->checkCategory($id);
     }
 
 }

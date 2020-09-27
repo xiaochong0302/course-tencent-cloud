@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Category as CategoryService;
+use App\Models\Category as CategoryModel;
 
 /**
  * @RoutePrefix("/admin/category")
@@ -16,12 +17,20 @@ class CategoryController extends Controller
     public function listAction()
     {
         $parentId = $this->request->get('parent_id', 'int', 0);
+        $type = $this->request->get('type', 'int', CategoryModel::TYPE_COURSE);
 
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $parent = $service->getParentCategory($parentId);
-        $categories = $service->getChildCategories($parentId);
+        $parent = $categoryService->getParentCategory($parentId);
 
+        if ($parent->id > 0) {
+            $type = $parent->type;
+            $categories = $categoryService->getChildCategories($parentId);
+        } else {
+            $categories = $categoryService->getTopCategories($type);
+        }
+
+        $this->view->setVar('type', $type);
         $this->view->setVar('parent', $parent);
         $this->view->setVar('categories', $categories);
     }
@@ -32,12 +41,20 @@ class CategoryController extends Controller
     public function addAction()
     {
         $parentId = $this->request->get('parent_id', 'int', 0);
+        $type = $this->request->get('type', 'int', CategoryModel::TYPE_COURSE);
 
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $topCategories = $service->getTopCategories();
+        $parent = $categoryService->getParentCategory($parentId);
 
-        $this->view->setVar('parent_id', $parentId);
+        if ($parent->id > 0) {
+            $type = $parent->type;
+        }
+
+        $topCategories = $categoryService->getTopCategories($type);
+
+        $this->view->setVar('type', $type);
+        $this->view->setVar('parent', $parent);
         $this->view->setVar('top_categories', $topCategories);
     }
 
@@ -46,13 +63,13 @@ class CategoryController extends Controller
      */
     public function createAction()
     {
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $category = $service->createCategory();
+        $category = $categoryService->createCategory();
 
         $location = $this->url->get(
             ['for' => 'admin.category.list'],
-            ['parent_id' => $category->parent_id]
+            ['type' => $category->type, 'parent_id' => $category->parent_id]
         );
 
         $content = [
@@ -60,35 +77,35 @@ class CategoryController extends Controller
             'msg' => '创建分类成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Get("/{id}/edit", name="admin.category.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.category.edit")
      */
     public function editAction($id)
     {
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $category = $service->getCategory($id);
+        $category = $categoryService->getCategory($id);
 
         $this->view->setVar('category', $category);
     }
 
     /**
-     * @Post("/{id}/update", name="admin.category.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.category.update")
      */
     public function updateAction($id)
     {
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $category = $service->getCategory($id);
+        $category = $categoryService->getCategory($id);
 
-        $service->updateCategory($id);
+        $categoryService->updateCategory($id);
 
         $location = $this->url->get(
             ['for' => 'admin.category.list'],
-            ['parent_id' => $category->parent_id]
+            ['type' => $category->type, 'parent_id' => $category->parent_id]
         );
 
         $content = [
@@ -96,17 +113,17 @@ class CategoryController extends Controller
             'msg' => '更新分类成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/delete", name="admin.category.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.category.delete")
      */
     public function deleteAction($id)
     {
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $service->deleteCategory($id);
+        $categoryService->deleteCategory($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -115,17 +132,17 @@ class CategoryController extends Controller
             'msg' => '删除分类成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
     /**
-     * @Post("/{id}/restore", name="admin.category.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.category.restore")
      */
     public function restoreAction($id)
     {
-        $service = new CategoryService();
+        $categoryService = new CategoryService();
 
-        $service->restoreCategory($id);
+        $categoryService->restoreCategory($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -134,7 +151,7 @@ class CategoryController extends Controller
             'msg' => '还原分类成功',
         ];
 
-        return $this->ajaxSuccess($content);
+        return $this->jsonSuccess($content);
     }
 
 }

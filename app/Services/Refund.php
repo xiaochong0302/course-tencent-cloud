@@ -2,59 +2,67 @@
 
 namespace App\Services;
 
-use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
 use App\Repos\Course as CourseRepo;
+use App\Repos\CourseUser as CourseUserRepo;
 
 class Refund extends Service
 {
 
-    public function getRefundAmount(OrderModel $order)
+    public function preview(OrderModel $order)
     {
-        $amount = 0.00;
+        $result = [];
 
-        if ($order->status != OrderModel::STATUS_FINISHED) {
-            //return $amount;
+        switch ($order->item_type) {
+            case OrderModel::ITEM_COURSE:
+                $result = $this->previewCourseRefund($order);
+                break;
+            case OrderModel::ITEM_PACKAGE:
+                $result = $this->previewPackageRefund($order);
+                break;
         }
 
-        if ($order->item_type == OrderModel::TYPE_COURSE) {
-            $amount = $this->getCourseRefundAmount($order);
-        } elseif ($order->item_type == OrderModel::TYPE_PACKAGE) {
-            $amount = $this->getPackageRefundAmount($order);
-        }
-
-        return $amount;
+        return $result;
     }
 
-    protected function getCourseRefundAmount(OrderModel $order)
+    protected function previewCourseRefund(OrderModel $order)
     {
-        $course = $order->item_info->course;
+        /**
+         * @var array $itemInfo
+         */
+        $itemInfo = $order->item_info;
 
-        $courseId = $order->item_id;
-        $userId = $order->user_id;
-        $amount = $order->amount;
-        $expireTime = $course->expire_time;
+        $itemInfo['course']['cover'] = kg_cos_cover_url($itemInfo['course']['cover']);
 
+        $refundPercent = 0.00;
         $refundAmount = 0.00;
 
-        if ($expireTime > time()) {
-            $percent = $this->getCourseRefundPercent($courseId, $userId);
-            $refundAmount = $amount * $percent;
+        if ($itemInfo['course']['refund_expiry_time'] > time()) {
+            $refundPercent = $this->getCourseRefundPercent($order->item_id, $order->owner_id);
+            $refundAmount = $order->amount * $refundPercent;
         }
 
-        return $refundAmount;
+        $itemInfo['course']['refund_percent'] = $refundPercent;
+        $itemInfo['course']['refund_amount'] = $refundAmount;
+
+        return [
+            'item_type' => $order->item_type,
+            'item_info' => $itemInfo,
+            'refund_amount' => $refundAmount,
+        ];
     }
 
-    protected function getPackageRefundAmount(OrderModel $order)
+    protected function previewPackageRefund(OrderModel $order)
     {
-        $userId = $order->user_id;
-        $courses = $order->item_info->courses;
-        $amount = $order->amount;
+        /**
+         * @var array $itemInfo
+         */
+        $itemInfo = $order->item_info;
 
         $totalMarketPrice = 0.00;
 
-        foreach ($courses as $course) {
-            $totalMarketPrice += $course->market_price;
+        foreach ($itemInfo['courses'] as $course) {
+            $totalMarketPrice += $course['market_price'];
         }
 
         $totalRefundAmount = 0.00;
@@ -62,67 +70,77 @@ class Refund extends Service
         /**
          * 按照占比方式计算退款
          */
-        foreach ($courses as $course) {
-            if ($course->expire_time > time()) {
-                $pricePercent = round($course->market_price / $totalMarketPrice, 4);
-                $refundPercent = $this->getCourseRefundPercent($course->id, $userId);
-                $refundAmount = round($amount * $pricePercent * $refundPercent, 2);
+        foreach ($itemInfo['courses'] as &$course) {
+
+            $course['cover'] = kg_cos_cover_url($course['cover']);
+
+            $refundPercent = 0.00;
+            $refundAmount = 0.00;
+
+            if ($course['refund_expiry_time'] > time()) {
+                $pricePercent = round($course['market_price'] / $totalMarketPrice, 4);
+                $refundPercent = $this->getCourseRefundPercent($course['id'], $order->owner_id);
+                $refundAmount = round($order->amount * $pricePercent * $refundPercent, 2);
                 $totalRefundAmount += $refundAmount;
             }
+
+            $course['refund_percent'] = $refundPercent;
+            $course['refund_amount'] = $refundAmount;
         }
 
-        return $totalRefundAmount;
+        return [
+            'item_type' => $order->item_type,
+            'item_info' => $itemInfo,
+            'refund_amount' => $totalRefundAmount,
+        ];
     }
 
     protected function getCourseRefundPercent($courseId, $userId)
     {
         $courseRepo = new CourseRepo();
 
-        $userLessons = $courseRepo->findUserLessons($courseId, $userId);
+        $courseLessons = $courseRepo->findLessons($courseId);
 
-        if ($userLessons->count() == 0) {
+        if ($courseLessons->count() == 0) {
             return 1.00;
         }
 
-        $course = $courseRepo->findById($courseId);
-        $lessons = $courseRepo->findLessons($courseId);
+        $courseUserRepo = new CourseUserRepo();
 
-        $durationMapping = [];
+        $courseUser = $courseUserRepo->findCourseUser($courseId, $userId);
 
-        foreach ($lessons as $lesson) {
-            $durationMapping[$lesson->id] = $lesson->attrs->duration ?? null;
+        if (!$courseUser) {
+            return 1.00;
         }
 
-        $totalCount = $course->lesson_count;
-        $finishCount = 0;
+        $userLearnings = $courseRepo->findUserLearnings($courseId, $userId, $courseUser->plan_id);
+
+        if ($userLearnings->count() == 0) {
+            return 1.00;
+        }
 
         /**
-         * 消费规则
-         * 1.点播观看时间大于时长30%
-         * 2.直播观看时间超过10分钟
-         * 3.图文浏览即消费
+         * @var array $consumedUserLearnings
          */
-        foreach ($userLessons as $learning) {
-            $chapterId = $learning->chapter_id;
-            $duration = $durationMapping[$chapterId] ?? null;
-            if ($course->model == CourseModel::MODEL_VOD) {
-                if ($duration && $learning->duration > 0.3 * $duration) {
-                    $finishCount++;
-                }
-            } elseif ($course->model == CourseModel::MODEL_LIVE) {
-                if ($learning->duration > 600) {
-                    $finishCount++;
-                }
-            } elseif ($course->model == CourseModel::MODEL_LIVE) {
-                $finishCount++;
+        $consumedUserLearnings = $userLearnings->filter(function ($item) {
+            if ($item->consumed == 1) {
+                return $item;
             }
+        });
+
+        if (count($consumedUserLearnings) == 0) {
+            return 1.00;
         }
 
-        $refundCount = $totalCount - $finishCount;
+        $courseLessonIds = kg_array_column($courseLessons->toArray(), 'id');
+        $consumedUserLessonIds = kg_array_column($consumedUserLearnings, 'chapter_id');
+        $consumedLessonIds = array_intersect($courseLessonIds, $consumedUserLessonIds);
 
-        $percent = round($refundCount / $totalCount, 4);
+        $totalCount = count($courseLessonIds);
+        $consumedCount = count($consumedLessonIds);
+        $refundCount = $totalCount - $consumedCount;
 
-        return $percent;
+        return round($refundCount / $totalCount, 4);
     }
 
 }

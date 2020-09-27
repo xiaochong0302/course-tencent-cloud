@@ -4,30 +4,12 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Audit as AuditModel;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Audit extends Repository
 {
-
-    /**
-     * @param integer $id
-     * @return AuditModel
-     */
-    public function findById($id)
-    {
-        $result = AuditModel::findFirstById($id);
-
-        return $result;
-    }
-
-    public function findByIds($ids, $columns = '*')
-    {
-        $result = AuditModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-
-        return $result;
-    }
 
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
@@ -39,6 +21,10 @@ class Audit extends Repository
 
         if (!empty($where['user_id'])) {
             $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        }
+
+        if (!empty($where['user_ip'])) {
+            $builder->andWhere('user_ip = :user_ip:', ['user_ip' => $where['user_ip']]);
         }
 
         if (!empty($where['user_name'])) {
@@ -56,7 +42,7 @@ class Audit extends Repository
         if (!empty($where['start_time']) && !empty($where['end_time'])) {
             $startTime = strtotime($where['start_time']);
             $endTime = strtotime($where['end_time']);
-            $builder->betweenWhere('created_at', $startTime, $endTime);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
         }
 
         switch ($sort) {
@@ -73,7 +59,29 @@ class Audit extends Repository
             'limit' => $limit,
         ]);
 
-        return $pager->getPaginate();
+        return $pager->paginate();
+    }
+
+    /**
+     * @param string $id
+     * @return AuditModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return AuditModel::findFirst($id);
+    }
+
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return ResultsetInterface|Resultset|AuditModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return AuditModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
     }
 
 }

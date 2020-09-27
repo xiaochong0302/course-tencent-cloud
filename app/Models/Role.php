@@ -10,13 +10,13 @@ class Role extends Model
     /**
      * 角色类型
      */
-    const TYPE_SYSTEM = 'system'; // 内置
-    const TYPE_CUSTOM = 'custom'; // 自定
+    const TYPE_SYSTEM = 1; // 内置
+    const TYPE_CUSTOM = 2; // 自定
 
     /**
      * 内置角色
      */
-    const ROLE_ADMIN = 1; // 管理人员
+    const ROLE_ROOT = 1; // 管理人员
     const ROLE_OPERATOR = 2; // 运营人员
     const ROLE_EDITOR = 3; // 编辑人员
     const ROLE_FINANCE = 4; // 财务人员
@@ -24,7 +24,7 @@ class Role extends Model
     /**
      * 主键编号
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -59,34 +59,34 @@ class Role extends Model
     /**
      * 删除标识
      *
-     * @var integer
+     * @var int
      */
     public $deleted;
 
     /**
      * 成员数
      *
-     * @var integer
+     * @var int
      */
     public $user_count;
 
     /**
      * 创建时间
      *
-     * @var integer
+     * @var int
      */
-    public $created_at;
+    public $create_time;
 
     /**
      * 更新时间
      *
-     * @var integer
+     * @var int
      */
-    public $updated_at;
+    public $update_time;
 
-    public function getSource()
+    public function getSource(): string
     {
-        return 'role';
+        return 'kg_role';
     }
 
     public function initialize()
@@ -103,49 +103,45 @@ class Role extends Model
 
     public function beforeCreate()
     {
-        $this->created_at = time();
-
         if (is_array($this->routes) && !empty($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
         }
+
+        $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
-
         if (is_array($this->routes) && !empty($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
         }
+
+        $this->update_time = time();
     }
 
     public function afterFetch()
     {
-        if (!empty($this->routes)) {
+        if (is_string($this->routes) && !empty($this->routes)) {
             $this->routes = json_decode($this->routes, true);
         }
     }
 
     public static function types()
     {
-        $list = [
+        return [
             self::TYPE_SYSTEM => '内置',
             self::TYPE_CUSTOM => '自定',
         ];
-
-        return $list;
     }
 
-    public static function sysRoles()
+    public static function sysRoleTypes()
     {
-        $list = [
-            self::ROLE_ADMIN => '管理人员',
+        return [
+            self::ROLE_ROOT => '管理人员',
             self::ROLE_OPERATOR => '运营人员',
             self::ROLE_EDITOR => '编辑人员',
             self::ROLE_FINANCE => '财务人员',
         ];
-
-        return $list;
     }
 
 }
