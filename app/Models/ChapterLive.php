@@ -92,4 +92,14 @@ class ChapterLive extends Model
         $this->update_time = time();
     }
 
+    public static function generateStreamName($id)
+    {
+        return "chapter_{$id}";
+    }
+
+    public static function parseFromStreamName($streamName)
+    {
+        return str_replace('chapter_', '', $streamName);
+    }
+
 }

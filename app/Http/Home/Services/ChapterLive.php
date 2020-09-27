@@ -5,7 +5,7 @@ namespace App\Http\Home\Services;
 use App\Services\Logic\ChapterTrait;
 use GatewayClient\Gateway;
 
-class Live extends Service
+class ChapterLive extends Service
 {
 
     use ChapterTrait;
@@ -140,12 +140,12 @@ class Live extends Service
 
     protected function getRecentChatKey($id)
     {
-        return "chapter_recent_chat:{$id}";
+        return "recent_live_chat:{$id}";
     }
 
     protected function getGroupName($id)
     {
-        return "chapter_{$id}";
+        return "live_{$id}";
     }
 
 }

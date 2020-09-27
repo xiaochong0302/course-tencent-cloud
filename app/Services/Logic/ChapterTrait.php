@@ -26,11 +26,6 @@ trait ChapterTrait
      */
     protected $chapterUser;
 
-    public function getStreamName($id)
-    {
-        return "chapter_{$id}";
-    }
-
     public function checkChapterVod($id)
     {
         $validator = new ChapterValidator();

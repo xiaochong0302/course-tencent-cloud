@@ -115,7 +115,7 @@ $config['metadata']['lifetime'] = 7 * 86400;
 /**
  * statsKey
  */
-$config['metadata']['statsKey'] = '_PH_METADATA_';
+$config['metadata']['statsKey'] = '_METADATA_';
 
 /**
  * redis库编号
@@ -130,7 +130,7 @@ $config['annotation']['lifetime'] = 7 * 86400;
 /**
  * statsKey
  */
-$config['annotation']['statsKey'] = '_PH_ANNOTATION_';
+$config['annotation']['statsKey'] = '_ANNOTATION_';
 
 /**
  * 密钥

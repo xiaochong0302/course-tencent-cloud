@@ -3,6 +3,7 @@
 namespace App\Services\Logic\Chapter;
 
 use App\Models\Chapter as ChapterModel;
+use App\Models\ChapterLive as ChapterLiveModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Services\ChapterVod as ChapterVodService;
@@ -79,9 +80,9 @@ class BasicInfo extends Service
     {
         $liveService = new LiveService();
 
-        $stream = $this->getStreamName($chapter->id);
+        $streamName = ChapterLiveModel::generateStreamName($chapter->id);
 
-        $playUrls = $liveService->getPullUrls($stream);
+        $playUrls = $liveService->getPullUrls($streamName);
 
         $chapterRepo = new ChapterRepo();
 

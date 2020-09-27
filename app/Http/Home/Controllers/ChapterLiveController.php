@@ -2,14 +2,14 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\Live as LiveService;
+use App\Http\Home\Services\ChapterLive as ChapterLiveService;
 use App\Traits\Response as ResponseTrait;
 use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/live")
  */
-class LiveController extends Controller
+class ChapterLiveController extends Controller
 {
 
     use ResponseTrait;
@@ -19,12 +19,12 @@ class LiveController extends Controller
      */
     public function chatsAction($id)
     {
-        $service = new LiveService();
+        $service = new ChapterLiveService();
 
         $chats = $service->getRecentChats($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('chapter/live_chats');
+        $this->view->pick('chapter/live/chats');
         $this->view->setVar('chats', $chats);
     }
 
@@ -33,7 +33,7 @@ class LiveController extends Controller
      */
     public function statsAction($id)
     {
-        $service = new LiveService();
+        $service = new ChapterLiveService();
 
         $stats = $service->getStats($id);
 
@@ -45,7 +45,7 @@ class LiveController extends Controller
      */
     public function statusAction($id)
     {
-        $service = new LiveService();
+        $service = new ChapterLiveService();
 
         $status = $service->getStatus($id);
 
@@ -57,7 +57,7 @@ class LiveController extends Controller
      */
     public function bindUserAction($id)
     {
-        $service = new LiveService();
+        $service = new ChapterLiveService();
 
         $service->bindUser($id);
 
@@ -69,7 +69,7 @@ class LiveController extends Controller
      */
     public function sendMessageAction($id)
     {
-        $service = new LiveService();
+        $service = new ChapterLiveService();
 
         $response = $service->sendMessage($id);
 

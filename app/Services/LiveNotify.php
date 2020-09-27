@@ -137,9 +137,9 @@ class LiveNotify extends Service
         $redis->expire($key, 86400);
     }
 
-    protected function getChapter($streamId)
+    protected function getChapter($streamName)
     {
-        $id = str_replace('chapter_', '', $streamId);
+        $id = ChapterLiveModel::parseFromStreamName($streamName);
 
         $chapterRepo = new ChapterRepo();
 
