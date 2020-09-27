@@ -30,10 +30,6 @@
     margin-bottom: 0;
 }
 
-.padding20 {
-    padding: 20px;
-}
-
 .center {
     text-align: center;
 }
@@ -75,6 +71,10 @@
 .pager {
     margin-top: 20px;
     text-align: center;
+}
+
+.layer .pager {
+    margin-top: 0;
 }
 
 .loading {
@@ -125,10 +125,6 @@
     background: #474443;
     text-align: center;
     font-size: 12px;
-}
-
-.logo {
-
 }
 
 .top-nav {
@@ -897,21 +893,21 @@
     color: #666;
 }
 
-.countdown {
+.preview {
     color: #666;
     margin-top: 30px;
     text-align: center;
 }
 
-.countdown .icon {
+.preview .icon {
     margin-bottom: 10px;
 }
 
-.countdown .icon .layui-icon {
+.preview .icon .layui-icon {
     font-size: 150px;
 }
 
-.countdown .tips {
+.preview .tips {
     font-size: 16px;
     margin: 20px 0;
 }

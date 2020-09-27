@@ -5,6 +5,7 @@ namespace App\Http\Admin\Controllers;
 use App\Http\Admin\Services\Chapter as ChapterService;
 use App\Http\Admin\Services\ChapterContent as ChapterContentService;
 use App\Http\Admin\Services\Course as CourseService;
+use App\Models\ChapterLive as ChapterLiveModel;
 use App\Models\Course as CourseModel;
 
 /**
@@ -104,7 +105,9 @@ class ChapterController extends Controller
                     break;
                 case CourseModel::MODEL_LIVE:
                     $live = $contentService->getChapterLive($chapter->id);
+                    $streamName = ChapterLiveModel::generateStreamName($chapter->id);
                     $this->view->setVar('live', $live);
+                    $this->view->setVar('stream_name', $streamName);
                     break;
                 case CourseModel::MODEL_READ:
                     $read = $contentService->getChapterRead($chapter->id);

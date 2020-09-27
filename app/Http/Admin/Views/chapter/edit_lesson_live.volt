@@ -30,7 +30,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">Stream Name</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="stream_name" value="chapter_{{ chapter.id }}" readonly="readonly">
+            <input class="layui-input" type="text" name="stream_name" value="{{ stream_name }}" readonly="readonly">
         </div>
     </div>
     <div class="layui-form-item">

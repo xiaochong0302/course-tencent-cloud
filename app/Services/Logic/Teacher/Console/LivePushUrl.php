@@ -2,6 +2,7 @@
 
 namespace App\Services\Logic\Teacher\Console;
 
+use App\Models\ChapterLive as ChapterLiveModel;
 use App\Services\Live as LiveService;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\Service;
@@ -17,7 +18,7 @@ class LivePushUrl extends Service
 
         $service = new LiveService();
 
-        $steamName = $this->getStreamName($chapter->id);
+        $steamName = ChapterLiveModel::generateStreamName($chapter->id);
 
         return $service->getPushUrl($steamName);
     }
