@@ -43,24 +43,24 @@ function xmCourse(data, url) {
                 {field: 'title', title: '标题', width: 390},
                 {
                     field: 'model', title: '类型', width: 50, templet: function (d) {
-                        if (d.model === 'vod') {
+                        if (d.model === 1) {
                             return '点播';
-                        } else if (d.model === 'live') {
+                        } else if (d.model === 2) {
                             return '直播';
-                        } else if (d.model === 'read') {
+                        } else if (d.model === 3) {
                             return '图文';
                         }
                     }
                 },
                 {
                     field: 'level', title: '难度', width: 50, templet: function (d) {
-                        if (d.level === 'entry') {
+                        if (d.level === 1) {
                             return '入门';
-                        } else if (d.level === 'junior') {
+                        } else if (d.level === 2) {
                             return '初级';
-                        } else if (d.level === 'medium') {
+                        } else if (d.level === 3) {
                             return '中级';
-                        } else if (d.level === 'senior') {
+                        } else if (d.level === 4) {
                             return '高级';
                         }
                     }

@@ -7,11 +7,7 @@ use App\Services\Logic\Account\EmailUpdate as EmailUpdateService;
 use App\Services\Logic\Account\PasswordReset as PasswordResetService;
 use App\Services\Logic\Account\PasswordUpdate as PasswordUpdateService;
 use App\Services\Logic\Account\PhoneUpdate as PhoneUpdateService;
-use Phalcon\Mvc\View;
 
-/**
- * @RoutePrefix("/account")
- */
 class AccountController extends Controller
 {
 
@@ -24,11 +20,11 @@ class AccountController extends Controller
             $this->response->redirect('/');
         }
 
+        $returnUrl = $this->request->getHTTPReferer();
+
         $service = new AccountService();
 
         $captcha = $service->getSettings('captcha');
-
-        $returnUrl = $this->request->getHTTPReferer();
 
         $this->view->setVar('return_url', $returnUrl);
         $this->view->setVar('captcha', $captcha);
@@ -138,60 +134,6 @@ class AccountController extends Controller
     }
 
     /**
-     * @Get("/password/edit", name="home.account.edit_pwd")
-     */
-    public function editPasswordAction()
-    {
-        if ($this->authUser->id == 0) {
-            $this->response->redirect(['for' => 'home.account.login']);
-        }
-
-        $service = new AccountService();
-
-        $captcha = $service->getSettings('captcha');
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('account/edit_password');
-        $this->view->setVar('captcha', $captcha);
-    }
-
-    /**
-     * @Get("/phone/edit", name="home.account.edit_phone")
-     */
-    public function editPhoneAction()
-    {
-        if ($this->authUser->id == 0) {
-            $this->response->redirect(['for' => 'home.account.login']);
-        }
-
-        $service = new AccountService();
-
-        $captcha = $service->getSettings('captcha');
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('account/edit_phone');
-        $this->view->setVar('captcha', $captcha);
-    }
-
-    /**
-     * @Get("/email/edit", name="home.account.edit_email")
-     */
-    public function editEmailAction()
-    {
-        if ($this->authUser->id == 0) {
-            $this->response->redirect(['for' => 'home.account.login']);
-        }
-
-        $service = new AccountService();
-
-        $captcha = $service->getSettings('captcha');
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('account/edit_email');
-        $this->view->setVar('captcha', $captcha);
-    }
-
-    /**
      * @Post("/password/reset", name="home.account.reset_pwd")
      */
     public function resetPasswordAction()
@@ -219,7 +161,12 @@ class AccountController extends Controller
 
         $service->handle();
 
-        $content = ['msg' => '更新手机成功'];
+        $location = $this->url->get(['for' => 'home.uc.account']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '更新手机成功',
+        ];
 
         return $this->jsonSuccess($content);
     }
@@ -233,7 +180,12 @@ class AccountController extends Controller
 
         $service->handle();
 
-        $content = ['msg' => '更新邮箱成功'];
+        $location = $this->url->get(['for' => 'home.uc.account']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '更新邮箱成功',
+        ];
 
         return $this->jsonSuccess($content);
     }
@@ -247,7 +199,12 @@ class AccountController extends Controller
 
         $service->handle();
 
-        $content = ['msg' => '更新密码成功'];
+        $location = $this->url->get(['for' => 'home.uc.account']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '更新密码成功',
+        ];
 
         return $this->jsonSuccess($content);
     }

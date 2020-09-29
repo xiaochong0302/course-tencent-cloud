@@ -5,10 +5,10 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <div class="verify-input-inline">
+        <div class="layui-input-inline verify-input-inline">
             <input class="layui-input" type="text" name="verify_code" placeholder="验证码" lay-verify="required">
         </div>
-        <div class="verify-btn-inline">
+        <div class="layui-input-inline verify-btn-inline">
             <button id="cv-verify-emit" class="layui-btn layui-btn-disabled" type="button" disabled="disabled">获取验证码</button>
         </div>
     </div>
