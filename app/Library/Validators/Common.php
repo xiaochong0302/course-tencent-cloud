@@ -90,7 +90,7 @@ class Common
 
     public static function password($str)
     {
-        $pattern = '/^[A-Za-z0-9]{6,16}$/';
+        $pattern = '/^[[:graph:]]{6,16}$/';
 
         return preg_match($pattern, $str) ? true : false;
     }

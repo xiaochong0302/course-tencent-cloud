@@ -4,17 +4,17 @@
 
     {%- macro position_info(value) %}
         {% if value == 1 %}
-            <span class="layui-badge layui-bg-green">顶部</span>
+            顶部
         {% elseif value == 2 %}
-            <span class="layui-badge layui-bg-blue">底部</span>
+            底部
         {% endif %}
     {%- endmacro %}
 
     {%- macro target_info(value) %}
         {% if value == '_blank' %}
-            <span class="layui-badge layui-bg-green">新窗口</span>
+            新窗口
         {% elseif value == '_self' %}
-            <span class="layui-badge layui-bg-blue">原窗口</span>
+            原窗口
         {% endif %}
     {%- endmacro %}
 

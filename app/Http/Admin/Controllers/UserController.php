@@ -84,7 +84,7 @@ class UserController extends Controller
         $roles = $userService->getRoles();
 
         if ($user->admin_role == RoleModel::ROLE_ROOT) {
-            $this->response->redirect(['action' => 'list']);
+            $this->response->redirect(['for' => 'admin.user.list']);
         }
 
         $this->view->setVar('user', $user);
