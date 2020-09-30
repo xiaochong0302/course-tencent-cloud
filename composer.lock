@@ -1,20 +1,20 @@
 {
-  "_readme": [
-    "This file locks the dependencies of your project to a known state",
-    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-    "This file is @generated automatically"
-  ],
-  "content-hash": "cce345a8509cd31ff8492310a2a2332a",
-  "packages": [
-    {
-      "name": "aferrandini/phpqrcode",
-      "version": "1.0.1",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/aferrandini/PHPQRCode.git",
-        "reference": "3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46"
-      },
-      "dist": {
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "cce345a8509cd31ff8492310a2a2332a",
+    "packages": [
+        {
+            "name": "aferrandini/phpqrcode",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aferrandini/PHPQRCode.git",
+                "reference": "3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46"
+            },
+            "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/aferrandini/PHPQRCode/zipball/3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46",
                 "reference": "3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46",
@@ -35,7 +35,7 @@
                     "PHPQRCode": "lib/"
                 }
             },
-            "notification-url": "https://packagist.jp/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -747,26 +747,26 @@
             ],
             "time": "2019-07-01T23:21:34+00:00"
         },
-    {
-      "name": "hightman/xunsearch",
-      "version": "1.4.15",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/hightman/xs-sdk-php.git",
-        "reference": "8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/hightman/xs-sdk-php/zipball/8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9",
-        "reference": "8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
+        {
+            "name": "hightman/xunsearch",
+            "version": "1.4.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hightman/xs-sdk-php.git",
+                "reference": "8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hightman/xs-sdk-php/zipball/8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9",
+                "reference": "8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
             "require": {
                 "ext-mbstring": "*",
                 "lib-pcre": "*",
@@ -781,26 +781,26 @@
                     "dev-master": "1.4.x-dev"
                 }
             },
-      "autoload": {
-        "classmap": [
-          "lib/",
-          "wrapper/yii-ext/"
-        ],
-        "psr-4": {
-          "hightman\\xunsearch\\": "wrapper/yii2-ext/"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "GPL-2.0+"
-      ],
-      "authors": [
-        {
-          "name": "hightman",
-          "email": "hightman@twomice.net",
-          "role": "Founder and project leader"
-        }
-      ],
+            "autoload": {
+                "classmap": [
+                    "lib/",
+                    "wrapper/yii-ext/"
+                ],
+                "psr-4": {
+                    "hightman\\xunsearch\\": "wrapper/yii2-ext/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "hightman",
+                    "email": "hightman@twomice.net",
+                    "role": "Founder and project leader"
+                }
+            ],
             "description": "xunsearch php sdk, include yii, yii2 supports",
             "homepage": "http://www.xunsearch.com/",
             "keywords": [
@@ -809,7 +809,7 @@
                 "yii",
                 "yii2"
             ],
-      "time": "2020-09-03T16:46:04+00:00"
+            "time": "2020-09-03T16:46:04+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -1029,6 +1029,57 @@
             ],
             "abandoned": "dragonmantank/cron-expression",
             "time": "2017-01-23T04:29:33+00:00"
+        },
+        {
+            "name": "paragonie/random_compat",
+            "version": "v9.99.99",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/random_compat.git",
+                "reference": "84b4dfb120c6f9b4ff7b3685f9b8f1aa365a0c95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/84b4dfb120c6f9b4ff7b3685f9b8f1aa365a0c95",
+                "reference": "84b4dfb120c6f9b4ff7b3685f9b8f1aa365a0c95",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": "^7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*|5.*",
+                "vimeo/psalm": "^1"
+            },
+            "suggest": {
+                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com",
+                    "homepage": "https://paragonie.com"
+                }
+            ],
+            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
+            "keywords": [
+                "csprng",
+                "polyfill",
+                "pseudorandom",
+                "random"
+            ],
+            "time": "2018-07-02T15:55:56+00:00"
         },
         {
             "name": "peppeocchi/php-cron-scheduler",
@@ -1416,7 +1467,7 @@
                     "Psr\\SimpleCache\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.jp/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1436,26 +1487,26 @@
             ],
             "time": "2017-10-23T01:57:42+00:00"
         },
-    {
-      "name": "qcloud/cos-sdk-v5",
-      "version": "v2.0.9",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/tencentyun/cos-php-sdk-v5.git",
-        "reference": "d9fa5e8468ce4462d671976555efaa9acd2896e4"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/d9fa5e8468ce4462d671976555efaa9acd2896e4",
-        "reference": "d9fa5e8468ce4462d671976555efaa9acd2896e4",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
+        {
+            "name": "qcloud/cos-sdk-v5",
+            "version": "v2.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tencentyun/cos-php-sdk-v5.git",
+                "reference": "d9fa5e8468ce4462d671976555efaa9acd2896e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/d9fa5e8468ce4462d671976555efaa9acd2896e4",
+                "reference": "d9fa5e8468ce4462d671976555efaa9acd2896e4",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
             "require": {
                 "guzzlehttp/guzzle": "~6.3",
                 "guzzlehttp/guzzle-services": "~1.1",
@@ -1487,7 +1538,7 @@
                 "php",
                 "qcloud"
             ],
-      "time": "2020-06-16T13:09:21+00:00"
+            "time": "2020-06-16T13:09:21+00:00"
         },
         {
             "name": "qcloudsms/qcloudsms_php",
@@ -2198,16 +2249,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v4.3.4",
+            "version": "v5.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "d804bea118ff340a12e22a79f9c7e7eb56b35adc"
+                "reference": "6cca6b2e4b69fc5bace160d14cf1ee5f71483db4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/d804bea118ff340a12e22a79f9c7e7eb56b35adc",
-                "reference": "d804bea118ff340a12e22a79f9c7e7eb56b35adc",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/6cca6b2e4b69fc5bace160d14cf1ee5f71483db4",
+                "reference": "6cca6b2e4b69fc5bace160d14cf1ee5f71483db4",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2217,18 +2268,24 @@
                 ]
             },
             "require": {
-                "php": "^7.1.3",
-                "symfony/mime": "^4.3",
-                "symfony/polyfill-mbstring": "~1.1"
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1",
+                "symfony/polyfill-mbstring": "~1.1",
+                "symfony/polyfill-php80": "^1.15"
             },
             "require-dev": {
                 "predis/predis": "~1.0",
-                "symfony/expression-language": "~3.4|~4.0"
+                "symfony/cache": "^4.4|^5.0",
+                "symfony/expression-language": "^4.4|^5.0",
+                "symfony/mime": "^4.4|^5.0"
+            },
+            "suggest": {
+                "symfony/mime": "To use the file extension guesser"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "5.1-dev"
                 }
             },
             "autoload": {
@@ -2255,72 +2312,21 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-08-26T08:55:16+00:00"
-        },
-        {
-            "name": "symfony/mime",
-            "version": "v4.3.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/mime.git",
-                "reference": "987a05df1c6ac259b34008b932551353f4f408df"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/987a05df1c6ac259b34008b932551353f4f408df",
-                "reference": "987a05df1c6ac259b34008b932551353f4f408df",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "php": "^7.1.3",
-                "symfony/polyfill-intl-idn": "^1.10",
-                "symfony/polyfill-mbstring": "^1.0"
-            },
-            "require-dev": {
-                "egulias/email-validator": "^2.1.10",
-                "symfony/dependency-injection": "~3.4|^4.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Mime\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
+            "funding": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
                 },
                 {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
                 }
             ],
-            "description": "A library to manipulate MIME messages",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "mime",
-                "mime-type"
-            ],
-            "time": "2019-08-22T08:16:11+00:00"
+            "time": "2020-09-13T05:01:27+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2471,16 +2477,16 @@
         },
         {
             "name": "symfony/polyfill-intl-idn",
-            "version": "v1.12.0",
+            "version": "v1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "6af626ae6fa37d396dc90a399c0ff08e5cfc45b2"
+                "reference": "5dcab1bc7146cf8c1beaa4502a3d9be344334251"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/6af626ae6fa37d396dc90a399c0ff08e5cfc45b2",
-                "reference": "6af626ae6fa37d396dc90a399c0ff08e5cfc45b2",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/5dcab1bc7146cf8c1beaa4502a3d9be344334251",
+                "reference": "5dcab1bc7146cf8c1beaa4502a3d9be344334251",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2491,8 +2497,9 @@
             },
             "require": {
                 "php": ">=5.3.3",
-                "symfony/polyfill-mbstring": "^1.3",
-                "symfony/polyfill-php72": "^1.9"
+                "symfony/polyfill-intl-normalizer": "^1.10",
+                "symfony/polyfill-php70": "^1.10",
+                "symfony/polyfill-php72": "^1.10"
             },
             "suggest": {
                 "ext-intl": "For best performance"
@@ -2500,7 +2507,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12-dev"
+                    "dev-master": "1.18-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
                 }
             },
             "autoload": {
@@ -2521,6 +2532,10 @@
                     "email": "laurent@bassin.info"
                 },
                 {
+                    "name": "Trevor Rowbotham",
+                    "email": "trevor.rowbotham@pm.me"
+                },
+                {
                     "name": "Symfony Community",
                     "homepage": "https://symfony.com/contributors"
                 }
@@ -2535,7 +2550,108 @@
                 "portable",
                 "shim"
             ],
-            "time": "2019-08-06T08:03:45+00:00"
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-08-04T06:02:08+00:00"
+        },
+        {
+            "name": "symfony/polyfill-intl-normalizer",
+            "version": "v1.18.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
+                "reference": "37078a8dd4a2a1e9ab0231af7c6cb671b2ed5a7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/37078a8dd4a2a1e9ab0231af7c6cb671b2ed5a7e",
+                "reference": "37078a8dd4a2a1e9ab0231af7c6cb671b2ed5a7e",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-intl": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.18-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Intl\\Normalizer\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ],
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for intl's Normalizer class and related functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "intl",
+                "normalizer",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-07-14T12:35:20+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -2600,6 +2716,89 @@
             "keywords": [
                 "compatibility",
                 "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-07-14T12:35:20+00:00"
+        },
+        {
+            "name": "symfony/polyfill-php70",
+            "version": "v1.18.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-php70.git",
+                "reference": "0dd93f2c578bdc9c72697eaa5f1dd25644e618d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-php70/zipball/0dd93f2c578bdc9c72697eaa5f1dd25644e618d3",
+                "reference": "0dd93f2c578bdc9c72697eaa5f1dd25644e618d3",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "paragonie/random_compat": "~1.0|~2.0|~9.99",
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.18-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php70\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ],
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 7.0+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
                 "polyfill",
                 "portable",
                 "shim"
@@ -2949,30 +3148,30 @@
             ],
             "time": "2020-07-06T13:23:11+00:00"
         },
-    {
-      "name": "tencentcloud/tencentcloud-sdk-php",
-      "version": "3.0.251",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/TencentCloud/tencentcloud-sdk-php.git",
-        "reference": "a3b3054262e48776e8014d5e385a8932b0102f29"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/a3b3054262e48776e8014d5e385a8932b0102f29",
-        "reference": "a3b3054262e48776e8014d5e385a8932b0102f29",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
+        {
+            "name": "tencentcloud/tencentcloud-sdk-php",
+            "version": "3.0.251",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TencentCloud/tencentcloud-sdk-php.git",
+                "reference": "a3b3054262e48776e8014d5e385a8932b0102f29"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/a3b3054262e48776e8014d5e385a8932b0102f29",
+                "reference": "a3b3054262e48776e8014d5e385a8932b0102f29",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
             "require": {
                 "guzzlehttp/guzzle": "^6.3",
                 "guzzlehttp/psr7": "^1.4",
-              "php": ">=5.6.0"
+                "php": ">=5.6.0"
             },
             "type": "library",
             "autoload": {
@@ -2997,7 +3196,7 @@
             ],
             "description": "TencentCloudApi php sdk",
             "homepage": "https://github.com/TencentCloud/tencentcloud-sdk-php",
-      "time": "2020-09-15T00:59:07+00:00"
+            "time": "2020-09-15T00:59:07+00:00"
         },
         {
             "name": "whichbrowser/parser",
@@ -3064,28 +3263,28 @@
             ],
             "time": "2018-10-02T09:26:41+00:00"
         },
-    {
-      "name": "workerman/gateway-worker",
-      "version": "v3.0.18",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/walkor/GatewayWorker.git",
-        "reference": "50d3a77deb7f7fb206d641ee0307ae1c41d5d41d"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/50d3a77deb7f7fb206d641ee0307ae1c41d5d41d",
-        "reference": "50d3a77deb7f7fb206d641ee0307ae1c41d5d41d",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
+        {
+            "name": "workerman/gateway-worker",
+            "version": "v3.0.18",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/walkor/GatewayWorker.git",
+                "reference": "50d3a77deb7f7fb206d641ee0307ae1c41d5d41d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/50d3a77deb7f7fb206d641ee0307ae1c41d5d41d",
+                "reference": "50d3a77deb7f7fb206d641ee0307ae1c41d5d41d",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
             "require": {
-              "workerman/workerman": ">=3.5.0"
+                "workerman/workerman": ">=3.5.0"
             },
             "type": "library",
             "autoload": {
@@ -3102,7 +3301,7 @@
                 "communication",
                 "distributed"
             ],
-      "time": "2020-07-15T06:45:01+00:00"
+            "time": "2020-07-15T06:45:01+00:00"
         },
         {
             "name": "workerman/gatewayclient",
@@ -3441,7 +3640,7 @@
                 "php": ">=5.3.0"
             },
             "type": "library",
-            "notification-url": "https://packagist.jp/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
