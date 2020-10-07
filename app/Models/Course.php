@@ -180,6 +180,13 @@ class Course extends Model
     public $deleted;
 
     /**
+     * 资源数
+     *
+     * @var int
+     */
+    public $resource_count;
+
+    /**
      * 学员数
      *
      * @var int
@@ -220,13 +227,6 @@ class Course extends Model
      * @var int
      */
     public $favorite_count;
-
-    /**
-     * 资源数
-     *
-     * @var int
-     */
-    public $res_count;
 
     /**
      * 创建时间

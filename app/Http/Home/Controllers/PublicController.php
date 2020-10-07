@@ -20,6 +20,31 @@ class PublicController extends \Phalcon\Mvc\Controller
     use SecurityTrait;
 
     /**
+     * @Get("/download/{md5}", name="home.download")
+     */
+    public function downloadAction($md5)
+    {
+        $repo = new UploadRepo();
+
+        $file = $repo->findByMd5($md5);
+
+        if ($file) {
+
+            $service = new StorageService();
+
+            $location = $service->getFileUrl($file->path);
+
+            $this->response->redirect($location, true);
+
+        } else {
+
+            $this->response->setStatusCode(404);
+
+            return $this->response;
+        }
+    }
+
+    /**
      * @Get("/img/{id:[0-9]+}", name="home.img")
      */
     public function imageAction($id)

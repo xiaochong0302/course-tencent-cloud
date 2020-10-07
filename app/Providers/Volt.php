@@ -22,8 +22,12 @@ class Volt extends Provider
 
             $compiler = $volt->getCompiler();
 
-            $compiler->addFunction('site_setting', function ($resolvedArgs) {
-                return 'kg_site_setting(' . $resolvedArgs . ')';
+            $compiler->addFunction('config', function ($resolvedArgs) {
+                return 'kg_config(' . $resolvedArgs . ')';
+            });
+
+            $compiler->addFunction('setting', function ($resolvedArgs) {
+                return 'kg_setting(' . $resolvedArgs . ')';
             });
 
             $compiler->addFunction('full_url', function ($resolvedArgs) {
@@ -60,6 +64,10 @@ class Volt extends Provider
 
             $compiler->addFilter('human_number', function ($resolvedArgs) {
                 return 'kg_human_number(' . $resolvedArgs . ')';
+            });
+
+            $compiler->addFilter('human_size', function ($resolvedArgs) {
+                return 'kg_human_size(' . $resolvedArgs . ')';
             });
 
             $compiler->addFilter('time_ago', function ($resolvedArgs) {
