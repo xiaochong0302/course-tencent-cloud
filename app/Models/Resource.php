@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
-
-class ChapterResource extends Model
+class Resource extends Model
 {
 
     /**
@@ -36,13 +34,6 @@ class ChapterResource extends Model
     public $upload_id;
 
     /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted;
-
-    /**
      * 创建时间
      *
      * @var int
@@ -58,19 +49,7 @@ class ChapterResource extends Model
 
     public function getSource(): string
     {
-        return 'kg_chapter_resource';
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->addBehavior(
-            new SoftDelete([
-                'field' => 'deleted',
-                'value' => 1,
-            ])
-        );
+        return 'kg_resource';
     }
 
     public function beforeCreate()

@@ -116,7 +116,7 @@
 #main {
     margin-top: 80px;
     margin-bottom: 30px;
-    min-height: 560px;
+    min-height: 760px;
 }
 
 #footer {
@@ -1161,18 +1161,18 @@
 }
 
 .account-form .verify-input-inline {
-    display: inline-block;
-    width: 283px;
-    margin-right: 5px;
+    width: 280px;
+    margin-right: 10px;
 }
 
 .account-form .verify-btn-inline {
-    display: inline-block;
-    vertical-align: top;
+    width: 110px;
+    margin-right: 0;
 }
 
 .verify-btn-inline button {
-    min-width: 108px;
+    min-width: 100px;
+    width: 100%;
 }
 
 .login-tab {
@@ -1500,14 +1500,15 @@
 }
 
 .consult-info .item {
-    clear: both;
     margin-bottom: 15px;
+    line-height: 1.5em;
+    height: 1.5em;
+    clear: both;
 }
 
 .consult-info .item .label {
     float: left;
     width: 50px;
-    height: 32px;
     text-align: right;
 }
 
@@ -1521,6 +1522,19 @@
     width: 600px;
     color: #666;
     word-wrap: break-word;
+}
+
+.security-form {
+    width: 600px;
+}
+
+.security-form .verify-input-inline {
+    width: 360px;
+}
+
+.security-form .verify-btn-inline {
+    width: 120px;
+    margin-right: 0;
 }
 
 .security-item {

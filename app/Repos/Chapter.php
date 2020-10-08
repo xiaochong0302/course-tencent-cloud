@@ -8,7 +8,6 @@ use App\Models\ChapterLive as ChapterLiveModel;
 use App\Models\ChapterRead as ChapterReadModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\ChapterVod as ChapterVodModel;
-use App\Models\Comment as CommentModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -148,14 +147,6 @@ class Chapter extends Repository
     public function countUsers($chapterId)
     {
         return (int)ChapterUserModel::count([
-            'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
-            'bind' => ['chapter_id' => $chapterId],
-        ]);
-    }
-
-    public function countComments($chapterId)
-    {
-        return (int)CommentModel::count([
             'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId],
         ]);

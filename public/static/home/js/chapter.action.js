@@ -47,4 +47,19 @@ layui.use(['jquery', 'helper'], function () {
         });
     });
 
+    /**
+     * 资料
+     */
+    $('.icon-resource').on('click', function () {
+        var url = $(this).parent().data('url');
+        helper.checkLogin(function () {
+            layer.open({
+                type: 2,
+                title: '资料下载',
+                content: [url, 'no'],
+                area: ['640px', '300px']
+            });
+        });
+    });
+
 });

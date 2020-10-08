@@ -640,7 +640,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_chapter_resource', [
+        $this->table('kg_resource', [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -675,13 +675,6 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'comment' => '上传编号',
                 'after' => 'chapter_id',
-            ])
-            ->addColumn('deleted', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'comment' => '删除标识',
-                'after' => 'upload_id',
             ])
             ->addColumn('create_time', 'integer', [
                 'null' => false,
@@ -2517,7 +2510,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('client_ip', 'string', [
                 'null' => false,
                 'default' => '',
-                'limit' => 30,
+                'limit' => 64,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
                 'comment' => '终端IP',

@@ -8,7 +8,8 @@
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
-            <a href="{{ url({'for':'home.group.list'}) }}">群组列表</a>
+            <a href="/">首页</a>
+            <a href="{{ url({'for':'home.group.list'}) }}">群组</a>
             <a><cite>{{ group.name }}</cite></a>
         </span>
     </div>

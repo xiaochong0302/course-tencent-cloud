@@ -1,5 +1,7 @@
 layui.use(['jquery'], function () {
+
     var $ = layui.jquery;
+
     var captcha = new TencentCaptcha(
         $('#captcha-btn')[0],
         $('#captcha-btn').data('app-id'),
@@ -12,4 +14,5 @@ layui.use(['jquery'], function () {
             }
         }
     );
+
 });

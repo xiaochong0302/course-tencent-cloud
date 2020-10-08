@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Home\Controllers;
 
 use App\Services\Logic\Teacher\Console\ConsultList as ConsultListService;
@@ -28,7 +27,7 @@ class TeacherConsoleController extends Controller
     }
 
     /**
-     * @Get("/index", name="home.tc.index")
+     * @Get("/", name="home.tc.index")
      */
     public function indexAction()
     {
@@ -95,7 +94,7 @@ class TeacherConsoleController extends Controller
             'stream_code' => substr($pushUrl, $pos + 1),
         ];
 
-        $this->view->pick('teacher/console/live_push');
+        $this->view->pick('teacher/console/live');
         $this->view->setVar('qrcode', $qrcode);
         $this->view->setVar('obs', $obs);
     }
