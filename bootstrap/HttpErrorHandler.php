@@ -71,13 +71,7 @@ class HttpErrorHandler extends Component
      */
     protected function report($e)
     {
-        $config = $this->getConfig();
-
-        if ($config->get('env') == ENV_DEV) {
-            $content = $e->getTraceAsString();
-        } else {
-            $content = sprintf('%s(%d): %s', $e->getFile(), $e->getLine(), $e->getMessage());
-        }
+        $content = sprintf('%s(%d): %s', $e->getFile(), $e->getLine(), $e->getMessage());
 
         $logger = $this->getLogger();
 

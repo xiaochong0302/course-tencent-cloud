@@ -1500,14 +1500,15 @@
 }
 
 .consult-info .item {
-    clear: both;
     margin-bottom: 15px;
+    line-height: 1.5em;
+    height: 1.5em;
+    clear: both;
 }
 
 .consult-info .item .label {
     float: left;
     width: 50px;
-    height: 32px;
     text-align: right;
 }
 
