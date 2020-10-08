@@ -20,6 +20,7 @@
         <ul class="layui-tab-title kg-tab-title">
             <li class="layui-this">基本信息</li>
             <li>{{ content_title(course.model) }}</li>
+            <li>学习资料</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -33,6 +34,9 @@
                 {% elseif course.model == 3 %}
                     {{ partial('chapter/edit_lesson_read') }}
                 {% endif %}
+            </div>
+            <div class="layui-tab-item">
+                {{ partial('chapter/edit_resource') }}
             </div>
         </div>
     </div>
@@ -63,6 +67,9 @@
         {{ js_include('admin/js/copy.js') }}
 
     {% endif %}
+
+    {{ js_include('lib/cos-js-sdk-v5.min.js') }}
+    {{ js_include('admin/js/chapter.resource.js') }}
 
 {% endblock %}
 

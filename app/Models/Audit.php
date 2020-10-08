@@ -72,6 +72,9 @@ class Audit extends Model
 
         if (is_array($this->req_data) && !empty($this->req_data)) {
             foreach ($this->req_data as $key => $value) {
+                if (!is_scalar($value)) {
+                    $value = kg_json_encode($value);
+                }
                 if (kg_strlen($value) > 255) {
                     $this->req_data[$key] = kg_substr($value, 0, 255);
                 }

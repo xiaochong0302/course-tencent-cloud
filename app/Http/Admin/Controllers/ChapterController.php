@@ -7,12 +7,26 @@ use App\Http\Admin\Services\ChapterContent as ChapterContentService;
 use App\Http\Admin\Services\Course as CourseService;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Models\Course as CourseModel;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/admin/chapter")
  */
 class ChapterController extends Controller
 {
+
+    /**
+     * @Get("/{id:[0-9]+}/resources", name="admin.chapter.resources")
+     */
+    public function resourcesAction($id)
+    {
+        $chapterService = new ChapterService();
+
+        $resources = $chapterService->getResources($id);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('resources', $resources);
+    }
 
     /**
      * @Get("/{id:[0-9]+}/lessons", name="admin.chapter.lessons")
@@ -95,6 +109,12 @@ class ChapterController extends Controller
         if ($chapter->parent_id > 0) {
 
             $this->view->pick('chapter/edit_lesson');
+
+            $resources = $chapterService->getResources($chapter->id);
+
+            $cos = $chapterService->getSettings('cos');
+
+            $this->view->setVar('cos', $cos);
 
             switch ($course->model) {
                 case CourseModel::MODEL_VOD:

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Caches\MaxUploadId as MaxUploadIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Upload extends Model
@@ -13,7 +14,7 @@ class Upload extends Model
     const TYPE_COVER_IMG = 1; // 封面图
     const TYPE_CONTENT_IMG = 2; // 内容图
     const TYPE_AVATAR_IMG = 3; // 头像
-    const TYPE_COURSE_RES = 4; // 课件资源
+    const TYPE_RESOURCE = 4; // 课件资源
     const TYPE_IM_IMG = 5; // IM图片
     const TYPE_IM_FILE = 6; // IM文件
 
@@ -112,6 +113,13 @@ class Upload extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public function afterCreate()
+    {
+        $cache = new MaxUploadIdCache();
+
+        $cache->rebuild();
     }
 
 }
