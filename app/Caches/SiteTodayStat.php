@@ -2,8 +2,7 @@
 
 namespace App\Caches;
 
-use App\Models\Order as OrderModel;
-use App\Models\User as UserModel;
+use App\Repos\Stat as StatRepo;
 
 class SiteTodayStat extends Cache
 {
@@ -22,42 +21,21 @@ class SiteTodayStat extends Cache
 
     public function getContent($id = null)
     {
+        $statRepo = new StatRepo();
+
+        $date = date('Y-m-d');
+
+        $saleCount = $statRepo->countDailySales($date);
+        $saleAmount = $statRepo->sumDailySales($date);
+        $refundAmount = $statRepo->sumDailyRefunds($date);
+        $registerCount = $statRepo->countDailyRegisteredUser($date);
+
         return [
-            'user_count' => $this->countUsers(),
-            'order_count' => $this->countOrders(),
-            'sale_amount' => $this->sumSales(),
+            'sale_count' => $saleCount,
+            'sale_amount' => $saleAmount,
+            'refund_amount' => $refundAmount,
+            'register_count' => $registerCount,
         ];
-    }
-
-    protected function countUsers()
-    {
-        return (int)UserModel::count([
-            'conditions' => 'create_time > :time:',
-            'bind' => ['time' => strtotime('today')],
-        ]);
-    }
-
-    protected function countOrders()
-    {
-        return (int)OrderModel::count([
-            'conditions' => 'create_time > :time: AND status = :status:',
-            'bind' => [
-                'time' => strtotime('today'),
-                'status' => OrderModel::STATUS_FINISHED,
-            ],
-        ]);
-    }
-
-    protected function sumSales()
-    {
-        return (float)OrderModel::sum([
-            'column' => 'amount',
-            'conditions' => 'create_time > :time: AND status = :status:',
-            'bind' => [
-                'time' => strtotime('today'),
-                'status' => OrderModel::STATUS_FINISHED,
-            ],
-        ]);
     }
 
 }
