@@ -78,9 +78,9 @@ class MyStorage extends Storage
      *
      * @return UploadModel|bool
      */
-    public function uploadCourseResource()
+    public function uploadResource()
     {
-        return $this->upload('/res/course/', self::MIME_FILE, UploadModel::TYPE_COURSE_RES);
+        return $this->upload('/resource/', self::MIME_FILE, UploadModel::TYPE_RESOURCE);
     }
 
     /**

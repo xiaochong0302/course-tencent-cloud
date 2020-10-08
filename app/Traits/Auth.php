@@ -6,7 +6,8 @@ use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\Auth as AuthService;
 use App\Validators\Validator as AppValidator;
-use Phalcon\Di;
+use Phalcon\Di as Di;
+use Phalcon\Events\Manager as EventsManager;
 
 trait Auth
 {
@@ -24,7 +25,16 @@ trait Auth
 
         $userRepo = new UserRepo();
 
-        return $userRepo->findById($authUser['id']);
+        $user = $userRepo->findById($authUser['id']);
+
+        /**
+         * @var EventsManager $eventsManager
+         */
+        $eventsManager = Di::getDefault()->getShared('eventsManager');
+
+        $eventsManager->fire('user:online', $this, $user);
+
+        return $user;
     }
 
     /**
@@ -40,13 +50,7 @@ trait Auth
 
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($authUser['id']);
-
-        if (time() - $user->active_time > 600) {
-            $user->update(['active_time' => time()]);
-        }
-
-        return $user;
+        return $userRepo->findById($authUser['id']);
     }
 
     /**

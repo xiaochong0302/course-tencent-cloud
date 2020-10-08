@@ -11,7 +11,7 @@ class VodController extends Controller
 {
 
     /**
-     * @Post("/upload/sign", name="admin.vod.upload_sign")
+     * @Get("/upload/sign", name="admin.vod.upload_sign")
      */
     public function uploadSignatureAction()
     {

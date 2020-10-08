@@ -137,7 +137,7 @@ function kg_site_url()
  * @param string $key
  * @return mixed
  */
-function kg_site_setting($section, $key = null)
+function kg_setting($section, $key = null)
 {
     $cache = new SettingCache();
 
@@ -147,6 +147,24 @@ function kg_site_setting($section, $key = null)
 
     return $settings[$key] ?? null;
 }
+
+/**
+ * 获取站点配置
+ *
+ * @param string $path
+ * @param mixed $defaultValue
+ * @return mixed
+ */
+function kg_config($path, $defaultValue = null)
+{
+    /**
+     * @var Config $config
+     */
+    $config = Di::getDefault()->getShared('config');
+
+    return $config->path($path, $defaultValue);
+}
+
 
 /**
  * 获取默认头像路径
@@ -280,6 +298,23 @@ function kg_human_number($number)
     }
 
     return $result;
+}
+
+/**
+ * 格式化大小
+ *
+ * @param int $bytes
+ * @return string
+ */
+function kg_human_size($bytes)
+{
+    if (!$bytes) return 0;
+
+    $symbols = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+
+    $exp = floor(log($bytes) / log(1024));
+
+    return sprintf('%.2f ' . $symbols[$exp], ($bytes / pow(1024, floor($exp))));
 }
 
 /**
