@@ -438,6 +438,43 @@ class AuthNode extends Service
                         ],
                     ],
                 ],
+                [
+                    'id' => '2-7',
+                    'title' => '数据统计',
+                    'type' => 'menu',
+                    'children' => [
+                        [
+                            'id' => '2-7-1',
+                            'title' => '热卖商品',
+                            'type' => 'menu',
+                            'route' => 'admin.stat.hot_sales',
+                        ],
+                        [
+                            'id' => '2-7-2',
+                            'title' => '成交订单',
+                            'type' => 'menu',
+                            'route' => 'admin.stat.sales',
+                        ],
+                        [
+                            'id' => '2-7-3',
+                            'title' => '售后退款',
+                            'type' => 'menu',
+                            'route' => 'admin.stat.refunds',
+                        ],
+                        [
+                            'id' => '2-7-4',
+                            'title' => '注册用户',
+                            'type' => 'menu',
+                            'route' => 'admin.stat.reg_users',
+                        ],
+                        [
+                            'id' => '2-7-5',
+                            'title' => '活跃用户',
+                            'type' => 'menu',
+                            'route' => 'admin.stat.online_users',
+                        ],
+                    ],
+                ],
             ],
         ];
     }

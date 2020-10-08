@@ -2517,7 +2517,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('client_ip', 'string', [
                 'null' => false,
                 'default' => '',
-                'limit' => 30,
+                'limit' => 64,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
                 'comment' => '终端IP',

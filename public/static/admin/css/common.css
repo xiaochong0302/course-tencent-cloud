@@ -258,3 +258,20 @@ img.kg-qrcode {
     font-size: 20px;
     color: rgb(0, 150, 136);
 }
+
+.kg-search-form {
+    margin-bottom: 30px;
+}
+
+.kg-search-form .layui-form-label {
+    width: auto;
+}
+
+.kg-search-form .layui-input-inline:last-child {
+    margin-left: 10px;
+}
+
+.kg-chart {
+    width: 100%;
+    height: 480px;
+}
