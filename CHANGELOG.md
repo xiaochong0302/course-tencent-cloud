@@ -1,3 +1,13 @@
+### [v1.1.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.1.0)(2020-10-08)
+
+- 增加运营统计功能
+- 增加课程资料功能
+- 增加changelog
+- 忽略schema
+- 账户安全页面调整
+- 简化部分路由
+- 修复相关课程列表undefined问题
+
 ### [v1.0.0-beta1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.0.0-beta1)(2020-09-26)
 
 前台功能：

@@ -63,7 +63,7 @@ class Audit extends Repository
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return AuditModel|Model|bool
      */
     public function findById($id)

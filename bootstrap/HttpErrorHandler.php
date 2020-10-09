@@ -8,6 +8,7 @@ use App\Exceptions\NotFound as NotFoundException;
 use App\Exceptions\ServiceUnavailable as ServiceUnavailableException;
 use App\Exceptions\Unauthorized as UnauthorizedException;
 use App\Library\Logger as AppLogger;
+use Phalcon\Config;
 use Phalcon\Mvc\User\Component;
 
 class HttpErrorHandler extends Component
@@ -125,6 +126,14 @@ class HttpErrorHandler extends Component
             'code' => $code,
             'msg' => $errors[$code] ?? $code,
         ];
+    }
+
+    /**
+     * @return Config
+     */
+    protected function getConfig()
+    {
+        return $this->getDI()->getShared('config');
     }
 
     protected function getLogger()

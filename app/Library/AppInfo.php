@@ -11,7 +11,7 @@ class AppInfo
 
     protected $link = 'https://gitee.com/koogua';
 
-    protected $version = '1.0.0';
+    protected $version = '1.1.0';
 
     public function __get($name)
     {
