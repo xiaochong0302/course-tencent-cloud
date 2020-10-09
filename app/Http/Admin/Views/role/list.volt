@@ -3,10 +3,10 @@
 {% block content %}
 
     {%- macro type_info(value) %}
-        {% if value == 'system' %}
-            <span class="layui-badge layui-bg-green">内置</span>
-        {% elseif value == 'custom' %}
-            <span class="layui-badge layui-bg-blue">自定</span>
+        {% if value == 1 %}
+            内置
+        {% elseif value == 2 %}
+            自定义
         {% endif %}
     {%- endmacro %}
 
@@ -43,7 +43,7 @@
             {% set restore_url = url({'for':'admin.role.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                <td><a href="javascript:" title="{{ item.summary }}">{{ item.name }}</a></td>
+                <td><a href="{{ edit_url }}" title="{{ item.summary }}">{{ item.name }}</a></td>
                 <td>{{ type_info(item.type) }}</td>
                 <td>
                     <a href="{{ user_list_url }}">

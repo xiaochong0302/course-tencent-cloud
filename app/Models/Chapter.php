@@ -133,6 +133,13 @@ class Chapter extends Model
     public $deleted;
 
     /**
+     * 资源数
+     *
+     * @var int
+     */
+    public $resource_count;
+
+    /**
      * 课时数
      *
      * @var int
@@ -159,13 +166,6 @@ class Chapter extends Model
      * @var int
      */
     public $like_count;
-
-    /**
-     * 资源数
-     *
-     * @var int
-     */
-    public $res_count;
 
     /**
      * 创建时间

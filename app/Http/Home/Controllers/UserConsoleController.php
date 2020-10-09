@@ -34,7 +34,7 @@ class UserConsoleController extends Controller
     }
 
     /**
-     * @Get("/index", name="home.uc.index")
+     * @Get("/", name="home.uc.index")
      */
     public function indexAction()
     {
@@ -61,9 +61,23 @@ class UserConsoleController extends Controller
     {
         $service = new AccountInfoService();
 
+        $captcha = $service->getSettings('captcha');
+
         $account = $service->handle();
 
-        $this->view->pick('user/console/account');
+        $type = $this->request->getQuery('type', 'string', 'info');
+
+        if ($type == 'info') {
+            $this->view->pick('user/console/account_info');
+        } elseif ($type == 'phone') {
+            $this->view->pick('user/console/account_phone');
+        } elseif ($type == 'email') {
+            $this->view->pick('user/console/account_email');
+        } elseif ($type == 'password') {
+            $this->view->pick('user/console/account_password');
+        }
+
+        $this->view->setVar('captcha', $captcha);
         $this->view->setVar('account', $account);
     }
 
@@ -183,8 +197,10 @@ class UserConsoleController extends Controller
 
         $service->handle();
 
+        $location = $this->url->get(['for' => 'home.uc.profile']);
+
         $content = [
-            'location' => $this->request->getHTTPReferer(),
+            'location' => $location,
             'msg' => '更新资料成功',
         ];
 

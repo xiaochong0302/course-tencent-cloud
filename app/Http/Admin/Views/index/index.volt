@@ -13,11 +13,14 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">COURSE ADMIN</div>
+        <div class="layui-logo">酷瓜云课堂</div>
         <div class="kg-side-menu-bar">
             <a href="javascript:"><i class="layui-icon layui-icon-spread-left"></i></a>
         </div>
         <ul class="layui-nav layui-layout-left kg-nav-module">
+            <li class="layui-nav-item">
+                <a href="/admin">首页</a>
+            </li>
             {% for item in top_menus %}
                 <li data-module="module-{{ item.id }}" class="layui-nav-item">
                     <a href="javascript:">{{ item.title }}</a>

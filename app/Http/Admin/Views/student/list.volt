@@ -4,11 +4,11 @@
 
     {%- macro source_type_info(value) %}
         {% if value == 1 %}
-            <span class="layui-badge layui-bg-green">免费</span>
+            免费
         {% elseif value == 2 %}
             <span class="layui-badge layui-bg-orange">付费</span>
         {% elseif value == 3 %}
-            <span class="layui-badge layui-bg-blue">导入</span>
+            导入
         {% endif %}
     {%- endmacro %}
 

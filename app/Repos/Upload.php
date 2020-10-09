@@ -4,6 +4,8 @@ namespace App\Repos;
 
 use App\Models\Upload as UploadModel;
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Upload extends Repository
 {
@@ -27,6 +29,19 @@ class Upload extends Repository
             'conditions' => 'md5 = :md5:',
             'bind' => ['md5' => $md5],
         ]);
+    }
+
+    /**
+     * @param array $ids
+     * @param string|array $columns
+     * @return ResultsetInterface|Resultset|UploadModel[]
+     */
+    public function findByIds($ids, $columns = '*')
+    {
+        return UploadModel::query()
+            ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
     }
 
 }

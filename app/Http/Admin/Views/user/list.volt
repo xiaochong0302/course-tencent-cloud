@@ -4,25 +4,25 @@
 
     {%- macro gender_info(value) %}
         {% if value == 1 %}
-            <span class="layui-badge layui-bg-gray">男</span>
+            男
         {% elseif value == 2 %}
-            <span class="layui-badge layui-bg-gray">女</span>
+            女
         {% elseif value == 3 %}
-            <span class="layui-badge layui-bg-gray">密</span>
+            密
         {% endif %}
     {%- endmacro %}
 
     {%- macro edu_role_info(user) %}
         {% if user.edu_role.id == 1 %}
-            <span class="layui-badge layui-bg-gray">学员</span>
+            学员
         {% elseif user.edu_role.id == 2 %}
-            <span class="layui-badge layui-bg-blue">讲师</span>
+            <a href="{{ url({'for':'admin.user.list'},{'edu_role':user.edu_role.id}) }}">讲师</a>
         {% endif %}
     {%- endmacro %}
 
     {%- macro admin_role_info(user) %}
-        {% if user.admin_role.id %}
-            <span class="layui-badge layui-bg-gray">{{ user.admin_role.name }}</span>
+        {% if user.admin_role.id > 0 %}
+            <a href="{{ url({'for':'admin.user.list'},{'admin_role':user.admin_role.id}) }}">{{ user.admin_role.name }}</a>
         {% endif %}
     {%- endmacro %}
 

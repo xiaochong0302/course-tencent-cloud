@@ -38,28 +38,28 @@
 
 {%- macro item_type(value) %}
     {% if value == 1 %}
-        <span class="layui-badge layui-bg-green">课程</span>
+        课程
     {% elseif value == 2 %}
-        <span class="layui-badge layui-bg-blue">套餐</span>
+        套餐
     {% elseif value == 3 %}
-        <span class="layui-badge layui-bg-red">赞赏</span>
+        赞赏
     {% elseif value == 4 %}
-        <span class="layui-badge layui-bg-orange">会员</span>
+        会员
     {% elseif value == 99 %}
-        <span class="layui-badge layui-bg-black">测试</span>
+        测试
     {% endif %}
 {%- endmacro %}
 
 {%- macro order_status(value) %}
     {% if value == 1 %}
-        <span class="layui-badge layui-bg-blue">待支付</span>
+        待支付
     {% elseif value == 2 %}
-        <span class="layui-badge layui-bg-gray">发货中</span>
+        发货中
     {% elseif value == 3 %}
-        <span class="layui-badge layui-bg-green">已完成</span>
+        已完成
     {% elseif value == 4 %}
-        <span class="layui-badge layui-bg-cyan">已关闭</span>
+        已关闭
     {% elseif value == 5 %}
-        <span class="layui-badge layui-bg-red">已退款</span>
+        已退款
     {% endif %}
 {%- endmacro %}

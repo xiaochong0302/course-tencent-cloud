@@ -1,16 +1,16 @@
 {%- macro refund_status(value) %}
     {% if value == 1 %}
-        <span class="layui-badge layui-bg-blue">待处理</span>
+        待处理
     {% elseif value == 2 %}
-        <span class="layui-badge layui-bg-gray">已取消</span>
+        已取消
     {% elseif value == 3 %}
-        <span class="layui-badge layui-bg-orange">已审核</span>
+        已审核
     {% elseif value == 4 %}
-        <span class="layui-badge layui-bg-red">已拒绝</span>
+        已拒绝
     {% elseif value == 5 %}
-        <span class="layui-badge layui-bg-green">已完成</span>
+        已完成
     {% elseif value == 6 %}
-        <span class="layui-badge layui-bg-cyan">已失败</span>
+        已失败
     {% endif %}
 {%- endmacro %}
 

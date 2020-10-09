@@ -8,6 +8,7 @@ use App\Services\Logic\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Logic\Chapter\ChapterLike as ChapterLikeService;
 use App\Services\Logic\Chapter\DanmuList as ChapterDanmuListService;
 use App\Services\Logic\Chapter\Learning as ChapterLearningService;
+use App\Services\Logic\Chapter\ResourceList as ChapterResourceListService;
 use App\Services\Logic\Course\ChapterList as CourseChapterListService;
 
 /**
@@ -15,6 +16,18 @@ use App\Services\Logic\Course\ChapterList as CourseChapterListService;
  */
 class ChapterController extends Controller
 {
+
+    /**
+     * @Get("/{id:[0-9]+}/resources", name="home.chapter.resources")
+     */
+    public function resourcesAction($id)
+    {
+        $service = new ChapterResourceListService();
+
+        $items = $service->handle($id);
+
+        $this->view->setVar('items', $items);
+    }
 
     /**
      * @Get("/{id:[0-9]+}", name="home.chapter.show")

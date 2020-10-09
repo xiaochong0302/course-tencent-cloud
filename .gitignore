@@ -6,6 +6,7 @@
 /config/xs.user.ini
 /config/alipay/*.crt
 /config/wxpay/*.pem
+/db/migrations/schema.php
 /public/robots.txt
 /public/sitemap.xml
 *KgTest*

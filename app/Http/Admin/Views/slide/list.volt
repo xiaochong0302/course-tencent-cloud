@@ -4,11 +4,11 @@
 
     {%- macro target_info(value) %}
         {% if value == 1 %}
-            <span class="layui-badge layui-bg-green">课程</span>
+            课程
         {% elseif value == 2 %}
-            <span class="layui-badge layui-bg-blue">单页</span>
+            单页
         {% elseif value == 3 %}
-            <span class="layui-badge layui-bg-gray">链接</span>
+            链接
         {% endif %}
     {%- endmacro %}
 

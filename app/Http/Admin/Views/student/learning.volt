@@ -2,6 +2,18 @@
 
 {% block content %}
 
+    {%- macro client_type_info(value) %}
+        {% if value == 1 %}
+            desktop
+        {% elseif value == 2 %}
+            mobile
+        {% elseif value == 3 %}
+            app
+        {% elseif value == 4 %}
+            小程序
+        {% endif %}
+    {%- endmacro %}
+
     <table class="layui-table kg-table">
         <colgroup>
             <col>
@@ -26,7 +38,7 @@
                     <p class="layui-elip">章节：{{ item.chapter.title }}</p>
                 </td>
                 <td>
-                    <p>类型：{{ item.client_type }}</p>
+                    <p>类型：{{ client_type_info(item.client_type) }}</p>
                     <p>地址：<a href="javascript:" class="kg-ip2region" title="查看位置" data-ip="{{ item.client_ip }}">{{ item.client_ip }}</a></p>
                 </td>
                 <td>{{ item.duration|duration }}</td>

@@ -4,6 +4,13 @@ namespace App\Services;
 
 use Phalcon\Logger\Adapter\File as FileLogger;
 use Qcloud\Cos\Client as CosClient;
+use TencentCloud\Common\Credential;
+use TencentCloud\Common\Exception\TencentCloudSDKException;
+use TencentCloud\Common\Profile\ClientProfile;
+use TencentCloud\Common\Profile\HttpProfile;
+use TencentCloud\Sts\V20180813\Models\GetFederationTokenRequest;
+use TencentCloud\Sts\V20180813\Models\GetFederationTokenResponse;
+use TencentCloud\Sts\V20180813\StsClient;
 
 class Storage extends Service
 {
@@ -30,6 +37,74 @@ class Storage extends Service
         $this->logger = $this->getLogger('storage');
 
         $this->client = $this->getCosClient();
+    }
+
+    /**
+     * 获取临时凭证
+     *
+     * @return GetFederationTokenResponse
+     */
+    public function getFederationToken()
+    {
+        $secret = $this->getSettings('secret');
+
+        $resource = sprintf('qcs::cos:%s:uid/%s:%s/*',
+            $this->settings['region'],
+            $secret['app_id'],
+            $this->settings['bucket']
+        );
+
+        $policy = json_encode([
+            'version' => '2.0',
+            'statement' => [
+                'effect' => 'allow',
+                'action' => [
+                    'name/cos:PutObject',
+                    'name/cos:PostObject',
+                    'name/cos:InitiateMultipartUpload',
+                    'name/cos:ListMultipartUploads',
+                    'name/cos:ListParts',
+                    'name/cos:UploadPart',
+                    'name/cos:CompleteMultipartUpload',
+                ],
+                'resource' => [$resource],
+            ],
+        ]);
+
+        try {
+
+            $credential = new Credential($secret['secret_id'], $secret['secret_key']);
+
+            $httpProfile = new HttpProfile();
+
+            $httpProfile->setEndpoint('sts.tencentcloudapi.com');
+
+            $clientProfile = new ClientProfile();
+
+            $clientProfile->setHttpProfile($httpProfile);
+
+            $client = new StsClient($credential, $this->settings['region'], $clientProfile);
+
+            $request = new GetFederationTokenRequest();
+
+            $params = json_encode([
+                'Name' => 'foo',
+                'Policy' => urlencode($policy),
+            ]);
+
+            $request->fromJsonString($params);
+
+            return $client->GetFederationToken($request);
+
+        } catch (TencentCloudSDKException $e) {
+
+            $this->logger->error('Get Tmp Token Exception' . kg_json_encode([
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            throw new \Exception('Get Tmp Token Exception');
+        }
     }
 
     /**
