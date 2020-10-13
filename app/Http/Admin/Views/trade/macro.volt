@@ -1,20 +1,20 @@
 {%- macro channel_type(value) %}
     {% if value == 1 %}
-        <span class="layui-badge layui-bg-blue">支付宝</span>
+        支付宝
     {% elseif value == 2 %}
-        <span class="layui-badge layui-bg-green">微信</span>
+        微信
     {% endif %}
 {%- endmacro %}
 
 {%- macro trade_status(value) %}
     {% if value == 1 %}
-        <span class="layui-badge layui-bg-blue">待支付</span>
+        待支付
     {% elseif value == 2 %}
-        <span class="layui-badge layui-bg-green">已完成</span>
+        已完成
     {% elseif value == 3 %}
-        <span class="layui-badge layui-bg-cyan">已关闭</span>
+        已关闭
     {% elseif value == 4 %}
-        <span class="layui-badge layui-bg-red">已退款</span>
+        已退款
     {% endif %}
 {%- endmacro %}
 

@@ -4,7 +4,7 @@
 
     {% set consult.answer = consult.answer ? consult.answer : '请耐心等待回复吧' %}
 
-    <div class="consult-info">
+    <div class="consult-info clearfix">
         {% if consult.course.id is defined %}
             <div class="item">
                 <div class="label">课程：</div>

@@ -148,6 +148,12 @@ class Role extends Service
             $list[] = 'admin.chapter.content';
         }
 
+        if (array_intersect(['admin.chapter.add', 'admin.chapter.edit'], $routes)) {
+            $list[] = 'admin.resource.create';
+            $list[] = 'admin.resource.update';
+            $list[] = 'admin.resource.delete';
+        }
+
         if (in_array('admin.course.delete', $routes)) {
             $list[] = 'admin.chapter.delete';
             $list[] = 'admin.chapter.restore';
