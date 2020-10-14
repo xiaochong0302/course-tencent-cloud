@@ -43,7 +43,6 @@ class UpgradeTask extends Task
     public function resetAnnotationAction()
     {
         $config = $this->getConfig();
-
         $redis = $this->getRedis();
 
         $dbIndex = $config->path('annotation.db');
@@ -56,9 +55,7 @@ class UpgradeTask extends Task
         echo "start reset annotation..." . PHP_EOL;
 
         if (count($keys) > 0) {
-
             $keys = $this->handlePhKeys($keys);
-
             $redis->del(...$keys);
             $redis->del($statsKey);
         }
@@ -74,7 +71,6 @@ class UpgradeTask extends Task
     public function resetMetadataAction()
     {
         $config = $this->getConfig();
-
         $redis = $this->getRedis();
 
         $dbIndex = $config->path('metadata.db');
@@ -87,9 +83,7 @@ class UpgradeTask extends Task
         echo "start reset metadata..." . PHP_EOL;
 
         if (count($keys) > 0) {
-
             $keys = $this->handlePhKeys($keys);
-
             $redis->del(...$keys);
             $redis->del($statsKey);
         }

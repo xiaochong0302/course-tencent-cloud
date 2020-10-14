@@ -41,7 +41,7 @@ class Task extends \Phalcon\Cli\Task
     {
         $appService = new AppService();
 
-        return $appService->getLogger($section);
+        return $appService->getSettings($section);
     }
 
 }
