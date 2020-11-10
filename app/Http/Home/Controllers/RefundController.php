@@ -44,10 +44,8 @@ class RefundController extends Controller
 
         $service->handle();
 
-        $location = $this->url->get(['for' => 'home.my.refunds']);
-
         $content = [
-            'location' => $location,
+            'location' => $this->url->get(['for' => 'home.uc.refunds']),
             'msg' => '申请退款成功',
         ];
 
@@ -80,10 +78,8 @@ class RefundController extends Controller
 
         $service->handle($sn);
 
-        $location = $this->url->get(['for' => 'home.my.refunds']);
-
         $content = [
-            'location' => $location,
+            'location' => $this->url->get(['for' => 'home.uc.refunds']),
             'msg' => '取消退款成功',
         ];
 
