@@ -87,7 +87,7 @@ class OrderController extends Controller
         $order = $service->handle($sn);
 
         if ($order['status'] != OrderModel::STATUS_PENDING) {
-            $this->response->redirect(['for' => 'home.my.orders']);
+            $this->response->redirect(['for' => 'home.uc.orders']);
         }
 
         $this->view->setVar('order', $order);
