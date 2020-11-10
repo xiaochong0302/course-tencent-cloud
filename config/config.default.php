@@ -148,6 +148,16 @@ $config['jwt']['lifetime'] = 7 * 86400;
 $config['jwt']['leeway'] = 30;
 
 /**
+ * 允许跨域
+ */
+$config['cors']['enabled'] = true;
+
+/**
+ * 允许跨域域名(字符|数组)
+ */
+$config['cors']['allow_origin'] = '*';
+
+/**
  * 限流开启
  */
 $config['throttle']['enabled'] = true;

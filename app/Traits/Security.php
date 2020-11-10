@@ -30,12 +30,19 @@ trait Security
         $validator->checkRateLimit();
     }
 
+    public function checkApiSignature()
+    {
+        $validator = new SecurityValidator();
+
+        $validator->checkApiSignature();
+    }
+
     public function isNotSafeRequest()
     {
         /**
          * @var Request $request
          */
-        $request = Di::getDefault()->get('request');
+        $request = Di::getDefault()->getShared('request');
 
         $method = $request->getMethod();
 

@@ -671,7 +671,7 @@ class AuthNode extends Service
     {
         return [
             'id' => '5',
-            'title' => '系统配置',
+            'title' => '系统管理',
             'children' => [
                 [
                     'id' => '5-1',
@@ -743,6 +743,37 @@ class AuthNode extends Service
                             'title' => '微聊设置',
                             'type' => 'menu',
                             'route' => 'admin.setting.im',
+                        ],
+                    ],
+                ],
+                [
+                    'id' => '5-2',
+                    'title' => '应用管理',
+                    'type' => 'menu',
+                    'children' => [
+                        [
+                            'id' => '5-2-1',
+                            'title' => '应用列表',
+                            'type' => 'menu',
+                            'route' => 'admin.app.list',
+                        ],
+                        [
+                            'id' => '5-2-2',
+                            'title' => '添加应用',
+                            'type' => 'menu',
+                            'route' => 'admin.app.add',
+                        ],
+                        [
+                            'id' => '5-2-3',
+                            'title' => '编辑应用',
+                            'type' => 'button',
+                            'route' => 'admin.app.edit',
+                        ],
+                        [
+                            'id' => '5-2-4',
+                            'title' => '删除应用',
+                            'type' => 'button',
+                            'route' => 'admin.app.delete',
                         ],
                     ],
                 ],

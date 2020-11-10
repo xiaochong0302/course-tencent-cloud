@@ -36,7 +36,7 @@
     {% set priv = lesson.me.owned ? 'allow' : 'deny' %}
     <a class="{{ priv }} view-lesson" href="javascript:" data-url="{{ url }}">
         <i class="layui-icon layui-icon-read"></i>
-        <span class="title">{{ lesson.title|e }}</span>
+        <span class="title">{{ lesson.title }}</span>
         {% if lesson.free == 1 %}
             <span class="layui-badge free-badge">免费</span>
         {% endif %}

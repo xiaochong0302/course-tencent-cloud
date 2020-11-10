@@ -6,6 +6,7 @@ use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Course as CourseRepo;
 use App\Services\Category as CategoryService;
 use App\Services\Logic\Service;
+use App\Validators\CourseQuery as CourseQueryValidator;
 
 class CourseList extends Service
 {
@@ -15,6 +16,8 @@ class CourseList extends Service
         $pagerQuery = new PagerQuery();
 
         $params = $pagerQuery->getParams();
+
+        $params = $this->checkQueryParams($params);
 
         /**
          * tc => top_category
@@ -82,6 +85,31 @@ class CourseList extends Service
         $pager->items = $items;
 
         return $pager;
+    }
+
+    protected function checkQueryParams($params)
+    {
+        $validator = new CourseQueryValidator();
+
+        $query = [];
+
+        if (isset($params['tc'])) {
+            $query['tc'] = $validator->checkTopCategory($params['tc']);
+        }
+
+        if (isset($params['sc'])) {
+            $query['sc'] = $validator->checkSubCategory($params['sc']);
+        }
+
+        if (isset($params['model'])) {
+            $query['model'] = $validator->checkModel($params['model']);
+        }
+
+        if (isset($params['level'])) {
+            $query['level'] = $validator->checkLevel($params['level']);
+        }
+
+        return $query;
     }
 
 }

@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Http\Api\Controllers;
+
+use App\Services\Logic\Im\GroupInfo as GroupInfoService;
+use App\Services\Logic\Im\GroupList as GroupListService;
+use App\Services\Logic\Im\GroupUserList as GroupUserListService;
+
+/**
+ * @RoutePrefix("/api/im/group")
+ */
+class ImGroupController extends Controller
+{
+
+    /**
+     * @Get("/list", name="api.im_group.list")
+     */
+    public function listAction()
+    {
+        $service = new GroupListService();
+
+        $pager = $service->handle();
+
+        return $this->jsonSuccess(['pager' => $pager]);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/info", name="api.im_group.info")
+     */
+    public function infoAction($id)
+    {
+        $service = new GroupInfoService();
+
+        $group = $service->handle($id);
+
+        return $this->jsonSuccess(['group' => $group]);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/users", name="api.im_group.users")
+     */
+    public function usersAction($id)
+    {
+        $service = new GroupUserListService();
+
+        $pager = $service->handle($id);
+
+        return $this->jsonSuccess(['pager' => $pager]);
+    }
+
+}

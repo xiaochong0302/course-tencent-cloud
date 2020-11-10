@@ -11,7 +11,7 @@ class CategoryTreeList extends Builder
 
     public function handle($type)
     {
-        $topCategories = $this->findChildCategories($type, 0);
+        $topCategories = $this->findTopCategories($type);
 
         if ($topCategories->count() == 0) {
             return [];
@@ -32,7 +32,7 @@ class CategoryTreeList extends Builder
 
     protected function handleChildren(CategoryModel $category)
     {
-        $subCategories = $this->findChildCategories($category->type, $category->id);
+        $subCategories = $this->findChildCategories($category->id);
 
         if ($subCategories->count() == 0) {
             return [];
@@ -51,24 +51,31 @@ class CategoryTreeList extends Builder
     }
 
     /**
-     * @param string $type
+     * @param int $type
+     * @return ResultsetInterface|Resultset|CategoryModel[]
+     */
+    protected function findTopCategories($type)
+    {
+        $query = CategoryModel::query();
+
+        $query->where('parent_id = 0');
+        $query->andWhere('published = 1');
+        $query->andWhere('type = :type:', ['type' => $type]);
+        $query->orderBy('priority ASC');
+
+        return $query->execute();
+    }
+
+    /**
      * @param int $parentId
      * @return ResultsetInterface|Resultset|CategoryModel[]
      */
-    protected function findChildCategories($type = 'course', $parentId = 0)
+    protected function findChildCategories($parentId)
     {
         $query = CategoryModel::query();
 
         $query->where('published = 1');
-
-        if ($type) {
-            $query->andWhere('type = :type:', ['type' => $type]);
-        }
-
-        if ($parentId) {
-            $query->andWhere('parent_id = :parent_id:', ['parent_id' => $parentId]);
-        }
-
+        $query->andWhere('parent_id = :parent_id:', ['parent_id' => $parentId]);
         $query->orderBy('priority ASC');
 
         return $query->execute();

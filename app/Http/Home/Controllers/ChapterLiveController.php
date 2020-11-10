@@ -3,7 +3,6 @@
 namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\ChapterLive as ChapterLiveService;
-use App\Traits\Response as ResponseTrait;
 use Phalcon\Mvc\View;
 
 /**
@@ -11,8 +10,6 @@ use Phalcon\Mvc\View;
  */
 class ChapterLiveController extends Controller
 {
-
-    use ResponseTrait;
 
     /**
      * @Get("/{id:[0-9]+}/chats", name="home.live.chats")

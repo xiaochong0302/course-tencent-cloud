@@ -30,6 +30,18 @@ class ChapterController extends Controller
     }
 
     /**
+     * @Get("/{id:[0-9]+}/danmus", name="home.chapter.danmus")
+     */
+    public function danmusAction($id)
+    {
+        $service = new ChapterDanmuListService();
+
+        $items = $service->handle($id);
+
+        return $this->jsonSuccess(['items' => $items]);
+    }
+
+    /**
      * @Get("/{id:[0-9]+}", name="home.chapter.show")
      */
     public function showAction($id)
@@ -76,18 +88,6 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/danmu", name="home.chapter.danmu")
-     */
-    public function danmuAction($id)
-    {
-        $service = new ChapterDanmuListService();
-
-        $items = $service->handle($id);
-
-        return $this->jsonSuccess(['items' => $items]);
-    }
-
-    /**
      * @Post("/{id:[0-9]+}/like", name="home.chapter.like")
      */
     public function likeAction($id)
@@ -98,9 +98,7 @@ class ChapterController extends Controller
 
         $msg = $like->deleted == 0 ? '点赞成功' : '取消点赞成功';
 
-        $content = ['msg' => $msg];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['msg' => $msg]);
     }
 
     /**

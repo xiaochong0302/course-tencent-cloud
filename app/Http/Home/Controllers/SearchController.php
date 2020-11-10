@@ -5,15 +5,12 @@ namespace App\Http\Home\Controllers;
 use App\Services\Logic\Search\Course as CourseSearchService;
 use App\Services\Logic\Search\Group as GroupSearchService;
 use App\Services\Logic\Search\User as UserSearchService;
-use App\Traits\Response as ResponseTrait;
 
 /**
  * @RoutePrefix("/search")
  */
 class SearchController extends Controller
 {
-
-    use ResponseTrait;
 
     /**
      * @Get("/", name="home.search.index")
@@ -40,14 +37,6 @@ class SearchController extends Controller
         $this->view->setVar('hot_queries', $hotQueries);
         $this->view->setVar('related_queries', $relatedQueries);
         $this->view->setVar('pager', $pager);
-    }
-
-    /**
-     * @Get("/form", name="home.search.form")
-     */
-    public function formAction()
-    {
-
     }
 
     /**

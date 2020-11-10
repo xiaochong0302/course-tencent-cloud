@@ -29,7 +29,6 @@
                     {% endif %}
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-
                             <button id="submit-btn" class="layui-btn layui-btn-fluid {{ disabled_class }}" {{ disabled_submit }} lay-submit="true" lay-filter="go">立即登录</button>
                             <input type="hidden" name="ticket">
                             <input type="hidden" name="rand">

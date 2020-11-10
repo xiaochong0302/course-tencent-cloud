@@ -58,6 +58,7 @@ class Controller extends \Phalcon\Mvc\Controller
                 'controller' => 'error',
                 'action' => 'maintain',
             ]);
+            return false;
         }
 
         if ($this->isNotSafeRequest()) {
