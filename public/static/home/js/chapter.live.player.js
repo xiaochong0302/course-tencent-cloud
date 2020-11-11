@@ -6,7 +6,6 @@ layui.use(['jquery', 'helper'], function () {
     var interval = null;
     var intervalTime = 15000;
     var userId = window.user.id;
-    var chapterId = $('input[name="chapter.id"]').val();
     var planId = $('input[name="chapter.plan_id"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
     var playUrls = JSON.parse($('input[name="chapter.play_urls"]').val());
@@ -17,7 +16,7 @@ layui.use(['jquery', 'helper'], function () {
         autoplay: true,
         h5_flv: true,
         width: 760,
-        height: 428
+        height: 428,
     };
 
     var formats = ['rtmp', 'flv', 'm3u8'];
@@ -32,14 +31,12 @@ layui.use(['jquery', 'helper'], function () {
         });
     });
 
-    console.log(options);
-
     options.listener = function (msg) {
         if (msg.type === 'play') {
             start();
         } else if (msg.type === 'pause') {
             stop();
-        } else if (msg.type === 'end') {
+        } else if (msg.type === 'ended') {
             stop();
         }
     };
@@ -68,10 +65,8 @@ layui.use(['jquery', 'helper'], function () {
                 url: learningUrl,
                 data: {
                     plan_id: planId,
-                    chapter_id: chapterId,
                     request_id: requestId,
                     interval: intervalTime,
-                    position: player.currentTime(),
                 }
             });
         }

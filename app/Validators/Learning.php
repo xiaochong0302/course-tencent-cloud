@@ -26,9 +26,9 @@ class Learning extends Validator
         return $requestId;
     }
 
-    public function checkInterval($interval)
+    public function checkIntervalTime($intervalTime)
     {
-        $value = $this->filter->sanitize($interval, ['trim', 'int']);
+        $value = $this->filter->sanitize($intervalTime, ['trim', 'int']);
 
         /**
          * 兼容秒和毫秒
@@ -38,7 +38,7 @@ class Learning extends Validator
         }
 
         if ($value < 5) {
-            throw new BadRequestException('learning.invalid_interval');
+            throw new BadRequestException('learning.invalid_interval_time');
         }
 
         return $value;

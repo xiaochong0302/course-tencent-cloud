@@ -49,7 +49,7 @@ class CourseList extends Service
 
         $courses = $builder->getCourses($relations);
 
-        $pager->items = $courses;
+        $pager->items = array_values($courses);
 
         return $pager;
     }

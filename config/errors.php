@@ -321,8 +321,8 @@ $error['course_query.invalid_sort'] = '无效的排序类别';
  */
 $error['learning.invalid_plan_id'] = '无效的计划编号';
 $error['learning.invalid_request_id'] = '无效的请求编号';
+$error['learning.invalid_interval_time'] = '无效的间隔时间';
 $error['learning.invalid_position'] = '无效的播放位置';
-$error['learning.invalid_interval'] = '无效的间隔时间';
 
 /**
  * 即时通讯
