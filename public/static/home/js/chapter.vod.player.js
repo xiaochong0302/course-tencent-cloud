@@ -84,7 +84,7 @@ layui.use(['jquery', 'helper'], function () {
                 data: {
                     plan_id: planId,
                     request_id: requestId,
-                    interval: intervalTime,
+                    interval_time: intervalTime,
                     position: player.currentTime(),
                 }
             });
