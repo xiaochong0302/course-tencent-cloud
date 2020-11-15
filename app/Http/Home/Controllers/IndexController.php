@@ -44,6 +44,8 @@ class IndexController extends Controller
     {
         $service = new IndexService();
 
+        dd($service->getLives());
+
         $this->view->pick('index/full');
         $this->view->setVar('lives', $service->getLives());
         $this->view->setVar('slides', $service->getSlides());

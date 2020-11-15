@@ -34,6 +34,28 @@ class PublicController extends Controller
     }
 
     /**
+     * @Get("/socket/info", name="api.public.socket_info")
+     */
+    public function socketInfoAction()
+    {
+        $service = new AppService();
+
+        $websocket = $service->getConfig()->get('websocket');
+
+        $content = [];
+
+        if ($this->request->isSecure()) {
+            $content['connect_url'] = sprintf('wss://%s/wss', $this->request->getHttpHost());
+        } else {
+            $content['connect_url'] = sprintf('ws://%s', $websocket->connect_address);
+        }
+
+        $content['ping_interval'] = $websocket->ping_interval;
+
+        return $this->jsonSuccess(['socket' => $content]);
+    }
+
+    /**
      * @Get("/site/info", name="api.public.site_info")
      */
     public function siteInfoAction()

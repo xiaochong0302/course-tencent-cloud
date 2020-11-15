@@ -2,20 +2,33 @@
 
 namespace App\Http\Api\Controllers;
 
-use App\Http\Home\Services\ChapterLive as ChapterLiveService;
+use App\Services\Logic\Live\LiveChapter as LiveChapterService;
+use App\Services\Logic\Live\LiveList as LiveListService;
 
 /**
  * @RoutePrefix("/api/live")
  */
-class ChapterLiveController extends Controller
+class LiveController extends Controller
 {
+
+    /**
+     * @Get("/list", name="api.live.list")
+     */
+    public function listAction()
+    {
+        $service = new LiveListService();
+
+        $pager = $service->handle();
+
+        return $this->jsonSuccess(['pager' => $pager]);
+    }
 
     /**
      * @Get("/{id:[0-9]+}/chats", name="api.live.chats")
      */
     public function chatsAction($id)
     {
-        $service = new ChapterLiveService();
+        $service = new LiveChapterService();
 
         $chats = $service->getRecentChats($id);
 
@@ -27,7 +40,7 @@ class ChapterLiveController extends Controller
      */
     public function statsAction($id)
     {
-        $service = new ChapterLiveService();
+        $service = new LiveChapterService();
 
         $stats = $service->getStats($id);
 
@@ -39,7 +52,7 @@ class ChapterLiveController extends Controller
      */
     public function statusAction($id)
     {
-        $service = new ChapterLiveService();
+        $service = new LiveChapterService();
 
         $status = $service->getStatus($id);
 
@@ -51,7 +64,7 @@ class ChapterLiveController extends Controller
      */
     public function bindUserAction($id)
     {
-        $service = new ChapterLiveService();
+        $service = new LiveChapterService();
 
         $service->bindUser($id);
 
@@ -63,7 +76,7 @@ class ChapterLiveController extends Controller
      */
     public function sendMessageAction($id)
     {
-        $service = new ChapterLiveService();
+        $service = new LiveChapterService();
 
         $message = $service->sendMessage($id);
 
