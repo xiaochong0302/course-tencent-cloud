@@ -28,8 +28,16 @@ class Consult extends Repository
             $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
         }
 
+        if (!empty($where['chapter_id'])) {
+            $builder->andWhere('chapter_id = :chapter_id:', ['chapter_id' => $where['chapter_id']]);
+        }
+
         if (!empty($where['owner_id'])) {
             $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
+        }
+
+        if (!empty($where['replied'])) {
+            $builder->andWhere('reply_time > 0');
         }
 
         if (isset($where['private'])) {

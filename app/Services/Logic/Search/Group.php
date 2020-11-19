@@ -67,6 +67,7 @@ class Group extends Handler
                 'avatar' => $item['avatar'],
                 'about' => $item['about'],
                 'user_count' => (int)$item['user_count'],
+                'msg_count' => (int)$item['msg_count'],
                 'owner' => json_decode($item['owner'], true),
             ];
         }

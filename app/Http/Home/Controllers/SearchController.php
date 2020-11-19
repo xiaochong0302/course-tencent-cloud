@@ -47,7 +47,7 @@ class SearchController extends Controller
     {
         switch ($type) {
             case 'group':
-                $service = new GroupSearchService;
+                $service = new GroupSearchService();
                 break;
             case 'user':
                 $service = new UserSearchService();

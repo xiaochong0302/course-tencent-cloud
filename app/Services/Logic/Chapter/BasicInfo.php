@@ -72,6 +72,7 @@ class BasicInfo extends Service
             'model' => $chapter->model,
             'play_urls' => $playUrls,
             'resource_count' => $chapter->resource_count,
+            'consult_count' => $chapter->consult_count,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
         ];
@@ -99,6 +100,7 @@ class BasicInfo extends Service
             'end_time' => $live->end_time,
             'status' => $live->status,
             'resource_count' => $chapter->resource_count,
+            'consult_count' => $chapter->consult_count,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
         ];
@@ -117,6 +119,7 @@ class BasicInfo extends Service
             'model' => $chapter->model,
             'content' => $read->content,
             'resource_count' => $chapter->resource_count,
+            'consult_count' => $chapter->consult_count,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
         ];

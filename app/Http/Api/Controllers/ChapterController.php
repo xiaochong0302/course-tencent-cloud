@@ -4,6 +4,7 @@ namespace App\Http\Api\Controllers;
 
 use App\Services\Logic\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Logic\Chapter\ChapterLike as ChapterLikeService;
+use App\Services\Logic\Chapter\ConsultList as ChapterConsultListService;
 use App\Services\Logic\Chapter\Learning as ChapterLearningService;
 use App\Services\Logic\Chapter\ResourceList as ChapterResourceListService;
 
@@ -12,6 +13,18 @@ use App\Services\Logic\Chapter\ResourceList as ChapterResourceListService;
  */
 class ChapterController extends Controller
 {
+
+    /**
+     * @Get("/{id:[0-9]+}/consults", name="api.chapter.consults")
+     */
+    public function consultsAction($id)
+    {
+        $service = new ChapterConsultListService();
+
+        $pager = $service->handle($id);
+
+        return $this->jsonSuccess(['pager' => $pager]);
+    }
 
     /**
      * @Get("/{id:[0-9]+}/resources", name="api.chapter.resourses")
