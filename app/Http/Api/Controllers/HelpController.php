@@ -24,7 +24,7 @@ class HelpController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}", name="api.help.info")
+     * @Get("/{id:[0-9]+}/info", name="api.help.info")
      */
     public function infoAction($id)
     {

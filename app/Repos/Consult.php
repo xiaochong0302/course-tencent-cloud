@@ -95,15 +95,15 @@ class Consult extends Repository
     }
 
     /**
-     * @param int $chapterId
+     * @param int $courseId
      * @param int $userId
      * @return ConsultModel|Model|bool
      */
-    public function findUserLastChapterConsult($chapterId, $userId)
+    public function findUserLastCourseConsult($courseId, $userId)
     {
         return ConsultModel::findFirst([
-            'conditions' => 'chapter_id = ?1 AND owner_id = ?2 AND deleted = 0',
-            'bind' => [1 => $chapterId, 2 => $userId],
+            'conditions' => 'course_id = ?1 AND owner_id = ?2 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => $userId],
             'order' => 'id DESC',
         ]);
     }

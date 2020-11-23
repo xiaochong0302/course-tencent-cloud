@@ -20,29 +20,83 @@ class ConsultCreate extends Service
 
     public function handle()
     {
-        $post = $this->request->getPost();
+        $chapterId = $this->request->getPost('chapter_id', 'int', 0);
+        $courseId = $this->request->getPost('course_id', 'int', 0);
 
         $user = $this->getLoginUser();
-
-        $chapter = $this->checkChapter($post['chapter_id']);
-
-        $course = $this->checkCourse($chapter->course_id);
 
         $validator = new UserLimitValidator();
 
         $validator->checkDailyConsultLimit($user);
 
+        $validator = new UserLimitValidator();
+
+        $validator->checkDailyConsultLimit($user);
+
+        if ($chapterId > 0) {
+
+            $chapter = $this->checkChapter($chapterId);
+
+            return $this->handleChapterConsult($chapter, $user);
+
+        } else {
+
+            $course = $this->checkCourse($courseId);
+
+            return $this->handleCourseConsult($course, $user);
+        }
+    }
+
+    protected function handleCourseConsult(CourseModel $course, UserModel $user)
+    {
+        $post = $this->request->getPost();
+
         $validator = new ConsultValidator();
 
         $question = $validator->checkQuestion($post['question']);
+        $private = $validator->checkPrivateStatus($post['private']);
 
-        $validator->checkIfDuplicated($question, $chapter->id, $user->id);
+        $validator->checkIfDuplicated($course->id, $user->id, $question);
 
         $priority = $this->getPriority($course, $user);
 
         $consult = new ConsultModel();
 
         $consult->question = $question;
+        $consult->private = $private;
+        $consult->priority = $priority;
+        $consult->course_id = $course->id;
+        $consult->owner_id = $user->id;
+        $consult->published = 1;
+
+        $consult->create();
+
+        $this->incrCourseConsultCount($course);
+
+        $this->incrUserDailyConsultCount($user);
+
+        return $consult;
+    }
+
+    protected function handleChapterConsult(ChapterModel $chapter, UserModel $user)
+    {
+        $course = $this->checkCourse($chapter->course_id);
+
+        $post = $this->request->getPost();
+
+        $validator = new ConsultValidator();
+
+        $question = $validator->checkQuestion($post['question']);
+        $private = $validator->checkPrivateStatus($post['private']);
+
+        $validator->checkIfDuplicated($course->id, $user->id, $question);
+
+        $priority = $this->getPriority($course, $user);
+
+        $consult = new ConsultModel();
+
+        $consult->question = $question;
+        $consult->private = $private;
         $consult->priority = $priority;
         $consult->course_id = $course->id;
         $consult->chapter_id = $chapter->id;

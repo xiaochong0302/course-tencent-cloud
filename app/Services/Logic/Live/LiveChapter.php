@@ -4,6 +4,7 @@ namespace App\Services\Logic\Live;
 
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\Service;
+use App\Validators\Live as LiveValidator;
 use GatewayClient\Gateway;
 
 class LiveChapter extends Service
@@ -97,7 +98,9 @@ class LiveChapter extends Service
 
         $content = $this->request->getPost('content', ['trim', 'striptags']);
 
-        $content = kg_substr($content, 0, 80);
+        $validator = new LiveValidator();
+
+        $validator->checkMessage($content);
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
