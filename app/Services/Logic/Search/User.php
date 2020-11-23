@@ -62,13 +62,13 @@ class User extends Handler
 
             $items[] = [
                 'id' => (int)$item['id'],
-                'name' => $item['name'],
-                'avatar' => $item['avatar'],
-                'title' => $item['title'],
-                'about' => $item['about'],
+                'name' => (string)$item['name'],
+                'avatar' => (string)$item['avatar'],
+                'title' => (string)$item['title'],
+                'about' => (string)$item['about'],
                 'vip' => (int)$item['vip'],
                 'gender' => (int)$item['gender'],
-                'area' => $item['area'],
+                'area' => (string)$item['area'],
             ];
         }
 

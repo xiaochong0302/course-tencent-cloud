@@ -3,6 +3,7 @@
 namespace App\Services\Logic\Review;
 
 use App\Models\Review as ReviewModel;
+use App\Repos\Course as CourseRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\ReviewTrait;
 use App\Services\Logic\Service;
@@ -34,17 +35,40 @@ class ReviewInfo extends Service
             'update_time' => $review->update_time,
         ];
 
+        $result['course'] = $this->handleCourseInfo($review);
+        $result['owner'] = $this->handleOwnerInfo($review);
+
+        return $result;
+    }
+
+    protected function handleCourseInfo(ReviewModel $review)
+    {
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($review->course_id);
+
+        if (!$course) return new \stdClass();
+
+        return [
+            'id' => $course->id,
+            'title' => $course->title,
+            'cover' => $course->cover,
+        ];
+    }
+
+    protected function handleOwnerInfo(ReviewModel $review)
+    {
         $userRepo = new UserRepo();
 
         $owner = $userRepo->findById($review->owner_id);
 
-        $result['owner'] = [
+        if (!$owner) return new \stdClass();
+
+        return [
             'id' => $owner->id,
             'name' => $owner->name,
             'avatar' => $owner->avatar,
         ];
-
-        return $result;
     }
 
 }

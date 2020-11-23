@@ -3,7 +3,7 @@
 namespace App\Http\Home\Services;
 
 use App\Repos\User as UserRepo;
-use App\Services\Auth as AuthService;
+use App\Services\Auth\Home as AuthService;
 use App\Services\Logic\Account\Register as RegisterService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Captcha as CaptchaValidator;
@@ -40,13 +40,13 @@ class Account extends Service
     {
         $post = $this->request->getPost();
 
-        $accountValidator = new AccountValidator();
+        $validator = new AccountValidator();
 
-        $user = $accountValidator->checkUserLogin($post['account'], $post['password']);
+        $user = $validator->checkUserLogin($post['account'], $post['password']);
 
-        $captchaValidator = new CaptchaValidator();
+        $validator = new CaptchaValidator();
 
-        $captchaValidator->checkCode($post['ticket'], $post['rand']);
+        $validator->checkCode($post['ticket'], $post['rand']);
 
         $this->auth->saveAuthInfo($user);
     }
@@ -55,9 +55,9 @@ class Account extends Service
     {
         $post = $this->request->getPost();
 
-        $accountValidator = new AccountValidator();
+        $validator = new AccountValidator();
 
-        $user = $accountValidator->checkVerifyLogin($post['account'], $post['verify_code']);
+        $user = $validator->checkVerifyLogin($post['account'], $post['verify_code']);
 
         $this->auth->saveAuthInfo($user);
     }

@@ -43,6 +43,7 @@ class BasicInfo extends Service
             'attrs' => $course->attrs,
             'user_count' => $course->user_count,
             'lesson_count' => $course->lesson_count,
+            'resource_count' => $course->resource_count,
             'package_count' => $course->package_count,
             'review_count' => $course->review_count,
             'consult_count' => $course->consult_count,

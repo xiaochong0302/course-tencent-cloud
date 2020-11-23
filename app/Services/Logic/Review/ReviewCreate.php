@@ -3,6 +3,7 @@
 namespace App\Services\Logic\Review;
 
 use App\Models\Course as CourseModel;
+use App\Models\CourseUser as CourseUserModel;
 use App\Models\Review as ReviewModel;
 use App\Services\CourseStat as CourseStatService;
 use App\Services\Logic\CourseTrait;
@@ -21,13 +22,14 @@ class ReviewCreate extends Service
     {
         $post = $this->request->getPost();
 
-        $course = $this->checkCourseCache($post['course_id']);
+        $course = $this->checkCourse($post['course_id']);
 
         $user = $this->getLoginUser();
 
         $validator = new CourseUserValidator();
 
-        $validator->checkCourseUser($course->id, $user->id);
+        $courseUser = $validator->checkCourseUser($course->id, $user->id);
+
         $validator->checkIfReviewed($course->id, $user->id);
 
         $validator = new ReviewValidator();
@@ -46,11 +48,20 @@ class ReviewCreate extends Service
 
         $review->create($data);
 
+        $this->updateCourseUserReview($courseUser);
+
         $this->incrCourseReviewCount($course);
 
         $this->updateCourseRating($course->id);
 
         return $review;
+    }
+
+    protected function updateCourseUserReview(CourseUserModel $courseUser)
+    {
+        $courseUser->reviewed = 1;
+
+        $courseUser->update();
     }
 
     protected function incrCourseReviewCount(CourseModel $course)

@@ -48,8 +48,8 @@ class OrderController extends Controller
      */
     public function confirmAction()
     {
-        $itemId = $this->request->getQuery('item_id', 'int');
-        $itemType = $this->request->getQuery('item_type', 'int');
+        $itemId = $this->request->getQuery('item_id', 'string');
+        $itemType = $this->request->getQuery('item_type', 'string');
 
         $service = new OrderConfirmService();
 
@@ -87,7 +87,7 @@ class OrderController extends Controller
         $order = $service->handle($sn);
 
         if ($order['status'] != OrderModel::STATUS_PENDING) {
-            $this->response->redirect(['for' => 'home.my.orders']);
+            $this->response->redirect(['for' => 'home.uc.orders']);
         }
 
         $this->view->setVar('order', $order);

@@ -8,7 +8,7 @@
         {% set course_url = url({'for':'home.course.show','id':course.id}) %}
         <div class="cart-course-card clearfix">
             <div class="cover">
-                <img src="{{ course.cover }}!cover_270" alt="course.title|e">
+                <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
             </div>
             <div class="info">
                 <p><a href="{{ course_url }}" target="_blank">{{ course.title }}</a></p>
@@ -30,7 +30,7 @@
         {% set course_url = url({'for':'home.course.show','id':course.id}) %}
         <div class="cart-course-card clearfix">
             <div class="cover">
-                <img src="{{ course.cover }}!cover_270" alt="course.title|e">
+                <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
             </div>
             <div class="info">
                 <p><a href="{{ course_url }}" target="_blank">{{ course.title }}</a></p>

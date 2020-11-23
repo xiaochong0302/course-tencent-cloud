@@ -7,7 +7,6 @@ layui.use(['jquery', 'helper'], function () {
     var intervalTime = 15000;
     var userId = window.user.id;
     var requestId = helper.getRequestId();
-    var chapterId = $('input[name="chapter.id"]').val();
     var planId = $('input[name="chapter.plan_id"]').val();
     var lastPosition = $('input[name="chapter.position"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
@@ -16,7 +15,7 @@ layui.use(['jquery', 'helper'], function () {
     var options = {
         autoplay: false,
         width: 760,
-        height: 428
+        height: 428,
     };
 
     if (playUrls.hasOwnProperty('od')) {
@@ -84,10 +83,9 @@ layui.use(['jquery', 'helper'], function () {
                 url: learningUrl,
                 data: {
                     plan_id: planId,
-                    chapter_id: chapterId,
                     request_id: requestId,
-                    interval: intervalTime,
-                    position: player.currentTime()
+                    interval_time: intervalTime,
+                    position: player.currentTime(),
                 }
             });
         }

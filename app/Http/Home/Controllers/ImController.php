@@ -3,7 +3,6 @@
 namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Im as ImService;
-use App\Traits\Response as ResponseTrait;
 use Phalcon\Mvc\View;
 
 /**
@@ -11,8 +10,6 @@ use Phalcon\Mvc\View;
  */
 class ImController extends Controller
 {
-
-    use ResponseTrait;
 
     public function initialize()
     {
@@ -265,9 +262,7 @@ class ImController extends Controller
 
         $service->applyFriend();
 
-        $content = ['msg' => '发送申请成功，请等待对方通过'];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['msg' => '发送申请成功']);
     }
 
     /**
@@ -303,9 +298,7 @@ class ImController extends Controller
 
         $service->applyGroup();
 
-        $content = ['msg' => '发送申请成功，请等待管理员通过'];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['msg' => '发送申请成功']);
     }
 
     /**
@@ -341,9 +334,7 @@ class ImController extends Controller
 
         $service->quitFriend($id);
 
-        $content = ['msg' => '解除好友成功'];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['msg' => '解除好友成功']);
     }
 
     /**
@@ -355,9 +346,7 @@ class ImController extends Controller
 
         $service->quitGroup($id);
 
-        $content = ['msg' => '退出群组成功'];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['msg' => '退出群组成功']);
     }
 
 }

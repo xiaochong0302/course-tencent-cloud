@@ -58,9 +58,12 @@ class ConsultController extends Controller
 
         $service = new ConsultInfoService();
 
-        $service->handle($consult->id);
+        $consult = $service->handle($consult->id);
 
-        $content = ['msg' => '提交咨询成功'];
+        $content = [
+            'consult' => $consult,
+            'msg' => '提交咨询成功',
+        ];
 
         return $this->jsonSuccess($content);
     }
@@ -72,9 +75,16 @@ class ConsultController extends Controller
     {
         $service = new ConsultUpdateService();
 
-        $service->handle($id);
+        $consult = $service->handle($id);
 
-        $content = ['msg' => '更新咨询成功'];
+        $service = new ConsultInfoService();
+
+        $consult = $service->handle($consult->id);
+
+        $content = [
+            'consult' => $consult,
+            'msg' => '更新咨询成功',
+        ];
 
         return $this->jsonSuccess($content);
     }
@@ -88,9 +98,7 @@ class ConsultController extends Controller
 
         $service->handle($id);
 
-        $content = ['msg' => '删除咨询成功'];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['msg' => '删除咨询成功']);
     }
 
     /**
@@ -102,9 +110,16 @@ class ConsultController extends Controller
 
             $service = new ConsultReplyService();
 
-            $service->handle($id);
+            $consult = $service->handle($id);
 
-            $content = ['msg' => '回复咨询成功'];
+            $service = new ConsultInfoService();
+
+            $consult = $service->handle($consult->id);
+
+            $content = [
+                'consult' => $consult,
+                'msg' => '回复咨询成功',
+            ];
 
             return $this->jsonSuccess($content);
 
@@ -129,9 +144,7 @@ class ConsultController extends Controller
 
         $msg = $like->deleted == 0 ? '点赞成功' : '取消点赞成功';
 
-        $content = ['msg' => $msg];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['msg' => $msg]);
     }
 
 }

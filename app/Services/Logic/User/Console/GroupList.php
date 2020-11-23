@@ -11,7 +11,7 @@ use App\Services\Logic\User\GroupList as UserGroupListService;
 class GroupList extends Service
 {
 
-    public function handle($scope)
+    public function handle($scope = 'joined')
     {
         $result = [];
 

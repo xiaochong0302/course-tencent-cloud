@@ -671,7 +671,7 @@ class AuthNode extends Service
     {
         return [
             'id' => '5',
-            'title' => '系统配置',
+            'title' => '系统管理',
             'children' => [
                 [
                     'id' => '5-1',

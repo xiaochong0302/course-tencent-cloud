@@ -126,11 +126,11 @@ class Consult extends Validator
         }
     }
 
-    public function checkIfDuplicated($question, $chapterId, $userId)
+    public function checkIfDuplicated($chapterId, $userId, $question)
     {
         $repo = new ConsultRepo();
 
-        $consult = $repo->findUserLastChapterConsult($chapterId, $userId);
+        $consult = $repo->findUserLastCourseConsult($chapterId, $userId);
 
         if (!$consult) return;
 

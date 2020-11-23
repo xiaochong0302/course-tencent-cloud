@@ -41,7 +41,7 @@ class Api extends AuthService
 
     public function getAuthInfo()
     {
-        $authToken = $this->getAuthToken();
+        $authToken = $this->request->getHeader('X-Token');
 
         if (!$authToken) return null;
 
@@ -67,13 +67,6 @@ class Api extends AuthService
             'id' => $token->getClaim('user_id'),
             'name' => $token->getClaim('user_name'),
         ];
-    }
-
-    protected function getAuthToken()
-    {
-        $authorization = $this->request->getHeader('Authorization');
-
-        return trim(str_ireplace('Bearer', '', $authorization));
     }
 
 }
