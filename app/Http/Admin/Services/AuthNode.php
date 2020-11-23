@@ -746,37 +746,6 @@ class AuthNode extends Service
                         ],
                     ],
                 ],
-                [
-                    'id' => '5-2',
-                    'title' => '应用管理',
-                    'type' => 'menu',
-                    'children' => [
-                        [
-                            'id' => '5-2-1',
-                            'title' => '应用列表',
-                            'type' => 'menu',
-                            'route' => 'admin.app.list',
-                        ],
-                        [
-                            'id' => '5-2-2',
-                            'title' => '添加应用',
-                            'type' => 'menu',
-                            'route' => 'admin.app.add',
-                        ],
-                        [
-                            'id' => '5-2-3',
-                            'title' => '编辑应用',
-                            'type' => 'button',
-                            'route' => 'admin.app.edit',
-                        ],
-                        [
-                            'id' => '5-2-4',
-                            'title' => '删除应用',
-                            'type' => 'button',
-                            'route' => 'admin.app.delete',
-                        ],
-                    ],
-                ],
             ],
         ];
     }

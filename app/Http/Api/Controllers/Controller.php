@@ -15,19 +15,12 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
-        /**
-         * 存在Origin头信息才设置跨域
-         */
         if ($this->request->getHeader('Origin')) {
             $this->setCors();
         }
 
-        /**
-         * Options请求不验证签名和限流
-         */
         if (!$this->request->isOptions()) {
-            //$this->checkApiSignature();
-            //$this->checkRateLimit();
+            $this->checkRateLimit();
         }
 
         return true;

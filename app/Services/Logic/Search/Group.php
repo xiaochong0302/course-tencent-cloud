@@ -62,10 +62,10 @@ class Group extends Handler
 
             $items[] = [
                 'id' => (int)$item['id'],
-                'type' => $item['type'],
-                'name' => $item['name'],
-                'avatar' => $item['avatar'],
-                'about' => $item['about'],
+                'type' => (int)$item['type'],
+                'name' => (string)$item['name'],
+                'avatar' => (string)$item['avatar'],
+                'about' => (string)$item['about'],
                 'user_count' => (int)$item['user_count'],
                 'msg_count' => (int)$item['msg_count'],
                 'owner' => json_decode($item['owner'], true),

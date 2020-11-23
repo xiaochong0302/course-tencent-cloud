@@ -45,15 +45,4 @@ class Security extends Validator
         }
     }
 
-    public function checkApiSignature()
-    {
-        $validator = new ApiSecurity();
-
-        $result = $validator->check();
-
-        if (!$result) {
-            throw new BadRequestException('security.invalid_api_signature');
-        }
-    }
-
 }

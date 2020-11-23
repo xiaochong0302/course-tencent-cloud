@@ -1,3 +1,7 @@
+### [v1.2.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.0)(2020-11-25)
+- 增加客户端api
+- 代码优化以及问题修复
+
 ### [v1.1.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.1.0)(2020-10-08)
 
 - 增加运营统计功能

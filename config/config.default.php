@@ -158,6 +158,16 @@ $config['cors']['enabled'] = true;
 $config['cors']['allow_origin'] = '*';
 
 /**
+ * 允许跨域字段（string|array）
+ */
+$config['cors']['allow_headers'] = '*';
+
+/**
+ * 允许跨域方法
+ */
+$config['cors']['allow_methods'] = ['GET', 'POST', 'OPTIONS'];
+
+/**
  * 限流开启
  */
 $config['throttle']['enabled'] = true;
