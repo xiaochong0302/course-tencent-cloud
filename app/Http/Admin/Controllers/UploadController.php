@@ -91,22 +91,4 @@ class UploadController extends Controller
         return $this->jsonSuccess($data);
     }
 
-    /**
-     * @Get("/sign", name="admin.upload.sign")
-     */
-    public function signatureAction()
-    {
-        $service = new StorageService();
-
-        $token = $service->getFederationToken();
-
-        $data = [
-            'credentials' => $token->getCredentials(),
-            'expiredTime' => $token->getExpiredTime(),
-            'startTime' => time(),
-        ];
-
-        return $this->jsonSuccess($data);
-    }
-
 }
