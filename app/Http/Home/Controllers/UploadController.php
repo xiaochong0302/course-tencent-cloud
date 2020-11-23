@@ -20,16 +20,16 @@ class UploadController extends Controller
 
         $file = $service->uploadAvatarImage();
 
-        if ($file) {
-            return $this->jsonSuccess([
-                'data' => [
-                    'src' => $service->getImageUrl($file->path),
-                    'title' => $file->name,
-                ]
-            ]);
-        } else {
+        if (!$file) {
             return $this->jsonError(['msg' => '上传文件失败']);
         }
+
+        $data = [
+            'src' => $service->getImageUrl($file->path),
+            'title' => $file->name,
+        ];
+
+        return $this->jsonSuccess(['data' => $data]);
     }
 
     /**

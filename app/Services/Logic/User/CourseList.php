@@ -54,6 +54,7 @@ class CourseList extends Service
             $course = $courses[$relation['course_id']] ?? new \stdClass();
 
             $items[] = [
+                'plan_id' => $relation['plan_id'],
                 'progress' => $relation['progress'],
                 'duration' => $relation['duration'],
                 'reviewed' => $relation['reviewed'],

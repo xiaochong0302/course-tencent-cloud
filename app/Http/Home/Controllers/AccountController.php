@@ -81,9 +81,7 @@ class AccountController extends Controller
 
         $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
 
-        $content = ['location' => $location];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['location' => $location]);
     }
 
     /**
@@ -99,9 +97,7 @@ class AccountController extends Controller
 
         $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
 
-        $content = ['location' => $location];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['location' => $location]);
     }
 
     /**

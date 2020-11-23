@@ -302,8 +302,8 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'site',
-                'item_key' => 'enabled',
-                'item_value' => '1',
+                'item_key' => 'status',
+                'item_value' => 'normal',
             ],
             [
                 'section' => 'site',
@@ -342,7 +342,12 @@ final class InsertSettingData extends AbstractMigration
             ],
             [
                 'section' => 'site',
-                'item_key' => 'analytics',
+                'item_key' => 'analytics_enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'analytics_script',
                 'item_value' => '',
             ],
             [

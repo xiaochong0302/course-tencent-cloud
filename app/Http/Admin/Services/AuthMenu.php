@@ -77,7 +77,7 @@ class AuthMenu extends Component
 
         foreach ($routeIdMapping as $key => $value) {
             $ids = explode('-', $value);
-            if (in_array($key, $this->authInfo['routes'])) {
+            if (is_array($this->authInfo['routes']) && in_array($key, $this->authInfo['routes'])) {
                 $owned1stLevelIds[] = $ids[0];
                 $owned2ndLevelIds[] = $ids[0] . '-' . $ids[1];
                 $owned3rdLevelIds[] = $value;

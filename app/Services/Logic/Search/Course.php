@@ -62,11 +62,11 @@ class Course extends Handler
 
             $items[] = [
                 'id' => (int)$item['id'],
-                'title' => $item['title'],
-                'cover' => $item['cover'],
-                'summary' => $item['summary'],
-                'model' => $item['model'],
-                'level' => $item['level'],
+                'title' => (string)$item['title'],
+                'cover' => (string)$item['cover'],
+                'summary' => (string)$item['summary'],
+                'model' => (int)$item['model'],
+                'level' => (int)$item['level'],
                 'market_price' => (float)$item['market_price'],
                 'vip_price' => (float)$item['vip_price'],
                 'user_count' => (int)$item['user_count'],

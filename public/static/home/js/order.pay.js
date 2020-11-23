@@ -28,7 +28,7 @@ layui.use(['jquery', 'layer'], function () {
                 var interval = setInterval(function () {
                     var queryData = {sn: res.sn};
                     $.get(statusUrl, queryData, function (res) {
-                        if ($.inArray(res.status, [2, 3]) > -1) {
+                        if (res.status === 2) {
                             clearInterval(interval);
                             $('#pay-layer').html('<div class="success-tips">支付成功</div>');
                             setTimeout(function () {

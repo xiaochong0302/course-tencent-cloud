@@ -31,13 +31,27 @@ trait Client
 
         $result = new BrowserParser($userAgent);
 
-        $clientType = ClientModel::TYPE_DESKTOP;
+        $clientType = ClientModel::TYPE_PC;
 
         if ($result->isMobile()) {
-            $clientType = ClientModel::TYPE_MOBILE;
+            $clientType = ClientModel::TYPE_H5;
         }
 
         return $clientType;
+    }
+
+    public function isMobileBrowser()
+    {
+        /**
+         * @var Request $request
+         */
+        $request = Di::getDefault()->get('request');
+
+        $userAgent = $request->getServer('HTTP_USER_AGENT');
+
+        $result = new BrowserParser($userAgent);
+
+        return $result->isMobile();
     }
 
 }

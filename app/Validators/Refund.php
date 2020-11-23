@@ -108,7 +108,12 @@ class Refund extends Validator
 
     public function checkIfAllowCancel(RefundModel $refund)
     {
-        if ($refund->status != RefundModel::STATUS_PENDING) {
+        $scopes = [
+            RefundModel::STATUS_PENDING,
+            RefundModel::STATUS_APPROVED,
+        ];
+
+        if (!in_array($refund->status, $scopes)) {
             throw new BadRequestException('refund.cancel_not_allowed');
         }
     }

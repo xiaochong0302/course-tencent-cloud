@@ -48,9 +48,7 @@ class ImGroupManageController extends Controller
 
         $service->updateGroup($id);
 
-        $content = ['msg' => '更新群组成功'];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['msg' => '更新群组成功']);
     }
 
     /**
@@ -62,8 +60,10 @@ class ImGroupManageController extends Controller
 
         $service->deleteGroupUser($gid, $uid);
 
+        $location = $this->request->getHTTPReferer();
+
         $content = [
-            'location' => $this->request->getHTTPReferer(),
+            'location' => $location,
             'msg' => '移除用户成功',
         ];
 

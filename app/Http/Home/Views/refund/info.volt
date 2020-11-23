@@ -21,7 +21,7 @@
     </table>
     <br>
     <div class="center">
-        {% if refund.status == 'approved' %}
+        {% if refund.status == 3 %}
             <button class="kg-refund layui-btn" data-sn="{{ refund.sn }}" data-url="{{ cancel_url }}">取消退款</button>
         {% endif %}
     </div>
@@ -40,15 +40,17 @@
             parent.layer.iframeAuto(index);
 
             $('.kg-refund').on('click', function () {
+                var url = $(this).data('url');
+                var data = {sn: $(this).data('sn')};
                 layer.confirm('确定要取消退款吗？', function () {
                     $.ajax({
                         type: 'POST',
-                        url: $(this).data('url'),
-                        data: {sn: $(this).data('sn')},
+                        url: url,
+                        data: data,
                         success: function (res) {
                             layer.msg(res.msg, {icon: 1});
                             setTimeout(function () {
-                                parent.window.location.href = '/my/refunds';
+                                parent.window.location.href = '/uc/refunds';
                             }, 1500);
                         }
                     });

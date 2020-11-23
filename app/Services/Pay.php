@@ -32,7 +32,7 @@ abstract class Pay extends Service
     abstract public function scan(TradeModel $trade);
 
     /**
-     * mobile下单
+     * wap下单
      *
      * @param TradeModel $trade
      */

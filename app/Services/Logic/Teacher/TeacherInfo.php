@@ -8,7 +8,7 @@ use App\Services\Logic\User\UserInfo as UserInfoService;
 class TeacherInfo extends Service
 {
 
-    public function getUser($id)
+    public function handle($id)
     {
         $service = new UserInfoService();
 

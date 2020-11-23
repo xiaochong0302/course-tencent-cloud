@@ -32,12 +32,12 @@
     <div class="course-card">
         <div class="cover">
             <a href="{{ course_url }}">
-                <img src="{{ course.cover }}!cover_270" alt="{{ course.title|e }}" title="{{ course.title|e }}">
+                <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}" title="{{ course.title }}">
             </a>
         </div>
         <div class="info">
             <div class="title layui-elip">
-                <a href="{{ course_url }}" title="{{ course.title|e }}">{{ course.title }}</a>
+                <a href="{{ course_url }}" title="{{ course.title }}">{{ course.title }}</a>
             </div>
             <div class="meta">
                 {% if course.market_price > course.vip_price %}
@@ -69,11 +69,11 @@
     {% set course_url = url({'for':'home.course.show','id':course.id}) %}
     <div class="sidebar-course-card clearfix">
         <div class="cover">
-            <img src="{{ course.cover }}!cover_270" alt="{{ course.title|e }}">
+            <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
         </div>
         <div class="info">
             <div class="title layui-elip">
-                <a href="{{ course_url }}" title="{{ course.title|e }}">{{ course.title }}</a>
+                <a href="{{ course_url }}" title="{{ course.title }}">{{ course.title }}</a>
             </div>
             <div class="meta">
                 {% if course.market_price > 0 %}
@@ -91,7 +91,7 @@
 {%- endmacro %}
 
 {%- macro learning_course_card(item) %}
-    {% set course_title = item.course.title|e %}
+    {% set course_title = item.course.title %}
     {% set course_url = url({'for':'home.course.show','id':item.course.id}) %}
     <div class="course-card">
         <div class="cover">

@@ -4,6 +4,7 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Exceptions\ServiceUnavailable as ServiceUnavailableException;
+use App\Library\CsrfToken as CsrfTokenService;
 use App\Services\Throttle as ThrottleService;
 
 class Security extends Validator
@@ -13,7 +14,9 @@ class Security extends Validator
     {
         $token = $this->request->getHeader('X-Csrf-Token');
 
-        $result = $this->csrfToken->checkToken($token);
+        $service = new CsrfTokenService();
+
+        $result = $service->checkToken($token);
 
         if (!$result) {
             throw new BadRequestException('security.invalid_csrf_token');
