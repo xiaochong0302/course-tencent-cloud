@@ -21,10 +21,6 @@ class ConsultDelete extends Service
     {
         $consult = $this->checkConsult($id);
 
-        $course = $this->checkCourse($consult->course_id);
-
-        $chapter = $this->checkChapter($consult->chapter_id);
-
         $user = $this->getLoginUser();
 
         $validator = new ConsultValidator();
@@ -33,9 +29,19 @@ class ConsultDelete extends Service
 
         $consult->update(['deleted' => 1]);
 
-        $this->decrCourseConsultCount($course);
+        if ($consult->course_id > 0) {
 
-        $this->decrChapterConsultCount($chapter);
+            $course = $this->checkCourse($consult->course_id);
+
+            $this->decrCourseConsultCount($course);
+        }
+
+        if ($consult->chapter_id > 0) {
+
+            $chapter = $this->checkChapter($consult->chapter_id);
+
+            $this->decrChapterConsultCount($chapter);
+        }
     }
 
     protected function decrCourseConsultCount(CourseModel $course)
