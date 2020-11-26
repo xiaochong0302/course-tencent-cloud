@@ -24,7 +24,7 @@ layui.use(['jquery'], function () {
             max: 30000
         },
         upload: {
-            url: '/admin/upload/img/editor',
+            url: '/admin/upload/content/img',
             max: 10 * 1024 * 1024,
             accept: 'image/*',
             headers: {

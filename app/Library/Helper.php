@@ -247,6 +247,42 @@ function kg_cos_cover_url($path, $style = null)
 }
 
 /**
+ * 获取幻灯片URL
+ *
+ * @param string $path
+ * @param string $style
+ * @return string
+ */
+function kg_cos_slide_url($path, $style = null)
+{
+    return kg_cos_img_url($path, $style);
+}
+
+/**
+ * 清除存储图片处理样式
+ *
+ * @param $path
+ * @return string
+ */
+function kg_cos_img_style_trim($path)
+{
+    return preg_replace('/!\w+/', '', $path);
+}
+
+/**
+ * 解析markdown内容
+ *
+ * @param $content
+ * @return string
+ */
+function kg_parse_markdown($content)
+{
+    return preg_replace_callback('/\/img\/content\/(.*?)\)/', function ($matches) {
+        return '/img/content/' . trim($matches[1]) . '!content_800';
+    }, $content);
+}
+
+/**
  * 隐藏部分字符
  *
  * @param string $str

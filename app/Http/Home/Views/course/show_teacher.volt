@@ -8,7 +8,7 @@
                     {% set teacher.title = teacher.title ? teacher.title : '小小教书匠' %}
                     <div class="sidebar-teacher-card clearfix">
                         <div class="avatar">
-                            <img src="{{ teacher.avatar }}" alt="{{ teacher.name }}">
+                            <img src="{{ teacher.avatar }}!avatar_160" alt="{{ teacher.name }}">
                         </div>
                         <div class="info">
                             <div class="name layui-elip">

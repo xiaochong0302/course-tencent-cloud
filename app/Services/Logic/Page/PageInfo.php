@@ -20,6 +20,8 @@ class PageInfo extends Service
 
     protected function handlePage(PageModel $page)
     {
+        $page->content = kg_parse_markdown($page->content);
+
         return [
             'id' => $page->id,
             'title' => $page->title,

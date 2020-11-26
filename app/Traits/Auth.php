@@ -46,7 +46,7 @@ trait Auth
 
         $validator = new AppValidator();
 
-        $validator->checkAuthUser($authUser);
+        $validator->checkAuthUser($authUser['id']);
 
         $userRepo = new UserRepo();
 
