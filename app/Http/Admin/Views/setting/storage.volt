@@ -56,6 +56,10 @@
                     <td>mageMogr2/thumbnail/270x/interlace/0</td>
                 </tr>
                 <tr>
+                    <td>content_800</td>
+                    <td>mageMogr2/thumbnail/800x/interlace/0</td>
+                </tr>
+                <tr>
                     <td>slide_1100</td>
                     <td>imageMogr2/thumbnail/1100x/interlace/0</td>
                 </tr>

@@ -10,7 +10,6 @@ use App\Services\Pay\Wxpay as WxpayService;
 use App\Services\Storage as StorageService;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
-use Phalcon\Text;
 use PHPQRCode\QRcode;
 
 class PublicController extends \Phalcon\Mvc\Controller
@@ -35,31 +34,6 @@ class PublicController extends \Phalcon\Mvc\Controller
             $location = $service->getFileUrl($file->path);
 
             $this->response->redirect($location, true);
-
-        } else {
-
-            $this->response->setStatusCode(404);
-
-            return $this->response;
-        }
-    }
-
-    /**
-     * @Get("/img/{id:[0-9]+}", name="home.img")
-     */
-    public function imageAction($id)
-    {
-        $repo = new UploadRepo();
-
-        $file = $repo->findById($id);
-
-        if ($file && Text::startsWith($file->mime, 'image')) {
-
-            $service = new StorageService();
-
-            $location = $service->getImageUrl($file->path);
-
-            $this->response->redirect($location);
 
         } else {
 

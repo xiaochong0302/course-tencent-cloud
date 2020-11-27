@@ -1,15 +1,24 @@
 <?php
 
-
 namespace App\Http\Home\Controllers;
 
 use App\Services\MyStorage as StorageService;
+use App\Validators\Validator as AppValidator;
 
 /**
  * @RoutePrefix("/upload")
  */
 class UploadController extends Controller
 {
+
+    public function initialize()
+    {
+        $authUser = $this->getAuthUser();
+
+        $validator = new AppValidator();
+
+        $validator->checkAuthUser($authUser->id);
+    }
 
     /**
      * @Post("/avatar/img", name="home.upload.avatar_img")
