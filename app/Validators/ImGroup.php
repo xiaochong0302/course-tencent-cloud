@@ -98,7 +98,7 @@ class ImGroup extends Validator
             throw new BadRequestException('im_group.invalid_avatar');
         }
 
-        return $value;
+        return kg_cos_img_style_trim($value);
     }
 
     public function checkType($type)

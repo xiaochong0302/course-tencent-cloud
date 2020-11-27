@@ -32,46 +32,57 @@ class ConsultInfo extends Service
             'like_count' => $consult->like_count,
             'create_time' => $consult->create_time,
             'update_time' => $consult->update_time,
-            'course' => new \stdClass(),
-            'chapter' => new \stdClass(),
-            'owner' => new \stdClass(),
         ];
 
+        $result['course'] = $this->handleCourseInfo($consult);
+        $result['chapter'] = $this->handleChapterInfo($consult);
+        $result['owner'] = $this->handleOwnerInfo($consult);
+
+        return $result;
+    }
+
+    protected function handleCourseInfo(ConsultModel $consult)
+    {
         $courseRepo = new CourseRepo();
 
         $course = $courseRepo->findById($consult->course_id);
 
-        if ($course) {
-            $result['course'] = [
-                'id' => $course->id,
-                'title' => $course->title,
-            ];
-        }
+        if (!$course) return new \stdClass();
 
+        return [
+            'id' => $course->id,
+            'title' => $course->title,
+            'cover' => $course->cover,
+        ];
+    }
+
+    protected function handleChapterInfo(ConsultModel $consult)
+    {
         $chapterRepo = new ChapterRepo();
 
         $chapter = $chapterRepo->findById($consult->chapter_id);
 
-        if ($chapter) {
-            $result['chapter'] = [
-                'id' => $chapter->id,
-                'title' => $chapter->title,
-            ];
-        }
+        if (!$chapter) return new \stdClass();
 
+        return [
+            'id' => $chapter->id,
+            'title' => $chapter->title,
+        ];
+    }
+
+    protected function handleOwnerInfo(ConsultModel $consult)
+    {
         $userRepo = new UserRepo();
 
         $owner = $userRepo->findById($consult->owner_id);
 
-        if ($owner) {
-            $result['owner'] = [
-                'id' => $owner->id,
-                'name' => $owner->name,
-                'avatar' => $owner->avatar,
-            ];
-        }
+        if (!$owner) return new \stdClass();
 
-        return $result;
+        return [
+            'id' => $owner->id,
+            'name' => $owner->name,
+            'avatar' => $owner->avatar,
+        ];
     }
 
 }

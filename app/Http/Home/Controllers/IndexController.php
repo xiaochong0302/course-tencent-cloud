@@ -3,9 +3,25 @@
 namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Index as IndexService;
+use App\Traits\Client as ClientTrait;
+use Phalcon\Mvc\Dispatcher;
 
 class IndexController extends Controller
 {
+
+    use ClientTrait;
+
+    public function beforeExecuteRoute(Dispatcher $dispatcher)
+    {
+        if ($this->isMobileBrowser()) {
+
+            $this->response->redirect('/h5', true);
+
+            return false;
+        }
+
+        return parent::beforeExecuteRoute($dispatcher);
+    }
 
     /**
      * @Get("/", name="home.index")

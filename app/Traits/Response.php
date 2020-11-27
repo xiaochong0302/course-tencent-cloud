@@ -2,11 +2,56 @@
 
 namespace App\Traits;
 
+use Phalcon\Config;
 use Phalcon\Di;
+use Phalcon\Http\Request as HttpRequest;
 use Phalcon\Http\Response as HttpResponse;
 
 trait Response
 {
+
+    public function setCors()
+    {
+        /**
+         * @var Config $config
+         */
+        $config = Di::getDefault()->getShared('config');
+
+        $cors = $config->get('cors')->toArray();
+
+        if (!$cors['enabled']) return;
+
+        if (is_array($cors['allow_headers'])) {
+            $cors['allow_headers'] = implode(',', $cors['allow_headers']);
+        }
+
+        if (is_array($cors['allow_methods'])) {
+            $cors['allow_methods'] = implode(',', $cors['allow_methods']);
+        }
+
+        /**
+         * @var HttpRequest $request
+         */
+        $request = Di::getDefault()->getShared('request');
+
+        $origin = $request->getHeader('Origin');
+
+        if (is_array($cors['allow_origin']) && in_array($origin, $cors['allow_origin'])) {
+            $cors['allow_origin'] = $origin;
+        }
+
+        /**
+         * @var HttpResponse $response
+         */
+        $response = Di::getDefault()->getShared('response');
+
+        $response->setHeader('Access-Control-Allow-Origin', $cors['allow_origin']);
+
+        if ($request->isOptions()) {
+            $response->setHeader('Access-Control-Allow-Headers', $cors['allow_headers']);
+            $response->setHeader('Access-Control-Allow-Methods', $cors['allow_methods']);
+        }
+    }
 
     public function jsonSuccess($content = [])
     {
@@ -17,7 +62,7 @@ trait Response
         /**
          * @var HttpResponse $response
          */
-        $response = Di::getDefault()->get('response');
+        $response = Di::getDefault()->getShared('response');
 
         $response->setStatusCode(200);
 
@@ -35,7 +80,7 @@ trait Response
         /**
          * @var HttpResponse $response
          */
-        $response = Di::getDefault()->get('response');
+        $response = Di::getDefault()->getShared('response');
 
         $response->setJsonContent($content);
 

@@ -25,7 +25,7 @@
     <div class="user-profile wrap clearfix">
         {{ vip_info(user.vip) }}
         <div class="avatar">
-            <img src="{{ user.avatar }}" alt="{{ user.name }}">
+            <img src="{{ user.avatar }}!avatar_160" alt="{{ user.name }}">
         </div>
         <div class="info">
             <p><span class="name">{{ user.name }}</span><span>{{ gender_icon(user.gender) }}</span></p>

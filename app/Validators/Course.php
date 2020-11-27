@@ -90,7 +90,7 @@ class Course extends Validator
             throw new BadRequestException('course.invalid_cover');
         }
 
-        return $value;
+        return kg_cos_img_style_trim($value);
     }
 
     public function checkTitle($title)

@@ -4,7 +4,6 @@ namespace App\Http\Home\Controllers;
 
 use App\Services\Logic\Verify\EmailCode as EmailCodeService;
 use App\Services\Logic\Verify\SmsCode as SmsCodeService;
-use App\Services\Logic\Verify\VerifyCode as VerifyCodeService;
 use App\Traits\Response as ResponseTrait;
 
 /**
@@ -14,18 +13,6 @@ class VerifyController extends \Phalcon\Mvc\Controller
 {
 
     use ResponseTrait;
-
-    /**
-     * @Post("/code", name="verify.code")
-     */
-    public function verifyCodeAction()
-    {
-        $service = new VerifyCodeService();
-
-        $service->handle();
-
-        return $this->jsonSuccess();
-    }
 
     /**
      * @Post("/sms/code", name="verify.sms_code")

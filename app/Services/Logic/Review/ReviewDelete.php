@@ -31,7 +31,7 @@ class ReviewDelete extends Service
 
         $this->decrCourseReviewCount($course);
 
-        $this->updateCourseRating($course->id);
+        $this->updateCourseRating($course);
     }
 
     protected function decrCourseReviewCount(CourseModel $course)
@@ -42,11 +42,11 @@ class ReviewDelete extends Service
         }
     }
 
-    protected function updateCourseRating($courseId)
+    protected function updateCourseRating(CourseModel $course)
     {
         $service = new CourseStatService();
 
-        $service->updateRating($courseId);
+        $service->updateRating($course->id);
     }
 
 }

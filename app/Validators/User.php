@@ -137,7 +137,7 @@ class User extends Validator
             throw new BadRequestException('user.invalid_avatar');
         }
 
-        return $value;
+        return kg_cos_img_style_trim($value);
     }
 
     public function checkEduRole($value)

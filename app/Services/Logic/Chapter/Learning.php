@@ -38,13 +38,13 @@ class Learning extends Service
             $data['position'] = $validator->checkPosition($post['position']);
         }
 
-        $interval = $validator->checkInterval($post['interval']);
+        $intervalTime = $validator->checkIntervalTime($post['interval_time']);
 
         $learning = new LearningModel($data);
 
         $sync = new LearningSyncService();
 
-        $sync->addItem($learning, $interval);
+        $sync->addItem($learning, $intervalTime);
     }
 
 }
