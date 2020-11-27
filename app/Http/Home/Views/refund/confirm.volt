@@ -3,7 +3,7 @@
 {% block content %}
 
     {%- macro item_info(confirm) %}
-        {% if confirm.item_type == 'course' %}
+        {% if confirm.item_type == 1 %}
             {% set course = confirm.item_info.course %}
             {% set expiry_flag = course.refund_expiry_time < time() ? '（已过期）' : '' %}
             <div class="order-item">
@@ -11,7 +11,7 @@
                 <p>退款期限：<span>{{ date('Y-m-d H:i:s',course.refund_expiry_time) }} {{ expiry_flag }}</span></p>
                 <p>退款金额：<span class="price">{{ '￥%0.2f'|format(course.refund_amount) }}</span>退款比例：<span class="price">{{ 100 * course.refund_percent }}%</span></p>
             </div>
-        {% elseif confirm.item_type == 'package' %}
+        {% elseif confirm.item_type == 2 %}
             {% set courses = confirm.item_info.courses %}
             {% for course in courses %}
                 {% set expiry_flag = course.refund_expiry_time < time() ? '（已过期）' : '' %}
@@ -45,7 +45,6 @@
                     <textarea class="layui-textarea" name="apply_note" lay-verify="required"></textarea>
                 </div>
             </div>
-            <br>
             <div class="layui-form-item center">
                 <button class="layui-btn" lay-submit="true" lay-filter="go">申请退款</button>
                 <input type="hidden" name="order_sn" value="{{ order.sn }}">
@@ -63,6 +62,7 @@
         layui.use(['jquery', 'layer'], function () {
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.title('申请退款', index);
+            parent.layer.iframeAuto(index);
         });
     </script>
 
