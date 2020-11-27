@@ -1,6 +1,6 @@
 ## 酷瓜云课堂
 
-![酷瓜云课堂](https://upload-images.jianshu.io/upload_images/326350-dd52d4e6ad576989.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![酷瓜云网课GPL协议开源](https://images.gitee.com/uploads/images/2020/1127/092621_3805cf8f_23592.png)
 
 #### 项目介绍
 
@@ -30,7 +30,7 @@
 
 移动端演示：
 
-![移动端扫码演示](https://upload-images.jianshu.io/upload_images/326350-83444e0bbe14db9f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![移动端二维码](https://images.gitee.com/uploads/images/2020/1127/093203_265221a2_23592.png)
 
 支付流程演示：
 
