@@ -5,15 +5,12 @@ namespace App\Http\Home\Controllers;
 use App\Services\Logic\Search\Course as CourseSearchService;
 use App\Services\Logic\Search\Group as GroupSearchService;
 use App\Services\Logic\Search\User as UserSearchService;
-use App\Traits\Response as ResponseTrait;
 
 /**
  * @RoutePrefix("/search")
  */
 class SearchController extends Controller
 {
-
-    use ResponseTrait;
 
     /**
      * @Get("/", name="home.search.index")
@@ -43,14 +40,6 @@ class SearchController extends Controller
     }
 
     /**
-     * @Get("/form", name="home.search.form")
-     */
-    public function formAction()
-    {
-
-    }
-
-    /**
      * @param string $type
      * @return CourseSearchService|GroupSearchService|UserSearchService
      */
@@ -58,7 +47,7 @@ class SearchController extends Controller
     {
         switch ($type) {
             case 'group':
-                $service = new GroupSearchService;
+                $service = new GroupSearchService();
                 break;
             case 'user':
                 $service = new UserSearchService();

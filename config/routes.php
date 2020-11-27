@@ -23,15 +23,6 @@ foreach ($webFiles as $file) {
     }
 }
 
-$mobileFiles = scandir(app_path('Http/Mobile/Controllers'));
-
-foreach ($mobileFiles as $file) {
-    if (strpos($file, 'Controller.php')) {
-        $className = str_replace('Controller.php', '', $file);
-        $router->addModuleResource('mobile', 'App\Http\Mobile\Controllers\\' . $className);
-    }
-}
-
 $apiFiles = scandir(app_path('Http/Api/Controllers'));
 
 foreach ($apiFiles as $file) {

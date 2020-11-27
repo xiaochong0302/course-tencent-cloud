@@ -22,6 +22,8 @@ class RefundCancel extends Service
 
         $validator = new RefundValidator();
 
+        $validator->checkIfAllowCancel($refund);
+
         $validator->checkOwner($user->id, $refund->owner_id);
 
         $refund->status = RefundModel::STATUS_CANCELED;

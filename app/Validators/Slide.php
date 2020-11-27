@@ -64,18 +64,7 @@ class Slide extends Validator
             throw new BadRequestException('slide.invalid_cover');
         }
 
-        return $value;
-    }
-
-    public function checkBgColor($bgColor)
-    {
-        $value = $this->filter->sanitize($bgColor, ['trim', 'string']);
-
-        if (!preg_match('/^#[0-9a-fA-F]{6}$/', $bgColor)) {
-            throw new BadRequestException('slide.invalid_bg_color');
-        }
-
-        return $value;
+        return kg_cos_img_style_trim($value);
     }
 
     public function checkPlatform($platform)

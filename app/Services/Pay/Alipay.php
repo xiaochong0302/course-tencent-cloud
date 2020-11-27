@@ -57,7 +57,36 @@ class Alipay extends PayService
     }
 
     /**
-     * 移动端支付
+     * app支付
+     *
+     * @param TradeModel $trade
+     * @return Response|bool
+     */
+    public function app(TradeModel $trade)
+    {
+        try {
+
+            $result = $this->gateway->app([
+                'out_trade_no' => $trade->sn,
+                'total_amount' => $trade->amount,
+                'subject' => $trade->subject,
+            ]);
+
+        } catch (\Exception $e) {
+
+            Log::error('Alipay app Exception', [
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+            ]);
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * wap支付
      *
      * @param TradeModel $trade
      * @return Response|bool
@@ -66,7 +95,7 @@ class Alipay extends PayService
     {
         try {
 
-            return $this->gateway->wap([
+            $result = $this->gateway->wap([
                 'out_trade_no' => $trade->sn,
                 'total_amount' => $trade->amount,
                 'subject' => $trade->subject,
@@ -75,6 +104,37 @@ class Alipay extends PayService
         } catch (\Exception $e) {
 
             Log::error('Alipay Wap Exception', [
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+            ]);
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * 小程序支付
+     *
+     * @param TradeModel $trade
+     * @param string $buyerId
+     * @return Collection|bool
+     */
+    public function mini(TradeModel $trade, $buyerId)
+    {
+        try {
+
+            $result = $this->gateway->mini([
+                'out_trade_no' => $trade->sn,
+                'total_amount' => $trade->amount,
+                'subject' => $trade->subject,
+                'buyer_id' => $buyerId,
+            ]);
+
+        } catch (\Exception $e) {
+
+            Log::error('Alipay Mini Exception', [
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
             ]);

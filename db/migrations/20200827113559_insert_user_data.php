@@ -14,7 +14,7 @@ final class InsertUserData extends AbstractMigration
         $account = [
             'id' => 10000,
             'email' => '10000@163.com',
-            'password' => '772b6a120699280eb2cce32ec706656a',
+            'password' => '1a1e4568f1a3740b8853a8a16e29bc87',
             'salt' => 'MbZWxN3L',
             'create_time' => $now,
         ];

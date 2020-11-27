@@ -18,9 +18,9 @@ class Learning extends Service
 
     /**
      * @param LearningModel $learning
-     * @param int $interval
+     * @param int $intervalTime
      */
-    public function addItem(LearningModel $learning, $interval = 10)
+    public function addItem(LearningModel $learning, $intervalTime = 10)
     {
         $cache = $this->getCache();
 
@@ -37,14 +37,14 @@ class Learning extends Service
 
             $learning->client_type = $this->getClientType();
             $learning->client_ip = $this->getClientIp();
-            $learning->duration = $interval;
+            $learning->duration = $intervalTime;
             $learning->active_time = time();
 
             $cache->save($itemKey, $learning, $this->lifetime);
 
         } else {
 
-            $cacheLearning->duration += $interval;
+            $cacheLearning->duration += $intervalTime;
             $cacheLearning->position = $learning->position;
             $cacheLearning->active_time = time();
 

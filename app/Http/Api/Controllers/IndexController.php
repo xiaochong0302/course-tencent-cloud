@@ -2,39 +2,63 @@
 
 namespace App\Http\Api\Controllers;
 
+use App\Caches\IndexSimpleFreeCourseList;
+use App\Caches\IndexSimpleNewCourseList;
+use App\Caches\IndexSimpleVipCourseList;
+use App\Caches\IndexSlideList;
+
 /**
- * @RoutePrefix("/api")
+ * @RoutePrefix("/api/index")
  */
 class IndexController extends Controller
 {
 
     /**
-     * @Get("/", name="api.index")
+     * @Get("/slides", name="api.index.slides")
      */
-    public function indexAction()
+    public function slidesAction()
     {
-        return $this->jsonSuccess(['data' => 'ok']);
+        $cache = new IndexSlideList();
+
+        $slides = $cache->get();
+
+        return $this->jsonSuccess(['slides' => $slides]);
     }
 
     /**
-     * @Get("/routes", name="api.routes")
+     * @Get("/courses/new", name="api.index.new_courses")
      */
-    public function routesAction()
+    public function newCoursesAction()
     {
-        $definitions = [];
+        $cache = new IndexSimpleNewCourseList();
 
-        $routes = $this->router->getRoutes();
+        $courses = $cache->get();
 
-        foreach ($routes as $route) {
-            if (strpos($route->getPattern(), '/api') !== false) {
-                $definitions[] = [
-                    'pattern' => $route->getPattern(),
-                    'methods' => $route->getHttpMethods(),
-                ];
-            }
-        }
+        return $this->jsonSuccess(['courses' => $courses]);
+    }
 
-        return $this->jsonSuccess(['routes' => $definitions]);
+    /**
+     * @Get("/courses/free", name="api.index.free_courses")
+     */
+    public function freeCoursesAction()
+    {
+        $cache = new IndexSimpleFreeCourseList();
+
+        $courses = $cache->get();
+
+        return $this->jsonSuccess(['courses' => $courses]);
+    }
+
+    /**
+     * @Get("/courses/vip", name="api.index.vip_courses")
+     */
+    public function vipCoursesAction()
+    {
+        $cache = new IndexSimpleVipCourseList();
+
+        $courses = $cache->get();
+
+        return $this->jsonSuccess(['courses' => $courses]);
     }
 
 }

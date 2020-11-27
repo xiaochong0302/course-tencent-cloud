@@ -99,9 +99,7 @@ class ReviewController extends Controller
 
         $service->handle($id);
 
-        $content = ['msg' => '删除评价成功'];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['msg' => '删除评价成功']);
     }
 
     /**
@@ -115,9 +113,7 @@ class ReviewController extends Controller
 
         $msg = $like->deleted == 0 ? '点赞成功' : '取消点赞成功';
 
-        $content = ['msg' => $msg];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['msg' => $msg]);
     }
 
 }

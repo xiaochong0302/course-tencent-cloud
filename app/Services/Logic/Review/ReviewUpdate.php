@@ -2,6 +2,7 @@
 
 namespace App\Services\Logic\Review;
 
+use App\Models\Course as CourseModel;
 use App\Services\CourseStat as CourseStatService;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\ReviewTrait;
@@ -39,14 +40,14 @@ class ReviewUpdate extends Service
 
         $review->update($data);
 
-        $this->updateCourseRating($course->id);
+        $this->updateCourseRating($course);
     }
 
-    protected function updateCourseRating($courseId)
+    protected function updateCourseRating(CourseModel $course)
     {
         $service = new CourseStatService();
 
-        $service->updateRating($courseId);
+        $service->updateRating($course->id);
     }
 
 }

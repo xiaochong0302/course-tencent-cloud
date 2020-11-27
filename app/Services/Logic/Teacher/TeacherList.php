@@ -3,7 +3,7 @@
 namespace App\Services\Logic\Teacher;
 
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\User;
+use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Service;
 
@@ -16,7 +16,7 @@ class TeacherList extends Service
 
         $params = $pagerQuery->getParams();
 
-        $params['edu_role'] = User::EDU_ROLE_TEACHER;
+        $params['edu_role'] = UserModel::EDU_ROLE_TEACHER;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
@@ -52,6 +52,8 @@ class TeacherList extends Service
                 'avatar' => $user['avatar'],
                 'title' => $user['title'],
                 'about' => $user['about'],
+                'gender' => $user['gender'],
+                'area' => $user['area'],
             ];
         }
 

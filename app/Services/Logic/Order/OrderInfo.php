@@ -34,6 +34,8 @@ class OrderInfo extends Service
             'item_id' => $order->item_id,
             'item_type' => $order->item_type,
             'item_info' => $order->item_info,
+            'create_time' => $order->create_time,
+            'update_time' => $order->update_time,
         ];
     }
 

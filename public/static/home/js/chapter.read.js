@@ -6,7 +6,6 @@ layui.use(['jquery', 'helper'], function () {
     var interval = null;
     var intervalTime = 15000;
     var userId = window.user.id;
-    var chapterId = $('input[name="chapter.id"]').val();
     var planId = $('input[name="chapter.plan_id"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
     var requestId = helper.getRequestId();
@@ -40,10 +39,9 @@ layui.use(['jquery', 'helper'], function () {
             type: 'POST',
             url: learningUrl,
             data: {
-                request_id: requestId,
-                chapter_id: chapterId,
                 plan_id: planId,
-                interval: intervalTime,
+                request_id: requestId,
+                interval_time: intervalTime,
             }
         });
     }
