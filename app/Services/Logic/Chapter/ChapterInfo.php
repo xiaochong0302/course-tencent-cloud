@@ -67,7 +67,10 @@ class ChapterInfo extends Service
             'liked' => 0,
         ];
 
-        if ($user->id) {
+        $me['joined'] = $this->joinedChapter ? 1 : 0;
+        $me['owned'] = $this->ownedChapter ? 1 : 0;
+
+        if ($user->id > 0) {
 
             $likeRepo = new ChapterLikeRepo();
 
@@ -84,9 +87,6 @@ class ChapterInfo extends Service
             if ($this->chapterUser) {
                 $me['position'] = $this->chapterUser->position;
             }
-
-            $me['joined'] = $this->joinedChapter ? 1 : 0;
-            $me['owned'] = $this->ownedChapter ? 1 : 0;
         }
 
         $result['me'] = $me;

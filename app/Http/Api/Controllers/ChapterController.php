@@ -47,9 +47,7 @@ class ChapterController extends Controller
 
         $chapter = $service->handle($id);
 
-        $owned = $chapter['me']['owned'] ?? false;
-
-        if (!$owned) {
+        if ($chapter['me']['owned'] == 0) {
             return $this->jsonError(['msg' => '没有访问章节权限']);
         }
 
