@@ -20,10 +20,14 @@ class HelpInfo extends Service
 
     protected function handleHelp(HelpModel $help)
     {
+        $help->content = kg_parse_markdown($help->content);
+
         return [
             'id' => $help->id,
             'title' => $help->title,
             'content' => $help->content,
+            'create_time' => $help->create_time,
+            'update_time' => $help->update_time,
         ];
     }
 

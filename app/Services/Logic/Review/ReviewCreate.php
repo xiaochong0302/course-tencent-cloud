@@ -52,7 +52,7 @@ class ReviewCreate extends Service
 
         $this->incrCourseReviewCount($course);
 
-        $this->updateCourseRating($course->id);
+        $this->updateCourseRating($course);
 
         return $review;
     }
@@ -71,11 +71,11 @@ class ReviewCreate extends Service
         $course->update();
     }
 
-    public function updateCourseRating($courseId)
+    public function updateCourseRating(CourseModel $course)
     {
         $service = new CourseStatService();
 
-        $service->updateRating($courseId);
+        $service->updateRating($course->id);
     }
 
 }

@@ -113,10 +113,6 @@ class HttpKernel extends Kernel
                 'className' => 'App\Http\Home\Module',
                 'path' => app_path('Http/Home/Module.php'),
             ],
-            'mobile' => [
-                'className' => 'App\Http\Mobile\Module',
-                'path' => app_path('Http/Mobile/Module.php'),
-            ],
         ];
 
         $this->app->registerModules($modules);

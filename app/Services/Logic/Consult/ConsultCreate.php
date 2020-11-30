@@ -117,6 +117,7 @@ class ConsultCreate extends Service
     protected function getPriority(CourseModel $course, UserModel $user)
     {
         $charge = $course->market_price > 0;
+
         $vip = $user->vip == 1;
 
         if ($vip && $charge) {

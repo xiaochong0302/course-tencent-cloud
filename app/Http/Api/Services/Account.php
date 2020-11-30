@@ -50,10 +50,6 @@ class Account extends Service
 
         $user = $validator->checkUserLogin($post['account'], $post['password']);
 
-        //$validator = new CaptchaValidator();
-
-        //$validator->checkCode($post['ticket'], $post['rand']);
-
         return $this->auth->saveAuthInfo($user);
     }
 

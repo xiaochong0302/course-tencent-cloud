@@ -22,6 +22,8 @@ class BasicInfo extends Service
 
     public function handleBasicInfo(CourseModel $course)
     {
+        $course->details = kg_parse_markdown($course->details);
+
         $teachers = $this->handleTeachers($course);
         $ratings = $this->handleRatings($course);
 
