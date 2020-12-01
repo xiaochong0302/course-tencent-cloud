@@ -102,6 +102,11 @@ class Wxpay extends PayService
                 'body' => $trade->subject,
             ]);
 
+            /**
+             * 微信H5支付会检查Referer，构造Referer头信息
+             */
+            $result->headers->set('Referer', kg_site_url());
+
         } catch (\Exception $e) {
 
             Log::error('Wxpay Wap Exception', [
