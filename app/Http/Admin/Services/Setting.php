@@ -13,6 +13,7 @@ class Setting extends Service
     {
         $alipay = $this->getSettings('pay.alipay');
 
+        $alipay['return_url'] = $alipay['return_url'] ?: kg_full_url(['for' => 'home.alipay_callback']);
         $alipay['notify_url'] = $alipay['notify_url'] ?: kg_full_url(['for' => 'home.alipay_notify']);
 
         return $alipay;
@@ -22,6 +23,7 @@ class Setting extends Service
     {
         $wxpay = $this->getSettings('pay.wxpay');
 
+        $wxpay['return_url'] = $wxpay['return_url'] ?: kg_full_url(['for' => 'home.wxpay_callback']);
         $wxpay['notify_url'] = $wxpay['notify_url'] ?: kg_full_url(['for' => 'home.wxpay_notify']);
 
         return $wxpay;

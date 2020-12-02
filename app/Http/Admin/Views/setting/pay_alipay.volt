@@ -25,6 +25,12 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">Return Url</label>
+        <div class="layui-input-block">
+            <input class="layui-input" type="text" name="return_url" value="{{ alipay.return_url }}" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
