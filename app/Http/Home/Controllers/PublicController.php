@@ -80,7 +80,7 @@ class PublicController extends \Phalcon\Mvc\Controller
      */
     public function alipayCallbackAction()
     {
-        return $this->response->redirect('/h5/#/pages/me/orders', true);
+        return $this->response->redirect('/h5/#/pages/me/index', true);
     }
 
     /**
@@ -88,7 +88,7 @@ class PublicController extends \Phalcon\Mvc\Controller
      */
     public function wxpayCallbackAction()
     {
-        return $this->response->redirect('/h5/#/pages/me/orders', true);
+        return $this->response->redirect('/h5/#/pages/me/index', true);
     }
 
     /**
