@@ -21,6 +21,11 @@ class WxpayGateway extends Service
         $this->settings = array_merge($defaults, $options);
     }
 
+    public function setReturnUrl($returnUrl)
+    {
+        $this->settings['return_url'] = $returnUrl;
+    }
+
     public function setNotifyUrl($notifyUrl)
     {
         $this->settings['notify_url'] = $notifyUrl;
@@ -42,6 +47,7 @@ class WxpayGateway extends Service
             'mch_id' => $this->settings['mch_id'],
             'key' => $this->settings['key'],
             'notify_url' => $this->settings['notify_url'],
+            'return_url' => $this->settings['return_url'],
             'cert_client' => config_path('wxpay/apiclient_cert.pem'),
             'cert_key' => config_path('wxpay/apiclient_key.pem'),
             'log' => [

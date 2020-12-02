@@ -76,6 +76,22 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
+     * @Get("/alipay/callback", name="home.alipay_callback")
+     */
+    public function alipayCallbackAction()
+    {
+        return $this->response->redirect('/h5/#/pages/uc/orders', true);
+    }
+
+    /**
+     * @Get("/wxpay/callback", name="home.wxpay_callback")
+     */
+    public function wxpayCallbackAction()
+    {
+        return $this->response->redirect('/h5/#/pages/uc/orders', true);
+    }
+
+    /**
      * @Post("/alipay/notify", name="home.alipay_notify")
      */
     public function alipayNotifyAction()

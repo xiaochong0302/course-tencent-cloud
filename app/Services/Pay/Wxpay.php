@@ -6,6 +6,7 @@ use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Trade as TradeRepo;
 use App\Services\Pay as PayService;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Yansongda\Pay\Gateways\Wechat;
 use Yansongda\Pay\Log;
@@ -90,7 +91,7 @@ class Wxpay extends PayService
      * wap支付
      *
      * @param TradeModel $trade
-     * @return Response|bool
+     * @return RedirectResponse|bool
      */
     public function wap(TradeModel $trade)
     {
@@ -101,11 +102,6 @@ class Wxpay extends PayService
                 'total_fee' => 100 * $trade->amount,
                 'body' => $trade->subject,
             ]);
-
-            /**
-             * 微信H5支付会检查Referer，构造Referer头信息
-             */
-            $result->headers->set('Referer', kg_site_url());
 
         } catch (\Exception $e) {
 

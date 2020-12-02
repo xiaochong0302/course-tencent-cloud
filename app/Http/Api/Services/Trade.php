@@ -17,23 +17,6 @@ class Trade extends Service
     use OrderTrait;
     use TradeTrait;
 
-    public function h5Pay($sn)
-    {
-        $trade = $this->checkTradeBySn($sn);
-
-        $response = null;
-
-        if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
-            $alipay = new Alipay();
-            $response = $alipay->wap($trade);
-        } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
-            $wxpay = new Wxpay();
-            $response = $wxpay->wap($trade);
-        }
-
-        return $response;
-    }
-
     public function createH5Trade()
     {
         $post = $this->request->getPost();
@@ -62,7 +45,24 @@ class Trade extends Service
 
         $trade->create();
 
-        return $trade;
+        $redirect = '';
+
+        if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
+            $alipay = new Alipay();
+            $response = $alipay->wap($trade);
+            $redirect = $response ? $response->getTargetUrl() : '';
+        } elseif ($trade->channel == TradeModel::CHANNEL_WXPAY) {
+            $wxpay = new Wxpay();
+            $response = $wxpay->wap($trade);
+            $redirect = $response ? $response->getTargetUrl() : '';
+        }
+
+        $payment = ['redirect' => $redirect];
+
+        return [
+            'trade' => $trade,
+            'payment' => $payment,
+        ];
     }
 
     public function createMpTrade()
