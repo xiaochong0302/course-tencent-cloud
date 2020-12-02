@@ -5,6 +5,7 @@ namespace App\Http\Api\Services;
 use App\Models\Client as ClientModel;
 use App\Models\Trade as TradeModel;
 use App\Services\Logic\OrderTrait;
+use App\Services\Logic\Trade\TradeInfo;
 use App\Services\Logic\TradeTrait;
 use App\Services\Pay\Alipay;
 use App\Services\Pay\Wxpay;
@@ -60,7 +61,7 @@ class Trade extends Service
         $payment = ['redirect' => $redirect];
 
         return [
-            'trade' => $trade,
+            'trade' => $this->handleTradeInfo($trade->sn),
             'payment' => $payment,
         ];
     }
@@ -120,6 +121,13 @@ class Trade extends Service
     protected function getPlatform()
     {
         return $this->request->getHeader('X-Platform');
+    }
+
+    protected function handleTradeInfo($sn)
+    {
+        $service = new TradeInfo();
+
+        return $service->handle($sn);
     }
 
 }
