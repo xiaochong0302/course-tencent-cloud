@@ -105,8 +105,7 @@ class QQ extends OAuth
 
         $userInfo['id'] = $this->openId;
         $userInfo['name'] = $data['nickname'];
-        $userInfo['nick'] = $data['nickname'];
-        $userInfo['avatar'] = $data['figureurl_2'];
+        $userInfo['avatar'] = $data['figureurl'];
 
         return $userInfo;
     }

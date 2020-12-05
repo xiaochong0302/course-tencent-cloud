@@ -18,7 +18,7 @@ class WeiXin extends OAuth
             'redirect_uri' => $this->redirectUri,
             'state' => $this->getState(),
             'response_type' => 'code',
-            'scope' => 'snsapi_login',
+            'scope' => 'snsapi_userinfo',
         ];
         
         return self::AUTHORIZE_URL . '?' . http_build_query($params);
@@ -78,10 +78,9 @@ class WeiXin extends OAuth
             throw new \Exception("Fetch User Info Failed:{$response}");
         }
 
-        $userInfo['id'] = $this->openId;
-        $userInfo['name'] = $data['name'];
-        $userInfo['nick'] = $data['screen_name'];
-        $userInfo['avatar'] = $data['avatar_large'];
+        $userInfo['id'] = $data['openid'];
+        $userInfo['name'] = $data['nickname'];
+        $userInfo['avatar'] = $data['headimgurl'];
 
         return $userInfo;
     }
