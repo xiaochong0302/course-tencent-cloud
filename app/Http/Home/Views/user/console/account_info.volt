@@ -63,28 +63,30 @@
                 <div class="my-nav">
                     <span class="title">开放登录</span>
                 </div>
-                <div class="connect-tips">已经绑定的第三方帐号</div>
-                <div class="connect-list">
-                    <table class="layui-table">
-                        <tr>
-                            <td>序号</td>
-                            <td>提供方</td>
-                            <td>用户信息</td>
-                            <td>创建日期</td>
-                            <td width="15%">操作</td>
-                        </tr>
-                        {% for connect in connects %}
-                            {% set url = url({'for':'home.uc.unconnect','id':connect.id}) %}
+                {% if connects %}
+                    <div class="connect-tips">已经绑定的第三方帐号</div>
+                    <div class="connect-list">
+                        <table class="layui-table">
                             <tr>
-                                <td>{{ loop.index }}</td>
-                                <td>{{ connect_provider(connect) }}</td>
-                                <td>{{ connect_user(connect) }}</td>
-                                <td>{{ date('Y-m-d H:i',connect.create_time) }}</td>
-                                <td><a class="layui-btn layui-btn-danger layui-btn-sm kg-delete" href="javascript:" data-url="{{ url }}" data-tips="确定要解除绑定吗？">解除绑定</a></td>
+                                <td>序号</td>
+                                <td>提供方</td>
+                                <td>用户信息</td>
+                                <td>创建日期</td>
+                                <td width="15%">操作</td>
                             </tr>
-                        {% endfor %}
-                    </table>
-                </div>
+                            {% for connect in connects %}
+                                {% set url = url({'for':'home.uc.unconnect','id':connect.id}) %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ connect_provider(connect) }}</td>
+                                    <td>{{ connect_user(connect) }}</td>
+                                    <td>{{ date('Y-m-d H:i',connect.create_time) }}</td>
+                                    <td><a class="layui-btn layui-btn-danger layui-btn-sm kg-delete" href="javascript:" data-url="{{ url }}" data-tips="确定要解除绑定吗？">解除绑定</a></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
                 <div class="connect-tips">支持绑定的第三方帐号</div>
                 <div class="oauth-list">
                     <a class="layui-icon layui-icon-login-qq login-qq" href="{{ url({'for':'home.oauth.qq'}) }}"></a>

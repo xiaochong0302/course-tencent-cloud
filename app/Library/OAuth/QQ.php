@@ -33,7 +33,6 @@ class QQ extends OAuth
             'client_secret' => $this->clientSecret,
             'redirect_uri' => $this->redirectUri,
             'grant_type' => 'authorization_code',
-            'state' => 'ok',
         ];
         
         $response = $this->httpPost(self::ACCESS_TOKEN_URL, $params);
@@ -90,7 +89,7 @@ class QQ extends OAuth
         }
         
         if (!isset($result['openid'])) {
-            throw new \Exception("Fetch Openid Failed:{$response}");
+            throw new \Exception("Fetch OpenId Failed:{$response}");
         }
         
         return $result['openid'];
@@ -100,8 +99,8 @@ class QQ extends OAuth
     {
         $data = json_decode($response, true);
 
-        if ($data['ret'] != 0) {
-            throw new \Exception("Fetch User Info Failed：{$data['msg']}");
+        if (isset($data['ret']) && $data['ret'] != 0) {
+            throw new \Exception("Fetch User Info Failed:{$response}");
         }
 
         $userInfo['id'] = $this->openId;

@@ -21,8 +21,8 @@
         <div class="layui-input-block">
             <button id="cv-submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" disabled="disabled" lay-submit="true" lay-filter="go">注册并绑定帐号</button>
             <input type="hidden" name="provider" value="{{ provider }}">
-            <input type="hidden" name="code" value="{{ request.get.code }}">
-            <input type="hidden" name="state" value="{{ request.get.state }}">
+            <input type="hidden" name="code" value="{{ request.get('code') }}">
+            <input type="hidden" name="state" value="{{ request.get('state') }}">
             <input id="cv-app-id" type="hidden" value="{{ captcha.app_id }}">
             <input id="cv-ticket" type="hidden" name="ticket">
             <input id="cv-rand" type="hidden" name="rand">
