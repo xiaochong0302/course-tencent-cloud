@@ -18,8 +18,8 @@ class QQ extends OAuth
             'client_id' => $this->clientId,
             'redirect_uri' => $this->redirectUri,
             'state' => $this->getState(),
-            'response_type' => 'code',
             'scope' => 'get_user_info',
+            'response_type' => 'code',
         ];
         
         return self::AUTHORIZE_URL . '?' . http_build_query($params);
