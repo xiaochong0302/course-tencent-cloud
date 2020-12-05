@@ -80,7 +80,6 @@ class WeiBo extends OAuth
 
         $userInfo['id'] = $this->openId;
         $userInfo['name'] = $data['name'];
-        $userInfo['nick'] = $data['screen_name'];
         $userInfo['avatar'] = $data['avatar_large'];
 
         return $userInfo;
