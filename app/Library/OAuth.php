@@ -57,6 +57,13 @@ abstract class OAuth
     public function checkState($state)
     {
         /**
+         * 注意事项：
+         * callback中的state参数并未做encode处理，参数中含有"+"
+         * 获取参数的时候却自动做了decode处理，"+"变成了空格
+         */
+        $state = str_replace(' ', '+', $state);
+
+        /**
          * @var $crypt Crypt
          */
         $crypt = Di::getDefault()->get('crypt');
