@@ -14,8 +14,9 @@ class WeiBo extends OAuth
     public function getAuthorizeUrl()
     {
         $params = [
-            'client_id' => $this->appId,
+            'client_id' => $this->clientId,
             'redirect_uri' => $this->redirectUri,
+            'state' => $this->getState(),
             'response_type' => 'code',
         ];
         
@@ -26,8 +27,8 @@ class WeiBo extends OAuth
     {
         $params = [
             'code' => $code,
-            'client_id' => $this->appId,
-            'client_secret' => $this->appSecret,
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
             'redirect_uri' => $this->redirectUri,
             'grant_type' => 'authorization_code',
         ];
@@ -72,16 +73,16 @@ class WeiBo extends OAuth
     private function parseUserInfo($response)
     {
         $data = json_decode($response, true);
-        
+
         if ($data['error_code'] != 0) {
             throw new \Exception("Fetch User Info Failed:{$data['error']}");
         }
-        
-        $userInfo['type'] = 'WEIBO';
+
+        $userInfo['id'] = $this->openId;
         $userInfo['name'] = $data['name'];
         $userInfo['nick'] = $data['screen_name'];
-        $userInfo['head'] = $data['avatar_large'];
-        
+        $userInfo['avatar'] = $data['avatar_large'];
+
         return $userInfo;
     }
 

@@ -744,6 +744,12 @@ class AuthNode extends Service
                             'type' => 'menu',
                             'route' => 'admin.setting.im',
                         ],
+                        [
+                            'id' => '5-1-12',
+                            'title' => '开放登录',
+                            'type' => 'menu',
+                            'route' => 'admin.setting.oauth',
+                        ],
                     ],
                 ],
             ],

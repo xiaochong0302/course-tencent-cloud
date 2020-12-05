@@ -15,10 +15,11 @@ class QQ extends OAuth
     public function getAuthorizeUrl()
     {
         $params = [
-            'client_id' => $this->appId,
+            'client_id' => $this->clientId,
             'redirect_uri' => $this->redirectUri,
+            'state' => $this->getState(),
             'response_type' => 'code',
-            'scope' => '',
+            'scope' => 'get_user_info',
         ];
         
         return self::AUTHORIZE_URL . '?' . http_build_query($params);
@@ -28,8 +29,8 @@ class QQ extends OAuth
     {
         $params = [
             'code' => $code,
-            'client_id' => $this->appId,
-            'client_secret' => $this->appSecret,
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
             'redirect_uri' => $this->redirectUri,
             'grant_type' => 'authorization_code',
             'state' => 'ok',
@@ -56,14 +57,14 @@ class QQ extends OAuth
     public function getUserInfo($accessToken, $openId)
     {
         $params = [
+            'oauth_consumer_key' => $this->clientId,
             'access_token' => $accessToken,
             'openid' => $openId,
-            'oauth_consumer_key' => $this->appId,
         ];
         
         $response = $this->httpGet(self::USER_INFO_URL, $params);
-        
-        $this->parseUserInfo($response);
+
+        return $this->parseUserInfo($response);
     }
 
     protected function parseAccessToken($response)
@@ -81,11 +82,11 @@ class QQ extends OAuth
 
     protected function parseOpenId($response)
     {
-        $result = $match = [];
+        $result = $matches = [];
         
         if (!empty($response)) {
-            preg_match('/callback\(\s+(.*?)\s+\)/i', $response, $match);
-            $result = json_decode($match[1], true);
+            preg_match('/callback\(\s+(.*?)\s+\)/i', $response, $matches);
+            $result = json_decode($matches[1], true);
         }
         
         if (!isset($result['openid'])) {
@@ -98,16 +99,16 @@ class QQ extends OAuth
     protected function parseUserInfo($response)
     {
         $data = json_decode($response, true);
-        
+
         if ($data['ret'] != 0) {
             throw new \Exception("Fetch User Info Failed：{$data['msg']}");
         }
-        
-        $userInfo['type'] = 'QQ';
+
+        $userInfo['id'] = $this->openId;
         $userInfo['name'] = $data['nickname'];
         $userInfo['nick'] = $data['nickname'];
-        $userInfo['head'] = $data['figureurl_2'];
-        
+        $userInfo['avatar'] = $data['figureurl_2'];
+
         return $userInfo;
     }
 
