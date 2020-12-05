@@ -62,7 +62,7 @@ class WeiXin extends OAuth
         $data = json_decode($response, true);
         
         if (isset($data['errcode']) && $data['errcode'] != 0) {
-            throw new \Exception("Fetch Access Token Failed:{$data['errmsg']}");
+            throw new \Exception("Fetch Access Token Failed:{$response}");
         }
         
         $this->openId = $data['openid'];
@@ -75,7 +75,7 @@ class WeiXin extends OAuth
         $data = json_decode($response, true);
 
         if (isset($data['errcode']) && $data['errcode'] != 0) {
-            throw new \Exception("Fetch User Info Failed:{$data['errmsg']}");
+            throw new \Exception("Fetch User Info Failed:{$response}");
         }
 
         $userInfo['id'] = $this->openId;

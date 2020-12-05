@@ -8,7 +8,7 @@ class WeiBo extends OAuth
 {
 
     const AUTHORIZE_URL = 'https://api.weibo.com/oauth2/authorize';
-    const ACCESS_TOKEN_URL = 'https://api.weibo.com/oauth2/oauth2/access_token';
+    const ACCESS_TOKEN_URL = 'https://api.weibo.com/oauth2/access_token';
     const USER_INFO_URL = 'https://api.weibo.com/2/users/show.json';
 
     public function getAuthorizeUrl()
@@ -60,8 +60,8 @@ class WeiBo extends OAuth
     private function parseAccessToken($response)
     {
         $data = json_decode($response, true);
-        
-        if (!isset($data['access_token']) || isset($data['uid'])) {
+
+        if (!isset($data['access_token']) || !isset($data['uid'])) {
             throw new \Exception("Fetch Access Token Failed:{$response}");
         }
         
@@ -74,8 +74,8 @@ class WeiBo extends OAuth
     {
         $data = json_decode($response, true);
 
-        if ($data['error_code'] != 0) {
-            throw new \Exception("Fetch User Info Failed:{$data['error']}");
+        if (isset($data['error_code']) && $data['error_code'] != 0) {
+            throw new \Exception("Fetch User Info Failed:{$response}");
         }
 
         $userInfo['id'] = $this->openId;
