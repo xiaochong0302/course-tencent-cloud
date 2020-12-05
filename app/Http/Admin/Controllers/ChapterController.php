@@ -110,8 +110,6 @@ class ChapterController extends Controller
 
             $this->view->pick('chapter/edit_lesson');
 
-            $resources = $chapterService->getResources($chapter->id);
-
             $cos = $chapterService->getSettings('cos');
 
             $this->view->setVar('cos', $cos);

@@ -14,11 +14,11 @@ class WeiXin extends OAuth
     public function getAuthorizeUrl()
     {
         $params = [
-            'appid' => $this->appId,
+            'appid' => $this->clientId,
             'redirect_uri' => $this->redirectUri,
+            'state' => $this->getState(),
             'response_type' => 'code',
             'scope' => 'snsapi_login',
-            'state' => 'dev',
         ];
         
         return self::AUTHORIZE_URL . '?' . http_build_query($params);
@@ -28,8 +28,8 @@ class WeiXin extends OAuth
     {
         $params = [
             'code' => $code,
-            'appid' => $this->appId,
-            'secret' => $this->appSecret,
+            'appid' => $this->clientId,
+            'secret' => $this->clientSecret,
             'grant_type' => 'authorization_code',
         ];
         
@@ -73,16 +73,16 @@ class WeiXin extends OAuth
     private function parseUserInfo($response)
     {
         $data = json_decode($response, true);
-        
+
         if (isset($data['errcode']) && $data['errcode'] != 0) {
             throw new \Exception("Fetch User Info Failed:{$data['errmsg']}");
         }
-        
-        $userInfo['type'] = 'WEIXIN';
+
+        $userInfo['id'] = $this->openId;
         $userInfo['name'] = $data['name'];
         $userInfo['nick'] = $data['screen_name'];
-        $userInfo['head'] = $data['avatar_large'];
-        
+        $userInfo['avatar'] = $data['avatar_large'];
+
         return $userInfo;
     }
 

@@ -27,6 +27,11 @@
             <span class="separator">·</span>
             <a class="forget-link" href="{{ url({'for':'home.account.forget_pwd'}) }}">忘记密码</a>
         </div>
+        <div class="oauth">
+            <a class="layui-icon layui-icon-login-qq login-qq" href="{{ url({'for':'home.oauth.qq'}) }}"></a>
+            <a class="layui-icon layui-icon-login-wechat login-wechat" href="{{ url({'for':'home.oauth.weixin'}) }}"></a>
+            <a class="layui-icon layui-icon-login-weibo login-weibo" href="{{ url({'for':'home.oauth.weibo'}) }}"></a>
+        </div>
     </div>
 
 {% endblock %}

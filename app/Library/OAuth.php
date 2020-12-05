@@ -3,20 +3,22 @@
 namespace App\Library;
 
 use GuzzleHttp\Client as HttpClient;
+use Phalcon\Crypt;
+use Phalcon\Di;
 
 abstract class OAuth
 {
 
-    protected $appId;
-    protected $appSecret;
+    protected $clientId;
+    protected $clientSecret;
     protected $redirectUri;
     protected $accessToken;
     protected $openId;
 
-    public function __construct($appId, $appSecret, $redirectUri)
+    public function __construct($clientId, $clientSecret, $redirectUri)
     {
-        $this->appId = $appId;
-        $this->appSecret = $appSecret;
+        $this->clientId = $clientId;
+        $this->clientSecret = $clientSecret;
         $this->redirectUri = $redirectUri;
     }
 
@@ -40,6 +42,32 @@ abstract class OAuth
         $response = $client->post($uri, $options);
 
         return $response->getBody();
+    }
+
+    public function getState()
+    {
+        /**
+         * @var $crypt Crypt
+         */
+        $crypt = Di::getDefault()->get('crypt');
+
+        return $crypt->encryptBase64(rand(1000, 9999));
+    }
+
+    public function checkState($state)
+    {
+        /**
+         * @var $crypt Crypt
+         */
+        $crypt = Di::getDefault()->get('crypt');
+
+        $value = $crypt->decryptBase64($state);
+
+        if ($value < 1000 || $value > 9999) {
+            throw new \Exception('Invalid OAuth State Value');
+        }
+
+        return true;
     }
 
     abstract public function getAuthorizeUrl();

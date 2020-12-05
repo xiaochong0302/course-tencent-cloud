@@ -298,4 +298,33 @@ class SettingController extends Controller
         }
     }
 
+    /**
+     * @Route("/oauth", name="admin.setting.oauth")
+     */
+    public function oauthAction()
+    {
+        $settingService = new SettingService();
+
+        if ($this->request->isPost()) {
+
+            $section = $this->request->getPost('section', 'string');
+
+            $data = $this->request->getPost();
+
+            $settingService->updateSettings($section, $data);
+
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
+
+        } else {
+
+            $qqAuth = $settingService->getQQAuthSettings();
+            $weixinAuth = $settingService->getWeixinAuthSettings();
+            $weiboAuth = $settingService->getWeiboAuthSettings();
+
+            $this->view->setVar('qq_auth', $qqAuth);
+            $this->view->setVar('weixin_auth', $weixinAuth);
+            $this->view->setVar('weibo_auth', $weiboAuth);
+        }
+    }
+
 }
