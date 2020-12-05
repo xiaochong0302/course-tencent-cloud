@@ -18,7 +18,7 @@ class WeiXin extends OAuth
             'redirect_uri' => $this->redirectUri,
             'state' => $this->getState(),
             'response_type' => 'code',
-            'scope' => 'snsapi_userinfo',
+            'scope' => 'snsapi_login',
         ];
         
         return self::AUTHORIZE_URL . '?' . http_build_query($params);
