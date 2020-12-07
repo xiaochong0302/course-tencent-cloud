@@ -86,8 +86,16 @@ class Setting extends Service
 
         $result = [];
 
+        /**
+         * demo分支过滤敏感数据
+         */
         if ($items->count() > 0) {
             foreach ($items as $item) {
+                $case1 = preg_match('/(id|auth|key|secret|password|pwd)$/', $item->item_key);
+                $case2 = $this->dispatcher->getControllerName() == 'setting';
+                if ($case1 && $case2) {
+                    $item->item_value = '***';
+                }
                 $result[$item->item_key] = $item->item_value;
             }
         }
