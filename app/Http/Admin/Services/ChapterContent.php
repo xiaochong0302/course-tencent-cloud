@@ -81,8 +81,18 @@ class ChapterContent extends Service
 
         $vod = $chapterRepo->findChapterVod($chapter->id);
 
+        /**
+         * 无新文件上传
+         */
         if ($fileId == $vod->file_id) {
             return;
+        }
+
+        /**
+         * 删除旧文件
+         */
+        if ($vod->file_id) {
+            $this->deleteVodFile($vod->file_id);
         }
 
         $vod->update([
@@ -102,10 +112,6 @@ class ChapterContent extends Service
         $chapter->update(['attrs' => $attrs]);
 
         $this->updateCourseVodAttrs($vod->course_id);
-
-        if (!empty($vod->file_id)) {
-            $this->deleteVodFile($vod->file_id);
-        }
     }
 
     protected function updateChapterLive(ChapterModel $chapter)
