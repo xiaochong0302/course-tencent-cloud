@@ -52,20 +52,7 @@ class ConnectController extends Controller
      */
     public function qqCallbackAction()
     {
-        $service = new ConnectService();
-
-        if ($this->authUser->id > 0) {
-
-            $service->bindUser(ConnectModel::PROVIDER_QQ);
-
-            return $this->response->redirect(['for' => 'home.uc.account']);
-        }
-
-        $captcha = $service->getSettings('captcha');
-
-        $this->view->pick('connect/bind');
-        $this->view->setVar('captcha', $captcha);
-        $this->view->setVar('provider', ConnectModel::PROVIDER_QQ);
+        $this->handleCallback(ConnectModel::PROVIDER_QQ);
     }
 
     /**
@@ -73,20 +60,7 @@ class ConnectController extends Controller
      */
     public function weixinCallbackAction()
     {
-        $service = new ConnectService();
-
-        if ($this->authUser->id > 0) {
-
-            $service->bindUser(ConnectModel::PROVIDER_WEIXIN);
-
-            return $this->response->redirect(['for' => 'home.uc.account']);
-        }
-
-        $captcha = $service->getSettings('captcha');
-
-        $this->view->pick('connect/bind');
-        $this->view->setVar('captcha', $captcha);
-        $this->view->setVar('provider', ConnectModel::PROVIDER_QQ);
+        $this->handleCallback(ConnectModel::PROVIDER_WEIXIN);
     }
 
     /**
@@ -94,20 +68,7 @@ class ConnectController extends Controller
      */
     public function weiboCallbackAction()
     {
-        $service = new ConnectService();
-
-        if ($this->authUser->id > 0) {
-
-            $service->bindUser(ConnectModel::PROVIDER_WEIBO);
-
-            return $this->response->redirect(['for' => 'home.uc.account']);
-        }
-
-        $captcha = $service->getSettings('captcha');
-
-        $this->view->pick('connect/bind');
-        $this->view->setVar('captcha', $captcha);
-        $this->view->setVar('provider', ConnectModel::PROVIDER_QQ);
+        $this->handleCallback(ConnectModel::PROVIDER_WEIBO);
     }
 
     /**
@@ -127,7 +88,7 @@ class ConnectController extends Controller
 
         $service->bindLogin();
 
-        $location = $this->url->get(['for' => 'home.uc.index']);
+        $location = $this->url->get(['for' => 'home.uc.account']);
 
         return $this->jsonSuccess(['location' => $location]);
     }
@@ -141,9 +102,38 @@ class ConnectController extends Controller
 
         $service->bindRegister();
 
-        $location = $this->url->get(['for' => 'home.uc.index']);
+        $location = $this->url->get(['for' => 'home.uc.account']);
 
         return $this->jsonSuccess(['location' => $location]);
+    }
+
+    protected function handleCallback($provider)
+    {
+        $code = $this->request->getQuery('code');
+        $state = $this->request->getQuery('state');
+
+        $service = new ConnectService();
+
+        $openUser = $service->getOpenUserInfo($code, $state, $provider);
+
+        $connect = $service->getConnectRelation($openUser['id'], $provider);
+
+        if ($connect && $connect->deleted == 0) {
+            if ($this->authUser->id > 0) {
+                $service->bindUser($openUser, $provider);
+                return $this->response->redirect(['for' => 'home.uc.account']);
+            } else {
+                $service->authLogin($connect);
+                return $this->response->redirect(['for' => 'home.index']);
+            }
+        }
+
+        $captcha = $service->getSettings('captcha');
+
+        $this->view->pick('connect/bind');
+        $this->view->setVar('captcha', $captcha);
+        $this->view->setVar('provider', $provider);
+        $this->view->setVar('open_user', $openUser);
     }
 
 }

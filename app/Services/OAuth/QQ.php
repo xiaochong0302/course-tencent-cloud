@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Library\OAuth;
+namespace App\Services\OAuth;
 
-use App\Library\OAuth;
+use App\Services\OAuth;
 
 class QQ extends OAuth
 {
@@ -18,8 +18,8 @@ class QQ extends OAuth
             'client_id' => $this->clientId,
             'redirect_uri' => $this->redirectUri,
             'state' => $this->getState(),
-            'scope' => 'get_user_info',
             'response_type' => 'code',
+            'scope' => 'get_user_info',
         ];
         
         return self::AUTHORIZE_URL . '?' . http_build_query($params);

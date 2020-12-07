@@ -89,9 +89,15 @@
                 {% endif %}
                 <div class="connect-tips">支持绑定的第三方帐号</div>
                 <div class="oauth-list">
-                    <a class="layui-icon layui-icon-login-qq login-qq" href="{{ url({'for':'home.oauth.qq'}) }}"></a>
-                    <a class="layui-icon layui-icon-login-wechat login-wechat" href="{{ url({'for':'home.oauth.weixin'}) }}"></a>
-                    <a class="layui-icon layui-icon-login-weibo login-weibo" href="{{ url({'for':'home.oauth.weibo'}) }}"></a>
+                    {% if oauth_provider.qq.enabled == 1 %}
+                        <a class="layui-icon layui-icon-login-qq login-qq" href="{{ url({'for':'home.oauth.qq'}) }}"></a>
+                    {% endif %}
+                    {% if oauth_provider.qq.enabled == 1 %}
+                        <a class="layui-icon layui-icon-login-wechat login-wechat" href="{{ url({'for':'home.oauth.weixin'}) }}"></a>
+                    {% endif %}
+                    {% if oauth_provider.qq.enabled == 1 %}
+                        <a class="layui-icon layui-icon-login-weibo login-weibo" href="{{ url({'for':'home.oauth.weibo'}) }}"></a>
+                    {% endif %}
                 </div>
             </div>
         </div>

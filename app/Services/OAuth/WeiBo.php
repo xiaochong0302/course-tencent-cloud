@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Library\OAuth;
+namespace App\Services\OAuth;
 
-use App\Library\OAuth;
+use App\Services\OAuth;
 
-class WeiXin extends OAuth
+class WeiBo extends OAuth
 {
 
-    const AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/qrconnect';
-    const ACCESS_TOKEN_URL = 'https://api.weixin.qq.com/sns/oauth2/access_token';
-    const USER_INFO_URL = 'https://api.weixin.qq.com/sns/userinfo';
+    const AUTHORIZE_URL = 'https://api.weibo.com/oauth2/authorize';
+    const ACCESS_TOKEN_URL = 'https://api.weibo.com/oauth2/access_token';
+    const USER_INFO_URL = 'https://api.weibo.com/2/users/show.json';
 
     public function getAuthorizeUrl()
     {
         $params = [
-            'appid' => $this->clientId,
+            'client_id' => $this->clientId,
             'redirect_uri' => $this->redirectUri,
             'state' => $this->getState(),
-            'scope' => 'snsapi_login',
             'response_type' => 'code',
         ];
         
@@ -28,8 +27,9 @@ class WeiXin extends OAuth
     {
         $params = [
             'code' => $code,
-            'appid' => $this->clientId,
-            'secret' => $this->clientSecret,
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'redirect_uri' => $this->redirectUri,
             'grant_type' => 'authorization_code',
         ];
         
@@ -49,7 +49,7 @@ class WeiXin extends OAuth
     {
         $params = [
             'access_token' => $accessToken,
-            'openid' => $openId,
+            'uid' => $openId,
         ];
         
         $response = $this->httpGet(self::USER_INFO_URL, $params);
@@ -60,12 +60,12 @@ class WeiXin extends OAuth
     private function parseAccessToken($response)
     {
         $data = json_decode($response, true);
-        
-        if (isset($data['errcode']) && $data['errcode'] != 0) {
+
+        if (!isset($data['access_token']) || !isset($data['uid'])) {
             throw new \Exception("Fetch Access Token Failed:{$response}");
         }
         
-        $this->openId = $data['openid'];
+        $this->openId = $data['uid'];
         
         return $data['access_token'];
     }
@@ -74,13 +74,13 @@ class WeiXin extends OAuth
     {
         $data = json_decode($response, true);
 
-        if (isset($data['errcode']) && $data['errcode'] != 0) {
+        if (isset($data['error_code']) && $data['error_code'] != 0) {
             throw new \Exception("Fetch User Info Failed:{$response}");
         }
 
-        $userInfo['id'] = $data['openid'];
-        $userInfo['name'] = $data['nickname'];
-        $userInfo['avatar'] = $data['headimgurl'];
+        $userInfo['id'] = $data['id'];
+        $userInfo['name'] = $data['name'];
+        $userInfo['avatar'] = $data['profile_image_url'];
 
         return $userInfo;
     }

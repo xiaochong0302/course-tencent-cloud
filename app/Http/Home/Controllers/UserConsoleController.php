@@ -2,6 +2,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Services\Logic\Account\OAuthProvider as OAuthProviderService;
 use App\Services\Logic\User\Console\AccountInfo as AccountInfoService;
 use App\Services\Logic\User\Console\ConnectDelete as ConnectDeleteService;
 use App\Services\Logic\User\Console\ConnectList as ConnectListService;
@@ -69,6 +70,10 @@ class UserConsoleController extends Controller
 
         $account = $service->handle();
 
+        $service = new OAuthProviderService();
+
+        $oauthProvider = $service->handle();
+
         $service = new ConnectListService();
 
         $connects = $service->handle();
@@ -83,9 +88,10 @@ class UserConsoleController extends Controller
             $this->view->pick('user/console/account_password');
         }
 
+        $this->view->setVar('oauth_provider', $oauthProvider);
+        $this->view->setVar('connects', $connects);
         $this->view->setVar('captcha', $captcha);
         $this->view->setVar('account', $account);
-        $this->view->setVar('connects', $connects);
     }
 
     /**
