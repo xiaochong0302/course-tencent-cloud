@@ -9,6 +9,33 @@ use App\Repos\Vip as VipRepo;
 class Setting extends Service
 {
 
+    public function getQQAuthSettings()
+    {
+        $oauth = $this->getSettings('oauth.qq');
+
+        $oauth['redirect_uri'] = $oauth['redirect_uri'] ?: kg_full_url(['for' => 'home.oauth.qq_callback']);
+
+        return $oauth;
+    }
+
+    public function getWeixinAuthSettings()
+    {
+        $oauth = $this->getSettings('oauth.weixin');
+
+        $oauth['redirect_uri'] = $oauth['redirect_uri'] ?: kg_full_url(['for' => 'home.oauth.weixin_callback']);
+
+        return $oauth;
+    }
+
+    public function getWeiboAuthSettings()
+    {
+        $oauth = $this->getSettings('oauth.weibo');
+
+        $oauth['redirect_uri'] = $oauth['redirect_uri'] ?: kg_full_url(['for' => 'home.oauth.weibo_callback']);
+
+        return $oauth;
+    }
+
     public function getAlipaySettings()
     {
         $alipay = $this->getSettings('pay.alipay');
@@ -59,8 +86,16 @@ class Setting extends Service
 
         $result = [];
 
+        /**
+         * demo分支过滤敏感数据
+         */
         if ($items->count() > 0) {
             foreach ($items as $item) {
+                $case1 = preg_match('/(id|auth|key|secret|password|pwd)$/', $item->item_key);
+                $case2 = $this->dispatcher->getControllerName() == 'setting';
+                if ($case1 && $case2) {
+                    $item->item_value = '***';
+                }
                 $result[$item->item_key] = $item->item_value;
             }
         }
