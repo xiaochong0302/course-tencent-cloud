@@ -1,18 +1,37 @@
 <?php
 
-namespace App\Library;
+namespace App\Services;
 
 use GuzzleHttp\Client as HttpClient;
 use Phalcon\Crypt;
 use Phalcon\Di;
 
-abstract class OAuth
+abstract class OAuth extends Service
 {
 
+    /**
+     * @var string
+     */
     protected $clientId;
+
+    /**
+     * @var string
+     */
     protected $clientSecret;
+
+    /**
+     * @var string
+     */
     protected $redirectUri;
+
+    /**
+     * @var string
+     */
     protected $accessToken;
+
+    /**
+     * @var string
+     */
     protected $openId;
 
     public function __construct($clientId, $clientSecret, $redirectUri)

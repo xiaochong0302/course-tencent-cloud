@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Library\OAuth;
+namespace App\Services\OAuth;
 
-use App\Library\OAuth;
+use App\Services\OAuth;
 
 class QQ extends OAuth
 {

@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Library\OAuth;
+namespace App\Services\OAuth;
 
-use App\Library\OAuth;
+use App\Services\OAuth;
 
-class WeiBo extends OAuth
+class WeiXin extends OAuth
 {
 
-    const AUTHORIZE_URL = 'https://api.weibo.com/oauth2/authorize';
-    const ACCESS_TOKEN_URL = 'https://api.weibo.com/oauth2/access_token';
-    const USER_INFO_URL = 'https://api.weibo.com/2/users/show.json';
+    const AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/qrconnect';
+    const ACCESS_TOKEN_URL = 'https://api.weixin.qq.com/sns/oauth2/access_token';
+    const USER_INFO_URL = 'https://api.weixin.qq.com/sns/userinfo';
 
     public function getAuthorizeUrl()
     {
         $params = [
-            'client_id' => $this->clientId,
+            'appid' => $this->clientId,
             'redirect_uri' => $this->redirectUri,
             'state' => $this->getState(),
             'response_type' => 'code',
+            'scope' => 'snsapi_login',
         ];
         
         return self::AUTHORIZE_URL . '?' . http_build_query($params);
@@ -27,9 +28,8 @@ class WeiBo extends OAuth
     {
         $params = [
             'code' => $code,
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
-            'redirect_uri' => $this->redirectUri,
+            'appid' => $this->clientId,
+            'secret' => $this->clientSecret,
             'grant_type' => 'authorization_code',
         ];
         
@@ -49,7 +49,7 @@ class WeiBo extends OAuth
     {
         $params = [
             'access_token' => $accessToken,
-            'uid' => $openId,
+            'openid' => $openId,
         ];
         
         $response = $this->httpGet(self::USER_INFO_URL, $params);
@@ -60,12 +60,12 @@ class WeiBo extends OAuth
     private function parseAccessToken($response)
     {
         $data = json_decode($response, true);
-
-        if (!isset($data['access_token']) || !isset($data['uid'])) {
+        
+        if (isset($data['errcode']) && $data['errcode'] != 0) {
             throw new \Exception("Fetch Access Token Failed:{$response}");
         }
         
-        $this->openId = $data['uid'];
+        $this->openId = $data['openid'];
         
         return $data['access_token'];
     }
@@ -74,13 +74,13 @@ class WeiBo extends OAuth
     {
         $data = json_decode($response, true);
 
-        if (isset($data['error_code']) && $data['error_code'] != 0) {
+        if (isset($data['errcode']) && $data['errcode'] != 0) {
             throw new \Exception("Fetch User Info Failed:{$response}");
         }
 
-        $userInfo['id'] = $this->openId;
-        $userInfo['name'] = $data['name'];
-        $userInfo['avatar'] = $data['avatar_large'];
+        $userInfo['id'] = $data['openid'];
+        $userInfo['name'] = $data['nickname'];
+        $userInfo['avatar'] = $data['headimgurl'];
 
         return $userInfo;
     }

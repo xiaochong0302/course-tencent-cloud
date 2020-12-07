@@ -23,6 +23,7 @@
             <input type="hidden" name="provider" value="{{ provider }}">
             <input type="hidden" name="code" value="{{ request.get('code') }}">
             <input type="hidden" name="state" value="{{ request.get('state') }}">
+            <input type="hidden" name="open_user" value='{{ open_user|json_encode }}'>
             <input id="cv-app-id" type="hidden" value="{{ captcha.app_id }}">
             <input id="cv-ticket" type="hidden" name="ticket">
             <input id="cv-rand" type="hidden" name="rand">

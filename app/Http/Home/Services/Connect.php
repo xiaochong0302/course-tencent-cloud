@@ -2,14 +2,15 @@
 
 namespace App\Http\Home\Services;
 
-use App\Library\OAuth\QQ as QQAuth;
-use App\Library\OAuth\WeiBo as WeiBoAuth;
-use App\Library\OAuth\WeiXin as WeiXinAuth;
 use App\Models\Connect as ConnectModel;
 use App\Models\User as UserModel;
 use App\Repos\Connect as ConnectRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Auth\Home as AuthService;
 use App\Services\Logic\Account\Register as RegisterService;
+use App\Services\OAuth\QQ as QQAuth;
+use App\Services\OAuth\WeiBo as WeiBoAuth;
+use App\Services\OAuth\WeiXin as WeiXinAuth;
 use App\Validators\Account as AccountValidator;
 
 class Connect extends Service
@@ -19,22 +20,32 @@ class Connect extends Service
     {
         $post = $this->request->getPost();
 
+        $auth = $this->getConnectAuth($post['provider']);
+
+        $auth->checkState($post['state']);
+
         $validator = new AccountValidator();
 
         $user = $validator->checkUserLogin($post['account'], $post['password']);
 
-        $openUser = $this->getOpenUserInfo($post['code'], $post['stats'], $post['provider']);
+        $openUser = json_decode($post['open_user'], true);
 
-        $this->handleBindRelation($user, $openUser, $post['provider']);
+        $this->handleConnectRelation($user, $openUser, $post['provider']);
 
-        $this->auth->saveAuthInfo($user);
+        $auth = $this->getAppAuth();
+
+        $auth->saveAuthInfo($user);
     }
 
     public function bindRegister()
     {
         $post = $this->request->getPost();
 
-        $openUser = $this->getOpenUserInfo($post['code'], $post['state'], $post['provider']);
+        $auth = $this->getConnectAuth($post['provider']);
+
+        $auth->checkState($post['state']);
+
+        $openUser = json_decode($post['open_user'], true);
 
         $registerService = new RegisterService();
 
@@ -44,31 +55,59 @@ class Connect extends Service
 
         $user = $userRepo->findById($account->id);
 
-        $this->handleBindRelation($user, $openUser, $post['provider']);
+        $this->handleConnectRelation($user, $openUser, $post['provider']);
 
-        $this->auth->saveAuthInfo($user);
+        $auth = $this->getAppAuth();
+
+        $auth->saveAuthInfo($user);
     }
 
-    public function bindUser($provider)
+    public function bindUser($openUser, $provider)
     {
-        $code = $this->request->getQuery('code', 'trim');
-        $state = $this->request->getQuery('state', 'trim');
-
         $user = $this->getLoginUser();
 
-        $openUser = $this->getOpenUserInfo($code, $state, $provider);
+        $this->handleConnectRelation($user, $openUser, $provider);
+    }
 
-        $this->handleBindRelation($user, $openUser, $provider);
+    public function authLogin(ConnectModel $connect)
+    {
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($connect->user_id);
+
+        $auth = $this->getAppAuth();
+
+        $auth->saveAuthInfo($user);
     }
 
     public function getAuthorizeUrl($provider)
     {
-        $auth = $this->getAuth($provider);
+        $auth = $this->getConnectAuth($provider);
 
         return $auth->getAuthorizeUrl();
     }
 
-    public function getAuth($provider)
+    public function getOpenUserInfo($code, $state, $provider)
+    {
+        $auth = $this->getConnectAuth($provider);
+
+        $auth->checkState($state);
+
+        $token = $auth->getAccessToken($code);
+
+        $openId = $auth->getOpenId($token);
+
+        return $auth->getUserInfo($token, $openId);
+    }
+
+    public function getConnectRelation($openId, $provider)
+    {
+        $connectRepo = new ConnectRepo();
+
+        return $connectRepo->findByOpenId($openId, $provider);
+    }
+
+    public function getConnectAuth($provider)
     {
         $auth = null;
 
@@ -124,26 +163,28 @@ class Connect extends Service
         );
     }
 
-    protected function getOpenUserInfo($code, $state, $provider)
+    protected function getAppAuth()
     {
-        $auth = $this->getAuth($provider);
+        /**
+         * @var $auth AuthService
+         */
+        $auth = $this->getDI()->get('auth');
 
-        $auth->checkState($state);
-
-        $token = $auth->getAccessToken($code);
-
-        $openId = $auth->getOpenId($token);
-
-        return $auth->getUserInfo($token, $openId);
+        return $auth;
     }
 
-    protected function handleBindRelation(UserModel $user, array $openUser, $provider)
+    protected function handleConnectRelation(UserModel $user, array $openUser, $provider)
     {
         $connectRepo = new ConnectRepo();
 
         $connect = $connectRepo->findByOpenId($openUser['id'], $provider);
 
         if ($connect) {
+
+            if (time() - $connect->update_time > 86400) {
+                $connect->open_name = $openUser['name'];
+                $connect->open_avatar = $openUser['avatar'];
+            }
 
             if ($connect->deleted == 1) {
                 $connect->deleted = 0;

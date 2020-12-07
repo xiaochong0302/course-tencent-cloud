@@ -15,6 +15,7 @@
             <input type="hidden" name="provider" value="{{ provider }}">
             <input type="hidden" name="code" value="{{ request.get('code') }}">
             <input type="hidden" name="state" value="{{ request.get('state') }}">
+            <input type="hidden" name="open_user" value='{{ open_user|json_encode }}'>
         </div>
     </div>
 </form>
