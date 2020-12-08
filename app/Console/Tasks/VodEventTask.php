@@ -45,7 +45,8 @@ class VodEventTask extends Task
     protected function handleNewFileUploadEvent($event)
     {
         $fileId = $event['FileUploadEvent']['FileId'];
-        $format = $event['FileUploadEvent']['MediaBasicInfo']['Type'];
+        $width = $event['FileUploadEvent']['MetaData']['Height'];
+        $height = $event['FileUploadEvent']['MetaData']['Width'];
         $duration = $event['FileUploadEvent']['MetaData']['Duration'];
 
         $chapterRepo = new ChapterRepo();
@@ -56,7 +57,7 @@ class VodEventTask extends Task
 
         $vodService = new VodService();
 
-        if ($this->isAudioFile($format)) {
+        if ($width == 0 && $height == 0) {
             $vodService->createTransAudioTask($fileId);
         } else {
             $vodService->createTransVideoTask($fileId);
@@ -142,13 +143,6 @@ class VodEventTask extends Task
         $vodService = new VodService();
 
         return $vodService->confirmEvents($handles);
-    }
-
-    protected function isAudioFile($format)
-    {
-        $formats = ['mp3', 'm4a', 'wav', 'flac', 'ogg'];
-
-        return in_array(strtolower($format), $formats);
     }
 
     protected function updateVodAttrs(ChapterModel $chapter)
