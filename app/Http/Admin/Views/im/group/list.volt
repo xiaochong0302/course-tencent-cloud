@@ -9,11 +9,13 @@
             <span class="layui-badge layui-bg-blue">聊</span>
         {% elseif value == 3 %}
             <span class="layui-badge layui-bg-cyan">职</span>
+        {% else %}
+            <span class="layui-badge layui-bg-gray">未知</span>
         {% endif %}
     {%- endmacro %}
 
     {%- macro owner_info(owner) %}
-        {% if owner %}
+        {% if owner.id is defined %}
             {{ owner.name }}（{{ owner.id }}）
         {% else %}
             未设置

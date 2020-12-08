@@ -78,6 +78,7 @@ class Chapter extends Service
             $data['parent_id'] = $parent->id;
             $data['free'] = $validator->checkFreeStatus($post['free']);
             $data['priority'] = $chapterRepo->maxLessonPriority($post['parent_id']);
+            $parentId = $parent->id;
         } else {
             $data['priority'] = $chapterRepo->maxChapterPriority($post['course_id']);
             $data['parent_id'] = $parentId;
@@ -120,7 +121,7 @@ class Chapter extends Service
                 }
 
                 if ($attrs === false) {
-                    throw new \RuntimeException("Create Chapter {$course->model} Attrs Failed");
+                    throw new \RuntimeException("Create Chapter Related Attrs Failed");
                 }
             }
 

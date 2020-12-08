@@ -20,7 +20,7 @@ $scheduler->php($script, $bin, ['--task' => 'sync_learning', '--action' => 'main
     ->at('*/7 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'vod_event', '--action' => 'main'])
-    ->at('*/9 * * * *');
+    ->at('*/5 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'close_trade', '--action' => 'main'])
     ->at('*/13 * * * *');
