@@ -2,6 +2,7 @@
 
 namespace App\Services\OAuth;
 
+use App\Models\Connect as ConnectModel;
 use App\Services\OAuth;
 
 class WeiXin extends OAuth
@@ -20,7 +21,7 @@ class WeiXin extends OAuth
             'response_type' => 'code',
             'scope' => 'snsapi_login',
         ];
-        
+
         return self::AUTHORIZE_URL . '?' . http_build_query($params);
     }
 
@@ -32,11 +33,11 @@ class WeiXin extends OAuth
             'secret' => $this->clientSecret,
             'grant_type' => 'authorization_code',
         ];
-        
+
         $response = $this->httpPost(self::ACCESS_TOKEN_URL, $params);
-        
+
         $this->accessToken = $this->parseAccessToken($response);
-        
+
         return $this->accessToken;
     }
 
@@ -51,22 +52,22 @@ class WeiXin extends OAuth
             'access_token' => $accessToken,
             'openid' => $openId,
         ];
-        
+
         $response = $this->httpGet(self::USER_INFO_URL, $params);
-        
+
         return $this->parseUserInfo($response);
     }
 
     private function parseAccessToken($response)
     {
         $data = json_decode($response, true);
-        
+
         if (isset($data['errcode']) && $data['errcode'] != 0) {
             throw new \Exception("Fetch Access Token Failed:{$response}");
         }
-        
+
         $this->openId = $data['openid'];
-        
+
         return $data['access_token'];
     }
 
@@ -81,6 +82,7 @@ class WeiXin extends OAuth
         $userInfo['id'] = $data['openid'];
         $userInfo['name'] = $data['nickname'];
         $userInfo['avatar'] = $data['headimgurl'];
+        $userInfo['provider'] = ConnectModel::PROVIDER_WEIXIN;
 
         return $userInfo;
     }

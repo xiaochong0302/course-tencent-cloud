@@ -51,7 +51,7 @@
                     <div class="security-item">
                         <span class="icon"><i class="layui-icon layui-icon-email"></i></span>
                         <span class="title">邮箱绑定</span>
-                        {% if account.phone %}
+                        {% if account.email %}
                             <span class="summary">已绑定邮箱：{{ account.email|anonymous }}</span>
                             <span class="action"><a class="layui-btn layui-btn-sm btn-edit-email" href="{{ edit_email_url }}">修改</a></span>
                         {% else %}
