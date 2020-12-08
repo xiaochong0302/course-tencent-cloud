@@ -7,6 +7,8 @@
 
     {% set full_user_url = full_url({'for':'home.user.show','id':user.id}) %}
     {% set qrcode_url = url({'for':'home.qrcode'},{'text':full_user_url}) %}
+    {% set user.area = user.area ? user.area : '火星' %}
+    {% set user.about = user.about ? user.about : '这个家伙很懒，什么都没留下！' %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
@@ -32,9 +34,7 @@
             <p><span><i class="layui-icon layui-icon-location"></i></span><span>{{ user.area }}</span></p>
             <p><span><i class="layui-icon layui-icon-time"></i></span><span>{{ date('Y-m-d H:i',user.active_time) }}</span></p>
         </div>
-        {% if user.about %}
-            <div class="about">{{ user.about }}</div>
-        {% endif %}
+        <div class="about">{{ user.about }}</div>
     </div>
 
     {% set show_tab_courses = user.course_count > 0 %}

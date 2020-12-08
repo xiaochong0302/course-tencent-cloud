@@ -30,7 +30,7 @@ class Connect extends Service
 
         $openUser = json_decode($post['open_user'], true);
 
-        $this->handleConnectRelation($user, $openUser, $post['provider']);
+        $this->handleConnectRelation($user, $openUser);
 
         $auth = $this->getAppAuth();
 
@@ -55,18 +55,18 @@ class Connect extends Service
 
         $user = $userRepo->findById($account->id);
 
-        $this->handleConnectRelation($user, $openUser, $post['provider']);
+        $this->handleConnectRelation($user, $openUser);
 
         $auth = $this->getAppAuth();
 
         $auth->saveAuthInfo($user);
     }
 
-    public function bindUser($openUser, $provider)
+    public function bindUser(array $openUser)
     {
         $user = $this->getLoginUser();
 
-        $this->handleConnectRelation($user, $openUser, $provider);
+        $this->handleConnectRelation($user, $openUser);
     }
 
     public function authLogin(ConnectModel $connect)
@@ -173,23 +173,26 @@ class Connect extends Service
         return $auth;
     }
 
-    protected function handleConnectRelation(UserModel $user, array $openUser, $provider)
+    protected function handleConnectRelation(UserModel $user, array $openUser)
     {
         $connectRepo = new ConnectRepo();
 
-        $connect = $connectRepo->findByOpenId($openUser['id'], $provider);
+        $connect = $connectRepo->findByOpenId($openUser['id'], $openUser['provider']);
 
         if ($connect) {
 
-            if (time() - $connect->update_time > 86400) {
-                $connect->open_name = $openUser['name'];
-                $connect->open_avatar = $openUser['avatar'];
+            $connect->open_name = $openUser['name'];
+            $connect->open_avatar = $openUser['avatar'];
+
+            if ($connect->user_id != $user->id) {
+                $connect->user_id = $user->id;
             }
 
             if ($connect->deleted == 1) {
                 $connect->deleted = 0;
-                $connect->update();
             }
+
+            $connect->update();
 
         } else {
 
@@ -199,7 +202,7 @@ class Connect extends Service
             $connect->open_id = $openUser['id'];
             $connect->open_name = $openUser['name'];
             $connect->open_avatar = $openUser['avatar'];
-            $connect->provider = $provider;
+            $connect->provider = $openUser['provider'];
 
             $connect->create();
         }

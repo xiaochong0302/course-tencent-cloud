@@ -2,6 +2,7 @@
 
 namespace App\Services\OAuth;
 
+use App\Models\Connect as ConnectModel;
 use App\Services\OAuth;
 
 class WeiBo extends OAuth
@@ -19,7 +20,7 @@ class WeiBo extends OAuth
             'state' => $this->getState(),
             'response_type' => 'code',
         ];
-        
+
         return self::AUTHORIZE_URL . '?' . http_build_query($params);
     }
 
@@ -32,11 +33,11 @@ class WeiBo extends OAuth
             'redirect_uri' => $this->redirectUri,
             'grant_type' => 'authorization_code',
         ];
-        
+
         $response = $this->httpPost(self::ACCESS_TOKEN_URL, $params);
-        
+
         $this->accessToken = $this->parseAccessToken($response);
-        
+
         return $this->accessToken;
     }
 
@@ -51,9 +52,9 @@ class WeiBo extends OAuth
             'access_token' => $accessToken,
             'uid' => $openId,
         ];
-        
+
         $response = $this->httpGet(self::USER_INFO_URL, $params);
-        
+
         return $this->parseUserInfo($response);
     }
 
@@ -64,9 +65,9 @@ class WeiBo extends OAuth
         if (!isset($data['access_token']) || !isset($data['uid'])) {
             throw new \Exception("Fetch Access Token Failed:{$response}");
         }
-        
+
         $this->openId = $data['uid'];
-        
+
         return $data['access_token'];
     }
 
@@ -81,6 +82,7 @@ class WeiBo extends OAuth
         $userInfo['id'] = $data['id'];
         $userInfo['name'] = $data['name'];
         $userInfo['avatar'] = $data['profile_image_url'];
+        $userInfo['provider'] = ConnectModel::PROVIDER_WEIBO;
 
         return $userInfo;
     }

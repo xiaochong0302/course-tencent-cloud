@@ -23,11 +23,5 @@
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
 
-{% set site = setting('site') %}
-
-{% if site['analytics_enabled'] == 1 %}
-    {{ site['analytics_script'] }}
-{% endif %}
-
 </body>
 </html>
