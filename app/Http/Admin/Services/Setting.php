@@ -32,6 +32,7 @@ class Setting extends Service
         $oauth = $this->getSettings('oauth.weibo');
 
         $oauth['redirect_uri'] = $oauth['redirect_uri'] ?: kg_full_url(['for' => 'home.oauth.weibo_callback']);
+        $oauth['refuse_uri'] = $oauth['refuse_uri'] ?: kg_full_url(['for' => 'home.oauth.weibo_refuse']);
 
         return $oauth;
     }

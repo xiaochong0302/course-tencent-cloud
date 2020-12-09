@@ -19,9 +19,15 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">Redirect Uri</label>
+        <label class="layui-form-label">Callback Url</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="redirect_uri" value="{{ weibo_auth.redirect_uri }}" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Refuse Url</label>
+        <div class="layui-input-block">
+            <input class="layui-input" type="text" name="refuse_uri" value="{{ weibo_auth.refuse_uri }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">

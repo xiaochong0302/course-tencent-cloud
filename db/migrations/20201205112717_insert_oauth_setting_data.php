@@ -70,6 +70,11 @@ final class InsertOauthSettingData extends AbstractMigration
                 'item_key' => 'redirect_uri',
                 'item_value' => '',
             ],
+            [
+                'section' => 'oauth.weibo',
+                'item_key' => 'refuse_uri',
+                'item_value' => '',
+            ],
         ];
 
         $this->table('kg_setting')->insert($rows)->save();
