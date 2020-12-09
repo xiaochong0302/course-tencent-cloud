@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">Redirect Url</label>
+        <label class="layui-form-label">Callback Url</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="redirect_uri" value="{{ qq_auth.redirect_uri }}" lay-verify="required">
         </div>
