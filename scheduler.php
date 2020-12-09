@@ -8,7 +8,7 @@ $scheduler = new Scheduler();
 
 $script = __DIR__ . '/console.php';
 
-$bin = '/usr/bin/php';
+$bin = '/usr/local/bin/php';
 
 $scheduler->php($script, $bin, ['--task' => 'deliver', '--action' => 'main'])
     ->at('*/3 * * * *');

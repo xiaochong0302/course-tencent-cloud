@@ -7,6 +7,7 @@ use App\Services\Logic\Order\OrderCancel as OrderCancelService;
 use App\Services\Logic\Order\OrderConfirm as OrderConfirmService;
 use App\Services\Logic\Order\OrderCreate as OrderCreateService;
 use App\Services\Logic\Order\OrderInfo as OrderInfoService;
+use App\Services\Logic\Order\PayProvider as PayProviderService;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
 
@@ -82,6 +83,10 @@ class OrderController extends Controller
     {
         $sn = $this->request->getQuery('sn', 'string');
 
+        $service = new PayProviderService();
+
+        $payProvider = $service->handle();
+
         $service = new OrderInfoService();
 
         $order = $service->handle($sn);
@@ -90,6 +95,7 @@ class OrderController extends Controller
             $this->response->redirect(['for' => 'home.uc.orders']);
         }
 
+        $this->view->setVar('pay_provider', $payProvider);
         $this->view->setVar('order', $order);
     }
 
