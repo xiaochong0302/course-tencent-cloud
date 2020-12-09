@@ -251,8 +251,11 @@ class Course extends Service
 
         $list = [];
 
+        /**
+         * 没有二级分类的不显示
+         */
         foreach ($allCategories as $category) {
-            if ($category->level == 1) {
+            if ($category->level == 1 && $category->child_count > 0) {
                 $list[$category->id] = [
                     'name' => $category->name,
                     'value' => $category->id,
