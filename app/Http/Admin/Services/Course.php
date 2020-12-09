@@ -8,6 +8,7 @@ use App\Caches\CourseCategoryList as CourseCategoryListCache;
 use App\Caches\CourseRelatedList as CourseRelatedListCache;
 use App\Caches\CourseTeacherList as CourseTeacherListCache;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
 use App\Models\CourseRating as CourseRatingModel;
@@ -224,7 +225,10 @@ class Course extends Service
     {
         $categoryRepo = new CategoryRepo();
 
-        $allCategories = $categoryRepo->findAll(['deleted' => 0]);
+        $allCategories = $categoryRepo->findAll([
+            'type' => CategoryModel::TYPE_COURSE,
+            'deleted' => 0,
+        ]);
 
         if ($allCategories->count() == 0) {
             return [];
