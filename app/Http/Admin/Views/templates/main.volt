@@ -22,5 +22,6 @@
 
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
+
 </body>
 </html>

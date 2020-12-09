@@ -99,6 +99,7 @@ class Alipay extends PayService
                 'out_trade_no' => $trade->sn,
                 'total_amount' => $trade->amount,
                 'subject' => $trade->subject,
+                'http_method' => 'GET',
             ]);
 
         } catch (\Exception $e) {

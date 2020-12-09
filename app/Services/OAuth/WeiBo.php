@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Library\OAuth;
+namespace App\Services\OAuth;
 
-use App\Library\OAuth;
+use App\Models\Connect as ConnectModel;
+use App\Services\OAuth;
 
-class WeiXin extends OAuth
+class WeiBo extends OAuth
 {
 
-    const AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/qrconnect';
-    const ACCESS_TOKEN_URL = 'https://api.weixin.qq.com/sns/oauth2/access_token';
-    const USER_INFO_URL = 'https://api.weixin.qq.com/sns/userinfo';
+    const AUTHORIZE_URL = 'https://api.weibo.com/oauth2/authorize';
+    const ACCESS_TOKEN_URL = 'https://api.weibo.com/oauth2/access_token';
+    const USER_INFO_URL = 'https://api.weibo.com/2/users/show.json';
 
     public function getAuthorizeUrl()
     {
         $params = [
-            'appid' => $this->appId,
+            'client_id' => $this->clientId,
             'redirect_uri' => $this->redirectUri,
+            'state' => $this->getState(),
             'response_type' => 'code',
-            'scope' => 'snsapi_login',
-            'state' => 'dev',
         ];
-        
+
         return self::AUTHORIZE_URL . '?' . http_build_query($params);
     }
 
@@ -28,15 +28,16 @@ class WeiXin extends OAuth
     {
         $params = [
             'code' => $code,
-            'appid' => $this->appId,
-            'secret' => $this->appSecret,
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'redirect_uri' => $this->redirectUri,
             'grant_type' => 'authorization_code',
         ];
-        
+
         $response = $this->httpPost(self::ACCESS_TOKEN_URL, $params);
-        
+
         $this->accessToken = $this->parseAccessToken($response);
-        
+
         return $this->accessToken;
     }
 
@@ -49,40 +50,40 @@ class WeiXin extends OAuth
     {
         $params = [
             'access_token' => $accessToken,
-            'openid' => $openId,
+            'uid' => $openId,
         ];
-        
+
         $response = $this->httpGet(self::USER_INFO_URL, $params);
-        
+
         return $this->parseUserInfo($response);
     }
 
     private function parseAccessToken($response)
     {
         $data = json_decode($response, true);
-        
-        if (isset($data['errcode']) && $data['errcode'] != 0) {
-            throw new \Exception("Fetch Access Token Failed:{$data['errmsg']}");
+
+        if (!isset($data['access_token']) || !isset($data['uid'])) {
+            throw new \Exception("Fetch Access Token Failed:{$response}");
         }
-        
-        $this->openId = $data['openid'];
-        
+
+        $this->openId = $data['uid'];
+
         return $data['access_token'];
     }
 
     private function parseUserInfo($response)
     {
         $data = json_decode($response, true);
-        
-        if (isset($data['errcode']) && $data['errcode'] != 0) {
-            throw new \Exception("Fetch User Info Failed:{$data['errmsg']}");
+
+        if (isset($data['error_code']) && $data['error_code'] != 0) {
+            throw new \Exception("Fetch User Info Failed:{$response}");
         }
-        
-        $userInfo['type'] = 'WEIXIN';
+
+        $userInfo['id'] = $data['id'];
         $userInfo['name'] = $data['name'];
-        $userInfo['nick'] = $data['screen_name'];
-        $userInfo['head'] = $data['avatar_large'];
-        
+        $userInfo['avatar'] = $data['profile_image_url'];
+        $userInfo['provider'] = ConnectModel::PROVIDER_WEIBO;
+
         return $userInfo;
     }
 

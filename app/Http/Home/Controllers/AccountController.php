@@ -4,6 +4,7 @@ namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Account as AccountService;
 use App\Services\Logic\Account\EmailUpdate as EmailUpdateService;
+use App\Services\Logic\Account\OAuthProvider as OAuthProviderService;
 use App\Services\Logic\Account\PasswordReset as PasswordResetService;
 use App\Services\Logic\Account\PasswordUpdate as PasswordUpdateService;
 use App\Services\Logic\Account\PhoneUpdate as PhoneUpdateService;
@@ -62,8 +63,13 @@ class AccountController extends Controller
 
         $captcha = $service->getSettings('captcha');
 
+        $service = new OAuthProviderService();
+
+        $oauthProvider = $service->handle();
+
         $returnUrl = $this->request->getHTTPReferer();
 
+        $this->view->setVar('oauth_provider', $oauthProvider);
         $this->view->setVar('return_url', $returnUrl);
         $this->view->setVar('captcha', $captcha);
     }

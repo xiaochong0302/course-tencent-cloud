@@ -9,10 +9,39 @@ use App\Repos\Vip as VipRepo;
 class Setting extends Service
 {
 
+    public function getQQAuthSettings()
+    {
+        $oauth = $this->getSettings('oauth.qq');
+
+        $oauth['redirect_uri'] = $oauth['redirect_uri'] ?: kg_full_url(['for' => 'home.oauth.qq_callback']);
+
+        return $oauth;
+    }
+
+    public function getWeixinAuthSettings()
+    {
+        $oauth = $this->getSettings('oauth.weixin');
+
+        $oauth['redirect_uri'] = $oauth['redirect_uri'] ?: kg_full_url(['for' => 'home.oauth.weixin_callback']);
+
+        return $oauth;
+    }
+
+    public function getWeiboAuthSettings()
+    {
+        $oauth = $this->getSettings('oauth.weibo');
+
+        $oauth['redirect_uri'] = $oauth['redirect_uri'] ?: kg_full_url(['for' => 'home.oauth.weibo_callback']);
+        $oauth['refuse_uri'] = $oauth['refuse_uri'] ?: kg_full_url(['for' => 'home.oauth.weibo_refuse']);
+
+        return $oauth;
+    }
+
     public function getAlipaySettings()
     {
         $alipay = $this->getSettings('pay.alipay');
 
+        $alipay['return_url'] = $alipay['return_url'] ?: kg_full_url(['for' => 'home.alipay_callback']);
         $alipay['notify_url'] = $alipay['notify_url'] ?: kg_full_url(['for' => 'home.alipay_notify']);
 
         return $alipay;
@@ -22,6 +51,7 @@ class Setting extends Service
     {
         $wxpay = $this->getSettings('pay.wxpay');
 
+        $wxpay['return_url'] = $wxpay['return_url'] ?: kg_full_url(['for' => 'home.wxpay_callback']);
         $wxpay['notify_url'] = $wxpay['notify_url'] ?: kg_full_url(['for' => 'home.wxpay_notify']);
 
         return $wxpay;

@@ -2,7 +2,10 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Services\Logic\Account\OAuthProvider as OAuthProviderService;
 use App\Services\Logic\User\Console\AccountInfo as AccountInfoService;
+use App\Services\Logic\User\Console\ConnectDelete as ConnectDeleteService;
+use App\Services\Logic\User\Console\ConnectList as ConnectListService;
 use App\Services\Logic\User\Console\ConsultList as ConsultListService;
 use App\Services\Logic\User\Console\CourseList as CourseListService;
 use App\Services\Logic\User\Console\FavoriteList as FavoriteListService;
@@ -59,13 +62,21 @@ class UserConsoleController extends Controller
      */
     public function accountAction()
     {
+        $type = $this->request->getQuery('type', 'string', 'info');
+
         $service = new AccountInfoService();
 
         $captcha = $service->getSettings('captcha');
 
         $account = $service->handle();
 
-        $type = $this->request->getQuery('type', 'string', 'info');
+        $service = new OAuthProviderService();
+
+        $oauthProvider = $service->handle();
+
+        $service = new ConnectListService();
+
+        $connects = $service->handle();
 
         if ($type == 'info') {
             $this->view->pick('user/console/account_info');
@@ -77,6 +88,8 @@ class UserConsoleController extends Controller
             $this->view->pick('user/console/account_password');
         }
 
+        $this->view->setVar('oauth_provider', $oauthProvider);
+        $this->view->setVar('connects', $connects);
         $this->view->setVar('captcha', $captcha);
         $this->view->setVar('account', $account);
     }
@@ -202,6 +215,25 @@ class UserConsoleController extends Controller
         $content = [
             'location' => $location,
             'msg' => '更新资料成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/connect/{id:[0-9]+}/delete", name="home.uc.unconnect")
+     */
+    public function deleteConnectAction($id)
+    {
+        $service = new ConnectDeleteService();
+
+        $service->handle($id);
+
+        $location = $this->url->get(['for' => 'home.uc.account']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '解除登录绑定成功',
         ];
 
         return $this->jsonSuccess($content);

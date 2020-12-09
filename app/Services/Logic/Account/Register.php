@@ -2,6 +2,7 @@
 
 namespace App\Services\Logic\Account;
 
+use App\Library\Utils\Password as PasswordUtil;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\Account as AccountModel;
 use App\Models\ImUser as ImUserModel;
@@ -41,6 +42,10 @@ class Register extends Service
         }
 
         $data['password'] = $accountValidator->checkPassword($post['password']);
+
+        $data['salt'] = PasswordUtil::salt();
+
+        $data['password'] = PasswordUtil::hash($data['password'], $data['salt']);
 
         try {
 
