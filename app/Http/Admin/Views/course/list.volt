@@ -9,6 +9,8 @@
             <span class="layui-badge layui-bg-blue">直播</span>
         {% elseif value == 3 %}
             <span class="layui-badge layui-bg-black">专栏</span>
+        {% else %}
+            <span class="layui-badge layui-bg-gray">未知</span>
         {% endif %}
     {%- endmacro %}
 
@@ -22,19 +24,21 @@
             中级
         {% elseif value == 4 %}
             高级
+        {% else %}
+            未知
         {% endif %}
         </span>
     {%- endmacro %}
 
     {%- macro category_info(category) %}
-        {% if category %}
+        {% if category.id is defined %}
             {% set url = url({'for':'admin.course.list'},{'category_id':category.id}) %}
             分类：<a class="layui-badge layui-bg-gray" href="{{ url }}">{{ category.name }}</a>
         {% endif %}
     {%- endmacro %}
 
     {%- macro teacher_info(teacher) %}
-        {% if teacher %}
+        {% if teacher.id is defined %}
             {% set url = url({'for':'admin.course.list'},{'teacher_id':teacher.id}) %}
             讲师：<a class="layui-badge layui-bg-gray" href="{{ url }}">{{ teacher.name }}</a>
         {% endif %}

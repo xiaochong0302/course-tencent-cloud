@@ -8,7 +8,7 @@ $scheduler = new Scheduler();
 
 $script = __DIR__ . '/console.php';
 
-$bin = '/usr/bin/php';
+$bin = '/usr/local/bin/php';
 
 $scheduler->php($script, $bin, ['--task' => 'deliver', '--action' => 'main'])
     ->at('*/3 * * * *');
@@ -20,7 +20,7 @@ $scheduler->php($script, $bin, ['--task' => 'sync_learning', '--action' => 'main
     ->at('*/7 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'vod_event', '--action' => 'main'])
-    ->at('*/9 * * * *');
+    ->at('*/5 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'close_trade', '--action' => 'main'])
     ->at('*/13 * * * *');

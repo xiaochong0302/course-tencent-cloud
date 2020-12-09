@@ -1,3 +1,7 @@
+### [v1.2.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.1)(2020-12-10)
+- 增加QQ，微信，微博第三方登录
+- 代码优化以及问题修复
+
 ### [v1.2.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.0)(2020-11-25)
 - 增加客户端api
 - 代码优化以及问题修复

@@ -1,3 +1,5 @@
+{% set file_id = vod ? vod.file_id : '' %}
+
 {% if play_urls %}
     <fieldset class="layui-elem-field layui-field-title">
         <legend>视频信息</legend>
@@ -51,7 +53,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">文件编号</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="file_id" value="{{ vod.file_id }}" readonly="readonly" lay-verify="required">
+            <input class="layui-input" type="text" name="file_id" value="{{ file_id }}" readonly="readonly" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">

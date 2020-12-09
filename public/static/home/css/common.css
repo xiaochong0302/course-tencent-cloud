@@ -1188,7 +1188,7 @@
 }
 
 .login-wrap .link {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-size: 12px;
     text-align: center;
 }
@@ -1200,6 +1200,26 @@
 .login-wrap .link .separator {
     margin: 0 15px;
     color: #999;
+}
+
+.login-wrap .oauth {
+    text-align: center;
+}
+
+.login-wrap .oauth a {
+    margin: 0 10px;
+}
+
+.login-qq {
+    color: dodgerblue;
+}
+
+.login-wechat {
+    color: green;
+}
+
+.login-weibo {
+    color: red;
 }
 
 .user-profile {
@@ -1537,9 +1557,12 @@
     margin-right: 0;
 }
 
+.security-item-list {
+    margin-top: -20px;
+}
+
 .security-item {
-    padding: 15px;
-    line-height: 50px;
+    line-height: 80px;
     border-bottom: 1px dashed #ccc;
 }
 
@@ -1561,6 +1584,29 @@
 
 .security-item .action {
     float: right;
+}
+
+.connect-list {
+    margin-bottom: 20px;
+}
+
+.open-avatar img {
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+}
+
+.connect-tips {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.oauth-list {
+    margin-bottom: 20px;
+}
+
+.oauth-list a {
+    margin: 0 10px;
 }
 
 .order-filter {
