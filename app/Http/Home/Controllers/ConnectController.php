@@ -117,11 +117,13 @@ class ConnectController extends Controller
         $openUser = $service->getOpenUserInfo($code, $state, $provider);
         $connect = $service->getConnectRelation($openUser['id'], $openUser['provider']);
 
-        if ($connect) {
-            if ($this->authUser->id > 0) {
+        if ($this->authUser->id > 0) {
+            if ($openUser) {
                 $service->bindUser($openUser);
                 return $this->response->redirect(['for' => 'home.uc.account']);
-            } else {
+            }
+        } else {
+            if ($connect && $connect->deleted == 0) {
                 $service->authLogin($connect);
                 return $this->response->redirect(['for' => 'home.index']);
             }
