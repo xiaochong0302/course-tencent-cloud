@@ -57,16 +57,6 @@ class Setting extends Service
         return $wxpay;
     }
 
-    public function getWeChatOASettings()
-    {
-        $oa = $this->getSettings('wechat.oa');
-
-        $oa['auth_url'] = $oa['auth_url'] ?: kg_full_url(['for' => 'home.wechat.oa.auth_callback']);
-        $oa['notify_url'] = $oa['notify_url'] ?: kg_full_url(['for' => 'home.wechat.oa.notify_callback']);
-
-        return $oa;
-    }
-
     public function getVipSettings()
     {
         $vipRepo = new VipRepo();
@@ -97,8 +87,16 @@ class Setting extends Service
 
         $result = [];
 
+        /**
+         * demo分支过滤敏感数据
+         */
         if ($items->count() > 0) {
             foreach ($items as $item) {
+                $case1 = preg_match('/(id|auth|key|secret|password|pwd)$/', $item->item_key);
+                $case2 = $this->dispatcher->getControllerName() == 'setting';
+                if ($case1 && $case2) {
+                    $item->item_value = '***';
+                }
                 $result[$item->item_key] = $item->item_value;
             }
         }

@@ -327,29 +327,4 @@ class SettingController extends Controller
         }
     }
 
-    /**
-     * @Route("/wechat", name="admin.setting.wechat")
-     */
-    public function wechatAction()
-    {
-        $settingService = new SettingService();
-
-        if ($this->request->isPost()) {
-
-            $section = $this->request->getPost('section', 'string');
-
-            $data = $this->request->getPost();
-
-            $settingService->updateSettings($section, $data);
-
-            return $this->jsonSuccess(['msg' => '更新配置成功']);
-
-        } else {
-
-            $oa = $settingService->getWeChatOASettings();
-
-            $this->view->setVar('oa', $oa);
-        }
-    }
-
 }
