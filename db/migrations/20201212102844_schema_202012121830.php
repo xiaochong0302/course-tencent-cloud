@@ -79,6 +79,10 @@ class Schema202012121830 extends Phinx\Migration\AbstractMigration
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
+            ->addIndex(['union_id', 'provider'], [
+                'name' => 'union_id_provider',
+                'unique' => false,
+            ])
             ->addIndex(['user_id'], [
                 'name' => 'user_id',
                 'unique' => false,
