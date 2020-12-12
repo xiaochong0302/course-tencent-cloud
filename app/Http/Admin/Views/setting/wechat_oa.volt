@@ -1,6 +1,6 @@
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.wechat'}) }}">
     <div class="layui-form-item">
-        <label class="layui-form-label">开启公众号</label>
+        <label class="layui-form-label">开启</label>
         <div class="layui-input-block">
             <input type="radio" name="enabled" value="1" title="是" {% if oa.enabled == "1" %}checked="checked"{% endif %}>
             <input type="radio" name="enabled" value="0" title="否" {% if oa.enabled == "0" %}checked="checked"{% endif %}>
@@ -31,13 +31,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">授权回调地址</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="oauth_url" value="{{ oa.auth_url }}" lay-verify="required">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">通知回调地址</label>
+        <label class="layui-form-label">通知地址</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="notify_url" value="{{ oa.notify_url }}" lay-verify="required">
         </div>
