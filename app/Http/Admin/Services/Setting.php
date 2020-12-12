@@ -57,6 +57,16 @@ class Setting extends Service
         return $wxpay;
     }
 
+    public function getWeChatOASettings()
+    {
+        $oa = $this->getSettings('wechat.oa');
+
+        $oa['auth_url'] = $oa['auth_url'] ?: kg_full_url(['for' => 'home.wechat.oa.auth_callback']);
+        $oa['notify_url'] = $oa['notify_url'] ?: kg_full_url(['for' => 'home.wechat.oa.notify_callback']);
+
+        return $oa;
+    }
+
     public function getVipSettings()
     {
         $vipRepo = new VipRepo();

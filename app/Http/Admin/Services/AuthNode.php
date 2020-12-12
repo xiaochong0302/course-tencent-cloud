@@ -750,6 +750,12 @@ class AuthNode extends Service
                             'type' => 'menu',
                             'route' => 'admin.setting.oauth',
                         ],
+                        [
+                            'id' => '5-1-13',
+                            'title' => '微信公众平台',
+                            'type' => 'menu',
+                            'route' => 'admin.setting.wechat',
+                        ],
                     ],
                 ],
             ],
