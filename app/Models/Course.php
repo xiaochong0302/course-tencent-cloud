@@ -326,17 +326,6 @@ class Course extends Model
         $cache->rebuild();
     }
 
-    public function afterUpdate()
-    {
-        /**
-         * 群组名称和课程标题保持一致
-         */
-        if ($this->hasUpdated('title')) {
-            $imGroup = ImGroup::findFirst(['course_id' => $this->id]);
-            $imGroup->update(['name' => $this->title]);
-        }
-    }
-
     public function afterFetch()
     {
         $this->market_price = (float)$this->market_price;
