@@ -15,12 +15,14 @@ use App\Models\CourseRating as CourseRatingModel;
 use App\Models\CourseRelated as CourseRelatedModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\ImGroup as ImGroupModel;
+use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseCategory as CourseCategoryRepo;
 use App\Repos\CourseRelated as CourseRelatedRepo;
 use App\Repos\CourseUser as CourseUserRepo;
+use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Sync\CourseIndex as CourseIndexSync;
 use App\Validators\Course as CourseValidator;
@@ -94,6 +96,7 @@ class Course extends Service
 
             $imGroup = new ImGroupModel();
 
+            $imGroup->type = ImGroupModel::TYPE_COURSE;
             $imGroup->course_id = $course->id;
             $imGroup->name = $course->title;
             $imGroup->about = $course->summary;
@@ -190,6 +193,8 @@ class Course extends Service
 
         $course->update($data);
 
+        $this->updateImGroup($course);
+
         return $course;
     }
 
@@ -199,6 +204,12 @@ class Course extends Service
         $course->deleted = 1;
         $course->update();
 
+        $groupRepo = new ImGroupRepo();
+
+        $group = $groupRepo->findByCourseId($course->id);
+        $group->deleted = 1;
+        $group->update();
+
         return $course;
     }
 
@@ -207,6 +218,12 @@ class Course extends Service
         $course = $this->findOrFail($id);
         $course->deleted = 0;
         $course->update();
+
+        $groupRepo = new ImGroupRepo();
+
+        $group = $groupRepo->findByCourseId($course->id);
+        $group->deleted = 0;
+        $group->update();
 
         return $course;
     }
@@ -543,6 +560,32 @@ class Course extends Service
         $cache = new CourseRelatedListCache();
 
         $cache->rebuild($course->id);
+    }
+
+    protected function updateImGroup(CourseModel $course)
+    {
+        $groupRepo = new ImGroupRepo();
+
+        $group = $groupRepo->findByCourseId($course->id);
+
+        $data = [];
+
+        if ($course->title != $group->name) {
+            $data['name'] = $course->title;
+        }
+
+        if ($course->teacher_id > 0 && $group->owner_id == 0) {
+
+            $groupUser = new ImGroupUserModel();
+            $groupUser->group_id = $group->id;
+            $groupUser->user_id = $course->teacher_id;
+            $groupUser->create();
+
+            $data['owner_id'] = $course->teacher_id;
+            $data['user_count'] = $group->user_count + 1;
+        }
+
+        $group->update($data);
     }
 
     protected function handleCourses($pager)
