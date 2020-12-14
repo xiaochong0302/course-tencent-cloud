@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Caches\MaxImGroupId as MaxImGroupIdCache;
 use App\Services\Sync\GroupIndex as GroupIndexSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
@@ -151,6 +152,13 @@ class ImGroup extends Model
         }
 
         $this->update_time = time();
+    }
+
+    public function afterCreate()
+    {
+        $cache = new MaxImGroupIdCache();
+
+        $cache->rebuild();
     }
 
     public function afterFetch()
