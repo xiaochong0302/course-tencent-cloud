@@ -105,6 +105,8 @@ class Role extends Model
     {
         if (is_array($this->routes) && !empty($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
+        } else {
+            $this->routes = '';
         }
 
         $this->create_time = time();
