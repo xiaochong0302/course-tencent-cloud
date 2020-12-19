@@ -61,8 +61,11 @@ class Role extends Service
 
         $data['name'] = $validator->checkName($post['name']);
         $data['summary'] = $validator->checkSummary($post['summary']);
-        $data['routes'] = $validator->checkRoutes($post['routes']);
-        $data['routes'] = $this->handleRoutes($data['routes']);
+
+        if (isset($post['routes'])) {
+            $data['routes'] = $validator->checkRoutes($post['routes']);
+            $data['routes'] = $this->handleRoutes($data['routes']);
+        }
 
         $role->update($data);
 
@@ -114,9 +117,9 @@ class Role extends Service
      * @param array $routes
      * @return array
      */
-    protected function handleRoutes($routes)
+    protected function handleRoutes(array $routes)
     {
-        if (empty($routes)) {
+        if (count($routes) == 0) {
             return [];
         }
 
