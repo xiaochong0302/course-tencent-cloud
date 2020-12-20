@@ -2,7 +2,9 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Models\User as UserModel;
 use App\Services\Auth\Admin as AdminAuth;
+use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Captcha as CaptchaValidator;
 
@@ -45,12 +47,21 @@ class Session extends Service
             $captchaValidator->checkCode($post['ticket'], $post['rand']);
         }
 
+        $this->handleLoginNotice($user);
+
         $this->auth->saveAuthInfo($user);
     }
 
     public function logout()
     {
         $this->auth->clearAuthInfo();
+    }
+
+    protected function handleLoginNotice(UserModel $user)
+    {
+        $service = new AccountLoginNoticeService();
+
+        $service->createTask($user);
     }
 
 }

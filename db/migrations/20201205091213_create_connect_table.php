@@ -84,7 +84,7 @@ class CreateConnectTable extends Phinx\Migration\AbstractMigration
                 'after' => 'create_time',
             ])
             ->addIndex(['open_id', 'provider'], [
-                'name' => 'open_id_provider',
+                'name' => 'open_provider',
                 'unique' => false,
             ])
             ->create();

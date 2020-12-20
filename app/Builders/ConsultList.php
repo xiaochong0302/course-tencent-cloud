@@ -26,6 +26,7 @@ class ConsultList extends Builder
 
         foreach ($consults as $key => $consult) {
             $consults[$key]['owner'] = $users[$consult['owner_id']] ?? new \stdClass();
+            $consults[$key]['replier'] = $users[$consult['replier_id']] ?? new \stdClass();
         }
 
         return $consults;
@@ -67,7 +68,9 @@ class ConsultList extends Builder
 
     public function getUsers(array $consults)
     {
-        $ids = kg_array_column($consults, 'owner_id');
+        $ownerIds = kg_array_column($consults, 'owner_id');
+        $replierIds = kg_array_column($consults, 'replier_id');
+        $ids = array_merge($ownerIds, $replierIds);
 
         $userRepo = new UserRepo();
 

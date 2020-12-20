@@ -37,6 +37,7 @@ class ConsultInfo extends Service
         $result['course'] = $this->handleCourseInfo($consult);
         $result['chapter'] = $this->handleChapterInfo($consult);
         $result['owner'] = $this->handleOwnerInfo($consult);
+        $result['replier'] = $this->handleReplierInfo($consult);
 
         return $result;
     }
@@ -82,6 +83,21 @@ class ConsultInfo extends Service
             'id' => $owner->id,
             'name' => $owner->name,
             'avatar' => $owner->avatar,
+        ];
+    }
+
+    protected function handleReplierInfo(ConsultModel $consult)
+    {
+        $userRepo = new UserRepo();
+
+        $replier = $userRepo->findById($consult->replier_id);
+
+        if (!$replier) return new \stdClass();
+
+        return [
+            'id' => $replier->id,
+            'name' => $replier->name,
+            'avatar' => $replier->avatar,
         ];
     }
 

@@ -53,21 +53,27 @@
             </tr>
             <tr>
                 <td>订单通知</td>
-                <td><input class="layui-input" type="text" name="template[order]" value="{{ template.order }}" lay-verify="required"></td>
-                <td><input id="tc-order" class="layui-input" type="text" value="下单成功，商品名称：{1}，订单序号：{2}，订单金额：￥{3}" readonly="readonly"></td>
-                <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-order">复制</span></td>
+                <td><input class="layui-input" type="text" name="template[order_finish]" value="{{ template.order_finish }}" lay-verify="required"></td>
+                <td><input id="tc-order-finish" class="layui-input" type="text" value="下单成功，商品名称：{1}，订单序号：{2}，订单金额：￥{3}" readonly="readonly"></td>
+                <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-order-finish">复制</span></td>
             </tr>
             <tr>
                 <td>退款通知</td>
-                <td><input class="layui-input" type="text" name="template[refund]" value="{{ template.refund }}" lay-verify="required"></td>
-                <td><input id="tc-refund" class="layui-input" type="text" value="退款成功，商品名称：{1}，订单序号：{2}，退款金额：￥{3}" readonly="readonly"></td>
-                <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-refund">复制</span></td>
+                <td><input class="layui-input" type="text" name="template[refund_finish]" value="{{ template.refund_finish }}" lay-verify="required"></td>
+                <td><input id="tc-refund-finish" class="layui-input" type="text" value="退款成功，商品名称：{1}，退款序号：{2}，退款金额：￥{3}" readonly="readonly"></td>
+                <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-refund-finish">复制</span></td>
             </tr>
             <tr>
-                <td>直播通知</td>
-                <td><input class="layui-input" type="text" name="template[live]" value="{{ template.live }}" lay-verify="required"></td>
-                <td><input id="tc-live" class="layui-input" type="text" value="直播预告，课程名称：{1}，章节名称：{2}，开播时间：{3}" readonly="readonly"></td>
-                <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-live">复制</span></td>
+                <td>直播提醒</td>
+                <td><input class="layui-input" type="text" name="template[live_begin]" value="{{ template.live_begin }}" lay-verify="required"></td>
+                <td><input id="tc-live-begin" class="layui-input" type="text" value="直播预告，课程名称：{1}，章节名称：{2}，开播时间：{3}" readonly="readonly"></td>
+                <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-live-begin">复制</span></td>
+            </tr>
+            <tr>
+                <td>回复通知</td>
+                <td><input class="layui-input" type="text" name="template[consult_reply]" value="{{ template.consult_reply }}" lay-verify="required"></td>
+                <td><input id="tc-consult-reply" class="layui-input" type="text" value="{1} 回复了你的咨询，课程名称：{2}，请登录系统查看详情。" readonly="readonly"></td>
+                <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-consult-reply">复制</span></td>
             </tr>
             </tbody>
         </table>

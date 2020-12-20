@@ -30,7 +30,7 @@ class Task extends \Phalcon\Cli\Task
         return $appService->getRedis();
     }
 
-    public function getLogger($channel = null)
+    public function getLogger($channel = 'console')
     {
         $appService = new AppService();
 
