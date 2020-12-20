@@ -2,9 +2,11 @@
 
 namespace App\Http\Home\Services;
 
+use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\Auth\Home as AuthService;
 use App\Services\Logic\Account\Register as RegisterService;
+use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Captcha as CaptchaValidator;
 
@@ -48,6 +50,8 @@ class Account extends Service
 
         $validator->checkCode($post['ticket'], $post['rand']);
 
+        $this->handleLoginNotice($user);
+
         $this->auth->saveAuthInfo($user);
     }
 
@@ -59,12 +63,21 @@ class Account extends Service
 
         $user = $validator->checkVerifyLogin($post['account'], $post['verify_code']);
 
+        $this->handleLoginNotice($user);
+
         $this->auth->saveAuthInfo($user);
     }
 
     public function logout()
     {
         $this->auth->clearAuthInfo();
+    }
+
+    protected function handleLoginNotice(UserModel $user)
+    {
+        $service = new AccountLoginNoticeService();
+
+        $service->createTask($user);
     }
 
 }

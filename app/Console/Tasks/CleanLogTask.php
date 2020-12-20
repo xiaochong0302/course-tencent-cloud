@@ -13,6 +13,7 @@ class CleanLogTask extends Task
         $this->cleanSqlLog();
         $this->cleanListenLog();
         $this->cleanCaptchaLog();
+        $this->cleanWechatLog();
         $this->cleanMailLog();
         $this->cleanSmsLog();
         $this->cleanVodLog();
@@ -22,6 +23,7 @@ class CleanLogTask extends Task
         $this->cleanWxpayLog();
         $this->cleanOrderLog();
         $this->cleanRefundLog();
+        $this->cleanNoticeLog();
     }
 
     /**
@@ -113,6 +115,14 @@ class CleanLogTask extends Task
     }
 
     /**
+     * 清理微信服务日志
+     */
+    protected function cleanWechatLog()
+    {
+        $this->cleanLog('wechat', 7);
+    }
+
+    /**
      * 清理阿里支付服务日志
      */
     protected function cleanAlipayLog()
@@ -142,6 +152,14 @@ class CleanLogTask extends Task
     protected function cleanRefundLog()
     {
         $this->cleanLog('refund', 30);
+    }
+
+    /**
+     * 清理通知日志
+     */
+    protected function cleanNoticeLog()
+    {
+        $this->cleanLog('notice', 7);
     }
 
     /**

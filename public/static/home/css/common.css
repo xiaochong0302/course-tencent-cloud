@@ -1609,6 +1609,24 @@
     margin: 0 10px;
 }
 
+.my-subscribe {
+    margin-bottom: 15px;
+}
+
+.my-subscribe .qrcode {
+    margin: 30px auto;
+    width: 160px;
+    height: 160px;
+}
+
+.my-subscribe .tips {
+    text-align: center;
+}
+
+.my-subscribe .success {
+    color: green;
+}
+
 .order-filter {
     padding: 15px 20px;
 }

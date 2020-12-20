@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
-class WeChatSubscribe extends Model
+class WechatSubscribe extends Model
 {
 
     /**

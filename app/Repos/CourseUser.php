@@ -146,4 +146,16 @@ class CourseUser extends Repository
             ->execute();
     }
 
+    /**
+     * @param int $courseId
+     * @return ResultsetInterface|Resultset|CourseUserModel[]
+     */
+    public function findByCourseId($courseId)
+    {
+        return CourseUserModel::query()
+            ->where('course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('deleted = 0')
+            ->execute();
+    }
+
 }

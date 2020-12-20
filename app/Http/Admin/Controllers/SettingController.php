@@ -340,13 +340,13 @@ class SettingController extends Controller
 
             $data = $this->request->getPost();
 
-            $settingService->updateSettings($section, $data);
+            $settingService->updateWechatSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
         } else {
 
-            $oa = $settingService->getWeChatOASettings();
+            $oa = $settingService->getWechatOASettings();
 
             $this->view->setVar('oa', $oa);
         }

@@ -1,6 +1,8 @@
+{% set notice_template = oa.notice_template|json_decode %}
+
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.wechat'}) }}">
     <div class="layui-form-item">
-        <label class="layui-form-label">开启公众号</label>
+        <label class="layui-form-label">开启</label>
         <div class="layui-input-block">
             <input type="radio" name="enabled" value="1" title="是" {% if oa.enabled == "1" %}checked="checked"{% endif %}>
             <input type="radio" name="enabled" value="0" title="否" {% if oa.enabled == "0" %}checked="checked"{% endif %}>
@@ -31,13 +33,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">授权回调地址</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="oauth_url" value="{{ oa.auth_url }}" lay-verify="required">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">通知回调地址</label>
+        <label class="layui-form-label">Notify Url</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="notify_url" value="{{ oa.notify_url }}" lay-verify="required">
         </div>
@@ -47,7 +43,62 @@
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
-            <input type="hidden" name="section" value="oauth.weixin">
+            <input type="hidden" name="section" value="wechat.oa">
+        </div>
+    </div>
+</form>
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>模板配置</legend>
+</fieldset>
+<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.wechat'}) }}">
+    <table class="layui-table kg-table layui-form">
+        <colgroup>
+            <col width="12%">
+            <col width="30%">
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>名称</th>
+            <th>模板编号</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>登录提醒</td>
+            <td><input class="layui-input" type="text" name="notice_template[account_login]" value="{{ notice_template.account_login }}" lay-verify="required"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>订单通知</td>
+            <td><input class="layui-input" type="text" name="notice_template[order_finish]" value="{{ notice_template.order_finish }}" lay-verify="required"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>退款通知</td>
+            <td><input class="layui-input" type="text" name="notice_template[refund_finish]" value="{{ notice_template.refund_finish }}" lay-verify="required"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>直播提醒</td>
+            <td><input class="layui-input" type="text" name="notice_template[live_begin]" value="{{ notice_template.live_begin }}" lay-verify="required"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>回复通知</td>
+            <td><input class="layui-input" type="text" name="notice_template[consult_reply]" value="{{ notice_template.consult_reply }}" lay-verify="required"></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
+            <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
+            <input type="hidden" name="section" value="wechat.oa">
         </div>
     </div>
 </form>

@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Repos\Chapter as ChapterRepo;
+use App\Repos\CourseUser as CourseUserRepo;
+use App\Services\Logic\Notice\LiveBegin as LiveBeginNotice;
 
 class LiveNotify extends Service
 {
@@ -42,16 +44,6 @@ class LiveNotify extends Service
         return $result;
     }
 
-    public function getNotifyKey()
-    {
-        return 'live_notify';
-    }
-
-    public function getSentNotifyKey()
-    {
-        return 'live_notify_sent';
-    }
-
     /**
      * 推流
      */
@@ -73,7 +65,7 @@ class LiveNotify extends Service
 
         $chapterLive->update(['status' => ChapterLiveModel::STATUS_ACTIVE]);
 
-        $this->sendBeginNotify($chapter);
+        $this->handleStreamBeginNotice($chapter);
 
         return true;
     }
@@ -126,15 +118,21 @@ class LiveNotify extends Service
 
     }
 
-    protected function sendBeginNotify(ChapterModel $chapter)
+    protected function handleStreamBeginNotice(ChapterModel $chapter)
     {
-        $redis = $this->getRedis();
+        $courseUserRepo = new CourseUserRepo();
 
-        $key = $this->getNotifyKey();
+        $courseUsers = $courseUserRepo->findByCourseId($chapter->course_id);
 
-        $redis->sAdd($key, $chapter->id);
+        if ($courseUsers->count() == 0) {
+            return;
+        }
 
-        $redis->expire($key, 86400);
+        $notice = new LiveBeginNotice();
+
+        foreach ($courseUsers as $courseUser) {
+            $notice->createTask($chapter, $courseUser);
+        }
     }
 
     protected function getChapter($streamName)

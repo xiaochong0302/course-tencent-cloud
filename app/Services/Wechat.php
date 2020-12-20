@@ -5,13 +5,13 @@ namespace App\Services;
 use EasyWeChat\Factory;
 use Phalcon\Logger\Adapter\File as FileLogger;
 
-class WeChat extends Service
+class Wechat extends Service
 {
 
     /**
      * @var FileLogger
      */
-    protected $logger;
+    public $logger;
 
     public function __construct()
     {

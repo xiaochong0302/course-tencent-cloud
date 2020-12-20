@@ -4,8 +4,10 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\ConsultList as ConsultListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Consult as ConsultModel;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
+use App\Services\Logic\Notice\ConsultReply as ConsultReplyNotice;
 use App\Validators\Consult as ConsultValidator;
 
 class Consult extends Service
@@ -52,12 +54,18 @@ class Consult extends Service
 
         $data = [];
 
+        $firstReply = false;
+
         if (!empty($post['question'])) {
             $data['question'] = $validator->checkQuestion($post['question']);
         }
 
         if (!empty($post['answer'])) {
             $data['answer'] = $validator->checkAnswer($post['answer']);
+            $data['reply_time'] = time();
+            if ($consult->reply_time == 0) {
+                $firstReply = true;
+            }
         }
 
         if (isset($post['private'])) {
@@ -69,6 +77,10 @@ class Consult extends Service
         }
 
         $consult->update($data);
+
+        if ($firstReply) {
+            $this->handleReplyNotice($consult);
+        }
 
         return $consult;
     }
@@ -105,6 +117,13 @@ class Consult extends Service
         $course->consult_count += 1;
 
         $course->update();
+    }
+
+    protected function handleReplyNotice(ConsultModel $consult)
+    {
+        $notice = new ConsultReplyNotice();
+
+        $notice->createTask($consult);
     }
 
     protected function findOrFail($id)

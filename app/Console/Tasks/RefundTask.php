@@ -11,9 +11,9 @@ use App\Repos\Order as OrderRepo;
 use App\Repos\Refund as RefundRepo;
 use App\Repos\Trade as TradeRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Logic\Notice\RefundFinish as RefundFinishNotice;
 use App\Services\Pay\Alipay as AlipayService;
 use App\Services\Pay\Wxpay as WxpayService;
-use App\Services\Sms\Refund as RefundSms;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
@@ -95,7 +95,7 @@ class RefundTask extends Task
 
                 $this->db->commit();
 
-                $this->handleRefundNotice($refund);
+                $this->handleRefundFinishNotice($refund);
 
             } catch (\Exception $e) {
 
@@ -281,11 +281,11 @@ class RefundTask extends Task
     /**
      * @param RefundModel $refund
      */
-    protected function handleRefundNotice(RefundModel $refund)
+    protected function handleRefundFinishNotice(RefundModel $refund)
     {
-        $sms = new RefundSms();
+        $notice = new RefundFinishNotice();
 
-        $sms->handle($refund);
+        $notice->createTask($refund);
     }
 
     /**

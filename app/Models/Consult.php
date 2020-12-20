@@ -36,11 +36,18 @@ class Consult extends Model
     public $chapter_id;
 
     /**
-     * 用户编号
+     * 提主编号
      *
      * @var int
      */
     public $owner_id;
+
+    /**
+     * 答主编号
+     *
+     * @var int
+     */
+    public $replier_id;
 
     /**
      * 提问

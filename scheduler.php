@@ -13,8 +13,8 @@ $bin = '/usr/local/bin/php';
 $scheduler->php($script, $bin, ['--task' => 'deliver', '--action' => 'main'])
     ->at('*/3 * * * *');
 
-$scheduler->php($script, $bin, ['--task' => 'live_notify', '--action' => 'main'])
-    ->at('*/5 * * * *');
+$scheduler->php($script, $bin, ['--task' => 'notice', '--action' => 'main'])
+    ->at('*/3 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'sync_learning', '--action' => 'main'])
     ->at('*/7 * * * *');
