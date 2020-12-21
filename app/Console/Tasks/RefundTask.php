@@ -29,7 +29,7 @@ class RefundTask extends Task
     {
         $logger = $this->getLogger('refund');
 
-        $tasks = $this->findTasks();
+        $tasks = $this->findTasks(30);
 
         if ($tasks->count() == 0) {
             return;
@@ -259,7 +259,7 @@ class RefundTask extends Task
     }
 
     /**
-     * 处理测试订单退款
+     * 处理赞赏订单退款
      *
      * @param OrderModel $order
      */

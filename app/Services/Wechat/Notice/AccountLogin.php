@@ -20,11 +20,19 @@ class AccountLogin extends WechatNotice
         $first = '你好，登录系统成功！';
         $remark = '如果非本人操作，请立即修改密码哦！';
 
+        $loginRegion = implode('/', [
+            $params['login_region']['country'],
+            $params['login_region']['province'],
+            $params['login_region']['city'],
+        ]);
+
+        $loginTime = date('Y-m-d H:i:s', $params['login_time']);
+
         $params = [
             'first' => $first,
             'remark' => $remark,
-            'keyword1' => $params['login_region'],
-            'keyword2' => date('Y-m-d H:i', $params['login_time']),
+            'keyword1' => $loginRegion,
+            'keyword2' => $loginTime,
         ];
 
         $templateId = $this->getTemplateId($this->templateCode);
