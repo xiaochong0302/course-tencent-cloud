@@ -8,6 +8,7 @@ use App\Repos\Connect as ConnectRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Auth\Home as AuthService;
 use App\Services\Logic\Account\Register as RegisterService;
+use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
 use App\Services\OAuth\QQ as QQAuth;
 use App\Services\OAuth\WeiBo as WeiBoAuth;
 use App\Services\OAuth\WeiXin as WeiXinAuth;
@@ -31,6 +32,8 @@ class Connect extends Service
         $openUser = json_decode($post['open_user'], true);
 
         $this->handleConnectRelation($user, $openUser);
+
+        $this->handleLoginNotice($user);
 
         $auth = $this->getAppAuth();
 
@@ -57,6 +60,8 @@ class Connect extends Service
 
         $this->handleConnectRelation($user, $openUser);
 
+        $this->handleLoginNotice($user);
+
         $auth = $this->getAppAuth();
 
         $auth->saveAuthInfo($user);
@@ -74,6 +79,8 @@ class Connect extends Service
         $userRepo = new UserRepo();
 
         $user = $userRepo->findById($connect->user_id);
+
+        $this->handleLoginNotice($user);
 
         $auth = $this->getAppAuth();
 
@@ -206,6 +213,13 @@ class Connect extends Service
 
             $connect->create();
         }
+    }
+
+    protected function handleLoginNotice(UserModel $user)
+    {
+        $service = new AccountLoginNoticeService();
+
+        $service->createTask($user);
     }
 
 }

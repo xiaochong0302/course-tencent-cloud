@@ -49,9 +49,6 @@ $scheduler->php($script, $bin, ['--task' => 'unlock_user', '--action' => 'main']
 $scheduler->php($script, $bin, ['--task' => 'revoke_vip', '--action' => 'main'])
     ->daily(3, 11);
 
-$scheduler->php($script, $bin, ['--task' => 'clean_token', '--action' => 'main'])
-    ->daily(3, 17);
-
 $scheduler->php($script, $bin, ['--task' => 'sitemap', '--action' => 'main'])
     ->daily(4, 3);
 

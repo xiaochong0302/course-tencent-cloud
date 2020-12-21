@@ -26,7 +26,7 @@ class DeliverTask extends Task
     {
         $logger = $this->getLogger('order');
 
-        $tasks = $this->findTasks();
+        $tasks = $this->findTasks(30);
 
         if ($tasks->count() == 0) {
             return;
@@ -244,7 +244,7 @@ class DeliverTask extends Task
      * @param int $limit
      * @return ResultsetInterface|Resultset|TaskModel[]
      */
-    protected function findTasks($limit = 100)
+    protected function findTasks($limit = 30)
     {
         $itemType = TaskModel::TYPE_DELIVER;
         $status = TaskModel::STATUS_PENDING;

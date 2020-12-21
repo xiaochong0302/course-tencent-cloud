@@ -50,7 +50,7 @@ class WechatOfficialAccount extends Service
     {
         $service = new WechatService();
 
-        $service->logger->info('Received Message:' . json_encode($message));
+        $service->logger->debug('Received Message ' . json_encode($message));
 
         switch ($message['MsgType']) {
             case 'event':
@@ -74,7 +74,7 @@ class WechatOfficialAccount extends Service
                         return $this->handleLocationEvent($message);
                         break;
                     default:
-                        return $message['Event'];
+                        return $this->emptyReplyMessage();
                         break;
                 }
                 break;
@@ -118,7 +118,7 @@ class WechatOfficialAccount extends Service
 
         $this->handleSubscribeRelation($userId, $openId);
 
-        return new TextMessage("欢迎您的光临!");
+        return new TextMessage('开心呀，我们又多了一个小伙伴!');
     }
 
     protected function handleUnsubscribeEvent($message)
@@ -134,7 +134,7 @@ class WechatOfficialAccount extends Service
             $subscribe->update();
         }
 
-        return new TextMessage("我们又少了一个可爱的小伙伴!");
+        return new TextMessage('伤心呀，我们又少了一个小伙伴!');
     }
 
     protected function handleScanEvent($message)
@@ -198,20 +198,22 @@ class WechatOfficialAccount extends Service
 
     protected function emptyReplyMessage()
     {
-        return new TextMessage("");
+        return new TextMessage('');
     }
 
     protected function defaultReplyMessage()
     {
-        return new TextMessage("没有匹配的服务，如有需要请联系客服！");
+        return new TextMessage('没有匹配的服务，如有需要请联系客服！');
     }
 
     protected function handleSubscribeRelation($userId, $openId)
     {
         $validator = new UserValidator();
+
         $validator->checkUser($userId);
 
         $subscribeRepo = new WechatSubscribeRepo();
+
         $subscribe = $subscribeRepo->findByOpenId($openId);
 
         if ($subscribe) {

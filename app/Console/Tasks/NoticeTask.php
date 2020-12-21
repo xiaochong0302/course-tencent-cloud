@@ -20,7 +20,7 @@ class NoticeTask extends Task
     {
         $logger = $this->getLogger('notice');
 
-        $tasks = $this->findTasks(500);
+        $tasks = $this->findTasks(300);
 
         if ($tasks->count() == 0) {
             return;
