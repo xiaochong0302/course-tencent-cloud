@@ -41,9 +41,12 @@ class ChapterVod extends Service
 
         $vodTemplates = $this->getVodTemplates();
 
+        /**
+         * 腾讯云播放器只支持[od|hd|sd]，遇到fd替换为od
+         */
         foreach ($vodTemplates as $key => $template) {
             if ($height >= $template['height']) {
-                return $key;
+                return $key == 'fd' ? $default : $key;
             }
         }
 
