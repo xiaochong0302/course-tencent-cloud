@@ -101,7 +101,7 @@ class Setting extends Service
          */
         if ($items->count() > 0) {
             foreach ($items as $item) {
-                $case1 = preg_match('/(id|auth|key|secret|password|pwd)$/', $item->item_key);
+                $case1 = preg_match('/(id|auth|key|secret|token|password|pwd)$/', $item->item_key);
                 $case2 = $this->dispatcher->getControllerName() == 'setting';
                 if ($case1 && $case2) {
                     $item->item_value = '***';

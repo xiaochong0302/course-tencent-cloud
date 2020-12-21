@@ -52,4 +52,7 @@ $scheduler->php($script, $bin, ['--task' => 'revoke_vip', '--action' => 'main'])
 $scheduler->php($script, $bin, ['--task' => 'sitemap', '--action' => 'main'])
     ->daily(4, 3);
 
+$scheduler->php($script, $bin, ['--task' => 'renew_live_course_demo', '--action' => 'main'])
+    ->daily(4, 7);
+
 $scheduler->run();
