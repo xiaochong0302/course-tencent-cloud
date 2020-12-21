@@ -143,23 +143,24 @@ class Role extends Service
         if (in_array('admin.course.list', $routes)) {
             $list[] = 'admin.course.chapters';
             $list[] = 'admin.chapter.lessons';
+            $list[] = 'admin.chapter.resources';
         }
 
         if (array_intersect(['admin.course.add', 'admin.course.edit'], $routes)) {
             $list[] = 'admin.chapter.add';
             $list[] = 'admin.chapter.edit';
+            $list[] = 'admin.chapter.create';
+            $list[] = 'admin.chapter.update';
             $list[] = 'admin.chapter.content';
-        }
-
-        if (array_intersect(['admin.chapter.add', 'admin.chapter.edit'], $routes)) {
             $list[] = 'admin.resource.create';
             $list[] = 'admin.resource.update';
-            $list[] = 'admin.resource.delete';
         }
 
         if (in_array('admin.course.delete', $routes)) {
             $list[] = 'admin.chapter.delete';
             $list[] = 'admin.chapter.restore';
+            $list[] = 'admin.resource.delete';
+            $list[] = 'admin.resource.restore';
         }
 
         if (in_array('admin.category.list', $routes)) {
@@ -173,6 +174,18 @@ class Role extends Service
 
         if (in_array('admin.help.category', $routes)) {
             $list[] = 'admin.category.list';
+        }
+
+        if (in_array('admin.order.show', $routes)) {
+            $list[] = 'admin.order.status_history';
+        }
+
+        if (in_array('admin.trade.show', $routes)) {
+            $list[] = 'admin.trade.status_history';
+        }
+
+        if (in_array('admin.refund.show', $routes)) {
+            $list[] = 'admin.refund.status_history';
         }
 
         $list = array_unique($list);
