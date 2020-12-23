@@ -17,10 +17,6 @@ class ConsultReply extends WechatNotice
      */
     public function handle(WechatSubscribeModel $subscribe, array $params)
     {
-        $openId = $subscribe->open_id;
-
-        $templateId = $this->getTemplateId($this->templateCode);
-
         $first = sprintf('%s 回复了你的咨询！', $params['replier']['name']);
 
         $remark = '如果还有其它疑问，请和我们保持联系哦！';
@@ -31,7 +27,9 @@ class ConsultReply extends WechatNotice
             'keyword1' => $params['course']['title'],
         ];
 
-        return $this->send($openId, $templateId, $params);
+        $templateId = $this->getTemplateId($this->templateCode);
+
+        return $this->send($subscribe->open_id, $templateId, $params);
     }
 
 }
