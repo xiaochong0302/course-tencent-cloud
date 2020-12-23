@@ -6,7 +6,7 @@ use App\Models\WechatSubscribe as WechatSubscribeModel;
 use App\Repos\WechatSubscribe as WechatSubscribeRepo;
 use App\Services\Wechat as WechatService;
 use App\Validators\User as UserValidator;
-use EasyWechat\Kernel\Messages\Text as TextMessage;
+use EasyWeChat\Kernel\Messages\Text as TextMessage;
 
 class WechatOfficialAccount extends Service
 {
@@ -151,14 +151,17 @@ class WechatOfficialAccount extends Service
 
     protected function handleClickEvent($message)
     {
+        $this->defaultReplyMessage();
     }
 
     protected function handleViewEvent($message)
     {
+        $this->defaultReplyMessage();
     }
 
     protected function handleLocationEvent($message)
     {
+        $this->defaultReplyMessage();
     }
 
     protected function handleTextReply($message)
