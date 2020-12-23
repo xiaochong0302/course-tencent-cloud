@@ -2,9 +2,11 @@
 
 namespace App\Http\Api\Services;
 
+use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\Auth\Api as AuthService;
 use App\Services\Logic\Account\Register as RegisterService;
+use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
 use App\Validators\Account as AccountValidator;
 
 class Account extends Service
@@ -50,6 +52,8 @@ class Account extends Service
 
         $user = $validator->checkUserLogin($post['account'], $post['password']);
 
+        $this->handleLoginNotice($user);
+
         return $this->auth->saveAuthInfo($user);
     }
 
@@ -70,12 +74,21 @@ class Account extends Service
 
         $user = $validator->checkVerifyLogin($post['account'], $post['verify_code']);
 
+        $this->handleLoginNotice($user);
+
         return $this->auth->saveAuthInfo($user);
     }
 
     public function logout()
     {
         $this->auth->clearAuthInfo();
+    }
+
+    protected function handleLoginNotice(UserModel $user)
+    {
+        $service = new AccountLoginNoticeService();
+
+        $service->createTask($user);
     }
 
 }

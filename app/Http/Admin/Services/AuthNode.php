@@ -34,14 +34,14 @@ class AuthNode extends Service
                             'title' => '分类列表',
                             'type' => 'button',
                             'route' => 'admin.category.list',
-                            'params' => ['type' => 'course'],
+                            'params' => ['type' => 1],
                         ],
                         [
                             'id' => '1-2-2',
                             'title' => '添加分类',
                             'type' => 'button',
                             'route' => 'admin.category.add',
-                            'params' => ['type' => 'course'],
+                            'params' => ['type' => 1],
                         ],
                         [
                             'id' => '1-2-3',
@@ -90,7 +90,7 @@ class AuthNode extends Service
                             'id' => '1-1-5',
                             'title' => '删除课程',
                             'type' => 'button',
-                            'route' => 'admin.course.edit',
+                            'route' => 'admin.course.delete',
                         ],
                         [
                             'id' => '1-1-6',
@@ -529,6 +529,12 @@ class AuthNode extends Service
                         ],
                         [
                             'id' => '3-2-3',
+                            'title' => '交易详情',
+                            'type' => 'button',
+                            'route' => 'admin.trade.show',
+                        ],
+                        [
+                            'id' => '3-2-4',
                             'title' => '交易退款',
                             'type' => 'button',
                             'route' => 'admin.trade.refund',
@@ -749,6 +755,12 @@ class AuthNode extends Service
                             'title' => '开放登录',
                             'type' => 'menu',
                             'route' => 'admin.setting.oauth',
+                        ],
+                        [
+                            'id' => '5-1-13',
+                            'title' => '微信公众平台',
+                            'type' => 'menu',
+                            'route' => 'admin.setting.wechat',
                         ],
                     ],
                 ],

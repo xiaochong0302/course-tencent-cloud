@@ -20,7 +20,8 @@
     "aferrandini/phpqrcode": "1.0.1",
     "xiaochong0302/ip2region": "^1.0",
     "robmorgan/phinx": "^0.12",
-    "lcobucci/jwt": "^3.3"
+    "lcobucci/jwt": "^3.3",
+    "overtrue/wechat": "^4.2"
   },
   "require-dev": {
     "odan/phinx-migrations-generator": "^5.1",

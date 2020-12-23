@@ -2,11 +2,13 @@
 
 namespace App\Services\Logic\Consult;
 
+use App\Models\Consult as ConsultModel;
 use App\Services\Logic\ConsultTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Notice\ConsultReply as ConsultReplyNotice;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Consult as ConsultValidator;
 
-class ConsultReply extends Service
+class ConsultReply extends LogicService
 {
 
     use ConsultTrait;
@@ -25,12 +27,29 @@ class ConsultReply extends Service
 
         $answer = $validator->checkAnswer($post['answer']);
 
-        $consult->update([
-            'answer' => $answer,
-            'reply_time' => time(),
-        ]);
+        $firstReply = false;
+
+        if ($consult->reply_time == 0) {
+            $firstReply = true;
+        }
+
+        $consult->replier_id = $user->id;
+        $consult->reply_time = time();
+        $consult->answer = $answer;
+        $consult->update();
+
+        if ($firstReply) {
+            $this->handleReplyNotice($consult);
+        }
 
         return $consult;
+    }
+
+    protected function handleReplyNotice(ConsultModel $consult)
+    {
+        $notice = new ConsultReplyNotice();
+
+        $notice->createTask($consult);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Repos\WechatSubscribe as WechatSubscribeRepo;
 use App\Services\Logic\Account\OAuthProvider as OAuthProviderService;
 use App\Services\Logic\User\Console\AccountInfo as AccountInfoService;
 use App\Services\Logic\User\Console\ConnectDelete as ConnectDeleteService;
@@ -34,6 +35,15 @@ class UserConsoleController extends Controller
         }
 
         return true;
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $wechatOA = $this->getSettings('wechat.oa');
+
+        $this->view->setVar('wechat_oa', $wechatOA);
     }
 
     /**
@@ -199,6 +209,25 @@ class UserConsoleController extends Controller
         $this->view->pick('user/console/groups');
         $this->view->setVar('scope', $scope);
         $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/subscribe", name="home.uc.subscribe")
+     */
+    public function subscribeAction()
+    {
+        $subscribeRepo = new WechatSubscribeRepo();
+
+        $subscribe = $subscribeRepo->findByUserId($this->authUser->id);
+
+        $subscribed = 0;
+
+        if ($subscribe) {
+            $subscribed = $subscribe->deleted == 0 ? 1 : 0;
+        }
+
+        $this->view->pick('user/console/subscribe');
+        $this->view->setVar('subscribed', $subscribed);
     }
 
     /**

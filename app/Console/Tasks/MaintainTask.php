@@ -19,7 +19,7 @@ class MaintainTask extends Task
      * 重建首页课程缓存
      *
      * @param array $params
-     * @command: php console.php maintain reset_index_course_cache
+     * @command: php console.php maintain rebuild_index_course_cache
      */
     public function rebuildIndexCourseCacheAction($params)
     {

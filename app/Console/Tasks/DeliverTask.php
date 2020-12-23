@@ -12,7 +12,7 @@ use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
-use App\Services\Sms\Order as OrderSms;
+use App\Services\Logic\Notice\OrderFinish as OrderFinishNotice;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -26,7 +26,7 @@ class DeliverTask extends Task
     {
         $logger = $this->getLogger('order');
 
-        $tasks = $this->findTasks();
+        $tasks = $this->findTasks(30);
 
         if ($tasks->count() == 0) {
             return;
@@ -84,7 +84,7 @@ class DeliverTask extends Task
             }
 
             if ($task->status == TaskModel::STATUS_FINISHED) {
-                $this->handleOrderNotice($order);
+                $this->handleOrderFinishNotice($order);
             } elseif ($task->status == TaskModel::STATUS_FAILED) {
                 $this->handleOrderRefund($order);
             }
@@ -199,11 +199,11 @@ class DeliverTask extends Task
         }
     }
 
-    protected function handleOrderNotice(OrderModel $order)
+    protected function handleOrderFinishNotice(OrderModel $order)
     {
-        $sms = new OrderSms();
+        $notice = new OrderFinishNotice();
 
-        $sms->handle($order);
+        $notice->createTask($order);
     }
 
     protected function handleOrderRefund(OrderModel $order)
@@ -244,7 +244,7 @@ class DeliverTask extends Task
      * @param int $limit
      * @return ResultsetInterface|Resultset|TaskModel[]
      */
-    protected function findTasks($limit = 100)
+    protected function findTasks($limit = 30)
     {
         $itemType = TaskModel::TYPE_DELIVER;
         $status = TaskModel::STATUS_PENDING;

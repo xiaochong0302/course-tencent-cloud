@@ -36,7 +36,7 @@
             {% set show_url = url({'for':'admin.order.show','id':item.id}) %}
             <tr>
                 <td>
-                    <p>商品：{{ item.subject }} {{ item_type(item.item_type) }}</p>
+                    <p>商品：{{ item.subject }}</p>
                     <p>单号：{{ item.sn }}</p>
                 </td>
                 <td>

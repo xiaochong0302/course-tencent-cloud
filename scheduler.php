@@ -13,8 +13,8 @@ $bin = '/usr/local/bin/php';
 $scheduler->php($script, $bin, ['--task' => 'deliver', '--action' => 'main'])
     ->at('*/3 * * * *');
 
-$scheduler->php($script, $bin, ['--task' => 'live_notify', '--action' => 'main'])
-    ->at('*/5 * * * *');
+$scheduler->php($script, $bin, ['--task' => 'notice', '--action' => 'main'])
+    ->at('*/3 * * * *');
 
 $scheduler->php($script, $bin, ['--task' => 'sync_learning', '--action' => 'main'])
     ->at('*/7 * * * *');
@@ -48,9 +48,6 @@ $scheduler->php($script, $bin, ['--task' => 'unlock_user', '--action' => 'main']
 
 $scheduler->php($script, $bin, ['--task' => 'revoke_vip', '--action' => 'main'])
     ->daily(3, 11);
-
-$scheduler->php($script, $bin, ['--task' => 'clean_token', '--action' => 'main'])
-    ->daily(3, 17);
 
 $scheduler->php($script, $bin, ['--task' => 'sitemap', '--action' => 'main'])
     ->daily(4, 3);

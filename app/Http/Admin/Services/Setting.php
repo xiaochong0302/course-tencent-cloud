@@ -57,6 +57,16 @@ class Setting extends Service
         return $wxpay;
     }
 
+    public function getWechatOASettings()
+    {
+        $oa = $this->getSettings('wechat.oa');
+
+        $oa['auth_url'] = $oa['auth_url'] ?: kg_full_url(['for' => 'home.wechat.oa.auth_callback']);
+        $oa['notify_url'] = $oa['notify_url'] ?: kg_full_url(['for' => 'home.wechat.oa.notify_callback']);
+
+        return $oa;
+    }
+
     public function getVipSettings()
     {
         $vipRepo = new VipRepo();
@@ -144,7 +154,9 @@ class Setting extends Service
 
     public function updateSmsSettings($section, $settings)
     {
-        $settings['template'] = kg_json_encode($settings['template']);
+        if (isset($settings['template'])) {
+            $settings['template'] = kg_json_encode($settings['template']);
+        }
 
         $this->updateSettings($section, $settings);
     }
@@ -158,6 +170,17 @@ class Setting extends Service
             $vip->price = $price;
             $vip->update();
         }
+    }
+
+    public function updateWechatSettings($section, $settings)
+    {
+        if ($section == 'wechat.oa') {
+            if (isset($settings['notice_template'])) {
+                $settings['notice_template'] = kg_json_encode($settings['notice_template']);
+            }
+        }
+
+        $this->updateSettings($section, $settings);
     }
 
 }

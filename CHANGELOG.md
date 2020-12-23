@@ -1,3 +1,23 @@
+### [v1.2.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.2)(2020-12-24)
+
+#### 增加
+
+- 登录账户微信提醒
+- 购买成功微信提醒
+- 退款成功微信提醒
+- 开始直播微信提醒
+- 咨询回复微信提醒
+- 咨询回复短信提醒
+
+#### 修复
+
+- 创建章节，关联表数据没有生成
+- 创建群组，没有生成max_im_group_id缓存
+- 课程分类列表没有过滤掉帮助分类的内容
+- 创建角色字段routes MySQL text 类型报错
+- 低品质视频无法播放
+- 后台遗漏的权限
+
 ### [v1.2.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.1)(2020-12-10)
 - 增加QQ，微信，微博第三方登录
 - 代码优化以及问题修复

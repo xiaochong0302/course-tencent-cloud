@@ -6,9 +6,9 @@
 
 酷瓜云课堂，依托腾讯云基础服务架构，采用C扩展框架Phalcon开发，GPL-2.0开源协议，致力开源网课系统，开源网校系统，开源在线教育系统。
 
-![](https://img.shields.io/static/v1?label=release&message=1.2.1&color=blue)
-![](https://img.shields.io/static/v1?label=stars&message=112&color=blue)
-![](https://img.shields.io/static/v1?label=forks&message=41&color=blue)
+![](https://img.shields.io/static/v1?label=release&message=1.2.2&color=blue)
+![](https://img.shields.io/static/v1?label=stars&message=136&color=blue)
+![](https://img.shields.io/static/v1?label=forks&message=50&color=blue)
 ![](https://img.shields.io/static/v1?label=license&message=GPL-2.0&color=blue)
 
 #### 系统功能
@@ -85,4 +85,6 @@ Tips: 测试支付请用手机号注册一个新账户，以便接收订单通�
 - 系统安装
 - 系统定制
 - 企业授权
+
+毫无保留的真开源不容易，如果对你有帮助，请给我们 **STAR** ！！！
 
