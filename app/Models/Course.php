@@ -166,6 +166,13 @@ class Course extends Model
     public $attrs;
 
     /**
+     * 推荐标识
+     *
+     * @var int
+     */
+    public $featured;
+
+    /**
      * 发布标识
      *
      * @var int
@@ -377,6 +384,7 @@ class Course extends Model
             'rating' => '好评',
             'latest' => '最新',
             'popular' => '最热',
+            'featured' => '推荐',
             'free' => '免费',
         ];
     }

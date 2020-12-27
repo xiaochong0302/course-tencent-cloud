@@ -114,6 +114,7 @@ $error['course.invalid_vip_price'] = '无效的会员价格（范围：0-10000�
 $error['course.invalid_compare_price'] = '无效的比较定价（会员价格高于市场价格）';
 $error['course.invalid_study_expiry'] = '无效的学习期限';
 $error['course.invalid_refund_expiry'] = '无效的退款期限';
+$error['course.invalid_feature_status'] = '无效的推荐状态';
 $error['course.invalid_publish_status'] = '无效的发布状态';
 $error['course.pub_chapter_not_found'] = '尚未发现已发布的课时';
 $error['course.pub_chapter_not_enough'] = '已发布的课时太少（小于30%）';
