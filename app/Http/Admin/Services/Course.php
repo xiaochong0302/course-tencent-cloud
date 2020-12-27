@@ -172,6 +172,10 @@ class Course extends Service
             }
         }
 
+        if (isset($post['featured'])) {
+            $data['featured'] = $validator->checkFeatureStatus($post['featured']);
+        }
+
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
             if ($post['published'] == 1) {

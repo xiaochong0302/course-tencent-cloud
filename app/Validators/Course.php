@@ -212,6 +212,15 @@ class Course extends Validator
         return $expiry;
     }
 
+    public function checkFeatureStatus($status)
+    {
+        if (!in_array($status, [0, 1])) {
+            throw new BadRequestException('course.invalid_feature_status');
+        }
+
+        return $status;
+    }
+
     public function checkPublishStatus($status)
     {
         if (!in_array($status, [0, 1])) {
