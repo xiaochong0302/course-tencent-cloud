@@ -70,7 +70,7 @@
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-live-begin">复制</span></td>
             </tr>
             <tr>
-                <td>回复通知</td>
+                <td>咨询通知</td>
                 <td><input class="layui-input" type="text" name="template[consult_reply]" value="{{ template.consult_reply }}" lay-verify="required"></td>
                 <td><input id="tc-consult-reply" class="layui-input" type="text" value="{1} 回复了你的咨询，课程名称：{2}，请登录系统查看详情。" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-consult-reply">复制</span></td>
