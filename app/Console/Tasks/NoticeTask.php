@@ -64,6 +64,8 @@ class NoticeTask extends Task
                 $task->update();
 
                 $logger->info('Notice Process Exception ' . kg_json_encode([
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
                         'code' => $e->getCode(),
                         'message' => $e->getMessage(),
                         'task' => $task->toArray(),

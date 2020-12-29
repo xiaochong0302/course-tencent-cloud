@@ -26,13 +26,17 @@ class AccountLogin extends WechatNotice
             $params['login_region']['city'],
         ]);
 
-        $loginTime = date('Y-m-d H:i:s', $params['login_time']);
+        $loginTime = date('Y-m-d H:i', $params['login_time']);
+        $loginUser = $params['user']['name'];
+        $loginIp = $params['login_ip'];
 
         $params = [
             'first' => $first,
             'remark' => $remark,
-            'keyword1' => $loginRegion,
+            'keyword1' => $loginUser,
             'keyword2' => $loginTime,
+            'keyword3' => $loginRegion,
+            'keyword4' => $loginIp,
         ];
 
         $templateId = $this->getTemplateId($this->templateCode);

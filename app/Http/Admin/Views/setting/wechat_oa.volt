@@ -54,7 +54,7 @@
     <table class="layui-table kg-table layui-form">
         <colgroup>
             <col width="12%">
-            <col width="30%">
+            <col width="40%">
             <col>
         </colgroup>
         <thead>
@@ -66,27 +66,27 @@
         </thead>
         <tbody>
         <tr>
-            <td>登录提醒</td>
+            <td>登录成功通知</td>
             <td><input class="layui-input" type="text" name="notice_template[account_login]" value="{{ notice_template.account_login }}" lay-verify="required"></td>
             <td></td>
         </tr>
         <tr>
-            <td>订单通知</td>
+            <td>购买成功提醒</td>
             <td><input class="layui-input" type="text" name="notice_template[order_finish]" value="{{ notice_template.order_finish }}" lay-verify="required"></td>
             <td></td>
         </tr>
         <tr>
-            <td>退款通知</td>
+            <td>退款成功通知</td>
             <td><input class="layui-input" type="text" name="notice_template[refund_finish]" value="{{ notice_template.refund_finish }}" lay-verify="required"></td>
             <td></td>
         </tr>
         <tr>
-            <td>直播提醒</td>
+            <td>课程直播提醒</td>
             <td><input class="layui-input" type="text" name="notice_template[live_begin]" value="{{ notice_template.live_begin }}" lay-verify="required"></td>
             <td></td>
         </tr>
         <tr>
-            <td>回复通知</td>
+            <td>咨询结果通知</td>
             <td><input class="layui-input" type="text" name="notice_template[consult_reply]" value="{{ notice_template.consult_reply }}" lay-verify="required"></td>
             <td></td>
         </tr>
