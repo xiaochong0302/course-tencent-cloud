@@ -24,7 +24,9 @@ class ConsultReply extends WechatNotice
         $params = [
             'first' => $first,
             'remark' => $remark,
-            'keyword1' => $params['course']['title'],
+            'keyword1' => kg_substr($params['consult']['question'], 0, 50),
+            'keyword2' => date('Y-m-d H:i', $params['consult']['create_time']),
+            'keyword3' => kg_substr($params['consult']['answer'], 0, 50),
         ];
 
         $templateId = $this->getTemplateId($this->templateCode);

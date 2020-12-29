@@ -46,6 +46,8 @@ class ConsultReply extends LogicService
                 'id' => $consult->id,
                 'question' => $consult->question,
                 'answer' => $consult->answer,
+                'create_time' => $consult->create_time,
+                'reply_time' => $consult->reply_time,
             ],
             'course' => [
                 'id' => $course->id,

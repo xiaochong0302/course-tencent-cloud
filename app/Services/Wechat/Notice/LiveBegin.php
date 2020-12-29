@@ -18,14 +18,16 @@ class LiveBegin extends WechatNotice
     public function handle(WechatSubscribeModel $subscribe, array $params)
     {
         $first = '你参与的课程直播就要开始了！';
-        $remark = '如果没能参与直播，记得观看直播录像哦！';
+
+        $startTime = date('H:i', $params['live']['start_time']);
+
+        $remark = sprintf('课程直播：%s 即将在 %s 开始, 千万不要错过哦！', $params['chapter']['title'], $startTime);
 
         $params = [
             'first' => $first,
             'remark' => $remark,
             'keyword1' => $params['course']['title'],
-            'keyword2' => $params['chapter']['title'],
-            'keyword3' => date('Y-m-d H:i', $params['live']['start_time']),
+            'keyword2' => $params['user']['name'],
         ];
 
         $templateId = $this->getTemplateId($this->templateCode);

@@ -73,11 +73,11 @@ class Pay extends Listener
                     'message' => $e->getMessage(),
                 ]));
 
-            $this->logger->debug('Event: {event}, Source: {source}, Data: {data}', [
-                'event' => $event->getType(),
-                'source' => get_class($source),
-                'data' => kg_json_encode($trade),
-            ]);
+            $this->logger->debug('After Pay Event Info ' . kg_json_encode([
+                    'event' => $event->getType(),
+                    'source' => get_class($source),
+                    'data' => kg_json_encode($trade),
+                ]));
 
             throw new \RuntimeException('sys.trans_rollback');
         }
