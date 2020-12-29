@@ -5,6 +5,8 @@ namespace App\Console\Tasks;
 class CleanLogTask extends Task
 {
 
+    protected $whitelist = [];
+
     public function mainAction()
     {
         $this->cleanCommonLog();
@@ -24,6 +26,7 @@ class CleanLogTask extends Task
         $this->cleanOrderLog();
         $this->cleanRefundLog();
         $this->cleanNoticeLog();
+        $this->cleanOtherLog();
     }
 
     /**
@@ -31,7 +34,11 @@ class CleanLogTask extends Task
      */
     protected function cleanCommonLog()
     {
-        $this->cleanLog('common', 7);
+        $type = 'common';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -39,7 +46,11 @@ class CleanLogTask extends Task
      */
     protected function cleanHttpLog()
     {
-        $this->cleanLog('http', 7);
+        $type = 'http';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -47,7 +58,11 @@ class CleanLogTask extends Task
      */
     protected function cleanConsoleLog()
     {
-        $this->cleanLog('console', 7);
+        $type = 'console';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -55,7 +70,11 @@ class CleanLogTask extends Task
      */
     protected function cleanSqlLog()
     {
-        $this->cleanLog('sql', 3);
+        $type = 'sql';
+
+        $this->cleanLog($type, 3);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -63,7 +82,11 @@ class CleanLogTask extends Task
      */
     protected function cleanListenLog()
     {
-        $this->cleanLog('listen', 7);
+        $type = 'listen';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -71,7 +94,11 @@ class CleanLogTask extends Task
      */
     protected function cleanCaptchaLog()
     {
-        $this->cleanLog('captcha', 7);
+        $type = 'captcha';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -79,7 +106,11 @@ class CleanLogTask extends Task
      */
     protected function cleanVodLog()
     {
-        $this->cleanLog('vod', 7);
+        $type = 'vod';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -87,7 +118,11 @@ class CleanLogTask extends Task
      */
     protected function cleanLiveLog()
     {
-        $this->cleanLog('live', 7);
+        $type = 'live';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -95,7 +130,11 @@ class CleanLogTask extends Task
      */
     protected function cleanStorageLog()
     {
-        $this->cleanLog('storage', 7);
+        $type = 'storage';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -103,7 +142,11 @@ class CleanLogTask extends Task
      */
     protected function cleanSmsLog()
     {
-        $this->cleanLog('sms', 7);
+        $type = 'sms';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -111,7 +154,11 @@ class CleanLogTask extends Task
      */
     protected function cleanMailLog()
     {
-        $this->cleanLog('mail', 7);
+        $type = 'mail';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -119,7 +166,11 @@ class CleanLogTask extends Task
      */
     protected function cleanWechatLog()
     {
-        $this->cleanLog('wechat', 7);
+        $type = 'wechat';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -127,7 +178,11 @@ class CleanLogTask extends Task
      */
     protected function cleanAlipayLog()
     {
-        $this->cleanLog('alipay', 30);
+        $type = 'alipay';
+
+        $this->cleanLog($type, 30);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -135,7 +190,11 @@ class CleanLogTask extends Task
      */
     protected function cleanWxpayLog()
     {
-        $this->cleanLog('wxpay', 30);
+        $type = 'wxpay';
+
+        $this->cleanLog($type, 30);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -143,7 +202,11 @@ class CleanLogTask extends Task
      */
     protected function cleanOrderLog()
     {
-        $this->cleanLog('order', 30);
+        $type = 'order';
+
+        $this->cleanLog($type, 30);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -151,7 +214,11 @@ class CleanLogTask extends Task
      */
     protected function cleanRefundLog()
     {
-        $this->cleanLog('refund', 30);
+        $type = 'refund';
+
+        $this->cleanLog($type, 30);
+
+        $this->whitelist[] = $type;
     }
 
     /**
@@ -159,7 +226,42 @@ class CleanLogTask extends Task
      */
     protected function cleanNoticeLog()
     {
-        $this->cleanLog('notice', 7);
+        $type = 'notice';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
+    }
+
+    /**
+     * 清理其它日志
+     *
+     * @param int $keepDays
+     * @return mixed
+     */
+    protected function cleanOtherLog($keepDays = 7)
+    {
+        $files = glob(log_path() . "/*.log");
+
+        if (!$files) return false;
+
+        foreach ($files as $file) {
+            $name = str_replace(log_path() . '/', '', $file);
+            $type = substr($name, 0, -15);
+            $date = substr($name, -14, 10);
+            $today = date('Y-m-d');
+            if (in_array($type, $this->whitelist)) {
+                continue;
+            }
+            if (strtotime($today) - strtotime($date) >= $keepDays * 86400) {
+                $deleted = unlink($file);
+                if ($deleted) {
+                    echo "delete {$file} success" . PHP_EOL;
+                } else {
+                    echo "delete {$file} failed" . PHP_EOL;
+                }
+            }
+        }
     }
 
     /**

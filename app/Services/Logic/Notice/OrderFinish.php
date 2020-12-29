@@ -35,6 +35,8 @@ class OrderFinish extends LogicService
                 'sn' => $order->sn,
                 'subject' => $order->subject,
                 'amount' => $order->amount,
+                'create_time' => $order->create_time,
+                'update_time' => $order->update_time,
             ],
         ];
 
