@@ -2,8 +2,10 @@
 
 namespace App\Services\Utils;
 
+use App\Caches\IndexFeaturedCourseList as IndexFeaturedCourseListCache;
 use App\Caches\IndexFreeCourseList as IndexFreeCourseListCache;
 use App\Caches\IndexNewCourseList as IndexNewCourseListCache;
+use App\Caches\IndexSimpleFeaturedCourseList as IndexSimpleFeaturedCourseListCache;
 use App\Caches\IndexSimpleFreeCourseList as IndexSimpleFreeCourseListCache;
 use App\Caches\IndexSimpleNewCourseList as IndexSimpleNewCourseListCache;
 use App\Caches\IndexSimpleVipCourseList as IndexSimpleVipCourseListCache;
@@ -18,6 +20,16 @@ class IndexCourseCache extends Service
         $site = $this->getSettings('site');
 
         $type = $site['index_tpl_type'] ?: 'full';
+
+        if (!$section || $section == 'featured_course') {
+            if ($type == 'full') {
+                $cache = new IndexFeaturedCourseListCache();
+                $cache->rebuild();
+            } else {
+                $cache = new IndexSimpleFeaturedCourseListCache();
+                $cache->rebuild();
+            }
+        }
 
         if (!$section || $section == 'new_course') {
             if ($type == 'full') {
