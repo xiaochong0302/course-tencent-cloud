@@ -31,10 +31,12 @@ class RefundFinish extends LogicService
                 'id' => $user->id,
                 'name' => $user->name,
             ],
-            'order' => [
+            'refund' => [
                 'sn' => $refund->sn,
                 'subject' => $refund->subject,
                 'amount' => $refund->amount,
+                'create_time' => $refund->create_time,
+                'update_time' => $refund->update_time,
             ],
         ];
 
@@ -66,7 +68,7 @@ class RefundFinish extends LogicService
 
         $task->item_id = $refund->id;
         $task->item_info = $itemInfo;
-        $task->item_type = TaskModel::TYPE_NOTICE_ORDER_FINISH;
+        $task->item_type = TaskModel::TYPE_NOTICE_REFUND_FINISH;
         $task->priority = TaskModel::PRIORITY_MIDDLE;
         $task->status = TaskModel::STATUS_PENDING;
 

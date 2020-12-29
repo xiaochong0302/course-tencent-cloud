@@ -2,20 +2,38 @@
 
 namespace App\Services;
 
+use App\Caches\CourseChapterList as CatalogCache;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Services\Logic\Notice\LiveBegin as LiveBeginNotice;
+use Phalcon\Logger\Adapter\File as FileLogger;
 
 class LiveNotify extends Service
 {
+
+    /**
+     * @var FileLogger
+     */
+    protected $logger;
+
+    public function __construct()
+    {
+        $this->logger = $this->getLogger('live');
+    }
 
     public function handle()
     {
         $time = $this->request->getPost('t', 'int');
         $sign = $this->request->getPost('sign', 'string');
         $action = $this->request->getQuery('action', 'string');
+
+        $this->logger->debug('Received Live Notify Data: ' . kg_json_encode([
+                't' => $time,
+                'sign' => $sign,
+                'action' => $action,
+            ]));
 
         if (!$this->checkSign($sign, $time)) {
             return false;
@@ -53,6 +71,8 @@ class LiveNotify extends Service
 
         $chapter = $this->getChapter($streamId);
 
+        $this->logger->debug("Chapter:{$chapter->id} Stream Begin");
+
         if (!$chapter) return false;
 
         $attrs = $chapter->attrs;
@@ -64,6 +84,8 @@ class LiveNotify extends Service
         $chapterLive = $this->getChapterLive($chapter->id);
 
         $chapterLive->update(['status' => ChapterLiveModel::STATUS_ACTIVE]);
+
+        $this->rebuildCatalogCache($chapter);
 
         $this->handleStreamBeginNotice($chapter);
 
@@ -79,6 +101,8 @@ class LiveNotify extends Service
 
         $chapter = $this->getChapter($streamId);
 
+        $this->logger->info("Chapter:{$chapter->id} Stream End");
+
         if (!$chapter) return false;
 
         $attrs = $chapter->attrs;
@@ -90,6 +114,8 @@ class LiveNotify extends Service
         $chapterLive = $this->getChapterLive($chapter->id);
 
         $chapterLive->update(['status' => ChapterLiveModel::STATUS_INACTIVE]);
+
+        $this->rebuildCatalogCache($chapter);
 
         return true;
     }
@@ -120,6 +146,19 @@ class LiveNotify extends Service
 
     protected function handleStreamBeginNotice(ChapterModel $chapter)
     {
+        /**
+         * 防止发送多次通知
+         */
+        $cache = $this->getCache();
+
+        $keyName = "live_notify:{$chapter->id}";
+
+        if ($cache->get($keyName)) {
+            return;
+        }
+
+        $cache->save($keyName, time(), 86400);
+
         $courseUserRepo = new CourseUserRepo();
 
         $courseUsers = $courseUserRepo->findByCourseId($chapter->course_id);
@@ -133,6 +172,13 @@ class LiveNotify extends Service
         foreach ($courseUsers as $courseUser) {
             $notice->createTask($chapter, $courseUser);
         }
+    }
+
+    protected function rebuildCatalogCache(ChapterModel $chapter)
+    {
+        $cache = new CatalogCache();
+
+        $cache->rebuild($chapter->course_id);
     }
 
     protected function getChapter($streamName)

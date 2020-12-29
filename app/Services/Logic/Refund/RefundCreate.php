@@ -66,7 +66,11 @@ class RefundCreate extends Service
          * 设定延迟，给取消退款一个调解机会
          */
         $itemInfo = [
-            'refund' => $refund->toArray(),
+            'refund' => [
+                'id' => $refund->id,
+                'order_id' => $refund->order_id,
+                'trade_id' => $refund->trade_id,
+            ],
             'deadline' => time() + 3600 * 24 * 2,
         ];
 
