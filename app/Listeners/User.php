@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Library\Utils\Lock as LockUtil;
 use App\Models\Online as OnlineModel;
 use App\Models\User as UserModel;
 use App\Repos\Online as OnlineRepo;
@@ -15,7 +16,13 @@ class User extends Listener
 
     public function online(Event $event, $source, UserModel $user)
     {
+        $itemId = "user:{$user->id}";
+
+        $lockId = LockUtil::addLock($itemId);
+
         $now = time();
+        $clientType = $this->getClientType();
+        $clientIp = $this->getClientIp();
 
         if ($now - $user->active_time > 600) {
 
@@ -25,28 +32,46 @@ class User extends Listener
 
             $onlineRepo = new OnlineRepo();
 
-            $online = $onlineRepo->findByUserDate($user->id, date('Y-m-d'));
+            $records = $onlineRepo->findByUserDate($user->id, date('Y-m-d'));
 
-            if ($online) {
+            if ($records->count() > 0) {
 
-                $online->active_time = $now;
-                $online->client_type = $this->getClientType();
-                $online->client_ip = $this->getClientIp();
+                $online = null;
 
-                $online->update();
+                foreach ($records as $record) {
+                    if ($record->client_type == $clientType && $record->client_ip == $clientIp) {
+                        $online = $record;
+                        break;
+                    }
+                }
+
+                if ($online) {
+                    $online->active_time = $now;
+                    $online->update();
+                } else {
+                    $this->createOnline($user->id, $clientType, $clientIp);
+                }
 
             } else {
-
-                $online = new OnlineModel();
-
-                $online->user_id = $user->id;
-                $online->active_time = $now;
-                $online->client_type = $this->getClientType();
-                $online->client_ip = $this->getClientIp();
-
-                $online->create();
+                $this->createOnline($user->id, $clientType, $clientIp);
             }
         }
+
+        LockUtil::releaseLock($itemId, $lockId);
+    }
+
+    protected function createOnline($userId, $clientType, $clientIp)
+    {
+        $online = new OnlineModel();
+
+        $online->user_id = $userId;
+        $online->client_type = $clientType;
+        $online->client_ip = $clientIp;
+        $online->active_time = time();
+
+        $online->create();
+
+        return $online;
     }
 
 }
