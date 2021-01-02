@@ -24,7 +24,7 @@
     "overtrue/wechat": "^4.2"
   },
   "require-dev": {
-    "odan/phinx-migrations-generator": "^5.1",
+    "odan/phinx-migrations-generator": "^5.3",
     "phalcon/ide-stubs": "^3.4"
   },
   "repositories": {
