@@ -23,13 +23,14 @@ class Annotation extends Provider
             if ($config->get('env') == ENV_DEV) {
                 $annotations = new MemoryAnnotations();
             } else {
+                $statsKey = '_ANNOTATION_';
                 $annotations = new RedisAnnotations([
                     'host' => $config->path('redis.host'),
                     'port' => $config->path('redis.port'),
                     'auth' => $config->path('redis.auth'),
-                    'index' => $config->path('annotation.db'),
-                    'lifetime' => $config->path('annotation.lifetime'),
-                    'statsKey' => $config->path('annotation.statsKey'),
+                    'lifetime' => $config->path('annotation.lifetime') ?: 30 * 86400,
+                    'prefix' => $statsKey . ':',
+                    'statsKey' => $statsKey,
                 ]);
             }
 

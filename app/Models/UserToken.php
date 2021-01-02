@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class Online extends Model
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
+class UserToken extends Model
 {
 
     /**
@@ -20,25 +22,32 @@ class Online extends Model
     public $user_id;
 
     /**
-     * 客户端类型
+     * 令牌
+     *
+     * @var string
+     */
+    public $token;
+
+    /**
+     * 终端类型
      *
      * @var int
      */
     public $client_type;
 
     /**
-     * 客户端IP
+     * 终端IP
      *
      * @var string
      */
     public $client_ip;
 
     /**
-     * 活跃时间
+     * 删除标识
      *
      * @var int
      */
-    public $active_time;
+    public $deleted;
 
     /**
      * 创建时间
@@ -56,7 +65,19 @@ class Online extends Model
 
     public function getSource(): string
     {
-        return 'kg_online';
+        return 'kg_user_token';
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->addBehavior(
+            new SoftDelete([
+                'field' => 'deleted',
+                'value' => 1,
+            ])
+        );
     }
 
     public function beforeCreate()
