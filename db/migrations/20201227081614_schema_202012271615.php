@@ -12,6 +12,7 @@ class Schema202012271615 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '推荐标识',
                 'after' => 'attrs',
             ])

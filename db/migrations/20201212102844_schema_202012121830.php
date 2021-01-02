@@ -4,6 +4,7 @@ use Phinx\Db\Adapter\MysqlAdapter;
 
 class Schema202012121830 extends Phinx\Migration\AbstractMigration
 {
+
     public function change()
     {
         $this->table('kg_consult')
@@ -11,6 +12,7 @@ class Schema202012121830 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '回复者编号',
                 'after' => 'owner_id',
             ])
@@ -19,7 +21,7 @@ class Schema202012121830 extends Phinx\Migration\AbstractMigration
             ->addColumn('union_id', 'string', [
                 'null' => false,
                 'default' => '',
-                'limit' => 50,
+                'limit' => 64,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
                 'comment' => 'union_id',
@@ -46,6 +48,7 @@ class Schema202012121830 extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -53,13 +56,14 @@ class Schema202012121830 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'id',
             ])
             ->addColumn('open_id', 'string', [
                 'null' => false,
                 'default' => '',
-                'limit' => 50,
+                'limit' => 64,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
                 'comment' => '开放ID',
@@ -69,6 +73,7 @@ class Schema202012121830 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'open_id',
             ])
@@ -76,6 +81,7 @@ class Schema202012121830 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -83,6 +89,7 @@ class Schema202012121830 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -96,4 +103,5 @@ class Schema202012121830 extends Phinx\Migration\AbstractMigration
             ])
             ->create();
     }
+
 }

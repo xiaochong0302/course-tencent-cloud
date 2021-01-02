@@ -19,6 +19,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -26,6 +27,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'id',
             ])
@@ -42,6 +44,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '终端类型',
                 'after' => 'session_id',
             ])
@@ -58,6 +61,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'client_ip',
             ])
@@ -65,6 +69,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -72,6 +77,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -92,6 +98,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -99,6 +106,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'id',
             ])
@@ -115,6 +123,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '终端类型',
                 'after' => 'token',
             ])
@@ -131,6 +140,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'client_ip',
             ])
@@ -138,6 +148,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -145,6 +156,7 @@ class Schema202101021220 extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
