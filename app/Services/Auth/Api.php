@@ -17,7 +17,10 @@ class Api extends AuthService
     {
         $token = $this->generateToken($user->id);
 
-        $this->logoutOtherClients($user->id);
+        /**
+         * demo版本不限制多人登录
+         */
+        // $this->logoutOtherClients($user->id);
 
         $this->createUserToken($user->id, $token);
 
