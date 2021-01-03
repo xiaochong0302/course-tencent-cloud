@@ -67,6 +67,10 @@ class Course extends Repository
             }
         }
 
+        if (isset($where['featured'])) {
+            $builder->andWhere('featured = :featured:', ['featured' => $where['featured']]);
+        }
+
         if (isset($where['published'])) {
             $builder->andWhere('published = :published:', ['published' => $where['published']]);
         }
@@ -77,6 +81,8 @@ class Course extends Repository
 
         if ($sort == 'free') {
             $builder->andWhere('market_price = 0');
+        } elseif ($sort == 'featured') {
+            $builder->andWhere('featured = 1');
         } elseif ($sort == 'vip_discount') {
             $builder->andWhere('vip_price < market_price');
             $builder->andWhere('vip_price > 0');

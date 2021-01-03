@@ -31,6 +31,13 @@
     </div>
 
     <div class="index-wrap wrap">
+        <div class="header">推荐课程</div>
+        <div class="content">
+            {{ show_courses(featured_courses) }}
+        </div>
+    </div>
+
+    <div class="index-wrap wrap">
         <div class="header">新上课程</div>
         <div class="content">
             {{ show_courses(new_courses) }}

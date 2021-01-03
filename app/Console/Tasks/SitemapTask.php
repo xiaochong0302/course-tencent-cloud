@@ -31,7 +31,7 @@ class SitemapTask extends Task
 
         $this->sitemap = new Sitemap();
 
-        $filename = public_path('sitemap.xml');
+        $filename = tmp_path('sitemap.xml');
 
         $this->addIndex();
         $this->addCourses();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Api\Controllers;
 
+use App\Caches\IndexSimpleFeaturedCourseList;
 use App\Caches\IndexSimpleFreeCourseList;
 use App\Caches\IndexSimpleNewCourseList;
 use App\Caches\IndexSimpleVipCourseList;
@@ -23,6 +24,18 @@ class IndexController extends Controller
         $slides = $cache->get();
 
         return $this->jsonSuccess(['slides' => $slides]);
+    }
+
+    /**
+     * @Get("/courses/featured", name="api.index.featured_courses")
+     */
+    public function featuredCoursesAction()
+    {
+        $cache = new IndexSimpleFeaturedCourseList();
+
+        $courses = $cache->get();
+
+        return $this->jsonSuccess(['courses' => $courses]);
     }
 
     /**

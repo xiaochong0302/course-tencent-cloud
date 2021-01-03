@@ -4,6 +4,7 @@ use Phinx\Db\Adapter\MysqlAdapter;
 
 class CreateOnlineTable extends Phinx\Migration\AbstractMigration
 {
+
     public function change()
     {
         $this->table('kg_online', [
@@ -18,6 +19,7 @@ class CreateOnlineTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -25,6 +27,7 @@ class CreateOnlineTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'id',
             ])
@@ -32,6 +35,7 @@ class CreateOnlineTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '终端类型',
                 'after' => 'user_id',
             ])
@@ -48,6 +52,7 @@ class CreateOnlineTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '活跃时间',
                 'after' => 'client_ip',
             ])
@@ -55,6 +60,7 @@ class CreateOnlineTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'active_time',
             ])
@@ -62,6 +68,7 @@ class CreateOnlineTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -90,7 +97,7 @@ class CreateOnlineTable extends Phinx\Migration\AbstractMigration
             'engine' => 'InnoDB',
             'encoding' => 'utf8mb4',
             'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
+            'comment' => '主键编号',
             'row_format' => 'DYNAMIC',
         ])
             ->changeColumn('channel_sn', 'string', [
@@ -104,4 +111,5 @@ class CreateOnlineTable extends Phinx\Migration\AbstractMigration
             ])
             ->save();
     }
+
 }

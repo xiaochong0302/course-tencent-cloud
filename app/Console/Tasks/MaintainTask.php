@@ -2,14 +2,9 @@
 
 namespace App\Console\Tasks;
 
-use App\Caches\IndexFreeCourseList as IndexFreeCourseListCache;
-use App\Caches\IndexNewCourseList as IndexNewCourseListCache;
-use App\Caches\IndexSimpleFreeCourseList as IndexSimpleFreeCourseListCache;
-use App\Caches\IndexSimpleNewCourseList as IndexSimpleNewCourseListCache;
-use App\Caches\IndexSimpleVipCourseList as IndexSimpleVipCourseListCache;
-use App\Caches\IndexVipCourseList as IndexVipCourseListCache;
 use App\Http\Admin\Services\Setting as SettingService;
 use App\Library\Utils\Password as PasswordUtil;
+use App\Services\Utils\IndexCourseCache as IndexCourseCacheUtil;
 use App\Validators\Account as AccountValidator;
 
 class MaintainTask extends Task
@@ -25,39 +20,9 @@ class MaintainTask extends Task
     {
         $section = $params[0] ?? null;
 
-        $site = $this->getSettings('site');
+        $util = new IndexCourseCacheUtil();
 
-        $type = $site['index_tpl_type'] ?: 'full';
-
-        if (!$section || $section == 'new_course') {
-            if ($type == 'full') {
-                $cache = new IndexNewCourseListCache();
-                $cache->rebuild();
-            } else {
-                $cache = new IndexSimpleNewCourseListCache();
-                $cache->rebuild();
-            }
-        }
-
-        if (!$section || $section == 'free_course') {
-            if ($type == 'full') {
-                $cache = new IndexFreeCourseListCache();
-                $cache->rebuild();
-            } else {
-                $cache = new IndexSimpleFreeCourseListCache();
-                $cache->rebuild();
-            }
-        }
-
-        if (!$section || $section == 'vip_course') {
-            if ($type == 'full') {
-                $cache = new IndexVipCourseListCache();
-                $cache->rebuild();
-            } else {
-                $cache = new IndexSimpleVipCourseListCache();
-                $cache->rebuild();
-            }
-        }
+        $util->rebuild($section);
 
         echo 'rebuild index course cache success' . PHP_EOL;
     }

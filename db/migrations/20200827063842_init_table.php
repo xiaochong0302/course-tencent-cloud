@@ -4,6 +4,7 @@ use Phinx\Db\Adapter\MysqlAdapter;
 
 class InitTable extends Phinx\Migration\AbstractMigration
 {
+
     public function change()
     {
         $this->table('kg_account', [
@@ -18,6 +19,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -61,6 +63,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'salt',
             ])
@@ -68,6 +71,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -75,6 +79,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -99,6 +104,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键',
             ])
@@ -106,6 +112,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '3',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '类型',
                 'after' => 'id',
             ])
@@ -140,6 +147,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -147,6 +155,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'id',
             ])
@@ -198,6 +207,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'req_data',
             ])
@@ -218,6 +228,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -225,6 +236,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '父级编号',
                 'after' => 'id',
             ])
@@ -232,6 +244,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '层级',
                 'after' => 'parent_id',
             ])
@@ -239,6 +252,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '类型',
                 'after' => 'level',
             ])
@@ -264,6 +278,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '30',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '优先级',
                 'after' => 'path',
             ])
@@ -271,6 +286,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'priority',
             ])
@@ -278,6 +294,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -285,6 +302,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '节点数',
                 'after' => 'deleted',
             ])
@@ -292,6 +310,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'child_count',
             ])
@@ -299,6 +318,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -315,6 +335,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -322,6 +343,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '父级编号',
                 'after' => 'id',
             ])
@@ -329,6 +351,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'parent_id',
             ])
@@ -354,6 +377,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '30',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '优先级',
                 'after' => 'summary',
             ])
@@ -361,6 +385,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '免费标识',
                 'after' => 'priority',
             ])
@@ -368,6 +393,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '模式类型',
                 'after' => 'free',
             ])
@@ -384,6 +410,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'attrs',
             ])
@@ -391,6 +418,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -398,6 +426,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课时数',
                 'after' => 'deleted',
             ])
@@ -405,6 +434,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '学员数',
                 'after' => 'lesson_count',
             ])
@@ -412,6 +442,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '咨询数',
                 'after' => 'user_count',
             ])
@@ -419,6 +450,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '点赞数',
                 'after' => 'consult_count',
             ])
@@ -426,6 +458,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'like_count',
             ])
@@ -433,6 +466,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -457,6 +491,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -464,6 +499,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -471,6 +507,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '标签编号',
                 'after' => 'chapter_id',
             ])
@@ -478,6 +515,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'user_id',
             ])
@@ -485,6 +523,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -492,6 +531,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -512,6 +552,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -519,6 +560,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -526,6 +568,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '章节编号',
                 'after' => 'course_id',
             ])
@@ -533,6 +576,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '开始时间',
                 'after' => 'chapter_id',
             ])
@@ -540,6 +584,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '结束时间',
                 'after' => 'start_time',
             ])
@@ -547,6 +592,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '100',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户限额',
                 'after' => 'end_time',
             ])
@@ -554,6 +600,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '2',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '状态标识',
                 'after' => 'user_limit',
             ])
@@ -561,6 +608,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'status',
             ])
@@ -568,6 +616,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -592,6 +641,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -599,6 +649,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -606,6 +657,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '章节编号',
                 'after' => 'course_id',
             ])
@@ -621,6 +673,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'content',
             ])
@@ -628,6 +681,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -652,6 +706,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -659,6 +714,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -666,6 +722,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '章节编号',
                 'after' => 'course_id',
             ])
@@ -673,6 +730,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '上传编号',
                 'after' => 'chapter_id',
             ])
@@ -680,6 +738,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -687,6 +746,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -711,6 +771,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -718,6 +779,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -725,6 +787,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '章节编号',
                 'after' => 'course_id',
             ])
@@ -732,6 +795,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'chapter_id',
             ])
@@ -739,6 +803,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '计划编号',
                 'after' => 'user_id',
             ])
@@ -746,6 +811,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '学习时长',
                 'after' => 'plan_id',
             ])
@@ -753,6 +819,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '播放位置',
                 'after' => 'duration',
             ])
@@ -760,6 +827,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '学习进度',
                 'after' => 'position',
             ])
@@ -767,6 +835,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '消费标识',
                 'after' => 'progress',
             ])
@@ -774,6 +843,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'consumed',
             ])
@@ -781,6 +851,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -788,6 +859,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -812,6 +884,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -819,6 +892,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -826,6 +900,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '章节编号',
                 'after' => 'course_id',
             ])
@@ -851,6 +926,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'file_transcode',
             ])
@@ -858,6 +934,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -886,6 +963,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -893,6 +971,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -900,6 +979,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '章节编号',
                 'after' => 'course_id',
             ])
@@ -907,6 +987,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'chapter_id',
             ])
@@ -932,6 +1013,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '评分',
                 'after' => 'answer',
             ])
@@ -939,6 +1021,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '优先级',
                 'after' => 'rating',
             ])
@@ -946,6 +1029,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '私密标识',
                 'after' => 'priority',
             ])
@@ -953,6 +1037,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'private',
             ])
@@ -960,6 +1045,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -967,6 +1053,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '点赞数',
                 'after' => 'deleted',
             ])
@@ -974,6 +1061,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '回复时间',
                 'after' => 'like_count',
             ])
@@ -981,6 +1069,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'reply_time',
             ])
@@ -988,6 +1077,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -1016,6 +1106,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1023,6 +1114,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '咨询编号',
                 'after' => 'id',
             ])
@@ -1030,6 +1122,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'consult_id',
             ])
@@ -1037,6 +1130,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'user_id',
             ])
@@ -1044,6 +1138,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -1051,6 +1146,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -1071,6 +1167,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1122,6 +1219,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '分类编号',
                 'after' => 'details',
             ])
@@ -1129,6 +1227,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '讲师编号',
                 'after' => 'category_id',
             ])
@@ -1152,6 +1251,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '12',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '学习期限',
                 'after' => 'vip_price',
             ])
@@ -1159,6 +1259,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '30',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '退款期限',
                 'after' => 'study_expiry',
             ])
@@ -1178,6 +1279,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '模型',
                 'after' => 'score',
             ])
@@ -1185,6 +1287,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '难度',
                 'after' => 'model',
             ])
@@ -1201,6 +1304,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'attrs',
             ])
@@ -1208,6 +1312,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -1215,6 +1320,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '学员数',
                 'after' => 'deleted',
             ])
@@ -1222,6 +1328,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课时数',
                 'after' => 'user_count',
             ])
@@ -1229,6 +1336,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '套餐数',
                 'after' => 'lesson_count',
             ])
@@ -1236,6 +1344,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '评价数',
                 'after' => 'package_count',
             ])
@@ -1243,6 +1352,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '咨询数',
                 'after' => 'review_count',
             ])
@@ -1250,6 +1360,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '收藏数',
                 'after' => 'consult_count',
             ])
@@ -1257,6 +1368,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'favorite_count',
             ])
@@ -1264,6 +1376,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -1280,6 +1393,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1287,6 +1401,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -1294,6 +1409,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '分类编号',
                 'after' => 'course_id',
             ])
@@ -1301,6 +1417,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'category_id',
             ])
@@ -1325,6 +1442,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1332,6 +1450,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -1339,6 +1458,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'course_id',
             ])
@@ -1346,6 +1466,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'user_id',
             ])
@@ -1353,6 +1474,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -1360,6 +1482,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -1384,6 +1507,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1391,6 +1515,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -1398,6 +1523,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '套餐编号',
                 'after' => 'course_id',
             ])
@@ -1405,6 +1531,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'package_id',
             ])
@@ -1429,6 +1556,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('course_id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '主键编号',
             ])
             ->addColumn('rating', 'float', [
@@ -1459,6 +1587,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'rating3',
             ])
@@ -1466,6 +1595,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -1482,6 +1612,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1489,6 +1620,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -1496,6 +1628,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '相关编号',
                 'after' => 'course_id',
             ])
@@ -1503,6 +1636,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'related_id',
             ])
@@ -1523,6 +1657,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1530,6 +1665,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -1537,6 +1673,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '标签编号',
                 'after' => 'course_id',
             ])
@@ -1544,6 +1681,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'topic_id',
             ])
@@ -1568,6 +1706,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1575,6 +1714,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -1582,6 +1722,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'course_id',
             ])
@@ -1589,6 +1730,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '计划编号',
                 'after' => 'user_id',
             ])
@@ -1596,6 +1738,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '角色类型',
                 'after' => 'plan_id',
             ])
@@ -1603,6 +1746,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '来源类型',
                 'after' => 'role_type',
             ])
@@ -1610,6 +1754,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '学习时长',
                 'after' => 'source_type',
             ])
@@ -1617,6 +1762,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '学习进度',
                 'after' => 'duration',
             ])
@@ -1624,6 +1770,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '评价标识',
                 'after' => 'progress',
             ])
@@ -1631,6 +1778,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'reviewed',
             ])
@@ -1638,6 +1786,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '过期时间',
                 'after' => 'deleted',
             ])
@@ -1645,6 +1794,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'expiry_time',
             ])
@@ -1652,6 +1802,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -1680,6 +1831,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1687,6 +1839,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -1694,6 +1847,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '章节编号',
                 'after' => 'course_id',
             ])
@@ -1701,6 +1855,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'chapter_id',
             ])
@@ -1708,6 +1863,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '时间轴',
                 'after' => 'owner_id',
             ])
@@ -1733,6 +1889,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '字号',
                 'after' => 'color',
             ])
@@ -1740,6 +1897,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '位置',
                 'after' => 'size',
             ])
@@ -1747,6 +1905,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'position',
             ])
@@ -1754,6 +1913,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -1761,6 +1921,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -1768,6 +1929,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -1792,6 +1954,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1799,6 +1962,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '分类编号',
                 'after' => 'id',
             ])
@@ -1823,6 +1987,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '10',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '优先级',
                 'after' => 'content',
             ])
@@ -1830,6 +1995,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'priority',
             ])
@@ -1837,6 +2003,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -1844,6 +2011,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -1851,6 +2019,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -1867,6 +2036,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1874,6 +2044,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'id',
             ])
@@ -1890,6 +2061,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '优先级',
                 'after' => 'name',
             ])
@@ -1897,6 +2069,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'priority',
             ])
@@ -1904,6 +2077,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '成员数',
                 'after' => 'deleted',
             ])
@@ -1911,6 +2085,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'user_count',
             ])
@@ -1918,6 +2093,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -1938,6 +2114,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -1945,6 +2122,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'id',
             ])
@@ -1952,6 +2130,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '目标编号',
                 'after' => 'user_id',
             ])
@@ -1959,6 +2138,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '分组编号',
                 'after' => 'friend_id',
             ])
@@ -1966,6 +2146,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '消息数',
                 'after' => 'group_id',
             ])
@@ -1973,6 +2154,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'msg_count',
             ])
@@ -1980,6 +2162,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -2000,6 +2183,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -2007,6 +2191,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '群主编号',
                 'after' => 'id',
             ])
@@ -2014,15 +2199,15 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'owner_id',
             ])
-            ->addColumn('type', 'string', [
+            ->addColumn('type', 'integer', [
                 'null' => false,
-                'default' => 'course',
-                'limit' => 30,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
+                'default' => '1',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '类型',
                 'after' => 'course_id',
             ])
@@ -2057,6 +2242,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'about',
             ])
@@ -2064,6 +2250,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -2071,6 +2258,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '成员数',
                 'after' => 'deleted',
             ])
@@ -2078,6 +2266,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '消息数',
                 'after' => 'user_count',
             ])
@@ -2085,6 +2274,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'msg_count',
             ])
@@ -2092,6 +2282,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -2108,12 +2299,15 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
+                'comment' => '主键编号',
             ])
             ->addColumn('group_id', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '群组编号',
                 'after' => 'id',
             ])
@@ -2121,6 +2315,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'group_id',
             ])
@@ -2128,6 +2323,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '优先级',
                 'after' => 'user_id',
             ])
@@ -2135,6 +2331,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'priority',
             ])
@@ -2142,6 +2339,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -2170,6 +2368,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -2186,6 +2385,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发送方',
                 'after' => 'chat_id',
             ])
@@ -2193,6 +2393,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '接收方',
                 'after' => 'sender_id',
             ])
@@ -2200,6 +2401,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '接收方类型',
                 'after' => 'receiver_id',
             ])
@@ -2216,6 +2418,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '已读标识',
                 'after' => 'content',
             ])
@@ -2223,6 +2426,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'viewed',
             ])
@@ -2230,6 +2434,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -2237,6 +2442,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -2261,6 +2467,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -2268,6 +2475,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发送方',
                 'after' => 'id',
             ])
@@ -2275,6 +2483,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '接收方',
                 'after' => 'sender_id',
             ])
@@ -2282,6 +2491,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '条目类型',
                 'after' => 'receiver_id',
             ])
@@ -2298,6 +2508,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '已读标识',
                 'after' => 'item_info',
             ])
@@ -2305,6 +2516,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'viewed',
             ])
@@ -2312,6 +2524,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -2319,6 +2532,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -2344,6 +2558,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '主键编号',
             ])
             ->addColumn('name', 'string', [
@@ -2395,6 +2610,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'status',
             ])
@@ -2402,6 +2618,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '好友数',
                 'after' => 'deleted',
             ])
@@ -2409,6 +2626,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '群组数',
                 'after' => 'friend_count',
             ])
@@ -2416,6 +2634,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'group_count',
             ])
@@ -2423,6 +2642,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -2439,6 +2659,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -2455,6 +2676,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'request_id',
             ])
@@ -2462,6 +2684,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课时编号',
                 'after' => 'course_id',
             ])
@@ -2469,6 +2692,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'chapter_id',
             ])
@@ -2476,6 +2700,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '计划编号',
                 'after' => 'user_id',
             ])
@@ -2483,6 +2708,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '学习时长',
                 'after' => 'plan_id',
             ])
@@ -2490,6 +2716,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '播放位置',
                 'after' => 'duration',
             ])
@@ -2497,6 +2724,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'position',
             ])
@@ -2504,6 +2732,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '终端类型',
                 'after' => 'deleted',
             ])
@@ -2520,6 +2749,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '活跃时间',
                 'after' => 'client_ip',
             ])
@@ -2527,6 +2757,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'active_time',
             ])
@@ -2534,6 +2765,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -2558,6 +2790,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -2565,6 +2798,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '父级编号',
                 'after' => 'id',
             ])
@@ -2572,6 +2806,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '层级',
                 'after' => 'parent_id',
             ])
@@ -2615,6 +2850,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '位置',
                 'after' => 'url',
             ])
@@ -2622,6 +2858,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '30',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '优先级',
                 'after' => 'position',
             ])
@@ -2629,6 +2866,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'priority',
             ])
@@ -2636,6 +2874,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -2643,6 +2882,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '子类数量',
                 'after' => 'deleted',
             ])
@@ -2650,6 +2890,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'child_count',
             ])
@@ -2657,6 +2898,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -2673,6 +2915,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -2706,6 +2949,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'amount',
             ])
@@ -2713,6 +2957,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '条目编号',
                 'after' => 'owner_id',
             ])
@@ -2720,6 +2965,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '条目类型',
                 'after' => 'item_id',
             ])
@@ -2736,6 +2982,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '终端类型',
                 'after' => 'item_info',
             ])
@@ -2752,6 +2999,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '状态标识',
                 'after' => 'client_ip',
             ])
@@ -2759,6 +3007,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'status',
             ])
@@ -2766,6 +3015,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -2773,6 +3023,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -2801,6 +3052,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -2808,6 +3060,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '订单编号',
                 'after' => 'id',
             ])
@@ -2815,6 +3068,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '订单状态',
                 'after' => 'order_id',
             ])
@@ -2822,6 +3076,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'status',
             ])
@@ -2842,6 +3097,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -2883,6 +3139,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程数量',
                 'after' => 'vip_price',
             ])
@@ -2890,6 +3147,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'course_count',
             ])
@@ -2897,6 +3155,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -2904,6 +3163,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -2911,6 +3171,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -2927,6 +3188,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -2951,6 +3213,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'content',
             ])
@@ -2958,6 +3221,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -2965,6 +3229,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -2972,6 +3237,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -2988,6 +3254,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -2995,6 +3262,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'id',
             ])
@@ -3002,6 +3270,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '订单编号',
                 'after' => 'owner_id',
             ])
@@ -3009,6 +3278,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '交易编号',
                 'after' => 'order_id',
             ])
@@ -3042,6 +3312,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '状态类型',
                 'after' => 'amount',
             ])
@@ -3049,6 +3320,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'status',
             ])
@@ -3074,6 +3346,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'review_note',
             ])
@@ -3081,6 +3354,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -3113,6 +3387,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -3120,6 +3395,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '订单编号',
                 'after' => 'id',
             ])
@@ -3127,6 +3403,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '订单状态',
                 'after' => 'refund_id',
             ])
@@ -3134,6 +3411,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'status',
             ])
@@ -3154,6 +3432,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -3161,6 +3440,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程编号',
                 'after' => 'id',
             ])
@@ -3168,6 +3448,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'course_id',
             ])
@@ -3217,6 +3498,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '匿名标识',
                 'after' => 'rating3',
             ])
@@ -3224,6 +3506,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'anonymous',
             ])
@@ -3231,6 +3514,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -3238,6 +3522,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '点赞数',
                 'after' => 'deleted',
             ])
@@ -3245,6 +3530,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'like_count',
             ])
@@ -3252,6 +3538,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -3276,6 +3563,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -3283,6 +3571,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '评价编号',
                 'after' => 'id',
             ])
@@ -3290,6 +3579,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'review_id',
             ])
@@ -3297,6 +3587,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'user_id',
             ])
@@ -3304,6 +3595,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -3311,6 +3603,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -3354,6 +3647,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'price',
             ])
@@ -3361,6 +3655,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -3368,6 +3663,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -3384,6 +3680,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -3391,6 +3688,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '2',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '类型',
                 'after' => 'id',
             ])
@@ -3424,6 +3722,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'routes',
             ])
@@ -3431,6 +3730,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '成员数量',
                 'after' => 'deleted',
             ])
@@ -3438,6 +3738,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'user_count',
             ])
@@ -3445,6 +3746,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -3461,6 +3763,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -3507,6 +3810,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -3550,6 +3854,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '平台类型',
                 'after' => 'content',
             ])
@@ -3557,6 +3862,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '目标类型',
                 'after' => 'platform',
             ])
@@ -3564,6 +3870,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '10',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '优先级',
                 'after' => 'target',
             ])
@@ -3571,6 +3878,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布状态',
                 'after' => 'priority',
             ])
@@ -3578,6 +3886,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -3585,6 +3894,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -3592,6 +3902,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -3608,12 +3919,15 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
+                'comment' => '主键编号',
             ])
             ->addColumn('item_id', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '条目编号',
                 'after' => 'id',
             ])
@@ -3621,6 +3935,8 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '条目类型',
                 'after' => 'item_id',
             ])
             ->addColumn('item_info', 'string', [
@@ -3629,36 +3945,47 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'limit' => 3000,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
+                'comment' => '条目内容',
                 'after' => 'item_type',
             ])
             ->addColumn('status', 'integer', [
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '状态',
                 'after' => 'item_info',
             ])
             ->addColumn('priority', 'integer', [
                 'null' => false,
                 'default' => '30',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '优先级',
                 'after' => 'status',
             ])
             ->addColumn('try_count', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '重试数',
                 'after' => 'priority',
             ])
             ->addColumn('create_time', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '创建时间',
                 'after' => 'try_count',
             ])
             ->addColumn('update_time', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '更新时间',
                 'after' => 'create_time',
             ])
             ->create();
@@ -3674,6 +4001,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -3708,6 +4036,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程数量',
                 'after' => 'summary',
             ])
@@ -3715,6 +4044,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'course_count',
             ])
@@ -3722,6 +4052,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'published',
             ])
@@ -3729,6 +4060,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -3736,6 +4068,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -3752,6 +4085,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -3759,6 +4093,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '用户编号',
                 'after' => 'id',
             ])
@@ -3766,6 +4101,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '订单编号',
                 'after' => 'owner_id',
             ])
@@ -3799,6 +4135,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '平台类型',
                 'after' => 'amount',
             ])
@@ -3815,6 +4152,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '状态类型',
                 'after' => 'channel_sn',
             ])
@@ -3822,6 +4160,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'status',
             ])
@@ -3829,6 +4168,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -3836,6 +4176,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -3864,6 +4205,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -3871,6 +4213,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '订单编号',
                 'after' => 'id',
             ])
@@ -3878,6 +4221,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '订单状态',
                 'after' => 'trade_id',
             ])
@@ -3885,6 +4229,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'status',
             ])
@@ -3905,6 +4250,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -3912,6 +4258,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '条目类型',
                 'after' => 'id',
             ])
@@ -3955,6 +4302,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '大小',
                 'after' => 'md5',
             ])
@@ -3962,6 +4310,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'size',
             ])
@@ -3969,6 +4318,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -3976,6 +4326,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -3997,6 +4348,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '主键编号',
             ])
             ->addColumn('name', 'string', [
@@ -4048,6 +4400,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '3',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '性别',
                 'after' => 'area',
             ])
@@ -4055,6 +4408,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '会员标识',
                 'after' => 'gender',
             ])
@@ -4062,6 +4416,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '锁定标识',
                 'after' => 'vip',
             ])
@@ -4069,6 +4424,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'locked',
             ])
@@ -4076,6 +4432,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '1',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '教学角色',
                 'after' => 'deleted',
             ])
@@ -4083,6 +4440,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '后台角色',
                 'after' => 'edu_role',
             ])
@@ -4090,6 +4448,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '课程数',
                 'after' => 'admin_role',
             ])
@@ -4097,6 +4456,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '收藏数',
                 'after' => 'course_count',
             ])
@@ -4104,6 +4464,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '会员期限',
                 'after' => 'favorite_count',
             ])
@@ -4111,6 +4472,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '锁定期限',
                 'after' => 'vip_expiry_time',
             ])
@@ -4118,6 +4480,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '活跃时间',
                 'after' => 'lock_expiry_time',
             ])
@@ -4125,6 +4488,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'active_time',
             ])
@@ -4132,6 +4496,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
@@ -4152,6 +4517,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
@@ -4168,6 +4534,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '有效期',
                 'after' => 'title',
             ])
@@ -4183,6 +4550,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'price',
             ])
@@ -4190,6 +4558,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '创建时间',
                 'after' => 'deleted',
             ])
@@ -4197,9 +4566,11 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
             ])
             ->create();
     }
+
 }

@@ -3,7 +3,8 @@
 namespace App\Repos;
 
 use App\Models\Online as OnlineModel;
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Online extends Repository
 {
@@ -11,20 +12,18 @@ class Online extends Repository
     /**
      * @param int $userId
      * @param string $activeDate
-     * @return OnlineModel|Model|bool
+     * @return ResultsetInterface|Resultset|OnlineModel[]
      */
     public function findByUserDate($userId, $activeDate)
     {
-        $activeTime = strtotime($activeDate);
+        $startTime = strtotime($activeDate);
 
-        return OnlineModel::findFirst([
-            'conditions' => 'user_id = ?1 AND active_time BETWEEN ?2 AND ?3',
-            'bind' => [
-                1 => $userId,
-                2 => $activeTime,
-                3 => $activeTime + 86400,
-            ],
-        ]);
+        $endTime = $startTime + 86400;
+
+        return OnlineModel::query()
+            ->where('user_id = :user_id:', ['user_id' => $userId])
+            ->betweenWhere('active_time', $startTime, $endTime)
+            ->execute();
     }
 
 }

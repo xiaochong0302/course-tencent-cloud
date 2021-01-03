@@ -27,6 +27,14 @@ trait Client
          */
         $request = Di::getDefault()->get('request');
 
+        $platform = $request->getHeader('X-Platform');
+
+        $types = array_flip(ClientModel::types());
+
+        if (!empty($platform) && isset($types[$platform])) {
+            return $types[$platform];
+        }
+
         $userAgent = $request->getServer('HTTP_USER_AGENT');
 
         $result = new BrowserParser($userAgent);
