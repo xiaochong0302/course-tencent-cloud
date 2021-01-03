@@ -83,69 +83,29 @@ $config['redis']['port'] = 6379;
 $config['redis']['auth'] = '1qaz2wsx3edc';
 
 /**
- * redis库编号
- */
-$config['cache']['db'] = 0;
-
-/**
- * 有效期（秒）
+ * 缓存有效期（秒）
  */
 $config['cache']['lifetime'] = 24 * 3600;
 
 /**
- * redis库编号
- */
-$config['session']['db'] = 1;
-
-/**
- * 有效期（秒）
+ * 会话有效期（秒）
  */
 $config['session']['lifetime'] = 24 * 3600;
 
 /**
- * redis库编号
+ * 令牌有效期（秒）
  */
-$config['metadata']['db'] = 2;
+$config['token']['lifetime'] = 7 * 86400;
 
 /**
- * 有效期（秒）
+ * 元数据有效期（秒）
  */
 $config['metadata']['lifetime'] = 7 * 86400;
 
 /**
- * statsKey
- */
-$config['metadata']['statsKey'] = '_METADATA_';
-
-/**
- * redis库编号
- */
-$config['annotation']['db'] = 2;
-
-/**
- * 有效期（秒）
+ * 注解有效期（秒）
  */
 $config['annotation']['lifetime'] = 7 * 86400;
-
-/**
- * statsKey
- */
-$config['annotation']['statsKey'] = '_ANNOTATION_';
-
-/**
- * 密钥
- */
-$config['jwt']['key'] = 'fu6ckEc8pv8k5K7m';
-
-/**
- * 有效期（秒)
- */
-$config['jwt']['lifetime'] = 7 * 86400;
-
-/**
- * 回旋时间（秒)
- */
-$config['jwt']['leeway'] = 30;
 
 /**
  * 允许跨域

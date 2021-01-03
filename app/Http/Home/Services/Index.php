@@ -2,9 +2,11 @@
 
 namespace App\Http\Home\Services;
 
+use App\Caches\IndexFeaturedCourseList;
 use App\Caches\IndexFreeCourseList;
 use App\Caches\IndexLiveList;
 use App\Caches\IndexNewCourseList;
+use App\Caches\IndexSimpleFeaturedCourseList;
 use App\Caches\IndexSimpleFreeCourseList;
 use App\Caches\IndexSimpleNewCourseList;
 use App\Caches\IndexSimpleVipCourseList;
@@ -61,6 +63,15 @@ class Index extends Service
         return $cache->get();
     }
 
+    public function getFeaturedCourses()
+    {
+        $cache = new IndexFeaturedCourseList();
+
+        $courses = $cache->get();
+
+        return $this->handleCategoryCourses($courses);
+    }
+
     public function getNewCourses()
     {
         $cache = new IndexNewCourseList();
@@ -91,6 +102,13 @@ class Index extends Service
     public function getSimpleNewCourses()
     {
         $cache = new IndexSimpleNewCourseList();
+
+        return $cache->get();
+    }
+
+    public function getSimpleFeaturedCourses()
+    {
+        $cache = new IndexSimpleFeaturedCourseList();
 
         return $cache->get();
     }

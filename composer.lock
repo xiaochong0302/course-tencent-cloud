@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "60ff0e1868be7414a1b31d397ced7fbd",
+  "content-hash": "09a618cffed2c4cfb593c0a791c19b3f",
   "packages": [
     {
       "name": "aferrandini/phpqrcode",
@@ -15,16 +15,16 @@
         "reference": "3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46"
       },
       "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aferrandini/PHPQRCode/zipball/3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46",
-                "reference": "3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+        "type": "zip",
+        "url": "https://api.github.com/repos/aferrandini/PHPQRCode/zipball/3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46",
+        "reference": "3c1c0454d43710ab5bbe19a51ad4cb41c22e3d46",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
       },
       "require": {
         "php": ">=5.3.0"
@@ -46,16 +46,16 @@
           "homepage": "http://www.ferrandini.com/",
           "role": "Developer"
         }
-            ],
-            "description": "PHPQRCode porting and changed for PHP 5.3 compatibility",
-            "homepage": "https://github.com/aferrandini/PHPQRCode",
-            "keywords": [
-                "barcode",
-                "php",
-                "qrcode"
-            ],
-            "abandoned": "endroid/qr-code",
-            "time": "2013-07-08T09:39:08+00:00"
+      ],
+      "description": "PHPQRCode porting and changed for PHP 5.3 compatibility",
+      "homepage": "https://github.com/aferrandini/PHPQRCode",
+      "keywords": [
+        "barcode",
+        "php",
+        "qrcode"
+      ],
+      "abandoned": "endroid/qr-code",
+      "time": "2013-07-08T09:39:08+00:00"
         },
         {
             "name": "cakephp/core",
@@ -334,16 +334,16 @@
                     "email": "guilhermeblanco@gmail.com"
                 },
                 {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
+                  "name": "Roman Borschel",
+                  "email": "roman@code-factory.org"
                 },
-                {
-                    "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com"
-                }
+              {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+              }
             ],
-            "description": "PHP Doctrine Lexer parser library that can be used in Top-Down, Recursive Descent Parsers.",
-            "homepage": "https://www.doctrine-project.org/projects/lexer.html",
+          "description": "PHP Doctrine Lexer parser library that can be used in Top-Down, Recursive Descent Parsers.",
+          "homepage": "https://www.doctrine-project.org/projects/lexer.html",
           "keywords": [
             "annotations",
             "docblock",
@@ -418,16 +418,16 @@
       "dist": {
         "type": "zip",
         "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/92dd169c32f6f55ba570c309d83f5209cefb5e23",
-                "reference": "92dd169c32f6f55ba570c309d83f5209cefb5e23",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
+        "reference": "92dd169c32f6f55ba570c309d83f5209cefb5e23",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
+      "require": {
                 "doctrine/lexer": "^1.0.1",
                 "php": ">= 5.5"
             },
@@ -1066,16 +1066,16 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Dowling",
-                    "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
-                }
-            ],
+          "license": [
+            "MIT"
+          ],
+          "authors": [
+            {
+              "name": "Michael Dowling",
+              "email": "mtdowling@gmail.com",
+              "homepage": "https://github.com/mtdowling"
+            }
+          ],
           "description": "CRON for PHP: Calculate the next or previous run date and determine if a CRON expression is due",
           "keywords": [
             "cron",
@@ -1242,16 +1242,16 @@
       "dist": {
         "type": "zip",
         "url": "https://api.github.com/repos/paragonie/random_compat/zipball/84b4dfb120c6f9b4ff7b3685f9b8f1aa365a0c95",
-                "reference": "84b4dfb120c6f9b4ff7b3685f9b8f1aa365a0c95",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
+        "reference": "84b4dfb120c6f9b4ff7b3685f9b8f1aa365a0c95",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
+      "require": {
                 "php": "^7"
             },
             "require-dev": {
@@ -1399,15 +1399,15 @@
                 "BSD-3-Clause"
             ],
             "authors": [
-                {
-                    "name": "Phalcon Team",
-                    "email": "team@phalconphp.com",
-                    "homepage": "https://phalconphp.com/en/team"
-                },
-                {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/phalcon/incubator/graphs/contributors"
-                }
+              {
+                "name": "Phalcon Team",
+                "email": "team@phalconphp.com",
+                "homepage": "https://phalconphp.com/en/team"
+              },
+              {
+                "name": "Contributors",
+                "homepage": "https://github.com/phalcon/incubator/graphs/contributors"
+              }
             ],
           "description": "Adapters, prototypes or functionality that can be potentially incorporated to the C-framework.",
           "homepage": "https://phalconphp.com",
@@ -1488,16 +1488,16 @@
       "dist": {
         "type": "zip",
         "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
-                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
+        "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
+      "require": {
                 "php": ">=5.3.0"
             },
             "type": "library",
@@ -1707,16 +1707,16 @@
                 "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
                 "shasum": "",
                 "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
+                  {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                  }
                 ]
             },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
+          "require": {
+            "php": ">=5.3.0"
+          },
+          "type": "library",
           "extra": {
             "branch-alias": {
               "dev-master": "1.0.x-dev"
@@ -1738,14 +1738,14 @@
             }
           ],
           "description": "Common interfaces for simple caching",
-            "keywords": [
-                "cache",
-                "caching",
-                "psr",
-                "psr-16",
-                "simple-cache"
-            ],
-            "time": "2017-10-23T01:57:42+00:00"
+          "keywords": [
+            "cache",
+            "caching",
+            "psr",
+            "psr-16",
+            "simple-cache"
+          ],
+          "time": "2017-10-23T01:57:42+00:00"
         },
         {
             "name": "qcloud/cos-sdk-v5",
@@ -2026,15 +2026,15 @@
             "license": [
                 "MIT"
             ],
-            "authors": [
-                {
-                    "name": "Chris Corbyn"
-                },
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                }
-            ],
+          "authors": [
+            {
+              "name": "Chris Corbyn"
+            },
+            {
+              "name": "Fabien Potencier",
+              "email": "fabien@symfony.com"
+            }
+          ],
           "description": "Swiftmailer, free feature-rich PHP mailer",
           "homepage": "https://swiftmailer.symfony.com",
           "keywords": [
@@ -2241,16 +2241,16 @@
       "dist": {
         "type": "zip",
         "url": "https://api.github.com/repos/symfony/config/zipball/cf63f0613a6c6918e96db39c07a43b01e19a0773",
-                "reference": "cf63f0613a6c6918e96db39c07a43b01e19a0773",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
+        "reference": "cf63f0613a6c6918e96db39c07a43b01e19a0773",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
+      "require": {
                 "php": ">=7.2.5",
                 "symfony/deprecation-contracts": "^2.1",
                 "symfony/filesystem": "^4.4|^5.0",
@@ -2403,15 +2403,15 @@
                     "type": "custom"
                 },
                 {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
+                  "url": "https://github.com/fabpot",
+                  "type": "github"
                 },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
+              {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+              }
             ],
-            "time": "2020-07-06T13:18:39+00:00"
+          "time": "2020-07-06T13:18:39+00:00"
         },
     {
       "name": "symfony/deprecation-contracts",
@@ -2433,16 +2433,16 @@
           }
         ]
       },
-            "require": {
-                "php": ">=7.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                  "dev-master": "2.2-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
+      "require": {
+        "php": ">=7.1"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "2.2-dev"
+        },
+        "thanks": {
+          "name": "symfony/contracts",
                     "url": "https://github.com/symfony/contracts"
                 }
             },
@@ -2473,16 +2473,16 @@
                     "type": "custom"
                 },
                 {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
+                  "url": "https://github.com/fabpot",
+                  "type": "github"
                 },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
+              {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+              }
             ],
       "time": "2020-09-07T11:33:47+00:00"
-        },
+    },
     {
       "name": "symfony/event-dispatcher",
       "version": "v4.4.17",
@@ -2503,16 +2503,16 @@
           }
         ]
       },
-            "require": {
-              "php": ">=7.1.3",
-              "symfony/event-dispatcher-contracts": "^1.1"
-            },
-            "conflict": {
-                "symfony/dependency-injection": "<3.4"
-            },
-            "provide": {
-                "psr/event-dispatcher-implementation": "1.0",
-                "symfony/event-dispatcher-implementation": "1.1"
+      "require": {
+        "php": ">=7.1.3",
+        "symfony/event-dispatcher-contracts": "^1.1"
+      },
+      "conflict": {
+        "symfony/dependency-injection": "<3.4"
+      },
+      "provide": {
+        "psr/event-dispatcher-implementation": "1.0",
+        "symfony/event-dispatcher-implementation": "1.1"
             },
             "require-dev": {
               "psr/log": "~1.0",
@@ -2541,16 +2541,16 @@
             "license": [
                 "MIT"
             ],
-            "authors": [
-                {
-                  "name": "Fabien Potencier",
-                  "email": "fabien@symfony.com"
-                },
-              {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-              }
-            ],
+      "authors": [
+        {
+          "name": "Fabien Potencier",
+          "email": "fabien@symfony.com"
+        },
+        {
+          "name": "Symfony Community",
+          "homepage": "https://symfony.com/contributors"
+        }
+      ],
       "description": "Symfony EventDispatcher Component",
       "homepage": "https://symfony.com",
       "funding": [
@@ -2589,23 +2589,23 @@
           }
         ]
       },
-            "require": {
-              "php": ">=7.1.3"
-            },
-            "suggest": {
-                "psr/event-dispatcher": "",
-                "symfony/event-dispatcher-implementation": ""
-            },
-            "type": "library",
-            "extra": {
-              "branch-alias": {
-                "dev-master": "1.1-dev"
-              },
-              "thanks": {
-                "name": "symfony/contracts",
-                "url": "https://github.com/symfony/contracts"
-              }
-            },
+      "require": {
+        "php": ">=7.1.3"
+      },
+      "suggest": {
+        "psr/event-dispatcher": "",
+        "symfony/event-dispatcher-implementation": ""
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "1.1-dev"
+        },
+        "thanks": {
+          "name": "symfony/contracts",
+          "url": "https://github.com/symfony/contracts"
+        }
+      },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Contracts\\EventDispatcher\\": ""
@@ -2615,16 +2615,16 @@
             "license": [
                 "MIT"
             ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
+      "authors": [
+        {
+          "name": "Nicolas Grekas",
+          "email": "p@tchwork.com"
+        },
+        {
+          "name": "Symfony Community",
+          "homepage": "https://symfony.com/contributors"
+        }
+      ],
       "description": "Generic abstractions related to dispatching event",
       "homepage": "https://symfony.com",
       "keywords": [
@@ -2651,16 +2651,16 @@
       ],
       "time": "2020-07-06T13:19:58+00:00"
     },
-        {
-            "name": "symfony/filesystem",
-            "version": "v5.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/filesystem.git",
-                "reference": "6e4320f06d5f2cce0d96530162491f4465179157"
-            },
-            "dist": {
-                "type": "zip",
+    {
+      "name": "symfony/filesystem",
+      "version": "v5.1.3",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/symfony/filesystem.git",
+        "reference": "6e4320f06d5f2cce0d96530162491f4465179157"
+      },
+      "dist": {
+        "type": "zip",
                 "url": "https://api.github.com/repos/symfony/filesystem/zipball/6e4320f06d5f2cce0d96530162491f4465179157",
                 "reference": "6e4320f06d5f2cce0d96530162491f4465179157",
                 "shasum": "",
@@ -2711,16 +2711,16 @@
                     "type": "custom"
                 },
                 {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
+                  "url": "https://github.com/fabpot",
+                  "type": "github"
                 },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
+              {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+              }
             ],
-            "time": "2020-05-30T20:35:19+00:00"
-        },
+      "time": "2020-05-30T20:35:19+00:00"
+    },
     {
       "name": "symfony/http-foundation",
       "version": "v5.2.0",
@@ -2741,16 +2741,16 @@
           }
         ]
       },
-            "require": {
-                "php": ">=7.2.5",
-                "symfony/deprecation-contracts": "^2.1",
-                "symfony/polyfill-mbstring": "~1.1",
-                "symfony/polyfill-php80": "^1.15"
-            },
-            "require-dev": {
-                "predis/predis": "~1.0",
-                "symfony/cache": "^4.4|^5.0",
-                "symfony/expression-language": "^4.4|^5.0",
+      "require": {
+        "php": ">=7.2.5",
+        "symfony/deprecation-contracts": "^2.1",
+        "symfony/polyfill-mbstring": "~1.1",
+        "symfony/polyfill-php80": "^1.15"
+      },
+      "require-dev": {
+        "predis/predis": "~1.0",
+        "symfony/cache": "^4.4|^5.0",
+        "symfony/expression-language": "^4.4|^5.0",
                 "symfony/mime": "^4.4|^5.0"
             },
             "suggest": {
@@ -3112,15 +3112,15 @@
                     "type": "custom"
                 },
                 {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
+                  "url": "https://github.com/fabpot",
+                  "type": "github"
                 },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
+              {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+              }
             ],
-            "time": "2020-07-14T12:35:20+00:00"
+          "time": "2020-07-14T12:35:20+00:00"
         },
     {
       "name": "symfony/polyfill-mbstring",
@@ -3142,16 +3142,16 @@
           }
         ]
       },
-            "require": {
-              "php": ">=7.1"
-            },
-            "suggest": {
-                "ext-mbstring": "For best performance"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                  "dev-main": "1.20-dev"
+      "require": {
+        "php": ">=7.1"
+      },
+      "suggest": {
+        "ext-mbstring": "For best performance"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-main": "1.20-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -3439,15 +3439,15 @@
                     "type": "custom"
                 },
                 {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
+                  "url": "https://github.com/fabpot",
+                  "type": "github"
                 },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
+              {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+              }
             ],
-            "time": "2020-07-14T12:35:20+00:00"
+          "time": "2020-07-14T12:35:20+00:00"
         },
     {
       "name": "symfony/polyfill-php80",
@@ -3469,16 +3469,16 @@
           }
         ]
       },
-            "require": {
-              "php": ">=7.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                  "dev-main": "1.20-dev"
-                },
-                "thanks": {
-                    "name": "symfony/polyfill",
+      "require": {
+        "php": ">=7.1"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-main": "1.20-dev"
+        },
+        "thanks": {
+          "name": "symfony/polyfill",
                     "url": "https://github.com/symfony/polyfill"
                 }
             },
@@ -3520,10 +3520,10 @@
                 "shim"
             ],
             "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
+              {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+              },
               {
                 "url": "https://github.com/fabpot",
                 "type": "github"
@@ -3643,17 +3643,17 @@
           }
         ]
       },
-            "require": {
-                "php": ">=7.2.5",
-                "psr/container": "^1.0"
-            },
-            "suggest": {
-                "symfony/service-implementation": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                  "dev-master": "2.2-dev"
+      "require": {
+        "php": ">=7.2.5",
+        "psr/container": "^1.0"
+      },
+      "suggest": {
+        "symfony/service-implementation": ""
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "2.2-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -3690,10 +3690,10 @@
                 "standards"
             ],
             "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
+              {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+              },
               {
                 "url": "https://github.com/fabpot",
                 "type": "github"
@@ -3793,16 +3793,16 @@
         "reference": "a3b3054262e48776e8014d5e385a8932b0102f29"
       },
       "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/a3b3054262e48776e8014d5e385a8932b0102f29",
-                "reference": "a3b3054262e48776e8014d5e385a8932b0102f29",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+        "type": "zip",
+        "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/a3b3054262e48776e8014d5e385a8932b0102f29",
+        "reference": "a3b3054262e48776e8014d5e385a8932b0102f29",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3",
@@ -4192,40 +4192,41 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "odan/phinx-migrations-generator",
-            "version": "5.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/odan/phinx-migrations-generator.git",
-                "reference": "f3cb7cc6bc7eb22e85f34f229b6d476e96d99c73"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/odan/phinx-migrations-generator/zipball/f3cb7cc6bc7eb22e85f34f229b6d476e96d99c73",
-                "reference": "f3cb7cc6bc7eb22e85f34f229b6d476e96d99c73",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
+      {
+        "name": "odan/phinx-migrations-generator",
+        "version": "5.3.2",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/odan/phinx-migrations-generator.git",
+          "reference": "2d3620f8251838b53717f7a43a348de31e9d451c"
+        },
+        "dist": {
+          "type": "zip",
+          "url": "https://api.github.com/repos/odan/phinx-migrations-generator/zipball/2d3620f8251838b53717f7a43a348de31e9d451c",
+          "reference": "2d3620f8251838b53717f7a43a348de31e9d451c",
+          "shasum": "",
+          "mirrors": [
+            {
+              "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+              "preferred": true
+            }
+          ]
+        },
             "require": {
-                "ext-json": "*",
-                "ext-pdo": "*",
-                "php": "^7.2",
-                "riimu/kit-phpencoder": "^2.4",
-                "robmorgan/phinx": "^0.12",
-                "symfony/console": "^2.8 || ^3.0 || ^4.0 || ^5.0"
+              "ext-json": "*",
+              "ext-pdo": "*",
+              "php": "^7.2",
+              "riimu/kit-phpencoder": "^2.4",
+              "robmorgan/phinx": "^0.12",
+              "symfony/console": "^2.8 || ^3.0 || ^4.0 || ^5.0",
+              "symfony/polyfill-php73": "^1.18"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16",
-                "overtrue/phplint": "^1.1",
-                "phpstan/phpstan": "^0.12",
-                "phpunit/phpunit": "^8 || ^9",
-                "squizlabs/php_codesniffer": "^3.4"
+              "friendsofphp/php-cs-fixer": "^2.16",
+              "overtrue/phplint": "^1.1 || ^2.0",
+              "phpstan/phpstan": "^0.12",
+              "phpunit/phpunit": "^8 || ^9",
+              "squizlabs/php_codesniffer": "^3.4"
             },
             "bin": [
                 "./bin/phinx-migrations"
@@ -4240,18 +4241,22 @@
             "license": [
                 "MIT"
             ],
-            "description": "Migration generator for Phinx",
-            "homepage": "https://github.com/odan/phinx-migrations-generator",
-            "keywords": [
-                "database",
-                "generator",
-                "migration",
-                "migrations",
-                "mysql",
-                "phinx"
-            ],
-            "time": "2020-06-15T19:36:35+00:00"
+        "description": "Migration generator for Phinx",
+        "homepage": "https://github.com/odan/phinx-migrations-generator",
+        "keywords": [
+          "database",
+          "generator",
+          "migration",
+          "migrations",
+          "mysql",
+          "phinx"
+        ],
+        "support": {
+          "issues": "https://github.com/odan/phinx-migrations-generator/issues",
+          "source": "https://github.com/odan/phinx-migrations-generator/tree/5.3.2"
         },
+        "time": "2020-12-30T23:59:57+00:00"
+      },
         {
             "name": "phalcon/ide-stubs",
             "version": "v3.4.3",
@@ -4262,15 +4267,15 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/65144f2b0fad32b182ccb062b1efc1b4edea5d44",
-                "reference": "65144f2b0fad32b182ccb062b1efc1b4edea5d44",
-                "shasum": "",
-                "mirrors": [
-                  {
-                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                    "preferred": true
-                  }
-                ]
+              "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/65144f2b0fad32b182ccb062b1efc1b4edea5d44",
+              "reference": "65144f2b0fad32b182ccb062b1efc1b4edea5d44",
+              "shasum": "",
+              "mirrors": [
+                {
+                  "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                  "preferred": true
+                }
+              ]
             },
           "require": {
             "php": ">=5.3.0"
@@ -4287,16 +4292,16 @@
               "homepage": "https://phalconphp.com/en/team"
             },
             {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/phalcon/ide-stubs/graphs/contributors"
-                }
-            ],
-            "description": "The most complete Phalcon Framework IDE stubs library which enables autocompletion in modern IDEs.",
-            "homepage": "https://phalconphp.com",
-            "keywords": [
-                "Devtools",
-                "Eclipse",
-                "autocomplete",
+              "name": "Contributors",
+              "homepage": "https://github.com/phalcon/ide-stubs/graphs/contributors"
+            }
+          ],
+          "description": "The most complete Phalcon Framework IDE stubs library which enables autocompletion in modern IDEs.",
+          "homepage": "https://phalconphp.com",
+          "keywords": [
+            "Devtools",
+            "Eclipse",
+            "autocomplete",
                 "ide",
                 "netbeans",
                 "phalcon",

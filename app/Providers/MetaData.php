@@ -23,13 +23,14 @@ class MetaData extends Provider
             if ($config->get('env') == ENV_DEV) {
                 $metaData = new MemoryMetaData();
             } else {
+                $statsKey = '_METADATA_';
                 $metaData = new RedisMetaData([
                     'host' => $config->path('redis.host'),
                     'port' => $config->path('redis.port'),
                     'auth' => $config->path('redis.auth'),
-                    'index' => $config->path('metadata.db'),
-                    'statsKey' => $config->path('metadata.statsKey'),
-                    'lifetime' => $config->path('metadata.lifetime'),
+                    'lifetime' => $config->path('metadata.lifetime') ?: 30 * 86400,
+                    'prefix' => $statsKey . ':',
+                    'statsKey' => $statsKey,
                 ]);
             }
 

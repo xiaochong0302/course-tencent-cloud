@@ -1,3 +1,18 @@
+### [v1.2.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.3)(2021-01-03)
+
+#### 增加
+
+- 多人使用同一帐号防范机制
+- 首页缓存刷新工具
+- 课程综合评分
+- 课程推荐
+
+#### 修复
+
+- phinx-migration-generator 无符号问题
+- online表并发写入重复记录问题 
+- 计划任务生成sitemap.xml失败
+
 ### [v1.2.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.2)(2020-12-24)
 
 #### 增加

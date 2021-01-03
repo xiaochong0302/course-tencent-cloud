@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Caches\MaxCourseId as MaxCourseIdCache;
 use App\Services\Sync\CourseIndex as CourseIndexSync;
+use App\Services\Sync\CourseScore as CourseScoreSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
@@ -166,6 +167,13 @@ class Course extends Model
     public $attrs;
 
     /**
+     * 推荐标识
+     *
+     * @var int
+     */
+    public $featured;
+
+    /**
      * 发布标识
      *
      * @var int
@@ -302,6 +310,9 @@ class Course extends Model
         if (time() - $this->update_time > 3 * 3600) {
             $sync = new CourseIndexSync();
             $sync->addItem($this->id);
+
+            $sync = new CourseScoreSync();
+            $sync->addItem($this->id);
         }
 
         if (Text::startsWith($this->cover, 'http')) {
@@ -377,6 +388,7 @@ class Course extends Model
             'rating' => '好评',
             'latest' => '最新',
             'popular' => '最热',
+            'featured' => '推荐',
             'free' => '免费',
         ];
     }

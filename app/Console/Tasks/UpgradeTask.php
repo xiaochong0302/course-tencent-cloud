@@ -42,13 +42,9 @@ class UpgradeTask extends Task
      */
     public function resetAnnotationAction()
     {
-        $config = $this->getConfig();
         $redis = $this->getRedis();
 
-        $dbIndex = $config->path('annotation.db');
-        $statsKey = $config->path('annotation.statsKey');
-
-        $redis->select($dbIndex);
+        $statsKey = '_ANNOTATION_';
 
         $keys = $redis->sMembers($statsKey);
 
@@ -70,13 +66,9 @@ class UpgradeTask extends Task
      */
     public function resetMetadataAction()
     {
-        $config = $this->getConfig();
         $redis = $this->getRedis();
 
-        $dbIndex = $config->path('metadata.db');
-        $statsKey = $config->path('metadata.statsKey');
-
-        $redis->select($dbIndex);
+        $statsKey = '_METADATA_';
 
         $keys = $redis->sMembers($statsKey);
 

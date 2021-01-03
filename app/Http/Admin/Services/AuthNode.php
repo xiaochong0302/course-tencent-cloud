@@ -14,6 +14,7 @@ class AuthNode extends Service
         $nodes[] = $this->getFinanceNodes();
         $nodes[] = $this->getUserNodes();
         $nodes[] = $this->getSettingNodes();
+        $nodes[] = $this->getUtilNodes();
 
         return $nodes;
     }
@@ -761,6 +762,29 @@ class AuthNode extends Service
                             'title' => '微信平台',
                             'type' => 'menu',
                             'route' => 'admin.setting.wechat',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    protected function getUtilNodes()
+    {
+        return [
+            'id' => '6',
+            'title' => '实用工具',
+            'children' => [
+                [
+                    'id' => '６-1',
+                    'title' => '常用工具',
+                    'type' => 'menu',
+                    'children' => [
+                        [
+                            'id' => '６-1-1',
+                            'title' => '首页缓存',
+                            'type' => 'menu',
+                            'route' => 'admin.util.index_cache',
                         ],
                     ],
                 ],

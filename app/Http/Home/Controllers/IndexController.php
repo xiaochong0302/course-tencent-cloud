@@ -47,6 +47,7 @@ class IndexController extends Controller
         $this->view->pick('index/full');
         $this->view->setVar('lives', $service->getLives());
         $this->view->setVar('slides', $service->getSlides());
+        $this->view->setVar('featured_courses', $service->getFeaturedCourses());
         $this->view->setVar('new_courses', $service->getNewCourses());
         $this->view->setVar('free_courses', $service->getFreeCourses());
         $this->view->setVar('vip_courses', $service->getVipCourses());
@@ -59,6 +60,7 @@ class IndexController extends Controller
         $this->view->pick('index/simple');
         $this->view->setVar('lives', $service->getLives());
         $this->view->setVar('slides', $service->getSlides());
+        $this->view->setVar('featured_courses', $service->getSimpleFeaturedCourses());
         $this->view->setVar('new_courses', $service->getSimpleNewCourses());
         $this->view->setVar('free_courses', $service->getSimpleFreeCourses());
         $this->view->setVar('vip_courses', $service->getSimpleVipCourses());
