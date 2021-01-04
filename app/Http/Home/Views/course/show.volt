@@ -4,10 +4,11 @@
 
     {{ partial('macros/course') }}
 
-    {% set favorite_title = course.me.favorited ? '取消收藏' : '收藏' %}
+    {% set favorite_title = course.me.favorited ? '取消收藏' : '收藏课程' %}
     {% set favorite_star = course.me.favorited ? 'layui-icon-star-fill' : 'layui-icon-star' %}
     {% set full_course_url = full_url({'for':'home.course.show','id':course.id}) %}
     {% set favorite_url = url({'for':'home.course.favorite','id':course.id}) %}
+    {% set consult_url = url({'for':'home.consult.add'},{'course_id':course.id}) %}
     {% set qrcode_url = url({'for':'home.qrcode'},{'text':full_course_url}) %}
 
     <div class="breadcrumb">
@@ -18,6 +19,9 @@
         </span>
         <span class="share">
             <a href="javascript:" title="{{ favorite_title }}" data-url="{{ favorite_url }}"><i class="layui-icon {{ favorite_star }} icon-star"></i></a>
+            {% if course.market_price > 0 %}
+                <a href="javascript:" title="课程咨询" data-url="{{ consult_url }}"><i class="layui-icon layui-icon-help icon-help"></i></a>
+            {% endif %}
             <a href="javascript:" title="分享到微信" data-url="{{ qrcode_url }}"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
             <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
             <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>

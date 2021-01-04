@@ -30,6 +30,21 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     });
 
     /**
+     * 咨询
+     */
+    $('.icon-help').on('click', function () {
+        var url = $(this).parent().data('url');
+        helper.checkLogin(function () {
+            layer.open({
+                type: 2,
+                title: '课程咨询',
+                content: [url, 'no'],
+                area: ['640px', '300px']
+            });
+        });
+    });
+
+    /**
      * 打赏
      */
     $('.btn-reward').on('click', function () {
