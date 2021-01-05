@@ -32,6 +32,32 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">Logo</label>
+                <div class="kg-input-inline">
+                    <input class="layui-input" type="text" name="logo" placeholder="请确保存储已正确配置" value="{{ site.logo }}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div class="kg-input-inline">
+                    <button class="layui-btn" type="button" id="upload-logo">上传文件</button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">Favicon</label>
+                <div class="kg-input-inline">
+                    <input class="layui-input" type="text" name="favicon" placeholder="请确保存储已正确配置" value="{{ site.favicon }}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div class="kg-input-inline">
+                    <button class="layui-btn" type="button" id="upload-favicon">上传文件</button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">网站名称</label>
             <div class="layui-input-block">
                 <input class="layui-input" type="text" name="title" value="{{ site.title }}">
@@ -120,10 +146,11 @@
 
     <script>
 
-        layui.use(['jquery', 'form', 'layer'], function () {
+        layui.use(['jquery', 'form', 'layer', 'upload'], function () {
 
             var $ = layui.jquery;
             var form = layui.form;
+            var upload = layui.upload;
 
             form.on('radio(status)', function (data) {
                 var block = $('#closed-tips-block');
@@ -140,6 +167,38 @@
                     block.show();
                 } else {
                     block.hide();
+                }
+            });
+
+            upload.render({
+                elem: '#upload-logo',
+                url: '/admin/upload/content/img',
+                exts: 'gif|jpg|png',
+                before: function () {
+                    layer.load();
+                },
+                done: function (res, index, upload) {
+                    $('input[name=logo]').val(res.data.src);
+                    layer.closeAll('loading');
+                },
+                error: function (index, upload) {
+                    layer.msg('上传文件失败', {icon: 2});
+                }
+            });
+
+            upload.render({
+                elem: '#upload-favicon',
+                url: '/admin/upload/content/img',
+                exts: 'gif|jpg|png|ico',
+                before: function () {
+                    layer.load();
+                },
+                done: function (res, index, upload) {
+                    $('input[name=favicon]').val(res.data.src);
+                    layer.closeAll('loading');
+                },
+                error: function (index, upload) {
+                    layer.msg('上传文件失败', {icon: 2});
                 }
             });
 

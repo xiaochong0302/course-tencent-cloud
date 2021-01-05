@@ -8,7 +8,11 @@
     <meta name="description" content="{{ seo.getDescription() }}">
     <meta name="csrf-token" content="{{ csrfToken.getToken() }}">
     <title>{{ seo.getTitle() }}</title>
-    {{ icon_link('favicon.ico') }}
+    {% if site_info.favicon %}
+        {{ icon_link(site_info.favicon,false) }}
+    {% else %}
+        {{ icon_link('favicon.ico') }}
+    {% endif %}
     {{ css_link('lib/layui/css/layui.css') }}
     {{ css_link('home/css/common.css') }}
     {% block link_css %}{% endblock %}
