@@ -57,7 +57,10 @@ class ImNotice extends Repository
      */
     public function findById($id)
     {
-        return ImNoticeModel::findFirst($id);
+        return ImNoticeModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

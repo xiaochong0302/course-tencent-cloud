@@ -66,7 +66,10 @@ class Danmu extends Repository
      */
     public function findById($id)
     {
-        return DanmuModel::findFirst($id);
+        return DanmuModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

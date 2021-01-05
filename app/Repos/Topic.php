@@ -56,7 +56,10 @@ class Topic extends Repository
      */
     public function findById($id)
     {
-        return TopicModel::findFirst($id);
+        return TopicModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

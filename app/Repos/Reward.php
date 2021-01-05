@@ -33,7 +33,10 @@ class Reward extends Repository
      */
     public function findById($id)
     {
-        return RewardModel::findFirst($id);
+        return RewardModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

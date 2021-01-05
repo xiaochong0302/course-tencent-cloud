@@ -16,7 +16,10 @@ class Help extends Repository
      */
     public function findById($id)
     {
-        return HelpModel::findFirst($id);
+        return HelpModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

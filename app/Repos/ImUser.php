@@ -60,7 +60,10 @@ class ImUser extends Repository
      */
     public function findById($id)
     {
-        return ImUserModel::findFirst($id);
+        return ImUserModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

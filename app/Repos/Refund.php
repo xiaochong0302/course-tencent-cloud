@@ -66,7 +66,10 @@ class Refund extends Repository
      */
     public function findById($id)
     {
-        return RefundModel::findFirst($id);
+        return RefundModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

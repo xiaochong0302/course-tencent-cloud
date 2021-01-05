@@ -68,7 +68,10 @@ class Audit extends Repository
      */
     public function findById($id)
     {
-        return AuditModel::findFirst($id);
+        return AuditModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

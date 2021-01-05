@@ -50,7 +50,10 @@ class Chapter extends Repository
      */
     public function findById($id)
     {
-        return ChapterModel::findFirst($id);
+        return ChapterModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**
