@@ -127,8 +127,21 @@
     font-size: 12px;
 }
 
+#header .logo {
+    top: 0;
+    left: 0;
+    position: absolute;
+    line-height: 60px;
+}
+
 .top-nav {
-    margin-left: 100px;
+    margin-left: 185px;
+}
+
+#header .user {
+    top: 0;
+    right: 0;
+    position: absolute;
 }
 
 .layer-search input {
