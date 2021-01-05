@@ -16,7 +16,10 @@ class Resource extends Repository
      */
     public function findById($id)
     {
-        return ResourceModel::findFirst($id);
+        return ResourceModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

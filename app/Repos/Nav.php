@@ -51,7 +51,10 @@ class Nav extends Repository
      */
     public function findById($id)
     {
-        return NavModel::findFirst($id);
+        return NavModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

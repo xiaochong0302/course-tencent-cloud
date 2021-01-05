@@ -60,7 +60,10 @@ class Package extends Repository
      */
     public function findById($id)
     {
-        return PackageModel::findFirst($id);
+        return PackageModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

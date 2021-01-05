@@ -27,7 +27,10 @@ class WechatSubscribe extends Repository
      */
     public function findById($id)
     {
-        return WechatSubscribeModel::findFirst($id);
+        return WechatSubscribeModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

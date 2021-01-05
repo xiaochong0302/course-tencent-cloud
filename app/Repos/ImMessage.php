@@ -65,7 +65,10 @@ class ImMessage extends Repository
      */
     public function findById($id)
     {
-        return ImMessageModel::findFirst($id);
+        return ImMessageModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

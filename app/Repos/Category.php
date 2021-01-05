@@ -51,7 +51,10 @@ class Category extends Repository
      */
     public function findById($id)
     {
-        return CategoryModel::findFirst($id);
+        return CategoryModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

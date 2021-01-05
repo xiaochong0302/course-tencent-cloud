@@ -16,7 +16,10 @@ class Upload extends Repository
      */
     public function findById($id)
     {
-        return UploadModel::findFirst($id);
+        return UploadModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**
