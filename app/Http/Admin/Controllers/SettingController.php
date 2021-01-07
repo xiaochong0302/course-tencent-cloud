@@ -328,9 +328,9 @@ class SettingController extends Controller
     }
 
     /**
-     * @Route("/wechat", name="admin.setting.wechat")
+     * @Route("/wechat/oa", name="admin.setting.wechat_oa")
      */
-    public function wechatAction()
+    public function wechatOaAction()
     {
         $settingService = new SettingService();
 
@@ -340,7 +340,7 @@ class SettingController extends Controller
 
             $data = $this->request->getPost();
 
-            $settingService->updateWechatSettings($section, $data);
+            $settingService->updateWechatOASettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
@@ -348,6 +348,7 @@ class SettingController extends Controller
 
             $oa = $settingService->getWechatOASettings();
 
+            $this->view->pick('setting/wechat_oa');
             $this->view->setVar('oa', $oa);
         }
     }
