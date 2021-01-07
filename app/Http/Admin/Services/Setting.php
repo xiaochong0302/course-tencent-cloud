@@ -5,6 +5,7 @@ namespace App\Http\Admin\Services;
 use App\Caches\Setting as SettingCache;
 use App\Repos\Setting as SettingRepo;
 use App\Repos\Vip as VipRepo;
+use App\Services\Wechat as WechatService;
 
 class Setting extends Service
 {
@@ -62,6 +63,26 @@ class Setting extends Service
         $oa = $this->getSettings('wechat.oa');
 
         $oa['notify_url'] = $oa['notify_url'] ?: kg_full_url(['for' => 'home.wechat.oa.notify']);
+
+        $oa['menu'] = json_decode($oa['menu'], true);
+
+        /**
+         * 构造一个3＊5的二维树形菜单
+         */
+        for ($i = 0; $i < 3; $i++) {
+            if (!isset($oa['menu'][$i])) {
+                $oa['menu'][$i] = ['name' => sprintf('菜单%s', $i + 1)];
+            }
+            for ($j = 0; $j < 5; $j++) {
+                if (!isset($oa['menu'][$i]['children'][$j])) {
+                    $oa['menu'][$i]['children'][$j] = [
+                        'type' => 'view',
+                        'name' => '',
+                        'url' => '',
+                    ];;
+                }
+            }
+        }
 
         return $oa;
     }
@@ -179,15 +200,39 @@ class Setting extends Service
         }
     }
 
-    public function updateWechatSettings($section, $settings)
+    public function updateWechatOASettings($section, $settings)
     {
-        if ($section == 'wechat.oa') {
-            if (isset($settings['notice_template'])) {
-                $settings['notice_template'] = kg_json_encode($settings['notice_template']);
+        if (!empty($settings['notice_template'])) {
+            $settings['notice_template'] = kg_json_encode($settings['notice_template']);
+        }
+
+        $buttons = [];
+
+        if (!empty($settings['menu'])) {
+            foreach ($settings['menu'] as $i => $top) {
+                $buttons[$i]['name'] = !empty($top['name']) ? $top['name'] : sprintf('菜单%s', $i + 1);
+                if (!empty($top['url'])) {
+                    $buttons[$i]['url'] = $top['url'];
+                    $buttons[$i]['type'] = 'view';
+                }
+                foreach ($top['children'] as $j => $sub) {
+                    if (!empty($sub['name']) && !empty($sub['url'])) {
+                        $buttons[$i]['sub_button'][$j]['name'] = $sub['name'];
+                        $buttons[$i]['sub_button'][$j]['url'] = $sub['url'];
+                        $buttons[$i]['sub_button'][$j]['type'] = 'view';
+                    }
+                }
             }
+            $settings['menu'] = kg_json_encode($settings['menu']);
         }
 
         $this->updateSettings($section, $settings);
+
+        if (!empty($buttons)) {
+            $service = new WechatService();
+            $oa = $service->getOfficialAccount();
+            $oa->menu->create($buttons);
+        }
     }
 
 }

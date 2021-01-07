@@ -11,6 +11,7 @@ use App\Services\Mail\Test as TestMailService;
 use App\Services\MyStorage as StorageService;
 use App\Services\Sms\Test as TestSmsService;
 use App\Services\Vod as VodService;
+use App\Services\Wechat as WechatService;
 
 /**
  * @RoutePrefix("/admin/test")
@@ -48,6 +49,24 @@ class TestController extends Controller
         $result = $vodService->test();
 
         if ($result) {
+            return $this->jsonSuccess(['msg' => '接口返回成功']);
+        } else {
+            return $this->jsonError(['msg' => '接口返回失败，请检查相关配置']);
+        }
+    }
+
+    /**
+     * @Post("/wechat/oa", name="admin.test.wechat_oa")
+     */
+    public function wechatOaAction()
+    {
+        $wechatService = new WechatService();
+
+        $oa = $wechatService->getOfficialAccount();
+
+        $result = $oa->qrcode->temporary('foo', 86400);
+
+        if (isset($result['ticket'])) {
             return $this->jsonSuccess(['msg' => '接口返回成功']);
         } else {
             return $this->jsonError(['msg' => '接口返回失败，请检查相关配置']);
