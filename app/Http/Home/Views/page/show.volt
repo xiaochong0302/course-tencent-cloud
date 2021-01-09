@@ -2,29 +2,41 @@
 
 {% block content %}
 
+    {{ partial('macros/course') }}
+
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
-            <a><cite>单页</cite></a>
             <a><cite>{{ page.title }}</cite></a>
         </span>
     </div>
 
-    <div class="page-info wrap">
-        <div class="content layui-hide" id="preview">{{ page.content }}</div>
+    <div class="layout-main clearfix">
+        <div class="layout-content">
+            <div class="page-info wrap">
+                <div class="content markdown-body">{{ page.content }}</div>
+            </div>
+        </div>
+        <div class="layout-sidebar">
+            {% if featured_courses %}
+                <div class="sidebar">
+                    <div class="layui-card">
+                        <div class="layui-card-header">推荐课程</div>
+                        <div class="layui-card-body">
+                            {% for course in featured_courses %}
+                                {{ sidebar_course_card(course) }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
     </div>
 
 {% endblock %}
 
 {% block link_css %}
 
-    {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
-
-{% endblock %}
-
-{% block include_js %}
-
-    {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/method.min.js', false) }}
-    {{ js_include('home/js/markdown.preview.js') }}
+    {{ css_link('home/css/markdown.css') }}
 
 {% endblock %}

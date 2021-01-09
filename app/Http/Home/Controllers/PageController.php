@@ -2,6 +2,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\Index as IndexService;
 use App\Services\Logic\Page\PageInfo as PageInfoService;
 
 /**
@@ -19,9 +20,19 @@ class PageController extends Controller
 
         $page = $service->handle($id);
 
-        $this->seo->prependTitle(['单页', $page['title']]);
+        $featuredCourses = $this->getFeaturedCourses();
+
+        $this->seo->prependTitle($page['title']);
 
         $this->view->setVar('page', $page);
+        $this->view->setVar('featured_courses', $featuredCourses);
+    }
+
+    protected function getFeaturedCourses()
+    {
+        $service = new IndexService();
+
+        return $service->getSimpleFeaturedCourses();
     }
 
 }

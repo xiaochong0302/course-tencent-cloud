@@ -1,4 +1,4 @@
-<div class="logo layui-layout-left">
+<div class="logo">
     {% if site_info.logo %}
         {{ image(site_info.logo,false) }}
     {% else %}

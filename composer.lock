@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "09a618cffed2c4cfb593c0a791c19b3f",
+  "content-hash": "907178db979a21189806683196c6516b",
   "packages": [
     {
       "name": "aferrandini/phpqrcode",
@@ -56,16 +56,16 @@
       ],
       "abandoned": "endroid/qr-code",
       "time": "2013-07-08T09:39:08+00:00"
-        },
-        {
-            "name": "cakephp/core",
-            "version": "4.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cakephp/core.git",
-                "reference": "c7e88f1cd6dfe17065e71f1af305d415f155e97e"
-            },
-            "dist": {
+    },
+    {
+      "name": "cakephp/core",
+      "version": "4.1.3",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/cakephp/core.git",
+        "reference": "c7e88f1cd6dfe17065e71f1af305d415f155e97e"
+      },
+      "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/cakephp/core/zipball/c7e88f1cd6dfe17065e71f1af305d415f155e97e",
                 "reference": "c7e88f1cd6dfe17065e71f1af305d415f155e97e",
@@ -329,14 +329,14 @@
                 "MIT"
             ],
             "authors": [
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
-                {
-                  "name": "Roman Borschel",
-                  "email": "roman@code-factory.org"
-                },
+              {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+              },
+              {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+              },
               {
                 "name": "Johannes Schmitt",
                 "email": "schmittjoh@gmail.com"
@@ -428,16 +428,16 @@
         ]
       },
       "require": {
-                "doctrine/lexer": "^1.0.1",
-                "php": ">= 5.5"
-            },
-            "require-dev": {
-                "dominicsayers/isemail": "dev-master",
-                "phpunit/phpunit": "^4.8.35||^5.7||^6.0",
-                "satooshi/php-coveralls": "^1.0.1",
-                "symfony/phpunit-bridge": "^4.4@dev"
-            },
-            "suggest": {
+        "doctrine/lexer": "^1.0.1",
+        "php": ">= 5.5"
+      },
+      "require-dev": {
+        "dominicsayers/isemail": "dev-master",
+        "phpunit/phpunit": "^4.8.35||^5.7||^6.0",
+        "satooshi/php-coveralls": "^1.0.1",
+        "symfony/phpunit-bridge": "^4.4@dev"
+      },
+      "suggest": {
                 "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
             },
             "type": "library",
@@ -856,26 +856,74 @@
                 }
             ],
             "description": "xunsearch php sdk, include yii, yii2 supports",
-            "homepage": "http://www.xunsearch.com/",
-            "keywords": [
-                "search engine",
-                "xunsearch",
-                "yii",
-                "yii2"
-            ],
-            "time": "2020-09-03T16:46:04+00:00"
+          "homepage": "http://www.xunsearch.com/",
+          "keywords": [
+            "search engine",
+            "xunsearch",
+            "yii",
+            "yii2"
+          ],
+          "time": "2020-09-03T16:46:04+00:00"
         },
+    {
+      "name": "joyqi/hyper-down",
+      "version": "dev-master",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/SegmentFault/HyperDown.git",
+        "reference": "1774a7bb8a3853503e44cfa5a2186b1943f6493f"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/SegmentFault/HyperDown/zipball/1774a7bb8a3853503e44cfa5a2186b1943f6493f",
+        "reference": "1774a7bb8a3853503e44cfa5a2186b1943f6493f",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
+      "require": {
+        "ext-mbstring": "*",
+        "php": ">=5.4.0"
+      },
+      "default-branch": true,
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "HyperDown\\": "./"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "BSD"
+      ],
+      "authors": [
         {
-            "name": "lcobucci/jwt",
-            "version": "3.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "c1123697f6a2ec29162b82f170dd4a491f524773"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/c1123697f6a2ec29162b82f170dd4a491f524773",
+          "name": "joyqi",
+          "email": "joyqi@segmentfault.com"
+        }
+      ],
+      "description": "A light weight markdown parser library",
+      "support": {
+        "issues": "https://github.com/SegmentFault/HyperDown/issues",
+        "source": "https://github.com/SegmentFault/HyperDown/tree/master"
+      },
+      "time": "2020-11-30T04:05:08+00:00"
+    },
+    {
+      "name": "lcobucci/jwt",
+      "version": "3.3.3",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/lcobucci/jwt.git",
+        "reference": "c1123697f6a2ec29162b82f170dd4a491f524773"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/lcobucci/jwt/zipball/c1123697f6a2ec29162b82f170dd4a491f524773",
                 "reference": "c1123697f6a2ec29162b82f170dd4a491f524773",
                 "shasum": "",
                 "mirrors": [
@@ -1056,16 +1104,16 @@
             "require": {
                 "php": ">=5.3.2"
             },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0|~5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Cron\\": "src/Cron/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
+          "require-dev": {
+            "phpunit/phpunit": "~4.0|~5.0"
+          },
+          "type": "library",
+          "autoload": {
+            "psr-4": {
+              "Cron\\": "src/Cron/"
+            }
+          },
+          "notification-url": "https://packagist.org/downloads/",
           "license": [
             "MIT"
           ],
@@ -1252,16 +1300,16 @@
         ]
       },
       "require": {
-                "php": "^7"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.*|5.*",
-                "vimeo/psalm": "^1"
-            },
-            "suggest": {
-                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
-            },
-            "type": "library",
+        "php": "^7"
+      },
+      "require-dev": {
+        "phpunit/phpunit": "4.*|5.*",
+        "vimeo/psalm": "^1"
+      },
+      "suggest": {
+        "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+      },
+      "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -1498,16 +1546,16 @@
         ]
       },
       "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
+        "php": ">=5.3.0"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "1.0.x-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
                     "Psr\\Cache\\": "src/"
                 }
             },
@@ -1703,15 +1751,15 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
-                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
-                "shasum": "",
-                "mirrors": [
-                  {
-                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                    "preferred": true
-                  }
-                ]
+              "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+              "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+              "shasum": "",
+              "mirrors": [
+                {
+                  "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                  "preferred": true
+                }
+              ]
             },
           "require": {
             "php": ">=5.3.0"
@@ -2017,15 +2065,15 @@
                     "dev-master": "6.2-dev"
                 }
             },
-            "autoload": {
-                "files": [
-                    "lib/swift_required.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
+          "autoload": {
+            "files": [
+              "lib/swift_required.php"
+            ]
+          },
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "MIT"
+          ],
           "authors": [
             {
               "name": "Chris Corbyn"
@@ -2251,16 +2299,16 @@
         ]
       },
       "require": {
-                "php": ">=7.2.5",
-                "symfony/deprecation-contracts": "^2.1",
-                "symfony/filesystem": "^4.4|^5.0",
-                "symfony/polyfill-ctype": "~1.8",
-                "symfony/polyfill-php80": "^1.15"
-            },
-            "conflict": {
-                "symfony/finder": "<4.4"
-            },
-            "require-dev": {
+        "php": ">=7.2.5",
+        "symfony/deprecation-contracts": "^2.1",
+        "symfony/filesystem": "^4.4|^5.0",
+        "symfony/polyfill-ctype": "~1.8",
+        "symfony/polyfill-php80": "^1.15"
+      },
+      "conflict": {
+        "symfony/finder": "<4.4"
+      },
+      "require-dev": {
                 "symfony/event-dispatcher": "^4.4|^5.0",
                 "symfony/finder": "^4.4|^5.0",
                 "symfony/messenger": "^4.4|^5.0",
@@ -2398,14 +2446,14 @@
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
             "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                  "url": "https://github.com/fabpot",
-                  "type": "github"
-                },
+              {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+              },
+              {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+              },
               {
                 "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                 "type": "tidelift"
@@ -2443,16 +2491,16 @@
         },
         "thanks": {
           "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "function.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
+          "url": "https://github.com/symfony/contracts"
+        }
+      },
+      "autoload": {
+        "files": [
+          "function.php"
+        ]
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
                 "MIT"
             ],
             "authors": [
@@ -2468,14 +2516,14 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                  "url": "https://github.com/fabpot",
-                  "type": "github"
-                },
+              {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+              },
+              {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+              },
               {
                 "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                 "type": "tidelift"
@@ -2513,17 +2561,17 @@
       "provide": {
         "psr/event-dispatcher-implementation": "1.0",
         "symfony/event-dispatcher-implementation": "1.1"
-            },
-            "require-dev": {
-              "psr/log": "~1.0",
-              "symfony/config": "^3.4|^4.0|^5.0",
-              "symfony/dependency-injection": "^3.4|^4.0|^5.0",
-              "symfony/error-handler": "~3.4|~4.4",
-              "symfony/expression-language": "^3.4|^4.0|^5.0",
-              "symfony/http-foundation": "^3.4|^4.0|^5.0",
-              "symfony/service-contracts": "^1.1|^2",
-              "symfony/stopwatch": "^3.4|^4.0|^5.0"
-            },
+      },
+      "require-dev": {
+        "psr/log": "~1.0",
+        "symfony/config": "^3.4|^4.0|^5.0",
+        "symfony/dependency-injection": "^3.4|^4.0|^5.0",
+        "symfony/error-handler": "~3.4|~4.4",
+        "symfony/expression-language": "^3.4|^4.0|^5.0",
+        "symfony/http-foundation": "^3.4|^4.0|^5.0",
+        "symfony/service-contracts": "^1.1|^2",
+        "symfony/stopwatch": "^3.4|^4.0|^5.0"
+      },
             "suggest": {
                 "symfony/dependency-injection": "",
                 "symfony/http-kernel": ""
@@ -2531,16 +2579,16 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Symfony\\Component\\EventDispatcher\\": ""
+                  "Symfony\\Component\\EventDispatcher\\": ""
                 },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+              "exclude-from-classmap": [
+                "/Tests/"
+              ]
             },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
       "authors": [
         {
           "name": "Fabien Potencier",
@@ -2606,15 +2654,15 @@
           "url": "https://github.com/symfony/contracts"
         }
       },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Contracts\\EventDispatcher\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Contracts\\EventDispatcher\\": ""
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
       "authors": [
         {
           "name": "Nicolas Grekas",
@@ -2661,16 +2709,16 @@
       },
       "dist": {
         "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/6e4320f06d5f2cce0d96530162491f4465179157",
-                "reference": "6e4320f06d5f2cce0d96530162491f4465179157",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
+        "url": "https://api.github.com/repos/symfony/filesystem/zipball/6e4320f06d5f2cce0d96530162491f4465179157",
+        "reference": "6e4320f06d5f2cce0d96530162491f4465179157",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
             "require": {
                 "php": ">=7.2.5",
                 "symfony/polyfill-ctype": "~1.8"
@@ -2706,14 +2754,14 @@
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
             "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                  "url": "https://github.com/fabpot",
-                  "type": "github"
-                },
+              {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+              },
+              {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+              },
               {
                 "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                 "type": "tidelift"
@@ -2751,16 +2799,16 @@
         "predis/predis": "~1.0",
         "symfony/cache": "^4.4|^5.0",
         "symfony/expression-language": "^4.4|^5.0",
-                "symfony/mime": "^4.4|^5.0"
-            },
-            "suggest": {
-                "symfony/mime": "To use the file extension guesser"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\HttpFoundation\\": ""
-                },
+        "symfony/mime": "^4.4|^5.0"
+      },
+      "suggest": {
+        "symfony/mime": "To use the file extension guesser"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Component\\HttpFoundation\\": ""
+        },
                 "exclude-from-classmap": [
                     "/Tests/"
                 ]
@@ -3107,14 +3155,14 @@
                 "shim"
             ],
             "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                  "url": "https://github.com/fabpot",
-                  "type": "github"
-                },
+              {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+              },
+              {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+              },
               {
                 "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                 "type": "tidelift"
@@ -3152,16 +3200,16 @@
       "extra": {
         "branch-alias": {
           "dev-main": "1.20-dev"
-                },
-                "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Mbstring\\": ""
-                },
+        },
+        "thanks": {
+          "name": "symfony/polyfill",
+          "url": "https://github.com/symfony/polyfill"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Polyfill\\Mbstring\\": ""
+        },
                 "files": [
                     "bootstrap.php"
                 ]
@@ -3434,14 +3482,14 @@
                 "shim"
             ],
             "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                  "url": "https://github.com/fabpot",
-                  "type": "github"
-                },
+              {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+              },
+              {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+              },
               {
                 "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                 "type": "tidelift"
@@ -3479,16 +3527,16 @@
         },
         "thanks": {
           "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php80\\": ""
-                },
-                "files": [
-                    "bootstrap.php"
-                ],
+          "url": "https://github.com/symfony/polyfill"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Polyfill\\Php80\\": ""
+        },
+        "files": [
+          "bootstrap.php"
+        ],
                 "classmap": [
                     "Resources/stubs"
                 ]
@@ -3654,16 +3702,16 @@
       "extra": {
         "branch-alias": {
           "dev-master": "2.2-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Contracts\\Service\\": ""
-                }
+        },
+        "thanks": {
+          "name": "symfony/contracts",
+          "url": "https://github.com/symfony/contracts"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Contracts\\Service\\": ""
+        }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -3803,16 +3851,16 @@
             "preferred": true
           }
         ]
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^6.3",
-                "guzzlehttp/psr7": "^1.4",
-                "php": ">=5.6.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src/QcloudApi/QcloudApi.php"
+      },
+      "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/psr7": "^1.4",
+        "php": ">=5.6.0"
+      },
+      "type": "library",
+      "autoload": {
+        "classmap": [
+          "src/QcloudApi/QcloudApi.php"
                 ],
                 "psr-4": {
                     "TencentCloud\\": "./src/TencentCloud"
@@ -4212,35 +4260,35 @@
             }
           ]
         },
-            "require": {
-              "ext-json": "*",
-              "ext-pdo": "*",
-              "php": "^7.2",
-              "riimu/kit-phpencoder": "^2.4",
-              "robmorgan/phinx": "^0.12",
-              "symfony/console": "^2.8 || ^3.0 || ^4.0 || ^5.0",
-              "symfony/polyfill-php73": "^1.18"
-            },
-            "require-dev": {
-              "friendsofphp/php-cs-fixer": "^2.16",
-              "overtrue/phplint": "^1.1 || ^2.0",
-              "phpstan/phpstan": "^0.12",
-              "phpunit/phpunit": "^8 || ^9",
-              "squizlabs/php_codesniffer": "^3.4"
-            },
+        "require": {
+          "ext-json": "*",
+          "ext-pdo": "*",
+          "php": "^7.2",
+          "riimu/kit-phpencoder": "^2.4",
+          "robmorgan/phinx": "^0.12",
+          "symfony/console": "^2.8 || ^3.0 || ^4.0 || ^5.0",
+          "symfony/polyfill-php73": "^1.18"
+        },
+        "require-dev": {
+          "friendsofphp/php-cs-fixer": "^2.16",
+          "overtrue/phplint": "^1.1 || ^2.0",
+          "phpstan/phpstan": "^0.12",
+          "phpunit/phpunit": "^8 || ^9",
+          "squizlabs/php_codesniffer": "^3.4"
+        },
             "bin": [
                 "./bin/phinx-migrations"
             ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Odan\\Migration\\": "src/Migration/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
+        "type": "library",
+        "autoload": {
+          "psr-4": {
+            "Odan\\Migration\\": "src/Migration/"
+          }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+          "MIT"
+        ],
         "description": "Migration generator for Phinx",
         "homepage": "https://github.com/odan/phinx-migrations-generator",
         "keywords": [
@@ -4257,60 +4305,60 @@
         },
         "time": "2020-12-30T23:59:57+00:00"
       },
-        {
-            "name": "phalcon/ide-stubs",
-            "version": "v3.4.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "65144f2b0fad32b182ccb062b1efc1b4edea5d44"
-            },
-            "dist": {
-                "type": "zip",
-              "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/65144f2b0fad32b182ccb062b1efc1b4edea5d44",
-              "reference": "65144f2b0fad32b182ccb062b1efc1b4edea5d44",
-              "shasum": "",
-              "mirrors": [
-                {
-                  "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                  "preferred": true
-                }
-              ]
-            },
-          "require": {
-            "php": ">=5.3.0"
-          },
-          "type": "library",
-          "notification-url": "https://packagist.jp/downloads/",
-          "license": [
-            "BSD-3-Clause"
-          ],
-          "authors": [
-            {
-              "name": "Phalcon Team",
-              "email": "team@phalconphp.com",
-              "homepage": "https://phalconphp.com/en/team"
-            },
-            {
-              "name": "Contributors",
-              "homepage": "https://github.com/phalcon/ide-stubs/graphs/contributors"
-            }
-          ],
-          "description": "The most complete Phalcon Framework IDE stubs library which enables autocompletion in modern IDEs.",
-          "homepage": "https://phalconphp.com",
-          "keywords": [
-            "Devtools",
-            "Eclipse",
-            "autocomplete",
-                "ide",
-                "netbeans",
-                "phalcon",
-                "phpstorm",
-                "stub",
-                "stubs"
-            ],
-            "time": "2018-12-09T14:11:06+00:00"
+      {
+        "name": "phalcon/ide-stubs",
+        "version": "v3.4.3",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/phalcon/ide-stubs.git",
+          "reference": "65144f2b0fad32b182ccb062b1efc1b4edea5d44"
         },
+        "dist": {
+          "type": "zip",
+          "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/65144f2b0fad32b182ccb062b1efc1b4edea5d44",
+          "reference": "65144f2b0fad32b182ccb062b1efc1b4edea5d44",
+          "shasum": "",
+          "mirrors": [
+            {
+              "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+              "preferred": true
+            }
+          ]
+        },
+        "require": {
+          "php": ">=5.3.0"
+        },
+        "type": "library",
+        "notification-url": "https://packagist.jp/downloads/",
+        "license": [
+          "BSD-3-Clause"
+        ],
+        "authors": [
+          {
+            "name": "Phalcon Team",
+            "email": "team@phalconphp.com",
+            "homepage": "https://phalconphp.com/en/team"
+          },
+          {
+            "name": "Contributors",
+            "homepage": "https://github.com/phalcon/ide-stubs/graphs/contributors"
+          }
+        ],
+        "description": "The most complete Phalcon Framework IDE stubs library which enables autocompletion in modern IDEs.",
+        "homepage": "https://phalconphp.com",
+        "keywords": [
+          "Devtools",
+          "Eclipse",
+          "autocomplete",
+          "ide",
+          "netbeans",
+          "phalcon",
+          "phpstorm",
+          "stub",
+          "stubs"
+        ],
+        "time": "2018-12-09T14:11:06+00:00"
+      },
         {
             "name": "riimu/kit-phpencoder",
             "version": "v2.4.0",
@@ -4361,26 +4409,28 @@
             "homepage": "http://kit.riimu.net",
             "keywords": [
                 "code",
-                "encoder",
-                "export",
-                "generator",
-                "variable"
+              "encoder",
+              "export",
+              "generator",
+              "variable"
             ],
-            "time": "2018-07-03T12:46:23+00:00"
+          "time": "2018-07-03T12:46:23+00:00"
         }
     ],
-    "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
-    "prefer-stable": false,
-    "prefer-lowest": false,
-    "platform": {
-        "ext-phalcon": "~3.4",
-        "ext-redis": "~5.0",
-        "ext-pdo": "*",
-        "ext-json": "*",
-        "ext-fileinfo": "*"
-    },
-    "platform-dev": [],
+  "aliases": [],
+  "minimum-stability": "stable",
+  "stability-flags": {
+    "joyqi/hyper-down": 20
+  },
+  "prefer-stable": false,
+  "prefer-lowest": false,
+  "platform": {
+    "ext-phalcon": "~3.4",
+    "ext-redis": "~5.0",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-fileinfo": "*"
+  },
+  "platform-dev": [],
   "plugin-api-version": "2.0.0"
 }

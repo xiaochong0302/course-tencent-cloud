@@ -2,6 +2,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\Index as IndexService;
 use App\Services\Logic\Help\HelpInfo as HelpInfoService;
 use App\Services\Logic\Help\HelpList as HelpListService;
 
@@ -12,7 +13,7 @@ class HelpController extends Controller
 {
 
     /**
-     * @Get("/index", name="home.help.index")
+     * @Get("/", name="home.help.index")
      */
     public function indexAction()
     {
@@ -34,9 +35,19 @@ class HelpController extends Controller
 
         $help = $service->handle($id);
 
+        $featuredCourses = $this->getFeaturedCourses();
+
         $this->seo->prependTitle(['帮助', $help['title']]);
 
         $this->view->setVar('help', $help);
+        $this->view->setVar('featured_courses', $featuredCourses);
+    }
+
+    protected function getFeaturedCourses()
+    {
+        $service = new IndexService();
+
+        return $service->getSimpleFeaturedCourses();
     }
 
 }
