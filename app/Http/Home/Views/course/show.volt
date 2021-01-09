@@ -58,7 +58,7 @@
                             {{ partial('course/show_catalog') }}
                         </div>
                         <div class="layui-tab-item">
-                            <div class="course-details" id="preview">{{ course.details }}</div>
+                            <div class="course-details markdown-body">{{ course.details }}</div>
                         </div>
                         {% if show_tab_packages %}
                             {% set packages_url = url({'for':'home.course.packages','id':course.id}) %}
@@ -112,14 +112,12 @@
 
 {% block link_css %}
 
-    {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
+    {{ css_link('home/css/markdown.css') }}
 
 {% endblock %}
 
 {% block include_js %}
 
-    {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/method.min.js', false) }}
-    {{ js_include('home/js/markdown.preview.js') }}
     {{ js_include('home/js/course.show.js') }}
     {{ js_include('home/js/course.share.js') }}
 

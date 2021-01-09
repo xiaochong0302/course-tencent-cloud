@@ -70,24 +70,19 @@ abstract class OAuth extends Service
          */
         $crypt = Di::getDefault()->get('crypt');
 
-        return $crypt->encryptBase64(rand(1000, 9999));
+        $text = rand(1000, 9999);
+
+        return $crypt->encryptBase64($text, null, true);
     }
 
     public function checkState($state)
     {
         /**
-         * 注意事项：
-         * callback中的state参数并未做encode处理，参数中含有"+"
-         * 获取参数的时候却自动做了decode处理，"+"变成了空格
-         */
-        $state = str_replace(' ', '+', $state);
-
-        /**
          * @var $crypt Crypt
          */
         $crypt = Di::getDefault()->get('crypt');
 
-        $value = $crypt->decryptBase64($state);
+        $value = $crypt->decryptBase64($state, null, true);
 
         if ($value < 1000 || $value > 9999) {
             throw new \Exception('Invalid OAuth State Value');

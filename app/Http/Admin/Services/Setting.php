@@ -202,29 +202,29 @@ class Setting extends Service
 
         if (!empty($settings['menu'])) {
             foreach ($settings['menu'] as $i => $top) {
-                $buttons[$i]['name'] = !empty($top['name']) ? $top['name'] : sprintf('菜单%s', $i + 1);
-                if (!empty($top['url'])) {
-                    $buttons[$i]['url'] = $top['url'];
-                    $buttons[$i]['type'] = 'view';
-                }
+                $buttons[$i]['name'] = $top['name'];
+                $buttons[$i]['url'] = $top['url'];
+                $buttons[$i]['type'] = 'view';
                 foreach ($top['children'] as $j => $sub) {
                     if (!empty($sub['name']) && !empty($sub['url'])) {
                         $buttons[$i]['sub_button'][$j]['name'] = $sub['name'];
                         $buttons[$i]['sub_button'][$j]['url'] = $sub['url'];
                         $buttons[$i]['sub_button'][$j]['type'] = 'view';
+                    } else {
+                        unset($settings['menu'][$i]['children'][$j]);
                     }
                 }
             }
             $settings['menu'] = kg_json_encode($settings['menu']);
         }
 
-        $this->updateSettings($section, $settings);
-
         if (!empty($buttons)) {
             $service = new WechatService();
             $oa = $service->getOfficialAccount();
             $oa->menu->create($buttons);
         }
+
+        $this->updateSettings($section, $settings);
     }
 
 }

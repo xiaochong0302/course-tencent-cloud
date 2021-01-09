@@ -3,9 +3,9 @@
 namespace App\Http\Home\Services;
 
 use App\Models\WechatSubscribe as WechatSubscribeModel;
+use App\Repos\User as UserRepo;
 use App\Repos\WechatSubscribe as WechatSubscribeRepo;
 use App\Services\Wechat as WechatService;
-use App\Validators\User as UserValidator;
 use EasyWeChat\Kernel\Messages\Text as TextMessage;
 
 class WechatOfficialAccount extends Service
@@ -50,7 +50,7 @@ class WechatOfficialAccount extends Service
     {
         $service = new WechatService();
 
-        $service->logger->debug('Received Message ' . json_encode($message));
+        $service->logger->info('Received Message ' . json_encode($message));
 
         switch ($message['MsgType']) {
             case 'event':
@@ -74,7 +74,7 @@ class WechatOfficialAccount extends Service
                         return $this->handleLocationEvent($message);
                         break;
                     default:
-                        return $this->emptyReplyMessage();
+                        return $this->noMatchReply();
                         break;
                 }
                 break;
@@ -100,7 +100,7 @@ class WechatOfficialAccount extends Service
                 return $this->handleLinkReply($message);
                 break;
             default:
-                return $this->emptyReplyMessage();
+                return $this->noMatchReply();
                 break;
         }
     }
@@ -108,15 +108,15 @@ class WechatOfficialAccount extends Service
     protected function handleSubscribeEvent($message)
     {
         $openId = $message['FromUserName'] ?? '';
-        $eventKey = $message['EventKey'] ?? '';
 
-        if (!$eventKey) {
-            return $this->emptyReplyMessage();
+        $subscribeRepo = new WechatSubscribeRepo();
+
+        $subscribe = $subscribeRepo->findByOpenId($openId);
+
+        if ($subscribe && $subscribe->deleted == 1) {
+            $subscribe->deleted = 0;
+            $subscribe->update();
         }
-
-        $userId = str_replace('qrscene_', '', $eventKey);
-
-        $this->handleSubscribeRelation($userId, $openId);
 
         return new TextMessage('开心呀，我们又多了一个小伙伴!');
     }
@@ -129,7 +129,7 @@ class WechatOfficialAccount extends Service
 
         $subscribe = $subscribeRepo->findByOpenId($openId);
 
-        if ($subscribe) {
+        if ($subscribe && $subscribe->deleted == 0) {
             $subscribe->deleted = 1;
             $subscribe->update();
         }
@@ -139,100 +139,95 @@ class WechatOfficialAccount extends Service
 
     protected function handleScanEvent($message)
     {
-        /**
-         * 注意:当已关注过用户扫码时,"EventKey"没有带"qrscene_"前缀
-         */
         $openId = $message['FromUserName'] ?? '';
         $eventKey = $message['EventKey'] ?? '';
-        $userId = $eventKey;
 
-        $this->handleSubscribeRelation($userId, $openId);
-    }
+        $userId = str_replace('qrscene_', '', $eventKey);
 
-    protected function handleClickEvent($message)
-    {
-        $this->defaultReplyMessage();
-    }
+        $userRepo = new UserRepo();
 
-    protected function handleViewEvent($message)
-    {
-        $this->defaultReplyMessage();
-    }
+        $user = $userRepo->findById($userId);
 
-    protected function handleLocationEvent($message)
-    {
-        $this->defaultReplyMessage();
-    }
-
-    protected function handleTextReply($message)
-    {
-        return $this->defaultReplyMessage();
-    }
-
-    protected function handleImageReply($message)
-    {
-        return $this->defaultReplyMessage();
-    }
-
-    protected function handleVoiceReply($message)
-    {
-        return $this->defaultReplyMessage();
-    }
-
-    protected function handleVideoReply($message)
-    {
-        return $this->defaultReplyMessage();
-    }
-
-    protected function handleShortVideoReply($message)
-    {
-        return $this->defaultReplyMessage();
-    }
-
-    protected function handleLocationReply($message)
-    {
-        return $this->defaultReplyMessage();
-    }
-
-    protected function handleLinkReply($message)
-    {
-        return $this->defaultReplyMessage();
-    }
-
-    protected function emptyReplyMessage()
-    {
-        return new TextMessage('');
-    }
-
-    protected function defaultReplyMessage()
-    {
-        return new TextMessage('没有匹配的服务，如有需要请联系客服！');
-    }
-
-    protected function handleSubscribeRelation($userId, $openId)
-    {
-        $validator = new UserValidator();
-
-        $validator->checkUser($userId);
+        if (!$user) return;
 
         $subscribeRepo = new WechatSubscribeRepo();
 
         $subscribe = $subscribeRepo->findByOpenId($openId);
 
         if ($subscribe) {
+            if ($subscribe->user_id != $userId) {
+                $subscribe->user_id = $userId;
+            }
             if ($subscribe->deleted == 1) {
                 $subscribe->deleted = 0;
-                $subscribe->update();
             }
+            $subscribe->update();
         } else {
-            $subscribe = $subscribeRepo->findSubscribe($userId, $openId);
-            if (!$subscribe) {
-                $subscribe = new WechatSubscribeModel();
-                $subscribe->user_id = $userId;
-                $subscribe->open_id = $openId;
-                $subscribe->create();
-            }
+            $subscribe = new WechatSubscribeModel();
+            $subscribe->user_id = $userId;
+            $subscribe->open_id = $openId;
+            $subscribe->create();
         }
+    }
+
+    protected function handleClickEvent($message)
+    {
+        return $this->emptyReply();
+    }
+
+    protected function handleViewEvent($message)
+    {
+        return $this->emptyReply();
+    }
+
+    protected function handleLocationEvent($message)
+    {
+        return $this->emptyReply();
+    }
+
+    protected function handleTextReply($message)
+    {
+        return $this->emptyReply();
+    }
+
+    protected function handleImageReply($message)
+    {
+        return $this->emptyReply();
+    }
+
+    protected function handleVoiceReply($message)
+    {
+        return $this->emptyReply();
+    }
+
+    protected function handleVideoReply($message)
+    {
+        return $this->emptyReply();
+    }
+
+    protected function handleShortVideoReply($message)
+    {
+        return $this->emptyReply();
+    }
+
+    protected function handleLocationReply($message)
+    {
+        return $this->emptyReply();
+    }
+
+    protected function handleLinkReply($message)
+    {
+        return $this->emptyReply();
+    }
+
+    protected function emptyReply()
+    {
+        return null;
+    }
+
+    protected function noMatchReply()
+    {
+        return new TextMessage('没有匹配的服务哦！');
     }
 
 }
