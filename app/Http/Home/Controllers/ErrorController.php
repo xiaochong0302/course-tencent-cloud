@@ -2,6 +2,8 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Models\User as UserModel;
+use App\Services\Auth\Home as HomeAuth;
 use App\Services\Service as AppService;
 use App\Traits\Response as ResponseTrait;
 
@@ -11,7 +13,26 @@ use App\Traits\Response as ResponseTrait;
 class ErrorController extends \Phalcon\Mvc\Controller
 {
 
+    /**
+     * @var array
+     */
+    protected $siteInfo;
+
+    /**
+     * @var UserModel
+     */
+    protected $authUser;
+
     use ResponseTrait;
+
+    public function initialize()
+    {
+        $this->siteInfo = $this->getSiteInfo();
+        $this->authUser = $this->getAuthUser();
+
+        $this->view->setVar('site_info', $this->siteInfo);
+        $this->view->setVar('auth_user', $this->authUser);
+    }
 
     /**
      * @Get("/400", name="home.error.400")
@@ -80,6 +101,23 @@ class ErrorController extends \Phalcon\Mvc\Controller
         $this->response->setStatusCode(503);
 
         $this->view->setVar('message', $siteInfo['closed_tips']);
+    }
+
+    protected function getSiteInfo()
+    {
+        $appService = new AppService();
+
+        return $appService->getSettings('site');
+    }
+
+    protected function getAuthUser()
+    {
+        /**
+         * @var HomeAuth $auth
+         */
+        $auth = $this->getDI()->get('auth');
+
+        return $auth->getCurrentUser();
     }
 
 }

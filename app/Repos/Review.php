@@ -77,7 +77,10 @@ class Review extends Repository
      */
     public function findById($id)
     {
-        return ReviewModel::findFirst($id);
+        return ReviewModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

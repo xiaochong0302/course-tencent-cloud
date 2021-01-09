@@ -123,7 +123,10 @@ class Course extends Repository
      */
     public function findById($id)
     {
-        return CourseModel::findFirst($id);
+        return CourseModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

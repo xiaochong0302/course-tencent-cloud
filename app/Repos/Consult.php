@@ -78,7 +78,10 @@ class Consult extends Repository
      */
     public function findById($id)
     {
-        return ConsultModel::findFirst($id);
+        return ConsultModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

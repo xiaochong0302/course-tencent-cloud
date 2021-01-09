@@ -759,9 +759,9 @@ class AuthNode extends Service
                         ],
                         [
                             'id' => '5-1-13',
-                            'title' => '微信平台',
+                            'title' => '微信公众号',
                             'type' => 'menu',
-                            'route' => 'admin.setting.wechat',
+                            'route' => 'admin.setting.wechat_oa',
                         ],
                     ],
                 ],

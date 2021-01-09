@@ -60,7 +60,10 @@ class Learning extends Repository
      */
     public function findById($id)
     {
-        return LearningModel::findFirst($id);
+        return LearningModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

@@ -218,15 +218,15 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
+                            'email' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_account',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'email',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
+                                            'Column_name' => 'email',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -254,15 +254,15 @@ return array(
                                             'Index_comment' => '',
                                         ),
                                 ),
-                            'email' =>
+                            'PRIMARY' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_account',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'email',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'email',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -1428,24 +1428,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_chapter',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'course_id' =>
                                 array(
                                     1 =>
@@ -1473,6 +1455,24 @@ return array(
                                             'Key_name' => 'parent_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'parent_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_chapter',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -1645,24 +1645,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_chapter_like',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'chapter_user' =>
                                 array(
                                     1 =>
@@ -1687,6 +1669,24 @@ return array(
                                             'Key_name' => 'chapter_user',
                                             'Seq_in_index' => '2',
                                             'Column_name' => 'user_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_chapter_like',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -1931,15 +1931,15 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
+                            'chapter_id' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_chapter_live',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'chapter_id',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
+                                            'Column_name' => 'chapter_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -1967,15 +1967,15 @@ return array(
                                             'Index_comment' => '',
                                         ),
                                 ),
-                            'chapter_id' =>
+                            'PRIMARY' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_chapter_live',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'chapter_id',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'chapter_id',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -2148,24 +2148,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_chapter_read',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'chapter_id' =>
                                 array(
                                     1 =>
@@ -2193,6 +2175,24 @@ return array(
                                             'Key_name' => 'course_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'course_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_chapter_read',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -2509,24 +2509,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_chapter_user',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'chapter_user' =>
                                 array(
                                     1 =>
@@ -2584,6 +2566,24 @@ return array(
                                             'Key_name' => 'course_user',
                                             'Seq_in_index' => '2',
                                             'Column_name' => 'user_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_chapter_user',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -2780,24 +2780,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_chapter_vod',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'chapter_id' =>
                                 array(
                                     1 =>
@@ -2807,6 +2789,24 @@ return array(
                                             'Key_name' => 'chapter_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'chapter_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'course_id' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_chapter_vod',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'course_id',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'course_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -2834,15 +2834,15 @@ return array(
                                             'Index_comment' => '',
                                         ),
                                 ),
-                            'course_id' =>
+                            'PRIMARY' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_chapter_vod',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'course_id',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'course_id',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -3111,24 +3111,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_connect',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'open_provider' =>
                                 array(
                                     1 =>
@@ -3153,6 +3135,24 @@ return array(
                                             'Key_name' => 'open_provider',
                                             'Seq_in_index' => '2',
                                             'Column_name' => 'provider',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_connect',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -3616,15 +3616,15 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
+                            'chapter_id' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_consult',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'chapter_id',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
+                                            'Column_name' => 'chapter_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -3652,24 +3652,6 @@ return array(
                                             'Index_comment' => '',
                                         ),
                                 ),
-                            'chapter_id' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_consult',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'chapter_id',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'chapter_id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'owner_id' =>
                                 array(
                                     1 =>
@@ -3679,6 +3661,24 @@ return array(
                                             'Key_name' => 'owner_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'owner_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_consult',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -3851,24 +3851,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_consult_like',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'consult_user' =>
                                 array(
                                     1 =>
@@ -3893,6 +3875,24 @@ return array(
                                             'Key_name' => 'consult_user',
                                             'Seq_in_index' => '2',
                                             'Column_name' => 'user_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_consult_like',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -4750,15 +4750,15 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
+                            'category_id' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_course_category',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'category_id',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
+                                            'Column_name' => 'category_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -4786,15 +4786,15 @@ return array(
                                             'Index_comment' => '',
                                         ),
                                 ),
-                            'category_id' =>
+                            'PRIMARY' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_course_category',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'category_id',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'category_id',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -4967,24 +4967,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_course_favorite',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'course_id' =>
                                 array(
                                     1 =>
@@ -4994,6 +4976,24 @@ return array(
                                             'Key_name' => 'course_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'course_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_course_favorite',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -5136,24 +5136,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_course_package',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'course_id' =>
                                 array(
                                     1 =>
@@ -5181,6 +5163,24 @@ return array(
                                             'Key_name' => 'package_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'package_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_course_package',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -5510,24 +5510,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_course_related',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'course_id' =>
                                 array(
                                     1 =>
@@ -5537,6 +5519,24 @@ return array(
                                             'Key_name' => 'course_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'course_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_course_related',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -5661,6 +5661,24 @@ return array(
                         ),
                     'indexes' =>
                         array(
+                            'course_id' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_course_topic',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'course_id',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'course_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
                             'PRIMARY' =>
                                 array(
                                     1 =>
@@ -5688,24 +5706,6 @@ return array(
                                             'Key_name' => 'topic_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'topic_id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
-                            'course_id' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_course_topic',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'course_id',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'course_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -6046,24 +6046,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_course_user',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'course_id' =>
                                 array(
                                     1 =>
@@ -6073,24 +6055,6 @@ return array(
                                             'Key_name' => 'course_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'course_id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
-                            'user_id' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_course_user',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'user_id',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'user_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -6123,6 +6087,42 @@ return array(
                                             'Non_unique' => '1',
                                             'Key_name' => 'course_user',
                                             'Seq_in_index' => '2',
+                                            'Column_name' => 'user_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_course_user',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'user_id' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_course_user',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'user_id',
+                                            'Seq_in_index' => '1',
                                             'Column_name' => 'user_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
@@ -6464,24 +6464,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_danmu',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'chapter_id' =>
                                 array(
                                     1 =>
@@ -6509,6 +6491,24 @@ return array(
                                             'Key_name' => 'owner_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'owner_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_danmu',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -7768,24 +7768,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_im_group_user',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'group_id' =>
                                 array(
                                     1 =>
@@ -7795,24 +7777,6 @@ return array(
                                             'Key_name' => 'group_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'group_id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
-                            'user_id' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_im_group_user',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'user_id',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'user_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -7845,6 +7809,42 @@ return array(
                                             'Non_unique' => '1',
                                             'Key_name' => 'group_user',
                                             'Seq_in_index' => '2',
+                                            'Column_name' => 'user_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_im_group_user',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'user_id' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_im_group_user',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'user_id',
+                                            'Seq_in_index' => '1',
                                             'Column_name' => 'user_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
@@ -8114,24 +8114,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_im_message',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'chat_id' =>
                                 array(
                                     1 =>
@@ -8141,6 +8123,24 @@ return array(
                                             'Key_name' => 'chat_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'chat_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_im_message',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -8436,24 +8436,6 @@ return array(
                                             'Index_comment' => '',
                                         ),
                                 ),
-                            'sender_id' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_im_notice',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'sender_id',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'sender_id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'receiver_id' =>
                                 array(
                                     1 =>
@@ -8463,6 +8445,24 @@ return array(
                                             'Key_name' => 'receiver_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'receiver_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'sender_id' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_im_notice',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'sender_id',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'sender_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -9128,6 +9128,39 @@ return array(
                         ),
                     'indexes' =>
                         array(
+                            'chapter_user' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_learning',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'chapter_user',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'chapter_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                    2 =>
+                                        array(
+                                            'Table' => 'kg_learning',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'chapter_user',
+                                            'Seq_in_index' => '2',
+                                            'Column_name' => 'user_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
                             'PRIMARY' =>
                                 array(
                                     1 =>
@@ -9155,39 +9188,6 @@ return array(
                                             'Key_name' => 'request_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'request_id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
-                            'chapter_user' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_learning',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'chapter_user',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'chapter_id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                    2 =>
-                                        array(
-                                            'Table' => 'kg_learning',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'chapter_user',
-                                            'Seq_in_index' => '2',
-                                            'Column_name' => 'user_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -9914,6 +9914,24 @@ return array(
                         ),
                     'indexes' =>
                         array(
+                            'active_time' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_online',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'active_time',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'active_time',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
                             'PRIMARY' =>
                                 array(
                                     1 =>
@@ -9941,24 +9959,6 @@ return array(
                                             'Key_name' => 'user_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'user_id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
-                            'active_time' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_online',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'active_time',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'active_time',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -10323,42 +10323,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_order',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
-                            'sn' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_order',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'sn',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'sn',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'item' =>
                                 array(
                                     1 =>
@@ -10401,6 +10365,42 @@ return array(
                                             'Key_name' => 'owner_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'owner_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_order',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'sn' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_order',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'sn',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'sn',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -10525,24 +10525,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_order_status',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'order_id' =>
                                 array(
                                     1 =>
@@ -10552,6 +10534,24 @@ return array(
                                             'Key_name' => 'order_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'order_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_order_status',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -11374,33 +11374,15 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_refund',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
-                            'sn' =>
+                            'order_id' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_refund',
                                             'Non_unique' => '1',
-                                            'Key_name' => 'sn',
+                                            'Key_name' => 'order_id',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'sn',
+                                            'Column_name' => 'order_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -11428,15 +11410,33 @@ return array(
                                             'Index_comment' => '',
                                         ),
                                 ),
-                            'order_id' =>
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_refund',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'sn' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_refund',
                                             'Non_unique' => '1',
-                                            'Key_name' => 'order_id',
+                                            'Key_name' => 'sn',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'order_id',
+                                            'Column_name' => 'sn',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -11778,15 +11778,15 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
+                            'chapter_id' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_resource',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'chapter_id',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
+                                            'Column_name' => 'chapter_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -11814,15 +11814,15 @@ return array(
                                             'Index_comment' => '',
                                         ),
                                 ),
-                            'chapter_id' =>
+                            'PRIMARY' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_resource',
-                                            'Non_unique' => '1',
-                                            'Key_name' => 'chapter_id',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'chapter_id',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -12211,24 +12211,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_review',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'course_id' =>
                                 array(
                                     1 =>
@@ -12256,6 +12238,24 @@ return array(
                                             'Key_name' => 'onwer_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'owner_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_review',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -13605,7 +13605,7 @@ return array(
                                     'CHARACTER_SET_NAME' => NULL,
                                     'COLLATION_NAME' => NULL,
                                     'COLUMN_TYPE' => 'int unsigned',
-                                    'COLUMN_KEY' => '',
+                                    'COLUMN_KEY' => 'MUL',
                                     'EXTRA' => '',
                                     'PRIVILEGES' => 'select,insert,update,references',
                                     'COLUMN_COMMENT' => '创建时间',
@@ -13639,6 +13639,24 @@ return array(
                         ),
                     'indexes' =>
                         array(
+                            'create_time' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_task',
+                                            'Non_unique' => '1',
+                                            'Key_name' => 'create_time',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'create_time',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
                             'PRIMARY' =>
                                 array(
                                     1 =>
@@ -14217,33 +14235,15 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_trade',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
-                            'sn' =>
+                            'order_id' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_trade',
                                             'Non_unique' => '1',
-                                            'Key_name' => 'sn',
+                                            'Key_name' => 'order_id',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'sn',
+                                            'Column_name' => 'order_id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -14271,15 +14271,33 @@ return array(
                                             'Index_comment' => '',
                                         ),
                                 ),
-                            'order_id' =>
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_trade',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'sn' =>
                                 array(
                                     1 =>
                                         array(
                                             'Table' => 'kg_trade',
                                             'Non_unique' => '1',
-                                            'Key_name' => 'order_id',
+                                            'Key_name' => 'sn',
                                             'Seq_in_index' => '1',
-                                            'Column_name' => 'order_id',
+                                            'Column_name' => 'sn',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -14699,24 +14717,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_upload',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'md5' =>
                                 array(
                                     1 =>
@@ -14726,6 +14726,24 @@ return array(
                                             'Key_name' => 'md5',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'md5',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_upload',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -15210,24 +15228,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_user',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'name' =>
                                 array(
                                     1 =>
@@ -15237,6 +15237,24 @@ return array(
                                             'Key_name' => 'name',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'name',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_user',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,
@@ -16108,24 +16126,6 @@ return array(
                         ),
                     'indexes' =>
                         array(
-                            'PRIMARY' =>
-                                array(
-                                    1 =>
-                                        array(
-                                            'Table' => 'kg_wechat_subscribe',
-                                            'Non_unique' => '0',
-                                            'Key_name' => 'PRIMARY',
-                                            'Seq_in_index' => '1',
-                                            'Column_name' => 'id',
-                                            'Collation' => 'A',
-                                            'Sub_part' => NULL,
-                                            'Packed' => NULL,
-                                            'Null' => '',
-                                            'Index_type' => 'BTREE',
-                                            'Comment' => '',
-                                            'Index_comment' => '',
-                                        ),
-                                ),
                             'open_id' =>
                                 array(
                                     1 =>
@@ -16135,6 +16135,24 @@ return array(
                                             'Key_name' => 'open_id',
                                             'Seq_in_index' => '1',
                                             'Column_name' => 'open_id',
+                                            'Collation' => 'A',
+                                            'Sub_part' => NULL,
+                                            'Packed' => NULL,
+                                            'Null' => '',
+                                            'Index_type' => 'BTREE',
+                                            'Comment' => '',
+                                            'Index_comment' => '',
+                                        ),
+                                ),
+                            'PRIMARY' =>
+                                array(
+                                    1 =>
+                                        array(
+                                            'Table' => 'kg_wechat_subscribe',
+                                            'Non_unique' => '0',
+                                            'Key_name' => 'PRIMARY',
+                                            'Seq_in_index' => '1',
+                                            'Column_name' => 'id',
                                             'Collation' => 'A',
                                             'Sub_part' => NULL,
                                             'Packed' => NULL,

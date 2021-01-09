@@ -33,7 +33,10 @@ class Vip extends Repository
      */
     public function findById($id)
     {
-        return VipModel::findFirst($id);
+        return VipModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

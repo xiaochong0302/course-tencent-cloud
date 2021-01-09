@@ -16,7 +16,10 @@ class Account extends Repository
      */
     public function findById($id)
     {
-        return AccountModel::findFirst($id);
+        return AccountModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

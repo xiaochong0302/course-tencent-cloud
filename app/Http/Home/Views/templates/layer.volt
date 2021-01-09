@@ -5,8 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="csrf-token" content="{{ csrfToken.getToken() }}">
-    <title>酷瓜云课堂</title>
-    {{ icon_link('favicon.ico') }}
+    <title>{{ site_info.title }}</title>
+    {% if site_info.favicon %}
+        {{ icon_link(site_info.favicon,false) }}
+    {% else %}
+        {{ icon_link('favicon.ico') }}
+    {% endif %}
     {{ css_link('lib/layui/css/layui.css') }}
     {{ css_link('home/css/common.css') }}
     {% block link_css %}{% endblock %}

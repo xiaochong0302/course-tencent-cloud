@@ -78,7 +78,10 @@ class Trade extends Repository
      */
     public function findById($id)
     {
-        return TradeModel::findFirst($id);
+        return TradeModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

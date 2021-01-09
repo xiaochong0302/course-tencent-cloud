@@ -1,4 +1,10 @@
-<div class="logo"></div>
+<div class="logo">
+    {% if site_info.logo %}
+        {{ image(site_info.logo,false) }}
+    {% else %}
+        {{ image('logo.png') }}
+    {% endif %}
+</div>
 
 <div class="top-nav">
     <ul class="layui-nav">
@@ -21,7 +27,7 @@
 {% set s_query = request.get('query',['trim','striptags'],'') %}
 {% set s_url = url({'for':'home.search.index'}) %}
 
-<div class="user layui-layout-right">
+<div class="user">
     <ul class="layui-nav">
         <li class="layui-nav-item">
             <a href="javascript:" class="nav-search" data-type="{{ s_type }}" data-query="{{ s_query }}" data-url="{{ s_url }}"><i class="layui-icon layui-icon-search"></i> 搜索</a>

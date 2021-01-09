@@ -248,12 +248,12 @@ class DeliverTask extends Task
     {
         $itemType = TaskModel::TYPE_DELIVER;
         $status = TaskModel::STATUS_PENDING;
-        $tryCount = self::TRY_COUNT;
+        $createTime = strtotime('-3 days');
 
         return TaskModel::query()
             ->where('item_type = :item_type:', ['item_type' => $itemType])
             ->andWhere('status = :status:', ['status' => $status])
-            ->andWhere('try_count < :try_count:', ['try_count' => $tryCount + 1])
+            ->andWhere('create_time > :create_time:', ['create_time' => $createTime])
             ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();
