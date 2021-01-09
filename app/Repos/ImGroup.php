@@ -76,7 +76,10 @@ class ImGroup extends Repository
      */
     public function findById($id)
     {
-        return ImGroupModel::findFirst($id);
+        return ImGroupModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

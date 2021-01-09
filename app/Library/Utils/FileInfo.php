@@ -77,6 +77,7 @@ class FileInfo
             'png' => 'image/png',
             'webp' => 'image/webp',
             'bmp' => 'image/bmp',
+            'ico' => 'image/x-icon',
             'tif' => 'image/tiff',
             'tiff' => 'image/tiff',
             'svg' => 'image/svg+xml',

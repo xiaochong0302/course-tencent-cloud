@@ -125,12 +125,12 @@ class NoticeTask extends Task
 
         $status = TaskModel::STATUS_PENDING;
 
-        $tryCount = self::TRY_COUNT;
+        $createTime = strtotime('-1 days');
 
         return TaskModel::query()
             ->inWhere('item_type', $itemTypes)
             ->andWhere('status = :status:', ['status' => $status])
-            ->andWhere('try_count < :try_count:', ['try_count' => $tryCount + 1])
+            ->andWhere('create_time > :create_time:', ['create_time' => $createTime])
             ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();

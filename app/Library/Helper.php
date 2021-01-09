@@ -277,9 +277,13 @@ function kg_cos_img_style_trim($path)
  */
 function kg_parse_markdown($content)
 {
-    return preg_replace_callback('/\/img\/content\/(.*?)\)/', function ($matches) {
-        return '/img/content/' . trim($matches[1]) . '!content_800';
+    $content = preg_replace_callback('/\/img\/content\/(.*?)\)/', function ($matches) {
+        return sprintf('/img/content/%s!content_800)', trim($matches[1]));
     }, $content);
+
+    $parser = new HyperDown\Parser();
+
+    return $parser->makeHtml($content);
 }
 
 /**

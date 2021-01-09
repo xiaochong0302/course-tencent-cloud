@@ -43,7 +43,10 @@ class Connect extends Repository
      */
     public function findById($id)
     {
-        return ConnectModel::findFirst($id);
+        return ConnectModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

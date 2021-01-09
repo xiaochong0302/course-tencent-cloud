@@ -30,8 +30,9 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
             404: function () {
                 layer.msg('资源不存在', {icon: 2, anim: 6});
             },
-            500: function () {
-                layer.msg('服务器内部错误', {icon: 2, anim: 6});
+            500: function (xhr) {
+                var res = JSON.parse(xhr.responseText);
+                layer.msg(res.msg, {icon: 2, anim: 6});
             }
         }
     });

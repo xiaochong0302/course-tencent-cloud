@@ -5,6 +5,7 @@ layui.use(['jquery'], function () {
     var $textarea = $('#vditor-textarea');
 
     var vditor = new Vditor('vditor', {
+        mode: 'sv',
         minHeight: 300,
         outline: false,
         resize: {

@@ -1,3 +1,19 @@
+### [v1.2.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.4)(2021-01-10)
+
+#### 增加
+
+- 后台增加上传logo和favicon图标
+- 后台增加公众号自定义菜单配置
+- 课程页增加咨询 
+
+### 优化
+
+- oauth中state参数为安全base64加解码
+- findById参数类型不对时抛出异常
+- task表增加索引加快数据查找
+- markdown内容解析改由后端完成
+- 公众号应答处理逻辑
+
 ### [v1.2.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.3)(2021-01-03)
 
 #### 增加

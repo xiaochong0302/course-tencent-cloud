@@ -79,7 +79,10 @@ class Order extends Repository
      */
     public function findById($id)
     {
-        return OrderModel::findFirst($id);
+        return OrderModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

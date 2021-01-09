@@ -54,7 +54,10 @@ class Slide extends Repository
      */
     public function findById($id)
     {
-        return SlideModel::findFirst($id);
+        return SlideModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

@@ -34,7 +34,10 @@ class Role extends Repository
      */
     public function findById($id)
     {
-        return RoleModel::findFirst($id);
+        return RoleModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

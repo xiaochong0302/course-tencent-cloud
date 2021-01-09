@@ -4,12 +4,18 @@ namespace App\Http\Home\Controllers;
 
 use App\Models\User as UserModel;
 use App\Services\Auth\Home as HomeAuth;
+use App\Services\Service as AppService;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 use Phalcon\Mvc\Dispatcher;
 
 class LayerController extends \Phalcon\Mvc\Controller
 {
+
+    /**
+     * @var array
+     */
+    protected $siteInfo;
 
     /**
      * @var UserModel
@@ -33,9 +39,18 @@ class LayerController extends \Phalcon\Mvc\Controller
 
     public function initialize()
     {
+        $this->siteInfo = $this->getSiteInfo();
         $this->authUser = $this->getAuthUser();
 
+        $this->view->setVar('site_info', $this->siteInfo);
         $this->view->setVar('auth_user', $this->authUser);
+    }
+
+    protected function getSiteInfo()
+    {
+        $appService = new AppService();
+
+        return $appService->getSettings('site');
     }
 
     protected function getAuthUser()

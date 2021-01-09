@@ -54,7 +54,10 @@ class Page extends Repository
      */
     public function findById($id)
     {
-        return PageModel::findFirst($id);
+        return PageModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
     }
 
     /**

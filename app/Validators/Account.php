@@ -23,8 +23,6 @@ class Account extends Validator
             $account = $accountRepo->findByEmail($name);
         } elseif (CommonValidator::phone($name)) {
             $account = $accountRepo->findByPhone($name);
-        } else {
-            $account = $accountRepo->findById($name);
         }
 
         if (!$account) {
@@ -122,6 +120,8 @@ class Account extends Validator
 
     public function checkVerifyLogin($name, $code)
     {
+        $this->checkLoginName($name);
+
         $account = $this->checkAccount($name);
 
         $verify = new Verify();
@@ -135,6 +135,8 @@ class Account extends Validator
 
     public function checkUserLogin($name, $password)
     {
+        $this->checkLoginName($name);
+
         $account = $this->checkAccount($name);
 
         $hash = PasswordUtil::hash($password, $account->salt);
