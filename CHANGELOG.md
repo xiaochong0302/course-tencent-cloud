@@ -9,6 +9,7 @@
 ### 优化
 
 - oauth中state参数为安全base64加解码
+- 判断是否api请求逻辑
 - findById参数类型不对时抛出异常
 - task表增加索引加快数据查找
 - markdown内容解析改由后端完成
