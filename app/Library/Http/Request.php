@@ -30,6 +30,10 @@ class Request extends \Phalcon\Http\Request
     {
         $url = $this->get('_url');
 
+        if ($this->hasHeader('X-Platform')) {
+            return true;
+        }
+
         if (stripos($url, '/api') !== false) {
             return true;
         }
