@@ -9,7 +9,7 @@ class AppInfo
 
     protected $alias = 'CTC';
 
-    protected $link = 'https://gitee.com/koogua';
+    protected $link = 'https://koogua.com';
 
     protected $version = '1.2.4';
 
