@@ -10,7 +10,7 @@ use App\Services\Pay\Wxpay as WxpayService;
 use App\Services\Storage as StorageService;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
-use PHPQRCode\QRcode;
+use Endroid\QrCode\QrCode;
 
 class PublicController extends \Phalcon\Mvc\Controller
 {
@@ -49,14 +49,17 @@ class PublicController extends \Phalcon\Mvc\Controller
     public function qrcodeAction()
     {
         $text = $this->request->getQuery('text', 'string');
-        $level = $this->request->getQuery('level', 'int', 0);
-        $size = $this->request->getQuery('size', 'int', 5);
+        $size = $this->request->getQuery('size', 'int', 320);
 
-        $url = urldecode($text);
+        $text = urldecode($text);
 
-        QRcode::png($url, false, $level, $size);
+        $qrCode = new QrCode($text);
 
-        $this->response->send();
+        $qrCode->setSize($size);
+
+        $qrCode->getContentType();
+
+        echo $qrCode->writeString();
 
         exit;
     }
