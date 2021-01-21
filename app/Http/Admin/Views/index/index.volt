@@ -63,7 +63,7 @@
         <iframe name="content" style="width:100%;height:100%;border:0;" src="{{ url({'for':'admin.main'}) }}"></iframe>
     </div>
     <div class="layui-copyright">
-        Powered by <a href="{{ app_info.link }}" title="{{ app_info.name }}">{{ app_info.alias }} {{ app_info.version }}</a>
+        Powered by <a href="{{ app_info.link }}" title="{{ app_info.name }}" target="_blank">{{ app_info.alias }} {{ app_info.version }}</a>
     </div>
 </div>
 </body>

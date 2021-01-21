@@ -13,7 +13,7 @@
             </tr>
             <tr>
                 <td>系统框架</td>
-                <td><a href="https://gitee.com/koogua/cphalcon">Phalcon 3.4.5</a></td>
+                <td><a href="https://gitee.com/koogua/cphalcon/releases/v3.4.5.1" target="_blank">Phalcon 3.4.5</a></td>
             </tr>
             <tr>
                 <td>获取渠道</td>

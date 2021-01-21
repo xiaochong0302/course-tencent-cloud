@@ -8,7 +8,7 @@
     "phalcon/incubator": "^3.4",
     "guzzlehttp/guzzle": "^6.3",
     "swiftmailer/swiftmailer": "^6.0",
-    "peppeocchi/php-cron-scheduler": "^2.4",
+    "peppeocchi/php-cron-scheduler": "^3.0",
     "yansongda/pay": "^2.9",
     "tencentcloud/tencentcloud-sdk-php": "^3.0",
     "qcloudsms/qcloudsms_php": "^0.1",
@@ -17,12 +17,11 @@
     "workerman/gatewayclient": "^3.0",
     "whichbrowser/parser": "^2.0",
     "hightman/xunsearch": "^1.4",
-    "aferrandini/phpqrcode": "1.0.1",
     "xiaochong0302/ip2region": "^1.0",
     "robmorgan/phinx": "^0.12",
-    "lcobucci/jwt": "^3.3",
     "overtrue/wechat": "^4.2",
-    "joyqi/hyper-down": "dev-master"
+    "endroid/qr-code": "^3.9",
+    "league/commonmark": "^1.5"
   },
   "require-dev": {
     "odan/phinx-migrations-generator": "^5.3",
