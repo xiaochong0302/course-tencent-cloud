@@ -6,10 +6,11 @@
 
 酷瓜云课堂，依托腾讯云基础服务架构，采用C扩展框架Phalcon开发，GPL-2.0开源协议，致力开源网课系统，开源网校系统，开源在线教育系统。
 
-![](https://img.shields.io/static/v1?label=release&message=1.2.4&color=blue)
-![](https://img.shields.io/static/v1?label=stars&message=170&color=blue)
-![](https://img.shields.io/static/v1?label=forks&message=66&color=blue)
-![](https://img.shields.io/static/v1?label=license&message=GPL-2.0&color=blue)
+[![Gitee star](https://gitee.com/koogua/course-tencent-cloud/badge/star.svg?theme=gitee)](https://gitee.com/koogua/course-tencent-cloud)
+[![Gitee fork](https://gitee.com/koogua/course-tencent-cloud/badge/fork.svg?theme=gitee)](https://gitee.com/koogua/course-tencent-cloud)
+[![Github stars](https://img.shields.io/github/stars/mindskip/xzs-mysql?logo=github)](https://github.com/xiaochong0302/course-tencent-cloud)
+[![Github forks](https://img.shields.io/github/forks/mindskip/xzs-mysql?logo=github)](https://github.com/xiaochong0302/course-tencent-cloud)
+![GPL-2.0](https://img.shields.io/static/v1?label=license&message=GPL-2.0&color=blue)
 
 ### 系统功能
 

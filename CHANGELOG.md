@@ -1,3 +1,20 @@
+### [v1.2.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.5)(2021-01-20)
+
+### 新增
+
+- 自动化安装脚本
+- 自动化更新脚本
+- 自动化备份脚本
+
+### 更新
+
+- 更新ip2region包
+- 更新php-cron-scheduler包
+- 替换aferrandini/phpqrcode为endroid/qr-code
+- 替换joyqi/hyper-down为league/commonmark
+- 移除lcobucci/jwt包
+- 相关连接指向官网
+
 ### [v1.2.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.4)(2021-01-10)
 
 #### 增加
