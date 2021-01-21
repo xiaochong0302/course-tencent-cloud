@@ -20,8 +20,8 @@
     "xiaochong0302/ip2region": "^1.0",
     "robmorgan/phinx": "^0.12",
     "overtrue/wechat": "^4.2",
-    "joyqi/hyper-down": "dev-master",
-    "endroid/qr-code": "^3.9"
+    "endroid/qr-code": "^3.9",
+    "league/commonmark": "^1.5"
   },
   "require-dev": {
     "odan/phinx-migrations-generator": "^5.3",

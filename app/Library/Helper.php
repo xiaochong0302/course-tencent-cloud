@@ -281,9 +281,12 @@ function kg_parse_markdown($content)
         return sprintf('/img/content/%s!content_800)', trim($matches[1]));
     }, $content);
 
-    $parser = new HyperDown\Parser();
+    $parser = new League\CommonMark\GithubFlavoredMarkdownConverter([
+        'html_input' => 'strip',
+        'allow_unsafe_links' => false,
+    ]);
 
-    return $parser->makeHtml($content);
+    return $parser->convertToHtml($content);
 }
 
 /**

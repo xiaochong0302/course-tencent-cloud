@@ -60,11 +60,11 @@ class GroupIndexTask extends Task
 
         $index = $handler->getXS()->getIndex();
 
-        echo 'start clean index' . PHP_EOL;
+        echo 'start clean group index' . PHP_EOL;
 
         $index->clean();
 
-        echo 'end clean index' . PHP_EOL;
+        echo 'end clean group index' . PHP_EOL;
     }
 
     /**
@@ -82,7 +82,7 @@ class GroupIndexTask extends Task
 
         $index = $handler->getXS()->getIndex();
 
-        echo 'start rebuild index' . PHP_EOL;
+        echo 'start rebuild group index' . PHP_EOL;
 
         $index->beginRebuild();
 
@@ -93,7 +93,7 @@ class GroupIndexTask extends Task
 
         $index->endRebuild();
 
-        echo 'end rebuild index' . PHP_EOL;
+        echo 'end rebuild group index' . PHP_EOL;
     }
 
     /**
