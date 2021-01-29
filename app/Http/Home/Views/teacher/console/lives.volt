@@ -61,6 +61,6 @@
 
 {% block include_js %}
 
-    {{ js_include('home/js/console.js') }}
+    {{ js_include('home/js/teacher.console.js') }}
 
 {% endblock %}
