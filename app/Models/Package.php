@@ -30,7 +30,7 @@ class Package extends Model
     public $summary;
 
     /**
-     * 市场价格
+     * 优惠价格
      *
      * @var float
      */

@@ -71,7 +71,7 @@ function xmCourse(data, url) {
                     }
                 },
                 {
-                    field: 'market_price', title: '市场价', width: 50, templet: function (d) {
+                    field: 'market_price', title: '优惠价', width: 50, templet: function (d) {
                         return '￥' + d.market_price;
                     }
                 },

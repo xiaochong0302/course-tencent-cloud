@@ -13,7 +13,8 @@
             <div class="info">
                 <p><a href="{{ course_url }}" target="_blank">{{ course.title }}</a></p>
                 <p>
-                    市场价格 <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
+                    原始价格 <span class="origin-price">{{ '￥%0.2f'|format(course.origin_price) }}</span>
+                    优惠价格 <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
                     会员价格 <span class="price">{{ '￥%0.2f'|format(course.vip_price) }}</span>
                 </p>
                 <p>
