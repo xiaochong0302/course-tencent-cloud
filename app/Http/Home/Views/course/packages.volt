@@ -9,7 +9,7 @@
                     <span>总价 <i>{{ '￥%0.2f'|format(package.origin_price) }}</i></span>
                 </div>
                 <div class="price">
-                    <span>市场价 <i>{{ '￥%0.2f'|format(package.market_price) }}</i></span>
+                    <span>优惠价 <i>{{ '￥%0.2f'|format(package.market_price) }}</i></span>
                 </div>
                 <div class="price">
                     <span>会员价 <i>{{ '￥%0.2f'|format(package.vip_price) }}</i></span>

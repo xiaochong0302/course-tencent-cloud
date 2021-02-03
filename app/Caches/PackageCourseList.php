@@ -46,6 +46,7 @@ class PackageCourseList extends Cache
                 'id' => $course->id,
                 'title' => $course->title,
                 'cover' => $course->cover,
+                'origin_price' => $course->origin_price,
                 'market_price' => $course->market_price,
                 'vip_price' => $course->vip_price,
                 'model' => $course->model,

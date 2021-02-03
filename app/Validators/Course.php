@@ -161,6 +161,17 @@ class Course extends Validator
         return implode('，', $list);
     }
 
+    public function checkGuidePrice($price)
+    {
+        $value = $this->filter->sanitize($price, ['trim', 'float']);
+
+        if ($value < 0 || $value > 10000) {
+            throw new BadRequestException('course.invalid_origin_price');
+        }
+
+        return $value;
+    }
+
     public function checkMarketPrice($price)
     {
         $value = $this->filter->sanitize($price, ['trim', 'float']);

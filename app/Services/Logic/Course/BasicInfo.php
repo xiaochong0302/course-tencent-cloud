@@ -34,6 +34,7 @@ class BasicInfo extends Service
             'summary' => $course->summary,
             'details' => $course->details,
             'keywords' => $course->keywords,
+            'origin_price' => $course->origin_price,
             'market_price' => $course->market_price,
             'vip_price' => $course->vip_price,
             'study_expiry' => $course->study_expiry,
