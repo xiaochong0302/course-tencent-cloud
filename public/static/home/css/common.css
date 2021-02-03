@@ -501,6 +501,10 @@
     color: red;
 }
 
+.course-meta .info .origin-price {
+    text-decoration: line-through;
+}
+
 .course-meta .info .free {
     color: green;
 }
@@ -1073,6 +1077,10 @@
 .cart-course-card span {
     color: #666;
     margin: 0 5px;
+}
+
+.cart-course-card .origin-price {
+    text-decoration: line-through;
 }
 
 .cart-course-card .price {

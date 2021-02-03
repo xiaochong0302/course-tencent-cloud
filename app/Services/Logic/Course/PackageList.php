@@ -40,7 +40,7 @@ class PackageList extends Service
 
             if ($courses) {
                 foreach ($courses as $course) {
-                    $package['origin_price'] += $course['market_price'];
+                    $package['origin_price'] += $course['origin_price'];
                 }
                 $package['courses'] = $this->sortCourses($courses, $firstCourseId);
             }

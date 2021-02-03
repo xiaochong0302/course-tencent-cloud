@@ -104,7 +104,14 @@ class Course extends Model
     public $teacher_id = 0;
 
     /**
-     * 市场价格
+     * 原始价格
+     *
+     * @var float
+     */
+    public $origin_price;
+
+    /**
+     * 优惠价格
      *
      * @var float
      */
@@ -312,6 +319,10 @@ class Course extends Model
             $this->attrs = kg_json_encode($this->attrs);
         }
 
+        if (empty($this->origin_price)) {
+            $this->origin_price = 1.5 * $this->market_price;
+        }
+
         if ($this->deleted == 1) {
             $this->published = 0;
         }
@@ -328,6 +339,7 @@ class Course extends Model
 
     public function afterFetch()
     {
+        $this->origin_price = (float)$this->origin_price;
         $this->market_price = (float)$this->market_price;
         $this->vip_price = (float)$this->vip_price;
         $this->rating = (float)$this->rating;

@@ -33,7 +33,7 @@ class OrderConfirm extends Service
 
             $result['item_info']['course'] = $this->handleCourseInfo($course);
 
-            $result['total_amount'] = $course->market_price;
+            $result['total_amount'] = $course->origin_price;
             $result['pay_amount'] = $user->vip ? $course->vip_price : $course->market_price;
             $result['discount_amount'] = $result['total_amount'] - $result['pay_amount'];
 
@@ -46,7 +46,7 @@ class OrderConfirm extends Service
             $result['total_amount'] = 0;
 
             foreach ($result['item_info']['package']['courses'] as $course) {
-                $result['total_amount'] += $course['market_price'];
+                $result['total_amount'] += $course['origin_price'];
             }
 
             $result['pay_amount'] = $user->vip ? $package->vip_price : $package->market_price;
@@ -138,6 +138,7 @@ class OrderConfirm extends Service
             'lesson_count' => $course->lesson_count,
             'study_expiry' => $course->study_expiry,
             'refund_expiry' => $course->refund_expiry,
+            'origin_price' => $course->origin_price,
             'market_price' => $course->market_price,
             'vip_price' => $course->vip_price,
         ];

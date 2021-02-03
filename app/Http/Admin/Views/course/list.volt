@@ -100,8 +100,9 @@
                     </a>
                 </td>
                 <td>
-                    <p>市场：{{ '￥%0.2f'|format(item.market_price) }}</p>
-                    <p>会员：{{ '￥%0.2f'|format(item.vip_price) }}</p>
+                    <p>原始价：{{ '￥%0.2f'|format(item.origin_price) }}</p>
+                    <p>优惠价：{{ '￥%0.2f'|format(item.market_price) }}</p>
+                    <p>会员价：{{ '￥%0.2f'|format(item.vip_price) }}</p>
                 </td>
                 <td><input type="checkbox" name="featured" value="1" lay-skin="switch" lay-text="是|否" lay-filter="featured" data-url="{{ update_url }}" {% if item.featured == 1 %}checked="checked"{% endif %}></td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>

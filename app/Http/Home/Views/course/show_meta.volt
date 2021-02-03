@@ -34,10 +34,11 @@
 
 {%- macro meta_price_info(course) %}
     <p class="item">
+        <span class="key">原始价格</span><span class="value origin-price">{{ '￥%0.2f'|format(course.origin_price) }}</span>
         {% if course.market_price > 0 %}
-            <span class="key">市场价格</span><span class="value price">{{ '￥%0.2f'|format(course.market_price) }}</span>
+            <span class="key">优惠价格</span><span class="value price">{{ '￥%0.2f'|format(course.market_price) }}</span>
         {% else %}
-            <span class="key">市场价格</span><span class="value free">免费</span>
+            <span class="key">优惠价格</span><span class="value free">免费</span>
         {% endif %}
         {% if course.vip_price > 0 %}
             <span class="key">会员价格</span><span class="value price">{{ '￥%0.2f'|format(course.vip_price) }}</span>

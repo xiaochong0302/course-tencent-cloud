@@ -1236,7 +1236,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'default' => '0.00',
                 'precision' => '10',
                 'scale' => '2',
-                'comment' => '市场价格',
+                'comment' => '优惠价格',
                 'after' => 'teacher_id',
             ])
             ->addColumn('vip_price', 'decimal', [
@@ -3124,7 +3124,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'default' => '0.00',
                 'precision' => '10',
                 'scale' => '2',
-                'comment' => '市场价格',
+                'comment' => '优惠价格',
                 'after' => 'summary',
             ])
             ->addColumn('vip_price', 'decimal', [
