@@ -161,7 +161,7 @@ class Course extends Validator
         return implode('，', $list);
     }
 
-    public function checkGuidePrice($price)
+    public function checkOriginPrice($price)
     {
         $value = $this->filter->sanitize($price, ['trim', 'float']);
 
@@ -192,13 +192,6 @@ class Course extends Validator
         }
 
         return $value;
-    }
-
-    public function checkComparePrice($marketPrice, $vipPrice)
-    {
-        if ($vipPrice > $marketPrice) {
-            throw new BadRequestException('course.invalid_compare_price');
-        }
     }
 
     public function checkStudyExpiry($expiry)
