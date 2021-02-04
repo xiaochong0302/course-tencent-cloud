@@ -50,7 +50,7 @@ class SettingController extends Controller
 
             $data = $this->request->getPost();
 
-            $settingService->updateStorageSettings($section, $data);
+            $settingService->updateSettings($section, $data);
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
@@ -245,6 +245,31 @@ class SettingController extends Controller
             $captcha = $settingService->getSettings($section);
 
             $this->view->setVar('captcha', $captcha);
+        }
+    }
+
+    /**
+     * @Route("/point", name="admin.setting.point")
+     */
+    public function pointAction()
+    {
+        $section = 'point';
+
+        $settingService = new SettingService();
+
+        if ($this->request->isPost()) {
+
+            $data = $this->request->getPost();
+
+            $settingService->updatePointSettings($section, $data);
+
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
+
+        } else {
+
+            $point = $settingService->getSettings($section);
+
+            $this->view->setVar('point', $point);
         }
     }
 

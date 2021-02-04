@@ -205,22 +205,18 @@ class Chapter extends Model
         $this->model = $course->model;
 
         if ($this->parent_id > 0) {
-
-            $attrs = [];
-
-            switch ($course->model) {
-                case Course::MODEL_VOD:
-                    $attrs = $this->_vod_attrs;
-                    break;
-                case Course::MODEL_LIVE:
-                    $attrs = $this->_live_attrs;
-                    break;
-                case Course::MODEL_READ:
-                    $attrs = $this->_read_attrs;
-                    break;
+            if (empty($this->attrs)) {
+                if ($this->model == Course::MODEL_VOD) {
+                    $this->attrs = $this->_vod_attrs;
+                } elseif ($this->model == Course::MODEL_LIVE) {
+                    $this->attrs = $this->_live_attrs;
+                } elseif ($this->model == Course::MODEL_READ) {
+                    $this->attrs = $this->_read_attrs;
+                }
             }
-
-            $this->attrs = kg_json_encode($attrs);
+            if (is_array($this->attrs) && !empty($this->attrs)) {
+                $this->attrs = kg_json_encode($this->attrs);
+            }
         }
 
         $this->create_time = time();

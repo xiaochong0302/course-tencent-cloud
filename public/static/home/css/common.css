@@ -1817,3 +1817,44 @@
 .layim-chat-status .offline {
     color: gray;
 }
+
+.gift-meta .cover {
+    float: left;
+    margin-right: 10px;
+}
+
+.gift-meta .cover img {
+    width: 210px;
+    height: 118px;
+}
+
+.gift-meta .info {
+    float: left;
+    width: 400px;
+}
+
+.gift-meta .info p {
+    line-height: 35px;
+}
+
+.gift-meta .info .stats {
+    margin-bottom: 10px;
+}
+
+.gift-meta .info span {
+    margin-right: 5px;
+}
+
+.gift-meta .info .value {
+    font-size: 16px;
+    color: #666;
+}
+
+.gift-meta .info .price {
+    font-size: 16px;
+    color: red;
+}
+
+.gift-details {
+    min-height: 450px;
+}

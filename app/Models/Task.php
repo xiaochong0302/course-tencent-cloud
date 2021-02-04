@@ -10,6 +10,8 @@ class Task extends Model
      */
     const TYPE_DELIVER = 1; // 发货
     const TYPE_REFUND = 2; // 退款
+    const TYPE_POINT_GIFT_AWARD = 3; // 积分礼品派发
+    const TYPE_LUCKY_GIFT_AWARD = 4; // 抽奖礼品派发
 
     const TYPE_NOTICE_ACCOUNT_LOGIN = 11; // 帐号登录通知
     const TYPE_NOTICE_LIVE_BEGIN = 12; // 直播开始通知

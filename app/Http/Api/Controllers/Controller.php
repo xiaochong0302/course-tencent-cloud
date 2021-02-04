@@ -2,13 +2,21 @@
 
 namespace App\Http\Api\Controllers;
 
-use App\Services\Auth\Api as AppAuth;
+use App\Models\User as UserModel;
+use App\Services\Auth\Api as ApiAuth;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
+use Phalcon\Di as Di;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Dispatcher;
 
 class Controller extends \Phalcon\Mvc\Controller
 {
+
+    /**
+     * @var UserModel
+     */
+    protected $authUser;
 
     use ResponseTrait;
     use SecurityTrait;
@@ -19,21 +27,36 @@ class Controller extends \Phalcon\Mvc\Controller
             $this->setCors();
         }
 
-        if (!$this->request->isOptions()) {
-            $this->checkRateLimit();
-        }
+        $this->checkRateLimit();
 
         return true;
+    }
+
+    public function initialize()
+    {
+        $this->authUser = $this->getAuthUser();
+
+        $this->fireSiteViewEvent($this->authUser);
     }
 
     protected function getAuthUser()
     {
         /**
-         * @var AppAuth $auth
+         * @var ApiAuth $auth
          */
         $auth = $this->getDI()->get('auth');
 
         return $auth->getCurrentUser();
+    }
+
+    protected function fireSiteViewEvent(UserModel $user)
+    {
+        /**
+         * @var EventsManager $eventsManager
+         */
+        $eventsManager = Di::getDefault()->getShared('eventsManager');
+
+        $eventsManager->fire('site:view', $this, $user);
     }
 
 }

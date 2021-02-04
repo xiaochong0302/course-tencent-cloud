@@ -10,6 +10,8 @@ use App\Services\Auth\Home as HomeAuth;
 use App\Services\Service as AppService;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
+use Phalcon\Di as Di;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Dispatcher;
 
 class Controller extends \Phalcon\Mvc\Controller
@@ -66,11 +68,7 @@ class Controller extends \Phalcon\Mvc\Controller
             $this->checkCsrfToken();
         }
 
-        $config = $this->getConfig();
-
-        if ($config->path('throttle.enabled')) {
-            $this->checkRateLimit();
-        }
+        $this->checkRateLimit();
 
         return true;
     }
@@ -81,6 +79,11 @@ class Controller extends \Phalcon\Mvc\Controller
         $this->navs = $this->getNavs();
         $this->appInfo = $this->getAppInfo();
         $this->imInfo = $this->getImInfo();
+
+        /**
+         * @todo 内部操作会改变afterFetch()
+         */
+        $this->fireSiteViewEvent($this->authUser);
 
         $this->seo->setTitle($this->siteInfo['title']);
 
@@ -156,6 +159,16 @@ class Controller extends \Phalcon\Mvc\Controller
         $appService = new AppService();
 
         return $appService->getSettings($section);
+    }
+
+    protected function fireSiteViewEvent(UserModel $user)
+    {
+        /**
+         * @var EventsManager $eventsManager
+         */
+        $eventsManager = Di::getDefault()->getShared('eventsManager');
+
+        $eventsManager->fire('site:view', $this, $user);
     }
 
 }

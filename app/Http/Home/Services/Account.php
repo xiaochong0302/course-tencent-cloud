@@ -6,9 +6,10 @@ use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\Auth\Home as AuthService;
 use App\Services\Logic\Account\Register as RegisterService;
-use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Captcha as CaptchaValidator;
+use Phalcon\Di as Di;
+use Phalcon\Events\Manager as EventsManager;
 
 class Account extends Service
 {
@@ -35,6 +36,8 @@ class Account extends Service
 
         $this->auth->saveAuthInfo($user);
 
+        $this->fireAfterRegisterEvent($user);
+
         return $user;
     }
 
@@ -50,9 +53,9 @@ class Account extends Service
 
         $validator->checkCode($post['ticket'], $post['rand']);
 
-        $this->handleLoginNotice($user);
-
         $this->auth->saveAuthInfo($user);
+
+        $this->fireAfterLoginEvent($user);
     }
 
     public function loginByVerify()
@@ -63,21 +66,48 @@ class Account extends Service
 
         $user = $validator->checkVerifyLogin($post['account'], $post['verify_code']);
 
-        $this->handleLoginNotice($user);
-
         $this->auth->saveAuthInfo($user);
+
+        $this->fireAfterLoginEvent($user);
     }
 
     public function logout()
     {
+        $user = $this->getLoginUser();
+
         $this->auth->clearAuthInfo();
+
+        $this->fireAfterLogoutEvent($user);
     }
 
-    protected function handleLoginNotice(UserModel $user)
+    protected function fireAfterRegisterEvent(UserModel $user)
     {
-        $service = new AccountLoginNoticeService();
+        /**
+         * @var EventsManager $eventsManager
+         */
+        $eventsManager = Di::getDefault()->getShared('eventsManager');
 
-        $service->createTask($user);
+        $eventsManager->fire('account:afterRegister', $this, $user);
+    }
+
+    protected function fireAfterLoginEvent(UserModel $user)
+    {
+        /**
+         * @var EventsManager $eventsManager
+         */
+        $eventsManager = Di::getDefault()->getShared('eventsManager');
+
+        $eventsManager->fire('account:afterLogin', $this, $user);
+    }
+
+    protected function fireAfterLogoutEvent(UserModel $user)
+    {
+        /**
+         * @var EventsManager $eventsManager
+         */
+        $eventsManager = Di::getDefault()->getShared('eventsManager');
+
+        $eventsManager->fire('account:afterLogout', $this, $user);
     }
 
 }

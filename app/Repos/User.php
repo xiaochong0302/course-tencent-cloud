@@ -7,6 +7,8 @@ use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\ImUser as ImUserModel;
 use App\Models\User as UserModel;
+use App\Models\UserBalance as UserBalanceModel;
+use App\Models\UserContact as UserContactModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -102,6 +104,30 @@ class User extends Repository
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
+    }
+
+    /**
+     * @param int $userId
+     * @return UserBalanceModel|Model
+     */
+    public function findUserBalance($userId)
+    {
+        return UserBalanceModel::findFirst([
+            'conditions' => 'user_id = :user_id:',
+            'bind' => ['user_id' => $userId],
+        ]);
+    }
+
+    /**
+     * @param int $userId
+     * @return UserContactModel|Model
+     */
+    public function findUserContact($userId)
+    {
+        return UserContactModel::findFirst([
+            'conditions' => 'user_id = :user_id:',
+            'bind' => ['user_id' => $userId],
+        ]);
     }
 
     /**

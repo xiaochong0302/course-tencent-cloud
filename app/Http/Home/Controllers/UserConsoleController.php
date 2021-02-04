@@ -8,11 +8,14 @@ use App\Services\Logic\User\Console\AccountInfo as AccountInfoService;
 use App\Services\Logic\User\Console\ConnectDelete as ConnectDeleteService;
 use App\Services\Logic\User\Console\ConnectList as ConnectListService;
 use App\Services\Logic\User\Console\ConsultList as ConsultListService;
+use App\Services\Logic\User\Console\ContactInfo as ContactInfoService;
+use App\Services\Logic\User\Console\ContactUpdate as ContactUpdateService;
 use App\Services\Logic\User\Console\CourseList as CourseListService;
 use App\Services\Logic\User\Console\FavoriteList as FavoriteListService;
 use App\Services\Logic\User\Console\FriendList as FriendListService;
 use App\Services\Logic\User\Console\GroupList as GroupListService;
 use App\Services\Logic\User\Console\OrderList as OrderListService;
+use App\Services\Logic\User\Console\PointRedeemList as PointRedeemListService;
 use App\Services\Logic\User\Console\ProfileInfo as ProfileInfoService;
 use App\Services\Logic\User\Console\ProfileUpdate as ProfileUpdateService;
 use App\Services\Logic\User\Console\RefundList as RefundListService;
@@ -65,6 +68,19 @@ class UserConsoleController extends Controller
 
         $this->view->pick('user/console/profile');
         $this->view->setVar('user', $user);
+    }
+
+    /**
+     * @Get("/contact", name="home.uc.contact")
+     */
+    public function contactAction()
+    {
+        $service = new ContactInfoService();
+
+        $contact = $service->handle();
+
+        $this->view->pick('user/console/contact');
+        $this->view->setVar('contact', $contact);
     }
 
     /**
@@ -183,6 +199,19 @@ class UserConsoleController extends Controller
     }
 
     /**
+     * @Get("/point_redeems", name="home.uc.point_redeems")
+     */
+    public function pointRedeemsAction()
+    {
+        $service = new PointRedeemListService();
+
+        $pager = $service->handle();
+
+        $this->view->pick('user/console/point_redeems');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
      * @Get("/friends", name="home.uc.friends")
      */
     public function friendsAction()
@@ -245,6 +274,20 @@ class UserConsoleController extends Controller
             'location' => $location,
             'msg' => '更新资料成功',
         ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/contact/update", name="home.uc.update_contact")
+     */
+    public function updateContactAction()
+    {
+        $service = new ContactUpdateService();
+
+        $service->handle();
+
+        $content = ['msg' => '更新收货信息成功'];
 
         return $this->jsonSuccess($content);
     }

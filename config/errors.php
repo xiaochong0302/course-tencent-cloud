@@ -222,7 +222,7 @@ $error['page.not_found'] = '单页不存在';
 $error['page.title_too_short'] = '标题太短（少于2个字符）';
 $error['page.title_too_long'] = '标题太长（多于50个字符）';
 $error['page.content_too_short'] = '内容太短（少于10个字符）';
-$error['page.content_too_long'] = '内容太长（多于3000个字符）';
+$error['page.content_too_long'] = '内容太长（多于30000个字符）';
 $error['page.invalid_publish_status'] = '无效的发布状态';
 
 /**
@@ -232,7 +232,7 @@ $error['help.not_found'] = '帮助不存在';
 $error['help.title_too_short'] = '标题太短（少于2个字符）';
 $error['help.title_too_long'] = '标题太长（多于50个字符）';
 $error['help.content_too_short'] = '内容太短（少于10个字符）';
-$error['help.content_too_long'] = '内容太长（多于60000个字符）';
+$error['help.content_too_long'] = '内容太长（多于30000个字符）';
 $error['help.invalid_priority'] = '无效的排序数值（范围：1-255）';
 $error['help.invalid_publish_status'] = '无效的发布状态';
 
@@ -244,7 +244,7 @@ $error['slide.invalid_platform'] = '无效的平台类型';
 $error['slide.invalid_target'] = '无效的目标类型';
 $error['slide.invalid_link'] = '无效的链接地址';
 $error['slide.invalid_priority'] = '无效的排序数值（范围：1-255）';
-$error['slide.invalid_cover'] = '无效的封面图片';
+$error['slide.invalid_cover'] = '无效的封面';
 $error['slide.title_too_short'] = '标题太短（少于2个字符）';
 $error['slide.title_too_long'] = '标题太长（多于50个字符）';
 $error['slide.summary_too_long'] = '简介太长（多于255个字符）';
@@ -355,5 +355,35 @@ $error['im_message.invalid_type'] = '无效的消息类型';
 $error['im_message.content_too_short'] = '消息内容太短（少于1字符）';
 $error['im_message.content_too_long'] = '消息内容太长（超过1000字符）';
 $error['im_message.self_chat'] = '不能给自己发送消息';
+
+/**
+ * 联系信息相关
+ */
+$error['user_contact.invalid_name'] = '无效的用户姓名';
+$error['user_contact.invalid_phone'] = '无效的手机号码';
+$error['user_contact.invalid_add_province'] = '无效的地址（省）';
+$error['user_contact.invalid_add_city'] = '无效的地址（市）';
+$error['user_contact.invalid_add_county'] = '无效的地址（区）';
+$error['user_contact.invalid_add_other'] = '无效的地址（详）';
+
+/**
+ * 积分兑换相关
+ */
+$error['point_gift.not_found'] = '礼品不存在';
+$error['point_gift.name_too_short'] = '礼品名称太短（少于2字符）';
+$error['point_gift.name_too_long'] = '礼品名称太长（超过30字符）';
+$error['point_gift.details_too_long'] = '礼品详情太长（多于30000个字符）';
+$error['point_gift.invalid_cover'] = '无效的封面';
+$error['point_gift.invalid_type'] = '无效的类型';
+$error['point_gift.invalid_point'] = '无效的积分值（范围1-999999）';
+$error['point_gift.invalid_stock'] = '无效的库存值（范围1-999999）';
+$error['point_gift.invalid_publish_status'] = '无效的发布状态';
+
+$error['point_redeem.course_not_published'] = '课程尚未发布';
+$error['point_redeem.course_free'] = '课程当前免费，无需积分兑换';
+$error['point_redeem.course_owned'] = '您已经拥有课程，无需积分兑换';
+$error['point_redeem.no_user_contact'] = '您尚未设置收货地址，请前往用户中心设置';
+$error['point_redeem.no_enough_point'] = '您的积分余额不足以抵扣此次兑换';
+
 
 return $error;

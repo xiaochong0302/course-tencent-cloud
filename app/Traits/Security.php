@@ -30,13 +30,6 @@ trait Security
         $validator->checkRateLimit();
     }
 
-    public function checkApiSignature()
-    {
-        $validator = new SecurityValidator();
-
-        $validator->checkApiSignature();
-    }
-
     public function isNotSafeRequest()
     {
         /**

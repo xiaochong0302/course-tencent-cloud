@@ -271,18 +271,18 @@ class Course extends Model
 
     public function beforeCreate()
     {
-        $attrs = [];
+        if (empty($this->attrs)) {
+            if ($this->model == self::MODEL_VOD) {
+                $this->attrs = $this->_vod_attrs;
+            } elseif ($this->model == self::MODEL_LIVE) {
+                $this->attrs = $this->_live_attrs;
+            } elseif ($this->model == self::MODEL_READ) {
+                $this->attrs = $this->_read_attrs;
+            }
+        }
 
-        switch ($this->model) {
-            case Course::MODEL_VOD:
-                $attrs = $this->_vod_attrs;
-                break;
-            case Course::MODEL_LIVE:
-                $attrs = $this->_live_attrs;
-                break;
-            case Course::MODEL_READ:
-                $attrs = $this->_read_attrs;
-                break;
+        if (is_array($this->attrs) && !empty($this->attrs)) {
+            $this->attrs = kg_json_encode($this->attrs);
         }
 
         if (empty($this->cover)) {
@@ -296,10 +296,6 @@ class Course extends Model
          */
         if (is_null($this->details)) {
             $this->details = '';
-        }
-
-        if (!empty($attrs)) {
-            $this->attrs = kg_json_encode($attrs);
         }
 
         $this->create_time = time();

@@ -51,6 +51,7 @@
     <div class="layui-card-body">
         <ul class="my-menu">
             <li><a href="{{ url({'for':'home.uc.profile'}) }}">个人信息</a></li>
+            <li><a href="{{ url({'for':'home.uc.contact'}) }}">收货地址</a></li>
             <li><a href="{{ url({'for':'home.uc.account'}) }}">帐号安全</a></li>
             {% if wechat_oa.enabled == 1 %}
                 <li><a href="{{ url({'for':'home.uc.subscribe'}) }}">关注订阅</a></li>

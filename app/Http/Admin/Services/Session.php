@@ -4,9 +4,10 @@ namespace App\Http\Admin\Services;
 
 use App\Models\User as UserModel;
 use App\Services\Auth\Admin as AdminAuth;
-use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Captcha as CaptchaValidator;
+use Phalcon\Di as Di;
+use Phalcon\Events\Manager as EventsManager;
 
 class Session extends Service
 {
@@ -47,21 +48,38 @@ class Session extends Service
             $captchaValidator->checkCode($post['ticket'], $post['rand']);
         }
 
-        $this->handleLoginNotice($user);
-
         $this->auth->saveAuthInfo($user);
+
+        $this->fireAfterLoginEvent($user);
     }
 
     public function logout()
     {
+        $user = $this->getLoginUser();
+
         $this->auth->clearAuthInfo();
+
+        $this->fireAfterLogoutEvent($user);
     }
 
-    protected function handleLoginNotice(UserModel $user)
+    protected function fireAfterLoginEvent(UserModel $user)
     {
-        $service = new AccountLoginNoticeService();
+        /**
+         * @var EventsManager $eventsManager
+         */
+        $eventsManager = Di::getDefault()->getShared('eventsManager');
 
-        $service->createTask($user);
+        $eventsManager->fire('account:afterLogin', $this, $user);
+    }
+
+    protected function fireAfterLogoutEvent(UserModel $user)
+    {
+        /**
+         * @var EventsManager $eventsManager
+         */
+        $eventsManager = Di::getDefault()->getShared('eventsManager');
+
+        $eventsManager->fire('account:afterLogout', $this, $user);
     }
 
 }

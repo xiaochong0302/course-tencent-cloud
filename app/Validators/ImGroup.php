@@ -77,9 +77,9 @@ class ImGroup extends Validator
         return $value;
     }
 
-    public function checkAbout($name)
+    public function checkAbout($about)
     {
-        $value = $this->filter->sanitize($name, ['trim', 'string']);
+        $value = $this->filter->sanitize($about, ['trim', 'string']);
 
         $length = kg_strlen($value);
 

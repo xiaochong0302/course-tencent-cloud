@@ -2,6 +2,7 @@
 
 namespace App\Console\Tasks;
 
+use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\Course as CourseModel;
 use App\Models\Learning as LearningModel;
 use App\Repos\Chapter as ChapterRepo;
@@ -9,7 +10,8 @@ use App\Repos\ChapterUser as ChapterUserRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Learning as LearningRepo;
-use App\Services\Sync\Learning as LearningSync;
+use App\Services\Logic\Point\PointHistory as PointHistoryService;
+use App\Services\Sync\Learning as LearningSyncService;
 
 class SyncLearningTask extends Task
 {
@@ -18,7 +20,7 @@ class SyncLearningTask extends Task
     {
         $redis = $this->getRedis();
 
-        $sync = new LearningSync();
+        $sync = new LearningSyncService();
 
         $syncKey = $sync->getSyncKey();
 
@@ -120,7 +122,10 @@ class SyncLearningTask extends Task
         $chapterUser->update();
 
         if ($chapterUser->consumed == 1) {
+
             $this->updateCourseUser($learning);
+
+            $this->handleLearningPoint($chapterUser);
         }
     }
 
@@ -172,6 +177,16 @@ class SyncLearningTask extends Task
         $courseUser->progress = $progress;
         $courseUser->duration = $duration;
         $courseUser->update();
+    }
+
+    /**
+     * @param ChapterUserModel $chapterUser
+     */
+    protected function handleLearningPoint(ChapterUserModel $chapterUser)
+    {
+        $service = new PointHistoryService();
+
+        $service->handleChapterLearning($chapterUser);
     }
 
 }
