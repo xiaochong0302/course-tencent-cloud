@@ -26,63 +26,63 @@ class Role extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 类型
      *
-     * @var string
+     * @var int
      */
-    public $type;
+    public $type = self::TYPE_CUSTOM;
 
     /**
      * 名称
      *
      * @var string
      */
-    public $name;
+    public $name = '';
 
     /**
      * 简介
      *
      * @var string
      */
-    public $summary;
+    public $summary = '';
 
     /**
      * 权限路由
      *
-     * @var string
+     * @var array|string
      */
-    public $routes;
+    public $routes = '';
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 成员数
      *
      * @var int
      */
-    public $user_count;
+    public $user_count = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

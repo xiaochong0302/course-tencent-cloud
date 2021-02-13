@@ -48,7 +48,7 @@ class CloseTradeTask extends Task
              */
             if ($alipayTrade->trade_status == 'TRADE_SUCCESS') {
 
-                $this->eventsManager->fire('pay:afterPay', $this, $trade);
+                $this->eventsManager->fire('Trade:afterPay', $this, $trade);
 
                 $allowClosed = false;
 
@@ -85,7 +85,7 @@ class CloseTradeTask extends Task
              */
             if ($wxpayTrade->trade_state == 'SUCCESS') {
 
-                $this->eventsManager->fire('pay:afterPay', $this, $trade);
+                $this->eventsManager->fire('Trade:afterPay', $this, $trade);
 
                 $allowClosed = false;
 

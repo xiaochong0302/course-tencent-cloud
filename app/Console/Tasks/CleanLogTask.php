@@ -25,6 +25,7 @@ class CleanLogTask extends Task
         $this->cleanWxpayLog();
         $this->cleanOrderLog();
         $this->cleanRefundLog();
+        $this->cleanPointLog();
         $this->cleanNoticeLog();
         $this->cleanOtherLog();
     }
@@ -217,6 +218,18 @@ class CleanLogTask extends Task
         $type = 'refund';
 
         $this->cleanLog($type, 30);
+
+        $this->whitelist[] = $type;
+    }
+
+    /**
+     * 清理积分日志
+     */
+    protected function cleanPointLog()
+    {
+        $type = 'point';
+
+        $this->cleanLog($type, 7);
 
         $this->whitelist[] = $type;
     }

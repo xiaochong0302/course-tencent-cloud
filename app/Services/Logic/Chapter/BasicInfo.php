@@ -112,6 +112,8 @@ class BasicInfo extends Service
 
         $read = $chapterRepo->findChapterRead($chapter->id);
 
+        $read->content = kg_parse_markdown($read->content);
+
         return [
             'id' => $chapter->id,
             'title' => $chapter->title,

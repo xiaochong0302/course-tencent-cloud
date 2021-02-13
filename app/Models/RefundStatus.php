@@ -10,28 +10,28 @@ class RefundStatus extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      *  退款编号
      *
      * @var int
      */
-    public $refund_id;
+    public $refund_id = 0;
 
     /**
      * 状态类型
      *
      * @var int
      */
-    public $status;
+    public $status = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     public function getSource(): string
     {

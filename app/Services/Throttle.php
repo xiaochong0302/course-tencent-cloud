@@ -19,17 +19,17 @@ class Throttle extends Service
 
         $cacheKey = $this->getCacheKey($sign);
 
+        if ($cache->ttl($cacheKey) < 1) {
+            $cache->save($cacheKey, 0, $config->path('throttle.lifetime'));
+        }
+
         $rateLimit = $cache->get($cacheKey);
 
-        if ($rateLimit) {
-            if ($rateLimit >= $config->path('throttle.rate_limit')) {
-                return false;
-            } else {
-                $cache->increment($cacheKey, 1);
-            }
-        } else {
-            $cache->save($cacheKey, 1, $config->path('throttle.lifetime'));
+        if ($rateLimit >= $config->path('throttle.rate_limit')) {
+            return false;
         }
+
+        $cache->increment($cacheKey, 1);
 
         return true;
     }

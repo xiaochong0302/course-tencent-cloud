@@ -9,6 +9,7 @@ use App\Services\Logic\Chapter\ChapterLike as ChapterLikeService;
 use App\Services\Logic\Chapter\DanmuList as ChapterDanmuListService;
 use App\Services\Logic\Chapter\Learning as ChapterLearningService;
 use App\Services\Logic\Chapter\ResourceList as ChapterResourceListService;
+use App\Services\Logic\Course\BasicInfo as CourseInfoService;
 use App\Services\Logic\Course\ChapterList as CourseChapterListService;
 
 /**
@@ -50,20 +51,24 @@ class ChapterController extends Controller
 
         $chapter = $service->handle($id);
 
+        $service = new CourseInfoService();
+
+        $course = $service->handle($chapter['course']['id']);
+
         $owned = $chapter['me']['owned'] ?? false;
 
         if (!$owned) {
             $this->response->redirect([
                 'for' => 'home.course.show',
-                'id' => $chapter['course']['id'],
+                'id' => $course['id'],
             ]);
         }
 
         $service = new CourseChapterListService();
 
-        $catalog = $service->handle($chapter['course']['id']);
+        $catalog = $service->handle($course['id']);
 
-        $this->seo->prependTitle(['章节', $chapter['title'], $chapter['course']['title']]);
+        $this->seo->prependTitle(['章节', $chapter['title'], $course['title']]);
 
         if (!empty($chapter['summary'])) {
             $this->seo->setDescription($chapter['summary']);
@@ -83,6 +88,7 @@ class ChapterController extends Controller
             }
         }
 
+        $this->view->setVar('course', $course);
         $this->view->setVar('chapter', $chapter);
         $this->view->setVar('catalog', $catalog);
     }

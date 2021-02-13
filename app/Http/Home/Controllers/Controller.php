@@ -66,17 +66,15 @@ class Controller extends \Phalcon\Mvc\Controller
             $this->checkCsrfToken();
         }
 
-        $config = $this->getConfig();
-
-        if ($config->path('throttle.enabled')) {
-            $this->checkRateLimit();
-        }
+        $this->checkRateLimit();
 
         return true;
     }
 
     public function initialize()
     {
+        $this->eventsManager->fire('Site:afterView', $this, $this->authUser);
+
         $this->seo = $this->getSeo();
         $this->navs = $this->getNavs();
         $this->appInfo = $this->getAppInfo();

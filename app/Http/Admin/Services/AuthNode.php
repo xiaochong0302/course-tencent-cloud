@@ -476,6 +476,43 @@ class AuthNode extends Service
                         ],
                     ],
                 ],
+                [
+                    'id' => '2-8',
+                    'title' => '积分商城',
+                    'type' => 'menu',
+                    'children' => [
+                        [
+                            'id' => '2-8-1',
+                            'title' => '兑换记录',
+                            'type' => 'menu',
+                            'route' => 'admin.point_redeem.list',
+                        ],
+                        [
+                            'id' => '2-8-2',
+                            'title' => '礼品列表',
+                            'type' => 'menu',
+                            'route' => 'admin.point_gift.list',
+                        ],
+                        [
+                            'id' => '2-8-3',
+                            'title' => '添加礼品',
+                            'type' => 'menu',
+                            'route' => 'admin.point_gift.add',
+                        ],
+                        [
+                            'id' => '2-8-4',
+                            'title' => '编辑礼品',
+                            'type' => 'button',
+                            'route' => 'admin.point_gift.edit',
+                        ],
+                        [
+                            'id' => '2-8-5',
+                            'title' => '删除礼品',
+                            'type' => 'button',
+                            'route' => 'admin.point_gift.delete',
+                        ],
+                    ],
+                ],
             ],
         ];
     }
@@ -762,6 +799,12 @@ class AuthNode extends Service
                             'title' => '微信公众号',
                             'type' => 'menu',
                             'route' => 'admin.setting.wechat_oa',
+                        ],
+                        [
+                            'id' => '5-1-14',
+                            'title' => '积分设置',
+                            'type' => 'menu',
+                            'route' => 'admin.setting.point',
                         ],
                     ],
                 ],

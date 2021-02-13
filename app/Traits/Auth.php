@@ -2,12 +2,11 @@
 
 namespace App\Traits;
 
+use App\Caches\User as UserCache;
 use App\Models\User as UserModel;
-use App\Repos\User as UserRepo;
 use App\Services\Auth as AuthService;
 use App\Validators\Validator as AppValidator;
 use Phalcon\Di as Di;
-use Phalcon\Events\Manager as EventsManager;
 
 trait Auth
 {
@@ -23,18 +22,9 @@ trait Auth
             return $this->getGuestUser();
         }
 
-        $userRepo = new UserRepo();
+        $userCache = new UserCache();
 
-        $user = $userRepo->findById($authUser['id']);
-
-        /**
-         * @var EventsManager $eventsManager
-         */
-        $eventsManager = Di::getDefault()->getShared('eventsManager');
-
-        $eventsManager->fire('user:online', $this, $user);
-
-        return $user;
+        return $userCache->get($authUser['id']);
     }
 
     /**
@@ -48,9 +38,9 @@ trait Auth
 
         $validator->checkAuthUser($authUser['id']);
 
-        $userRepo = new UserRepo();
+        $userCache = new UserCache();
 
-        return $userRepo->findById($authUser['id']);
+        return $userCache->get($authUser['id']);
     }
 
     /**

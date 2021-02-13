@@ -18,7 +18,9 @@
         <span class="share">
             <a href="javascript:" title="我要点赞" data-url="{{ like_url }}"><i class="layui-icon layui-icon-praise icon-praise"></i><em class="like-count">{{ chapter.like_count }}</em></a>
             <a href="javascript:" title="学习人次"><i class="layui-icon layui-icon-user"></i><em>{{ chapter.user_count }}</em></a>
-            <a href="javascript:" title="我要提问" data-url="{{ consult_url }}"><i class="layui-icon layui-icon-help icon-help"></i></a>
+            {% if course.market_price > 0 %}
+                <a href="javascript:" title="我要提问" data-url="{{ consult_url }}"><i class="layui-icon layui-icon-help icon-help"></i></a>
+            {% endif %}
             {% if chapter.resource_count > 0 and chapter.me.owned == 1 %}
                 <a href="javascript:" title="资料下载" data-url="{{ resources_url }}"><i class="layui-icon layui-icon-download-circle icon-resource"></i></a>
             {% endif %}

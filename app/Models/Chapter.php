@@ -60,126 +60,126 @@ class Chapter extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 父级编号
      *
      * @var int
      */
-    public $parent_id;
+    public $parent_id = 0;
 
     /**
      * 课程编号
      *
      * @var int
      */
-    public $course_id;
+    public $course_id = 0;
 
     /**
      * 标题
      *
      * @var string
      */
-    public $title;
+    public $title = '';
 
     /**
      * 摘要
      *
      * @var string
      */
-    public $summary;
+    public $summary = '';
 
     /**
      * 优先级
      *
      * @var int
      */
-    public $priority;
+    public $priority = 0;
 
     /**
      * 免费标识
      *
      * @var int
      */
-    public $free;
+    public $free = 0;
 
     /**
      * 模式类型
      *
      * @var int
      */
-    public $model;
+    public $model = 0;
 
     /**
      * 扩展属性
      *
      * @var string|array
      */
-    public $attrs;
+    public $attrs = '';
 
     /**
      * 发布标识
      *
      * @var int
      */
-    public $published;
+    public $published = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 资源数
      *
      * @var int
      */
-    public $resource_count;
+    public $resource_count = 0;
 
     /**
      * 课时数
      *
      * @var int
      */
-    public $lesson_count;
+    public $lesson_count = 0;
 
     /**
      * 学员数
      *
      * @var int
      */
-    public $user_count;
+    public $user_count = 0;
 
     /**
      * 咨询数
      *
      * @var int
      */
-    public $consult_count;
+    public $consult_count = 0;
 
     /**
      * 点赞数
      *
      * @var int
      */
-    public $like_count;
+    public $like_count = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {
@@ -205,22 +205,18 @@ class Chapter extends Model
         $this->model = $course->model;
 
         if ($this->parent_id > 0) {
-
-            $attrs = [];
-
-            switch ($course->model) {
-                case Course::MODEL_VOD:
-                    $attrs = $this->_vod_attrs;
-                    break;
-                case Course::MODEL_LIVE:
-                    $attrs = $this->_live_attrs;
-                    break;
-                case Course::MODEL_READ:
-                    $attrs = $this->_read_attrs;
-                    break;
+            if (empty($this->attrs)) {
+                if ($this->model == Course::MODEL_VOD) {
+                    $this->attrs = $this->_vod_attrs;
+                } elseif ($this->model == Course::MODEL_LIVE) {
+                    $this->attrs = $this->_live_attrs;
+                } elseif ($this->model == Course::MODEL_READ) {
+                    $this->attrs = $this->_read_attrs;
+                }
             }
-
-            $this->attrs = kg_json_encode($attrs);
+            if (is_array($this->attrs) && !empty($this->attrs)) {
+                $this->attrs = kg_json_encode($this->attrs);
+            }
         }
 
         $this->create_time = time();

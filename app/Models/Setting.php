@@ -10,28 +10,28 @@ class Setting extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 配置块
      *
      * @var string
      */
-    public $section;
+    public $section = '';
 
     /**
      * 配置键
      *
      * @var string
      */
-    public $item_key;
+    public $item_key = '';
 
     /**
      * 配置值
      *
      * @var string
      */
-    public $item_value;
+    public $item_value = '';
 
     public function getSource(): string
     {

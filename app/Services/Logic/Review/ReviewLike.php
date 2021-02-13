@@ -78,7 +78,7 @@ class ReviewLike extends Service
 
     protected function incrUserDailyReviewLikeCount(UserModel $user)
     {
-        $this->eventsManager->fire('userDailyCounter:incrReviewLikeCount', $this, $user);
+        $this->eventsManager->fire('UserDailyCounter:incrReviewLikeCount', $this, $user);
     }
 
 }

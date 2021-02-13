@@ -50,11 +50,17 @@ class Session extends Service
         $this->handleLoginNotice($user);
 
         $this->auth->saveAuthInfo($user);
+
+        $this->eventsManager->fire('Account:afterLogin', $this, $user);
     }
 
     public function logout()
     {
+        $user = $this->getLoginUser();
+
         $this->auth->clearAuthInfo();
+
+        $this->eventsManager->fire('Account:afterLogout', $this, $user);
     }
 
     protected function handleLoginNotice(UserModel $user)

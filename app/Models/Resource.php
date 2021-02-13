@@ -10,42 +10,42 @@ class Resource extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 课程编号
      *
      * @var int
      */
-    public $course_id;
+    public $course_id = 0;
 
     /**
      * 章节编号
      *
      * @var int
      */
-    public $chapter_id;
+    public $chapter_id = 0;
 
     /**
      * 上传编号
      *
      * @var int
      */
-    public $upload_id;
+    public $upload_id = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

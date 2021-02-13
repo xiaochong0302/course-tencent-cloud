@@ -41,9 +41,6 @@ class RefundTask extends Task
 
         foreach ($tasks as $task) {
 
-            /**
-             * @var array $itemInfo
-             */
             $itemInfo = $task->item_info;
 
             $refund = $refundRepo->findById($itemInfo['refund']['id']);
@@ -51,6 +48,8 @@ class RefundTask extends Task
             $order = $orderRepo->findById($itemInfo['refund']['order_id']);
 
             if (!$refund || !$trade || !$order) {
+                $task->status = TaskModel::STATUS_FAILED;
+                $task->update();
                 continue;
             }
 
@@ -111,7 +110,8 @@ class RefundTask extends Task
                 $task->update();
 
                 $logger->info('Refund Task Exception ' . kg_json_encode([
-                        'code' => $e->getCode(),
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
                         'message' => $e->getMessage(),
                         'task' => $task->toArray(),
                     ]));
@@ -148,7 +148,7 @@ class RefundTask extends Task
         }
 
         if (!$response) {
-            throw new \RuntimeException('Pay Refund Failed');
+            throw new \RuntimeException('Trade Refund Failed');
         }
     }
 
@@ -208,9 +208,6 @@ class RefundTask extends Task
     {
         $courseUserRepo = new CourseUserRepo();
 
-        /**
-         * @var array $itemInfo
-         */
         $itemInfo = $order->item_info;
 
         foreach ($itemInfo['courses'] as $course) {
@@ -239,9 +236,6 @@ class RefundTask extends Task
 
         $user = $userRepo->findById($order->owner_id);
 
-        /**
-         * @var array $itemInfo
-         */
         $itemInfo = $order->item_info;
 
         $diffTime = "-{$itemInfo['vip']['expiry']} months";

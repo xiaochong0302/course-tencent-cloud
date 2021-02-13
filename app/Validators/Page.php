@@ -86,7 +86,7 @@ class Page extends Validator
             throw new BadRequestException('page.content_too_short');
         }
 
-        if ($length > 3000) {
+        if ($length > 30000) {
             throw new BadRequestException('page.content_too_long');
         }
 

@@ -10,6 +10,14 @@ class Task extends Model
      */
     const TYPE_DELIVER = 1; // 发货
     const TYPE_REFUND = 2; // 退款
+    const TYPE_POINT_GIFT_DELIVER = 3; // 积分礼品派发
+    const TYPE_LUCKY_GIFT_DELIVER = 4; // 抽奖礼品派发
+
+    const TYPE_NOTICE_ACCOUNT_LOGIN = 11; // 帐号登录通知
+    const TYPE_NOTICE_LIVE_BEGIN = 12; // 直播开始通知
+    const TYPE_NOTICE_ORDER_FINISH = 13; // 订单完成通知
+    const TYPE_NOTICE_REFUND_FINISH = 14; // 退款完成通知
+    const TYPE_NOTICE_CONSULT_REPLY = 15; // 咨询回复通知
 
     const TYPE_NOTICE_ACCOUNT_LOGIN = 11; // 帐号登录通知
     const TYPE_NOTICE_LIVE_BEGIN = 12; // 直播开始通知
@@ -37,63 +45,63 @@ class Task extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 条目编号
      *
      * @var int
      */
-    public $item_id;
+    public $item_id = 0;
 
     /**
      * 条目类型
      *
      * @var int
      */
-    public $item_type;
+    public $item_type = 0;
 
     /**
      * 条目内容
      *
      * @var string|array
      */
-    public $item_info;
+    public $item_info = '';
 
     /**
      * 优先级
      *
      * @var int
      */
-    public $priority;
+    public $priority = self::PRIORITY_LOW;
 
     /**
      * 状态标识
      *
      * @var int
      */
-    public $status;
+    public $status = self::STATUS_PENDING;
 
     /**
      * 重试次数
      *
      * @var int
      */
-    public $try_count;
+    public $try_count = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

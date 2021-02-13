@@ -22,91 +22,91 @@ class ImGroup extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 群主编号
      *
      * @var int
      */
-    public $owner_id;
+    public $owner_id = 0;
 
     /**
      * 课程编号
      *
      * @var int
      */
-    public $course_id;
+    public $course_id = 0;
 
     /**
      * 群组类型
      *
      * @var int
      */
-    public $type;
+    public $type = 0;
 
     /**
      * 名称
      *
      * @var string
      */
-    public $name;
+    public $name = '';
 
     /**
      * 图标
      *
      * @var string
      */
-    public $avatar;
+    public $avatar = '';
 
     /**
      * 简介
      *
      * @var string
      */
-    public $about;
+    public $about = '';
 
     /**
      * 发布状态
      *
      * @var int
      */
-    public $published;
+    public $published = 0;
 
     /**
      * 删除状态
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 成员数
      *
      * @var int
      */
-    public $user_count;
+    public $user_count = 0;
 
     /**
      * 消息数
      *
      * @var int
      */
-    public $msg_count;
+    public $msg_count = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {
@@ -187,4 +187,3 @@ class ImGroup extends Model
     }
 
 }
-

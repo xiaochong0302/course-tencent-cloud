@@ -13,63 +13,63 @@ class Help extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 分类编号
      *
      * @var int
      */
-    public $category_id;
+    public $category_id = 0;
 
     /**
      * 标题
      *
      * @var string
      */
-    public $title;
+    public $title = '';
 
     /**
      * 内容
      *
      * @var string
      */
-    public $content;
+    public $content = '';
 
     /**
      * 优先级
      *
      * @var int
      */
-    public $priority;
+    public $priority = 0;
 
     /**
      * 发布标识
      *
      * @var int
      */
-    public $published;
+    public $published = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {
@@ -90,13 +90,6 @@ class Help extends Model
 
     public function beforeCreate()
     {
-        /**
-         * text类型不会自动填充默认值
-         */
-        if (is_null($this->content)) {
-            $this->content = '';
-        }
-
         $this->create_time = time();
     }
 

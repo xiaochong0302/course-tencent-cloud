@@ -12,49 +12,49 @@ class ChapterVod extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 课程编号
      *
      * @var int
      */
-    public $course_id;
+    public $course_id = 0;
 
     /**
      * 章节编号
      *
      * @var int
      */
-    public $chapter_id;
+    public $chapter_id = 0;
 
     /**
      * 文件编号
      *
      * @var string
      */
-    public $file_id;
+    public $file_id = '';
 
     /**
      * 文件转码
      *
-     * @var string
+     * @var array|string
      */
-    public $file_transcode;
+    public $file_transcode = '';
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

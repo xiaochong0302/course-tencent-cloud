@@ -9,6 +9,8 @@ use App\Services\Logic\Account\Register as RegisterService;
 use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Captcha as CaptchaValidator;
+use Phalcon\Di as Di;
+use Phalcon\Events\Manager as EventsManager;
 
 class Account extends Service
 {
@@ -35,6 +37,8 @@ class Account extends Service
 
         $this->auth->saveAuthInfo($user);
 
+        $this->fireAfterRegisterEvent($user);
+
         return $user;
     }
 
@@ -53,6 +57,8 @@ class Account extends Service
         $this->handleLoginNotice($user);
 
         $this->auth->saveAuthInfo($user);
+
+        $this->fireAfterLoginEvent($user);
     }
 
     public function loginByVerify()
@@ -66,11 +72,47 @@ class Account extends Service
         $this->handleLoginNotice($user);
 
         $this->auth->saveAuthInfo($user);
+
+        $this->fireAfterLoginEvent($user);
     }
 
     public function logout()
     {
+        $user = $this->getLoginUser();
+
         $this->auth->clearAuthInfo();
+
+        $this->fireAfterLogoutEvent($user);
+    }
+
+    protected function fireAfterRegisterEvent(UserModel $user)
+    {
+        /**
+         * @var EventsManager $eventsManager
+         */
+        $eventsManager = Di::getDefault()->getShared('eventsManager');
+
+        $eventsManager->fire('Account:afterRegister', $this, $user);
+    }
+
+    protected function fireAfterLoginEvent(UserModel $user)
+    {
+        /**
+         * @var EventsManager $eventsManager
+         */
+        $eventsManager = Di::getDefault()->getShared('eventsManager');
+
+        $eventsManager->fire('Account:afterLogin', $this, $user);
+    }
+
+    protected function fireAfterLogoutEvent(UserModel $user)
+    {
+        /**
+         * @var EventsManager $eventsManager
+         */
+        $eventsManager = Di::getDefault()->getShared('eventsManager');
+
+        $eventsManager->fire('Account:afterLogout', $this, $user);
     }
 
     protected function handleLoginNotice(UserModel $user)

@@ -30,98 +30,98 @@ class Order extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 序号
      *
      * @var string
      */
-    public $sn;
+    public $sn = '';
 
     /**
      * 主题
      *
      * @var string
      */
-    public $subject;
+    public $subject = '';
 
     /**
      * 金额
      *
      * @var float
      */
-    public $amount;
+    public $amount = 0.00;
 
     /**
      * 用户编号
      *
      * @var int
      */
-    public $owner_id;
+    public $owner_id = 0;
 
     /**
      * 条目编号
      *
      * @var int
      */
-    public $item_id;
+    public $item_id = 0;
 
     /**
      * 条目类型
      *
      * @var int
      */
-    public $item_type;
+    public $item_type = 0;
 
     /**
      * 条目信息
      *
      * @var string|array
      */
-    public $item_info;
+    public $item_info = '';
 
     /**
      * 终端类型
      *
      * @var int
      */
-    public $client_type;
+    public $client_type = 0;
 
     /**
      * 终端IP
      *
      * @var string
      */
-    public $client_ip;
+    public $client_ip = '';
 
     /**
      * 状态类型
      *
      * @var int
      */
-    public $status;
+    public $status = self::STATUS_PENDING;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

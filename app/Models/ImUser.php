@@ -21,77 +21,77 @@ class ImUser extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 名称
      *
      * @var string
      */
-    public $name;
+    public $name = '';
 
     /**
      * 头像
      *
      * @var string
      */
-    public $avatar;
+    public $avatar = '';
 
     /**
      * 签名
      *
      * @var string
      */
-    public $sign;
+    public $sign = '';
 
     /**
      * 皮肤
      *
      * @var string
      */
-    public $skin;
+    public $skin = '';
 
     /**
      * 状态
      *
      * @var string
      */
-    public $status;
+    public $status = 'none';
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 好友数
      *
      * @var int
      */
-    public $friend_count;
+    public $friend_count = 0;
 
     /**
      * 群组数
      *
      * @var int
      */
-    public $group_count;
+    public $group_count = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

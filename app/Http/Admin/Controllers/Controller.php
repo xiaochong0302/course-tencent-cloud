@@ -37,8 +37,6 @@ class Controller extends \Phalcon\Mvc\Controller
             $this->checkCsrfToken();
         }
 
-        $this->checkRateLimit();
-
         $this->authInfo = $this->getAuthInfo();
 
         if (!$this->authInfo) {

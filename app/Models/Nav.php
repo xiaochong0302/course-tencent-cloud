@@ -24,98 +24,98 @@ class Nav extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 上级编号
      *
      * @var int
      */
-    public $parent_id;
+    public $parent_id = 0;
 
     /**
      * 层级
      *
      * @var int
      */
-    public $level;
+    public $level = 0;
 
     /**
      * 名称
      *
      * @var string
      */
-    public $name;
+    public $name = '';
 
     /**
      * 路径
      *
      * @var string
      */
-    public $path;
+    public $path = '';
 
     /**
      * 打开方式
      *
      * @var string
      */
-    public $target;
+    public $target = '';
 
     /**
      * 链接地址
      *
      * @var string
      */
-    public $url;
+    public $url = '';
 
     /**
      * 位置
      *
      * @var int
      */
-    public $position;
+    public $position = 1;
 
     /**
      * 优先级
      *
      * @var int
      */
-    public $priority;
+    public $priority = 0;
 
     /**
      * 发布标识
      *
      * @var int
      */
-    public $published;
+    public $published = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 节点数
      *
      * @var int
      */
-    public $child_count;
+    public $child_count = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

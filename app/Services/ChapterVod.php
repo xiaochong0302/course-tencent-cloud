@@ -17,16 +17,11 @@ class ChapterVod extends Service
             return [];
         }
 
-        /**
-         * @var array $transcode
-         */
-        $transcode = $vod->file_transcode;
-
         $vod = new Vod();
 
         $result = [];
 
-        foreach ($transcode as $key => $file) {
+        foreach ($vod->file_transcode as $key => $file) {
             $file['url'] = $vod->getPlayUrl($file['url']);
             $type = $this->getDefinitionType($file['height']);
             $result[$type] = $file;
@@ -54,14 +49,14 @@ class ChapterVod extends Service
     }
 
     /**
-     * @return array
+     * 腾讯云播放器只支持[od|hd|sd]，实际转码速率[hd|sd|fd]，重新映射清晰度
      */
     protected function getVodTemplates()
     {
         return [
-            'hd' => ['height' => 720, 'rate' => 1800],
-            'sd' => ['height' => 540, 'rate' => 1000],
-            'fd' => ['height' => 360, 'rate' => 400],
+            'od' => ['height' => 720, 'rate' => 1800],
+            'hd' => ['height' => 540, 'rate' => 1000],
+            'sd' => ['height' => 360, 'rate' => 400],
         ];
     }
 

@@ -19,28 +19,35 @@ class Consult extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 课程编号
      *
      * @var int
      */
-    public $course_id;
+    public $course_id = 0;
 
     /**
      * 章节编号
      *
      * @var int
      */
-    public $chapter_id;
+    public $chapter_id = 0;
 
     /**
      * 提主编号
      *
      * @var int
      */
-    public $owner_id;
+    public $owner_id = 0;
+
+    /**
+     * 答主编号
+     *
+     * @var int
+     */
+    public $replier_id = 0;
 
     /**
      * 答主编号
@@ -54,77 +61,77 @@ class Consult extends Model
      *
      * @var string
      */
-    public $question;
+    public $question = '';
 
     /**
      * 回答
      *
      * @var string
      */
-    public $answer;
+    public $answer = '';
 
     /**
      * 评分
      *
      * @var int
      */
-    public $rating;
+    public $rating = 0;
 
     /**
      * 优先级
      *
      * @var int
      */
-    public $priority;
+    public $priority = 0;
 
     /**
      * 私密标识
      *
      * @var int
      */
-    public $private;
+    public $private = 0;
 
     /**
      * 发布标识
      *
      * @var int
      */
-    public $published;
+    public $published = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 赞成数
      *
      * @var int
      */
-    public $like_count;
+    public $like_count = 0;
 
     /**
      * 回复时间
      *
      * @var int
      */
-    public $reply_time;
+    public $reply_time = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

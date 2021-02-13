@@ -10,28 +10,28 @@ class TradeStatus extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 交易编号
      *
      * @var int
      */
-    public $trade_id;
+    public $trade_id = 0;
 
     /**
      * 状态类型
      *
      * @var int
      */
-    public $status;
+    public $status = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     public function getSource(): string
     {

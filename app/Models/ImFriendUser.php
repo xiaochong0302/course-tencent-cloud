@@ -10,49 +10,49 @@ class ImFriendUser extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 用户编号
      *
      * @var int
      */
-    public $user_id;
+    public $user_id = 0;
 
     /**
      * 好友编号
      *
      * @var int
      */
-    public $friend_id;
+    public $friend_id = 0;
 
     /**
      * 分组编号
      *
      * @var int
      */
-    public $group_id;
+    public $group_id = 0;
 
     /**
      * 消息数量
      *
      * @var int
      */
-    public $msg_count;
+    public $msg_count = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

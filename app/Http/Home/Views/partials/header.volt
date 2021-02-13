@@ -33,6 +33,9 @@
             <a href="javascript:" class="nav-search" data-type="{{ s_type }}" data-query="{{ s_query }}" data-url="{{ s_url }}"><i class="layui-icon layui-icon-search"></i> 搜索</a>
         </li>
         <li class="layui-nav-item">
+            <a href="{{ url({'for':'home.point_gift.list'}) }}" class="nav-point-gift"><i class="layui-icon layui-icon-gift"></i> 积分</a>
+        </li>
+        <li class="layui-nav-item">
             <a href="{{ url({'for':'home.vip.index'}) }}" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
         </li>
         <li class="layui-nav-item">

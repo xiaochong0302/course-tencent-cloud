@@ -12,56 +12,56 @@ class Account extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 邮箱
      *
      * @var string
      */
-    public $email;
+    public $email = '';
 
     /**
      * 手机
      *
      * @var string
      */
-    public $phone;
+    public $phone = '';
 
     /**
      * 密码
      *
      * @var string
      */
-    public $password;
+    public $password = '';
 
     /**
      * 密盐
      *
      * @var string
      */
-    public $salt;
+    public $salt = '';
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {
