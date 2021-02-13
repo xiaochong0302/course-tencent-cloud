@@ -2,12 +2,9 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Models\User as UserModel;
 use App\Services\Auth\Admin as AdminAuth;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Captcha as CaptchaValidator;
-use Phalcon\Di as Di;
-use Phalcon\Events\Manager as EventsManager;
 
 class Session extends Service
 {
@@ -50,7 +47,7 @@ class Session extends Service
 
         $this->auth->saveAuthInfo($user);
 
-        $this->fireAfterLoginEvent($user);
+        $this->eventsManager->fire('Account:afterLogin', $this, $user);
     }
 
     public function logout()
@@ -59,27 +56,7 @@ class Session extends Service
 
         $this->auth->clearAuthInfo();
 
-        $this->fireAfterLogoutEvent($user);
-    }
-
-    protected function fireAfterLoginEvent(UserModel $user)
-    {
-        /**
-         * @var EventsManager $eventsManager
-         */
-        $eventsManager = Di::getDefault()->getShared('eventsManager');
-
-        $eventsManager->fire('account:afterLogin', $this, $user);
-    }
-
-    protected function fireAfterLogoutEvent(UserModel $user)
-    {
-        /**
-         * @var EventsManager $eventsManager
-         */
-        $eventsManager = Di::getDefault()->getShared('eventsManager');
-
-        $eventsManager->fire('account:afterLogout', $this, $user);
+        $this->eventsManager->fire('Account:afterLogout', $this, $user);
     }
 
 }

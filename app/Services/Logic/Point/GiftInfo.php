@@ -28,8 +28,11 @@ class GiftInfo extends Service
             'name' => $gift->name,
             'cover' => $gift->cover,
             'details' => $gift->details,
+            'attrs' => $gift->attrs,
             'type' => $gift->type,
+            'stock' => $gift->stock,
             'point' => $gift->point,
+            'redeem_limit' => $gift->redeem_limit,
             'redeem_count' => $gift->redeem_count,
         ];
     }

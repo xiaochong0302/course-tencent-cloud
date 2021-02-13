@@ -13,70 +13,70 @@ class Package extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 标题
      *
      * @var string
      */
-    public $title;
+    public $title = '';
 
     /**
      * 简介
      *
      * @var string
      */
-    public $summary;
+    public $summary = '';
 
     /**
      * 市场价格
      *
      * @var float
      */
-    public $market_price;
+    public $market_price = 0.00;
 
     /**
      * 会员价格
      *
      * @var float
      */
-    public $vip_price;
+    public $vip_price = 0.00;
 
     /**
      * 课程数量
      *
      * @var int
      */
-    public $course_count;
+    public $course_count = 0;
 
     /**
      * 发布标识
      *
      * @var int
      */
-    public $published;
+    public $published = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

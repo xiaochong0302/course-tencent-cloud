@@ -3,6 +3,7 @@
 namespace App\Services\Logic\Point;
 
 use App\Models\ChapterUser as ChapterUserModel;
+use App\Models\ImMessage as ImMessageModel;
 use App\Models\Order as OrderModel;
 use App\Models\PointHistory as PointHistoryModel;
 use App\Models\PointRedeem as PointRedeemModel;
@@ -93,6 +94,7 @@ class PointHistory extends Service
         $eventInfo = [
             'point_redeem' => [
                 'id' => $redeem->id,
+                'gift_id' => $redeem->gift_id,
                 'gift_name' => $redeem->gift_name,
                 'gift_type' => $redeem->gift_type,
                 'gift_point' => $redeem->gift_point,
@@ -130,6 +132,7 @@ class PointHistory extends Service
         $eventInfo = [
             'point_redeem' => [
                 'id' => $redeem->id,
+                'gift_id' => $redeem->gift_id,
                 'gift_name' => $redeem->gift_name,
                 'gift_type' => $redeem->gift_type,
                 'gift_point' => $redeem->gift_point,
@@ -168,11 +171,11 @@ class PointHistory extends Service
 
         $eventId = $user->id;
         $eventType = PointHistoryModel::EVENT_SITE_VISIT;
-        $eventInfo = '每日登录';
+        $eventInfo = '每日访问';
 
         $historyRepo = new PointHistoryRepo();
 
-        $history = $historyRepo->findDailyEventHistory($eventId, $eventType);
+        $history = $historyRepo->findDailyEventHistory($eventId, $eventType, date('Ymd'));
 
         if ($history) return;
 
@@ -208,11 +211,11 @@ class PointHistory extends Service
 
         $eventId = $user->id;
         $eventType = PointHistoryModel::EVENT_ACCOUNT_REGISTER;
-        $eventInfo = '用户注册';
+        $eventInfo = '帐号注册';
 
         $historyRepo = new PointHistoryRepo();
 
-        $history = $historyRepo->findDailyEventHistory($eventId, $eventType);
+        $history = $historyRepo->findDailyEventHistory($eventId, $eventType, date('Ymd'));
 
         if ($history) return;
 
@@ -228,7 +231,7 @@ class PointHistory extends Service
         $this->handlePointHistory($history);
     }
 
-    public function handleLessonLearning(ChapterUserModel $chapterUser)
+    public function handleChapterStudy(ChapterUserModel $chapterUser)
     {
         $setting = $this->getSettings('point');
 
@@ -238,16 +241,16 @@ class PointHistory extends Service
 
         $eventRule = json_decode($setting['event_rule'], true);
 
-        $eventEnabled = $eventRule['chapter_learning']['enabled'] ?? 0;
+        $eventEnabled = $eventRule['chapter_study']['enabled'] ?? 0;
 
         if ($eventEnabled == 0) return;
 
-        $eventPoint = $eventRule['chapter_learning']['point'] ?? 0;
+        $eventPoint = $eventRule['chapter_study']['point'] ?? 0;
 
         if ($eventPoint <= 0) return;
 
         $eventId = $chapterUser->id;
-        $eventType = PointHistoryModel::EVENT_LESSON_LEARNING;
+        $eventType = PointHistoryModel::EVENT_CHAPTER_STUDY;
 
         $historyRepo = new PointHistoryRepo();
 
@@ -344,7 +347,7 @@ class PointHistory extends Service
         $this->handlePointHistory($history);
     }
 
-    public function handleGroupDiscuss(UserModel $user)
+    public function handleImDiscuss(ImMessageModel $message)
     {
         $setting = $this->getSettings('point');
 
@@ -354,23 +357,27 @@ class PointHistory extends Service
 
         $eventRule = json_decode($setting['event_rule'], true);
 
-        $eventEnabled = $eventRule['group_discuss']['enabled'] ?? 0;
+        $eventEnabled = $eventRule['im_discuss']['enabled'] ?? 0;
 
         if ($eventEnabled == 0) return;
 
-        $eventPoint = $eventRule['group_discuss']['point'] ?? 0;
+        $eventPoint = $eventRule['im_discuss']['point'] ?? 0;
 
         if ($eventPoint <= 0) return;
 
-        $eventId = $user->id;
-        $eventType = PointHistoryModel::EVENT_GROUP_DISCUSS;
-        $eventInfo = '群组讨论';
+        $eventId = $message->sender_id;
+        $eventType = PointHistoryModel::EVENT_IM_DISCUSS;
+        $eventInfo = '每日微聊';
 
         $historyRepo = new PointHistoryRepo();
 
-        $history = $historyRepo->findEventHistory($eventId, $eventType);
+        $history = $historyRepo->findDailyEventHistory($eventId, $eventType, date('Ymd'));
 
         if ($history) return;
+
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($message->sender_id);
 
         $history = new PointHistoryModel();
 
@@ -386,6 +393,8 @@ class PointHistory extends Service
 
     protected function handlePointHistory(PointHistoryModel $history)
     {
+        $logger = $this->getLogger('point');
+
         try {
 
             $this->db->begin();
@@ -419,20 +428,13 @@ class PointHistory extends Service
 
             $this->db->rollback();
 
-            $this->logException($e);
+            $logger->error('Point History Exception ' . kg_json_encode([
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
 
             throw new \RuntimeException('sys.trans_rollback');
         }
-    }
-
-    protected function logException(\Exception $e)
-    {
-        $logger = $this->getLogger('point');
-
-        $logger->error('Point History Exception ' . kg_json_encode([
-                'code' => $e->getCode(),
-                'message' => $e->getMessage(),
-            ]));
     }
 
 }

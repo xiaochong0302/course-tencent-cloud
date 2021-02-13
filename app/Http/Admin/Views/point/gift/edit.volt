@@ -82,6 +82,12 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label">兑换限额</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text" name="redeem_limit" value="{{ gift.redeem_limit }}" lay-verify="number">
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-input-block">
                     <button class="kg-submit layui-btn" lay-submit="true" lay-filter="go">提交</button>

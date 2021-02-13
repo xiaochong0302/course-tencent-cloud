@@ -5,22 +5,22 @@ namespace App\Listeners;
 use App\Models\User as UserModel;
 use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
 use App\Services\Logic\Point\PointHistory as PointHistoryService;
-use Phalcon\Events\Event;
+use Phalcon\Events\Event as PhEvent;
 
 class Account extends Listener
 {
 
-    public function afterRegister(Event $event, $source, UserModel $user)
+    public function afterRegister(PhEvent $event, $source, UserModel $user)
     {
         $this->handleRegisterPoint($user);
     }
 
-    public function afterLogin(Event $event, $source, UserModel $user)
+    public function afterLogin(PhEvent $event, $source, UserModel $user)
     {
         $this->handleLoginNotice($user);
     }
 
-    public function afterLogout(Event $event, $source, UserModel $user)
+    public function afterLogout(PhEvent $event, $source, UserModel $user)
     {
 
     }

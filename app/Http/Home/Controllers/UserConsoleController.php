@@ -15,6 +15,7 @@ use App\Services\Logic\User\Console\FavoriteList as FavoriteListService;
 use App\Services\Logic\User\Console\FriendList as FriendListService;
 use App\Services\Logic\User\Console\GroupList as GroupListService;
 use App\Services\Logic\User\Console\OrderList as OrderListService;
+use App\Services\Logic\User\Console\PointHistory as PointHistoryService;
 use App\Services\Logic\User\Console\PointRedeemList as PointRedeemListService;
 use App\Services\Logic\User\Console\ProfileInfo as ProfileInfoService;
 use App\Services\Logic\User\Console\ProfileUpdate as ProfileUpdateService;
@@ -199,7 +200,20 @@ class UserConsoleController extends Controller
     }
 
     /**
-     * @Get("/point_redeems", name="home.uc.point_redeems")
+     * @Get("/point/history", name="home.uc.point_history")
+     */
+    public function pointHistoryAction()
+    {
+        $service = new PointHistoryService();
+
+        $pager = $service->handle();
+
+        $this->view->pick('user/console/point_history');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/point/redeems", name="home.uc.point_redeems")
      */
     public function pointRedeemsAction()
     {

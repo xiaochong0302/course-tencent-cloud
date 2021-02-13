@@ -64,11 +64,12 @@ class PointHistory extends Repository
     /**
      * @param int $eventId
      * @param int $eventType
+     * @param string $date
      * @return PointHistoryModel|Model|bool
      */
-    public function findDailyEventHistory($eventId, $eventType)
+    public function findDailyEventHistory($eventId, $eventType, $date)
     {
-        $createTime = strtotime(date('Y-m-d'));
+        $createTime = strtotime($date);
 
         return PointHistoryModel::findFirst([
             'conditions' => 'event_id = ?1 AND event_type = ?2 AND create_time > ?3',

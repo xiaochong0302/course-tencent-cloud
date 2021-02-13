@@ -2,16 +2,30 @@
 
 namespace App\Validators;
 
-use App\Exceptions\BadRequest;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Course as CourseModel;
 use App\Models\PointGift as PointGiftModel;
 use App\Models\User as UserModel;
 use App\Repos\CourseUser as CourseUserRepo;
+use App\Repos\PointRedeem as PointRedeemRepo;
 use App\Repos\User as UserRepo;
+
 
 class PointRedeem extends Validator
 {
+
+    public function checkRedeem($id)
+    {
+        $redeemRepo = new PointRedeemRepo();
+
+        $redeem = $redeemRepo->findById($id);
+
+        if (!$redeem) {
+            throw new BadRequestException('point_redeem.not_found');
+        }
+
+        return $redeem;
+    }
 
     public function checkGift($giftId)
     {
@@ -22,6 +36,10 @@ class PointRedeem extends Validator
 
     public function checkIfAllowRedeem(PointGiftModel $gift, UserModel $user)
     {
+        $this->checkStock($gift);
+
+        $this->checkRedeemLimit($gift, $user);
+
         $this->checkPointBalance($gift, $user);
 
         if ($gift->type == PointGiftModel::TYPE_COURSE) {
@@ -34,7 +52,7 @@ class PointRedeem extends Validator
 
         } elseif ($gift->type == PointGiftModel::TYPE_GOODS) {
 
-            $this->checkIfAllowRedeemCommodity($user);
+            $this->checkIfAllowRedeemGoods($user);
         }
     }
 
@@ -52,12 +70,12 @@ class PointRedeem extends Validator
 
         $courseUser = $courseUserRepo->findCourseUser($course->id, $user->id);
 
-        if ($courseUser->expiry_time > time()) {
+        if ($courseUser && $courseUser->expiry_time > time()) {
             throw new BadRequestException('point_redeem.course_owned');
         }
     }
 
-    protected function checkIfAllowRedeemCommodity(UserModel $user)
+    protected function checkIfAllowRedeemGoods(UserModel $user)
     {
         $userRepo = new UserRepo();
 
@@ -65,6 +83,24 @@ class PointRedeem extends Validator
 
         if (!$contact) {
             throw new BadRequestException('point_redeem.no_user_contact');
+        }
+    }
+
+    protected function checkStock(PointGiftModel $gift)
+    {
+        if ($gift->stock < 1) {
+            throw new BadRequestException('point_redeem.no_enough_stock');
+        }
+    }
+
+    protected function checkRedeemLimit(PointGiftModel $gift, UserModel $user)
+    {
+        $redeemRepo = new PointRedeemRepo();
+
+        $count = $redeemRepo->countUserGiftRedeems($user->id, $gift->id);
+
+        if ($count >= $gift->redeem_limit) {
+            throw new BadRequestException('point_redeem.reach_redeem_limit');
         }
     }
 

@@ -12,49 +12,49 @@ class Vip extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 标题
      *
      * @var string
      */
-    public $title;
+    public $title = '';
 
     /**
      * 期限（天）
      *
      * @var int
      */
-    public $expiry;
+    public $expiry = 0;
 
     /**
      * 价格
      *
      * @var float
      */
-    public $price;
+    public $price = 0.00;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

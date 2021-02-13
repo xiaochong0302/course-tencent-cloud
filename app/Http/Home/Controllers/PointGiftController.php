@@ -6,6 +6,8 @@ use App\Services\Logic\Point\GiftInfo as GiftInfoService;
 use App\Services\Logic\Point\GiftList as GiftListService;
 use App\Services\Logic\Point\HotGiftList as HotGiftListService;
 use App\Services\Logic\Point\PointRedeem as GiftRedeemService;
+use App\Services\Logic\User\Console\BalanceInfo as BalanceInfoService;
+use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
 
 /**
@@ -13,6 +15,18 @@ use Phalcon\Mvc\View;
  */
 class PointGiftController extends Controller
 {
+
+    public function beforeExecuteRoute(Dispatcher $dispatcher)
+    {
+        parent::beforeExecuteRoute($dispatcher);
+
+        if ($this->authUser->id == 0) {
+            $this->response->redirect(['for' => 'home.account.login']);
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * @Get("/list", name="home.point_gift.list")
@@ -50,12 +64,14 @@ class PointGiftController extends Controller
         $gift = $service->handle($id);
 
         $hotGifts = $this->getHotGifts();
+        $userBalance = $this->getUserBalance();
 
         $this->seo->prependTitle(['积分兑换', $gift['name']]);
 
         $this->view->pick('point/gift/show');
         $this->view->setVar('gift', $gift);
         $this->view->setVar('hot_gifts', $hotGifts);
+        $this->view->setVar('user_balance', $userBalance);
     }
 
     /**
@@ -73,6 +89,13 @@ class PointGiftController extends Controller
     protected function getHotGifts()
     {
         $service = new HotGiftListService();
+
+        return $service->handle();
+    }
+
+    protected function getUserBalance()
+    {
+        $service = new BalanceInfoService();
 
         return $service->handle();
     }

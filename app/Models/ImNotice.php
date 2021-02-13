@@ -29,70 +29,70 @@ class ImNotice extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 发送方编号
      *
      * @var int
      */
-    public $sender_id;
+    public $sender_id = 0;
 
     /**
      * 接收方编号
      *
      * @var int
      */
-    public $receiver_id;
+    public $receiver_id = 0;
 
     /**
      * 条目类型
      *
      * @var int
      */
-    public $item_type;
+    public $item_type = 0;
 
     /**
      * 条目内容
      *
      * @var string
      */
-    public $item_info;
+    public $item_info = '';
 
     /**
      * 优先级
      *
      * @var int
      */
-    public $priority;
+    public $priority = 0;
 
     /**
      * 阅读标识
      *
      * @var int
      */
-    public $viewed;
+    public $viewed = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

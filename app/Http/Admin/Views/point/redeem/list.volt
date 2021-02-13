@@ -2,37 +2,25 @@
 
 {% block content %}
 
-    {%- macro type_info(value) %}
-        {% if value == 1 %}
-            <span class="layui-badge layui-bg-green">课</span>
-        {% elseif value == 2 %}
-            <span class="layui-badge layui-bg-blue">聊</span>
-        {% elseif value == 3 %}
-            <span class="layui-badge layui-bg-cyan">职</span>
-        {% else %}
-            <span class="layui-badge layui-bg-gray">未知</span>
-        {% endif %}
-    {%- endmacro %}
+    {{ partial('macros/point') }}
 
-    {%- macro owner_info(owner) %}
-        {% if owner.id is defined %}
-            {{ owner.name }}（{{ owner.id }}）
-        {% else %}
-            未设置
-        {% endif %}
-    {%- endmacro %}
+    {% set search_url = url({'for':'admin.point_redeem.search'}) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
-                <a><cite>群组管理</cite></a>
+                <a><cite>兑换记录</cite></a>
             </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索兑换
+            </a>
         </div>
     </div>
 
-    <table class="kg-table layui-table layui-form">
+    <table class="kg-table layui-table">
         <colgroup>
-            <col>
             <col>
             <col>
             <col>
@@ -41,40 +29,34 @@
         </colgroup>
         <thead>
         <tr>
-            <th>编号</th>
-            <th>名称</th>
-            <th>群主</th>
-            <th>成员</th>
-            <th>发布</th>
+            <th>物品名称</th>
+            <th>消耗积分</th>
+            <th>兑换状态</th>
+            <th>兑换时间</th>
             <th>操作</th>
         </tr>
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set preview_url = url({'for':'home.group.show','id':item.id}) %}
-            {% set edit_url = url({'for':'admin.group.edit','id':item.id}) %}
-            {% set update_url = url({'for':'admin.group.update','id':item.id}) %}
-            {% set delete_url = url({'for':'admin.group.delete','id':item.id}) %}
-            {% set restore_url = url({'for':'admin.group.restore','id':item.id}) %}
+            {% set user_filter_url = url({'for':'admin.point_redeem.list'},{'user_id':item.user_id}) %}
+            {% set deliver_url = url({'for':'admin.point_redeem.deliver','id':item.id}) %}
+            {% set gift_url = url({'for':'home.point_gift.show','id':item.gift_id}) %}
             <tr>
-                <td>{{ item.id }}</td>
-                <td><a href="{{ edit_url }}">{{ item.name }}</a> {{ type_info(item.type) }}</td>
-                <td>{{ owner_info(item.owner) }}</td>
-                <td><span class="layui-badge layui-bg-gray">{{ item.user_count }}</span></td>
-                <td><input type="checkbox" name="published" value="1" lay-filter="published" lay-skin="switch" lay-text="是|否" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
+                <td>
+                    <p><a href="{{ gift_url }}" target="_blank">{{ item.gift_name }}（{{ item.gift_id }}）</a>{{ gift_type_info(item.gift_type) }}</p>
+                    <p>用户名称：<a href="{{ user_filter_url }}">{{ item.user_name }}</a> （{{ item.user_id }}） 联系方式：
+                        <button class="layui-btn layui-btn-xs kg-contact" data-name="{{ item.contact_name }}" data-phone="{{ item.contact_phone }}" data-address="{{ item.contact_address }}">查看</button>
+                    </p>
+                </td>
+                <td>{{ item.gift_point }}</td>
+                <td>{{ redeem_status_info(item.status) }}</td>
+                <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
                 <td class="center">
-                    <div class="layui-dropdown">
-                        <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
-                        <ul>
-                            <li><a href="{{ preview_url }}" target="_blank">预览</a></li>
-                            <li><a href="{{ edit_url }}">编辑</a></li>
-                            {% if item.deleted == 0 %}
-                                <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
-                            {% else %}
-                                <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原</a></li>
-                            {% endif %}
-                        </ul>
-                    </div>
+                    {% if item.gift_type == 2 %}
+                        <button class="layui-btn layui-btn-sm kg-deliver" data-url="{{ deliver_url }}">发货</button>
+                    {% else %}
+                        N/A
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
@@ -82,5 +64,37 @@
     </table>
 
     {{ partial('partials/pager') }}
+
+{% endblock %}
+
+{% block inline_js %}
+
+    <script>
+
+        layui.use(['jquery', 'layer'], function () {
+
+            var $ = layui.jquery;
+            var layer = layui.layer;
+
+            $('.kg-deliver').on('click', function () {
+                var url = $(this).data('url');
+                layer.confirm('确定要发货吗？', function () {
+                    $.post(url, function (res) {
+                        layer.msg(res.msg, {icon: 1});
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500);
+                    });
+                });
+            });
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('admin/js/contact.js') }}
 
 {% endblock %}

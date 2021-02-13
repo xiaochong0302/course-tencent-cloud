@@ -5,8 +5,6 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\PointRedeem as PointRedeemModel;
 use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
 
 class PointRedeem extends Repository
 {
@@ -29,6 +27,10 @@ class PointRedeem extends Repository
 
         if (!empty($where['gift_type'])) {
             $builder->andWhere('gift_type = :gift_type:', ['gift_type' => $where['gift_type']]);
+        }
+
+        if (!empty($where['status'])) {
+            $builder->andWhere('status = :status:', ['status' => $where['status']]);
         }
 
         switch ($sort) {
@@ -60,17 +62,12 @@ class PointRedeem extends Repository
         ]);
     }
 
-    /**
-     * @param array $ids
-     * @param string|array $columns
-     * @return ResultsetInterface|Resultset|PointRedeemModel[]
-     */
-    public function findByIds($ids, $columns = '*')
+    public function countUserGiftRedeems($userId, $giftId)
     {
-        return PointRedeemModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
+        return (int)PointRedeemModel::count([
+            'conditions' => 'user_id = :user_id: AND gift_id = :gift_id:',
+            'bind' => ['user_id' => $userId, 'gift_id' => $giftId],
+        ]);
     }
 
 }

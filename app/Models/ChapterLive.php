@@ -17,63 +17,63 @@ class ChapterLive extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 课程编号
      *
      * @var int
      */
-    public $course_id;
+    public $course_id = 0;
 
     /**
      * 章节编号
      *
      * @var int
      */
-    public $chapter_id;
+    public $chapter_id = 0;
 
     /**
      * 开始时间
      *
      * @var int
      */
-    public $start_time;
+    public $start_time = 0;
 
     /**
      * 结束时间
      *
      * @var int
      */
-    public $end_time;
+    public $end_time = 0;
 
     /**
      * 用户限额
      *
      * @var int
      */
-    public $user_limit;
+    public $user_limit = 0;
 
     /**
      * 直播状态
      *
      * @var int
      */
-    public $status;
+    public $status = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

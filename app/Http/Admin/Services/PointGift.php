@@ -84,6 +84,10 @@ class PointGift extends Service
             $data['stock'] = $validator->checkStock($post['stock']);
         }
 
+        if (isset($post['redeem_limit'])) {
+            $data['redeem_limit'] = $validator->checkRedeemLimit($post['redeem_limit']);
+        }
+
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }

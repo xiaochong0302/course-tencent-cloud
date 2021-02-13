@@ -15,9 +15,9 @@ class PointHistory extends Model
     const EVENT_POINT_REFUND = 3; // 积分退款
     const EVENT_ACCOUNT_REGISTER = 4; // 帐号注册
     const EVENT_SITE_VISIT = 5; // 站点访问
-    const EVENT_LESSON_LEARNING = 6; // 课时学习
+    const EVENT_CHAPTER_STUDY = 6; // 课时学习
     const EVENT_COURSE_REVIEW = 7; // 课程评价
-    const EVENT_GROUP_DISCUSS = 8; // 群组讨论
+    const EVENT_IM_DISCUSS = 8; // 微聊讨论
 
     /**
      * 主键编号
@@ -108,12 +108,23 @@ class PointHistory extends Model
 
     public function beforeCreate()
     {
+        if (is_array($this->event_info) && !empty($this->event_info)) {
+            $this->event_info = kg_json_encode($this->event_info);
+        }
+
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public function afterFetch()
+    {
+        if (is_string($this->event_info) && !empty($this->event_info)) {
+            $this->event_info = json_decode($this->event_info, true);
+        }
     }
 
     public static function eventTypes()
@@ -124,9 +135,9 @@ class PointHistory extends Model
             self::EVENT_POINT_REFUND => '积分退款',
             self::EVENT_ACCOUNT_REGISTER => '用户注册',
             self::EVENT_SITE_VISIT => '用户登录',
-            self::EVENT_LESSON_LEARNING => '课时学习',
+            self::EVENT_CHAPTER_STUDY => '课时学习',
             self::EVENT_COURSE_REVIEW => '课程评价',
-            self::EVENT_GROUP_DISCUSS => '群组讨论',
+            self::EVENT_IM_DISCUSS => '微聊讨论',
         ];
     }
 

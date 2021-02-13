@@ -3,7 +3,6 @@
 namespace App\Http\Admin\Services;
 
 use App\Caches\Topic as TopicCache;
-use App\Caches\TopicCourseList as TopicCourseListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\CourseTopic as CourseTopicModel;
 use App\Models\Topic as TopicModel;
@@ -66,8 +65,8 @@ class Topic extends Service
 
         $data = [];
 
-        if (isset($post['name'])) {
-            $data['name'] = $validator->checkName($post['name']);
+        if (isset($post['title'])) {
+            $data['title'] = $validator->checkTitle($post['title']);
         }
 
         if (isset($post['summary'])) {
@@ -192,10 +191,6 @@ class Topic extends Service
     protected function rebuildTopicCache(TopicModel $topic)
     {
         $cache = new TopicCache();
-
-        $cache->rebuild($topic->id);
-
-        $cache = new TopicCourseListCache();
 
         $cache->rebuild($topic->id);
     }

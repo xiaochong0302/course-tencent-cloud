@@ -147,7 +147,7 @@ class ConsultCreate extends Service
 
     protected function incrUserDailyConsultCount(UserModel $user)
     {
-        $this->eventsManager->fire('userDailyCounter:incrConsultCount', $this, $user);
+        $this->eventsManager->fire('UserDailyCounter:incrConsultCount', $this, $user);
     }
 
 }

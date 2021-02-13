@@ -23,70 +23,70 @@ class Upload extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 名称
      *
      * @var string
      */
-    public $name;
+    public $name = '';
 
     /**
      * 路径
      *
      * @var string
      */
-    public $path;
+    public $path = '';
 
     /**
      * mime
      *
      * @var string
      */
-    public $mime;
+    public $mime = '';
 
     /**
      * md5
      *
      * @var string
      */
-    public $md5;
+    public $md5 = '';
 
     /**
-     * 大小
+     * 大小（字节）
      *
      * @var int
      */
-    public $size;
+    public $size = 0;
 
     /**
      * 类型
      *
      * @var int
      */
-    public $type;
+    public $type = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

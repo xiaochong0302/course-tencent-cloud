@@ -14,7 +14,7 @@ layui.use(['jquery', 'layer'], function () {
                 success: function (res) {
                     layer.msg(res.msg, {icon: 1});
                     setTimeout(function () {
-                        window.location.href = '/uc/redeems';
+                        window.location.href = '/uc/point/redeems';
                     }, 3000);
                 }
             });

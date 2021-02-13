@@ -2,12 +2,13 @@
 
 namespace App\Services\Logic\Point;
 
+use App\Library\Utils\Lock as LockUtil;
 use App\Models\PointGift as PointGiftModel;
-use App\Models\PointHistory as PointHistoryModel;
 use App\Models\PointRedeem as PointRedeemModel;
 use App\Models\Task as TaskModel;
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
+use App\Services\Logic\Point\PointHistory as PointHistoryService;
 use App\Services\Logic\PointGiftTrait;
 use App\Services\Logic\Service;
 use App\Validators\PointRedeem as PointRedeemValidator;
@@ -34,9 +35,15 @@ class PointRedeem extends Service
 
     protected function createPointRedeem(PointGiftModel $gift, UserModel $user)
     {
-        $userRepo = new UserRepo();
+        $logger = $this->getLogger('point');
 
-        $balance = $userRepo->findUserBalance($user->id);
+        $itemId = "point_redeem:{$gift->id}";
+
+        $lockId = LockUtil::addLock($itemId);
+
+        if ($lockId === false) {
+            throw new \RuntimeException('Add Lock Failed');
+        }
 
         try {
 
@@ -44,15 +51,32 @@ class PointRedeem extends Service
 
             $redeem = new PointRedeemModel();
 
+            $redeem->user_id = $user->id;
+            $redeem->user_name = $user->name;
             $redeem->gift_id = $gift->id;
             $redeem->gift_type = $gift->type;
             $redeem->gift_name = $gift->name;
             $redeem->gift_point = $gift->point;
 
+            if ($gift->type == PointGiftModel::TYPE_GOODS) {
+                $userRepo = new UserRepo();
+                $contact = $userRepo->findUserContact($user->id);
+                $redeem->contact_name = $contact->name;
+                $redeem->contact_phone = $contact->phone;
+                $redeem->contact_address = $contact->fullAddress();
+            }
+
             $result = $redeem->create();
 
             if ($result === false) {
                 throw new \RuntimeException('Create Point Redeem Failed');
+            }
+
+            $gift->stock -= 1;
+            $gift->redeem_count += 1;
+
+            if ($gift->update() === false) {
+                throw new \RuntimeException('Decrease Gift Stock Failed');
             }
 
             $task = new TaskModel();
@@ -66,44 +90,16 @@ class PointRedeem extends Service
             ];
 
             $task->item_id = $redeem->id;
-            $task->item_type = TaskModel::TYPE_POINT_GIFT_AWARD;
+            $task->item_type = TaskModel::TYPE_POINT_GIFT_DELIVER;
             $task->item_info = $itemInfo;
 
             $result = $task->create();
 
             if ($result === false) {
-                throw new \RuntimeException('Create Async Task Failed');
+                throw new \RuntimeException('Create Gift Deliver Task Failed');
             }
 
-            $history = new PointHistoryModel();
-
-            $eventInfo = [
-                'gift' => [
-                    'id' => $gift->id,
-                    'name' => $gift->name,
-                ]
-            ];
-
-            $history->user_id = $user->id;
-            $history->user_name = $user->name;
-            $history->event_id = $gift->id;
-            $history->event_type = PointHistoryModel::EVENT_POINT_REDEEM;
-            $history->event_point = $gift->point;
-            $history->event_info = $eventInfo;
-
-            $result = $history->create();
-
-            if ($result === false) {
-                throw new \RuntimeException('Create Point History Failed');
-            }
-
-            $balance->point -= $gift->point;
-
-            $result = $balance->update();
-
-            if ($result === false) {
-                throw new \RuntimeException('Update User Balance Failed');
-            }
+            $this->handleRedeemPoint($redeem);
 
             $this->db->commit();
 
@@ -111,15 +107,23 @@ class PointRedeem extends Service
 
             $this->db->rollback();
 
-            $this->logger->error('Point Redeem Exception ' . kg_json_encode([
-                    'code' => $e->getCode(),
+            $logger->error('Point Redeem Exception ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
                     'message' => $e->getMessage(),
-                    'balance' => ['user_id' => $balance->id, 'point' => $balance->point],
-                    'gift' => ['id' => $gift->id, 'point' => $gift->point],
                 ]));
 
             throw new \RuntimeException('sys.trans_rollback');
         }
+
+        LockUtil::releaseLock($itemId, $lockId);
+    }
+
+    protected function handleRedeemPoint(PointRedeemModel $redeem)
+    {
+        $service = new PointHistoryService();
+
+        $service->handlePointRedeem($redeem);
     }
 
 }

@@ -134,6 +134,17 @@ class PointGift extends Validator
         return $value;
     }
 
+    public function checkRedeemLimit($limit)
+    {
+        $value = $this->filter->sanitize($limit, ['trim', 'int']);
+
+        if ($value < 1 || $value > 999999) {
+            throw new BadRequestException('point_gift.invalid_redeem_limit');
+        }
+
+        return $value;
+    }
+
     public function checkPublishStatus($status)
     {
         if (!in_array($status, [0, 1])) {

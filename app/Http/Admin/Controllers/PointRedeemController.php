@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Http\Admin\Services\PointGift as PointGiftService;
+use App\Http\Admin\Services\PointRedeem as PointRedeemService;
 
 /**
  * @RoutePrefix("/admin/point/redeem")
@@ -11,13 +11,21 @@ class PointRedeemController extends Controller
 {
 
     /**
+     * @Get("/search", name="admin.point_redeem.search")
+     */
+    public function searchAction()
+    {
+        $this->view->pick('point/redeem/search');
+    }
+
+    /**
      * @Get("/list", name="admin.point_redeem.list")
      */
     public function listAction()
     {
-        $groupService = new PointGiftService();
+        $redeemService = new PointRedeemService();
 
-        $pager = $groupService->getGroups();
+        $pager = $redeemService->getRedeems();
 
         $this->view->pick('point/redeem/list');
 
@@ -25,36 +33,15 @@ class PointRedeemController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/edit", name="admin.point_redeem.edit")
+     * @Post("/{id:[0-9]+}/deliver", name="admin.point_redeem.deliver")
      */
-    public function editAction($id)
+    public function deliverAction($id)
     {
-        $groupService = new PointGiftService();
+        $redeemService = new PointRedeemService();
 
-        $group = $groupService->getGroup($id);
+        $redeemService->deliver($id);
 
-        $this->view->pick('point/redeem/edit');
-
-        $this->view->setVar('group', $group);
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/update", name="admin.point_redeem.update")
-     */
-    public function updateAction($id)
-    {
-        $groupService = new PointGiftService();
-
-        $groupService->updateGroup($id);
-
-        $location = $this->url->get(['for' => 'admin.point_redeem.list']);
-
-        $content = [
-            'location' => $location,
-            'msg' => '更新群组成功',
-        ];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['msg' => '发货成功']);
     }
 
 }

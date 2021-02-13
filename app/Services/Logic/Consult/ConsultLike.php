@@ -78,7 +78,7 @@ class ConsultLike extends Service
 
     protected function incrUserDailyConsultLikeCount(UserModel $user)
     {
-        $this->eventsManager->fire('userDailyCounter:incrConsultLikeCount', $this, $user);
+        $this->eventsManager->fire('UserDailyCounter:incrConsultLikeCount', $this, $user);
     }
 
 }

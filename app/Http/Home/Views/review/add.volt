@@ -34,7 +34,7 @@
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                <input type="hidden" name="course_id" value="{{ request.get('course.id') }}">
+                <input type="hidden" name="course_id" value="{{ request.get('course_id') }}">
                 <input type="hidden" name="rating1" value="5">
                 <input type="hidden" name="rating2" value="5">
                 <input type="hidden" name="rating3" value="5">

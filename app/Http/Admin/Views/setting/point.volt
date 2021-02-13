@@ -81,20 +81,20 @@
             </tr>
             <tr>
                 <td>课时学习</td>
-                <td><input class="layui-input" type="text" name="event_rule[lesson_learning][point]" value="{{ event_rule.lesson_learning.point }}" lay-verify="required"></td>
+                <td><input class="layui-input" type="text" name="event_rule[chapter_study][point]" value="{{ event_rule.chapter_study.point }}" lay-verify="required"></td>
                 <td>N/A</td>
                 <td>
-                    <input type="radio" name="event_rule[lesson_learning][enabled]" value="1" title="是" {% if event_rule.lesson_learning.enabled == "1" %}checked="checked"{% endif %}>
-                    <input type="radio" name="event_rule[lesson_learning][enabled]" value="0" title="否" {% if event_rule.lesson_learning.enabled == "0" %}checked="checked"{% endif %}>
+                    <input type="radio" name="event_rule[chapter_study][enabled]" value="1" title="是" {% if event_rule.chapter_study.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="event_rule[chapter_study][enabled]" value="0" title="否" {% if event_rule.chapter_study.enabled == "0" %}checked="checked"{% endif %}>
                 </td>
             </tr>
             <tr>
-                <td>群组讨论</td>
-                <td><input class="layui-input" type="text" name="event_rule[group_discuss][point]" value="{{ event_rule.group_discuss.point }}" lay-verify="required"></td>
+                <td>微聊讨论</td>
+                <td><input class="layui-input" type="text" name="event_rule[im_discuss][point]" value="{{ event_rule.im_discuss.point }}" lay-verify="required"></td>
                 <td>N/A</td>
                 <td>
-                    <input type="radio" name="event_rule[group_discuss][enabled]" value="1" title="是" {% if event_rule.group_discuss.enabled == "1" %}checked="checked"{% endif %}>
-                    <input type="radio" name="event_rule[group_discuss][enabled]" value="0" title="否" {% if event_rule.group_discuss.enabled == "0" %}checked="checked"{% endif %}>
+                    <input type="radio" name="event_rule[im_discuss][enabled]" value="1" title="是" {% if event_rule.im_discuss.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="event_rule[im_discuss][enabled]" value="0" title="否" {% if event_rule.im_discuss.enabled == "0" %}checked="checked"{% endif %}>
                 </td>
             </tr>
             </tbody>

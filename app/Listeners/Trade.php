@@ -9,7 +9,7 @@ use App\Repos\Order as OrderRepo;
 use Phalcon\Events\Event as PhEvent;
 use Phalcon\Logger\Adapter\File as FileLogger;
 
-class Pay extends Listener
+class Trade extends Listener
 {
 
     /**
@@ -71,12 +71,6 @@ class Pay extends Listener
             $this->logger->error('After Pay Event Error ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
-                ]));
-
-            $this->logger->debug('After Pay Event Info ' . kg_json_encode([
-                    'event' => $event->getType(),
-                    'source' => get_class($source),
-                    'data' => kg_json_encode($trade),
                 ]));
 
             throw new \RuntimeException('sys.trans_rollback');

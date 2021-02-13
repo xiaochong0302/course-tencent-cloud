@@ -18,70 +18,70 @@ class ImMessage extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 对话编号
      *
      * @var string
      */
-    public $chat_id;
+    public $chat_id = '';
 
     /**
      * 发送方编号
      *
      * @var int
      */
-    public $sender_id;
+    public $sender_id = 0;
 
     /**
      * 接收方编号
      *
      * @var int
      */
-    public $receiver_id;
+    public $receiver_id = 0;
 
     /**
      * 接收方类型
      *
      * @var int
      */
-    public $receiver_type;
+    public $receiver_type = 0;
 
     /**
      * 内容
      *
      * @var string
      */
-    public $content;
+    public $content = '';
 
     /**
      * 阅读标识
      *
      * @var int
      */
-    public $viewed;
+    public $viewed = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

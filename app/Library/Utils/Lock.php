@@ -16,7 +16,7 @@ class Lock
      */
     public static function addLock($itemId, $expire = 600)
     {
-        if (!$itemId || $expire <= 0) {
+        if (empty($itemId) || $expire <= 0) {
             return false;
         }
 
@@ -43,7 +43,7 @@ class Lock
      */
     public static function releaseLock($itemId, $lockId)
     {
-        if (!$itemId || !$lockId) {
+        if (empty($itemId) || empty($lockId)) {
             return false;
         }
 
@@ -73,7 +73,7 @@ class Lock
 
     public static function getLockKey($itemId)
     {
-        return sprintf('kg_lock:%s', $itemId);
+        return sprintf('_LOCK_:%s', $itemId);
     }
 
 }

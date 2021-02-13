@@ -28,7 +28,7 @@
                         <tbody>
                         {% for item in pager.items %}
                             {% set course_url = url({'for':'home.course.show','id':item.course.id}) %}
-                            {% set review_url = url({'for':'home.review.add'},{'id':item.course.id}) %}
+                            {% set review_url = url({'for':'home.review.add'},{'course_id':item.course.id}) %}
                             {% set allow_review = item.progress > 30 and item.reviewed == 0 %}
                             <tr>
                                 <td>

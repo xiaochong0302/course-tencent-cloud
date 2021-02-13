@@ -9,10 +9,10 @@ class Data202101261130 extends Phinx\Migration\AbstractMigration
 
         $eventRule = [
             'account_register' => ['enabled' => 1, 'point' => 100],
-            'site_visit' => ['enabled' => 1, 'point' => 10],
             'course_review' => ['enabled' => 1, 'point' => 50],
-            'group_discuss' => ['enabled' => 1, 'point' => 10],
-            'lesson_learning' => ['enabled' => 1, 'point' => 10],
+            'chapter_study' => ['enabled' => 1, 'point' => 10],
+            'site_visit' => ['enabled' => 1, 'point' => 10],
+            'im_discuss' => ['enabled' => 1, 'point' => 10],
         ];
 
         $rows = [
@@ -41,17 +41,6 @@ class Data202101261130 extends Phinx\Migration\AbstractMigration
         $this->getQueryBuilder()
             ->delete('kg_setting')
             ->where(['section' => 'point'])
-            ->execute();
-    }
-
-    protected function initUserBalanceData()
-    {
-        $dataQuery = $this->getQueryBuilder()->select(['id'])->from('kg_user');
-
-        $this->getQueryBuilder()
-            ->insert(['user_id'])
-            ->into('kg_user_balance')
-            ->values($dataQuery)
             ->execute();
     }
 

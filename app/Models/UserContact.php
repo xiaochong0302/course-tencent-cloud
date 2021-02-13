@@ -104,4 +104,14 @@ class UserContact extends Model
         $this->update_time = time();
     }
 
+    public function fullAddress()
+    {
+        return implode(' ', [
+            $this->add_province,
+            $this->add_city,
+            $this->add_county,
+            $this->add_other,
+        ]);
+    }
+
 }

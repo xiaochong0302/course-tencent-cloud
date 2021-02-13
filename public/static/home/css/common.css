@@ -774,34 +774,38 @@
     margin: 5px;
 }
 
-.sidebar-teacher-card {
+.sidebar-user-card {
     margin-bottom: 15px;
 }
 
-.sidebar-teacher-card .avatar {
+.sidebar-user-card .avatar {
     float: left;
     width: 60px;
     height: 60px;
     margin-right: 10px;
 }
 
-.sidebar-teacher-card .avatar img {
+.sidebar-user-card .avatar img {
     width: 100%;
     height: 100%;
     border-radius: 60px;
 }
 
-.sidebar-teacher-card .info {
+.sidebar-user-card .info {
     float: left;
     padding: 5px 0;
 }
 
-.sidebar-teacher-card .info .name {
+.sidebar-user-card .info .name {
 }
 
-.sidebar-teacher-card .info .title {
+.sidebar-user-card .info .title {
     color: #666;
     font-size: 12px;
+}
+
+.sidebar-user-card .info span {
+    margin-right: 5px;
 }
 
 .topic-badge {
@@ -1846,12 +1850,10 @@
 }
 
 .gift-meta .info .value {
-    font-size: 16px;
     color: #666;
 }
 
-.gift-meta .info .price {
-    font-size: 16px;
+.gift-meta .info .price, .sidebar-user-card .info .point {
     color: red;
 }
 

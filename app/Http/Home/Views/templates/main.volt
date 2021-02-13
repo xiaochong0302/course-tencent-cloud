@@ -41,7 +41,9 @@
 {% block inline_js %}{% endblock %}
 
 {% if site_info.analytics_enabled == 1 %}
-    {{ site_info.analytics_script }}
+    <div class="layui-hide">
+        {{ site_info.analytics_script }}
+    </div>
 {% endif %}
 
 </body>

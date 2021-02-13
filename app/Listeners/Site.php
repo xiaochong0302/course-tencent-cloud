@@ -8,25 +8,25 @@ use App\Models\User as UserModel;
 use App\Repos\Online as OnlineRepo;
 use App\Services\Logic\Point\PointHistory as PointHistoryService;
 use App\Traits\Client as ClientTrait;
-use Phalcon\Events\Event;
+use Phalcon\Events\Event as PhEvent;
 
 class Site extends Listener
 {
 
     use ClientTrait;
 
-    /**
-     * 访问站点
-     *
-     * @param Event $event
-     * @param $source
-     * @param UserModel $user
-     */
-    public function view(Event $event, $source, UserModel $user)
+    public function afterView(PhEvent $event, $source, UserModel $user)
     {
         if ($user->id > 0) {
+
             $this->handleOnline($user);
+
             $this->handleVisitPoint($user);
+
+            /**
+             * 更新会重置afterFetch，重新执行
+             */
+            $user->afterFetch();
         }
     }
 
@@ -45,13 +45,15 @@ class Site extends Listener
 
         $lockId = LockUtil::addLock($itemId);
 
+        if ($lockId === false) return;
+
         $user->active_time = $now;
 
         $user->update();
 
         $onlineRepo = new OnlineRepo();
 
-        $records = $onlineRepo->findByUserDate($user->id, date('Y-m-d'));
+        $records = $onlineRepo->findByUserDate($user->id, date('Ymd'));
 
         if ($records->count() > 0) {
             $online = null;

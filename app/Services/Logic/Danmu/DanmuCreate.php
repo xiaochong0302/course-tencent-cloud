@@ -53,7 +53,7 @@ class DanmuCreate extends Service
 
     protected function incrUserDailyDanmuCount(UserModel $user)
     {
-        $this->eventsManager->fire('userDailyCounter:incrDanmuCount', $this, $user);
+        $this->eventsManager->fire('UserDailyCounter:incrDanmuCount', $this, $user);
     }
 
 }

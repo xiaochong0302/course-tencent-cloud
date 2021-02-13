@@ -12,105 +12,105 @@ class Review extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 课程编号
      *
      * @var int
      */
-    public $course_id;
+    public $course_id = 0;
 
     /**
      * 用户编号
      *
      * @var int
      */
-    public $owner_id;
+    public $owner_id = 0;
 
     /**
      * 评价内容
      *
      * @var string
      */
-    public $content;
+    public $content = '';
 
     /**
      * 回复内容
      *
      * @var string
      */
-    public $reply;
+    public $reply = '';
 
     /**
      * 综合评分
      *
      * @var float
      */
-    public $rating;
+    public $rating = 0.00;
 
     /**
      * 维度1评分
      *
      * @var float
      */
-    public $rating1;
+    public $rating1 = 0.00;
 
     /**
      * 维度2评分
      *
      * @var float
      */
-    public $rating2;
+    public $rating2 = 0.00;
 
     /**
      * 维度3评分
      *
      * @var float
      */
-    public $rating3;
+    public $rating3 = 0.00;
 
     /**
      * 匿名标识
      *
      * @var int
      */
-    public $anonymous;
+    public $anonymous = 0;
 
     /**
      * 发布标识
      *
      * @var int
      */
-    public $published;
+    public $published = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 点赞数量
      *
      * @var int
      */
-    public $like_count;
+    public $like_count = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

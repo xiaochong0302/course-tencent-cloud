@@ -125,7 +125,7 @@ class SyncLearningTask extends Task
 
             $this->updateCourseUser($learning);
 
-            $this->handleLearningPoint($chapterUser);
+            $this->handleStudyPoint($chapterUser);
         }
     }
 
@@ -182,11 +182,11 @@ class SyncLearningTask extends Task
     /**
      * @param ChapterUserModel $chapterUser
      */
-    protected function handleLearningPoint(ChapterUserModel $chapterUser)
+    protected function handleStudyPoint(ChapterUserModel $chapterUser)
     {
         $service = new PointHistoryService();
 
-        $service->handleChapterLearning($chapterUser);
+        $service->handleChapterStudy($chapterUser);
     }
 
 }

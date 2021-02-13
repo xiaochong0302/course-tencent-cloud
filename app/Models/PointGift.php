@@ -117,7 +117,14 @@ class PointGift extends Model
     public $deleted = 0;
 
     /**
-     * 兑换数
+     * 兑换限额
+     *
+     * @var int
+     */
+    public $redeem_limit = 1;
+
+    /**
+     * 兑换数量
      *
      * @var int
      */

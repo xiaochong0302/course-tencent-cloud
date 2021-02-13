@@ -28,91 +28,91 @@ class CourseUser extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 课程编号
      *
      * @var int
      */
-    public $course_id;
+    public $course_id = 0;
 
     /**
      * 用户编号
      *
      * @var int
      */
-    public $user_id;
+    public $user_id = 0;
 
     /**
      * 计划编号
      *
      * @var int
      */
-    public $plan_id;
+    public $plan_id = 0;
 
     /**
      * 角色类型
      *
      * @var int
      */
-    public $role_type;
+    public $role_type = 0;
 
     /**
      * 来源类型
      *
      * @var int
      */
-    public $source_type;
+    public $source_type = 0;
 
     /**
      * 过期时间
      *
      * @var int
      */
-    public $expiry_time;
+    public $expiry_time = 0;
 
     /**
-     * 学习时长
+     * 学习时长（秒）
      *
      * @var int
      */
-    public $duration;
+    public $duration = 0;
 
     /**
-     * 学习进度
+     * 学习进度（％）
      *
      * @var int
      */
-    public $progress;
+    public $progress = 0;
 
     /**
      * 评价标识
      *
      * @var int
      */
-    public $reviewed;
+    public $reviewed = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {
@@ -158,6 +158,8 @@ class CourseUser extends Model
             self::SOURCE_CHARGE => '付费',
             self::SOURCE_VIP => '会员',
             self::SOURCE_IMPORT => '导入',
+            self::SOURCE_POINT_REDEEM => '积分兑换',
+            self::SOURCE_LUCKY_REDEEM => '抽奖兑换',
         ];
     }
 

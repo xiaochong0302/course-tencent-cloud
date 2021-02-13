@@ -66,12 +66,13 @@ class UserBalance extends Model
         );
     }
 
+    public function beforeCreate()
+    {
+        $this->create_time = time();
+    }
+
     public function beforeSave()
     {
-        if (empty($this->create_time)) {
-            $this->create_time = time();
-        }
-
         $this->update_time = time();
     }
 

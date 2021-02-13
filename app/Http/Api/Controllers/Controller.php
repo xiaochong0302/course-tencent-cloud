@@ -6,8 +6,6 @@ use App\Models\User as UserModel;
 use App\Services\Auth\Api as ApiAuth;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
-use Phalcon\Di as Di;
-use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Dispatcher;
 
 class Controller extends \Phalcon\Mvc\Controller
@@ -36,7 +34,7 @@ class Controller extends \Phalcon\Mvc\Controller
     {
         $this->authUser = $this->getAuthUser();
 
-        $this->fireSiteViewEvent($this->authUser);
+        $this->eventsManager->fire('Site:afterView', $this, $this->authUser);
     }
 
     protected function getAuthUser()
@@ -47,16 +45,6 @@ class Controller extends \Phalcon\Mvc\Controller
         $auth = $this->getDI()->get('auth');
 
         return $auth->getCurrentUser();
-    }
-
-    protected function fireSiteViewEvent(UserModel $user)
-    {
-        /**
-         * @var EventsManager $eventsManager
-         */
-        $eventsManager = Di::getDefault()->getShared('eventsManager');
-
-        $eventsManager->fire('site:view', $this, $user);
     }
 
 }

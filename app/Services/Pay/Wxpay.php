@@ -194,7 +194,7 @@ class Wxpay extends PayService
 
         $trade->channel_sn = $data->transaction_id;
 
-        $this->eventsManager->fire('pay:afterPay', $this, $trade);
+        $this->eventsManager->fire('Trade:afterPay', $this, $trade);
 
         $trade = $tradeRepo->findById($trade->id);
 

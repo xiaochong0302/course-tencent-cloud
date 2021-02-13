@@ -3,7 +3,7 @@
 namespace App\Services\Logic\User\Console;
 
 use App\Library\Paginator\Query as PagerQuery;
-use App\Repos\Order as OrderRepo;
+use App\Repos\PointRedeem as PointRedeemRepo;
 use App\Services\Logic\Service;
 use App\Services\Logic\UserTrait;
 
@@ -27,14 +27,14 @@ class PointRedeemList extends Service
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $orderRepo = new OrderRepo();
+        $redeemRepo = new PointRedeemRepo();
 
-        $pager = $orderRepo->paginate($params, $sort, $page, $limit);
+        $pager = $redeemRepo->paginate($params, $sort, $page, $limit);
 
-        return $this->handleOrders($pager);
+        return $this->handlePager($pager);
     }
 
-    public function handleOrders($pager)
+    public function handlePager($pager)
     {
         if ($pager->total_items == 0) {
             return $pager;
@@ -53,9 +53,14 @@ class PointRedeemList extends Service
                 ],
                 'gift' => [
                     'id' => $item->gift_id,
-                    'type' => $item->gift_type,
                     'name' => $item->gift_name,
+                    'type' => $item->gift_type,
                     'point' => $item->gift_point,
+                ],
+                'contact' => [
+                    'name' => $item->contact_name,
+                    'phone' => $item->contact_phone,
+                    'address' => $item->contact_address,
                 ],
             ];
         }

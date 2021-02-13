@@ -87,7 +87,7 @@ class Account extends Service
          */
         $eventsManager = Di::getDefault()->getShared('eventsManager');
 
-        $eventsManager->fire('account:afterRegister', $this, $user);
+        $eventsManager->fire('Account:afterRegister', $this, $user);
     }
 
     protected function fireAfterLoginEvent(UserModel $user)
@@ -97,7 +97,7 @@ class Account extends Service
          */
         $eventsManager = Di::getDefault()->getShared('eventsManager');
 
-        $eventsManager->fire('account:afterLogin', $this, $user);
+        $eventsManager->fire('Account:afterLogin', $this, $user);
     }
 
     protected function fireAfterLogoutEvent(UserModel $user)
@@ -107,7 +107,7 @@ class Account extends Service
          */
         $eventsManager = Di::getDefault()->getShared('eventsManager');
 
-        $eventsManager->fire('account:afterLogout', $this, $user);
+        $eventsManager->fire('Account:afterLogout', $this, $user);
     }
 
 }
