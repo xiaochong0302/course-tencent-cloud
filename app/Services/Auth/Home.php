@@ -17,6 +17,11 @@ class Home extends AuthService
     {
         $sessionId = $this->session->getId();
 
+        /**
+         * demo版本不限制多人登录
+         */
+        // $this->logoutOtherClients($user->id);
+
         $this->logoutOtherClients($user->id);
 
         $this->createUserSession($user->id, $sessionId);
