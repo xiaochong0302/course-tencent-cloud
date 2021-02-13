@@ -50,13 +50,6 @@ class Consult extends Model
     public $replier_id = 0;
 
     /**
-     * 答主编号
-     *
-     * @var int
-     */
-    public $replier_id;
-
-    /**
      * 提问
      *
      * @var string
