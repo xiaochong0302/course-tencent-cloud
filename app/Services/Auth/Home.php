@@ -22,8 +22,6 @@ class Home extends AuthService
          */
         // $this->logoutOtherClients($user->id);
 
-        $this->logoutOtherClients($user->id);
-
         $this->createUserSession($user->id, $sessionId);
 
         $authKey = $this->getAuthKey();

@@ -26,7 +26,9 @@
 {% set site = setting('site') %}
 
 {% if site['analytics_enabled'] == 1 %}
-    {{ site['analytics_script'] }}
+    <div class="layui-hide">
+        {{ site['analytics_script'] }}
+    </div>
 {% endif %}
 
 </body>
