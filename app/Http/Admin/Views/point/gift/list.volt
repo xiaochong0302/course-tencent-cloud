@@ -5,6 +5,7 @@
     {{ partial('macros/point') }}
 
     {% set add_url = url({'for':'admin.point_gift.add'}) %}
+    {% set search_url = url({'for':'admin.point_gift.search'}) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
@@ -15,6 +16,9 @@
         <div class="kg-nav-right">
             <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
                 <i class="layui-icon layui-icon-add-1"></i>添加礼品
+            </a>
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索礼品
             </a>
         </div>
     </div>

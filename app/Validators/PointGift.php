@@ -101,6 +101,17 @@ class PointGift extends Validator
         return kg_cos_img_style_trim($value);
     }
 
+    public function checkAttrs(PointGiftModel $gift, array $attrs)
+    {
+        $result = $gift->attrs;
+
+        if ($gift->type == PointGiftModel::TYPE_GOODS) {
+            $result['url'] = $attrs['url'];
+        }
+
+        return $result;
+    }
+
     public function checkType($type)
     {
         $list = PointGiftModel::types();

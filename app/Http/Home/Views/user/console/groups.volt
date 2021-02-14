@@ -12,17 +12,19 @@
     <div class="layout-main clearfix">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">
-            <div class="my-nav">
-                <span class="title">我的群组</span>
-                <a class="{{ joined_class }}" href="{{ joined_url }}">参加的</a>
-                <a class="{{ owned_class }}" href="{{ owned_url }}">管理的</a>
-            </div>
-            <div class="my-group-wrap wrap">
-                {% if scope == 'owned' %}
-                    {{ partial('user/console/groups_owned') }}
-                {% else %}
-                    {{ partial('user/console/groups_joined') }}
-                {% endif %}
+            <div class="wrap">
+                <div class="my-nav">
+                    <span class="title">我的群组</span>
+                    <a class="{{ joined_class }}" href="{{ joined_url }}">参加的</a>
+                    <a class="{{ owned_class }}" href="{{ owned_url }}">管理的</a>
+                </div>
+                <div class="my-group-wrap">
+                    {% if scope == 'owned' %}
+                        {{ partial('user/console/groups_owned') }}
+                    {% else %}
+                        {{ partial('user/console/groups_joined') }}
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

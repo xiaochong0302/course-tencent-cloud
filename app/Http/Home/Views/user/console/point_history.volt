@@ -7,10 +7,10 @@
     <div class="layout-main clearfix">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">
-            <div class="my-nav">
-                <span class="title">积分记录</span>
-            </div>
-            <div class="history-wrap wrap">
+            <div class="wrap">
+                <div class="my-nav">
+                    <span class="title">积分记录</span>
+                </div>
                 {% if pager.total_pages > 0 %}
                     <table class="layui-table history-table" lay-size="lg">
                         <colgroup>

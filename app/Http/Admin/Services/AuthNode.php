@@ -482,21 +482,21 @@ class AuthNode extends Service
                     'type' => 'menu',
                     'children' => [
                         [
-                            'id' => '2-8-1',
-                            'title' => '兑换记录',
-                            'type' => 'menu',
-                            'route' => 'admin.point_redeem.list',
-                        ],
-                        [
                             'id' => '2-8-2',
                             'title' => '礼品列表',
                             'type' => 'menu',
                             'route' => 'admin.point_gift.list',
                         ],
                         [
+                            'id' => '2-8-1',
+                            'title' => '兑换记录',
+                            'type' => 'menu',
+                            'route' => 'admin.point_redeem.list',
+                        ],
+                        [
                             'id' => '2-8-3',
                             'title' => '添加礼品',
-                            'type' => 'menu',
+                            'type' => 'button',
                             'route' => 'admin.point_gift.add',
                         ],
                         [

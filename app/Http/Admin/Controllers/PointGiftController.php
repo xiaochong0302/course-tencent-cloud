@@ -25,6 +25,14 @@ class PointGiftController extends Controller
     }
 
     /**
+     * @Get("/search", name="admin.point_gift.search")
+     */
+    public function searchAction()
+    {
+        $this->view->pick('point/gift/search');
+    }
+
+    /**
      * @Get("/add", name="admin.point_gift.add")
      */
     public function addAction()

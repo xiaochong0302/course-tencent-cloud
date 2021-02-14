@@ -1683,7 +1683,7 @@
 }
 
 .order-card {
-    padding: 15px 20px;
+    padding: 10px 0;
     margin-bottom: 20px;
     background-color: white;
     color: #666;
@@ -1842,7 +1842,6 @@
 
 .gift-meta .info {
     float: left;
-    width: 400px;
 }
 
 .gift-meta .info p {

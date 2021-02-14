@@ -1,3 +1,24 @@
+### [v1.2.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.6)(2021-02-20)
+
+### 新增
+
+- 积分兑换机制
+- 课程增加原价属性
+- gitee提交webhooks自动化部署脚本
+
+### 更新
+
+- course和chapter数据迁移文件中遗漏了recourse_count字段
+- app/Caches/TopicCourseList不存在
+- Model文件属性定义默认值
+- 隐藏非付费课程的咨询服务
+- 教学中心教师直播推流按钮无反应
+- 用户中心部分样式调整
+- 播放器清晰度标签和实际的清晰度不对应
+- CNZZ统计代码会显示出站长统计图标
+- 自动安装后访问站点500错误
+- 自动更新脚本可更新css和js版本号
+
 ### [v1.2.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.5)(2021-01-20)
 
 ### 新增

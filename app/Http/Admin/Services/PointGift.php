@@ -76,6 +76,10 @@ class PointGift extends Service
             $data['details'] = $validator->checkDetails($post['details']);
         }
 
+        if (isset($post['attrs'])) {
+            $data['attrs'] = $validator->checkAttrs($gift, $post['attrs']);
+        }
+
         if (isset($post['point'])) {
             $data['point'] = $validator->checkPoint($post['point']);
         }
