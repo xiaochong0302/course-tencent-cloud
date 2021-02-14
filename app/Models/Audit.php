@@ -68,8 +68,6 @@ class Audit extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
-
         if (is_array($this->req_data) && !empty($this->req_data)) {
             foreach ($this->req_data as $key => $value) {
                 if (!is_scalar($value)) {
@@ -80,7 +78,11 @@ class Audit extends Model
                 }
             }
             $this->req_data = kg_json_encode($this->req_data);
+        } else {
+            $this->req_data = '';
         }
+
+        $this->create_time = time();
     }
 
 }

@@ -2,14 +2,11 @@
 
 namespace App\Http\Home\Services;
 
-use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\Auth\Home as AuthService;
 use App\Services\Logic\Account\Register as RegisterService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Captcha as CaptchaValidator;
-use Phalcon\Di as Di;
-use Phalcon\Events\Manager as EventsManager;
 
 class Account extends Service
 {
@@ -36,7 +33,7 @@ class Account extends Service
 
         $this->auth->saveAuthInfo($user);
 
-        $this->fireAfterRegisterEvent($user);
+        $this->eventsManager->fire('Account:afterRegister', $this, $user);
 
         return $user;
     }
@@ -55,7 +52,7 @@ class Account extends Service
 
         $this->auth->saveAuthInfo($user);
 
-        $this->fireAfterLoginEvent($user);
+        $this->eventsManager->fire('Account:afterLogin', $this, $user);
     }
 
     public function loginByVerify()
@@ -68,7 +65,7 @@ class Account extends Service
 
         $this->auth->saveAuthInfo($user);
 
-        $this->fireAfterLoginEvent($user);
+        $this->eventsManager->fire('Account:afterLogin', $this, $user);
     }
 
     public function logout()
@@ -77,37 +74,7 @@ class Account extends Service
 
         $this->auth->clearAuthInfo();
 
-        $this->fireAfterLogoutEvent($user);
-    }
-
-    protected function fireAfterRegisterEvent(UserModel $user)
-    {
-        /**
-         * @var EventsManager $eventsManager
-         */
-        $eventsManager = Di::getDefault()->getShared('eventsManager');
-
-        $eventsManager->fire('Account:afterRegister', $this, $user);
-    }
-
-    protected function fireAfterLoginEvent(UserModel $user)
-    {
-        /**
-         * @var EventsManager $eventsManager
-         */
-        $eventsManager = Di::getDefault()->getShared('eventsManager');
-
-        $eventsManager->fire('Account:afterLogin', $this, $user);
-    }
-
-    protected function fireAfterLogoutEvent(UserModel $user)
-    {
-        /**
-         * @var EventsManager $eventsManager
-         */
-        $eventsManager = Di::getDefault()->getShared('eventsManager');
-
-        $eventsManager->fire('Account:afterLogout', $this, $user);
+        $this->eventsManager->fire('Account:afterLogout', $this, $user);
     }
 
 }

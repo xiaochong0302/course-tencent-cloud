@@ -24,8 +24,7 @@ class PointGift extends Model
     protected $_course_attrs = [
         'id' => 0,
         'title' => '',
-        'market_price' => 0,
-        'study_expiry_time' => 0,
+        'price' => 0,
     ];
 
     /**

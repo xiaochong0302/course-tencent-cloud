@@ -18,7 +18,7 @@
     <div class="layout-main clearfix">
         <div class="layout-content">
             <div class="layui-card">
-                <div class="layui-card-header">礼品信息</div>
+                <div class="layui-card-header">物品信息</div>
                 <div class="layui-card-body">
                     <div class="gift-meta clearfix">
                         <div class="cover">
@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="layui-card">
-                <div class="layui-card-header">礼品详情</div>
+                <div class="layui-card-header">物品详情</div>
                 <div class="layui-card-body">
                     <div class="gift-details markdown-body">{{ gift.details }}</div>
                 </div>
