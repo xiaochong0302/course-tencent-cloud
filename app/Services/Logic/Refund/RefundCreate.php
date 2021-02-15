@@ -3,7 +3,6 @@
 namespace App\Services\Logic\Refund;
 
 use App\Models\Refund as RefundModel;
-use App\Models\Task;
 use App\Models\Task as TaskModel;
 use App\Repos\Order as OrderRepo;
 use App\Services\Logic\OrderTrait;
@@ -19,6 +18,8 @@ class RefundCreate extends Service
 
     public function handle()
     {
+        $logger = $this->getLogger('refund');
+
         $post = $this->request->getPost();
 
         $order = $this->checkOrderBySn($post['order_sn']);
@@ -47,42 +48,61 @@ class RefundCreate extends Service
 
         $validator->checkAmount($order->amount, $refundAmount);
 
-        $refund = new RefundModel();
+        try {
 
-        $refund->subject = $order->subject;
-        $refund->amount = $refundAmount;
-        $refund->apply_note = $applyNote;
-        $refund->order_id = $order->id;
-        $refund->trade_id = $trade->id;
-        $refund->owner_id = $user->id;
-        $refund->status = RefundModel::STATUS_APPROVED;
-        $refund->review_note = '退款周期内无条件审批';
+            $this->db->begin();
 
-        $refund->create();
+            $refund = new RefundModel();
 
-        $task = new TaskModel();
+            $refund->subject = $order->subject;
+            $refund->amount = $refundAmount;
+            $refund->apply_note = $applyNote;
+            $refund->order_id = $order->id;
+            $refund->trade_id = $trade->id;
+            $refund->owner_id = $user->id;
+            $refund->status = RefundModel::STATUS_APPROVED;
+            $refund->review_note = '退款周期内无条件审批';
 
-        /**
-         * 设定延迟，给取消退款一个调解机会
-         */
-        $itemInfo = [
-            'refund' => [
-                'id' => $refund->id,
-                'order_id' => $refund->order_id,
-                'trade_id' => $refund->trade_id,
-            ],
-            'deadline' => time() + 3600 * 24 * 2,
-        ];
+            if ($refund->create() === false) {
+                throw new \RuntimeException('Create Refund Failed');
+            }
 
-        $task->item_id = $refund->id;
-        $task->item_type = TaskModel::TYPE_REFUND;
-        $task->item_info = $itemInfo;
-        $task->priority = TaskModel::PRIORITY_MIDDLE;
-        $task->status = TaskModel::STATUS_PENDING;
+            $task = new TaskModel();
 
-        $task->create();
+            $itemInfo = [
+                'refund' => [
+                    'id' => $refund->id,
+                    'order_id' => $refund->order_id,
+                    'trade_id' => $refund->trade_id,
+                ],
+            ];
 
-        return $refund;
+            $task->item_id = $refund->id;
+            $task->item_type = TaskModel::TYPE_REFUND;
+            $task->item_info = $itemInfo;
+            $task->priority = TaskModel::PRIORITY_MIDDLE;
+            $task->status = TaskModel::STATUS_PENDING;
+
+            if ($task->create() === false) {
+                throw new \RuntimeException('Create Refund Task Failed');
+            }
+
+            $this->db->commit();
+
+            return $refund;
+
+        } catch (\Exception $e) {
+
+            $this->db->rollback();
+
+            $logger->error('Create Refund Exception ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            throw new \RuntimeException('sys.trans_rollback');
+        }
     }
 
 }
