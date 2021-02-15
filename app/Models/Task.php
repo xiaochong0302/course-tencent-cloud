@@ -104,8 +104,6 @@ class Task extends Model
 
     public function beforeCreate()
     {
-        $this->status = self::STATUS_PENDING;
-
         if (is_array($this->item_info) && !empty($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
