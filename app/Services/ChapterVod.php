@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repos\Chapter as ChapterRepo;
+use App\Services\Vod as VodService;
 
 class ChapterVod extends Service
 {
@@ -17,12 +18,12 @@ class ChapterVod extends Service
             return [];
         }
 
-        $vod = new Vod();
+        $vodService = new VodService();
 
         $result = [];
 
         foreach ($vod->file_transcode as $key => $file) {
-            $file['url'] = $vod->getPlayUrl($file['url']);
+            $file['url'] = $vodService->getPlayUrl($file['url']);
             $type = $this->getDefinitionType($file['height']);
             $result[$type] = $file;
         }
