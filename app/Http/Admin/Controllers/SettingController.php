@@ -378,4 +378,30 @@ class SettingController extends Controller
         }
     }
 
+    /**
+     * @Route("/dingtalk/robot", name="admin.setting.dingtalk_robot")
+     */
+    public function dingtalkRobotAction()
+    {
+        $section = 'dingtalk.robot';
+
+        $settingService = new SettingService();
+
+        if ($this->request->isPost()) {
+
+            $data = $this->request->getPost();
+
+            $settingService->updatePointSettings($section, $data);
+
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
+
+        } else {
+
+            $robot = $settingService->getSettings($section);
+
+            $this->view->pick('setting/dingtalk_robot');
+            $this->view->setVar('robot', $robot);
+        }
+    }
+
 }

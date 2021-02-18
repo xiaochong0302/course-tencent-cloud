@@ -14,10 +14,11 @@ class Task extends Model
     const TYPE_LUCKY_GIFT_DELIVER = 4; // 抽奖礼品派发
 
     const TYPE_NOTICE_ACCOUNT_LOGIN = 11; // 帐号登录通知
-    const TYPE_NOTICE_LIVE_BEGIN = 12; // 直播开始通知
+    const TYPE_NOTICE_LIVE_BEGIN = 12; // 直播学员通知
     const TYPE_NOTICE_ORDER_FINISH = 13; // 订单完成通知
     const TYPE_NOTICE_REFUND_FINISH = 14; // 退款完成通知
     const TYPE_NOTICE_CONSULT_REPLY = 15; // 咨询回复通知
+    const TYPE_NOTICE_LIVE_TEACHER = 16; // 直播讲师通知
 
     /**
      * 优先级

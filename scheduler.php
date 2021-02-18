@@ -25,6 +25,9 @@ $scheduler->php($script, $bin, ['--task' => 'vod_event', '--action' => 'main'])
 $scheduler->php($script, $bin, ['--task' => 'close_trade', '--action' => 'main'])
     ->at('*/13 * * * *');
 
+$scheduler->php($script, $bin, ['--task' => 'monitor', '--action' => 'main'])
+    ->at('*/12 * * * *');
+
 $scheduler->php($script, $bin, ['--task' => 'point_gift_deliver', '--action' => 'main'])
     ->at('*/11 * * * *');
 
