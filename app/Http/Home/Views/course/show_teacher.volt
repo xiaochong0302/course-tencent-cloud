@@ -6,7 +6,7 @@
                 {% for teacher in course.teachers %}
                     {% set teacher_url = url({'for':'home.user.show','id':teacher.id}) %}
                     {% set teacher.title = teacher.title ? teacher.title : '小小教书匠' %}
-                    <div class="sidebar-teacher-card clearfix">
+                    <div class="sidebar-user-card clearfix">
                         <div class="avatar">
                             <img src="{{ teacher.avatar }}!avatar_160" alt="{{ teacher.name }}">
                         </div>

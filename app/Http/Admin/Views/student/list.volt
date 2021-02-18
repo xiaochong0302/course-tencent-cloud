@@ -6,9 +6,15 @@
         {% if value == 1 %}
             免费
         {% elseif value == 2 %}
-            <span class="layui-badge layui-bg-orange">付费</span>
+            付费
         {% elseif value == 3 %}
             导入
+        {% elseif value == 4 %}
+            会员
+        {% elseif value == 5 %}
+            积分
+        {% elseif value == 6 %}
+            抽奖
         {% endif %}
     {%- endmacro %}
 
@@ -58,8 +64,8 @@
                 </td>
                 <td>{{ source_type_info(item.source_type) }}</td>
                 <td>
-                    <p>开始：{{ date('Y-m-d H:i:s',item.create_time) }}</p>
-                    <p>结束：{{ date('Y-m-d H:i:s',item.expiry_time) }}</p>
+                    <p>开始：{{ date('Y-m-d H:i',item.create_time) }}</p>
+                    <p>结束：{{ date('Y-m-d H:i',item.expiry_time) }}</p>
                 </td>
                 <td class="center">
                     <div class="layui-dropdown">

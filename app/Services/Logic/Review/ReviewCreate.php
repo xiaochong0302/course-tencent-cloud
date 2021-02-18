@@ -54,6 +54,8 @@ class ReviewCreate extends Service
 
         $this->updateCourseRating($course);
 
+        $this->eventsManager->fire('Review:afterCreate', $this, $review);
+
         return $review;
     }
 

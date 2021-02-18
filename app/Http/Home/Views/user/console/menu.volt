@@ -37,6 +37,17 @@
 </div>
 
 <div class="layui-card">
+    <div class="layui-card-header">积分中心</div>
+    <div class="layui-card-body">
+        <ul class="my-menu">
+            <li><a href="{{ url({'for':'home.point_gift.list'}) }}">积分商城</a></li>
+            <li><a href="{{ url({'for':'home.uc.point_history'}) }}">积分记录</a></li>
+            <li><a href="{{ url({'for':'home.uc.point_redeems'}) }}">兑换记录</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="layui-card">
     <div class="layui-card-header">聊天设置</div>
     <div class="layui-card-body">
         <ul class="my-menu">
@@ -51,6 +62,7 @@
     <div class="layui-card-body">
         <ul class="my-menu">
             <li><a href="{{ url({'for':'home.uc.profile'}) }}">个人信息</a></li>
+            <li><a href="{{ url({'for':'home.uc.contact'}) }}">收货地址</a></li>
             <li><a href="{{ url({'for':'home.uc.account'}) }}">帐号安全</a></li>
             {% if wechat_oa.enabled == 1 %}
                 <li><a href="{{ url({'for':'home.uc.subscribe'}) }}">关注订阅</a></li>

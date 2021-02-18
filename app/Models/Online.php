@@ -10,49 +10,49 @@ class Online extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 用户编号
      *
      * @var int
      */
-    public $user_id;
+    public $user_id = 0;
 
     /**
      * 客户端类型
      *
      * @var int
      */
-    public $client_type;
+    public $client_type = 0;
 
     /**
      * 客户端IP
      *
      * @var string
      */
-    public $client_ip;
+    public $client_ip = '';
 
     /**
      * 活跃时间
      *
      * @var int
      */
-    public $active_time;
+    public $active_time = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

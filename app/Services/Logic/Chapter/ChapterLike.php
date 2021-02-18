@@ -77,7 +77,7 @@ class ChapterLike extends Service
 
     protected function incrUserDailyChapterLikeCount(UserModel $user)
     {
-        $this->eventsManager->fire('userDailyCounter:incrChapterLikeCount', $this, $user);
+        $this->eventsManager->fire('UserDailyCounter:incrChapterLikeCount', $this, $user);
     }
 
 }

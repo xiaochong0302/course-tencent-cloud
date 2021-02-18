@@ -181,6 +181,19 @@ class Setting extends Service
         $this->updateSettings($section, $settings);
     }
 
+    public function updatePointSettings($section, $settings)
+    {
+        if (isset($settings['event_rule'])) {
+            $settings['event_rule'] = kg_json_encode($settings['event_rule']);
+        }
+
+        if (isset($settings['consume_rule'])) {
+            $settings['consume_rule'] = kg_json_encode($settings['consume_rule']);
+        }
+
+        $this->updateSettings($section, $settings);
+    }
+
     public function updateVipSettings($items)
     {
         $vipRepo = new VipRepo();

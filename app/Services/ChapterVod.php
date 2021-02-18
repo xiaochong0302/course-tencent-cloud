@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repos\Chapter as ChapterRepo;
+use App\Services\Vod as VodService;
 
 class ChapterVod extends Service
 {
@@ -17,17 +18,12 @@ class ChapterVod extends Service
             return [];
         }
 
-        /**
-         * @var array $transcode
-         */
-        $transcode = $vod->file_transcode;
-
-        $vod = new Vod();
+        $vodService = new VodService();
 
         $result = [];
 
-        foreach ($transcode as $key => $file) {
-            $file['url'] = $vod->getPlayUrl($file['url']);
+        foreach ($vod->file_transcode as $key => $file) {
+            $file['url'] = $vodService->getPlayUrl($file['url']);
             $type = $this->getDefinitionType($file['height']);
             $result[$type] = $file;
         }
@@ -41,12 +37,9 @@ class ChapterVod extends Service
 
         $vodTemplates = $this->getVodTemplates();
 
-        /**
-         * 腾讯云播放器只支持[od|hd|sd]，遇到fd替换为od
-         */
         foreach ($vodTemplates as $key => $template) {
             if ($height >= $template['height']) {
-                return $key == 'fd' ? $default : $key;
+                return $key;
             }
         }
 
@@ -54,14 +47,14 @@ class ChapterVod extends Service
     }
 
     /**
-     * @return array
+     * 腾讯云播放器只支持[od|hd|sd]，实际转码速率[hd|sd|fd]，重新映射清晰度
      */
     protected function getVodTemplates()
     {
         return [
-            'hd' => ['height' => 720, 'rate' => 1800],
-            'sd' => ['height' => 540, 'rate' => 1000],
-            'fd' => ['height' => 360, 'rate' => 400],
+            'od' => ['height' => 720, 'rate' => 1800],
+            'hd' => ['height' => 540, 'rate' => 1000],
+            'sd' => ['height' => 360, 'rate' => 400],
         ];
     }
 

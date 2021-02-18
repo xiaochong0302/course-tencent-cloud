@@ -52,56 +52,56 @@ class Course extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 标题
      *
      * @var string
      */
-    public $title;
+    public $title = '';
 
     /**
      * 封面
      *
      * @var string
      */
-    public $cover;
+    public $cover = '';
 
     /**
      * 简介
      *
      * @var string
      */
-    public $summary;
+    public $summary = '';
 
     /**
      * 关键字
      *
      * @var string
      */
-    public $keywords;
+    public $keywords = '';
 
     /**
      * 详情
      *
      * @var string
      */
-    public $details;
+    public $details = '';
 
     /**
      * 主分类编号
      *
      * @var int
      */
-    public $category_id;
+    public $category_id = 0;
 
     /**
      * 主教师编号
      *
      * @var int
      */
-    public $teacher_id;
+    public $teacher_id = 0;
 
     /**
      * 原始价格
@@ -115,147 +115,147 @@ class Course extends Model
      *
      * @var float
      */
-    public $market_price;
+    public $market_price = 0.00;
 
     /**
      * 会员价格
      *
      * @var float
      */
-    public $vip_price;
+    public $vip_price = 0.00;
 
     /**
      * 学习期限（月）
      *
      * @var int
      */
-    public $study_expiry;
+    public $study_expiry = 0;
 
     /**
      * 退款期限（天）
      *
      * @var int
      */
-    public $refund_expiry;
+    public $refund_expiry = 0;
 
     /**
      * 用户评价
      *
      * @var float
      */
-    public $rating;
+    public $rating = 0.00;
 
     /**
      * 综合得分
      *
      * @var float
      */
-    public $score;
+    public $score = 0.00;
 
     /**
      * 模式类型
      *
      * @var int
      */
-    public $model;
+    public $model = 0;
 
     /**
      * 难度级别
      *
      * @var int
      */
-    public $level;
+    public $level = 0;
 
     /**
      * 扩展属性
      *
      * @var string|array
      */
-    public $attrs;
+    public $attrs = '';
 
     /**
      * 推荐标识
      *
      * @var int
      */
-    public $featured;
+    public $featured = 0;
 
     /**
      * 发布标识
      *
      * @var int
      */
-    public $published;
+    public $published = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 资源数
      *
      * @var int
      */
-    public $resource_count;
+    public $resource_count = 0;
 
     /**
      * 学员数
      *
      * @var int
      */
-    public $user_count;
+    public $user_count = 0;
 
     /**
      * 课时数
      *
      * @var int
      */
-    public $lesson_count;
+    public $lesson_count = 0;
 
     /**
      * 套餐数
      *
      * @var int
      */
-    public $package_count;
+    public $package_count = 0;
 
     /**
      * 咨询数
      *
      * @var int
      */
-    public $consult_count;
+    public $consult_count = 0;
 
     /**
      * 评价数
      *
      * @var int
      */
-    public $review_count;
+    public $review_count = 0;
 
     /**
      * 收藏数
      *
      * @var int
      */
-    public $favorite_count;
+    public $favorite_count = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {
@@ -278,35 +278,24 @@ class Course extends Model
 
     public function beforeCreate()
     {
-        $attrs = [];
+        if (empty($this->attrs)) {
+            if ($this->model == self::MODEL_VOD) {
+                $this->attrs = $this->_vod_attrs;
+            } elseif ($this->model == self::MODEL_LIVE) {
+                $this->attrs = $this->_live_attrs;
+            } elseif ($this->model == self::MODEL_READ) {
+                $this->attrs = $this->_read_attrs;
+            }
+        }
 
-        switch ($this->model) {
-            case Course::MODEL_VOD:
-                $attrs = $this->_vod_attrs;
-                break;
-            case Course::MODEL_LIVE:
-                $attrs = $this->_live_attrs;
-                break;
-            case Course::MODEL_READ:
-                $attrs = $this->_read_attrs;
-                break;
+        if (is_array($this->attrs) && !empty($this->attrs)) {
+            $this->attrs = kg_json_encode($this->attrs);
         }
 
         if (empty($this->cover)) {
             $this->cover = kg_default_cover_path();
         } elseif (Text::startsWith($this->cover, 'http')) {
             $this->cover = self::getCoverPath($this->cover);
-        }
-
-        /**
-         * text类型不会自动填充默认值
-         */
-        if (is_null($this->details)) {
-            $this->details = '';
-        }
-
-        if (!empty($attrs)) {
-            $this->attrs = kg_json_encode($attrs);
         }
 
         $this->create_time = time();

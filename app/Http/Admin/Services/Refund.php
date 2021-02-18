@@ -103,9 +103,17 @@ class Refund extends Service
 
             $task = new TaskModel();
 
+            $itemInfo = [
+                'refund' => [
+                    'id' => $refund->id,
+                    'order_id' => $refund->order_id,
+                    'trade_id' => $refund->trade_id,
+                ],
+            ];
+
             $task->item_id = $refund->id;
             $task->item_type = TaskModel::TYPE_REFUND;
-            $task->item_info = ['refund' => $refund->toArray()];
+            $task->item_info = $itemInfo;
             $task->priority = TaskModel::PRIORITY_HIGH;
             $task->status = TaskModel::STATUS_PENDING;
 

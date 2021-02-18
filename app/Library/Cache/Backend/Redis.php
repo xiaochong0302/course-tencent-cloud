@@ -187,6 +187,23 @@ class Redis extends \Phalcon\Cache\Backend\Redis
     }
 
     /**
+     * @param string $keyName
+     * @return int|bool
+     */
+    public function ttl($keyName = null)
+    {
+        $redis = $this->getRedis();
+
+        if ($keyName === null) {
+            $lastKey = $this->_lastKey;
+        } else {
+            $lastKey = $this->getKeyName($keyName);
+        }
+
+        return $redis->ttl($lastKey);
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @param string $keyName

@@ -91,7 +91,7 @@ class Help extends Validator
             throw new BadRequestException('help.content_too_short');
         }
 
-        if ($length > 3000) {
+        if ($length > 30000) {
             throw new BadRequestException('help.content_too_long');
         }
 

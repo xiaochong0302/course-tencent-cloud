@@ -12,49 +12,49 @@ class ImFriendGroup extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 名称
      *
      * @var string
      */
-    public $name;
+    public $name = '';
 
     /**
      * 优先级
      *
      * @var int
      */
-    public $priority;
+    public $priority = 0;
 
     /**
      * 状态
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 成员数
      *
      * @var int
      */
-    public $user_count;
+    public $user_count = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {
@@ -84,4 +84,3 @@ class ImFriendGroup extends Model
     }
 
 }
-

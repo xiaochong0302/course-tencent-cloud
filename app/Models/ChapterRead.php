@@ -10,42 +10,42 @@ class ChapterRead extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 课程编号
      *
      * @var int
      */
-    public $course_id;
+    public $course_id = 0;
 
     /**
      * 章节编号
      *
      * @var int
      */
-    public $chapter_id;
+    public $chapter_id = 0;
 
     /**
      * 内容
      *
      * @var string
      */
-    public $content;
+    public $content = '';
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {
@@ -55,13 +55,6 @@ class ChapterRead extends Model
     public function beforeCreate()
     {
         $this->create_time = time();
-
-        /**
-         * text类型不能自动填充默认值
-         */
-        if (is_null($this->content)) {
-            $this->content = '';
-        }
     }
 
     public function beforeUpdate()

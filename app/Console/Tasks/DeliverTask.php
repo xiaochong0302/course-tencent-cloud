@@ -13,6 +13,7 @@ use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Notice\OrderFinish as OrderFinishNotice;
+use App\Services\Logic\Point\PointHistory as PointHistoryService;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -36,16 +37,19 @@ class DeliverTask extends Task
 
         foreach ($tasks as $task) {
 
-            /**
-             * @var array $itemInfo
-             */
-            $itemInfo = $task->item_info;
+            $orderId = $task->item_info['order']['id'] ?? 0;
 
-            $order = $orderRepo->findById($itemInfo['order']['id']);
+            $order = $orderRepo->findById($orderId);
 
-            if (!$order) continue;
+            if (!$order) {
+                $task->status = TaskModel::STATUS_FAILED;
+                $task->update();
+                continue;
+            }
 
             try {
+
+                $this->db->begin();
 
                 switch ($order->item_type) {
                     case OrderModel::ITEM_COURSE:
@@ -59,13 +63,23 @@ class DeliverTask extends Task
                         break;
                 }
 
-                $this->finishOrder($order);
+                $order->status = OrderModel::STATUS_FINISHED;
+
+                if ($order->update() === false) {
+                    throw new \RuntimeException('Update Order Status Failed');
+                }
 
                 $task->status = TaskModel::STATUS_FINISHED;
 
-                $task->update();
+                if ($task->update() === false) {
+                    throw new \RuntimeException('Update Task Status Failed');
+                }
+
+                $this->db->commit();
 
             } catch (\Exception $e) {
+
+                $this->db->rollback();
 
                 $task->try_count += 1;
                 $task->priority += 1;
@@ -76,14 +90,16 @@ class DeliverTask extends Task
 
                 $task->update();
 
-                $logger->info('Order Process Exception ' . kg_json_encode([
-                        'code' => $e->getCode(),
+                $logger->error('Order Process Exception ' . kg_json_encode([
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
                         'message' => $e->getMessage(),
                         'task' => $task->toArray(),
                     ]));
             }
 
             if ($task->status == TaskModel::STATUS_FINISHED) {
+                $this->handleOrderConsumePoint($order);
                 $this->handleOrderFinishNotice($order);
             } elseif ($task->status == TaskModel::STATUS_FAILED) {
                 $this->handleOrderRefund($order);
@@ -91,20 +107,8 @@ class DeliverTask extends Task
         }
     }
 
-    protected function finishOrder(OrderModel $order)
-    {
-        $order->status = OrderModel::STATUS_FINISHED;
-
-        if ($order->update() === false) {
-            throw new \RuntimeException('Finish Order Failed');
-        }
-    }
-
     protected function handleCourseOrder(OrderModel $order)
     {
-        /**
-         * @var array $itemInfo
-         */
         $itemInfo = $order->item_info;
 
         $courseUser = new CourseUserModel();
@@ -127,23 +131,21 @@ class DeliverTask extends Task
 
         $groupUser = $groupUserRepo->findGroupUser($group->id, $order->owner_id);
 
-        if ($groupUser) return;
+        if (!$groupUser) {
 
-        $groupUser = new ImGroupUserModel();
+            $groupUser = new ImGroupUserModel();
 
-        $groupUser->group_id = $group->id;
-        $groupUser->user_id = $order->owner_id;
+            $groupUser->group_id = $group->id;
+            $groupUser->user_id = $order->owner_id;
 
-        if ($groupUser->create() === false) {
-            throw new \RuntimeException('Create Group User Failed');
+            if ($groupUser->create() === false) {
+                throw new \RuntimeException('Create Group User Failed');
+            }
         }
     }
 
     protected function handlePackageOrder(OrderModel $order)
     {
-        /**
-         * @var array $itemInfo
-         */
         $itemInfo = $order->item_info;
 
         foreach ($itemInfo['courses'] as $course) {
@@ -168,24 +170,24 @@ class DeliverTask extends Task
 
             $groupUser = $groupUserRepo->findGroupUser($group->id, $order->owner_id);
 
-            if ($groupUser) continue;
+            if (!$groupUser) {
 
-            $groupUser = new ImGroupUserModel();
+                $groupUser = new ImGroupUserModel();
 
-            $groupUser->group_id = $group->id;
-            $groupUser->user_id = $order->owner_id;
+                $groupUser->group_id = $group->id;
+                $groupUser->user_id = $order->owner_id;
 
-            if ($groupUser->create() === false) {
-                throw new \RuntimeException('Create Group User Failed');
+                if ($groupUser->create() === false) {
+                    throw new \RuntimeException('Create Group User Failed');
+                }
+
+                continue;
             }
         }
     }
 
     protected function handleVipOrder(OrderModel $order)
     {
-        /**
-         * @var array $itemInfo
-         */
         $itemInfo = $order->item_info;
 
         $userRepo = new UserRepo();
@@ -197,6 +199,13 @@ class DeliverTask extends Task
         if ($user->update() === false) {
             throw new \RuntimeException('Update Vip Expiry Failed');
         }
+    }
+
+    protected function handleOrderConsumePoint(OrderModel $order)
+    {
+        $service = new PointHistoryService();
+
+        $service->handleOrderConsume($order);
     }
 
     protected function handleOrderFinishNotice(OrderModel $order)

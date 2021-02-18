@@ -10,49 +10,49 @@ class CourseRating extends Model
      *
      * @var int
      */
-    public $course_id;
+    public $course_id = 0;
 
     /**
      * 综合评分
      *
      * @var float
      */
-    public $rating;
+    public $rating = 0.00;
 
     /**
      * 维度1评分
      *
      * @var float
      */
-    public $rating1;
+    public $rating1 = 0.00;
 
     /**
      * 维度2评分
      *
      * @var float
      */
-    public $rating2;
+    public $rating2 = 0.00;
 
     /**
      * 维度3评分
      *
      * @var float
      */
-    public $rating3;
+    public $rating3 = 0.00;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

@@ -193,7 +193,7 @@ class Alipay extends PayService
 
         $trade->channel_sn = $data->trade_no;
 
-        $this->eventsManager->fire('pay:afterPay', $this, $trade);
+        $this->eventsManager->fire('Trade:afterPay', $this, $trade);
 
         $trade = $tradeRepo->findById($trade->id);
 

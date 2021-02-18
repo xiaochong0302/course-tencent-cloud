@@ -20,84 +20,84 @@ class Slide extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 标题
      *
      * @var string
      */
-    public $title;
+    public $title = '';
 
     /**
      * 封面
      *
      * @var string
      */
-    public $cover;
+    public $cover = '';
 
     /**
      * 摘要
      *
      * @var string
      */
-    public $summary;
+    public $summary = '';
 
     /**
      * 内容
      *
      * @var string
      */
-    public $content;
+    public $content = '';
 
     /**
      * 平台
      *
      * @var int
      */
-    public $platform;
+    public $platform = 0;
 
     /**
      * 目标
      *
      * @var int
      */
-    public $target;
+    public $target = 0;
 
     /**
      * 优先级
      *
      * @var int
      */
-    public $priority;
+    public $priority = 0;
 
     /**
      * 发布标识
      *
      * @var int
      */
-    public $published;
+    public $published = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

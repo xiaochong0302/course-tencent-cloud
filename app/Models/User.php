@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Caches\MaxUserId as MaxUserIdCache;
+use App\Caches\User as UserCache;
 use App\Services\Sync\UserIndex as UserIndexSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
@@ -216,6 +217,10 @@ class User extends Model
                 'avatar' => $this->avatar,
             ]);
         }
+
+        $userCache = new UserCache();
+
+        $userCache->rebuild($this->id);
     }
 
     public function afterFetch()

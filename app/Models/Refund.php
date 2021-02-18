@@ -22,91 +22,91 @@ class Refund extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 用户编号
      *
      * @var int
      */
-    public $owner_id;
+    public $owner_id = 0;
 
     /**
      * 订单编号
      *
      * @var int
      */
-    public $order_id;
+    public $order_id = 0;
 
     /**
      * 交易编号
      *
      * @var int
      */
-    public $trade_id;
+    public $trade_id = 0;
 
     /**
      * 序号
      *
      * @var string
      */
-    public $sn;
+    public $sn = '';
 
     /**
      * 主题
      *
      * @var string
      */
-    public $subject;
+    public $subject = '';
 
     /**
      * 金额
      *
      * @var float
      */
-    public $amount;
+    public $amount = 0.00;
 
     /**
      * 状态类型
      *
      * @var int
      */
-    public $status;
+    public $status = self::STATUS_PENDING;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 申请备注
      *
      * @var string
      */
-    public $apply_note;
+    public $apply_note = '';
 
     /**
      * 审核备注
      *
      * @var string
      */
-    public $review_note;
+    public $review_note = '';
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

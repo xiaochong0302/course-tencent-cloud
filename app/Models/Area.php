@@ -17,28 +17,28 @@ class Area extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 类型
      *
      * @var int
      */
-    public $type;
+    public $type = 0;
 
     /**
      * 编码
      *
      * @var string
      */
-    public $code;
+    public $code = '';
 
     /**
      * 名称
      *
      * @var string
      */
-    public $name;
+    public $name = '';
 
     public function getSource(): string
     {

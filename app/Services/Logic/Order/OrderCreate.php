@@ -221,7 +221,7 @@ class OrderCreate extends Service
 
     protected function incrUserDailyOrderCount(UserModel $user)
     {
-        $this->eventsManager->fire('userDailyCounter:incrOrderCount', $this, $user);
+        $this->eventsManager->fire('UserDailyCounter:incrOrderCount', $this, $user);
     }
 
 }

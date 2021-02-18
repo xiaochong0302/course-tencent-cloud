@@ -12,56 +12,56 @@ class UserToken extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 用户编号
      *
      * @var int
      */
-    public $user_id;
+    public $user_id = 0;
 
     /**
      * 令牌
      *
      * @var string
      */
-    public $token;
+    public $token = '';
 
     /**
      * 终端类型
      *
      * @var int
      */
-    public $client_type;
+    public $client_type = 0;
 
     /**
      * 终端IP
      *
      * @var string
      */
-    public $client_ip;
+    public $client_ip = '';
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

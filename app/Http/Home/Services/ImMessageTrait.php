@@ -98,6 +98,8 @@ Trait ImMessageTrait
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 
+        $imMessage = new ImMessageModel();
+
         if ($to['type'] == 'friend') {
 
             $validator = new ImFriendUserValidator();
@@ -106,9 +108,9 @@ Trait ImMessageTrait
 
             $online = Gateway::isUidOnline($to['id']);
 
-            $messageModel = new ImMessageModel();
+            $imMessage = new ImMessageModel();
 
-            $messageModel->create([
+            $imMessage->create([
                 'sender_id' => $from['id'],
                 'receiver_id' => $to['id'],
                 'receiver_type' => ImMessageModel::TYPE_FRIEND,
@@ -136,9 +138,9 @@ Trait ImMessageTrait
 
             $relation = $validator->checkGroupUser($group->id, $user->id);
 
-            $messageModel = new ImMessageModel();
+            $imMessage = new ImMessageModel();
 
-            $messageModel->create([
+            $imMessage->create([
                 'sender_id' => $from['id'],
                 'receiver_id' => $to['id'],
                 'receiver_type' => ImMessageModel::TYPE_GROUP,
@@ -162,6 +164,8 @@ Trait ImMessageTrait
 
             Gateway::sendToGroup($groupName, $content, $excludeClientId);
         }
+
+        $this->eventsManager->fire('ImMessage:afterCreate', $this, $imMessage);
     }
 
     public function sendCsMessage($from, $to)

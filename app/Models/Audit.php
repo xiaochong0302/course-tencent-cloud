@@ -10,49 +10,49 @@ class Audit extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 用户编号
      *
      * @var int
      */
-    public $user_id;
+    public $user_id = 0;
 
     /**
      * 用户名称
      *
-     * @var int
+     * @var string
      */
-    public $user_name;
+    public $user_name = '';
 
     /**
      * 用户IP
      *
-     * @var int
+     * @var string
      */
-    public $user_ip;
+    public $user_ip = '';
 
     /**
      * 请求路由
      *
      * @var string
      */
-    public $req_route;
+    public $req_route = '';
 
     /**
      * 请求路径
      *
      * @var string
      */
-    public $req_path;
+    public $req_path = '';
 
     /**
      * 请求参数
      *
-     * @var string
+     * @var array|string
      */
-    public $req_data;
+    public $req_data = '';
 
     /**
      * 创建时间
@@ -68,8 +68,6 @@ class Audit extends Model
 
     public function beforeCreate()
     {
-        $this->create_time = time();
-
         if (is_array($this->req_data) && !empty($this->req_data)) {
             foreach ($this->req_data as $key => $value) {
                 if (!is_scalar($value)) {
@@ -83,6 +81,8 @@ class Audit extends Model
         } else {
             $this->req_data = '';
         }
+
+        $this->create_time = time();
     }
 
 }

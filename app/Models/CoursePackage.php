@@ -10,28 +10,28 @@ class CoursePackage extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 课程编号
      *
      * @var int
      */
-    public $course_id;
+    public $course_id = 0;
 
     /**
      * 套餐编号
      *
      * @var int
      */
-    public $package_id;
+    public $package_id = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     public function getSource(): string
     {
