@@ -8,31 +8,31 @@
     <div class="layui-form-item">
         <label class="layui-form-label">推流回调</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="stream_begin_url" value="{{ notify.stream_begin_url }}" layui-verify="required">
+            <input class="layui-input" type="text" name="stream_begin_url" value="{{ notify.stream_begin_url }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">断流回调</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="stream_end_url" value="{{ notify.stream_end_url }}" layui-verify="required">
+            <input class="layui-input" type="text" name="stream_end_url" value="{{ notify.stream_end_url }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">录制回调</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="record_url" value="{{ notify.record_url }}" layui-verify="required">
+            <input class="layui-input" type="text" name="record_url" value="{{ notify.record_url }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">截图回调</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="snapshot_url" value="{{ notify.snapshot_url }}" layui-verify="required">
+            <input class="layui-input" type="text" name="snapshot_url" value="{{ notify.snapshot_url }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">鉴黄回调</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="porn_url" value="{{ notify.porn_url }}" layui-verify="required">
+            <input class="layui-input" type="text" name="porn_url" value="{{ notify.porn_url }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">

@@ -9,13 +9,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">空间名称</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="bucket" value="{{ cos.bucket }}" layui-verify="required">
+                <input class="layui-input" type="text" name="bucket" value="{{ cos.bucket }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">所在区域</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="region" value="{{ cos.region }}" layui-verify="required">
+                <input class="layui-input" type="text" name="region" value="{{ cos.region }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">

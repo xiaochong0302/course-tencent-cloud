@@ -9,7 +9,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">客服1用户编号</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="user1_id" value="{{ cs.user1_id }}" layui-verify="required">
+            <input class="layui-input" type="text" name="user1_id" value="{{ cs.user1_id }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">

@@ -11,19 +11,19 @@
         <div class="layui-form-item">
             <label class="layui-form-label">App ID</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="app_id" value="{{ sms.app_id }}" layui-verify="required">
+                <input class="layui-input" type="text" name="app_id" value="{{ sms.app_id }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">App Key</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="app_key" value="{{ sms.app_key }}" layui-verify="required">
+                <input class="layui-input" type="text" name="app_key" value="{{ sms.app_key }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">内容签名</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="signature" placeholder="注意：使用的是签名内容，而非签名ID" value="{{ sms.signature }}" layui-verify="required">
+                <input class="layui-input" type="text" name="signature" placeholder="注意：使用的是签名内容，而非签名ID" value="{{ sms.signature }}" lay-verify="required">
             </div>
         </div>
         <fieldset class="layui-elem-field layui-field-title">
