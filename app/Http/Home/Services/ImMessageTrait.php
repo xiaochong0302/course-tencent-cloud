@@ -11,6 +11,7 @@ use App\Models\ImMessage as ImMessageModel;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImMessage as ImMessageRepo;
 use App\Repos\ImUser as ImUserRepo;
+use App\Services\DingTalk\Notice\CustomService as CustomServiceNotice;
 use App\Validators\ImFriendUser as ImFriendUserValidator;
 use App\Validators\ImGroup as ImGroupValidator;
 use App\Validators\ImGroupUser as ImGroupUserValidator;
@@ -22,7 +23,7 @@ use GatewayClient\Gateway;
  * layim中普通聊天和自定义聊天中接收方用户名使用的字段不一样，也够坑爹的
  * 普通聊天username,自定义聊天name
  */
-Trait ImMessageTrait
+trait ImMessageTrait
 {
 
     public function getChatMessages()
@@ -166,9 +167,11 @@ Trait ImMessageTrait
         }
 
         $this->eventsManager->fire('ImMessage:afterCreate', $this, $imMessage);
+
+        return $imMessage;
     }
 
-    public function sendCsMessage($from, $to)
+    public function sendCustomMessage($from, $to)
     {
         $validator = new ImMessageValidator();
 
@@ -214,7 +217,11 @@ Trait ImMessageTrait
 
         unset($to['name']);
 
-        $this->sendChatMessage($from, $to);
+        $message = $this->sendChatMessage($from, $to);
+
+        $this->handleCustomServiceNotice($message);
+
+        return $message;
     }
 
     public function pullUnreadFriendMessages($id)
@@ -332,6 +339,13 @@ Trait ImMessageTrait
         $group->msg_count += 1;
 
         $group->update();
+    }
+
+    protected function handleCustomServiceNotice(ImMessageModel $message)
+    {
+        $notice = new CustomServiceNotice();
+
+        $notice->createTask($message);
     }
 
 }

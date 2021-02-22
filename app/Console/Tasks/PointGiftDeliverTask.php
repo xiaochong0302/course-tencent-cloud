@@ -13,6 +13,7 @@ use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\PointGift as PointGiftRepo;
 use App\Repos\PointRedeem as PointRedeemRepo;
+use App\Services\DingTalk\Notice\PointRedeem as PointRedeemNotice;
 use App\Services\Logic\Point\PointHistory as PointHistoryService;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -20,17 +21,13 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class PointGiftDeliverTask extends Task
 {
 
-    const TRY_COUNT = 3;
-
     public function mainAction()
     {
         $logger = $this->getLogger('point');
 
         $tasks = $this->findTasks(30);
 
-        if ($tasks->count() == 0) {
-            return;
-        }
+        if ($tasks->count() == 0) return;
 
         $redeemRepo = new PointRedeemRepo();
 
@@ -77,7 +74,7 @@ class PointGiftDeliverTask extends Task
                 $task->try_count += 1;
                 $task->priority += 1;
 
-                if ($task->try_count > self::TRY_COUNT) {
+                if ($task->try_count > $task->max_try_count) {
                     $task->status = TaskModel::STATUS_FAILED;
                 }
 
@@ -167,7 +164,9 @@ class PointGiftDeliverTask extends Task
 
     protected function handleGoodsRedeem(PointRedeemModel $redeem)
     {
+        $notice = new PointRedeemNotice();
 
+        $notice->createTask($redeem);
     }
 
     protected function handleCashRedeem(PointRedeemModel $redeem)
