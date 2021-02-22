@@ -7,6 +7,13 @@
             <legend>钉钉机器人</legend>
         </fieldset>
         <div class="layui-form-item">
+            <label class="layui-form-label">启用机器人</label>
+            <div class="layui-input-block">
+                <input type="radio" name="enabled" value="1" title="是" {% if robot.enabled == "1" %}checked="checked"{% endif %}>
+                <input type="radio" name="enabled" value="0" title="否" {% if robot.enabled == "0" %}checked="checked"{% endif %}>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">App Secret</label>
             <div class="layui-input-block">
                 <input class="layui-input" type="text" name="app_secret" value="{{ robot.app_secret }}" layui-verify="required">

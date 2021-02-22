@@ -3,12 +3,12 @@
 namespace App\Console\Tasks;
 
 use App\Models\ChapterLive as ChapterLiveModel;
-use App\Repos\Chapter as ChapterRepo;
-use App\Services\DingTalk\Notice\LiveTeacher as LiveTeacherNotice;
+use App\Repos\ChapterLive as ChapterLiveRepo;
+use App\Services\DingTalk\Notice\TeacherLive as TeacherLiveNotice;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class LiveTeacherNoticeTask extends Task
+class TeacherLiveNoticeTask extends Task
 {
 
     /**
@@ -40,23 +40,23 @@ class LiveTeacherNoticeTask extends Task
 
         $keyName = $this->getCacheKeyName();
 
-        $chapterIds = $redis->sMembers($keyName);
+        $liveIds = $redis->sMembers($keyName);
 
-        if (count($chapterIds) == 0) return;
+        if (count($liveIds) == 0) return;
 
-        $chapterRepo = new ChapterRepo();
+        $liveRepo = new ChapterLiveRepo();
 
-        $notice = new LiveTeacherNotice();
+        $notice = new TeacherLiveNotice();
 
-        foreach ($chapterIds as $chapterId) {
+        foreach ($liveIds as $liveId) {
 
-            $live = $chapterRepo->findChapterLive($chapterId);
+            $live = $liveRepo->findById($liveId);
 
             if ($live->start_time - time() < 30 * 60) {
 
-                $notice->handle($live);
+                $notice->createTask($live);
 
-                $redis->sRem($keyName, $chapterId);
+                $redis->sRem($keyName, $liveId);
             }
         }
     }
@@ -75,7 +75,7 @@ class LiveTeacherNoticeTask extends Task
 
     protected function getCacheKeyName()
     {
-        return 'live_teacher_notice';
+        return 'teacher_live_notice_task';
     }
 
 }

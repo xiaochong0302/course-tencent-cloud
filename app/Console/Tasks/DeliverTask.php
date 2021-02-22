@@ -21,17 +21,13 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class DeliverTask extends Task
 {
 
-    const TRY_COUNT = 3;
-
     public function mainAction()
     {
         $logger = $this->getLogger('order');
 
         $tasks = $this->findTasks(30);
 
-        if ($tasks->count() == 0) {
-            return;
-        }
+        if ($tasks->count() == 0) return;
 
         $orderRepo = new OrderRepo();
 
@@ -84,7 +80,7 @@ class DeliverTask extends Task
                 $task->try_count += 1;
                 $task->priority += 1;
 
-                if ($task->try_count > self::TRY_COUNT) {
+                if ($task->try_count > $task->max_try_count) {
                     $task->status = TaskModel::STATUS_FAILED;
                 }
 

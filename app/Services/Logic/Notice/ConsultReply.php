@@ -86,6 +86,7 @@ class ConsultReply extends LogicService
         $task->item_type = TaskModel::TYPE_NOTICE_CONSULT_REPLY;
         $task->priority = TaskModel::PRIORITY_LOW;
         $task->status = TaskModel::STATUS_PENDING;
+        $task->max_try_count = 1;
 
         $task->create();
     }

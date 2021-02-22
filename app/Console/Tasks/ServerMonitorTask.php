@@ -5,15 +5,19 @@ namespace App\Console\Tasks;
 use App\Library\Benchmark;
 use App\Library\Utils\ServerInfo;
 use App\Models\User as UserModel;
-use App\Services\DingTalkNotice;
+use App\Services\DingTalk\Notice\ServerMonitor as ServerMonitorNotice;
 use App\Services\Search\UserSearcher;
 use GatewayClient\Gateway;
 
-class MonitorTask extends Task
+class ServerMonitorTask extends Task
 {
 
     public function mainAction()
     {
+        $robot = $this->getSettings('dingtalk.robot');
+
+        if ($robot['enabled'] == 0) return;
+
         $items = [
             'cpu' => $this->checkCPU(),
             'disk' => $this->checkDisk(),
@@ -31,20 +35,20 @@ class MonitorTask extends Task
 
         if (empty($items)) return;
 
-        $notice = new DingTalkNotice();
-
         $content = implode("\n", $items);
 
-        $notice->atTechSupport($content);
+        $notice = new ServerMonitorNotice();
+
+        $notice->createTask($content);
     }
 
     protected function checkCPU()
     {
-        $coreCount = $this->getCpuCoreCount();
+        $coreCount = $this->getCpuCount();
 
         $cpu = ServerInfo::cpu();
 
-        if ($cpu[1] > $coreCount / 2) {
+        if ($cpu[1] > $coreCount * 0.8) {
             return sprintf("cpu负载超过%s", $cpu[1]);
         }
     }
@@ -168,13 +172,19 @@ class MonitorTask extends Task
         }
     }
 
-    protected function getCpuCoreCount()
+    protected function getCpuCount()
     {
         $cpuInfo = file_get_contents('/proc/cpuinfo');
 
-        preg_match_all('/^processor/m', $cpuInfo, $matches);
+        preg_match("/^cpu cores\s:\s(\d+)/m", $cpuInfo, $matches);
 
-        return count($matches[0]);
+        $coreCount = intval($matches[1]);
+
+        preg_match_all("/^processor/m", $cpuInfo, $matches);
+
+        $processorCount = count($matches[0]);
+
+        return $coreCount * $processorCount;
     }
 
 }

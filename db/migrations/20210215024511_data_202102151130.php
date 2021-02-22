@@ -8,6 +8,11 @@ class Data202102151130 extends Phinx\Migration\AbstractMigration
         $rows = [
             [
                 'section' => 'dingtalk.robot',
+                'item_key' => 'enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'dingtalk.robot',
                 'item_key' => 'app_secret',
                 'item_value' => '',
             ],
