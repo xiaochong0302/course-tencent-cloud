@@ -205,14 +205,14 @@ class ImController extends Controller
     /**
      * @Post("/msg/cs/send", name="home.im.send_cs_msg")
      */
-    public function sendCsMessageAction()
+    public function sendCustomMessageAction()
     {
         $from = $this->request->getPost('from', 'string');
         $to = $this->request->getPost('to', 'string');
 
         $service = new ImService();
 
-        $service->sendCsMessage($from, $to);
+        $service->sendCustomMessage($from, $to);
 
         return $this->jsonSuccess();
     }
