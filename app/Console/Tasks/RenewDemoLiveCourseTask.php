@@ -7,7 +7,7 @@ use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Services\CourseStat as CourseStatService;
 
-class RenewLiveCourseDemoTask extends Task
+class RenewDemoLiveCourseTask extends Task
 {
 
     /**

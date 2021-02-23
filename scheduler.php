@@ -52,6 +52,9 @@ $scheduler->php($script, $bin, ['--task' => 'sync_user_index', '--action' => 'ma
 $scheduler->php($script, $bin, ['--task' => 'sync_course_score', '--action' => 'main'])
     ->hourly(29);
 
+$scheduler->php($script, $bin, ['--task' => 'reset_demo_account', '--action' => 'main'])
+    ->hourly(59);
+
 $scheduler->php($script, $bin, ['--task' => 'clean_log', '--action' => 'main'])
     ->daily(3, 3);
 
@@ -63,6 +66,9 @@ $scheduler->php($script, $bin, ['--task' => 'revoke_vip', '--action' => 'main'])
 
 $scheduler->php($script, $bin, ['--task' => 'sitemap', '--action' => 'main'])
     ->daily(4, 3);
+
+$scheduler->php($script, $bin, ['--task' => 'renew_demo_live_course', '--action' => 'main'])
+    ->daily(4, 7);
 
 $scheduler->php($script, $bin, ['--task' => 'teacher_live_notice', '--action' => 'provide'])
     ->daily(4, 7);
