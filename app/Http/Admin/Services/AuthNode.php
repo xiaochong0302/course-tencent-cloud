@@ -801,6 +801,12 @@ class AuthNode extends Service
                             'route' => 'admin.setting.wechat_oa',
                         ],
                         [
+                            'id' => '5-1-15',
+                            'title' => '钉钉机器人',
+                            'type' => 'menu',
+                            'route' => 'admin.setting.dingtalk_robot',
+                        ],
+                        [
                             'id' => '5-1-14',
                             'title' => '积分设置',
                             'type' => 'menu',
