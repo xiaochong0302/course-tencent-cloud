@@ -16,25 +16,25 @@
         <div class="layui-form-item">
             <label class="layui-form-label">App Secret</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="app_secret" value="{{ robot.app_secret }}" layui-verify="required">
+                <input class="layui-input" type="text" name="app_secret" value="{{ robot.app_secret }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">App Token</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="app_token" value="{{ robot.app_token }}" layui-verify="required">
+                <input class="layui-input" type="text" name="app_token" value="{{ robot.app_token }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">技术手机号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="ts_mobiles" placeholder="技术人员手机号，多个号码逗号分隔" value="{{ robot.ts_mobiles }}" layui-verify="required">
+                <input class="layui-input" type="text" name="ts_mobiles" placeholder="值班技术人员手机号，多个号码逗号分隔" value="{{ robot.ts_mobiles }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">客服手机号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="cs_mobiles" placeholder="客服人员手机号，多个号码逗号分隔" value="{{ robot.ts_mobiles }}" layui-verify="required">
+                <input class="layui-input" type="text" name="cs_mobiles" placeholder="值班客服人员手机号，多个号码逗号分隔" value="{{ robot.ts_mobiles }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item" style="margin-top:20px;">
