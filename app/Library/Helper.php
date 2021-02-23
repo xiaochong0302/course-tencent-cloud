@@ -36,6 +36,24 @@ function kg_substr($str, $start, $length, $suffix = '...')
 }
 
 /**
+ * 占位替换
+ *
+ * @param string $str
+ * @param array $data
+ * @return string
+ */
+function kg_ph_replace($str, $data = [])
+{
+    if (empty($data)) return $str;
+
+    foreach ($data as $key => $value) {
+        $str = str_replace('{' . $key . '}', $value, $str);
+    }
+
+    return $str;
+}
+
+/**
  * uniqid封装
  *
  * @param string $prefix
