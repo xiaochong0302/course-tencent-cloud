@@ -13,6 +13,8 @@ class TeacherLive extends DingTalkNotice
 
     public function handleTask(TaskModel $task)
     {
+        if (!$this->enabled) return;
+
         $liveRepo = new ChapterLiveRepo();
 
         $live = $liveRepo->findById($task->item_id);
@@ -26,11 +28,13 @@ class TeacherLive extends DingTalkNotice
             'live.start_time' => date('Y-m-d H:i', $live->start_time),
         ]);
 
-        return $this->atCourseTeacher($course->id, $content);
+        $this->atCourseTeacher($course->id, $content);
     }
 
     public function createTask(ChapterLiveModel $live)
     {
+        if (!$this->enabled) return;
+
         $task = new TaskModel();
 
         $itemInfo = [

@@ -21,14 +21,15 @@
         <div class="layui-form-item">
             <label class="layui-form-label">教学角色</label>
             <div class="layui-input-block">
-                <input type="radio" name="edu_role" value="1" title="学员">
-                <input type="radio" name="edu_role" value="2" title="讲师">
+                {% for value,title in edu_role_types %}
+                    <input type="radio" name="edu_role" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">后台角色</label>
             <div class="layui-input-block">
-                {% for item in roles %}
+                {% for item in admin_roles %}
                     <input type="radio" name="admin_role" value="{{ item.id }}" title="{{ item.name }}">
                 {% endfor %}
             </div>

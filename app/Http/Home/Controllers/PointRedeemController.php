@@ -19,7 +19,7 @@ class PointRedeemController extends Controller
 
         $service->handle();
 
-        return $this->jsonSuccess(['msg' => '兑换成功']);
+        return $this->jsonSuccess(['msg' => '兑换请求提交成功']);
     }
 
 }

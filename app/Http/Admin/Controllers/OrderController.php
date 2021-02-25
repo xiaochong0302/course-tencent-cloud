@@ -15,7 +15,13 @@ class OrderController extends Controller
      */
     public function searchAction()
     {
+        $orderService = new OrderService();
 
+        $itemTypes = $orderService->getItemTypes();
+        $statusTypes = $orderService->getStatusTypes();
+
+        $this->view->setVar('item_types', $itemTypes);
+        $this->view->setVar('status_types', $statusTypes);
     }
 
     /**

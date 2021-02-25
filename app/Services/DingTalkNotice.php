@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Library\Validators\Common as CommonValidator;
 use App\Repos\Account as AccountRepo;
 use App\Repos\Course as CourseRepo;
 use GuzzleHttp\Client as HttpClient;
@@ -20,11 +21,18 @@ class DingTalkNotice extends Service
      */
     protected $logger;
 
+    /**
+     * @var bool
+     */
+    protected $enabled;
+
     public function __construct()
     {
         $this->settings = $this->getSettings('dingtalk.robot');
 
         $this->logger = $this->getLogger('dingtalk');
+
+        $this->enabled = $this->settings['enabled'] == 1;
     }
 
     /**
@@ -99,11 +107,9 @@ class DingTalkNotice extends Service
 
         $account = $accountRepo->findById($course->teacher_id);
 
-        if (empty($account->phone)) {
-            return false;
-        }
+        if (empty($account->phone)) return false;
 
-        $atMobiles = $account->phone;
+        $atMobiles = [$account->phone];
 
         $atContent = $this->buildAtContent($content, $atMobiles);
 
@@ -124,11 +130,9 @@ class DingTalkNotice extends Service
      */
     public function send($params)
     {
-        if (isset($params['msgtype'])) {
+        if (!isset($params['msgtype'])) {
             $params['msgtype'] = 'text';
         }
-
-        $webHook = "https://oapi.dingtalk.com/robot/send?access_token=%s&timestamp=%s&sign=%s";
 
         $appSecret = $this->settings['app_secret'];
         $appToken = $this->settings['app_token'];
@@ -136,7 +140,14 @@ class DingTalkNotice extends Service
         $timestamp = time() * 1000;
         $data = sprintf("%s\n%s", $timestamp, $appSecret);
         $sign = urlencode(base64_encode(hash_hmac('sha256', $data, $appSecret, true)));
-        $postUrl = sprintf($webHook, $appToken, $timestamp, $sign);
+
+        $baseUrl = 'https://oapi.dingtalk.com/robot/send';
+
+        $postUrl = $baseUrl . '?' . http_build_query([
+                'access_token' => $appToken,
+                'timestamp' => $timestamp,
+                'sign' => $sign,
+            ]);
 
         try {
 
@@ -178,15 +189,21 @@ class DingTalkNotice extends Service
      */
     protected function parseAtMobiles($mobiles)
     {
-        if (empty($mobiles)) {
-            return [];
-        }
+        if (empty($mobiles)) return [];
+
+        $mobiles = str_replace(['，', '｜', '|'], ',', $mobiles);
 
         $mobiles = explode(',', $mobiles);
 
-        return array_map(function ($mobile) {
-            return trim($mobile);
-        }, $mobiles);
+        $result = [];
+
+        foreach ($mobiles as $mobile) {
+            if (CommonValidator::phone($mobile)) {
+                $result[] = $mobile;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -196,9 +213,7 @@ class DingTalkNotice extends Service
      */
     protected function buildAtContent($content, $mobiles = [])
     {
-        if (count($mobiles) == 0) {
-            return $content;
-        }
+        if (empty($mobiles)) return $content;
 
         $result = '';
 

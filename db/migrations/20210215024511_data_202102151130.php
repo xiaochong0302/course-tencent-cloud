@@ -34,6 +34,8 @@ class Data202102151130 extends Phinx\Migration\AbstractMigration
         ];
 
         $this->table('kg_setting')->insert($rows)->save();
+
+        $this->updateImGroupRouter();
     }
 
     public function down()
@@ -42,6 +44,27 @@ class Data202102151130 extends Phinx\Migration\AbstractMigration
             ->delete('kg_setting')
             ->where(['section' => 'dingtalk.robot'])
             ->execute();
+    }
+
+    protected function updateImGroupRouter()
+    {
+        $roles = $this->getQueryBuilder()
+            ->select('*')
+            ->from('kg_role')
+            ->execute();
+
+        if ($roles->count() == 0) return;
+
+        foreach ($roles as $role) {
+            if (strpos($role['routes'], 'admin.group') !== false) {
+                $routes = str_replace('admin.group', 'admin.im_group', $role['routes']);
+                $this->getQueryBuilder()
+                    ->update('kg_role')
+                    ->set(['routes' => $routes])
+                    ->where(['id' => $role['id']])
+                    ->execute();
+            }
+        }
     }
 
 }

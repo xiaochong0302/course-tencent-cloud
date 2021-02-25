@@ -91,63 +91,63 @@ class NoticeTask extends Task
     {
         $notice = new AccountLoginNotice();
 
-        return $notice->handleTask($task);
+        $notice->handleTask($task);
     }
 
     protected function handleLiveBeginNotice(TaskModel $task)
     {
         $notice = new LiveBeginNotice();
 
-        return $notice->handleTask($task);
+        $notice->handleTask($task);
     }
 
     protected function handleOrderFinishNotice(TaskModel $task)
     {
         $notice = new OrderFinishNotice();
 
-        return $notice->handleTask($task);
+        $notice->handleTask($task);
     }
 
     protected function handleRefundFinishNotice(TaskModel $task)
     {
         $notice = new RefundFinishNotice();
 
-        return $notice->handleTask($task);
+        $notice->handleTask($task);
     }
 
     protected function handleConsultReplyNotice(TaskModel $task)
     {
         $notice = new ConsultReplyNotice();
 
-        return $notice->handleTask($task);
+        $notice->handleTask($task);
     }
 
     protected function handleConsultCreateNotice(TaskModel $task)
     {
         $notice = new ConsultCreateNotice();
 
-        return $notice->handleTask($task);
+        $notice->handleTask($task);
     }
 
     protected function handleTeacherLiveNotice(TaskModel $task)
     {
         $notice = new TeacherLiveNotice();
 
-        return $notice->handleTask($task);
+        $notice->handleTask($task);
     }
 
     protected function handleServerMonitorNotice(TaskModel $task)
     {
         $notice = new ServerMonitorNotice();
 
-        return $notice->handleTask($task);
+        $notice->handleTask($task);
     }
 
     protected function handleCustomServiceNotice(TaskModel $task)
     {
         $notice = new CustomServiceNotice();
 
-        return $notice->handleTask($task);
+        $notice->handleTask($task);
     }
 
     /**

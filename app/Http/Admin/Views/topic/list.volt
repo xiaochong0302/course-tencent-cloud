@@ -2,11 +2,22 @@
 
 {% block content %}
 
+    {% set add_url = url({'for':'admin.topic.add'}) %}
+    {% set search_url = url({'for':'admin.topic.search'}) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
                 <a><cite>话题管理</cite></a>
             </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
+                <i class="layui-icon layui-icon-add-1"></i>添加话题
+            </a>
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索话题
+            </a>
         </div>
     </div>
 

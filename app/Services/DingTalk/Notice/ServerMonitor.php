@@ -10,15 +10,19 @@ class ServerMonitor extends DingTalkNotice
 
     public function handleTask(TaskModel $task)
     {
+        if (!$this->enabled) return;
+
         $notice = new DingTalkNotice();
 
         $content = $task->item_info['content'];
 
-        return $notice->atTechSupport($content);
+        $notice->atTechSupport($content);
     }
 
     public function createTask($content)
     {
+        if (!$this->enabled) return;
+
         $task = new TaskModel();
 
         $itemInfo = ['content' => $content];

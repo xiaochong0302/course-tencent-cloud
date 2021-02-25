@@ -13,6 +13,8 @@ class CustomService extends DingTalkNotice
 
     public function handleTask(TaskModel $task)
     {
+        if (!$this->enabled) return;
+
         $messageRepo = new ImMessageRepo();
 
         $message = $messageRepo->findById($task->item_id);
@@ -26,11 +28,13 @@ class CustomService extends DingTalkNotice
             'message.content' => $message->content,
         ]);
 
-        return $this->atCustomService($content);
+        $this->atCustomService($content);
     }
 
     public function createTask(ImMessageModel $message)
     {
+        if (!$this->enabled) return;
+
         $keyName = "dingtalk_custom_service_notice:{$message->sender_id}";
 
         $cache = $this->getCache();

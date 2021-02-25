@@ -26,16 +26,14 @@ class ServerInfo
 
         $total = 0;
 
-        if (preg_match('/MemTotal\:\s+(\d+) kB/', $mem, $matches)) {
-            $total = $matches[1];
+        if (preg_match('/MemTotal\:\s+(\d+) kB/', $mem, $totalMatches)) {
+            $total = $totalMatches[1];
         }
-
-        unset($matches);
 
         $free = 0;
 
-        if (preg_match('/MemFree\:\s+(\d+) kB/', $mem, $matches)) {
-            $free = $matches[1];
+        if (preg_match('/MemFree\:\s+(\d+) kB/', $mem, $freeMatches)) {
+            $free = $freeMatches[1];
         }
 
         $usage = $total - $free;

@@ -15,7 +15,13 @@ class TradeController extends Controller
      */
     public function searchAction()
     {
+        $tradeService = new TradeService();
 
+        $channelTypes = $tradeService->getChannelTypes();
+        $statusTypes = $tradeService->getStatusTypes();
+
+        $this->view->setVar('channel_types', $channelTypes);
+        $this->view->setVar('status_types', $statusTypes);
     }
 
     /**

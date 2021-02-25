@@ -16,6 +16,11 @@ use App\Validators\Refund as RefundValidator;
 class Refund extends Service
 {
 
+    public function getStatusTypes()
+    {
+        return RefundModel::statusTypes();
+    }
+
     public function getRefunds()
     {
         $pageQuery = new PaginateQuery();

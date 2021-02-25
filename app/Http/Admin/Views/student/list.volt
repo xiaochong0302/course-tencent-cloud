@@ -8,15 +8,18 @@
         {% elseif value == 2 %}
             付费
         {% elseif value == 3 %}
-            导入
+            畅学
         {% elseif value == 4 %}
-            会员
+            导入
         {% elseif value == 5 %}
             积分
         {% elseif value == 6 %}
             抽奖
         {% endif %}
     {%- endmacro %}
+
+    {% set add_url = url({'for':'admin.student.add'}) %}
+    {% set search_url = url({'for':'admin.student.search'}) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
@@ -27,6 +30,14 @@
                 {% endif %}
                 <a><cite>学员管理</cite></a>
             </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
+                <i class="layui-icon layui-icon-add-1"></i>添加学员
+            </a>
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索学员
+            </a>
         </div>
     </div>
 
@@ -42,7 +53,7 @@
         <tr>
             <th>基本信息</th>
             <th>学习情况</th>
-            <th>成员来源</th>
+            <th>来源类型</th>
             <th>有效期限</th>
             <th>操作</th>
         </tr>
@@ -55,8 +66,8 @@
             {% set edit_url = url({'for':'admin.student.edit'},{'relation_id':item.id}) %}
             <tr>
                 <td>
-                    <p>课程：<a href="{{ list_by_course_url }}">{{ item.course.title }}（{{ item.course.id }}）</a></p>
-                    <p>学员：<a href="{{ list_by_user_url }}">{{ item.user.name }}（{{ item.user.id }}）</a></p>
+                    <p>课程：<a href="{{ list_by_course_url }}">{{ item.course.title }}</a>（{{ item.course.id }}）</p>
+                    <p>学员：<a href="{{ list_by_user_url }}">{{ item.user.name }}</a>（{{ item.user.id }}）</p>
                 </td>
                 <td>
                     <p>进度：<a href="javascript:" class="kg-learning" title="学习记录" data-url="{{ learning_url }}">{{ item.progress }}%</a></p>

@@ -232,6 +232,16 @@ class Course extends Service
         return $course;
     }
 
+    public function getModelTypes()
+    {
+        return CourseModel::modelTypes();
+    }
+
+    public function getLevelTypes()
+    {
+        return CourseModel::levelTypes();
+    }
+
     public function getStudyExpiryOptions()
     {
         return CourseModel::studyExpiryOptions();

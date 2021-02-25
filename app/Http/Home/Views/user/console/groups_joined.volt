@@ -16,7 +16,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set show_url = url({'for':'home.group.show','id':item.id}) %}
+            {% set show_url = url({'for':'home.im_group.show','id':item.id}) %}
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set delete_url = url({'for':'home.im.quit_group','id':item.id}) %}
             <tr>

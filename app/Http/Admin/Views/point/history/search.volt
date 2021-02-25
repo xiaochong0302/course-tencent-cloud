@@ -2,18 +2,10 @@
 
 {% block content %}
 
-    {% set course_id = request.get('course_id', 'int', '') %}
-
-    <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.student.list'}) }}">
+    <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.point_history.list'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
-            <legend>搜索学员</legend>
+            <legend>搜索积分</legend>
         </fieldset>
-        <div class="layui-form-item">
-            <label class="layui-form-label">课程编号</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="course_id" value="{{ course_id }}" placeholder="课程编号精确匹配">
-            </div>
-        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">用户编号</label>
             <div class="layui-input-block">
@@ -21,10 +13,16 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">加入方式</label>
+            <label class="layui-form-label">事件编号</label>
             <div class="layui-input-block">
-                {% for value,title in source_types %}
-                    <input type="radio" name="source_type" value="{{ value }}" title="{{ title }}">
+                <input class="layui-input" type="text" name="event_id" placeholder="事件编号精确匹配">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">事件类型</label>
+            <div class="layui-input-block">
+                {% for value,title in event_types %}
+                    <input type="radio" name="event_type" value="{{ value }}" title="{{ title }}">
                 {% endfor %}
             </div>
         </div>

@@ -3,7 +3,6 @@
 namespace App\Console\Tasks;
 
 use App\Library\Benchmark;
-use App\Library\Utils\ServerInfo;
 use App\Models\User as UserModel;
 use App\Services\DingTalk\Notice\ServerMonitor as ServerMonitorNotice;
 use App\Services\Search\UserSearcher;
@@ -19,12 +18,13 @@ class ServerMonitorTask extends Task
         if ($robot['enabled'] == 0) return;
 
         $items = [
-            'cpu' => $this->checkCPU(),
+            'cpu' => $this->checkCpu(),
+            'memory' => $this->checkMemory(),
             'disk' => $this->checkDisk(),
             'mysql' => $this->checkMysql(),
             'redis' => $this->checkRedis(),
-            'xunsearch' => $this->checkXunSearch(),
-            'websocket' => $this->checkWebSocket(),
+            'xunsearch' => $this->checkXunsearch(),
+            'websocket' => $this->checkWebsocket(),
         ];
 
         foreach ($items as $key => $value) {
@@ -42,23 +42,53 @@ class ServerMonitorTask extends Task
         $notice->createTask($content);
     }
 
-    protected function checkCPU()
+    protected function checkCpu()
     {
-        $coreCount = $this->getCpuCount();
+        $cpuCount = $this->getCpuCount();
 
-        $cpu = ServerInfo::cpu();
+        $load = sys_getloadavg();
 
-        if ($cpu[1] > $coreCount * 0.8) {
-            return sprintf("cpu负载超过%s", $cpu[1]);
+        if ($load[1] > $cpuCount * 0.8) {
+            return sprintf("cpu负载超过%s", $load[1]);
+        }
+    }
+
+    protected function checkMemory()
+    {
+        $memInfo = file_get_contents('/proc/meminfo');
+
+        $total = null;
+
+        if (preg_match('/MemTotal\:\s+(\d+) kB/', $memInfo, $totalMatches)) {
+            $total = $totalMatches[1];
+        }
+
+        if ($total === null) return;
+
+        $available = null;
+
+        if (preg_match('/MemAvailable\:\s+(\d+) kB/', $memInfo, $avaMatches)) {
+            $available = $avaMatches[1];
+        }
+
+        if ($available === null) return;
+
+        $left = 100 * ($available / $total);
+
+        if ($left < 20) {
+            return sprintf("memory剩余不足%s%%", round($left));
         }
     }
 
     protected function checkDisk()
     {
-        $disk = ServerInfo::disk();
+        $free = disk_free_space('/');
+        $total = disk_total_space('/');
 
-        if ($disk['percent'] > 80) {
-            return sprintf("disk空间超过%s%%", $disk['percent']);
+        $left = 100 * $free / $total;
+
+        if ($left < 20) {
+            return sprintf("disk剩余不足%s%%", round($left));
         }
     }
 
@@ -116,7 +146,7 @@ class ServerMonitorTask extends Task
         }
     }
 
-    protected function checkXunSearch()
+    protected function checkXunsearch()
     {
         try {
 
@@ -145,7 +175,7 @@ class ServerMonitorTask extends Task
         }
     }
 
-    protected function checkWebSocket()
+    protected function checkWebsocket()
     {
         try {
 

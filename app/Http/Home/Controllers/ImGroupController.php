@@ -12,7 +12,7 @@ class ImGroupController extends Controller
 {
 
     /**
-     * @Get("/list", name="home.group.list")
+     * @Get("/list", name="home.im_group.list")
      */
     public function listAction()
     {
@@ -22,7 +22,7 @@ class ImGroupController extends Controller
     }
 
     /**
-     * @Get("/pager", name="home.group.pager")
+     * @Get("/pager", name="home.im_group.pager")
      */
     public function pagerAction()
     {
@@ -38,7 +38,7 @@ class ImGroupController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}", name="home.group.show")
+     * @Get("/{id:[0-9]+}", name="home.im_group.show")
      */
     public function showAction($id)
     {
@@ -53,7 +53,7 @@ class ImGroupController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/users", name="home.group.users")
+     * @Get("/{id:[0-9]+}/users", name="home.im_group.users")
      */
     public function usersAction($id)
     {
@@ -69,7 +69,7 @@ class ImGroupController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/users/active", name="home.group.active_users")
+     * @Get("/{id:[0-9]+}/users/active", name="home.im_group.active_users")
      */
     public function activeUsersAction($id)
     {

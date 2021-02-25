@@ -4,6 +4,7 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\OrderList as OrderListBuilder;
 use App\Library\Paginator\Query as PaginateQuery;
+use App\Models\Order as OrderModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
@@ -11,6 +12,16 @@ use App\Validators\Order as OrderValidator;
 
 class Order extends Service
 {
+
+    public function getItemTypes()
+    {
+        return OrderModel::itemTypes();
+    }
+
+    public function getStatusTypes()
+    {
+        return OrderModel::statusTypes();
+    }
 
     public function getOrders()
     {

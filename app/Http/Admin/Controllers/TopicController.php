@@ -23,6 +23,14 @@ class TopicController extends Controller
     }
 
     /**
+     * @Get("/search", name="admin.topic.search")
+     */
+    public function searchAction()
+    {
+
+    }
+
+    /**
      * @Get("/add", name="admin.topic.add")
      */
     public function addAction()

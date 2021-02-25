@@ -4,9 +4,11 @@
 
     {%- macro private_info(value) %}
         {% if value == 1 %}
-            <span class="layui-badge">密</span>
+            <span class="layui-badge">私密</span>
         {% endif %}
     {%- endmacro %}
+
+    {% set search_url = url({'for':'admin.consult.search'}) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
@@ -17,6 +19,11 @@
                 {% endif %}
                 <a><cite>咨询管理</cite></a>
             </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索咨询
+            </a>
         </div>
     </div>
 

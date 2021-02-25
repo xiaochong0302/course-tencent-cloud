@@ -14,6 +14,8 @@ class ConsultCreate extends DingTalkNotice
 
     public function handleTask(TaskModel $task)
     {
+        if (!$this->enabled) return;
+
         $consultRepo = new ConsultRepo();
 
         $consult = $consultRepo->findById($task->item_id);
@@ -32,11 +34,13 @@ class ConsultCreate extends DingTalkNotice
             'consult.question' => $consult->question,
         ]);
 
-        return $this->atCourseTeacher($course->id, $content);
+        $this->atCourseTeacher($course->id, $content);
     }
 
     public function createTask(ConsultModel $consult)
     {
+        if (!$this->enabled) return;
+
         $keyName = "dingtalk_consult_create_notice:{$consult->owner_id}";
 
         $cache = $this->getCache();

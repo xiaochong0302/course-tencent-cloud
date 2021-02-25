@@ -58,6 +58,7 @@ class CourseList extends Service
                 'progress' => $relation['progress'],
                 'duration' => $relation['duration'],
                 'reviewed' => $relation['reviewed'],
+                'source_type' => $relation['source_type'],
                 'expiry_time' => $relation['expiry_time'],
                 'create_time' => $relation['create_time'],
                 'course' => $course,

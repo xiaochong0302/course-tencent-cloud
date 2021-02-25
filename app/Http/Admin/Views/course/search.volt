@@ -33,18 +33,17 @@
         <div class="layui-form-item">
             <label class="layui-form-label">模型</label>
             <div class="layui-input-block">
-                <input type="radio" name="model" value="1" title="点播">
-                <input type="radio" name="model" value="2" title="直播">
-                <input type="radio" name="model" value="3" title="专栏">
+                {% for value,title in model_types %}
+                    <input type="radio" name="model" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">难度</label>
             <div class="layui-input-block">
-                <input type="radio" name="level" value="1" title="入门">
-                <input type="radio" name="level" value="2" title="初级">
-                <input type="radio" name="level" value="3" title="中级">
-                <input type="radio" name="level" value="4" title="高级">
+                {% for value,title in level_types %}
+                    <input type="radio" name="level" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">

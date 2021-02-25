@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">App Token</label>
+            <label class="layui-form-label">Access Token</label>
             <div class="layui-input-block">
                 <input class="layui-input" type="text" name="app_token" value="{{ robot.app_token }}" lay-verify="required">
             </div>

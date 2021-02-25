@@ -33,9 +33,13 @@ class CourseController extends Controller
 
         $xmCategories = $courseService->getXmCategories(0);
         $xmTeachers = $courseService->getXmTeachers(0);
+        $modelTypes = $courseService->getModelTypes();
+        $levelTypes = $courseService->getLevelTypes();
 
         $this->view->setVar('xm_categories', $xmCategories);
         $this->view->setVar('xm_teachers', $xmTeachers);
+        $this->view->setVar('model_types', $modelTypes);
+        $this->view->setVar('level_types', $levelTypes);
     }
 
     /**
