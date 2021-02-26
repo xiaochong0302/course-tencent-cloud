@@ -44,11 +44,22 @@
         {% endif %}
     {%- endmacro %}
 
+    {% set add_url = url({'for':'admin.course.add'}) %}
+    {% set search_url = url({'for':'admin.course.search'}) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
                 <a><cite>课程管理</cite></a>
             </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
+                <i class="layui-icon layui-icon-add-1"></i>添加课程
+            </a>
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索课程
+            </a>
         </div>
     </div>
 

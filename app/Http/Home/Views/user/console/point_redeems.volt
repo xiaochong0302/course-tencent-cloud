@@ -34,7 +34,7 @@
                                 <td><a href="{{ gift_url }}">{{ item.gift.name }}</a> {{ gift_type_info(item.gift.type) }}</td>
                                 <td>{{ item.gift.point }}</td>
                                 <td>{{ redeem_status_info(item.status) }}</td>
-                                <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
+                                <td>{{ date('Y-m-d',item.create_time) }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

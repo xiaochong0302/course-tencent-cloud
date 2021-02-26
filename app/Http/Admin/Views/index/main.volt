@@ -29,3 +29,21 @@
     </style>
 
 {% endblock %}
+
+{% block inline_js %}
+
+    <script>
+
+        layui.use(['jquery', 'layer', 'helper'], function () {
+
+            var $ = layui.jquery;
+            var helper = layui.helper;
+
+            var $appTrend = $('#app-trend');
+            helper.ajaxLoadHtml($appTrend.data('url'), $appTrend.attr('id'));
+
+        });
+
+    </script>
+
+{% endblock %}

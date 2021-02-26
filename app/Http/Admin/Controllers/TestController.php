@@ -6,6 +6,7 @@ use App\Http\Admin\Services\AlipayTest as AlipayTestService;
 use App\Http\Admin\Services\Setting as SettingService;
 use App\Http\Admin\Services\WxpayTest as WxpayTestService;
 use App\Services\Captcha as CaptchaService;
+use App\Services\DingTalkNotice as DingTalkNoticeService;
 use App\Services\Live as LiveService;
 use App\Services\Mail\Test as TestMailService;
 use App\Services\MyStorage as StorageService;
@@ -248,6 +249,22 @@ class TestController extends Controller
         $status = $wxpayTestService->status($sn);
 
         return $this->jsonSuccess(['status' => $status]);
+    }
+
+    /**
+     * @Post("/dingtalk/robot", name="admin.test.dingtalk_robot")
+     */
+    public function dingTalkRobotAction()
+    {
+        $noticeService = new DingTalkNoticeService();
+
+        $result = $noticeService->test();
+
+        if ($result) {
+            return $this->jsonSuccess(['msg' => '发送消息成功，请到钉钉确认']);
+        } else {
+            return $this->jsonError(['msg' => '发送消息失败，请检查配置']);
+        }
     }
 
 }

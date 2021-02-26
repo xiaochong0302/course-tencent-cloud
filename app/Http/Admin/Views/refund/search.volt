@@ -21,12 +21,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">退款状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="1" title="待处理">
-                <input type="radio" name="status" value="2" title="已取消">
-                <input type="radio" name="status" value="3" title="已审核">
-                <input type="radio" name="status" value="4" title="已拒绝">
-                <input type="radio" name="status" value="5" title="已完成">
-                <input type="radio" name="status" value="6" title="已失败">
+                {% for value,title in status_types %}
+                    <input type="radio" name="status" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">

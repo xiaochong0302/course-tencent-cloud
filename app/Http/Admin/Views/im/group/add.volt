@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.group.create'}) }}">
+    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.im_group.create'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>添加群组</legend>
         </fieldset>

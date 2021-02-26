@@ -23,10 +23,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">加入方式</label>
             <div class="layui-input-block">
-                <input type="radio" name="source_type" value="1" title="免费课程">
-                <input type="radio" name="source_type" value="2" title="付费课程">
-                <input type="radio" name="source_type" value="3" title="畅学课程">
-                <input type="radio" name="source_type" value="4" title="后台导入">
+                {% for value,title in source_types %}
+                    <input type="radio" name="source_type" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">

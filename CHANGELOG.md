@@ -1,3 +1,24 @@
+### [v1.2.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.7)(2021-02-26)
+
+### 新增
+
+- 钉钉机器人群消息通知
+- demo分支重置演示帐号计划任务
+- 添加学员自动加入相关课程群组
+- 后台查看积分记录
+
+### 更新
+
+- 路由重命名 admin.group -> admin.im_group
+- 路由重命名 home.group -> home.im_group
+- 样式重命名 sidebar-teacher-card -> sidebar-user-card
+- 去除顶部积分导航
+- 用户中心部分样式调整
+- 后台部分导航调整
+- 不能删除课程教师问题
+- 积分模块可通过后台控制是否启用
+- 解除好友关系后好友数量未递减
+
 ### [v1.2.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.6)(2021-02-20)
 
 ### 新增

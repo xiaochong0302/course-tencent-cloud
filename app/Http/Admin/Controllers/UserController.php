@@ -18,9 +18,11 @@ class UserController extends Controller
     {
         $userService = new UserService();
 
-        $roles = $userService->getRoles();
+        $eduRoleTypes = $userService->getEduRoleTypes();
+        $adminRoles = $userService->getAdminRoles();
 
-        $this->view->setVar('roles', $roles);
+        $this->view->setVar('edu_role_types', $eduRoleTypes);
+        $this->view->setVar('admin_roles', $adminRoles);
     }
 
     /**
@@ -42,9 +44,9 @@ class UserController extends Controller
     {
         $userService = new UserService();
 
-        $roles = $userService->getRoles();
+        $adminRoles = $userService->getAdminRoles();
 
-        $this->view->setVar('roles', $roles);
+        $this->view->setVar('admin_roles', $adminRoles);
     }
 
     /**
@@ -81,7 +83,7 @@ class UserController extends Controller
 
         $user = $userService->getUser($id);
         $account = $userService->getAccount($id);
-        $roles = $userService->getRoles();
+        $adminRoles = $userService->getAdminRoles();
 
         if ($user->admin_role == RoleModel::ROLE_ROOT) {
             $this->response->redirect(['for' => 'admin.user.list']);
@@ -89,7 +91,7 @@ class UserController extends Controller
 
         $this->view->setVar('user', $user);
         $this->view->setVar('account', $account);
-        $this->view->setVar('roles', $roles);
+        $this->view->setVar('admin_roles', $adminRoles);
     }
 
     /**

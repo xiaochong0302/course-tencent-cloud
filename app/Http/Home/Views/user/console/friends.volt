@@ -12,7 +12,7 @@
                     <span class="title">我的好友</span>
                 </div>
                 {% if pager.total_pages > 0 %}
-                    <table class="layui-table">
+                    <table class="layui-table" lay-size="lg">
                         <colgroup>
                             <col>
                             <col>

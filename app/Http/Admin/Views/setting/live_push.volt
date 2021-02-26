@@ -7,7 +7,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">推流域名</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="domain" value="{{ push.domain }}" layui-verify="required">
+            <input class="layui-input" type="text" name="domain" value="{{ push.domain }}" lay-verify="required">
         </div>
     </div>
     <fieldset class="layui-elem-field layui-field-title">

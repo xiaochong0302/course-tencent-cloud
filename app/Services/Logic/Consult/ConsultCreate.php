@@ -6,6 +6,7 @@ use App\Models\Chapter as ChapterModel;
 use App\Models\Consult as ConsultModel;
 use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
+use App\Services\DingTalk\Notice\ConsultCreate as ConsultCreateNotice;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Service;
@@ -75,6 +76,8 @@ class ConsultCreate extends Service
 
         $this->incrUserDailyConsultCount($user);
 
+        $this->handleConsultCreateNotice($consult);
+
         return $consult;
     }
 
@@ -110,6 +113,8 @@ class ConsultCreate extends Service
         $this->incrChapterConsultCount($chapter);
 
         $this->incrUserDailyConsultCount($user);
+
+        $this->handleConsultCreateNotice($consult);
 
         return $consult;
     }
@@ -148,6 +153,13 @@ class ConsultCreate extends Service
     protected function incrUserDailyConsultCount(UserModel $user)
     {
         $this->eventsManager->fire('UserDailyCounter:incrConsultCount', $this, $user);
+    }
+
+    protected function handleConsultCreateNotice(ConsultModel $consult)
+    {
+        $notice = new ConsultCreateNotice();
+
+        $notice->createTask($consult);
     }
 
 }

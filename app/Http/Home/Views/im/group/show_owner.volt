@@ -4,7 +4,7 @@
 <div class="layui-card">
     <div class="layui-card-header">小组组长</div>
     <div class="layui-card-body">
-        <div class="sidebar-teacher-card clearfix">
+        <div class="sidebar-user-card clearfix">
             <div class="avatar">
                 <img src="{{ group.owner.avatar }}" alt="{{ group.owner.name }}">
             </div>

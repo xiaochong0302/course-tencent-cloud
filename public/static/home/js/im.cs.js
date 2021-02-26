@@ -64,7 +64,7 @@ layui.use(['jquery', 'layim'], function () {
     });
 
     layim.on('sendMessage', function (res) {
-        sendCsMessage(res);
+        sendCustomMessage(res);
     });
 
     showWelcomeMessage(csUser);
@@ -77,7 +77,7 @@ layui.use(['jquery', 'layim'], function () {
         });
     }
 
-    function sendCsMessage(res) {
+    function sendCustomMessage(res) {
         $.ajax({
             type: 'POST',
             url: '/im/msg/cs/send',

@@ -21,17 +21,17 @@
         <div class="layui-form-item">
             <label class="layui-form-label">交易平台</label>
             <div class="layui-input-block">
-                <input type="radio" name="channel" value="1" title="支付宝">
-                <input type="radio" name="channel" value="2" title="微信">
+                {% for value,title in channel_types %}
+                    <input type="radio" name="channel" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">交易状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="1" title="待支付">
-                <input type="radio" name="status" value="2" title="已完成">
-                <input type="radio" name="status" value="3" title="已关闭">
-                <input type="radio" name="status" value="4" title="已退款">
+                {% for value,title in status_types %}
+                    <input type="radio" name="status" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">

@@ -22,11 +22,22 @@
         {% endif %}
     {%- endmacro %}
 
+    {% set add_url = url({'for':'admin.im_group.add'}) %}
+    {% set search_url = url({'for':'admin.im_group.search'}) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
                 <a><cite>群组管理</cite></a>
             </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
+                <i class="layui-icon layui-icon-add-1"></i>添加群组
+            </a>
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索群组
+            </a>
         </div>
     </div>
 
@@ -51,11 +62,11 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set preview_url = url({'for':'home.group.show','id':item.id}) %}
-            {% set edit_url = url({'for':'admin.group.edit','id':item.id}) %}
-            {% set update_url = url({'for':'admin.group.update','id':item.id}) %}
-            {% set delete_url = url({'for':'admin.group.delete','id':item.id}) %}
-            {% set restore_url = url({'for':'admin.group.restore','id':item.id}) %}
+            {% set preview_url = url({'for':'home.im_group.show','id':item.id}) %}
+            {% set edit_url = url({'for':'admin.im_group.edit','id':item.id}) %}
+            {% set update_url = url({'for':'admin.im_group.update','id':item.id}) %}
+            {% set delete_url = url({'for':'admin.im_group.delete','id':item.id}) %}
+            {% set restore_url = url({'for':'admin.im_group.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
                 <td><a href="{{ edit_url }}">{{ item.name }}</a> {{ type_info(item.type) }}</td>

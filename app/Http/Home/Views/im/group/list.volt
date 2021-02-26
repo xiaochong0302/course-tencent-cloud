@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% set pager_url = url({'for':'home.group.pager'}) %}
+    {% set pager_url = url({'for':'home.im_group.pager'}) %}
 
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>

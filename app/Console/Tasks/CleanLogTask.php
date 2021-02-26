@@ -26,6 +26,7 @@ class CleanLogTask extends Task
         $this->cleanOrderLog();
         $this->cleanRefundLog();
         $this->cleanPointLog();
+        $this->cleanDingTalkLog();
         $this->cleanNoticeLog();
         $this->cleanOtherLog();
     }
@@ -228,6 +229,18 @@ class CleanLogTask extends Task
     protected function cleanPointLog()
     {
         $type = 'point';
+
+        $this->cleanLog($type, 7);
+
+        $this->whitelist[] = $type;
+    }
+
+    /**
+     * 清理钉钉日志
+     */
+    protected function cleanDingTalkLog()
+    {
+        $type = 'dingtalk';
 
         $this->cleanLog($type, 7);
 

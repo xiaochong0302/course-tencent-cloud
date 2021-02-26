@@ -10,11 +10,18 @@
         {% endif %}
     {%- endmacro %}
 
+    {% set add_url = url({'for':'admin.role.add'}) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
                 <a><cite>角色管理</cite></a>
             </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
+                <i class="layui-icon layui-icon-add-1"></i>添加角色
+            </a>
         </div>
     </div>
 
@@ -43,7 +50,11 @@
             {% set restore_url = url({'for':'admin.role.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                <td><a href="{{ edit_url }}" title="{{ item.summary }}">{{ item.name }}</a></td>
+                {% if item.id == 1 %}
+                    <td><a title="{{ item.summary }}">{{ item.name }}</a></td>
+                {% else %}
+                    <td><a href="{{ edit_url }}" title="{{ item.summary }}">{{ item.name }}</a></td>
+                {% endif %}
                 <td>{{ type_info(item.type) }}</td>
                 <td>
                     <a href="{{ user_list_url }}">
@@ -54,11 +65,16 @@
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
-                            <li><a href="{{ edit_url }}">编辑</a></li>
-                            {% if item.deleted == 0 %}
-                                <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
+                            {% if item.id == 1 %}
+                                <li><a>编辑</a></li>
+                                <li><a>删除</a></li>
                             {% else %}
-                                <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原</a></li>
+                                <li><a href="{{ edit_url }}">编辑</a></li>
+                                {% if item.deleted == 0 %}
+                                    <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
+                                {% else %}
+                                    <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原</a></li>
+                                {% endif %}
                             {% endif %}
                         </ul>
                     </div>

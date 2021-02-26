@@ -31,47 +31,57 @@
         </div>
     {%- endmacro %}
 
-    <div class="index-carousel wrap">
-        <div class="layui-carousel" id="carousel">
-            <div class="carousel" carousel-item>
-                {% for slide in slides %}
-                    <div class="item">
-                        <a href="{{ slide.url }}">
-                            <img class="carousel" src="{{ slide.cover }}!slide_1100" alt="{{ slide.title }}">
-                        </a>
-                    </div>
-                {% endfor %}
+    {% if slides|length > 0 %}
+        <div class="index-carousel wrap">
+            <div class="layui-carousel" id="carousel">
+                <div class="carousel" carousel-item>
+                    {% for slide in slides %}
+                        <div class="item">
+                            <a href="{{ slide.url }}">
+                                <img class="carousel" src="{{ slide.cover }}!slide_1100" alt="{{ slide.title }}">
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 
-    <div class="index-wrap wrap">
-        <div class="header">推荐课程</div>
-        <div class="content">
-            {{ category_courses(featured_courses) }}
+    {% if featured_courses|length > 0 %}
+        <div class="index-wrap wrap">
+            <div class="header">推荐课程</div>
+            <div class="content">
+                {{ category_courses(featured_courses) }}
+            </div>
         </div>
-    </div>
+    {% endif %}
 
-    <div class="index-wrap wrap">
-        <div class="header">新上课程</div>
-        <div class="content">
-            {{ category_courses(new_courses) }}
+    {% if new_courses|length > 0 %}
+        <div class="index-wrap wrap">
+            <div class="header">新上课程</div>
+            <div class="content">
+                {{ category_courses(new_courses) }}
+            </div>
         </div>
-    </div>
+    {% endif %}
 
-    <div class="index-wrap wrap">
-        <div class="header">免费课程</div>
-        <div class="content">
-            {{ category_courses(free_courses) }}
+    {% if free_courses|length > 0 %}
+        <div class="index-wrap wrap">
+            <div class="header">免费课程</div>
+            <div class="content">
+                {{ category_courses(free_courses) }}
+            </div>
         </div>
-    </div>
+    {% endif %}
 
-    <div class="index-wrap wrap">
-        <div class="header">会员课程</div>
-        <div class="content">
-            {{ category_courses(vip_courses) }}
+    {% if vip_courses|length > 0 %}
+        <div class="index-wrap wrap">
+            <div class="header">会员课程</div>
+            <div class="content">
+                {{ category_courses(vip_courses) }}
+            </div>
         </div>
-    </div>
+    {% endif %}
 
 {% endblock %}
 

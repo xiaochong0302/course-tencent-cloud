@@ -5,6 +5,7 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
+use Phalcon\Mvc\Model;
 
 class ChapterLive extends Repository
 {
@@ -52,6 +53,30 @@ class ChapterLive extends Repository
         ]);
 
         return $pager->paginate();
+    }
+
+    /**
+     * @param int $id
+     * @return ChapterLiveModel|Model|bool
+     */
+    public function findById($id)
+    {
+        return ChapterLiveModel::findFirst([
+            'conditions' => 'id = :id:',
+            'bind' => ['id' => $id],
+        ]);
+    }
+
+    /**
+     * @param int $chapterId
+     * @return ChapterLiveModel|Model|bool
+     */
+    public function findByChapterId($chapterId)
+    {
+        return ChapterLiveModel::findFirst([
+            'conditions' => 'chapter_id = :chapter_id:',
+            'bind' => ['chapter_id' => $chapterId],
+        ]);
     }
 
 }

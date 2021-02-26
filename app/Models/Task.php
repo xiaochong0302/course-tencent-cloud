@@ -13,11 +13,24 @@ class Task extends Model
     const TYPE_POINT_GIFT_DELIVER = 3; // 积分礼品派发
     const TYPE_LUCKY_GIFT_DELIVER = 4; // 抽奖礼品派发
 
+    /**
+     * 针对外部用户
+     */
     const TYPE_NOTICE_ACCOUNT_LOGIN = 11; // 帐号登录通知
-    const TYPE_NOTICE_LIVE_BEGIN = 12; // 直播开始通知
+    const TYPE_NOTICE_LIVE_BEGIN = 12; // 直播学员通知
     const TYPE_NOTICE_ORDER_FINISH = 13; // 订单完成通知
     const TYPE_NOTICE_REFUND_FINISH = 14; // 退款完成通知
     const TYPE_NOTICE_CONSULT_REPLY = 15; // 咨询回复通知
+
+    /**
+     * 针对内部人员
+     */
+    const TYPE_NOTICE_CONSULT_CREATE = 31; // 咨询创建通知
+    const TYPE_NOTICE_TEACHER_LIVE = 32; // 直播讲师通知
+    const TYPE_NOTICE_SERVER_MONITOR = 33; // 服务监控通知
+    const TYPE_NOTICE_CUSTOM_SERVICE = 34; // 客服消息通知
+    const TYPE_NOTICE_POINT_REDEEM = 35; // 积分兑换通知
+    const TYPE_NOTICE_LUCKY_REDEEM = 36; // 抽奖兑换通知
 
     /**
      * 优先级
@@ -82,6 +95,13 @@ class Task extends Model
      * @var int
      */
     public $try_count = 0;
+
+    /**
+     * 最大重试次数
+     *
+     * @var int
+     */
+    public $max_try_count = 3;
 
     /**
      * 创建时间

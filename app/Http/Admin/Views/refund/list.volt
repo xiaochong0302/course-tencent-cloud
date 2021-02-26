@@ -4,11 +4,18 @@
 
     {{ partial('refund/macro') }}
 
+    {% set search_url = url({'for':'admin.refund.search'}) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
                 <a><cite>退款管理</cite></a>
             </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索退款
+            </a>
         </div>
     </div>
 

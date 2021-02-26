@@ -15,7 +15,11 @@ class StudentController extends Controller
      */
     public function searchAction()
     {
+        $studentService = new StudentService();
 
+        $sourceTypes = $studentService->getSourceTypes();
+
+        $this->view->setVar('source_types', $sourceTypes);
     }
 
     /**

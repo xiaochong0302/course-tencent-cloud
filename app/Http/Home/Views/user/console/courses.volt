@@ -2,6 +2,7 @@
 
 {% block content %}
 
+    {{ partial('macros/course_user') }}
     {{ partial('macros/course') }}
 
     <div class="layout-main clearfix">
@@ -33,7 +34,7 @@
                             <tr>
                                 <td>
                                     <p>标题：<a href="{{ course_url }}">{{ item.course.title }}</a> {{ model_info(item.course.model) }}</p>
-                                    <p>期限：{{ date('Y-m-d',item.expiry_time) }}</p>
+                                    <p>来源：{{ source_type_info(item.source_type) }}&nbsp;&nbsp;期限：{{ date('Y-m-d',item.expiry_time) }}</p>
                                 </td>
                                 <td>
                                     <p>用时：{{ item.duration|duration }}</p>
