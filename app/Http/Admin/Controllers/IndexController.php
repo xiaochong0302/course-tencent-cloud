@@ -39,12 +39,23 @@ class IndexController extends Controller
         $todayStat = $indexService->getTodayStat();
         $appInfo = $indexService->getAppInfo();
         $serverInfo = $indexService->getServerInfo();
-        $releases = $indexService->getReleases();
 
         $this->view->setVar('global_stat', $globalStat);
         $this->view->setVar('today_stat', $todayStat);
         $this->view->setVar('app_info', $appInfo);
         $this->view->setVar('server_info', $serverInfo);
+    }
+
+    /**
+     * @Get("/releases", name="admin.releases")
+     */
+    public function releasesAction()
+    {
+        $indexService = new IndexService();
+
+        $releases = $indexService->getReleases();
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('releases', $releases);
     }
 
