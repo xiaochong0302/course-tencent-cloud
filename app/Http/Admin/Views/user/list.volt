@@ -35,11 +35,22 @@
         {% endif %}
     {%- endmacro %}
 
+    {% set add_url = url({'for':'admin.user.add'}) %}
+    {% set search_url = url({'for':'admin.user.search'}) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
                 <a><cite>用户管理</cite></a>
             </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
+                <i class="layui-icon layui-icon-add-1"></i>添加用户
+            </a>
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索用户
+            </a>
         </div>
     </div>
 

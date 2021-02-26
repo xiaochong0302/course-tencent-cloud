@@ -14,6 +14,11 @@ use App\Validators\ImGroup as ImGroupValidator;
 class ImGroup extends Service
 {
 
+    public function getGroupTypes()
+    {
+        return ImGroupModel::types();
+    }
+
     public function getGroups()
     {
         $pagerQuery = new PagerQuery();

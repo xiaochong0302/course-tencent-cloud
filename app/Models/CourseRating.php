@@ -17,28 +17,28 @@ class CourseRating extends Model
      *
      * @var float
      */
-    public $rating = 0.00;
+    public $rating = 5.00;
 
     /**
      * 维度1评分
      *
      * @var float
      */
-    public $rating1 = 0.00;
+    public $rating1 = 5.00;
 
     /**
      * 维度2评分
      *
      * @var float
      */
-    public $rating2 = 0.00;
+    public $rating2 = 5.00;
 
     /**
      * 维度3评分
      *
      * @var float
      */
-    public $rating3 = 0.00;
+    public $rating3 = 5.00;
 
     /**
      * 创建时间

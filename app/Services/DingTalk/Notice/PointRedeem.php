@@ -13,6 +13,8 @@ class PointRedeem extends DingTalkNotice
 
     public function handleTask(TaskModel $task)
     {
+        if (!$this->enabled) return;
+
         $redeemRepo = new PointRedeemRepo();
 
         $redeem = $redeemRepo->findById($task->item_id);
@@ -22,11 +24,13 @@ class PointRedeem extends DingTalkNotice
             'gift.name' => $redeem->gift_name,
         ]);
 
-        return $this->atCustomService($content);
+        $this->atCustomService($content);
     }
 
     public function createTask(PointRedeemModel $redeem)
     {
+        if (!$this->enabled) return;
+
         if ($redeem->gift_type != PointGiftModel::TYPE_GOODS) return;
 
         $task = new TaskModel();

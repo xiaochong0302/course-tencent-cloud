@@ -180,6 +180,7 @@ class Course extends Repository
             ->join(CourseUserModel::class, 'u.id = cu.user_id', 'cu')
             ->where('cu.course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('cu.role_type = :role_type:', ['role_type' => $roleType])
+            ->andWhere('cu.deleted = :deleted:', ['deleted' => 0])
             ->getQuery()->execute();
     }
 

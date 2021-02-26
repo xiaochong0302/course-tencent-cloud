@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {% set search_url = url({'for':'admin.consult.search'}) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
@@ -11,6 +13,11 @@
                 {% endif %}
                 <a><cite>评价管理</cite></a>
             </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索评价
+            </a>
         </div>
     </div>
 

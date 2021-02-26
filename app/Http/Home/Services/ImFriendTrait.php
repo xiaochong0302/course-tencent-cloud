@@ -58,7 +58,7 @@ Trait ImFriendTrait
 
         $validator = new ImFriendUserValidator();
 
-        $validator->checkGroup($groupId);
+        $group = $validator->checkGroup($groupId);
 
         $validator = new ImNoticeValidator();
 
@@ -81,7 +81,7 @@ Trait ImFriendTrait
             $friendUserModel->create([
                 'user_id' => $user->id,
                 'friend_id' => $sender->id,
-                'group_id' => $groupId,
+                'group_id' => $group->id,
             ]);
 
             $this->incrUserFriendCount($user);
@@ -147,7 +147,9 @@ Trait ImFriendTrait
 
     public function quitFriend($id)
     {
-        $user = $this->getLoginUser();
+        $loginUser = $this->getLoginUser();
+
+        $user = $this->getImUser($loginUser->id);
 
         $validator = new ImFriendUserValidator();
 
@@ -156,6 +158,8 @@ Trait ImFriendTrait
         $friendUser = $validator->checkFriendUser($user->id, $friend->id);
 
         $friendUser->delete();
+
+        $this->decrUserFriendCount($user);
     }
 
     protected function handleApplyFriendNotice(ImUserModel $sender, ImUserModel $receiver, ImFriendGroupModel $group, $remark)

@@ -11,7 +11,7 @@ class ImGroupController extends Controller
 {
 
     /**
-     * @Get("/list", name="admin.group.list")
+     * @Get("/list", name="admin.im_group.list")
      */
     public function listAction()
     {
@@ -25,15 +25,20 @@ class ImGroupController extends Controller
     }
 
     /**
-     * @Get("/search", name="admin.group.search")
+     * @Get("/search", name="admin.im_group.search")
      */
     public function searchAction()
     {
+        $groupService = new ImGroupService();
+
+        $types = $groupService->getGroupTypes();
+
         $this->view->pick('im/group/search');
+        $this->view->setVar('types', $types);
     }
 
     /**
-     * @Get("/add", name="admin.group.add")
+     * @Get("/add", name="admin.im_group.add")
      */
     public function addAction()
     {
@@ -41,7 +46,7 @@ class ImGroupController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/edit", name="admin.group.edit")
+     * @Get("/{id:[0-9]+}/edit", name="admin.im_group.edit")
      */
     public function editAction($id)
     {
@@ -55,7 +60,7 @@ class ImGroupController extends Controller
     }
 
     /**
-     * @Post("/create", name="admin.group.create")
+     * @Post("/create", name="admin.im_group.create")
      */
     public function createAction()
     {
@@ -64,7 +69,7 @@ class ImGroupController extends Controller
         $group = $groupService->createGroup();
 
         $location = $this->url->get([
-            'for' => 'admin.group.edit',
+            'for' => 'admin.im_group.edit',
             'id' => $group->id,
         ]);
 
@@ -77,7 +82,7 @@ class ImGroupController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/update", name="admin.group.update")
+     * @Post("/{id:[0-9]+}/update", name="admin.im_group.update")
      */
     public function updateAction($id)
     {
@@ -85,7 +90,7 @@ class ImGroupController extends Controller
 
         $groupService->updateGroup($id);
 
-        $location = $this->url->get(['for' => 'admin.group.list']);
+        $location = $this->url->get(['for' => 'admin.im_group.list']);
 
         $content = [
             'location' => $location,
@@ -96,7 +101,7 @@ class ImGroupController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/delete", name="admin.group.delete")
+     * @Post("/{id:[0-9]+}/delete", name="admin.im_group.delete")
      */
     public function deleteAction($id)
     {
@@ -115,7 +120,7 @@ class ImGroupController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/restore", name="admin.group.restore")
+     * @Post("/{id:[0-9]+}/restore", name="admin.im_group.restore")
      */
     public function restoreAction($id)
     {

@@ -4,11 +4,18 @@
 
     {{ partial('order/macro') }}
 
+    {% set search_url = url({'for':'admin.order.search'}) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
                 <a><cite>订单管理</cite></a>
             </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索订单
+            </a>
         </div>
     </div>
 

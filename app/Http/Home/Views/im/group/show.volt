@@ -3,13 +3,13 @@
 {% block content %}
 
     {% set group.about = group.about ? group.about : '这个家伙真懒，什么都没有留下~' %}
-    {% set users_url = url({'for':'home.group.users','id':group.id}) %}
-    {% set active_users_url = url({'for':'home.group.active_users','id':group.id}) %}
+    {% set users_url = url({'for':'home.im_group.users','id':group.id}) %}
+    {% set active_users_url = url({'for':'home.im_group.active_users','id':group.id}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
-            <a href="{{ url({'for':'home.group.list'}) }}">群组</a>
+            <a href="{{ url({'for':'home.im_group.list'}) }}">群组</a>
             <a><cite>{{ group.name }}</cite></a>
         </span>
     </div>

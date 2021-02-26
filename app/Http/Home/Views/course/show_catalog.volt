@@ -55,23 +55,25 @@
     {% endif %}
 {%- endmacro %}
 
-<div class="layui-collapse">
-    {% for chapter in chapters %}
-        <div class="layui-colla-item">
-            <h2 class="layui-colla-title">{{ chapter.title }}</h2>
-            <div class="layui-colla-content layui-show">
-                <ul class="lesson-list">
-                    {% for lesson in chapter.children %}
-                        {% if lesson.model == 1 %}
-                            <li class="lesson-item clearfix">{{ vod_lesson_info(lesson) }}</li>
-                        {% elseif lesson.model == 2 %}
-                            <li class="lesson-item clearfix">{{ live_lesson_info(lesson) }}</li>
-                        {% elseif lesson.model == 3 %}
-                            <li class="lesson-item clearfix">{{ read_lesson_info(lesson) }}</li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
+{% if chapters %}
+    <div class="layui-collapse">
+        {% for chapter in chapters %}
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">{{ chapter.title }}</h2>
+                <div class="layui-colla-content layui-show">
+                    <ul class="lesson-list">
+                        {% for lesson in chapter.children %}
+                            {% if lesson.model == 1 %}
+                                <li class="lesson-item clearfix">{{ vod_lesson_info(lesson) }}</li>
+                            {% elseif lesson.model == 2 %}
+                                <li class="lesson-item clearfix">{{ live_lesson_info(lesson) }}</li>
+                            {% elseif lesson.model == 3 %}
+                                <li class="lesson-item clearfix">{{ read_lesson_info(lesson) }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-        </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
+{% endif %}

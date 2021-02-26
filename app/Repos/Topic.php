@@ -21,6 +21,10 @@ class Topic extends Repository
 
         $builder->where('1 = 1');
 
+        if (!empty($where['id'])) {
+            $builder->andWhere('id = :id:', ['id' => $where['id']]);
+        }
+
         if (!empty($where['title'])) {
             $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
         }

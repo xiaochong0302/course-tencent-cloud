@@ -44,10 +44,6 @@ class UserConsoleController extends Controller
     public function initialize()
     {
         parent::initialize();
-
-        $wechatOA = $this->getSettings('wechat.oa');
-
-        $this->view->setVar('wechat_oa', $wechatOA);
     }
 
     /**

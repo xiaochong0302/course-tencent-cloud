@@ -18,7 +18,12 @@ use App\Validators\User as UserValidator;
 class User extends Service
 {
 
-    public function getRoles()
+    public function getEduRoleTypes()
+    {
+        return UserModel::eduRoleTypes();
+    }
+
+    public function getAdminRoles()
     {
         $roleRepo = new RoleRepo();
 

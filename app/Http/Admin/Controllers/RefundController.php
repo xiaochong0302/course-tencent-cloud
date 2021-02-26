@@ -15,7 +15,11 @@ class RefundController extends Controller
      */
     public function searchAction()
     {
+        $refundService = new RefundService();
 
+        $statusTypes = $refundService->getStatusTypes();
+
+        $this->view->setVar('status_types', $statusTypes);
     }
 
     /**

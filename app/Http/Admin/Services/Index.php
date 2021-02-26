@@ -59,7 +59,7 @@ class Index extends Service
 
         $client = new Client();
 
-        $response = $client->get($url, ['timeout' => 3]);
+        $response = $client->get($url);
 
         $content = json_decode($response->getBody(), true);
 

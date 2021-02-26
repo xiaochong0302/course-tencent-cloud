@@ -34,7 +34,9 @@
 
 {%- macro meta_price_info(course) %}
     <p class="item">
-        <span class="key">原始价格</span><span class="value origin-price">{{ '￥%0.2f'|format(course.origin_price) }}</span>
+        {% if course.origin_price > 0 %}
+            <span class="key">原始价格</span><span class="value origin-price">{{ '￥%0.2f'|format(course.origin_price) }}</span>
+        {% endif %}
         {% if course.market_price > 0 %}
             <span class="key">优惠价格</span><span class="value price">{{ '￥%0.2f'|format(course.market_price) }}</span>
         {% else %}

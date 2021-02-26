@@ -21,21 +21,17 @@
         <div class="layui-form-item">
             <label class="layui-form-label">订单类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="item_type" value="1" title="课程">
-                <input type="radio" name="item_type" value="2" title="套餐">
-                <input type="radio" name="item_type" value="3" title="赞赏">
-                <input type="radio" name="item_type" value="4" title="会员">
-                <input type="radio" name="item_type" value="99" title="测试">
+                {% for value,title in item_types %}
+                    <input type="radio" name="item_type" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">订单状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="1" title="待支付">
-                <input type="radio" name="status" value="2" title="发货中">
-                <input type="radio" name="status" value="3" title="已完成">
-                <input type="radio" name="status" value="4" title="已关闭">
-                <input type="radio" name="status" value="5" title="已退款">
+                {% for value,title in status_types %}
+                    <input type="radio" name="status" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">

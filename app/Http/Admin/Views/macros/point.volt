@@ -18,6 +18,14 @@
     {% endif %}
 {%- endmacro %}
 
+{%- macro event_point_info(value) %}
+    {% if value > 0 %}
+        <span class="layui-badge layui-bg-green">+{{ value }}</span>
+    {% else %}
+        <span class="layui-badge layui-bg-red">{{ value }}</span>
+    {% endif %}
+{%- endmacro %}
+
 {%- macro event_type_info(value) %}
     {% if value == 1 %}
         <span class="type">订单消费</span>
@@ -38,7 +46,7 @@
     {% endif %}
 {%- endmacro %}
 
-{%- macro event_detail_info(history) %}
+{%- macro event_item_info(history) %}
     {% set event_info = history.event_info %}
     {% if history.event_type == 1 %}
         <p class="order">{{ event_info.order.subject }}</p>

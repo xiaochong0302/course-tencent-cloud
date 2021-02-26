@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.group.list'}) }}">
+    <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.im_group.list'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>搜索群组</legend>
         </fieldset>
@@ -33,9 +33,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="type" value="1" title="课程">
-                <input type="radio" name="type" value="2" title="聊天">
-                <input type="radio" name="type" value="3" title="职工">
+                {% for value,title in types %}
+                    <input type="radio" name="type" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">

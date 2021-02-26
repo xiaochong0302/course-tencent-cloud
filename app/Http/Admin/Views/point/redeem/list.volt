@@ -43,9 +43,10 @@
             {% set gift_url = url({'for':'home.point_gift.show','id':item.gift_id}) %}
             <tr>
                 <td>
-                    <p><a href="{{ gift_url }}" target="_blank">{{ item.gift_name }}（{{ item.gift_id }}）</a>{{ gift_type_info(item.gift_type) }}</p>
-                    <p>用户名称：<a href="{{ user_filter_url }}">{{ item.user_name }}</a> （{{ item.user_id }}） 联系方式：
-                        <button class="layui-btn layui-btn-xs kg-contact" data-name="{{ item.contact_name }}" data-phone="{{ item.contact_phone }}" data-address="{{ item.contact_address }}">查看</button>
+                    <p><a href="{{ gift_url }}" target="_blank">{{ item.gift_name }}</a>（{{ item.gift_id }}）{{ gift_type_info(item.gift_type) }}</p>
+                    <p>
+                        用户名称：<a href="{{ user_filter_url }}">{{ item.user_name }}</a>（{{ item.user_id }}）
+                        联系方式：<a href="javascript:" class="layui-badge layui-bg-green kg-contact" data-name="{{ item.contact_name }}" data-phone="{{ item.contact_phone }}" data-address="{{ item.contact_address }}">查看</a>
                     </p>
                 </td>
                 <td>{{ item.gift_point }}</td>
@@ -64,6 +65,12 @@
     </table>
 
     {{ partial('partials/pager') }}
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('admin/js/contact.js') }}
 
 {% endblock %}
 
@@ -90,11 +97,5 @@
         });
 
     </script>
-
-{% endblock %}
-
-{% block include_js %}
-
-    {{ js_include('admin/js/contact.js') }}
 
 {% endblock %}

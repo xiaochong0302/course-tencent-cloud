@@ -89,7 +89,7 @@ class ImFriendGroup extends Repository
     public function countUsers($groupId)
     {
         return (int)ImFriendUserModel::count([
-            'conditions' => 'group_id = :group_id: AND blocked = 0',
+            'conditions' => 'group_id = :group_id:',
             'bind' => ['group_id' => $groupId],
         ]);
     }
