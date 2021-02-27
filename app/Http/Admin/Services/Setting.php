@@ -121,11 +121,13 @@ class Setting extends Service
          * demo分支过滤敏感数据
          */
         if ($items->count() > 0) {
+            $pattern = '/(id|auth|key|secret|token|password|pwd|mobile|phone|mail|email)/';
+            $controllerName = $this->dispatcher->getControllerName();
             foreach ($items as $item) {
-                $case1 = preg_match('/(id|auth|key|secret|token|password|pwd)$/', $item->item_key);
-                $case2 = $this->dispatcher->getControllerName() == 'setting';
+                $case1 = preg_match($pattern, $item->item_key);
+                $case2 = $controllerName == 'setting';
                 if ($case1 && $case2) {
-                    $item->item_value = '***';
+                    $item->item_value = '******';
                 }
                 $result[$item->item_key] = $item->item_value;
             }
