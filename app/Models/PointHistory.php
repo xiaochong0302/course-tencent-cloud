@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
-
 class PointHistory extends Model
 {
 
@@ -69,13 +67,6 @@ class PointHistory extends Model
     public $event_point = 0;
 
     /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted = 0;
-
-    /**
      * 创建时间
      *
      * @var int
@@ -92,18 +83,6 @@ class PointHistory extends Model
     public function getSource(): string
     {
         return 'kg_point_history';
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->addBehavior(
-            new SoftDelete([
-                'field' => 'deleted',
-                'value' => 1,
-            ])
-        );
     }
 
     public function beforeCreate()

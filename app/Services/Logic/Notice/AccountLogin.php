@@ -4,9 +4,9 @@ namespace App\Services\Logic\Notice;
 
 use App\Models\Task as TaskModel;
 use App\Models\User as UserModel;
-use App\Repos\WechatSubscribe as WechatSubscribeRepo;
+use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
+use App\Services\Logic\Notice\WeChat\AccountLogin as WeChatAccountLoginNotice;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Wechat\Notice\AccountLogin as WechatAccountLoginNotice;
 use App\Traits\Client as ClientTrait;
 
 class AccountLogin extends LogicService
@@ -16,17 +16,24 @@ class AccountLogin extends LogicService
 
     public function handleTask(TaskModel $task)
     {
+        /**
+         * @todo 鉴于微信消息模板４.30下线，暂时下线登录通知
+         */
+        $wechatOA = $this->getSettings('wechat.oa');
+
+        if ($wechatOA['enabled'] == 0) return;
+
         $params = $task->item_info;
 
         $userId = $task->item_info['user']['id'];
 
-        $subscribeRepo = new WechatSubscribeRepo();
+        $subscribeRepo = new WeChatSubscribeRepo();
 
         $subscribe = $subscribeRepo->findByUserId($userId);
 
         if ($subscribe && $subscribe->deleted == 0) {
 
-            $notice = new WechatAccountLoginNotice();
+            $notice = new WeChatAccountLoginNotice();
 
             return $notice->handle($subscribe, $params);
         }
@@ -34,6 +41,10 @@ class AccountLogin extends LogicService
 
     public function createTask(UserModel $user)
     {
+        $wechatOA = $this->getSettings('wechat.oa');
+
+        if ($wechatOA['enabled'] == 0) return;
+
         $task = new TaskModel();
 
         $loginIp = $this->getClientIp();
@@ -57,6 +68,17 @@ class AccountLogin extends LogicService
         $task->max_try_count = 1;
 
         $task->create();
+    }
+
+    public function wechatNoticeEnabled()
+    {
+        $oa = $this->getSettings('wechat.oa');
+
+        if ($oa['enabled'] == 0) return false;
+
+        $template = json_decode($oa['notice_template'], true);
+
+        return $template['account_login']['enabled'] == 1;
     }
 
 }

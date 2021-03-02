@@ -17,9 +17,11 @@ class Api extends AuthService
     {
         $token = $this->generateToken($user->id);
 
+        $lifetime = $this->getTokenLifetime();
+
         $this->logoutOtherClients($user->id);
 
-        $this->createUserToken($user->id, $token);
+        $this->createUserToken($user->id, $token, $lifetime);
 
         $cache = $this->getCache();
 
@@ -29,10 +31,6 @@ class Api extends AuthService
             'id' => $user->id,
             'name' => $user->name,
         ];
-
-        $config = $this->getConfig();
-
-        $lifetime = $config->path('token.lifetime') ?: 7 * 86400;
 
         $cache->save($key, $authInfo, $lifetime);
 
@@ -67,7 +65,7 @@ class Api extends AuthService
         return $authInfo ?: null;
     }
 
-    protected function createUserToken($userId, $token)
+    protected function createUserToken($userId, $token, $lifetime)
     {
         $userToken = new UserTokenModel();
 
@@ -75,6 +73,7 @@ class Api extends AuthService
         $userToken->token = $token;
         $userToken->client_type = $this->getClientType();
         $userToken->client_ip = $this->getClientIp();
+        $userToken->expire_time = time() + $lifetime;
 
         $userToken->create();
     }
@@ -89,14 +88,11 @@ class Api extends AuthService
 
         $clientType = $this->getClientType();
 
-        if ($records->count() == 0) {
-            return;
-        }
+        if ($records->count() == 0) return;
 
         foreach ($records as $record) {
             if ($record->client_type == $clientType) {
-                $record->deleted = 1;
-                $record->update();
+                $record->delete();
                 $key = $this->getTokenCacheKey($record->token);
                 $cache->delete($key);
             }
@@ -106,6 +102,13 @@ class Api extends AuthService
     protected function generateToken($userId)
     {
         return md5(uniqid() . time() . $userId);
+    }
+
+    protected function getTokenLifetime()
+    {
+        $config = $this->getConfig();
+
+        return $config->path('token.lifetime') ?: 7 * 86400;
     }
 
     protected function getTokenCacheKey($token)

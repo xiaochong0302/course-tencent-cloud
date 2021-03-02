@@ -195,10 +195,6 @@ class Connect extends Service
                 $connect->user_id = $user->id;
             }
 
-            if ($connect->deleted == 1) {
-                $connect->deleted = 0;
-            }
-
             $connect->update();
 
         } else {

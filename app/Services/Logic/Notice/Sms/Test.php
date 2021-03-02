@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Sms;
+namespace App\Services\Logic\Notice\Sms;
 
 use App\Services\Smser;
 

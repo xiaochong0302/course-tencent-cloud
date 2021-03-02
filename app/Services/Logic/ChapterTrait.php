@@ -4,6 +4,7 @@ namespace App\Services\Logic;
 
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
+use App\Models\CourseUser as CourseUserModel;
 use App\Models\User as UserModel;
 use App\Repos\ChapterUser as ChapterUserRepo;
 use App\Validators\Chapter as ChapterValidator;
@@ -65,16 +66,19 @@ trait ChapterTrait
     {
         $chapterUser = null;
 
+        /**
+         * @var CourseUserModel $courseUser
+         */
         $courseUser = $this->courseUser;
 
         if ($user->id > 0 && $courseUser) {
             $chapterUserRepo = new ChapterUserRepo();
-            $chapterUser = $chapterUserRepo->findChapterUser($chapter->id, $user->id);
+            $chapterUser = $chapterUserRepo->findPlanChapterUser($chapter->id, $user->id, $courseUser->plan_id);
         }
 
         $this->chapterUser = $chapterUser;
 
-        if ($chapterUser && $chapterUser->plan_id == $courseUser->plan_id) {
+        if ($chapterUser) {
             $this->joinedChapter = true;
         }
 

@@ -176,8 +176,6 @@ class DeliverTask extends Task
                 if ($groupUser->create() === false) {
                     throw new \RuntimeException('Create Group User Failed');
                 }
-
-                continue;
             }
         }
     }

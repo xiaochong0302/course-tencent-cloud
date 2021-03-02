@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Phinx\Migration\AbstractMigration;
 
 final class InsertOauthSettingData extends AbstractMigration

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
-
 class ChapterUser extends Model
 {
 
@@ -71,13 +69,6 @@ class ChapterUser extends Model
     public $consumed = 0;
 
     /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted = 0;
-
-    /**
      * 创建时间
      *
      * @var int
@@ -94,18 +85,6 @@ class ChapterUser extends Model
     public function getSource(): string
     {
         return 'kg_chapter_user';
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->addBehavior(
-            new SoftDelete([
-                'field' => 'deleted',
-                'value' => 1,
-            ])
-        );
     }
 
     public function beforeCreate()

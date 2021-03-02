@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
-
 class UserToken extends Model
 {
 
@@ -43,11 +41,11 @@ class UserToken extends Model
     public $client_ip = '';
 
     /**
-     * 删除标识
+     * 过期时间
      *
      * @var int
      */
-    public $deleted = 0;
+    public $expire_time = 0;
 
     /**
      * 创建时间
@@ -66,18 +64,6 @@ class UserToken extends Model
     public function getSource(): string
     {
         return 'kg_user_token';
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->addBehavior(
-            new SoftDelete([
-                'field' => 'deleted',
-                'value' => 1,
-            ])
-        );
     }
 
     public function beforeCreate()

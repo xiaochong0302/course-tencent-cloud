@@ -4,7 +4,7 @@ namespace App\Console\Tasks;
 
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Repos\ChapterLive as ChapterLiveRepo;
-use App\Services\DingTalk\Notice\TeacherLive as TeacherLiveNotice;
+use App\Services\Logic\Notice\DingTalk\TeacherLive as TeacherLiveNotice;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 

@@ -6,6 +6,7 @@ use App\Library\Paginator\Query as PagerQuery;
 use App\Models\PointGift as PointGiftModel;
 use App\Models\PointRedeem as PointRedeemModel;
 use App\Repos\PointRedeem as PointRedeemRepo;
+use App\Services\Logic\Notice\PointGoodsDeliver as PointGoodsDeliverNotice;
 use App\Validators\PointRedeem as PointRedeemValidator;
 
 class PointRedeem extends Service
@@ -16,8 +17,6 @@ class PointRedeem extends Service
         $pagerQuery = new PagerQuery();
 
         $params = $pagerQuery->getParams();
-
-        $params['deleted'] = $params['deleted'] ?? 0;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
@@ -45,7 +44,16 @@ class PointRedeem extends Service
 
         $redeem->update();
 
+        $this->handleGoodsDeliverNotice($redeem);
+
         return $redeem;
+    }
+
+    protected function handleGoodsDeliverNotice(PointRedeemModel $redeem)
+    {
+        $notice = new PointGoodsDeliverNotice();
+
+        $notice->createTask($redeem);
     }
 
     protected function findOrFail($id)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\DingTalk\Notice;
+namespace App\Services\Logic\Notice\DingTalk;
 
 use App\Models\ImMessage as ImMessageModel;
 use App\Models\Task as TaskModel;

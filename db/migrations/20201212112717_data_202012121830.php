@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Phinx\Migration\AbstractMigration;
 
 final class Data202012121830 extends AbstractMigration
@@ -54,7 +52,10 @@ final class Data202012121830 extends AbstractMigration
 
     public function down()
     {
-        $this->getQueryBuilder()->delete('kg_setting')->where(['section' => 'wechat.oa'])->execute();
+        $this->getQueryBuilder()
+            ->delete('kg_setting')
+            ->where(['section' => 'wechat.oa'])
+            ->execute();
     }
 
     protected function updateSmsTemplate()
@@ -63,7 +64,12 @@ final class Data202012121830 extends AbstractMigration
 
         $where = ['section' => 'sms', 'item_key' => 'template'];
 
-        $setting = $this->getQueryBuilder()->select('*')->from($table)->where($where)->execute()->fetch('assoc');
+        $setting = $this->getQueryBuilder()
+            ->select('*')
+            ->from($table)
+            ->where($where)
+            ->execute()
+            ->fetch('assoc');
 
         $itemValue = json_decode($setting['item_value'], true);
 
@@ -75,7 +81,11 @@ final class Data202012121830 extends AbstractMigration
             'consult_reply' => '',
         ]);
 
-        $this->getQueryBuilder()->update($table)->where($where)->set('item_value', $newItemValue)->execute();
+        $this->getQueryBuilder()
+            ->update($table)
+            ->where($where)
+            ->set('item_value', $newItemValue)
+            ->execute();
     }
 
 }

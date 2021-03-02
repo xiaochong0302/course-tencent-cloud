@@ -2,16 +2,16 @@
 
 namespace App\Services\Logic\Notice;
 
-use App\Models\Order as OrderModel;
+use App\Models\PointRedeem as PointRedeemModel;
 use App\Models\Task as TaskModel;
-use App\Repos\Order as OrderRepo;
+use App\Repos\PointRedeem as PointRedeemRepo;
 use App\Repos\User as UserRepo;
 use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
-use App\Services\Logic\Notice\Sms\OrderFinish as SmsOrderFinishNotice;
-use App\Services\Logic\Notice\WeChat\OrderFinish as WeChatOrderFinishNotice;
+use App\Services\Logic\Notice\Sms\GoodsDeliver as SmsGoodsDeliverNotice;
+use App\Services\Logic\Notice\WeChat\GoodsDeliver as WeChatGoodsDeliverNotice;
 use App\Services\Logic\Service as LogicService;
 
-class OrderFinish extends LogicService
+class PointGoodsDeliver extends LogicService
 {
 
     public function handleTask(TaskModel $task)
@@ -21,49 +21,45 @@ class OrderFinish extends LogicService
 
         if (!$wechatNoticeEnabled && !$smsNoticeEnabled) return;
 
-        $orderId = $task->item_info['order']['id'];
+        $redeemId = $task->item_info['point_redeem']['id'];
 
-        $orderRepo = new OrderRepo();
+        $redeemRepo = new PointRedeemRepo();
 
-        $order = $orderRepo->findById($orderId);
+        $redeem = $redeemRepo->findById($redeemId);
 
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($order->owner_id);
+        $user = $userRepo->findById($redeem->user_id);
 
         $params = [
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
             ],
-            'order' => [
-                'sn' => $order->sn,
-                'subject' => $order->subject,
-                'amount' => $order->amount,
-                'create_time' => $order->create_time,
-                'update_time' => $order->update_time,
-            ],
+            'goods_name' => $redeem->gift_name,
+            'order_sn' => date('YmdHis') . rand(1000, 9999),
+            'deliver_time' => time(),
         ];
 
         $subscribeRepo = new WeChatSubscribeRepo();
 
-        $subscribe = $subscribeRepo->findByUserId($order->owner_id);
+        $subscribe = $subscribeRepo->findByUserId($user->id);
 
         if ($wechatNoticeEnabled && $subscribe) {
 
-            $notice = new WeChatOrderFinishNotice();
+            $notice = new WeChatGoodsDeliverNotice();
 
             return $notice->handle($subscribe, $params);
 
         } elseif ($smsNoticeEnabled) {
 
-            $notice = new SmsOrderFinishNotice();
+            $notice = new SmsGoodsDeliverNotice();
 
             return $notice->handle($user, $params);
         }
     }
 
-    public function createTask(OrderModel $order)
+    public function createTask(PointRedeemModel $redeem)
     {
         $wechatNoticeEnabled = $this->wechatNoticeEnabled();
         $smsNoticeEnabled = $this->smsNoticeEnabled();
@@ -73,13 +69,13 @@ class OrderFinish extends LogicService
         $task = new TaskModel();
 
         $itemInfo = [
-            'order' => ['id' => $order->id],
+            'point_redeem' => ['id' => $redeem->id],
         ];
 
-        $task->item_id = $order->id;
+        $task->item_id = $redeem->id;
         $task->item_info = $itemInfo;
-        $task->item_type = TaskModel::TYPE_NOTICE_ORDER_FINISH;
-        $task->priority = TaskModel::PRIORITY_HIGH;
+        $task->item_type = TaskModel::TYPE_NOTICE_POINT_GOODS_DELIVER;
+        $task->priority = TaskModel::PRIORITY_MIDDLE;
         $task->status = TaskModel::STATUS_PENDING;
 
         $task->create();
@@ -93,7 +89,7 @@ class OrderFinish extends LogicService
 
         $template = json_decode($oa['notice_template'], true);
 
-        $result = $template['order_finish']['enabled'] ?? 0;
+        $result = $template['goods_deliver']['enabled'] ?? 0;
 
         return $result == 1;
     }
@@ -104,7 +100,7 @@ class OrderFinish extends LogicService
 
         $template = json_decode($sms['template'], true);
 
-        $result = $template['order_finish']['enabled'] ?? 0;
+        $result = $template['goods_deliver']['enabled'] ?? 0;
 
         return $result == 1;
     }

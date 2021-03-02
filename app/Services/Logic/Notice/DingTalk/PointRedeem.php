@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\DingTalk\Notice;
+namespace App\Services\Logic\Notice\DingTalk;
 
 use App\Models\PointGift as PointGiftModel;
 use App\Models\PointRedeem as PointRedeemModel;
