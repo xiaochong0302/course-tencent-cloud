@@ -9,56 +9,82 @@ class Schema202103021010 extends Phinx\Migration\AbstractMigration
     {
         $this->deleteCourseTeachers();
 
-        if ($this->table('kg_chapter_like')->hasColumn('deleted')) {
-            $this->table('kg_chapter_like')->removeColumn('deleted');
+        $table = $this->table('kg_chapter_like');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_chapter_user')->hasColumn('deleted')) {
-            $this->table('kg_chapter_user')->removeColumn('deleted');
+        $table = $this->table('kg_chapter_user');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_consult_like')->hasColumn('deleted')) {
-            $this->table('kg_consult_like')->removeColumn('deleted');
+        $table = $this->table('kg_consult_like');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_course_favorite')->hasColumn('deleted')) {
-            $this->table('kg_course_favorite')->removeColumn('deleted');
+        $table = $this->table('kg_course_favorite');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_learning')->hasColumn('deleted')) {
-            $this->table('kg_learning')->removeColumn('deleted');
+        $table = $this->table('kg_learning');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_point_history')->hasColumn('deleted')) {
-            $this->table('kg_point_history')->removeColumn('deleted');
+        $table = $this->table('kg_point_history');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_review_like')->hasColumn('deleted')) {
-            $this->table('kg_review_like')->removeColumn('deleted');
+        $table = $this->table('kg_review_like');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_user_balance')->hasColumn('deleted')) {
-            $this->table('kg_user_balance')->removeColumn('deleted');
+        $table = $this->table('kg_user_balance');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_user_contact')->hasColumn('deleted')) {
-            $this->table('kg_user_contact')->removeColumn('deleted');
+        $table = $this->table('kg_user_contact');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_user_session')->hasColumn('deleted')) {
-            $this->table('kg_user_session')->removeColumn('deleted');
+        $table = $this->table('kg_user_session');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_user_token')->hasColumn('deleted')) {
-            $this->table('kg_user_token')->removeColumn('deleted');
+        $table = $this->table('kg_user_token');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_wechat_subscribe')->hasColumn('deleted')) {
-            $this->table('kg_wechat_subscribe')->removeColumn('deleted');
+        $table = $this->table('kg_wechat_subscribe');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
         }
 
-        if ($this->table('kg_user_session')->hasColumn('expire_time') == false) {
-            $this->table('kg_user_session')->addColumn('expire_time', 'integer', [
+        $table = $this->table('kg_user_session');
+
+        if ($table->hasColumn('expire_time') == false) {
+            $table->addColumn('expire_time', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
@@ -68,8 +94,10 @@ class Schema202103021010 extends Phinx\Migration\AbstractMigration
             ])->save();
         }
 
-        if ($this->table('kg_user_token')->hasColumn('expire_time') == false) {
-            $this->table('kg_user_token')->addColumn('expire_time', 'integer', [
+        $table = $this->table('kg_user_token');
+
+        if ($table->hasColumn('expire_time') == false) {
+            $table->addColumn('expire_time', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
