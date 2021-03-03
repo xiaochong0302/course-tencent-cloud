@@ -16,9 +16,9 @@ class AccountLogin extends LogicService
 
     public function handleTask(TaskModel $task)
     {
-        $wechatOA = $this->getSettings('wechat.oa');
+        $wechatNoticeEnabled = $this->wechatNoticeEnabled();
 
-        if ($wechatOA['enabled'] == 0) return;
+        if (!$wechatNoticeEnabled) return;
 
         $params = $task->item_info;
 
@@ -38,9 +38,9 @@ class AccountLogin extends LogicService
 
     public function createTask(UserModel $user)
     {
-        $wechatOA = $this->getSettings('wechat.oa');
+        $wechatNoticeEnabled = $this->wechatNoticeEnabled();
 
-        if ($wechatOA['enabled'] == 0) return;
+        if (!$wechatNoticeEnabled) return;
 
         $task = new TaskModel();
 

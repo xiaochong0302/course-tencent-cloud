@@ -97,7 +97,7 @@ abstract class WeChatNotice extends Service
     {
         $template = json_decode($this->settings['notice_template'], true);
 
-        return $template[$code] ?? null;
+        return $template[$code]['id'] ?? null;
     }
 
 }

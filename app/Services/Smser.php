@@ -88,7 +88,7 @@ Abstract class Smser extends Service
     {
         $template = json_decode($this->settings['template'], true);
 
-        return $template[$code] ?? null;
+        return $template[$code]['id'] ?? null;
     }
 
     protected function getSignature()
