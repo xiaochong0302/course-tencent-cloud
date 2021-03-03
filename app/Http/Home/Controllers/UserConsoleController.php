@@ -259,11 +259,7 @@ class UserConsoleController extends Controller
 
         $subscribe = $subscribeRepo->findByUserId($this->authUser->id);
 
-        $subscribed = 0;
-
-        if ($subscribe) {
-            $subscribed = $subscribe->deleted == 0 ? 1 : 0;
-        }
+        $subscribed = $subscribe ? 1 : 0;
 
         $this->view->pick('user/console/subscribe');
         $this->view->setVar('subscribed', $subscribed);
