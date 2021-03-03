@@ -191,6 +191,7 @@ class DeliverTask extends Task
         $user = $userRepo->findById($order->owner_id);
 
         $user->vip_expiry_time = $itemInfo['vip']['expiry_time'];
+        $user->vip = 1;
 
         if ($user->update() === false) {
             throw new \RuntimeException('Update Vip Expiry Failed');

@@ -51,7 +51,7 @@ class Controller extends \Phalcon\Mvc\Controller
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
         $this->siteInfo = $this->getSiteInfo();
-        $this->authUser = $this->getAuthUser();
+        $this->authUser = $this->getAuthUser(true);
 
         if ($this->siteInfo['status'] == 'closed') {
             $dispatcher->forward([
@@ -90,14 +90,14 @@ class Controller extends \Phalcon\Mvc\Controller
         $this->view->setVar('im_info', $this->imInfo);
     }
 
-    protected function getAuthUser()
+    protected function getAuthUser($cache = false)
     {
         /**
          * @var HomeAuth $auth
          */
         $auth = $this->getDI()->get('auth');
 
-        return $auth->getCurrentUser();
+        return $auth->getCurrentUser($cache);
     }
 
     protected function getSeo()
