@@ -18,6 +18,8 @@ class LiveBegin extends Smser
      */
     public function handle(UserModel $user, array $params)
     {
+        $params['live']['start_time'] = date('H:i', $params['live']['start_time']);
+
         $accountRepo = new AccountRepo();
 
         $account = $accountRepo->findById($user->id);
@@ -27,7 +29,7 @@ class LiveBegin extends Smser
         $params = [
             $params['course']['title'],
             $params['chapter']['title'],
-            date('H:i', $params['live']['start_time']),
+            $params['live']['start_time'],
         ];
 
         $templateId = $this->getTemplateId($this->templateCode);
