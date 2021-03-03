@@ -24,8 +24,8 @@ class GoodsDeliver extends WeChatNotice
         $params = [
             'first' => $first,
             'remark' => $remark,
-            'keyword1' => $params['goods_name'],
-            'keyword2' => $params['order_sn'],
+            'keyword1' => $params['order_sn'],
+            'keyword2' => $params['goods_name'],
             'keyword3' => date('Y-m-d H:i', $params['deliver_time']),
         ];
 

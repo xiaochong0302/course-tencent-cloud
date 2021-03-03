@@ -74,7 +74,7 @@
                     <input type="radio" name="template[goods_deliver][enabled]" value="0" title="否" {% if template.goods_deliver.enabled == "0" %}checked="checked"{% endif %}>
                 </td>
                 <td><input class="layui-input" type="text" name="template[goods_deliver][id]" value="{{ template.goods_deliver.id }}" lay-verify="required"></td>
-                <td><input id="tc-order-finish" class="layui-input" type="text" value="发货成功，商品名称：{1}，订单序号：{2}，请注意查收。" readonly="readonly"></td>
+                <td><input id="tc-goods-deliver" class="layui-input" type="text" value="发货成功，商品名称：{1}，订单序号：{2}，发货时间：{3}，请注意查收。" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-goods-deliver">复制</span></td>
             </tr>
             <tr>
