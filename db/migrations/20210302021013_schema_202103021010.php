@@ -33,6 +33,12 @@ class Schema202103021010 extends Phinx\Migration\AbstractMigration
             $table->removeColumn('deleted')->save();
         }
 
+        $table = $this->table('kg_im_notice');
+
+        if ($table->hasColumn('deleted')) {
+            $table->removeColumn('deleted')->save();
+        }
+
         $table = $this->table('kg_learning');
 
         if ($table->hasColumn('deleted')) {

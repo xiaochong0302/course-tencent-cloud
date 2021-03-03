@@ -60,30 +60,27 @@ final class Data202012121830 extends AbstractMigration
 
     protected function updateSmsTemplate()
     {
-        $table = 'kg_setting';
-
-        $where = ['section' => 'sms', 'item_key' => 'template'];
-
         $setting = $this->getQueryBuilder()
             ->select('*')
-            ->from($table)
-            ->where($where)
-            ->execute()
-            ->fetch('assoc');
+            ->from('kg_setting')
+            ->where(['section' => 'sms', 'item_key' => 'template'])
+            ->execute()->fetch('assoc');
+
+        if (!$setting) return;
 
         $itemValue = json_decode($setting['item_value'], true);
 
         $newItemValue = json_encode([
-            'verify' => $itemValue['verify'],
-            'order_finish' => $itemValue['order'],
-            'refund_finish' => $itemValue['refund'],
-            'live_begin' => $itemValue['live'],
-            'consult_reply' => '',
+            'verify' => $itemValue['verify'] ?? '',
+            'order_finish' => $itemValue['order'] ?? '',
+            'refund_finish' => $itemValue['refund'] ?? '',
+            'live_begin' => $itemValue['live'] ?? '',
+            'consult_reply' => $itemValue['consult'] ?? '',
         ]);
 
         $this->getQueryBuilder()
-            ->update($table)
-            ->where($where)
+            ->update('kg_setting')
+            ->where(['id' => $setting['id']])
             ->set('item_value', $newItemValue)
             ->execute();
     }

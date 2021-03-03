@@ -17,7 +17,6 @@ class UserSession extends Repository
     {
         return UserSessionModel::query()
             ->where('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('deleted = 0')
             ->execute();
     }
 

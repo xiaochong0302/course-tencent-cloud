@@ -27,10 +27,6 @@ class ImNotice extends Repository
             $builder->andWhere('receiver_id = :receiver_id:', ['receiver_id' => $where['receiver_id']]);
         }
 
-        if (isset($where['deleted'])) {
-            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
-        }
-
         switch ($sort) {
             case 'oldest':
                 $orderBy = 'id ASC';

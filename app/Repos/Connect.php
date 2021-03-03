@@ -28,10 +28,6 @@ class Connect extends Repository
             $query->andWhere('provider = :provider:', ['provider' => $where['provider']]);
         }
 
-        if (isset($where['deleted'])) {
-            $query->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
-        }
-
         $query->orderBy('id DESC');
 
         return $query->execute();

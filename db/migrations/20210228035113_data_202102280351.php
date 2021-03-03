@@ -13,27 +13,24 @@ final class Data202102280351 extends AbstractMigration
 
     protected function updateSmsNoticeTemplate()
     {
-        $table = 'kg_setting';
-
-        $where = [
-            'section' => 'sms',
-            'item_key' => 'template',
-        ];
-
         $setting = $this->getQueryBuilder()
             ->select('*')
-            ->from($table)
-            ->where($where)
-            ->execute()
-            ->fetch('assoc');
+            ->from('kg_setting')
+            ->where(['section' => 'sms', 'item_key' => 'template'])
+            ->execute()->fetch('assoc');
+
+        if (!$setting) return;
 
         $itemValue = json_decode($setting['item_value'], true);
 
         $newItemValue = [];
 
+        /**
+         * 更改数据结构
+         */
         foreach ($itemValue as $key => $value) {
-            $newItemValue[$key]['id'] = $value;
-            $newItemValue[$key]['enabled'] = 1;
+            $newItemValue[$key]['id'] = $value['id'] ?? $value;
+            $newItemValue[$key]['enabled'] = $value['enabled'] ?? 1;
         }
 
         /**
@@ -44,35 +41,30 @@ final class Data202102280351 extends AbstractMigration
         $itemValue = json_encode($newItemValue);
 
         $this->getQueryBuilder()
-            ->update($table)
-            ->where($where)
+            ->update('kg_setting')
+            ->where(['id' => $setting['id']])
             ->set('item_value', $itemValue)
             ->execute();
     }
 
     protected function updateWechatNoticeTemplate()
     {
-        $table = 'kg_setting';
-
-        $where = [
-            'section' => 'wechat.oa',
-            'item_key' => 'notice_template',
-        ];
-
         $setting = $this->getQueryBuilder()
             ->select('*')
-            ->from($table)
-            ->where($where)
-            ->execute()
-            ->fetch('assoc');
+            ->from('kg_setting')
+            ->where(['section' => 'wechat.oa', 'item_key' => 'notice_template'])
+            ->execute()->fetch('assoc');
 
         $itemValue = json_decode($setting['item_value'], true);
 
         $newItemValue = [];
 
+        /**
+         * 更改数据结构
+         */
         foreach ($itemValue as $key => $value) {
-            $newItemValue[$key]['id'] = $value;
-            $newItemValue[$key]['enabled'] = 1;
+            $newItemValue[$key]['id'] = $value['id'] ?? $value;
+            $newItemValue[$key]['enabled'] = $value['enabled'] ?? 1;
         }
 
         /**
@@ -83,8 +75,8 @@ final class Data202102280351 extends AbstractMigration
         $itemValue = json_encode($newItemValue);
 
         $this->getQueryBuilder()
-            ->update($table)
-            ->where($where)
+            ->update('kg_setting')
+            ->where(['id' => $setting['id']])
             ->set('item_value', $itemValue)
             ->execute();
     }

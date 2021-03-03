@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
-
 class ImNotice extends Model
 {
 
@@ -60,25 +58,11 @@ class ImNotice extends Model
     public $item_info = '';
 
     /**
-     * 优先级
-     *
-     * @var int
-     */
-    public $priority = 0;
-
-    /**
      * 阅读标识
      *
      * @var int
      */
     public $viewed = 0;
-
-    /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted = 0;
 
     /**
      * 创建时间
@@ -97,18 +81,6 @@ class ImNotice extends Model
     public function getSource(): string
     {
         return 'kg_im_notice';
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->addBehavior(
-            new SoftDelete([
-                'field' => 'deleted',
-                'value' => 1,
-            ])
-        );
     }
 
     public function beforeCreate()
