@@ -44,6 +44,10 @@ class UserConsoleController extends Controller
     public function initialize()
     {
         parent::initialize();
+
+        $authUser = $this->getAuthUser(false);
+
+        $this->view->setVar('auth_user', $authUser);
     }
 
     /**
