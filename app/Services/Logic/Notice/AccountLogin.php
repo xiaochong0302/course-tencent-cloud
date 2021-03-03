@@ -16,9 +16,6 @@ class AccountLogin extends LogicService
 
     public function handleTask(TaskModel $task)
     {
-        /**
-         * @todo 鉴于微信消息模板４.30下线，暂时下线登录通知
-         */
         $wechatOA = $this->getSettings('wechat.oa');
 
         if ($wechatOA['enabled'] == 0) return;
@@ -31,7 +28,7 @@ class AccountLogin extends LogicService
 
         $subscribe = $subscribeRepo->findByUserId($userId);
 
-        if ($subscribe && $subscribe->deleted == 0) {
+        if ($subscribe) {
 
             $notice = new WeChatAccountLoginNotice();
 
