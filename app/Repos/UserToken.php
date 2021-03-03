@@ -17,7 +17,6 @@ class UserToken extends Repository
     {
         return UserTokenModel::query()
             ->where('user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('deleted = 0')
             ->execute();
     }
 

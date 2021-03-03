@@ -2,13 +2,13 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\WechatOfficialAccount as WechatOAService;
+use App\Http\Home\Services\WeChatOfficialAccount as WeChatOAService;
 use App\Traits\Response as ResponseTrait;
 
 /**
  * @RoutePrefix("/wechat/oa")
  */
-class WechatOfficialAccountController extends \Phalcon\Mvc\Controller
+class WeChatOfficialAccountController extends \Phalcon\Mvc\Controller
 {
 
     use ResponseTrait;
@@ -18,7 +18,7 @@ class WechatOfficialAccountController extends \Phalcon\Mvc\Controller
      */
     public function subscribeStatusAction()
     {
-        $service = new WechatOAService();
+        $service = new WeChatOAService();
 
         $status = $service->getSubscribeStatus();
 
@@ -30,7 +30,7 @@ class WechatOfficialAccountController extends \Phalcon\Mvc\Controller
      */
     public function subscribeQrCodeAction()
     {
-        $service = new WechatOAService();
+        $service = new WeChatOAService();
 
         $qrcode = $service->createSubscribeQrCode();
 
@@ -42,7 +42,7 @@ class WechatOfficialAccountController extends \Phalcon\Mvc\Controller
      */
     public function verifyAction()
     {
-        $service = new WechatOAService();
+        $service = new WeChatOAService();
 
         $app = $service->getOfficialAccount();
 
@@ -58,7 +58,7 @@ class WechatOfficialAccountController extends \Phalcon\Mvc\Controller
      */
     public function notifyAction()
     {
-        $service = new WechatOAService();
+        $service = new WeChatOAService();
 
         $app = $service->getOfficialAccount();
 

@@ -62,13 +62,6 @@ class Learning extends Model
     public $position = 0;
 
     /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted = 0;
-
-    /**
      * 客户端类型
      *
      * @var int

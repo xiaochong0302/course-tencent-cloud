@@ -7,16 +7,21 @@ use App\Models\Task as TaskModel;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\User as UserRepo;
-use App\Repos\WechatSubscribe as WechatSubscribeRepo;
+use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
+use App\Services\Logic\Notice\Sms\ConsultReply as SmsConsultReplyNotice;
+use App\Services\Logic\Notice\WeChat\ConsultReply as WeChatConsultReplyNotice;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Sms\Notice\ConsultReply as SmsConsultReplyNotice;
-use App\Services\Wechat\Notice\ConsultReply as WechatConsultReplyNotice;
 
 class ConsultReply extends LogicService
 {
 
     public function handleTask(TaskModel $task)
     {
+        $wechatNoticeEnabled = $this->wechatNoticeEnabled();
+        $smsNoticeEnabled = $this->smsNoticeEnabled();
+
+        if (!$wechatNoticeEnabled && !$smsNoticeEnabled) return;
+
         $consultId = $task->item_info['consult']['id'];
 
         $consultRepo = new ConsultRepo();
@@ -55,17 +60,17 @@ class ConsultReply extends LogicService
             ],
         ];
 
-        $subscribeRepo = new WechatSubscribeRepo();
+        $subscribeRepo = new WeChatSubscribeRepo();
 
         $subscribe = $subscribeRepo->findByUserId($consult->owner_id);
 
-        if ($subscribe && $subscribe->deleted == 0) {
+        if ($wechatNoticeEnabled && $subscribe) {
 
-            $notice = new WechatConsultReplyNotice();
+            $notice = new WeChatConsultReplyNotice();
 
             return $notice->handle($subscribe, $params);
 
-        } else {
+        } elseif ($smsNoticeEnabled) {
 
             $notice = new SmsConsultReplyNotice();
 
@@ -75,6 +80,11 @@ class ConsultReply extends LogicService
 
     public function createTask(ConsultModel $consult)
     {
+        $wechatNoticeEnabled = $this->wechatNoticeEnabled();
+        $smsNoticeEnabled = $this->smsNoticeEnabled();
+
+        if (!$wechatNoticeEnabled && !$smsNoticeEnabled) return;
+
         $task = new TaskModel();
 
         $itemInfo = [
@@ -89,6 +99,30 @@ class ConsultReply extends LogicService
         $task->max_try_count = 1;
 
         $task->create();
+    }
+
+    public function wechatNoticeEnabled()
+    {
+        $oa = $this->getSettings('wechat.oa');
+
+        if ($oa['enabled'] == 0) return false;
+
+        $template = json_decode($oa['notice_template'], true);
+
+        $result = $template['consult_reply']['enabled'] ?? 0;
+
+        return $result == 1;
+    }
+
+    public function smsNoticeEnabled()
+    {
+        $sms = $this->getSettings('sms');
+
+        $template = json_decode($sms['template'], true);
+
+        $result = $template['consult_reply']['enabled'] ?? 0;
+
+        return $result == 1;
     }
 
 }

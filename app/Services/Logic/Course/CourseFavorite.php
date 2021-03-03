@@ -42,22 +42,11 @@ class CourseFavorite extends Service
 
         } else {
 
-            if ($favorite->deleted == 0) {
+            $favorite->delete();
 
-                $favorite->update(['deleted' => 1]);
+            $this->decrCourseFavoriteCount($course);
 
-                $this->decrCourseFavoriteCount($course);
-
-                $this->decrUserFavoriteCount($user);
-
-            } else {
-
-                $favorite->update(['deleted' => 0]);
-
-                $this->incrCourseFavoriteCount($course);
-
-                $this->incrUserFavoriteCount($user);
-            }
+            $this->decrUserFavoriteCount($user);
         }
 
         return $favorite;

@@ -32,13 +32,15 @@
         <table class="layui-table kg-table layui-form">
             <colgroup>
                 <col width="12%">
-                <col width="15%">
+                <col width="12%">
+                <col width="12%">
                 <col>
                 <col width="10%">
             </colgroup>
             <thead>
             <tr>
                 <th>名称</th>
+                <th>启用模板</th>
                 <th>模板编号</th>
                 <th>模板内容</th>
                 <th>操作</th>
@@ -46,32 +48,62 @@
             </thead>
             <tbody>
             <tr>
-                <td>身份验证</td>
-                <td><input class="layui-input" type="text" name="template[verify]" value="{{ template.verify }}" lay-verify="required"></td>
+                <td>用户身份验证</td>
+                <td>
+                    <input type="radio" name="template[verify][enabled]" value="1" title="是" disabled="disabled" {% if template.verify.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="template[verify][enabled]" value="0" title="否" disabled="disabled" {% if template.verify.enabled == "0" %}checked="checked"{% endif %}>
+                </td>
+                <td><input class="layui-input" type="text" name="template[verify][id]" value="{{ template.verify.id }}" lay-verify="required"></td>
                 <td><input id="tc-verify" class="layui-input" type="text" value="验证码：{1}，{2} 分钟内有效，如非本人操作请忽略。" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-verify">复制</span></td>
             </tr>
             <tr>
-                <td>订单通知</td>
-                <td><input class="layui-input" type="text" name="template[order_finish]" value="{{ template.order_finish }}" lay-verify="required"></td>
+                <td>购买成功通知</td>
+                <td>
+                    <input type="radio" name="template[order_finish][enabled]" value="1" title="是" {% if template.order_finish.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="template[order_finish][enabled]" value="0" title="否" {% if template.order_finish.enabled == "0" %}checked="checked"{% endif %}>
+                </td>
+                <td><input class="layui-input" type="text" name="template[order_finish][id]" value="{{ template.order_finish.id }}" lay-verify="required"></td>
                 <td><input id="tc-order-finish" class="layui-input" type="text" value="下单成功，商品名称：{1}，订单序号：{2}，订单金额：￥{3}" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-order-finish">复制</span></td>
             </tr>
             <tr>
-                <td>退款通知</td>
-                <td><input class="layui-input" type="text" name="template[refund_finish]" value="{{ template.refund_finish }}" lay-verify="required"></td>
+                <td>商品发货通知</td>
+                <td>
+                    <input type="radio" name="template[goods_deliver][enabled]" value="1" title="是" {% if template.goods_deliver.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="template[goods_deliver][enabled]" value="0" title="否" {% if template.goods_deliver.enabled == "0" %}checked="checked"{% endif %}>
+                </td>
+                <td><input class="layui-input" type="text" name="template[goods_deliver][id]" value="{{ template.goods_deliver.id }}" lay-verify="required"></td>
+                <td><input id="tc-order-finish" class="layui-input" type="text" value="发货成功，商品名称：{1}，订单序号：{2}，请注意查收。" readonly="readonly"></td>
+                <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-goods-deliver">复制</span></td>
+            </tr>
+            <tr>
+                <td>退款成功通知</td>
+                <td>
+                    <input type="radio" name="template[refund_finish][enabled]" value="1" title="是" {% if template.refund_finish.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="template[refund_finish][enabled]" value="0" title="否" {% if template.refund_finish.enabled == "0" %}checked="checked"{% endif %}>
+                </td>
+                <td><input class="layui-input" type="text" name="template[refund_finish][id]" value="{{ template.refund_finish.id }}" lay-verify="required"></td>
                 <td><input id="tc-refund-finish" class="layui-input" type="text" value="退款成功，商品名称：{1}，退款序号：{2}，退款金额：￥{3}" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-refund-finish">复制</span></td>
             </tr>
             <tr>
-                <td>直播提醒</td>
-                <td><input class="layui-input" type="text" name="template[live_begin]" value="{{ template.live_begin }}" lay-verify="required"></td>
+                <td>课程直播提醒</td>
+                <td>
+                    <input type="radio" name="template[live_begin][enabled]" value="1" title="是" {% if template.live_begin.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="template[live_begin][enabled]" value="0" title="否" {% if template.live_begin.enabled == "0" %}checked="checked"{% endif %}>
+                </td>
+                <td><input class="layui-input" type="text" name="template[live_begin][id]" value="{{ template.live_begin.id }}" lay-verify="required"></td>
                 <td><input id="tc-live-begin" class="layui-input" type="text" value="直播预告，课程名称：{1}，章节名称：{2}，开播时间：{3}" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-live-begin">复制</span></td>
             </tr>
             <tr>
-                <td>咨询通知</td>
-                <td><input class="layui-input" type="text" name="template[consult_reply]" value="{{ template.consult_reply }}" lay-verify="required"></td>
+                <td>咨询回复通知</td>
+                <td>
+                    <input type="radio" name="template[consult_reply][enabled]" value="1" title="是" {% if template.consult_reply.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="template[consult_reply][enabled]" value="0" title="否" {% if template.consult_reply.enabled == "0" %}checked="checked"{% endif %}>
+                </td>
+                <td><input class="layui-input" type="text" name="template[consult_reply][id]" value="{{ template.consult_reply.id }}" lay-verify="required"></td>
                 <td><input id="tc-consult-reply" class="layui-input" type="text" value="{1} 回复了你的咨询，课程名称：{2}，请登录系统查看详情。" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-consult-reply">复制</span></td>
             </tr>

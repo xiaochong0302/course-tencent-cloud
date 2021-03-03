@@ -8,11 +8,11 @@ use App\Http\Admin\Services\WxpayTest as WxpayTestService;
 use App\Services\Captcha as CaptchaService;
 use App\Services\DingTalkNotice as DingTalkNoticeService;
 use App\Services\Live as LiveService;
-use App\Services\Mail\Test as TestMailService;
+use App\Services\Logic\Notice\Mail\Test as MailTestService;
+use App\Services\Logic\Notice\Sms\Test as SmsTestService;
 use App\Services\MyStorage as StorageService;
-use App\Services\Sms\Test as TestSmsService;
 use App\Services\Vod as VodService;
-use App\Services\Wechat as WechatService;
+use App\Services\WeChat as WeChatService;
 
 /**
  * @RoutePrefix("/admin/test")
@@ -61,7 +61,7 @@ class TestController extends Controller
      */
     public function wechatOaAction()
     {
-        $wechatService = new WechatService();
+        $wechatService = new WeChatService();
 
         $oa = $wechatService->getOfficialAccount();
 
@@ -122,7 +122,7 @@ class TestController extends Controller
     {
         $phone = $this->request->getPost('phone', 'string');
 
-        $smsService = new TestSmsService();
+        $smsService = new SmsTestService();
 
         $response = $smsService->handle($phone);
 
@@ -140,7 +140,7 @@ class TestController extends Controller
     {
         $email = $this->request->getPost('email', 'string');
 
-        $mailService = new TestMailService();
+        $mailService = new MailTestService();
 
         $result = $mailService->handle($email);
 

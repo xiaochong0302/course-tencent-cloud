@@ -150,7 +150,7 @@ class Chapter extends Repository
     public function countUsers($chapterId)
     {
         return (int)ChapterUserModel::count([
-            'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
+            'conditions' => 'chapter_id = :chapter_id:',
             'bind' => ['chapter_id' => $chapterId],
         ]);
     }
@@ -158,7 +158,7 @@ class Chapter extends Repository
     public function countLikes($chapterId)
     {
         return (int)ChapterLikeModel::count([
-            'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
+            'conditions' => 'chapter_id = :chapter_id:',
             'bind' => ['chapter_id' => $chapterId],
         ]);
     }

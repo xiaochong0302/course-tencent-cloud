@@ -17,9 +17,11 @@ class Home extends AuthService
     {
         $sessionId = $this->session->getId();
 
+        $lifetime = $this->getSessionLifetime();
+
         $this->logoutOtherClients($user->id);
 
-        $this->createUserSession($user->id, $sessionId);
+        $this->createUserSession($user->id, $sessionId, $lifetime);
 
         $authKey = $this->getAuthKey();
 
@@ -52,7 +54,7 @@ class Home extends AuthService
         return 'home_auth_info';
     }
 
-    protected function createUserSession($userId, $sessionId)
+    protected function createUserSession($userId, $sessionId, $lifetime)
     {
         $userSession = new UserSessionModel();
 
@@ -60,6 +62,7 @@ class Home extends AuthService
         $userSession->session_id = $sessionId;
         $userSession->client_type = $this->getClientType();
         $userSession->client_ip = $this->getClientIp();
+        $userSession->expire_time = time() + $lifetime;
 
         $userSession->create();
     }
@@ -72,16 +75,20 @@ class Home extends AuthService
 
         $records = $repo->findByUserId($userId);
 
-        if ($records->count() == 0) {
-            return;
-        }
+        if ($records->count() == 0) return;
 
         foreach ($records as $record) {
-            $record->deleted = 1;
-            $record->update();
+            $record->delete();
             $key = $this->getSessionCacheKey($record->session_id);
             $cache->delete($key);
         }
+    }
+
+    protected function getSessionLifetime()
+    {
+        $config = $this->getConfig();
+
+        return $config->path('session.lifetime') ?: 24 * 3600;
     }
 
     protected function getSessionCacheKey($sessionId)

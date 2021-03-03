@@ -13,7 +13,7 @@ use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\PointGift as PointGiftRepo;
 use App\Repos\PointRedeem as PointRedeemRepo;
-use App\Services\DingTalk\Notice\PointRedeem as PointRedeemNotice;
+use App\Services\Logic\Notice\DingTalk\PointRedeem as PointRedeemNotice;
 use App\Services\Logic\Point\PointHistory as PointHistoryService;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -179,11 +179,6 @@ class PointGiftDeliverTask extends Task
         $service = new PointHistoryService();
 
         $service->handlePointRefund($redeem);
-    }
-
-    protected function handleRedeemFinishNotice(PointRedeemModel $redeem)
-    {
-
     }
 
     /**

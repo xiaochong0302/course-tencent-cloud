@@ -2,20 +2,20 @@
 
 namespace App\Repos;
 
-use App\Models\WechatSubscribe as WechatSubscribeModel;
+use App\Models\WeChatSubscribe as WeChatSubscribeModel;
 use Phalcon\Mvc\Model;
 
-class WechatSubscribe extends Repository
+class WeChatSubscribe extends Repository
 {
 
     /**
      * @param int $userId
      * @param string $openId
-     * @return WechatSubscribeModel|Model|bool
+     * @return WeChatSubscribeModel|Model|bool
      */
     public function findSubscribe($userId, $openId)
     {
-        return WechatSubscribeModel::findFirst([
+        return WeChatSubscribeModel::findFirst([
             'conditions' => 'user_id= ?1 AND open_id = ?2',
             'bind' => [1 => $userId, 2 => $openId],
         ]);
@@ -23,11 +23,11 @@ class WechatSubscribe extends Repository
 
     /**
      * @param int $id
-     * @return WechatSubscribeModel|Model|bool
+     * @return WeChatSubscribeModel|Model|bool
      */
     public function findById($id)
     {
-        return WechatSubscribeModel::findFirst([
+        return WeChatSubscribeModel::findFirst([
             'conditions' => 'id = :id:',
             'bind' => ['id' => $id],
         ]);
@@ -35,7 +35,7 @@ class WechatSubscribe extends Repository
 
     /**
      * @param int $userId
-     * @return WechatSubscribeModel|Model|bool
+     * @return WeChatSubscribeModel|Model|bool
      */
     public function findByUserId($userId)
     {
@@ -47,11 +47,11 @@ class WechatSubscribe extends Repository
 
     /**
      * @param string $openId
-     * @return WechatSubscribeModel|Model|bool
+     * @return WeChatSubscribeModel|Model|bool
      */
     public function findByOpenId($openId)
     {
-        return WechatSubscribeModel::findFirst([
+        return WeChatSubscribeModel::findFirst([
             'conditions' => 'open_id = :open_id:',
             'bind' => ['open_id' => $openId],
         ]);

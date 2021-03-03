@@ -42,18 +42,9 @@ class ConsultLike extends Service
 
         } else {
 
-            if ($consultLike->deleted == 0) {
+            $consultLike->delete();
 
-                $consultLike->update(['deleted' => 1]);
-
-                $this->decrLikeCount($consult);
-
-            } else {
-
-                $consultLike->update(['deleted' => 0]);
-
-                $this->incrLikeCount($consult);
-            }
+            $this->decrLikeCount($consult);
         }
 
         $this->incrUserDailyConsultLikeCount($user);

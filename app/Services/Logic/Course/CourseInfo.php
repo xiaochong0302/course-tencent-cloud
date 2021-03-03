@@ -48,7 +48,7 @@ class CourseInfo extends Service
 
             $favorite = $favoriteRepo->findCourseFavorite($course->id, $user->id);
 
-            if ($favorite && $favorite->deleted == 0) {
+            if ($favorite) {
                 $me['favorited'] = 1;
             }
 

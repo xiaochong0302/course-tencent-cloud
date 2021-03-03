@@ -21,7 +21,7 @@
 
     <table class="layui-table" lay-size="lg">
         <colgroup>
-            <col>
+            <col width="15%">
             <col>
             <col>
             <col>

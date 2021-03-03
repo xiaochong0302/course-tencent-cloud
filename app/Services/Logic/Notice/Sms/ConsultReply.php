@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services\Sms\Notice;
+namespace App\Services\Logic\Notice\Sms;
 
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Services\Smser;
 
-class LiveBegin extends Smser
+class ConsultReply extends Smser
 {
 
-    protected $templateCode = 'live_begin';
+    protected $templateCode = 'consult_reply';
 
     /**
      * @param UserModel $user
@@ -24,13 +24,12 @@ class LiveBegin extends Smser
 
         if (!$account->phone) return null;
 
-        $params = [
-            $params['course']['title'],
-            $params['chapter']['title'],
-            date('H:i', $params['live']['start_time']),
-        ];
-
         $templateId = $this->getTemplateId($this->templateCode);
+
+        $params = [
+            $params['replier']['name'],
+            $params['course']['title'],
+        ];
 
         return $this->send($account->phone, $templateId, $params);
     }

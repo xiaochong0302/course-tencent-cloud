@@ -4,7 +4,7 @@ namespace App\Console\Tasks;
 
 use App\Library\Benchmark;
 use App\Models\User as UserModel;
-use App\Services\DingTalk\Notice\ServerMonitor as ServerMonitorNotice;
+use App\Services\Logic\Notice\DingTalk\ServerMonitor as ServerMonitorNotice;
 use App\Services\Search\UserSearcher;
 use GatewayClient\Gateway;
 

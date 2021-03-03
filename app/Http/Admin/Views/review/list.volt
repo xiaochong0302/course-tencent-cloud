@@ -48,7 +48,7 @@
             {% set restore_url = url({'for':'admin.review.restore','id':item.id}) %}
             <tr>
                 <td>
-                    <p>课程：<a href="{{ list_by_course_url }}">{{ item.course.title }}</a></p>
+                    <p>课程：<a href="{{ list_by_course_url }}">{{ item.course.title }}</a>（{{ item.course.id }}）</p>
                     <p class="layui-elip kg-item-elip" title="{{ item.content }}">评价：{{ item.content }}</p>
                     <p>时间：{{ date('Y-m-d H:i:s',item.create_time) }}</p>
                 </td>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Mail;
+namespace App\Services\Logic\Notice\Mail;
 
 use App\Services\Mailer as MailerService;
 use App\Services\Verify as VerifyService;

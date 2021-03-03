@@ -8,16 +8,21 @@ use App\Models\Task as TaskModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\User as UserRepo;
-use App\Repos\WechatSubscribe as WechatSubscribeRepo;
+use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
+use App\Services\Logic\Notice\Sms\LiveBegin as SmsLiveBeginNotice;
+use App\Services\Logic\Notice\WeChat\LiveBegin as WeChatLiveBeginNotice;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Sms\Notice\LiveBegin as SmsLiveBeginNotice;
-use App\Services\Wechat\Notice\LiveBegin as WechatLiveBeginNotice;
 
 class LiveBegin extends LogicService
 {
 
     public function handleTask(TaskModel $task)
     {
+        $wechatNoticeEnabled = $this->wechatNoticeEnabled();
+        $smsNoticeEnabled = $this->smsNoticeEnabled();
+
+        if (!$wechatNoticeEnabled && !$smsNoticeEnabled) return;
+
         $courseUser = $task->item_info['course_user'];
         $chapterId = $task->item_info['chapter']['id'];
 
@@ -53,17 +58,17 @@ class LiveBegin extends LogicService
             'course_user' => $courseUser,
         ];
 
-        $subscribeRepo = new WechatSubscribeRepo();
+        $subscribeRepo = new WeChatSubscribeRepo();
 
         $subscribe = $subscribeRepo->findByUserId($user->id);
 
-        if ($subscribe && $subscribe->deleted == 0) {
+        if ($wechatNoticeEnabled && $subscribe) {
 
-            $notice = new WechatLiveBeginNotice();
+            $notice = new WeChatLiveBeginNotice();
 
             return $notice->handle($subscribe, $params);
 
-        } else {
+        } elseif ($smsNoticeEnabled) {
 
             $notice = new SmsLiveBeginNotice();
 
@@ -73,6 +78,11 @@ class LiveBegin extends LogicService
 
     public function createTask(ChapterModel $chapter, CourseUserModel $courseUser)
     {
+        $wechatNoticeEnabled = $this->wechatNoticeEnabled();
+        $smsNoticeEnabled = $this->smsNoticeEnabled();
+
+        if (!$wechatNoticeEnabled && !$smsNoticeEnabled) return;
+
         $task = new TaskModel();
 
         $itemInfo = [
@@ -95,6 +105,30 @@ class LiveBegin extends LogicService
         $task->max_try_count = 1;
 
         $task->create();
+    }
+
+    public function wechatNoticeEnabled()
+    {
+        $oa = $this->getSettings('wechat.oa');
+
+        if ($oa['enabled'] == 0) return false;
+
+        $template = json_decode($oa['notice_template'], true);
+
+        $result = $template['live_begin']['enabled'] ?? 0;
+
+        return $result == 1;
+    }
+
+    public function smsNoticeEnabled()
+    {
+        $sms = $this->getSettings('sms');
+
+        $template = json_decode($sms['template'], true);
+
+        $result = $template['live_begin']['enabled'] ?? 0;
+
+        return $result == 1;
     }
 
 }

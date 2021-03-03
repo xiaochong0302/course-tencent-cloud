@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
-
-class WechatSubscribe extends Model
+class WeChatSubscribe extends Model
 {
 
     /**
@@ -29,13 +27,6 @@ class WechatSubscribe extends Model
     public $open_id = '';
 
     /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted = 0;
-
-    /**
      * 创建时间
      *
      * @var int
@@ -52,18 +43,6 @@ class WechatSubscribe extends Model
     public function getSource(): string
     {
         return 'kg_wechat_subscribe';
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->addBehavior(
-            new SoftDelete([
-                'field' => 'deleted',
-                'value' => 1,
-            ])
-        );
     }
 
     public function beforeCreate()
