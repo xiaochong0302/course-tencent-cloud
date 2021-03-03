@@ -18,6 +18,8 @@ class GoodsDeliver extends Smser
      */
     public function handle(UserModel $user, array $params)
     {
+        $params['deliver_time'] = date('Y-m-d H:i', $params['deliver_time']);
+
         $accountRepo = new AccountRepo();
 
         $account = $accountRepo->findById($user->id);
@@ -27,8 +29,8 @@ class GoodsDeliver extends Smser
         $templateId = $this->getTemplateId($this->templateCode);
 
         $params = [
-            $params['order_sn'],
             $params['goods_name'],
+            $params['order_sn'],
             $params['deliver_time'],
         ];
 
