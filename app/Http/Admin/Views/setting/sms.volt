@@ -58,16 +58,6 @@
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-verify">复制</span></td>
             </tr>
             <tr>
-                <td>商品发货通知</td>
-                <td>
-                    <input type="radio" name="template[goods_deliver][enabled]" value="1" title="是" {% if template.goods_deliver.enabled == "1" %}checked="checked"{% endif %}>
-                    <input type="radio" name="template[goods_deliver][enabled]" value="0" title="否" {% if template.goods_deliver.enabled == "0" %}checked="checked"{% endif %}>
-                </td>
-                <td><input class="layui-input" type="text" name="template[goods_deliver][id]" value="{{ template.goods_deliver.id }}" lay-verify="required"></td>
-                <td><input id="tc-order-finish" class="layui-input" type="text" value="发货成功，商品名称：{1}，订单序号：{2}，请注意查收。" readonly="readonly"></td>
-                <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-goods-deliver">复制</span></td>
-            </tr>
-            <tr>
                 <td>购买成功通知</td>
                 <td>
                     <input type="radio" name="template[order_finish][enabled]" value="1" title="是" {% if template.order_finish.enabled == "1" %}checked="checked"{% endif %}>
@@ -76,6 +66,16 @@
                 <td><input class="layui-input" type="text" name="template[order_finish][id]" value="{{ template.order_finish.id }}" lay-verify="required"></td>
                 <td><input id="tc-order-finish" class="layui-input" type="text" value="下单成功，商品名称：{1}，订单序号：{2}，订单金额：￥{3}" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-order-finish">复制</span></td>
+            </tr>
+            <tr>
+                <td>商品发货通知</td>
+                <td>
+                    <input type="radio" name="template[goods_deliver][enabled]" value="1" title="是" {% if template.goods_deliver.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="template[goods_deliver][enabled]" value="0" title="否" {% if template.goods_deliver.enabled == "0" %}checked="checked"{% endif %}>
+                </td>
+                <td><input class="layui-input" type="text" name="template[goods_deliver][id]" value="{{ template.goods_deliver.id }}" lay-verify="required"></td>
+                <td><input id="tc-order-finish" class="layui-input" type="text" value="发货成功，商品名称：{1}，订单序号：{2}，请注意查收。" readonly="readonly"></td>
+                <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-goods-deliver">复制</span></td>
             </tr>
             <tr>
                 <td>退款成功通知</td>
