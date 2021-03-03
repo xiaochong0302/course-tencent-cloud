@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Phinx\Migration\AbstractMigration;
 
 final class InsertSettingData extends AbstractMigration
@@ -368,7 +366,7 @@ final class InsertSettingData extends AbstractMigration
             [
                 'section' => 'sms',
                 'item_key' => 'template',
-                'item_value' => '{"verify":"561282","order":"561954","refund":"561286","live":"561288"}',
+                'item_value' => '{"verify":"","order":"","refund":"","live":""}',
             ],
             [
                 'section' => 'cos',
@@ -418,7 +416,7 @@ final class InsertSettingData extends AbstractMigration
             [
                 'section' => 'vod',
                 'item_key' => 'wmk_tpl_id',
-                'item_value' => '462027',
+                'item_value' => '',
             ],
             [
                 'section' => 'vod',

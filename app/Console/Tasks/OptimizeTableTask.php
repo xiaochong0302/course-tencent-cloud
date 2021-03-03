@@ -5,15 +5,45 @@ namespace App\Console\Tasks;
 use App\Models\ImMessage as ImMessageModel;
 use App\Models\Learning as LearningModel;
 use App\Models\Task as TaskModel;
+use App\Models\UserSession as UserSessionModel;
+use App\Models\UserToken as UserTokenModel;
 
 class OptimizeTableTask extends Task
 {
 
     public function mainAction()
     {
+        $this->optimizeUserSessionTable();
+        $this->optimizeUserTokenTable();
         $this->optimizeImMessageTable();
         $this->optimizeLearningTable();
         $this->optimizeTaskTable();
+    }
+
+    protected function optimizeUserSessionTable()
+    {
+        $sessionModel = new UserSessionModel();
+
+        $tableName = $sessionModel->getSource();
+
+        $this->db->delete($tableName, "expire_time < :expire_time", [
+            'expire_time' => strtotime('-3 days'),
+        ]);
+
+        $this->db->execute("OPTIMIZE TABLE {$tableName}");
+    }
+
+    protected function optimizeUserTokenTable()
+    {
+        $tokenModel = new UserTokenModel();
+
+        $tableName = $tokenModel->getSource();
+
+        $this->db->delete($tableName, "expire_time < :expire_time", [
+            'expire_time' => strtotime('-3 days'),
+        ]);
+
+        $this->db->execute("OPTIMIZE TABLE {$tableName}");
     }
 
     protected function optimizeImMessageTable()

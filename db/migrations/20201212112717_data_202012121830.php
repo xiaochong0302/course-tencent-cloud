@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Phinx\Migration\AbstractMigration;
 
 final class Data202012121830 extends AbstractMigration
@@ -54,28 +52,37 @@ final class Data202012121830 extends AbstractMigration
 
     public function down()
     {
-        $this->getQueryBuilder()->delete('kg_setting')->where(['section' => 'wechat.oa'])->execute();
+        $this->getQueryBuilder()
+            ->delete('kg_setting')
+            ->where(['section' => 'wechat.oa'])
+            ->execute();
     }
 
     protected function updateSmsTemplate()
     {
-        $table = 'kg_setting';
+        $setting = $this->getQueryBuilder()
+            ->select('*')
+            ->from('kg_setting')
+            ->where(['section' => 'sms', 'item_key' => 'template'])
+            ->execute()->fetch('assoc');
 
-        $where = ['section' => 'sms', 'item_key' => 'template'];
-
-        $setting = $this->getQueryBuilder()->select('*')->from($table)->where($where)->execute()->fetch('assoc');
+        if (!$setting) return;
 
         $itemValue = json_decode($setting['item_value'], true);
 
         $newItemValue = json_encode([
-            'verify' => $itemValue['verify'],
-            'order_finish' => $itemValue['order'],
-            'refund_finish' => $itemValue['refund'],
-            'live_begin' => $itemValue['live'],
-            'consult_reply' => '',
+            'verify' => $itemValue['verify'] ?? '',
+            'order_finish' => $itemValue['order'] ?? '',
+            'refund_finish' => $itemValue['refund'] ?? '',
+            'live_begin' => $itemValue['live'] ?? '',
+            'consult_reply' => $itemValue['consult'] ?? '',
         ]);
 
-        $this->getQueryBuilder()->update($table)->where($where)->set('item_value', $newItemValue)->execute();
+        $this->getQueryBuilder()
+            ->update('kg_setting')
+            ->where(['id' => $setting['id']])
+            ->set('item_value', $newItemValue)
+            ->execute();
     }
 
 }

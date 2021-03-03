@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Services\Wechat\Notice;
+namespace App\Services\Logic\Notice\WeChat;
 
-use App\Models\WechatSubscribe as WechatSubscribeModel;
-use App\Services\WechatNotice;
+use App\Models\WeChatSubscribe as WeChatSubscribeModel;
+use App\Services\WeChatNotice;
 
-class ConsultReply extends WechatNotice
+class ConsultReply extends WeChatNotice
 {
 
     protected $templateCode = 'consult_reply';
 
     /**
-     * @param WechatSubscribeModel $subscribe
+     * @param WeChatSubscribeModel $subscribe
      * @param array $params
      * @return bool
      */
-    public function handle(WechatSubscribeModel $subscribe, array $params)
+    public function handle(WeChatSubscribeModel $subscribe, array $params)
     {
         $first = sprintf('%s 回复了你的咨询！', $params['replier']['name']);
 

@@ -5,7 +5,7 @@ namespace App\Http\Admin\Services;
 use App\Caches\Setting as SettingCache;
 use App\Repos\Setting as SettingRepo;
 use App\Repos\Vip as VipRepo;
-use App\Services\Wechat as WechatService;
+use App\Services\WeChat as WeChatService;
 
 class Setting extends Service
 {
@@ -58,7 +58,7 @@ class Setting extends Service
         return $wxpay;
     }
 
-    public function getWechatOASettings()
+    public function getWeChatOASettings()
     {
         $oa = $this->getSettings('wechat.oa');
 
@@ -215,7 +215,7 @@ class Setting extends Service
         }
     }
 
-    public function updateWechatOASettings($section, $settings)
+    public function updateWeChatOASettings($section, $settings)
     {
         if (!empty($settings['notice_template'])) {
             $settings['notice_template'] = kg_json_encode($settings['notice_template']);
@@ -242,7 +242,7 @@ class Setting extends Service
         }
 
         if (!empty($buttons)) {
-            $service = new WechatService();
+            $service = new WeChatService();
             $oa = $service->getOfficialAccount();
             $oa->menu->create($buttons);
         }

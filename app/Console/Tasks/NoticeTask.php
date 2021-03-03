@@ -3,14 +3,15 @@
 namespace App\Console\Tasks;
 
 use App\Models\Task as TaskModel;
-use App\Services\DingTalk\Notice\ConsultCreate as ConsultCreateNotice;
-use App\Services\DingTalk\Notice\CustomService as CustomServiceNotice;
-use App\Services\DingTalk\Notice\ServerMonitor as ServerMonitorNotice;
-use App\Services\DingTalk\Notice\TeacherLive as TeacherLiveNotice;
 use App\Services\Logic\Notice\AccountLogin as AccountLoginNotice;
 use App\Services\Logic\Notice\ConsultReply as ConsultReplyNotice;
+use App\Services\Logic\Notice\DingTalk\ConsultCreate as ConsultCreateNotice;
+use App\Services\Logic\Notice\DingTalk\CustomService as CustomServiceNotice;
+use App\Services\Logic\Notice\DingTalk\ServerMonitor as ServerMonitorNotice;
+use App\Services\Logic\Notice\DingTalk\TeacherLive as TeacherLiveNotice;
 use App\Services\Logic\Notice\LiveBegin as LiveBeginNotice;
 use App\Services\Logic\Notice\OrderFinish as OrderFinishNotice;
+use App\Services\Logic\Notice\PointGoodsDeliver as PointGoodsDeliverNotice;
 use App\Services\Logic\Notice\RefundFinish as RefundFinishNotice;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -24,9 +25,7 @@ class NoticeTask extends Task
 
         $tasks = $this->findTasks(300);
 
-        if ($tasks->count() == 0) {
-            return;
-        }
+        if ($tasks->count() == 0) return;
 
         foreach ($tasks as $task) {
 
@@ -47,6 +46,9 @@ class NoticeTask extends Task
                         break;
                     case TaskModel::TYPE_NOTICE_CONSULT_REPLY:
                         $this->handleConsultReplyNotice($task);
+                        break;
+                    case TaskModel::TYPE_NOTICE_POINT_GOODS_DELIVER:
+                        $this->handlePointGoodsDeliverNotice($task);
                         break;
                     case TaskModel::TYPE_NOTICE_CONSULT_CREATE:
                         $this->handleConsultCreateNotice($task);
@@ -122,6 +124,13 @@ class NoticeTask extends Task
         $notice->handleTask($task);
     }
 
+    protected function handlePointGoodsDeliverNotice(TaskModel $task)
+    {
+        $notice = new PointGoodsDeliverNotice();
+
+        $notice->handleTask($task);
+    }
+
     protected function handleConsultCreateNotice(TaskModel $task)
     {
         $notice = new ConsultCreateNotice();
@@ -162,6 +171,8 @@ class NoticeTask extends Task
             TaskModel::TYPE_NOTICE_ORDER_FINISH,
             TaskModel::TYPE_NOTICE_REFUND_FINISH,
             TaskModel::TYPE_NOTICE_CONSULT_REPLY,
+            TaskModel::TYPE_NOTICE_POINT_GOODS_DELIVER,
+            TaskModel::TYPE_NOTICE_LUCKY_GOODS_DELIVER,
             TaskModel::TYPE_NOTICE_CONSULT_CREATE,
             TaskModel::TYPE_NOTICE_TEACHER_LIVE,
             TaskModel::TYPE_NOTICE_SERVER_MONITOR,

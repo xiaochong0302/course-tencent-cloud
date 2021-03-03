@@ -55,7 +55,7 @@
             {% set restore_url = url({'for':'admin.consult.restore','id':item.id}) %}
             <tr>
                 <td>
-                    <p>课程：<a href="{{ list_by_course_url }}">{{ item.course.title }}</a>{{ private_info(item.private) }}</p>
+                    <p>课程：<a href="{{ list_by_course_url }}">{{ item.course.title }}</a>（{{ item.course.id }}）{{ private_info(item.private) }}</p>
                     <p class="layui-elip kg-item-elip" title="{{ item.question }}">提问：{{ item.question }}</p>
                     <p class="layui-elip kg-item-elip" title="{{ item.answer }}">回复：{{ item.answer }}</p>
                 </td>

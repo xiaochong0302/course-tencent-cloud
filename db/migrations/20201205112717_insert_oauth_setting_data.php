@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Phinx\Migration\AbstractMigration;
 
 final class InsertOauthSettingData extends AbstractMigration
@@ -82,9 +80,20 @@ final class InsertOauthSettingData extends AbstractMigration
 
     public function down()
     {
-        $this->execute("DELETE FROM kg_setting WHERE section = 'oauth.qq'");
-        $this->execute("DELETE FROM kg_setting WHERE section = 'oauth.weixin'");
-        $this->execute("DELETE FROM kg_setting WHERE section = 'oauth.weibo'");
+        $this->getQueryBuilder()
+            ->delete('kg_setting')
+            ->where(['section' => 'oauth.qq'])
+            ->execute();
+
+        $this->getQueryBuilder()
+            ->delete('kg_setting')
+            ->where(['section' => 'oauth.weixin'])
+            ->execute();
+
+        $this->getQueryBuilder()
+            ->delete('kg_setting')
+            ->where(['section' => 'oauth.weibo'])
+            ->execute();
     }
 
 }

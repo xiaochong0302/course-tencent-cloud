@@ -38,64 +38,64 @@
         </fieldset>
         <table class="layui-table kg-table layui-form" style="width:60%;">
             <colgroup>
-                <col width="15%">
-                <col>
+                <col width="20%">
+                <col width="20%">
                 <col>
                 <col>
             </colgroup>
             <thead>
             <tr>
                 <th>行为类型</th>
+                <th>启用规则</th>
                 <th>奖励积分</th>
                 <th>每日上限</th>
-                <th>启用规则</th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <td>帐号注册</td>
-                <td><input class="layui-input" type="text" name="event_rule[account_register][point]" value="{{ event_rule.account_register.point }}" lay-verify="required"></td>
-                <td>N/A</td>
                 <td>
                     <input type="radio" name="event_rule[account_register][enabled]" value="1" title="是" {% if event_rule.account_register.enabled == "1" %}checked="checked"{% endif %}>
                     <input type="radio" name="event_rule[account_register][enabled]" value="0" title="否" {% if event_rule.account_register.enabled == "0" %}checked="checked"{% endif %}>
                 </td>
+                <td><input class="layui-input" type="text" name="event_rule[account_register][point]" value="{{ event_rule.account_register.point }}" lay-verify="required"></td>
+                <td>N/A</td>
             </tr>
             <tr>
                 <td>站点访问</td>
-                <td><input class="layui-input" type="text" name="event_rule[site_visit][point]" value="{{ event_rule.site_visit.point }}" lay-verify="required"></td>
-                <td>N/A</td>
                 <td>
                     <input type="radio" name="event_rule[site_visit][enabled]" value="1" title="是" {% if event_rule.site_visit.enabled == "1" %}checked="checked"{% endif %}>
                     <input type="radio" name="event_rule[site_visit][enabled]" value="0" title="否" {% if event_rule.site_visit.enabled == "0" %}checked="checked"{% endif %}>
                 </td>
+                <td><input class="layui-input" type="text" name="event_rule[site_visit][point]" value="{{ event_rule.site_visit.point }}" lay-verify="required"></td>
+                <td>N/A</td>
             </tr>
             <tr>
                 <td>课程评价</td>
-                <td><input class="layui-input" type="text" name="event_rule[course_review][point]" value="{{ event_rule.course_review.point }}" lay-verify="required"></td>
-                <td>N/A</td>
                 <td>
                     <input type="radio" name="event_rule[course_review][enabled]" value="1" title="是" {% if event_rule.course_review.enabled == "1" %}checked="checked"{% endif %}>
                     <input type="radio" name="event_rule[course_review][enabled]" value="0" title="否" {% if event_rule.course_review.enabled == "0" %}checked="checked"{% endif %}>
                 </td>
+                <td><input class="layui-input" type="text" name="event_rule[course_review][point]" value="{{ event_rule.course_review.point }}" lay-verify="required"></td>
+                <td>N/A</td>
             </tr>
             <tr>
                 <td>课时学习</td>
-                <td><input class="layui-input" type="text" name="event_rule[chapter_study][point]" value="{{ event_rule.chapter_study.point }}" lay-verify="required"></td>
-                <td>N/A</td>
                 <td>
                     <input type="radio" name="event_rule[chapter_study][enabled]" value="1" title="是" {% if event_rule.chapter_study.enabled == "1" %}checked="checked"{% endif %}>
                     <input type="radio" name="event_rule[chapter_study][enabled]" value="0" title="否" {% if event_rule.chapter_study.enabled == "0" %}checked="checked"{% endif %}>
                 </td>
+                <td><input class="layui-input" type="text" name="event_rule[chapter_study][point]" value="{{ event_rule.chapter_study.point }}" lay-verify="required"></td>
+                <td>N/A</td>
             </tr>
             <tr>
                 <td>微聊讨论</td>
-                <td><input class="layui-input" type="text" name="event_rule[im_discuss][point]" value="{{ event_rule.im_discuss.point }}" lay-verify="required"></td>
-                <td>N/A</td>
                 <td>
                     <input type="radio" name="event_rule[im_discuss][enabled]" value="1" title="是" {% if event_rule.im_discuss.enabled == "1" %}checked="checked"{% endif %}>
                     <input type="radio" name="event_rule[im_discuss][enabled]" value="0" title="否" {% if event_rule.im_discuss.enabled == "0" %}checked="checked"{% endif %}>
                 </td>
+                <td><input class="layui-input" type="text" name="event_rule[im_discuss][point]" value="{{ event_rule.im_discuss.point }}" lay-verify="required"></td>
+                <td>N/A</td>
             </tr>
             </tbody>
         </table>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Repos\WechatSubscribe as WechatSubscribeRepo;
+use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Logic\Account\OAuthProvider as OAuthProviderService;
 use App\Services\Logic\User\Console\AccountInfo as AccountInfoService;
 use App\Services\Logic\User\Console\ConnectDelete as ConnectDeleteService;
@@ -259,7 +259,7 @@ class UserConsoleController extends Controller
      */
     public function subscribeAction()
     {
-        $subscribeRepo = new WechatSubscribeRepo();
+        $subscribeRepo = new WeChatSubscribeRepo();
 
         $subscribe = $subscribeRepo->findByUserId($this->authUser->id);
 

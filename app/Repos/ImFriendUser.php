@@ -25,10 +25,6 @@ class ImFriendUser extends Repository
             $builder->andWhere('friend_id = :friend_id:', ['friend_id' => $where['friend_id']]);
         }
 
-        if (isset($where['blocked'])) {
-            $builder->andWhere('blocked = :blocked:', ['blocked' => $where['blocked']]);
-        }
-
         switch ($sort) {
             case 'oldest':
                 $orderBy = 'id ASC';

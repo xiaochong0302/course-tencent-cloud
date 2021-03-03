@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\DingTalk\Notice;
+namespace App\Services\Logic\Notice\DingTalk;
 
 use App\Models\Consult as ConsultModel;
 use App\Models\Task as TaskModel;

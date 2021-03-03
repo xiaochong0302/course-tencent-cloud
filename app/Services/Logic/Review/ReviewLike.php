@@ -42,18 +42,9 @@ class ReviewLike extends Service
 
         } else {
 
-            if ($reviewLike->deleted == 0) {
+            $reviewLike->delete();
 
-                $reviewLike->update(['deleted' => 1]);
-
-                $this->decrLikeCount($review);
-
-            } else {
-
-                $reviewLike->update(['deleted' => 0]);
-
-                $this->incrLikeCount($review);
-            }
+            $this->decrLikeCount($review);
         }
 
         $this->incrUserDailyReviewLikeCount($user);

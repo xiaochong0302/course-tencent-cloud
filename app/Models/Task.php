@@ -21,6 +21,8 @@ class Task extends Model
     const TYPE_NOTICE_ORDER_FINISH = 13; // 订单完成通知
     const TYPE_NOTICE_REFUND_FINISH = 14; // 退款完成通知
     const TYPE_NOTICE_CONSULT_REPLY = 15; // 咨询回复通知
+    const TYPE_NOTICE_POINT_GOODS_DELIVER = 16; // 积分商品发货通知
+    const TYPE_NOTICE_LUCKY_GOODS_DELIVER = 17; // 中奖商品发货通知
 
     /**
      * 针对内部人员

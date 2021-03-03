@@ -41,7 +41,10 @@ class Schema202101261615 extends Phinx\Migration\AbstractMigration
 
     protected function recount()
     {
-        $resources = $this->getQueryBuilder()->select('*')->from('kg_resource')->execute();
+        $resources = $this->getQueryBuilder()
+            ->select('*')
+            ->from('kg_resource')
+            ->execute();
 
         $courseMappings = [];
         $chapterMappings = [];

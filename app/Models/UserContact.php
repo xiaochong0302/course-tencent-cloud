@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
-
-
 class UserContact extends Model
 {
 
@@ -58,13 +55,6 @@ class UserContact extends Model
     public $add_other = '';
 
     /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted = 0;
-
-    /**
      * 创建时间
      *
      * @var int
@@ -81,18 +71,6 @@ class UserContact extends Model
     public function getSource(): string
     {
         return 'kg_user_contact';
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->addBehavior(
-            new SoftDelete([
-                'field' => 'deleted',
-                'value' => 1,
-            ])
-        );
     }
 
     public function beforeSave()

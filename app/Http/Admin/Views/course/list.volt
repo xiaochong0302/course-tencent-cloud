@@ -65,7 +65,8 @@
 
     <table class="layui-table kg-table layui-form">
         <colgroup>
-            <col width="50%">
+            <col width="5%">
+            <col width="45%">
             <col>
             <col>
             <col>
@@ -75,6 +76,7 @@
         </colgroup>
         <thead>
         <tr>
+            <th>编号</th>
             <th>课程</th>
             <th>课时数</th>
             <th>用户数</th>
@@ -96,6 +98,7 @@
             {% set review_url = url({'for':'admin.review.list'},{'course_id':item.id}) %}
             {% set consult_url = url({'for':'admin.consult.list'},{'course_id':item.id}) %}
             <tr>
+                <td>{{ item.id }}</td>
                 <td>
                     <p>标题：<a href="{{ catalog_url }}">{{ item.title }}</a> {{ model_info(item.model) }}</p>
                     <p>{{ category_info(item.category) }}&nbsp;&nbsp;{{ teacher_info(item.teacher) }}&nbsp;&nbsp;{{ level_info(item.level) }}</p>

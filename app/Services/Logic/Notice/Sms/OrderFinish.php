@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services\Sms\Notice;
+namespace App\Services\Logic\Notice\Sms;
 
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Services\Smser;
 
-class RefundFinish extends Smser
+class OrderFinish extends Smser
 {
 
-    protected $templateCode = 'refund_finish';
+    protected $templateCode = 'order_finish';
 
     /**
      * @param UserModel $user
@@ -27,9 +27,9 @@ class RefundFinish extends Smser
         $templateId = $this->getTemplateId($this->templateCode);
 
         $params = [
-            $params['refund']['subject'],
-            $params['refund']['sn'],
-            $params['refund']['amount'],
+            $params['order']['subject'],
+            $params['order']['sn'],
+            $params['order']['amount'],
         ];
 
         return $this->send($account->phone, $templateId, $params);

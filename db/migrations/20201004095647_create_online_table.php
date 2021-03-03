@@ -81,35 +81,6 @@ class CreateOnlineTable extends Phinx\Migration\AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_task', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'DYNAMIC',
-        ])
-            ->save();
-        $this->table('kg_trade', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '主键编号',
-            'row_format' => 'DYNAMIC',
-        ])
-            ->changeColumn('channel_sn', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 64,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '平台序号',
-                'after' => 'channel',
-            ])
-            ->save();
     }
 
 }

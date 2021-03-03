@@ -2,18 +2,18 @@
 
 namespace App\Http\Home\Services;
 
-use App\Models\WechatSubscribe as WechatSubscribeModel;
+use App\Models\WeChatSubscribe as WeChatSubscribeModel;
 use App\Repos\User as UserRepo;
-use App\Repos\WechatSubscribe as WechatSubscribeRepo;
-use App\Services\Wechat as WechatService;
+use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
+use App\Services\WeChat as WeChatService;
 use EasyWeChat\Kernel\Messages\Text as TextMessage;
 
-class WechatOfficialAccount extends Service
+class WeChatOfficialAccount extends Service
 {
 
     public function getOfficialAccount()
     {
-        $service = new WechatService();
+        $service = new WeChatService();
 
         return $service->getOfficialAccount();
     }
@@ -33,24 +33,18 @@ class WechatOfficialAccount extends Service
     {
         $user = $this->getLoginUser();
 
-        $subscribeRepo = new WechatSubscribeRepo();
+        $subscribeRepo = new WeChatSubscribeRepo();
 
         $subscribe = $subscribeRepo->findByUserId($user->id);
 
-        $status = 0;
-
-        if ($subscribe) {
-            $status = $subscribe->deleted == 0 ? 1 : 0;
-        }
-
-        return $status;
+        return $subscribe ? 1 : 0;
     }
 
     public function handleNotify($message)
     {
-        $service = new WechatService();
+        $service = new WeChatService();
 
-        $service->logger->info('Received Message ' . json_encode($message));
+        $service->logger->debug('Received Message ' . json_encode($message));
 
         switch ($message['MsgType']) {
             case 'event':
@@ -107,17 +101,6 @@ class WechatOfficialAccount extends Service
 
     protected function handleSubscribeEvent($message)
     {
-        $openId = $message['FromUserName'] ?? '';
-
-        $subscribeRepo = new WechatSubscribeRepo();
-
-        $subscribe = $subscribeRepo->findByOpenId($openId);
-
-        if ($subscribe && $subscribe->deleted == 1) {
-            $subscribe->deleted = 0;
-            $subscribe->update();
-        }
-
         return new TextMessage('开心呀，我们又多了一个小伙伴!');
     }
 
@@ -125,13 +108,12 @@ class WechatOfficialAccount extends Service
     {
         $openId = $message['FromUserName'] ?? '';
 
-        $subscribeRepo = new WechatSubscribeRepo();
+        $subscribeRepo = new WeChatSubscribeRepo();
 
         $subscribe = $subscribeRepo->findByOpenId($openId);
 
-        if ($subscribe && $subscribe->deleted == 0) {
-            $subscribe->deleted = 1;
-            $subscribe->update();
+        if ($subscribe) {
+            $subscribe->delete();
         }
 
         return new TextMessage('伤心呀，我们又少了一个小伙伴!');
@@ -150,7 +132,7 @@ class WechatOfficialAccount extends Service
 
         if (!$user) return;
 
-        $subscribeRepo = new WechatSubscribeRepo();
+        $subscribeRepo = new WeChatSubscribeRepo();
 
         $subscribe = $subscribeRepo->findByOpenId($openId);
 
@@ -158,16 +140,15 @@ class WechatOfficialAccount extends Service
             if ($subscribe->user_id != $userId) {
                 $subscribe->user_id = $userId;
             }
-            if ($subscribe->deleted == 1) {
-                $subscribe->deleted = 0;
-            }
             $subscribe->update();
         } else {
-            $subscribe = new WechatSubscribeModel();
+            $subscribe = new WeChatSubscribeModel();
             $subscribe->user_id = $userId;
             $subscribe->open_id = $openId;
             $subscribe->create();
         }
+
+        return $this->emptyReply();
     }
 
     protected function handleClickEvent($message)

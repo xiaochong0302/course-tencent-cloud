@@ -15,7 +15,7 @@ class CleanLogTask extends Task
         $this->cleanSqlLog();
         $this->cleanListenLog();
         $this->cleanCaptchaLog();
-        $this->cleanWechatLog();
+        $this->cleanWeChatLog();
         $this->cleanMailLog();
         $this->cleanSmsLog();
         $this->cleanVodLog();
@@ -166,7 +166,7 @@ class CleanLogTask extends Task
     /**
      * 清理微信服务日志
      */
-    protected function cleanWechatLog()
+    protected function cleanWeChatLog()
     {
         $type = 'wechat';
 

@@ -18,9 +18,7 @@ class ConnectDelete extends Service
 
         $validator->checkOwner($user->id, $connect->user_id);
 
-        $connect->deleted = 1;
-
-        $connect->update();
+        $connect->delete();
     }
 
 }
