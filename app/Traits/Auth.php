@@ -3,7 +3,9 @@
 namespace App\Traits;
 
 use App\Caches\User as UserCache;
+use App\Exceptions\Unauthorized as UnauthorizedException;
 use App\Models\User as UserModel;
+use App\Repos\User as UserRepo;
 use App\Services\Auth as AuthService;
 use App\Validators\Validator as AppValidator;
 use Phalcon\Di as Di;
@@ -12,9 +14,10 @@ trait Auth
 {
 
     /**
+     * @param bool $cache
      * @return UserModel
      */
-    public function getCurrentUser()
+    public function getCurrentUser($cache = false)
     {
         $authUser = $this->getAuthUser();
 
@@ -22,15 +25,23 @@ trait Auth
             return $this->getGuestUser();
         }
 
-        $userCache = new UserCache();
+        if ($cache == false) {
+            $userRepo = new UserRepo();
+            $user = $userRepo->findById($authUser['id']);
+        } else {
+            $userCache = new UserCache();
+            $user = $userCache->get($authUser['id']);
+        }
 
-        return $userCache->get($authUser['id']);
+        return $user;
     }
 
     /**
+     * @param bool $cache
      * @return UserModel
+     * @throws UnauthorizedException
      */
-    public function getLoginUser()
+    public function getLoginUser($cache = false)
     {
         $authUser = $this->getAuthUser();
 
@@ -38,9 +49,15 @@ trait Auth
 
         $validator->checkAuthUser($authUser['id']);
 
-        $userCache = new UserCache();
+        if ($cache == false) {
+            $userRepo = new UserRepo();
+            $user = $userRepo->findById($authUser['id']);
+        } else {
+            $userCache = new UserCache();
+            $user = $userCache->get($authUser['id']);
+        }
 
-        return $userCache->get($authUser['id']);
+        return $user;
     }
 
     /**
