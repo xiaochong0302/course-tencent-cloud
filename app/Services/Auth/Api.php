@@ -24,8 +24,6 @@ class Api extends AuthService
          */
         // $this->logoutOtherClients($user->id);
 
-        $this->logoutOtherClients($user->id);
-
         $this->createUserToken($user->id, $token, $lifetime);
 
         $cache = $this->getCache();

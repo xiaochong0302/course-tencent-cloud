@@ -19,8 +19,6 @@ class Home extends AuthService
 
         $lifetime = $this->getSessionLifetime();
 
-        $this->logoutOtherClients($user->id);
-
         /**
          * demo版本不限制多人登录
          */
