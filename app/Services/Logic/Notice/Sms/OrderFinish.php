@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Sms\Notice;
+namespace App\Services\Logic\Notice\Sms;
 
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;

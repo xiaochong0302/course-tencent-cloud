@@ -42,18 +42,9 @@ class ChapterLike extends Service
 
         } else {
 
-            if ($chapterLike->deleted == 0) {
+            $chapterLike->delete();
 
-                $chapterLike->update(['deleted' => 1]);
-
-                $this->decrLikeCount($chapter);
-
-            } else {
-
-                $chapterLike->update(['deleted' => 0]);
-
-                $this->incrLikeCount($chapter);
-            }
+            $this->decrLikeCount($chapter);
         }
 
         $this->incrUserDailyChapterLikeCount($user);

@@ -43,7 +43,7 @@ class ChapterUser extends Repository
     public function findChapterUser($chapterId, $userId)
     {
         return ChapterUserModel::findFirst([
-            'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND deleted = 0',
+            'conditions' => 'chapter_id = ?1 AND user_id = ?2',
             'bind' => [1 => $chapterId, 2 => $userId],
             'order' => 'id DESC',
         ]);
@@ -58,7 +58,7 @@ class ChapterUser extends Repository
     public function findPlanChapterUser($chapterId, $userId, $planId)
     {
         return ChapterUserModel::findFirst([
-            'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND plan_id = ?3 AND deleted = 0',
+            'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND plan_id = ?3',
             'bind' => [1 => $chapterId, 2 => $userId, 3 => $planId],
         ]);
     }

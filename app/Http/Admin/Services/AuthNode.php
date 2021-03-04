@@ -795,6 +795,12 @@ class AuthNode extends Service
                             'route' => 'admin.setting.vip',
                         ],
                         [
+                            'id' => '5-1-14',
+                            'title' => '积分设置',
+                            'type' => 'menu',
+                            'route' => 'admin.setting.point',
+                        ],
+                        [
                             'id' => '5-1-11',
                             'title' => '微聊设置',
                             'type' => 'menu',
@@ -817,12 +823,6 @@ class AuthNode extends Service
                             'title' => '钉钉机器人',
                             'type' => 'menu',
                             'route' => 'admin.setting.dingtalk_robot',
-                        ],
-                        [
-                            'id' => '5-1-14',
-                            'title' => '积分设置',
-                            'type' => 'menu',
-                            'route' => 'admin.setting.point',
                         ],
                     ],
                 ],

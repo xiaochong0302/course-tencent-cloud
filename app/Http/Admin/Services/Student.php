@@ -45,7 +45,6 @@ class Student extends Service
         $params = $pagerQuery->getParams();
 
         $params['role_type'] = CourseUserModel::ROLE_STUDENT;
-        $params['deleted'] = $params['deleted'] ?? 0;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();

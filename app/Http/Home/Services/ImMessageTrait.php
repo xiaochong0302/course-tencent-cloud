@@ -11,7 +11,7 @@ use App\Models\ImMessage as ImMessageModel;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
 use App\Repos\ImMessage as ImMessageRepo;
 use App\Repos\ImUser as ImUserRepo;
-use App\Services\DingTalk\Notice\CustomService as CustomServiceNotice;
+use App\Services\Logic\Notice\DingTalk\CustomService as CustomServiceNotice;
 use App\Validators\ImFriendUser as ImFriendUserValidator;
 use App\Validators\ImGroup as ImGroupValidator;
 use App\Validators\ImGroupUser as ImGroupUserValidator;

@@ -75,8 +75,12 @@
                 </td>
                 <td>{{ source_type_info(item.source_type) }}</td>
                 <td>
-                    <p>开始：{{ date('Y-m-d H:i',item.create_time) }}</p>
-                    <p>结束：{{ date('Y-m-d H:i',item.expiry_time) }}</p>
+                    {% if item.source_type in [1,3] %}
+                        N/A
+                    {% else %}
+                        <p>开始：{{ date('Y-m-d H:i',item.create_time) }}</p>
+                        <p>结束：{{ date('Y-m-d H:i',item.expiry_time) }}</p>
+                    {% endif %}
                 </td>
                 <td class="center">
                     <div class="layui-dropdown">

@@ -6,16 +6,21 @@ use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Repos\Refund as RefundRepo;
 use App\Repos\User as UserRepo;
-use App\Repos\WechatSubscribe as WechatSubscribeRepo;
+use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
+use App\Services\Logic\Notice\Sms\RefundFinish as SmsRefundFinishNotice;
+use App\Services\Logic\Notice\WeChat\OrderFinish as WeChatRefundFinishNotice;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Sms\Notice\RefundFinish as SmsRefundFinishNotice;
-use App\Services\Wechat\Notice\RefundFinish as WechatRefundFinishNotice;
 
 class RefundFinish extends LogicService
 {
 
     public function handleTask(TaskModel $task)
     {
+        $wechatNoticeEnabled = $this->wechatNoticeEnabled();
+        $smsNoticeEnabled = $this->smsNoticeEnabled();
+
+        if (!$wechatNoticeEnabled && !$smsNoticeEnabled) return;
+
         $refundId = $task->item_info['refund']['id'];
 
         $refundRepo = new RefundRepo();
@@ -40,17 +45,17 @@ class RefundFinish extends LogicService
             ],
         ];
 
-        $subscribeRepo = new WechatSubscribeRepo();
+        $subscribeRepo = new WeChatSubscribeRepo();
 
         $subscribe = $subscribeRepo->findByUserId($refund->owner_id);
 
-        if ($subscribe && $subscribe->deleted == 0) {
+        if ($wechatNoticeEnabled && $subscribe) {
 
-            $notice = new WechatRefundFinishNotice();
+            $notice = new WeChatRefundFinishNotice();
 
             return $notice->handle($subscribe, $params);
 
-        } else {
+        } elseif ($smsNoticeEnabled) {
 
             $notice = new SmsRefundFinishNotice();
 
@@ -60,6 +65,11 @@ class RefundFinish extends LogicService
 
     public function createTask(RefundModel $refund)
     {
+        $wechatNoticeEnabled = $this->wechatNoticeEnabled();
+        $smsNoticeEnabled = $this->smsNoticeEnabled();
+
+        if (!$wechatNoticeEnabled && !$smsNoticeEnabled) return;
+
         $task = new TaskModel();
 
         $itemInfo = [
@@ -73,6 +83,30 @@ class RefundFinish extends LogicService
         $task->status = TaskModel::STATUS_PENDING;
 
         $task->create();
+    }
+
+    public function wechatNoticeEnabled()
+    {
+        $oa = $this->getSettings('wechat.oa');
+
+        if ($oa['enabled'] == 0) return false;
+
+        $template = json_decode($oa['notice_template'], true);
+
+        $result = $template['refund_finish']['enabled'] ?? 0;
+
+        return $result == 1;
+    }
+
+    public function smsNoticeEnabled()
+    {
+        $sms = $this->getSettings('sms');
+
+        $template = json_decode($sms['template'], true);
+
+        $result = $template['refund_finish']['enabled'] ?? 0;
+
+        return $result == 1;
     }
 
 }

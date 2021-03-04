@@ -317,7 +317,7 @@ class Course extends Repository
     public function countFavorites($courseId)
     {
         return (int)CourseFavoriteModel::count([
-            'conditions' => 'course_id = :course_id: AND deleted = 0',
+            'conditions' => 'course_id = :course_id:',
             'bind' => ['course_id' => $courseId],
         ]);
     }

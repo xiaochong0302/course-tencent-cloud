@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Services\Wechat\Notice;
+namespace App\Services\Logic\Notice\WeChat;
 
-use App\Models\WechatSubscribe as WechatSubscribeModel;
-use App\Services\WechatNotice;
+use App\Models\WeChatSubscribe as WeChatSubscribeModel;
+use App\Services\WeChatNotice;
 
-class OrderFinish extends WechatNotice
+class OrderFinish extends WeChatNotice
 {
 
     protected $templateCode = 'order_finish';
 
     /**
-     * @param WechatSubscribeModel $subscribe
+     * @param WeChatSubscribeModel $subscribe
      * @param array $params
      * @return bool
      */
-    public function handle(WechatSubscribeModel $subscribe, $params)
+    public function handle(WeChatSubscribeModel $subscribe, $params)
     {
 
         $first = '订单已处理完成！';

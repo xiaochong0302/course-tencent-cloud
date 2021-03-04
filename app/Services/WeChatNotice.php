@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Services\Wechat as WechatService;
+use App\Services\WeChat as WeChatService;
 use Phalcon\Logger\Adapter\File as FileLogger;
 
-Abstract class WechatNotice extends Service
+abstract class WeChatNotice extends Service
 {
 
     /**
@@ -37,7 +37,7 @@ Abstract class WechatNotice extends Service
      */
     public function send($openId, $templateId, $params, $url = null, $miniProgram = [])
     {
-        $service = new WechatService();
+        $service = new WeChatService();
 
         $app = $service->getOfficialAccount();
 
@@ -97,7 +97,7 @@ Abstract class WechatNotice extends Service
     {
         $template = json_decode($this->settings['notice_template'], true);
 
-        return $template[$code] ?? null;
+        return $template[$code]['id'] ?? null;
     }
 
 }

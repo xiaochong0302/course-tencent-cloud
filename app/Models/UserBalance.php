@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
-
 class UserBalance extends Model
 {
 
@@ -29,13 +27,6 @@ class UserBalance extends Model
     public $point = 0;
 
     /**
-     * 删除标识
-     *
-     * @var int
-     */
-    public $deleted = 0;
-
-    /**
      * 创建时间
      *
      * @var int
@@ -52,18 +43,6 @@ class UserBalance extends Model
     public function getSource(): string
     {
         return 'kg_user_balance';
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->addBehavior(
-            new SoftDelete([
-                'field' => 'deleted',
-                'value' => 1,
-            ])
-        );
     }
 
     public function beforeCreate()

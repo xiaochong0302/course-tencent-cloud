@@ -123,7 +123,7 @@ class ConnectController extends Controller
                 return $this->response->redirect(['for' => 'home.uc.account']);
             }
         } else {
-            if ($connect && $connect->deleted == 0) {
+            if ($connect) {
                 $service->authLogin($connect);
                 return $this->response->redirect(['for' => 'home.index']);
             }

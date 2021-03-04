@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services\Sms\Notice;
+namespace App\Services\Logic\Notice\Sms;
 
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Services\Smser;
 
-class RefundFinish extends Smser
+class LiveBegin extends Smser
 {
 
-    protected $templateCode = 'refund_finish';
+    protected $templateCode = 'live_begin';
 
     /**
      * @param UserModel $user
@@ -18,19 +18,21 @@ class RefundFinish extends Smser
      */
     public function handle(UserModel $user, array $params)
     {
+        $params['live']['start_time'] = date('H:i', $params['live']['start_time']);
+
         $accountRepo = new AccountRepo();
 
         $account = $accountRepo->findById($user->id);
 
         if (!$account->phone) return null;
 
-        $templateId = $this->getTemplateId($this->templateCode);
-
         $params = [
-            $params['refund']['subject'],
-            $params['refund']['sn'],
-            $params['refund']['amount'],
+            $params['course']['title'],
+            $params['chapter']['title'],
+            $params['live']['start_time'],
         ];
+
+        $templateId = $this->getTemplateId($this->templateCode);
 
         return $this->send($account->phone, $templateId, $params);
     }

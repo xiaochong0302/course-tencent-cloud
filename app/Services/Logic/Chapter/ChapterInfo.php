@@ -6,10 +6,12 @@ use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
+use App\Models\ImGroup as ImGroupModel;
 use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\User as UserModel;
 use App\Repos\ChapterLike as ChapterLikeRepo;
 use App\Repos\ImGroup as ImGroupRepo;
+use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Service;
@@ -76,7 +78,7 @@ class ChapterInfo extends Service
 
             $like = $likeRepo->findChapterLike($chapter->id, $user->id);
 
-            if ($like && $like->deleted == 0) {
+            if ($like) {
                 $me['liked'] = 1;
             }
 
@@ -104,11 +106,17 @@ class ChapterInfo extends Service
 
         $courseUser = new CourseUserModel();
 
+        $roleType = CourseUserModel::ROLE_STUDENT;
+        $sourceType = CourseUserModel::SOURCE_FREE;
+
+        if ($course->market_price > 0 && $course->vip_price == 0 && $user->vip == 1) {
+            $sourceType = CourseUserModel::SOURCE_VIP;
+        }
+
         $courseUser->course_id = $course->id;
         $courseUser->user_id = $user->id;
-        $courseUser->source_type = CourseUserModel::SOURCE_FREE;
-        $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
-        $courseUser->expiry_time = strtotime('+3 years');
+        $courseUser->source_type = $sourceType;
+        $courseUser->role_type = $roleType;
 
         $courseUser->create();
 
@@ -120,12 +128,21 @@ class ChapterInfo extends Service
 
         $group = $groupRepo->findByCourseId($course->id);
 
-        $groupUser = new ImGroupUserModel();
+        $groupUserRepo = new ImGroupUserRepo();
 
-        $groupUser->group_id = $group->id;
-        $groupUser->user_id = $user->id;
+        $groupUser = $groupUserRepo->findGroupUser($group->id, $user->id);
 
-        $groupUser->create();
+        if (!$groupUser) {
+
+            $groupUser = new ImGroupUserModel();
+
+            $groupUser->group_id = $group->id;
+            $groupUser->user_id = $user->id;
+
+            $groupUser->create();
+
+            $this->incrGroupUserCount($group);
+        }
 
         $this->incrCourseUserCount($course);
 
@@ -177,6 +194,13 @@ class ChapterInfo extends Service
         $chapter->user_count += 1;
 
         $chapter->update();
+    }
+
+    protected function incrGroupUserCount(ImGroupModel $group)
+    {
+        $group->user_count += 1;
+
+        $group->update();
     }
 
 }

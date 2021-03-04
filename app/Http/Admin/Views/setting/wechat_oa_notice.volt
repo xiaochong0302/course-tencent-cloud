@@ -4,34 +4,64 @@
     <table class="layui-table kg-table layui-form">
         <colgroup>
             <col width="15%">
+            <col width="15%">
             <col>
         </colgroup>
         <thead>
         <tr>
             <th>模板名称</th>
+            <th>启用模板</th>
             <th>模板编号</th>
         </tr>
         </thead>
         <tbody>
         <tr>
             <td>登录成功通知</td>
-            <td><input class="layui-input" type="text" name="notice_template[account_login]" value="{{ notice_template.account_login }}" lay-verify="required"></td>
+            <td>
+                <input type="radio" name="notice_template[account_login][enabled]" value="1" title="是" {% if notice_template.account_login.enabled == "1" %}checked="checked"{% endif %}>
+                <input type="radio" name="notice_template[account_login][enabled]" value="0" title="否" {% if notice_template.account_login.enabled == "0" %}checked="checked"{% endif %}>
+            </td>
+            <td><input class="layui-input" type="text" name="notice_template[account_login][id]" value="{{ notice_template.account_login.id }}" lay-verify="required"></td>
         </tr>
         <tr>
-            <td>购买成功提醒</td>
-            <td><input class="layui-input" type="text" name="notice_template[order_finish]" value="{{ notice_template.order_finish }}" lay-verify="required"></td>
+            <td>购买成功通知</td>
+            <td>
+                <input type="radio" name="notice_template[order_finish][enabled]" value="1" title="是" {% if notice_template.order_finish.enabled == "1" %}checked="checked"{% endif %}>
+                <input type="radio" name="notice_template[order_finish][enabled]" value="0" title="否" {% if notice_template.order_finish.enabled == "0" %}checked="checked"{% endif %}>
+            </td>
+            <td><input class="layui-input" type="text" name="notice_template[order_finish][id]" value="{{ notice_template.order_finish.id }}" lay-verify="required"></td>
+        </tr>
+        <tr>
+            <td>商品发货通知</td>
+            <td>
+                <input type="radio" name="notice_template[goods_deliver][enabled]" value="1" title="是" {% if notice_template.goods_deliver.enabled == "1" %}checked="checked"{% endif %}>
+                <input type="radio" name="notice_template[goods_deliver][enabled]" value="0" title="否" {% if notice_template.goods_deliver.enabled == "0" %}checked="checked"{% endif %}>
+            </td>
+            <td><input class="layui-input" type="text" name="notice_template[goods_deliver][id]" value="{{ notice_template.goods_deliver.id }}" lay-verify="required"></td>
         </tr>
         <tr>
             <td>退款成功通知</td>
-            <td><input class="layui-input" type="text" name="notice_template[refund_finish]" value="{{ notice_template.refund_finish }}" lay-verify="required"></td>
+            <td>
+                <input type="radio" name="notice_template[refund_finish][enabled]" value="1" title="是" {% if notice_template.refund_finish.enabled == "1" %}checked="checked"{% endif %}>
+                <input type="radio" name="notice_template[refund_finish][enabled]" value="0" title="否" {% if notice_template.refund_finish.enabled == "0" %}checked="checked"{% endif %}>
+            </td>
+            <td><input class="layui-input" type="text" name="notice_template[refund_finish][id]" value="{{ notice_template.refund_finish.id }}" lay-verify="required"></td>
         </tr>
         <tr>
             <td>课程直播提醒</td>
-            <td><input class="layui-input" type="text" name="notice_template[live_begin]" value="{{ notice_template.live_begin }}" lay-verify="required"></td>
+            <td>
+                <input type="radio" name="notice_template[live_begin][enabled]" value="1" title="是" {% if notice_template.live_begin.enabled == "1" %}checked="checked"{% endif %}>
+                <input type="radio" name="notice_template[live_begin][enabled]" value="0" title="否" {% if notice_template.live_begin.enabled == "0" %}checked="checked"{% endif %}>
+            </td>
+            <td><input class="layui-input" type="text" name="notice_template[live_begin][id]" value="{{ notice_template.live_begin.id }}" lay-verify="required"></td>
         </tr>
         <tr>
-            <td>咨询结果通知</td>
-            <td><input class="layui-input" type="text" name="notice_template[consult_reply]" value="{{ notice_template.consult_reply }}" lay-verify="required"></td>
+            <td>咨询回复通知</td>
+            <td>
+                <input type="radio" name="notice_template[consult_reply][enabled]" value="1" title="是" {% if notice_template.consult_reply.enabled == "1" %}checked="checked"{% endif %}>
+                <input type="radio" name="notice_template[consult_reply][enabled]" value="0" title="否" {% if notice_template.consult_reply.enabled == "0" %}checked="checked"{% endif %}>
+            </td>
+            <td><input class="layui-input" type="text" name="notice_template[consult_reply][id]" value="{{ notice_template.consult_reply.id }}" lay-verify="required"></td>
         </tr>
         </tbody>
     </table>
