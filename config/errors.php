@@ -289,6 +289,7 @@ $error['refund.review_note_too_short'] = '审核备注太短（少于2个字符�
 $error['refund.review_note_too_long'] = '审核备注太长（多于255个字符）';
 $error['refund.cancel_not_allowed'] = '当前不允许取消退款';
 $error['refund.review_not_allowed'] = '当前不允许审核退款';
+$error['refund.invalid_amount'] = '无效的退款金额';
 $error['refund.invalid_status'] = '无效的状态类型';
 
 /**

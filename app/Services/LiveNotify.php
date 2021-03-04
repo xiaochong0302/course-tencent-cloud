@@ -35,9 +35,7 @@ class LiveNotify extends Service
                 'action' => $action,
             ]));
 
-        if (!$this->checkSign($sign, $time)) {
-            return false;
-        }
+        if (!$this->checkSign($sign, $time)) return false;
 
         $result = false;
 
@@ -125,7 +123,7 @@ class LiveNotify extends Service
      */
     protected function handleRecord()
     {
-
+        return true;
     }
 
     /**
@@ -133,7 +131,7 @@ class LiveNotify extends Service
      */
     protected function handleSnapshot()
     {
-
+        return true;
     }
 
     /**
@@ -141,7 +139,7 @@ class LiveNotify extends Service
      */
     protected function handlePorn()
     {
-
+        return true;
     }
 
     protected function handleStreamBeginNotice(ChapterModel $chapter)
@@ -153,9 +151,7 @@ class LiveNotify extends Service
 
         $keyName = "live_notify:{$chapter->id}";
 
-        if ($cache->get($keyName)) {
-            return;
-        }
+        if ($cache->get($keyName)) return;
 
         $cache->save($keyName, time(), 86400);
 
@@ -163,9 +159,7 @@ class LiveNotify extends Service
 
         $courseUsers = $courseUserRepo->findByCourseId($chapter->course_id);
 
-        if ($courseUsers->count() == 0) {
-            return;
-        }
+        if ($courseUsers->count() == 0) return;
 
         $notice = new LiveBeginNotice();
 
@@ -206,13 +200,9 @@ class LiveNotify extends Service
      */
     protected function checkSign($sign, $time)
     {
-        if (!$sign || !$time) {
-            return false;
-        }
+        if (!$sign || !$time) return false;
 
-        if ($time < time()) {
-            return false;
-        }
+        if ($time < time()) return false;
 
         $notify = $this->getSettings('live.notify');
 

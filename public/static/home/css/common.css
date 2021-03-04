@@ -1688,17 +1688,14 @@
 }
 
 .order-card {
-    padding: 10px 0;
+    padding-bottom: 20px;
     margin-bottom: 20px;
-    background-color: white;
+    border-bottom: 1px dashed #e6e6e6;
     color: #666;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .order-card .header {
-    padding-bottom: 10px;
     margin-bottom: 10px;
-    border-bottom: 1px solid #e6e6e6;
 }
 
 .order-card .header span {

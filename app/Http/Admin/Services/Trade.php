@@ -94,9 +94,26 @@ class Trade extends Service
         return $accountRepo->findById($userId);
     }
 
+    public function confirmRefund($tradeId)
+    {
+        $trade = $this->findOrFail($tradeId);
+
+        $orderRepo = new OrderRepo();
+
+        $order = $orderRepo->findById($trade->order_id);
+
+        $refund = new \App\Services\Refund();
+
+        return $refund->preview($order);
+    }
+
     public function refundTrade($id)
     {
         $trade = $this->findOrFail($id);
+
+        $user = $this->getLoginUser();
+
+        $post = $this->request->getPost();
 
         $validator = new TradeValidator();
 
@@ -104,9 +121,11 @@ class Trade extends Service
 
         $validator = new RefundValidator();
 
-        $refundAmount = $this->getRefundAmount($trade);
+        $applyNote = $validator->checkApplyNote($post['apply_note']);
 
-        $validator->checkAmount($trade->amount, $refundAmount);
+        $refundAmount = $validator->checkAmount($trade->amount, $post['refund_amount']);
+
+        $applyNote = sprintf('%s - 操作员（%s）', $applyNote, $user->id);
 
         $refund = new RefundModel();
 
@@ -115,24 +134,11 @@ class Trade extends Service
         $refund->owner_id = $trade->owner_id;
         $refund->order_id = $trade->order_id;
         $refund->trade_id = $trade->id;
-        $refund->apply_note = '后台人工申请退款';
+        $refund->apply_note = $applyNote;
 
         $refund->create();
 
         return $refund;
-    }
-
-    protected function getRefundAmount(TradeModel $trade)
-    {
-        $orderRepo = new OrderRepo();
-
-        $order = $orderRepo->findById($trade->order_id);
-
-        $refund = new \App\Services\Refund();
-
-        $preview = $refund->preview($order);
-
-        return $preview['refund_amount'];
     }
 
     protected function findOrFail($id)

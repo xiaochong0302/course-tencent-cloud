@@ -8,7 +8,7 @@ use App\Repos\Refund as RefundRepo;
 use App\Repos\User as UserRepo;
 use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Logic\Notice\Sms\RefundFinish as SmsRefundFinishNotice;
-use App\Services\Logic\Notice\WeChat\OrderFinish as WeChatRefundFinishNotice;
+use App\Services\Logic\Notice\WeChat\RefundFinish as WeChatRefundFinishNotice;
 use App\Services\Logic\Service as LogicService;
 
 class RefundFinish extends LogicService
