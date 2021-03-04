@@ -27,9 +27,6 @@ class Refund extends Service
 
     protected function previewCourseRefund(OrderModel $order)
     {
-        /**
-         * @var array $itemInfo
-         */
         $itemInfo = $order->item_info;
 
         $itemInfo['course']['cover'] = kg_cos_cover_url($itemInfo['course']['cover']);
@@ -54,9 +51,6 @@ class Refund extends Service
 
     protected function previewPackageRefund(OrderModel $order)
     {
-        /**
-         * @var array $itemInfo
-         */
         $itemInfo = $order->item_info;
 
         $totalMarketPrice = 0.00;
@@ -101,36 +95,23 @@ class Refund extends Service
 
         $courseLessons = $courseRepo->findLessons($courseId);
 
-        if ($courseLessons->count() == 0) {
-            return 1.00;
-        }
+        if ($courseLessons->count() == 0) return 1.00;
 
         $courseUserRepo = new CourseUserRepo();
 
         $courseUser = $courseUserRepo->findCourseUser($courseId, $userId);
 
-        if (!$courseUser) {
-            return 1.00;
-        }
+        if (!$courseUser) return 1.00;
 
         $userLearnings = $courseRepo->findUserLearnings($courseId, $userId, $courseUser->plan_id);
 
-        if ($userLearnings->count() == 0) {
-            return 1.00;
-        }
+        if ($userLearnings->count() == 0) return 1.00;
 
-        /**
-         * @var array $consumedUserLearnings
-         */
         $consumedUserLearnings = $userLearnings->filter(function ($item) {
-            if ($item->consumed == 1) {
-                return $item;
-            }
+            if ($item->consumed == 1) return $item;
         });
 
-        if (count($consumedUserLearnings) == 0) {
-            return 1.00;
-        }
+        if (count($consumedUserLearnings) == 0) return 1.00;
 
         $courseLessonIds = kg_array_column($courseLessons->toArray(), 'id');
         $consumedUserLessonIds = kg_array_column($consumedUserLearnings, 'chapter_id');

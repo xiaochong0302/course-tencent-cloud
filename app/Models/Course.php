@@ -408,6 +408,7 @@ class Course extends Model
     public static function refundExpiryOptions()
     {
         return [
+            0 => '0天',
             7 => '7天',
             14 => '14天',
             30 => '30天',
