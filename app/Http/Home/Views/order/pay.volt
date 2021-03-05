@@ -48,3 +48,14 @@
     {{ js_include('home/js/order.pay.js') }}
 
 {% endblock %}
+
+{% block inline_js %}
+
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+            layer.alert('演示站点，请不要付款，后果自负！！！', {title: '警告', icon: 7});
+        });
+    </script>
+
+{% endblock %}
