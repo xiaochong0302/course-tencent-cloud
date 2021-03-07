@@ -489,11 +489,12 @@
     height: 118px;
 }
 
-.course-meta .info span {
+.course-meta .info .key {
     margin-right: 5px;
 }
 
 .course-meta .info .value {
+    margin-right: 5px;
     color: #666;
 }
 
@@ -1074,9 +1075,13 @@
     float: left;
 }
 
-.cart-course-card span {
+.cart-course-card .key {
+    margin-right: 5px;
+}
+
+.cart-course-card .value {
+    margin-right: 5px;
     color: #666;
-    margin: 0 5px;
 }
 
 .cart-course-card .origin-price {

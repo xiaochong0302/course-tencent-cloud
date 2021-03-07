@@ -4,7 +4,7 @@
         <div class="kg-order-item">
             <p>课程名称：{{ course['title'] }}</p>
             <p>优惠价格：{{ '￥%0.2f'|format(course['market_price']) }}，会员价格：{{ '￥%0.2f'|format(course['vip_price']) }}</p>
-            <p>学习期限：{{ date('Y-m-d H:i:s',course['study_expiry_time']) }}，退款期限：{{ date('Y-m-d H:i:s',course['refund_expiry_time']) }}</p>
+            <p>学习期限：{{ date('Y-m-d',course['study_expiry_time']) }}，退款期限：{% if course['refund_expiry'] > 0 %}{{ date('Y-m-d',course['refund_expiry_time']) }}{% else %}不支持{% endif %}</p>
         </div>
     {% elseif order.item_type == 2 %}
         {% set courses = order.item_info['courses'] %}
@@ -12,7 +12,7 @@
             <div class="kg-order-item">
                 <p>课程名称：{{ course['title'] }}</p>
                 <p>优惠价格：{{ '￥%0.2f'|format(course['market_price']) }}，会员价格：{{ '￥%0.2f'|format(course['vip_price']) }}</p>
-                <p>学习期限：{{ date('Y-m-d H:i:s',course['study_expiry_time']) }}，退款期限：{{ date('Y-m-d H:i:s',course['refund_expiry_time']) }}</p>
+                <p>学习期限：{{ date('Y-m-d',course['study_expiry_time']) }}，退款期限：{% if course['refund_expiry'] > 0 %}{{ date('Y-m-d',course['refund_expiry_time']) }}{% else %}不支持{% endif %}</p>
             </div>
         {% endfor %}
     {% elseif order.item_type == 3 %}
