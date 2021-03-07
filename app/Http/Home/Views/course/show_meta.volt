@@ -28,7 +28,11 @@
 {%- macro meta_expiry_info(course) %}
     <p class="item">
         <span class="key">学习期限</span><span class="value">{{ course.study_expiry }}个月</span>
-        <span class="key">退款期限</span><span class="value">{{ course.refund_expiry }}天</span>
+        {% if course.refund_expiry > 0 %}
+            <span class="key">退款期限</span><span class="value">{{ course.refund_expiry }}天</span>
+        {% else %}
+            <span class="key">退款期限</span><span class="value">不支持</span>
+        {% endif %}
     </p>
 {%- endmacro %}
 
