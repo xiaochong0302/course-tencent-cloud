@@ -91,7 +91,7 @@ class Setting extends Service
     {
         $vipRepo = new VipRepo();
 
-        return $vipRepo->findAll(['deleted' => 0]);
+        return $vipRepo->findAll();
     }
 
     public function getLiveSettings($section)
@@ -208,9 +208,13 @@ class Setting extends Service
     {
         $vipRepo = new VipRepo();
 
-        foreach ($items as $id => $price) {
+        foreach ($items as $id => $item) {
             $vip = $vipRepo->findById($id);
-            $vip->price = $price;
+            if (!$vip) continue;
+            $vip->title = sprintf('%s个月', $item['expiry']);
+            $vip->expiry = (int)$item['expiry'];
+            $vip->price = (float)$item['price'];
+            $vip->deleted = (int)$item['deleted'];
             $vip->update();
         }
     }

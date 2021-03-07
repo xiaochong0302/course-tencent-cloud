@@ -282,7 +282,7 @@ class SettingController extends Controller
 
         if ($this->request->isPost()) {
 
-            $data = $this->request->getPost('vip', 'string');
+            $data = $this->request->getPost('vip');
 
             $settingService->updateVipSettings($data);
 
@@ -290,9 +290,9 @@ class SettingController extends Controller
 
         } else {
 
-            $vips = $settingService->getVipSettings();
+            $items = $settingService->getVipSettings();
 
-            $this->view->setVar('vips', $vips);
+            $this->view->setVar('items', $items);
         }
     }
 
