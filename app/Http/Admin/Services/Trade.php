@@ -10,6 +10,7 @@ use App\Repos\Account as AccountRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Trade as TradeRepo;
 use App\Repos\User as UserRepo;
+use App\Validators\Refund as RefundValidator;
 use App\Validators\Trade as TradeValidator;
 
 class Trade extends Service
@@ -101,10 +102,16 @@ class Trade extends Service
 
         $validator->checkIfAllowRefund($trade);
 
+        $validator = new RefundValidator();
+
+        $refundAmount = $this->getRefundAmount($trade);
+
+        $validator->checkAmount($trade->amount, $refundAmount);
+
         $refund = new RefundModel();
 
+        $refund->amount = $refundAmount;
         $refund->subject = $trade->subject;
-        $refund->amount = $trade->amount;
         $refund->owner_id = $trade->owner_id;
         $refund->order_id = $trade->order_id;
         $refund->trade_id = $trade->id;
@@ -113,6 +120,19 @@ class Trade extends Service
         $refund->create();
 
         return $refund;
+    }
+
+    protected function getRefundAmount(TradeModel $trade)
+    {
+        $orderRepo = new OrderRepo();
+
+        $order = $orderRepo->findById($trade->order_id);
+
+        $refund = new \App\Services\Refund();
+
+        $preview = $refund->preview($order);
+
+        return $preview['refund_amount'];
     }
 
     protected function findOrFail($id)

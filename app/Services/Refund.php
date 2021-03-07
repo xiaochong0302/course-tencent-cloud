@@ -3,15 +3,22 @@
 namespace App\Services;
 
 use App\Models\Order as OrderModel;
+use App\Models\Trade as TradeModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
+use App\Repos\Order as OrderRepo;
 
 class Refund extends Service
 {
 
     public function preview(OrderModel $order)
     {
-        $result = [];
+        $result = [
+            'item_type' => 0,
+            'item_info' => [],
+            'refund_amount' => 0.00,
+            'service_fee' => 0.00,
+        ];
 
         switch ($order->item_type) {
             case OrderModel::ITEM_COURSE:
@@ -19,6 +26,9 @@ class Refund extends Service
                 break;
             case OrderModel::ITEM_PACKAGE:
                 $result = $this->previewPackageRefund($order);
+                break;
+            default:
+                $result = $this->previewOtherRefund($order);
                 break;
         }
 
@@ -31,12 +41,14 @@ class Refund extends Service
 
         $itemInfo['course']['cover'] = kg_cos_cover_url($itemInfo['course']['cover']);
 
+        $serviceFee = $this->getServiceFee($order);
+
         $refundPercent = 0.00;
         $refundAmount = 0.00;
 
         if ($itemInfo['course']['refund_expiry_time'] > time()) {
             $refundPercent = $this->getCourseRefundPercent($order->item_id, $order->owner_id);
-            $refundAmount = $order->amount * $refundPercent;
+            $refundAmount = round(($order->amount - $serviceFee) * $refundPercent, 2);
         }
 
         $itemInfo['course']['refund_percent'] = $refundPercent;
@@ -46,12 +58,15 @@ class Refund extends Service
             'item_type' => $order->item_type,
             'item_info' => $itemInfo,
             'refund_amount' => $refundAmount,
+            'service_fee' => $serviceFee,
         ];
     }
 
     protected function previewPackageRefund(OrderModel $order)
     {
         $itemInfo = $order->item_info;
+
+        $serviceFee = $this->getServiceFee($order);
 
         $totalMarketPrice = 0.00;
 
@@ -74,7 +89,7 @@ class Refund extends Service
             if ($course['refund_expiry_time'] > time()) {
                 $pricePercent = round($course['market_price'] / $totalMarketPrice, 4);
                 $refundPercent = $this->getCourseRefundPercent($course['id'], $order->owner_id);
-                $refundAmount = round($order->amount * $pricePercent * $refundPercent, 2);
+                $refundAmount = round(($order->amount - $serviceFee) * $pricePercent * $refundPercent, 2);
                 $totalRefundAmount += $refundAmount;
             }
 
@@ -86,7 +101,45 @@ class Refund extends Service
             'item_type' => $order->item_type,
             'item_info' => $itemInfo,
             'refund_amount' => $totalRefundAmount,
+            'service_fee' => $serviceFee,
         ];
+    }
+
+    protected function previewOtherRefund(OrderModel $order)
+    {
+        $serviceFee = $this->getServiceFee($order);
+
+        $refundAmount = round($order->amount - $serviceFee, 2);
+
+        return [
+            'item_type' => $order->item_type,
+            'item_info' => [],
+            'refund_amount' => $refundAmount,
+            'service_fee' => $serviceFee,
+        ];
+    }
+
+    protected function getServiceFee(OrderModel $order)
+    {
+        $orderRepo = new OrderRepo();
+
+        $trade = $orderRepo->findLastTrade($order->id);
+
+        $alipay = $this->getSettings('pay.alipay');
+        $wxpay = $this->getSettings('pay.wxpay');
+
+        $serviceRate = 5;
+
+        switch ($trade->channel) {
+            case TradeModel::CHANNEL_ALIPAY:
+                $serviceRate = $alipay['service_rate'] ?: $serviceRate;
+                break;
+            case TradeModel::CHANNEL_WXPAY:
+                $serviceRate = $wxpay['service_rate'] ?: $serviceRate;
+                break;
+        }
+
+        return round($order->amount * $serviceRate / 100, 2);
     }
 
     protected function getCourseRefundPercent($courseId, $userId)

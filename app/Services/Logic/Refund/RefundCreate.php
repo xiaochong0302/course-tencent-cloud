@@ -70,11 +70,7 @@ class RefundCreate extends Service
             $task = new TaskModel();
 
             $itemInfo = [
-                'refund' => [
-                    'id' => $refund->id,
-                    'order_id' => $refund->order_id,
-                    'trade_id' => $refund->trade_id,
-                ],
+                'refund' => ['id' => $refund->id],
             ];
 
             $task->item_id = $refund->id;

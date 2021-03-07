@@ -7,7 +7,7 @@
     {% set order_pay_url = url({'for':'home.order.pay'},{'sn':order.sn}) %}
     {% set refund_confirm_url = url({'for':'home.refund.confirm'},{'sn':order.sn}) %}
 
-    <table class="layui-table order-table" lay-size="lg">
+    <table class="layui-table order-table">
         <tr>
             <td colspan="2">
                 订单金额：<span class="price">{{ '￥%0.2f'|format(order.amount) }}</span>
