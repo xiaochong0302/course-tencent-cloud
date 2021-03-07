@@ -39,8 +39,8 @@ class RefundTask extends Task
             $itemInfo = $task->item_info;
 
             $refund = $refundRepo->findById($itemInfo['refund']['id']);
-            $trade = $tradeRepo->findById($itemInfo['refund']['trade_id']);
-            $order = $orderRepo->findById($itemInfo['refund']['order_id']);
+            $trade = $tradeRepo->findById($refund->trade_id);
+            $order = $orderRepo->findById($refund->order_id);
 
             if (!$refund || !$trade || !$order) {
                 $task->status = TaskModel::STATUS_FAILED;

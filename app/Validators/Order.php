@@ -5,6 +5,7 @@ namespace App\Validators;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Order as OrderModel;
 use App\Models\Refund as RefundModel;
+use App\Models\Trade as TradeModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Package as PackageRepo;
@@ -153,6 +154,12 @@ class Order extends Validator
         }
 
         $orderRepo = new OrderRepo();
+
+        $trade = $orderRepo->findLastTrade($order->id);
+
+        if ($trade->status != TradeModel::STATUS_FINISHED) {
+            throw new BadRequestException('order.refund_not_allowed');
+        }
 
         $refund = $orderRepo->findLastRefund($order->id);
 
