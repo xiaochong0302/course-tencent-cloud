@@ -14,7 +14,7 @@ class WeChatOfficialAccountController extends \Phalcon\Mvc\Controller
     use ResponseTrait;
 
     /**
-     * @Get("/subscribe/status", name="home.wechat.oa.sub_status")
+     * @Get("/subscribe/status", name="home.wechat_oa.sub_status")
      */
     public function subscribeStatusAction()
     {
@@ -26,7 +26,7 @@ class WeChatOfficialAccountController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/subscribe/qrcode", name="home.wechat.oa.sub_qrcode")
+     * @Get("/subscribe/qrcode", name="home.wechat_oa.sub_qrcode")
      */
     public function subscribeQrCodeAction()
     {
@@ -38,7 +38,7 @@ class WeChatOfficialAccountController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/notify", name="home.wechat.oa.verify")
+     * @Get("/notify", name="home.wechat_oa.verify")
      */
     public function verifyAction()
     {
@@ -54,7 +54,7 @@ class WeChatOfficialAccountController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Post("/notify", name="home.wechat.oa.notify")
+     * @Post("/notify", name="home.wechat_oa.notify")
      */
     public function notifyAction()
     {
