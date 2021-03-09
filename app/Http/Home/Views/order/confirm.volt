@@ -13,13 +13,17 @@
             <div class="info">
                 <p><a href="{{ course_url }}" target="_blank">{{ course.title }}</a></p>
                 <p>
-                    原始价格 <span class="origin-price">{{ '￥%0.2f'|format(course.origin_price) }}</span>
-                    优惠价格 <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
-                    会员价格 <span class="price">{{ '￥%0.2f'|format(course.vip_price) }}</span>
+                    <span class="key">原始价格</span><span class="value origin-price">{{ '￥%0.2f'|format(course.origin_price) }}</span>
+                    <span class="key">优惠价格</span><span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
+                    <span class="key">会员价格</span><span class="price">{{ '￥%0.2f'|format(course.vip_price) }}</span>
                 </p>
                 <p>
-                    学习期限 <span class="expiry">{{ course.study_expiry }}个月</span>
-                    退款期限 <span class="expiry">{{ course.refund_expiry }}天</span>
+                    <span class="key">学习期限</span><span class="value">{{ course.study_expiry }}个月</span>
+                    {% if course.refund_expiry > 0 %}
+                        <span class="key">退款期限</span><span class="value">{{ course.refund_expiry }}天</span>
+                    {% else %}
+                        <span class="key">退款期限</span><span class="value">不支持</span>
+                    {% endif %}
                 </p>
             </div>
         </div>

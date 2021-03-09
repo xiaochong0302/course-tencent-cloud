@@ -22,7 +22,7 @@ class Vip extends Model
     public $title = '';
 
     /**
-     * 期限（天）
+     * 期限（月）
      *
      * @var int
      */

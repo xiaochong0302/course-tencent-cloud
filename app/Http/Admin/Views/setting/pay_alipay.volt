@@ -7,6 +7,17 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">手续费率</label>
+        <div class="layui-input-block">
+            <select name="service_rate" lay-verify="number">
+                {% for value in 1..30 %}
+                    {% set selected = (value == alipay.service_rate) ? 'selected="selected"' : '' %}
+                    <option value="{{ value }}" {{ selected }}>{{ value }}%</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">App ID</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="app_id" value="{{ alipay.app_id }}" lay-verify="required">

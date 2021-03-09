@@ -24,29 +24,31 @@
         {% endif %}
     {%- endmacro %}
 
-    <table class="layui-table order-table" lay-size="lg">
+    <table class="layui-table order-table">
         <tr>
             <td>退款项目</td>
-            <td>退款金额</td>
             <td>订单金额</td>
+            <td>手续费（{{ confirm.service_rate }}%）</td>
+            <td>退款金额</td>
         </tr>
         <tr>
             <td>{{ item_info(confirm) }}</td>
-            <td><span class="price">{{ '￥%0.2f'|format(confirm.refund_amount) }}</span></td>
             <td><span class="price">{{ '￥%0.2f'|format(order.amount) }}</span></td>
+            <td><span class="price">{{ '￥%0.2f'|format(confirm.service_fee) }}</span></td>
+            <td><span class="price">{{ '￥%0.2f'|format(confirm.refund_amount) }}</span></td>
         </tr>
     </table>
     <br>
     {% if confirm.refund_amount > 0 %}
         <form class="layui-form layui-form-pane" method="post" action="{{ url({'for':'home.refund.create'}) }}">
-            <div class="layui-form-item layui-form-text">
+            <div class="layui-form-item">
                 <label class="layui-form-label">退款原因</label>
                 <div class="layui-input-block">
-                    <textarea class="layui-textarea" name="apply_note" lay-verify="required"></textarea>
+                    <input class="layui-input" name="apply_note" lay-verify="required">
                 </div>
             </div>
             <div class="layui-form-item center">
-                <button class="layui-btn" lay-submit="true" lay-filter="go">申请退款</button>
+                <button class="layui-btn" lay-submit="true" lay-filter="go">提交申请</button>
                 <input type="hidden" name="order_sn" value="{{ order.sn }}">
             </div>
         </form>

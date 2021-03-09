@@ -60,9 +60,7 @@ Trait ImGroupTrait
 
         $notice = $validator->checkNotice($noticeId);
 
-        if ($notice->item_type != ImNoticeModel::TYPE_GROUP_REQUEST) {
-            return;
-        }
+        if ($notice->item_type != ImNoticeModel::TYPE_GROUP_REQUEST) return;
 
         $groupId = $notice->item_info['group']['id'] ?: 0;
 
@@ -70,7 +68,7 @@ Trait ImGroupTrait
 
         $group = $validator->checkGroup($groupId);
 
-        $validator->checkOwner($user->id, $group->user_id);
+        $validator->checkOwner($user->id, $group->owner_id);
 
         $applicant = $this->getImUser($notice->sender_id);
 
@@ -120,9 +118,7 @@ Trait ImGroupTrait
 
         $notice = $validator->checkNotice($noticeId);
 
-        if ($notice->item_type != ImNoticeModel::TYPE_GROUP_REQUEST) {
-            return;
-        }
+        if ($notice->item_type != ImNoticeModel::TYPE_GROUP_REQUEST) return;
 
         $groupId = $notice->item_info['group']['id'] ?: 0;
 
@@ -130,7 +126,7 @@ Trait ImGroupTrait
 
         $group = $validator->checkGroup($groupId);
 
-        $validator->checkOwner($user->id, $group->user_id);
+        $validator->checkOwner($user->id, $group->owner_id);
 
         $itemInfo = $notice->item_info;
 
@@ -282,9 +278,7 @@ Trait ImGroupTrait
 
         $users = $groupRepo->findUsers($group->id);
 
-        if ($users->count() == 0) {
-            return;
-        }
+        if ($users->count() == 0) return;
 
         Gateway::$registerAddress = $this->getRegisterAddress();
 

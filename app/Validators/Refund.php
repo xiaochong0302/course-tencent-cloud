@@ -42,9 +42,15 @@ class Refund extends Validator
 
     public function checkAmount($orderAmount, $refundAmount)
     {
+        if ($orderAmount <= 0 || $refundAmount <= 0) {
+            throw new BadRequestException('refund.invalid_amount');
+        }
+
         if ($refundAmount > $orderAmount) {
             throw new BadRequestException('refund.invalid_amount');
         }
+
+        return (float)$refundAmount;
     }
 
     public function checkStatus($status)

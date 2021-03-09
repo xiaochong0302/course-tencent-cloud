@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Trade as TradeService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/admin/trade")
@@ -70,25 +71,26 @@ class TradeController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/refund", name="admin.trade.refund")
+     * @Route("/{id:[0-9]+}/refund", name="admin.trade.refund")
      */
     public function refundAction($id)
     {
         $tradeService = new TradeService();
 
-        $refund = $tradeService->refundTrade($id);
+        if ($this->request->isPost()) {
 
-        $location = $this->url->get([
-            'for' => 'admin.refund.show',
-            'id' => $refund->id,
-        ]);
+            $tradeService->refundTrade($id);
 
-        $content = [
-            'location' => $location,
-            'msg' => '申请退款成功',
-        ];
+            return $this->jsonSuccess(['msg' => '提交申请成功']);
+        }
 
-        return $this->jsonSuccess($content);
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+
+        $trade = $tradeService->getTrade($id);
+        $confirm = $tradeService->confirmRefund($id);
+
+        $this->view->setVar('trade', $trade);
+        $this->view->setVar('confirm', $confirm);
     }
 
 }

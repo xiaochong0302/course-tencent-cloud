@@ -10,6 +10,7 @@ use App\Repos\Account as AccountRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Trade as TradeRepo;
 use App\Repos\User as UserRepo;
+use App\Validators\Refund as RefundValidator;
 use App\Validators\Trade as TradeValidator;
 
 class Trade extends Service
@@ -93,22 +94,47 @@ class Trade extends Service
         return $accountRepo->findById($userId);
     }
 
+    public function confirmRefund($tradeId)
+    {
+        $trade = $this->findOrFail($tradeId);
+
+        $orderRepo = new OrderRepo();
+
+        $order = $orderRepo->findById($trade->order_id);
+
+        $refund = new \App\Services\Refund();
+
+        return $refund->preview($order);
+    }
+
     public function refundTrade($id)
     {
         $trade = $this->findOrFail($id);
+
+        $user = $this->getLoginUser();
+
+        $post = $this->request->getPost();
 
         $validator = new TradeValidator();
 
         $validator->checkIfAllowRefund($trade);
 
+        $validator = new RefundValidator();
+
+        $applyNote = $validator->checkApplyNote($post['apply_note']);
+
+        $refundAmount = $validator->checkAmount($trade->amount, $post['refund_amount']);
+
+        $applyNote = sprintf('%s - 操作员（%s）', $applyNote, $user->id);
+
         $refund = new RefundModel();
 
+        $refund->amount = $refundAmount;
         $refund->subject = $trade->subject;
-        $refund->amount = $trade->amount;
         $refund->owner_id = $trade->owner_id;
         $refund->order_id = $trade->order_id;
         $refund->trade_id = $trade->id;
-        $refund->apply_note = '后台人工申请退款';
+        $refund->apply_note = $applyNote;
 
         $refund->create();
 
