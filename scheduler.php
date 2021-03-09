@@ -13,9 +13,6 @@ $bin = '/usr/local/bin/php';
 $scheduler->php($script, $bin, ['--task' => 'deliver', '--action' => 'main'])
     ->at('*/3 * * * *');
 
-$scheduler->php($script, $bin, ['--task' => 'notice', '--action' => 'main'])
-    ->at('*/3 * * * *');
-
 $scheduler->php($script, $bin, ['--task' => 'vod_event', '--action' => 'main'])
     ->at('*/5 * * * *');
 
@@ -33,6 +30,9 @@ $scheduler->php($script, $bin, ['--task' => 'server_monitor', '--action' => 'mai
 
 $scheduler->php($script, $bin, ['--task' => 'close_trade', '--action' => 'main'])
     ->at('*/13 * * * *');
+
+$scheduler->php($script, $bin, ['--task' => 'notice', '--action' => 'main'])
+    ->everyMinute();
 
 $scheduler->php($script, $bin, ['--task' => 'close_order', '--action' => 'main'])
     ->hourly(3);

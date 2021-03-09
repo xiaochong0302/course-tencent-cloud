@@ -18,6 +18,7 @@ class Refund extends Service
             'item_info' => [],
             'refund_amount' => 0.00,
             'service_fee' => 0.00,
+            'service_rate' => 5.00,
         ];
 
         switch ($order->item_type) {
@@ -27,8 +28,14 @@ class Refund extends Service
             case OrderModel::ITEM_PACKAGE:
                 $result = $this->previewPackageRefund($order);
                 break;
-            default:
-                $result = $this->previewOtherRefund($order);
+            case OrderModel::ITEM_REWARD:
+                $result = $this->previewRewardRefund($order);
+                break;
+            case OrderModel::ITEM_VIP:
+                $result = $this->previewVipRefund($order);
+                break;
+            case OrderModel::ITEM_TEST:
+                $result = $this->previewTestRefund($order);
                 break;
         }
 
@@ -42,6 +49,7 @@ class Refund extends Service
         $itemInfo['course']['cover'] = kg_cos_cover_url($itemInfo['course']['cover']);
 
         $serviceFee = $this->getServiceFee($order);
+        $serviceRate = $this->getServiceRate($order);
 
         $refundPercent = 0.00;
         $refundAmount = 0.00;
@@ -59,6 +67,7 @@ class Refund extends Service
             'item_info' => $itemInfo,
             'refund_amount' => $refundAmount,
             'service_fee' => $serviceFee,
+            'service_rate' => $serviceRate,
         ];
     }
 
@@ -67,6 +76,7 @@ class Refund extends Service
         $itemInfo = $order->item_info;
 
         $serviceFee = $this->getServiceFee($order);
+        $serviceRate = $this->getServiceRate($order);
 
         $totalMarketPrice = 0.00;
 
@@ -102,24 +112,51 @@ class Refund extends Service
             'item_info' => $itemInfo,
             'refund_amount' => $totalRefundAmount,
             'service_fee' => $serviceFee,
+            'service_rate' => $serviceRate,
         ];
+    }
+
+    protected function previewRewardRefund(OrderModel $order)
+    {
+        return $this->previewOtherRefund($order);
+    }
+
+    protected function previewVipRefund(OrderModel $order)
+    {
+        return $this->previewOtherRefund($order);
+    }
+
+    protected function previewTestRefund(OrderModel $order)
+    {
+        return $this->previewOtherRefund($order);
     }
 
     protected function previewOtherRefund(OrderModel $order)
     {
         $serviceFee = $this->getServiceFee($order);
+        $serviceRate = $this->getServiceRate($order);
 
         $refundAmount = round($order->amount - $serviceFee, 2);
 
         return [
             'item_type' => $order->item_type,
-            'item_info' => [],
+            'item_info' => $order->item_info,
             'refund_amount' => $refundAmount,
             'service_fee' => $serviceFee,
+            'service_rate' => $serviceRate,
         ];
     }
 
     protected function getServiceFee(OrderModel $order)
+    {
+        $serviceRate = $this->getServiceRate($order);
+
+        $serviceFee = round($order->amount * $serviceRate / 100, 2);
+
+        return $serviceFee >= 0.01 ? $serviceFee : 0.00;
+    }
+
+    protected function getServiceRate(OrderModel $order)
     {
         $orderRepo = new OrderRepo();
 
@@ -139,7 +176,7 @@ class Refund extends Service
                 break;
         }
 
-        return round($order->amount * $serviceRate / 100, 2);
+        return $serviceRate;
     }
 
     protected function getCourseRefundPercent($courseId, $userId)

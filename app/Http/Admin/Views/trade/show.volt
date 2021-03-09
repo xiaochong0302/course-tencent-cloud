@@ -9,11 +9,11 @@
 
     <br>
 
-    {% set trade_refund_url = url({'for':'admin.trade.refund','id':trade.id}) %}
+    {% set refund_url = url({'for':'admin.trade.refund','id':trade.id}) %}
 
     <div class="kg-center">
         {% if trade.status == 2 %}
-            <button class="kg-refund layui-btn layui-bg-green" data-url="{{ trade_refund_url }}">申请退款</button>
+            <button class="kg-refund layui-btn layui-bg-green" data-url="{{ refund_url }}">申请退款</button>
         {% endif %}
         <button class="kg-back layui-btn layui-bg-gray">返回上页</button>
     </div>
@@ -32,15 +32,15 @@
                 <th></th>
             </tr>
             {% for item in refunds %}
-                {% set refund_sh_url = url({'for':'admin.refund.status_history','id':item.id}) %}
-                {% set refund_show_url = url({'for':'admin.refund.show','id':item.id}) %}
+                {% set history_url = url({'for':'admin.refund.status_history','id':item.id}) %}
+                {% set show_url = url({'for':'admin.refund.show','id':item.id}) %}
                 <tr>
                     <td>{{ item.sn }}</td>
                     <td>{{ '￥%0.2f'|format(item.amount) }}</td>
                     <td><a href="javascript:" title="{{ item.apply_note }}">{{ substr(item.apply_note,0,15) }}</td>
-                    <td><a class="kg-status-history" href="javascript:" title="查看历史状态" data-url="{{ refund_sh_url }}">{{ refund_status(item.status) }}</a></td>
+                    <td><a class="kg-status-history" href="javascript:" title="查看历史状态" data-url="{{ history_url }}">{{ refund_status(item.status) }}</a></td>
                     <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
-                    <td><a class="layui-btn layui-btn-sm" href="{{ refund_show_url }}">详情</a></td>
+                    <td><a class="layui-btn layui-btn-sm" href="{{ show_url }}">详情</a></td>
                 </tr>
             {% endfor %}
         </table>
@@ -69,25 +69,15 @@
         layui.use(['jquery', 'layer'], function () {
 
             var $ = layui.jquery;
+            var layer = layui.layer;
 
             $('.kg-refund').on('click', function () {
                 var url = $(this).data('url');
-                var tips = '确定要申请退款吗？';
-                layer.confirm(tips, function () {
-                    $.ajax({
-                        type: 'POST',
-                        url: url,
-                        success: function (res) {
-                            layer.msg(res.msg, {icon: 1});
-                            setTimeout(function () {
-                                window.location.href = res.location;
-                            }, 3000);
-                        },
-                        error: function (xhr) {
-                            var json = JSON.parse(xhr.responseText);
-                            layer.msg(json.msg, {icon: 2});
-                        }
-                    });
+                layer.open({
+                    type: 2,
+                    title: '申请退款',
+                    content: [url, 'no'],
+                    area: ['800px', '320px']
                 });
             });
 

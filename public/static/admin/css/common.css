@@ -34,6 +34,18 @@
     list-style: decimal;
 }
 
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.gray {
+    color: gray;
+}
+
 .loading {
     padding: 30px;
     text-align: center;

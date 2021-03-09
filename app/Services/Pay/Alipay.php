@@ -207,15 +207,15 @@ class Alipay extends PayService
     /**
      * 查询交易（扫码生成订单后可执行）
      *
-     * @param string $outTradeNo
+     * @param string $tradeNo
      * @param string $type
      * @return Collection|bool
      */
-    public function find($outTradeNo, $type = 'wap')
+    public function find($tradeNo, $type = 'wap')
     {
         try {
 
-            $order = ['out_trade_no' => $outTradeNo];
+            $order = ['out_trade_no' => $tradeNo];
 
             $result = $this->gateway->find($order, $type);
 
@@ -235,14 +235,14 @@ class Alipay extends PayService
     /**
      * 关闭交易（扫码生成订单后可执行）
      *
-     * @param string $outTradeNo
+     * @param string $tradeNo
      * @return bool
      */
-    public function close($outTradeNo)
+    public function close($tradeNo)
     {
         try {
 
-            $response = $this->gateway->close(['out_trade_no' => $outTradeNo]);
+            $response = $this->gateway->close(['out_trade_no' => $tradeNo]);
 
             $result = $response->code == '10000';
 
@@ -262,14 +262,14 @@ class Alipay extends PayService
     /**
      * 撤销交易（未生成订单也可执行）
      *
-     * @param string $outTradeNo
+     * @param string $tradeNo
      * @return bool
      */
-    public function cancel($outTradeNo)
+    public function cancel($tradeNo)
     {
         try {
 
-            $response = $this->gateway->cancel(['out_trade_no' => $outTradeNo]);
+            $response = $this->gateway->cancel(['out_trade_no' => $tradeNo]);
 
             $result = $response->code == '10000';
 
