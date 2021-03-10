@@ -12,12 +12,12 @@
                 <form class="layui-form kg-login-form" method="POST" action="{{ url({'for':'admin.login'}) }}">
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
+                            <input class="layui-input" type="text" name="account" value="100015@163.com" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
+                            <input class="layui-input" type="password" name="password" value="123456" autocomplete="off" placeholder="密码" lay-verify="required">
                         </div>
                     </div>
                     {% if captcha.enabled == 1 %}
