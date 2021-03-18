@@ -171,7 +171,7 @@ class Course extends Model
      *
      * @var string|array
      */
-    public $attrs = '';
+    public $attrs = [];
 
     /**
      * 推荐标识
@@ -288,7 +288,7 @@ class Course extends Model
             }
         }
 
-        if (is_array($this->attrs) && !empty($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -315,7 +315,7 @@ class Course extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
-        if (is_array($this->attrs) && !empty($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -349,7 +349,7 @@ class Course extends Model
             $this->cover = kg_cos_cover_url($this->cover);
         }
 
-        if (is_string($this->attrs) && !empty($this->attrs)) {
+        if (is_string($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
         }
     }

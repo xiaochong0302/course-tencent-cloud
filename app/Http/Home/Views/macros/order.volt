@@ -65,3 +65,13 @@
         已退款
     {% endif %}
 {%- endmacro %}
+
+{%- macro promotion_type(value) %}
+    {% if value == 0 %}
+        N/A
+    {% elseif value == 1 %}
+        限时秒杀
+    {% elseif value == 2 %}
+        限时折扣
+    {% endif %}
+{%- endmacro %}

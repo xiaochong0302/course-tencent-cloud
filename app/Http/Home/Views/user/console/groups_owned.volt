@@ -4,11 +4,13 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="18%">
         </colgroup>
         <thead>
         <tr>
             <th>名称</th>
+            <th>类型</th>
             <th>成员</th>
             <th>讨论</th>
             <th>操作</th>
@@ -19,7 +21,8 @@
             {% set edit_url = url({'for':'home.igm.edit','id':item.id}) %}
             {% set users_url = url({'for':'home.igm.users','id':item.id}) %}
             <tr>
-                <td><span title="{{ item.about }}">{{ item.name }}</span> {{ type_info(item.type) }}</td>
+                <td><span title="{{ item.about }}">{{ item.name }}</span></td>
+                <td>{{ type_info(item.type) }}</td>
                 <td>{{ item.user_count }}</td>
                 <td>{{ item.msg_count }}</td>
                 <td>

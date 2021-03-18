@@ -2,20 +2,26 @@
 
 {% block content %}
 
-    {%- macro content_label(target) %}
-        {% if target == 1 %}
-            课程编号
-        {% elseif target == 2 %}
-            单页编号
-        {% elseif target == 3 %}
-            链接地址
-        {% endif %}
-    {%- endmacro %}
+    {{ partial('macros/slide') }}
+
+    {% set slide.target_attrs = array_object(slide.target_attrs) %}
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.slide.update','id':slide.id}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>编辑轮播</legend>
         </fieldset>
+        <div class="layui-form-item">
+            <label class="layui-form-label">目标类型</label>
+            <div class="layui-input-block">
+                <div class="layui-form-mid">{{ target_info(slide.target) }}</div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">目标信息</label>
+            <div class="layui-input-block">
+                <div class="layui-form-mid">{{ target_attrs_info(slide.target_attrs) }}</div>
+            </div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">封面</label>
             <div class="layui-input-inline">
@@ -30,18 +36,6 @@
             <label class="layui-form-label">标题</label>
             <div class="layui-input-block">
                 <input class="layui-input" type="text" name="title" value="{{ slide.title }}" lay-verify="required">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">概要</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="summary" value="{{ slide.summary }}">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">{{ content_label(slide.target) }}</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="content" value="{{ slide.content }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">

@@ -27,11 +27,11 @@ class PointRedeem extends Validator
         return $redeem;
     }
 
-    public function checkGift($giftId)
+    public function checkPointGift($giftId)
     {
         $validator = new PointGift();
 
-        return $validator->checkGift($giftId);
+        return $validator->checkPointGift($giftId);
     }
 
     public function checkIfAllowRedeem(PointGiftModel $gift, UserModel $user)

@@ -15,9 +15,9 @@ class PointGiftController extends Controller
      */
     public function listAction()
     {
-        $giftService = new PointGiftService();
+        $service = new PointGiftService();
 
-        $pager = $giftService->getGifts();
+        $pager = $service->getPointGifts();
 
         $this->view->pick('point/gift/list');
 
@@ -29,7 +29,13 @@ class PointGiftController extends Controller
      */
     public function searchAction()
     {
+        $service = new PointGiftService();
+
+        $types = $service->getTypes();
+
         $this->view->pick('point/gift/search');
+
+        $this->view->setVar('types', $types);
     }
 
     /**
@@ -37,7 +43,15 @@ class PointGiftController extends Controller
      */
     public function addAction()
     {
+        $service = new PointGiftService();
+
+        $xmCourses = $service->getXmCourses();
+        $types = $service->getTypes();
+
         $this->view->pick('point/gift/add');
+
+        $this->view->setVar('xm_courses', $xmCourses);
+        $this->view->setVar('types', $types);
     }
 
     /**
@@ -45,9 +59,9 @@ class PointGiftController extends Controller
      */
     public function editAction($id)
     {
-        $giftService = new PointGiftService();
+        $service = new PointGiftService();
 
-        $gift = $giftService->getGift($id);
+        $gift = $service->getPointGift($id);
 
         $this->view->pick('point/gift/edit');
 
@@ -59,9 +73,9 @@ class PointGiftController extends Controller
      */
     public function createAction()
     {
-        $giftService = new PointGiftService();
+        $service = new PointGiftService();
 
-        $gift = $giftService->createGift();
+        $gift = $service->createPointGift();
 
         $location = $this->url->get([
             'for' => 'admin.point_gift.edit',
@@ -81,9 +95,9 @@ class PointGiftController extends Controller
      */
     public function updateAction($id)
     {
-        $giftService = new PointGiftService();
+        $service = new PointGiftService();
 
-        $giftService->updateGift($id);
+        $service->updatePointGift($id);
 
         $location = $this->url->get(['for' => 'admin.point_gift.list']);
 
@@ -100,9 +114,9 @@ class PointGiftController extends Controller
      */
     public function deleteAction($id)
     {
-        $giftService = new PointGiftService();
+        $service = new PointGiftService();
 
-        $giftService->deleteGift($id);
+        $service->deletePointGift($id);
 
         $location = $this->request->getHTTPReferer();
 
@@ -119,9 +133,9 @@ class PointGiftController extends Controller
      */
     public function restoreAction($id)
     {
-        $giftService = new PointGiftService();
+        $service = new PointGiftService();
 
-        $giftService->restoreGift($id);
+        $service->restorePointGift($id);
 
         $location = $this->request->getHTTPReferer();
 

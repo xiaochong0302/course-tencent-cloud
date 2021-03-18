@@ -15,9 +15,7 @@ class CloseTradeTask extends Task
     {
         $trades = $this->findTrades();
 
-        if ($trades->count() == 0) {
-            return;
-        }
+        if ($trades->count() == 0) return;
 
         foreach ($trades as $trade) {
             if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {

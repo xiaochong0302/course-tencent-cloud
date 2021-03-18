@@ -59,7 +59,11 @@ class CourseController extends Controller
      */
     public function addAction()
     {
+        $courseService = new CourseService();
 
+        $modelTypes = $courseService->getModelTypes();
+
+        $this->view->setVar('model_types', $modelTypes);
     }
 
     /**

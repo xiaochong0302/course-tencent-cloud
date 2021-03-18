@@ -32,12 +32,14 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="12%">
         </group>
         <thead>
         <tr>
             <th>编号</th>
             <th>物品名称</th>
+            <th>物品类型</th>
             <th>所需积分</th>
             <th>库存数量</th>
             <th>兑换限额</th>
@@ -56,7 +58,8 @@
             {% set restore_url = url({'for':'admin.point_gift.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                <td><a href="{{ edit_url }}">{{ item.name }}</a> {{ gift_type_info(item.type) }}</td>
+                <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
+                <td>{{ gift_type_info(item.type) }}</td>
                 <td>{{ item.point }}</td>
                 <td>{{ item.stock }}</td>
                 <td>{{ item.redeem_limit }}</td>

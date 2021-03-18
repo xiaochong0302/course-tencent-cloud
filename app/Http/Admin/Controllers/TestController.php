@@ -27,17 +27,18 @@ class TestController extends Controller
     {
         $storageService = new StorageService();
 
-        $result = [];
+        $items = [];
 
-        $result['hello'] = $storageService->uploadTestFile();
-        $result['avatar'] = $storageService->uploadDefaultAvatarImage();
-        $result['cover'] = $storageService->uploadDefaultCoverImage();
+        $items['hello'] = $storageService->uploadTestFile();
+        $items['avatar'] = $storageService->uploadDefaultAvatar();
+        $items['cover'] = $storageService->uploadDefaultCover();
+        $items['vip_cover'] = $storageService->uploadDefaultVipCover();
 
-        if ($result['hello'] && $result['avatar'] && $result['cover']) {
-            return $this->jsonSuccess(['msg' => '上传文件成功，请到控制台确认']);
-        } else {
-            return $this->jsonError(['msg' => '上传文件失败，请检查相关配置']);
+        foreach ($items as $item) {
+            if (!$item) return $this->jsonError(['msg' => '上传文件失败，请检查相关配置']);
         }
+
+        return $this->jsonSuccess(['msg' => '上传文件成功，请到控制台确认']);
     }
 
     /**

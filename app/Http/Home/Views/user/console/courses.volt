@@ -17,11 +17,13 @@
                         <colgroup>
                             <col>
                             <col>
+                            <col>
                             <col width="12%">
                         </colgroup>
                         <thead>
                         <tr>
                             <th>课程</th>
+                            <th>类型</th>
                             <th>进度</th>
                             <th>操作</th>
                         </tr>
@@ -33,9 +35,15 @@
                             {% set allow_review = item.progress > 30 and item.reviewed == 0 %}
                             <tr>
                                 <td>
-                                    <p>标题：<a href="{{ course_url }}">{{ item.course.title }}</a> {{ model_info(item.course.model) }}</p>
-                                    <p>来源：{{ source_type_info(item.source_type) }}&nbsp;&nbsp;期限：{{ date('Y-m-d',item.expiry_time) }}</p>
+                                    <p>标题：<a href="{{ course_url }}">{{ item.course.title }}</a></p>
+                                    <p class="meta">
+                                        <span>来源：{{ source_type_info(item.source_type) }}</span>
+                                        {% if item.expiry_time > 0 %}
+                                            <span>期限：{{ date('Y-m-d',item.expiry_time) }}</span>
+                                        {% endif %}
+                                    </p>
                                 </td>
+                                <td>{{ model_info(item.course.model) }}</td>
                                 <td>
                                     <p>用时：{{ item.duration|duration }}</p>
                                     <p>进度：{{ item.progress }}%</p>

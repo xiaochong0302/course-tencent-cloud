@@ -6,6 +6,10 @@
     padding: 20px;
 }
 
+.layer .layui-table {
+    margin: 0;
+}
+
 .clearfix {
     zoom: 1
 }
@@ -34,8 +38,24 @@
     text-align: center;
 }
 
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
 .gray {
     color: #999;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.layui-table .meta span {
+    margin-right: 10px;
 }
 
 .qrcode img {
@@ -412,12 +432,20 @@
     margin-right: 0;
 }
 
+.course-card .origin-price {
+    text-decoration: line-through;
+}
+
 .course-card .price {
     color: red;
 }
 
 .course-card .free {
     color: green;
+}
+
+.course-card .order {
+    cursor: pointer;
 }
 
 .filter-toggle {

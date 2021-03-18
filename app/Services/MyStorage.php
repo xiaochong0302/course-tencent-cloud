@@ -25,20 +25,29 @@ class MyStorage extends Storage
         return $this->putString($key, $value);
     }
 
-    public function uploadDefaultAvatarImage()
+    public function uploadDefaultAvatar()
     {
-        $filename = public_path('static/admin/img/default_avatar.png');
+        $filename = static_path('admin/img/default_avatar.png');
 
-        $key = '/img/avatar/default.png';
+        $key = '/img/default/avatar.png';
 
         return $this->putFile($key, $filename);
     }
 
-    public function uploadDefaultCoverImage()
+    public function uploadDefaultCover()
     {
-        $filename = public_path('static/admin/img/default_cover.png');
+        $filename = static_path('admin/img/default_cover.png');
 
-        $key = '/img/cover/default.png';
+        $key = '/img/default/cover.png';
+
+        return $this->putFile($key, $filename);
+    }
+
+    public function uploadDefaultVipCover()
+    {
+        $filename = static_path('admin/img/default_vip_cover.png');
+
+        $key = '/img/default/vip_cover.png';
 
         return $this->putFile($key, $filename);
     }

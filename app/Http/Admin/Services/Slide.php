@@ -5,11 +5,58 @@ namespace App\Http\Admin\Services;
 use App\Caches\IndexSlideList as IndexSlideListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Slide as SlideModel;
+use App\Repos\Course as CourseRepo;
+use App\Repos\Page as PageRepo;
 use App\Repos\Slide as SlideRepo;
 use App\Validators\Slide as SlideValidator;
 
 class Slide extends Service
 {
+
+    public function getTargetTypes()
+    {
+        return SlideModel::targetTypes();
+    }
+
+    public function getXmCourses()
+    {
+        $courseRepo = new CourseRepo();
+
+        $items = $courseRepo->findAll(['published' => 1]);
+
+        if ($items->count() == 0) return [];
+
+        $result = [];
+
+        foreach ($items as $item) {
+            $result[] = [
+                'name' => sprintf('%s（¥%0.2f）', $item->title, $item->market_price),
+                'value' => $item->id,
+            ];
+        }
+
+        return $result;
+    }
+
+    public function getXmPages()
+    {
+        $pageRepo = new PageRepo();
+
+        $items = $pageRepo->findAll(['published' => 1]);
+
+        if ($items->count() == 0) return [];
+
+        $result = [];
+
+        foreach ($items as $item) {
+            $result[] = [
+                'name' => $item->title,
+                'value' => $item->id,
+            ];
+        }
+
+        return $result;
+    }
 
     public function getSlides()
     {
@@ -39,26 +86,18 @@ class Slide extends Service
 
         $validator = new SlideValidator();
 
-        $data['title'] = $validator->checkTitle($post['title']);
-        $data['target'] = $validator->checkTarget($post['target']);
-
-        if ($post['target'] == SlideModel::TARGET_COURSE) {
-            $course = $validator->checkCourse($post['content']);
-            $data['content'] = $course->id;
-            $data['cover'] = $course->cover;
-            $data['summary'] = $course->summary;
-        } elseif ($post['target'] == SlideModel::TARGET_PAGE) {
-            $page = $validator->checkPage($post['content']);
-            $data['content'] = $page->id;
-        } elseif ($post['target'] == SlideModel::TARGET_LINK) {
-            $data['content'] = $validator->checkLink($post['content']);
-        }
-
-        $data['priority'] = 20;
+        $post['title'] = $validator->checkTitle($post['title']);
+        $post['target'] = $validator->checkTarget($post['target']);
 
         $slide = new SlideModel();
 
-        $slide->create($data);
+        if ($post['target'] == SlideModel::TARGET_COURSE) {
+            $slide = $this->createCourseSlide($post);
+        } elseif ($post['target'] == SlideModel::TARGET_PAGE) {
+            $slide = $this->createPageSlide($post);
+        } elseif ($post['target'] == SlideModel::TARGET_LINK) {
+            $slide = $this->createLinkSlide($post);
+        }
 
         $this->rebuildSlideCache();
 
@@ -79,24 +118,8 @@ class Slide extends Service
             $data['title'] = $validator->checkTitle($post['title']);
         }
 
-        if (isset($post['summary'])) {
-            $data['summary'] = $validator->checkSummary($post['summary']);
-        }
-
         if (isset($post['cover'])) {
             $data['cover'] = $validator->checkCover($post['cover']);
-        }
-
-        if (isset($post['content'])) {
-            if ($slide->target == SlideModel::TARGET_COURSE) {
-                $course = $validator->checkCourse($post['content']);
-                $data['content'] = $course->id;
-            } elseif ($slide->target == SlideModel::TARGET_PAGE) {
-                $page = $validator->checkPage($post['content']);
-                $data['content'] = $page->id;
-            } elseif ($slide->target == SlideModel::TARGET_LINK) {
-                $data['content'] = $validator->checkLink($post['content']);
-            }
         }
 
         if (isset($post['priority'])) {
@@ -136,6 +159,60 @@ class Slide extends Service
         $slide->update();
 
         $this->rebuildSlideCache();
+
+        return $slide;
+    }
+
+    protected function createCourseSlide($post)
+    {
+        $validator = new SlideValidator();
+
+        $course = $validator->checkCourse($post['xm_course_id']);
+
+        $slide = new SlideModel();
+
+        $slide->title = $post['title'];
+        $slide->target = $post['target'];
+        $slide->content = $course->id;
+        $slide->target_attrs = [
+            'course' => ['id' => $course->id, 'title' => $course->title]
+        ];
+
+        return $slide;
+    }
+
+    protected function createPageSlide($post)
+    {
+        $validator = new SlideValidator();
+
+        $page = $validator->checkPage($post['xm_page_id']);
+
+        $slide = new SlideModel();
+
+        $slide->title = $post['title'];
+        $slide->target = $post['target'];
+        $slide->content = $page->id;
+        $data['target_attrs'] = [
+            'page' => ['id' => $page->id, 'title' => $page->title]
+        ];
+
+        return $slide;
+    }
+
+    protected function createLinkSlide($post)
+    {
+        $validator = new SlideValidator();
+
+        $link = $validator->checkLink($post['url']);
+
+        $slide = new SlideModel();
+
+        $slide->title = $post['title'];
+        $slide->target = $post['target'];
+        $slide->content = $link;
+        $slide->target_attrs = [
+            'link' => ['url' => $link]
+        ];
 
         return $slide;
     }

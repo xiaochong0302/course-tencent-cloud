@@ -14,7 +14,6 @@ class PointGift extends Model
      */
     const TYPE_COURSE = 1; // 课程
     const TYPE_GOODS = 2; // 商品
-    const TYPE_CASH = 3; // 现金
 
     /**
      * 课程扩展属性
@@ -37,13 +36,6 @@ class PointGift extends Model
         'price' => 0,
         'url' => '',
     ];
-
-    /**
-     * 现金扩展属性
-     *
-     * @var array
-     */
-    protected $_cash_attrs = ['amount' => 0];
 
     /**
      * 主键编号
@@ -167,12 +159,10 @@ class PointGift extends Model
                 $this->attrs = $this->_course_attrs;
             } elseif ($this->type == self::TYPE_GOODS) {
                 $this->attrs = $this->_goods_attrs;
-            } elseif ($this->type == self::TYPE_CASH) {
-                $this->attrs = $this->_cash_attrs;
             }
         }
 
-        if (is_array($this->attrs) && !empty($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -191,7 +181,7 @@ class PointGift extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
-        if (is_array($this->attrs) && !empty($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -215,7 +205,7 @@ class PointGift extends Model
             $this->cover = kg_cos_cover_url($this->cover);
         }
 
-        if (is_string($this->attrs) && !empty($this->attrs)) {
+        if (is_string($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
         }
     }
@@ -234,7 +224,6 @@ class PointGift extends Model
         return [
             self::TYPE_COURSE => '课程',
             self::TYPE_GOODS => '商品',
-            self::TYPE_CASH => '现金',
         ];
     }
 

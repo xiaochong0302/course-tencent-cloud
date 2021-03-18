@@ -19,8 +19,16 @@ class Slide extends Repository
 
         $builder->where('1 = 1');
 
-        if (isset($where['item_type'])) {
-            $builder->andWhere('item_type = :item_type:', ['item_type' => $where['item_type']]);
+        if (!empty($where['id'])) {
+            $builder->andWhere('id = :id:', ['id' => $where['id']]);
+        }
+
+        if (!empty($where['title'])) {
+            $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
+        }
+
+        if (!empty($where['target'])) {
+            $builder->andWhere('target = :target:', ['target' => $where['target']]);
         }
 
         if (isset($where['published'])) {

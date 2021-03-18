@@ -41,7 +41,6 @@
 
     {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js', false) }}
     {{ js_include('lib/xm-select.js') }}
-    {{ js_include('admin/js/xm-course.js') }}
     {{ js_include('admin/js/cover.upload.js') }}
     {{ js_include('admin/js/vditor.js') }}
 
@@ -74,7 +73,14 @@
             data: {{ xm_teachers|json_encode }}
         });
 
-        xmCourse({{ xm_courses|json_encode }}, '/admin/xm/course/all');
+        xmSelect.render({
+            el: '#xm-course-ids',
+            name: 'xm_course_ids',
+            autoRow: true,
+            filterable: true,
+            max: 10,
+            data: {{ xm_courses|json_encode }}
+        });
 
     </script>
 

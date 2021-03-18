@@ -1,3 +1,7 @@
+.layui-table .meta span {
+    margin-right: 10px;
+}
+
 .layui-badge, .layui-badge-rim {
     padding-bottom: 1px;
 }
@@ -234,6 +238,10 @@ img.kg-avatar {
 
 .kg-form .xm-body {
     padding: 10px;
+}
+
+.kg-form p {
+    line-height: 30px;
 }
 
 .kg-search-box .layui-input {

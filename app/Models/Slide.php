@@ -58,18 +58,25 @@ class Slide extends Model
     public $platform = 0;
 
     /**
-     * 目标
+     * 目标类型
      *
      * @var int
      */
     public $target = 0;
 
     /**
+     * 目标属性
+     *
+     * @var array
+     */
+    public $target_attrs = [];
+
+    /**
      * 优先级
      *
      * @var int
      */
-    public $priority = 0;
+    public $priority = 100;
 
     /**
      * 发布标识
@@ -124,6 +131,10 @@ class Slide extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
+        if (is_array($this->target_attrs)) {
+            $this->target_attrs = kg_json_encode($this->target_attrs);
+        }
+
         $this->create_time = time();
     }
 
@@ -131,6 +142,10 @@ class Slide extends Model
     {
         if (Text::startsWith($this->cover, 'http')) {
             $this->cover = self::getCoverPath($this->cover);
+        }
+
+        if (is_array($this->target_attrs)) {
+            $this->target_attrs = kg_json_encode($this->target_attrs);
         }
 
         if ($this->deleted == 1) {
@@ -143,7 +158,11 @@ class Slide extends Model
     public function afterFetch()
     {
         if (!Text::startsWith($this->cover, 'http')) {
-            $this->cover = kg_cos_slide_url($this->cover);
+            $this->cover = kg_cos_slide_cover_url($this->cover);
+        }
+
+        if (is_string($this->target_attrs)) {
+            $this->target_attrs = json_decode($this->target_attrs, true);
         }
     }
 

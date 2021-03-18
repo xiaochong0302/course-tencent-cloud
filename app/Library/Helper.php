@@ -183,7 +183,6 @@ function kg_config($path, $defaultValue = null)
     return $config->path($path, $defaultValue);
 }
 
-
 /**
  * 获取默认头像路径
  *
@@ -191,7 +190,7 @@ function kg_config($path, $defaultValue = null)
  */
 function kg_default_avatar_path()
 {
-    return '/img/avatar/default.png';
+    return '/img/default/avatar.png';
 }
 
 /**
@@ -201,7 +200,27 @@ function kg_default_avatar_path()
  */
 function kg_default_cover_path()
 {
-    return '/img/cover/default.png';
+    return '/img/default/cover.png';
+}
+
+/**
+ * 获取默认课程封面路径
+ *
+ * @return string
+ */
+function kg_default_course_cover_path()
+{
+    return '/img/default/course_cover.png';
+}
+
+/**
+ * 获取默认会员封面路径
+ *
+ * @return string
+ */
+function kg_default_vip_cover_path()
+{
+    return '/img/default/vip_cover.png';
 }
 
 /**
@@ -265,13 +284,41 @@ function kg_cos_cover_url($path, $style = null)
 }
 
 /**
- * 获取幻灯片URL
+ * 获取课程封面URL
  *
  * @param string $path
  * @param string $style
  * @return string
  */
-function kg_cos_slide_url($path, $style = null)
+function kg_cos_course_cover_url($path, $style = null)
+{
+    $path = $path ?: kg_default_course_cover_path();
+
+    return kg_cos_img_url($path, $style);
+}
+
+/**
+ * 获取会员封面URL
+ *
+ * @param string $path
+ * @param string $style
+ * @return string
+ */
+function kg_cos_vip_cover_url($path, $style = null)
+{
+    $path = $path ?: kg_default_vip_cover_path();
+
+    return kg_cos_img_url($path, $style);
+}
+
+/**
+ * 获取轮播封面URL
+ *
+ * @param string $path
+ * @param string $style
+ * @return string
+ */
+function kg_cos_slide_cover_url($path, $style = null)
 {
     return kg_cos_img_url($path, $style);
 }
