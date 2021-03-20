@@ -4,19 +4,20 @@
 
     {%- macro type_info(value) %}
         {% if value == 1 %}
-            <span class="layui-badge layui-bg-green">课</span>
+            课程
         {% elseif value == 2 %}
-            <span class="layui-badge layui-bg-blue">聊</span>
+            水吧
         {% elseif value == 3 %}
-            <span class="layui-badge layui-bg-cyan">职</span>
+            职工
         {% else %}
-            <span class="layui-badge layui-bg-gray">未知</span>
+            未知
         {% endif %}
     {%- endmacro %}
 
     {%- macro owner_info(owner) %}
         {% if owner.id is defined %}
-            {{ owner.name }}（{{ owner.id }}）
+            {% set filter_url = url({'for':'admin.im_group.list'},{'owner_id':owner.id}) %}
+            <a href="{{ filter_url }}">{{ owner.name }}</a>（{{ owner.id }}）
         {% else %}
             未设置
         {% endif %}
@@ -48,12 +49,14 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="12%">
         </colgroup>
         <thead>
         <tr>
             <th>编号</th>
             <th>名称</th>
+            <th>类型</th>
             <th>群主</th>
             <th>成员</th>
             <th>发布</th>
@@ -69,7 +72,8 @@
             {% set restore_url = url({'for':'admin.im_group.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                <td><a href="{{ edit_url }}">{{ item.name }}</a> {{ type_info(item.type) }}</td>
+                <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
+                <td> {{ type_info(item.type) }}</td>
                 <td>{{ owner_info(item.owner) }}</td>
                 <td><span class="layui-badge layui-bg-gray">{{ item.user_count }}</span></td>
                 <td><input type="checkbox" name="published" value="1" lay-filter="published" lay-skin="switch" lay-text="是|否" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>

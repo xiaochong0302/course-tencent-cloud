@@ -63,7 +63,14 @@
                     <p>昵称：<a href="{{ list_by_user_url }}">{{ item.owner.name }}</a></p>
                     <p>编号：{{ item.owner.id }}</p>
                 </td>
-                <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
+                <td>
+                    <p>提问：{{ date('Y-m-d H:i:s',item.create_time) }}</p>
+                    {% if item.reply_time > 0 %}
+                        <p>回复：{{ date('Y-m-d H:i:s',item.reply_time) }}</p>
+                    {% else %}
+                        <p>回复：N/A</p>
+                    {% endif %}
+                </td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="layui-dropdown">

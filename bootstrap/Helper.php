@@ -82,6 +82,17 @@ function public_path($path = '')
 }
 
 /**
+ * Get the static path.
+ *
+ * @param string $path
+ * @return string
+ */
+function static_path($path = '')
+{
+    return public_path('static') . trim_path($path);
+}
+
+/**
  * Get the cache path.
  *
  * @param string $path

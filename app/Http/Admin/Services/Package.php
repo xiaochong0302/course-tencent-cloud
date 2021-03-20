@@ -16,6 +16,39 @@ use App\Validators\Package as PackageValidator;
 class Package extends Service
 {
 
+    public function getXmCourses($id)
+    {
+        $packageRepo = new PackageRepo();
+
+        $courses = $packageRepo->findCourses($id);
+
+        $courseIds = [];
+
+        if ($courses->count() > 0) {
+            foreach ($courses as $course) {
+                $courseIds[] = $course->id;
+            }
+        }
+
+        $courseRepo = new CourseRepo();
+
+        $items = $courseRepo->findAll(['free' => 0, 'published' => 1]);
+
+        if ($items->count() == 0) return [];
+
+        $result = [];
+
+        foreach ($items as $item) {
+            $result[] = [
+                'name' => sprintf('%s（¥%0.2f）', $item->title, $item->market_price),
+                'value' => $item->id,
+                'selected' => in_array($item->id, $courseIds),
+            ];
+        }
+
+        return $result;
+    }
+
     public function getPackages()
     {
         $pagerQuery = new PagerQuery();
@@ -67,6 +100,10 @@ class Package extends Service
         $validator = new PackageValidator();
 
         $data = [];
+
+        if (isset($post['cover'])) {
+            $data['cover'] = $validator->checkCover($post['cover']);
+        }
 
         if (isset($post['title'])) {
             $data['title'] = $validator->checkTitle($post['title']);
@@ -125,61 +162,6 @@ class Package extends Service
         $this->rebuildPackageCache($package);
 
         return $package;
-    }
-
-    public function getGuidingCourses($courseIds)
-    {
-        if (empty($courseIds)) {
-            return [];
-        }
-
-        $courseRepo = new CourseRepo();
-
-        $ids = explode(',', $courseIds);
-
-        return $courseRepo->findByIds($ids);
-    }
-
-    public function getGuidingPrice($courses)
-    {
-        $totalMarketPrice = 0;
-        $totalVipPrice = 0;
-
-        if ($courses) {
-            foreach ($courses as $course) {
-                $totalMarketPrice += $course->market_price;
-                $totalVipPrice += $course->vip_price;
-            }
-        }
-
-        $sgtMarketPrice = sprintf('%0.2f', intval($totalMarketPrice * 0.9));
-        $sgtVipPrice = sprintf('%0.2f', intval($totalVipPrice * 0.8));
-
-        return [
-            'market_price' => $sgtMarketPrice,
-            'vip_price' => $sgtVipPrice,
-        ];
-    }
-
-    public function getXmCourses($id)
-    {
-        $packageRepo = new PackageRepo();
-
-        $courses = $packageRepo->findCourses($id);
-
-        $list = [];
-
-        if ($courses->count() > 0) {
-            foreach ($courses as $course) {
-                $list[] = [
-                    'id' => $course->id,
-                    'title' => $course->title,
-                    'selected' => true,
-                ];
-            }
-        }
-
-        return $list;
     }
 
     protected function saveCourses(PackageModel $package, $courseIds)

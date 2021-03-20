@@ -54,7 +54,7 @@ class Role extends Model
      *
      * @var array|string
      */
-    public $routes = '';
+    public $routes = [];
 
     /**
      * 删除标识
@@ -103,7 +103,7 @@ class Role extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->routes) && !empty($this->routes)) {
+        if (is_array($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
         } else {
             $this->routes = '';
@@ -114,7 +114,7 @@ class Role extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->routes) && !empty($this->routes)) {
+        if (is_array($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
         }
 
@@ -123,7 +123,7 @@ class Role extends Model
 
     public function afterFetch()
     {
-        if (is_string($this->routes) && !empty($this->routes)) {
+        if (is_string($this->routes)) {
             $this->routes = json_decode($this->routes, true);
         }
     }

@@ -25,11 +25,13 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="12%">
         </colgroup>
         <thead>
         <tr>
-            <th>物品名称</th>
+            <th>物品信息</th>
+            <th>用户信息</th>
             <th>消耗积分</th>
             <th>兑换状态</th>
             <th>兑换时间</th>
@@ -43,11 +45,12 @@
             {% set gift_url = url({'for':'home.point_gift.show','id':item.gift_id}) %}
             <tr>
                 <td>
-                    <p><a href="{{ gift_url }}" target="_blank">{{ item.gift_name }}</a>（{{ item.gift_id }}）{{ gift_type_info(item.gift_type) }}</p>
-                    <p>
-                        用户名称：<a href="{{ user_filter_url }}">{{ item.user_name }}</a>（{{ item.user_id }}）
-                        联系方式：<a href="javascript:" class="layui-badge layui-bg-green kg-contact" data-name="{{ item.contact_name }}" data-phone="{{ item.contact_phone }}" data-address="{{ item.contact_address }}">查看</a>
-                    </p>
+                    <p>物品名称：<a href="{{ gift_url }}" target="_blank">{{ item.gift_name }}</a>（{{ item.gift_id }}）</p>
+                    <p>物品类型：{{ gift_type_info(item.gift_type) }}</p>
+                </td>
+                <td>
+                    <p>用户名称：<a href="{{ user_filter_url }}">{{ item.user_name }}</a>（{{ item.user_id }}）</p>
+                    <p>联系方式：<a href="javascript:" class="layui-badge layui-bg-green kg-contact" data-name="{{ item.contact_name }}" data-phone="{{ item.contact_phone }}" data-address="{{ item.contact_address }}">查看</a></p>
                 </td>
                 <td>{{ item.gift_point }}</td>
                 <td>{{ redeem_status_info(item.status) }}</td>

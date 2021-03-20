@@ -40,7 +40,7 @@ class ChapterVod extends Model
      *
      * @var array|string
      */
-    public $file_transcode = '';
+    public $file_transcode = [];
 
     /**
      * 创建时间
@@ -63,7 +63,7 @@ class ChapterVod extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->file_transcode) && !empty($this->file_transcode)) {
+        if (is_array($this->file_transcode)) {
             $this->file_transcode = kg_json_encode($this->file_transcode);
         }
 
@@ -72,7 +72,7 @@ class ChapterVod extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->file_transcode) && !empty($this->file_transcode)) {
+        if (is_array($this->file_transcode)) {
             $this->file_transcode = kg_json_encode($this->file_transcode);
         }
 
@@ -82,7 +82,7 @@ class ChapterVod extends Model
     public function afterFetch()
     {
         if (!empty($this->file_id)) {
-            if (!empty($this->file_transcode)) {
+            if (is_string($this->file_transcode) && !empty($this->file_transcode)) {
                 $this->file_transcode = json_decode($this->file_transcode, true);
             } else {
                 $this->file_transcode = $this->getFileTranscode($this->file_id);

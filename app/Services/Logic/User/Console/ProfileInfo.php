@@ -17,7 +17,7 @@ class ProfileInfo extends Service
 
     protected function handleUser(UserModel $user)
     {
-        $user->avatar = kg_cos_avatar_url($user->avatar);
+        $user->avatar = kg_cos_user_avatar_url($user->avatar);
 
         $user->area = $this->handleArea($user->area);
 

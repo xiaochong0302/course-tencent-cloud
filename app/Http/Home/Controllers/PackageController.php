@@ -4,6 +4,7 @@ namespace App\Http\Home\Controllers;
 
 use App\Services\Logic\Package\CourseList as PackageCourseListService;
 use App\Services\Logic\Package\PackageInfo as PackageInfoService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/package")
@@ -32,7 +33,9 @@ class PackageController extends Controller
 
         $courses = $service->handle($id);
 
-        return $this->jsonSuccess(['courses' => $courses]);
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+
+        $this->view->setVar('courses', $courses);
     }
 
 }

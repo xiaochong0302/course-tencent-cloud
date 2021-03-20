@@ -412,6 +412,12 @@ class AuthNode extends Service
                             'type' => 'button',
                             'route' => 'admin.slide.delete',
                         ],
+                        [
+                            'id' => '2-5-5',
+                            'title' => '搜索轮播',
+                            'type' => 'menu',
+                            'route' => 'admin.slide.search',
+                        ],
                     ],
                 ],
                 [
@@ -522,6 +528,43 @@ class AuthNode extends Service
                             'title' => '删除礼品',
                             'type' => 'button',
                             'route' => 'admin.point_gift.delete',
+                        ],
+                    ],
+                ],
+                [
+                    'id' => '2-9',
+                    'title' => '限时秒杀',
+                    'type' => 'menu',
+                    'children' => [
+                        [
+                            'id' => '2-9-1',
+                            'title' => '商品列表',
+                            'type' => 'menu',
+                            'route' => 'admin.flash_sale.list',
+                        ],
+                        [
+                            'id' => '2-9-2',
+                            'title' => '添加商品',
+                            'type' => 'menu',
+                            'route' => 'admin.flash_sale.add',
+                        ],
+                        [
+                            'id' => '2-9-3',
+                            'title' => '搜索商品',
+                            'type' => 'menu',
+                            'route' => 'admin.flash_sale.search',
+                        ],
+                        [
+                            'id' => '2-9-4',
+                            'title' => '编辑商品',
+                            'type' => 'button',
+                            'route' => 'admin.flash_sale.edit',
+                        ],
+                        [
+                            'id' => '2-9-5',
+                            'title' => '删除商品',
+                            'type' => 'button',
+                            'route' => 'admin.flash_sale.delete',
                         ],
                     ],
                 ],

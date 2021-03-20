@@ -3547,7 +3547,7 @@ class InitTable extends Phinx\Migration\AbstractMigration
                 'unique' => false,
             ])
             ->addIndex(['owner_id'], [
-                'name' => 'onwer_id',
+                'name' => 'owner_id',
                 'unique' => false,
             ])
             ->create();

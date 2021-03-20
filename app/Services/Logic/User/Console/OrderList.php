@@ -66,7 +66,11 @@ class OrderList extends Service
                 'item_id' => $order['item_id'],
                 'item_type' => $order['item_type'],
                 'item_info' => $order['item_info'],
+                'promotion_id' => $order['promotion_id'],
+                'promotion_type' => $order['promotion_type'],
+                'promotion_info' => $order['promotion_info'],
                 'create_time' => $order['create_time'],
+                'update_time' => $order['update_time'],
             ];
         }
 

@@ -4,18 +4,17 @@
 
     {%- macro model_info(value) %}
         {% if value == 1 %}
-            <span class="layui-badge layui-bg-green">点播</span>
+            点播
         {% elseif value == 2 %}
-            <span class="layui-badge layui-bg-blue">直播</span>
+            直播
         {% elseif value == 3 %}
-            <span class="layui-badge layui-bg-black">专栏</span>
+            专栏
         {% else %}
-            <span class="layui-badge layui-bg-gray">未知</span>
+            未知
         {% endif %}
     {%- endmacro %}
 
     {%- macro level_info(value) %}
-        难度：<span class="layui-badge layui-bg-gray">
         {% if value == 1 %}
             入门
         {% elseif value == 2 %}
@@ -28,20 +27,6 @@
             未知
         {% endif %}
         </span>
-    {%- endmacro %}
-
-    {%- macro category_info(category) %}
-        {% if category.id is defined %}
-            {% set url = url({'for':'admin.course.list'},{'category_id':category.id}) %}
-            分类：<a class="layui-badge layui-bg-gray" href="{{ url }}">{{ category.name }}</a>
-        {% endif %}
-    {%- endmacro %}
-
-    {%- macro teacher_info(teacher) %}
-        {% if teacher.id is defined %}
-            {% set url = url({'for':'admin.course.list'},{'teacher_id':teacher.id}) %}
-            讲师：<a class="layui-badge layui-bg-gray" href="{{ url }}">{{ teacher.name }}</a>
-        {% endif %}
     {%- endmacro %}
 
     {% set add_url = url({'for':'admin.course.add'}) %}
@@ -65,8 +50,8 @@
 
     <table class="layui-table kg-table layui-form">
         <colgroup>
-            <col width="5%">
-            <col width="45%">
+            <col>
+            <col>
             <col>
             <col>
             <col>
@@ -76,8 +61,8 @@
         </colgroup>
         <thead>
         <tr>
-            <th>编号</th>
             <th>课程</th>
+            <th>类型</th>
             <th>课时数</th>
             <th>用户数</th>
             <th>价格</th>
@@ -98,11 +83,19 @@
             {% set review_url = url({'for':'admin.review.list'},{'course_id':item.id}) %}
             {% set consult_url = url({'for':'admin.consult.list'},{'course_id':item.id}) %}
             <tr>
-                <td>{{ item.id }}</td>
                 <td>
-                    <p>标题：<a href="{{ catalog_url }}">{{ item.title }}</a> {{ model_info(item.model) }}</p>
-                    <p>{{ category_info(item.category) }}&nbsp;&nbsp;{{ teacher_info(item.teacher) }}&nbsp;&nbsp;{{ level_info(item.level) }}</p>
+                    <p>标题：<a href="{{ catalog_url }}">{{ item.title }}</a>（{{ item.id }}）</p>
+                    <p class="meta">
+                        {% if item.category.id is defined %}
+                            <span>分类：{{ item.category.name }}</span>
+                        {% endif %}
+                        {% if item.teacher.id is defined %}
+                            <span>讲师：{{ item.teacher.name }}</span>
+                        {% endif %}
+                        <span>难度：{{ level_info(item.level) }}</span>
+                    </p>
                 </td>
+                <td>{{ model_info(item.model) }}</td>
                 <td>
                     <a href="{{ catalog_url }}">
                         <span class="layui-badge layui-bg-green">{{ item.lesson_count }}</span>
@@ -115,7 +108,7 @@
                 </td>
                 <td>
                     <p>原始价：{{ '￥%0.2f'|format(item.origin_price) }}</p>
-                    <p>优惠价：{{ '￥%0.2f'|format(item.market_price) }}</p>
+                    <p>市场价：{{ '￥%0.2f'|format(item.market_price) }}</p>
                     <p>会员价：{{ '￥%0.2f'|format(item.vip_price) }}</p>
                 </td>
                 <td><input type="checkbox" name="featured" value="1" lay-skin="switch" lay-text="是|否" lay-filter="featured" data-url="{{ update_url }}" {% if item.featured == 1 %}checked="checked"{% endif %}></td>

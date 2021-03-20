@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Caches\MaxPackageId as MaxPackageIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
 
 class Package extends Model
 {
@@ -21,6 +22,13 @@ class Package extends Model
      * @var string
      */
     public $title = '';
+
+    /**
+     * 封面
+     *
+     * @var string
+     */
+    public $cover = '';
 
     /**
      * 简介
@@ -97,11 +105,21 @@ class Package extends Model
 
     public function beforeCreate()
     {
+        if (empty($this->cover)) {
+            $this->cover = kg_default_cover_path();
+        } elseif (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
+        if (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+
         if ($this->deleted == 1) {
             $this->published = 0;
         }
@@ -118,8 +136,21 @@ class Package extends Model
 
     public function afterFetch()
     {
+        if (!Text::startsWith($this->cover, 'http')) {
+            $this->cover = kg_cos_package_cover_url($this->cover);
+        }
+
         $this->market_price = (float)$this->market_price;
         $this->vip_price = (float)$this->vip_price;
+    }
+
+    public static function getCoverPath($url)
+    {
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
+
+        return $url;
     }
 
 }

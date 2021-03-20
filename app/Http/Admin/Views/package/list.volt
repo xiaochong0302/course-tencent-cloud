@@ -36,7 +36,7 @@
             <th>编号</th>
             <th>标题</th>
             <th>课程数</th>
-            <th>优惠价</th>
+            <th>市场价</th>
             <th>会员价</th>
             <th>发布</th>
             <th>操作</th>
@@ -51,7 +51,7 @@
             <tr>
                 <td>{{ item.id }}</td>
                 <td><a href="{{ edit_url }}">{{ item.title }}</a></td>
-                <td><span class="layui-badge layui-bg-gray">{{ item.course_count }}</span></td>
+                <td>{{ item.course_count }}</td>
                 <td>{{ '￥%0.2f'|format(item.market_price) }}</td>
                 <td>{{ '￥%0.2f'|format(item.vip_price) }}</td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>

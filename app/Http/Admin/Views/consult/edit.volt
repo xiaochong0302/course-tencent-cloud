@@ -9,20 +9,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">提问</label>
             <div class="layui-input-block">
-                <textarea name="question" class="layui-textarea" readonly="readonly" lay-verify="required">{{ consult.question }}</textarea>
+                <div class="layui-form-mid gray">{{ consult.question }}</div>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">回复</label>
             <div class="layui-input-block">
                 <textarea name="answer" class="layui-textarea">{{ consult.answer }}</textarea>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">私密</label>
-            <div class="layui-input-block">
-                <input type="radio" name="private" value="1" title="是" {% if consult.private == 1 %}checked="checked"{% endif %}>
-                <input type="radio" name="private" value="0" title="否" {% if consult.private == 0 %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">

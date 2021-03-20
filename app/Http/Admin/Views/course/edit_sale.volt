@@ -21,7 +21,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">优惠价格</label>
+                <label class="layui-form-label">市场价格</label>
                 <div class="layui-input-inline">
                     <input class="layui-input" type="text" name="market_price" value="{{ course.market_price }}" lay-verify="number">
                 </div>

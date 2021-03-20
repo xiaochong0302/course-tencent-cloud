@@ -46,7 +46,7 @@ class Refund extends Service
     {
         $itemInfo = $order->item_info;
 
-        $itemInfo['course']['cover'] = kg_cos_cover_url($itemInfo['course']['cover']);
+        $itemInfo['course']['cover'] = kg_cos_course_cover_url($itemInfo['course']['cover']);
 
         $serviceFee = $this->getServiceFee($order);
         $serviceRate = $this->getServiceRate($order);
@@ -91,7 +91,7 @@ class Refund extends Service
          */
         foreach ($itemInfo['courses'] as &$course) {
 
-            $course['cover'] = kg_cos_cover_url($course['cover']);
+            $course['cover'] = kg_cos_course_cover_url($course['cover']);
 
             $refundPercent = 0.00;
             $refundAmount = 0.00;

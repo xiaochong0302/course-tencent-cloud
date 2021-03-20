@@ -21,8 +21,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="type" value="1" title="课程">
-                <input type="radio" name="type" value="2" title="商品">
+                {% for value,title in types %}
+                    <input type="radio" name="type" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">

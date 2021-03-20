@@ -7,23 +7,41 @@
             <legend>添加轮播</legend>
         </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">标题</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="title" lay-verify="required">
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">目标类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="target" value="1" title="课程" lay-filter="target" checked="checked">
-                <input type="radio" name="target" value="2" title="单页" lay-filter="target">
-                <input type="radio" name="target" value="3" title="链接" lay-filter="target">
+                {% for value,title in target_types %}
+                    <input type="radio" name="target" value="{{ value }}" title="{{ title }}" lay-filter="target">
+                {% endfor %}
+            </div>
+        </div>
+        <div id="block-1" class="block" style="display:none;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">课程选择</label>
+                <div class="layui-input-block">
+                    <div id="xm-course-id"></div>
+                </div>
+            </div>
+        </div>
+        <div id="block-2" class="block" style="display:none;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">单页选择</label>
+                <div class="layui-input-block">
+                    <div id="xm-page-id"></div>
+                </div>
+            </div>
+        </div>
+        <div id="block-3" class="block" style="display:none;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">链接地址</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text" name="url">
+                </div>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label" id="target-label">课程编号</label>
+            <label class="layui-form-label">轮播标题</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="content" lay-verify="required">
+                <input class="layui-input" type="text" name="title" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
@@ -37,6 +55,12 @@
 
 {% endblock %}
 
+{% block include_js %}
+
+    {{ js_include('lib/xm-select.js') }}
+
+{% endblock %}
+
 {% block inline_js %}
 
     <script>
@@ -46,20 +70,26 @@
             var $ = layui.jquery;
             var form = layui.form;
 
-            var targetLabels = [
-                '课程编号',
-                '单页编号',
-                '链接地址',
-            ];
-
-            var targetLabelBlock = $('#target-label');
-
-            form.on('radio(target)', function (data) {
-                var index = data.value - 1;
-                targetLabelBlock.html(targetLabels[index]);
+            xmSelect.render({
+                el: '#xm-course-id',
+                name: 'xm_course_id',
+                radio: true,
+                filterable: true,
+                data: {{ xm_courses|json_encode }}
             });
 
-            targetLabelBlock.html(targetLabels[0]);
+            xmSelect.render({
+                el: '#xm-page-id',
+                name: 'xm_page_id',
+                radio: true,
+                filterable: true,
+                data: {{ xm_pages|json_encode }}
+            });
+
+            form.on('radio(target)', function (data) {
+                $('.block').hide();
+                $('#block-' + data.value).show();
+            });
 
         });
 

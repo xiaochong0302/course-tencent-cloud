@@ -4,13 +4,41 @@ namespace App\Http\Admin\Services;
 
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\PointGift as PointGiftModel;
+use App\Repos\Course as CourseRepo;
 use App\Repos\PointGift as PointGiftRepo;
 use App\Validators\PointGift as PointGiftValidator;
 
 class PointGift extends Service
 {
 
-    public function getGifts()
+    public function getTypes()
+    {
+        return PointGiftModel::types();
+    }
+
+    public function getXmCourses()
+    {
+        $courseRepo = new CourseRepo();
+
+        $where = ['free' => 0, 'published' => 1];
+
+        $pager = $courseRepo->paginate($where, $sort = 'latest', 1, 10000);
+
+        if ($pager->total_items == 0) return [];
+
+        $result = [];
+
+        foreach ($pager->items as $item) {
+            $result[] = [
+                'name' => sprintf('%s（¥%0.2f）', $item->title, $item->market_price),
+                'value' => $item->id,
+            ];
+        }
+
+        return $result;
+    }
+
+    public function getPointGifts()
     {
         $pagerQuery = new PagerQuery();
 
@@ -27,12 +55,12 @@ class PointGift extends Service
         return $giftRepo->paginate($params, $sort, $page, $limit);
     }
 
-    public function getGift($id)
+    public function getPointGift($id)
     {
         return $this->findOrFail($id);
     }
 
-    public function createGift()
+    public function createPointGift()
     {
         $post = $this->request->getPost();
 
@@ -44,17 +72,17 @@ class PointGift extends Service
 
         switch ($post['type']) {
             case PointGiftModel::TYPE_COURSE:
-                $gift = $this->createCourseGift($post);
+                $gift = $this->createCoursePointGift($post);
                 break;
             case PointGiftModel::TYPE_GOODS:
-                $gift = $this->createCommodityGift($post);
+                $gift = $this->createGoodsPointGift($post);
                 break;
         }
 
         return $gift;
     }
 
-    public function updateGift($id)
+    public function updatePointGift($id)
     {
         $gift = $this->findOrFail($id);
 
@@ -101,7 +129,7 @@ class PointGift extends Service
         return $gift;
     }
 
-    public function deleteGift($id)
+    public function deletePointGift($id)
     {
         $gift = $this->findOrFail($id);
 
@@ -112,7 +140,7 @@ class PointGift extends Service
         return $gift;
     }
 
-    public function restoreGift($id)
+    public function restorePointGift($id)
     {
         $gift = $this->findOrFail($id);
 
@@ -123,11 +151,11 @@ class PointGift extends Service
         return $gift;
     }
 
-    protected function createCourseGift($post)
+    protected function createCoursePointGift($post)
     {
         $validator = new PointGiftValidator();
 
-        $course = $validator->checkCourse($post['course_id']);
+        $course = $validator->checkCourse($post['xm_course_id']);
 
         $gift = new PointGiftModel();
 
@@ -139,7 +167,7 @@ class PointGift extends Service
         return $gift;
     }
 
-    protected function createCommodityGift($post)
+    protected function createGoodsPointGift($post)
     {
         $validator = new PointGiftValidator();
 
@@ -157,7 +185,7 @@ class PointGift extends Service
     {
         $validator = new PointGiftValidator();
 
-        return $validator->checkGift($id);
+        return $validator->checkPointGift($id);
     }
 
 }
