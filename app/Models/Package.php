@@ -106,7 +106,7 @@ class Package extends Model
     public function beforeCreate()
     {
         if (empty($this->cover)) {
-            $this->cover = kg_default_cover_path();
+            $this->cover = kg_default_package_cover_path();
         } elseif (Text::startsWith($this->cover, 'http')) {
             $this->cover = self::getCoverPath($this->cover);
         }
