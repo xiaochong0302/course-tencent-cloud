@@ -143,6 +143,18 @@ class Schema202103141300 extends Phinx\Migration\AbstractMigration
             ])
             ->save();
 
+        $this->table('kg_package')
+            ->addColumn('cover', 'string', [
+                'null' => false,
+                'default' => '',
+                'limit' => 100,
+                'collation' => 'utf8mb4_general_ci',
+                'encoding' => 'utf8mb4',
+                'comment' => '封面',
+                'after' => 'title',
+            ])
+            ->save();
+
         $this->table('kg_vip')
             ->addColumn('cover', 'string', [
                 'null' => false,
@@ -191,8 +203,9 @@ class Schema202103141300 extends Phinx\Migration\AbstractMigration
 
         $this->handleSlideTargetAttrs();
 
-        $this->handleVipCover();
+        $this->handlePackageCover();
 
+        $this->handleVipCover();
     }
 
     public function down()
@@ -202,6 +215,10 @@ class Schema202103141300 extends Phinx\Migration\AbstractMigration
 
         $this->table('kg_slide')
             ->removeColumn('target_attrs')
+            ->save();
+
+        $this->table('kg_package')
+            ->removeColumn('cover')
             ->save();
 
         $this->table('kg_vip')
@@ -282,18 +299,24 @@ class Schema202103141300 extends Phinx\Migration\AbstractMigration
         }
     }
 
+    protected function handlePackageCover()
+    {
+        $cover = '/img/default/package_cover.png';
+
+        $this->getQueryBuilder()
+            ->update('kg_package')
+            ->set('cover', $cover)
+            ->execute();
+    }
+
     protected function handleVipCover()
     {
-        $vips = $this->getQueryBuilder()
-            ->select('*')
-            ->from('kg_vip')
+        $cover = '/img/default/vip_cover.png';
+
+        $this->getQueryBuilder()
+            ->update('kg_vip')
+            ->set('cover', $cover)
             ->execute();
-
-        if ($vips->count() == 0) return;
-
-        foreach ($vips as $vip) {
-            $this->updateVipCover($vip['id'], '/img/default/vip_cover.png');
-        }
     }
 
     protected function findCourseById($id)
@@ -321,15 +344,6 @@ class Schema202103141300 extends Phinx\Migration\AbstractMigration
         $this->getQueryBuilder()
             ->update('kg_slide')
             ->set('target_attrs', $targetAttrs)
-            ->where(['id' => $id])
-            ->execute();
-    }
-
-    protected function updateVipCover($id, $cover)
-    {
-        $this->getQueryBuilder()
-            ->update('kg_vip')
-            ->set('cover', $cover)
             ->where(['id' => $id])
             ->execute();
     }
