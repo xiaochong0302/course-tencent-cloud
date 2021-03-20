@@ -60,11 +60,11 @@ class UserIndexTask extends Task
 
         $index = $handler->getXS()->getIndex();
 
-        echo 'start clean user index' . PHP_EOL;
+        echo '------ start clean user index ------' . PHP_EOL;
 
         $index->clean();
 
-        echo 'end clean user index' . PHP_EOL;
+        echo '------ end clean user index ------' . PHP_EOL;
     }
 
     /**
@@ -82,7 +82,7 @@ class UserIndexTask extends Task
 
         $index = $handler->getXS()->getIndex();
 
-        echo 'start rebuild user index' . PHP_EOL;
+        echo '------ start rebuild user index ------' . PHP_EOL;
 
         $index->beginRebuild();
 
@@ -93,7 +93,7 @@ class UserIndexTask extends Task
 
         $index->endRebuild();
 
-        echo 'end rebuild user index' . PHP_EOL;
+        echo '------ end rebuild user index ------' . PHP_EOL;
     }
 
     /**

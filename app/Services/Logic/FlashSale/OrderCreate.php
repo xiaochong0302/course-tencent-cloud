@@ -56,8 +56,6 @@ class OrderCreate extends \App\Services\Logic\Order\OrderCreate
 
                 $validator->checkIfBoughtCourse($user->id, $course->id);
 
-                $this->handleCoursePromotion();
-
                 $order = $this->createCourseOrder($course, $user);
 
             } elseif ($sale->item_type == FlashSaleModel::ITEM_PACKAGE) {
@@ -89,24 +87,15 @@ class OrderCreate extends \App\Services\Logic\Order\OrderCreate
         }
     }
 
-    protected function handleCoursePromotion()
-    {
-    }
-
-    protected function handlePackagePromotion()
-    {
-    }
-
-    protected function handleVipPromotion()
-    {
-    }
-
     protected function decrFlashSaleStock(FlashSaleModel $sale)
     {
-        if ($sale->stock > 1) {
-            $sale->stock -= 1;
-            $sale->update();
-        }
+        if ($sale->stock < 1) return;
+
+        if ($sale->stock == 1) $sale->published = 0;
+
+        $sale->stock -= 1;
+
+        $sale->update();
     }
 
     protected function saveUserOrderCache($userId, $saleId)

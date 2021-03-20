@@ -29,17 +29,17 @@
             <col>
             <col>
             <col>
-            <col>
+            <col width="15%">
             <col>
             <col width="12%">
         </group>
         <thead>
         <tr>
             <th>商品信息</th>
-            <th>秒杀时间</th>
-            <th>参与场次</th>
             <th>秒杀价格</th>
             <th>秒杀库存</th>
+            <th>秒杀时间</th>
+            <th>参与场次</th>
             <th>发布</th>
             <th>操作</th>
         </tr>
@@ -52,13 +52,13 @@
             {% set restore_url = url({'for':'admin.flash_sale.restore','id':item.id}) %}
             <tr>
                 <td>{{ item_full_info(item.item_type,item.item_info) }}</td>
+                <td>{{ '￥%0.2f'|format(item.price) }}</td>
+                <td>{{ item.stock }}</td>
                 <td>
                     <p>开始：{{ date('Y-m-d H:i:s',item.start_time) }}</p>
                     <p>结束：{{ date('Y-m-d H:i:s',item.end_time) }}</p>
                 </td>
                 <td>{{ schedules_info(item.schedules) }}</td>
-                <td>{{ '￥%0.2f'|format(item.price) }}</td>
-                <td>{{ item.stock }}</td>
                 <td><input type="checkbox" name="published" value="1" lay-filter="published" lay-skin="switch" lay-text="是|否" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="layui-dropdown">

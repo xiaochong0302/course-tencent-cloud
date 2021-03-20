@@ -12,17 +12,17 @@
         {% endif %}
     {%- endmacro %}
 
-    {%- macro edu_role_info(user) %}
-        {% if user.edu_role.id == 1 %}
+    {%- macro edu_role_info(role) %}
+        {% if role.id == 1 %}
             学员
-        {% elseif user.edu_role.id == 2 %}
-            <a href="{{ url({'for':'admin.user.list'},{'edu_role':user.edu_role.id}) }}">讲师</a>
+        {% elseif role.id == 2 %}
+            讲师
         {% endif %}
     {%- endmacro %}
 
-    {%- macro admin_role_info(user) %}
-        {% if user.admin_role.id > 0 %}
-            <a href="{{ url({'for':'admin.user.list'},{'admin_role':user.admin_role.id}) }}">{{ user.admin_role.name }}</a>
+    {%- macro admin_role_info(role) %}
+        {% if role.id > 0 %}
+            {{ role.name }}
         {% endif %}
     {%- endmacro %}
 
@@ -85,8 +85,8 @@
                 <td>{{ item.id }}</td>
                 <td><a href="{{ edit_url }}" title="{{ item.about }}">{{ item.name }}</a>{{ status_info(item) }}</td>
                 <td>{{ gender_info(item.gender) }}</td>
-                <td>{{ edu_role_info(item) }}</td>
-                <td>{{ admin_role_info(item) }}</td>
+                <td>{{ edu_role_info(item.edu_role) }}</td>
+                <td>{{ admin_role_info(item.admin_role) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.active_time) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td class="center">

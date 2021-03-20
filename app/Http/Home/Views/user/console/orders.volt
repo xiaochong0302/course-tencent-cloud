@@ -28,7 +28,7 @@
                                     <span>编号：{{ item.sn }}</span>
                                     <span>时间：{{ date('Y-m-d H:i:s',item.create_time) }}</span>
                                     {% if item.promotion_type > 0 %}
-                                        <span class="layui-badge layui-bg-blue">{{ promotion_type(item.promotion_type) }}</span>
+                                        促销：<span class="layui-badge layui-bg-blue">{{ promotion_type(item.promotion_type) }}</span>
                                     {% endif %}
                                 </div>
                                 <div class="body clearfix">

@@ -58,6 +58,10 @@
     margin-right: 10px;
 }
 
+.vip img {
+    border: 3px solid orange;
+}
+
 .qrcode img {
     width: 160px;
     height: 160px;
@@ -392,9 +396,16 @@
     float: left;
     width: 100%;
     height: 230px;
+    position: relative;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.course-card .model {
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
 
 .course-card .cover {
@@ -1295,15 +1306,6 @@
     border-radius: 100px;
 }
 
-.user-profile .vip {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    height: 16px;
-    padding: 0 3px;
-    font-size: 10px;
-}
-
 .user-profile .info {
     float: left;
     padding-top: 10px;
@@ -1433,16 +1435,6 @@
     font-size: 12px;
 }
 
-.user-card .vip {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    height: 16px;
-    line-height: 16px;
-    padding: 0 3px;
-    font-size: 10px;
-}
-
 .user-card .type {
     position: absolute;
     top: 18px;
@@ -1464,10 +1456,6 @@
 .group-user-list .user-card {
     box-shadow: none;
     height: 220px;
-}
-
-.group-user-list .user-card .avatar {
-    margin-top: 10px;
 }
 
 .group-list {
@@ -1502,14 +1490,11 @@
 }
 
 .my-profile-card {
+    margin-bottom: 15px;
     text-align: center;
 }
 
 .my-profile-card .avatar {
-    margin-bottom: 10px;
-}
-
-.my-profile-card .name {
     margin-bottom: 10px;
 }
 
@@ -1774,14 +1759,6 @@
 .im-user-list .name {
     margin-bottom: 10px;
     padding: 0 5px;
-}
-
-.im-user-list .vip {
-    top: 8px;
-    right: 8px;
-    height: 14px;
-    line-height: 14px;
-    font-size: 10px;
 }
 
 .layim-msgbox {

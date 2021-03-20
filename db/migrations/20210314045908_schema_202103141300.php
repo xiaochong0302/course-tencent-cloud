@@ -234,6 +234,7 @@ class Schema202103141300 extends Phinx\Migration\AbstractMigration
             ->save();
 
         $nav = $this->getQueryBuilder()
+            ->select('*')
             ->from('kg_nav')
             ->orderDesc('id')
             ->execute()->fetch('assoc');

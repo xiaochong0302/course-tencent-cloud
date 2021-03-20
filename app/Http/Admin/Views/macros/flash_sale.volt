@@ -1,10 +1,10 @@
 {%- macro item_type_info(value) %}
     {% if value == 1 %}
-        <span class="layui-badge layui-bg-green">课程</span>
+        课程
     {% elseif value == 2 %}
-        <span class="layui-badge layui-bg-blue">套餐</span>
+        套餐
     {% elseif value == 3 %}
-        <span class="layui-badge layui-bg-orange">会员</span>
+        会员
     {% endif %}
 {%- endmacro %}
 

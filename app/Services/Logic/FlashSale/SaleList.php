@@ -39,7 +39,7 @@ class SaleList extends Service
 
         foreach ($dates as $date) {
             $result[] = [
-                'date' => date('m-d', strtotime($date)),
+                'date' => date('m / d', strtotime($date)),
                 'items' => $this->getDateSales($sales, $date),
             ];
         }

@@ -17,13 +17,11 @@
                         <colgroup>
                             <col>
                             <col>
-                            <col>
                             <col width="12%">
                         </colgroup>
                         <thead>
                         <tr>
                             <th>课程</th>
-                            <th>类型</th>
                             <th>进度</th>
                             <th>操作</th>
                         </tr>
@@ -37,13 +35,13 @@
                                 <td>
                                     <p>标题：<a href="{{ course_url }}">{{ item.course.title }}</a></p>
                                     <p class="meta">
-                                        <span>来源：{{ source_type_info(item.source_type) }}</span>
+                                        类型：<span class="layui-badge layui-bg-gray">{{ model_info(item.course.model) }}</span>
+                                        来源：<span class="layui-badge layui-bg-gray">{{ source_type_info(item.source_type) }}</span>
                                         {% if item.expiry_time > 0 %}
-                                            <span>期限：{{ date('Y-m-d',item.expiry_time) }}</span>
+                                            期限：{{ date('Y-m-d',item.expiry_time) }}
                                         {% endif %}
                                     </p>
                                 </td>
-                                <td>{{ model_info(item.course.model) }}</td>
                                 <td>
                                     <p>用时：{{ item.duration|duration }}</p>
                                     <p>进度：{{ item.progress }}%</p>

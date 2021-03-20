@@ -98,6 +98,11 @@
         </div>
     {% endmacro %}
 
+    <div class="layui-breadcrumb breadcrumb">
+        <a href="/">首页</a>
+        <a><cite>秒杀</cite></a>
+    </div>
+
     {% for date_sale in sales %}
         <div class="index-wrap wrap">
             <div class="header">{{ date_sale.date }}</div>
@@ -106,8 +111,7 @@
                     <ul class="layui-tab-title">
                         {% for item in date_sale.items %}
                             {% set class = item.selected == 1 ? 'layui-this' : 'none' %}
-                            {% set style = item.status == 'finished' ? 'pointer-events:none;' : '' %}
-                            <li class="{{ class }}" style="{{ style }}">{{ item.hour }}（{{ sale_status(item.status) }}）</li>
+                            <li class="{{ class }}">{{ item.hour }}（{{ sale_status(item.status) }}）</li>
                         {% endfor %}
                     </ul>
                     <div class="layui-tab-content">

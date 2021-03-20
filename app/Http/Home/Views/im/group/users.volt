@@ -3,12 +3,10 @@
         {% for item in pager.items %}
             {% set user_url = url({'for':'home.user.show','id':item.id}) %}
             {% set item.title = item.title ? item.title : '暂露头角' %}
+            {% set avatar_class = item.vip == 1 ? 'avatar vip' : 'avatar' %}
             <div class="layui-col-md3">
                 <div class="user-card">
-                    {% if item.vip == 1 %}
-                        <span class="layui-badge layui-bg-orange vip">宾</span>
-                    {% endif %}
-                    <div class="avatar">
+                    <div class="{{ avatar_class }}">
                         <a href="{{ user_url }}" title="{{ item.about }}">
                             <img src="{{ item.avatar }}" alt="{{ item.name }}">
                         </a>

@@ -346,7 +346,7 @@ class Course extends Model
         $this->score = (float)$this->score;
 
         if (!Text::startsWith($this->cover, 'http')) {
-            $this->cover = kg_cos_cover_url($this->cover);
+            $this->cover = kg_cos_course_cover_url($this->cover);
         }
 
         if (is_string($this->attrs)) {

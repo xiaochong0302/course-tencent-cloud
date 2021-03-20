@@ -96,7 +96,7 @@ class OrderInfo extends Service
 
     protected function handleCourseInfo($itemInfo)
     {
-        $itemInfo['course']['cover'] = kg_cos_cover_url($itemInfo['course']['cover']);
+        $itemInfo['course']['cover'] = kg_cos_course_cover_url($itemInfo['course']['cover']);
 
         return $itemInfo;
     }

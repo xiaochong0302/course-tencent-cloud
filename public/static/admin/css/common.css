@@ -2,6 +2,10 @@
     margin-right: 10px;
 }
 
+.layui-table .layui-badge {
+    margin-bottom: 3px;
+}
+
 .layui-badge, .layui-badge-rim {
     padding-bottom: 1px;
 }

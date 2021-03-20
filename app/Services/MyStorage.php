@@ -17,6 +17,11 @@ class MyStorage extends Storage
     const MIME_AUDIO = 'audio';
     const MIME_FILE = 'file';
 
+    /**
+     * 上传测试文件
+     *
+     * @return bool|string
+     */
     public function uploadTestFile()
     {
         $key = 'hello_world.txt';
@@ -25,31 +30,108 @@ class MyStorage extends Storage
         return $this->putString($key, $value);
     }
 
-    public function uploadDefaultAvatar()
+    /**
+     * 上传默认用户头像
+     *
+     * @return false|mixed|string
+     */
+    public function uploadDefaultUserAvatar()
     {
-        $filename = static_path('admin/img/default_avatar.png');
+        $filename = static_path('admin/img/default/user_avatar.png');
 
-        $key = '/img/default/avatar.png';
+        $key = '/img/default/user_avatar.png';
 
         return $this->putFile($key, $filename);
     }
 
-    public function uploadDefaultCover()
+    /**
+     * 上传默认群组头像
+     *
+     * @return false|mixed|string
+     */
+    public function uploadDefaultGroupAvatar()
     {
-        $filename = static_path('admin/img/default_cover.png');
+        $filename = static_path('admin/img/default/group_avatar.png');
 
-        $key = '/img/default/cover.png';
+        $key = '/img/default/group_avatar.png';
 
         return $this->putFile($key, $filename);
     }
 
+    /**
+     * 上传默认课程封面
+     *
+     * @return false|mixed|string
+     */
+    public function uploadDefaultCourseCover()
+    {
+        $filename = static_path('admin/img/default/course_cover.png');
+
+        $key = '/img/default/course_cover.png';
+
+        return $this->putFile($key, $filename);
+    }
+
+    /**
+     * 上传默认套餐封面
+     *
+     * @return false|mixed|string
+     */
+    public function uploadDefaultPackageCover()
+    {
+        $filename = static_path('admin/img/default/package_cover.png');
+
+        $key = '/img/default/package_cover.png';
+
+        return $this->putFile($key, $filename);
+    }
+
+    /**
+     * 上传默认会员封面
+     *
+     * @return false|mixed|string
+     */
     public function uploadDefaultVipCover()
     {
-        $filename = static_path('admin/img/default_vip_cover.png');
+        $filename = static_path('admin/img/default/vip_cover.png');
 
         $key = '/img/default/vip_cover.png';
 
         return $this->putFile($key, $filename);
+    }
+
+    /**
+     * 上传默认礼品封面
+     *
+     * @return false|mixed|string
+     */
+    public function uploadDefaultGiftCover()
+    {
+        $filename = static_path('admin/img/default/gift_cover.png');
+
+        $key = '/img/default/gift_cover.png';
+
+        return $this->putFile($key, $filename);
+    }
+
+    /**
+     * 上传站点LOGO
+     *
+     * @return UploadModel|bool
+     */
+    public function uploadSiteLogo()
+    {
+        return $this->upload('/img/default/', self::MIME_IMAGE, UploadModel::TYPE_DEFAULT_IMG, 'logo.png');
+    }
+
+    /**
+     * 上传站点ICON
+     *
+     * @return UploadModel|bool
+     */
+    public function uploadSiteFavicon()
+    {
+        return $this->upload('/img/default/', self::MIME_IMAGE, UploadModel::TYPE_DEFAULT_IMG, 'favicon.ico');
     }
 
     /**
@@ -116,9 +198,10 @@ class MyStorage extends Storage
      * @param string $prefix
      * @param string $mimeType
      * @param int $uploadType
+     * @param string $fileName
      * @return UploadModel|bool
      */
-    protected function upload($prefix, $mimeType, $uploadType)
+    protected function upload($prefix, $mimeType, $uploadType, $fileName = null)
     {
         $list = [];
 
@@ -143,7 +226,13 @@ class MyStorage extends Storage
                     $name = $this->filter->sanitize($file->getName(), ['trim', 'string']);
 
                     $extension = $this->getFileExtension($file->getName());
-                    $keyName = $this->generateFileName($extension, $prefix);
+
+                    if (empty($fileName)) {
+                        $keyName = $this->generateFileName($extension, $prefix);
+                    } else {
+                        $keyName = $prefix . $fileName;
+                    }
+
                     $path = $this->putFile($keyName, $file->getTempName());
 
                     $upload = new UploadModel();

@@ -1,9 +1,3 @@
-{%- macro vip_info(value) %}
-    {% if value == 1 %}
-        <span class="layui-badge layui-bg-orange vip">宾</span>
-    {% endif %}
-{%- endmacro %}
-
 {%- macro gender_icon(value) %}
     {% if value == 1 %}
         <i class="layui-icon layui-icon-male"></i>

@@ -4,13 +4,13 @@
 
     {%- macro type_info(value) %}
         {% if value == 1 %}
-            <span class="layui-badge layui-bg-green">课程</span>
+            课程
         {% elseif value == 2 %}
-            <span class="layui-badge layui-bg-blue">聊天</span>
+            水吧
         {% elseif value == 3 %}
-            <span class="layui-badge layui-bg-red">职工</span>
+            职工
         {% else %}
-            <span class="layui-badge layui-bg-gray">未知</span>
+            未知
         {% endif %}
     {%- endmacro %}
 
@@ -56,7 +56,7 @@
         <tr>
             <th>编号</th>
             <th>名称</th>
-            <th>名称</th>
+            <th>类型</th>
             <th>群主</th>
             <th>成员</th>
             <th>发布</th>

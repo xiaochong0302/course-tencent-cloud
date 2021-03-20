@@ -29,6 +29,8 @@ class FlashSaleController extends Controller
      */
     public function indexAction()
     {
+        $this->seo->prependTitle('秒杀');
+
         $service = new SaleListService();
 
         $sales = $service->handle();
