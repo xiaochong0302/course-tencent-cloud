@@ -118,6 +118,21 @@ class Course extends Repository
     }
 
     /**
+     * @param array $where
+     * @param string $sort
+     * @return ResultsetInterface|Resultset|CourseModel[]
+     */
+    public function findAll($where = [], $sort = 'latest')
+    {
+        /**
+         * 一个偷懒的实现，适用于中小体量数据
+         */
+        $paginate = $this->paginate($where, $sort, 1, 10000);
+
+        return $paginate->items;
+    }
+
+    /**
      * @param int $id
      * @return CourseModel|Model|bool
      */

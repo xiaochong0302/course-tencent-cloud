@@ -16,6 +16,9 @@ class Order extends Model
     const ITEM_VIP = 4; // 会员
     const ITEM_TEST = 99; // 测试
 
+    const PROMOTION_FLASH_SALE = 1; // 限时秒杀
+    const PROMOTION_DISCOUNT = 2; // 限时折扣
+
     /**
      * 状态类型
      */
@@ -79,7 +82,28 @@ class Order extends Model
      *
      * @var string|array
      */
-    public $item_info = '';
+    public $item_info = [];
+
+    /**
+     * 促销编号
+     *
+     * @var int
+     */
+    public $promotion_id = 0;
+
+    /**
+     * 促销类型
+     *
+     * @var int
+     */
+    public $promotion_type = 0;
+
+    /**
+     * 促销信息
+     *
+     * @var string|array
+     */
+    public $promotion_info = [];
 
     /**
      * 终端类型
@@ -146,8 +170,12 @@ class Order extends Model
     {
         $this->sn = date('YmdHis') . rand(1000, 9999);
 
-        if (is_array($this->item_info) && !empty($this->item_info)) {
+        if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
+        }
+
+        if (is_array($this->promotion_info)) {
+            $this->promotion_info = kg_json_encode($this->promotion_info);
         }
 
         $this->create_time = time();
@@ -155,8 +183,12 @@ class Order extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->item_info) && !empty($this->item_info)) {
+        if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
+        }
+
+        if (is_array($this->promotion_info)) {
+            $this->promotion_info = kg_json_encode($this->promotion_info);
         }
 
         $this->update_time = time();
@@ -176,8 +208,12 @@ class Order extends Model
     {
         $this->amount = (float)$this->amount;
 
-        if (is_string($this->item_info) && !empty($this->item_info)) {
+        if (is_string($this->item_info)) {
             $this->item_info = json_decode($this->item_info, true);
+        }
+
+        if (is_string($this->promotion_info)) {
+            $this->promotion_info = json_decode($this->promotion_info, true);
         }
     }
 
@@ -189,6 +225,14 @@ class Order extends Model
             self::ITEM_REWARD => '赞赏',
             self::ITEM_VIP => '会员',
             self::ITEM_TEST => '测试',
+        ];
+    }
+
+    public static function promotionTypes()
+    {
+        return [
+            self::PROMOTION_FLASH_SALE => '限时秒杀',
+            self::PROMOTION_DISCOUNT => '限时折扣',
         ];
     }
 

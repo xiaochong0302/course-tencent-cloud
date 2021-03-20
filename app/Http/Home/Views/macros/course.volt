@@ -1,10 +1,10 @@
 {%- macro model_info(value) %}
     {% if value == '1' %}
-        <span class="layui-badge layui-bg-green">点播</span>
+        点播
     {% elseif value == '2' %}
-        <span class="layui-badge layui-bg-blue">直播</span>
+        直播
     {% elseif value == '3' %}
-        <span class="layui-badge layui-bg-black">专栏</span>
+        专栏
     {% endif %}
 {%- endmacro %}
 
@@ -30,6 +30,7 @@
 {%- macro course_card(course) %}
     {% set course_url = url({'for':'home.course.show','id':course.id}) %}
     <div class="course-card">
+        <span class="model layui-badge layui-bg-green">{{ model_info(course.model) }}</span>
         <div class="cover">
             <a href="{{ course_url }}">
                 <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}" title="{{ course.title }}">

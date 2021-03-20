@@ -21,7 +21,7 @@
 
     <table class="layui-table" lay-size="lg">
         <colgroup>
-            <col width="15%">
+            <col>
             <col>
             <col>
             <col>
@@ -29,11 +29,11 @@
         </colgroup>
         <thead>
         <tr>
-            <th>用户</th>
-            <th>积分</th>
-            <th>来源</th>
-            <th>详情</th>
-            <th>时间</th>
+            <th>用户信息</th>
+            <th>积分变化</th>
+            <th>事件类型</th>
+            <th>事件详情</th>
+            <th>创建时间</th>
         </tr>
         </thead>
         <tbody>

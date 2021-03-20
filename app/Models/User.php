@@ -179,7 +179,7 @@ class User extends Model
     public function beforeCreate()
     {
         if (empty($this->avatar)) {
-            $this->avatar = kg_default_avatar_path();
+            $this->avatar = kg_default_user_avatar_path();
         } elseif (Text::startsWith($this->avatar, 'http')) {
             $this->avatar = self::getAvatarPath($this->avatar);
         }
@@ -226,7 +226,7 @@ class User extends Model
     public function afterFetch()
     {
         if (!Text::startsWith($this->avatar, 'http')) {
-            $this->avatar = kg_cos_avatar_url($this->avatar);
+            $this->avatar = kg_cos_user_avatar_url($this->avatar);
         }
     }
 

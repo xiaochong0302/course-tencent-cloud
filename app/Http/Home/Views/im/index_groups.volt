@@ -5,7 +5,7 @@
             {% set group.about = group.about ? group.about : '这家伙真懒，什么都没留下！' %}
             <div class="layui-col-md3">
                 <div class="user-card">
-                    {{ type_info(group.type) }}
+                    <span class="type layui-badge layui-bg-green">{{ type_info(group.type) }}</span>
                     <div class="avatar">
                         <a href="{{ group_url }}" title="{{ group.about }}" target="group">
                             <img src="{{ group.avatar }}!avatar_160" alt="{{ group.name }}">

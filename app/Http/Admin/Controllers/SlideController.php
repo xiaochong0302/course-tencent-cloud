@@ -23,11 +23,31 @@ class SlideController extends Controller
     }
 
     /**
+     * @Get("/search", name="admin.slide.search")
+     */
+    public function searchAction()
+    {
+        $slideService = new SlideService();
+
+        $targetTypes = $slideService->getTargetTypes();
+
+        $this->view->setVar('target_types', $targetTypes);
+    }
+
+    /**
      * @Get("/add", name="admin.slide.add")
      */
     public function addAction()
     {
+        $slideService = new SlideService();
 
+        $targetTypes = $slideService->getTargetTypes();
+        $xmCourses = $slideService->getXmCourses();
+        $xmPages = $slideService->getXmPages();
+
+        $this->view->setVar('target_types', $targetTypes);
+        $this->view->setVar('xm_courses', $xmCourses);
+        $this->view->setVar('xm_pages', $xmPages);
     }
 
     /**

@@ -25,8 +25,11 @@
                             {% set order_info_url = url({'for':'home.order.info'},{'sn':item.sn}) %}
                             <div class="order-card">
                                 <div class="header">
-                                    <span class="sn">编号：{{ item.sn }}</span>
-                                    <span class="time">时间：{{ date('Y-m-d H:i:s',item.create_time) }}</span>
+                                    <span>编号：{{ item.sn }}</span>
+                                    <span>时间：{{ date('Y-m-d H:i:s',item.create_time) }}</span>
+                                    {% if item.promotion_type > 0 %}
+                                        促销：<span class="layui-badge layui-bg-blue">{{ promotion_type(item.promotion_type) }}</span>
+                                    {% endif %}
                                 </div>
                                 <div class="body clearfix">
                                     <div class="column subject">{{ item.subject }}</div>

@@ -77,8 +77,8 @@
                 {% else %}
                     <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
                 {% endif %}
-                <td><span class="layui-badge layui-bg-gray">{{ item.level }}</span></td>
-                <td><span class="layui-badge layui-bg-gray">{{ item.child_count }}</span></td>
+                <td>{{ item.level }}</td>
+                <td>{{ item.child_count }}</td>
                 <td>{{ position_info(item.position) }}</td>
                 <td>{{ target_info(item.target) }}</td>
                 <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>

@@ -31,7 +31,7 @@ class ImGroupUser extends Model
      *
      * @var int
      */
-    public $priority = 0;
+    public $priority = 100;
 
     /**
      * 创建时间

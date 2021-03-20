@@ -99,10 +99,7 @@
             el: '#xm-category-ids',
             name: 'xm_category_ids',
             max: 5,
-            prop: {
-                name: 'name',
-                value: 'id'
-            },
+            filterable: true,
             data: {{ xm_categories|json_encode }}
         });
 
@@ -110,10 +107,7 @@
             el: '#xm-teacher-ids',
             name: 'xm_teacher_ids',
             max: 5,
-            prop: {
-                name: 'name',
-                value: 'id'
-            },
+            filterable: true,
             data: {{ xm_teachers|json_encode }}
         });
 

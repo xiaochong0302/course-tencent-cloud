@@ -26,7 +26,7 @@ class OptimizeTableTask extends Task
 
         $tableName = $sessionModel->getSource();
 
-        $this->db->delete($tableName, "expire_time < :expire_time", [
+        $this->db->delete($tableName, 'expire_time < :expire_time', [
             'expire_time' => strtotime('-3 days'),
         ]);
 
@@ -39,7 +39,7 @@ class OptimizeTableTask extends Task
 
         $tableName = $tokenModel->getSource();
 
-        $this->db->delete($tableName, "expire_time < :expire_time", [
+        $this->db->delete($tableName, 'expire_time < :expire_time', [
             'expire_time' => strtotime('-3 days'),
         ]);
 
@@ -56,7 +56,7 @@ class OptimizeTableTask extends Task
 
         $tableName = $messageModel->getSource();
 
-        $this->db->delete($tableName, "create_time < :create_time", [
+        $this->db->delete($tableName, 'create_time < :create_time', [
             'create_time' => strtotime('-6 months'),
         ]);
 
@@ -73,7 +73,7 @@ class OptimizeTableTask extends Task
 
         $tableName = $learningModel->getSource();
 
-        $this->db->delete($tableName, "create_time < :create_time", [
+        $this->db->delete($tableName, 'create_time < :create_time', [
             'create_time' => strtotime('-6 months'),
         ]);
 
@@ -90,7 +90,7 @@ class OptimizeTableTask extends Task
 
         $tableName = $taskModel->getSource();
 
-        $this->db->delete($tableName, "create_time < :create_time AND status > :status", [
+        $this->db->delete($tableName, 'create_time < :create_time AND status > :status', [
             'create_time' => strtotime('-6 months'),
             'status' => TaskModel::STATUS_PENDING,
         ]);

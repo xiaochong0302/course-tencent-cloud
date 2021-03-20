@@ -28,9 +28,9 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label" for="content">评价</label>
+            <label class="layui-form-label">课程评价</label>
             <div class="layui-input-block">
-                <textarea name="content" id="content" class="layui-textarea" lay-verify="required">{{ review.content }}</textarea>
+                <div class="layui-form-mid gray">{{ review.content }}</div>
             </div>
         </div>
         <div class="layui-form-item">
@@ -67,6 +67,7 @@
             rate.render({
                 elem: '#rating1',
                 value: $rating1.val(),
+                readonly: true,
                 choose: function (value) {
                     $rating1.val(value);
                 }
@@ -75,6 +76,7 @@
             rate.render({
                 elem: '#rating2',
                 value: $rating2.val(),
+                readonly: true,
                 choose: function (value) {
                     $rating2.val(value);
                 }
@@ -83,6 +85,7 @@
             rate.render({
                 elem: '#rating3',
                 value: $rating3.val(),
+                readonly: true,
                 choose: function (value) {
                     $rating3.val(value);
                 }

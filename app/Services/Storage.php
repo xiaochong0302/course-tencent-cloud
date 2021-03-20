@@ -248,9 +248,11 @@ class Storage extends Service
      */
     protected function generateFileName($extension = '', $prefix = '')
     {
-        $randName = date('YmdHis') . rand(100, 999) . rand(100, 999);
+        $dir = date('Y') . '/' . date('m') . '/';
 
-        return $prefix . $randName . '.' . $extension;
+        $name = uniqid();
+
+        return sprintf('%s%s%s.%s', $prefix, $dir, $name, $extension);
     }
 
     /**

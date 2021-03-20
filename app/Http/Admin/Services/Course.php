@@ -261,18 +261,13 @@ class Course extends Service
             'deleted' => 0,
         ]);
 
-        if ($allCategories->count() == 0) {
-            return [];
-        }
+        if ($allCategories->count() == 0) return [];
 
         $courseCategoryIds = [];
 
         if ($id > 0) {
-
             $courseRepo = new CourseRepo();
-
             $courseCategories = $courseRepo->findCategories($id);
-
             if ($courseCategories->count() > 0) {
                 foreach ($courseCategories as $category) {
                     $courseCategoryIds[] = $category->id;
@@ -300,8 +295,8 @@ class Course extends Service
             $parentId = $category->parent_id;
             if ($category->level == 2) {
                 $list[$parentId]['children'][] = [
-                    'id' => $category->id,
                     'name' => $category->name,
+                    'value' => $category->id,
                     'selected' => $selected,
                 ];
             }
@@ -316,18 +311,13 @@ class Course extends Service
 
         $allTeachers = $userRepo->findTeachers();
 
-        if ($allTeachers->count() == 0) {
-            return [];
-        }
+        if ($allTeachers->count() == 0) return [];
 
         $courseTeacherIds = [];
 
         if ($id > 0) {
-
             $courseRepo = new CourseRepo();
-
             $courseTeachers = $courseRepo->findTeachers($id);
-
             if ($courseTeachers->count() > 0) {
                 foreach ($courseTeachers as $teacher) {
                     $courseTeacherIds[] = $teacher->id;
@@ -340,8 +330,8 @@ class Course extends Service
         foreach ($allTeachers as $teacher) {
             $selected = in_array($teacher->id, $courseTeacherIds);
             $list[] = [
-                'id' => $teacher->id,
                 'name' => $teacher->name,
+                'value' => $teacher->id,
                 'selected' => $selected,
             ];
         }
@@ -355,19 +345,29 @@ class Course extends Service
 
         $courses = $courseRepo->findRelatedCourses($id);
 
-        $list = [];
+        $courseIds = [];
 
         if ($courses->count() > 0) {
             foreach ($courses as $course) {
-                $list[] = [
-                    'id' => $course->id,
-                    'title' => $course->title,
-                    'selected' => true,
-                ];
+                $courseIds[] = $course->id;
             }
         }
 
-        return $list;
+        $items = $courseRepo->findAll(['published' => 1]);
+
+        if ($items->count() == 0) return [];
+
+        $result = [];
+
+        foreach ($items as $item) {
+            $result[] = [
+                'name' => sprintf('%s（¥%0.2f）', $item->title, $item->market_price),
+                'value' => $item->id,
+                'selected' => in_array($item->id, $courseIds),
+            ];
+        }
+
+        return $result;
     }
 
     public function getChapters($id)
@@ -431,7 +431,6 @@ class Course extends Service
                     'user_id' => $teacherId,
                     'role_type' => CourseUserModel::ROLE_TEACHER,
                     'source_type' => CourseUserModel::SOURCE_IMPORT,
-                    'expiry_time' => strtotime('+10 years'),
                 ]);
             }
         }

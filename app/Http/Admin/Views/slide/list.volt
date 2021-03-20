@@ -2,17 +2,10 @@
 
 {% block content %}
 
-    {%- macro target_info(value) %}
-        {% if value == 1 %}
-            课程
-        {% elseif value == 2 %}
-            单页
-        {% elseif value == 3 %}
-            链接
-        {% endif %}
-    {%- endmacro %}
+    {{ partial('macros/slide') }}
 
     {% set add_url = url({'for':'admin.slide.add'}) %}
+    {% set search_url = url({'for':'admin.slide.search'}) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
@@ -24,11 +17,15 @@
             <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
                 <i class="layui-icon layui-icon-add-1"></i>添加轮播
             </a>
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索轮播
+            </a>
         </div>
     </div>
 
     <table class="layui-table kg-table layui-form">
         <colgroup>
+            <col>
             <col>
             <col>
             <col>
@@ -41,6 +38,7 @@
             <th>编号</th>
             <th>标题</th>
             <th>目标类型</th>
+            <th>目标信息</th>
             <th>排序</th>
             <th>发布</th>
             <th>操作</th>
@@ -56,6 +54,7 @@
                 <td>{{ item.id }}</td>
                 <td><a href="{{ edit_url }}">{{ item.title }}</a></td>
                 <td>{{ target_info(item.target) }}</td>
+                <td>{{ target_attrs_info(item.target_attrs) }}</td>
                 <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
                 <td><input type="checkbox" name="published" value="1" lay-filter="published" lay-skin="switch" lay-text="是|否" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">

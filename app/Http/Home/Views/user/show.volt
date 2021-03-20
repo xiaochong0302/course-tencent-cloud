@@ -9,6 +9,7 @@
     {% set qrcode_url = url({'for':'home.qrcode'},{'text':full_user_url}) %}
     {% set user.area = user.area ? user.area : '火星' %}
     {% set user.about = user.about ? user.about : '这个家伙很懒，什么都没留下！' %}
+    {% set avatar_class = user.vip == 1 ? 'avatar vip' : 'avatar' %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
@@ -25,8 +26,7 @@
     </div>
 
     <div class="user-profile wrap clearfix">
-        {{ vip_info(user.vip) }}
-        <div class="avatar">
+        <div class="{{ avatar_class }}">
             <img src="{{ user.avatar }}!avatar_160" alt="{{ user.name }}">
         </div>
         <div class="info">

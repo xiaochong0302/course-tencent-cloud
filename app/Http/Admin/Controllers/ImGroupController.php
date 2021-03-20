@@ -34,6 +34,7 @@ class ImGroupController extends Controller
         $types = $groupService->getGroupTypes();
 
         $this->view->pick('im/group/search');
+
         $this->view->setVar('types', $types);
     }
 

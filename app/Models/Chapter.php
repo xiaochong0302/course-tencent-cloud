@@ -95,7 +95,7 @@ class Chapter extends Model
      *
      * @var int
      */
-    public $priority = 0;
+    public $priority = 100;
 
     /**
      * 免费标识
@@ -116,7 +116,7 @@ class Chapter extends Model
      *
      * @var string|array
      */
-    public $attrs = '';
+    public $attrs = [];
 
     /**
      * 发布标识
@@ -214,7 +214,7 @@ class Chapter extends Model
                     $this->attrs = $this->_read_attrs;
                 }
             }
-            if (is_array($this->attrs) && !empty($this->attrs)) {
+            if (is_array($this->attrs)) {
                 $this->attrs = kg_json_encode($this->attrs);
             }
         }
@@ -224,7 +224,7 @@ class Chapter extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->attrs) && !empty($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -244,7 +244,7 @@ class Chapter extends Model
 
     public function afterFetch()
     {
-        if (is_string($this->attrs) && !empty($this->attrs)) {
+        if (is_string($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
         }
     }

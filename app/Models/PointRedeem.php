@@ -117,8 +117,6 @@ class PointRedeem extends Model
 
     public function beforeCreate()
     {
-        $this->status = self::STATUS_PENDING;
-
         $this->create_time = time();
     }
 

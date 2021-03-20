@@ -4,10 +4,10 @@
             {% set user.title = user.title ? user.title : '暂露头角' %}
             {% set user.about = user.about ? user.about : '这个人很懒，什么都没留下' %}
             {% set user_url = url({'for':'home.user.show','id':user.id}) %}
-            <div class="layui-col-md2">
+            {% set avatar_class = user.vip == 1 ? 'avatar vip' : 'avatar' %}
+            <div class="layui-col-md3">
                 <div class="user-card">
-                    {{ vip_info(user.vip) }}
-                    <div class="avatar">
+                    <div class="{{ avatar_class }}">
                         <a href="{{ user_url }}" title="{{ user.about }}" target="user">
                             <img src="{{ user.avatar }}!avatar_160" alt="{{ user.name }}">
                         </a>

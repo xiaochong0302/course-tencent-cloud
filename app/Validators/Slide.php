@@ -5,8 +5,6 @@ namespace App\Validators;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\Client as ClientModel;
-use App\Models\Course as CourseModel;
-use App\Models\Page as PageModel;
 use App\Models\Slide as SlideModel;
 use App\Repos\Slide as SlideRepo;
 
@@ -111,7 +109,9 @@ class Slide extends Validator
 
     public function checkCourse($courseId)
     {
-        $course = CourseModel::findFirst($courseId);
+        $courseValidator = new Course();
+
+        $course = $courseValidator->checkCourse($courseId);
 
         if (!$course || $course->deleted == 1) {
             throw new BadRequestException('slide.course_not_found');
@@ -126,7 +126,9 @@ class Slide extends Validator
 
     public function checkPage($pageId)
     {
-        $page = PageModel::findFirst($pageId);
+        $pageValidator = new Page();
+
+        $page = $pageValidator->checkPage($pageId);
 
         if (!$page || $page->deleted == 1) {
             throw new BadRequestException('slide.page_not_found');
@@ -139,9 +141,9 @@ class Slide extends Validator
         return $page;
     }
 
-    public function checkLink($link)
+    public function checkLink($url)
     {
-        $value = $this->filter->sanitize($link, ['trim', 'string']);
+        $value = $this->filter->sanitize($url, ['trim', 'string']);
 
         if (!CommonValidator::url($value)) {
             throw new BadRequestException('slide.invalid_link');

@@ -15,7 +15,7 @@ return [
 
         'default_migration_table' => 'kg_migration',
 
-        'default_database' => 'production',
+        'default_environment' => 'production',
 
         'production' => [
             'adapter' => 'mysql',

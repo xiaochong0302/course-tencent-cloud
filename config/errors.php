@@ -135,9 +135,27 @@ $error['package.not_found'] = '套餐不存在';
 $error['package.title_too_short'] = '标题太短（少于5个字符）';
 $error['package.title_too_long'] = '标题太长（多于50个字符）';
 $error['package.summary_too_long'] = '简介太长（多于255个字符）';
+$error['package.invalid_cover'] = '无效的封面';
 $error['package.invalid_market_price'] = '无效的优惠价格';
 $error['package.invalid_vip_price'] = '无效的会员价格';
 $error['package.invalid_publish_status'] = '无效的发布状态';
+
+/**
+ * 赞赏相关
+ */
+$error['reward.not_found'] = '赞赏不存在';
+$error['reward.title_too_short'] = '标题太短（少于5个字符）';
+$error['reward.title_too_long'] = '标题太长（多于30个字符）';
+$error['reward.invalid_price'] = '无效的金额（范围：0.01-10000）';
+
+/**
+ * 会员相关
+ */
+$error['vip.not_found'] = '会员不存在';
+$error['vip.title_too_short'] = '标题太短（少于5个字符）';
+$error['vip.title_too_long'] = '标题太长（多于30个字符）';
+$error['package.invalid_price'] = '无效的价格（范围：0.01-10000）';
+$error['package.invalid_expiry'] = '无效的期限（范围：1~60）';
 
 /**
  * 课程成员
@@ -177,8 +195,6 @@ $error['chapter_vod.invalid_file_id'] = '无效的文件编号';
 $error['chapter_live.not_found'] = '直播资源不存在';
 $error['chapter_live.invalid_start_time'] = '无效的开始时间';
 $error['chapter_live.invalid_end_time'] = '无效的结束时间';
-$error['chapter_live.start_lt_now'] = '开始时间小于当前时间';
-$error['chapter_live.end_lt_now'] = '结束时间小于当前时间';
 $error['chapter_live.start_gt_end'] = '开始时间大于结束时间';
 $error['chapter_live.time_too_long'] = '直播时间太长（超过3小时）';
 
@@ -376,9 +392,9 @@ $error['point_gift.name_too_long'] = '礼品名称太长（超过30字符）';
 $error['point_gift.details_too_long'] = '礼品详情太长（多于30000个字符）';
 $error['point_gift.invalid_cover'] = '无效的封面';
 $error['point_gift.invalid_type'] = '无效的类型';
-$error['point_gift.invalid_point'] = '无效的积分值（范围1-999999）';
-$error['point_gift.invalid_stock'] = '无效的库存值（范围1-999999）';
-$error['point_gift.invalid_redeem_limit'] = '无效的兑换限额（范围1-999999）';
+$error['point_gift.invalid_point'] = '无效的积分值（范围：1-999999）';
+$error['point_gift.invalid_stock'] = '无效的库存值（范围：1-999999）';
+$error['point_gift.invalid_redeem_limit'] = '无效的兑换限额（范围：1-10）';
 $error['point_gift.invalid_publish_status'] = '无效的发布状态';
 
 $error['point_redeem.not_found'] = '兑换不存在';
@@ -390,5 +406,22 @@ $error['point_redeem.reach_redeem_limit'] = '超出物品兑换限额';
 $error['point_redeem.no_enough_point'] = '您的积分余额不足以抵扣此次兑换';
 $error['point_redeem.no_enough_stock'] = '兑换物品库存不足';
 
+/**
+ * 限时秒杀相关
+ */
+$error['flash_sale.not_found'] = '秒杀活动不存在';
+$error['flash_sale.invalid_item_type'] = '无效的商品类型';
+$error['flash_sale.invalid_start_time'] = '无效的开始时间';
+$error['flash_sale.invalid_end_time'] = '无效的结束时间';
+$error['flash_sale.start_gt_end'] = '开始时间大于结束时间';
+$error['flash_sale.invalid_schedules'] = '无效的秒杀场次';
+$error['flash_sale.invalid_price'] = '无效的价格（范围：0.01-10000）';
+$error['flash_sale.unreasonable_price'] = '不合理的定价（秒杀价大于销售价）';
+$error['flash_sale.invalid_stock'] = '无效的库存值（范围：1-999999）';
+$error['flash_sale.invalid_publish_status'] = '无效的发布状态';
+$error['flash_sale.expired'] = '活动已过期';
+$error['flash_sale.out_schedules'] = '当前时间和秒杀场次不匹配';
+$error['flash_sale.not_paid'] = '订单尚未完成，请前往用户中心支付';
+$error['flash_sale.out_stock'] = '下手太慢，商品被秒光啦';
 
 return $error;

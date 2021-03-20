@@ -17,7 +17,7 @@ class PointGift extends Validator
      * @return PointGiftModel
      * @throws BadRequestException
      */
-    public function checkGiftCache($id)
+    public function checkPointGiftCache($id)
     {
         $this->checkId($id);
 
@@ -32,7 +32,7 @@ class PointGift extends Validator
         return $gift;
     }
 
-    public function checkGift($id)
+    public function checkPointGift($id)
     {
         $this->checkId($id);
 
@@ -116,7 +116,7 @@ class PointGift extends Validator
     {
         $list = PointGiftModel::types();
 
-        if (!isset($list[$type])) {
+        if (!array_key_exists($type, $list)) {
             throw new BadRequestException('point_gift.invalid_type');
         }
 
@@ -138,7 +138,7 @@ class PointGift extends Validator
     {
         $value = $this->filter->sanitize($stock, ['trim', 'int']);
 
-        if ($value < 1 || $value > 999999) {
+        if ($value < 0 || $value > 999999) {
             throw new BadRequestException('point_gift.invalid_stock');
         }
 
@@ -149,7 +149,7 @@ class PointGift extends Validator
     {
         $value = $this->filter->sanitize($limit, ['trim', 'int']);
 
-        if ($value < 1 || $value > 999999) {
+        if ($value < 1 || $value > 10) {
             throw new BadRequestException('point_gift.invalid_redeem_limit');
         }
 

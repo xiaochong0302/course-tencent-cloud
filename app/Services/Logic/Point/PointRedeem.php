@@ -22,7 +22,7 @@ class PointRedeem extends Service
     {
         $giftId = $this->request->getPost('gift_id', ['trim', 'int']);
 
-        $gift = $this->checkGift($giftId);
+        $gift = $this->checkPointGift($giftId);
 
         $user = $this->getLoginUser();
 
@@ -65,6 +65,8 @@ class PointRedeem extends Service
                 $redeem->contact_phone = $contact->phone;
                 $redeem->contact_address = $contact->fullAddress();
             }
+
+            $redeem->status = PointRedeemModel::STATUS_PENDING;
 
             $result = $redeem->create();
 

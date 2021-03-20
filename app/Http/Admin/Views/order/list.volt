@@ -43,8 +43,13 @@
             {% set show_url = url({'for':'admin.order.show','id':item.id}) %}
             <tr>
                 <td>
-                    <p>商品：{{ item.subject }}</p>
-                    <p>单号：{{ item.sn }}</p>
+                    <p>名称：{{ item.subject }}</p>
+                    <p class="meta">
+                        <span>单号：{{ item.sn }}</span>
+                        {% if item.promotion_type > 0 %}
+                            <span>促销：{{ promotion_type(item.promotion_type) }}</span>
+                        {% endif %}
+                    </p>
                 </td>
                 <td>
                     <p>昵称：{{ item.owner.name }}</p>

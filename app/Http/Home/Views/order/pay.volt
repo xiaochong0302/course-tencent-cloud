@@ -25,7 +25,11 @@
             {% endif %}
         </div>
         <div class="footer">
-            <span class="tips">友情提示：请在12小时内完成支付，有问题请联系客服</span>
+            {% if order.promotion_type == 0 %}
+                <span class="tips">友情提示：请在12小时内完成支付，有问题请联系客服</span>
+            {% elseif order.promotion_type == 1 %}
+                <span class="tips">友情提示：请在15分钟内完成支付，有问题请联系客服</span>
+            {% endif %}
         </div>
     </div>
 

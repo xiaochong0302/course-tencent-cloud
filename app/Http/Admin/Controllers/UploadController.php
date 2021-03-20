@@ -11,6 +11,48 @@ class UploadController extends Controller
 {
 
     /**
+     * @Post("/site/logo", name="admin.upload.site_logo")
+     */
+    public function uploadSiteLogoAction()
+    {
+        $service = new StorageService();
+
+        $file = $service->uploadSiteLogo();
+
+        if (!$file) {
+            return $this->jsonError(['msg' => '上传文件失败']);
+        }
+
+        $data = [
+            'src' => $service->getImageUrl($file->path),
+            'title' => $file->name,
+        ];
+
+        return $this->jsonSuccess(['data' => $data]);
+    }
+
+    /**
+     * @Post("/site/favicon", name="admin.upload.site_favicon")
+     */
+    public function uploadSiteFaviconAction()
+    {
+        $service = new StorageService();
+
+        $file = $service->uploadSiteFavicon();
+
+        if (!$file) {
+            return $this->jsonError(['msg' => '上传文件失败']);
+        }
+
+        $data = [
+            'src' => $service->getImageUrl($file->path),
+            'title' => $file->name,
+        ];
+
+        return $this->jsonSuccess(['data' => $data]);
+    }
+
+    /**
      * @Post("/cover/img", name="admin.upload.cover_img")
      */
     public function uploadCoverImageAction()
@@ -71,6 +113,28 @@ class UploadController extends Controller
         ];
 
         return $this->jsonSuccess(['data' => $data]);
+    }
+
+    /**
+     * @Post("/default/img", name="admin.upload.default_img")
+     */
+    public function uploadDefaultImageAction()
+    {
+        $service = new StorageService();
+
+        $items = [];
+
+        $items['user_avatar'] = $service->uploadDefaultUserAvatar();
+        $items['group_avatar'] = $service->uploadDefaultGroupAvatar();
+        $items['course_cover'] = $service->uploadDefaultCourseCover();
+        $items['group_cover'] = $service->uploadDefaultPackageCover();
+        $items['vip_cover'] = $service->uploadDefaultVipCover();
+
+        foreach ($items as $item) {
+            if (!$item) return $this->jsonError(['msg' => '上传文件失败']);
+        }
+
+        return $this->jsonSuccess(['msg' => '上传文件成功']);
     }
 
     /**

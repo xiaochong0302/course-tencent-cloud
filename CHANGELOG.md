@@ -1,3 +1,16 @@
+### [v1.2.9](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.9)(2021-03-22)
+
+### 更新
+
+- 增加限时秒杀功能
+- 更新phinx默认环境配置项
+- 优化存储相关命名以及逻辑
+- 重构轮播图表结构
+- 重构套餐数表结构
+- 重构会员表结构
+- 重构xm-select插件选取内容方式
+- 整理UI展现形式
+
 ### [v1.2.8](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.8)(2021-03-08)
 
 ### 更新
