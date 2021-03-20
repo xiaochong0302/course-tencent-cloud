@@ -53,7 +53,7 @@
         {% set vip = item_info.vip %}
         <div class="cart-course-card clearfix">
             <div class="cover">
-                <img src="/static/home/img/vip_cover.png" alt="会员服务">
+                <img src="{{ vip.cover }}!cover_270" alt="{{ vip.title }}">
             </div>
             <div class="info">
                 <p>会员服务</p>

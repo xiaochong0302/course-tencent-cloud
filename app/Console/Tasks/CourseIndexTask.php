@@ -60,11 +60,11 @@ class CourseIndexTask extends Task
 
         $index = $handler->getXS()->getIndex();
 
-        echo 'start clean course index' . PHP_EOL;
+        echo '------ start clean course index ------' . PHP_EOL;
 
         $index->clean();
 
-        echo 'end clean course index' . PHP_EOL;
+        echo '------ end clean course index ------' . PHP_EOL;
     }
 
     /**
@@ -82,7 +82,7 @@ class CourseIndexTask extends Task
 
         $index = $handler->getXS()->getIndex();
 
-        echo 'start rebuild course index' . PHP_EOL;
+        echo '------ start rebuild course index ------' . PHP_EOL;
 
         $index->beginRebuild();
 
@@ -93,7 +93,7 @@ class CourseIndexTask extends Task
 
         $index->endRebuild();
 
-        echo 'end rebuild course index' . PHP_EOL;
+        echo '------ end rebuild course index ------' . PHP_EOL;
     }
 
     /**

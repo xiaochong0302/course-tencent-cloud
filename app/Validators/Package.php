@@ -5,6 +5,7 @@ namespace App\Validators;
 use App\Caches\MaxPackageId as MaxPackageIdCache;
 use App\Caches\Package as PackageCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Package as PackageModel;
 use App\Repos\Package as PackageRepo;
 
@@ -57,6 +58,17 @@ class Package extends Validator
         if ($id < 1 || $id > $maxId) {
             throw new BadRequestException('package.not_found');
         }
+    }
+
+    public function checkCover($cover)
+    {
+        $value = $this->filter->sanitize($cover, ['trim', 'string']);
+
+        if (!CommonValidator::url($value)) {
+            throw new BadRequestException('package.invalid_cover');
+        }
+
+        return kg_cos_img_style_trim($value);
     }
 
     public function checkTitle($title)

@@ -1,20 +1,20 @@
 {%- macro redeem_status_info(value) %}
     {% if value == 1 %}
-        <span class="status">处理中</span>
+        处理中
     {% elseif value == 2 %}
-        <span class="status">已完成</span>
+        已完成
     {% elseif value == 3 %}
-        <span class="status">已失败</span>
+        已失败
     {% endif %}
 {%- endmacro %}
 
 {%- macro gift_type_info(value) %}
     {% if value == 1 %}
-        <span class="layui-badge layui-bg-green type">课程</span>
+        课程
     {% elseif value == 2 %}
-        <span class="layui-badge layui-bg-blue type">商品</span>
+        商品
     {% elseif value == 3 %}
-        <span class="layui-badge layui-bg-cyan type">现金</span>
+        现金
     {% endif %}
 {%- endmacro %}
 
@@ -28,21 +28,21 @@
 
 {%- macro event_type_info(value) %}
     {% if value == 1 %}
-        <span class="type">订单消费</span>
+        订单消费
     {% elseif value == 2 %}
-        <span class="type">积分兑换</span>
+        积分兑换
     {% elseif value == 3 %}
-        <span class="type">积分退款</span>
+        积分退款
     {% elseif value == 4 %}
-        <span class="type">帐号注册</span>
+        帐号注册
     {% elseif value == 5 %}
-        <span class="type">站点访问</span>
+        站点访问
     {% elseif value == 6 %}
-        <span class="type">课时学习</span>
+        课时学习
     {% elseif value == 7 %}
-        <span class="type">课程评价</span>
+        课程评价
     {% elseif value == 8 %}
-        <span class="type">微聊讨论</span>
+        微聊讨论
     {% endif %}
 {%- endmacro %}
 

@@ -12,7 +12,7 @@
                     <span class="title">积分记录</span>
                 </div>
                 {% if pager.total_pages > 0 %}
-                    <table class="layui-table history-table" lay-size="lg">
+                    <table class="layui-table" lay-size="lg">
                         <colgroup>
                             <col>
                             <col>

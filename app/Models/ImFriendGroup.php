@@ -26,7 +26,7 @@ class ImFriendGroup extends Model
      *
      * @var int
      */
-    public $priority = 0;
+    public $priority = 100;
 
     /**
      * 状态

@@ -112,6 +112,7 @@ class OrderConfirm extends Service
         return [
             'id' => $vip->id,
             'title' => $vip->title,
+            'cover' => $vip->cover,
             'expiry' => $vip->expiry,
             'price' => $vip->price,
         ];

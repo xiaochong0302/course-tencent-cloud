@@ -6,12 +6,46 @@ use App\Caches\Topic as TopicCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\CourseTopic as CourseTopicModel;
 use App\Models\Topic as TopicModel;
+use App\Repos\Course as CourseRepo;
 use App\Repos\CourseTopic as CourseTopicRepo;
 use App\Repos\Topic as TopicRepo;
 use App\Validators\Topic as TopicValidator;
 
 class Topic extends Service
 {
+
+    public function getXmCourses($id)
+    {
+        $topicRepo = new TopicRepo();
+
+        $courses = $topicRepo->findCourses($id);
+
+        $courseIds = [];
+
+        if ($courses->count() > 0) {
+            foreach ($courses as $course) {
+                $courseIds[] = $course->id;
+            }
+        }
+
+        $courseRepo = new CourseRepo();
+
+        $items = $courseRepo->findAll(['published' => 1]);
+
+        if ($items->count() == 0) return [];
+
+        $result = [];
+
+        foreach ($items as $item) {
+            $result[] = [
+                'name' => sprintf('%s（¥%0.2f）', $item->title, $item->market_price),
+                'value' => $item->id,
+                'selected' => in_array($item->id, $courseIds),
+            ];
+        }
+
+        return $result;
+    }
 
     public function getTopics()
     {
@@ -114,27 +148,6 @@ class Topic extends Service
         $this->rebuildTopicCache($topic);
 
         return $topic;
-    }
-
-    public function getXmCourses($id)
-    {
-        $topicRepo = new TopicRepo();
-
-        $courses = $topicRepo->findCourses($id);
-
-        $list = [];
-
-        if ($courses->count() > 0) {
-            foreach ($courses as $course) {
-                $list[] = [
-                    'id' => $course->id,
-                    'title' => $course->title,
-                    'selected' => true,
-                ];
-            }
-        }
-
-        return $list;
     }
 
     protected function saveCourses(TopicModel $topic, $courseIds)

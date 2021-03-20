@@ -33,8 +33,14 @@
                             {% set allow_review = item.progress > 30 and item.reviewed == 0 %}
                             <tr>
                                 <td>
-                                    <p>标题：<a href="{{ course_url }}">{{ item.course.title }}</a> {{ model_info(item.course.model) }}</p>
-                                    <p>来源：{{ source_type_info(item.source_type) }}&nbsp;&nbsp;期限：{{ date('Y-m-d',item.expiry_time) }}</p>
+                                    <p>标题：<a href="{{ course_url }}">{{ item.course.title }}</a></p>
+                                    <p class="meta">
+                                        类型：<span class="layui-badge layui-bg-gray">{{ model_info(item.course.model) }}</span>
+                                        来源：<span class="layui-badge layui-bg-gray">{{ source_type_info(item.source_type) }}</span>
+                                        {% if item.expiry_time > 0 %}
+                                            期限：{{ date('Y-m-d',item.expiry_time) }}
+                                        {% endif %}
+                                    </p>
                                 </td>
                                 <td>
                                     <p>用时：{{ item.duration|duration }}</p>

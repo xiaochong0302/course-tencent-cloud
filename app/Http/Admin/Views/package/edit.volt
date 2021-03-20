@@ -13,6 +13,16 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">封面</label>
+            <div class="layui-input-inline">
+                <img id="img-cover" class="kg-cover" src="{{ package.cover }}">
+                <input type="hidden" name="cover" value="{{ package.cover }}">
+            </div>
+            <div class="layui-input-inline" style="padding-top:35px;">
+                <button id="change-cover" class="layui-btn layui-btn-sm" type="button">更换</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">简介</label>
             <div class="layui-input-block">
                 <textarea class="layui-textarea" name="summary">{{ package.summary }}</textarea>
@@ -26,14 +36,11 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">优惠价格</label>
+                <label class="layui-form-label">市场价格</label>
                 <div class="layui-input-inline">
                     <input class="layui-input" type="text" name="market_price" value="{{ package.market_price }}" lay-verify="number">
                 </div>
                 <div class="layui-form-mid layui-word-aux">元</div>
-                <div class="layui-form-mid">
-                    <a class="kg-guiding" href="javascript:" package-id="{{ package.id }}">（价格参考）</a>
-                </div>
             </div>
         </div>
         <div class="layui-form-item">
@@ -43,9 +50,6 @@
                     <input class="layui-input" type="text" name="vip_price" value="{{ package.vip_price }}" lay-verify="number">
                 </div>
                 <div class="layui-form-mid layui-word-aux">元</div>
-                <div class="layui-form-mid">
-                    <a class="kg-guiding" href="javascript:" package-id="{{ package.id }}">（价格参考）</a>
-                </div>
             </div>
         </div>
         <div class="layui-form-item">
@@ -62,7 +66,7 @@
 {% block include_js %}
 
     {{ js_include('lib/xm-select.js') }}
-    {{ js_include('admin/js/xm-course.js') }}
+    {{ js_include('admin/js/cover.upload.js') }}
 
 {% endblock %}
 
@@ -70,24 +74,14 @@
 
     <script>
 
-        xmCourse({{ xm_courses|json_encode }}, '/admin/xm/course/paid');
-
         layui.use(['jquery', 'layer'], function () {
 
-            var $ = layui.jquery;
-            var layer = layui.layer;
-
-            $('.kg-guiding').on('click', function () {
-                var xmCourseIds = $('input[name=xm_course_ids]').val();
-                var url = '/admin/package/guiding?xm_course_ids=' + xmCourseIds;
-                layer.open({
-                    id: 'xm-course',
-                    type: 2,
-                    title: '价格参考',
-                    resize: false,
-                    area: ['720px', '400px'],
-                    content: [url]
-                });
+            xmSelect.render({
+                el: '#xm-course-ids',
+                name: 'xm_course_ids',
+                autoRow: true,
+                filterable: true,
+                data: {{ xm_courses|json_encode }}
             });
 
         });

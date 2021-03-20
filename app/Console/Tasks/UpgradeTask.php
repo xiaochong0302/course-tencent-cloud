@@ -23,7 +23,7 @@ class UpgradeTask extends Task
      */
     public function resetSettingAction()
     {
-        echo "start reset setting..." . PHP_EOL;
+        echo '------ start reset setting ------' . PHP_EOL;
 
         $rows = SettingModel::query()->columns('section')->distinct(true)->execute();
 
@@ -32,7 +32,7 @@ class UpgradeTask extends Task
             $cache->rebuild($row->section);
         }
 
-        echo "end reset setting..." . PHP_EOL;
+        echo '------ end reset setting ------' . PHP_EOL;
     }
 
     /**
@@ -48,7 +48,7 @@ class UpgradeTask extends Task
 
         $keys = $redis->sMembers($statsKey);
 
-        echo "start reset annotation..." . PHP_EOL;
+        echo '------ start reset annotation ------' . PHP_EOL;
 
         if (count($keys) > 0) {
             $keys = $this->handlePhKeys($keys);
@@ -56,7 +56,7 @@ class UpgradeTask extends Task
             $redis->del($statsKey);
         }
 
-        echo "end reset annotation..." . PHP_EOL;
+        echo '------ end reset annotation ------' . PHP_EOL;
     }
 
     /**
@@ -72,7 +72,7 @@ class UpgradeTask extends Task
 
         $keys = $redis->sMembers($statsKey);
 
-        echo "start reset metadata..." . PHP_EOL;
+        echo '------ start reset metadata ------' . PHP_EOL;
 
         if (count($keys) > 0) {
             $keys = $this->handlePhKeys($keys);
@@ -90,7 +90,7 @@ class UpgradeTask extends Task
      */
     public function resetVoltAction()
     {
-        echo "start reset volt..." . PHP_EOL;
+        echo '------ start reset volt ------' . PHP_EOL;
 
         $dir = cache_path('volt');
 
@@ -100,7 +100,7 @@ class UpgradeTask extends Task
             }
         }
 
-        echo "end reset volt..." . PHP_EOL;
+        echo '------ end reset volt ------' . PHP_EOL;
     }
 
     protected function handlePhKeys($keys)

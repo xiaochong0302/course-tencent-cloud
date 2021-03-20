@@ -9,9 +9,10 @@
         <div class="layui-form-item">
             <label class="layui-form-label">类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="model" value="1" title="点播" lay-filter="model" checked="checked">
-                <input type="radio" name="model" value="2" title="直播" lay-filter="model">
-                <input type="radio" name="model" value="3" title="专栏" lay-filter="model">
+                {% for value,title in model_types %}
+                    {% set checked = value == 1 ? 'checked="checked"' : '' %}
+                    <input type="radio" name="model" value="{{ value }}" title="{{ title }}" {{ checked }} lay-filter="model">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">

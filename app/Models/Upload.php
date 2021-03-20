@@ -17,6 +17,7 @@ class Upload extends Model
     const TYPE_RESOURCE = 4; // 课件资源
     const TYPE_IM_IMG = 5; // IM图片
     const TYPE_IM_FILE = 6; // IM文件
+    const TYPE_DEFAULT_IMG = 99; // 默认图片
 
     /**
      * 主键编号

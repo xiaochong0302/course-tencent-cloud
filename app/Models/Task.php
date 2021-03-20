@@ -75,7 +75,7 @@ class Task extends Model
      *
      * @var string|array
      */
-    public $item_info = '';
+    public $item_info = [];
 
     /**
      * 优先级
@@ -126,7 +126,7 @@ class Task extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->item_info) && !empty($this->item_info)) {
+        if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
 
@@ -135,7 +135,7 @@ class Task extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->item_info) && !empty($this->item_info)) {
+        if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
 
@@ -144,7 +144,7 @@ class Task extends Model
 
     public function afterFetch()
     {
-        if (is_string($this->item_info) && !empty($this->item_info)) {
+        if (is_string($this->item_info)) {
             $this->item_info = json_decode($this->item_info, true);
         }
     }

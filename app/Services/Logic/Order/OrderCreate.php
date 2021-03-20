@@ -18,6 +18,26 @@ use App\Validators\UserLimit as UserLimitValidator;
 class OrderCreate extends Service
 {
 
+    /**
+     * @var float 订单金额
+     */
+    protected $amount = 0.00;
+
+    /**
+     * @var int 促销编号
+     */
+    protected $promotion_id = 0;
+
+    /**
+     * @var int 促销类型
+     */
+    protected $promotion_type = 0;
+
+    /**
+     * @var array 促销信息
+     */
+    protected $promotion_info = [];
+
     use ClientTrait;
 
     public function handle()
@@ -49,6 +69,8 @@ class OrderCreate extends Service
 
             $validator->checkIfBoughtCourse($user->id, $course->id);
 
+            $this->amount = $user->vip ? $course->vip_price : $course->market_price;
+
             $order = $this->createCourseOrder($course, $user);
 
         } elseif ($post['item_type'] == OrderModel::ITEM_PACKAGE) {
@@ -56,6 +78,8 @@ class OrderCreate extends Service
             $package = $validator->checkPackage($post['item_id']);
 
             $validator->checkIfBoughtPackage($user->id, $package->id);
+
+            $this->amount = $user->vip ? $package->vip_price : $package->market_price;
 
             $order = $this->createPackageOrder($package, $user);
 
@@ -66,11 +90,15 @@ class OrderCreate extends Service
             $course = $validator->checkCourse($courseId);
             $reward = $validator->checkReward($rewardId);
 
+            $this->amount = $reward->price;
+
             $order = $this->createRewardOrder($course, $reward, $user);
 
         } elseif ($post['item_type'] == OrderModel::ITEM_VIP) {
 
             $vip = $validator->checkVip($post['item_id']);
+
+            $this->amount = $vip->price;
 
             $order = $this->createVipOrder($vip, $user);
         }
@@ -86,8 +114,6 @@ class OrderCreate extends Service
 
         $itemInfo['course'] = $this->handleCourseInfo($course);
 
-        $amount = $user->vip ? $course->vip_price : $course->market_price;
-
         $order = new OrderModel();
 
         $order->owner_id = $user->id;
@@ -96,8 +122,11 @@ class OrderCreate extends Service
         $order->item_info = $itemInfo;
         $order->client_type = $this->getClientType();
         $order->client_ip = $this->getClientIp();
-        $order->amount = $amount;
         $order->subject = "课程 - {$course->title}";
+        $order->amount = $this->amount;
+        $order->promotion_id = $this->promotion_id;
+        $order->promotion_type = $this->promotion_type;
+        $order->promotion_info = $this->promotion_info;
 
         $order->create();
 
@@ -123,18 +152,19 @@ class OrderCreate extends Service
             $itemInfo['courses'][] = $this->handleCourseInfo($course);
         }
 
-        $amount = $user->vip ? $package->vip_price : $package->market_price;
-
         $order = new OrderModel();
 
         $order->owner_id = $user->id;
         $order->item_id = $package->id;
         $order->item_type = OrderModel::ITEM_PACKAGE;
         $order->item_info = $itemInfo;
-        $order->amount = $amount;
         $order->client_type = $this->getClientType();
         $order->client_ip = $this->getClientIp();
         $order->subject = "套餐 - {$package->title}";
+        $order->amount = $this->amount;
+        $order->promotion_id = $this->promotion_id;
+        $order->promotion_type = $this->promotion_type;
+        $order->promotion_info = $this->promotion_info;
 
         $order->create();
 
@@ -164,8 +194,11 @@ class OrderCreate extends Service
         $order->item_info = $itemInfo;
         $order->client_type = $this->getClientType();
         $order->client_ip = $this->getClientIp();
-        $order->amount = $vip->price;
         $order->subject = "会员 - 会员服务（{$vip->title}）";
+        $order->amount = $this->amount;
+        $order->promotion_id = $this->promotion_id;
+        $order->promotion_type = $this->promotion_type;
+        $order->promotion_info = $this->promotion_info;
 
         $order->create();
 
@@ -191,8 +224,11 @@ class OrderCreate extends Service
         $order->item_info = $itemInfo;
         $order->client_type = $this->getClientType();
         $order->client_ip = $this->getClientIp();
-        $order->amount = $reward->price;
         $order->subject = "赞赏 - {$course->title}";
+        $order->amount = $this->amount;
+        $order->promotion_id = $this->promotion_id;
+        $order->promotion_type = $this->promotion_type;
+        $order->promotion_info = $this->promotion_info;
 
         $order->create();
 

@@ -19,22 +19,6 @@ class PackageController extends Controller
     }
 
     /**
-     * @Get("/guiding", name="admin.package.guiding")
-     */
-    public function guidingAction()
-    {
-        $xmCourseIds = $this->request->getQuery('xm_course_ids');
-
-        $packageService = new PackageService();
-
-        $courses = $packageService->getGuidingCourses($xmCourseIds);
-        $guidingPrice = $packageService->getGuidingPrice($courses);
-
-        $this->view->setVar('courses', $courses);
-        $this->view->setVar('guiding_price', $guidingPrice);
-    }
-
-    /**
      * @Get("/list", name="admin.package.list")
      */
     public function listAction()

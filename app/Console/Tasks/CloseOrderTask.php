@@ -13,9 +13,7 @@ class CloseOrderTask extends Task
     {
         $orders = $this->findOrders();
 
-        if ($orders->count() == 0) {
-            return;
-        }
+        if ($orders->count() == 0) return;
 
         foreach ($orders as $order) {
             $order->status = OrderModel::STATUS_CLOSED;
@@ -32,12 +30,13 @@ class CloseOrderTask extends Task
     protected function findOrders($limit = 1000)
     {
         $status = OrderModel::STATUS_PENDING;
-
-        $createTime = time() - 12 * 3600;
+        $time = time() - 12 * 3600;
+        $type = 0;
 
         return OrderModel::query()
             ->where('status = :status:', ['status' => $status])
-            ->andWhere('create_time < :create_time:', ['create_time' => $createTime])
+            ->andWhere('promotion_type = :type:', ['type' => $type])
+            ->andWhere('create_time < :time:', ['time' => $time])
             ->limit($limit)
             ->execute();
     }

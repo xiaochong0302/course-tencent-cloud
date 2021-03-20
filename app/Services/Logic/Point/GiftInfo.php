@@ -15,7 +15,7 @@ class GiftInfo extends Service
 
     public function handle($id)
     {
-        $gift = $this->checkGift($id);
+        $gift = $this->checkPointGift($id);
 
         if ($gift->type == PointGift::TYPE_COURSE) {
             $gift = $this->getCourseGift($gift);
