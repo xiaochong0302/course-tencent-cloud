@@ -53,23 +53,16 @@
         xmSelect.render({
             el: '#xm-category-ids',
             name: 'xm_category_ids',
+            filterable: true,
             max: 5,
-            prop: {
-                name: 'name',
-                value: 'id'
-            },
             data: {{ xm_categories|json_encode }}
         });
 
         xmSelect.render({
             el: '#xm-teacher-ids',
             name: 'xm_teacher_ids',
-            paging: true,
+            filterable: true,
             max: 5,
-            prop: {
-                name: 'name',
-                value: 'id'
-            },
             data: {{ xm_teachers|json_encode }}
         });
 
