@@ -214,9 +214,10 @@ class Chapter extends Model
                     $this->attrs = $this->_read_attrs;
                 }
             }
-            if (is_array($this->attrs)) {
-                $this->attrs = kg_json_encode($this->attrs);
-            }
+        }
+
+        if (is_array($this->attrs)) {
+            $this->attrs = kg_json_encode($this->attrs);
         }
 
         $this->create_time = time();
