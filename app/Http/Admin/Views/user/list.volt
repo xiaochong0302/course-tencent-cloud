@@ -2,38 +2,7 @@
 
 {% block content %}
 
-    {%- macro gender_info(value) %}
-        {% if value == 1 %}
-            男
-        {% elseif value == 2 %}
-            女
-        {% elseif value == 3 %}
-            密
-        {% endif %}
-    {%- endmacro %}
-
-    {%- macro edu_role_info(role) %}
-        {% if role.id == 1 %}
-            学员
-        {% elseif role.id == 2 %}
-            讲师
-        {% endif %}
-    {%- endmacro %}
-
-    {%- macro admin_role_info(role) %}
-        {% if role.id > 0 %}
-            {{ role.name }}
-        {% endif %}
-    {%- endmacro %}
-
-    {%- macro status_info(user) %}
-        {% if user.vip == 1 %}
-            <span class="layui-badge layui-bg-orange" title="期限：{{ date('Y-m-d H:i:s',user.vip_expiry_time) }}">会员</span>
-        {% endif %}
-        {% if user.locked == 1 %}
-            <span class="layui-badge" title="期限：{{ date('Y-m-d H:i:s',user.lock_expiry_time) }}">锁定</span>
-        {% endif %}
-    {%- endmacro %}
+    {{ partial('macros/user') }}
 
     {% set add_url = url({'for':'admin.user.add'}) %}
     {% set search_url = url({'for':'admin.user.search'}) %}
@@ -56,22 +25,22 @@
 
     <table class="layui-table kg-table">
         <colgroup>
+            <col width="10%">
             <col>
             <col>
             <col>
             <col>
             <col>
             <col>
-            <col>
-            <col width="12%">
+            <col width="10%">
         </colgroup>
         <thead>
         <tr>
-            <th>编号</th>
-            <th>昵称</th>
-            <th>性别</th>
-            <th>教学角色</th>
-            <th>后台角色</th>
+            <th>用户头像</th>
+            <th>用户昵称</th>
+            <th>所在地区</th>
+            <th>用户性别</th>
+            <th>用户角色</th>
             <th>活跃时间</th>
             <th>注册时间</th>
             <th>操作</th>
@@ -82,11 +51,16 @@
             {% set preview_url = url({'for':'home.user.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.user.edit','id':item.id}) %}
             <tr>
-                <td>{{ item.id }}</td>
-                <td><a href="{{ edit_url }}" title="{{ item.about }}">{{ item.name }}</a>{{ status_info(item) }}</td>
+                <td class="center">
+                    <img class="avatar-sm" src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
+                </td>
+                <td><a href="{{ preview_url }}" title="{{ item.about }}" target="_blank">{{ item.name }}</a>（{{ item.id }}）{{ status_info(item) }}</td>
+                <td>{{ item.area }}</td>
                 <td>{{ gender_info(item.gender) }}</td>
-                <td>{{ edu_role_info(item.edu_role) }}</td>
-                <td>{{ admin_role_info(item.admin_role) }}</td>
+                <td>
+                    <p>教学：{{ edu_role_info(item.edu_role) }}</p>
+                    <p>后台：{{ admin_role_info(item.admin_role) }}</p>
+                </td>
                 <td>{{ date('Y-m-d H:i:s',item.active_time) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td class="center">

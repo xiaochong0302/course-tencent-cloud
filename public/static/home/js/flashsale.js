@@ -14,7 +14,7 @@ layui.use(['jquery', 'layer', 'helper'], function () {
             type: 2,
             title: '套餐课程',
             content: url,
-            area: '800px'
+            area: ['800px', '280px']
         });
     });
 

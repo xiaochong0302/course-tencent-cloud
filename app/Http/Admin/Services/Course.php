@@ -26,6 +26,7 @@ use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Sync\CourseIndex as CourseIndexSync;
 use App\Validators\Course as CourseValidator;
+use App\Validators\CourseOffline as CourseOfflineValidator;
 
 class Course extends Service
 {
@@ -114,7 +115,7 @@ class Course extends Service
 
             $this->db->rollback();
 
-            $logger = $this->getLogger();
+            $logger = $this->getLogger('http');
 
             $logger->error('Create Course Error ' . kg_json_encode([
                     'code' => $e->getCode(),
@@ -159,17 +160,24 @@ class Course extends Service
             $data['level'] = $validator->checkLevel($post['level']);
         }
 
-        if (isset($post['price_mode'])) {
-            if ($post['price_mode'] == 'free') {
-                $data['market_price'] = 0;
-                $data['vip_price'] = 0;
-            } else {
-                $data['origin_price'] = $validator->checkOriginPrice($post['origin_price']);
-                $data['market_price'] = $validator->checkMarketPrice($post['market_price']);
-                $data['vip_price'] = $validator->checkVipPrice($post['vip_price']);
-                $data['study_expiry'] = $validator->checkStudyExpiry($post['study_expiry']);
-                $data['refund_expiry'] = $validator->checkRefundExpiry($post['refund_expiry']);
-            }
+        if (isset($post['study_expiry'])) {
+            $data['study_expiry'] = $validator->checkStudyExpiry($post['study_expiry']);
+        }
+
+        if (isset($post['refund_expiry'])) {
+            $data['refund_expiry'] = $validator->checkRefundExpiry($post['refund_expiry']);
+        }
+
+        if (isset($post['origin_price'])) {
+            $data['origin_price'] = $validator->checkOriginPrice($post['origin_price']);
+        }
+
+        if (isset($post['market_price'])) {
+            $data['market_price'] = $validator->checkMarketPrice($post['market_price']);
+        }
+
+        if (isset($post['vip_price'])) {
+            $data['vip_price'] = $validator->checkVipPrice($post['vip_price']);
         }
 
         if (isset($post['featured'])) {
@@ -193,6 +201,28 @@ class Course extends Service
 
         if (isset($post['xm_course_ids'])) {
             $this->saveRelatedCourses($course, $post['xm_course_ids']);
+        }
+
+        if ($course->model == CourseModel::MODEL_OFFLINE) {
+
+            $validator = new CourseOfflineValidator();
+
+            $data['study_expiry'] = 0;
+            $data['refund_expiry'] = 0;
+
+            if (isset($post['attrs']['start_date']) && isset($post['attrs']['end_date'])) {
+                $data['attrs']['start_date'] = $validator->checkStartDate($post['attrs']['start_date']);
+                $data['attrs']['end_date'] = $validator->checkEndDate($post['attrs']['end_date']);
+                $validator->checkDateRange($data['attrs']['start_date'], $data['attrs']['end_date']);
+            }
+
+            if (isset($post['attrs']['user_limit'])) {
+                $data['attrs']['user_limit'] = $validator->checkUserLimit($post['attrs']['user_limit']);
+            }
+
+            if (isset($post['attrs']['location'])) {
+                $data['attrs']['location'] = $validator->checkLocation($post['attrs']['location']);
+            }
         }
 
         $course->update($data);

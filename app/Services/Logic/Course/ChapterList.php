@@ -31,9 +31,7 @@ class ChapterList extends Service
 
         $chapters = $cache->get($course->id);
 
-        if (count($chapters) == 0) {
-            return [];
-        }
+        if (count($chapters) == 0) return [];
 
         if ($user->id > 0 && $this->courseUser) {
             $mapping = $this->getLearningMapping($course->id, $user->id, $this->courseUser->plan_id);
@@ -67,9 +65,7 @@ class ChapterList extends Service
 
         $userLearnings = $courseRepo->findUserLearnings($courseId, $userId, $planId);
 
-        if ($userLearnings->count() == 0) {
-            return [];
-        }
+        if ($userLearnings->count() == 0) return [];
 
         $mapping = [];
 

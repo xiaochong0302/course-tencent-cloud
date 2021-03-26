@@ -45,11 +45,32 @@
     </a>
 {%- endmacro %}
 
+{%- macro offline_lesson_info(lesson) %}
+    <a class="deny view-lesson" href="javascript:">
+        <i class="layui-icon layui-icon-user"></i>
+        <span class="title">{{ lesson.title }}</span>
+        {% if lesson.free == 1 %}
+            <span class="layui-badge free-badge">免费</span>
+        {% endif %}
+        <span class="live" title="{{ date('Y-m-d H:i',lesson.attrs.start_time) }}">{{ offline_status_info(lesson) }}</span>
+    </a>
+{%- endmacro %}
+
 {%- macro live_status_info(lesson) %}
     {% if lesson.attrs.stream.status == 'active' %}
         <span class="active">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 直播中</span>
     {% elseif lesson.attrs.start_time > time() %}
         <span class="pending">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 倒计时</span>
+    {% elseif lesson.attrs.end_time < time() %}
+        <span class="finished">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 已结束</span>
+    {% endif %}
+{%- endmacro %}
+
+{%- macro offline_status_info(lesson) %}
+    {% if lesson.attrs.start_time < time() and lesson.attrs.end_time > time() %}
+        <span class="active">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 授课中</span>
+    {% elseif lesson.attrs.start_time > time() %}
+        <span class="pending">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 未开始</span>
     {% elseif lesson.attrs.end_time < time() %}
         <span class="finished">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 已结束</span>
     {% endif %}
@@ -69,6 +90,8 @@
                                 <li class="lesson-item clearfix">{{ live_lesson_info(lesson) }}</li>
                             {% elseif lesson.model == 3 %}
                                 <li class="lesson-item clearfix">{{ read_lesson_info(lesson) }}</li>
+                            {% elseif lesson.model == 4 %}
+                                <li class="lesson-item clearfix">{{ offline_lesson_info(lesson) }}</li>
                             {% endif %}
                         {% endfor %}
                     </ul>

@@ -246,6 +246,8 @@ class OrderCreate extends Service
             'id' => $course->id,
             'title' => $course->title,
             'cover' => $course->cover,
+            'model' => $course->model,
+            'attrs' => $course->attrs,
             'market_price' => $course->market_price,
             'vip_price' => $course->vip_price,
             'study_expiry' => $course->study_expiry,

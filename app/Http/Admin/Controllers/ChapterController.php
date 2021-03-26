@@ -79,10 +79,17 @@ class ChapterController extends Controller
 
         $chapter = $chapterService->createChapter();
 
-        $location = $this->url->get([
-            'for' => 'admin.course.chapters',
-            'id' => $chapter->course_id,
-        ]);
+        if ($chapter->parent_id > 0) {
+            $location = $this->url->get([
+                'for' => 'admin.chapter.lessons',
+                'id' => $chapter->parent_id,
+            ]);
+        } else {
+            $location = $this->url->get([
+                'for' => 'admin.course.chapters',
+                'id' => $chapter->course_id,
+            ]);
+        }
 
         $content = [
             'location' => $location,
@@ -130,6 +137,10 @@ class ChapterController extends Controller
                 case CourseModel::MODEL_READ:
                     $read = $contentService->getChapterRead($chapter->id);
                     $this->view->setVar('read', $read);
+                    break;
+                case CourseModel::MODEL_OFFLINE:
+                    $offline = $contentService->getChapterOffline($chapter->id);
+                    $this->view->setVar('offline', $offline);
                     break;
             }
         }

@@ -7,6 +7,7 @@ use App\Caches\Chapter as ChapterCache;
 use App\Caches\CourseChapterList as CatalogCache;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
+use App\Models\ChapterOffline as ChapterOfflineModel;
 use App\Models\ChapterRead as ChapterReadModel;
 use App\Models\ChapterVod as ChapterVodModel;
 use App\Models\Course as CourseModel;
@@ -25,9 +26,7 @@ class Chapter extends Service
 
         $resources = $resourceRepo->findByChapterId($id);
 
-        if ($resources->count() == 0) {
-            return [];
-        }
+        if ($resources->count() == 0) return [];
 
         $builder = new ResourceListBuilder();
 
@@ -118,6 +117,10 @@ class Chapter extends Service
                         $chapterRead = new ChapterReadModel();
                         $attrs = $chapterRead->create($data);
                         break;
+                    case CourseModel::MODEL_OFFLINE:
+                        $chapterOffline = new ChapterOfflineModel();
+                        $attrs = $chapterOffline->create($data);
+                        break;
                 }
 
                 if ($attrs === false) {
@@ -137,10 +140,11 @@ class Chapter extends Service
 
             $this->db->rollback();
 
-            $logger = $this->getLogger();
+            $logger = $this->getLogger('http');
 
             $logger->error('Create Chapter Error ' . kg_json_encode([
-                    'code' => $e->getCode(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
                     'message' => $e->getMessage(),
                 ]));
 
@@ -176,7 +180,7 @@ class Chapter extends Service
 
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
-            if ($chapter->published == 0 && $post['published'] == 1) {
+            if ($post['published'] == 1) {
                 $validator->checkPublishAbility($chapter);
             }
         }
@@ -259,6 +263,8 @@ class Chapter extends Service
             $courseStats->updateLiveAttrs($course->id);
         } elseif ($course->model == CourseModel::MODEL_READ) {
             $courseStats->updateReadAttrs($course->id);
+        } elseif ($course->model == CourseModel::MODEL_OFFLINE) {
+            $courseStats->updateOfflineAttrs($course->id);
         }
     }
 

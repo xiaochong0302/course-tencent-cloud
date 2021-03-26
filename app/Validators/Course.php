@@ -165,7 +165,7 @@ class Course extends Validator
     {
         $value = $this->filter->sanitize($price, ['trim', 'float']);
 
-        if ($value < 0 || $value > 10000) {
+        if ($value < 0 || $value > 999999) {
             throw new BadRequestException('course.invalid_origin_price');
         }
 
@@ -176,7 +176,7 @@ class Course extends Validator
     {
         $value = $this->filter->sanitize($price, ['trim', 'float']);
 
-        if ($value < 0 || $value > 10000) {
+        if ($value < 0 || $value > 999999) {
             throw new BadRequestException('course.invalid_market_price');
         }
 
@@ -187,7 +187,7 @@ class Course extends Validator
     {
         $value = $this->filter->sanitize($price, ['trim', 'float']);
 
-        if ($value < 0 || $value > 10000) {
+        if ($value < 0 || $value > 999999) {
             throw new BadRequestException('course.invalid_vip_price');
         }
 
@@ -236,6 +236,8 @@ class Course extends Validator
 
     public function checkPublishAbility(CourseModel $course)
     {
+        if ($course->model == CourseModel::MODEL_OFFLINE) return true;
+
         $courseRepo = new CourseRepo();
 
         $chapters = $courseRepo->findChapters($course->id);

@@ -5,6 +5,7 @@ namespace App\Repos;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLike as ChapterLikeModel;
 use App\Models\ChapterLive as ChapterLiveModel;
+use App\Models\ChapterOffline as ChapterOfflineModel;
 use App\Models\ChapterRead as ChapterReadModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\ChapterVod as ChapterVodModel;
@@ -116,6 +117,18 @@ class Chapter extends Repository
     public function findChapterRead($chapterId)
     {
         return ChapterReadModel::findFirst([
+            'conditions' => 'chapter_id = :chapter_id:',
+            'bind' => ['chapter_id' => $chapterId],
+        ]);
+    }
+
+    /**
+     * @param int $chapterId
+     * @return ChapterOfflineModel|Model|bool
+     */
+    public function findChapterOffline($chapterId)
+    {
+        return ChapterOfflineModel::findFirst([
             'conditions' => 'chapter_id = :chapter_id:',
             'bind' => ['chapter_id' => $chapterId],
         ]);

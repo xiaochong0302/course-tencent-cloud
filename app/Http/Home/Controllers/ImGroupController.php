@@ -69,6 +69,19 @@ class ImGroupController extends Controller
     }
 
     /**
+     * @Get("/{id:[0-9]+}/edit", name="home.im_group.edit")
+     */
+    public function editAction($id)
+    {
+        $service = new ImGroupService();
+
+        $group = $service->getGroup($id);
+
+        $this->view->pick('im/group/edit');
+        $this->view->setVar('group', $group);
+    }
+
+    /**
      * @Get("/{id:[0-9]+}/users/active", name="home.im_group.active_users")
      */
     public function activeUsersAction($id)
@@ -80,6 +93,33 @@ class ImGroupController extends Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('im/group/active_users');
         $this->view->setVar('users', $users);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/users/manage", name="home.im_group.manage_users")
+     */
+    public function manageUsersAction($id)
+    {
+        $service = new ImGroupService();
+
+        $group = $service->getGroup($id);
+        $pager = $service->getGroupUsers($id);
+
+        $this->view->pick('im/group/manage_users');
+        $this->view->setVar('group', $group);
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/update", name="home.im_group.update")
+     */
+    public function updateAction($id)
+    {
+        $service = new ImGroupService();
+
+        $service->updateGroup($id);
+
+        return $this->jsonSuccess(['msg' => '更新群组成功']);
     }
 
 }

@@ -9,6 +9,9 @@
     <div class="layui-tab layui-tab-brief">
         <ul class="layui-tab-title kg-tab-title">
             <li class="layui-this">基本信息</li>
+            {% if course.model == 4 %}
+                <li>面授信息</li>
+            {% endif %}
             <li>课程介绍</li>
             <li>营销设置</li>
             <li>相关课程</li>
@@ -17,6 +20,11 @@
             <div class="layui-tab-item layui-show">
                 {{ partial('course/edit_basic') }}
             </div>
+            {% if course.model == 4 %}
+                <div class="layui-tab-item">
+                    {{ partial('course/edit_offline') }}
+                </div>
+            {% endif %}
             <div class="layui-tab-item">
                 {{ partial('course/edit_desc') }}
             </div>
@@ -79,19 +87,20 @@
 
     <script>
 
-        layui.use(['jquery', 'form', 'layer'], function () {
+        layui.use(['jquery', 'form', 'layer', 'laydate'], function () {
 
             var $ = layui.jquery;
-            var form = layui.form;
             var layer = layui.layer;
+            var laydate = layui.laydate;
 
-            form.on('radio(price_mode)', function (data) {
-                var priceBlock = $('#price-block');
-                if (data.value === 'free') {
-                    priceBlock.hide();
-                } else {
-                    priceBlock.show();
-                }
+            laydate.render({
+                elem: 'input[name="attrs[start_date]"]',
+                type: 'date'
+            });
+
+            laydate.render({
+                elem: 'input[name="attrs[end_date]"]',
+                type: 'date'
             });
 
             $('.kg-submit').on('click', function () {

@@ -381,6 +381,18 @@ class AuthNode extends Service
                             'type' => 'button',
                             'route' => 'admin.im_group.delete',
                         ],
+                        [
+                            'id' => '2-4-6',
+                            'title' => '群员列表',
+                            'type' => 'button',
+                            'route' => 'admin.im_group.users',
+                        ],
+                        [
+                            'id' => '2-4-7',
+                            'title' => '删除群员',
+                            'type' => 'button',
+                            'route' => 'admin.im_group_user.delete',
+                        ],
                     ],
                 ],
                 [
