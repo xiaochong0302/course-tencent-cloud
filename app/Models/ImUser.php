@@ -113,7 +113,7 @@ class ImUser extends Model
     public function beforeCreate()
     {
         if (empty($this->avatar)) {
-            $this->avatar = kg_default_group_avatar_path();
+            $this->avatar = kg_default_user_avatar_path();
         } elseif (Text::startsWith($this->avatar, 'http')) {
             $this->avatar = self::getAvatarPath($this->avatar);
         }
