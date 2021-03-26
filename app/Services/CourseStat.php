@@ -82,9 +82,7 @@ class CourseStat extends Service
 
         $lessons = $courseRepo->findLessons($courseId);
 
-        if ($lessons->count() == 0) {
-            return;
-        }
+        if ($lessons->count() == 0) return;
 
         $wordCount = 0;
 
@@ -92,9 +90,6 @@ class CourseStat extends Service
 
         foreach ($lessons as $lesson) {
 
-            /**
-             * @var array $attrs
-             */
             $attrs = $lesson->attrs;
 
             if (isset($attrs['word_count'])) {
@@ -106,9 +101,6 @@ class CourseStat extends Service
             }
         }
 
-        /**
-         * @var array $attrs
-         */
         $attrs = $course->attrs;
 
         $attrs['word_count'] = $wordCount;
@@ -125,17 +117,12 @@ class CourseStat extends Service
 
         $lessons = $courseRepo->findLessons($course->id);
 
-        if ($lessons->count() == 0) {
-            return;
-        }
+        if ($lessons->count() == 0) return;
 
         $scopes = [];
 
         foreach ($lessons as $lesson) {
 
-            /**
-             * @var array $attrs
-             */
             $attrs = $lesson->attrs;
 
             if (isset($attrs['start_time'])) {
@@ -145,9 +132,6 @@ class CourseStat extends Service
 
         if (!$scopes) return;
 
-        /**
-         * @var array $attrs
-         */
         $attrs = $course->attrs;
 
         $attrs['start_date'] = date('Y-m-d', min($scopes));
@@ -164,17 +148,12 @@ class CourseStat extends Service
 
         $lessons = $courseRepo->findChapters($course->id);
 
-        if ($lessons->count() == 0) {
-            return;
-        }
+        if ($lessons->count() == 0) return;
 
         $duration = 0;
 
         foreach ($lessons as $lesson) {
 
-            /**
-             * @var array $attrs
-             */
             $attrs = $lesson->attrs;
 
             if (isset($attrs['duration'])) {
@@ -182,14 +161,16 @@ class CourseStat extends Service
             }
         }
 
-        /**
-         * @var array $attrs
-         */
         $attrs = $course->attrs;
 
         $attrs['duration'] = $duration;
 
         $course->update(['attrs' => $attrs]);
+    }
+
+    public function updateOfflineAttrs($courseId)
+    {
+
     }
 
     protected function calculateFreeCourseScore(CourseModel $course)

@@ -100,4 +100,13 @@ class ImGroupUser extends Validator
         }
     }
 
+    public function checkIfAllowDelete($groupId, $userId)
+    {
+        $group = $this->checkGroup($groupId);
+
+        if ($group->owner_id == $userId) {
+            throw new BadRequestException('im_group_user.delete_owner_not_allowed');
+        }
+    }
+
 }

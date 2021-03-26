@@ -80,7 +80,7 @@ class UpgradeTask extends Task
             $redis->del($statsKey);
         }
 
-        echo "end reset metadata..." . PHP_EOL;
+        echo "------ end reset metadata ------" . PHP_EOL;
     }
 
     /**

@@ -16,7 +16,8 @@ class Course extends Model
      */
     const MODEL_VOD = 1; // 点播
     const MODEL_LIVE = 2; // 直播
-    const MODEL_READ = 3; // 图文
+    const MODEL_READ = 3; // 专栏
+    const MODEL_OFFLINE = 4; // 面授
 
     /**
      * 级别
@@ -31,21 +32,41 @@ class Course extends Model
      *
      * 点播扩展属性
      */
-    protected $_vod_attrs = ['duration' => 0];
+    protected $_vod_attrs = [
+        'duration' => 0,
+    ];
 
     /**
      * @var array
      *
      * 直播扩展属性
      */
-    protected $_live_attrs = ['start_date' => '', 'end_date' => ''];
+    protected $_live_attrs = [
+        'start_date' => '',
+        'end_date' => '',
+    ];
 
     /**
      * @var array
      *
      * 图文扩展属性
      */
-    protected $_read_attrs = ['duration' => 0, 'word_count' => 0];
+    protected $_read_attrs = [
+        'duration' => 0,
+        'word_count' => 0,
+    ];
+
+    /**
+     * @var array
+     *
+     * 面授扩展属性
+     */
+    protected $_offline_attrs = [
+        'start_date' => '',
+        'end_date' => '',
+        'user_limit' => 30,
+        'location' => '',
+    ];
 
     /**
      * 主键编号
@@ -129,14 +150,14 @@ class Course extends Model
      *
      * @var int
      */
-    public $study_expiry = 0;
+    public $study_expiry = 12;
 
     /**
      * 退款期限（天）
      *
      * @var int
      */
-    public $refund_expiry = 0;
+    public $refund_expiry = 7;
 
     /**
      * 用户评价
@@ -157,14 +178,14 @@ class Course extends Model
      *
      * @var int
      */
-    public $model = 0;
+    public $model = self::MODEL_VOD;
 
     /**
      * 难度级别
      *
      * @var int
      */
-    public $level = 0;
+    public $level = self::LEVEL_JUNIOR;
 
     /**
      * 扩展属性
@@ -285,6 +306,8 @@ class Course extends Model
                 $this->attrs = $this->_live_attrs;
             } elseif ($this->model == self::MODEL_READ) {
                 $this->attrs = $this->_read_attrs;
+            } elseif ($this->model == self::MODEL_OFFLINE) {
+                $this->attrs = $this->_offline_attrs;
             }
         }
 
@@ -369,6 +392,7 @@ class Course extends Model
             self::MODEL_VOD => '点播',
             self::MODEL_LIVE => '直播',
             self::MODEL_READ => '专栏',
+            self::MODEL_OFFLINE => '面授',
         ];
     }
 

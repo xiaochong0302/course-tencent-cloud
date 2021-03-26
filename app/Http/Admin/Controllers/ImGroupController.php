@@ -11,6 +11,22 @@ class ImGroupController extends Controller
 {
 
     /**
+     * @Get("/{id:[0-9]+}/users", name="admin.im_group.users")
+     */
+    public function usersAction($id)
+    {
+        $service = new ImGroupService();
+
+        $group = $service->getGroup($id);
+        $pager = $service->getGroupUsers($id);
+
+        $this->view->pick('im/group/users');
+
+        $this->view->setVar('group', $group);
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
      * @Get("/list", name="admin.im_group.list")
      */
     public function listAction()

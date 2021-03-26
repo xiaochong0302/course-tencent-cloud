@@ -12,6 +12,7 @@ use App\Services\ChapterVod as ChapterVodService;
 use App\Services\CourseStat as CourseStatService;
 use App\Services\Vod as VodService;
 use App\Validators\ChapterLive as ChapterLiveValidator;
+use App\Validators\ChapterOffline as ChapterOfflineValidator;
 use App\Validators\ChapterRead as ChapterReadValidator;
 use App\Validators\ChapterVod as ChapterVodValidator;
 
@@ -39,6 +40,13 @@ class ChapterContent extends Service
         return $chapterRepo->findChapterRead($chapterId);
     }
 
+    public function getChapterOffline($chapterId)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        return $chapterRepo->findChapterOffline($chapterId);
+    }
+
     public function getPlayUrls($chapterId)
     {
         $service = new ChapterVodService();
@@ -64,6 +72,9 @@ class ChapterContent extends Service
             case CourseModel::MODEL_READ:
                 $this->updateChapterRead($chapter);
                 break;
+            case CourseModel::MODEL_OFFLINE:
+                $this->updateChapterOffline($chapter);
+                break;
         }
 
         $this->rebuildCatalogCache($chapter);
@@ -84,9 +95,7 @@ class ChapterContent extends Service
         /**
          * 无新文件上传
          */
-        if ($fileId == $vod->file_id) {
-            return;
-        }
+        if ($fileId == $vod->file_id) return;
 
         /**
          * 删除旧文件
@@ -95,21 +104,17 @@ class ChapterContent extends Service
             $this->deleteVodFile($vod->file_id);
         }
 
-        $vod->update([
-            'file_id' => $fileId,
-            'file_transcode' => '',
-        ]);
+        $vod->file_id = $fileId;
+        $vod->file_transcode = [];
 
-        /**
-         * @var array $attrs
-         */
+        $vod->update();
+
         $attrs = $chapter->attrs;
-
         $attrs['duration'] = 0;
-
         $attrs['file']['status'] = ChapterModel::FS_UPLOADED;
+        $chapter->attrs = $attrs;
 
-        $chapter->update(['attrs' => $attrs]);
+        $chapter->update();
 
         $this->updateCourseVodAttrs($vod->course_id);
     }
@@ -129,20 +134,17 @@ class ChapterContent extends Service
 
         $validator->checkTimeRange($startTime, $endTime);
 
-        $live->update([
-            'start_time' => $startTime,
-            'end_time' => $endTime,
-        ]);
+        $live->start_time = $startTime;
+        $live->end_time = $endTime;
 
-        /**
-         * @var array $attrs
-         */
+        $live->update();
+
         $attrs = $chapter->attrs;
-
         $attrs['start_time'] = $startTime;
         $attrs['end_time'] = $endTime;
+        $chapter->attrs = $attrs;
 
-        $chapter->update(['attrs' => $attrs]);
+        $chapter->update();
 
         $this->updateCourseLiveAttrs($live->course_id);
     }
@@ -161,9 +163,6 @@ class ChapterContent extends Service
 
         $read->update(['content' => $content]);
 
-        /**
-         * @var array $attrs
-         */
         $attrs = $chapter->attrs;
 
         $attrs['word_count'] = WordUtil::getWordCount($content);
@@ -172,6 +171,36 @@ class ChapterContent extends Service
         $chapter->update(['attrs' => $attrs]);
 
         $this->updateCourseReadAttrs($read->course_id);
+    }
+
+    protected function updateChapterOffline(ChapterModel $chapter)
+    {
+        $post = $this->request->getPost();
+
+        $chapterRepo = new ChapterRepo();
+
+        $offline = $chapterRepo->findChapterOffline($chapter->id);
+
+        $validator = new ChapterOfflineValidator();
+
+        $startTime = $validator->checkStartTime($post['start_time']);
+        $endTime = $validator->checkEndTime($post['end_time']);
+
+        $validator->checkTimeRange($startTime, $endTime);
+
+        $offline->start_time = $startTime;
+        $offline->end_time = $endTime;
+
+        $offline->update();
+
+        $attrs = $chapter->attrs;
+        $attrs['start_time'] = $startTime;
+        $attrs['end_time'] = $endTime;
+        $chapter->attrs = $attrs;
+
+        $chapter->update();
+
+        $this->updateCourseOfflineAttrs($offline->course_id);
     }
 
     protected function updateCourseVodAttrs($courseId)
@@ -193,6 +222,13 @@ class ChapterContent extends Service
         $statService = new CourseStatService();
 
         $statService->updateReadAttrs($courseId);
+    }
+
+    protected function updateCourseOfflineAttrs($courseId)
+    {
+        $statService = new CourseStatService();
+
+        $statService->updateOfflineAttrs($courseId);
     }
 
     protected function deleteVodFile($fileId)

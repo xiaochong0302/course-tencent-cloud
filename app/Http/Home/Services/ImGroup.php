@@ -7,12 +7,10 @@ use App\Builders\ImGroupUserList as ImGroupUserListBuilder;
 use App\Caches\ImGroupActiveUserList as ImGroupActiveUserListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\ImGroup as ImGroupModel;
-use App\Models\ImUser as ImUserModel;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\User as UserRepo;
 use App\Validators\ImGroup as ImGroupValidator;
-use App\Validators\ImGroupUser as ImGroupUserValidator;
 
 class ImGroup extends Service
 {
@@ -131,27 +129,6 @@ class ImGroup extends Service
         return $group;
     }
 
-    public function deleteGroupUser($groupId, $userId)
-    {
-        $loginUser = $this->getLoginUser();
-
-        $validator = new ImGroupUserValidator();
-
-        $group = $validator->checkGroup($groupId);
-
-        $user = $validator->checkUser($userId);
-
-        $validator->checkOwner($loginUser->id, $group->owner_id);
-
-        $groupUser = $validator->checkGroupUser($groupId, $userId);
-
-        $groupUser->delete();
-
-        $this->decrGroupUserCount($group);
-
-        $this->decrUserGroupCount($user);
-    }
-
     protected function handleGroupUsers($pager)
     {
         if ($pager->total_items == 0) {
@@ -160,18 +137,10 @@ class ImGroup extends Service
 
         $builder = new ImGroupUserListBuilder();
 
-        $relations = $pager->items->toArray();
+        $stepA = $pager->items->toArray();
+        $stepB = $builder->handleUsers($stepA);
 
-        $users = $builder->getUsers($relations);
-
-        $items = [];
-
-        foreach ($relations as $relation) {
-            $user = $users[$relation['user_id']] ?? new \stdClass();
-            $items[] = $user;
-        }
-
-        $pager->items = $items;
+        $pager->items = $stepB;
 
         return $pager;
     }
@@ -212,22 +181,6 @@ class ImGroup extends Service
         $pager->items = $items;
 
         return $pager;
-    }
-
-    protected function decrGroupUserCount(ImGroupModel $group)
-    {
-        if ($group->user_count > 0) {
-            $group->user_count -= 1;
-            $group->update();
-        }
-    }
-
-    protected function decrUserGroupCount(ImUserModel $user)
-    {
-        if ($user->group_count > 0) {
-            $user->group_count -= 1;
-            $user->update();
-        }
     }
 
 }

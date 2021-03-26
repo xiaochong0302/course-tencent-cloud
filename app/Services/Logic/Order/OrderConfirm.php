@@ -135,6 +135,7 @@ class OrderConfirm extends Service
             'cover' => $course->cover,
             'model' => $course->model,
             'level' => $course->level,
+            'attrs' => $course->attrs,
             'user_count' => $course->user_count,
             'lesson_count' => $course->lesson_count,
             'study_expiry' => $course->study_expiry,

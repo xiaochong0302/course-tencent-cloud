@@ -3,13 +3,15 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\ImGroupList as ImGroupListBuilder;
+use App\Builders\ImGroupUserList as ImGroupUserListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\ImGroup as ImGroupModel;
 use App\Models\ImGroupUser as ImGroupUserModel;
-use App\Models\User as UserModel;
+use App\Models\ImUser as ImUserModel;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Validators\ImGroup as ImGroupValidator;
+use App\Validators\ImGroupUser as ImGroupUserValidator;
 
 class ImGroup extends Service
 {
@@ -89,9 +91,10 @@ class ImGroup extends Service
         }
 
         if (isset($post['owner_id'])) {
-            $owner = $validator->checkGroupOwner($post['owner_id']);
-            $data['owner_id'] = $owner->id;
-            $this->handleGroupOwner($group, $owner);
+            $validator = new ImGroupUserValidator();
+            $user = $validator->checkUser($post['owner_id']);
+            $data['owner_id'] = $user->id;
+            $this->handleGroupOwner($group, $user);
         }
 
         $group->update($data);
@@ -121,7 +124,42 @@ class ImGroup extends Service
         return $group;
     }
 
-    protected function handleGroupOwner(ImGroupModel $group, UserModel $user)
+    public function getGroupUsers($id)
+    {
+        $pagerQuery = new PagerQuery();
+
+        $params = $pagerQuery->getParams();
+
+        $params['group_id'] = $id;
+
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
+
+        $groupUserRepo = new ImGroupUserRepo();
+
+        $pager = $groupUserRepo->paginate($params, $sort, $page, $limit);
+
+        return $this->handleGroupUsers($pager);
+    }
+
+    protected function handleGroupUsers($pager)
+    {
+        if ($pager->total_items == 0) {
+            return $pager;
+        }
+
+        $builder = new ImGroupUserListBuilder();
+
+        $stepA = $pager->items->toArray();
+        $stepB = $builder->handleUsers($stepA);
+
+        $pager->items = $stepB;
+
+        return $pager;
+    }
+
+    protected function handleGroupOwner(ImGroupModel $group, ImUserModel $user)
     {
         $repo = new ImGroupUserRepo();
 
@@ -130,12 +168,29 @@ class ImGroup extends Service
         if ($groupUser) return;
 
         $groupUser = new ImGroupUserModel();
+
         $groupUser->group_id = $group->id;
         $groupUser->user_id = $user->id;
+
         $groupUser->create();
 
+        $this->incrGroupUserCount($group);
+
+        $this->incrUserGroupCount($user);
+    }
+
+    protected function incrGroupUserCount(ImGroupModel $group)
+    {
         $group->user_count += 1;
+
         $group->update();
+    }
+
+    protected function incrUserGroupCount(ImUserModel $user)
+    {
+        $user->group_count += 1;
+
+        $user->update();
     }
 
     protected function handleGroups($pager)
@@ -144,7 +199,9 @@ class ImGroup extends Service
 
             $builder = new ImGroupListBuilder();
 
-            $pipeA = $pager->items->toArray();
+            $items = $pager->items->toArray();
+
+            $pipeA = $builder->handleGroups($items);
             $pipeB = $builder->handleUsers($pipeA);
             $pipeC = $builder->objects($pipeB);
 

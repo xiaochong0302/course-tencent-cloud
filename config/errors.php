@@ -109,15 +109,24 @@ $error['course.details_too_long'] = '详情太长（多于5000个字符）';
 $error['course.invalid_model'] = '无效的模型类别';
 $error['course.invalid_level'] = '无效的难度级别';
 $error['course.invalid_cover'] = '无效的封面';
-$error['course.invalid_origin_price'] = '无效的原始价格（范围：0-10000）';
-$error['course.invalid_market_price'] = '无效的优惠价格（范围：0-10000）';
-$error['course.invalid_vip_price'] = '无效的会员价格（范围：0-10000）';
+$error['course.invalid_origin_price'] = '无效的原始价格（范围：0-999999）';
+$error['course.invalid_market_price'] = '无效的优惠价格（范围：0-999999）';
+$error['course.invalid_vip_price'] = '无效的会员价格（范围：0-999999）';
 $error['course.invalid_study_expiry'] = '无效的学习期限';
 $error['course.invalid_refund_expiry'] = '无效的退款期限';
 $error['course.invalid_feature_status'] = '无效的推荐状态';
 $error['course.invalid_publish_status'] = '无效的发布状态';
 $error['course.pub_chapter_not_found'] = '尚未发现已发布的课时';
 $error['course.pub_chapter_not_enough'] = '已发布的课时太少（小于30%）';
+
+/**
+ * 面授课程相关
+ */
+$error['course_offline.invalid_start_date'] = '无效的开始日期';
+$error['course_offline.invalid_end_date'] = '无效的结束日期';
+$error['course_offline.start_gt_end'] = '开始日期大于结束日期';
+$error['course_offline.invalid_user_limit'] = '无效的用户限额（范围：1-999）';
+$error['course_offline.invalid_location'] = '无效的上课地点（范围10-50字符）';
 
 /**
  * 话题相关
@@ -181,6 +190,7 @@ $error['chapter.vod_not_ready'] = '点播资源尚未就绪';
 $error['chapter.read_not_ready'] = '文章内容尚未就绪';
 $error['chapter.live_not_start'] = '直播尚未开始';
 $error['chapter.live_time_empty'] = '直播时间尚未设置';
+$error['chapter.offline_time_empty'] = '面授时间尚未设置';
 $error['chapter.child_existed'] = '不允许相关操作（存在子章节）';
 
 /**
@@ -204,6 +214,13 @@ $error['chapter_live.time_too_long'] = '直播时间太长（超过3小时）';
 $error['chapter_read.not_found'] = '文章不存在';
 $error['chapter_read.content_too_short'] = '文章内容太短（少于10个字符）';
 $error['chapter_read.content_too_long'] = '文章内容太长（多于60000个字符）';
+
+/**
+ * 面授相关
+ */
+$error['chapter_offline.invalid_start_time'] = '无效的开始时间';
+$error['chapter_offline.invalid_end_time'] = '无效的结束时间';
+$error['chapter_offline.start_gt_end'] = '开始时间大于结束时间';
 
 /**
  * 评价相关
@@ -361,6 +378,7 @@ $error['im_group_user.not_found'] = '群组关系不存在';
 $error['im_group_user.remark_too_long'] = '验证信息太长（超过30字符）';
 $error['im_group_user.has_joined'] = '已经加入过群组';
 $error['im_group_user.join_not_allowed'] = '当前不允许加入群组';
+$error['im_group_user.delete_owner_not_allowed'] = '当前不允许删除群主';
 
 $error['im_friend_user.not_found'] = '好友关系不存在';
 $error['im_friend_user.remark_too_long'] = '验证信息太长（超过30字符）';

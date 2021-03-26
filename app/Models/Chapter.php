@@ -56,6 +56,16 @@ class Chapter extends Model
     ];
 
     /**
+     * @var array
+     *
+     * 面授扩展属性
+     */
+    protected $_offline_attrs = [
+        'start_time' => 0,
+        'end_time' => 0,
+    ];
+
+    /**
      * 主键编号
      *
      * @var int
@@ -212,11 +222,14 @@ class Chapter extends Model
                     $this->attrs = $this->_live_attrs;
                 } elseif ($this->model == Course::MODEL_READ) {
                     $this->attrs = $this->_read_attrs;
+                } elseif ($this->model == Course::MODEL_OFFLINE) {
+                    $this->attrs = $this->_offline_attrs;
                 }
             }
-            if (is_array($this->attrs)) {
-                $this->attrs = kg_json_encode($this->attrs);
-            }
+        }
+
+        if (is_array($this->attrs)) {
+            $this->attrs = kg_json_encode($this->attrs);
         }
 
         $this->create_time = time();
