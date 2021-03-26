@@ -2,6 +2,7 @@
 
 namespace App\Services\Logic\Order;
 
+use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
 use App\Repos\Order as OrderRepo;
 use App\Services\Logic\Service;
@@ -25,7 +26,10 @@ class OrderInfo extends Service
 
         $statusHistory = $this->handleStatusHistory($order->id);
 
+        $me = $this->handleMeInfo($order);
+
         return [
+            'me' => $me,
             'sn' => $order->sn,
             'subject' => $order->subject,
             'amount' => $order->amount,
@@ -48,9 +52,7 @@ class OrderInfo extends Service
 
         $records = $orderRepo->findStatusHistory($orderId);
 
-        if ($records->count() == 0) {
-            return [];
-        }
+        if ($records->count() == 0) return [];
 
         $result = [];
 
@@ -64,11 +66,37 @@ class OrderInfo extends Service
         return $result;
     }
 
+    protected function handleMeInfo(OrderModel $order)
+    {
+        $result = [
+            'allow_pay' => 0,
+            'allow_refund' => 0,
+        ];
+
+        if ($order->status == OrderModel::STATUS_PENDING) {
+            $result['allow_pay'] = 1;
+        }
+
+        if ($order->status == OrderModel::STATUS_FINISHED) {
+            /**
+             * 只允许线上课程退款，因为线下课程无法进行退款计算
+             */
+            if ($order->item_type == OrderModel::ITEM_COURSE) {
+                $result['allow_refund'] = 1;
+                $course = $order->item_info['course'];
+                if (isset($course['model']) && $course['model'] == CourseModel::MODEL_OFFLINE) {
+                    $result['allow_refund'] = 0;
+                }
+            } elseif ($order->item_type == OrderModel::ITEM_PACKAGE) {
+                $result['allow_refund'] = $order->status == OrderModel::STATUS_FINISHED ? 1 : 0;
+            }
+        }
+
+        return $result;
+    }
+
     protected function handleItemInfo(OrderModel $order)
     {
-        /**
-         * @var array $itemInfo
-         */
         $itemInfo = $order->item_info;
 
         $result = [];

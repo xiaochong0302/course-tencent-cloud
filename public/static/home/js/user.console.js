@@ -119,8 +119,8 @@ layui.use(['jquery', 'layer', 'helper'], function () {
             title: '成员管理',
             maxmin: true,
             resize: false,
-            content: [url, 'no'],
-            area: ['1000px', '510px']
+            content: [url],
+            area: ['1000px', '600px']
         });
     });
 

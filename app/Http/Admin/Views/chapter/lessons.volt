@@ -27,6 +27,8 @@
         {{ partial('chapter/lessons_live') }}
     {% elseif course.model == 3 %}
         {{ partial('chapter/lessons_read') }}
+    {% elseif course.model == 4 %}
+        {{ partial('chapter/lessons_offline') }}
     {% endif %}
 
 {% endblock %}

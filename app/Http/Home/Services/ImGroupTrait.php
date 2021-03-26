@@ -151,6 +151,8 @@ Trait ImGroupTrait
 
         $groupUser = $validator->checkGroupUser($group->id, $user->id);
 
+        $validator->checkIfAllowDelete($group->id, $user->id);
+
         $groupUser->delete();
 
         $this->decrGroupUserCount($group);

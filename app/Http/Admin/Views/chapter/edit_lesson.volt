@@ -9,6 +9,8 @@
             直播信息
         {% elseif model == '3' %}
             图文信息
+        {% elseif model == '4' %}
+            面授信息
         {% endif %}
     {%- endmacro %}
 
@@ -33,6 +35,8 @@
                     {{ partial('chapter/edit_lesson_live') }}
                 {% elseif course.model == 3 %}
                     {{ partial('chapter/edit_lesson_read') }}
+                {% elseif course.model == 4 %}
+                    {{ partial('chapter/edit_lesson_offline') }}
                 {% endif %}
             </div>
             <div class="layui-tab-item">

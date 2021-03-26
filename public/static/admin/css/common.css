@@ -54,6 +54,12 @@
     color: gray;
 }
 
+.avatar-sm {
+    width: 64px;
+    height: 64px;
+    border-radius: 100%;
+}
+
 .loading {
     padding: 30px;
     text-align: center;
@@ -201,6 +207,10 @@
 
 .kg-table .center {
     text-align: center;
+}
+
+.kg-table span {
+    margin-right: 10px;
 }
 
 .kg-item-elip {

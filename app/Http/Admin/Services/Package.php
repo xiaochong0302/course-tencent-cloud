@@ -6,6 +6,7 @@ use App\Caches\CoursePackageList as CoursePackageListCache;
 use App\Caches\Package as PackageCache;
 use App\Caches\PackageCourseList as PackageCourseListCache;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Course as CourseModel;
 use App\Models\CoursePackage as CoursePackageModel;
 use App\Models\Package as PackageModel;
 use App\Repos\Course as CourseRepo;
@@ -32,7 +33,20 @@ class Package extends Service
 
         $courseRepo = new CourseRepo();
 
-        $items = $courseRepo->findAll(['free' => 0, 'published' => 1]);
+        /**
+         * 面授课程不参与套餐计划，因为无法进行退款计算
+         */
+        $model = [
+            CourseModel::MODEL_VOD,
+            CourseModel::MODEL_LIVE,
+            CourseModel::MODEL_READ,
+        ];
+
+        $items = $courseRepo->findAll([
+            'model' => $model,
+            'free' => 0,
+            'published' => 1,
+        ]);
 
         if ($items->count() == 0) return [];
 

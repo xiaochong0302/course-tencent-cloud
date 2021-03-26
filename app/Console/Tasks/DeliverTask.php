@@ -2,6 +2,7 @@
 
 namespace App\Console\Tasks;
 
+use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\Order as OrderModel;
@@ -105,13 +106,19 @@ class DeliverTask extends Task
 
     protected function handleCourseOrder(OrderModel $order)
     {
-        $itemInfo = $order->item_info;
+        $course = $order->item_info['course'];
+
+        if ($course['model'] == CourseModel::MODEL_OFFLINE) {
+            $expiryTime = strtotime($course['attrs']['end_date']);
+        } else {
+            $expiryTime = $course['study_expiry_time'];
+        }
 
         $courseUser = new CourseUserModel();
 
         $courseUser->user_id = $order->owner_id;
         $courseUser->course_id = $order->item_id;
-        $courseUser->expiry_time = $itemInfo['course']['study_expiry_time'];
+        $courseUser->expiry_time = $expiryTime;
         $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
         $courseUser->source_type = CourseUserModel::SOURCE_CHARGE;
 

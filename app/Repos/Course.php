@@ -52,11 +52,19 @@ class Course extends Repository
         }
 
         if (!empty($where['model'])) {
-            $builder->andWhere('model = :model:', ['model' => $where['model']]);
+            if (is_array($where['model'])) {
+                $builder->inWhere('model', $where['model']);
+            } else {
+                $builder->andWhere('model = :model:', ['model' => $where['model']]);
+            }
         }
 
         if (!empty($where['level'])) {
-            $builder->andWhere('level = :level:', ['level' => $where['level']]);
+            if (is_array($where['level'])) {
+                $builder->inWhere('level', $where['model']);
+            } else {
+                $builder->andWhere('level = :level:', ['level' => $where['level']]);
+            }
         }
 
         if (isset($where['free'])) {

@@ -200,6 +200,10 @@ class Chapter extends Validator
             if ($attrs['word_count'] == 0) {
                 throw new BadRequestException('chapter.read_not_ready');
             }
+        } elseif ($chapter->model == CourseModel::MODEL_READ) {
+            if ($attrs['start_time'] == 0) {
+                throw new BadRequestException('chapter.offline_time_empty');
+            }
         }
     }
 

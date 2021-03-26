@@ -13,18 +13,33 @@
             <div class="info">
                 <p><a href="{{ course_url }}" target="_blank">{{ course.title }}</a></p>
                 <p>
-                    <span class="key">原始价格</span><span class="value origin-price">{{ '￥%0.2f'|format(course.origin_price) }}</span>
-                    <span class="key">优惠价格</span><span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
-                    <span class="key">会员价格</span><span class="price">{{ '￥%0.2f'|format(course.vip_price) }}</span>
+                    <span class="key">原始价格</span>
+                    <span class="value origin-price">{{ '￥%0.2f'|format(course.origin_price) }}</span>
+                    <span class="key">优惠价格</span>
+                    <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
+                    <span class="key">会员价格</span>
+                    <span class="price">{{ '￥%0.2f'|format(course.vip_price) }}</span>
                 </p>
-                <p>
-                    <span class="key">学习期限</span><span class="value">{{ course.study_expiry }}个月</span>
-                    {% if course.refund_expiry > 0 %}
-                        <span class="key">退款期限</span><span class="value">{{ course.refund_expiry }}天</span>
-                    {% else %}
-                        <span class="key">退款期限</span><span class="value">不支持</span>
-                    {% endif %}
-                </p>
+                {% if course.model in [1,2,3] %}
+                    <p>
+                        <span class="key">学习期限</span>
+                        <span class="value">{{ course.study_expiry }}个月</span>
+                        {% if course.refund_expiry > 0 %}
+                            <span class="key">退款期限</span>
+                            <span class="value">{{ course.refund_expiry }}天</span>
+                        {% else %}
+                            <span class="key">退款期限</span>
+                            <span class="value">不支持</span>
+                        {% endif %}
+                    </p>
+                {% elseif course.model == 4 %}
+                    <p>
+                        <span class="key">上课时间</span>
+                        <span class="value">{{ course.attrs.start_date }} ~ {{ course.attrs.end_date }}</span>
+                        <span class="key">上课地点</span>
+                        <span class="value">{{ course.attrs.location }}</span>
+                    </p>
+                {% endif %}
             </div>
         </div>
     {%- endmacro %}
@@ -39,11 +54,17 @@
             </div>
             <div class="info">
                 <p><a href="{{ course_url }}" target="_blank">{{ course.title }}</a></p>
-                <p>赞赏金额 <span class="price">{{ '￥%0.2f'|format(reward.price) }}</span></p>
                 <p>
-                    难度 <span>{{ level_info(course.level) }}</span>
-                    课时 <span>{{ course.lesson_count }}</span>
-                    学员 <span>{{ course.user_count }}</span>
+                    <span class="key">赞赏金额</span>
+                    <span class="price">{{ '￥%0.2f'|format(reward.price) }}</span>
+                </p>
+                <p>
+                    <span class="key">难度</span>
+                    <span class="value">{{ level_info(course.level) }}</span>
+                    <span class="key">课时</span>
+                    <span class="value">{{ course.lesson_count }}</span>
+                    <span class="key">学员</span>
+                    <span class="value">{{ course.user_count }}</span>
                 </p>
             </div>
         </div>
@@ -57,8 +78,14 @@
             </div>
             <div class="info">
                 <p>会员服务</p>
-                <p>价格 <span class="price">{{ '￥%0.2f'|format(vip.price) }}</span></p>
-                <p>期限 <span class="expiry">{{ vip.expiry }}个月</span></p>
+                <p>
+                    <span class="key">价格</span>
+                    <span class="price">{{ '￥%0.2f'|format(vip.price) }}</span>
+                </p>
+                <p>
+                    <span class="key">期限</span>
+                    <span class="expiry">{{ vip.expiry }}个月</span>
+                </p>
             </div>
         </div>
     {%- endmacro %}

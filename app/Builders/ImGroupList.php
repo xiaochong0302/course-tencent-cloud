@@ -8,6 +8,17 @@ use App\Repos\User as UserRepo;
 class ImGroupList extends Builder
 {
 
+    public function handleGroups(array $groups)
+    {
+        $baseUrl = kg_cos_url();
+
+        foreach ($groups as $key => $group) {
+            $groups[$key]['avatar'] = $baseUrl . $group['avatar'];
+        }
+
+        return $groups;
+    }
+
     public function handleCourses(array $groups)
     {
         $courses = $this->getCourses($groups);

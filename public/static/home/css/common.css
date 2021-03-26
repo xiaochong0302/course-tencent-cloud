@@ -6,10 +6,6 @@
     padding: 20px;
 }
 
-.layer .layui-table {
-    margin: 0;
-}
-
 .clearfix {
     zoom: 1
 }
@@ -28,6 +24,10 @@
 
 .fr {
     float: right;
+}
+
+.mt0 {
+    margin-top: 0;
 }
 
 .mb0 {
@@ -52,6 +52,12 @@
 
 .pointer {
     cursor: pointer;
+}
+
+.avatar-sm {
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
 }
 
 .layui-table .meta span {
@@ -402,7 +408,7 @@
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.course-card .model {
+.course-card .model, .course-card .type {
     position: absolute;
     top: 15px;
     right: 15px;
@@ -511,7 +517,7 @@
 
 .course-meta .info {
     float: left;
-    width: 400px;
+    width: 560px;
 }
 
 .course-meta .rating {
@@ -1455,7 +1461,17 @@
 
 .group-user-list .user-card {
     box-shadow: none;
-    height: 220px;
+    height: 200px;
+}
+
+.group-user-list .avatar {
+    margin: 15px 0;
+}
+
+.group-user-list .avatar img {
+    width: 64px;
+    height: 64px;
+    border-radius: 100%;
 }
 
 .group-list {
@@ -1682,6 +1698,10 @@
 
 .order-table span {
     margin-right: 10px;
+}
+
+.order-table em {
+    font-style: normal;
 }
 
 .order-table .price {

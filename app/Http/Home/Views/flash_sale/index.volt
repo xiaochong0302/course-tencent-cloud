@@ -2,6 +2,16 @@
 
 {% block content %}
 
+    {%- macro sale_item_type(value) %}
+        {% if value == 1 %}
+            课程
+        {% elseif value == 2 %}
+            套餐
+        {% elseif value == 3 %}
+            会员
+        {% endif %}
+    {% endmacro %}
+
     {%- macro sale_status(value) %}
         {% if value == 'active' %}
             进行中
@@ -26,6 +36,7 @@
         {% set course = sale.item_info.course %}
         {% set course_url = url({'for':'home.course.show','id':course.id}) %}
         <div class="course-card">
+            <span class="model layui-badge layui-bg-green">{{ sale_item_type(sale.item_type) }}</span>
             <div class="cover">
                 <a href="{{ course_url }}" target="_blank">
                     <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}" title="{{ course.title }}">
@@ -52,6 +63,7 @@
         {% set package = sale.item_info.package %}
         {% set link_url = url({'for':'home.package.courses','id':package.id}) %}
         <div class="course-card">
+            <span class="model layui-badge layui-bg-green">{{ sale_item_type(sale.item_type) }}</span>
             <div class="cover">
                 <a class="package-link" href="javascript:" data-url="{{ link_url }}">
                     <img src="{{ package.cover }}!cover_270" alt="{{ package.title }}" title="{{ package.title }}">
@@ -78,6 +90,7 @@
         {% set vip = sale.item_info.vip %}
         {% set vip.title = "会员服务（%s）"|format(vip.title) %}
         <div class="course-card">
+            <span class="model layui-badge layui-bg-green">{{ sale_item_type(sale.item_type) }}</span>
             <div class="cover">
                 <img src="{{ vip.cover }}!cover_270" alt="{{ vip.title }}" title="{{ vip.title }}">
             </div>

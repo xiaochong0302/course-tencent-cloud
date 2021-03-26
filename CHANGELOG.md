@@ -1,3 +1,13 @@
+### [v1.3.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.0)(2021-03-26)
+
+### 更新
+
+- 课程增加面授模型
+- 重构前台群组成员管理
+- 后台增加群组成员管理
+- 重构订单存储商品详情数据结构
+- 调整用户和群组列表等UI
+
 ### [v1.2.9](https://gitee.com/koogua/course-tencent-cloud/releases/v1.2.9)(2021-03-22)
 
 ### 更新

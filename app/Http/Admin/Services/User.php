@@ -267,7 +267,9 @@ class User extends Service
 
             $builder = new UserListBuilder();
 
-            $pipeA = $pager->items->toArray();
+            $items = $pager->items->toArray();
+
+            $pipeA = $builder->handleUsers($items);
             $pipeB = $builder->handleAdminRoles($pipeA);
             $pipeC = $builder->handleEduRoles($pipeB);
             $pipeD = $builder->objects($pipeC);
