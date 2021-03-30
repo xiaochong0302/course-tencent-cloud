@@ -2,8 +2,8 @@
 
 namespace App\Services\Logic\Verify;
 
+use App\Services\Logic\Notice\Mail\Verify as VerifyMailService;
 use App\Services\Logic\Service;
-use App\Services\Mail\Verify as VerifyMailService;
 use App\Validators\Captcha as CaptchaValidator;
 use App\Validators\Verify as VerifyValidator;
 
