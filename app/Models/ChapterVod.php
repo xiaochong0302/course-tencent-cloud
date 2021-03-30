@@ -81,12 +81,12 @@ class ChapterVod extends Model
 
     public function afterFetch()
     {
-        if (!empty($this->file_id)) {
-            if (is_string($this->file_transcode) && !empty($this->file_transcode)) {
-                $this->file_transcode = json_decode($this->file_transcode, true);
-            } else {
-                $this->file_transcode = $this->getFileTranscode($this->file_id);
-            }
+        if (is_string($this->file_transcode)) {
+            $this->file_transcode = json_decode($this->file_transcode, true);
+        }
+
+        if (!empty($this->file_id) && empty($this->file_transcode)) {
+            $this->file_transcode = $this->getFileTranscode($this->file_id);
         }
     }
 
