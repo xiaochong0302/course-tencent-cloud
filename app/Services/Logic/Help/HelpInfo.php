@@ -4,9 +4,9 @@ namespace App\Services\Logic\Help;
 
 use App\Models\Help as HelpModel;
 use App\Services\Logic\HelpTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class HelpInfo extends Service
+class HelpInfo extends LogicService
 {
 
     use HelpTrait;

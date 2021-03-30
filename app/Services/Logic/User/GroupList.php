@@ -5,10 +5,9 @@ namespace App\Services\Logic\User;
 use App\Builders\ImGroupUserList as ImGroupUserListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
-use App\Services\Logic\Service;
 use App\Services\Logic\UserTrait;
 
-class GroupList extends Service
+class GroupList extends LogicService
 {
 
     use UserTrait;

@@ -6,10 +6,10 @@ use App\Models\Course as CourseModel;
 use App\Services\CourseStat as CourseStatService;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\ReviewTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Review as ReviewValidator;
 
-class ReviewUpdate extends Service
+class ReviewUpdate extends LogicService
 {
 
     use CourseTrait;

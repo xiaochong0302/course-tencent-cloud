@@ -4,9 +4,9 @@ namespace App\Services\Logic\User\Console;
 
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class AccountInfo extends Service
+class AccountInfo extends LogicService
 {
 
     public function handle()

@@ -6,9 +6,9 @@ use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class CourseInfo extends Service
+class CourseInfo extends LogicService
 {
 
     use CourseTrait;

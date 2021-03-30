@@ -4,9 +4,9 @@ namespace App\Services\Logic\Course;
 
 use App\Caches\CourseRecommendedList as CourseRecommendedListCache;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class RecommendedList extends Service
+class RecommendedList extends LogicService
 {
 
     use CourseTrait;

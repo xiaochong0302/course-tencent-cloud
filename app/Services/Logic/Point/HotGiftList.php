@@ -3,9 +3,9 @@
 namespace App\Services\Logic\Point;
 
 use App\Caches\PointHotGiftList;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class HotGiftList extends Service
+class HotGiftList extends LogicService
 {
 
     public function handle()

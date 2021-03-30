@@ -3,10 +3,10 @@
 namespace App\Services\Logic\Consult;
 
 use App\Services\Logic\ConsultTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Consult as ConsultValidator;
 
-class ConsultUpdate extends Service
+class ConsultUpdate extends LogicService
 {
 
     use ConsultTrait;

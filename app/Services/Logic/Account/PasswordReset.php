@@ -3,11 +3,11 @@
 namespace App\Services\Logic\Account;
 
 use App\Library\Utils\Password as PasswordUtil;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Verify as VerifyValidator;
 
-class PasswordReset extends Service
+class PasswordReset extends LogicService
 {
 
     public function handle()

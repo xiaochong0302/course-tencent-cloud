@@ -4,10 +4,10 @@ namespace App\Services\Logic\Trade;
 
 use App\Models\Trade as TradeModel;
 use App\Services\Logic\OrderTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Trade as TradeValidator;
 
-class TradeCreate extends Service
+class TradeCreate extends LogicService
 {
 
     use OrderTrait;

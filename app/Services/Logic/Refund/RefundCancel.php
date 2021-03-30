@@ -6,10 +6,10 @@ use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Repos\Refund as RefundRepo;
 use App\Services\Logic\RefundTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Refund as RefundValidator;
 
-class RefundCancel extends Service
+class RefundCancel extends LogicService
 {
 
     use RefundTrait;

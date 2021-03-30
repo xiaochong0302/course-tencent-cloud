@@ -7,10 +7,10 @@ use App\Models\Course as CourseModel;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\ConsultTrait;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Consult as ConsultValidator;
 
-class ConsultDelete extends Service
+class ConsultDelete extends LogicService
 {
 
     use CourseTrait;

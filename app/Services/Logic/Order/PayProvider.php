@@ -2,9 +2,9 @@
 
 namespace App\Services\Logic\Order;
 
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class PayProvider extends Service
+class PayProvider extends LogicService
 {
 
     public function handle()

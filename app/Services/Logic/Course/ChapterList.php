@@ -7,9 +7,9 @@ use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
 use App\Repos\Course as CourseRepo;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ChapterList extends Service
+class ChapterList extends LogicService
 {
 
     use CourseTrait;

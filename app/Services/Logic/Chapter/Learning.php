@@ -5,11 +5,11 @@ namespace App\Services\Logic\Chapter;
 use App\Models\Course as CourseModel;
 use App\Models\Learning as LearningModel;
 use App\Services\Logic\ChapterTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Sync\Learning as LearningSyncService;
 use App\Validators\Learning as LearningValidator;
 
-class Learning extends Service
+class Learning extends LogicService
 {
 
     use ChapterTrait;

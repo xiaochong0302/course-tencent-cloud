@@ -5,9 +5,9 @@ namespace App\Services\Logic\Point;
 use App\Models\PointGift;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\PointGiftTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class GiftInfo extends Service
+class GiftInfo extends LogicService
 {
 
     use CourseTrait;

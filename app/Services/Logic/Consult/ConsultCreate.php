@@ -9,11 +9,11 @@ use App\Models\User as UserModel;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Notice\DingTalk\ConsultCreate as ConsultCreateNotice;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Consult as ConsultValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class ConsultCreate extends Service
+class ConsultCreate extends LogicService
 {
 
     use CourseTrait;

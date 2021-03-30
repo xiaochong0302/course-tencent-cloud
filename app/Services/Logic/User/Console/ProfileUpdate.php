@@ -3,10 +3,10 @@
 namespace App\Services\Logic\User\Console;
 
 use App\Caches\User as UserCache;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\User as UserValidator;
 
-class ProfileUpdate extends Service
+class ProfileUpdate extends LogicService
 {
 
     public function handle()

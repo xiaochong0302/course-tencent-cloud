@@ -2,10 +2,9 @@
 
 namespace App\Services\Logic\User\Console;
 
-use App\Services\Logic\Service;
 use App\Services\Logic\User\FavoriteList as UserFavoriteListService;
 
-class FavoriteList extends Service
+class FavoriteList extends LogicService
 {
 
     public function handle()

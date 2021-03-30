@@ -14,9 +14,9 @@ use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ChapterInfo extends Service
+class ChapterInfo extends LogicService
 {
 
     /**

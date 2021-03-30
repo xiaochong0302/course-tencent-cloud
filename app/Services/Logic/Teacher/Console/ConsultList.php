@@ -8,11 +8,11 @@ use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Consult as ConsultModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ConsultList extends Service
+class ConsultList extends LogicService
 {
 
     public function handle()

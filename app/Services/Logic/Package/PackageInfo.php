@@ -4,9 +4,9 @@ namespace App\Services\Logic\Package;
 
 use App\Models\Package as PackageModel;
 use App\Services\Logic\PackageTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class PackageInfo extends Service
+class PackageInfo extends LogicService
 {
 
     use PackageTrait;

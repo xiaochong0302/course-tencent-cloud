@@ -4,9 +4,9 @@ namespace App\Services\Logic\Consult;
 
 use App\Builders\ConsultList as ConsultListBuilder;
 use App\Repos\Consult as ConsultRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ConsultList extends Service
+class ConsultList extends LogicService
 {
 
     public function paginate($params, $sort, $page, $limit)

@@ -3,10 +3,10 @@
 namespace App\Services\Logic\Trade;
 
 use App\Models\Trade as TradeModel;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\TradeTrait;
 
-class TradeInfo extends Service
+class TradeInfo extends LogicService
 {
 
     use TradeTrait;

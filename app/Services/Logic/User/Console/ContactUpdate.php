@@ -3,10 +3,10 @@
 namespace App\Services\Logic\User\Console;
 
 use App\Models\UserContact as UserContactModel;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\UserContact as UserContactValidator;
 
-class ContactUpdate extends Service
+class ContactUpdate extends LogicService
 {
 
     public function handle()

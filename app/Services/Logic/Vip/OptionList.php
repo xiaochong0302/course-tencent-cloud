@@ -3,7 +3,6 @@
 namespace App\Services\Logic\Vip;
 
 use App\Repos\Vip as VipRepo;
-use App\Services\Logic\Service;
 
 class OptionList extends Service
 {

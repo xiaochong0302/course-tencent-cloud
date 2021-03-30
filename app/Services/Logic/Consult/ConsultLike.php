@@ -6,11 +6,11 @@ use App\Models\Consult as ConsultModel;
 use App\Models\ConsultLike as ConsultLikeModel;
 use App\Models\User as UserModel;
 use App\Services\Logic\ConsultTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Consult as ConsultValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class ConsultLike extends Service
+class ConsultLike extends LogicService
 {
 
     use ConsultTrait;
