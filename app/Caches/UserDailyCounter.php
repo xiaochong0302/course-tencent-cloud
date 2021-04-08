@@ -28,6 +28,7 @@ class UserDailyCounter extends Counter
             'chapter_like_count' => 0,
             'consult_like_count' => 0,
             'review_like_count' => 0,
+            'article_like_count' => 0,
         ];
     }
 

@@ -38,13 +38,11 @@ class Course extends Service
         $params = $pagerQuery->getParams();
 
         if (!empty($params['xm_category_ids'])) {
-            $xmCategoryIds = explode(',', $params['xm_category_ids']);
-            $params['category_id'] = count($xmCategoryIds) > 1 ? $xmCategoryIds : $xmCategoryIds[0];
+            $params['category_id'] = explode(',', $params['xm_category_ids']);
         }
 
         if (!empty($params['xm_teacher_ids'])) {
-            $xmTeacherIds = explode(',', $params['xm_teacher_ids']);
-            $params['teacher_id'] = count($xmTeacherIds) > 1 ? $xmTeacherIds : $xmTeacherIds[0];
+            $params['teacher_id'] = explode(',', $params['xm_teacher_ids']);
         }
 
         $params['deleted'] = $params['deleted'] ?? 0;
@@ -288,7 +286,7 @@ class Course extends Service
 
         $allCategories = $categoryRepo->findAll([
             'type' => CategoryModel::TYPE_COURSE,
-            'deleted' => 0,
+            'published' => 1,
         ]);
 
         if ($allCategories->count() == 0) return [];
@@ -456,12 +454,11 @@ class Course extends Service
         if ($addedTeacherIds) {
             foreach ($addedTeacherIds as $teacherId) {
                 $courseTeacher = new CourseUserModel();
-                $courseTeacher->create([
-                    'course_id' => $course->id,
-                    'user_id' => $teacherId,
-                    'role_type' => CourseUserModel::ROLE_TEACHER,
-                    'source_type' => CourseUserModel::SOURCE_IMPORT,
-                ]);
+                $courseTeacher->course_id = $course->id;
+                $courseTeacher->user_id = $teacherId;
+                $courseTeacher->role_type = CourseUserModel::ROLE_TEACHER;
+                $courseTeacher->source_type = CourseUserModel::SOURCE_IMPORT;
+                $courseTeacher->create();
             }
         }
 
@@ -509,10 +506,9 @@ class Course extends Service
         if ($addedCategoryIds) {
             foreach ($addedCategoryIds as $categoryId) {
                 $courseCategory = new CourseCategoryModel();
-                $courseCategory->create([
-                    'course_id' => $course->id,
-                    'category_id' => $categoryId,
-                ]);
+                $courseCategory->course_id = $course->id;
+                $courseCategory->category_id = $categoryId;
+                $courseCategory->create();
             }
         }
 
@@ -568,18 +564,16 @@ class Course extends Service
                     $record = $courseRelatedRepo->findCourseRelated($course->id, $relatedId);
                     if (!$record) {
                         $courseRelated = new CourseRelatedModel();
-                        $courseRelated->create([
-                            'course_id' => $course->id,
-                            'related_id' => $relatedId,
-                        ]);
+                        $courseRelated->course_id = $course->id;
+                        $courseRelated->related_id = $relatedId;
+                        $courseRelated->create();
                     }
                     $record = $courseRelatedRepo->findCourseRelated($relatedId, $course->id);
                     if (!$record) {
                         $courseRelated = new CourseRelatedModel();
-                        $courseRelated->create([
-                            'course_id' => $relatedId,
-                            'related_id' => $course->id,
-                        ]);
+                        $courseRelated->course_id = $relatedId;
+                        $courseRelated->related_id = $course->id;
+                        $courseRelated->create();
                     }
                 }
             }

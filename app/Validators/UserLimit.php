@@ -25,6 +25,17 @@ class UserLimit extends Validator
         }
     }
 
+    public function checkDailyCommentLimit(UserModel $user)
+    {
+        $count = $this->counter->hGet($user->id, 'comment_count');
+
+        $limit = $user->vip ? 100 : 50;
+
+        if ($count > $limit) {
+            throw new BadRequestException('user_limit.reach_daily_comment_limit');
+        }
+    }
+
     public function checkDailyDanmuLimit(UserModel $user)
     {
         $count = $this->counter->hGet($user->id, 'danmu_count');
@@ -53,6 +64,17 @@ class UserLimit extends Validator
 
         if ($count > 10) {
             throw new BadRequestException('user_limit.reach_daily_order_limit');
+        }
+    }
+
+    public function checkDailyArticleLikeLimit(UserModel $user)
+    {
+        $count = $this->counter->hGet($user->id, 'article_like_count');
+
+        $limit = $user->vip ? 200 : 100;
+
+        if ($count > $limit) {
+            throw new BadRequestException('user_limit.reach_daily_like_limit');
         }
     }
 

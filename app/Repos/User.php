@@ -3,6 +3,7 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
+use App\Models\Article as ArticleModel;
 use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\ImUser as ImUserModel;
@@ -165,10 +166,18 @@ class User extends Repository
         ]);
     }
 
-    public function countFavorites($userId)
+    public function countArticles($userId)
+    {
+        return (int)ArticleModel::count([
+            'conditions' => 'user_id = :user_id: AND published = 1',
+            'bind' => ['user_id' => $userId],
+        ]);
+    }
+
+    public function countCourseFavorites($userId)
     {
         return (int)CourseFavoriteModel::count([
-            'conditions' => 'user_id = :user_id: AND deleted = 0',
+            'conditions' => 'user_id = :user_id:',
             'bind' => ['user_id' => $userId],
         ]);
     }

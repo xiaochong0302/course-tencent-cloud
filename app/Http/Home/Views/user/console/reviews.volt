@@ -32,7 +32,7 @@
                             {% set delete_url = url({'for':'home.review.delete','id':item.id}) %}
                             <tr>
                                 <td>
-                                    <p class="title layui-elip">课程：<a href="{{ course_url }}">{{ item.course.title }}</a></p>
+                                    <p class="title layui-elip">课程：<a href="{{ course_url }}" target="_blank">{{ item.course.title }}</a></p>
                                     <p class="content layui-elip" title="{{ item.content }}">评价：{{ item.content }}</p>
                                 </td>
                                 <td>

@@ -52,10 +52,10 @@
         <p class="order">{{ event_info.order.subject }}</p>
     {% elseif history.event_type == 2 %}
         {% set gift_url = url({'for':'home.point_gift.show','id':event_info.point_redeem.gift_id}) %}
-        <p class="gift"><a href="{{ gift_url }}">{{ event_info.point_redeem.gift_name }}</a></p>
+        <p class="gift"><a href="{{ gift_url }}" target="_blank">{{ event_info.point_redeem.gift_name }}</a></p>
     {% elseif history.event_type == 3 %}
         {% set gift_url = url({'for':'home.point_gift.show','id':event_info.point_redeem.gift_id}) %}
-        <p class="gift"><a href="{{ gift_url }}">{{ event_info.point_redeem.gift_name }}</a></p>
+        <p class="gift"><a href="{{ gift_url }}" target="_blank">{{ event_info.point_redeem.gift_name }}</a></p>
     {% elseif history.event_type == 4 %}
         <span class="none">N/A</span>
     {% elseif history.event_type == 5 %}
@@ -63,11 +63,11 @@
     {% elseif history.event_type == 6 %}
         {% set course_url = url({'for':'home.course.show','id':event_info.course.id}) %}
         {% set chapter_url = url({'for':'home.chapter.show','id':event_info.chapter.id}) %}
-        <p class="course">课程：<a href="{{ course_url }}">{{ event_info.course.title }}</a></p>
-        <p class="chapter">章节：<a href="{{ chapter_url }}">{{ event_info.chapter.title }}</a></p>
+        <p class="course">课程：<a href="{{ course_url }}" target="_blank">{{ event_info.course.title }}</a></p>
+        <p class="chapter">章节：<a href="{{ chapter_url }}" target="_blank">{{ event_info.chapter.title }}</a></p>
     {% elseif history.event_type == 7 %}
         {% set course_url = url({'for':'home.course.show','id':event_info.course.id}) %}
-        <p class="course"><a href="{{ course_url }}">{{ event_info.course.title }}</a></p>
+        <p class="course"><a href="{{ course_url }}" target="_blank">{{ event_info.course.title }}</a></p>
     {% elseif history.event_type == 8 %}
         <span class="none">N/A</span>
     {% endif %}

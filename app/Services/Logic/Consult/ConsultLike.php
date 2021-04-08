@@ -5,9 +5,9 @@ namespace App\Services\Logic\Consult;
 use App\Models\Consult as ConsultModel;
 use App\Models\ConsultLike as ConsultLikeModel;
 use App\Models\User as UserModel;
+use App\Repos\ConsultLike as ConsultLikeRepo;
 use App\Services\Logic\ConsultTrait;
 use App\Services\Logic\Service;
-use App\Validators\Consult as ConsultValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
 class ConsultLike extends Service
@@ -25,41 +25,41 @@ class ConsultLike extends Service
 
         $validator->checkDailyConsultLikeLimit($user);
 
-        $validator = new ConsultValidator();
+        $likeRepo = new ConsultLikeRepo();
 
-        $consultLike = $validator->checkIfLiked($consult->id, $user->id);
+        $consultLike = $likeRepo->findConsultLike($consult->id, $user->id);
 
         if (!$consultLike) {
 
             $consultLike = new ConsultLikeModel();
 
-            $consultLike->create([
-                'consult_id' => $consult->id,
-                'user_id' => $user->id,
-            ]);
+            $consultLike->consult_id = $consult->id;
+            $consultLike->user_id = $user->id;
 
-            $this->incrLikeCount($consult);
+            $consultLike->create();
+
+            $this->incrConsultLikeCount($consult);
 
         } else {
 
             $consultLike->delete();
 
-            $this->decrLikeCount($consult);
+            $this->decrConsultLikeCount($consult);
         }
 
         $this->incrUserDailyConsultLikeCount($user);
 
-        return $consultLike;
+        return $consult->like_count;
     }
 
-    protected function incrLikeCount(ConsultModel $consult)
+    protected function incrConsultLikeCount(ConsultModel $consult)
     {
         $consult->like_count += 1;
 
         $consult->update();
     }
 
-    protected function decrLikeCount(ConsultModel $consult)
+    protected function decrConsultLikeCount(ConsultModel $consult)
     {
         if ($consult->like_count > 0) {
             $consult->like_count -= 1;

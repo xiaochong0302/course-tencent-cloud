@@ -47,7 +47,7 @@ class Controller extends \Phalcon\Mvc\Controller
          * 特例白名单
          */
         $whitelist = [
-            'controllers' => ['public', 'index', 'vod', 'upload', 'test'],
+            'controllers' => ['public', 'index', 'upload', 'test'],
             'routes' => [],
         ];
 

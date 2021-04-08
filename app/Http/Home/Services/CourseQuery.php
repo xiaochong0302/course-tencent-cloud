@@ -30,12 +30,10 @@ class CourseQuery extends Service
             unset($params['sc']);
         }
 
-        $baseUrl = $this->url->get(['for' => 'home.course.list']);
-
         $defaultItem = [
             'id' => 'all',
             'name' => '全部',
-            'url' => $baseUrl . $this->buildParams($params),
+            'url' => $this->baseUrl . $this->buildParams($params),
         ];
 
         $result = [];
@@ -51,7 +49,7 @@ class CourseQuery extends Service
             $result[] = [
                 'id' => $category['id'],
                 'name' => $category['name'],
-                'url' => $baseUrl . $this->buildParams($params),
+                'url' => $this->baseUrl . $this->buildParams($params),
             ];
         }
 
@@ -78,12 +76,10 @@ class CourseQuery extends Service
             unset($params['sc']);
         }
 
-        $baseUrl = $this->url->get(['for' => 'home.course.list']);
-
         $defaultItem = [
             'id' => 'all',
             'name' => '全部',
-            'url' => $baseUrl . $this->buildParams($params),
+            'url' => $this->baseUrl . $this->buildParams($params),
         ];
 
         $result = [];
@@ -95,7 +91,7 @@ class CourseQuery extends Service
             $result[] = [
                 'id' => $category['id'],
                 'name' => $category['name'],
-                'url' => $baseUrl . $this->buildParams($params),
+                'url' => $this->baseUrl . $this->buildParams($params),
             ];
         }
 

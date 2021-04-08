@@ -16,7 +16,7 @@ class Course extends Model
      */
     const MODEL_VOD = 1; // 点播
     const MODEL_LIVE = 2; // 直播
-    const MODEL_READ = 3; // 专栏
+    const MODEL_READ = 3; // 图文
     const MODEL_OFFLINE = 4; // 面授
 
     /**
@@ -391,7 +391,7 @@ class Course extends Model
         return [
             self::MODEL_VOD => '点播',
             self::MODEL_LIVE => '直播',
-            self::MODEL_READ => '专栏',
+            self::MODEL_READ => '图文',
             self::MODEL_OFFLINE => '面授',
         ];
     }

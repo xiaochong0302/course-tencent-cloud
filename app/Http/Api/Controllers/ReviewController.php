@@ -77,9 +77,9 @@ class ReviewController extends Controller
     {
         $service = new ReviewLikeService();
 
-        $service->handle($id);
+        $likeCount = $service->handle($id);
 
-        return $this->jsonSuccess();
+        return $this->jsonSuccess(['like_count' => $likeCount]);
     }
 
     /**
@@ -89,9 +89,9 @@ class ReviewController extends Controller
     {
         $service = new ReviewLikeService();
 
-        $service->handle($id);
+        $likeCount = $service->handle($id);
 
-        return $this->jsonSuccess();
+        return $this->jsonSuccess(['like_count' => $likeCount]);
     }
 
 }

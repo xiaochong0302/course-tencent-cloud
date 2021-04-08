@@ -1,14 +1,14 @@
 {{ partial('macros/group') }}
 
 {% if pager.total_pages > 0 %}
-    <div class="user-list clearfix">
+    <div class="group-list clearfix">
         <div class="layui-row layui-col-space20">
             {% for item in pager.items %}
                 {% set group_url = url({'for':'home.im_group.show','id':item.id}) %}
                 {% set item.about = item.about ? item.about : '这家伙真懒，什么都没留下！' %}
                 <div class="layui-col-md3">
                     <div class="user-card">
-                        {{ type_info(item.type) }}
+                        <span class="type layui-badge layui-bg-green">{{ type_info(item.type) }}</span>
                         <div class="avatar">
                             <a href="{{ group_url }}" title="{{ item.about }}">
                                 <img src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">

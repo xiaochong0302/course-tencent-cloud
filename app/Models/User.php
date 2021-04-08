@@ -116,6 +116,13 @@ class User extends Model
     public $course_count;
 
     /**
+     * 文章数
+     *
+     * @var int
+     */
+    public $article_count;
+
+    /**
      * 收藏数
      *
      * @var int

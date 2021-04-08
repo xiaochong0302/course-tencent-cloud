@@ -4,7 +4,7 @@
     {% elseif value == 2 %}
         直播
     {% elseif value == 3 %}
-        专栏
+        图文
     {% elseif value == 4 %}
         面授
     {% else %}

@@ -6,8 +6,8 @@ layui.use(['jquery', 'element'], function () {
     var getSignature = function () {
         var result = '';
         $.ajax({
-            type: 'GET',
-            url: '/admin/vod/upload/sign',
+            type: 'POST',
+            url: '/admin/upload/vod/sign',
             async: false,
             success: function (res) {
                 result = res.sign;

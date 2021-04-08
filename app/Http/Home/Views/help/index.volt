@@ -20,7 +20,7 @@
                                 <ul class="help-list">
                                     {% for help in item.helps %}
                                         {% set show_url = url({'for':'home.help.show','id':help.id}) %}
-                                        <li><a href="{{ show_url }}"><i class="layui-icon layui-icon-right"></i>{{ help.title }}</a></li>
+                                        <li><a href="{{ show_url }}" target="_blank"><i class="layui-icon layui-icon-right"></i>{{ help.title }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </div>

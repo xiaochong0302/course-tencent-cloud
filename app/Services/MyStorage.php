@@ -59,6 +59,20 @@ class MyStorage extends Storage
     }
 
     /**
+     * 上传默认文章封面
+     *
+     * @return false|mixed|string
+     */
+    public function uploadDefaultArticleCover()
+    {
+        $filename = static_path('admin/img/default/article_cover.png');
+
+        $key = '/img/default/article_cover.png';
+
+        return $this->putFile($key, $filename);
+    }
+
+    /**
      * 上传默认课程封面
      *
      * @return false|mixed|string

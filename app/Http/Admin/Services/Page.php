@@ -109,11 +109,11 @@ class Page extends Service
         return $page;
     }
 
-    protected function rebuildPageCache(PageModel $help)
+    protected function rebuildPageCache(PageModel $page)
     {
         $cache = new PageCache();
 
-        $cache->rebuild($help->id);
+        $cache->rebuild($page->id);
     }
 
     protected function findOrFail($id)

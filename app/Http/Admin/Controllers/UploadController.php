@@ -3,6 +3,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Services\MyStorage as StorageService;
+use App\Services\Vod as VodService;
 
 /**
  * @RoutePrefix("/admin/upload")
@@ -126,8 +127,10 @@ class UploadController extends Controller
 
         $items['user_avatar'] = $service->uploadDefaultUserAvatar();
         $items['group_avatar'] = $service->uploadDefaultGroupAvatar();
+        $items['article_cover'] = $service->uploadDefaultArticleCover();
         $items['course_cover'] = $service->uploadDefaultCourseCover();
-        $items['group_cover'] = $service->uploadDefaultPackageCover();
+        $items['package_cover'] = $service->uploadDefaultPackageCover();
+        $items['gift_cover'] = $service->uploadDefaultGiftCover();
         $items['vip_cover'] = $service->uploadDefaultVipCover();
 
         foreach ($items as $item) {
@@ -138,9 +141,9 @@ class UploadController extends Controller
     }
 
     /**
-     * @Get("/sign", name="admin.upload.sign")
+     * @Post("/credentials", name="admin.upload.credentials")
      */
-    public function signatureAction()
+    public function credentialsAction()
     {
         $service = new StorageService();
 
@@ -153,6 +156,18 @@ class UploadController extends Controller
         ];
 
         return $this->jsonSuccess($data);
+    }
+
+    /**
+     * @Post("/vod/sign", name="admin.upload.vod_sign")
+     */
+    public function vodSignatureAction()
+    {
+        $service = new VodService();
+
+        $sign = $service->getUploadSignature();
+
+        return $this->jsonSuccess(['sign' => $sign]);
     }
 
 }

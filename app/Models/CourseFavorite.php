@@ -33,13 +33,6 @@ class CourseFavorite extends Model
      */
     public $create_time = 0;
 
-    /**
-     * 更新时间
-     *
-     * @var int
-     */
-    public $update_time = 0;
-
     public function getSource(): string
     {
         return 'kg_course_favorite';
@@ -48,11 +41,6 @@ class CourseFavorite extends Model
     public function beforeCreate()
     {
         $this->create_time = time();
-    }
-
-    public function beforeUpdate()
-    {
-        $this->update_time = time();
     }
 
 }

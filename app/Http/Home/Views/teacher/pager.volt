@@ -8,12 +8,12 @@
                 <div class="layui-col-md3">
                     <div class="user-card">
                         <div class="avatar">
-                            <a href="{{ user_url }}" title="{{ item.about }}">
+                            <a href="{{ user_url }}" title="{{ item.about }}" target="_blank">
                                 <img src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
                             </a>
                         </div>
                         <div class="name layui-elip">
-                            <a href="{{ user_url }}" title="{{ item.about }}">{{ item.name }}</a>
+                            <a href="{{ user_url }}" title="{{ item.about }}" target="_blank">{{ item.name }}</a>
                         </div>
                         <div class="title layui-elip">{{ item.title }}</div>
                         <div class="action">
