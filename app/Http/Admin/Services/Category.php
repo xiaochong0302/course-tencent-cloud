@@ -74,7 +74,6 @@ class Category extends Service
         $data['type'] = $validator->checkType($post['type']);
         $data['name'] = $validator->checkName($post['name']);
         $data['priority'] = $validator->checkPriority($post['priority']);
-        $data['published'] = $validator->checkPublishStatus($post['published']);
 
         $category = new CategoryModel();
 

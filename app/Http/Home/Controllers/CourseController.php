@@ -178,11 +178,9 @@ class CourseController extends Controller
     {
         $service = new CourseFavoriteService();
 
-        $favorite = $service->handle($id);
+        $favoriteCount = $service->handle($id);
 
-        $msg = $favorite->deleted == 0 ? '收藏成功' : '取消收藏成功';
-
-        return $this->jsonSuccess(['msg' => $msg]);
+        return $this->jsonSuccess(['favorite_count' => $favoriteCount]);
     }
 
 }

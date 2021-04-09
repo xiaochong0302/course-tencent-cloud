@@ -72,7 +72,6 @@ class Nav extends Service
         $data['url'] = $validator->checkUrl($post['url']);
         $data['target'] = $validator->checkTarget($post['target']);
         $data['position'] = $validator->checkPosition($post['position']);
-        $data['published'] = $validator->checkPublishStatus($post['published']);
 
         $nav = new NavModel();
 

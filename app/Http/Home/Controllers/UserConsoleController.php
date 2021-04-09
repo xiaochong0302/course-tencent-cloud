@@ -5,6 +5,7 @@ namespace App\Http\Home\Controllers;
 use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Logic\Account\OAuthProvider as OAuthProviderService;
 use App\Services\Logic\User\Console\AccountInfo as AccountInfoService;
+use App\Services\Logic\User\Console\ArticleList as ArticleListService;
 use App\Services\Logic\User\Console\ConnectDelete as ConnectDeleteService;
 use App\Services\Logic\User\Console\ConnectList as ConnectListService;
 use App\Services\Logic\User\Console\ConsultList as ConsultListService;
@@ -131,6 +132,19 @@ class UserConsoleController extends Controller
         $pager = $service->handle();
 
         $this->view->pick('user/console/courses');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/articles", name="home.uc.articles")
+     */
+    public function articlesAction()
+    {
+        $service = new ArticleListService();
+
+        $pager = $service->handle();
+
+        $this->view->pick('user/console/articles');
         $this->view->setVar('pager', $pager);
     }
 

@@ -33,7 +33,7 @@
                             {% set allow_review = item.progress > 30 and item.reviewed == 0 %}
                             <tr>
                                 <td>
-                                    <p>标题：<a href="{{ course_url }}">{{ item.course.title }}</a></p>
+                                    <p>标题：<a href="{{ course_url }}" target="_blank">{{ item.course.title }}</a></p>
                                     <p class="meta">
                                         类型：<span class="layui-badge layui-bg-gray">{{ model_info(item.course.model) }}</span>
                                         来源：<span class="layui-badge layui-bg-gray">{{ source_type_info(item.source_type) }}</span>

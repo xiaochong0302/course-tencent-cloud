@@ -13,6 +13,7 @@ class Category extends Model
      */
     const TYPE_COURSE = 1; // 课程
     const TYPE_HELP = 2; // 帮助
+    const TYPE_ARTICLE = 3; // 文章
 
     /**
      * 主键编号
@@ -68,7 +69,7 @@ class Category extends Model
      *
      * @var int
      */
-    public $published = 0;
+    public $published = 1;
 
     /**
      * 删除标识
@@ -141,6 +142,7 @@ class Category extends Model
         return [
             self::TYPE_COURSE => '课程',
             self::TYPE_HELP => '帮助',
+            self::TYPE_ARTICLE => '专栏',
         ];
     }
 

@@ -37,9 +37,7 @@ class CourseList extends Builder
 
         $items = $cache->get(CategoryModel::TYPE_COURSE);
 
-        if (empty($items)) {
-            return [];
-        }
+        if (empty($items)) return [];
 
         $result = [];
 

@@ -43,7 +43,6 @@ class Page extends Service
 
         $data['title'] = $validator->checkTitle($post['title']);
         $data['content'] = $validator->checkContent($post['content']);
-        $data['published'] = $validator->checkPublishStatus($post['published']);
 
         $page = new PageModel();
 
@@ -109,11 +108,11 @@ class Page extends Service
         return $page;
     }
 
-    protected function rebuildPageCache(PageModel $help)
+    protected function rebuildPageCache(PageModel $page)
     {
         $cache = new PageCache();
 
-        $cache->rebuild($help->id);
+        $cache->rebuild($page->id);
     }
 
     protected function findOrFail($id)

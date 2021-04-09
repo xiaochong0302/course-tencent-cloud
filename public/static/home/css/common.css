@@ -354,7 +354,7 @@
 }
 
 .search-course-card .meta, .search-group-card .meta {
-    color: #666;
+    color: #999;
 }
 
 .search-course-card .meta span, .search-group-card .meta span {
@@ -392,6 +392,181 @@
     padding: 2px 5px;
     margin-right: 5px;
     margin-bottom: 5px;
+}
+
+.article-sort {
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.article-sort a {
+    margin-right: 20px;
+}
+
+.article-cate-list li {
+    padding: 5px 0;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.article-cate-list .active {
+    background-color: #009688;
+}
+
+.article-cate-list a {
+    display: block;
+}
+
+.article-cate-list .active a {
+    color: #fff;
+}
+
+.article-list {
+    margin-bottom: 20px;
+}
+
+.article-card {
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.article-card:last-child {
+    margin-bottom: 0;
+}
+
+.article-card .cover {
+    float: left;
+    width: 210px;
+    height: 118px;
+    margin-right: 15px;
+}
+
+.article-card .cover img {
+    width: 100%;
+    height: 100%;
+}
+
+.article-card .info {
+    float: left;
+    width: 500px;
+}
+
+.article-card:last-child {
+    border-bottom: none;
+}
+
+.article-card .title {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.article-card .summary {
+    color: #666;
+    font-size: 12px;
+    line-height: 1.5em;
+    max-height: 4.5em;
+    margin-bottom: 10px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
+
+.article-card .meta {
+    color: #999;
+}
+
+.article-card .meta span {
+    margin-right: 10px;
+}
+
+.sidebar-article-list .title {
+    margin-bottom: 5px;
+}
+
+.sidebar-article-list .meta {
+    color: #999;
+    font-size: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.sidebar-article-list .meta:last-child {
+    border-bottom: none;
+}
+
+.sidebar-article-list .meta span {
+    margin-right: 10px;
+}
+
+.article-info .title {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f6f6f6;
+    font-size: 24px;
+    word-break: break-word;
+}
+
+.article-info .meta {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.article-info .meta span {
+    margin-right: 10px;
+}
+
+.article-info .content {
+    margin-bottom: 15px;
+}
+
+.article-info .tags {
+    margin-bottom: 20px;
+}
+
+.article-info .source-tips {
+    padding-top: 15px;
+    margin-bottom: 15px;
+    border-top: 1px solid #f6f6f6;
+    text-align: center;
+    color: #666;
+}
+
+.action-sticky {
+    position: fixed;
+    top: 150px;
+    margin-left: -65px;
+}
+
+.action-sticky .item {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.action-sticky .item .icon {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+    background-color: #fff;
+}
+
+.action-sticky .layui-icon {
+    color: #999;
+    cursor: pointer;
+}
+
+.action-sticky .item .text {
+    color: #999;
+}
+
+.action-sticky .active,
+.action-sticky .layui-icon-star-fill,
+.action-sticky .layui-icon:hover {
+    color: orange;
 }
 
 .course-list {
@@ -808,7 +983,7 @@
 }
 
 .like .active, .like .icon-praise:hover {
-    color: green;
+    color: orange;
 }
 
 .like .like-count {
@@ -944,7 +1119,7 @@
 }
 
 .share .active, .share .layui-icon:hover {
-    color: green;
+    color: orange;
 }
 
 .share a {
@@ -1367,18 +1542,8 @@
     font-size: 30px;
 }
 
-.learning-course-card {
-    height: 260px;
-}
-
-.learning-course-card .progress {
-    padding-top: 15px;
-    padding-bottom: 10px;
-}
-
-.learning-course-card .duration {
-    font-size: 12px;
-    color: #666;
+.user-tab .course-card .info {
+    padding: 10px 8px;
 }
 
 .user-card {

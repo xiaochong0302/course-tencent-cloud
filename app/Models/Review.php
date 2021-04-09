@@ -82,7 +82,7 @@ class Review extends Model
      *
      * @var int
      */
-    public $published = 0;
+    public $published = 1;
 
     /**
      * 删除标识

@@ -50,4 +50,17 @@ class PublicController extends \Phalcon\Mvc\Controller
         $this->view->setVar('region', $region);
     }
 
+    /**
+     * @Get("/vod/player", name="admin.vod_player")
+     */
+    public function vodPlayerAction()
+    {
+        $chapterId = $this->request->getQuery('chapter_id', 'int');
+        $playUrl = $this->request->getQuery('play_url', 'string');
+
+        $this->view->pick('public/vod_player');
+        $this->view->setVar('chapter_id', $chapterId);
+        $this->view->setVar('play_url', $playUrl);
+    }
+
 }

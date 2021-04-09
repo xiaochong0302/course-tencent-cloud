@@ -42,9 +42,7 @@ class CourseDocument extends Component
         $teacher = '';
 
         if ($course->teacher_id > 0) {
-
             $record = UserModel::findFirst($course->teacher_id);
-
             $teacher = kg_json_encode([
                 'id' => $record->id,
                 'name' => $record->name,
@@ -54,9 +52,7 @@ class CourseDocument extends Component
         $category = '';
 
         if ($course->category_id > 0) {
-
             $record = CategoryModel::findFirst($course->category_id);
-
             $category = kg_json_encode([
                 'id' => $record->id,
                 'name' => $record->name,
@@ -64,6 +60,10 @@ class CourseDocument extends Component
         }
 
         $course->cover = CourseModel::getCoverPath($course->cover);
+
+        if (empty($article->summary)) {
+            $course->summary = kg_parse_summary($course->details);
+        }
 
         return [
             'id' => $course->id,

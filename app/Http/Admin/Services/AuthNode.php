@@ -243,6 +243,117 @@ class AuthNode extends Service
                         ],
                     ],
                 ],
+                [
+                    'id' => '1-7',
+                    'title' => '文章管理',
+                    'type' => 'menu',
+                    'children' => [
+                        [
+                            'id' => '1-7-1',
+                            'title' => '文章列表',
+                            'type' => 'menu',
+                            'route' => 'admin.article.list',
+                        ],
+                        [
+                            'id' => '1-7-2',
+                            'title' => '搜索文章',
+                            'type' => 'menu',
+                            'route' => 'admin.article.search',
+                        ],
+                        [
+                            'id' => '1-7-3',
+                            'title' => '添加文章',
+                            'type' => 'menu',
+                            'route' => 'admin.article.add',
+                        ],
+                        [
+                            'id' => '1-7-4',
+                            'title' => '编辑文章',
+                            'type' => 'button',
+                            'route' => 'admin.article.edit',
+                        ],
+                        [
+                            'id' => '1-7-5',
+                            'title' => '删除文章',
+                            'type' => 'button',
+                            'route' => 'admin.article.delete',
+                        ],
+                        [
+                            'id' => '1-7-6',
+                            'title' => '文章分类',
+                            'type' => 'menu',
+                            'route' => 'admin.article.category',
+                        ],
+                    ],
+                ],
+                [
+                    'id' => '1-8',
+                    'title' => '标签管理',
+                    'type' => 'menu',
+                    'children' => [
+                        [
+                            'id' => '1-8-1',
+                            'title' => '标签列表',
+                            'type' => 'menu',
+                            'route' => 'admin.tag.list',
+                        ],
+                        [
+                            'id' => '1-8-2',
+                            'title' => '搜索标签',
+                            'type' => 'menu',
+                            'route' => 'admin.tag.search',
+                        ],
+                        [
+                            'id' => '1-8-3',
+                            'title' => '添加标签',
+                            'type' => 'menu',
+                            'route' => 'admin.tag.add',
+                        ],
+                        [
+                            'id' => '1-8-4',
+                            'title' => '编辑标签',
+                            'type' => 'button',
+                            'route' => 'admin.tag.edit',
+                        ],
+                        [
+                            'id' => '1-8-5',
+                            'title' => '删除标签',
+                            'type' => 'button',
+                            'route' => 'admin.tag.delete',
+                        ],
+                    ],
+                ],
+                [
+                    'id' => '1-9',
+                    'title' => '评论管理',
+                    'type' => 'button',
+                    'children' => [
+                        [
+                            'id' => '1-9-1',
+                            'title' => '评论列表',
+                            'type' => 'button',
+                            'route' => 'admin.comment.list',
+                        ],
+                        [
+                            'id' => '1-9-2',
+                            'title' => '搜索评论',
+                            'type' => 'button',
+                            'route' => 'admin.comment.search',
+                        ],
+                        [
+                            'id' => '1-9-3',
+                            'title' => '编辑评论',
+                            'type' => 'button',
+                            'route' => 'admin.comment.edit',
+                        ],
+                        [
+                            'id' => '1-9-4',
+                            'title' => '删除评论',
+                            'type' => 'button',
+                            'route' => 'admin.comment.delete',
+                        ],
+                    ],
+                ],
             ],
         ];
     }

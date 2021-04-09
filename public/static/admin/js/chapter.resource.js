@@ -18,7 +18,7 @@ layui.use(['jquery', 'element', 'layer'], function () {
 
     var cos = new COS({
         getAuthorization: function (options, callback) {
-            $.get('/admin/upload/sign', {
+            $.post('/admin/upload/credentials', {
                 bucket: options.Bucket,
                 region: options.Region,
             }, function (data) {

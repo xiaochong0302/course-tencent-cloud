@@ -8,9 +8,9 @@ layui.use(['jquery', 'helper'], function () {
         helper.ajaxLoadHtml($tabCourses.data('url'), $tabCourses.attr('id'));
     }
 
-    if ($('#tab-favorites').length > 0) {
-        var $tabFavorites = $('#tab-favorites');
-        helper.ajaxLoadHtml($tabFavorites.data('url'), $tabFavorites.attr('id'));
+    if ($('#tab-articles').length > 0) {
+        var $tabArticles = $('#tab-articles');
+        helper.ajaxLoadHtml($tabArticles.data('url'), $tabArticles.attr('id'));
     }
 
     if ($('#tab-friends').length > 0) {

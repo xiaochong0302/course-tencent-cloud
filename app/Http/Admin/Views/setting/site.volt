@@ -141,7 +141,6 @@
 
 {% endblock %}
 
-
 {% block inline_js %}
 
     <script>

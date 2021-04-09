@@ -108,9 +108,9 @@ class CourseController extends Controller
     {
         $service = new CourseFavoriteService();
 
-        $service->handle($id);
+        $favoriteCount = $service->handle($id);
 
-        return $this->jsonSuccess();
+        return $this->jsonSuccess(['favorite_count' => $favoriteCount]);
     }
 
     /**
@@ -120,9 +120,9 @@ class CourseController extends Controller
     {
         $service = new CourseFavoriteService();
 
-        $service->handle($id);
+        $favoriteCount = $service->handle($id);
 
-        return $this->jsonSuccess();
+        return $this->jsonSuccess(['favorite_count' => $favoriteCount]);
     }
 
 }

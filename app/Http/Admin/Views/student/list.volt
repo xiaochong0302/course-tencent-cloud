@@ -61,13 +61,13 @@
         <tbody>
         {% for item in pager.items %}
             {% set learning_url = url({'for':'admin.student.learning'},{'course_id':item.course_id,'user_id':item.user_id,'plan_id':item.plan_id}) %}
-            {% set list_by_course_url = url({'for':'admin.student.list'},{'course_id':item.course.id}) %}
-            {% set list_by_user_url = url({'for':'admin.student.list'},{'user_id':item.user_id}) %}
+            {% set course_url = url({'for':'home.course.show','id':item.course.id}) %}
+            {% set user_url = url({'for':'home.user.show','id':item.user_id}) %}
             {% set edit_url = url({'for':'admin.student.edit'},{'relation_id':item.id}) %}
             <tr>
                 <td>
-                    <p>课程：<a href="{{ list_by_course_url }}">{{ item.course.title }}</a>（{{ item.course.id }}）</p>
-                    <p>学员：<a href="{{ list_by_user_url }}">{{ item.user.name }}</a>（{{ item.user.id }}）</p>
+                    <p>课程：<a href="{{ course_url }}" target="_blank">{{ item.course.title }}</a>（{{ item.course.id }}）</p>
+                    <p>学员：<a href="{{ user_url }}" target="_blank">{{ item.user.name }}</a>（{{ item.user.id }}）</p>
                 </td>
                 <td>
                     <p>进度：<a href="javascript:" class="kg-learning" title="学习记录" data-url="{{ learning_url }}">{{ item.progress }}%</a></p>

@@ -33,32 +33,33 @@ class ChapterLike extends LogicService
 
             $chapterLike = new ChapterLikeModel();
 
-            $chapterLike->create([
-                'chapter_id' => $chapter->id,
-                'user_id' => $user->id,
-            ]);
+            $chapterLike->chapter_id = $chapter->id;
+            $chapterLike->user_id = $user->id;
 
-            $this->incrLikeCount($chapter);
+            $chapterLike->create();
+
+            $this->incrChapterLikeCount($chapter);
 
         } else {
 
             $chapterLike->delete();
 
-            $this->decrLikeCount($chapter);
+            $this->decrChapterLikeCount($chapter);
         }
 
         $this->incrUserDailyChapterLikeCount($user);
 
-        return $chapterLike;
+        return $chapter->like_count;
     }
 
-    protected function incrLikeCount(ChapterModel $chapter)
+    protected function incrChapterLikeCount(ChapterModel $chapter)
     {
         $chapter->like_count += 1;
+
         $chapter->update();
     }
 
-    protected function decrLikeCount(ChapterModel $chapter)
+    protected function decrChapterLikeCount(ChapterModel $chapter)
     {
         if ($chapter->like_count > 0) {
             $chapter->like_count -= 1;
