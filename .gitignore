@@ -2,6 +2,7 @@
 /vendor
 /config/config.php
 /config/xs.course.ini
+/config/xs.article.ini
 /config/xs.group.ini
 /config/xs.user.ini
 /config/alipay/*.crt

@@ -1542,18 +1542,8 @@
     font-size: 30px;
 }
 
-.learning-course-card {
-    height: 260px;
-}
-
-.learning-course-card .progress {
-    padding-top: 15px;
-    padding-bottom: 10px;
-}
-
-.learning-course-card .duration {
-    font-size: 12px;
-    color: #666;
+.user-tab .course-card .info {
+    padding: 10px 8px;
 }
 
 .user-card {

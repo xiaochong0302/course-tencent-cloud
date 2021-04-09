@@ -63,7 +63,6 @@ class ConsultList extends Service
                 'update_time' => $consult['update_time'],
                 'course' => $course,
                 'chapter' => $chapter,
-                'show' => false,
             ];
         }
 

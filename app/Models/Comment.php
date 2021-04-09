@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Caches\MaxCommentId as MaxCommentIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Comment extends Model
@@ -19,105 +20,105 @@ class Comment extends Model
      *
      * @var integer
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 内容
      *
      * @var string
      */
-    public $content;
+    public $content = '';
 
     /**
      * 父级编号
      *
      * @var integer
      */
-    public $parent_id;
+    public $parent_id = 0;
 
     /**
      * 作者编号
      *
      * @var integer
      */
-    public $owner_id;
+    public $owner_id = 0;
 
     /**
      * 目标用户
      *
      * @var integer
      */
-    public $to_user_id;
+    public $to_user_id = 0;
 
     /**
      * 条目编号
      *
      * @var integer
      */
-    public $item_id;
+    public $item_id = 0;
 
     /**
      * 条目类型
      *
      * @var integer
      */
-    public $item_type;
+    public $item_type = 0;
 
     /**
      * 终端类型
      *
      * @var integer
      */
-    public $client_type;
+    public $client_type = 0;
 
     /**
      * 终端IP
      *
      * @var integer
      */
-    public $client_ip;
+    public $client_ip = '';
 
     /**
      * 发布标识
      *
      * @var integer
      */
-    public $published;
+    public $published = 1;
 
     /**
      * 删除标识
      *
      * @var integer
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 回复数
      *
      * @var integer
      */
-    public $reply_count;
+    public $reply_count = 0;
 
     /**
      * 点赞数
      *
      * @var integer
      */
-    public $like_count;
+    public $like_count = 0;
 
     /**
      * 创建时间
      *
      * @var integer
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var integer
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {
@@ -144,6 +145,13 @@ class Comment extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public function afterCreate()
+    {
+        $cache = new MaxCommentIdCache();
+
+        $cache->rebuild();
     }
 
     public static function itemTypes()

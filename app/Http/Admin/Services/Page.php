@@ -43,7 +43,6 @@ class Page extends Service
 
         $data['title'] = $validator->checkTitle($post['title']);
         $data['content'] = $validator->checkContent($post['content']);
-        $data['published'] = $validator->checkPublishStatus($post['published']);
 
         $page = new PageModel();
 

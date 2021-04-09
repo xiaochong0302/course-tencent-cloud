@@ -338,6 +338,10 @@ class Course extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
+        if (empty($this->summary)) {
+            $this->summary = kg_parse_summary($this->details);
+        }
+
         if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }

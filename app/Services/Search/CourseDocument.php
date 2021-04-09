@@ -61,6 +61,10 @@ class CourseDocument extends Component
 
         $course->cover = CourseModel::getCoverPath($course->cover);
 
+        if (empty($article->summary)) {
+            $course->summary = kg_parse_summary($course->details);
+        }
+
         return [
             'id' => $course->id,
             'title' => $course->title,

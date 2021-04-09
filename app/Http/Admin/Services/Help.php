@@ -64,7 +64,6 @@ class Help extends Service
         $data['title'] = $validator->checkTitle($post['title']);
         $data['content'] = $validator->checkContent($post['content']);
         $data['priority'] = $validator->checkPriority($post['priority']);
-        $data['published'] = $validator->checkPublishStatus($post['published']);
         $data['category_id'] = $category->id;
 
         $help = new HelpModel();

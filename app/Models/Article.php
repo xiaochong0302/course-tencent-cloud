@@ -209,6 +209,10 @@ class Article extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
+        if (empty($this->summary)) {
+            $this->summary = kg_parse_summary($this->content);
+        }
+
         if (is_array($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
         }

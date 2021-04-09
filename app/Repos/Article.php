@@ -63,12 +63,19 @@ class Article extends Repository
             $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
+        if ($sort == 'featured') {
+            $builder->andWhere('featured = 1');
+        }
+
         switch ($sort) {
             case 'like':
                 $orderBy = 'like_count DESC';
                 break;
             case 'popular':
                 $orderBy = 'view_count DESC';
+                break;
+            case 'comment':
+                $orderBy = 'comment_count DESC';
                 break;
             default:
                 $orderBy = 'id DESC';

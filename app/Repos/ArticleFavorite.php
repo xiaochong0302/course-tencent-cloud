@@ -2,11 +2,45 @@
 
 namespace App\Repos;
 
+use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\ArticleFavorite as ArticleFavoriteModel;
 use Phalcon\Mvc\Model;
 
 class ArticleFavorite extends Repository
 {
+
+    public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
+    {
+        $builder = $this->modelsManager->createBuilder();
+
+        $builder->from(ArticleFavoriteModel::class);
+
+        $builder->where('1 = 1');
+
+        if (!empty($where['article_id'])) {
+            $builder->andWhere('article_id = :article_id:', ['article_id' => $where['article_id']]);
+        }
+
+        if (!empty($where['user_id'])) {
+            $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        }
+
+        switch ($sort) {
+            default:
+                $orderBy = 'id DESC';
+                break;
+        }
+
+        $builder->orderBy($orderBy);
+
+        $pager = new PagerQueryBuilder([
+            'builder' => $builder,
+            'page' => $page,
+            'limit' => $limit,
+        ]);
+
+        return $pager->paginate();
+    }
 
     /**
      * @param int $articleId

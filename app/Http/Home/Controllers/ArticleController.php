@@ -29,7 +29,7 @@ class ArticleController extends Controller
         $sorts = $service->handleSorts();
         $params = $service->getParams();
 
-        $this->seo->prependTitle('文章');
+        $this->seo->prependTitle('专栏');
 
         $this->view->setVar('categories', $categories);
         $this->view->setVar('sorts', $sorts);

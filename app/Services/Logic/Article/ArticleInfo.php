@@ -54,7 +54,6 @@ class ArticleInfo extends LogicService
             'like_count' => $article->like_count,
             'comment_count' => $article->comment_count,
             'favorite_count' => $article->favorite_count,
-            'allow_comment' => $article->allow_comment,
             'create_time' => $article->create_time,
             'update_time' => $article->update_time,
         ];
@@ -66,6 +65,8 @@ class ArticleInfo extends LogicService
             'liked' => 0,
             'favorited' => 0,
         ];
+
+        $me['allow_comment'] = $article->allow_comment ? 1 : 0;
 
         if ($user->id > 0) {
 

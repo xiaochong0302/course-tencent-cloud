@@ -32,7 +32,7 @@ class ArticleList extends LogicService
         return $this->handleArticles($pager);
     }
 
-    protected function handleArticles($pager)
+    public function handleArticles($pager)
     {
         if ($pager->total_items == 0) {
             return $pager;
@@ -69,6 +69,8 @@ class ArticleList extends LogicService
                 'title' => $article['title'],
                 'cover' => $article['cover'],
                 'summary' => $article['summary'],
+                'source_type' => $article['source_type'],
+                'source_url' => $article['source_url'],
                 'tags' => $article['tags'],
                 'category' => $category,
                 'owner' => $owner,

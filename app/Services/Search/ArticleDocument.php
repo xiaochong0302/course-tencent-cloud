@@ -61,13 +61,18 @@ class ArticleDocument extends Component
 
         $article->cover = ArticleModel::getCoverPath($article->cover);
 
+        if (empty($article->summary)) {
+            $article->summary = kg_parse_summary($article->content);
+        }
+
         return [
             'id' => $article->id,
             'title' => $article->title,
             'cover' => $article->cover,
             'summary' => $article->summary,
             'category_id' => $article->category_id,
-            'owner_id' => $article->teacher_id,
+            'owner_id' => $article->owner_id,
+            'create_time' => $article->create_time,
             'tags' => $article->tags,
             'category' => $category,
             'owner' => $owner,

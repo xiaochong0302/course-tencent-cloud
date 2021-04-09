@@ -36,7 +36,7 @@ class UserInfo extends Service
             'vip' => $user->vip,
             'locked' => $user->locked,
             'course_count' => $user->course_count,
-            'favorite_count' => $user->favorite_count,
+            'article_count' => $user->article_count,
             'friend_count' => $imUser->friend_count,
             'group_count' => $imUser->group_count,
             'active_time' => $user->active_time,
