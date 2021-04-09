@@ -4,9 +4,9 @@ namespace App\Services\Logic\Page;
 
 use App\Models\Page as PageModel;
 use App\Services\Logic\PageTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class PageInfo extends Service
+class PageInfo extends LogicService
 {
 
     use PageTrait;

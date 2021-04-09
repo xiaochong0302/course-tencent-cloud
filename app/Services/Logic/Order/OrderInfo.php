@@ -5,10 +5,10 @@ namespace App\Services\Logic\Order;
 use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
 use App\Repos\Order as OrderRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Order as OrderValidator;
 
-class OrderInfo extends Service
+class OrderInfo extends LogicService
 {
 
     public function handle($sn)

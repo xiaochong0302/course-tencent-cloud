@@ -7,10 +7,10 @@ use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\User as UserModel;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class CourseFavorite extends Service
+class CourseFavorite extends LogicService
 {
 
     use CourseTrait;

@@ -5,11 +5,11 @@ namespace App\Services\Logic\Danmu;
 use App\Models\Danmu as DanmuModel;
 use App\Models\User as UserModel;
 use App\Services\Logic\ChapterTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Danmu as DanmuValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class DanmuCreate extends Service
+class DanmuCreate extends LogicService
 {
 
     use ChapterTrait;

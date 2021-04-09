@@ -2,9 +2,9 @@
 
 namespace App\Services\Logic\FlashSale;
 
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class UserOrderCache extends Service
+class UserOrderCache extends LogicService
 {
 
     public function get($userId, $saleId)

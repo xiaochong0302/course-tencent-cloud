@@ -6,7 +6,6 @@ use App\Builders\ImGroupUserList as ImGroupUserListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Services\Logic\ImGroupTrait;
-use App\Services\Logic\Service;
 
 class GroupUserList extends Service
 {

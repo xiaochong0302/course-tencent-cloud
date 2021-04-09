@@ -4,9 +4,9 @@ namespace App\Services\Logic\Teacher\Console;
 
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\TeacherLive as TeacherLiveRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class LiveList extends Service
+class LiveList extends LogicService
 {
 
     public function handle()

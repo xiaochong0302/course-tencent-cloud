@@ -10,9 +10,9 @@ use App\Caches\IndexSimpleFreeCourseList as IndexSimpleFreeCourseListCache;
 use App\Caches\IndexSimpleNewCourseList as IndexSimpleNewCourseListCache;
 use App\Caches\IndexSimpleVipCourseList as IndexSimpleVipCourseListCache;
 use App\Caches\IndexVipCourseList as IndexVipCourseListCache;
-use App\Services\Service;
+use App\Services\Service as AppService;
 
-class IndexCourseCache extends Service
+class IndexCourseCache extends AppService
 {
 
     public function rebuild($section = null)

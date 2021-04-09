@@ -14,9 +14,9 @@ use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\PointHistory as PointHistoryRepo;
 use App\Repos\User as UserRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class PointHistory extends Service
+class PointHistory extends LogicService
 {
 
     public function handleOrderConsume(OrderModel $order)

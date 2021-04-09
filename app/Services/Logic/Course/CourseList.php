@@ -5,10 +5,10 @@ namespace App\Services\Logic\Course;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Course as CourseRepo;
 use App\Services\Category as CategoryService;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\CourseQuery as CourseQueryValidator;
 
-class CourseList extends Service
+class CourseList extends LogicService
 {
 
     public function handle()

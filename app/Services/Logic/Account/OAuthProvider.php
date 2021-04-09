@@ -2,9 +2,9 @@
 
 namespace App\Services\Logic\Account;
 
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class OAuthProvider extends Service
+class OAuthProvider extends LogicService
 {
 
     public function handle()

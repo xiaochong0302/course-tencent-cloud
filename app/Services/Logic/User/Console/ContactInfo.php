@@ -3,9 +3,9 @@
 namespace App\Services\Logic\User\Console;
 
 use App\Repos\User as UserRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ContactInfo extends Service
+class ContactInfo extends LogicService
 {
 
     public function handle()

@@ -2,10 +2,10 @@
 
 namespace App\Services\Logic\User\Console;
 
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\User\FriendList as UserFriendListService;
 
-class FriendList extends Service
+class FriendList extends LogicService
 {
 
     public function handle()

@@ -6,9 +6,9 @@ use App\Caches\CourseTeacherList as CourseTeacherListCache;
 use App\Models\Course as CourseModel;
 use App\Repos\Course as CourseRepo;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class BasicInfo extends Service
+class BasicInfo extends LogicService
 {
 
     use CourseTrait;

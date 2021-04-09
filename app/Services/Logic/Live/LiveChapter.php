@@ -3,11 +3,11 @@
 namespace App\Services\Logic\Live;
 
 use App\Services\Logic\ChapterTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Live as LiveValidator;
 use GatewayClient\Gateway;
 
-class LiveChapter extends Service
+class LiveChapter extends LogicService
 {
 
     use ChapterTrait;

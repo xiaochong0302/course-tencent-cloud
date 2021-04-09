@@ -5,11 +5,11 @@ namespace App\Services\Logic\User\Console;
 use App\Builders\OrderList as OrderListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Order as OrderRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
 use App\Validators\Order as OrderValidator;
 
-class OrderList extends Service
+class OrderList extends LogicService
 {
 
     use UserTrait;

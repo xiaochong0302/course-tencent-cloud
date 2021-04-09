@@ -4,7 +4,7 @@ namespace App\Services\Logic\Vip;
 
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\User as UserRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
 class UserList extends Service
 {

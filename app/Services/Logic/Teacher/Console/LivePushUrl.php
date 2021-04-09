@@ -5,9 +5,9 @@ namespace App\Services\Logic\Teacher\Console;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Services\Live as LiveService;
 use App\Services\Logic\ChapterTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class LivePushUrl extends Service
+class LivePushUrl extends LogicService
 {
 
     use ChapterTrait;

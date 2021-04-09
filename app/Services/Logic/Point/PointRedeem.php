@@ -10,10 +10,10 @@ use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Point\PointHistory as PointHistoryService;
 use App\Services\Logic\PointGiftTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\PointRedeem as PointRedeemValidator;
 
-class PointRedeem extends Service
+class PointRedeem extends LogicService
 {
 
     use PointGiftTrait;

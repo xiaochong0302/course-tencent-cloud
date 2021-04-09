@@ -2,7 +2,7 @@
 
 namespace App\Services\Pay;
 
-use App\Services\Service as Service;
+use App\Services\Service;
 use Yansongda\Pay\Gateways\Wechat;
 use Yansongda\Pay\Pay;
 

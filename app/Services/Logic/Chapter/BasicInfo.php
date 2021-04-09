@@ -10,9 +10,9 @@ use App\Services\ChapterVod as ChapterVodService;
 use App\Services\Live as LiveService;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class BasicInfo extends Service
+class BasicInfo extends LogicService
 {
 
     use CourseTrait;

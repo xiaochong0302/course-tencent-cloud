@@ -4,7 +4,6 @@ namespace App\Services\Logic\Vip;
 
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Course as CourseRepo;
-use App\Services\Logic\Service;
 
 class CourseList extends Service
 {

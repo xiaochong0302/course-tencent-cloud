@@ -5,10 +5,9 @@ namespace App\Services\Logic\User;
 use App\Builders\CourseFavoriteList as CourseFavoriteListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
-use App\Services\Logic\Service;
 use App\Services\Logic\UserTrait;
 
-class FavoriteList extends Service
+class FavoriteList extends LogicService
 {
 
     use UserTrait;

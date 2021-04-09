@@ -5,10 +5,10 @@ namespace App\Services\Logic\User\Console;
 use App\Builders\ImGroupList as ImGroupListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\ImGroup as ImGroupRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\User\GroupList as UserGroupListService;
 
-class GroupList extends Service
+class GroupList extends LogicService
 {
 
     public function handle($scope = 'joined')

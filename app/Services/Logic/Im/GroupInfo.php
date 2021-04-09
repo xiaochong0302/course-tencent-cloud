@@ -4,7 +4,6 @@ namespace App\Services\Logic\Im;
 
 use App\Repos\User as UserRepo;
 use App\Services\Logic\ImGroupTrait;
-use App\Services\Logic\Service;
 
 
 class GroupInfo extends Service

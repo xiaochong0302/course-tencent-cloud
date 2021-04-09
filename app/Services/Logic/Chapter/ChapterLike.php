@@ -7,10 +7,10 @@ use App\Models\ChapterLike as ChapterLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\ChapterLike as ChapterLikeRepo;
 use App\Services\Logic\ChapterTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class ChapterLike extends Service
+class ChapterLike extends LogicService
 {
 
     use ChapterTrait;

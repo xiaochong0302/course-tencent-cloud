@@ -7,11 +7,11 @@ use App\Library\Validators\Common as CommonValidator;
 use App\Models\Account as AccountModel;
 use App\Models\ImUser as ImUserModel;
 use App\Models\User as UserModel;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Verify as VerifyValidator;
 
-class Register extends Service
+class Register extends LogicService
 {
 
     public function handle()

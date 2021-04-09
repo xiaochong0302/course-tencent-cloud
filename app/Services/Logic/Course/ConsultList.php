@@ -6,9 +6,9 @@ use App\Builders\ConsultList as ConsultListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Consult as ConsultRepo;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ConsultList extends Service
+class ConsultList extends LogicService
 {
 
     use CourseTrait;

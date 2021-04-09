@@ -8,11 +8,11 @@ use App\Models\Review as ReviewModel;
 use App\Services\CourseStat as CourseStatService;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\ReviewTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\CourseUser as CourseUserValidator;
 use App\Validators\Review as ReviewValidator;
 
-class ReviewCreate extends Service
+class ReviewCreate extends LogicService
 {
 
     use CourseTrait;

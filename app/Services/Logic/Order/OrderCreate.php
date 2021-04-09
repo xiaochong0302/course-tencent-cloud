@@ -10,12 +10,12 @@ use App\Models\User as UserModel;
 use App\Models\Vip as VipModel;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Package as PackageRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Traits\Client as ClientTrait;
 use App\Validators\Order as OrderValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class OrderCreate extends Service
+class OrderCreate extends LogicService
 {
 
     /**

@@ -3,9 +3,9 @@
 namespace App\Services\Logic\FlashSale;
 
 use App\Services\Logic\FlashSaleTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class Queue extends Service
+class Queue extends LogicService
 {
 
     use FlashSaleTrait;

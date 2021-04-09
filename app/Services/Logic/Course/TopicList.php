@@ -4,9 +4,9 @@ namespace App\Services\Logic\Course;
 
 use App\Caches\CourseTopicList as CourseTopicListCache;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class TopicList extends Service
+class TopicList extends LogicService
 {
 
     use CourseTrait;

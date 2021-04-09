@@ -6,11 +6,11 @@ use App\Models\Review as ReviewModel;
 use App\Models\ReviewLike as ReviewLikeModel;
 use App\Models\User as UserModel;
 use App\Services\Logic\ReviewTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Review as ReviewValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class ReviewLike extends Service
+class ReviewLike extends LogicService
 {
 
     use ReviewTrait;

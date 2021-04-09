@@ -37,6 +37,7 @@ class UploadController extends Controller
      */
     public function uploadImImageAction()
     {
+
     }
 
     /**

@@ -3,9 +3,9 @@
 namespace App\Services\Logic\Reward;
 
 use App\Repos\Reward as RewardRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class OptionList extends Service
+class OptionList extends LogicService
 {
 
     public function handle()

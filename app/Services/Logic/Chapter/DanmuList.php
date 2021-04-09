@@ -5,9 +5,9 @@ namespace App\Services\Logic\Chapter;
 use App\Builders\DanmuList as DanmuListBuilder;
 use App\Repos\Danmu as DanmuRepo;
 use App\Services\Logic\ChapterTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class DanmuList extends Service
+class DanmuList extends LogicService
 {
 
     use ChapterTrait;
