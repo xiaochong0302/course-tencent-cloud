@@ -24,7 +24,7 @@ class MaintainTask extends Task
 
         $util->rebuild($section);
 
-        echo 'rebuild index course cache success' . PHP_EOL;
+        echo '------ rebuild index course cache success ------' . PHP_EOL;
     }
 
     /**
@@ -55,7 +55,7 @@ class MaintainTask extends Task
 
         $account->update();
 
-        echo 'reset password success' . PHP_EOL;
+        echo '------ reset password success ------' . PHP_EOL;
     }
 
     /**
@@ -69,7 +69,7 @@ class MaintainTask extends Task
 
         $service->updateSettings('captcha', ['enabled' => 0]);
 
-        echo 'disable captcha success' . PHP_EOL;
+        echo '------ disable captcha success ------' . PHP_EOL;
     }
 
     /**
@@ -83,7 +83,35 @@ class MaintainTask extends Task
 
         $service->updateSettings('captcha', ['enabled' => 1]);
 
-        echo 'enable captcha success' . PHP_EOL;
+        echo '------ enable captcha success ------' . PHP_EOL;
+    }
+
+    /**
+     * 关闭站点
+     *
+     * @command: php console.php maintain disable_site
+     */
+    public function disableSiteAction()
+    {
+        $service = new SettingService();
+
+        $service->updateSettings('site', ['status' => 'closed']);
+
+        echo '------ disable site success ------' . PHP_EOL;
+    }
+
+    /**
+     * 开启站点
+     *
+     * @command: php console.php maintain enable_site
+     */
+    public function enableSiteAction()
+    {
+        $service = new SettingService();
+
+        $service->updateSettings('site', ['status' => 'normal']);
+
+        echo '------ enable site success ------' . PHP_EOL;
     }
 
 }
