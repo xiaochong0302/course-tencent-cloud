@@ -113,7 +113,7 @@ class Article extends Model
      *
      * @var int
      */
-    public $allow_comment = 0;
+    public $allow_comment = 1;
 
     /**
      * 文字数
