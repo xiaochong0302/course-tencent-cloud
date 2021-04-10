@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {{ partial('macros/course') }}
-
     {% set types = {'course':'课程','article':'文章'} %}
     {% set type = request.get('type','trim','course') %}
 

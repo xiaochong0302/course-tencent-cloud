@@ -19,10 +19,7 @@
             {% set course_url = url({'for':'home.course.show','id':item.id}) %}
             {% set favorite_url = url({'for':'home.course.favorite','id':item.id}) %}
             <tr>
-                <td>
-                    <a href="{{ course_url }}" target="_blank">{{ item.title }}</a>
-                    <span class="layui-badge layui-bg-gray">{{ model_info(item.model) }}</span>
-                </td>
+                <td><a href="{{ course_url }}" target="_blank">{{ item.title }}</a></td>
                 <td>{{ item.user_count }}</td>
                 <td>{{ "%0.1f"|format(item.rating) }}</td>
                 <td class="center">

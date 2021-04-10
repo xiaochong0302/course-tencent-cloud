@@ -31,6 +31,8 @@ class ArticleFavorite extends LogicService
 
         if (!$favorite) {
 
+            $action = 'do';
+
             $favorite = new ArticleFavoriteModel();
 
             $favorite->article_id = $article->id;
@@ -43,13 +45,18 @@ class ArticleFavorite extends LogicService
 
         } else {
 
+            $action = 'undo';
+
             $favorite->delete();
 
             $this->decrArticleFavoriteCount($article);
             $this->decrUserFavoriteCount($user);
         }
 
-        return $article->favorite_count;
+        return [
+            'action' => $action,
+            'count' => $article->favorite_count,
+        ];
     }
 
     protected function incrArticleFavoriteCount(ArticleModel $article)

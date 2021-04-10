@@ -100,9 +100,11 @@ class ChapterController extends Controller
     {
         $service = new ChapterLikeService();
 
-        $likeCount = $service->handle($id);
+        $data = $service->handle($id);
 
-        return $this->jsonSuccess(['like_count' => $likeCount]);
+        $msg = $data['action'] == 'do' ? '点赞成功' : '取消点赞成功';
+
+        return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
     }
 
     /**

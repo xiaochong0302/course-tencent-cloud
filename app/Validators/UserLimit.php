@@ -111,4 +111,15 @@ class UserLimit extends Validator
         }
     }
 
+    public function checkDailyCommentLikeLimit(UserModel $user)
+    {
+        $count = $this->counter->hGet($user->id, 'comment_like_count');
+
+        $limit = $user->vip ? 200 : 100;
+
+        if ($count > $limit) {
+            throw new BadRequestException('user_limit.reach_daily_like_limit');
+        }
+    }
+
 }

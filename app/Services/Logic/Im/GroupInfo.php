@@ -4,9 +4,9 @@ namespace App\Services\Logic\Im;
 
 use App\Repos\User as UserRepo;
 use App\Services\Logic\ImGroupTrait;
+use App\Services\Logic\Service as LogicService;
 
-
-class GroupInfo extends Service
+class GroupInfo extends LogicService
 {
 
     use ImGroupTrait;

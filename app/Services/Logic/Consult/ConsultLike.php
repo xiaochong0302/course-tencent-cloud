@@ -8,7 +8,6 @@ use App\Models\User as UserModel;
 use App\Repos\ConsultLike as ConsultLikeRepo;
 use App\Services\Logic\ConsultTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Validators\Consult as ConsultValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
 class ConsultLike extends LogicService
@@ -32,6 +31,8 @@ class ConsultLike extends LogicService
 
         if (!$consultLike) {
 
+            $action = 'do';
+
             $consultLike = new ConsultLikeModel();
 
             $consultLike->consult_id = $consult->id;
@@ -43,6 +44,8 @@ class ConsultLike extends LogicService
 
         } else {
 
+            $action = 'undo';
+
             $consultLike->delete();
 
             $this->decrConsultLikeCount($consult);
@@ -50,7 +53,10 @@ class ConsultLike extends LogicService
 
         $this->incrUserDailyConsultLikeCount($user);
 
-        return $consult->like_count;
+        return [
+            'action' => $action,
+            'count' => $consult->like_count,
+        ];
     }
 
     protected function incrConsultLikeCount(ConsultModel $consult)

@@ -112,9 +112,11 @@ class ArticleController extends Controller
     {
         $service = new ArticleFavoriteService();
 
-        $favoriteCount = $service->handle($id);
+        $data = $service->handle($id);
 
-        return $this->jsonSuccess(['favorite_count' => $favoriteCount]);
+        $msg = $data['action'] == 'do' ? '收藏成功' : '取消收藏成功';
+
+        return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
     }
 
     /**
@@ -124,9 +126,11 @@ class ArticleController extends Controller
     {
         $service = new ArticleLikeService();
 
-        $likeCount = $service->handle($id);
+        $data = $service->handle($id);
 
-        return $this->jsonSuccess(['like_count' => $likeCount]);
+        $msg = $data['action'] == 'do' ? '点赞成功' : '取消点赞成功';
+
+        return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
     }
 
 }

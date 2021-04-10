@@ -7,10 +7,10 @@ use App\Models\ArticleLike as ArticleLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\ArticleLike as ArticleLikeRepo;
 use App\Services\Logic\ArticleTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class ArticleLike extends Service
+class ArticleLike extends LogicService
 {
 
     use ArticleTrait;
@@ -31,6 +31,8 @@ class ArticleLike extends Service
 
         if (!$articleLike) {
 
+            $action = 'do';
+
             $articleLike = new ArticleLikeModel();
 
             $articleLike->article_id = $article->id;
@@ -42,6 +44,8 @@ class ArticleLike extends Service
 
         } else {
 
+            $action = 'undo';
+
             $articleLike->delete();
 
             $this->decrArticleLikeCount($article);
@@ -49,7 +53,10 @@ class ArticleLike extends Service
 
         $this->incrUserDailyArticleLikeCount($user);
 
-        return $article->like_count;
+        return [
+            'action' => $action,
+            'count' => $article->like_count,
+        ];
     }
 
     protected function incrArticleLikeCount(ArticleModel $article)

@@ -100,6 +100,9 @@
             name: 'xm_category_ids',
             max: 5,
             filterable: true,
+            filterMethod: function (val, item, index, prop) {
+                return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
+            },
             data: {{ xm_categories|json_encode }}
         });
 
@@ -108,6 +111,9 @@
             name: 'xm_teacher_ids',
             max: 5,
             filterable: true,
+            filterMethod: function (val, item, index, prop) {
+                return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
+            },
             data: {{ xm_teachers|json_encode }}
         });
 

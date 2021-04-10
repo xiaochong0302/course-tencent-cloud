@@ -47,8 +47,11 @@
             xmSelect.render({
                 el: '#xm-tag-ids',
                 name: 'xm_tag_ids',
-                filterable: true,
                 max: 3,
+                filterable: true,
+                filterMethod: function (val, item, index, prop) {
+                    return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
+                },
                 data: {{ xm_tags|json_encode }}
             });
 
@@ -57,7 +60,6 @@
 
             form.on('radio(source_type)', function (data) {
                 var block = $('#source-url-block');
-                console.log(data);
                 if (data.value === '1') {
                     block.hide();
                 } else {

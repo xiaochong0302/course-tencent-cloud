@@ -5,6 +5,7 @@ namespace App\Services\Logic\User\Console;
 use App\Builders\ReviewList as ReviewListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Review as ReviewRepo;
+use App\Services\Logic\Service as LogicService;
 
 class ReviewList extends LogicService
 {

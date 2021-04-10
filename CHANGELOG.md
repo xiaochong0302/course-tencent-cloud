@@ -1,3 +1,17 @@
+### [v1.3.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.1)(2021-04-09)
+
+### 更新
+
+- 后台增加文章功能
+- 后台增加标签功能
+- 增加文章全文检索
+- 整理命名空间别名
+- 更新部分链接打开方式
+- xm-select搜索忽略大小写
+- 补充遗漏的面授模型章节相关迁移文件
+- 修正上次字段整理导致的字段不存在问题
+- 修正上次整理发布字段导致的添加单页和帮助错误
+
 ### [v1.3.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.0)(2021-03-26)
 
 ### 更新

@@ -66,4 +66,9 @@ class UserDailyCounter extends Listener
         $this->counter->hIncrBy($user->id, 'article_like_count');
     }
 
+    public function incrCommentLikeCount(PhEvent $event, $source, UserModel $user)
+    {
+        $this->counter->hIncrBy($user->id, 'comment_like_count');
+    }
+
 }

@@ -31,6 +31,8 @@ class CourseFavorite extends LogicService
 
         if (!$favorite) {
 
+            $action = 'do';
+
             $favorite = new CourseFavoriteModel();
 
             $favorite->course_id = $course->id;
@@ -43,13 +45,18 @@ class CourseFavorite extends LogicService
 
         } else {
 
+            $action = 'undo';
+
             $favorite->delete();
 
             $this->decrCourseFavoriteCount($course);
             $this->decrUserFavoriteCount($user);
         }
 
-        return $course->favorite_count;
+        return [
+            'action' => $action,
+            'count' => $course->favorite_count,
+        ];
     }
 
     protected function incrCourseFavoriteCount(CourseModel $course)

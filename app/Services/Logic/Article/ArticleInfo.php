@@ -41,6 +41,7 @@ class ArticleInfo extends LogicService
         return [
             'id' => $article->id,
             'title' => $article->title,
+            'cover' => $article->cover,
             'summary' => $article->summary,
             'tags' => $article->tags,
             'content' => $content,

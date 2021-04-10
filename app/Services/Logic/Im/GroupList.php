@@ -5,8 +5,9 @@ namespace App\Services\Logic\Im;
 use App\Builders\ImGroupList as ImGroupListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\ImGroup as ImGroupRepo;
+use App\Services\Logic\Service as LogicService;
 
-class GroupList extends Service
+class GroupList extends LogicService
 {
 
     public function handle()

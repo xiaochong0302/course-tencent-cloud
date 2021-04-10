@@ -4,8 +4,8 @@
 
     {{ partial('macros/article') }}
 
-    {% set article_list_url = url({'for':'home.article.list'}) %}
-    {% set article_cate_url = url({'for':'home.article.list'},{'category_id':article.category.id}) %}
+    {% set list_url = url({'for':'home.article.list'}) %}
+    {% set category_url = url({'for':'home.article.list'},{'category_id':article.category.id}) %}
     {% set owner_url = url({'for':'home.user.show','id':article.owner.id}) %}
     {% set favorite_url = url({'for':'home.article.favorite','id':article.id}) %}
     {% set like_url = url({'for':'home.article.like','id':article.id}) %}
@@ -16,9 +16,14 @@
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
-            <a href="{{ article_list_url }}">专栏</a>
-            <a href="{{ article_cate_url }}">{{ article.category.name }}</a>
+            <a href="{{ list_url }}">专栏</a>
+            <a href="{{ category_url }}">{{ article.category.name }}</a>
             <a><cite>文章详情</cite></a>
+        </span>
+        <span class="share">
+            <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
+            <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
+            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
         </span>
     </div>
 
@@ -110,6 +115,16 @@
 
     </div>
 
+    {% set share_url = full_url({'for':'home.article.show','id':article.id}) %}
+    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
+
+    <div class="layui-hide">
+        <input type="hidden" name="share.title" value="{{ article.title }}">
+        <input type="hidden" name="share.pic" value="{{ article.cover }}">
+        <input type="hidden" name="share.url" value="{{ share_url }}">
+        <input type="hidden" name="share.qrcode" value="{{ qrcode_url }}">
+    </div>
+
 {% endblock %}
 
 {% block link_css %}
@@ -121,5 +136,6 @@
 {% block include_js %}
 
     {{ js_include('home/js/article.show.js') }}
+    {{ js_include('home/js/article.share.js') }}
 
 {% endblock %}

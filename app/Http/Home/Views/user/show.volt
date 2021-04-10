@@ -50,23 +50,19 @@
     <div class="tab-wrap">
         <div class="layui-tab layui-tab-brief user-tab">
             <ul class="layui-tab-title">
-                {% if show_tab_courses %}
-                    <li class="layui-this">课程<span class="tab-count">{{ user.course_count }}</span></li>
-                {% endif %}
+                <li class="layui-this">课程</li>
                 {% if show_tab_articles %}
-                    <li>文章<span class="tab-count">{{ user.article_count }}</span></li>
+                    <li>文章</li>
                 {% endif %}
                 {% if show_tab_friends %}
-                    <li>好友<span class="tab-count">{{ user.friend_count }}</span></li>
+                    <li>好友</li>
                 {% endif %}
                 {% if show_tab_groups %}
-                    <li>群组<span class="tab-count">{{ user.group_count }}</span></li>
+                    <li>群组</li>
                 {% endif %}
             </ul>
             <div class="layui-tab-content">
-                {% if show_tab_courses %}
-                    <div class="layui-tab-item layui-show" id="tab-courses" data-url="{{ courses_url }}"></div>
-                {% endif %}
+                <div class="layui-tab-item layui-show" id="tab-courses" data-url="{{ courses_url }}"></div>
                 {% if show_tab_articles %}
                     <div class="layui-tab-item" id="tab-articles" data-url="{{ articles_url }}"></div>
                 {% endif %}

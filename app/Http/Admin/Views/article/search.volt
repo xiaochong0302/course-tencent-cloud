@@ -94,8 +94,8 @@
         xmSelect.render({
             el: '#xm-tag-ids',
             name: 'xm_tag_ids',
-            filterable: true,
             max: 5,
+            filterable: true,
             data: {{ xm_tags|json_encode }}
         });
 

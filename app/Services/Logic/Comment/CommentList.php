@@ -3,13 +3,10 @@
 namespace App\Services\Logic\Comment;
 
 use App\Builders\CommentList as CommentListBuilder;
-use App\Services\Logic\ArticleTrait;
 use App\Services\Logic\Service as LogicService;
 
 class CommentList extends LogicService
 {
-
-    use ArticleTrait;
 
     protected function handlePager($pager)
     {

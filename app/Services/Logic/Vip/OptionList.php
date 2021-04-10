@@ -3,8 +3,9 @@
 namespace App\Services\Logic\Vip;
 
 use App\Repos\Vip as VipRepo;
+use App\Services\Logic\Service as LogicService;
 
-class OptionList extends Service
+class OptionList extends LogicService
 {
 
     public function handle()

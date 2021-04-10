@@ -7,10 +7,10 @@ use App\Models\ReviewLike as ReviewLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\ReviewLike as ReviewLikeRepo;
 use App\Services\Logic\ReviewTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class ReviewLike extends Service
+class ReviewLike extends LogicService
 {
 
     use ReviewTrait;
@@ -31,6 +31,8 @@ class ReviewLike extends Service
 
         if (!$reviewLike) {
 
+            $action = 'do';
+
             $reviewLike = new ReviewLikeModel();
 
             $reviewLike->review_id = $review->id;
@@ -42,6 +44,8 @@ class ReviewLike extends Service
 
         } else {
 
+            $action = 'undo';
+
             $reviewLike->delete();
 
             $this->decrReviewLikeCount($review);
@@ -49,7 +53,10 @@ class ReviewLike extends Service
 
         $this->incrUserDailyReviewLikeCount($user);
 
-        return $review->like_count;
+        return [
+            'action' => $action,
+            'count' => $review->like_count,
+        ];
     }
 
     protected function incrReviewLikeCount(ReviewModel $review)
