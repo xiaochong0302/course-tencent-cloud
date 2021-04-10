@@ -15,7 +15,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">名称</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="title" placeholder="名称模糊匹配">
+                <input class="layui-input" type="text" name="name" placeholder="名称模糊匹配">
             </div>
         </div>
         <div class="layui-form-item">

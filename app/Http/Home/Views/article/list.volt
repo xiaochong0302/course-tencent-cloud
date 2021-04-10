@@ -7,6 +7,13 @@
     {% set pager_url = url({'for':'home.article.pager'}, params) %}
     {% set hot_author_url = url({'for':'home.article.hot_authors'}) %}
 
+    <div class="breadcrumb">
+        <span class="layui-breadcrumb">
+            <a href="/">首页</a>
+            <a><cite>专栏</cite></a>
+        </span>
+    </div>
+
     <div class="layout-main clearfix">
         <div class="layout-content">
             <div class="content-wrap wrap">

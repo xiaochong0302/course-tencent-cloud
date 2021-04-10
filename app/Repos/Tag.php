@@ -19,6 +19,10 @@ class Tag extends Repository
 
         $builder->where('1 = 1');
 
+        if (!empty($where['id'])) {
+            $builder->andWhere('id = :id:', ['id' => $where['id']]);
+        }
+
         if (!empty($where['name'])) {
             $builder->andWhere('name LIKE :name:', ['name' => "%{$where['name']}%"]);
         }
@@ -32,7 +36,7 @@ class Tag extends Repository
         }
 
         switch ($sort) {
-            case 'follow':
+            case 'popular':
                 $orderBy = 'follow_count DESC';
                 break;
             case 'priority':
