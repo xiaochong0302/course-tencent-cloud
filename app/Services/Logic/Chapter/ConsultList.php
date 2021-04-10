@@ -5,9 +5,9 @@ namespace App\Services\Logic\Chapter;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\Consult\ConsultList as ConsultListHandler;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ConsultList extends Service
+class ConsultList extends LogicService
 {
 
     use ChapterTrait;

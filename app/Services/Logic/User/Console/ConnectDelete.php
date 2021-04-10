@@ -2,10 +2,9 @@
 
 namespace App\Services\Logic\User\Console;
 
-use App\Services\Logic\Service;
 use App\Validators\Connect as ConnectValidator;
 
-class ConnectDelete extends Service
+class ConnectDelete extends LogicService
 {
 
     public function handle($id)

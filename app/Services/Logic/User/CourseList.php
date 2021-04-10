@@ -5,10 +5,10 @@ namespace App\Services\Logic\User;
 use App\Builders\CourseUserList as CourseUserListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\CourseUser as CourseUserRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
 
-class CourseList extends Service
+class CourseList extends LogicService
 {
 
     use UserTrait;

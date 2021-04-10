@@ -3,9 +3,9 @@
 namespace App\Services\Logic\Help;
 
 use App\Caches\HelpList as HelpListCache;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class HelpList extends Service
+class HelpList extends LogicService
 {
 
     public function handle()

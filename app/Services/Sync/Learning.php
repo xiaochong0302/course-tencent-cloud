@@ -3,10 +3,10 @@
 namespace App\Services\Sync;
 
 use App\Models\Learning as LearningModel;
-use App\Services\Service;
+use App\Services\Service as AppService;
 use App\Traits\Client as ClientTrait;
 
-class Learning extends Service
+class Learning extends AppService
 {
 
     use ClientTrait;

@@ -90,7 +90,9 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
                 type: 'POST',
                 url: url,
                 success: function (res) {
-                    layer.msg(res.msg, {icon: 1});
+                    if (res.msg !== '') {
+                        layer.msg(res.msg, {icon: 1});
+                    }
                     if (res.location) {
                         setTimeout(function () {
                             window.location.href = res.location;

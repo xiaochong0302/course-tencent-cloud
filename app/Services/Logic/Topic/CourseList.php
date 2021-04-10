@@ -5,10 +5,10 @@ namespace App\Services\Logic\Topic;
 use App\Builders\CourseTopicList as CourseTopicListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\CourseTopic as CourseTopicRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\TopicTrait;
 
-class CourseList extends Service
+class CourseList extends LogicService
 {
 
     use TopicTrait;

@@ -12,7 +12,7 @@
                         </div>
                         <div class="info">
                             <div class="name layui-elip">
-                                <a href="{{ teacher_url }}" title="{{ teacher.about }}">{{ teacher.name }}</a>
+                                <a href="{{ teacher_url }}" title="{{ teacher.about }}" target="_blank">{{ teacher.name }}</a>
                             </div>
                             <div class="title layui-elip">{{ teacher.title }}</div>
                         </div>

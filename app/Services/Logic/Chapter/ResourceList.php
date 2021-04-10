@@ -5,9 +5,9 @@ namespace App\Services\Logic\Chapter;
 use App\Builders\ResourceList as ResourceListBuilder;
 use App\Repos\Resource as ResourceRepo;
 use App\Services\Logic\ChapterTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ResourceList extends Service
+class ResourceList extends LogicService
 {
 
     use ChapterTrait;

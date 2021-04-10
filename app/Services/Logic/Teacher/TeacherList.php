@@ -5,9 +5,9 @@ namespace App\Services\Logic\Teacher;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class TeacherList extends Service
+class TeacherList extends LogicService
 {
 
     public function handle()

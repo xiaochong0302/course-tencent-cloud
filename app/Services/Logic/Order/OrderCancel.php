@@ -4,10 +4,10 @@ namespace App\Services\Logic\Order;
 
 use App\Models\Order as OrderModel;
 use App\Services\Logic\OrderTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Order as OrderValidator;
 
-class OrderCancel extends Service
+class OrderCancel extends LogicService
 {
 
     use OrderTrait;

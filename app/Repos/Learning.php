@@ -33,10 +33,6 @@ class Learning extends Repository
             $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
-        if (isset($where['deleted'])) {
-            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
-        }
-
         switch ($sort) {
             default:
                 $orderBy = 'id DESC';

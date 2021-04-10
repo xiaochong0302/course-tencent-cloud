@@ -77,9 +77,11 @@ class ReviewController extends Controller
     {
         $service = new ReviewLikeService();
 
-        $service->handle($id);
+        $data = $service->handle($id);
 
-        return $this->jsonSuccess();
+        $msg = $data['action'] == 'do' ? '点赞成功' : '取消点赞成功';
+
+        return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
     }
 
     /**
@@ -89,9 +91,11 @@ class ReviewController extends Controller
     {
         $service = new ReviewLikeService();
 
-        $service->handle($id);
+        $data = $service->handle($id);
 
-        return $this->jsonSuccess();
+        $msg = $data['action'] == 'do' ? '点赞成功' : '取消点赞成功';
+
+        return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
     }
 
 }

@@ -10,12 +10,12 @@
                     <div class="user-card">
                         <span class="type layui-badge layui-bg-green">{{ type_info(item.type) }}</span>
                         <div class="avatar">
-                            <a href="{{ group_url }}" title="{{ item.about }}">
+                            <a href="{{ group_url }}" title="{{ item.about }}" target="_blank">
                                 <img src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
                             </a>
                         </div>
                         <div class="name layui-elip">
-                            <a href="{{ group_url }}" title="{{ item.name }}">{{ item.name }}</a>
+                            <a href="{{ group_url }}" title="{{ item.name }}" target="_blank">{{ item.name }}</a>
                         </div>
                         <div class="meta layui-elip">
                             <span>成员：{{ item.user_count }}</span>

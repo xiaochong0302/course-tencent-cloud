@@ -7,9 +7,9 @@ use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\ConsultTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ConsultInfo extends Service
+class ConsultInfo extends LogicService
 {
 
     use ConsultTrait;

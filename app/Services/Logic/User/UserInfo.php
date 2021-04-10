@@ -4,10 +4,10 @@ namespace App\Services\Logic\User;
 
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
 
-class UserInfo extends Service
+class UserInfo extends LogicService
 {
 
     use UserTrait;
@@ -36,7 +36,7 @@ class UserInfo extends Service
             'vip' => $user->vip,
             'locked' => $user->locked,
             'course_count' => $user->course_count,
-            'favorite_count' => $user->favorite_count,
+            'article_count' => $user->article_count,
             'friend_count' => $imUser->friend_count,
             'group_count' => $imUser->group_count,
             'active_time' => $user->active_time,

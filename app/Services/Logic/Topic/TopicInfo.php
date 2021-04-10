@@ -3,10 +3,10 @@
 namespace App\Services\Logic\Topic;
 
 use App\Models\Topic as TopicModel;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\TopicTrait;
 
-class TopicInfo extends Service
+class TopicInfo extends LogicService
 {
 
     use TopicTrait;

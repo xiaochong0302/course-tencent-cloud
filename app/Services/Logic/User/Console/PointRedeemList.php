@@ -4,10 +4,10 @@ namespace App\Services\Logic\User\Console;
 
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\PointRedeem as PointRedeemRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
 
-class PointRedeemList extends Service
+class PointRedeemList extends LogicService
 {
 
     use UserTrait;

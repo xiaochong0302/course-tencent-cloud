@@ -5,9 +5,9 @@ namespace App\Services\Logic\Danmu;
 use App\Models\Danmu as DanmuModel;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\DanmuTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class DanmuInfo extends Service
+class DanmuInfo extends LogicService
 {
 
     use DanmuTrait;

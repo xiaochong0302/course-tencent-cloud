@@ -2,9 +2,9 @@
 
 namespace App\Services\Logic\Search;
 
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-abstract class Handler extends Service
+abstract class Handler extends LogicService
 {
 
     abstract function search();

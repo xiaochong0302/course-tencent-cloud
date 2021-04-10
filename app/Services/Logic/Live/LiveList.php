@@ -6,9 +6,9 @@ namespace App\Services\Logic\Live;
 use App\Builders\LiveList as LiveListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\ChapterLive as ChapterLiveRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class LiveList extends Service
+class LiveList extends LogicService
 {
 
     public function handle()

@@ -14,9 +14,7 @@ class ChapterVod extends Service
 
         $vod = $chapterRepo->findChapterVod($chapterId);
 
-        if (empty($vod->file_transcode)) {
-            return [];
-        }
+        if (empty($vod->file_transcode)) return [];
 
         $vodService = new VodService();
 

@@ -5,10 +5,10 @@ namespace App\Services\Logic\User;
 use App\Builders\ImFriendUserList as ImFriendUserListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\ImFriendUser as ImFriendUserRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
 
-class FriendList extends Service
+class FriendList extends LogicService
 {
 
     use UserTrait;

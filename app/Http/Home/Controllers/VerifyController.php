@@ -15,7 +15,7 @@ class VerifyController extends \Phalcon\Mvc\Controller
     use ResponseTrait;
 
     /**
-     * @Post("/sms/code", name="verify.sms_code")
+     * @Post("/sms/code", name="home.verify.sms_code")
      */
     public function smsCodeAction()
     {
@@ -27,7 +27,7 @@ class VerifyController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Post("/email/code", name="verify.email_code")
+     * @Post("/email/code", name="home.verify.email_code")
      */
     public function emailCodeAction()
     {

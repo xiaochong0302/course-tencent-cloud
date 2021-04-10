@@ -7,13 +7,13 @@
             {% set item.about = item.about ? item.about : '这个家伙真懒，什么也没有留下！' %}
             <div class="search-group-card clearfix">
                 <div class="avatar">
-                    <a href="{{ user_url }}">
+                    <a href="{{ user_url }}" target="_blank">
                         <img src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
                     </a>
                 </div>
                 <div class="info">
                     <div class="name layui-elip">
-                        <a href="{{ user_url }}">{{ item.name }}</a>
+                        <a href="{{ user_url }}" target="_blank">{{ item.name }}</a>
                     </div>
                     <div class="about layui-elip">{{ item.about }}</div>
                     <div class="meta">

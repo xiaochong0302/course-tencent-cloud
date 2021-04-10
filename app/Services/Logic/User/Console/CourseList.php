@@ -2,10 +2,10 @@
 
 namespace App\Services\Logic\User\Console;
 
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\User\CourseList as UserCourseListService;
 
-class CourseList extends Service
+class CourseList extends LogicService
 {
 
     public function handle()

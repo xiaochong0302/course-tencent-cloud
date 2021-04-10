@@ -50,8 +50,12 @@
             xmSelect.render({
                 el: '#xm-course-ids',
                 name: 'xm_course_ids',
+                max: 15,
                 autoRow: true,
                 filterable: true,
+                filterMethod: function (val, item, index, prop) {
+                    return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
+                },
                 data: {{ xm_courses|json_encode }}
             });
 

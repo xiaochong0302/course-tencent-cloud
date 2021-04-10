@@ -4,9 +4,9 @@ namespace App\Services\Logic\Vip;
 
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Course as CourseRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class CourseList extends Service
+class CourseList extends LogicService
 {
 
     public function handle($type)

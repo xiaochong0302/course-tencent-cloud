@@ -7,16 +7,16 @@
                 {% set item.title = item.title ? item.title : '暂露头角' %}
                 {% set item.about = item.about ? item.about : '这个人很懒，什么都没留下' %}
                 {% set user_url = url({'for':'home.user.show','id':item.id}) %}
+                {% set avatar_class = item.vip == 1 ? 'avatar vip' : 'avatar' %}
                 <div class="layui-col-md2">
                     <div class="user-card">
-                        {{ vip_info(item.vip) }}
-                        <div class="avatar">
-                            <a href="{{ user_url }}" title="{{ item.about }}">
+                        <div class="{{ avatar_class }}">
+                            <a href="{{ user_url }}" title="{{ item.about }}" target="_blank">
                                 <img src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
                             </a>
                         </div>
                         <div class="name layui-elip">
-                            <a href="{{ user_url }}" title="{{ item.about }}">{{ item.name }}</a>
+                            <a href="{{ user_url }}" title="{{ item.about }}" target="_blank">{{ item.name }}</a>
                         </div>
                         <div class="title layui-elip">{{ item.title }}</div>
                         <div class="action">

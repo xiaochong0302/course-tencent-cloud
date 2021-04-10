@@ -6,9 +6,9 @@ use App\Models\Review as ReviewModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\ReviewTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ReviewInfo extends Service
+class ReviewInfo extends LogicService
 {
 
     use ReviewTrait;

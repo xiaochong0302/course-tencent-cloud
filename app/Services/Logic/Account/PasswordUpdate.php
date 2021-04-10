@@ -4,10 +4,10 @@ namespace App\Services\Logic\Account;
 
 use App\Library\Utils\Password as PasswordUtil;
 use App\Repos\Account as AccountRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Account as AccountValidator;
 
-class PasswordUpdate extends Service
+class PasswordUpdate extends LogicService
 {
 
     public function handle()

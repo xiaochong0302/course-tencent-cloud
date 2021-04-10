@@ -3,10 +3,10 @@
 namespace App\Services\Logic\Refund;
 
 use App\Services\Logic\OrderTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Refund;
 
-class RefundConfirm extends Service
+class RefundConfirm extends LogicService
 {
 
     use OrderTrait;

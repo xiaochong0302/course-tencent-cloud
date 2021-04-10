@@ -3,11 +3,11 @@
 namespace App\Services\Logic\Account;
 
 use App\Repos\Account as AccountRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Verify as VerifyValidator;
 
-class PhoneUpdate extends Service
+class PhoneUpdate extends LogicService
 {
 
     public function handle()

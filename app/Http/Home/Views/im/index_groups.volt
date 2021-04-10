@@ -7,12 +7,12 @@
                 <div class="user-card">
                     <span class="type layui-badge layui-bg-green">{{ type_info(group.type) }}</span>
                     <div class="avatar">
-                        <a href="{{ group_url }}" title="{{ group.about }}" target="group">
+                        <a href="{{ group_url }}" title="{{ group.about }}" target="_blank">
                             <img src="{{ group.avatar }}!avatar_160" alt="{{ group.name }}">
                         </a>
                     </div>
                     <div class="name layui-elip">
-                        <a href="{{ group_url }}" title="{{ group.name }}" target="group">{{ group.name }}</a>
+                        <a href="{{ group_url }}" title="{{ group.name }}" target="_blank">{{ group.name }}</a>
                     </div>
                     <div class="meta layui-elip">
                         <span>成员：{{ group.user_count }}</span>

@@ -171,6 +171,13 @@ class Chapter extends Model
     public $consult_count = 0;
 
     /**
+     * 评论数
+     *
+     * @var int
+     */
+    public $comment_count = 0;
+
+    /**
      * 点赞数
      *
      * @var int

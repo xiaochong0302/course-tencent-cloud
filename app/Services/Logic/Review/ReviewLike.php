@@ -5,12 +5,12 @@ namespace App\Services\Logic\Review;
 use App\Models\Review as ReviewModel;
 use App\Models\ReviewLike as ReviewLikeModel;
 use App\Models\User as UserModel;
+use App\Repos\ReviewLike as ReviewLikeRepo;
 use App\Services\Logic\ReviewTrait;
-use App\Services\Logic\Service;
-use App\Validators\Review as ReviewValidator;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class ReviewLike extends Service
+class ReviewLike extends LogicService
 {
 
     use ReviewTrait;
@@ -25,41 +25,48 @@ class ReviewLike extends Service
 
         $validator->checkDailyReviewLikeLimit($user);
 
-        $validator = new ReviewValidator();
+        $likeRepo = new ReviewLikeRepo();
 
-        $reviewLike = $validator->checkIfLiked($review->id, $user->id);
+        $reviewLike = $likeRepo->findReviewLike($review->id, $user->id);
 
         if (!$reviewLike) {
 
+            $action = 'do';
+
             $reviewLike = new ReviewLikeModel();
 
-            $reviewLike->create([
-                'review_id' => $review->id,
-                'user_id' => $user->id,
-            ]);
+            $reviewLike->review_id = $review->id;
+            $reviewLike->user_id = $user->id;
 
-            $this->incrLikeCount($review);
+            $reviewLike->create();
+
+            $this->incrReviewLikeCount($review);
 
         } else {
 
+            $action = 'undo';
+
             $reviewLike->delete();
 
-            $this->decrLikeCount($review);
+            $this->decrReviewLikeCount($review);
         }
 
         $this->incrUserDailyReviewLikeCount($user);
 
-        return $reviewLike;
+        return [
+            'action' => $action,
+            'count' => $review->like_count,
+        ];
     }
 
-    protected function incrLikeCount(ReviewModel $review)
+    protected function incrReviewLikeCount(ReviewModel $review)
     {
         $review->like_count += 1;
 
         $review->update();
     }
 
-    protected function decrLikeCount(ReviewModel $review)
+    protected function decrReviewLikeCount(ReviewModel $review)
     {
         if ($review->like_count > 0) {
             $review->like_count -= 1;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Services\Logic\User\ArticleList as UserArticleListService;
 use App\Services\Logic\User\CourseList as UserCourseListService;
-use App\Services\Logic\User\FavoriteList as UserFavoriteListService;
 use App\Services\Logic\User\FriendList as UserFriendListService;
 use App\Services\Logic\User\GroupList as UserGroupListService;
 use App\Services\Logic\User\UserInfo as UserInfoService;
@@ -46,18 +46,18 @@ class UserController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/favorites", name="home.user.favorites")
+     * @Get("/{id:[0-9]+}/articles", name="home.user.articles")
      */
-    public function favoritesAction($id)
+    public function articlesAction($id)
     {
-        $service = new UserFavoriteListService();
+        $service = new UserArticleListService();
 
         $pager = $service->handle($id);
 
-        $pager->target = 'tab-favorites';
+        $pager->target = 'tab-articles';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('user/favorites');
+        $this->view->pick('user/articles');
         $this->view->setVar('pager', $pager);
     }
 

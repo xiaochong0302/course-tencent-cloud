@@ -7,12 +7,12 @@
             <div class="layui-col-md3">
                 <div class="user-card">
                     <div class="{{ avatar_class }}">
-                        <a href="{{ user_url }}" title="{{ item.user.about }}">
+                        <a href="{{ user_url }}" title="{{ item.user.about }}" target="_blank">
                             <img src="{{ item.user.avatar }}" alt="{{ item.user.name }}">
                         </a>
                     </div>
                     <div class="name layui-elip">
-                        <a href="{{ user_url }}" title="{{ item.user.about }}">{{ item.user.name }}</a>
+                        <a href="{{ user_url }}" title="{{ item.user.about }}" target="_blank">{{ item.user.name }}</a>
                     </div>
                     <div class="title layui-elip">{{ item.user.title }}</div>
                     <div class="action">

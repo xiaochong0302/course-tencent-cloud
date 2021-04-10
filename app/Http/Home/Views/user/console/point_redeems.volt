@@ -31,7 +31,7 @@
                         {% for item in pager.items %}
                             {% set gift_url = url({'for':'home.point_gift.show','id':item.gift.id}) %}
                             <tr>
-                                <td><a href="{{ gift_url }}">{{ item.gift.name }}</a> {{ gift_type_info(item.gift.type) }}</td>
+                                <td><a href="{{ gift_url }}" target="_blank">{{ item.gift.name }}</a> {{ gift_type_info(item.gift.type) }}</td>
                                 <td>{{ item.gift.point }}</td>
                                 <td>{{ redeem_status_info(item.status) }}</td>
                                 <td>{{ date('Y-m-d',item.create_time) }}</td>

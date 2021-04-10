@@ -6,10 +6,11 @@ use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\FlashSale as FlashSaleModel;
 use App\Models\Order as OrderModel;
 use App\Services\Logic\FlashSaleTrait;
+use App\Services\Logic\Order\OrderCreate as OrderCreateService;
 use App\Validators\FlashSale as FlashSaleValidator;
 use App\Validators\Order as OrderValidator;
 
-class OrderCreate extends \App\Services\Logic\Order\OrderCreate
+class OrderCreate extends OrderCreateService
 {
 
     use FlashSaleTrait;

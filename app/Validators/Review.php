@@ -6,7 +6,6 @@ use App\Exceptions\BadRequest;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Review as ReviewModel;
 use App\Repos\Review as ReviewRepo;
-use App\Repos\ReviewLike as ReviewLikeRepo;
 
 class Review extends Validator
 {
@@ -73,21 +72,6 @@ class Review extends Validator
         if ($case) {
             throw new BadRequestException('review.edit_not_allowed');
         }
-    }
-
-    public function checkIfLiked($reviewId, $userId)
-    {
-        $repo = new ReviewLikeRepo();
-
-        $like = $repo->findReviewLike($reviewId, $userId);
-
-        if ($like) {
-            if ($like->deleted == 0 && time() - $like->create_time > 5 * 60) {
-                throw new BadRequestException('review.has_liked');
-            }
-        }
-
-        return $like;
     }
 
 }

@@ -23,7 +23,7 @@
                     {% set course_url = url({'for':'home.course.show','id':course.id}) %}
                     <div class="package-course-card">
                         <div class="cover"><img src="{{ course.cover }}!cover_270" alt="{{ course.title }}"></div>
-                        <div class="title"><a href="{{ course_url }}">{{ course.title }}</a></div>
+                        <div class="title"><a href="{{ course_url }}" target="_blank">{{ course.title }}</a></div>
                     </div>
                     {% if loop.first %}
                         <div class="separator"><i class="layui-icon layui-icon-add-1"></i></div>

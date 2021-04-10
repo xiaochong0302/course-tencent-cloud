@@ -3,9 +3,9 @@
 namespace App\Services\Logic\User\Console;
 
 use App\Models\User as UserModel;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ProfileInfo extends Service
+class ProfileInfo extends LogicService
 {
 
     public function handle()

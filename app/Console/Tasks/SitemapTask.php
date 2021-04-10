@@ -3,6 +3,7 @@
 namespace App\Console\Tasks;
 
 use App\Library\Sitemap;
+use App\Models\Article as ArticleModel;
 use App\Models\Course as CourseModel;
 use App\Models\Help as HelpModel;
 use App\Models\ImGroup as ImGroupModel;
@@ -35,6 +36,7 @@ class SitemapTask extends Task
 
         $this->addIndex();
         $this->addCourses();
+        $this->addArticles();
         $this->addTeachers();
         $this->addTopics();
         $this->addImGroups();
@@ -70,6 +72,21 @@ class SitemapTask extends Task
 
         foreach ($courses as $course) {
             $loc = sprintf('%s/course/%s', $this->siteUrl, $course->id);
+            $this->sitemap->addItem($loc, 0.8);
+        }
+    }
+
+    protected function addArticles()
+    {
+        /**
+         * @var Resultset|ArticleModel[] $articles
+         */
+        $articles = ArticleModel::query()->where('published = 1')->execute();
+
+        if ($articles->count() == 0) return;
+
+        foreach ($articles as $article) {
+            $loc = sprintf('%s/article/%s', $this->siteUrl, $article->id);
             $this->sitemap->addItem($loc, 0.8);
         }
     }

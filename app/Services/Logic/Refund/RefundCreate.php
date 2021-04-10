@@ -6,12 +6,12 @@ use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Repos\Order as OrderRepo;
 use App\Services\Logic\OrderTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Refund as RefundService;
 use App\Validators\Order as OrderValidator;
 use App\Validators\Refund as RefundValidator;
 
-class RefundCreate extends Service
+class RefundCreate extends LogicService
 {
 
     use OrderTrait;

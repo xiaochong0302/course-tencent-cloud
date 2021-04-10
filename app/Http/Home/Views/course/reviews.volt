@@ -7,14 +7,14 @@
             {% set like_url = url({'for':'home.review.like','id':item.id}) %}
             <div class="review-card clearfix">
                 <div class="avatar">
-                    <a href="{{ owner_url }}" title="{{ item.owner.name }}">
+                    <a href="{{ owner_url }}" title="{{ item.owner.name }}" target="_blank">
                         <img src="{{ item.owner.avatar }}!avatar_160" alt="{{ item.owner.name }}">
                     </a>
                 </div>
                 <div class="info">
                     <div class="rating">{{ star_info(item.rating) }}</div>
                     <div class="user">
-                        <a href="{{ owner_url }}">{{ item.owner.name }}</a>
+                        <a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a>
                     </div>
                     <div class="content">{{ item.content }}</div>
                     <div class="footer">

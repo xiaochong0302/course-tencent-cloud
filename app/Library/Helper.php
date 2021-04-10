@@ -204,6 +204,16 @@ function kg_default_group_avatar_path()
 }
 
 /**
+ * 获取默认文章封面路径
+ *
+ * @return string
+ */
+function kg_default_article_cover_path()
+{
+    return '/img/default/article_cover.png';
+}
+
+/**
  * 获取默认课程封面路径
  *
  * @return string
@@ -299,6 +309,20 @@ function kg_cos_user_avatar_url($path, $style = null)
 function kg_cos_group_avatar_url($path, $style = null)
 {
     $path = $path ?: kg_default_group_avatar_path();
+
+    return kg_cos_img_url($path, $style);
+}
+
+/**
+ * 获取文章封面URL
+ *
+ * @param string $path
+ * @param string $style
+ * @return string
+ */
+function kg_cos_article_cover_url($path, $style = null)
+{
+    $path = $path ?: kg_default_article_cover_path();
 
     return kg_cos_img_url($path, $style);
 }
@@ -400,6 +424,22 @@ function kg_parse_markdown($content)
     ]);
 
     return $parser->convertToHtml($content);
+}
+
+/**
+ * 解析内容摘要
+ *
+ * @param $content
+ * @param int $length
+ * @return string
+ */
+function kg_parse_summary($content, $length = 100)
+{
+    $content = kg_parse_markdown($content);
+
+    $content = strip_tags($content);
+
+    return kg_substr($content, 0, $length);
 }
 
 /**

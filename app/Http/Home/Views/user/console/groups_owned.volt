@@ -27,7 +27,7 @@
                 <td class="center">
                     <img class="avatar-sm" src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
                 </td>
-                <td><a href="{{ show_url }}" title="{{ item.about }}">{{ item.name }}</a></td>
+                <td><a href="{{ show_url }}" title="{{ item.about }}" target="_blank">{{ item.name }}</a></td>
                 <td>{{ type_info(item.type) }}</td>
                 <td>{{ item.user_count }}</td>
                 <td>{{ item.msg_count }}</td>

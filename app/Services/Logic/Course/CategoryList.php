@@ -4,9 +4,9 @@ namespace App\Services\Logic\Course;
 
 use App\Caches\CategoryTreeList as CategoryTreeListCache;
 use App\Models\Category as CategoryModel;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class CategoryList extends Service
+class CategoryList extends LogicService
 {
 
     public function handle()

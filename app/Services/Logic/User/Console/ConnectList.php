@@ -3,9 +3,9 @@
 namespace App\Services\Logic\User\Console;
 
 use App\Repos\Connect as ConnectRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ConnectList extends Service
+class ConnectList extends LogicService
 {
 
     public function handle()

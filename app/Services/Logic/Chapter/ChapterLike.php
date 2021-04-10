@@ -7,10 +7,10 @@ use App\Models\ChapterLike as ChapterLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\ChapterLike as ChapterLikeRepo;
 use App\Services\Logic\ChapterTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class ChapterLike extends Service
+class ChapterLike extends LogicService
 {
 
     use ChapterTrait;
@@ -31,34 +31,42 @@ class ChapterLike extends Service
 
         if (!$chapterLike) {
 
+            $action = 'do';
+
             $chapterLike = new ChapterLikeModel();
 
-            $chapterLike->create([
-                'chapter_id' => $chapter->id,
-                'user_id' => $user->id,
-            ]);
+            $chapterLike->chapter_id = $chapter->id;
+            $chapterLike->user_id = $user->id;
 
-            $this->incrLikeCount($chapter);
+            $chapterLike->create();
+
+            $this->incrChapterLikeCount($chapter);
 
         } else {
 
+            $action = 'undo';
+
             $chapterLike->delete();
 
-            $this->decrLikeCount($chapter);
+            $this->decrChapterLikeCount($chapter);
         }
 
         $this->incrUserDailyChapterLikeCount($user);
 
-        return $chapterLike;
+        return [
+            'action' => $action,
+            'count' => $chapter->like_count,
+        ];
     }
 
-    protected function incrLikeCount(ChapterModel $chapter)
+    protected function incrChapterLikeCount(ChapterModel $chapter)
     {
         $chapter->like_count += 1;
+
         $chapter->update();
     }
 
-    protected function decrLikeCount(ChapterModel $chapter)
+    protected function decrChapterLikeCount(ChapterModel $chapter)
     {
         if ($chapter->like_count > 0) {
             $chapter->like_count -= 1;

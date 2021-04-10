@@ -62,7 +62,7 @@ class Setting extends Service
     {
         $oa = $this->getSettings('wechat.oa');
 
-        $oa['notify_url'] = $oa['notify_url'] ?: kg_full_url(['for' => 'home.wechat.oa.notify']);
+        $oa['notify_url'] = $oa['notify_url'] ?: kg_full_url(['for' => 'home.wechat_oa.notify']);
 
         $oa['menu'] = json_decode($oa['menu'], true);
 

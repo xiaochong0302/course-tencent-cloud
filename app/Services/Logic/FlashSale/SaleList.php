@@ -4,9 +4,9 @@ namespace App\Services\Logic\FlashSale;
 
 use App\Models\FlashSale as FlashSaleModel;
 use App\Repos\FlashSale as FlashSaleRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class SaleList extends Service
+class SaleList extends LogicService
 {
 
     /**

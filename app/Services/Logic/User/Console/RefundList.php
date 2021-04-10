@@ -5,11 +5,11 @@ namespace App\Services\Logic\User\Console;
 use App\Builders\RefundList as RefundListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Refund as RefundRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
 use App\Validators\Refund as RefundValidator;
 
-class RefundList extends Service
+class RefundList extends LogicService
 {
 
     use UserTrait;

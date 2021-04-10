@@ -122,6 +122,10 @@
                                 <td>public/static/admin/img/default/group_cover.png</td>
                             </tr>
                             <tr>
+                                <td>文章封面</td>
+                                <td>public/static/admin/img/default/article_cover.png</td>
+                            </tr>
+                            <tr>
                                 <td>课程封面</td>
                                 <td>public/static/admin/img/default/course_cover.png</td>
                             </tr>

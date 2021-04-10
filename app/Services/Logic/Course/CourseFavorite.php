@@ -7,10 +7,10 @@ use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\User as UserModel;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
-class CourseFavorite extends Service
+class CourseFavorite extends LogicService
 {
 
     use CourseTrait;
@@ -31,25 +31,32 @@ class CourseFavorite extends Service
 
         if (!$favorite) {
 
+            $action = 'do';
+
             $favorite = new CourseFavoriteModel();
 
-            $favorite->create([
-                'course_id' => $course->id,
-                'user_id' => $user->id,
-            ]);
+            $favorite->course_id = $course->id;
+            $favorite->user_id = $user->id;
+
+            $favorite->create();
 
             $this->incrCourseFavoriteCount($course);
+            $this->incrUserFavoriteCount($user);
 
         } else {
+
+            $action = 'undo';
 
             $favorite->delete();
 
             $this->decrCourseFavoriteCount($course);
-
             $this->decrUserFavoriteCount($user);
         }
 
-        return $favorite;
+        return [
+            'action' => $action,
+            'count' => $course->favorite_count,
+        ];
     }
 
     protected function incrCourseFavoriteCount(CourseModel $course)

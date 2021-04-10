@@ -7,7 +7,6 @@ use App\Exceptions\Forbidden as ForbiddenException;
 use App\Models\Consult as ConsultModel;
 use App\Models\User as UserModel;
 use App\Repos\Consult as ConsultRepo;
-use App\Repos\ConsultLike as ConsultLikeRepo;
 use App\Repos\Course as CourseRepo;
 
 class Consult extends Validator
@@ -148,21 +147,6 @@ class Consult extends Validator
         if ($percent > 80) {
             throw new BadRequestException('consult.question_duplicated');
         }
-    }
-
-    public function checkIfLiked($chapterId, $userId)
-    {
-        $repo = new ConsultLikeRepo();
-
-        $like = $repo->findConsultLike($chapterId, $userId);
-
-        if ($like) {
-            if ($like->deleted == 0 && time() - $like->create_time > 5 * 60) {
-                throw new BadRequestException('consult.has_liked');
-            }
-        }
-
-        return $like;
     }
 
 }

@@ -5,9 +5,9 @@ namespace App\Services\Logic\User\Console;
 use App\Builders\ConsultList as ConsultListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Consult as ConsultRepo;
-use App\Services\Logic\Service;
+use App\Services\Logic\Service as LogicService;
 
-class ConsultList extends Service
+class ConsultList extends LogicService
 {
 
     public function handle()
@@ -63,7 +63,6 @@ class ConsultList extends Service
                 'update_time' => $consult['update_time'],
                 'course' => $course,
                 'chapter' => $chapter,
-                'show' => false,
             ];
         }
 

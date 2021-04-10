@@ -4,7 +4,7 @@
 
     {{ partial('macros/course') }}
 
-    {% set types = {'course':'课程','group':'群组','user':'用户'} %}
+    {% set types = {'course':'课程','article':'专栏','group':'群组','user':'用户'} %}
     {% set type = request.get('type','trim','course') %}
     {% set query = request.get('query','striptags','') %}
 
@@ -30,6 +30,10 @@
                         {% if type == 'course' %}
                             <div class="layui-tab-item layui-show">
                                 {{ partial('search/course') }}
+                            </div>
+                        {% elseif type == 'article' %}
+                            <div class="layui-tab-item layui-show">
+                                {{ partial('search/article') }}
                             </div>
                         {% elseif type == 'group' %}
                             <div class="layui-tab-item layui-show">

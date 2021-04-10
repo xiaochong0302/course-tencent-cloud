@@ -11,7 +11,7 @@
                     </div>
                     <div class="info">
                         <div class="name layui-elip">
-                            <a href="{{ user_url }}" title="{{ user.about }}">{{ user.name }}</a>
+                            <a href="{{ user_url }}" title="{{ user.about }}" target="_blank">{{ user.name }}</a>
                         </div>
                         <div class="title layui-elip">{{ user.title }}</div>
                     </div>
