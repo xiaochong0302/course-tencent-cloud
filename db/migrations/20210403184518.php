@@ -825,7 +825,7 @@ final class V20210403184518 extends AbstractMigration
             'url' => '/article/list',
             'position' => 1,
             'priority' => 100,
-            'published' => 0,
+            'published' => 1,
             'create_time' => time(),
         ];
 

@@ -242,7 +242,7 @@ class Schema202103141300 extends Phinx\Migration\AbstractMigration
             'url' => '/flash/sale',
             'position' => 1,
             'priority' => 100,
-            'published' => 0,
+            'published' => 1,
             'create_time' => time(),
         ];
 

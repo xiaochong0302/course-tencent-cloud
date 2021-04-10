@@ -34,7 +34,7 @@ class Page extends Model
      *
      * @var int
      */
-    public $published = 1;
+    public $published = 0;
 
     /**
      * 删除标识
