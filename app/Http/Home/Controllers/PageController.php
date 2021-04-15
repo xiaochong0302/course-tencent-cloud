@@ -3,7 +3,7 @@
 namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Index as IndexService;
-use App\Services\Logic\Page\ArticleInfo as PageInfoService;
+use App\Services\Logic\Page\PageInfo as PageInfoService;
 
 /**
  * @RoutePrefix("/page")
