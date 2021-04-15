@@ -254,6 +254,16 @@ function kg_default_gift_cover_path()
 }
 
 /**
+ * 获取默认轮播封面路径
+ *
+ * @return string
+ */
+function kg_default_slide_cover_path()
+{
+    return '/img/default/course_cover.png';
+}
+
+/**
  * 获取存储基准URL
  *
  * @return string
