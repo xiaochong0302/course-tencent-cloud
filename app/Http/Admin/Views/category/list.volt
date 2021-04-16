@@ -53,8 +53,12 @@
             {% set restore_url = url({'for':'admin.category.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                {% if item.type == 1 and item.level < 2 %}
-                    <td><a href="{{ child_url }}">{{ item.name }}</a></td>
+                {% if item.type == 1 %}
+                    {% if item.level == 1 %}
+                        <td><a href="{{ child_url }}">{{ item.name }}</a></td>
+                    {% else %}
+                        <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
+                    {% endif %}
                 {% elseif item.type == 2 %}
                     <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
                 {% elseif item.type == 3 %}
