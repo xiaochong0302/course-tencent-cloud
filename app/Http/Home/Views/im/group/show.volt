@@ -2,7 +2,6 @@
 
 {% block content %}
 
-    {% set group.about = group.about ? group.about : '这个家伙真懒，什么都没有留下~' %}
     {% set users_url = url({'for':'home.im_group.users','id':group.id}) %}
     {% set active_users_url = url({'for':'home.im_group.active_users','id':group.id}) %}
 
@@ -18,7 +17,7 @@
         <div class="layout-content">
             <div class="layui-card">
                 <div class="layui-card-header">小组介绍</div>
-                <div class="layui-card-body group-about">{{ group.about }}</div>
+                <div class="layui-card-body group-about">{{ group.about|default('这个家伙真懒，什么都没有留下') }}</div>
             </div>
             <div class="layui-card">
                 <div class="layui-card-header">小组成员</div>

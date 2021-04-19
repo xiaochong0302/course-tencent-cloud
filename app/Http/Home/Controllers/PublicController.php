@@ -2,6 +2,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\ShareUrl as ShareUrlService;
 use App\Library\CsrfToken as CsrfTokenService;
 use App\Repos\Upload as UploadRepo;
 use App\Services\LiveNotify as LiveNotifyService;
@@ -41,6 +42,22 @@ class PublicController extends \Phalcon\Mvc\Controller
 
             return $this->response;
         }
+    }
+
+    /**
+     * @Get("/share", name="home.share")
+     */
+    public function shareAction()
+    {
+        $id = $this->request->getQuery('id', 'int', 0);
+        $type = $this->request->getQuery('type', 'string', 'course');
+        $referer = $this->request->getQuery('referer', 'int', 0);
+
+        $service = new ShareUrlService();
+
+        $location = $service->handle($id, $type, $referer);
+
+        return $this->response->redirect($location, true);
     }
 
     /**

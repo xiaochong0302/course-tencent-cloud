@@ -2,7 +2,6 @@
     <div class="layui-row layui-col-space20">
         {% for group in groups %}
             {% set group_url = url({'for':'home.im_group.show','id':group.id}) %}
-            {% set group.about = group.about ? group.about : '这家伙真懒，什么都没留下！' %}
             <div class="layui-col-md3">
                 <div class="user-card">
                     <span class="type layui-badge layui-bg-green">{{ type_info(group.type) }}</span>

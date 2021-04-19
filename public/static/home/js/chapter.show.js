@@ -3,14 +3,17 @@ layui.use(['jquery', 'helper'], function () {
     var $ = layui.jquery;
     var helper = layui.helper;
 
-    /**
-     * 点赞
-     */
+    var $commentList = $('#comment-list');
+
+    if ($commentList.length > 0) {
+        helper.ajaxLoadHtml($commentList.data('url'), $commentList.attr('id'));
+    }
+
     $('.icon-praise').on('click', function () {
         var $this = $(this);
         var $parent = $this.parent();
-        var $likeCount = $this.next();
-        var likeCount = parseInt($likeCount.text());
+        var $likeCount = $parent.next();
+        var likeCount = $likeCount.data('count');
         helper.checkLogin(function () {
             $.ajax({
                 type: 'POST',
@@ -18,23 +21,19 @@ layui.use(['jquery', 'helper'], function () {
                 success: function () {
                     if ($this.hasClass('active')) {
                         $this.removeClass('active');
-                        $parent.attr('title', '点赞');
-                        $likeCount.text(likeCount - 1);
-                        likeCount -= 1;
+                        $parent.attr('title', '点赞支持');
+                        likeCount--;
                     } else {
                         $this.addClass('active');
                         $parent.attr('title', '取消点赞');
-                        $likeCount.text(likeCount + 1);
-                        likeCount += 1;
+                        likeCount++;
                     }
+                    $likeCount.data('count', likeCount).text(likeCount);
                 }
             });
         });
     });
 
-    /**
-     * 咨询
-     */
     $('.icon-help').on('click', function () {
         var url = $(this).parent().data('url');
         helper.checkLogin(function () {
@@ -47,10 +46,7 @@ layui.use(['jquery', 'helper'], function () {
         });
     });
 
-    /**
-     * 资料
-     */
-    $('.icon-resource').on('click', function () {
+    $('.icon-download').on('click', function () {
         var url = $(this).parent().data('url');
         helper.checkLogin(function () {
             layer.open({
