@@ -194,6 +194,13 @@ class ChapterInfo extends LogicService
         $chapter->user_count += 1;
 
         $chapter->update();
+
+        $parent = $this->checkChapter($chapter->parent_id);
+
+        $parent->user_count += 1;
+
+        $parent->update();
+
     }
 
     protected function incrGroupUserCount(ImGroupModel $group)

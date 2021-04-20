@@ -25,7 +25,8 @@
 
     <table class="layui-table kg-table">
         <colgroup>
-            <col width="10%">
+            <col>
+            <col>
             <col>
             <col>
             <col>
@@ -38,9 +39,10 @@
         <tr>
             <th>用户头像</th>
             <th>用户昵称</th>
-            <th>所在地区</th>
-            <th>用户性别</th>
             <th>用户角色</th>
+            <th>课程</th>
+            <th>文章</th>
+            <th>收藏</th>
             <th>活跃时间</th>
             <th>注册时间</th>
             <th>操作</th>
@@ -54,15 +56,24 @@
                 <td class="center">
                     <img class="avatar-sm" src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
                 </td>
-                <td><a href="{{ preview_url }}" title="{{ item.about }}" target="_blank">{{ item.name }}</a>（{{ item.id }}）{{ status_info(item) }}</td>
-                <td>{{ item.area }}</td>
-                <td>{{ gender_info(item.gender) }}</td>
+                <td>
+                    <p>
+                        <a href="{{ preview_url }}" title="{{ item.about }}" target="_blank">{{ item.name }}</a>（{{ item.id }}）{{ status_info(item) }}
+                    </p>
+                    <p class="meta">
+                        <span>性别：{{ gender_info(item.gender) }}</span>
+                        <span>地区：{{ item.area|default('N/A') }}</span>
+                    </p>
+                </td>
                 <td>
                     <p>教学：{{ edu_role_info(item.edu_role) }}</p>
                     <p>后台：{{ admin_role_info(item.admin_role) }}</p>
                 </td>
-                <td>{{ date('Y-m-d H:i:s',item.active_time) }}</td>
-                <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
+                <td>{{ item.course_count }}</td>
+                <td>{{ item.article_count }}</td>
+                <td>{{ item.favorite_count }}</td>
+                <td>{{ date('Y-m-d',item.active_time) }}</td>
+                <td>{{ date('Y-m-d',item.create_time) }}</td>
                 <td class="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>

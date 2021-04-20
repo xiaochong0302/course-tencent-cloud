@@ -1,12 +1,12 @@
 {%- macro source_info(type,url) %}
     {% if type == 1 %}
-        <span>原创</span>
+        原创
     {% elseif type == 2 %}
         <a href="{{ url }}" target="_blank">转载</a>
     {% elseif type == 3 %}
-        <span>翻译</span>
+        翻译
     {% else %}
-        <span>N/A</span>
+        N/A
     {% endif %}
 {%- endmacro %}
 

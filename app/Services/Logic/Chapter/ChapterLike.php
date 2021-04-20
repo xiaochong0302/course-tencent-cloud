@@ -64,6 +64,12 @@ class ChapterLike extends LogicService
         $chapter->like_count += 1;
 
         $chapter->update();
+
+        $parent = $this->checkChapter($chapter->parent_id);
+
+        $parent->like_count += 1;
+
+        $parent->update();
     }
 
     protected function decrChapterLikeCount(ChapterModel $chapter)
@@ -71,6 +77,13 @@ class ChapterLike extends LogicService
         if ($chapter->like_count > 0) {
             $chapter->like_count -= 1;
             $chapter->update();
+        }
+
+        $parent = $this->checkChapter($chapter->parent_id);
+
+        if ($parent->like_count > 0) {
+            $parent->like_count -= 1;
+            $parent->update();
         }
     }
 

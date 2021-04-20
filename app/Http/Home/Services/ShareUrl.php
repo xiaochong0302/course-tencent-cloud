@@ -120,7 +120,7 @@ class ShareUrl extends Service
 
         $webUrl = $this->webBaseUrl . $route;
 
-        $h5Url = sprintf('%s/user/info?id=%s&referer=%s', $this->h5BaseUrl, $id, $referer);
+        $h5Url = sprintf('%s/user/index?id=%s&referer=%s', $this->h5BaseUrl, $id, $referer);
 
         return ['web' => $webUrl, 'h5' => $h5Url];
     }

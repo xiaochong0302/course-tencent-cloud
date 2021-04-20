@@ -7,6 +7,7 @@ use App\Services\Logic\ArticleTrait;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CommentTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Traits\Client as ClientTrait;
 use App\Validators\Comment as CommentValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
@@ -15,6 +16,7 @@ class CommentReply extends LogicService
 
     use ArticleTrait;
     use ChapterTrait;
+    use ClientTrait;
     use CommentTrait;
     use CommentCountTrait;
 
@@ -49,6 +51,8 @@ class CommentReply extends LogicService
         }
 
         $data['content'] = $validator->checkContent($post['content']);
+        $data['client_type'] = $this->getClientType();
+        $data['client_ip'] = $this->getClientIp();
 
         $comment = new CommentModel();
 

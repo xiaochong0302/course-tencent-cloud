@@ -63,6 +63,16 @@
                 });
             });
 
+            $('.kg-comment').on('click', function () {
+                var url = $(this).data('url');
+                layer.open({
+                    type: 2,
+                    title: '评论管理',
+                    area: ['1000px', '600px'],
+                    content: url
+                });
+            });
+
         });
 
     </script>
