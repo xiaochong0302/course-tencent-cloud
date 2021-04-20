@@ -2,13 +2,8 @@
 
 {% block content %}
 
-    {{ partial('macros/course') }}
     {{ partial('macros/user') }}
 
-    {% set full_user_url = full_url({'for':'home.user.show','id':user.id}) %}
-    {% set qrcode_url = url({'for':'home.qrcode'},{'text':full_user_url}) %}
-    {% set user.area = user.area ? user.area : '火星' %}
-    {% set user.about = user.about ? user.about : '这个家伙很懒，什么都没留下！' %}
     {% set avatar_class = user.vip == 1 ? 'avatar vip' : 'avatar' %}
 
     <div class="breadcrumb">
@@ -30,11 +25,20 @@
             <img src="{{ user.avatar }}!avatar_160" alt="{{ user.name }}">
         </div>
         <div class="info">
-            <p><span class="name">{{ user.name }}</span><span>{{ gender_icon(user.gender) }}</span></p>
-            <p><span><i class="layui-icon layui-icon-location"></i></span><span>{{ user.area }}</span></p>
-            <p><span><i class="layui-icon layui-icon-time"></i></span><span>{{ date('Y-m-d H:i',user.active_time) }}</span></p>
+            <p>
+                <span class="name">{{ user.name }}</span>
+                <span>{{ gender_icon(user.gender) }}</span>
+            </p>
+            <p>
+                <span><i class="layui-icon layui-icon-location"></i></span>
+                <span>{{ user.area|default('火星') }}</span>
+            </p>
+            <p>
+                <span><i class="layui-icon layui-icon-time"></i></span>
+                <span title="{{ date('Y-m-d H:i:s',user.active_time) }}">{{ user.active_time|time_ago }}</span>
+            </p>
         </div>
-        <div class="about">{{ user.about }}</div>
+        <div class="about">{{ user.about|default('这个家伙很懒，什么都没留下') }}</div>
     </div>
 
     {% set show_tab_courses = user.course_count > 0 %}
@@ -76,10 +80,13 @@
         </div>
     </div>
 
+    {% set share_url = full_url({'for':'home.share'},{'id':user.id,'type':'user','referer':auth_user.id}) %}
+    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
+
     <div class="layui-hide">
         <input type="hidden" name="share.title" value="{{ user.name }}">
         <input type="hidden" name="share.pic" value="{{ user.avatar }}">
-        <input type="hidden" name="share.url" value="{{ full_user_url }}">
+        <input type="hidden" name="share.url" value="{{ share_url }}">
         <input type="hidden" name="share.qrcode" value="{{ qrcode_url }}">
     </div>
 

@@ -60,7 +60,6 @@ class ConsultList extends LogicService
                 'like_count' => $consult['like_count'],
                 'reply_time' => $consult['reply_time'],
                 'create_time' => $consult['create_time'],
-                'update_time' => $consult['update_time'],
                 'course' => $course,
                 'chapter' => $chapter,
             ];

@@ -23,10 +23,6 @@ class Comment extends Repository
             $builder->andWhere('id = :id:', ['id' => $where['id']]);
         }
 
-        if (!empty($where['parent_id'])) {
-            $builder->andWhere('parent_id = :parent_id:', ['parent_id' => $where['parent_id']]);
-        }
-
         if (!empty($where['owner_id'])) {
             $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
@@ -37,6 +33,10 @@ class Comment extends Repository
 
         if (!empty($where['item_type'])) {
             $builder->andWhere('item_type = :item_type:', ['item_type' => $where['item_type']]);
+        }
+
+        if (isset($where['parent_id'])) {
+            $builder->andWhere('parent_id = :parent_id:', ['parent_id' => $where['parent_id']]);
         }
 
         if (isset($where['published'])) {

@@ -28,7 +28,6 @@
         {% for item in pager.items %}
             {% set user_url = url({'for':'home.user.show','id':item.user.id}) %}
             {% set delete_url = url({'for':'home.im_group_user.delete'},{'group_id':group.id,'user_id':item.user.id}) %}
-            {% set is_owner = item.user.id == group.owner.id ? 1 : 0 %}
             <tr>
                 <td class="center">
                     <img class="avatar-sm" src="{{ item.user.avatar }}!avatar_160" alt="{{ item.user.name }}">
@@ -38,7 +37,7 @@
                 <td>{{ gender_info(item.user.gender) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td class="center">
-                    {% if is_owner == 0 %}
+                    {% if item.user.id == group.owner.id %}
                         <button class="layui-btn layui-btn-sm layui-bg-red kg-delete" data-url="{{ delete_url }}">删除</button>
                     {% else %}
                         <button class="layui-btn layui-btn-sm layui-btn-disabled">删除</button>

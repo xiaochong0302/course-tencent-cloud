@@ -2,16 +2,12 @@
 
 {% block content %}
 
-    {% set full_chapter_url = full_url({'for':'home.chapter.show','id':chapter.id}) %}
     {% set course_url = url({'for':'home.course.show','id':chapter.course.id}) %}
-    {% set resources_url = url({'for':'home.chapter.resources','id':chapter.id}) %}
     {% set learning_url = url({'for':'home.chapter.learning','id':chapter.id}) %}
     {% set live_chats_url = url({'for':'home.live.chats','id':chapter.id}) %}
     {% set live_stats_url = url({'for':'home.live.stats','id':chapter.id}) %}
     {% set send_msg_url = url({'for':'home.live.send_msg','id':chapter.id}) %}
     {% set bind_user_url = url({'for':'home.live.bind_user','id':chapter.id}) %}
-    {% set like_url = url({'for':'home.chapter.like','id':chapter.id}) %}
-    {% set qrcode_url = url({'for':'home.qrcode'},{'text':full_chapter_url}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
@@ -19,18 +15,16 @@
             <a><cite>{{ chapter.title }}</cite></a>
         </span>
         <span class="share">
-            <a href="javascript:" title="我要点赞" data-url="{{ like_url }}"><i class="layui-icon layui-icon-praise icon-praise"></i><em class="like-count">{{ chapter.like_count }}</em></a>
-            <a href="javascript:" title="在线人数"><i class="layui-icon layui-icon-user"></i><em>0</em></a>
-            {% if chapter.resource_count > 0 and chapter.me.owned == 1 %}
-                <a href="javascript:" title="资料下载" data-url="{{ resources_url }}"><i class="layui-icon layui-icon-download-circle icon-resource"></i></a>
-            {% endif %}
-            <a href="javascript:" title="分享到微信" data-url=""><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
+            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
             <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
             <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
         </span>
     </div>
 
     <div class="layout-main">
+        <div class="layout-sticky">
+            {{ partial('chapter/live/sticky') }}
+        </div>
         <div class="layout-content">
             <div class="player-wrap wrap">
                 <div id="player"></div>
@@ -63,10 +57,13 @@
         <input type="hidden" name="bind_user_url" value='{{ bind_user_url }}'>
     </div>
 
+    {% set share_url = full_url({'for':'home.share'},{'id':chapter.id,'type':'chapter','referer':auth_user.id}) %}
+    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
+
     <div class="layui-hide">
         <input type="hidden" name="share.title" value="{{ chapter.course.title }}">
         <input type="hidden" name="share.pic" value="{{ chapter.course.cover }}">
-        <input type="hidden" name="share.url" value="{{ full_chapter_url }}">
+        <input type="hidden" name="share.url" value="{{ share_url }}">
         <input type="hidden" name="share.qrcode" value="{{ qrcode_url }}">
     </div>
 
@@ -77,7 +74,7 @@
     {{ js_include('https://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.3.js', false) }}
     {{ js_include('home/js/chapter.live.player.js') }}
     {{ js_include('home/js/chapter.live.chat.js') }}
-    {{ js_include('home/js/chapter.action.js') }}
+    {{ js_include('home/js/chapter.show.js') }}
     {{ js_include('home/js/course.share.js') }}
 
 {% endblock %}

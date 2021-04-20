@@ -2,9 +2,9 @@
 
 namespace App\Services\Logic\Comment;
 
-use App\Models\Article as ArticleModel;
 use App\Models\Comment as CommentModel;
 use App\Services\Logic\ArticleTrait;
+use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CommentTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\Comment as CommentValidator;
@@ -13,7 +13,9 @@ class CommentDelete extends LogicService
 {
 
     use ArticleTrait;
+    use ChapterTrait;
     use CommentTrait;
+    use CommentCountTrait;
 
     public function handle($id)
     {
@@ -29,17 +31,24 @@ class CommentDelete extends LogicService
 
         $comment->update();
 
-        if ($comment->item_type == CommentModel::ITEM_ARTICLE) {
-            $article = $this->checkArticle($comment->item_id);
-            $this->decrArticleCommentCount($article);
-        }
-    }
+        if ($comment->parent_id > 0) {
 
-    protected function decrArticleCommentCount(ArticleModel $article)
-    {
-        if ($article->comment_count > 0) {
-            $article->comment_count -= 1;
-            $article->update();
+            $parent = $this->checkComment($comment->parent_id);
+
+            $this->decrCommentReplyCount($parent);
+        }
+
+        if ($comment->item_type == CommentModel::ITEM_CHAPTER) {
+
+            $chapter = $this->checkChapter($comment->item_id);
+
+            $this->decrChapterCommentCount($chapter);
+
+        } elseif ($comment->item_type == CommentModel::ITEM_ARTICLE) {
+
+            $article = $this->checkArticle($comment->item_id);
+
+            $this->decrArticleCommentCount($article);
         }
     }
 
