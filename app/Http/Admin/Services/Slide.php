@@ -173,10 +173,16 @@ class Slide extends Service
 
         $slide->title = $post['title'];
         $slide->target = $post['target'];
+        $slide->cover = $course->cover;
         $slide->content = $course->id;
         $slide->target_attrs = [
-            'course' => ['id' => $course->id, 'title' => $course->title]
+            'course' => [
+                'id' => $course->id,
+                'title' => $course->title,
+            ]
         ];
+
+        $slide->create();
 
         return $slide;
     }
@@ -192,9 +198,14 @@ class Slide extends Service
         $slide->title = $post['title'];
         $slide->target = $post['target'];
         $slide->content = $page->id;
-        $data['target_attrs'] = [
-            'page' => ['id' => $page->id, 'title' => $page->title]
+        $slide->target_attrs = [
+            'page' => [
+                'id' => $page->id,
+                'title' => $page->title,
+            ]
         ];
+
+        $slide->create();
 
         return $slide;
     }
@@ -213,6 +224,8 @@ class Slide extends Service
         $slide->target_attrs = [
             'link' => ['url' => $link]
         ];
+
+        $slide->create();
 
         return $slide;
     }
