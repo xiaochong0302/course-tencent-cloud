@@ -25,7 +25,6 @@
 
     <table class="kg-table layui-table layui-form">
         <colgroup>
-            <col width="10%">
             <col>
             <col>
             <col>
@@ -38,7 +37,6 @@
             <th>头像</th>
             <th>名称</th>
             <th>群主</th>
-            <th>类型</th>
             <th>成员</th>
             <th>发布</th>
             <th>操作</th>
@@ -56,15 +54,23 @@
                 <td class="center">
                     <img class="avatar-sm" src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
                 </td>
-                <td><a href="{{ preview_url }}" title="{{ item.about }}" target="_blank">{{ item.name }}</a>（{{ item.id }}）</td>
+                <td>
+                    <p>
+                        名称：<a href="{{ preview_url }}" title="{{ item.about }}" target="_blank">{{ item.name }}</a>（{{ item.id }}）
+                    </p>
+                    <p class="meta">
+                        <span>类型：{{ type_info(item.type) }}</span>
+                        <span>创建：{{ date('Y-m-d',item.create_time) }}</span>
+                    </p>
+                </td>
                 <td>
                     {% if item.owner.id is defined %}
-                        <a href="{{ url({'for':'home.user.show','id':item.owner.id}) }}" target="_blank">{{ item.owner.name }}</a>（{{ item.owner.id }}）
+                        <p>昵称：<a href="{{ url({'for':'home.user.show','id':item.owner.id}) }}" target="_blank">{{ item.owner.name }}</a></p>
+                        <p>编号：{{ item.owner.id }}</p>
                     {% else %}
                         N/A
                     {% endif %}
                 </td>
-                <td> {{ type_info(item.type) }}</td>
                 <td><a href="{{ users_url }}" class="layui-badge layui-bg-green">{{ item.user_count }}</a></td>
                 <td><input type="checkbox" name="published" value="1" lay-filter="published" lay-skin="switch" lay-text="是|否" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">

@@ -32,14 +32,20 @@
             <col>
             <col>
             <col>
+            <col>
+            <col>
+            <col>
             <col width="10%">
         </colgroup>
         <thead>
         <tr>
             <th>课程</th>
-            <th>类型</th>
-            <th>课时数</th>
-            <th>用户数</th>
+            <th>课时</th>
+            <th>课件</th>
+            <th>学员</th>
+            <th>收藏</th>
+            <th>咨询</th>
+            <th>评价</th>
             <th>价格</th>
             <th>推荐</th>
             <th>发布</th>
@@ -69,22 +75,22 @@
                         {% endif %}
                         <span>难度：{{ level_info(item.level) }}</span>
                     </p>
+                    <p class="meta">
+                        <span>类型：{{ model_info(item.model) }}</span>
+                        <span>评分：{{ item.rating }}</span>
+                        <span>创建：{{ date('Y-m-d',item.create_time) }}</span>
+                    </p>
                 </td>
-                <td>{{ model_info(item.model) }}</td>
+                <td>{{ item.lesson_count }}</td>
+                <td>{{ item.resource_count }}</td>
+                <td>{{ item.user_count }}</td>
+                <td>{{ item.favorite_count }}</td>
+                <td>{{ item.consult_count }}</td>
+                <td>{{ item.review_count }}</td>
                 <td>
-                    <a href="{{ catalog_url }}">
-                        <span class="layui-badge layui-bg-green">{{ item.lesson_count }}</span>
-                    </a>
-                </td>
-                <td>
-                    <a href="{{ student_url }}">
-                        <span class="layui-badge layui-bg-green">{{ item.user_count }}</span>
-                    </a>
-                </td>
-                <td>
-                    <p>原始价：{{ '￥%0.2f'|format(item.origin_price) }}</p>
-                    <p>市场价：{{ '￥%0.2f'|format(item.market_price) }}</p>
-                    <p>会员价：{{ '￥%0.2f'|format(item.vip_price) }}</p>
+                    <p>原始：{{ '￥%0.2f'|format(item.origin_price) }}</p>
+                    <p>市场：{{ '￥%0.2f'|format(item.market_price) }}</p>
+                    <p>会员：{{ '￥%0.2f'|format(item.vip_price) }}</p>
                 </td>
                 <td><input type="checkbox" name="featured" value="1" lay-skin="switch" lay-text="是|否" lay-filter="featured" data-url="{{ update_url }}" {% if item.featured == 1 %}checked="checked"{% endif %}></td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>

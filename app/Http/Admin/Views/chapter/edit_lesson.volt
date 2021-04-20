@@ -22,7 +22,7 @@
         <ul class="layui-tab-title kg-tab-title">
             <li class="layui-this">基本信息</li>
             <li>{{ content_title(course.model) }}</li>
-            <li>学习资料</li>
+            <li>课件资料</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">

@@ -24,6 +24,12 @@ trait CommentCountTrait
         $chapter->comment_count += 1;
 
         $chapter->update();
+
+        $parent = $this->checkChapter($chapter->parent_id);
+
+        $parent->comment_count += 1;
+
+        $parent->update();
     }
 
     protected function incrArticleCommentCount(ArticleModel $article)
@@ -46,6 +52,13 @@ trait CommentCountTrait
         if ($chapter->comment_count > 0) {
             $chapter->comment_count -= 1;
             $chapter->update();
+        }
+
+        $parent = $this->checkChapter($chapter->parent_id);
+
+        if ($parent->comment_count > 0) {
+            $parent->comment_count -= 1;
+            $parent->update();
         }
     }
 
