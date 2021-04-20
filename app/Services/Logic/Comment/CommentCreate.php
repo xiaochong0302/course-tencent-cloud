@@ -2,11 +2,11 @@
 
 namespace App\Services\Logic\Comment;
 
-use App\Models\Article as ArticleModel;
 use App\Models\Comment as CommentModel;
-use App\Models\User as UserModel;
 use App\Services\Logic\ArticleTrait;
+use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Traits\Client as ClientTrait;
 use App\Validators\Comment as CommentValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
@@ -14,6 +14,9 @@ class CommentCreate extends LogicService
 {
 
     use ArticleTrait;
+    use ChapterTrait;
+    use ClientTrait;
+    use CommentCountTrait;
 
     public function handle()
     {
@@ -32,19 +35,26 @@ class CommentCreate extends LogicService
         $comment = new CommentModel();
 
         $data = [
+            'item_id' => $post['item_id'],
+            'item_type' => $post['item_type'],
             'owner_id' => $user->id,
             'published' => 1,
         ];
 
         $data['content'] = $validator->checkContent($post['content']);
+        $data['client_type'] = $this->getClientType();
+        $data['client_ip'] = $this->getClientIp();
 
-        if (isset($post['to_user_id'])) {
-            $toUser = $validator->checkToUser($post['to_user_id']);
-            $data['to_user_id'] = $toUser->id;
-        }
+        if ($post['item_type'] == CommentModel::ITEM_CHAPTER) {
 
-        if ($post['item_type'] == CommentModel::ITEM_ARTICLE) {
+            $chapter = $this->checkChapter($post['item_id']);
+
+            $this->incrChapterCommentCount($chapter);
+
+        } elseif ($post['item_type'] == CommentModel::ITEM_ARTICLE) {
+
             $article = $this->checkArticle($post['item_id']);
+
             $this->incrArticleCommentCount($article);
         }
 
@@ -53,18 +63,6 @@ class CommentCreate extends LogicService
         $this->incrUserDailyCommentCount($user);
 
         return $comment;
-    }
-
-    protected function incrArticleCommentCount(ArticleModel $article)
-    {
-        $article->comment_count += 1;
-
-        $article->update();
-    }
-
-    protected function incrUserDailyCommentCount(UserModel $user)
-    {
-        $this->eventsManager->fire('UserDailyCounter:incrCommentCount', $this, $user);
     }
 
 }

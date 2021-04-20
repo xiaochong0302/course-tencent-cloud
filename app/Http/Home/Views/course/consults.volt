@@ -5,7 +5,7 @@
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set consult_url = url({'for':'home.consult.show','id':item.id}) %}
             {% set like_url = url({'for':'home.consult.like','id':item.id}) %}
-            <div class="review-card clearfix">
+            <div class="comment-card review-card clearfix">
                 <div class="avatar">
                     <a href="{{ owner_url }}" title="{{ item.owner.name }}" target="_blank">
                         <img src="{{ item.owner.avatar }}!avatar_160" alt="{{ item.owner.name }}">
@@ -20,11 +20,19 @@
                     <div class="title layui-elip">{{ item.question }}</div>
                     <div class="content">{{ item.answer }}</div>
                     <div class="footer">
-                        <span class="time">{{ item.create_time|time_ago }}</span>
-                        <a class="like" href="javascript:" title="点赞" data-url="{{ like_url }}">
-                            <i class="layui-icon layui-icon-praise icon-praise"></i>
-                            <em class="like-count">{{ item.like_count }}</em>
-                        </a>
+                        <div class="left">
+                            <div class="column">
+                                <span class="time" title="{{ date('Y-m-d H:i:s',item.create_time) }}">{{ item.create_time|time_ago }}</span>
+                            </div>
+                            <div class="column">
+                                <span class="like-count" data-count="{{ item.like_count }}">{{ item.like_count }}</span>
+                                {% if item.me.liked == 1 %}
+                                    <span class="action action-like liked" title="取消点赞" data-url="{{ like_url }}">已赞</span>
+                                {% else %}
+                                    <span class="action action-like" title="点赞支持" data-url="{{ like_url }}">点赞</span>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -5,7 +5,6 @@
         <div class="layui-row layui-col-space20">
             {% for item in pager.items %}
                 {% set group_url = url({'for':'home.im_group.show','id':item.id}) %}
-                {% set item.about = item.about ? item.about : '这家伙真懒，什么都没留下！' %}
                 <div class="layui-col-md3">
                     <div class="user-card">
                         <span class="type layui-badge layui-bg-green">{{ type_info(item.type) }}</span>

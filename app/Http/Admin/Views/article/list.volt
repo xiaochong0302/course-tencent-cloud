@@ -32,14 +32,16 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="10%">
         </colgroup>
         <thead>
         <tr>
             <th>文章</th>
-            <th>来源</th>
-            <th>作者</th>
-            <th>统计</th>
+            <th>浏览</th>
+            <th>评论</th>
+            <th>点赞</th>
+            <th>收藏</th>
             <th>推荐</th>
             <th>评论</th>
             <th>发布</th>
@@ -48,6 +50,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set preview_url = url({'for':'home.article.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.article.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.article.update','id':item.id}) %}
@@ -65,17 +68,16 @@
                             <span>标签：{{ tags_info(item.tags) }}</span>
                         {% endif %}
                     </p>
-                    <p>创建：{{ date('Y-m-d H:i',item.create_time) }}，更新：{{ date('Y-m-d H:i',item.update_time) }}</p>
+                    <p class="meta">
+                        <span>来源：{{ source_info(item.source_type,item.source_url) }}</span>
+                        <span>作者：<a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a></span>
+                        <span>创建：{{ date('Y-m-d',item.create_time) }}</span>
+                    </p>
                 </td>
-                <td>{{ source_info(item.source_type,item.source_url) }}</td>
-                <td>
-                    <p>昵称：{{ item.owner.name }}</p>
-                    <p>编号：{{ item.owner.id }}</p>
-                </td>
-                <td>
-                    <p>浏览：{{ item.view_count }}，评论：{{ item.comment_count }}</p>
-                    <p>点赞：{{ item.like_count }}，收藏：{{ item.favorite_count }}</p>
-                </td>
+                <td>{{ item.view_count }}</td>
+                <td>{{ item.comment_count }}</td>
+                <td>{{ item.like_count }}</td>
+                <td>{{ item.favorite_count }}</td>
                 <td><input type="checkbox" name="featured" value="1" lay-skin="switch" lay-text="是|否" lay-filter="featured" data-url="{{ update_url }}" {% if item.featured == 1 %}checked="checked"{% endif %}></td>
                 <td><input type="checkbox" name="comment" value="1" lay-skin="switch" lay-text="开|关" lay-filter="comment" data-url="{{ update_url }}" {% if item.allow_comment == 1 %}checked="checked"{% endif %}></td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>

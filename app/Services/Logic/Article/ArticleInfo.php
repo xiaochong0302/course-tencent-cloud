@@ -48,6 +48,7 @@ class ArticleInfo extends LogicService
             'category' => $category,
             'owner' => $owner,
             'me' => $me,
+            'allow_comment' => $article->allow_comment,
             'source_type' => $article->source_type,
             'source_url' => $article->source_url,
             'word_count' => $article->word_count,
@@ -56,7 +57,6 @@ class ArticleInfo extends LogicService
             'comment_count' => $article->comment_count,
             'favorite_count' => $article->favorite_count,
             'create_time' => $article->create_time,
-            'update_time' => $article->update_time,
         ];
     }
 
@@ -66,8 +66,6 @@ class ArticleInfo extends LogicService
             'liked' => 0,
             'favorited' => 0,
         ];
-
-        $me['allow_comment'] = $article->allow_comment ? 1 : 0;
 
         if ($user->id > 0) {
 

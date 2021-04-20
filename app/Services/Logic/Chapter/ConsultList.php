@@ -3,14 +3,16 @@
 namespace App\Services\Logic\Chapter;
 
 use App\Library\Paginator\Query as PagerQuery;
+use App\Repos\Consult as ConsultRepo;
 use App\Services\Logic\ChapterTrait;
-use App\Services\Logic\Consult\ConsultList as ConsultListHandler;
+use App\Services\Logic\Course\ConsultListTrait;
 use App\Services\Logic\Service as LogicService;
 
 class ConsultList extends LogicService
 {
 
     use ChapterTrait;
+    use ConsultListTrait;
 
     public function handle($id)
     {
@@ -28,9 +30,11 @@ class ConsultList extends LogicService
             'published' => 1,
         ];
 
-        $service = new ConsultListHandler();
+        $consultRepo = new ConsultRepo();
 
-        return $service->paginate($params, $sort, $page, $limit);
+        $pager = $consultRepo->paginate($params, $sort, $page, $limit);
+
+        return $this->handleConsults($pager);
     }
 
 }

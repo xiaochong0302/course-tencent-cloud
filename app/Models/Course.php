@@ -164,7 +164,7 @@ class Course extends Model
      *
      * @var float
      */
-    public $rating = 0.00;
+    public $rating = 5.00;
 
     /**
      * 综合得分

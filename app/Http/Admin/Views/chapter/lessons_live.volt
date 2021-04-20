@@ -26,14 +26,20 @@
         <col>
         <col>
         <col>
-        <col width="12%">
+        <col>
+        <col>
+        <col>
+        <col width="10%">
     </colgroup>
     <thead>
     <tr>
         <th>编号</th>
         <th>名称</th>
+        <th>课件</th>
+        <th>点赞</th>
+        <th>评论</th>
         <th>直播时间</th>
-        <th>推流状态</th>
+        <th>推流</th>
         <th>排序</th>
         <th>免费</th>
         <th>发布</th>
@@ -50,9 +56,12 @@
         <tr>
             <td>{{ item.id }}</td>
             <td>
-                <span><a href="{{ edit_url }}">{{ item.title }}</a></span>
+                <a href="{{ edit_url }}">{{ item.title }}</a>
                 <span class="layui-badge layui-bg-green">课</span>
             </td>
+            <td>{{ item.resource_count }}</td>
+            <td>{{ item.like_count }}</td>
+            <td>{{ item.comment_count }}</td>
             <td>{{ live_time_info(item.attrs) }}</td>
             <td>{{ live_status_info(item.attrs['stream']['status']) }}</td>
             <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>

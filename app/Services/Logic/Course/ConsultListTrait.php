@@ -1,22 +1,12 @@
 <?php
 
-namespace App\Services\Logic\Consult;
+namespace App\Services\Logic\Course;
 
 use App\Builders\ConsultList as ConsultListBuilder;
-use App\Repos\Consult as ConsultRepo;
-use App\Services\Logic\Service as LogicService;
+use App\Repos\ConsultLike as ConsultLikeRepo;
 
-class ConsultList extends LogicService
+trait ConsultListTrait
 {
-
-    public function paginate($params, $sort, $page, $limit)
-    {
-        $consultRepo = new ConsultRepo();
-
-        $pager = $consultRepo->paginate($params, $sort, $page, $limit);
-
-        return $this->handleConsults($pager);
-    }
 
     protected function handleConsults($pager)
     {
@@ -30,11 +20,14 @@ class ConsultList extends LogicService
 
         $users = $builder->getUsers($consults);
 
+        $meMappings = $this->getMeMappings($consults);
+
         $items = [];
 
         foreach ($consults as $consult) {
 
             $owner = $users[$consult['owner_id']] ?? new \stdClass();
+            $me = $meMappings[$consult['id']];
 
             $items[] = [
                 'id' => $consult['id'],
@@ -43,14 +36,38 @@ class ConsultList extends LogicService
                 'like_count' => $consult['like_count'],
                 'reply_time' => $consult['reply_time'],
                 'create_time' => $consult['create_time'],
-                'update_time' => $consult['update_time'],
                 'owner' => $owner,
+                'me' => $me,
             ];
         }
 
         $pager->items = $items;
 
         return $pager;
+    }
+
+    protected function getMeMappings($consults)
+    {
+        $user = $this->getCurrentUser(true);
+
+        $likeRepo = new ConsultLikeRepo();
+
+        $likedIds = [];
+
+        if ($user->id > 0) {
+            $likes = $likeRepo->findByUserId($user->id);
+            $likedIds = array_column($likes->toArray(), 'consult_id');
+        }
+
+        $result = [];
+
+        foreach ($consults as $consult) {
+            $result[$consult['id']] = [
+                'liked' => in_array($consult['id'], $likedIds) ? 1 : 0,
+            ];
+        }
+
+        return $result;
     }
 
 }

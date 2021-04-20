@@ -12,7 +12,6 @@
 
 <form class="layui-form kg-form" id="res-form">
     <div class="layui-form-item" id="res-upload-block">
-        <label class="layui-form-label">资源文件</label>
         <div class="layui-input-block">
             <span class="layui-btn" id="res-upload-btn">选择文件</span>
             <input class="layui-hide" type="file" name="res_file" accept="*/*">

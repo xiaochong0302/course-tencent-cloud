@@ -11,7 +11,7 @@
                 </div>
                 <div class="info">
                     <div class="title layui-elip">
-                        <a href="{{ course_url }}" target="_blank">{{ item.title }}</a>
+                        <a href="{{ article_url }}" target="_blank">{{ item.title }}</a>
                     </div>
                     <div class="summary">{{ item.summary }}</div>
                     <div class="meta">

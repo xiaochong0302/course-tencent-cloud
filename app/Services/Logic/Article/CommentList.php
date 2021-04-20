@@ -6,12 +6,14 @@ use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Comment as CommentModel;
 use App\Repos\Comment as CommentRepo;
 use App\Services\Logic\ArticleTrait;
-use App\Services\Logic\Comment\CommentList as CommentListService;
+use App\Services\Logic\Comment\CommentListTrait;
+use App\Services\Logic\Service as LogicService;
 
-class CommentList extends CommentListService
+class CommentList extends LogicService
 {
 
     use ArticleTrait;
+    use CommentListTrait;
 
     public function handle($id)
     {
@@ -33,7 +35,7 @@ class CommentList extends CommentListService
 
         $pager = $commentRepo->paginate($params, $sort, $page, $limit);
 
-        return $this->handlePager($pager);
+        return $this->handleComments($pager);
     }
 
 }
