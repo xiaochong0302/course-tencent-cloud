@@ -10,6 +10,8 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     $('.icon-star').on('click', function () {
         var $this = $(this);
         var $parent = $this.parent();
+        var $favoriteCount = $parent.next();
+        var favoriteCount = $favoriteCount.data('count');
         helper.checkLogin(function () {
             $.ajax({
                 type: 'POST',
@@ -18,12 +20,15 @@ layui.use(['jquery', 'layer', 'helper'], function () {
                     if ($this.hasClass('layui-icon-star-fill')) {
                         $this.removeClass('layui-icon-star-fill');
                         $this.addClass('layui-icon-star');
-                        $parent.attr('title', '收藏');
+                        $parent.attr('title', '收藏课程');
+                        favoriteCount--;
                     } else {
                         $this.removeClass('layui-icon-star');
                         $this.addClass('layui-icon-star-fill');
                         $parent.attr('title', '取消收藏');
+                        favoriteCount++;
                     }
+                    $favoriteCount.data('count', favoriteCount).text(favoriteCount);
                 }
             });
         });
@@ -93,27 +98,23 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     /**
      * 点赞（咨询|评价）
      */
-    $('body').on('click', '.icon-praise', function () {
+    $('body').on('click', '.action-like', function () {
         var $this = $(this);
-        var $parent = $this.parent();
-        var $likeCount = $this.next();
-        var likeCount = parseInt($likeCount.text());
+        var $likeCount = $this.prev();
+        var likeCount = $likeCount.data('count');
         helper.checkLogin(function () {
             $.ajax({
                 type: 'POST',
-                url: $parent.data('url'),
+                url: $this.data('url'),
                 success: function () {
-                    if ($this.hasClass('active')) {
-                        $this.removeClass('active');
-                        $parent.attr('title', '点赞');
-                        $likeCount.text(likeCount - 1);
-                        likeCount -= 1;
+                    if ($this.hasClass('liked')) {
+                        $this.attr('title', '点赞支持').text('点赞').removeClass('liked');
+                        likeCount--;
                     } else {
-                        $this.addClass('active');
-                        $parent.attr('title', '取消点赞');
-                        $likeCount.text(likeCount + 1);
-                        likeCount += 1;
+                        $this.attr('title', '取消点赞').text('已赞').addClass('liked');
+                        likeCount++;
                     }
+                    $likeCount.data('count', likeCount).text(likeCount);
                 }
             });
         });

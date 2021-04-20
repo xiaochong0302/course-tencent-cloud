@@ -13,6 +13,20 @@ class PackageController extends Controller
 {
 
     /**
+     * @Get("/{id:[0-9]+}", name="home.package.show")
+     */
+    public function showAction($id)
+    {
+        $service = new PackageInfoService();
+
+        $package = $service->handle($id);
+
+        $this->seo->prependTitle(['套餐', $package['title']]);
+
+        $this->view->setVar('package', $package);
+    }
+
+    /**
      * @Get("/{id:[0-9]+}/info", name="home.package.info")
      */
     public function infoAction($id)

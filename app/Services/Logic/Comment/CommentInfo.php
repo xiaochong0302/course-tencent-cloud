@@ -21,13 +21,18 @@ class CommentInfo extends LogicService
 
     protected function handleComment(CommentModel $comment)
     {
-        $owner = $this->handleOwnerInfo($comment);
+        $owner = $comment->owner_id > 0 ? $this->handleOwnerInfo($comment) : new \stdClass();
+        $toUser = $comment->to_user_id > 0 ? $this->handleToUserInfo($comment) : new \stdClass();
 
         return [
             'id' => $comment->id,
-            'owner' => $owner,
             'content' => $comment->content,
+            'parent_id' => $comment->parent_id,
+            'like_count' => $comment->like_count,
+            'reply_count' => $comment->reply_count,
             'create_time' => $comment->create_time,
+            'owner' => $owner,
+            'to_user' => $toUser,
         ];
     }
 
@@ -35,12 +40,25 @@ class CommentInfo extends LogicService
     {
         $userRepo = new UserRepo();
 
-        $owner = $userRepo->findById($comment->owner_id);
+        $user = $userRepo->findById($comment->owner_id);
 
         return [
-            'id' => $owner->id,
-            'name' => $owner->name,
-            'avatar' => $owner->avatar,
+            'id' => $user->id,
+            'name' => $user->name,
+            'avatar' => $user->avatar,
+        ];
+    }
+
+    protected function handleToUserInfo(CommentModel $comment)
+    {
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($comment->to_user_id);
+
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'avatar' => $user->avatar,
         ];
     }
 

@@ -2,45 +2,33 @@
 
 namespace App\Services\Logic\Comment;
 
-use App\Builders\CommentList as CommentListBuilder;
+use App\Library\Paginator\Query as PagerQuery;
+use App\Repos\Comment as CommentRepo;
 use App\Services\Logic\Service as LogicService;
 
 class CommentList extends LogicService
 {
 
-    protected function handlePager($pager)
+    use CommentListTrait;
+
+    public function handle()
     {
-        if ($pager->total_items == 0) {
-            return $pager;
-        }
+        $pagerQuery = new PagerQuery();
 
-        $comments = $pager->items->toArray();
+        $params = $pagerQuery->getParams();
 
-        $builder = new CommentListBuilder();
+        $params['parent_id'] = 0;
+        $params['published'] = 1;
 
-        $users = $builder->getUsers($comments);
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
 
-        $items = [];
+        $commentRepo = new CommentRepo();
 
-        foreach ($comments as $comment) {
+        $pager = $commentRepo->paginate($params, $sort, $page, $limit);
 
-            $owner = $users[$comment['owner_id']] ?? new \stdClass();
-            $toUser = $users[$comment['to_user_id']] ?? new \stdClass();
-
-            $items[] = [
-                'id' => $comment['id'],
-                'content' => $comment['content'],
-                'owner' => $owner,
-                'to_user' => $toUser,
-                'like_count' => $comment['like_count'],
-                'reply_count' => $comment['reply_count'],
-                'create_time' => $comment['create_time'],
-            ];
-        }
-
-        $pager->items = $items;
-
-        return $pager;
+        return $this->handleComments($pager);
     }
 
 }

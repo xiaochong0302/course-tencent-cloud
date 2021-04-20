@@ -4,52 +4,27 @@
 
     {{ partial('macros/article') }}
 
-    {% set list_url = url({'for':'home.article.list'}) %}
-    {% set category_url = url({'for':'home.article.list'},{'category_id':article.category.id}) %}
+    {% set article_list_url = url({'for':'home.article.list'}) %}
+    {% set related_article_url = url({'for':'home.article.related','id':article.id}) %}
     {% set owner_url = url({'for':'home.user.show','id':article.owner.id}) %}
-    {% set favorite_url = url({'for':'home.article.favorite','id':article.id}) %}
-    {% set like_url = url({'for':'home.article.like','id':article.id}) %}
-    {% set favorited_class = article.me.favorited ? 'layui-icon-star-fill' : 'layui-icon-star' %}
-    {% set liked_class = article.me.liked ? 'active' : '' %}
-    {% set article.owner.title = article.owner.title ? article.owner.title : '默默无名' %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
-            <a href="{{ list_url }}">专栏</a>
-            <a href="{{ category_url }}">{{ article.category.name }}</a>
+            <a href="{{ article_list_url }}">专栏</a>
             <a><cite>文章详情</cite></a>
         </span>
         <span class="share">
+            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
             <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
             <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
-            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
         </span>
     </div>
 
     <div class="layout-main clearfix">
-
-        <div class="action-sticky">
-            <div class="item">
-                <div class="icon" data-url="{{ like_url }}">
-                    <i class="layui-icon layui-icon-praise icon-praise {{ liked_class }}"></i>
-                </div>
-                <div class="text">{{ article.like_count }}</div>
-            </div>
-            <div class="item">
-                <div class="icon icon-reply">
-                    <i class="layui-icon layui-icon-reply-fill"></i>
-                </div>
-                <div class="text">{{ article.comment_count }}</div>
-            </div>
-            <div class="item">
-                <div class="icon" data-url="{{ favorite_url }}">
-                    <i class="layui-icon layui-icon-star icon-star {{ favorited_class }}"></i>
-                </div>
-                <div class="text">{{ article.favorite_count }}</div>
-            </div>
+        <div class="layout-sticky">
+            {{ partial('article/sticky') }}
         </div>
-
         <div class="layout-content">
             <div class="article-info wrap">
                 <div class="title">{{ article.title }}</div>
@@ -60,7 +35,7 @@
                     </span>
                     <span class="view">{{ article.view_count }} 阅读</span>
                     <span class="word">{{ article.word_count }} 字数</span>
-                    <span class="time">{{ article.create_time|time_ago }}</span>
+                    <span class="time" title="{{ date('Y-m-d H:i:s',article.create_time) }}">{{ article.create_time|time_ago }}</span>
                 </div>
                 <div class="content markdown-body">{{ article.content }}</div>
                 {% if article.tags %}
@@ -79,18 +54,15 @@
                     </div>
                 {% endif %}
             </div>
-            <div class="comment-wrap" id="comment-wrap">
-                <div class="comment-form">
-
+            <div id="comment-anchor"></div>
+            {% if article.allow_comment == 1 %}
+                <div class="article-comment wrap">
+                    {{ partial('article/comment') }}
                 </div>
-                <div class="comment-list">
-
-                </div>
-            </div>
+            {% else %}
+                <div class="wrap center gray">评论已关闭</div>
+            {% endif %}
         </div>
-
-        {% set related_article_url = url({'for':'home.article.related','id':article.id}) %}
-
         <div class="layout-sidebar">
             <div class="sidebar">
                 <div class="layui-card">
@@ -104,7 +76,7 @@
                                 <div class="name layui-elip">
                                     <a href="{{ owner_url }}" title="{{ article.owner.about }}">{{ article.owner.name }}</a>
                                 </div>
-                                <div class="title layui-elip">{{ article.owner.title }}</div>
+                                <div class="title layui-elip">{{ article.owner.title|default('初出江湖') }}</div>
                             </div>
                         </div>
                     </div>
@@ -112,10 +84,9 @@
             </div>
             <div class="sidebar" id="related-article-list" data-url="{{ related_article_url }}"></div>
         </div>
-
     </div>
 
-    {% set share_url = full_url({'for':'home.article.show','id':article.id}) %}
+    {% set share_url = full_url({'for':'home.share'},{'id':article.id,'type':'article','referer':auth_user.id}) %}
     {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
 
     <div class="layui-hide">
@@ -137,5 +108,6 @@
 
     {{ js_include('home/js/article.show.js') }}
     {{ js_include('home/js/article.share.js') }}
+    {{ js_include('home/js/comment.js') }}
 
 {% endblock %}
