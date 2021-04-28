@@ -31,10 +31,12 @@ class ArticleController extends Controller
     {
         $articleService = new ArticleService();
 
+        $publishTypes = $articleService->getPublishTypes();
         $sourceTypes = $articleService->getSourceTypes();
         $categories = $articleService->getCategories();
         $xmTags = $articleService->getXmTags(0);
 
+        $this->view->setVar('publish_types', $publishTypes);
         $this->view->setVar('source_types', $sourceTypes);
         $this->view->setVar('categories', $categories);
         $this->view->setVar('xm_tags', $xmTags);
@@ -53,6 +55,19 @@ class ArticleController extends Controller
     }
 
     /**
+     * @Get("/list/pending", name="admin.article.pending_list")
+     */
+    public function pendingListAction()
+    {
+        $articleService = new ArticleService();
+
+        $pager = $articleService->getPendingArticles();
+
+        $this->view->pick('article/pending_list');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
      * @Get("/add", name="admin.article.add")
      */
     public function addAction()
@@ -62,6 +77,40 @@ class ArticleController extends Controller
         $categories = $articleService->getCategories();
 
         $this->view->setVar('categories', $categories);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/edit", name="admin.article.edit")
+     */
+    public function editAction($id)
+    {
+        $articleService = new ArticleService();
+
+        $publishTypes = $articleService->getPublishTypes();
+        $sourceTypes = $articleService->getSourceTypes();
+        $categories = $articleService->getCategories();
+        $article = $articleService->getArticle($id);
+        $xmTags = $articleService->getXmTags($id);
+
+        $this->view->setVar('publish_types', $publishTypes);
+        $this->view->setVar('source_types', $sourceTypes);
+        $this->view->setVar('categories', $categories);
+        $this->view->setVar('article', $article);
+        $this->view->setVar('xm_tags', $xmTags);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/show", name="admin.article.show")
+     */
+    public function showAction($id)
+    {
+        $articleService = new ArticleService();
+
+        $rejectOptions = $articleService->getRejectOptions();
+        $article = $articleService->getArticle($id);
+
+        $this->view->setVar('reject_options', $rejectOptions);
+        $this->view->setVar('article', $article);
     }
 
     /**
@@ -84,24 +133,6 @@ class ArticleController extends Controller
         ];
 
         return $this->jsonSuccess($content);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/edit", name="admin.article.edit")
-     */
-    public function editAction($id)
-    {
-        $articleService = new ArticleService();
-
-        $sourceTypes = $articleService->getSourceTypes();
-        $categories = $articleService->getCategories();
-        $article = $articleService->getArticle($id);
-        $xmTags = $articleService->getXmTags($id);
-
-        $this->view->setVar('source_types', $sourceTypes);
-        $this->view->setVar('categories', $categories);
-        $this->view->setVar('article', $article);
-        $this->view->setVar('xm_tags', $xmTags);
     }
 
     /**
@@ -147,6 +178,25 @@ class ArticleController extends Controller
         $content = [
             'location' => $this->request->getHTTPReferer(),
             'msg' => '还原文章成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/review", name="admin.article.review")
+     */
+    public function reviewAction($id)
+    {
+        $articleService = new ArticleService();
+
+        $articleService->reviewArticle($id);
+
+        $location = $this->url->get(['for' => 'admin.article.pending_list']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '审核文章成功',
         ];
 
         return $this->jsonSuccess($content);

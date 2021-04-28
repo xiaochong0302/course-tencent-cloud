@@ -4,10 +4,51 @@ layui.use(['jquery'], function () {
 
     var $textarea = $('#vditor-textarea');
 
+    var toolbar = [
+        'emoji',
+        'headings',
+        'bold',
+        'italic',
+        'strike',
+        'link',
+        '|',
+        'list',
+        'ordered-list',
+        'check',
+        'outdent',
+        'indent',
+        '|',
+        'quote',
+        'line',
+        'code',
+        'inline-code',
+        'insert-before',
+        'insert-after',
+        '|',
+        'upload',
+        'table',
+        '|',
+        'undo',
+        'redo',
+        '|',
+        'fullscreen',
+        'edit-mode',
+        {
+            name: 'more',
+            toolbar: [
+                'both',
+                'export',
+                'preview',
+                'info',
+                'help',
+            ],
+        }];
+
     var vditor = new Vditor('vditor', {
         mode: 'sv',
         minHeight: 300,
         outline: false,
+        toolbar: toolbar,
         resize: {
             enable: true
         },
@@ -19,6 +60,9 @@ layui.use(['jquery'], function () {
                 chinesePunct: true,
                 autoSpace: true
             }
+        },
+        fullscreen: {
+            index: 9999
         },
         counter: {
             enable: true,
@@ -33,13 +77,13 @@ layui.use(['jquery'], function () {
                 'X-Requested-With': 'XMLHttpRequest'
             },
             success: function (editor, responseText) {
-                console.log(editor, responseText);
                 var json = JSON.parse(responseText);
                 var img = '![](' + json.data.src + ')';
                 vditor.insertValue(img);
             }
         },
-        value: $textarea.val()
+        value: $textarea.val(),
+        placeholder: '酷瓜云课堂，100%开源在线教育解决方案'
     });
 
     /**

@@ -156,8 +156,26 @@ class Article extends Validator
 
     public function checkPublishStatus($status)
     {
-        if (!in_array($status, [0, 1])) {
+        if (!array_key_exists($status, ArticleModel::publishTypes())) {
             throw new BadRequestException('article.invalid_publish_status');
+        }
+
+        return $status;
+    }
+
+    public function checkPrivateStatus($status)
+    {
+        if (!in_array($status, [0, 1])) {
+            throw new BadRequestException('article.invalid_private_status');
+        }
+
+        return $status;
+    }
+
+    public function checkAllowCommentStatus($status)
+    {
+        if (!in_array($status, [0, 1])) {
+            throw new BadRequestException('article.invalid_allow_comment_status');
         }
 
         return $status;

@@ -2,8 +2,10 @@
 
 namespace App\Services\Logic\User\Console;
 
+use App\Library\Paginator\Query as PagerQuery;
+use App\Repos\Article as ArticleRepo;
+use App\Services\Logic\Article\ArticleList as ArticleListService;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Logic\User\ArticleList as UserArticleListService;
 
 class ArticleList extends LogicService
 {
@@ -12,9 +14,29 @@ class ArticleList extends LogicService
     {
         $user = $this->getLoginUser();
 
-        $service = new UserArticleListService();
+        $pagerQuery = new PagerQuery();
 
-        return $service->handle($user->id);
+        $params = $pagerQuery->getParams();
+
+        $params['owner_id'] = $user->id;
+        $params['deleted'] = 0;
+
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
+
+        $articleRepo = new ArticleRepo();
+
+        $pager = $articleRepo->paginate($params, $sort, $page, $limit);
+
+        return $this->handleArticles($pager);
+    }
+
+    protected function handleArticles($pager)
+    {
+        $service = new ArticleListService();
+
+        return $service->handleArticles($pager);
     }
 
 }

@@ -14,7 +14,7 @@ use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Notice\OrderFinish as OrderFinishNotice;
-use App\Services\Logic\Point\PointHistory as PointHistoryService;
+use App\Services\Logic\Point\History\OrderConsume as OrderConsumePointHistory;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -205,9 +205,9 @@ class DeliverTask extends Task
 
     protected function handleOrderConsumePoint(OrderModel $order)
     {
-        $service = new PointHistoryService();
+        $service = new OrderConsumePointHistory();
 
-        $service->handleOrderConsume($order);
+        $service->handle($order);
     }
 
     protected function handleOrderFinishNotice(OrderModel $order)

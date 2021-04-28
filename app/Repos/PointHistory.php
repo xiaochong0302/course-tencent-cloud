@@ -102,4 +102,21 @@ class PointHistory extends Repository
             ->execute();
     }
 
+    /**
+     * @param int $userId
+     * @param int $eventType
+     * @param string $date
+     * @return int
+     */
+    public function sumUserDailyEventPoints($userId, $eventType, $date)
+    {
+        $createTime = strtotime($date);
+
+        return (int)PointHistoryModel::sum([
+            'column' => 'event_point',
+            'conditions' => 'user_id = ?1 AND event_type = ?2 AND create_time > ?3',
+            'bind' => [1 => $userId, 2 => $eventType, 3 => $createTime],
+        ]);
+    }
+
 }

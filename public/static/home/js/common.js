@@ -47,6 +47,19 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
         });
     }, 300000);
 
+    if (window.user.id > 0) {
+        setInterval(function () {
+            $.get('/uc/notify/stats', function (res) {
+                var $notifyDot = $('#notify-dot');
+                if (res.stats.notice_count > 0) {
+                    $notifyDot.addClass('layui-badge-dot');
+                } else {
+                    $notifyDot.removeClass('layui-badge-dot');
+                }
+            });
+        }, 30000);
+    }
+
     form.on('submit(go)', function (data) {
         var submit = $(this);
         submit.attr('disabled', 'disabled').addClass('layui-btn-disabled');

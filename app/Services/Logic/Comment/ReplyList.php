@@ -3,6 +3,7 @@
 namespace App\Services\Logic\Comment;
 
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Comment as CommentModel;
 use App\Repos\Comment as CommentRepo;
 use App\Services\Logic\CommentTrait;
 use App\Services\Logic\Service as LogicService;
@@ -20,7 +21,8 @@ class ReplyList extends LogicService
         $params = $pagerQuery->getParams();
 
         $params['parent_id'] = $id;
-        $params['published'] = 1;
+        $params['published'] = CommentModel::PUBLISH_APPROVED;
+        $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
@@ -30,7 +32,7 @@ class ReplyList extends LogicService
 
         $pager = $commentRepo->paginate($params, $sort, $page, $limit);
 
-        return $this->handlePager($pager);
+        return $this->handleComments($pager);
     }
 
 }

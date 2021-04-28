@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Models\User as UserModel;
 use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
-use App\Services\Logic\Point\PointHistory as PointHistoryService;
+use App\Services\Logic\Point\History\AccountRegister as AccountRegisterPointHistory;
 use Phalcon\Events\Event as PhEvent;
 
 class Account extends Listener
@@ -27,9 +27,9 @@ class Account extends Listener
 
     protected function handleRegisterPoint(UserModel $user)
     {
-        $service = new PointHistoryService();
+        $service = new AccountRegisterPointHistory();
 
-        $service->handleAccountRegister($user);
+        $service->handle($user);
     }
 
     protected function handleLoginNotice(UserModel $user)

@@ -73,7 +73,7 @@ class Task extends Model
     /**
      * 条目内容
      *
-     * @var string|array
+     * @var array|string
      */
     public $item_info = [];
 
@@ -126,7 +126,7 @@ class Task extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->item_info)) {
+        if (is_array($this->item_info) || is_object($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
 
@@ -135,7 +135,7 @@ class Task extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->item_info)) {
+        if (is_array($this->item_info) || is_object($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
 

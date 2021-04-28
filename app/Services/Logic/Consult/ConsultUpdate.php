@@ -35,6 +35,8 @@ class ConsultUpdate extends LogicService
 
         $consult->update($data);
 
+        $this->eventsManager->fire('Consult:afterUpdate', $this, $consult);
+
         return $consult;
     }
 

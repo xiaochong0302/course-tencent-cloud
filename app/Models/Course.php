@@ -190,7 +190,7 @@ class Course extends Model
     /**
      * 扩展属性
      *
-     * @var string|array
+     * @var array|string
      */
     public $attrs = [];
 
@@ -311,7 +311,7 @@ class Course extends Model
             }
         }
 
-        if (is_array($this->attrs)) {
+        if (is_array($this->attrs) || is_object($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -342,7 +342,7 @@ class Course extends Model
             $this->summary = kg_parse_summary($this->details);
         }
 
-        if (is_array($this->attrs)) {
+        if (is_array($this->attrs) || is_object($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 

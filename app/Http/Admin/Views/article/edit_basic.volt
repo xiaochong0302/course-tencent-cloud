@@ -51,10 +51,25 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">发布状态</label>
+        <div class="layui-input-block">
+            {% for value,title in publish_types %}
+                <input type="radio" name="published" value="{{ value }}" title="{{ title }}" {% if article.published == value %}checked="checked"{% endif %} lay-filter="source_type">
+            {% endfor %}
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">允许评论</label>
         <div class="layui-input-block">
             <input type="radio" name="allow_comment" value="1" title="是" {% if article.allow_comment == 1 %}checked="checked"{% endif %}>
             <input type="radio" name="allow_comment" value="0" title="否" {% if article.allow_comment == 0 %}checked="checked"{% endif %}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">仅我可见</label>
+        <div class="layui-input-block">
+            <input type="radio" name="private" value="1" title="是" {% if article.private == 1 %}checked="checked"{% endif %}>
+            <input type="radio" name="private" value="0" title="否" {% if article.private == 0 %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">

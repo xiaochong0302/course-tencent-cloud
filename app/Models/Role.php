@@ -103,7 +103,7 @@ class Role extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->routes)) {
+        if (is_array($this->routes) || is_object($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
         } else {
             $this->routes = '';
@@ -114,7 +114,7 @@ class Role extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->routes)) {
+        if (is_array($this->routes) || is_object($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
         }
 

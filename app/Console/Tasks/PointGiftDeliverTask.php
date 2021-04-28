@@ -14,7 +14,7 @@ use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\PointGift as PointGiftRepo;
 use App\Repos\PointRedeem as PointRedeemRepo;
 use App\Services\Logic\Notice\DingTalk\PointRedeem as PointRedeemNotice;
-use App\Services\Logic\Point\PointHistory as PointHistoryService;
+use App\Services\Logic\Point\History\PointRefund as PointRefundPointHistory;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
@@ -53,9 +53,6 @@ class PointGiftDeliverTask extends Task
                         break;
                     case PointGiftModel::TYPE_GOODS:
                         $this->handleGoodsRedeem($redeem);
-                        break;
-                    case PointGiftModel::TYPE_CASH:
-                        $this->handleCashRedeem($redeem);
                         break;
                 }
 
@@ -169,16 +166,11 @@ class PointGiftDeliverTask extends Task
         $notice->createTask($redeem);
     }
 
-    protected function handleCashRedeem(PointRedeemModel $redeem)
-    {
-
-    }
-
     protected function handlePointRefund(PointRedeemModel $redeem)
     {
-        $service = new PointHistoryService();
+        $service = new PointRefundPointHistory();
 
-        $service->handlePointRefund($redeem);
+        $service->handle($redeem);
     }
 
     /**

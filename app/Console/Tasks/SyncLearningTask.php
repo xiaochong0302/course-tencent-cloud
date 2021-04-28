@@ -10,7 +10,7 @@ use App\Repos\ChapterUser as ChapterUserRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\Learning as LearningRepo;
-use App\Services\Logic\Point\PointHistory as PointHistoryService;
+use App\Services\Logic\Point\History\ChapterStudy as ChapterStudyPointHistory;
 use App\Services\Sync\Learning as LearningSyncService;
 
 class SyncLearningTask extends Task
@@ -184,9 +184,9 @@ class SyncLearningTask extends Task
      */
     protected function handleStudyPoint(ChapterUserModel $chapterUser)
     {
-        $service = new PointHistoryService();
+        $service = new ChapterStudyPointHistory();
 
-        $service->handleChapterStudy($chapterUser);
+        $service->handle($chapterUser);
     }
 
 }

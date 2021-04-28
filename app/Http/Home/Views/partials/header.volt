@@ -40,6 +40,16 @@
         </li>
         {% if auth_user.id > 0 %}
             <li class="layui-nav-item">
+                <a href="javascript:">创建</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:">提问题</a></dd>
+                    <dd><a href="{{ url({'for':'home.article.add'}) }}" target="_blank">写文章</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="{{ url({'for':'home.uc.notifications'}) }}" target="notify"><i class="layui-icon layui-icon-notice"></i> 消息<span id="notify-dot"></span></a>
+            </li>
+            <li class="layui-nav-item">
                 <a href="javascript:">{{ auth_user.name }}</a>
                 <dl class="layui-nav-child">
                     <dd><a href="{{ url({'for':'home.user.show','id':auth_user.id}) }}">我的主页</a></dd>

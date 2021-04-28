@@ -7,6 +7,7 @@ use App\Models\CommentLike as CommentLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\CommentLike as CommentLikeRepo;
 use App\Services\Logic\CommentTrait;
+use App\Services\Logic\Notice\System\CommentLiked as CommentLikedNotice;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
@@ -42,6 +43,12 @@ class CommentLike extends LogicService
 
             $this->incrCommentLikeCount($comment);
 
+            $this->incrUserDailyCommentLikeCount($user);
+
+            $this->handleLikeNotice($comment, $user);
+
+            $this->eventsManager->fire('Comment:afterLike', $this, $comment);
+
         } else {
 
             $action = 'undo';
@@ -49,9 +56,9 @@ class CommentLike extends LogicService
             $commentLike->delete();
 
             $this->decrCommentLikeCount($comment);
-        }
 
-        $this->incrUserDailyCommentLikeCount($user);
+            $this->eventsManager->fire('Comment:afterUndoLike', $this, $comment);
+        }
 
         return [
             'action' => $action,
@@ -66,6 +73,7 @@ class CommentLike extends LogicService
         $comment->update();
     }
 
+
     protected function decrCommentLikeCount(CommentModel $comment)
     {
         if ($comment->like_count > 0) {
@@ -77,6 +85,13 @@ class CommentLike extends LogicService
     protected function incrUserDailyCommentLikeCount(UserModel $user)
     {
         $this->eventsManager->fire('UserDailyCounter:incrCommentLikeCount', $this, $user);
+    }
+
+    protected function handleLikeNotice(CommentModel $comment, UserModel $sender)
+    {
+        $notice = new CommentLikedNotice();
+
+        $notice->handle($comment, $sender);
     }
 
 }

@@ -97,6 +97,24 @@
                 <td><input class="layui-input" type="text" name="event_rule[im_discuss][point]" value="{{ event_rule.im_discuss.point }}" lay-verify="required"></td>
                 <td>N/A</td>
             </tr>
+            <tr>
+                <td>发表评论</td>
+                <td>
+                    <input type="radio" name="event_rule[comment_post][enabled]" value="1" title="是" {% if event_rule.comment_post.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="event_rule[comment_post][enabled]" value="0" title="否" {% if event_rule.comment_post.enabled == "0" %}checked="checked"{% endif %}>
+                </td>
+                <td><input class="layui-input" type="text" name="event_rule[comment_post][point]" value="{{ event_rule.comment_post.point }}" lay-verify="required"></td>
+                <td><input class="layui-input" type="text" name="event_rule[comment_post][limit]" value="{{ event_rule.comment_post.limit }}" lay-verify="required"></td>
+            </tr>
+            <tr>
+                <td>发表文章</td>
+                <td>
+                    <input type="radio" name="event_rule[article_post][enabled]" value="1" title="是" {% if event_rule.article_post.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="event_rule[article_post][enabled]" value="0" title="否" {% if event_rule.article_post.enabled == "0" %}checked="checked"{% endif %}>
+                </td>
+                <td><input class="layui-input" type="text" name="event_rule[article_post][point]" value="{{ event_rule.article_post.point }}" lay-verify="required"></td>
+                <td><input class="layui-input" type="text" name="event_rule[article_post][limit]" value="{{ event_rule.article_post.limit }}" lay-verify="required"></td>
+            </tr>
             </tbody>
         </table>
         <br>

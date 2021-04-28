@@ -8,7 +8,7 @@ use App\Models\PointRedeem as PointRedeemModel;
 use App\Models\Task as TaskModel;
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
-use App\Services\Logic\Point\PointHistory as PointHistoryService;
+use App\Services\Logic\Point\History\PointRedeem as PointRedeemPointHistory;
 use App\Services\Logic\PointGiftTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\PointRedeem as PointRedeemValidator;
@@ -123,9 +123,9 @@ class PointRedeem extends LogicService
 
     protected function handleRedeemPoint(PointRedeemModel $redeem)
     {
-        $service = new PointHistoryService();
+        $service = new PointRedeemPointHistory();
 
-        $service->handlePointRedeem($redeem);
+        $service->handle($redeem);
     }
 
 }

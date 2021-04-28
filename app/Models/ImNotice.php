@@ -53,9 +53,9 @@ class ImNotice extends Model
     /**
      * 条目内容
      *
-     * @var string
+     * @var array|string
      */
-    public $item_info = '';
+    public $item_info = [];
 
     /**
      * 阅读标识
@@ -85,7 +85,7 @@ class ImNotice extends Model
 
     public function beforeCreate()
     {
-        if (!empty($this->item_info)) {
+        if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
 
@@ -94,7 +94,7 @@ class ImNotice extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->item_info) && !empty($this->item_info)) {
+        if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
 
@@ -103,7 +103,7 @@ class ImNotice extends Model
 
     public function afterFetch()
     {
-        if (is_string($this->item_info) && !empty($this->item_info)) {
+        if (is_string($this->item_info)) {
             $this->item_info = json_decode($this->item_info, true);
         }
     }

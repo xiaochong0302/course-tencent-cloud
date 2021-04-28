@@ -9,15 +9,30 @@ use App\Library\Utils\Word as WordUtil;
 use App\Models\Article as ArticleModel;
 use App\Models\ArticleTag as ArticleTagModel;
 use App\Models\Category as CategoryModel;
+use App\Models\Reason as ReasonModel;
+use App\Models\User as UserModel;
 use App\Repos\Article as ArticleRepo;
 use App\Repos\ArticleTag as ArticleTagRepo;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Tag as TagRepo;
+use App\Repos\User as UserRepo;
+use App\Services\Logic\Notice\System\ArticleApproved as ArticleApprovedNotice;
+use App\Services\Logic\Notice\System\ArticleRejected as ArticleRejectedNotice;
+use App\Services\Logic\Point\History\ArticlePost as ArticlePostPointHistory;
 use App\Services\Sync\ArticleIndex as ArticleIndexSync;
 use App\Validators\Article as ArticleValidator;
 
 class Article extends Service
 {
+
+    public function getArticleModel()
+    {
+        $article = new ArticleModel();
+
+        $article->afterFetch();
+
+        return $article;
+    }
 
     public function getXmTags($id)
     {
@@ -61,9 +76,19 @@ class Article extends Service
         ]);
     }
 
+    public function getPublishTypes()
+    {
+        return ArticleModel::publishTypes();
+    }
+
     public function getSourceTypes()
     {
         return ArticleModel::sourceTypes();
+    }
+
+    public function getRejectOptions()
+    {
+        return ReasonModel::articleRejectOptions();
     }
 
     public function getArticles()
@@ -98,7 +123,7 @@ class Article extends Service
     {
         $post = $this->request->getPost();
 
-        $loginUser = $this->getLoginUser();
+        $user = $this->getLoginUser();
 
         $validator = new ArticleValidator();
 
@@ -107,11 +132,15 @@ class Article extends Service
 
         $article = new ArticleModel();
 
-        $article->owner_id = $loginUser->id;
+        $article->owner_id = $user->id;
         $article->category_id = $category->id;
         $article->title = $title;
 
         $article->create();
+
+        $this->incrUserArticleCount($user);
+
+        $this->eventsManager->fire('Article:afterCreate', $this, $article);
 
         return $article;
     }
@@ -159,6 +188,10 @@ class Article extends Service
             $data['allow_comment'] = $post['allow_comment'];
         }
 
+        if (isset($post['private'])) {
+            $data['private'] = $validator->checkPrivateStatus($post['private']);
+        }
+
         if (isset($post['featured'])) {
             $data['featured'] = $validator->checkFeatureStatus($post['featured']);
         }
@@ -173,14 +206,30 @@ class Article extends Service
 
         $article->update($data);
 
+        $this->rebuildArticleIndex($article);
+
+        $this->eventsManager->fire('Article:afterUpdate', $this, $article);
+
         return $article;
     }
 
     public function deleteArticle($id)
     {
         $article = $this->findOrFail($id);
+
         $article->deleted = 1;
+
         $article->update();
+
+        $userRepo = new UserRepo();
+
+        $owner = $userRepo->findById($article->owner_id);
+
+        $this->decrUserArticleCount($owner);
+
+        $this->rebuildArticleIndex($article);
+
+        $this->eventsManager->fire('Article:afterDelete', $this, $article);
 
         return $article;
     }
@@ -188,8 +237,67 @@ class Article extends Service
     public function restoreArticle($id)
     {
         $article = $this->findOrFail($id);
+
         $article->deleted = 0;
+
         $article->update();
+
+        $userRepo = new UserRepo();
+
+        $owner = $userRepo->findById($article->owner_id);
+
+        $this->incrUserArticleCount($owner);
+
+        $this->rebuildArticleIndex($article);
+
+        $this->eventsManager->fire('Article:afterRestore', $this, $article);
+
+        return $article;
+    }
+
+    public function reviewArticle($id)
+    {
+        $type = $this->request->getPost('type', ['trim', 'string']);
+        $reason = $this->request->getPost('reason', ['trim', 'string']);
+
+        $article = $this->findOrFail($id);
+
+        if ($type == 'approve') {
+            $article->published = ArticleModel::PUBLISH_APPROVED;
+        } elseif ($type == 'reject') {
+            $article->published = ArticleModel::PUBLISH_REJECTED;
+        }
+
+        $article->update();
+
+        $sender = $this->getLoginUser();
+
+        if ($type == 'approve') {
+
+            $this->rebuildArticleIndex($article);
+
+            $this->handlePostPoint($article);
+
+            $notice = new ArticleApprovedNotice();
+
+            $notice->handle($article, $sender);
+
+            $this->eventsManager->fire('Article:afterApprove', $this, $article);
+
+        } elseif ($type == 'reject') {
+
+            $options = ReasonModel::articleRejectOptions();
+
+            if (array_key_exists($reason, $options)) {
+                $reason = $options[$reason];
+            }
+
+            $notice = new ArticleRejectedNotice();
+
+            $notice->handle($article, $sender, $reason);
+
+            $this->eventsManager->fire('Article:afterReject', $this, $article);
+        }
 
         return $article;
     }
@@ -201,23 +309,14 @@ class Article extends Service
         return $validator->checkArticle($id);
     }
 
-    protected function rebuildArticleCache(ArticleModel $article)
-    {
-        $cache = new ArticleCache();
-
-        $cache->rebuild($article->id);
-    }
-
-    protected function rebuildArticleIndex(ArticleModel $article)
-    {
-        $sync = new ArticleIndexSync();
-
-        $sync->addItem($article->id);
-    }
-
     protected function saveTags(ArticleModel $article, $tagIds)
     {
         $originTagIds = [];
+
+        /**
+         * 修改数据后，afterFetch设置的属性会失效，重新执行
+         */
+        $article->afterFetch();
 
         if ($article->tags) {
             $originTagIds = kg_array_column($article->tags, 'id');
@@ -282,6 +381,44 @@ class Article extends Service
         }
 
         return $pager;
+    }
+
+    protected function incrUserArticleCount(UserModel $user)
+    {
+        $user->article_count += 1;
+
+        $user->update();
+    }
+
+    protected function decrUserArticleCount(UserModel $user)
+    {
+        if ($user->article_count > 0) {
+            $user->article_count -= 1;
+            $user->update();
+        }
+    }
+
+    protected function rebuildArticleCache(ArticleModel $article)
+    {
+        $cache = new ArticleCache();
+
+        $cache->rebuild($article->id);
+    }
+
+    protected function rebuildArticleIndex(ArticleModel $article)
+    {
+        $sync = new ArticleIndexSync();
+
+        $sync->addItem($article->id);
+    }
+
+    protected function handlePostPoint(ArticleModel $article)
+    {
+        if ($article->published != ArticleModel::PUBLISH_APPROVED) return;
+
+        $service = new ArticlePostPointHistory();
+
+        $service->handle($article);
     }
 
 }

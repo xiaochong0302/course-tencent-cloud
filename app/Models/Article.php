@@ -18,6 +18,13 @@ class Article extends Model
     const SOURCE_TRANSLATE = 3; // 翻译
 
     /**
+     * 发布状态
+     */
+    const PUBLISH_PENDING = 1; // 审核中
+    const PUBLISH_APPROVED = 2; // 已发布
+    const PUBLISH_REJECTED = 3; // 未通过
+
+    /**
      * 主键编号
      *
      * @var int
@@ -88,6 +95,27 @@ class Article extends Model
     public $source_url = '';
 
     /**
+     * 终端类型
+     *
+     * @var integer
+     */
+    public $client_type = 0;
+
+    /**
+     * 终端IP
+     *
+     * @var integer
+     */
+    public $client_ip = '';
+
+    /**
+     * 私有标识
+     *
+     * @var int
+     */
+    public $private = 0;
+
+    /**
      * 推荐标识
      *
      * @var int
@@ -99,7 +127,7 @@ class Article extends Model
      *
      * @var int
      */
-    public $published = 0;
+    public $published = self::PUBLISH_PENDING;
 
     /**
      * 删除标识
@@ -191,7 +219,7 @@ class Article extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
-        if (is_array($this->tags)) {
+        if (is_array($this->tags) || is_object($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
         }
 
@@ -213,12 +241,8 @@ class Article extends Model
             $this->summary = kg_parse_summary($this->content);
         }
 
-        if (is_array($this->tags)) {
+        if (is_array($this->tags) || is_array($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
-        }
-
-        if ($this->deleted == 1) {
-            $this->published = 0;
         }
 
         $this->update_time = time();
@@ -257,6 +281,15 @@ class Article extends Model
             self::SOURCE_ORIGIN => '原创',
             self::SOURCE_REPRINT => '转载',
             self::SOURCE_TRANSLATE => '翻译',
+        ];
+    }
+
+    public static function publishTypes()
+    {
+        return [
+            self::PUBLISH_PENDING => '审核中',
+            self::PUBLISH_APPROVED => '已发布',
+            self::PUBLISH_REJECTED => '未通过',
         ];
     }
 

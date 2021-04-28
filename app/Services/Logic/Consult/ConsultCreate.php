@@ -10,14 +10,16 @@ use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Notice\DingTalk\ConsultCreate as ConsultCreateNotice;
 use App\Services\Logic\Service as LogicService;
+use App\Traits\Client as ClientTrait;
 use App\Validators\Consult as ConsultValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
 class ConsultCreate extends LogicService
 {
 
-    use CourseTrait;
     use ChapterTrait;
+    use ClientTrait;
+    use CourseTrait;
 
     public function handle()
     {
@@ -40,7 +42,7 @@ class ConsultCreate extends LogicService
 
             return $this->handleChapterConsult($chapter, $user);
 
-        } else {
+        } elseif ($courseId > 0) {
 
             $course = $this->checkCourse($courseId);
 
@@ -68,6 +70,8 @@ class ConsultCreate extends LogicService
         $consult->priority = $priority;
         $consult->course_id = $course->id;
         $consult->owner_id = $user->id;
+        $consult->client_type = $this->getClientType();
+        $consult->client_ip = $this->getClientIp();
         $consult->published = 1;
 
         $consult->create();
@@ -77,6 +81,8 @@ class ConsultCreate extends LogicService
         $this->incrUserDailyConsultCount($user);
 
         $this->handleConsultCreateNotice($consult);
+
+        $this->eventsManager->fire('Consult:afterCreate', $this, $consult);
 
         return $consult;
     }
@@ -104,6 +110,8 @@ class ConsultCreate extends LogicService
         $consult->course_id = $course->id;
         $consult->chapter_id = $chapter->id;
         $consult->owner_id = $user->id;
+        $consult->client_type = $this->getClientType();
+        $consult->client_ip = $this->getClientIp();
         $consult->published = 1;
 
         $consult->create();
@@ -115,6 +123,8 @@ class ConsultCreate extends LogicService
         $this->incrUserDailyConsultCount($user);
 
         $this->handleConsultCreateNotice($consult);
+
+        $this->eventsManager->fire('Consult:afterCreate', $this, $consult);
 
         return $consult;
     }

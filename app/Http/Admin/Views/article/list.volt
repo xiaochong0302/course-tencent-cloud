@@ -38,13 +38,13 @@
         <thead>
         <tr>
             <th>文章</th>
+            <th>状态</th>
             <th>浏览</th>
             <th>评论</th>
             <th>点赞</th>
             <th>收藏</th>
             <th>推荐</th>
             <th>评论</th>
-            <th>发布</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -74,13 +74,13 @@
                         <span>创建：{{ date('Y-m-d',item.create_time) }}</span>
                     </p>
                 </td>
+                <td>{{ publish_status(item.published) }}</td>
                 <td>{{ item.view_count }}</td>
                 <td>{{ item.comment_count }}</td>
                 <td>{{ item.like_count }}</td>
                 <td>{{ item.favorite_count }}</td>
                 <td><input type="checkbox" name="featured" value="1" lay-skin="switch" lay-text="是|否" lay-filter="featured" data-url="{{ update_url }}" {% if item.featured == 1 %}checked="checked"{% endif %}></td>
                 <td><input type="checkbox" name="comment" value="1" lay-skin="switch" lay-text="开|关" lay-filter="comment" data-url="{{ update_url }}" {% if item.allow_comment == 1 %}checked="checked"{% endif %}></td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>

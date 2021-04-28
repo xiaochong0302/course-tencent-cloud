@@ -7,7 +7,7 @@ use App\Repos\Stat as StatRepo;
 class SiteTodayStat extends Cache
 {
 
-    protected $lifetime = 1 * 3600;
+    protected $lifetime = 15 * 60;
 
     public function getLifetime()
     {
@@ -26,15 +26,19 @@ class SiteTodayStat extends Cache
         $date = date('Y-m-d');
 
         $saleCount = $statRepo->countDailySales($date);
+        $refundCount = $statRepo->countDailyRefunds($date);
         $saleAmount = $statRepo->sumDailySales($date);
         $refundAmount = $statRepo->sumDailyRefunds($date);
-        $registerCount = $statRepo->countDailyRegisteredUser($date);
+        $registerCount = $statRepo->countDailyRegisteredUsers($date);
+        $pointRedeemCount = $statRepo->countDailyPointRedeems($date);
 
         return [
             'sale_count' => $saleCount,
+            'refund_count' => $refundCount,
             'sale_amount' => $saleAmount,
             'refund_amount' => $refundAmount,
             'register_count' => $registerCount,
+            'point_redeem_count' => $pointRedeemCount,
         ];
     }
 
