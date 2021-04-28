@@ -6,7 +6,7 @@ use App\Library\Utils\Lock as LockUtil;
 use App\Models\Online as OnlineModel;
 use App\Models\User as UserModel;
 use App\Repos\Online as OnlineRepo;
-use App\Services\Logic\Point\PointHistory as PointHistoryService;
+use App\Services\Logic\Point\History\SiteVisit as SiteVisitPointHistory;
 use App\Traits\Client as ClientTrait;
 use Phalcon\Events\Event as PhEvent;
 
@@ -104,9 +104,9 @@ class Site extends Listener
 
         if ($content) return;
 
-        $service = new PointHistoryService();
+        $service = new SiteVisitPointHistory();
 
-        $service->handleSiteVisit($user);
+        $service->handle($user);
 
         $tomorrow = strtotime($todayDate) + 86400;
 

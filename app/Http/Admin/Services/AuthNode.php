@@ -273,16 +273,28 @@ class AuthNode extends Service
                             'route' => 'admin.article.edit',
                         ],
                         [
+                            'id' => '1-7-6',
+                            'title' => '文章分类',
+                            'type' => 'menu',
+                            'route' => 'admin.article.category',
+                        ],
+                        [
                             'id' => '1-7-5',
                             'title' => '删除文章',
                             'type' => 'button',
                             'route' => 'admin.article.delete',
                         ],
                         [
-                            'id' => '1-7-6',
-                            'title' => '文章分类',
-                            'type' => 'menu',
-                            'route' => 'admin.article.category',
+                            'id' => '1-7-9',
+                            'title' => '文章详情',
+                            'type' => 'button',
+                            'route' => 'admin.article.review',
+                        ],
+                        [
+                            'id' => '1-7-10',
+                            'title' => '审核文章',
+                            'type' => 'button',
+                            'route' => 'admin.article.review',
                         ],
                     ],
                 ],
@@ -364,6 +376,19 @@ class AuthNode extends Service
             'id' => '2',
             'title' => '运营管理',
             'children' => [
+                [
+                    'id' => '2-10',
+                    'title' => '审核队列',
+                    'type' => 'menu',
+                    'children' => [
+                        [
+                            'id' => '2-10-1',
+                            'title' => '文章列表',
+                            'type' => 'menu',
+                            'route' => 'admin.mod.articles',
+                        ],
+                    ],
+                ],
                 [
                     'id' => '2-1',
                     'title' => '学员管理',

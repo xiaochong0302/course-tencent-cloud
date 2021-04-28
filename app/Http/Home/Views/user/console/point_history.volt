@@ -32,7 +32,7 @@
                             <tr>
                                 <td>{{ event_type_info(item.event_type) }}</td>
                                 <td>{{ event_point_info(item.event_point) }}</td>
-                                <td>{{ event_detail_info(item) }}</td>
+                                <td>{{ event_detail_info(item.event_type,item.event_info) }}</td>
                                 <td>{{ date('Y-m-d',item.create_time) }}</td>
                             </tr>
                         {% endfor %}

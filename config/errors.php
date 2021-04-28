@@ -120,6 +120,8 @@ $error['article.invalid_source_type'] = '无效的来源类型';
 $error['article.invalid_source_url'] = '无效的来源网址';
 $error['course.invalid_feature_status'] = '无效的推荐状态';
 $error['course.invalid_publish_status'] = '无效的发布状态';
+$error['course.invalid_private_status'] = '无效的私有状态';
+$error['course.invalid_allow_comment_status'] = '无效的允许评论状态';
 
 /**
  * 评论相关

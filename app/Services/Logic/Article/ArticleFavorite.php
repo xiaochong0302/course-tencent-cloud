@@ -7,6 +7,7 @@ use App\Models\ArticleFavorite as ArticleFavoriteModel;
 use App\Models\User as UserModel;
 use App\Repos\ArticleFavorite as ArticleFavoriteRepo;
 use App\Services\Logic\ArticleTrait;
+use App\Services\Logic\Notice\System\ArticleFavorited as ArticleFavoritedNotice;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
@@ -41,7 +42,12 @@ class ArticleFavorite extends LogicService
             $favorite->create();
 
             $this->incrArticleFavoriteCount($article);
+
             $this->incrUserFavoriteCount($user);
+
+            $this->handleFavoriteNotice($article, $user);
+
+            $this->eventsManager->fire('Article:afterFavorite', $this, $article);
 
         } else {
 
@@ -50,7 +56,10 @@ class ArticleFavorite extends LogicService
             $favorite->delete();
 
             $this->decrArticleFavoriteCount($article);
+
             $this->decrUserFavoriteCount($user);
+
+            $this->eventsManager->fire('Article:afterUndoFavorite', $this, $article);
         }
 
         return [
@@ -87,6 +96,13 @@ class ArticleFavorite extends LogicService
             $user->favorite_count -= 1;
             $user->update();
         }
+    }
+
+    protected function handleFavoriteNotice(ArticleModel $article, UserModel $sender)
+    {
+        $notice = new ArticleFavoritedNotice();
+
+        $notice->handle($article, $sender);
     }
 
 }

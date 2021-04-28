@@ -29,6 +29,20 @@ class Review extends Model
     public $owner_id = 0;
 
     /**
+     * 终端类型
+     *
+     * @var integer
+     */
+    public $client_type = 0;
+
+    /**
+     * 终端IP
+     *
+     * @var integer
+     */
+    public $client_ip = '';
+
+    /**
      * 评价内容
      *
      * @var string

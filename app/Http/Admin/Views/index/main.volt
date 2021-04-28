@@ -7,6 +7,7 @@
             <div class="layui-col-md8">
                 {{ partial('index/main_global_stat') }}
                 {{ partial('index/main_today_stat') }}
+                {{ partial('index/main_mod_stat') }}
                 {{ partial('index/main_app_trend') }}
             </div>
             <div class="layui-col-md4">

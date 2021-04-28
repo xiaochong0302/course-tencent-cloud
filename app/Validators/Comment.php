@@ -77,7 +77,7 @@ class Comment extends Validator
 
     public function checkPublishStatus($status)
     {
-        if (!in_array($status, [0, 1])) {
+        if (!array_key_exists($status, CommentModel::publishTypes())) {
             throw new BadRequestException('comment.invalid_publish_status');
         }
 

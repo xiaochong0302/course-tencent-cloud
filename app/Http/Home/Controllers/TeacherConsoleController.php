@@ -26,6 +26,17 @@ class TeacherConsoleController extends Controller
         return true;
     }
 
+    public function initialize()
+    {
+        parent::initialize();
+
+        $authUser = $this->getAuthUser(false);
+
+        $this->seo->prependTitle('教学中心');
+
+        $this->view->setVar('auth_user', $authUser);
+    }
+
     /**
      * @Get("/", name="home.tc.index")
      */

@@ -7,6 +7,7 @@ use App\Models\Article as ArticleModel;
 use App\Models\ArticleFavorite as ArticleFavoriteModel;
 use App\Models\ArticleLike as ArticleLikeModel;
 use App\Models\ArticleTag as ArticleTagModel;
+use App\Models\Comment as CommentModel;
 use App\Models\Tag as TagModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -43,16 +44,20 @@ class Article extends Repository
             $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
+        if (isset($where['source_type'])) {
+            $builder->andWhere('source_type = :source_type:', ['source_type' => $where['source_type']]);
+        }
+
         if (!empty($where['title'])) {
             $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
         }
 
-        if (isset($where['featured'])) {
-            $builder->andWhere('featured = :featured:', ['featured' => $where['featured']]);
+        if (isset($where['private'])) {
+            $builder->andWhere('private = :private:', ['private' => $where['private']]);
         }
 
-        if (isset($where['source_type'])) {
-            $builder->andWhere('source_type = :source_type:', ['source_type' => $where['source_type']]);
+        if (isset($where['featured'])) {
+            $builder->andWhere('featured = :featured:', ['featured' => $where['featured']]);
         }
 
         if (isset($where['published'])) {
@@ -140,9 +145,9 @@ class Article extends Repository
 
     public function countComments($articleId)
     {
-        return (int)ArticleCommentModel::count([
-            'conditions' => 'article_id = :article_id: AND deleted = 0',
-            'bind' => ['article_id' => $articleId],
+        return (int)CommentModel::count([
+            'conditions' => 'item_id = ?1 AND item_type = ?2 AND deleted = 0',
+            'bind' => [1 => $articleId, 2 => CommentModel::ITEM_ARTICLE],
         ]);
     }
 

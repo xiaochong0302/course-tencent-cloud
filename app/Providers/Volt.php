@@ -66,6 +66,10 @@ class Volt extends Provider
                 return 'kg_object_array(' . $resolvedArgs . ')';
             });
 
+            $compiler->addFilter('parse_markdown', function ($resolvedArgs) {
+                return 'kg_parse_markdown(' . $resolvedArgs . ')';
+            });
+
             $compiler->addFilter('duration', function ($resolvedArgs) {
                 return 'kg_duration(' . $resolvedArgs . ')';
             });

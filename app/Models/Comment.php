@@ -13,7 +13,15 @@ class Comment extends Model
      */
     const ITEM_CHAPTER = 1; // 章节
     const ITEM_ARTICLE = 2; // 文章
-    const ITEM_ANSWER = 3; // 回答
+    const ITEM_QUESTION = 3; // 问题
+    const ITEM_ANSWER = 4; // 回答
+
+    /**
+     * 发布状态
+     */
+    const PUBLISH_PENDING = 1; // 审核中
+    const PUBLISH_APPROVED = 2; // 已发布
+    const PUBLISH_REJECTED = 3; // 未通过
 
     /**
      * 主键编号
@@ -83,7 +91,7 @@ class Comment extends Model
      *
      * @var integer
      */
-    public $published = 1;
+    public $published = self::PUBLISH_PENDING;
 
     /**
      * 删除标识
@@ -144,10 +152,6 @@ class Comment extends Model
 
     public function beforeUpdate()
     {
-        if ($this->deleted == 1) {
-            $this->published = 0;
-        }
-
         $this->update_time = time();
     }
 
@@ -164,6 +168,15 @@ class Comment extends Model
             self::ITEM_CHAPTER => '章节',
             self::ITEM_ARTICLE => '文章',
             self::ITEM_ANSWER => '回答',
+        ];
+    }
+
+    public static function publishTypes()
+    {
+        return [
+            self::PUBLISH_PENDING => '审核中',
+            self::PUBLISH_APPROVED => '已发布',
+            self::PUBLISH_REJECTED => '未通过',
         ];
     }
 

@@ -63,7 +63,7 @@ class ChapterVod extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->file_transcode)) {
+        if (is_array($this->file_transcode) || is_object($this->file_transcode)) {
             $this->file_transcode = kg_json_encode($this->file_transcode);
         }
 
@@ -72,7 +72,7 @@ class ChapterVod extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->file_transcode)) {
+        if (is_array($this->file_transcode) || is_object($this->file_transcode)) {
             $this->file_transcode = kg_json_encode($this->file_transcode);
         }
 

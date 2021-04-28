@@ -6,11 +6,53 @@ use App\Models\Article as ArticleModel;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Comment as CommentModel;
 use App\Models\User as UserModel;
+use App\Services\Logic\Notice\System\ArticleCommented as ArticleCommentedNotice;
+use App\Services\Logic\Notice\System\ChapterCommented as ChapterCommentedNotice;
 use Phalcon\Di as Di;
 use Phalcon\Events\Manager as EventsManager;
 
 trait CommentCountTrait
 {
+
+    protected function incrItemCommentCount(CommentModel $comment)
+    {
+        if ($comment->item_type == CommentModel::ITEM_CHAPTER) {
+
+            $chapter = $this->checkChapter($comment->item_id);
+
+            $this->incrChapterCommentCount($chapter);
+
+            $notice = new ChapterCommentedNotice();
+
+            $notice->handle($comment);
+
+        } elseif ($comment->item_type == CommentModel::ITEM_ARTICLE) {
+
+            $article = $this->checkArticle($comment->item_id);
+
+            $this->incrArticleCommentCount($article);
+
+            $notice = new ArticleCommentedNotice();
+
+            $notice->handle($comment);
+        }
+    }
+
+    protected function decrItemCommentCount(CommentModel $comment)
+    {
+        if ($comment->item_type == CommentModel::ITEM_CHAPTER) {
+
+            $chapter = $this->checkChapter($comment->item_id);
+
+            $this->decrChapterCommentCount($chapter);
+
+        } elseif ($comment->item_type == CommentModel::ITEM_ARTICLE) {
+
+            $article = $this->checkArticle($comment->item_id);
+
+            $this->decrArticleCommentCount($article);
+        }
+    }
 
     protected function incrCommentReplyCount(CommentModel $comment)
     {

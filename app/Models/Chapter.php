@@ -124,7 +124,7 @@ class Chapter extends Model
     /**
      * 扩展属性
      *
-     * @var string|array
+     * @var array|string
      */
     public $attrs = [];
 
@@ -235,7 +235,7 @@ class Chapter extends Model
             }
         }
 
-        if (is_array($this->attrs)) {
+        if (is_array($this->attrs) || is_object($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -244,7 +244,7 @@ class Chapter extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->attrs)) {
+        if (is_array($this->attrs) || is_object($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 

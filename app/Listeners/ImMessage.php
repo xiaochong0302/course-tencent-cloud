@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\ImMessage as ImMessageModel;
-use App\Services\Logic\Point\PointHistory as PointHistoryService;
+use App\Services\Logic\Point\History\ImDiscuss as ImPointHistory;
 use Phalcon\Events\Event as PhEvent;
 
 class ImMessage extends Listener
@@ -26,9 +26,9 @@ class ImMessage extends Listener
 
         if ($content) return;
 
-        $service = new PointHistoryService();
+        $service = new ImPointHistory();
 
-        $service->handleImDiscuss($message);
+        $service->handle($message);
 
         $tomorrow = strtotime($todayDate) + 86400;
 

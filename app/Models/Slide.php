@@ -131,7 +131,7 @@ class Slide extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
-        if (is_array($this->target_attrs)) {
+        if (is_array($this->target_attrs) || is_object($this->target_attrs)) {
             $this->target_attrs = kg_json_encode($this->target_attrs);
         }
 
@@ -144,7 +144,7 @@ class Slide extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
-        if (is_array($this->target_attrs)) {
+        if (is_array($this->target_attrs) || is_object($this->target_attrs)) {
             $this->target_attrs = kg_json_encode($this->target_attrs);
         }
 

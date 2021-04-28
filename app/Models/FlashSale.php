@@ -125,11 +125,11 @@ class FlashSale extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->item_info)) {
+        if (is_array($this->item_info) || is_object($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
 
-        if (is_array($this->schedules)) {
+        if (is_array($this->schedules) || is_object($this->schedules)) {
             $this->schedules = kg_json_encode($this->schedules);
         }
 
@@ -138,11 +138,11 @@ class FlashSale extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->item_info)) {
+        if (is_array($this->item_info) || is_object($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
 
-        if (is_array($this->schedules)) {
+        if (is_array($this->schedules) || is_object($this->schedules)) {
             $this->schedules = kg_json_encode($this->schedules);
         }
 
