@@ -63,6 +63,7 @@ class ReviewList extends LogicService
                 'content' => $review['content'],
                 'like_count' => $review['like_count'],
                 'create_time' => $review['create_time'],
+                'update_time' => $review['update_time'],
                 'owner' => $owner,
                 'me' => $me,
             ];

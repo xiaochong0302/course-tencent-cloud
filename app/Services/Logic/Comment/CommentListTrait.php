@@ -37,6 +37,7 @@ trait CommentListTrait
                 'like_count' => $comment['like_count'],
                 'reply_count' => $comment['reply_count'],
                 'create_time' => $comment['create_time'],
+                'update_time' => $comment['update_time'],
                 'to_user' => $toUser,
                 'owner' => $owner,
                 'me' => $me,

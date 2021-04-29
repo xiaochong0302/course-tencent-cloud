@@ -11,6 +11,7 @@ use App\Services\Logic\User\Console\GroupList as GroupListService;
 use App\Services\Logic\User\Console\NotificationList as NotificationListService;
 use App\Services\Logic\User\Console\NotificationRead as NotificationReadService;
 use App\Services\Logic\User\Console\NotifyStats as NotifyStatsService;
+use App\Services\Logic\User\Console\Online as OnlineService;
 use App\Services\Logic\User\Console\OrderList as OrderListService;
 use App\Services\Logic\User\Console\ProfileInfo as ProfileInfoService;
 use App\Services\Logic\User\Console\ProfileUpdate as ProfileUpdateService;
@@ -177,6 +178,18 @@ class UserConsoleController extends Controller
     public function updateProfileAction()
     {
         $service = new ProfileUpdateService();
+
+        $service->handle();
+
+        return $this->jsonSuccess();
+    }
+
+    /**
+     * @Post("/online", name="api.uc.online")
+     */
+    public function onlineAction()
+    {
+        $service = new OnlineService();
 
         $service->handle();
 

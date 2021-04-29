@@ -60,6 +60,7 @@ class ArticleInfo extends LogicService
             'comment_count' => $article->comment_count,
             'favorite_count' => $article->favorite_count,
             'create_time' => $article->create_time,
+            'update_time' => $article->update_time,
         ];
     }
 

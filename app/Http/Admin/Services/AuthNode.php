@@ -140,36 +140,36 @@ class AuthNode extends Service
                 ],
                 [
                     'id' => '1-4',
-                    'title' => '话题管理',
+                    'title' => '专题管理',
                     'type' => 'menu',
                     'children' => [
                         [
                             'id' => '1-4-1',
-                            'title' => '话题列表',
+                            'title' => '专题列表',
                             'type' => 'menu',
                             'route' => 'admin.topic.list',
                         ],
                         [
                             'id' => '1-4-5',
-                            'title' => '搜索话题',
+                            'title' => '搜索专题',
                             'type' => 'menu',
                             'route' => 'admin.topic.search',
                         ],
                         [
                             'id' => '1-4-2',
-                            'title' => '添加话题',
+                            'title' => '添加专题',
                             'type' => 'menu',
                             'route' => 'admin.topic.add',
                         ],
                         [
                             'id' => '1-4-3',
-                            'title' => '编辑话题',
+                            'title' => '编辑专题',
                             'type' => 'button',
                             'route' => 'admin.topic.edit',
                         ],
                         [
                             'id' => '1-4-4',
-                            'title' => '删除话题',
+                            'title' => '删除专题',
                             'type' => 'button',
                             'route' => 'admin.topic.delete',
                         ],

@@ -21,6 +21,7 @@ class ArticleList extends LogicService
         $params = $this->checkQueryParams($params);
 
         $params['published'] = ArticleModel::PUBLISH_APPROVED;
+        $params['private'] = 0;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();

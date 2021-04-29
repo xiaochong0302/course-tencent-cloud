@@ -58,6 +58,9 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
                 }
             });
         }, 30000);
+        setInterval(function () {
+            $.post('/uc/online');
+        }, 30000);
     }
 
     form.on('submit(go)', function (data) {

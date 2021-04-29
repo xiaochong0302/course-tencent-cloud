@@ -8,15 +8,15 @@
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
-                <a><cite>话题管理</cite></a>
+                <a><cite>专题管理</cite></a>
             </span>
         </div>
         <div class="kg-nav-right">
             <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
-                <i class="layui-icon layui-icon-add-1"></i>添加话题
+                <i class="layui-icon layui-icon-add-1"></i>添加专题
             </a>
             <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
-                <i class="layui-icon layui-icon-search"></i>搜索话题
+                <i class="layui-icon layui-icon-search"></i>搜索专题
             </a>
         </div>
     </div>

@@ -41,6 +41,7 @@ class UserInfo extends LogicService
             'group_count' => $imUser->group_count,
             'active_time' => $user->active_time,
             'create_time' => $user->create_time,
+            'update_time' => $user->update_time,
         ];
     }
 

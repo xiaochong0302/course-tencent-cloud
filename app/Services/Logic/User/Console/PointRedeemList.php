@@ -3,6 +3,7 @@
 namespace App\Services\Logic\User\Console;
 
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\PointRedeem as PointRedeemModel;
 use App\Repos\PointRedeem as PointRedeemRepo;
 use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
@@ -42,25 +43,31 @@ class PointRedeemList extends LogicService
 
         $items = [];
 
-        foreach ($pager->items as $item) {
+        /**
+         * @var PointRedeemModel[] $redeems
+         */
+        $redeems = $pager->items;
+
+        foreach ($redeems as $redeem) {
             $items[] = [
-                'id' => $item->id,
-                'status' => $item->status,
-                'create_time' => $item->create_time,
+                'id' => $redeem->id,
+                'status' => $redeem->status,
+                'create_time' => $redeem->create_time,
+                'update_time' => $redeem->update_time,
                 'user' => [
-                    'id' => $item->user_id,
-                    'name' => $item->user_name,
+                    'id' => $redeem->user_id,
+                    'name' => $redeem->user_name,
                 ],
                 'gift' => [
-                    'id' => $item->gift_id,
-                    'name' => $item->gift_name,
-                    'type' => $item->gift_type,
-                    'point' => $item->gift_point,
+                    'id' => $redeem->gift_id,
+                    'name' => $redeem->gift_name,
+                    'type' => $redeem->gift_type,
+                    'point' => $redeem->gift_point,
                 ],
                 'contact' => [
-                    'name' => $item->contact_name,
-                    'phone' => $item->contact_phone,
-                    'address' => $item->contact_address,
+                    'name' => $redeem->contact_name,
+                    'phone' => $redeem->contact_phone,
+                    'address' => $redeem->contact_address,
                 ],
             ];
         }
