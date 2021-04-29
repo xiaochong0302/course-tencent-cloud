@@ -21,17 +21,6 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
-        /**
-         * demo分支拒绝数据提交
-         */
-        if ($this->isNotSafeRequest()) {
-            $dispatcher->forward([
-                'controller' => 'public',
-                'action' => 'forbidden',
-            ]);
-            return false;
-        }
-
         if ($this->isNotSafeRequest()) {
             $this->checkHttpReferer();
             $this->checkCsrfToken();
@@ -43,6 +32,17 @@ class Controller extends \Phalcon\Mvc\Controller
             $dispatcher->forward([
                 'controller' => 'public',
                 'action' => 'auth',
+            ]);
+            return false;
+        }
+
+        /**
+         * demo分支拒绝数据提交，100001帐号除外
+         */
+        if ($this->isNotSafeRequest() && $this->authInfo['id'] != 100001) {
+            $dispatcher->forward([
+                'controller' => 'public',
+                'action' => 'forbidden',
             ]);
             return false;
         }
