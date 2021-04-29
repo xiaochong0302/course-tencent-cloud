@@ -7,14 +7,17 @@ use App\Models\CourseUser as CourseUserModel;
 use App\Models\Review as ReviewModel;
 use App\Services\CourseStat as CourseStatService;
 use App\Services\Logic\CourseTrait;
+use App\Services\Logic\Point\History\CourseReview as CourseReviewPointHistory;
 use App\Services\Logic\ReviewTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Traits\Client as ClientTrait;
 use App\Validators\CourseUser as CourseUserValidator;
 use App\Validators\Review as ReviewValidator;
 
 class ReviewCreate extends LogicService
 {
 
+    use ClientTrait;
     use CourseTrait;
     use ReviewTrait;
 
@@ -35,6 +38,8 @@ class ReviewCreate extends LogicService
         $validator = new ReviewValidator();
 
         $data = [
+            'client_type' => $this->getClientType(),
+            'client_ip' => $this->getClientIp(),
             'course_id' => $course->id,
             'owner_id' => $user->id,
         ];
@@ -53,6 +58,8 @@ class ReviewCreate extends LogicService
         $this->incrCourseReviewCount($course);
 
         $this->updateCourseRating($course);
+
+        $this->handleReviewPoint($review);
 
         $this->eventsManager->fire('Review:afterCreate', $this, $review);
 
@@ -73,11 +80,18 @@ class ReviewCreate extends LogicService
         $course->update();
     }
 
-    public function updateCourseRating(CourseModel $course)
+    protected function updateCourseRating(CourseModel $course)
     {
         $service = new CourseStatService();
 
         $service->updateRating($course->id);
+    }
+
+    protected function handleReviewPoint(ReviewModel $review)
+    {
+        $service = new CourseReviewPointHistory();
+
+        $service->handle($review);
     }
 
 }

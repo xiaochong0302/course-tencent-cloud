@@ -15,6 +15,10 @@ use App\Services\Logic\User\Console\CourseList as CourseListService;
 use App\Services\Logic\User\Console\FavoriteList as FavoriteListService;
 use App\Services\Logic\User\Console\FriendList as FriendListService;
 use App\Services\Logic\User\Console\GroupList as GroupListService;
+use App\Services\Logic\User\Console\NotificationList as NotificationListService;
+use App\Services\Logic\User\Console\NotificationRead as NotificationReadService;
+use App\Services\Logic\User\Console\NotifyStats as NotifyStatsService;
+use App\Services\Logic\User\Console\Online as OnlineService;
 use App\Services\Logic\User\Console\OrderList as OrderListService;
 use App\Services\Logic\User\Console\PointHistory as PointHistoryService;
 use App\Services\Logic\User\Console\PointRedeemList as PointRedeemListService;
@@ -47,6 +51,8 @@ class UserConsoleController extends Controller
         parent::initialize();
 
         $authUser = $this->getAuthUser(false);
+
+        $this->seo->prependTitle('用户中心');
 
         $this->view->setVar('auth_user', $authUser);
     }
@@ -269,6 +275,23 @@ class UserConsoleController extends Controller
     }
 
     /**
+     * @Get("/notifications", name="home.uc.notifications")
+     */
+    public function notificationsAction()
+    {
+        $service = new NotificationListService();
+
+        $pager = $service->handle();
+
+        $service = new NotificationReadService();
+
+        $service->handle();
+
+        $this->view->pick('user/console/notifications');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
      * @Get("/subscribe", name="home.uc.subscribe")
      */
     public function subscribeAction()
@@ -281,6 +304,18 @@ class UserConsoleController extends Controller
 
         $this->view->pick('user/console/subscribe');
         $this->view->setVar('subscribed', $subscribed);
+    }
+
+    /**
+     * @Get("/notify/stats", name="home.uc.notify_stats")
+     */
+    public function notifyStatsAction()
+    {
+        $service = new NotifyStatsService();
+
+        $stats = $service->handle();
+
+        return $this->jsonSuccess(['stats' => $stats]);
     }
 
     /**
@@ -333,6 +368,18 @@ class UserConsoleController extends Controller
         ];
 
         return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/online", name="home.uc.online")
+     */
+    public function onlineAction()
+    {
+        $service = new OnlineService();
+
+        $service->handle();
+
+        return $this->jsonSuccess();
     }
 
 }

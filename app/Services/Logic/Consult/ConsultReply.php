@@ -42,6 +42,8 @@ class ConsultReply extends LogicService
             $this->handleReplyNotice($consult);
         }
 
+        $this->eventsManager->fire('Consult:afterReply', $this, $consult);
+
         return $consult;
     }
 

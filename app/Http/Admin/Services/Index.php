@@ -2,6 +2,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\ModerationStat;
 use App\Caches\SiteGlobalStat;
 use App\Caches\SiteTodayStat;
 use App\Library\AppInfo;
@@ -49,6 +50,13 @@ class Index extends Service
     public function getTodayStat()
     {
         $cache = new SiteTodayStat();
+
+        return $cache->get();
+    }
+
+    public function getModerationStat()
+    {
+        $cache = new ModerationStat();
 
         return $cache->get();
     }

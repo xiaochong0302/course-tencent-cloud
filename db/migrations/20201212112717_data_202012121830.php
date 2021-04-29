@@ -7,6 +7,14 @@ final class Data202012121830 extends AbstractMigration
 
     public function up()
     {
+        $noticeTemplate = json_encode([
+            'account_login' => '',
+            'order_finish' => '',
+            'refund_finish' => '',
+            'live_begin' => '',
+            'consult_reply' => '',
+        ]);
+
         $rows = [
             [
                 'section' => 'wechat.oa',
@@ -41,7 +49,7 @@ final class Data202012121830 extends AbstractMigration
             [
                 'section' => 'wechat.oa',
                 'item_key' => 'notice_template',
-                'item_value' => '{"account_login":"","order_finish":"","refund_finish":"","live_begin":"","consult_reply":""}',
+                'item_value' => $noticeTemplate,
             ],
         ];
 

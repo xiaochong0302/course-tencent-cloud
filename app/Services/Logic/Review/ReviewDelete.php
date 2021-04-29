@@ -27,11 +27,15 @@ class ReviewDelete extends LogicService
 
         $validator->checkOwner($user->id, $review->owner_id);
 
-        $review->update(['deleted' => 1]);
+        $review->deleted = 1;
+
+        $review->update();
 
         $this->decrCourseReviewCount($course);
 
         $this->updateCourseRating($course);
+
+        $this->eventsManager->fire('Review:afterDelete', $this, $review);
     }
 
     protected function decrCourseReviewCount(CourseModel $course)

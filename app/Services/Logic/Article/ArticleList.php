@@ -4,6 +4,7 @@ namespace App\Services\Logic\Article;
 
 use App\Builders\ArticleList as ArticleListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Article as ArticleModel;
 use App\Repos\Article as ArticleRepo;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\ArticleQuery as ArticleQueryValidator;
@@ -19,7 +20,9 @@ class ArticleList extends LogicService
 
         $params = $this->checkQueryParams($params);
 
-        $params['published'] = 1;
+        $params['published'] = ArticleModel::PUBLISH_APPROVED;
+        $params['private'] = 0;
+        $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
@@ -74,6 +77,9 @@ class ArticleList extends LogicService
                 'tags' => $article['tags'],
                 'category' => $category,
                 'owner' => $owner,
+                'private' => $article['private'],
+                'published' => $article['published'],
+                'allow_comment' => $article['allow_comment'],
                 'view_count' => $article['view_count'],
                 'like_count' => $article['like_count'],
                 'comment_count' => $article['comment_count'],

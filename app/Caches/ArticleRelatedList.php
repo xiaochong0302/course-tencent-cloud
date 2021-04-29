@@ -40,7 +40,7 @@ class ArticleRelatedList extends Cache
 
         $where = [
             'tag_id' => $tagIds[$randKey],
-            'published' => 1,
+            'published' => ArticleModel::PUBLISH_APPROVED,
         ];
 
         $pager = $articleRepo->paginate($where);

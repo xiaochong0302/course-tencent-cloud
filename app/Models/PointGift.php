@@ -68,7 +68,7 @@ class PointGift extends Model
     /**
      * 属性
      *
-     * @var string|array
+     * @var array|string
      */
     public $attrs = [];
 
@@ -162,7 +162,7 @@ class PointGift extends Model
             }
         }
 
-        if (is_array($this->attrs)) {
+        if (is_array($this->attrs) || is_object($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -181,7 +181,7 @@ class PointGift extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
-        if (is_array($this->attrs)) {
+        if (is_array($this->attrs) || is_object($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 

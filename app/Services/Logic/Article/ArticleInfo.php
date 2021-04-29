@@ -27,6 +27,8 @@ class ArticleInfo extends LogicService
 
         $this->incrArticleViewCount($article);
 
+        $this->eventsManager->fire('Article:afterView', $this, $article);
+
         return $result;
     }
 
@@ -48,6 +50,7 @@ class ArticleInfo extends LogicService
             'category' => $category,
             'owner' => $owner,
             'me' => $me,
+            'private' => $article->private,
             'allow_comment' => $article->allow_comment,
             'source_type' => $article->source_type,
             'source_url' => $article->source_url,
@@ -57,6 +60,7 @@ class ArticleInfo extends LogicService
             'comment_count' => $article->comment_count,
             'favorite_count' => $article->favorite_count,
             'create_time' => $article->create_time,
+            'update_time' => $article->update_time,
         ];
     }
 

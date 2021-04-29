@@ -31,10 +31,12 @@ class ProfileInfo extends LogicService
             'gender' => $user->gender,
             'vip' => $user->vip,
             'locked' => $user->locked,
-            'vip_expiry_time' => $user->vip_expiry_time,
-            'lock_expiry_time' => $user->lock_expiry_time,
             'edu_role' => $user->edu_role,
             'admin_role' => $user->admin_role,
+            'vip_expiry_time' => $user->vip_expiry_time,
+            'lock_expiry_time' => $user->lock_expiry_time,
+            'create_time' => $user->create_time,
+            'update_time' => $user->update_time,
         ];
     }
 

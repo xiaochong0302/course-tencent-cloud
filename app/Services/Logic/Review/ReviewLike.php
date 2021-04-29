@@ -6,6 +6,7 @@ use App\Models\Review as ReviewModel;
 use App\Models\ReviewLike as ReviewLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\ReviewLike as ReviewLikeRepo;
+use App\Services\Logic\Notice\System\ReviewLiked as ReviewLikedNotice;
 use App\Services\Logic\ReviewTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
@@ -42,6 +43,10 @@ class ReviewLike extends LogicService
 
             $this->incrReviewLikeCount($review);
 
+            $this->handleLikeNotice($review, $user);
+
+            $this->eventsManager->fire('Review:afterLike', $this, $review);
+
         } else {
 
             $action = 'undo';
@@ -49,6 +54,8 @@ class ReviewLike extends LogicService
             $reviewLike->delete();
 
             $this->decrReviewLikeCount($review);
+
+            $this->eventsManager->fire('Review:afterUndoLike', $this, $review);
         }
 
         $this->incrUserDailyReviewLikeCount($user);
@@ -77,6 +84,13 @@ class ReviewLike extends LogicService
     protected function incrUserDailyReviewLikeCount(UserModel $user)
     {
         $this->eventsManager->fire('UserDailyCounter:incrReviewLikeCount', $this, $user);
+    }
+
+    protected function handleLikeNotice(ReviewModel $review, UserModel $sender)
+    {
+        $notice = new ReviewLikedNotice();
+
+        $notice->handle($review, $sender);
     }
 
 }

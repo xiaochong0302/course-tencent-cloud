@@ -92,4 +92,9 @@ class Comment extends Repository
             ->execute();
     }
 
+    public function countComments()
+    {
+        return (int)CommentModel::count(['conditions' => 'deleted = 0']);
+    }
+
 }

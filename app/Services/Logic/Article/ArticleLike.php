@@ -7,6 +7,7 @@ use App\Models\ArticleLike as ArticleLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\ArticleLike as ArticleLikeRepo;
 use App\Services\Logic\ArticleTrait;
+use App\Services\Logic\Notice\System\ArticleLiked as ArticleLikedNotice;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
@@ -42,6 +43,10 @@ class ArticleLike extends LogicService
 
             $this->incrArticleLikeCount($article);
 
+            $this->handleLikeNotice($article, $user);
+
+            $this->eventsManager->fire('Article:afterLike', $this, $article);
+
         } else {
 
             $action = 'undo';
@@ -49,6 +54,8 @@ class ArticleLike extends LogicService
             $articleLike->delete();
 
             $this->decrArticleLikeCount($article);
+
+            $this->eventsManager->fire('Article:afterUndoLike', $this, $article);
         }
 
         $this->incrUserDailyArticleLikeCount($user);
@@ -77,6 +84,13 @@ class ArticleLike extends LogicService
     protected function incrUserDailyArticleLikeCount(UserModel $user)
     {
         $this->eventsManager->fire('UserDailyCounter:incrArticleLikeCount', $this, $user);
+    }
+
+    protected function handleLikeNotice(ArticleModel $article, UserModel $sender)
+    {
+        $notice = new ArticleLikedNotice();
+
+        $notice->handle($article, $sender);
     }
 
 }

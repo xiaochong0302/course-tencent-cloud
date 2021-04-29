@@ -23,9 +23,9 @@ class CommentList extends LogicService
 
         $params = $pagerQuery->getParams();
 
-        $params['item_type'] = CommentModel::ITEM_ARTICLE;
         $params['item_id'] = $article->id;
-        $params['published'] = 1;
+        $params['item_type'] = CommentModel::ITEM_ARTICLE;
+        $params['published'] = CommentModel::PUBLISH_APPROVED;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();

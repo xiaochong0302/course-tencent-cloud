@@ -2,10 +2,11 @@
 
 namespace App\Caches;
 
+use App\Repos\Article as ArticleRepo;
+use App\Repos\Comment as CommentRepo;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\ImGroup as GroupRepo;
-use App\Repos\Order as OrderRepo;
 use App\Repos\Package as PackageRepo;
 use App\Repos\Review as ReviewRepo;
 use App\Repos\Topic as TopicRepo;
@@ -14,7 +15,7 @@ use App\Repos\User as UserRepo;
 class SiteGlobalStat extends Cache
 {
 
-    protected $lifetime = 2 * 3600;
+    protected $lifetime = 15 * 60;
 
     public function getLifetime()
     {
@@ -29,9 +30,10 @@ class SiteGlobalStat extends Cache
     public function getContent($id = null)
     {
         $courseRepo = new CourseRepo();
+        $articleRepo = new ArticleRepo();
+        $commentRepo = new CommentRepo();
         $consultRepo = new ConsultRepo();
         $groupRepo = new GroupRepo();
-        $orderRepo = new OrderRepo();
         $packageRepo = new PackageRepo();
         $reviewRepo = new ReviewRepo();
         $topicRepo = new TopicRepo();
@@ -39,9 +41,11 @@ class SiteGlobalStat extends Cache
 
         return [
             'course_count' => $courseRepo->countCourses(),
+            'article_count' => $articleRepo->countArticles(),
+            'comment_count' => $commentRepo->countComments(),
             'consult_count' => $consultRepo->countConsults(),
             'group_count' => $groupRepo->countGroups(),
-            'order_count' => $orderRepo->countOrders(),
+            'vip_count' => $userRepo->countVipUsers(),
             'package_count' => $packageRepo->countPackages(),
             'review_count' => $reviewRepo->countReviews(),
             'topic_count' => $topicRepo->countTopics(),

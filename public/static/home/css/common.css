@@ -132,6 +132,39 @@
     list-style: decimal;
 }
 
+.writer-content .layui-input-block,
+.writer-sidebar .layui-input-block {
+    margin-left: 0;
+}
+
+.writer-content {
+    padding-top: 30px;
+}
+
+.writer-sidebar .layui-form-label {
+    float: none;
+    width: 100%;
+    display: block;
+    padding: 0;
+    margin-bottom: 10px;
+    text-align: inherit;
+}
+
+.writer-sidebar .cover-wrap {
+    position: relative;
+}
+
+.writer-sidebar .cover {
+    width: 290px;
+    height: 160px;
+}
+
+.writer-sidebar .btn-change {
+    position: absolute;
+    top: 90px;
+    left: 120px;
+}
+
 #header {
     left: 0;
     top: 0;
@@ -310,7 +343,7 @@
 .search-course-card, .search-group-card {
     padding-bottom: 15px;
     margin-bottom: 15px;
-    border-bottom: 1px dashed #ccc;
+    border-bottom: 1px solid #f6f6f6;
 }
 
 .search-course-card:last-child, .search-group-card:last-child {
@@ -427,7 +460,7 @@
 .article-card {
     padding-bottom: 15px;
     margin-bottom: 15px;
-    border-bottom: 1px dashed #ccc;
+    border-bottom: 1px solid #f6f6f6;
 }
 
 .article-card:last-child {
@@ -1968,6 +2001,18 @@
 
 .order-card .action {
     width: 10%;
+}
+
+.notice-card .content {
+    white-space: nowrap;
+}
+
+.notice-card .content p {
+    margin-bottom: 10px;
+}
+
+.notice-card .content p:last-child {
+    margin-bottom: 0;
 }
 
 .im-user-list .user-card {

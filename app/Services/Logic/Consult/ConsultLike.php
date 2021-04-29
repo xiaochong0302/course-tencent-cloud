@@ -7,6 +7,7 @@ use App\Models\ConsultLike as ConsultLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\ConsultLike as ConsultLikeRepo;
 use App\Services\Logic\ConsultTrait;
+use App\Services\Logic\Notice\System\ConsultLiked as ConsultLikedNotice;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
@@ -42,6 +43,10 @@ class ConsultLike extends LogicService
 
             $this->incrConsultLikeCount($consult);
 
+            $this->handleLikeNotice($consult, $user);
+
+            $this->eventsManager->fire('Consult:afterLike', $this, $consult);
+
         } else {
 
             $action = 'undo';
@@ -49,6 +54,8 @@ class ConsultLike extends LogicService
             $consultLike->delete();
 
             $this->decrConsultLikeCount($consult);
+
+            $this->eventsManager->fire('Consult:afterUndoLike', $this, $consult);
         }
 
         $this->incrUserDailyConsultLikeCount($user);
@@ -77,6 +84,13 @@ class ConsultLike extends LogicService
     protected function incrUserDailyConsultLikeCount(UserModel $user)
     {
         $this->eventsManager->fire('UserDailyCounter:incrConsultLikeCount', $this, $user);
+    }
+
+    protected function handleLikeNotice(ConsultModel $consult, UserModel $sender)
+    {
+        $notice = new ConsultLikedNotice();
+
+        $notice->handle($consult, $sender);
     }
 
 }

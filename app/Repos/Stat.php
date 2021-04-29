@@ -2,9 +2,12 @@
 
 namespace App\Repos;
 
+use App\Models\Article as ArticleModel;
+use App\Models\Comment as CommentModel;
 use App\Models\Online as OnlineModel;
 use App\Models\Order as OrderModel;
 use App\Models\OrderStatus as OrderStatusModel;
+use App\Models\PointRedeem as PointRedeemModel;
 use App\Models\Refund as RefundModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model\Resultset;
@@ -13,7 +16,23 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Stat extends Repository
 {
 
-    public function countDailyRegisteredUser($date)
+    public function countPendingArticles()
+    {
+        return (int)ArticleModel::count([
+            'conditions' => 'published = :published: AND deleted = 0',
+            'bind' => ['published' => ArticleModel::PUBLISH_PENDING],
+        ]);
+    }
+
+    public function countPendingComments()
+    {
+        return (int)CommentModel::count([
+            'conditions' => 'published = :published: AND deleted = 0',
+            'bind' => ['published' => CommentModel::PUBLISH_PENDING],
+        ]);
+    }
+
+    public function countDailyRegisteredUsers($date)
     {
         $startTime = strtotime($date);
 
@@ -68,6 +87,22 @@ class Stat extends Repository
             'conditions' => 'status = ?1 AND create_time BETWEEN ?2 AND ?3',
             'bind' => [
                 1 => RefundModel::STATUS_FINISHED,
+                2 => $startTime,
+                3 => $endTime,
+            ],
+        ]);
+    }
+
+    public function countDailyPointRedeems($date)
+    {
+        $startTime = strtotime($date);
+
+        $endTime = $startTime + 86400;
+
+        return (int)PointRedeemModel::count([
+            'conditions' => 'status = ?1 AND create_time BETWEEN ?2 AND ?3',
+            'bind' => [
+                1 => PointRedeemModel::STATUS_PENDING,
                 2 => $startTime,
                 3 => $endTime,
             ],

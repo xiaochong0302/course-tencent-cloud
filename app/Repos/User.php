@@ -8,6 +8,7 @@ use App\Models\ArticleFavorite as ArticleFavoriteModel;
 use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\ImUser as ImUserModel;
+use App\Models\Notification as NotificationModel;
 use App\Models\User as UserModel;
 use App\Models\UserBalance as UserBalanceModel;
 use App\Models\UserContact as UserContactModel;
@@ -156,7 +157,12 @@ class User extends Repository
 
     public function countUsers()
     {
-        return (int)UserModel::count(['conditions' => 'deleted = 0']);
+        return (int)UserModel::count();
+    }
+
+    public function countVipUsers()
+    {
+        return (int)UserModel::count(['conditions' => 'vip = 1']);
     }
 
     public function countCourses($userId)
@@ -187,6 +193,14 @@ class User extends Repository
     {
         return (int)ArticleFavoriteModel::count([
             'conditions' => 'user_id = :user_id:',
+            'bind' => ['user_id' => $userId],
+        ]);
+    }
+
+    public function countUnreadNotifications($userId)
+    {
+        return (int)NotificationModel::count([
+            'conditions' => 'receiver_id = :user_id: AND viewed = 0',
             'bind' => ['user_id' => $userId],
         ]);
     }

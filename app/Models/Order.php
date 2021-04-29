@@ -80,7 +80,7 @@ class Order extends Model
     /**
      * 条目信息
      *
-     * @var string|array
+     * @var array|string
      */
     public $item_info = [];
 
@@ -101,7 +101,7 @@ class Order extends Model
     /**
      * 促销信息
      *
-     * @var string|array
+     * @var array|string
      */
     public $promotion_info = [];
 
@@ -170,11 +170,11 @@ class Order extends Model
     {
         $this->sn = date('YmdHis') . rand(1000, 9999);
 
-        if (is_array($this->item_info)) {
+        if (is_array($this->item_info) || is_object($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
 
-        if (is_array($this->promotion_info)) {
+        if (is_array($this->promotion_info) || is_object($this->promotion_info)) {
             $this->promotion_info = kg_json_encode($this->promotion_info);
         }
 
@@ -183,11 +183,11 @@ class Order extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->item_info)) {
+        if (is_array($this->item_info) || is_object($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
 
-        if (is_array($this->promotion_info)) {
+        if (is_array($this->promotion_info) || is_object($this->promotion_info)) {
             $this->promotion_info = kg_json_encode($this->promotion_info);
         }
 

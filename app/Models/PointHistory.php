@@ -16,6 +16,10 @@ class PointHistory extends Model
     const EVENT_CHAPTER_STUDY = 6; // 课时学习
     const EVENT_COURSE_REVIEW = 7; // 课程评价
     const EVENT_IM_DISCUSS = 8; // 微聊讨论
+    const EVENT_COMMENT_POST = 9; // 发布评论
+    const EVENT_ARTICLE_POST = 10; // 发布文章
+    const EVENT_QUESTION_POST = 11; // 发布问题
+    const EVENT_ANSWER_POST = 12; // 发布答案
 
     /**
      * 主键编号
@@ -50,12 +54,12 @@ class PointHistory extends Model
      *
      * @var int
      */
-    public $event_type = '';
+    public $event_type = 0;
 
     /**
      * 事件内容
      *
-     * @var string|array
+     * @var array|string
      */
     public $event_info = [];
 
@@ -87,7 +91,7 @@ class PointHistory extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->event_info) && !empty($this->event_info)) {
+        if (is_array($this->event_info) || is_object($this->event_info)) {
             $this->event_info = kg_json_encode($this->event_info);
         }
 
@@ -96,12 +100,16 @@ class PointHistory extends Model
 
     public function beforeUpdate()
     {
+        if (is_array($this->event_info) || is_object($this->event_info)) {
+            $this->event_info = kg_json_encode($this->event_info);
+        }
+
         $this->update_time = time();
     }
 
     public function afterFetch()
     {
-        if (is_string($this->event_info) && !empty($this->event_info)) {
+        if (is_string($this->event_info)) {
             $this->event_info = json_decode($this->event_info, true);
         }
     }

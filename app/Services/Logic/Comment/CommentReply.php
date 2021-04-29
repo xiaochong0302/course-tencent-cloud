@@ -3,9 +3,9 @@
 namespace App\Services\Logic\Comment;
 
 use App\Models\Comment as CommentModel;
-use App\Services\Logic\ArticleTrait;
-use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CommentTrait;
+use App\Services\Logic\Notice\System\CommentReplied as CommentRepliedNotice;
+use App\Services\Logic\Point\History\CommentPost as CommentPostPointHistory;
 use App\Services\Logic\Service as LogicService;
 use App\Traits\Client as ClientTrait;
 use App\Validators\Comment as CommentValidator;
@@ -14,8 +14,6 @@ use App\Validators\UserLimit as UserLimitValidator;
 class CommentReply extends LogicService
 {
 
-    use ArticleTrait;
-    use ChapterTrait;
     use ClientTrait;
     use CommentTrait;
     use CommentCountTrait;
@@ -41,7 +39,6 @@ class CommentReply extends LogicService
             'item_id' => $comment->item_id,
             'item_type' => $comment->item_type,
             'owner_id' => $user->id,
-            'published' => 1,
         ];
 
         if ($comment->parent_id > 0) {
@@ -54,28 +51,46 @@ class CommentReply extends LogicService
         $data['client_type'] = $this->getClientType();
         $data['client_ip'] = $this->getClientIp();
 
-        $comment = new CommentModel();
+        /**
+         * @todo 引入自动审核机制
+         */
+        $data['published'] = CommentModel::PUBLISH_APPROVED;
 
-        $comment->create($data);
+        $reply = new CommentModel();
 
-        $this->incrCommentReplyCount($parent);
+        $reply->create($data);
 
-        if ($comment->item_type == CommentModel::ITEM_CHAPTER) {
-
-            $chapter = $this->checkChapter($comment->item_id);
-
-            $this->incrChapterCommentCount($chapter);
-
-        } elseif ($comment->item_type == CommentModel::ITEM_ARTICLE) {
-
-            $article = $this->checkArticle($comment->item_id);
-
-            $this->incrArticleCommentCount($article);
-        }
+        $parent = $this->checkComment($reply->parent_id);
 
         $this->incrUserDailyCommentCount($user);
 
-        return $comment;
+        $this->incrCommentReplyCount($parent);
+
+        $this->incrItemCommentCount($reply);
+
+        $this->handlePostNotice($reply);
+
+        $this->handlePostPoint($reply);
+
+        $this->eventsManager->fire('Comment:afterReply', $this, $reply);
+
+        return $reply;
+    }
+
+    protected function handlePostNotice(CommentModel $comment)
+    {
+        $notice = new CommentRepliedNotice();
+
+        $notice->handle($comment);
+    }
+
+    protected function handlePostPoint(CommentModel $comment)
+    {
+        if ($comment->published != CommentModel::PUBLISH_APPROVED) return;
+
+        $service = new CommentPostPointHistory();
+
+        $service->handle($comment);
     }
 
 }

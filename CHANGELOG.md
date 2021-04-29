@@ -1,3 +1,16 @@
+### [v1.3.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.3)(2021-04-30)
+
+### 更新
+
+- 前台增加文章发布功能
+- 增加文章，咨询，评价，评论相关事件站内提醒
+- 增加文章，咨询，评价，评论事件埋点
+- 后台首页增加若干统计项目
+- 后台增加文章审核功能
+- 重构积分历史记录
+- 优化在线统计方式
+- 优化前台界面
+
 ### [v1.3.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.2)(2021-04-20)
 
 ### 更新

@@ -4,7 +4,7 @@
 
     <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.topic.list'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
-            <legend>搜索话题</legend>
+            <legend>搜索专题</legend>
         </fieldset>
         <div class="layui-form-item">
             <label class="layui-form-label">编号</label>

@@ -27,7 +27,9 @@ class ConsultDelete extends LogicService
 
         $validator->checkOwner($user->id, $consult->owner_id);
 
-        $consult->update(['deleted' => 1]);
+        $consult->deleted = 1;
+
+        $consult->update();
 
         if ($consult->course_id > 0) {
 
@@ -42,6 +44,8 @@ class ConsultDelete extends LogicService
 
             $this->decrChapterConsultCount($chapter);
         }
+
+        $this->eventsManager->fire('Consult:afterDelete', $this, $consult);
     }
 
     protected function decrCourseConsultCount(CourseModel $course)
