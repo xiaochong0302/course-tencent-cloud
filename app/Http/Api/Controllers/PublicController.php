@@ -3,7 +3,6 @@
 namespace App\Http\Api\Controllers;
 
 use App\Services\Logic\Reward\OptionList as RewardOptionList;
-use App\Services\Logic\User\Console\NotifyStats as NotifyStatsService;
 use App\Services\Logic\Vip\OptionList as VipOptionList;
 use App\Services\Service as AppService;
 use App\Traits\Response as ResponseTrait;
@@ -104,18 +103,6 @@ class PublicController extends Controller
         $options = $service->handle();
 
         return $this->jsonSuccess(['options' => $options]);
-    }
-
-    /**
-     * @Get("/notify/stats", name="home.notify_stats")
-     */
-    public function notifyStatsAction()
-    {
-        $service = new NotifyStatsService();
-
-        $stats = $service->handle();
-
-        return $this->jsonSuccess(['stats' => $stats]);
     }
 
 }
