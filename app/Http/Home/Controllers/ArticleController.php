@@ -160,12 +160,9 @@ class ArticleController extends Controller
     {
         $service = new ArticleService();
 
-        $article = $service->createArticle();
+        $service->createArticle();
 
-        $location = $this->url->get([
-            'for' => 'home.article.edit',
-            'id' => $article->id,
-        ]);
+        $location = $this->url->get(['for' => 'home.uc.articles']);
 
         $content = [
             'location' => $location,
@@ -184,7 +181,12 @@ class ArticleController extends Controller
 
         $service->updateArticle($id);
 
-        $content = ['msg' => '更新文章成功'];
+        $location = $this->url->get(['for' => 'home.uc.articles']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '更新文章成功',
+        ];
 
         return $this->jsonSuccess($content);
     }
