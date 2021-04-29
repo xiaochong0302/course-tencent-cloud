@@ -3,6 +3,7 @@
 namespace App\Services\Logic\User;
 
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Article as ArticleModel;
 use App\Repos\Article as ArticleRepo;
 use App\Services\Logic\Article\ArticleList as ArticleListService;
 use App\Services\Logic\Service as LogicService;
@@ -22,7 +23,9 @@ class ArticleList extends LogicService
         $params = $pagerQuery->getParams();
 
         $params['owner_id'] = $user->id;
-        $params['published'] = 1;
+        $params['published'] = ArticleModel::PUBLISH_APPROVED;
+        $params['private'] = 0;
+        $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();

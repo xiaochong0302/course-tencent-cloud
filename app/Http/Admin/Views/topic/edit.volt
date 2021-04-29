@@ -4,7 +4,7 @@
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.topic.update','id':topic.id}) }}">
         <fieldset class="layui-elem-field layui-field-title">
-            <legend>编辑话题</legend>
+            <legend>编辑专题</legend>
         </fieldset>
         <div class="layui-form-item">
             <label class="layui-form-label">标题</label>

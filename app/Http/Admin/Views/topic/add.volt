@@ -4,7 +4,7 @@
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.topic.create'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
-            <legend>添加话题</legend>
+            <legend>添加专题</legend>
         </fieldset>
         <div class="layui-form-item">
             <label class="layui-form-label">标题</label>

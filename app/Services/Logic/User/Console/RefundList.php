@@ -69,6 +69,7 @@ class RefundList extends LogicService
                 'apply_note' => $refund['apply_note'],
                 'review_note' => $refund['review_note'],
                 'create_time' => $refund['create_time'],
+                'update_time' => $refund['update_time'],
             ];
         }
 
