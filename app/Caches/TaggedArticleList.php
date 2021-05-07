@@ -5,10 +5,8 @@ namespace App\Caches;
 use App\Models\Article as ArticleModel;
 use App\Repos\Article as ArticleRepo;
 
-class ArticleRelatedList extends Cache
+class TaggedArticleList extends Cache
 {
-
-    protected $articleId;
 
     protected $limit = 5;
 
@@ -21,25 +19,15 @@ class ArticleRelatedList extends Cache
 
     public function getKey($id = null)
     {
-        return "article_related_list:{$id}";
+        return "tagged_article_list:{$id}";
     }
 
     public function getContent($id = null)
     {
-        $this->articleId = $id;
-
         $articleRepo = new ArticleRepo();
 
-        $article = $articleRepo->findById($id);
-
-        if (empty($article->tags)) return [];
-
-        $tagIds = kg_array_column($article->tags, 'id');
-
-        $randKey = array_rand($tagIds);
-
         $where = [
-            'tag_id' => $tagIds[$randKey],
+            'tag_id' => $id,
             'published' => ArticleModel::PUBLISH_APPROVED,
         ];
 
@@ -61,7 +49,7 @@ class ArticleRelatedList extends Cache
         $count = 0;
 
         foreach ($articles as $article) {
-            if ($article->id != $this->articleId && $count < $this->limit) {
+            if ($count < $this->limit) {
                 $result[] = [
                     'id' => $article->id,
                     'title' => $article->title,

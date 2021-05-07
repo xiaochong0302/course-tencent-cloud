@@ -5,6 +5,7 @@ namespace App\Validators;
 use App\Caches\MaxTagId as MaxTagIdCache;
 use App\Caches\Tag as TagCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Tag as TagModel;
 use App\Repos\Tag as TagRepo;
 
@@ -74,6 +75,17 @@ class Tag extends Validator
         }
 
         return $value;
+    }
+
+    public function checkIcon($icon)
+    {
+        $value = $this->filter->sanitize($icon, ['trim', 'string']);
+
+        if (!CommonValidator::url($value)) {
+            throw new BadRequestException('tag.invalid_icon');
+        }
+
+        return kg_cos_img_style_trim($value);
     }
 
     public function checkPriority($priority)

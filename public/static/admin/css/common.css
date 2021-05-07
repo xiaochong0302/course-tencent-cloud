@@ -232,14 +232,18 @@ input.kg-priority {
 img.kg-cover {
     width: 185px;
     height: 100px;
-    cursor: pointer;
 }
 
 img.kg-avatar {
     width: 96px;
     height: 96px;
     border-radius: 96px;
-    cursor: pointer;
+}
+
+img.kg-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 64px;
 }
 
 .kg-form .layui-form-label {

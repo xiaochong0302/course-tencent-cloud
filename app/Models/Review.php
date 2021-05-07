@@ -113,6 +113,13 @@ class Review extends Model
     public $like_count = 0;
 
     /**
+     * 举报数
+     *
+     * @var integer
+     */
+    public $report_count;
+
+    /**
      * 创建时间
      *
      * @var int

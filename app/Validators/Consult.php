@@ -115,10 +115,10 @@ class Consult extends Validator
 
         /**
          * (1)已回复不允许修改提问
-         * (2)发表三天以后不能修改提问
+         * (2)发表1小时以后不能修改提问
          */
         $case1 = $consult->reply_time > 0;
-        $case2 = time() - $consult->create_time > 3 * 86400;
+        $case2 = time() - $consult->create_time > 3600;
 
         if ($case1 || $case2) {
             throw new BadRequestException('consult.edit_not_allowed');

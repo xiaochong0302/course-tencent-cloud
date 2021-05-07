@@ -5,14 +5,14 @@
     {{ partial('macros/article') }}
 
     {% set article_list_url = url({'for':'home.article.list'}) %}
-    {% set related_article_url = url({'for':'home.article.related','id':article.id}) %}
+    {% set related_url = url({'for':'home.article.related','id':article.id}) %}
     {% set owner_url = url({'for':'home.user.show','id':article.owner.id}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
             <a href="{{ article_list_url }}">专栏</a>
-            <a><cite>文章详情</cite></a>
+            <a><cite>详情</cite></a>
         </span>
         <span class="share">
             <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <div class="sidebar" id="related-article-list" data-url="{{ related_article_url }}"></div>
+            <div class="sidebar" id="sidebar-related" data-url="{{ related_url }}"></div>
         </div>
     </div>
 

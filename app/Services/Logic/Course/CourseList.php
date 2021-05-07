@@ -108,6 +108,10 @@ class CourseList extends LogicService
             $query['level'] = $validator->checkLevel($params['level']);
         }
 
+        if (isset($params['sort'])) {
+            $query['sort'] = $validator->checkSort($params['sort']);
+        }
+
         return $query;
     }
 

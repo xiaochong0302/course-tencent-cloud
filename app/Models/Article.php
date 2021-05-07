@@ -4,8 +4,8 @@ namespace App\Models;
 
 use App\Caches\MaxArticleId as MaxArticleIdCache;
 use App\Services\Sync\ArticleIndex as ArticleIndexSync;
+use App\Services\Sync\ArticleScore as ArticleScoreSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
-use Phalcon\Text;
 
 class Article extends Model
 {
@@ -109,6 +109,13 @@ class Article extends Model
     public $client_ip = '';
 
     /**
+     * 综合得分
+     *
+     * @var float
+     */
+    public $score = 0.00;
+
+    /**
      * 私有标识
      *
      * @var int
@@ -165,6 +172,13 @@ class Article extends Model
     public $comment_count = 0;
 
     /**
+     * 收藏数
+     *
+     * @var int
+     */
+    public $favorite_count = 0;
+
+    /**
      * 点赞数
      *
      * @var int
@@ -172,11 +186,11 @@ class Article extends Model
     public $like_count = 0;
 
     /**
-     * 收藏数
+     * 举报数
      *
-     * @var int
+     * @var integer
      */
-    public $favorite_count = 0;
+    public $report_count;
 
     /**
      * 创建时间
@@ -201,8 +215,6 @@ class Article extends Model
     {
         parent::initialize();
 
-        $this->keepSnapshots(true);
-
         $this->addBehavior(
             new SoftDelete([
                 'field' => 'deleted',
@@ -214,9 +226,7 @@ class Article extends Model
     public function beforeCreate()
     {
         if (empty($this->cover)) {
-            $this->cover = kg_default_article_cover_path();
-        } elseif (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
+            $this->cover = kg_parse_first_content_image($this->content);
         }
 
         if (is_array($this->tags) || is_object($this->tags)) {
@@ -231,10 +241,13 @@ class Article extends Model
         if (time() - $this->update_time > 3 * 3600) {
             $sync = new ArticleIndexSync();
             $sync->addItem($this->id);
+
+            $sync = new ArticleScoreSync();
+            $sync->addItem($this->id);
         }
 
-        if (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
+        if (empty($this->cover)) {
+            $this->cover = kg_parse_first_content_image($this->content);
         }
 
         if (empty($this->summary)) {
@@ -257,22 +270,9 @@ class Article extends Model
 
     public function afterFetch()
     {
-        if (!Text::startsWith($this->cover, 'http')) {
-            $this->cover = kg_cos_article_cover_url($this->cover);
-        }
-
         if (is_string($this->tags)) {
             $this->tags = json_decode($this->tags, true);
         }
-    }
-
-    public static function getCoverPath($url)
-    {
-        if (Text::startsWith($url, 'http')) {
-            return parse_url($url, PHP_URL_PATH);
-        }
-
-        return $url;
     }
 
     public static function sourceTypes()

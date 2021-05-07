@@ -67,7 +67,7 @@ class Review extends Validator
 
     public function checkIfAllowEdit(ReviewModel $review)
     {
-        $case = time() - $review->create_time > 7 * 86400;
+        $case = time() - $review->create_time > 3600;
 
         if ($case) {
             throw new BadRequestException('review.edit_not_allowed');

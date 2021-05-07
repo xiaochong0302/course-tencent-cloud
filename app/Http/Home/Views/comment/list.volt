@@ -3,10 +3,10 @@
         {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
         {% set like_url = url({'for':'home.comment.like','id':item.id}) %}
         {% set delete_url = url({'for':'home.comment.delete','id':item.id}) %}
-        {% set reply_create_url = url({'for':'home.comment.create_reply','id':item.id}) %}
+        {% set reply_url = url({'for':'home.comment.reply','id':item.id}) %}
         {% set reply_list_url = url({'for':'home.comment.replies','id':item.id},{'limit':5}) %}
         <div class="comment-box" id="comment-{{ item.id }}">
-            <div class="comment-card clearfix">
+            <div class="comment-card">
                 <div class="avatar">
                     <a href="{{ owner_url }}" title="{{ item.owner.name }}" target="_blank">
                         <img src="{{ item.owner.avatar }}!avatar_160" alt="{{ item.owner.name }}">
@@ -52,12 +52,12 @@
                 </div>
             </div>
             <div class="comment-form" id="comment-form-{{ item.id }}" style="display:none;">
-                <form class="layui-form" method="post" action="{{ reply_create_url }}">
+                <form class="layui-form" method="post" action="{{ reply_url }}">
                     <textarea class="layui-textarea" name="content" placeholder="撰写评论..." lay-verify="required"></textarea>
                     <div class="footer">
                         <div class="toolbar"></div>
                         <div class="action">
-                            <button class="layui-btn layui-btn-sm" lay-submit="true" lay-filter="replyComment" data-comment-id="{{ item.id }}" data-parent-id="{{ item.parent_id }}">发布</button>
+                            <button class="layui-btn layui-btn-sm" lay-submit="true" lay-filter="reply_comment" data-comment-id="{{ item.id }}" data-parent-id="{{ item.parent_id }}">发布</button>
                             <button class="layui-btn layui-btn-sm layui-bg-gray btn-cancel-reply" type="button" data-id="{{ item.id }}">取消</button>
                         </div>
                     </div>

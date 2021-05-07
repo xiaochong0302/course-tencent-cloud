@@ -264,6 +264,16 @@ function kg_default_slide_cover_path()
 }
 
 /**
+ * 获取默认图标路径
+ *
+ * @return string
+ */
+function kg_default_icon_path()
+{
+    return '/img/default/user_avatar.png';
+}
+
+/**
  * 获取存储基准URL
  *
  * @return string
@@ -406,6 +416,20 @@ function kg_cos_slide_cover_url($path, $style = null)
 }
 
 /**
+ * 获取图标URL
+ *
+ * @param string $path
+ * @param string $style
+ * @return string
+ */
+function kg_cos_icon_url($path, $style = null)
+{
+    $path = $path ?: kg_default_icon_path();
+
+    return kg_cos_img_url($path, $style);
+}
+
+/**
  * 清除存储图片处理样式
  *
  * @param $path
@@ -450,6 +474,26 @@ function kg_parse_summary($content, $length = 100)
     $content = strip_tags($content);
 
     return kg_substr($content, 0, $length);
+}
+
+/**
+ * 解析内容中上传首图
+ *
+ * @param string $content
+ * @return string
+ */
+function kg_parse_first_content_image($content)
+{
+    $result = '';
+
+    $matched = preg_match('/\((.*?)\/img\/content\/(.*?)\)/', $content, $matches);
+
+    if ($matched) {
+        $url = sprintf('%s/img/content/%s', trim($matches[1]), trim($matches[2]));
+        $result = kg_cos_img_style_trim($url);
+    }
+
+    return $result;
 }
 
 /**

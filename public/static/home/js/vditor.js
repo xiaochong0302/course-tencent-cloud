@@ -59,7 +59,8 @@ layui.use(['jquery'], function () {
             markdown: {
                 chinesePunct: true,
                 autoSpace: true
-            }
+            },
+            actions: []
         },
         fullscreen: {
             index: 9999

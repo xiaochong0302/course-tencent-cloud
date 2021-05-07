@@ -6,7 +6,6 @@ use App\Models\ChapterLive as LiveModel;
 use App\Models\Course as CourseModel;
 use App\Services\Logic\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Logic\Chapter\ChapterLike as ChapterLikeService;
-use App\Services\Logic\Chapter\DanmuList as ChapterDanmuListService;
 use App\Services\Logic\Chapter\Learning as ChapterLearningService;
 use App\Services\Logic\Chapter\ResourceList as ChapterResourceListService;
 use App\Services\Logic\Course\BasicInfo as CourseInfoService;
@@ -28,18 +27,6 @@ class ChapterController extends Controller
         $items = $service->handle($id);
 
         $this->view->setVar('items', $items);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/danmus", name="home.chapter.danmus")
-     */
-    public function danmusAction($id)
-    {
-        $service = new ChapterDanmuListService();
-
-        $items = $service->handle($id);
-
-        return $this->jsonSuccess(['items' => $items]);
     }
 
     /**

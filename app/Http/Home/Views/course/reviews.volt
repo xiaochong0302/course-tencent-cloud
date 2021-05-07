@@ -5,7 +5,7 @@
         {% for item in pager.items %}
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set like_url = url({'for':'home.review.like','id':item.id}) %}
-            <div class="comment-card review-card clearfix">
+            <div class="comment-card review-card">
                 <div class="avatar">
                     <a href="{{ owner_url }}" title="{{ item.owner.name }}" target="_blank">
                         <img src="{{ item.owner.avatar }}!avatar_160" alt="{{ item.owner.name }}">

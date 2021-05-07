@@ -80,7 +80,7 @@ class Nav extends Model
      *
      * @var int
      */
-    public $priority = 100;
+    public $priority = 99;
 
     /**
      * 发布标识

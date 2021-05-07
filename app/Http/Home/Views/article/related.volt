@@ -11,7 +11,7 @@
                     <div class="meta">
                         <span class="view">{{ article.view_count }} 浏览</span>
                         <span class="like">{{ article.like_count }} 点赞</span>
-                        <span class="comment">{{ article.like_count }} 评论</span>
+                        <span class="comment">{{ article.comment_count }} 评论</span>
                     </div>
                 {% endfor %}
             </div>

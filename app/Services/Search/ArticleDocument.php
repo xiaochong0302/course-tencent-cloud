@@ -39,7 +39,7 @@ class ArticleDocument extends Component
             $article->tags = kg_json_encode($article->tags);
         }
 
-        $owner = '';
+        $owner = '{}';
 
         if ($article->owner_id > 0) {
             $record = UserModel::findFirst($article->owner_id);
@@ -49,7 +49,7 @@ class ArticleDocument extends Component
             ]);
         }
 
-        $category = '';
+        $category = '{}';
 
         if ($article->category_id > 0) {
             $record = CategoryModel::findFirst($article->category_id);
@@ -58,8 +58,6 @@ class ArticleDocument extends Component
                 'name' => $record->name,
             ]);
         }
-
-        $article->cover = ArticleModel::getCoverPath($article->cover);
 
         if (empty($article->summary)) {
             $article->summary = kg_parse_summary($article->content);

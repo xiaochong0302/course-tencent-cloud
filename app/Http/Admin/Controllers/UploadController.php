@@ -54,6 +54,27 @@ class UploadController extends Controller
     }
 
     /**
+     * @Post("/icon/img", name="admin.upload.icon_img")
+     */
+    public function uploadIconImageAction()
+    {
+        $service = new StorageService();
+
+        $file = $service->uploadIconImage();
+
+        if (!$file) {
+            return $this->jsonError(['msg' => '上传文件失败']);
+        }
+
+        $data = [
+            'src' => $service->getImageUrl($file->path),
+            'title' => $file->name,
+        ];
+
+        return $this->jsonSuccess(['data' => $data]);
+    }
+
+    /**
      * @Post("/cover/img", name="admin.upload.cover_img")
      */
     public function uploadCoverImageAction()

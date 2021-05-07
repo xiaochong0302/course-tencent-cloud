@@ -4,9 +4,19 @@ layui.use(['jquery', 'helper'], function () {
     var helper = layui.helper;
 
     var $articleList = $('#article-list');
-    var $hotAuthorList = $('#hot-author-list');
+    var $sidebarHotAuthors = $('#sidebar-hot-authors');
+    var $sidebarMyTags = $('#sidebar-my-tags');
 
-    helper.ajaxLoadHtml($articleList.data('url'), $articleList.attr('id'));
-    helper.ajaxLoadHtml($hotAuthorList.data('url'), $hotAuthorList.attr('id'));
+    if ($articleList.length > 0) {
+        helper.ajaxLoadHtml($articleList.data('url'), $articleList.attr('id'));
+    }
 
+    if ($sidebarMyTags.length > 0) {
+        helper.ajaxLoadHtml($sidebarMyTags.data('url'), $sidebarMyTags.attr('id'));
+    }
+    
+    if ($sidebarHotAuthors.length > 0) {
+        helper.ajaxLoadHtml($sidebarHotAuthors.data('url'), $sidebarHotAuthors.attr('id'));
+    }
+    
 });

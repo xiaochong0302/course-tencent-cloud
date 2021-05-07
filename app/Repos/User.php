@@ -3,12 +3,14 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
+use App\Models\Answer as AnswerModel;
 use App\Models\Article as ArticleModel;
 use App\Models\ArticleFavorite as ArticleFavoriteModel;
 use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\ImUser as ImUserModel;
 use App\Models\Notification as NotificationModel;
+use App\Models\Question as QuestionModel;
 use App\Models\User as UserModel;
 use App\Models\UserBalance as UserBalanceModel;
 use App\Models\UserContact as UserContactModel;
@@ -176,6 +178,22 @@ class User extends Repository
     public function countArticles($userId)
     {
         return (int)ArticleModel::count([
+            'conditions' => 'owner_id = :owner_id: AND published = 1',
+            'bind' => ['owner_id' => $userId],
+        ]);
+    }
+
+    public function countQuestions($userId)
+    {
+        return (int)QuestionModel::count([
+            'conditions' => 'owner_id = :owner_id: AND published = 1',
+            'bind' => ['owner_id' => $userId],
+        ]);
+    }
+
+    public function countAnswers($userId)
+    {
+        return (int)AnswerModel::count([
             'conditions' => 'owner_id = :owner_id: AND published = 1',
             'bind' => ['owner_id' => $userId],
         ]);

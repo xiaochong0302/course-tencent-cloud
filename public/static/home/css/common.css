@@ -340,13 +340,15 @@
     padding: 0 5px;
 }
 
-.search-course-card, .search-group-card {
+.search-course-card,
+.search-group-card {
     padding-bottom: 15px;
     margin-bottom: 15px;
     border-bottom: 1px solid #f6f6f6;
 }
 
-.search-course-card:last-child, .search-group-card:last-child {
+.search-course-card:last-child,
+.search-group-card:last-child {
     padding-bottom: 0;
     margin-bottom: 0;
     border: none;
@@ -359,7 +361,8 @@
     margin-right: 15px;
 }
 
-.search-course-card .cover img, .search-group-card .avatar img {
+.search-course-card .cover img,
+.search-group-card .avatar img {
     width: 100%;
     height: 100%;
 }
@@ -369,7 +372,8 @@
     width: 500px;
 }
 
-.search-course-card .title, .search-group-card .name {
+.search-course-card .title,
+.search-group-card .name {
     margin-bottom: 10px;
     white-space: nowrap;
 }
@@ -384,15 +388,20 @@
     overflow-wrap: break-word;
 }
 
-.search-course-card .meta, .search-group-card .meta {
+.search-course-card .meta,
+.search-group-card .meta {
     color: #999;
 }
 
-.search-course-card .meta span, .search-group-card .meta span {
+.search-course-card .meta span,
+.search-group-card .meta span {
     margin-right: 10px;
 }
 
-.search-course-card em, .search-group-card em {
+.search-course-card em,
+.search-group-card em,
+.search-article-card em,
+.search-question-card em {
     color: red;
     font-style: normal;
 }
@@ -425,13 +434,30 @@
     margin-bottom: 5px;
 }
 
-.article-sort {
+.widget-card {
+    position: relative;
+}
+
+.widget-card .more {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 2;
+}
+
+.widget-card .more a {
+    color: #666;
+}
+
+.article-sort,
+.question-sort {
     padding-bottom: 15px;
     margin-bottom: 20px;
     border-bottom: 1px solid #e6e6e6;
 }
 
-.article-sort a {
+.article-sort a,
+.question-sort a {
     margin-right: 20px;
 }
 
@@ -458,6 +484,8 @@
 }
 
 .article-card {
+    display: flex;
+    justify-content: space-between;
     padding-bottom: 15px;
     margin-bottom: 15px;
     border-bottom: 1px solid #f6f6f6;
@@ -467,21 +495,19 @@
     margin-bottom: 0;
 }
 
+.article-card .info {
+    width: 550px;
+}
+
 .article-card .cover {
-    float: left;
-    width: 210px;
-    height: 118px;
-    margin-right: 15px;
+    width: 150px;
+    height: 84px;
 }
 
 .article-card .cover img {
     width: 100%;
     height: 100%;
-}
-
-.article-card .info {
-    float: left;
-    width: 500px;
+    border-radius: 3px;
 }
 
 .article-card:last-child {
@@ -507,6 +533,15 @@
 }
 
 .article-card .meta span {
+    margin-right: 10px;
+}
+
+.sidebar-rank-card {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.sidebar .rank {
     margin-right: 10px;
 }
 
@@ -563,6 +598,30 @@
     color: #666;
 }
 
+.answer-form {
+    margin-bottom: 20px;
+}
+
+.question-card .stats {
+    display: flex;
+    width: 120px;
+    margin-right: 15px;
+}
+
+.question-card .stats .column {
+    width: 60px;
+    text-align: center;
+    color: #666;
+}
+
+.question-card .stats .column .count {
+    line-height: 20px;
+}
+
+.question-card .stats .solved {
+    color: green;
+}
+
 #comment-form {
     margin-bottom: 30px;
 }
@@ -584,7 +643,7 @@
 }
 
 .comment-card {
-    position: relative;
+    display: flex;
     padding-bottom: 10px;
     margin-bottom: 10px;
     border-bottom: 1px solid #f6f6f6;
@@ -595,7 +654,6 @@
 }
 
 .comment-card .avatar {
-    float: left;
     width: 48px;
     height: 48px;
     margin-right: 15px;
@@ -608,13 +666,7 @@
 }
 
 .comment-card .info {
-    float: left;
-    width: 690px;
-}
-
-.comment-card .title {
-    margin-bottom: 10px;
-    color: #333;
+    width: 680px;
 }
 
 .comment-card .user {
@@ -626,13 +678,10 @@
     margin: 0 10px;
 }
 
-.comment-card .content {
-    margin-bottom: 10px;
-    line-height: 1.5em;
-    max-height: 6em;
+.comment-card .content,
+.consult-card .answer {
+    margin-bottom: 15px;
     overflow-wrap: break-word;
-    white-space: pre-wrap;
-    overflow: hidden;
     color: #666;
 }
 
@@ -662,15 +711,11 @@
     color: white;
 }
 
-.comment-card .action-reply,
-.comment-card .action-report,
-.comment-card .action-delete {
+.comment-card .footer .right .action {
     display: none;
 }
 
-.comment-card .info:hover .action-reply,
-.comment-card .info:hover .action-report,
-.comment-card .info:hover .action-delete {
+.comment-card .info:hover .right .action {
     display: inline;
 }
 
@@ -1052,15 +1097,31 @@
     white-space: normal;
 }
 
-.review-card {
+.review-card,
+.consult-card,
+.answer-card {
     position: relative;
 }
 
-.review-card .rating, .review-card .more {
+.review-card .rating,
+.consult-card .more,
+.answer-card .accepted {
     position: absolute;
     top: 0;
     right: 0;
     margin-bottom: 10px;
+}
+
+.consult-card .question {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.consult-card .question,
+.consult-card .answer {
+    line-height: 1.5em;
+    max-height: 6em;
+    overflow: hidden;
 }
 
 .review-card .rating .layui-icon {
@@ -1116,7 +1177,8 @@
     margin-right: 5px;
 }
 
-.topic-badge {
+.topic-badge,
+.tag-badge {
     padding: 2px 5px;
     margin-right: 5px;
     margin-bottom: 5px;
@@ -1730,6 +1792,36 @@
     padding: 15px;
     min-height: 65px;
     font-size: 12px;
+    color: #666;
+}
+
+.tag-card {
+    float: left;
+    width: 100%;
+    height: 160px;
+    padding: 25px 0;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.tag-card .icon {
+    margin-bottom: 20px;
+}
+
+.tag-card .icon img {
+    width: 64px;
+    height: 64px;
+    border-radius: 64px;
+    transition: 0.5s;
+}
+
+.tag-card .name {
+    margin-bottom: 20px;
+}
+
+.tag-card .stats {
     color: #666;
 }
 

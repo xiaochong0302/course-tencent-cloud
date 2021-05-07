@@ -123,6 +123,20 @@ class User extends Model
     public $article_count;
 
     /**
+     * 提问数
+     *
+     * @var int
+     */
+    public $question_count;
+
+    /**
+     * 回答数
+     *
+     * @var int
+     */
+    public $answer_count;
+
+    /**
      * 收藏数
      *
      * @var int

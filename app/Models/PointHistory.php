@@ -20,6 +20,7 @@ class PointHistory extends Model
     const EVENT_ARTICLE_POST = 10; // 发布文章
     const EVENT_QUESTION_POST = 11; // 发布问题
     const EVENT_ANSWER_POST = 12; // 发布答案
+    const EVENT_ANSWER_ACCEPT = 13; // 采纳答案
 
     /**
      * 主键编号

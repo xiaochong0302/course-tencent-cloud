@@ -165,7 +165,9 @@ class MyStorage extends Storage
      */
     public function uploadContentImage()
     {
-        return $this->upload('/img/content/', self::MIME_IMAGE, UploadModel::TYPE_CONTENT_IMG);
+        $dir = date('Y') . '/' . date('m') . '/';
+
+        return $this->upload("/img/content/{$dir}", self::MIME_IMAGE, UploadModel::TYPE_CONTENT_IMG);
     }
 
     /**
@@ -175,7 +177,19 @@ class MyStorage extends Storage
      */
     public function uploadAvatarImage()
     {
-        return $this->upload('/img/avatar/', self::MIME_IMAGE, UploadModel::TYPE_AVATAR_IMG);
+        $dir = date('Y') . '/' . date('m') . '/';
+
+        return $this->upload("/img/avatar/{$dir}", self::MIME_IMAGE, UploadModel::TYPE_AVATAR_IMG);
+    }
+
+    /**
+     * 上传图标图片
+     *
+     * @return UploadModel|bool
+     */
+    public function uploadIconImage()
+    {
+        return $this->upload('/img/icon/', self::MIME_IMAGE, UploadModel::TYPE_AVATAR_IMG);
     }
 
     /**
@@ -195,7 +209,9 @@ class MyStorage extends Storage
      */
     public function uploadImImage()
     {
-        return $this->upload('/im/img/', self::MIME_IMAGE, UploadModel::TYPE_IM_IMG);
+        $dir = date('Y') . '/' . date('m') . '/';
+
+        return $this->upload("/im/img/{$dir}", self::MIME_IMAGE, UploadModel::TYPE_IM_IMG);
     }
 
     /**
@@ -203,7 +219,9 @@ class MyStorage extends Storage
      */
     public function uploadImFile()
     {
-        return $this->upload('/im/file/', self::MIME_FILE, UploadModel::TYPE_IM_FILE);
+        $dir = date('Y') . '/' . date('m') . '/';
+
+        return $this->upload("/im/file/{$dir}", self::MIME_FILE, UploadModel::TYPE_IM_FILE);
     }
 
     /**

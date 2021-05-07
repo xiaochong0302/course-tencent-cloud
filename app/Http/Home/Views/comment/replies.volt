@@ -5,7 +5,7 @@
         {% set delete_url = url({'for':'home.comment.delete','id':item.id}) %}
         {% set reply_create_url = url({'for':'home.comment.create_reply','id':item.id}) %}
         <div class="comment-box" id="comment-{{ item.id }}">
-            <div class="comment-card clearfix">
+            <div class="comment-card">
                 <div class="avatar">
                     <a href="{{ owner_url }}" title="{{ item.owner.name }}" target="_blank">
                         <img src="{{ item.owner.avatar }}!avatar_160" alt="{{ item.owner.name }}">
@@ -57,7 +57,7 @@
                     <div class="footer">
                         <div class="toolbar"></div>
                         <div class="action">
-                            <button class="layui-btn layui-btn-sm" lay-submit="true" lay-filter="replyComment" data-comment-id="{{ item.id }}" data-parent-id="{{ item.parent_id }}">发布</button>
+                            <button class="layui-btn layui-btn-sm" lay-submit="true" lay-filter="reply_comment" data-comment-id="{{ item.id }}" data-parent-id="{{ item.parent_id }}">发布</button>
                             <button class="layui-btn layui-btn-sm layui-bg-gray btn-cancel-reply" type="button" data-id="{{ item.id }}">取消</button>
                         </div>
                     </div>

@@ -543,6 +543,12 @@ class AuthNode extends Service
                             'route' => 'admin.slide.list',
                         ],
                         [
+                            'id' => '2-5-5',
+                            'title' => '搜索轮播',
+                            'type' => 'menu',
+                            'route' => 'admin.slide.search',
+                        ],
+                        [
                             'id' => '2-5-2',
                             'title' => '添加轮播',
                             'type' => 'menu',
@@ -559,12 +565,6 @@ class AuthNode extends Service
                             'title' => '删除轮播',
                             'type' => 'button',
                             'route' => 'admin.slide.delete',
-                        ],
-                        [
-                            'id' => '2-5-5',
-                            'title' => '搜索轮播',
-                            'type' => 'menu',
-                            'route' => 'admin.slide.search',
                         ],
                     ],
                 ],

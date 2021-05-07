@@ -7,15 +7,19 @@
             <legend>编辑标签</legend>
         </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">名称</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="name" value="{{ tag2.name }}" lay-verify="required">
+            <label class="layui-form-label">图标</label>
+            <div class="layui-input-inline" style="width: 80px;">
+                <img id="img-icon" class="kg-icon" src="{{ tag2.icon }}">
+                <input type="hidden" name="icon" value="{{ tag2.icon }}">
+            </div>
+            <div class="layui-input-inline" style="padding-top:15px;">
+                <button id="change-icon" class="layui-btn layui-btn-sm" type="button">更换</button>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">排序</label>
+            <label class="layui-form-label">名称</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="priority" value="{{ tag2.priority }}" lay-verify="number">
+                <input class="layui-input" type="text" name="name" value="{{ tag2.name }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
@@ -33,5 +37,11 @@
             </div>
         </div>
     </form>
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('admin/js/icon.upload.js') }}
 
 {% endblock %}

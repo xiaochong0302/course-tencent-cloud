@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% set title = article.id > 0 ? '编辑文章' : '撰写文章' %}
+    {% set title = article.id > 0 ? '编辑文章' : '写文章' %}
     {% set action_url = article.id > 0 ? url({'for':'home.article.update','id':article.id}) : url({'for':'home.article.create'}) %}
     {% set source_url_display = article.source_type == 1 ? 'display:none' : 'display:block' %}
 
@@ -30,8 +30,7 @@
                     </div>
                     <div class="layui-form-item center">
                         <div class="layui-input-block">
-                            <button class="layui-btn kg-submit" lay-submit="true" lay-filter="go">提交</button>
-                            <button class="kg-back layui-btn layui-btn-primary" type="button">返回</button>
+                            <button class="layui-btn kg-submit" lay-submit="true" lay-filter="go">发布文章</button>
                         </div>
                     </div>
                 </div>
@@ -41,25 +40,6 @@
                     <div class="layui-card-header">基本信息</div>
                     <div class="layui-card-body">
                         <div class="writer-sidebar">
-                            <div class="layui-form-item cover-wrap">
-                                <label class="layui-form-label">封面</label>
-                                <div class="layui-input-block">
-                                    <img id="img-cover" class="cover" src="{{ article.cover }}!cover_270">
-                                    <input type="hidden" name="cover" value="{{ article.cover }}">
-                                </div>
-                                <button id="change-cover" class="layui-btn layui-btn-sm btn-change" type="button">更换</button>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">分类</label>
-                                <div class="layui-input-block">
-                                    <select name="category_id" lay-verify="required">
-                                        <option value="">请选择</option>
-                                        {% for item in categories %}
-                                            <option value="{{ item.id }}" {% if article.category_id == item.id %}selected="selected"{% endif %}>{{ item.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">标签</label>
                                 <div class="layui-input-block">

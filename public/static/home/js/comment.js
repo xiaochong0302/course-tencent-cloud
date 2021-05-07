@@ -5,7 +5,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
     var layer = layui.layer;
     var helper = layui.helper;
 
-    form.on('submit(addComment)', function (data) {
+    form.on('submit(add_comment)', function (data) {
         var submit = $(this);
         var $commentList = $('#comment-list');
         var $textarea = $(data.form).find('.layui-textarea');
@@ -39,7 +39,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         return false;
     });
 
-    form.on('submit(replyComment)', function (data) {
+    form.on('submit(reply_comment)', function (data) {
         var submit = $(this);
         var commentId = submit.data('comment-id');
         var parentId = submit.data('parent-id');

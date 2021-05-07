@@ -3,11 +3,11 @@ layui.use(['jquery', 'helper'], function () {
     var $ = layui.jquery;
     var helper = layui.helper;
 
-    var $relatedList = $('#related-article-list');
+    var $sidebarRelated = $('#sidebar-related');
     var $commentList = $('#comment-list');
 
-    if ($relatedList.length > 0) {
-        helper.ajaxLoadHtml($relatedList.data('url'), $relatedList.attr('id'));
+    if ($sidebarRelated.length > 0) {
+        helper.ajaxLoadHtml($sidebarRelated.data('url'), $sidebarRelated.attr('id'));
     }
 
     if ($commentList.length > 0) {

@@ -9,7 +9,7 @@
         <div class="footer" id="comment-footer" style="display:none;">
             <div class="toolbar"></div>
             <div class="action">
-                <button class="{{ submit_class }}" lay-submit="true" lay-filter="addComment">发布</button>
+                <button class="{{ submit_class }}" lay-submit="true" lay-filter="add_comment">发布</button>
                 <button class="layui-btn layui-btn-sm layui-bg-gray" id="btn-cancel-comment" type="button">取消</button>
             </div>
         </div>
