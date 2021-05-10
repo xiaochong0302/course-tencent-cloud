@@ -4,7 +4,7 @@ namespace App\Services\Logic\User\Console;
 
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\Article as ArticleRepo;
-use App\Services\Logic\Article\TagList as ArticleListService;
+use App\Services\Logic\Article\ArticleList as ArticleListService;
 use App\Services\Logic\Service as LogicService;
 
 class ArticleList extends LogicService

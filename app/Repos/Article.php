@@ -77,7 +77,7 @@ class Article extends Repository
                 $orderBy = 'like_count DESC';
                 break;
             case 'popular':
-                $orderBy = 'view_count DESC';
+                $orderBy = 'score DESC';
                 break;
             case 'comment':
                 $orderBy = 'comment_count DESC';

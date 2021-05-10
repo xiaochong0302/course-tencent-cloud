@@ -7,15 +7,14 @@ use App\Caches\Article as ArticleCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Library\Utils\Word as WordUtil;
 use App\Models\Article as ArticleModel;
-use App\Models\ArticleTag as ArticleTagModel;
 use App\Models\Category as CategoryModel;
 use App\Models\Reason as ReasonModel;
 use App\Models\User as UserModel;
 use App\Repos\Article as ArticleRepo;
-use App\Repos\ArticleTag as ArticleTagRepo;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Tag as TagRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Logic\Article\ArticleDataTrait;
 use App\Services\Logic\Notice\System\ArticleApproved as ArticleApprovedNotice;
 use App\Services\Logic\Notice\System\ArticleRejected as ArticleRejectedNotice;
 use App\Services\Logic\Point\History\ArticlePost as ArticlePostPointHistory;
@@ -25,14 +24,7 @@ use App\Validators\Article as ArticleValidator;
 class Article extends Service
 {
 
-    public function getArticleModel()
-    {
-        $article = new ArticleModel();
-
-        $article->afterFetch();
-
-        return $article;
-    }
+    use ArticleDataTrait;
 
     public function getXmTags($id)
     {
@@ -164,14 +156,6 @@ class Article extends Service
             $data['title'] = $validator->checkTitle($post['title']);
         }
 
-        if (isset($post['cover'])) {
-            $data['cover'] = $validator->checkCover($post['cover']);
-        }
-
-        if (isset($post['summary'])) {
-            $data['summary'] = $validator->checkSummary($post['summary']);
-        }
-
         if (isset($post['content'])) {
             $data['content'] = $validator->checkContent($post['content']);
             $data['word_count'] = WordUtil::getWordCount($data['content']);
@@ -262,9 +246,12 @@ class Article extends Service
 
         $article = $this->findOrFail($id);
 
+        $validator = new ArticleValidator();
+
         if ($type == 'approve') {
             $article->published = ArticleModel::PUBLISH_APPROVED;
         } elseif ($type == 'reject') {
+            $validator->checkRejectReason($reason);
             $article->published = ArticleModel::PUBLISH_REJECTED;
         }
 
@@ -307,61 +294,6 @@ class Article extends Service
         $validator = new ArticleValidator();
 
         return $validator->checkArticle($id);
-    }
-
-    protected function saveTags(ArticleModel $article, $tagIds)
-    {
-        $originTagIds = [];
-
-        /**
-         * 修改数据后，afterFetch设置的属性会失效，重新执行
-         */
-        $article->afterFetch();
-
-        if ($article->tags) {
-            $originTagIds = kg_array_column($article->tags, 'id');
-        }
-
-        $newTagIds = $tagIds ? explode(',', $tagIds) : [];
-        $addedTagIds = array_diff($newTagIds, $originTagIds);
-
-        if ($addedTagIds) {
-            foreach ($addedTagIds as $tagId) {
-                $articleTag = new ArticleTagModel();
-                $articleTag->article_id = $article->id;
-                $articleTag->tag_id = $tagId;
-                $articleTag->create();
-            }
-        }
-
-        $deletedTagIds = array_diff($originTagIds, $newTagIds);
-
-        if ($deletedTagIds) {
-            $articleTagRepo = new ArticleTagRepo();
-            foreach ($deletedTagIds as $tagId) {
-                $articleTag = $articleTagRepo->findArticleTag($article->id, $tagId);
-                if ($articleTag) {
-                    $articleTag->delete();
-                }
-            }
-        }
-
-        $articleTags = [];
-
-        if ($newTagIds) {
-            $tagRepo = new TagRepo();
-            $tags = $tagRepo->findByIds($newTagIds);
-            if ($tags->count() > 0) {
-                $articleTags = [];
-                foreach ($tags as $tag) {
-                    $articleTags[] = ['id' => $tag->id, 'name' => $tag->name];
-                }
-            }
-        }
-
-        $article->tags = $articleTags;
-
-        $article->update();
     }
 
     protected function handleArticles($pager)

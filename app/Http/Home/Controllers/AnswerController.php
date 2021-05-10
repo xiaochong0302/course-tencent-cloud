@@ -3,6 +3,7 @@
 namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Answer as AnswerService;
+use App\Http\Home\Services\Question as QuestionService;
 use App\Services\Logic\Answer\AnswerAccept as AnswerAcceptService;
 use App\Services\Logic\Answer\AnswerCreate as AnswerCreateService;
 use App\Services\Logic\Answer\AnswerDelete as AnswerDeleteService;
@@ -21,7 +22,13 @@ class AnswerController extends Controller
      */
     public function addAction()
     {
+        $id = $this->request->getQuery('question_id', 'int', 0);
 
+        $service = new QuestionService();
+
+        $question = $service->getQuestion($id);
+
+        $this->view->setVar('question', $question);
     }
 
     /**
@@ -33,6 +40,11 @@ class AnswerController extends Controller
 
         $answer = $service->getAnswer($id);
 
+        $service = new QuestionService();
+
+        $question = $service->getQuestion($answer->question_id);
+
+        $this->view->setVar('question', $question);
         $this->view->setVar('answer', $answer);
     }
 
@@ -55,9 +67,17 @@ class AnswerController extends Controller
     {
         $service = new AnswerCreateService();
 
-        $service->handle();
+        $answer = $service->handle();
 
-        $content = ['msg' => '创建答案成功'];
+        $location = $this->url->get([
+            'for' => 'home.question.show',
+            'id' => $answer->question_id,
+        ]);
+
+        $content = [
+            'location' => $location,
+            'msg' => '创建回答成功',
+        ];
 
         return $this->jsonSuccess($content);
     }
@@ -69,9 +89,17 @@ class AnswerController extends Controller
     {
         $service = new AnswerUpdateService();
 
-        $service->handle($id);
+        $answer = $service->handle($id);
 
-        $content = ['msg' => '更新答案成功'];
+        $location = $this->url->get([
+            'for' => 'home.question.show',
+            'id' => $answer->question_id,
+        ]);
+
+        $content = [
+            'location' => $location,
+            'msg' => '更新回答成功',
+        ];
 
         return $this->jsonSuccess($content);
     }
@@ -83,13 +111,16 @@ class AnswerController extends Controller
     {
         $service = new AnswerDeleteService();
 
-        $service->handle($id);
+        $answer = $service->handle($id);
 
-        $location = $this->url->get(['for' => 'home.uc.answers']);
+        $location = $this->url->get([
+            'for' => 'home.question.show',
+            'id' => $answer->question_id,
+        ]);
 
         $content = [
             'location' => $location,
-            'msg' => '删除答案成功',
+            'msg' => '删除回答成功',
         ];
 
         return $this->jsonSuccess($content);
@@ -121,6 +152,14 @@ class AnswerController extends Controller
         $msg = $data['action'] == 'do' ? '采纳成功' : '取消采纳成功';
 
         return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}/report", name="home.answer.report")
+     */
+    public function reportAction($id)
+    {
+
     }
 
 }

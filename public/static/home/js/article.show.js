@@ -14,6 +14,19 @@ layui.use(['jquery', 'helper'], function () {
         helper.ajaxLoadHtml($commentList.data('url'), $commentList.attr('id'));
     }
 
+    $('.article-report').on('click', function () {
+        /**
+         * @todo
+         */
+    });
+
+    $('.article-edit').on('click', function () {
+        var url = $(this).data('url');
+        helper.checkLogin(function () {
+            window.location.href = url;
+        });
+    });
+
     $('.icon-star').on('click', function () {
         var $this = $(this);
         var $parent = $this.parent();

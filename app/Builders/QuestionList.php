@@ -2,6 +2,8 @@
 
 namespace App\Builders;
 
+use App\Caches\CategoryList as CategoryListCache;
+use App\Models\Category as CategoryModel;
 use App\Repos\User as UserRepo;
 
 class QuestionList extends Builder
@@ -16,6 +18,17 @@ class QuestionList extends Builder
         return $questions;
     }
 
+    public function handleCategories(array $articles)
+    {
+        $categories = $this->getCategories();
+
+        foreach ($articles as $key => $article) {
+            $articles[$key]['category'] = $categories[$article['category_id']] ?? new \stdClass();
+        }
+
+        return $articles;
+    }
+
     public function handleUsers(array $questions)
     {
         $users = $this->getUsers($questions);
@@ -26,6 +39,26 @@ class QuestionList extends Builder
         }
 
         return $questions;
+    }
+
+    public function getCategories()
+    {
+        $cache = new CategoryListCache();
+
+        $items = $cache->get(CategoryModel::TYPE_QUESTION);
+
+        if (empty($items)) return [];
+
+        $result = [];
+
+        foreach ($items as $item) {
+            $result[$item['id']] = [
+                'id' => $item['id'],
+                'name' => $item['name'],
+            ];
+        }
+
+        return $result;
     }
 
     public function getUsers($questions)

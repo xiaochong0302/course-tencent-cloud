@@ -2,10 +2,10 @@
 
 namespace App\Services\Search;
 
-use App\Models\Answer as AnswerModel;
-use App\Models\Category as CategoryModel;
 use App\Models\Question as QuestionModel;
-use App\Models\User as UserModel;
+use App\Repos\Answer as AnswerRepo;
+use App\Repos\Category as CategoryRepo;
+use App\Repos\User as UserRepo;
 use Phalcon\Mvc\User\Component;
 
 class QuestionDocument extends Component
@@ -47,51 +47,31 @@ class QuestionDocument extends Component
         $category = '{}';
 
         if ($question->category_id > 0) {
-            $record = CategoryModel::findFirst($question->category_id);
-            $category = kg_json_encode([
-                'id' => $record->id,
-                'name' => $record->name,
-            ]);
+            $category = $this->handleCategory($question->category_id);
         }
 
         $owner = '{}';
 
         if ($question->owner_id > 0) {
-            $record = UserModel::findFirst($question->owner_id);
-            $owner = kg_json_encode([
-                'id' => $record->id,
-                'name' => $record->name,
-            ]);
+            $owner = $this->handleUser($question->owner_id);
         }
 
         $lastReplier = '{}';
 
         if ($question->last_replier_id > 0) {
-            $record = UserModel::findFirst($question->last_replier_id);
-            $lastReplier = kg_json_encode([
-                'id' => $record->id,
-                'name' => $record->name,
-            ]);
+            $lastReplier = $this->handleUser($question->last_replier_id);
         }
 
         $lastAnswer = '{}';
 
         if ($question->last_answer_id > 0) {
-            $record = AnswerModel::findFirst($question->last_answer_id);
-            $lastAnswer = kg_json_encode([
-                'id' => $record->id,
-                'summary' => kg_parse_summary($record->content),
-            ]);
+            $lastAnswer = $this->handleAnswer($question->last_answer_id);
         }
 
         $acceptAnswer = '{}';
 
         if ($question->accept_answer_id > 0) {
-            $record = AnswerModel::findFirst($question->accept_answer_id);
-            $lastAnswer = kg_json_encode([
-                'id' => $record->id,
-                'summary' => kg_parse_summary($record->content),
-            ]);
+            $acceptAnswer = $this->handleAnswer($question->accept_answer_id);
         }
 
         return [
@@ -99,16 +79,11 @@ class QuestionDocument extends Component
             'title' => $question->title,
             'cover' => $question->cover,
             'summary' => $question->summary,
+            'tags' => $question->tags,
             'category_id' => $question->category_id,
             'owner_id' => $question->owner_id,
             'create_time' => $question->create_time,
             'last_reply_time' => $question->last_reply_time,
-            'tags' => $question->tags,
-            'category' => $category,
-            'owner' => $owner,
-            'last_replier' => $lastReplier,
-            'last_answer' => $lastAnswer,
-            'accept_answer' => $acceptAnswer,
             'bounty' => $question->bounty,
             'anonymous' => $question->anonymous,
             'solved' => $question->solved,
@@ -117,7 +92,49 @@ class QuestionDocument extends Component
             'answer_count' => $question->answer_count,
             'comment_count' => $question->comment_count,
             'favorite_count' => $question->favorite_count,
+            'category' => $category,
+            'owner' => $owner,
+            'last_replier' => $lastReplier,
+            'last_answer' => $lastAnswer,
+            'accept_answer' => $acceptAnswer,
         ];
+    }
+
+    protected function handleUser($id)
+    {
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($id);
+
+        return kg_json_encode([
+            'id' => $user->id,
+            'name' => $user->name,
+        ]);
+    }
+
+    protected function handleCategory($id)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        $category = $categoryRepo->findById($id);
+
+        return kg_json_encode([
+            'id' => $category->id,
+            'name' => $category->name,
+        ]);
+    }
+
+    protected function handleAnswer($id)
+    {
+        $answerRepo = new AnswerRepo();
+
+        $answer = $answerRepo->findById($id);
+
+        return kg_json_encode([
+            'id' => $answer->id,
+            'summary' => $answer->summary,
+            'cover' => $answer->cover,
+        ]);
     }
 
 }

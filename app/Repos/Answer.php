@@ -41,7 +41,7 @@ class Answer extends Repository
         }
 
         switch ($sort) {
-            case 'like':
+            case 'popular':
                 $orderBy = 'like_count DESC';
                 break;
             case 'latest':

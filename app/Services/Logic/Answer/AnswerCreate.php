@@ -6,10 +6,10 @@ use App\Models\Answer as AnswerModel;
 use App\Models\Question as QuestionModel;
 use App\Models\User as UserModel;
 use App\Services\Logic\AnswerTrait;
+use App\Services\Logic\Notice\System\QuestionAnswered as QuestionAnsweredNotice;
 use App\Services\Logic\Point\History\AnswerPost as AnswerPostPointHistory;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Sync\QuestionScore as QuestionScoreSync;
 use App\Traits\Client as ClientTrait;
 use App\Validators\Answer as AnswerValidator;
 
@@ -53,13 +53,13 @@ class AnswerCreate extends LogicService
 
         $question->update();
 
-        $this->syncQuestionScore($question);
-
         $this->incrUserAnswerCount($user);
 
         $this->incrQuestionAnswerCount($question);
 
         $this->handleAnswerPoint($answer);
+
+        $this->handleAnswerNotice($answer);
 
         $this->eventsManager->fire('Answer:afterCreate', $this, $answer);
 
@@ -80,11 +80,11 @@ class AnswerCreate extends LogicService
         $user->update();
     }
 
-    protected function syncQuestionScore(QuestionModel $question)
+    protected function handleAnswerNotice(AnswerModel $answer)
     {
-        $sync = new QuestionScoreSync();
+        $notice = new QuestionAnsweredNotice();
 
-        $sync->addItem($question->id);
+        $notice->handle($answer);
     }
 
     protected function handleAnswerPoint(AnswerModel $answer)

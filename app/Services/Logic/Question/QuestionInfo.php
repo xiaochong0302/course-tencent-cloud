@@ -37,9 +37,9 @@ class QuestionInfo extends LogicService
     {
         $content = kg_parse_markdown($question->content);
 
+        $lastReplier = $this->handleUserInfo($question->last_replier_id);
         $category = $this->handleCategoryInfo($question);
         $owner = $this->handleUserInfo($question->owner_id);
-        $replier = $this->handleUserInfo($question->replier_id);
         $me = $this->handleMeInfo($question, $user);
 
         return [
@@ -48,10 +48,6 @@ class QuestionInfo extends LogicService
             'summary' => $question->summary,
             'content' => $content,
             'tags' => $question->tags,
-            'category' => $category,
-            'owner' => $owner,
-            'replier' => $replier,
-            'me' => $me,
             'bounty' => $question->bounty,
             'anonymous' => $question->anonymous,
             'solved' => $question->solved,
@@ -61,9 +57,13 @@ class QuestionInfo extends LogicService
             'answer_count' => $question->answer_count,
             'comment_count' => $question->comment_count,
             'favorite_count' => $question->favorite_count,
-            'reply_time' => $question->reply_time,
+            'last_reply_time' => $question->last_reply_time,
             'create_time' => $question->create_time,
             'update_time' => $question->update_time,
+            'last_replier' => $lastReplier,
+            'category' => $category,
+            'owner' => $owner,
+            'me' => $me,
         ];
     }
 

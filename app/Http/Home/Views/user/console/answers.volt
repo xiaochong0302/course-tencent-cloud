@@ -36,8 +36,8 @@
                         <tbody>
                         {% for item in pager.items %}
                             {% set question_url = url({'for':'home.question.show','id':item.question.id}) %}
-                            {% set edit_url = url({'for':'home.review.edit','id':item.id}) %}
-                            {% set delete_url = url({'for':'home.review.delete','id':item.id}) %}
+                            {% set edit_url = url({'for':'home.answer.edit','id':item.id}) %}
+                            {% set delete_url = url({'for':'home.answer.delete','id':item.id}) %}
                             <tr>
                                 <td>
                                     <p>提问：<a href="{{ question_url }}" target="_blank">{{ item.question.title }}</a></p>
@@ -49,8 +49,8 @@
                                 </td>
                                 <td>{{ item.like_count }}</td>
                                 <td>
-                                    <button class="layui-btn layui-btn-xs btn-edit-review" data-url="{{ edit_url }}">修改</button>
-                                    <button class="layui-btn layui-btn-xs layui-bg-red kg-delete" data-url="{{ delete_url }}">删除</button>
+                                    <a href="{{ edit_url }}" class="layui-btn layui-btn-xs">修改</a>
+                                    <a href="javascript:" class="layui-btn layui-btn-xs layui-bg-red kg-delete" data-url="{{ delete_url }}">删除</a>
                                 </td>
                             </tr>
                         {% endfor %}

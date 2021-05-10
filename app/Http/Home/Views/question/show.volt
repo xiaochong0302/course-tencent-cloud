@@ -5,10 +5,13 @@
     {{ partial('macros/question') }}
 
     {% set question_list_url = url({'for':'home.question.list'}) %}
-    {% set add_answer_url = url({'for':'home.answer.add'},{'question_id':question.id}) %}
+    {% set question_report_url = url({'for':'home.question.report','id':question.id}) %}
+    {% set question_edit_url = url({'for':'home.question.edit','id':question.id}) %}
+    {% set question_delete_url = url({'for':'home.question.delete','id':question.id}) %}
+    {% set question_owner_url = url({'for':'home.user.show','id':question.owner.id}) %}
+    {% set question_related_url = url({'for':'home.question.related','id':question.id}) %}
+    {% set answer_add_url = url({'for':'home.answer.add'},{'question_id':question.id}) %}
     {% set answer_list_url = url({'for':'home.question.answers','id':question.id}) %}
-    {% set related_url = url({'for':'home.question.related','id':question.id}) %}
-    {% set owner_url = url({'for':'home.user.show','id':question.owner.id}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
@@ -31,12 +34,19 @@
             <div class="article-info wrap">
                 <div class="title">{{ question.title }}</div>
                 <div class="meta">
-                    <span class="owner">
-                        <a href="{{ owner_url }}">{{ question.owner.name }}</a>
-                    </span>
-                    <span class="view">{{ question.view_count }} 阅读</span>
-                    <span class="answer">{{ question.answer_count }} 回答</span>
-                    <span class="time" title="{{ date('Y-m-d H:i:s',question.create_time) }}">{{ question.create_time|time_ago }}</span>
+                    <div class="left">
+                        <span class="owner"><a href="{{ question_owner_url }}">{{ question.owner.name }}</a></span>
+                        <span class="time">{{ question.create_time|time_ago }}</span>
+                        <span class="view">{{ question.view_count }} 阅读</span>
+                        <span class="answer">{{ question.answer_count }} 回答</span>
+                    </div>
+                    <div class="right">
+                        <span class="question-report" data-url="{{ question_report_url }}">举报</span>
+                        {% if auth_user.id == question.owner.id %}
+                            <span class="question-edit" data-url="{{ question_edit_url }}">编辑</span>
+                            <span class="question-delete" data-url="{{ question_delete_url }}">删除</span>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="content markdown-body">{{ question.content }}</div>
                 {% if question.tags %}
@@ -49,9 +59,26 @@
                 {% endif %}
             </div>
             <div id="answer-anchor"></div>
-            <div class="answer-wrap wrap">
-                <div id="answer-list" data-url="{{ answer_list_url }}"></div>
+            <div class="answer-tips">
+                {{ partial('question/answer_tips') }}
             </div>
+            {% if question.answer_count > 0 %}
+                <div class="layout-content">
+                    <div class="content-wrap wrap">
+                        <div class="layui-tab layui-tab-brief search-tab" lay-filter="answer">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this" data-url="{{ answer_list_url }}?sort=popular">热门回答</li>
+                                <li data-url="{{ answer_list_url }}?sort=latest">最新回答</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <div id="answer-list" data-url="{{ answer_list_url }}?sort=popular"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
         <div class="layout-sidebar">
             <div class="sidebar">
@@ -64,7 +91,7 @@
                             </div>
                             <div class="info">
                                 <div class="name layui-elip">
-                                    <a href="{{ owner_url }}" title="{{ question.owner.about }}">{{ question.owner.name }}</a>
+                                    <a href="{{ question_owner_url }}" title="{{ question.owner.about }}">{{ question.owner.name }}</a>
                                 </div>
                                 <div class="title layui-elip">{{ question.owner.title|default('初出江湖') }}</div>
                             </div>
@@ -74,10 +101,10 @@
             </div>
             {% if question.me.answered == 0 %}
                 <div class="sidebar wrap">
-                    <button class="layui-btn layui-btn-fluid btn-answer" data-url="{{ add_answer_url }}">回答问题</button>
+                    <button class="layui-btn layui-btn-fluid btn-answer" data-url="{{ answer_add_url }}">回答问题</button>
                 </div>
             {% endif %}
-            <div class="sidebar" id="sidebar-related" data-url="{{ related_url }}"></div>
+            <div class="sidebar" id="sidebar-related" data-url="{{ question_related_url }}"></div>
         </div>
     </div>
 

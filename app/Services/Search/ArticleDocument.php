@@ -3,8 +3,8 @@
 namespace App\Services\Search;
 
 use App\Models\Article as ArticleModel;
-use App\Models\Category as CategoryModel;
-use App\Models\User as UserModel;
+use App\Repos\Category as CategoryRepo;
+use App\Repos\User as UserRepo;
 use Phalcon\Mvc\User\Component;
 
 class ArticleDocument extends Component
@@ -35,6 +35,10 @@ class ArticleDocument extends Component
      */
     public function formatDocument(ArticleModel $article)
     {
+        if (empty($article->summary)) {
+            $article->summary = kg_parse_summary($article->content);
+        }
+
         if (is_array($article->tags) || is_object($article->tags)) {
             $article->tags = kg_json_encode($article->tags);
         }
@@ -42,25 +46,13 @@ class ArticleDocument extends Component
         $owner = '{}';
 
         if ($article->owner_id > 0) {
-            $record = UserModel::findFirst($article->owner_id);
-            $owner = kg_json_encode([
-                'id' => $record->id,
-                'name' => $record->name,
-            ]);
+            $owner = $this->handleUser($article->owner_id);
         }
 
         $category = '{}';
 
         if ($article->category_id > 0) {
-            $record = CategoryModel::findFirst($article->category_id);
-            $category = kg_json_encode([
-                'id' => $record->id,
-                'name' => $record->name,
-            ]);
-        }
-
-        if (empty($article->summary)) {
-            $article->summary = kg_parse_summary($article->content);
+            $category = $this->handleCategory($article->category_id);
         }
 
         return [
@@ -68,17 +60,41 @@ class ArticleDocument extends Component
             'title' => $article->title,
             'cover' => $article->cover,
             'summary' => $article->summary,
+            'tags' => $article->tags,
             'category_id' => $article->category_id,
             'owner_id' => $article->owner_id,
             'create_time' => $article->create_time,
-            'tags' => $article->tags,
-            'category' => $category,
-            'owner' => $owner,
             'view_count' => $article->view_count,
             'like_count' => $article->like_count,
             'comment_count' => $article->comment_count,
             'favorite_count' => $article->favorite_count,
+            'category' => $category,
+            'owner' => $owner,
         ];
+    }
+
+    protected function handleUser($id)
+    {
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($id);
+
+        return kg_json_encode([
+            'id' => $user->id,
+            'name' => $user->name,
+        ]);
+    }
+
+    protected function handleCategory($id)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        $category = $categoryRepo->findById($id);
+
+        return kg_json_encode([
+            'id' => $category->id,
+            'name' => $category->name,
+        ]);
     }
 
 }

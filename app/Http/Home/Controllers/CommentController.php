@@ -121,4 +121,12 @@ class CommentController extends Controller
         return $this->jsonSuccess(['msg' => '删除评论成功']);
     }
 
+    /**
+     * @Route("/{id:[0-9]+}/report", name="home.comment.report")
+     */
+    public function reportAction($id)
+    {
+
+    }
+
 }

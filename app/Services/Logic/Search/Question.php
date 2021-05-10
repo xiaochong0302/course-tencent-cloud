@@ -63,6 +63,18 @@ class Question extends Handler
                 $item['cover'] = $baseUrl . $item['cover'];
             }
 
+            $lastAnswer = json_decode($item['last_answer'], true);
+
+            if (!empty($lastAnswer['cover']) && !Text::startsWith($lastAnswer['cover'], 'http')) {
+                $item['last_answer'] = $baseUrl . $lastAnswer['cover'];
+            }
+
+            $acceptAnswer = json_decode($item['accept_answer'], true);
+
+            if (!empty($acceptAnswer['cover']) && !Text::startsWith($acceptAnswer['cover'], 'http')) {
+                $item['accept_answer'] = $baseUrl . $acceptAnswer['cover'];
+            }
+
             $items[] = [
                 'id' => (int)$item['id'],
                 'title' => (string)$item['title'],
@@ -72,16 +84,18 @@ class Question extends Handler
                 'anonymous' => (int)$item['anonymous'],
                 'solved' => (int)$item['solved'],
                 'create_time' => (int)$item['create_time'],
-                'reply_time' => (int)$item['reply_time'],
+                'last_reply_time' => (int)$item['last_reply_time'],
                 'view_count' => (int)$item['view_count'],
                 'like_count' => (int)$item['like_count'],
                 'answer_count' => (int)$item['answer_count'],
                 'comment_count' => (int)$item['comment_count'],
                 'favorite_count' => (int)$item['favorite_count'],
+                'category' => json_decode($item['category'], true),
                 'tags' => json_decode($item['tags'], true),
                 'owner' => json_decode($item['owner'], true),
-                'replier' => json_decode($item['replier'], true),
-                'category' => json_decode($item['category'], true),
+                'last_replier' => json_decode($item['last_replier'], true),
+                'last_answer' => $item['last_answer'],
+                'accept_answer' => $item['accept_answer'],
             ];
         }
 

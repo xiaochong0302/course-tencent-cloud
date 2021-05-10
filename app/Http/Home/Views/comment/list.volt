@@ -1,6 +1,7 @@
 {% if pager.total_pages > 0 %}
     {% for item in pager.items %}
         {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
+        {% set report_url = url({'for':'home.comment.report','id':item.id}) %}
         {% set like_url = url({'for':'home.comment.like','id':item.id}) %}
         {% set delete_url = url({'for':'home.comment.delete','id':item.id}) %}
         {% set reply_url = url({'for':'home.comment.reply','id':item.id}) %}
@@ -25,26 +26,26 @@
                             <div class="column">
                                 <span class="like-count" data-count="{{ item.like_count }}">{{ item.like_count }}</span>
                                 {% if item.me.liked == 1 %}
-                                    <span class="action action-like liked" title="取消点赞" data-url="{{ like_url }}">已赞</span>
+                                    <span class="action comment-like liked" title="取消点赞" data-url="{{ like_url }}">已赞</span>
                                 {% else %}
-                                    <span class="action action-like" title="点赞支持" data-url="{{ like_url }}">点赞</span>
+                                    <span class="action comment-like" title="点赞支持" data-url="{{ like_url }}">点赞</span>
                                 {% endif %}
                             </div>
                             <div class="column">
                                 <span class="reply-count" data-count="{{ item.reply_count }}">{{ item.reply_count }}</span>
-                                <span class="action action-toggle" title="展开回应" data-id="{{ item.id }}" data-url="{{ reply_list_url }}">回应</span>
+                                <span class="action comment-toggle" title="展开回应" data-id="{{ item.id }}" data-url="{{ reply_list_url }}">回应</span>
                             </div>
                         </div>
                         <div class="right">
                             <div class="column">
-                                <span class="action action-reply" data-id="{{ item.id }}">回复</span>
+                                <span class="action comment-reply" data-id="{{ item.id }}">回复</span>
                             </div>
                             <div class="column">
-                                <span class="action action-report" data-id="{{ item.id }}">举报</span>
+                                <span class="action comment-report" data-url="{{ report_url }}">举报</span>
                             </div>
                             {% if item.owner.id == auth_user.id %}
                                 <div class="column">
-                                    <span class="action action-delete" data-id="{{ item.id }}" data-url="{{ delete_url }}">删除</span>
+                                    <span class="action comment-delete" data-id="{{ item.id }}" data-url="{{ delete_url }}">删除</span>
                                 </div>
                             {% endif %}
                         </div>

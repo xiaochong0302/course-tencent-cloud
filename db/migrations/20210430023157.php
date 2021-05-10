@@ -516,13 +516,22 @@ final class V20210430023157 extends AbstractMigration
                 'comment' => '封面',
                 'after' => 'question_id',
             ])
+            ->addColumn('summary', 'string', [
+                'null' => false,
+                'default' => '',
+                'limit' => 255,
+                'collation' => 'utf8mb4_general_ci',
+                'encoding' => 'utf8mb4',
+                'comment' => '概要',
+                'after' => 'cover',
+            ])
             ->addColumn('content', 'text', [
                 'null' => false,
                 'limit' => 65535,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
                 'comment' => '内容',
-                'after' => 'cover',
+                'after' => 'summary',
             ])
             ->addColumn('anonymous', 'integer', [
                 'null' => false,

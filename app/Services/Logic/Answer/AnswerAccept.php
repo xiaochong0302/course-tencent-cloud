@@ -6,7 +6,7 @@ use App\Models\Answer as AnswerModel;
 use App\Models\User as UserModel;
 use App\Services\Logic\AnswerTrait;
 use App\Services\Logic\Notice\System\AnswerAccepted as AnswerAcceptedNotice;
-use App\Services\Logic\Point\History\AnswerAccept as AnswerAcceptPointHistory;
+use App\Services\Logic\Point\History\AnswerAccepted as AnswerAcceptPointHistory;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\Answer as AnswerValidator;
@@ -35,7 +35,8 @@ class AnswerAccept extends LogicService
 
         $answer->update();
 
-        $question->answer_id = $answer->id;
+        $question->last_answer_id = $answer->id;
+        $question->last_reply_time = time();
         $question->solved = 1;
 
         $question->update();
@@ -43,6 +44,8 @@ class AnswerAccept extends LogicService
         $this->handleAcceptNotice($answer, $user);
 
         $this->eventsManager->fire('Answer:afterAccept', $this, $answer);
+
+        return $answer;
     }
 
     protected function handleAcceptPoint(AnswerModel $answer)

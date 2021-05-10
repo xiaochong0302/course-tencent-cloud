@@ -5,11 +5,6 @@
     {% set list_pager_url = url({'for':'home.tag.list_pager'}) %}
     {% set my_pager_url = url({'for':'home.tag.my_pager'}) %}
 
-    <div class="layui-breadcrumb breadcrumb">
-        <a href="/">首页</a>
-        <a><cite>标签</cite></a>
-    </div>
-
     <div class="tab-wrap">
         <div class="layui-tab layui-tab-brief user-tab" lay-filter="tag">
             <ul class="layui-tab-title">

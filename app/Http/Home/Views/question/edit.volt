@@ -29,7 +29,7 @@
                     </div>
                     <div class="layui-form-item center">
                         <div class="layui-input-block">
-                            <button class="layui-btn kg-submit" lay-submit="true" lay-filter="go">提交问题</button>
+                            <button class="layui-btn kg-submit" lay-submit="true" lay-filter="go">发布问题</button>
                         </div>
                     </div>
                 </div>

@@ -148,7 +148,6 @@ class UploadController extends Controller
 
         $items['user_avatar'] = $service->uploadDefaultUserAvatar();
         $items['group_avatar'] = $service->uploadDefaultGroupAvatar();
-        $items['article_cover'] = $service->uploadDefaultArticleCover();
         $items['course_cover'] = $service->uploadDefaultCourseCover();
         $items['package_cover'] = $service->uploadDefaultPackageCover();
         $items['gift_cover'] = $service->uploadDefaultGiftCover();

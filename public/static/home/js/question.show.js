@@ -1,7 +1,6 @@
-layui.use(['jquery', 'layer', 'helper'], function () {
+layui.use(['jquery', 'helper'], function () {
 
     var $ = layui.jquery;
-    var layer = layui.layer;
     var helper = layui.helper;
 
     var $answerList = $('#answer-list');
@@ -15,15 +14,27 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         helper.ajaxLoadHtml($sidebarRelated.data('url'), $sidebarRelated.attr('id'));
     }
 
+    $('.layui-tab-title > li').on('click', function () {
+        helper.ajaxLoadHtml($(this).data('url'), $answerList.attr('id'));
+    });
+
+    $('.question-report').on('click', function () {
+        /**
+         * @todo
+         */
+    });
+
+    $('.question-edit').on('click', function () {
+        var url = $(this).data('url');
+        helper.checkLogin(function () {
+            window.location.href = url;
+        });
+    });
+
     $('.btn-answer').on('click', function () {
         var url = $(this).data('url');
         helper.checkLogin(function () {
-            layer.open({
-                type: 2,
-                title: '回答问题',
-                content: url,
-                area: ['800px', '600px']
-            });
+            window.location.href = url;
         });
     });
 

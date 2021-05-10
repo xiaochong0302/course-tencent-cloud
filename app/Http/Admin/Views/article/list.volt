@@ -52,6 +52,7 @@
         {% for item in pager.items %}
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set preview_url = url({'for':'home.article.show','id':item.id}) %}
+            {% set review_url = url({'for':'admin.article.review','id':item.id}) %}
             {% set edit_url = url({'for':'admin.article.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.article.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.article.delete','id':item.id}) %}
@@ -85,7 +86,11 @@
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
-                            <li><a href="{{ preview_url }}" target="_blank">预览文章</a></li>
+                            {% if item.published == 1 %}
+                                <li><a href="{{ review_url }}">审核文章</a></li>
+                            {% elseif item.published == 2 %}
+                                <li><a href="{{ preview_url }}" target="_blank">预览文章</a></li>
+                            {% endif %}
                             <li><a href="{{ edit_url }}">编辑文章</a></li>
                             {% if item.deleted == 0 %}
                                 <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除文章</a></li>

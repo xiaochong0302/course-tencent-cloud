@@ -38,6 +38,8 @@ class AnswerDelete extends LogicService
         $this->updateQuestionScore($question);
 
         $this->eventsManager->fire('Answer:afterDelete', $this, $answer);
+
+        return $answer;
     }
 
     protected function decrUserAnswerCount(UserModel $user)

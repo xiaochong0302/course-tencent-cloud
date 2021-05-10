@@ -4,9 +4,11 @@ namespace App\Services\Logic\User\Console;
 
 use App\Builders\ArticleFavoriteList as ArticleFavoriteListBuilder;
 use App\Builders\CourseFavoriteList as CourseFavoriteListBuilder;
+use App\Builders\QuestionFavoriteList as QuestionFavoriteListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Repos\ArticleFavorite as ArticleFavoriteRepo;
 use App\Repos\CourseFavorite as CourseFavoriteRepo;
+use App\Repos\QuestionFavorite as QuestionFavoriteRepo;
 use App\Services\Logic\Service as LogicService;
 
 class FavoriteList extends LogicService
@@ -43,6 +45,14 @@ class FavoriteList extends LogicService
             $pager = $favoriteRepo->paginate($params, $sort, $page, $limit);
 
             return $this->handleArticles($pager);
+
+        } elseif ($type == 'question') {
+
+            $favoriteRepo = new QuestionFavoriteRepo();
+
+            $pager = $favoriteRepo->paginate($params, $sort, $page, $limit);
+
+            return $this->handleQuestions($pager);
         }
     }
 
@@ -87,6 +97,30 @@ class FavoriteList extends LogicService
         foreach ($relations as $relation) {
             $article = $articles[$relation['article_id']] ?? new \stdClass();
             $items[] = $article;
+        }
+
+        $pager->items = $items;
+
+        return $pager;
+    }
+
+    protected function handleQuestions($pager)
+    {
+        if ($pager->total_items == 0) {
+            return $pager;
+        }
+
+        $builder = new QuestionFavoriteListBuilder();
+
+        $relations = $pager->items->toArray();
+
+        $questions = $builder->getQuestions($relations);
+
+        $items = [];
+
+        foreach ($relations as $relation) {
+            $question = $questions[$relation['question_id']] ?? new \stdClass();
+            $items[] = $question;
         }
 
         $pager->items = $items;

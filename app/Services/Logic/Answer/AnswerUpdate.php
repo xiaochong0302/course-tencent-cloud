@@ -40,6 +40,8 @@ class AnswerUpdate extends LogicService
         $this->syncQuestionScore($question);
 
         $this->eventsManager->fire('Answer:afterUpdate', $this, $answer);
+
+        return $answer;
     }
 
     protected function syncQuestionScore(QuestionModel $question)

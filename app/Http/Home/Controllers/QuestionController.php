@@ -127,6 +127,7 @@ class QuestionController extends Controller
         $question = $service->handle($id);
 
         $this->seo->prependTitle($question['title']);
+        $this->seo->setDescription($question['summary']);
 
         $this->view->setVar('question', $question);
     }
@@ -247,6 +248,14 @@ class QuestionController extends Controller
         $msg = $data['action'] == 'do' ? '点赞成功' : '取消点赞成功';
 
         return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}/report", name="home.question.report")
+     */
+    public function reportAction($id)
+    {
+
     }
 
 }

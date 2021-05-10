@@ -4,6 +4,7 @@ namespace App\Builders;
 
 use App\Repos\Article as ArticleRepo;
 use App\Repos\User as UserRepo;
+use Phalcon\Text;
 
 class ArticleFavoriteList extends Builder
 {
@@ -38,7 +39,8 @@ class ArticleFavoriteList extends Builder
 
         $columns = [
             'id', 'title', 'cover',
-            'view_count', 'like_count', 'comment_count', 'favorite_count',
+            'view_count', 'like_count',
+            'comment_count', 'favorite_count',
         ];
 
         $articles = $articleRepo->findByIds($ids, $columns);
@@ -48,7 +50,11 @@ class ArticleFavoriteList extends Builder
         $result = [];
 
         foreach ($articles->toArray() as $article) {
-            $article['cover'] = $baseUrl . $article['cover'];
+
+            if (!empty($article['cover']) && !Text::startsWith($article['cover'], 'http')) {
+                $article['cover'] = $baseUrl . $article['cover'];
+            }
+
             $result[$article['id']] = $article;
         }
 

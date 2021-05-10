@@ -333,3 +333,33 @@ img.kg-qrcode {
     width: 100%;
     height: 480px;
 }
+
+.kg-mod-preview {
+    width: 800px;
+}
+
+.kg-mod-preview .title {
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.kg-mod-preview .meta {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.kg-mod-preview .meta span {
+    margin-right: 10px;
+}
+
+.kg-mod-preview .content {
+    margin-bottom: 20px;
+}
+
+.kg-mod-preview .tags {
+    margin-bottom: 20px;
+}
+
+.kg-review-form {
+    width: 50%;
+}

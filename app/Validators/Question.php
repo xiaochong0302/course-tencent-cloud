@@ -6,6 +6,7 @@ use App\Caches\MaxQuestionId as MaxQuestionIdCache;
 use App\Caches\Question as QuestionCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Question as QuestionModel;
+use App\Models\Reason as ReasonModel;
 use App\Repos\Question as QuestionRepo;
 
 class Question extends Validator
@@ -57,6 +58,13 @@ class Question extends Validator
         if ($id < 1 || $id > $maxId) {
             throw new BadRequestException('question.not_found');
         }
+    }
+
+    public function checkCategory($id)
+    {
+        $validator = new Category();
+
+        return $validator->checkCategory($id);
     }
 
     public function checkTitle($title)
@@ -116,6 +124,13 @@ class Question extends Validator
         return $status;
     }
 
+    public function checkRejectReason($reason)
+    {
+        if (!array_key_exists($reason, ReasonModel::questionRejectOptions())) {
+            throw new BadRequestException('question.invalid_reject_reason');
+        }
+    }
+
     public function checkIfAllowEdit(QuestionModel $question)
     {
         $approved = $question->published == QuestionModel::PUBLISH_APPROVED;
@@ -124,6 +139,17 @@ class Question extends Validator
 
         if ($approved || $answered) {
             throw new BadRequestException('question.edit_not_allowed');
+        }
+    }
+
+    public function checkIfAllowDelete(QuestionModel $question)
+    {
+        $approved = $question->published == QuestionModel::PUBLISH_APPROVED;
+
+        $answered = $question->answer_count > 0;
+
+        if ($approved && $answered) {
+            throw new BadRequestException('question.delete_not_allowed');
         }
     }
 

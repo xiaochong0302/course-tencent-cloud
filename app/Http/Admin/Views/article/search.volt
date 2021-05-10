@@ -25,17 +25,6 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">分类</label>
-            <div class="layui-input-block">
-                <select name="category_id">
-                    <option value="">请选择</option>
-                    {% for item in categories %}
-                        <option value="{{ item.id }}">{{ item.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">标签</label>
             <div class="layui-input-block">
                 <div id="xm-tag-ids"></div>

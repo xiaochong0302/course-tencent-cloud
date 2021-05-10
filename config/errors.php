@@ -113,16 +113,15 @@ $error['nav.has_child_node'] = '不允许相关操作（存在子节点）';
 $error['article.not_found'] = '课程不存在';
 $error['article.title_too_short'] = '标题太短（少于5个字符）';
 $error['article.title_too_long'] = '标题太长（多于50个字符）';
-$error['article.summary_too_long'] = '概要太长（多于255个字符）';
 $error['article.content_too_short'] = '内容太短（少于10个字符）';
 $error['article.content_too_long'] = '内容太长（多于30000个字符）';
-$error['course.invalid_cover'] = '无效的封面';
 $error['article.invalid_source_type'] = '无效的来源类型';
 $error['article.invalid_source_url'] = '无效的来源网址';
-$error['course.invalid_feature_status'] = '无效的推荐状态';
-$error['course.invalid_publish_status'] = '无效的发布状态';
-$error['course.invalid_private_status'] = '无效的私有状态';
-$error['course.invalid_allow_comment_status'] = '无效的允许评论状态';
+$error['article.invalid_feature_status'] = '无效的推荐状态';
+$error['article.invalid_publish_status'] = '无效的发布状态';
+$error['article.invalid_private_status'] = '无效的私有状态';
+$error['article.invalid_allow_comment_status'] = '无效的允许评论状态';
+$error['article.invalid_reject_reason'] = '无效的拒绝理由';
 
 /**
  * 问答相关
@@ -130,10 +129,10 @@ $error['course.invalid_allow_comment_status'] = '无效的允许评论状态';
 $error['question.not_found'] = '问题不存在';
 $error['question.title_too_short'] = '标题太短（少于5个字符）';
 $error['question.title_too_long'] = '标题太长（多于50个字符）';
-$error['question.summary_too_long'] = '概要太长（多于255个字符）';
 $error['question.content_too_short'] = '内容太短（少于10个字符）';
 $error['question.content_too_long'] = '内容太长（多于30000个字符）';
 $error['question.invalid_publish_status'] = '无效的发布状态';
+$error['question.invalid_reject_reason'] = '无效的拒绝理由';
 $error['question.edit_not_allowed'] = '当前不允许编辑问题';
 $error['question.delete_not_allowed'] = '当前不允许删除问题';
 

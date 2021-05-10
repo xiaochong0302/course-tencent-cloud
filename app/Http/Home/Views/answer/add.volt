@@ -1,21 +1,37 @@
-{% extends 'templates/layer.volt' %}
+{% extends 'templates/main.volt' %}
 
 {% block content %}
 
-    <form class="layui-form" method="POST" action="{{ url({'for':'home.answer.create'}) }}">
-        <div class="layui-form-item">
-            <div class="layui-input-block" style="margin:0;">
-                <div id="vditor"></div>
-                <textarea name="content" class="layui-hide" id="vditor-textarea"></textarea>
-            </div>
+    <div class="breadcrumb">
+        <span class="layui-breadcrumb">
+            <a href="/">首页</a>
+            <a><cite>回答问题</cite></a>
+        </span>
+    </div>
+
+    <div class="layout-main">
+        <div class="writer-content wrap">
+            <form class="layui-form" method="POST" action="{{ url({'for':'home.answer.create'}) }}">
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin:0;">
+                        <input class="layui-input" type="text" name="title" value="{{ question.title }}" readonly="readonly">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin:0;">
+                        <div id="vditor"></div>
+                        <textarea name="content" class="layui-hide" id="vditor-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item center">
+                    <div class="layui-input-block" style="margin:0;">
+                        <button class="layui-btn kg-submit" lay-submit="true" lay-filter="go">发布回答</button>
+                        <input type="hidden" name="question_id" value="{{ question.id }}">
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="layui-form-item center">
-            <div class="layui-input-block" style="margin:0;">
-                <button class="layui-btn kg-submit" lay-submit="true" lay-filter="add_answer">提交回答</button>
-                <input type="hidden" name="question_id" value="{{ request.get('question_id') }}">
-            </div>
-        </div>
-    </form>
+    </div>
 
 {% endblock %}
 

@@ -44,6 +44,13 @@ class Answer extends Model
     public $cover = '';
 
     /**
+     * 概要
+     *
+     * @var string
+     */
+    public $summary = '';
+
+    /**
      * 内容
      *
      * @var string
@@ -150,6 +157,10 @@ class Answer extends Model
             $this->cover = kg_parse_first_content_image($this->content);
         }
 
+        if (empty($this->summary)) {
+            $this->summary = kg_parse_summary($this->content);
+        }
+
         $this->create_time = time();
     }
 
@@ -157,6 +168,10 @@ class Answer extends Model
     {
         if (empty($this->cover)) {
             $this->cover = kg_parse_first_content_image($this->content);
+        }
+
+        if (empty($this->summary)) {
+            $this->summary = kg_parse_summary($this->content);
         }
 
         $this->update_time = time();
@@ -175,6 +190,14 @@ class Answer extends Model
             self::PUBLISH_PENDING => '审核中',
             self::PUBLISH_APPROVED => '已发布',
             self::PUBLISH_REJECTED => '未通过',
+        ];
+    }
+
+    public static function sortTypes()
+    {
+        return [
+            'latest' => '最新',
+            'popular' => '最热',
         ];
     }
 

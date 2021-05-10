@@ -17,6 +17,13 @@
                         <span class="answer">回答：{{ item.answer_count }}</span>
                     </div>
                 </div>
+                {% if item.cover %}
+                    <div class="cover">
+                        <a href="{{ question_url }}" target="_blank">
+                            <img src="{{ item.cover }}!cover_270" alt="{{ item.title }}">
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
