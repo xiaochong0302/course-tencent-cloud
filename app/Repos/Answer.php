@@ -90,13 +90,16 @@ class Answer extends Repository
 
     public function countAnswers()
     {
-        return (int)AnswerModel::count(['conditions' => 'deleted = 0']);
+        return (int)AnswerModel::count([
+            'conditions' => 'published = :published: AND deleted = 0',
+            'bind' => ['published' => AnswerModel::PUBLISH_APPROVED],
+        ]);
     }
 
     public function countLikes($answerId)
     {
         return (int)AnswerLikeModel::count([
-            'conditions' => 'answer_id = :answer_id:',
+            'conditions' => 'answer_id = :answer_id: AND deleted = 0',
             'bind' => ['answer_id' => $answerId],
         ]);
     }

@@ -2,26 +2,26 @@
 
 {% block content %}
 
-    {{ partial('macros/question') }}
+    {{ partial('macros/answer') }}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
-                <a><cite>问题审核</cite></a>
+                <a><cite>回答审核</cite></a>
             </span>
         </div>
     </div>
 
     <table class="layui-table kg-table layui-form">
         <colgroup>
-            <col>
+            <col width="50%">
             <col>
             <col>
             <col width="10%">
         </colgroup>
         <thead>
         <tr>
-            <th>问题</th>
+            <th>回答</th>
             <th>作者</th>
             <th>时间</th>
             <th>操作</th>
@@ -29,16 +29,13 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set question_url = url({'for':'home.question.show','id':item.question.id}) %}
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
-            {% set review_url = url({'for':'admin.question.review','id':item.id}) %}
+            {% set review_url = url({'for':'admin.answer.review','id':item.id}) %}
             <tr>
                 <td>
-                    <p>标题：{{ item.title }}</p>
-                    <p class="meta">
-                        {% if item.tags %}
-                            <span>标签：{{ tags_info(item.tags) }}</span>
-                        {% endif %}
-                    </p>
+                    <P>问题：<a href="{{ question_url }}" target="_blank">{{ item.question.title }}</a></P>
+                    <p class="layui-elip">回答：{{ substr(item.summary,0,32) }}</p>
                 </td>
                 <td>
                     <p>昵称：<a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a></p>

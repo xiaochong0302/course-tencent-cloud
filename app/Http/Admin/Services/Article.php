@@ -30,7 +30,7 @@ class Article extends Service
     {
         $tagRepo = new TagRepo();
 
-        $allTags = $tagRepo->findAll(['published' => 1], 'priority');
+        $allTags = $tagRepo->findAll(['published' => 1]);
 
         if ($allTags->count() == 0) return [];
 
@@ -78,7 +78,7 @@ class Article extends Service
         return ArticleModel::sourceTypes();
     }
 
-    public function getRejectOptions()
+    public function getReasons()
     {
         return ReasonModel::articleRejectOptions();
     }
@@ -124,13 +124,14 @@ class Article extends Service
 
         $article = new ArticleModel();
 
+        $article->published = ArticleModel::PUBLISH_APPROVED;
         $article->owner_id = $user->id;
         $article->category_id = $category->id;
         $article->title = $title;
 
         $article->create();
 
-        $this->incrUserArticleCount($user);
+        $this->recountUserArticles($user);
 
         $this->eventsManager->fire('Article:afterCreate', $this, $article);
 
@@ -168,8 +169,8 @@ class Article extends Service
             }
         }
 
-        if (isset($post['allow_comment'])) {
-            $data['allow_comment'] = $post['allow_comment'];
+        if (isset($post['closed'])) {
+            $data['closed'] = $validator->checkCloseStatus($post['closed']);
         }
 
         if (isset($post['private'])) {
@@ -181,7 +182,12 @@ class Article extends Service
         }
 
         if (isset($post['published'])) {
+
             $data['published'] = $validator->checkPublishStatus($post['published']);
+
+            $owner = $this->findUser($article->owner_id);
+
+            $this->recountUserArticles($owner);
         }
 
         if (isset($post['xm_tag_ids'])) {
@@ -209,7 +215,7 @@ class Article extends Service
 
         $owner = $userRepo->findById($article->owner_id);
 
-        $this->decrUserArticleCount($owner);
+        $this->recountUserArticles($owner);
 
         $this->rebuildArticleIndex($article);
 
@@ -230,7 +236,7 @@ class Article extends Service
 
         $owner = $userRepo->findById($article->owner_id);
 
-        $this->incrUserArticleCount($owner);
+        $this->recountUserArticles($owner);
 
         $this->rebuildArticleIndex($article);
 
@@ -249,13 +255,21 @@ class Article extends Service
         $validator = new ArticleValidator();
 
         if ($type == 'approve') {
+
             $article->published = ArticleModel::PUBLISH_APPROVED;
+
         } elseif ($type == 'reject') {
+
             $validator->checkRejectReason($reason);
+
             $article->published = ArticleModel::PUBLISH_REJECTED;
         }
 
         $article->update();
+
+        $owner = $this->findUser($article->owner_id);
+
+        $this->recountUserArticles($owner);
 
         $sender = $this->getLoginUser();
 
@@ -296,6 +310,13 @@ class Article extends Service
         return $validator->checkArticle($id);
     }
 
+    protected function findUser($id)
+    {
+        $userRepo = new UserRepo();
+
+        return $userRepo->findById($id);
+    }
+
     protected function handleArticles($pager)
     {
         if ($pager->total_items > 0) {
@@ -315,19 +336,15 @@ class Article extends Service
         return $pager;
     }
 
-    protected function incrUserArticleCount(UserModel $user)
+    protected function recountUserArticles(UserModel $user)
     {
-        $user->article_count += 1;
+        $userRepo = new UserRepo();
+
+        $articleCount = $userRepo->countArticles($user->id);
+
+        $user->article_count = $articleCount;
 
         $user->update();
-    }
-
-    protected function decrUserArticleCount(UserModel $user)
-    {
-        if ($user->article_count > 0) {
-            $user->article_count -= 1;
-            $user->update();
-        }
     }
 
     protected function rebuildArticleCache(ArticleModel $article)

@@ -29,7 +29,7 @@ class Question extends Service
     {
         $tagRepo = new TagRepo();
 
-        $allTags = $tagRepo->findAll(['published' => 1], 'priority');
+        $allTags = $tagRepo->findAll(['published' => 1]);
 
         if ($allTags->count() == 0) return [];
 
@@ -72,7 +72,7 @@ class Question extends Service
         return QuestionModel::publishTypes();
     }
 
-    public function getRejectOptions()
+    public function getReasons()
     {
         return ReasonModel::questionRejectOptions();
     }
@@ -117,12 +117,13 @@ class Question extends Service
 
         $question = new QuestionModel();
 
+        $question->published = QuestionModel::PUBLISH_APPROVED;
         $question->owner_id = $user->id;
         $question->title = $title;
 
         $question->create();
 
-        $this->incrUserQuestionCount($user);
+        $this->recountUserQuestions($user);
 
         $this->eventsManager->fire('Question:afterCreate', $this, $question);
 
@@ -161,7 +162,12 @@ class Question extends Service
         }
 
         if (isset($post['published'])) {
+
             $data['published'] = $validator->checkPublishStatus($post['published']);
+
+            $owner = $this->findUser($question->owner_id);
+
+            $this->recountUserQuestions($owner);
         }
 
         if (isset($post['xm_tag_ids'])) {
@@ -189,7 +195,7 @@ class Question extends Service
 
         $owner = $userRepo->findById($question->owner_id);
 
-        $this->decrUserQuestionCount($owner);
+        $this->recountUserQuestions($owner);
 
         $this->rebuildQuestionIndex($question);
 
@@ -210,7 +216,7 @@ class Question extends Service
 
         $owner = $userRepo->findById($question->owner_id);
 
-        $this->incrUserQuestionCount($owner);
+        $this->recountUserQuestions($owner);
 
         $this->rebuildQuestionIndex($question);
 
@@ -236,6 +242,10 @@ class Question extends Service
         }
 
         $question->update();
+
+        $owner = $this->findUser($question->owner_id);
+
+        $this->recountUserQuestions($owner);
 
         $sender = $this->getLoginUser();
 
@@ -276,6 +286,13 @@ class Question extends Service
         return $validator->checkQuestion($id);
     }
 
+    protected function findUser($id)
+    {
+        $userRepo = new UserRepo();
+
+        return $userRepo->findById($id);
+    }
+
     protected function handleQuestions($pager)
     {
         if ($pager->total_items > 0) {
@@ -295,19 +312,15 @@ class Question extends Service
         return $pager;
     }
 
-    protected function incrUserQuestionCount(UserModel $user)
+    protected function recountUserQuestions(UserModel $user)
     {
-        $user->question_count += 1;
+        $userRepo = new UserRepo();
+
+        $questionCount = $userRepo->countQuestions($user->id);
+
+        $user->question_count = $questionCount;
 
         $user->update();
-    }
-
-    protected function decrUserQuestionCount(UserModel $user)
-    {
-        if ($user->question_count > 0) {
-            $user->question_count -= 1;
-            $user->update();
-        }
     }
 
     protected function rebuildQuestionCache(QuestionModel $question)

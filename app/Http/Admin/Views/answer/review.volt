@@ -8,21 +8,14 @@
 
     <div class="kg-mod-preview">
         <div class="title">{{ question.title }}</div>
-        <div class="content markdown-body">{{ question.content }}</div>
-        {% if question.tags %}
-            <div class="tags">
-                {% for item in question.tags %}
-                    <span class="layui-btn layui-btn-xs">{{ item['name'] }}</span>
-                {% endfor %}
-            </div>
-        {% endif %}
+        <div class="content markdown-body">{{ answer.content }}</div>
     </div>
 
     <fieldset class="layui-elem-field layui-field-title">
         <legend>审核意见</legend>
     </fieldset>
 
-    <form class="layui-form kg-form kg-review-form" method="POST" action="{{ url({'for':'admin.question.review','id':question.id}) }}">
+    <form class="layui-form kg-form kg-review-form" method="POST" action="{{ url({'for':'admin.answer.review','id':answer.id}) }}">
         <div class="layui-form-item">
             <label class="layui-form-label">审核</label>
             <div class="layui-input-block">

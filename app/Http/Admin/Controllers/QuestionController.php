@@ -185,10 +185,10 @@ class QuestionController extends Controller
             return $this->jsonSuccess($content);
         }
 
-        $rejectOptions = $questionService->getRejectOptions();
+        $reasons = $questionService->getReasons();
         $question = $questionService->getQuestion($id);
 
-        $this->view->setVar('reject_options', $rejectOptions);
+        $this->view->setVar('reasons', $reasons);
         $this->view->setVar('question', $question);
     }
 

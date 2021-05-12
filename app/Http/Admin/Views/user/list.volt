@@ -33,6 +33,7 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="10%">
         </colgroup>
         <thead>
@@ -42,7 +43,8 @@
             <th>用户角色</th>
             <th>课程</th>
             <th>文章</th>
-            <th>收藏</th>
+            <th>提问</th>
+            <th>回答</th>
             <th>活跃时间</th>
             <th>注册时间</th>
             <th>操作</th>
@@ -51,6 +53,7 @@
         <tbody>
         {% for item in pager.items %}
             {% set preview_url = url({'for':'home.user.show','id':item.id}) %}
+            {% set online_url = url({'for':'admin.user.online','id':item.id}) %}
             {% set edit_url = url({'for':'admin.user.edit','id':item.id}) %}
             <tr>
                 <td class="center">
@@ -71,15 +74,17 @@
                 </td>
                 <td>{{ item.course_count }}</td>
                 <td>{{ item.article_count }}</td>
-                <td>{{ item.favorite_count }}</td>
+                <td>{{ item.question_count }}</td>
+                <td>{{ item.answer_count }}</td>
                 <td>{{ date('Y-m-d',item.active_time) }}</td>
                 <td>{{ date('Y-m-d',item.create_time) }}</td>
                 <td class="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
-                            <li><a href="{{ preview_url }}" target="_blank">预览</a></li>
-                            <li><a href="{{ edit_url }}">编辑</a></li>
+                            <li><a href="{{ preview_url }}" target="_blank">用户主页</a></li>
+                            <li><a href="javascript:" class="kg-online" data-url="{{ online_url }}">在线记录</a></li>
+                            <li><a href="{{ edit_url }}">编辑用户</a></li>
                         </ul>
                     </div>
                 </td>
@@ -89,5 +94,30 @@
     </table>
 
     {{ partial('partials/pager') }}
+
+{% endblock %}
+
+{% block inline_js %}
+
+    <script>
+
+        layui.define(['jquery', 'layer'], function () {
+
+            var $ = layui.jquery;
+            var layer = layui.layer;
+
+            $('.kg-online').on('click', function () {
+                var url = $(this).data('url');
+                layer.open({
+                    type: 2,
+                    title: '在线记录',
+                    area: ['800px', '600px'],
+                    content: url
+                });
+            });
+
+        });
+
+    </script>
 
 {% endblock %}

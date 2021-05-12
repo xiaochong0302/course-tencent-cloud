@@ -30,10 +30,10 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">允许评论</label>
+        <label class="layui-form-label">关闭评论</label>
         <div class="layui-input-block">
-            <input type="radio" name="allow_comment" value="1" title="是" {% if article.allow_comment == 1 %}checked="checked"{% endif %}>
-            <input type="radio" name="allow_comment" value="0" title="否" {% if article.allow_comment == 0 %}checked="checked"{% endif %}>
+            <input type="radio" name="closed" value="1" title="是" {% if article.closed == 1 %}checked="checked"{% endif %}>
+            <input type="radio" name="closed" value="0" title="否" {% if article.closed == 0 %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">

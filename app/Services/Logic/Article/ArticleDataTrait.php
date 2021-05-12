@@ -37,8 +37,8 @@ trait ArticleDataTrait
             }
         }
 
-        if (isset($post['allow_comment'])) {
-            $data['allow_comment'] = $validator->checkAllowCommentStatus($post['allow_comment']);
+        if (isset($post['closed'])) {
+            $data['closed'] = $validator->checkCloseStatus($post['closed']);
         }
 
         if (isset($post['private'])) {

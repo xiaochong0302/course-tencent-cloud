@@ -13,7 +13,7 @@ class ReviewLiked extends LogicService
 
     public function handle(ReviewModel $review, UserModel $sender)
     {
-        $review->content = kg_substr($review->content, 0, 32);
+        $reviewContent = kg_substr($review->content, 0, 32);
 
         $course = $this->findCourse($review->course_id);
 
@@ -25,7 +25,7 @@ class ReviewLiked extends LogicService
         $notification->event_type = NotificationModel::TYPE_REVIEW_LIKED;
         $notification->event_info = [
             'course' => ['id' => $course->id, 'title' => $course->title],
-            'review' => ['id' => $review->id, 'content' => $review->content],
+            'review' => ['id' => $review->id, 'content' => $reviewContent],
         ];
 
         $notification->create();

@@ -4,7 +4,10 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\ConsultList as ConsultListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Chapter as ChapterModel;
 use App\Models\Consult as ConsultModel;
+use App\Models\Course as CourseModel;
+use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
 use App\Services\Logic\Notice\ConsultReply as ConsultReplyNotice;
@@ -74,6 +77,7 @@ class Consult extends Service
 
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
+            $this->handleItemConsults($consult);
         }
 
         $consult->update($data);
@@ -93,13 +97,7 @@ class Consult extends Service
 
         $consult->update();
 
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($consult->course_id);
-
-        $course->consult_count -= 1;
-
-        $course->update();
+        $this->handleItemConsults($consult);
     }
 
     public function restoreConsult($id)
@@ -110,13 +108,20 @@ class Consult extends Service
 
         $consult->update();
 
-        $courseRepo = new CourseRepo();
+        $this->handleItemConsults($consult);
+    }
 
-        $course = $courseRepo->findById($consult->course_id);
+    protected function handleItemConsults(ConsultModel $consult)
+    {
+        if ($consult->course_id > 0) {
+            $course = $this->findCourse($consult->course_id);
+            $this->recountCourseConsults($course);
+        }
 
-        $course->consult_count += 1;
-
-        $course->update();
+        if ($consult->chapter_id > 0) {
+            $chapter = $this->findChapter($consult->chapter_id);
+            $this->recountChapterConsults($chapter);
+        }
     }
 
     protected function handleReplyNotice(ConsultModel $consult)
@@ -131,6 +136,42 @@ class Consult extends Service
         $validator = new ConsultValidator();
 
         return $validator->checkConsult($id);
+    }
+
+    protected function findCourse($id)
+    {
+        $courseRepo = new CourseRepo();
+
+        return $courseRepo->findById($id);
+    }
+
+    protected function findChapter($id)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        return $chapterRepo->findById($id);
+    }
+
+    protected function recountCourseConsults(CourseModel $course)
+    {
+        $courseRepo = new CourseRepo();
+
+        $consultCount = $courseRepo->countConsults($course->id);
+
+        $course->consult_count = $consultCount;
+
+        $course->update();
+    }
+
+    protected function recountChapterConsults(ChapterModel $chapter)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        $consultCount = $chapterRepo->countConsults($chapter->id);
+
+        $chapter->consult_count = $consultCount;
+
+        $chapter->update();
     }
 
     protected function handleConsults($pager)

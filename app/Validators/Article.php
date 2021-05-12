@@ -149,10 +149,10 @@ class Article extends Validator
         return $status;
     }
 
-    public function checkAllowCommentStatus($status)
+    public function checkCloseStatus($status)
     {
         if (!in_array($status, [0, 1])) {
-            throw new BadRequestException('article.invalid_allow_comment_status');
+            throw new BadRequestException('article.invalid_close_status');
         }
 
         return $status;

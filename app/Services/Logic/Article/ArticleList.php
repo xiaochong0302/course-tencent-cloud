@@ -82,7 +82,7 @@ class ArticleList extends LogicService
                 'owner' => $owner,
                 'private' => $article['private'],
                 'published' => $article['published'],
-                'allow_comment' => $article['allow_comment'],
+                'closed' => $article['closed'],
                 'view_count' => $article['view_count'],
                 'like_count' => $article['like_count'],
                 'comment_count' => $article['comment_count'],

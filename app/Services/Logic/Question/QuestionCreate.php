@@ -4,6 +4,7 @@ namespace App\Services\Logic\Question;
 
 use App\Models\Question as QuestionModel;
 use App\Models\User as UserModel;
+use App\Repos\User as UserRepo;
 use App\Services\Logic\Service as LogicService;
 
 class QuestionCreate extends LogicService
@@ -29,16 +30,25 @@ class QuestionCreate extends LogicService
             $this->saveTags($question, $post['xm_tag_ids']);
         }
 
-        $this->incrUserQuestionCount($user);
+        $this->recountUserQuestions($user);
 
         $this->eventsManager->fire('Question:afterCreate', $this, $question);
 
         return $question;
     }
 
-    protected function incrUserQuestionCount(UserModel $user)
+    protected function getPublishStatus(UserModel $user)
     {
-        $user->question_count += 1;
+        return $user->question_count > 3 ? QuestionModel::PUBLISH_APPROVED : QuestionModel::PUBLISH_PENDING;
+    }
+
+    protected function recountUserQuestions(UserModel $user)
+    {
+        $userRepo = new UserRepo();
+
+        $questionCount = $userRepo->countQuestions($user->id);
+
+        $user->question_count = $questionCount;
 
         $user->update();
     }

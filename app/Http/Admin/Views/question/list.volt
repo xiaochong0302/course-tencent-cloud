@@ -37,12 +37,12 @@
         <thead>
         <tr>
             <th>问题</th>
-            <th>状态</th>
-            <th>浏览</th>
             <th>回答</th>
+            <th>浏览</th>
             <th>点赞</th>
             <th>收藏</th>
-            <th>讨论</th>
+            <th>状态</th>
+            <th>关闭</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -55,7 +55,8 @@
             {% set update_url = url({'for':'admin.question.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.question.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.question.restore','id':item.id}) %}
-            {% set answer_url = url({'for':'admin.answer.list'},{'item_id':item.id}) %}
+            {% set answer_add_url = url({'for':'admin.answer.add'},{'question_id':item.id}) %}
+            {% set answer_list_url = url({'for':'admin.answer.list'},{'question_id':item.id}) %}
             <tr>
                 <td>
                     <p>标题：<a href="{{ edit_url }}">{{ item.title }}</a>（{{ item.id }}）</p>
@@ -72,12 +73,12 @@
                         <span>创建：{{ date('Y-m-d',item.create_time) }}</span>
                     </p>
                 </td>
-                <td>{{ publish_status(item.published) }}</td>
-                <td>{{ item.view_count }}</td>
                 <td>{{ item.answer_count }}</td>
+                <td>{{ item.view_count }}</td>
                 <td>{{ item.like_count }}</td>
                 <td>{{ item.favorite_count }}</td>
-                <td><input type="checkbox" name="closed" value="1" lay-skin="switch" lay-text="开|关" lay-filter="discuss" data-url="{{ update_url }}" {% if item.closed == 0 %}checked="checked"{% endif %}></td>
+                <td>{{ publish_status(item.published) }}</td>
+                <td><input type="checkbox" name="closed" value="1" lay-skin="switch" lay-text="是|否" lay-filter="closed" data-url="{{ update_url }}" {% if item.closed == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
@@ -87,6 +88,7 @@
                             {% elseif item.published == 2 %}
                                 <li><a href="{{ preview_url }}" target="_blank">预览问题</a></li>
                             {% endif %}
+                            <li><a href="{{ answer_add_url }}">回答问题</a></li>
                             <li><a href="{{ edit_url }}">编辑问题</a></li>
                             {% if item.deleted == 0 %}
                                 <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除问题</a></li>
@@ -94,7 +96,7 @@
                                 <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原问题</a></li>
                             {% endif %}
                             <hr>
-                            <li><a href="javascript:" class="kg-answer" data-url="{{ answer_url }}">回答管理</a></li>
+                            <li><a href="{{ answer_list_url }}">回答管理</a></li>
                         </ul>
                     </div>
                 </td>
@@ -117,11 +119,11 @@
             var form = layui.form;
             var layer = layui.layer;
 
-            form.on('switch(discuss)', function (data) {
+            form.on('switch(closed)', function (data) {
                 var checked = $(this).is(':checked');
-                var allowDiscuss = checked ? 1 : 0;
+                var closed = checked ? 1 : 0;
                 var url = $(this).data('url');
-                var tips = allowDiscuss === 1 ? '确定要开启讨论？' : '确定要关闭讨论？';
+                var tips = closed === 1 ? '确定要关闭讨论？' : '确定要开启讨论？';
                 layer.confirm(tips, function () {
                     $.ajax({
                         type: 'POST',

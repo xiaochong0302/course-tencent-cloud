@@ -294,7 +294,9 @@ class Course extends Repository
 
     public function countCourses()
     {
-        return (int)CourseModel::count(['conditions' => 'deleted = 0']);
+        return (int)CourseModel::count([
+            'conditions' => 'published = 1 AND deleted = 0',
+        ]);
     }
 
     public function countLessons($courseId)
@@ -324,7 +326,7 @@ class Course extends Repository
     public function countConsults($courseId)
     {
         return (int)ConsultModel::count([
-            'conditions' => 'course_id = :course_id: AND published = 1',
+            'conditions' => 'course_id = :course_id: AND published = 1 AND deleted = 0',
             'bind' => ['course_id' => $courseId],
         ]);
     }
@@ -332,7 +334,7 @@ class Course extends Repository
     public function countReviews($courseId)
     {
         return (int)ReviewModel::count([
-            'conditions' => 'course_id = :course_id: AND published = 1',
+            'conditions' => 'course_id = :course_id: AND published = 1 AND deleted = 0',
             'bind' => ['course_id' => $courseId],
         ]);
     }
@@ -340,7 +342,7 @@ class Course extends Repository
     public function countFavorites($courseId)
     {
         return (int)CourseFavoriteModel::count([
-            'conditions' => 'course_id = :course_id:',
+            'conditions' => 'course_id = :course_id: AND deleted = 0',
             'bind' => ['course_id' => $courseId],
         ]);
     }

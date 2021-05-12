@@ -294,7 +294,7 @@ class AuthNode extends Service
                 ],
                 [
                     'id' => '1-10',
-                    'title' => '问答管理',
+                    'title' => '问题管理',
                     'type' => 'menu',
                     'children' => [
                         [
@@ -338,6 +338,55 @@ class AuthNode extends Service
                             'title' => '审核问题',
                             'type' => 'button',
                             'route' => 'admin.question.review',
+                        ],
+                    ],
+                ],
+                [
+                    'id' => '1-11',
+                    'title' => '回答管理',
+                    'type' => 'menu',
+                    'children' => [
+                        [
+                            'id' => '1-11-1',
+                            'title' => '回答列表',
+                            'type' => 'menu',
+                            'route' => 'admin.answer.list',
+                        ],
+                        [
+                            'id' => '1-11-2',
+                            'title' => '搜索回答',
+                            'type' => 'menu',
+                            'route' => 'admin.answer.search',
+                        ],
+                        [
+                            'id' => '1-11-3',
+                            'title' => '添加答案',
+                            'type' => 'button',
+                            'route' => 'admin.answer.add',
+                        ],
+                        [
+                            'id' => '1-11-4',
+                            'title' => '编辑回答',
+                            'type' => 'button',
+                            'route' => 'admin.answer.edit',
+                        ],
+                        [
+                            'id' => '1-11-5',
+                            'title' => '删除回答',
+                            'type' => 'button',
+                            'route' => 'admin.answer.delete',
+                        ],
+                        [
+                            'id' => '1-11-9',
+                            'title' => '回答详情',
+                            'type' => 'button',
+                            'route' => 'admin.answer.show',
+                        ],
+                        [
+                            'id' => '1-11-10',
+                            'title' => '审核回答',
+                            'type' => 'button',
+                            'route' => 'admin.answer.review',
                         ],
                     ],
                 ],
@@ -435,6 +484,12 @@ class AuthNode extends Service
                             'title' => '问题列表',
                             'type' => 'menu',
                             'route' => 'admin.mod.questions',
+                        ],
+                        [
+                            'id' => '2-10-3',
+                            'title' => '回答列表',
+                            'type' => 'menu',
+                            'route' => 'admin.mod.answers',
                         ],
                     ],
                 ],
@@ -900,7 +955,13 @@ class AuthNode extends Service
                             'title' => '编辑用户',
                             'type' => 'button',
                             'route' => 'admin.user.edit',
-                        ]
+                        ],
+                        [
+                            'id' => '4-1-5',
+                            'title' => '在线记录',
+                            'type' => 'button',
+                            'route' => 'admin.user.online',
+                        ],
                     ],
                 ],
                 [

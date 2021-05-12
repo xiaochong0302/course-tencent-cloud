@@ -80,4 +80,10 @@ layui.use(['jquery', 'helper'], function () {
         });
     });
 
+    $('.icon-reply').on('click', function () {
+        $('html').animate({
+            scrollTop: $('#comment-anchor').offset().top
+        }, 500);
+    });
+
 });

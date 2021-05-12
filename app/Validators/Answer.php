@@ -6,6 +6,7 @@ use App\Caches\MaxAnswerId as MaxAnswerIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Answer as AnswerModel;
 use App\Models\Question as QuestionModel;
+use App\Models\Reason as ReasonModel;
 use App\Models\User as UserModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Repos\Question as QuestionRepo;
@@ -41,6 +42,13 @@ class Answer extends Validator
         }
     }
 
+    public function checkQuestion($id)
+    {
+        $validator = new Question();
+
+        return $validator->checkQuestion($id);
+    }
+
     public function checkContent($content)
     {
         $value = $this->filter->sanitize($content, ['trim', 'string']);
@@ -67,6 +75,13 @@ class Answer extends Validator
         return $status;
     }
 
+    public function checkRejectReason($reason)
+    {
+        if (!array_key_exists($reason, ReasonModel::answerRejectOptions())) {
+            throw new BadRequestException('answer.invalid_reject_reason');
+        }
+    }
+
     public function checkIfAllowAnswer(QuestionModel $question, UserModel $user)
     {
         $allowed = true;
@@ -88,12 +103,24 @@ class Answer extends Validator
         }
     }
 
-    public function checkIfAllowEdit(AnswerModel $answer, UserModel $user)
+    public function checkIfAllowEdit(AnswerModel $answer)
     {
-        $this->checkOwner($user->id, $answer->owner_id);
-
-        if (time() - $answer->create_time > 3600) {
+        if ($answer->accepted == 1) {
             throw new BadRequestException('answer.edit_not_allowed');
+        }
+
+        $case1 = $answer->published == AnswerModel::PUBLISH_APPROVED;
+        $case2 = time() - $answer->create_time > 3600;
+
+        if ($case1 && $case2) {
+            throw new BadRequestException('answer.edit_not_allowed');
+        }
+    }
+
+    public function checkIfAllowDelete(AnswerModel $answer)
+    {
+        if ($answer->accepted == 1) {
+            throw new BadRequestException('answer.delete_not_allowed');
         }
     }
 

@@ -4,6 +4,7 @@ namespace App\Services\Logic\Article;
 
 use App\Models\Article as ArticleModel;
 use App\Models\User as UserModel;
+use App\Repos\User as UserRepo;
 use App\Services\Logic\Service as LogicService;
 
 class ArticleCreate extends LogicService
@@ -21,6 +22,7 @@ class ArticleCreate extends LogicService
 
         $data = $this->handlePostData($post);
 
+        $data['published'] = $this->getPublishStatus($user);
         $data['owner_id'] = $user->id;
 
         $article->create($data);
@@ -29,16 +31,25 @@ class ArticleCreate extends LogicService
             $this->saveTags($article, $post['xm_tag_ids']);
         }
 
-        $this->incrUserArticleCount($user);
+        $this->recountUserArticles($user);
 
         $this->eventsManager->fire('Article:afterCreate', $this, $article);
 
         return $article;
     }
 
-    protected function incrUserArticleCount(UserModel $user)
+    protected function getPublishStatus(UserModel $user)
     {
-        $user->article_count += 1;
+        return $user->article_count > 100 ? ArticleModel::PUBLISH_APPROVED : ArticleModel::PUBLISH_PENDING;
+    }
+
+    protected function recountUserArticles(UserModel $user)
+    {
+        $userRepo = new UserRepo();
+
+        $articleCount = $userRepo->countArticles($user->id);
+
+        $user->article_count = $articleCount;
 
         $user->update();
     }

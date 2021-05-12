@@ -10,12 +10,21 @@ use App\Services\Logic\Answer\AnswerDelete as AnswerDeleteService;
 use App\Services\Logic\Answer\AnswerInfo as AnswerInfoService;
 use App\Services\Logic\Answer\AnswerLike as AnswerLikeService;
 use App\Services\Logic\Answer\AnswerUpdate as AnswerUpdateService;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/answer")
  */
 class AnswerController extends Controller
 {
+
+    /**
+     * @Get("/tips", name="home.answer.tips")
+     */
+    public function tipsAction()
+    {
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
 
     /**
      * @Get("/add", name="home.answer.add")
@@ -27,6 +36,8 @@ class AnswerController extends Controller
         $service = new QuestionService();
 
         $question = $service->getQuestion($id);
+
+        $this->seo->prependTitle('回答问题');
 
         $this->view->setVar('question', $question);
     }
@@ -43,6 +54,8 @@ class AnswerController extends Controller
         $service = new QuestionService();
 
         $question = $service->getQuestion($answer->question_id);
+
+        $this->seo->prependTitle('编辑回答');
 
         $this->view->setVar('question', $question);
         $this->view->setVar('answer', $answer);

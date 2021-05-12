@@ -23,21 +23,19 @@ class AnswerUpdate extends LogicService
 
         $answer = $this->checkAnswer($id);
 
-        $question = $this->checkQuestion($answer->question_id);
-
         $user = $this->getLoginUser();
 
         $validator = new AnswerValidator();
 
-        $validator->checkIfAllowEdit($answer, $user);
+        $validator->checkOwner($user->id, $answer->owner_id);
+
+        $validator->checkIfAllowEdit($answer);
 
         $answer->content = $validator->checkContent($post['content']);
         $answer->client_type = $this->getClientType();
         $answer->client_ip = $this->getClientIp();
 
         $answer->update();
-
-        $this->syncQuestionScore($question);
 
         $this->eventsManager->fire('Answer:afterUpdate', $this, $answer);
 

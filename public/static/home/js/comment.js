@@ -83,12 +83,6 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         return false;
     });
 
-    $('.icon-comment').on('click', function () {
-        $('html').animate({
-            scrollTop: $('#comment-anchor').offset().top
-        }, 500);
-    });
-
     $('#btn-cancel-comment').on('click', function () {
         $('#comment-footer').hide();
     });

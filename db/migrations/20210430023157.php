@@ -23,6 +23,7 @@ final class V20210430023157 extends AbstractMigration
         $this->handleRoleRoutes();
         $this->handleQuestionNav();
         $this->handleArticleCover();
+        $this->handleArticleClosed();
     }
 
     public function down()
@@ -405,13 +406,29 @@ final class V20210430023157 extends AbstractMigration
                 'comment' => '用户编号',
                 'after' => 'question_id',
             ])
+            ->addColumn('deleted', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '删除标识',
+                'after' => 'user_id',
+            ])
             ->addColumn('create_time', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'signed' => false,
                 'comment' => '创建时间',
-                'after' => 'user_id',
+                'after' => 'deleted',
+            ])
+            ->addColumn('update_time', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '更新时间',
+                'after' => 'create_time',
             ])
             ->addIndex(['user_id'], [
                 'name' => 'user_id',
@@ -458,13 +475,29 @@ final class V20210430023157 extends AbstractMigration
                 'comment' => '标签编号',
                 'after' => 'question_id',
             ])
+            ->addColumn('deleted', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '删除标识',
+                'after' => 'user_id',
+            ])
             ->addColumn('create_time', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'signed' => false,
                 'comment' => '创建时间',
-                'after' => 'user_id',
+                'after' => 'deleted',
+            ])
+            ->addColumn('update_time', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '更新时间',
+                'after' => 'create_time',
             ])
             ->addIndex(['question_id', 'user_id'], [
                 'name' => 'question_user',
@@ -667,13 +700,29 @@ final class V20210430023157 extends AbstractMigration
                 'comment' => '标签编号',
                 'after' => 'answer_id',
             ])
+            ->addColumn('deleted', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '删除标识',
+                'after' => 'user_id',
+            ])
             ->addColumn('create_time', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'signed' => false,
                 'comment' => '创建时间',
-                'after' => 'user_id',
+                'after' => 'deleted',
+            ])
+            ->addColumn('update_time', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '更新时间',
+                'after' => 'create_time',
             ])
             ->addIndex(['answer_id', 'user_id'], [
                 'name' => 'answer_user',
@@ -824,6 +873,7 @@ final class V20210430023157 extends AbstractMigration
     protected function modifyArticleTable()
     {
         $this->table('kg_article')
+            ->renameColumn('allow_comment', 'closed')
             ->addColumn('report_count', 'integer', [
                 'null' => false,
                 'default' => '0',
@@ -888,6 +938,15 @@ final class V20210430023157 extends AbstractMigration
             ->update('kg_article')
             ->set('cover', '')
             ->where(['cover' => '/img/default/article_cover.png'])
+            ->execute();
+    }
+
+    protected function handleArticleClosed()
+    {
+        $this->getQueryBuilder()
+            ->update('kg_article')
+            ->set('closed', 0)
+            ->where(['closed' => 1])
             ->execute();
     }
 

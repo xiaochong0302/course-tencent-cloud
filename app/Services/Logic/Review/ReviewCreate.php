@@ -5,6 +5,7 @@ namespace App\Services\Logic\Review;
 use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\Review as ReviewModel;
+use App\Repos\Course as CourseRepo;
 use App\Services\CourseStat as CourseStatService;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Point\History\CourseReview as CourseReviewPointHistory;
@@ -48,17 +49,15 @@ class ReviewCreate extends LogicService
         $data['rating1'] = $validator->checkRating($post['rating1']);
         $data['rating2'] = $validator->checkRating($post['rating2']);
         $data['rating3'] = $validator->checkRating($post['rating3']);
+        $data['published'] = 1;
 
         $review = new ReviewModel();
 
         $review->create($data);
 
         $this->updateCourseUserReview($courseUser);
-
-        $this->incrCourseReviewCount($course);
-
+        $this->recountCourseReviews($course);
         $this->updateCourseRating($course);
-
         $this->handleReviewPoint($review);
 
         $this->eventsManager->fire('Review:afterCreate', $this, $review);
@@ -73,18 +72,22 @@ class ReviewCreate extends LogicService
         $courseUser->update();
     }
 
-    protected function incrCourseReviewCount(CourseModel $course)
-    {
-        $course->review_count += 1;
-
-        $course->update();
-    }
-
     protected function updateCourseRating(CourseModel $course)
     {
         $service = new CourseStatService();
 
         $service->updateRating($course->id);
+    }
+
+    protected function recountCourseReviews(CourseModel $course)
+    {
+        $courseRepo = new CourseRepo();
+
+        $reviewCount = $courseRepo->countReviews($course->id);
+
+        $course->review_count = $reviewCount;
+
+        $course->update();
     }
 
     protected function handleReviewPoint(ReviewModel $review)

@@ -95,6 +95,18 @@ class UserController extends Controller
     }
 
     /**
+     * @Get("/{id:[0-9]+}/online", name="admin.user.online")
+     */
+    public function onlineAction($id)
+    {
+        $userService = new UserService();
+
+        $pager = $userService->getOnlineLogs($id);
+
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
      * @Post("/{id:[0-9]+}/update", name="admin.user.update")
      */
     public function updateAction($id)

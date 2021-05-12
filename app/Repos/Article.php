@@ -64,6 +64,10 @@ class Article extends Repository
             $builder->andWhere('published = :published:', ['published' => $where['published']]);
         }
 
+        if (isset($where['closed'])) {
+            $builder->andWhere('closed = :closed:', ['closed' => $where['closed']]);
+        }
+
         if (isset($where['deleted'])) {
             $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
@@ -78,9 +82,6 @@ class Article extends Repository
                 break;
             case 'popular':
                 $orderBy = 'score DESC';
-                break;
-            case 'comment':
-                $orderBy = 'comment_count DESC';
                 break;
             default:
                 $orderBy = 'id DESC';
@@ -146,15 +147,15 @@ class Article extends Repository
     public function countComments($articleId)
     {
         return (int)CommentModel::count([
-            'conditions' => 'item_id = ?1 AND item_type = ?2 AND deleted = 0',
-            'bind' => [1 => $articleId, 2 => CommentModel::ITEM_ARTICLE],
+            'conditions' => 'item_id = ?1 AND item_type = ?2 AND published = ?3 AND deleted = 0',
+            'bind' => [1 => $articleId, 2 => CommentModel::ITEM_ARTICLE, 3 => CommentModel::PUBLISH_APPROVED],
         ]);
     }
 
     public function countLikes($articleId)
     {
         return (int)ArticleLikeModel::count([
-            'conditions' => 'article_id = :article_id:',
+            'conditions' => 'article_id = :article_id: AND deleted = 0',
             'bind' => ['article_id' => $articleId],
         ]);
     }
@@ -162,7 +163,7 @@ class Article extends Repository
     public function countFavorites($articleId)
     {
         return (int)ArticleFavoriteModel::count([
-            'conditions' => 'article_id = :article_id:',
+            'conditions' => 'article_id = :article_id: AND deleted = 0',
             'bind' => ['article_id' => $articleId],
         ]);
     }

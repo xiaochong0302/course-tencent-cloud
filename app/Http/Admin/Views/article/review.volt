@@ -36,7 +36,7 @@
                 <div class="layui-input-block">
                     <select name="reason">
                         <option value="">请选择</option>
-                        {% for value,name in reject_options %}
+                        {% for value,name in reasons %}
                             <option value="{{ value }}">{{ name }}</option>
                         {% endfor %}
                     </select>

@@ -3,6 +3,7 @@
 namespace App\Services\Logic\Review;
 
 use App\Models\Course as CourseModel;
+use App\Repos\Course as CourseRepo;
 use App\Services\CourseStat as CourseStatService;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\ReviewTrait;
@@ -31,19 +32,21 @@ class ReviewDelete extends LogicService
 
         $review->update();
 
-        $this->decrCourseReviewCount($course);
-
+        $this->recountCourseReviews($course);
         $this->updateCourseRating($course);
 
         $this->eventsManager->fire('Review:afterDelete', $this, $review);
     }
 
-    protected function decrCourseReviewCount(CourseModel $course)
+    protected function recountCourseReviews(CourseModel $course)
     {
-        if ($course->review_count > 0) {
-            $course->review_count -= 1;
-            $course->update();
-        }
+        $courseRepo = new CourseRepo();
+
+        $reviewCount = $courseRepo->countReviews($course->id);
+
+        $course->review_count = $reviewCount;
+
+        $course->update();
     }
 
     protected function updateCourseRating(CourseModel $course)

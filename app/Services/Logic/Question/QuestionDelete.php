@@ -4,6 +4,7 @@ namespace App\Services\Logic\Question;
 
 use App\Models\Question as QuestionModel;
 use App\Models\User as UserModel;
+use App\Repos\User as UserRepo;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Services\Sync\QuestionIndex as QuestionIndexSync;
@@ -30,7 +31,7 @@ class QuestionDelete extends LogicService
 
         $question->update();
 
-        $this->decrUserQuestionCount($user);
+        $this->recountUserQuestions($user);
 
         $this->rebuildQuestionIndex($question);
 
@@ -39,12 +40,15 @@ class QuestionDelete extends LogicService
         return $question;
     }
 
-    protected function decrUserQuestionCount(UserModel $user)
+    protected function recountUserQuestions(UserModel $user)
     {
-        if ($user->question_count > 0) {
-            $user->question_count -= 1;
-            $user->update();
-        }
+        $userRepo = new UserRepo();
+
+        $questionCount = $userRepo->countQuestions($user->id);
+
+        $user->question_count = $questionCount;
+
+        $user->update();
     }
 
     protected function rebuildQuestionIndex(QuestionModel $question)

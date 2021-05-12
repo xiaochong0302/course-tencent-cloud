@@ -120,7 +120,7 @@ $error['article.invalid_source_url'] = '无效的来源网址';
 $error['article.invalid_feature_status'] = '无效的推荐状态';
 $error['article.invalid_publish_status'] = '无效的发布状态';
 $error['article.invalid_private_status'] = '无效的私有状态';
-$error['article.invalid_allow_comment_status'] = '无效的允许评论状态';
+$error['article.invalid_close_status'] = '无效的关闭状态';
 $error['article.invalid_reject_reason'] = '无效的拒绝理由';
 
 /**

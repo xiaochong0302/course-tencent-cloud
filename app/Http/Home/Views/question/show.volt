@@ -59,21 +59,21 @@
                 {% endif %}
             </div>
             <div id="answer-anchor"></div>
-            <div class="answer-tips">
-                {{ partial('question/answer_tips') }}
+            <div class="answer-wrap wrap center">
+                {% if question.me.answered == 0 %}
+                    <button class="layui-btn layui-btn-fluid btn-answer" data-url="{{ answer_add_url }}">回答问题</button>
+                {% endif %}
             </div>
             {% if question.answer_count > 0 %}
-                <div class="layout-content">
-                    <div class="content-wrap wrap">
-                        <div class="layui-tab layui-tab-brief search-tab" lay-filter="answer">
-                            <ul class="layui-tab-title">
-                                <li class="layui-this" data-url="{{ answer_list_url }}?sort=popular">热门回答</li>
-                                <li data-url="{{ answer_list_url }}?sort=latest">最新回答</li>
-                            </ul>
-                            <div class="layui-tab-content">
-                                <div class="layui-tab-item layui-show">
-                                    <div id="answer-list" data-url="{{ answer_list_url }}?sort=popular"></div>
-                                </div>
+                <div class="answer-wrap wrap">
+                    <div class="layui-tab layui-tab-brief search-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this" data-url="{{ answer_list_url }}?sort=popular">热门回答</li>
+                            <li data-url="{{ answer_list_url }}?sort=latest">最新回答</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <div id="answer-list" data-url="{{ answer_list_url }}?sort=popular"></div>
                             </div>
                         </div>
                     </div>
@@ -99,11 +99,6 @@
                     </div>
                 </div>
             </div>
-            {% if question.me.answered == 0 %}
-                <div class="sidebar wrap">
-                    <button class="layui-btn layui-btn-fluid btn-answer" data-url="{{ answer_add_url }}">回答问题</button>
-                </div>
-            {% endif %}
             <div class="sidebar" id="sidebar-related" data-url="{{ question_related_url }}"></div>
         </div>
     </div>

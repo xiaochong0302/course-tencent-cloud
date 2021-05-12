@@ -178,31 +178,31 @@ class User extends Repository
     public function countArticles($userId)
     {
         return (int)ArticleModel::count([
-            'conditions' => 'owner_id = :owner_id: AND published = 1',
-            'bind' => ['owner_id' => $userId],
+            'conditions' => 'owner_id = ?1 AND published = ?2',
+            'bind' => [1 => $userId, 2 => ArticleModel::PUBLISH_APPROVED],
         ]);
     }
 
     public function countQuestions($userId)
     {
         return (int)QuestionModel::count([
-            'conditions' => 'owner_id = :owner_id: AND published = 1',
-            'bind' => ['owner_id' => $userId],
+            'conditions' => 'owner_id = ?1 AND published = ?2',
+            'bind' => [1 => $userId, 2 => QuestionModel::PUBLISH_APPROVED],
         ]);
     }
 
     public function countAnswers($userId)
     {
         return (int)AnswerModel::count([
-            'conditions' => 'owner_id = :owner_id: AND published = 1',
-            'bind' => ['owner_id' => $userId],
+            'conditions' => 'owner_id = ?1 AND published = ?2',
+            'bind' => [1 => $userId, 2 => AnswerModel::PUBLISH_APPROVED],
         ]);
     }
 
     public function countCourseFavorites($userId)
     {
         return (int)CourseFavoriteModel::count([
-            'conditions' => 'user_id = :user_id:',
+            'conditions' => 'user_id = :user_id: AND deleted = 0',
             'bind' => ['user_id' => $userId],
         ]);
     }
@@ -210,7 +210,7 @@ class User extends Repository
     public function countArticleFavorites($userId)
     {
         return (int)ArticleFavoriteModel::count([
-            'conditions' => 'user_id = :user_id:',
+            'conditions' => 'user_id = :user_id: AND deleted = 0',
             'bind' => ['user_id' => $userId],
         ]);
     }

@@ -13,11 +13,11 @@ class CommentReplied extends LogicService
 
     public function handle(CommentModel $reply)
     {
-        $reply->content = kg_substr($reply->content, 0, 32);
+        $replyContent = kg_substr($reply->content, 0, 32);
 
         $comment = $this->findComment($reply->parent_id);
 
-        $comment->content = kg_substr($comment->content, 0, 32);
+        $commentContent = kg_substr($comment->content, 0, 32);
 
         $notification = new NotificationModel();
 
@@ -26,8 +26,8 @@ class CommentReplied extends LogicService
         $notification->event_id = $reply->id;
         $notification->event_type = NotificationModel::TYPE_COMMENT_REPLIED;
         $notification->event_info = [
-            'comment' => ['id' => $comment->id, 'content' => $comment->content],
-            'reply' => ['id' => $reply->id, 'content' => $reply->content],
+            'comment' => ['id' => $comment->id, 'content' => $commentContent],
+            'reply' => ['id' => $reply->id, 'content' => $replyContent],
         ];
 
         $notification->create();

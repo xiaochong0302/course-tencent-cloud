@@ -144,11 +144,11 @@ class Article extends Model
     public $deleted = 0;
 
     /**
-     * 允许评论
+     * 关闭标识
      *
      * @var int
      */
-    public $allow_comment = 1;
+    public $closed = 0;
 
     /**
      * 文字数

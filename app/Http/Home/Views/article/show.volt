@@ -65,7 +65,7 @@
                 {% endif %}
             </div>
             <div id="comment-anchor"></div>
-            {% if article.allow_comment == 1 %}
+            {% if article.closed == 0 %}
                 <div class="article-comment wrap">
                     {{ partial('article/comment') }}
                 </div>

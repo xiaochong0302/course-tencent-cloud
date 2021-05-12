@@ -13,6 +13,8 @@ class AnswerLiked extends LogicService
 
     public function handle(AnswerModel $answer, UserModel $sender)
     {
+        $answerSummary = kg_substr($answer->summary, 0, 32);
+
         $questionRepo = new QuestionRepo();
 
         $question = $questionRepo->findById($answer->question_id);
@@ -25,6 +27,7 @@ class AnswerLiked extends LogicService
         $notification->event_type = NotificationModel::TYPE_ANSWER_LIKED;
         $notification->event_info = [
             'question' => ['id' => $question->id, 'title' => $question->title],
+            'answer' => ['id' => $answer->id, 'summary' => $answerSummary],
         ];
 
         $notification->create();

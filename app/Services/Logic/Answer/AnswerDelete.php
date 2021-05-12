@@ -4,12 +4,13 @@ namespace App\Services\Logic\Answer;
 
 use App\Models\Question as QuestionModel;
 use App\Models\User as UserModel;
+use App\Repos\Question as QuestionRepo;
+use App\Repos\User as UserRepo;
 use App\Services\Logic\AnswerTrait;
-use App\Services\Logic\Question\QuestionScore as QuestionScoreService;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Sync\QuestionScore as QuestionScoreSync;
 use App\Validators\Answer as AnswerValidator;
-
 
 class AnswerDelete extends LogicService
 {
@@ -29,40 +30,47 @@ class AnswerDelete extends LogicService
 
         $validator->checkOwner($user->id, $answer->owner_id);
 
+        $validator->checkIfAllowDelete($answer);
+
         $answer->deleted = 1;
 
         $answer->update();
 
-        $this->decrQuestionAnswerCount($question);
-
-        $this->updateQuestionScore($question);
+        $this->recountQuestionAnswers($question);
+        $this->recountUserAnswers($user);
 
         $this->eventsManager->fire('Answer:afterDelete', $this, $answer);
 
         return $answer;
     }
 
-    protected function decrUserAnswerCount(UserModel $user)
+    protected function recountQuestionAnswers(QuestionModel $question)
     {
-        if ($user->answer_count > 0) {
-            $user->answer_count -= 1;
-            $user->update();
-        }
+        $questionRepo = new QuestionRepo();
+
+        $answerCount = $questionRepo->countAnswers($question->id);
+
+        $question->answer_count = $answerCount;
+
+        $question->update();
     }
 
-    protected function decrQuestionAnswerCount(QuestionModel $question)
+    protected function recountUserAnswers(UserModel $user)
     {
-        if ($question->answer_count > 0) {
-            $question->answer_count -= 1;
-            $question->update();
-        }
+        $userRepo = new UserRepo();
+
+        $answerCount = $userRepo->countAnswers($user->id);
+
+        $user->answer_count = $answerCount;
+
+        $user->update();
     }
 
-    protected function updateQuestionScore(QuestionModel $question)
+    protected function syncQuestionScore(QuestionModel $question)
     {
-        $service = new QuestionScoreService();
+        $sync = new QuestionScoreSync();
 
-        $service->handle($question);
+        $sync->addItem($question->id);
     }
 
 }

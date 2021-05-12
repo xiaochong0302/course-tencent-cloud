@@ -13,6 +13,8 @@ class QuestionAnswered extends LogicService
 
     public function handle(AnswerModel $answer)
     {
+        $answerSummary = kg_substr($answer->summary, 0, 32);
+
         $question = $this->findQuestion($answer->question_id);
 
         $notification = new NotificationModel();
@@ -23,7 +25,7 @@ class QuestionAnswered extends LogicService
         $notification->event_type = NotificationModel::TYPE_QUESTION_ANSWERED;
         $notification->event_info = [
             'question' => ['id' => $question->id, 'title' => $question->title],
-            'answer' => ['id' => $answer->id, 'summary' => $answer->summary],
+            'answer' => ['id' => $answer->id, 'summary' => $answerSummary],
         ];
 
         $notification->create();

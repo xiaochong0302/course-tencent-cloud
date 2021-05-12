@@ -147,29 +147,32 @@ class Question extends Repository
 
     public function countQuestions()
     {
-        return (int)QuestionModel::count(['conditions' => 'deleted = 0']);
+        return (int)QuestionModel::count([
+            'conditions' => 'published = :published: AND deleted = 0',
+            'bind' => ['published' => QuestionModel::PUBLISH_APPROVED],
+        ]);
     }
 
     public function countAnswers($questionId)
     {
         return (int)AnswerModel::count([
-            'conditions' => 'question_id = :question_id: AND deleted = 0',
-            'bind' => ['question_id' => $questionId],
+            'conditions' => 'question_id = ?1 AND published = ?2 AND deleted = 0',
+            'bind' => [1 => $questionId, 2 => AnswerModel::PUBLISH_APPROVED],
         ]);
     }
 
     public function countComments($questionId)
     {
         return (int)CommentModel::count([
-            'conditions' => 'item_id = ?1 AND item_type = ?2 AND deleted = 0',
-            'bind' => [1 => $questionId, 2 => CommentModel::ITEM_QUESTION],
+            'conditions' => 'item_id = ?1 AND item_type = ?2 AND published = ?3 AND deleted = 0',
+            'bind' => [1 => $questionId, 2 => CommentModel::ITEM_QUESTION, 3 => CommentModel::PUBLISH_APPROVED],
         ]);
     }
 
     public function countFavorites($questionId)
     {
         return (int)QuestionFavoriteModel::count([
-            'conditions' => 'question_id = :question_id:',
+            'conditions' => 'question_id = :question_id: AND deleted = 0',
             'bind' => ['question_id' => $questionId],
         ]);
     }
@@ -177,7 +180,7 @@ class Question extends Repository
     public function countLikes($questionId)
     {
         return (int)QuestionLikeModel::count([
-            'conditions' => 'question_id = :question_id:',
+            'conditions' => 'question_id = :question_id: AND deleted = 0',
             'bind' => ['question_id' => $questionId],
         ]);
     }

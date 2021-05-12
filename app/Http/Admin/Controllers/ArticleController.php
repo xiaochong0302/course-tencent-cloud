@@ -189,10 +189,10 @@ class ArticleController extends Controller
             return $this->jsonSuccess($content);
         }
 
-        $rejectOptions = $articleService->getRejectOptions();
+        $reasons = $articleService->getReasons();
         $article = $articleService->getArticle($id);
 
-        $this->view->setVar('reject_options', $rejectOptions);
+        $this->view->setVar('reasons', $reasons);
         $this->view->setVar('article', $article);
     }
 

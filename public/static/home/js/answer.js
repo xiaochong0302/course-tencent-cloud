@@ -1,7 +1,6 @@
-layui.use(['jquery', 'layer', 'helper'], function () {
+layui.use(['jquery', 'helper'], function () {
 
     var $ = layui.jquery;
-    var layer = layui.layer;
     var helper = layui.helper;
 
     $('body').on('click', '.answer-report', function () {
