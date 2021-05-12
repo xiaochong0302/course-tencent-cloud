@@ -3,8 +3,8 @@
 namespace App\Console\Tasks;
 
 use App\Repos\Course as CourseRepo;
-use App\Services\CourseStat as CourseStatService;
 use App\Services\Sync\CourseScore as CourseScoreSync;
+use App\Services\Utils\CourseScore as CourseScoreService;
 
 class SyncCourseScoreTask extends Task
 {
@@ -25,10 +25,10 @@ class SyncCourseScoreTask extends Task
 
         if ($courses->count() == 0) return;
 
-        $statService = new CourseStatService();
+        $service = new CourseScoreService();
 
         foreach ($courses as $course) {
-            $statService->updateScore($course->id);
+            $service->handle($course);
         }
 
         $redis->sRem($key, ...$courseIds);

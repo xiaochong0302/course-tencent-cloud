@@ -120,6 +120,13 @@ class Consult extends Model
     public $like_count = 0;
 
     /**
+     * 举报数
+     *
+     * @var integer
+     */
+    public $report_count;
+
+    /**
      * 回复时间
      *
      * @var int

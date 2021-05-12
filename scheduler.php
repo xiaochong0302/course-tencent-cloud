@@ -52,8 +52,20 @@ $scheduler->php($script, $bin, ['--task' => 'sync_group_index', '--action' => 'm
 $scheduler->php($script, $bin, ['--task' => 'sync_user_index', '--action' => 'main'])
     ->hourly(23);
 
-$scheduler->php($script, $bin, ['--task' => 'sync_course_score', '--action' => 'main'])
+$scheduler->php($script, $bin, ['--task' => 'sync_article_index', '--action' => 'main'])
+    ->hourly(27);
+
+$scheduler->php($script, $bin, ['--task' => 'sync_question_index', '--action' => 'main'])
     ->hourly(29);
+
+$scheduler->php($script, $bin, ['--task' => 'sync_course_score', '--action' => 'main'])
+    ->hourly(31);
+
+$scheduler->php($script, $bin, ['--task' => 'sync_article_score', '--action' => 'main'])
+    ->hourly(33);
+
+$scheduler->php($script, $bin, ['--task' => 'sync_question_score', '--action' => 'main'])
+    ->hourly(37);
 
 $scheduler->php($script, $bin, ['--task' => 'reset_demo_account', '--action' => 'main'])
     ->hourly(59);

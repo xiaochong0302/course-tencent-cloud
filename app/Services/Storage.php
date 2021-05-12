@@ -248,11 +248,9 @@ class Storage extends Service
      */
     protected function generateFileName($extension = '', $prefix = '')
     {
-        $dir = date('Y') . '/' . date('m') . '/';
-
         $name = uniqid();
 
-        return sprintf('%s%s%s.%s', $prefix, $dir, $name, $extension);
+        return sprintf('%s%s.%s', $prefix, $name, $extension);
     }
 
     /**

@@ -37,10 +37,10 @@ class Tag extends Repository
 
         switch ($sort) {
             case 'popular':
-                $orderBy = 'follow_count DESC';
+                $orderBy = 'follow_count DESC, id DESC';
                 break;
             case 'priority':
-                $orderBy = 'priority ASC';
+                $orderBy = 'priority ASC, id ASC';
                 break;
             default:
                 $orderBy = 'id DESC';

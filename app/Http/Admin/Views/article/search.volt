@@ -25,17 +25,6 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">分类</label>
-            <div class="layui-input-block">
-                <select name="category_id">
-                    <option value="">请选择</option>
-                    {% for item in categories %}
-                        <option value="{{ item.id }}">{{ item.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">标签</label>
             <div class="layui-input-block">
                 <div id="xm-tag-ids"></div>
@@ -55,6 +44,20 @@
                 {% for value,title in source_types %}
                     <input type="radio" name="source_type" value="{{ value }}" title="{{ title }}">
                 {% endfor %}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">允许评论</label>
+            <div class="layui-input-block">
+                <input type="radio" name="closed" value="0" title="是">
+                <input type="radio" name="closed" value="1" title="否">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">仅我可见</label>
+            <div class="layui-input-block">
+                <input type="radio" name="private" value="1" title="是">
+                <input type="radio" name="private" value="0" title="否">
             </div>
         </div>
         <div class="layui-form-item">

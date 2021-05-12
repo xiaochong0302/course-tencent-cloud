@@ -55,19 +55,6 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Get("/list/pending", name="admin.article.pending_list")
-     */
-    public function pendingListAction()
-    {
-        $articleService = new ArticleService();
-
-        $pager = $articleService->getPendingArticles();
-
-        $this->view->pick('article/pending_list');
-        $this->view->setVar('pager', $pager);
-    }
-
-    /**
      * @Get("/add", name="admin.article.add")
      */
     public function addAction()
@@ -106,10 +93,8 @@ class ArticleController extends Controller
     {
         $articleService = new ArticleService();
 
-        $rejectOptions = $articleService->getRejectOptions();
         $article = $articleService->getArticle($id);
 
-        $this->view->setVar('reject_options', $rejectOptions);
         $this->view->setVar('article', $article);
     }
 
@@ -184,22 +169,31 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/review", name="admin.article.review")
+     * @Route("/{id:[0-9]+}/review", name="admin.article.review")
      */
     public function reviewAction($id)
     {
         $articleService = new ArticleService();
 
-        $articleService->reviewArticle($id);
+        if ($this->request->isPost()) {
 
-        $location = $this->url->get(['for' => 'admin.article.pending_list']);
+            $articleService->reviewArticle($id);
 
-        $content = [
-            'location' => $location,
-            'msg' => '审核文章成功',
-        ];
+            $location = $this->url->get(['for' => 'admin.mod.articles']);
 
-        return $this->jsonSuccess($content);
+            $content = [
+                'location' => $location,
+                'msg' => '审核文章成功',
+            ];
+
+            return $this->jsonSuccess($content);
+        }
+
+        $reasons = $articleService->getReasons();
+        $article = $articleService->getArticle($id);
+
+        $this->view->setVar('reasons', $reasons);
+        $this->view->setVar('article', $article);
     }
 
 }

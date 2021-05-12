@@ -34,12 +34,10 @@ class GroupDocument extends Component
      */
     public function formatDocument(GroupModel $group)
     {
-        $owner = '';
+        $owner = '{}';
 
         if ($group->owner_id > 0) {
-
             $record = UserModel::findFirst($group->owner_id);
-
             $owner = kg_json_encode([
                 'id' => $record->id,
                 'name' => $record->name,

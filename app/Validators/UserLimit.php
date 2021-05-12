@@ -71,7 +71,29 @@ class UserLimit extends Validator
     {
         $count = $this->counter->hGet($user->id, 'article_like_count');
 
-        $limit = $user->vip ? 200 : 100;
+        $limit = $user->vip ? 100 : 50;
+
+        if ($count > $limit) {
+            throw new BadRequestException('user_limit.reach_daily_like_limit');
+        }
+    }
+
+    public function checkDailyQuestionLikeLimit(UserModel $user)
+    {
+        $count = $this->counter->hGet($user->id, 'question_like_count');
+
+        $limit = $user->vip ? 100 : 50;
+
+        if ($count > $limit) {
+            throw new BadRequestException('user_limit.reach_daily_like_limit');
+        }
+    }
+
+    public function checkDailyAnswerLikeLimit(UserModel $user)
+    {
+        $count = $this->counter->hGet($user->id, 'answer_like_count');
+
+        $limit = $user->vip ? 100 : 50;
 
         if ($count > $limit) {
             throw new BadRequestException('user_limit.reach_daily_like_limit');
@@ -82,7 +104,7 @@ class UserLimit extends Validator
     {
         $count = $this->counter->hGet($user->id, 'chapter_like_count');
 
-        $limit = $user->vip ? 200 : 100;
+        $limit = $user->vip ? 100 : 50;
 
         if ($count > $limit) {
             throw new BadRequestException('user_limit.reach_daily_like_limit');
@@ -93,7 +115,7 @@ class UserLimit extends Validator
     {
         $count = $this->counter->hGet($user->id, 'consult_like_count');
 
-        $limit = $user->vip ? 200 : 100;
+        $limit = $user->vip ? 100 : 50;
 
         if ($count > $limit) {
             throw new BadRequestException('user_limit.reach_daily_like_limit');
@@ -104,7 +126,7 @@ class UserLimit extends Validator
     {
         $count = $this->counter->hGet($user->id, 'review_like_count');
 
-        $limit = $user->vip ? 200 : 100;
+        $limit = $user->vip ? 100 : 50;
 
         if ($count > $limit) {
             throw new BadRequestException('user_limit.reach_daily_like_limit');

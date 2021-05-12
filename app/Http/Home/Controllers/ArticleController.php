@@ -4,13 +4,15 @@ namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Article as ArticleService;
 use App\Http\Home\Services\ArticleQuery as ArticleQueryService;
+use App\Services\Logic\Article\ArticleCreate as ArticleCreateService;
+use App\Services\Logic\Article\ArticleDelete as ArticleDeleteService;
 use App\Services\Logic\Article\ArticleFavorite as ArticleFavoriteService;
 use App\Services\Logic\Article\ArticleInfo as ArticleInfoService;
 use App\Services\Logic\Article\ArticleLike as ArticleLikeService;
 use App\Services\Logic\Article\ArticleList as ArticleListService;
-use App\Services\Logic\Article\CommentList as ArticleCommentListService;
+use App\Services\Logic\Article\ArticleUpdate as ArticleUpdateService;
 use App\Services\Logic\Article\HotAuthorList as HotAuthorListService;
-use App\Services\Logic\Article\RelatedList as ArticleRelatedListService;
+use App\Services\Logic\Article\RelatedArticleList as RelatedArticleListService;
 use Phalcon\Mvc\View;
 
 /**
@@ -78,7 +80,7 @@ class ArticleController extends Controller
         $article = $service->getArticleModel();
         $xmTags = $service->getXmTags(0);
 
-        $this->seo->prependTitle('撰写文章');
+        $this->seo->prependTitle('写文章');
 
         $this->view->pick('article/edit');
         $this->view->setVar('source_types', $sourceTypes);
@@ -123,6 +125,7 @@ class ArticleController extends Controller
         }
 
         $this->seo->prependTitle($article['title']);
+        $this->seo->setDescription($article['summary']);
 
         $this->view->setVar('article', $article);
     }
@@ -132,7 +135,7 @@ class ArticleController extends Controller
      */
     public function relatedAction($id)
     {
-        $service = new ArticleRelatedListService();
+        $service = new RelatedArticleListService();
 
         $articles = $service->handle($id);
 
@@ -141,26 +144,13 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/comments", name="home.article.comments")
-     */
-    public function commentsAction($id)
-    {
-        $service = new ArticleCommentListService();
-
-        $comments = $service->handle($id);
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->setVar('comments', $comments);
-    }
-
-    /**
      * @Post("/create", name="home.article.create")
      */
     public function createAction()
     {
-        $service = new ArticleService();
+        $service = new ArticleCreateService();
 
-        $service->createArticle();
+        $service->handle();
 
         $location = $this->url->get(['for' => 'home.uc.articles']);
 
@@ -177,9 +167,9 @@ class ArticleController extends Controller
      */
     public function updateAction($id)
     {
-        $service = new ArticleService();
+        $service = new ArticleUpdateService();
 
-        $service->updateArticle($id);
+        $service->handle($id);
 
         $location = $this->url->get(['for' => 'home.uc.articles']);
 
@@ -196,12 +186,14 @@ class ArticleController extends Controller
      */
     public function deleteAction($id)
     {
-        $service = new ArticleService();
+        $service = new ArticleDeleteService();
 
-        $service->deleteArticle($id);
+        $service->handle($id);
+
+        $location = $this->url->get(['for' => 'home.uc.articles']);
 
         $content = [
-            'location' => $this->request->getHTTPReferer(),
+            'location' => $location,
             'msg' => '删除文章成功',
         ];
 
@@ -236,5 +228,12 @@ class ArticleController extends Controller
         return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
     }
 
+    /**
+     * @Route("/{id:[0-9]+}/report", name="home.article.report")
+     */
+    public function reportAction($id)
+    {
+
+    }
 
 }

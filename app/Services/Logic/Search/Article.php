@@ -5,6 +5,7 @@ namespace App\Services\Logic\Search;
 use App\Library\Paginator\Adapter\XunSearch as XunSearchPaginator;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Services\Search\ArticleSearcher as ArticleSearcherService;
+use Phalcon\Text;
 
 class Article extends Handler
 {
@@ -58,7 +59,9 @@ class Article extends Handler
 
         foreach ($pager->items as $item) {
 
-            $item['cover'] = $baseUrl . $item['cover'];
+            if (!empty($item['cover']) && !Text::startsWith($item['cover'], 'http')) {
+                $item['cover'] = $baseUrl . $item['cover'];
+            }
 
             $items[] = [
                 'id' => (int)$item['id'],

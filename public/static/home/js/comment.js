@@ -5,7 +5,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
     var layer = layui.layer;
     var helper = layui.helper;
 
-    form.on('submit(addComment)', function (data) {
+    form.on('submit(add_comment)', function (data) {
         var submit = $(this);
         var $commentList = $('#comment-list');
         var $textarea = $(data.form).find('.layui-textarea');
@@ -39,7 +39,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         return false;
     });
 
-    form.on('submit(replyComment)', function (data) {
+    form.on('submit(reply_comment)', function (data) {
         var submit = $(this);
         var commentId = submit.data('comment-id');
         var parentId = submit.data('parent-id');
@@ -83,12 +83,6 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         return false;
     });
 
-    $('.icon-comment').on('click', function () {
-        $('html').animate({
-            scrollTop: $('#comment-anchor').offset().top
-        }, 500);
-    });
-
     $('#btn-cancel-comment').on('click', function () {
         $('#comment-footer').hide();
     });
@@ -102,7 +96,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         $('#comment-form-' + id).hide();
     });
 
-    $('body').on('click', '.action-toggle', function () {
+    $('body').on('click', '.comment-toggle', function () {
         var $this = $(this);
         var id = $this.data('id');
         var url = $this.data('url');
@@ -127,7 +121,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         }
     });
 
-    $('body').on('click', '.action-reply', function () {
+    $('body').on('click', '.comment-reply', function () {
         var id = $(this).data('id');
         var $block = $('#comment-form-' + id);
         var $textarea = $block.find('textarea');
@@ -135,7 +129,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         $textarea.focus();
     });
 
-    $('body').on('click', '.action-like', function () {
+    $('body').on('click', '.comment-like', function () {
         var $this = $(this);
         var $likeCount = $this.prev();
         var likeCount = $likeCount.data('count');
@@ -157,7 +151,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         });
     });
 
-    $('body').on('click', '.action-delete', function () {
+    $('body').on('click', '.comment-delete', function () {
         var $this = $(this);
         var id = $this.data('id');
         var parentId = $this.data('parent-id');

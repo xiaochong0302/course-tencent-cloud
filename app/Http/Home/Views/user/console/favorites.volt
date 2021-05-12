@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% set types = {'course':'课程','article':'文章'} %}
+    {% set types = {'course':'课程','article':'文章','question':'问题'} %}
     {% set type = request.get('type','trim','course') %}
 
     <div class="layout-main clearfix">
@@ -21,6 +21,8 @@
                     {{ partial('user/console/favorites_course') }}
                 {% elseif type == 'article' %}
                     {{ partial('user/console/favorites_article') }}
+                {% elseif type == 'question' %}
+                    {{ partial('user/console/favorites_question') }}
                 {% endif %}
             </div>
         </div>

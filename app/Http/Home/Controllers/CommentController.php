@@ -64,26 +64,6 @@ class CommentController extends Controller
     }
 
     /**
-     * @Get("/add", name="home.comment.add")
-     */
-    public function addAction()
-    {
-
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/reply", name="home.comment.reply")
-     */
-    public function replyAction($id)
-    {
-        $service = new CommentInfoService();
-
-        $comment = $service->handle($id);
-
-        $this->view->setVar('comment', $comment);
-    }
-
-    /**
      * @Post("/create", name="home.comment.create")
      */
     public function createAction()
@@ -100,9 +80,9 @@ class CommentController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/reply", name="home.comment.create_reply")
+     * @Post("/{id:[0-9]+}/reply", name="home.comment.reply")
      */
-    public function createReplyAction($id)
+    public function replyAction($id)
     {
         $service = new CommentReplyService();
 
@@ -139,6 +119,14 @@ class CommentController extends Controller
         $service->handle($id);
 
         return $this->jsonSuccess(['msg' => '删除评论成功']);
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}/report", name="home.comment.report")
+     */
+    public function reportAction($id)
+    {
+
     }
 
 }

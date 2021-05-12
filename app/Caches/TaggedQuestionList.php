@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Caches;
+
+use App\Models\Question as QuestionModel;
+use App\Repos\Question as QuestionRepo;
+
+class TaggedQuestionList extends Cache
+{
+
+    protected $limit = 5;
+
+    protected $lifetime = 1 * 86400;
+
+    public function getLifetime()
+    {
+        return $this->lifetime;
+    }
+
+    public function getKey($id = null)
+    {
+        return "tagged_question_list:{$id}";
+    }
+
+    public function getContent($id = null)
+    {
+
+        $questionRepo = new QuestionRepo();
+
+        $where = [
+            'tag_id' => $id,
+            'published' => QuestionModel::PUBLISH_APPROVED,
+        ];
+
+        $pager = $questionRepo->paginate($where);
+
+        if ($pager->total_items == 0) return [];
+
+        return $this->handleContent($pager->items);
+    }
+
+    /**
+     * @param QuestionModel[] $questions
+     * @return array
+     */
+    public function handleContent($questions)
+    {
+        $result = [];
+
+        $count = 0;
+
+        foreach ($questions as $question) {
+            if ($count < $this->limit) {
+                $result[] = [
+                    'id' => $question->id,
+                    'title' => $question->title,
+                    'view_count' => $question->view_count,
+                    'like_count' => $question->like_count,
+                    'answer_count' => $question->answer_count,
+                    'favorite_count' => $question->favorite_count,
+                ];
+                $count++;
+            }
+        }
+
+        return $result;
+    }
+
+}

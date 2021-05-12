@@ -6,6 +6,8 @@ use App\Models\Chapter as ChapterModel;
 use App\Models\Consult as ConsultModel;
 use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
+use App\Repos\Chapter as ChapterRepo;
+use App\Repos\Course as CourseRepo;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Notice\DingTalk\ConsultCreate as ConsultCreateNotice;
@@ -76,10 +78,8 @@ class ConsultCreate extends LogicService
 
         $consult->create();
 
-        $this->incrCourseConsultCount($course);
-
+        $this->recountCourseConsults($course);
         $this->incrUserDailyConsultCount($user);
-
         $this->handleConsultCreateNotice($consult);
 
         $this->eventsManager->fire('Consult:afterCreate', $this, $consult);
@@ -116,12 +116,9 @@ class ConsultCreate extends LogicService
 
         $consult->create();
 
-        $this->incrCourseConsultCount($course);
-
-        $this->incrChapterConsultCount($chapter);
-
+        $this->recountCourseConsults($course);
+        $this->recountChapterConsults($chapter);
         $this->incrUserDailyConsultCount($user);
-
         $this->handleConsultCreateNotice($consult);
 
         $this->eventsManager->fire('Consult:afterCreate', $this, $consult);
@@ -146,16 +143,24 @@ class ConsultCreate extends LogicService
         return $priority;
     }
 
-    protected function incrCourseConsultCount(CourseModel $course)
+    protected function recountCourseConsults(CourseModel $course)
     {
-        $course->consult_count += 1;
+        $courseRepo = new CourseRepo();
+
+        $consultCount = $courseRepo->countConsults($course->id);
+
+        $course->consult_count = $consultCount;
 
         $course->update();
     }
 
-    protected function incrChapterConsultCount(ChapterModel $chapter)
+    protected function recountChapterConsults(ChapterModel $chapter)
     {
-        $chapter->consult_count += 1;
+        $chapterRepo = new ChapterRepo();
+
+        $consultCount = $chapterRepo->countConsults($chapter->id);
+
+        $chapter->consult_count = $consultCount;
 
         $chapter->update();
     }

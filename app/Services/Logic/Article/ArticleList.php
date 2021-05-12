@@ -8,6 +8,7 @@ use App\Models\Article as ArticleModel;
 use App\Repos\Article as ArticleRepo;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\ArticleQuery as ArticleQueryValidator;
+use Phalcon\Text;
 
 class ArticleList extends LogicService
 {
@@ -55,13 +56,15 @@ class ArticleList extends LogicService
 
         foreach ($articles as $article) {
 
-            $article['cover'] = $baseUrl . $article['cover'];
+            if (!empty($article['cover']) && !Text::startsWith($article['cover'], 'http')) {
+                $article['cover'] = $baseUrl . $article['cover'];
+            }
 
             if (empty($article['summary'])) {
                 $article['summary'] = kg_parse_summary($article['content']);
             }
 
-            $article['tags'] = json_decode($article['tags']);
+            $article['tags'] = json_decode($article['tags'], true);
 
             $category = $categories[$article['category_id']] ?? new \stdClass();
 
@@ -79,7 +82,7 @@ class ArticleList extends LogicService
                 'owner' => $owner,
                 'private' => $article['private'],
                 'published' => $article['published'],
-                'allow_comment' => $article['allow_comment'],
+                'closed' => $article['closed'],
                 'view_count' => $article['view_count'],
                 'like_count' => $article['like_count'],
                 'comment_count' => $article['comment_count'],
@@ -106,6 +109,10 @@ class ArticleList extends LogicService
 
         if (isset($params['tag_id'])) {
             $query['tag_id'] = $validator->checkTag($params['tag_id']);
+        }
+
+        if (isset($params['sort'])) {
+            $query['sort'] = $validator->checkSort($params['sort']);
         }
 
         return $query;

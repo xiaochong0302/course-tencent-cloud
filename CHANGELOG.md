@@ -1,3 +1,15 @@
+### [v1.3.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.4)(2021-05-13)
+
+### 更新
+
+- 前台增加问答功能
+- 优化标签功能
+- 优化文章功能以及全文搜索
+- 优化课程评价，咨询，文章等相关统计
+- 后台增加提问和回答审核功能
+- 后台增加查看用户在线记录 修正后台编辑角色权限错误
+- 优化前台界面
+
 ### [v1.3.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.3)(2021-04-30)
 
 ### 更新

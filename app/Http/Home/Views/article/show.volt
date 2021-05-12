@@ -5,14 +5,17 @@
     {{ partial('macros/article') }}
 
     {% set article_list_url = url({'for':'home.article.list'}) %}
-    {% set related_article_url = url({'for':'home.article.related','id':article.id}) %}
-    {% set owner_url = url({'for':'home.user.show','id':article.owner.id}) %}
+    {% set article_report_url = url({'for':'home.article.report','id':article.id}) %}
+    {% set article_edit_url = url({'for':'home.article.edit','id':article.id}) %}
+    {% set article_delete_url = url({'for':'home.article.delete','id':article.id}) %}
+    {% set article_owner_url = url({'for':'home.user.show','id':article.owner.id}) %}
+    {% set article_related_url = url({'for':'home.article.related','id':article.id}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
             <a href="{{ article_list_url }}">专栏</a>
-            <a><cite>文章详情</cite></a>
+            <a><cite>详情</cite></a>
         </span>
         <span class="share">
             <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
@@ -29,13 +32,20 @@
             <div class="article-info wrap">
                 <div class="title">{{ article.title }}</div>
                 <div class="meta">
-                    <span class="source layui-badge layui-bg-green">{{ source_type(article.source_type) }}</span>
-                    <span class="owner">
-                        <a href="{{ owner_url }}">{{ article.owner.name }}</a>
-                    </span>
-                    <span class="view">{{ article.view_count }} 阅读</span>
-                    <span class="word">{{ article.word_count }} 字数</span>
-                    <span class="time" title="{{ date('Y-m-d H:i:s',article.create_time) }}">{{ article.create_time|time_ago }}</span>
+                    <div class="left">
+                        <span class="source layui-badge layui-bg-green">{{ source_type(article.source_type) }}</span>
+                        <span class="owner"><a href="{{ article_owner_url }}">{{ article.owner.name }}</a></span>
+                        <span class="time">{{ article.create_time|time_ago }}</span>
+                        <span class="view">{{ article.view_count }} 阅读</span>
+                        <span class="comment">{{ article.comment_count }} 评论</span>
+                    </div>
+                    <div class="right">
+                        <span class="article-report" data-url="{{ article_report_url }}">举报</span>
+                        {% if auth_user.id == article.owner.id %}
+                            <span class="article-edit" data-url="{{ article_edit_url }}">编辑</span>
+                            <span class="kg-delete" data-url="{{ article_delete_url }}">删除</span>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="content markdown-body">{{ article.content }}</div>
                 {% if article.tags %}
@@ -55,7 +65,7 @@
                 {% endif %}
             </div>
             <div id="comment-anchor"></div>
-            {% if article.allow_comment == 1 %}
+            {% if article.closed == 0 %}
                 <div class="article-comment wrap">
                     {{ partial('article/comment') }}
                 </div>
@@ -74,7 +84,7 @@
                             </div>
                             <div class="info">
                                 <div class="name layui-elip">
-                                    <a href="{{ owner_url }}" title="{{ article.owner.about }}">{{ article.owner.name }}</a>
+                                    <a href="{{ article_owner_url }}" title="{{ article.owner.about }}">{{ article.owner.name }}</a>
                                 </div>
                                 <div class="title layui-elip">{{ article.owner.title|default('初出江湖') }}</div>
                             </div>
@@ -82,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            <div class="sidebar" id="related-article-list" data-url="{{ related_article_url }}"></div>
+            <div class="sidebar" id="sidebar-related" data-url="{{ article_related_url }}"></div>
         </div>
     </div>
 

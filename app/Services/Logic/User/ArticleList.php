@@ -5,7 +5,7 @@ namespace App\Services\Logic\User;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Article as ArticleModel;
 use App\Repos\Article as ArticleRepo;
-use App\Services\Logic\Article\ArticleList as ArticleListService;
+use App\Services\Logic\Article\QuestionList as ArticleListService;
 use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
 

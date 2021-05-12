@@ -22,4 +22,28 @@ class ModerationController extends Controller
         $this->view->setVar('pager', $pager);
     }
 
+    /**
+     * @Get("/questions", name="admin.mod.questions")
+     */
+    public function questionsAction()
+    {
+        $modService = new ModerationService();
+
+        $pager = $modService->getQuestions();
+
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/answers", name="admin.mod.answers")
+     */
+    public function answersAction()
+    {
+        $modService = new ModerationService();
+
+        $pager = $modService->getAnswers();
+
+        $this->view->setVar('pager', $pager);
+    }
+
 }

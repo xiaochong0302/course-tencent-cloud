@@ -5,7 +5,7 @@ namespace App\Validators;
 use App\Caches\Category as CategoryCache;
 use App\Caches\Tag as TagCache;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Models\Course as CourseModel;
+use App\Models\Article as ArticleModel;
 
 class ArticleQuery extends Validator
 {
@@ -38,7 +38,7 @@ class ArticleQuery extends Validator
 
     public function checkSort($sort)
     {
-        $types = CourseModel::sortTypes();
+        $types = ArticleModel::sortTypes();
 
         if (!isset($types[$sort])) {
             throw new BadRequestException('article_query.invalid_sort');

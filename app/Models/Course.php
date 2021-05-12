@@ -287,8 +287,6 @@ class Course extends Model
     {
         parent::initialize();
 
-        $this->keepSnapshots(true);
-
         $this->addBehavior(
             new SoftDelete([
                 'field' => 'deleted',

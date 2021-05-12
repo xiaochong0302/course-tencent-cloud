@@ -23,7 +23,7 @@
                 <td>{{ item.user_count }}</td>
                 <td>{{ "%0.1f"|format(item.rating) }}</td>
                 <td class="center">
-                    <button class="layui-btn layui-btn-sm kg-delete" data-tips="确定要取消收藏吗？" data-url="{{ favorite_url }}">取消</button>
+                    <button class="layui-btn layui-btn-sm layui-bg-red kg-delete" data-tips="确定要取消收藏吗？" data-url="{{ favorite_url }}">取消</button>
                 </td>
             </tr>
         {% endfor %}

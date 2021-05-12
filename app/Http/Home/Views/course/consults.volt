@@ -5,7 +5,7 @@
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set consult_url = url({'for':'home.consult.show','id':item.id}) %}
             {% set like_url = url({'for':'home.consult.like','id':item.id}) %}
-            <div class="comment-card review-card clearfix">
+            <div class="comment-card consult-card">
                 <div class="avatar">
                     <a href="{{ owner_url }}" title="{{ item.owner.name }}" target="_blank">
                         <img src="{{ item.owner.avatar }}!avatar_160" alt="{{ item.owner.name }}">
@@ -17,8 +17,8 @@
                             <i class="layui-icon layui-icon-more"></i>
                         </a>
                     </div>
-                    <div class="title layui-elip">{{ item.question }}</div>
-                    <div class="content">{{ item.answer }}</div>
+                    <div class="question">{{ item.question }}</div>
+                    <div class="answer">{{ item.answer }}</div>
                     <div class="footer">
                         <div class="left">
                             <div class="column">

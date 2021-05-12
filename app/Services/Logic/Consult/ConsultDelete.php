@@ -4,6 +4,8 @@ namespace App\Services\Logic\Consult;
 
 use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
+use App\Repos\Chapter as ChapterRepo;
+use App\Repos\Course as CourseRepo;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\ConsultTrait;
 use App\Services\Logic\CourseTrait;
@@ -35,33 +37,39 @@ class ConsultDelete extends LogicService
 
             $course = $this->checkCourse($consult->course_id);
 
-            $this->decrCourseConsultCount($course);
+            $this->recountCourseConsults($course);
         }
 
         if ($consult->chapter_id > 0) {
 
             $chapter = $this->checkChapter($consult->chapter_id);
 
-            $this->decrChapterConsultCount($chapter);
+            $this->recountChapterConsults($chapter);
         }
 
         $this->eventsManager->fire('Consult:afterDelete', $this, $consult);
     }
 
-    protected function decrCourseConsultCount(CourseModel $course)
+    protected function recountCourseConsults(CourseModel $course)
     {
-        if ($course->consult_count > 0) {
-            $course->consult_count -= 1;
-            $course->update();
-        }
+        $courseRepo = new CourseRepo();
+
+        $consultCount = $courseRepo->countConsults($course->id);
+
+        $course->consult_count = $consultCount;
+
+        $course->update();
     }
 
-    protected function decrChapterConsultCount(ChapterModel $chapter)
+    protected function recountChapterConsults(ChapterModel $chapter)
     {
-        if ($chapter->consult_count > 0) {
-            $chapter->consult_count -= 1;
-            $chapter->update();
-        }
+        $chapterRepo = new ChapterRepo();
+
+        $consultCount = $chapterRepo->countConsults($chapter->id);
+
+        $chapter->consult_count = $consultCount;
+
+        $chapter->update();
     }
 
 }

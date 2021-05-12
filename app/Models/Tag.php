@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Caches\MaxTagId as MaxTagIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
 
 class Tag extends Model
 {
@@ -97,11 +98,21 @@ class Tag extends Model
 
     public function beforeCreate()
     {
+        if (empty($this->icon)) {
+            $this->icon = kg_default_icon_path();
+        } elseif (Text::startsWith($this->icon, 'http')) {
+            $this->icon = self::getIconPath($this->icon);
+        }
+        
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
+        if (Text::startsWith($this->icon, 'http')) {
+            $this->icon = self::getIconPath($this->icon);
+        }
+        
         if ($this->deleted == 1) {
             $this->published = 0;
         }
@@ -114,6 +125,22 @@ class Tag extends Model
         $cache = new MaxTagIdCache();
 
         $cache->rebuild();
+    }
+
+    public function afterFetch()
+    {
+        if (!Text::startsWith($this->icon, 'http')) {
+            $this->icon = kg_cos_icon_url($this->icon);
+        }
+    }
+
+    public static function getIconPath($url)
+    {
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
+
+        return $url;
     }
 
 }

@@ -17,7 +17,6 @@ layui.use(['jquery', 'layer', 'upload'], function () {
         choose: function (obj) {
             var flag = true;
             obj.preview(function (index, file, result) {
-                console.log(file);
                 var img = new Image();
                 img.src = result;
                 img.onload = function () {

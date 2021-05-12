@@ -40,20 +40,15 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set list_by_id_url = url({'for':'admin.audit.list'},{'user_id':item.user_id}) %}
-            {% set list_by_ip_url = url({'for':'admin.audit.list'},{'user_ip':item.user_ip}) %}
-            {% set list_by_route_url = url({'for':'admin.audit.list'},{'req_route':item.req_route}) %}
-            {% set list_by_path_url = url({'for':'admin.audit.list'},{'req_path':item.req_path}) %}
             {% set show_url = url({'for':'admin.audit.show','id':item.id}) %}
             <tr>
                 <td>{{ item.user_id }}</td>
-                <td><a href="{{ list_by_id_url }}">{{ item.user_name }}</a></td>
+                <td>{{ item.user_name }}</td>
                 <td>
-                    <a href="{{ list_by_ip_url }}">{{ item.user_ip }}</a>
-                    <span class="layui-btn layui-btn-xs kg-ip2region" data-ip="{{ item.user_ip }}">位置</span>
+                    <a href="javascript:" class="kg-ip2region" title="查看位置" data-ip="{{ item.user_ip }}">{{ item.user_ip }}</a>
                 </td>
-                <td><a href="{{ list_by_route_url }}">{{ item.req_route }}</a></td>
-                <td><a href="{{ list_by_path_url }}">{{ item.req_path }}</a></td>
+                <td>{{ item.req_route }}</td>
+                <td>{{ item.req_path }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td class="center">
                     <button class="kg-view layui-btn layui-btn-sm" data-url="{{ show_url }}">详情</button>

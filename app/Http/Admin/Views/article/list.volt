@@ -38,13 +38,13 @@
         <thead>
         <tr>
             <th>文章</th>
-            <th>状态</th>
-            <th>浏览</th>
             <th>评论</th>
+            <th>浏览</th>
             <th>点赞</th>
             <th>收藏</th>
+            <th>状态</th>
             <th>推荐</th>
-            <th>评论</th>
+            <th>关闭</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -52,6 +52,7 @@
         {% for item in pager.items %}
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set preview_url = url({'for':'home.article.show','id':item.id}) %}
+            {% set review_url = url({'for':'admin.article.review','id':item.id}) %}
             {% set edit_url = url({'for':'admin.article.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.article.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.article.delete','id':item.id}) %}
@@ -74,18 +75,22 @@
                         <span>创建：{{ date('Y-m-d',item.create_time) }}</span>
                     </p>
                 </td>
-                <td>{{ publish_status(item.published) }}</td>
                 <td>{{ item.view_count }}</td>
                 <td>{{ item.comment_count }}</td>
                 <td>{{ item.like_count }}</td>
                 <td>{{ item.favorite_count }}</td>
+                <td>{{ publish_status(item.published) }}</td>
                 <td><input type="checkbox" name="featured" value="1" lay-skin="switch" lay-text="是|否" lay-filter="featured" data-url="{{ update_url }}" {% if item.featured == 1 %}checked="checked"{% endif %}></td>
-                <td><input type="checkbox" name="comment" value="1" lay-skin="switch" lay-text="开|关" lay-filter="comment" data-url="{{ update_url }}" {% if item.allow_comment == 1 %}checked="checked"{% endif %}></td>
+                <td><input type="checkbox" name="comment" value="1" lay-skin="switch" lay-text="是|否" lay-filter="closed" data-url="{{ update_url }}" {% if item.closed == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="layui-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
-                            <li><a href="{{ preview_url }}" target="_blank">预览文章</a></li>
+                            {% if item.published == 1 %}
+                                <li><a href="{{ review_url }}">审核文章</a></li>
+                            {% elseif item.published == 2 %}
+                                <li><a href="{{ preview_url }}" target="_blank">预览文章</a></li>
+                            {% endif %}
                             <li><a href="{{ edit_url }}">编辑文章</a></li>
                             {% if item.deleted == 0 %}
                                 <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除文章</a></li>
@@ -142,16 +147,16 @@
                 });
             });
 
-            form.on('switch(comment)', function (data) {
+            form.on('switch(closed)', function (data) {
                 var checked = $(this).is(':checked');
-                var allowComment = checked ? 1 : 0;
+                var closed = checked ? 1 : 0;
                 var url = $(this).data('url');
-                var tips = allowComment === 1 ? '确定要开启评论？' : '确定要关闭评论？';
+                var tips = closed === 1 ? '确定要关闭评论？' : '确定要开启评论？';
                 layer.confirm(tips, function () {
                     $.ajax({
                         type: 'POST',
                         url: url,
-                        data: {allow_comment: allowComment},
+                        data: {closed: closed},
                         success: function (res) {
                             layer.msg(res.msg, {icon: 1});
                         },

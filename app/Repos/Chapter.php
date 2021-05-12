@@ -10,6 +10,7 @@ use App\Models\ChapterRead as ChapterReadModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\ChapterVod as ChapterVodModel;
 use App\Models\Comment as CommentModel;
+use App\Models\Consult as ConsultModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -157,6 +158,14 @@ class Chapter extends Repository
     {
         return (int)ChapterModel::count([
             'conditions' => 'parent_id = :chapter_id: AND deleted = 0',
+            'bind' => ['chapter_id' => $chapterId],
+        ]);
+    }
+
+    public function countConsults($chapterId)
+    {
+        return (int)ConsultModel::count([
+            'conditions' => 'chapter_id = :chapter_id: AND published = 1 AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId],
         ]);
     }

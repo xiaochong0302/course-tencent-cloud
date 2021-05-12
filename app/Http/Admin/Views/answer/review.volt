@@ -2,24 +2,20 @@
 
 {% block content %}
 
-    {% set list_url = url({'for':'admin.article.pending_list'}) %}
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>审核内容</legend>
+    </fieldset>
 
-    <div class="kg-nav">
-        <div class="kg-nav-left">
-            <span class="layui-breadcrumb">
-                <a href="{{ list_url }}">审核列表</a>
-                <a><cite>{{ article.title }}</cite></a>
-            </span>
-        </div>
+    <div class="kg-mod-preview">
+        <div class="title">{{ question.title }}</div>
+        <div class="content markdown-body">{{ answer.content }}</div>
     </div>
 
-    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.article.review','id':article.id}) }}">
-        <div class="layui-form-item">
-            <label class="layui-form-label">内容</label>
-            <div class="layui-input-block">
-                <div class="content markdown-body">{{ article.content|parse_markdown }}</div>
-            </div>
-        </div>
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>审核意见</legend>
+    </fieldset>
+
+    <form class="layui-form kg-form kg-review-form" method="POST" action="{{ url({'for':'admin.answer.review','id':answer.id}) }}">
         <div class="layui-form-item">
             <label class="layui-form-label">审核</label>
             <div class="layui-input-block">
@@ -33,7 +29,7 @@
                 <div class="layui-input-block">
                     <select name="reason">
                         <option value="">请选择</option>
-                        {% for value,name in reject_options %}
+                        {% for value,name in reasons %}
                             <option value="{{ value }}">{{ name }}</option>
                         {% endfor %}
                     </select>

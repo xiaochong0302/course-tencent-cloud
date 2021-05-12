@@ -51,7 +51,7 @@ class ArticleInfo extends LogicService
             'owner' => $owner,
             'me' => $me,
             'private' => $article->private,
-            'allow_comment' => $article->allow_comment,
+            'closed' => $article->closed,
             'source_type' => $article->source_type,
             'source_url' => $article->source_url,
             'word_count' => $article->word_count,

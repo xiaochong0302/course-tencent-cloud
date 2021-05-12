@@ -2,10 +2,10 @@
 
 {% block content %}
 
-    {% set category_val = request.get('category_id','int','all') %}
     {% set sort_val = request.get('sort','trim','latest') %}
     {% set pager_url = url({'for':'home.article.pager'}, params) %}
-    {% set hot_author_url = url({'for':'home.article.hot_authors'}) %}
+    {% set hot_authors_url = url({'for':'home.article.hot_authors'}) %}
+    {% set my_tags_url = url({'for':'home.widget.my_tags'},{'type':'article'}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
@@ -17,30 +17,26 @@
     <div class="layout-main clearfix">
         <div class="layout-content">
             <div class="content-wrap wrap">
-                <div class="article-sort">
-                    {% for sort in sorts %}
-                        {% set class = sort_val == sort.id ? 'layui-btn layui-btn-xs' : 'none' %}
-                        <a class="{{ class }}" href="{{ sort.url }}">{{ sort.name }}</a>
-                    {% endfor %}
-                </div>
-                <div class="article-list" id="article-list" data-url="{{ pager_url }}"></div>
-            </div>
-        </div>
-        <div class="layout-sidebar">
-            <div class="sidebar">
-                <div class="layui-card">
-                    <div class="layui-card-header">文章分类</div>
-                    <div class="layui-card-body">
-                        <ul class="article-cate-list">
-                            {% for category in categories %}
-                                {% set class = category_val == category.id ? 'active' : '' %}
-                                <li class="{{ class }}"><a href="{{ category.url }}">{{ category.name }}</a></li>
-                            {% endfor %}
-                        </ul>
+                <div class="layui-tab layui-tab-brief search-tab">
+                    <ul class="layui-tab-title">
+                        {% for sort in sorts %}
+                            {% set class = sort_val == sort.id ? 'layui-this' : 'none' %}
+                            <li class="{{ class }}"><a href="{{ sort.url }}">{{ sort.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div id="article-list" data-url="{{ pager_url }}"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="sidebar" id="hot-author-list" data-url="{{ hot_author_url }}"></div>
+        </div>
+        <div class="layout-sidebar">
+            {% if auth_user.id > 0 %}
+                <div class="sidebar" id="sidebar-my-tags" data-url="{{ my_tags_url }}"></div>
+            {% endif %}
+            <div class="sidebar" id="sidebar-hot-authors" data-url="{{ hot_authors_url }}"></div>
         </div>
     </div>
 

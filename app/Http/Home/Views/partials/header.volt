@@ -42,7 +42,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:">创建</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:">提问题</a></dd>
+                    <dd><a href="{{ url({'for':'home.question.add'}) }}" target="_blank">提问题</a></dd>
                     <dd><a href="{{ url({'for':'home.article.add'}) }}" target="_blank">写文章</a></dd>
                 </dl>
             </li>

@@ -8,6 +8,7 @@ use App\Models\Course as CourseModel;
 use App\Models\Help as HelpModel;
 use App\Models\ImGroup as ImGroupModel;
 use App\Models\Page as PageModel;
+use App\Models\Question as QuestionModel;
 use App\Models\Topic as TopicModel;
 use App\Models\User as UserModel;
 use App\Services\Service as AppService;
@@ -37,6 +38,7 @@ class SitemapTask extends Task
         $this->addIndex();
         $this->addCourses();
         $this->addArticles();
+        $this->addQuestions();
         $this->addTeachers();
         $this->addTopics();
         $this->addImGroups();
@@ -66,7 +68,11 @@ class SitemapTask extends Task
         /**
          * @var Resultset|CourseModel[] $courses
          */
-        $courses = CourseModel::query()->where('published = 1')->execute();
+        $courses = CourseModel::query()
+            ->where('published = 1')
+            ->orderBy('id DESC')
+            ->limit(500)
+            ->execute();
 
         if ($courses->count() == 0) return;
 
@@ -81,12 +87,35 @@ class SitemapTask extends Task
         /**
          * @var Resultset|ArticleModel[] $articles
          */
-        $articles = ArticleModel::query()->where('published = 1')->execute();
+        $articles = ArticleModel::query()
+            ->where('published = :published:', ['published' => ArticleModel::PUBLISH_APPROVED])
+            ->orderBy('id DESC')
+            ->limit(500)
+            ->execute();
 
         if ($articles->count() == 0) return;
 
         foreach ($articles as $article) {
             $loc = sprintf('%s/article/%s', $this->siteUrl, $article->id);
+            $this->sitemap->addItem($loc, 0.8);
+        }
+    }
+
+    protected function addQuestions()
+    {
+        /**
+         * @var Resultset|QuestionModel[] $questions
+         */
+        $questions = QuestionModel::query()
+            ->where('published = :published:', ['published' => QuestionModel::PUBLISH_APPROVED])
+            ->orderBy('id DESC')
+            ->limit(500)
+            ->execute();
+
+        if ($questions->count() == 0) return;
+
+        foreach ($questions as $question) {
+            $loc = sprintf('%s/question/%s', $this->siteUrl, $question->id);
             $this->sitemap->addItem($loc, 0.8);
         }
     }

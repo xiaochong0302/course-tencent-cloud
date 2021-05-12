@@ -1,0 +1,20 @@
+layui.use(['jquery', 'form', 'layer'], function () {
+
+    var $ = layui.jquery;
+    var xmTags = JSON.parse($('input[name=xm_tags]').val());
+
+    xmSelect.render({
+        el: '#xm-tag-ids',
+        name: 'xm_tag_ids',
+        max: 3,
+        data: xmTags,
+        layVerify: 'required',
+        layVerType: 'msg',
+        autoRow: true,
+        filterable: true,
+        filterMethod: function (val, item, index, prop) {
+            return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
+        }
+    });
+
+});

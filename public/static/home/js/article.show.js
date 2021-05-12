@@ -3,16 +3,29 @@ layui.use(['jquery', 'helper'], function () {
     var $ = layui.jquery;
     var helper = layui.helper;
 
-    var $relatedList = $('#related-article-list');
+    var $sidebarRelated = $('#sidebar-related');
     var $commentList = $('#comment-list');
 
-    if ($relatedList.length > 0) {
-        helper.ajaxLoadHtml($relatedList.data('url'), $relatedList.attr('id'));
+    if ($sidebarRelated.length > 0) {
+        helper.ajaxLoadHtml($sidebarRelated.data('url'), $sidebarRelated.attr('id'));
     }
 
     if ($commentList.length > 0) {
         helper.ajaxLoadHtml($commentList.data('url'), $commentList.attr('id'));
     }
+
+    $('.article-report').on('click', function () {
+        /**
+         * @todo
+         */
+    });
+
+    $('.article-edit').on('click', function () {
+        var url = $(this).data('url');
+        helper.checkLogin(function () {
+            window.location.href = url;
+        });
+    });
 
     $('.icon-star').on('click', function () {
         var $this = $(this);
@@ -65,6 +78,12 @@ layui.use(['jquery', 'helper'], function () {
                 }
             });
         });
+    });
+
+    $('.icon-reply').on('click', function () {
+        $('html').animate({
+            scrollTop: $('#comment-anchor').offset().top
+        }, 500);
     });
 
 });

@@ -5,6 +5,7 @@ namespace App\Http\Home\Controllers;
 use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Logic\Account\OAuthProvider as OAuthProviderService;
 use App\Services\Logic\User\Console\AccountInfo as AccountInfoService;
+use App\Services\Logic\User\Console\AnswerList as AnswerListService;
 use App\Services\Logic\User\Console\ArticleList as ArticleListService;
 use App\Services\Logic\User\Console\ConnectDelete as ConnectDeleteService;
 use App\Services\Logic\User\Console\ConnectList as ConnectListService;
@@ -24,6 +25,7 @@ use App\Services\Logic\User\Console\PointHistory as PointHistoryService;
 use App\Services\Logic\User\Console\PointRedeemList as PointRedeemListService;
 use App\Services\Logic\User\Console\ProfileInfo as ProfileInfoService;
 use App\Services\Logic\User\Console\ProfileUpdate as ProfileUpdateService;
+use App\Services\Logic\User\Console\QuestionList as QuestionListService;
 use App\Services\Logic\User\Console\RefundList as RefundListService;
 use App\Services\Logic\User\Console\ReviewList as ReviewListService;
 use Phalcon\Mvc\Dispatcher;
@@ -151,6 +153,32 @@ class UserConsoleController extends Controller
         $pager = $service->handle();
 
         $this->view->pick('user/console/articles');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/questions", name="home.uc.questions")
+     */
+    public function questionsAction()
+    {
+        $service = new QuestionListService();
+
+        $pager = $service->handle();
+
+        $this->view->pick('user/console/questions');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/answers", name="home.uc.answers")
+     */
+    public function answersAction()
+    {
+        $service = new AnswerListService();
+
+        $pager = $service->handle();
+
+        $this->view->pick('user/console/answers');
         $this->view->setVar('pager', $pager);
     }
 

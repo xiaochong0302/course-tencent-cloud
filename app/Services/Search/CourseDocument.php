@@ -39,7 +39,7 @@ class CourseDocument extends Component
             $course->attrs = kg_json_encode($course->attrs);
         }
 
-        $teacher = '';
+        $teacher = '{}';
 
         if ($course->teacher_id > 0) {
             $record = UserModel::findFirst($course->teacher_id);
@@ -49,7 +49,7 @@ class CourseDocument extends Component
             ]);
         }
 
-        $category = '';
+        $category = '{}';
 
         if ($course->category_id > 0) {
             $record = CategoryModel::findFirst($course->category_id);

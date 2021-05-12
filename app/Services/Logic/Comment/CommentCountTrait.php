@@ -6,6 +6,8 @@ use App\Models\Article as ArticleModel;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Comment as CommentModel;
 use App\Models\User as UserModel;
+use App\Services\Logic\ArticleTrait;
+use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\Notice\System\ArticleCommented as ArticleCommentedNotice;
 use App\Services\Logic\Notice\System\ChapterCommented as ChapterCommentedNotice;
 use Phalcon\Di as Di;
@@ -13,6 +15,9 @@ use Phalcon\Events\Manager as EventsManager;
 
 trait CommentCountTrait
 {
+
+    use ArticleTrait;
+    use ChapterTrait;
 
     protected function incrItemCommentCount(CommentModel $comment)
     {

@@ -5,6 +5,7 @@ namespace App\Http\Home\Controllers;
 use App\Services\Logic\Search\Article as ArticleSearchService;
 use App\Services\Logic\Search\Course as CourseSearchService;
 use App\Services\Logic\Search\Group as GroupSearchService;
+use App\Services\Logic\Search\Question as QuestionSearchService;
 use App\Services\Logic\Search\User as UserSearchService;
 
 /**
@@ -42,13 +43,16 @@ class SearchController extends Controller
 
     /**
      * @param string $type
-     * @return ArticleSearchService|CourseSearchService|GroupSearchService|UserSearchService
+     * @return ArticleSearchService|QuestionSearchService|CourseSearchService|GroupSearchService|UserSearchService
      */
     protected function getSearchService($type)
     {
         switch ($type) {
             case 'article':
                 $service = new ArticleSearchService();
+                break;
+            case 'question':
+                $service = new QuestionSearchService();
                 break;
             case 'group':
                 $service = new GroupSearchService();

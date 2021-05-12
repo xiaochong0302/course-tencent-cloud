@@ -13,7 +13,7 @@ class ArticleCommented extends LogicService
 
     public function handle(CommentModel $comment)
     {
-        $comment->content = kg_substr($comment->content, 0, 32);
+        $commentContent = kg_substr($comment->content, 0, 32);
 
         $article = $this->findArticle($comment->item_id);
 
@@ -25,7 +25,7 @@ class ArticleCommented extends LogicService
         $notification->event_type = NotificationModel::TYPE_ARTICLE_COMMENTED;
         $notification->event_info = [
             'article' => ['id' => $article->id, 'title' => $article->title],
-            'comment' => ['id' => $comment->id, 'content' => $comment->content],
+            'comment' => ['id' => $comment->id, 'content' => $commentContent],
         ];
 
         $notification->create();

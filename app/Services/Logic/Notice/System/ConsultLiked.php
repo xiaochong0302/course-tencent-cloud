@@ -13,7 +13,7 @@ class ConsultLiked extends LogicService
 
     public function handle(ConsultModel $consult, UserModel $sender)
     {
-        $consult->question = kg_substr($consult->question, 0, 32);
+        $consultQuestion = kg_substr($consult->question, 0, 32);
 
         $course = $this->findCourse($consult->course_id);
 
@@ -25,7 +25,7 @@ class ConsultLiked extends LogicService
         $notification->event_type = NotificationModel::TYPE_CONSULT_LIKED;
         $notification->event_info = [
             'course' => ['id' => $course->id, 'title' => $course->title],
-            'consult' => ['id' => $consult->id, 'question' => $consult->question],
+            'consult' => ['id' => $consult->id, 'question' => $consultQuestion],
         ];
 
         $notification->create();

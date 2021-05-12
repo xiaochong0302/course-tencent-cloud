@@ -118,7 +118,7 @@ class ArticleIndexTask extends Task
     protected function findArticles()
     {
         return ArticleModel::query()
-            ->where('published = 1')
+            ->where('published = :published:', ['published' => ArticleModel::PUBLISH_APPROVED])
             ->execute();
     }
 

@@ -1,4 +1,4 @@
-{% if authors %}
+{% if authors|length > 0 %}
     <div class="layui-card">
         <div class="layui-card-header">推荐作者</div>
         <div class="layui-card-body">

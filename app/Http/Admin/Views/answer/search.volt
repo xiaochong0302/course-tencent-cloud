@@ -2,20 +2,20 @@
 
 {% block content %}
 
-    <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.review.list'}) }}">
+    <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.answer.list'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
-            <legend>搜索评价</legend>
+            <legend>搜索回答</legend>
         </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">评价编号</label>
+            <label class="layui-form-label">回答编号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="id" placeholder="评价编号精确匹配">
+                <input class="layui-input" type="text" name="id" placeholder="回答编号精确匹配">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">课程编号</label>
+            <label class="layui-form-label">问题编号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="course_id" placeholder="课程编号精确匹配">
+                <input class="layui-input" type="text" name="question_id" placeholder="问题编号精确匹配">
             </div>
         </div>
         <div class="layui-form-item">
@@ -25,10 +25,18 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">发布</label>
+            <label class="layui-form-label">发布状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="published" value="1" title="是">
-                <input type="radio" name="published" value="0" title="否">
+                {% for value,title in publish_types %}
+                    <input type="radio" name="published" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">匿名</label>
+            <div class="layui-input-block">
+                <input type="radio" name="anonymous" value="1" title="是">
+                <input type="radio" name="anonymous" value="0" title="否">
             </div>
         </div>
         <div class="layui-form-item">

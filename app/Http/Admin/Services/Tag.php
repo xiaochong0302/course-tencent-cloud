@@ -19,7 +19,7 @@ class Tag extends Service
 
         $params['deleted'] = $params['deleted'] ?? 0;
 
-        $sort = 'priority';
+        $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
@@ -42,7 +42,7 @@ class Tag extends Service
         $tag = new TagModel();
 
         $tag->name = $validator->checkName($post['name']);
-        $tag->published = $validator->checkPublishStatus($post['published']);
+        $tag->priority = $validator->checkPriority($post['priority']);
 
         $tag->create();
 
@@ -66,6 +66,10 @@ class Tag extends Service
             if ($data['name'] != $tag->name) {
                 $validator->checkIfNameExists($data['name']);
             }
+        }
+
+        if (isset($post['icon'])) {
+            $data['icon'] = $validator->checkIcon($post['icon']);
         }
 
         if (isset($post['priority'])) {

@@ -2,6 +2,7 @@
 
 namespace App\Console\Tasks;
 
+use App\Models\Article as ArticleModel;
 use App\Repos\Article as ArticleRepo;
 use App\Services\Search\ArticleDocument;
 use App\Services\Search\ArticleSearcher;
@@ -38,7 +39,7 @@ class SyncArticleIndexTask extends Task
 
             $doc = $document->setDocument($article);
 
-            if ($article->published == 1) {
+            if ($article->published == ArticleModel::PUBLISH_APPROVED) {
                 $index->update($doc);
             } else {
                 $index->del($article->id);

@@ -10,6 +10,7 @@ use App\Models\Account as AccountModel;
 use App\Models\ImUser as ImUserModel;
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
+use App\Repos\Online as OnlineRepo;
 use App\Repos\Role as RoleRepo;
 use App\Repos\User as UserRepo;
 use App\Validators\Account as AccountValidator;
@@ -28,6 +29,25 @@ class User extends Service
         $roleRepo = new RoleRepo();
 
         return $roleRepo->findAll(['deleted' => 0]);
+    }
+
+    public function getOnlineLogs($id)
+    {
+        $user = $this->findOrFail($id);
+
+        $pageQuery = new PaginateQuery();
+
+        $params = $pageQuery->getParams();
+
+        $params['user_id'] = $user->id;
+
+        $sort = $pageQuery->getSort();
+        $page = $pageQuery->getPage();
+        $limit = $pageQuery->getLimit();
+
+        $onlineRepo = new OnlineRepo();
+
+        return $onlineRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getUsers()
