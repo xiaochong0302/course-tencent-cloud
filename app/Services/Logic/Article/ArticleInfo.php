@@ -70,7 +70,16 @@ class ArticleInfo extends LogicService
         $me = [
             'liked' => 0,
             'favorited' => 0,
+            'owned' => 0,
         ];
+
+        $isOwner = $user->id == $article->owner_id;
+
+        if ($article->published == ArticleModel::PUBLISH_APPROVED) {
+            $me['owned'] = 1;
+        } else {
+            $me['owned'] = $isOwner ? 1 : 0;
+        }
 
         if ($user->id > 0) {
 

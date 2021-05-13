@@ -91,7 +91,16 @@ class QuestionInfo extends LogicService
             'liked' => 0,
             'favorited' => 0,
             'answered' => 0,
+            'owned' => 0,
         ];
+
+        $isOwner = $user->id == $question->owner_id;
+
+        if ($question->published == QuestionModel::PUBLISH_APPROVED) {
+            $me['owned'] = 1;
+        } else {
+            $me['owned'] = $isOwner ? 1 : 0;
+        }
 
         if ($user->id > 0) {
 

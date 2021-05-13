@@ -99,6 +99,10 @@ class QuestionController extends Controller
 
         $question = $service->handle($id);
 
+        if ($question['me']['owned'] == 0) {
+            $this->response->redirect(['for' => 'home.error.403']);
+        }
+
         $this->seo->prependTitle($question['title']);
         $this->seo->setDescription($question['summary']);
 
