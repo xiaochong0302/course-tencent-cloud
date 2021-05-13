@@ -100,9 +100,7 @@ class ArticleController extends Controller
 
         $article = $service->handle($id);
 
-        $owned = $this->authUser->id == $article['owner']['id'];
-
-        if ($article['private'] == 1 && !$owned) {
+        if ($article['me']['owned'] == 0) {
             $this->response->redirect(['for' => 'home.error.403']);
         }
 
