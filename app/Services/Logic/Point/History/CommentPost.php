@@ -53,10 +53,12 @@ class CommentPost extends PointHistory
 
         $user = $userRepo->findById($comment->owner_id);
 
+        $commentContent = kg_substr($comment->content, 0, 32);
+
         $eventInfo = [
             'comment' => [
                 'id' => $comment->id,
-                'content' => $comment->content,
+                'content' => $commentContent,
             ]
         ];
 

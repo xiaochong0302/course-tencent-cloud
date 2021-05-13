@@ -115,6 +115,24 @@
                 <td><input class="layui-input" type="text" name="event_rule[article_post][point]" value="{{ event_rule.article_post.point }}" lay-verify="required"></td>
                 <td><input class="layui-input" type="text" name="event_rule[article_post][limit]" value="{{ event_rule.article_post.limit }}" lay-verify="required"></td>
             </tr>
+            <tr>
+                <td>发布问题</td>
+                <td>
+                    <input type="radio" name="event_rule[question_post][enabled]" value="1" title="是" {% if event_rule.question_post.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="event_rule[question_post][enabled]" value="0" title="否" {% if event_rule.question_post.enabled == "0" %}checked="checked"{% endif %}>
+                </td>
+                <td><input class="layui-input" type="text" name="event_rule[question_post][point]" value="{{ event_rule.question_post.point }}" lay-verify="required"></td>
+                <td><input class="layui-input" type="text" name="event_rule[question_post][limit]" value="{{ event_rule.question_post.limit }}" lay-verify="required"></td>
+            </tr>
+            <tr>
+                <td>回答问题</td>
+                <td>
+                    <input type="radio" name="event_rule[answer_post][enabled]" value="1" title="是" {% if event_rule.answer_post.enabled == "1" %}checked="checked"{% endif %}>
+                    <input type="radio" name="event_rule[answer_post][enabled]" value="0" title="否" {% if event_rule.answer_post.enabled == "0" %}checked="checked"{% endif %}>
+                </td>
+                <td><input class="layui-input" type="text" name="event_rule[answer_post][point]" value="{{ event_rule.answer_post.point }}" lay-verify="required"></td>
+                <td><input class="layui-input" type="text" name="event_rule[answer_post][limit]" value="{{ event_rule.answer_post.limit }}" lay-verify="required"></td>
+            </tr>
             </tbody>
         </table>
         <br>
