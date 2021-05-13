@@ -22,6 +22,8 @@ class QuestionCreate extends LogicService
 
         $data = $this->handlePostData($post);
 
+        $data['published'] = $this->getPublishStatus($user);
+
         $data['owner_id'] = $user->id;
 
         $question->create($data);
@@ -39,7 +41,7 @@ class QuestionCreate extends LogicService
 
     protected function getPublishStatus(UserModel $user)
     {
-        return $user->question_count > 3 ? QuestionModel::PUBLISH_APPROVED : QuestionModel::PUBLISH_PENDING;
+        return $user->question_count > 100 ? QuestionModel::PUBLISH_APPROVED : QuestionModel::PUBLISH_PENDING;
     }
 
     protected function recountUserQuestions(UserModel $user)

@@ -23,6 +23,7 @@ class ArticleCreate extends LogicService
         $data = $this->handlePostData($post);
 
         $data['published'] = $this->getPublishStatus($user);
+
         $data['owner_id'] = $user->id;
 
         $article->create($data);

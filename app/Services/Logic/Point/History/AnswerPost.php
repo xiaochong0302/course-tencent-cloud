@@ -58,10 +58,16 @@ class AnswerPost extends PointHistory
 
         $user = $userRepo->findById($answer->owner_id);
 
+        $answerSummary = kg_substr($answer->summary, 0, 32);
+
         $eventInfo = [
             'question' => [
                 'id' => $question->id,
                 'title' => $question->title,
+            ],
+            'answer' => [
+                'id' => $answer->id,
+                'summary' => $answerSummary,
             ]
         ];
 
