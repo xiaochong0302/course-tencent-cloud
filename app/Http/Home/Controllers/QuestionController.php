@@ -65,7 +65,10 @@ class QuestionController extends Controller
 
         $this->seo->prependTitle('提问题');
 
+        $referer = $this->request->getHTTPReferer();
+
         $this->view->pick('question/edit');
+        $this->view->setVar('referer', $referer);
         $this->view->setVar('question', $question);
         $this->view->setVar('xm_tags', $xmTags);
     }

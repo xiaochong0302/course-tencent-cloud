@@ -47,6 +47,10 @@
         <span class="type">发布评论</span>
     {% elseif value == 10 %}
         <span class="type">发布文章</span>
+    {% elseif value == 11 %}
+        <span class="type">发布问题</span>
+    {% elseif value == 12 %}
+        <span class="type">发布回答</span>
     {% endif %}
 {%- endmacro %}
 
@@ -78,5 +82,11 @@
     {% elseif type == 10 %}
         {% set article_url = url({'for':'home.article.show','id':info.article.id}) %}
         <p class="article"><a href="{{ article_url }}" target="_blank">{{ info.article.title }}</a></p>
+    {% elseif type == 11 %}
+        {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
+        <p class="question"><a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a></p>
+    {% elseif type == 12 %}
+        {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
+        <p class="question"><a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a></p>
     {% endif %}
 {%- endmacro %}
