@@ -57,8 +57,11 @@ class AnswerController extends Controller
 
         $this->seo->prependTitle('编辑回答');
 
+        $referer = $this->request->getHTTPReferer();
+
         $this->view->setVar('question', $question);
         $this->view->setVar('answer', $answer);
+        $this->view->setVar('referer', $referer);
     }
 
     /**
@@ -102,12 +105,13 @@ class AnswerController extends Controller
     {
         $service = new AnswerUpdateService();
 
-        $answer = $service->handle($id);
+        $service->handle($id);
 
-        $location = $this->url->get([
-            'for' => 'home.question.show',
-            'id' => $answer->question_id,
-        ]);
+        $location = $this->request->getPost('referer');
+
+        if (empty($location)) {
+            $location = $this->url->get(['for' => 'home.uc.answers']);
+        }
 
         $content = [
             'location' => $location,
@@ -124,12 +128,9 @@ class AnswerController extends Controller
     {
         $service = new AnswerDeleteService();
 
-        $answer = $service->handle($id);
+        $service->handle($id);
 
-        $location = $this->url->get([
-            'for' => 'home.question.show',
-            'id' => $answer->question_id,
-        ]);
+        $location = $this->request->getHTTPReferer();
 
         $content = [
             'location' => $location,

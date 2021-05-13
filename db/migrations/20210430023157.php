@@ -14,6 +14,7 @@ final class V20210430023157 extends AbstractMigration
         $this->createQuestionLikeTable();
         $this->createAnswerTable();
         $this->createAnswerLikeTable();
+        $this->createTagFollowTable();
         $this->createReportTable();
         $this->modifyUserTable();
         $this->modifyArticleTable();
@@ -34,6 +35,7 @@ final class V20210430023157 extends AbstractMigration
         $this->table('kg_question_like')->drop()->save();
         $this->table('kg_answer')->drop()->save();
         $this->table('kg_answer_like')->drop()->save();
+        $this->table('kg_tag_follow')->drop()->save();
         $this->table('kg_report')->drop()->save();
 
         $this->table('kg_user')
@@ -731,6 +733,59 @@ final class V20210430023157 extends AbstractMigration
             ->create();
     }
 
+    protected function createTagFollowTable()
+    {
+        $this->table('kg_tag_follow', [
+            'id' => false,
+            'primary_key' => ['id'],
+            'engine' => 'InnoDB',
+            'encoding' => 'utf8mb4',
+            'collation' => 'utf8mb4_general_ci',
+            'comment' => '',
+            'row_format' => 'COMPACT',
+        ])
+            ->addColumn('id', 'integer', [
+                'null' => false,
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'identity' => 'enable',
+                'comment' => '主键编号',
+            ])
+            ->addColumn('tag_id', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '标签编号',
+                'after' => 'id',
+            ])
+            ->addColumn('user_id', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '标签编号',
+                'after' => 'tag_id',
+            ])
+            ->addColumn('create_time', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '创建时间',
+                'after' => 'user_id',
+            ])
+            ->addIndex(['user_id'], [
+                'name' => 'user_id',
+                'unique' => false,
+            ])
+            ->addIndex(['tag_id'], [
+                'name' => 'tag_id',
+                'unique' => false,
+            ])
+            ->create();
+    }
+
     protected function createReportTable()
     {
         $this->table('kg_report', [
@@ -874,6 +929,12 @@ final class V20210430023157 extends AbstractMigration
     {
         $this->table('kg_article')
             ->renameColumn('allow_comment', 'closed')
+            ->addColumn('score', 'float', [
+                'null' => false,
+                'default' => '0.00',
+                'comment' => '综合得分',
+                'after' => 'content',
+            ])
             ->addColumn('report_count', 'integer', [
                 'null' => false,
                 'default' => '0',

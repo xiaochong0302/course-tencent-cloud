@@ -29,6 +29,7 @@ class AnswerInfo extends LogicService
             'content' => $answer->content,
             'anonymous' => $answer->anonymous,
             'accepted' => $answer->accepted,
+            'published' => $answer->published,
             'like_count' => $answer->like_count,
             'create_time' => $answer->create_time,
             'update_time' => $answer->update_time,

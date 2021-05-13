@@ -25,17 +25,13 @@
                             <col>
                             <col>
                             <col>
-                            <col>
-                            <col>
-                            <col>
+                            <col width="15%">
                         </colgroup>
                         <thead>
                         <tr>
                             <th>文章</th>
-                            <th>浏览</th>
-                            <th>点赞</th>
                             <th>评论</th>
-                            <th>收藏</th>
+                            <th>浏览</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -48,18 +44,15 @@
                                 <td>
                                     <p>
                                         标题：<a href="{{ show_url }}" target="_blank">{{ item.title }}</a>
-                                        （<span>{{ item.create_time|time_ago }}</span>）
                                     </p>
                                     <p class="meta">
                                         来源：<span class="layui-badge layui-bg-gray">{{ source_type(item.source_type) }}</span>
-                                        分类：<span class="layui-badge layui-bg-gray">{{ item.category.name }}</span>
+                                        时间：<span class="layui-badge layui-bg-gray">{{ item.create_time|time_ago }}</span>
                                         状态：<span class="layui-badge layui-bg-gray">{{ publish_status(item.published) }}</span>
                                     </p>
                                 </td>
-                                <td>{{ item.view_count }}</td>
-                                <td>{{ item.like_count }}</td>
                                 <td>{{ item.comment_count }}</td>
-                                <td>{{ item.favorite_count }}</td>
+                                <td>{{ item.view_count }}</td>
                                 <td class="center">
                                     <a href="{{ edit_url }}" class="layui-btn layui-btn-xs">编辑</a>
                                     <a href="javascript:" class="layui-btn layui-btn-xs layui-bg-red kg-delete" data-url="{{ delete_url }}">删除</a>

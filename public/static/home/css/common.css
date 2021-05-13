@@ -717,7 +717,8 @@
     color: #666;
 }
 
-.comment-card .footer {
+.comment-card .footer,
+.answer-card .footer {
     display: flex;
     justify-content: space-between;
     line-height: 1.2em;
@@ -725,30 +726,69 @@
 }
 
 .comment-card .footer .left,
-.comment-card .footer .right {
+.comment-card .footer .right,
+.answer-card .footer .left,
+.answer-card .footer .right {
     display: flex;
 }
 
-.comment-card .footer .left .column {
+.comment-card .footer .left .column,
+.answer-card .footer .left .column {
     margin-right: 10px;
 }
 
-.comment-card .footer .right .column {
+.comment-card .footer .right .column,
+.answer-card .footer .right .column {
     margin-left: 10px;
 }
 
-.comment-card .footer .action:hover {
+.comment-card .footer .action:hover,
+.answer-card .footer .action:hover {
     background-color: #393D49;
     cursor: pointer;
     color: white;
 }
 
-.comment-card .footer .right .action {
+.comment-card .footer .right .action,
+.answer-card .footer .right .action {
     display: none;
 }
 
-.comment-card .info:hover .right .action {
+.comment-card .info:hover .right .action,
+.answer-card:hover .right .action {
     display: inline;
+}
+
+.answer-card {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.answer-card:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.answer-card .header {
+    line-height: 32px;
+    margin-bottom: 20px;
+}
+
+.answer-card .header span {
+    margin-right: 10px;
+}
+
+.answer-card .avatar img {
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+}
+
+.answer-card .content {
+    margin-bottom: 20px;
+    overflow-wrap: break-word;
 }
 
 .reply-list {

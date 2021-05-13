@@ -52,6 +52,7 @@ class QuestionInfo extends LogicService
             'anonymous' => $question->anonymous,
             'solved' => $question->solved,
             'closed' => $question->closed,
+            'published' => $question->published,
             'view_count' => $question->view_count,
             'like_count' => $question->like_count,
             'answer_count' => $question->answer_count,

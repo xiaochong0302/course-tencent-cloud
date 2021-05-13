@@ -4,7 +4,7 @@
 
     {% set sort_val = request.get('sort','trim','latest') %}
     {% set pager_url = url({'for':'home.article.pager'}, params) %}
-    {% set hot_authors_url = url({'for':'home.article.hot_authors'}) %}
+    {% set top_authors_url = url({'for':'home.widget.top_authors'}) %}
     {% set my_tags_url = url({'for':'home.widget.my_tags'},{'type':'article'}) %}
 
     <div class="breadcrumb">
@@ -36,7 +36,7 @@
             {% if auth_user.id > 0 %}
                 <div class="sidebar" id="sidebar-my-tags" data-url="{{ my_tags_url }}"></div>
             {% endif %}
-            <div class="sidebar" id="sidebar-hot-authors" data-url="{{ hot_authors_url }}"></div>
+            <div class="sidebar" id="sidebar-top-authors" data-url="{{ top_authors_url }}"></div>
         </div>
     </div>
 

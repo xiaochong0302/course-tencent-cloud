@@ -2,6 +2,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Services\Logic\Article\TopAuthorList as TopAuthorListService;
 use App\Services\Logic\Question\HotQuestionList as HotQuestionListService;
 use App\Services\Logic\Question\TopAnswererList as TopAnswererListService;
 use App\Services\Logic\Tag\FollowList as FollowListService;
@@ -39,6 +40,20 @@ class WidgetController extends Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('widget/hot_questions');
         $this->view->setVar('questions', $questions);
+    }
+
+    /**
+     * @Get("/top/authors", name="home.widget.top_authors")
+     */
+    public function topAuthorsAction()
+    {
+        $service = new TopAuthorListService();
+
+        $authors = $service->handle();
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('widget/top_authors');
+        $this->view->setVar('authors', $authors);
     }
 
     /**

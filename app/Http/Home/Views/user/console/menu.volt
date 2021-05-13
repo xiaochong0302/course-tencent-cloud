@@ -29,7 +29,7 @@
 </div>
 
 <div class="layui-card">
-    <div class="layui-card-header">创作中心</div>
+    <div class="layui-card-header">内容中心</div>
     <div class="layui-card-body">
         <ul class="my-menu">
             <li><a href="{{ url({'for':'home.uc.articles'}) }}">我的文章</a></li>

@@ -8,7 +8,7 @@ use App\Repos\User as UserRepo;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class ArticleHotAuthorList extends Cache
+class TopAuthorList extends Cache
 {
 
     protected $lifetime = 1 * 86400;
@@ -20,7 +20,7 @@ class ArticleHotAuthorList extends Cache
 
     public function getKey($id = null)
     {
-        return 'article_hot_author_list';
+        return 'top_author_list';
     }
 
     public function getContent($id = null)

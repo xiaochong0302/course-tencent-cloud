@@ -11,6 +11,7 @@ use App\Models\User as UserModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Repos\Question as QuestionRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Logic\Answer\AnswerInfo as AnswerInfoService;
 use App\Services\Logic\Notice\System\AnswerApproved as AnswerApprovedNotice;
 use App\Services\Logic\Notice\System\AnswerRejected as AnswerRejectedNotice;
 use App\Services\Logic\Notice\System\QuestionAnswered as QuestionAnsweredNotice;
@@ -54,6 +55,13 @@ class Answer extends Service
         return $this->findOrFail($id);
     }
 
+    public function getAnswerInfo($id)
+    {
+        $service = new AnswerInfoService();
+
+        return $service->handle($id);
+    }
+
     public function createAnswer()
     {
         $post = $this->request->getPost();
@@ -77,6 +85,8 @@ class Answer extends Service
         $this->recountUserAnswers($user);
         $this->handleAnswerPostPoint($answer);
         $this->handleQuestionAnsweredNotice($answer);
+
+        $this->eventsManager->fire('Answer:afterCreate', $this, $answer);
 
         return $answer;
     }
@@ -110,6 +120,8 @@ class Answer extends Service
 
         $answer->update($data);
 
+        $this->eventsManager->fire('Answer:afterUpdate', $this, $answer);
+
         return $answer;
     }
 
@@ -129,6 +141,8 @@ class Answer extends Service
 
         $this->recountUserAnswers($owner);
 
+        $this->eventsManager->fire('Answer:afterDelete', $this, $answer);
+
         return $answer;
     }
 
@@ -147,6 +161,8 @@ class Answer extends Service
         $owner = $this->findUser($answer->owner_id);
 
         $this->recountUserAnswers($owner);
+
+        $this->eventsManager->fire('Answer:afterRestore', $this, $answer);
 
         return $answer;
     }

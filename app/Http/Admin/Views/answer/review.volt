@@ -2,12 +2,18 @@
 
 {% block content %}
 
+    {% set owner_url = url({'for':'home.user.show','id':answer.owner.id}) %}
+
     <fieldset class="layui-elem-field layui-field-title">
         <legend>审核内容</legend>
     </fieldset>
 
     <div class="kg-mod-preview">
-        <div class="title">{{ question.title }}</div>
+        <div class="title">{{ answer.question.title }}</div>
+        <div class="meta">
+            <span><a href="{{ owner_url }}" target="_blank">{{ answer.owner.name }}</a></span>
+            <span>{{ date('Y-m-d H:i',answer.create_time) }}</span>
+        </div>
         <div class="content markdown-body">{{ answer.content }}</div>
     </div>
 

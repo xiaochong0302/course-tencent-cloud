@@ -2,6 +2,7 @@
 
 namespace App\Console\Tasks;
 
+use App\Caches\NavTreeList as NavTreeListCache;
 use App\Caches\Setting as SettingCache;
 use App\Models\Setting as SettingModel;
 
@@ -14,6 +15,7 @@ class UpgradeTask extends Task
         $this->resetAnnotationAction();
         $this->resetMetadataAction();
         $this->resetVoltAction();
+        $this->resetNavAction();
     }
 
     /**
@@ -101,6 +103,22 @@ class UpgradeTask extends Task
         }
 
         echo '------ end reset volt ------' . PHP_EOL;
+    }
+
+    /**
+     * 重置导航
+     *
+     * @command: php console.php upgrade reset_nav
+     */
+    public function resetNavAction()
+    {
+        echo '------ start reset navigation ------' . PHP_EOL;
+
+        $cache = new NavTreeListCache();
+
+        $cache->delete();
+
+        echo '------ end reset navigation ------' . PHP_EOL;
     }
 
     protected function handlePhKeys($keys)

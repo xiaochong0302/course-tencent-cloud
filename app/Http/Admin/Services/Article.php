@@ -15,6 +15,7 @@ use App\Repos\Category as CategoryRepo;
 use App\Repos\Tag as TagRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Article\ArticleDataTrait;
+use App\Services\Logic\Article\ArticleInfo as ArticleInfoService;
 use App\Services\Logic\Notice\System\ArticleApproved as ArticleApprovedNotice;
 use App\Services\Logic\Notice\System\ArticleRejected as ArticleRejectedNotice;
 use App\Services\Logic\Point\History\ArticlePost as ArticlePostPointHistory;
@@ -109,6 +110,13 @@ class Article extends Service
     public function getArticle($id)
     {
         return $this->findOrFail($id);
+    }
+
+    public function getArticleInfo($id)
+    {
+        $service = new ArticleInfoService();
+
+        return $service->handle($id);
     }
 
     public function createArticle()

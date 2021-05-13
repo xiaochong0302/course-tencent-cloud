@@ -26,16 +26,12 @@
                             <col>
                             <col>
                             <col>
-                            <col>
-                            <col>
                         </colgroup>
                         <thead>
                         <tr>
                             <th>问题</th>
                             <th>回答</th>
                             <th>浏览</th>
-                            <th>点赞</th>
-                            <th>收藏</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -54,8 +50,6 @@
                                 </td>
                                 <td>{{ item.answer_count }}</td>
                                 <td>{{ item.view_count }}</td>
-                                <td>{{ item.like_count }}</td>
-                                <td>{{ item.favorite_count }}</td>
                                 <td class="center">
                                     <a href="{{ edit_url }}" class="layui-btn layui-btn-xs">编辑</a>
                                     <a href="javascript:" class="layui-btn layui-btn-xs layui-bg-red kg-delete" data-url="{{ delete_url }}">删除</a>

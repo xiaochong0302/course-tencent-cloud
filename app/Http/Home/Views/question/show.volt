@@ -35,6 +35,9 @@
                 <div class="title">{{ question.title }}</div>
                 <div class="meta">
                     <div class="left">
+                        {% if question.published == 1 %}
+                            <span class="review layui-badge">审核中</span>
+                        {% endif %}
                         <span class="owner"><a href="{{ question_owner_url }}">{{ question.owner.name }}</a></span>
                         <span class="time">{{ question.create_time|time_ago }}</span>
                         <span class="view">{{ question.view_count }} 阅读</span>
@@ -59,11 +62,11 @@
                 {% endif %}
             </div>
             <div id="answer-anchor"></div>
-            <div class="answer-wrap wrap center">
-                {% if question.me.answered == 0 %}
+            {% if question.me.answered == 0 %}
+                <div class="answer-wrap wrap">
                     <button class="layui-btn layui-btn-fluid btn-answer" data-url="{{ answer_add_url }}">回答问题</button>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
             {% if question.answer_count > 0 %}
                 <div class="answer-wrap wrap">
                     <div class="layui-tab layui-tab-brief search-tab">

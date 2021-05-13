@@ -33,8 +33,9 @@
             {% set review_url = url({'for':'admin.article.review','id':item.id}) %}
             <tr>
                 <td>
-                    <p>标题：{{ item.title }} {{ source_info(item.source_type,item.source_url) }}</p>
+                    <p>标题：{{ item.title }}</p>
                     <p class="meta">
+                        <span>来源：{{ source_type(item.source_type) }}</span>
                         {% if item.tags %}
                             <span>标签：{{ tags_info(item.tags) }}</span>
                         {% endif %}

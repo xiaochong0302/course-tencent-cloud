@@ -17,6 +17,7 @@ use App\Services\Logic\Notice\System\QuestionApproved as QuestionApprovedNotice;
 use App\Services\Logic\Notice\System\QuestionRejected as QuestionRejectedNotice;
 use App\Services\Logic\Point\History\QuestionPost as QuestionPostPointHistory;
 use App\Services\Logic\Question\QuestionDataTrait;
+use App\Services\Logic\Question\QuestionInfo as QuestionInfoService;
 use App\Services\Sync\QuestionIndex as QuestionIndexSync;
 use App\Validators\Question as QuestionValidator;
 
@@ -103,6 +104,13 @@ class Question extends Service
     public function getQuestion($id)
     {
         return $this->findOrFail($id);
+    }
+
+    public function getQuestionInfo($id)
+    {
+        $service = new QuestionInfoService();
+
+        return $service->handle($id);
     }
 
     public function createQuestion()

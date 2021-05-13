@@ -11,7 +11,6 @@ use App\Services\Logic\Article\ArticleInfo as ArticleInfoService;
 use App\Services\Logic\Article\ArticleLike as ArticleLikeService;
 use App\Services\Logic\Article\ArticleList as ArticleListService;
 use App\Services\Logic\Article\ArticleUpdate as ArticleUpdateService;
-use App\Services\Logic\Article\HotAuthorList as HotAuthorListService;
 use App\Services\Logic\Article\RelatedArticleList as RelatedArticleListService;
 use Phalcon\Mvc\View;
 
@@ -28,13 +27,11 @@ class ArticleController extends Controller
     {
         $service = new ArticleQueryService();
 
-        $categories = $service->handleCategories();
         $sorts = $service->handleSorts();
         $params = $service->getParams();
 
         $this->seo->prependTitle('专栏');
 
-        $this->view->setVar('categories', $categories);
         $this->view->setVar('sorts', $sorts);
         $this->view->setVar('params', $params);
     }
@@ -55,20 +52,6 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Get("/hot/authors", name="home.article.hot_authors")
-     */
-    public function hotAuthorsAction()
-    {
-        $service = new HotAuthorListService();
-
-        $authors = $service->handle();
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('article/hot_authors');
-        $this->view->setVar('authors', $authors);
-    }
-
-    /**
      * @Get("/add", name="home.article.add")
      */
     public function addAction()
@@ -76,7 +59,6 @@ class ArticleController extends Controller
         $service = new ArticleService();
 
         $sourceTypes = $service->getSourceTypes();
-        $categories = $service->getCategories();
         $article = $service->getArticleModel();
         $xmTags = $service->getXmTags(0);
 
@@ -84,7 +66,6 @@ class ArticleController extends Controller
 
         $this->view->pick('article/edit');
         $this->view->setVar('source_types', $sourceTypes);
-        $this->view->setVar('categories', $categories);
         $this->view->setVar('article', $article);
         $this->view->setVar('xm_tags', $xmTags);
     }
@@ -97,14 +78,15 @@ class ArticleController extends Controller
         $service = new ArticleService();
 
         $sourceTypes = $service->getSourceTypes();
-        $categories = $service->getCategories();
         $article = $service->getArticle($id);
         $xmTags = $service->getXmTags($id);
 
         $this->seo->prependTitle('编辑文章');
 
+        $referer = $this->request->getHTTPReferer();
+
         $this->view->setVar('source_types', $sourceTypes);
-        $this->view->setVar('categories', $categories);
+        $this->view->setVar('referer', $referer);
         $this->view->setVar('article', $article);
         $this->view->setVar('xm_tags', $xmTags);
     }
@@ -150,9 +132,12 @@ class ArticleController extends Controller
     {
         $service = new ArticleCreateService();
 
-        $service->handle();
+        $article = $service->handle();
 
-        $location = $this->url->get(['for' => 'home.uc.articles']);
+        $location = $this->url->get([
+            'for' => 'home.article.show',
+            'id' => $article->id,
+        ]);
 
         $content = [
             'location' => $location,
@@ -171,7 +156,11 @@ class ArticleController extends Controller
 
         $service->handle($id);
 
-        $location = $this->url->get(['for' => 'home.uc.articles']);
+        $location = $this->request->getPost('referer');
+
+        if (empty($location)) {
+            $location = $this->url->get(['for' => 'home.uc.articles']);
+        }
 
         $content = [
             'location' => $location,
@@ -190,7 +179,7 @@ class ArticleController extends Controller
 
         $service->handle($id);
 
-        $location = $this->url->get(['for' => 'home.uc.articles']);
+        $location = $this->request->getHTTPReferer();
 
         $content = [
             'location' => $location,
