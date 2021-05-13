@@ -2,17 +2,23 @@
 
 {% block content %}
 
+    {% set owner_url = url({'for':'home.user.show','id':question.owner.id}) %}
+
     <fieldset class="layui-elem-field layui-field-title">
         <legend>审核内容</legend>
     </fieldset>
 
     <div class="kg-mod-preview">
         <div class="title">{{ question.title }}</div>
+        <div class="meta">
+            <span><a href="{{ owner_url }}" target="_blank">{{ question.owner.name }}</a></span>
+            <span>{{ date('Y-m-d H:i',question.create_time) }}</span>
+        </div>
         <div class="content markdown-body">{{ question.content }}</div>
         {% if question.tags %}
             <div class="tags">
                 {% for item in question.tags %}
-                    <span class="layui-btn layui-btn-xs">{{ item['name'] }}</span>
+                    <span class="layui-btn layui-btn-xs">{{ item.name }}</span>
                 {% endfor %}
             </div>
         {% endif %}

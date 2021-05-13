@@ -244,6 +244,43 @@ class AuthNode extends Service
                     ],
                 ],
                 [
+                    'id' => '1-8',
+                    'title' => '标签管理',
+                    'type' => 'menu',
+                    'children' => [
+                        [
+                            'id' => '1-8-1',
+                            'title' => '标签列表',
+                            'type' => 'menu',
+                            'route' => 'admin.tag.list',
+                        ],
+                        [
+                            'id' => '1-8-2',
+                            'title' => '搜索标签',
+                            'type' => 'menu',
+                            'route' => 'admin.tag.search',
+                        ],
+                        [
+                            'id' => '1-8-3',
+                            'title' => '添加标签',
+                            'type' => 'menu',
+                            'route' => 'admin.tag.add',
+                        ],
+                        [
+                            'id' => '1-8-4',
+                            'title' => '编辑标签',
+                            'type' => 'button',
+                            'route' => 'admin.tag.edit',
+                        ],
+                        [
+                            'id' => '1-8-5',
+                            'title' => '删除标签',
+                            'type' => 'button',
+                            'route' => 'admin.tag.delete',
+                        ],
+                    ],
+                ],
+                [
                     'id' => '1-7',
                     'title' => '文章管理',
                     'type' => 'menu',
@@ -391,43 +428,6 @@ class AuthNode extends Service
                     ],
                 ],
                 [
-                    'id' => '1-8',
-                    'title' => '标签管理',
-                    'type' => 'menu',
-                    'children' => [
-                        [
-                            'id' => '1-8-1',
-                            'title' => '标签列表',
-                            'type' => 'menu',
-                            'route' => 'admin.tag.list',
-                        ],
-                        [
-                            'id' => '1-8-2',
-                            'title' => '搜索标签',
-                            'type' => 'menu',
-                            'route' => 'admin.tag.search',
-                        ],
-                        [
-                            'id' => '1-8-3',
-                            'title' => '添加标签',
-                            'type' => 'menu',
-                            'route' => 'admin.tag.add',
-                        ],
-                        [
-                            'id' => '1-8-4',
-                            'title' => '编辑标签',
-                            'type' => 'button',
-                            'route' => 'admin.tag.edit',
-                        ],
-                        [
-                            'id' => '1-8-5',
-                            'title' => '删除标签',
-                            'type' => 'button',
-                            'route' => 'admin.tag.delete',
-                        ],
-                    ],
-                ],
-                [
                     'id' => '1-9',
                     'title' => '评论管理',
                     'type' => 'button',
@@ -475,19 +475,19 @@ class AuthNode extends Service
                     'children' => [
                         [
                             'id' => '2-10-1',
-                            'title' => '文章列表',
+                            'title' => '文章审核',
                             'type' => 'menu',
                             'route' => 'admin.mod.articles',
                         ],
                         [
                             'id' => '2-10-2',
-                            'title' => '问题列表',
+                            'title' => '问题审核',
                             'type' => 'menu',
                             'route' => 'admin.mod.questions',
                         ],
                         [
                             'id' => '2-10-3',
-                            'title' => '回答列表',
+                            'title' => '回答审核',
                             'type' => 'menu',
                             'route' => 'admin.mod.answers',
                         ],

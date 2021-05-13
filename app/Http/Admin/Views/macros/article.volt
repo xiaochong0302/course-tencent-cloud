@@ -10,13 +10,13 @@
     {% endif %}
 {%- endmacro %}
 
-{%- macro source_info(type,url) %}
+{%- macro source_type(type) %}
     {% if type == 1 %}
-        <span class="layui-badge">原创</span>
+        原创
     {% elseif type == 2 %}
-        <a class="layui-badge layui-bg-blue" href="{{ url }}" target="_blank">转载</a>
+        转载
     {% elseif type == 3 %}
-        <span class="layui-badge layui-bg-gray">翻译</span>
+        翻译
     {% else %}
         N/A
     {% endif %}

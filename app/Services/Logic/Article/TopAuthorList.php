@@ -2,15 +2,15 @@
 
 namespace App\Services\Logic\Article;
 
-use App\Caches\ArticleHotAuthorList as ArticleHotAuthorListCache;
+use App\Caches\TopAuthorList as TopAuthorListCache;
 use App\Services\Logic\Service as LogicService;
 
-class HotAuthorList extends LogicService
+class TopAuthorList extends LogicService
 {
 
     public function handle()
     {
-        $cache = new ArticleHotAuthorListCache();
+        $cache = new TopAuthorListCache();
 
         $result = $cache->get();
 

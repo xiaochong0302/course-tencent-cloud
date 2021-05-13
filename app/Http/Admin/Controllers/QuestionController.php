@@ -186,7 +186,7 @@ class QuestionController extends Controller
         }
 
         $reasons = $questionService->getReasons();
-        $question = $questionService->getQuestion($id);
+        $question = $questionService->getQuestionInfo($id);
 
         $this->view->setVar('reasons', $reasons);
         $this->view->setVar('question', $question);

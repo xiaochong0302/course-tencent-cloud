@@ -5,7 +5,6 @@ namespace App\Http\Home\Controllers;
 use App\Http\Home\Services\Question as QuestionService;
 use App\Http\Home\Services\QuestionQuery as QuestionQueryService;
 use App\Services\Logic\Question\AnswerList as AnswerListService;
-use App\Services\Logic\Question\HotQuestionList as HotQuestionListService;
 use App\Services\Logic\Question\QuestionCreate as QuestionCreateService;
 use App\Services\Logic\Question\QuestionDelete as QuestionDeleteService;
 use App\Services\Logic\Question\QuestionFavorite as QuestionFavoriteService;
@@ -14,7 +13,6 @@ use App\Services\Logic\Question\QuestionLike as QuestionLikeService;
 use App\Services\Logic\Question\QuestionList as QuestionListService;
 use App\Services\Logic\Question\QuestionUpdate as QuestionUpdateService;
 use App\Services\Logic\Question\RelatedQuestionList as RelatedQuestionListService;
-use App\Services\Logic\Question\TopAnswererList as TopAnswererListService;
 use Phalcon\Mvc\View;
 
 /**
@@ -22,34 +20,6 @@ use Phalcon\Mvc\View;
  */
 class QuestionController extends Controller
 {
-
-    /**
-     * @Get("/hot/questions", name="home.question.hot_questions")
-     */
-    public function hotQuestionsAction()
-    {
-        $service = new HotQuestionListService();
-
-        $questions = $service->handle();
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('question/hot_questions');
-        $this->view->setVar('questions', $questions);
-    }
-
-    /**
-     * @Get("/top/answerers", name="home.question.top_answerers")
-     */
-    public function topAnswerersAction()
-    {
-        $service = new TopAnswererListService();
-
-        $answerers = $service->handle();
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('question/top_answerers');
-        $this->view->setVar('answerers', $answerers);
-    }
 
     /**
      * @Get("/list", name="home.question.list")
@@ -113,6 +83,9 @@ class QuestionController extends Controller
 
         $this->seo->prependTitle('编辑问题');
 
+        $referer = $this->request->getHTTPReferer();
+
+        $this->view->setVar('referer', $referer);
         $this->view->setVar('question', $question);
         $this->view->setVar('xm_tags', $xmTags);
     }
@@ -172,9 +145,12 @@ class QuestionController extends Controller
     {
         $service = new QuestionCreateService();
 
-        $service->handle();
+        $question = $service->handle();
 
-        $location = $this->url->get(['for' => 'home.uc.questions']);
+        $location = $this->url->get([
+            'for' => 'home.question.show',
+            'id' => $question->id,
+        ]);
 
         $content = [
             'location' => $location,
@@ -193,7 +169,11 @@ class QuestionController extends Controller
 
         $service->handle($id);
 
-        $location = $this->url->get(['for' => 'home.uc.questions']);
+        $location = $this->request->getPost('referer');
+
+        if (empty($location)) {
+            $location = $this->url->get(['for' => 'home.uc.questions']);
+        }
 
         $content = [
             'location' => $location,
@@ -212,7 +192,7 @@ class QuestionController extends Controller
 
         $service->handle($id);
 
-        $location = $this->url->get(['for' => 'home.uc.questions']);
+        $location = $this->request->getHTTPReferer();
 
         $content = [
             'location' => $location,

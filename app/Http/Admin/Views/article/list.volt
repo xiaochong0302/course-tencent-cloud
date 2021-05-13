@@ -70,7 +70,7 @@
                         {% endif %}
                     </p>
                     <p class="meta">
-                        <span>来源：{{ source_info(item.source_type,item.source_url) }}</span>
+                        <span>来源：{{ source_type(item.source_type) }}</span>
                         <span>作者：<a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a></span>
                         <span>创建：{{ date('Y-m-d',item.create_time) }}</span>
                     </p>

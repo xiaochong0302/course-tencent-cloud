@@ -24,7 +24,7 @@ class RevokeVipTask extends Task
     }
 
     /**
-     * 查找待解锁用户
+     * 查找待撤销会员
      *
      * @param int $limit
      * @return ResultsetInterface|Resultset|UserModel[]

@@ -171,8 +171,6 @@ class AnswerController extends Controller
     {
         $answerService = new AnswerService();
 
-        $answer = $answerService->getAnswer($id);
-
         if ($this->request->isPost()) {
 
             $answerService->reviewAnswer($id);
@@ -188,13 +186,9 @@ class AnswerController extends Controller
         }
 
         $reasons = $answerService->getReasons();
-
-        $questionService = new QuestionService();
-
-        $question = $questionService->getQuestion($answer->question_id);
+        $answer = $answerService->getAnswerInfo($id);
 
         $this->view->setVar('reasons', $reasons);
-        $this->view->setVar('question', $question);
         $this->view->setVar('answer', $answer);
     }
 

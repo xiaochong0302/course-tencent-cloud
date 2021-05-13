@@ -4,7 +4,7 @@ layui.use(['jquery', 'helper'], function () {
     var helper = layui.helper;
 
     var $articleList = $('#article-list');
-    var $sidebarHotAuthors = $('#sidebar-hot-authors');
+    var $sidebarTopAuthors = $('#sidebar-top-authors');
     var $sidebarMyTags = $('#sidebar-my-tags');
 
     if ($articleList.length > 0) {
@@ -14,9 +14,9 @@ layui.use(['jquery', 'helper'], function () {
     if ($sidebarMyTags.length > 0) {
         helper.ajaxLoadHtml($sidebarMyTags.data('url'), $sidebarMyTags.attr('id'));
     }
-    
-    if ($sidebarHotAuthors.length > 0) {
-        helper.ajaxLoadHtml($sidebarHotAuthors.data('url'), $sidebarHotAuthors.attr('id'));
+
+    if ($sidebarTopAuthors.length > 0) {
+        helper.ajaxLoadHtml($sidebarTopAuthors.data('url'), $sidebarTopAuthors.attr('id'));
     }
-    
+
 });

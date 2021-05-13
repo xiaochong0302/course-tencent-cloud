@@ -26,6 +26,7 @@
                 <div class="layui-form-item center">
                     <div class="layui-input-block" style="margin:0;">
                         <button class="layui-btn kg-submit" lay-submit="true" lay-filter="go">发布回答</button>
+                        <input type="hidden" name="referer" value="{{ referer }}">
                     </div>
                 </div>
             </form>

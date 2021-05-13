@@ -360,6 +360,10 @@ img.kg-qrcode {
     margin-bottom: 20px;
 }
 
+.kg-mod-preview .source-tips {
+    margin-bottom: 20px;
+}
+
 .kg-review-form {
     width: 50%;
 }

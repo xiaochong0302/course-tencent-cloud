@@ -33,7 +33,10 @@
                 <div class="title">{{ article.title }}</div>
                 <div class="meta">
                     <div class="left">
-                        <span class="source layui-badge layui-bg-green">{{ source_type(article.source_type) }}</span>
+                        {% if article.published == 1 %}
+                            <span class="review layui-badge">审核中</span>
+                        {% endif %}
+                        <span class="source layui-badge layui-bg-blue">{{ source_type(article.source_type) }}</span>
                         <span class="owner"><a href="{{ article_owner_url }}">{{ article.owner.name }}</a></span>
                         <span class="time">{{ article.create_time|time_ago }}</span>
                         <span class="view">{{ article.view_count }} 阅读</span>

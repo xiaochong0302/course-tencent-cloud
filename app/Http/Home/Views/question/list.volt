@@ -4,8 +4,8 @@
 
     {% set sort_val = request.get('sort','trim','latest') %}
     {% set pager_url = url({'for':'home.question.pager'}, params) %}
-    {% set hot_questions_url = url({'for':'home.question.hot_questions'}) %}
-    {% set top_answerers_url = url({'for':'home.question.top_answerers'}) %}
+    {% set hot_questions_url = url({'for':'home.widget.hot_questions'}) %}
+    {% set top_answerers_url = url({'for':'home.widget.top_answerers'}) %}
     {% set my_tags_url = url({'for':'home.widget.my_tags'},{'type':'question'}) %}
 
     <div class="breadcrumb">

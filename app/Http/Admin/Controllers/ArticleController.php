@@ -190,7 +190,7 @@ class ArticleController extends Controller
         }
 
         $reasons = $articleService->getReasons();
-        $article = $articleService->getArticle($id);
+        $article = $articleService->getArticleInfo($id);
 
         $this->view->setVar('reasons', $reasons);
         $this->view->setVar('article', $article);
