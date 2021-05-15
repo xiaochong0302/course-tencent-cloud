@@ -42,7 +42,6 @@ class Tag extends Service
         $tag = new TagModel();
 
         $tag->name = $validator->checkName($post['name']);
-        $tag->priority = $validator->checkPriority($post['priority']);
 
         $tag->create();
 
