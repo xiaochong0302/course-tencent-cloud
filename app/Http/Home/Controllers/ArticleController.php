@@ -64,10 +64,13 @@ class ArticleController extends Controller
 
         $this->seo->prependTitle('写文章');
 
+        $referer = $this->request->getHTTPReferer();
+
         $this->view->pick('article/edit');
         $this->view->setVar('source_types', $sourceTypes);
-        $this->view->setVar('article', $article);
         $this->view->setVar('xm_tags', $xmTags);
+        $this->view->setVar('article', $article);
+        $this->view->setVar('referer', $referer);
     }
 
     /**

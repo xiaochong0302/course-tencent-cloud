@@ -127,14 +127,12 @@ class Article extends Service
 
         $validator = new ArticleValidator();
 
-        $category = $validator->checkCategory($post['category_id']);
         $title = $validator->checkTitle($post['title']);
 
         $article = new ArticleModel();
 
         $article->published = ArticleModel::PUBLISH_APPROVED;
         $article->owner_id = $user->id;
-        $article->category_id = $category->id;
         $article->title = $title;
 
         $article->create();
