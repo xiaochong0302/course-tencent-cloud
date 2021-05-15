@@ -14,7 +14,7 @@
                 <div class="kg-stat-card">
                     <div class="name">提问</div>
                     <div class="count">
-                        <a href="javascript:">0</a>
+                        <a href="{{ url({'for':'admin.mod.questions'}) }}">{{ mod_stat.question_count }}</a>
                     </div>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                 <div class="kg-stat-card">
                     <div class="name">回答</div>
                     <div class="count">
-                        <a href="javascript:">0</a>
+                        <a href="{{ url({'for':'admin.mod.answers'}) }}">{{ mod_stat.answer_count }}</a>
                     </div>
                 </div>
             </div>
