@@ -24,10 +24,14 @@ class ModerationStat extends Cache
         $statRepo = new StatRepo();
 
         $articleCount = $statRepo->countPendingArticles();
+        $questionCount = $statRepo->countPendingQuestions();
+        $answerCount = $statRepo->countPendingAnswers();
         $commentCount = $statRepo->countPendingComments();
 
         return [
             'article_count' => $articleCount,
+            'question_count' => $questionCount,
+            'answer_count' => $answerCount,
             'comment_count' => $commentCount,
         ];
     }
