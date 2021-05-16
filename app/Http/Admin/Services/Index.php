@@ -2,11 +2,11 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\ModerationStat;
 use App\Caches\SiteGlobalStat;
 use App\Caches\SiteTodayStat;
 use App\Library\AppInfo;
 use App\Library\Utils\ServerInfo;
+use App\Repos\Stat as StatRepo;
 use GuzzleHttp\Client;
 
 class Index extends Service
@@ -56,9 +56,19 @@ class Index extends Service
 
     public function getModerationStat()
     {
-        $cache = new ModerationStat();
+        $statRepo = new StatRepo();
 
-        return $cache->get();
+        $articleCount = $statRepo->countPendingArticles();
+        $questionCount = $statRepo->countPendingQuestions();
+        $answerCount = $statRepo->countPendingAnswers();
+        $commentCount = $statRepo->countPendingComments();
+
+        return [
+            'article_count' => $articleCount,
+            'question_count' => $questionCount,
+            'answer_count' => $answerCount,
+            'comment_count' => $commentCount,
+        ];
     }
 
     public function getReleases()
