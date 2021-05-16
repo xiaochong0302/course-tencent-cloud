@@ -12,7 +12,9 @@
                         <img src="{{ item.owner.avatar }}!avatar_160" alt="{{ item.owner.name }}">
                     </a>
                 </span>
-                <span class="name">{{ item.owner.name }}</span>
+                <span class="name">
+                    <a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a>
+                </span>
             </div>
             <div class="content markdown-body">{{ item.content }}</div>
             <div class="footer">

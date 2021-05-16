@@ -51,6 +51,12 @@
         <span class="type">发布问题</span>
     {% elseif value == 12 %}
         <span class="type">发布回答</span>
+    {% elseif value == 13 %}
+        <span class="type">文章被赞</span>
+    {% elseif value == 14 %}
+        <span class="type">提问被赞</span>
+    {% elseif value == 15 %}
+        <span class="type">回答被赞</span>
     {% endif %}
 {%- endmacro %}
 
@@ -87,6 +93,15 @@
         <p class="question"><a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a></p>
     {% elseif type == 12 %}
         {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
+        <p class="answer"><a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a></p>
+    {% elseif type == 13 %}
+        {% set article_url = url({'for':'home.article.show','id':info.article.id}) %}
+        <p class="article"><a href="{{ article_url }}" target="_blank">{{ info.article.title }}</a></p>
+    {% elseif type == 14 %}
+        {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
         <p class="question"><a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a></p>
+    {% elseif type == 15 %}
+        {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
+        <p class="answer"><a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a></p>
     {% endif %}
 {%- endmacro %}

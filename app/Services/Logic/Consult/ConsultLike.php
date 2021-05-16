@@ -32,8 +32,6 @@ class ConsultLike extends LogicService
 
         if (!$consultLike) {
 
-            $action = 'do';
-
             $consultLike = new ConsultLikeModel();
 
             $consultLike->consult_id = $consult->id;
@@ -41,9 +39,20 @@ class ConsultLike extends LogicService
 
             $consultLike->create();
 
-            $this->incrConsultLikeCount($consult);
+        } else {
 
-            $this->handleLikeNotice($consult, $user);
+            $consultLike->deleted = $consultLike->deleted == 1 ? 0 : 1;
+
+            $consultLike->update();
+        }
+
+        $this->incrUserDailyConsultLikeCount($user);
+
+        if ($consultLike->deleted == 0) {
+
+            $action = 'do';
+
+            $this->incrConsultLikeCount($consult);
 
             $this->eventsManager->fire('Consult:afterLike', $this, $consult);
 
@@ -51,14 +60,19 @@ class ConsultLike extends LogicService
 
             $action = 'undo';
 
-            $consultLike->delete();
-
             $this->decrConsultLikeCount($consult);
 
             $this->eventsManager->fire('Consult:afterUndoLike', $this, $consult);
         }
 
-        $this->incrUserDailyConsultLikeCount($user);
+        $isOwner = $user->id == $consult->owner_id;
+
+        /**
+         * 仅首次点赞发送通知
+         */
+        if (!$consultLike && !$isOwner) {
+            $this->handleConsultLikedNotice($consult, $user);
+        }
 
         return [
             'action' => $action,
@@ -86,7 +100,7 @@ class ConsultLike extends LogicService
         $this->eventsManager->fire('UserDailyCounter:incrConsultLikeCount', $this, $user);
     }
 
-    protected function handleLikeNotice(ConsultModel $consult, UserModel $sender)
+    protected function handleConsultLikedNotice(ConsultModel $consult, UserModel $sender)
     {
         $notice = new ConsultLikedNotice();
 

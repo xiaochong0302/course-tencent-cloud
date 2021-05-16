@@ -32,14 +32,25 @@ class ReviewLike extends LogicService
 
         if (!$reviewLike) {
 
-            $action = 'do';
-
             $reviewLike = new ReviewLikeModel();
 
             $reviewLike->review_id = $review->id;
             $reviewLike->user_id = $user->id;
 
             $reviewLike->create();
+
+        } else {
+
+            $reviewLike->deleted = $reviewLike->deleted == 1 ? 0 : 1;
+
+            $reviewLike->update();
+        }
+
+        $this->incrUserDailyReviewLikeCount($user);
+
+        if ($reviewLike->deleted == 0) {
+
+            $action = 'do';
 
             $this->incrReviewLikeCount($review);
 
@@ -51,14 +62,19 @@ class ReviewLike extends LogicService
 
             $action = 'undo';
 
-            $reviewLike->delete();
-
             $this->decrReviewLikeCount($review);
 
             $this->eventsManager->fire('Review:afterUndoLike', $this, $review);
         }
 
-        $this->incrUserDailyReviewLikeCount($user);
+        $isOwner = $user->id == $review->owner_id;
+
+        /**
+         * 仅首次点赞发送通知
+         */
+        if (!$reviewLike && !$isOwner) {
+            $this->handleLikeNotice($review, $user);
+        }
 
         return [
             'action' => $action,

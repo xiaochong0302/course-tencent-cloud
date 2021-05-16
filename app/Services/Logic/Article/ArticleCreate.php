@@ -5,6 +5,7 @@ namespace App\Services\Logic\Article;
 use App\Models\Article as ArticleModel;
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
+use App\Services\Logic\Point\History\ArticlePost as ArticlePostPointHistory;
 use App\Services\Logic\Service as LogicService;
 
 class ArticleCreate extends LogicService
@@ -34,6 +35,10 @@ class ArticleCreate extends LogicService
 
         $this->recountUserArticles($user);
 
+        if ($article->published == ArticleModel::PUBLISH_APPROVED) {
+            $this->handleArticlePostPoint($article);
+        }
+
         $this->eventsManager->fire('Article:afterCreate', $this, $article);
 
         return $article;
@@ -53,6 +58,15 @@ class ArticleCreate extends LogicService
         $user->article_count = $articleCount;
 
         $user->update();
+    }
+
+    protected function handleArticlePostPoint(ArticleModel $article)
+    {
+        if ($article->published != ArticleModel::PUBLISH_APPROVED) return;
+
+        $service = new ArticlePostPointHistory();
+
+        $service->handle($article);
     }
 
 }

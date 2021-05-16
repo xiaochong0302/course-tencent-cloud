@@ -5,7 +5,7 @@ namespace App\Services\Logic\Question;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Comment as CommentModel;
 use App\Repos\Comment as CommentRepo;
-use App\Services\Logic\Comment\CommentListTrait;
+use App\Services\Logic\Comment\ListTrait;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
 
@@ -13,7 +13,7 @@ class CommentList extends LogicService
 {
 
     use QuestionTrait;
-    use CommentListTrait;
+    use ListTrait;
 
     public function handle($id)
     {

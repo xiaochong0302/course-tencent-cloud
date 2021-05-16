@@ -108,7 +108,7 @@ class QuestionInfo extends LogicService
 
             $like = $likeRepo->findQuestionLike($question->id, $user->id);
 
-            if ($like) {
+            if ($like && $like->deleted == 0) {
                 $me['liked'] = 1;
             }
 
@@ -116,7 +116,7 @@ class QuestionInfo extends LogicService
 
             $favorite = $favoriteRepo->findQuestionFavorite($question->id, $user->id);
 
-            if ($favorite) {
+            if ($favorite && $favorite->deleted == 0) {
                 $me['favorited'] = 1;
             }
 

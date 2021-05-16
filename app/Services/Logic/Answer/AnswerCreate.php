@@ -12,7 +12,6 @@ use App\Services\Logic\Notice\System\QuestionAnswered as QuestionAnsweredNotice;
 use App\Services\Logic\Point\History\AnswerPost as AnswerPostPointHistory;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Sync\QuestionScore as QuestionScoreSync;
 use App\Traits\Client as ClientTrait;
 use App\Validators\Answer as AnswerValidator;
 
@@ -38,7 +37,6 @@ class AnswerCreate extends LogicService
         $answer = new AnswerModel();
 
         $answer->published = $this->getPublishStatus($user);
-
         $answer->content = $validator->checkContent($post['content']);
         $answer->client_type = $this->getClientType();
         $answer->client_ip = $this->getClientIp();
@@ -58,9 +56,10 @@ class AnswerCreate extends LogicService
 
             $question->update();
 
-            $this->syncQuestionScore($question);
-            $this->handleAnswerPostPoint($answer);
-            $this->handleQuestionAnsweredNotice($answer);
+            if ($user->id != $question->owner_id) {
+                $this->handleAnswerPostPoint($answer);
+                $this->handleQuestionAnsweredNotice($answer);
+            }
         }
 
         $this->eventsManager->fire('Answer:afterCreate', $this, $answer);
@@ -93,13 +92,6 @@ class AnswerCreate extends LogicService
         $user->answer_count = $answerCount;
 
         $user->update();
-    }
-
-    protected function syncQuestionScore(QuestionModel $question)
-    {
-        $sync = new QuestionScoreSync();
-
-        $sync->addItem($question->id);
     }
 
     protected function handleQuestionAnsweredNotice(AnswerModel $answer)

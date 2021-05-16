@@ -10,7 +10,7 @@ class CommentDelete extends LogicService
 {
 
     use CommentTrait;
-    use CommentCountTrait;
+    use CountTrait;
 
     public function handle($id)
     {

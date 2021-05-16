@@ -32,8 +32,6 @@ class ArticleFavorite extends LogicService
 
         if (!$favorite) {
 
-            $action = 'do';
-
             $favorite = new ArticleFavoriteModel();
 
             $favorite->article_id = $article->id;
@@ -41,11 +39,19 @@ class ArticleFavorite extends LogicService
 
             $favorite->create();
 
+        } else {
+
+            $favorite->deleted = $favorite->deleted == 1 ? 0 : 1;
+
+            $favorite->update();
+        }
+
+        if ($favorite->deleted == 0) {
+
+            $action = 'do';
+
             $this->incrArticleFavoriteCount($article);
-
             $this->incrUserFavoriteCount($user);
-
-            $this->handleFavoriteNotice($article, $user);
 
             $this->eventsManager->fire('Article:afterFavorite', $this, $article);
 
@@ -53,13 +59,19 @@ class ArticleFavorite extends LogicService
 
             $action = 'undo';
 
-            $favorite->delete();
-
             $this->decrArticleFavoriteCount($article);
-
             $this->decrUserFavoriteCount($user);
 
             $this->eventsManager->fire('Article:afterUndoFavorite', $this, $article);
+        }
+
+        $isOwner = $user->id == $article->owner_id;
+
+        /**
+         * 仅首次收藏发送通知
+         */
+        if (!$favorite && !$isOwner) {
+            $this->handleFavoriteNotice($article, $user);
         }
 
         return [

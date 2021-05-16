@@ -49,13 +49,34 @@ class Comment extends Validator
         return $user;
     }
 
-    public function checkItemType($itemType)
+    public function checkItem($itemType, $itemId)
     {
         if (!array_key_exists($itemType, CommentModel::itemTypes())) {
             throw new BadRequestException('comment.invalid_item_type');
         }
 
-        return $itemType;
+        $result = null;
+
+        switch ($itemType) {
+            case CommentModel::ITEM_CHAPTER:
+                $validator = new Chapter();
+                $result = $validator->checkChapter($itemId);
+                break;
+            case CommentModel::ITEM_ARTICLE:
+                $validator = new Article();
+                $result = $validator->checkArticle($itemId);
+                break;
+            case CommentModel::ITEM_QUESTION:
+                $validator = new Question();
+                $result = $validator->checkQuestion($itemId);
+                break;
+            case CommentModel::ITEM_ANSWER:
+                $validator = new Answer();
+                $result = $validator->checkAnswer($itemId);
+                break;
+        }
+
+        return $result;
     }
 
     public function checkContent($content)

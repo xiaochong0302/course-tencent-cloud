@@ -2,16 +2,17 @@
 
 namespace App\Services\Logic\Point\History;
 
-use App\Models\Article as ArticleModel;
+use App\Models\ArticleLike as ArticleLikeModel;
 use App\Models\PointHistory as PointHistoryModel;
+use App\Repos\Article as ArticleRepo;
 use App\Repos\PointHistory as PointHistoryRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Point\PointHistory;
 
-class ArticlePost extends PointHistory
+class ArticleLiked extends PointHistory
 {
 
-    public function handle(ArticleModel $article)
+    public function handle(ArticleLikeModel $articleLike)
     {
         $setting = $this->getSettings('point');
 
@@ -21,27 +22,31 @@ class ArticlePost extends PointHistory
 
         $eventRule = json_decode($setting['event_rule'], true);
 
-        $eventEnabled = $eventRule['article_post']['enabled'] ?? 0;
+        $eventEnabled = $eventRule['article_liked']['enabled'] ?? 0;
 
         if ($eventEnabled == 0) return;
 
-        $eventPoint = $eventRule['article_post']['point'] ?? 0;
+        $eventPoint = $eventRule['article_liked']['point'] ?? 0;
 
         if ($eventPoint <= 0) return;
 
-        $dailyPointLimit = $eventRule['article_post']['limit'] ?? 0;
+        $dailyPointLimit = $eventRule['article_liked']['limit'] ?? 0;
 
         if ($dailyPointLimit <= 0) return;
 
-        $eventId = $article->id;
+        $eventId = $articleLike->id;
 
-        $eventType = PointHistoryModel::EVENT_ARTICLE_POST;
+        $eventType = PointHistoryModel::EVENT_ARTICLE_LIKED;
 
         $historyRepo = new PointHistoryRepo();
 
         $history = $historyRepo->findEventHistory($eventId, $eventType);
 
         if ($history) return;
+
+        $articleRepo = new ArticleRepo();
+
+        $article = $articleRepo->findById($articleLike->article_id);
 
         /**
          * @todo 使用缓存优化

@@ -34,6 +34,7 @@ class QuestionPost extends PointHistory
         if ($dailyPointLimit <= 0) return;
 
         $eventId = $question->id;
+
         $eventType = PointHistoryModel::EVENT_QUESTION_POST;
 
         $historyRepo = new PointHistoryRepo();

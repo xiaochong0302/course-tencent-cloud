@@ -31,8 +31,6 @@ class ChapterLike extends LogicService
 
         if (!$chapterLike) {
 
-            $action = 'do';
-
             $chapterLike = new ChapterLikeModel();
 
             $chapterLike->chapter_id = $chapter->id;
@@ -40,18 +38,27 @@ class ChapterLike extends LogicService
 
             $chapterLike->create();
 
+        } else {
+
+            $chapterLike->deleted = $chapterLike->deleted == 1 ? 0 : 1;
+
+            $chapterLike->update();
+        }
+
+        $this->incrUserDailyChapterLikeCount($user);
+
+        if ($chapterLike->deleted == 0) {
+
+            $action = 'do';
+
             $this->incrChapterLikeCount($chapter);
 
         } else {
 
             $action = 'undo';
 
-            $chapterLike->delete();
-
             $this->decrChapterLikeCount($chapter);
         }
-
-        $this->incrUserDailyChapterLikeCount($user);
 
         return [
             'action' => $action,

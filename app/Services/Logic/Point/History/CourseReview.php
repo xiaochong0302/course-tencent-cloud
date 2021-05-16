@@ -31,6 +31,7 @@ class CourseReview extends PointHistory
         if ($eventPoint <= 0) return;
 
         $eventId = $review->id;
+
         $eventType = PointHistoryModel::EVENT_COURSE_REVIEW;
 
         $historyRepo = new PointHistoryRepo();

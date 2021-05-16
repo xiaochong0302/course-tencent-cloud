@@ -32,6 +32,7 @@ class ChapterStudy extends PointHistory
         if ($eventPoint <= 0) return;
 
         $eventId = $chapterUser->id;
+
         $eventType = PointHistoryModel::EVENT_CHAPTER_STUDY;
 
         $historyRepo = new PointHistoryRepo();
