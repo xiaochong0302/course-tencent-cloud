@@ -90,7 +90,7 @@ class Stat extends Repository
         ]);
     }
 
-    public function countDailyOnlineUser($date)
+    public function countDailyOnlineUsers($date)
     {
         $startTime = strtotime($date);
 

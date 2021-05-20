@@ -334,7 +334,7 @@ class Stat extends Service
             foreach ($dates as $date) {
                 $key = substr($date, -2);
                 if ($date < $currDate) {
-                    $list[$key] = $statRepo->countDailyRegisteredUser($date);
+                    $list[$key] = $statRepo->countDailyRegisteredUsers($date);
                 } elseif ($date == $currDate) {
                     $list[$key] = -999;
                 } else {
@@ -347,13 +347,13 @@ class Stat extends Service
 
         foreach ($list as $key => $value) {
             if ($value < 0) {
-                $list[$key] = $statRepo->countDailyRegisteredUser("{$year}-{$month}-{$key}");
+                $list[$key] = $statRepo->countDailyRegisteredUsers("{$year}-{$month}-{$key}");
                 $redis->hSet($keyName, $key, $list[$key]);
             }
         }
 
         if ($this->isCurrMonth($year, $month)) {
-            $list[$currDay] = $statRepo->countDailyRegisteredUser($currDate);
+            $list[$currDay] = $statRepo->countDailyRegisteredUsers($currDate);
         }
 
         return $list;
@@ -377,7 +377,7 @@ class Stat extends Service
             foreach ($dates as $date) {
                 $key = substr($date, -2);
                 if ($date < $currDate) {
-                    $list[$key] = $statRepo->countDailyOnlineUser($date);
+                    $list[$key] = $statRepo->countDailyOnlineUsers($date);
                 } elseif ($date == $currDate) {
                     $list[$key] = -999;
                 } else {
@@ -390,13 +390,13 @@ class Stat extends Service
 
         foreach ($list as $key => $value) {
             if ($value < 0) {
-                $list[$key] = $statRepo->countDailyOnlineUser("{$year}-{$month}-{$key}");
+                $list[$key] = $statRepo->countDailyOnlineUsers("{$year}-{$month}-{$key}");
                 $redis->hSet($keyName, $key, $list[$key]);
             }
         }
 
         if ($this->isCurrMonth($year, $month)) {
-            $list[$currDay] = $statRepo->countDailyOnlineUser($currDate);
+            $list[$currDay] = $statRepo->countDailyOnlineUsers($currDate);
         }
 
         return $list;
