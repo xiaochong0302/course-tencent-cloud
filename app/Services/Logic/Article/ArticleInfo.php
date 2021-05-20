@@ -74,8 +74,10 @@ class ArticleInfo extends LogicService
         ];
 
         $isOwner = $user->id == $article->owner_id;
+        $approved = $article->published == ArticleModel::PUBLISH_APPROVED;
+        $public = $article->private == 0;
 
-        if ($article->published == ArticleModel::PUBLISH_APPROVED) {
+        if ($approved && $public) {
             $me['owned'] = 1;
         } else {
             $me['owned'] = $isOwner ? 1 : 0;

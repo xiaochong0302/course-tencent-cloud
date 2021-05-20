@@ -5,13 +5,16 @@
     {{ partial('macros/question') }}
 
     {% set question_list_url = url({'for':'home.question.list'}) %}
-    {% set question_report_url = url({'for':'home.question.report','id':question.id}) %}
+    {% set question_report_url = url({'for':'home.report.add'},{'item_id':question.id,'item_type':107}) %}
     {% set question_edit_url = url({'for':'home.question.edit','id':question.id}) %}
     {% set question_delete_url = url({'for':'home.question.delete','id':question.id}) %}
+    {% set question_show_url = url({'for':'home.question.show','id':question.id}) %}
     {% set question_owner_url = url({'for':'home.user.show','id':question.owner.id}) %}
     {% set question_related_url = url({'for':'home.question.related','id':question.id}) %}
     {% set answer_add_url = url({'for':'home.answer.add'},{'question_id':question.id}) %}
     {% set answer_list_url = url({'for':'home.question.answers','id':question.id}) %}
+    {% set answer_id = request.getQuery('answer_id','int',0) %}
+    {% set answer_url = url({'for':'home.answer.info','id':answer_id}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
@@ -67,40 +70,24 @@
                     <button class="layui-btn layui-btn-fluid btn-answer" data-url="{{ answer_add_url }}">回答问题</button>
                 </div>
             {% endif %}
-            {% if question.answer_count > 0 %}
+            {% if answer_id > 0 %}
                 <div class="answer-wrap wrap">
-                    <div class="layui-tab layui-tab-brief search-tab">
-                        <ul class="layui-tab-title">
-                            <li class="layui-this" data-url="{{ answer_list_url }}?sort=popular">热门回答</li>
-                            <li data-url="{{ answer_list_url }}?sort=latest">最新回答</li>
-                        </ul>
-                        <div class="layui-tab-content">
-                            <div class="layui-tab-item layui-show">
-                                <div id="answer-list" data-url="{{ answer_list_url }}?sort=popular"></div>
-                            </div>
-                        </div>
+                    <div id="answer-info" data-url="{{ answer_url }}"></div>
+                </div>
+                {% if question.answer_count > 0 %}
+                    <div class="center wrap">
+                        <a class="green" href="{{ question_show_url }}">查看全部 {{ question.answer_count }} 个回答</a>
                     </div>
+                {% endif %}
+            {% elseif question.answer_count > 0 %}
+                <div class="answer-wrap wrap">
+                    {{ partial('question/show_answers') }}
                 </div>
             {% endif %}
         </div>
         <div class="layout-sidebar">
             <div class="sidebar">
-                <div class="layui-card">
-                    <div class="layui-card-header">关于作者</div>
-                    <div class="layui-card-body">
-                        <div class="sidebar-user-card clearfix">
-                            <div class="avatar">
-                                <img src="{{ question.owner.avatar }}!avatar_160" alt="{{ question.owner.name }}">
-                            </div>
-                            <div class="info">
-                                <div class="name layui-elip">
-                                    <a href="{{ question_owner_url }}" title="{{ question.owner.about }}">{{ question.owner.name }}</a>
-                                </div>
-                                <div class="title layui-elip">{{ question.owner.title|default('初出江湖') }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {{ partial('question/show_owner') }}
             </div>
             <div class="sidebar" id="sidebar-related" data-url="{{ question_related_url }}"></div>
         </div>
@@ -126,8 +113,10 @@
 
 {% block include_js %}
 
+    {{ js_include('lib/clipboard.min.js') }}
     {{ js_include('home/js/question.show.js') }}
     {{ js_include('home/js/question.share.js') }}
     {{ js_include('home/js/answer.js') }}
+    {{ js_include('home/js/copy.js') }}
 
 {% endblock %}

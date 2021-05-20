@@ -7,6 +7,7 @@ use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Point\History\ArticlePost as ArticlePostPointHistory;
 use App\Services\Logic\Service as LogicService;
+use App\Validators\UserLimit as UserLimitValidator;
 
 class ArticleCreate extends LogicService
 {
@@ -18,6 +19,10 @@ class ArticleCreate extends LogicService
         $post = $this->request->getPost();
 
         $user = $this->getLoginUser();
+
+        $validator = new UserLimitValidator();
+
+        $validator->checkDailyArticleLimit($user);
 
         $article = new ArticleModel();
 
@@ -33,6 +38,7 @@ class ArticleCreate extends LogicService
             $this->saveTags($article, $post['xm_tag_ids']);
         }
 
+        $this->incrUserDailyArticleCount($user);
         $this->recountUserArticles($user);
 
         if ($article->published == ArticleModel::PUBLISH_APPROVED) {
@@ -47,6 +53,11 @@ class ArticleCreate extends LogicService
     protected function getPublishStatus(UserModel $user)
     {
         return $user->article_count > 100 ? ArticleModel::PUBLISH_APPROVED : ArticleModel::PUBLISH_PENDING;
+    }
+
+    protected function incrUserDailyArticleCount(UserModel $user)
+    {
+        $this->eventsManager->fire('UserDailyCounter:incrArticleCount', $this, $user);
     }
 
     protected function recountUserArticles(UserModel $user)

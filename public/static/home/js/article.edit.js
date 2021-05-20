@@ -2,6 +2,22 @@ layui.use(['jquery', 'form', 'layer'], function () {
 
     var $ = layui.jquery;
     var form = layui.form;
+    var layer = layui.layer;
+
+    $('.publish').on('click', function () {
+        var layerWidth = 360;
+        var layerTop = $(this).offset().top + $(this).height() + 5 + 'px';
+        var layerLeft = ($(this).offset().left + $(this).width() - layerWidth) + 'px';
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: false,
+            shadeClose: true,
+            content: $('#layer-publish'),
+            offset: [layerTop, layerLeft],
+            area: layerWidth + 'px',
+        });
+    });
 
     form.on('select(source_type)', function (data) {
         var block = $('#source-url-block');

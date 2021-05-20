@@ -27,7 +27,7 @@ class CommentCreate extends LogicService
 
         $validator = new CommentValidator();
 
-        $item = $validator->checkItem($post['item_type'], $post['item_id']);
+        $item = $validator->checkItem($post['item_id'], $post['item_type']);
 
         $comment = new CommentModel();
 

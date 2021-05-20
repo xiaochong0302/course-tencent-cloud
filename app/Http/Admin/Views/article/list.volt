@@ -50,13 +50,13 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set preview_url = url({'for':'home.article.show','id':item.id}) %}
-            {% set review_url = url({'for':'admin.article.review','id':item.id}) %}
+            {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set edit_url = url({'for':'admin.article.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.article.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.article.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.article.restore','id':item.id}) %}
+            {% set review_url = url({'for':'admin.article.publish_review','id':item.id}) %}
             {% set comment_url = url({'for':'admin.comment.list'},{'item_id':item.id,'item_type':2}) %}
             <tr>
                 <td>

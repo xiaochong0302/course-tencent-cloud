@@ -3,6 +3,8 @@
 namespace App\Services\Logic\Answer;
 
 use App\Models\Answer as AnswerModel;
+use App\Models\User as UserModel;
+use App\Repos\AnswerLike as AnswerLikeRepo;
 use App\Repos\Question as QuestionRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\AnswerTrait;
@@ -17,10 +19,12 @@ class AnswerInfo extends LogicService
     {
         $answer = $this->checkAnswer($id);
 
-        return $this->handleAnswer($answer);
+        $user = $this->getCurrentUser();
+
+        return $this->handleAnswer($answer, $user);
     }
 
-    protected function handleAnswer(AnswerModel $answer)
+    protected function handleAnswer(AnswerModel $answer, UserModel $user)
     {
         $answer->content = kg_parse_markdown($answer->content);
 
@@ -37,6 +41,7 @@ class AnswerInfo extends LogicService
 
         $result['question'] = $this->handleQuestionInfo($answer);
         $result['owner'] = $this->handleOwnerInfo($answer);
+        $result['me'] = $this->handleMeInfo($answer, $user);
 
         return $result;
     }
@@ -64,6 +69,26 @@ class AnswerInfo extends LogicService
             'name' => $owner->name,
             'avatar' => $owner->avatar,
         ];
+    }
+
+    protected function handleMeInfo(AnswerModel $answer, UserModel $user)
+    {
+        $me = [
+            'liked' => 0,
+        ];
+
+        if ($user->id > 0) {
+
+            $likeRepo = new AnswerLikeRepo();
+
+            $like = $likeRepo->findAnswerLike($answer->id, $user->id);
+
+            if ($like && $like->deleted == 0) {
+                $me['liked'] = 1;
+            }
+        }
+
+        return $me;
     }
 
 }

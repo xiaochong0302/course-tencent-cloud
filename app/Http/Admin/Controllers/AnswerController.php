@@ -46,10 +46,7 @@ class AnswerController extends Controller
 
         $question = $questionService->getQuestion($id);
 
-        $referer = $this->request->getHTTPReferer();
-
         $this->view->setVar('question', $question);
-        $this->view->setVar('referer', $referer);
     }
 
     /**
@@ -65,9 +62,6 @@ class AnswerController extends Controller
 
         $question = $questionService->getQuestion($answer->question_id);
 
-        $referer = $this->request->getHTTPReferer();
-
-        $this->view->setVar('referer', $referer);
         $this->view->setVar('question', $question);
         $this->view->setVar('answer', $answer);
     }
@@ -165,15 +159,15 @@ class AnswerController extends Controller
     }
 
     /**
-     * @Route("/{id:[0-9]+}/review", name="admin.answer.review")
+     * @Route("/{id:[0-9]+}/publish/review", name="admin.answer.publish_review")
      */
-    public function reviewAction($id)
+    public function publishReviewAction($id)
     {
         $answerService = new AnswerService();
 
         if ($this->request->isPost()) {
 
-            $answerService->reviewAnswer($id);
+            $answerService->publishReview($id);
 
             $location = $this->url->get(['for' => 'admin.mod.answers']);
 
@@ -188,8 +182,38 @@ class AnswerController extends Controller
         $reasons = $answerService->getReasons();
         $answer = $answerService->getAnswerInfo($id);
 
+        $this->view->pick('answer/publish_review');
         $this->view->setVar('reasons', $reasons);
         $this->view->setVar('answer', $answer);
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}/report/review", name="admin.answer.report_review")
+     */
+    public function reportReviewAction($id)
+    {
+        $answerService = new AnswerService();
+
+        if ($this->request->isPost()) {
+
+            $answerService->reportReview($id);
+
+            $location = $this->url->get(['for' => 'admin.report.answers']);
+
+            $content = [
+                'location' => $location,
+                'msg' => '审核举报成功',
+            ];
+
+            return $this->jsonSuccess($content);
+        }
+
+        $answer = $answerService->getAnswerInfo($id);
+        $reports = $answerService->getReports($id);
+
+        $this->view->pick('answer/report_review');
+        $this->view->setVar('answer', $answer);
+        $this->view->setVar('reports', $reports);
     }
 
 }

@@ -30,7 +30,7 @@
                 <div class="kg-stat-card">
                     <div class="name">评论</div>
                     <div class="count">
-                        <a href="javascript:">0</a>
+                        <a href="{{ url({'for':'admin.mod.comments'}) }}">{{ mod_stat.comment_count }}</a>
                     </div>
                 </div>
             </div>

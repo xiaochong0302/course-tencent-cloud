@@ -33,7 +33,9 @@
         </div>
     </div>
 
-    <div id="tips" data-url="{{ url({'for':'home.answer.tips'}) }}"></div>
+    {% if auth_user.answer_count < 3 %}
+        <div id="tips" data-url="{{ url({'for':'home.answer.tips'}) }}"></div>
+    {% endif %}
 
 {% endblock %}
 
@@ -46,31 +48,7 @@
 {% block include_js %}
 
     {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js', false) }}
-    {{ js_include('home/js/answer.js') }}
+    {{ js_include('home/js/answer.edit.js') }}
     {{ js_include('home/js/vditor.js') }}
-
-{% endblock %}
-
-{% block inline_js %}
-
-    <script>
-
-        layui.use(['jquery', 'layer'], function () {
-
-            var $ = layui.jquery;
-            var layer = layui.layer;
-            var $tips = $('#tips');
-
-            if ($tips.length > 0) {
-                layer.open({
-                    type: 2,
-                    title: '答题指南',
-                    content: $tips.data('url'),
-                    area: ['600px', '320px'],
-                });
-            }
-        });
-
-    </script>
 
 {% endblock %}

@@ -133,7 +133,8 @@
 }
 
 .writer-content .layui-input-block,
-.writer-sidebar .layui-input-block {
+.writer-sidebar .layui-input-block,
+.report-form .layui-input-block {
     margin-left: 0;
 }
 
@@ -141,7 +142,12 @@
     padding-top: 30px;
 }
 
-.writer-sidebar .layui-form-label {
+.writer-sidebar {
+    padding: 20px;
+}
+
+.writer-sidebar .layui-form-label,
+.report-form .layui-form-label {
     float: none;
     width: 100%;
     display: block;
@@ -150,19 +156,27 @@
     text-align: inherit;
 }
 
-.writer-sidebar .cover-wrap {
-    position: relative;
+.writer-sidebar .last-form-item,
+.report-form .last-form-item {
+    margin-top: 20px;
 }
 
-.writer-sidebar .cover {
-    width: 290px;
-    height: 160px;
+.report-form .layui-textarea {
+    min-height: 80px;
 }
 
-.writer-sidebar .btn-change {
+.writer-breadcrumb {
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 20px;
+}
+
+.breadcrumb .share {
     position: absolute;
-    top: 90px;
-    left: 120px;
+    top: 2px;
+    right: -5px;
 }
 
 #header {
@@ -939,12 +953,6 @@
 
 .course-sort a {
     margin-right: 20px;
-}
-
-.breadcrumb .share {
-    position: absolute;
-    top: 2px;
-    right: -5px;
 }
 
 .course-meta .cover {

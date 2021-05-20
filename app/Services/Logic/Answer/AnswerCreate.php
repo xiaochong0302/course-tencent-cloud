@@ -14,6 +14,7 @@ use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Traits\Client as ClientTrait;
 use App\Validators\Answer as AnswerValidator;
+use App\Validators\UserLimit as UserLimitValidator;
 
 class AnswerCreate extends LogicService
 {
@@ -30,6 +31,10 @@ class AnswerCreate extends LogicService
 
         $user = $this->getLoginUser();
 
+        $validator = new UserLimitValidator();
+
+        $validator->checkDailyAnswerLimit($user);
+
         $validator = new AnswerValidator();
 
         $validator->checkIfAllowAnswer($question, $user);
@@ -45,6 +50,7 @@ class AnswerCreate extends LogicService
 
         $answer->create();
 
+        $this->incrUserDailyAnswerCount($user);
         $this->recountQuestionAnswers($question);
         $this->recountUserAnswers($user);
 
@@ -70,6 +76,11 @@ class AnswerCreate extends LogicService
     protected function getPublishStatus(UserModel $user)
     {
         return $user->answer_count > 2 ? AnswerModel::PUBLISH_APPROVED : AnswerModel::PUBLISH_PENDING;
+    }
+
+    protected function incrUserDailyAnswerCount(UserModel $user)
+    {
+        $this->eventsManager->fire('UserDailyCounter:incrAnswerCount', $this, $user);
     }
 
     protected function recountQuestionAnswers(QuestionModel $question)

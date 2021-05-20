@@ -4,10 +4,15 @@ layui.use(['jquery', 'helper'], function () {
     var helper = layui.helper;
 
     var $answerList = $('#answer-list');
+    var $answerInfo = $('#answer-info');
     var $sidebarRelated = $('#sidebar-related');
 
     if ($answerList.length > 0) {
         helper.ajaxLoadHtml($answerList.data('url'), $answerList.attr('id'));
+    }
+
+    if ($answerInfo.length > 0) {
+        helper.ajaxLoadHtml($answerInfo.data('url'), $answerInfo.attr('id'));
     }
 
     if ($sidebarRelated.length > 0) {
@@ -16,12 +21,6 @@ layui.use(['jquery', 'helper'], function () {
 
     $('.layui-tab-title > li').on('click', function () {
         helper.ajaxLoadHtml($(this).data('url'), $answerList.attr('id'));
-    });
-
-    $('.question-report').on('click', function () {
-        /**
-         * @todo
-         */
     });
 
     $('.question-edit').on('click', function () {

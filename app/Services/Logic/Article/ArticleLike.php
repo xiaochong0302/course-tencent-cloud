@@ -72,8 +72,6 @@ class ArticleLike extends LogicService
 
         $isOwner = $user->id == $article->owner_id;
 
-        $logger = $this->getLogger('http');
-
         /**
          * 仅首次点赞发送通知和奖励积分
          */

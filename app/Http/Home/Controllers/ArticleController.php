@@ -64,13 +64,10 @@ class ArticleController extends Controller
 
         $this->seo->prependTitle('写文章');
 
-        $referer = $this->request->getHTTPReferer();
-
         $this->view->pick('article/edit');
         $this->view->setVar('source_types', $sourceTypes);
         $this->view->setVar('xm_tags', $xmTags);
         $this->view->setVar('article', $article);
-        $this->view->setVar('referer', $referer);
     }
 
     /**
@@ -86,10 +83,7 @@ class ArticleController extends Controller
 
         $this->seo->prependTitle('编辑文章');
 
-        $referer = $this->request->getHTTPReferer();
-
         $this->view->setVar('source_types', $sourceTypes);
-        $this->view->setVar('referer', $referer);
         $this->view->setVar('article', $article);
         $this->view->setVar('xm_tags', $xmTags);
     }
@@ -155,13 +149,12 @@ class ArticleController extends Controller
     {
         $service = new ArticleUpdateService();
 
-        $service->handle($id);
+        $article = $service->handle($id);
 
-        $location = $this->request->getPost('referer');
-
-        if (empty($location)) {
-            $location = $this->url->get(['for' => 'home.uc.articles']);
-        }
+        $location = $this->url->get([
+            'for' => 'home.article.show',
+            'id' => $article->id,
+        ]);
 
         $content = [
             'location' => $location,
@@ -216,14 +209,6 @@ class ArticleController extends Controller
         $msg = $data['action'] == 'do' ? '点赞成功' : '取消点赞成功';
 
         return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
-    }
-
-    /**
-     * @Route("/{id:[0-9]+}/report", name="home.article.report")
-     */
-    public function reportAction($id)
-    {
-
     }
 
 }

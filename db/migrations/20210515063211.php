@@ -8,17 +8,48 @@ class V20210515063211 extends Phinx\Migration\AbstractMigration
     public function up()
     {
         $this->modifyArticleFavoriteTable();
+        $this->modifyCourseFavoriteTable();
         $this->modifyArticleLikeTable();
         $this->modifyChapterLikeTable();
         $this->modifyCommentLikeTable();
         $this->modifyConsultLikeTable();
-        $this->modifyCourseFavoriteTable();
+        $this->modifyReviewLikeTable();
         $this->handlePointEventRules();
     }
 
     protected function modifyArticleFavoriteTable()
     {
         $this->table('kg_article_favorite')
+            ->addColumn('deleted', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '删除标识',
+                'after' => 'user_id',
+            ])
+            ->changeColumn('create_time', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '创建时间',
+                'after' => 'deleted',
+            ])
+            ->addColumn('update_time', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '更新时间',
+                'after' => 'create_time',
+            ])
+            ->save();
+    }
+
+    protected function modifyCourseFavoriteTable()
+    {
+        $this->table('kg_course_favorite')
             ->addColumn('deleted', 'integer', [
                 'null' => false,
                 'default' => '0',
@@ -166,9 +197,9 @@ class V20210515063211 extends Phinx\Migration\AbstractMigration
             ->save();
     }
 
-    protected function modifyCourseFavoriteTable()
+    protected function modifyReviewLikeTable()
     {
-        $this->table('kg_course_favorite')
+        $this->table('kg_review_like')
             ->addColumn('deleted', 'integer', [
                 'null' => false,
                 'default' => '0',

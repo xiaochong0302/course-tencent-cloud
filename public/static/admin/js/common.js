@@ -55,9 +55,8 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
             url: data.form.action,
             data: data.field,
             success: function (res) {
-                var icon = res.code === 0 ? 1 : 2;
                 if (res.msg) {
-                    layer.msg(res.msg, {icon: icon});
+                    layer.msg(res.msg, {icon: 1});
                 }
                 if (res.location) {
                     var target = res.target || 'self';
@@ -72,9 +71,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'dropdown'], function () {
                     submit.removeAttr('disabled').removeClass('layui-btn-disabled');
                 }
             },
-            error: function (xhr) {
-                var json = JSON.parse(xhr.responseText);
-                layer.msg(json.msg, {icon: 2});
+            error: function () {
                 submit.removeAttr('disabled').removeClass('layui-btn-disabled');
             }
         });

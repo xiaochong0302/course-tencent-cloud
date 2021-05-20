@@ -165,15 +165,15 @@ class QuestionController extends Controller
     }
 
     /**
-     * @Route("/{id:[0-9]+}/review", name="admin.question.review")
+     * @Route("/{id:[0-9]+}/publish/review", name="admin.question.publish_review")
      */
-    public function reviewAction($id)
+    public function publishReviewAction($id)
     {
         $questionService = new QuestionService();
 
         if ($this->request->isPost()) {
 
-            $questionService->reviewQuestion($id);
+            $questionService->publishReview($id);
 
             $location = $this->url->get(['for' => 'admin.mod.questions']);
 
@@ -188,8 +188,38 @@ class QuestionController extends Controller
         $reasons = $questionService->getReasons();
         $question = $questionService->getQuestionInfo($id);
 
+        $this->view->pick('question/publish_review');
         $this->view->setVar('reasons', $reasons);
         $this->view->setVar('question', $question);
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}/report/review", name="admin.question.report_review")
+     */
+    public function reportReviewAction($id)
+    {
+        $questionService = new QuestionService();
+
+        if ($this->request->isPost()) {
+
+            $questionService->reportReview($id);
+
+            $location = $this->url->get(['for' => 'admin.report.questions']);
+
+            $content = [
+                'location' => $location,
+                'msg' => '审核举报成功',
+            ];
+
+            return $this->jsonSuccess($content);
+        }
+
+        $question = $questionService->getQuestionInfo($id);
+        $reports = $questionService->getReports($id);
+
+        $this->view->pick('question/report_review');
+        $this->view->setVar('question', $question);
+        $this->view->setVar('reports', $reports);
     }
 
 }

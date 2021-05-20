@@ -4,6 +4,7 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Comment as CommentModel;
+use App\Models\Reason as ReasonModel;
 use App\Repos\Comment as CommentRepo;
 use App\Repos\User as UserRepo;
 
@@ -49,7 +50,7 @@ class Comment extends Validator
         return $user;
     }
 
-    public function checkItem($itemType, $itemId)
+    public function checkItem($itemId, $itemType)
     {
         if (!array_key_exists($itemType, CommentModel::itemTypes())) {
             throw new BadRequestException('comment.invalid_item_type');
@@ -94,6 +95,13 @@ class Comment extends Validator
         }
 
         return $value;
+    }
+
+    public function checkRejectReason($reason)
+    {
+        if (!array_key_exists($reason, ReasonModel::commentRejectOptions())) {
+            throw new BadRequestException('comment.invalid_reject_reason');
+        }
     }
 
     public function checkPublishStatus($status)

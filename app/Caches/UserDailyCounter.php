@@ -22,13 +22,18 @@ class UserDailyCounter extends Counter
     public function getContent($id = null)
     {
         return [
-            'danmu_count' => 0,
+            'article_count' => 0,
+            'question_count' => 0,
+            'answer_count' => 0,
+            'comment_count' => 0,
             'consult_count' => 0,
             'order_count' => 0,
             'chapter_like_count' => 0,
             'consult_like_count' => 0,
             'review_like_count' => 0,
             'article_like_count' => 0,
+            'question_like_count' => 0,
+            'answer_like_count' => 0,
             'comment_like_count' => 0,
         ];
     }

@@ -3,19 +3,6 @@ layui.use(['jquery', 'helper'], function () {
     var $ = layui.jquery;
     var helper = layui.helper;
 
-    $('body').on('click', '.answer-report', function () {
-        var url = $(this).data('url');
-        helper.checkLogin(function () {
-            $.ajax({
-                type: 'POST',
-                url: url,
-                success: function () {
-
-                }
-            });
-        });
-    });
-
     $('body').on('click', '.answer-like', function () {
         var $this = $(this);
         var $likeCount = $this.prev();

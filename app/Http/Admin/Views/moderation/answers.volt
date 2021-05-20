@@ -31,7 +31,7 @@
         {% for item in pager.items %}
             {% set question_url = url({'for':'home.question.show','id':item.question.id}) %}
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
-            {% set review_url = url({'for':'admin.answer.review','id':item.id}) %}
+            {% set review_url = url({'for':'admin.answer.publish_review','id':item.id}) %}
             <tr>
                 <td>
                     <P>问题：<a href="{{ question_url }}" target="_blank">{{ item.question.title }}</a></P>
