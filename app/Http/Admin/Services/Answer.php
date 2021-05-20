@@ -3,13 +3,16 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\AnswerList as AnswerListBuilder;
+use App\Builders\ReportList as ReportListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Answer as AnswerModel;
 use App\Models\Question as QuestionModel;
 use App\Models\Reason as ReasonModel;
+use App\Models\Report as ReportModel;
 use App\Models\User as UserModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Repos\Question as QuestionRepo;
+use App\Repos\Report as ReportRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Answer\AnswerInfo as AnswerInfoService;
 use App\Services\Logic\Notice\System\AnswerApproved as AnswerApprovedNotice;
@@ -60,6 +63,23 @@ class Answer extends Service
         $service = new AnswerInfoService();
 
         return $service->handle($id);
+    }
+
+    public function getReports($id)
+    {
+        $reportRepo = new ReportRepo();
+
+        $where = [
+            'item_id' => $id,
+            'item_type' => ReportModel::ITEM_ANSWER,
+            'reviewed' => 0,
+        ];
+
+        $pager = $reportRepo->paginate($where);
+
+        $pager = $this->handleReports($pager);
+
+        return $pager->items;
     }
 
     public function createAnswer()
@@ -167,7 +187,7 @@ class Answer extends Service
         return $answer;
     }
 
-    public function reviewAnswer($id)
+    public function publishReview($id)
     {
         $type = $this->request->getPost('type', ['trim', 'string']);
         $reason = $this->request->getPost('reason', ['trim', 'string']);
@@ -218,6 +238,42 @@ class Answer extends Service
         return $answer;
     }
 
+    public function reportReview($id)
+    {
+        $accepted = $this->request->getPost('accepted', 'int', 0);
+        $deleted = $this->request->getPost('deleted', 'int', 0);
+
+        $answer = $this->findOrFail($id);
+
+        $reportRepo = new ReportRepo();
+
+        $reports = $reportRepo->findItemPendingReports($answer->id, ReportModel::ITEM_ANSWER);
+
+        if ($reports->count() > 0) {
+            foreach ($reports as $report) {
+                $report->accepted = $accepted;
+                $report->reviewed = 1;
+                $report->update();
+            }
+        }
+
+        $answer->report_count = 0;
+
+        if ($deleted == 1) {
+            $answer->deleted = 1;
+        }
+
+        $answer->update();
+
+        $question = $this->findQuestion($answer->question_id);
+
+        $this->recountQuestionAnswers($question);
+
+        $user = $this->findUser($answer->owner_id);
+
+        $this->recountUserAnswers($user);
+    }
+
     protected function findOrFail($id)
     {
         $validator = new AnswerValidator();
@@ -252,6 +308,23 @@ class Answer extends Service
             $pipeC = $builder->objects($pipeB);
 
             $pager->items = $pipeC;
+        }
+
+        return $pager;
+    }
+
+    protected function handleReports($pager)
+    {
+        if ($pager->total_items > 0) {
+
+            $builder = new ReportListBuilder();
+
+            $items = $pager->items->toArray();
+
+            $pipeA = $builder->handleUsers($items);
+            $pipeB = $builder->objects($pipeA);
+
+            $pager->items = $pipeB;
         }
 
         return $pager;

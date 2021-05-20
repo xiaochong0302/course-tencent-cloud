@@ -20,10 +20,10 @@ class PointHistory extends Model
     const EVENT_ARTICLE_POST = 10; // 发布文章
     const EVENT_QUESTION_POST = 11; // 发布问题
     const EVENT_ANSWER_POST = 12; // 发布回答
-    const EVENT_ANSWER_ACCEPTED = 13; // 回答被采纳
-    const EVENT_ANSWER_LIKED = 14; // 回答被点赞
-    const EVENT_ARTICLE_LIKED = 15; // 文章被点赞
-    const EVENT_QUESTION_LIKED = 16; // 提问被点赞
+    const EVENT_ARTICLE_LIKED = 13; // 文章被点赞
+    const EVENT_QUESTION_LIKED = 14; // 提问被点赞
+    const EVENT_ANSWER_LIKED = 15; // 回答被点赞
+    const EVENT_ANSWER_ACCEPTED = 16; // 回答被采纳
 
     /**
      * 主键编号

@@ -10,7 +10,7 @@ use App\Services\Logic\Service as LogicService;
 class CommentList extends LogicService
 {
 
-    use CommentListTrait;
+    use ListTrait;
 
     public function handle()
     {

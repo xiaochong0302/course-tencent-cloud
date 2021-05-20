@@ -1,10 +1,10 @@
 {% if pager.total_pages > 0 %}
     {% for item in pager.items %}
         {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
-        {% set report_url = url({'for':'home.comment.report','id':item.id}) %}
         {% set like_url = url({'for':'home.comment.like','id':item.id}) %}
         {% set delete_url = url({'for':'home.comment.delete','id':item.id}) %}
         {% set reply_url = url({'for':'home.comment.reply','id':item.id}) %}
+        {% set report_url = url({'for':'home.report.add'},{'item_id':item.id,'item_type':109}) %}
         {% set reply_list_url = url({'for':'home.comment.replies','id':item.id},{'limit':5}) %}
         <div class="comment-box" id="comment-{{ item.id }}">
             <div class="comment-card">
@@ -21,7 +21,7 @@
                     <div class="footer">
                         <div class="left">
                             <div class="column">
-                                <span class="time" title="{{ date('Y-m-d H:i',item.create_time) }}">{{ item.create_time|time_ago }}</span>
+                                <span class="time">{{ item.create_time|time_ago }}</span>
                             </div>
                             <div class="column">
                                 <span class="like-count" data-count="{{ item.like_count }}">{{ item.like_count }}</span>
@@ -41,7 +41,7 @@
                                 <span class="action comment-reply" data-id="{{ item.id }}">回复</span>
                             </div>
                             <div class="column">
-                                <span class="action comment-report" data-url="{{ report_url }}">举报</span>
+                                <span class="action kg-report" data-url="{{ report_url }}">举报</span>
                             </div>
                             {% if item.owner.id == auth_user.id %}
                                 <div class="column">

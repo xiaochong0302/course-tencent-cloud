@@ -3,15 +3,18 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\ArticleList as ArticleListBuilder;
+use App\Builders\ReportList as ReportListBuilder;
 use App\Caches\Article as ArticleCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Library\Utils\Word as WordUtil;
 use App\Models\Article as ArticleModel;
 use App\Models\Category as CategoryModel;
 use App\Models\Reason as ReasonModel;
+use App\Models\Report as ReportModel;
 use App\Models\User as UserModel;
 use App\Repos\Article as ArticleRepo;
 use App\Repos\Category as CategoryRepo;
+use App\Repos\Report as ReportRepo;
 use App\Repos\Tag as TagRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Article\ArticleDataTrait;
@@ -117,6 +120,23 @@ class Article extends Service
         $service = new ArticleInfoService();
 
         return $service->handle($id);
+    }
+
+    public function getReports($id)
+    {
+        $reportRepo = new ReportRepo();
+
+        $where = [
+            'item_id' => $id,
+            'item_type' => ReportModel::ITEM_ARTICLE,
+            'reviewed' => 0,
+        ];
+
+        $pager = $reportRepo->paginate($where);
+
+        $pager = $this->handleReports($pager);
+
+        return $pager->items;
     }
 
     public function createArticle()
@@ -251,7 +271,7 @@ class Article extends Service
         return $article;
     }
 
-    public function reviewArticle($id)
+    public function publishReview($id)
     {
         $type = $this->request->getPost('type', ['trim', 'string']);
         $reason = $this->request->getPost('reason', ['trim', 'string']);
@@ -282,12 +302,8 @@ class Article extends Service
         if ($type == 'approve') {
 
             $this->rebuildArticleIndex($article);
-
-            $this->handlePostPoint($article);
-
-            $notice = new ArticleApprovedNotice();
-
-            $notice->handle($article, $sender);
+            $this->handleArticlePostPoint($article);
+            $this->handleArticleApprovedNotice($article, $sender);
 
             $this->eventsManager->fire('Article:afterApprove', $this, $article);
 
@@ -299,14 +315,40 @@ class Article extends Service
                 $reason = $options[$reason];
             }
 
-            $notice = new ArticleRejectedNotice();
-
-            $notice->handle($article, $sender, $reason);
+            $this->handleArticleRejectedNotice($article, $sender, $reason);
 
             $this->eventsManager->fire('Article:afterReject', $this, $article);
         }
 
         return $article;
+    }
+
+    public function reportReview($id)
+    {
+        $accepted = $this->request->getPost('accepted', 'int', 0);
+        $deleted = $this->request->getPost('deleted', 'int', 0);
+
+        $article = $this->findOrFail($id);
+
+        $reportRepo = new ReportRepo();
+
+        $reports = $reportRepo->findItemPendingReports($article->id, ReportModel::ITEM_ARTICLE);
+
+        if ($reports->count() > 0) {
+            foreach ($reports as $report) {
+                $report->accepted = $accepted;
+                $report->reviewed = 1;
+                $report->update();
+            }
+        }
+
+        $article->report_count = 0;
+
+        if ($deleted == 1) {
+            $article->deleted = 1;
+        }
+
+        $article->update();
     }
 
     protected function findOrFail($id)
@@ -342,6 +384,23 @@ class Article extends Service
         return $pager;
     }
 
+    protected function handleReports($pager)
+    {
+        if ($pager->total_items > 0) {
+
+            $builder = new ReportListBuilder();
+
+            $items = $pager->items->toArray();
+
+            $pipeA = $builder->handleUsers($items);
+            $pipeB = $builder->objects($pipeA);
+
+            $pager->items = $pipeB;
+        }
+
+        return $pager;
+    }
+
     protected function recountUserArticles(UserModel $user)
     {
         $userRepo = new UserRepo();
@@ -367,13 +426,27 @@ class Article extends Service
         $sync->addItem($article->id);
     }
 
-    protected function handlePostPoint(ArticleModel $article)
+    protected function handleArticlePostPoint(ArticleModel $article)
     {
         if ($article->published != ArticleModel::PUBLISH_APPROVED) return;
 
         $service = new ArticlePostPointHistory();
 
         $service->handle($article);
+    }
+
+    protected function handleArticleApprovedNotice(ArticleModel $article, UserModel $sender)
+    {
+        $notice = new ArticleApprovedNotice();
+
+        $notice->handle($article, $sender);
+    }
+
+    protected function handleArticleRejectedNotice(ArticleModel $article, UserModel $sender, $reason)
+    {
+        $notice = new ArticleRejectedNotice();
+
+        $notice->handle($article, $sender, $reason);
     }
 
 }

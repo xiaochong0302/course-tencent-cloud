@@ -20,7 +20,7 @@
         <div class="layui-input-block kg-center" style="margin:0;">
             <button class="layui-btn kg-submit" lay-submit="true" lay-filter="go">提交</button>
             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
-            <input type="hidden" name="referer" value="{{ referer }}">
+            <input type="hidden" name="referer" value="{{ request.getHTTPReferer() }}">
         </div>
     </form>
 

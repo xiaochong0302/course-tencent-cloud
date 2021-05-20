@@ -4,6 +4,7 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Comment as CommentModel;
+use App\Models\Reason as ReasonModel;
 use App\Repos\Comment as CommentRepo;
 use App\Repos\User as UserRepo;
 
@@ -49,13 +50,34 @@ class Comment extends Validator
         return $user;
     }
 
-    public function checkItemType($itemType)
+    public function checkItem($itemId, $itemType)
     {
         if (!array_key_exists($itemType, CommentModel::itemTypes())) {
             throw new BadRequestException('comment.invalid_item_type');
         }
 
-        return $itemType;
+        $result = null;
+
+        switch ($itemType) {
+            case CommentModel::ITEM_CHAPTER:
+                $validator = new Chapter();
+                $result = $validator->checkChapter($itemId);
+                break;
+            case CommentModel::ITEM_ARTICLE:
+                $validator = new Article();
+                $result = $validator->checkArticle($itemId);
+                break;
+            case CommentModel::ITEM_QUESTION:
+                $validator = new Question();
+                $result = $validator->checkQuestion($itemId);
+                break;
+            case CommentModel::ITEM_ANSWER:
+                $validator = new Answer();
+                $result = $validator->checkAnswer($itemId);
+                break;
+        }
+
+        return $result;
     }
 
     public function checkContent($content)
@@ -73,6 +95,13 @@ class Comment extends Validator
         }
 
         return $value;
+    }
+
+    public function checkRejectReason($reason)
+    {
+        if (!array_key_exists($reason, ReasonModel::commentRejectOptions())) {
+            throw new BadRequestException('comment.invalid_reject_reason');
+        }
     }
 
     public function checkPublishStatus($status)

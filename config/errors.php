@@ -394,10 +394,14 @@ $error['role.routes_required'] = '角色权限不能为空';
  * 用户限额
  */
 $error['user_limit.reach_favorite_limit'] = '超出收藏限额';
-$error['user_limit.reach_daily_comment_limit'] = '超出日评论限额';
-$error['user_limit.reach_daily_consult_limit'] = '超出日咨询限额';
-$error['user_limit.reach_daily_order_limit'] = '超出日订单限额';
-$error['user_limit.reach_daily_like_limit'] = '超出日点赞限额';
+$error['user_limit.reach_daily_report_limit'] = '超出每日举报限额';
+$error['user_limit.reach_daily_article_limit'] = '超出每日文章限额';
+$error['user_limit.reach_daily_question_limit'] = '超出每日提问限额';
+$error['user_limit.reach_daily_answer_limit'] = '超出每日回答限额';
+$error['user_limit.reach_daily_comment_limit'] = '超出每日评论限额';
+$error['user_limit.reach_daily_consult_limit'] = '超出每日咨询限额';
+$error['user_limit.reach_daily_order_limit'] = '超出每日订单限额';
+$error['user_limit.reach_daily_like_limit'] = '超出每日点赞限额';
 
 /**
  * 文章查询
@@ -505,5 +509,13 @@ $error['flash_sale.expired'] = '活动已过期';
 $error['flash_sale.out_schedules'] = '当前时间和秒杀场次不匹配';
 $error['flash_sale.not_paid'] = '订单尚未完成，请前往用户中心支付';
 $error['flash_sale.out_stock'] = '下手太慢，商品被秒光啦';
+
+/**
+ * 举报相关
+ */
+$error['report.not_found'] = '举报不存在';
+$error['report.has_reported'] = '你已经举报过啦';
+$error['report.reason_required'] = '请选择举报理由';
+$error['report.remark_required'] = '请填写补充说明';
 
 return $error;

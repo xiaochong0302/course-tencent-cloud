@@ -90,8 +90,13 @@ class AnswerList extends LogicService
         $likedIds = [];
 
         if ($user->id > 0) {
-            $likes = $likeRepo->findByUserId($user->id);
-            $likedIds = array_column($likes->toArray(), 'answer_id');
+            $likes = $likeRepo->findByUserId($user->id)
+                ->filter(function ($like) {
+                    if ($like->deleted == 0) {
+                        return $like;
+                    }
+                });
+            $likedIds = array_column($likes, 'answer_id');
         }
 
         $result = [];

@@ -60,7 +60,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
         }, 30000);
         setInterval(function () {
             $.post('/uc/online');
-        }, 30000);
+        }, 60000);
     }
 
     form.on('submit(go)', function (data) {
@@ -71,9 +71,8 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
             url: data.form.action,
             data: data.field,
             success: function (res) {
-                var icon = res.code === 0 ? 1 : 2;
                 if (res.msg) {
-                    layer.msg(res.msg, {icon: icon});
+                    layer.msg(res.msg, {icon: 1});
                 }
                 if (res.location) {
                     var target = res.target || 'self';
@@ -88,9 +87,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
                     submit.removeAttr('disabled').removeClass('layui-btn-disabled');
                 }
             },
-            error: function (xhr) {
-                var res = JSON.parse(xhr.responseText);
-                layer.msg(res.msg, {icon: 2});
+            error: function () {
                 submit.removeAttr('disabled').removeClass('layui-btn-disabled');
             }
         });
@@ -160,6 +157,17 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
         if (url.length > 0 && target.length > 0) {
             helper.ajaxLoadHtml(url, target);
         }
+    });
+
+    $('body').on('click', '.kg-report', function () {
+        var url = $(this).data('url');
+        layer.open({
+            type: 2,
+            title: '内容举报',
+            shadeClose: true,
+            content: [url, 'no'],
+            area: ['640px', '480px'],
+        });
     });
 
 });

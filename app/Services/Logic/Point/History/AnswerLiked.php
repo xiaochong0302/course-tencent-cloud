@@ -36,6 +36,7 @@ class AnswerLiked extends PointHistory
         if ($dailyPointLimit <= 0) return;
 
         $eventId = $answerLike->id;
+
         $eventType = PointHistoryModel::EVENT_ANSWER_LIKED;
 
         $historyRepo = new PointHistoryRepo();

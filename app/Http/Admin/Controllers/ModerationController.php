@@ -46,4 +46,16 @@ class ModerationController extends Controller
         $this->view->setVar('pager', $pager);
     }
 
+    /**
+     * @Get("/comments", name="admin.mod.comments")
+     */
+    public function commentsAction()
+    {
+        $modService = new ModerationService();
+
+        $pager = $modService->getComments();
+
+        $this->view->setVar('pager', $pager);
+    }
+
 }

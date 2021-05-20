@@ -65,10 +65,7 @@ class QuestionController extends Controller
 
         $this->seo->prependTitle('提问题');
 
-        $referer = $this->request->getHTTPReferer();
-
         $this->view->pick('question/edit');
-        $this->view->setVar('referer', $referer);
         $this->view->setVar('question', $question);
         $this->view->setVar('xm_tags', $xmTags);
     }
@@ -86,9 +83,6 @@ class QuestionController extends Controller
 
         $this->seo->prependTitle('编辑问题');
 
-        $referer = $this->request->getHTTPReferer();
-
-        $this->view->setVar('referer', $referer);
         $this->view->setVar('question', $question);
         $this->view->setVar('xm_tags', $xmTags);
     }
@@ -174,13 +168,12 @@ class QuestionController extends Controller
     {
         $service = new QuestionUpdateService();
 
-        $service->handle($id);
+        $question = $service->handle($id);
 
-        $location = $this->request->getPost('referer');
-
-        if (empty($location)) {
-            $location = $this->url->get(['for' => 'home.uc.questions']);
-        }
+        $location = $this->url->get([
+            'for' => 'home.question.show',
+            'id' => $question->id,
+        ]);
 
         $content = [
             'location' => $location,
@@ -235,14 +228,6 @@ class QuestionController extends Controller
         $msg = $data['action'] == 'do' ? '点赞成功' : '取消点赞成功';
 
         return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
-    }
-
-    /**
-     * @Route("/{id:[0-9]+}/report", name="home.question.report")
-     */
-    public function reportAction($id)
-    {
-
     }
 
 }

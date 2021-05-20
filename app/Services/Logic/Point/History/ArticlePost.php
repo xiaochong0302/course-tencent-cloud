@@ -34,6 +34,7 @@ class ArticlePost extends PointHistory
         if ($dailyPointLimit <= 0) return;
 
         $eventId = $article->id;
+
         $eventType = PointHistoryModel::EVENT_ARTICLE_POST;
 
         $historyRepo = new PointHistoryRepo();

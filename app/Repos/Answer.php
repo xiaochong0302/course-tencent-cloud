@@ -40,6 +40,10 @@ class Answer extends Repository
             $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
+        if ($sort == 'reported') {
+            $builder->andWhere('report_count > 0');
+        }
+
         switch ($sort) {
             case 'popular':
                 $orderBy = 'like_count DESC';

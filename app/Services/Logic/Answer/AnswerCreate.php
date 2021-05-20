@@ -12,9 +12,9 @@ use App\Services\Logic\Notice\System\QuestionAnswered as QuestionAnsweredNotice;
 use App\Services\Logic\Point\History\AnswerPost as AnswerPostPointHistory;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Sync\QuestionScore as QuestionScoreSync;
 use App\Traits\Client as ClientTrait;
 use App\Validators\Answer as AnswerValidator;
+use App\Validators\UserLimit as UserLimitValidator;
 
 class AnswerCreate extends LogicService
 {
@@ -31,6 +31,10 @@ class AnswerCreate extends LogicService
 
         $user = $this->getLoginUser();
 
+        $validator = new UserLimitValidator();
+
+        $validator->checkDailyAnswerLimit($user);
+
         $validator = new AnswerValidator();
 
         $validator->checkIfAllowAnswer($question, $user);
@@ -38,7 +42,6 @@ class AnswerCreate extends LogicService
         $answer = new AnswerModel();
 
         $answer->published = $this->getPublishStatus($user);
-
         $answer->content = $validator->checkContent($post['content']);
         $answer->client_type = $this->getClientType();
         $answer->client_ip = $this->getClientIp();
@@ -47,6 +50,7 @@ class AnswerCreate extends LogicService
 
         $answer->create();
 
+        $this->incrUserDailyAnswerCount($user);
         $this->recountQuestionAnswers($question);
         $this->recountUserAnswers($user);
 
@@ -58,9 +62,10 @@ class AnswerCreate extends LogicService
 
             $question->update();
 
-            $this->syncQuestionScore($question);
-            $this->handleAnswerPostPoint($answer);
-            $this->handleQuestionAnsweredNotice($answer);
+            if ($user->id != $question->owner_id) {
+                $this->handleAnswerPostPoint($answer);
+                $this->handleQuestionAnsweredNotice($answer);
+            }
         }
 
         $this->eventsManager->fire('Answer:afterCreate', $this, $answer);
@@ -71,6 +76,11 @@ class AnswerCreate extends LogicService
     protected function getPublishStatus(UserModel $user)
     {
         return $user->answer_count > 2 ? AnswerModel::PUBLISH_APPROVED : AnswerModel::PUBLISH_PENDING;
+    }
+
+    protected function incrUserDailyAnswerCount(UserModel $user)
+    {
+        $this->eventsManager->fire('UserDailyCounter:incrAnswerCount', $this, $user);
     }
 
     protected function recountQuestionAnswers(QuestionModel $question)
@@ -93,13 +103,6 @@ class AnswerCreate extends LogicService
         $user->answer_count = $answerCount;
 
         $user->update();
-    }
-
-    protected function syncQuestionScore(QuestionModel $question)
-    {
-        $sync = new QuestionScoreSync();
-
-        $sync->addItem($question->id);
     }
 
     protected function handleQuestionAnsweredNotice(AnswerModel $answer)

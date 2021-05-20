@@ -2,62 +2,18 @@
 
 namespace App\Services\Logic\Comment;
 
+use App\Models\Answer as AnswerModel;
 use App\Models\Article as ArticleModel;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Comment as CommentModel;
+use App\Models\Question as QuestionModel;
 use App\Models\User as UserModel;
-use App\Services\Logic\ArticleTrait;
-use App\Services\Logic\ChapterTrait;
-use App\Services\Logic\Notice\System\ArticleCommented as ArticleCommentedNotice;
-use App\Services\Logic\Notice\System\ChapterCommented as ChapterCommentedNotice;
+use App\Repos\Chapter as ChapterRepo;
 use Phalcon\Di as Di;
 use Phalcon\Events\Manager as EventsManager;
 
-trait CommentCountTrait
+trait CountTrait
 {
-
-    use ArticleTrait;
-    use ChapterTrait;
-
-    protected function incrItemCommentCount(CommentModel $comment)
-    {
-        if ($comment->item_type == CommentModel::ITEM_CHAPTER) {
-
-            $chapter = $this->checkChapter($comment->item_id);
-
-            $this->incrChapterCommentCount($chapter);
-
-            $notice = new ChapterCommentedNotice();
-
-            $notice->handle($comment);
-
-        } elseif ($comment->item_type == CommentModel::ITEM_ARTICLE) {
-
-            $article = $this->checkArticle($comment->item_id);
-
-            $this->incrArticleCommentCount($article);
-
-            $notice = new ArticleCommentedNotice();
-
-            $notice->handle($comment);
-        }
-    }
-
-    protected function decrItemCommentCount(CommentModel $comment)
-    {
-        if ($comment->item_type == CommentModel::ITEM_CHAPTER) {
-
-            $chapter = $this->checkChapter($comment->item_id);
-
-            $this->decrChapterCommentCount($chapter);
-
-        } elseif ($comment->item_type == CommentModel::ITEM_ARTICLE) {
-
-            $article = $this->checkArticle($comment->item_id);
-
-            $this->decrArticleCommentCount($article);
-        }
-    }
 
     protected function incrCommentReplyCount(CommentModel $comment)
     {
@@ -72,7 +28,7 @@ trait CommentCountTrait
 
         $chapter->update();
 
-        $parent = $this->checkChapter($chapter->parent_id);
+        $parent = $this->findChapter($chapter->parent_id);
 
         $parent->comment_count += 1;
 
@@ -84,6 +40,20 @@ trait CommentCountTrait
         $article->comment_count += 1;
 
         $article->update();
+    }
+
+    protected function incrQuestionCommentCount(QuestionModel $question)
+    {
+        $question->comment_count += 1;
+
+        $question->update();
+    }
+
+    protected function incrAnswerCommentCount(AnswerModel $answer)
+    {
+        $answer->comment_count += 1;
+
+        $answer->update();
     }
 
     protected function decrCommentReplyCount(CommentModel $comment)
@@ -101,7 +71,7 @@ trait CommentCountTrait
             $chapter->update();
         }
 
-        $parent = $this->checkChapter($chapter->parent_id);
+        $parent = $this->findChapter($chapter->parent_id);
 
         if ($parent->comment_count > 0) {
             $parent->comment_count -= 1;
@@ -117,6 +87,22 @@ trait CommentCountTrait
         }
     }
 
+    protected function decrQuestionCommentCount(QuestionModel $question)
+    {
+        if ($question->comment_count > 0) {
+            $question->comment_count -= 1;
+            $question->update();
+        }
+    }
+
+    protected function decrAnswerCommentCount(AnswerModel $answer)
+    {
+        if ($answer->comment_count > 0) {
+            $answer->comment_count += 1;
+            $answer->update();
+        }
+    }
+
     protected function incrUserDailyCommentCount(UserModel $user)
     {
         /**
@@ -125,6 +111,13 @@ trait CommentCountTrait
         $eventsManager = Di::getDefault()->get('eventsManager');
 
         $eventsManager->fire('UserDailyCounter:incrCommentCount', $this, $user);
+    }
+
+    protected function findChapter($id)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        return $chapterRepo->findById($id);
     }
 
 }

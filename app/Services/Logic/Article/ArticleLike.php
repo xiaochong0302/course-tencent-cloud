@@ -8,6 +8,7 @@ use App\Models\User as UserModel;
 use App\Repos\ArticleLike as ArticleLikeRepo;
 use App\Services\Logic\ArticleTrait;
 use App\Services\Logic\Notice\System\ArticleLiked as ArticleLikedNotice;
+use App\Services\Logic\Point\History\ArticleLiked as ArticleLikedPointHistory;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
@@ -30,9 +31,9 @@ class ArticleLike extends LogicService
 
         $articleLike = $likeRepo->findArticleLike($article->id, $user->id);
 
-        if (!$articleLike) {
+        $isFirstTime = true;
 
-            $action = 'do';
+        if (!$articleLike) {
 
             $articleLike = new ArticleLikeModel();
 
@@ -41,9 +42,22 @@ class ArticleLike extends LogicService
 
             $articleLike->create();
 
-            $this->incrArticleLikeCount($article);
+        } else {
 
-            $this->handleLikeNotice($article, $user);
+            $isFirstTime = false;
+
+            $articleLike->deleted = $articleLike->deleted == 1 ? 0 : 1;
+
+            $articleLike->update();
+        }
+
+        $this->incrUserDailyArticleLikeCount($user);
+
+        if ($articleLike->deleted == 0) {
+
+            $action = 'do';
+
+            $this->incrArticleLikeCount($article);
 
             $this->eventsManager->fire('Article:afterLike', $this, $article);
 
@@ -51,14 +65,20 @@ class ArticleLike extends LogicService
 
             $action = 'undo';
 
-            $articleLike->delete();
-
             $this->decrArticleLikeCount($article);
 
             $this->eventsManager->fire('Article:afterUndoLike', $this, $article);
         }
 
-        $this->incrUserDailyArticleLikeCount($user);
+        $isOwner = $user->id == $article->owner_id;
+
+        /**
+         * 仅首次点赞发送通知和奖励积分
+         */
+        if ($isFirstTime && !$isOwner) {
+            $this->handleArticleLikedNotice($article, $user);
+            $this->handleArticleLikedPoint($articleLike);
+        }
 
         return [
             'action' => $action,
@@ -86,11 +106,18 @@ class ArticleLike extends LogicService
         $this->eventsManager->fire('UserDailyCounter:incrArticleLikeCount', $this, $user);
     }
 
-    protected function handleLikeNotice(ArticleModel $article, UserModel $sender)
+    protected function handleArticleLikedNotice(ArticleModel $article, UserModel $sender)
     {
         $notice = new ArticleLikedNotice();
 
         $notice->handle($article, $sender);
+    }
+
+    protected function handleArticleLikedPoint(ArticleLikeModel $articleLike)
+    {
+        $service = new ArticleLikedPointHistory();
+
+        $service->handle($articleLike);
     }
 
 }

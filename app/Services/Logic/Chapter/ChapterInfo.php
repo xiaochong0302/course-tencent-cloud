@@ -78,7 +78,7 @@ class ChapterInfo extends LogicService
 
             $like = $likeRepo->findChapterLike($chapter->id, $user->id);
 
-            if ($like) {
+            if ($like && $like->deleted == 0) {
                 $me['liked'] = 1;
             }
 

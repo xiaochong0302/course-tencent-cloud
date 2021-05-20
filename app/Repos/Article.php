@@ -76,6 +76,10 @@ class Article extends Repository
             $builder->andWhere('featured = 1');
         }
 
+        if ($sort == 'reported') {
+            $builder->andWhere('report_count > 0');
+        }
+
         switch ($sort) {
             case 'like':
                 $orderBy = 'like_count DESC';

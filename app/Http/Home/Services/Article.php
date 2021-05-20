@@ -4,6 +4,7 @@ namespace App\Http\Home\Services;
 
 use App\Models\Article as ArticleModel;
 use App\Models\Category as CategoryModel;
+use App\Models\Reason as ReasonModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Tag as TagRepo;
 use App\Services\Logic\ArticleTrait;
@@ -67,6 +68,11 @@ class Article extends Service
     public function getSourceTypes()
     {
         return ArticleModel::sourceTypes();
+    }
+
+    public function getReportReasons()
+    {
+        return ReasonModel::reportOptions();
     }
 
     public function getArticle($id)

@@ -48,7 +48,7 @@ class CourseInfo extends LogicService
 
             $favorite = $favoriteRepo->findCourseFavorite($course->id, $user->id);
 
-            if ($favorite) {
+            if ($favorite && $favorite->deleted == 0) {
                 $me['favorited'] = 1;
             }
 

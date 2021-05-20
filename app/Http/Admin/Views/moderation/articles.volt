@@ -30,7 +30,7 @@
         <tbody>
         {% for item in pager.items %}
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
-            {% set review_url = url({'for':'admin.article.review','id':item.id}) %}
+            {% set review_url = url({'for':'admin.article.publish_review','id':item.id}) %}
             <tr>
                 <td>
                     <p>标题：{{ item.title }}</p>

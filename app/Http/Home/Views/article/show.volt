@@ -5,11 +5,11 @@
     {{ partial('macros/article') }}
 
     {% set article_list_url = url({'for':'home.article.list'}) %}
-    {% set article_report_url = url({'for':'home.article.report','id':article.id}) %}
     {% set article_edit_url = url({'for':'home.article.edit','id':article.id}) %}
     {% set article_delete_url = url({'for':'home.article.delete','id':article.id}) %}
     {% set article_owner_url = url({'for':'home.user.show','id':article.owner.id}) %}
     {% set article_related_url = url({'for':'home.article.related','id':article.id}) %}
+    {% set article_report_url = url({'for':'home.report.add'},{'item_id':article.id,'item_type':106}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
@@ -43,7 +43,7 @@
                         <span class="comment">{{ article.comment_count }} 评论</span>
                     </div>
                     <div class="right">
-                        <span class="article-report" data-url="{{ article_report_url }}">举报</span>
+                        <span class="kg-report" data-url="{{ article_report_url }}">举报</span>
                         {% if auth_user.id == article.owner.id %}
                             <span class="article-edit" data-url="{{ article_edit_url }}">编辑</span>
                             <span class="kg-delete" data-url="{{ article_delete_url }}">删除</span>
@@ -63,7 +63,7 @@
                     <div class="source-tips">本作品系原创，转载请注明出处</div>
                 {% elseif article.source_url %}
                     <div class="source-tips">
-                        <a href="{{ article.source_url }}" target="_blank">阅读原文</a>
+                        <a href="{{ article.source_url }}" target="_blank">前往阅读原文</a>
                     </div>
                 {% endif %}
             </div>
@@ -73,27 +73,14 @@
                     {{ partial('article/comment') }}
                 </div>
             {% else %}
-                <div class="wrap center gray">评论已关闭</div>
+                <div class="wrap center gray">
+                    <i class="layui-icon layui-icon-close-fill"></i> 评论已关闭
+                </div>
             {% endif %}
         </div>
         <div class="layout-sidebar">
             <div class="sidebar">
-                <div class="layui-card">
-                    <div class="layui-card-header">关于作者</div>
-                    <div class="layui-card-body">
-                        <div class="sidebar-user-card clearfix">
-                            <div class="avatar">
-                                <img src="{{ article.owner.avatar }}!avatar_160" alt="{{ article.owner.name }}">
-                            </div>
-                            <div class="info">
-                                <div class="name layui-elip">
-                                    <a href="{{ article_owner_url }}" title="{{ article.owner.about }}">{{ article.owner.name }}</a>
-                                </div>
-                                <div class="title layui-elip">{{ article.owner.title|default('初出江湖') }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {{ partial('article/show_owner') }}
             </div>
             <div class="sidebar" id="sidebar-related" data-url="{{ article_related_url }}"></div>
         </div>

@@ -8,6 +8,7 @@ use App\Models\User as UserModel;
 use App\Repos\AnswerLike as AnswerLikeRepo;
 use App\Services\Logic\AnswerTrait;
 use App\Services\Logic\Notice\System\AnswerLiked as AnswerLikedNotice;
+use App\Services\Logic\Point\History\AnswerLiked as AnswerLikedPointHistory;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 
@@ -30,9 +31,9 @@ class AnswerLike extends LogicService
 
         $answerLike = $likeRepo->findAnswerLike($answer->id, $user->id);
 
-        if (!$answerLike) {
+        $isFirstTime = true;
 
-            $action = 'do';
+        if (!$answerLike) {
 
             $answerLike = new AnswerLikeModel();
 
@@ -41,9 +42,22 @@ class AnswerLike extends LogicService
 
             $answerLike->create();
 
-            $this->incrAnswerLikeCount($answer);
+        } else {
 
-            $this->handleLikeNotice($answer, $user);
+            $isFirstTime = false;
+
+            $answerLike->deleted = $answerLike->deleted == 1 ? 0 : 1;
+
+            $answerLike->update();
+        }
+
+        $this->incrUserDailyAnswerLikeCount($user);
+
+        if ($answerLike->deleted == 0) {
+
+            $action = 'do';
+
+            $this->incrAnswerLikeCount($answer);
 
             $this->eventsManager->fire('Answer:afterLike', $this, $answer);
 
@@ -51,14 +65,20 @@ class AnswerLike extends LogicService
 
             $action = 'undo';
 
-            $answerLike->delete();
-
             $this->decrAnswerLikeCount($answer);
 
             $this->eventsManager->fire('Answer:afterUndoLike', $this, $answer);
         }
 
-        $this->incrUserDailyAnswerLikeCount($user);
+        $isOwner = $user->id == $answer->owner_id;
+
+        /**
+         * 仅首次点赞发送通知和奖励积分
+         */
+        if ($isFirstTime && !$isOwner) {
+            $this->handleAnswerLikedNotice($answer, $user);
+            $this->handleAnswerLikedPoint($answerLike);
+        }
 
         return [
             'action' => $action,
@@ -86,11 +106,18 @@ class AnswerLike extends LogicService
         $this->eventsManager->fire('UserDailyCounter:incrAnswerLikeCount', $this, $user);
     }
 
-    protected function handleLikeNotice(AnswerModel $answer, UserModel $sender)
+    protected function handleAnswerLikedNotice(AnswerModel $answer, UserModel $sender)
     {
         $notice = new AnswerLikedNotice();
 
         $notice->handle($answer, $sender);
+    }
+
+    protected function handleAnswerLikedPoint(AnswerLikeModel $answerLike)
+    {
+        $service = new AnswerLikedPointHistory();
+
+        $service->handle($answerLike);
     }
 
 }
