@@ -161,12 +161,14 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
 
     $('body').on('click', '.kg-report', function () {
         var url = $(this).data('url');
-        layer.open({
-            type: 2,
-            title: '内容举报',
-            shadeClose: true,
-            content: [url, 'no'],
-            area: ['640px', '480px'],
+        helper.checkLogin(function () {
+            layer.open({
+                type: 2,
+                title: '内容举报',
+                shadeClose: true,
+                content: [url, 'no'],
+                area: ['640px', '480px'],
+            });
         });
     });
 

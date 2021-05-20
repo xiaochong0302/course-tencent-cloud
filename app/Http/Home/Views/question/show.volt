@@ -47,7 +47,7 @@
                         <span class="answer">{{ question.answer_count }} 回答</span>
                     </div>
                     <div class="right">
-                        <span class="question-report" data-url="{{ question_report_url }}">举报</span>
+                        <span class="kg-report" data-url="{{ question_report_url }}">举报</span>
                         {% if auth_user.id == question.owner.id %}
                             <span class="question-edit" data-url="{{ question_edit_url }}">编辑</span>
                             <span class="question-delete" data-url="{{ question_delete_url }}">删除</span>
