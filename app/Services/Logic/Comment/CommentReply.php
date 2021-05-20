@@ -4,8 +4,6 @@ namespace App\Services\Logic\Comment;
 
 use App\Models\Comment as CommentModel;
 use App\Services\Logic\CommentTrait;
-use App\Services\Logic\Notice\System\CommentReplied as CommentRepliedNotice;
-use App\Services\Logic\Point\History\CommentPost as CommentPostPointHistory;
 use App\Services\Logic\Service as LogicService;
 use App\Traits\Client as ClientTrait;
 use App\Validators\Comment as CommentValidator;
@@ -14,9 +12,10 @@ use App\Validators\UserLimit as UserLimitValidator;
 class CommentReply extends LogicService
 {
 
-    use ClientTrait;
+    use AfterCreateTrait;
     use CommentTrait;
-    use CommentCountTrait;
+    use CountTrait;
+    use ClientTrait;
 
     public function handle($id)
     {
@@ -41,6 +40,11 @@ class CommentReply extends LogicService
             'owner_id' => $user->id,
         ];
 
+        $item = $validator->checkItem($comment->item_type, $comment->item_id);
+
+        /**
+         * 子评论中回复用户
+         */
         if ($comment->parent_id > 0) {
             $parent = $validator->checkParent($comment->parent_id);
             $data['parent_id'] = $parent->id;
@@ -60,37 +64,16 @@ class CommentReply extends LogicService
 
         $reply->create($data);
 
-        $parent = $this->checkComment($reply->parent_id);
-
         $this->incrUserDailyCommentCount($user);
 
-        $this->incrCommentReplyCount($parent);
-
-        $this->incrItemCommentCount($reply);
-
-        $this->handlePostNotice($reply);
-
-        $this->handlePostPoint($reply);
+        if ($reply->published == CommentModel::PUBLISH_APPROVED) {
+            $this->incrCommentReplyCount($parent);
+            $this->handleNoticeAndPoint($item, $reply, $user);
+        }
 
         $this->eventsManager->fire('Comment:afterReply', $this, $reply);
 
         return $reply;
-    }
-
-    protected function handlePostNotice(CommentModel $comment)
-    {
-        $notice = new CommentRepliedNotice();
-
-        $notice->handle($comment);
-    }
-
-    protected function handlePostPoint(CommentModel $comment)
-    {
-        if ($comment->published != CommentModel::PUBLISH_APPROVED) return;
-
-        $service = new CommentPostPointHistory();
-
-        $service->handle($comment);
     }
 
 }

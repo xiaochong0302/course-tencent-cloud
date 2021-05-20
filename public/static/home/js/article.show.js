@@ -1,6 +1,7 @@
-layui.use(['jquery', 'helper'], function () {
+layui.use(['jquery', 'layer', 'helper'], function () {
 
     var $ = layui.jquery;
+    var layer = layui.layer;
     var helper = layui.helper;
 
     var $sidebarRelated = $('#sidebar-related');
@@ -15,9 +16,14 @@ layui.use(['jquery', 'helper'], function () {
     }
 
     $('.article-report').on('click', function () {
-        /**
-         * @todo
-         */
+        var url = $(this).data('url');
+        layer.open({
+            type: 2,
+            title: '内容举报',
+            shadeClose: true,
+            content: [url, 'no'],
+            area: ['640px', '480px'],
+        });
     });
 
     $('.article-edit').on('click', function () {

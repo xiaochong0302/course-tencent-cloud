@@ -47,9 +47,6 @@ class ArticleInfo extends LogicService
             'summary' => $article->summary,
             'tags' => $article->tags,
             'content' => $content,
-            'category' => $category,
-            'owner' => $owner,
-            'me' => $me,
             'private' => $article->private,
             'closed' => $article->closed,
             'published' => $article->published,
@@ -62,6 +59,9 @@ class ArticleInfo extends LogicService
             'favorite_count' => $article->favorite_count,
             'create_time' => $article->create_time,
             'update_time' => $article->update_time,
+            'category' => $category,
+            'owner' => $owner,
+            'me' => $me,
         ];
     }
 
@@ -74,8 +74,10 @@ class ArticleInfo extends LogicService
         ];
 
         $isOwner = $user->id == $article->owner_id;
+        $approved = $article->published == ArticleModel::PUBLISH_APPROVED;
+        $public = $article->private == 0;
 
-        if ($article->published == ArticleModel::PUBLISH_APPROVED) {
+        if ($approved && $public) {
             $me['owned'] = 1;
         } else {
             $me['owned'] = $isOwner ? 1 : 0;
@@ -87,7 +89,7 @@ class ArticleInfo extends LogicService
 
             $like = $likeRepo->findArticleLike($article->id, $user->id);
 
-            if ($like) {
+            if ($like && $like->deleted == 0) {
                 $me['liked'] = 1;
             }
 
@@ -95,7 +97,7 @@ class ArticleInfo extends LogicService
 
             $favorite = $favoriteRepo->findArticleFavorite($article->id, $user->id);
 
-            if ($favorite) {
+            if ($favorite && $favorite->deleted == 0) {
                 $me['favorited'] = 1;
             }
         }

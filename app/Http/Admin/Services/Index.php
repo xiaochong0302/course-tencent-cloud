@@ -71,6 +71,23 @@ class Index extends Service
         ];
     }
 
+    public function getReportStat()
+    {
+        $statRepo = new StatRepo();
+
+        $articleCount = $statRepo->countReportedArticles();
+        $questionCount = $statRepo->countReportedQuestions();
+        $answerCount = $statRepo->countReportedAnswers();
+        $commentCount = $statRepo->countReportedComments();
+
+        return [
+            'article_count' => $articleCount,
+            'question_count' => $questionCount,
+            'answer_count' => $answerCount,
+            'comment_count' => $commentCount,
+        ];
+    }
+
     public function getReleases()
     {
         $url = 'https://koogua.com/api-releases.json';

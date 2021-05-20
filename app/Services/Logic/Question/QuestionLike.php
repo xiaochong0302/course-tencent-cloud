@@ -7,6 +7,7 @@ use App\Models\QuestionLike as QuestionLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\QuestionLike as QuestionLikeRepo;
 use App\Services\Logic\Notice\System\QuestionLiked as QuestionLikedNotice;
+use App\Services\Logic\Point\History\QuestionLiked as QuestionLikedPointHistory;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
@@ -30,9 +31,9 @@ class QuestionLike extends LogicService
 
         $questionLike = $likeRepo->findQuestionLike($question->id, $user->id);
 
-        if (!$questionLike) {
+        $isFirstTime = true;
 
-            $action = 'do';
+        if (!$questionLike) {
 
             $questionLike = new QuestionLikeModel();
 
@@ -41,9 +42,22 @@ class QuestionLike extends LogicService
 
             $questionLike->create();
 
-            $this->incrQuestionLikeCount($question);
+        } else {
 
-            $this->handleLikeNotice($question, $user);
+            $isFirstTime = false;
+
+            $questionLike->deleted = $questionLike->deleted == 1 ? 0 : 1;
+
+            $questionLike->update();
+        }
+
+        $this->incrUserDailyQuestionLikeCount($user);
+
+        if ($questionLike->deleted == 0) {
+
+            $action = 'do';
+
+            $this->incrQuestionLikeCount($question);
 
             $this->eventsManager->fire('Question:afterLike', $this, $question);
 
@@ -51,14 +65,20 @@ class QuestionLike extends LogicService
 
             $action = 'undo';
 
-            $questionLike->delete();
-
             $this->decrQuestionLikeCount($question);
 
             $this->eventsManager->fire('Question:afterUndoLike', $this, $question);
         }
 
-        $this->incrUserDailyQuestionLikeCount($user);
+        $isOwner = $user->id == $question->owner_id;
+
+        /**
+         * 仅首次点赞发送通知和奖励积分
+         */
+        if ($isFirstTime && !$isOwner) {
+            $this->handleQuestionLikedNotice($question, $user);
+            $this->handleQuestionLikedPoint($questionLike);
+        }
 
         return [
             'action' => $action,
@@ -86,11 +106,18 @@ class QuestionLike extends LogicService
         $this->eventsManager->fire('UserDailyCounter:incrQuestionLikeCount', $this, $user);
     }
 
-    protected function handleLikeNotice(QuestionModel $question, UserModel $sender)
+    protected function handleQuestionLikedNotice(QuestionModel $question, UserModel $sender)
     {
         $notice = new QuestionLikedNotice();
 
         $notice->handle($question, $sender);
+    }
+
+    protected function handleQuestionLikedPoint(QuestionLikeModel $questionLike)
+    {
+        $service = new QuestionLikedPointHistory();
+
+        $service->handle($questionLike);
     }
 
 }

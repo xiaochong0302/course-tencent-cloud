@@ -3,7 +3,7 @@
 
 {% if comment.parent_id == 0 %}
     <div class="comment-box" id="comment-{{ comment.id }}">
-        <div class="comment-card clearfix">
+        <div class="comment-card">
             <div class="avatar">
                 <a href="{{ owner_url }}" title="{{ comment.owner.name }}" target="_blank">
                     <img src="{{ comment.owner.avatar }}!avatar_160" alt="{{ comment.owner.name }}">
@@ -17,7 +17,7 @@
                 <div class="footer">
                     <div class="left">
                         <div class="column">
-                            <span class="time" title="{{ date('Y-m-d H:i:s',comment.create_time) }}">{{ comment.create_time|time_ago }}</span>
+                            <span class="time">{{ comment.create_time|time_ago }}</span>
                         </div>
                     </div>
                     <div class="right">
@@ -50,7 +50,7 @@
             <div class="content">{{ comment.content }}</div>
             <div class="footer">
                 <div class="left">
-                    <span class="column" title="{{ date('Y-m-d H:i:s',comment.create_time) }}">{{ comment.create_time|time_ago }}</span>
+                    <span class="column">{{ comment.create_time|time_ago }}</span>
                 </div>
                 <div class="right">
                     <span class="column">

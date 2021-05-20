@@ -5,7 +5,7 @@ namespace App\Services\Logic\Comment;
 use App\Builders\CommentList as CommentListBuilder;
 use App\Repos\CommentLike as CommentLikeRepo;
 
-trait CommentListTrait
+trait ListTrait
 {
 
     public function handleComments($pager)
@@ -58,8 +58,13 @@ trait CommentListTrait
         $likedIds = [];
 
         if ($user->id > 0) {
-            $likes = $likeRepo->findByUserId($user->id);
-            $likedIds = array_column($likes->toArray(), 'comment_id');
+            $likes = $likeRepo->findByUserId($user->id)
+                ->filter(function ($like) {
+                    if ($like->deleted == 0) {
+                        return $like;
+                    }
+                });
+            $likedIds = array_column($likes, 'comment_id');
         }
 
         $result = [];

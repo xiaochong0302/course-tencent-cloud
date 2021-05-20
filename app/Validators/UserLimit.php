@@ -25,6 +25,50 @@ class UserLimit extends Validator
         }
     }
 
+    public function checkDailyReportLimit(UserModel $user)
+    {
+        $count = $this->counter->hGet($user->id, 'report_count');
+
+        $limit = $user->vip ? 100 : 50;
+
+        if ($count > $limit) {
+            throw new BadRequestException('user_limit.reach_daily_report_limit');
+        }
+    }
+
+    public function checkDailyArticleLimit(UserModel $user)
+    {
+        $count = $this->counter->hGet($user->id, 'article_count');
+
+        $limit = $user->vip ? 10 : 5;
+
+        if ($count > $limit) {
+            throw new BadRequestException('user_limit.reach_daily_article_limit');
+        }
+    }
+
+    public function checkDailyQuestionLimit(UserModel $user)
+    {
+        $count = $this->counter->hGet($user->id, 'question_count');
+
+        $limit = $user->vip ? 10 : 5;
+
+        if ($count > $limit) {
+            throw new BadRequestException('user_limit.reach_daily_question_limit');
+        }
+    }
+
+    public function checkDailyAnswerLimit(UserModel $user)
+    {
+        $count = $this->counter->hGet($user->id, 'answer_count');
+
+        $limit = $user->vip ? 20 : 10;
+
+        if ($count > $limit) {
+            throw new BadRequestException('user_limit.reach_daily_answer_limit');
+        }
+    }
+
     public function checkDailyCommentLimit(UserModel $user)
     {
         $count = $this->counter->hGet($user->id, 'comment_count');

@@ -16,16 +16,14 @@
             <th>终端类型</th>
             <th>终端地址</th>
             <th>活跃时间</th>
-            <th>创建时间</th>
         </tr>
         </thead>
         <tbody>
         {% for item in pager.items %}
             <tr>
                 <td>{{ client_type(item.client_type) }}</td>
-                <td><a href="javascript:" title="查看位置" class="layui-badge layui-bg-gray kg-ip2region">{{ item.client_ip }}</a></td>
+                <td><a href="javascript:" class="kg-ip2region" title="查看位置" data-ip="{{ item.client_ip }}">{{ item.client_ip }}</a></td>
                 <td>{{ date('Y-m-d H:i',item.active_time) }}</td>
-                <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -9,7 +9,6 @@ use App\Repos\User as UserRepo;
 use App\Services\Logic\AnswerTrait;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Sync\QuestionScore as QuestionScoreSync;
 use App\Validators\Answer as AnswerValidator;
 
 class AnswerDelete extends LogicService
@@ -64,13 +63,6 @@ class AnswerDelete extends LogicService
         $user->answer_count = $answerCount;
 
         $user->update();
-    }
-
-    protected function syncQuestionScore(QuestionModel $question)
-    {
-        $sync = new QuestionScoreSync();
-
-        $sync->addItem($question->id);
     }
 
 }

@@ -31,6 +31,7 @@ class AnswerAccepted extends PointHistory
         if ($eventPoint <= 0) return;
 
         $eventId = $answer->id;
+
         $eventType = PointHistoryModel::EVENT_ANSWER_ACCEPTED;
 
         $historyRepo = new PointHistoryRepo();

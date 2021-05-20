@@ -6,11 +6,12 @@
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md8">
                 {{ partial('index/main_global_stat') }}
-                {{ partial('index/main_today_stat') }}
                 {{ partial('index/main_mod_stat') }}
+                {{ partial('index/main_report_stat') }}
                 {{ partial('index/main_app_trend') }}
             </div>
             <div class="layui-col-md4">
+                {{ partial('index/main_today_stat') }}
                 {{ partial('index/main_app_info') }}
                 {{ partial('index/main_server_info') }}
                 {{ partial('index/main_team_info') }}

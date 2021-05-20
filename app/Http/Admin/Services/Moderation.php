@@ -8,9 +8,11 @@ use App\Builders\QuestionList as QuestionListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Answer as AnswerModel;
 use App\Models\Article as ArticleModel;
+use App\Models\Comment as CommentModel;
 use App\Models\Question as QuestionModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Repos\Article as ArticleRepo;
+use App\Repos\Comment as CommentRepo;
 use App\Repos\Question as QuestionRepo;
 
 class Moderation extends Service
@@ -76,6 +78,26 @@ class Moderation extends Service
         return $this->handleAnswers($pager);
     }
 
+    public function getComments()
+    {
+        $pagerQuery = new PagerQuery();
+
+        $params = $pagerQuery->getParams();
+
+        $params['published'] = CommentModel::PUBLISH_PENDING;
+        $params['deleted'] = 0;
+
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
+
+        $commentRepo = new CommentRepo();
+
+        $pager = $commentRepo->paginate($params, $sort, $page, $limit);
+
+        return $this->handleComments($pager);
+    }
+
     protected function handleArticles($pager)
     {
         if ($pager->total_items > 0) {
@@ -127,6 +149,23 @@ class Moderation extends Service
             $pipeC = $builder->objects($pipeB);
 
             $pager->items = $pipeC;
+        }
+
+        return $pager;
+    }
+
+    protected function handleComments($pager)
+    {
+        if ($pager->total_items > 0) {
+
+            $builder = new AnswerListBuilder();
+
+            $items = $pager->items->toArray();
+
+            $pipeA = $builder->handleUsers($items);
+            $pipeB = $builder->objects($pipeA);
+
+            $pager->items = $pipeB;
         }
 
         return $pager;

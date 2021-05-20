@@ -1,3 +1,19 @@
+### [v1.3.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.5)(2021-05-20)
+
+### 更新
+
+- 更新演示数据
+- 优化安装脚本install.sh
+- 升级脚本upgrade.sh中加入更新导航缓存
+- 撰写文章和提问markdown编辑器通栏显示
+- 完善文章和问题的浏览权限
+- 优化通用ajax表单提交
+- 文章，提问，回答点赞作者有提醒和积分奖励
+- 前台增加针对回答的预览访问地址
+- 前台增加文章，问题，回答，评论加入举报功能
+- 后台增加文章，问题，回答，评论的举报审核功能
+- 后台首页增加审核队列统计
+
 ### [v1.3.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.4)(2021-05-13)
 
 ### 更新

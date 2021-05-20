@@ -2,20 +2,17 @@
 
 namespace App\Services\Logic\Notice\System;
 
+use App\Models\Article as ArticleModel;
 use App\Models\Comment as CommentModel;
 use App\Models\Notification as NotificationModel;
-use App\Repos\Article as ArticleRepo;
-use App\Repos\User as UserRepo;
 use App\Services\Logic\Service as LogicService;
 
 class ArticleCommented extends LogicService
 {
 
-    public function handle(CommentModel $comment)
+    public function handle(ArticleModel $article, CommentModel $comment)
     {
         $commentContent = kg_substr($comment->content, 0, 32);
-
-        $article = $this->findArticle($comment->item_id);
 
         $notification = new NotificationModel();
 
@@ -29,20 +26,6 @@ class ArticleCommented extends LogicService
         ];
 
         $notification->create();
-    }
-
-    protected function findArticle($id)
-    {
-        $articleRepo = new ArticleRepo();
-
-        return $articleRepo->findById($id);
-    }
-
-    protected function findUser($id)
-    {
-        $userRepo = new UserRepo();
-
-        return $userRepo->findById($id);
     }
 
 }

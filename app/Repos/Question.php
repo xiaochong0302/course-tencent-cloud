@@ -69,6 +69,10 @@ class Question extends Repository
             $builder->andWhere('answer_count = 0');
         }
 
+        if ($sort == 'reported') {
+            $builder->andWhere('report_count > 0');
+        }
+
         switch ($sort) {
             case 'active':
                 $orderBy = 'last_reply_time DESC';

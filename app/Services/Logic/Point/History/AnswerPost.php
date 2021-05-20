@@ -35,6 +35,7 @@ class AnswerPost extends PointHistory
         if ($dailyPointLimit <= 0) return;
 
         $eventId = $answer->id;
+
         $eventType = PointHistoryModel::EVENT_ANSWER_POST;
 
         $historyRepo = new PointHistoryRepo();

@@ -34,6 +34,7 @@ class CommentPost extends PointHistory
         if ($dailyPointLimit <= 0) return;
 
         $eventId = $comment->id;
+
         $eventType = PointHistoryModel::EVENT_COMMENT_POST;
 
         $historyRepo = new PointHistoryRepo();

@@ -3,14 +3,17 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\QuestionList as QuestionListBuilder;
+use App\Builders\ReportList as ReportListBuilder;
 use App\Caches\Question as QuestionCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Category as CategoryModel;
 use App\Models\Question as QuestionModel;
 use App\Models\Reason as ReasonModel;
+use App\Models\Report as ReportModel;
 use App\Models\User as UserModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Question as QuestionRepo;
+use App\Repos\Report as ReportRepo;
 use App\Repos\Tag as TagRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Notice\System\QuestionApproved as QuestionApprovedNotice;
@@ -111,6 +114,23 @@ class Question extends Service
         $service = new QuestionInfoService();
 
         return $service->handle($id);
+    }
+
+    public function getReports($id)
+    {
+        $reportRepo = new ReportRepo();
+
+        $where = [
+            'item_id' => $id,
+            'item_type' => ReportModel::ITEM_QUESTION,
+            'reviewed' => 0,
+        ];
+
+        $pager = $reportRepo->paginate($where);
+
+        $pager = $this->handleReports($pager);
+
+        return $pager->items;
     }
 
     public function createQuestion()
@@ -233,7 +253,7 @@ class Question extends Service
         return $question;
     }
 
-    public function reviewQuestion($id)
+    public function publishReview($id)
     {
         $type = $this->request->getPost('type', ['trim', 'string']);
         $reason = $this->request->getPost('reason', ['trim', 'string']);
@@ -260,12 +280,8 @@ class Question extends Service
         if ($type == 'approve') {
 
             $this->rebuildQuestionIndex($question);
-
-            $this->handlePostPoint($question);
-
-            $notice = new QuestionApprovedNotice();
-
-            $notice->handle($question, $sender);
+            $this->handleQuestionPostPoint($question);
+            $this->handleQuestionApprovedNotice($question, $sender);
 
             $this->eventsManager->fire('Question:afterApprove', $this, $question);
 
@@ -277,14 +293,40 @@ class Question extends Service
                 $reason = $options[$reason];
             }
 
-            $notice = new QuestionRejectedNotice();
-
-            $notice->handle($question, $sender, $reason);
+            $this->handleQuestionRejectedNotice($question, $sender, $reason);
 
             $this->eventsManager->fire('Question:afterReject', $this, $question);
         }
 
         return $question;
+    }
+
+    public function reportReview($id)
+    {
+        $accepted = $this->request->getPost('accepted', 'int', 0);
+        $deleted = $this->request->getPost('deleted', 'int', 0);
+
+        $question = $this->findOrFail($id);
+
+        $reportRepo = new ReportRepo();
+
+        $reports = $reportRepo->findItemPendingReports($question->id, ReportModel::ITEM_QUESTION);
+
+        if ($reports->count() > 0) {
+            foreach ($reports as $report) {
+                $report->accepted = $accepted;
+                $report->reviewed = 1;
+                $report->update();
+            }
+        }
+
+        $question->report_count = 0;
+
+        if ($deleted == 1) {
+            $question->deleted = 1;
+        }
+
+        $question->update();
     }
 
     protected function findOrFail($id)
@@ -320,6 +362,23 @@ class Question extends Service
         return $pager;
     }
 
+    protected function handleReports($pager)
+    {
+        if ($pager->total_items > 0) {
+
+            $builder = new ReportListBuilder();
+
+            $items = $pager->items->toArray();
+
+            $pipeA = $builder->handleUsers($items);
+            $pipeB = $builder->objects($pipeA);
+
+            $pager->items = $pipeB;
+        }
+
+        return $pager;
+    }
+
     protected function recountUserQuestions(UserModel $user)
     {
         $userRepo = new UserRepo();
@@ -345,13 +404,27 @@ class Question extends Service
         $sync->addItem($question->id);
     }
 
-    protected function handlePostPoint(QuestionModel $question)
+    protected function handleQuestionPostPoint(QuestionModel $question)
     {
         if ($question->published != QuestionModel::PUBLISH_APPROVED) return;
 
         $service = new QuestionPostPointHistory();
 
         $service->handle($question);
+    }
+
+    protected function handleQuestionApprovedNotice(QuestionModel $question, UserModel $sender)
+    {
+        $notice = new QuestionApprovedNotice();
+
+        $notice->handle($question, $sender);
+    }
+
+    protected function handleQuestionRejectedNotice(QuestionModel $question, UserModel $sender, $reason)
+    {
+        $notice = new QuestionRejectedNotice();
+
+        $notice->handle($question, $sender, $reason);
     }
 
 }

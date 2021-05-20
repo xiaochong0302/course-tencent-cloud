@@ -87,11 +87,16 @@ layui.use(['jquery'], function () {
         placeholder: '酷瓜云课堂，100%开源在线教育解决方案'
     });
 
+    $(window).bind('beforeunload', function () {
+        return '内容尚未保存，确定离开此页面吗？';
+    });
+
     /**
      * 同步编辑器内容到表单
      */
     $('.kg-submit').on('click', function () {
         $textarea.val(vditor.getValue());
+        $(window).unbind('beforeunload');
     });
 
 });

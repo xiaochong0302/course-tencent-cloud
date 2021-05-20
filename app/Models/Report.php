@@ -27,6 +27,13 @@ class Report extends Model
     public $id;
 
     /**
+     * 举报理由
+     *
+     * @var string
+     */
+    public $reason;
+
+    /**
      * 用户编号
      *
      * @var integer
@@ -48,11 +55,18 @@ class Report extends Model
     public $item_type;
 
     /**
-     * 举报理由
+     * 终端类型
      *
-     * @var string
+     * @var integer
      */
-    public $reason;
+    public $client_type = 0;
+
+    /**
+     * 终端IP
+     *
+     * @var integer
+     */
+    public $client_ip = '';
 
     /**
      * 处理状态
@@ -95,6 +109,22 @@ class Report extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
+    }
+
+    public static function itemTypes()
+    {
+        return [
+            self::ITEM_USER => '用户',
+            self::ITEM_GROUP => '群组',
+            self::ITEM_COURSE => '课程',
+            self::ITEM_CHAPTER => '章节',
+            self::ITEM_CONSULT => '咨询',
+            self::ITEM_REVIEW => '评价',
+            self::ITEM_ARTICLE => '文章',
+            self::ITEM_QUESTION => '提问',
+            self::ITEM_ANSWER => '回答',
+            self::ITEM_COMMENT => '评论',
+        ];
     }
 
 }

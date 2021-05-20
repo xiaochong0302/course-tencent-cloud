@@ -43,6 +43,37 @@ class AnswerController extends Controller
     }
 
     /**
+     * @Get("/{id:[0-9]+}", name="home.answer.show")
+     */
+    public function showAction($id)
+    {
+        $service = new AnswerService();
+
+        $answer = $service->getAnswer($id);
+
+        $location = $this->url->get(
+            ['for' => 'home.question.show', 'id' => $answer->question_id],
+            ['answer_id' => $answer->id],
+        );
+
+        $this->response->redirect($location);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/info", name="home.answer.info")
+     */
+    public function infoAction($id)
+    {
+        $service = new AnswerInfoService();
+
+        $answer = $service->handle($id);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+
+        $this->view->setVar('answer', $answer);
+    }
+
+    /**
      * @Get("/{id:[0-9]+}/edit", name="home.answer.edit")
      */
     public function editAction($id)
@@ -57,22 +88,7 @@ class AnswerController extends Controller
 
         $this->seo->prependTitle('编辑回答');
 
-        $referer = $this->request->getHTTPReferer();
-
         $this->view->setVar('question', $question);
-        $this->view->setVar('answer', $answer);
-        $this->view->setVar('referer', $referer);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}", name="home.answer.show")
-     */
-    public function showAction($id)
-    {
-        $service = new AnswerInfoService();
-
-        $answer = $service->handle($id);
-
         $this->view->setVar('answer', $answer);
     }
 
@@ -86,8 +102,8 @@ class AnswerController extends Controller
         $answer = $service->handle();
 
         $location = $this->url->get([
-            'for' => 'home.question.show',
-            'id' => $answer->question_id,
+            'for' => 'home.answer.show',
+            'id' => $answer->id,
         ]);
 
         $content = [
@@ -105,13 +121,12 @@ class AnswerController extends Controller
     {
         $service = new AnswerUpdateService();
 
-        $service->handle($id);
+        $answer = $service->handle($id);
 
-        $location = $this->request->getPost('referer');
-
-        if (empty($location)) {
-            $location = $this->url->get(['for' => 'home.uc.answers']);
-        }
+        $location = $this->url->get([
+            'for' => 'home.answer.show',
+            'id' => $answer->id,
+        ]);
 
         $content = [
             'location' => $location,
@@ -166,14 +181,6 @@ class AnswerController extends Controller
         $msg = $data['action'] == 'do' ? '采纳成功' : '取消采纳成功';
 
         return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
-    }
-
-    /**
-     * @Route("/{id:[0-9]+}/report", name="home.answer.report")
-     */
-    public function reportAction($id)
-    {
-
     }
 
 }

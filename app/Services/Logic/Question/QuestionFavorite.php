@@ -32,8 +32,6 @@ class QuestionFavorite extends LogicService
 
         if (!$favorite) {
 
-            $action = 'do';
-
             $favorite = new QuestionFavoriteModel();
 
             $favorite->question_id = $question->id;
@@ -41,11 +39,19 @@ class QuestionFavorite extends LogicService
 
             $favorite->create();
 
+        } else {
+
+            $favorite->deleted = $favorite->deleted == 1 ? 0 : 1;
+
+            $favorite->update();
+        }
+
+        if ($favorite->deleted == 0) {
+
+            $action = 'do';
+
             $this->incrQuestionFavoriteCount($question);
-
             $this->incrUserFavoriteCount($user);
-
-            $this->handleFavoriteNotice($question, $user);
 
             $this->eventsManager->fire('Question:afterFavorite', $this, $question);
 
@@ -53,13 +59,19 @@ class QuestionFavorite extends LogicService
 
             $action = 'undo';
 
-            $favorite->delete();
-
             $this->decrQuestionFavoriteCount($question);
-
             $this->decrUserFavoriteCount($user);
 
             $this->eventsManager->fire('Question:afterUndoFavorite', $this, $question);
+        }
+
+        $isOwner = $user->id == $question->owner_id;
+
+        /**
+         * 仅首次收藏发送通知
+         */
+        if (!$favorite && !$isOwner) {
+            $this->handleFavoriteNotice($question, $user);
         }
 
         return [

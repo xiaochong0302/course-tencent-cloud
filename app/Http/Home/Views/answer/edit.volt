@@ -26,7 +26,6 @@
                 <div class="layui-form-item center">
                     <div class="layui-input-block" style="margin:0;">
                         <button class="layui-btn kg-submit" lay-submit="true" lay-filter="go">发布回答</button>
-                        <input type="hidden" name="referer" value="{{ referer }}">
                     </div>
                 </div>
             </form>
@@ -44,7 +43,7 @@
 {% block include_js %}
 
     {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js', false) }}
-    {{ js_include('home/js/answer.js') }}
+    {{ js_include('home/js/answer.edit.js') }}
     {{ js_include('home/js/vditor.js') }}
 
 {% endblock %}

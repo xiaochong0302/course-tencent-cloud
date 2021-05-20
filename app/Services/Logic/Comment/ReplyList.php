@@ -12,15 +12,17 @@ class ReplyList extends LogicService
 {
 
     use CommentTrait;
-    use CommentListTrait;
+    use ListTrait;
 
     public function handle($id)
     {
+        $comment = $this->checkComment($id);
+
         $pagerQuery = new PagerQuery();
 
         $params = $pagerQuery->getParams();
 
-        $params['parent_id'] = $id;
+        $params['parent_id'] = $comment->id;
         $params['published'] = CommentModel::PUBLISH_APPROVED;
         $params['deleted'] = 0;
 

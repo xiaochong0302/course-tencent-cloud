@@ -32,8 +32,6 @@ class CommentLike extends LogicService
 
         if (!$commentLike) {
 
-            $action = 'do';
-
             $commentLike = new CommentLikeModel();
 
             $commentLike->comment_id = $comment->id;
@@ -41,11 +39,20 @@ class CommentLike extends LogicService
 
             $commentLike->create();
 
+        } else {
+
+            $commentLike->comment_id = $commentLike->deleted == 1 ? 0 : 1;
+
+            $commentLike->update();
+
+            $this->decrCommentLikeCount($comment);
+        }
+
+        if ($commentLike->deleted == 0) {
+
+            $action = 'do';
+
             $this->incrCommentLikeCount($comment);
-
-            $this->incrUserDailyCommentLikeCount($user);
-
-            $this->handleLikeNotice($comment, $user);
 
             $this->eventsManager->fire('Comment:afterLike', $this, $comment);
 
@@ -53,11 +60,18 @@ class CommentLike extends LogicService
 
             $action = 'undo';
 
-            $commentLike->delete();
-
             $this->decrCommentLikeCount($comment);
 
             $this->eventsManager->fire('Comment:afterUndoLike', $this, $comment);
+        }
+
+        $isOwner = $user->id == $comment->owner_id;
+
+        /**
+         * 仅首次点赞发送通知
+         */
+        if (!$commentLike && $isOwner) {
+            $this->handleCommentLikedNotice($comment, $user);
         }
 
         return [
@@ -87,7 +101,7 @@ class CommentLike extends LogicService
         $this->eventsManager->fire('UserDailyCounter:incrCommentLikeCount', $this, $user);
     }
 
-    protected function handleLikeNotice(CommentModel $comment, UserModel $sender)
+    protected function handleCommentLikedNotice(CommentModel $comment, UserModel $sender)
     {
         $notice = new CommentLikedNotice();
 
