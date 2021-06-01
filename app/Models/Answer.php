@@ -153,27 +153,11 @@ class Answer extends Model
 
     public function beforeCreate()
     {
-        if (empty($this->cover)) {
-            $this->cover = kg_parse_first_content_image($this->content);
-        }
-
-        if (empty($this->summary)) {
-            $this->summary = kg_parse_summary($this->content);
-        }
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        if (empty($this->cover)) {
-            $this->cover = kg_parse_first_content_image($this->content);
-        }
-
-        if (empty($this->summary)) {
-            $this->summary = kg_parse_summary($this->content);
-        }
-
         $this->update_time = time();
     }
 

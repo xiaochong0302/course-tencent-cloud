@@ -50,6 +50,8 @@ class QuestionUpdate extends LogicService
             $this->saveTags($question, $post['xm_tag_ids']);
         }
 
+        $this->saveDynamicAttrs($question);
+
         $this->eventsManager->fire('Question:afterUpdate', $this, $question);
 
         return $question;

@@ -265,6 +265,8 @@
 
 .page-info {
     min-height: 500px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 .help-list li {
@@ -1761,6 +1763,20 @@
 
 .user-tab .course-card .info {
     padding: 10px 8px;
+}
+
+.user-tab .article-card {
+    height: 110px;
+    overflow: hidden;
+}
+
+.user-tab .article-card .title {
+    border-bottom: 1px solid #f2f2f2;
+    padding-bottom: 10px;
+}
+
+.user-tab .article-card .summary {
+    max-height: 3em;
 }
 
 .user-card {

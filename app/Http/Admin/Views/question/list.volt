@@ -87,8 +87,8 @@
                                 <li><a href="{{ review_url }}">审核问题</a></li>
                             {% elseif item.published == 2 %}
                                 <li><a href="{{ preview_url }}" target="_blank">预览问题</a></li>
+                                <li><a href="{{ answer_add_url }}">回答问题</a></li>
                             {% endif %}
-                            <li><a href="{{ answer_add_url }}">回答问题</a></li>
                             <li><a href="{{ edit_url }}">编辑问题</a></li>
                             {% if item.deleted == 0 %}
                                 <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除问题</a></li>
@@ -128,7 +128,7 @@
                     $.ajax({
                         type: 'POST',
                         url: url,
-                        data: {closed: data.value},
+                        data: {closed: closed},
                         success: function (res) {
                             layer.msg(res.msg, {icon: 1});
                         },

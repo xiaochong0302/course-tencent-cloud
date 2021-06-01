@@ -103,22 +103,19 @@ class Role extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->routes) || is_object($this->routes)) {
-            $this->routes = kg_json_encode($this->routes);
-        } else {
-            $this->routes = '';
-        }
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
+        $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
         if (is_array($this->routes) || is_object($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
         }
-
-        $this->update_time = time();
     }
 
     public function afterFetch()

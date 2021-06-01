@@ -8,7 +8,6 @@ use App\Models\Question as QuestionModel;
 use App\Repos\Question as QuestionRepo;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\QuestionQuery as QuestionQueryValidator;
-use Phalcon\Text;
 
 class QuestionList extends LogicService
 {
@@ -49,21 +48,12 @@ class QuestionList extends LogicService
 
         $items = [];
 
-        $baseUrl = kg_cos_url();
-
         foreach ($questions as $question) {
-
-            if (!empty($question['cover']) && !Text::startsWith($question['cover'], 'http')) {
-                $question['cover'] = $baseUrl . $question['cover'];
-            }
-
-            if (empty($question['summary'])) {
-                $question['summary'] = kg_parse_summary($question['content'], 80);
-            }
 
             $question['tags'] = json_decode($question['tags'], true);
 
             $owner = $users[$question['owner_id']] ?? new \stdClass();
+
             $lastReplier = $users[$question['last_replier_id']] ?? new \stdClass();
 
             $items[] = [

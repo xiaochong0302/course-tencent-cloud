@@ -3,7 +3,6 @@
         {% for item in pager.items %}
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set question_url = url({'for':'home.question.show','id':item.id}) %}
-            {% set solved_class = item.solved ? 'column solved' : 'column' %}
             <div class="search-question-card article-card question-card">
                 <div class="info">
                     <div class="title layui-elip">

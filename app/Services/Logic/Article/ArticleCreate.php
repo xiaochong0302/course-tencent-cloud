@@ -29,7 +29,6 @@ class ArticleCreate extends LogicService
         $data = $this->handlePostData($post);
 
         $data['published'] = $this->getPublishStatus($user);
-
         $data['owner_id'] = $user->id;
 
         $article->create($data);
@@ -38,6 +37,7 @@ class ArticleCreate extends LogicService
             $this->saveTags($article, $post['xm_tag_ids']);
         }
 
+        $this->saveDynamicAttrs($article);
         $this->incrUserDailyArticleCount($user);
         $this->recountUserArticles($user);
 

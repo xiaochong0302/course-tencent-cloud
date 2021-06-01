@@ -105,26 +105,25 @@ class Package extends Model
 
     public function beforeCreate()
     {
-        if (empty($this->cover)) {
-            $this->cover = kg_default_package_cover_path();
-        } elseif (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
-        }
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        if (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
-        }
-
         if ($this->deleted == 1) {
             $this->published = 0;
         }
 
         $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
+        if (empty($this->cover)) {
+            $this->cover = kg_default_package_cover_path();
+        } elseif (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
     }
 
     public function afterCreate()

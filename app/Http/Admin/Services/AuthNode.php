@@ -530,7 +530,7 @@ class AuthNode extends Service
                     ],
                 ],
                 [
-                    'id' => '2-10',
+                    'id' => '2-11',
                     'title' => '举报队列',
                     'type' => 'menu',
                     'children' => [

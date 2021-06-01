@@ -22,6 +22,7 @@ class AnswerCreate extends LogicService
     use ClientTrait;
     use QuestionTrait;
     use AnswerTrait;
+    use AnswerDataTrait;
 
     public function handle()
     {
@@ -41,15 +42,15 @@ class AnswerCreate extends LogicService
 
         $answer = new AnswerModel();
 
-        $answer->published = $this->getPublishStatus($user);
-        $answer->content = $validator->checkContent($post['content']);
-        $answer->client_type = $this->getClientType();
-        $answer->client_ip = $this->getClientIp();
-        $answer->question_id = $question->id;
-        $answer->owner_id = $user->id;
+        $data = $this->handlePostData($post);
 
-        $answer->create();
+        $data['published'] = $this->getPublishStatus($user);
+        $data['question_id'] = $question->id;
+        $data['owner_id'] = $user->id;
 
+        $answer->create($data);
+
+        $this->saveDynamicAttrs($answer);
         $this->incrUserDailyAnswerCount($user);
         $this->recountQuestionAnswers($question);
         $this->recountUserAnswers($user);

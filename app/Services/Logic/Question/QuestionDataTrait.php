@@ -36,7 +36,21 @@ trait QuestionDataTrait
 
         return $data;
     }
-    
+
+    protected function saveDynamicAttrs(QuestionModel $question)
+    {
+        $question->cover = kg_parse_first_content_image($question->content);
+
+        $question->summary = kg_parse_summary($question->content);
+
+        $question->update();
+
+        /**
+         * 重新执行afterFetch
+         */
+        $question->afterFetch();
+    }
+
     protected function saveTags(QuestionModel $question, $tagIds)
     {
         $originTagIds = [];

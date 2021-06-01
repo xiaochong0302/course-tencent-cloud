@@ -14,6 +14,7 @@ use App\Repos\Answer as AnswerRepo;
 use App\Repos\Question as QuestionRepo;
 use App\Repos\Report as ReportRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Logic\Answer\AnswerDataTrait;
 use App\Services\Logic\Answer\AnswerInfo as AnswerInfoService;
 use App\Services\Logic\Notice\System\AnswerApproved as AnswerApprovedNotice;
 use App\Services\Logic\Notice\System\AnswerRejected as AnswerRejectedNotice;
@@ -23,6 +24,8 @@ use App\Validators\Answer as AnswerValidator;
 
 class Answer extends Service
 {
+
+    use AnswerDataTrait;
 
     public function getPublishTypes()
     {
@@ -94,13 +97,16 @@ class Answer extends Service
 
         $answer = new AnswerModel();
 
-        $answer->owner_id = $user->id;
-        $answer->question_id = $question->id;
         $answer->published = AnswerModel::PUBLISH_APPROVED;
+        $answer->client_type = $this->getClientType();
+        $answer->client_ip = $this->getClientIp();
         $answer->content = $validator->checkContent($post['content']);
+        $answer->question_id = $question->id;
+        $answer->owner_id = $user->id;
 
         $answer->create();
 
+        $this->saveDynamicAttrs($answer);
         $this->recountQuestionAnswers($question);
         $this->recountUserAnswers($user);
         $this->handleAnswerPostPoint($answer);
@@ -126,19 +132,20 @@ class Answer extends Service
         }
 
         if (isset($post['published'])) {
-
             $data['published'] = $validator->checkPublishStatus($post['published']);
-
-            $question = $this->findQuestion($answer->question_id);
-
-            $this->recountQuestionAnswers($question);
-
-            $user = $this->findUser($answer->owner_id);
-
-            $this->recountUserAnswers($user);
         }
 
         $answer->update($data);
+
+        $this->saveDynamicAttrs($answer);
+
+        $question = $this->findQuestion($answer->question_id);
+
+        $this->recountQuestionAnswers($question);
+
+        $owner = $this->findUser($answer->owner_id);
+
+        $this->recountUserAnswers($owner);
 
         $this->eventsManager->fire('Answer:afterUpdate', $this, $answer);
 

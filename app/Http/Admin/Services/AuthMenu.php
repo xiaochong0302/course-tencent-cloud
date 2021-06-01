@@ -10,7 +10,6 @@ class AuthMenu extends Component
 
     protected $authInfo;
     protected $authNodes = [];
-    protected $ownedRoutes = [];
     protected $owned1stLevelIds = [];
     protected $owned2ndLevelIds = [];
     protected $owned3rdLevelIds = [];

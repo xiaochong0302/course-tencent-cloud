@@ -8,7 +8,6 @@ use App\Models\Article as ArticleModel;
 use App\Repos\Article as ArticleRepo;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\ArticleQuery as ArticleQueryValidator;
-use Phalcon\Text;
 
 class ArticleList extends LogicService
 {
@@ -52,17 +51,7 @@ class ArticleList extends LogicService
 
         $items = [];
 
-        $baseUrl = kg_cos_url();
-
         foreach ($articles as $article) {
-
-            if (!empty($article['cover']) && !Text::startsWith($article['cover'], 'http')) {
-                $article['cover'] = $baseUrl . $article['cover'];
-            }
-
-            if (empty($article['summary'])) {
-                $article['summary'] = kg_parse_summary($article['content']);
-            }
 
             $article['tags'] = json_decode($article['tags'], true);
 

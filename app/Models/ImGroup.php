@@ -127,12 +127,6 @@ class ImGroup extends Model
 
     public function beforeCreate()
     {
-        if (empty($this->avatar)) {
-            $this->avatar = kg_default_group_avatar_path();
-        } elseif (Text::startsWith($this->avatar, 'http')) {
-            $this->avatar = self::getAvatarPath($this->avatar);
-        }
-
         $this->create_time = time();
     }
 
@@ -143,15 +137,20 @@ class ImGroup extends Model
             $sync->addItem($this->id);
         }
 
-        if (Text::startsWith($this->avatar, 'http')) {
-            $this->avatar = self::getAvatarPath($this->avatar);
-        }
-
         if ($this->deleted == 1) {
             $this->published = 0;
         }
 
         $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
+        if (empty($this->avatar)) {
+            $this->avatar = kg_default_group_avatar_path();
+        } elseif (Text::startsWith($this->avatar, 'http')) {
+            $this->avatar = self::getAvatarPath($this->avatar);
+        }
     }
 
     public function afterCreate()

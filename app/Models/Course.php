@@ -313,12 +313,6 @@ class Course extends Model
             $this->attrs = kg_json_encode($this->attrs);
         }
 
-        if (empty($this->cover)) {
-            $this->cover = kg_default_course_cover_path();
-        } elseif (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
-        }
-
         $this->create_time = time();
     }
 
@@ -332,20 +326,8 @@ class Course extends Model
             $sync->addItem($this->id);
         }
 
-        if (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
-        }
-
-        if (empty($this->summary)) {
-            $this->summary = kg_parse_summary($this->details);
-        }
-
         if (is_array($this->attrs) || is_object($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
-        }
-
-        if (empty($this->origin_price)) {
-            $this->origin_price = 1.5 * $this->market_price;
         }
 
         if ($this->deleted == 1) {
@@ -353,6 +335,23 @@ class Course extends Model
         }
 
         $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
+        if (empty($this->cover)) {
+            $this->cover = kg_default_course_cover_path();
+        } elseif (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+
+        if (empty($this->summary)) {
+            $this->summary = kg_parse_summary($this->details);
+        }
+
+        if (empty($this->origin_price)) {
+            $this->origin_price = 1.5 * $this->market_price;
+        }
     }
 
     public function afterCreate()

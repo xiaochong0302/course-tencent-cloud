@@ -112,22 +112,21 @@ class ImUser extends Model
 
     public function beforeCreate()
     {
-        if (empty($this->avatar)) {
-            $this->avatar = kg_default_user_avatar_path();
-        } elseif (Text::startsWith($this->avatar, 'http')) {
-            $this->avatar = self::getAvatarPath($this->avatar);
-        }
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        if (Text::startsWith($this->avatar, 'http')) {
+        $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
+        if (empty($this->avatar)) {
+            $this->avatar = kg_default_user_avatar_path();
+        } elseif (Text::startsWith($this->avatar, 'http')) {
             $this->avatar = self::getAvatarPath($this->avatar);
         }
-
-        $this->update_time = time();
     }
 
     public function afterFetch()

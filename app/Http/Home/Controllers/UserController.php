@@ -2,10 +2,12 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Services\Logic\User\AnswerList as UserAnswerListService;
 use App\Services\Logic\User\ArticleList as UserArticleListService;
 use App\Services\Logic\User\CourseList as UserCourseListService;
 use App\Services\Logic\User\FriendList as UserFriendListService;
 use App\Services\Logic\User\GroupList as UserGroupListService;
+use App\Services\Logic\User\QuestionList as UserQuestionListService;
 use App\Services\Logic\User\UserInfo as UserInfoService;
 use Phalcon\Mvc\View;
 
@@ -58,6 +60,38 @@ class UserController extends Controller
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('user/articles');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/questions", name="home.user.questions")
+     */
+    public function questionsAction($id)
+    {
+        $service = new UserQuestionListService();
+
+        $pager = $service->handle($id);
+
+        $pager->target = 'tab-questions';
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('user/questions');
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/answers", name="home.user.answers")
+     */
+    public function answersAction($id)
+    {
+        $service = new UserAnswerListService();
+
+        $pager = $service->handle($id);
+
+        $pager->target = 'tab-answers';
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('user/answers');
         $this->view->setVar('pager', $pager);
     }
 
