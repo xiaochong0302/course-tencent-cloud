@@ -37,6 +37,8 @@ class UserInfo extends LogicService
             'locked' => $user->locked,
             'course_count' => $user->course_count,
             'article_count' => $user->article_count,
+            'question_count' => $user->question_count,
+            'answer_count' => $user->answer_count,
             'friend_count' => $imUser->friend_count,
             'group_count' => $imUser->group_count,
             'active_time' => $user->active_time,

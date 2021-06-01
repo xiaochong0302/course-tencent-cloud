@@ -126,20 +126,19 @@ class Task extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->item_info) || is_object($this->item_info)) {
-            $this->item_info = kg_json_encode($this->item_info);
-        }
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
+        $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
         if (is_array($this->item_info) || is_object($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
-
-        $this->update_time = time();
     }
 
     public function afterFetch()

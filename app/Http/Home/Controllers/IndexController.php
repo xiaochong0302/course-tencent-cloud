@@ -13,7 +13,7 @@ class IndexController extends Controller
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
-        if ($this->isMobileBrowser()) {
+        if ($this->isMobileBrowser() && $this->h5Enabled()) {
 
             $this->response->redirect('/h5', true);
 
@@ -64,6 +64,13 @@ class IndexController extends Controller
         $this->view->setVar('new_courses', $service->getSimpleNewCourses());
         $this->view->setVar('free_courses', $service->getSimpleFreeCourses());
         $this->view->setVar('vip_courses', $service->getSimpleVipCourses());
+    }
+
+    protected function h5Enabled()
+    {
+        $file = public_path('h5/index.html');
+
+        return file_exists($file);
     }
 
 }

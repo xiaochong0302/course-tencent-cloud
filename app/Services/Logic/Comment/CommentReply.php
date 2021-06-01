@@ -40,7 +40,7 @@ class CommentReply extends LogicService
             'owner_id' => $user->id,
         ];
 
-        $item = $validator->checkItem($comment->item_type, $comment->item_id);
+        $item = $validator->checkItem($comment->item_id, $comment->item_type);
 
         /**
          * 子评论中回复用户

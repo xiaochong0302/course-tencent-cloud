@@ -28,7 +28,6 @@ class QuestionCreate extends LogicService
         $data = $this->handlePostData($post);
 
         $data['published'] = $this->getPublishStatus($user);
-
         $data['owner_id'] = $user->id;
 
         $question->create($data);
@@ -37,6 +36,7 @@ class QuestionCreate extends LogicService
             $this->saveTags($question, $post['xm_tag_ids']);
         }
 
+        $this->saveDynamicAttrs($question);
         $this->incrUserDailyQuestionCount($user);
         $this->recountUserQuestions($user);
 

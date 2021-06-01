@@ -19,6 +19,9 @@ trait ArticleDataTrait
     {
         $data = [];
 
+        $data['client_type'] = $this->getClientType();
+        $data['client_ip'] = $this->getClientIp();
+
         $validator = new ArticleValidator();
 
         $data['title'] = $validator->checkTitle($post['title']);
@@ -46,6 +49,20 @@ trait ArticleDataTrait
         }
 
         return $data;
+    }
+
+    protected function saveDynamicAttrs(ArticleModel $article)
+    {
+        $article->cover = kg_parse_first_content_image($article->content);
+
+        $article->summary = kg_parse_summary($article->content);
+
+        $article->update();
+
+        /**
+         * 重新执行afterFetch
+         */
+        $article->afterFetch();
     }
 
     protected function saveTags(ArticleModel $article, $tagIds)

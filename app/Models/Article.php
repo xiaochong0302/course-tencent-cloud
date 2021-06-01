@@ -225,14 +225,6 @@ class Article extends Model
 
     public function beforeCreate()
     {
-        if (empty($this->cover)) {
-            $this->cover = kg_parse_first_content_image($this->content);
-        }
-
-        if (is_array($this->tags) || is_object($this->tags)) {
-            $this->tags = kg_json_encode($this->tags);
-        }
-
         $this->create_time = time();
     }
 
@@ -246,19 +238,14 @@ class Article extends Model
             $sync->addItem($this->id);
         }
 
-        if (empty($this->cover)) {
-            $this->cover = kg_parse_first_content_image($this->content);
-        }
+        $this->update_time = time();
+    }
 
-        if (empty($this->summary)) {
-            $this->summary = kg_parse_summary($this->content);
-        }
-
-        if (is_array($this->tags) || is_array($this->tags)) {
+    public function beforeSave()
+    {
+        if (is_array($this->tags) || is_object($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
         }
-
-        $this->update_time = time();
     }
 
     public function afterCreate()

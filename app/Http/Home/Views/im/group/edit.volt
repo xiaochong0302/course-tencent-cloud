@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% set update_url = url({'for':'home.igm.update','id':group.id}) %}
+    {% set update_url = url({'for':'home.im_group.update','id':group.id}) %}
     {% set name_readonly = group.type == 1 ? 'readonly="readonly"' : '' %}
 
     <form class="layui-form" method="post" action="{{ update_url }}">

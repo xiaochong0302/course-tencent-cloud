@@ -6,7 +6,7 @@ use App\Models\Article as ArticleModel;
 use App\Models\Category as CategoryModel;
 use App\Models\Reason as ReasonModel;
 use App\Repos\Category as CategoryRepo;
-use App\Repos\Tag as TagRepo;
+use App\Services\Logic\Article\XmTagList as XmTagListService;
 use App\Services\Logic\ArticleTrait;
 
 class Article extends Service
@@ -25,33 +25,9 @@ class Article extends Service
 
     public function getXmTags($id)
     {
-        $tagRepo = new TagRepo();
+        $service = new XmTagListService();
 
-        $allTags = $tagRepo->findAll(['published' => 1], 'priority');
-
-        if ($allTags->count() == 0) return [];
-
-        $articleTagIds = [];
-
-        if ($id > 0) {
-            $article = $this->checkArticle($id);
-            if (!empty($article->tags)) {
-                $articleTagIds = kg_array_column($article->tags, 'id');
-            }
-        }
-
-        $list = [];
-
-        foreach ($allTags as $tag) {
-            $selected = in_array($tag->id, $articleTagIds);
-            $list[] = [
-                'name' => $tag->name,
-                'value' => $tag->id,
-                'selected' => $selected,
-            ];
-        }
-
-        return $list;
+        return $service->handle($id);
     }
 
     public function getCategories()

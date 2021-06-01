@@ -5,8 +5,6 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Answer as AnswerModel;
 use App\Models\Article as ArticleModel;
-use App\Models\ArticleFavorite as ArticleFavoriteModel;
-use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\ImUser as ImUserModel;
 use App\Models\Notification as NotificationModel;
@@ -196,22 +194,6 @@ class User extends Repository
         return (int)AnswerModel::count([
             'conditions' => 'owner_id = ?1 AND published = ?2',
             'bind' => [1 => $userId, 2 => AnswerModel::PUBLISH_APPROVED],
-        ]);
-    }
-
-    public function countCourseFavorites($userId)
-    {
-        return (int)CourseFavoriteModel::count([
-            'conditions' => 'user_id = :user_id: AND deleted = 0',
-            'bind' => ['user_id' => $userId],
-        ]);
-    }
-
-    public function countArticleFavorites($userId)
-    {
-        return (int)ArticleFavoriteModel::count([
-            'conditions' => 'user_id = :user_id: AND deleted = 0',
-            'bind' => ['user_id' => $userId],
         ]);
     }
 

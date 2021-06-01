@@ -449,6 +449,8 @@ function kg_parse_summary($content, $length = 100)
 
     $content = strip_tags($content);
 
+    $content = trim($content);
+
     return kg_substr($content, 0, $length);
 }
 

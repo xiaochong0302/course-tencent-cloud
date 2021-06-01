@@ -1,8 +1,7 @@
-layui.use(['jquery', 'layer', 'helper'], function () {
+layui.use(['jquery', 'layer'], function () {
 
     var $ = layui.jquery;
     var layer = layui.layer;
-    var helper = layui.helper;
 
     /**
      * 查看咨询
@@ -123,15 +122,5 @@ layui.use(['jquery', 'layer', 'helper'], function () {
             area: ['1000px', '600px']
         });
     });
-
-    if ($('#tab-courses').length > 0) {
-        var $tabCourses = $('#tab-courses');
-        helper.ajaxLoadHtml($tabCourses.data('url'), $tabCourses.attr('id'));
-    }
-
-    if ($('#tab-users').length > 0) {
-        var $tabUsers = $('#tab-users');
-        helper.ajaxLoadHtml($tabUsers.data('url'), $tabUsers.attr('id'));
-    }
 
 });

@@ -14,6 +14,7 @@ class AnswerUpdate extends LogicService
     use ClientTrait;
     use QuestionTrait;
     use AnswerTrait;
+    use AnswerDataTrait;
 
     public function handle($id)
     {
@@ -29,11 +30,11 @@ class AnswerUpdate extends LogicService
 
         $validator->checkIfAllowEdit($answer);
 
-        $answer->content = $validator->checkContent($post['content']);
-        $answer->client_type = $this->getClientType();
-        $answer->client_ip = $this->getClientIp();
+        $data = $this->handlePostData($post);
 
-        $answer->update();
+        $answer->update($data);
+
+        $this->saveDynamicAttrs($answer);
 
         $this->eventsManager->fire('Answer:afterUpdate', $this, $answer);
 
