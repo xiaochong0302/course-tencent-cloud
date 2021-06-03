@@ -132,18 +132,18 @@
     list-style: decimal;
 }
 
+.writer-sidebar {
+    padding: 20px;
+}
+
+.writer-content .first-form-item {
+    margin-top: 10px;
+}
+
 .writer-content .layui-input-block,
 .writer-sidebar .layui-input-block,
 .report-form .layui-input-block {
     margin-left: 0;
-}
-
-.writer-content {
-    padding-top: 30px;
-}
-
-.writer-sidebar {
-    padding: 20px;
 }
 
 .writer-sidebar .layui-form-label,
@@ -1972,7 +1972,7 @@
 }
 
 .layui-table p {
-    line-height: 1.8em;
+    line-height: 2em;
 }
 
 .layui-table .center {

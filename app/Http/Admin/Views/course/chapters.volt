@@ -55,7 +55,7 @@
             <tr>
                 <td>{{ item.id }}</td>
                 <td>
-                    <a href="{{ child_url }}">{{ item.title }}</a>
+                    <a href="{{ child_url }}"><i class="layui-icon layui-icon-add-circle"></i> {{ item.title }}</a>
                     <span class="layui-badge layui-bg-green">章</span>
                 </td>
                 <td>{{ item.lesson_count }}</td>

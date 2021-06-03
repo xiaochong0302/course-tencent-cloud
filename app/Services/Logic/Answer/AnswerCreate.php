@@ -12,14 +12,12 @@ use App\Services\Logic\Notice\System\QuestionAnswered as QuestionAnsweredNotice;
 use App\Services\Logic\Point\History\AnswerPost as AnswerPostPointHistory;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Traits\Client as ClientTrait;
 use App\Validators\Answer as AnswerValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
 class AnswerCreate extends LogicService
 {
 
-    use ClientTrait;
     use QuestionTrait;
     use AnswerTrait;
     use AnswerDataTrait;
@@ -72,11 +70,6 @@ class AnswerCreate extends LogicService
         $this->eventsManager->fire('Answer:afterCreate', $this, $answer);
 
         return $answer;
-    }
-
-    protected function getPublishStatus(UserModel $user)
-    {
-        return $user->answer_count > 2 ? AnswerModel::PUBLISH_APPROVED : AnswerModel::PUBLISH_PENDING;
     }
 
     protected function incrUserDailyAnswerCount(UserModel $user)

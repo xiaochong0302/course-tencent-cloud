@@ -50,11 +50,6 @@ class ArticleCreate extends LogicService
         return $article;
     }
 
-    protected function getPublishStatus(UserModel $user)
-    {
-        return $user->article_count > 100 ? ArticleModel::PUBLISH_APPROVED : ArticleModel::PUBLISH_PENDING;
-    }
-
     protected function incrUserDailyArticleCount(UserModel $user)
     {
         $this->eventsManager->fire('UserDailyCounter:incrArticleCount', $this, $user);

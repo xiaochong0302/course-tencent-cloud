@@ -5,6 +5,7 @@ namespace App\Services\Logic\Article;
 use App\Library\Utils\Word as WordUtil;
 use App\Models\Article as ArticleModel;
 use App\Models\ArticleTag as ArticleTagModel;
+use App\Models\User as UserModel;
 use App\Repos\ArticleTag as ArticleTagRepo;
 use App\Repos\Tag as TagRepo;
 use App\Traits\Client as ClientTrait;
@@ -49,6 +50,11 @@ trait ArticleDataTrait
         }
 
         return $data;
+    }
+
+    protected function getPublishStatus(UserModel $user)
+    {
+        return $user->article_count > 100 ? ArticleModel::PUBLISH_APPROVED : ArticleModel::PUBLISH_PENDING;
     }
 
     protected function saveDynamicAttrs(ArticleModel $article)

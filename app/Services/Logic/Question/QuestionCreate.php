@@ -45,11 +45,6 @@ class QuestionCreate extends LogicService
         return $question;
     }
 
-    protected function getPublishStatus(UserModel $user)
-    {
-        return $user->question_count > 100 ? QuestionModel::PUBLISH_APPROVED : QuestionModel::PUBLISH_PENDING;
-    }
-
     protected function incrUserDailyQuestionCount(UserModel $user)
     {
         $this->eventsManager->fire('UserDailyCounter:incrQuestionCount', $this, $user);

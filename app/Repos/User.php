@@ -5,6 +5,7 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Answer as AnswerModel;
 use App\Models\Article as ArticleModel;
+use App\Models\Comment as CommentModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\ImUser as ImUserModel;
 use App\Models\Notification as NotificationModel;
@@ -194,6 +195,14 @@ class User extends Repository
         return (int)AnswerModel::count([
             'conditions' => 'owner_id = ?1 AND published = ?2',
             'bind' => [1 => $userId, 2 => AnswerModel::PUBLISH_APPROVED],
+        ]);
+    }
+
+    public function countComments($userId)
+    {
+        return (int)CommentModel::count([
+            'conditions' => 'owner_id = ?1 AND published = ?2',
+            'bind' => [1 => $userId, 2 => CommentModel::PUBLISH_APPROVED],
         ]);
     }
 
