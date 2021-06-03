@@ -44,7 +44,7 @@
                                 <td>{{ item.area }}</td>
                                 <td>{{ item.active_time|time_ago }}</td>
                                 <td class="center">
-                                    <button class="layui-btn layui-btn-sm kg-delete" data-url="{{ delete_url }}">删除</button>
+                                    <button class="layui-btn layui-btn-sm layui-bg-red kg-delete" data-url="{{ delete_url }}">删除</button>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -55,11 +55,5 @@
             </div>
         </div>
     </div>
-
-{% endblock %}
-
-{% block include_js %}
-
-    {{ js_include('home/js/my.im.js') }}
 
 {% endblock %}
