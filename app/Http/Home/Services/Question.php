@@ -5,7 +5,7 @@ namespace App\Http\Home\Services;
 use App\Models\Category as CategoryModel;
 use App\Models\Question as QuestionModel;
 use App\Repos\Category as CategoryRepo;
-use App\Repos\Tag as TagRepo;
+use App\Services\Logic\Question\XmTagList as XmTagListService;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
 
@@ -36,33 +36,9 @@ class Question extends LogicService
 
     public function getXmTags($id)
     {
-        $tagRepo = new TagRepo();
+        $service = new XmTagListService();
 
-        $allTags = $tagRepo->findAll(['published' => 1], 'priority');
-
-        if ($allTags->count() == 0) return [];
-
-        $questionTagIds = [];
-
-        if ($id > 0) {
-            $question = $this->checkQuestion($id);
-            if (!empty($question->tags)) {
-                $questionTagIds = kg_array_column($question->tags, 'id');
-            }
-        }
-
-        $list = [];
-
-        foreach ($allTags as $tag) {
-            $selected = in_array($tag->id, $questionTagIds);
-            $list[] = [
-                'name' => $tag->name,
-                'value' => $tag->id,
-                'selected' => $selected,
-            ];
-        }
-
-        return $list;
+        return $service->handle($id);
     }
 
     public function getQuestion($id)

@@ -14,13 +14,13 @@ use App\Models\User as UserModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Question as QuestionRepo;
 use App\Repos\Report as ReportRepo;
-use App\Repos\Tag as TagRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Notice\System\QuestionApproved as QuestionApprovedNotice;
 use App\Services\Logic\Notice\System\QuestionRejected as QuestionRejectedNotice;
 use App\Services\Logic\Point\History\QuestionPost as QuestionPostPointHistory;
 use App\Services\Logic\Question\QuestionDataTrait;
 use App\Services\Logic\Question\QuestionInfo as QuestionInfoService;
+use App\Services\Logic\Question\XmTagList as XmTagListService;
 use App\Services\Sync\QuestionIndex as QuestionIndexSync;
 use App\Validators\Question as QuestionValidator;
 
@@ -31,33 +31,9 @@ class Question extends Service
 
     public function getXmTags($id)
     {
-        $tagRepo = new TagRepo();
+        $service = new XmTagListService();
 
-        $allTags = $tagRepo->findAll(['published' => 1]);
-
-        if ($allTags->count() == 0) return [];
-
-        $questionTagIds = [];
-
-        if ($id > 0) {
-            $question = $this->findOrFail($id);
-            if (!empty($question->tags)) {
-                $questionTagIds = kg_array_column($question->tags, 'id');
-            }
-        }
-
-        $list = [];
-
-        foreach ($allTags as $tag) {
-            $selected = in_array($tag->id, $questionTagIds);
-            $list[] = [
-                'name' => $tag->name,
-                'value' => $tag->id,
-                'selected' => $selected,
-            ];
-        }
-
-        return $list;
+        return $service->handle($id);
     }
 
     public function getCategories()
@@ -146,10 +122,14 @@ class Question extends Service
         $question = new QuestionModel();
 
         $question->published = QuestionModel::PUBLISH_APPROVED;
+        $question->client_type = $this->getClientType();
+        $question->client_ip = $this->getClientIp();
         $question->owner_id = $user->id;
         $question->title = $title;
 
         $question->create();
+
+        $this->saveDynamicAttrs($question);
 
         $this->recountUserQuestions($user);
 
@@ -190,12 +170,7 @@ class Question extends Service
         }
 
         if (isset($post['published'])) {
-
             $data['published'] = $validator->checkPublishStatus($post['published']);
-
-            $owner = $this->findUser($question->owner_id);
-
-            $this->recountUserQuestions($owner);
         }
 
         if (isset($post['xm_tag_ids'])) {
@@ -204,7 +179,13 @@ class Question extends Service
 
         $question->update($data);
 
+        $this->saveDynamicAttrs($question);
+
         $this->rebuildQuestionIndex($question);
+
+        $owner = $this->findUser($question->owner_id);
+
+        $this->recountUserQuestions($owner);
 
         $this->eventsManager->fire('Question:afterUpdate', $this, $question);
 
@@ -219,13 +200,13 @@ class Question extends Service
 
         $question->update();
 
-        $userRepo = new UserRepo();
-
-        $owner = $userRepo->findById($question->owner_id);
-
-        $this->recountUserQuestions($owner);
+        $this->saveDynamicAttrs($question);
 
         $this->rebuildQuestionIndex($question);
+
+        $owner = $this->findUser($question->owner_id);
+
+        $this->recountUserQuestions($owner);
 
         $this->eventsManager->fire('Question:afterDelete', $this, $question);
 
@@ -240,13 +221,11 @@ class Question extends Service
 
         $question->update();
 
-        $userRepo = new UserRepo();
+        $this->rebuildQuestionIndex($question);
 
-        $owner = $userRepo->findById($question->owner_id);
+        $owner = $this->findUser($question->owner_id);
 
         $this->recountUserQuestions($owner);
-
-        $this->rebuildQuestionIndex($question);
 
         $this->eventsManager->fire('Question:afterRestore', $this, $question);
 

@@ -4,7 +4,6 @@ namespace App\Services\Logic\Comment;
 
 use App\Models\Comment as CommentModel;
 use App\Services\Logic\Service as LogicService;
-use App\Traits\Client as ClientTrait;
 use App\Validators\Comment as CommentValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
@@ -12,8 +11,8 @@ class CommentCreate extends LogicService
 {
 
     use AfterCreateTrait;
+    use CommentDataTrait;
     use CountTrait;
-    use ClientTrait;
 
     public function handle()
     {
@@ -31,26 +30,19 @@ class CommentCreate extends LogicService
 
         $comment = new CommentModel();
 
-        $data = [
-            'item_id' => $post['item_id'],
-            'item_type' => $post['item_type'],
-            'owner_id' => $user->id,
-        ];
+        $data = $this->handlePostData($post);
 
-        $data['content'] = $validator->checkContent($post['content']);
-        $data['client_type'] = $this->getClientType();
-        $data['client_ip'] = $this->getClientIp();
-
-        /**
-         * @todo 引入自动审核机制
-         */
-        $data['published'] = CommentModel::PUBLISH_APPROVED;
+        $data['item_id'] = $post['item_id'];
+        $data['item_type'] = $post['item_type'];
+        $data['owner_id'] = $user->id;
+        $data['published'] = $this->getPublishStatus($user);
 
         $comment->create($data);
 
         $this->incrUserDailyCommentCount($user);
 
         if ($comment->published == CommentModel::PUBLISH_APPROVED) {
+            $this->incrItemCommentCount($item, $comment, $user);
             $this->handleNoticeAndPoint($item, $comment, $user);
         }
 

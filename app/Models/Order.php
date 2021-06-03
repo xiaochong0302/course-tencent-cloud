@@ -170,18 +170,15 @@ class Order extends Model
     {
         $this->sn = date('YmdHis') . rand(1000, 9999);
 
-        if (is_array($this->item_info) || is_object($this->item_info)) {
-            $this->item_info = kg_json_encode($this->item_info);
-        }
-
-        if (is_array($this->promotion_info) || is_object($this->promotion_info)) {
-            $this->promotion_info = kg_json_encode($this->promotion_info);
-        }
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
+    {
+        $this->update_time = time();
+    }
+
+    public function beforeSave()
     {
         if (is_array($this->item_info) || is_object($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
@@ -190,8 +187,6 @@ class Order extends Model
         if (is_array($this->promotion_info) || is_object($this->promotion_info)) {
             $this->promotion_info = kg_json_encode($this->promotion_info);
         }
-
-        $this->update_time = time();
     }
 
     public function afterSave()

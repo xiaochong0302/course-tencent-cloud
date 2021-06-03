@@ -166,21 +166,11 @@ class PointGift extends Model
             $this->attrs = kg_json_encode($this->attrs);
         }
 
-        if (empty($this->cover)) {
-            $this->cover = kg_default_gift_cover_path();
-        } elseif (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
-        }
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        if (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
-        }
-
         if (is_array($this->attrs) || is_object($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
@@ -190,6 +180,15 @@ class PointGift extends Model
         }
 
         $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
+        if (empty($this->cover)) {
+            $this->cover = kg_default_gift_cover_path();
+        } elseif (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
     }
 
     public function afterCreate()

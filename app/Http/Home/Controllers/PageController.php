@@ -20,6 +20,10 @@ class PageController extends Controller
 
         $page = $service->handle($id);
 
+        if ($page['me']['owned'] == 0) {
+            $this->response->redirect(['for' => 'home.error.403']);
+        }
+
         $featuredCourses = $this->getFeaturedCourses();
 
         $this->seo->prependTitle($page['title']);

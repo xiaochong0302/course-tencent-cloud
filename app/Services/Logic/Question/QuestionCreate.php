@@ -28,7 +28,6 @@ class QuestionCreate extends LogicService
         $data = $this->handlePostData($post);
 
         $data['published'] = $this->getPublishStatus($user);
-
         $data['owner_id'] = $user->id;
 
         $question->create($data);
@@ -37,17 +36,13 @@ class QuestionCreate extends LogicService
             $this->saveTags($question, $post['xm_tag_ids']);
         }
 
+        $this->saveDynamicAttrs($question);
         $this->incrUserDailyQuestionCount($user);
         $this->recountUserQuestions($user);
 
         $this->eventsManager->fire('Question:afterCreate', $this, $question);
 
         return $question;
-    }
-
-    protected function getPublishStatus(UserModel $user)
-    {
-        return $user->question_count > 100 ? QuestionModel::PUBLISH_APPROVED : QuestionModel::PUBLISH_PENDING;
     }
 
     protected function incrUserDailyQuestionCount(UserModel $user)

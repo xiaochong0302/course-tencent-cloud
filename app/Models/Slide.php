@@ -125,6 +125,20 @@ class Slide extends Model
 
     public function beforeCreate()
     {
+        $this->create_time = time();
+    }
+
+    public function beforeUpdate()
+    {
+        if ($this->deleted == 1) {
+            $this->published = 0;
+        }
+
+        $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
         if (empty($this->cover)) {
             $this->cover = kg_default_slide_cover_path();
         } elseif (Text::startsWith($this->cover, 'http')) {
@@ -134,25 +148,6 @@ class Slide extends Model
         if (is_array($this->target_attrs) || is_object($this->target_attrs)) {
             $this->target_attrs = kg_json_encode($this->target_attrs);
         }
-
-        $this->create_time = time();
-    }
-
-    public function beforeUpdate()
-    {
-        if (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
-        }
-
-        if (is_array($this->target_attrs) || is_object($this->target_attrs)) {
-            $this->target_attrs = kg_json_encode($this->target_attrs);
-        }
-
-        if ($this->deleted == 1) {
-            $this->published = 0;
-        }
-
-        $this->update_time = time();
     }
 
     public function afterFetch()

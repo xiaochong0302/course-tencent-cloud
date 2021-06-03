@@ -5,6 +5,7 @@ namespace App\Services\Logic\Article;
 use App\Library\Utils\Word as WordUtil;
 use App\Models\Article as ArticleModel;
 use App\Models\ArticleTag as ArticleTagModel;
+use App\Models\User as UserModel;
 use App\Repos\ArticleTag as ArticleTagRepo;
 use App\Repos\Tag as TagRepo;
 use App\Traits\Client as ClientTrait;
@@ -18,6 +19,9 @@ trait ArticleDataTrait
     protected function handlePostData($post)
     {
         $data = [];
+
+        $data['client_type'] = $this->getClientType();
+        $data['client_ip'] = $this->getClientIp();
 
         $validator = new ArticleValidator();
 
@@ -46,6 +50,25 @@ trait ArticleDataTrait
         }
 
         return $data;
+    }
+
+    protected function getPublishStatus(UserModel $user)
+    {
+        return $user->article_count > 100 ? ArticleModel::PUBLISH_APPROVED : ArticleModel::PUBLISH_PENDING;
+    }
+
+    protected function saveDynamicAttrs(ArticleModel $article)
+    {
+        $article->cover = kg_parse_first_content_image($article->content);
+
+        $article->summary = kg_parse_summary($article->content);
+
+        $article->update();
+
+        /**
+         * 重新执行afterFetch
+         */
+        $article->afterFetch();
     }
 
     protected function saveTags(ArticleModel $article, $tagIds)

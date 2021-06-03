@@ -180,20 +180,19 @@ class Notification extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->event_info) || is_object($this->event_info)) {
-            $this->event_info = kg_json_encode($this->event_info);
-        }
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
+        $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
         if (is_array($this->event_info) || is_object($this->event_info)) {
             $this->event_info = kg_json_encode($this->event_info);
         }
-
-        $this->update_time = time();
     }
 
     public function afterFetch()

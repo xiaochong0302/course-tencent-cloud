@@ -89,7 +89,7 @@ class Consult extends Model
      *
      * @var int
      */
-    public $priority = 0;
+    public $priority = self::PRIORITY_LOW;
 
     /**
      * 私密标识

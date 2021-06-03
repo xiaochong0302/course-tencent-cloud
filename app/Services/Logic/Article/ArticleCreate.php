@@ -29,7 +29,6 @@ class ArticleCreate extends LogicService
         $data = $this->handlePostData($post);
 
         $data['published'] = $this->getPublishStatus($user);
-
         $data['owner_id'] = $user->id;
 
         $article->create($data);
@@ -38,6 +37,7 @@ class ArticleCreate extends LogicService
             $this->saveTags($article, $post['xm_tag_ids']);
         }
 
+        $this->saveDynamicAttrs($article);
         $this->incrUserDailyArticleCount($user);
         $this->recountUserArticles($user);
 
@@ -48,11 +48,6 @@ class ArticleCreate extends LogicService
         $this->eventsManager->fire('Article:afterCreate', $this, $article);
 
         return $article;
-    }
-
-    protected function getPublishStatus(UserModel $user)
-    {
-        return $user->article_count > 100 ? ArticleModel::PUBLISH_APPROVED : ArticleModel::PUBLISH_PENDING;
     }
 
     protected function incrUserDailyArticleCount(UserModel $user)

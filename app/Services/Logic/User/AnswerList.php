@@ -1,24 +1,29 @@
 <?php
 
-namespace App\Services\Logic\User\Console;
+namespace App\Services\Logic\User;
 
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Answer as AnswerModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Services\Logic\Answer\AnswerList as AnswerListService;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\UserTrait;
 
 class AnswerList extends LogicService
 {
 
-    public function handle()
+    use UserTrait;
+
+    public function handle($id)
     {
-        $user = $this->getLoginUser();
+        $user = $this->checkUser($id);
 
         $pagerQuery = new PagerQuery();
 
         $params = $pagerQuery->getParams();
 
         $params['owner_id'] = $user->id;
+        $params['published'] = AnswerModel::PUBLISH_APPROVED;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();

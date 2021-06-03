@@ -5,7 +5,6 @@ namespace App\Services\Logic\Comment;
 use App\Models\Comment as CommentModel;
 use App\Services\Logic\CommentTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Traits\Client as ClientTrait;
 use App\Validators\Comment as CommentValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
@@ -13,9 +12,9 @@ class CommentReply extends LogicService
 {
 
     use AfterCreateTrait;
+    use CommentDataTrait;
     use CommentTrait;
     use CountTrait;
-    use ClientTrait;
 
     public function handle($id)
     {
@@ -33,14 +32,15 @@ class CommentReply extends LogicService
 
         $validator = new CommentValidator();
 
-        $data = [
-            'parent_id' => $parent->id,
-            'item_id' => $comment->item_id,
-            'item_type' => $comment->item_type,
-            'owner_id' => $user->id,
-        ];
+        $data = $this->handlePostData($post);
 
-        $item = $validator->checkItem($comment->item_type, $comment->item_id);
+        $data['parent_id'] = $parent->id;
+        $data['item_id'] = $comment->item_id;
+        $data['item_type'] = $comment->item_type;
+        $data['owner_id'] = $user->id;
+        $data['published'] = $this->getPublishStatus($user);
+
+        $item = $validator->checkItem($comment->item_id, $comment->item_type);
 
         /**
          * 子评论中回复用户
@@ -51,15 +51,6 @@ class CommentReply extends LogicService
             $data['to_user_id'] = $comment->owner_id;
         }
 
-        $data['content'] = $validator->checkContent($post['content']);
-        $data['client_type'] = $this->getClientType();
-        $data['client_ip'] = $this->getClientIp();
-
-        /**
-         * @todo 引入自动审核机制
-         */
-        $data['published'] = CommentModel::PUBLISH_APPROVED;
-
         $reply = new CommentModel();
 
         $reply->create($data);
@@ -68,6 +59,7 @@ class CommentReply extends LogicService
 
         if ($reply->published == CommentModel::PUBLISH_APPROVED) {
             $this->incrCommentReplyCount($parent);
+            $this->incrItemCommentCount($item, $reply, $user);
             $this->handleNoticeAndPoint($item, $reply, $user);
         }
 

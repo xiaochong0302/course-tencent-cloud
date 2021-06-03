@@ -12,16 +12,15 @@ use App\Services\Logic\Notice\System\QuestionAnswered as QuestionAnsweredNotice;
 use App\Services\Logic\Point\History\AnswerPost as AnswerPostPointHistory;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Traits\Client as ClientTrait;
 use App\Validators\Answer as AnswerValidator;
 use App\Validators\UserLimit as UserLimitValidator;
 
 class AnswerCreate extends LogicService
 {
 
-    use ClientTrait;
     use QuestionTrait;
     use AnswerTrait;
+    use AnswerDataTrait;
 
     public function handle()
     {
@@ -41,15 +40,15 @@ class AnswerCreate extends LogicService
 
         $answer = new AnswerModel();
 
-        $answer->published = $this->getPublishStatus($user);
-        $answer->content = $validator->checkContent($post['content']);
-        $answer->client_type = $this->getClientType();
-        $answer->client_ip = $this->getClientIp();
-        $answer->question_id = $question->id;
-        $answer->owner_id = $user->id;
+        $data = $this->handlePostData($post);
 
-        $answer->create();
+        $data['published'] = $this->getPublishStatus($user);
+        $data['question_id'] = $question->id;
+        $data['owner_id'] = $user->id;
 
+        $answer->create($data);
+
+        $this->saveDynamicAttrs($answer);
         $this->incrUserDailyAnswerCount($user);
         $this->recountQuestionAnswers($question);
         $this->recountUserAnswers($user);
@@ -71,11 +70,6 @@ class AnswerCreate extends LogicService
         $this->eventsManager->fire('Answer:afterCreate', $this, $answer);
 
         return $answer;
-    }
-
-    protected function getPublishStatus(UserModel $user)
-    {
-        return $user->answer_count > 2 ? AnswerModel::PUBLISH_APPROVED : AnswerModel::PUBLISH_PENDING;
     }
 
     protected function incrUserDailyAnswerCount(UserModel $user)

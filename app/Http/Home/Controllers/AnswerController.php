@@ -47,13 +47,19 @@ class AnswerController extends Controller
      */
     public function showAction($id)
     {
-        $service = new AnswerService();
+        $service = new AnswerInfoService();
 
-        $answer = $service->getAnswer($id);
+        $answer = $service->handle($id);
+
+        $questionId = $answer['question']['id'];
+
+        if ($answer['me']['owned'] == 0) {
+            $this->response->redirect(['for' => 'home.error.403']);
+        }
 
         $location = $this->url->get(
-            ['for' => 'home.question.show', 'id' => $answer->question_id],
-            ['answer_id' => $answer->id],
+            ['for' => 'home.question.show', 'id' => $questionId],
+            ['answer_id' => $id],
         );
 
         $this->response->redirect($location);

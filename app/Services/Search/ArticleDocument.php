@@ -35,10 +35,6 @@ class ArticleDocument extends Component
      */
     public function formatDocument(ArticleModel $article)
     {
-        if (empty($article->summary)) {
-            $article->summary = kg_parse_summary($article->content);
-        }
-
         if (is_array($article->tags) || is_object($article->tags)) {
             $article->tags = kg_json_encode($article->tags);
         }

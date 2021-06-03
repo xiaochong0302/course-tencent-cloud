@@ -4,7 +4,7 @@
 
     {% set back_url = url({'for':'admin.category.list'},{'type':type}) %}
     {% set add_url = url({'for':'admin.category.add'},{'type':type,'parent_id':parent.id}) %}
-    {% set allow_add = (type == 1 and parent.level < 2) or (type == 2 and parent.level < 1) or (type == 3 and parent.level < 1) %}
+    {% set allow_add = (type == 1 and parent.level < 2) or (type == 2 and parent.level < 1) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
@@ -55,13 +55,11 @@
                 <td>{{ item.id }}</td>
                 {% if item.type == 1 %}
                     {% if item.level == 1 %}
-                        <td><a href="{{ child_url }}">{{ item.name }}</a></td>
+                        <td><a href="{{ child_url }}"><i class="layui-icon layui-icon-add-circle"></i> {{ item.name }}</a></td>
                     {% else %}
                         <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
                     {% endif %}
                 {% elseif item.type == 2 %}
-                    <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
-                {% elseif item.type == 3 %}
                     <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
                 {% endif %}
                 <td>{{ item.level }}</td>

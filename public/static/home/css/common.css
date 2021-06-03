@@ -132,18 +132,18 @@
     list-style: decimal;
 }
 
+.writer-sidebar {
+    padding: 20px;
+}
+
+.writer-content .first-form-item {
+    margin-top: 10px;
+}
+
 .writer-content .layui-input-block,
 .writer-sidebar .layui-input-block,
 .report-form .layui-input-block {
     margin-left: 0;
-}
-
-.writer-content {
-    padding-top: 30px;
-}
-
-.writer-sidebar {
-    padding: 20px;
 }
 
 .writer-sidebar .layui-form-label,
@@ -265,6 +265,8 @@
 
 .page-info {
     min-height: 500px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 .help-list li {
@@ -1763,6 +1765,20 @@
     padding: 10px 8px;
 }
 
+.user-tab .article-card {
+    height: 110px;
+    overflow: hidden;
+}
+
+.user-tab .article-card .title {
+    border-bottom: 1px solid #f2f2f2;
+    padding-bottom: 10px;
+}
+
+.user-tab .article-card .summary {
+    max-height: 3em;
+}
+
 .user-card {
     float: left;
     width: 100%;
@@ -1956,7 +1972,7 @@
 }
 
 .layui-table p {
-    line-height: 1.8em;
+    line-height: 2em;
 }
 
 .layui-table .center {

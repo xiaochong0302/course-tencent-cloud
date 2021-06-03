@@ -36,10 +36,6 @@ class QuestionDocument extends Component
      */
     public function formatDocument(QuestionModel $question)
     {
-        if (empty($question->summary)) {
-            $question->summary = kg_parse_summary($question->content);
-        }
-
         if (is_array($question->tags) || is_object($question->tags)) {
             $question->tags = kg_json_encode($question->tags);
         }

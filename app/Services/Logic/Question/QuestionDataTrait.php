@@ -4,6 +4,7 @@ namespace App\Services\Logic\Question;
 
 use App\Models\Question as QuestionModel;
 use App\Models\QuestionTag as QuestionTagModel;
+use App\Models\User as UserModel;
 use App\Repos\QuestionTag as QuestionTagRepo;
 use App\Repos\Tag as TagRepo;
 use App\Traits\Client as ClientTrait;
@@ -36,7 +37,26 @@ trait QuestionDataTrait
 
         return $data;
     }
-    
+
+    protected function getPublishStatus(UserModel $user)
+    {
+        return $user->question_count > 100 ? QuestionModel::PUBLISH_APPROVED : QuestionModel::PUBLISH_PENDING;
+    }
+
+    protected function saveDynamicAttrs(QuestionModel $question)
+    {
+        $question->cover = kg_parse_first_content_image($question->content);
+
+        $question->summary = kg_parse_summary($question->content);
+
+        $question->update();
+
+        /**
+         * 重新执行afterFetch
+         */
+        $question->afterFetch();
+    }
+
     protected function saveTags(QuestionModel $question, $tagIds)
     {
         $originTagIds = [];

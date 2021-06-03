@@ -75,7 +75,15 @@ class AnswerInfo extends LogicService
     {
         $me = [
             'liked' => 0,
+            'owned' => 0,
         ];
+
+        $isOwner = $user->id == $answer->owner_id;
+        $approved = $answer->published = AnswerModel::PUBLISH_APPROVED;
+
+        if ($isOwner || $approved) {
+            $me['owned'] = 1;
+        }
 
         if ($user->id > 0) {
 

@@ -15,10 +15,10 @@ use App\Models\User as UserModel;
 use App\Repos\Article as ArticleRepo;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Report as ReportRepo;
-use App\Repos\Tag as TagRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Article\ArticleDataTrait;
 use App\Services\Logic\Article\ArticleInfo as ArticleInfoService;
+use App\Services\Logic\Article\XmTagList as XmTagListService;
 use App\Services\Logic\Notice\System\ArticleApproved as ArticleApprovedNotice;
 use App\Services\Logic\Notice\System\ArticleRejected as ArticleRejectedNotice;
 use App\Services\Logic\Point\History\ArticlePost as ArticlePostPointHistory;
@@ -32,33 +32,9 @@ class Article extends Service
 
     public function getXmTags($id)
     {
-        $tagRepo = new TagRepo();
+        $service = new XmTagListService();
 
-        $allTags = $tagRepo->findAll(['published' => 1]);
-
-        if ($allTags->count() == 0) return [];
-
-        $articleTagIds = [];
-
-        if ($id > 0) {
-            $article = $this->findOrFail($id);
-            if (!empty($article->tags)) {
-                $articleTagIds = kg_array_column($article->tags, 'id');
-            }
-        }
-
-        $list = [];
-
-        foreach ($allTags as $tag) {
-            $selected = in_array($tag->id, $articleTagIds);
-            $list[] = [
-                'name' => $tag->name,
-                'value' => $tag->id,
-                'selected' => $selected,
-            ];
-        }
-
-        return $list;
+        return $service->handle($id);
     }
 
     public function getCategories()
@@ -152,10 +128,14 @@ class Article extends Service
         $article = new ArticleModel();
 
         $article->published = ArticleModel::PUBLISH_APPROVED;
+        $article->client_type = $this->getClientType();
+        $article->client_ip = $this->getClientIp();
         $article->owner_id = $user->id;
         $article->title = $title;
 
         $article->create();
+
+        $this->saveDynamicAttrs($article);
 
         $this->recountUserArticles($user);
 
@@ -208,12 +188,7 @@ class Article extends Service
         }
 
         if (isset($post['published'])) {
-
             $data['published'] = $validator->checkPublishStatus($post['published']);
-
-            $owner = $this->findUser($article->owner_id);
-
-            $this->recountUserArticles($owner);
         }
 
         if (isset($post['xm_tag_ids'])) {
@@ -222,7 +197,13 @@ class Article extends Service
 
         $article->update($data);
 
+        $this->saveDynamicAttrs($article);
+
         $this->rebuildArticleIndex($article);
+
+        $owner = $this->findUser($article->owner_id);
+
+        $this->recountUserArticles($owner);
 
         $this->eventsManager->fire('Article:afterUpdate', $this, $article);
 
@@ -237,13 +218,13 @@ class Article extends Service
 
         $article->update();
 
-        $userRepo = new UserRepo();
-
-        $owner = $userRepo->findById($article->owner_id);
-
-        $this->recountUserArticles($owner);
+        $this->saveDynamicAttrs($article);
 
         $this->rebuildArticleIndex($article);
+
+        $owner = $this->findUser($article->owner_id);
+
+        $this->recountUserArticles($owner);
 
         $this->eventsManager->fire('Article:afterDelete', $this, $article);
 
@@ -258,13 +239,13 @@ class Article extends Service
 
         $article->update();
 
-        $userRepo = new UserRepo();
-
-        $owner = $userRepo->findById($article->owner_id);
-
-        $this->recountUserArticles($owner);
+        $this->saveDynamicAttrs($article);
 
         $this->rebuildArticleIndex($article);
+
+        $owner = $this->findUser($article->owner_id);
+
+        $this->recountUserArticles($owner);
 
         $this->eventsManager->fire('Article:afterRestore', $this, $article);
 

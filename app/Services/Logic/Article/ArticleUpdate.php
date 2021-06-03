@@ -44,6 +44,8 @@ class ArticleUpdate extends LogicService
             $this->saveTags($article, $post['xm_tag_ids']);
         }
 
+        $this->saveDynamicAttrs($article);
+
         $this->eventsManager->fire('Article:afterUpdate', $this, $article);
 
         return $article;

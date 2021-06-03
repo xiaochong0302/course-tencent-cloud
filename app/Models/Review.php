@@ -152,20 +152,21 @@ class Review extends Model
 
     public function beforeCreate()
     {
-        $this->rating = $this->getAvgRating();
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        $this->rating = $this->getAvgRating();
-
         if ($this->deleted == 1) {
             $this->published = 0;
         }
 
         $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
+        $this->rating = $this->getAvgRating();
     }
 
     protected function getAvgRating()

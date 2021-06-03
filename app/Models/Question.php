@@ -239,14 +239,6 @@ class Question extends Model
 
     public function beforeCreate()
     {
-        if (is_array($this->tags) || is_object($this->tags)) {
-            $this->tags = kg_json_encode($this->tags);
-        }
-
-        if (empty($this->cover)) {
-            $this->cover = kg_parse_first_content_image($this->content);
-        }
-
         $this->create_time = time();
     }
 
@@ -260,19 +252,14 @@ class Question extends Model
             $sync->addItem($this->id);
         }
 
+        $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
         if (is_array($this->tags) || is_object($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
         }
-
-        if (empty($this->cover)) {
-            $this->cover = kg_parse_first_content_image($this->content);
-        }
-
-        if (empty($this->summary)) {
-            $this->summary = kg_parse_summary($this->content);
-        }
-
-        $this->update_time = time();
     }
 
     public function afterCreate()

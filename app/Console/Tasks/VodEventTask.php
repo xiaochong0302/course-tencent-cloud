@@ -44,16 +44,30 @@ class VodEventTask extends Task
 
     protected function handleNewFileUploadEvent($event)
     {
-        $fileId = $event['FileUploadEvent']['FileId'];
-        $width = $event['FileUploadEvent']['MetaData']['Height'];
-        $height = $event['FileUploadEvent']['MetaData']['Width'];
-        $duration = $event['FileUploadEvent']['MetaData']['Duration'];
+        $fileId = $event['FileUploadEvent']['FileId'] ?? 0;
+        $width = $event['FileUploadEvent']['MetaData']['Height'] ?? 0;
+        $height = $event['FileUploadEvent']['MetaData']['Width'] ?? 0;
+        $duration = $event['FileUploadEvent']['MetaData']['Duration'] ?? 0;
+
+        if ($fileId == 0) return;
 
         $chapterRepo = new ChapterRepo();
 
         $chapter = $chapterRepo->findByFileId($fileId);
 
         if (!$chapter) return;
+
+        $attrs = $chapter->attrs;
+
+        /**
+         * 获取不到时长视为失败
+         */
+        if ($duration == 0) {
+            $attrs['file']['id'] = $fileId;
+            $attrs['file']['status'] = ChapterModel::FS_FAILED;
+            $chapter->update(['attrs' => $attrs]);
+            return;
+        }
 
         $vodService = new VodService();
 
@@ -63,13 +77,8 @@ class VodEventTask extends Task
             $vodService->createTransVideoTask($fileId);
         }
 
-        /**
-         * @var array $attrs
-         */
-        $attrs = $chapter->attrs;
-
+        $attrs['file']['id'] = $fileId;
         $attrs['file']['status'] = ChapterModel::FS_TRANSLATING;
-
         $attrs['duration'] = (int)$duration;
 
         $chapter->update(['attrs' => $attrs]);
@@ -79,15 +88,29 @@ class VodEventTask extends Task
 
     protected function handleProcedureStateChangedEvent($event)
     {
-        $fileId = $event['ProcedureStateChangeEvent']['FileId'];
+        $fileId = $event['ProcedureStateChangeEvent']['FileId'] ?? 0;
 
-        $processResult = $event['ProcedureStateChangeEvent']['MediaProcessResultSet'];
+        if ($fileId == 0) return;
 
         $chapterRepo = new ChapterRepo();
 
         $chapter = $chapterRepo->findByFileId($fileId);
 
         if (!$chapter) return;
+
+        $attrs = $chapter->attrs;
+
+        $processResult = $event['ProcedureStateChangeEvent']['MediaProcessResultSet'] ?? [];
+
+        /**
+         * 获取不到处理结果视为失败
+         */
+        if (empty($processResult)) {
+            $attrs['file']['id'] = $fileId;
+            $attrs['file']['status'] = ChapterModel::FS_FAILED;
+            $chapter->update(['attrs' => $attrs]);
+            return;
+        }
 
         $failCount = $successCount = 0;
 
@@ -112,15 +135,9 @@ class VodEventTask extends Task
             $fileStatus = ChapterModel::FS_FAILED;
         }
 
-        if ($fileStatus == ChapterModel::FS_TRANSLATING) {
-            return;
-        }
+        if ($fileStatus == ChapterModel::FS_TRANSLATING) return;
 
-        /**
-         * @var array $attrs
-         */
-        $attrs = $chapter->attrs;
-
+        $attrs['file']['id'] = $fileId;
         $attrs['file']['status'] = $fileStatus;
 
         $chapter->update(['attrs' => $attrs]);

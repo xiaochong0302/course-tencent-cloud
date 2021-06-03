@@ -1,3 +1,26 @@
+### [v1.3.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.6)(2021-06-04)
+
+### 更新
+
+- 清理没有用到的引用
+- 优化界面和CSS样式
+- 优化视频无法获取时长处理逻辑
+- 优化视频无法转码处理逻辑
+- 优化评论审核机制
+- 优化评论相关数据更新逻辑
+- 优化文章，问答，评论数据更新
+- 优化内容标签的更新逻辑
+- 优化首页H5的跳转判断
+- 优化单页的浏览权限
+- 优化Model中的事件方法
+- 优化kg_parse_summary函数
+- 用户主页加入问答列表
+- 修复无法关闭问题讨论
+- 修复编辑群组的路由
+- 直播去除FLV方式拉流
+- xs.question.ini加入忽略列表
+- kg_user表增加comment_count字段
+
 ### [v1.3.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.5)(2021-05-20)
 
 ### 更新
