@@ -129,7 +129,7 @@ class Course extends Model
      *
      * @var float
      */
-    public $origin_price;
+    public $origin_price = 0.00;
 
     /**
      * 优惠价格

@@ -64,9 +64,3 @@
     </div>
 
 {% endblock %}
-
-{% block include_js %}
-
-    {{ js_include('home/js/user.console.js') }}
-
-{% endblock %}
