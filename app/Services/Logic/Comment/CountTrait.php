@@ -56,6 +56,13 @@ trait CountTrait
         $answer->update();
     }
 
+    protected function incrUserCommentCount(UserModel $user)
+    {
+        $user->comment_count += 1;
+
+        $user->update();
+    }
+
     protected function decrCommentReplyCount(CommentModel $comment)
     {
         if ($comment->reply_count > 0) {
@@ -98,8 +105,16 @@ trait CountTrait
     protected function decrAnswerCommentCount(AnswerModel $answer)
     {
         if ($answer->comment_count > 0) {
-            $answer->comment_count += 1;
+            $answer->comment_count -= 1;
             $answer->update();
+        }
+    }
+
+    protected function decrUserCommentCount(UserModel $user)
+    {
+        if ($user->comment_count > 0) {
+            $user->comment_count -= 1;
+            $user->update();
         }
     }
 

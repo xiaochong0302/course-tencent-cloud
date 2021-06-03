@@ -137,6 +137,13 @@ class User extends Model
     public $answer_count;
 
     /**
+     * 评论数
+     *
+     * @var int
+     */
+    public $comment_count;
+
+    /**
      * 收藏数
      *
      * @var int

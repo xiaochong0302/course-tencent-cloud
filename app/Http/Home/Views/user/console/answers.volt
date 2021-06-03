@@ -35,13 +35,12 @@
                         </thead>
                         <tbody>
                         {% for item in pager.items %}
-                            {% set question_url = url({'for':'home.question.show','id':item.question.id}) %}
-                            {% set answer_url = url({'for':'home.answer.show','id':item.id}) %}
+                            {% set show_url = url({'for':'home.answer.show','id':item.id}) %}
                             {% set edit_url = url({'for':'home.answer.edit','id':item.id}) %}
                             {% set delete_url = url({'for':'home.answer.delete','id':item.id}) %}
                             <tr>
                                 <td>
-                                    <p>提问：<a href="{{ question_url }}" target="_blank">{{ item.question.title }}</a></p>
+                                    <p>提问：<a href="{{ show_url }}" target="_blank">{{ item.question.title }}</a></p>
                                     <p>回答：{{ substr(item.summary,0,32) }}</p>
                                     <p class="meta">
                                         创建：<span class="layui-badge layui-bg-gray">{{ item.create_time|time_ago }}</span>
@@ -50,7 +49,6 @@
                                 </td>
                                 <td>{{ item.like_count }}</td>
                                 <td>
-                                    <a href="{{ answer_url }}" class="layui-btn layui-btn-xs">详情</a>
                                     <a href="{{ edit_url }}" class="layui-btn layui-btn-xs layui-bg-blue">修改</a>
                                     <a href="javascript:" class="layui-btn layui-btn-xs layui-bg-red kg-delete" data-url="{{ delete_url }}">删除</a>
                                 </td>
