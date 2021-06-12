@@ -62,7 +62,7 @@
                     </a>
                 </td>
                 <td class="center">
-                    <div class="layui-dropdown">
+                    <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
                             {% if item.id == 1 %}

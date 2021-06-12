@@ -31,7 +31,7 @@ class Chapter extends Model
      */
     protected $_vod_attrs = [
         'duration' => 0,
-        'file' => ['id' => '', 'status' => self::FS_PENDING],
+        'file' => ['status' => self::FS_PENDING],
     ];
 
     /**

@@ -124,9 +124,13 @@ class ChapterController extends Controller
             switch ($course->model) {
                 case CourseModel::MODEL_VOD:
                     $vod = $contentService->getChapterVod($chapter->id);
-                    $playUrls = $contentService->getPlayUrls($chapter->id);
+                    $cosPlayUrls = $contentService->getCosPlayUrls($chapter->id);
+                    $remotePlayUrls = $contentService->getRemotePlayUrls($chapter->id);
+                    $remoteDuration = $contentService->getRemoteDuration($chapter->id);
                     $this->view->setVar('vod', $vod);
-                    $this->view->setVar('play_urls', $playUrls);
+                    $this->view->setVar('cos_play_urls', $cosPlayUrls);
+                    $this->view->setVar('remote_play_urls', $remotePlayUrls);
+                    $this->view->setVar('remote_duration', $remoteDuration);
                     break;
                 case CourseModel::MODEL_LIVE:
                     $live = $contentService->getChapterLive($chapter->id);

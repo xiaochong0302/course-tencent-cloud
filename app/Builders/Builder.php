@@ -2,9 +2,9 @@
 
 namespace App\Builders;
 
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-class Builder extends Component
+class Builder extends Injectable
 {
 
     public function objects(array $items)

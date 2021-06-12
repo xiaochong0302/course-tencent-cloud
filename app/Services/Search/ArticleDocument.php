@@ -5,9 +5,9 @@ namespace App\Services\Search;
 use App\Models\Article as ArticleModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\User as UserRepo;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-class ArticleDocument extends Component
+class ArticleDocument extends Injectable
 {
 
     /**

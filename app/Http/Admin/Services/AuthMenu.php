@@ -3,9 +3,9 @@
 namespace App\Http\Admin\Services;
 
 use App\Services\Auth\Admin as AdminAuth;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-class AuthMenu extends Component
+class AuthMenu extends Injectable
 {
 
     protected $authInfo;

@@ -6,9 +6,9 @@ use App\Models\Question as QuestionModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\User as UserRepo;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-class QuestionDocument extends Component
+class QuestionDocument extends Injectable
 {
 
     /**

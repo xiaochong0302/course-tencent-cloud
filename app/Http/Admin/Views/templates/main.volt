@@ -8,7 +8,7 @@
     <title>管理后台</title>
     {{ icon_link('favicon.ico') }}
     {{ css_link('lib/layui/css/layui.css') }}
-    {{ css_link('lib/layui/extends/dropdown.css') }}
+    {{ css_link('lib/layui/extends/kg-dropdown.css') }}
     {{ css_link('admin/css/common.css') }}
     {% block link_css %}{% endblock %}
     {% block inline_css %}{% endblock %}

@@ -3,9 +3,9 @@
 namespace App\Caches;
 
 use Phalcon\Cache\Backend\Redis as RedisCache;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-abstract class Cache extends Component
+abstract class Cache extends Injectable
 {
 
     /**

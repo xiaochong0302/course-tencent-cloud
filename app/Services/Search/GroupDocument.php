@@ -4,9 +4,9 @@ namespace App\Services\Search;
 
 use App\Models\ImGroup as GroupModel;
 use App\Models\User as UserModel;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-class GroupDocument extends Component
+class GroupDocument extends Injectable
 {
 
     /**

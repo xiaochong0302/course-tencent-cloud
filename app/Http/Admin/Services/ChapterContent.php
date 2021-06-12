@@ -47,11 +47,37 @@ class ChapterContent extends Service
         return $chapterRepo->findChapterOffline($chapterId);
     }
 
-    public function getPlayUrls($chapterId)
+    public function getCosPlayUrls($chapterId)
     {
         $service = new ChapterVodService();
 
-        return $service->getPlayUrls($chapterId);
+        return $service->getCosPlayUrls($chapterId);
+    }
+
+    public function getRemotePlayUrls($chapterId)
+    {
+        $service = new ChapterVodService();
+
+        return $service->getRemotePlayUrls($chapterId);
+    }
+
+    public function getRemoteDuration($chapterId)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        $chapter = $chapterRepo->findById($chapterId);
+
+        $duration = $chapter->attrs['duration'] ?? 0;
+
+        $result = ['hours' => 0, 'minutes' => 0, 'seconds' => 0];
+
+        if ($duration == 0) return $result;
+
+        $result['hours'] = floor($duration / 3600);
+        $result['minutes'] = floor(($duration - $result['hours'] * 3600) / 60);
+        $result['seconds'] = $duration % 60;
+
+        return $result;
     }
 
     public function updateChapterContent($chapterId)
@@ -81,6 +107,17 @@ class ChapterContent extends Service
     }
 
     protected function updateChapterVod(ChapterModel $chapter)
+    {
+        $post = $this->request->getPost();
+
+        if (isset($post['file_id'])) {
+            $this->updateCosChapterVod($chapter);
+        } elseif (isset($post['file_remote'])) {
+            $this->updateRemoteChapterVod($chapter);
+        }
+    }
+
+    protected function updateCosChapterVod(ChapterModel $chapter)
     {
         $post = $this->request->getPost();
 
@@ -114,6 +151,54 @@ class ChapterContent extends Service
         $attrs['file']['status'] = ChapterModel::FS_UPLOADED;
         $chapter->attrs = $attrs;
 
+        $chapter->update();
+
+        $this->updateCourseVodAttrs($vod->course_id);
+    }
+
+    protected function updateRemoteChapterVod(ChapterModel $chapter)
+    {
+        $post = $this->request->getPost();
+
+        $validator = new ChapterVodValidator();
+
+        $hours = $post['file_remote']['duration']['hours'] ?? 0;
+        $minutes = $post['file_remote']['duration']['minutes'] ?? 0;
+        $seconds = $post['file_remote']['duration']['seconds'] ?? 0;
+
+        $duration = 3600 * $hours + 60 * $minutes + $seconds;
+
+        $validator->checkDuration($duration);
+
+        $odUrl = $post['file_remote']['od']['url'] ?? '';
+        $hdUrl = $post['file_remote']['hd']['url'] ?? '';
+        $sdUrl = $post['file_remote']['sd']['url'] ?? '';
+
+        $fileRemote = [];
+
+        $attrs = $chapter->attrs;
+
+        if (!empty($odUrl)) {
+            $fileRemote['od']['url'] = $validator->checkFileUrl($odUrl);
+            $attrs['file']['status'] = ChapterModel::FS_UPLOADED;
+            $attrs['duration'] = $duration;
+        }
+
+        if (!empty($hdUrl)) {
+            $fileRemote['hd']['url'] = $validator->checkFileUrl($hdUrl);
+        }
+
+        if (!empty($sdUrl)) {
+            $fileRemote['sd']['url'] = $validator->checkFileUrl($sdUrl);
+        }
+
+        $chapterRepo = new ChapterRepo();
+
+        $vod = $chapterRepo->findChapterVod($chapter->id);
+        $vod->file_remote = $fileRemote;
+        $vod->update();
+
+        $chapter->attrs = $attrs;
         $chapter->update();
 
         $this->updateCourseVodAttrs($vod->course_id);

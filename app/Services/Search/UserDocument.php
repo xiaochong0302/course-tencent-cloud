@@ -3,9 +3,9 @@
 namespace App\Services\Search;
 
 use App\Models\User as UserModel;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-class UserDocument extends Component
+class UserDocument extends Injectable
 {
 
     /**

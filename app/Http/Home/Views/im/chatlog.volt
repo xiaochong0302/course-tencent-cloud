@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>聊天记录</title>
-    <link rel="stylesheet" href="/static/lib/layui/css/layui.css">
+    {{ css_link('lib/layui/css/layui.css') }}
+    {{ css_link('lib/layui/extends/layim/assets/layim.css') }}
     <style>
         body .layim-chat-main {
             height: auto;
@@ -34,15 +35,15 @@
 }); %>
 </textarea>
 
-<script src="/static/lib/layui/layui.js"></script>
+{{ js_include('lib/layui/layui.js') }}
 
 <script>
-    layui.use(['jquery', 'layim', 'laytpl', 'laypage'], function () {
+
+    layui.use(['jquery', 'laypage'], function () {
 
         var $ = layui.jquery;
-        var layim = layui.layim;
-        var laytpl = layui.laytpl;
         var laypage = layui.laypage;
+        var laytpl = parent.layui.laytpl;
 
         laytpl.config({
             open: '<%',
@@ -97,6 +98,7 @@
         }
 
     });
+
 </script>
 
 </body>

@@ -2,9 +2,9 @@
 
 namespace App\Repos;
 
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-class Repository extends Component
+class Repository extends Injectable
 {
 
 }

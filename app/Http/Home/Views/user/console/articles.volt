@@ -54,7 +54,7 @@
                                 <td>{{ item.comment_count }}</td>
                                 <td>{{ item.view_count }}</td>
                                 <td class="center">
-                                    <a href="{{ edit_url }}" class="layui-btn layui-btn-xs">编辑</a>
+                                    <a href="{{ edit_url }}" class="layui-btn layui-btn-xs layui-bg-blue">编辑</a>
                                     <a href="javascript:" class="layui-btn layui-btn-xs layui-bg-red kg-delete" data-url="{{ delete_url }}">删除</a>
                                 </td>
                             </tr>

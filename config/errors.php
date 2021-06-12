@@ -110,7 +110,7 @@ $error['nav.has_child_node'] = '不允许相关操作（存在子节点）';
 /**
  * 文章相关
  */
-$error['article.not_found'] = '课程不存在';
+$error['article.not_found'] = '文章不存在';
 $error['article.title_too_short'] = '标题太短（少于5个字符）';
 $error['article.title_too_long'] = '标题太长（多于50个字符）';
 $error['article.content_too_short'] = '内容太短（少于10个字符）';
@@ -254,6 +254,8 @@ $error['chapter.child_existed'] = '不允许相关操作（存在子章节）';
  */
 $error['chapter_vod.not_found'] = '点播资源不存在';
 $error['chapter_vod.invalid_file_id'] = '无效的文件编号';
+$error['chapter_vod.invalid_file_url'] = '无效的文件地址';
+$error['chapter_vod.invalid_file_ext'] = '无效的文件格式（目前只支持mp4，m3u8）';
 
 /**
  * 直播相关

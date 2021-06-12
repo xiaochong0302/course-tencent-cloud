@@ -4,9 +4,9 @@ namespace App\Validators;
 
 use App\Exceptions\Forbidden as ForbiddenException;
 use App\Exceptions\Unauthorized as UnauthorizedException;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-class Validator extends Component
+class Validator extends Injectable
 {
 
     public function checkAuthUser($userId)

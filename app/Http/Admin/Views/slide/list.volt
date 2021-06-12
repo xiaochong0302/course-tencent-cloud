@@ -58,7 +58,7 @@
                 <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
                 <td><input type="checkbox" name="published" value="1" lay-filter="published" lay-skin="switch" lay-text="是|否" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
-                    <div class="layui-dropdown">
+                    <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm"> 操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
                             <li><a href="{{ edit_url }}">编辑</a></li>

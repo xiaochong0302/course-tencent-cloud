@@ -5,9 +5,9 @@ namespace App\Services\Search;
 use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-class CourseDocument extends Component
+class CourseDocument extends Injectable
 {
 
     /**

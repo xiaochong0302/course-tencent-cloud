@@ -2,9 +2,9 @@
 
 namespace App\Services\Search;
 
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-abstract class Searcher extends Component
+abstract class Searcher extends Injectable
 {
 
     /**
