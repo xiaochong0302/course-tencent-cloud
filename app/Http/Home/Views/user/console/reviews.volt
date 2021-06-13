@@ -41,7 +41,7 @@
                                     <p class="rating">逻辑清晰：{{ "%0.1f"|format(item.rating3) }}</p>
                                 </td>
                                 <td>
-                                    <button class="layui-btn layui-btn-xs btn-edit-review" data-url="{{ edit_url }}">修改</button>
+                                    <button class="layui-btn layui-btn-xs layui-bg-blue btn-edit-review" data-url="{{ edit_url }}">修改</button>
                                     <button class="layui-btn layui-btn-xs layui-bg-red kg-delete" data-url="{{ delete_url }}">删除</button>
                                 </td>
                             </tr>

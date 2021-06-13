@@ -32,29 +32,21 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">Logo</label>
-                <div class="kg-input-inline">
-                    <input class="layui-input" type="text" name="logo" placeholder="请确保存储已正确配置" value="{{ site.logo }}">
-                </div>
+            <label class="layui-form-label">Logo</label>
+            <div class="layui-inline" style="width:40%;">
+                <input class="layui-input" type="text" name="logo" placeholder="请确保存储已正确配置" value="{{ site.logo }}">
             </div>
             <div class="layui-inline">
-                <div class="kg-input-inline">
-                    <button class="layui-btn" type="button" id="upload-logo">上传文件</button>
-                </div>
+                <button class="layui-btn" type="button" id="upload-logo">上传文件</button>
             </div>
         </div>
         <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">Favicon</label>
-                <div class="kg-input-inline">
-                    <input class="layui-input" type="text" name="favicon" placeholder="请确保存储已正确配置" value="{{ site.favicon }}">
-                </div>
+            <label class="layui-form-label">Favicon</label>
+            <div class="layui-inline" style="width:40%;">
+                <input class="layui-input" type="text" name="favicon" placeholder="请确保存储已正确配置" value="{{ site.favicon }}">
             </div>
             <div class="layui-inline">
-                <div class="kg-input-inline">
-                    <button class="layui-btn" type="button" id="upload-favicon">上传文件</button>
-                </div>
+                <button class="layui-btn" type="button" id="upload-favicon">上传文件</button>
             </div>
         </div>
         <div class="layui-form-item">
@@ -96,7 +88,7 @@
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">备案链接</label>
-                <div class="kg-input-inline">
+                <div class="kg-input-inline" style="width:500px;">
                     <input class="layui-input" type="text" name="icp_link" value="{{ site.icp_link }}">
                 </div>
             </div>
@@ -110,7 +102,7 @@
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">备案链接</label>
-                <div class="kg-input-inline">
+                <div class="kg-input-inline" style="width:500px;">
                     <input class="layui-input" type="text" name="police_link" value="{{ site.police_link }}">
                 </div>
             </div>

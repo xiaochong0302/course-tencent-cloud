@@ -24,7 +24,7 @@
                         <colgroup>
                             <col>
                             <col>
-                            <col width="20%">
+                            <col width="15%">
                         </colgroup>
                         <thead>
                         <tr>

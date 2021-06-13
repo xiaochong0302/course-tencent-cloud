@@ -1,11 +1,16 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Caches;
 
 use App\Library\Cache\Backend\Redis as RedisCache;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-abstract class Counter extends Component
+abstract class Counter extends Injectable
 {
 
     /**

@@ -4,6 +4,10 @@
 
     <div id="player"></div>
 
+    <div class="layui-hide">
+        <input type="hidden" name="play_url" value="{{ play_url }}">
+    </div>
+
 {% endblock %}
 
 {% block inline_css %}
@@ -16,16 +20,24 @@
 
 {% endblock %}
 
-{% block inline_js %}
+{% block include_js %}
 
-    <script src="https://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.3.js"></script>
+    {{ js_include('lib/tc-player-2.4.0.js') }}
+
+{% endblock %}
+
+{% block inline_js %}
 
     <script>
 
         layui.use(['jquery'], function () {
 
+            var $ = layui.jquery;
+
+            var playUrl = $('input[name=play_url]').val();
+
             new TcPlayer('player', {
-                m3u8: '{{ play_url }}',
+                m3u8: playUrl,
                 autoplay: false,
                 width: 720,
                 height: 405

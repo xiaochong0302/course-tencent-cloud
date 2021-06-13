@@ -40,7 +40,7 @@
                 <td>{{ item.like_count }}</td>
                 <td>{{ publish_status(item.published) }}</td>
                 <td class="center">
-                    <div class="layui-dropdown">
+                    <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
                             <li><a href="{{ answer_url }}" target="_blank">预览回答</a></li>

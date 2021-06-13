@@ -83,7 +83,7 @@
                 <td><input type="checkbox" name="featured" value="1" lay-skin="switch" lay-text="是|否" lay-filter="featured" data-url="{{ update_url }}" {% if item.featured == 1 %}checked="checked"{% endif %}></td>
                 <td><input type="checkbox" name="comment" value="1" lay-skin="switch" lay-text="是|否" lay-filter="closed" data-url="{{ update_url }}" {% if item.closed == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
-                    <div class="layui-dropdown">
+                    <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
                             {% if item.published == 1 %}

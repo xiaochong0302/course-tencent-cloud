@@ -16,9 +16,13 @@
 
 {% endblock %}
 
-{% block inline_js %}
+{% block include_js %}
 
-    <script src="https://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.3.js"></script>
+    {{ js_include('lib/tc-player-2.4.0.js') }}
+
+{% endblock %}
+
+{% block inline_js %}
 
     <script>
 

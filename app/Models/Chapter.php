@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Models;
 
@@ -31,7 +36,7 @@ class Chapter extends Model
      */
     protected $_vod_attrs = [
         'duration' => 0,
-        'file' => ['id' => '', 'status' => self::FS_PENDING],
+        'file' => ['status' => self::FS_PENDING],
     ];
 
     /**

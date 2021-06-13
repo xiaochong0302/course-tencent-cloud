@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 $error = [];
 
@@ -110,7 +115,7 @@ $error['nav.has_child_node'] = '不允许相关操作（存在子节点）';
 /**
  * 文章相关
  */
-$error['article.not_found'] = '课程不存在';
+$error['article.not_found'] = '文章不存在';
 $error['article.title_too_short'] = '标题太短（少于5个字符）';
 $error['article.title_too_long'] = '标题太长（多于50个字符）';
 $error['article.content_too_short'] = '内容太短（少于10个字符）';
@@ -172,6 +177,7 @@ $error['course.invalid_study_expiry'] = '无效的学习期限';
 $error['course.invalid_refund_expiry'] = '无效的退款期限';
 $error['course.invalid_feature_status'] = '无效的推荐状态';
 $error['course.invalid_publish_status'] = '无效的发布状态';
+$error['course.teacher_not_assigned'] = '尚未指定授课教师';
 $error['course.pub_chapter_not_found'] = '尚未发现已发布的课时';
 $error['course.pub_chapter_not_enough'] = '已发布的课时太少（小于30%）';
 
@@ -254,6 +260,8 @@ $error['chapter.child_existed'] = '不允许相关操作（存在子章节）';
  */
 $error['chapter_vod.not_found'] = '点播资源不存在';
 $error['chapter_vod.invalid_file_id'] = '无效的文件编号';
+$error['chapter_vod.invalid_file_url'] = '无效的文件地址';
+$error['chapter_vod.invalid_file_ext'] = '无效的文件格式（目前只支持mp4，m3u8）';
 
 /**
  * 直播相关

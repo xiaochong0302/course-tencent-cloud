@@ -79,7 +79,7 @@
                 <td>{{ date('Y-m-d',item.active_time) }}</td>
                 <td>{{ date('Y-m-d',item.create_time) }}</td>
                 <td class="center">
-                    <div class="layui-dropdown">
+                    <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
                             <li><a href="{{ preview_url }}" target="_blank">用户主页</a></li>

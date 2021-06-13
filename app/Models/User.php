@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Models;
 
@@ -29,161 +34,161 @@ class User extends Model
      *
      * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * 名称
      *
      * @var string
      */
-    public $name;
+    public $name = '';
 
     /**
      * 头像
      *
      * @var string
      */
-    public $avatar;
+    public $avatar = '';
 
     /**
      * 头衔
      *
      * @var string
      */
-    public $title;
+    public $title = '';
 
     /**
      * 介绍
      *
      * @var string
      */
-    public $about;
+    public $about = '';
 
     /**
      * 地区
      *
      * @var string
      */
-    public $area;
+    public $area = '';
 
     /**
      * 性别
      *
      * @var int
      */
-    public $gender;
+    public $gender = self::GENDER_NONE;
 
     /**
      * 会员标识
      *
      * @var int
      */
-    public $vip;
+    public $vip = 0;
 
     /**
      * 锁定标识
      *
      * @var int
      */
-    public $locked;
+    public $locked = 0;
 
     /**
      * 删除标识
      *
      * @var int
      */
-    public $deleted;
+    public $deleted = 0;
 
     /**
      * 教学角色
      *
      * @var int
      */
-    public $edu_role;
+    public $edu_role = self::EDU_ROLE_STUDENT;
 
     /**
      * 后台角色
      *
      * @var int
      */
-    public $admin_role;
+    public $admin_role = 0;
 
     /**
      * 课程数
      *
      * @var int
      */
-    public $course_count;
+    public $course_count = 0;
 
     /**
      * 文章数
      *
      * @var int
      */
-    public $article_count;
+    public $article_count = 0;
 
     /**
      * 提问数
      *
      * @var int
      */
-    public $question_count;
+    public $question_count = 0;
 
     /**
      * 回答数
      *
      * @var int
      */
-    public $answer_count;
+    public $answer_count = 0;
 
     /**
      * 评论数
      *
      * @var int
      */
-    public $comment_count;
+    public $comment_count = 0;
 
     /**
      * 收藏数
      *
      * @var int
      */
-    public $favorite_count;
+    public $favorite_count = 0;
 
     /**
      * 会员期限
      *
      * @var int
      */
-    public $vip_expiry_time;
+    public $vip_expiry_time = 0;
 
     /**
      * 锁定期限
      *
      * @var int
      */
-    public $lock_expiry_time;
+    public $lock_expiry_time = 0;
 
     /**
      * 活跃时间
      *
      * @var int
      */
-    public $active_time;
+    public $active_time = 0;
 
     /**
      * 创建时间
      *
      * @var int
      */
-    public $create_time;
+    public $create_time = 0;
 
     /**
      * 更新时间
      *
      * @var int
      */
-    public $update_time;
+    public $update_time = 0;
 
     public function getSource(): string
     {

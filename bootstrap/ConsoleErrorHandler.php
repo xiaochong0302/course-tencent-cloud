@@ -1,13 +1,18 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace Bootstrap;
 
 use App\Library\Logger as AppLogger;
 use Phalcon\Config as PhConfig;
+use Phalcon\Di\Injectable;
 use Phalcon\Logger\Adapter\File as PhLogger;
-use Phalcon\Mvc\User\Component;
 
-class ConsoleErrorHandler extends Component
+class ConsoleErrorHandler extends Injectable
 {
 
     public function __construct()

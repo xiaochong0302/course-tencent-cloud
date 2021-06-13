@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Console\Tasks;
 
@@ -63,7 +68,6 @@ class VodEventTask extends Task
          * 获取不到时长视为失败
          */
         if ($duration == 0) {
-            $attrs['file']['id'] = $fileId;
             $attrs['file']['status'] = ChapterModel::FS_FAILED;
             $chapter->update(['attrs' => $attrs]);
             return;
@@ -77,7 +81,6 @@ class VodEventTask extends Task
             $vodService->createTransVideoTask($fileId);
         }
 
-        $attrs['file']['id'] = $fileId;
         $attrs['file']['status'] = ChapterModel::FS_TRANSLATING;
         $attrs['duration'] = (int)$duration;
 
@@ -106,7 +109,6 @@ class VodEventTask extends Task
          * 获取不到处理结果视为失败
          */
         if (empty($processResult)) {
-            $attrs['file']['id'] = $fileId;
             $attrs['file']['status'] = ChapterModel::FS_FAILED;
             $chapter->update(['attrs' => $attrs]);
             return;

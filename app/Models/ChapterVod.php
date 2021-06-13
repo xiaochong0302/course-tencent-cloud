@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Models;
 
@@ -43,6 +48,13 @@ class ChapterVod extends Model
     public $file_transcode = [];
 
     /**
+     * 远程资源
+     *
+     * @var array|string
+     */
+    public $file_remote = [];
+
+    /**
      * 创建时间
      *
      * @var int
@@ -67,6 +79,10 @@ class ChapterVod extends Model
             $this->file_transcode = kg_json_encode($this->file_transcode);
         }
 
+        if (is_array($this->file_remote) || is_object($this->file_remote)) {
+            $this->file_remote = kg_json_encode($this->file_remote);
+        }
+
         $this->create_time = time();
     }
 
@@ -76,6 +92,10 @@ class ChapterVod extends Model
             $this->file_transcode = kg_json_encode($this->file_transcode);
         }
 
+        if (is_array($this->file_remote) || is_object($this->file_remote)) {
+            $this->file_remote = kg_json_encode($this->file_remote);
+        }
+
         $this->update_time = time();
     }
 
@@ -83,6 +103,10 @@ class ChapterVod extends Model
     {
         if (is_string($this->file_transcode)) {
             $this->file_transcode = json_decode($this->file_transcode, true);
+        }
+
+        if (is_string($this->file_remote)) {
+            $this->file_remote = json_decode($this->file_remote, true);
         }
 
         if (!empty($this->file_id) && empty($this->file_transcode)) {

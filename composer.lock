@@ -15,16 +15,16 @@
         "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4"
       },
       "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
-                "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+        "type": "zip",
+        "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
+        "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
             },
             "require": {
                 "dasprid/enum": "^1.0.3",
@@ -1199,16 +1199,16 @@
                     "name": "Ashot Khanamiryan",
                     "email": "a.khanamiryan@gmail.com",
                     "homepage": "https://github.com/khanamiryan",
-                    "role": "Developer"
+                  "role": "Developer"
                 }
             ],
-            "description": "QR code decoder / reader",
-            "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder/",
-            "keywords": [
-                "barcode",
-              "qr",
-              "zxing"
-            ],
+          "description": "QR code decoder / reader",
+          "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder/",
+          "keywords": [
+            "barcode",
+            "qr",
+            "zxing"
+          ],
           "support": {
             "issues": "https://github.com/khanamiryan/php-qrcode-detector-decoder/issues",
             "source": "https://github.com/khanamiryan/php-qrcode-detector-decoder/tree/1.0.4"
@@ -1333,16 +1333,16 @@
       "dist": {
         "type": "zip",
         "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1cb1cde8e8dd0f70cc0fe51354a59acad9302084",
-                "reference": "1cb1cde8e8dd0f70cc0fe51354a59acad9302084",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
+        "reference": "1cb1cde8e8dd0f70cc0fe51354a59acad9302084",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
+      "require": {
                 "php": ">=7.2",
                 "psr/log": "^1.0.1"
             },
@@ -5348,15 +5348,15 @@
                     "homepage": "http://riimu.net"
                 }
             ],
-            "description": "Highly customizable alternative to var_export for PHP code generation",
-            "homepage": "http://kit.riimu.net",
-            "keywords": [
-                "code",
-                "encoder",
-                "export",
-                "generator",
-                "variable"
-            ],
+          "description": "Highly customizable alternative to var_export for PHP code generation",
+          "homepage": "http://kit.riimu.net",
+          "keywords": [
+            "code",
+            "encoder",
+            "export",
+            "generator",
+            "variable"
+          ],
           "support": {
             "issues": "https://github.com/Riimu/Kit-PHPEncoder/issues",
             "source": "https://github.com/Riimu/Kit-PHPEncoder/tree/v2.4.1"
@@ -5377,5 +5377,5 @@
     "ext-fileinfo": "*"
   },
   "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+  "plugin-api-version": "2.0.0"
 }

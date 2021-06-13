@@ -28,9 +28,11 @@
             <br>
         </div>
         <div class="layout-sidebar">
-            <div class="sidebar">
-                {{ partial('im/group/show_owner') }}
-            </div>
+            {% if group.owner.id is defined %}
+                <div class="sidebar">
+                    {{ partial('im/group/show_owner') }}
+                </div>
+            {% endif %}
             <div class="sidebar wrap">
                 <button class="layui-btn layui-btn-fluid apply-group" data-id="{{ group.id }}" data-name="{{ group.name }}" data-avatar="{{ group.avatar }}">加入群组</button>
             </div>
