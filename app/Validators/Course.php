@@ -251,13 +251,14 @@ class Course extends Validator
 
         $chapters = $courseRepo->findChapters($course->id);
 
-        $totalCount = $chapters->count();
-
-        $publishedCount = 0;
+        $totalCount = $publishedCount = 0;
 
         foreach ($chapters as $chapter) {
             if ($chapter->parent_id > 0 && $chapter->published == 1) {
                 $publishedCount++;
+            }
+            if ($chapter->parent_id > 0) {
+                $totalCount++;
             }
         }
 
@@ -265,7 +266,7 @@ class Course extends Validator
             throw new BadRequestException('course.pub_chapter_not_found');
         }
 
-        if ($publishedCount / $totalCount < 0.3) {
+        if ($publishedCount / $totalCount < 0.2) {
             throw new BadRequestException('course.pub_chapter_not_enough');
         }
     }

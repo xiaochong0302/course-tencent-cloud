@@ -179,7 +179,7 @@ $error['course.invalid_feature_status'] = '无效的推荐状态';
 $error['course.invalid_publish_status'] = '无效的发布状态';
 $error['course.teacher_not_assigned'] = '尚未指定授课教师';
 $error['course.pub_chapter_not_found'] = '尚未发现已发布的课时';
-$error['course.pub_chapter_not_enough'] = '已发布的课时太少（小于30%）';
+$error['course.pub_chapter_not_enough'] = '已发布的课时太少（小于20%）';
 
 /**
  * 面授课程相关
@@ -259,6 +259,7 @@ $error['chapter.child_existed'] = '不允许相关操作（存在子章节）';
  * 点播相关
  */
 $error['chapter_vod.not_found'] = '点播资源不存在';
+$error['chapter_vod.invalid_duration'] = '无效的视频时长';
 $error['chapter_vod.invalid_file_id'] = '无效的文件编号';
 $error['chapter_vod.invalid_file_url'] = '无效的文件地址';
 $error['chapter_vod.invalid_file_ext'] = '无效的文件格式（目前只支持mp4，m3u8）';
