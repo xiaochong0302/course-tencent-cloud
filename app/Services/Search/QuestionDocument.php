@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Services\Search;
 
@@ -6,9 +11,9 @@ use App\Models\Question as QuestionModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\User as UserRepo;
-use Phalcon\Mvc\User\Component;
+use Phalcon\Di\Injectable;
 
-class QuestionDocument extends Component
+class QuestionDocument extends Injectable
 {
 
     /**

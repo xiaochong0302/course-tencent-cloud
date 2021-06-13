@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>聊天记录</title>
-    <link rel="stylesheet" href="/static/lib/layui/css/layui.css">
+    {{ css_link('lib/layui/css/layui.css') }}
+    {{ css_link('lib/layui/extends/layim/assets/layim.css') }}
     <style>
         body .layim-chat-main {
             height: auto;
         }
-
         #LAY_page {
             margin-bottom: 20px;
             text-align: center;
@@ -27,22 +27,22 @@
 <textarea title="消息模版" id="LAY_tpl" style="display:none;">
 <%# layui.each(d.data, function(index, item) {
   if (item.user.id == parent.layui.layim.cache().mine.id) { %>
-    <li class="layim-chat-mine"><div class="layim-chat-user"><img src="<% item.user.avatar %>"><cite><i><% layui.data.date(item.timestamp) %></i><% item.user.name %></cite></div><div class="layim-chat-text"><% layui.layim.content(item.content) %></div></li>
+    <li class="layim-chat-mine"><div class="layim-chat-user"><img src="<% item.user.avatar %>"><cite><i><% parent.layui.data.date(item.timestamp) %></i><% item.user.name %></cite></div><div class="layim-chat-text"><% parent.layui.layim.content(item.content) %></div></li>
   <%# } else { %>
-    <li><div class="layim-chat-user"><img src="<% item.user.avatar %>"><cite><% item.user.name %><i><% layui.data.date(item.timestamp) %></i></cite></div><div class="layim-chat-text"><% layui.layim.content(item.content) %></div></li>
+    <li><div class="layim-chat-user"><img src="<% item.user.avatar %>"><cite><% item.user.name %><i><% parent.layui.data.date(item.timestamp) %></i></cite></div><div class="layim-chat-text"><% parent.layui.layim.content(item.content) %></div></li>
   <%# }
 }); %>
 </textarea>
 
-<script src="/static/lib/layui/layui.js"></script>
+{{ js_include('lib/layui/layui.js') }}
 
 <script>
-    layui.use(['jquery', 'layim', 'laytpl', 'laypage'], function () {
+
+    layui.use(['jquery', 'laytpl', 'laypage'], function () {
 
         var $ = layui.jquery;
-        var layim = layui.layim;
-        var laytpl = layui.laytpl;
         var laypage = layui.laypage;
+        var laytpl = layui.laytpl;
 
         laytpl.config({
             open: '<%',
@@ -97,6 +97,7 @@
         }
 
     });
+
 </script>
 
 </body>

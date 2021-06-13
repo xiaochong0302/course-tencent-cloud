@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Http\Admin;
 
@@ -10,14 +15,14 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
 class Module implements ModuleDefinitionInterface
 {
 
-    public function registerAutoLoaders(DiInterface $di = null)
+    public function registerAutoLoaders(DiInterface $dependencyInjector = null)
     {
 
     }
 
-    public function registerServices(DiInterface $di)
+    public function registerServices(DiInterface $dependencyInjector)
     {
-        $di->setShared('view', function () {
+        $dependencyInjector->setShared('view', function () {
             $view = new MyView();
             $view->setViewsDir(__DIR__ . '/Views');
             $view->registerEngines([
@@ -26,7 +31,7 @@ class Module implements ModuleDefinitionInterface
             return $view;
         });
 
-        $di->setShared('auth', function () {
+        $dependencyInjector->setShared('auth', function () {
             return new AdminAuth();
         });
     }

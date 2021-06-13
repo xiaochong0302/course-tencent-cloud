@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Services;
 
@@ -14,6 +19,24 @@ class ChapterVod extends Service
 
         $vod = $chapterRepo->findChapterVod($chapterId);
 
+        /**
+         * 腾讯云点播优先
+         */
+        if ($vod->file_id) {
+            $result = $this->getCosPlayUrls($chapterId);
+        } else {
+            $result = $this->getRemotePlayUrls($chapterId);
+        }
+
+        return $result;
+    }
+
+    public function getCosPlayUrls($chapterId)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        $vod = $chapterRepo->findChapterVod($chapterId);
+
         if (empty($vod->file_transcode)) return [];
 
         $vodService = new VodService();
@@ -21,9 +44,28 @@ class ChapterVod extends Service
         $result = [];
 
         foreach ($vod->file_transcode as $key => $file) {
-            $file['url'] = $vodService->getPlayUrl($file['url']);
+            $url = $vodService->getPlayUrl($file['url']);
             $type = $this->getDefinitionType($file['height']);
-            $result[$type] = $file;
+            $result[$type] = ['url' => $url];
+        }
+
+        return $result;
+    }
+
+    public function getRemotePlayUrls($chapterId)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        $vod = $chapterRepo->findChapterVod($chapterId);
+
+        $result = [
+            'od' => ['url' => ''],
+            'hd' => ['url' => ''],
+            'sd' => ['url' => ''],
+        ];
+
+        if (!empty($vod->file_remote)) {
+            $result = $vod->file_remote;
         }
 
         return $result;
