@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Validators;
 
@@ -238,15 +243,15 @@ class Course extends Validator
     {
         if ($course->model == CourseModel::MODEL_OFFLINE) return true;
 
+        if ($course->teacher_id == 0) {
+            throw new BadRequestException('course.teacher_not_assigned');
+        }
+
         $courseRepo = new CourseRepo();
 
         $chapters = $courseRepo->findChapters($course->id);
 
         $totalCount = $chapters->count();
-
-        if ($totalCount == 0) {
-            throw new BadRequestException('course.pub_chapter_not_found');
-        }
 
         $publishedCount = 0;
 
@@ -254,6 +259,10 @@ class Course extends Validator
             if ($chapter->parent_id > 0 && $chapter->published == 1) {
                 $publishedCount++;
             }
+        }
+
+        if ($publishedCount == 0) {
+            throw new BadRequestException('course.pub_chapter_not_found');
         }
 
         if ($publishedCount / $totalCount < 0.3) {

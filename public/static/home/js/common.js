@@ -1,9 +1,9 @@
 layui.config({
-    base: '/static/lib/layui/extends/',
+    layimPath: '/static/lib/layui/extends/layim/',
     layimAssetsPath: '/static/lib/layui/extends/layim/assets/',
 }).extend({
-    layim: 'layim/layim',
-    helper: 'helper',
+    layim: layui.cache.layimPath + 'layim',
+    helper: '/static/lib/layui/extends/helper',
 });
 
 layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {

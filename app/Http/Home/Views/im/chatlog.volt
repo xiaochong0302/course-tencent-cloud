@@ -10,7 +10,6 @@
         body .layim-chat-main {
             height: auto;
         }
-
         #LAY_page {
             margin-bottom: 20px;
             text-align: center;
@@ -28,9 +27,9 @@
 <textarea title="消息模版" id="LAY_tpl" style="display:none;">
 <%# layui.each(d.data, function(index, item) {
   if (item.user.id == parent.layui.layim.cache().mine.id) { %>
-    <li class="layim-chat-mine"><div class="layim-chat-user"><img src="<% item.user.avatar %>"><cite><i><% layui.data.date(item.timestamp) %></i><% item.user.name %></cite></div><div class="layim-chat-text"><% layui.layim.content(item.content) %></div></li>
+    <li class="layim-chat-mine"><div class="layim-chat-user"><img src="<% item.user.avatar %>"><cite><i><% parent.layui.data.date(item.timestamp) %></i><% item.user.name %></cite></div><div class="layim-chat-text"><% parent.layui.layim.content(item.content) %></div></li>
   <%# } else { %>
-    <li><div class="layim-chat-user"><img src="<% item.user.avatar %>"><cite><% item.user.name %><i><% layui.data.date(item.timestamp) %></i></cite></div><div class="layim-chat-text"><% layui.layim.content(item.content) %></div></li>
+    <li><div class="layim-chat-user"><img src="<% item.user.avatar %>"><cite><% item.user.name %><i><% parent.layui.data.date(item.timestamp) %></i></cite></div><div class="layim-chat-text"><% parent.layui.layim.content(item.content) %></div></li>
   <%# }
 }); %>
 </textarea>
@@ -39,11 +38,11 @@
 
 <script>
 
-    layui.use(['jquery', 'laypage'], function () {
+    layui.use(['jquery', 'laytpl', 'laypage'], function () {
 
         var $ = layui.jquery;
         var laypage = layui.laypage;
-        var laytpl = parent.layui.laytpl;
+        var laytpl = layui.laytpl;
 
         laytpl.config({
             open: '<%',

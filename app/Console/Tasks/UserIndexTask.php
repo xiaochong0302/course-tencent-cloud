@@ -1,8 +1,14 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Console\Tasks;
 
 use App\Models\User as UserModel;
+use App\Repos\User as UserRepo;
 use App\Services\Search\UserDocument;
 use App\Services\Search\UserSearcher;
 use Phalcon\Mvc\Model\Resultset;
@@ -72,9 +78,13 @@ class UserIndexTask extends Task
      */
     protected function rebuildUserIndex()
     {
-        $users = $this->findUsers();
+        $limit = 1000;
 
-        if ($users->count() == 0) return;
+        $totalCount = $this->countUsers();
+
+        if ($totalCount == 0) return;
+
+        $page = ceil($totalCount / $limit);
 
         $handler = new UserSearcher();
 
@@ -86,9 +96,20 @@ class UserIndexTask extends Task
 
         $index->beginRebuild();
 
-        foreach ($users as $user) {
-            $document = $documenter->setDocument($user);
-            $index->add($document);
+        for ($i = 0; $i < $page; $i++) {
+
+            $offset = $i * $limit;
+
+            $users = $this->findUsers($limit, $offset);
+
+            if ($users->count() == 0) break;
+
+            foreach ($users as $user) {
+                $document = $documenter->setDocument($user);
+                $index->add($document);
+            }
+
+            echo "------ fetch users: {$limit},{$offset} ------" . PHP_EOL;
         }
 
         $index->endRebuild();
@@ -111,15 +132,22 @@ class UserIndexTask extends Task
     }
 
     /**
-     * 查找课程
-     *
+     * @param int $limit
+     * @param int $offset
      * @return ResultsetInterface|Resultset|UserModel[]
      */
-    protected function findUsers()
+    protected function findUsers($limit, $offset)
     {
         return UserModel::query()
-            ->where('deleted = 0')
+            ->limit($limit, $offset)
             ->execute();
+    }
+
+    protected function countUsers()
+    {
+        $userRepo = new UserRepo();
+
+        return $userRepo->countUsers();
     }
 
 }

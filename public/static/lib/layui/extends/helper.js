@@ -33,7 +33,7 @@ layui.define(['jquery', 'layer'], function (exports) {
         layer.open({
             type: 2,
             title: '在线客服',
-            area: ['600px', '560px'],
+            area: ['600px', '570px'],
             content: ['/im/cs', 'no']
         });
     };

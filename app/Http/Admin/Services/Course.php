@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Http\Admin\Services;
 
@@ -99,7 +104,6 @@ class Course extends Service
             $imGroup->course_id = $course->id;
             $imGroup->name = $course->title;
             $imGroup->about = $course->summary;
-            $imGroup->published = 1;
 
             if ($imGroup->create() === false) {
                 throw new \RuntimeException('Create ImGroup Failed');
@@ -609,6 +613,10 @@ class Course extends Service
 
         if ($course->title != $group->name) {
             $data['name'] = $course->title;
+        }
+
+        if ($course->published != $group->published) {
+            $data['published'] = $course->published;
         }
 
         if ($course->teacher_id > 0 && $group->owner_id == 0) {
