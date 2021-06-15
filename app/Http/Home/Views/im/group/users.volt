@@ -1,7 +1,7 @@
 <div class="user-list group-user-list clearfix">
     <div class="layui-row layui-col-space20">
         {% for item in pager.items %}
-            {% set user_url = url({'for':'home.user.show','id':item.id}) %}
+            {% set user_url = url({'for':'home.user.show','id':item.user.id}) %}
             {% set avatar_class = item.user.vip == 1 ? 'avatar vip' : 'avatar' %}
             <div class="layui-col-md3">
                 <div class="user-card">
