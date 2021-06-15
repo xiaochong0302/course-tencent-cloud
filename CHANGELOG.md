@@ -1,3 +1,16 @@
+### [v1.3.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.7)(2021-06-14)
+
+### 更新
+
+- 升级layui到v2.6.8
+- 升级腾讯云播放器到v2.4.0
+- 点播增加外链支持
+- 源文件增加版权信息
+- 优化模块继承基类
+- 优化评论审核机制
+- 优化课程和群组状态协同逻辑
+- 优化用户索引重建逻辑
+
 ### [v1.3.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.6)(2021-06-04)
 
 ### 更新
