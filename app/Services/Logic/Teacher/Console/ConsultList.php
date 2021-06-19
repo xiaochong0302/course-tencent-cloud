@@ -30,10 +30,12 @@ class ConsultList extends LogicService
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
+        $params['course_id'] = 0;
+
         $courses = $this->findTeachingCourses($user->id);
 
-        if ($courses->count() == 0) {
-            return [];
+        if ($courses->count() > 0) {
+            $params['course_id'] = kg_array_column($courses->toArray(), 'id');
         }
 
         $params['status'] = $params['status'] ?? null;
@@ -43,8 +45,6 @@ class ConsultList extends LogicService
         } elseif ($params['status'] == 'replied') {
             $params['replied'] = 1;
         }
-
-        $params['course_id'] = kg_array_column($courses->toArray(), 'id');
 
         $pager = $this->paginate($params, $page, $limit);
 
