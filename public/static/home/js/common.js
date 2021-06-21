@@ -3,6 +3,7 @@ layui.config({
     layimAssetsPath: '/static/lib/layui/extends/layim/assets/',
 }).extend({
     layim: layui.cache.layimPath + 'layim',
+    layarea: '/static/lib/layui/extends/layarea',
     helper: '/static/lib/layui/extends/helper',
 });
 
