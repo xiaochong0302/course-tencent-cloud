@@ -14,7 +14,7 @@ layui.use(['jquery', 'layer'], function () {
             type: 2,
             title: '媒体播放器',
             resize: false,
-            area: ['720px', '445px'],
+            area: ['720px', '456px'],
             content: [frameUrl, 'no']
         });
 
