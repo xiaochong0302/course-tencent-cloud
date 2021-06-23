@@ -141,8 +141,10 @@ $error['question.invalid_reject_reason'] = '无效的拒绝理由';
 $error['question.edit_not_allowed'] = '当前不允许编辑问题';
 $error['question.delete_not_allowed'] = '当前不允许删除问题';
 
+$error['answer.not_found'] = '回答不存在';
 $error['answer.content_too_short'] = '内容太短（少于10个字符）';
 $error['answer.content_too_long'] = '内容太长（多于30000个字符）';
+$error['answer.invalid_reject_reason'] = '无效的拒绝理由';
 $error['answer.post_not_allowed'] = '当前不允许发布回答';
 $error['answer.edit_not_allowed'] = '当前不允许编辑回答';
 $error['answer.delete_not_allowed'] = '当前不允许删除回答';
@@ -155,7 +157,8 @@ $error['comment.parent_not_found'] = '上级评论不存在';
 $error['comment.to_user_not_found'] = '回复用户不存在';
 $error['comment.invalid_item_type'] = '无效的条目类型';
 $error['comment.invalid_publish_status'] = '无效的发布状态';
-$error['comment.content_too_short'] = '内容太短（少于10个字符）';
+$error['comment.invalid_reject_reason'] = '无效的拒绝理由';
+$error['comment.content_too_short'] = '内容太短（少于2个字符）';
 $error['comment.content_too_long'] = '内容太长（多于1000个字符）';
 
 /**
