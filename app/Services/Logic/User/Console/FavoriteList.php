@@ -31,6 +31,8 @@ class FavoriteList extends LogicService
 
         $params['user_id'] = $user->id;
 
+        $params['deleted'] = 0;
+
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
