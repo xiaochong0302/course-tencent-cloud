@@ -76,7 +76,7 @@
                     type: 2,
                     title: '拉流测试',
                     resize: false,
-                    area: ['720px', '445px'],
+                    area: ['720px', '456px'],
                     content: [url, 'no']
                 });
             });

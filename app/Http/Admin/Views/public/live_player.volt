@@ -33,13 +33,12 @@
             var options = {
                 live: true,
                 autoplay: true,
-                h5_flv: true,
                 width: 720,
                 height: 405
             };
 
             var playUrls = JSON.parse('{{ pull_urls|json_encode }}');
-            var formats = ['rtmp', 'flv', 'm3u8'];
+            var formats = ['m3u8'];
             var rates = ['od', 'hd', 'sd'];
 
             $.each(formats, function (i, format) {
