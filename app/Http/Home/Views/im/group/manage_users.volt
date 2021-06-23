@@ -37,7 +37,7 @@
                 <td>{{ gender_info(item.user.gender) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td class="center">
-                    {% if item.user.id == group.owner.id %}
+                    {% if item.user.id != group.owner.id %}
                         <button class="layui-btn layui-btn-sm layui-bg-red kg-delete" data-url="{{ delete_url }}">删除</button>
                     {% else %}
                         <button class="layui-btn layui-btn-sm layui-btn-disabled">删除</button>
