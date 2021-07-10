@@ -46,10 +46,38 @@
 {% block inline_css %}
 
     <style>
+        html {
+            height: 95%;
+        }
+
         body {
-            background: #f2f2f2;
+            background: #16a085;
+        }
+
+        .circles {
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.5;
+            z-index: -1;
         }
     </style>
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('lib/jquery.min.js') }}
+    {{ js_include('lib/jquery.buoyant.min.js') }}
+
+    {% if captcha.enabled == 1 %}
+
+        {{ js_include('https://ssl.captcha.qq.com/TCaptcha.js', false) }}
+
+    {% endif %}
 
 {% endblock %}
 
@@ -61,9 +89,16 @@
         }
     </script>
 
-    {% if captcha.enabled == 1 %}
+    <script>
+        $('body').buoyant({
+            elementClass: 'circles',
+            numberOfItems: 20,
+            minRadius: 5,
+            maxRadius: 30,
+        });
+    </script>
 
-        {{ js_include('https://ssl.captcha.qq.com/TCaptcha.js', false) }}
+    {% if captcha.enabled == 1 %}
 
         <script>
 
