@@ -32,10 +32,13 @@ class CommentInfo extends LogicService
         return [
             'id' => $comment->id,
             'content' => $comment->content,
+            'published' => $comment->published,
+            'deleted' => $comment->deleted,
             'parent_id' => $comment->parent_id,
             'like_count' => $comment->like_count,
             'reply_count' => $comment->reply_count,
             'create_time' => $comment->create_time,
+            'update_time' => $comment->update_time,
             'owner' => $owner,
             'to_user' => $toUser,
         ];

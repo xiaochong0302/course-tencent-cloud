@@ -10,17 +10,16 @@
     <div class="account-wrap wrap">
         <form class="layui-form account-form" method="POST" action="{{ url({'for':'home.account.do_register'}) }}">
             <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <input id="cv-account" class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
-                </div>
+                <label class="layui-icon layui-icon-username"></label>
+                <input id="cv-account" class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
             </div>
             <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码（字母数字特殊字符6-16位）" lay-verify="required">
-                </div>
+                <label class="layui-icon layui-icon-password"></label>
+                <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码（字母数字特殊字符6-16位）" lay-verify="required">
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-inline verify-input-inline">
+                    <label class="layui-icon layui-icon-vercode"></label>
                     <input class="layui-input" type="text" name="verify_code" placeholder="验证码" lay-verify="required">
                 </div>
                 <div class="layui-input-inline verify-btn-inline">

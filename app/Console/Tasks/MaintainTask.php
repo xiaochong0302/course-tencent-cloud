@@ -9,6 +9,7 @@ namespace App\Console\Tasks;
 
 use App\Http\Admin\Services\Setting as SettingService;
 use App\Library\Utils\Password as PasswordUtil;
+use App\Models\ChapterVod as ChapterVodModel;
 use App\Services\Utils\IndexCourseCache as IndexCourseCacheUtil;
 use App\Validators\Account as AccountValidator;
 
@@ -117,6 +118,30 @@ class MaintainTask extends Task
         $service->updateSettings('site', ['status' => 'normal']);
 
         echo '------ enable site success ------' . PHP_EOL;
+    }
+
+    /**
+     * 清理点播转码缓存
+     *
+     * @command: php console.php maintain clear_file_transcode
+     */
+    public function clearFileTranscodeAction()
+    {
+        $chapterVodModel = new ChapterVodModel();
+
+        $tableName = $chapterVodModel->getSource();
+
+        $data = ['file_transcode' => '[]'];
+
+        $fields = array_keys($data);
+
+        $values = array_values($data);
+
+        $where = ['conditions' => 'file_id > 0'];
+
+        $this->db->update($tableName, $fields, $values, $where);
+
+        echo '------ clear file transcode success ------' . PHP_EOL;
     }
 
 }

@@ -25,6 +25,10 @@ class PageController extends Controller
 
         $page = $service->handle($id);
 
+        if ($page['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         if ($page['me']['owned'] == 0) {
             $this->response->redirect(['for' => 'home.error.403']);
         }

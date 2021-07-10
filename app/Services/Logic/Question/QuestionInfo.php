@@ -58,6 +58,7 @@ class QuestionInfo extends LogicService
             'solved' => $question->solved,
             'closed' => $question->closed,
             'published' => $question->published,
+            'deleted' => $question->deleted,
             'view_count' => $question->view_count,
             'like_count' => $question->like_count,
             'answer_count' => $question->answer_count,

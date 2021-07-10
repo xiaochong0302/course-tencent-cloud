@@ -56,6 +56,10 @@ class AnswerController extends Controller
 
         $answer = $service->handle($id);
 
+        if ($answer['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         $questionId = $answer['question']['id'];
 
         if ($answer['me']['owned'] == 0) {

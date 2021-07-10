@@ -51,6 +51,10 @@ class ImGroupController extends Controller
 
         $group = $service->getGroup($id);
 
+        if ($group['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         $this->seo->prependTitle([$group['name'], '群组']);
 
         $this->view->pick('im/group/show');

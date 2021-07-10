@@ -53,8 +53,12 @@ class ImGroup extends Service
             'name' => $group->name,
             'avatar' => $group->avatar,
             'about' => $group->about,
+            'published' => $group->published,
+            'deleted' => $group->deleted,
             'user_count' => $group->user_count,
             'msg_count' => $group->msg_count,
+            'create_time' => $group->create_time,
+            'update_time' => $group->update_time,
             'owner' => $owner,
         ];
     }

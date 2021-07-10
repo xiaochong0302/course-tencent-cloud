@@ -55,6 +55,7 @@ class ArticleInfo extends LogicService
             'private' => $article->private,
             'closed' => $article->closed,
             'published' => $article->published,
+            'deleted' => $article->deleted,
             'source_type' => $article->source_type,
             'source_url' => $article->source_url,
             'word_count' => $article->word_count,

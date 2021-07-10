@@ -4,6 +4,21 @@
 
     {{ partial('macros/answer') }}
 
+    {% set search_url = url({'for':'admin.answer.search'}) %}
+
+    <div class="kg-nav">
+        <div class="kg-nav-left">
+            <span class="layui-breadcrumb">
+                <a><cite>回答管理</cite></a>
+            </span>
+        </div>
+        <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
+                <i class="layui-icon layui-icon-search"></i>搜索回答
+            </a>
+        </div>
+    </div>
+
     <table class="layui-table kg-table layui-form">
         <colgroup>
             <col>

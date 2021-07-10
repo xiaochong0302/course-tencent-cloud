@@ -26,6 +26,10 @@ class PackageController extends Controller
 
         $package = $service->handle($id);
 
+        if ($package['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         $this->seo->prependTitle(['套餐', $package['title']]);
 
         $this->view->setVar('package', $package);
