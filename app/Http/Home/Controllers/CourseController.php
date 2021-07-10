@@ -77,6 +77,10 @@ class CourseController extends Controller
 
         $course = $service->handle($id);
 
+        if ($course['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         $service = new CourseChapterListService();
 
         $chapters = $service->handle($id);

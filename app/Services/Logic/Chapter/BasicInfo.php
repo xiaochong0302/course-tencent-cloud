@@ -75,12 +75,16 @@ class BasicInfo extends LogicService
             'title' => $chapter->title,
             'summary' => $chapter->summary,
             'model' => $chapter->model,
+            'published' => $chapter->published,
+            'deleted' => $chapter->deleted,
             'play_urls' => $playUrls,
             'resource_count' => $chapter->resource_count,
             'comment_count' => $chapter->comment_count,
             'consult_count' => $chapter->consult_count,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
+            'create_time' => $chapter->create_time,
+            'update_time' => $chapter->update_time,
         ];
     }
 
@@ -101,6 +105,8 @@ class BasicInfo extends LogicService
             'title' => $chapter->title,
             'summary' => $chapter->summary,
             'model' => $chapter->model,
+            'published' => $chapter->published,
+            'deleted' => $chapter->deleted,
             'play_urls' => $playUrls,
             'start_time' => $live->start_time,
             'end_time' => $live->end_time,
@@ -110,6 +116,8 @@ class BasicInfo extends LogicService
             'consult_count' => $chapter->consult_count,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
+            'create_time' => $chapter->create_time,
+            'update_time' => $chapter->update_time,
         ];
     }
 
@@ -127,11 +135,15 @@ class BasicInfo extends LogicService
             'summary' => $chapter->summary,
             'model' => $chapter->model,
             'content' => $read->content,
+            'published' => $chapter->published,
+            'deleted' => $chapter->deleted,
             'resource_count' => $chapter->resource_count,
             'comment_count' => $chapter->comment_count,
             'consult_count' => $chapter->consult_count,
             'user_count' => $chapter->user_count,
             'like_count' => $chapter->like_count,
+            'create_time' => $chapter->create_time,
+            'update_time' => $chapter->update_time,
         ];
     }
 

@@ -126,6 +126,23 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
         window.history.back();
     });
 
+    $('.markdown-body').on('click', 'img', function () {
+        var width = $(window).width() * 0.8 + 'px';
+        var height = $(window).height() * 0.8 + 'px';
+        var src = $(this).attr('src');
+        var style = 'max-width:' + width + ';max-height:' + height;
+        var content = '<img alt="preview" src="' + src + '" style="' + style + '">';
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            area: ['auto'],
+            skin: 'layui-layer-nobg',
+            shadeClose: true,
+            content: content,
+        });
+    });
+
     $('.nav-search').on('click', function () {
         var content = '<form action="' + $(this).data('url') + '">';
         content += '<input type="text" name="query" autocomplete="off" placeholder="搜索内容，回车跳转">';

@@ -49,6 +49,8 @@ class BasicInfo extends LogicService
             'model' => $course->model,
             'level' => $course->level,
             'attrs' => $course->attrs,
+            'published' => $course->published,
+            'deleted' => $course->deleted,
             'user_count' => $course->user_count,
             'lesson_count' => $course->lesson_count,
             'resource_count' => $course->resource_count,
@@ -56,6 +58,8 @@ class BasicInfo extends LogicService
             'review_count' => $course->review_count,
             'consult_count' => $course->consult_count,
             'favorite_count' => $course->favorite_count,
+            'create_time' => $course->create_time,
+            'update_time' => $course->update_time,
         ];
     }
 

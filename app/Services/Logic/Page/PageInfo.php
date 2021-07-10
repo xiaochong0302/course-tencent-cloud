@@ -36,6 +36,8 @@ class PageInfo extends LogicService
             'id' => $page->id,
             'title' => $page->title,
             'content' => $page->content,
+            'published' => $page->published,
+            'deleted' => $page->deleted,
             'create_time' => $page->create_time,
             'update_time' => $page->update_time,
             'me' => $me,

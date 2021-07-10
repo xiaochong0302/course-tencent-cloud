@@ -100,33 +100,55 @@
 
 .kg-login-wrap {
     width: 500px;
-    margin: 100px auto;
+    margin: 150px auto 100px;
+}
+
+.kg-login-wrap .layui-card {
+    border-radius: 5px;
 }
 
 .kg-login-wrap .layui-card-header {
     height: 50px;
-    line-height: 50px;
+    line-height: 60px;
     text-align: center;
     font-size: 16px;
 }
 
-.kg-login-form {
-    padding: 15px 10px 5px 10px;
+.kg-login-wrap .layui-card-body {
+    padding: 30px 50px;
 }
 
 .kg-login-form .layui-input-block {
     margin-left: 0;
 }
 
+.kg-login-form .layui-form-item {
+    position: relative;
+}
+
+.kg-login-form .layui-form-item label {
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 38px;
+    line-height: 36px;
+    text-align: center;
+    color: #d2d2d2;
+}
+
+.kg-login-form .layui-form-item input {
+    padding-left: 36px;
+}
+
 .kg-login-copyright {
     margin-top: -80px;
-    color: #666;
+    color: #fff;
     font-size: 12px;
     text-align: center;
 }
 
 .kg-login-copyright a {
-    color: #666;
+    color: #fff;
 }
 
 .kg-input-inline {

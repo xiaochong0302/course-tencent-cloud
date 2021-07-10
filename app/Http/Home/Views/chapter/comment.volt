@@ -9,7 +9,7 @@
             <div class="toolbar"></div>
             <div class="action">
                 <button class="layui-btn layui-btn-sm" lay-submit="true" lay-filter="add_comment">发布</button>
-                <button class="layui-btn layui-btn-sm layui-bg-gray" id="btn-cancel-comment" type="button">取消</button>
+                <button class="layui-btn layui-btn-sm layui-btn-primary" id="btn-cancel-comment" type="button">取消</button>
             </div>
         </div>
         <input type="hidden" name="item_id" value="{{ chapter.id }}">

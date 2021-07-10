@@ -399,7 +399,6 @@
     margin-bottom: 10px;
     line-height: 1.5em;
     max-height: 4.5em;
-    font-size: 12px;
     color: #666;
     overflow: hidden;
     overflow-wrap: break-word;
@@ -462,36 +461,6 @@
     color: #666;
 }
 
-.article-sort,
-.question-sort {
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #e6e6e6;
-}
-
-.article-sort a,
-.question-sort a {
-    margin-right: 20px;
-}
-
-.article-cate-list li {
-    padding: 5px 0;
-    border-radius: 3px;
-    text-align: center;
-}
-
-.article-cate-list .active {
-    background-color: #009688;
-}
-
-.article-cate-list a {
-    display: block;
-}
-
-.article-cate-list .active a {
-    color: #fff;
-}
-
 .article-list {
     margin-bottom: 20px;
 }
@@ -509,12 +478,14 @@
 }
 
 .article-card .info {
-    width: 550px;
+    flex: 1 1 auto;
 }
 
 .article-card .cover {
+    flex: 0 0 auto;
     width: 150px;
     height: 84px;
+    margin-left: 10px;
 }
 
 .article-card .cover img {
@@ -533,7 +504,6 @@
 
 .article-card .summary {
     color: #666;
-    font-size: 12px;
     line-height: 1.5em;
     max-height: 4.5em;
     margin-bottom: 10px;
@@ -1327,11 +1297,6 @@
     color: gray;
 }
 
-.read-info {
-    min-height: 428px;
-    margin-bottom: 20px;
-}
-
 .share .layui-icon {
     margin-right: 5px;
     cursor: pointer;
@@ -1623,6 +1588,24 @@
 .account-form {
     width: 400px;
     margin: 0 auto;
+}
+
+.account-form .layui-form-item {
+    position: relative;
+}
+
+.account-form .layui-form-item label {
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 38px;
+    line-height: 36px;
+    text-align: center;
+    color: #d2d2d2;
+}
+
+.account-form .layui-form-item input {
+    padding-left: 36px;
 }
 
 .account-form .layui-input-block {

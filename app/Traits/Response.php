@@ -11,9 +11,26 @@ use Phalcon\Config;
 use Phalcon\Di;
 use Phalcon\Http\Request as HttpRequest;
 use Phalcon\Http\Response as HttpResponse;
+use Phalcon\Mvc\Dispatcher;
 
 trait Response
 {
+
+    public function notFound()
+    {
+        /**
+         * @var Dispatcher $dispatcher
+         */
+        $dispatcher = Di::getDefault()->getShared('dispatcher');
+
+        $dispatcher->forward([
+            'module' => 'home',
+            'controller' => 'error',
+            'action' => 'show404',
+        ]);
+
+        return false;
+    }
 
     public function setCors()
     {

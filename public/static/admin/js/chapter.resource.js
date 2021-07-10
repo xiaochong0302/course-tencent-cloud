@@ -106,8 +106,6 @@ layui.use(['jquery', 'element', 'layer'], function () {
     function getKeyName(filename) {
         var ext = getFileExtension(filename);
         var date = new Date();
-        var year = date.getFullYear();
-        var month = ('0' + (date.getMonth() + 1)).slice(-2);
         var name = [
             date.getDate(),
             date.getHours(),
@@ -115,7 +113,7 @@ layui.use(['jquery', 'element', 'layer'], function () {
             date.getSeconds(),
             Math.round(10000 * Math.random())
         ].join('');
-        return '/resource/' + year + '/' + month + '/' + name + '.' + ext;
+        return '/resource/' + name + '.' + ext;
     }
 
     function getFileExtension(filename) {

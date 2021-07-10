@@ -35,6 +35,8 @@ class ReviewInfo extends LogicService
             'rating1' => $review->rating1,
             'rating2' => $review->rating2,
             'rating3' => $review->rating3,
+            'published' => $review->published,
+            'deleted' => $review->deleted,
             'like_count' => $review->like_count,
             'create_time' => $review->create_time,
             'update_time' => $review->update_time,

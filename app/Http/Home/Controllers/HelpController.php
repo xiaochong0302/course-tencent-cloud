@@ -40,6 +40,10 @@ class HelpController extends Controller
 
         $help = $service->handle($id);
 
+        if ($help['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         $featuredCourses = $this->getFeaturedCourses();
 
         $this->seo->prependTitle(['帮助', $help['title']]);

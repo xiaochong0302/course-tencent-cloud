@@ -429,9 +429,7 @@ function kg_cos_img_style_trim($path)
  */
 function kg_parse_markdown($content)
 {
-    $content = preg_replace_callback('/\/img\/content\/(.*?)\)/', function ($matches) {
-        return sprintf('/img/content/%s!content_800)', trim($matches[1]));
-    }, $content);
+    $content = str_replace('!content_800', '', $content);
 
     $parser = new League\CommonMark\GithubFlavoredMarkdownConverter([
         'html_input' => 'strip',
