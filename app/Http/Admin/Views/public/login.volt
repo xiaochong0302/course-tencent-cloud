@@ -99,13 +99,9 @@
     </script>
 
     {% if captcha.enabled == 1 %}
-
         <script>
-
             layui.use(['jquery', 'form'], function () {
-
                 var $ = layui.jquery;
-
                 new TencentCaptcha(
                     $('#captcha-btn')[0],
                     $('#captcha-btn').data('app-id'),
@@ -118,11 +114,8 @@
                         }
                     }
                 );
-
             });
-
         </script>
-
     {% endif %}
 
 {% endblock %}
