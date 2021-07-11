@@ -25,7 +25,7 @@ class TopAnswererList extends Cache
 
     public function getKey($id = null)
     {
-        return 'question_top_answerer_list';
+        return 'top_answerer_list';
     }
 
     public function getContent($id = null)

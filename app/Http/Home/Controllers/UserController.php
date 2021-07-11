@@ -31,6 +31,10 @@ class UserController extends Controller
 
         $user = $service->handle($id);
 
+        if ($user['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         $this->seo->prependTitle([$user['name'], '个人主页']);
 
         $this->view->setVar('user', $user);

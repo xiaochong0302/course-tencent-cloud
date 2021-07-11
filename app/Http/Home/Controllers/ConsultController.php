@@ -37,6 +37,10 @@ class ConsultController extends Controller
 
         $consult = $service->handle($id);
 
+        if ($consult['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         $this->view->setVar('consult', $consult);
     }
 

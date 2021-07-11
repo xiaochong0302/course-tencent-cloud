@@ -68,6 +68,10 @@ class PointGiftController extends Controller
 
         $gift = $service->handle($id);
 
+        if ($gift['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         $hotGifts = $this->getHotGifts();
         $userBalance = $this->getUserBalance();
 

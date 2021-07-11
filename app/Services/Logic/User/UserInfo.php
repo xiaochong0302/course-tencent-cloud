@@ -40,6 +40,7 @@ class UserInfo extends LogicService
             'gender' => $user->gender,
             'vip' => $user->vip,
             'locked' => $user->locked,
+            'deleted' => $user->deleted,
             'course_count' => $user->course_count,
             'article_count' => $user->article_count,
             'question_count' => $user->question_count,

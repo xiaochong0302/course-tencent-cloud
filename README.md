@@ -4,17 +4,17 @@
 
 ### 项目介绍
 
-酷瓜云课堂，依托腾讯云基础服务架构，采用C扩展框架Phalcon开发，GPL-2.0开源协议，致力开源网课系统，开源网校系统，开源在线教育系统。
+酷瓜云课堂，依托腾讯云基础服务架构，采用C扩展框架Phalcon开发，GPL-2.0开源协议，致力开源网课系统，开源网校系统，开源知识付费系统，开源在线教育系统。
 
 [![Gitee star](https://gitee.com/koogua/course-tencent-cloud/badge/star.svg?theme=gitee)](https://gitee.com/koogua/course-tencent-cloud)
 [![Gitee fork](https://gitee.com/koogua/course-tencent-cloud/badge/fork.svg?theme=gitee)](https://gitee.com/koogua/course-tencent-cloud)
-[![Github stars](https://img.shields.io/github/stars/mindskip/xzs-mysql?logo=github)](https://github.com/xiaochong0302/course-tencent-cloud)
-[![Github forks](https://img.shields.io/github/forks/mindskip/xzs-mysql?logo=github)](https://github.com/xiaochong0302/course-tencent-cloud)
+[![Github stars](https://img.shields.io/github/stars/xiaochong0302/course-tencent-cloud?logo=github)](https://github.com/xiaochong0302/course-tencent-cloud)
+[![Github forks](https://img.shields.io/github/forks/xiaochong0302/course-tencent-cloud?logo=github)](https://github.com/xiaochong0302/course-tencent-cloud)
 ![GPL-2.0](https://img.shields.io/static/v1?label=license&message=GPL-2.0&color=blue)
 
 ### 系统功能
 
-实现了点播、直播、专栏、面授、问答、会员、群组、积分、秒杀等，100%真开源在线教育解决方案。
+实现了点播、直播、专栏、面授、问答、会员、群组、微聊、积分、秒杀等。
 
 友情提示：
 
@@ -57,7 +57,7 @@ Tips: 请用手机注册一个新账号，用户中心 -> 关注订阅，扫码�
 ### 项目组件
 
 - 后台框架：[phalcon 3.4.5](https://phalcon.io)
-- 前端框架：[layui 2.5.6](https://layui.com)， [layim 3.9.5](https://www.layui.com/layim)（已授权）
+- 前端框架：[layui 2.6.8](https://layui.com)， [layim 3.9.8](https://www.layui.com/layim)（已授权）
 - 全文检索：[xunsearch 1.4.9](http://www.xunsearch.com)
 - 即时通讯：[workerman 3.5.22](https://workerman.net)
 - 基础依赖：[php7.3](https://php.net)， [mysql5.7](https://mysql.com)， [redis5.0](https://redis.io)
@@ -70,8 +70,8 @@ Tips: 请用手机注册一个新账号，用户中心 -> 关注订阅，扫码�
 
 ### 意见反馈
 
-- [在线反馈](https://gitee.com/koogua/course-tencent-cloud/issues)（推荐）
-- [官方论坛](https://koogua.com/forum)（推荐）
+- [码云平台](https://gitee.com/koogua/course-tencent-cloud/issues)
+- [官方社区](https://koogua.com/community)
 - QQ交流群: 787363898
 
 ### 有阿里云版吗？

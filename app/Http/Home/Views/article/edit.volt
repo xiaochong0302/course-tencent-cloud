@@ -37,7 +37,6 @@
                         <label class="layui-form-label">分类标签</label>
                         <div class="layui-input-block">
                             <div id="xm-tag-ids"></div>
-                            <input type="hidden" name="xm_tags" value='{{ xm_tags|json_encode }}'>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -81,6 +80,10 @@
                 </div>
             </div>
         </form>
+    </div>
+
+    <div class="layui-hide">
+        <input type="hidden" name="xm_tags" value='{{ xm_tags|json_encode }}'>
     </div>
 
 {% endblock %}

@@ -26,9 +26,11 @@ class IndexController extends Controller
         $topMenus = $indexService->getTopMenus();
         $leftMenus = $indexService->getLeftMenus();
         $appInfo = $indexService->getAppInfo();
+        $siteInfo = $indexService->getSiteInfo();
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('app_info', $appInfo);
+        $this->view->setVar('site_info', $siteInfo);
         $this->view->setVar('top_menus', $topMenus);
         $this->view->setVar('left_menus', $leftMenus);
     }

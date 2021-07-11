@@ -34,6 +34,8 @@ class ConsultInfo extends LogicService
             'answer' => $consult->answer,
             'rating' => $consult->rating,
             'private' => $consult->private,
+            'published' => $consult->published,
+            'deleted' => $consult->deleted,
             'like_count' => $consult->like_count,
             'create_time' => $consult->create_time,
             'update_time' => $consult->update_time,

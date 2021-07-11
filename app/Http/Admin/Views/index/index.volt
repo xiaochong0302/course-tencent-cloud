@@ -13,7 +13,7 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">酷瓜云课堂</div>
+        <div class="layui-logo">{{ site_info.title }}</div>
         <div class="kg-side-menu-bar">
             <a href="javascript:"><i class="layui-icon layui-icon-spread-left"></i></a>
         </div>

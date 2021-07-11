@@ -102,6 +102,10 @@ class ArticleController extends Controller
 
         $article = $service->handle($id);
 
+        if ($article['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         if ($article['me']['owned'] == 0) {
             $this->response->redirect(['for' => 'home.error.403']);
         }

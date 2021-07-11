@@ -95,6 +95,7 @@
 
 .markdown-body img {
     border-style: none;
+    cursor: pointer;
 }
 
 .markdown-body code,
