@@ -29,6 +29,10 @@ class TopicInfo extends LogicService
             'id' => $topic->id,
             'title' => $topic->title,
             'summary' => $topic->summary,
+            'published' => $topic->published,
+            'deleted' => $topic->deleted,
+            'create_time' => $topic->create_time,
+            'update_time' => $topic->update_time,
         ];
     }
 

@@ -13,9 +13,9 @@
 
     <div class="kg-center">
         {% if trade.status == 2 %}
-            <button class="kg-refund layui-btn layui-bg-green" data-url="{{ refund_url }}">申请退款</button>
+            <button class="kg-refund layui-btn" data-url="{{ refund_url }}">申请退款</button>
         {% endif %}
-        <button class="kg-back layui-btn layui-bg-gray">返回上页</button>
+        <button class="kg-back layui-btn layui-btn-primary">返回上页</button>
     </div>
 
     {% if refunds.count() > 0 %}

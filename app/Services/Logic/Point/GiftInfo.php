@@ -37,8 +37,12 @@ class GiftInfo extends LogicService
             'type' => $gift->type,
             'stock' => $gift->stock,
             'point' => $gift->point,
+            'published' => $gift->published,
+            'deleted' => $gift->deleted,
             'redeem_limit' => $gift->redeem_limit,
             'redeem_count' => $gift->redeem_count,
+            'create_time' => $gift->create_time,
+            'update_time' => $gift->update_time,
         ];
     }
 

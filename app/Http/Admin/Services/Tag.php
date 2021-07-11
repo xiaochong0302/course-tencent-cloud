@@ -67,7 +67,7 @@ class Tag extends Service
 
         if (isset($post['name'])) {
             $data['name'] = $validator->checkName($post['name']);
-            if ($data['name'] != $tag->name) {
+            if (strtolower($data['name']) != strtolower($tag->name)) {
                 $validator->checkIfNameExists($data['name']);
             }
         }

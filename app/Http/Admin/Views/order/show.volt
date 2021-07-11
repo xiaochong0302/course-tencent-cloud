@@ -10,7 +10,7 @@
     <br>
 
     <div class="kg-center">
-        <button class="layui-btn layui-bg-gray kg-back">返回上页</button>
+        <button class="layui-btn layui-btn-primary kg-back">返回上页</button>
     </div>
 
     {% if refunds.count() > 0 %}

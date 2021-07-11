@@ -47,6 +47,11 @@ class Index extends Service
         return $appInfo;
     }
 
+    public function getSiteInfo()
+    {
+        return $this->getSettings('site');
+    }
+
     public function getServerInfo()
     {
         return [

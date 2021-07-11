@@ -1,13 +1,11 @@
 <form class="layui-form account-form" method="POST" action="{{ url({'for':'home.account.pwd_login'}) }}">
     <div class="layui-form-item">
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
-        </div>
+        <label class="layui-icon layui-icon-username"></label>
+        <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
     </div>
     <div class="layui-form-item">
-        <div class="layui-input-block">
-            <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
-        </div>
+        <label class="layui-icon layui-icon-password"></label>
+        <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
     </div>
     <div id="captcha-block" class="layui-form-item">
         <div class="layui-input-block">

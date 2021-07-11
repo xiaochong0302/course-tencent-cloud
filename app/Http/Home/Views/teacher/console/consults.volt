@@ -12,7 +12,7 @@
         <div class="my-content">
             <div class="wrap">
                 <div class="my-nav">
-                    <span class="title">用户咨询</span>
+                    <span class="title">课程咨询</span>
                     {% for key,value in status_types %}
                         {% set class = (status == key) ? 'layui-btn layui-btn-xs' : 'none' %}
                         {% set url = url({'for':'home.tc.consults'},{'status':key}) %}

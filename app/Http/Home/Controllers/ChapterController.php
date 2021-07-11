@@ -43,6 +43,10 @@ class ChapterController extends Controller
 
         $chapter = $service->handle($id);
 
+        if ($chapter['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         $service = new CourseInfoService();
 
         $course = $service->handle($chapter['course']['id']);

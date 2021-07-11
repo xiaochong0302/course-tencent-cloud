@@ -7,18 +7,16 @@
 
     <div class="kg-login-wrap">
         <div class="layui-card">
-            <div class="layui-card-header">管理登录</div>
+            <div class="layui-card-header">后台登录</div>
             <div class="layui-card-body">
                 <form class="layui-form kg-login-form" method="POST" action="{{ url({'for':'admin.login'}) }}">
                     <div class="layui-form-item">
-                        <div class="layui-input-block">
-                            <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
-                        </div>
+                        <label class="layui-icon layui-icon-username"></label>
+                        <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
                     </div>
                     <div class="layui-form-item">
-                        <div class="layui-input-block">
-                            <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
-                        </div>
+                        <label class="layui-icon layui-icon-password"></label>
+                        <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
                     </div>
                     {% if captcha.enabled == 1 %}
                         <div id="captcha-block" class="layui-form-item">
@@ -48,10 +46,38 @@
 {% block inline_css %}
 
     <style>
+        html {
+            height: 95%;
+        }
+
         body {
-            background: #f2f2f2;
+            background: #16a085;
+        }
+
+        .circles {
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.5;
+            z-index: -1;
         }
     </style>
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('lib/jquery.min.js') }}
+    {{ js_include('lib/jquery.buoyant.min.js') }}
+
+    {% if captcha.enabled == 1 %}
+
+        {{ js_include('https://ssl.captcha.qq.com/TCaptcha.js', false) }}
+
+    {% endif %}
 
 {% endblock %}
 
@@ -63,16 +89,19 @@
         }
     </script>
 
+    <script>
+        $('body').buoyant({
+            elementClass: 'circles',
+            numberOfItems: 20,
+            minRadius: 5,
+            maxRadius: 30,
+        });
+    </script>
+
     {% if captcha.enabled == 1 %}
-
-        {{ js_include('https://ssl.captcha.qq.com/TCaptcha.js', false) }}
-
         <script>
-
             layui.use(['jquery', 'form'], function () {
-
                 var $ = layui.jquery;
-
                 new TencentCaptcha(
                     $('#captcha-btn')[0],
                     $('#captcha-btn').data('app-id'),
@@ -85,11 +114,8 @@
                         }
                     }
                 );
-
             });
-
         </script>
-
     {% endif %}
 
 {% endblock %}

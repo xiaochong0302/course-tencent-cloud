@@ -8,7 +8,6 @@
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="{{ course_url }}"><i class="layui-icon layui-icon-return"></i> 返回课程</a>
-            <a><cite>{{ chapter.title }}</cite></a>
         </span>
         <span class="share">
             <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
@@ -22,9 +21,14 @@
             {{ partial('chapter/sticky') }}
         </div>
         <div class="layout-content">
-            <div class="read-info wrap" id="preview">{{ chapter.content }}</div>
+            <div class="article-info wrap">
+                <div class="title">{{ chapter.title }}</div>
+                <div class="content markdown-body">
+                    {{ chapter.content }}
+                </div>
+            </div>
             <div id="comment-anchor"></div>
-            <div class="read-comment wrap">
+            <div class="article-comment wrap">
                 {{ partial('chapter/comment') }}
             </div>
         </div>
@@ -53,14 +57,12 @@
 
 {% block link_css %}
 
-    {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
+    {{ css_link('home/css/markdown.css') }}
 
 {% endblock %}
 
 {% block include_js %}
 
-    {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/method.min.js', false) }}
-    {{ js_include('home/js/markdown.preview.js') }}
     {{ js_include('home/js/course.share.js') }}
     {{ js_include('home/js/chapter.read.js') }}
     {{ js_include('home/js/chapter.show.js') }}

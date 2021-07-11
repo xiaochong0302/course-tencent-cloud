@@ -101,6 +101,10 @@ class QuestionController extends Controller
 
         $question = $service->handle($id);
 
+        if ($question['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         if ($question['me']['owned'] == 0) {
             $this->response->redirect(['for' => 'home.error.403']);
         }
