@@ -20,6 +20,7 @@ final class V20210720153027 extends AbstractMigration
         $this->handleTagScopes();
         $this->handleCategoryIcon();
         $this->handleReviewPublish();
+        $this->handleConsultPublish();
     }
 
     protected function createCourseTagTable()
@@ -175,6 +176,21 @@ final class V20210720153027 extends AbstractMigration
     }
 
     protected function handleReviewPublish()
+    {
+        $this->getQueryBuilder()
+            ->update('kg_review')
+            ->set('published', 2)
+            ->where(['published' => 1])
+            ->execute();
+
+        $this->getQueryBuilder()
+            ->update('kg_review')
+            ->set('published', 3)
+            ->where(['published' => 0])
+            ->execute();
+    }
+
+    protected function handleConsultPublish()
     {
         $this->getQueryBuilder()
             ->update('kg_review')

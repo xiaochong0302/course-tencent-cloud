@@ -25,7 +25,7 @@ class TeacherConsult extends Repository
         if (!empty($where['user_id'])) {
             $builder->andWhere('cu.user_id = :user_id:', ['user_id' => $where['user_id']]);
             $builder->andWhere('cu.role_type = :role_type:', ['role_type' => CourseUserModel::ROLE_TEACHER]);
-            $builder->andWhere('cu.deleted = :deleted:', ['deleted' => 0]);
+            $builder->andWhere('cu.deleted = 0');
         }
 
         if (isset($where['replied'])) {
@@ -35,6 +35,10 @@ class TeacherConsult extends Repository
                 $builder->andWhere('c.reply_time = 0');
             }
         }
+
+        $builder->andWhere('c.published = :published:', ['published' => ConsultModel::PUBLISH_APPROVED]);
+
+        $builder->andWhere('c.deleted = 0');
 
         switch ($sort) {
             default:

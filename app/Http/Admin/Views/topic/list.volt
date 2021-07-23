@@ -53,8 +53,8 @@
                 <td>{{ item.id }}</td>
                 <td><a href="{{ edit_url }}">{{ item.title }}</a></td>
                 <td>{{ item.course_count }}</td>
-                <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
-                <td>{{ date('Y-m-d H:i',item.update_time) }}</td>
+                <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
+                <td>{{ date('Y-m-d H:i:s',item.update_time) }}</td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="kg-dropdown">

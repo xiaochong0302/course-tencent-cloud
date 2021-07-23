@@ -2,10 +2,6 @@
 
 {% block content %}
 
-    {{ partial('macros/article') }}
-
-    {% set owner_url = url({'for':'home.user.show','id':review.owner.id}) %}
-
     <fieldset class="layui-elem-field layui-field-title">
         <legend>审核内容</legend>
     </fieldset>
@@ -35,7 +31,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">评价内容</label>
             <div class="layui-input-block">
-                <div class="layui-form-mid gray">{{ review.content }}</div>
+                <div class="layui-form-mid">{{ review.content }}</div>
             </div>
         </div>
     </form>
@@ -50,8 +46,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">审核</label>
             <div class="layui-input-block">
-                <input type="radio" name="type" value="approve" title="通过" lay-filter="review">
-                <input type="radio" name="type" value="reject" title="拒绝" lay-filter="review">
+                <input type="radio" name="type" value="approve" title="通过">
+                <input type="radio" name="type" value="reject" title="拒绝">
             </div>
         </div>
         <div class="layui-form-item">

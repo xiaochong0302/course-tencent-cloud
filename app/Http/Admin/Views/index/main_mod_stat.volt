@@ -12,6 +12,14 @@
             </div>
             <div class="layui-col-md2">
                 <div class="kg-stat-card">
+                    <div class="name">咨询</div>
+                    <div class="count">
+                        <a href="{{ url({'for':'admin.mod.consults'}) }}">{{ mod_stat.consult_count }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md2">
+                <div class="kg-stat-card">
                     <div class="name">文章</div>
                     <div class="count">
                         <a href="{{ url({'for':'admin.mod.articles'}) }}">{{ mod_stat.article_count }}</a>

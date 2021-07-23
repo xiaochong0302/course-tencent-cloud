@@ -44,8 +44,8 @@
         {% for item in pager.items %}
             {% set list_by_course_url = url({'for':'admin.review.list'},{'course_id':item.course.id}) %}
             {% set list_by_owner_url = url({'for':'admin.review.list'},{'owner_id':item.owner.id}) %}
+            {% set moderate_url = url({'for':'admin.review.moderate','id':item.id}) %}
             {% set edit_url = url({'for':'admin.review.edit','id':item.id}) %}
-            {% set review_url = url({'for':'admin.review.moderate','id':item.id}) %}
             {% set update_url = url({'for':'admin.review.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.review.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.review.restore','id':item.id}) %}
@@ -70,7 +70,7 @@
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
                             {% if item.published == 1 %}
-                                <li><a href="{{ review_url }}">审核</a></li>
+                                <li><a href="{{ moderate_url }}">审核</a></li>
                             {% endif %}
                             <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}

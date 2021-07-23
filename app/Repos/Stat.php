@@ -10,6 +10,7 @@ namespace App\Repos;
 use App\Models\Answer as AnswerModel;
 use App\Models\Article as ArticleModel;
 use App\Models\Comment as CommentModel;
+use App\Models\Consult as ConsultModel;
 use App\Models\Online as OnlineModel;
 use App\Models\Order as OrderModel;
 use App\Models\OrderStatus as OrderStatusModel;
@@ -29,6 +30,14 @@ class Stat extends Repository
         return (int)ReviewModel::count([
             'conditions' => 'published = :published: AND deleted = 0',
             'bind' => ['published' => ReviewModel::PUBLISH_PENDING],
+        ]);
+    }
+
+    public function countPendingConsults()
+    {
+        return (int)ConsultModel::count([
+            'conditions' => 'published = :published: AND deleted = 0',
+            'bind' => ['published' => ConsultModel::PUBLISH_PENDING],
         ]);
     }
 

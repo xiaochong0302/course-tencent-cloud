@@ -33,6 +33,7 @@ class ReviewList extends LogicService
         $params = [
             'course_id' => $course->id,
             'published' => ReviewModel::PUBLISH_APPROVED,
+            'deleted' => 0,
         ];
 
         $reviewRepo = new ReviewRepo();

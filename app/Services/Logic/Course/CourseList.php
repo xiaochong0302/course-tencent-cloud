@@ -42,6 +42,7 @@ class CourseList extends LogicService
         }
 
         $params['published'] = 1;
+        $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();

@@ -13,7 +13,7 @@
     <div class="kg-mod-preview">
         <div class="meta">
             <span><a href="{{ owner_url }}" target="_blank">{{ comment.owner.name }}</a></span>
-            <span>{{ date('Y-m-d H:i',comment.create_time) }}</span>
+            <span>{{ date('Y-m-d H:i:s',comment.create_time) }}</span>
         </div>
         <div class="content markdown-body">{{ comment.content }}</div>
     </div>

@@ -46,9 +46,10 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set item.answer = item.answer ? item.answer : '等待回复ING...' %}
+            {% set item.answer = item.answer ? item.answer : 'N/A' %}
             {% set list_by_course_url = url({'for':'admin.consult.list'},{'course_id':item.course.id}) %}
             {% set list_by_user_url = url({'for':'admin.consult.list'},{'owner_id':item.owner.id}) %}
+            {% set moderate_url = url({'for':'admin.consult.moderate','id':item.id}) %}
             {% set edit_url = url({'for':'admin.consult.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.consult.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.consult.delete','id':item.id}) %}
@@ -64,9 +65,9 @@
                     <p>编号：{{ item.owner.id }}</p>
                 </td>
                 <td>
-                    <p>提问：{{ date('Y-m-d H:i:s',item.create_time) }}</p>
+                    <p>提问：{{ date('Y-m-d H:i',item.create_time) }}</p>
                     {% if item.reply_time > 0 %}
-                        <p>回复：{{ date('Y-m-d H:i:s',item.reply_time) }}</p>
+                        <p>回复：{{ date('Y-m-d H:i',item.reply_time) }}</p>
                     {% else %}
                         <p>回复：N/A</p>
                     {% endif %}
@@ -76,6 +77,9 @@
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
+                            {% if item.published == 1 %}
+                                <li><a href="{{ moderate_url }}">审核</a></li>
+                            {% endif %}
                             <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}
                                 <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
