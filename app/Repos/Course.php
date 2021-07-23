@@ -367,16 +367,16 @@ class Course extends Repository
     public function countConsults($courseId)
     {
         return (int)ConsultModel::count([
-            'conditions' => 'course_id = :course_id: AND published = 1 AND deleted = 0',
-            'bind' => ['course_id' => $courseId],
+            'conditions' => 'course_id = ?1 AND published = ?2 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => ConsultModel::PUBLISH_APPROVED],
         ]);
     }
 
     public function countReviews($courseId)
     {
         return (int)ReviewModel::count([
-            'conditions' => 'course_id = :course_id: AND published = :published: AND deleted = 0',
-            'bind' => ['course_id' => $courseId, 'published' => ReviewModel::PUBLISH_APPROVED],
+            'conditions' => 'course_id = ?1 AND published = ?2 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => ReviewModel::PUBLISH_APPROVED],
         ]);
     }
 
@@ -392,8 +392,8 @@ class Course extends Repository
     {
         return (int)ReviewModel::average([
             'column' => 'rating',
-            'conditions' => 'course_id = :course_id: AND published = 1 AND deleted = 0',
-            'bind' => ['course_id' => $courseId],
+            'conditions' => 'course_id = ?1 AND published = ?2 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => ReviewModel::PUBLISH_APPROVED],
         ]);
     }
 

@@ -15,11 +15,17 @@ use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
+use App\Services\Logic\Consult\ConsultInfo as ConsultInfoService;
 use App\Services\Logic\Notice\ConsultReply as ConsultReplyNotice;
 use App\Validators\Consult as ConsultValidator;
 
 class Consult extends Service
 {
+
+    public function getPublishTypes()
+    {
+        return ConsultModel::publishTypes();
+    }
 
     public function getConsults()
     {
@@ -50,6 +56,13 @@ class Consult extends Service
     public function getConsult($id)
     {
         return $this->findOrFail($id);
+    }
+
+    public function getConsultInfo($id)
+    {
+        $service = new ConsultInfoService();
+
+        return $service->handle($id);
     }
 
     public function updateConsult($id)
@@ -114,6 +127,31 @@ class Consult extends Service
         $consult->update();
 
         $this->handleItemConsults($consult);
+    }
+
+    public function moderate($id)
+    {
+        $type = $this->request->getPost('type', ['trim', 'string']);
+
+        $consult = $this->findOrFail($id);
+
+        if ($type == 'approve') {
+            $consult->published = ConsultModel::PUBLISH_APPROVED;
+        } elseif ($type == 'reject') {
+            $consult->published = ConsultModel::PUBLISH_REJECTED;
+        }
+
+        $consult->update();
+
+        $this->handleItemConsults($consult);
+
+        if ($type == 'approve') {
+            $this->eventsManager->fire('Consult:afterApprove', $this, $consult);
+        } elseif ($type == 'reject') {
+            $this->eventsManager->fire('Consult:afterReject', $this, $consult);
+        }
+
+        return $consult;
     }
 
     protected function handleItemConsults(ConsultModel $consult)

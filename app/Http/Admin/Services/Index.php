@@ -80,6 +80,7 @@ class Index extends Service
         $statRepo = new StatRepo();
 
         $reviewCount = $statRepo->countPendingReviews();
+        $consultCount = $statRepo->countPendingConsults();
         $articleCount = $statRepo->countPendingArticles();
         $questionCount = $statRepo->countPendingQuestions();
         $answerCount = $statRepo->countPendingAnswers();
@@ -87,6 +88,7 @@ class Index extends Service
 
         return [
             'review_count' => $reviewCount,
+            'consult_count' => $consultCount,
             'article_count' => $articleCount,
             'question_count' => $questionCount,
             'answer_count' => $answerCount,

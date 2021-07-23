@@ -515,6 +515,12 @@ class AuthNode extends Service
                             'route' => 'admin.mod.reviews',
                         ],
                         [
+                            'id' => '2-10-6',
+                            'title' => '咨询审核',
+                            'type' => 'menu',
+                            'route' => 'admin.mod.consults',
+                        ],
+                        [
                             'id' => '2-10-1',
                             'title' => '文章审核',
                             'type' => 'menu',
@@ -630,6 +636,12 @@ class AuthNode extends Service
                             'title' => '删除咨询',
                             'type' => 'button',
                             'route' => 'admin.consult.delete',
+                        ],
+                        [
+                            'id' => '2-2-5',
+                            'title' => '审核咨询',
+                            'type' => 'button',
+                            'route' => 'admin.consult.moderate',
                         ],
                     ],
                 ],

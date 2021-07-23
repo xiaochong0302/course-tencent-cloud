@@ -24,7 +24,7 @@ class ConsultList extends LogicService
         $params = $pagerQuery->getParams();
 
         $params['owner_id'] = $user->id;
-        $params['published'] = 1;
+        $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();

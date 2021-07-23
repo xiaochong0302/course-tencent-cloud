@@ -12,7 +12,7 @@
         <div class="title">{{ answer.question.title }}</div>
         <div class="meta">
             <span><a href="{{ owner_url }}" target="_blank">{{ answer.owner.name }}</a></span>
-            <span>{{ date('Y-m-d H:i',answer.create_time) }}</span>
+            <span>{{ date('Y-m-d H:i:s',answer.create_time) }}</span>
         </div>
         <div class="content markdown-body">{{ answer.content }}</div>
     </div>

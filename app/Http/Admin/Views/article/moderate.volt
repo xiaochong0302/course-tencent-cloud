@@ -15,7 +15,7 @@
         <div class="meta">
             <span class="layui-badge layui-bg-green">{{ source_type(article.source_type) }}</span>
             <span><a href="{{ owner_url }}" target="_blank">{{ article.owner.name }}</a></span>
-            <span>{{ date('Y-m-d H:i:',article.create_time) }}</span>
+            <span>{{ date('Y-m-d H:i:s',article.create_time) }}</span>
         </div>
         <div class="content markdown-body">{{ article.content }}</div>
         {% if article.tags %}
