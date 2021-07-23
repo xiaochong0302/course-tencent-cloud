@@ -7,6 +7,7 @@
 
 namespace App\Http\Api\Controllers;
 
+use App\Services\Logic\Article\CommentList as CommentListService;
 use App\Services\Logic\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Logic\Chapter\ChapterLike as ChapterLikeService;
 use App\Services\Logic\Chapter\ConsultList as ChapterConsultListService;
@@ -20,6 +21,18 @@ class ChapterController extends Controller
 {
 
     /**
+     * @Get("/{id:[0-9]+}/comments", name="api.chapter.comments")
+     */
+    public function commentsAction($id)
+    {
+        $service = new CommentListService();
+
+        $pager = $service->handle($id);
+
+        return $this->jsonPaginate($pager);
+    }
+
+    /**
      * @Get("/{id:[0-9]+}/consults", name="api.chapter.consults")
      */
     public function consultsAction($id)
@@ -28,7 +41,7 @@ class ChapterController extends Controller
 
         $pager = $service->handle($id);
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**

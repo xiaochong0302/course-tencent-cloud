@@ -32,7 +32,7 @@
         <tbody>
         {% for item in pager.items %}
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
-            {% set review_url = url({'for':'admin.comment.report_review','id':item.id}) %}
+            {% set report_url = url({'for':'admin.comment.report','id':item.id}) %}
             <tr>
                 <td>{{ substr(item.content,0,120) }}</td>
                 <td>
@@ -42,7 +42,7 @@
                 <td>{{ item.report_count }}</td>
                 <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
                 <td class="center">
-                    <a href="{{ review_url }}" class="layui-btn layui-btn-sm">详情</a>
+                    <a href="{{ report_url }}" class="layui-btn layui-btn-sm">详情</a>
                 </td>
             </tr>
         {% endfor %}

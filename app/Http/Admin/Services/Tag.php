@@ -16,6 +16,11 @@ use App\Validators\Tag as TagValidator;
 class Tag extends Service
 {
 
+    public function getScopeTypes()
+    {
+        return TagModel::scopeTypes();
+    }
+
     public function getTags()
     {
         $pagerQuery = new PagerQuery();
@@ -82,6 +87,14 @@ class Tag extends Service
 
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
+        }
+
+        if (isset($post['scope_type'])) {
+            if ($post['scope_type'] == 'all') {
+                $data['scopes'] = 'all';
+            }else {
+                $data['scopes'] = $post['scopes'] ?? [];
+            }
         }
 
         $tag->update($data);

@@ -126,7 +126,7 @@ class MyStorage extends Storage
      */
     public function uploadSiteLogo()
     {
-        return $this->upload('/img/default/', self::MIME_IMAGE, UploadModel::TYPE_DEFAULT_IMG, 'logo.png');
+        return $this->upload('/img/icon/', self::MIME_IMAGE, UploadModel::TYPE_DEFAULT_IMG);
     }
 
     /**
@@ -136,7 +136,7 @@ class MyStorage extends Storage
      */
     public function uploadSiteFavicon()
     {
-        return $this->upload('/img/default/', self::MIME_IMAGE, UploadModel::TYPE_DEFAULT_IMG, 'favicon.ico');
+        return $this->upload('/img/icon/', self::MIME_IMAGE, UploadModel::TYPE_DEFAULT_IMG);
     }
 
     /**

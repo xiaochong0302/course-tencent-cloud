@@ -7,14 +7,14 @@
 
 namespace App\Http\Api\Controllers;
 
-use App\Services\Logic\Course\CategoryList as CourseCategoryListService;
-use App\Services\Logic\Course\ChapterList as CourseChapterListService;
-use App\Services\Logic\Course\ConsultList as CourseConsultListService;
+use App\Services\Logic\Course\CategoryList as CategoryListService;
+use App\Services\Logic\Course\ChapterList as ChapterListService;
+use App\Services\Logic\Course\ConsultList as ConsultListService;
 use App\Services\Logic\Course\CourseFavorite as CourseFavoriteService;
 use App\Services\Logic\Course\CourseInfo as CourseInfoService;
 use App\Services\Logic\Course\CourseList as CourseListService;
-use App\Services\Logic\Course\PackageList as CoursePackageListService;
-use App\Services\Logic\Course\ReviewList as CourseReviewListService;
+use App\Services\Logic\Course\PackageList as PackageListService;
+use App\Services\Logic\Course\ReviewList as ReviewListService;
 
 /**
  * @RoutePrefix("/api/course")
@@ -27,7 +27,7 @@ class CourseController extends Controller
      */
     public function categoriesAction()
     {
-        $service = new CourseCategoryListService();
+        $service = new CategoryListService();
 
         $categories = $service->handle();
 
@@ -43,7 +43,7 @@ class CourseController extends Controller
 
         $pager = $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -63,7 +63,7 @@ class CourseController extends Controller
      */
     public function chaptersAction($id)
     {
-        $service = new CourseChapterListService();
+        $service = new ChapterListService();
 
         $chapters = $service->handle($id);
 
@@ -75,7 +75,7 @@ class CourseController extends Controller
      */
     public function packagesAction($id)
     {
-        $service = new CoursePackageListService();
+        $service = new PackageListService();
 
         $packages = $service->handle($id);
 
@@ -87,11 +87,11 @@ class CourseController extends Controller
      */
     public function consultsAction($id)
     {
-        $service = new CourseConsultListService();
+        $service = new ConsultListService();
 
         $pager = $service->handle($id);
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -99,11 +99,11 @@ class CourseController extends Controller
      */
     public function reviewsAction($id)
     {
-        $service = new CourseReviewListService();
+        $service = new ReviewListService();
 
         $pager = $service->handle($id);
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**

@@ -18,7 +18,7 @@ class CommentReplied extends LogicService
 
     public function handle(CommentModel $reply)
     {
-        $replyContent = kg_substr($reply->content, 0, 32);
+        $replyContent = kg_substr($reply->content, 0, 36);
 
         $comment = $this->findComment($reply->parent_id);
 

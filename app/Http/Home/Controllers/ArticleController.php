@@ -110,7 +110,7 @@ class ArticleController extends Controller
             $this->response->redirect(['for' => 'home.error.403']);
         }
 
-        $this->seo->prependTitle($article['title']);
+        $this->seo->prependTitle(['专栏', $article['title']]);
         $this->seo->setDescription($article['summary']);
 
         $this->view->setVar('article', $article);

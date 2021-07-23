@@ -44,12 +44,12 @@ class LiveList extends LogicService
 
         $builder = new LiveListBuilder();
 
-        $items = [];
-
         $lives = $pager->items->toArray();
 
         $courses = $builder->getCourses($lives);
         $chapters = $builder->getChapters($lives);
+
+        $items = [];
 
         foreach ($lives as $live) {
             $items[] = [

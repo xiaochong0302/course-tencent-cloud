@@ -26,7 +26,7 @@ class ImGroupController extends Controller
 
         $pager = $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -50,7 +50,7 @@ class ImGroupController extends Controller
 
         $pager = $service->handle($id);
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
 }

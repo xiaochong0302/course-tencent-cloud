@@ -32,7 +32,11 @@ class PointGiftDeliverTask extends Task
 
         $tasks = $this->findTasks(30);
 
+        echo sprintf('pending tasks: %s', $tasks->count()) . PHP_EOL;
+
         if ($tasks->count() == 0) return;
+
+        echo '------ start deliver task ------' . PHP_EOL;
 
         $redeemRepo = new PointRedeemRepo();
 
@@ -94,6 +98,8 @@ class PointGiftDeliverTask extends Task
                 $this->handlePointRefund($redeem);
             }
         }
+
+        echo '------ end deliver task ------' . PHP_EOL;
     }
 
     protected function handleCourseRedeem(PointRedeemModel $redeem)

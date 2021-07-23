@@ -33,7 +33,11 @@ class RefundTask extends Task
 
         $tasks = $this->findTasks(30);
 
+        echo sprintf('pending tasks: %s', $tasks->count()) . PHP_EOL;
+
         if ($tasks->count() == 0) return;
+
+        echo '------ start refund task ------' . PHP_EOL;
 
         $tradeRepo = new TradeRepo();
         $orderRepo = new OrderRepo();
@@ -115,6 +119,8 @@ class RefundTask extends Task
                 $refund->update();
             }
         }
+
+        echo '------ end refund task ------' . PHP_EOL;
     }
 
     /**

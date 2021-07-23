@@ -31,11 +31,20 @@ class OptimizeTableTask extends Task
 
         $tableName = $sessionModel->getSource();
 
+        if (UserSessionModel::count() < 1000000) {
+            echo sprintf('no need to optimize table: %s', $tableName) . PHP_EOL;
+            return;
+        }
+
+        echo sprintf('------ start optimize table: %s ------', $tableName) . PHP_EOL;
+
         $this->db->delete($tableName, 'expire_time < :expire_time', [
             'expire_time' => strtotime('-3 days'),
         ]);
 
         $this->db->execute("OPTIMIZE TABLE {$tableName}");
+
+        echo sprintf('------ end optimize table: %s ------', $tableName) . PHP_EOL;
     }
 
     protected function optimizeUserTokenTable()
@@ -44,56 +53,78 @@ class OptimizeTableTask extends Task
 
         $tableName = $tokenModel->getSource();
 
+        if (UserTokenModel::count() < 1000000) {
+            echo sprintf('no need to optimize table: %s', $tableName) . PHP_EOL;
+            return;
+        }
+
+        echo sprintf('------ start optimize table: %s ------', $tableName) . PHP_EOL;
+
         $this->db->delete($tableName, 'expire_time < :expire_time', [
             'expire_time' => strtotime('-3 days'),
         ]);
 
         $this->db->execute("OPTIMIZE TABLE {$tableName}");
+
+        echo sprintf('------ end optimize table: %s ------', $tableName) . PHP_EOL;
     }
 
     protected function optimizeImMessageTable()
     {
-        $count = ImMessageModel::count();
-
-        if ($count < 1000000) return;
-
         $messageModel = new ImMessageModel();
 
         $tableName = $messageModel->getSource();
 
+        if (ImMessageModel::count() < 1000000) {
+            echo sprintf('no need to optimize table: %s', $tableName) . PHP_EOL;
+            return;
+        }
+
+        echo sprintf('------ start optimize table: %s ------', $tableName) . PHP_EOL;
+
         $this->db->delete($tableName, 'create_time < :create_time', [
             'create_time' => strtotime('-6 months'),
         ]);
 
         $this->db->execute("OPTIMIZE TABLE {$tableName}");
+
+        echo sprintf('------ end optimize table: %s ------', $tableName) . PHP_EOL;
     }
 
     protected function optimizeLearningTable()
     {
-        $count = LearningModel::count();
-
-        if ($count < 1000000) return;
-
         $learningModel = new LearningModel();
 
         $tableName = $learningModel->getSource();
+
+        if (LearningModel::count() < 1000000) {
+            echo sprintf('no need to optimize table: %s', $tableName) . PHP_EOL;
+            return;
+        }
+
+        echo sprintf('------ start optimize table: %s ------', $tableName) . PHP_EOL;
 
         $this->db->delete($tableName, 'create_time < :create_time', [
             'create_time' => strtotime('-6 months'),
         ]);
 
         $this->db->execute("OPTIMIZE TABLE {$tableName}");
+
+        echo sprintf('------ end optimize table: %s ------', $tableName) . PHP_EOL;
     }
 
     protected function optimizeTaskTable()
     {
-        $count = TaskModel::count();
-
-        if ($count < 1000000) return;
-
         $taskModel = new TaskModel();
 
         $tableName = $taskModel->getSource();
+
+        if (TaskModel::count() < 1000000) {
+            echo sprintf('no need to optimize table: %s', $tableName) . PHP_EOL;
+            return;
+        }
+
+        echo sprintf('------ start optimize table: %s ------', $tableName) . PHP_EOL;
 
         $this->db->delete($tableName, 'create_time < :create_time AND status > :status', [
             'create_time' => strtotime('-6 months'),
@@ -101,6 +132,8 @@ class OptimizeTableTask extends Task
         ]);
 
         $this->db->execute("OPTIMIZE TABLE {$tableName}");
+
+        echo sprintf('------ end optimize table: %s ------', $tableName) . PHP_EOL;
     }
 
 }

@@ -20,7 +20,11 @@ class CloseTradeTask extends Task
     {
         $trades = $this->findTrades();
 
+        echo sprintf('pending trades: %s', $trades->count()) . PHP_EOL;
+
         if ($trades->count() == 0) return;
+
+        echo '------ start close trade ------' . PHP_EOL;
 
         foreach ($trades as $trade) {
             if ($trade->channel == TradeModel::CHANNEL_ALIPAY) {
@@ -29,6 +33,8 @@ class CloseTradeTask extends Task
                 $this->handleWxpayTrade($trade);
             }
         }
+
+        echo '------ end close trade ------' . PHP_EOL;
     }
 
     /**

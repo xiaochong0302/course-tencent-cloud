@@ -7,6 +7,16 @@
             <legend>编辑分类</legend>
         </fieldset>
         <div class="layui-form-item">
+            <label class="layui-form-label">图标</label>
+            <div class="layui-input-inline" style="width: 80px;">
+                <img id="img-icon" class="kg-icon" src="{{ category.icon }}">
+                <input type="hidden" name="icon" value="{{ category.icon }}">
+            </div>
+            <div class="layui-input-inline" style="padding-top:15px;">
+                <button id="change-icon" class="layui-btn layui-btn-sm" type="button">更换</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">名称</label>
             <div class="layui-input-block">
                 <input class="layui-input" type="text" name="name" value="{{ category.name }}" lay-verify="required">
@@ -33,5 +43,11 @@
             </div>
         </div>
     </form>
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('admin/js/icon.upload.js') }}
 
 {% endblock %}

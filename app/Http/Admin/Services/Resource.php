@@ -7,8 +7,12 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Models\Chapter as ChapterModel;
+use App\Models\Course as CourseModel;
 use App\Models\Resource as ResourceModel;
 use App\Models\Upload as UploadModel;
+use App\Repos\Chapter as ChapterRepo;
+use App\Repos\Course as CourseRepo;
 use App\Repos\Upload as UploadRepo;
 use App\Services\Storage as StorageService;
 use App\Validators\Chapter as ChapterValidator;
@@ -25,7 +29,6 @@ class Resource extends Service
         $validator = new ChapterValidator();
 
         $chapter = $validator->checkChapter($post['chapter_id']);
-
         $course = $validator->checkCourse($chapter->course_id);
 
         $uploadRepo = new UploadRepo();
@@ -54,11 +57,8 @@ class Resource extends Service
 
         $resource->create();
 
-        $chapter->resource_count += 1;
-        $chapter->update();
-
-        $course->resource_count += 1;
-        $course->update();
+        $this->recountChapterResources($chapter);
+        $this->recountCourseResources($course);
 
         return $upload;
     }
@@ -103,15 +103,8 @@ class Resource extends Service
 
         $resource->delete();
 
-        if ($course->resource_count > 1) {
-            $course->resource_count -= 1;
-            $course->update();
-        }
-
-        if ($chapter->resource_count > 1) {
-            $chapter->resource_count -= 1;
-            $chapter->update();
-        }
+        $this->recountChapterResources($chapter);
+        $this->recountCourseResources($course);
     }
 
     protected function findOrFail($id)
@@ -119,6 +112,24 @@ class Resource extends Service
         $validator = new ResourceValidator();
 
         return $validator->checkResource($id);
+    }
+
+    protected function recountChapterResources(ChapterModel $chapter)
+    {
+        $chapterRepo = new ChapterRepo();
+
+        $chapter->resource_count = $chapterRepo->countResources($chapter->id);
+
+        $chapter->update();
+    }
+
+    protected function recountCourseResources(CourseModel $course)
+    {
+        $courseRepo = new CourseRepo();
+
+        $course->resource_count = $courseRepo->countResources($course->id);
+
+        $course->update();
     }
 
 }

@@ -9,6 +9,7 @@ namespace App\Console\Tasks;
 
 use App\Caches\NavTreeList as NavTreeListCache;
 use App\Caches\Setting as SettingCache;
+use App\Caches\AppInfo as AppInfoCache;
 use App\Models\Setting as SettingModel;
 
 class UpgradeTask extends Task
@@ -16,11 +17,28 @@ class UpgradeTask extends Task
 
     public function mainAction()
     {
+        $this->resetAppInfoAction();
         $this->resetSettingAction();
         $this->resetAnnotationAction();
         $this->resetMetadataAction();
         $this->resetVoltAction();
         $this->resetNavAction();
+    }
+
+    /**
+     * 重置应用信息
+     *
+     * @command: php console.php upgrade reset_app_info
+     */
+    public function resetAppInfoAction()
+    {
+        echo '------ start reset app info ------' . PHP_EOL;
+
+        $cache = new AppInfoCache();
+
+        $cache->rebuild();
+
+        echo '------ end reset app info ------' . PHP_EOL;
     }
 
     /**

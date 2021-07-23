@@ -90,7 +90,7 @@
         function loadPageHtml(target, params) {
             $.get('/im/chat/history', params, function (res) {
                 var html = laytpl($tpl.val()).render({
-                    data: res.items
+                    data: res.pager.items
                 });
                 target.html(html);
             });

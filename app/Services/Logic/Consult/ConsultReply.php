@@ -32,18 +32,12 @@ class ConsultReply extends LogicService
 
         $answer = $validator->checkAnswer($post['answer']);
 
-        $firstReply = false;
-
-        if ($consult->reply_time == 0) {
-            $firstReply = true;
-        }
-
         $consult->replier_id = $user->id;
         $consult->reply_time = time();
         $consult->answer = $answer;
         $consult->update();
 
-        if ($firstReply) {
+        if ($consult->reply_time == 0) {
             $this->handleReplyNotice($consult);
         }
 

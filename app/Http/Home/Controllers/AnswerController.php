@@ -60,11 +60,11 @@ class AnswerController extends Controller
             return $this->notFound();
         }
 
-        $questionId = $answer['question']['id'];
-
         if ($answer['me']['owned'] == 0) {
             $this->response->redirect(['for' => 'home.error.403']);
         }
+
+        $questionId = $answer['question']['id'];
 
         $location = $this->url->get(
             ['for' => 'home.question.show', 'id' => $questionId],

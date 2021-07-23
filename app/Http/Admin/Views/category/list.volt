@@ -31,11 +31,13 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="12%">
         </colgroup>
         <thead>
         <tr>
             <th>编号</th>
+            <th>图标</th>
             <th>名称</th>
             <th>层级</th>
             <th>子节点</th>
@@ -53,6 +55,7 @@
             {% set restore_url = url({'for':'admin.category.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
+                <td><img class="kg-icon" src="{{ item.icon }}" alt="{{ item.name }}"></td>
                 {% if item.type == 1 %}
                     {% if item.level == 1 %}
                         <td><a href="{{ child_url }}"><i class="layui-icon layui-icon-add-circle"></i> {{ item.name }}</a></td>

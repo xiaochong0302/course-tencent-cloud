@@ -64,8 +64,10 @@ class CommentReply extends LogicService
 
         if ($reply->published == CommentModel::PUBLISH_APPROVED) {
             $this->incrCommentReplyCount($parent);
-            $this->incrItemCommentCount($item, $reply, $user);
-            $this->handleNoticeAndPoint($item, $reply, $user);
+            $this->incrItemCommentCount($item);
+            $this->incrUserCommentCount($user);
+            $this->handleCommentRepliedNotice($reply);
+            $this->handleCommentPostPoint($reply);
         }
 
         $this->eventsManager->fire('Comment:afterReply', $this, $reply);

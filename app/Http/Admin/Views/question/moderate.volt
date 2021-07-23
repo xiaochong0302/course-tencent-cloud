@@ -2,32 +2,24 @@
 
 {% block content %}
 
-    {{ partial('macros/article') }}
-
-    {% set owner_url = url({'for':'home.user.show','id':article.owner.id}) %}
+    {% set owner_url = url({'for':'home.user.show','id':question.owner.id}) %}
 
     <fieldset class="layui-elem-field layui-field-title">
         <legend>审核内容</legend>
     </fieldset>
 
     <div class="kg-mod-preview">
-        <div class="title">{{ article.title }}</div>
+        <div class="title">{{ question.title }}</div>
         <div class="meta">
-            <span class="layui-badge layui-bg-green">{{ source_type(article.source_type) }}</span>
-            <span><a href="{{ owner_url }}" target="_blank">{{ article.owner.name }}</a></span>
-            <span>{{ date('Y-m-d H:i',article.create_time) }}</span>
+            <span><a href="{{ owner_url }}" target="_blank">{{ question.owner.name }}</a></span>
+            <span>{{ date('Y-m-d H:i',question.create_time) }}</span>
         </div>
-        <div class="content markdown-body">{{ article.content }}</div>
-        {% if article.tags %}
+        <div class="content markdown-body">{{ question.content }}</div>
+        {% if question.tags %}
             <div class="tags">
-                {% for item in article.tags %}
+                {% for item in question.tags %}
                     <span class="layui-btn layui-btn-xs">{{ item.name }}</span>
                 {% endfor %}
-            </div>
-        {% endif %}
-        {% if article.source_url %}
-            <div class="source-tips kg-center">
-                <a href="{{ article.source_url }}" target="_blank">查看原文</a>
             </div>
         {% endif %}
     </div>
@@ -36,9 +28,9 @@
         <legend>审核意见</legend>
     </fieldset>
 
-    {% set review_url = url({'for':'admin.article.publish_review','id':article.id}) %}
+    {% set moderate_url = url({'for':'admin.question.moderate','id':question.id}) %}
 
-    <form class="layui-form kg-form kg-review-form" method="POST" action="{{ review_url }}">
+    <form class="layui-form kg-form kg-mod-form" method="POST" action="{{ moderate_url }}">
         <div class="layui-form-item">
             <label class="layui-form-label">审核</label>
             <div class="layui-input-block">

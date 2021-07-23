@@ -4,7 +4,6 @@
 
     {{ partial('macros/article') }}
 
-    {% set article_list_url = url({'for':'home.article.list'}) %}
     {% set article_edit_url = url({'for':'home.article.edit','id':article.id}) %}
     {% set article_delete_url = url({'for':'home.article.delete','id':article.id}) %}
     {% set article_owner_url = url({'for':'home.user.show','id':article.owner.id}) %}
@@ -14,7 +13,7 @@
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
-            <a href="{{ article_list_url }}">专栏</a>
+            <a><cite>专栏</cite></a>
             <a><cite>详情</cite></a>
         </span>
         <span class="share">

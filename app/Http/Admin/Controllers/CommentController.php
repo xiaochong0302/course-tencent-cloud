@@ -84,21 +84,21 @@ class CommentController extends Controller
     }
 
     /**
-     * @Route("/{id:[0-9]+}/publish/review", name="admin.comment.publish_review")
+     * @Route("/{id:[0-9]+}/moderate", name="admin.comment.moderate")
      */
-    public function publishReviewAction($id)
+    public function moderateAction($id)
     {
         $commentService = new CommentService();
 
         if ($this->request->isPost()) {
 
-            $commentService->publishReview($id);
+            $commentService->moderate($id);
 
             $location = $this->url->get(['for' => 'admin.mod.comments']);
 
             $content = [
                 'location' => $location,
-                'msg' => '审核回答成功',
+                'msg' => '审核评论成功',
             ];
 
             return $this->jsonSuccess($content);
@@ -107,27 +107,26 @@ class CommentController extends Controller
         $reasons = $commentService->getReasons();
         $comment = $commentService->getCommentInfo($id);
 
-        $this->view->pick('comment/publish_review');
         $this->view->setVar('reasons', $reasons);
         $this->view->setVar('comment', $comment);
     }
 
     /**
-     * @Route("/{id:[0-9]+}/report/review", name="admin.comment.report_review")
+     * @Route("/{id:[0-9]+}/report", name="admin.comment.report")
      */
-    public function reportReviewAction($id)
+    public function reportAction($id)
     {
         $commentService = new CommentService();
 
         if ($this->request->isPost()) {
 
-            $commentService->reportReview($id);
+            $commentService->report($id);
 
             $location = $this->url->get(['for' => 'admin.report.comments']);
 
             $content = [
                 'location' => $location,
-                'msg' => '审核举报成功',
+                'msg' => '处理举报成功',
             ];
 
             return $this->jsonSuccess($content);
@@ -136,7 +135,6 @@ class CommentController extends Controller
         $comment = $commentService->getCommentInfo($id);
         $reports = $commentService->getReports($id);
 
-        $this->view->pick('comment/report_review');
         $this->view->setVar('comment', $comment);
         $this->view->setVar('reports', $reports);
     }

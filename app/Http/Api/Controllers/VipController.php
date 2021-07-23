@@ -27,7 +27,7 @@ class VipController extends Controller
 
         $pager = $service->handle($type);
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -39,7 +39,7 @@ class VipController extends Controller
 
         $pager = $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
 }

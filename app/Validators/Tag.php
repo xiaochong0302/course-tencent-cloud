@@ -75,7 +75,7 @@ class Tag extends Validator
             throw new BadRequestException('tag.name_too_short');
         }
 
-        if ($length > 50) {
+        if ($length > 30) {
             throw new BadRequestException('tag.name_too_long');
         }
 

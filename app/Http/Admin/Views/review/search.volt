@@ -25,10 +25,11 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">发布</label>
+            <label class="layui-form-label">发布状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="published" value="1" title="是">
-                <input type="radio" name="published" value="0" title="否">
+                {% for value,title in publish_types %}
+                    <input type="radio" name="published" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">

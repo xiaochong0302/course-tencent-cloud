@@ -61,6 +61,8 @@ class OrderController extends Controller
 
         $confirm = $service->handle($itemId, $itemType);
 
+        $this->seo->prependTitle('确认订单');
+
         $this->view->setVar('confirm', $confirm);
     }
 
@@ -99,6 +101,8 @@ class OrderController extends Controller
         if ($order['status'] != OrderModel::STATUS_PENDING) {
             $this->response->redirect(['for' => 'home.uc.orders']);
         }
+
+        $this->seo->prependTitle('支付订单');
 
         $this->view->setVar('pay_provider', $payProvider);
         $this->view->setVar('order', $order);

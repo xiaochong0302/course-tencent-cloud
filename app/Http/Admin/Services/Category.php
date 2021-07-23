@@ -115,6 +115,10 @@ class Category extends Service
             $data['name'] = $validator->checkName($post['name']);
         }
 
+        if (isset($post['icon'])) {
+            $data['icon'] = $validator->checkIcon($post['icon']);
+        }
+
         if (isset($post['priority'])) {
             $data['priority'] = $validator->checkPriority($post['priority']);
         }

@@ -32,13 +32,14 @@ class CommentDelete extends LogicService
         $comment->update();
 
         if ($comment->parent_id > 0) {
-
-            $parent = $this->checkComment($comment->parent_id);
-
+            $parent = $validator->checkParent($comment->parent_id);
             $this->decrCommentReplyCount($parent);
         }
 
-        $this->decrItemCommentCount($comment);
+        $item = $validator->checkItem($comment->item_id, $comment->item_type);
+
+        $this->decrItemCommentCount($item);
+        $this->decrUserCommentCount($user);
 
         $this->eventsManager->fire('Comment:afterDelete', $this, $comment);
     }

@@ -8,6 +8,9 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
+use App\Models\ArticleTag as ArticleTagModel;
+use App\Models\CourseTag as CourseTagModel;
+use App\Models\QuestionTag as QuestionTagModel;
 use App\Models\Tag as TagModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -113,6 +116,38 @@ class Tag extends Repository
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();
+    }
+
+    public function countFollows($tagId)
+    {
+        return (int)CourseTagModel::count([
+            'conditions' => 'tag_id = :tag_id:',
+            'bind' => ['tag' => $tagId],
+        ]);
+    }
+
+    public function countCourses($tagId)
+    {
+        return (int)CourseTagModel::count([
+            'conditions' => 'tag_id = :tag_id:',
+            'bind' => ['tag_id' => $tagId],
+        ]);
+    }
+
+    public function countArticles($tagId)
+    {
+        return (int)ArticleTagModel::count([
+            'conditions' => 'tag_id = :tag_id:',
+            'bind' => ['tag_id' => $tagId],
+        ]);
+    }
+
+    public function countQuestions($tagId)
+    {
+        return (int)QuestionTagModel::count([
+            'conditions' => 'tag_id = :tag_id:',
+            'bind' => ['tag_id' => $tagId],
+        ]);
     }
 
 }
