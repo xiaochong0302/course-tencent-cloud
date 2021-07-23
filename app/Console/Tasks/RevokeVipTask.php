@@ -18,14 +18,18 @@ class RevokeVipTask extends Task
     {
         $users = $this->findUsers();
 
-        if ($users->count() == 0) {
-            return;
-        }
+        echo sprintf('pending users: %s', $users->count()) . PHP_EOL;
+
+        if ($users->count() == 0) return;
+
+        echo '------ start revoke vip task ------' . PHP_EOL;
 
         foreach ($users as $user) {
             $user->vip = 0;
             $user->update();
         }
+
+        echo '------ end revoke vip task ------' . PHP_EOL;
     }
 
     /**

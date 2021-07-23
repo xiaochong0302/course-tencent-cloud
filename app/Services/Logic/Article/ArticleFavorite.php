@@ -35,6 +35,8 @@ class ArticleFavorite extends LogicService
 
         $favorite = $favoriteRepo->findArticleFavorite($article->id, $user->id);
 
+        $isFirstTime = true;
+
         if (!$favorite) {
 
             $favorite = new ArticleFavoriteModel();
@@ -45,6 +47,8 @@ class ArticleFavorite extends LogicService
             $favorite->create();
 
         } else {
+
+            $isFirstTime = false;
 
             $favorite->deleted = $favorite->deleted == 1 ? 0 : 1;
 
@@ -75,7 +79,7 @@ class ArticleFavorite extends LogicService
         /**
          * 仅首次收藏发送通知
          */
-        if (!$favorite && !$isOwner) {
+        if ($isFirstTime && !$isOwner) {
             $this->handleFavoriteNotice($article, $user);
         }
 

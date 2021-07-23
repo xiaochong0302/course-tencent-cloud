@@ -202,12 +202,11 @@ class SitemapTask extends Task
 
     protected function addOthers()
     {
-        $this->sitemap->addItem('/course/list', 0.6);
-        $this->sitemap->addItem('/im/group/list', 0.6);
-        $this->sitemap->addItem('/teacher/list', 0.6);
-        $this->sitemap->addItem('/vip', 0.6);
-        $this->sitemap->addItem('/help', 0.6);
-        $this->sitemap->addItem('/search', 0.6);
+        $this->sitemap->addItem("{$this->siteUrl}/course/list", 0.6);
+        $this->sitemap->addItem("{$this->siteUrl}/im/group/list", 0.6);
+        $this->sitemap->addItem("{$this->siteUrl}/teacher/list", 0.6);
+        $this->sitemap->addItem("{$this->siteUrl}/vip", 0.6);
+        $this->sitemap->addItem("{$this->siteUrl}/help", 0.6);
     }
 
 }

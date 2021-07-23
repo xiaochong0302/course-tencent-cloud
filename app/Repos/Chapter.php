@@ -16,6 +16,7 @@ use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\ChapterVod as ChapterVodModel;
 use App\Models\Comment as CommentModel;
 use App\Models\Consult as ConsultModel;
+use App\Models\Resource as ResourceModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -186,7 +187,7 @@ class Chapter extends Repository
     public function countLikes($chapterId)
     {
         return (int)ChapterLikeModel::count([
-            'conditions' => 'chapter_id = :chapter_id:',
+            'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId],
         ]);
     }
@@ -194,8 +195,16 @@ class Chapter extends Repository
     public function countComments($chapterId)
     {
         return (int)CommentModel::count([
-            'conditions' => 'item_id = ?1 AND item_type = ?2 AND deleted = 0',
-            'bind' => [1 => $chapterId, 2 => CommentModel::ITEM_CHAPTER],
+            'conditions' => 'item_id = ?1 AND item_type = ?2 AND published = ?3 AND deleted = 0',
+            'bind' => [1 => $chapterId, 2 => CommentModel::ITEM_CHAPTER, 3 => CommentModel::PUBLISH_APPROVED],
+        ]);
+    }
+
+    public function countResources($chapterId)
+    {
+        return (int)ResourceModel::count([
+            'conditions' => 'chapter_id = :chapter_id:',
+            'bind' => ['chapter_id' => $chapterId],
         ]);
     }
 

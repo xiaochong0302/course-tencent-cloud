@@ -10,18 +10,41 @@ namespace App\Http\Admin\Services;
 use App\Builders\AnswerList as AnswerListBuilder;
 use App\Builders\ArticleList as ArticleListBuilder;
 use App\Builders\QuestionList as QuestionListBuilder;
+use App\Builders\ReviewList as ReviewListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Answer as AnswerModel;
 use App\Models\Article as ArticleModel;
 use App\Models\Comment as CommentModel;
 use App\Models\Question as QuestionModel;
+use App\Models\Review as ReviewModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Repos\Article as ArticleRepo;
 use App\Repos\Comment as CommentRepo;
 use App\Repos\Question as QuestionRepo;
+use App\Repos\Review as ReviewRepo;
 
 class Moderation extends Service
 {
+
+    public function getReviews()
+    {
+        $pagerQuery = new PagerQuery();
+
+        $params = $pagerQuery->getParams();
+
+        $params['published'] = ReviewModel::PUBLISH_PENDING;
+        $params['deleted'] = 0;
+
+        $sort = $pagerQuery->getSort();
+        $page = $pagerQuery->getPage();
+        $limit = $pagerQuery->getLimit();
+
+        $reviewRepo = new ReviewRepo();
+
+        $pager = $reviewRepo->paginate($params, $sort, $page, $limit);
+
+        return $this->handleReviews($pager);
+    }
 
     public function getArticles()
     {
@@ -101,6 +124,23 @@ class Moderation extends Service
         $pager = $commentRepo->paginate($params, $sort, $page, $limit);
 
         return $this->handleComments($pager);
+    }
+
+    protected function handleReviews($pager)
+    {
+        if ($pager->total_items > 0) {
+
+            $builder = new ReviewListBuilder();
+
+            $pipeA = $pager->items->toArray();
+            $pipeB = $builder->handleCourses($pipeA);
+            $pipeC = $builder->handleUsers($pipeB);
+            $pipeD = $builder->objects($pipeC);
+
+            $pager->items = $pipeD;
+        }
+
+        return $pager;
     }
 
     protected function handleArticles($pager)

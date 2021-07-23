@@ -20,7 +20,11 @@ class ReviewController extends Controller
      */
     public function searchAction()
     {
+        $reviewService = new ReviewService();
 
+        $publishTypes = $reviewService->getPublishTypes();
+
+        $this->view->setVar('publish_types', $publishTypes);
     }
 
     /**
@@ -108,6 +112,32 @@ class ReviewController extends Controller
         ];
 
         return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}/moderate", name="admin.review.moderate")
+     */
+    public function moderateAction($id)
+    {
+        $reviewService = new ReviewService();
+
+        if ($this->request->isPost()) {
+
+            $reviewService->moderate($id);
+
+            $location = $this->url->get(['for' => 'admin.mod.reviews']);
+
+            $content = [
+                'location' => $location,
+                'msg' => '审核评价成功',
+            ];
+
+            return $this->jsonSuccess($content);
+        }
+
+        $review = $reviewService->getReviewInfo($id);
+
+        $this->view->setVar('review', $review);
     }
 
 }

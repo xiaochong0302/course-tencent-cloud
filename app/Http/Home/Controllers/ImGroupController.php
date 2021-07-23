@@ -55,7 +55,7 @@ class ImGroupController extends Controller
             return $this->notFound();
         }
 
-        $this->seo->prependTitle([$group['name'], '群组']);
+        $this->seo->prependTitle(['群组', $group['name']]);
 
         $this->view->pick('im/group/show');
         $this->view->setVar('group', $group);

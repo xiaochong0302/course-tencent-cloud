@@ -59,8 +59,12 @@ class TagList extends LogicService
             $items[] = [
                 'id' => $tag['id'],
                 'name' => $tag['name'],
+                'alias' => $tag['alias'],
                 'icon' => $tag['icon'],
                 'follow_count' => $tag['follow_count'],
+                'article_count' => $tag['article_count'],
+                'question_count' => $tag['question_count'],
+                'course_count' => $tag['course_count'],
                 'me' => $tag['me'],
             ];
         }

@@ -18,12 +18,18 @@ class CloseOrderTask extends Task
     {
         $orders = $this->findOrders();
 
+        echo sprintf('pending orders: %s', $orders->count()) . PHP_EOL;
+
         if ($orders->count() == 0) return;
+
+        echo '------ start close order task ------' . PHP_EOL;
 
         foreach ($orders as $order) {
             $order->status = OrderModel::STATUS_CLOSED;
             $order->update();
         }
+
+        echo '------ end close order task ------' . PHP_EOL;
     }
 
     /**

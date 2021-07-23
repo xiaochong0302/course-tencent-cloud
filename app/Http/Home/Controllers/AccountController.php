@@ -32,6 +32,8 @@ class AccountController extends Controller
 
         $captcha = $service->getSettings('captcha');
 
+        $this->seo->prependTitle('注册');
+
         $this->view->setVar('return_url', $returnUrl);
         $this->view->setVar('captcha', $captcha);
     }
@@ -73,6 +75,8 @@ class AccountController extends Controller
         $oauthProvider = $service->handle();
 
         $returnUrl = $this->request->getHTTPReferer();
+
+        $this->seo->prependTitle('登录');
 
         $this->view->setVar('oauth_provider', $oauthProvider);
         $this->view->setVar('return_url', $returnUrl);
@@ -135,6 +139,8 @@ class AccountController extends Controller
         $service = new AccountService();
 
         $captcha = $service->getSettings('captcha');
+
+        $this->seo->prependTitle('忘记密码');
 
         $this->view->pick('account/forget_password');
         $this->view->setVar('captcha', $captcha);

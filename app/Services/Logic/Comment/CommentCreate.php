@@ -47,8 +47,10 @@ class CommentCreate extends LogicService
         $this->incrUserDailyCommentCount($user);
 
         if ($comment->published == CommentModel::PUBLISH_APPROVED) {
-            $this->incrItemCommentCount($item, $comment, $user);
-            $this->handleNoticeAndPoint($item, $comment, $user);
+            $this->incrItemCommentCount($item);
+            $this->incrUserCommentCount($user);
+            $this->handleItemCommentedNotice($item, $comment);
+            $this->handleCommentPostPoint($comment);
         }
 
         $this->eventsManager->fire('Comment:afterCreate', $this, $comment);

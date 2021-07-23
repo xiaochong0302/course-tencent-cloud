@@ -102,6 +102,13 @@ class Course extends Model
     public $summary = '';
 
     /**
+     * 标签
+     *
+     * @var array|string
+     */
+    public $tags = [];
+
+    /**
      * 关键字
      *
      * @var string
@@ -350,6 +357,10 @@ class Course extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
+        if (is_array($this->tags) || is_object($this->tags)) {
+            $this->tags = kg_json_encode($this->tags);
+        }
+
         if (empty($this->summary)) {
             $this->summary = kg_parse_summary($this->details);
         }
@@ -376,6 +387,10 @@ class Course extends Model
 
         if (!Text::startsWith($this->cover, 'http')) {
             $this->cover = kg_cos_course_cover_url($this->cover);
+        }
+
+        if (is_string($this->tags)) {
+            $this->tags = json_decode($this->tags, true);
         }
 
         if (is_string($this->attrs)) {

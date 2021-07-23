@@ -33,7 +33,7 @@
         {% for item in pager.items %}
             {% set question_url = url({'for':'home.question.show','id':item.id}) %}
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
-            {% set review_url = url({'for':'admin.question.report_review','id':item.id}) %}
+            {% set report_url = url({'for':'admin.question.report','id':item.id}) %}
             <tr>
                 <td>
                     <p>标题：<a href="{{ question_url }}" target="_blank">{{ item.title }}</a></p>
@@ -50,7 +50,7 @@
                 <td>{{ item.report_count }}</td>
                 <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
                 <td class="center">
-                    <a href="{{ review_url }}" class="layui-btn layui-btn-sm">详情</a>
+                    <a href="{{ report_url }}" class="layui-btn layui-btn-sm">详情</a>
                 </td>
             </tr>
         {% endfor %}

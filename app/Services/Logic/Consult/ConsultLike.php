@@ -35,6 +35,8 @@ class ConsultLike extends LogicService
 
         $consultLike = $likeRepo->findConsultLike($consult->id, $user->id);
 
+        $isFirstTime = true;
+
         if (!$consultLike) {
 
             $consultLike = new ConsultLikeModel();
@@ -45,6 +47,8 @@ class ConsultLike extends LogicService
             $consultLike->create();
 
         } else {
+
+            $isFirstTime = false;
 
             $consultLike->deleted = $consultLike->deleted == 1 ? 0 : 1;
 
@@ -75,7 +79,7 @@ class ConsultLike extends LogicService
         /**
          * 仅首次点赞发送通知
          */
-        if (!$consultLike && !$isOwner) {
+        if ($isFirstTime && !$isOwner) {
             $this->handleConsultLikedNotice($consult, $user);
         }
 

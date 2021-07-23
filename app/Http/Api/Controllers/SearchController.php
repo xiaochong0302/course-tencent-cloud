@@ -33,14 +33,14 @@ class SearchController extends Controller
         ];
 
         if (empty($query)) {
-            return $this->jsonSuccess(['pager' => $pager]);
+            return $this->jsonPaginate($pager);
         }
 
         $service = $this->getSearchService($type);
 
         $pager = $service->search();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**

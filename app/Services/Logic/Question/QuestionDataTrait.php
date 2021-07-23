@@ -84,6 +84,7 @@ trait QuestionDataTrait
                 $questionTag->question_id = $question->id;
                 $questionTag->tag_id = $tagId;
                 $questionTag->create();
+                $this->recountTagQuestions($tagId);
             }
         }
 
@@ -95,6 +96,7 @@ trait QuestionDataTrait
                 $questionTag = $questionTagRepo->findQuestionTag($question->id, $tagId);
                 if ($questionTag) {
                     $questionTag->delete();
+                    $this->recountTagQuestions($tagId);
                 }
             }
         }
@@ -108,6 +110,7 @@ trait QuestionDataTrait
                 $questionTags = [];
                 foreach ($tags as $tag) {
                     $questionTags[] = ['id' => $tag->id, 'name' => $tag->name];
+                    $this->recountTagQuestions($tag->id);
                 }
             }
         }
@@ -120,6 +123,21 @@ trait QuestionDataTrait
          * 重新执行afterFetch
          */
         $question->afterFetch();
+    }
+
+    protected function recountTagQuestions($tagId)
+    {
+        $tagRepo = new TagRepo();
+
+        $tag = $tagRepo->findById($tagId);
+
+        if (!$tag) return;
+
+        $questionCount = $tagRepo->countQuestions($tagId);
+
+        $tag->question_count = $questionCount;
+
+        $tag->update();
     }
 
 }

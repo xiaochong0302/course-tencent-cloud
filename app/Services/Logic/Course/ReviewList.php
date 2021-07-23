@@ -9,6 +9,7 @@ namespace App\Services\Logic\Course;
 
 use App\Builders\ReviewList as ReviewListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Review as ReviewModel;
 use App\Repos\Review as ReviewRepo;
 use App\Repos\ReviewLike as ReviewLikeRepo;
 use App\Services\Logic\CourseTrait;
@@ -31,7 +32,7 @@ class ReviewList extends LogicService
 
         $params = [
             'course_id' => $course->id,
-            'published' => 1,
+            'published' => ReviewModel::PUBLISH_APPROVED,
         ];
 
         $reviewRepo = new ReviewRepo();

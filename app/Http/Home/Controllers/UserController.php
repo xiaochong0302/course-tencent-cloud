@@ -35,7 +35,7 @@ class UserController extends Controller
             return $this->notFound();
         }
 
-        $this->seo->prependTitle([$user['name'], '个人主页']);
+        $this->seo->prependTitle(['空间', $user['name']]);
 
         $this->view->setVar('user', $user);
     }

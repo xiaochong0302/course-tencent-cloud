@@ -18,7 +18,7 @@ class ReviewLiked extends LogicService
 
     public function handle(ReviewModel $review, UserModel $sender)
     {
-        $reviewContent = kg_substr($review->content, 0, 32);
+        $reviewContent = kg_substr($review->content, 0, 36);
 
         $course = $this->findCourse($review->course_id);
 

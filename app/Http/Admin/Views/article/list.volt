@@ -38,8 +38,8 @@
         <thead>
         <tr>
             <th>文章</th>
-            <th>评论</th>
             <th>浏览</th>
+            <th>评论</th>
             <th>点赞</th>
             <th>收藏</th>
             <th>状态</th>
@@ -56,7 +56,7 @@
             {% set update_url = url({'for':'admin.article.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.article.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.article.restore','id':item.id}) %}
-            {% set review_url = url({'for':'admin.article.publish_review','id':item.id}) %}
+            {% set review_url = url({'for':'admin.article.moderate','id':item.id}) %}
             {% set comment_url = url({'for':'admin.comment.list'},{'item_id':item.id,'item_type':2}) %}
             <tr>
                 <td>

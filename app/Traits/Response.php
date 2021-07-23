@@ -115,13 +115,13 @@ trait Response
         $totalItems = $paginate->total_items ?? 0;
         $totalPages = $paginate->total_pages ?? 0;
 
-        $content = [
+        $pager = [
             'items' => $items,
             'total_items' => $totalItems,
             'total_pages' => $totalPages,
         ];
 
-        return $this->jsonSuccess($content);
+        return $this->jsonPaginate($pager);
     }
 
     public function getErrorMessage($code)

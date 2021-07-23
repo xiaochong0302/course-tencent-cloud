@@ -51,11 +51,13 @@ class TagController extends Controller
         $tagService = new TagService;
 
         $tag2 = $tagService->getTag($id);
+        $scopeTypes = $tagService->getScopeTypes();
 
         /**
          * 注意："tag"变量被volt引擎内置占用，另取名字避免冲突
          */
         $this->view->setVar('tag2', $tag2);
+        $this->view->setVar('scope_types', $scopeTypes);
     }
 
     /**

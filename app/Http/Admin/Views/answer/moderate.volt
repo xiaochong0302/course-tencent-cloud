@@ -21,9 +21,9 @@
         <legend>审核意见</legend>
     </fieldset>
 
-    {% set review_url = url({'for':'admin.answer.publish_review','id':answer.id}) %}
+    {% set moderate_url = url({'for':'admin.answer.moderate','id':answer.id}) %}
 
-    <form class="layui-form kg-form kg-review-form" method="POST" action="{{ review_url }}">
+    <form class="layui-form kg-form kg-mod-form" method="POST" action="{{ moderate_url }}">
         <div class="layui-form-item">
             <label class="layui-form-label">审核</label>
             <div class="layui-input-block">

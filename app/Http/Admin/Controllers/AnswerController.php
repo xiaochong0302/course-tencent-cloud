@@ -164,15 +164,15 @@ class AnswerController extends Controller
     }
 
     /**
-     * @Route("/{id:[0-9]+}/publish/review", name="admin.answer.publish_review")
+     * @Route("/{id:[0-9]+}/moderate", name="admin.answer.moderate")
      */
-    public function publishReviewAction($id)
+    public function moderateAction($id)
     {
         $answerService = new AnswerService();
 
         if ($this->request->isPost()) {
 
-            $answerService->publishReview($id);
+            $answerService->moderate($id);
 
             $location = $this->url->get(['for' => 'admin.mod.answers']);
 
@@ -187,27 +187,26 @@ class AnswerController extends Controller
         $reasons = $answerService->getReasons();
         $answer = $answerService->getAnswerInfo($id);
 
-        $this->view->pick('answer/publish_review');
         $this->view->setVar('reasons', $reasons);
         $this->view->setVar('answer', $answer);
     }
 
     /**
-     * @Route("/{id:[0-9]+}/report/review", name="admin.answer.report_review")
+     * @Route("/{id:[0-9]+}/report", name="admin.answer.report")
      */
-    public function reportReviewAction($id)
+    public function reportAction($id)
     {
         $answerService = new AnswerService();
 
         if ($this->request->isPost()) {
 
-            $answerService->reportReview($id);
+            $answerService->report($id);
 
             $location = $this->url->get(['for' => 'admin.report.answers']);
 
             $content = [
                 'location' => $location,
-                'msg' => '审核举报成功',
+                'msg' => '处理举报成功',
             ];
 
             return $this->jsonSuccess($content);
@@ -216,7 +215,6 @@ class AnswerController extends Controller
         $answer = $answerService->getAnswerInfo($id);
         $reports = $answerService->getReports($id);
 
-        $this->view->pick('answer/report_review');
         $this->view->setVar('answer', $answer);
         $this->view->setVar('reports', $reports);
     }
