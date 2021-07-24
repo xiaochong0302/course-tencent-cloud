@@ -2,11 +2,7 @@
 
 {% block content %}
 
-    {%- macro private_info(value) %}
-        {% if value == 1 %}
-            <span class="layui-badge">私密</span>
-        {% endif %}
-    {%- endmacro %}
+{{ partial('macros/consult') }}
 
     {% set search_url = url({'for':'admin.consult.search'}) %}
 
@@ -32,7 +28,7 @@
             <col>
             <col>
             <col>
-            <col width="10%">
+            <col>
             <col width="10%">
         </colgroup>
         <thead>
@@ -40,7 +36,7 @@
             <th>问答</th>
             <th>用户</th>
             <th>时间</th>
-            <th>发布</th>
+            <th>状态</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -65,14 +61,14 @@
                     <p>编号：{{ item.owner.id }}</p>
                 </td>
                 <td>
-                    <p>提问：{{ date('Y-m-d H:i',item.create_time) }}</p>
+                    <p>提问：{{ date('Y-m-d H:i:s',item.create_time) }}</p>
                     {% if item.reply_time > 0 %}
-                        <p>回复：{{ date('Y-m-d H:i',item.reply_time) }}</p>
+                        <p>回复：{{ date('Y-m-d H:i:s',item.reply_time) }}</p>
                     {% else %}
                         <p>回复：N/A</p>
                     {% endif %}
                 </td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
+                <td>{{ publish_status(item.published) }}</td>
                 <td class="center">
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>

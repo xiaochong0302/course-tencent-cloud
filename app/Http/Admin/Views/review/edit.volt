@@ -34,13 +34,6 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">发布</label>
-            <div class="layui-input-block">
-                <input type="radio" name="published" value="1" title="是" {% if review.published == 1 %}checked="checked"{% endif %}>
-                <input type="radio" name="published" value="0" title="否" {% if review.published == 0 %}checked="checked"{% endif %}>
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
