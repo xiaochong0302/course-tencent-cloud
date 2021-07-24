@@ -121,7 +121,7 @@ trait Response
             'total_pages' => $totalPages,
         ];
 
-        return $this->jsonPaginate($pager);
+        return $this->jsonSuccess($pager);
     }
 
     public function getErrorMessage($code)
