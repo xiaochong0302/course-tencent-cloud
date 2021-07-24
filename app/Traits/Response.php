@@ -121,7 +121,7 @@ trait Response
             'total_pages' => $totalPages,
         ];
 
-        return $this->jsonSuccess($pager);
+        return $this->jsonSuccess(['pager' => $pager]);
     }
 
     public function getErrorMessage($code)
