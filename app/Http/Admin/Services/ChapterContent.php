@@ -179,7 +179,11 @@ class ChapterContent extends Service
         $hdUrl = $post['file_remote']['hd']['url'] ?? '';
         $sdUrl = $post['file_remote']['sd']['url'] ?? '';
 
-        $fileRemote = [];
+        $fileRemote = [
+            'od' => ['url' => ''],
+            'hd' => ['url' => ''],
+            'sd' => ['url' => ''],
+        ];
 
         $attrs = $chapter->attrs;
 

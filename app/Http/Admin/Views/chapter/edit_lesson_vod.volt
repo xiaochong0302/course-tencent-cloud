@@ -112,37 +112,61 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">原画地址</label>
-                    <div class="layui-inline" style="width:55%;">
-                        <input id="tc-od-url" class="layui-input" type="text" name="file_remote[od][url]" value="{{ remote_play_urls.od.url }}" lay-verify="required">
-                    </div>
                     {% if remote_play_urls.od.url %}
+                        <div class="layui-inline" style="width:55%;">
+                            <input id="tc-od-url" class="layui-input" type="text" name="file_remote[od][url]" value="{{ remote_play_urls.od.url }}" lay-verify="required">
+                        </div>
                         <div class="layui-inline">
                             <span class="layui-btn kg-preview" data-chapter-id="{{ chapter.id }}" data-play-url="{{ remote_play_urls.hd.url }}">预览</span>
                             <span class="layui-btn layui-btn-primary kg-copy" data-clipboard-target="#tc-od-url">复制</span>
+                        </div>
+                    {% else %}
+                        <div class="layui-inline" style="width:55%;">
+                            <input id="tc-od-url" class="layui-input" type="text" name="file_remote[od][url]" value="" lay-verify="required">
+                        </div>
+                        <div class="layui-inline">
+                            <span class="layui-btn layui-btn-disabled">预览</span>
+                            <span class="layui-btn layui-btn-disabled">复制</span>
                         </div>
                     {% endif %}
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">高清地址</label>
-                    <div class="layui-inline" style="width:55%;">
-                        <input id="tc-hd-url" class="layui-input" type="text" name="file_remote[hd][url]" value="{{ remote_play_urls.hd.url }}">
-                    </div>
                     {% if remote_play_urls.hd.url %}
+                        <div class="layui-inline" style="width:55%;">
+                            <input id="tc-hd-url" class="layui-input" type="text" name="file_remote[hd][url]" value="{{ remote_play_urls.hd.url }}">
+                        </div>
                         <div class="layui-inline">
                             <span class="layui-btn kg-preview" data-chapter-id="{{ chapter.id }}" data-play-url="{{ remote_play_urls.hd.url }}">预览</span>
                             <span class="layui-btn layui-btn-primary kg-copy" data-clipboard-target="#tc-hd-url">复制</span>
+                        </div>
+                    {% else %}
+                        <div class="layui-inline" style="width:55%;">
+                            <input id="tc-hd-url" class="layui-input" type="text" name="file_remote[hd][url]" value="">
+                        </div>
+                        <div class="layui-inline">
+                            <span class="layui-btn layui-btn-disabled">预览</span>
+                            <span class="layui-btn layui-btn-disabled">复制</span>
                         </div>
                     {% endif %}
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">标清地址</label>
-                    <div class="layui-inline" style="width:55%;">
-                        <input id="tc-sd-url" class="layui-input" type="text" name="file_remote[sd][url]" value="{{ remote_play_urls.sd.url }}">
-                    </div>
-                    {% if remote_play_urls.hd.url %}
+                    {% if remote_play_urls.sd.url %}
+                        <div class="layui-inline" style="width:55%;">
+                            <input id="tc-sd-url" class="layui-input" type="text" name="file_remote[sd][url]" value="{{ remote_play_urls.sd.url }}">
+                        </div>
                         <div class="layui-inline">
-                            <span class="layui-btn kg-preview" data-chapter-id="{{ chapter.id }}" data-play-url="{{ remote_play_urls.hd.url }}">预览</span>
+                            <span class="layui-btn kg-preview" data-chapter-id="{{ chapter.id }}" data-play-url="{{ remote_play_urls.sd.url }}">预览</span>
                             <span class="layui-btn layui-btn-primary kg-copy" data-clipboard-target="#tc-sd-url">复制</span>
+                        </div>
+                    {% else %}
+                        <div class="layui-inline" style="width:55%;">
+                            <input id="tc-sd-url" class="layui-input" type="text" name="file_remote[sd][url]" value="{{ remote_play_urls.sd.url }}">
+                        </div>
+                        <div class="layui-inline">
+                            <span class="layui-btn layui-btn-disabled">预览</span>
+                            <span class="layui-btn layui-btn-disabled">复制</span>
                         </div>
                     {% endif %}
                 </div>
