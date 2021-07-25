@@ -15,6 +15,13 @@ class Tag extends Model
 {
 
     /**
+     * 范围类型
+     */
+    const SCOPE_ARTICLE = 1;
+    const SCOPE_QUESTION = 2;
+    const SCOPE_COURSE = 3;
+
+    /**
      * 主键编号
      *
      * @var int
@@ -43,6 +50,13 @@ class Tag extends Model
     public $icon = '';
 
     /**
+     * 范围
+     *
+     * @var array|string
+     */
+    public $scopes = 'all';
+
+    /**
      * 优先级
      *
      * @var int
@@ -69,6 +83,27 @@ class Tag extends Model
      * @var int
      */
     public $follow_count = 0;
+
+    /**
+     * 课程数量
+     *
+     * @var int
+     */
+    public $course_count = 0;
+
+    /**
+     * 文章数量
+     *
+     * @var int
+     */
+    public $article_count = 0;
+
+    /**
+     * 问题数量
+     *
+     * @var int
+     */
+    public $question_count = 0;
 
     /**
      * 创建时间
@@ -122,6 +157,10 @@ class Tag extends Model
         } elseif (Text::startsWith($this->icon, 'http')) {
             $this->icon = self::getIconPath($this->icon);
         }
+
+        if (is_array($this->scopes) || is_object($this->scopes)) {
+            $this->scopes = kg_json_encode($this->scopes);
+        }
     }
 
     public function afterCreate()
@@ -136,6 +175,10 @@ class Tag extends Model
         if (!Text::startsWith($this->icon, 'http')) {
             $this->icon = kg_cos_icon_url($this->icon);
         }
+
+        if (is_string($this->scopes) && $this->scopes != 'all') {
+            $this->scopes = json_decode($this->scopes, true);
+        }
     }
 
     public static function getIconPath($url)
@@ -145,6 +188,15 @@ class Tag extends Model
         }
 
         return $url;
+    }
+
+    public static function scopeTypes()
+    {
+        return [
+            self::SCOPE_ARTICLE => '文章',
+            self::SCOPE_QUESTION => '问答',
+            self::SCOPE_COURSE => '课程',
+        ];
     }
 
 }

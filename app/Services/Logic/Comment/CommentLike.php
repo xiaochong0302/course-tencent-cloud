@@ -35,6 +35,8 @@ class CommentLike extends LogicService
 
         $commentLike = $likeRepo->findCommentLike($comment->id, $user->id);
 
+        $isFirstTime = true;
+
         if (!$commentLike) {
 
             $commentLike = new CommentLikeModel();
@@ -46,12 +48,14 @@ class CommentLike extends LogicService
 
         } else {
 
+            $isFirstTime = false;
+
             $commentLike->comment_id = $commentLike->deleted == 1 ? 0 : 1;
 
             $commentLike->update();
-
-            $this->decrCommentLikeCount($comment);
         }
+
+        $this->incrUserDailyCommentLikeCount($user);
 
         if ($commentLike->deleted == 0) {
 
@@ -75,7 +79,7 @@ class CommentLike extends LogicService
         /**
          * 仅首次点赞发送通知
          */
-        if (!$commentLike && $isOwner) {
+        if ($isFirstTime && !$isOwner) {
             $this->handleCommentLikedNotice($comment, $user);
         }
 

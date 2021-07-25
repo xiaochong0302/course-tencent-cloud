@@ -45,6 +45,7 @@ class UserInfo extends LogicService
             'article_count' => $user->article_count,
             'question_count' => $user->question_count,
             'answer_count' => $user->answer_count,
+            'comment_count' => $user->comment_count,
             'friend_count' => $imUser->friend_count,
             'group_count' => $imUser->group_count,
             'active_time' => $user->active_time,

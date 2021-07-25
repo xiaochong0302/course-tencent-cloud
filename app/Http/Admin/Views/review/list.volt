@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {{ partial('macros/review') }}
+
     {% set search_url = url({'for':'admin.consult.search'}) %}
 
     <div class="kg-nav">
@@ -26,15 +28,15 @@
             <col>
             <col>
             <col>
-            <col width="10%">
+            <col>
             <col width="10%">
         </colgroup>
         <thead>
         <tr>
             <th>內容</th>
-            <th>评分</th>
             <th>用户</th>
-            <th>发布</th>
+            <th>评分</th>
+            <th>状态</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -42,6 +44,7 @@
         {% for item in pager.items %}
             {% set list_by_course_url = url({'for':'admin.review.list'},{'course_id':item.course.id}) %}
             {% set list_by_owner_url = url({'for':'admin.review.list'},{'owner_id':item.owner.id}) %}
+            {% set moderate_url = url({'for':'admin.review.moderate','id':item.id}) %}
             {% set edit_url = url({'for':'admin.review.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.review.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.review.delete','id':item.id}) %}
@@ -53,19 +56,22 @@
                     <p>时间：{{ date('Y-m-d H:i:s',item.create_time) }}</p>
                 </td>
                 <td>
+                    <p>昵称：<a href="{{ list_by_owner_url }}">{{ item.owner.name }}</a></p>
+                    <p>编号：{{ item.owner.id }}</p>
+                </td>
+                <td>
                     <p>内容实用：{{ item.rating1 }}</p>
                     <p>通俗易懂：{{ item.rating2 }}</p>
                     <p>逻辑清晰：{{ item.rating3 }}</p>
                 </td>
-                <td>
-                    <p>昵称：<a href="{{ list_by_owner_url }}">{{ item.owner.name }}</a></p>
-                    <p>编号：{{ item.owner.id }}</p>
-                </td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
+                <td>{{ publish_status(item.published) }}</td>
                 <td class="center">
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
+                            {% if item.published == 1 %}
+                                <li><a href="{{ moderate_url }}">审核</a></li>
+                            {% endif %}
                             <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}
                                 <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>

@@ -9,6 +9,7 @@ namespace App\Models;
 
 use App\Caches\MaxCategoryId as MaxCategoryIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
 
 class Category extends Model
 {
@@ -55,6 +56,20 @@ class Category extends Model
      * @var string
      */
     public $name = '';
+
+    /**
+     * 别名
+     *
+     * @var string
+     */
+    public $alias = '';
+
+    /**
+     * 图标
+     *
+     * @var string
+     */
+    public $icon = '';
 
     /**
      * 路径
@@ -136,11 +151,36 @@ class Category extends Model
         $this->update_time = time();
     }
 
+    public function beforeSave()
+    {
+        if (empty($this->icon)) {
+            $this->icon = kg_default_icon_path();
+        } elseif (Text::startsWith($this->icon, 'http')) {
+            $this->icon = self::getIconPath($this->icon);
+        }
+    }
+
     public function afterCreate()
     {
         $cache = new MaxCategoryIdCache();
 
         $cache->rebuild();
+    }
+
+    public function afterFetch()
+    {
+        if (!Text::startsWith($this->icon, 'http')) {
+            $this->icon = kg_cos_icon_url($this->icon);
+        }
+    }
+
+    public static function getIconPath($url)
+    {
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
+
+        return $url;
     }
 
     public static function types()

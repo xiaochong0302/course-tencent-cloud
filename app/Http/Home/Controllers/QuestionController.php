@@ -109,7 +109,7 @@ class QuestionController extends Controller
             $this->response->redirect(['for' => 'home.error.403']);
         }
 
-        $this->seo->prependTitle($question['title']);
+        $this->seo->prependTitle(['问答', $question['title']]);
         $this->seo->setDescription($question['summary']);
 
         $this->view->setVar('question', $question);

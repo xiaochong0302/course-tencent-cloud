@@ -4,7 +4,6 @@
 
     {{ partial('macros/question') }}
 
-    {% set question_list_url = url({'for':'home.question.list'}) %}
     {% set question_report_url = url({'for':'home.report.add'},{'item_id':question.id,'item_type':107}) %}
     {% set question_edit_url = url({'for':'home.question.edit','id':question.id}) %}
     {% set question_delete_url = url({'for':'home.question.delete','id':question.id}) %}
@@ -19,7 +18,7 @@
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
-            <a href="{{ question_list_url }}">问答</a>
+            <a><cite>问答</cite></a>
             <a><cite>详情</cite></a>
         </span>
         <span class="share">
@@ -65,7 +64,7 @@
                 {% endif %}
             </div>
             <div id="answer-anchor"></div>
-            {% if question.me.answered == 0 %}
+            {% if question.me.answered == 0 and question.published == 2 %}
                 <div class="answer-wrap wrap">
                     <button class="layui-btn layui-btn-fluid btn-answer" data-url="{{ answer_add_url }}">回答问题</button>
                 </div>

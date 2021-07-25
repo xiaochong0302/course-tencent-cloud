@@ -9,7 +9,7 @@
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
-            <a><cite>个人主页</cite></a>
+            <a><cite>空间</cite></a>
             <a><cite>{{ user.name }}</cite></a>
         </span>
         <span class="share">

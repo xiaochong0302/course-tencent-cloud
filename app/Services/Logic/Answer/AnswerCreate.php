@@ -53,11 +53,6 @@ class AnswerCreate extends LogicService
 
         $answer->create($data);
 
-        $this->saveDynamicAttrs($answer);
-        $this->incrUserDailyAnswerCount($user);
-        $this->recountQuestionAnswers($question);
-        $this->recountUserAnswers($user);
-
         if ($answer->published == AnswerModel::PUBLISH_APPROVED) {
 
             $question->last_answer_id = $answer->id;
@@ -66,11 +61,16 @@ class AnswerCreate extends LogicService
 
             $question->update();
 
-            if ($user->id != $question->owner_id) {
+            if ($answer->owner_id != $question->owner_id) {
                 $this->handleAnswerPostPoint($answer);
                 $this->handleQuestionAnsweredNotice($answer);
             }
         }
+
+        $this->saveDynamicAttrs($answer);
+        $this->incrUserDailyAnswerCount($user);
+        $this->recountQuestionAnswers($question);
+        $this->recountUserAnswers($user);
 
         $this->eventsManager->fire('Answer:afterCreate', $this, $answer);
 
@@ -106,8 +106,6 @@ class AnswerCreate extends LogicService
 
     protected function handleQuestionAnsweredNotice(AnswerModel $answer)
     {
-        if ($answer->published != AnswerModel::PUBLISH_APPROVED) return;
-
         $notice = new QuestionAnsweredNotice();
 
         $notice->handle($answer);
@@ -115,8 +113,6 @@ class AnswerCreate extends LogicService
 
     protected function handleAnswerPostPoint(AnswerModel $answer)
     {
-        if ($answer->published != AnswerModel::PUBLISH_APPROVED) return;
-
         $service = new AnswerPostPointHistory();
 
         $service->handle($answer);

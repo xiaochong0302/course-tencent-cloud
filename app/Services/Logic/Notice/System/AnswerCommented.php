@@ -19,7 +19,7 @@ class AnswerCommented extends LogicService
     public function handle(AnswerModel $answer, CommentModel $comment)
     {
         $answerSummary = kg_substr($answer->summary, 0, 32);
-        $commentContent = kg_substr($comment->content, 0, 32);
+        $commentContent = kg_substr($comment->content, 0, 36);
 
         $question = $this->findQuestion($answer->question_id);
 

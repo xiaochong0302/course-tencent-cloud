@@ -18,7 +18,7 @@ class AnswerLiked extends LogicService
 
     public function handle(AnswerModel $answer, UserModel $sender)
     {
-        $answerSummary = kg_substr($answer->summary, 0, 32);
+        $answerSummary = kg_substr($answer->summary, 0, 36);
 
         $questionRepo = new QuestionRepo();
 

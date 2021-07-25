@@ -37,8 +37,8 @@
         <thead>
         <tr>
             <th>问题</th>
-            <th>回答</th>
             <th>浏览</th>
+            <th>回答</th>
             <th>点赞</th>
             <th>收藏</th>
             <th>状态</th>
@@ -54,7 +54,7 @@
             {% set update_url = url({'for':'admin.question.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.question.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.question.restore','id':item.id}) %}
-            {% set review_url = url({'for':'admin.question.publish_review','id':item.id}) %}
+            {% set review_url = url({'for':'admin.question.moderate','id':item.id}) %}
             {% set answer_add_url = url({'for':'admin.answer.add'},{'question_id':item.id}) %}
             {% set answer_list_url = url({'for':'admin.answer.list'},{'question_id':item.id}) %}
             <tr>
@@ -73,8 +73,8 @@
                         <span>创建：{{ date('Y-m-d',item.create_time) }}</span>
                     </p>
                 </td>
-                <td>{{ item.answer_count }}</td>
                 <td>{{ item.view_count }}</td>
+                <td>{{ item.answer_count }}</td>
                 <td>{{ item.like_count }}</td>
                 <td>{{ item.favorite_count }}</td>
                 <td>{{ publish_status(item.published) }}</td>

@@ -34,7 +34,7 @@ class AnswerAccept extends LogicService
 
         $validator->checkOwner($user->id, $answer->owner_id);
 
-        if ($question->solved == 1) return;
+        if ($question->solved == 1) return $answer;
 
         $answer->accepted = 1;
 

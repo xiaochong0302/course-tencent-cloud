@@ -174,15 +174,15 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/{id:[0-9]+}/publish/review", name="admin.article.publish_review")
+     * @Route("/{id:[0-9]+}/moderate", name="admin.article.moderate")
      */
-    public function publishReviewAction($id)
+    public function moderateAction($id)
     {
         $articleService = new ArticleService();
 
         if ($this->request->isPost()) {
 
-            $articleService->publishReview($id);
+            $articleService->moderate($id);
 
             $location = $this->url->get(['for' => 'admin.mod.articles']);
 
@@ -197,27 +197,26 @@ class ArticleController extends Controller
         $reasons = $articleService->getReasons();
         $article = $articleService->getArticleInfo($id);
 
-        $this->view->pick('article/publish_review');
         $this->view->setVar('reasons', $reasons);
         $this->view->setVar('article', $article);
     }
 
     /**
-     * @Route("/{id:[0-9]+}/report/review", name="admin.article.report_review")
+     * @Route("/{id:[0-9]+}/report", name="admin.article.report")
      */
-    public function reportReviewAction($id)
+    public function reportAction($id)
     {
         $articleService = new ArticleService();
 
         if ($this->request->isPost()) {
 
-            $articleService->reportReview($id);
+            $articleService->report($id);
 
             $location = $this->url->get(['for' => 'admin.report.articles']);
 
             $content = [
                 'location' => $location,
-                'msg' => '审核举报成功',
+                'msg' => '处理举报成功',
             ];
 
             return $this->jsonSuccess($content);
@@ -226,7 +225,6 @@ class ArticleController extends Controller
         $article = $articleService->getArticleInfo($id);
         $reports = $articleService->getReports($id);
 
-        $this->view->pick('article/report_review');
         $this->view->setVar('reports', $reports);
         $this->view->setVar('article', $article);
     }

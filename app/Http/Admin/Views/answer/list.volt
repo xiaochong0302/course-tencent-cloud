@@ -44,7 +44,7 @@
             {% set edit_url = url({'for':'admin.answer.edit','id':item.id}) %}
             {% set delete_url = url({'for':'admin.answer.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.answer.restore','id':item.id}) %}
-            {% set review_url = url({'for':'admin.answer.publish_review','id':item.id}) %}
+            {% set review_url = url({'for':'admin.answer.moderate','id':item.id}) %}
             <tr>
                 <td>
                     <P>问题：<a href="{{ question_url }}" target="_blank">{{ item.question.title }}</a></P>

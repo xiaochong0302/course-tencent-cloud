@@ -64,9 +64,9 @@ Tips: 请用手机注册一个新账号，用户中心 -> 关注订阅，扫码�
 
 ### 项目文档
 
-- [运行环境搭建](https://gitee.com/koogua/course-tencent-cloud/wikis)
-- [系统服务配置](https://gitee.com/koogua/course-tencent-cloud/wikis)
-- [客户终端配置](https://gitee.com/koogua/course-tencent-cloud/wikis)
+- [运行环境搭建](https://koogua.com/page/wiki)
+- [系统服务配置](https://koogua.com/page/wiki)
+- [客户终端配置](https://koogua.com/page/wiki)
 
 ### 意见反馈
 

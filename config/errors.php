@@ -82,6 +82,7 @@ $error['user.invalid_lock_expiry_time'] = '无效的锁定期限';
 $error['category.not_found'] = '分类不存在';
 $error['category.parent_not_found'] = '父级分类不存在';
 $error['category.invalid_type'] = '无效的分类类型';
+$error['category.invalid_icon'] = '无效的分类图标';
 $error['category.invalid_priority'] = '无效的排序值（范围：1-255）';
 $error['category.invalid_publish_status'] = '无效的发布状态';
 $error['category.name_too_short'] = '名称太短（少于2个字符）';

@@ -1571,6 +1571,7 @@
 }
 
 #pay-layer .qrcode img {
+    border: 3px dashed #666;
     width: 160px;
     height: 160px;
 }
@@ -2082,6 +2083,7 @@
 }
 
 .my-subscribe .qrcode {
+    broder: 3px dashed #666;
     margin: 30px auto;
     width: 160px;
     height: 160px;

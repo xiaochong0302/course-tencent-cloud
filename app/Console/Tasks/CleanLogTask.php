@@ -314,9 +314,9 @@ class CleanLogTask extends Task
             if (strtotime($today) - strtotime($date) >= $keepDays * 86400) {
                 $deleted = unlink($file);
                 if ($deleted) {
-                    echo "delete {$file} success" . PHP_EOL;
+                    echo "------ delete {$file} success ------" . PHP_EOL;
                 } else {
-                    echo "delete {$file} failed" . PHP_EOL;
+                    echo "------ delete {$file} failed -------" . PHP_EOL;
                 }
             }
         }

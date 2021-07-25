@@ -16,9 +16,14 @@ class AppInfo
 
     protected $link = 'https://koogua.com';
 
-    protected $version = '1.3.8';
+    protected $version = '1.3.9';
 
     public function __get($name)
+    {
+        return $this->get($name);
+    }
+
+    public function get($name)
     {
         if (isset($this->{$name})) {
             return $this->{$name};

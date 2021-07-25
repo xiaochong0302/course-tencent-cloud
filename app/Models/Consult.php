@@ -13,6 +13,13 @@ class Consult extends Model
 {
 
     /**
+     * 发布状态
+     */
+    const PUBLISH_PENDING = 1; // 审核中
+    const PUBLISH_APPROVED = 2; // 已发布
+    const PUBLISH_REJECTED = 3; // 未通过
+
+    /**
      * 优先级
      */
     const PRIORITY_HIGH = 10; // 高
@@ -181,6 +188,15 @@ class Consult extends Model
         }
 
         $this->update_time = time();
+    }
+
+    public static function publishTypes()
+    {
+        return [
+            self::PUBLISH_PENDING => '审核中',
+            self::PUBLISH_APPROVED => '已发布',
+            self::PUBLISH_REJECTED => '未通过',
+        ];
     }
 
 }

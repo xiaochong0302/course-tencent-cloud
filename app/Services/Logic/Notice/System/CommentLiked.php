@@ -17,7 +17,7 @@ class CommentLiked extends LogicService
 
     public function handle(CommentModel $comment, UserModel $sender)
     {
-        $commentContent = kg_substr($comment->content, 0, 32);
+        $commentContent = kg_substr($comment->content, 0, 36);
 
         $notification = new NotificationModel();
 
@@ -26,7 +26,6 @@ class CommentLiked extends LogicService
         $notification->event_id = $comment->id;
         $notification->event_type = NotificationModel::TYPE_COMMENT_LIKED;
         $notification->event_info = [
-            'sender' => ['id' => $sender->id, 'name' => $sender->name],
             'comment' => ['id' => $comment->id, 'content' => $commentContent],
         ];
 

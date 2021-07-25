@@ -20,7 +20,11 @@ class ConsultController extends Controller
      */
     public function searchAction()
     {
+        $consultService = new ConsultService();
 
+        $publishTypes = $consultService->getPublishTypes();
+
+        $this->view->setVar('publish_types', $publishTypes);
     }
 
     /**
@@ -108,6 +112,32 @@ class ConsultController extends Controller
         ];
 
         return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}/moderate", name="admin.consult.moderate")
+     */
+    public function moderateAction($id)
+    {
+        $consultService = new ConsultService();
+
+        if ($this->request->isPost()) {
+
+            $consultService->moderate($id);
+
+            $location = $this->url->get(['for' => 'admin.mod.consults']);
+
+            $content = [
+                'location' => $location,
+                'msg' => '审核咨询成功',
+            ];
+
+            return $this->jsonSuccess($content);
+        }
+
+        $consult = $consultService->getConsultInfo($id);
+
+        $this->view->setVar('consult', $consult);
     }
 
 }

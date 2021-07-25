@@ -10,6 +10,7 @@ namespace App\Validators;
 use App\Caches\Category as CategoryCache;
 use App\Caches\MaxCategoryId as MaxCategoryIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Category as CategoryModel;
 use App\Repos\Category as CategoryRepo;
 
@@ -103,6 +104,17 @@ class Category extends Validator
         }
 
         return $value;
+    }
+
+    public function checkIcon($icon)
+    {
+        $value = $this->filter->sanitize($icon, ['trim', 'string']);
+
+        if (!CommonValidator::url($value)) {
+            throw new BadRequestException('category.invalid_icon');
+        }
+
+        return kg_cos_img_style_trim($value);
     }
 
     public function checkPriority($priority)

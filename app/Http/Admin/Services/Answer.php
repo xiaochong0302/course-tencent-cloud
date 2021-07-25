@@ -100,22 +100,30 @@ class Answer extends Service
 
         $question = $validator->checkQuestion($post['question_id']);
 
+        $data = $this->handlePostData($post);
+
         $answer = new AnswerModel();
 
-        $answer->published = AnswerModel::PUBLISH_APPROVED;
-        $answer->client_type = $this->getClientType();
-        $answer->client_ip = $this->getClientIp();
-        $answer->content = $validator->checkContent($post['content']);
-        $answer->question_id = $question->id;
-        $answer->owner_id = $user->id;
+        $data['published'] = AnswerModel::PUBLISH_APPROVED;
+        $data['question_id'] = $question->id;
+        $data['owner_id'] = $user->id;
 
-        $answer->create();
+        $answer->create($data);
+
+        $question->last_answer_id = $answer->id;
+        $question->last_replier_id = $answer->owner_id;
+        $question->last_reply_time = $answer->create_time;
+
+        $question->update();
 
         $this->saveDynamicAttrs($answer);
         $this->recountQuestionAnswers($question);
         $this->recountUserAnswers($user);
-        $this->handleAnswerPostPoint($answer);
-        $this->handleQuestionAnsweredNotice($answer);
+
+        if ($answer->owner_id != $question->owner_id) {
+            $this->handleAnswerPostPoint($answer);
+            $this->handleQuestionAnsweredNotice($answer);
+        }
 
         $this->eventsManager->fire('Answer:afterCreate', $this, $answer);
 
@@ -199,7 +207,7 @@ class Answer extends Service
         return $answer;
     }
 
-    public function publishReview($id)
+    public function moderate($id)
     {
         $type = $this->request->getPost('type', ['trim', 'string']);
         $reason = $this->request->getPost('reason', ['trim', 'string']);
@@ -229,7 +237,11 @@ class Answer extends Service
 
         if ($type == 'approve') {
 
-            $this->handleAnswerPostPoint($answer);
+            if ($answer->owner_id != $question->owner_id) {
+                $this->handleAnswerPostPoint($answer);
+                $this->handleQuestionAnsweredNotice($answer);
+            }
+
             $this->handleAnswerApprovedNotice($answer, $sender);
 
             $this->eventsManager->fire('Answer:afterApprove', $this, $answer);
@@ -250,7 +262,7 @@ class Answer extends Service
         return $answer;
     }
 
-    public function reportReview($id)
+    public function report($id)
     {
         $accepted = $this->request->getPost('accepted', 'int', 0);
         $deleted = $this->request->getPost('deleted', 'int', 0);

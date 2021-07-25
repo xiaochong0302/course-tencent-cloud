@@ -170,15 +170,15 @@ class QuestionController extends Controller
     }
 
     /**
-     * @Route("/{id:[0-9]+}/publish/review", name="admin.question.publish_review")
+     * @Route("/{id:[0-9]+}/moderate", name="admin.question.moderate")
      */
-    public function publishReviewAction($id)
+    public function moderateAction($id)
     {
         $questionService = new QuestionService();
 
         if ($this->request->isPost()) {
 
-            $questionService->publishReview($id);
+            $questionService->moderate($id);
 
             $location = $this->url->get(['for' => 'admin.mod.questions']);
 
@@ -193,27 +193,26 @@ class QuestionController extends Controller
         $reasons = $questionService->getReasons();
         $question = $questionService->getQuestionInfo($id);
 
-        $this->view->pick('question/publish_review');
         $this->view->setVar('reasons', $reasons);
         $this->view->setVar('question', $question);
     }
 
     /**
-     * @Route("/{id:[0-9]+}/report/review", name="admin.question.report_review")
+     * @Route("/{id:[0-9]+}/report", name="admin.question.report")
      */
-    public function reportReviewAction($id)
+    public function reportAction($id)
     {
         $questionService = new QuestionService();
 
         if ($this->request->isPost()) {
 
-            $questionService->reportReview($id);
+            $questionService->report($id);
 
             $location = $this->url->get(['for' => 'admin.report.questions']);
 
             $content = [
                 'location' => $location,
-                'msg' => '审核举报成功',
+                'msg' => '处理举报成功',
             ];
 
             return $this->jsonSuccess($content);
@@ -222,7 +221,6 @@ class QuestionController extends Controller
         $question = $questionService->getQuestionInfo($id);
         $reports = $questionService->getReports($id);
 
-        $this->view->pick('question/report_review');
         $this->view->setVar('question', $question);
         $this->view->setVar('reports', $reports);
     }

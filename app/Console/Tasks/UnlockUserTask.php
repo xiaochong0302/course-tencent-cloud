@@ -18,11 +18,17 @@ class UnlockUserTask extends Task
     {
         $users = $this->findUsers();
 
+        echo sprintf('pending users: %s', $users->count()) . PHP_EOL;
+
         if ($users->count() == 0) return;
+
+        echo '------ start unlock user task ------' . PHP_EOL;
 
         foreach ($users as $user) {
             $user->update(['locked' => 0]);
         }
+
+        echo '------ end unlock user task ------' . PHP_EOL;
     }
 
     /**

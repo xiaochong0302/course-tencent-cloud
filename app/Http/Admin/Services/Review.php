@@ -10,13 +10,20 @@ namespace App\Http\Admin\Services;
 use App\Builders\ReviewList as ReviewListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Course as CourseModel;
+use App\Models\Review as ReviewModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Review as ReviewRepo;
 use App\Services\CourseStat as CourseStatService;
+use App\Services\Logic\Review\ReviewInfo as ReviewInfoService;
 use App\Validators\Review as ReviewValidator;
 
 class Review extends Service
 {
+
+    public function getPublishTypes()
+    {
+        return ReviewModel::publishTypes();
+    }
 
     public function getReviews()
     {
@@ -47,6 +54,13 @@ class Review extends Service
     public function getReview($id)
     {
         return $this->findOrFail($id);
+    }
+
+    public function getReviewInfo($id)
+    {
+        $service = new ReviewInfoService();
+
+        return $service->handle($id);
     }
 
     public function updateReview($id)
@@ -86,6 +100,8 @@ class Review extends Service
 
         $this->updateCourseRating($course);
 
+        $this->eventsManager->fire('Review:afterUpdate', $this, $review);
+
         return $review;
     }
 
@@ -100,6 +116,8 @@ class Review extends Service
         $course = $this->findCourse($review->course_id);
 
         $this->recountCourseReviews($course);
+
+        $this->eventsManager->fire('Review:afterReview', $this, $review);
     }
 
     public function restoreReview($id)
@@ -113,6 +131,35 @@ class Review extends Service
         $course = $this->findCourse($review->course_id);
 
         $this->recountCourseReviews($course);
+
+        $this->eventsManager->fire('Review:afterRestore', $this, $review);
+    }
+
+    public function moderate($id)
+    {
+        $type = $this->request->getPost('type', ['trim', 'string']);
+
+        $review = $this->findOrFail($id);
+
+        if ($type == 'approve') {
+            $review->published = ReviewModel::PUBLISH_APPROVED;
+        } elseif ($type == 'reject') {
+            $review->published = ReviewModel::PUBLISH_REJECTED;
+        }
+
+        $review->update();
+
+        $course = $this->findCourse($review->course_id);
+
+        $this->recountCourseReviews($course);
+
+        if ($type == 'approve') {
+            $this->eventsManager->fire('Review:afterApprove', $this, $review);
+        } elseif ($type == 'reject') {
+            $this->eventsManager->fire('Review:afterReject', $this, $review);
+        }
+
+        return $review;
     }
 
     protected function findOrFail($id)

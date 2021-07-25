@@ -10,18 +10,36 @@ namespace App\Repos;
 use App\Models\Answer as AnswerModel;
 use App\Models\Article as ArticleModel;
 use App\Models\Comment as CommentModel;
+use App\Models\Consult as ConsultModel;
 use App\Models\Online as OnlineModel;
 use App\Models\Order as OrderModel;
 use App\Models\OrderStatus as OrderStatusModel;
 use App\Models\PointRedeem as PointRedeemModel;
 use App\Models\Question as QuestionModel;
 use App\Models\Refund as RefundModel;
+use App\Models\Review as ReviewModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Stat extends Repository
 {
+
+    public function countPendingReviews()
+    {
+        return (int)ReviewModel::count([
+            'conditions' => 'published = :published: AND deleted = 0',
+            'bind' => ['published' => ReviewModel::PUBLISH_PENDING],
+        ]);
+    }
+
+    public function countPendingConsults()
+    {
+        return (int)ConsultModel::count([
+            'conditions' => 'published = :published: AND deleted = 0',
+            'bind' => ['published' => ConsultModel::PUBLISH_PENDING],
+        ]);
+    }
 
     public function countPendingArticles()
     {
@@ -33,7 +51,7 @@ class Stat extends Repository
 
     public function countPendingQuestions()
     {
-        return (int)ArticleModel::count([
+        return (int)QuestionModel::count([
             'conditions' => 'published = :published: AND deleted = 0',
             'bind' => ['published' => QuestionModel::PUBLISH_PENDING],
         ]);
@@ -64,7 +82,7 @@ class Stat extends Repository
 
     public function countReportedQuestions()
     {
-        return (int)ArticleModel::count([
+        return (int)QuestionModel::count([
             'conditions' => 'report_count > 0',
         ]);
     }

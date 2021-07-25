@@ -8,6 +8,8 @@
 namespace App\Http\Api\Controllers;
 
 use App\Services\Logic\User\Console\AccountInfo as AccountInfoService;
+use App\Services\Logic\User\Console\AnswerList as AnswerListService;
+use App\Services\Logic\User\Console\ArticleList as ArticleListService;
 use App\Services\Logic\User\Console\ConsultList as ConsultListService;
 use App\Services\Logic\User\Console\CourseList as CourseListService;
 use App\Services\Logic\User\Console\FavoriteList as FavoriteListService;
@@ -20,6 +22,7 @@ use App\Services\Logic\User\Console\Online as OnlineService;
 use App\Services\Logic\User\Console\OrderList as OrderListService;
 use App\Services\Logic\User\Console\ProfileInfo as ProfileInfoService;
 use App\Services\Logic\User\Console\ProfileUpdate as ProfileUpdateService;
+use App\Services\Logic\User\Console\QuestionList as QuestionListService;
 use App\Services\Logic\User\Console\RefundList as RefundListService;
 use App\Services\Logic\User\Console\ReviewList as ReviewListService;
 
@@ -62,7 +65,43 @@ class UserConsoleController extends Controller
 
         $pager = $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
+    }
+
+    /**
+     * @Get("/articles", name="api.uc.articles")
+     */
+    public function articlesAction()
+    {
+        $service = new ArticleListService();
+
+        $pager = $service->handle();
+
+        return $this->jsonPaginate($pager);
+    }
+
+    /**
+     * @Get("/questions", name="api.uc.questions")
+     */
+    public function questionsAction()
+    {
+        $service = new QuestionListService();
+
+        $pager = $service->handle();
+
+        return $this->jsonPaginate($pager);
+    }
+
+    /**
+     * @Get("/answers", name="api.uc.answers")
+     */
+    public function answersAction()
+    {
+        $service = new AnswerListService();
+
+        $pager = $service->handle();
+
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -74,7 +113,7 @@ class UserConsoleController extends Controller
 
         $pager = $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -86,7 +125,7 @@ class UserConsoleController extends Controller
 
         $pager = $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -98,7 +137,7 @@ class UserConsoleController extends Controller
 
         $pager = $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -110,7 +149,7 @@ class UserConsoleController extends Controller
 
         $pager = $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -122,7 +161,7 @@ class UserConsoleController extends Controller
 
         $pager = $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -134,7 +173,7 @@ class UserConsoleController extends Controller
 
         $pager = $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -146,7 +185,7 @@ class UserConsoleController extends Controller
 
         $pager = $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**
@@ -162,7 +201,7 @@ class UserConsoleController extends Controller
 
         $service->handle();
 
-        return $this->jsonSuccess(['pager' => $pager]);
+        return $this->jsonPaginate($pager);
     }
 
     /**

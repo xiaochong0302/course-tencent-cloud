@@ -38,17 +38,6 @@ class QuestionUpdate extends LogicService
             $data['published'] = QuestionModel::PUBLISH_PENDING;
         }
 
-        /**
-         * 当通过审核后，禁止修改部分属性
-         */
-        if ($question->published == QuestionModel::PUBLISH_APPROVED) {
-            unset(
-                $data['title'],
-                $data['content'],
-                $post['xm_tag_ids'],
-            );
-        }
-
         $question->update($data);
 
         if (isset($post['xm_tag_ids'])) {

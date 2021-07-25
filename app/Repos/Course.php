@@ -18,10 +18,13 @@ use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\CoursePackage as CoursePackageModel;
 use App\Models\CourseRating as CourseRatingModel;
 use App\Models\CourseRelated as CourseRelatedModel;
+use App\Models\CourseTag as CourseTagModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\ImGroup as ImGroupModel;
 use App\Models\Package as PackageModel;
+use App\Models\Resource as ResourceModel;
 use App\Models\Review as ReviewModel;
+use App\Models\Tag as TagModel;
 use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -38,11 +41,20 @@ class Course extends Repository
 
         $builder->where('1 = 1');
 
+        $fakeId = false;
+
         if (!empty($where['category_id'])) {
             $where['id'] = $this->getCategoryCourseIds($where['category_id']);
+            $fakeId = empty($where['id']);
         } elseif (!empty($where['teacher_id'])) {
             $where['id'] = $this->getTeacherCourseIds($where['teacher_id']);
+            $fakeId = empty($where['id']);
         }
+
+        /**
+         * 构造空记录条件
+         */
+        if ($fakeId) $where['id'] = -999;
 
         if (!empty($where['id'])) {
             if (is_array($where['id'])) {
@@ -208,7 +220,7 @@ class Course extends Repository
             ->join(CourseUserModel::class, 'u.id = cu.user_id', 'cu')
             ->where('cu.course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('cu.role_type = :role_type:', ['role_type' => $roleType])
-            ->andWhere('cu.deleted = :deleted:', ['deleted' => 0])
+            ->andWhere('cu.deleted = 0')
             ->getQuery()->execute();
     }
 
@@ -224,6 +236,23 @@ class Course extends Repository
             ->join(CourseCategoryModel::class, 'c.id = cc.category_id', 'cc')
             ->where('cc.course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('c.published = 1')
+            ->andWhere('c.deleted = 0')
+            ->getQuery()->execute();
+    }
+
+    /**
+     * @param int $courseId
+     * @return ResultsetInterface|Resultset|TagModel[]
+     */
+    public function findTags($courseId)
+    {
+        return $this->modelsManager->createBuilder()
+            ->columns('t.*')
+            ->addFrom(TagModel::class, 't')
+            ->join(CourseTagModel::class, 't.id = ct.tag_id', 'ct')
+            ->where('ct.course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('t.published = 1')
+            ->andWhere('t.deleted = 0')
             ->getQuery()->execute();
     }
 
@@ -239,6 +268,7 @@ class Course extends Repository
             ->join(CoursePackageModel::class, 'p.id = cp.package_id', 'cp')
             ->where('cp.course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('p.published = 1')
+            ->andWhere('p.deleted = 0')
             ->getQuery()->execute();
     }
 
@@ -254,6 +284,7 @@ class Course extends Repository
             ->join(CourseRelatedModel::class, 'c.id = cr.related_id', 'cr')
             ->where('cr.course_id = :course_id:', ['course_id' => $courseId])
             ->andWhere('c.published = 1')
+            ->andWhere('c.deleted = 0')
             ->getQuery()->execute();
     }
 
@@ -312,12 +343,17 @@ class Course extends Repository
         ]);
     }
 
-    public function countPackages($courseId)
+    public function countResources($courseId)
     {
-        return (int)CoursePackageModel::count([
+        return (int)ResourceModel::count([
             'conditions' => 'course_id = :course_id:',
             'bind' => ['course_id' => $courseId],
         ]);
+    }
+
+    public function countPackages($courseId)
+    {
+        return $this->findPackages($courseId)->count();
     }
 
     public function countUsers($courseId)
@@ -331,16 +367,16 @@ class Course extends Repository
     public function countConsults($courseId)
     {
         return (int)ConsultModel::count([
-            'conditions' => 'course_id = :course_id: AND published = 1 AND deleted = 0',
-            'bind' => ['course_id' => $courseId],
+            'conditions' => 'course_id = ?1 AND published = ?2 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => ConsultModel::PUBLISH_APPROVED],
         ]);
     }
 
     public function countReviews($courseId)
     {
         return (int)ReviewModel::count([
-            'conditions' => 'course_id = :course_id: AND published = 1 AND deleted = 0',
-            'bind' => ['course_id' => $courseId],
+            'conditions' => 'course_id = ?1 AND published = ?2 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => ReviewModel::PUBLISH_APPROVED],
         ]);
     }
 
@@ -356,8 +392,8 @@ class Course extends Repository
     {
         return (int)ReviewModel::average([
             'column' => 'rating',
-            'conditions' => 'course_id = :course_id: AND published = 1',
-            'bind' => ['course_id' => $courseId],
+            'conditions' => 'course_id = ?1 AND published = ?2 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => ReviewModel::PUBLISH_APPROVED],
         ]);
     }
 

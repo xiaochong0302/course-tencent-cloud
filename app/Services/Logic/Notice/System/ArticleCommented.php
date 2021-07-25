@@ -17,7 +17,7 @@ class ArticleCommented extends LogicService
 
     public function handle(ArticleModel $article, CommentModel $comment)
     {
-        $commentContent = kg_substr($comment->content, 0, 32);
+        $commentContent = kg_substr($comment->content, 0, 36);
 
         $notification = new NotificationModel();
 

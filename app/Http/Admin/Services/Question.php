@@ -237,7 +237,7 @@ class Question extends Service
         return $question;
     }
 
-    public function publishReview($id)
+    public function moderate($id)
     {
         $type = $this->request->getPost('type', ['trim', 'string']);
         $reason = $this->request->getPost('reason', ['trim', 'string']);
@@ -285,7 +285,7 @@ class Question extends Service
         return $question;
     }
 
-    public function reportReview($id)
+    public function report($id)
     {
         $accepted = $this->request->getPost('accepted', 'int', 0);
         $deleted = $this->request->getPost('deleted', 'int', 0);

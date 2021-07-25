@@ -28,6 +28,8 @@ class CategoryTreeList extends Builder
             $list[] = [
                 'id' => $category->id,
                 'name' => $category->name,
+                'alias' => $category->alias,
+                'icon' => $category->icon,
                 'children' => $this->handleChildren($category),
             ];
         }
@@ -49,6 +51,8 @@ class CategoryTreeList extends Builder
             $list[] = [
                 'id' => $category->id,
                 'name' => $category->name,
+                'alias' => $category->alias,
+                'icon' => $category->icon,
             ];
         }
 

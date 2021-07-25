@@ -35,6 +35,8 @@ class ReviewLike extends LogicService
 
         $reviewLike = $likeRepo->findReviewLike($review->id, $user->id);
 
+        $isFirstTime = true;
+
         if (!$reviewLike) {
 
             $reviewLike = new ReviewLikeModel();
@@ -45,6 +47,8 @@ class ReviewLike extends LogicService
             $reviewLike->create();
 
         } else {
+
+            $isFirstTime = false;
 
             $reviewLike->deleted = $reviewLike->deleted == 1 ? 0 : 1;
 
@@ -77,7 +81,7 @@ class ReviewLike extends LogicService
         /**
          * 仅首次点赞发送通知
          */
-        if (!$reviewLike && !$isOwner) {
+        if ($isFirstTime && !$isOwner) {
             $this->handleLikeNotice($review, $user);
         }
 

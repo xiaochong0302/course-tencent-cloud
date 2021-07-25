@@ -15,11 +15,17 @@ use App\Models\Reason as ReasonModel;
 use App\Models\Report as ReportModel;
 use App\Repos\Comment as CommentRepo;
 use App\Repos\Report as ReportRepo;
+use App\Repos\User as UserRepo;
+use App\Services\Logic\Comment\AfterCreateTrait;
 use App\Services\Logic\Comment\CommentInfo as CommentInfoService;
+use App\Services\Logic\Comment\CountTrait;
 use App\Validators\Comment as CommentValidator;
 
 class Comment extends Service
 {
+
+    use AfterCreateTrait;
+    use CountTrait;
 
     public function getReasons()
     {
@@ -99,27 +105,57 @@ class Comment extends Service
 
     public function deleteComment($id)
     {
-        $page = $this->findOrFail($id);
+        $comment = $this->findOrFail($id);
 
-        $page->deleted = 1;
+        $comment->deleted = 1;
 
-        $page->update();
+        $comment->update();
 
-        return $page;
+        $validator = new CommentValidator();
+
+        if ($comment->parent_id > 0) {
+            $parent = $validator->checkParent($comment->parent_id);
+            $this->decrCommentReplyCount($parent);
+        }
+
+        $item = $validator->checkItem($comment->item_id, $comment->item_type);
+
+        $this->decrItemCommentCount($item);
+
+        $owner = $this->findUser($comment->owner_id);
+
+        $this->decrUserCommentCount($owner);
+
+        return $comment;
     }
 
     public function restoreComment($id)
     {
-        $page = $this->findOrFail($id);
+        $comment = $this->findOrFail($id);
 
-        $page->deleted = 0;
+        $comment->deleted = 0;
 
-        $page->update();
+        $comment->update();
 
-        return $page;
+        $validator = new CommentValidator();
+
+        if ($comment->parent_id > 0) {
+            $parent = $validator->checkParent($comment->parent_id);
+            $this->incrCommentReplyCount($parent);
+        }
+
+        $item = $validator->checkItem($comment->item_id, $comment->item_type);
+
+        $this->incrItemCommentCount($item);
+
+        $owner = $this->findUser($comment->owner_id);
+
+        $this->incrUserCommentCount($owner);
+
+        return $comment;
     }
 
-    public function publishReview($id)
+    public function moderate($id)
     {
         $type = $this->request->getPost('type', ['trim', 'string']);
         $reason = $this->request->getPost('reason', ['trim', 'string']);
@@ -143,6 +179,25 @@ class Comment extends Service
 
         if ($type == 'approve') {
 
+            $owner = $this->findUser($comment->owner_id);
+
+            $item = $validator->checkItem($comment->item_id, $comment->item_type);
+
+            $this->incrItemCommentCount($item);
+            $this->incrUserCommentCount($owner);
+
+            if ($comment->parent_id == 0) {
+                $this->handleItemCommentedNotice($item, $comment);
+            }
+
+            if ($comment->parent_id > 0) {
+                $parent = $validator->checkParent($comment->parent_id);
+                $this->incrCommentReplyCount($parent);
+                $this->handleCommentRepliedNotice($comment);
+            }
+
+            $this->handleCommentPostPoint($comment);
+
             $this->eventsManager->fire('Comment:afterApprove', $this, $comment);
 
         } elseif ($type == 'reject') {
@@ -153,7 +208,7 @@ class Comment extends Service
         return $comment;
     }
 
-    public function reportReview($id)
+    public function report($id)
     {
         $accepted = $this->request->getPost('accepted', 'int', 0);
         $deleted = $this->request->getPost('deleted', 'int', 0);
@@ -186,6 +241,13 @@ class Comment extends Service
         $validator = new CommentValidator();
 
         return $validator->checkComment($id);
+    }
+
+    protected function findUser($id)
+    {
+        $userRepo = new UserRepo();
+
+        return $userRepo->findById($id);
     }
 
     protected function handleComments($pager)

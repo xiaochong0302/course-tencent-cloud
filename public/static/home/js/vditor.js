@@ -84,7 +84,7 @@ layui.use(['jquery'], function () {
             }
         },
         value: $textarea.val(),
-        placeholder: '酷瓜云课堂，100%开源在线教育解决方案'
+        placeholder: '请输入内容描述'
     });
 
     $(window).bind('beforeunload', function () {

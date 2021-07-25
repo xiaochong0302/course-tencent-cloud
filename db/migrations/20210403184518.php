@@ -5,7 +5,6 @@
  * @link https://www.koogua.com
  */
 
-use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
 
 final class V20210403184518 extends AbstractMigration
@@ -13,842 +12,1019 @@ final class V20210403184518 extends AbstractMigration
 
     public function up()
     {
-        $this->createTagTable();
-        $this->createArticleTable();
-        $this->createCommentTable();
-        $this->createArticleTagTable();
-        $this->createArticleLikeTable();
-        $this->createArticleFavoriteTable();
-        $this->createCommentLikeTable();
-        $this->createChapterOfflineTable();
-        $this->removeUpdateTimeColumn();
-        $this->modifyChapterTable();
-        $this->modifyUserTable();
-        $this->handleArticleNav();
+        $this->initSettingData();
+        $this->initUserData();
+        $this->initRoleData();
+        $this->initRewardData();
+        $this->initNavData();
+        $this->initVipData();
     }
 
-    public function down()
+    protected function initUserData()
     {
-        $this->table('kg_tag')->drop()->save();
-        $this->table('kg_article')->drop()->save();
-        $this->table('kg_comment')->drop()->save();
-        $this->table('kg_article_tag')->drop()->save();
-        $this->table('kg_article_like')->drop()->save();
-        $this->table('kg_article_favorite')->drop()->save();
-        $this->table('kg_comment_like')->drop()->save();
-        $this->table('kg_chapter_offline')->drop()->save();
-    }
+        $now = time();
 
-    protected function createTagTable()
-    {
-        $this->table('kg_tag', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'DYNAMIC',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('name', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 50,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '名称',
-                'after' => 'id',
-            ])
-            ->addColumn('alias', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 50,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '别名',
-                'after' => 'name',
-            ])
-            ->addColumn('icon', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 100,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '图标',
-                'after' => 'alias',
-            ])
-            ->addColumn('priority', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '优先级',
-                'after' => 'icon',
-            ])
-            ->addColumn('published', 'integer', [
-                'null' => false,
-                'default' => '1',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '发布标识',
-                'after' => 'priority',
-            ])
-            ->addColumn('deleted', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '删除标识',
-                'after' => 'published',
-            ])
-            ->addColumn('follow_count', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '关注数',
-                'after' => 'deleted',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'follow_count',
-            ])
-            ->addColumn('update_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '更新时间',
-                'after' => 'create_time',
-            ])
-            ->addIndex(['name'], [
-                'name' => 'name',
-                'unique' => false,
-            ])
-            ->create();
-    }
-
-    protected function createArticleTable()
-    {
-        $this->table('kg_article', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'COMPACT',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('title', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 100,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '标题',
-                'after' => 'id',
-            ])
-            ->addColumn('cover', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 100,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '封面',
-                'after' => 'title',
-            ])
-            ->addColumn('summary', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 255,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '摘要',
-                'after' => 'cover',
-            ])
-            ->addColumn('tags', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 255,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '标签',
-                'after' => 'summary',
-            ])
-            ->addColumn('content', 'text', [
-                'null' => false,
-                'limit' => 65535,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '内容',
-                'after' => 'tags',
-            ])
-            ->addColumn('category_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '分类编号',
-                'after' => 'content',
-            ])
-            ->addColumn('owner_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '用户编号',
-                'after' => 'category_id',
-            ])
-            ->addColumn('source_type', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '来源类型',
-                'after' => 'owner_id',
-            ])
-            ->addColumn('source_url', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 100,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '来源网址',
-                'after' => 'source_type',
-            ])
-            ->addColumn('allow_comment', 'integer', [
-                'null' => false,
-                'default' => '1',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '允许评论',
-                'after' => 'source_url',
-            ])
-            ->addColumn('featured', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '推荐标识',
-                'after' => 'allow_comment',
-            ])
-            ->addColumn('published', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '发布标识',
-                'after' => 'featured',
-            ])
-            ->addColumn('deleted', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '删除标识',
-                'after' => 'published',
-            ])
-            ->addColumn('word_count', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '文字数',
-                'after' => 'deleted',
-            ])
-            ->addColumn('view_count', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '浏览数',
-                'after' => 'word_count',
-            ])
-            ->addColumn('comment_count', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '评论数',
-                'after' => 'view_count',
-            ])
-            ->addColumn('like_count', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '点赞数',
-                'after' => 'comment_count',
-            ])
-            ->addColumn('favorite_count', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '收藏数',
-                'after' => 'like_count',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'favorite_count',
-            ])
-            ->addColumn('update_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '更新时间',
-                'after' => 'create_time',
-            ])
-            ->addIndex(['category_id'], [
-                'name' => 'category_id',
-                'unique' => false,
-            ])
-            ->addIndex(['owner_id'], [
-                'name' => 'owner_id',
-                'unique' => false,
-            ])
-            ->create();
-    }
-
-    protected function createCommentTable()
-    {
-        $this->table('kg_comment', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'DYNAMIC',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('content', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 1000,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '内容',
-                'after' => 'id',
-            ])
-            ->addColumn('parent_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '父级编号',
-                'after' => 'content',
-            ])
-            ->addColumn('owner_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '用户编号',
-                'after' => 'parent_id',
-            ])
-            ->addColumn('to_user_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '回复用户',
-                'after' => 'owner_id',
-            ])
-            ->addColumn('item_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '条目编号',
-                'after' => 'to_user_id',
-            ])
-            ->addColumn('item_type', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '条目类型',
-                'after' => 'item_id',
-            ])
-            ->addColumn('client_type', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '终端类型',
-                'after' => 'item_type',
-            ])
-            ->addColumn('client_ip', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 64,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '终端IP',
-                'after' => 'client_type',
-            ])
-            ->addColumn('published', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '发布标识',
-                'after' => 'client_ip',
-            ])
-            ->addColumn('deleted', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '删除标识',
-                'after' => 'published',
-            ])
-            ->addColumn('reply_count', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '回复数',
-                'after' => 'deleted',
-            ])
-            ->addColumn('like_count', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '点赞数',
-                'after' => 'reply_count',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'like_count',
-            ])
-            ->addColumn('update_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '更新时间',
-                'after' => 'create_time',
-            ])
-            ->addIndex(['item_id', 'item_type'], [
-                'name' => 'item',
-                'unique' => false,
-            ])
-            ->addIndex(['owner_id'], [
-                'name' => 'owner_id',
-                'unique' => false,
-            ])
-            ->addIndex(['parent_id'], [
-                'name' => 'parent_id',
-                'unique' => false,
-            ])
-            ->create();
-    }
-
-    protected function createArticleTagTable()
-    {
-        $this->table('kg_article_tag', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'COMPACT',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('article_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '文章编号',
-                'after' => 'id',
-            ])
-            ->addColumn('tag_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '标签编号',
-                'after' => 'article_id',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'tag_id',
-            ])
-            ->addIndex(['article_id'], [
-                'name' => 'article_id',
-                'unique' => false,
-            ])
-            ->addIndex(['tag_id'], [
-                'name' => 'tag_id',
-                'unique' => false,
-            ])
-            ->create();
-    }
-
-    protected function createArticleLikeTable()
-    {
-        $this->table('kg_article_like', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'COMPACT',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('article_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '文章编号',
-                'after' => 'id',
-            ])
-            ->addColumn('user_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '标签编号',
-                'after' => 'article_id',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'user_id',
-            ])
-            ->addIndex(['article_id', 'user_id'], [
-                'name' => 'article_user',
-                'unique' => false,
-            ])
-            ->create();
-    }
-
-    protected function createArticleFavoriteTable()
-    {
-        $this->table('kg_article_favorite', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'COMPACT',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('article_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '文章编号',
-                'after' => 'id',
-            ])
-            ->addColumn('user_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '用户编号',
-                'after' => 'article_id',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'user_id',
-            ])
-            ->addIndex(['article_id'], [
-                'name' => 'article_id',
-                'unique' => false,
-            ])
-            ->addIndex(['user_id'], [
-                'name' => 'user_id',
-                'unique' => false,
-            ])
-            ->create();
-    }
-
-    protected function createCommentLikeTable()
-    {
-        $this->table('kg_comment_like', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'COMPACT',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('comment_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '评论编号',
-                'after' => 'id',
-            ])
-            ->addColumn('user_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '用户编号',
-                'after' => 'comment_id',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'user_id',
-            ])
-            ->addIndex(['comment_id', 'user_id'], [
-                'name' => 'comment_user',
-                'unique' => false,
-            ])
-            ->create();
-    }
-
-    protected function createChapterOfflineTable()
-    {
-        $this->table('kg_chapter_offline', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'DYNAMIC',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('course_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '课程编号',
-                'after' => 'id',
-            ])
-            ->addColumn('chapter_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '章节编号',
-                'after' => 'course_id',
-            ])
-            ->addColumn('start_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '开始时间',
-                'after' => 'chapter_id',
-            ])
-            ->addColumn('end_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '结束时间',
-                'after' => 'start_time',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'end_time',
-            ])
-            ->addColumn('update_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '更新时间',
-                'after' => 'create_time',
-            ])
-            ->addIndex(['chapter_id'], [
-                'name' => 'chapter_id',
-                'unique' => false,
-            ])
-            ->addIndex(['course_id'], [
-                'name' => 'course_id',
-                'unique' => false,
-            ])
-            ->create();
-    }
-
-    protected function removeUpdateTimeColumn()
-    {
-        $table = $this->table('kg_chapter_like');
-
-        if ($table->hasColumn('update_time')) {
-            $table->removeColumn('update_time')->save();
-        }
-
-        $table = $this->table('kg_consult_like');
-
-        if ($table->hasColumn('update_time')) {
-            $table->removeColumn('update_time')->save();
-        }
-
-        $table = $this->table('kg_course_favorite');
-
-        if ($table->hasColumn('update_time')) {
-            $table->removeColumn('update_time')->save();
-        }
-
-        $table = $this->table('kg_review_like');
-
-        if ($table->hasColumn('update_time')) {
-            $table->removeColumn('update_time')->save();
-        }
-    }
-
-    protected function modifyUserTable()
-    {
-        $table = $this->table('kg_user');
-
-        if (!$table->hasColumn('article_count')) {
-            $table->addColumn('article_count', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '文章数量',
-                'after' => 'course_count',
-            ])->save();
-        }
-    }
-
-    protected function modifyChapterTable()
-    {
-        $table = $this->table('kg_chapter');
-
-        if (!$table->hasColumn('comment_count')) {
-            $table->addColumn('comment_count', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '评论数量',
-                'after' => 'consult_count',
-            ])->save();
-        }
-    }
-
-    protected function handleArticleNav()
-    {
-        $data = [
-            'parent_id' => 0,
-            'level' => 1,
-            'name' => '专栏',
-            'target' => '_self',
-            'url' => '/article/list',
-            'position' => 1,
-            'priority' => 100,
-            'published' => 1,
-            'create_time' => time(),
+        $account = [
+            'id' => 10000,
+            'email' => '10000@163.com',
+            'password' => '1a1e4568f1a3740b8853a8a16e29bc87',
+            'salt' => 'MbZWxN3L',
+            'create_time' => $now,
         ];
 
-        $this->table('kg_nav')
-            ->insert($data)
-            ->save();
+        $this->table('kg_account')->insert($account)->saveData();
 
-        $nav = $this->getQueryBuilder()
-            ->select('*')
-            ->from('kg_nav')
-            ->orderDesc('id')
-            ->execute()->fetch('assoc');
+        $user = [
+            'id' => $account['id'],
+            'name' => '酷瓜云课堂',
+            'avatar' => '/img/default/user_avatar.png',
+            'title' => '官方人员',
+            'about' => '酷瓜云课堂，开源在线教育解决方案',
+            'admin_role' => 1,
+            'edu_role' => 2,
+            'create_time' => $now,
+        ];
 
-        $this->getQueryBuilder()
-            ->update('kg_nav')
-            ->set('path', ",{$nav['id']},")
-            ->where(['id' => $nav['id']])
-            ->execute();
+        $this->table('kg_user')->insert($user)->saveData();
+
+        $imUser = [
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'avatar' => $user['avatar'],
+            'create_time' => $now,
+        ];
+
+        $this->table('kg_im_user')->insert($imUser)->saveData();
+    }
+
+    protected function initRoleData()
+    {
+        $now = time();
+
+        $rows = [
+            [
+                'id' => 1,
+                'type' => 1,
+                'name' => '管理员',
+                'summary' => '管理员',
+                'routes' => '[]',
+                'user_count' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 2,
+                'type' => 1,
+                'name' => '运营',
+                'summary' => '运营人员',
+                'routes' => '[]',
+                'user_count' => 0,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 3,
+                'type' => 1,
+                'name' => '编辑',
+                'summary' => '编辑人员',
+                'routes' => '[]',
+                'user_count' => 0,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 4,
+                'type' => 1,
+                'name' => '财务',
+                'summary' => '财务人员',
+                'routes' => '[]',
+                'user_count' => 0,
+                'create_time' => $now,
+            ],
+        ];
+
+        $this->table('kg_role')->insert($rows)->save();
+    }
+
+    protected function initNavData()
+    {
+        $now = time();
+
+        $rows = [
+            [
+                'id' => 1,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '首页',
+                'path' => ',1,',
+                'target' => '_self',
+                'url' => '/',
+                'position' => 1,
+                'priority' => 1,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 2,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '课程',
+                'path' => ',2,',
+                'target' => '_self',
+                'url' => '/course/list',
+                'position' => 1,
+                'priority' => 2,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 3,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '专栏',
+                'path' => ',3,',
+                'target' => '_self',
+                'url' => '/article/list',
+                'position' => 1,
+                'priority' => 3,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 4,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '问答',
+                'path' => ',4,',
+                'target' => '_self',
+                'url' => '/question/list',
+                'position' => 1,
+                'priority' => 4,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 5,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '教师',
+                'path' => ',5,',
+                'target' => '_self',
+                'url' => '/teacher/list',
+                'position' => 1,
+                'priority' => 5,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 6,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '群组',
+                'path' => ',6,',
+                'target' => '_self',
+                'url' => '/im/group/list',
+                'position' => 1,
+                'priority' => 6,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 7,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '秒杀',
+                'path' => ',7,',
+                'target' => '_self',
+                'url' => '/flash/sale',
+                'position' => 1,
+                'priority' => 7,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 8,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '关于我们',
+                'path' => ',8,',
+                'target' => '_blank',
+                'url' => '#',
+                'position' => 2,
+                'priority' => 1,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 9,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '联系我们',
+                'path' => ',9,',
+                'target' => '_blank',
+                'url' => '#',
+                'position' => 2,
+                'priority' => 2,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 10,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '人才招聘',
+                'path' => ',10,',
+                'target' => '_blank',
+                'url' => '#',
+                'position' => 2,
+                'priority' => 3,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 11,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '帮助中心',
+                'path' => ',11,',
+                'target' => '_blank',
+                'url' => '/help',
+                'position' => 2,
+                'priority' => 4,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 12,
+                'parent_id' => 0,
+                'level' => 1,
+                'name' => '友情链接',
+                'path' => ',12,',
+                'target' => '_blank',
+                'url' => '#',
+                'position' => 2,
+                'priority' => 5,
+                'published' => 1,
+                'create_time' => $now,
+            ],
+        ];
+
+        $this->table('kg_nav')->insert($rows)->save();
+    }
+
+    protected function initVipData()
+    {
+        $now = time();
+
+        $rows = [
+            [
+                'id' => 1,
+                'title' => '1个月',
+                'expiry' => 1,
+                'price' => 60.00,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 2,
+                'title' => '3个月',
+                'expiry' => 3,
+                'price' => 150.00,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 3,
+                'title' => '6个月',
+                'expiry' => 6,
+                'price' => 240.00,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 4,
+                'title' => '12个月',
+                'expiry' => 12,
+                'price' => 360.00,
+                'create_time' => $now,
+            ],
+        ];
+
+        $this->table('kg_vip')->insert($rows)->save();
+    }
+
+    protected function initRewardData()
+    {
+        $now = time();
+
+        $rows = [
+            [
+                'id' => 1,
+                'title' => '2元',
+                'price' => 2.00,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 2,
+                'title' => '5元',
+                'price' => 5.00,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 3,
+                'title' => '10元',
+                'price' => 10.00,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 4,
+                'title' => '20元',
+                'price' => 20.00,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 5,
+                'title' => '50元',
+                'price' => 50.00,
+                'create_time' => $now,
+            ],
+            [
+                'id' => 6,
+                'title' => '100元',
+                'price' => 100.00,
+                'create_time' => $now,
+            ],
+        ];
+
+        $this->table('kg_reward')->insert($rows)->save();
+    }
+
+    protected function initSettingData()
+    {
+        $rows = [
+            [
+                'section' => 'captcha',
+                'item_key' => 'enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'captcha',
+                'item_key' => 'app_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'captcha',
+                'item_key' => 'secret_key',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'im.cs',
+                'item_key' => 'enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'im.cs',
+                'item_key' => 'user1_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'im.cs',
+                'item_key' => 'user2_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'im.cs',
+                'item_key' => 'user3_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'im.main',
+                'item_key' => 'title',
+                'item_value' => '菜鸟驿站',
+            ],
+            [
+                'section' => 'im.main',
+                'item_key' => 'msg_max_length',
+                'item_value' => '1000',
+            ],
+            [
+                'section' => 'im.main',
+                'item_key' => 'upload_img_enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'im.main',
+                'item_key' => 'upload_file_enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'im.main',
+                'item_key' => 'tool_audio_enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'im.main',
+                'item_key' => 'tool_video_enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'live.push',
+                'item_key' => 'domain',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'live.push',
+                'item_key' => 'auth_enabled',
+                'item_value' => '1',
+            ],
+            [
+                'section' => 'live.push',
+                'item_key' => 'auth_key',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'live.push',
+                'item_key' => 'auth_delta',
+                'item_value' => '18000',
+            ],
+            [
+                'section' => 'live.pull',
+                'item_key' => 'protocol',
+                'item_value' => 'http',
+            ],
+            [
+                'section' => 'live.pull',
+                'item_key' => 'domain',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'live.pull',
+                'item_key' => 'trans_enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'live.pull',
+                'item_key' => 'auth_enabled',
+                'item_value' => '1',
+            ],
+            [
+                'section' => 'live.pull',
+                'item_key' => 'auth_key',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'live.pull',
+                'item_key' => 'auth_delta',
+                'item_value' => '18000',
+            ],
+            [
+                'section' => 'live.notify',
+                'item_key' => 'auth_key',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'live.notify',
+                'item_key' => 'stream_begin_url',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'live.notify',
+                'item_key' => 'stream_end_url',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'live.notify',
+                'item_key' => 'record_url',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'live.notify',
+                'item_key' => 'snapshot_url',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'live.notify',
+                'item_key' => 'porn_url',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'mail',
+                'item_key' => 'smtp_host',
+                'item_value' => 'smtp.163.com',
+            ],
+            [
+                'section' => 'mail',
+                'item_key' => 'smtp_port',
+                'item_value' => '465',
+            ],
+            [
+                'section' => 'mail',
+                'item_key' => 'smtp_encryption',
+                'item_value' => 'ssl',
+            ],
+            [
+                'section' => 'mail',
+                'item_key' => 'smtp_auth_enabled',
+                'item_value' => '1',
+            ],
+            [
+                'section' => 'mail',
+                'item_key' => 'smtp_username',
+                'item_value' => 'abc@163.com',
+            ],
+            [
+                'section' => 'mail',
+                'item_key' => 'smtp_password',
+                'item_value' => '888888',
+            ],
+            [
+                'section' => 'mail',
+                'item_key' => 'smtp_from_email',
+                'item_value' => 'abc@163.com',
+            ],
+            [
+                'section' => 'mail',
+                'item_key' => 'smtp_from_name',
+                'item_value' => 'ABC有限公司',
+            ],
+            [
+                'section' => 'pay.alipay',
+                'item_key' => 'enabled',
+                'item_value' => '1',
+            ],
+            [
+                'section' => 'pay.alipay',
+                'item_key' => 'app_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.alipay',
+                'item_key' => 'public_key',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.alipay',
+                'item_key' => 'private_key',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.alipay',
+                'item_key' => 'return_url',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.alipay',
+                'item_key' => 'notify_url',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.alipay',
+                'item_key' => 'service_rate',
+                'item_value' => '5',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'enabled',
+                'item_value' => '1',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'mp_app_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'mini_app_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'app_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'mch_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'key',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'notify_url',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'return_url',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'pay.wxpay',
+                'item_key' => 'service_rate',
+                'item_value' => '5',
+            ],
+            [
+                'section' => 'secret',
+                'item_key' => 'secret_key',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'secret',
+                'item_key' => 'secret_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'secret',
+                'item_key' => 'app_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'title',
+                'item_value' => '酷瓜云课堂',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'keywords',
+                'item_value' => '开源网课系统，开源网校系统，开源知识付费系统，开源在线教育系统',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'description',
+                'item_value' => '酷瓜云课堂，依托腾讯云基础服务，使用C扩展框架PHALCON开发',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'logo',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'favicon',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'url',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'status',
+                'item_value' => 'normal',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'closed_tips',
+                'item_value' => '站点维护中，请稍后再访问。',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'index_tpl_type',
+                'item_value' => 'simple',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'copyright',
+                'item_value' => '2016-2020 深圳市酷瓜软件有限公司',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'icp_sn',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'icp_link',
+                'item_value' => 'http://www.miitbeian.gov.cn',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'police_sn',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'police_link',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'analytics_enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'site',
+                'item_key' => 'analytics_script',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'sms',
+                'item_key' => 'app_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'sms',
+                'item_key' => 'app_key',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'sms',
+                'item_key' => 'signature',
+                'item_value' => '酷瓜云课堂',
+            ],
+            [
+                'section' => 'sms',
+                'item_key' => 'template',
+                'item_value' => json_encode([
+                    'verify' => ['enabled' => 1, 'id' => ''],
+                    'order_finish' => ['enabled' => 1, 'id' => ''],
+                    'refund_finish' => ['enabled' => 1, 'id' => ''],
+                    'live_begin' => ['enabled' => 1, 'id' => ''],
+                    'consult_reply' => ['enabled' => 1, 'id' => ''],
+                    'goods_deliver' => ['enabled' => 1, 'id' => ''],
+                ]),
+            ],
+            [
+                'section' => 'cos',
+                'item_key' => 'bucket',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'cos',
+                'item_key' => 'region',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'cos',
+                'item_key' => 'protocol',
+                'item_value' => 'https',
+            ],
+            [
+                'section' => 'cos',
+                'item_key' => 'domain',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'storage_type',
+                'item_value' => 'nearby',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'storage_region',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'audio_format',
+                'item_value' => 'mp3',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'video_format',
+                'item_value' => 'hls',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'wmk_enabled',
+                'item_value' => '1',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'wmk_tpl_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'protocol',
+                'item_value' => 'https',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'domain',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'key_anti_enabled',
+                'item_value' => '1',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'key_anti_key',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'key_anti_expiry',
+                'item_value' => '10800',
+            ],
+            [
+                'section' => 'vod',
+                'item_key' => 'key_anti_ip_limit',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'dingtalk.robot',
+                'item_key' => 'enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'dingtalk.robot',
+                'item_key' => 'app_secret',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'dingtalk.robot',
+                'item_key' => 'app_token',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'dingtalk.robot',
+                'item_key' => 'ts_mobiles',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'dingtalk.robot',
+                'item_key' => 'cs_mobiles',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'oauth.qq',
+                'item_key' => 'enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'oauth.qq',
+                'item_key' => 'client_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'oauth.qq',
+                'item_key' => 'client_secret',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'oauth.qq',
+                'item_key' => 'redirect_uri',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'oauth.weixin',
+                'item_key' => 'enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'oauth.weixin',
+                'item_key' => 'client_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'oauth.weixin',
+                'item_key' => 'client_secret',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'oauth.weixin',
+                'item_key' => 'redirect_uri',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'oauth.weibo',
+                'item_key' => 'enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'oauth.weibo',
+                'item_key' => 'client_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'oauth.weibo',
+                'item_key' => 'client_secret',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'oauth.weibo',
+                'item_key' => 'redirect_uri',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'oauth.weibo',
+                'item_key' => 'refuse_uri',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'wechat.oa',
+                'item_key' => 'enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'wechat.oa',
+                'item_key' => 'app_id',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'wechat.oa',
+                'item_key' => 'app_secret',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'wechat.oa',
+                'item_key' => 'app_token',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'wechat.oa',
+                'item_key' => 'aes_key',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'wechat.oa',
+                'item_key' => 'notify_url',
+                'item_value' => '',
+            ],
+            [
+                'section' => 'wechat.oa',
+                'item_key' => 'notice_template',
+                'item_value' => json_encode([
+                    'account_login' => ['enabled' => 1, 'id' => ''],
+                    'order_finish' => ['enabled' => 1, 'id' => ''],
+                    'refund_finish' => ['enabled' => 1, 'id' => ''],
+                    'goods_deliver' => ['enabled' => 1, 'id' => ''],
+                    'consult_reply' => ['enabled' => 1, 'id' => ''],
+                    'live_begin' => ['enabled' => 1, 'id' => ''],
+                ]),
+            ],
+            [
+                'section' => 'wechat.oa',
+                'item_key' => 'menu',
+                'item_value' => json_encode([
+                    [
+                        'name' => '菜单1',
+                        'url' => '',
+                        'children' => [
+                            [
+                                'type' => 'view',
+                                'name' => '菜单1-1',
+                                'url' => 'https://gitee.com/koogua',
+                            ],
+                        ],
+                    ],
+                    [
+                        'name' => '菜单2',
+                        'url' => '',
+                        'children' => [
+                            [
+                                'type' => 'view',
+                                'name' => '菜单2-1',
+                                'url' => 'https://gitee.com/koogua',
+                            ],
+                        ],
+                    ],
+                    [
+                        'name' => '菜单3',
+                        'url' => '',
+                        'children' => [
+                            [
+                                'type' => 'view',
+                                'name' => '菜单3-1',
+                                'url' => 'https://gitee.com/koogua',
+                            ],
+                        ],
+                    ],
+                ]),
+            ],
+            [
+                'section' => 'point',
+                'item_key' => 'enabled',
+                'item_value' => 1,
+            ],
+            [
+                'section' => 'point',
+                'item_key' => 'consume_rule',
+                'item_value' => json_encode(['enabled' => 1, 'rate' => 5]),
+            ],
+            [
+                'section' => 'point',
+                'item_key' => 'event_rule',
+                'item_value' => json_encode([
+                    'account_register' => ['enabled' => 1, 'point' => 100],
+                    'course_review' => ['enabled' => 1, 'point' => 50],
+                    'chapter_study' => ['enabled' => 1, 'point' => 10],
+                    'site_visit' => ['enabled' => 1, 'point' => 10],
+                    'im_discuss' => ['enabled' => 1, 'point' => 10],
+                    'article_post' => ['enabled' => 1, 'point' => 20, 'limit' => 50],
+                    'question_post' => ['enabled' => 1, 'point' => 5, 'limit' => 50],
+                    'answer_post' => ['enabled' => 1, 'point' => 5, 'limit' => 50],
+                    'comment_post' => ['enabled' => 1, 'point' => 2, 'limit' => 10],
+                    'article_liked' => ['enabled' => 1, 'point' => 1, 'limit' => 50],
+                    'question_liked' => ['enabled' => 1, 'point' => 1, 'limit' => 50],
+                    'answer_liked' => ['enabled' => 1, 'point' => 1, 'limit' => 50],
+                ]),
+            ],
+        ];
+
+        $this->table('kg_setting')->insert($rows)->save();
     }
 
 }

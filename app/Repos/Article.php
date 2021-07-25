@@ -29,9 +29,17 @@ class Article extends Repository
 
         $builder->where('1 = 1');
 
+        $fakeId = false;
+
         if (!empty($where['tag_id'])) {
             $where['id'] = $this->getTagArticleIds($where['tag_id']);
+            $fakeId = empty($where['id']);
         }
+
+        /**
+         * 构造空记录条件
+         */
+        if ($fakeId) $where['id'] = -999;
 
         if (!empty($where['id'])) {
             if (is_array($where['id'])) {
@@ -145,12 +153,16 @@ class Article extends Repository
             ->join(ArticleTagModel::class, 't.id = at.tag_id', 'at')
             ->where('at.article_id = :article_id:', ['article_id' => $articleId])
             ->andWhere('t.published = 1')
+            ->andWhere('t.deleted = 0')
             ->getQuery()->execute();
     }
 
     public function countArticles()
     {
-        return (int)ArticleModel::count(['conditions' => 'deleted = 0']);
+        return (int)ArticleModel::count([
+            'conditions' => 'published = :published: AND deleted = 0',
+            'bind' => ['published' => ArticleModel::PUBLISH_APPROVED],
+        ]);
     }
 
     public function countComments($articleId)

@@ -16,6 +16,30 @@ class ModerationController extends Controller
 {
 
     /**
+     * @Get("/reviews", name="admin.mod.reviews")
+     */
+    public function reviewsAction()
+    {
+        $modService = new ModerationService();
+
+        $pager = $modService->getReviews();
+
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/consults", name="admin.mod.consults")
+     */
+    public function consultsAction()
+    {
+        $modService = new ModerationService();
+
+        $pager = $modService->getConsults();
+
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
      * @Get("/articles", name="admin.mod.articles")
      */
     public function articlesAction()

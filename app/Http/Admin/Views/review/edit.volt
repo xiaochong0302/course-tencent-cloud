@@ -10,34 +10,27 @@
             <label class="layui-form-label">内容实用</label>
             <div class="layui-input-block">
                 <div id="rating1" class="kg-rating"></div>
-                <input type="hidden" name="rating1" value="{{ review.rating1 }}"/>
+                <input type="hidden" name="rating1" value="{{ review.rating1 }}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">通俗易懂</label>
             <div class="layui-input-block">
                 <div id="rating2" class="kg-rating"></div>
-                <input type="hidden" name="rating2" value="{{ review.rating2 }}"/>
+                <input type="hidden" name="rating2" value="{{ review.rating2 }}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">逻辑清晰</label>
             <div class="layui-input-block">
                 <div id="rating3" class="kg-rating"></div>
-                <input type="hidden" name="rating3" value="{{ review.rating3 }}"/>
+                <input type="hidden" name="rating3" value="{{ review.rating3 }}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">课程评价</label>
             <div class="layui-input-block">
-                <div class="layui-form-mid gray">{{ review.content }}</div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">发布</label>
-            <div class="layui-input-block">
-                <input type="radio" name="published" value="1" title="是" {% if review.published == 1 %}checked="checked"{% endif %}>
-                <input type="radio" name="published" value="0" title="否" {% if review.published == 0 %}checked="checked"{% endif %}>
+                <textarea name="content" class="layui-textarea">{{ review.content }}</textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -67,7 +60,6 @@
             rate.render({
                 elem: '#rating1',
                 value: $rating1.val(),
-                readonly: true,
                 choose: function (value) {
                     $rating1.val(value);
                 }
@@ -76,7 +68,6 @@
             rate.render({
                 elem: '#rating2',
                 value: $rating2.val(),
-                readonly: true,
                 choose: function (value) {
                     $rating2.val(value);
                 }
@@ -85,7 +76,6 @@
             rate.render({
                 elem: '#rating3',
                 value: $rating3.val(),
-                readonly: true,
                 choose: function (value) {
                     $rating3.val(value);
                 }

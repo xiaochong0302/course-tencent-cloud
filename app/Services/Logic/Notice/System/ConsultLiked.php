@@ -18,7 +18,7 @@ class ConsultLiked extends LogicService
 
     public function handle(ConsultModel $consult, UserModel $sender)
     {
-        $consultQuestion = kg_substr($consult->question, 0, 32);
+        $consultQuestion = kg_substr($consult->question, 0, 36);
 
         $course = $this->findCourse($consult->course_id);
 

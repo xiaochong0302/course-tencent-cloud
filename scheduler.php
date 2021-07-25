@@ -81,6 +81,15 @@ $scheduler->php($script, $bin, ['--task' => 'unlock_user', '--action' => 'main']
 $scheduler->php($script, $bin, ['--task' => 'revoke_vip', '--action' => 'main'])
     ->daily(3, 11);
 
+$scheduler->php($script, $bin, ['--task' => 'sync_app_info', '--action' => 'main'])
+    ->daily(3, 13);
+
+$scheduler->php($script, $bin, ['--task' => 'sync_tag_count', '--action' => 'main'])
+    ->daily(3, 17);
+
+$scheduler->php($script, $bin, ['--task' => 'close_question', '--action' => 'main'])
+    ->daily(3, 19);
+
 $scheduler->php($script, $bin, ['--task' => 'sitemap', '--action' => 'main'])
     ->daily(4, 3);
 

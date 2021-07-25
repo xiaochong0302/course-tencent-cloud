@@ -32,7 +32,6 @@ trait ArticleDataTrait
 
         $data['title'] = $validator->checkTitle($post['title']);
         $data['content'] = $validator->checkContent($post['content']);
-        $data['word_count'] = WordUtil::getWordCount($data['content']);
 
         if (isset($post['category_id'])) {
             $category = $validator->checkCategory($post['category_id']);
@@ -65,8 +64,8 @@ trait ArticleDataTrait
     protected function saveDynamicAttrs(ArticleModel $article)
     {
         $article->cover = kg_parse_first_content_image($article->content);
-
         $article->summary = kg_parse_summary($article->content);
+        $article->word_count = WordUtil::getWordCount($article->content);
 
         $article->update();
 
@@ -98,6 +97,7 @@ trait ArticleDataTrait
                 $articleTag->article_id = $article->id;
                 $articleTag->tag_id = $tagId;
                 $articleTag->create();
+                $this->recountTagArticles($tagId);
             }
         }
 
@@ -109,6 +109,7 @@ trait ArticleDataTrait
                 $articleTag = $articleTagRepo->findArticleTag($article->id, $tagId);
                 if ($articleTag) {
                     $articleTag->delete();
+                    $this->recountTagArticles($tagId);
                 }
             }
         }
@@ -122,6 +123,7 @@ trait ArticleDataTrait
                 $articleTags = [];
                 foreach ($tags as $tag) {
                     $articleTags[] = ['id' => $tag->id, 'name' => $tag->name];
+                    $this->recountTagArticles($tag->id);
                 }
             }
         }
@@ -129,6 +131,21 @@ trait ArticleDataTrait
         $article->tags = $articleTags;
 
         $article->update();
+    }
+
+    protected function recountTagArticles($tagId)
+    {
+        $tagRepo = new TagRepo();
+
+        $tag = $tagRepo->findById($tagId);
+
+        if (!$tag) return;
+
+        $articleCount = $tagRepo->countArticles($tagId);
+
+        $tag->article_count = $articleCount;
+
+        $tag->update();
     }
 
 }

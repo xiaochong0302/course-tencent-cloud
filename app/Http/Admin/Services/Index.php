@@ -40,7 +40,7 @@ class Index extends Service
 
         $appInfo = new AppInfo();
 
-        if ($appInfo->version != $content['version']) {
+        if (empty($content) || $appInfo->get('version') != $content['version']) {
             $cache->rebuild();
         }
 
@@ -79,12 +79,16 @@ class Index extends Service
     {
         $statRepo = new StatRepo();
 
+        $reviewCount = $statRepo->countPendingReviews();
+        $consultCount = $statRepo->countPendingConsults();
         $articleCount = $statRepo->countPendingArticles();
         $questionCount = $statRepo->countPendingQuestions();
         $answerCount = $statRepo->countPendingAnswers();
         $commentCount = $statRepo->countPendingComments();
 
         return [
+            'review_count' => $reviewCount,
+            'consult_count' => $consultCount,
             'article_count' => $articleCount,
             'question_count' => $questionCount,
             'answer_count' => $answerCount,
@@ -111,7 +115,7 @@ class Index extends Service
 
     public function getReleases()
     {
-        $url = 'https://koogua.com/api-releases.json';
+        $url = 'https://koogua.com/api/releases';
 
         $client = new Client();
 

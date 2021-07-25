@@ -13,6 +13,13 @@ class Review extends Model
 {
 
     /**
+     * 发布状态
+     */
+    const PUBLISH_PENDING = 1; // 审核中
+    const PUBLISH_APPROVED = 2; // 已发布
+    const PUBLISH_REJECTED = 3; // 未通过
+
+    /**
      * 主键编号
      *
      * @var int
@@ -101,7 +108,7 @@ class Review extends Model
      *
      * @var int
      */
-    public $published = 1;
+    public $published = self::PUBLISH_PENDING;
 
     /**
      * 删除标识
@@ -179,6 +186,15 @@ class Review extends Model
         $sumRating = $this->rating1 + $this->rating2 + $this->rating3;
 
         return round($sumRating / 3, 2);
+    }
+
+    public static function publishTypes()
+    {
+        return [
+            self::PUBLISH_PENDING => '审核中',
+            self::PUBLISH_APPROVED => '已发布',
+            self::PUBLISH_REJECTED => '未通过',
+        ];
     }
 
 }

@@ -30,9 +30,17 @@ class Question extends Repository
 
         $builder->where('1 = 1');
 
+        $fakeId = false;
+
         if (!empty($where['tag_id'])) {
             $where['id'] = $this->getTagQuestionIds($where['tag_id']);
+            $fakeId = empty($where['id']);
         }
+
+        /**
+         * 构造空记录条件
+         */
+        if ($fakeId) $where['id'] = -999;
 
         if (!empty($where['id'])) {
             if (is_array($where['id'])) {
@@ -138,6 +146,7 @@ class Question extends Repository
             ->join(QuestionTagModel::class, 't.id = qt.tag_id', 'qt')
             ->where('qt.question_id = :question_id:', ['question_id' => $questionId])
             ->andWhere('t.published = 1')
+            ->andWhere('t.deleted = 0')
             ->getQuery()->execute();
     }
 

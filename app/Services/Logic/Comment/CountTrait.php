@@ -20,6 +20,32 @@ use Phalcon\Events\Manager as EventsManager;
 trait CountTrait
 {
 
+    protected function incrItemCommentCount($item)
+    {
+        if ($item instanceof ChapterModel) {
+            $this->incrChapterCommentCount($item);
+        } elseif ($item instanceof ArticleModel) {
+            $this->incrArticleCommentCount($item);
+        } elseif ($item instanceof QuestionModel) {
+            $this->incrQuestionCommentCount($item);
+        } elseif ($item instanceof AnswerModel) {
+            $this->incrAnswerCommentCount($item);
+        }
+    }
+
+    protected function decrItemCommentCount($item)
+    {
+        if ($item instanceof ChapterModel) {
+            $this->decrChapterCommentCount($item);
+        } elseif ($item instanceof ArticleModel) {
+            $this->decrArticleCommentCount($item);
+        } elseif ($item instanceof QuestionModel) {
+            $this->decrQuestionCommentCount($item);
+        } elseif ($item instanceof AnswerModel) {
+            $this->decrAnswerCommentCount($item);
+        }
+    }
+
     protected function incrCommentReplyCount(CommentModel $comment)
     {
         $comment->reply_count += 1;

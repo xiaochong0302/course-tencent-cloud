@@ -7,6 +7,7 @@
 
 namespace App\Services\Logic\Question;
 
+use App\Models\Tag as TagModel;
 use App\Repos\Question as QuestionRepo;
 use App\Repos\Tag as TagRepo;
 use App\Services\Logic\Service as LogicService;
@@ -34,12 +35,16 @@ class XmTagList extends LogicService
         $list = [];
 
         foreach ($allTags as $tag) {
-            $selected = in_array($tag->id, $questionTagIds);
-            $list[] = [
-                'name' => $tag->name,
-                'value' => $tag->id,
-                'selected' => $selected,
-            ];
+            $case1 = is_string($tag->scopes) && $tag->scopes == 'all';
+            $case2 = is_array($tag->scopes) && in_array(TagModel::SCOPE_QUESTION, $tag->scopes);
+            if ($case1 || $case2) {
+                $selected = in_array($tag->id, $questionTagIds);
+                $list[] = [
+                    'name' => $tag->name,
+                    'value' => $tag->id,
+                    'selected' => $selected,
+                ];
+            }
         }
 
         return $list;
