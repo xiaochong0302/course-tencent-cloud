@@ -5,6 +5,7 @@
  * @link https://www.koogua.com
  */
 
+use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
 
 final class V20210324064239 extends AbstractMigration
