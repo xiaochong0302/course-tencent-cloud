@@ -19,8 +19,10 @@ final class V20210720153027 extends AbstractMigration
         $this->alterTagTable();
         $this->handleTagScopes();
         $this->handleCategoryIcon();
+        $this->handleCourseTags();
         $this->handleReviewPublish();
         $this->handleConsultPublish();
+        $this->handleRoleRoutes();
     }
 
     protected function createCourseTagTable()
