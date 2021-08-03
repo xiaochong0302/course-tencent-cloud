@@ -636,6 +636,42 @@
     color: green;
 }
 
+.answer-card {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.answer-card:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.answer-card .header {
+    line-height: 32px;
+    margin-bottom: 20px;
+}
+
+.answer-card .header span {
+    margin-right: 10px;
+}
+
+.answer-card .avatar img {
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+}
+
+.answer-card .content {
+    margin-bottom: 20px;
+    overflow-wrap: break-word;
+}
+
+.answer-card .comment-list {
+    margin-top: 20px;
+}
+
 #comment-form {
     margin-bottom: 30px;
 }
@@ -668,15 +704,13 @@
 }
 
 .comment-card .avatar {
-    width: 48px;
-    height: 48px;
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 .comment-card .avatar img {
-    width: 100%;
-    height: 100%;
-    border-radius: 60px;
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
 }
 
 .comment-card .info {
@@ -684,7 +718,7 @@
 }
 
 .comment-card .user {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     color: #666;
 }
 
@@ -726,60 +760,11 @@
 
 .comment-card .footer .action:hover,
 .answer-card .footer .action:hover {
-    background-color: #393D49;
     cursor: pointer;
-    color: white;
-}
-
-.comment-card .footer .right .action,
-.answer-card .footer .right .action {
-    display: none;
-}
-
-.comment-card .info:hover .right .action,
-.answer-card:hover .right .action {
-    display: inline;
-}
-
-.answer-card {
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #f6f6f6;
-}
-
-.answer-card:last-child {
-    padding-bottom: 0;
-    margin-bottom: 0;
-    border-bottom: none;
-}
-
-.answer-card .header {
-    line-height: 32px;
-    margin-bottom: 20px;
-}
-
-.answer-card .header span {
-    margin-right: 10px;
-}
-
-.answer-card .avatar img {
-    width: 32px;
-    height: 32px;
-    border-radius: 100%;
-}
-
-.answer-card .content {
-    margin-bottom: 20px;
-    overflow-wrap: break-word;
 }
 
 .reply-list {
-    margin-left: 48px;
-}
-
-.reply-list .comment-card .info {
-    float: left;
-    width: 640px;
+    margin-left: 42px;
 }
 
 .toolbar-sticky {

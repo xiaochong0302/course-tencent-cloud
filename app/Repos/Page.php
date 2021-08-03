@@ -81,6 +81,18 @@ class Page extends Repository
     }
 
     /**
+     * @param string $alias
+     * @return PageModel|Model|bool
+     */
+    public function findByAlias($alias)
+    {
+        return PageModel::findFirst([
+            'conditions' => 'alias = :alias:',
+            'bind' => ['alias' => $alias],
+        ]);
+    }
+
+    /**
      * @param array $ids
      * @param array|string $columns
      * @return ResultsetInterface|Resultset|PageModel[]

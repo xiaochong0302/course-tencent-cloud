@@ -21,9 +21,6 @@
                     <div class="footer">
                         <div class="left">
                             <div class="column">
-                                <span class="time">{{ item.create_time|time_ago }}</span>
-                            </div>
-                            <div class="column">
                                 <span class="like-count" data-count="{{ item.like_count }}">{{ item.like_count }}</span>
                                 {% if item.me.liked == 1 %}
                                     <span class="action comment-like liked" title="取消点赞" data-url="{{ like_url }}">已赞</span>
@@ -34,6 +31,9 @@
                             <div class="column">
                                 <span class="reply-count" data-count="{{ item.reply_count }}">{{ item.reply_count }}</span>
                                 <span class="action comment-toggle" title="展开回应" data-id="{{ item.id }}" data-url="{{ reply_list_url }}">回应</span>
+                            </div>
+                            <div class="column">
+                                <span class="time">{{ item.create_time|time_ago }}</span>
                             </div>
                         </div>
                         <div class="right">
@@ -59,12 +59,12 @@
                         <div class="toolbar"></div>
                         <div class="action">
                             <button class="layui-btn layui-btn-sm" lay-submit="true" lay-filter="reply_comment" data-comment-id="{{ item.id }}" data-parent-id="{{ item.parent_id }}">发布</button>
-                            <button class="layui-btn layui-btn-sm layui-btn-primary btn-cancel-reply" type="button" data-id="{{ item.id }}">取消</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary reply-cancel" type="button" data-id="{{ item.id }}">取消</button>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="reply-list" id="reply-list-{{ item.id }}" style="display:none"></div>
+            <div class="reply-list" id="reply-list-{{ item.id }}" style="display:none;"></div>
         </div>
     {% endfor %}
     {{ partial('partials/pager_ajax') }}

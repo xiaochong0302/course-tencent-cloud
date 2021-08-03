@@ -17,7 +17,7 @@ class PageController extends Controller
 {
 
     /**
-     * @Get("/{id:[0-9]+}", name="home.page.show")
+     * @Get("/{id}", name="home.page.show")
      */
     public function showAction($id)
     {
@@ -27,10 +27,6 @@ class PageController extends Controller
 
         if ($page['deleted'] == 1) {
             return $this->notFound();
-        }
-
-        if ($page['me']['owned'] == 0) {
-            $this->response->redirect(['for' => 'home.error.403']);
         }
 
         $featuredCourses = $this->getFeaturedCourses();

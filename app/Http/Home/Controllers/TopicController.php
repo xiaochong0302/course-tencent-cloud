@@ -26,6 +26,10 @@ class TopicController extends Controller
 
         $topic = $service->handle($id);
 
+        if ($topic['deleted'] == 1) {
+            return $this->notFound();
+        }
+
         $this->seo->prependTitle(['专题', $topic['title']]);
         $this->seo->setDescription($topic['summary']);
 

@@ -44,7 +44,7 @@ class CourseUserList extends Builder
         $columns = [
             'id', 'title', 'cover',
             'market_price', 'vip_price',
-            'rating', 'model', 'level', 'attrs',
+            'rating', 'model', 'level', 'attrs', 'published', 'deleted',
             'user_count', 'lesson_count', 'review_count', 'favorite_count',
         ];
 
@@ -55,9 +55,11 @@ class CourseUserList extends Builder
         $result = [];
 
         foreach ($courses->toArray() as $course) {
-            $course['cover'] = $baseUrl . $course['cover'];
-            $course['attrs'] = json_decode($course['attrs'], true);
-            $result[$course['id']] = $course;
+            if ($course['deleted'] == 0) {
+                $course['cover'] = $baseUrl . $course['cover'];
+                $course['attrs'] = json_decode($course['attrs'], true);
+                $result[$course['id']] = $course;
+            }
         }
 
         return $result;

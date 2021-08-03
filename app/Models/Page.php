@@ -28,6 +28,13 @@ class Page extends Model
     public $title = '';
 
     /**
+     * 别名
+     *
+     * @var string
+     */
+    public $alias = '';
+
+    /**
      * 内容
      *
      * @var string
