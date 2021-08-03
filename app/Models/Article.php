@@ -109,7 +109,7 @@ class Article extends Model
     /**
      * 终端IP
      *
-     * @var integer
+     * @var string
      */
     public $client_ip = '';
 

@@ -107,7 +107,7 @@ class ArticleController extends Controller
         }
 
         if ($article['me']['owned'] == 0) {
-            $this->response->redirect(['for' => 'home.error.403']);
+            return $this->forbidden();
         }
 
         $this->seo->prependTitle(['专栏', $article['title']]);

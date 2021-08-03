@@ -25,7 +25,7 @@ layui.use(['jquery', 'layer'], function () {
             type: 2,
             title: '编辑咨询',
             content: [url, 'no'],
-            area: ['720px', '400px'],
+            area: ['720px', '420px'],
             cancel: function () {
                 parent.location.reload();
             }

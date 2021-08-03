@@ -50,7 +50,7 @@ class Consult extends Validator
 
         $length = kg_strlen($value);
 
-        if ($length < 15) {
+        if ($length < 5) {
             throw new BadRequestException('consult.question_too_short');
         }
 
@@ -67,7 +67,7 @@ class Consult extends Validator
 
         $length = kg_strlen($value);
 
-        if ($length < 15) {
+        if ($length < 5) {
             throw new BadRequestException('consult.answer_too_short');
         }
 

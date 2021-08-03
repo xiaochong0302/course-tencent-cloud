@@ -2,6 +2,14 @@
 
 {% block content %}
 
+    {%- macro alias_tips(alias) %}
+        {% if alias %}
+            <a href="javascript:" title="可通过 /page/{{ alias }} 访问页面">{{ alias }}</a>
+        {% else %}
+            N/A
+        {% endif %}
+    {%- endmacro %}
+
     {% set add_url = url({'for':'admin.page.add'}) %}
 
     <div class="kg-nav">
@@ -24,12 +32,14 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="12%">
         </colgroup>
         <thead>
         <tr>
             <th>编号</th>
             <th>标题</th>
+            <th>别名</th>
             <th>创建时间</th>
             <th>更新时间</th>
             <th>发布</th>
@@ -42,9 +52,11 @@
             {% set edit_url = url({'for':'admin.page.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.page.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.page.delete','id':item.id}) %}
+            {% set restore_url = url({'for':'admin.page.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
                 <td><a href="{{ edit_url }}">{{ item.title }}</a></td>
+                <td>{{ alias_tips(item.alias) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.update_time) }}</td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}>

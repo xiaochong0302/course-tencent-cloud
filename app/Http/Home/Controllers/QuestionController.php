@@ -106,7 +106,7 @@ class QuestionController extends Controller
         }
 
         if ($question['me']['owned'] == 0) {
-            $this->response->redirect(['for' => 'home.error.403']);
+            return $this->forbidden();
         }
 
         $this->seo->prependTitle(['问答', $question['title']]);

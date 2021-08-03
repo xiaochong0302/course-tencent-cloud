@@ -61,7 +61,7 @@ class AnswerController extends Controller
         }
 
         if ($answer['me']['owned'] == 0) {
-            $this->response->redirect(['for' => 'home.error.403']);
+            return $this->forbidden();
         }
 
         $questionId = $answer['question']['id'];

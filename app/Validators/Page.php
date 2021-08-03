@@ -10,6 +10,7 @@ namespace App\Validators;
 use App\Caches\MaxPageId as MaxPageIdCache;
 use App\Caches\Page as PageCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Page as PageModel;
 use App\Repos\Page as PageRepo;
 
@@ -38,11 +39,13 @@ class Page extends Validator
 
     public function checkPage($id)
     {
-        $this->checkId($id);
-
         $pageRepo = new PageRepo();
 
-        $page = $pageRepo->findById($id);
+        if (CommonValidator::intNumber($id)) {
+            $page = $pageRepo->findById($id);
+        } else {
+            $page = $pageRepo->findByAlias($id);
+        }
 
         if (!$page) {
             throw new BadRequestException('page.not_found');
@@ -81,6 +84,29 @@ class Page extends Validator
         return $value;
     }
 
+    public function checkAlias($alias)
+    {
+        $value = $this->filter->sanitize($alias, ['trim', 'string']);
+
+        $value = str_replace(['/', '?', '#'], '', $value);
+
+        $length = kg_strlen($value);
+
+        if (CommonValidator::intNumber($value)) {
+            throw new BadRequestException('page.invalid_alias');
+        }
+
+        if ($length < 2) {
+            throw new BadRequestException('page.alias_too_short');
+        }
+
+        if ($length > 50) {
+            throw new BadRequestException('page.alias_too_long');
+        }
+
+        return $value;
+    }
+
     public function checkContent($content)
     {
         $value = $this->filter->sanitize($content, ['trim']);
@@ -105,6 +131,17 @@ class Page extends Validator
         }
 
         return $status;
+    }
+
+    public function checkIfAliasTaken($alias)
+    {
+        $pageRepo = new PageRepo();
+
+        $page = $pageRepo->findByAlias($alias);
+
+        if ($page) {
+            throw new BadRequestException('page.alias_taken');
+        }
     }
 
 }
