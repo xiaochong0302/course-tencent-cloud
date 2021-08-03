@@ -43,7 +43,9 @@ class ChapterVod extends Validator
             throw new BadRequestException('chapter_vod.invalid_file_url');
         }
 
-        $ext = strtolower(pathinfo($url, PATHINFO_EXTENSION));
+        $path = parse_url($value, PHP_URL_PATH);
+
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
         /**
          * 点播只支持mp4,m3u8格式

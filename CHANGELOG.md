@@ -1,3 +1,21 @@
+### [v1.4.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.0)(2021-08-03)
+
+### 更新
+
+- 单页增加自定义别名访问
+- 回答增加评论功能
+- 顶部导航微聊增加开关控制
+- 更新默认的ICP备案链接指向
+- 更正部分model定义中字段的类型申明
+- 优化章节过多导致页面过长问题
+- 优化评论前端部分相关逻辑和交互
+- 优化403错误页面，使用forward代替redirect
+- 优化播放地址中带queryString的扩展名检查
+- 修正解除第三登录绑定500错误问题
+- 修正教师教授课程未过滤已删除课程问题
+- 修正咨询编辑500错误问题
+- 修正后台列表中restore_url未定义问题
+
 ### [v1.3.9](https://gitee.com/koogua/course-tencent-cloud/releases/v1.3.9)(2021-07-24)
 
 ### 更新

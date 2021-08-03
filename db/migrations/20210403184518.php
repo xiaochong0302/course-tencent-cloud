@@ -694,7 +694,7 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'site',
                 'item_key' => 'icp_link',
-                'item_value' => 'http://www.miitbeian.gov.cn',
+                'item_value' => 'http://beian.miit.gov.cn',
             ],
             [
                 'section' => 'site',

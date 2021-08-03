@@ -116,6 +116,7 @@
     {{ js_include('home/js/question.show.js') }}
     {{ js_include('home/js/question.share.js') }}
     {{ js_include('home/js/answer.js') }}
+    {{ js_include('home/js/comment.js') }}
     {{ js_include('home/js/copy.js') }}
 
 {% endblock %}

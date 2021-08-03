@@ -76,12 +76,15 @@
     {% endif %}
 {%- endmacro %}
 
+{% set show_all = course.lesson_count < 30 %}
+
 {% if chapters %}
-    <div class="layui-collapse">
+    <div class="layui-collapse" lay-accordion="true">
         {% for chapter in chapters %}
+            {% set show_class = (show_all or loop.first) ? 'layui-show' : '' %}
             <div class="layui-colla-item">
                 <h2 class="layui-colla-title">{{ chapter.title }}</h2>
-                <div class="layui-colla-content layui-show">
+                <div class="layui-colla-content {{ show_class }}">
                     <ul class="lesson-list">
                         {% for lesson in chapter.children %}
                             {% if lesson.model == 1 %}

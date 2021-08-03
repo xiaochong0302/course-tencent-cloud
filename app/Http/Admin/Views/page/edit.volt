@@ -13,6 +13,12 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">别名</label>
+            <div class="layui-input-block">
+                <input class="layui-input" type="text" name="alias" value="{{ page.alias }}" placeholder="可以通过 /page/{别名} 访问页面">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">内容</label>
             <div class="layui-input-block">
                 <div id="vditor"></div>
