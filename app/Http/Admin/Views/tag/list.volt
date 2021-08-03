@@ -51,6 +51,7 @@
             {% set edit_url = url({'for':'admin.tag.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.tag.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.tag.delete','id':item.id}) %}
+            {% set restore_url = url({'for':'admin.tag.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
                 <td><img class="kg-icon" src="{{ item.icon }}" alt="{{ item.name }}"></td>

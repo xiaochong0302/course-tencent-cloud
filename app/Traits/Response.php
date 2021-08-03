@@ -16,6 +16,22 @@ use Phalcon\Mvc\Dispatcher;
 trait Response
 {
 
+    public function forbidden()
+    {
+        /**
+         * @var Dispatcher $dispatcher
+         */
+        $dispatcher = Di::getDefault()->getShared('dispatcher');
+
+        $dispatcher->forward([
+            'module' => 'home',
+            'controller' => 'error',
+            'action' => 'show403',
+        ]);
+
+        return false;
+    }
+
     public function notFound()
     {
         /**

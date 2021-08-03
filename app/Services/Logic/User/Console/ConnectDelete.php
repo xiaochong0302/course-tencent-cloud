@@ -7,6 +7,7 @@
 
 namespace App\Services\Logic\User\Console;
 
+use App\Services\Logic\Service as LogicService;
 use App\Validators\Connect as ConnectValidator;
 
 class ConnectDelete extends LogicService

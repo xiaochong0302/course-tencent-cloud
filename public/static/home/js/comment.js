@@ -49,8 +49,6 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         var $textarea = $(data.form).find('.layui-textarea');
         var $replyCount = $('#comment-' + blockId).find('.reply-count');
         var replyCount = $replyCount.data('count');
-        var $tbCommentCount = $('#toolbar-comment > .text');
-        var tbCommentCount = $tbCommentCount.data('count');
         submit.attr('disabled', 'disabled').addClass('layui-btn-disabled');
         $.ajax({
             type: 'POST',
@@ -65,12 +63,10 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
                     }
                 });
                 replyCount++;
-                tbCommentCount++;
                 $commentForm.hide();
                 $replyList.show();
                 $textarea.val('');
                 $replyCount.data('count', replyCount).text(replyCount);
-                $tbCommentCount.data('count', tbCommentCount).text(tbCommentCount);
                 layer.msg('发表回复成功');
                 submit.removeAttr('disabled').removeClass('layui-btn-disabled');
             },
@@ -83,7 +79,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         return false;
     });
 
-    $('#btn-cancel-comment').on('click', function () {
+    $('#comment-cancel').on('click', function () {
         $('#comment-footer').hide();
     });
 
@@ -91,7 +87,7 @@ layui.use(['jquery', 'form', 'layer', 'helper'], function () {
         $('#comment-footer').show();
     });
 
-    $('body').on('click', '.btn-cancel-reply', function () {
+    $('body').on('click', '.reply-cancel', function () {
         var id = $(this).data('id');
         $('#comment-form-' + id).hide();
     });

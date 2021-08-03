@@ -72,6 +72,16 @@ class Page extends Service
             $data['title'] = $validator->checkTitle($post['title']);
         }
 
+        if (isset($post['alias'])) {
+            $data['alias'] = '';
+            if (!empty($post['alias'])) {
+                $data['alias'] = $validator->checkAlias($post['alias']);
+                if ($data['alias'] != $page->alias) {
+                    $validator->checkIfAliasTaken($data['alias']);
+                }
+            }
+        }
+
         if (isset($post['content'])) {
             $data['content'] = $validator->checkContent($post['content']);
         }
