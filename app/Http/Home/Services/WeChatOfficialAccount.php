@@ -56,51 +56,35 @@ class WeChatOfficialAccount extends Service
                 switch ($message['Event']) {
                     case 'subscribe':
                         return $this->handleSubscribeEvent($message);
-                        break;
                     case 'unsubscribe':
                         return $this->handleUnsubscribeEvent($message);
-                        break;
                     case 'SCAN':
                         return $this->handleScanEvent($message);
-                        break;
                     case 'CLICK':
                         return $this->handleClickEvent($message);
-                        break;
                     case 'VIEW':
                         return $this->handleViewEvent($message);
-                        break;
                     case 'LOCATION':
                         return $this->handleLocationEvent($message);
-                        break;
                     default:
                         return $this->noMatchReply();
-                        break;
                 }
-                break;
             case 'text':
                 return $this->handleTextReply($message);
-                break;
             case 'image':
                 return $this->handleImageReply($message);
-                break;
             case 'voice':
                 return $this->handleVoiceReply($message);
-                break;
             case 'video':
                 return $this->handleVideoReply($message);
-                break;
             case 'shortvideo':
                 return $this->handleShortVideoReply($message);
-                break;
             case 'location':
                 return $this->handleLocationReply($message);
-                break;
             case 'link':
                 return $this->handleLinkReply($message);
-                break;
             default:
                 return $this->noMatchReply();
-                break;
         }
     }
 
@@ -135,7 +119,7 @@ class WeChatOfficialAccount extends Service
 
         $user = $userRepo->findById($userId);
 
-        if (!$user) return;
+        if (!$user) return $this->emptyReply();
 
         $subscribeRepo = new WeChatSubscribeRepo();
 

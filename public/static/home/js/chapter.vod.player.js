@@ -12,43 +12,50 @@ layui.use(['jquery', 'helper'], function () {
     var learningUrl = $('input[name="chapter.learning_url"]').val();
     var playUrls = JSON.parse($('input[name="chapter.play_urls"]').val());
 
-    var options = {
-        autoplay: false,
-        width: 760,
-        height: 428,
-    };
+    var rates = [
+        {name: 'od', label: '原画'},
+        {name: 'hd', label: '高清'},
+        {name: 'sd', label: '标清'},
+    ];
 
-    if (playUrls.hasOwnProperty('od')) {
-        options.m3u8 = playUrls.od.url;
-    }
+    var quality = [];
 
-    if (playUrls.hasOwnProperty('hd')) {
-        options.m3u8_hd = playUrls.hd.url;
-    }
-
-    if (playUrls.hasOwnProperty('sd')) {
-        options.m3u8_sd = playUrls.sd.url;
-    }
-
-    options.listener = function (msg) {
-        if (msg.type === 'play') {
-            play();
-        } else if (msg.type === 'pause') {
-            pause();
-        } else if (msg.type === 'ended') {
-            ended();
+    $.each(rates, function (k, rate) {
+        if (playUrls.hasOwnProperty(rate.name)) {
+            quality[k] = {
+                name: rate.label,
+                url: playUrls[rate.name]['url'],
+            };
         }
-    };
+    });
 
-    var player = new TcPlayer('player', options);
+    var player = new DPlayer({
+        container: document.getElementById('player'),
+        video: {
+            quality: quality,
+            defaultQuality: 0,
+        }
+    });
+
+    player.on('play', function () {
+        play();
+    });
+
+    player.on('pause', function () {
+        pause();
+    });
+
+    player.on('ended', function () {
+        ended();
+    });
 
     var position = parseInt(lastPosition);
 
     /**
      * 过于接近结束位置当作已结束处理
      */
-    if (position > 0 && player.duration() - position > 10) {
-        player.currentTime(position);
+    if (position > 0 && player.video.duration - position > 10) {
+        player.seek(position);
     }
 
     function clearLearningInterval() {
@@ -85,7 +92,7 @@ layui.use(['jquery', 'helper'], function () {
                     plan_id: planId,
                     request_id: requestId,
                     interval_time: intervalTime,
-                    position: player.currentTime(),
+                    position: player.video.currentTime,
                 }
             });
         }

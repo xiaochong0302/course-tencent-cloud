@@ -47,18 +47,13 @@ class ChapterController extends Controller
             return $this->notFound();
         }
 
+        if ($chapter['me']['owned'] == 0) {
+            return $this->forbidden();
+        }
+
         $service = new CourseInfoService();
 
         $course = $service->handle($chapter['course']['id']);
-
-        $owned = $chapter['me']['owned'] ?? false;
-
-        if (!$owned) {
-            $this->response->redirect([
-                'for' => 'home.course.show',
-                'id' => $course['id'],
-            ]);
-        }
 
         $service = new CourseChapterListService();
 

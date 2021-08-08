@@ -42,8 +42,13 @@ class ChapterList extends LogicService
             $mapping = $this->getLearningMapping($course->id, $user->id, $this->courseUser->plan_id);
             foreach ($chapters as &$chapter) {
                 foreach ($chapter['children'] as &$lesson) {
+                    /**
+                     * @todo v1.4.1之前缓存中无published字段，临时给默认值
+                     */
+                    $lesson['published'] = $lesson['published'] ?? 1;
+                    $owned = ($this->ownedCourse || $lesson['free'] == 1) && $lesson['published'] == 1;
                     $lesson['me'] = [
-                        'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
+                        'owned' => $owned ? 1 : 0,
                         'progress' => $mapping[$lesson['id']]['progress'] ?? 0,
                         'duration' => $mapping[$lesson['id']]['duration'] ?? 0,
                     ];
@@ -52,8 +57,13 @@ class ChapterList extends LogicService
         } else {
             foreach ($chapters as &$chapter) {
                 foreach ($chapter['children'] as &$lesson) {
+                    /**
+                     * @todo v1.4.1之前缓存中无published字段，临时给默认值
+                     */
+                    $lesson['published'] = $lesson['published'] ?? 1;
+                    $owned = ($this->ownedCourse || $lesson['free'] == 1) && $lesson['published'] == 1;
                     $lesson['me'] = [
-                        'owned' => $this->ownedCourse || $lesson['free'] ? 1 : 0,
+                        'owned' => $owned ? 1 : 0,
                         'progress' => 0,
                         'duration' => 0,
                     ];

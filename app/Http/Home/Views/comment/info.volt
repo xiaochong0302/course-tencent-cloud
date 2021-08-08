@@ -22,7 +22,7 @@
                     </div>
                     <div class="right">
                         <div class="column">
-                            <span class="action action-delete" data-id="{{ comment.id }}" data-url="{{ delete_url }}">删除</span>
+                            <span class="action comment-delete" data-id="{{ comment.id }}" data-url="{{ delete_url }}">删除</span>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="right">
                     <span class="column">
-                        <span class="action action-delete" data-id="{{ comment.id }}" data-url="{{ delete_url }}">删除</span>
+                        <span class="action comment-delete" data-id="{{ comment.id }}" data-url="{{ delete_url }}">删除</span>
                     </span>
                 </div>
             </div>
