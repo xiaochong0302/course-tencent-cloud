@@ -38,7 +38,10 @@ class CourseList extends LogicService
 
             $childCategoryIds = $categoryService->getChildCategoryIds($params['tc']);
 
-            $params['category_id'] = $childCategoryIds;
+            /**
+             * 构造空记录条件
+             */
+            $params['category_id'] = $childCategoryIds ?: -999;
         }
 
         $params['published'] = 1;

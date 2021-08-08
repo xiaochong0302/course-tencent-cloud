@@ -4,6 +4,10 @@
 
     <div id="player"></div>
 
+    <div class="layui-hide">
+        <textarea id="play_urls">{{ pull_urls|json_encode }}</textarea>
+    </div>
+
 {% endblock %}
 
 {% block inline_css %}
@@ -12,13 +16,19 @@
         .kg-body {
             padding: 0;
         }
+
+        #player {
+            width: 720px;
+            height: 405px;
+        }
     </style>
 
 {% endblock %}
 
 {% block include_js %}
 
-    {{ js_include('lib/tc-player-2.4.0.js') }}
+    {{ js_include('lib/dplayer/flv.min.js') }}
+    {{ js_include('lib/dplayer/DPlayer.min.js') }}
 
 {% endblock %}
 
@@ -30,27 +40,38 @@
 
             var $ = layui.jquery;
 
-            var options = {
-                live: true,
-                autoplay: true,
-                width: 720,
-                height: 405
-            };
+            var playUrls = JSON.parse($('#play_urls').val());
 
-            var playUrls = JSON.parse('{{ pull_urls|json_encode }}');
-            var formats = ['m3u8'];
-            var rates = ['od', 'hd', 'sd'];
+            var formats = ['flv'];
+
+            var rates = [
+                {name: 'od', label: '原画'},
+                {name: 'hd', label: '高清'},
+                {name: 'sd', label: '标清'},
+            ];
+
+            var quality = [];
 
             $.each(formats, function (i, format) {
                 $.each(rates, function (k, rate) {
-                    if (playUrls.hasOwnProperty(format) && playUrls[format].hasOwnProperty(rate)) {
-                        var key = k === 0 ? format : format + '_' + rate;
-                        options[key] = playUrls[format][rate];
+                    if (playUrls.hasOwnProperty(format) && playUrls[format].hasOwnProperty(rate.name)) {
+                        quality[k] = {
+                            name: rate.label,
+                            url: playUrls[format][rate.name],
+                            type: 'flv',
+                        };
                     }
                 });
             });
 
-            new TcPlayer('player', options);
+            new DPlayer({
+                container: document.getElementById('player'),
+                live: true,
+                video: {
+                    quality: quality,
+                    defaultQuality: 0,
+                }
+            });
 
         });
 

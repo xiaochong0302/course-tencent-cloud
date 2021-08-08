@@ -1,3 +1,17 @@
+### [v1.4.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.1)(2021-08-08)
+
+- AnswerInfo结构补充遗漏的comment_count字段
+- AnswerList结构去除deleted字段
+- ChapterList结构补充published字段
+- 使用开源的播放器DPlayer替换腾讯TcPlayer
+- 修正第三方登录开关的判断
+- 修正课程方向过滤问题
+- 修正教师主页会显示未发布课程问题
+- 修正评论删除点击无效问题
+- 优化课时列表可点击权限判断
+- 优化来源检查域名带端口问题
+- 优化微信公众号业务处理类
+
 ### [v1.4.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.0)(2021-08-03)
 
 ### 更新

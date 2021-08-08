@@ -34,6 +34,7 @@ class CourseChapterList extends Builder
                 'id' => $chapter->id,
                 'title' => $chapter->title,
                 'model' => $chapter->model,
+                'published' => $chapter->published,
                 'children' => $this->handleChildren($chapter),
             ];
         }
@@ -70,6 +71,7 @@ class CourseChapterList extends Builder
                 'id' => $lesson->id,
                 'title' => $lesson->title,
                 'model' => $lesson->model,
+                'published' => $lesson->published,
                 'free' => $lesson->free,
                 'attrs' => $attrs,
             ];

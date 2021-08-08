@@ -46,7 +46,9 @@ class Course extends Repository
         if (!empty($where['category_id'])) {
             $where['id'] = $this->getCategoryCourseIds($where['category_id']);
             $fakeId = empty($where['id']);
-        } elseif (!empty($where['teacher_id'])) {
+        }
+
+        if (!empty($where['teacher_id'])) {
             $where['id'] = $this->getTeacherCourseIds($where['teacher_id']);
             $fakeId = empty($where['id']);
         }

@@ -71,7 +71,8 @@
 
 {% block include_js %}
 
-    {{ js_include('lib/tc-player-2.4.0.js') }}
+    {{ js_include('lib/dplayer/flv.min.js') }}
+    {{ js_include('lib/dplayer/DPlayer.min.js') }}
     {{ js_include('home/js/chapter.live.player.js') }}
     {{ js_include('home/js/chapter.live.chat.js') }}
     {{ js_include('home/js/chapter.show.js') }}

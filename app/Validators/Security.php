@@ -30,11 +30,11 @@ class Security extends Validator
 
     public function checkHttpReferer()
     {
-        $httpHost = parse_url($this->request->getHttpReferer(), PHP_URL_HOST);
+        $refererHost = parse_url($this->request->getHttpReferer(), PHP_URL_HOST);
 
-        $result = $httpHost == $this->request->getHttpHost();
+        $httpHost = preg_replace('/:\d+/', '', $this->request->getHttpHost());
 
-        if (!$result) {
+        if ($refererHost != $httpHost) {
             throw new BadRequestException('security.invalid_http_referer');
         }
     }

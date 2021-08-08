@@ -16,13 +16,19 @@
         .kg-body {
             padding: 0;
         }
+
+        #player {
+            width: 720px;
+            height: 405px;
+        }
     </style>
 
 {% endblock %}
 
 {% block include_js %}
 
-    {{ js_include('lib/tc-player-2.4.0.js') }}
+    {{ js_include('lib/dplayer/hls.min.js') }}
+    {{ js_include('lib/dplayer/DPlayer.min.js') }}
 
 {% endblock %}
 
@@ -36,11 +42,9 @@
 
             var playUrl = $('input[name=play_url]').val();
 
-            new TcPlayer('player', {
-                m3u8: playUrl,
-                autoplay: false,
-                width: 720,
-                height: 405
+            new DPlayer({
+                container: document.getElementById('player'),
+                video: {url: playUrl},
             });
 
         });
