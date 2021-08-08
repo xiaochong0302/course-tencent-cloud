@@ -5,7 +5,7 @@
         <i class="layui-icon layui-icon-play"></i>
         <span class="title">{{ lesson.title }}</span>
         {% if lesson.free == 1 %}
-            <span class="layui-badge free-badge">免费</span>
+            <span class="layui-badge free-badge">试听</span>
         {% endif %}
         {% if lesson.me.duration > 0 %}
             <span class="study-time" title="学习时长：{{ lesson.me.duration|duration }}"><i class="layui-icon layui-icon-time"></i></span>

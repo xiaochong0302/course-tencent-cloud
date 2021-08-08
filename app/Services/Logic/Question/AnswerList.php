@@ -71,7 +71,6 @@ class AnswerList extends LogicService
                 'content' => $answer['content'],
                 'anonymous' => $answer['anonymous'],
                 'accepted' => $answer['accepted'],
-                'published' => $answer['published'],
                 'like_count' => $answer['like_count'],
                 'comment_count' => $answer['comment_count'],
                 'create_time' => $answer['create_time'],

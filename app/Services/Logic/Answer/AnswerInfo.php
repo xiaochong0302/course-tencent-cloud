@@ -40,6 +40,7 @@ class AnswerInfo extends LogicService
             'accepted' => $answer->accepted,
             'published' => $answer->published,
             'deleted' => $answer->deleted,
+            'comment_count' => $answer->comment_count,
             'like_count' => $answer->like_count,
             'create_time' => $answer->create_time,
             'update_time' => $answer->update_time,
