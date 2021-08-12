@@ -26,7 +26,7 @@ class PackageController extends Controller
 
         $package = $service->handle($id);
 
-        if ($package['deleted'] == 1) {
+        if ($package['published'] == 0) {
             return $this->notFound();
         }
 

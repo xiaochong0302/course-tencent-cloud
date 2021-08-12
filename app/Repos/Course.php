@@ -361,8 +361,8 @@ class Course extends Repository
     public function countUsers($courseId)
     {
         return (int)CourseUserModel::count([
-            'conditions' => 'course_id = :course_id: AND deleted = 0',
-            'bind' => ['course_id' => $courseId],
+            'conditions' => 'course_id = ?1 AND role_type = ?2 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => CourseUserModel::ROLE_STUDENT],
         ]);
     }
 

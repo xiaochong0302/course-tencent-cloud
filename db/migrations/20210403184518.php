@@ -684,7 +684,7 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'site',
                 'item_key' => 'copyright',
-                'item_value' => '2016-2020 深圳市酷瓜软件有限公司',
+                'item_value' => '深圳市酷瓜软件有限公司',
             ],
             [
                 'section' => 'site',

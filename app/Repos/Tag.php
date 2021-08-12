@@ -122,7 +122,7 @@ class Tag extends Repository
     {
         return (int)CourseTagModel::count([
             'conditions' => 'tag_id = :tag_id:',
-            'bind' => ['tag' => $tagId],
+            'bind' => ['tag_id' => $tagId],
         ]);
     }
 

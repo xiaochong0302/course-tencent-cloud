@@ -2,8 +2,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开启服务</label>
         <div class="layui-input-block">
-            <input type="radio" name="enabled" value="1" title="是" lay-filter="status" {% if cs.enabled == 1 %}checked="checked"{% endif %}>
-            <input type="radio" name="enabled" value="0" title="否" lay-filter="status" {% if cs.enabled == 0 %}checked="checked"{% endif %}>
+            <input type="radio" name="enabled" value="1" title="是" {% if cs.enabled == 1 %}checked="checked"{% endif %}>
+            <input type="radio" name="enabled" value="0" title="否" {% if cs.enabled == 0 %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">

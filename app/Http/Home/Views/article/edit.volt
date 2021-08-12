@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% set title = article.id > 0 ? '编辑文章' : '写文章' %}
+    {% set title = article.id > 0 ? '编辑文章' : '撰写文章' %}
     {% set action_url = article.id > 0 ? url({'for':'home.article.update','id':article.id}) : url({'for':'home.article.create'}) %}
     {% set source_url_display = article.source_type == 1 ? 'display:none;' : 'display:block;' %}
 
@@ -56,20 +56,6 @@
                             <div class="layui-input-block">
                                 <input class="layui-input" type="text" name="source_url" value="{{ article.source_url }}">
                             </div>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">关闭评论</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="closed" value="1" title="是" {% if article.closed == 1 %}checked="checked"{% endif %}>
-                            <input type="radio" name="closed" value="0" title="否" {% if article.closed == 0 %}checked="checked"{% endif %}>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">仅我可见</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="private" value="1" title="是" {% if article.private == 1 %}checked="checked"{% endif %}>
-                            <input type="radio" name="private" value="0" title="否" {% if article.private == 0 %}checked="checked"{% endif %}>
                         </div>
                     </div>
                     <div class="layui-form-item last-form-item">

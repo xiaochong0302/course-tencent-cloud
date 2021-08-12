@@ -34,6 +34,7 @@
                                 <td>
                                     <p class="title layui-elip">课程：<a href="{{ course_url }}" target="_blank">{{ item.course.title }}</a></p>
                                     <p class="content layui-elip" title="{{ item.content }}">评价：{{ item.content }}</p>
+                                    <p class="time">时间：{{ item.create_time|time_ago }}</p>
                                 </td>
                                 <td>
                                     <p class="rating">内容实用：{{ "%0.1f"|format(item.rating1) }}</p>

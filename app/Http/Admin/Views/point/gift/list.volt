@@ -51,7 +51,7 @@
         <tbody>
         {% for item in pager.items %}
             {% set redeem_url = url({'for':'admin.point_redeem.list'},{'gift_id':item.id}) %}
-            {% set preview_url = url({'for':'home.point_gift.show','id':item.id}) %}
+            {% set gift_url = url({'for':'home.point_gift.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.point_gift.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.point_gift.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.point_gift.delete','id':item.id}) %}
@@ -69,14 +69,16 @@
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
-                            <li><a href="{{ preview_url }}" target="_blank">前台预览</a></li>
-                            <li><a href="{{ redeem_url }}">兑换记录</a></li>
+                            {% if item.published == 1 %}
+                                <li><a href="{{ gift_url }}" target="_blank">浏览</a></li>
+                            {% endif %}
                             <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}
                                 <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
                             {% else %}
                                 <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原</a></li>
                             {% endif %}
+                            <li><a href="{{ redeem_url }}">兑换记录</a></li>
                         </ul>
                     </div>
                 </td>

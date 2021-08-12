@@ -37,6 +37,8 @@ class CourseInfo extends LogicService
 
         $me = [
             'plan_id' => 0,
+            'allow_order' => 0,
+            'allow_reward' => 0,
             'joined' => 0,
             'owned' => 0,
             'reviewed' => 0,
@@ -46,6 +48,21 @@ class CourseInfo extends LogicService
 
         $me['joined'] = $this->joinedCourse ? 1 : 0;
         $me['owned'] = $this->ownedCourse ? 1 : 0;
+
+        $caseOwned = $this->ownedCourse == false;
+        $casePrice = $course->market_price > 0;
+
+        /**
+         * 过期直播不允许购买
+         */
+        if ($course->model == CourseModel::MODEL_LIVE) {
+            $caseModel = $course->attrs['end_date'] < date('Y-m-d');
+        } else {
+            $caseModel = true;
+        }
+
+        $me['allow_order'] = $caseOwned && $casePrice && $caseModel ? 1 : 0;
+        $me['allow_reward'] = $course->market_price == 0 ? 1 : 0;
 
         if ($user->id > 0) {
 

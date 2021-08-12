@@ -48,6 +48,7 @@
                 {name: 'od', label: '原画'},
                 {name: 'hd', label: '高清'},
                 {name: 'sd', label: '标清'},
+                {name: 'fd', label: '极速'},
             ];
 
             var quality = [];

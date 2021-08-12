@@ -170,4 +170,13 @@ class Article extends Validator
         }
     }
 
+    public function checkIfAllowEdit(ArticleModel $article)
+    {
+        $approved = $article->published == ArticleModel::PUBLISH_APPROVED;
+
+        if ($approved) {
+            throw new BadRequestException('article.edit_not_allowed');
+        }
+    }
+
 }

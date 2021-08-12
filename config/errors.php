@@ -128,6 +128,8 @@ $error['article.invalid_publish_status'] = '无效的发布状态';
 $error['article.invalid_private_status'] = '无效的私有状态';
 $error['article.invalid_close_status'] = '无效的关闭状态';
 $error['article.invalid_reject_reason'] = '无效的拒绝理由';
+$error['article.edit_not_allowed'] = '当前不允许编辑文章';
+$error['article.delete_not_allowed'] = '当前不允许删除文章';
 
 /**
  * 问答相关
@@ -267,6 +269,7 @@ $error['chapter_vod.invalid_duration'] = '无效的视频时长';
 $error['chapter_vod.invalid_file_id'] = '无效的文件编号';
 $error['chapter_vod.invalid_file_url'] = '无效的文件地址';
 $error['chapter_vod.invalid_file_ext'] = '无效的文件格式（目前只支持mp4，m3u8）';
+$error['chapter_vod.remote_file_required'] = '请填写远程播放地址';
 
 /**
  * 直播相关

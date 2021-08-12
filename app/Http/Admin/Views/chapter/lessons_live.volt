@@ -36,9 +36,9 @@
         <th>编号</th>
         <th>名称</th>
         <th>课件</th>
+        <th>学员</th>
         <th>点赞</th>
-        <th>评论</th>
-        <th>直播时间</th>
+        <th>时间</th>
         <th>推流</th>
         <th>排序</th>
         <th>免费</th>
@@ -48,7 +48,7 @@
     </thead>
     <tbody>
     {% for item in lessons %}
-        {% set preview_url = url({'for':'home.chapter.show','id':item.id}) %}
+        {% set chapter_url = url({'for':'home.chapter.show','id':item.id}) %}
         {% set edit_url = url({'for':'admin.chapter.edit','id':item.id}) %}
         {% set update_url = url({'for':'admin.chapter.update','id':item.id}) %}
         {% set delete_url = url({'for':'admin.chapter.delete','id':item.id}) %}
@@ -60,8 +60,8 @@
                 <span class="layui-badge layui-bg-green">课</span>
             </td>
             <td>{{ item.resource_count }}</td>
+            <td>{{ item.user_count }}</td>
             <td>{{ item.like_count }}</td>
-            <td>{{ item.comment_count }}</td>
             <td>{{ live_time_info(item.attrs) }}</td>
             <td>{{ live_status_info(item.attrs['stream']['status']) }}</td>
             <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
@@ -71,7 +71,9 @@
                 <div class="kg-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                     <ul>
-                        <li><a href="{{ preview_url }}" target="_blank">预览</a></li>
+                        {% if item.published == 1 %}
+                            <li><a href="{{ chapter_url }}" target="_blank">浏览</a></li>
+                        {% endif %}
                         <li><a href="{{ edit_url }}">编辑</a></li>
                         {% if item.deleted == 0 %}
                             <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>

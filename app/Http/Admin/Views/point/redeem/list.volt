@@ -54,7 +54,7 @@
                 </td>
                 <td>{{ item.gift_point }}</td>
                 <td>{{ redeem_status_info(item.status) }}</td>
-                <td>{{ date('Y-m-d H:i',item.create_time) }}</td>
+                <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td class="center">
                     {% if item.gift_type == 2 %}
                         <button class="layui-btn layui-btn-sm kg-deliver" data-url="{{ deliver_url }}">发货</button>
