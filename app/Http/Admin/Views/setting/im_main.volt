@@ -1,5 +1,12 @@
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.im'}) }}">
     <div class="layui-form-item">
+        <label class="layui-form-label">开启服务</label>
+        <div class="layui-input-block">
+            <input type="radio" name="enabled" value="1" title="是" {% if main.enabled == 1 %}checked="checked"{% endif %}>
+            <input type="radio" name="enabled" value="0" title="否" {% if main.enabled == 0 %}checked="checked"{% endif %}>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">应用名称</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="title" value="{{ main.title }}">

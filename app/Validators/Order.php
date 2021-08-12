@@ -68,7 +68,7 @@ class Order extends Validator
 
         $course = $courseRepo->findById($itemId);
 
-        if (!$course) {
+        if (!$course || $course->published == 0) {
             throw new BadRequestException('order.item_not_found');
         }
 
@@ -81,7 +81,7 @@ class Order extends Validator
 
         $package = $packageRepo->findById($itemId);
 
-        if (!$package) {
+        if (!$package || $package->published == 0) {
             throw new BadRequestException('order.item_not_found');
         }
 
@@ -94,7 +94,7 @@ class Order extends Validator
 
         $vip = $vipRepo->findById($itemId);
 
-        if (!$vip) {
+        if (!$vip || $vip->deleted == 1) {
             throw new BadRequestException('order.item_not_found');
         }
 

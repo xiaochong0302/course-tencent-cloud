@@ -9,6 +9,7 @@ namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Article as ArticleService;
 use App\Http\Home\Services\ArticleQuery as ArticleQueryService;
+use App\Models\Article as ArticleModel;
 use App\Services\Logic\Article\ArticleCreate as ArticleCreateService;
 use App\Services\Logic\Article\ArticleDelete as ArticleDeleteService;
 use App\Services\Logic\Article\ArticleFavorite as ArticleFavoriteService;
@@ -67,7 +68,7 @@ class ArticleController extends Controller
         $article = $service->getArticleModel();
         $xmTags = $service->getXmTags(0);
 
-        $this->seo->prependTitle('写文章');
+        $this->seo->prependTitle('撰写文章');
 
         $this->view->pick('article/edit');
         $this->view->setVar('source_types', $sourceTypes);
@@ -102,12 +103,8 @@ class ArticleController extends Controller
 
         $article = $service->handle($id);
 
-        if ($article['deleted'] == 1) {
+        if ($article['published'] != ArticleModel::PUBLISH_APPROVED) {
             return $this->notFound();
-        }
-
-        if ($article['me']['owned'] == 0) {
-            return $this->forbidden();
         }
 
         $this->seo->prependTitle(['专栏', $article['title']]);
@@ -138,14 +135,17 @@ class ArticleController extends Controller
 
         $article = $service->handle();
 
-        $location = $this->url->get([
-            'for' => 'home.article.show',
-            'id' => $article->id,
-        ]);
+        if ($article->published == ArticleModel::PUBLISH_APPROVED) {
+            $location = $this->url->get(['for' => 'home.article.show', 'id' => $article->id]);
+            $msg = '发布文章成功';
+        } else {
+            $location = $this->url->get(['for' => 'home.uc.articles']);
+            $msg = '创建文章成功，管理员审核后对外可见';
+        }
 
         $content = [
             'location' => $location,
-            'msg' => '创建文章成功',
+            'msg' => $msg,
         ];
 
         return $this->jsonSuccess($content);
@@ -160,14 +160,17 @@ class ArticleController extends Controller
 
         $article = $service->handle($id);
 
-        $location = $this->url->get([
-            'for' => 'home.article.show',
-            'id' => $article->id,
-        ]);
+        if ($article->published == ArticleModel::PUBLISH_APPROVED) {
+            $location = $this->url->get(['for' => 'home.article.show', 'id' => $article->id]);
+            $msg = '更新文章成功';
+        } else {
+            $location = $this->url->get(['for' => 'home.uc.articles']);
+            $msg = '更新文章成功，管理员审核后对外可见';
+        }
 
         $content = [
             'location' => $location,
-            'msg' => '更新文章成功',
+            'msg' => $msg,
         ];
 
         return $this->jsonSuccess($content);

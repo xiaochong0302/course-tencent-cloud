@@ -48,7 +48,7 @@
     </thead>
     <tbody>
     {% for item in lessons %}
-        {% set preview_url = url({'for':'home.chapter.show','id':item.id}) %}
+        {% set chapter_url = url({'for':'home.chapter.show','id':item.id}) %}
         {% set edit_url = url({'for':'admin.chapter.edit','id':item.id}) %}
         {% set update_url = url({'for':'admin.chapter.update','id':item.id}) %}
         {% set delete_url = url({'for':'admin.chapter.delete','id':item.id}) %}
@@ -71,7 +71,9 @@
                 <div class="kg-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                     <ul>
-                        <li><a href="{{ preview_url }}" target="_blank">预览</a></li>
+                        {% if item.published == 1 %}
+                            <li><a href="{{ chapter_url }}" target="_blank">浏览</a></li>
+                        {% endif %}
                         <li><a href="{{ edit_url }}">编辑</a></li>
                         {% if item.deleted == 0 %}
                             <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>

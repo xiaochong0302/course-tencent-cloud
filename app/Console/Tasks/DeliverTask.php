@@ -14,6 +14,7 @@ use App\Models\Order as OrderModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
+use App\Repos\Course as CourseRepo;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\Order as OrderRepo;
@@ -137,9 +138,17 @@ class DeliverTask extends Task
             throw new \RuntimeException('Create Course User Failed');
         }
 
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($course['id']);
+
+        $course->user_count += 1;
+
+        $course->update();
+
         $groupRepo = new ImGroupRepo();
 
-        $group = $groupRepo->findByCourseId($order->item_id);
+        $group = $groupRepo->findByCourseId($course->id);
 
         $groupUserRepo = new ImGroupUserRepo();
 
@@ -176,9 +185,17 @@ class DeliverTask extends Task
                 throw new \RuntimeException('Create Course User Failed');
             }
 
+            $courseRepo = new CourseRepo();
+
+            $course = $courseRepo->findById($course['id']);
+
+            $course->user_count += 1;
+
+            $course->update();
+
             $groupRepo = new ImGroupRepo();
 
-            $group = $groupRepo->findByCourseId($course['id']);
+            $group = $groupRepo->findByCourseId($course->id);
 
             $groupUserRepo = new ImGroupUserRepo();
 

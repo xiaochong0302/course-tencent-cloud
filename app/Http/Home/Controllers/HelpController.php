@@ -40,7 +40,7 @@ class HelpController extends Controller
 
         $help = $service->handle($id);
 
-        if ($help['deleted'] == 1) {
+        if ($help['published'] == 0) {
             return $this->notFound();
         }
 

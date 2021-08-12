@@ -39,9 +39,7 @@ class VodEventTask extends Task
 
             $count++;
 
-            if ($count >= 12) {
-                break;
-            }
+            if ($count >= 12) break;
         }
 
         $this->confirmEvents($handles);

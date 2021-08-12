@@ -51,7 +51,7 @@ class ImGroupController extends Controller
 
         $group = $service->getGroup($id);
 
-        if ($group['deleted'] == 1) {
+        if ($group['published'] == 0) {
             return $this->notFound();
         }
 

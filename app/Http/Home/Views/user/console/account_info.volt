@@ -68,7 +68,6 @@
                     <div class="connect-list">
                         <table class="layui-table">
                             <tr>
-                                <td>序号</td>
                                 <td>提供方</td>
                                 <td>用户信息</td>
                                 <td>创建日期</td>
@@ -77,11 +76,10 @@
                             {% for connect in connects %}
                                 {% set url = url({'for':'home.uc.unconnect','id':connect.id}) %}
                                 <tr>
-                                    <td>{{ loop.index }}</td>
                                     <td>{{ connect_provider(connect) }}</td>
                                     <td>{{ connect_user(connect) }}</td>
                                     <td>{{ date('Y-m-d H:i',connect.create_time) }}</td>
-                                    <td><a class="layui-btn layui-btn-danger layui-btn-sm kg-delete" href="javascript:" data-url="{{ url }}" data-tips="确定要解除绑定吗？">解除绑定</a></td>
+                                    <td><a class="layui-btn layui-btn-danger layui-btn-sm kg-delete" href="javascript:" data-url="{{ url }}" data-tips="确定要解除绑定吗？">解绑</a></td>
                                 </tr>
                             {% endfor %}
                         </table>

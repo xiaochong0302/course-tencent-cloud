@@ -10,7 +10,7 @@ namespace App\Console\Tasks;
 use App\Models\Tag as TagModel;
 use App\Repos\Tag as TagRepo;
 
-class SyncTagCountTask extends Task
+class SyncTagStatTask extends Task
 {
 
     public function mainAction()
@@ -21,13 +21,13 @@ class SyncTagCountTask extends Task
 
         if ($tags->count() == 0) return;
 
-        echo '------ start recount task ------' . PHP_EOL;
+        echo '------ start sync tag stat task ------' . PHP_EOL;
 
         foreach ($tags as $tag) {
             $this->recountTaggedItems($tag);
         }
 
-        echo '------ end recount task ------' . PHP_EOL;
+        echo '------ end sync tag stat task ------' . PHP_EOL;
     }
 
     protected function recountTaggedItems(TagModel $tag)

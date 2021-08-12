@@ -69,7 +69,7 @@ layui.use(['jquery', 'element', 'layer'], function () {
                         mime: file.type,
                         size: file.size,
                         path: keyName,
-                        md5: data.ETag.replace(/"/g, '')
+                        md5: data.ETag ? data.ETag.replace(/"/g, '') : ''
                     },
                     chapter_id: chapterId,
                 }, function () {

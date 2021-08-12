@@ -44,7 +44,7 @@
             {% set edit_url = url({'for':'admin.answer.edit','id':item.id}) %}
             {% set delete_url = url({'for':'admin.answer.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.answer.restore','id':item.id}) %}
-            {% set review_url = url({'for':'admin.answer.moderate','id':item.id}) %}
+            {% set moderate_url = url({'for':'admin.answer.moderate','id':item.id}) %}
             <tr>
                 <td>
                     <P>问题：<a href="{{ question_url }}" target="_blank">{{ item.question.title }}</a></P>
@@ -58,9 +58,10 @@
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
-                            <li><a href="{{ answer_url }}" target="_blank">预览回答</a></li>
                             {% if item.published == 1 %}
-                                <li><a href="{{ review_url }}">审核回答</a></li>
+                                <li><a href="{{ moderate_url }}">审核回答</a></li>
+                            {% elseif item.published == 2 %}
+                                <li><a href="{{ answer_url }}" target="_blank">浏览回答</a></li>
                             {% endif %}
                             <li><a href="{{ edit_url }}">编辑回答</a></li>
                             {% if item.deleted == 0 %}

@@ -52,7 +52,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set preview_url = url({'for':'home.user.show','id':item.id}) %}
+            {% set user_url = url({'for':'home.user.show','id':item.id}) %}
             {% set online_url = url({'for':'admin.user.online','id':item.id}) %}
             {% set edit_url = url({'for':'admin.user.edit','id':item.id}) %}
             <tr>
@@ -61,7 +61,7 @@
                 </td>
                 <td>
                     <p>
-                        <a href="{{ preview_url }}" title="{{ item.about }}" target="_blank">{{ item.name }}</a>（{{ item.id }}）{{ status_info(item) }}
+                        <a href="{{ edit_url }}">{{ item.name }}</a>（{{ item.id }}）{{ status_info(item) }}
                     </p>
                     <p class="meta">
                         <span>性别：{{ gender_info(item.gender) }}</span>
@@ -82,7 +82,7 @@
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
-                            <li><a href="{{ preview_url }}" target="_blank">用户主页</a></li>
+                            <li><a href="{{ user_url }}" target="_blank">用户主页</a></li>
                             <li><a href="javascript:" class="kg-online" data-url="{{ online_url }}">在线记录</a></li>
                             <li><a href="{{ edit_url }}">编辑用户</a></li>
                         </ul>

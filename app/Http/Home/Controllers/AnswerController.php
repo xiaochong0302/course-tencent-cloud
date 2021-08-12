@@ -9,6 +9,7 @@ namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Answer as AnswerService;
 use App\Http\Home\Services\Question as QuestionService;
+use App\Models\Answer as AnswerModel;
 use App\Services\Logic\Answer\AnswerAccept as AnswerAcceptService;
 use App\Services\Logic\Answer\AnswerCreate as AnswerCreateService;
 use App\Services\Logic\Answer\AnswerDelete as AnswerDeleteService;
@@ -56,12 +57,8 @@ class AnswerController extends Controller
 
         $answer = $service->handle($id);
 
-        if ($answer['deleted'] == 1) {
+        if ($answer['published'] != AnswerModel::PUBLISH_APPROVED) {
             return $this->notFound();
-        }
-
-        if ($answer['me']['owned'] == 0) {
-            return $this->forbidden();
         }
 
         $questionId = $answer['question']['id'];
@@ -116,14 +113,17 @@ class AnswerController extends Controller
 
         $answer = $service->handle();
 
-        $location = $this->url->get([
-            'for' => 'home.answer.show',
-            'id' => $answer->id,
-        ]);
+        if ($answer->published == AnswerModel::PUBLISH_APPROVED) {
+            $location = $this->url->get(['for' => 'home.question.show', 'id' => $answer->question_id]);
+            $msg = '发布回答成功';
+        } else {
+            $location = $this->url->get(['for' => 'home.uc.answers']);
+            $msg = '创建回答成功，管理员审核后对外可见';
+        }
 
         $content = [
             'location' => $location,
-            'msg' => '创建回答成功',
+            'msg' => $msg,
         ];
 
         return $this->jsonSuccess($content);
@@ -138,14 +138,17 @@ class AnswerController extends Controller
 
         $answer = $service->handle($id);
 
-        $location = $this->url->get([
-            'for' => 'home.answer.show',
-            'id' => $answer->id,
-        ]);
+        if ($answer->published == AnswerModel::PUBLISH_APPROVED) {
+            $location = $this->url->get(['for' => 'home.question.show', 'id' => $answer->question_id]);
+            $msg = '更新回答成功';
+        } else {
+            $location = $this->url->get(['for' => 'home.uc.answers']);
+            $msg = '更新回答成功，管理员审核后对外可见';
+        }
 
         $content = [
             'location' => $location,
-            'msg' => '更新回答成功',
+            'msg' => $msg,
         ];
 
         return $this->jsonSuccess($content);
