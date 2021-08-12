@@ -35,7 +35,10 @@ class Resource extends Service
 
         $upload = $uploadRepo->findByMd5($post['upload']['md5']);
 
-        if (!$upload) {
+        /**
+         * 腾讯COS存储可能不会返回文件md5值
+         */
+        if (!$upload || empty($post['upload']['md5'])) {
 
             $upload = new UploadModel();
 

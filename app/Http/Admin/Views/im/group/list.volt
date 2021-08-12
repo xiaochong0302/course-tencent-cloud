@@ -44,7 +44,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set preview_url = url({'for':'home.im_group.show','id':item.id}) %}
+            {% set group_url = url({'for':'home.im_group.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.im_group.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.im_group.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.im_group.delete','id':item.id}) %}
@@ -56,7 +56,7 @@
                 </td>
                 <td>
                     <p>
-                        名称：<a href="{{ preview_url }}" title="{{ item.about }}" target="_blank">{{ item.name }}</a>（{{ item.id }}）
+                        名称：<a href="{{ edit_url }}">{{ item.name }}</a>（{{ item.id }}）
                     </p>
                     <p class="meta">
                         <span>类型：{{ type_info(item.type) }}</span>
@@ -77,7 +77,9 @@
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
-                            <li><a href="{{ preview_url }}" target="_blank">预览</a></li>
+                            {% if item.published == 1 %}
+                                <li><a href="{{ group_url }}" target="_blank">浏览</a></li>
+                            {% endif %}
                             <li><a href="{{ users_url }}">成员</a></li>
                             <li><a href="{{ edit_url }}">编辑</a></li>
                             {% if item.deleted == 0 %}

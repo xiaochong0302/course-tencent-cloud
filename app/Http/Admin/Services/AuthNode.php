@@ -1199,7 +1199,7 @@ class AuthNode extends Service
                         ],
                         [
                             'id' => '5-1-11',
-                            'title' => '微聊设置',
+                            'title' => '即时通讯',
                             'type' => 'menu',
                             'route' => 'admin.setting.im',
                         ],

@@ -59,9 +59,9 @@ class ChapterVod extends Service
         $vod = $chapterRepo->findChapterVod($chapterId);
 
         $result = [
-            'od' => ['url' => ''],
             'hd' => ['url' => ''],
             'sd' => ['url' => ''],
+            'fd' => ['url' => ''],
         ];
 
         if (!empty($vod->file_remote)) {
@@ -73,7 +73,7 @@ class ChapterVod extends Service
 
     protected function getDefinitionType($height)
     {
-        $default = 'od';
+        $default = 'sd';
 
         $vodTemplates = $this->getVodTemplates();
 
@@ -89,15 +89,12 @@ class ChapterVod extends Service
         return $default;
     }
 
-    /**
-     * 腾讯云播放器只支持[od|hd|sd]，实际转码速率[hd|sd|fd]，重新映射清晰度
-     */
     protected function getVodTemplates()
     {
         return [
-            'od' => ['height' => 720, 'rate' => 1800],
-            'hd' => ['height' => 540, 'rate' => 1000],
-            'sd' => ['height' => 360, 'rate' => 400],
+            'hd' => ['height' => 720, 'rate' => 1800],
+            'sd' => ['height' => 540, 'rate' => 1000],
+            'fd' => ['height' => 360, 'rate' => 400],
         ];
     }
 

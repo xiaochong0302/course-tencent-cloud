@@ -175,23 +175,15 @@ class ChapterContent extends Service
 
         $validator->checkDuration($duration);
 
-        $odUrl = $post['file_remote']['od']['url'] ?? '';
         $hdUrl = $post['file_remote']['hd']['url'] ?? '';
         $sdUrl = $post['file_remote']['sd']['url'] ?? '';
+        $fdUrl = $post['file_remote']['fd']['url'] ?? '';
 
         $fileRemote = [
-            'od' => ['url' => ''],
             'hd' => ['url' => ''],
             'sd' => ['url' => ''],
+            'fd' => ['url' => ''],
         ];
-
-        $attrs = $chapter->attrs;
-
-        if (!empty($odUrl)) {
-            $fileRemote['od']['url'] = $validator->checkFileUrl($odUrl);
-            $attrs['file']['status'] = ChapterModel::FS_UPLOADED;
-            $attrs['duration'] = $duration;
-        }
 
         if (!empty($hdUrl)) {
             $fileRemote['hd']['url'] = $validator->checkFileUrl($hdUrl);
@@ -201,13 +193,25 @@ class ChapterContent extends Service
             $fileRemote['sd']['url'] = $validator->checkFileUrl($sdUrl);
         }
 
+        if (!empty($fdUrl)) {
+            $fileRemote['fd']['url'] = $validator->checkFileUrl($fdUrl);
+        }
+
         $chapterRepo = new ChapterRepo();
 
         $vod = $chapterRepo->findChapterVod($chapter->id);
+
         $vod->file_remote = $fileRemote;
+
         $vod->update();
 
+        $attrs = $chapter->attrs;
+
+        $attrs['file']['status'] = ChapterModel::FS_UPLOADED;
+        $attrs['duration'] = $duration;
+
         $chapter->attrs = $attrs;
+
         $chapter->update();
 
         $this->updateCourseVodAttrs($vod->course_id);

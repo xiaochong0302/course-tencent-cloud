@@ -50,13 +50,13 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set preview_url = url({'for':'home.article.show','id':item.id}) %}
+            {% set article_url = url({'for':'home.article.show','id':item.id}) %}
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set edit_url = url({'for':'admin.article.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.article.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.article.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.article.restore','id':item.id}) %}
-            {% set review_url = url({'for':'admin.article.moderate','id':item.id}) %}
+            {% set moderate_url = url({'for':'admin.article.moderate','id':item.id}) %}
             {% set comment_url = url({'for':'admin.comment.list'},{'item_id':item.id,'item_type':2}) %}
             <tr>
                 <td>
@@ -87,9 +87,9 @@
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
                             {% if item.published == 1 %}
-                                <li><a href="{{ review_url }}">审核文章</a></li>
+                                <li><a href="{{ moderate_url }}">审核文章</a></li>
                             {% elseif item.published == 2 %}
-                                <li><a href="{{ preview_url }}" target="_blank">预览文章</a></li>
+                                <li><a href="{{ article_url }}" target="_blank">浏览文章</a></li>
                             {% endif %}
                             <li><a href="{{ edit_url }}">编辑文章</a></li>
                             {% if item.deleted == 0 %}

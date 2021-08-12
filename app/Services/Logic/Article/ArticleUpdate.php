@@ -10,6 +10,7 @@ namespace App\Services\Logic\Article;
 use App\Models\Article as ArticleModel;
 use App\Services\Logic\ArticleTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Validators\Article as ArticleValidator;
 
 class ArticleUpdate extends LogicService
 {
@@ -23,24 +24,14 @@ class ArticleUpdate extends LogicService
 
         $article = $this->checkArticle($id);
 
+        $validator = new ArticleValidator();
+
+        $validator->checkIfAllowEdit($article);
+
         $data = $this->handlePostData($post);
 
         if ($article->published == ArticleModel::PUBLISH_REJECTED) {
             $data['published'] = ArticleModel::PUBLISH_PENDING;
-        }
-
-        /**
-         * 当通过审核后，禁止修改部分文章属性
-         */
-        if ($article->published == ArticleModel::PUBLISH_APPROVED) {
-            unset(
-                $data['title'],
-                $data['content'],
-                $data['source_type'],
-                $data['source_url'],
-                $data['category_id'],
-                $post['xm_tag_ids'],
-            );
         }
 
         $article->update($data);

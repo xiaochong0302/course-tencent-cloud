@@ -632,21 +632,33 @@ class Vod extends Service
      */
     public function getVideoTransTemplates()
     {
-        $hls = [
-            100210 => ['height' => 360, 'bit_rate' => 400, 'frame_rate' => 25],
-            100220 => ['height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
-            100230 => ['height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
+        $hlsTemplates = [
+            100210 => ['quality' => 'fd', 'height' => 360, 'bit_rate' => 400, 'frame_rate' => 25],
+            100220 => ['quality' => 'sd', 'height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
+            100230 => ['quality' => 'hd', 'height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
         ];
 
-        $mp4 = [
-            100010 => ['height' => 360, 'bit_rate' => 400, 'frame_rate' => 25],
-            100020 => ['height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
-            100030 => ['height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
+        $mp4Templates = [
+            100010 => ['quality' => 'fd', 'height' => 360, 'bit_rate' => 400, 'frame_rate' => 25],
+            100020 => ['quality' => 'sd', 'height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
+            100030 => ['quality' => 'hd', 'height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
         ];
 
-        $format = $this->settings['video_format'];
+        $format = $this->settings['video_format'] ?: 'hls';
 
-        return $format == 'hls' ? $hls : $mp4;
+        $quality = !empty($this->settings['video_quality']) ? json_decode($this->settings['video_quality'], true) : ['sd'];
+
+        $templates = $format == 'hls' ? $hlsTemplates : $mp4Templates;
+
+        $result = [];
+
+        foreach ($templates as $key => $item) {
+            if (in_array($item['quality'], $quality)) {
+                $result[$key] = $item;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -656,16 +668,29 @@ class Vod extends Service
      */
     public function getAudioTransTemplates()
     {
-        $m4a = [
-            1110 => ['bit_rate' => 48, 'sample_rate' => 44100],
-            1120 => ['bit_rate' => 96, 'sample_rate' => 44100],
+        $mp3Templates = [
+            1010 => ['quality' => 'sd', 'bit_rate' => 128, 'sample_rate' => 44100],
         ];
 
-        $mp3 = [
-            1010 => ['bit_rate' => 128, 'sample_rate' => 44100],
+        $m4aTemplates = [
+            1120 => ['quality' => 'sd', 'bit_rate' => 96, 'sample_rate' => 44100],
         ];
 
-        return $this->settings['audio_format'] == 'm4a' ? $m4a : $mp3;
+        $format = $this->settings['audio_format'] ?: 'mp3';
+
+        $quality = !empty($this->settings['audio_quality']) ? json_decode($this->settings['audio_quality'], true) : ['sd'];
+
+        $templates = $format == 'mp3' ? $mp3Templates : $m4aTemplates;
+
+        $result = [];
+
+        foreach ($templates as $key => $item) {
+            if (in_array($item['quality'], $quality)) {
+                $result[$key] = $item;
+            }
+        }
+
+        return $result;
     }
 
     /**

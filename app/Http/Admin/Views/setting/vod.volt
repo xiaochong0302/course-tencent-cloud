@@ -5,6 +5,7 @@
     {% set storage_region_display = vod.storage_type == 'fixed' ? 'display:block' : 'display:none' %}
     {% set wmk_tpl_display = vod.wmk_enabled == 1 ? 'display:block' : 'display:none' %}
     {% set key_anti_display = vod.key_anti_enabled == 1 ? 'display:block': 'display:none' %}
+    {% set video_quality = vod.video_quality|json_decode %}
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.vod'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
@@ -40,6 +41,14 @@
             <div class="layui-input-block">
                 <input type="radio" name="audio_format" value="mp3" title="MP3" lay-filter="audio_format" {% if vod.audio_format == "mp3" %}checked="checked"{% endif %}>
                 <input type="radio" name="audio_format" value="m4a" title="M4A" disabled="disabled" lay-filter="audio_format" {% if vod.audio_format == "m4a" %}checked="checked"{% endif %}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">视频码率</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="video_quality[]" value="hd" title="高清" {% if 'hd' in video_quality %}checked="checked"{% endif %}>
+                <input type="checkbox" name="video_quality[]" value="sd" title="标清" {% if 'sd' in video_quality %}checked="checked"{% endif %}>
+                <input type="checkbox" name="video_quality[]" value="fd" title="极速" {% if 'fd' in video_quality %}checked="checked"{% endif %}>
             </div>
         </div>
         <div class="layui-form-item">

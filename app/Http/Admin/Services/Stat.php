@@ -157,6 +157,11 @@ class Stat extends Service
         return date('Y-m') == "{$year}-{$month}";
     }
 
+    protected function getLifetime()
+    {
+        return strtotime('tomorrow') - time();
+    }
+
     protected function getPrevMonth($year, $month)
     {
         $currentMonthTime = strtotime("{$year}-{$month}");
@@ -226,9 +231,9 @@ class Stat extends Service
             $currMonth = date('Y-m');
 
             if ($queryMonth < $currMonth) {
-                $cache->save($keyName, $items, 7 * 86400);
+                $cache->save($keyName, $items, 86400);
             } else {
-                $cache->save($keyName, $items, 2 * 3600);
+                $cache->save($keyName, $items, 3600);
             }
         }
 
@@ -254,21 +259,12 @@ class Stat extends Service
                 $key = substr($date, -2);
                 if ($date < $currDate) {
                     $list[$key] = $statRepo->sumDailySales($date);
-                } elseif ($date == $currDate) {
-                    $list[$key] = -999;
                 } else {
                     $list[$key] = 0;
                 }
             }
             $redis->hMSet($keyName, $list);
-            $redis->expire($keyName, 7 * 86400);
-        }
-
-        foreach ($list as $key => $value) {
-            if ($value < 0) {
-                $list[$key] = $statRepo->sumDailySales("{$year}-{$month}-{$key}");
-                $redis->hSet($keyName, $key, $list[$key]);
-            }
+            $redis->expire($keyName, $this->getLifetime());
         }
 
         if ($this->isCurrMonth($year, $month)) {
@@ -297,21 +293,12 @@ class Stat extends Service
                 $key = substr($date, -2);
                 if ($date < $currDate) {
                     $list[$key] = $statRepo->sumDailyRefunds($date);
-                } elseif ($date == $currDate) {
-                    $list[$key] = -999;
                 } else {
                     $list[$key] = 0;
                 }
             }
             $redis->hMSet($keyName, $list);
-            $redis->expire($keyName, 7 * 86400);
-        }
-
-        foreach ($list as $key => $value) {
-            if ($value < 0) {
-                $list[$key] = $statRepo->sumDailyRefunds("{$year}-{$month}-{$key}");
-                $redis->hSet($keyName, $key, $list[$key]);
-            }
+            $redis->expire($keyName, $this->getLifetime());
         }
 
         if ($this->isCurrMonth($year, $month)) {
@@ -340,21 +327,12 @@ class Stat extends Service
                 $key = substr($date, -2);
                 if ($date < $currDate) {
                     $list[$key] = $statRepo->countDailyRegisteredUsers($date);
-                } elseif ($date == $currDate) {
-                    $list[$key] = -999;
                 } else {
                     $list[$key] = 0;
                 }
             }
             $redis->hMSet($keyName, $list);
-            $redis->expire($keyName, 7 * 86400);
-        }
-
-        foreach ($list as $key => $value) {
-            if ($value < 0) {
-                $list[$key] = $statRepo->countDailyRegisteredUsers("{$year}-{$month}-{$key}");
-                $redis->hSet($keyName, $key, $list[$key]);
-            }
+            $redis->expire($keyName, $this->getLifetime());
         }
 
         if ($this->isCurrMonth($year, $month)) {
@@ -383,21 +361,12 @@ class Stat extends Service
                 $key = substr($date, -2);
                 if ($date < $currDate) {
                     $list[$key] = $statRepo->countDailyOnlineUsers($date);
-                } elseif ($date == $currDate) {
-                    $list[$key] = -999;
                 } else {
                     $list[$key] = 0;
                 }
             }
             $redis->hMSet($keyName, $list);
-            $redis->expire($keyName, 7 * 86400);
-        }
-
-        foreach ($list as $key => $value) {
-            if ($value < 0) {
-                $list[$key] = $statRepo->countDailyOnlineUsers("{$year}-{$month}-{$key}");
-                $redis->hSet($keyName, $key, $list[$key]);
-            }
+            $redis->expire($keyName, $this->getLifetime());
         }
 
         if ($this->isCurrMonth($year, $month)) {

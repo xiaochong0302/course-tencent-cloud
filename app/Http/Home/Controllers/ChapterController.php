@@ -43,8 +43,12 @@ class ChapterController extends Controller
 
         $chapter = $service->handle($id);
 
-        if ($chapter['deleted'] == 1) {
+        if ($chapter['published'] == 0) {
             return $this->notFound();
+        }
+
+        if ($this->authUser->id == 0) {
+            return $this->response->redirect(['for' => 'home.account.login']);
         }
 
         if ($chapter['me']['owned'] == 0) {

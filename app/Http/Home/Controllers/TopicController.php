@@ -26,7 +26,7 @@ class TopicController extends Controller
 
         $topic = $service->handle($id);
 
-        if ($topic['deleted'] == 1) {
+        if ($topic['published'] == 0) {
             return $this->notFound();
         }
 

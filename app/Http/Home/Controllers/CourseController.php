@@ -77,7 +77,7 @@ class CourseController extends Controller
 
         $course = $service->handle($id);
 
-        if ($course['deleted'] == 1) {
+        if ($course['published'] == 0) {
             return $this->notFound();
         }
 

@@ -9,6 +9,7 @@ namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Question as QuestionService;
 use App\Http\Home\Services\QuestionQuery as QuestionQueryService;
+use App\Models\Question as QuestionModel;
 use App\Services\Logic\Question\AnswerList as AnswerListService;
 use App\Services\Logic\Question\QuestionCreate as QuestionCreateService;
 use App\Services\Logic\Question\QuestionDelete as QuestionDeleteService;
@@ -68,7 +69,7 @@ class QuestionController extends Controller
 
         $xmTags = $service->getXmTags(0);
 
-        $this->seo->prependTitle('提问题');
+        $this->seo->prependTitle('提问');
 
         $this->view->pick('question/edit');
         $this->view->setVar('question', $question);
@@ -101,12 +102,8 @@ class QuestionController extends Controller
 
         $question = $service->handle($id);
 
-        if ($question['deleted'] == 1) {
+        if ($question['published'] != QuestionModel::PUBLISH_APPROVED) {
             return $this->notFound();
-        }
-
-        if ($question['me']['owned'] == 0) {
-            return $this->forbidden();
         }
 
         $this->seo->prependTitle(['问答', $question['title']]);
@@ -157,14 +154,17 @@ class QuestionController extends Controller
 
         $question = $service->handle();
 
-        $location = $this->url->get([
-            'for' => 'home.question.show',
-            'id' => $question->id,
-        ]);
+        if ($question->published == QuestionModel::PUBLISH_APPROVED) {
+            $location = $this->url->get(['for' => 'home.question.show', 'id' => $question->id]);
+            $msg = '发布问题成功';
+        } else {
+            $location = $this->url->get(['for' => 'home.uc.questions']);
+            $msg = '创建问题成功，管理员审核后对外可见';
+        }
 
         $content = [
             'location' => $location,
-            'msg' => '创建问题成功',
+            'msg' => $msg,
         ];
 
         return $this->jsonSuccess($content);
@@ -179,14 +179,17 @@ class QuestionController extends Controller
 
         $question = $service->handle($id);
 
-        $location = $this->url->get([
-            'for' => 'home.question.show',
-            'id' => $question->id,
-        ]);
+        if ($question->published == QuestionModel::PUBLISH_APPROVED) {
+            $location = $this->url->get(['for' => 'home.question.show', 'id' => $question->id]);
+            $msg = '更新问题成功';
+        } else {
+            $location = $this->url->get(['for' => 'home.uc.questions']);
+            $msg = '更新问题成功，管理员审核后对外可见';
+        }
 
         $content = [
             'location' => $location,
-            'msg' => '更新问题成功',
+            'msg' => $msg,
         ];
 
         return $this->jsonSuccess($content);

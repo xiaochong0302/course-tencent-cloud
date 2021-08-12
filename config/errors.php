@@ -128,6 +128,8 @@ $error['article.invalid_publish_status'] = '无效的发布状态';
 $error['article.invalid_private_status'] = '无效的私有状态';
 $error['article.invalid_close_status'] = '无效的关闭状态';
 $error['article.invalid_reject_reason'] = '无效的拒绝理由';
+$error['article.edit_not_allowed'] = '当前不允许编辑文章';
+$error['article.delete_not_allowed'] = '当前不允许删除文章';
 
 /**
  * 问答相关
