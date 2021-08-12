@@ -8,6 +8,7 @@
         <col>
         <col>
         <col>
+        <col>
         <col width="10%">
     </colgroup>
     <thead>
@@ -15,6 +16,7 @@
         <th>编号</th>
         <th>名称</th>
         <th>课件</th>
+        <th>学员</th>
         <th>点赞</th>
         <th>评论</th>
         <th>排序</th>
@@ -40,6 +42,7 @@
                 </p>
             </td>
             <td>{{ item.resource_count }}</td>
+            <td>{{ item.user_count }}</td>
             <td>{{ item.like_count }}</td>
             <td>{{ item.comment_count }}</td>
             <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>

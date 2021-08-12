@@ -57,4 +57,11 @@ class ChapterVod extends Validator
         return $value;
     }
 
+    public function checkRemoteFile($hd, $sd, $fd)
+    {
+        if (empty($hd) && empty($sd) && empty($fd)) {
+            throw new BadRequestException('chapter_vod.remote_file_required');
+        }
+    }
+
 }

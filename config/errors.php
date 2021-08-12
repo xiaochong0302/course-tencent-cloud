@@ -269,6 +269,7 @@ $error['chapter_vod.invalid_duration'] = '无效的视频时长';
 $error['chapter_vod.invalid_file_id'] = '无效的文件编号';
 $error['chapter_vod.invalid_file_url'] = '无效的文件地址';
 $error['chapter_vod.invalid_file_ext'] = '无效的文件格式（目前只支持mp4，m3u8）';
+$error['chapter_vod.remote_file_required'] = '请填写远程播放地址';
 
 /**
  * 直播相关

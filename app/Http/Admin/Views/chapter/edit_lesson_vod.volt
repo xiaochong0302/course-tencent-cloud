@@ -142,7 +142,7 @@
                         </div>
                     {% else %}
                         <div class="layui-inline" style="width:55%;">
-                            <input id="tc-sd-url" class="layui-input" type="text" name="file_remote[sd][url]" value="{{ remote_play_urls.sd.url }}">
+                            <input id="tc-sd-url" class="layui-input" type="text" name="file_remote[sd][url]" value="">
                         </div>
                         <div class="layui-inline">
                             <span class="layui-btn layui-btn-disabled">预览</span>
@@ -154,7 +154,7 @@
                     <label class="layui-form-label">极速地址</label>
                     {% if remote_play_urls.fd.url %}
                         <div class="layui-inline" style="width:55%;">
-                            <input id="tc-fd-url" class="layui-input" type="text" name="file_remote[fd][url]" value="{{ remote_play_urls.fd.url }}" lay-verify="required">
+                            <input id="tc-fd-url" class="layui-input" type="text" name="file_remote[fd][url]" value="{{ remote_play_urls.fd.url }}">
                         </div>
                         <div class="layui-inline">
                             <span class="layui-btn kg-preview" data-chapter-id="{{ chapter.id }}" data-play-url="{{ remote_play_urls.hd.url }}">预览</span>
@@ -162,7 +162,7 @@
                         </div>
                     {% else %}
                         <div class="layui-inline" style="width:55%;">
-                            <input id="tc-fd-url" class="layui-input" type="text" name="file_remote[fd][url]" value="" lay-verify="required">
+                            <input id="tc-fd-url" class="layui-input" type="text" name="file_remote[fd][url]" value="">
                         </div>
                         <div class="layui-inline">
                             <span class="layui-btn layui-btn-disabled">预览</span>

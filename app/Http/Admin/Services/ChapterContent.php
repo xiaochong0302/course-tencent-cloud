@@ -197,6 +197,8 @@ class ChapterContent extends Service
             $fileRemote['fd']['url'] = $validator->checkFileUrl($fdUrl);
         }
 
+        $validator->checkRemoteFile($hdUrl, $sdUrl, $fdUrl);
+
         $chapterRepo = new ChapterRepo();
 
         $vod = $chapterRepo->findChapterVod($chapter->id);
