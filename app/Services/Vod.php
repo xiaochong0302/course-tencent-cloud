@@ -633,15 +633,15 @@ class Vod extends Service
     public function getVideoTransTemplates()
     {
         $hlsTemplates = [
-            100210 => ['quality' => 'fd', 'height' => 360, 'bit_rate' => 400, 'frame_rate' => 25],
-            100220 => ['quality' => 'sd', 'height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
-            100230 => ['quality' => 'hd', 'height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
+            100220 => ['quality' => 'fd', 'height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
+            100230 => ['quality' => 'sd', 'height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
+            100240 => ['quality' => 'hd', 'height' => 1080, 'bit_rate' => 2500, 'frame_rate' => 25],
         ];
 
         $mp4Templates = [
-            100010 => ['quality' => 'fd', 'height' => 360, 'bit_rate' => 400, 'frame_rate' => 25],
-            100020 => ['quality' => 'sd', 'height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
-            100030 => ['quality' => 'hd', 'height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
+            100020 => ['quality' => 'fd', 'height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
+            100030 => ['quality' => 'sd', 'height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
+            100040 => ['quality' => 'hd', 'height' => 360, 'bit_rate' => 2500, 'frame_rate' => 25],
         ];
 
         $format = $this->settings['video_format'] ?: 'hls';

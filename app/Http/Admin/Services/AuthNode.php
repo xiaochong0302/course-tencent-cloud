@@ -1221,6 +1221,12 @@ class AuthNode extends Service
                             'type' => 'menu',
                             'route' => 'admin.setting.dingtalk_robot',
                         ],
+                        [
+                            'id' => '5-1-16',
+                            'title' => '联系方式',
+                            'type' => 'menu',
+                            'route' => 'admin.setting.contact',
+                        ],
                     ],
                 ],
             ],

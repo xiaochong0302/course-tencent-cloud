@@ -34,9 +34,10 @@
                 <div class="layui-card-header">客户服务</div>
                 <div class="layui-card-body">
                     <p>没解决你的疑问？试试联系客服吧！</p>
-                    {% if im_info.cs.enabled == 1 %}
+                    {% if contact_info.qq %}
+                        {% set link_url = 'https://wpa.qq.com/msgrd?v=3&uin=%s&site=qq&menu=yes'|format(contact_info.qq) %}
                         <p class="center">
-                            <button class="layui-btn layui-btn-sm btn-cs">联系客服</button>
+                            <a href="{{ link_url }}" class="layui-btn layui-btn-sm">联系客服</a>
                         </p>
                     {% endif %}
                 </div>

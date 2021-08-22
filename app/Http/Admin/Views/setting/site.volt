@@ -163,7 +163,7 @@
 
             upload.render({
                 elem: '#upload-logo',
-                url: '/admin/upload/site/logo',
+                url: '/admin/upload/icon/img',
                 exts: 'gif|jpg|png',
                 before: function () {
                     layer.load();
@@ -179,7 +179,7 @@
 
             upload.render({
                 elem: '#upload-favicon',
-                url: '/admin/upload/site/favicon',
+                url: '/admin/upload/icon/img',
                 exts: 'gif|jpg|png|ico',
                 before: function () {
                     layer.load();

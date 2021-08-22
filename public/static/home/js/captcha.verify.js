@@ -25,7 +25,7 @@ layui.use(['jquery', 'util'], function () {
                         postUrl = '/verify/sms/code';
                     } else if (isEmail($account.val())) {
                         postData.email = $account.val();
-                        postUrl = '/verify/email/code';
+                        postUrl = '/verify/mail/code';
                     }
                     $.ajax({
                         type: 'POST',

@@ -17,48 +17,6 @@ class UploadController extends Controller
 {
 
     /**
-     * @Post("/site/logo", name="admin.upload.site_logo")
-     */
-    public function uploadSiteLogoAction()
-    {
-        $service = new StorageService();
-
-        $file = $service->uploadSiteLogo();
-
-        if (!$file) {
-            return $this->jsonError(['msg' => '上传文件失败']);
-        }
-
-        $data = [
-            'src' => $service->getImageUrl($file->path),
-            'title' => $file->name,
-        ];
-
-        return $this->jsonSuccess(['data' => $data]);
-    }
-
-    /**
-     * @Post("/site/favicon", name="admin.upload.site_favicon")
-     */
-    public function uploadSiteFaviconAction()
-    {
-        $service = new StorageService();
-
-        $file = $service->uploadSiteFavicon();
-
-        if (!$file) {
-            return $this->jsonError(['msg' => '上传文件失败']);
-        }
-
-        $data = [
-            'src' => $service->getImageUrl($file->path),
-            'title' => $file->name,
-        ];
-
-        return $this->jsonSuccess(['data' => $data]);
-    }
-
-    /**
      * @Post("/icon/img", name="admin.upload.icon_img")
      */
     public function uploadIconImageAction()

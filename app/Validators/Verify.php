@@ -65,4 +65,28 @@ class Verify extends Validator
         }
     }
 
+    public function checkRand($rand)
+    {
+        list($time, $number) = explode('-', $rand);
+
+        if (abs($time - time()) > 300) {
+            throw new BadRequestException('verify.invalid_rand');
+        }
+
+        if ($number < 1000 || $number > 9999) {
+            throw new BadRequestException('verify.invalid_rand');
+        }
+
+        return $rand;
+    }
+
+    public function checkTicket($ticket, $rand)
+    {
+        $ticket = $this->crypt->decrypt($ticket);
+
+        if ($ticket != $rand) {
+            throw new BadRequestException('verify.invalid_ticket');
+        }
+    }
+
 }
