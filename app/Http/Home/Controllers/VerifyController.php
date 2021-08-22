@@ -7,7 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Services\Logic\Verify\EmailCode as EmailCodeService;
+use App\Services\Logic\Verify\MailCode as MailCodeService;
 use App\Services\Logic\Verify\SmsCode as SmsCodeService;
 use App\Traits\Response as ResponseTrait;
 
@@ -32,11 +32,11 @@ class VerifyController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Post("/email/code", name="home.verify.email_code")
+     * @Post("/mail/code", name="home.verify.mail_code")
      */
-    public function emailCodeAction()
+    public function mailCodeAction()
     {
-        $service = new EmailCodeService();
+        $service = new MailCodeService();
 
         $service->handle();
 

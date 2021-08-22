@@ -409,4 +409,29 @@ class SettingController extends Controller
         }
     }
 
+    /**
+     * @Route("/contact", name="admin.setting.contact")
+     */
+    public function contactAction()
+    {
+        $section = 'contact';
+
+        $settingService = new SettingService();
+
+        if ($this->request->isPost()) {
+
+            $data = $this->request->getPost();
+
+            $settingService->updateSettings($section, $data);
+
+            return $this->jsonSuccess(['msg' => '更新配置成功']);
+
+        } else {
+
+            $contact = $settingService->getSettings($section);
+
+            $this->view->setVar('contact', $contact);
+        }
+    }
+
 }

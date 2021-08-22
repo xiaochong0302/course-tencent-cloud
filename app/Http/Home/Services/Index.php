@@ -31,12 +31,9 @@ class Index extends Service
          */
         $slides = $cache->get();
 
-        if (empty($slides)) {
-            return [];
-        }
+        if (empty($slides)) return [];
 
         foreach ($slides as $key => $slide) {
-
             switch ($slide['target']) {
                 case SlideModel::TARGET_COURSE:
                     $slides[$key]['url'] = $this->url->get([
@@ -52,8 +49,6 @@ class Index extends Service
                     break;
                 case SlideModel::TARGET_LINK:
                     $slides[$key]['url'] = $slide['content'];
-                    break;
-                default:
                     break;
             }
         }

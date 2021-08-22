@@ -8,6 +8,17 @@
         vip: '{{ auth_user.vip }}'
     };
 
+    window.contact = {
+        qq: '{{ contact_info.qq }}',
+        wechat: '{{ contact_info.wechat }}',
+        toutiao: '{{ contact_info.toutiao }}',
+        weibo: '{{ contact_info.weibo }}',
+        zhihu: '{{ contact_info.zhihu }}',
+        phone: '{{ contact_info.phone }}',
+        email: '{{ contact_info.email }}',
+        address: '{{ contact_info.address }}'
+    };
+
     window.im = {
         main: {
             title: '{{ im_info.main.title }}',

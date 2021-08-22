@@ -70,6 +70,13 @@ class BasicInfo extends LogicService
 
         $playUrls = $chapterVodService->getPlayUrls($chapter->id);
 
+        /**
+         *过滤播放地址为空的条目
+         */
+        foreach ($playUrls as $key => $value) {
+            if (empty($value['url'])) unset($playUrls[$key]);
+        }
+
         return [
             'id' => $chapter->id,
             'title' => $chapter->title,

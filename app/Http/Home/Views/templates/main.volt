@@ -13,6 +13,8 @@
     {% else %}
         {{ icon_link('favicon.ico') }}
     {% endif %}
+    <link rel="preload" href="//at.alicdn.com/t/font_2760791_c83l29k7bz.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_2760791_c83l29k7bz.css">
     {{ css_link('lib/layui/css/layui.css') }}
     {{ css_link('home/css/common.css') }}
     {% block link_css %}{% endblock %}

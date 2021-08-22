@@ -22,12 +22,14 @@ layui.use(['jquery', 'helper'], function () {
 
     $.each(rates, function (k, rate) {
         if (playUrls.hasOwnProperty(rate.name)) {
-            quality[k] = {
+            quality.push({
                 name: rate.label,
                 url: playUrls[rate.name]['url'],
-            };
+            });
         }
     });
+
+    console.log(quality)
 
     var player = new DPlayer({
         container: document.getElementById('player'),

@@ -1,3 +1,15 @@
+### [v1.4.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.3)(2021-08-23)
+
+- 优化邮件验证码
+- 优化logo和favicon上传
+- 优化api验证码中使用的ticket和rand
+- 优化点播和直播地址获取
+- 修复部分清晰度外链播放地址为空时切换卡死问题
+- 增加QQ，微信，微博，邮件，电话等联系配置
+- 用户控制台文章和提问列表增加删除过滤
+- 去除layim在线客服
+- 提高视频转码分辨率
+
 ### [v1.4.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.2)(2021-08-13)
 
 - 后台增加转码码率配置选项
