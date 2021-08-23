@@ -9,6 +9,7 @@
     };
 
     window.contact = {
+        enabled: '{{ contact_info.enabled }}',
         qq: '{{ contact_info.qq }}',
         wechat: '{{ contact_info.wechat }}',
         toutiao: '{{ contact_info.toutiao }}',
