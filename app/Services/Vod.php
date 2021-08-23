@@ -641,7 +641,7 @@ class Vod extends Service
         $mp4Templates = [
             100020 => ['quality' => 'fd', 'height' => 540, 'bit_rate' => 1000, 'frame_rate' => 25],
             100030 => ['quality' => 'sd', 'height' => 720, 'bit_rate' => 1800, 'frame_rate' => 25],
-            100040 => ['quality' => 'hd', 'height' => 360, 'bit_rate' => 2500, 'frame_rate' => 25],
+            100040 => ['quality' => 'hd', 'height' => 1080, 'bit_rate' => 2500, 'frame_rate' => 25],
         ];
 
         $format = $this->settings['video_format'] ?: 'hls';
