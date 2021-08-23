@@ -20,6 +20,11 @@ final class V20210820064755 extends AbstractMigration
         $rows = [
             [
                 'section' => 'contact',
+                'item_key' => 'enabled',
+                'item_value' => '0',
+            ],
+            [
+                'section' => 'contact',
                 'item_key' => 'qq',
                 'item_value' => '',
             ],

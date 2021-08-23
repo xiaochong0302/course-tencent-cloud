@@ -7,6 +7,13 @@
             <legend>联系方式</legend>
         </fieldset>
         <div class="layui-form-item">
+            <label class="layui-form-label">开启服务</label>
+            <div class="layui-input-block">
+                <input type="radio" name="enabled" value="1" title="是" {% if contact.enabled == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="enabled" value="0" title="否" {% if contact.enabled == 0 %}checked="checked"{% endif %}>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">微信二维码</label>
             <div class="layui-inline" style="width:40%;">
                 <input class="layui-input" type="text" name="wechat" placeholder="请确保存储已正确配置" value="{{ contact.wechat }}">
