@@ -25,11 +25,11 @@ layui.use(['jquery', 'helper'], function () {
     $.each(formats, function (i, format) {
         $.each(rates, function (k, rate) {
             if (playUrls.hasOwnProperty(format) && playUrls[format].hasOwnProperty(rate.name)) {
-                quality[k] = {
+                quality.push({
                     name: rate.label,
                     url: playUrls[format][rate.name],
                     type: 'flv',
-                };
+                });
             }
         });
     });

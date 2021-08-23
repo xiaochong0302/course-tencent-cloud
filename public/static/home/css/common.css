@@ -233,25 +233,37 @@
     background: none;
 }
 
+#footer .row {
+    line-height: 18px;
+    margin-bottom: 15px;
+}
+
+#footer .row:last-child {
+    margin-bottom: 0;
+}
+
+#footer .contact {
+    line-height: 24px;
+}
+
 #footer span, #footer a {
     color: #999;
 }
 
-#footer a:hover {
+#footer a:hover,
+#footer .iconfont:hover {
     color: #fff;
 }
 
-.bottom-nav {
-    margin-bottom: 10px;
-    line-height: 18px;
-}
-
-.copyright {
-    line-height: 18px;
-}
-
-.bottom-nav a, .copyright span, .copyright a {
+#footer .nav a,
+#footer .copyright span,
+#footer .copyright a,
+#footer .contact a {
     margin-right: 10px;
+}
+
+#footer .iconfont {
+    font-size: 20px;
 }
 
 .layout-sidebar .loading {

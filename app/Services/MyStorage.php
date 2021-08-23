@@ -120,26 +120,6 @@ class MyStorage extends Storage
     }
 
     /**
-     * 上传站点LOGO
-     *
-     * @return UploadModel|bool
-     */
-    public function uploadSiteLogo()
-    {
-        return $this->upload('/img/icon/', self::MIME_IMAGE, UploadModel::TYPE_DEFAULT_IMG);
-    }
-
-    /**
-     * 上传站点ICON
-     *
-     * @return UploadModel|bool
-     */
-    public function uploadSiteFavicon()
-    {
-        return $this->upload('/img/icon/', self::MIME_IMAGE, UploadModel::TYPE_DEFAULT_IMG);
-    }
-
-    /**
      * 上传封面图片
      *
      * @return UploadModel|bool

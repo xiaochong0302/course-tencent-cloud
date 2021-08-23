@@ -89,9 +89,9 @@ class ChapterVod extends Service
     protected function getVodTemplates()
     {
         return [
-            'hd' => ['height' => 720, 'rate' => 1800],
-            'sd' => ['height' => 540, 'rate' => 1000],
-            'fd' => ['height' => 360, 'rate' => 400],
+            'hd' => ['height' => 1080, 'rate' => 2500],
+            'sd' => ['height' => 720, 'rate' => 1800],
+            'fd' => ['height' => 540, 'rate' => 1000],
         ];
     }
 

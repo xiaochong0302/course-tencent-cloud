@@ -16,7 +16,7 @@ class PageController extends Controller
 {
 
     /**
-     * @Get("/{id:[0-9]+}/info", name="api.page.info")
+     * @Get("/{id}/info", name="api.page.info")
      */
     public function infoAction($id)
     {

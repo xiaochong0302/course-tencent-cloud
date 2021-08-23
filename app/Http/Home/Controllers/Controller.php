@@ -43,6 +43,11 @@ class Controller extends \Phalcon\Mvc\Controller
     /**
      * @var array
      */
+    protected $contactInfo;
+
+    /**
+     * @var array
+     */
     protected $imInfo;
 
     /**
@@ -83,6 +88,7 @@ class Controller extends \Phalcon\Mvc\Controller
         $this->seo = $this->getSeo();
         $this->navs = $this->getNavs();
         $this->appInfo = $this->getAppInfo();
+        $this->contactInfo = $this->getContactInfo();
         $this->imInfo = $this->getImInfo();
 
         $this->seo->setTitle($this->siteInfo['title']);
@@ -92,6 +98,7 @@ class Controller extends \Phalcon\Mvc\Controller
         $this->view->setVar('auth_user', $this->authUser);
         $this->view->setVar('app_info', $this->appInfo);
         $this->view->setVar('site_info', $this->siteInfo);
+        $this->view->setVar('contact_info', $this->contactInfo);
         $this->view->setVar('im_info', $this->imInfo);
     }
 
@@ -120,6 +127,11 @@ class Controller extends \Phalcon\Mvc\Controller
     protected function getSiteInfo()
     {
         return $this->getSettings('site');
+    }
+
+    protected function getContactInfo()
+    {
+        return $this->getSettings('contact');
     }
 
     protected function getAppInfo()
