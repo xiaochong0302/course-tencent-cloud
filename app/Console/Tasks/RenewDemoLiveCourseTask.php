@@ -3,6 +3,8 @@
 namespace App\Console\Tasks;
 
 use App\Caches\CourseChapterList as CourseChapterListCache;
+use App\Models\Chapter as ChapterModel;
+use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Services\CourseStat as CourseStatService;
@@ -15,51 +17,65 @@ class RenewDemoLiveCourseTask extends Task
      */
     public function mainAction()
     {
-        $day = date('d');
-
-        if ($day != 25) return;
+        if (date('d') != 25) return;
 
         $courseRepo = new CourseRepo();
 
-        $course = $courseRepo->findById(1393);
+        $courses = $this->findLiveCourses();
 
-        $chapters = $courseRepo->findLessons($course->id);
+        if ($courses->count() == 0) return;
 
-        $chapterRepo = new ChapterRepo();
+        foreach ($courses as $course) {
 
-        foreach ($chapters as $chapter) {
+            $lessons = $courseRepo->findLessons($course->id);
 
-            $live = $chapterRepo->findChapterLive($chapter->id);
-
-            if ($live->start_time > time()) {
-                continue;
+            foreach ($lessons as $lesson) {
+                $this->handleLesson($lesson);
             }
 
-            $startTime = strtotime('+1 month', $live->start_time);
-            $endTime = strtotime('+1 month', $live->end_time);
+            $statService = new CourseStatService();
 
-            $live->start_time = $startTime;
-            $live->end_time = $endTime;
+            $statService->updateLiveAttrs($course->id);
 
-            $live->update();
+            $cache = new CourseChapterListCache();
 
-            $attrs = $chapter->attrs;
-
-            $attrs['start_time'] = $startTime;
-            $attrs['end_time'] = $endTime;
-
-            $chapter->attrs = $attrs;
-
-            $chapter->update();
+            $cache->rebuild($course->id);
         }
+    }
 
-        $statService = new CourseStatService();
+    protected function handleLesson(ChapterModel $chapter)
+    {
+        $chapterRepo = new ChapterRepo();
 
-        $statService->updateLiveAttrs($course->id);
+        $live = $chapterRepo->findChapterLive($chapter->id);
 
-        $cache = new CourseChapterListCache();
+        if ($live->start_time > time()) return;
 
-        $cache->rebuild($course->id);
+        $startTime = strtotime('+1 month', $live->start_time);
+        $endTime = strtotime('+1 month', $live->end_time);
+
+        $live->start_time = $startTime;
+        $live->end_time = $endTime;
+
+        $live->update();
+
+        $attrs = $chapter->attrs;
+
+        $attrs['start_time'] = $startTime;
+        $attrs['end_time'] = $endTime;
+
+        $chapter->attrs = $attrs;
+
+        $chapter->update();
+    }
+
+    protected function findLiveCourses($limit = 8)
+    {
+        return CourseModel::query()
+            ->where('model = :model:', ['model' => CourseModel::MODEL_LIVE])
+            ->orderBy('id DESC')
+            ->limit($limit)
+            ->execute();
     }
 
 }
