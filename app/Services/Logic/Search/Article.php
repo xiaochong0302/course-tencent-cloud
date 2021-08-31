@@ -64,6 +64,16 @@ class Article extends Handler
 
         foreach ($pager->items as $item) {
 
+            $category = json_decode($item['category'], true);
+            $owner = json_decode($item['owner'], true);
+            $tags = json_decode($item['tags'], true);
+
+            $owner['avatar'] = $owner['avatar'] ?: kg_default_user_avatar_path();
+
+            if (!empty($owner['avatar']) && !Text::startsWith($owner['avatar'], 'http')) {
+                $owner['avatar'] = $baseUrl . $owner['avatar'];
+            }
+
             if (!empty($item['cover']) && !Text::startsWith($item['cover'], 'http')) {
                 $item['cover'] = $baseUrl . $item['cover'];
             }
@@ -78,9 +88,9 @@ class Article extends Handler
                 'like_count' => (int)$item['like_count'],
                 'favorite_count' => (int)$item['favorite_count'],
                 'comment_count' => (int)$item['comment_count'],
-                'tags' => json_decode($item['tags'], true),
-                'owner' => json_decode($item['owner'], true),
-                'category' => json_decode($item['category'], true),
+                'category' => $category,
+                'owner' => $owner,
+                'tags' => $tags,
             ];
         }
 

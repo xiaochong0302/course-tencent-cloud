@@ -9,6 +9,7 @@ namespace App\Services\Search;
 
 use App\Models\ImGroup as GroupModel;
 use App\Models\User as UserModel;
+use App\Repos\User as UserRepo;
 use Phalcon\Di\Injectable;
 
 class GroupDocument extends Injectable
@@ -42,11 +43,7 @@ class GroupDocument extends Injectable
         $owner = '{}';
 
         if ($group->owner_id > 0) {
-            $record = UserModel::findFirst($group->owner_id);
-            $owner = kg_json_encode([
-                'id' => $record->id,
-                'name' => $record->name,
-            ]);
+            $owner = $this->handleUser($group->owner_id);
         }
 
         $group->avatar = GroupModel::getAvatarPath($group->avatar);
@@ -60,6 +57,21 @@ class GroupDocument extends Injectable
             'user_count' => $group->user_count,
             'owner' => $owner,
         ];
+    }
+
+    protected function handleUser($id)
+    {
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($id);
+
+        $user->avatar = UserModel::getAvatarPath($user->avatar);
+
+        return kg_json_encode([
+            'id' => $user->id,
+            'name' => $user->name,
+            'avatar' => $user->avatar,
+        ]);
     }
 
 }

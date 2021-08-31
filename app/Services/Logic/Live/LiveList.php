@@ -52,12 +52,17 @@ class LiveList extends LogicService
         $items = [];
 
         foreach ($lives as $live) {
+
+            $course = $courses[$live['course_id']] ?? new \stdClass();
+            $chapter = $chapters[$live['chapter_id']] ?? new \stdClass();
+
             $items[] = [
-                'course' => $courses[$live['course_id']] ?? new \stdClass(),
-                'chapter' => $chapters[$live['chapter_id']] ?? new \stdClass(),
+                'id' => $live['id'],
                 'status' => $live['status'],
                 'start_time' => $live['start_time'],
                 'end_time' => $live['end_time'],
+                'course' => $course,
+                'chapter' => $chapter,
             ];
         }
 

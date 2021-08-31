@@ -56,7 +56,7 @@ class Answer extends Validator
 
     public function checkContent($content)
     {
-        $value = $this->filter->sanitize($content, ['trim', 'string']);
+        $value = $this->filter->sanitize($content, ['trim']);
 
         $length = kg_strlen($value);
 

@@ -47,6 +47,8 @@ class QuestionList extends LogicService
 
         $builder = new QuestionListBuilder();
 
+        $categories = $builder->getCategories();
+
         $questions = $pager->items->toArray();
 
         $users = $builder->getUsers($questions);
@@ -56,6 +58,8 @@ class QuestionList extends LogicService
         foreach ($questions as $question) {
 
             $question['tags'] = json_decode($question['tags'], true);
+
+            $category = $categories[$question['category_id']] ?? new \stdClass();
 
             $owner = $users[$question['owner_id']] ?? new \stdClass();
 
@@ -81,6 +85,7 @@ class QuestionList extends LogicService
                 'create_time' => $question['create_time'],
                 'update_time' => $question['update_time'],
                 'last_replier' => $lastReplier,
+                'category' => $category,
                 'owner' => $owner,
             ];
         }

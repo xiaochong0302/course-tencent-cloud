@@ -66,6 +66,7 @@ class IndexSimpleVipCourseList extends Cache
     {
         return CourseModel::query()
             ->where('published = 1')
+            ->andWhere('market_price > vip_price')
             ->andWhere('vip_price >= 0')
             ->orderBy('score DESC')
             ->limit($limit)

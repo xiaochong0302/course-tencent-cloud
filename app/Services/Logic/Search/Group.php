@@ -10,6 +10,7 @@ namespace App\Services\Logic\Search;
 use App\Library\Paginator\Adapter\XunSearch as XunSearchPaginator;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Services\Search\GroupSearcher as GroupSearcherService;
+use Phalcon\Text;
 
 class Group extends Handler
 {
@@ -63,7 +64,11 @@ class Group extends Handler
 
         foreach ($pager->items as $item) {
 
-            $item['avatar'] = $baseUrl . $item['avatar'];
+            $owner = json_decode($item['owner'], true);
+
+            if (!empty($item['avatar']) && !Text::startsWith($item['avatar'], 'http')) {
+                $item['avatar'] = $baseUrl . $item['avatar'];
+            }
 
             $items[] = [
                 'id' => (int)$item['id'],
@@ -73,7 +78,7 @@ class Group extends Handler
                 'about' => (string)$item['about'],
                 'user_count' => (int)$item['user_count'],
                 'msg_count' => (int)$item['msg_count'],
-                'owner' => json_decode($item['owner'], true),
+                'owner' => $owner,
             ];
         }
 

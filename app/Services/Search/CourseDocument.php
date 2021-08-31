@@ -7,9 +7,10 @@
 
 namespace App\Services\Search;
 
-use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
 use App\Models\User as UserModel;
+use App\Repos\Category as CategoryRepo;
+use App\Repos\User as UserRepo;
 use Phalcon\Di\Injectable;
 
 class CourseDocument extends Injectable
@@ -44,24 +45,20 @@ class CourseDocument extends Injectable
             $course->attrs = kg_json_encode($course->attrs);
         }
 
+        if (is_array($course->tags) || is_object($course->tags)) {
+            $course->tags = kg_json_encode($course->tags);
+        }
+
         $teacher = '{}';
 
         if ($course->teacher_id > 0) {
-            $record = UserModel::findFirst($course->teacher_id);
-            $teacher = kg_json_encode([
-                'id' => $record->id,
-                'name' => $record->name,
-            ]);
+            $teacher = $this->handleUser($course->teacher_id);
         }
 
         $category = '{}';
 
         if ($course->category_id > 0) {
-            $record = CategoryModel::findFirst($course->category_id);
-            $category = kg_json_encode([
-                'id' => $record->id,
-                'name' => $record->name,
-            ]);
+            $category = $this->handleCategory($course->category_id);
         }
 
         $course->cover = CourseModel::getCoverPath($course->cover);
@@ -83,6 +80,7 @@ class CourseDocument extends Injectable
             'model' => $course->model,
             'level' => $course->level,
             'attrs' => $course->attrs,
+            'tags' => $course->tags,
             'category' => $category,
             'teacher' => $teacher,
             'user_count' => $course->user_count,
@@ -90,6 +88,33 @@ class CourseDocument extends Injectable
             'review_count' => $course->review_count,
             'favorite_count' => $course->favorite_count,
         ];
+    }
+
+    protected function handleUser($id)
+    {
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($id);
+
+        $user->avatar = UserModel::getAvatarPath($user->avatar);
+
+        return kg_json_encode([
+            'id' => $user->id,
+            'name' => $user->name,
+            'avatar' => $user->avatar,
+        ]);
+    }
+
+    protected function handleCategory($id)
+    {
+        $categoryRepo = new CategoryRepo();
+
+        $category = $categoryRepo->findById($id);
+
+        return kg_json_encode([
+            'id' => $category->id,
+            'name' => $category->name,
+        ]);
     }
 
 }
