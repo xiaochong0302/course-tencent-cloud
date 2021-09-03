@@ -162,7 +162,8 @@ class Setting extends Service
     public function updateVodSettings($section, $settings)
     {
         if (isset($settings['video_quality'])) {
-            $settings['video_quality'] = kg_json_encode($settings['video_quality']);
+            $data = array_values($settings['video_quality']);
+            $settings['video_quality'] = kg_json_encode($data);
         }
 
         $this->updateSettings($section, $settings);
