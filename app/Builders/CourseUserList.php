@@ -55,11 +55,9 @@ class CourseUserList extends Builder
         $result = [];
 
         foreach ($courses->toArray() as $course) {
-            if ($course['deleted'] == 0) {
-                $course['cover'] = $baseUrl . $course['cover'];
-                $course['attrs'] = json_decode($course['attrs'], true);
-                $result[$course['id']] = $course;
-            }
+            $course['cover'] = $baseUrl . $course['cover'];
+            $course['attrs'] = json_decode($course['attrs'], true);
+            $result[$course['id']] = $course;
         }
 
         return $result;

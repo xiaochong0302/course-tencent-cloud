@@ -17,6 +17,7 @@ use App\Models\Trade as TradeModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
+use App\Repos\ImUser as ImUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Notice\OrderFinish as OrderFinishNotice;
@@ -134,9 +135,7 @@ class DeliverTask extends Task
         $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
         $courseUser->source_type = CourseUserModel::SOURCE_CHARGE;
 
-        if ($courseUser->create() === false) {
-            throw new \RuntimeException('Create Course User Failed');
-        }
+        $courseUser->create();
 
         $courseRepo = new CourseRepo();
 
@@ -150,6 +149,10 @@ class DeliverTask extends Task
 
         $group = $groupRepo->findByCourseId($course->id);
 
+        $imUserRepo = new ImUserRepo();
+
+        $imUser = $imUserRepo->findById($order->owner_id);
+
         $groupUserRepo = new ImGroupUserRepo();
 
         $groupUser = $groupUserRepo->findGroupUser($group->id, $order->owner_id);
@@ -160,10 +163,13 @@ class DeliverTask extends Task
 
             $groupUser->group_id = $group->id;
             $groupUser->user_id = $order->owner_id;
+            $groupUser->create();
 
-            if ($groupUser->create() === false) {
-                throw new \RuntimeException('Create Group User Failed');
-            }
+            $imUser->group_count += 1;
+            $imUser->update();
+
+            $group->user_count += 1;
+            $group->update();
         }
     }
 
@@ -181,9 +187,7 @@ class DeliverTask extends Task
             $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
             $courseUser->source_type = CourseUserModel::SOURCE_CHARGE;
 
-            if ($courseUser->create() === false) {
-                throw new \RuntimeException('Create Course User Failed');
-            }
+            $courseUser->create();
 
             $courseRepo = new CourseRepo();
 
@@ -197,6 +201,10 @@ class DeliverTask extends Task
 
             $group = $groupRepo->findByCourseId($course->id);
 
+            $imUserRepo = new ImUserRepo();
+
+            $imUser = $imUserRepo->findById($order->owner_id);
+
             $groupUserRepo = new ImGroupUserRepo();
 
             $groupUser = $groupUserRepo->findGroupUser($group->id, $order->owner_id);
@@ -207,10 +215,13 @@ class DeliverTask extends Task
 
                 $groupUser->group_id = $group->id;
                 $groupUser->user_id = $order->owner_id;
+                $groupUser->create();
 
-                if ($groupUser->create() === false) {
-                    throw new \RuntimeException('Create Group User Failed');
-                }
+                $imUser->group_count += 1;
+                $imUser->update();
+
+                $group->user_count += 1;
+                $group->update();
             }
         }
     }
@@ -224,11 +235,10 @@ class DeliverTask extends Task
         $user = $userRepo->findById($order->owner_id);
 
         $user->vip_expiry_time = $itemInfo['vip']['expiry_time'];
+
         $user->vip = 1;
 
-        if ($user->update() === false) {
-            throw new \RuntimeException('Update Vip Expiry Failed');
-        }
+        $user->update();
     }
 
     protected function handleOrderConsumePoint(OrderModel $order)

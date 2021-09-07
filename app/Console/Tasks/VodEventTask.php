@@ -23,8 +23,6 @@ class VodEventTask extends Task
 
         $handles = [];
 
-        $count = 0;
-
         foreach ($events as $event) {
 
             $handles[] = $event['EventHandle'];
@@ -36,10 +34,6 @@ class VodEventTask extends Task
             } elseif ($event['EventType'] == 'FileDeleted') {
                 $this->handleFileDeletedEvent($event);
             }
-
-            $count++;
-
-            if ($count >= 12) break;
         }
 
         $this->confirmEvents($handles);

@@ -36,6 +36,11 @@ class ResourceList extends Builder
         $result = [];
 
         foreach ($uploads->toArray() as $upload) {
+
+            $id = $this->crypt->encryptBase64($upload['id'], null, true);
+
+            $upload['url'] = $this->url->get(['for' => 'home.download', 'id' => $id]);
+
             $result[$upload['id']] = $upload;
         }
 

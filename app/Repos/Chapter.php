@@ -79,6 +79,18 @@ class Chapter extends Repository
     }
 
     /**
+     * @param int $id
+     * @return ResultsetInterface|Resultset|ChapterModel[]
+     */
+    public function findLessons($id)
+    {
+        return ChapterModel::query()
+            ->where('parent_id = :parent_id:', ['parent_id' => $id])
+            ->andWhere('deleted = 0')
+            ->execute();
+    }
+
+    /**
      * @param string $fileId
      * @return ChapterModel|Model|bool
      */

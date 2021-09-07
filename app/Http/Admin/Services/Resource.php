@@ -124,6 +124,20 @@ class Resource extends Service
         $chapter->resource_count = $chapterRepo->countResources($chapter->id);
 
         $chapter->update();
+
+        $parent = $chapterRepo->findById($chapter->parent_id);
+
+        $lessons = $chapterRepo->findLessons($parent->id);
+
+        $resourceCount = 0;
+
+        foreach ($lessons as $lesson) {
+            $resourceCount += $chapterRepo->countResources($lesson->id);
+        }
+
+        $parent->resource_count = $resourceCount;
+
+        $parent->update();
     }
 
     protected function recountCourseResources(CourseModel $course)
