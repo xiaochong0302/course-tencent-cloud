@@ -7,6 +7,9 @@
 
 namespace App\Http\Api\Controllers;
 
+use App\Caches\IndexArticleList;
+use App\Caches\IndexLiveList;
+use App\Caches\IndexQuestionList;
 use App\Caches\IndexSimpleFeaturedCourseList;
 use App\Caches\IndexSimpleFreeCourseList;
 use App\Caches\IndexSimpleNewCourseList;
@@ -29,6 +32,42 @@ class IndexController extends Controller
         $slides = $cache->get();
 
         return $this->jsonSuccess(['slides' => $slides]);
+    }
+
+    /**
+     * @Get("/articles", name="api.index.articles")
+     */
+    public function articlesAction()
+    {
+        $cache = new IndexArticleList();
+
+        $articles = $cache->get();
+
+        return $this->jsonSuccess(['articles' => $articles]);
+    }
+
+    /**
+     * @Get("/questions", name="api.index.questions")
+     */
+    public function questionsAction()
+    {
+        $cache = new IndexQuestionList();
+
+        $questions = $cache->get();
+
+        return $this->jsonSuccess(['questions' => $questions]);
+    }
+
+    /**
+     * @Get("/lives", name="api.index.lives")
+     */
+    public function livesAction()
+    {
+        $cache = new IndexLiveList();
+
+        $lives = $cache->get();
+
+        return $this->jsonSuccess(['lives' => $lives]);
     }
 
     /**

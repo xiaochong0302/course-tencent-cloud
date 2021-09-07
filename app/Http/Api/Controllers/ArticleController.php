@@ -83,37 +83,9 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/unfavorite", name="api.article.unfavorite")
-     */
-    public function unfavoriteAction($id)
-    {
-        $service = new ArticleFavoriteService();
-
-        $data = $service->handle($id);
-
-        $msg = $data['action'] == 'do' ? '收藏成功' : '取消收藏成功';
-
-        return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
-    }
-
-    /**
      * @Post("/{id:[0-9]+}/like", name="api.article.like")
      */
     public function likeAction($id)
-    {
-        $service = new ArticleLikeService();
-
-        $data = $service->handle($id);
-
-        $msg = $data['action'] == 'do' ? '点赞成功' : '取消点赞成功';
-
-        return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/like", name="api.article.unlike")
-     */
-    public function unlikeAction($id)
     {
         $service = new ArticleLikeService();
 

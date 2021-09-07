@@ -184,8 +184,6 @@ $error['course.invalid_refund_expiry'] = '无效的退款期限';
 $error['course.invalid_feature_status'] = '无效的推荐状态';
 $error['course.invalid_publish_status'] = '无效的发布状态';
 $error['course.teacher_not_assigned'] = '尚未指定授课教师';
-$error['course.pub_chapter_not_found'] = '尚未发现已发布的课时';
-$error['course.pub_chapter_not_enough'] = '已发布的课时太少（小于20%）';
 
 /**
  * 面授课程相关
@@ -240,7 +238,7 @@ $error['package.invalid_expiry'] = '无效的期限（范围：1~60）';
 $error['course_user.not_found'] = '课程学员关系不存在';
 $error['course_user.invalid_expiry_time'] = '无效的过期时间';
 $error['course_user.review_not_allowed'] = '当前不允许评价课程';
-$error['course_user.has_joined'] = '已经加入过该课程';
+$error['course_user.has_imported'] = '已经加入过该课程';
 $error['course_user.has_reviewed'] = '已经评价过该课程';
 
 /**

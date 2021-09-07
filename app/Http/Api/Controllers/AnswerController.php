@@ -54,12 +54,11 @@ class AnswerController extends Controller
 
         $answer = $service->handle();
 
-        $content = [
-            'answer' => $answer,
-            'msg' => '创建回答成功',
-        ];
+        $service = new AnswerInfoService();
 
-        return $this->jsonSuccess($content);
+        $answer = $service->handle($answer->id);
+
+        return $this->jsonSuccess(['answer' => $answer]);
     }
 
     /**
@@ -71,12 +70,7 @@ class AnswerController extends Controller
 
         $answer = $service->handle($id);
 
-        $content = [
-            'answer' => $answer,
-            'msg' => '更新回答成功',
-        ];
-
-        return $this->jsonSuccess($content);
+        return $this->jsonSuccess(['answer' => $answer]);
     }
 
     /**
@@ -106,37 +100,9 @@ class AnswerController extends Controller
     }
 
     /**
-     * @Post("/{id:[0-9]+}/unaccept", name="api.answer.unaccept")
-     */
-    public function unacceptAction($id)
-    {
-        $service = new AnswerAcceptService();
-
-        $data = $service->handle($id);
-
-        $msg = $data['action'] == 'do' ? '采纳成功' : '取消采纳成功';
-
-        return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
-    }
-
-    /**
      * @Post("/{id:[0-9]+}/like", name="api.answer.like")
      */
     public function likeAction($id)
-    {
-        $service = new AnswerLikeService();
-
-        $data = $service->handle($id);
-
-        $msg = $data['action'] == 'do' ? '点赞成功' : '取消点赞成功';
-
-        return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/like", name="api.answer.unlike")
-     */
-    public function unlikeAction($id)
     {
         $service = new AnswerLikeService();
 

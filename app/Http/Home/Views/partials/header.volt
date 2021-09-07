@@ -42,7 +42,7 @@
         {% endif %}
         {% if auth_user.id > 0 %}
             <li class="layui-nav-item">
-                <a href="javascript:">创建</a>
+                <a href="javascript:"><i class="layui-icon layui-icon-add-circle"></i> 发布</a>
                 <dl class="layui-nav-child">
                     <dd><a href="{{ url({'for':'home.question.add'}) }}" target="_blank">提问题</a></dd>
                     <dd><a href="{{ url({'for':'home.article.add'}) }}" target="_blank">写文章</a></dd>

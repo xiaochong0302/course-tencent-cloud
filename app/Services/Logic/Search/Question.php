@@ -64,6 +64,17 @@ class Question extends Handler
 
         foreach ($pager->items as $item) {
 
+            $lastReplier = json_decode($item['last_replier'], true);
+            $category = json_decode($item['category'], true);
+            $owner = json_decode($item['owner'], true);
+            $tags = json_decode($item['tags'], true);
+
+            $owner['avatar'] = $owner['avatar'] ?: kg_default_user_avatar_path();
+
+            if (!empty($owner['avatar']) && !Text::startsWith($owner['avatar'], 'http')) {
+                $owner['avatar'] = $baseUrl . $owner['avatar'];
+            }
+
             if (!empty($item['cover']) && !Text::startsWith($item['cover'], 'http')) {
                 $item['cover'] = $baseUrl . $item['cover'];
             }
@@ -71,13 +82,13 @@ class Question extends Handler
             $lastAnswer = json_decode($item['last_answer'], true);
 
             if (!empty($lastAnswer['cover']) && !Text::startsWith($lastAnswer['cover'], 'http')) {
-                $item['last_answer'] = $baseUrl . $lastAnswer['cover'];
+                $lastAnswer['cover'] = $baseUrl . $lastAnswer['cover'];
             }
 
             $acceptAnswer = json_decode($item['accept_answer'], true);
 
             if (!empty($acceptAnswer['cover']) && !Text::startsWith($acceptAnswer['cover'], 'http')) {
-                $item['accept_answer'] = $baseUrl . $acceptAnswer['cover'];
+                $acceptAnswer['cover'] = $baseUrl . $acceptAnswer['cover'];
             }
 
             $items[] = [
@@ -95,12 +106,12 @@ class Question extends Handler
                 'answer_count' => (int)$item['answer_count'],
                 'comment_count' => (int)$item['comment_count'],
                 'favorite_count' => (int)$item['favorite_count'],
-                'category' => json_decode($item['category'], true),
-                'tags' => json_decode($item['tags'], true),
-                'owner' => json_decode($item['owner'], true),
-                'last_replier' => json_decode($item['last_replier'], true),
-                'last_answer' => $item['last_answer'],
-                'accept_answer' => $item['accept_answer'],
+                'accept_answer' => $acceptAnswer,
+                'last_answer' => $lastAnswer,
+                'last_replier' => $lastReplier,
+                'category' => $category,
+                'owner' => $owner,
+                'tags' => $tags,
             ];
         }
 

@@ -7,12 +7,12 @@
 
 namespace App\Http\Api\Controllers;
 
-use App\Services\Logic\Article\CommentList as CommentListService;
 use App\Services\Logic\Chapter\ChapterInfo as ChapterInfoService;
 use App\Services\Logic\Chapter\ChapterLike as ChapterLikeService;
-use App\Services\Logic\Chapter\ConsultList as ChapterConsultListService;
-use App\Services\Logic\Chapter\Learning as ChapterLearningService;
-use App\Services\Logic\Chapter\ResourceList as ChapterResourceListService;
+use App\Services\Logic\Chapter\CommentList as CommentListService;
+use App\Services\Logic\Chapter\ConsultList as ConsultListService;
+use App\Services\Logic\Chapter\Learning as LearningService;
+use App\Services\Logic\Chapter\ResourceList as ResourceListService;
 
 /**
  * @RoutePrefix("/api/chapter")
@@ -37,7 +37,7 @@ class ChapterController extends Controller
      */
     public function consultsAction($id)
     {
-        $service = new ChapterConsultListService();
+        $service = new ConsultListService();
 
         $pager = $service->handle($id);
 
@@ -49,7 +49,7 @@ class ChapterController extends Controller
      */
     public function resourcesAction($id)
     {
-        $service = new ChapterResourceListService();
+        $service = new ResourceListService();
 
         $resources = $service->handle($id);
 
@@ -91,7 +91,7 @@ class ChapterController extends Controller
      */
     public function learningAction($id)
     {
-        $service = new ChapterLearningService();
+        $service = new LearningService();
 
         $service->handle($id);
 

@@ -72,8 +72,6 @@ class ArticleList extends LogicService
                 'source_type' => $article['source_type'],
                 'source_url' => $article['source_url'],
                 'tags' => $article['tags'],
-                'category' => $category,
-                'owner' => $owner,
                 'private' => $article['private'],
                 'published' => $article['published'],
                 'closed' => $article['closed'],
@@ -83,6 +81,8 @@ class ArticleList extends LogicService
                 'favorite_count' => $article['favorite_count'],
                 'create_time' => $article['create_time'],
                 'update_time' => $article['update_time'],
+                'category' => $category,
+                'owner' => $owner,
             ];
         }
 
