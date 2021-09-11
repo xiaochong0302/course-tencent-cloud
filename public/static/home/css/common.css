@@ -1029,7 +1029,9 @@
     margin: 0 5px;
 }
 
-.lesson-item .free-badge {
+.lesson-item .icon-trial {
+    color: red;
+    font-size: 24px;
     margin-right: 5px;
 }
 
@@ -1347,10 +1349,14 @@
 }
 
 .player-wrap {
-    position: relative;
     width: 760px;
     height: 428px;
     margin-bottom: 20px;
+}
+
+.dplayer {
+    width: 760px;
+    height: 428px;
 }
 
 .chat-wrap .layui-card-header {

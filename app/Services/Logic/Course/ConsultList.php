@@ -8,6 +8,7 @@
 namespace App\Services\Logic\Course;
 
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\Consult as ConsultModel;
 use App\Repos\Consult as ConsultRepo;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Service as LogicService;
@@ -30,9 +31,9 @@ class ConsultList extends LogicService
 
         $params = [
             'course_id' => $course->id,
-            'private' => 0,
-            'published' => 1,
+            'published' => ConsultModel::PUBLISH_APPROVED,
             'deleted' => 0,
+            'private' => 0,
         ];
 
         $consultRepo = new ConsultRepo();
