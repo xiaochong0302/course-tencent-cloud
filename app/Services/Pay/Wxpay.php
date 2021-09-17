@@ -185,7 +185,12 @@ class Wxpay extends PayService
 
         if (!$trade) return false;
 
-        if ($data->total_fee != 100 * $trade->amount) {
+        /**
+         * 注意浮点数精度丢失问题
+         */
+        $amount = intval(strval(100 * $trade->amount));
+
+        if ($data->total_fee != $amount) {
             return false;
         }
 
