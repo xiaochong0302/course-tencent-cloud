@@ -50,7 +50,7 @@ class CommentLike extends LogicService
 
             $isFirstTime = false;
 
-            $commentLike->comment_id = $commentLike->deleted == 1 ? 0 : 1;
+            $commentLike->deleted = $commentLike->deleted == 1 ? 0 : 1;
 
             $commentLike->update();
         }

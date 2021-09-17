@@ -25,13 +25,15 @@ class PublicController extends \Phalcon\Mvc\Controller
     use SecurityTrait;
 
     /**
-     * @Get("/download/{md5}", name="home.download")
+     * @Get("/download/{id}", name="home.download")
      */
-    public function downloadAction($md5)
+    public function downloadAction($id)
     {
+        $id = $this->crypt->decryptBase64($id, null, true);
+
         $repo = new UploadRepo();
 
-        $file = $repo->findByMd5($md5);
+        $file = $repo->findById($id);
 
         if ($file) {
 

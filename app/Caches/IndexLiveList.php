@@ -7,14 +7,14 @@
 
 namespace App\Caches;
 
+use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
+use App\Repos\User as UserRepo;
 use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
-/**
- * 直播课程
- */
 class IndexLiveList extends Cache
 {
 
@@ -32,32 +32,11 @@ class IndexLiveList extends Cache
 
     public function getContent($id = null)
     {
-        /**
-         * 限制输出多少天数（一维限额）
-         */
-        $dayLimit = 3;
+        $limit = 8;
 
-        /**
-         * 限制每天维度下的输出数（二维限额）
-         */
-        $perDayLimit = 10;
+        $lives = $this->findChapterLives();
 
-        $beginTime = strtotime('today');
-        $endTime = strtotime("+30 days");
-
-        /**
-         * @var Resultset|ChapterLiveModel[] $lives
-         */
-        $lives = ChapterLiveModel::query()
-            ->betweenWhere('start_time', $beginTime, $endTime)
-            ->orderBy('start_time ASC')
-            ->execute();
-
-        if ($lives->count() == 0) {
-            return [];
-        }
-
-        $result = [];
+        if ($lives->count() == 0) return [];
 
         $chapterIds = kg_array_column($lives->toArray(), 'chapter_id');
 
@@ -77,53 +56,85 @@ class IndexLiveList extends Cache
 
         $courses = $courseRepo->findByIds($courseIds);
 
+        $teacherIds = kg_array_column($courses->toArray(), 'teacher_id');
+
+        $userRepo = new UserRepo();
+
+        $users = $userRepo->findByIds($teacherIds);
+
         $courseMapping = [];
 
         foreach ($courses as $course) {
             $courseMapping[$course->id] = $course;
         }
 
+        $userMapping = [];
+
+        foreach ($users as $user) {
+            $userMapping[$user->id] = $user;
+        }
+
+        $result = [];
+
+        $flag = [];
+
         foreach ($lives as $live) {
-
-            if (count($result) >= $dayLimit) {
-                break;
-            }
-
-            $day = date('y-m-d', $live->start_time);
-
-            if (isset($result[$day]) && count($result[$day]) >= $perDayLimit) {
-                continue;
-            }
 
             $chapter = $chapterMapping[$live->chapter_id];
             $course = $courseMapping[$chapter->course_id];
+            $teacher = $userMapping[$course->teacher_id];
+
+            $teacherInfo = [
+                'id' => $teacher->id,
+                'name' => $teacher->name,
+                'title' => $teacher->title,
+                'avatar' => $teacher->avatar,
+            ];
 
             $chapterInfo = [
                 'id' => $chapter->id,
                 'title' => $chapter->title,
-                'start_time' => $live->start_time,
-                'end_time' => $live->end_time,
             ];
 
             $courseInfo = [
                 'id' => $course->id,
                 'title' => $course->title,
                 'cover' => $course->cover,
-                'market_price' => $course->market_price,
-                'vip_price' => $course->vip_price,
-                'model' => $course->model,
-                'level' => $course->level,
-                'user_count' => $course->user_count,
-                'lesson_count' => $course->lesson_count,
+                'teacher' => $teacherInfo,
             ];
 
-            $result[$day][] = [
-                'course' => $courseInfo,
-                'chapter' => $chapterInfo,
-            ];
+            if (!isset($flag[$course->id]) && count($flag) < $limit) {
+                $flag[$course->id] = 1;
+                $result[] = [
+                    'id' => $live->id,
+                    'status' => $live->status,
+                    'start_time' => $live->start_time,
+                    'end_time' => $live->end_time,
+                    'course' => $courseInfo,
+                    'chapter' => $chapterInfo,
+                ];
+            }
         }
 
         return $result;
+    }
+
+    /**
+     * @return ResultsetInterface|Resultset|ChapterLiveModel[]
+     */
+    protected function findChapterLives()
+    {
+        $startTime = strtotime('today');
+        $endTime = strtotime('+30 days');
+
+        return $this->modelsManager->createBuilder()
+            ->columns('cl.*')
+            ->addFrom(ChapterLiveModel::class, 'cl')
+            ->join(ChapterModel::class, 'cl.chapter_id = c.id', 'c')
+            ->betweenWhere('start_time', $startTime, $endTime)
+            ->orderBy('start_time ASC')
+            ->getQuery()
+            ->execute();
     }
 
 }

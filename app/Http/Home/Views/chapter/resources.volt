@@ -9,11 +9,10 @@
             <th width="15%">操作</th>
         </tr>
         {% for item in items %}
-            {% set download_url = url({'for':'home.download','md5':item.md5}) %}
             <tr>
                 <td>{{ item.name }}</td>
                 <td>{{ item.size|human_size }}</td>
-                <td><a class="layui-btn layui-btn-sm" href="{{ download_url }}" target="_blank">下载</a></td>
+                <td><a class="layui-btn layui-btn-sm" href="{{ item.url }}" target="_blank">下载</a></td>
             </tr>
         {% endfor %}
     </table>

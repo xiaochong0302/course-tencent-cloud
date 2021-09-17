@@ -8,6 +8,7 @@
 namespace App\Services\Search;
 
 use App\Models\Article as ArticleModel;
+use App\Models\User as UserModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\User as UserRepo;
 use Phalcon\Di\Injectable;
@@ -80,9 +81,12 @@ class ArticleDocument extends Injectable
 
         $user = $userRepo->findById($id);
 
+        $user->avatar = UserModel::getAvatarPath($user->avatar);
+
         return kg_json_encode([
             'id' => $user->id,
             'name' => $user->name,
+            'avatar' => $user->avatar,
         ]);
     }
 

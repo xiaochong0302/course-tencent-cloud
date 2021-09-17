@@ -1205,7 +1205,7 @@ class AuthNode extends Service
                         ],
                         [
                             'id' => '5-1-12',
-                            'title' => '开放登录',
+                            'title' => '登录设置',
                             'type' => 'menu',
                             'route' => 'admin.setting.oauth',
                         ],
