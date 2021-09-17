@@ -2,6 +2,9 @@
 
 {% block content %}
 
+    {% set login_with_phone = oauth_provider.local.login_with_phone == 1 %}
+    {% set login_with_email = oauth_provider.local.login_with_email == 1 %}
+
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
         <a><cite>登录</cite></a>

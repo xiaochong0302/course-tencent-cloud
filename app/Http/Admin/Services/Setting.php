@@ -15,6 +15,11 @@ use App\Services\WeChat as WeChatService;
 class Setting extends Service
 {
 
+    public function getLocalAuthSettings()
+    {
+        return $this->getSettings('oauth.local');
+    }
+
     public function getQQAuthSettings()
     {
         $oauth = $this->getSettings('oauth.qq');

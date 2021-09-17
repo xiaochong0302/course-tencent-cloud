@@ -87,6 +87,24 @@ class PublicController extends Controller
     }
 
     /**
+     * @Get("/payment/info", name="api.public.payment_info")
+     */
+    public function paymentInfoAction()
+    {
+        $service = new AppService();
+
+        $alipay = $service->getSettings('pay.alipay');
+        $wxpay = $service->getSettings('pay.wxpay');
+
+        $content = [
+            'alipay' => ['enabled' => $alipay['enabled']],
+            'wxpay' => ['enabled' => $wxpay['enabled']],
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
      * @Get("/reward/options", name="api.public.reward_options")
      */
     public function rewardOptionsAction()
