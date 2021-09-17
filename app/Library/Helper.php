@@ -413,7 +413,7 @@ function kg_cos_icon_url($path, $style = null)
 /**
  * 清除存储图片处理样式
  *
- * @param $path
+ * @param string $path
  * @return string
  */
 function kg_cos_img_style_trim($path)
@@ -424,16 +424,18 @@ function kg_cos_img_style_trim($path)
 /**
  * 解析markdown内容
  *
- * @param $content
+ * @param string $content
+ * @param string $htmlInput (escape|strip)
+ * @param bool $allowUnsafeLinks
  * @return string
  */
-function kg_parse_markdown($content)
+function kg_parse_markdown($content, $htmlInput = 'escape', $allowUnsafeLinks = false)
 {
     $content = str_replace('!content_800', '', $content);
 
     $parser = new League\CommonMark\GithubFlavoredMarkdownConverter([
-        'html_input' => 'strip',
-        'allow_unsafe_links' => false,
+        'html_input' => $htmlInput,
+        'allow_unsafe_links' => $allowUnsafeLinks,
     ]);
 
     return $parser->convertToHtml($content);
@@ -442,7 +444,7 @@ function kg_parse_markdown($content)
 /**
  * 解析内容摘要
  *
- * @param $content
+ * @param string $content
  * @param int $length
  * @return string
  */

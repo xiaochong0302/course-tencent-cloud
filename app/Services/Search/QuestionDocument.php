@@ -8,6 +8,7 @@
 namespace App\Services\Search;
 
 use App\Models\Question as QuestionModel;
+use App\Models\User as UserModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\User as UserRepo;
@@ -93,11 +94,11 @@ class QuestionDocument extends Injectable
             'answer_count' => $question->answer_count,
             'comment_count' => $question->comment_count,
             'favorite_count' => $question->favorite_count,
+            'accept_answer' => $acceptAnswer,
+            'last_answer' => $lastAnswer,
+            'last_replier' => $lastReplier,
             'category' => $category,
             'owner' => $owner,
-            'last_replier' => $lastReplier,
-            'last_answer' => $lastAnswer,
-            'accept_answer' => $acceptAnswer,
         ];
     }
 
@@ -107,9 +108,12 @@ class QuestionDocument extends Injectable
 
         $user = $userRepo->findById($id);
 
+        $user->avatar = UserModel::getAvatarPath($user->avatar);
+
         return kg_json_encode([
             'id' => $user->id,
             'name' => $user->name,
+            'avatar' => $user->avatar,
         ]);
     }
 

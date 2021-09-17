@@ -10,6 +10,7 @@ namespace App\Services\Logic\Search;
 use App\Library\Paginator\Adapter\XunSearch as XunSearchPaginator;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Services\Search\CourseSearcher as CourseSearcherService;
+use Phalcon\Text;
 
 class Course extends Handler
 {
@@ -63,7 +64,24 @@ class Course extends Handler
 
         foreach ($pager->items as $item) {
 
-            $item['cover'] = $baseUrl . $item['cover'];
+            /**
+             * 后补的字段，给默认值防止出错
+             */
+            $item['tags'] = $item['tags'] ?: '[]';
+
+            $category = json_decode($item['category'], true);
+            $teacher = json_decode($item['teacher'], true);
+            $tags = json_decode($item['tags'], true);
+
+            $teacher['avatar'] = $teacher['avatar'] ?: kg_default_user_avatar_path();
+
+            if (!empty($teacher['avatar']) && !Text::startsWith($teacher['avatar'], 'http')) {
+                $teacher['avatar'] = $baseUrl . $teacher['avatar'];
+            }
+
+            if (!empty($item['cover']) && !Text::startsWith($item['cover'], 'http')) {
+                $item['cover'] = $baseUrl . $item['cover'];
+            }
 
             $items[] = [
                 'id' => (int)$item['id'],
@@ -78,8 +96,9 @@ class Course extends Handler
                 'lesson_count' => (int)$item['lesson_count'],
                 'review_count' => (int)$item['review_count'],
                 'favorite_count' => (int)$item['favorite_count'],
-                'teacher' => json_decode($item['teacher'], true),
-                'category' => json_decode($item['category'], true),
+                'category' => $category,
+                'teacher' => $teacher,
+                'tags' => $tags,
             ];
         }
 

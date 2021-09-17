@@ -120,18 +120,4 @@ class CourseController extends Controller
         return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
     }
 
-    /**
-     * @Post("/{id:[0-9]+}/unfavorite", name="api.course.unfavorite")
-     */
-    public function unfavoriteAction($id)
-    {
-        $service = new CourseFavoriteService();
-
-        $data = $service->handle($id);
-
-        $msg = $data['action'] == 'do' ? '收藏成功' : '取消收藏成功';
-
-        return $this->jsonSuccess(['data' => $data, 'msg' => $msg]);
-    }
-
 }

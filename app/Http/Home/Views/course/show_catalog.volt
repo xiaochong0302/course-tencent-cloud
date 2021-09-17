@@ -5,10 +5,13 @@
         <i class="layui-icon layui-icon-play"></i>
         <span class="title">{{ lesson.title }}</span>
         {% if lesson.free == 1 %}
-            <span class="layui-badge free-badge">试听</span>
+            <span class="iconfont icon-trial"></span>
         {% endif %}
         {% if lesson.me.duration > 0 %}
             <span class="study-time" title="学习时长：{{ lesson.me.duration|duration }}"><i class="layui-icon layui-icon-time"></i></span>
+        {% endif %}
+        {% if priv == 'deny' %}
+            <span class="iconfont icon-lock"></span>
         {% endif %}
         <span class="duration">{{ lesson.attrs.duration|duration }}</span>
     </a>
@@ -21,10 +24,13 @@
         <i class="layui-icon layui-icon-video"></i>
         <span class="title">{{ lesson.title }}</span>
         {% if lesson.free == 1 %}
-            <span class="layui-badge free-badge">试听</span>
+            <span class="iconfont icon-trial"></span>
         {% endif %}
         {% if lesson.me.duration > 0 %}
             <span class="study-time" title="学习时长：{{ lesson.me.duration|duration }}"><i class="layui-icon layui-icon-time"></i></span>
+        {% endif %}
+        {% if priv == 'deny' %}
+            <span class="iconfont icon-lock"></span>
         {% endif %}
         <span class="live" title="{{ date('Y-m-d H:i',lesson.attrs.start_time) }}">{{ live_status_info(lesson) }}</span>
     </a>
@@ -37,10 +43,13 @@
         <i class="layui-icon layui-icon-read"></i>
         <span class="title">{{ lesson.title }}</span>
         {% if lesson.free == 1 %}
-            <span class="layui-badge free-badge">试读</span>
+            <span class="iconfont icon-trial"></span>
         {% endif %}
         {% if lesson.me.duration > 0 %}
             <span class="study-time" title="学习时长：{{ lesson.me.duration|duration }}"><i class="layui-icon layui-icon-time"></i></span>
+        {% endif %}
+        {% if priv == 'deny' %}
+            <span class="iconfont icon-lock"></span>
         {% endif %}
     </a>
 {%- endmacro %}
@@ -57,7 +66,7 @@
 {%- endmacro %}
 
 {%- macro live_status_info(lesson) %}
-    {% if lesson.attrs.stream.status == 'active' %}
+    {% if lesson.attrs.start_time < time() and lesson.attrs.end_time > time() %}
         <span class="active">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 直播中</span>
     {% elseif lesson.attrs.start_time > time() %}
         <span class="pending">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 倒计时</span>

@@ -114,6 +114,7 @@ class IndexVipCourseList extends Cache
         return CourseModel::query()
             ->inWhere('category_id', $categoryIds)
             ->andWhere('published = 1')
+            ->andWhere('market_price > vip_price')
             ->andWhere('vip_price >= 0')
             ->orderBy('score DESC')
             ->limit($limit)

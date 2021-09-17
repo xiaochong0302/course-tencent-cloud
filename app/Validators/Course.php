@@ -246,29 +246,6 @@ class Course extends Validator
         if ($course->teacher_id == 0) {
             throw new BadRequestException('course.teacher_not_assigned');
         }
-
-        $courseRepo = new CourseRepo();
-
-        $chapters = $courseRepo->findChapters($course->id);
-
-        $totalCount = $publishedCount = 0;
-
-        foreach ($chapters as $chapter) {
-            if ($chapter->parent_id > 0 && $chapter->published == 1) {
-                $publishedCount++;
-            }
-            if ($chapter->parent_id > 0) {
-                $totalCount++;
-            }
-        }
-
-        if ($publishedCount == 0) {
-            throw new BadRequestException('course.pub_chapter_not_found');
-        }
-
-        if ($publishedCount / $totalCount < 0.2) {
-            throw new BadRequestException('course.pub_chapter_not_enough');
-        }
     }
 
 }

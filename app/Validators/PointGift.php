@@ -84,7 +84,7 @@ class PointGift extends Validator
 
     public function checkDetails($details)
     {
-        $value = $this->filter->sanitize($details, ['trim', 'string']);
+        $value = $this->filter->sanitize($details, ['trim']);
 
         $length = kg_strlen($value);
 

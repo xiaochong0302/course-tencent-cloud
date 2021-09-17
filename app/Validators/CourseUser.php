@@ -9,6 +9,7 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
+use App\Models\CourseUser as CourseUserModel;
 use App\Repos\CourseUser as CourseUserRepo;
 
 class CourseUser extends Validator
@@ -65,14 +66,14 @@ class CourseUser extends Validator
         return strtotime($value);
     }
 
-    public function checkIfJoined($courseId, $userId)
+    public function checkIfImported($courseId, $userId)
     {
         $repo = new CourseUserRepo();
 
         $courseUser = $repo->findCourseStudent($courseId, $userId);
 
-        if ($courseUser) {
-            throw new BadRequestException('course_user.has_joined');
+        if ($courseUser && $courseUser->source_type == CourseUserModel::SOURCE_IMPORT) {
+            throw new BadRequestException('course_user.has_imported');
         }
     }
 

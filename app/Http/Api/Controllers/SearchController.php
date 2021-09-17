@@ -7,10 +7,11 @@
 
 namespace App\Http\Api\Controllers;
 
-use App\Services\Logic\Search\Article as ArticleSearchService;
-use App\Services\Logic\Search\Course as CourseSearchService;
-use App\Services\Logic\Search\Group as GroupSearchService;
-use App\Services\Logic\Search\User as UserSearchService;
+use App\Services\Logic\Search\Article as ArticleSearch;
+use App\Services\Logic\Search\Course as CourseSearch;
+use App\Services\Logic\Search\Group as GroupSearch;
+use App\Services\Logic\Search\Question as QuestionSearch;
+use App\Services\Logic\Search\User as UserSearch;
 
 /**
  * @RoutePrefix("/api/search")
@@ -45,22 +46,25 @@ class SearchController extends Controller
 
     /**
      * @param string $type
-     * @return ArticleSearchService|CourseSearchService|GroupSearchService|UserSearchService
+     * @return ArticleSearch|QuestionSearch|CourseSearch|GroupSearch|UserSearch
      */
     protected function getSearchService($type)
     {
         switch ($type) {
             case 'article':
-                $service = new ArticleSearchService();
+                $service = new ArticleSearch();
+                break;
+            case 'question':
+                $service = new QuestionSearch();
                 break;
             case 'group':
-                $service = new GroupSearchService();
+                $service = new GroupSearch();
                 break;
             case 'user':
-                $service = new UserSearchService();
+                $service = new UserSearch();
                 break;
             default:
-                $service = new CourseSearchService();
+                $service = new CourseSearch();
                 break;
         }
 

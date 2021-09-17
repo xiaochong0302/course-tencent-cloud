@@ -103,7 +103,7 @@ class Student extends Service
         $data['user_id'] = $user->id;
         $data['expiry_time'] = $expiryTime;
 
-        $validator->checkIfJoined($post['course_id'], $post['user_id']);
+        $validator->checkIfImported($post['course_id'], $post['user_id']);
 
         $courseUser = new CourseUserModel();
 

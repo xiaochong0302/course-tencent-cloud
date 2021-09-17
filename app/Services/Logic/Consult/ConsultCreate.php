@@ -64,7 +64,12 @@ class ConsultCreate extends LogicService
         $validator = new ConsultValidator();
 
         $question = $validator->checkQuestion($post['question']);
-        $private = $validator->checkPrivateStatus($post['private']);
+
+        $private = 0;
+
+        if (isset($post['private'])) {
+            $private = $validator->checkPrivateStatus($post['private']);
+        }
 
         $validator->checkIfDuplicated($course->id, $user->id, $question);
 
@@ -101,7 +106,12 @@ class ConsultCreate extends LogicService
         $validator = new ConsultValidator();
 
         $question = $validator->checkQuestion($post['question']);
-        $private = $validator->checkPrivateStatus($post['private']);
+
+        $private = 0;
+
+        if (isset($post['private'])) {
+            $private = $validator->checkPrivateStatus($post['private']);
+        }
 
         $validator->checkIfDuplicated($course->id, $user->id, $question);
 

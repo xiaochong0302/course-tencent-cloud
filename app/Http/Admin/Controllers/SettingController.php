@@ -350,10 +350,12 @@ class SettingController extends Controller
             $qqAuth = $settingService->getQQAuthSettings();
             $weixinAuth = $settingService->getWeixinAuthSettings();
             $weiboAuth = $settingService->getWeiboAuthSettings();
+            $localAuth = $settingService->getLocalAuthSettings();
 
             $this->view->setVar('qq_auth', $qqAuth);
             $this->view->setVar('weixin_auth', $weixinAuth);
             $this->view->setVar('weibo_auth', $weiboAuth);
+            $this->view->setVar('local_auth', $localAuth);
         }
     }
 
