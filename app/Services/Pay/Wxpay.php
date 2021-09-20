@@ -122,6 +122,37 @@ class Wxpay extends PayService
     }
 
     /**
+     * 公众号支付
+     *
+     * @param TradeModel $trade
+     * @param string $openId
+     * @return Collection|bool
+     */
+    public function mp(TradeModel $trade, $openId)
+    {
+        try {
+
+            $result = $this->gateway->mp([
+                'out_trade_no' => $trade->sn,
+                'total_fee' => 100 * $trade->amount,
+                'body' => $trade->subject,
+                'openid' => $openId,
+            ]);
+
+        } catch (\Exception $e) {
+
+            Log::error('Wxpay MP Exception', [
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+            ]);
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
      * 小程序支付
      *
      * @param TradeModel $trade

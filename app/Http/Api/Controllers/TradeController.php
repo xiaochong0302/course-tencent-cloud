@@ -55,13 +55,25 @@ class TradeController extends Controller
     }
 
     /**
+     * @Post("/mini/create", name="api.trade.mini_create")
+     */
+    public function createMiniTradeAction()
+    {
+        $service = new TradeService();
+
+        $content = $service->createMiniTrade();
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
      * @Post("/app/create", name="api.trade.app_create")
      */
     public function createAppTradeAction()
     {
         $service = new TradeService();
 
-        $content = $service->createMpTrade();
+        $content = $service->createAppTrade();
 
         return $this->jsonSuccess($content);
     }

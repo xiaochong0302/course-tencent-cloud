@@ -75,6 +75,45 @@ class Trade extends Service
     {
         $post = $this->request->getPost();
 
+        $order = $this->checkOrderBySn($post['order_sn']);
+
+        $user = $this->getLoginUser();
+
+        $channel = TradeModel::CHANNEL_WXPAY;
+
+        $trade = new TradeModel();
+
+        $trade->subject = $order->subject;
+        $trade->amount = $order->amount;
+        $trade->channel = $channel;
+        $trade->order_id = $order->id;
+        $trade->owner_id = $user->id;
+
+        $trade->create();
+
+        $wxpay = new Wxpay();
+
+        $response = $wxpay->mp($trade, $post['open_id']);
+
+        $payment = [
+            'appId' => $response->appId,
+            'timeStamp' => $response->timeStamp,
+            'nonceStr' => $response->nonceStr,
+            'package' => $response->package,
+            'signType' => $response->signType,
+            'paySign' => $response->paySign,
+        ];
+
+        return [
+            'trade' => $this->handleTradeInfo($trade->sn),
+            'payment' => $payment,
+        ];
+    }
+
+    public function createMiniTrade()
+    {
+        $post = $this->request->getPost();
+
         $validator = new ClientValidator();
 
         $platform = $this->getPlatform();
@@ -120,7 +159,7 @@ class Trade extends Service
 
     public function createAppTrade()
     {
-
+        return [];
     }
 
     protected function getPlatform()

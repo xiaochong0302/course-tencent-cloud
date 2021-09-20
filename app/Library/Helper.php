@@ -708,3 +708,13 @@ function kg_full_url($uri, $args = null)
 
     return $baseUrl . $url->get($uri, $args);
 }
+
+/**
+ * 获取H5首页地址
+ *
+ * @return string
+ */
+function kg_h5_index_url()
+{
+    return kg_site_url() . '/h5/#/pages/index/index';
+}
