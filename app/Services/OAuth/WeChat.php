@@ -1,33 +1,31 @@
 <?php
-/**
- * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
- * @license https://opensource.org/licenses/GPL-2.0
- * @link https://www.koogua.com
- */
 
 namespace App\Services\OAuth;
 
 use App\Models\Connect as ConnectModel;
 use App\Services\OAuth;
 
-class WeiXin extends OAuth
+class WeChat extends OAuth
 {
 
-    const AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/qrconnect';
+    const AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize';
     const ACCESS_TOKEN_URL = 'https://api.weixin.qq.com/sns/oauth2/access_token';
     const USER_INFO_URL = 'https://api.weixin.qq.com/sns/userinfo';
 
     public function getAuthorizeUrl()
     {
+        /**
+         * 参数强制要求按特定顺序排列
+         */
         $params = [
             'appid' => $this->clientId,
             'redirect_uri' => $this->redirectUri,
-            'state' => $this->getState(),
             'response_type' => 'code',
-            'scope' => 'snsapi_login',
+            'scope' => 'snsapi_userinfo',
+            'state' => $this->getState(),
         ];
 
-        return self::AUTHORIZE_URL . '?' . http_build_query($params);
+        return self::AUTHORIZE_URL . '?' . http_build_query($params) . '#wechat_redirect';
     }
 
     public function getAccessToken($code)
@@ -88,7 +86,7 @@ class WeiXin extends OAuth
         $userInfo['name'] = $data['nickname'];
         $userInfo['avatar'] = $data['headimgurl'];
         $userInfo['unionid'] = $data['unionid'] ?? '';
-        $userInfo['provider'] = ConnectModel::PROVIDER_WEIXIN;
+        $userInfo['provider'] = ConnectModel::PROVIDER_WECHAT;
 
         return $userInfo;
     }

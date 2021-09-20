@@ -66,7 +66,7 @@
 {%- endmacro %}
 
 {%- macro live_status_info(lesson) %}
-    {% if lesson.attrs.start_time < time() and lesson.attrs.end_time > time() %}
+    {% if lesson.attrs.stream.status == 'active' %}
         <span class="active">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 直播中</span>
     {% elseif lesson.attrs.start_time > time() %}
         <span class="pending">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 倒计时</span>
