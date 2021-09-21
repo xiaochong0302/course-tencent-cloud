@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Http\Api\Controllers;
 
@@ -16,7 +21,13 @@ class ConnectController extends Controller
      */
     public function wechatAction()
     {
+        $redirect = $this->request->getQuery('redirect', 'trim');
+
         $service = new ConnectService();
+
+        if ($redirect) {
+            $service->setWechatRedirectCache($redirect);
+        }
 
         $url = $service->getAuthorizeUrl(ConnectModel::PROVIDER_WECHAT);
 
@@ -32,7 +43,18 @@ class ConnectController extends Controller
 
         $data = $service->handleCallback(ConnectModel::PROVIDER_WECHAT);
 
-        $location = kg_h5_index_url() . '?' . http_build_query($data);
+        $redirect = $service->getWechatRedirectCache();
+
+        if ($redirect) {
+            $service->removeWechatRedirectCache();
+            if (strpos($redirect, '?')) {
+                $location = $redirect . '&' . http_build_query($data);
+            } else {
+                $location = $redirect . '?' . http_build_query($data);
+            }
+        } else {
+            $location = kg_h5_index_url() . '?' . http_build_query($data);
+        }
 
         return $this->response->redirect($location, true);
     }

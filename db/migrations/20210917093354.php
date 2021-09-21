@@ -18,22 +18,39 @@ class V20210917093354 extends Phinx\Migration\AbstractMigration
 
     protected function alterConnectTable()
     {
-        $this->table('kg_connect')
-            ->addColumn('deleted', 'integer', [
+        $table = $this->table('kg_connect');
+
+        if (!$table->hasColumn('deleted')) {
+            $table->addColumn('deleted', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'provider',
-            ])
-            ->save();
+            ]);
+        }
+        if (!$table->hasIndexByName('user_id')) {
+            $table->addIndex(['user_id'], [
+                'name' => 'user_id',
+                'unique' => false,
+            ]);
+        }
+        if (!$table->hasIndexByName('open_id')) {
+            $table->addIndex(['open_id'], [
+                'name' => 'open_id',
+                'unique' => false,
+            ]);
+        }
+        $table->save();
     }
 
     protected function alterWechatSubscribeTable()
     {
-        $this->table('kg_wechat_subscribe')
-            ->addColumn('union_id', 'string', [
+        $table = $this->table('kg_wechat_subscribe');
+
+        if (!$table->hasColumn('union_id')) {
+            $table->addColumn('union_id', 'string', [
                 'null' => false,
                 'default' => '',
                 'limit' => 64,
@@ -41,16 +58,37 @@ class V20210917093354 extends Phinx\Migration\AbstractMigration
                 'encoding' => 'utf8mb4',
                 'comment' => '联合ID',
                 'after' => 'open_id',
-            ])
-            ->addColumn('deleted', 'integer', [
+            ]);
+        }
+        if (!$table->hasColumn('deleted')) {
+            $table->addColumn('deleted', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'signed' => false,
                 'comment' => '删除标识',
-                'after' => 'open_id',
-            ])
-            ->save();
+                'after' => 'union_id',
+            ]);
+        }
+        if (!$table->hasIndexByName('user_id')) {
+            $table->addIndex(['user_id'], [
+                'name' => 'user_id',
+                'unique' => false,
+            ]);
+        }
+        if (!$table->hasIndexByName('open_id')) {
+            $table->addIndex(['open_id'], [
+                'name' => 'open_id',
+                'unique' => false,
+            ]);
+        }
+        if (!$table->hasIndexByName('union_id')) {
+            $table->addIndex(['union_id'], [
+                'name' => 'union_id',
+                'unique' => false,
+            ]);
+        }
+        $table->save();
     }
 
 }

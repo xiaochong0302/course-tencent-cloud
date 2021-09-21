@@ -62,4 +62,16 @@ class WeChatSubscribe extends Repository
         ]);
     }
 
+    /**
+     * @param string $unionId
+     * @return WeChatSubscribeModel|Model|bool
+     */
+    public function findByUnionId($unionId)
+    {
+        return WeChatSubscribeModel::findFirst([
+            'conditions' => 'union_id = :union_id:',
+            'bind' => ['union_id' => $unionId],
+        ]);
+    }
+
 }
