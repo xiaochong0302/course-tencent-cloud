@@ -120,6 +120,19 @@ class ConnectController extends Controller
         $service = new ConnectService();
 
         $openUser = $service->getOpenUserInfo($code, $state, $provider);
+
+        /**
+         * 微信扫码登录检查是否关注过公众号，关注过直接登录
+         */
+        if ($provider == ConnectModel::PROVIDER_WEIXIN && !empty($openUser['unionid'])) {
+            $subscribe = $service->getWeChatSubscribe($openUser['unionid']);
+            if ($subscribe && $subscribe->deleted == 0) {
+                $service->authSubscribeLogin($subscribe);
+                return $this->response->redirect(['for' => 'home.index']);
+            }
+        }
+
+        $openUser = $service->getOpenUserInfo($code, $state, $provider);
         $connect = $service->getConnectRelation($openUser['id'], $openUser['provider']);
 
         if ($this->authUser->id > 0) {
@@ -129,7 +142,7 @@ class ConnectController extends Controller
             }
         } else {
             if ($connect) {
-                $service->authLogin($connect);
+                $service->authConnectLogin($connect);
                 return $this->response->redirect(['for' => 'home.index']);
             }
         }

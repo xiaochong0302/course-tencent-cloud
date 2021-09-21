@@ -9,11 +9,14 @@ namespace App\Http\Home\Services;
 
 use App\Models\Connect as ConnectModel;
 use App\Models\User as UserModel;
+use App\Models\WeChatSubscribe as WeChatSubscribeModel;
 use App\Repos\Connect as ConnectRepo;
 use App\Repos\User as UserRepo;
+use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Auth\Home as AuthService;
+use App\Services\Auth\Home as HomeAuthService;
 use App\Services\Logic\Account\Register as RegisterService;
-use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
+use App\Services\Logic\Notice\AccountLogin as AccountLoginNotice;
 use App\Services\OAuth\QQ as QQAuth;
 use App\Services\OAuth\WeiBo as WeiBoAuth;
 use App\Services\OAuth\WeiXin as WeiXinAuth;
@@ -79,7 +82,20 @@ class Connect extends Service
         $this->handleConnectRelation($user, $openUser);
     }
 
-    public function authLogin(ConnectModel $connect)
+    public function authSubscribeLogin(WeChatSubscribeModel $subscribe)
+    {
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($subscribe->user_id);
+
+        $this->handleLoginNotice($user);
+
+        $auth = new HomeAuthService();
+
+        $auth->saveAuthInfo($user);
+    }
+
+    public function authConnectLogin(ConnectModel $connect)
     {
         $userRepo = new UserRepo();
 
@@ -110,6 +126,13 @@ class Connect extends Service
         $openId = $auth->getOpenId($token);
 
         return $auth->getUserInfo($token, $openId);
+    }
+
+    public function getWeChatSubscribe($unionId)
+    {
+        $subscribeRepo = new WeChatSubscribeRepo();
+
+        return $subscribeRepo->findByUnionId($unionId);
     }
 
     public function getConnectRelation($openId, $provider)
@@ -200,6 +223,14 @@ class Connect extends Service
                 $connect->user_id = $user->id;
             }
 
+            if (empty($connect->union_id) && !empty($openUser['unionid'])) {
+                $connect->union_id = $openUser['unionid'];
+            }
+
+            if ($connect->deleted == 1) {
+                $connect->deleted = 0;
+            }
+
             $connect->update();
 
         } else {
@@ -207,6 +238,7 @@ class Connect extends Service
             $connect = new ConnectModel();
 
             $connect->user_id = $user->id;
+            $connect->union_id = $openUser['unionid'];
             $connect->open_id = $openUser['id'];
             $connect->open_name = $openUser['name'];
             $connect->open_avatar = $openUser['avatar'];
@@ -218,9 +250,9 @@ class Connect extends Service
 
     protected function handleLoginNotice(UserModel $user)
     {
-        $service = new AccountLoginNoticeService();
+        $notice = new AccountLoginNotice();
 
-        $service->createTask($user);
+        $notice->createTask($user);
     }
 
 }

@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
 
 namespace App\Http\Api\Services;
 
@@ -22,6 +27,21 @@ class Connect extends Service
             'auth_url' => kg_full_url(['for' => 'api.oauth.wechat']),
             'auto_login' => 1,
         ];
+    }
+
+    public function getWechatRedirectCache()
+    {
+        return $this->session->get('wechat_redirect');
+    }
+
+    public function setWechatRedirectCache($redirect)
+    {
+        $this->session->set('wechat_redirect', $redirect);
+    }
+
+    public function removeWechatRedirectCache()
+    {
+        $this->session->remove('wechat_redirect');
     }
 
     public function handleCallback($provider)
