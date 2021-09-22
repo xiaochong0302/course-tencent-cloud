@@ -369,6 +369,7 @@ $error['order.item_not_found'] = '商品不存在';
 $error['order.trade_expired'] = '交易已过期';
 $error['order.has_bought_course'] = '已经购买过该课程';
 $error['order.has_bought_package'] = '已经购买过该套餐';
+$error['order.cancel_not_allowed'] = '当前不允许取消订单';
 $error['order.close_not_allowed'] = '当前不允许关闭订单';
 $error['order.refund_not_allowed'] = '当前不允许申请退款';
 $error['order.refund_item_unsupported'] = '该品类不支持退款';

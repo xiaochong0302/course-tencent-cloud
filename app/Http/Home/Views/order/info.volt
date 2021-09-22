@@ -4,6 +4,7 @@
 
     {{ partial('macros/order') }}
 
+    {% set order_cancel_url = url({'for':'home.order.cancel'}) %}
     {% set order_pay_url = url({'for':'home.order.pay'},{'sn':order.sn}) %}
     {% set refund_confirm_url = url({'for':'home.refund.confirm'},{'sn':order.sn}) %}
 
@@ -24,6 +25,9 @@
         {% if order.me.allow_pay == 1 %}
             <a class="layui-btn layui-bg-blue" href="{{ order_pay_url }}" target="_top">立即支付</a>
         {% endif %}
+        {% if order.me.allow_cancel == 1 %}
+            <a class="layui-btn layui-bg-red order-cancel" href="javascript:" data-sn="{{ order.sn }}" data-url="{{ order_cancel_url }}">立即取消</a>
+        {% endif %}
         {% if order.me.allow_refund == 1 %}
             <a class="layui-btn layui-bg-blue" href="{{ refund_confirm_url }}">申请退款</a>
         {% endif %}
@@ -31,13 +35,8 @@
 
 {% endblock %}
 
-{% block inline_js %}
+{% block include_js %}
 
-    <script>
-        layui.use(['jquery', 'layer'], function () {
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.iframeAuto(index);
-        });
-    </script>
+    {{ js_include('home/js/order.info.js') }}
 
 {% endblock %}

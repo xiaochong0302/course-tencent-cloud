@@ -75,11 +75,13 @@ class OrderInfo extends LogicService
     {
         $result = [
             'allow_pay' => 0,
+            'allow_cancel' => 0,
             'allow_refund' => 0,
         ];
 
         if ($order->status == OrderModel::STATUS_PENDING) {
             $result['allow_pay'] = 1;
+            $result['allow_cancel'] = 1;
         }
 
         if ($order->status == OrderModel::STATUS_FINISHED) {

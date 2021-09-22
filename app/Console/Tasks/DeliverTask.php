@@ -293,11 +293,11 @@ class DeliverTask extends Task
      * @param int $limit
      * @return ResultsetInterface|Resultset|TaskModel[]
      */
-    protected function findTasks($limit = 30)
+    protected function findTasks($limit = 100)
     {
         $itemType = TaskModel::TYPE_DELIVER;
         $status = TaskModel::STATUS_PENDING;
-        $createTime = strtotime('-3 days');
+        $createTime = strtotime('-1 days');
 
         return TaskModel::query()
             ->where('item_type = :item_type:', ['item_type' => $itemType])

@@ -1,3 +1,12 @@
+### [v1.4.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.5)(2021-09-27)
+
+- 修正点击内容分享到微信会额外出现公众号二维码的问题
+- 调整登录限制（邮箱｜手机）为注册限制
+- 调整订单发货为每一分钟执行一次
+- 增加微信公众号支付处理
+- 增加取消订单功能
+- 优化计划任务
+
 ### [v1.4.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.4)(2021-09-17)
 
 - 后台增加邮件手机登录选择配置

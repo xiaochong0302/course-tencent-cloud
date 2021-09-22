@@ -10,16 +10,16 @@ layui.use(['jquery', 'helper'], function () {
         qrcode: $('input[name="share.qrcode"]').val()
     };
 
-    $('.icon-wechat').on('click', function () {
+    $('.share-wechat').on('click', function () {
         helper.wechatShare(myShare.qrcode);
     });
 
-    $('.icon-qq').on('click', function () {
+    $('.share-qq').on('click', function () {
         var title = '推荐一篇好文章：' + myShare.title + '，快来和我一起学习吧！';
         helper.qqShare(title, myShare.url, myShare.pic);
     });
 
-    $('.icon-weibo').on('click', function () {
+    $('.share-weibo').on('click', function () {
         var title = '推荐一篇好文章：' + myShare.title + '，快来和我一起学习吧！';
         helper.weiboShare(title, myShare.url, myShare.pic);
     });
