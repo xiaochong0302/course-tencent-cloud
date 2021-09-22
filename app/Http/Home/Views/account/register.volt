@@ -2,6 +2,9 @@
 
 {% block content %}
 
+    {% set register_with_phone = local_oauth.register_with_phone == 1 %}
+    {% set register_with_email = local_oauth.register_with_email == 1 %}
+
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
         <a><cite>注册</cite></a>
@@ -9,10 +12,22 @@
 
     <div class="account-wrap wrap">
         <form class="layui-form account-form" method="POST" action="{{ url({'for':'home.account.do_register'}) }}">
-            <div class="layui-form-item">
-                <label class="layui-icon layui-icon-username"></label>
-                <input id="cv-account" class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
-            </div>
+            {% if register_with_phone and register_with_email %}
+                <div class="layui-form-item">
+                    <label class="layui-icon layui-icon-username"></label>
+                    <input id="cv-account" class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
+                </div>
+            {% elseif register_with_email %}
+                <div class="layui-form-item">
+                    <label class="layui-icon layui-icon-email"></label>
+                    <input id="cv-account" class="layui-input" type="text" name="account" autocomplete="off" placeholder="邮箱" lay-verify="email">
+                </div>
+            {% else %}
+                <div class="layui-form-item">
+                    <label class="layui-icon layui-icon-cellphone"></label>
+                    <input id="cv-account" class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机" lay-verify="phone">
+                </div>
+            {% endif %}
             <div class="layui-form-item">
                 <label class="layui-icon layui-icon-password"></label>
                 <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码（字母数字特殊字符6-16位）" lay-verify="required">

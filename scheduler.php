@@ -16,28 +16,28 @@ $script = __DIR__ . '/console.php';
 $bin = '/usr/local/bin/php';
 
 $scheduler->php($script, $bin, ['--task' => 'deliver', '--action' => 'main'])
-    ->at('*/3 * * * *');
+    ->everyMinute();
 
 $scheduler->php($script, $bin, ['--task' => 'vod_event', '--action' => 'main'])
-    ->at('*/5 * * * *');
+    ->everyMinute(5);
 
 $scheduler->php($script, $bin, ['--task' => 'sync_learning', '--action' => 'main'])
-    ->at('*/7 * * * *');
+    ->everyMinute(7);
 
 $scheduler->php($script, $bin, ['--task' => 'teacher_live_notice', '--action' => 'consume'])
-    ->at('*/10 * * * *');
+    ->everyMinute(9);
 
 $scheduler->php($script, $bin, ['--task' => 'point_gift_deliver', '--action' => 'main'])
-    ->at('*/11 * * * *');
+    ->everyMinute(11);
 
 $scheduler->php($script, $bin, ['--task' => 'server_monitor', '--action' => 'main'])
-    ->at('*/12 * * * *');
+    ->everyMinute(12);
 
 $scheduler->php($script, $bin, ['--task' => 'close_trade', '--action' => 'main'])
-    ->at('*/13 * * * *');
+    ->everyMinute(13);
 
 $scheduler->php($script, $bin, ['--task' => 'close_flash_sale_order', '--action' => 'main'])
-    ->at('*/15 * * * *');
+    ->everyMinute(15);
 
 $scheduler->php($script, $bin, ['--task' => 'notice', '--action' => 'main'])
     ->everyMinute();

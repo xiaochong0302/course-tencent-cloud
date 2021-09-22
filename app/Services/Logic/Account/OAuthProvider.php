@@ -21,8 +21,8 @@ class OAuthProvider extends LogicService
 
         return [
             'local' => [
-                'login_with_phone' => $local['login_with_phone'],
-                'login_with_email' => $local['login_with_email'],
+                'register_with_phone' => $local['register_with_phone'],
+                'register_with_email' => $local['register_with_email'],
             ],
             'weixin' => ['enabled' => $weixin['enabled']],
             'weibo' => ['enabled' => $weibo['enabled']],

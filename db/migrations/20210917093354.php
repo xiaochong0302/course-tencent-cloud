@@ -14,6 +14,7 @@ class V20210917093354 extends Phinx\Migration\AbstractMigration
     {
         $this->alterConnectTable();
         $this->alterWechatSubscribeTable();
+        $this->handleLocalAuthSetting();
     }
 
     protected function alterConnectTable()
@@ -89,6 +90,24 @@ class V20210917093354 extends Phinx\Migration\AbstractMigration
             ]);
         }
         $table->save();
+    }
+
+    protected function handleLocalAuthSetting()
+    {
+        $rows = [
+            [
+                'section' => 'oauth.local',
+                'item_key' => 'register_with_phone',
+                'item_value' => '1',
+            ],
+            [
+                'section' => 'oauth.local',
+                'item_key' => 'register_with_email',
+                'item_value' => '1',
+            ]
+        ];
+
+        $this->table('kg_setting')->insert($rows)->save();
     }
 
 }
