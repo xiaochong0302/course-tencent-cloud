@@ -7,12 +7,14 @@
 
 namespace App\Caches;
 
+use App\Repos\Answer as AnswerRepo;
 use App\Repos\Article as ArticleRepo;
 use App\Repos\Comment as CommentRepo;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\ImGroup as GroupRepo;
 use App\Repos\Package as PackageRepo;
+use App\Repos\Question as QuestionRepo;
 use App\Repos\Review as ReviewRepo;
 use App\Repos\Topic as TopicRepo;
 use App\Repos\User as UserRepo;
@@ -36,6 +38,8 @@ class SiteGlobalStat extends Cache
     {
         $courseRepo = new CourseRepo();
         $articleRepo = new ArticleRepo();
+        $questionRepo = new QuestionRepo();
+        $answerRepo = new AnswerRepo();
         $commentRepo = new CommentRepo();
         $consultRepo = new ConsultRepo();
         $groupRepo = new GroupRepo();
@@ -47,6 +51,8 @@ class SiteGlobalStat extends Cache
         return [
             'course_count' => $courseRepo->countCourses(),
             'article_count' => $articleRepo->countArticles(),
+            'question_count' => $questionRepo->countQuestions(),
+            'answer_count' => $answerRepo->countAnswers(),
             'comment_count' => $commentRepo->countComments(),
             'consult_count' => $consultRepo->countConsults(),
             'group_count' => $groupRepo->countGroups(),

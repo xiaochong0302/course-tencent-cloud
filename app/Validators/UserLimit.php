@@ -111,7 +111,7 @@ class UserLimit extends Validator
     {
         $count = $this->counter->hGet($user->id, 'order_count');
 
-        if ($count > 10) {
+        if ($count > 50) {
             throw new BadRequestException('user_limit.reach_daily_order_limit');
         }
     }

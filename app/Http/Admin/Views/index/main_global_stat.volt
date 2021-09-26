@@ -59,13 +59,13 @@
             <div class="layui-col-md2">
                 <div class="kg-stat-card">
                     <div class="name">提问数</div>
-                    <div class="count">0</div>
+                    <div class="count">{{ global_stat.question_count }}</div>
                 </div>
             </div>
             <div class="layui-col-md2">
                 <div class="kg-stat-card">
                     <div class="name">回答数</div>
-                    <div class="count">0</div>
+                    <div class="count">{{ global_stat.answer_count }}</div>
                 </div>
             </div>
             <div class="layui-col-md2">
