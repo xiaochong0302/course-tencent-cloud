@@ -14,7 +14,7 @@ use App\Services\Logic\Article\ArticleList as ArticleListService;
 class IndexArticleList extends Cache
 {
 
-    protected $lifetime = 1 * 86400;
+    protected $lifetime = 15 * 60;
 
     public function getLifetime()
     {

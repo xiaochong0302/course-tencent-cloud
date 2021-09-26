@@ -14,7 +14,7 @@ use App\Services\Logic\Question\QuestionList as QuestionListService;
 class IndexQuestionList extends Cache
 {
 
-    protected $lifetime = 1 * 86400;
+    protected $lifetime = 15 * 60;
 
     public function getLifetime()
     {
