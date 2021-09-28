@@ -64,6 +64,19 @@ class ChapterInfo extends LogicService
 
         $result = $service->handleBasicInfo($chapter);
 
+        /**
+         * 无内容查看权限，过滤掉相关内容
+         */
+        if (!$this->ownedChapter) {
+            if ($chapter->model == CourseModel::MODEL_VOD) {
+                $result['play_urls'] = [];
+            } elseif ($chapter->model == CourseModel::MODEL_LIVE) {
+                $result['play_urls'] = [];
+            } elseif ($chapter->model == CourseModel::MODEL_READ) {
+                $result['content'] = '';
+            }
+        }
+
         $result['course'] = $service->handleCourseInfo($this->course);
 
         $me = [

@@ -86,16 +86,24 @@ class OrderInfo extends LogicService
 
         if ($order->status == OrderModel::STATUS_FINISHED) {
             /**
-             * 只允许线上课程退款，因为线下课程无法进行退款计算
+             * 只允许线上课程退款
              */
             if ($order->item_type == OrderModel::ITEM_COURSE) {
-                $result['allow_refund'] = 1;
                 $course = $order->item_info['course'];
-                if (isset($course['model']) && $course['model'] == CourseModel::MODEL_OFFLINE) {
-                    $result['allow_refund'] = 0;
+                $refundTimeOk = $course['refund_expiry_time'] > time();
+                $courseModelOk = $course['model'] != CourseModel::MODEL_OFFLINE;
+                if ($refundTimeOk && $courseModelOk) {
+                    $result['allow_refund'] = 1;
                 }
             } elseif ($order->item_type == OrderModel::ITEM_PACKAGE) {
-                $result['allow_refund'] = $order->status == OrderModel::STATUS_FINISHED ? 1 : 0;
+                $courses = $order->item_info['courses'];
+                foreach ($courses as $course) {
+                    $refundTimeOk = $course['refund_expiry_time'] > time();
+                    $courseModelOk = $course['model'] != CourseModel::MODEL_OFFLINE;
+                    if ($refundTimeOk && $courseModelOk) {
+                        $result['allow_refund'] = 1;
+                    }
+                }
             }
         }
 
