@@ -85,7 +85,7 @@ class CommentController extends Controller
 
         $service->handle($id);
 
-        return $this->jsonSuccess(['msg' => '删除评论成功']);
+        return $this->jsonSuccess();
     }
 
     /**

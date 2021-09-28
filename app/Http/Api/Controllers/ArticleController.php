@@ -7,6 +7,7 @@
 
 namespace App\Http\Api\Controllers;
 
+use App\Services\Logic\Article\ArticleDelete as ArticleDeleteService;
 use App\Services\Logic\Article\ArticleFavorite as ArticleFavoriteService;
 use App\Services\Logic\Article\ArticleInfo as ArticleInfoService;
 use App\Services\Logic\Article\ArticleLike as ArticleLikeService;
@@ -66,6 +67,18 @@ class ArticleController extends Controller
         $pager = $service->handle($id);
 
         return $this->jsonPaginate($pager);
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/delete", name="api.article.delete")
+     */
+    public function deleteAction($id)
+    {
+        $service = new ArticleDeleteService();
+
+        $service->handle($id);
+
+        return $this->jsonSuccess();
     }
 
     /**

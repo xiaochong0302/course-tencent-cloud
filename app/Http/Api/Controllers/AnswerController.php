@@ -82,7 +82,7 @@ class AnswerController extends Controller
 
         $service->handle($id);
 
-        return $this->jsonSuccess(['msg' => '删除回答成功']);
+        return $this->jsonSuccess();
     }
 
     /**
