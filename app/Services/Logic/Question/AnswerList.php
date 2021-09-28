@@ -108,6 +108,7 @@ class AnswerList extends LogicService
         foreach ($answers as $answer) {
             $result[$answer['id']] = [
                 'liked' => in_array($answer['id'], $likedIds) ? 1 : 0,
+                'owned' => $answer['owner_id'] == $user->id ? 1 : 0,
             ];
         }
 
