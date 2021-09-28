@@ -61,7 +61,9 @@ class OrderList extends LogicService
 
         foreach ($orders as $order) {
 
-            $order['item_info'] = $builder->handleItem($order);
+            $order['item_info'] = $builder->handleItemInfo($order);
+
+            $me = $builder->handleMeInfo($order);
 
             $items[] = [
                 'sn' => $order['sn'],
@@ -76,6 +78,7 @@ class OrderList extends LogicService
                 'promotion_info' => $order['promotion_info'],
                 'create_time' => $order['create_time'],
                 'update_time' => $order['update_time'],
+                'me' => $me,
             ];
         }
 
