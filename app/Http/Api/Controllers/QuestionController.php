@@ -10,6 +10,7 @@ namespace App\Http\Api\Controllers;
 use App\Services\Logic\Question\AnswerList as AnswerListService;
 use App\Services\Logic\Question\CategoryList as CategoryListService;
 use App\Services\Logic\Question\CommentList as CommentListService;
+use App\Services\Logic\Question\QuestionDelete as QuestionDeleteService;
 use App\Services\Logic\Question\QuestionFavorite as QuestionFavoriteService;
 use App\Services\Logic\Question\QuestionInfo as QuestionInfoService;
 use App\Services\Logic\Question\QuestionLike as QuestionLikeService;
@@ -79,6 +80,18 @@ class QuestionController extends Controller
         $pager = $service->handle($id);
 
         return $this->jsonPaginate($pager);
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/delete", name="api.question.delete")
+     */
+    public function deleteAction($id)
+    {
+        $service = new QuestionDeleteService();
+
+        $service->handle($id);
+
+        return $this->jsonSuccess();
     }
 
     /**
