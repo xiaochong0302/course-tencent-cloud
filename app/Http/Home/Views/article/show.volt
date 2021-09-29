@@ -6,6 +6,8 @@
 
     {% set article_edit_url = url({'for':'home.article.edit','id':article.id}) %}
     {% set article_delete_url = url({'for':'home.article.delete','id':article.id}) %}
+    {% set article_private_url = url({'for':'home.article.private','id':article.id}) %}
+    {% set article_close_url = url({'for':'home.article.close','id':article.id}) %}
     {% set article_owner_url = url({'for':'home.user.show','id':article.owner.id}) %}
     {% set article_related_url = url({'for':'home.article.related','id':article.id}) %}
     {% set article_report_url = url({'for':'home.report.add'},{'item_id':article.id,'item_type':106}) %}
@@ -44,6 +46,16 @@
                     <div class="right">
                         <span class="kg-report" data-url="{{ article_report_url }}">举报</span>
                         {% if auth_user.id == article.owner.id %}
+                            {% if article.closed == 0 %}
+                                <span class="article-close" title="关闭评论" data-url="{{ article_close_url }}">关闭</span>
+                            {% else %}
+                                <span class="article-close" title="开启评论" data-url="{{ article_close_url }}">打开</span>
+                            {% endif %}
+                            {% if article.private == 0 %}
+                                <span class="article-private" title="仅我可见" data-url="{{ article_private_url }}">私密</span>
+                            {% else %}
+                                <span class="article-private" title="公开可见" data-url="{{ article_private_url }}">共享</span>
+                            {% endif %}
                             <span class="article-edit" data-url="{{ article_edit_url }}">编辑</span>
                             <span class="kg-delete" data-url="{{ article_delete_url }}">删除</span>
                         {% endif %}

@@ -27,9 +27,30 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     });
 
     $('.article-edit').on('click', function () {
+        window.location.href = $(this).data('url');
+    });
+
+    $('.article-close').on('click', function () {
         var url = $(this).data('url');
-        helper.checkLogin(function () {
-            window.location.href = url;
+        $.post(url, function (res) {
+            if (res.msg) {
+                layer.msg(res.msg, {icon: 1});
+            }
+            setTimeout(function () {
+                window.location.reload()
+            }, 1500);
+        });
+    });
+
+    $('.article-private').on('click', function () {
+        var url = $(this).data('url');
+        $.post(url, function (res) {
+            if (res.msg) {
+                layer.msg(res.msg, {icon: 1});
+            }
+            setTimeout(function () {
+                window.location.reload()
+            }, 1500);
         });
     });
 

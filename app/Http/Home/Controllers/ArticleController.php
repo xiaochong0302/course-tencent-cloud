@@ -10,12 +10,14 @@ namespace App\Http\Home\Controllers;
 use App\Http\Home\Services\Article as ArticleService;
 use App\Http\Home\Services\ArticleQuery as ArticleQueryService;
 use App\Models\Article as ArticleModel;
+use App\Services\Logic\Article\ArticleClose as ArticleCloseService;
 use App\Services\Logic\Article\ArticleCreate as ArticleCreateService;
 use App\Services\Logic\Article\ArticleDelete as ArticleDeleteService;
 use App\Services\Logic\Article\ArticleFavorite as ArticleFavoriteService;
 use App\Services\Logic\Article\ArticleInfo as ArticleInfoService;
 use App\Services\Logic\Article\ArticleLike as ArticleLikeService;
 use App\Services\Logic\Article\ArticleList as ArticleListService;
+use App\Services\Logic\Article\ArticlePrivate as ArticlePrivateService;
 use App\Services\Logic\Article\ArticleUpdate as ArticleUpdateService;
 use App\Services\Logic\Article\RelatedArticleList as RelatedArticleListService;
 use Phalcon\Mvc\View;
@@ -107,6 +109,14 @@ class ArticleController extends Controller
             return $this->notFound();
         }
 
+        $private = $article['private'] == 1;
+
+        $owned = $this->authUser->id == $article['owner']['id'];
+
+        if ($private && !$owned) {
+            return $this->forbidden();
+        }
+
         $this->seo->prependTitle(['专栏', $article['title']]);
         $this->seo->setDescription($article['summary']);
 
@@ -193,6 +203,34 @@ class ArticleController extends Controller
         ];
 
         return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/close", name="home.article.close")
+     */
+    public function closeAction($id)
+    {
+        $service = new ArticleCloseService();
+
+        $article = $service->handle($id);
+
+        $msg = $article->closed == 1 ? '关闭评论成功' : '开启评论成功';
+
+        return $this->jsonSuccess(['msg' => $msg]);
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/private", name="home.article.private")
+     */
+    public function privateAction($id)
+    {
+        $service = new ArticlePrivateService();
+
+        $article = $service->handle($id);
+
+        $msg = $article->private == 1 ? '开启仅我可见成功' : '关闭仅我可见成功';
+
+        return $this->jsonSuccess(['msg' => $msg]);
     }
 
     /**
