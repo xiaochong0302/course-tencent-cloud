@@ -80,7 +80,7 @@ class CourseList extends LogicService
                 'cover' => $course['cover'],
                 'market_price' => (float)$course['market_price'],
                 'vip_price' => (float)$course['vip_price'],
-                'rating' => (float)$course['rating'],
+                'rating' => round($course['rating'], 1),
                 'model' => $course['model'],
                 'level' => $course['level'],
                 'user_count' => $course['user_count'],

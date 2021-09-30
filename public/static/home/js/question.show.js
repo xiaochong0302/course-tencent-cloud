@@ -24,17 +24,11 @@ layui.use(['jquery', 'helper'], function () {
     });
 
     $('.question-edit').on('click', function () {
-        var url = $(this).data('url');
-        helper.checkLogin(function () {
-            window.location.href = url;
-        });
+        window.location.href = $(this).data('url');
     });
 
     $('.btn-answer').on('click', function () {
-        var url = $(this).data('url');
-        helper.checkLogin(function () {
-            window.location.href = url;
-        });
+        window.location.href = $(this).data('url');
     });
 
     $('.icon-star').on('click', function () {

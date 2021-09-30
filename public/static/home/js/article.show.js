@@ -15,17 +15,6 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         helper.ajaxLoadHtml($commentList.data('url'), $commentList.attr('id'));
     }
 
-    $('.article-report').on('click', function () {
-        var url = $(this).data('url');
-        layer.open({
-            type: 2,
-            title: '内容举报',
-            shadeClose: true,
-            content: [url, 'no'],
-            area: ['640px', '480px'],
-        });
-    });
-
     $('.article-edit').on('click', function () {
         window.location.href = $(this).data('url');
     });
