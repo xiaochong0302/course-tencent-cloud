@@ -70,10 +70,10 @@ class BasicInfo extends LogicService
         $rating = $repo->findCourseRating($course->id);
 
         return [
-            'rating' => $rating->rating,
-            'rating1' => $rating->rating1,
-            'rating2' => $rating->rating2,
-            'rating3' => $rating->rating3,
+            'rating' => round($rating->rating, 1),
+            'rating1' => round($rating->rating1, 1),
+            'rating2' => round($rating->rating2, 1),
+            'rating3' => round($rating->rating3, 1),
         ];
     }
 
