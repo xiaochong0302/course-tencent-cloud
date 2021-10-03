@@ -145,7 +145,7 @@ class ImController extends Controller
     }
 
     /**
-     * @Post("/notice/read", name="home.im.read_notice")
+     * @Get("/notice/read", name="home.im.read_notice")
      */
     public function readNoticeAction()
     {
