@@ -150,7 +150,7 @@ $config['throttle']['rate_limit'] = 60;
 /**
  * 客户端ping服务端间隔（秒）
  */
-$config['websocket']['ping_interval'] = 50;
+$config['websocket']['ping_interval'] = 30;
 
 /**
  * 客户端连接地址（外部可访问的域名或ip），带端口号
