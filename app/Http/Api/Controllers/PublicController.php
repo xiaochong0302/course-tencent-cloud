@@ -49,8 +49,12 @@ class PublicController extends Controller
 
         $content = [];
 
+        /**
+         * ssl通过nginx转发实现
+         */
         if ($this->request->isSecure()) {
-            $content['connect_url'] = sprintf('wss://%s/wss', $this->request->getHttpHost());
+            list($domain) = explode(':', $websocket->connect_address);
+            $websocket['connect_url'] = sprintf('wss://%s/wss', $domain);
         } else {
             $content['connect_url'] = sprintf('ws://%s', $websocket->connect_address);
         }

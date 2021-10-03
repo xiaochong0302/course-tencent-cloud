@@ -42,7 +42,7 @@ layui.use(['jquery', 'layer', 'laypage'], function () {
     }
 
     function readNotices() {
-        $.post('/im/notice/read');
+        $.get('/im/notice/read');
     }
 
     var action = {
