@@ -57,16 +57,4 @@ class Controller extends \Phalcon\Mvc\Controller
         return $auth->getCurrentUser();
     }
 
-    protected function getSiteInfo()
-    {
-        return $this->getSettings('site');
-    }
-
-    protected function getSettings($section)
-    {
-        $appService = new AppService();
-
-        return $appService->getSettings($section);
-    }
-
 }
