@@ -54,7 +54,7 @@ class PublicController extends Controller
          */
         if ($this->request->isSecure()) {
             list($domain) = explode(':', $websocket->connect_address);
-            $websocket['connect_url'] = sprintf('wss://%s/wss', $domain);
+            $content['connect_url'] = sprintf('wss://%s/wss', $domain);
         } else {
             $content['connect_url'] = sprintf('ws://%s', $websocket->connect_address);
         }
