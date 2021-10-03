@@ -11,6 +11,7 @@ use App\Models\User as UserModel;
 use App\Services\Auth\Api as ApiAuth;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
+use App\Validators\Validator as AppValidator;
 use Phalcon\Mvc\Dispatcher;
 
 class Controller extends \Phalcon\Mvc\Controller
@@ -29,6 +30,10 @@ class Controller extends \Phalcon\Mvc\Controller
         if ($this->request->getHeader('Origin')) {
             $this->setCors();
         }
+
+        $validator = new AppValidator();
+
+        $validator->checkSiteStatus();
 
         $this->checkRateLimit();
 
