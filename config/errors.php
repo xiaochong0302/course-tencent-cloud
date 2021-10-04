@@ -464,6 +464,7 @@ $error['im_group_user.not_found'] = '群组关系不存在';
 $error['im_group_user.remark_too_long'] = '验证信息太长（超过30字符）';
 $error['im_group_user.has_joined'] = '已经加入过群组';
 $error['im_group_user.join_not_allowed'] = '当前不允许加入群组';
+$error['im_group_user.owner_quit_not_allowed'] = '当前不允许群主退群';
 $error['im_group_user.delete_owner_not_allowed'] = '当前不允许删除群主';
 
 $error['im_friend_user.not_found'] = '好友关系不存在';

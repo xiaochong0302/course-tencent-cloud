@@ -20,7 +20,7 @@ class GroupUserList extends LogicService
 
     public function handle($id)
     {
-        $group = $this->checkGroup($id);
+        $group = $this->checkImGroup($id);
 
         $pagerQuery = new PagerQuery();
 

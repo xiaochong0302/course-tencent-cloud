@@ -7,16 +7,16 @@
 
 namespace App\Services\Logic;
 
-use App\Validators\ImGroup as ImGroupValidator;
+use App\Validators\ImUser as ImUserValidator;
 
-trait ImGroupTrait
+trait ImUserTrait
 {
 
-    public function checkImGroup($id)
+    public function checkImUser($id)
     {
-        $validator = new ImGroupValidator();
+        $validator = new ImUserValidator();
 
-        return $validator->checkGroup($id);
+        return $validator->checkUser($id);
     }
 
 }

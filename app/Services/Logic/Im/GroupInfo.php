@@ -18,7 +18,7 @@ class GroupInfo extends LogicService
 
     public function handle($id)
     {
-        $group = $this->checkGroup($id);
+        $group = $this->checkImGroup($id);
 
         $userRepo = new UserRepo();
 

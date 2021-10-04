@@ -114,4 +114,13 @@ class ImGroupUser extends Validator
         }
     }
 
+    public function checkIfAllowQuit($groupId, $userId)
+    {
+        $group = $this->checkGroup($groupId);
+
+        if ($group->owner_id == $userId) {
+            throw new BadRequestException('im_group_user.owner_quit_not_allowed');
+        }
+    }
+
 }
