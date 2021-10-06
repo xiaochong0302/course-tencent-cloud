@@ -111,13 +111,16 @@ class Package extends Repository
             ->join(CoursePackageModel::class, 'c.id = cp.course_id', 'cp')
             ->where('cp.package_id = :package_id:', ['package_id' => $packageId])
             ->andWhere('c.published = 1')
+            ->andWhere('c.deleted = 0')
             ->getQuery()
             ->execute();
     }
 
     public function countPackages()
     {
-        return (int)PackageModel::count(['conditions' => 'deleted = 0']);
+        return (int)PackageModel::count([
+            'conditions' => 'published = 1 AND deleted = 0',
+        ]);
     }
 
     public function countCourses($packageId)

@@ -27,6 +27,14 @@ class TradeController extends Controller
 
         $trade = $service->handle($sn);
 
+        if ($trade['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        if ($trade['me']['owned'] == 0) {
+            $this->forbidden();
+        }
+
         return $this->jsonSuccess(['trade' => $trade]);
     }
 

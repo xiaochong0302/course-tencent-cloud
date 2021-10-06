@@ -116,7 +116,10 @@ class Review extends Repository
 
     public function countReviews()
     {
-        return (int)ReviewModel::count(['conditions' => 'deleted = 0']);
+        return (int)ReviewModel::count([
+            'conditions' => 'published = :published: AND deleted = 0',
+            'bind' => ['published' => ReviewModel::PUBLISH_APPROVED],
+        ]);
     }
 
     public function countLikes($reviewId)

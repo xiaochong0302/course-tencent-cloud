@@ -124,6 +124,7 @@ class QuestionIndexTask extends Task
     {
         return QuestionModel::query()
             ->where('published = :published:', ['published' => QuestionModel::PUBLISH_APPROVED])
+            ->andWhere('deleted = 0')
             ->execute();
     }
 

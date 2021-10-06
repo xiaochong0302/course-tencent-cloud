@@ -7,6 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Models\Review as ReviewModel;
 use App\Services\Logic\Review\ReviewCreate as ReviewCreateService;
 use App\Services\Logic\Review\ReviewDelete as ReviewDeleteService;
 use App\Services\Logic\Review\ReviewInfo as ReviewInfoService;
@@ -49,6 +50,17 @@ class ReviewController extends Controller
         $service = new ReviewInfoService();
 
         $review = $service->handle($id);
+
+        if ($review['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        $approved = $review['published'] == ReviewModel::PUBLISH_APPROVED;
+        $owned = $review['me']['owned'] == 1;
+
+        if (!$approved && !$owned) {
+            $this->notFound();
+        }
 
         return $this->jsonSuccess(['review' => $review]);
     }

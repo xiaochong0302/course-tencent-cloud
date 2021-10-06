@@ -57,8 +57,15 @@ class AnswerController extends Controller
 
         $answer = $service->handle($id);
 
-        if ($answer['published'] != AnswerModel::PUBLISH_APPROVED) {
-            return $this->notFound();
+        if ($answer['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        $approved = $answer['published'] != AnswerModel::PUBLISH_APPROVED;
+        $owned = $answer['me']['owned'] == 1;
+
+        if (!$approved && !$owned) {
+            $this->notFound();
         }
 
         $questionId = $answer['question']['id'];

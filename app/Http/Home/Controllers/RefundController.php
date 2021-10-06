@@ -63,6 +63,14 @@ class RefundController extends Controller
 
         $refund = $service->handle($sn);
 
+        if ($refund['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        if ($refund['me']['owned'] == 0) {
+            $this->forbidden();
+        }
+
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('refund', $refund);
     }

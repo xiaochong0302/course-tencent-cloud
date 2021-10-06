@@ -111,7 +111,8 @@ class HotQuestionList extends Cache
     {
         return QuestionModel::query()
             ->where('create_time > :create_time:', ['create_time' => $createTime])
-            ->andWhere('published = 1 AND deleted = 0')
+            ->andWhere('published = :published:', ['published' => QuestionModel::PUBLISH_APPROVED])
+            ->andWhere('deleted = 0')
             ->orderBy('score DESC')
             ->limit($limit)
             ->execute();

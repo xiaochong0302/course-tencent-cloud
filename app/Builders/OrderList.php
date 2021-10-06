@@ -186,7 +186,7 @@ class OrderList extends Builder
 
         $userRepo = new UserRepo();
 
-        $users = $userRepo->findByIds($ids, ['id', 'name']);
+        $users = $userRepo->findShallowUserByIds($ids);
 
         $result = [];
 

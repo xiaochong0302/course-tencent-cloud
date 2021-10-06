@@ -37,6 +37,14 @@ class HelpController extends Controller
 
         $help = $service->handle($id);
 
+        if ($help['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        if ($help['published'] == 0) {
+            $this->notFound();
+        }
+
         return $this->jsonSuccess(['help' => $help]);
     }
 

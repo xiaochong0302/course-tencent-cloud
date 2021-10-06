@@ -143,10 +143,6 @@ class Tag extends Model
 
     public function beforeUpdate()
     {
-        if ($this->deleted == 1) {
-            $this->published = 0;
-        }
-
         $this->update_time = time();
     }
 

@@ -124,6 +124,7 @@ class ArticleIndexTask extends Task
     {
         return ArticleModel::query()
             ->where('published = :published:', ['published' => ArticleModel::PUBLISH_APPROVED])
+            ->andWhere('deleted = 0')
             ->execute();
     }
 

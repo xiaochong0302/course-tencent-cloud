@@ -8,7 +8,6 @@
 namespace App\Services\Logic\Article;
 
 use App\Caches\Category as CategoryCache;
-use App\Caches\User as UserCache;
 use App\Models\Article as ArticleModel;
 use App\Models\Category as CategoryModel;
 use App\Models\User as UserModel;
@@ -16,11 +15,13 @@ use App\Repos\ArticleFavorite as ArticleFavoriteRepo;
 use App\Repos\ArticleLike as ArticleLikeRepo;
 use App\Services\Logic\ArticleTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\UserTrait;
 
 class ArticleInfo extends LogicService
 {
 
     use ArticleTrait;
+    use UserTrait;
 
     public function handle($id)
     {
@@ -41,8 +42,8 @@ class ArticleInfo extends LogicService
     {
         $content = kg_parse_markdown($article->content);
 
-        $category = $this->handleCategoryInfo($article);
-        $owner = $this->handleOwnerInfo($article);
+        $category = $this->handleCategoryInfo($article->category_id);
+        $owner = $this->handleShallowUserInfo($article->owner_id);
         $me = $this->handleMeInfo($article, $user);
 
         return [
@@ -71,6 +72,23 @@ class ArticleInfo extends LogicService
         ];
     }
 
+    protected function handleCategoryInfo($categoryId)
+    {
+        $cache = new CategoryCache();
+
+        /**
+         * @var CategoryModel $category
+         */
+        $category = $cache->get($categoryId);
+
+        if (!$category) return new \stdClass();
+
+        return [
+            'id' => $category->id,
+            'name' => $category->name,
+        ];
+    }
+
     protected function handleMeInfo(ArticleModel $article, UserModel $user)
     {
         $me = [
@@ -79,14 +97,8 @@ class ArticleInfo extends LogicService
             'owned' => 0,
         ];
 
-        $isOwner = $user->id == $article->owner_id;
-        $approved = $article->published == ArticleModel::PUBLISH_APPROVED;
-        $public = $article->private == 0;
-
-        if ($approved && $public) {
+        if ($user->id == $article->owner_id) {
             $me['owned'] = 1;
-        } else {
-            $me['owned'] = $isOwner ? 1 : 0;
         }
 
         if ($user->id > 0) {
@@ -109,44 +121,6 @@ class ArticleInfo extends LogicService
         }
 
         return $me;
-    }
-
-    protected function handleCategoryInfo(ArticleModel $article)
-    {
-        $cache = new CategoryCache();
-
-        /**
-         * @var CategoryModel $category
-         */
-        $category = $cache->get($article->category_id);
-
-        if (!$category) return new \stdClass();
-
-        return [
-            'id' => $category->id,
-            'name' => $category->name,
-        ];
-    }
-
-    protected function handleOwnerInfo(ArticleModel $article)
-    {
-        $cache = new UserCache();
-
-        /**
-         * @var UserModel $owner
-         */
-        $owner = $cache->get($article->owner_id);
-
-        if (!$owner) return new \stdClass();
-
-        return [
-            'id' => $owner->id,
-            'name' => $owner->name,
-            'avatar' => $owner->avatar,
-            'title' => $owner->title,
-            'about' => $owner->about,
-            'vip' => $owner->vip,
-        ];
     }
 
     protected function incrArticleViewCount(ArticleModel $article)

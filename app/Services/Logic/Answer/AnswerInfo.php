@@ -11,14 +11,15 @@ use App\Models\Answer as AnswerModel;
 use App\Models\User as UserModel;
 use App\Repos\AnswerLike as AnswerLikeRepo;
 use App\Repos\Question as QuestionRepo;
-use App\Repos\User as UserRepo;
 use App\Services\Logic\AnswerTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\UserTrait;
 
 class AnswerInfo extends LogicService
 {
 
     use AnswerTrait;
+    use UserTrait;
 
     public function handle($id)
     {
@@ -31,11 +32,15 @@ class AnswerInfo extends LogicService
 
     protected function handleAnswer(AnswerModel $answer, UserModel $user)
     {
-        $answer->content = kg_parse_markdown($answer->content);
+        $content = kg_parse_markdown($answer->content);
 
-        $result = [
+        $question = $this->handleQuestionInfo($answer->question_id);
+        $owner = $this->handleShallowUserInfo($answer->owner_id);
+        $me = $this->handleMeInfo($answer, $user);
+
+        return [
             'id' => $answer->id,
-            'content' => $answer->content,
+            'content' => $content,
             'anonymous' => $answer->anonymous,
             'accepted' => $answer->accepted,
             'published' => $answer->published,
@@ -44,37 +49,21 @@ class AnswerInfo extends LogicService
             'like_count' => $answer->like_count,
             'create_time' => $answer->create_time,
             'update_time' => $answer->update_time,
+            'question' => $question,
+            'owner' => $owner,
+            'me' => $me,
         ];
-
-        $result['question'] = $this->handleQuestionInfo($answer);
-        $result['owner'] = $this->handleOwnerInfo($answer);
-        $result['me'] = $this->handleMeInfo($answer, $user);
-
-        return $result;
     }
 
-    protected function handleQuestionInfo(AnswerModel $answer)
+    protected function handleQuestionInfo($questionId)
     {
         $questionRepo = new QuestionRepo();
 
-        $question = $questionRepo->findById($answer->question_id);
+        $question = $questionRepo->findById($questionId);
 
         return [
             'id' => $question->id,
             'title' => $question->title,
-        ];
-    }
-
-    protected function handleOwnerInfo(AnswerModel $answer)
-    {
-        $userRepo = new UserRepo();
-
-        $owner = $userRepo->findById($answer->owner_id);
-
-        return [
-            'id' => $owner->id,
-            'name' => $owner->name,
-            'avatar' => $owner->avatar,
         ];
     }
 
@@ -85,10 +74,7 @@ class AnswerInfo extends LogicService
             'owned' => 0,
         ];
 
-        $isOwner = $user->id == $answer->owner_id;
-        $approved = $answer->published = AnswerModel::PUBLISH_APPROVED;
-
-        if ($isOwner || $approved) {
+        if ($user->id == $answer->owner_id) {
             $me['owned'] = 1;
         }
 

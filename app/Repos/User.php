@@ -103,6 +103,19 @@ class User extends Repository
     }
 
     /**
+     * @param int $id
+     * @return UserModel|Model|bool
+     */
+    public function findShallowUserById($id)
+    {
+        return UserModel::findFirst([
+            'conditions' => 'id = :id:',
+            'columns' => ['id', 'name', 'avatar', 'vip', 'title', 'about'],
+            'bind' => ['id' => $id],
+        ]);
+    }
+
+    /**
      * @param array $ids
      * @param array|string $columns
      * @return ResultsetInterface|Resultset|UserModel[]
@@ -111,6 +124,18 @@ class User extends Repository
     {
         return UserModel::query()
             ->columns($columns)
+            ->inWhere('id', $ids)
+            ->execute();
+    }
+
+    /**
+     * @param array $ids
+     * @return ResultsetInterface|Resultset|UserModel[]
+     */
+    public function findShallowUserByIds($ids)
+    {
+        return UserModel::query()
+            ->columns(['id', 'name', 'avatar', 'vip', 'title', 'about'])
             ->inWhere('id', $ids)
             ->execute();
     }
@@ -163,12 +188,16 @@ class User extends Repository
 
     public function countUsers()
     {
-        return (int)UserModel::count();
+        return (int)UserModel::count([
+            'conditions' => 'deleted = 0',
+        ]);
     }
 
     public function countVipUsers()
     {
-        return (int)UserModel::count(['conditions' => 'vip = 1']);
+        return (int)UserModel::count([
+            'conditions' => 'vip = 1 AND deleted = 0',
+        ]);
     }
 
     public function countCourses($userId)

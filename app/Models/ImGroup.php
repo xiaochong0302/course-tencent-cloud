@@ -142,10 +142,6 @@ class ImGroup extends Model
             $sync->addItem($this->id);
         }
 
-        if ($this->deleted == 1) {
-            $this->published = 0;
-        }
-
         $this->update_time = time();
     }
 

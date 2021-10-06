@@ -132,6 +132,8 @@ class IndexLiveList extends Cache
             ->addFrom(ChapterLiveModel::class, 'cl')
             ->join(ChapterModel::class, 'cl.chapter_id = c.id', 'c')
             ->betweenWhere('start_time', $startTime, $endTime)
+            ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('start_time ASC')
             ->getQuery()
             ->execute();

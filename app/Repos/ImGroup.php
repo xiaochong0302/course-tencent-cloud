@@ -128,7 +128,9 @@ class ImGroup extends Repository
 
     public function countGroups()
     {
-        return (int)ImGroupModel::count(['conditions' => 'published = 1']);
+        return (int)ImGroupModel::count([
+            'conditions' => 'published = 1 AND deleted = 0',
+        ]);
     }
 
     public function countUsers($groupId)

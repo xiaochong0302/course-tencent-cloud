@@ -180,10 +180,6 @@ class PointGift extends Model
             $this->attrs = kg_json_encode($this->attrs);
         }
 
-        if ($this->deleted == 1) {
-            $this->published = 0;
-        }
-
         $this->update_time = time();
     }
 

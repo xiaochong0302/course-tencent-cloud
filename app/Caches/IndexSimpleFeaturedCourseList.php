@@ -65,8 +65,9 @@ class IndexSimpleFeaturedCourseList extends Cache
     protected function findCourses($limit = 8)
     {
         return CourseModel::query()
-            ->where('published = 1')
-            ->andWhere('featured = 1')
+            ->where('featured = 1')
+            ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('id DESC')
             ->limit($limit)
             ->execute();

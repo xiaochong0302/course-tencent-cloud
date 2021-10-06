@@ -43,6 +43,14 @@ class RefundController extends Controller
 
         $refund = $service->handle($sn);
 
+        if ($refund['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        if ($refund['me']['owned'] == 0) {
+            $this->forbidden();
+        }
+
         return $this->jsonSuccess(['refund' => $refund]);
     }
 

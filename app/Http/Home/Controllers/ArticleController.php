@@ -105,16 +105,20 @@ class ArticleController extends Controller
 
         $article = $service->handle($id);
 
-        if ($article['published'] != ArticleModel::PUBLISH_APPROVED) {
-            return $this->notFound();
+        if ($article['deleted'] == 1) {
+            $this->notFound();
         }
 
+        $approved = $article['published'] == ArticleModel::PUBLISH_APPROVED;
+        $owned = $article['me']['owned'] == 1;
         $private = $article['private'] == 1;
 
-        $owned = $this->authUser->id == $article['owner']['id'];
+        if (!$approved && !$owned) {
+            $this->notFound();
+        }
 
         if ($private && !$owned) {
-            return $this->forbidden();
+            $this->forbidden();
         }
 
         $this->seo->prependTitle(['专栏', $article['title']]);

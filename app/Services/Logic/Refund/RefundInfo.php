@@ -8,38 +8,49 @@
 namespace App\Services\Logic\Refund;
 
 use App\Models\Refund as RefundModel;
+use App\Models\User as UserModel;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Refund as RefundRepo;
 use App\Services\Logic\RefundTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\UserTrait;
 
 class RefundInfo extends LogicService
 {
 
     use RefundTrait;
+    use UserTrait;
 
     public function handle($sn)
     {
         $refund = $this->checkRefundBySn($sn);
 
-        return $this->handleRefund($refund);
+        $user = $this->getLoginUser();
+
+        return $this->handleRefund($refund, $user);
     }
 
-    protected function handleRefund(RefundModel $refund)
+    protected function handleRefund(RefundModel $refund, UserModel $user)
     {
-        $order = $this->handleOrderInfo($refund->order_id);
-
         $statusHistory = $this->handleStatusHistory($refund->id);
+        $order = $this->handleOrderInfo($refund->order_id);
+        $owner = $this->handleShallowUserInfo($refund->owner_id);
+        $me = $this->handleMeInfo($refund, $user);
 
         return [
-            'order' => $order,
             'sn' => $refund->sn,
             'subject' => $refund->subject,
             'amount' => $refund->amount,
             'status' => $refund->status,
-            'status_history' => $statusHistory,
+            'deleted' => $refund->deleted,
             'apply_note' => $refund->apply_note,
             'review_note' => $refund->review_note,
+            'create_time' => $refund->create_time,
+            'update_time' => $refund->update_time,
+            'status_history' => $statusHistory,
+            'order' => $order,
+            'owner' => $owner,
+            'me' => $me,
         ];
     }
 
@@ -74,6 +85,29 @@ class RefundInfo extends LogicService
                 'status' => $record->status,
                 'create_time' => $record->create_time,
             ];
+        }
+
+        return $result;
+    }
+
+    protected function handleMeInfo(RefundModel $refund, UserModel $user)
+    {
+        $result = [
+            'owned' => 0,
+            'allow_cancel' => 0,
+        ];
+
+        if ($user->id == $refund->owner_id) {
+            $result['owned'] = 1;
+        }
+
+        $statusTypes = [
+            RefundModel::STATUS_PENDING,
+            RefundModel::STATUS_APPROVED,
+        ];
+
+        if (in_array($refund->status, $statusTypes)) {
+            $result['allow_cancel'] = 1;
         }
 
         return $result;

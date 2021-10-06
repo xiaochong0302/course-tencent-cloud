@@ -32,6 +32,13 @@ class WeChatSubscribe extends Model
     public $open_id = '';
 
     /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted = 0;
+
+    /**
      * 创建时间
      *
      * @var int

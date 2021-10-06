@@ -32,7 +32,7 @@ class UserController extends Controller
         $user = $service->handle($id);
 
         if ($user['deleted'] == 1) {
-            return $this->notFound();
+            $this->notFound();
         }
 
         $this->seo->prependTitle(['空间', $user['name']]);
