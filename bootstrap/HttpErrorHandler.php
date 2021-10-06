@@ -127,6 +127,13 @@ class HttpErrorHandler extends Injectable
     {
         $errors = require config_path('errors.php');
 
+        /**
+         * 向外隐藏具体的500异常信息
+         */
+        if ($this->response->getStatusCode() == 500) {
+            $code = 'sys.internal_server_error';
+        }
+
         return [
             'code' => $code,
             'msg' => $errors[$code] ?? $code,
