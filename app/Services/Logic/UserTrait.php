@@ -29,9 +29,13 @@ trait UserTrait
 
     public function handleShallowUserInfo($id)
     {
+        if (empty($id)) return new \stdClass();
+
         $userRepo = new UserRepo();
 
         $user = $userRepo->findShallowUserById($id);
+
+        if (!$user) return new \stdClass();
 
         $result = $user->toArray();
 
