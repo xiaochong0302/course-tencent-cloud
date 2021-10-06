@@ -60,6 +60,7 @@ class IndexTeacherList extends Cache
     {
         return UserModel::query()
             ->where('edu_role = :edu_role:', ['edu_role' => UserModel::EDU_ROLE_TEACHER])
+            ->andWhere('deleted = 0')
             ->orderBy('RAND()')
             ->limit($limit)
             ->execute();

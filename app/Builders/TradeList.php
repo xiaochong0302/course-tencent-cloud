@@ -58,11 +58,14 @@ class TradeList extends Builder
 
         $userRepo = new UserRepo();
 
-        $users = $userRepo->findByIds($ids, ['id', 'name']);
+        $users = $userRepo->findShallowUserByIds($ids);
+
+        $baseUrl = kg_cos_url();
 
         $result = [];
 
         foreach ($users->toArray() as $user) {
+            $user['avatar'] = $baseUrl . $user['avatar'];
             $result[$user['id']] = $user;
         }
 

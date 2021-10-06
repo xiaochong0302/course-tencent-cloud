@@ -34,6 +34,7 @@ class TaggedArticleList extends Cache
         $where = [
             'tag_id' => $id,
             'published' => ArticleModel::PUBLISH_APPROVED,
+            'deleted' => 0,
         ];
 
         $pager = $articleRepo->paginate($where);

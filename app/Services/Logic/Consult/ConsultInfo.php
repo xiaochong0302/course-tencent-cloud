@@ -8,30 +8,41 @@
 namespace App\Services\Logic\Consult;
 
 use App\Models\Consult as ConsultModel;
+use App\Models\User as UserModel;
 use App\Repos\Chapter as ChapterRepo;
+use App\Repos\ConsultLike as ConsultLikeRepo;
 use App\Repos\Course as CourseRepo;
-use App\Repos\User as UserRepo;
 use App\Services\Logic\ConsultTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\UserTrait;
 
 class ConsultInfo extends LogicService
 {
 
     use ConsultTrait;
+    use UserTrait;
 
     public function handle($id)
     {
         $consult = $this->checkConsult($id);
 
-        return $this->handleConsult($consult);
+        $user = $this->getCurrentUser(true);
+
+        return $this->handleConsult($consult, $user);
     }
 
-    protected function handleConsult(ConsultModel $consult)
+    protected function handleConsult(ConsultModel $consult, UserModel $user)
     {
-        $result = [
+        $course = $this->handleCourseInfo($consult->course_id);
+        $chapter = $this->handleChapterInfo($consult->chapter_id);
+        $replier = $this->handleShallowUserInfo($consult->replier_id);
+        $owner = $this->handleShallowUserInfo($consult->owner_id);
+        $me = $this->handleMeInfo($consult, $user);
+
+        return [
             'id' => $consult->id,
             'question' => $consult->question,
-            'answer' => $consult->answer,
+            'consult' => $consult->consult,
             'rating' => $consult->rating,
             'private' => $consult->private,
             'published' => $consult->published,
@@ -39,21 +50,19 @@ class ConsultInfo extends LogicService
             'like_count' => $consult->like_count,
             'create_time' => $consult->create_time,
             'update_time' => $consult->update_time,
+            'course' => $course,
+            'chapter' => $chapter,
+            'replier' => $replier,
+            'owner' => $owner,
+            'me' => $me,
         ];
-
-        $result['course'] = $this->handleCourseInfo($consult);
-        $result['chapter'] = $this->handleChapterInfo($consult);
-        $result['owner'] = $this->handleOwnerInfo($consult);
-        $result['replier'] = $this->handleReplierInfo($consult);
-
-        return $result;
     }
 
-    protected function handleCourseInfo(ConsultModel $consult)
+    protected function handleCourseInfo($courseId)
     {
         $courseRepo = new CourseRepo();
 
-        $course = $courseRepo->findById($consult->course_id);
+        $course = $courseRepo->findById($courseId);
 
         if (!$course) return new \stdClass();
 
@@ -64,11 +73,11 @@ class ConsultInfo extends LogicService
         ];
     }
 
-    protected function handleChapterInfo(ConsultModel $consult)
+    protected function handleChapterInfo($chapterId)
     {
         $chapterRepo = new ChapterRepo();
 
-        $chapter = $chapterRepo->findById($consult->chapter_id);
+        $chapter = $chapterRepo->findById($chapterId);
 
         if (!$chapter) return new \stdClass();
 
@@ -78,34 +87,29 @@ class ConsultInfo extends LogicService
         ];
     }
 
-    protected function handleOwnerInfo(ConsultModel $consult)
+    protected function handleMeInfo(ConsultModel $consult, UserModel $user)
     {
-        $userRepo = new UserRepo();
-
-        $owner = $userRepo->findById($consult->owner_id);
-
-        if (!$owner) return new \stdClass();
-
-        return [
-            'id' => $owner->id,
-            'name' => $owner->name,
-            'avatar' => $owner->avatar,
+        $me = [
+            'liked' => 0,
+            'owned' => 0,
         ];
-    }
 
-    protected function handleReplierInfo(ConsultModel $consult)
-    {
-        $userRepo = new UserRepo();
+        if ($user->id == $consult->owner_id) {
+            $me['owned'] = 1;
+        }
 
-        $replier = $userRepo->findById($consult->replier_id);
+        if ($user->id > 0) {
 
-        if (!$replier) return new \stdClass();
+            $likeRepo = new ConsultLikeRepo();
 
-        return [
-            'id' => $replier->id,
-            'name' => $replier->name,
-            'avatar' => $replier->avatar,
-        ];
+            $like = $likeRepo->findConsultLike($consult->id, $user->id);
+
+            if ($like && $like->deleted == 0) {
+                $me['liked'] = 1;
+            }
+        }
+
+        return $me;
     }
 
 }

@@ -66,6 +66,7 @@ class IndexSimpleNewCourseList extends Cache
     {
         return CourseModel::query()
             ->where('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('id DESC')
             ->limit($limit)
             ->execute();

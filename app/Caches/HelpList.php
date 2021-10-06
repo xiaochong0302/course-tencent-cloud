@@ -73,7 +73,9 @@ class HelpList extends Cache
     {
         return CategoryModel::query()
             ->where('type = :type:', ['type' => CategoryModel::TYPE_HELP])
-            ->andWhere('level = 1 AND published = 1')
+            ->andWhere('level = 1')
+            ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('priority ASC')
             ->execute();
     }
@@ -87,6 +89,7 @@ class HelpList extends Cache
         return HelpModel::query()
             ->where('category_id = :category_id:', ['category_id' => $categoryId])
             ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('priority ASC')
             ->execute();
     }

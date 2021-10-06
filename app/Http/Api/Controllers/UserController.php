@@ -30,6 +30,10 @@ class UserController extends Controller
 
         $user = $service->handle($id);
 
+        if ($user['deleted'] == 1) {
+            $this->notFound();
+        }
+
         return $this->jsonSuccess(['user' => $user]);
     }
 

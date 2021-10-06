@@ -27,7 +27,7 @@ class PackageController extends Controller
         $package = $service->handle($id);
 
         if ($package['published'] == 0) {
-            return $this->notFound();
+            $this->notFound();
         }
 
         $this->seo->prependTitle(['套餐', $package['title']]);

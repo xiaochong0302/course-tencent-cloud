@@ -14,14 +14,15 @@ use App\Models\User as UserModel;
 use App\Repos\Question as QuestionRepo;
 use App\Repos\QuestionFavorite as QuestionFavoriteRepo;
 use App\Repos\QuestionLike as QuestionLikeRepo;
-use App\Repos\User as UserRepo;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\UserTrait;
 
 class QuestionInfo extends LogicService
 {
 
     use QuestionTrait;
+    use UserTrait;
 
     public function handle($id)
     {
@@ -42,9 +43,9 @@ class QuestionInfo extends LogicService
     {
         $content = kg_parse_markdown($question->content);
 
-        $lastReplier = $this->handleUserInfo($question->last_replier_id);
-        $category = $this->handleCategoryInfo($question);
-        $owner = $this->handleUserInfo($question->owner_id);
+        $lastReplier = $this->handleShallowUserInfo($question->last_replier_id);
+        $category = $this->handleCategoryInfo($question->category_id);
+        $owner = $this->handleShallowUserInfo($question->owner_id);
         $me = $this->handleMeInfo($question, $user);
 
         return [
@@ -74,14 +75,14 @@ class QuestionInfo extends LogicService
         ];
     }
 
-    protected function handleCategoryInfo(QuestionModel $question)
+    protected function handleCategoryInfo($categoryId)
     {
         $cache = new CategoryCache();
 
         /**
          * @var CategoryModel $category
          */
-        $category = $cache->get($question->category_id);
+        $category = $cache->get($categoryId);
 
         if (!$category) return new \stdClass();
 
@@ -136,24 +137,6 @@ class QuestionInfo extends LogicService
         }
 
         return $me;
-    }
-
-    protected function handleUserInfo($userId)
-    {
-        $userRepo = new UserRepo();
-
-        $user = $userRepo->findById($userId);
-
-        if (!$user) return new \stdClass();
-
-        return [
-            'id' => $user->id,
-            'name' => $user->name,
-            'avatar' => $user->avatar,
-            'title' => $user->title,
-            'about' => $user->about,
-            'vip' => $user->vip,
-        ];
     }
 
     protected function incrQuestionViewCount(QuestionModel $question)

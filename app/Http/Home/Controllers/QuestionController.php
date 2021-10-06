@@ -102,8 +102,15 @@ class QuestionController extends Controller
 
         $question = $service->handle($id);
 
-        if ($question['published'] != QuestionModel::PUBLISH_APPROVED) {
-            return $this->notFound();
+        if ($question['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        $approved = $question['published'] == QuestionModel::PUBLISH_APPROVED;
+        $owned = $question['me']['owned'] == 1;
+
+        if (!$approved && !$owned) {
+            $this->notFound();
         }
 
         $this->seo->prependTitle(['问答', $question['title']]);

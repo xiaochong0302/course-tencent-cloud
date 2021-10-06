@@ -124,6 +124,7 @@ class CourseIndexTask extends Task
     {
         return CourseModel::query()
             ->where('published = 1')
+            ->where('deleted = 0')
             ->execute();
     }
 

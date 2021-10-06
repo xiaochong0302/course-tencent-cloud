@@ -76,6 +76,7 @@ class PointHotGiftList extends Cache
     {
         return PointGiftModel::query()
             ->where('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('redeem_count DESC')
             ->limit($limit)
             ->execute();

@@ -27,7 +27,7 @@ class TopicController extends Controller
         $topic = $service->handle($id);
 
         if ($topic['published'] == 0) {
-            return $this->notFound();
+            $this->notFound();
         }
 
         $this->seo->prependTitle(['专题', $topic['title']]);

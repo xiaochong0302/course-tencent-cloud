@@ -39,20 +39,24 @@ class ChapterController extends Controller
      */
     public function showAction($id)
     {
-        $service = new ChapterInfoService();
-
-        $chapter = $service->handle($id);
-
-        if ($chapter['published'] == 0) {
-            return $this->notFound();
-        }
-
         if ($this->authUser->id == 0) {
             return $this->response->redirect(['for' => 'home.account.login']);
         }
 
+        $service = new ChapterInfoService();
+
+        $chapter = $service->handle($id);
+
+        if ($chapter['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        if ($chapter['published'] == 0) {
+            $this->notFound();
+        }
+
         if ($chapter['me']['owned'] == 0) {
-            return $this->forbidden();
+            $this->forbidden();
         }
 
         $service = new CourseInfoService();

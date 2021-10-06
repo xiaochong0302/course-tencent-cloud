@@ -69,6 +69,7 @@ class CategoryTreeList extends Builder
 
         $query->where('parent_id = 0');
         $query->andWhere('published = 1');
+        $query->andWhere('deleted = 0');
         $query->andWhere('type = :type:', ['type' => $type]);
         $query->orderBy('priority ASC');
 
@@ -84,6 +85,7 @@ class CategoryTreeList extends Builder
         $query = CategoryModel::query();
 
         $query->where('published = 1');
+        $query->where('deleted = 0');
         $query->andWhere('parent_id = :parent_id:', ['parent_id' => $parentId]);
         $query->orderBy('priority ASC');
 

@@ -39,6 +39,14 @@ class ImGroupController extends Controller
 
         $group = $service->handle($id);
 
+        if ($group['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        if ($group['published'] == 0) {
+            $this->notFound();
+        }
+
         return $this->jsonSuccess(['group' => $group]);
     }
 

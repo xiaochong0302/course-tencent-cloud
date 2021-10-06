@@ -7,6 +7,7 @@
 
 namespace App\Services\Logic;
 
+use App\Repos\User as UserRepo;
 use App\Validators\User as UserValidator;
 
 trait UserTrait
@@ -24,6 +25,19 @@ trait UserTrait
         $validator = new UserValidator();
 
         return $validator->checkUserCache($id);
+    }
+
+    public function handleShallowUserInfo($id)
+    {
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findShallowUserById($id);
+
+        $result = $user->toArray();
+
+        $result['avatar'] = kg_cos_user_avatar_url($user->avatar);
+
+        return $result;
     }
 
 }

@@ -7,6 +7,7 @@
 
 namespace App\Http\Api\Controllers;
 
+use App\Models\Question as QuestionModel;
 use App\Services\Logic\Question\AnswerList as AnswerListService;
 use App\Services\Logic\Question\CategoryList as CategoryListService;
 use App\Services\Logic\Question\CommentList as CommentListService;
@@ -54,6 +55,17 @@ class QuestionController extends Controller
         $service = new QuestionInfoService();
 
         $question = $service->handle($id);
+
+        if ($question['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        $approved = $question['published'] == QuestionModel::PUBLISH_APPROVED;
+        $owned = $question['me']['owned'] == 1;
+
+        if (!$approved && !$owned) {
+            $this->notFound();
+        }
 
         return $this->jsonSuccess(['question' => $question]);
     }

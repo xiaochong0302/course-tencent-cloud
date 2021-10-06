@@ -124,6 +124,7 @@ class GroupIndexTask extends Task
     {
         return GroupModel::query()
             ->where('published = 1')
+            ->andWhere('deleted = 0')
             ->execute();
     }
 

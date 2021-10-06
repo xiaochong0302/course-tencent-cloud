@@ -118,7 +118,10 @@ class Consult extends Repository
 
     public function countConsults()
     {
-        return (int)ConsultModel::count(['conditions' => 'deleted = 0']);
+        return (int)ConsultModel::count([
+            'conditions' => 'published = :published: AND deleted = 0',
+            'bind' => ['published' => ConsultModel::PUBLISH_APPROVED],
+        ]);
     }
 
     public function countLikes($consultId)

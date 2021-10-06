@@ -65,8 +65,9 @@ class IndexSimpleFreeCourseList extends Cache
     protected function findCourses($limit = 8)
     {
         return CourseModel::query()
-            ->where('published = 1')
-            ->andWhere('market_price = 0')
+            ->where('market_price = 0')
+            ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('score DESC')
             ->limit($limit)
             ->execute();

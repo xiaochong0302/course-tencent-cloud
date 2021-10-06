@@ -65,8 +65,16 @@ class ChapterController extends Controller
 
         $chapter = $service->handle($id);
 
+        if ($chapter['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        if ($chapter['published'] == 0) {
+            $this->notFound();
+        }
+
         if ($chapter['me']['owned'] == 0) {
-            return $this->jsonError(['msg' => '没有访问章节权限']);
+            $this->forbidden();
         }
 
         return $this->jsonSuccess(['chapter' => $chapter]);

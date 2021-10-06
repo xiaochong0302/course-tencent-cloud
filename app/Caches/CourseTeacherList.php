@@ -51,6 +51,7 @@ class CourseTeacherList extends Cache
                 'id' => $user->id,
                 'name' => $user->name,
                 'avatar' => $user->avatar,
+                'vip' => $user->vip,
                 'title' => $user->title,
                 'about' => $user->about,
             ];

@@ -8,26 +8,35 @@
 namespace App\Services\Logic\Review;
 
 use App\Models\Review as ReviewModel;
+use App\Models\User as UserModel;
 use App\Repos\Course as CourseRepo;
-use App\Repos\User as UserRepo;
+use App\Repos\ReviewLike as ReviewLikeRepo;
 use App\Services\Logic\ReviewTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\UserTrait;
 
 class ReviewInfo extends LogicService
 {
 
     use ReviewTrait;
+    use UserTrait;
 
     public function handle($id)
     {
         $review = $this->checkReview($id);
 
-        return $this->handleReview($review);
+        $user = $this->getCurrentUser();
+
+        return $this->handleReview($review, $user);
     }
 
-    protected function handleReview(ReviewModel $review)
+    protected function handleReview(ReviewModel $review, UserModel $user)
     {
-        $result = [
+        $course = $this->handleCourseInfo($review->course_id);
+        $owner = $this->handleShallowUserInfo($review->owner_id);
+        $me = $this->handleMeInfo($review, $user);
+
+        return [
             'id' => $review->id,
             'content' => $review->content,
             'reply' => $review->reply,
@@ -40,19 +49,17 @@ class ReviewInfo extends LogicService
             'like_count' => $review->like_count,
             'create_time' => $review->create_time,
             'update_time' => $review->update_time,
+            'course' => $course,
+            'owner' => $owner,
+            'me' => $me,
         ];
-
-        $result['course'] = $this->handleCourseInfo($review);
-        $result['owner'] = $this->handleOwnerInfo($review);
-
-        return $result;
     }
 
-    protected function handleCourseInfo(ReviewModel $review)
+    protected function handleCourseInfo($courseId)
     {
         $courseRepo = new CourseRepo();
 
-        $course = $courseRepo->findById($review->course_id);
+        $course = $courseRepo->findById($courseId);
 
         if (!$course) return new \stdClass();
 
@@ -63,19 +70,29 @@ class ReviewInfo extends LogicService
         ];
     }
 
-    protected function handleOwnerInfo(ReviewModel $review)
+    protected function handleMeInfo(ReviewModel $review, UserModel $user)
     {
-        $userRepo = new UserRepo();
-
-        $owner = $userRepo->findById($review->owner_id);
-
-        if (!$owner) return new \stdClass();
-
-        return [
-            'id' => $owner->id,
-            'name' => $owner->name,
-            'avatar' => $owner->avatar,
+        $me = [
+            'liked' => 0,
+            'owned' => 0,
         ];
+
+        if ($user->id == $review->owner_id) {
+            $me['owned'] = 1;
+        }
+
+        if ($user->id > 0) {
+
+            $likeRepo = new ReviewLikeRepo();
+
+            $like = $likeRepo->findReviewLike($review->id, $user->id);
+
+            if ($like && $like->deleted == 0) {
+                $me['liked'] = 1;
+            }
+        }
+
+        return $me;
     }
 
 }

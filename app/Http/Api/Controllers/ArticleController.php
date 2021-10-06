@@ -7,6 +7,7 @@
 
 namespace App\Http\Api\Controllers;
 
+use App\Models\Article as ArticleModel;
 use App\Services\Logic\Article\ArticleClose as ArticleCloseService;
 use App\Services\Logic\Article\ArticleDelete as ArticleDeleteService;
 use App\Services\Logic\Article\ArticleFavorite as ArticleFavoriteService;
@@ -55,6 +56,22 @@ class ArticleController extends Controller
         $service = new ArticleInfoService();
 
         $article = $service->handle($id);
+
+        if ($article['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        $approved = $article['published'] == ArticleModel::PUBLISH_APPROVED;
+        $owned = $article['me']['owned'] == 1;
+        $private = $article['private'] == 1;
+
+        if (!$approved && !$owned) {
+            $this->notFound();
+        }
+
+        if ($private && !$owned) {
+            $this->forbidden();
+        }
 
         return $this->jsonSuccess(['article' => $article]);
     }

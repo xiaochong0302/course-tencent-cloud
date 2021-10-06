@@ -96,12 +96,15 @@ class Topic extends Repository
             ->join(CourseTopicModel::class, 'c.id = ct.course_id', 'ct')
             ->where('ct.topic_id = :topic_id:', ['topic_id' => $topicId])
             ->andWhere('c.published = 1')
+            ->andWhere('c.deleted = 0')
             ->getQuery()->execute();
     }
 
     public function countTopics()
     {
-        return (int)TopicModel::count(['conditions' => 'deleted = 0']);
+        return (int)TopicModel::count([
+            'conditions' => 'published = 1 AND deleted = 0',
+        ]);
     }
 
     public function countCourses($topicId)
