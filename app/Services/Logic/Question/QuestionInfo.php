@@ -95,18 +95,19 @@ class QuestionInfo extends LogicService
     protected function handleMeInfo(QuestionModel $question, UserModel $user)
     {
         $me = [
+            'allow_answer' => 0,
             'liked' => 0,
             'favorited' => 0,
             'answered' => 0,
             'owned' => 0,
         ];
 
-        $isOwner = $user->id == $question->owner_id;
+        $approved = $question->published == QuestionModel::PUBLISH_APPROVED;
+        $closed = $question->closed == 1;
+        $solved = $question->solved == 1;
 
-        if ($question->published == QuestionModel::PUBLISH_APPROVED) {
+        if ($user->id == $question->owner_id) {
             $me['owned'] = 1;
-        } else {
-            $me['owned'] = $isOwner ? 1 : 0;
         }
 
         if ($user->id > 0) {
@@ -133,6 +134,12 @@ class QuestionInfo extends LogicService
 
             if ($userAnswers->count() > 0) {
                 $me['answered'] = 1;
+            }
+
+            $answered = $me['answered'] == 1;
+
+            if ($approved && !$closed && !$solved && !$answered) {
+                $me['allow_answer'] = 1;
             }
         }
 
