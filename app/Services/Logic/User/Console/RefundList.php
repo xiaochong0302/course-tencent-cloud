@@ -65,8 +65,9 @@ class RefundList extends LogicService
 
             $order = $orders[$refund['order_id']] ?? new \stdClass();
 
+            $me = $builder->handleMeInfo($refund);
+
             $items[] = [
-                'order' => $order,
                 'sn' => $refund['sn'],
                 'subject' => $refund['subject'],
                 'amount' => (float)$refund['amount'],
@@ -75,6 +76,8 @@ class RefundList extends LogicService
                 'review_note' => $refund['review_note'],
                 'create_time' => $refund['create_time'],
                 'update_time' => $refund['update_time'],
+                'order' => $order,
+                'me' => $me,
             ];
         }
 
