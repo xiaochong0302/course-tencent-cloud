@@ -7,22 +7,32 @@
 
 namespace App\Services\Logic\Im;
 
-use App\Repos\User as UserRepo;
+use App\Models\ImGroup as ImGroupModel;
+use App\Models\User as UserModel;
+use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Services\Logic\ImGroupTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\UserTrait;
 
 class GroupInfo extends LogicService
 {
 
     use ImGroupTrait;
+    use UserTrait;
 
     public function handle($id)
     {
         $group = $this->checkImGroup($id);
 
-        $userRepo = new UserRepo();
+        $user = $this->getCurrentUser(true);
 
-        $owner = $userRepo->findById($group->owner_id);
+        return $this->handleGroup($group, $user);
+    }
+
+    protected function handleGroup(ImGroupModel $group, UserModel $user)
+    {
+        $owner = $this->handleShallowUserInfo($group->owner_id);
+        $me = $this->handleMeInfo($group, $user);
 
         return [
             'id' => $group->id,
@@ -30,17 +40,38 @@ class GroupInfo extends LogicService
             'name' => $group->name,
             'avatar' => $group->avatar,
             'about' => $group->about,
+            'published' => $group->published,
+            'deleted' => $group->deleted,
             'user_count' => $group->user_count,
             'msg_count' => $group->msg_count,
-            'owner' => [
-                'id' => $owner->id,
-                'name' => $owner->name,
-                'avatar' => $owner->avatar,
-                'title' => $owner->title,
-                'about' => $owner->about,
-                'vip' => $owner->vip,
-            ],
+            'owner' => $owner,
+            'me' => $me,
         ];
+    }
+
+    protected function handleMeInfo(ImGroupModel $group, UserModel $user)
+    {
+        $me = [
+            'joined' => 0,
+            'owned' => 0,
+        ];
+
+        if ($user->id == $group->owner_id) {
+            $me['owned'] = 1;
+        }
+
+        if ($user->id > 0) {
+
+            $repo = new ImGroupUserRepo();
+
+            $groupUser = $repo->findGroupUser($group->id, $user->id);
+
+            if ($groupUser) {
+                $me['joined'] = 1;
+            }
+        }
+
+        return $me;
     }
 
 }
