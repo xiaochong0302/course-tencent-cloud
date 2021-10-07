@@ -42,7 +42,7 @@ class ConsultInfo extends LogicService
         return [
             'id' => $consult->id,
             'question' => $consult->question,
-            'consult' => $consult->consult,
+            'answer' => $consult->answer,
             'rating' => $consult->rating,
             'private' => $consult->private,
             'published' => $consult->published,
