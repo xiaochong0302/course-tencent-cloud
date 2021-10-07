@@ -64,9 +64,14 @@
                 {% endif %}
             </div>
             <div id="answer-anchor"></div>
-            {% if question.me.answered == 0 and question.published == 2 %}
+            {% if question.me.allow_answer == 1 %}
                 <div class="answer-wrap wrap">
                     <button class="layui-btn layui-btn-fluid btn-answer" data-url="{{ answer_add_url }}">回答问题</button>
+                </div>
+            {% endif %}
+            {% if question.closed == 1 %}
+                <div class="answer-wrap wrap">
+                    <button class="layui-btn layui-btn-fluid layui-btn-disabled">问题已关闭</button>
                 </div>
             {% endif %}
             {% if answer_id > 0 %}
