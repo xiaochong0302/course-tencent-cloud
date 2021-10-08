@@ -32,9 +32,7 @@ class ImGroupActiveUserList extends Cache
     {
         $users = $this->findUsers($id);
 
-        if (empty($users)) {
-            return [];
-        }
+        if (empty($users)) return [];
 
         $result = [];
 
