@@ -72,6 +72,8 @@ class ImActiveGroupList extends Cache
             ->orderBy('total_count DESC')
             ->where('receiver_type = :type:', ['type' => ImMessageModel::TYPE_GROUP])
             ->betweenWhere('create_time', $startTime, $endTime)
+            ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->limit($limit)
             ->execute();
 

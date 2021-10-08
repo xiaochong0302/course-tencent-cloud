@@ -51,8 +51,12 @@ class ImGroupController extends Controller
 
         $group = $service->getGroup($id);
 
+        if ($group['deleted'] == 1) {
+            $this->notFound();
+        }
+
         if ($group['published'] == 0) {
-            return $this->notFound();
+            $this->notFound();
         }
 
         $this->seo->prependTitle(['群组', $group['name']]);

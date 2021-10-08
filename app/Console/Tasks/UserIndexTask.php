@@ -139,6 +139,7 @@ class UserIndexTask extends Task
     protected function findUsers($limit, $offset)
     {
         return UserModel::query()
+            ->where('deleted = 0')
             ->limit($limit, $offset)
             ->execute();
     }

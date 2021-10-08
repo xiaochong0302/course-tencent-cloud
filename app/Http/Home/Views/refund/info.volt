@@ -21,7 +21,7 @@
     </table>
     <br>
     <div class="center">
-        {% if refund.status == 3 %}
+        {% if refund.me.allow_cancel == 1 %}
             <button class="kg-refund layui-btn" data-sn="{{ refund.sn }}" data-url="{{ cancel_url }}">取消退款</button>
         {% endif %}
     </div>

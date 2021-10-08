@@ -25,8 +25,12 @@ class PageController extends Controller
 
         $page = $service->handle($id);
 
+        if ($page['deleted'] == 1) {
+            $this->notFound();
+        }
+
         if ($page['published'] == 0) {
-            return $this->notFound();
+            $this->notFound();
         }
 
         $featuredCourses = $this->getFeaturedCourses();

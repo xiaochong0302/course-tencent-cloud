@@ -8,14 +8,15 @@
 namespace App\Services\Logic\Danmu;
 
 use App\Models\Danmu as DanmuModel;
-use App\Repos\User as UserRepo;
 use App\Services\Logic\DanmuTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\UserTrait;
 
 class DanmuInfo extends LogicService
 {
 
     use DanmuTrait;
+    use UserTrait;
 
     public function handle($id)
     {
@@ -26,26 +27,17 @@ class DanmuInfo extends LogicService
 
     protected function handleDanmu(DanmuModel $danmu)
     {
-        $result = [
+        $owner = $this->handleShallowUserInfo($danmu->owner_id);
+
+        return [
             'id' => $danmu->id,
             'text' => $danmu->text,
             'color' => $danmu->color,
             'size' => $danmu->size,
             'position' => $danmu->position,
             'time' => $danmu->time,
+            'owner' => $owner,
         ];
-
-        $userRepo = new UserRepo();
-
-        $owner = $userRepo->findById($danmu->user_id);
-
-        $result['owner'] = [
-            'id' => $owner->id,
-            'name' => $owner->name,
-            'avatar' => $owner->avatar,
-        ];
-
-        return $result;
     }
 
 }

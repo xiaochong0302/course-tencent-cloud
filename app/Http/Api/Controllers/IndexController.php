@@ -8,6 +8,7 @@
 namespace App\Http\Api\Controllers;
 
 use App\Caches\IndexArticleList;
+use App\Caches\IndexFlashSaleList;
 use App\Caches\IndexLiveList;
 use App\Caches\IndexQuestionList;
 use App\Caches\IndexSimpleFeaturedCourseList;
@@ -15,6 +16,7 @@ use App\Caches\IndexSimpleFreeCourseList;
 use App\Caches\IndexSimpleNewCourseList;
 use App\Caches\IndexSimpleVipCourseList;
 use App\Caches\IndexSlideList;
+use App\Caches\IndexTeacherList;
 
 /**
  * @RoutePrefix("/api/index")
@@ -68,6 +70,30 @@ class IndexController extends Controller
         $lives = $cache->get();
 
         return $this->jsonSuccess(['lives' => $lives]);
+    }
+
+    /**
+     * @Get("/teachers", name="api.index.teachers")
+     */
+    public function teachersAction()
+    {
+        $cache = new IndexTeacherList();
+
+        $teachers = $cache->get();
+
+        return $this->jsonSuccess(['teachers' => $teachers]);
+    }
+
+    /**
+     * @Get("/flash/sales", name="api.index.flash_sales")
+     */
+    public function flashSalesAction()
+    {
+        $cache = new IndexFlashSaleList();
+
+        $sales = $cache->get();
+
+        return $this->jsonSuccess(['sales' => $sales]);
     }
 
     /**

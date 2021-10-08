@@ -8,26 +8,32 @@
 namespace App\Services\Logic\Comment;
 
 use App\Models\Comment as CommentModel;
-use App\Repos\User as UserRepo;
+use App\Models\User as UserModel;
+use App\Repos\AnswerLike as AnswerLikeRepo;
 use App\Services\Logic\CommentTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\UserTrait;
 
 class CommentInfo extends LogicService
 {
 
     use CommentTrait;
+    use UserTrait;
 
     public function handle($id)
     {
         $comment = $this->checkComment($id);
 
-        return $this->handleComment($comment);
+        $user = $this->getCurrentUser(true);
+
+        return $this->handleComment($comment, $user);
     }
 
-    protected function handleComment(CommentModel $comment)
+    protected function handleComment(CommentModel $comment, UserModel $user)
     {
-        $owner = $comment->owner_id > 0 ? $this->handleOwnerInfo($comment) : new \stdClass();
-        $toUser = $comment->to_user_id > 0 ? $this->handleToUserInfo($comment) : new \stdClass();
+        $toUser = $this->handleShallowUserInfo($comment->to_user_id);
+        $owner = $this->handleShallowUserInfo($comment->owner_id);
+        $me = $this->handleMeInfo($comment, $user);
 
         return [
             'id' => $comment->id,
@@ -39,35 +45,35 @@ class CommentInfo extends LogicService
             'reply_count' => $comment->reply_count,
             'create_time' => $comment->create_time,
             'update_time' => $comment->update_time,
-            'owner' => $owner,
             'to_user' => $toUser,
+            'owner' => $owner,
+            'me' => $me,
         ];
     }
 
-    protected function handleOwnerInfo(CommentModel $comment)
+    protected function handleMeInfo(CommentModel $comment, UserModel $user)
     {
-        $userRepo = new UserRepo();
-
-        $user = $userRepo->findById($comment->owner_id);
-
-        return [
-            'id' => $user->id,
-            'name' => $user->name,
-            'avatar' => $user->avatar,
+        $me = [
+            'liked' => 0,
+            'owned' => 0,
         ];
-    }
 
-    protected function handleToUserInfo(CommentModel $comment)
-    {
-        $userRepo = new UserRepo();
+        if ($user->id == $comment->owner_id) {
+            $me['owned'] = 1;
+        }
 
-        $user = $userRepo->findById($comment->to_user_id);
+        if ($user->id > 0) {
 
-        return [
-            'id' => $user->id,
-            'name' => $user->name,
-            'avatar' => $user->avatar,
-        ];
+            $likeRepo = new AnswerLikeRepo();
+
+            $like = $likeRepo->findAnswerLike($comment->id, $user->id);
+
+            if ($like && $like->deleted == 0) {
+                $me['liked'] = 1;
+            }
+        }
+
+        return $me;
     }
 
 }

@@ -48,7 +48,7 @@ class LiveList extends Builder
 
         $userRepo = new UserRepo();
 
-        $users = $userRepo->findByIds($teacherIds, ['id', 'name', 'title', 'avatar', 'about']);
+        $users = $userRepo->findShallowUserByIds($teacherIds);
 
         $baseUrl = kg_cos_url();
 

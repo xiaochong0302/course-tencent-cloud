@@ -7,6 +7,7 @@
 
 namespace App\Builders;
 
+use App\Models\Refund as RefundModel;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
 
@@ -35,6 +36,24 @@ class RefundList extends Builder
         return $refunds;
     }
 
+    public function handleMeInfo(array $refund)
+    {
+        $me = [
+            'allow_cancel' => 0,
+        ];
+
+        $statusTypes = [
+            RefundModel::STATUS_PENDING,
+            RefundModel::STATUS_APPROVED,
+        ];
+
+        if (in_array($refund['status'], $statusTypes)) {
+            $me['allow_cancel'] = 1;
+        }
+
+        return $me;
+    }
+
     public function getOrders(array $trades)
     {
         $ids = kg_array_column($trades, 'order_id');
@@ -58,11 +77,14 @@ class RefundList extends Builder
 
         $userRepo = new UserRepo();
 
-        $users = $userRepo->findByIds($ids, ['id', 'name']);
+        $users = $userRepo->findShallowUserByIds($ids);
+
+        $baseUrl = kg_cos_url();
 
         $result = [];
 
         foreach ($users->toArray() as $user) {
+            $user['avatar'] = $baseUrl . $user['avatar'];
             $result[$user['id']] = $user;
         }
 

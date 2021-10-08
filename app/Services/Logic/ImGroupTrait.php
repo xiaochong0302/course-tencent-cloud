@@ -12,7 +12,7 @@ use App\Validators\ImGroup as ImGroupValidator;
 trait ImGroupTrait
 {
 
-    public function checkGroup($id)
+    public function checkImGroup($id)
     {
         $validator = new ImGroupValidator();
 

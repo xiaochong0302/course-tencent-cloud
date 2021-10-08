@@ -45,6 +45,14 @@ class OrderController extends Controller
 
         $order = $service->handle($sn);
 
+        if ($order['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        if ($order['me']['owned'] == 0) {
+            $this->forbidden();
+        }
+
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('order', $order);
     }

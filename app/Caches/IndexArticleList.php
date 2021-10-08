@@ -14,7 +14,7 @@ use App\Services\Logic\Article\ArticleList as ArticleListService;
 class IndexArticleList extends Cache
 {
 
-    protected $lifetime = 1 * 86400;
+    protected $lifetime = 15 * 60;
 
     public function getLifetime()
     {
@@ -30,7 +30,10 @@ class IndexArticleList extends Cache
     {
         $articleRepo = new ArticleRepo();
 
-        $where = ['published' => ArticleModel::PUBLISH_APPROVED];
+        $where = [
+            'published' => ArticleModel::PUBLISH_APPROVED,
+            'deleted' => 0,
+        ];
 
         $pager = $articleRepo->paginate($where, 'latest', 1, 10);
 

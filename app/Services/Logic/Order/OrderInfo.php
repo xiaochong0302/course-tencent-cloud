@@ -9,12 +9,16 @@ namespace App\Services\Logic\Order;
 
 use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
+use App\Models\User as UserModel;
 use App\Repos\Order as OrderRepo;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\UserTrait;
 use App\Validators\Order as OrderValidator;
 
 class OrderInfo extends LogicService
 {
+
+    use UserTrait;
 
     public function handle($sn)
     {
@@ -22,24 +26,21 @@ class OrderInfo extends LogicService
 
         $order = $validator->checkOrderBySn($sn);
 
-        return $this->handleOrder($order);
+        $user = $this->getLoginUser();
+
+        return $this->handleOrder($order, $user);
     }
 
-    protected function handleOrder(OrderModel $order)
+    protected function handleOrder(OrderModel $order, UserModel $user)
     {
         $order->item_info = $this->handleItemInfo($order);
 
-        $statusHistory = $this->handleStatusHistory($order->id);
-
-        $me = $this->handleMeInfo($order);
-
-        return [
-            'me' => $me,
+        $result = [
             'sn' => $order->sn,
             'subject' => $order->subject,
             'amount' => $order->amount,
             'status' => $order->status,
-            'status_history' => $statusHistory,
+            'deleted' => $order->deleted,
             'item_id' => $order->item_id,
             'item_type' => $order->item_type,
             'item_info' => $order->item_info,
@@ -49,6 +50,12 @@ class OrderInfo extends LogicService
             'create_time' => $order->create_time,
             'update_time' => $order->update_time,
         ];
+
+        $result['status_history'] = $this->handleStatusHistory($order->id);
+        $result['owner'] = $this->handleShallowUserInfo($order->owner_id);
+        $result['me'] = $this->handleMeInfo($order, $user);
+
+        return $result;
     }
 
     protected function handleStatusHistory($orderId)
@@ -71,29 +78,44 @@ class OrderInfo extends LogicService
         return $result;
     }
 
-    protected function handleMeInfo(OrderModel $order)
+    protected function handleMeInfo(OrderModel $order, UserModel $user)
     {
         $result = [
+            'owned' => 0,
             'allow_pay' => 0,
+            'allow_cancel' => 0,
             'allow_refund' => 0,
         ];
 
+        if ($user->id == $order->owner_id) {
+            $result['owned'] = 1;
+        }
+
         if ($order->status == OrderModel::STATUS_PENDING) {
             $result['allow_pay'] = 1;
+            $result['allow_cancel'] = 1;
         }
 
         if ($order->status == OrderModel::STATUS_FINISHED) {
             /**
-             * 只允许线上课程退款，因为线下课程无法进行退款计算
+             * 只允许线上课程退款
              */
             if ($order->item_type == OrderModel::ITEM_COURSE) {
-                $result['allow_refund'] = 1;
                 $course = $order->item_info['course'];
-                if (isset($course['model']) && $course['model'] == CourseModel::MODEL_OFFLINE) {
-                    $result['allow_refund'] = 0;
+                $refundTimeOk = $course['refund_expiry_time'] > time();
+                $courseModelOk = $course['model'] != CourseModel::MODEL_OFFLINE;
+                if ($refundTimeOk && $courseModelOk) {
+                    $result['allow_refund'] = 1;
                 }
             } elseif ($order->item_type == OrderModel::ITEM_PACKAGE) {
-                $result['allow_refund'] = $order->status == OrderModel::STATUS_FINISHED ? 1 : 0;
+                $courses = $order->item_info['courses'];
+                foreach ($courses as $course) {
+                    $refundTimeOk = $course['refund_expiry_time'] > time();
+                    $courseModelOk = $course['model'] != CourseModel::MODEL_OFFLINE;
+                    if ($refundTimeOk && $courseModelOk) {
+                        $result['allow_refund'] = 1;
+                    }
+                }
             }
         }
 

@@ -7,6 +7,7 @@
 
 namespace App\Builders;
 
+use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
 use App\Repos\User as UserRepo;
 
@@ -42,7 +43,7 @@ class OrderList extends Builder
     public function handleItems(array $orders)
     {
         foreach ($orders as $key => $order) {
-            $itemInfo = $this->handleItem($order);
+            $itemInfo = $this->handleItemInfo($order);
             $orders[$key]['item_info'] = $itemInfo;
         }
 
@@ -53,7 +54,7 @@ class OrderList extends Builder
      * @param array $order
      * @return array|mixed
      */
-    public function handleItem(array $order)
+    public function handleItemInfo(array $order)
     {
         $itemInfo = [];
 
@@ -70,6 +71,52 @@ class OrderList extends Builder
         }
 
         return $itemInfo;
+    }
+
+    /**
+     * @param array $order
+     * @return array|mixed
+     */
+    public function handleMeInfo(array $order)
+    {
+        $me = [
+            'allow_pay' => 0,
+            'allow_cancel' => 0,
+            'allow_refund' => 0,
+        ];
+
+        $payStatusOk = $order['status'] == OrderModel::STATUS_PENDING ? 1 : 0;
+        $cancelStatusOk = $order['status'] == OrderModel::STATUS_PENDING ? 1 : 0;
+        $refundStatusOk = $order['status'] == OrderModel::STATUS_FINISHED ? 1 : 0;
+
+        if ($order['item_type'] == OrderModel::ITEM_COURSE) {
+
+            $course = $order['item_info']['course'];
+
+            $courseModelOk = $course['model'] != CourseModel::MODEL_OFFLINE;
+            $refundTimeOk = $course['refund_expiry_time'] > time();
+
+            $me['allow_refund'] = $courseModelOk && $refundStatusOk && $refundTimeOk ? 1 : 0;
+
+        } elseif ($order['item_type'] == OrderModel::ITEM_PACKAGE) {
+
+            $courses = $order['item_info']['courses'];
+
+            $refundTimeOk = false;
+
+            foreach ($courses as $course) {
+                if ($course['refund_expiry_time'] > time()) {
+                    $refundTimeOk = true;
+                }
+            }
+
+            $me['allow_refund'] = $refundStatusOk && $refundTimeOk ? 1 : 0;
+        }
+
+        $me['allow_pay'] = $payStatusOk;
+        $me['allow_cancel'] = $cancelStatusOk;
+
+        return $me;
     }
 
     /**
@@ -139,7 +186,7 @@ class OrderList extends Builder
 
         $userRepo = new UserRepo();
 
-        $users = $userRepo->findByIds($ids, ['id', 'name']);
+        $users = $userRepo->findShallowUserByIds($ids);
 
         $result = [];
 

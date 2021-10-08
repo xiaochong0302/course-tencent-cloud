@@ -7,6 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Models\Consult as ConsultModel;
 use App\Services\Logic\Consult\ConsultCreate as ConsultCreateService;
 use App\Services\Logic\Consult\ConsultDelete as ConsultDeleteService;
 use App\Services\Logic\Consult\ConsultInfo as ConsultInfoService;
@@ -36,6 +37,17 @@ class ConsultController extends Controller
         $service = new ConsultInfoService();
 
         $consult = $service->handle($id);
+
+        if ($consult['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        $approved = $consult['published'] == ConsultModel::PUBLISH_APPROVED;
+        $owned = $consult['me']['owned'] == 1;
+
+        if (!$approved && !$owned) {
+            $this->notFound();
+        }
 
         $this->view->setVar('consult', $consult);
     }

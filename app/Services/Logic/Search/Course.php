@@ -90,6 +90,7 @@ class Course extends Handler
                 'summary' => (string)$item['summary'],
                 'model' => (int)$item['model'],
                 'level' => (int)$item['level'],
+                'rating' => round($item['rating'], 1),
                 'market_price' => (float)$item['market_price'],
                 'vip_price' => (float)$item['vip_price'],
                 'user_count' => (int)$item['user_count'],

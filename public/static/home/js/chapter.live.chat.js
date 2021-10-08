@@ -13,6 +13,7 @@ layui.use(['jquery', 'form', 'helper'], function () {
         console.log('socket connect success');
         setInterval(function () {
             socket.send('ping');
+            console.log('ping...');
         }, 1000 * parseInt(window.im.ws.ping_interval));
     };
 

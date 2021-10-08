@@ -35,6 +35,7 @@ class TaggedQuestionList extends Cache
         $where = [
             'tag_id' => $id,
             'published' => QuestionModel::PUBLISH_APPROVED,
+            'deleted' => 0,
         ];
 
         $pager = $questionRepo->paginate($where);

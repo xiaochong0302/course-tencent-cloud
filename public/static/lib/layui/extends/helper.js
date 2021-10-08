@@ -29,15 +29,6 @@ layui.define(['jquery', 'layer'], function (exports) {
         callback();
     };
 
-    helper.cs = function () {
-        layer.open({
-            type: 2,
-            title: '在线客服',
-            area: ['600px', '570px'],
-            content: ['/im/cs', 'no']
-        });
-    };
-
     helper.wechatShare = function (qrcode) {
         var content = '<div class="qrcode"><img src="' + qrcode + '" alt="分享到微信"></div>';
         layer.open({

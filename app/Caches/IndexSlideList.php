@@ -68,6 +68,7 @@ class IndexSlideList extends Cache
     {
         return SlideModel::query()
             ->where('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();

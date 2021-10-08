@@ -87,6 +87,7 @@ class WeiXin extends OAuth
         $userInfo['id'] = $data['openid'];
         $userInfo['name'] = $data['nickname'];
         $userInfo['avatar'] = $data['headimgurl'];
+        $userInfo['unionid'] = $data['unionid'] ?? '';
         $userInfo['provider'] = ConnectModel::PROVIDER_WEIXIN;
 
         return $userInfo;

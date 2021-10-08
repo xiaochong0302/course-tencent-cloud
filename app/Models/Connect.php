@@ -7,12 +7,15 @@
 
 namespace App\Models;
 
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
 class Connect extends Model
 {
 
     const PROVIDER_QQ = 1; // QQ
-    const PROVIDER_WEIXIN = 2; // 微信
-    const PROVIDER_WEIBO = 3; // 微博
+    const PROVIDER_WEIXIN = 2; // 微信扫码
+    const PROVIDER_WEIBO = 3; // 新浪微博
+    const PROVIDER_WECHAT = 4; // 公众号网页
 
     /**
      * 主键编号
@@ -27,6 +30,13 @@ class Connect extends Model
      * @var int
      */
     public $user_id = 0;
+
+    /**
+     * 联合ID
+     *
+     * @var string
+     */
+    public $union_id = '';
 
     /**
      * 开放ID
@@ -57,6 +67,13 @@ class Connect extends Model
     public $provider = 0;
 
     /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted = 0;
+
+    /**
      * 创建时间
      *
      * @var int
@@ -73,6 +90,18 @@ class Connect extends Model
     public function getSource(): string
     {
         return 'kg_connect';
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->addBehavior(
+            new SoftDelete([
+                'field' => 'deleted',
+                'value' => 1,
+            ])
+        );
     }
 
     public function beforeCreate()

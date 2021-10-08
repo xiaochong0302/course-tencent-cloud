@@ -103,7 +103,10 @@ class Comment extends Repository
 
     public function countComments()
     {
-        return (int)CommentModel::count(['conditions' => 'deleted = 0']);
+        return (int)CommentModel::count([
+            'conditions' => 'published = :published: AND deleted = 0',
+            'bind' => ['published' => CommentModel::PUBLISH_APPROVED],
+        ]);
     }
 
 }

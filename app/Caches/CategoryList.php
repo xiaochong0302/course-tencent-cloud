@@ -38,6 +38,7 @@ class CategoryList extends Cache
             ->columns(['id', 'parent_id', 'name', 'priority', 'level', 'path'])
             ->where('type = :type:', ['type' => $type])
             ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->execute();
 
         if ($categories->count() == 0) {

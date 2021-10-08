@@ -22,9 +22,9 @@
             <a><cite>详情</cite></a>
         </span>
         <span class="share">
-            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat icon-wechat"></i></a>
-            <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq icon-qq"></i></a>
-            <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo icon-weibo"></i></a>
+            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat share-wechat"></i></a>
+            <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq share-qq"></i></a>
+            <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo share-weibo"></i></a>
         </span>
     </div>
 
@@ -64,9 +64,14 @@
                 {% endif %}
             </div>
             <div id="answer-anchor"></div>
-            {% if question.me.answered == 0 and question.published == 2 %}
+            {% if question.me.allow_answer == 1 %}
                 <div class="answer-wrap wrap">
                     <button class="layui-btn layui-btn-fluid btn-answer" data-url="{{ answer_add_url }}">回答问题</button>
+                </div>
+            {% endif %}
+            {% if question.closed == 1 %}
+                <div class="answer-wrap wrap">
+                    <button class="layui-btn layui-btn-fluid layui-btn-disabled">问题已关闭</button>
                 </div>
             {% endif %}
             {% if answer_id > 0 %}

@@ -7,6 +7,7 @@
 
 namespace App\Http\Api\Controllers;
 
+use App\Models\Answer as AnswerModel;
 use App\Services\Logic\Answer\AnswerAccept as AnswerAcceptService;
 use App\Services\Logic\Answer\AnswerCreate as AnswerCreateService;
 use App\Services\Logic\Answer\AnswerDelete as AnswerDeleteService;
@@ -29,6 +30,17 @@ class AnswerController extends Controller
         $service = new AnswerInfoService();
 
         $answer = $service->handle($id);
+
+        if ($answer['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        $approved = $answer['published'] != AnswerModel::PUBLISH_APPROVED;
+        $owned = $answer['me']['owned'] == 1;
+
+        if (!$approved && !$owned) {
+            $this->notFound();
+        }
 
         return $this->jsonSuccess(['answer' => $answer]);
     }
@@ -82,7 +94,7 @@ class AnswerController extends Controller
 
         $service->handle($id);
 
-        return $this->jsonSuccess(['msg' => '删除回答成功']);
+        return $this->jsonSuccess();
     }
 
     /**

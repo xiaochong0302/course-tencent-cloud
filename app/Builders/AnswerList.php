@@ -58,7 +58,7 @@ class AnswerList extends Builder
 
         $userRepo = new UserRepo();
 
-        $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
+        $users = $userRepo->findShallowUserByIds($ids);
 
         $baseUrl = kg_cos_url();
 

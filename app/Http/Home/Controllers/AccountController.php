@@ -28,6 +28,10 @@ class AccountController extends Controller
 
         $returnUrl = $this->request->getHTTPReferer();
 
+        $service = new OAuthProviderService();
+
+        $oauthProvider = $service->handle();
+
         $service = new AccountService();
 
         $captcha = $service->getSettings('captcha');
@@ -35,6 +39,7 @@ class AccountController extends Controller
         $this->seo->prependTitle('注册');
 
         $this->view->setVar('return_url', $returnUrl);
+        $this->view->setVar('local_oauth', $oauthProvider['local']);
         $this->view->setVar('captcha', $captcha);
     }
 

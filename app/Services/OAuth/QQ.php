@@ -113,6 +113,7 @@ class QQ extends OAuth
         $userInfo['name'] = $data['nickname'];
         $userInfo['avatar'] = $data['figureurl'];
         $userInfo['provider'] = ConnectModel::PROVIDER_QQ;
+        $userInfo['unionid'] = '';
 
         return $userInfo;
     }

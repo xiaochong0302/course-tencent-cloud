@@ -68,6 +68,7 @@ class NavTreeList extends Builder
         return NavModel::query()
             ->where('parent_id = :parent_id:', ['parent_id' => $navId])
             ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('priority ASC')
             ->execute();
     }
@@ -80,7 +81,9 @@ class NavTreeList extends Builder
     {
         return NavModel::query()
             ->where('position = :position:', ['position' => $position])
-            ->andWhere('level = 1 AND published = 1')
+            ->andWhere('level = 1')
+            ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('priority ASC')
             ->execute();
     }

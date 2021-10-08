@@ -94,7 +94,9 @@ class IndexFreeCourseList extends Cache
     {
         return CategoryModel::query()
             ->where('type = :type:', ['type' => CategoryModel::TYPE_COURSE])
-            ->andWhere('level = 1 AND published = 1')
+            ->andWhere('level = 1')
+            ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('priority ASC')
             ->limit($limit)
             ->execute();
@@ -113,8 +115,9 @@ class IndexFreeCourseList extends Cache
 
         return CourseModel::query()
             ->inWhere('category_id', $categoryIds)
-            ->andWhere('published = 1')
             ->andWhere('market_price = 0')
+            ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('score DESC')
             ->limit($limit)
             ->execute();

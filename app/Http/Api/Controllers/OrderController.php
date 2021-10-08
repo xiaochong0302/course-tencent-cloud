@@ -29,6 +29,10 @@ class OrderController extends Controller
 
         $order = $service->handle($sn);
 
+        if ($order['deleted'] == 1) {
+            $this->notFound();
+        }
+
         return $this->jsonSuccess(['order' => $order]);
     }
 

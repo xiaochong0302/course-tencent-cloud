@@ -147,7 +147,8 @@ class Controller extends \Phalcon\Mvc\Controller
          * ssl通过nginx转发实现
          */
         if ($this->request->isSecure()) {
-            $websocket->connect_url = sprintf('wss://%s/wss', $this->request->getHttpHost());
+            list($domain) = explode(':', $websocket->connect_address);
+            $websocket->connect_url = sprintf('wss://%s/wss', $domain);
         } else {
             $websocket->connect_url = sprintf('ws://%s', $websocket->connect_address);
         }

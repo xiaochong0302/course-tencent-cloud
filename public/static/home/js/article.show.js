@@ -15,21 +15,31 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         helper.ajaxLoadHtml($commentList.data('url'), $commentList.attr('id'));
     }
 
-    $('.article-report').on('click', function () {
+    $('.article-edit').on('click', function () {
+        window.location.href = $(this).data('url');
+    });
+
+    $('.article-close').on('click', function () {
         var url = $(this).data('url');
-        layer.open({
-            type: 2,
-            title: '内容举报',
-            shadeClose: true,
-            content: [url, 'no'],
-            area: ['640px', '480px'],
+        $.post(url, function (res) {
+            if (res.msg) {
+                layer.msg(res.msg, {icon: 1});
+            }
+            setTimeout(function () {
+                window.location.reload()
+            }, 1500);
         });
     });
 
-    $('.article-edit').on('click', function () {
+    $('.article-private').on('click', function () {
         var url = $(this).data('url');
-        helper.checkLogin(function () {
-            window.location.href = url;
+        $.post(url, function (res) {
+            if (res.msg) {
+                layer.msg(res.msg, {icon: 1});
+            }
+            setTimeout(function () {
+                window.location.reload()
+            }, 1500);
         });
     });
 

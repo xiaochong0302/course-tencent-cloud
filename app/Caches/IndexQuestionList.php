@@ -14,7 +14,7 @@ use App\Services\Logic\Question\QuestionList as QuestionListService;
 class IndexQuestionList extends Cache
 {
 
-    protected $lifetime = 1 * 86400;
+    protected $lifetime = 15 * 60;
 
     public function getLifetime()
     {
@@ -30,7 +30,10 @@ class IndexQuestionList extends Cache
     {
         $questionRepo = new QuestionRepo();
 
-        $where = ['published' => QuestionModel::PUBLISH_APPROVED];
+        $where = [
+            'published' => QuestionModel::PUBLISH_APPROVED,
+            'deleted' => 0,
+        ];
 
         $pager = $questionRepo->paginate($where, 'latest', 1, 10);
 

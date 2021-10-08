@@ -88,6 +88,7 @@ class WeiBo extends OAuth
         $userInfo['name'] = $data['name'];
         $userInfo['avatar'] = $data['profile_image_url'];
         $userInfo['provider'] = ConnectModel::PROVIDER_WEIBO;
+        $userInfo['unionid'] = '';
 
         return $userInfo;
     }

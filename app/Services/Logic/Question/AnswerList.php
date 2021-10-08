@@ -9,7 +9,7 @@ namespace App\Services\Logic\Question;
 
 use App\Builders\AnswerList as AnswerListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\Question as QuestionModel;
+use App\Models\Answer as AnswerModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Repos\AnswerLike as AnswerLikeRepo;
 use App\Services\Logic\QuestionTrait;
@@ -29,7 +29,7 @@ class AnswerList extends LogicService
         $params = $pagerQuery->getParams();
 
         $params['question_id'] = $question->id;
-        $params['published'] = QuestionModel::PUBLISH_APPROVED;
+        $params['published'] = AnswerModel::PUBLISH_APPROVED;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
@@ -63,7 +63,8 @@ class AnswerList extends LogicService
 
             $answer['content'] = kg_parse_markdown($answer['content']);
 
-            $owner = $users[$answer['owner_id']] ?? new \stdClass();
+            $owner = $users[$answer['owner_id']];
+
             $me = $meMappings[$answer['id']];
 
             $items[] = [
@@ -108,6 +109,7 @@ class AnswerList extends LogicService
         foreach ($answers as $answer) {
             $result[$answer['id']] = [
                 'liked' => in_array($answer['id'], $likedIds) ? 1 : 0,
+                'owned' => $answer['owner_id'] == $user->id ? 1 : 0,
             ];
         }
 

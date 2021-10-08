@@ -70,6 +70,7 @@ class ImNewGroupList extends Cache
     {
         return ImGroupModel::query()
             ->where('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('id DESC')
             ->limit($limit)
             ->execute();

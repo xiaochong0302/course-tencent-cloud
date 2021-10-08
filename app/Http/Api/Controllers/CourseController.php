@@ -55,6 +55,14 @@ class CourseController extends Controller
 
         $course = $service->handle($id);
 
+        if ($course['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        if ($course['published'] == 0) {
+            $this->notFound();
+        }
+
         return $this->jsonSuccess(['course' => $course]);
     }
 
