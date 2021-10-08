@@ -83,6 +83,7 @@ class LiveChapter extends LogicService
             Gateway::bindUid($clientId, $user->id);
 
             $message = kg_json_encode([
+                'id' => kg_uniqid(),
                 'type' => 'new_user',
                 'user' => [
                     'id' => $user->id,
