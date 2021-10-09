@@ -33,6 +33,10 @@ class OrderController extends Controller
             $this->notFound();
         }
 
+        if ($order['me']['owned'] == 0) {
+            $this->forbidden();
+        }
+
         return $this->jsonSuccess(['order' => $order]);
     }
 
