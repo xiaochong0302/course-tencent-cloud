@@ -35,7 +35,7 @@ class AnswerController extends Controller
             $this->notFound();
         }
 
-        $approved = $answer['published'] != AnswerModel::PUBLISH_APPROVED;
+        $approved = $answer['published'] == AnswerModel::PUBLISH_APPROVED;
         $owned = $answer['me']['owned'] == 1;
 
         if (!$approved && !$owned) {
