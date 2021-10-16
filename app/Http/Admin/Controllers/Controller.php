@@ -53,7 +53,7 @@ class Controller extends \Phalcon\Mvc\Controller
         /**
          * demo分支拒绝数据提交，100001帐号除外
          */
-        if ($this->isNotSafeRequest() && $this->authInfo['id'] != 100001) {
+        if ($this->isNotSafeRequest() && $this->authUser->id != 100001) {
             $dispatcher->forward([
                 'controller' => 'public',
                 'action' => 'forbidden',
