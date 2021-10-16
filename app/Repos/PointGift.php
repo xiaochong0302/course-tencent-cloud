@@ -77,6 +77,32 @@ class PointGift extends Repository
     }
 
     /**
+     * @param int $courseId
+     * @return PointGiftModel|Model|bool
+     */
+    public function findByCourseId($courseId)
+    {
+        /**
+         * @todo 重新设计表结构
+         *
+         * 没有预留独立的条目编号，先这么将就实现吧
+         */
+        $records = PointGiftModel::query()
+            ->where('type = :type:', ['type' => PointGiftModel::TYPE_COURSE])
+            ->execute();
+
+        if ($records->count() == 0) return false;
+
+        foreach ($records as $record) {
+            if ($record->attrs['id'] == $courseId) {
+                return $record;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @param array $ids
      * @param string|array $columns
      * @return ResultsetInterface|Resultset|PointGiftModel[]

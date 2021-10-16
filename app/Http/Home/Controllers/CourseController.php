@@ -8,6 +8,7 @@
 namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\CourseQuery as CourseQueryService;
+use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Services\Logic\Course\ChapterList as CourseChapterListService;
 use App\Services\Logic\Course\ConsultList as CourseConsultListService;
 use App\Services\Logic\Course\CourseFavorite as CourseFavoriteService;
@@ -32,6 +33,13 @@ class CourseController extends Controller
      */
     public function listAction()
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getCourseListUrl();
+            return $this->response->redirect($location);
+        }
+
         $service = new CourseQueryService();
 
         $topCategories = $service->handleTopCategories();
@@ -73,6 +81,13 @@ class CourseController extends Controller
      */
     public function showAction($id)
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getCourseInfoUrl($id);
+            return $this->response->redirect($location);
+        }
+
         $service = new CourseInfoService();
 
         $course = $service->handle($id);

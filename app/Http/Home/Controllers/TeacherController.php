@@ -7,6 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Services\Logic\Teacher\TeacherList as TeacherListService;
 use Phalcon\Mvc\View;
 
@@ -21,6 +22,13 @@ class TeacherController extends Controller
      */
     public function listAction()
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getTeacherListUrl();
+            return $this->response->redirect($location);
+        }
+
         $this->seo->prependTitle('教师');
     }
 
@@ -44,6 +52,13 @@ class TeacherController extends Controller
      */
     public function showAction($id)
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getTeacherIndexUrl($id);
+            return $this->response->redirect($location);
+        }
+
         $this->dispatcher->forward([
             'controller' => 'user',
             'action' => 'show',

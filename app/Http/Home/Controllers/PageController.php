@@ -7,6 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Http\Home\Services\Index as IndexService;
 use App\Services\Logic\Page\PageInfo as PageInfoService;
 
@@ -21,6 +22,13 @@ class PageController extends Controller
      */
     public function showAction($id)
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getPageInfoUrl($id);
+            return $this->response->redirect($location);
+        }
+
         $service = new PageInfoService();
 
         $page = $service->handle($id);

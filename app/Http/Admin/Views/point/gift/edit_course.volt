@@ -10,7 +10,7 @@
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">课程名称</label>
-        <div class="layui-form-mid layui-word-aux">{{ gift.name }}</div>
+        <div class="layui-form-mid layui-word-aux">{{ gift.name }}（{{ '￥%0.2f'|format(gift.attrs['price']) }}）</div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">所需积分</label>
@@ -22,6 +22,13 @@
         <label class="layui-form-label">库存数量</label>
         <div class="layui-input-block">
             <input class="layui-input" type="text" name="stock" value="{{ gift.stock }}" lay-verify="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发布</label>
+        <div class="layui-input-block">
+            <input type="radio" name="published" value="1" title="是" {% if gift.published == 1 %}checked="checked"{% endif %}>
+            <input type="radio" name="published" value="0" title="否" {% if gift.published == 0 %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">

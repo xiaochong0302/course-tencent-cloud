@@ -8,6 +8,8 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Models\Audit as AuditModel;
+use App\Models\Role as RoleModel;
+use App\Models\User as UserModel;
 use App\Services\Auth\Admin as AdminAuth;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
@@ -20,6 +22,11 @@ class Controller extends \Phalcon\Mvc\Controller
      * @var array
      */
     protected $authInfo;
+
+    /**
+     * @var UserModel
+     */
+    protected $authUser;
 
     use ResponseTrait;
     use SecurityTrait;
@@ -41,6 +48,8 @@ class Controller extends \Phalcon\Mvc\Controller
             return false;
         }
 
+        $this->authUser = $this->getAuthUser();
+
         /**
          * demo分支拒绝数据提交，100001帐号除外
          */
@@ -53,9 +62,9 @@ class Controller extends \Phalcon\Mvc\Controller
         }
 
         /**
-         * 管理员忽略权限检查
+         * root用户忽略权限检查
          */
-        if ($this->authInfo['root'] == 1) {
+        if ($this->authUser->admin_role == RoleModel::ROLE_ROOT) {
             return true;
         }
 
@@ -101,7 +110,7 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function initialize()
     {
-        $this->view->setVar('auth_info', $this->authInfo);
+        $this->view->setVar('auth_user', $this->authUser);
     }
 
     public function afterExecuteRoute(Dispatcher $dispatcher)
@@ -110,8 +119,8 @@ class Controller extends \Phalcon\Mvc\Controller
 
             $audit = new AuditModel();
 
-            $audit->user_id = $this->authInfo['id'];
-            $audit->user_name = $this->authInfo['name'];
+            $audit->user_id = $this->authUser->id;
+            $audit->user_name = $this->authUser->name;
             $audit->user_ip = $this->request->getClientAddress();
             $audit->req_route = $this->router->getMatchedRoute()->getName();
             $audit->req_path = $this->request->getServer('REQUEST_URI');
@@ -129,6 +138,16 @@ class Controller extends \Phalcon\Mvc\Controller
         $auth = $this->getDI()->get('auth');
 
         return $auth->getAuthInfo();
+    }
+
+    protected function getAuthUser()
+    {
+        /**
+         * @var AdminAuth $auth
+         */
+        $auth = $this->getDI()->get('auth');
+
+        return $auth->getCurrentUser();
     }
 
 }

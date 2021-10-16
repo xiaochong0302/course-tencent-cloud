@@ -39,35 +39,42 @@ class ChapterList extends LogicService
         if (count($chapters) == 0) return [];
 
         if ($user->id > 0 && $this->courseUser) {
-            $mapping = $this->getLearningMapping($course->id, $user->id, $this->courseUser->plan_id);
-            foreach ($chapters as &$chapter) {
-                foreach ($chapter['children'] as &$lesson) {
-                    /**
-                     * @todo v1.4.1之前缓存中无published字段，临时给默认值
-                     */
-                    $lesson['published'] = $lesson['published'] ?? 1;
-                    $owned = ($this->ownedCourse || $lesson['free'] == 1) && $lesson['published'] == 1;
-                    $lesson['me'] = [
-                        'owned' => $owned ? 1 : 0,
-                        'progress' => $mapping[$lesson['id']]['progress'] ?? 0,
-                        'duration' => $mapping[$lesson['id']]['duration'] ?? 0,
-                    ];
-                }
-            }
+            $chapters = $this->handleLoginUserChapters($chapters, $course, $user);
         } else {
-            foreach ($chapters as &$chapter) {
-                foreach ($chapter['children'] as &$lesson) {
-                    /**
-                     * @todo v1.4.1之前缓存中无published字段，临时给默认值
-                     */
-                    $lesson['published'] = $lesson['published'] ?? 1;
-                    $owned = ($this->ownedCourse || $lesson['free'] == 1) && $lesson['published'] == 1;
-                    $lesson['me'] = [
-                        'owned' => $owned ? 1 : 0,
-                        'progress' => 0,
-                        'duration' => 0,
-                    ];
-                }
+            $chapters = $this->handleGuestUserChapters($chapters);
+        }
+
+        return $chapters;
+    }
+
+    protected function handleLoginUserChapters(array $chapters, CourseModel $course, UserModel $user)
+    {
+        $mapping = $this->getLearningMapping($course->id, $user->id, $this->courseUser->plan_id);
+
+        foreach ($chapters as &$chapter) {
+            foreach ($chapter['children'] as &$lesson) {
+                $owned = ($this->ownedCourse || $lesson['free'] == 1) && $lesson['published'] == 1;
+                $lesson['me'] = [
+                    'owned' => $owned ? 1 : 0,
+                    'progress' => $mapping[$lesson['id']]['progress'] ?? 0,
+                    'duration' => $mapping[$lesson['id']]['duration'] ?? 0,
+                ];
+            }
+        }
+
+        return $chapters;
+    }
+
+    protected function handleGuestUserChapters(array $chapters)
+    {
+        foreach ($chapters as &$chapter) {
+            foreach ($chapter['children'] as &$lesson) {
+                $owned = ($this->ownedCourse || $lesson['free'] == 1) && $lesson['published'] == 1;
+                $lesson['me'] = [
+                    'owned' => $owned ? 1 : 0,
+                    'progress' => 0,
+                    'duration' => 0,
+                ];
             }
         }
 

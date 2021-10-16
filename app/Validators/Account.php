@@ -12,6 +12,7 @@ use App\Exceptions\Forbidden as ForbiddenException;
 use App\Library\Utils\Password as PasswordUtil;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\Account as AccountModel;
+use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\User as UserRepo;
 
@@ -164,6 +165,16 @@ class Account extends Validator
         }
 
         return $user;
+    }
+
+    public function checkIfAllowLogin(UserModel $user)
+    {
+        $locked = $user->locked == 1;
+        $expired = $user->lock_expiry_time > time();
+
+        if ($locked && !$expired) {
+            throw new ForbiddenException('account.locked');
+        }
     }
 
 }

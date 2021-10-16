@@ -7,6 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Http\Home\Services\Question as QuestionService;
 use App\Http\Home\Services\QuestionQuery as QuestionQueryService;
 use App\Models\Question as QuestionModel;
@@ -32,6 +33,13 @@ class QuestionController extends Controller
      */
     public function listAction()
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getQuestionListUrl();
+            return $this->response->redirect($location);
+        }
+
         $service = new QuestionQueryService();
 
         $sorts = $service->handleSorts();
@@ -98,6 +106,13 @@ class QuestionController extends Controller
      */
     public function showAction($id)
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getQuestionInfoUrl($id);
+            return $this->response->redirect($location);
+        }
+
         $service = new QuestionInfoService();
 
         $question = $service->handle($id);

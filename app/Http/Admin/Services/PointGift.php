@@ -25,7 +25,11 @@ class PointGift extends Service
     {
         $courseRepo = new CourseRepo();
 
-        $where = ['free' => 0, 'published' => 1];
+        $where = [
+            'free' => 0,
+            'published' => 1,
+            'deleted' => 0,
+        ];
 
         $pager = $courseRepo->paginate($where, $sort = 'latest', 1, 10000);
 
@@ -162,10 +166,22 @@ class PointGift extends Service
 
         $course = $validator->checkCourse($post['xm_course_id']);
 
+        $giftRepo = new PointGiftRepo();
+
+        $gift = $giftRepo->findByCourseId($course->id);
+
+        if ($gift) return $gift;
+
         $gift = new PointGiftModel();
 
         $gift->type = PointGiftModel::TYPE_COURSE;
         $gift->name = $course->title;
+        $gift->cover = $course->cover;
+        $gift->attrs = [
+            'id' => $course->id,
+            'title' => $course->title,
+            'price' => $course->market_price,
+        ];
 
         $gift->create();
 

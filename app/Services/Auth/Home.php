@@ -27,7 +27,7 @@ class Home extends AuthService
         /**
          * demo版本不限制多人登录
          */
-        // $this->logoutOtherClients($user->id);
+        // $this->logoutClients($user->id);
 
         $this->createUserSession($user->id, $sessionId, $lifetime);
 
@@ -62,20 +62,7 @@ class Home extends AuthService
         return 'home_auth_info';
     }
 
-    protected function createUserSession($userId, $sessionId, $lifetime)
-    {
-        $userSession = new UserSessionModel();
-
-        $userSession->user_id = $userId;
-        $userSession->session_id = $sessionId;
-        $userSession->client_type = $this->getClientType();
-        $userSession->client_ip = $this->getClientIp();
-        $userSession->expire_time = time() + $lifetime;
-
-        $userSession->create();
-    }
-
-    protected function logoutOtherClients($userId)
+    public function logoutClients($userId)
     {
         $cache = $this->getCache();
 
@@ -90,6 +77,19 @@ class Home extends AuthService
             $key = $this->getSessionCacheKey($record->session_id);
             $cache->delete($key);
         }
+    }
+
+    protected function createUserSession($userId, $sessionId, $lifetime)
+    {
+        $userSession = new UserSessionModel();
+
+        $userSession->user_id = $userId;
+        $userSession->session_id = $sessionId;
+        $userSession->client_type = $this->getClientType();
+        $userSession->client_ip = $this->getClientIp();
+        $userSession->expire_time = time() + $lifetime;
+
+        $userSession->create();
     }
 
     protected function getSessionLifetime()

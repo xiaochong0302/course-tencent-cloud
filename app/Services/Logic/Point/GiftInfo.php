@@ -55,6 +55,11 @@ class GiftInfo extends LogicService
         $gift->name = $course->title;
         $gift->cover = $course->cover;
         $gift->details = $course->details;
+        $gift->attrs = [
+            'id' => $course->id,
+            'title' => $course->title,
+            'price' => $course->market_price,
+        ];
 
         return $gift;
     }

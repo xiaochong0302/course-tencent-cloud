@@ -41,7 +41,7 @@ class PublicController extends \Phalcon\Mvc\Controller
 
             $location = $service->getFileUrl($file->path);
 
-            $this->response->redirect($location, true);
+            return $this->response->redirect($location, true);
 
         } else {
 

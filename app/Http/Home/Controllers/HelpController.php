@@ -7,6 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Http\Home\Services\Index as IndexService;
 use App\Services\Logic\Help\HelpInfo as HelpInfoService;
 use App\Services\Logic\Help\HelpList as HelpListService;
@@ -22,6 +23,13 @@ class HelpController extends Controller
      */
     public function indexAction()
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getHelpIndexUrl();
+            return $this->response->redirect($location);
+        }
+
         $service = new HelpListService();
 
         $items = $service->handle();
@@ -36,6 +44,13 @@ class HelpController extends Controller
      */
     public function showAction($id)
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getHelpInfoUrl($id);
+            return $this->response->redirect($location);
+        }
+
         $service = new HelpInfoService();
 
         $help = $service->handle($id);

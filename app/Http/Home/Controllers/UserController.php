@@ -7,6 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Services\Logic\User\AnswerList as UserAnswerListService;
 use App\Services\Logic\User\ArticleList as UserArticleListService;
 use App\Services\Logic\User\CourseList as UserCourseListService;
@@ -27,6 +28,13 @@ class UserController extends Controller
      */
     public function showAction($id)
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getUserIndexUrl($id);
+            return $this->response->redirect($location);
+        }
+
         $service = new UserInfoService();
 
         $user = $service->handle($id);

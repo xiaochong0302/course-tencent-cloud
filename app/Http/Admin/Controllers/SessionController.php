@@ -31,7 +31,7 @@ class SessionController extends \Phalcon\Mvc\Controller
         $user = $this->getCurrentUser();
 
         if ($user->id > 0) {
-            $this->response->redirect(['for' => 'admin.index']);
+            return $this->response->redirect(['for' => 'admin.index']);
         }
 
         $sessionService = new SessionService();
@@ -66,7 +66,7 @@ class SessionController extends \Phalcon\Mvc\Controller
 
         $sessionService->logout();
 
-        $this->response->redirect(['for' => 'admin.login']);
+        return $this->response->redirect(['for' => 'admin.login']);
     }
 
 }

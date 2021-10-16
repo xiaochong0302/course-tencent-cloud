@@ -28,7 +28,7 @@ class PublicController extends \Phalcon\Mvc\Controller
             return $this->jsonError(['msg' => '会话已过期，请重新登录']);
         }
 
-        $this->response->redirect(['for' => 'admin.login']);
+        return $this->response->redirect(['for' => 'admin.login']);
     }
 
     /**
