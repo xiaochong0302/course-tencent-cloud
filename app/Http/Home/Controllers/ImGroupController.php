@@ -7,6 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Http\Home\Services\ImGroup as ImGroupService;
 use Phalcon\Mvc\View;
 
@@ -21,6 +22,13 @@ class ImGroupController extends Controller
      */
     public function listAction()
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getImGroupListUrl();
+            return $this->response->redirect($location);
+        }
+
         $this->seo->prependTitle('群组');
 
         $this->view->pick('im/group/list');
@@ -47,6 +55,13 @@ class ImGroupController extends Controller
      */
     public function showAction($id)
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getImGroupIndexUrl($id);
+            return $this->response->redirect($location);
+        }
+
         $service = new ImGroupService();
 
         $group = $service->getGroup($id);

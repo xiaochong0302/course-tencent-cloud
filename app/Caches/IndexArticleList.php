@@ -32,6 +32,7 @@ class IndexArticleList extends Cache
 
         $where = [
             'published' => ArticleModel::PUBLISH_APPROVED,
+            'private' => 0,
             'deleted' => 0,
         ];
 

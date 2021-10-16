@@ -9,6 +9,7 @@ namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Article as ArticleService;
 use App\Http\Home\Services\ArticleQuery as ArticleQueryService;
+use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Models\Article as ArticleModel;
 use App\Services\Logic\Article\ArticleClose as ArticleCloseService;
 use App\Services\Logic\Article\ArticleCreate as ArticleCreateService;
@@ -33,6 +34,13 @@ class ArticleController extends Controller
      */
     public function listAction()
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getArticleListUrl();
+            return $this->response->redirect($location);
+        }
+
         $service = new ArticleQueryService();
 
         $sorts = $service->handleSorts();
@@ -101,6 +109,13 @@ class ArticleController extends Controller
      */
     public function showAction($id)
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getArticleInfoUrl($id);
+            return $this->response->redirect($location);
+        }
+
         $service = new ArticleInfoService();
 
         $article = $service->handle($id);

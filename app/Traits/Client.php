@@ -67,4 +67,11 @@ trait Client
         return $result->isMobile();
     }
 
+    public function h5Enabled()
+    {
+        $file = public_path('h5/index.html');
+
+        return file_exists($file);
+    }
+
 }

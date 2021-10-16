@@ -29,9 +29,15 @@
 
 演示账号：100015@163.com / 123456 （前后台通用）
 
-移动端演示：
+H5手机端演示：
 
-![移动端二维码](https://images.gitee.com/uploads/images/2020/1127/093203_265221a2_23592.png)
+![H5二维码](https://images.gitee.com/uploads/images/2021/1011/091358_05e79898_23592.png)
+
+演示账号：13507083515 / 123456
+
+微信公众号演示：
+
+![公众号二维码](https://images.gitee.com/uploads/images/2021/1011/090813_3b88ecc3_23592.jpeg)
 
 演示账号：13507083515 / 123456
 

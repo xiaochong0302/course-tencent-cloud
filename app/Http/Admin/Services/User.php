@@ -18,6 +18,8 @@ use App\Repos\Account as AccountRepo;
 use App\Repos\Online as OnlineRepo;
 use App\Repos\Role as RoleRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Auth\Api as ApiAuth;
+use App\Services\Auth\Home as HomeAuth;
 use App\Validators\Account as AccountValidator;
 use App\Validators\User as UserValidator;
 
@@ -209,6 +211,10 @@ class User extends Service
 
         $user->update($data);
 
+        if ($user->locked == 1) {
+            $this->destroyUserLogin($user);
+        }
+
         if ($oldAdminRole > 0) {
             $this->updateAdminUserCount($oldAdminRole);
         }
@@ -269,6 +275,17 @@ class User extends Service
         $cache = new UserCache();
 
         $cache->rebuild($user->id);
+    }
+
+    protected function destroyUserLogin(UserModel $user)
+    {
+        $homeAuth = new HomeAuth();
+
+        $homeAuth->logoutClients($user->id);
+
+        $apiAuth = new ApiAuth();
+
+        $apiAuth->logoutClients($user->id);
     }
 
     protected function updateAdminUserCount($roleId)

@@ -64,6 +64,7 @@ class CourseTopicList extends Cache
     {
         return TopicModel::query()
             ->where('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('RAND()')
             ->limit($limit)
             ->execute();

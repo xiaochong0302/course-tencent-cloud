@@ -59,6 +59,8 @@ class Account extends Service
 
         $user = $validator->checkUserLogin($post['account'], $post['password']);
 
+        $validator->checkIfAllowLogin($user);
+
         $token = $this->auth->saveAuthInfo($user);
 
         $this->eventsManager->fire('Account:afterLogin', $this, $user);
@@ -82,6 +84,8 @@ class Account extends Service
         $validator = new AccountValidator();
 
         $user = $validator->checkVerifyLogin($post['account'], $post['verify_code']);
+
+        $validator->checkIfAllowLogin($user);
 
         $token = $this->auth->saveAuthInfo($user);
 

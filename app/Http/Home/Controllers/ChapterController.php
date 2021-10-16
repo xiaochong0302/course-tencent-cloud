@@ -7,6 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Models\ChapterLive as LiveModel;
 use App\Models\Course as CourseModel;
 use App\Services\Logic\Chapter\ChapterInfo as ChapterInfoService;
@@ -39,6 +40,13 @@ class ChapterController extends Controller
      */
     public function showAction($id)
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getChapterInfoUrl($id);
+            return $this->response->redirect($location);
+        }
+
         if ($this->authUser->id == 0) {
             return $this->response->redirect(['for' => 'home.account.login']);
         }

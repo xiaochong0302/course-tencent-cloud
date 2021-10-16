@@ -46,7 +46,7 @@ $error['captcha.invalid_code'] = '无效的验证码';
  * 帐号相关
  */
 $error['account.not_found'] = '账号不存在';
-$error['account.login_block'] = '账号被锁定，无法登录';
+$error['account.locked'] = '账号被锁定，无法登录';
 $error['account.login_pwd_incorrect'] = '登录密码不正确';
 $error['account.invalid_login_name'] = '无效的登录名';
 $error['account.invalid_email'] = '无效的电子邮箱';

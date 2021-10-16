@@ -10,7 +10,7 @@
             <label class="layui-form-label">礼品类型</label>
             <div class="layui-input-block">
                 {% for value,title in types %}
-                    <input type="radio" name="item_type" value="{{ value }}" title="{{ title }}" lay-filter="type">
+                    <input type="radio" name="type" value="{{ value }}" title="{{ title }}" lay-filter="type">
                 {% endfor %}
             </div>
         </div>
