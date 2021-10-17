@@ -32,6 +32,7 @@ trait ConsultListTrait
         foreach ($consults as $consult) {
 
             $owner = $users[$consult['owner_id']] ?? new \stdClass();
+
             $me = $meMappings[$consult['id']];
 
             $items[] = [
@@ -61,8 +62,13 @@ trait ConsultListTrait
         $likedIds = [];
 
         if ($user->id > 0) {
-            $likes = $likeRepo->findByUserId($user->id);
-            $likedIds = array_column($likes->toArray(), 'consult_id');
+            $likes = $likeRepo->findByUserId($user->id)
+                ->filter(function ($like) {
+                    if ($like->deleted == 0) {
+                        return $like;
+                    }
+                });
+            $likedIds = array_column($likes, 'consult_id');
         }
 
         $result = [];
@@ -70,6 +76,7 @@ trait ConsultListTrait
         foreach ($consults as $consult) {
             $result[$consult['id']] = [
                 'liked' => in_array($consult['id'], $likedIds) ? 1 : 0,
+                'owned' => $consult['owner_id'] == $user->id ? 1 : 0,
             ];
         }
 

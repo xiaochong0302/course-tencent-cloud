@@ -62,6 +62,7 @@ class ReviewList extends LogicService
         foreach ($reviews as $review) {
 
             $owner = $users[$review['owner_id']] ?? new \stdClass();
+
             $me = $meMappings[$review['id']];
 
             $items[] = [
@@ -81,7 +82,7 @@ class ReviewList extends LogicService
         return $pager;
     }
 
-    protected function getMeMappings($consults)
+    protected function getMeMappings($reviews)
     {
         $user = $this->getCurrentUser(true);
 
@@ -90,15 +91,21 @@ class ReviewList extends LogicService
         $likedIds = [];
 
         if ($user->id > 0) {
-            $likes = $likeRepo->findByUserId($user->id);
-            $likedIds = array_column($likes->toArray(), 'review_id');
+            $likes = $likeRepo->findByUserId($user->id)
+                ->filter(function ($like) {
+                    if ($like->deleted == 0) {
+                        return $like;
+                    }
+                });
+            $likedIds = array_column($likes, 'review_id');
         }
 
         $result = [];
 
-        foreach ($consults as $consult) {
+        foreach ($reviews as $consult) {
             $result[$consult['id']] = [
                 'liked' => in_array($consult['id'], $likedIds) ? 1 : 0,
+                'owned' => $consult['owner_id'] == $user->id ? 1 : 0,
             ];
         }
 
