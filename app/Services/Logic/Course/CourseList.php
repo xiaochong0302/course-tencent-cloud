@@ -72,6 +72,10 @@ class CourseList extends LogicService
 
         foreach ($courses as $course) {
 
+            if ($course['fake_user_count'] > $course['user_count']) {
+                $course['user_count'] = $course['fake_user_count'];
+            }
+
             $course['cover'] = $baseUrl . $course['cover'];
 
             $items[] = [

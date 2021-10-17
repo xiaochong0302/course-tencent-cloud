@@ -166,6 +166,17 @@ class Course extends Validator
         return implode('，', $list);
     }
 
+    public function checkUserCount($userCount)
+    {
+        $value = $this->filter->sanitize($userCount, ['trim', 'int']);
+
+        if ($value < 0 || $value > 999999) {
+            throw new BadRequestException('course.invalid_user_count');
+        }
+
+        return $value;
+    }
+
     public function checkOriginPrice($price)
     {
         $value = $this->filter->sanitize($price, ['trim', 'float']);

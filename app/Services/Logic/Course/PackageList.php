@@ -25,9 +25,7 @@ class PackageList extends LogicService
 
         $packages = $cache->get($course->id);
 
-        if (empty($packages)) {
-            return [];
-        }
+        if (empty($packages)) return [];
 
         $cache = new PackageCourseListCache();
 
