@@ -1,4 +1,4 @@
-### [v1.4.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.6)(2021-10-09)
+### [v1.4.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.6)(2021-10-17)
 
 - 完善首页文章缓存的获取条件
 - 完善热门专题的获取条件
@@ -10,6 +10,7 @@
 - 修正非root用户后台添加用户时报错
 - 手机端访问web端地址自动跳转到手机端
 - 增加锁定用户逻辑(会自动登出锁定用户)
+- 增加虚假课程订阅数(用于营销效果)
 
 ### [v1.4.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.5)(2021-09-27)
 

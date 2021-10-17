@@ -162,6 +162,10 @@ class Course extends Service
             $data['level'] = $validator->checkLevel($post['level']);
         }
 
+        if (isset($post['fake_user_count'])) {
+            $data['fake_user_count'] = $validator->checkUserCount($post['fake_user_count']);
+        }
+
         if (isset($post['study_expiry'])) {
             $data['study_expiry'] = $validator->checkStudyExpiry($post['study_expiry']);
         }

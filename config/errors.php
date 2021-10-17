@@ -176,6 +176,7 @@ $error['course.details_too_long'] = '详情太长（多于5000个字符）';
 $error['course.invalid_model'] = '无效的模型类别';
 $error['course.invalid_level'] = '无效的难度级别';
 $error['course.invalid_cover'] = '无效的封面';
+$error['course.invalid_user_count'] = '无效的学员数量（范围：0-999999）';
 $error['course.invalid_origin_price'] = '无效的原始价格（范围：0-999999）';
 $error['course.invalid_market_price'] = '无效的优惠价格（范围：0-999999）';
 $error['course.invalid_vip_price'] = '无效的会员价格（范围：0-999999）';

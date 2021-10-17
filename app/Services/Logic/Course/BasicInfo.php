@@ -27,9 +27,16 @@ class BasicInfo extends LogicService
 
     public function handleBasicInfo(CourseModel $course)
     {
-        $course->details = kg_parse_markdown($course->details);
+        $details = kg_parse_markdown($course->details);
+
+        $userCount = $course->user_count;
+
+        if ($course->fake_user_count > $course->user_count) {
+            $userCount = $course->fake_user_count;
+        }
 
         $teachers = $this->handleTeachers($course);
+
         $ratings = $this->handleRatings($course);
 
         return [
@@ -37,7 +44,7 @@ class BasicInfo extends LogicService
             'title' => $course->title,
             'cover' => $course->cover,
             'summary' => $course->summary,
-            'details' => $course->details,
+            'details' => $details,
             'keywords' => $course->keywords,
             'origin_price' => $course->origin_price,
             'market_price' => $course->market_price,
@@ -51,7 +58,7 @@ class BasicInfo extends LogicService
             'attrs' => $course->attrs,
             'published' => $course->published,
             'deleted' => $course->deleted,
-            'user_count' => $course->user_count,
+            'user_count' => $userCount,
             'lesson_count' => $course->lesson_count,
             'resource_count' => $course->resource_count,
             'package_count' => $course->package_count,
