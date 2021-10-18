@@ -56,13 +56,12 @@ class PublicController extends \Phalcon\Mvc\Controller
      */
     public function shareAction()
     {
-        $id = $this->request->getQuery('id', 'int', 0);
-        $type = $this->request->getQuery('type', 'string', 'course');
-        $referer = $this->request->getQuery('referer', 'int', 0);
+        $id = $this->request->getQuery('id', 'int');
+        $type = $this->request->getQuery('type', 'string');
 
         $service = new ShareUrlService();
 
-        $location = $service->handle($id, $type, $referer);
+        $location = $service->handle($id, $type);
 
         return $this->response->redirect($location, true);
     }
