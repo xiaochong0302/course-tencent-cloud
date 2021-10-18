@@ -132,7 +132,6 @@ class ConnectController extends Controller
             }
         }
 
-        $openUser = $service->getOpenUserInfo($code, $state, $provider);
         $connect = $service->getConnectRelation($openUser['id'], $openUser['provider']);
 
         if ($this->authUser->id > 0) {
