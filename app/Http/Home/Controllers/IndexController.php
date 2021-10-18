@@ -7,32 +7,24 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Http\Home\Services\Index as IndexService;
-use App\Traits\Client as ClientTrait;
-use Phalcon\Mvc\Dispatcher;
 
 class IndexController extends Controller
 {
-
-    use ClientTrait;
-
-    public function beforeExecuteRoute(Dispatcher $dispatcher)
-    {
-        if ($this->isMobileBrowser() && $this->h5Enabled()) {
-
-            $this->response->redirect('/h5', true);
-
-            return false;
-        }
-
-        return parent::beforeExecuteRoute($dispatcher);
-    }
 
     /**
      * @Get("/", name="home.index")
      */
     public function indexAction()
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getHomeUrl();
+            return $this->response->redirect($location);
+        }
+
         $this->seo->setKeywords($this->siteInfo['keywords']);
         $this->seo->setDescription($this->siteInfo['description']);
 
@@ -69,13 +61,6 @@ class IndexController extends Controller
         $this->view->setVar('new_courses', $service->getSimpleNewCourses());
         $this->view->setVar('free_courses', $service->getSimpleFreeCourses());
         $this->view->setVar('vip_courses', $service->getSimpleVipCourses());
-    }
-
-    protected function h5Enabled()
-    {
-        $file = public_path('h5/index.html');
-
-        return file_exists($file);
     }
 
 }

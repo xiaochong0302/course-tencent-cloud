@@ -51,6 +51,8 @@ class Account extends Service
 
         $user = $validator->checkUserLogin($post['account'], $post['password']);
 
+        $validator->checkIfAllowLogin($user);
+
         $validator = new CaptchaValidator();
 
         $validator->checkCode($post['ticket'], $post['rand']);
@@ -67,6 +69,8 @@ class Account extends Service
         $validator = new AccountValidator();
 
         $user = $validator->checkVerifyLogin($post['account'], $post['verify_code']);
+
+        $validator->checkIfAllowLogin($user);
 
         $this->auth->saveAuthInfo($user);
 

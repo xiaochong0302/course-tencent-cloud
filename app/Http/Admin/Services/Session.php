@@ -26,28 +26,30 @@ class Session extends Service
 
     public function login()
     {
-        $currentUser = $this->getCurrentUser();
+        $user = $this->getCurrentUser();
 
-        if ($currentUser->id > 0) {
-            $this->response->redirect(['for' => 'home.index']);
+        if ($user->id > 0) {
+            return $this->response->redirect(['for' => 'home.index']);
         }
 
         $post = $this->request->getPost();
 
-        $accountValidator = new AccountValidator();
+        $validator = new AccountValidator();
 
-        $user = $accountValidator->checkAdminLogin($post['account'], $post['password']);
+        $user = $validator->checkAdminLogin($post['account'], $post['password']);
 
-        $captchaSettings = $this->getSettings('captcha');
+        $validator->checkIfAllowLogin($user);
+
+        $captcha = $this->getSettings('captcha');
 
         /**
          * 验证码是一次性的，放到最后检查，减少第三方调用
          */
-        if ($captchaSettings['enabled'] == 1) {
+        if ($captcha['enabled'] == 1) {
 
-            $captchaValidator = new CaptchaValidator();
+            $validator = new CaptchaValidator();
 
-            $captchaValidator->checkCode($post['ticket'], $post['rand']);
+            $validator->checkCode($post['ticket'], $post['rand']);
         }
 
         $this->auth->saveAuthInfo($user);

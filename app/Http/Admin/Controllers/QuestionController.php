@@ -26,7 +26,7 @@ class QuestionController extends Controller
             ['type' => CategoryModel::TYPE_ARTICLE]
         );
 
-        $this->response->redirect($location);
+        return $this->response->redirect($location);
     }
 
     /**

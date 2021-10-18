@@ -47,6 +47,12 @@ class CourseRecommendedList extends Cache
 
         foreach ($courses as $course) {
 
+            $userCount = $course->user_count;
+
+            if ($course->fake_user_count > $course->user_count) {
+                $userCount = $course->fake_user_count;
+            }
+
             $result[] = [
                 'id' => $course->id,
                 'title' => $course->title,
@@ -55,7 +61,7 @@ class CourseRecommendedList extends Cache
                 'vip_price' => $course->vip_price,
                 'model' => $course->model,
                 'level' => $course->level,
-                'user_count' => $course->user_count,
+                'user_count' => $userCount,
                 'lesson_count' => $course->lesson_count,
             ];
         }

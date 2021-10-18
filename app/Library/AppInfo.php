@@ -16,7 +16,7 @@ class AppInfo
 
     protected $link = 'https://koogua.com';
 
-    protected $version = '1.4.5';
+    protected $version = '1.4.6';
 
     public function __get($name)
     {

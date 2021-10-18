@@ -25,19 +25,19 @@
                 <input type="radio" name="edu_role" value="2" title="讲师">
             </div>
         </div>
-        {% if auth_info.root == 1 %}
-            <div class="layui-form-item">
-                <label class="layui-form-label">后台角色</label>
-                <div class="layui-input-block">
-                    <input type="radio" name="admin_role" value="0" title="无" checked="checked">
+        <div class="layui-form-item">
+            <label class="layui-form-label">后台角色</label>
+            <div class="layui-input-block">
+                <input type="radio" name="admin_role" value="0" title="无" checked="checked">
+                {% if auth_user.admin_role == 1 %}
                     {% for role in admin_roles %}
                         {% if role.id > 1 %}
                             <input type="radio" name="admin_role" value="{{ role.id }}" title="{{ role.name }}">
                         {% endif %}
                     {% endfor %}
-                </div>
+                {% endif %}
             </div>
-        {% endif %}
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-block">

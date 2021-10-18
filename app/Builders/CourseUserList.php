@@ -45,7 +45,7 @@ class CourseUserList extends Builder
             'id', 'title', 'cover',
             'market_price', 'vip_price',
             'rating', 'model', 'level', 'attrs', 'published', 'deleted',
-            'user_count', 'lesson_count', 'review_count', 'favorite_count',
+            'user_count', 'fake_user_count', 'lesson_count', 'review_count', 'favorite_count',
         ];
 
         $courses = $courseRepo->findByIds($ids, $columns);
@@ -55,8 +55,15 @@ class CourseUserList extends Builder
         $result = [];
 
         foreach ($courses->toArray() as $course) {
+
+            if ($course['fake_user_count'] > $course['user_count']) {
+                $course['user_count'] = $course['fake_user_count'];
+            }
+
             $course['cover'] = $baseUrl . $course['cover'];
+
             $course['attrs'] = json_decode($course['attrs'], true);
+
             $result[$course['id']] = $course;
         }
 

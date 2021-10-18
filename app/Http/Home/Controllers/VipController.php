@@ -7,6 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Services\Logic\Vip\CourseList as VipCourseListService;
 use App\Services\Logic\Vip\OptionList as VipOptionListService;
 use App\Services\Logic\Vip\UserList as VipUserListService;
@@ -23,6 +24,13 @@ class VipController extends Controller
      */
     public function indexAction()
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getVipIndexUrl();
+            return $this->response->redirect($location);
+        }
+
         $service = new VipOptionListService();
 
         $vipOptions = $service->handle();

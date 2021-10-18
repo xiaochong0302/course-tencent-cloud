@@ -107,7 +107,7 @@ class OrderController extends Controller
         $order = $service->handle($sn);
 
         if ($order['status'] != OrderModel::STATUS_PENDING) {
-            $this->response->redirect(['for' => 'home.uc.orders']);
+            return $this->response->redirect(['for' => 'home.uc.orders']);
         }
 
         $this->seo->prependTitle('支付订单');

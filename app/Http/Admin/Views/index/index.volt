@@ -29,7 +29,7 @@
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:">{{ auth_info.name }}</a>
+                <a href="javascript:">{{ auth_user.name }}</a>
                 <dl class="layui-nav-child">
                     <dd><a href="{{ url({'for':'home.uc.profile'}) }}" target="_blank">基本资料</a></dd>
                     <dd><a href="{{ url({'for':'home.uc.account'}) }}" target="_blank">安全设置</a></dd>
@@ -61,9 +61,6 @@
     </div>
     <div class="layui-body">
         <iframe name="content" style="width:100%;height:100%;border:0;" src="{{ url({'for':'admin.main'}) }}"></iframe>
-    </div>
-    <div class="layui-copyright">
-        Powered by <a href="{{ app_info.link }}" title="{{ app_info.name }}" target="_blank">{{ app_info.alias }} {{ app_info.version }}</a>
     </div>
 </div>
 </body>

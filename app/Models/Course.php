@@ -235,11 +235,18 @@ class Course extends Model
     public $resource_count = 0;
 
     /**
-     * 学员数
+     * 真实学员数
      *
      * @var int
      */
     public $user_count = 0;
+
+    /**
+     * 伪造学员数
+     *
+     * @var int
+     */
+    public $fake_user_count = 0;
 
     /**
      * 课时数
@@ -340,6 +347,10 @@ class Course extends Model
 
         if (is_array($this->attrs) || is_object($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
+        }
+
+        if ($this->fake_user_count < $this->user_count) {
+            $this->fake_user_count = $this->user_count;
         }
 
         $this->update_time = time();

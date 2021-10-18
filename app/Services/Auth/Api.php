@@ -24,7 +24,9 @@ class Api extends AuthService
 
         $lifetime = $this->getTokenLifetime();
 
-        $this->logoutOtherClients($user->id);
+        $clientType = $this->getClientType();
+
+        $this->logoutClients($user->id, $clientType);
 
         $this->createUserToken($user->id, $token, $lifetime);
 
@@ -70,6 +72,52 @@ class Api extends AuthService
         return $authInfo ?: null;
     }
 
+    public function logoutClients($userId, $clientType = null)
+    {
+        $repo = new UserTokenRepo();
+
+        $records = $repo->findByUserId($userId);
+
+        if ($records->count() == 0) return;
+
+        if ($clientType) {
+            $this->logoutSpecialClients($records, $clientType);
+        } else {
+            $this->logoutAllClients($records);
+        }
+    }
+
+    /**
+     * @param $userTokens UserTokenModel[]
+     */
+    protected function logoutAllClients($userTokens)
+    {
+        $cache = $this->getCache();
+
+        foreach ($userTokens as $record) {
+            $record->delete();
+            $key = $this->getTokenCacheKey($record->token);
+            $cache->delete($key);
+        }
+    }
+
+    /**
+     * @param $userTokens UserTokenModel[]
+     * @param int $clientType
+     */
+    protected function logoutSpecialClients($userTokens, $clientType)
+    {
+        $cache = $this->getCache();
+
+        foreach ($userTokens as $record) {
+            if ($record->client_type == $clientType) {
+                $record->delete();
+                $key = $this->getTokenCacheKey($record->token);
+                $cache->delete($key);
+            }
+        }
+    }
+
     protected function createUserToken($userId, $token, $lifetime)
     {
         $userToken = new UserTokenModel();
@@ -81,27 +129,6 @@ class Api extends AuthService
         $userToken->expire_time = time() + $lifetime;
 
         $userToken->create();
-    }
-
-    protected function logoutOtherClients($userId)
-    {
-        $repo = new UserTokenRepo();
-
-        $records = $repo->findByUserId($userId);
-
-        $cache = $this->getCache();
-
-        $clientType = $this->getClientType();
-
-        if ($records->count() == 0) return;
-
-        foreach ($records as $record) {
-            if ($record->client_type == $clientType) {
-                $record->delete();
-                $key = $this->getTokenCacheKey($record->token);
-                $cache->delete($key);
-            }
-        }
     }
 
     protected function generateToken($userId)

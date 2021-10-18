@@ -63,6 +63,12 @@ class CourseDocument extends Injectable
 
         $course->cover = CourseModel::getCoverPath($course->cover);
 
+        $userCount = $course->user_count;
+
+        if ($course->fake_user_count > $course->user_count) {
+            $userCount = $course->fake_user_count;
+        }
+
         return [
             'id' => $course->id,
             'title' => $course->title,
@@ -83,7 +89,7 @@ class CourseDocument extends Injectable
             'tags' => $course->tags,
             'category' => $category,
             'teacher' => $teacher,
-            'user_count' => $course->user_count,
+            'user_count' => $userCount,
             'lesson_count' => $course->lesson_count,
             'review_count' => $course->review_count,
             'favorite_count' => $course->favorite_count,

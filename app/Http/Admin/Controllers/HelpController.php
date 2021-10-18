@@ -26,7 +26,7 @@ class HelpController extends Controller
             ['type' => CategoryModel::TYPE_HELP]
         );
 
-        $this->response->redirect($location);
+        return $this->response->redirect($location);
     }
 
     /**
