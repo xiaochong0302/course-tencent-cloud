@@ -65,6 +65,13 @@ class IndexFreeCourseList extends Cache
             $categoryCourses = [];
 
             foreach ($courses as $course) {
+
+                $userCount = $course->user_count;
+
+                if ($course->fake_user_count > $course->user_count) {
+                    $userCount = $course->fake_user_count;
+                }
+
                 $categoryCourses[] = [
                     'id' => $course->id,
                     'title' => $course->title,
@@ -73,7 +80,7 @@ class IndexFreeCourseList extends Cache
                     'vip_price' => $course->vip_price,
                     'model' => $course->model,
                     'level' => $course->level,
-                    'user_count' => $course->user_count,
+                    'user_count' => $userCount,
                     'lesson_count' => $course->lesson_count,
                 ];
             }
