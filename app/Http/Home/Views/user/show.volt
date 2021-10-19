@@ -96,7 +96,7 @@
         </div>
     </div>
 
-    {% set share_url = full_url({'for':'home.share'},{'id':user.id,'type':'user','referer':auth_user.id}) %}
+    {% set share_url = full_url({'for':'home.share'},{'id':user.id,'type':'user'}) %}
     {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
 
     <div class="layui-hide">
