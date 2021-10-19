@@ -76,7 +76,7 @@ class Api extends AuthService
     {
         $repo = new UserTokenRepo();
 
-        $records = $repo->findByUserId($userId);
+        $records = $repo->findUserActiveTokens($userId);
 
         if ($records->count() == 0) return;
 
