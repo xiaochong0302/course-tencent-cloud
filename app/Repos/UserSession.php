@@ -18,10 +18,26 @@ class UserSession extends Repository
      * @param int $userId
      * @return ResultsetInterface|Resultset|UserSessionModel[]
      */
-    public function findByUserId($userId)
+    public function findUserActiveSessions($userId)
     {
         return UserSessionModel::query()
             ->where('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('deleted = 0')
+            ->execute();
+    }
+
+    /**
+     * @param int $userId
+     * @param int $minutes
+     * @return ResultsetInterface|Resultset|UserSessionModel[]
+     */
+    public function findUserRecentSessions($userId, $minutes = 10)
+    {
+        $createTime = time() - $minutes * 60;
+
+        return UserSessionModel::query()
+            ->where('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('create_time > :create_time:', ['create_time' => $createTime])
             ->execute();
     }
 

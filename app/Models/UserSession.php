@@ -7,6 +7,8 @@
 
 namespace App\Models;
 
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+
 class UserSession extends Model
 {
 
@@ -46,6 +48,13 @@ class UserSession extends Model
     public $client_ip = '';
 
     /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted = 0;
+
+    /**
      * 过期时间
      *
      * @var int
@@ -69,6 +78,18 @@ class UserSession extends Model
     public function getSource(): string
     {
         return 'kg_user_session';
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->addBehavior(
+            new SoftDelete([
+                'field' => 'deleted',
+                'value' => 1,
+            ])
+        );
     }
 
     public function beforeCreate()

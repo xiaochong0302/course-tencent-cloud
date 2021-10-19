@@ -12,12 +12,18 @@ use App\Exceptions\Forbidden as ForbiddenException;
 use App\Library\Utils\Password as PasswordUtil;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\Account as AccountModel;
+use App\Models\Client as ClientModel;
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\User as UserRepo;
+use App\Repos\UserSession as UserSessionRepo;
+use App\Repos\UserToken as UserTokenRepo;
+use App\Traits\Client as ClientTrait;
 
 class Account extends Validator
 {
+
+    use ClientTrait;
 
     public function checkAccount($name)
     {
@@ -174,6 +180,34 @@ class Account extends Validator
 
         if ($locked && !$expired) {
             throw new ForbiddenException('account.locked');
+        }
+
+        $this->checkFloodLogin($user->id);
+    }
+
+    public function checkFloodLogin($userId)
+    {
+        $clientIp = $this->getClientIp();
+        $clientType = $this->getClientType();
+
+        if ($clientType == ClientModel::TYPE_PC) {
+            $repo = new UserSessionRepo();
+            $records = $repo->findUserRecentSessions($userId, 10);
+        } else {
+            $repo = new UserTokenRepo();
+            $records = $repo->findUserRecentTokens($userId, 10);
+        }
+
+        if ($records->count() == 0) return;
+
+        $clientIps = array_column($records->toArray(), 'client_ip');
+
+        $countValues = array_count_values($clientIps);
+
+        foreach ($countValues as $ip => $count) {
+            if ($clientIp == $ip && $count > 4) {
+                throw new ForbiddenException('account.flood_login');
+            }
         }
     }
 
