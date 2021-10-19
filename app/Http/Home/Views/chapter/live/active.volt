@@ -57,7 +57,7 @@
         <input type="hidden" name="bind_user_url" value='{{ bind_user_url }}'>
     </div>
 
-    {% set share_url = full_url({'for':'home.share'},{'id':chapter.id,'type':'chapter','referer':auth_user.id}) %}
+    {% set share_url = full_url({'for':'home.share'},{'id':chapter.id,'type':'chapter'}) %}
     {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
 
     <div class="layui-hide">

@@ -65,7 +65,7 @@ class Home extends AuthService
 
         $repo = new UserSessionRepo();
 
-        $records = $repo->findByUserId($userId);
+        $records = $repo->findUserActiveSessions($userId);
 
         if ($records->count() == 0) return;
 
