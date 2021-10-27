@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% set expiry_editable = relation.source_type in [1,3] %}
+    {% set expiry_editable = relation.source_type in [2,4,5,6] %}
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.student.update'}) }}">
         <fieldset class="layui-elem-field layui-field-title">

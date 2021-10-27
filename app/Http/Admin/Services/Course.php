@@ -389,7 +389,10 @@ class Course extends Service
             }
         }
 
-        $items = $courseRepo->findAll(['published' => 1]);
+        $items = $courseRepo->findAll([
+            'published' => 1,
+            'deleted' => 0,
+        ]);
 
         if ($items->count() == 0) return [];
 
@@ -397,7 +400,7 @@ class Course extends Service
 
         foreach ($items as $item) {
             $result[] = [
-                'name' => sprintf('%s（¥%0.2f）', $item->title, $item->market_price),
+                'name' => sprintf('%s - %s（¥%0.2f）', $item->id, $item->title, $item->market_price),
                 'value' => $item->id,
                 'selected' => in_array($item->id, $courseIds),
             ];

@@ -17,6 +17,12 @@ class Security extends Validator
 
     public function checkCsrfToken()
     {
+        $route = $this->router->getMatchedRoute();
+
+        if (in_array($route->getName(), $this->getCsrfWhitelist())) {
+            return;
+        }
+
         $token = $this->request->getHeader('X-Csrf-Token');
 
         $service = new CsrfTokenService();
@@ -48,6 +54,16 @@ class Security extends Validator
         if (!$result) {
             throw new ServiceUnavailableException('security.too_many_requests');
         }
+    }
+
+    protected function getCsrfWhitelist()
+    {
+        return [
+            'admin.upload.content_img',
+            'admin.upload.remote_img',
+            'home.upload.content_img',
+            'home.upload.remote_img',
+        ];
     }
 
 }

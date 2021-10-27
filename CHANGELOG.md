@@ -1,5 +1,17 @@
 ### [v1.4.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.6)(2021-10-18)
 
+- 更新README.md
+- 优化分页查询参数过滤
+- 优化分页查询参数过滤
+- 优化后台学员添加和搜索
+- 优化后台学员课程过期管理
+- 增加后台会员特权过期管理
+- 增加编辑器内站外图片自动保存到本地
+- 增加CSRF放行白名单
+- 完善订单|交易|退款序号
+
+### [v1.4.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.6)(2021-10-18)
+
 - 完善首页文章缓存的获取条件
 - 完善热门专题的获取条件
 - 优化课程章节列表逻辑
