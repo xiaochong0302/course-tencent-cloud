@@ -181,10 +181,64 @@ class MyStorage extends Storage
 
     /**
      * 上传im文件
+     *
+     * @return UploadModel|bool
      */
     public function uploadImFile()
     {
         return $this->upload('/im/file/', self::MIME_FILE, UploadModel::TYPE_IM_FILE);
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return UploadModel|bool
+     */
+    public function uploadRemoteImage($url)
+    {
+        $path = parse_url($url, PHP_URL_PATH);
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        $originalName = pathinfo($path, PATHINFO_BASENAME);
+
+        $fileName = $this->generateFileName($extension);
+
+        $filePath = tmp_path($fileName);
+
+        $contents = file_get_contents($url);
+
+        if (file_put_contents($filePath, $contents) === false) {
+            return false;
+        }
+
+        $keyName = "/img/content/{$fileName}";
+
+        $uploadPath = $this->putFile($keyName, $filePath);
+
+        if (!$uploadPath) return false;
+
+        $md5 = md5_file($filePath);
+
+        $uploadRepo = new UploadRepo();
+
+        $upload = $uploadRepo->findByMd5($md5);
+
+        if ($upload == false) {
+
+            $upload = new UploadModel();
+
+            $upload->name = $originalName;
+            $upload->mime = mime_content_type($filePath);
+            $upload->size = filesize($filePath);
+            $upload->type = UploadModel::TYPE_CONTENT_IMG;
+            $upload->path = $uploadPath;
+            $upload->md5 = $md5;
+
+            $upload->create();
+        }
+
+        unlink($filePath);
+
+        return $upload;
     }
 
     /**

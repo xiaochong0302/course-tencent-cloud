@@ -47,27 +47,6 @@ class UploadController extends Controller
     }
 
     /**
-     * @Post("/cover/img", name="home.upload.cover_img")
-     */
-    public function uploadCoverImageAction()
-    {
-        $service = new StorageService();
-
-        $file = $service->uploadCoverImage();
-
-        if (!$file) {
-            return $this->jsonError(['msg' => '上传文件失败']);
-        }
-
-        $data = [
-            'src' => $service->getImageUrl($file->path),
-            'title' => $file->name,
-        ];
-
-        return $this->jsonSuccess(['data' => $data]);
-    }
-
-    /**
      * @Post("/content/img", name="home.upload.content_img")
      */
     public function uploadContentImageAction()
@@ -83,6 +62,34 @@ class UploadController extends Controller
         $data = [
             'src' => $service->getImageUrl($file->path),
             'title' => $file->name,
+        ];
+
+        return $this->jsonSuccess(['data' => $data]);
+    }
+
+    /**
+     * @Post("/remote/img", name="home.upload.remote_img")
+     */
+    public function uploadRemoteImageAction()
+    {
+        $originalUrl = $this->request->getPost('url', ['trim', 'string']);
+
+        $service = new StorageService();
+
+        $file = $service->uploadRemoteImage($originalUrl);
+
+        $newUrl = $originalUrl;
+
+        if ($file) {
+            $newUrl = $service->getImageUrl($file->path);
+        }
+
+        /**
+         * 编辑器要求返回的数据结构
+         */
+        $data = [
+            'url' => $newUrl,
+            'originalURL' => $originalUrl,
         ];
 
         return $this->jsonSuccess(['data' => $data]);

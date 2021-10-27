@@ -1,6 +1,6 @@
 ## 酷瓜云课堂
 
-![酷瓜云网课GPL协议开源](https://images.gitee.com/uploads/images/2021/0520/091646_a94e4e7c_23592.png)
+![酷瓜云网课GPL协议开源](https://portal-1255691183.file.myqcloud.com/img/content/60e7aea40966f.png)
 
 ### 项目介绍
 
@@ -31,13 +31,13 @@
 
 H5手机端演示：
 
-![H5二维码](https://images.gitee.com/uploads/images/2021/1011/091358_05e79898_23592.png)
+![H5二维码](https://portal-1255691183.file.myqcloud.com/img/content/616fc238895b7.png)
 
 演示账号：13507083515 / 123456
 
 微信公众号演示：
 
-![公众号二维码](https://images.gitee.com/uploads/images/2021/1011/090813_3b88ecc3_23592.jpeg)
+![公众号二维码](https://portal-1255691183.file.myqcloud.com/img/content/616f998270eca.png)
 
 演示账号：13507083515 / 123456
 

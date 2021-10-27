@@ -9,12 +9,22 @@ namespace App\Http\Admin\Controllers;
 
 use App\Services\MyStorage as StorageService;
 use App\Services\Vod as VodService;
+use App\Validators\Validator as AppValidator;
 
 /**
  * @RoutePrefix("/admin/upload")
  */
 class UploadController extends Controller
 {
+
+    public function initialize()
+    {
+        $authUser = $this->getAuthUser();
+
+        $validator = new AppValidator();
+
+        $validator->checkAuthUser($authUser->id);
+    }
 
     /**
      * @Post("/icon/img", name="admin.upload.icon_img")
@@ -95,6 +105,34 @@ class UploadController extends Controller
         $data = [
             'src' => $service->getImageUrl($file->path),
             'title' => $file->name,
+        ];
+
+        return $this->jsonSuccess(['data' => $data]);
+    }
+
+    /**
+     * @Post("/remote/img", name="admin.upload.remote_img")
+     */
+    public function uploadRemoteImageAction()
+    {
+        $originalUrl = $this->request->getPost('url', ['trim', 'string']);
+
+        $service = new StorageService();
+
+        $file = $service->uploadRemoteImage($originalUrl);
+
+        $newUrl = $originalUrl;
+
+        if ($file) {
+            $newUrl = $service->getImageUrl($file->path);
+        }
+
+        /**
+         * 编辑器要求返回的数据结构
+         */
+        $data = [
+            'url' => $newUrl,
+            'originalURL' => $originalUrl,
         ];
 
         return $this->jsonSuccess(['data' => $data]);

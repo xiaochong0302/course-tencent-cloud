@@ -134,7 +134,7 @@ class Refund extends Model
 
     public function beforeCreate()
     {
-        $this->sn = date('YmdHis') . rand(1000, 9999);
+        $this->sn = $this->getRefundSn();
 
         $this->create_time = time();
     }
@@ -169,6 +169,20 @@ class Refund extends Model
             self::STATUS_FINISHED => '已完成',
             self::STATUS_FAILED => '已失败',
         ];
+    }
+
+    protected function getRefundSn()
+    {
+        $sn = date('YmdHis') . rand(1000, 9999);
+
+        $order = self::findFirst([
+            'conditions' => 'sn = :sn:',
+            'bind' => ['sn' => $sn],
+        ]);
+
+        if (!$order) return $sn;
+
+        $this->getRefundSn();
     }
 
 }

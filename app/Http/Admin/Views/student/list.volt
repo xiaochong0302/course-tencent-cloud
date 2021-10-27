@@ -47,6 +47,7 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="12%">
         </colgroup>
         <thead>
@@ -54,6 +55,7 @@
             <th>基本信息</th>
             <th>学习情况</th>
             <th>来源类型</th>
+            <th>加入日期</th>
             <th>有效期限</th>
             <th>操作</th>
         </tr>
@@ -74,12 +76,13 @@
                     <p>时长：{{ item.duration|duration }}</p>
                 </td>
                 <td>{{ source_type_info(item.source_type) }}</td>
+                <td>{{ date('Y-m-d',item.create_time) }}</td>
                 <td>
                     {% if item.source_type in [1,3] %}
                         N/A
                     {% else %}
-                        <p>开始：{{ date('Y-m-d H:i',item.create_time) }}</p>
-                        <p>结束：{{ date('Y-m-d H:i',item.expiry_time) }}</p>
+                        <p>开始：{{ date('Y-m-d',item.create_time) }}</p>
+                        <p>结束：{{ date('Y-m-d',item.expiry_time) }}</p>
                     {% endif %}
                 </td>
                 <td class="center">
