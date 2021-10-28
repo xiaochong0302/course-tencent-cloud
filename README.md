@@ -2,15 +2,14 @@
 
 ![酷瓜云网课GPL协议开源](https://portal-1255691183.file.myqcloud.com/img/content/60e7aea40966f.png)
 
-### 项目介绍
+### 系统介绍
 
 酷瓜云课堂，依托腾讯云基础服务架构，采用C扩展框架Phalcon开发，GPL-2.0开源协议，致力开源网课系统，开源网校系统，开源知识付费系统，开源在线教育系统。
 
-[![Gitee star](https://gitee.com/koogua/course-tencent-cloud/badge/star.svg?theme=gitee)](https://gitee.com/koogua/course-tencent-cloud)
-[![Gitee fork](https://gitee.com/koogua/course-tencent-cloud/badge/fork.svg?theme=gitee)](https://gitee.com/koogua/course-tencent-cloud)
-[![Github stars](https://img.shields.io/github/stars/xiaochong0302/course-tencent-cloud?logo=github)](https://github.com/xiaochong0302/course-tencent-cloud)
-[![Github forks](https://img.shields.io/github/forks/xiaochong0302/course-tencent-cloud?logo=github)](https://github.com/xiaochong0302/course-tencent-cloud)
-![GPL-2.0](https://img.shields.io/static/v1?label=license&message=GPL-2.0&color=blue)
+![star](https://svg.hamm.cn/gitee.svg?user=koogua&project=course-tencent-cloud&type=star)
+![fork](https://svg.hamm.cn/gitee.svg?user=koogua&project=course-tencent-cloud&type=fork)
+![license](https://svg.hamm.cn/gitee.svg?user=koogua&project=course-tencent-cloud&type=license)
+![release](https://svg.hamm.cn/gitee.svg?user=koogua&project=course-tencent-cloud&type=release)
 
 ### 系统功能
 
@@ -79,16 +78,3 @@ Tips: 请用手机注册一个新账号，用户中心 -> 关注订阅，扫码�
 - [码云平台](https://gitee.com/koogua/course-tencent-cloud/issues)
 - [官方社区](https://koogua.com/community)
 - QQ交流群: 787363898
-
-### 有阿里云版吗？
-
-阿里云版规划中，之前阿里云服务过期未续费，所以腾讯云版本先出。
-
-### 代码有加密吗？
-
-所有代码都公开（授权代码除外，例如layim），没有所谓的商业版和付费插件。
-
-### 开源助力
-
-毫无保留的真开源不容易，不要吝啬您的赞许和鼓励，请给我们 **STAR** ！！！
-
