@@ -10,7 +10,18 @@
             <legend>编辑用户</legend>
         </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名</label>
+            <label class="layui-form-label" style="padding-top:40px;">头像</label>
+            <div class="layui-input-inline" style="width:120px;">
+                <img id="avatar" class="kg-avatar" src="{{ user.avatar }}">
+                <input type="hidden" name="avatar" value="{{ user.avatar }}">
+                <input type="hidden" name="default_avatar" value="{{ default_avatar }}">
+            </div>
+            <div class="layui-input-inline" style="padding-top:35px;">
+                <button id="clear-avatar" class="layui-btn layui-btn-sm" type="button">清空</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">昵称</label>
             <div class="layui-input-block">
                 <input class="layui-input" type="text" name="name" value="{{ user.name }}">
             </div>
@@ -140,6 +151,12 @@
             var $ = layui.jquery;
             var form = layui.form;
             var laydate = layui.laydate;
+
+            $('#clear-avatar').on('click', function () {
+                var defaultAvatar = $('input[name=default_avatar]').val();
+                $('input[name=avatar]').val(defaultAvatar);
+                $('#avatar').attr('src', defaultAvatar);
+            });
 
             laydate.render({
                 elem: 'input[name=vip_expiry_time]',

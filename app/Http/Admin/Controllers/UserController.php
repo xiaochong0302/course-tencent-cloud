@@ -90,6 +90,8 @@ class UserController extends Controller
         $account = $userService->getAccount($id);
         $adminRoles = $userService->getAdminRoles();
 
+        $defaultAvatar = kg_cos_user_avatar_url(null);
+
         if ($user->admin_role == RoleModel::ROLE_ROOT) {
             return $this->response->redirect(['for' => 'admin.user.list']);
         }
@@ -97,6 +99,7 @@ class UserController extends Controller
         $this->view->setVar('user', $user);
         $this->view->setVar('account', $account);
         $this->view->setVar('admin_roles', $adminRoles);
+        $this->view->setVar('default_avatar', $defaultAvatar);
     }
 
     /**
