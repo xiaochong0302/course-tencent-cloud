@@ -255,7 +255,9 @@ class Storage extends Service
     {
         $name = uniqid();
 
-        return sprintf('%s%s.%s', $prefix, $name, $extension);
+        $dot = $extension ? '.' : '';
+
+        return sprintf('%s%s%s%s', $prefix, $name, $dot, $extension);
     }
 
     /**

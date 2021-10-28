@@ -2,22 +2,20 @@
 
 {% block content %}
 
-    {% set course_id = request.get('course_id', 'int', '') %}
-
     <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.student.list'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>搜索学员</legend>
         </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">课程编号</label>
+            <label class="layui-form-label">所属课程</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="course_id" value="{{ course_id }}" placeholder="课程编号精确匹配">
+                <div id="xm-course-id"></div>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户编号</label>
+            <label class="layui-form-label">用户账号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="user_id" placeholder="用户编号精确匹配">
+                <input class="layui-input" type="text" name="xm_user_id" placeholder="用户编号 / 手机号码 / 邮箱地址">
             </div>
         </div>
         <div class="layui-form-item">
@@ -36,5 +34,30 @@
             </div>
         </div>
     </form>
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('lib/xm-select.js') }}
+
+{% endblock %}
+
+{% block inline_js %}
+
+    <script>
+
+        xmSelect.render({
+            el: '#xm-course-id',
+            name: 'xm_course_id',
+            radio: true,
+            filterable: true,
+            filterMethod: function (val, item, index, prop) {
+                return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
+            },
+            data: {{ xm_courses|json_encode }}
+        });
+
+    </script>
 
 {% endblock %}

@@ -48,11 +48,15 @@ class CourseUser extends Validator
         return $validator->checkCourse($id);
     }
 
-    public function checkUser($id)
+    public function checkUser($name)
     {
+        $validator = new Account();
+
+        $account = $validator->checkAccount($name);
+
         $validator = new User();
 
-        return $validator->checkUser($id);
+        return $validator->checkUser($account->id);
     }
 
     public function checkExpiryTime($expiryTime)

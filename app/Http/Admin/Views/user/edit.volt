@@ -3,13 +3,25 @@
 {% block content %}
 
     {% set lock_expiry_display = user.locked == 1 ? 'display:block': 'display:none' %}
+    {% set vip_expiry_display = user.vip == 1 ? 'display:block': 'display:none' %}
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.user.update','id':user.id}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>编辑用户</legend>
         </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名</label>
+            <label class="layui-form-label" style="padding-top:40px;">头像</label>
+            <div class="layui-input-inline" style="width:120px;">
+                <img id="avatar" class="kg-avatar" src="{{ user.avatar }}">
+                <input type="hidden" name="avatar" value="{{ user.avatar }}">
+                <input type="hidden" name="default_avatar" value="{{ default_avatar }}">
+            </div>
+            <div class="layui-input-inline" style="padding-top:35px;">
+                <button id="clear-avatar" class="layui-btn layui-btn-sm" type="button">清空</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">昵称</label>
             <div class="layui-input-block">
                 <input class="layui-input" type="text" name="name" value="{{ user.name }}">
             </div>
@@ -46,6 +58,25 @@
                 </div>
             </div>
         {% endif %}
+        <div class="layui-form-item">
+            <label class="layui-form-label">会员特权</label>
+            <div class="layui-input-block">
+                <input type="radio" name="vip" value="1" title="是" lay-filter="vip" {% if user.vip == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="vip" value="0" title="否" lay-filter="vip" {% if user.vip == 0 %}checked="checked"{% endif %}>
+            </div>
+        </div>
+        <div id="vip-expiry-block" style="{{ vip_expiry_display }}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">会员期限</label>
+                <div class="layui-input-block">
+                    {% if user.vip_expiry_time > 0 %}
+                        <input class="layui-input" type="text" name="vip_expiry_time" autocomplete="off" value="{{ date('Y-m-d H:i:s',user.vip_expiry_time) }}">
+                    {% else %}
+                        <input class="layui-input" type="text" name="vip_expiry_time" autocomplete="off">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">锁定帐号</label>
             <div class="layui-input-block">
@@ -121,9 +152,29 @@
             var form = layui.form;
             var laydate = layui.laydate;
 
+            $('#clear-avatar').on('click', function () {
+                var defaultAvatar = $('input[name=default_avatar]').val();
+                $('input[name=avatar]').val(defaultAvatar);
+                $('#avatar').attr('src', defaultAvatar);
+            });
+
+            laydate.render({
+                elem: 'input[name=vip_expiry_time]',
+                type: 'datetime'
+            });
+
             laydate.render({
                 elem: 'input[name=lock_expiry_time]',
                 type: 'datetime'
+            });
+
+            form.on('radio(vip)', function (data) {
+                var block = $('#vip-expiry-block');
+                if (data.value === '1') {
+                    block.show();
+                } else {
+                    block.hide();
+                }
             });
 
             form.on('radio(locked)', function (data) {

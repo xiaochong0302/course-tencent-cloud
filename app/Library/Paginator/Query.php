@@ -60,7 +60,7 @@ class Query
         $params = $this->request->getQuery();
 
         if ($params) {
-            foreach ($params as $key => $value) {
+            foreach ($params as $key => &$value) {
                 $value = $this->filter->sanitize($value, ['trim', 'string']);
                 if ($whitelist && !in_array($value, $whitelist)) {
                     unset($params[$key]);

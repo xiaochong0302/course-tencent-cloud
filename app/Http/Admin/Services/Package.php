@@ -51,6 +51,7 @@ class Package extends Service
             'model' => $model,
             'free' => 0,
             'published' => 1,
+            'deleted' => 0,
         ]);
 
         if ($items->count() == 0) return [];
@@ -59,7 +60,7 @@ class Package extends Service
 
         foreach ($items as $item) {
             $result[] = [
-                'name' => sprintf('%s（¥%0.2f）', $item->title, $item->market_price),
+                'name' => sprintf('%s - %s（¥%0.2f）', $item->id, $item->title, $item->market_price),
                 'value' => $item->id,
                 'selected' => in_array($item->id, $courseIds),
             ];

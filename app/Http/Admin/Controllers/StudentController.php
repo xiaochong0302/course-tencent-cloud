@@ -24,7 +24,10 @@ class StudentController extends Controller
 
         $sourceTypes = $studentService->getSourceTypes();
 
+        $xmCourses = $studentService->getXmCourses('all');
+
         $this->view->setVar('source_types', $sourceTypes);
+        $this->view->setVar('xm_courses', $xmCourses);
     }
 
     /**
@@ -53,17 +56,11 @@ class StudentController extends Controller
      */
     public function addAction()
     {
-        $courseId = $this->request->getQuery('course_id', 'int', 0);
-
         $studentService = new StudentService();
 
-        $course = null;
+        $xmCourses = $studentService->getXmCourses('charge');
 
-        if ($courseId > 0) {
-            $course = $studentService->getCourse($courseId);
-        }
-
-        $this->view->setVar('course', $course);
+        $this->view->setVar('xm_courses', $xmCourses);
     }
 
     /**
