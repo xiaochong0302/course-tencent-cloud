@@ -24,6 +24,38 @@ use App\Validators\CourseUser as CourseUserValidator;
 class Student extends Service
 {
 
+    public function getXmCourses($scope = 'all')
+    {
+        $courseRepo = new CourseRepo();
+
+        $where = [
+            'published' => 1,
+            'deleted' => 0,
+        ];
+
+        /**
+         * 过滤付费课程
+         */
+        if ($scope == 'charge') {
+            $where['free'] = 0;
+        }
+
+        $items = $courseRepo->findAll($where);
+
+        if ($items->count() == 0) return [];
+
+        $result = [];
+
+        foreach ($items as $item) {
+            $result[] = [
+                'name' => sprintf('%s - %s（¥%0.2f）', $item->id, $item->title, $item->market_price),
+                'value' => $item->id,
+            ];
+        }
+
+        return $result;
+    }
+
     public function getSourceTypes()
     {
         return CourseUserModel::sourceTypes();
@@ -50,6 +82,18 @@ class Student extends Service
         $params = $pagerQuery->getParams();
 
         $params['role_type'] = CourseUserModel::ROLE_STUDENT;
+
+        $validator = new CourseUserValidator();
+
+        if (!empty($params['xm_course_id'])) {
+            $course = $validator->checkCourse($params['xm_course_id']);
+            $params['course_id'] = $course->id;
+        }
+
+        if (!empty($params['xm_user_id'])) {
+            $user = $validator->checkUser($params['xm_user_id']);
+            $params['user_id'] = $user->id;
+        }
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
@@ -95,15 +139,15 @@ class Student extends Service
             'source_type' => CourseUserModel::SOURCE_IMPORT,
         ];
 
-        $course = $validator->checkCourse($post['course_id']);
-        $user = $validator->checkUser($post['user_id']);
+        $course = $validator->checkCourse($post['xm_course_id']);
+        $user = $validator->checkUser($post['xm_user_id']);
         $expiryTime = $validator->checkExpiryTime($post['expiry_time']);
 
         $data['course_id'] = $course->id;
         $data['user_id'] = $user->id;
         $data['expiry_time'] = $expiryTime;
 
-        $validator->checkIfImported($post['course_id'], $post['user_id']);
+        $validator->checkIfImported($course->id, $user->id);
 
         $courseUser = new CourseUserModel();
 

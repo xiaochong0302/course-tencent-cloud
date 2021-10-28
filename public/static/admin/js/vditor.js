@@ -71,6 +71,7 @@ layui.use(['jquery'], function () {
         },
         upload: {
             url: '/admin/upload/content/img',
+            linkToImgUrl: '/admin/upload/remote/img',
             max: 10 * 1024 * 1024,
             accept: 'image/*',
             headers: {

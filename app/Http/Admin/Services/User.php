@@ -162,6 +162,10 @@ class User extends Service
 
         $data = [];
 
+        if (isset($post['avatar'])) {
+            $data['avatar'] = $validator->checkAvatar($post['avatar']);
+        }
+
         if (isset($post['name'])) {
             $data['name'] = $validator->checkName($post['name']);
             if ($post['name'] != $user->name) {

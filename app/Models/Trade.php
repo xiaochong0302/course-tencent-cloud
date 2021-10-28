@@ -131,7 +131,7 @@ class Trade extends Model
 
     public function beforeCreate()
     {
-        $this->sn = date('YmdHis') . rand(1000, 9999);
+        $this->sn = $this->getTradeSn();
 
         $this->create_time = time();
     }
@@ -172,6 +172,20 @@ class Trade extends Model
             self::STATUS_CLOSED => '已关闭',
             self::STATUS_REFUNDED => '已退款',
         ];
+    }
+
+    protected function getTradeSn()
+    {
+        $sn = date('YmdHis') . rand(1000, 9999);
+
+        $order = self::findFirst([
+            'conditions' => 'sn = :sn:',
+            'bind' => ['sn' => $sn],
+        ]);
+
+        if (!$order) return $sn;
+
+        $this->getTradeSn();
     }
 
 }

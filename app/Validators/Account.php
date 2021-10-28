@@ -35,6 +35,8 @@ class Account extends Validator
             $account = $accountRepo->findByEmail($name);
         } elseif (CommonValidator::phone($name)) {
             $account = $accountRepo->findByPhone($name);
+        } elseif (CommonValidator::intNumber($name)) {
+            $account = $accountRepo->findById($name);
         }
 
         if (!$account) {
