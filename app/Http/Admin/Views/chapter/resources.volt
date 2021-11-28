@@ -10,7 +10,6 @@
         {% for item in resources %}
             {% set update_url = url({'for':'admin.resource.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.resource.delete','id':item.id}) %}
-            {% set download_url = url({'for':'home.download','md5':item.upload.md5}) %}
             <tr>
                 <td><input class="layui-input res-name" type="text" value="{{ item.upload.name }}" data-url="{{ update_url }}"></td>
                 <td>{{ item.upload.mime }}</td>
@@ -18,7 +17,7 @@
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td>
                     <a class="layui-btn layui-btn-sm layui-bg-red res-btn-delete" href="javascript:" data-url="{{ delete_url }}">删除</a>
-                    <a class="layui-btn layui-btn-sm" href="{{ download_url }}" target="_blank">下载</a>
+                    <a class="layui-btn layui-btn-sm" href="{{ item.upload.url }}" target="_blank">下载</a>
                 </td>
             </tr>
         {% endfor %}

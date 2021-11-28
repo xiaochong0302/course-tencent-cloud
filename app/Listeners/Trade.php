@@ -52,11 +52,7 @@ class Trade extends Listener
             $task = new TaskModel();
 
             $itemInfo = [
-                'order' => [
-                    'id' => $order->id,
-                    'item_id' => $order->item_id,
-                    'item_type' => $order->item_type,
-                ]
+                'order' => ['id' => $order->id]
             ];
 
             $task->item_id = $order->id;
@@ -74,6 +70,8 @@ class Trade extends Listener
             $this->db->rollback();
 
             $this->logger->error('After Pay Event Error ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));

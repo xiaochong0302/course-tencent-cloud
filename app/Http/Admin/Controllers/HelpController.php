@@ -77,7 +77,7 @@ class HelpController extends Controller
      */
     public function editAction($id)
     {
-        $helpService = new HelpService;
+        $helpService = new HelpService();
 
         $categories = $helpService->getCategories();
 
