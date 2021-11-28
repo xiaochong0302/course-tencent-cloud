@@ -10,6 +10,7 @@ namespace App\Services\Logic\Trade;
 use App\Models\Trade as TradeModel;
 use App\Services\Logic\OrderTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Validators\Order as OrderValidator;
 use App\Validators\Trade as TradeValidator;
 
 class TradeCreate extends LogicService
@@ -22,6 +23,10 @@ class TradeCreate extends LogicService
         $post = $this->request->getPost();
 
         $order = $this->checkOrderBySn($post['order_sn']);
+
+        $validator = new OrderValidator();
+
+        $validator->checkIfAllowPay($order);
 
         $user = $this->getLoginUser();
 

@@ -15,6 +15,7 @@ use App\Services\Logic\TradeTrait;
 use App\Services\Pay\Alipay;
 use App\Services\Pay\Wxpay;
 use App\Validators\Client as ClientValidator;
+use App\Validators\Order as OrderValidator;
 use App\Validators\Trade as TradeValidator;
 
 class Trade extends Service
@@ -34,6 +35,10 @@ class Trade extends Service
         $validator->checkH5Platform($platform);
 
         $order = $this->checkOrderBySn($post['order_sn']);
+
+        $validator = new OrderValidator();
+
+        $validator->checkIfAllowPay($order);
 
         $user = $this->getLoginUser();
 
@@ -76,6 +81,10 @@ class Trade extends Service
         $post = $this->request->getPost();
 
         $order = $this->checkOrderBySn($post['order_sn']);
+
+        $validator = new OrderValidator();
+
+        $validator->checkIfAllowPay($order);
 
         $user = $this->getLoginUser();
 
@@ -121,6 +130,10 @@ class Trade extends Service
         $platform = $validator->checkMpPlatform($platform);
 
         $order = $this->checkOrderBySn($post['order_sn']);
+
+        $validator = new OrderValidator();
+
+        $validator->checkIfAllowPay($order);
 
         $user = $this->getLoginUser();
 

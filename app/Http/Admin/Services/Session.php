@@ -26,12 +26,6 @@ class Session extends Service
 
     public function login()
     {
-        $user = $this->getCurrentUser();
-
-        if ($user->id > 0) {
-            return $this->response->redirect(['for' => 'home.index']);
-        }
-
         $post = $this->request->getPost();
 
         $validator = new AccountValidator();

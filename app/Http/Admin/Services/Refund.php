@@ -32,6 +32,8 @@ class Refund extends Service
 
         $params = $pageQuery->getParams();
 
+        $params['deleted'] = $params['deleted'] ?? 0;
+
         /**
          * 兼容订单编号或订单序号查询
          */
@@ -114,11 +116,7 @@ class Refund extends Service
             $task = new TaskModel();
 
             $itemInfo = [
-                'refund' => [
-                    'id' => $refund->id,
-                    'order_id' => $refund->order_id,
-                    'trade_id' => $refund->trade_id,
-                ],
+                'refund' => ['id' => $refund->id],
             ];
 
             $task->item_id = $refund->id;
