@@ -136,6 +136,13 @@ class Order extends Validator
         return $status;
     }
 
+    public function checkIfAllowPay(OrderModel $order)
+    {
+        if ($order->status != OrderModel::STATUS_PENDING) {
+            throw new BadRequestException('order.pay_not_allowed');
+        }
+    }
+
     public function checkIfAllowCancel(OrderModel $order)
     {
         if ($order->status != OrderModel::STATUS_PENDING) {

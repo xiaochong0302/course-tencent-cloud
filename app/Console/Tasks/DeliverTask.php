@@ -272,6 +272,20 @@ class DeliverTask extends Task
         $refund->review_note = '自动操作';
 
         $refund->create();
+
+        $task = new TaskModel();
+
+        $itemInfo = [
+            'refund' => ['id' => $refund->id],
+        ];
+
+        $task->item_id = $refund->id;
+        $task->item_info = $itemInfo;
+        $task->item_type = TaskModel::TYPE_REFUND;
+        $task->priority = TaskModel::PRIORITY_HIGH;
+        $task->status = TaskModel::STATUS_PENDING;
+
+        $task->create();
     }
 
     /**

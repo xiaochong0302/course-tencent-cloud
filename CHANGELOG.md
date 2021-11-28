@@ -1,3 +1,12 @@
+### [v1.4.8](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.8)(2021-11-28)
+
+- 修正后台下载课程附件问题
+- 修正后台登录检查跳转地址
+- 修正公众号关注二维码样式问题
+- 优化发货失败自动退款逻辑
+- 创建交易时增加订单支付检查
+- H5增加底部tab图标
+
 ### [v1.4.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.7)(2021-10-28)
 
 - 更新README.md
