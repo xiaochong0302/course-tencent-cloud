@@ -8,9 +8,15 @@
 namespace App\Services;
 
 use Phalcon\Logger\Adapter\File as FileLogger;
-use Qcloud\Sms\SmsSingleSender;
+use TencentCloud\Common\Credential;
+use TencentCloud\Common\Exception\TencentCloudSDKException;
+use TencentCloud\Common\Profile\ClientProfile;
+use TencentCloud\Common\Profile\HttpProfile;
+use TencentCloud\Sms\V20210111\Models\SendSmsRequest;
+use TencentCloud\Sms\V20210111\Models\SendStatus;
+use TencentCloud\Sms\V20210111\SmsClient;
 
-Abstract class Smser extends Service
+abstract class Smser extends Service
 {
 
     /**
@@ -40,31 +46,57 @@ Abstract class Smser extends Service
      */
     public function send($phoneNumber, $templateId, $params)
     {
-        $sender = $this->createSingleSender();
+        $secret = $this->getSettings('secret');
 
-        $params = $this->formatParams($params);
+        $region = $this->settings['region'] ?: 'ap-guangzhou';
 
-        $signature = $this->getSignature();
+        $templateParams = $this->formatTemplateParams($params);
 
         try {
 
-            $response = $sender->sendWithParam('86', $phoneNumber, $templateId, $params, $signature);
+            $credential = new Credential($secret['secret_id'], $secret['secret_key']);
 
-            $this->logger->debug('Send Message Response ' . $response);
+            $httpProfile = new HttpProfile();
 
-            $content = json_decode($response, true);
+            $httpProfile->setEndpoint('sms.tencentcloudapi.com');
 
-            $result = $content['result'] == 0;
+            $clientProfile = new ClientProfile();
 
-            if ($result == false) {
-                $this->logger->error('Send Message Failed ' . $response);
-            }
+            $clientProfile->setHttpProfile($httpProfile);
 
-        } catch (\Exception $e) {
+            $client = new SmsClient($credential, $region, $clientProfile);
+
+            $request = new SendSmsRequest();
+
+            $params = json_encode([
+                'SmsSdkAppId' => $this->settings['app_id'],
+                'SignName' => $this->settings['signature'],
+                'TemplateId' => $templateId,
+                'TemplateParamSet' => $templateParams,
+                'PhoneNumberSet' => [$phoneNumber],
+            ]);
+
+            $request->fromJsonString($params);
+
+            $this->logger->debug('Send Message Request ' . $params);
+
+            $response = $client->SendSms($request);
+
+            $this->logger->debug('Send Message Response ' . $response->toJsonString());
+
+            /**
+             * @var $sendStatus SendStatus
+             */
+            $sendStatus = $response->getSendStatusSet()[0];
+
+            $result = $sendStatus->getCode() == 'Ok';
+
+        } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Send Message Exception ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
                 ]));
 
             $result = false;
@@ -73,12 +105,7 @@ Abstract class Smser extends Service
         return $result;
     }
 
-    protected function createSingleSender()
-    {
-        return new SmsSingleSender($this->settings['app_id'], $this->settings['app_key']);
-    }
-
-    protected function formatParams($params)
+    protected function formatTemplateParams($params)
     {
         if (!empty($params)) {
             $params = array_map(function ($value) {
@@ -94,11 +121,6 @@ Abstract class Smser extends Service
         $template = json_decode($this->settings['template'], true);
 
         return $template[$code]['id'] ?? null;
-    }
-
-    protected function getSignature()
-    {
-        return $this->settings['signature'];
     }
 
 }

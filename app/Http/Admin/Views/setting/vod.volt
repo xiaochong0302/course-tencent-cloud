@@ -92,7 +92,7 @@
                 <input type="radio" name="key_anti_enabled" value="0" title="否" lay-filter="key_anti_enabled" {% if vod.key_anti_enabled == 0 %}checked="checked"{% endif %}>
             </div>
         </div>
-        <div id="key-anti-block" {{ key_anti_display }}>
+        <div id="key-anti-block" style="{{ key_anti_display }}">
             <div class="layui-form-item">
                 <label class="layui-form-label">防盗链Key</label>
                 <div class="layui-input-block">
@@ -100,7 +100,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">有效期（秒）</label>
+                <label class="layui-form-label">有效时间（秒）</label>
                 <div class="layui-input-block">
                     <input class="layui-input" type="text" name="key_anti_expiry" value="{{ vod.key_anti_expiry }}" lay-verify="required">
                 </div>

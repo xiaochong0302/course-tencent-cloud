@@ -108,15 +108,11 @@ class Order extends Repository
      * @param string $itemType
      * @return OrderModel|Model|bool
      */
-    public function findUserLastFinishedOrder($userId, $itemId, $itemType)
+    public function findUserLastPendingOrder($userId, $itemId, $itemType)
     {
-        $status = OrderModel::STATUS_FINISHED;
+        $status = OrderModel::STATUS_PENDING;
 
-        return OrderModel::findFirst([
-            'conditions' => 'owner_id = ?1 AND item_id = ?2 AND item_type = ?3 AND status = ?4',
-            'bind' => [1 => $userId, 2 => $itemId, 3 => $itemType, 4 => $status],
-            'order' => 'id DESC',
-        ]);
+        return $this->findUserLastStatusOrder($userId, $itemId, $itemType, $status);
     }
 
     /**
@@ -125,12 +121,37 @@ class Order extends Repository
      * @param string $itemType
      * @return OrderModel|Model|bool
      */
-    public function findUserLastPendingOrder($userId, $itemId, $itemType)
+    public function findUserLastDeliveringOrder($userId, $itemId, $itemType)
     {
-        $status = OrderModel::STATUS_PENDING;
+        $status = OrderModel::STATUS_DELIVERING;
 
+        return $this->findUserLastStatusOrder($userId, $itemId, $itemType, $status);
+    }
+
+    /**
+     * @param int $userId
+     * @param string $itemId
+     * @param string $itemType
+     * @return OrderModel|Model|bool
+     */
+    public function findUserLastFinishedOrder($userId, $itemId, $itemType)
+    {
+        $status = OrderModel::STATUS_FINISHED;
+
+        return $this->findUserLastStatusOrder($userId, $itemId, $itemType, $status);
+    }
+
+    /**
+     * @param int $userId
+     * @param string $itemId
+     * @param string $itemType
+     * @param int $status
+     * @return OrderModel|Model|bool
+     */
+    public function findUserLastStatusOrder($userId, $itemId, $itemType, $status)
+    {
         return OrderModel::findFirst([
-            'conditions' => 'owner_id = ?1 AND item_id = ?2 AND item_type = ?3 AND status= ?4',
+            'conditions' => 'owner_id = ?1 AND item_id = ?2 AND item_type = ?3 AND status = ?4',
             'bind' => [1 => $userId, 2 => $itemId, 3 => $itemType, 4 => $status],
             'order' => 'id DESC',
         ]);

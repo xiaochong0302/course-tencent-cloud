@@ -191,6 +191,12 @@ class Order extends Validator
 
         $itemType = OrderModel::ITEM_COURSE;
 
+        $order = $orderRepo->findUserLastDeliveringOrder($userId, $courseId, $itemType);
+
+        if ($order) {
+            throw new BadRequestException('order.is_delivering');
+        }
+
         $order = $orderRepo->findUserLastFinishedOrder($userId, $courseId, $itemType);
 
         if ($order && $order->item_info['course']['study_expiry_time'] > time()) {
@@ -203,6 +209,12 @@ class Order extends Validator
         $orderRepo = new OrderRepo();
 
         $itemType = OrderModel::ITEM_PACKAGE;
+
+        $order = $orderRepo->findUserLastDeliveringOrder($userId, $packageId, $itemType);
+
+        if ($order) {
+            throw new BadRequestException('order.is_delivering');
+        }
 
         $order = $orderRepo->findUserLastFinishedOrder($userId, $packageId, $itemType);
 
