@@ -1,30 +1,30 @@
 {
-  "_readme": [
-    "This file locks the dependencies of your project to a known state",
-    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-    "This file is @generated automatically"
-  ],
-  "content-hash": "e715dca0b2629f1a9c59a984206adf9f",
-  "packages": [
-    {
-      "name": "bacon/bacon-qr-code",
-      "version": "2.0.3",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/Bacon/BaconQrCode.git",
-        "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
-        "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "08aae4a9db4b38cc2a4b8b6b4fa9868e",
+    "packages": [
+        {
+            "name": "bacon/bacon-qr-code",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Bacon/BaconQrCode.git",
+                "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
+                "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "dasprid/enum": "^1.0.3",
@@ -1199,150 +1199,150 @@
                     "name": "Ashot Khanamiryan",
                     "email": "a.khanamiryan@gmail.com",
                     "homepage": "https://github.com/khanamiryan",
-                  "role": "Developer"
+                    "role": "Developer"
                 }
             ],
-          "description": "QR code decoder / reader",
-          "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder/",
-          "keywords": [
-            "barcode",
-            "qr",
-            "zxing"
-          ],
-          "support": {
-            "issues": "https://github.com/khanamiryan/php-qrcode-detector-decoder/issues",
-            "source": "https://github.com/khanamiryan/php-qrcode-detector-decoder/tree/1.0.4"
-          },
-          "time": "2020-11-29T18:50:26+00:00"
-        },
-    {
-      "name": "league/commonmark",
-      "version": "1.5.7",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/thephpleague/commonmark.git",
-        "reference": "11df9b36fd4f1d2b727a73bf14931d81373b9a54"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/11df9b36fd4f1d2b727a73bf14931d81373b9a54",
-        "reference": "11df9b36fd4f1d2b727a73bf14931d81373b9a54",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "ext-mbstring": "*",
-        "php": "^7.1 || ^8.0"
-      },
-      "conflict": {
-        "scrutinizer/ocular": "1.7.*"
-      },
-      "require-dev": {
-        "cebe/markdown": "~1.0",
-        "commonmark/commonmark.js": "0.29.2",
-        "erusev/parsedown": "~1.0",
-        "ext-json": "*",
-        "github/gfm": "0.29.0",
-        "michelf/php-markdown": "~1.4",
-        "mikehaertl/php-shellcommand": "^1.4",
-        "phpstan/phpstan": "^0.12",
-        "phpunit/phpunit": "^7.5 || ^8.5 || ^9.2",
-        "scrutinizer/ocular": "^1.5",
-        "symfony/finder": "^4.2"
-      },
-      "bin": [
-        "bin/commonmark"
-      ],
-      "type": "library",
-      "autoload": {
-        "psr-4": {
-          "League\\CommonMark\\": "src"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "BSD-3-Clause"
-      ],
-      "authors": [
-        {
-          "name": "Colin O'Dell",
-          "email": "colinodell@gmail.com",
-          "homepage": "https://www.colinodell.com",
-          "role": "Lead Developer"
-        }
-      ],
-      "description": "Highly-extensible PHP Markdown parser which fully supports the CommonMark spec and Github-Flavored Markdown (GFM)",
-      "homepage": "https://commonmark.thephpleague.com",
-      "keywords": [
-        "commonmark",
-        "flavored",
-        "gfm",
-        "github",
-        "github-flavored",
-        "markdown",
-        "md",
-        "parser"
-      ],
-      "support": {
-        "docs": "https://commonmark.thephpleague.com/",
-        "issues": "https://github.com/thephpleague/commonmark/issues",
-        "rss": "https://github.com/thephpleague/commonmark/releases.atom",
-        "source": "https://github.com/thephpleague/commonmark"
-      },
-      "funding": [
-        {
-          "url": "https://enjoy.gitstore.app/repositories/thephpleague/commonmark",
-          "type": "custom"
+            "description": "QR code decoder / reader",
+            "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder/",
+            "keywords": [
+                "barcode",
+                "qr",
+                "zxing"
+            ],
+            "support": {
+                "issues": "https://github.com/khanamiryan/php-qrcode-detector-decoder/issues",
+                "source": "https://github.com/khanamiryan/php-qrcode-detector-decoder/tree/1.0.4"
+            },
+            "time": "2020-11-29T18:50:26+00:00"
         },
         {
-          "url": "https://www.colinodell.com/sponsor",
-          "type": "custom"
+            "name": "league/commonmark",
+            "version": "1.5.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark.git",
+                "reference": "11df9b36fd4f1d2b727a73bf14931d81373b9a54"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/11df9b36fd4f1d2b727a73bf14931d81373b9a54",
+                "reference": "11df9b36fd4f1d2b727a73bf14931d81373b9a54",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "conflict": {
+                "scrutinizer/ocular": "1.7.*"
+            },
+            "require-dev": {
+                "cebe/markdown": "~1.0",
+                "commonmark/commonmark.js": "0.29.2",
+                "erusev/parsedown": "~1.0",
+                "ext-json": "*",
+                "github/gfm": "0.29.0",
+                "michelf/php-markdown": "~1.4",
+                "mikehaertl/php-shellcommand": "^1.4",
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.2",
+                "scrutinizer/ocular": "^1.5",
+                "symfony/finder": "^4.2"
+            },
+            "bin": [
+                "bin/commonmark"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Highly-extensible PHP Markdown parser which fully supports the CommonMark spec and Github-Flavored Markdown (GFM)",
+            "homepage": "https://commonmark.thephpleague.com",
+            "keywords": [
+                "commonmark",
+                "flavored",
+                "gfm",
+                "github",
+                "github-flavored",
+                "markdown",
+                "md",
+                "parser"
+            ],
+            "support": {
+                "docs": "https://commonmark.thephpleague.com/",
+                "issues": "https://github.com/thephpleague/commonmark/issues",
+                "rss": "https://github.com/thephpleague/commonmark/releases.atom",
+                "source": "https://github.com/thephpleague/commonmark"
+            },
+            "funding": [
+                {
+                    "url": "https://enjoy.gitstore.app/repositories/thephpleague/commonmark",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.colinodell.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.paypal.me/colinpodell/10.00",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/colinodell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/colinodell",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/league/commonmark",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-31T13:49:32+00:00"
         },
         {
-          "url": "https://www.paypal.me/colinpodell/10.00",
-          "type": "custom"
-        },
-        {
-          "url": "https://github.com/colinodell",
-          "type": "github"
-        },
-        {
-          "url": "https://www.patreon.com/colinodell",
-          "type": "patreon"
-        },
-        {
-          "url": "https://tidelift.com/funding/github/packagist/league/commonmark",
-          "type": "tidelift"
-        }
-      ],
-      "time": "2020-10-31T13:49:32+00:00"
-    },
-    {
-      "name": "monolog/monolog",
-      "version": "2.2.0",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/Seldaek/monolog.git",
-        "reference": "1cb1cde8e8dd0f70cc0fe51354a59acad9302084"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1cb1cde8e8dd0f70cc0fe51354a59acad9302084",
-        "reference": "1cb1cde8e8dd0f70cc0fe51354a59acad9302084",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
+            "name": "monolog/monolog",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "1cb1cde8e8dd0f70cc0fe51354a59acad9302084"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1cb1cde8e8dd0f70cc0fe51354a59acad9302084",
+                "reference": "1cb1cde8e8dd0f70cc0fe51354a59acad9302084",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
                 "php": ">=7.2",
                 "psr/log": "^1.0.1"
             },
@@ -2254,52 +2254,6 @@
                 "source": "https://github.com/tencentyun/cos-php-sdk-v5/tree/v2.1.1"
             },
             "time": "2020-09-27T03:57:55+00:00"
-        },
-        {
-            "name": "qcloudsms/qcloudsms_php",
-            "version": "v0.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/qcloudsms/qcloudsms_php.git",
-                "reference": "48822045772d343b93c3d505d8a187cd51153c5a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/qcloudsms/qcloudsms_php/zipball/48822045772d343b93c3d505d8a187cd51153c5a",
-                "reference": "48822045772d343b93c3d505d8a187cd51153c5a",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require-dev": {
-                "sami/sami": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Qcloud\\Sms\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "qcloud sms php sdk",
-            "keywords": [
-                "php",
-                "qcloud",
-                "sdk",
-                "sms"
-            ],
-            "support": {
-                "issues": "https://github.com/qcloudsms/qcloudsms_php/issues",
-                "source": "https://github.com/qcloudsms/qcloudsms_php/tree/master"
-            },
-            "time": "2018-09-19T07:19:17+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -4677,16 +4631,16 @@
         },
         {
             "name": "tencentcloud/tencentcloud-sdk-php",
-            "version": "3.0.321",
+            "version": "3.0.551",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TencentCloud/tencentcloud-sdk-php.git",
-                "reference": "6d8d68f8076ab986c211f3be573987ea66ff0435"
+                "reference": "dc5fca27258258e4b8df9f0f0996d4d3358c1d37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/6d8d68f8076ab986c211f3be573987ea66ff0435",
-                "reference": "6d8d68f8076ab986c211f3be573987ea66ff0435",
+                "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/dc5fca27258258e4b8df9f0f0996d4d3358c1d37",
+                "reference": "dc5fca27258258e4b8df9f0f0996d4d3358c1d37",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4696,8 +4650,7 @@
                 ]
             },
             "require": {
-                "guzzlehttp/guzzle": "^6.3 || ^7.0.1",
-                "guzzlehttp/psr7": "^1.4",
+                "guzzlehttp/guzzle": "^6.3 || ^7.0",
                 "php": ">=5.6.0"
             },
             "type": "library",
@@ -4725,9 +4678,9 @@
             "homepage": "https://github.com/TencentCloud/tencentcloud-sdk-php",
             "support": {
                 "issues": "https://github.com/TencentCloud/tencentcloud-sdk-php/issues",
-                "source": "https://github.com/TencentCloud/tencentcloud-sdk-php/tree/3.0.321"
+                "source": "https://github.com/TencentCloud/tencentcloud-sdk-php/tree/3.0.551"
             },
-            "time": "2021-01-19T06:29:14+00:00"
+            "time": "2021-12-30T00:37:24+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -5348,34 +5301,34 @@
                     "homepage": "http://riimu.net"
                 }
             ],
-          "description": "Highly customizable alternative to var_export for PHP code generation",
-          "homepage": "http://kit.riimu.net",
-          "keywords": [
-            "code",
-            "encoder",
-            "export",
-            "generator",
-            "variable"
-          ],
-          "support": {
-            "issues": "https://github.com/Riimu/Kit-PHPEncoder/issues",
-            "source": "https://github.com/Riimu/Kit-PHPEncoder/tree/v2.4.1"
-          },
-          "time": "2020-11-29T16:53:17+00:00"
+            "description": "Highly customizable alternative to var_export for PHP code generation",
+            "homepage": "http://kit.riimu.net",
+            "keywords": [
+                "code",
+                "encoder",
+                "export",
+                "generator",
+                "variable"
+            ],
+            "support": {
+                "issues": "https://github.com/Riimu/Kit-PHPEncoder/issues",
+                "source": "https://github.com/Riimu/Kit-PHPEncoder/tree/v2.4.1"
+            },
+            "time": "2020-11-29T16:53:17+00:00"
         }
     ],
-  "aliases": [],
-  "minimum-stability": "stable",
-  "stability-flags": [],
-  "prefer-stable": false,
-  "prefer-lowest": false,
-  "platform": {
-    "ext-phalcon": "~3.4",
-    "ext-redis": "~5.0",
-    "ext-pdo": "*",
-    "ext-json": "*",
-    "ext-fileinfo": "*"
-  },
-  "platform-dev": [],
-  "plugin-api-version": "2.0.0"
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "ext-phalcon": "~3.4",
+        "ext-redis": "~5.0",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-fileinfo": "*"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }

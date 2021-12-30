@@ -24,11 +24,13 @@ class OrderConsume extends PointHistory
 
         if ($pointEnabled == 0) return;
 
-        $ruleEnabled = $setting['consume_rule']['enabled'] ?? 0;
+        $consumeRule = json_decode($setting['consume_rule'], true);
+
+        $ruleEnabled = $consumeRule['enabled'] ?? 0;
 
         if ($ruleEnabled == 0) return;
 
-        $ruleRate = $setting['consume_rule']['rate'] ?? 0;
+        $ruleRate = $consumeRule['rate'] ?? 0;
 
         if ($ruleRate <= 0) return;
 

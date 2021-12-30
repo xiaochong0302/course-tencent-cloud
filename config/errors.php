@@ -369,6 +369,7 @@ $error['order.not_found'] = '订单不存在';
 $error['order.invalid_status'] = '无效的状态类型';
 $error['order.item_not_found'] = '商品不存在';
 $error['order.trade_expired'] = '交易已过期';
+$error['order.is_delivering'] = '已经下过单了，正在准备发货中';
 $error['order.has_bought_course'] = '已经购买过该课程';
 $error['order.has_bought_package'] = '已经购买过该套餐';
 $error['order.cancel_not_allowed'] = '当前不允许取消订单';

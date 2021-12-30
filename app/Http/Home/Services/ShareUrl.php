@@ -52,7 +52,9 @@ class ShareUrl extends Service
             $result = $this->getHomeUrl();
         }
 
-        return $this->h5Enabled() ? $result['h5'] : $result['web'];
+        $gotoH5 = $this->h5Enabled() && $this->isMobileBrowser();
+
+        return $gotoH5 ? $result['h5'] : $result['web'];
     }
 
     public function getHomeUrl()
