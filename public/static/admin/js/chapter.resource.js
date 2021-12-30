@@ -22,7 +22,6 @@ layui.use(['jquery', 'element', 'layer'], function () {
                 bucket: options.Bucket,
                 region: options.Region,
             }, function (data) {
-                console.log(data);
                 var credentials = data && data.credentials;
                 if (!data || !credentials) {
                     layer.msg('获取临时凭证失败', {icon: 2});
@@ -49,6 +48,7 @@ layui.use(['jquery', 'element', 'layer'], function () {
         var file = this.files[0];
         var keyName = getKeyName(file.name);
         cos.putObject({
+            ContentDisposition: 'attachment',
             StorageClass: myConfig.storageClass,
             Bucket: myConfig.bucket,
             Region: myConfig.region,
@@ -59,7 +59,6 @@ layui.use(['jquery', 'element', 'layer'], function () {
                     var percent = Math.ceil(100 * info.percent);
                     element.progress('res-upload-progress', percent + '%');
                 }
-                console.log(info);
             }
         }, function (err, data) {
             if (data && data.statusCode === 200) {

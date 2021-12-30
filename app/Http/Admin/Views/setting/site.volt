@@ -164,7 +164,8 @@
             upload.render({
                 elem: '#upload-logo',
                 url: '/admin/upload/icon/img',
-                exts: 'gif|jpg|png',
+                accept: 'images',
+                acceptMime: 'image/*',
                 before: function () {
                     layer.load();
                 },
@@ -180,7 +181,8 @@
             upload.render({
                 elem: '#upload-favicon',
                 url: '/admin/upload/icon/img',
-                exts: 'gif|jpg|png|ico',
+                accept: 'images',
+                acceptMime: 'image/*',
                 before: function () {
                     layer.load();
                 },

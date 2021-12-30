@@ -152,9 +152,17 @@ class Setting extends Service
         $settingsRepo = new SettingRepo();
 
         foreach ($settings as $key => $value) {
+            if (is_array($value)) {
+                array_walk_recursive($value, function (&$item) {
+                    $item = trim($item);
+                });
+                $itemValue = kg_json_encode($value);
+            } else {
+                $itemValue = trim($value);
+            }
             $item = $settingsRepo->findItem($section, $key);
             if ($item) {
-                $item->item_value = trim($value);
+                $item->item_value = $itemValue;
                 $item->update();
             }
         }
@@ -175,16 +183,6 @@ class Setting extends Service
         $this->updateSettings($section, $settings);
     }
 
-    public function updateVodSettings($section, $settings)
-    {
-        if (isset($settings['video_quality'])) {
-            $data = array_values($settings['video_quality']);
-            $settings['video_quality'] = kg_json_encode($data);
-        }
-
-        $this->updateSettings($section, $settings);
-    }
-
     public function updateLiveSettings($section, $settings)
     {
         $protocol = ['http://', 'https://'];
@@ -193,28 +191,6 @@ class Setting extends Service
             if (isset($settings['domain'])) {
                 $settings['domain'] = str_replace($protocol, '', $settings['domain']);
             }
-        }
-
-        $this->updateSettings($section, $settings);
-    }
-
-    public function updateSmsSettings($section, $settings)
-    {
-        if (isset($settings['template'])) {
-            $settings['template'] = kg_json_encode($settings['template']);
-        }
-
-        $this->updateSettings($section, $settings);
-    }
-
-    public function updatePointSettings($section, $settings)
-    {
-        if (isset($settings['event_rule'])) {
-            $settings['event_rule'] = kg_json_encode($settings['event_rule']);
-        }
-
-        if (isset($settings['consume_rule'])) {
-            $settings['consume_rule'] = kg_json_encode($settings['consume_rule']);
         }
 
         $this->updateSettings($section, $settings);

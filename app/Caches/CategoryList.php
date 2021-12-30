@@ -39,6 +39,7 @@ class CategoryList extends Cache
             ->where('type = :type:', ['type' => $type])
             ->andWhere('published = 1')
             ->andWhere('deleted = 0')
+            ->orderBy('level ASC, priority ASC')
             ->execute();
 
         if ($categories->count() == 0) {

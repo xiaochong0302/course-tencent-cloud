@@ -45,6 +45,12 @@ class ErrorController extends \Phalcon\Mvc\Controller
     public function show400Action()
     {
         $this->response->setStatusCode(400);
+
+        $messages = $this->flashSession->getMessages('error');
+
+        $message = array_pop($messages);
+
+        $this->view->setVar('message', $message);
     }
 
     /**
