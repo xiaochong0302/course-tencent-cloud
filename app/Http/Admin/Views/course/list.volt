@@ -4,6 +4,7 @@
 
     {{ partial('macros/course') }}
 
+    {% set category_url = url({'for':'admin.course.category'}) %}
     {% set add_url = url({'for':'admin.course.add'}) %}
     {% set search_url = url({'for':'admin.course.search'}) %}
 
@@ -14,6 +15,9 @@
             </span>
         </div>
         <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ category_url }}">
+                <i class="layui-icon layui-icon-add-1"></i>分类管理
+            </a>
             <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
                 <i class="layui-icon layui-icon-add-1"></i>添加课程
             </a>
