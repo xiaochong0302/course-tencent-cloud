@@ -55,17 +55,13 @@ class RefundFinish extends LogicService
         $subscribe = $subscribeRepo->findByUserId($refund->owner_id);
 
         if ($wechatNoticeEnabled && $subscribe) {
-
             $notice = new WeChatRefundFinishNotice();
-
-            return $notice->handle($subscribe, $params);
+            $notice->handle($subscribe, $params);
         }
 
         if ($smsNoticeEnabled) {
-
             $notice = new SmsRefundFinishNotice();
-
-            return $notice->handle($user, $params);
+            $notice->handle($user, $params);
         }
     }
 
