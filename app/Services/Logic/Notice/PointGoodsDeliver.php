@@ -51,17 +51,13 @@ class PointGoodsDeliver extends LogicService
         $subscribe = $subscribeRepo->findByUserId($user->id);
 
         if ($wechatNoticeEnabled && $subscribe) {
-
             $notice = new WeChatGoodsDeliverNotice();
-
-            return $notice->handle($subscribe, $params);
+            $notice->handle($subscribe, $params);
         }
 
         if ($smsNoticeEnabled) {
-
             $notice = new SmsGoodsDeliverNotice();
-
-            return $notice->handle($user, $params);
+            $notice->handle($user, $params);
         }
     }
 

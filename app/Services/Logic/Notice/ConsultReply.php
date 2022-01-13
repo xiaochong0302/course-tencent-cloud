@@ -70,17 +70,13 @@ class ConsultReply extends LogicService
         $subscribe = $subscribeRepo->findByUserId($consult->owner_id);
 
         if ($wechatNoticeEnabled && $subscribe) {
-
             $notice = new WeChatConsultReplyNotice();
-
-            return $notice->handle($subscribe, $params);
+            $notice->handle($subscribe, $params);
         }
 
         if ($smsNoticeEnabled) {
-
             $notice = new SmsConsultReplyNotice();
-
-            return $notice->handle($user, $params);
+            $notice->handle($user, $params);
         }
     }
 
