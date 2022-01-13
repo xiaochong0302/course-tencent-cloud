@@ -72,8 +72,9 @@ class LiveBegin extends LogicService
             $notice = new WeChatLiveBeginNotice();
 
             return $notice->handle($subscribe, $params);
+        }
 
-        } elseif ($smsNoticeEnabled) {
+        if ($smsNoticeEnabled) {
 
             $notice = new SmsLiveBeginNotice();
 

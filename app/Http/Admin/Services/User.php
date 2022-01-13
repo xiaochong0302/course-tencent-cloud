@@ -12,7 +12,6 @@ use App\Caches\User as UserCache;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Library\Utils\Password as PasswordUtil;
 use App\Models\Account as AccountModel;
-use App\Models\ImUser as ImUserModel;
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\Online as OnlineRepo;
@@ -118,24 +117,13 @@ class User extends Service
                 throw new \RuntimeException('Create Account Failed');
             }
 
-            $user = new UserModel();
+            $user = $this->findOrFail($account->id);
 
-            $user->id = $account->id;
-            $user->name = "user_{$account->id}";
-            $user->edu_role = $eduRole;
             $user->admin_role = $adminRole;
+            $user->edu_role = $eduRole;
 
-            if ($user->create() === false) {
-                throw new \RuntimeException('Create User Failed');
-            }
-
-            $imUser = new ImUserModel();
-
-            $imUser->id = $user->id;
-            $imUser->name = $user->name;
-
-            if ($imUser->create() === false) {
-                throw new \RuntimeException('Create Im User Failed');
+            if ($user->update() === false) {
+                throw new \RuntimeException('Update User Failed');
             }
 
             $this->db->commit();
@@ -147,6 +135,14 @@ class User extends Service
         } catch (\Exception $e) {
 
             $this->db->rollback();
+
+            $logger = $this->getLogger('http');
+
+            $logger->error('Create User Error ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'message' => $e->getMessage(),
+                ]));
 
             throw new \RuntimeException('sys.trans_rollback');
         }

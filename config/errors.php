@@ -118,7 +118,7 @@ $error['nav.has_child_node'] = '不允许相关操作（存在子节点）';
  * 文章相关
  */
 $error['article.not_found'] = '文章不存在';
-$error['article.title_too_short'] = '标题太短（少于5个字符）';
+$error['article.title_too_short'] = '标题太短（少于2个字符）';
 $error['article.title_too_long'] = '标题太长（多于50个字符）';
 $error['article.content_too_short'] = '内容太短（少于10个字符）';
 $error['article.content_too_long'] = '内容太长（多于30000个字符）';

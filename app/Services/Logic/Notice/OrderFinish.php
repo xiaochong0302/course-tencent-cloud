@@ -59,8 +59,9 @@ class OrderFinish extends LogicService
             $notice = new WeChatOrderFinishNotice();
 
             return $notice->handle($subscribe, $params);
+        }
 
-        } elseif ($smsNoticeEnabled) {
+        if ($smsNoticeEnabled) {
 
             $notice = new SmsOrderFinishNotice();
 

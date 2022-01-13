@@ -55,8 +55,9 @@ class PointGoodsDeliver extends LogicService
             $notice = new WeChatGoodsDeliverNotice();
 
             return $notice->handle($subscribe, $params);
+        }
 
-        } elseif ($smsNoticeEnabled) {
+        if ($smsNoticeEnabled) {
 
             $notice = new SmsGoodsDeliverNotice();
 
