@@ -28,11 +28,11 @@ class OrderCreate extends OrderCreateService
 
         $sale = $this->checkFlashSale($id);
 
-        $validator = new FlashSaleValidator;
+        $saleValidator = new FlashSaleValidator();
 
-        $validator->checkIfExpired($sale->end_time);
-        $validator->checkIfOutSchedules($sale->schedules);
-        $validator->checkIfNotPaid($user->id, $sale->id);
+        $saleValidator->checkIfExpired($sale->end_time);
+        $saleValidator->checkIfOutSchedules($sale->schedules);
+        $saleValidator->checkIfNotPaid($user->id, $sale->id);
 
         $queue = new Queue();
 
@@ -50,31 +50,33 @@ class OrderCreate extends OrderCreateService
             ]
         ];
 
+        $orderValidator = new OrderValidator();
+
+        $orderValidator->checkAmount($this->amount);
+
         try {
 
             $order = new OrderModel();
 
-            $validator = new OrderValidator();
-
             if ($sale->item_type == FlashSaleModel::ITEM_COURSE) {
 
-                $course = $validator->checkCourse($sale->item_id);
+                $course = $orderValidator->checkCourse($sale->item_id);
 
-                $validator->checkIfBoughtCourse($user->id, $course->id);
+                $orderValidator->checkIfBoughtCourse($user->id, $course->id);
 
                 $order = $this->createCourseOrder($course, $user);
 
             } elseif ($sale->item_type == FlashSaleModel::ITEM_PACKAGE) {
 
-                $package = $validator->checkPackage($sale->item_id);
+                $package = $orderValidator->checkPackage($sale->item_id);
 
-                $validator->checkIfBoughtPackage($user->id, $package->id);
+                $orderValidator->checkIfBoughtPackage($user->id, $package->id);
 
                 $order = $this->createPackageOrder($package, $user);
 
             } elseif ($sale->item_type == FlashSaleModel::ITEM_VIP) {
 
-                $vip = $validator->checkVip($sale->item_id);
+                $vip = $orderValidator->checkVip($sale->item_id);
 
                 $order = $this->createVipOrder($vip, $user);
             }

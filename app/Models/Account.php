@@ -95,4 +95,33 @@ class Account extends Model
         $this->update_time = time();
     }
 
+    public function afterCreate()
+    {
+        $user = new User();
+
+        $user->id = $this->id;
+        $user->name = "user:{$this->id}";
+
+        if ($user->create() === false) {
+            throw new \RuntimeException('Create User Failed');
+        }
+
+        $userBalance = new UserBalance();
+
+        $userBalance->user_id = $user->id;
+
+        if ($userBalance->create() === false) {
+            throw new \RuntimeException('Create User Balance Failed');
+        }
+
+        $imUser = new ImUser();
+
+        $imUser->id = $user->id;
+        $imUser->name = $user->name;
+
+        if ($imUser->create() === false) {
+            throw new \RuntimeException('Create Im User Failed');
+        }
+    }
+
 }

@@ -74,8 +74,9 @@ class ConsultReply extends LogicService
             $notice = new WeChatConsultReplyNotice();
 
             return $notice->handle($subscribe, $params);
+        }
 
-        } elseif ($smsNoticeEnabled) {
+        if ($smsNoticeEnabled) {
 
             $notice = new SmsConsultReplyNotice();
 

@@ -34,7 +34,7 @@ class ServerMonitor extends DingTalkNotice
 
         $task->item_id = time();
         $task->item_info = $itemInfo;
-        $task->item_type = TaskModel::TYPE_NOTICE_SERVER_MONITOR;
+        $task->item_type = TaskModel::TYPE_STAFF_NOTICE_SERVER_MONITOR;
         $task->priority = TaskModel::PRIORITY_HIGH;
         $task->status = TaskModel::STATUS_PENDING;
         $task->max_try_count = 1;

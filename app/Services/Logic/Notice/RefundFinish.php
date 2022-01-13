@@ -59,8 +59,9 @@ class RefundFinish extends LogicService
             $notice = new WeChatRefundFinishNotice();
 
             return $notice->handle($subscribe, $params);
+        }
 
-        } elseif ($smsNoticeEnabled) {
+        if ($smsNoticeEnabled) {
 
             $notice = new SmsRefundFinishNotice();
 

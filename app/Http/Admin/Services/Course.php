@@ -16,10 +16,8 @@ use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseCategory as CourseCategoryModel;
-use App\Models\CourseRating as CourseRatingModel;
 use App\Models\CourseRelated as CourseRelatedModel;
 use App\Models\CourseUser as CourseUserModel;
-use App\Models\ImGroup as ImGroupModel;
 use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Repos\Category as CategoryRepo;
 use App\Repos\Chapter as ChapterRepo;
@@ -88,25 +86,6 @@ class Course extends Service
 
             if ($course->create() === false) {
                 throw new \RuntimeException('Create Course Failed');
-            }
-
-            $courseRating = new CourseRatingModel();
-
-            $courseRating->course_id = $course->id;
-
-            if ($courseRating->create() === false) {
-                throw new \RuntimeException('Create CourseRating Failed');
-            }
-
-            $imGroup = new ImGroupModel();
-
-            $imGroup->type = ImGroupModel::TYPE_COURSE;
-            $imGroup->course_id = $course->id;
-            $imGroup->name = $course->title;
-            $imGroup->about = $course->summary;
-
-            if ($imGroup->create() === false) {
-                throw new \RuntimeException('Create ImGroup Failed');
             }
 
             $this->db->commit();

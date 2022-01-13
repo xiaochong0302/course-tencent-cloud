@@ -11,10 +11,6 @@ use App\Builders\ResourceList as ResourceListBuilder;
 use App\Caches\Chapter as ChapterCache;
 use App\Caches\CourseChapterList as CatalogCache;
 use App\Models\Chapter as ChapterModel;
-use App\Models\ChapterLive as ChapterLiveModel;
-use App\Models\ChapterOffline as ChapterOfflineModel;
-use App\Models\ChapterRead as ChapterReadModel;
-use App\Models\ChapterVod as ChapterVodModel;
 use App\Models\Course as CourseModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
@@ -75,17 +71,14 @@ class Chapter extends Service
 
         $chapterRepo = new ChapterRepo();
 
-        $parentId = 0;
-
         if (isset($post['parent_id'])) {
             $parent = $validator->checkParent($post['parent_id']);
             $data['parent_id'] = $parent->id;
             $data['free'] = $validator->checkFreeStatus($post['free']);
             $data['priority'] = $chapterRepo->maxLessonPriority($post['parent_id']);
-            $parentId = $parent->id;
         } else {
             $data['priority'] = $chapterRepo->maxChapterPriority($post['course_id']);
-            $data['parent_id'] = $parentId;
+            $data['parent_id'] = 0;
         }
 
         $data['priority'] += 1;
@@ -98,39 +91,6 @@ class Chapter extends Service
 
             if ($chapter->create($data) === false) {
                 throw new \RuntimeException('Create Chapter Failed');
-            }
-
-            $data = [
-                'course_id' => $course->id,
-                'chapter_id' => $chapter->id,
-            ];
-
-            if ($parentId > 0) {
-
-                $attrs = false;
-
-                switch ($course->model) {
-                    case CourseMOdel::MODEL_VOD:
-                        $chapterVod = new ChapterVodModel();
-                        $attrs = $chapterVod->create($data);
-                        break;
-                    case CourseModel::MODEL_LIVE:
-                        $chapterLive = new ChapterLiveModel();
-                        $attrs = $chapterLive->create($data);
-                        break;
-                    case CourseModel::MODEL_READ:
-                        $chapterRead = new ChapterReadModel();
-                        $attrs = $chapterRead->create($data);
-                        break;
-                    case CourseModel::MODEL_OFFLINE:
-                        $chapterOffline = new ChapterOfflineModel();
-                        $attrs = $chapterOffline->create($data);
-                        break;
-                }
-
-                if ($attrs === false) {
-                    throw new \RuntimeException("Create Chapter Related Attrs Failed");
-                }
             }
 
             $this->db->commit();

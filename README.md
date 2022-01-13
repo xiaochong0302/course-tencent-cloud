@@ -1,15 +1,15 @@
 ## 酷瓜云课堂
 
-![酷瓜云网课GPL协议开源](https://portal-1255691183.file.myqcloud.com/img/content/60e7aea40966f.png)
+![酷瓜云课堂](https://portal-1255691183.file.myqcloud.com/img/content/61dd395c053e5.png)
 
 ### 系统介绍
 
 酷瓜云课堂，依托腾讯云基础服务架构，采用C扩展框架Phalcon开发，GPL-2.0开源协议，致力开源网课系统，开源网校系统，开源知识付费系统，开源在线教育系统。
 
-![star](https://svg.hamm.cn/gitee.svg?user=koogua&project=course-tencent-cloud&type=star)
-![fork](https://svg.hamm.cn/gitee.svg?user=koogua&project=course-tencent-cloud&type=fork)
-![license](https://svg.hamm.cn/gitee.svg?user=koogua&project=course-tencent-cloud&type=license)
-![release](https://svg.hamm.cn/gitee.svg?user=koogua&project=course-tencent-cloud&type=release)
+![star](https://koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=star)
+![fork](https://koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=fork)
+![license](https://koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=license)
+![release](https://koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=release)
 
 ### 系统功能
 
