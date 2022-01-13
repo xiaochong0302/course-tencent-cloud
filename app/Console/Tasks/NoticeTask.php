@@ -26,8 +26,6 @@ class NoticeTask extends Task
 
     public function mainAction()
     {
-        $logger = $this->getLogger('notice');
-
         $tasks = $this->findTasks(300);
 
         if ($tasks->count() == 0) return;
@@ -55,16 +53,16 @@ class NoticeTask extends Task
                     case TaskModel::TYPE_NOTICE_POINT_GOODS_DELIVER:
                         $this->handlePointGoodsDeliverNotice($task);
                         break;
-                    case TaskModel::TYPE_NOTICE_CONSULT_CREATE:
+                    case TaskModel::TYPE_STAFF_NOTICE_CONSULT_CREATE:
                         $this->handleConsultCreateNotice($task);
                         break;
-                    case TaskModel::TYPE_NOTICE_TEACHER_LIVE:
+                    case TaskModel::TYPE_STAFF_NOTICE_TEACHER_LIVE:
                         $this->handleTeacherLiveNotice($task);
                         break;
-                    case TaskModel::TYPE_NOTICE_SERVER_MONITOR:
+                    case TaskModel::TYPE_STAFF_NOTICE_SERVER_MONITOR:
                         $this->handleServerMonitorNotice($task);
                         break;
-                    case TaskModel::TYPE_NOTICE_CUSTOM_SERVICE:
+                    case TaskModel::TYPE_STAFF_NOTICE_CUSTOM_SERVICE:
                         $this->handleCustomServiceNotice($task);
                         break;
                 }
@@ -83,6 +81,8 @@ class NoticeTask extends Task
                 }
 
                 $task->update();
+
+                $logger = $this->getLogger('notice');
 
                 $logger->error('Notice Process Exception ' . kg_json_encode([
                         'file' => $e->getFile(),
@@ -178,10 +178,10 @@ class NoticeTask extends Task
             TaskModel::TYPE_NOTICE_CONSULT_REPLY,
             TaskModel::TYPE_NOTICE_POINT_GOODS_DELIVER,
             TaskModel::TYPE_NOTICE_LUCKY_GOODS_DELIVER,
-            TaskModel::TYPE_NOTICE_CONSULT_CREATE,
-            TaskModel::TYPE_NOTICE_TEACHER_LIVE,
-            TaskModel::TYPE_NOTICE_SERVER_MONITOR,
-            TaskModel::TYPE_NOTICE_CUSTOM_SERVICE,
+            TaskModel::TYPE_STAFF_NOTICE_CONSULT_CREATE,
+            TaskModel::TYPE_STAFF_NOTICE_TEACHER_LIVE,
+            TaskModel::TYPE_STAFF_NOTICE_SERVER_MONITOR,
+            TaskModel::TYPE_STAFF_NOTICE_CUSTOM_SERVICE,
         ];
 
         $status = TaskModel::STATUS_PENDING;

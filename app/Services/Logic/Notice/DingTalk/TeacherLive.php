@@ -48,7 +48,7 @@ class TeacherLive extends DingTalkNotice
 
         $task->item_id = $live->id;
         $task->item_info = $itemInfo;
-        $task->item_type = TaskModel::TYPE_NOTICE_TEACHER_LIVE;
+        $task->item_type = TaskModel::TYPE_STAFF_NOTICE_TEACHER_LIVE;
         $task->priority = TaskModel::PRIORITY_LOW;
         $task->status = TaskModel::STATUS_PENDING;
 

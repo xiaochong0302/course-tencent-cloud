@@ -7,19 +7,18 @@
 
 namespace App\Console\Tasks;
 
-use App\Models\Course as CourseModel;
-use App\Models\CourseUser as CourseUserModel;
-use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\Order as OrderModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Course as CourseRepo;
-use App\Repos\ImGroup as ImGroupRepo;
-use App\Repos\ImGroupUser as ImGroupUserRepo;
-use App\Repos\ImUser as ImUserRepo;
 use App\Repos\Order as OrderRepo;
+use App\Repos\Package as PackageRepo;
 use App\Repos\User as UserRepo;
+use App\Repos\Vip as VipRepo;
+use App\Services\Logic\Deliver\CourseDeliver as CourseDeliverService;
+use App\Services\Logic\Deliver\PackageDeliver as PackageDeliverService;
+use App\Services\Logic\Deliver\VipDeliver as VipDeliverService;
 use App\Services\Logic\Notice\OrderFinish as OrderFinishNotice;
 use App\Services\Logic\Point\History\OrderConsume as OrderConsumePointHistory;
 use Phalcon\Mvc\Model;
@@ -31,8 +30,6 @@ class DeliverTask extends Task
 
     public function mainAction()
     {
-        $logger = $this->getLogger('order');
-
         $tasks = $this->findTasks(30);
 
         echo sprintf('pending tasks: %s', $tasks->count()) . PHP_EOL;
@@ -45,15 +42,7 @@ class DeliverTask extends Task
 
         foreach ($tasks as $task) {
 
-            $orderId = $task->item_info['order']['id'] ?? 0;
-
-            $order = $orderRepo->findById($orderId);
-
-            if (!$order) {
-                $task->status = TaskModel::STATUS_FAILED;
-                $task->update();
-                continue;
-            }
+            $order = $orderRepo->findById($task->item_id);
 
             try {
 
@@ -72,16 +61,10 @@ class DeliverTask extends Task
                 }
 
                 $order->status = OrderModel::STATUS_FINISHED;
-
-                if ($order->update() === false) {
-                    throw new \RuntimeException('Update Order Status Failed');
-                }
+                $order->update();
 
                 $task->status = TaskModel::STATUS_FINISHED;
-
-                if ($task->update() === false) {
-                    throw new \RuntimeException('Update Task Status Failed');
-                }
+                $task->update();
 
                 $this->db->commit();
 
@@ -98,7 +81,9 @@ class DeliverTask extends Task
 
                 $task->update();
 
-                $logger->error('Order Process Exception ' . kg_json_encode([
+                $logger = $this->getLogger('deliver');
+
+                $logger->error('Deliver Task Exception ' . kg_json_encode([
                         'file' => $e->getFile(),
                         'line' => $e->getLine(),
                         'message' => $e->getMessage(),
@@ -119,126 +104,47 @@ class DeliverTask extends Task
 
     protected function handleCourseOrder(OrderModel $order)
     {
-        $course = $order->item_info['course'];
-
-        if ($course['model'] == CourseModel::MODEL_OFFLINE) {
-            $expiryTime = strtotime($course['attrs']['end_date']);
-        } else {
-            $expiryTime = $course['study_expiry_time'];
-        }
-
-        $courseUser = new CourseUserModel();
-
-        $courseUser->user_id = $order->owner_id;
-        $courseUser->course_id = $order->item_id;
-        $courseUser->expiry_time = $expiryTime;
-        $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
-        $courseUser->source_type = CourseUserModel::SOURCE_CHARGE;
-
-        $courseUser->create();
-
         $courseRepo = new CourseRepo();
 
-        $course = $courseRepo->findById($course['id']);
-
-        $course->user_count += 1;
-
-        $course->update();
-
-        $groupRepo = new ImGroupRepo();
-
-        $group = $groupRepo->findByCourseId($course->id);
-
-        $imUserRepo = new ImUserRepo();
-
-        $imUser = $imUserRepo->findById($order->owner_id);
-
-        $groupUserRepo = new ImGroupUserRepo();
-
-        $groupUser = $groupUserRepo->findGroupUser($group->id, $order->owner_id);
-
-        if (!$groupUser) {
-
-            $groupUser = new ImGroupUserModel();
-
-            $groupUser->group_id = $group->id;
-            $groupUser->user_id = $order->owner_id;
-            $groupUser->create();
-
-            $imUser->group_count += 1;
-            $imUser->update();
-
-            $group->user_count += 1;
-            $group->update();
-        }
-    }
-
-    protected function handlePackageOrder(OrderModel $order)
-    {
-        $itemInfo = $order->item_info;
-
-        foreach ($itemInfo['courses'] as $course) {
-
-            $courseUser = new CourseUserModel();
-
-            $courseUser->user_id = $order->owner_id;
-            $courseUser->course_id = $course['id'];
-            $courseUser->expiry_time = $course['study_expiry_time'];
-            $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
-            $courseUser->source_type = CourseUserModel::SOURCE_CHARGE;
-
-            $courseUser->create();
-
-            $courseRepo = new CourseRepo();
-
-            $course = $courseRepo->findById($course['id']);
-
-            $course->user_count += 1;
-
-            $course->update();
-
-            $groupRepo = new ImGroupRepo();
-
-            $group = $groupRepo->findByCourseId($course->id);
-
-            $imUserRepo = new ImUserRepo();
-
-            $imUser = $imUserRepo->findById($order->owner_id);
-
-            $groupUserRepo = new ImGroupUserRepo();
-
-            $groupUser = $groupUserRepo->findGroupUser($group->id, $order->owner_id);
-
-            if (!$groupUser) {
-
-                $groupUser = new ImGroupUserModel();
-
-                $groupUser->group_id = $group->id;
-                $groupUser->user_id = $order->owner_id;
-                $groupUser->create();
-
-                $imUser->group_count += 1;
-                $imUser->update();
-
-                $group->user_count += 1;
-                $group->update();
-            }
-        }
-    }
-
-    protected function handleVipOrder(OrderModel $order)
-    {
-        $itemInfo = $order->item_info;
+        $course = $courseRepo->findById($order->item_id);
 
         $userRepo = new UserRepo();
 
         $user = $userRepo->findById($order->owner_id);
 
-        $user->vip_expiry_time = $itemInfo['vip']['expiry_time'];
+        $service = new CourseDeliverService();
 
-        $user->vip = 1;
+        $service->handle($course, $user);
+    }
 
-        $user->update();
+    protected function handlePackageOrder(OrderModel $order)
+    {
+        $packageRepo = new PackageRepo();
+
+        $package = $packageRepo->findById($order->item_id);
+
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($order->owner_id);
+
+        $service = new PackageDeliverService();
+
+        $service->handle($package, $user);
+    }
+
+    protected function handleVipOrder(OrderModel $order)
+    {
+        $vipRepo = new VipRepo();
+
+        $vip = $vipRepo->findById($order->item_id);
+
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($order->owner_id);
+
+        $service = new VipDeliverService();
+
+        $service->handle($vip, $user);
     }
 
     protected function handleOrderConsumePoint(OrderModel $order)
@@ -311,7 +217,7 @@ class DeliverTask extends Task
     {
         $itemType = TaskModel::TYPE_DELIVER;
         $status = TaskModel::STATUS_PENDING;
-        $createTime = strtotime('-1 days');
+        $createTime = strtotime('-7 days');
 
         return TaskModel::query()
             ->where('item_type = :item_type:', ['item_type' => $itemType])

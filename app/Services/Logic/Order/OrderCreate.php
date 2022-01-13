@@ -55,9 +55,9 @@ class OrderCreate extends LogicService
 
         $validator->checkDailyOrderLimit($user);
 
-        $validator = new OrderValidator();
+        $orderValidator = new OrderValidator();
 
-        $validator->checkItemType($post['item_type']);
+        $orderValidator->checkItemType($post['item_type']);
 
         $orderRepo = new OrderRepo();
 
@@ -70,21 +70,25 @@ class OrderCreate extends LogicService
 
         if ($post['item_type'] == OrderModel::ITEM_COURSE) {
 
-            $course = $validator->checkCourse($post['item_id']);
+            $course = $orderValidator->checkCourse($post['item_id']);
 
-            $validator->checkIfBoughtCourse($user->id, $course->id);
+            $orderValidator->checkIfBoughtCourse($user->id, $course->id);
 
             $this->amount = $user->vip ? $course->vip_price : $course->market_price;
+
+            $orderValidator->checkAmount($this->amount);
 
             $order = $this->createCourseOrder($course, $user);
 
         } elseif ($post['item_type'] == OrderModel::ITEM_PACKAGE) {
 
-            $package = $validator->checkPackage($post['item_id']);
+            $package = $orderValidator->checkPackage($post['item_id']);
 
-            $validator->checkIfBoughtPackage($user->id, $package->id);
+            $orderValidator->checkIfBoughtPackage($user->id, $package->id);
 
             $this->amount = $user->vip ? $package->vip_price : $package->market_price;
+
+            $orderValidator->checkAmount($this->amount);
 
             $order = $this->createPackageOrder($package, $user);
 
@@ -92,18 +96,22 @@ class OrderCreate extends LogicService
 
             list($courseId, $rewardId) = explode('-', $post['item_id']);
 
-            $course = $validator->checkCourse($courseId);
-            $reward = $validator->checkReward($rewardId);
+            $course = $orderValidator->checkCourse($courseId);
+            $reward = $orderValidator->checkReward($rewardId);
 
             $this->amount = $reward->price;
+
+            $orderValidator->checkAmount($this->amount);
 
             $order = $this->createRewardOrder($course, $reward, $user);
 
         } elseif ($post['item_type'] == OrderModel::ITEM_VIP) {
 
-            $vip = $validator->checkVip($post['item_id']);
+            $vip = $orderValidator->checkVip($post['item_id']);
 
             $this->amount = $vip->price;
+
+            $orderValidator->checkAmount($this->amount);
 
             $order = $this->createVipOrder($vip, $user);
         }

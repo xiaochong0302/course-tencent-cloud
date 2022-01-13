@@ -64,7 +64,7 @@ class ConsultCreate extends DingTalkNotice
 
         $task->item_id = $consult->id;
         $task->item_info = $itemInfo;
-        $task->item_type = TaskModel::TYPE_NOTICE_CONSULT_CREATE;
+        $task->item_type = TaskModel::TYPE_STAFF_NOTICE_CONSULT_CREATE;
         $task->priority = TaskModel::PRIORITY_LOW;
         $task->status = TaskModel::STATUS_PENDING;
 
