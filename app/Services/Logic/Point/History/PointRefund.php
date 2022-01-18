@@ -7,8 +7,8 @@
 
 namespace App\Services\Logic\Point\History;
 
+use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Models\PointHistory as PointHistoryModel;
-use App\Models\PointRedeem as PointRedeemModel;
 use App\Repos\PointHistory as PointHistoryRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Point\PointHistory;
@@ -16,7 +16,7 @@ use App\Services\Logic\Point\PointHistory;
 class PointRefund extends PointHistory
 {
 
-    public function handle(PointRedeemModel $redeem)
+    public function handle(PointGiftRedeemModel $redeem)
     {
         $eventId = $redeem->id;
         $eventType = PointHistoryModel::EVENT_POINT_REFUND;
@@ -33,7 +33,7 @@ class PointRefund extends PointHistory
         $user = $userRepo->findById($redeem->user_id);
 
         $eventInfo = [
-            'point_redeem' => [
+            'point_gift_redeem' => [
                 'id' => $redeem->id,
                 'gift_id' => $redeem->gift_id,
                 'gift_name' => $redeem->gift_name,

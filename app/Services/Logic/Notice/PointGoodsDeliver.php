@@ -7,9 +7,9 @@
 
 namespace App\Services\Logic\Notice;
 
-use App\Models\PointRedeem as PointRedeemModel;
+use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Models\Task as TaskModel;
-use App\Repos\PointRedeem as PointRedeemRepo;
+use App\Repos\PointGiftRedeem as PointGiftRedeemRepo;
 use App\Repos\User as UserRepo;
 use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Logic\Notice\Sms\GoodsDeliver as SmsGoodsDeliverNotice;
@@ -28,7 +28,7 @@ class PointGoodsDeliver extends LogicService
 
         $redeemId = $task->item_info['point_redeem']['id'];
 
-        $redeemRepo = new PointRedeemRepo();
+        $redeemRepo = new PointGiftRedeemRepo();
 
         $redeem = $redeemRepo->findById($redeemId);
 
@@ -61,7 +61,7 @@ class PointGoodsDeliver extends LogicService
         }
     }
 
-    public function createTask(PointRedeemModel $redeem)
+    public function createTask(PointGiftRedeemModel $redeem)
     {
         $wechatNoticeEnabled = $this->wechatNoticeEnabled();
         $smsNoticeEnabled = $this->smsNoticeEnabled();
@@ -71,7 +71,7 @@ class PointGoodsDeliver extends LogicService
         $task = new TaskModel();
 
         $itemInfo = [
-            'point_redeem' => ['id' => $redeem->id],
+            'point_gift_redeem' => ['id' => $redeem->id],
         ];
 
         $task->item_id = $redeem->id;

@@ -2,9 +2,9 @@
 
 {% block content %}
 
-    {{ partial('macros/point') }}
+    {{ partial('macros/point_gift') }}
 
-    {% set search_url = url({'for':'admin.point_redeem.search'}) %}
+    {% set search_url = url({'for':'admin.point_gift_redeem.search'}) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
@@ -40,8 +40,8 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set user_filter_url = url({'for':'admin.point_redeem.list'},{'user_id':item.user_id}) %}
-            {% set deliver_url = url({'for':'admin.point_redeem.deliver','id':item.id}) %}
+            {% set user_filter_url = url({'for':'admin.point_gift_redeem.list'},{'user_id':item.user_id}) %}
+            {% set deliver_url = url({'for':'admin.point_gift_redeem.deliver','id':item.id}) %}
             {% set gift_url = url({'for':'home.point_gift.show','id':item.gift_id}) %}
             <tr>
                 <td>

@@ -1,23 +1,3 @@
-{%- macro redeem_status_info(value) %}
-    {% if value == 1 %}
-        处理中
-    {% elseif value == 2 %}
-        已完成
-    {% elseif value == 3 %}
-        已失败
-    {% endif %}
-{%- endmacro %}
-
-{%- macro gift_type_info(value) %}
-    {% if value == 1 %}
-        课程
-    {% elseif value == 2 %}
-        商品
-    {% elseif value == 3 %}
-        现金
-    {% endif %}
-{%- endmacro %}
-
 {%- macro event_point_info(value) %}
     {% if value > 0 %}
         <span class="layui-badge layui-bg-green">+{{ value }}</span>
@@ -51,9 +31,9 @@
     {% if history.event_type == 1 %}
         <p class="order">{{ event_info.order.subject }}</p>
     {% elseif history.event_type == 2 %}
-        <p class="gift">{{ event_info.point_redeem.gift_name }}</p>
+        <p class="gift">{{ event_info.point_gift_redeem.gift_name }}</p>
     {% elseif history.event_type == 3 %}
-        <span class="none">{{ event_info.point_redeem.gift_name }}</span>
+        <span class="none">{{ event_info.point_gift_redeem.gift_name }}</span>
     {% elseif history.event_type == 4 %}
         <span class="none">N/A</span>
     {% elseif history.event_type == 5 %}

@@ -56,7 +56,7 @@
         <div class="layui-card-body">
             <ul class="my-menu">
                 <li><a href="{{ url({'for':'home.point_gift.list'}) }}">积分商城</a></li>
-                <li><a href="{{ url({'for':'home.uc.point_redeems'}) }}">兑换记录</a></li>
+                <li><a href="{{ url({'for':'home.uc.point_gift_redeems'}) }}">兑换记录</a></li>
                 <li><a href="{{ url({'for':'home.uc.point_history'}) }}">积分记录</a></li>
             </ul>
         </div>

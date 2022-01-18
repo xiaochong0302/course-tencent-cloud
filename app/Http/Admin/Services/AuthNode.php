@@ -871,7 +871,7 @@ class AuthNode extends Service
                             'id' => '2-20-2',
                             'title' => '兑换记录',
                             'type' => 'button',
-                            'route' => 'admin.point_redeem.list',
+                            'route' => 'admin.point_gift_redeem.list',
                         ],
                         [
                             'id' => '2-20-3',

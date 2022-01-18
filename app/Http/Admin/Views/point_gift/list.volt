@@ -2,8 +2,9 @@
 
 {% block content %}
 
-    {{ partial('macros/point') }}
+    {{ partial('macros/point_gift') }}
 
+    {% set redeem_url = url({'for':'admin.point_gift_redeem.list'}) %}
     {% set add_url = url({'for':'admin.point_gift.add'}) %}
     {% set search_url = url({'for':'admin.point_gift.search'}) %}
 
@@ -14,6 +15,9 @@
             </span>
         </div>
         <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ redeem_url }}">
+                <i class="layui-icon layui-icon-log"></i>兑换记录
+            </a>
             <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
                 <i class="layui-icon layui-icon-add-1"></i>添加礼品
             </a>
@@ -50,7 +54,7 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
-            {% set redeem_url = url({'for':'admin.point_redeem.list'},{'gift_id':item.id}) %}
+            {% set redeem_url = url({'for':'admin.point_gift_redeem.list'},{'gift_id':item.id}) %}
             {% set gift_url = url({'for':'home.point_gift.show','id':item.id}) %}
             {% set edit_url = url({'for':'admin.point_gift.edit','id':item.id}) %}
             {% set update_url = url({'for':'admin.point_gift.update','id':item.id}) %}

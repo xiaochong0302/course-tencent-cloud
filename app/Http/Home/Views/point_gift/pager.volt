@@ -1,4 +1,4 @@
-{{ partial('macros/point') }}
+{{ partial('macros/point_gift') }}
 
 {% if pager.total_pages > 0 %}
     <div class="course-list clearfix">

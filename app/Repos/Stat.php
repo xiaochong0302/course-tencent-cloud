@@ -14,7 +14,7 @@ use App\Models\Consult as ConsultModel;
 use App\Models\Online as OnlineModel;
 use App\Models\Order as OrderModel;
 use App\Models\OrderStatus as OrderStatusModel;
-use App\Models\PointRedeem as PointRedeemModel;
+use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Models\Question as QuestionModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Review as ReviewModel;
@@ -162,16 +162,16 @@ class Stat extends Repository
         ]);
     }
 
-    public function countDailyPointRedeems($date)
+    public function countDailyPointGiftRedeems($date)
     {
         $startTime = strtotime($date);
 
         $endTime = $startTime + 86400;
 
-        return (int)PointRedeemModel::count([
+        return (int)PointGiftRedeemModel::count([
             'conditions' => 'status = ?1 AND create_time BETWEEN ?2 AND ?3',
             'bind' => [
-                1 => PointRedeemModel::STATUS_PENDING,
+                1 => PointGiftRedeemModel::STATUS_PENDING,
                 2 => $startTime,
                 3 => $endTime,
             ],

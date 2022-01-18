@@ -25,8 +25,6 @@ class ImGroupController extends Controller
         $group = $service->getGroup($id);
         $pager = $service->getGroupUsers($id);
 
-        $this->view->pick('im/group/users');
-
         $this->view->setVar('group', $group);
         $this->view->setVar('pager', $pager);
     }
@@ -40,8 +38,6 @@ class ImGroupController extends Controller
 
         $pager = $groupService->getGroups();
 
-        $this->view->pick('im/group/list');
-
         $this->view->setVar('pager', $pager);
     }
 
@@ -54,8 +50,6 @@ class ImGroupController extends Controller
 
         $types = $groupService->getGroupTypes();
 
-        $this->view->pick('im/group/search');
-
         $this->view->setVar('types', $types);
     }
 
@@ -64,7 +58,7 @@ class ImGroupController extends Controller
      */
     public function addAction()
     {
-        $this->view->pick('im/group/add');
+
     }
 
     /**
@@ -75,8 +69,6 @@ class ImGroupController extends Controller
         $groupService = new ImGroupService();
 
         $group = $groupService->getGroup($id);
-
-        $this->view->pick('im/group/edit');
 
         $this->view->setVar('group', $group);
     }

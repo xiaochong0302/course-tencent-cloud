@@ -7,42 +7,40 @@
 
 namespace App\Http\Admin\Controllers;
 
-use App\Http\Admin\Services\PointRedeem as PointRedeemService;
+use App\Http\Admin\Services\PointGiftRedeem as PointGiftRedeemService;
 
 /**
- * @RoutePrefix("/admin/point/redeem")
+ * @RoutePrefix("/admin/point/gift/redeem")
  */
-class PointRedeemController extends Controller
+class PointGiftRedeemController extends Controller
 {
 
     /**
-     * @Get("/search", name="admin.point_redeem.search")
+     * @Get("/search", name="admin.point_gift_redeem.search")
      */
     public function searchAction()
     {
-        $this->view->pick('point/redeem/search');
+
     }
 
     /**
-     * @Get("/list", name="admin.point_redeem.list")
+     * @Get("/list", name="admin.point_gift_redeem.list")
      */
     public function listAction()
     {
-        $redeemService = new PointRedeemService();
+        $redeemService = new PointGiftRedeemService();
 
         $pager = $redeemService->getRedeems();
-
-        $this->view->pick('point/redeem/list');
 
         $this->view->setVar('pager', $pager);
     }
 
     /**
-     * @Post("/{id:[0-9]+}/deliver", name="admin.point_redeem.deliver")
+     * @Post("/{id:[0-9]+}/deliver", name="admin.point_gift_redeem.deliver")
      */
     public function deliverAction($id)
     {
-        $redeemService = new PointRedeemService();
+        $redeemService = new PointGiftRedeemService();
 
         $redeemService->deliver($id);
 
