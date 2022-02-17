@@ -29,8 +29,6 @@ class RefundTask extends Task
 
     public function mainAction()
     {
-        $logger = $this->getLogger('refund');
-
         $tasks = $this->findTasks(30);
 
         echo sprintf('pending tasks: %s', $tasks->count()) . PHP_EOL;
@@ -45,14 +43,12 @@ class RefundTask extends Task
 
         foreach ($tasks as $task) {
 
-            $itemInfo = $task->item_info;
-
-            $refund = $refundRepo->findById($itemInfo['refund']['id']);
+            $refund = $refundRepo->findById($task->item_id);
             $trade = $tradeRepo->findById($refund->trade_id);
             $order = $orderRepo->findById($refund->order_id);
 
-            if (!$refund || !$trade || !$order) {
-                $task->status = TaskModel::STATUS_FAILED;
+            if ($refund->status != RefundModel::STATUS_APPROVED) {
+                $task->status = TaskModel::STATUS_CANCELED;
                 $task->update();
                 continue;
             }
@@ -62,32 +58,19 @@ class RefundTask extends Task
                 $this->db->begin();
 
                 $this->handleTradeRefund($trade, $refund);
-
                 $this->handleOrderRefund($order);
 
                 $refund->status = RefundModel::STATUS_FINISHED;
-
-                if ($refund->update() === false) {
-                    throw new \RuntimeException('Update Refund Status Failed');
-                }
+                $refund->update();
 
                 $trade->status = TradeModel::STATUS_REFUNDED;
-
-                if ($trade->update() === false) {
-                    throw new \RuntimeException('Update Trade Status Failed');
-                }
+                $trade->update();
 
                 $order->status = OrderModel::STATUS_REFUNDED;
-
-                if ($order->update() === false) {
-                    throw new \RuntimeException('Update Order Status Failed');
-                }
+                $order->update();
 
                 $task->status = TaskModel::STATUS_FINISHED;
-
-                if ($task->update() === false) {
-                    throw new \RuntimeException('Update Task Status Failed');
-                }
+                $task->update();
 
                 $this->db->commit();
 
@@ -106,7 +89,9 @@ class RefundTask extends Task
 
                 $task->update();
 
-                $logger->info('Refund Task Exception ' . kg_json_encode([
+                $logger = $this->getLogger('refund');
+
+                $logger->error('Refund Task Exception ' . kg_json_encode([
                         'file' => $e->getFile(),
                         'line' => $e->getLine(),
                         'message' => $e->getMessage(),

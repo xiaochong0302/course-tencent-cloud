@@ -1,4 +1,4 @@
-{%- macro model_info(value) %}
+{%- macro model_type(value) %}
     {% if value == 1 %}
         点播
     {% elseif value == 2 %}
@@ -12,7 +12,7 @@
     {% endif %}
 {%- endmacro %}
 
-{%- macro level_info(value) %}
+{%- macro level_type(value) %}
     {% if value == 1 %}
         入门
     {% elseif value == 2 %}

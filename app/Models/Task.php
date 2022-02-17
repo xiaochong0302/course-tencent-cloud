@@ -32,12 +32,12 @@ class Task extends Model
     /**
      * 针对内部人员
      */
-    const TYPE_NOTICE_CONSULT_CREATE = 31; // 咨询创建通知
-    const TYPE_NOTICE_TEACHER_LIVE = 32; // 直播讲师通知
-    const TYPE_NOTICE_SERVER_MONITOR = 33; // 服务监控通知
-    const TYPE_NOTICE_CUSTOM_SERVICE = 34; // 客服消息通知
-    const TYPE_NOTICE_POINT_REDEEM = 35; // 积分兑换通知
-    const TYPE_NOTICE_LUCKY_REDEEM = 36; // 抽奖兑换通知
+    const TYPE_STAFF_NOTICE_CONSULT_CREATE = 31; // 咨询创建通知
+    const TYPE_STAFF_NOTICE_TEACHER_LIVE = 32; // 直播讲师通知
+    const TYPE_STAFF_NOTICE_SERVER_MONITOR = 33; // 服务监控通知
+    const TYPE_STAFF_NOTICE_CUSTOM_SERVICE = 34; // 客服消息通知
+    const TYPE_STAFF_NOTICE_POINT_GIFT_REDEEM = 35; // 积分兑换通知
+    const TYPE_STAFF_NOTICE_LUCKY_GIFT_REDEEM = 36; // 抽奖兑换通知
 
     /**
      * 优先级

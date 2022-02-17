@@ -58,7 +58,7 @@ class CustomService extends DingTalkNotice
 
         $task->item_id = $message->id;
         $task->item_info = $itemInfo;
-        $task->item_type = TaskModel::TYPE_NOTICE_CUSTOM_SERVICE;
+        $task->item_type = TaskModel::TYPE_STAFF_NOTICE_CUSTOM_SERVICE;
         $task->priority = TaskModel::PRIORITY_MIDDLE;
         $task->status = TaskModel::STATUS_PENDING;
 

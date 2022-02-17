@@ -68,16 +68,13 @@ class LiveBegin extends LogicService
         $subscribe = $subscribeRepo->findByUserId($user->id);
 
         if ($wechatNoticeEnabled && $subscribe) {
-
             $notice = new WeChatLiveBeginNotice();
+            $notice->handle($subscribe, $params);
+        }
 
-            return $notice->handle($subscribe, $params);
-
-        } elseif ($smsNoticeEnabled) {
-
+        if ($smsNoticeEnabled) {
             $notice = new SmsLiveBeginNotice();
-
-            return $notice->handle($user, $params);
+            $notice->handle($user, $params);
         }
     }
 

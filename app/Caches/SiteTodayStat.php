@@ -35,7 +35,7 @@ class SiteTodayStat extends Cache
         $saleAmount = $statRepo->sumDailySales($date);
         $refundAmount = $statRepo->sumDailyRefunds($date);
         $registerCount = $statRepo->countDailyRegisteredUsers($date);
-        $pointRedeemCount = $statRepo->countDailyPointRedeems($date);
+        $pointRedeemCount = $statRepo->countDailyPointGiftRedeems($date);
 
         return [
             'sale_count' => $saleCount,

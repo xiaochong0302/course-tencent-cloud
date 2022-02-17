@@ -33,7 +33,7 @@
                         {% for item in pager.items %}
                             {% set course_url = url({'for':'home.course.show','id':item.id}) %}
                             <tr>
-                                <td><a href="{{ course_url }}">{{ item.title }}</a> {{ model_info(item.model) }}</td>
+                                <td><a href="{{ course_url }}">{{ item.title }}</a> {{ model_type(item.model) }}</td>
                                 <td>{{ item.lesson_count }}</td>
                                 <td>{{ item.user_count }}</td>
                                 <td>{{ item.favorite_count }}</td>

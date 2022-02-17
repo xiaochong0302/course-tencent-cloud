@@ -261,6 +261,40 @@ class Chapter extends Model
         $cache = new MaxChapterIdCache();
 
         $cache->rebuild();
+
+        if ($this->parent_id > 0) {
+
+            $data = [
+                'course_id' => $this->course_id,
+                'chapter_id' => $this->id,
+                'model' => $this->model,
+            ];
+
+            $extend = false;
+
+            switch ($this->model) {
+                case Course::MODEL_VOD:
+                    $vod = new ChapterVod();
+                    $extend = $vod->create($data);
+                    break;
+                case Course::MODEL_LIVE:
+                    $live = new ChapterLive();
+                    $extend = $live->create($data);
+                    break;
+                case Course::MODEL_READ:
+                    $read = new ChapterRead();
+                    $extend = $read->create($data);
+                    break;
+                case Course::MODEL_OFFLINE:
+                    $offline = new ChapterOffline();
+                    $extend = $offline->create($data);
+                    break;
+            }
+
+            if ($extend === false) {
+                throw new \RuntimeException("Create Chapter Extend Failed");
+            }
+        }
     }
 
     public function afterFetch()

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.point_redeem.list'}) }}">
+    <form class="layui-form kg-form" method="GET" action="{{ url({'for':'admin.point_gift_redeem.list'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>搜索兑换</legend>
         </fieldset>

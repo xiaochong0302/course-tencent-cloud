@@ -7,7 +7,7 @@
 
 namespace App\Models;
 
-class PointRedeem extends Model
+class PointGiftRedeem extends Model
 {
 
     /**
@@ -117,7 +117,7 @@ class PointRedeem extends Model
 
     public function getSource(): string
     {
-        return 'kg_point_redeem';
+        return 'kg_point_gift_redeem';
     }
 
     public function beforeCreate()

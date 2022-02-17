@@ -2,9 +2,9 @@
 
 {% block content %}
 
-    {{ partial('macros/point') }}
+    {{ partial('macros/point_gift') }}
 
-    {% set redeem_create_url = url({'for':'home.point_redeem.create'}) %}
+    {% set gift_redeem_url = url({'for':'home.point_gift.redeem','id':gift.id}) %}
     {% set gift_list_url = url({'for':'home.point_gift.list'}) %}
 
     <div class="breadcrumb">
@@ -22,6 +22,7 @@
                 <div class="layui-card-body">
                     <div class="gift-meta clearfix">
                         <div class="cover">
+                            <span class="layui-badge layui-bg-green type">{{ gift_type_info(gift.type) }}</span>
                             <img src="{{ gift.cover }}!cover_270" alt="{{ gift.name }}">
                         </div>
                         <div class="info">
@@ -29,27 +30,23 @@
                                 {% set course_url = url({'for':'home.course.show','id':gift.attrs.id}) %}
                                 <p class="item">
                                     <a href="{{ course_url }}">{{ gift.name }}</a>
-                                    {{ gift_type_info(gift.type) }}
                                 </p>
                             {% else %}
-                                <p class="item">{{ gift.name }} {{ gift_type_info(gift.type) }}</p>
+                                <p class="item">{{ gift.name }} }}</p>
                             {% endif %}
                             <p class="item stats">
-                                <span class="key">兑换库存</span>
-                                <span class="value">{{ gift.stock }}</span>
-                                <span class="key">兑换价格</span>
-                                <span class="price">{{ gift.point }} 积分</span>
-                                <span class="key">兑换限额</span>
-                                <span class="value">{{ gift.redeem_limit }}</span>
                                 <span class="key">兑换人次</span>
                                 <span class="value">{{ gift.redeem_count }}</span>
+                                <span class="key">兑换限额</span>
+                                <span class="value">{{ gift.redeem_limit }}</span>
                             </p>
-                            <p class="item">
-                                {% if gift.stock > 0 and user_balance.point > gift.point %}
-                                    <button class="layui-btn layui-bg-red btn-redeem" data-id="{{ gift.id }}" data-url="{{ redeem_create_url }}">立即兑换</button>
-                                {% else %}
-                                    <button class="layui-btn layui-btn-disabled">立即兑换</button>
-                                {% endif %}
+                            <p class="item stats">
+                                <span class="key">兑换价格</span>
+                                <span class="price">{{ gift.point }} 积分</span>
+                            </p>
+                            <p class="item stats">
+                                <span class="key">库存数量</span>
+                                <span class="value">{{ gift.stock }}</span>
                             </p>
                         </div>
                     </div>
@@ -78,6 +75,13 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="sidebar wrap">
+                {% if gift.me.allow_redeem == 1 %}
+                    <button class="layui-btn layui-bg-red layui-btn-fluid btn-redeem" data-url="{{ gift_redeem_url }}">立即兑换</button>
+                {% else %}
+                    <button class="layui-btn layui-btn-fluid layui-btn-disabled">立即兑换</button>
+                {% endif %}
             </div>
             <div class="sidebar">
                 <div class="layui-card">

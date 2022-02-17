@@ -9,12 +9,12 @@ namespace App\Http\Admin\Services;
 
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\PointGift as PointGiftModel;
-use App\Models\PointRedeem as PointRedeemModel;
-use App\Repos\PointRedeem as PointRedeemRepo;
+use App\Models\PointGiftRedeem as PointGiftRedeemModel;
+use App\Repos\PointGiftRedeem as PointGiftRedeemRepo;
 use App\Services\Logic\Notice\PointGoodsDeliver as PointGoodsDeliverNotice;
-use App\Validators\PointRedeem as PointRedeemValidator;
+use App\Validators\PointGiftRedeem as PointGiftRedeemValidator;
 
-class PointRedeem extends Service
+class PointGiftRedeem extends Service
 {
 
     public function getRedeems()
@@ -27,7 +27,7 @@ class PointRedeem extends Service
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $redeemRepo = new PointRedeemRepo();
+        $redeemRepo = new PointGiftRedeemRepo();
 
         return $redeemRepo->paginate($params, $sort, $page, $limit);
     }
@@ -45,7 +45,7 @@ class PointRedeem extends Service
             return $redeem;
         }
 
-        $redeem->status = PointRedeemModel::STATUS_FINISHED;
+        $redeem->status = PointGiftRedeemModel::STATUS_FINISHED;
 
         $redeem->update();
 
@@ -54,7 +54,7 @@ class PointRedeem extends Service
         return $redeem;
     }
 
-    protected function handleGoodsDeliverNotice(PointRedeemModel $redeem)
+    protected function handleGoodsDeliverNotice(PointGiftRedeemModel $redeem)
     {
         $notice = new PointGoodsDeliverNotice();
 
@@ -63,7 +63,7 @@ class PointRedeem extends Service
 
     protected function findOrFail($id)
     {
-        $validator = new PointRedeemValidator();
+        $validator = new PointGiftRedeemValidator();
 
         return $validator->checkRedeem($id);
     }

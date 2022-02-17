@@ -10,8 +10,6 @@ namespace App\Services\Logic\Account;
 use App\Library\Utils\Password as PasswordUtil;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\Account as AccountModel;
-use App\Models\ImUser as ImUserModel;
-use App\Models\User as UserModel;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\Account as AccountValidator;
 use App\Validators\Verify as VerifyValidator;
@@ -60,24 +58,6 @@ class Register extends LogicService
 
             if ($account->create($data) === false) {
                 throw new \RuntimeException('Create Account Failed');
-            }
-
-            $user = new UserModel();
-
-            $user->id = $account->id;
-            $user->name = "user_{$account->id}";
-
-            if ($user->create() === false) {
-                throw new \RuntimeException('Create User Failed');
-            }
-
-            $imUser = new ImUserModel();
-
-            $imUser->id = $user->id;
-            $imUser->name = $user->name;
-
-            if ($imUser->create() === false) {
-                throw new \RuntimeException('Create Im User Failed');
             }
 
             $this->db->commit();

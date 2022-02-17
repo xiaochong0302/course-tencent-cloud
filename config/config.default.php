@@ -83,6 +83,11 @@ $config['redis']['host'] = 'redis';
 $config['redis']['port'] = 6379;
 
 /**
+ * redis库编号
+ */
+$config['redis']['index'] = 0;
+
+/**
  * redis密码
  */
 $config['redis']['auth'] = '1qaz2wsx3edc';

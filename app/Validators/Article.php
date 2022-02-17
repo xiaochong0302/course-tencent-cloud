@@ -79,7 +79,7 @@ class Article extends Validator
 
         $length = kg_strlen($value);
 
-        if ($length < 5) {
+        if ($length < 2) {
             throw new BadRequestException('article.title_too_short');
         }
 

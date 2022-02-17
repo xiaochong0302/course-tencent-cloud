@@ -60,7 +60,7 @@
                 </p>
                 <p>
                     <span class="key">难度</span>
-                    <span class="value">{{ level_info(course.level) }}</span>
+                    <span class="value">{{ level_type(course.level) }}</span>
                     <span class="key">课时</span>
                     <span class="value">{{ course.lesson_count }}</span>
                     <span class="key">学员</span>

@@ -118,7 +118,7 @@ $error['nav.has_child_node'] = '不允许相关操作（存在子节点）';
  * 文章相关
  */
 $error['article.not_found'] = '文章不存在';
-$error['article.title_too_short'] = '标题太短（少于5个字符）';
+$error['article.title_too_short'] = '标题太短（少于2个字符）';
 $error['article.title_too_long'] = '标题太长（多于50个字符）';
 $error['article.content_too_short'] = '内容太短（少于10个字符）';
 $error['article.content_too_long'] = '内容太长（多于30000个字符）';
@@ -505,14 +505,14 @@ $error['point_gift.invalid_stock'] = '无效的库存值（范围：1-999999）'
 $error['point_gift.invalid_redeem_limit'] = '无效的兑换限额（范围：1-10）';
 $error['point_gift.invalid_publish_status'] = '无效的发布状态';
 
-$error['point_redeem.not_found'] = '兑换不存在';
-$error['point_redeem.course_not_published'] = '课程尚未发布';
-$error['point_redeem.course_free'] = '课程当前免费，无需积分兑换';
-$error['point_redeem.course_owned'] = '您已经拥有课程，无需积分兑换';
-$error['point_redeem.no_user_contact'] = '您尚未设置收货地址，请前往用户中心设置';
-$error['point_redeem.reach_redeem_limit'] = '超出物品兑换限额';
-$error['point_redeem.no_enough_point'] = '您的积分余额不足以抵扣此次兑换';
-$error['point_redeem.no_enough_stock'] = '兑换物品库存不足';
+$error['point_gift_redeem.not_found'] = '兑换不存在';
+$error['point_gift_redeem.course_not_published'] = '课程尚未发布';
+$error['point_gift_redeem.course_free'] = '课程当前免费，无需积分兑换';
+$error['point_gift_redeem.course_owned'] = '您已经拥有课程，无需积分兑换';
+$error['point_gift_redeem.no_user_contact'] = '您尚未设置收货地址，请前往用户中心设置';
+$error['point_gift_redeem.reach_redeem_limit'] = '超出物品兑换限额';
+$error['point_gift_redeem.no_enough_point'] = '您的积分余额不足以抵扣此次兑换';
+$error['point_gift_redeem.no_enough_stock'] = '兑换物品库存不足';
 
 /**
  * 限时秒杀相关

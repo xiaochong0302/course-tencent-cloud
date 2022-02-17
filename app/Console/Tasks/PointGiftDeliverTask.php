@@ -10,15 +10,15 @@ namespace App\Console\Tasks;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\PointGift as PointGiftModel;
-use App\Models\PointRedeem as PointRedeemModel;
+use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Models\Task as TaskModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\PointGift as PointGiftRepo;
-use App\Repos\PointRedeem as PointRedeemRepo;
-use App\Services\Logic\Notice\DingTalk\PointRedeem as PointRedeemNotice;
+use App\Repos\PointGiftRedeem as PointGiftRedeemRepo;
+use App\Services\Logic\Notice\DingTalk\PointGiftRedeem as PointGiftRedeemNotice;
 use App\Services\Logic\Point\History\PointRefund as PointRefundPointHistory;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -38,13 +38,11 @@ class PointGiftDeliverTask extends Task
 
         echo '------ start deliver task ------' . PHP_EOL;
 
-        $redeemRepo = new PointRedeemRepo();
+        $redeemRepo = new PointGiftRedeemRepo();
 
         foreach ($tasks as $task) {
 
-            $redeemId = $task->item_info['point_redeem']['id'] ?? 0;
-
-            $redeem = $redeemRepo->findById($redeemId);
+            $redeem = $redeemRepo->findById($task->item_id);
 
             if (!$redeem) {
                 $task->status = TaskModel::STATUS_FAILED;
@@ -102,7 +100,7 @@ class PointGiftDeliverTask extends Task
         echo '------ end deliver task ------' . PHP_EOL;
     }
 
-    protected function handleCourseRedeem(PointRedeemModel $redeem)
+    protected function handleCourseRedeem(PointGiftRedeemModel $redeem)
     {
         $giftRepo = new PointGiftRepo();
 
@@ -163,21 +161,21 @@ class PointGiftDeliverTask extends Task
             }
         }
 
-        $redeem->status = PointRedeemModel::STATUS_FINISHED;
+        $redeem->status = PointGiftRedeemModel::STATUS_FINISHED;
 
         if ($redeem->update() === false) {
             throw new \RuntimeException('Update Redeem Status Failed');
         }
     }
 
-    protected function handleGoodsRedeem(PointRedeemModel $redeem)
+    protected function handleGoodsRedeem(PointGiftRedeemModel $redeem)
     {
-        $notice = new PointRedeemNotice();
+        $notice = new PointGiftRedeemNotice();
 
         $notice->createTask($redeem);
     }
 
-    protected function handlePointRefund(PointRedeemModel $redeem)
+    protected function handlePointRefund(PointGiftRedeemModel $redeem)
     {
         $service = new PointRefundPointHistory();
 

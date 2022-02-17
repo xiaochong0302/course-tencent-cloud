@@ -85,7 +85,7 @@
 {%- macro meta_stats_info(course) %}
     <p class="item">
         <span class="key">难度级别</span>
-        <span class="value">{{ level_info(course.level) }}</span>
+        <span class="value">{{ level_type(course.level) }}</span>
         <span class="key">学习人次</span>
         <span class="value">{{ course.user_count }}</span>
         <span class="key">综合评分</span>
@@ -95,6 +95,7 @@
 
 <div class="course-meta wrap clearfix">
     <div class="cover">
+        <span class="model layui-badge layui-bg-green">{{ model_type(course.model) }}</span>
         <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
     </div>
     <div class="info">

@@ -55,16 +55,13 @@ class OrderFinish extends LogicService
         $subscribe = $subscribeRepo->findByUserId($order->owner_id);
 
         if ($wechatNoticeEnabled && $subscribe) {
-
             $notice = new WeChatOrderFinishNotice();
+            $notice->handle($subscribe, $params);
+        }
 
-            return $notice->handle($subscribe, $params);
-
-        } elseif ($smsNoticeEnabled) {
-
+        if ($smsNoticeEnabled) {
             $notice = new SmsOrderFinishNotice();
-
-            return $notice->handle($user, $params);
+            $notice->handle($user, $params);
         }
     }
 

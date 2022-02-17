@@ -8,17 +8,17 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\PointRedeem as PointRedeemModel;
+use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use Phalcon\Mvc\Model;
 
-class PointRedeem extends Repository
+class PointGiftRedeem extends Repository
 {
 
     public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
 
-        $builder->from(PointRedeemModel::class);
+        $builder->from(PointGiftRedeemModel::class);
 
         $builder->where('1 = 1');
 
@@ -57,11 +57,11 @@ class PointRedeem extends Repository
 
     /**
      * @param int $id
-     * @return PointRedeemModel|Model|bool
+     * @return PointGiftRedeemModel|Model|bool
      */
     public function findById($id)
     {
-        return PointRedeemModel::findFirst([
+        return PointGiftRedeemModel::findFirst([
             'conditions' => 'id = :id:',
             'bind' => ['id' => $id],
         ]);
@@ -69,7 +69,7 @@ class PointRedeem extends Repository
 
     public function countUserGiftRedeems($userId, $giftId)
     {
-        return (int)PointRedeemModel::count([
+        return (int)PointGiftRedeemModel::count([
             'conditions' => 'user_id = :user_id: AND gift_id = :gift_id:',
             'bind' => ['user_id' => $userId, 'gift_id' => $giftId],
         ]);

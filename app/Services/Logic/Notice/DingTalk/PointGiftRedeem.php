@@ -8,19 +8,19 @@
 namespace App\Services\Logic\Notice\DingTalk;
 
 use App\Models\PointGift as PointGiftModel;
-use App\Models\PointRedeem as PointRedeemModel;
+use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Models\Task as TaskModel;
-use App\Repos\PointRedeem as PointRedeemRepo;
+use App\Repos\PointGiftRedeem as PointGiftRedeemRepo;
 use App\Services\DingTalkNotice;
 
-class PointRedeem extends DingTalkNotice
+class PointGiftRedeem extends DingTalkNotice
 {
 
     public function handleTask(TaskModel $task)
     {
         if (!$this->enabled) return;
 
-        $redeemRepo = new PointRedeemRepo();
+        $redeemRepo = new PointGiftRedeemRepo();
 
         $redeem = $redeemRepo->findById($task->item_id);
 
@@ -32,7 +32,7 @@ class PointRedeem extends DingTalkNotice
         $this->atCustomService($content);
     }
 
-    public function createTask(PointRedeemModel $redeem)
+    public function createTask(PointGiftRedeemModel $redeem)
     {
         if (!$this->enabled) return;
 
@@ -41,12 +41,12 @@ class PointRedeem extends DingTalkNotice
         $task = new TaskModel();
 
         $itemInfo = [
-            'point_redeem' => ['id' => $redeem->id],
+            'point_gift_redeem' => ['id' => $redeem->id],
         ];
 
         $task->item_id = $redeem->id;
         $task->item_info = $itemInfo;
-        $task->item_type = TaskModel::TYPE_NOTICE_POINT_REDEEM;
+        $task->item_type = TaskModel::TYPE_STAFF_NOTICE_POINT_GIFT_REDEEM;
         $task->priority = TaskModel::PRIORITY_MIDDLE;
         $task->status = TaskModel::STATUS_PENDING;
 

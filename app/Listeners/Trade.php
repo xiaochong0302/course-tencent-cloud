@@ -11,6 +11,7 @@ use App\Models\Order as OrderModel;
 use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Order as OrderRepo;
+use App\Services\Logic\FlashSale\UserOrderCache as FlashSaleLockCache;
 use Phalcon\Events\Event as PhEvent;
 use Phalcon\Logger\Adapter\File as FileLogger;
 
@@ -34,20 +35,13 @@ class Trade extends Listener
             $this->db->begin();
 
             $trade->status = TradeModel::STATUS_FINISHED;
-
-            if ($trade->update() === false) {
-                throw new \RuntimeException('Update Trade Status Failed');
-            }
+            $trade->update();
 
             $orderRepo = new OrderRepo();
-
             $order = $orderRepo->findById($trade->order_id);
 
             $order->status = OrderModel::STATUS_DELIVERING;
-
-            if ($order->update() === false) {
-                throw new \RuntimeException('Update Order Status Failed');
-            }
+            $order->update();
 
             $task = new TaskModel();
 
@@ -58,12 +52,17 @@ class Trade extends Listener
             $task->item_id = $order->id;
             $task->item_info = $itemInfo;
             $task->item_type = TaskModel::TYPE_DELIVER;
-
-            if ($task->create() === false) {
-                throw new \RuntimeException('Create Order Process Task Failed');
-            }
+            $task->create();
 
             $this->db->commit();
+
+            /**
+             * 解除秒杀锁定
+             */
+            if ($order->promotion_type == OrderModel::PROMOTION_FLASH_SALE) {
+                $cache = new FlashSaleLockCache();
+                $cache->delete($order->owner_id, $order->promotion_id);
+            }
 
         } catch (\Exception $e) {
 
@@ -72,7 +71,6 @@ class Trade extends Listener
             $this->logger->error('After Pay Event Error ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
-                    'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
 

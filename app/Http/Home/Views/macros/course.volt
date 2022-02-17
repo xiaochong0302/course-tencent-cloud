@@ -1,4 +1,4 @@
-{%- macro model_info(value) %}
+{%- macro model_type(value) %}
     {% if value == 1 %}
         点播
     {% elseif value == 2 %}
@@ -10,7 +10,7 @@
     {% endif %}
 {%- endmacro %}
 
-{%- macro level_info(value) %}
+{%- macro level_type(value) %}
     {% if value == 1 %}
         入门
     {% elseif value == 2 %}
@@ -32,7 +32,7 @@
 {%- macro course_card(course) %}
     {% set course_url = url({'for':'home.course.show','id':course.id}) %}
     <div class="course-card">
-        <span class="model layui-badge layui-bg-green">{{ model_info(course.model) }}</span>
+        <span class="model layui-badge layui-bg-green">{{ model_type(course.model) }}</span>
         <div class="cover">
             <a href="{{ course_url }}" target="_blank">
                 <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}" title="{{ course.title }}">
@@ -50,16 +50,16 @@
                     {% else %}
                         <span class="free">会员免费</span>
                     {% endif %}
-                    <span class="level">{{ level_info(course.level) }}</span>
+                    <span class="level">{{ level_type(course.level) }}</span>
                     <span class="user">{{ course.user_count }}人购买</span>
                 {% elseif course.market_price > 0 %}
                     <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
-                    <span class="level">{{ level_info(course.level) }}</span>
+                    <span class="level">{{ level_type(course.level) }}</span>
                     <span class="lesson">{{ course.lesson_count }}节课</span>
                     <span class="user">{{ course.user_count }}人购买</span>
                 {% else %}
                     <span class="free">免费</span>
-                    <span class="level">{{ level_info(course.level) }}</span>
+                    <span class="level">{{ level_type(course.level) }}</span>
                     <span class="lesson">{{ course.lesson_count }}节课</span>
                     <span class="user">{{ course.user_count }}人报名</span>
                 {% endif %}
@@ -81,11 +81,11 @@
             <div class="meta">
                 {% if course.market_price > 0 %}
                     <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
-                    <span class="level">{{ level_info(course.level) }}</span>
+                    <span class="level">{{ level_type(course.level) }}</span>
                     <span class="user">{{ course.user_count }}人购买</span>
                 {% else %}
                     <span class="free">免费</span>
-                    <span class="level">{{ level_info(course.level) }}</span>
+                    <span class="level">{{ level_type(course.level) }}</span>
                     <span class="user">{{ course.user_count }}人报名</span>
                 {% endif %}
             </div>
@@ -97,7 +97,7 @@
     {% set course_title = item.course.title %}
     {% set course_url = url({'for':'home.course.show','id':item.course.id}) %}
     <div class="course-card">
-        <span class="model layui-badge layui-bg-green">{{ model_info(item.course.model) }}</span>
+        <span class="model layui-badge layui-bg-green">{{ model_type(item.course.model) }}</span>
         <div class="cover">
             <a href="{{ course_url }}" title="{{ course_title }}" target="_blank">
                 <img src="{{ item.course.cover }}!cover_270" alt="{{ course_title }}">

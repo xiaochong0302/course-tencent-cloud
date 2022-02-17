@@ -24,8 +24,6 @@ class PointGiftController extends Controller
 
         $pager = $service->getPointGifts();
 
-        $this->view->pick('point/gift/list');
-
         $this->view->setVar('pager', $pager);
     }
 
@@ -37,8 +35,6 @@ class PointGiftController extends Controller
         $service = new PointGiftService();
 
         $types = $service->getTypes();
-
-        $this->view->pick('point/gift/search');
 
         $this->view->setVar('types', $types);
     }
@@ -53,8 +49,6 @@ class PointGiftController extends Controller
         $xmCourses = $service->getXmCourses();
         $types = $service->getTypes();
 
-        $this->view->pick('point/gift/add');
-
         $this->view->setVar('xm_courses', $xmCourses);
         $this->view->setVar('types', $types);
     }
@@ -67,8 +61,6 @@ class PointGiftController extends Controller
         $service = new PointGiftService();
 
         $gift = $service->getPointGift($id);
-
-        $this->view->pick('point/gift/edit');
 
         $this->view->setVar('gift', $gift);
     }

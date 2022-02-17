@@ -9,8 +9,8 @@ namespace App\Http\Home\Controllers;
 
 use App\Services\Logic\Point\GiftInfo as GiftInfoService;
 use App\Services\Logic\Point\GiftList as GiftListService;
+use App\Services\Logic\Point\GiftRedeem as GiftRedeemService;
 use App\Services\Logic\Point\HotGiftList as HotGiftListService;
-use App\Services\Logic\Point\PointRedeem as GiftRedeemService;
 use App\Services\Logic\User\Console\BalanceInfo as BalanceInfoService;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
@@ -39,8 +39,6 @@ class PointGiftController extends Controller
     public function listAction()
     {
         $this->seo->prependTitle('积分兑换');
-
-        $this->view->pick('point/gift/list');
     }
 
     /**
@@ -55,7 +53,6 @@ class PointGiftController extends Controller
         $pager->target = 'gift-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('point/gift/pager');
         $this->view->setVar('pager', $pager);
     }
 
@@ -81,20 +78,19 @@ class PointGiftController extends Controller
 
         $this->seo->prependTitle(['积分兑换', $gift['name']]);
 
-        $this->view->pick('point/gift/show');
         $this->view->setVar('gift', $gift);
         $this->view->setVar('hot_gifts', $hotGifts);
         $this->view->setVar('user_balance', $userBalance);
     }
 
     /**
-     * @Post("/redeem", name="home.point_gift.redeem")
+     * @Post("/{id:[0-9]+}/redeem", name="home.point_gift.redeem")
      */
-    public function redeemAction()
+    public function redeemAction($id)
     {
         $service = new GiftRedeemService();
 
-        $service->handle();
+        $service->handle($id);
 
         return $this->jsonSuccess(['msg' => '兑换成功']);
     }
