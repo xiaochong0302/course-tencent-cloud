@@ -51,39 +51,3 @@
     </form>
 
 {% endblock %}
-
-{% block inline_js %}
-
-    <script>
-
-        layui.use(['jquery', 'form', 'layer'], function () {
-
-            var $ = layui.jquery;
-            var form = layui.form;
-            var layer = layui.layer;
-
-            form.on('submit(back_verify)', function (data) {
-                $.ajax({
-                    type: 'POST',
-                    url: data.form.action,
-                    data: data.field,
-                    success: function (res) {
-                        if (res.code === 0) {
-                            $('#back-verify-btn').remove();
-                            $('#back-verify-tips').removeClass('layui-hide');
-                        }
-                        layer.msg(res.msg, {icon: 1});
-                    },
-                    error: function (xhr) {
-                        var json = JSON.parse(xhr.responseText);
-                        layer.msg(json.msg, {icon: 2});
-                    }
-                });
-                return false;
-            });
-
-        });
-
-    </script>
-
-{% endblock %}
