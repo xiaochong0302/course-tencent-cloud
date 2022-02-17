@@ -24,7 +24,6 @@ class PointHistoryController extends Controller
 
         $eventTypes = $historyService->getEventTypes();
 
-        $this->view->pick('point/history/search');
         $this->view->setVar('event_types', $eventTypes);
     }
 
@@ -36,8 +35,6 @@ class PointHistoryController extends Controller
         $historyService = new PointHistoryService();
 
         $pager = $historyService->getHistories();
-
-        $this->view->pick('point/history/list');
 
         $this->view->setVar('pager', $pager);
     }

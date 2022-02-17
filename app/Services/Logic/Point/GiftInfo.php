@@ -8,6 +8,7 @@
 namespace App\Services\Logic\Point;
 
 use App\Models\PointGift;
+use App\Repos\User as UserRepo;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\PointGiftTrait;
 use App\Services\Logic\Service as LogicService;
@@ -28,6 +29,8 @@ class GiftInfo extends LogicService
 
         $gift->details = kg_parse_markdown($gift->details);
 
+        $meInfo = $this->handleMeInfo($gift);
+
         return [
             'id' => $gift->id,
             'name' => $gift->name,
@@ -43,6 +46,7 @@ class GiftInfo extends LogicService
             'redeem_count' => $gift->redeem_count,
             'create_time' => $gift->create_time,
             'update_time' => $gift->update_time,
+            'me' => $meInfo,
         ];
     }
 
@@ -62,6 +66,23 @@ class GiftInfo extends LogicService
         ];
 
         return $gift;
+    }
+
+    protected function handleMeInfo(PointGift $gift)
+    {
+        $me = ['allow_redeem' => 0];
+
+        $user = $this->getLoginUser(true);
+
+        $userRepo = new UserRepo();
+
+        $balance = $userRepo->findUserBalance($user->id);
+
+        if ($gift->stock > 0 && $balance->point > $gift->point) {
+            $me['allow_redeem'] = 1;
+        }
+
+        return $me;
     }
 
 }

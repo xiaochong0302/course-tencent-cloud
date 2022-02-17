@@ -8,12 +8,12 @@
 namespace App\Services\Logic\User\Console;
 
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\PointRedeem as PointRedeemModel;
-use App\Repos\PointRedeem as PointRedeemRepo;
+use App\Models\PointGiftRedeem as PointGiftRedeemModel;
+use App\Repos\PointGiftRedeem as PointGiftRedeemRepo;
 use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
 
-class PointRedeemList extends LogicService
+class PointGiftRedeemList extends LogicService
 {
 
     use UserTrait;
@@ -33,7 +33,7 @@ class PointRedeemList extends LogicService
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $redeemRepo = new PointRedeemRepo();
+        $redeemRepo = new PointGiftRedeemRepo();
 
         $pager = $redeemRepo->paginate($params, $sort, $page, $limit);
 
@@ -49,7 +49,7 @@ class PointRedeemList extends LogicService
         $items = [];
 
         /**
-         * @var PointRedeemModel[] $redeems
+         * @var PointGiftRedeemModel[] $redeems
          */
         $redeems = $pager->items;
 

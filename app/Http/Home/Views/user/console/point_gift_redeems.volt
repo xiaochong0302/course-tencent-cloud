@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('macros/point') }}
+    {{ partial('macros/point_gift') }}
 
     <div class="layout-main clearfix">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>

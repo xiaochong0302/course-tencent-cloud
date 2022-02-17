@@ -1,23 +1,3 @@
-{%- macro redeem_status_info(value) %}
-    {% if value == 1 %}
-        <span class="status">处理中</span>
-    {% elseif value == 2 %}
-        <span class="status">已完成</span>
-    {% elseif value == 3 %}
-        <span class="status">已失败</span>
-    {% endif %}
-{%- endmacro %}
-
-{%- macro gift_type_info(value) %}
-    {% if value == 1 %}
-        <span class="layui-badge layui-bg-green type">课程</span>
-    {% elseif value == 2 %}
-        <span class="layui-badge layui-bg-blue type">商品</span>
-    {% elseif value == 3 %}
-        <span class="layui-badge layui-bg-cyan type">现金</span>
-    {% endif %}
-{%- endmacro %}
-
 {%- macro event_point_info(value) %}
     {% if value > 0 %}
         <span class="layui-badge layui-bg-green point">+{{ value }}</span>
@@ -64,11 +44,11 @@
     {% if type == 1 %}
         <p class="order">{{ info.order.subject }}</p>
     {% elseif type == 2 %}
-        {% set gift_url = url({'for':'home.point_gift.show','id':info.point_redeem.gift_id}) %}
-        <p class="gift"><a href="{{ gift_url }}" target="_blank">{{ info.point_redeem.gift_name }}</a></p>
+        {% set gift_url = url({'for':'home.point_gift.show','id':info.point_gift_redeem.gift_id}) %}
+        <p class="gift"><a href="{{ gift_url }}" target="_blank">{{ info.point_gift_redeem.gift_name }}</a></p>
     {% elseif type == 3 %}
-        {% set gift_url = url({'for':'home.point_gift.show','id':info.point_redeem.gift_id}) %}
-        <p class="gift"><a href="{{ gift_url }}" target="_blank">{{ info.point_redeem.gift_name }}</a></p>
+        {% set gift_url = url({'for':'home.point_gift.show','id':info.point_gift_redeem.gift_id}) %}
+        <p class="gift"><a href="{{ gift_url }}" target="_blank">{{ info.point_gift_redeem.gift_name }}</a></p>
     {% elseif type == 4 %}
         <span class="none">N/A</span>
     {% elseif type == 5 %}

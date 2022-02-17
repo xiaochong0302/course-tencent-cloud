@@ -26,8 +26,8 @@ use App\Services\Logic\User\Console\NotificationRead as NotificationReadService;
 use App\Services\Logic\User\Console\NotifyStats as NotifyStatsService;
 use App\Services\Logic\User\Console\Online as OnlineService;
 use App\Services\Logic\User\Console\OrderList as OrderListService;
+use App\Services\Logic\User\Console\PointGiftRedeemList as PointGiftRedeemListService;
 use App\Services\Logic\User\Console\PointHistory as PointHistoryService;
-use App\Services\Logic\User\Console\PointRedeemList as PointRedeemListService;
 use App\Services\Logic\User\Console\ProfileInfo as ProfileInfoService;
 use App\Services\Logic\User\Console\ProfileUpdate as ProfileUpdateService;
 use App\Services\Logic\User\Console\QuestionList as QuestionListService;
@@ -266,15 +266,15 @@ class UserConsoleController extends Controller
     }
 
     /**
-     * @Get("/point/redeems", name="home.uc.point_redeems")
+     * @Get("/point/gift/redeems", name="home.uc.point_gift_redeems")
      */
-    public function pointRedeemsAction()
+    public function pointGiftRedeemsAction()
     {
-        $service = new PointRedeemListService();
+        $service = new PointGiftRedeemListService();
 
         $pager = $service->handle();
 
-        $this->view->pick('user/console/point_redeems');
+        $this->view->pick('user/console/point_gift_redeems');
         $this->view->setVar('pager', $pager);
     }
 

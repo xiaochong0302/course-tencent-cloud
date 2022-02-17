@@ -9,40 +9,36 @@ namespace App\Services\Logic\Point;
 
 use App\Library\Utils\Lock as LockUtil;
 use App\Models\PointGift as PointGiftModel;
-use App\Models\PointRedeem as PointRedeemModel;
+use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Models\Task as TaskModel;
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
-use App\Services\Logic\Point\History\PointRedeem as PointRedeemPointHistory;
+use App\Services\Logic\Point\History\PointGiftRedeem as PointGiftRedeemPointHistory;
 use App\Services\Logic\PointGiftTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Validators\PointRedeem as PointRedeemValidator;
+use App\Validators\PointGiftRedeem as PointGiftRedeemValidator;
 
-class PointRedeem extends LogicService
+class GiftRedeem extends LogicService
 {
 
     use PointGiftTrait;
 
-    public function handle()
+    public function handle($id)
     {
-        $giftId = $this->request->getPost('gift_id', ['trim', 'int']);
-
-        $gift = $this->checkPointGift($giftId);
+        $gift = $this->checkPointGift($id);
 
         $user = $this->getLoginUser();
 
-        $validator = new PointRedeemValidator();
+        $validator = new PointGiftRedeemValidator();
 
         $validator->checkIfAllowRedeem($gift, $user);
 
-        $this->createPointRedeem($gift, $user);
+        $this->createGiftRedeem($gift, $user);
     }
 
-    protected function createPointRedeem(PointGiftModel $gift, UserModel $user)
+    protected function createGiftRedeem(PointGiftModel $gift, UserModel $user)
     {
-        $logger = $this->getLogger('point');
-
-        $itemId = "point_redeem:{$gift->id}";
+        $itemId = "point_gift_redeem:{$gift->id}";
 
         $lockId = LockUtil::addLock($itemId);
 
@@ -54,7 +50,7 @@ class PointRedeem extends LogicService
 
             $this->db->begin();
 
-            $redeem = new PointRedeemModel();
+            $redeem = new PointGiftRedeemModel();
 
             $redeem->user_id = $user->id;
             $redeem->user_name = $user->name;
@@ -71,7 +67,7 @@ class PointRedeem extends LogicService
                 $redeem->contact_address = $contact->fullAddress();
             }
 
-            $redeem->status = PointRedeemModel::STATUS_PENDING;
+            $redeem->status = PointGiftRedeemModel::STATUS_PENDING;
 
             $result = $redeem->create();
 
@@ -89,7 +85,7 @@ class PointRedeem extends LogicService
             $task = new TaskModel();
 
             $itemInfo = [
-                'point_redeem' => [
+                'point_gift_redeem' => [
                     'id' => $redeem->id,
                     'user_id' => $redeem->user_id,
                     'gift_id' => $redeem->gift_id,
@@ -114,7 +110,9 @@ class PointRedeem extends LogicService
 
             $this->db->rollback();
 
-            $logger->error('Point Redeem Exception ' . kg_json_encode([
+            $logger = $this->getLogger('point');
+
+            $logger->error('Gift Redeem Exception ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'message' => $e->getMessage(),
@@ -126,9 +124,9 @@ class PointRedeem extends LogicService
         LockUtil::releaseLock($itemId, $lockId);
     }
 
-    protected function handleRedeemPoint(PointRedeemModel $redeem)
+    protected function handleRedeemPoint(PointGiftRedeemModel $redeem)
     {
-        $service = new PointRedeemPointHistory();
+        $service = new PointGiftRedeemPointHistory();
 
         $service->handle($redeem);
     }

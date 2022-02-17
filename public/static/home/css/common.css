@@ -926,12 +926,14 @@
 
 .course-meta .cover {
     float: left;
+    position: relative;
     margin-right: 10px;
 }
 
 .course-meta .info {
     float: left;
     width: 560px;
+    padding-top: 5px;
 }
 
 .course-meta .rating {
@@ -940,12 +942,18 @@
 }
 
 .course-meta p {
-    line-height: 30px;
+    line-height: 35px;
 }
 
 .course-meta .cover img {
-    width: 210px;
-    height: 118px;
+    width: 270px;
+    height: 150px;
+}
+
+.course-meta .cover .model {
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
 
 .course-meta .info .key {
@@ -2287,24 +2295,28 @@
 
 .gift-meta .cover {
     float: left;
+    position: relative;
     margin-right: 10px;
 }
 
+.gift-meta .cover .type {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
 .gift-meta .cover img {
-    width: 210px;
-    height: 118px;
+    width: 270px;
+    height: 150px;
 }
 
 .gift-meta .info {
     float: left;
+    padding-top: 5px;
 }
 
 .gift-meta .info p {
     line-height: 35px;
-}
-
-.gift-meta .info .stats {
-    margin-bottom: 10px;
 }
 
 .gift-meta .info span {

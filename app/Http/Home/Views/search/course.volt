@@ -16,7 +16,7 @@
                     <div class="summary">{{ item.summary }}</div>
                     <div class="meta">
                         <span>讲师：<a href="{{ teacher_url }}" target="_blank">{{ item.teacher.name }}</a></span>
-                        <span>难度：{{ level_info(item.level) }}</span>
+                        <span>难度：{{ level_type(item.level) }}</span>
                         <span>课时：{{ item.lesson_count }}</span>
                         <span>学员：{{ item.user_count }}</span>
                     </div>

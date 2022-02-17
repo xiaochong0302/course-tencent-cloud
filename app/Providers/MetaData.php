@@ -33,6 +33,7 @@ class MetaData extends Provider
                     'host' => $config->path('redis.host'),
                     'port' => $config->path('redis.port'),
                     'auth' => $config->path('redis.auth'),
+                    'index' => $config->path('redis.index') ?: 0,
                     'lifetime' => $config->path('metadata.lifetime') ?: 30 * 86400,
                     'prefix' => $statsKey . ':',
                     'statsKey' => $statsKey,

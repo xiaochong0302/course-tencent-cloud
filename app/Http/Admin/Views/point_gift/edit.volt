@@ -5,9 +5,9 @@
     {% set update_url = url({'for':'admin.point_gift.update','id':gift.id}) %}
 
     {% if gift.type == 1 %}
-        {{ partial('point/gift/edit_course') }}
+        {{ partial('point_gift/edit_course') }}
     {% elseif gift.type == 2 %}
-        {{ partial('point/gift/edit_goods') }}
+        {{ partial('point_gift/edit_goods') }}
     {% endif %}
 
 {% endblock %}

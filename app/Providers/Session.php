@@ -28,6 +28,7 @@ class Session extends Provider
                 'host' => $config->path('redis.host'),
                 'port' => $config->path('redis.port'),
                 'auth' => $config->path('redis.auth'),
+                'index' => $config->path('redis.index') ?: 0,
                 'lifetime' => $config->path('session.lifetime') ?: 24 * 3600,
                 'prefix' => '_SESSION_:',
             ]);

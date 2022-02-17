@@ -1,13 +1,15 @@
-### [v1.5.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.0)(2022-01-13)
+### [v1.5.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.0)(2022-02-17)
 
 - 调整对内部人员通知任务类型的前缀
 - 调整微信和短信通知发送判断逻辑
+- 清理后台实用工具的无用文件内容
 - 支付后解除秒杀商品锁定
 - 加强支付流程数据验证
 - 加强退款流程数据验证
 - 优化账户创建数据流
 - 优化课程创建数据流
 - 优化章节创建数据流
+- 优化积分商品兑换
 - 优化发货逻辑
 
 ### [v1.4.9](https://gitee.com/koogua/course-tencent-cloud/releases/v1.4.9)(2022-01-01)
