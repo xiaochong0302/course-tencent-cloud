@@ -2,20 +2,31 @@
 
 {% block content %}
 
+    {% set captcha_display = captcha.enabled == 1 ? 'display:block' : 'display:none' %}
+
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.captcha'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
             <legend>验证码配置</legend>
         </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">App Id</label>
+            <label class="layui-form-label">开启服务</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="app_id" value="{{ captcha.app_id }}" lay-verify="required">
+                <input type="radio" name="enabled" value="1" title="是" lay-filter="captcha_enabled" {% if captcha.enabled == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="enabled" value="0" title="否" lay-filter="captcha_enabled" {% if captcha.enabled == 0 %}checked="checked"{% endif %}>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">Secret Key</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="secret_key" value="{{ captcha.secret_key }}" lay-verify="required">
+        <div id="captcha-block" style="{{ captcha_display }}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">App Id</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text" name="app_id" value="{{ captcha.app_id }}" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Secret Key</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text" name="secret_key" value="{{ captcha.secret_key }}" lay-verify="required">
+                </div>
             </div>
         </div>
         <div class="layui-form-item">
@@ -76,6 +87,15 @@
                     }
                 }
             );
+
+            form.on('radio(captcha_enabled)', function (data) {
+                var block = $('#captcha-block');
+                if (data.value === '1') {
+                    block.show();
+                } else {
+                    block.hide();
+                }
+            });
 
             form.on('submit(back_verify)', function (data) {
                 $.ajax({

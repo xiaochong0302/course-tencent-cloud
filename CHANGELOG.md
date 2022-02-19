@@ -1,3 +1,7 @@
+### [v1.5.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.1)(2022-03-17)
+
+- 增加验证码开关
+
 ### [v1.5.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.0)(2022-02-17)
 
 - 调整对内部人员通知任务类型的前缀

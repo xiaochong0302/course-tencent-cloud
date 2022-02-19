@@ -9,14 +9,15 @@
             <input class="layui-input" type="text" name="verify_code" autocomplete="off" placeholder="验证码" lay-verify="required">
         </div>
         <div class="layui-input-inline verify-btn-inline">
-            <button id="cv-verify-emit" class="layui-btn layui-btn-disabled" type="button" disabled="disabled">获取验证码</button>
+            <button id="cv-emit-btn" class="layui-btn layui-btn-disabled" type="button" disabled="disabled">获取验证码</button>
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button id="cv-submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" disabled="disabled" lay-submit="true" lay-filter="go">立即登录</button>
             <input type="hidden" name="return_url" value="{{ return_url }}">
-            <input id="cv-app-id" type="hidden" name="captcha_app_id" value="{{ captcha.app_id }}">
+            <input id="cv-enabled" type="hidden" value="{{ captcha.enabled }}">
+            <input id="cv-app-id" type="hidden" value="{{ captcha.app_id }}">
             <input id="cv-ticket" type="hidden" name="ticket">
             <input id="cv-rand" type="hidden" name="rand">
         </div>
