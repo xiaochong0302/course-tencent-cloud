@@ -23,12 +23,19 @@ class ChapterVod extends Service
          * 腾讯云点播优先
          */
         if ($vod->file_id) {
-            $result = $this->getCosPlayUrls($chapterId);
+            $playUrls = $this->getCosPlayUrls($chapterId);
         } else {
-            $result = $this->getRemotePlayUrls($chapterId);
+            $playUrls = $this->getRemotePlayUrls($chapterId);
         }
 
-        return $result;
+        /**
+         *过滤播放地址为空的条目
+         */
+        foreach ($playUrls as $key => $value) {
+            if (empty($value['url'])) unset($playUrls[$key]);
+        }
+
+        return $playUrls;
     }
 
     public function getCosPlayUrls($chapterId)

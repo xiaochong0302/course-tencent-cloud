@@ -106,7 +106,7 @@ class Package extends Service
 
         $package->create($data);
 
-        $this->rebuildPackageCache($package);
+        $this->rebuildPackageCache($package->id);
 
         return $package;
     }
@@ -151,9 +151,9 @@ class Package extends Service
 
         $package->update($data);
 
-        $this->handlePackagedCourses($package);
-        $this->updatePackageCourseCount($package);
-        $this->rebuildPackageCache($package);
+        $this->handlePackagedCourses($package->id);
+        $this->updatePackageCourseCount($package->id);
+        $this->rebuildPackageCache($package->id);
 
         return $package;
     }
@@ -166,8 +166,8 @@ class Package extends Service
 
         $package->update();
 
-        $this->handlePackagedCourses($package);
-        $this->rebuildPackageCache($package);
+        $this->handlePackagedCourses($package->id);
+        $this->rebuildPackageCache($package->id);
 
         return $package;
     }
@@ -180,8 +180,8 @@ class Package extends Service
 
         $package->update();
 
-        $this->handlePackagedCourses($package);
-        $this->rebuildPackageCache($package);
+        $this->handlePackagedCourses($package->id);
+        $this->rebuildPackageCache($package->id);
 
         return $package;
     }
@@ -228,25 +228,27 @@ class Package extends Service
         }
     }
 
-    protected function handlePackagedCourses(PackageModel $package)
+    protected function handlePackagedCourses($packageId)
     {
         $packageRepo = new PackageRepo();
 
-        $courses = $packageRepo->findCourses($package->id);
+        $courses = $packageRepo->findCourses($packageId);
 
         if ($courses->count() == 0) return;
 
         foreach ($courses as $course) {
-            $this->rebuildCoursePackageCache($course);
-            $this->recountCoursePackages($course);
+            $this->rebuildCoursePackageCache($course->id);
+            $this->recountCoursePackages($course->id);
         }
     }
 
-    protected function updatePackageCourseCount(PackageModel $package)
+    protected function updatePackageCourseCount($packageId)
     {
         $packageRepo = new PackageRepo();
 
-        $courseCount = $packageRepo->countCourses($package->id);
+        $package = $packageRepo->findById($packageId);
+
+        $courseCount = $packageRepo->countCourses($packageId);
 
         $package->course_count = $courseCount;
 
@@ -266,29 +268,31 @@ class Package extends Service
         $course->update();
     }
 
-    protected function rebuildPackageCache(PackageModel $package)
+    protected function rebuildPackageCache($packageId)
     {
         $cache = new PackageCache();
 
-        $cache->rebuild($package->id);
+        $cache->rebuild($packageId);
 
         $cache = new PackageCourseListCache();
 
-        $cache->rebuild($package->id);
+        $cache->rebuild($packageId);
     }
 
-    protected function rebuildCoursePackageCache(CourseModel $course)
+    protected function rebuildCoursePackageCache($courseId)
     {
         $cache = new CoursePackageListCache();
 
-        $cache->rebuild($course->id);
+        $cache->rebuild($courseId);
     }
 
-    protected function recountCoursePackages(CourseModel $course)
+    protected function recountCoursePackages($courseId)
     {
         $courseRepo = new CourseRepo();
 
-        $course->package_count = $courseRepo->countPackages($course->id);
+        $course = $courseRepo->findById($courseId);
+
+        $course->package_count = $courseRepo->countPackages($courseId);
 
         $course->update();
     }

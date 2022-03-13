@@ -29,9 +29,6 @@
             tool_video_enabled: '{{ im_info.main.tool_video_enabled }}',
             msg_max_length: '{{ im_info.main.msg_max_length }}',
         },
-        cs: {
-            enabled: '{{ im_info.cs.enabled }}'
-        },
         ws: {
             connect_url: '{{ im_info.ws.connect_url }}',
             ping_interval: '{{ im_info.ws.ping_interval }}'

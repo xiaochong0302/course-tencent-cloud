@@ -38,7 +38,7 @@ class OrderConfirm extends LogicService
 
             $result['item_info']['course'] = $this->handleCourseInfo($course);
 
-            $result['total_amount'] = $course->origin_price;
+            $result['total_amount'] = $course->market_price;
             $result['pay_amount'] = $user->vip ? $course->vip_price : $course->market_price;
             $result['discount_amount'] = $result['total_amount'] - $result['pay_amount'];
 
@@ -51,7 +51,7 @@ class OrderConfirm extends LogicService
             $result['total_amount'] = 0;
 
             foreach ($result['item_info']['package']['courses'] as $course) {
-                $result['total_amount'] += $course['origin_price'];
+                $result['total_amount'] += $course['market_price'];
             }
 
             $result['pay_amount'] = $user->vip ? $package->vip_price : $package->market_price;

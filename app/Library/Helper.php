@@ -499,8 +499,8 @@ function kg_anonymous($str)
         $start = 3;
         $end = $length - 4;
     } else {
-        $start = 1;
-        $end = $length - 2;
+        $start = ceil($length / 4);
+        $end = $length - $start - 1;
     }
 
     $list = [];

@@ -48,6 +48,8 @@ class UserInfo extends LogicService
             'comment_count' => $user->comment_count,
             'friend_count' => $imUser->friend_count,
             'group_count' => $imUser->group_count,
+            'vip_expiry_time' => $user->vip_expiry_time,
+            'lock_expiry_time' => $user->lock_expiry_time,
             'active_time' => $user->active_time,
             'create_time' => $user->create_time,
             'update_time' => $user->update_time,

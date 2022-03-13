@@ -5,7 +5,7 @@
     {% set storage_region_display = vod.storage_type == 'fixed' ? 'display:block' : 'display:none' %}
     {% set wmk_tpl_display = vod.wmk_enabled == 1 ? 'display:block' : 'display:none' %}
     {% set key_anti_display = vod.key_anti_enabled == 1 ? 'display:block': 'display:none' %}
-    {% set video_quality = vod.video_quality|json_decode %}
+    {% set video_quality = vod.video_quality|json_decode(true) %}
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.vod'}) }}">
         <fieldset class="layui-elem-field layui-field-title">
