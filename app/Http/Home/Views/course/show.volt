@@ -70,7 +70,6 @@
             </div>
         </div>
 
-        {% set show_sidebar_teachers = 1 %}
         {% set show_sidebar_topics = 1 %}
         {% set show_sidebar_recommended = 1 %}
         {% set show_sidebar_related = 1 %}
