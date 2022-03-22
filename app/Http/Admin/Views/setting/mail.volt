@@ -9,25 +9,25 @@
         <div class="layui-form-item">
             <label class="layui-form-label">发送邮箱</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="smtp_from_email" value="{{ mail.smtp_from_email }}">
+                <input class="layui-input" type="text" name="smtp_from_email" value="{{ mail.smtp_from_email }}" lay-verify="email">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">发送人</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="smtp_from_name" value="{{ mail.smtp_from_name }}">
+                <input class="layui-input" type="text" name="smtp_from_name" value="{{ mail.smtp_from_name }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">SMTP服务器</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="smtp_host" value="{{ mail.smtp_host }}">
+                <input class="layui-input" type="text" name="smtp_host" value="{{ mail.smtp_host }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">SMTP端口号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="smtp_port" value="{{ mail.smtp_port }}">
+                <input class="layui-input" type="text" name="smtp_port" value="{{ mail.smtp_port }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
@@ -49,13 +49,13 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">SMTP帐号</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" type="text" name="smtp_username" value="{{ mail.smtp_username }}">
+                    <input class="layui-input" type="text" name="smtp_username" value="{{ mail.smtp_username }}" lay-verify="required">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">SMTP密码</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" type="text" name="smtp_password" value="{{ mail.smtp_password }}">
+                    <input class="layui-input" type="text" name="smtp_password" value="{{ mail.smtp_password }}" lay-verify="required">
                 </div>
             </div>
         </div>

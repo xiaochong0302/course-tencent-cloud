@@ -28,13 +28,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">技术手机号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="ts_mobiles" placeholder="值班技术人员手机号，多个号码逗号分隔" value="{{ robot.ts_mobiles }}" lay-verify="required">
+                <input class="layui-input" type="text" name="ts_mobiles" placeholder="值班技术人员手机号，多个号码逗号分隔" value="{{ robot.ts_mobiles }}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">客服手机号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="cs_mobiles" placeholder="值班客服人员手机号，多个号码逗号分隔" value="{{ robot.ts_mobiles }}" lay-verify="required">
+                <input class="layui-input" type="text" name="cs_mobiles" placeholder="值班客服人员手机号，多个号码逗号分隔" value="{{ robot.cs_mobiles }}">
             </div>
         </div>
         <div class="layui-form-item" style="margin-top:20px;">

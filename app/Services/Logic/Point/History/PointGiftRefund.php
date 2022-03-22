@@ -13,13 +13,13 @@ use App\Repos\PointHistory as PointHistoryRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Point\PointHistory;
 
-class PointRefund extends PointHistory
+class PointGiftRefund extends PointHistory
 {
 
     public function handle(PointGiftRedeemModel $redeem)
     {
         $eventId = $redeem->id;
-        $eventType = PointHistoryModel::EVENT_POINT_REFUND;
+        $eventType = PointHistoryModel::EVENT_POINT_GIFT_REFUND;
         $eventPoint = $redeem->gift_point;
 
         $historyRepo = new PointHistoryRepo();

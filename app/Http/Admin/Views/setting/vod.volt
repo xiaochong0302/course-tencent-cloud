@@ -96,13 +96,13 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">防盗链Key</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" type="text" name="key_anti_key" value="{{ vod.key_anti_key }}" lay-verify="required">
+                    <input class="layui-input" type="text" name="key_anti_key" value="{{ vod.key_anti_key }}">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">有效时间（秒）</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" type="text" name="key_anti_expiry" value="{{ vod.key_anti_expiry }}" lay-verify="required">
+                    <input class="layui-input" type="text" name="key_anti_expiry" value="{{ vod.key_anti_expiry }}">
                 </div>
             </div>
         </div>

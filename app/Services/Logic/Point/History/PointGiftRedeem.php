@@ -25,7 +25,7 @@ class PointGiftRedeem extends PointHistory
         if ($pointEnabled == 0) return;
 
         $eventId = $redeem->id;
-        $eventType = PointHistoryModel::EVENT_POINT_REDEEM;
+        $eventType = PointHistoryModel::EVENT_POINT_GIFT_REDEEM;
         $eventPoint = 0 - $redeem->gift_point;
 
         $historyRepo = new PointHistoryRepo();
