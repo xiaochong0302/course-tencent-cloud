@@ -88,19 +88,20 @@ class Online extends LogicService
 
         $cache = $this->getCache();
 
-        $content = $cache->get($keyName);
+        if ($cache->exists($keyName)) return;
 
-        if ($content) return;
-
-        $service = new SiteVisitPointHistory();
-
-        $service->handle($user);
-
+        /**
+         * 先写入缓存，再处理访问积分，防止重复插入记录
+         */
         $tomorrow = strtotime($todayDate) + 86400;
 
         $lifetime = $tomorrow - time();
 
         $cache->save($keyName, 1, $lifetime);
+
+        $service = new SiteVisitPointHistory();
+
+        $service->handle($user);
     }
 
 }
