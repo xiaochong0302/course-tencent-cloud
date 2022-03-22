@@ -9,13 +9,13 @@
     <div class="layui-form-item">
         <label class="layui-form-label">应用名称</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="title" value="{{ main.title }}">
+            <input class="layui-input" type="text" name="title" value="{{ main.title }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">消息最大长度</label>
         <div class="layui-input-block">
-            <input class="layui-input" type="text" name="msg_max_length" value="{{ main.msg_max_length }}">
+            <input class="layui-input" type="text" name="msg_max_length" value="{{ main.msg_max_length }}" lay-verify="number">
         </div>
     </div>
     <div class="layui-form-item">

@@ -14,8 +14,8 @@ class PointHistory extends Model
      * 事件类型
      */
     const EVENT_ORDER_CONSUME = 1; // 订单消费
-    const EVENT_POINT_REDEEM = 2; // 积分兑换
-    const EVENT_POINT_REFUND = 3; // 积分退款
+    const EVENT_POINT_GIFT_REDEEM = 2; // 积分礼品兑换
+    const EVENT_POINT_GIFT_REFUND = 3; // 积分礼品退款
     const EVENT_ACCOUNT_REGISTER = 4; // 帐号注册
     const EVENT_SITE_VISIT = 5; // 站点访问
     const EVENT_CHAPTER_STUDY = 6; // 课时学习
@@ -126,8 +126,8 @@ class PointHistory extends Model
     {
         return [
             self::EVENT_ORDER_CONSUME => '订单消费',
-            self::EVENT_POINT_REDEEM => '积分兑换',
-            self::EVENT_POINT_REFUND => '积分退款',
+            self::EVENT_POINT_GIFT_REDEEM => '积分礼品兑换',
+            self::EVENT_POINT_GIFT_REFUND => '积分礼品退款',
             self::EVENT_ACCOUNT_REGISTER => '用户注册',
             self::EVENT_SITE_VISIT => '用户登录',
             self::EVENT_CHAPTER_STUDY => '课时学习',

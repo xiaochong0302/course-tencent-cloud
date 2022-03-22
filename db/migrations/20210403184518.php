@@ -821,7 +821,7 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'vod',
                 'item_key' => 'key_anti_ip_limit',
-                'item_value' => '',
+                'item_value' => '3',
             ],
             [
                 'section' => 'dingtalk.robot',
