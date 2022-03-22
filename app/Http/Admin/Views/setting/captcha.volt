@@ -19,13 +19,13 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">App Id</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" type="text" name="app_id" value="{{ captcha.app_id }}" lay-verify="required">
+                    <input class="layui-input" type="text" name="app_id" value="{{ captcha.app_id }}">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">Secret Key</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" type="text" name="secret_key" value="{{ captcha.secret_key }}" lay-verify="required">
+                    <input class="layui-input" type="text" name="secret_key" value="{{ captcha.secret_key }}">
                 </div>
             </div>
         </div>
