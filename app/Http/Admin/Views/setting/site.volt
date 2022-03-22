@@ -52,13 +52,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">网站名称</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="title" value="{{ site.title }}">
+                <input class="layui-input" type="text" name="title" value="{{ site.title }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">网站URL</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="url" value="{{ site.url }}">
+                <input class="layui-input" type="text" name="url" value="{{ site.url }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">

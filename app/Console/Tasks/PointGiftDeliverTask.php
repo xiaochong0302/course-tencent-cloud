@@ -19,7 +19,7 @@ use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\PointGift as PointGiftRepo;
 use App\Repos\PointGiftRedeem as PointGiftRedeemRepo;
 use App\Services\Logic\Notice\DingTalk\PointGiftRedeem as PointGiftRedeemNotice;
-use App\Services\Logic\Point\History\PointRefund as PointRefundPointHistory;
+use App\Services\Logic\Point\History\PointGiftRefund as PointGiftRefundPointHistory;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
@@ -43,12 +43,6 @@ class PointGiftDeliverTask extends Task
         foreach ($tasks as $task) {
 
             $redeem = $redeemRepo->findById($task->item_id);
-
-            if (!$redeem) {
-                $task->status = TaskModel::STATUS_FAILED;
-                $task->update();
-                break;
-            }
 
             try {
 
@@ -177,7 +171,7 @@ class PointGiftDeliverTask extends Task
 
     protected function handlePointRefund(PointGiftRedeemModel $redeem)
     {
-        $service = new PointRefundPointHistory();
+        $service = new PointGiftRefundPointHistory();
 
         $service->handle($redeem);
     }

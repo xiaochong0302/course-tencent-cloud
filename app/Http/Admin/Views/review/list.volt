@@ -4,7 +4,7 @@
 
     {{ partial('macros/review') }}
 
-    {% set search_url = url({'for':'admin.consult.search'}) %}
+    {% set search_url = url({'for':'admin.review.search'}) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">

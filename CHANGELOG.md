@@ -1,3 +1,17 @@
+### [v1.5.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.1)(2022-03-17)
+
+- 推荐课程等列表补充属性
+- 修正后台评价列表中的搜索链接
+- 修正后台点播设置视频码率后500错误问题
+- 修正多码率远程播放地址部分为空播放问题
+- 修正更新套餐课程缓存传参数据类型问题
+- 修正第三方登录解除绑定失败问题
+- 使用ServiceTrait归纳获取服务代码
+- 优化anonymous隐藏部分字符函数
+- 调整积分兑换相关定义命名
+- 去除js_vars中关于IM客服的配置
+- 增加验证码开关
+
 ### [v1.5.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.0)(2022-02-17)
 
 - 调整对内部人员通知任务类型的前缀

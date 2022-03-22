@@ -25,12 +25,16 @@ class Connect extends Repository
 
         $query->where('1 = 1');
 
-        if (isset($where['user_id'])) {
+        if (!empty($where['user_id'])) {
             $query->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
-        if (isset($where['provider'])) {
+        if (!empty($where['provider'])) {
             $query->andWhere('provider = :provider:', ['provider' => $where['provider']]);
+        }
+
+        if (isset($where['deleted'])) {
+            $query->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
         $query->orderBy('id DESC');
