@@ -23,9 +23,14 @@ class SmsCode extends LogicService
 
         $post['phone'] = $validator->checkPhone($post['phone']);
 
-        $validator = new CaptchaValidator();
+        $captcha = $this->getSettings('captcha');
 
-        $validator->checkCode($post['ticket'], $post['rand']);
+        if ($captcha['enabled'] == 1) {
+
+            $validator = new CaptchaValidator();
+
+            $validator->checkCode($post['ticket'], $post['rand']);
+        }
 
         $service = new SmsVerifyService();
 
