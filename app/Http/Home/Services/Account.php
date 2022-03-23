@@ -53,9 +53,17 @@ class Account extends Service
 
         $validator->checkIfAllowLogin($user);
 
-        $validator = new CaptchaValidator();
+        $captcha = $this->getSettings('captcha');
 
-        $validator->checkCode($post['ticket'], $post['rand']);
+        /**
+         * 验证码是一次性的，放到最后检查，减少第三方调用
+         */
+        if ($captcha['enabled'] == 1) {
+
+            $validator = new CaptchaValidator();
+
+            $validator->checkCode($post['ticket'], $post['rand']);
+        }
 
         $this->auth->saveAuthInfo($user);
 
