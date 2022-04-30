@@ -38,7 +38,7 @@
                     <input class="layui-input" type="text" name="verify_code" placeholder="验证码" lay-verify="required">
                 </div>
                 <div class="layui-input-inline verify-btn-inline">
-                    <button id="cv-emit-btn" class="layui-btn layui-btn-primary layui-btn-disabled" type="button" disabled="disabled">获取验证码</button>
+                    <button id="cv-emit-btn" class="layui-btn layui-btn-disabled" type="button" disabled="disabled">获取验证码</button>
                 </div>
             </div>
             <div class="layui-form-item">

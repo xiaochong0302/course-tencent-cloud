@@ -1,3 +1,12 @@
+### [v1.5.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.2)(2022-04-17)
+
+- 补充话题列表课程数据结构
+- 调整发送验证码相关样式
+- 优化套餐和话题下拉课程数据显示
+- 去除礼物详情中多出来的"}}"标签
+- 修正关闭秒杀订单时没有回填库存的问题
+- vditor编辑器切换为七牛cdn加速
+
 ### [v1.5.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.1)(2022-03-17)
 
 - 推荐课程等列表补充属性

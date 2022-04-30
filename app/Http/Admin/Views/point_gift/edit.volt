@@ -15,7 +15,7 @@
 {% block link_css %}
 
     {% if gift.type == 2 %}
-        {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
+        {{ css_link('https://cdn.staticfile.org/vditor/3.8.13/index.css', false) }}
     {% endif %}
 
 {% endblock %}
@@ -23,7 +23,7 @@
 {% block include_js %}
 
     {% if gift.type == 2 %}
-        {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js', false) }}
+        {{ js_include('https://cdn.staticfile.org/vditor/3.8.13/index.min.js', false) }}
         {{ js_include('admin/js/cover.upload.js') }}
         {{ js_include('admin/js/vditor.js') }}
     {% endif %}

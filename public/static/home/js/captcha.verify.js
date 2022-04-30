@@ -1,6 +1,7 @@
-layui.use(['jquery', 'util'], function () {
+layui.use(['jquery', 'layer', 'util'], function () {
 
     var $ = layui.jquery;
+    var layer = layui.layer;
     var util = layui.util;
 
     var timeCounting = false;
@@ -62,6 +63,9 @@ layui.use(['jquery', 'util'], function () {
                 type: 'POST',
                 url: postUrl,
                 data: postData,
+                success: function () {
+                    layer.msg('发送验证码成功', {icon: 1});
+                }
             });
             $submit.removeClass('layui-btn-disabled').removeAttr('disabled');
             $emit.addClass('layui-btn-disabled').attr('disabled', 'disabled');

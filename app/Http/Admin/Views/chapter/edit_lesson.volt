@@ -50,7 +50,7 @@
 {% block link_css %}
 
     {% if chapter.model == 3 %}
-        {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
+        {{ css_link('https://cdn.staticfile.org/vditor/3.8.13/index.css', false) }}
     {% endif %}
 
 {% endblock %}
@@ -59,7 +59,7 @@
 
     {% if chapter.model == 3 %}
 
-        {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js', false) }}
+        {{ js_include('https://cdn.staticfile.org/vditor/3.8.13/index.min.js', false) }}
         {{ js_include('admin/js/vditor.js') }}
 
     {% elseif chapter.model == 1 %}
