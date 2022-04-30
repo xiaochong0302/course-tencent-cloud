@@ -34,8 +34,9 @@ class Slide extends Service
         $result = [];
 
         foreach ($items as $item) {
+            $price = $item->market_price > 0 ? sprintf("￥%0.2f", $item->market_price) : '免费';
             $result[] = [
-                'name' => sprintf('%s（¥%0.2f）', $item->title, $item->market_price),
+                'name' => sprintf('%s- %s（%s）', $item->id, $item->title, $price),
                 'value' => $item->id,
             ];
         }

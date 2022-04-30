@@ -25,13 +25,13 @@
 
 {% block link_css %}
 
-    {{ css_link('https://cdn.jsdelivr.net/npm/vditor/dist/index.css', false) }}
+    {{ css_link('https://cdn.staticfile.org/vditor/3.8.13/index.css', false) }}
 
 {% endblock %}
 
 {% block include_js %}
 
-    {{ js_include('https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js', false) }}
+    {{ js_include('https://cdn.staticfile.org/vditor/3.8.13/index.min.js', false) }}
     {{ js_include('lib/xm-select.js') }}
     {{ js_include('admin/js/vditor.js') }}
 

@@ -45,8 +45,9 @@ class Topic extends Service
         $result = [];
 
         foreach ($items as $item) {
+            $price = $item->market_price > 0 ? sprintf("￥%0.2f", $item->market_price) : '免费';
             $result[] = [
-                'name' => sprintf('%s - %s（¥%0.2f）', $item->id, $item->title, $item->market_price),
+                'name' => sprintf('%s - %s（¥%0.2f）', $item->id, $item->title, $price),
                 'value' => $item->id,
                 'selected' => in_array($item->id, $courseIds),
             ];

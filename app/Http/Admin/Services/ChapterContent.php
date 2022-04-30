@@ -15,7 +15,6 @@ use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Services\ChapterVod as ChapterVodService;
 use App\Services\CourseStat as CourseStatService;
-use App\Services\Vod as VodService;
 use App\Validators\ChapterLive as ChapterLiveValidator;
 use App\Validators\ChapterOffline as ChapterOfflineValidator;
 use App\Validators\ChapterRead as ChapterReadValidator;
@@ -134,28 +133,14 @@ class ChapterContent extends Service
 
         $vod = $chapterRepo->findChapterVod($chapter->id);
 
-        /**
-         * 无新文件上传
-         */
-        if ($fileId == $vod->file_id) return;
-
-        /**
-         * 删除旧文件
-         */
-        if ($vod->file_id) {
-            $this->deleteVodFile($vod->file_id);
-        }
-
         $vod->file_id = $fileId;
         $vod->file_transcode = [];
-
         $vod->update();
 
         $attrs = $chapter->attrs;
         $attrs['duration'] = 0;
         $attrs['file']['status'] = ChapterModel::FS_UPLOADED;
         $chapter->attrs = $attrs;
-
         $chapter->update();
 
         $this->updateCourseVodAttrs($vod->course_id);
@@ -329,13 +314,6 @@ class ChapterContent extends Service
         $statService = new CourseStatService();
 
         $statService->updateOfflineAttrs($courseId);
-    }
-
-    protected function deleteVodFile($fileId)
-    {
-        $vodService = new VodService();
-
-        $vodService->deleteMedia($fileId);
     }
 
     protected function rebuildCatalogCache(ChapterModel $chapter)
