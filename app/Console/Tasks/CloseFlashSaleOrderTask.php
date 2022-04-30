@@ -8,6 +8,7 @@
 namespace App\Console\Tasks;
 
 use App\Models\Order as OrderModel;
+use App\Repos\FlashSale as FlashSaleRepo;
 use App\Services\Logic\FlashSale\Queue as FlashSaleQueue;
 use App\Services\Logic\FlashSale\UserOrderCache;
 use Phalcon\Mvc\Model\Resultset;
@@ -27,6 +28,7 @@ class CloseFlashSaleOrderTask extends Task
         echo '------ start close order task ------' . PHP_EOL;
 
         foreach ($orders as $order) {
+            $this->incrFlashSaleStock($order->promotion_id);
             $this->pushFlashSaleQueue($order->promotion_id);
             $this->deleteUserOrderCache($order->owner_id, $order->promotion_id);
             $order->status = OrderModel::STATUS_CLOSED;
@@ -34,6 +36,17 @@ class CloseFlashSaleOrderTask extends Task
         }
 
         echo '------ end close order task ------' . PHP_EOL;
+    }
+
+    protected function incrFlashSaleStock($saleId)
+    {
+        $flashSaleRepo = new FlashSaleRepo();
+
+        $flashSale = $flashSaleRepo->findById($saleId);
+
+        $flashSale->stock += 1;
+
+        $flashSale->update();
     }
 
     protected function pushFlashSaleQueue($saleId)

@@ -7,6 +7,8 @@
 
 namespace App\Http\Home\Services;
 
+use App\Models\Course as CourseModel;
+use App\Repos\Chapter as ChapterRepo;
 use App\Traits\Client as ClientTrait;
 
 class FullH5Url extends Service
@@ -118,7 +120,19 @@ class FullH5Url extends Service
 
     public function getChapterInfoUrl($id)
     {
-        return sprintf('%s/chapter/info?id=%s', $this->baseUrl, $id);
+        $chapterRepo = new ChapterRepo();
+
+        $chapter = $chapterRepo->findById($id);
+
+        if ($chapter->model == CourseModel::MODEL_VOD) {
+            return sprintf('%s/chapter/vod?id=%s', $this->baseUrl, $id);
+        } elseif ($chapter->model == CourseModel::MODEL_LIVE) {
+            return sprintf('%s/chapter/live?id=%s', $this->baseUrl, $id);
+        } elseif ($chapter->model == CourseModel::MODEL_READ) {
+            return sprintf('%s/chapter/read?id=%s', $this->baseUrl, $id);
+        } else {
+            return $this->getHomeUrl();
+        }
     }
 
     public function getUserIndexUrl($id)

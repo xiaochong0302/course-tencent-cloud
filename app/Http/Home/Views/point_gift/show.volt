@@ -32,7 +32,7 @@
                                     <a href="{{ course_url }}">{{ gift.name }}</a>
                                 </p>
                             {% else %}
-                                <p class="item">{{ gift.name }} }}</p>
+                                <p class="item">{{ gift.name }}</p>
                             {% endif %}
                             <p class="item stats">
                                 <span class="key">兑换人次</span>
