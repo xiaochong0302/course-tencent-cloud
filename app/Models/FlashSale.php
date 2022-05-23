@@ -180,7 +180,7 @@ class FlashSale extends Model
     {
         $result = [];
 
-        foreach (range(8, 20, 2) as $hour) {
+        foreach (range(10, 20, 2) as $hour) {
             $result[] = [
                 'name' => sprintf('%02d点', $hour),
                 'hour' => sprintf('%02d', $hour),

@@ -1,3 +1,12 @@
+### [v1.5.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.3)(2022-05-30)
+
+- 优化章节排序初始值和步长
+- 修复删除群组前台列表仍然显示问题
+- 设置360浏览器的默认模式为webkit
+- 修复首页简单模式课程项顶部缺少空白
+- vditor本地化，彻底弃用cdn.jsdelivr.net
+- 调整markdown样式
+
 ### [v1.5.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.2)(2022-04-17)
 
 - 补充话题列表课程数据结构

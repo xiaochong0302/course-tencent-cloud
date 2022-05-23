@@ -81,7 +81,14 @@ class Chapter extends Service
             $data['parent_id'] = 0;
         }
 
-        $data['priority'] += 1;
+        /**
+         * 排序从10开始递增，步长为5
+         */
+        if ($data['priority'] < 10) {
+            $data['priority'] = 10;
+        } else {
+            $data['priority'] += 5;
+        }
 
         try {
 

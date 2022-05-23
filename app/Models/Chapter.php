@@ -110,7 +110,7 @@ class Chapter extends Model
      *
      * @var int
      */
-    public $priority = 100;
+    public $priority = 10;
 
     /**
      * 免费标识

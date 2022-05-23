@@ -302,7 +302,7 @@
 }
 
 .index-wrap .layui-tab-content {
-    padding: 20px 0 0 0;
+    padding-top: 20px;
 }
 
 .index-wrap .header {
@@ -310,6 +310,10 @@
     font-size: 18px;
     padding-bottom: 15px;
     border-bottom: 1px solid #f6f6f6;
+}
+
+.index-wrap .simple {
+    padding-top: 20px;
 }
 
 .index-course-list .course-card {
