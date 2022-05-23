@@ -50,6 +50,8 @@ class Chapter extends Repository
             $query->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
+        $query->orderBy('priority ASC');
+
         return $query->execute();
     }
 
@@ -87,6 +89,7 @@ class Chapter extends Repository
         return ChapterModel::query()
             ->where('parent_id = :parent_id:', ['parent_id' => $id])
             ->andWhere('deleted = 0')
+            ->orderBy('priority ASC')
             ->execute();
     }
 

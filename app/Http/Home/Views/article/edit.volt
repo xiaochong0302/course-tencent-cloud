@@ -76,13 +76,13 @@
 
 {% block link_css %}
 
-    {{ css_link('https://cdn.staticfile.org/vditor/3.8.13/index.css', false) }}
+    {{ css_link('lib/vditor/dist/index.css') }}
 
 {% endblock %}
 
 {% block include_js %}
 
-    {{ js_include('https://cdn.staticfile.org/vditor/3.8.13/index.min.js', false) }}
+    {{ js_include('lib/vditor/dist/index.min.js') }}
     {{ js_include('lib/xm-select.js') }}
     {{ js_include('home/js/article.edit.js') }}
     {{ js_include('home/js/vditor.js') }}
