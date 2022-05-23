@@ -35,7 +35,7 @@
     {% if featured_courses|length > 0 %}
         <div class="index-wrap wrap">
             <div class="header">推荐课程</div>
-            <div class="content">
+            <div class="content simple">
                 {{ show_courses(featured_courses) }}
             </div>
         </div>
@@ -44,7 +44,7 @@
     {% if new_courses|length > 0 %}
         <div class="index-wrap wrap">
             <div class="header">新上课程</div>
-            <div class="content">
+            <div class="content simple">
                 {{ show_courses(new_courses) }}
             </div>
         </div>
@@ -62,7 +62,7 @@
     {% if vip_courses|length > 0 %}
         <div class="index-wrap wrap">
             <div class="header">会员课程</div>
-            <div class="content">
+            <div class="content simple">
                 {{ show_courses(vip_courses) }}
             </div>
         </div>

@@ -46,7 +46,7 @@ class Help extends Model
      *
      * @var int
      */
-    public $priority = 100;
+    public $priority = 10;
 
     /**
      * 发布标识
