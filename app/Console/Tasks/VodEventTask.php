@@ -57,6 +57,13 @@ class VodEventTask extends Task
         $attrs = $chapter->attrs;
 
         /**
+         * 获取不到时长，尝试通过接口获得
+         */
+        if ($duration == 0) {
+            $duration = $this->getFileDuration($fileId);
+        }
+
+        /**
          * 获取不到时长视为失败
          */
         if ($duration == 0) {
@@ -78,7 +85,7 @@ class VodEventTask extends Task
 
         $chapter->update(['attrs' => $attrs]);
 
-        $this->updateVodAttrs($chapter);
+        $this->updateCourseVodAttrs($chapter->course_id);
     }
 
     protected function handleProcedureStateChangedEvent($event)
@@ -94,6 +101,13 @@ class VodEventTask extends Task
         if (!$chapter) return;
 
         $attrs = $chapter->attrs;
+
+        /**
+         * 获取不到时长，尝试通过接口获得
+         */
+        if ($attrs['duration'] == 0) {
+            $attrs['duration'] = $this->getFileDuration($fileId);
+        }
 
         $processResult = $event['ProcedureStateChangeEvent']['MediaProcessResultSet'] ?? [];
 
@@ -156,11 +170,20 @@ class VodEventTask extends Task
         return $vodService->confirmEvents($handles);
     }
 
-    protected function updateVodAttrs(ChapterModel $chapter)
+    protected function updateCourseVodAttrs($courseId)
     {
         $courseStats = new CourseStatService();
 
-        $courseStats->updateVodAttrs($chapter->course_id);
+        $courseStats->updateVodAttrs($courseId);
+    }
+
+    protected function getFileDuration($fileId)
+    {
+        $service = new VodService();
+
+        $metaInfo = $service->getOriginVideoInfo($fileId);
+
+        return $metaInfo['duration'] ?? 0;
     }
 
 }
