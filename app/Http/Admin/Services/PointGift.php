@@ -11,6 +11,7 @@ use App\Library\Paginator\Query as PagerQuery;
 use App\Models\PointGift as PointGiftModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\PointGift as PointGiftRepo;
+use App\Repos\Vip as VipRepo;
 use App\Validators\PointGift as PointGiftValidator;
 
 class PointGift extends Service
@@ -40,6 +41,29 @@ class PointGift extends Service
         foreach ($pager->items as $item) {
             $result[] = [
                 'name' => sprintf('%s（¥%0.2f）', $item->title, $item->market_price),
+                'value' => $item->id,
+            ];
+        }
+
+        return $result;
+    }
+
+    public function getXmVips()
+    {
+        $vipRepo = new VipRepo();
+
+        $items = $vipRepo->findAll([
+            'published' => 1,
+            'deleted' => 0,
+        ]);
+
+        if ($items->count() == 0) return [];
+
+        $result = [];
+
+        foreach ($items as $item) {
+            $result[] = [
+                'name' => sprintf('%s（¥%0.2f）', $item->title, $item->price),
                 'value' => $item->id,
             ];
         }
@@ -82,6 +106,9 @@ class PointGift extends Service
         switch ($post['type']) {
             case PointGiftModel::TYPE_COURSE:
                 $gift = $this->createCoursePointGift($post);
+                break;
+            case PointGiftModel::TYPE_VIP:
+                $gift = $this->createVipPointGift($post);
                 break;
             case PointGiftModel::TYPE_GOODS:
                 $gift = $this->createGoodsPointGift($post);
@@ -168,7 +195,7 @@ class PointGift extends Service
 
         $giftRepo = new PointGiftRepo();
 
-        $gift = $giftRepo->findByCourseId($course->id);
+        $gift = $giftRepo->findItemGift($course->id, PointGiftModel::TYPE_COURSE);
 
         if ($gift) return $gift;
 
@@ -181,6 +208,35 @@ class PointGift extends Service
             'id' => $course->id,
             'title' => $course->title,
             'price' => $course->market_price,
+        ];
+
+        $gift->create();
+
+        return $gift;
+    }
+
+
+    protected function createVipPointGift($post)
+    {
+        $validator = new PointGiftValidator();
+
+        $vip = $validator->checkVip($post['xm_vip_id']);
+
+        $giftRepo = new PointGiftRepo();
+
+        $gift = $giftRepo->findItemGift($vip->id, PointGiftModel::TYPE_VIP);
+
+        if ($gift) return $gift;
+
+        $gift = new PointGiftModel();
+
+        $gift->type = PointGiftModel::TYPE_VIP;
+        $gift->name = sprintf('会员服务（%s个月）', $vip->expiry);
+        $gift->cover = $vip->cover;
+        $gift->attrs = [
+            'id' => $vip->id,
+            'title' => $vip->title,
+            'price' => $vip->price,
         ];
 
         $gift->create();

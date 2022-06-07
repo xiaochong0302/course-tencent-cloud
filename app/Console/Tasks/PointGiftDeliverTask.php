@@ -7,17 +7,16 @@
 
 namespace App\Console\Tasks;
 
-use App\Models\CourseUser as CourseUserModel;
-use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\PointGift as PointGiftModel;
 use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Models\Task as TaskModel;
 use App\Repos\Course as CourseRepo;
-use App\Repos\CourseUser as CourseUserRepo;
-use App\Repos\ImGroup as ImGroupRepo;
-use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\PointGift as PointGiftRepo;
 use App\Repos\PointGiftRedeem as PointGiftRedeemRepo;
+use App\Repos\User as UserRepo;
+use App\Repos\Vip as VipRepo;
+use App\Services\Logic\Deliver\CourseDeliver as CourseDeliverService;
+use App\Services\Logic\Deliver\VipDeliver as VipDeliverService;
 use App\Services\Logic\Notice\DingTalk\PointGiftRedeem as PointGiftRedeemNotice;
 use App\Services\Logic\Point\History\PointGiftRefund as PointGiftRefundPointHistory;
 use Phalcon\Mvc\Model\Resultset;
@@ -51,6 +50,9 @@ class PointGiftDeliverTask extends Task
                 switch ($redeem->gift_type) {
                     case PointGiftModel::TYPE_COURSE:
                         $this->handleCourseRedeem($redeem);
+                        break;
+                    case PointGiftModel::TYPE_VIP:
+                        $this->handleVipRedeem($redeem);
                         break;
                     case PointGiftModel::TYPE_GOODS:
                         $this->handleGoodsRedeem($redeem);
@@ -112,54 +114,52 @@ class PointGiftDeliverTask extends Task
             throw new \RuntimeException('Course Not Found');
         }
 
-        $groupRepo = new ImGroupRepo();
+        $redeem->status = PointGiftRedeemModel::STATUS_FINISHED;
 
-        $group = $groupRepo->findByCourseId($course->id);
-
-        if (!$group) {
-            throw new \RuntimeException('Im Group Not Found');
+        if ($redeem->update() === false) {
+            throw new \RuntimeException('Update Point Redeem Status Failed');
         }
 
-        $courseUserRepo = new CourseUserRepo();
+        $userRepo = new UserRepo();
 
-        $courseUser = $courseUserRepo->findCourseUser($course->id, $redeem->user_id);
+        $user = $userRepo->findById($redeem->user_id);
 
-        if (!$courseUser) {
+        $deliverService = new CourseDeliverService();
 
-            $courseUser = new CourseUserModel();
+        $deliverService->handle($course, $user);
+    }
 
-            $courseUser->user_id = $redeem->user_id;
-            $courseUser->course_id = $course->id;
-            $courseUser->expiry_time = strtotime("+{$course->study_expiry} months");
-            $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
-            $courseUser->source_type = CourseUserModel::SOURCE_POINT_REDEEM;
+    protected function handleVipRedeem(PointGiftRedeemModel $redeem)
+    {
+        $giftRepo = new PointGiftRepo();
 
-            if ($courseUser->create() === false) {
-                throw new \RuntimeException('Create Course User Failed');
-            }
+        $gift = $giftRepo->findById($redeem->gift_id);
+
+        if (!$gift) {
+            throw new \RuntimeException('Gift Not Found');
         }
 
-        $groupUserRepo = new ImGroupUserRepo();
+        $vipRepo = new VipRepo();
 
-        $groupUser = $groupUserRepo->findGroupUser($group->id, $redeem->user_id);
+        $vip = $vipRepo->findById($gift->attrs['id']);
 
-        if (!$groupUser) {
-
-            $groupUser = new ImGroupUserModel();
-
-            $groupUser->group_id = $group->id;
-            $groupUser->user_id = $redeem->user_id;
-
-            if ($groupUser->create() === false) {
-                throw new \RuntimeException('Create Group User Failed');
-            }
+        if (!$vip) {
+            throw new \RuntimeException('Vip Not Found');
         }
 
         $redeem->status = PointGiftRedeemModel::STATUS_FINISHED;
 
         if ($redeem->update() === false) {
-            throw new \RuntimeException('Update Redeem Status Failed');
+            throw new \RuntimeException('Update Point Redeem Status Failed');
         }
+
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($redeem->user_id);
+
+        $deliverService = new VipDeliverService();
+
+        $deliverService->handle($vip, $user);
     }
 
     protected function handleGoodsRedeem(PointGiftRedeemModel $redeem)

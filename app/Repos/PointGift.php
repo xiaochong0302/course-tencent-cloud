@@ -77,10 +77,11 @@ class PointGift extends Repository
     }
 
     /**
-     * @param int $courseId
+     * @param int $itemId
+     * @param int $itemType
      * @return PointGiftModel|Model|bool
      */
-    public function findByCourseId($courseId)
+    public function findItemGift($itemId, $itemType)
     {
         /**
          * @todo 重新设计表结构
@@ -88,13 +89,13 @@ class PointGift extends Repository
          * 没有预留独立的条目编号，先这么将就实现吧
          */
         $records = PointGiftModel::query()
-            ->where('type = :type:', ['type' => PointGiftModel::TYPE_COURSE])
+            ->where('type = :type:', ['type' => $itemType])
             ->execute();
 
         if ($records->count() == 0) return false;
 
         foreach ($records as $record) {
-            if ($record->attrs['id'] == $courseId) {
+            if ($record->attrs['id'] == $itemId) {
                 return $record;
             }
         }

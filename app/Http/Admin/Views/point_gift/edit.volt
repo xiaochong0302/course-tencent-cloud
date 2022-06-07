@@ -6,6 +6,8 @@
 
     {% if gift.type == 1 %}
         {{ partial('point_gift/edit_course') }}
+    {% elseif gift.type == 3 %}
+        {{ partial('point_gift/edit_vip') }}
     {% elseif gift.type == 2 %}
         {{ partial('point_gift/edit_goods') }}
     {% endif %}
