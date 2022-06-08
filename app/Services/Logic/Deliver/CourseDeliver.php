@@ -11,6 +11,7 @@ use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\User as UserModel;
+use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\ImGroup as ImGroupRepo;
 use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\ImUser as ImUserRepo;
@@ -21,6 +22,13 @@ class CourseDeliver extends LogicService
 
     public function handle(CourseModel $course, UserModel $user)
     {
+        $this->revokeCourseUser($course, $user);
+        $this->handleCourseUser($course, $user);
+        $this->handleImGroupUser($course, $user);
+    }
+
+    protected function handleCourseUser(CourseModel $course, UserModel $user)
+    {
         if ($course->model == CourseModel::MODEL_OFFLINE) {
             $expiryTime = strtotime($course->attrs['end_date']);
         } else {
@@ -28,7 +36,6 @@ class CourseDeliver extends LogicService
         }
 
         $courseUser = new CourseUserModel();
-
         $courseUser->user_id = $user->id;
         $courseUser->course_id = $course->id;
         $courseUser->expiry_time = $expiryTime;
@@ -39,6 +46,12 @@ class CourseDeliver extends LogicService
         $course->user_count += 1;
         $course->update();
 
+        $user->course_count += 1;
+        $user->update();
+    }
+
+    protected function handleImGroupUser(CourseModel $course, UserModel $user)
+    {
         $groupRepo = new ImGroupRepo();
 
         $group = $groupRepo->findByCourseId($course->id);
@@ -52,9 +65,7 @@ class CourseDeliver extends LogicService
         $groupUser = $groupUserRepo->findGroupUser($group->id, $user->id);
 
         if (!$groupUser) {
-
             $groupUser = new ImGroupUserModel();
-
             $groupUser->group_id = $group->id;
             $groupUser->user_id = $user->id;
             $groupUser->create();
@@ -64,6 +75,22 @@ class CourseDeliver extends LogicService
 
             $group->user_count += 1;
             $group->update();
+        }
+    }
+
+    protected function revokeCourseUser(CourseModel $course, UserModel $user)
+    {
+        $courseUserRepo = new CourseUserRepo();
+
+        $relations = $courseUserRepo->findByCourseAndUserId($course->id, $user->id);
+
+        if ($relations->count() == 0) return;
+
+        foreach ($relations as $relation) {
+            if ($relation->deleted == 0) {
+                $relation->deleted = 1;
+                $relation->update();
+            }
         }
     }
 

@@ -133,14 +133,19 @@ class ChapterContent extends Service
 
         $vod = $chapterRepo->findChapterVod($chapter->id);
 
-        $vod->file_id = $fileId;
-        $vod->file_transcode = [];
-        $vod->update();
-
         $attrs = $chapter->attrs;
-        $attrs['duration'] = 0;
-        $attrs['file']['status'] = ChapterModel::FS_UPLOADED;
+
+        if ($fileId != $vod->file_id) {
+            $vod->file_id = $fileId;
+            $vod->file_transcode = [];
+            $vod->update();
+
+            $attrs['file']['status'] = ChapterModel::FS_UPLOADED;
+            $attrs['duration'] = 0;
+        }
+
         $chapter->attrs = $attrs;
+
         $chapter->update();
 
         $this->updateCourseVodAttrs($vod->course_id);

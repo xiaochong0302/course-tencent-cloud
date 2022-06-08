@@ -163,4 +163,17 @@ class CourseUser extends Repository
             ->execute();
     }
 
+    /**
+     * @param int $courseId
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|CourseUserModel[]
+     */
+    public function findByCourseAndUserId($courseId, $userId)
+    {
+        return CourseUserModel::query()
+            ->where('course_id = :course_id:', ['course_id' => $courseId])
+            ->andWhere('user_id = :user_id:', ['user_id' => $userId])
+            ->execute();
+    }
+
 }

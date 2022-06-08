@@ -47,9 +47,11 @@ class PointGiftController extends Controller
         $service = new PointGiftService();
 
         $xmCourses = $service->getXmCourses();
+        $xmVips = $service->getXmVips();
         $types = $service->getTypes();
 
         $this->view->setVar('xm_courses', $xmCourses);
+        $this->view->setVar('xm_vips', $xmVips);
         $this->view->setVar('types', $types);
     }
 

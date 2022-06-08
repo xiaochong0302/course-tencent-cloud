@@ -177,4 +177,11 @@ class PointGift extends Validator
         return $validator->checkCourse($id);
     }
 
+    public function checkVip($id)
+    {
+        $validator = new Vip();
+
+        return $validator->checkVip($id);
+    }
+
 }

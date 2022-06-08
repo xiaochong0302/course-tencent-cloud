@@ -274,6 +274,7 @@ class Course extends Service
         $allCategories = $categoryRepo->findAll([
             'type' => CategoryModel::TYPE_COURSE,
             'published' => 1,
+            'deleted' => 0,
         ]);
 
         if ($allCategories->count() == 0) return [];

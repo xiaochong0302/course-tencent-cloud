@@ -1,3 +1,7 @@
+### [v1.5.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.4)(2022-06-30)
+
+- 优化章节排序初始值和步长
+
 ### [v1.5.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.3)(2022-05-30)
 
 - 优化章节排序初始值和步长
