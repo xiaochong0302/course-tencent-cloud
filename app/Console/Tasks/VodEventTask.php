@@ -57,7 +57,7 @@ class VodEventTask extends Task
         $attrs = $chapter->attrs;
 
         /**
-         * 获取不到时长，尝试通过接口获得
+         * 获取不到时长，尝试通过主动查询获取
          */
         if ($duration == 0) {
             $duration = $this->getFileDuration($fileId);
@@ -68,6 +68,7 @@ class VodEventTask extends Task
          */
         if ($duration == 0) {
             $attrs['file']['status'] = ChapterModel::FS_FAILED;
+            $attrs['duration'] = 0;
             $chapter->update(['attrs' => $attrs]);
             return;
         }

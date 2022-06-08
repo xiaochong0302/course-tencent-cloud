@@ -46,6 +46,7 @@ layui.use(['jquery', 'element'], function () {
 
         uploader.done().then(function (result) {
             $('input[name=file_id]').val(result.fileId);
+            $('#vod-submit').removeAttr('disabled').removeClass('layui-btn-disabled');
             $.ajax({
                 type: 'POST',
                 url: $('#vod-form').attr('action'),
