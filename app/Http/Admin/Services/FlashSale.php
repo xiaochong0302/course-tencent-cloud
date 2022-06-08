@@ -50,7 +50,11 @@ class FlashSale extends Service
     {
         $courseRepo = new CourseRepo();
 
-        $items = $courseRepo->findAll(['free' => 0, 'published' => 1]);
+        $items = $courseRepo->findAll([
+            'free' => 0,
+            'published' => 1,
+            'deleted' => 0,
+        ]);
 
         if ($items->count() == 0) return [];
 

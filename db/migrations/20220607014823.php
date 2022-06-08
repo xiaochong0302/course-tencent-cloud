@@ -1,9 +1,18 @@
 <?php
+/**
+ * @copyright Copyright (c) 2022 深圳市酷瓜软件有限公司
+ * @license https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @link https://www.koogua.com
+ */
+
+require_once 'SettingTrait.php';
 
 use Phinx\Migration\AbstractMigration;
 
 final class V20220607014823 extends AbstractMigration
 {
+
+    use SettingTrait;
 
     public function up()
     {
@@ -12,7 +21,7 @@ final class V20220607014823 extends AbstractMigration
 
     protected function handleSiteSettings()
     {
-        $row =
+        $rows =
             [
                 [
                     'section' => 'site',
@@ -36,7 +45,7 @@ final class V20220607014823 extends AbstractMigration
                 ],
             ];
 
-        $this->table('kg_setting')->insert($row)->save();
+        $this->insertSettings($rows);
     }
 
 }

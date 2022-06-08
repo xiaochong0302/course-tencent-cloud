@@ -215,7 +215,6 @@ class PointGift extends Service
         return $gift;
     }
 
-
     protected function createVipPointGift($post)
     {
         $validator = new PointGiftValidator();
