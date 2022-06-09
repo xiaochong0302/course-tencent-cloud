@@ -25,18 +25,24 @@ class VodEventTask extends Task
 
         foreach ($events as $event) {
 
-            $handles[] = $event['EventHandle'];
+            $result = true;
 
             if ($event['EventType'] == 'NewFileUpload') {
-                $this->handleNewFileUploadEvent($event);
+                $result = $this->handleNewFileUploadEvent($event);
             } elseif ($event['EventType'] == 'ProcedureStateChanged') {
-                $this->handleProcedureStateChangedEvent($event);
+                $result = $this->handleProcedureStateChangedEvent($event);
             } elseif ($event['EventType'] == 'FileDeleted') {
-                $this->handleFileDeletedEvent($event);
+                $result = $this->handleFileDeletedEvent($event);
+            }
+
+            if ($result) {
+                $handles[] = $event['EventHandle'];
             }
         }
 
-        $this->confirmEvents($handles);
+        if (count($handles) > 0) {
+            $this->confirmEvents($handles);
+        }
     }
 
     protected function handleNewFileUploadEvent($event)
@@ -46,13 +52,13 @@ class VodEventTask extends Task
         $height = $event['FileUploadEvent']['MetaData']['Width'] ?? 0;
         $duration = $event['FileUploadEvent']['MetaData']['Duration'] ?? 0;
 
-        if ($fileId == 0) return;
+        if ($fileId == 0) return false;
 
         $chapterRepo = new ChapterRepo();
 
         $chapter = $chapterRepo->findByFileId($fileId);
 
-        if (!$chapter) return;
+        if (!$chapter) return false;
 
         $attrs = $chapter->attrs;
 
@@ -63,43 +69,43 @@ class VodEventTask extends Task
             $duration = $this->getFileDuration($fileId);
         }
 
-        /**
-         * 获取不到时长视为失败
-         */
-        if ($duration == 0) {
-            $attrs['file']['status'] = ChapterModel::FS_FAILED;
-            $attrs['duration'] = 0;
-            $chapter->update(['attrs' => $attrs]);
-            return;
-        }
+        $isVideo = $width > 0 && $height > 0;
 
         $vodService = new VodService();
 
-        if ($width == 0 && $height == 0) {
-            $vodService->createTransAudioTask($fileId);
+        if ($duration > 0) {
+            if ($isVideo) {
+                $vodService->createTransVideoTask($fileId);
+            } else {
+                $vodService->createTransAudioTask($fileId);
+            }
+            $attrs['file']['status'] = ChapterModel::FS_TRANSLATING;
         } else {
-            $vodService->createTransVideoTask($fileId);
+            $attrs['file']['status'] = ChapterModel::FS_FAILED;
         }
 
-        $attrs['file']['status'] = ChapterModel::FS_TRANSLATING;
         $attrs['duration'] = (int)$duration;
 
-        $chapter->update(['attrs' => $attrs]);
+        $chapter->attrs = $attrs;
+
+        $chapter->update();
 
         $this->updateCourseVodAttrs($chapter->course_id);
+
+        return true;
     }
 
     protected function handleProcedureStateChangedEvent($event)
     {
         $fileId = $event['ProcedureStateChangeEvent']['FileId'] ?? 0;
 
-        if ($fileId == 0) return;
+        if ($fileId == 0) return false;
 
         $chapterRepo = new ChapterRepo();
 
         $chapter = $chapterRepo->findByFileId($fileId);
 
-        if (!$chapter) return;
+        if (!$chapter) return false;
 
         $attrs = $chapter->attrs;
 
@@ -110,30 +116,27 @@ class VodEventTask extends Task
             $attrs['duration'] = $this->getFileDuration($fileId);
         }
 
-        $processResult = $event['ProcedureStateChangeEvent']['MediaProcessResultSet'] ?? [];
-
-        /**
-         * 获取不到处理结果视为失败
-         */
-        if (empty($processResult)) {
-            $attrs['file']['status'] = ChapterModel::FS_FAILED;
-            $chapter->update(['attrs' => $attrs]);
-            return;
-        }
-
         $failCount = $successCount = 0;
 
-        foreach ($processResult as $item) {
-            if ($item['Type'] == 'Transcode') {
-                if ($item['TranscodeTask']['Status'] == 'SUCCESS') {
-                    $successCount++;
-                } elseif ($item['TranscodeTask']['Status'] == 'FAIL') {
-                    $failCount++;
+        $processResult = $event['ProcedureStateChangeEvent']['MediaProcessResultSet'] ?? [];
+
+        if ($processResult) {
+            foreach ($processResult as $item) {
+                if ($item['Type'] == 'Transcode') {
+                    if ($item['TranscodeTask']['Status'] == 'SUCCESS') {
+                        $successCount++;
+                    } elseif ($item['TranscodeTask']['Status'] == 'FAIL') {
+                        $failCount++;
+                    }
                 }
             }
         }
 
         $fileStatus = ChapterModel::FS_TRANSLATING;
+
+        if (!$processResult) {
+            $fileStatus = ChapterModel::FS_FAILED;
+        }
 
         /**
          * 当有一个成功标记为成功
@@ -144,17 +147,21 @@ class VodEventTask extends Task
             $fileStatus = ChapterModel::FS_FAILED;
         }
 
-        if ($fileStatus == ChapterModel::FS_TRANSLATING) return;
-
         $attrs['file']['id'] = $fileId;
         $attrs['file']['status'] = $fileStatus;
 
-        $chapter->update(['attrs' => $attrs]);
+        $chapter->attrs = $attrs;
+
+        $chapter->update();
+
+        $this->updateCourseVodAttrs($chapter->course_id);
+
+        return true;
     }
 
     protected function handleFileDeletedEvent($event)
     {
-
+        return true;
     }
 
     protected function pullEvents()
