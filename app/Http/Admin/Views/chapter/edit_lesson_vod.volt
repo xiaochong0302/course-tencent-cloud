@@ -48,8 +48,15 @@
                 </fieldset>
                 <div class="layui-form-item" id="upload-block">
                     <label class="layui-form-label">视频文件</label>
-                    <div class="layui-input-block">
-                        <span class="layui-btn" id="upload-btn">选择视频</span>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="file_id" value="{{ file_id }}" readonly="readonly" lay-verify="required">
+                    </div>
+                    <div class="layui-inline">
+                        {% if vod.file_id > 0 %}
+                            <span class="layui-btn" id="upload-btn">重新上传</span>
+                        {% else %}
+                            <span class="layui-btn" id="upload-btn">选择视频</span>
+                        {% endif %}
                         <input class="layui-hide" type="file" name="file" accept="video/*,audio/*">
                     </div>
                 </div>
@@ -62,15 +69,9 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">文件编号</label>
-                    <div class="layui-input-block">
-                        <input class="layui-input" type="text" name="file_id" value="{{ file_id }}" readonly="readonly" lay-verify="required">
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label class="layui-form-label"></label>
                     <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
+                        <button id="vod-submit" class="layui-btn layui-btn-disabled" disabled="disabled" lay-submit="true" lay-filter="go">提交</button>
                         <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
                     </div>
                 </div>

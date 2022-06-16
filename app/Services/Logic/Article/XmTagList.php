@@ -19,7 +19,10 @@ class XmTagList extends LogicService
     {
         $tagRepo = new TagRepo();
 
-        $allTags = $tagRepo->findAll(['published' => 1]);
+        $allTags = $tagRepo->findAll([
+            'published' => 1,
+            'deleted' => 0,
+        ]);
 
         if ($allTags->count() == 0) return [];
 

@@ -22,6 +22,14 @@
                 </div>
             </div>
         </div>
+        <div id="block-3" class="block" style="display:none;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">会员选择</label>
+                <div class="layui-input-block">
+                    <div id="xm-vip-id"></div>
+                </div>
+            </div>
+        </div>
         <div id="block-2" class="block" style="display:none;">
             <div class="layui-form-item">
                 <label class="layui-form-label">商品名称</label>
@@ -65,6 +73,13 @@
                     return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
                 },
                 data: {{ xm_courses|json_encode }}
+            });
+
+            xmSelect.render({
+                el: '#xm-vip-id',
+                name: 'xm_vip_id',
+                radio: true,
+                data: {{ xm_vips|json_encode }}
             });
 
             form.on('radio(type)', function (data) {

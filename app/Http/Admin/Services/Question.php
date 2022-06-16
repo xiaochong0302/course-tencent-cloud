@@ -49,6 +49,7 @@ class Question extends Service
             'type' => CategoryModel::TYPE_ARTICLE,
             'level' => 1,
             'published' => 1,
+            'deleted' => 0,
         ]);
     }
 

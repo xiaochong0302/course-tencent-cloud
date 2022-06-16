@@ -29,7 +29,7 @@ class MailCode extends LogicService
 
             $validator = new CaptchaValidator();
 
-            $validator->checkCode($post['ticket'], $post['rand']);
+            $validator->checkCode($post['captcha']['ticket'], $post['captcha']['rand']);
         }
 
         $service = new MailVerifyService();

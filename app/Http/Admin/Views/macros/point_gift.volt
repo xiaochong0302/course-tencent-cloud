@@ -4,7 +4,7 @@
     {% elseif value == 2 %}
         商品
     {% elseif value == 3 %}
-        现金
+        会员
     {% endif %}
 {%- endmacro %}
 
