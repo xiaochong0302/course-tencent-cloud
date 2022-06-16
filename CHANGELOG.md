@@ -1,6 +1,15 @@
-### [v1.5.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.4)(2022-06-30)
+### [v1.5.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.4)(2022-06-15)
 
+- 增加migration助手SettingTrait
+- 增加积分兑换会员
+- 增加ISP备案和电子执照配置
+- 增加获取视频时长补偿机制
+- 优化课程和套餐发货
+- 优化验证码
+- 优化视频点播回调处理任务
 - 优化章节排序初始值和步长
+- 优化后台视频上传和转码
+- 修正获取子分类查询条件
 
 ### [v1.5.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.3)(2022-05-30)
 

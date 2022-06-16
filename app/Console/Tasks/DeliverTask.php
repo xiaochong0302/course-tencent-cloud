@@ -145,6 +145,33 @@ class DeliverTask extends Task
         $service = new VipDeliverService();
 
         $service->handle($vip, $user);
+
+        /**
+         * 先下单购买课程，发现会员有优惠，于是购买会员，再回头购买课程
+         * 自动关闭未支付订单，让用户可以使用会员价再次下单
+         */
+        $this->closePendingOrders($user->id);
+    }
+
+    protected function closePendingOrders($userId)
+    {
+        $orders = $this->findUserPendingOrders($userId);
+
+        if ($orders->count() == 0) return;
+
+        $itemTypes = [
+            OrderModel::ITEM_COURSE,
+            OrderModel::ITEM_PACKAGE,
+        ];
+
+        foreach ($orders as $order) {
+            $case1 = in_array($order->item_type, $itemTypes);
+            $case2 = $order->promotion_type == 0;
+            if ($case1 && $case2) {
+                $order->status = OrderModel::STATUS_CLOSED;
+                $order->update();
+            }
+        }
     }
 
     protected function handleOrderConsumePoint(OrderModel $order)
@@ -207,6 +234,20 @@ class DeliverTask extends Task
             'bind' => ['order_id' => $orderId, 'status' => $status],
             'order' => 'id DESC',
         ]);
+    }
+
+    /**
+     * @param int $userId
+     * @return ResultsetInterface|Resultset|OrderModel[]
+     */
+    protected function findUserPendingOrders($userId)
+    {
+        $status = OrderModel::STATUS_PENDING;
+
+        return OrderModel::query()
+            ->where('owner_id = :owner_id:', ['owner_id' => $userId])
+            ->andWhere('status = :status:', ['status' => $status])
+            ->execute();
     }
 
     /**

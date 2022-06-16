@@ -9,14 +9,14 @@ layui.use(['jquery', 'layer', 'util'], function () {
     var $emit = $('#cv-emit-btn');
     var $submit = $('#cv-submit-btn');
 
-    if ($('#cv-enabled').val() === '1') {
+    if ($('#cv-captcha-enabled').val() === '1') {
         var captcha = new TencentCaptcha(
             $emit[0],
-            $('#cv-app-id').val(),
+            $('#cv-captcha-appId').val(),
             function (res) {
                 if (res.ret === 0) {
-                    $('#cv-ticket').val(res.ticket);
-                    $('#cv-rand').val(res.randstr);
+                    $('#cv-captcha-ticket').val(res.ticket);
+                    $('#cv-captcha-rand').val(res.randstr);
                     sendVerifyCode();
                 }
             }
@@ -49,8 +49,10 @@ layui.use(['jquery', 'layer', 'util'], function () {
         if (isEmail($account.val()) || isPhone($account.val())) {
             var postUrl;
             var postData = {
-                ticket: $('#cv-ticket').val(),
-                rand: $('#cv-rand').val(),
+                captcha: {
+                    ticket: $('#cv-captcha-ticket').val(),
+                    rand: $('#cv-captcha-rand').val(),
+                }
             };
             if (isPhone($account.val())) {
                 postData.phone = $account.val();
