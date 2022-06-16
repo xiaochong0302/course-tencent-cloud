@@ -23,6 +23,7 @@ class TagList extends LogicService
         $params = $pagerQuery->getParams();
 
         $params['published'] = 1;
+        $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();

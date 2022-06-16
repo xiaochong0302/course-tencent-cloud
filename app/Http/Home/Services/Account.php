@@ -62,7 +62,7 @@ class Account extends Service
 
             $validator = new CaptchaValidator();
 
-            $validator->checkCode($post['ticket'], $post['rand']);
+            $validator->checkCode($post['captcha']['ticket'], $post['captcha']['rand']);
         }
 
         $this->auth->saveAuthInfo($user);

@@ -16,10 +16,10 @@
         <div class="layui-input-block">
             <button id="cv-submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" disabled="disabled" lay-submit="true" lay-filter="go">立即登录</button>
             <input type="hidden" name="return_url" value="{{ return_url }}">
-            <input id="cv-enabled" type="hidden" value="{{ captcha.enabled }}">
-            <input id="cv-app-id" type="hidden" value="{{ captcha.app_id }}">
-            <input id="cv-ticket" type="hidden" name="ticket">
-            <input id="cv-rand" type="hidden" name="rand">
+            <input id="cv-captcha-enabled" type="hidden" value="{{ captcha.enabled }}">
+            <input id="cv-captcha-appId" type="hidden" value="{{ captcha.app_id }}">
+            <input id="cv-captcha-ticket" type="hidden" name="captcha[ticket]">
+            <input id="cv-captcha-rand" type="hidden" name="captcha[rand]">
         </div>
     </div>
 </form>

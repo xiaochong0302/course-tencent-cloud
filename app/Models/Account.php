@@ -100,7 +100,7 @@ class Account extends Model
         $user = new User();
 
         $user->id = $this->id;
-        $user->name = "user:{$this->id}";
+        $user->name = "user_{$this->id}";
 
         if ($user->create() === false) {
             throw new \RuntimeException('Create User Failed');
