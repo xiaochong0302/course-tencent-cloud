@@ -17,12 +17,11 @@ class Volt extends Provider
     public function register()
     {
         $this->di->setShared('volt', function ($view, $di) {
-
             $volt = new PhVolt($view, $di);
-
             $volt->setOptions([
                 'compiledPath' => cache_path() . '/volt/',
                 'compiledSeparator' => '_',
+                'compileAlways'=> false
             ]);
 
             $compiler = $volt->getCompiler();

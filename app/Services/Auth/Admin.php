@@ -26,10 +26,11 @@ class Admin extends AuthService
         $authKey = $this->getAuthKey();
 
         $authInfo = [
-            'id' => $user->id,
-            'name' => $user->name,
-            'routes' => $role->routes,
-            'root' => $root,
+            'id'    => $user->id,
+            'name'  => $user->name,
+            'role'  => $user->role,
+            'routes'=> $role->routes,
+            'root'  => $root,
         ];
 
         $this->session->set($authKey, $authInfo);

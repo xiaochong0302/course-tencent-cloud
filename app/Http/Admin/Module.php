@@ -11,6 +11,7 @@ use App\Library\Mvc\View as MyView;
 use App\Services\Auth\Admin as AdminAuth;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
+use App\Providers\Acl;
 
 class Module implements ModuleDefinitionInterface
 {
@@ -22,14 +23,15 @@ class Module implements ModuleDefinitionInterface
 
     public function registerServices(DiInterface $dependencyInjector)
     {
-        $dependencyInjector->setShared('view', function () {
-            $view = new MyView();
-            $view->setViewsDir(__DIR__ . '/Views');
-            $view->registerEngines([
-                '.volt' => 'volt',
-            ]);
-            return $view;
+        $dependencyInjector->setShared('acl', function () use($dependencyInjector) {
+            $acl = new Acl($dependencyInjector);
+            $acl->register();
+            return $acl;
         });
+
+        $view = $dependencyInjector->get('view');
+        $view->setViewsDir(__DIR__ . '/Views');
+
 
         $dependencyInjector->setShared('auth', function () {
             return new AdminAuth();

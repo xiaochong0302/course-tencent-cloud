@@ -17,7 +17,11 @@ class View extends Provider
     public function register()
     {
         $this->di->setShared($this->serviceName, function () {
-            return new MyView();
+            $view = new MyView();
+            $view->registerEngines([
+                '.volt' =>$this->di->getShared('volt'),
+            ]);
+            return $view;
         });
     }
 

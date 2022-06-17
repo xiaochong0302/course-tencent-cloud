@@ -23,6 +23,12 @@ class User extends Model
     const GENDER_FEMALE = 2; // 女
     const GENDER_NONE = 3; // 保密
 
+    const ROLES = [
+        'moderator',
+        'admin',
+        'developer',
+    ];
+
     /**
      * 教学角色
      */
@@ -112,6 +118,14 @@ class User extends Model
      * @var int
      */
     public $admin_role = 0;
+
+
+    /**
+     * 后台角色
+     *
+     * @var string
+     */
+    public $role = 'moderator'; //To-Do: put in database;
 
     /**
      * 课程数

@@ -88,8 +88,8 @@ class HttpKernel extends Kernel
             RouterProvider::class,
             SessionProvider::class,
             UrlProvider::class,
-            ViewProvider::class,
             VoltProvider::class,
+            ViewProvider::class,
         ];
 
         foreach ($providers as $provider) {

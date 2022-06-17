@@ -17,7 +17,6 @@ use Phalcon\Mvc\Dispatcher;
 
 class Controller extends \Phalcon\Mvc\Controller
 {
-
     /**
      * @var array
      */
@@ -31,6 +30,31 @@ class Controller extends \Phalcon\Mvc\Controller
     use ResponseTrait;
     use SecurityTrait;
 
+    public function beforeDispatchLoop(Dispatcher $dispatcher)
+    {
+        $role = 'guest';
+        $auth = $this->getDI()->get('auth');
+        $module     = $dispatcher->getModuleName();
+        $controller = $dispatcher->getControllerName();
+        $action     = $dispatcher->getActionName();
+
+        if ($authUser = $auth->getCurrentUser()) {
+            $role = $authUser->role;
+        }
+        $resourceKey = $module . '.' . $controller;
+        $resourceVal = $action;
+
+        $acl = $this->getDI()->get('acl');
+
+        if ($acl->isResource($resourceKey)) {
+            if (!$acl->isAllowed($role, $resourceKey, $resourceVal)) {
+                $this->forbidden();
+                return false;
+            }
+        }
+    }
+
+    //can be removed later;
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
         if ($this->isNotSafeRequest()) {
@@ -38,7 +62,8 @@ class Controller extends \Phalcon\Mvc\Controller
             $this->checkCsrfToken();
         }
 
-        $this->authInfo = $this->getAuthInfo();
+        $auth = $this->getDI()->get('auth');
+        $this->authInfo = $auth->getAuthInfo();
 
         if (!$this->authInfo) {
             $dispatcher->forward([
@@ -48,8 +73,7 @@ class Controller extends \Phalcon\Mvc\Controller
             return false;
         }
 
-        $this->authUser = $this->getAuthUser();
-
+        $this->authUser = $auth->getCurrentUser();
         /**
          * root用户忽略权限检查
          */
@@ -110,6 +134,7 @@ class Controller extends \Phalcon\Mvc\Controller
 
             $audit->user_id = $this->authUser->id;
             $audit->user_name = $this->authUser->name;
+            $audit->role    = $this->authUser->role;
             $audit->user_ip = $this->request->getClientAddress();
             $audit->req_route = $this->router->getMatchedRoute()->getName();
             $audit->req_path = $this->request->getServer('REQUEST_URI');
@@ -118,25 +143,4 @@ class Controller extends \Phalcon\Mvc\Controller
             $audit->create();
         }
     }
-
-    protected function getAuthInfo()
-    {
-        /**
-         * @var AdminAuth $auth
-         */
-        $auth = $this->getDI()->get('auth');
-
-        return $auth->getAuthInfo();
-    }
-
-    protected function getAuthUser()
-    {
-        /**
-         * @var AdminAuth $auth
-         */
-        $auth = $this->getDI()->get('auth');
-
-        return $auth->getCurrentUser();
-    }
-
 }
