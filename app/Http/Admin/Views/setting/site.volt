@@ -97,13 +97,13 @@
             <div class="layui-inline">
                 <label class="layui-form-label">ISP备案号</label>
                 <div class="kg-input-inline">
-                    <input class="layui-input" type="text" name="isp_sn" value="{{ site.isp_sn }}">
+                    <input class="layui-input" type="text" name="isp_sn" value="{% if site.isp_sn is defined %}{{ site.isp_sn }}{% endif %}">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">备案链接</label>
                 <div class="kg-input-inline" style="width:500px;">
-                    <input class="layui-input" type="text" name="isp_link" value="{{ site.isp_link }}">
+                    <input class="layui-input" type="text" name="isp_link" value="{% if site.isp_link is defined %}{{ site.isp_link }}{% endif %}">
                 </div>
             </div>
         </div>
@@ -125,13 +125,13 @@
             <div class="layui-inline">
                 <label class="layui-form-label">企业信用代码</label>
                 <div class="kg-input-inline">
-                    <input class="layui-input" type="text" name="company_sn" value="{{ site.company_sn }}">
+                    <input class="layui-input" type="text" name="company_sn" value="{% if site.company_sn is defined %}{{ site.company_sn }}{% endif %}">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">电子执照链接</label>
                 <div class="kg-input-inline" style="width:500px;">
-                    <input class="layui-input" type="text" name="company_sn_link" value="{{ site.company_sn_link }}">
+                    <input class="layui-input" type="text" name="company_sn_link" value="{% if site.company_sn_link is defined %}{{ site.company_sn_link }}{% endif %}">
                 </div>
             </div>
         </div>

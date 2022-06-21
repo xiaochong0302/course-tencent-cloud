@@ -19,11 +19,9 @@
 </head>
 <body class="layer">
 {% block content %}{% endblock %}
-
 {{ partial('partials/js_vars') }}
 {{ js_include('lib/layui/layui.js') }}
 {{ js_include('home/js/common.js') }}
-
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
 </body>

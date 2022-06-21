@@ -27,16 +27,18 @@ class Account extends Validator
 
     public function checkAccount($name)
     {
-        $account = null;
-
-        $accountRepo = new AccountRepo();
-
-        if (CommonValidator::email($name)) {
-            $account = $accountRepo->findByEmail($name);
-        } elseif (CommonValidator::phone($name)) {
-            $account = $accountRepo->findByPhone($name);
-        } elseif (CommonValidator::intNumber($name)) {
-            $account = $accountRepo->findById($name);
+        switch ($name) {
+            case CommonValidator::email($name):
+                $account = AccountRepo::findByEmail($name);
+                break;
+            case CommonValidator::phone($name):
+                $account = AccountRepo::findByPhone($name);
+                break;
+            case CommonValidator::intNumber($name):
+                $account = AccountRepo::findById($name);
+                break;
+            default:
+                $account = null;
         }
 
         if (!$account) {

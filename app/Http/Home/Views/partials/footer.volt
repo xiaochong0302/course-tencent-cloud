@@ -5,20 +5,20 @@
         {% endfor %}
     </div>
     <div class="row copyright">
-        {% if site_info.copyright %}
+        {% if site_info.copyright is defined and site_info.copyright %}
             <span>&copy; {{ site_info.copyright }}</span>
         {% endif %}
         <a href="{{ app_info.link }}" title="{{ app_info.name }}" target="_blank">Powered by {{ app_info.alias }} {{ app_info.version }}</a>
-        {% if site_info.icp_sn %}
+        {% if site_info.icp_sn is defined and site_info.icp_sn %}
             <a href="{{ site_info.icp_link }}" target="_blank">{{ site_info.icp_sn }}</a>
         {% endif %}
-        {% if site_info.isp_sn %}
+        {% if site_info.isp_sn is defined and site_info.isp_sn %}
             <a href="{{ site_info.isp_link }}" target="_blank">{{ site_info.isp_sn }}</a>
         {% endif %}
-        {% if site_info.police_sn %}
+        {% if site_info.police_sn is defined and site_info.police_sn %}
             <a href="{{ site_info.police_link }}" target="_blank">{{ site_info.police_sn }}</a>
         {% endif %}
-        {% if site_info.company_sn %}
+        {% if site_info.company_sn is defined and site_info.company_sn %}
             <a href="{{ site_info.company_sn_link }}" title="企业信用代码：{{ site_info.company_sn }}" target="_blank">工商网监电子标识</a>
         {% endif %}
     </div>

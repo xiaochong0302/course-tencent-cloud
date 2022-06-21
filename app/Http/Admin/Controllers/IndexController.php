@@ -49,12 +49,14 @@ class IndexController extends Controller
         $appInfo = $indexService->getAppInfo();
         $serverInfo = $indexService->getServerInfo();
 
-        $this->view->setVar('global_stat', $globalStat);
-        $this->view->setVar('today_stat', $todayStat);
-        $this->view->setVar('report_stat', $reportStat);
-        $this->view->setVar('mod_stat', $modStat);
-        $this->view->setVar('app_info', $appInfo);
-        $this->view->setVar('server_info', $serverInfo);
+        $this->view->setVars([
+            'global_stat' => $globalStat,
+            'today_stat' => $todayStat,
+            'report_stat' => $reportStat,
+            'mod_stat' => $modStat,
+            'app_info' => $appInfo,
+            'server_info' => $serverInfo,
+        ]);
     }
 
     /**

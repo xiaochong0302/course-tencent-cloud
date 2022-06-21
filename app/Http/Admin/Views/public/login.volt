@@ -1,10 +1,7 @@
 {% extends 'templates/main.volt' %}
-
 {% block content %}
-
     {% set disabled_submit = captcha.enabled == 1 ? 'disabled="disabled"' : '' %}
     {% set disabled_class = captcha.enabled == 1 ? 'layui-btn-disabled' : '' %}
-
     <div class="kg-login-wrap">
         <div class="layui-card">
             <div class="layui-card-header">后台登录</div>
@@ -38,11 +35,9 @@
             </div>
         </div>
     </div>
-
     <div class="kg-login-copyright">
         Powered by <a href="{{ app_info.link }}" title="{{ app_info.name }}">{{ app_info.alias }} {{ app_info.version }}</a>
     </div>
-
 {% endblock %}
 
 {% block inline_css %}

@@ -19,7 +19,7 @@ class View extends Provider
         $this->di->setShared($this->serviceName, function () {
             $view = new MyView();
             $view->registerEngines([
-                '.volt' =>$this->di->getShared('volt'),
+                '.volt' => 'volt',
             ]);
             return $view;
         });

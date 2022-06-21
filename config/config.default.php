@@ -98,6 +98,11 @@ $config['redis']['auth'] = '1qaz2wsx3edc';
 $config['cache']['lifetime'] = 24 * 3600;
 
 /**
+ * 会话处理('file','memcached','redis';)
+ */
+$config['session']['handler'] = 'file';
+
+/**
  * 会话有效期（秒）
  */
 $config['session']['lifetime'] = 24 * 3600;

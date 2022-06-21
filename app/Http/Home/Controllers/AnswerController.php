@@ -80,7 +80,7 @@ class AnswerController extends Controller
 
         $location = $this->url->get(
             ['for' => 'home.question.show', 'id' => $questionId],
-            ['answer_id' => $id],
+            ['answer_id' => $id]
         );
 
         return $this->response->redirect($location);

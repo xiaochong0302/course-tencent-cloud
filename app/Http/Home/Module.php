@@ -20,18 +20,19 @@ class Module implements ModuleDefinitionInterface
 
     }
 
-    public function registerServices(DiInterface $dependencyInjector)
+    public function registerServices(DiInterface $di)
     {
-        $dependencyInjector->setShared('view', function () {
+        /*$dependencyInjector->setShared('view', function () {
             $view = new MyView();
             $view->setViewsDir(__DIR__ . '/Views');
             $view->registerEngines([
                 '.volt' => 'volt',
             ]);
             return $view;
-        });
+        });*/
+        $di->get('view')->setViewsDir(__DIR__ . '/Views');
 
-        $dependencyInjector->setShared('auth', function () {
+        $di->setShared('auth', function () {
             return new HomeAuth();
         });
     }

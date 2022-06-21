@@ -34,17 +34,17 @@ class Session extends Service
 
         $validator->checkIfAllowLogin($user);
 
-        $captcha = $this->getSettings('captcha');
+        //$captcha = $this->getSettings('captcha');
 
         /**
          * 验证码是一次性的，放到最后检查，减少第三方调用
          */
-        if ($captcha['enabled'] == 1) {
+        /*if ($captcha['enabled'] == 1) {
 
             $validator = new CaptchaValidator();
 
             $validator->checkCode($post['captcha']['ticket'], $post['captcha']['rand']);
-        }
+        }*/
 
         $this->auth->saveAuthInfo($user);
 

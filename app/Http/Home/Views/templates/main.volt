@@ -48,6 +48,5 @@
         {{ site_info.analytics_script }}
     </div>
 {% endif %}
-
 </body>
 </html>

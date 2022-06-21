@@ -54,15 +54,15 @@ class Redis extends \Phalcon\Cache\Backend\Redis
     /**
      * {@inheritdoc}
      *
-     * @param string $keyName
-     * @param string $content
-     * @param int $lifetime
-     * @param bool $stopBuffer
+     * @param  string $keyName
+     * @param  string $content
+     * @param  int $lifetime
+     * @param  bool $stopBuffer
      * @return bool
      *
      * @throws Exception
      */
-    public function save($keyName = null, $content = null, $lifetime = null, bool $stopBuffer = true): bool
+    public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true)
     {
         if ($keyName === null) {
             $lastKey = $this->_lastKey;
@@ -78,7 +78,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
         $redis = $this->getRedis();
 
         /**
-         * @var FrontendInterface $frontend
+         * @var \Phalcon\Cache\FrontendInterface $frontend
          */
         $frontend = $this->_frontend;
 

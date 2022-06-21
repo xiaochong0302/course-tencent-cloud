@@ -84,10 +84,7 @@ class User extends Repository
      */
     public function findById($id)
     {
-        return UserModel::findFirst([
-            'conditions' => 'id = :id:',
-            'bind' => ['id' => $id],
-        ]);
+        return UserModel::findFirst($id);
     }
 
     /**

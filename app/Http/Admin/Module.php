@@ -23,15 +23,13 @@ class Module implements ModuleDefinitionInterface
 
     public function registerServices(DiInterface $dependencyInjector)
     {
-        $dependencyInjector->setShared('acl', function () use($dependencyInjector) {
+        /*$dependencyInjector->setShared('acl', function () use($dependencyInjector) {
             $acl = new Acl($dependencyInjector);
             $acl->register();
             return $acl;
-        });
+        });*/
 
-        $view = $dependencyInjector->get('view');
-        $view->setViewsDir(__DIR__ . '/Views');
-
+        $dependencyInjector->get('view')->setViewsDir(__DIR__ . '/Views');
 
         $dependencyInjector->setShared('auth', function () {
             return new AdminAuth();

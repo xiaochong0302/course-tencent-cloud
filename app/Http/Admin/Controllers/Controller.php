@@ -32,7 +32,7 @@ class Controller extends \Phalcon\Mvc\Controller
 
     public function beforeDispatchLoop(Dispatcher $dispatcher)
     {
-        $role = 'guest';
+        /*$role = 'guest';
         $auth = $this->getDI()->get('auth');
         $module     = $dispatcher->getModuleName();
         $controller = $dispatcher->getControllerName();
@@ -51,7 +51,7 @@ class Controller extends \Phalcon\Mvc\Controller
                 $this->forbidden();
                 return false;
             }
-        }
+        }*/
     }
 
     //can be removed later;
@@ -74,6 +74,7 @@ class Controller extends \Phalcon\Mvc\Controller
         }
 
         $this->authUser = $auth->getCurrentUser();
+
         /**
          * root用户忽略权限检查
          */

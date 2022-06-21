@@ -45,10 +45,11 @@ class AccountController extends Controller
         $captcha = $service->getSettings('captcha');
 
         $this->seo->prependTitle('注册');
-
-        $this->view->setVar('return_url', $returnUrl);
-        $this->view->setVar('local_oauth', $oauthProvider['local']);
-        $this->view->setVar('captcha', $captcha);
+        $this->view->setVars([
+            'return_url' => $returnUrl,
+            'local_oauth' => $oauthProvider['local'],
+            'captcha' => $captcha,
+        ]);
     }
 
     /**
@@ -98,9 +99,11 @@ class AccountController extends Controller
 
         $this->seo->prependTitle('登录');
 
-        $this->view->setVar('oauth_provider', $oauthProvider);
-        $this->view->setVar('return_url', $returnUrl);
-        $this->view->setVar('captcha', $captcha);
+        $this->view->setVars([
+            'return_url' => $returnUrl,
+            'oauth_provider' => $oauthProvider,
+            'captcha' => $captcha,
+        ]);
     }
 
     /**

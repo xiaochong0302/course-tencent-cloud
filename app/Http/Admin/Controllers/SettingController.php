@@ -32,14 +32,13 @@ class SettingController extends Controller
 
             return $this->jsonSuccess(['msg' => '更新配置成功']);
 
-        } else {
-
-            $site = $settingService->getSettings($section);
-
-            $site['url'] = $site['url'] ?: kg_site_url();
-
-            $this->view->setVar('site', $site);
         }
+
+        $site = $settingService->getSettings($section);
+
+        $site['url'] = $site['url'] ?: kg_site_url();
+
+        $this->view->setVar('site', $site);
     }
 
     /**

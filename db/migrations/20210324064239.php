@@ -29,6 +29,15 @@ final class V20210324064239 extends AbstractMigration
                 'identity' => 'enable',
                 'comment' => '主键编号',
             ])
+            ->addColumn('role', 'string', [
+                'null'    => false,
+                'default' => 'moderator',
+                'limit'     => 30,
+                'collation' => 'utf8mb4_general_ci',
+                'encoding'  => 'utf8mb4',
+                'comment'   => 'Amin user role',
+                'after'     => 'id',
+            ])
             ->addColumn('email', 'string', [
                 'null' => false,
                 'default' => '',

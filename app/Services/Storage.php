@@ -163,7 +163,7 @@ class Storage extends Service
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Put File Exception ' . kg_json_encode([
+               $this->logger->error('Put File Exception ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));
