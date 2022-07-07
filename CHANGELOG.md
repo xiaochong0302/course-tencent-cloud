@@ -1,3 +1,7 @@
+### [v1.5.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.5)(2022-07-15)
+
+- 修正获分类查询条件
+
 ### [v1.5.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.4)(2022-06-15)
 
 - 增加migration助手SettingTrait
