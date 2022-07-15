@@ -105,20 +105,17 @@ class HttpKernel extends Kernel
 
     protected function registerModules()
     {
-        $modules = [
-            'api' => [
-                'className' => 'App\Http\Api\Module',
-                'path' => app_path('Http/Api/Module.php'),
-            ],
-            'admin' => [
-                'className' => 'App\Http\Admin\Module',
-                'path' => app_path('Http/Admin/Module.php'),
-            ],
-            'home' => [
-                'className' => 'App\Http\Home\Module',
-                'path' => app_path('Http/Home/Module.php'),
-            ],
-        ];
+        $aliases = ['api', 'home', 'admin'];
+
+        $modules = [];
+
+        foreach ($aliases as $alias) {
+            $moduleName = ucfirst($alias);
+            $modules[$alias] = [
+                'className' => 'App\Http\\' . $moduleName . '\Module',
+                'path' => app_path('Http/' . $moduleName . '/Module.php'),
+            ];
+        }
 
         $this->app->registerModules($modules);
     }
