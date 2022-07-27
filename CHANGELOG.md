@@ -1,6 +1,13 @@
-### [v1.5.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.5)(2022-07-15)
+### [v1.5.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.5)(2022-07-27)
 
 - 修正获分类查询条件
+- 修正锁定账户还能登录的问题
+- 发货增加noMatchedHandler
+- 增加demo数据清理脚本
+- 用户课程列表增加角色限定条件
+- 精简模块加载和路由扫描
+- 优化CsrfToken
+- 去除无实质作用的数据表优化
 
 ### [v1.5.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.4)(2022-06-15)
 
