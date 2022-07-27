@@ -9,6 +9,7 @@ namespace App\Services\Logic\User;
 
 use App\Builders\CourseUserList as CourseUserListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\CourseUser as CourseUserModel;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
@@ -27,6 +28,7 @@ class CourseList extends LogicService
         $params = $pagerQuery->getParams();
 
         $params['user_id'] = $user->id;
+        $params['role_type'] = CourseUserModel::ROLE_STUDENT;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();

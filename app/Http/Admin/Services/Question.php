@@ -46,7 +46,7 @@ class Question extends Service
         $categoryRepo = new CategoryRepo();
 
         return $categoryRepo->findAll([
-            'type' => CategoryModel::TYPE_ARTICLE,
+            'type' => CategoryModel::TYPE_QUESTION,
             'level' => 1,
             'published' => 1,
             'deleted' => 0,

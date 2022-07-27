@@ -118,6 +118,11 @@ $config['metadata']['lifetime'] = 7 * 86400;
 $config['annotation']['lifetime'] = 7 * 86400;
 
 /**
+ * CsrfToken有效期（秒）
+ */
+$config['csrf_token']['lifetime'] = 86400;
+
+/**
  * 允许跨域
  */
 $config['cors']['enabled'] = true;

@@ -23,15 +23,15 @@ class QuestionList extends Builder
         return $questions;
     }
 
-    public function handleCategories(array $articles)
+    public function handleCategories(array $questions)
     {
         $categories = $this->getCategories();
 
-        foreach ($articles as $key => $article) {
-            $articles[$key]['category'] = $categories[$article['category_id']] ?? new \stdClass();
+        foreach ($questions as $key => $article) {
+            $questions[$key]['category'] = $categories[$article['category_id']] ?? new \stdClass();
         }
 
-        return $articles;
+        return $questions;
     }
 
     public function handleUsers(array $questions)

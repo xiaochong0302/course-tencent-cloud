@@ -177,10 +177,10 @@ class Account extends Validator
 
     public function checkIfAllowLogin(UserModel $user)
     {
-        $locked = $user->locked == 1;
-        $expired = $user->lock_expiry_time > time();
+        $case1 = $user->locked == 1;
+        $case2 = $user->lock_expiry_time > time();
 
-        if ($locked && !$expired) {
+        if ($case1 && $case2) {
             throw new ForbiddenException('account.locked');
         }
 

@@ -102,7 +102,4 @@ $scheduler->php($script, $bin, ['--task' => 'renew_demo_live_course', '--action'
 $scheduler->php($script, $bin, ['--task' => 'teacher_live_notice', '--action' => 'provide'])
     ->daily(4, 7);
 
-$scheduler->php($script, $bin, ['--task' => 'optimize_table', '--action' => 'main'])
-    ->weekly(6, 5, 3);
-
 $scheduler->run();

@@ -7,6 +7,7 @@
 
 namespace App\Library;
 
+use Phalcon\Config;
 use Phalcon\Crypt;
 use Phalcon\Di;
 use Phalcon\Text;
@@ -19,7 +20,7 @@ class CsrfToken
      */
     protected $crypt;
 
-    protected $lifetime = 600;
+    protected $lifetime = 86400;
 
     protected $delimiter = '@@';
 
@@ -33,7 +34,7 @@ class CsrfToken
     public function getToken()
     {
         $content = [
-            time() + $this->lifetime,
+            $this->getExpiredTime(),
             $this->fixed,
             Text::random(8),
         ];
@@ -60,6 +61,18 @@ class CsrfToken
         }
 
         return true;
+    }
+
+    protected function getExpiredTime()
+    {
+        /**
+         * @var $config Config
+         */
+        $config = Di::getDefault()->getShared('config');
+
+        $lifetime = $config->path('csrf_token.lifetime') ?: $this->lifetime;
+
+        return $lifetime + time();
     }
 
 }
