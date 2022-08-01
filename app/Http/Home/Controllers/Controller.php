@@ -48,7 +48,7 @@ class Controller extends \Phalcon\Mvc\Controller
     /**
      * @var array
      */
-    protected $imInfo;
+    protected $websocketInfo;
 
     /**
      * @var UserModel
@@ -89,7 +89,7 @@ class Controller extends \Phalcon\Mvc\Controller
         $this->navs = $this->getNavs();
         $this->appInfo = $this->getAppInfo();
         $this->contactInfo = $this->getContactInfo();
-        $this->imInfo = $this->getImInfo();
+        $this->websocketInfo = $this->getWebsocketInfo();
 
         $this->seo->setTitle($this->siteInfo['title']);
 
@@ -99,7 +99,7 @@ class Controller extends \Phalcon\Mvc\Controller
         $this->view->setVar('app_info', $this->appInfo);
         $this->view->setVar('site_info', $this->siteInfo);
         $this->view->setVar('contact_info', $this->contactInfo);
-        $this->view->setVar('im_info', $this->imInfo);
+        $this->view->setVar('websocket_info', $this->websocketInfo);
     }
 
     protected function getAuthUser($cache = false)
@@ -139,7 +139,7 @@ class Controller extends \Phalcon\Mvc\Controller
         return new AppInfo();
     }
 
-    protected function getImInfo()
+    protected function getWebsocketInfo()
     {
         $websocket = $this->getConfig()->get('websocket');
 
@@ -153,11 +153,7 @@ class Controller extends \Phalcon\Mvc\Controller
             $websocket->connect_url = sprintf('ws://%s', $websocket->connect_address);
         }
 
-        return [
-            'main' => $this->getSettings('im.main'),
-            'cs' => $this->getSettings('im.cs'),
-            'ws' => $websocket,
-        ];
+        return $websocket;
     }
 
     protected function getConfig()

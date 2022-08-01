@@ -45,15 +45,11 @@
     {% set show_tab_articles = user.article_count > 0 %}
     {% set show_tab_questions = user.question_count > 0 %}
     {% set show_tab_answers = user.answer_count > 0 %}
-    {% set show_tab_friends = user.friend_count > 0 %}
-    {% set show_tab_groups = user.group_count > 0 %}
 
     {% set courses_url = url({'for':'home.user.courses','id':user.id}) %}
     {% set articles_url = url({'for':'home.user.articles','id':user.id}) %}
     {% set questions_url = url({'for':'home.user.questions','id':user.id}) %}
     {% set answers_url = url({'for':'home.user.answers','id':user.id}) %}
-    {% set friends_url = url({'for':'home.user.friends','id':user.id}) %}
-    {% set groups_url = url({'for':'home.user.groups','id':user.id}) %}
 
     <div class="tab-wrap">
         <div class="layui-tab layui-tab-brief user-tab">
@@ -68,12 +64,6 @@
                 {% if show_tab_answers %}
                     <li>回答</li>
                 {% endif %}
-                {% if show_tab_friends %}
-                    <li>好友</li>
-                {% endif %}
-                {% if show_tab_groups %}
-                    <li>群组</li>
-                {% endif %}
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show" id="tab-courses" data-url="{{ courses_url }}"></div>
@@ -85,12 +75,6 @@
                 {% endif %}
                 {% if show_tab_answers %}
                     <div class="layui-tab-item" id="tab-answers" data-url="{{ answers_url }}"></div>
-                {% endif %}
-                {% if show_tab_friends %}
-                    <div class="layui-tab-item" id="tab-friends" data-url="{{ friends_url }}"></div>
-                {% endif %}
-                {% if show_tab_groups %}
-                    <div class="layui-tab-item" id="tab-groups" data-url="{{ groups_url }}"></div>
                 {% endif %}
             </div>
         </div>
@@ -112,6 +96,5 @@
 
     {{ js_include('home/js/user.show.js') }}
     {{ js_include('home/js/user.share.js') }}
-    {{ js_include('home/js/im.apply.js') }}
 
 {% endblock %}

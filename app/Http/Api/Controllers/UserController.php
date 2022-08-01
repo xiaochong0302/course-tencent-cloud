@@ -10,8 +10,6 @@ namespace App\Http\Api\Controllers;
 use App\Services\Logic\User\AnswerList as AnswerListService;
 use App\Services\Logic\User\ArticleList as ArticleListService;
 use App\Services\Logic\User\CourseList as CourseListService;
-use App\Services\Logic\User\FriendList as FriendListService;
-use App\Services\Logic\User\GroupList as GroupListService;
 use App\Services\Logic\User\QuestionList as QuestionListService;
 use App\Services\Logic\User\UserInfo as UserInfoService;
 
@@ -79,30 +77,6 @@ class UserController extends Controller
     public function answersAction($id)
     {
         $service = new AnswerListService();
-
-        $pager = $service->handle($id);
-
-        return $this->jsonPaginate($pager);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/friends", name="api.user.friends")
-     */
-    public function friendsAction($id)
-    {
-        $service = new FriendListService();
-
-        $pager = $service->handle($id);
-
-        return $this->jsonPaginate($pager);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/groups", name="api.user.groups")
-     */
-    public function groupsAction($id)
-    {
-        $service = new GroupListService();
 
         $pager = $service->handle($id);
 

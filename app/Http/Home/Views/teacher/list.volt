@@ -16,6 +16,5 @@
 {% block include_js %}
 
     {{ js_include('home/js/teacher.list.js') }}
-    {{ js_include('home/js/im.apply.js') }}
 
 {% endblock %}

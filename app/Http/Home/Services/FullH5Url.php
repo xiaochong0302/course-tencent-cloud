@@ -78,11 +78,6 @@ class FullH5Url extends Service
         return sprintf('%s/discovery/index', $this->baseUrl);
     }
 
-    public function getImGroupListUrl()
-    {
-        return sprintf('%s/discovery/index', $this->baseUrl);
-    }
-
     public function getPointGiftListUrl()
     {
         return sprintf('%s/point/gift/list', $this->baseUrl);
@@ -143,11 +138,6 @@ class FullH5Url extends Service
     public function getTeacherIndexUrl($id)
     {
         return sprintf('%s/teacher/index?id=%s', $this->baseUrl, $id);
-    }
-
-    public function getImGroupIndexUrl($id)
-    {
-        return sprintf('%s/im/group/index?id=%s', $this->baseUrl, $id);
     }
 
     public function getPointGiftInfoUrl($id)

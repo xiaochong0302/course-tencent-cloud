@@ -170,26 +170,6 @@ class MyStorage extends Storage
     }
 
     /**
-     * 上传im图片
-     *
-     * @return UploadModel|bool
-     */
-    public function uploadImImage()
-    {
-        return $this->upload('/im/img/', self::MIME_IMAGE, UploadModel::TYPE_IM_IMG);
-    }
-
-    /**
-     * 上传im文件
-     *
-     * @return UploadModel|bool
-     */
-    public function uploadImFile()
-    {
-        return $this->upload('/im/file/', self::MIME_FILE, UploadModel::TYPE_IM_FILE);
-    }
-
-    /**
      * @param string $url
      *
      * @return UploadModel|bool

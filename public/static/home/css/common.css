@@ -374,7 +374,7 @@
 
 .search-course-card,
 .search-article-card,
-.search-group-card {
+.search-user-card {
     display: flex;
     padding-bottom: 15px;
     margin-bottom: 15px;
@@ -382,7 +382,7 @@
 }
 
 .search-course-card:last-child,
-.search-group-card:last-child {
+.search-user-card:last-child {
     padding-bottom: 0;
     margin-bottom: 0;
     border: none;
@@ -395,7 +395,7 @@
 }
 
 .search-course-card .cover img,
-.search-group-card .avatar img {
+.search-user-card .avatar img {
     width: 100%;
     height: 100%;
 }
@@ -405,13 +405,13 @@
 }
 
 .search-course-card .title,
-.search-group-card .name {
+.search-user-card .name {
     margin-bottom: 10px;
     white-space: nowrap;
 }
 
 .search-course-card .summary,
-.search-group-card .about {
+.search-user-card .about {
     margin-bottom: 10px;
     line-height: 1.5em;
     max-height: 4.5em;
@@ -421,38 +421,38 @@
 }
 
 .search-course-card .meta,
-.search-group-card .meta,
+.search-user-card .meta,
 .search-article-card .meta,
 .search-question-card .meta {
     color: #999;
 }
 
 .search-course-card .meta span,
-.search-group-card .meta span,
+.search-user-card .meta span,
 .search-article-card .meta span,
 .search-question-card .meta span {
     margin-right: 10px;
 }
 
 .search-course-card em,
-.search-group-card em,
+.search-user-card em,
 .search-article-card em,
 .search-question-card em {
     color: red;
     font-style: normal;
 }
 
-.search-group-card .avatar {
+.search-user-card .avatar {
     width: 90px;
     height: 90px;
     margin-right: 15px;
 }
 
-.search-group-card .avatar img {
+.search-user-card .avatar img {
     border-radius: 100%;
 }
 
-.search-group-card .info {
+.search-user-card .info {
     width: 600px;
 }
 
@@ -2198,104 +2198,6 @@
 
 .notice-card .content p:last-child {
     margin-bottom: 0;
-}
-
-.im-user-list .user-card {
-    height: 150px;
-    font-size: 12px;
-    color: #666;
-}
-
-.im-user-list .avatar {
-    margin-top: 15px;
-    margin-bottom: 10px;
-}
-
-.im-user-list .avatar img {
-    width: 64px;
-    height: 64px;
-    border-radius: 100%;
-}
-
-.im-user-list .name {
-    margin-bottom: 10px;
-    padding: 0 5px;
-}
-
-.layim-msgbox {
-    margin: 15px;
-}
-
-.layim-msgbox li {
-    position: relative;
-    margin-bottom: 10px;
-    padding: 0 130px 10px 60px;
-    line-height: 22px;
-    border-bottom: 1px dotted #e2e2e2;
-}
-
-.layim-msgbox-system {
-    padding: 0 10px 10px 10px;
-}
-
-.layim-msgbox li p span {
-    padding-left: 5px;
-    color: #999;
-}
-
-.layim-msgbox li p em {
-    font-style: normal;
-    color: #FF5722;
-}
-
-.layim-msgbox-avatar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 50px;
-    height: 50px;
-}
-
-.layim-msgbox-user {
-    padding-top: 5px;
-}
-
-.layim-msgbox-content {
-    margin-top: 3px;
-}
-
-.layim-msgbox .layui-btn-small {
-    padding: 0 15px;
-    margin-left: 5px;
-}
-
-.layim-msgbox-btn {
-    position: absolute;
-    right: 0;
-    top: 12px;
-    color: #999;
-}
-
-.layui-layim-list li .msg-count {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 12px;
-}
-
-.layim-chat-list li .msg-count {
-    position: absolute;
-    top: 5px;
-    right: 30px;
-    font-size: 12px;
-}
-
-.layim-chat-status .online {
-    color: green;
-}
-
-.layim-chat-status .offline {
-    color: gray;
 }
 
 .gift-meta .cover {

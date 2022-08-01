@@ -20,7 +20,6 @@ use App\Models\CourseRating as CourseRatingModel;
 use App\Models\CourseRelated as CourseRelatedModel;
 use App\Models\CourseTag as CourseTagModel;
 use App\Models\CourseUser as CourseUserModel;
-use App\Models\ImGroup as ImGroupModel;
 use App\Models\Package as PackageModel;
 use App\Models\Resource as ResourceModel;
 use App\Models\Review as ReviewModel;
@@ -191,18 +190,6 @@ class Course extends Repository
     public function findCourseRating($courseId)
     {
         return CourseRatingModel::findFirst([
-            'conditions' => 'course_id = :course_id:',
-            'bind' => ['course_id' => $courseId],
-        ]);
-    }
-
-    /**
-     * @param int $courseId
-     * @return ImGroupModel|Model|bool
-     */
-    public function findImGroup($courseId)
-    {
-        return ImGroupModel::findFirst([
             'conditions' => 'course_id = :course_id:',
             'bind' => ['course_id' => $courseId],
         ]);

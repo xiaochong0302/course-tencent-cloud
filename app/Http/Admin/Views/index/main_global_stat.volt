@@ -34,12 +34,6 @@
             </div>
             <div class="layui-col-md2">
                 <div class="kg-stat-card">
-                    <div class="name">群组数</div>
-                    <div class="count">{{ global_stat.group_count }}</div>
-                </div>
-            </div>
-            <div class="layui-col-md2">
-                <div class="kg-stat-card">
                     <div class="name">评价数</div>
                     <div class="count">{{ global_stat.review_count }}</div>
                 </div>

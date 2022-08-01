@@ -13,8 +13,6 @@ use App\Services\Logic\User\Console\ArticleList as ArticleListService;
 use App\Services\Logic\User\Console\ConsultList as ConsultListService;
 use App\Services\Logic\User\Console\CourseList as CourseListService;
 use App\Services\Logic\User\Console\FavoriteList as FavoriteListService;
-use App\Services\Logic\User\Console\FriendList as FriendListService;
-use App\Services\Logic\User\Console\GroupList as GroupListService;
 use App\Services\Logic\User\Console\NotificationList as NotificationListService;
 use App\Services\Logic\User\Console\NotificationRead as NotificationReadService;
 use App\Services\Logic\User\Console\NotifyStats as NotifyStatsService;
@@ -158,30 +156,6 @@ class UserConsoleController extends Controller
     public function refundsAction()
     {
         $service = new RefundListService();
-
-        $pager = $service->handle();
-
-        return $this->jsonPaginate($pager);
-    }
-
-    /**
-     * @Get("/friends", name="api.uc.friends")
-     */
-    public function friendsAction()
-    {
-        $service = new FriendListService();
-
-        $pager = $service->handle();
-
-        return $this->jsonPaginate($pager);
-    }
-
-    /**
-     * @Get("/groups", name="api.uc.groups")
-     */
-    public function groupsAction()
-    {
-        $service = new GroupListService();
 
         $pager = $service->handle();
 

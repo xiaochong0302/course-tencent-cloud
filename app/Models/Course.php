@@ -390,16 +390,6 @@ class Course extends Model
         if ($courseRating->create() === false) {
             throw new \RuntimeException('Create Course Rating Failed');
         }
-
-        $imGroup = new ImGroup();
-
-        $imGroup->course_id = $this->id;
-        $imGroup->name = $this->title;
-        $imGroup->type = ImGroup::TYPE_COURSE;
-
-        if ($imGroup->create() === false) {
-            throw new \RuntimeException('Create Im Group Failed');
-        }
     }
 
     public function afterFetch()

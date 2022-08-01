@@ -37,20 +37,4 @@ class UploadController extends Controller
         return $this->jsonSuccess(['data' => $data]);
     }
 
-    /**
-     * @Post("/im/img", name="api.upload.im_img")
-     */
-    public function uploadImImageAction()
-    {
-
-    }
-
-    /**
-     * @Post("/im/file", name="api.upload.im_file")
-     */
-    public function uploadImFileAction()
-    {
-
-    }
-
 }
