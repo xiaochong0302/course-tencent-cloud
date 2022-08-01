@@ -27,8 +27,6 @@ class BasicInfo extends LogicService
 
     public function handleBasicInfo(CourseModel $course)
     {
-        $details = kg_parse_markdown($course->details);
-
         $userCount = $course->user_count;
 
         if ($course->fake_user_count > $course->user_count) {
@@ -44,7 +42,7 @@ class BasicInfo extends LogicService
             'title' => $course->title,
             'cover' => $course->cover,
             'summary' => $course->summary,
-            'details' => $details,
+            'details' => $course->details,
             'keywords' => $course->keywords,
             'origin_price' => (float)$course->origin_price,
             'market_price' => (float)$course->market_price,

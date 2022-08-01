@@ -7,22 +7,71 @@
 
 namespace App\Console\Tasks;
 
+use App\Caches\AppInfo as AppInfoCache;
 use App\Caches\NavTreeList as NavTreeListCache;
 use App\Caches\Setting as SettingCache;
-use App\Caches\AppInfo as AppInfoCache;
+use App\Models\MigrationTask as MigrationTaskModel;
 use App\Models\Setting as SettingModel;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 class UpgradeTask extends Task
 {
 
     public function mainAction()
     {
+        $this->migrateAction();
         $this->resetAppInfoAction();
         $this->resetSettingAction();
         $this->resetAnnotationAction();
         $this->resetMetadataAction();
         $this->resetVoltAction();
         $this->resetNavAction();
+    }
+
+    /**
+     * 执行迁移
+     *
+     * @command: php console.php upgrade migrate
+     */
+    public function migrateAction()
+    {
+        $tasks = $this->findMigrationTasks();
+
+        $versionList = [];
+
+        if ($tasks->count() > 0) {
+            $versionList = kg_array_column($tasks->toArray(), 'version');
+        }
+
+        $files = scandir(app_path('Console/Migrations'));
+
+        foreach ($files as $file) {
+
+            if (preg_match('/^V[0-9]+\.php$/', $file)) {
+
+                $version = substr($file, 0, -4);
+
+                if (!in_array($version, $versionList)) {
+
+                    $startTime = time();
+
+                    $className = "\App\Console\Migrations\\{$version}";
+                    $obj = new $className();
+                    $obj->run();
+
+                    $endTime = time();
+
+                    $task = new MigrationTaskModel();
+                    $task->version = $version;
+                    $task->start_time = $startTime;
+                    $task->end_time = $endTime;
+                    $task->create();
+
+                    echo "------ console migration {$version} ok ------" . PHP_EOL;
+                }
+            }
+        }
     }
 
     /**
@@ -142,6 +191,14 @@ class UpgradeTask extends Task
         $cache->delete();
 
         echo '------ end reset navigation ------' . PHP_EOL;
+    }
+
+    /**
+     * @return ResultsetInterface|Resultset|MigrationTaskModel[]
+     */
+    protected function findMigrationTasks()
+    {
+        return MigrationTaskModel::query()->execute();
     }
 
     protected function handlePhKeys($keys)

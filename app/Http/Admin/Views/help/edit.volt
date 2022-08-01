@@ -26,8 +26,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">内容</label>
             <div class="layui-input-block">
-                <div id="vditor"></div>
-                <textarea name="content" class="layui-hide" id="vditor-textarea">{{ help.content }}</textarea>
+                <textarea name="content" class="layui-hide" id="editor-textarea">{{ help.content }}</textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -54,15 +53,10 @@
 
 {% endblock %}
 
-{% block link_css %}
-
-    {{ css_link('lib/vditor/dist/index.css') }}
-
-{% endblock %}
-
 {% block include_js %}
 
-    {{ js_include('lib/vditor/dist/index.min.js') }}
-    {{ js_include('admin/js/vditor.js') }}
+    {{ js_include('lib/kindeditor/kindeditor.min.js') }}
+    {{ js_include('lib/kindeditor/lang/zh-CN.js') }}
+    {{ js_include('admin/js/content.editor.js') }}
 
 {% endblock %}

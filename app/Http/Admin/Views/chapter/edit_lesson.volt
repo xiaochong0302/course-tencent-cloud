@@ -47,20 +47,13 @@
 
 {% endblock %}
 
-{% block link_css %}
-
-    {% if chapter.model == 3 %}
-        {{ css_link('lib/vditor/dist/index.css') }}
-    {% endif %}
-
-{% endblock %}
-
 {% block include_js %}
 
     {% if chapter.model == 3 %}
 
-        {{ js_include('lib/vditor/dist/index.min.js') }}
-        {{ js_include('admin/js/vditor.js') }}
+        {{ js_include('lib/kindeditor/kindeditor.min.js') }}
+        {{ js_include('lib/kindeditor/lang/zh-CN.js') }}
+        {{ js_include('admin/js/content.editor.js') }}
 
     {% elseif chapter.model == 1 %}
 

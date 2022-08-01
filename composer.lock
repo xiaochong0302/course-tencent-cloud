@@ -1,20 +1,20 @@
 {
-    "_readme": [
-        "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-        "This file is @generated automatically"
-    ],
-    "content-hash": "08aae4a9db4b38cc2a4b8b6b4fa9868e",
-    "packages": [
-        {
-            "name": "bacon/bacon-qr-code",
-            "version": "2.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Bacon/BaconQrCode.git",
-                "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4"
-            },
-            "dist": {
+  "_readme": [
+    "This file locks the dependencies of your project to a known state",
+    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+    "This file is @generated automatically"
+  ],
+  "content-hash": "43344cdd5886ec75ae87aab19a6d2394",
+  "packages": [
+    {
+      "name": "bacon/bacon-qr-code",
+      "version": "2.0.3",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/Bacon/BaconQrCode.git",
+        "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4"
+      },
+      "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
                 "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
@@ -725,25 +725,82 @@
                 "issues": "https://github.com/endroid/qr-code/issues",
                 "source": "https://github.com/endroid/qr-code/tree/3.9.6"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/endroid",
-                    "type": "github"
-                }
-            ],
-            "time": "2020-11-27T14:30:38+00:00"
+          "funding": [
+            {
+              "url": "https://github.com/endroid",
+              "type": "github"
+            }
+          ],
+          "time": "2020-11-27T14:30:38+00:00"
         },
+    {
+      "name": "ezyang/htmlpurifier",
+      "version": "v4.14.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/ezyang/htmlpurifier.git",
+        "reference": "12ab42bd6e742c70c0a52f7b82477fcd44e64b75"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/12ab42bd6e742c70c0a52f7b82477fcd44e64b75",
+        "reference": "12ab42bd6e742c70c0a52f7b82477fcd44e64b75",
+        "shasum": "",
+        "mirrors": [
+          {
+            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+            "preferred": true
+          }
+        ]
+      },
+      "require": {
+        "php": ">=5.2"
+      },
+      "type": "library",
+      "autoload": {
+        "files": [
+          "library/HTMLPurifier.composer.php"
+        ],
+        "psr-0": {
+          "HTMLPurifier": "library/"
+        },
+        "exclude-from-classmap": [
+          "/library/HTMLPurifier/Language/"
+        ]
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "LGPL-2.1-or-later"
+      ],
+      "authors": [
         {
-            "name": "guzzlehttp/command",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/guzzle/command.git",
-                "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/command/zipball/2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
+          "name": "Edward Z. Yang",
+          "email": "admin@htmlpurifier.org",
+          "homepage": "http://ezyang.com"
+        }
+      ],
+      "description": "Standards compliant HTML filter written in PHP",
+      "homepage": "http://htmlpurifier.org/",
+      "keywords": [
+        "html"
+      ],
+      "support": {
+        "issues": "https://github.com/ezyang/htmlpurifier/issues",
+        "source": "https://github.com/ezyang/htmlpurifier/tree/v4.14.0"
+      },
+      "time": "2021-12-25T01:21:49+00:00"
+    },
+    {
+      "name": "guzzlehttp/command",
+      "version": "1.0.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/guzzle/command.git",
+        "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/guzzle/command/zipball/2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
                 "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
                 "shasum": "",
                 "mirrors": [

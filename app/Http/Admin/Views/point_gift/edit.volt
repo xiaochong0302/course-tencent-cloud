@@ -14,20 +14,13 @@
 
 {% endblock %}
 
-{% block link_css %}
-
-    {% if gift.type == 2 %}
-        {{ css_link('lib/vditor/dist/index.css') }}
-    {% endif %}
-
-{% endblock %}
-
 {% block include_js %}
 
     {% if gift.type == 2 %}
-        {{ js_include('lib/vditor/dist/index.min.js') }}
+        {{ js_include('lib/kindeditor/kindeditor.min.js') }}
+        {{ js_include('lib/kindeditor/lang/zh-CN.js') }}
+        {{ js_include('admin/js/content.editor.js') }}
         {{ js_include('admin/js/cover.upload.js') }}
-        {{ js_include('admin/js/vditor.js') }}
     {% endif %}
 
 {% endblock %}

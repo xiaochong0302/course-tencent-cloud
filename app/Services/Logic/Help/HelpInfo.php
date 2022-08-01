@@ -25,8 +25,6 @@ class HelpInfo extends LogicService
 
     protected function handleHelp(HelpModel $help)
     {
-        $help->content = kg_parse_markdown($help->content);
-
         return [
             'id' => $help->id,
             'title' => $help->title,

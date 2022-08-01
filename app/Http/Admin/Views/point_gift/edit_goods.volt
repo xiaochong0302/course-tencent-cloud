@@ -27,8 +27,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">商品详情</label>
         <div class="layui-input-block">
-            <div id="vditor"></div>
-            <textarea name="details" class="layui-hide" id="vditor-textarea">{{ gift.details }}</textarea>
+            <textarea name="details" class="layui-hide" id="editor-textarea">{{ gift.details }}</textarea>
         </div>
     </div>
     <div class="layui-form-item">

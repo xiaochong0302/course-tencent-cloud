@@ -15,7 +15,7 @@
     <div class="layout-main clearfix">
         <div class="layout-content">
             <div class="page-info wrap">
-                <div class="content markdown-body">{{ help.content }}</div>
+                <div class="content ke-content">{{ help.content }}</div>
             </div>
         </div>
         <div class="layout-sidebar">
@@ -38,6 +38,6 @@
 
 {% block link_css %}
 
-    {{ css_link('home/css/markdown.css') }}
+    {{ css_link('home/css/content.css') }}
 
 {% endblock %}

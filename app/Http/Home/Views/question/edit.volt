@@ -25,8 +25,7 @@
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <div id="vditor"></div>
-                        <textarea name="content" class="layui-hide" id="vditor-textarea">{{ question.content }}</textarea>
+                        <textarea name="content" class="layui-hide" id="editor-textarea">{{ question.content }}</textarea>
                     </div>
                 </div>
             </div>

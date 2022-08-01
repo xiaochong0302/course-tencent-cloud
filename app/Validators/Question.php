@@ -99,7 +99,7 @@ class Question extends Validator
             throw new BadRequestException('question.content_too_long');
         }
 
-        return $value;
+        return kg_clean_html($value);
     }
 
     public function checkPublishStatus($status)

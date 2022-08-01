@@ -23,7 +23,7 @@
         <div class="layout-content">
             <div class="article-info wrap">
                 <div class="title">{{ chapter.title }}</div>
-                <div class="content markdown-body">
+                <div class="content ke-content">
                     {{ chapter.content }}
                 </div>
             </div>
@@ -57,7 +57,7 @@
 
 {% block link_css %}
 
-    {{ css_link('home/css/markdown.css') }}
+    {{ css_link('home/css/content.css') }}
 
 {% endblock %}
 

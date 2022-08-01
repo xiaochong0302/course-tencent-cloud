@@ -26,7 +26,7 @@ class ChapterRead extends Validator
             throw new BadRequestException('chapter_read.content_too_long');
         }
 
-        return $value;
+        return kg_clean_html($value);
     }
 
 }

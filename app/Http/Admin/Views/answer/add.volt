@@ -13,8 +13,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block" style="margin:0;">
-                <div id="vditor"></div>
-                <textarea name="content" class="layui-hide" id="vditor-textarea"></textarea>
+                <textarea name="content" class="layui-hide" id="editor-textarea"></textarea>
             </div>
         </div>
         <div class="layui-input-block kg-center" style="margin:0;">
@@ -27,15 +26,10 @@
 
 {% endblock %}
 
-{% block link_css %}
-
-    {{ css_link('lib/vditor/dist/index.css') }}
-
-{% endblock %}
-
 {% block include_js %}
 
-    {{ js_include('lib/vditor/dist/index.min.js') }}
-    {{ js_include('admin/js/vditor.js') }}
+    {{ js_include('lib/kindeditor/kindeditor.min.js') }}
+    {{ js_include('lib/kindeditor/lang/zh-CN.js') }}
+    {{ js_include('admin/js/content.editor.js') }}
 
 {% endblock %}

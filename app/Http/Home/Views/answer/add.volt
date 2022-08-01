@@ -19,8 +19,7 @@
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <div id="vditor"></div>
-                        <textarea name="content" class="layui-hide" id="vditor-textarea"></textarea>
+                        <textarea name="content" class="layui-hide" id="editor-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item center">

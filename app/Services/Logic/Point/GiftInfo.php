@@ -27,8 +27,6 @@ class GiftInfo extends LogicService
             $gift = $this->getCourseGift($gift);
         }
 
-        $gift->details = kg_parse_markdown($gift->details);
-
         $meInfo = $this->handleMeInfo($gift);
 
         return [

@@ -30,7 +30,7 @@
                 <a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a>
             </span>
         </div>
-        <div class="content markdown-body">{{ item.content }}</div>
+        <div class="content ke-content">{{ item.content }}</div>
         <div class="footer">
             <div class="left">
                 <div class="column">
