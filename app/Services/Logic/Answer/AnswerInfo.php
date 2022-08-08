@@ -32,15 +32,13 @@ class AnswerInfo extends LogicService
 
     protected function handleAnswer(AnswerModel $answer, UserModel $user)
     {
-        $content = kg_parse_markdown($answer->content);
-
         $question = $this->handleQuestionInfo($answer->question_id);
         $owner = $this->handleShallowUserInfo($answer->owner_id);
         $me = $this->handleMeInfo($answer, $user);
 
         return [
             'id' => $answer->id,
-            'content' => $content,
+            'content' => $answer->content,
             'anonymous' => $answer->anonymous,
             'accepted' => $answer->accepted,
             'published' => $answer->published,

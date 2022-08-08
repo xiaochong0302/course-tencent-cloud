@@ -40,8 +40,6 @@ class ArticleInfo extends LogicService
 
     protected function handleArticle(ArticleModel $article, UserModel $user)
     {
-        $content = kg_parse_markdown($article->content);
-
         $category = $this->handleCategoryInfo($article->category_id);
         $owner = $this->handleShallowUserInfo($article->owner_id);
         $me = $this->handleMeInfo($article, $user);
@@ -52,7 +50,7 @@ class ArticleInfo extends LogicService
             'cover' => $article->cover,
             'summary' => $article->summary,
             'tags' => $article->tags,
-            'content' => $content,
+            'content' => $article->content,
             'private' => $article->private,
             'closed' => $article->closed,
             'published' => $article->published,

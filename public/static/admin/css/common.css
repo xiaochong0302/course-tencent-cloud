@@ -29,19 +29,6 @@
     color: rgba(255, 255, 255, .7);
 }
 
-.layui-main .vditor-reset {
-    font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
-    color: #666;
-}
-
-.vditor-reset ul > li {
-    list-style: disc;
-}
-
-.vditor-reset ol > li {
-    list-style: decimal;
-}
-
 .red {
     color: red;
 }

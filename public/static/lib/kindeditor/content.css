@@ -1,0 +1,21 @@
+body {
+    font-size: 12px;
+}
+
+img {
+    max-width: 50%;
+}
+
+table {
+    width: 100%;
+    border: 1px solid #dedede;
+    margin: 15px auto;
+    border-collapse: collapse;
+    empty-cells: show;
+}
+
+table th,
+table td {
+    border: 1px solid #dedede;
+    padding: 5px 10px;
+}

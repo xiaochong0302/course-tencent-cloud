@@ -10,13 +10,9 @@ namespace App\Http\Admin\Services;
 use App\Builders\CourseUserList as CourseUserListBuilder;
 use App\Builders\LearningList as LearningListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
-use App\Models\ImGroupUser as ImGroupUserModel;
-use App\Models\User as UserModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
-use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\Learning as LearningRepo;
 use App\Repos\User as UserRepo;
 use App\Validators\CourseUser as CourseUserValidator;
@@ -159,8 +155,6 @@ class Student extends Service
         $user->course_count += 1;
         $user->update();
 
-        $this->handleImGroupUser($course, $user);
-
         return $courseUser;
     }
 
@@ -181,35 +175,6 @@ class Student extends Service
         $relation->update($data);
 
         return $relation;
-    }
-
-    protected function handleImGroupUser(CourseModel $course, UserModel $user)
-    {
-        $courseRepo = new CourseRepo();
-
-        $imGroup = $courseRepo->findImGroup($course->id);
-
-        $userRepo = new UserRepo();
-
-        $imUser = $userRepo->findImUser($user->id);
-
-        $imGroupUserRepo = new ImGroupUserRepo();
-
-        $imGroupUser = $imGroupUserRepo->findGroupUser($imGroup->id, $user->id);
-
-        if ($imGroupUser) return;
-
-        $imGroupUser = new ImGroupUserModel();
-
-        $imGroupUser->group_id = $imGroup->id;
-        $imGroupUser->user_id = $imUser->id;
-        $imGroupUser->create();
-
-        $imUser->group_count += 1;
-        $imUser->update();
-
-        $imGroup->user_count += 1;
-        $imGroup->update();
     }
 
     protected function findOrFail($id)

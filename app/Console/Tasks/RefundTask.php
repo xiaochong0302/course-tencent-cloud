@@ -11,9 +11,7 @@ use App\Models\Order as OrderModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
-use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
-use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Refund as RefundRepo;
 use App\Repos\Trade as TradeRepo;
@@ -178,18 +176,6 @@ class RefundTask extends Task
                 throw new \RuntimeException('Delete Course User Failed');
             }
         }
-
-        $courseRepo = new CourseRepo();
-        $group = $courseRepo->findImGroup($order->item_id);
-
-        $groupUserRepo = new ImGroupUserRepo();
-        $groupUser = $groupUserRepo->findGroupUser($group->id, $order->owner_id);
-
-        if ($groupUser) {
-            if ($groupUser->delete() === false) {
-                throw new \RuntimeException('Delete Group User Failed');
-            }
-        }
     }
 
     /**
@@ -200,8 +186,6 @@ class RefundTask extends Task
     protected function handlePackageOrderRefund(OrderModel $order)
     {
         $courseUserRepo = new CourseUserRepo();
-        $groupUserRepo = new ImGroupUserRepo();
-        $courseRepo = new CourseRepo();
 
         $itemInfo = $order->item_info;
 
@@ -213,15 +197,6 @@ class RefundTask extends Task
                 $courseUser->deleted = 1;
                 if ($courseUser->update() === false) {
                     throw new \RuntimeException('Delete Course User Failed');
-                }
-            }
-
-            $group = $courseRepo->findImGroup($course['id']);
-            $groupUser = $groupUserRepo->findGroupUser($group->id, $order->owner_id);
-
-            if ($groupUser) {
-                if ($groupUser->delete() === false) {
-                    throw new \RuntimeException('Delete Group User Failed');
                 }
             }
         }

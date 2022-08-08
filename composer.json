@@ -20,7 +20,8 @@
     "robmorgan/phinx": "^0.12",
     "overtrue/wechat": "^4.2",
     "endroid/qr-code": "^3.9",
-    "league/commonmark": "^1.5"
+    "league/commonmark": "^1.5",
+    "ezyang/htmlpurifier": "^4.14"
   },
   "require-dev": {
     "odan/phinx-migrations-generator": "^5.3",

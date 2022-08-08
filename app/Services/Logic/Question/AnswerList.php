@@ -61,8 +61,6 @@ class AnswerList extends LogicService
 
         foreach ($answers as $answer) {
 
-            $answer['content'] = kg_parse_markdown($answer['content']);
-
             $owner = $users[$answer['owner_id']];
 
             $me = $meMappings[$answer['id']];

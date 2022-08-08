@@ -89,15 +89,6 @@
                 <td>N/A</td>
             </tr>
             <tr>
-                <td>微聊讨论</td>
-                <td>
-                    <input type="radio" name="event_rule[im_discuss][enabled]" value="1" title="是" {% if event_rule.im_discuss.enabled == "1" %}checked="checked"{% endif %}>
-                    <input type="radio" name="event_rule[im_discuss][enabled]" value="0" title="否" {% if event_rule.im_discuss.enabled == "0" %}checked="checked"{% endif %}>
-                </td>
-                <td><input class="layui-input" type="text" name="event_rule[im_discuss][point]" value="{{ event_rule.im_discuss.point }}" lay-verify="required"></td>
-                <td>N/A</td>
-            </tr>
-            <tr>
                 <td>发表评论</td>
                 <td>
                     <input type="radio" name="event_rule[comment_post][enabled]" value="1" title="是" {% if event_rule.comment_post.enabled == "1" %}checked="checked"{% endif %}>

@@ -6,6 +6,7 @@
  */
 
 use App\Caches\Setting as SettingCache;
+use App\Library\Purifier as HtmlPurifier;
 use App\Library\Validators\Common as CommonValidator;
 use App\Services\Storage as StorageService;
 use Koogua\Ip2Region\Searcher as Ip2RegionSearcher;
@@ -422,23 +423,16 @@ function kg_cos_img_style_trim($path)
 }
 
 /**
- * 解析markdown内容
+ * 清理html内容
  *
  * @param string $content
- * @param string $htmlInput (escape|strip)
- * @param bool $allowUnsafeLinks
  * @return string
  */
-function kg_parse_markdown($content, $htmlInput = 'escape', $allowUnsafeLinks = false)
+function kg_clean_html($content)
 {
-    $content = str_replace('!content_800', '', $content);
+    $purifier = new HtmlPurifier();
 
-    $parser = new League\CommonMark\GithubFlavoredMarkdownConverter([
-        'html_input' => $htmlInput,
-        'allow_unsafe_links' => $allowUnsafeLinks,
-    ]);
-
-    return $parser->convertToHtml($content);
+    return $purifier->clean($content);
 }
 
 /**
@@ -450,11 +444,7 @@ function kg_parse_markdown($content, $htmlInput = 'escape', $allowUnsafeLinks = 
  */
 function kg_parse_summary($content, $length = 100)
 {
-    $content = kg_parse_markdown($content);
-
-    $content = strip_tags($content);
-
-    $content = trim($content);
+    $content = trim(strip_tags($content));
 
     return kg_substr($content, 0, $length);
 }
@@ -469,7 +459,7 @@ function kg_parse_first_content_image($content)
 {
     $result = '';
 
-    $matched = preg_match('/\((.*?)\/img\/content\/(.*?)\)/', $content, $matches);
+    $matched = preg_match('/src="(.*?)\/img\/content\/(.*?)"/', $content, $matches);
 
     if ($matched) {
         $url = sprintf('%s/img/content/%s', trim($matches[1]), trim($matches[2]));

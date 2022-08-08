@@ -23,14 +23,4 @@ layui.use(['jquery', 'helper'], function () {
         helper.ajaxLoadHtml($tabAnswers.data('url'), $tabAnswers.attr('id'));
     }
 
-    if ($('#tab-friends').length > 0) {
-        var $tabFriends = $('#tab-friends');
-        helper.ajaxLoadHtml($tabFriends.data('url'), $tabFriends.attr('id'));
-    }
-
-    if ($('#tab-groups').length > 0) {
-        var $tabGroups = $('#tab-groups');
-        helper.ajaxLoadHtml($tabGroups.data('url'), $tabGroups.attr('id'));
-    }
-
 });

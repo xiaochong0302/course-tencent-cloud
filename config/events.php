@@ -10,7 +10,6 @@ use App\Listeners\Answer;
 use App\Listeners\Article;
 use App\Listeners\Comment;
 use App\Listeners\Consult;
-use App\Listeners\ImMessage;
 use App\Listeners\Question;
 use App\Listeners\Report;
 use App\Listeners\Review;
@@ -20,7 +19,6 @@ use App\Listeners\UserDailyCounter;
 
 return [
     'UserDailyCounter' => UserDailyCounter::class,
-    'ImMessage' => ImMessage::class,
     'Account' => Account::class,
     'Answer' => Answer::class,
     'Article' => Article::class,

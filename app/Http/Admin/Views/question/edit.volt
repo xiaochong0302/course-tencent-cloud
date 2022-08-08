@@ -23,17 +23,12 @@
 
 {% endblock %}
 
-{% block link_css %}
-
-    {{ css_link('lib/vditor/dist/index.css') }}
-
-{% endblock %}
-
 {% block include_js %}
 
-    {{ js_include('lib/vditor/dist/index.min.js') }}
     {{ js_include('lib/xm-select.js') }}
-    {{ js_include('admin/js/vditor.js') }}
+    {{ js_include('lib/kindeditor/kindeditor.min.js') }}
+    {{ js_include('lib/kindeditor/lang/zh-CN.js') }}
+    {{ js_include('admin/js/content.editor.js') }}
 
 {% endblock %}
 

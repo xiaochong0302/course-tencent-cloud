@@ -17,7 +17,7 @@
             <span><a href="{{ owner_url }}" target="_blank">{{ article.owner.name }}</a></span>
             <span>{{ date('Y-m-d H:i:s',article.create_time) }}</span>
         </div>
-        <div class="content markdown-body">{{ article.content }}</div>
+        <div class="content ke-content">{{ article.content }}</div>
         {% if article.tags %}
             <div class="tags">
                 {% for item in article.tags %}
@@ -70,7 +70,7 @@
 
 {% block link_css %}
 
-    {{ css_link('home/css/markdown.css') }}
+    {{ css_link('home/css/content.css') }}
 
 {% endblock %}
 

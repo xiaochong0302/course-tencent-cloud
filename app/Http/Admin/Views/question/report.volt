@@ -25,7 +25,7 @@
                         <span><a href="{{ owner_url }}" target="_blank">{{ question.owner.name }}</a></span>
                         <span>{{ date('Y-m-d H:i',question.create_time) }}</span>
                     </div>
-                    <div class="content markdown-body">{{ question.content }}</div>
+                    <div class="content ke-content">{{ question.content }}</div>
                     {% if question.tags %}
                         <div class="tags">
                             {% for item in question.tags %}
@@ -93,7 +93,7 @@
 
 {% block link_css %}
 
-    {{ css_link('home/css/markdown.css') }}
+    {{ css_link('home/css/content.css') }}
 
 {% endblock %}
 

@@ -2,8 +2,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">详情</label>
         <div class="layui-input-block">
-            <div id="vditor"></div>
-            <textarea name="details" class="layui-hide" id="vditor-textarea">{{ course.details }}</textarea>
+            <textarea name="details" class="layui-hide" id="editor-textarea">{{ course.details }}</textarea>
         </div>
     </div>
     <div class="layui-form-item">

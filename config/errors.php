@@ -449,39 +449,6 @@ $error['learning.invalid_interval_time'] = '无效的间隔时间';
 $error['learning.invalid_position'] = '无效的播放位置';
 
 /**
- * 即时通讯
- */
-$error['im_friend_group.not_found'] = '分组不存在';
-$error['im_friend_group.name_too_short'] = '分组名太短（少于2字符）';
-$error['im_friend_group.name_too_long'] = '分组名太长（超过15字符）';
-
-$error['im_group.not_found'] = '群组不存在';
-$error['im_group.name_too_short'] = '群组名太短（少于2字符）';
-$error['im_group.name_too_long'] = '群组名太长（超过30字符）';
-$error['im_group.about_too_long'] = '群组简介太长（超过255字符）';
-$error['im_group.invalid_avatar'] = '无效的头像';
-$error['im_group.invalid_type'] = '无效的类型';
-$error['im_group.invalid_publish_status'] = '无效的发布状态';
-
-$error['im_group_user.not_found'] = '群组关系不存在';
-$error['im_group_user.remark_too_long'] = '验证信息太长（超过30字符）';
-$error['im_group_user.has_joined'] = '已经加入过群组';
-$error['im_group_user.join_not_allowed'] = '当前不允许加入群组';
-$error['im_group_user.owner_quit_not_allowed'] = '当前不允许群主退群';
-$error['im_group_user.delete_owner_not_allowed'] = '当前不允许删除群主';
-
-$error['im_friend_user.not_found'] = '好友关系不存在';
-$error['im_friend_user.remark_too_long'] = '验证信息太长（超过30字符）';
-$error['im_friend_user.self_apply'] = '不能添加自己为好友';
-$error['im_friend_user.has_joined'] = '已经是好友啦';
-
-$error['im_message.not_found'] = '消息不存在';
-$error['im_message.invalid_type'] = '无效的消息类型';
-$error['im_message.content_too_short'] = '消息内容太短（少于1字符）';
-$error['im_message.content_too_long'] = '消息内容太长（超过1000字符）';
-$error['im_message.self_chat'] = '不能给自己发送消息';
-
-/**
  * 联系信息相关
  */
 $error['user_contact.invalid_name'] = '无效的用户姓名';

@@ -127,7 +127,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
         window.history.back();
     });
 
-    $('.markdown-body').on('click', 'img', function () {
+    $('.ke-content').on('click', 'img', function () {
         var width = $(window).width() * 0.8 + 'px';
         var height = $(window).height() * 0.8 + 'px';
         var src = $(this).attr('src');

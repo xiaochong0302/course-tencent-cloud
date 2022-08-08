@@ -35,10 +35,7 @@
 {{ partial('partials/js_vars') }}
 {{ js_include('lib/layui/layui.js') }}
 {{ js_include('home/js/common.js') }}
-
-{% if router.getControllerName() != 'im' %}
-    {{ js_include('home/js/fixbar.js') }}
-{% endif %}
+{{ js_include('home/js/fixbar.js') }}
 
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}

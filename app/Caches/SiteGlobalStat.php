@@ -12,7 +12,6 @@ use App\Repos\Article as ArticleRepo;
 use App\Repos\Comment as CommentRepo;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
-use App\Repos\ImGroup as GroupRepo;
 use App\Repos\Package as PackageRepo;
 use App\Repos\Question as QuestionRepo;
 use App\Repos\Review as ReviewRepo;
@@ -42,7 +41,6 @@ class SiteGlobalStat extends Cache
         $answerRepo = new AnswerRepo();
         $commentRepo = new CommentRepo();
         $consultRepo = new ConsultRepo();
-        $groupRepo = new GroupRepo();
         $packageRepo = new PackageRepo();
         $reviewRepo = new ReviewRepo();
         $topicRepo = new TopicRepo();
@@ -55,7 +53,6 @@ class SiteGlobalStat extends Cache
             'answer_count' => $answerRepo->countAnswers(),
             'comment_count' => $commentRepo->countComments(),
             'consult_count' => $consultRepo->countConsults(),
-            'group_count' => $groupRepo->countGroups(),
             'vip_count' => $userRepo->countVipUsers(),
             'package_count' => $packageRepo->countPackages(),
             'review_count' => $reviewRepo->countReviews(),

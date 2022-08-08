@@ -104,7 +104,7 @@ class Article extends Validator
             throw new BadRequestException('article.content_too_long');
         }
 
-        return $value;
+        return kg_clean_html($value);
     }
 
     public function checkSourceType($type)

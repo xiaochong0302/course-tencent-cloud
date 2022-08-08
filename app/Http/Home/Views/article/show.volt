@@ -61,7 +61,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="content markdown-body">{{ article.content }}</div>
+                <div class="content ke-content">{{ article.content }}</div>
                 {% if article.tags %}
                     <div class="tags">
                         {% for item in article.tags %}
@@ -111,7 +111,7 @@
 
 {% block link_css %}
 
-    {{ css_link('home/css/markdown.css') }}
+    {{ css_link('home/css/content.css') }}
 
 {% endblock %}
 

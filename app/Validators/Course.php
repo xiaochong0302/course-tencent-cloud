@@ -125,7 +125,7 @@ class Course extends Validator
             throw new BadRequestException('course.details_too_long');
         }
 
-        return $value;
+        return kg_clean_html($value);
     }
 
     public function checkSummary($summary)

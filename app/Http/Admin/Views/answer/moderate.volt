@@ -14,7 +14,7 @@
             <span><a href="{{ owner_url }}" target="_blank">{{ answer.owner.name }}</a></span>
             <span>{{ date('Y-m-d H:i:s',answer.create_time) }}</span>
         </div>
-        <div class="content markdown-body">{{ answer.content }}</div>
+        <div class="content ke-content">{{ answer.content }}</div>
     </div>
 
     <fieldset class="layui-elem-field layui-field-title">
@@ -57,7 +57,7 @@
 
 {% block link_css %}
 
-    {{ css_link('home/css/markdown.css') }}
+    {{ css_link('home/css/content.css') }}
 
 {% endblock %}
 

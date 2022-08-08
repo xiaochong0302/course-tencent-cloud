@@ -11,12 +11,8 @@ use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
-use App\Models\ImGroup as ImGroupModel;
-use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\User as UserModel;
 use App\Repos\ChapterLike as ChapterLikeRepo;
-use App\Repos\ImGroup as ImGroupRepo;
-use App\Repos\ImGroupUser as ImGroupUserRepo;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Service as LogicService;
@@ -142,26 +138,6 @@ class ChapterInfo extends LogicService
 
         $this->joinedCourse = true;
 
-        $groupRepo = new ImGroupRepo();
-
-        $group = $groupRepo->findByCourseId($course->id);
-
-        $groupUserRepo = new ImGroupUserRepo();
-
-        $groupUser = $groupUserRepo->findGroupUser($group->id, $user->id);
-
-        if (!$groupUser) {
-
-            $groupUser = new ImGroupUserModel();
-
-            $groupUser->group_id = $group->id;
-            $groupUser->user_id = $user->id;
-
-            $groupUser->create();
-
-            $this->incrGroupUserCount($group);
-        }
-
         $this->incrCourseUserCount($course);
 
         $this->incrUserCourseCount($user);
@@ -219,13 +195,6 @@ class ChapterInfo extends LogicService
 
         $parent->update();
 
-    }
-
-    protected function incrGroupUserCount(ImGroupModel $group)
-    {
-        $group->user_count += 1;
-
-        $group->update();
     }
 
 }

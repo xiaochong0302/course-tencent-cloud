@@ -1112,55 +1112,6 @@ class AuthNode extends Service
                     ],
                 ],
                 [
-                    'id' => '4-3',
-                    'title' => '群组管理',
-                    'type' => 'menu',
-                    'children' => [
-                        [
-                            'id' => '4-3-1',
-                            'title' => '群组列表',
-                            'type' => 'menu',
-                            'route' => 'admin.im_group.list',
-                        ],
-                        [
-                            'id' => '4-3-2',
-                            'title' => '搜索群组',
-                            'type' => 'menu',
-                            'route' => 'admin.im_group.search',
-                        ],
-                        [
-                            'id' => '4-3-3',
-                            'title' => '添加群组',
-                            'type' => 'menu',
-                            'route' => 'admin.im_group.add',
-                        ],
-                        [
-                            'id' => '4-3-4',
-                            'title' => '编辑群组',
-                            'type' => 'button',
-                            'route' => 'admin.im_group.edit',
-                        ],
-                        [
-                            'id' => '4-3-5',
-                            'title' => '删除群组',
-                            'type' => 'button',
-                            'route' => 'admin.im_group.delete',
-                        ],
-                        [
-                            'id' => '4-3-6',
-                            'title' => '群员列表',
-                            'type' => 'button',
-                            'route' => 'admin.im_group.users',
-                        ],
-                        [
-                            'id' => '4-3-7',
-                            'title' => '删除群员',
-                            'type' => 'button',
-                            'route' => 'admin.im_group_user.delete',
-                        ],
-                    ],
-                ],
-                [
                     'id' => '4-4',
                     'title' => '操作记录',
                     'type' => 'menu',
@@ -1293,12 +1244,6 @@ class AuthNode extends Service
                     'title' => '其它配置',
                     'type' => 'menu',
                     'children' => [
-                        [
-                            'id' => '5-4-1',
-                            'title' => '即时通讯',
-                            'type' => 'menu',
-                            'route' => 'admin.setting.im',
-                        ],
                         [
                             'id' => '5-4-2',
                             'title' => '微信公众号',

@@ -302,33 +302,6 @@ class SettingController extends Controller
     }
 
     /**
-     * @Route("/im", name="admin.setting.im")
-     */
-    public function imAction()
-    {
-        $settingService = new SettingService();
-
-        if ($this->request->isPost()) {
-
-            $section = $this->request->getPost('section', 'string');
-
-            $data = $this->request->getPost();
-
-            $settingService->updateSettings($section, $data);
-
-            return $this->jsonSuccess(['msg' => '更新配置成功']);
-
-        } else {
-
-            $main = $settingService->getSettings('im.main');
-            $cs = $settingService->getSettings('im.cs');
-
-            $this->view->setVar('main', $main);
-            $this->view->setVar('cs', $cs);
-        }
-    }
-
-    /**
      * @Route("/oauth", name="admin.setting.oauth")
      */
     public function oauthAction()

@@ -25,8 +25,6 @@ class PageInfo extends LogicService
 
     protected function handlePage(PageModel $page)
     {
-        $page->content = kg_parse_markdown($page->content);
-
         return [
             'id' => $page->id,
             'title' => $page->title,

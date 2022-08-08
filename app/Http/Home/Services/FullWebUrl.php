@@ -64,13 +64,6 @@ class FullWebUrl extends Service
         return $this->baseUrl . $route;
     }
 
-    public function getImGroupShowUrl($id)
-    {
-        $route = $this->url->get(['for' => 'home.im_group.show', 'id' => $id]);
-
-        return $this->baseUrl . $route;
-    }
-
     public function getPointGiftShowUrl($id)
     {
         $route = $this->url->get(['for' => 'home.point_gift.show', 'id' => $id]);

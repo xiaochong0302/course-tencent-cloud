@@ -9,12 +9,8 @@ namespace App\Services\Logic\Deliver;
 
 use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
-use App\Models\ImGroupUser as ImGroupUserModel;
 use App\Models\User as UserModel;
 use App\Repos\CourseUser as CourseUserRepo;
-use App\Repos\ImGroup as ImGroupRepo;
-use App\Repos\ImGroupUser as ImGroupUserRepo;
-use App\Repos\ImUser as ImUserRepo;
 use App\Services\Logic\Service as LogicService;
 
 class CourseDeliver extends LogicService
@@ -24,7 +20,6 @@ class CourseDeliver extends LogicService
     {
         $this->revokeCourseUser($course, $user);
         $this->handleCourseUser($course, $user);
-        $this->handleImGroupUser($course, $user);
     }
 
     protected function handleCourseUser(CourseModel $course, UserModel $user)
@@ -48,34 +43,6 @@ class CourseDeliver extends LogicService
 
         $user->course_count += 1;
         $user->update();
-    }
-
-    protected function handleImGroupUser(CourseModel $course, UserModel $user)
-    {
-        $groupRepo = new ImGroupRepo();
-
-        $group = $groupRepo->findByCourseId($course->id);
-
-        $imUserRepo = new ImUserRepo();
-
-        $imUser = $imUserRepo->findById($user->id);
-
-        $groupUserRepo = new ImGroupUserRepo();
-
-        $groupUser = $groupUserRepo->findGroupUser($group->id, $user->id);
-
-        if (!$groupUser) {
-            $groupUser = new ImGroupUserModel();
-            $groupUser->group_id = $group->id;
-            $groupUser->user_id = $user->id;
-            $groupUser->create();
-
-            $imUser->group_count += 1;
-            $imUser->update();
-
-            $group->user_count += 1;
-            $group->update();
-        }
     }
 
     protected function revokeCourseUser(CourseModel $course, UserModel $user)

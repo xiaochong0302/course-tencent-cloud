@@ -1,3 +1,9 @@
+### [v1.5.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.6)(2022-08-08)
+
+- 增加应用内命令行migrations
+- 移除群组和微聊模块
+- kindeditor替换vditor - markdown转html
+
 ### [v1.5.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.5)(2022-07-27)
 
 - 修正获分类查询条件

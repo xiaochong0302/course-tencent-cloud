@@ -41,8 +41,6 @@ class QuestionInfo extends LogicService
 
     protected function handleQuestion(QuestionModel $question, UserModel $user)
     {
-        $content = kg_parse_markdown($question->content);
-
         $lastReplier = $this->handleShallowUserInfo($question->last_replier_id);
         $category = $this->handleCategoryInfo($question->category_id);
         $owner = $this->handleShallowUserInfo($question->owner_id);
@@ -52,7 +50,7 @@ class QuestionInfo extends LogicService
             'id' => $question->id,
             'title' => $question->title,
             'summary' => $question->summary,
-            'content' => $content,
+            'content' => $question->content,
             'tags' => $question->tags,
             'bounty' => $question->bounty,
             'anonymous' => $question->anonymous,

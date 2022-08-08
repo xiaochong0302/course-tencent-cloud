@@ -11,7 +11,6 @@ use App\Library\Sitemap;
 use App\Models\Article as ArticleModel;
 use App\Models\Course as CourseModel;
 use App\Models\Help as HelpModel;
-use App\Models\ImGroup as ImGroupModel;
 use App\Models\Page as PageModel;
 use App\Models\Question as QuestionModel;
 use App\Models\Topic as TopicModel;
@@ -46,7 +45,6 @@ class SitemapTask extends Task
         $this->addQuestions();
         $this->addTeachers();
         $this->addTopics();
-        $this->addImGroups();
         $this->addHelps();
         $this->addPages();
         $this->addOthers();
@@ -155,21 +153,6 @@ class SitemapTask extends Task
         }
     }
 
-    protected function addImGroups()
-    {
-        /**
-         * @var Resultset|ImGroupModel[] $groups
-         */
-        $groups = ImGroupModel::query()->where('published = 1')->execute();
-
-        if ($groups->count() == 0) return;
-
-        foreach ($groups as $group) {
-            $loc = sprintf('%s/im/group/%s', $this->siteUrl, $group->id);
-            $this->sitemap->addItem($loc, 0.6);
-        }
-    }
-
     protected function addPages()
     {
         /**
@@ -203,7 +186,6 @@ class SitemapTask extends Task
     protected function addOthers()
     {
         $this->sitemap->addItem("{$this->siteUrl}/course/list", 0.6);
-        $this->sitemap->addItem("{$this->siteUrl}/im/group/list", 0.6);
         $this->sitemap->addItem("{$this->siteUrl}/teacher/list", 0.6);
         $this->sitemap->addItem("{$this->siteUrl}/vip", 0.6);
         $this->sitemap->addItem("{$this->siteUrl}/help", 0.6);
