@@ -120,18 +120,6 @@
     width: 320px;
 }
 
-.layui-main .vditor-reset {
-    font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
-}
-
-.vditor-reset ul > li {
-    list-style: disc;
-}
-
-.vditor-reset ol > li {
-    list-style: decimal;
-}
-
 .writer-sidebar {
     padding: 20px;
 }
