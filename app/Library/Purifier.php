@@ -55,7 +55,13 @@ class Purifier
             $config->set($key, $value);
         }
 
-        $config->set('Cache.SerializerPath', cache_path('purifier'));
+        $serializerPath = cache_path('purifier');
+
+        if (file_exists($serializerPath) == false) {
+            mkdir($serializerPath, 0777);
+        }
+
+        $config->set('Cache.SerializerPath', $serializerPath);
 
         return $config;
     }

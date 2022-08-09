@@ -118,10 +118,6 @@
                                 <td>public/static/admin/img/default/user_cover.png</td>
                             </tr>
                             <tr>
-                                <td>群组头像</td>
-                                <td>public/static/admin/img/default/group_cover.png</td>
-                            </tr>
-                            <tr>
                                 <td>课程封面</td>
                                 <td>public/static/admin/img/default/course_cover.png</td>
                             </tr>
