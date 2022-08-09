@@ -50,20 +50,6 @@ class MyStorage extends Storage
     }
 
     /**
-     * 上传默认群组头像
-     *
-     * @return false|mixed|string
-     */
-    public function uploadDefaultGroupAvatar()
-    {
-        $filename = static_path('admin/img/default/group_avatar.png');
-
-        $key = '/img/default/group_avatar.png';
-
-        return $this->putFile($key, $filename);
-    }
-
-    /**
      * 上传默认课程封面
      *
      * @return false|mixed|string
