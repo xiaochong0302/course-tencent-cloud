@@ -4,7 +4,7 @@
 
     {{ partial('macros/point_gift') }}
 
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
@@ -12,7 +12,7 @@
                     <span class="title">兑换记录</span>
                 </div>
                 {% if pager.total_pages > 0 %}
-                    <table class="layui-table" lay-size="lg">
+                    <table class="layui-table" lay-size="lg" lay-skin="line">
                         <colgroup>
                             <col>
                             <col>
@@ -31,9 +31,9 @@
                         {% for item in pager.items %}
                             {% set gift_url = url({'for':'home.point_gift.show','id':item.gift.id}) %}
                             <tr>
-                                <td><a href="{{ gift_url }}" target="_blank">{{ item.gift.name }}</a> {{ gift_type_info(item.gift.type) }}</td>
+                                <td><a href="{{ gift_url }}" target="_blank">{{ item.gift.name }}</a> {{ gift_type(item.gift.type) }}</td>
                                 <td>{{ item.gift.point }}</td>
-                                <td>{{ redeem_status_info(item.status) }}</td>
+                                <td>{{ redeem_status(item.status) }}</td>
                                 <td>{{ date('Y-m-d',item.create_time) }}</td>
                             </tr>
                         {% endfor %}

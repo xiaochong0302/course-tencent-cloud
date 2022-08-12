@@ -15,14 +15,14 @@
         </span>
     </div>
 
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="layout-content">
             <div class="layui-card">
                 <div class="layui-card-header">物品信息</div>
                 <div class="layui-card-body">
-                    <div class="gift-meta clearfix">
+                    <div class="gift-meta">
                         <div class="cover">
-                            <span class="layui-badge layui-bg-green type">{{ gift_type_info(gift.type) }}</span>
+                            <span class="layui-badge layui-bg-green type">{{ gift_type(gift.type) }}</span>
                             <img src="{{ gift.cover }}!cover_270" alt="{{ gift.name }}">
                         </div>
                         <div class="info">
@@ -62,26 +62,26 @@
         <div class="layout-sidebar">
             <div class="sidebar">
                 <div class="layui-card">
-                    <div class="layui-card-header">我的信息</div>
+                    <div class="layui-card-header">物品兑换</div>
                     <div class="layui-card-body">
-                        <div class="sidebar-user-card clearfix">
-                            <div class="avatar">
-                                <img src="{{ auth_user.avatar }}!avatar_160" alt="{{ auth_user.name }}">
+                        <form class="layui-form">
+                            <div class="layui-form-item">
+                                <div class="layui-form-mid">
+                                    我的积分：<span class="red">{{ user_balance.point }} 积分</span>
+                                </div>
                             </div>
-                            <div class="info">
-                                <div class="name">{{ auth_user.name }}</div>
-                                <div class="meta"><span>当前积分</span><span class="point">{{ user_balance.point }}</span></div>
-                            </div>
-                        </div>
+                            {% if gift.me.allow_redeem == 1 %}
+                                <div class="layui-form-item">
+                                    <button class="layui-btn layui-bg-red layui-btn-fluid btn-redeem" data-url="{{ gift_redeem_url }}">立即兑换</button>
+                                </div>
+                            {% else %}
+                                <div class="layui-form-item">
+                                    <button class="layui-btn layui-btn-fluid layui-btn-disabled">立即兑换</button>
+                                </div>
+                            {% endif %}
+                        </form>
                     </div>
                 </div>
-            </div>
-            <div class="sidebar wrap">
-                {% if gift.me.allow_redeem == 1 %}
-                    <button class="layui-btn layui-bg-red layui-btn-fluid btn-redeem" data-url="{{ gift_redeem_url }}">立即兑换</button>
-                {% else %}
-                    <button class="layui-btn layui-btn-fluid layui-btn-disabled">立即兑换</button>
-                {% endif %}
             </div>
             <div class="sidebar">
                 <div class="layui-card">
@@ -89,7 +89,7 @@
                     <div class="layui-card-body">
                         {% for gift in hot_gifts %}
                             {% set gift_url = url({'for':'home.point_gift.show','id':gift.id}) %}
-                            <div class="sidebar-course-card clearfix">
+                            <div class="sidebar-course-card">
                                 <div class="cover">
                                     <a href="{{ gift_url }}" title="{{ gift.name }}">
                                         <img src="{{ gift.cover }}!cover_270" alt="{{ gift.name }}">

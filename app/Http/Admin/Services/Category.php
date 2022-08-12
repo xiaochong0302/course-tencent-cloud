@@ -17,6 +17,51 @@ use App\Validators\Category as CategoryValidator;
 class Category extends Service
 {
 
+    public function getCategoryOptions($type)
+    {
+        $cache = new CategoryTreeListCache();
+
+        $categories = $cache->get($type);
+
+        $result = [];
+
+        if (!$categories) return $result;
+
+        foreach ($categories as $category) {
+            $result[] = [
+                'id' => $category['id'],
+                'name' => $category['name'],
+            ];
+            if (count($category['children']) > 0) {
+                foreach ($category['children'] as $child) {
+                    $result[] = [
+                        'id' => $child['id'],
+                        'name' => sprintf('|--- %s', $child['name']),
+                    ];
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    public function showAddButton($type, CategoryModel $parent)
+    {
+        $result = true;
+
+        if ($type == CategoryModel::TYPE_COURSE) {
+            $result = $parent->level < 2;
+        } elseif ($type == CategoryModel::TYPE_HELP) {
+            $result = $parent->level < 1;
+        } elseif ($type == CategoryModel::TYPE_ARTICLE) {
+            $result = $parent->level < 1;
+        } elseif ($type == CategoryModel::TYPE_QUESTION) {
+            $result = $parent->level < 1;
+        }
+
+        return $result;
+    }
+
     public function getCategory($id)
     {
         return $this->findOrFail($id);

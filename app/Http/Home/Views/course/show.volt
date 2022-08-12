@@ -19,11 +19,7 @@
 
     {{ partial('course/show_meta') }}
 
-    <div class="layout-main clearfix">
-
-        <div class="layout-sticky">
-            {{ partial('course/sticky') }}
-        </div>
+    <div class="layout-main">
 
         {% set show_tab_chapters = course.lesson_count > 0 %}
         {% set show_tab_packages = course.package_count > 0 %}
@@ -91,6 +87,10 @@
             {% endif %}
         </div>
 
+    </div>
+
+    <div class="layout-sticky">
+        {{ partial('course/sticky') }}
     </div>
 
     {% set share_url = full_url({'for':'home.share'},{'id':course.id,'type':'course'}) %}

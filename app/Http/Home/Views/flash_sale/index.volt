@@ -131,7 +131,7 @@
                         {% for item in date_sale.items %}
                             {% set class = item.selected == 1 ? 'layui-tab-item layui-show' : 'layui-tab-item' %}
                             <div class="{{ class }}">
-                                <div class="index-course-list clearfix">
+                                <div class="index-course-list">
                                     <div class="layui-row layui-col-space20">
                                         {% for sale in item.items %}
                                             <div class="layui-col-md3">

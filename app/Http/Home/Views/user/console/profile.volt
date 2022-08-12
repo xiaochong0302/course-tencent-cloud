@@ -7,7 +7,7 @@
     {% set gender_female_checked = user.gender == 2 ? 'checked' : '' %}
     {% set gender_none_checked = user.gender == 3 ? 'checked' : '' %}
 
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">
             <div class="wrap">

@@ -11,7 +11,7 @@
         </span>
     </div>
 
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="layout-content">
             <div class="page-info wrap">
                 <div class="content ke-content">{{ page.content }}</div>

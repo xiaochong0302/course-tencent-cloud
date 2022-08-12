@@ -97,13 +97,13 @@
                     <ul class="lesson-list">
                         {% for lesson in chapter.children %}
                             {% if lesson.model == 1 %}
-                                <li class="lesson-item clearfix">{{ vod_lesson_info(lesson) }}</li>
+                                <li class="lesson-item">{{ vod_lesson_info(lesson) }}</li>
                             {% elseif lesson.model == 2 %}
-                                <li class="lesson-item clearfix">{{ live_lesson_info(lesson) }}</li>
+                                <li class="lesson-item">{{ live_lesson_info(lesson) }}</li>
                             {% elseif lesson.model == 3 %}
-                                <li class="lesson-item clearfix">{{ read_lesson_info(lesson) }}</li>
+                                <li class="lesson-item">{{ read_lesson_info(lesson) }}</li>
                             {% elseif lesson.model == 4 %}
-                                <li class="lesson-item clearfix">{{ offline_lesson_info(lesson) }}</li>
+                                <li class="lesson-item">{{ offline_lesson_info(lesson) }}</li>
                             {% endif %}
                         {% endfor %}
                     </ul>

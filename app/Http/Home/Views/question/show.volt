@@ -28,10 +28,7 @@
         </span>
     </div>
 
-    <div class="layout-main clearfix">
-        <div class="layout-sticky">
-            {{ partial('question/sticky') }}
-        </div>
+    <div class="layout-main">
         <div class="layout-content">
             <div class="article-info wrap">
                 <div class="title">{{ question.title }}</div>
@@ -95,6 +92,10 @@
             </div>
             <div class="sidebar" id="sidebar-related" data-url="{{ question_related_url }}"></div>
         </div>
+    </div>
+
+    <div class="layout-sticky">
+        {{ partial('question/sticky') }}
     </div>
 
     {% set share_url = full_url({'for':'home.share'},{'id':question.id,'type':'question'}) %}

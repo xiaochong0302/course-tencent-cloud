@@ -22,9 +22,6 @@
     </div>
 
     <div class="layout-main">
-        <div class="layout-sticky">
-            {{ partial('chapter/live/sticky') }}
-        </div>
         <div class="layout-content">
             <div class="player-wrap wrap">
                 <div id="player"></div>
@@ -46,6 +43,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="layout-sticky">
+        {{ partial('chapter/live/sticky') }}
     </div>
 
     <div class="layui-hide">

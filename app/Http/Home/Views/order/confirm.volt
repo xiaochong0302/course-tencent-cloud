@@ -6,14 +6,14 @@
 
     {%- macro cart_course_card(course, user) %}
         {% set course_url = url({'for':'home.course.show','id':course.id}) %}
-        <div class="cart-course-card clearfix">
+        <div class="cart-course-card">
             <div class="cover">
                 <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
             </div>
             <div class="info">
                 <p><a href="{{ course_url }}" target="_blank">{{ course.title }}</a></p>
                 <p>
-                    <span class="key">优惠价格</span>
+                    <span class="key">市场价格</span>
                     <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
                     <span class="key">会员价格</span>
                     <span class="price">{{ '￥%0.2f'|format(course.vip_price) }}</span>
@@ -46,7 +46,7 @@
         {% set course = item_info.course %}
         {% set reward = item_info.reward %}
         {% set course_url = url({'for':'home.course.show','id':course.id}) %}
-        <div class="cart-course-card clearfix">
+        <div class="cart-course-card">
             <div class="cover">
                 <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
             </div>
@@ -70,7 +70,7 @@
 
     {%- macro cart_vip_card(item_info) %}
         {% set vip = item_info.vip %}
-        <div class="cart-course-card clearfix">
+        <div class="cart-course-card">
             <div class="cover">
                 <img src="{{ vip.cover }}!cover_270" alt="{{ vip.title }}">
             </div>
@@ -109,7 +109,7 @@
         {% endif %}
     </div>
 
-    <div class="cart-stats wrap clearfix">
+    <div class="cart-stats wrap">
         <div class="info">
             商品总价：<span class="amount">{{ '￥%0.2f'|format(confirm.total_amount) }}</span>
             优惠金额：<span class="amount">{{ '￥%0.2f'|format(confirm.discount_amount) }}</span>

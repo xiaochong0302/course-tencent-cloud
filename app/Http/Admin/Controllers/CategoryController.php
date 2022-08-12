@@ -35,9 +35,12 @@ class CategoryController extends Controller
             $categories = $categoryService->getTopCategories($type);
         }
 
+        $showAddButton = $categoryService->showAddButton($type, $parent);
+
         $this->view->setVar('type', $type);
         $this->view->setVar('parent', $parent);
         $this->view->setVar('categories', $categories);
+        $this->view->setVar('show_add_button', $showAddButton);
     }
 
     /**

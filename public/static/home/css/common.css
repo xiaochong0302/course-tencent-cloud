@@ -110,13 +110,16 @@
     text-align: center;
 }
 
+.layout-main {
+    display: flex;
+    justify-content: space-between;
+}
+
 .layout-content {
-    float: left;
     width: 800px;
 }
 
 .layout-sidebar {
-    float: right;
     width: 320px;
 }
 
@@ -839,7 +842,7 @@
 }
 
 .course-card .info {
-    padding: 10px 5px;
+    padding: 10px;
 }
 
 .course-card .title {
@@ -914,21 +917,24 @@
     margin-right: 20px;
 }
 
+.course-meta {
+    display: flex;
+}
+
 .course-meta .cover {
-    float: left;
     position: relative;
+    width: 270px;
+    height: 150px;
     margin-right: 10px;
 }
 
 .course-meta .info {
-    float: left;
-    width: 560px;
+    width: 580px;
     padding-top: 5px;
 }
 
 .course-meta .rating {
-    float: right;
-    padding: 10px 50px 0 0;
+    padding-top: 20px;
 }
 
 .course-meta p {
@@ -936,8 +942,8 @@
 }
 
 .course-meta .cover img {
-    width: 270px;
-    height: 150px;
+    width: 100%;
+    height: 100%;
 }
 
 .course-meta .cover .model {
@@ -1053,8 +1059,9 @@
 }
 
 .package-item {
+    display: flex;
     margin-bottom: 20px;
-    border-bottom: 1px dashed #ccc;
+    border-bottom: 1px solid #f6f6f6;
 }
 
 .package-item:last-child {
@@ -1064,7 +1071,6 @@
 }
 
 .package-info {
-    float: left;
     width: 180px;
     font-size: 12px;
     text-align: center;
@@ -1189,37 +1195,36 @@
 }
 
 .sidebar-user-card {
-    margin-bottom: 15px;
+    display: flex;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.sidebar-user-card:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .sidebar-user-card .avatar {
-    float: left;
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     margin-right: 10px;
 }
 
 .sidebar-user-card .avatar img {
     width: 100%;
     height: 100%;
-    border-radius: 60px;
+    border-radius: 100%;
 }
 
 .sidebar-user-card .info {
-    float: left;
-    padding: 5px 0;
-}
-
-.sidebar-user-card .info .name {
+    line-height: 24px;
 }
 
 .sidebar-user-card .info .title {
     color: #666;
     font-size: 12px;
-}
-
-.sidebar-user-card .info span {
-    margin-right: 5px;
 }
 
 .topic-badge,
@@ -1230,12 +1235,14 @@
 }
 
 .sidebar-course-card {
-    padding-bottom: 10px;
+    display: flex;
     margin-bottom: 10px;
-    border-bottom: 1px dashed #ccc;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f6f6f6;
 }
 
 .sidebar-course-card:last-child {
+    padding-bottom: 0;
     border-bottom: none;
 }
 
@@ -1678,23 +1685,24 @@
 }
 
 .user-profile {
-    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .user-profile .avatar {
-    float: left;
+    width: 96px;
+    height: 96px;
     margin-right: 30px;
 }
 
 .user-profile .avatar img {
-    width: 96px;
-    height: 96px;
-    border-radius: 100px;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
 }
 
 .user-profile .info {
-    float: left;
-    padding-top: 10px;
+    flex: 1;
 }
 
 .user-profile .info h3 {
@@ -1713,9 +1721,6 @@
 }
 
 .user-profile .about {
-    position: absolute;
-    top: 25px;
-    right: 20px;
     width: 400px;
     height: 70px;
     padding: 10px;
@@ -1797,11 +1802,6 @@
     margin-bottom: 10px;
 }
 
-.user-card .owner {
-    margin-bottom: 10px;
-    color: #666;
-}
-
 .user-card .title {
     color: #666;
 }
@@ -1812,17 +1812,6 @@
 
 .user-card .meta span {
     margin-right: 5px;
-}
-
-.user-card .action {
-    margin-top: 15px;
-}
-
-.user-card .action .layui-btn {
-    padding: 0 5px;
-    height: 20px;
-    line-height: 20px;
-    font-size: 12px;
 }
 
 .user-card .type {
@@ -1836,41 +1825,11 @@
 }
 
 .teacher-list .user-card {
-    height: 240px;
+    height: 200px;
 }
 
 .vip-user-list .user-card {
     height: 200px;
-}
-
-.group-user-list .user-card {
-    box-shadow: none;
-    height: 200px;
-}
-
-.group-user-list .avatar {
-    margin: 15px 0;
-}
-
-.group-user-list .avatar img {
-    width: 64px;
-    height: 64px;
-    border-radius: 100%;
-}
-
-.group-list {
-    margin-bottom: 20px;
-}
-
-.group-list .user-card {
-    height: 240px;
-}
-
-.group-about {
-    padding: 15px;
-    min-height: 65px;
-    font-size: 12px;
-    color: #666;
 }
 
 .tag-card {
@@ -1904,12 +1863,10 @@
 }
 
 .my-sidebar {
-    float: left;
     width: 220px;
 }
 
 .my-content {
-    float: right;
     width: 900px;
 }
 
@@ -1934,6 +1891,7 @@
 }
 
 .my-nav {
+    position: relative;
     line-height: 30px;
     padding-bottom: 10px;
     margin-bottom: 20px;
@@ -1945,8 +1903,19 @@
     font-size: 16px;
 }
 
+.my-nav .sub-nav {
+    margin-right: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .my-nav a {
     margin-right: 20px;
+}
+
+.sub-nav a {
+    margin-right: 0;
 }
 
 .profile-form {
@@ -1993,23 +1962,21 @@
 }
 
 .consult-info .item {
+    display: flex;
     margin-bottom: 15px;
     line-height: 1.5em;
 }
 
 .consult-info .item .label {
-    float: left;
     width: 50px;
     text-align: right;
 }
 
 .consult-info .item .title {
-    float: left;
     width: 600px;
 }
 
 .consult-info .item .content {
-    float: left;
     width: 600px;
     color: #666;
     word-wrap: break-word;
@@ -2033,8 +2000,10 @@
 }
 
 .security-item {
-    line-height: 80px;
+    display: flex;
+    justify-content: space-between;
     border-bottom: 1px dashed #ccc;
+    line-height: 80px;
 }
 
 .security-item:last-child {
@@ -2051,10 +2020,6 @@
 
 .security-item .summary {
     color: #666;
-}
-
-.security-item .action {
-    float: right;
 }
 
 .connect-list {
@@ -2186,9 +2151,15 @@
     margin-bottom: 0;
 }
 
+
+.gift-meta {
+    display: flex;
+}
+
 .gift-meta .cover {
-    float: left;
     position: relative;
+    width: 270px;
+    height: 150px;
     margin-right: 10px;
 }
 
@@ -2199,12 +2170,11 @@
 }
 
 .gift-meta .cover img {
-    width: 270px;
-    height: 150px;
+    width: 100%;
+    height: 100%;
 }
 
 .gift-meta .info {
-    float: left;
     padding-top: 5px;
 }
 
@@ -2220,7 +2190,7 @@
     color: #666;
 }
 
-.gift-meta .info .price, .sidebar-user-card .info .point {
+.gift-meta .info .price {
     color: red;
 }
 

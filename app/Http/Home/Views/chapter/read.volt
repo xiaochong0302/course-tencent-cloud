@@ -16,10 +16,7 @@
         </span>
     </div>
 
-    <div class="layout-main clearfix">
-        <div class="layout-sticky">
-            {{ partial('chapter/sticky') }}
-        </div>
+    <div class="layout-main">
         <div class="layout-content">
             <div class="article-info wrap">
                 <div class="title">{{ chapter.title }}</div>
@@ -35,6 +32,10 @@
         <div class="layout-sidebar">
             {{ partial('chapter/catalog') }}
         </div>
+    </div>
+
+    <div class="layout-sticky">
+        {{ partial('chapter/sticky') }}
     </div>
 
     <div class="layui-hide">

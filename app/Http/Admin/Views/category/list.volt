@@ -4,7 +4,6 @@
 
     {% set back_url = url({'for':'admin.category.list'},{'type':type}) %}
     {% set add_url = url({'for':'admin.category.add'},{'type':type,'parent_id':parent.id}) %}
-    {% set allow_add = (type == 1 and parent.level < 2) or (type == 2 and parent.level < 1) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
@@ -17,7 +16,7 @@
             </span>
         </div>
         <div class="kg-nav-right">
-            {% if allow_add %}
+            {% if show_add_button %}
                 <a class="layui-btn layui-btn-sm" href="{{ add_url }}"><i class="layui-icon layui-icon-add-1"></i>添加分类</a>
             {% endif %}
         </div>

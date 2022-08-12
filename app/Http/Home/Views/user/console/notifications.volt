@@ -4,7 +4,7 @@
 
     {{ partial('macros/notification') }}
 
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
@@ -15,7 +15,7 @@
                     {% for item in pager.items %}
                         {% set sender_url = url({'for':'home.user.show','id':item.sender.id}) %}
                         {% set receiver_url = url({'for':'home.user.show','id':item.receiver.id}) %}
-                        <div class="comment-card notice-card clearfix">
+                        <div class="comment-card notice-card">
                             <div class="avatar">
                                 <a href="{{ sender_url }}" title="{{ item.sender.name }}" target="_blank">
                                     <img src="{{ item.sender.avatar }}!avatar_160" alt="{{ item.sender.name }}">

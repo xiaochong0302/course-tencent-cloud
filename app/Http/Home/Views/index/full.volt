@@ -16,7 +16,7 @@
                 {% for item in items %}
                     {% set class = loop.first ? 'layui-tab-item layui-show' : 'layui-tab-item' %}
                     <div class="{{ class }}">
-                        <div class="index-course-list clearfix">
+                        <div class="index-course-list">
                             <div class="layui-row layui-col-space20">
                                 {% for course in item.courses %}
                                     <div class="layui-col-md3">

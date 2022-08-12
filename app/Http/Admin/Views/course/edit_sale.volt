@@ -10,15 +10,6 @@
     </div>
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">原始价格</label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="origin_price" value="{{ course.origin_price }}" lay-verify="number">
-            </div>
-            <div class="layui-form-mid layui-word-aux">元</div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
             <label class="layui-form-label">市场价格</label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="market_price" value="{{ course.market_price }}" lay-verify="number">

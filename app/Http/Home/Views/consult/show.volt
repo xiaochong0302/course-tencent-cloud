@@ -6,22 +6,22 @@
 
     <div class="consult-info">
         {% if consult.course.id is defined %}
-            <div class="item clearfix">
+            <div class="item">
                 <div class="label">课程：</div>
                 <div class="title">{{ consult.course.title }}</div>
             </div>
         {% endif %}
         {% if consult.chapter.id is defined %}
-            <div class="item clearfix">
+            <div class="item">
                 <div class="label">章节：</div>
                 <div class="title">{{ consult.chapter.title }}</div>
             </div>
         {% endif %}
-        <div class="item clearfix">
+        <div class="item">
             <div class="label">咨询：</div>
             <div class="content">{{ consult.question }}</div>
         </div>
-        <div class="item clearfix">
+        <div class="item">
             <div class="label">回复：</div>
             <div class="content">{{ consult.answer }}</div>
         </div>

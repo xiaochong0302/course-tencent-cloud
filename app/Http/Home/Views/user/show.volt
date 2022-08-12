@@ -20,7 +20,7 @@
         </span>
     </div>
 
-    <div class="user-profile wrap clearfix">
+    <div class="user-profile wrap">
         <div class="{{ avatar_class }}">
             <img src="{{ user.avatar }}!avatar_160" alt="{{ user.name }}">
         </div>

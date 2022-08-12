@@ -23,7 +23,7 @@
     {% set edit_phone_url = url({'for':'home.uc.account'},{'type':'phone'}) %}
     {% set edit_email_url = url({'for':'home.uc.account'},{'type':'email'}) %}
 
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
@@ -32,32 +32,42 @@
                 </div>
                 <div class="security-item-list">
                     <div class="security-item">
-                        <span class="icon"><i class="layui-icon layui-icon-password"></i></span>
-                        <span class="title">登录密码</span>
-                        <span class="summary">经常更改密码有助于保护您的帐号安全</span>
-                        <span class="action"><a class="layui-btn layui-btn-sm btn-edit-pwd" href="{{ edit_pwd_url }}">修改</a></span>
+                        <div class="info">
+                            <span class="icon"><i class="layui-icon layui-icon-password"></i></span>
+                            <span class="title">登录密码</span>
+                            <span class="summary">经常更改密码有助于保护您的帐号安全</span>
+                        </div>
+                        <div class="action">
+                            <a class="layui-btn layui-btn-sm btn-edit-pwd" href="{{ edit_pwd_url }}">修改</a>
+                        </div>
                     </div>
                     <div class="security-item">
-                        <span class="icon"><i class="layui-icon layui-icon-cellphone"></i></span>
-                        <span class="title">手机绑定</span>
-                        {% if account.phone %}
-                            <span class="summary">已绑定手机：{{ account.phone|anonymous }}</span>
-                            <span class="action"><a class="layui-btn layui-btn-sm btn-edit-phone" href="{{ edit_phone_url }}">修改</a></span>
-                        {% else %}
-                            <span class="summary">可用于登录和重置密码</span>
-                            <span class="action"><a class="layui-btn layui-btn-sm btn-edit-phone" href="{{ edit_phone_url }}">绑定</a></span>
-                        {% endif %}
+                        <div class="info">
+                            <span class="icon"><i class="layui-icon layui-icon-cellphone"></i></span>
+                            <span class="title">手机绑定</span>
+                            {% if account.phone %}
+                                <span class="summary">已绑定手机：{{ account.phone|anonymous }}</span>
+                            {% else %}
+                                <span class="summary">可用于登录和重置密码</span>
+                            {% endif %}
+                        </div>
+                        <div class="action">
+                            <a class="layui-btn layui-btn-sm btn-edit-phone" href="{{ edit_phone_url }}">绑定</a>
+                        </div>
                     </div>
                     <div class="security-item">
-                        <span class="icon"><i class="layui-icon layui-icon-email"></i></span>
-                        <span class="title">邮箱绑定</span>
-                        {% if account.email %}
-                            <span class="summary">已绑定邮箱：{{ account.email|anonymous }}</span>
-                            <span class="action"><a class="layui-btn layui-btn-sm btn-edit-email" href="{{ edit_email_url }}">修改</a></span>
-                        {% else %}
-                            <span class="summary">可用于登录和重置密码</span>
-                            <span class="action"><a class="layui-btn layui-btn-sm btn-edit-email" href="{{ edit_email_url }}">绑定</a></span>
-                        {% endif %}
+                        <div class="info">
+                            <span class="icon"><i class="layui-icon layui-icon-email"></i></span>
+                            <span class="title">邮箱绑定</span>
+                            {% if account.email %}
+                                <span class="summary">已绑定邮箱：{{ account.email|anonymous }}</span>
+                            {% else %}
+                                <span class="summary">可用于登录和重置密码</span>
+                            {% endif %}
+                        </div>
+                        <div class="action">
+                            <a class="layui-btn layui-btn-sm btn-edit-email" href="{{ edit_email_url }}">绑定</a>
+                        </div>
                     </div>
                 </div>
                 <div class="my-nav">
@@ -66,19 +76,20 @@
                 {% if connects %}
                     <div class="connect-tips">已经绑定的第三方帐号</div>
                     <div class="connect-list">
-                        <table class="layui-table">
+                        <table class="layui-table" lay-skin="line">
                             <tr>
                                 <td>提供方</td>
                                 <td>用户信息</td>
-                                <td>创建日期</td>
+                                <td>更新日期</td>
                                 <td width="15%">操作</td>
                             </tr>
                             {% for connect in connects %}
                                 {% set url = url({'for':'home.uc.unconnect','id':connect.id}) %}
+                                {% set time = connect.update_time > 0 ? connect.update_time : connect.create_time %}
                                 <tr>
                                     <td>{{ connect_provider(connect) }}</td>
                                     <td>{{ connect_user(connect) }}</td>
-                                    <td>{{ date('Y-m-d H:i',connect.create_time) }}</td>
+                                    <td>{{ date('Y-m-d H:i',time) }}</td>
                                     <td><a class="layui-btn layui-btn-danger layui-btn-sm kg-delete" href="javascript:" data-url="{{ url }}" data-tips="确定要解除绑定吗？">解绑</a></td>
                                 </tr>
                             {% endfor %}
