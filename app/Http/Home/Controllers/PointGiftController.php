@@ -38,7 +38,9 @@ class PointGiftController extends Controller
      */
     public function listAction()
     {
-        $this->seo->prependTitle('积分兑换');
+        $this->seo->prependTitle('积分商城');
+
+        $this->view->pick('point/gift/list');
     }
 
     /**
@@ -53,6 +55,7 @@ class PointGiftController extends Controller
         $pager->target = 'gift-list';
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('point/gift/pager');
         $this->view->setVar('pager', $pager);
     }
 
@@ -78,6 +81,7 @@ class PointGiftController extends Controller
 
         $this->seo->prependTitle(['积分兑换', $gift['name']]);
 
+        $this->view->pick('point/gift/show');
         $this->view->setVar('gift', $gift);
         $this->view->setVar('hot_gifts', $hotGifts);
         $this->view->setVar('user_balance', $userBalance);

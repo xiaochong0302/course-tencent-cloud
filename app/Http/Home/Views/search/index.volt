@@ -15,7 +15,7 @@
     </div>
 
     {% set tab_show = type %}
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="layout-content">
             <div class="search-tab-wrap wrap">
                 <div class="layui-tab layui-tab-brief search-tab">

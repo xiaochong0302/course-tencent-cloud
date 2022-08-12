@@ -4,7 +4,7 @@
 
     {{ partial('macros/course') }}
 
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="my-sidebar">{{ partial('teacher/console/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
@@ -12,7 +12,7 @@
                     <span class="title">我的课程</span>
                 </div>
                 {% if pager.total_pages > 0 %}
-                    <table class="layui-table" lay-size="lg">
+                    <table class="layui-table" lay-size="lg" lay-skin="line">
                         <colgroup>
                             <col>
                             <col>

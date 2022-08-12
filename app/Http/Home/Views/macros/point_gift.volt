@@ -1,4 +1,4 @@
-{%- macro gift_type_info(value) %}
+{%- macro gift_type(value) %}
     {% if value == 1 %}
         课程
     {% elseif value == 2 %}
@@ -8,7 +8,7 @@
     {% endif %}
 {%- endmacro %}
 
-{%- macro redeem_status_info(value) %}
+{%- macro redeem_status(value) %}
     {% if value == 1 %}
         处理中
     {% elseif value == 2 %}

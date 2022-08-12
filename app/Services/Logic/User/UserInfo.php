@@ -8,7 +8,6 @@
 namespace App\Services\Logic\User;
 
 use App\Models\User as UserModel;
-use App\Repos\User as UserRepo;
 use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
 
@@ -26,10 +25,6 @@ class UserInfo extends LogicService
 
     protected function handleUser(UserModel $user)
     {
-        $userRepo = new UserRepo();
-
-        $imUser = $userRepo->findImUser($user->id);
-
         return [
             'id' => $user->id,
             'name' => $user->name,
@@ -46,8 +41,6 @@ class UserInfo extends LogicService
             'question_count' => $user->question_count,
             'answer_count' => $user->answer_count,
             'comment_count' => $user->comment_count,
-            'friend_count' => $imUser->friend_count,
-            'group_count' => $imUser->group_count,
             'vip_expiry_time' => $user->vip_expiry_time,
             'lock_expiry_time' => $user->lock_expiry_time,
             'active_time' => $user->active_time,

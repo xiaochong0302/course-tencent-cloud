@@ -1,5 +1,5 @@
 {% if pager.total_pages > 0 %}
-    <table class="layui-table" lay-size="lg">
+    <table class="layui-table" lay-size="lg" lay-skin="line">
         <colgroup>
             <col>
             <col>

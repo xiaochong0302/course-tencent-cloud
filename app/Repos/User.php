@@ -12,7 +12,6 @@ use App\Models\Answer as AnswerModel;
 use App\Models\Article as ArticleModel;
 use App\Models\Comment as CommentModel;
 use App\Models\CourseUser as CourseUserModel;
-use App\Models\ImUser as ImUserModel;
 use App\Models\Notification as NotificationModel;
 use App\Models\Question as QuestionModel;
 use App\Models\User as UserModel;
@@ -162,15 +161,6 @@ class User extends Repository
             'conditions' => 'user_id = :user_id:',
             'bind' => ['user_id' => $userId],
         ]);
-    }
-
-    /**
-     * @param int $id
-     * @return ImUserModel|Model|bool
-     */
-    public function findImUser($id)
-    {
-        return ImUserModel::findFirst($id);
     }
 
     /**

@@ -32,7 +32,7 @@
 {% endif %}
 
 {% if comment.parent_id > 0 %}
-    <div class="comment-card clearfix">
+    <div class="comment-card">
         <div class="avatar">
             <a href="{{ owner_url }}" title="{{ comment.owner.name }}" target="_blank">
                 <img src="{{ comment.owner.avatar }}!avatar_160" alt="{{ comment.owner.name }}">

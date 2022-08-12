@@ -14,7 +14,7 @@
         </span>
     </div>
 
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="layout-content">
             <div class="content-wrap wrap">
                 <div class="layui-tab layui-tab-brief search-tab">

@@ -5,7 +5,7 @@
     {% set types = {'course':'课程','article':'文章','question':'问题'} %}
     {% set type = request.get('type','trim','course') %}
 
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">
             <div class="wrap">

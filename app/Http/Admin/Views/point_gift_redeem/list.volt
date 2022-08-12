@@ -46,14 +46,14 @@
             <tr>
                 <td>
                     <p>物品名称：<a href="{{ gift_url }}" target="_blank">{{ item.gift_name }}</a>（{{ item.gift_id }}）</p>
-                    <p>物品类型：{{ gift_type_info(item.gift_type) }}</p>
+                    <p>物品类型：{{ gift_type(item.gift_type) }}</p>
                 </td>
                 <td>
                     <p>用户名称：<a href="{{ user_filter_url }}">{{ item.user_name }}</a>（{{ item.user_id }}）</p>
                     <p>联系方式：<a href="javascript:" class="layui-badge layui-bg-green kg-contact" data-name="{{ item.contact_name }}" data-phone="{{ item.contact_phone }}" data-address="{{ item.contact_address }}">查看</a></p>
                 </td>
                 <td>{{ item.gift_point }}</td>
-                <td>{{ redeem_status_info(item.status) }}</td>
+                <td>{{ redeem_status(item.status) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td class="center">
                     {% if item.gift_type == 2 %}

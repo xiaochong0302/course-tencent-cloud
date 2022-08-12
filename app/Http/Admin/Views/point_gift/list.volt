@@ -63,7 +63,7 @@
             <tr>
                 <td>{{ item.id }}</td>
                 <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
-                <td>{{ gift_type_info(item.type) }}</td>
+                <td>{{ gift_type(item.type) }}</td>
                 <td>{{ item.point }}</td>
                 <td>{{ item.stock }}</td>
                 <td>{{ item.redeem_limit }}</td>

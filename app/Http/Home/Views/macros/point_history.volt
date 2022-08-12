@@ -1,8 +1,8 @@
 {%- macro event_point_info(value) %}
     {% if value > 0 %}
-        <span class="layui-badge layui-bg-green point">+{{ value }}</span>
+        <span class="layui-badge layui-bg-red point">+{{ value }}</span>
     {% else %}
-        <span class="layui-badge layui-bg-red point">{{ value }}</span>
+        <span class="layui-badge layui-bg-green point">{{ value }}</span>
     {% endif %}
 {%- endmacro %}
 
@@ -37,6 +37,8 @@
         <span class="type">提问被赞</span>
     {% elseif value == 15 %}
         <span class="type">回答被赞</span>
+    {% else %}
+        <span class="type">N/A</span>
     {% endif %}
 {%- endmacro %}
 
@@ -83,5 +85,7 @@
     {% elseif type == 15 %}
         {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
         <p class="answer"><a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a></p>
+    {% else %}
+        <p>N/A</p>
     {% endif %}
 {%- endmacro %}

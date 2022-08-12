@@ -242,14 +242,6 @@ class User extends Model
 
     public function afterUpdate()
     {
-        if ($this->hasUpdated('name') || $this->hasUpdated('avatar')) {
-            $imUser = ImUser::findFirst($this->id);
-            $imUser->update([
-                'name' => $this->name,
-                'avatar' => $this->avatar,
-            ]);
-        }
-
         $userCache = new UserCache();
 
         $userCache->rebuild($this->id);

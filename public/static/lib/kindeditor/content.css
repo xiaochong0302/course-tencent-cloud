@@ -6,6 +6,10 @@ img {
     max-width: 50%;
 }
 
+p {
+    margin-bottom: 15px;
+}
+
 table {
     width: 100%;
     border: 1px solid #dedede;

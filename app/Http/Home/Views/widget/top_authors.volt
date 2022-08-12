@@ -6,7 +6,7 @@
                 {% for author in authors %}
                     {% set author.title = author.title ? author.title : '暂露头角' %}
                     {% set author_url = url({'for':'home.user.show','id':author.id}) %}
-                    <div class="sidebar-user-card clearfix">
+                    <div class="sidebar-user-card">
                         <div class="avatar">
                             <img src="{{ author.avatar }}!avatar_160" alt="{{ author.name }}">
                         </div>

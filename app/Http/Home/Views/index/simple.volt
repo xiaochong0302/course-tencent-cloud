@@ -5,7 +5,7 @@
     {{ partial('macros/course') }}
 
     {%- macro show_courses(courses) %}
-        <div class="index-course-list clearfix">
+        <div class="index-course-list">
             <div class="layui-row layui-col-space20">
                 {% for course in courses %}
                     <div class="layui-col-md3">

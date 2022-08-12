@@ -7,7 +7,7 @@
     {% set status_types = {'0':'全部','1':'待处理','2':'已取消','3':'退款中','5':'已完成'} %}
     {% set status = request.get('status','int','0') %}
 
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
@@ -20,25 +20,41 @@
                     {% endfor %}
                 </div>
                 {% if pager.total_pages > 0 %}
-                    <div class="order-list">
+                    <table class="layui-table" lay-skin="line">
+                        <colgroup>
+                            <col>
+                            <col>
+                            <col>
+                            <col width="12%">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>商品</th>
+                            <th>价格</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
                         {% for item in pager.items %}
                             {% set refund_info_url = url({'for':'home.refund.info'},{'sn':item.sn}) %}
-                            <div class="order-card">
-                                <div class="header">
-                                    <span class="sn">编号：{{ item.sn }}</span>
-                                    <span class="time">时间：{{ date('Y-m-d H:i:s',item.create_time) }}</span>
-                                </div>
-                                <div class="body clearfix">
-                                    <div class="column subject">{{ item.subject }}</div>
-                                    <div class="column price">{{ '￥%0.2f'|format(item.amount) }}</div>
-                                    <div class="column status">{{ refund_status(item.status) }}</div>
-                                    <div class="column action">
-                                        <button class="layui-btn layui-btn-sm btn-refund-info" data-url="{{ refund_info_url }}">详情</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <tr>
+                                <td>
+                                    <p class="meta">{{ item.subject }}</p>
+                                    <p class="meta">
+                                        <span>编号：{{ item.sn }}</span>
+                                        <span>时间：{{ date('Y-m-d',item.create_time) }}</span>
+                                    </p>
+                                </td>
+                                <td class="red">{{ '￥%0.2f'|format(item.amount) }}</td>
+                                <td>{{ refund_status(item.status) }}</td>
+                                <td>
+                                    <button class="layui-btn layui-btn-sm btn-refund-info" data-url="{{ refund_info_url }}">详情</button>
+                                </td>
+                            </tr>
                         {% endfor %}
-                    </div>
+                        </tbody>
+                    </table>
                     {{ partial('partials/pager') }}
                 {% endif %}
             </div>

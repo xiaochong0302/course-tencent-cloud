@@ -7,7 +7,7 @@
     {% set status_types = {'all':'全部','pending':'待回复','replied':'已回复'} %}
     {% set status = request.get('status','trim','all') %}
 
-    <div class="layout-main clearfix">
+    <div class="layout-main">
         <div class="my-sidebar">{{ partial('teacher/console/menu') }}</div>
         <div class="my-content">
             <div class="wrap">
@@ -20,7 +20,7 @@
                     {% endfor %}
                 </div>
                 {% if pager.total_pages > 0 %}
-                    <table class="layui-table consult-table">
+                    <table class="layui-table consult-table" lay-skin="line">
                         <colgroup>
                             <col>
                             <col>

@@ -70,7 +70,7 @@
 
 {%- macro sidebar_course_card(course) %}
     {% set course_url = url({'for':'home.course.show','id':course.id}) %}
-    <div class="sidebar-course-card clearfix">
+    <div class="sidebar-course-card">
         <div class="cover">
             <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
         </div>

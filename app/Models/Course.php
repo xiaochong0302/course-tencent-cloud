@@ -139,6 +139,8 @@ class Course extends Model
     /**
      * 原始价格
      *
+     * @deprecated since v1.5.7
+     *
      * @var float
      */
     public $origin_price = 0.00;

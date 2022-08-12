@@ -1,5 +1,5 @@
 {% if pager.total_pages > 0 %}
-    <div class="tag-list clearfix">
+    <div class="tag-list">
         <div class="layui-row layui-col-space20">
             {% for item in pager.items %}
                 {% set follow_url = url({'for':'home.tag.follow','id':item.id}) %}

@@ -1,7 +1,7 @@
 <div class="layui-card">
     <div class="layui-card-header">关于作者</div>
     <div class="layui-card-body">
-        <div class="sidebar-user-card clearfix">
+        <div class="sidebar-user-card">
             <div class="avatar">
                 <img src="{{ question.owner.avatar }}!avatar_160" alt="{{ question.owner.name }}">
             </div>
