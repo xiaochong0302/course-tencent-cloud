@@ -44,11 +44,27 @@ class Order extends Repository
         }
 
         if (!empty($where['item_type'])) {
-            $builder->andWhere('item_type = :item_type:', ['item_type' => $where['item_type']]);
+            if (is_array($where['item_type'])) {
+                $builder->inWhere('item_type', $where['item_type']);
+            } else {
+                $builder->andWhere('item_type = :item_type:', ['item_type' => $where['item_type']]);
+            }
+        }
+
+        if (!empty($where['promotion_type'])) {
+            if (is_array($where['promotion_type'])) {
+                $builder->inWhere('promotion_type', $where['promotion_type']);
+            } else {
+                $builder->andWhere('promotion_type = :promotion_type:', ['promotion_type' => $where['promotion_type']]);
+            }
         }
 
         if (!empty($where['status'])) {
-            $builder->andWhere('status = :status:', ['status' => $where['status']]);
+            if (is_array($where['status'])) {
+                $builder->inWhere('status', $where['status']);
+            } else {
+                $builder->andWhere('status = :status:', ['status' => $where['status']]);
+            }
         }
 
         if (isset($where['deleted'])) {

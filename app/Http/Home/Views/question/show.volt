@@ -61,11 +61,6 @@
                 {% endif %}
             </div>
             <div id="answer-anchor"></div>
-            {% if question.me.allow_answer == 1 %}
-                <div class="answer-wrap wrap">
-                    <button class="layui-btn layui-btn-fluid btn-answer" data-url="{{ answer_add_url }}">回答问题</button>
-                </div>
-            {% endif %}
             {% if question.closed == 1 %}
                 <div class="answer-wrap wrap">
                     <button class="layui-btn layui-btn-fluid layui-btn-disabled">问题已关闭</button>
@@ -90,6 +85,11 @@
             <div class="sidebar">
                 {{ partial('question/show_owner') }}
             </div>
+            {% if question.me.allow_answer == 1 %}
+                <div class="sidebar wrap">
+                    <button class="layui-btn layui-btn-danger layui-btn-fluid btn-answer" data-url="{{ answer_add_url }}">回答问题</button>
+                </div>
+            {% endif %}
             <div class="sidebar" id="sidebar-related" data-url="{{ question_related_url }}"></div>
         </div>
     </div>

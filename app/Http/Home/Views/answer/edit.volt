@@ -10,9 +10,9 @@
     </div>
 
     <div class="layout-main">
-        <div class="writer-content wrap">
+        <div class="layout-content writer-content wrap">
             <form class="layui-form" method="POST" action="{{ url({'for':'home.answer.update','id':answer.id}) }}">
-                <div class="layui-form-item first-form-item">
+                <div class="layui-form-item">
                     <div class="layui-input-block">
                         <input class="layui-input" type="text" name="title" value="{{ question.title }}" disabled="disabled">
                     </div>
@@ -28,6 +28,9 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="layout-sidebar writer-sidebar wrap">
+            {{ partial('answer/tips') }}
         </div>
     </div>
 

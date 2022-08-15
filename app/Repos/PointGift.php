@@ -29,7 +29,11 @@ class PointGift extends Repository
         }
 
         if (!empty($where['type'])) {
-            $builder->andWhere('type = :type:', ['type' => $where['type']]);
+            if (is_array($where['type'])) {
+                $builder->inWhere('type', $where['type']);
+            } else {
+                $builder->andWhere('type = :type:', ['type' => $where['type']]);
+            }
         }
 
         if (!empty($where['name'])) {

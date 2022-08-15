@@ -39,7 +39,11 @@ class Answer extends Repository
         }
 
         if (isset($where['published'])) {
-            $builder->andWhere('published = :published:', ['published' => $where['published']]);
+            if (is_array($where['published'])) {
+                $builder->inWhere('published', $where['published']);
+            } else {
+                $builder->andWhere('published = :published:', ['published' => $where['published']]);
+            }
         }
 
         if (isset($where['deleted'])) {
@@ -54,11 +58,11 @@ class Answer extends Repository
             case 'popular':
                 $orderBy = 'like_count DESC';
                 break;
-            case 'latest':
-                $orderBy = 'id DESC';
+            case 'accepted':
+                $orderBy = 'accepted DESC, like_count DESC';
                 break;
             default:
-                $orderBy = 'accepted DESC, like_count DESC';
+                $orderBy = 'id DESC';
                 break;
         }
 

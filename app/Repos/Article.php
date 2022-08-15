@@ -50,7 +50,11 @@ class Article extends Repository
         }
 
         if (!empty($where['category_id'])) {
-            $builder->andWhere('category_id = :category_id:', ['category_id' => $where['category_id']]);
+            if (is_array($where['category_id'])) {
+                $builder->inWhere('category_id', $where['category_id']);
+            } else {
+                $builder->andWhere('category_id = :category_id:', ['category_id' => $where['category_id']]);
+            }
         }
 
         if (!empty($where['owner_id'])) {
@@ -58,7 +62,11 @@ class Article extends Repository
         }
 
         if (isset($where['source_type'])) {
-            $builder->andWhere('source_type = :source_type:', ['source_type' => $where['source_type']]);
+            if (is_array($where['source_type'])) {
+                $builder->inWhere('source_type', $where['source_type']);
+            } else {
+                $builder->andWhere('source_type = :source_type:', ['source_type' => $where['source_type']]);
+            }
         }
 
         if (!empty($where['title'])) {
@@ -73,8 +81,12 @@ class Article extends Repository
             $builder->andWhere('featured = :featured:', ['featured' => $where['featured']]);
         }
 
-        if (isset($where['published'])) {
-            $builder->andWhere('published = :published:', ['published' => $where['published']]);
+        if (!empty($where['published'])) {
+            if (is_array($where['published'])) {
+                $builder->inWhere('published', $where['published']);
+            } else {
+                $builder->andWhere('published = :published:', ['published' => $where['published']]);
+            }
         }
 
         if (isset($where['closed'])) {

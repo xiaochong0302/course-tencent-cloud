@@ -36,6 +36,8 @@ class AnswerList extends LogicService
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
+        $sort = $sort ?: 'accepted';
+
         $answerRepo = new AnswerRepo();
 
         $pager = $answerRepo->paginate($params, $sort, $page, $limit);

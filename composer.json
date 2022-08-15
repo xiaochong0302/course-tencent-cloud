@@ -11,7 +11,7 @@
     "peppeocchi/php-cron-scheduler": "^3.0",
     "yansongda/pay": "^2.9",
     "tencentcloud/tencentcloud-sdk-php": "^3.0",
-    "qcloud/cos-sdk-v5": "^2.0",
+    "qcloud/cos-sdk-v5": "^2.5",
     "workerman/gateway-worker": "^3.0",
     "workerman/gatewayclient": "^3.0",
     "whichbrowser/parser": "^2.0",

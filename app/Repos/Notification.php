@@ -37,7 +37,11 @@ class Notification extends Repository
         }
 
         if (!empty($where['event_type'])) {
-            $builder->andWhere('event_type = :event_type:', ['event_type' => $where['event_type']]);
+            if (is_array($where['event_type'])) {
+                $builder->inWhere('event_type', $where['event_type']);
+            } else {
+                $builder->andWhere('event_type = :event_type:', ['event_type' => $where['event_type']]);
+            }
         }
 
         if (isset($where['viewed'])) {

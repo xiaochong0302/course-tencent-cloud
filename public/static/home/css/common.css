@@ -123,12 +123,12 @@
     width: 320px;
 }
 
-.writer-sidebar {
-    padding: 20px;
+.writer-content {
+    padding-top: 30px;
 }
 
-.writer-content .first-form-item {
-    margin-top: 10px;
+.writer-sidebar {
+    padding-top: 30px;
 }
 
 .writer-content .layui-input-block,
@@ -147,21 +147,12 @@
     text-align: inherit;
 }
 
-.writer-sidebar .last-form-item,
 .report-form .last-form-item {
     margin-top: 20px;
 }
 
 .report-form .layui-textarea {
     min-height: 80px;
-}
-
-.writer-breadcrumb {
-    display: flex;
-    justify-content: space-between;
-    height: 30px;
-    line-height: 30px;
-    margin-bottom: 20px;
 }
 
 .breadcrumb .share {
@@ -598,13 +589,17 @@
 }
 
 .answer-tips h3 {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     font-weight: normal;
     font-size: inherit;
 }
 
 .answer-tips ul {
     color: #666;
+}
+
+.answer-tips li {
+    line-height: 30px;
 }
 
 .answer-tips .suggest-text,

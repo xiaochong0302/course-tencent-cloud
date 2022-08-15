@@ -43,11 +43,19 @@ class Trade extends Repository
         }
 
         if (!empty($where['channel'])) {
-            $builder->andWhere('channel = :channel:', ['channel' => $where['channel']]);
+            if (is_array($where['channel'])) {
+                $builder->inWhere('channel', $where['channel']);
+            } else {
+                $builder->andWhere('channel = :channel:', ['channel' => $where['channel']]);
+            }
         }
 
         if (!empty($where['status'])) {
-            $builder->andWhere('status = :status:', ['status' => $where['status']]);
+            if (is_array($where['status'])) {
+                $builder->inWhere('status', $where['status']);
+            } else {
+                $builder->andWhere('status = :status:', ['status' => $where['status']]);
+            }
         }
 
         if (isset($where['deleted'])) {
