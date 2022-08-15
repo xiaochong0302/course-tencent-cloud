@@ -37,8 +37,12 @@ class Review extends Repository
             $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
-        if (isset($where['published'])) {
-            $builder->andWhere('published = :published:', ['published' => $where['published']]);
+        if (!empty($where['published'])) {
+            if (is_array($where['published'])) {
+                $builder->inWhere('published', $where['published']);
+            } else {
+                $builder->andWhere('published = :published:', ['published' => $where['published']]);
+            }
         }
 
         if (isset($where['deleted'])) {

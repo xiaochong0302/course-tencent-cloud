@@ -41,11 +41,19 @@ class User extends Repository
         }
 
         if (!empty($where['edu_role'])) {
-            $builder->andWhere('edu_role = :edu_role:', ['edu_role' => $where['edu_role']]);
+            if (is_array($where['edu_role'])) {
+                $builder->inWhere('edu_role', $where['edu_role']);
+            } else {
+                $builder->andWhere('edu_role = :edu_role:', ['edu_role' => $where['edu_role']]);
+            }
         }
 
         if (!empty($where['admin_role'])) {
-            $builder->andWhere('admin_role = :admin_role:', ['admin_role' => $where['admin_role']]);
+            if (is_array($where['admin_role'])) {
+                $builder->inWhere('admin_role', $where['admin_role']);
+            } else {
+                $builder->andWhere('admin_role = :admin_role:', ['admin_role' => $where['admin_role']]);
+            }
         }
 
         if (isset($where['vip'])) {

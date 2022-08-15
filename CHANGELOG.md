@@ -1,7 +1,11 @@
 ### [v1.5.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.7)(2022-08-28)
 
 - 清理群组残留
+- 升级腾讯云存储SDK到v2.5.6
 - 优化HtmlPurifier缓存目录自动创建
+- 优化问题回答排序问题
+- 整理查询构建语句
+- 整理优化CSS
 
 ### [v1.5.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.6)(2022-08-08)
 

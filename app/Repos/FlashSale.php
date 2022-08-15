@@ -33,7 +33,11 @@ class FlashSale extends Repository
         }
 
         if (!empty($where['item_type'])) {
-            $builder->andWhere('item_type = :item_type:', ['item_type' => $where['item_type']]);
+            if (is_array($where['item_type'])) {
+                $builder->inWhere('item_type', $where['item_type']);
+            } else {
+                $builder->andWhere('item_type = :item_type:', ['item_type' => $where['item_type']]);
+            }
         }
 
         if (isset($where['published'])) {

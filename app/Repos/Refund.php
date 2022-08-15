@@ -35,7 +35,11 @@ class Refund extends Repository
         }
 
         if (!empty($where['status'])) {
-            $builder->andWhere('status = :status:', ['status' => $where['status']]);
+            if (is_array($where['status'])) {
+                $builder->inWhere('status', $where['status']);
+            } else {
+                $builder->andWhere('status = :status:', ['status' => $where['status']]);
+            }
         }
 
         if (isset($where['deleted'])) {

@@ -50,6 +50,14 @@ class Question extends Repository
             }
         }
 
+        if (!empty($where['category_id'])) {
+            if (is_array($where['category_id'])) {
+                $builder->inWhere('category_id', $where['category_id']);
+            } else {
+                $builder->andWhere('category_id = :category_id:', ['category_id' => $where['category_id']]);
+            }
+        }
+
         if (!empty($where['owner_id'])) {
             $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
@@ -70,8 +78,12 @@ class Question extends Repository
             $builder->andWhere('solved = :solved:', ['solved' => $where['solved']]);
         }
 
-        if (isset($where['published'])) {
-            $builder->andWhere('published = :published:', ['published' => $where['published']]);
+        if (!empty($where['published'])) {
+            if (is_array($where['published'])) {
+                $builder->inWhere('published', $where['published']);
+            } else {
+                $builder->andWhere('published = :published:', ['published' => $where['published']]);
+            }
         }
 
         if (isset($where['deleted'])) {

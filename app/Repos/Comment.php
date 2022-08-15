@@ -37,15 +37,23 @@ class Comment extends Repository
         }
 
         if (!empty($where['item_type'])) {
-            $builder->andWhere('item_type = :item_type:', ['item_type' => $where['item_type']]);
+            if (is_array($where['item_type'])) {
+                $builder->inWhere('item_type', $where['item_type']);
+            } else {
+                $builder->andWhere('item_type = :item_type:', ['item_type' => $where['item_type']]);
+            }
         }
 
         if (isset($where['parent_id'])) {
             $builder->andWhere('parent_id = :parent_id:', ['parent_id' => $where['parent_id']]);
         }
 
-        if (isset($where['published'])) {
-            $builder->andWhere('published = :published:', ['published' => $where['published']]);
+        if (!empty($where['published'])) {
+            if (is_array($where['published'])) {
+                $builder->inWhere('published', $where['published']);
+            } else {
+                $builder->andWhere('published = :published:', ['published' => $where['published']]);
+            }
         }
 
         if (isset($where['deleted'])) {

@@ -186,7 +186,7 @@ class Storage extends Service
 
         try {
 
-            $response = $this->client->deleteObject([
+            $response = $this->client->DeleteObject([
                 'Bucket' => $bucket,
                 'Key' => $key,
             ]);

@@ -10,9 +10,9 @@
     </div>
 
     <div class="layout-main">
-        <div class="writer-content wrap">
+        <div class="layout-content writer-content wrap">
             <form class="layui-form" method="POST" action="{{ url({'for':'home.answer.create'}) }}">
-                <div class="layui-form-item first-form-item">
+                <div class="layui-form-item">
                     <div class="layui-input-block">
                         <input class="layui-input" type="text" name="title" value="{{ question.title }}" disabled="disabled">
                     </div>
@@ -30,11 +30,10 @@
                 </div>
             </form>
         </div>
+        <div class="layout-sidebar writer-sidebar wrap">
+            {{ partial('answer/tips') }}
+        </div>
     </div>
-
-    {% if auth_user.answer_count < 3 %}
-        <div id="tips" data-url="{{ url({'for':'home.answer.tips'}) }}"></div>
-    {% endif %}
 
 {% endblock %}
 
