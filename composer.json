@@ -6,7 +6,7 @@
     "ext-json": "*",
     "ext-fileinfo": "*",
     "phalcon/incubator": "^3.4",
-    "guzzlehttp/guzzle": "^6.3",
+    "guzzlehttp/guzzle": "^6.5",
     "swiftmailer/swiftmailer": "^6.0",
     "peppeocchi/php-cron-scheduler": "^3.0",
     "yansongda/pay": "^2.9",

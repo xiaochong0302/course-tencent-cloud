@@ -2095,6 +2095,11 @@
     border-bottom: none;
 }
 
+.order-item .price {
+    color: red;
+    font-style: normal;
+}
+
 .order-card {
     padding-bottom: 20px;
     margin-bottom: 20px;
