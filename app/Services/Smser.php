@@ -91,6 +91,10 @@ abstract class Smser extends Service
 
             $result = $sendStatus->getCode() == 'Ok';
 
+            if ($result == false) {
+                $this->logger->error('Send Message Failed ' . $response->toJsonString());
+            }
+
         } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Send Message Exception ' . kg_json_encode([
