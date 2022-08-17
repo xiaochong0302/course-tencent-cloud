@@ -1,40 +1,40 @@
 {
-  "_readme": [
-    "This file locks the dependencies of your project to a known state",
-    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-    "This file is @generated automatically"
-  ],
-  "content-hash": "b5eaf9b151226966d37ce2703e2e1efc",
-  "packages": [
-    {
-      "name": "bacon/bacon-qr-code",
-      "version": "2.0.3",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/Bacon/BaconQrCode.git",
-        "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
-        "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "dasprid/enum": "^1.0.3",
-        "ext-iconv": "*",
-        "php": "^7.1 || ^8.0"
-      },
-      "require-dev": {
-        "phly/keep-a-changelog": "^1.4",
-        "phpunit/phpunit": "^7 | ^8 | ^9",
-        "squizlabs/php_codesniffer": "^3.4"
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "b5eaf9b151226966d37ce2703e2e1efc",
+    "packages": [
+        {
+            "name": "bacon/bacon-qr-code",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Bacon/BaconQrCode.git",
+                "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
+                "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "dasprid/enum": "^1.0.3",
+                "ext-iconv": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "phly/keep-a-changelog": "^1.4",
+                "phpunit/phpunit": "^7 | ^8 | ^9",
+                "squizlabs/php_codesniffer": "^3.4"
             },
             "suggest": {
                 "ext-imagick": "to generate QR code images"
@@ -711,116 +711,116 @@
                     "email": "info@endroid.nl"
                 }
             ],
-          "description": "Endroid QR Code",
-          "homepage": "https://github.com/endroid/qr-code",
-          "keywords": [
-            "bundle",
-            "code",
-            "endroid",
-            "php",
-            "qr",
-            "qrcode"
-          ],
-          "support": {
-            "issues": "https://github.com/endroid/qr-code/issues",
-            "source": "https://github.com/endroid/qr-code/tree/3.9.6"
-          },
-          "funding": [
-            {
-              "url": "https://github.com/endroid",
-              "type": "github"
-            }
-          ],
-          "time": "2020-11-27T14:30:38+00:00"
+            "description": "Endroid QR Code",
+            "homepage": "https://github.com/endroid/qr-code",
+            "keywords": [
+                "bundle",
+                "code",
+                "endroid",
+                "php",
+                "qr",
+                "qrcode"
+            ],
+            "support": {
+                "issues": "https://github.com/endroid/qr-code/issues",
+                "source": "https://github.com/endroid/qr-code/tree/3.9.6"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/endroid",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-27T14:30:38+00:00"
         },
-    {
-      "name": "ezyang/htmlpurifier",
-      "version": "v4.14.0",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/ezyang/htmlpurifier.git",
-        "reference": "12ab42bd6e742c70c0a52f7b82477fcd44e64b75"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/12ab42bd6e742c70c0a52f7b82477fcd44e64b75",
-        "reference": "12ab42bd6e742c70c0a52f7b82477fcd44e64b75",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "php": ">=5.2"
-      },
-      "type": "library",
-      "autoload": {
-        "files": [
-          "library/HTMLPurifier.composer.php"
-        ],
-        "psr-0": {
-          "HTMLPurifier": "library/"
-        },
-        "exclude-from-classmap": [
-          "/library/HTMLPurifier/Language/"
-        ]
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "LGPL-2.1-or-later"
-      ],
-      "authors": [
         {
-          "name": "Edward Z. Yang",
-          "email": "admin@htmlpurifier.org",
-          "homepage": "http://ezyang.com"
-        }
-      ],
-      "description": "Standards compliant HTML filter written in PHP",
-      "homepage": "http://htmlpurifier.org/",
-      "keywords": [
-        "html"
-      ],
-      "support": {
-        "issues": "https://github.com/ezyang/htmlpurifier/issues",
-        "source": "https://github.com/ezyang/htmlpurifier/tree/v4.14.0"
-      },
-      "time": "2021-12-25T01:21:49+00:00"
-    },
-    {
-      "name": "guzzlehttp/command",
-      "version": "1.0.0",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/guzzle/command.git",
-        "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/guzzle/command/zipball/2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
-        "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "guzzlehttp/guzzle": "^6.2",
-        "guzzlehttp/promises": "~1.3",
-        "guzzlehttp/psr7": "~1.0",
-        "php": ">=5.5.0"
-      },
-      "require-dev": {
-        "phpunit/phpunit": "~4.0|~5.0"
-      },
-      "type": "library",
-      "extra": {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.14.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "12ab42bd6e742c70c0a52f7b82477fcd44e64b75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/12ab42bd6e742c70c0a52f7b82477fcd44e64b75",
+                "reference": "12ab42bd6e742c70c0a52f7b82477fcd44e64b75",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ],
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "exclude-from-classmap": [
+                    "/library/HTMLPurifier/Language/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "support": {
+                "issues": "https://github.com/ezyang/htmlpurifier/issues",
+                "source": "https://github.com/ezyang/htmlpurifier/tree/v4.14.0"
+            },
+            "time": "2021-12-25T01:21:49+00:00"
+        },
+        {
+            "name": "guzzlehttp/command",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/command.git",
+                "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/command/zipball/2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
+                "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "guzzlehttp/promises": "~1.3",
+                "guzzlehttp/psr7": "~1.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0|~5.0"
+            },
+            "type": "library",
+            "extra": {
                 "branch-alias": {
                     "dev-master": "0.9-dev"
                 }
@@ -853,26 +853,26 @@
             },
             "time": "2016-11-24T13:34:15+00:00"
         },
-    {
-      "name": "guzzlehttp/guzzle",
-      "version": "6.5.7",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/guzzle/guzzle.git",
-        "reference": "724562fa861e21a4071c652c8a159934e4f05592"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/guzzle/guzzle/zipball/724562fa861e21a4071c652c8a159934e4f05592",
-        "reference": "724562fa861e21a4071c652c8a159934e4f05592",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
+        {
+            "name": "guzzlehttp/guzzle",
+            "version": "6.5.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "724562fa861e21a4071c652c8a159934e4f05592"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/724562fa861e21a4071c652c8a159934e4f05592",
+                "reference": "724562fa861e21a4071c652c8a159934e4f05592",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/promises": "^1.0",
@@ -895,85 +895,85 @@
                 }
             },
             "autoload": {
-              "files": [
-                "src/functions_include.php"
-              ],
-              "psr-4": {
-                "GuzzleHttp\\": "src/"
-              }
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
-              {
-                "name": "Graham Campbell",
-                "email": "hello@gjcampbell.co.uk",
-                "homepage": "https://github.com/GrahamCampbell"
-              },
-              {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
-              },
-              {
-                "name": "Jeremy Lindblom",
-                "email": "jeremeamia@gmail.com",
-                "homepage": "https://github.com/jeremeamia"
-              },
-              {
-                "name": "George Mponos",
-                "email": "gmponos@gmail.com",
-                "homepage": "https://github.com/gmponos"
-              },
-              {
-                "name": "Tobias Nyholm",
-                "email": "tobias.nyholm@gmail.com",
-                "homepage": "https://github.com/Nyholm"
-              },
-              {
-                "name": "Márk Sági-Kazár",
-                "email": "mark.sagikazar@gmail.com",
-                "homepage": "https://github.com/sagikazarmark"
-              },
-              {
-                "name": "Tobias Schultze",
-                "email": "webmaster@tubo-world.de",
-                "homepage": "https://github.com/Tobion"
-              }
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Jeremy Lindblom",
+                    "email": "jeremeamia@gmail.com",
+                    "homepage": "https://github.com/jeremeamia"
+                },
+                {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
+                }
             ],
             "description": "Guzzle is a PHP HTTP client library",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
-              "client",
-              "curl",
-              "framework",
-              "http",
-              "http client",
-              "rest",
-              "web service"
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
             ],
-      "support": {
-        "issues": "https://github.com/guzzle/guzzle/issues",
-        "source": "https://github.com/guzzle/guzzle/tree/6.5.7"
-      },
-      "funding": [
-        {
-          "url": "https://github.com/GrahamCampbell",
-          "type": "github"
+            "support": {
+                "issues": "https://github.com/guzzle/guzzle/issues",
+                "source": "https://github.com/guzzle/guzzle/tree/6.5.7"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/guzzle",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-06-09T21:36:50+00:00"
         },
-        {
-          "url": "https://github.com/Nyholm",
-          "type": "github"
-        },
-        {
-          "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/guzzle",
-          "type": "tidelift"
-        }
-      ],
-      "time": "2022-06-09T21:36:50+00:00"
-    },
         {
             "name": "guzzlehttp/guzzle-services",
             "version": "1.1.3",
@@ -1107,16 +1107,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.7.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3"
+                "reference": "e98e3e6d4f86621a9b75f623996e6bbdeb4b9318"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/53330f47520498c0ae1f61f7e2c90f55690c06a3",
-                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/e98e3e6d4f86621a9b75f623996e6bbdeb4b9318",
+                "reference": "e98e3e6d4f86621a9b75f623996e6bbdeb4b9318",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1143,16 +1143,16 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.9-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Psr7\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1160,12 +1160,33 @@
             ],
             "authors": [
                 {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
                 },
                 {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
                     "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
                     "homepage": "https://github.com/Tobion"
                 }
             ],
@@ -1182,9 +1203,23 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/1.7.0"
+                "source": "https://github.com/guzzle/psr7/tree/1.9.0"
             },
-            "time": "2020-09-30T07:37:11+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/psr7",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-06-20T21:43:03+00:00"
         },
         {
             "name": "hightman/xunsearch",
@@ -2289,77 +2324,77 @@
             "description": "Common interfaces for simple caching",
             "keywords": [
                 "cache",
-              "caching",
-              "psr",
-              "psr-16",
-              "simple-cache"
+                "caching",
+                "psr",
+                "psr-16",
+                "simple-cache"
             ],
-          "support": {
-            "source": "https://github.com/php-fig/simple-cache/tree/master"
-          },
-          "time": "2017-10-23T01:57:42+00:00"
-        },
-    {
-      "name": "qcloud/cos-sdk-v5",
-      "version": "v2.5.6",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/tencentyun/cos-php-sdk-v5.git",
-        "reference": "607ee49d372a799964206b6ae0a9eb2816201c42"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/607ee49d372a799964206b6ae0a9eb2816201c42",
-        "reference": "607ee49d372a799964206b6ae0a9eb2816201c42",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "ext-curl": "*",
-        "ext-json": "*",
-        "ext-simplexml": "*",
-        "guzzlehttp/guzzle": "^6.2.1 || ^7.0",
-        "guzzlehttp/guzzle-services": "^1.1",
-        "guzzlehttp/psr7": "^1.3.1 || ^2.0",
-        "php": ">=5.6"
-      },
-      "type": "library",
-      "extra": {
-        "branch-alias": {
-          "dev-master": "2.4-dev"
-        }
-      },
-      "autoload": {
-        "files": [
-          "src/Common.php"
-        ],
-        "psr-4": {
-          "Qcloud\\Cos\\": "src/"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "yaozongyou",
-          "email": "yaozongyou@vip.qq.com"
+            "support": {
+                "source": "https://github.com/php-fig/simple-cache/tree/master"
+            },
+            "time": "2017-10-23T01:57:42+00:00"
         },
         {
-          "name": "lewzylu",
-          "email": "327874225@qq.com"
-        },
-        {
-          "name": "tuunalai",
-          "email": "550566181@qq.com"
-        }
-      ],
+            "name": "qcloud/cos-sdk-v5",
+            "version": "v2.5.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tencentyun/cos-php-sdk-v5.git",
+                "reference": "607ee49d372a799964206b6ae0a9eb2816201c42"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/607ee49d372a799964206b6ae0a9eb2816201c42",
+                "reference": "607ee49d372a799964206b6ae0a9eb2816201c42",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "guzzlehttp/guzzle": "^6.2.1 || ^7.0",
+                "guzzlehttp/guzzle-services": "^1.1",
+                "guzzlehttp/psr7": "^1.3.1 || ^2.0",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Common.php"
+                ],
+                "psr-4": {
+                    "Qcloud\\Cos\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yaozongyou",
+                    "email": "yaozongyou@vip.qq.com"
+                },
+                {
+                    "name": "lewzylu",
+                    "email": "327874225@qq.com"
+                },
+                {
+                    "name": "tuunalai",
+                    "email": "550566181@qq.com"
+                }
+            ],
             "description": "PHP SDK for QCloud COS",
             "keywords": [
                 "cos",
@@ -2368,9 +2403,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tencentyun/cos-php-sdk-v5/issues",
-              "source": "https://github.com/tencentyun/cos-php-sdk-v5/tree/v2.5.6"
+                "source": "https://github.com/tencentyun/cos-php-sdk-v5/tree/v2.5.6"
             },
-      "time": "2022-06-07T14:49:19+00:00"
+            "time": "2022-06-07T14:49:19+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -5447,5 +5482,5 @@
         "ext-fileinfo": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }
