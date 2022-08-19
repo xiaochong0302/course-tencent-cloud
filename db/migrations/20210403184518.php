@@ -174,19 +174,6 @@ final class V20210403184518 extends AbstractMigration
                 'create_time' => $now,
             ],
             [
-                'id' => 6,
-                'parent_id' => 0,
-                'level' => 1,
-                'name' => '群组',
-                'path' => ',6,',
-                'target' => '_self',
-                'url' => '/im/group/list',
-                'position' => 1,
-                'priority' => 6,
-                'published' => 1,
-                'create_time' => $now,
-            ],
-            [
                 'id' => 7,
                 'parent_id' => 0,
                 'level' => 1,
@@ -370,56 +357,6 @@ final class V20210403184518 extends AbstractMigration
                 'section' => 'captcha',
                 'item_key' => 'secret_key',
                 'item_value' => '',
-            ],
-            [
-                'section' => 'im.cs',
-                'item_key' => 'enabled',
-                'item_value' => '0',
-            ],
-            [
-                'section' => 'im.cs',
-                'item_key' => 'user1_id',
-                'item_value' => '',
-            ],
-            [
-                'section' => 'im.cs',
-                'item_key' => 'user2_id',
-                'item_value' => '',
-            ],
-            [
-                'section' => 'im.cs',
-                'item_key' => 'user3_id',
-                'item_value' => '',
-            ],
-            [
-                'section' => 'im.main',
-                'item_key' => 'title',
-                'item_value' => '菜鸟驿站',
-            ],
-            [
-                'section' => 'im.main',
-                'item_key' => 'msg_max_length',
-                'item_value' => '1000',
-            ],
-            [
-                'section' => 'im.main',
-                'item_key' => 'upload_img_enabled',
-                'item_value' => '0',
-            ],
-            [
-                'section' => 'im.main',
-                'item_key' => 'upload_file_enabled',
-                'item_value' => '0',
-            ],
-            [
-                'section' => 'im.main',
-                'item_key' => 'tool_audio_enabled',
-                'item_value' => '0',
-            ],
-            [
-                'section' => 'im.main',
-                'item_key' => 'tool_video_enabled',
-                'item_value' => '0',
             ],
             [
                 'section' => 'live.push',
@@ -624,17 +561,17 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'secret',
                 'item_key' => 'secret_key',
-                'item_value' => '',
+                'item_value' => 'xxx',
             ],
             [
                 'section' => 'secret',
                 'item_key' => 'secret_id',
-                'item_value' => '',
+                'item_value' => 'xxx',
             ],
             [
                 'section' => 'secret',
                 'item_key' => 'app_id',
-                'item_value' => '',
+                'item_value' => 'xxx',
             ],
             [
                 'section' => 'site',
@@ -746,12 +683,12 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'cos',
                 'item_key' => 'bucket',
-                'item_value' => '',
+                'item_value' => 'course-1255691183',
             ],
             [
                 'section' => 'cos',
                 'item_key' => 'region',
-                'item_value' => '',
+                'item_value' => 'ap-guangzhou',
             ],
             [
                 'section' => 'cos',
@@ -761,7 +698,7 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'cos',
                 'item_key' => 'domain',
-                'item_value' => '',
+                'item_value' => 'course-1255691183.file.myqcloud.com',
             ],
             [
                 'section' => 'vod',
