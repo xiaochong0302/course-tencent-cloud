@@ -19,9 +19,11 @@ final class V20210825111618 extends AbstractMigration
     {
         $table = $this->table('kg_upload');
 
-        $table->removeIndexByName('md5')->save();
+        if ($table->hasIndexByName('md5')) {
+            $table->removeIndexByName('md5')->save();
+            $table->addIndex('md5')->save();
+        }
 
-        $table->addIndex('md5')->save();
     }
 
 }

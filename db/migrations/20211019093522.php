@@ -19,28 +19,38 @@ final class V20211019093522 extends AbstractMigration
 
     protected function alterUserSessionTable()
     {
-        $this->table('kg_user_session')
-            ->addColumn('deleted', 'integer', [
+        $table = $this->table('kg_user_session');
+
+        if ($table->hasColumn('deleted') == false) {
+            $table->addColumn('deleted', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'client_ip',
-            ])->save();
+            ]);
+        }
+
+        $table->save();
     }
 
     protected function alterUserTokenTable()
     {
-        $this->table('kg_user_token')
-            ->addColumn('deleted', 'integer', [
+        $table = $this->table('kg_user_token');
+
+        if ($table->hasColumn('deleted') == false) {
+            $table->addColumn('deleted', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'signed' => false,
                 'comment' => '删除标识',
                 'after' => 'client_ip',
-            ])->save();
+            ]);
+        }
+
+        $table->save();
     }
 
 }

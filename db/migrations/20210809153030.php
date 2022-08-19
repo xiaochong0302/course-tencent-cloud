@@ -5,19 +5,22 @@
  * @link https://www.koogua.com
  */
 
+require_once 'SettingTrait.php';
+
 use Phinx\Migration\AbstractMigration;
 
 final class V20210809153030 extends AbstractMigration
 {
 
+    use SettingTrait;
+
     public function up()
     {
-        $this->handleVodSetting();
-        $this->handleImSetting();
+        $this->handleVodSettings();
         $this->handleRemotePlayUrl();
     }
 
-    protected function handleVodSetting()
+    protected function handleVodSettings()
     {
         $rows = [
             [
@@ -32,18 +35,7 @@ final class V20210809153030 extends AbstractMigration
             ],
         ];
 
-        $this->table('kg_setting')->insert($rows)->save();
-    }
-
-    protected function handleImSetting()
-    {
-        $row = [
-            'section' => 'im.main',
-            'item_key' => 'enabled',
-            'item_value' => '1',
-        ];
-
-        $this->table('kg_setting')->insert($row)->saveData();
+        $this->insertSettings($rows);
     }
 
     protected function handleRemotePlayUrl()

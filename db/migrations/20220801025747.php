@@ -20,7 +20,13 @@ class V20220801025747 extends Phinx\Migration\AbstractMigration
 
     protected function createMigrationTaskTable()
     {
-        $this->table('kg_migration_task', [
+        $tableName = 'kg_migration_task';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -70,13 +76,21 @@ class V20220801025747 extends Phinx\Migration\AbstractMigration
 
     protected function dropImTables()
     {
-        $this->table('kg_im_friend_group')->drop()->save();
-        $this->table('kg_im_friend_user')->drop()->save();
-        $this->table('kg_im_group')->drop()->save();
-        $this->table('kg_im_group_user')->drop()->save();
-        $this->table('kg_im_message')->drop()->save();
-        $this->table('kg_im_notice')->drop()->save();
-        $this->table('kg_im_user')->drop()->save();
+        $tableNames = [
+            'kg_im_friend_group',
+            'kg_im_friend_user',
+            'kg_im_group',
+            'kg_im_group_user',
+            'kg_im_message',
+            'kg_im_notice',
+            'kg_im_user',
+        ];
+
+        foreach ($tableNames as $tableName) {
+            if ($this->table($tableName)->exists()) {
+                $this->table($tableName)->drop()->save();
+            }
+        }
     }
 
     protected function deleteImGroupNav()

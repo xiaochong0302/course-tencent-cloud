@@ -7,15 +7,19 @@
 
 use Phinx\Migration\AbstractMigration;
 
+require_once 'SettingTrait.php';
+
 final class V20210916072842 extends AbstractMigration
 {
 
+    use SettingTrait;
+
     public function up()
     {
-        $this->handleLocalAuthSetting();
+        $this->handleLocalAuthSettings();
     }
 
-    protected function handleLocalAuthSetting()
+    protected function handleLocalAuthSettings()
     {
         $rows = [
             [
@@ -30,7 +34,7 @@ final class V20210916072842 extends AbstractMigration
             ]
         ];
 
-        $this->table('kg_setting')->insert($rows)->save();
+        $this->insertSettings($rows);
     }
 
 }

@@ -5,17 +5,21 @@
  * @link https://www.koogua.com
  */
 
+require_once 'SettingTrait.php';
+
 use Phinx\Migration\AbstractMigration;
 
 final class V20210820064755 extends AbstractMigration
 {
 
+    use SettingTrait;
+
     public function up()
     {
-        $this->handleContactSetting();
+        $this->handleContactSettings();
     }
 
-    protected function handleContactSetting()
+    protected function handleContactSettings()
     {
         $rows = [
             [
@@ -65,7 +69,7 @@ final class V20210820064755 extends AbstractMigration
             ],
         ];
 
-        $this->table('kg_setting')->insert($rows)->save();
+        $this->insertSettings($rows);
     }
 
 }
