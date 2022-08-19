@@ -81,6 +81,8 @@ class HttpErrorHandler extends Injectable
         $logger = $this->getLogger();
 
         $logger->error($content);
+
+        $logger->error($e->getTraceAsString());
     }
 
     /**
