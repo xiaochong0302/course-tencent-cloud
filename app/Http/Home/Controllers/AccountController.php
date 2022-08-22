@@ -148,9 +148,9 @@ class AccountController extends Controller
     }
 
     /**
-     * @Get("/password/forget", name="home.account.forget_pwd")
+     * @Get("/forget", name="home.account.forget")
      */
-    public function forgetPasswordAction()
+    public function forgetAction()
     {
         $service = new FullH5UrlService();
 
@@ -167,9 +167,8 @@ class AccountController extends Controller
 
         $captcha = $service->getSettings('captcha');
 
-        $this->seo->prependTitle('忘记密码');
+        $this->seo->prependTitle('重置密码');
 
-        $this->view->pick('account/forget_password');
         $this->view->setVar('captcha', $captcha);
     }
 

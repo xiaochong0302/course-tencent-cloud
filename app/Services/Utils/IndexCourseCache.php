@@ -22,48 +22,36 @@ class IndexCourseCache extends AppService
 
     public function rebuild($section = null)
     {
-        $site = $this->getSettings('site');
-
-        $type = $site['index_tpl_type'] ?: 'full';
-
         if (!$section || $section == 'featured_course') {
-            if ($type == 'full') {
-                $cache = new IndexFeaturedCourseListCache();
-                $cache->rebuild();
-            } else {
-                $cache = new IndexSimpleFeaturedCourseListCache();
-                $cache->rebuild();
-            }
+            $cache = new IndexFeaturedCourseListCache();
+            $cache->rebuild();
+
+            $cache = new IndexSimpleFeaturedCourseListCache();
+            $cache->rebuild();
         }
 
         if (!$section || $section == 'new_course') {
-            if ($type == 'full') {
-                $cache = new IndexNewCourseListCache();
-                $cache->rebuild();
-            } else {
-                $cache = new IndexSimpleNewCourseListCache();
-                $cache->rebuild();
-            }
+            $cache = new IndexNewCourseListCache();
+            $cache->rebuild();
+
+            $cache = new IndexSimpleNewCourseListCache();
+            $cache->rebuild();
         }
 
         if (!$section || $section == 'free_course') {
-            if ($type == 'full') {
-                $cache = new IndexFreeCourseListCache();
-                $cache->rebuild();
-            } else {
-                $cache = new IndexSimpleFreeCourseListCache();
-                $cache->rebuild();
-            }
+            $cache = new IndexFreeCourseListCache();
+            $cache->rebuild();
+
+            $cache = new IndexSimpleFreeCourseListCache();
+            $cache->rebuild();
         }
 
         if (!$section || $section == 'vip_course') {
-            if ($type == 'full') {
-                $cache = new IndexVipCourseListCache();
-                $cache->rebuild();
-            } else {
-                $cache = new IndexSimpleVipCourseListCache();
-                $cache->rebuild();
-            }
+            $cache = new IndexVipCourseListCache();
+            $cache->rebuild();
+
+            $cache = new IndexSimpleVipCourseListCache();
+            $cache->rebuild();
         }
     }
 

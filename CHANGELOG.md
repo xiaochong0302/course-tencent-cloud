@@ -1,4 +1,11 @@
-### [v1.5.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.7)(2022-08-28)
+### [v1.5.8](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.8)(2022-08-28)
+
+- 整理migrations
+- 更新自动安装脚本
+- 优化登录/注册/忘记密码页
+- 修复移动端首页课程缓存刷新
+
+### [v1.5.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.7)(2022-08-18)
 
 - 清理群组残留
 - 升级腾讯云存储SDK到v2.5.6
