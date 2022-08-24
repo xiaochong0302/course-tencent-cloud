@@ -4,6 +4,7 @@
 - 更新自动安装脚本
 - 优化登录/注册/忘记密码页
 - 修复移动端首页课程缓存刷新
+- sitemap条目增加过滤条件
 
 ### [v1.5.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.7)(2022-08-18)
 
