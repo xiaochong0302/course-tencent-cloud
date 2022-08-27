@@ -52,25 +52,6 @@ class AccountController extends Controller
     }
 
     /**
-     * @Post("/register", name="home.account.do_register")
-     */
-    public function doRegisterAction()
-    {
-        $service = new AccountService();
-
-        $service->register();
-
-        $returnUrl = $this->request->getPost('return_url', 'string');
-
-        $content = [
-            'location' => $returnUrl ?: '/',
-            'msg' => '注册成功',
-        ];
-
-        return $this->jsonSuccess($content);
-    }
-
-    /**
      * @Get("/login", name="home.account.login")
      */
     public function loginAction()
@@ -101,38 +82,6 @@ class AccountController extends Controller
         $this->view->setVar('oauth_provider', $oauthProvider);
         $this->view->setVar('return_url', $returnUrl);
         $this->view->setVar('captcha', $captcha);
-    }
-
-    /**
-     * @Post("/password/login", name="home.account.pwd_login")
-     */
-    public function loginByPasswordAction()
-    {
-        $service = new AccountService();
-
-        $service->loginByPassword();
-
-        $returnUrl = $this->request->getPost('return_url', 'string');
-
-        $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
-
-        return $this->jsonSuccess(['location' => $location]);
-    }
-
-    /**
-     * @Post("/verify/login", name="home.account.verify_login")
-     */
-    public function loginByVerifyAction()
-    {
-        $service = new AccountService();
-
-        $service->loginByVerify();
-
-        $returnUrl = $this->request->getPost('return_url', 'string');
-
-        $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
-
-        return $this->jsonSuccess(['location' => $location]);
     }
 
     /**
@@ -170,6 +119,57 @@ class AccountController extends Controller
         $this->seo->prependTitle('重置密码');
 
         $this->view->setVar('captcha', $captcha);
+    }
+
+    /**
+     * @Post("/register", name="home.account.do_register")
+     */
+    public function doRegisterAction()
+    {
+        $service = new AccountService();
+
+        $service->register();
+
+        $returnUrl = $this->request->getPost('return_url', 'string');
+
+        $content = [
+            'location' => $returnUrl ?: '/',
+            'msg' => '注册成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/password/login", name="home.account.pwd_login")
+     */
+    public function loginByPasswordAction()
+    {
+        $service = new AccountService();
+
+        $service->loginByPassword();
+
+        $returnUrl = $this->request->getPost('return_url', 'string');
+
+        $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
+
+        return $this->jsonSuccess(['location' => $location]);
+    }
+
+    /**
+     * @Post("/verify/login", name="home.account.verify_login")
+     */
+    public function loginByVerifyAction()
+    {
+        $service = new AccountService();
+
+        $service->loginByVerify();
+
+        $returnUrl = $this->request->getPost('return_url', 'string');
+
+        $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
+
+        return $this->jsonSuccess(['location' => $location]);
     }
 
     /**

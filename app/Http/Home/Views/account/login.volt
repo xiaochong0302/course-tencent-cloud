@@ -4,8 +4,7 @@
 
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
-        <a><cite>帐号</cite></a>
-        <a><cite>登录</cite></a>
+        <a><cite>用户登录</cite></a>
     </div>
 
     <div class="login-wrap wrap">
@@ -24,7 +23,7 @@
             </div>
         </div>
         <div class="link">
-            <a class="login-link" href="{{ url({'for':'home.account.register'}) }}">免费注册</a>
+            <a class="login-link" href="{{ url({'for':'home.account.register'}) }}">用户注册</a>
             <span class="separator">·</span>
             <a class="forget-link" href="{{ url({'for':'home.account.forget'}) }}">忘记密码</a>
         </div>
