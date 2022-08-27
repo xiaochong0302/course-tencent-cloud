@@ -21,6 +21,15 @@ class Register extends LogicService
     {
         $post = $this->request->getPost();
 
+        /**
+         * 使用[account|phone|email]做账户名字段兼容
+         */
+        if (isset($post['phone'])) {
+            $post['account'] = $post['phone'];
+        } elseif (isset($post['email'])) {
+            $post['account'] = $post['email'];
+        }
+
         $verifyValidator = new VerifyValidator();
 
         $verifyValidator->checkCode($post['account'], $post['verify_code']);

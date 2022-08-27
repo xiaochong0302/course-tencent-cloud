@@ -39,6 +39,8 @@ class SitemapTask extends Task
 
         $filename = tmp_path('sitemap.xml');
 
+        echo '------ start sitemap task ------' . PHP_EOL;
+
         $this->addIndex();
         $this->addCourses();
         $this->addArticles();
@@ -50,6 +52,8 @@ class SitemapTask extends Task
         $this->addOthers();
 
         $this->sitemap->build($filename);
+
+        echo '------ end sitemap task ------' . PHP_EOL;
     }
 
     protected function getSiteUrl()
@@ -73,6 +77,7 @@ class SitemapTask extends Task
          */
         $courses = CourseModel::query()
             ->where('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('id DESC')
             ->limit(500)
             ->execute();
@@ -92,6 +97,7 @@ class SitemapTask extends Task
          */
         $articles = ArticleModel::query()
             ->where('published = :published:', ['published' => ArticleModel::PUBLISH_APPROVED])
+            ->andWhere('deleted = 0')
             ->orderBy('id DESC')
             ->limit(500)
             ->execute();
@@ -111,6 +117,7 @@ class SitemapTask extends Task
          */
         $questions = QuestionModel::query()
             ->where('published = :published:', ['published' => QuestionModel::PUBLISH_APPROVED])
+            ->andWhere('deleted = 0')
             ->orderBy('id DESC')
             ->limit(500)
             ->execute();
@@ -128,7 +135,10 @@ class SitemapTask extends Task
         /**
          * @var Resultset|UserModel[] $teachers
          */
-        $teachers = UserModel::query()->where('edu_role = 2')->execute();
+        $teachers = UserModel::query()
+            ->where('edu_role = :edu_role:', ['edu_role' => UserModel::EDU_ROLE_TEACHER])
+            ->andWhere('deleted = 0')
+            ->execute();
 
         if ($teachers->count() == 0) return;
 
@@ -143,7 +153,10 @@ class SitemapTask extends Task
         /**
          * @var Resultset|TopicModel[] $topics
          */
-        $topics = TopicModel::query()->where('published = 1')->execute();
+        $topics = TopicModel::query()
+            ->where('published = 1')
+            ->andWhere('deleted = 0')
+            ->execute();
 
         if ($topics->count() == 0) return;
 
@@ -158,7 +171,10 @@ class SitemapTask extends Task
         /**
          * @var Resultset|PageModel[] $pages
          */
-        $pages = PageModel::query()->where('published = 1')->execute();
+        $pages = PageModel::query()
+            ->where('published = 1')
+            ->andWhere('deleted = 0')
+            ->execute();
 
         if ($pages->count() == 0) return;
 
@@ -173,7 +189,10 @@ class SitemapTask extends Task
         /**
          * @var Resultset|HelpModel[] $helps
          */
-        $helps = HelpModel::query()->where('published = 1')->execute();
+        $helps = HelpModel::query()
+            ->where('published = 1')
+            ->andWhere('deleted = 0')
+            ->execute();
 
         if ($helps->count() == 0) return;
 

@@ -17,8 +17,10 @@ final class V20210802021814 extends AbstractMigration
 
     protected function alterPageTable()
     {
-        $this->table('kg_page')
-            ->addColumn('alias', 'string', [
+        $table = $this->table('kg_page');
+
+        if ($table->hasColumn('alias') == false) {
+            $table->addColumn('alias', 'string', [
                 'null' => false,
                 'default' => '',
                 'limit' => 50,
@@ -26,7 +28,10 @@ final class V20210802021814 extends AbstractMigration
                 'encoding' => 'utf8mb4',
                 'comment' => '别名',
                 'after' => 'title',
-            ])->save();
+            ]);
+        }
+
+        $table->save();
     }
 
 }

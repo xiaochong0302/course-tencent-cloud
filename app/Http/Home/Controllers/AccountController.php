@@ -52,25 +52,6 @@ class AccountController extends Controller
     }
 
     /**
-     * @Post("/register", name="home.account.do_register")
-     */
-    public function doRegisterAction()
-    {
-        $service = new AccountService();
-
-        $service->register();
-
-        $returnUrl = $this->request->getPost('return_url', 'string');
-
-        $content = [
-            'location' => $returnUrl ?: '/',
-            'msg' => '注册成功',
-        ];
-
-        return $this->jsonSuccess($content);
-    }
-
-    /**
      * @Get("/login", name="home.account.login")
      */
     public function loginAction()
@@ -104,6 +85,62 @@ class AccountController extends Controller
     }
 
     /**
+     * @Get("/logout", name="home.account.logout")
+     */
+    public function logoutAction()
+    {
+        $service = new AccountService();
+
+        $service->logout();
+
+        return $this->response->redirect(['for' => 'home.index']);
+    }
+
+    /**
+     * @Get("/forget", name="home.account.forget")
+     */
+    public function forgetAction()
+    {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getAccountForgetUrl();
+            return $this->response->redirect($location);
+        }
+
+        if ($this->authUser->id > 0) {
+            return $this->response->redirect(['for' => 'home.index']);
+        }
+
+        $service = new AccountService();
+
+        $captcha = $service->getSettings('captcha');
+
+        $this->seo->prependTitle('重置密码');
+
+        $this->view->setVar('captcha', $captcha);
+    }
+
+    /**
+     * @Post("/register", name="home.account.do_register")
+     */
+    public function doRegisterAction()
+    {
+        $service = new AccountService();
+
+        $service->register();
+
+        $returnUrl = $this->request->getPost('return_url', 'string');
+
+        $content = [
+            'location' => $returnUrl ?: '/',
+            'msg' => '注册成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
      * @Post("/password/login", name="home.account.pwd_login")
      */
     public function loginByPasswordAction()
@@ -133,44 +170,6 @@ class AccountController extends Controller
         $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
 
         return $this->jsonSuccess(['location' => $location]);
-    }
-
-    /**
-     * @Get("/logout", name="home.account.logout")
-     */
-    public function logoutAction()
-    {
-        $service = new AccountService();
-
-        $service->logout();
-
-        return $this->response->redirect(['for' => 'home.index']);
-    }
-
-    /**
-     * @Get("/password/forget", name="home.account.forget_pwd")
-     */
-    public function forgetPasswordAction()
-    {
-        $service = new FullH5UrlService();
-
-        if ($service->isMobileBrowser() && $service->h5Enabled()) {
-            $location = $service->getAccountForgetUrl();
-            return $this->response->redirect($location);
-        }
-
-        if ($this->authUser->id > 0) {
-            return $this->response->redirect(['for' => 'home.index']);
-        }
-
-        $service = new AccountService();
-
-        $captcha = $service->getSettings('captcha');
-
-        $this->seo->prependTitle('忘记密码');
-
-        $this->view->pick('account/forget_password');
-        $this->view->setVar('captcha', $captcha);
     }
 
     /**

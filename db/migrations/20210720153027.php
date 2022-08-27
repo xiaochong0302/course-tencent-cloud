@@ -27,7 +27,13 @@ final class V20210720153027 extends AbstractMigration
 
     protected function createCourseTagTable()
     {
-        $this->table('kg_course_tag', [
+        $tableName = 'kg_course_tag';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -80,8 +86,10 @@ final class V20210720153027 extends AbstractMigration
 
     protected function alterCourseTable()
     {
-        $this->table('kg_course')
-            ->addColumn('tags', 'string', [
+        $table = $this->table('kg_course');
+
+        if ($table->hasColumn('tags') == false) {
+            $table->addColumn('tags', 'string', [
                 'null' => false,
                 'default' => '',
                 'limit' => 255,
@@ -89,13 +97,18 @@ final class V20210720153027 extends AbstractMigration
                 'encoding' => 'utf8mb4',
                 'comment' => '标签',
                 'after' => 'summary',
-            ])->save();
+            ]);
+        }
+
+        $table->save();
     }
 
     protected function alterCategoryTable()
     {
-        $this->table('kg_category')
-            ->addColumn('alias', 'string', [
+        $table = $this->table('kg_category');
+
+        if ($table->hasColumn('alias') == false) {
+            $table->addColumn('alias', 'string', [
                 'null' => false,
                 'default' => '',
                 'limit' => 30,
@@ -103,7 +116,11 @@ final class V20210720153027 extends AbstractMigration
                 'encoding' => 'utf8mb4',
                 'comment' => '别名',
                 'after' => 'name',
-            ])->addColumn('icon', 'string', [
+            ]);
+        }
+
+        if ($table->hasColumn('icon') == false) {
+            $table->addColumn('icon', 'string', [
                 'null' => false,
                 'default' => '',
                 'limit' => 100,
@@ -111,13 +128,19 @@ final class V20210720153027 extends AbstractMigration
                 'encoding' => 'utf8mb4',
                 'comment' => '图标',
                 'after' => 'name',
-            ])->save();
+            ]);
+        }
+
+        $table->save();
     }
 
     protected function alterTagTable()
     {
-        $this->table('kg_tag')
-            ->addColumn('scopes', 'string', [
+        $table = $this->table('kg_tag');
+
+        if ($table->hasColumn('scopes') == false) {
+
+            $table->addColumn('scopes', 'string', [
                 'null' => false,
                 'default' => '',
                 'limit' => 100,
@@ -125,32 +148,43 @@ final class V20210720153027 extends AbstractMigration
                 'encoding' => 'utf8mb4',
                 'comment' => '范围',
                 'after' => 'icon',
-            ])
-            ->addColumn('course_count', 'integer', [
+            ]);
+        }
+
+        if ($table->hasColumn('course_count') == false) {
+            $table->addColumn('course_count', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'signed' => false,
                 'comment' => '课程数',
                 'after' => 'follow_count',
-            ])
-            ->addColumn('article_count', 'integer', [
+            ]);
+        }
+
+        if ($table->hasColumn('article_count') == false) {
+            $table->addColumn('article_count', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'signed' => false,
                 'comment' => '文章数',
                 'after' => 'course_count',
-            ])
-            ->addColumn('question_count', 'integer', [
+            ]);
+        }
+
+        if ($table->hasColumn('question_count') == false) {
+            $table->addColumn('question_count', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'signed' => false,
                 'comment' => '问题数',
                 'after' => 'article_count',
-            ])
-            ->save();
+            ]);
+        }
+
+        $table->save();
     }
 
     protected function handleCourseTags()

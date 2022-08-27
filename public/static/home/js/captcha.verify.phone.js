@@ -6,18 +6,18 @@ layui.use(['jquery', 'layer', 'util', 'helper'], function () {
     var helper = layui.helper;
 
     var timeCounting = false;
-    var $account = $('#cv-account');
-    var $emit = $('#cv-emit-btn');
-    var $submit = $('#cv-submit-btn');
+    var $account = $('#cv-phone');
+    var $emit = $('#cv-phone-emit-btn');
+    var $submit = $('#cv-phone-submit-btn');
 
-    if ($('#cv-captcha-enabled').val() === '1') {
+    if ($('#cv-phone-captcha-enabled').val() === '1') {
         var captcha = new TencentCaptcha(
             $emit[0],
-            $('#cv-captcha-appId').val(),
+            $('#cv-phone-captcha-appId').val(),
             function (res) {
                 if (res.ret === 0) {
-                    $('#cv-captcha-ticket').val(res.ticket);
-                    $('#cv-captcha-rand').val(res.randstr);
+                    $('#cv-phone-captcha-ticket').val(res.ticket);
+                    $('#cv-phone-captcha-rand').val(res.randstr);
                     sendVerifyCode();
                 }
             }
@@ -30,7 +30,7 @@ layui.use(['jquery', 'layer', 'util', 'helper'], function () {
 
     $account.on('keyup', function () {
         var account = $(this).val();
-        var accountOk = helper.isPhone(account) || helper.isEmail(account);
+        var accountOk = helper.isPhone(account);
         if (accountOk && !timeCounting) {
             $emit.removeClass('layui-btn-disabled').removeAttr('disabled');
         } else {
@@ -39,21 +39,15 @@ layui.use(['jquery', 'layer', 'util', 'helper'], function () {
     });
 
     function sendVerifyCode() {
-        if (helper.isEmail($account.val()) || helper.isPhone($account.val())) {
-            var postUrl;
+        if (helper.isPhone($account.val())) {
+            var postUrl = '/verify/sms/code';
             var postData = {
+                phone: $account.val(),
                 captcha: {
-                    ticket: $('#cv-captcha-ticket').val(),
-                    rand: $('#cv-captcha-rand').val(),
+                    ticket: $('#cv-phone-captcha-ticket').val(),
+                    rand: $('#cv-phone-captcha-rand').val(),
                 }
             };
-            if (helper.isPhone($account.val())) {
-                postData.phone = $account.val();
-                postUrl = '/verify/sms/code';
-            } else if (helper.isEmail($account.val())) {
-                postData.email = $account.val();
-                postUrl = '/verify/mail/code';
-            }
             $.ajax({
                 type: 'POST',
                 url: postUrl,

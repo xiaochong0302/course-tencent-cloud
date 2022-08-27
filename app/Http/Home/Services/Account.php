@@ -47,6 +47,15 @@ class Account extends Service
     {
         $post = $this->request->getPost();
 
+        /**
+         * 使用[account|phone|email]做账户名字段兼容
+         */
+        if (isset($post['phone'])) {
+            $post['account'] = $post['phone'];
+        } elseif (isset($post['email'])) {
+            $post['account'] = $post['email'];
+        }
+
         $validator = new AccountValidator();
 
         $user = $validator->checkUserLogin($post['account'], $post['password']);
@@ -73,6 +82,15 @@ class Account extends Service
     public function loginByVerify()
     {
         $post = $this->request->getPost();
+
+        /**
+         * 使用[account|phone|email]做账户名字段兼容
+         */
+        if (isset($post['phone'])) {
+            $post['account'] = $post['phone'];
+        } elseif (isset($post['email'])) {
+            $post['account'] = $post['email'];
+        }
 
         $validator = new AccountValidator();
 

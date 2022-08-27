@@ -6,6 +6,14 @@ layui.define(['jquery', 'layer'], function (exports) {
 
     var helper = {};
 
+    helper.isEmail = function (email) {
+        return /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(email);
+    };
+
+    helper.isPhone = function (phone) {
+        return /^1(3|4|5|6|7|8|9)\d{9}$/.test(phone);
+    };
+
     helper.getRequestId = function () {
         var id = Date.now().toString(36);
         id += Math.random().toString(36).substr(3);

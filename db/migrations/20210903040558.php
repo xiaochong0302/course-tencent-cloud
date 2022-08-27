@@ -5,17 +5,21 @@
  * @link https://www.koogua.com
  */
 
+require_once 'SettingTrait.php';
+
 use Phinx\Migration\AbstractMigration;
 
 final class V20210903040558 extends AbstractMigration
 {
 
+    use SettingTrait;
+
     public function up()
     {
-        $this->handleVodSetting();
+        $this->handleVodSettings();
     }
 
-    protected function handleVodSetting()
+    protected function handleVodSettings()
     {
         $row = $this->getQueryBuilder()
             ->select('*')

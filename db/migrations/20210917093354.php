@@ -5,16 +5,20 @@
  * @link https://www.koogua.com
  */
 
+require_once 'SettingTrait.php';
+
 use Phinx\Db\Adapter\MysqlAdapter;
 
 class V20210917093354 extends Phinx\Migration\AbstractMigration
 {
 
+    use SettingTrait;
+
     public function up()
     {
         $this->alterConnectTable();
         $this->alterWechatSubscribeTable();
-        $this->handleLocalAuthSetting();
+        $this->handleLocalAuthSettings();
     }
 
     protected function alterConnectTable()
@@ -92,7 +96,7 @@ class V20210917093354 extends Phinx\Migration\AbstractMigration
         $table->save();
     }
 
-    protected function handleLocalAuthSetting()
+    protected function handleLocalAuthSettings()
     {
         $rows = [
             [
@@ -107,7 +111,7 @@ class V20210917093354 extends Phinx\Migration\AbstractMigration
             ]
         ];
 
-        $this->table('kg_setting')->insert($rows)->save();
+        $this->insertSettings($rows);
     }
 
 }

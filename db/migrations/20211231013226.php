@@ -2,26 +2,29 @@
 
 use Phinx\Migration\AbstractMigration;
 
+require_once 'SettingTrait.php';
+
 final class V20211231013226 extends AbstractMigration
 {
 
+    use SettingTrait;
+
     public function up()
     {
-        $this->handleSmsSetting();
+        $this->handleSmsSettings();
     }
 
-    protected function handleSmsSetting()
+    protected function handleSmsSettings()
     {
-        $row =
+        $rows = [
             [
-                [
-                    'section' => 'sms',
-                    'item_key' => 'region',
-                    'item_value' => 'ap-guangzhou',
-                ]
-            ];
+                'section' => 'sms',
+                'item_key' => 'region',
+                'item_value' => 'ap-guangzhou',
+            ]
+        ];
 
-        $this->table('kg_setting')->insert($row)->save();
+        $this->insertSettings($rows);
     }
 
 }

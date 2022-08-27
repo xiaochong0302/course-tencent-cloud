@@ -46,15 +46,6 @@ final class V20210403184518 extends AbstractMigration
         ];
 
         $this->table('kg_user')->insert($user)->saveData();
-
-        $imUser = [
-            'id' => $user['id'],
-            'name' => $user['name'],
-            'avatar' => $user['avatar'],
-            'create_time' => $now,
-        ];
-
-        $this->table('kg_im_user')->insert($imUser)->saveData();
     }
 
     protected function initRoleData()
@@ -949,7 +940,6 @@ final class V20210403184518 extends AbstractMigration
                     'course_review' => ['enabled' => 1, 'point' => 50],
                     'chapter_study' => ['enabled' => 1, 'point' => 10],
                     'site_visit' => ['enabled' => 1, 'point' => 10],
-                    'im_discuss' => ['enabled' => 1, 'point' => 10],
                     'article_post' => ['enabled' => 1, 'point' => 20, 'limit' => 50],
                     'question_post' => ['enabled' => 1, 'point' => 5, 'limit' => 50],
                     'answer_post' => ['enabled' => 1, 'point' => 5, 'limit' => 50],
