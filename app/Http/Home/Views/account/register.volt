@@ -8,8 +8,7 @@
 
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
-        <a><cite>帐号</cite></a>
-        <a><cite>注册</cite></a>
+        <a><cite>用户注册</cite></a>
     </div>
 
     <div class="login-wrap wrap">
@@ -28,7 +27,7 @@
             </div>
         </div>
         <div class="link">
-            <a class="login-link" href="{{ url({'for':'home.account.login'}) }}">登录账户</a>
+            <a class="login-link" href="{{ url({'for':'home.account.login'}) }}">用户登录</a>
             <span class="separator">·</span>
             <a class="forget-link" href="{{ url({'for':'home.account.forget'}) }}">忘记密码</a>
         </div>
@@ -39,6 +38,7 @@
 {% block include_js %}
 
     {{ js_include('https://ssl.captcha.qq.com/TCaptcha.js',false) }}
-    {{ js_include('home/js/captcha.verify.js') }}
+    {{ js_include('home/js/captcha.verify.phone.js') }}
+    {{ js_include('home/js/captcha.verify.email.js') }}
 
 {% endblock %}
