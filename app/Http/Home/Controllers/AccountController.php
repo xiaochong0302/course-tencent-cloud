@@ -44,7 +44,7 @@ class AccountController extends Controller
 
         $captcha = $service->getSettings('captcha');
 
-        $this->seo->prependTitle('注册');
+        $this->seo->prependTitle('用户注册');
 
         $this->view->setVar('return_url', $returnUrl);
         $this->view->setVar('local_oauth', $oauthProvider['local']);
@@ -77,7 +77,7 @@ class AccountController extends Controller
 
         $returnUrl = $this->request->getHTTPReferer();
 
-        $this->seo->prependTitle('登录');
+        $this->seo->prependTitle('用户登录');
 
         $this->view->setVar('oauth_provider', $oauthProvider);
         $this->view->setVar('return_url', $returnUrl);
