@@ -353,16 +353,14 @@
 }
 
 .search-course-card,
-.search-article-card,
-.search-user-card {
+.search-article-card {
     display: flex;
     padding-bottom: 15px;
     margin-bottom: 15px;
     border-bottom: 1px solid #f6f6f6;
 }
 
-.search-course-card:last-child,
-.search-user-card:last-child {
+.search-course-card:last-child {
     padding-bottom: 0;
     margin-bottom: 0;
     border: none;
@@ -374,8 +372,7 @@
     margin-right: 15px;
 }
 
-.search-course-card .cover img,
-.search-user-card .avatar img {
+.search-course-card .cover img {
     width: 100%;
     height: 100%;
 }
@@ -384,14 +381,12 @@
     width: 500px;
 }
 
-.search-course-card .title,
-.search-user-card .name {
+.search-course-card .title {
     margin-bottom: 10px;
     white-space: nowrap;
 }
 
-.search-course-card .summary,
-.search-user-card .about {
+.search-course-card .summary {
     margin-bottom: 10px;
     line-height: 1.5em;
     max-height: 4.5em;
@@ -401,39 +396,22 @@
 }
 
 .search-course-card .meta,
-.search-user-card .meta,
 .search-article-card .meta,
 .search-question-card .meta {
     color: #999;
 }
 
 .search-course-card .meta span,
-.search-user-card .meta span,
 .search-article-card .meta span,
 .search-question-card .meta span {
     margin-right: 10px;
 }
 
 .search-course-card em,
-.search-user-card em,
 .search-article-card em,
 .search-question-card em {
     color: red;
     font-style: normal;
-}
-
-.search-user-card .avatar {
-    width: 90px;
-    height: 90px;
-    margin-right: 15px;
-}
-
-.search-user-card .avatar img {
-    border-radius: 100%;
-}
-
-.search-user-card .info {
-    width: 600px;
 }
 
 .query-badge {
