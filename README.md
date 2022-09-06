@@ -6,10 +6,10 @@
 
 酷瓜云课堂，依托腾讯云基础服务架构，采用C扩展框架Phalcon开发，GPL-2.0开源协议，致力开源网课系统，开源网校系统，开源知识付费系统，开源在线教育系统。
 
-![star](https://koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=star)
-![fork](https://koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=fork)
-![license](https://koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=license)
-![release](https://koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=release)
+![star](https://www.koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=star)
+![fork](https://www.koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=fork)
+![license](https://www.koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=license)
+![release](https://www.koogua.com/gitee/badge?user=koogua&project=course-tencent-cloud&type=release)
 
 ### 系统功能
 
@@ -69,12 +69,12 @@ Tips: 请用手机注册一个新账号，用户中心 -> 关注订阅，扫码�
 
 ### 项目文档
 
-- [运行环境搭建](https://koogua.com/page/wiki)
-- [系统服务配置](https://koogua.com/page/wiki)
-- [客户终端配置](https://koogua.com/page/wiki)
+- [运行环境搭建](https://www.koogua.com/page/wiki)
+- [系统服务配置](https://www.koogua.com/page/wiki)
+- [客户终端配置](https://www.koogua.com/page/wiki)
 
 ### 意见反馈
 
 - [码云平台](https://gitee.com/koogua/course-tencent-cloud/issues)
-- [官方社区](https://koogua.com/community)
+- [官方社区](https://www.koogua.com/community)
 - QQ交流群: 787363898

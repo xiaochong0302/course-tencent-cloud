@@ -115,7 +115,7 @@ class Index extends Service
 
     public function getReleases()
     {
-        $url = 'https://koogua.com/api/releases';
+        $url = 'https://www.koogua.com/api/releases';
 
         $client = new Client();
 

@@ -104,9 +104,6 @@ class CleanDemoDataTask extends Task
         $courseIndexTask = new CourseIndexTask();
         $courseIndexTask->cleanAction();
 
-        $groupIndexTask = new GroupIndexTask();
-        $groupIndexTask->cleanAction();
-
         $questionIndexTask = new QuestionIndexTask();
         $questionIndexTask->cleanAction();
 
