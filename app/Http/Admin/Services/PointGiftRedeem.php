@@ -11,7 +11,7 @@ use App\Library\Paginator\Query as PagerQuery;
 use App\Models\PointGift as PointGiftModel;
 use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Repos\PointGiftRedeem as PointGiftRedeemRepo;
-use App\Services\Logic\Notice\PointGoodsDeliver as PointGoodsDeliverNotice;
+use App\Services\Logic\Notice\External\PointGoodsDeliver as PointGoodsDeliverNotice;
 use App\Validators\PointGiftRedeem as PointGiftRedeemValidator;
 
 class PointGiftRedeem extends Service

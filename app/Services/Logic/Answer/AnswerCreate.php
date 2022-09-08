@@ -13,7 +13,7 @@ use App\Models\User as UserModel;
 use App\Repos\Question as QuestionRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\AnswerTrait;
-use App\Services\Logic\Notice\System\QuestionAnswered as QuestionAnsweredNotice;
+use App\Services\Logic\Notice\Internal\QuestionAnswered as QuestionAnsweredNotice;
 use App\Services\Logic\Point\History\AnswerPost as AnswerPostPointHistory;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;

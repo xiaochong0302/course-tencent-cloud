@@ -19,7 +19,7 @@ use App\Repos\Vip as VipRepo;
 use App\Services\Logic\Deliver\CourseDeliver as CourseDeliverService;
 use App\Services\Logic\Deliver\PackageDeliver as PackageDeliverService;
 use App\Services\Logic\Deliver\VipDeliver as VipDeliverService;
-use App\Services\Logic\Notice\OrderFinish as OrderFinishNotice;
+use App\Services\Logic\Notice\External\OrderFinish as OrderFinishNotice;
 use App\Services\Logic\Point\History\OrderConsume as OrderConsumePointHistory;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;

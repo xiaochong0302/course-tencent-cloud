@@ -14,9 +14,9 @@ class AppInfo
 
     protected $alias = 'CTC';
 
-    protected $link = 'https://koogua.com';
+    protected $link = 'https://www.koogua.com';
 
-    protected $version = '1.5.8';
+    protected $version = '1.5.9';
 
     public function __get($name)
     {

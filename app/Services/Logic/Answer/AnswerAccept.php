@@ -10,7 +10,7 @@ namespace App\Services\Logic\Answer;
 use App\Models\Answer as AnswerModel;
 use App\Models\User as UserModel;
 use App\Services\Logic\AnswerTrait;
-use App\Services\Logic\Notice\System\AnswerAccepted as AnswerAcceptedNotice;
+use App\Services\Logic\Notice\Internal\AnswerAccepted as AnswerAcceptedNotice;
 use App\Services\Logic\Point\History\AnswerAccepted as AnswerAcceptPointHistory;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;

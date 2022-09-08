@@ -12,7 +12,7 @@ use App\Models\CommentLike as CommentLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\CommentLike as CommentLikeRepo;
 use App\Services\Logic\CommentTrait;
-use App\Services\Logic\Notice\System\CommentLiked as CommentLikedNotice;
+use App\Services\Logic\Notice\Internal\CommentLiked as CommentLikedNotice;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 

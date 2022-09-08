@@ -11,7 +11,7 @@ use App\Models\Question as QuestionModel;
 use App\Models\QuestionFavorite as QuestionFavoriteModel;
 use App\Models\User as UserModel;
 use App\Repos\QuestionFavorite as QuestionFavoriteRepo;
-use App\Services\Logic\Notice\System\QuestionFavorited as QuestionFavoritedNotice;
+use App\Services\Logic\Notice\Internal\QuestionFavorited as QuestionFavoritedNotice;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;

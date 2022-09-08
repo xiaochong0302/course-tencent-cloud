@@ -11,7 +11,7 @@ use App\Models\Review as ReviewModel;
 use App\Models\ReviewLike as ReviewLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\ReviewLike as ReviewLikeRepo;
-use App\Services\Logic\Notice\System\ReviewLiked as ReviewLikedNotice;
+use App\Services\Logic\Notice\Internal\ReviewLiked as ReviewLikedNotice;
 use App\Services\Logic\ReviewTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;

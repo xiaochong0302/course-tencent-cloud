@@ -200,16 +200,6 @@ function kg_default_user_avatar_path()
 }
 
 /**
- * 获取默认群组头像路径
- *
- * @return string
- */
-function kg_default_group_avatar_path()
-{
-    return '/img/default/group_avatar.png';
-}
-
-/**
  * 获取默认课程封面路径
  *
  * @return string
@@ -311,20 +301,6 @@ function kg_cos_img_url($path, $style = null)
 function kg_cos_user_avatar_url($path, $style = null)
 {
     $path = $path ?: kg_default_user_avatar_path();
-
-    return kg_cos_img_url($path, $style);
-}
-
-/**
- * 获取群组头像URL
- *
- * @param string $path
- * @param string $style
- * @return string
- */
-function kg_cos_group_avatar_url($path, $style = null)
-{
-    $path = $path ?: kg_default_group_avatar_path();
 
     return kg_cos_img_url($path, $style);
 }
@@ -442,7 +418,7 @@ function kg_clean_html($content)
  * @param int $length
  * @return string
  */
-function kg_parse_summary($content, $length = 100)
+function kg_parse_summary($content, $length = 150)
 {
     $content = trim(strip_tags($content));
 

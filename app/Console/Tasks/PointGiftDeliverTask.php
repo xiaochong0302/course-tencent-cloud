@@ -17,7 +17,7 @@ use App\Repos\User as UserRepo;
 use App\Repos\Vip as VipRepo;
 use App\Services\Logic\Deliver\CourseDeliver as CourseDeliverService;
 use App\Services\Logic\Deliver\VipDeliver as VipDeliverService;
-use App\Services\Logic\Notice\DingTalk\PointGiftRedeem as PointGiftRedeemNotice;
+use App\Services\Logic\Notice\External\DingTalk\PointGiftRedeem as PointGiftRedeemNotice;
 use App\Services\Logic\Point\History\PointGiftRefund as PointGiftRefundPointHistory;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;

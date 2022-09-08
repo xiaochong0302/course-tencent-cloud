@@ -15,7 +15,7 @@ use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Services\Logic\ChapterTrait;
 use App\Services\Logic\CourseTrait;
-use App\Services\Logic\Notice\DingTalk\ConsultCreate as ConsultCreateNotice;
+use App\Services\Logic\Notice\External\DingTalk\ConsultCreate as ConsultCreateNotice;
 use App\Services\Logic\Service as LogicService;
 use App\Traits\Client as ClientTrait;
 use App\Validators\Consult as ConsultValidator;

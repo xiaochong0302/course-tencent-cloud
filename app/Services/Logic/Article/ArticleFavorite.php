@@ -12,7 +12,7 @@ use App\Models\ArticleFavorite as ArticleFavoriteModel;
 use App\Models\User as UserModel;
 use App\Repos\ArticleFavorite as ArticleFavoriteRepo;
 use App\Services\Logic\ArticleTrait;
-use App\Services\Logic\Notice\System\ArticleFavorited as ArticleFavoritedNotice;
+use App\Services\Logic\Notice\Internal\ArticleFavorited as ArticleFavoritedNotice;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 

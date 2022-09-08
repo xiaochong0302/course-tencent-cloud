@@ -95,15 +95,6 @@ class Notification extends Model
     const TYPE_ANSWER_COMMENTED = 227;
     const TYPE_ANSWER_LIKED = 228;
 
-    /* -------------- 微聊相关 -------------- */
-
-    const TYPE_FRIEND_REQUEST = 0; // 好友请求
-    const TYPE_FRIEND_ACCEPTED = 0; // 好友被接受
-    const TYPE_FRIEND_REFUSED = 0; // 好友被拒绝
-    const TYPE_GROUP_REQUEST = 0; // 入群请求
-    const TYPE_GROUP_ACCEPTED = 0; // 入群被接受
-    const TYPE_GROUP_REFUSED = 0; // 入群被拒绝
-
     /* -------------- 评论相关 -------------- */
 
     const TYPE_COMMENT_CREATED = 500;

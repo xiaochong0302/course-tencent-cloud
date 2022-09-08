@@ -12,7 +12,7 @@ use App\Models\AnswerLike as AnswerLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\AnswerLike as AnswerLikeRepo;
 use App\Services\Logic\AnswerTrait;
-use App\Services\Logic\Notice\System\AnswerLiked as AnswerLikedNotice;
+use App\Services\Logic\Notice\Internal\AnswerLiked as AnswerLikedNotice;
 use App\Services\Logic\Point\History\AnswerLiked as AnswerLikedPointHistory;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;

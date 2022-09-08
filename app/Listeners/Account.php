@@ -8,7 +8,7 @@
 namespace App\Listeners;
 
 use App\Models\User as UserModel;
-use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
+use App\Services\Logic\Notice\External\AccountLogin as AccountLoginNoticeService;
 use App\Services\Logic\Point\History\AccountRegister as AccountRegisterPointHistory;
 use Phalcon\Events\Event as PhEvent;
 
