@@ -21,9 +21,9 @@ use App\Repos\Report as ReportRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Logic\Answer\AnswerDataTrait;
 use App\Services\Logic\Answer\AnswerInfo as AnswerInfoService;
-use App\Services\Logic\Notice\System\AnswerApproved as AnswerApprovedNotice;
-use App\Services\Logic\Notice\System\AnswerRejected as AnswerRejectedNotice;
-use App\Services\Logic\Notice\System\QuestionAnswered as QuestionAnsweredNotice;
+use App\Services\Logic\Notice\Internal\AnswerApproved as AnswerApprovedNotice;
+use App\Services\Logic\Notice\Internal\AnswerRejected as AnswerRejectedNotice;
+use App\Services\Logic\Notice\Internal\QuestionAnswered as QuestionAnsweredNotice;
 use App\Services\Logic\Point\History\AnswerPost as AnswerPostPointHistory;
 use App\Validators\Answer as AnswerValidator;
 

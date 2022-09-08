@@ -16,7 +16,7 @@ use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Auth\Home as AuthService;
 use App\Services\Auth\Home as HomeAuthService;
 use App\Services\Logic\Account\Register as RegisterService;
-use App\Services\Logic\Notice\AccountLogin as AccountLoginNotice;
+use App\Services\Logic\Notice\External\AccountLogin as AccountLoginNotice;
 use App\Services\OAuth\QQ as QQAuth;
 use App\Services\OAuth\WeiBo as WeiBoAuth;
 use App\Services\OAuth\WeiXin as WeiXinAuth;

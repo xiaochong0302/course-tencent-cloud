@@ -7,7 +7,7 @@
 
 namespace App\Services\Logic\Verify;
 
-use App\Services\Logic\Notice\Sms\Verify as SmsVerifyService;
+use App\Services\Logic\Notice\External\Sms\Verify as SmsVerifyService;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\Captcha as CaptchaValidator;
 use App\Validators\Verify as VerifyValidator;

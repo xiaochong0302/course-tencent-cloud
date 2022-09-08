@@ -8,16 +8,15 @@
 namespace App\Console\Tasks;
 
 use App\Models\Task as TaskModel;
-use App\Services\Logic\Notice\AccountLogin as AccountLoginNotice;
-use App\Services\Logic\Notice\ConsultReply as ConsultReplyNotice;
-use App\Services\Logic\Notice\DingTalk\ConsultCreate as ConsultCreateNotice;
-use App\Services\Logic\Notice\DingTalk\CustomService as CustomServiceNotice;
-use App\Services\Logic\Notice\DingTalk\ServerMonitor as ServerMonitorNotice;
-use App\Services\Logic\Notice\DingTalk\TeacherLive as TeacherLiveNotice;
-use App\Services\Logic\Notice\LiveBegin as LiveBeginNotice;
-use App\Services\Logic\Notice\OrderFinish as OrderFinishNotice;
-use App\Services\Logic\Notice\PointGoodsDeliver as PointGoodsDeliverNotice;
-use App\Services\Logic\Notice\RefundFinish as RefundFinishNotice;
+use App\Services\Logic\Notice\External\AccountLogin as AccountLoginNotice;
+use App\Services\Logic\Notice\External\ConsultReply as ConsultReplyNotice;
+use App\Services\Logic\Notice\External\DingTalk\ConsultCreate as ConsultCreateNotice;
+use App\Services\Logic\Notice\External\DingTalk\ServerMonitor as ServerMonitorNotice;
+use App\Services\Logic\Notice\External\DingTalk\TeacherLive as TeacherLiveNotice;
+use App\Services\Logic\Notice\External\LiveBegin as LiveBeginNotice;
+use App\Services\Logic\Notice\External\OrderFinish as OrderFinishNotice;
+use App\Services\Logic\Notice\External\PointGoodsDeliver as PointGoodsDeliverNotice;
+use App\Services\Logic\Notice\External\RefundFinish as RefundFinishNotice;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
@@ -61,9 +60,6 @@ class NoticeTask extends Task
                         break;
                     case TaskModel::TYPE_STAFF_NOTICE_SERVER_MONITOR:
                         $this->handleServerMonitorNotice($task);
-                        break;
-                    case TaskModel::TYPE_STAFF_NOTICE_CUSTOM_SERVICE:
-                        $this->handleCustomServiceNotice($task);
                         break;
                 }
 
@@ -157,13 +153,6 @@ class NoticeTask extends Task
         $notice->handleTask($task);
     }
 
-    protected function handleCustomServiceNotice(TaskModel $task)
-    {
-        $notice = new CustomServiceNotice();
-
-        $notice->handleTask($task);
-    }
-
     /**
      * @param int $limit
      * @return ResultsetInterface|Resultset|TaskModel[]
@@ -181,7 +170,6 @@ class NoticeTask extends Task
             TaskModel::TYPE_STAFF_NOTICE_CONSULT_CREATE,
             TaskModel::TYPE_STAFF_NOTICE_TEACHER_LIVE,
             TaskModel::TYPE_STAFF_NOTICE_SERVER_MONITOR,
-            TaskModel::TYPE_STAFF_NOTICE_CUSTOM_SERVICE,
         ];
 
         $status = TaskModel::STATUS_PENDING;

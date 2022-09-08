@@ -9,7 +9,7 @@ namespace App\Services\Logic\Consult;
 
 use App\Models\Consult as ConsultModel;
 use App\Services\Logic\ConsultTrait;
-use App\Services\Logic\Notice\ConsultReply as ConsultReplyNotice;
+use App\Services\Logic\Notice\External\ConsultReply as ConsultReplyNotice;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\Consult as ConsultValidator;
 

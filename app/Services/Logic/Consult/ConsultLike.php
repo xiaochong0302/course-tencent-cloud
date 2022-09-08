@@ -12,7 +12,7 @@ use App\Models\ConsultLike as ConsultLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\ConsultLike as ConsultLikeRepo;
 use App\Services\Logic\ConsultTrait;
-use App\Services\Logic\Notice\System\ConsultLiked as ConsultLikedNotice;
+use App\Services\Logic\Notice\Internal\ConsultLiked as ConsultLikedNotice;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;
 

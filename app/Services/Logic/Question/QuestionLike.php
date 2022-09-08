@@ -11,7 +11,7 @@ use App\Models\Question as QuestionModel;
 use App\Models\QuestionLike as QuestionLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\QuestionLike as QuestionLikeRepo;
-use App\Services\Logic\Notice\System\QuestionLiked as QuestionLikedNotice;
+use App\Services\Logic\Notice\Internal\QuestionLiked as QuestionLikedNotice;
 use App\Services\Logic\Point\History\QuestionLiked as QuestionLikedPointHistory;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;

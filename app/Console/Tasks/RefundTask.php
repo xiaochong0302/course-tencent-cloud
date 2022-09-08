@@ -16,7 +16,7 @@ use App\Repos\Order as OrderRepo;
 use App\Repos\Refund as RefundRepo;
 use App\Repos\Trade as TradeRepo;
 use App\Repos\User as UserRepo;
-use App\Services\Logic\Notice\RefundFinish as RefundFinishNotice;
+use App\Services\Logic\Notice\External\RefundFinish as RefundFinishNotice;
 use App\Services\Pay\Alipay as AlipayService;
 use App\Services\Pay\Wxpay as WxpayService;
 use Phalcon\Mvc\Model\Resultset;

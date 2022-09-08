@@ -16,7 +16,7 @@ use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
 use App\Services\Logic\Consult\ConsultInfo as ConsultInfoService;
-use App\Services\Logic\Notice\ConsultReply as ConsultReplyNotice;
+use App\Services\Logic\Notice\External\ConsultReply as ConsultReplyNotice;
 use App\Validators\Consult as ConsultValidator;
 
 class Consult extends Service
