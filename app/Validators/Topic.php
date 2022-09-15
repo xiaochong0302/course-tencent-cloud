@@ -10,6 +10,7 @@ namespace App\Validators;
 use App\Caches\MaxTopicId as MaxTopicIdCache;
 use App\Caches\Topic as TopicCache;
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Topic as TopicModel;
 use App\Repos\Topic as TopicRepo;
 
@@ -79,6 +80,17 @@ class Topic extends Validator
         }
 
         return $value;
+    }
+
+    public function checkCover($cover)
+    {
+        $value = $this->filter->sanitize($cover, ['trim', 'string']);
+
+        if (!CommonValidator::url($value)) {
+            throw new BadRequestException('topic.invalid_cover');
+        }
+
+        return kg_cos_img_style_trim($value);
     }
 
     public function checkSummary($summary)

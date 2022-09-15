@@ -28,6 +28,7 @@ class PageInfo extends LogicService
         return [
             'id' => $page->id,
             'title' => $page->title,
+            'keywords' => $page->keywords,
             'content' => $page->content,
             'published' => $page->published,
             'deleted' => $page->deleted,

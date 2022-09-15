@@ -28,6 +28,7 @@ class TopicInfo extends LogicService
         return [
             'id' => $topic->id,
             'title' => $topic->title,
+            'topic' => $topic->cover,
             'summary' => $topic->summary,
             'published' => $topic->published,
             'deleted' => $topic->deleted,

@@ -452,6 +452,32 @@ function kg_parse_summary($content, $length = 150)
 }
 
 /**
+ * 解析关键字
+ *
+ * @param string $content
+ * @return string
+ */
+function kg_parse_keywords($content)
+{
+    $search = ['|', ';', '；', '、', ','];
+
+    $keywords = str_replace($search, '@', $content);
+
+    $keywords = explode('@', $keywords);
+
+    $list = [];
+
+    foreach ($keywords as $keyword) {
+        $keyword = trim($keyword);
+        if (kg_strlen($keyword) > 1) {
+            $list[] = $keyword;
+        }
+    }
+
+    return implode('，', $list);
+}
+
+/**
  * 解析内容中上传首图
  *
  * @param string $content

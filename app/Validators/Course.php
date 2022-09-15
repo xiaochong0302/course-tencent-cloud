@@ -148,7 +148,7 @@ class Course extends Validator
         $length = kg_strlen($keywords);
 
         if ($length > 100) {
-            throw new BadRequestException('course.keywords_too_long');
+            throw new BadRequestException('course.keyword_too_long');
         }
 
         $keywords = str_replace(['|', ';', '；', '、', ','], '@', $keywords);

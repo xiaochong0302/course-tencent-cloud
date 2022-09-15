@@ -169,6 +169,10 @@ class Article extends Service
             $data['title'] = $validator->checkTitle($post['title']);
         }
 
+        if (isset($post['keywords'])) {
+            $data['keywords'] = $validator->checkKeywords($post['keywords']);
+        }
+
         if (isset($post['content'])) {
             $data['content'] = $validator->checkContent($post['content']);
             $data['word_count'] = WordUtil::getWordCount($data['content']);

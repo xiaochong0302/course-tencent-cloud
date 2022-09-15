@@ -51,6 +51,7 @@ class QuestionInfo extends LogicService
             'title' => $question->title,
             'summary' => $question->summary,
             'content' => $question->content,
+            'keywords' => $question->keywords,
             'tags' => $question->tags,
             'bounty' => $question->bounty,
             'anonymous' => $question->anonymous,
