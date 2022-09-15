@@ -57,7 +57,7 @@ layui.define(['jquery', 'layer'], function (exports) {
     };
 
     helper.weiboShare = function (title, url, pic) {
-        var shareUrl = 'http://v.t.sina.com.cn/share/share.php?';
+        var shareUrl = 'http://service.weibo.com/share/share.php?';
         shareUrl += 'title=' + encodeURIComponent(title || document.title);
         shareUrl += '&url=' + encodeURIComponent(url || document.location);
         shareUrl += '&pic=' + encodeURIComponent(pic || '');
