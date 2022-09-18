@@ -6,8 +6,9 @@
  */
 
 use Phinx\Db\Adapter\MysqlAdapter;
+use Phinx\Migration\AbstractMigration;
 
-class V20220801025747 extends Phinx\Migration\AbstractMigration
+final class V20220801025747 extends AbstractMigration
 {
 
     public function up()

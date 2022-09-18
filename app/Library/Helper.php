@@ -220,6 +220,16 @@ function kg_default_package_cover_path()
 }
 
 /**
+ * 获取默认专题封面路径
+ *
+ * @return string
+ */
+function kg_default_topic_cover_path()
+{
+    return '/img/default/topic_cover.png';
+}
+
+/**
  * 获取默认会员封面路径
  *
  * @return string
@@ -246,17 +256,17 @@ function kg_default_gift_cover_path()
  */
 function kg_default_slide_cover_path()
 {
-    return '/img/default/course_cover.png';
+    return '/img/default/slide_cover.png';
 }
 
 /**
- * 获取默认图标路径
+ * 获取默认分类图标路径
  *
  * @return string
  */
-function kg_default_icon_path()
+function kg_default_category_icon_path()
 {
-    return '/img/default/user_avatar.png';
+    return '/img/default/category_icon.png';
 }
 
 /**
@@ -334,6 +344,20 @@ function kg_cos_package_cover_url($path, $style = null)
 }
 
 /**
+ * 获取专题封面URL
+ *
+ * @param string $path
+ * @param string $style
+ * @return string
+ */
+function kg_cos_topic_cover_url($path, $style = null)
+{
+    $path = $path ?: kg_default_topic_cover_path();
+
+    return kg_cos_img_url($path, $style);
+}
+
+/**
  * 获取会员封面URL
  *
  * @param string $path
@@ -370,19 +394,21 @@ function kg_cos_gift_cover_url($path, $style = null)
  */
 function kg_cos_slide_cover_url($path, $style = null)
 {
+    $path = $path ?: kg_default_slide_cover_path();
+
     return kg_cos_img_url($path, $style);
 }
 
 /**
- * 获取图标URL
+ * 获取分类图标URL
  *
  * @param string $path
  * @param string $style
  * @return string
  */
-function kg_cos_icon_url($path, $style = null)
+function kg_cos_category_icon_url($path, $style = null)
 {
-    $path = $path ?: kg_default_icon_path();
+    $path = $path ?: kg_default_category_icon_path();
 
     return kg_cos_img_url($path, $style);
 }
@@ -423,6 +449,32 @@ function kg_parse_summary($content, $length = 150)
     $content = trim(strip_tags($content));
 
     return kg_substr($content, 0, $length);
+}
+
+/**
+ * 解析关键字
+ *
+ * @param string $content
+ * @return string
+ */
+function kg_parse_keywords($content)
+{
+    $search = ['|', ';', '；', '、', ','];
+
+    $keywords = str_replace($search, '@', $content);
+
+    $keywords = explode('@', $keywords);
+
+    $list = [];
+
+    foreach ($keywords as $keyword) {
+        $keyword = trim($keyword);
+        if (kg_strlen($keyword) > 1) {
+            $list[] = $keyword;
+        }
+    }
+
+    return implode('，', $list);
 }
 
 /**

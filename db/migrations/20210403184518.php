@@ -452,22 +452,22 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'mail',
                 'item_key' => 'smtp_username',
-                'item_value' => 'abc@163.com',
+                'item_value' => 'xxx@163.com',
             ],
             [
                 'section' => 'mail',
                 'item_key' => 'smtp_password',
-                'item_value' => '888888',
+                'item_value' => 'xxx',
             ],
             [
                 'section' => 'mail',
                 'item_key' => 'smtp_from_email',
-                'item_value' => 'abc@163.com',
+                'item_value' => 'xxx@163.com',
             ],
             [
                 'section' => 'mail',
                 'item_key' => 'smtp_from_name',
-                'item_value' => 'ABC有限公司',
+                'item_value' => 'XXX有限公司',
             ],
             [
                 'section' => 'pay.alipay',
@@ -612,7 +612,7 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'site',
                 'item_key' => 'copyright',
-                'item_value' => '深圳市酷瓜软件有限公司',
+                'item_value' => 'XXX有限公司',
             ],
             [
                 'section' => 'site',

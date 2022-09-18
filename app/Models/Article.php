@@ -65,6 +65,13 @@ class Article extends Model
     public $content = '';
 
     /**
+     * 关键字
+     *
+     * @var string
+     */
+    public $keywords = '';
+
+    /**
      * 标签
      *
      * @var array|string

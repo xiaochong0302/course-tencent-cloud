@@ -89,6 +89,19 @@ class Question extends Validator
         return $value;
     }
 
+    public function checkKeywords($keywords)
+    {
+        $keywords = $this->filter->sanitize($keywords, ['trim', 'string']);
+
+        $length = kg_strlen($keywords);
+
+        if ($length > 100) {
+            throw new BadRequestException('question.keyword_too_long');
+        }
+
+        return kg_parse_keywords($keywords);
+    }
+
     public function checkContent($content)
     {
         $value = $this->filter->sanitize($content, ['trim']);
