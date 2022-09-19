@@ -1605,6 +1605,15 @@
     margin-right: 0;
 }
 
+.account-form .agree {
+    display: flex;
+}
+
+.account-form .agree .right {
+    padding-top: 8px;
+    color: #999;
+}
+
 .verify-btn-inline button {
     min-width: 100px;
     width: 100%;

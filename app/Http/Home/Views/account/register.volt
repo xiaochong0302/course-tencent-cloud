@@ -4,6 +4,8 @@
 
     {% set register_with_phone = local_oauth.register_with_phone == 1 %}
     {% set register_with_email = local_oauth.register_with_email == 1 %}
+    {% set terms_url = url({'for':'home.page.show','id':'terms'}) %}
+    {% set privacy_url = url({'for':'home.page.show','id':'privacy'}) %}
     {% set action_url = url({'for':'home.account.do_register'}) %}
 
     <div class="layui-breadcrumb breadcrumb">
@@ -38,6 +40,7 @@
 {% block include_js %}
 
     {{ js_include('https://ssl.captcha.qq.com/TCaptcha.js',false) }}
+    {{ js_include('home/js/account.register.js') }}
     {{ js_include('home/js/captcha.verify.phone.js') }}
     {{ js_include('home/js/captcha.verify.email.js') }}
 

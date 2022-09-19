@@ -55,7 +55,7 @@ class PageController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/edit", name="admin.page.edit")
+     * @Get("/{id}/edit", name="admin.page.edit")
      */
     public function editAction($id)
     {

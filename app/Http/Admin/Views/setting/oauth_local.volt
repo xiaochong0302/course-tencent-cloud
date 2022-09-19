@@ -13,6 +13,18 @@
             <input type="radio" name="register_with_email" value="0" title="否" {% if local_auth.register_with_email == "0" %}checked="checked"{% endif %}>
         </div>
     </div>
+    <div class="layui-form-item" style="margin-bottom:20px;">
+        <label class="layui-form-label">用户协议</label>
+        <div class="layui-input-block">
+            <a class="layui-btn layui-btn-normal" href="{{ url({'for':'admin.page.edit','id':'terms'}) }}">前往设置</a>
+        </div>
+    </div>
+    <div class="layui-form-item" style="margin-bottom:20px;">
+        <label class="layui-form-label">隐私政策</label>
+        <div class="layui-input-block">
+            <a class="layui-btn layui-btn-normal" href="{{ url({'for':'admin.page.edit','id':'privacy'}) }}">前往设置</a>
+        </div>
+    </div>
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-block">

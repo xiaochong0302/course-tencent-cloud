@@ -5,10 +5,14 @@
  * @link https://www.koogua.com
  */
 
+require_once 'PageTrait.php';
+
 use Phinx\Migration\AbstractMigration;
 
 final class V20220915084746 extends AbstractMigration
 {
+
+    use PageTrait;
 
     public function up()
     {
@@ -18,6 +22,7 @@ final class V20220915084746 extends AbstractMigration
         $this->alterPageTable();
         $this->alterHelpTable();
         $this->handleTopics();
+        $this->handleProtocolPages();
     }
 
     protected function alterArticleTable()
@@ -122,6 +127,28 @@ final class V20220915084746 extends AbstractMigration
             ->set('cover', '/img/default/topic_cover.png')
             ->where(['cover' => ''])
             ->execute();
+    }
+
+    protected function handleProtocolPages()
+    {
+        $rows = [
+            [
+                'title' => '用户协议',
+                'alias' => 'terms',
+                'content' => '',
+                'published' => 1,
+                'create_time' => time(),
+            ],
+            [
+                'title' => '隐私政策',
+                'alias' => 'privacy',
+                'content' => '',
+                'published' => 1,
+                'create_time' => time(),
+            ],
+        ];
+
+        $this->insertPages($rows);
     }
 
 }
