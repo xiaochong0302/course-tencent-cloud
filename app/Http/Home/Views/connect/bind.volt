@@ -2,6 +2,9 @@
 
 {% block content %}
 
+    {% set terms_url = url({'for':'home.page.show','id':'terms'}) %}
+    {% set privacy_url = url({'for':'home.page.show','id':'privacy'}) %}
+
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
         <a><cite>登录绑定</cite></a>
@@ -29,6 +32,7 @@
 {% block include_js %}
 
     {{ js_include('https://ssl.captcha.qq.com/TCaptcha.js',false) }}
+    {{ js_include('home/js/connect.bind.js') }}
     {{ js_include('home/js/captcha.verify.js') }}
 
 {% endblock %}
