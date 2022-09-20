@@ -123,8 +123,10 @@ class UploadController extends Controller
         $items['user_avatar'] = $service->uploadDefaultUserAvatar();
         $items['course_cover'] = $service->uploadDefaultCourseCover();
         $items['package_cover'] = $service->uploadDefaultPackageCover();
+        $items['topic_cover'] = $service->uploadDefaultTopicCover();
         $items['gift_cover'] = $service->uploadDefaultGiftCover();
         $items['vip_cover'] = $service->uploadDefaultVipCover();
+        $items['category_icon'] = $service->uploadDefaultCategoryIcon();
 
         foreach ($items as $item) {
             if (!$item) return $this->jsonError(['msg' => '上传文件失败']);

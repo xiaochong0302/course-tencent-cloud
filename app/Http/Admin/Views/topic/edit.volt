@@ -13,6 +13,16 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">封面</label>
+            <div class="layui-input-inline">
+                <img id="img-cover" class="kg-cover" src="{{ topic.cover }}">
+                <input type="hidden" name="cover" value="{{ topic.cover }}">
+            </div>
+            <div class="layui-input-inline" style="padding-top:35px;">
+                <button id="change-cover" class="layui-btn layui-btn-sm" type="button">更换</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">简介</label>
             <div class="layui-input-block">
                 <textarea class="layui-textarea" name="summary">{{ topic.summary }}</textarea>
@@ -38,6 +48,7 @@
 {% block include_js %}
 
     {{ js_include('lib/xm-select.js') }}
+    {{ js_include('admin/js/cover.upload.js') }}
 
 {% endblock %}
 

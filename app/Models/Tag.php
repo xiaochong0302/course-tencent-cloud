@@ -149,7 +149,7 @@ class Tag extends Model
     public function beforeSave()
     {
         if (empty($this->icon)) {
-            $this->icon = kg_default_icon_path();
+            $this->icon = kg_default_category_icon_path();
         } elseif (Text::startsWith($this->icon, 'http')) {
             $this->icon = self::getIconPath($this->icon);
         }
@@ -169,7 +169,7 @@ class Tag extends Model
     public function afterFetch()
     {
         if (!Text::startsWith($this->icon, 'http')) {
-            $this->icon = kg_cos_icon_url($this->icon);
+            $this->icon = kg_cos_category_icon_url($this->icon);
         }
 
         if (is_string($this->scopes) && $this->scopes != 'all') {

@@ -20,8 +20,8 @@ use App\Repos\Category as CategoryRepo;
 use App\Repos\Question as QuestionRepo;
 use App\Repos\Report as ReportRepo;
 use App\Repos\User as UserRepo;
-use App\Services\Logic\Notice\System\QuestionApproved as QuestionApprovedNotice;
-use App\Services\Logic\Notice\System\QuestionRejected as QuestionRejectedNotice;
+use App\Services\Logic\Notice\Internal\QuestionApproved as QuestionApprovedNotice;
+use App\Services\Logic\Notice\Internal\QuestionRejected as QuestionRejectedNotice;
 use App\Services\Logic\Point\History\QuestionPost as QuestionPostPointHistory;
 use App\Services\Logic\Question\QuestionDataTrait;
 use App\Services\Logic\Question\QuestionInfo as QuestionInfoService;
@@ -165,6 +165,10 @@ class Question extends Service
 
         if (isset($post['content'])) {
             $data['content'] = $validator->checkContent($post['content']);
+        }
+
+        if (isset($post['keywords'])) {
+            $data['keywords'] = $validator->checkKeywords($post['keywords']);
         }
 
         if (isset($post['anonymous'])) {

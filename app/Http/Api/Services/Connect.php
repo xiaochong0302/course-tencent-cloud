@@ -12,7 +12,7 @@ use App\Models\User as UserModel;
 use App\Repos\Connect as ConnectRepo;
 use App\Repos\User as UserRepo;
 use App\Services\Auth\Api as ApiAuthService;
-use App\Services\Logic\Notice\AccountLogin as AccountLoginNoticeService;
+use App\Services\Logic\Notice\External\AccountLogin as AccountLoginNoticeService;
 use App\Services\OAuth\QQ as QQAuth;
 use App\Services\OAuth\WeChat as WeChatAuth;
 use App\Services\OAuth\WeiBo as WeiBoAuth;

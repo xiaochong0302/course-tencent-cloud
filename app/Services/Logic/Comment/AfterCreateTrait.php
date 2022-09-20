@@ -11,10 +11,10 @@ use App\Models\Answer as AnswerModel;
 use App\Models\Article as ArticleModel;
 use App\Models\Comment as CommentModel;
 use App\Models\Question as QuestionModel;
-use App\Services\Logic\Notice\System\AnswerCommented as AnswerCommentedNotice;
-use App\Services\Logic\Notice\System\ArticleCommented as ArticleCommentedNotice;
-use App\Services\Logic\Notice\System\CommentReplied as CommentRepliedNotice;
-use App\Services\Logic\Notice\System\QuestionCommented as QuestionCommentedNotice;
+use App\Services\Logic\Notice\Internal\AnswerCommented as AnswerCommentedNotice;
+use App\Services\Logic\Notice\Internal\ArticleCommented as ArticleCommentedNotice;
+use App\Services\Logic\Notice\Internal\CommentReplied as CommentRepliedNotice;
+use App\Services\Logic\Notice\Internal\QuestionCommented as QuestionCommentedNotice;
 use App\Services\Logic\Point\History\CommentPost as CommentPostPointHistory;
 
 trait AfterCreateTrait

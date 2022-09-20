@@ -82,7 +82,12 @@ class HttpErrorHandler extends Injectable
 
         $logger->error($content);
 
-        $logger->error($e->getTraceAsString());
+        $config = $this->getConfig();
+
+        if ($config->get('env') == 'dev') {
+            $content = sprintf('Trace Content: %s', $e->getTraceAsString());
+            $logger->error($content);
+        }
     }
 
     /**

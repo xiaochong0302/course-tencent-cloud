@@ -200,16 +200,6 @@ function kg_default_user_avatar_path()
 }
 
 /**
- * 获取默认群组头像路径
- *
- * @return string
- */
-function kg_default_group_avatar_path()
-{
-    return '/img/default/group_avatar.png';
-}
-
-/**
  * 获取默认课程封面路径
  *
  * @return string
@@ -227,6 +217,16 @@ function kg_default_course_cover_path()
 function kg_default_package_cover_path()
 {
     return '/img/default/package_cover.png';
+}
+
+/**
+ * 获取默认专题封面路径
+ *
+ * @return string
+ */
+function kg_default_topic_cover_path()
+{
+    return '/img/default/topic_cover.png';
 }
 
 /**
@@ -256,17 +256,17 @@ function kg_default_gift_cover_path()
  */
 function kg_default_slide_cover_path()
 {
-    return '/img/default/course_cover.png';
+    return '/img/default/slide_cover.png';
 }
 
 /**
- * 获取默认图标路径
+ * 获取默认分类图标路径
  *
  * @return string
  */
-function kg_default_icon_path()
+function kg_default_category_icon_path()
 {
-    return '/img/default/user_avatar.png';
+    return '/img/default/category_icon.png';
 }
 
 /**
@@ -316,20 +316,6 @@ function kg_cos_user_avatar_url($path, $style = null)
 }
 
 /**
- * 获取群组头像URL
- *
- * @param string $path
- * @param string $style
- * @return string
- */
-function kg_cos_group_avatar_url($path, $style = null)
-{
-    $path = $path ?: kg_default_group_avatar_path();
-
-    return kg_cos_img_url($path, $style);
-}
-
-/**
  * 获取课程封面URL
  *
  * @param string $path
@@ -353,6 +339,20 @@ function kg_cos_course_cover_url($path, $style = null)
 function kg_cos_package_cover_url($path, $style = null)
 {
     $path = $path ?: kg_default_package_cover_path();
+
+    return kg_cos_img_url($path, $style);
+}
+
+/**
+ * 获取专题封面URL
+ *
+ * @param string $path
+ * @param string $style
+ * @return string
+ */
+function kg_cos_topic_cover_url($path, $style = null)
+{
+    $path = $path ?: kg_default_topic_cover_path();
 
     return kg_cos_img_url($path, $style);
 }
@@ -394,19 +394,21 @@ function kg_cos_gift_cover_url($path, $style = null)
  */
 function kg_cos_slide_cover_url($path, $style = null)
 {
+    $path = $path ?: kg_default_slide_cover_path();
+
     return kg_cos_img_url($path, $style);
 }
 
 /**
- * 获取图标URL
+ * 获取分类图标URL
  *
  * @param string $path
  * @param string $style
  * @return string
  */
-function kg_cos_icon_url($path, $style = null)
+function kg_cos_category_icon_url($path, $style = null)
 {
-    $path = $path ?: kg_default_icon_path();
+    $path = $path ?: kg_default_category_icon_path();
 
     return kg_cos_img_url($path, $style);
 }
@@ -442,11 +444,37 @@ function kg_clean_html($content)
  * @param int $length
  * @return string
  */
-function kg_parse_summary($content, $length = 100)
+function kg_parse_summary($content, $length = 150)
 {
     $content = trim(strip_tags($content));
 
     return kg_substr($content, 0, $length);
+}
+
+/**
+ * 解析关键字
+ *
+ * @param string $content
+ * @return string
+ */
+function kg_parse_keywords($content)
+{
+    $search = ['|', ';', '；', '、', ','];
+
+    $keywords = str_replace($search, '@', $content);
+
+    $keywords = explode('@', $keywords);
+
+    $list = [];
+
+    foreach ($keywords as $keyword) {
+        $keyword = trim($keyword);
+        if (kg_strlen($keyword) > 1) {
+            $list[] = $keyword;
+        }
+    }
+
+    return implode('，', $list);
 }
 
 /**

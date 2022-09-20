@@ -12,7 +12,7 @@ use App\Models\ArticleLike as ArticleLikeModel;
 use App\Models\User as UserModel;
 use App\Repos\ArticleLike as ArticleLikeRepo;
 use App\Services\Logic\ArticleTrait;
-use App\Services\Logic\Notice\System\ArticleLiked as ArticleLikedNotice;
+use App\Services\Logic\Notice\Internal\ArticleLiked as ArticleLikedNotice;
 use App\Services\Logic\Point\History\ArticleLiked as ArticleLikedPointHistory;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\UserLimit as UserLimitValidator;

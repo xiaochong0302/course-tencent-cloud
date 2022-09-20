@@ -9,6 +9,7 @@ namespace App\Models;
 
 use App\Caches\MaxTopicId as MaxTopicIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
 
 class Topic extends Model
 {
@@ -26,6 +27,13 @@ class Topic extends Model
      * @var string
      */
     public $title = '';
+
+    /**
+     * 封面
+     *
+     * @var string
+     */
+    public $cover = '';
 
     /**
      * 简介
@@ -96,11 +104,36 @@ class Topic extends Model
         $this->update_time = time();
     }
 
+    public function beforeSave()
+    {
+        if (empty($this->cover)) {
+            $this->cover = kg_default_topic_cover_path();
+        } elseif (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+    }
+
     public function afterCreate()
     {
         $cache = new MaxTopicIdCache();
 
         $cache->rebuild();
+    }
+
+    public function afterFetch()
+    {
+        if (!Text::startsWith($this->cover, 'http')) {
+            $this->cover = kg_cos_topic_cover_url($this->cover);
+        }
+    }
+
+    public static function getCoverPath($url)
+    {
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
+
+        return $url;
     }
 
 }

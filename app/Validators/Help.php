@@ -103,6 +103,19 @@ class Help extends Validator
         return kg_clean_html($value);
     }
 
+    public function checkKeywords($keywords)
+    {
+        $keywords = $this->filter->sanitize($keywords, ['trim', 'string']);
+
+        $length = kg_strlen($keywords);
+
+        if ($length > 100) {
+            throw new BadRequestException('help.keyword_too_long');
+        }
+
+        return kg_parse_keywords($keywords);
+    }
+
     public function checkPriority($priority)
     {
         $value = $this->filter->sanitize($priority, ['trim', 'int']);

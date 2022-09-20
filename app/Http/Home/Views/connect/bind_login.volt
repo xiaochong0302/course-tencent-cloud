@@ -11,6 +11,14 @@
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
+            <div class="agree">
+                <div class="left"><input id="login-agree" type="checkbox" name="agree" lay-skin="primary"></div>
+                <div class="right">我已阅读并同意<a href="{{ terms_url }}" target="_blank">《用户协议》</a>和<a href="{{ privacy_url }}" target="_blank">《隐私政策》</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
             <button id="submit-btn" class="layui-btn layui-btn-fluid" lay-submit="true" lay-filter="go">登录并绑定已有帐号</button>
             <input type="hidden" name="provider" value="{{ provider }}">
             <input type="hidden" name="code" value="{{ request.get('code') }}">

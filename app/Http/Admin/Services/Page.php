@@ -86,6 +86,10 @@ class Page extends Service
             $data['content'] = $validator->checkContent($post['content']);
         }
 
+        if (isset($post['keywords'])) {
+            $data['keywords'] = $validator->checkKeywords($post['keywords']);
+        }
+
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }

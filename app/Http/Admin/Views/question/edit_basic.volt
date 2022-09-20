@@ -12,6 +12,12 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">关键字</label>
+        <div class="layui-input-block">
+            <input class="layui-input" type="text" name="keywords" value="{{ question.keywords }}" placeholder="多个关键字用逗号分隔">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">匿名</label>
         <div class="layui-input-block">
             <input type="radio" name="anonymous" value="1" title="是" {% if question.anonymous == 1 %}checked="checked"{% endif %}>

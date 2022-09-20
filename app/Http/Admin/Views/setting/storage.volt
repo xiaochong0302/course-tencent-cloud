@@ -118,12 +118,20 @@
                                 <td>public/static/admin/img/default/user_cover.png</td>
                             </tr>
                             <tr>
+                                <td>分类图标</td>
+                                <td>public/static/admin/img/default/category_icon.png</td>
+                            </tr>
+                            <tr>
                                 <td>课程封面</td>
                                 <td>public/static/admin/img/default/course_cover.png</td>
                             </tr>
                             <tr>
                                 <td>套餐封面</td>
                                 <td>public/static/admin/img/default/package_cover.png</td>
+                            </tr>
+                            <tr>
+                                <td>专题封面</td>
+                                <td>public/static/admin/img/default/topic_cover.png</td>
                             </tr>
                             <tr>
                                 <td>会员封面</td>

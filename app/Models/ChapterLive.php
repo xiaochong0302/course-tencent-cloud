@@ -99,12 +99,12 @@ class ChapterLive extends Model
 
     public static function generateStreamName($id)
     {
-        return "chapter_{$id}";
+        return sprintf('chapter-%03d', $id);
     }
 
     public static function parseFromStreamName($streamName)
     {
-        return str_replace('chapter_', '', $streamName);
+        return (int)str_replace('chapter-', '', $streamName);
     }
 
 }

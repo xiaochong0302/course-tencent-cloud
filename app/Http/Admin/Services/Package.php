@@ -122,12 +122,12 @@ class Package extends Service
 
         $data = [];
 
-        if (isset($post['cover'])) {
-            $data['cover'] = $validator->checkCover($post['cover']);
-        }
-
         if (isset($post['title'])) {
             $data['title'] = $validator->checkTitle($post['title']);
+        }
+
+        if (isset($post['cover'])) {
+            $data['cover'] = $validator->checkCover($post['cover']);
         }
 
         if (isset($post['summary'])) {

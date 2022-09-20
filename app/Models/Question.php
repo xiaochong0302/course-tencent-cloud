@@ -86,6 +86,13 @@ class Question extends Model
     public $tags = [];
 
     /**
+     * 关键字
+     *
+     * @var string
+     */
+    public $keywords = '';
+
+    /**
      * 概要
      *
      * @var string

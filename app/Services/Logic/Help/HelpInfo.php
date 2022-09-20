@@ -28,6 +28,7 @@ class HelpInfo extends LogicService
         return [
             'id' => $help->id,
             'title' => $help->title,
+            'keywords' => $help->keywords,
             'content' => $help->content,
             'published' => $help->published,
             'deleted' => $help->deleted,

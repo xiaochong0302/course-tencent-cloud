@@ -25,7 +25,7 @@ foreach ($modules as $module) {
     $moduleName = ucfirst($module);
     $files = scandir(app_path('Http/' . $moduleName . '/Controllers'));
     foreach ($files as $file) {
-        if (strpos($file, 'Controller.php')) {
+        if (preg_match('/^\w+Controller\.php$/', $file)) {
             $className = str_replace('Controller.php', '', $file);
             $router->addModuleResource($module, 'App\Http\\' . $moduleName . '\Controllers\\' . $className);
         }

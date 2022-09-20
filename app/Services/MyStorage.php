@@ -78,6 +78,20 @@ class MyStorage extends Storage
     }
 
     /**
+     * 上传默认话题封面
+     *
+     * @return false|mixed|string
+     */
+    public function uploadDefaultTopicCover()
+    {
+        $filename = static_path('admin/img/default/topic_cover.png');
+
+        $key = '/img/default/topic_cover.png';
+
+        return $this->putFile($key, $filename);
+    }
+
+    /**
      * 上传默认会员封面
      *
      * @return false|mixed|string
@@ -101,6 +115,20 @@ class MyStorage extends Storage
         $filename = static_path('admin/img/default/gift_cover.png');
 
         $key = '/img/default/gift_cover.png';
+
+        return $this->putFile($key, $filename);
+    }
+
+    /**
+     * 上传分类默认图标
+     *
+     * @return false|mixed|string
+     */
+    public function uploadDefaultCategoryIcon()
+    {
+        $filename = static_path('admin/img/default/category_icon.png');
+
+        $key = '/img/default/category_icon.png';
 
         return $this->putFile($key, $filename);
     }

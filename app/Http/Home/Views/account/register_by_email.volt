@@ -19,6 +19,14 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
+                <div class="agree">
+                    <div class="left"><input id="cv-email-agree" type="checkbox" name="agree" lay-skin="primary"></div>
+                    <div class="right">我已阅读并同意<a href="{{ terms_url }}" target="_blank">《用户协议》</a>和<a href="{{ privacy_url }}" target="_blank">《隐私政策》</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
                 <button id="cv-email-submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" disabled="disabled" lay-submit="true" lay-filter="go">注册帐号</button>
                 <input type="hidden" name="return_url" value="{{ return_url }}">
                 <input id="cv-email-captcha-enabled" type="hidden" value="{{ captcha.enabled }}">

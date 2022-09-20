@@ -12,7 +12,7 @@ use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\CourseUser as CourseUserRepo;
-use App\Services\Logic\Notice\LiveBegin as LiveBeginNotice;
+use App\Services\Logic\Notice\External\LiveBegin as LiveBeginNotice;
 use Phalcon\Logger\Adapter\File as FileLogger;
 
 class LiveNotify extends Service

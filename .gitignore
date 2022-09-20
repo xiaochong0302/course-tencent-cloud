@@ -5,7 +5,6 @@
 /config/xs.course.ini
 /config/xs.article.ini
 /config/xs.question.ini
-/config/xs.user.ini
 /config/alipay/*.crt
 /config/wxpay/*.pem
 /db/migrations/schema.php

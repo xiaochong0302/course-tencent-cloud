@@ -35,6 +35,13 @@ class Help extends Model
     public $title = '';
 
     /**
+     * 关键字
+     *
+     * @var string
+     */
+    public $keywords = '';
+
+    /**
      * 内容
      *
      * @var string

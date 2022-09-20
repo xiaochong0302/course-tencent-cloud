@@ -24,8 +24,8 @@ use App\Repos\User as UserRepo;
 use App\Services\Logic\Article\ArticleDataTrait;
 use App\Services\Logic\Article\ArticleInfo as ArticleInfoService;
 use App\Services\Logic\Article\XmTagList as XmTagListService;
-use App\Services\Logic\Notice\System\ArticleApproved as ArticleApprovedNotice;
-use App\Services\Logic\Notice\System\ArticleRejected as ArticleRejectedNotice;
+use App\Services\Logic\Notice\Internal\ArticleApproved as ArticleApprovedNotice;
+use App\Services\Logic\Notice\Internal\ArticleRejected as ArticleRejectedNotice;
 use App\Services\Logic\Point\History\ArticlePost as ArticlePostPointHistory;
 use App\Services\Sync\ArticleIndex as ArticleIndexSync;
 use App\Validators\Article as ArticleValidator;
@@ -167,6 +167,10 @@ class Article extends Service
 
         if (isset($post['title'])) {
             $data['title'] = $validator->checkTitle($post['title']);
+        }
+
+        if (isset($post['keywords'])) {
+            $data['keywords'] = $validator->checkKeywords($post['keywords']);
         }
 
         if (isset($post['content'])) {

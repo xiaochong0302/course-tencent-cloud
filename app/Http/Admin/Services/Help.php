@@ -103,6 +103,10 @@ class Help extends Service
             $data['content'] = $validator->checkContent($post['content']);
         }
 
+        if (isset($post['keywords'])) {
+            $data['keywords'] = $validator->checkKeywords($post['keywords']);
+        }
+
         if (isset($post['priority'])) {
             $data['priority'] = $validator->checkPriority($post['priority']);
         }

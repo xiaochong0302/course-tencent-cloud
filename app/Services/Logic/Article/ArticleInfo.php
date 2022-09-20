@@ -49,6 +49,7 @@ class ArticleInfo extends LogicService
             'title' => $article->title,
             'cover' => $article->cover,
             'summary' => $article->summary,
+            'keywords' => $article->keywords,
             'tags' => $article->tags,
             'content' => $article->content,
             'private' => $article->private,
