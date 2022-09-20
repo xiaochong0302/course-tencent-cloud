@@ -1,3 +1,18 @@
+### [v1.5.9](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.9)(2022-09-20)
+
+- 修正内容图片上传问题
+- 去除user全文索引
+- 调整notice目录结构
+- 更新默认图片
+- 更新直播名格式化
+- 更新微博分享链接
+- 文章单页等增加SEO关键字
+- 专题增加封面上传
+- 优化router扫描规则
+- 升级layui至v2.7.6
+- 增加用户协议和隐私政策
+- 优化错误日志
+
 ### [v1.5.8](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.8)(2022-08-28)
 
 - 整理migrations
