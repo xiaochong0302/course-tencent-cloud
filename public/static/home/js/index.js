@@ -6,7 +6,7 @@ layui.use(['carousel', 'flow'], function () {
     carousel.render({
         elem: '#carousel',
         width: '100%',
-        height: '330px'
+        height: '336px'
     });
 
     flow.lazyimg();
