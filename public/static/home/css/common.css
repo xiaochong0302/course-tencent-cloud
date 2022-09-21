@@ -120,7 +120,7 @@
 }
 
 .layout-sidebar {
-    width: 320px;
+    width: 340px;
 }
 
 .writer-content {
@@ -306,8 +306,8 @@
 }
 
 .index-carousel {
-    width: 1100px;
-    height: 330px;
+    width: 1120px;
+    height: 336px;
     text-align: center;
 }
 
@@ -748,7 +748,7 @@
 .toolbar-sticky {
     position: fixed;
     top: 150px;
-    margin-left: -65px;
+    margin-left: -85px;
 }
 
 .toolbar-sticky .item {
@@ -805,8 +805,8 @@
 }
 
 .course-card .cover img {
-    width: 270px;
-    height: 152px;
+    width: 275px;
+    height: 155px;
     transition: all 0.6s;
 }
 
@@ -1220,10 +1220,9 @@
 }
 
 .sidebar-course-card .cover {
-    float: left;
     width: 90px;
     height: 50px;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 .sidebar-course-card .cover img {
@@ -1232,8 +1231,7 @@
 }
 
 .sidebar-course-card .info {
-    float: left;
-    width: 190px;
+    width: 200px;
     color: #666;
     font-size: 12px;
     overflow: hidden;
@@ -1845,7 +1843,7 @@
 }
 
 .my-sidebar {
-    width: 220px;
+    width: 240px;
 }
 
 .my-content {
