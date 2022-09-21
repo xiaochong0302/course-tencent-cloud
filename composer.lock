@@ -1,40 +1,40 @@
 {
-  "_readme": [
-    "This file locks the dependencies of your project to a known state",
-    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-    "This file is @generated automatically"
-  ],
-  "content-hash": "b5eaf9b151226966d37ce2703e2e1efc",
-  "packages": [
-    {
-      "name": "bacon/bacon-qr-code",
-      "version": "2.0.3",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/Bacon/BaconQrCode.git",
-        "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
-        "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "dasprid/enum": "^1.0.3",
-        "ext-iconv": "*",
-        "php": "^7.1 || ^8.0"
-      },
-      "require-dev": {
-        "phly/keep-a-changelog": "^1.4",
-        "phpunit/phpunit": "^7 | ^8 | ^9",
-        "squizlabs/php_codesniffer": "^3.4"
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "b5eaf9b151226966d37ce2703e2e1efc",
+    "packages": [
+        {
+            "name": "bacon/bacon-qr-code",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Bacon/BaconQrCode.git",
+                "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
+                "reference": "3e9d791b67d0a2912922b7b7c7312f4b37af41e4",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "dasprid/enum": "^1.0.3",
+                "ext-iconv": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "phly/keep-a-changelog": "^1.4",
+                "phpunit/phpunit": "^7 | ^8 | ^9",
+                "squizlabs/php_codesniffer": "^3.4"
             },
             "suggest": {
                 "ext-imagick": "to generate QR code images"
@@ -711,116 +711,126 @@
                     "email": "info@endroid.nl"
                 }
             ],
-          "description": "Endroid QR Code",
-          "homepage": "https://github.com/endroid/qr-code",
-          "keywords": [
-            "bundle",
-            "code",
-            "endroid",
-            "php",
-            "qr",
-            "qrcode"
-          ],
-          "support": {
-            "issues": "https://github.com/endroid/qr-code/issues",
-            "source": "https://github.com/endroid/qr-code/tree/3.9.6"
-          },
-          "funding": [
-            {
-              "url": "https://github.com/endroid",
-              "type": "github"
-            }
-          ],
-          "time": "2020-11-27T14:30:38+00:00"
+            "description": "Endroid QR Code",
+            "homepage": "https://github.com/endroid/qr-code",
+            "keywords": [
+                "bundle",
+                "code",
+                "endroid",
+                "php",
+                "qr",
+                "qrcode"
+            ],
+            "support": {
+                "issues": "https://github.com/endroid/qr-code/issues",
+                "source": "https://github.com/endroid/qr-code/tree/3.9.6"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/endroid",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-27T14:30:38+00:00"
         },
-    {
-      "name": "ezyang/htmlpurifier",
-      "version": "v4.14.0",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/ezyang/htmlpurifier.git",
-        "reference": "12ab42bd6e742c70c0a52f7b82477fcd44e64b75"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/12ab42bd6e742c70c0a52f7b82477fcd44e64b75",
-        "reference": "12ab42bd6e742c70c0a52f7b82477fcd44e64b75",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "php": ">=5.2"
-      },
-      "type": "library",
-      "autoload": {
-        "files": [
-          "library/HTMLPurifier.composer.php"
-        ],
-        "psr-0": {
-          "HTMLPurifier": "library/"
-        },
-        "exclude-from-classmap": [
-          "/library/HTMLPurifier/Language/"
-        ]
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "LGPL-2.1-or-later"
-      ],
-      "authors": [
         {
-          "name": "Edward Z. Yang",
-          "email": "admin@htmlpurifier.org",
-          "homepage": "http://ezyang.com"
-        }
-      ],
-      "description": "Standards compliant HTML filter written in PHP",
-      "homepage": "http://htmlpurifier.org/",
-      "keywords": [
-        "html"
-      ],
-      "support": {
-        "issues": "https://github.com/ezyang/htmlpurifier/issues",
-        "source": "https://github.com/ezyang/htmlpurifier/tree/v4.14.0"
-      },
-      "time": "2021-12-25T01:21:49+00:00"
-    },
-    {
-      "name": "guzzlehttp/command",
-      "version": "1.0.0",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/guzzle/command.git",
-        "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/guzzle/command/zipball/2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
-        "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "guzzlehttp/guzzle": "^6.2",
-        "guzzlehttp/promises": "~1.3",
-        "guzzlehttp/psr7": "~1.0",
-        "php": ">=5.5.0"
-      },
-      "require-dev": {
-        "phpunit/phpunit": "~4.0|~5.0"
-      },
-      "type": "library",
-      "extra": {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.16.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "523407fb06eb9e5f3d59889b3978d5bfe94299c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/523407fb06eb9e5f3d59889b3978d5bfe94299c8",
+                "reference": "523407fb06eb9e5f3d59889b3978d5bfe94299c8",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": "~5.6.0 || ~7.0.0 || ~7.1.0 || ~7.2.0 || ~7.3.0 || ~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0"
+            },
+            "require-dev": {
+                "cerdic/css-tidy": "^1.7 || ^2.0",
+                "simpletest/simpletest": "dev-master"
+            },
+            "suggest": {
+                "cerdic/css-tidy": "If you want to use the filter 'Filter.ExtractStyleBlocks'.",
+                "ext-bcmath": "Used for unit conversion and imagecrash protection",
+                "ext-iconv": "Converts text to and from non-UTF-8 encodings",
+                "ext-tidy": "Used for pretty-printing HTML"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ],
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "exclude-from-classmap": [
+                    "/library/HTMLPurifier/Language/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "support": {
+                "issues": "https://github.com/ezyang/htmlpurifier/issues",
+                "source": "https://github.com/ezyang/htmlpurifier/tree/v4.16.0"
+            },
+            "time": "2022-09-18T07:06:19+00:00"
+        },
+        {
+            "name": "guzzlehttp/command",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/command.git",
+                "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/command/zipball/2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
+                "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "guzzlehttp/promises": "~1.3",
+                "guzzlehttp/psr7": "~1.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0|~5.0"
+            },
+            "type": "library",
+            "extra": {
                 "branch-alias": {
                     "dev-master": "0.9-dev"
                 }
@@ -853,32 +863,32 @@
             },
             "time": "2016-11-24T13:34:15+00:00"
         },
-    {
-      "name": "guzzlehttp/guzzle",
-      "version": "6.5.7",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/guzzle/guzzle.git",
-        "reference": "724562fa861e21a4071c652c8a159934e4f05592"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/guzzle/guzzle/zipball/724562fa861e21a4071c652c8a159934e4f05592",
-        "reference": "724562fa861e21a4071c652c8a159934e4f05592",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
+        {
+            "name": "guzzlehttp/guzzle",
+            "version": "6.5.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "a52f0440530b54fa079ce76e8c5d196a42cad981"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/a52f0440530b54fa079ce76e8c5d196a42cad981",
+                "reference": "a52f0440530b54fa079ce76e8c5d196a42cad981",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/promises": "^1.0",
-                "guzzlehttp/psr7": "^1.6.1",
+                "guzzlehttp/psr7": "^1.9",
                 "php": ">=5.5",
-                "symfony/polyfill-intl-idn": "^1.17.0"
+                "symfony/polyfill-intl-idn": "^1.17"
             },
             "require-dev": {
                 "ext-curl": "*",
@@ -895,85 +905,85 @@
                 }
             },
             "autoload": {
-              "files": [
-                "src/functions_include.php"
-              ],
-              "psr-4": {
-                "GuzzleHttp\\": "src/"
-              }
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
-              {
-                "name": "Graham Campbell",
-                "email": "hello@gjcampbell.co.uk",
-                "homepage": "https://github.com/GrahamCampbell"
-              },
-              {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
-              },
-              {
-                "name": "Jeremy Lindblom",
-                "email": "jeremeamia@gmail.com",
-                "homepage": "https://github.com/jeremeamia"
-              },
-              {
-                "name": "George Mponos",
-                "email": "gmponos@gmail.com",
-                "homepage": "https://github.com/gmponos"
-              },
-              {
-                "name": "Tobias Nyholm",
-                "email": "tobias.nyholm@gmail.com",
-                "homepage": "https://github.com/Nyholm"
-              },
-              {
-                "name": "Márk Sági-Kazár",
-                "email": "mark.sagikazar@gmail.com",
-                "homepage": "https://github.com/sagikazarmark"
-              },
-              {
-                "name": "Tobias Schultze",
-                "email": "webmaster@tubo-world.de",
-                "homepage": "https://github.com/Tobion"
-              }
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Jeremy Lindblom",
+                    "email": "jeremeamia@gmail.com",
+                    "homepage": "https://github.com/jeremeamia"
+                },
+                {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
+                }
             ],
             "description": "Guzzle is a PHP HTTP client library",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
-              "client",
-              "curl",
-              "framework",
-              "http",
-              "http client",
-              "rest",
-              "web service"
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
             ],
-      "support": {
-        "issues": "https://github.com/guzzle/guzzle/issues",
-        "source": "https://github.com/guzzle/guzzle/tree/6.5.7"
-      },
-      "funding": [
-        {
-          "url": "https://github.com/GrahamCampbell",
-          "type": "github"
+            "support": {
+                "issues": "https://github.com/guzzle/guzzle/issues",
+                "source": "https://github.com/guzzle/guzzle/tree/6.5.8"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/guzzle",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-06-20T22:16:07+00:00"
         },
-        {
-          "url": "https://github.com/Nyholm",
-          "type": "github"
-        },
-        {
-          "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/guzzle",
-          "type": "tidelift"
-        }
-      ],
-      "time": "2022-06-09T21:36:50+00:00"
-    },
         {
             "name": "guzzlehttp/guzzle-services",
             "version": "1.1.3",
@@ -1046,16 +1056,16 @@
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "1.4.0",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "60d379c243457e073cff02bc323a2a86cb355631"
+                "reference": "b94b2807d85443f9719887892882d0329d1e2598"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/60d379c243457e073cff02bc323a2a86cb355631",
-                "reference": "60d379c243457e073cff02bc323a2a86cb355631",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/b94b2807d85443f9719887892882d0329d1e2598",
+                "reference": "b94b2807d85443f9719887892882d0329d1e2598",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1073,16 +1083,16 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4-dev"
+                    "dev-master": "1.5-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Promise\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Promise\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1090,9 +1100,24 @@
             ],
             "authors": [
                 {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
                 }
             ],
             "description": "Guzzle promises library",
@@ -1101,22 +1126,36 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/1.4.0"
+                "source": "https://github.com/guzzle/promises/tree/1.5.2"
             },
-            "time": "2020-09-30T07:37:28+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/promises",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-08-28T14:55:35+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.7.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3"
+                "reference": "e98e3e6d4f86621a9b75f623996e6bbdeb4b9318"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/53330f47520498c0ae1f61f7e2c90f55690c06a3",
-                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/e98e3e6d4f86621a9b75f623996e6bbdeb4b9318",
+                "reference": "e98e3e6d4f86621a9b75f623996e6bbdeb4b9318",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1143,16 +1182,16 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.9-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Psr7\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1160,12 +1199,33 @@
             ],
             "authors": [
                 {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
                 },
                 {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
                     "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
                     "homepage": "https://github.com/Tobion"
                 }
             ],
@@ -1182,22 +1242,36 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/1.7.0"
+                "source": "https://github.com/guzzle/psr7/tree/1.9.0"
             },
-            "time": "2020-09-30T07:37:11+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/psr7",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-06-20T21:43:03+00:00"
         },
         {
             "name": "hightman/xunsearch",
-            "version": "1.4.15",
+            "version": "1.4.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hightman/xs-sdk-php.git",
-                "reference": "8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9"
+                "reference": "ba32e0d6810ce45bbbe0b771efbc3f87e0e3b1f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hightman/xs-sdk-php/zipball/8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9",
-                "reference": "8ec1a3aa3ef58b83cd4e0e72a171f6446f4136b9",
+                "url": "https://api.github.com/repos/hightman/xs-sdk-php/zipball/ba32e0d6810ce45bbbe0b771efbc3f87e0e3b1f3",
+                "reference": "ba32e0d6810ce45bbbe0b771efbc3f87e0e3b1f3",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1221,13 +1295,13 @@
                 }
             },
             "autoload": {
+                "psr-4": {
+                    "hightman\\xunsearch\\": "wrapper/yii2-ext/"
+                },
                 "classmap": [
                     "lib/",
                     "wrapper/yii-ext/"
-                ],
-                "psr-4": {
-                    "hightman\\xunsearch\\": "wrapper/yii2-ext/"
-                }
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1254,7 +1328,7 @@
                 "issues": "https://github.com/hightman/xunsearch/issues?q=is%3Aopen",
                 "source": "https://github.com/hightman/xunsearch/"
             },
-            "time": "2020-09-03T16:46:04+00:00"
+            "time": "2022-03-08T11:07:09+00:00"
         },
         {
             "name": "khanamiryan/qrcode-detector-decoder",
@@ -1318,16 +1392,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "1.5.7",
+            "version": "1.6.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "11df9b36fd4f1d2b727a73bf14931d81373b9a54"
+                "reference": "2b8185c13bc9578367a5bf901881d1c1b5bbd09b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/11df9b36fd4f1d2b727a73bf14931d81373b9a54",
-                "reference": "11df9b36fd4f1d2b727a73bf14931d81373b9a54",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/2b8185c13bc9578367a5bf901881d1c1b5bbd09b",
+                "reference": "2b8185c13bc9578367a5bf901881d1c1b5bbd09b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1351,7 +1425,7 @@
                 "github/gfm": "0.29.0",
                 "michelf/php-markdown": "~1.4",
                 "mikehaertl/php-shellcommand": "^1.4",
-                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan": "^0.12.90",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.2",
                 "scrutinizer/ocular": "^1.5",
                 "symfony/finder": "^4.2"
@@ -1397,10 +1471,6 @@
             },
             "funding": [
                 {
-                    "url": "https://enjoy.gitstore.app/repositories/thephpleague/commonmark",
-                    "type": "custom"
-                },
-                {
                     "url": "https://www.colinodell.com/sponsor",
                     "type": "custom"
                 },
@@ -1413,15 +1483,11 @@
                     "type": "github"
                 },
                 {
-                    "url": "https://www.patreon.com/colinodell",
-                    "type": "patreon"
-                },
-                {
                     "url": "https://tidelift.com/funding/github/packagist/league/commonmark",
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-31T13:49:32+00:00"
+            "time": "2022-01-13T17:18:13+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1660,16 +1726,16 @@
         },
         {
             "name": "overtrue/wechat",
-            "version": "4.4.0",
+            "version": "4.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/w7corp/easywechat.git",
-                "reference": "20bdd3fe8056ee9297692caf53bd131be8079ee6"
+                "reference": "52af4cbe777cd4aea307beafa0a4518c347467b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/w7corp/easywechat/zipball/20bdd3fe8056ee9297692caf53bd131be8079ee6",
-                "reference": "20bdd3fe8056ee9297692caf53bd131be8079ee6",
+                "url": "https://api.github.com/repos/w7corp/easywechat/zipball/52af4cbe777cd4aea307beafa0a4518c347467b1",
+                "reference": "52af4cbe777cd4aea307beafa0a4518c347467b1",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1703,13 +1769,13 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "EasyWeChat\\": "src/"
-                },
                 "files": [
                     "src/Kernel/Support/Helpers.php",
                     "src/Kernel/Helpers.php"
-                ]
+                ],
+                "psr-4": {
+                    "EasyWeChat\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1731,23 +1797,16 @@
             ],
             "support": {
                 "issues": "https://github.com/w7corp/easywechat/issues",
-                "source": "https://github.com/w7corp/easywechat/tree/4.4.0"
+                "source": "https://github.com/w7corp/easywechat/tree/4.6.0"
             },
             "funding": [
                 {
-                    "url": "https://www.easywechat.com/img/pay/wechat.jpg",
-                    "type": "custom"
-                },
-                {
                     "url": "https://github.com/overtrue",
                     "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/overtrue",
-                    "type": "patreon"
                 }
             ],
-            "time": "2020-12-30T06:39:40+00:00"
+            "abandoned": "w7corp/easywechat",
+            "time": "2022-08-24T07:30:42+00:00"
         },
         {
             "name": "peppeocchi/php-cron-scheduler",
@@ -2289,77 +2348,77 @@
             "description": "Common interfaces for simple caching",
             "keywords": [
                 "cache",
-              "caching",
-              "psr",
-              "psr-16",
-              "simple-cache"
+                "caching",
+                "psr",
+                "psr-16",
+                "simple-cache"
             ],
-          "support": {
-            "source": "https://github.com/php-fig/simple-cache/tree/master"
-          },
-          "time": "2017-10-23T01:57:42+00:00"
-        },
-    {
-      "name": "qcloud/cos-sdk-v5",
-      "version": "v2.5.6",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/tencentyun/cos-php-sdk-v5.git",
-        "reference": "607ee49d372a799964206b6ae0a9eb2816201c42"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/607ee49d372a799964206b6ae0a9eb2816201c42",
-        "reference": "607ee49d372a799964206b6ae0a9eb2816201c42",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "ext-curl": "*",
-        "ext-json": "*",
-        "ext-simplexml": "*",
-        "guzzlehttp/guzzle": "^6.2.1 || ^7.0",
-        "guzzlehttp/guzzle-services": "^1.1",
-        "guzzlehttp/psr7": "^1.3.1 || ^2.0",
-        "php": ">=5.6"
-      },
-      "type": "library",
-      "extra": {
-        "branch-alias": {
-          "dev-master": "2.4-dev"
-        }
-      },
-      "autoload": {
-        "files": [
-          "src/Common.php"
-        ],
-        "psr-4": {
-          "Qcloud\\Cos\\": "src/"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "yaozongyou",
-          "email": "yaozongyou@vip.qq.com"
+            "support": {
+                "source": "https://github.com/php-fig/simple-cache/tree/master"
+            },
+            "time": "2017-10-23T01:57:42+00:00"
         },
         {
-          "name": "lewzylu",
-          "email": "327874225@qq.com"
-        },
-        {
-          "name": "tuunalai",
-          "email": "550566181@qq.com"
-        }
-      ],
+            "name": "qcloud/cos-sdk-v5",
+            "version": "v2.5.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tencentyun/cos-php-sdk-v5.git",
+                "reference": "607ee49d372a799964206b6ae0a9eb2816201c42"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/607ee49d372a799964206b6ae0a9eb2816201c42",
+                "reference": "607ee49d372a799964206b6ae0a9eb2816201c42",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "guzzlehttp/guzzle": "^6.2.1 || ^7.0",
+                "guzzlehttp/guzzle-services": "^1.1",
+                "guzzlehttp/psr7": "^1.3.1 || ^2.0",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Common.php"
+                ],
+                "psr-4": {
+                    "Qcloud\\Cos\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yaozongyou",
+                    "email": "yaozongyou@vip.qq.com"
+                },
+                {
+                    "name": "lewzylu",
+                    "email": "327874225@qq.com"
+                },
+                {
+                    "name": "tuunalai",
+                    "email": "550566181@qq.com"
+                }
+            ],
             "description": "PHP SDK for QCloud COS",
             "keywords": [
                 "cos",
@@ -2368,9 +2427,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tencentyun/cos-php-sdk-v5/issues",
-              "source": "https://github.com/tencentyun/cos-php-sdk-v5/tree/v2.5.6"
+                "source": "https://github.com/tencentyun/cos-php-sdk-v5/tree/v2.5.6"
             },
-      "time": "2022-06-07T14:49:19+00:00"
+            "time": "2022-06-07T14:49:19+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -2424,16 +2483,16 @@
         },
         {
             "name": "robmorgan/phinx",
-            "version": "0.12.4",
+            "version": "0.12.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/phinx.git",
-                "reference": "05902f4a90790ce9db195954e608d5a43d4d6a7d"
+                "reference": "9a6ce1e7fdf0fa4e602ba5875b5bc9442ccaa115"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/phinx/zipball/05902f4a90790ce9db195954e608d5a43d4d6a7d",
-                "reference": "05902f4a90790ce9db195954e608d5a43d4d6a7d",
+                "url": "https://api.github.com/repos/cakephp/phinx/zipball/9a6ce1e7fdf0fa4e602ba5875b5bc9442ccaa115",
+                "reference": "9a6ce1e7fdf0fa4e602ba5875b5bc9442ccaa115",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2445,15 +2504,15 @@
             "require": {
                 "cakephp/database": "^4.0",
                 "php": ">=7.2",
-                "psr/container": "^1.0",
-                "symfony/config": "^3.4|^4.0|^5.0",
-                "symfony/console": "^3.4|^4.0|^5.0"
+                "psr/container": "^1.0 || ^2.0",
+                "symfony/config": "^3.4|^4.0|^5.0|^6.0",
+                "symfony/console": "^3.4|^4.0|^5.0|^6.0"
             },
             "require-dev": {
-                "cakephp/cakephp-codesniffer": "^3.0",
+                "cakephp/cakephp-codesniffer": "^4.0",
                 "ext-json": "*",
                 "ext-pdo": "*",
-                "phpunit/phpunit": "^8.5",
+                "phpunit/phpunit": "^8.5|^9.3",
                 "sebastian/comparator": ">=1.2.3",
                 "symfony/yaml": "^3.4|^4.0|^5.0"
             },
@@ -2510,22 +2569,22 @@
             ],
             "support": {
                 "issues": "https://github.com/cakephp/phinx/issues",
-                "source": "https://github.com/cakephp/phinx/tree/master"
+                "source": "https://github.com/cakephp/phinx/tree/0.12.12"
             },
-            "time": "2020-08-15T07:42:40+00:00"
+            "time": "2022-07-09T18:53:51+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v6.2.5",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "698a6a9f54d7eb321274de3ad19863802c879fb7"
+                "reference": "8a5d5072dca8f48460fce2f4131fcc495eec654c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/698a6a9f54d7eb321274de3ad19863802c879fb7",
-                "reference": "698a6a9f54d7eb321274de3ad19863802c879fb7",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/8a5d5072dca8f48460fce2f4131fcc495eec654c",
+                "reference": "8a5d5072dca8f48460fce2f4131fcc495eec654c",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2535,7 +2594,7 @@
                 ]
             },
             "require": {
-                "egulias/email-validator": "^2.0",
+                "egulias/email-validator": "^2.0|^3.1",
                 "php": ">=7.0.0",
                 "symfony/polyfill-iconv": "^1.0",
                 "symfony/polyfill-intl-idn": "^1.10",
@@ -2543,7 +2602,7 @@
             },
             "require-dev": {
                 "mockery/mockery": "^1.0",
-                "symfony/phpunit-bridge": "^4.4|^5.0"
+                "symfony/phpunit-bridge": "^4.4|^5.4"
             },
             "suggest": {
                 "ext-intl": "Needed to support internationalized email addresses"
@@ -2581,7 +2640,7 @@
             ],
             "support": {
                 "issues": "https://github.com/swiftmailer/swiftmailer/issues",
-                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.2.5"
+                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -2593,7 +2652,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-12T09:35:59+00:00"
+            "abandoned": "symfony/mailer",
+            "time": "2021-10-18T15:26:12+00:00"
         },
         {
             "name": "symfony/cache",
@@ -3699,16 +3759,16 @@
         },
         {
             "name": "symfony/polyfill-intl-idn",
-            "version": "v1.22.0",
+            "version": "v1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "0eb8293dbbcd6ef6bf81404c9ce7d95bcdf34f44"
+                "reference": "59a8d271f00dd0e4c2e518104cc7963f655a1aa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/0eb8293dbbcd6ef6bf81404c9ce7d95bcdf34f44",
-                "reference": "0eb8293dbbcd6ef6bf81404c9ce7d95bcdf34f44",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/59a8d271f00dd0e4c2e518104cc7963f655a1aa8",
+                "reference": "59a8d271f00dd0e4c2e518104cc7963f655a1aa8",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3728,7 +3788,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.22-dev"
+                    "dev-main": "1.26-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -3736,12 +3796,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Intl\\Idn\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Intl\\Idn\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -3772,7 +3832,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.22.0"
+                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.26.0"
             },
             "funding": [
                 {
@@ -3788,20 +3848,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-07T16:49:33+00:00"
+            "time": "2022-05-24T11:49:31+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
-            "version": "v1.22.0",
+            "version": "v1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
-                "reference": "6e971c891537eb617a00bb07a43d182a6915faba"
+                "reference": "219aa369ceff116e673852dce47c3a41794c14bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/6e971c891537eb617a00bb07a43d182a6915faba",
-                "reference": "6e971c891537eb617a00bb07a43d182a6915faba",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/219aa369ceff116e673852dce47c3a41794c14bd",
+                "reference": "219aa369ceff116e673852dce47c3a41794c14bd",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3819,7 +3879,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.22-dev"
+                    "dev-main": "1.26-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -3827,12 +3887,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Intl\\Normalizer\\": ""
-                },
                 "files": [
                     "bootstrap.php"
                 ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Intl\\Normalizer\\": ""
+                },
                 "classmap": [
                     "Resources/stubs"
                 ]
@@ -3862,7 +3922,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.22.0"
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.26.0"
             },
             "funding": [
                 {
@@ -3878,20 +3938,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-07T17:09:11+00:00"
+            "time": "2022-05-24T11:49:31+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.22.0",
+            "version": "v1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "f377a3dd1fde44d37b9831d68dc8dea3ffd28e13"
+                "reference": "9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f377a3dd1fde44d37b9831d68dc8dea3ffd28e13",
-                "reference": "f377a3dd1fde44d37b9831d68dc8dea3ffd28e13",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e",
+                "reference": "9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3903,13 +3963,16 @@
             "require": {
                 "php": ">=7.1"
             },
+            "provide": {
+                "ext-mbstring": "*"
+            },
             "suggest": {
                 "ext-mbstring": "For best performance"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.22-dev"
+                    "dev-main": "1.26-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -3917,12 +3980,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Mbstring\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -3948,7 +4011,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.22.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.26.0"
             },
             "funding": [
                 {
@@ -3964,20 +4027,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-07T16:49:33+00:00"
+            "time": "2022-05-24T11:49:31+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
-            "version": "v1.22.0",
+            "version": "v1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "cc6e6f9b39fe8075b3dabfbaf5b5f645ae1340c9"
+                "reference": "bf44a9fd41feaac72b074de600314a93e2ae78e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/cc6e6f9b39fe8075b3dabfbaf5b5f645ae1340c9",
-                "reference": "cc6e6f9b39fe8075b3dabfbaf5b5f645ae1340c9",
+                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/bf44a9fd41feaac72b074de600314a93e2ae78e2",
+                "reference": "bf44a9fd41feaac72b074de600314a93e2ae78e2",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3992,7 +4055,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.22-dev"
+                    "dev-main": "1.26-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -4000,12 +4063,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php72\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php72\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4030,7 +4093,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php72/tree/v1.22.0"
+                "source": "https://github.com/symfony/polyfill-php72/tree/v1.26.0"
             },
             "funding": [
                 {
@@ -4046,7 +4109,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-07T16:49:33+00:00"
+            "time": "2022-05-24T11:49:31+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
@@ -4748,16 +4811,16 @@
         },
         {
             "name": "tencentcloud/tencentcloud-sdk-php",
-            "version": "3.0.551",
+            "version": "3.0.731",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TencentCloud/tencentcloud-sdk-php.git",
-                "reference": "dc5fca27258258e4b8df9f0f0996d4d3358c1d37"
+                "reference": "a247a556c120dd7dd95db40035edcde7271fe40d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/dc5fca27258258e4b8df9f0f0996d4d3358c1d37",
-                "reference": "dc5fca27258258e4b8df9f0f0996d4d3358c1d37",
+                "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/a247a556c120dd7dd95db40035edcde7271fe40d",
+                "reference": "a247a556c120dd7dd95db40035edcde7271fe40d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4772,12 +4835,12 @@
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "src/QcloudApi/QcloudApi.php"
-                ],
                 "psr-4": {
                     "TencentCloud\\": "./src/TencentCloud"
-                }
+                },
+                "classmap": [
+                    "src/QcloudApi/QcloudApi.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4795,9 +4858,9 @@
             "homepage": "https://github.com/TencentCloud/tencentcloud-sdk-php",
             "support": {
                 "issues": "https://github.com/TencentCloud/tencentcloud-sdk-php/issues",
-                "source": "https://github.com/TencentCloud/tencentcloud-sdk-php/tree/3.0.551"
+                "source": "https://github.com/TencentCloud/tencentcloud-sdk-php/tree/3.0.731"
             },
-            "time": "2021-12-30T00:37:24+00:00"
+            "time": "2022-09-21T00:09:54+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -4860,16 +4923,16 @@
         },
         {
             "name": "whichbrowser/parser",
-            "version": "v2.1.1",
+            "version": "v2.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WhichBrowser/Parser-PHP.git",
-                "reference": "da24adc4f4f26002673d236e69b91a10f2fd594c"
+                "reference": "1044880bc792dbce5948fbff22ae731c43c280d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WhichBrowser/Parser-PHP/zipball/da24adc4f4f26002673d236e69b91a10f2fd594c",
-                "reference": "da24adc4f4f26002673d236e69b91a10f2fd594c",
+                "url": "https://api.github.com/repos/WhichBrowser/Parser-PHP/zipball/1044880bc792dbce5948fbff22ae731c43c280d9",
+                "reference": "1044880bc792dbce5948fbff22ae731c43c280d9",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4880,7 +4943,7 @@
             },
             "require": {
                 "php": ">=5.4.0",
-                "psr/cache": "^1.0"
+                "psr/cache": "^1.0 || ^2.0 || ^3.0"
             },
             "require-dev": {
                 "cache/array-adapter": "^1.1",
@@ -4924,22 +4987,22 @@
             ],
             "support": {
                 "issues": "https://github.com/WhichBrowser/Parser-PHP/issues",
-                "source": "https://github.com/WhichBrowser/Parser-PHP/tree/v2.1.1"
+                "source": "https://github.com/WhichBrowser/Parser-PHP/tree/v2.1.7"
             },
-            "time": "2021-01-04T16:36:15+00:00"
+            "time": "2022-04-19T20:14:54+00:00"
         },
         {
             "name": "workerman/gateway-worker",
-            "version": "v3.0.18",
+            "version": "v3.0.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/GatewayWorker.git",
-                "reference": "50d3a77deb7f7fb206d641ee0307ae1c41d5d41d"
+                "reference": "a615036c482d11f68b693998575e804752ef9068"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/50d3a77deb7f7fb206d641ee0307ae1c41d5d41d",
-                "reference": "50d3a77deb7f7fb206d641ee0307ae1c41d5d41d",
+                "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/a615036c482d11f68b693998575e804752ef9068",
+                "reference": "a615036c482d11f68b693998575e804752ef9068",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4968,22 +5031,32 @@
             ],
             "support": {
                 "issues": "https://github.com/walkor/GatewayWorker/issues",
-                "source": "https://github.com/walkor/GatewayWorker/tree/v3.0.18"
+                "source": "https://github.com/walkor/GatewayWorker/tree/v3.0.22"
             },
-            "time": "2020-07-15T06:45:01+00:00"
+            "funding": [
+                {
+                    "url": "https://opencollective.com/walkor",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://www.patreon.com/walkor",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2021-12-23T13:13:09+00:00"
         },
         {
             "name": "workerman/gatewayclient",
-            "version": "v3.0.13",
+            "version": "v3.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/GatewayClient.git",
-                "reference": "6f4e76f38947be5cabca2c6fee367151f248d949"
+                "reference": "4362468d68251015b2b385c310252afb4d6648ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/GatewayClient/zipball/6f4e76f38947be5cabca2c6fee367151f248d949",
-                "reference": "6f4e76f38947be5cabca2c6fee367151f248d949",
+                "url": "https://api.github.com/repos/walkor/GatewayClient/zipball/4362468d68251015b2b385c310252afb4d6648ed",
+                "reference": "4362468d68251015b2b385c310252afb4d6648ed",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -5005,9 +5078,9 @@
             "homepage": "http://www.workerman.net",
             "support": {
                 "issues": "https://github.com/walkor/GatewayClient/issues",
-                "source": "https://github.com/walkor/GatewayClient/tree/v3.0.13"
+                "source": "https://github.com/walkor/GatewayClient/tree/v3.0.14"
             },
-            "time": "2018-09-15T03:03:50+00:00"
+            "time": "2021-11-29T07:03:50+00:00"
         },
         {
             "name": "workerman/workerman",
@@ -5070,16 +5143,16 @@
         },
         {
             "name": "xiaochong0302/ip2region",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xiaochong0302/ip2region.git",
-                "reference": "d7ce99bd7d5f5a2f092e9dcd85b4739c9a1d6a85"
+                "reference": "de2fbcb236cce91dfa1be2ff65516a46571b3565"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xiaochong0302/ip2region/zipball/d7ce99bd7d5f5a2f092e9dcd85b4739c9a1d6a85",
-                "reference": "d7ce99bd7d5f5a2f092e9dcd85b4739c9a1d6a85",
+                "url": "https://api.github.com/repos/xiaochong0302/ip2region/zipball/de2fbcb236cce91dfa1be2ff65516a46571b3565",
+                "reference": "de2fbcb236cce91dfa1be2ff65516a46571b3565",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -5113,22 +5186,22 @@
             ],
             "support": {
                 "issues": "https://github.com/xiaochong0302/ip2region/issues",
-                "source": "https://github.com/xiaochong0302/ip2region/tree/v1.0.1"
+                "source": "https://github.com/xiaochong0302/ip2region/tree/v1.0.2"
             },
-            "time": "2021-01-14T03:00:28+00:00"
+            "time": "2022-04-27T02:45:22+00:00"
         },
         {
             "name": "yansongda/pay",
-            "version": "v2.10.2",
+            "version": "v2.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yansongda/pay.git",
-                "reference": "8c258853b142c6d7589629b047ca5cb21232b509"
+                "reference": "e378f43800f867d53ce35ee90aa17f0c3b7b5838"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yansongda/pay/zipball/8c258853b142c6d7589629b047ca5cb21232b509",
-                "reference": "8c258853b142c6d7589629b047ca5cb21232b509",
+                "url": "https://api.github.com/repos/yansongda/pay/zipball/e378f43800f867d53ce35ee90aa17f0c3b7b5838",
+                "reference": "e378f43800f867d53ce35ee90aa17f0c3b7b5838",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -5179,7 +5252,7 @@
                 "issues": "https://github.com/yansongda/pay/issues",
                 "source": "https://github.com/yansongda/pay"
             },
-            "time": "2021-01-18T01:48:43+00:00"
+            "time": "2022-03-10T01:27:10+00:00"
         },
         {
             "name": "yansongda/supports",
@@ -5250,16 +5323,16 @@
     "packages-dev": [
         {
             "name": "odan/phinx-migrations-generator",
-            "version": "5.3.2",
+            "version": "5.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/odan/phinx-migrations-generator.git",
-                "reference": "2d3620f8251838b53717f7a43a348de31e9d451c"
+                "reference": "79439b5678db5b0ec1f367235ccfe298313aaad3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odan/phinx-migrations-generator/zipball/2d3620f8251838b53717f7a43a348de31e9d451c",
-                "reference": "2d3620f8251838b53717f7a43a348de31e9d451c",
+                "url": "https://api.github.com/repos/odan/phinx-migrations-generator/zipball/79439b5678db5b0ec1f367235ccfe298313aaad3",
+                "reference": "79439b5678db5b0ec1f367235ccfe298313aaad3",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -5271,18 +5344,22 @@
             "require": {
                 "ext-json": "*",
                 "ext-pdo": "*",
-                "php": "^7.2",
+                "php": "^7.2 || ^8.0",
                 "riimu/kit-phpencoder": "^2.4",
                 "robmorgan/phinx": "^0.12",
-                "symfony/console": "^2.8 || ^3.0 || ^4.0 || ^5.0",
+                "symfony/console": "^2.8 || ^3.0 || ^4.0 || ^5.0 || 6.0.*",
                 "symfony/polyfill-php73": "^1.18"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16",
-                "overtrue/phplint": "^1.1 || ^2.0",
-                "phpstan/phpstan": "^0.12",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": "^1.0",
                 "phpunit/phpunit": "^8 || ^9",
-                "squizlabs/php_codesniffer": "^3.4"
+                "squizlabs/php_codesniffer": "^3.4",
+                "symfony/event-dispatcher": "^5 || 6.0.*",
+                "symfony/filesystem": "^5 || 6.0.*",
+                "symfony/finder": "^5 || 6.0.*",
+                "symfony/string": "^5 || 6.0.*",
+                "symfony/uid": "^5 || 6.0.*"
             },
             "bin": [
                 "./bin/phinx-migrations"
@@ -5309,9 +5386,9 @@
             ],
             "support": {
                 "issues": "https://github.com/odan/phinx-migrations-generator/issues",
-                "source": "https://github.com/odan/phinx-migrations-generator/tree/5.3.2"
+                "source": "https://github.com/odan/phinx-migrations-generator/tree/5.6.0"
             },
-            "time": "2020-12-30T23:59:57+00:00"
+            "time": "2022-08-05T21:40:16+00:00"
         },
         {
             "name": "phalcon/ide-stubs",
