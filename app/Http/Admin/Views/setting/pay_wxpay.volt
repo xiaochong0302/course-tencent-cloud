@@ -10,7 +10,7 @@
         <label class="layui-form-label">手续费率</label>
         <div class="layui-input-block">
             <select name="service_rate" lay-verify="number">
-                {% for value in 1..30 %}
+                {% for value in 0..30 %}
                     {% set selected = (value == wxpay.service_rate) ? 'selected="selected"' : '' %}
                     <option value="{{ value }}" {{ selected }}>{{ value }}%</option>
                 {% endfor %}
