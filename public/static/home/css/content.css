@@ -158,6 +158,10 @@
     border-left: none;
 }
 
+.ke-content table tr:first-child td {
+    border-top: none;
+}
+
 .ke-content code,
 .ke-content pre {
     font-family: Consolas, Monaco, Andale Mono, monospace;
