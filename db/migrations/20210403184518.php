@@ -155,7 +155,7 @@ final class V20210403184518 extends AbstractMigration
                 'id' => 5,
                 'parent_id' => 0,
                 'level' => 1,
-                'name' => '教师',
+                'name' => '师资',
                 'path' => ',5,',
                 'target' => '_self',
                 'url' => '/teacher/list',
