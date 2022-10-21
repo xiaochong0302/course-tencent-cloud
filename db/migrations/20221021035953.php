@@ -15,6 +15,7 @@ final class V20221021035953 extends AbstractMigration
     {
         $this->alterPageTable();
         $this->alterHelpTable();
+        $this->alterUserTable();
     }
 
     protected function alterPageTable()
@@ -47,6 +48,24 @@ final class V20221021035953 extends AbstractMigration
                 'signed' => false,
                 'comment' => '浏览数',
                 'after' => 'deleted',
+            ]);
+        }
+
+        $table->save();
+    }
+
+    protected function alterUserTable()
+    {
+        $table = $this->table('kg_user');
+
+        if ($table->hasColumn('notice_count') == false) {
+            $table->addColumn('notice_count', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '通知数',
+                'after' => 'favorite_count',
             ]);
         }
 
