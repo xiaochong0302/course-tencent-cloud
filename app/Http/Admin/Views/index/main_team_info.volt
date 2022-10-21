@@ -9,7 +9,7 @@
             <tbody>
             <tr>
                 <td>版权所有</td>
-                <td><a href="https://koogua.com" target="_blank">深圳市酷瓜软件有限公司</a></td>
+                <td><a href="https://www.koogua.com" target="_blank">深圳市酷瓜软件有限公司</a></td>
             </tr>
             <tr>
                 <td>产品经理</td>

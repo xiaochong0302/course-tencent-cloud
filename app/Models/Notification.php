@@ -198,4 +198,16 @@ class Notification extends Model
         }
     }
 
+    public function afterCreate()
+    {
+        /**
+         * @var $user User
+         */
+        $user = User::findFirst($this->receiver_id);
+
+        $user->notice_count += 1;
+
+        $user->update();
+    }
+
 }

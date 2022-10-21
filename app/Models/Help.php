@@ -70,6 +70,13 @@ class Help extends Model
     public $deleted = 0;
 
     /**
+     * 浏览量
+     *
+     * @var int
+     */
+    public $view_count = 0;
+
+    /**
      * 创建时间
      *
      * @var int

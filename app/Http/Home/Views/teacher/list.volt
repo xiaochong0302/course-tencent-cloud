@@ -6,7 +6,7 @@
 
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
-        <a><cite>教师</cite></a>
+        <a><cite>师资</cite></a>
     </div>
 
     <div id="teacher-list" data-url="{{ pager_url }}"></div>
