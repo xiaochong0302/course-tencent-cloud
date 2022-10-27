@@ -40,8 +40,8 @@
             <th>编号</th>
             <th>标题</th>
             <th>别名</th>
+            <th>浏览</th>
             <th>创建时间</th>
-            <th>更新时间</th>
             <th>发布</th>
             <th>操作</th>
         </tr>
@@ -57,8 +57,8 @@
                 <td>{{ item.id }}</td>
                 <td><a href="{{ edit_url }}">{{ item.title }}</a></td>
                 <td>{{ alias_tips(item.alias) }}</td>
+                <td>{{ item.view_count }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
-                <td>{{ date('Y-m-d H:i:s',item.update_time) }}</td>
                 <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}>
                 </td>
                 <td class="center">

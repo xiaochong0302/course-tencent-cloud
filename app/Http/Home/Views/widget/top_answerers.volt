@@ -1,27 +1,24 @@
-{% if questions|length > 0 %}
+{% if answerers|length > 0 %}
     <div class="layui-card">
-        <div class="layui-card-header">热门问题</div>
+        <div class="layui-card-header">热门答主</div>
         <div class="layui-card-body">
-            {% for item in questions %}
-                {% set url = url({'for':'home.question.show','id':item.id}) %}
-                {% set rank = loop.index %}
-                <div class="sidebar-rank-card">
-                    <div class="rank">
-                        {% if rank == 1 %}
-                            <span class="layui-badge layui-bg-red">{{ rank }}</span>
-                        {% elseif rank == 2 %}
-                            <span class="layui-badge layui-bg-blue">{{ rank }}</span>
-                        {% elseif rank == 3 %}
-                            <span class="layui-badge layui-bg-green">{{ rank }}</span>
-                        {% else %}
-                            <span class="layui-badge layui-bg-gray">{{ rank }}</span>
-                        {% endif %}
+            <div class="sidebar-user-list">
+                {% for author in answerers %}
+                    {% set author.title = author.title ? author.title : '暂露头角' %}
+                    {% set author_url = url({'for':'home.user.show','id':author.id}) %}
+                    <div class="sidebar-user-card">
+                        <div class="avatar">
+                            <img src="{{ author.avatar }}!avatar_160" alt="{{ author.name }}">
+                        </div>
+                        <div class="info">
+                            <div class="name layui-elip">
+                                <a href="{{ author_url }}" title="{{ author.about }}" target="_blank">{{ author.name }}</a>
+                            </div>
+                            <div class="title layui-elip">{{ author.title }}</div>
+                        </div>
                     </div>
-                    <div class="title">
-                        <a href="{{ url }}">{{ item.title }}</a>
-                    </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endif %}

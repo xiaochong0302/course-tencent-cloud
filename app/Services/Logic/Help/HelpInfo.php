@@ -32,6 +32,7 @@ class HelpInfo extends LogicService
             'content' => $help->content,
             'published' => $help->published,
             'deleted' => $help->deleted,
+            'view_count' => $help->view_count,
             'create_time' => $help->create_time,
             'update_time' => $help->update_time,
         ];

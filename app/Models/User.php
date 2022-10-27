@@ -155,6 +155,13 @@ class User extends Model
     public $favorite_count = 0;
 
     /**
+     * 通知数
+     *
+     * @var int
+     */
+    public $notice_count = 0;
+
+    /**
      * 会员期限
      *
      * @var int
