@@ -48,7 +48,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
                 $token.attr('content', res.token);
             }
         });
-    }, 300000);
+    }, 600000);
 
     if (window.user.id > 0) {
         setInterval(function () {
@@ -60,7 +60,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
                     $notifyDot.removeClass('layui-badge-dot');
                 }
             });
-        }, 30000);
+        }, 60000);
         setInterval(function () {
             $.post('/uc/online');
         }, 60000);

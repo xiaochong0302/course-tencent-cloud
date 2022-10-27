@@ -15,7 +15,7 @@ class SyncAppInfoTask extends Task
 
     public function mainAction()
     {
-        $url = 'https://koogua.com/api/instance/collect';
+        $url = 'https://www.koogua.com/api/instance/collect';
 
         $site = $this->getSettings('site');
 

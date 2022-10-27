@@ -1335,6 +1335,26 @@
     height: 428px;
 }
 
+
+.play-mask {
+    top: 50%;
+    left: 50%;
+    z-index: 8;
+    position: absolute;
+    margin-top: -32px;
+    margin-left: -32px;
+}
+
+.play-mask .layui-icon-play {
+    color: white;
+    cursor: pointer;
+    font-size: 64px;
+}
+
+.play-mask .layui-icon-play:hover {
+    color: #00a4ff;
+}
+
 .chat-wrap .layui-card-header {
     text-align: center;
 }

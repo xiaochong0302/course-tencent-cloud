@@ -64,7 +64,7 @@ class Query
                 $value = $this->filter->sanitize($value, ['trim', 'string']);
                 if ($whitelist && !in_array($value, $whitelist)) {
                     unset($params[$key]);
-                } elseif (strlen($value) == 0) {
+                } elseif (!is_array($value) && strlen($value) == 0) {
                     unset($params[$key]);
                 }
             }

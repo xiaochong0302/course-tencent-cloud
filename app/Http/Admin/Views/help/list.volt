@@ -22,6 +22,7 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="10%">
             <col width="10%">
             <col width="12%">
@@ -31,6 +32,7 @@
             <th>编号</th>
             <th>标题</th>
             <th>分类</th>
+            <th>浏览</th>
             <th>排序</th>
             <th>发布</th>
             <th>操作</th>
@@ -48,6 +50,7 @@
                 <td>{{ item.id }}</td>
                 <td><a href="{{ edit_url }}">{{ item.title }}</a></td>
                 <td><a href="{{ list_url }}">{{ item.category.name }}</a></td>
+                <td>{{ item.view_count }}</td>
                 <td class="center"><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
                 <td class="center"><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
