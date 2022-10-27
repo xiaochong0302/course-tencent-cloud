@@ -32,5 +32,10 @@
       "type": "composer",
       "url": "https://mirrors.aliyun.com/composer"
     }
+  },
+  "config": {
+    "allow-plugins": {
+      "easywechat-composer/easywechat-composer": true
+    }
   }
 }
