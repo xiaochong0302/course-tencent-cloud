@@ -1,3 +1,18 @@
+### [v1.6.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.0)(2022-10-26)
+
+- 播放器中间增加大号播放按钮
+- 单页和帮助增加浏览计数属性
+- logo上增加首页链接
+- 修正分类默认图标问题
+- 修正layui-main样式更新带来的问题
+- 更新composer包
+- 调整退款手续费范围
+- 导航部分，教师->师资
+- 优化分页组件参数
+- 优化内容表格样式
+- 优化热门问题和热门答主
+- 优化通知计数方式
+
 ### [v1.5.9](https://gitee.com/koogua/course-tencent-cloud/releases/v1.5.9)(2022-09-20)
 
 - 修正内容图片上传问题
