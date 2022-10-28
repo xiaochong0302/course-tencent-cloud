@@ -29,8 +29,6 @@ layui.use(['jquery', 'helper'], function () {
         }
     });
 
-    console.log(quality)
-
     var player = new DPlayer({
         container: document.getElementById('player'),
         video: {
