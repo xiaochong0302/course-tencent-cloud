@@ -20,6 +20,9 @@
     <div class="layout-main">
         <div class="layout-content">
             <div class="player-wrap wrap">
+                <div id="play-mask" class="play-mask">
+                    <span class="layui-icon layui-icon-play"></span>
+                </div>
                 <div id="player"></div>
             </div>
             <div id="comment-anchor"></div>

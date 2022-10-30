@@ -6,7 +6,7 @@ layui.use(['jquery', 'helper'], function () {
     var $questionList = $('#question-list');
     var $sidebarMyTags = $('#sidebar-my-tags');
     var $sidebarHotQuestions = $('#sidebar-hot-questions');
-    var $sidebarTopAnswerers = $('#sidebar-top-answerer');
+    var $sidebarTopAnswerers = $('#sidebar-top-answerers');
 
     if ($questionList.length > 0) {
         helper.ajaxLoadHtml($questionList.data('url'), $questionList.attr('id'));

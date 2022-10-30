@@ -1,9 +1,8 @@
+{% set logo_img = site_info.logo ? image(site_info.logo,false) : image('logo.png') %}
+{% set logo_link = site_info.url ? site_info.url : '/' %}
+
 <div class="logo">
-    {% if site_info.logo %}
-        {{ image(site_info.logo,false) }}
-    {% else %}
-        {{ image('logo.png') }}
-    {% endif %}
+    <a href="{{ logo_link }}">{{ logo_img }}</a>
 </div>
 
 <div class="top-nav">

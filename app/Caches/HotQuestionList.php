@@ -48,6 +48,12 @@ class HotQuestionList extends Cache
             return $this->handleQuestions($questions);
         }
 
+        $questions = $this->findFullyHotQuestions();
+
+        if ($questions->count() > 0) {
+            return $this->handleQuestions($questions);
+        }
+
         return [];
     }
 
@@ -98,6 +104,17 @@ class HotQuestionList extends Cache
     protected function findYearlyHotQuestions($limit = 10)
     {
         $createTime = strtotime(date('Y-01-01'));
+
+        return $this->findHotQuestions($createTime, $limit);
+    }
+
+    /**
+     * @param int $limit
+     * @return ResultsetInterface|Resultset|QuestionModel[]
+     */
+    protected function findFullyHotQuestions($limit = 10)
+    {
+        $createTime = 0;
 
         return $this->findHotQuestions($createTime, $limit);
     }

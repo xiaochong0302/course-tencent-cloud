@@ -20,6 +20,10 @@ class PageInfo extends LogicService
     {
         $page = $this->checkPage($id);
 
+        $this->incrPageViewCount($page);
+
+        $this->eventsManager->fire('Page:afterView', $this, $page);
+
         return $this->handlePage($page);
     }
 
@@ -32,9 +36,17 @@ class PageInfo extends LogicService
             'content' => $page->content,
             'published' => $page->published,
             'deleted' => $page->deleted,
+            'view_count' => $page->view_count,
             'create_time' => $page->create_time,
             'update_time' => $page->update_time,
         ];
+    }
+
+    protected function incrPageViewCount(PageModel $page)
+    {
+        $page->view_count += 1;
+
+        $page->update();
     }
 
 }
