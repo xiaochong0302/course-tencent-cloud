@@ -68,14 +68,15 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
 
     form.on('submit(go)', function (data) {
         var submit = $(this);
-        submit.attr('disabled', 'disabled').addClass('layui-btn-disabled');
+        var orgText = $(this).text();
+        submit.text('提交中···').attr('disabled', 'disabled').addClass('layui-btn-disabled');
         $.ajax({
             type: 'POST',
             url: data.form.action,
             data: data.field,
             success: function (res) {
                 if (res.msg) {
-                    layer.msg(res.msg, {icon: 1});
+                    layer.msg(res.msg, {icon: 1, time: 1500});
                 }
                 if (res.location) {
                     var target = res.target || 'self';
@@ -85,13 +86,14 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
                         } else {
                             window.location.href = res.location;
                         }
-                    }, 1500);
-                } else {
-                    submit.removeAttr('disabled').removeClass('layui-btn-disabled');
+                    }, 1000);
                 }
+                setTimeout(function () {
+                    submit.text(orgText).removeAttr('disabled').removeClass('layui-btn-disabled');
+                }, 1500);
             },
             error: function () {
-                submit.removeAttr('disabled').removeClass('layui-btn-disabled');
+                submit.text(orgText).removeAttr('disabled').removeClass('layui-btn-disabled');
             }
         });
         return false;
