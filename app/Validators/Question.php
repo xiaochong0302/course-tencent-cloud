@@ -13,6 +13,7 @@ use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Question as QuestionModel;
 use App\Models\Reason as ReasonModel;
 use App\Repos\Question as QuestionRepo;
+use App\Services\EditorStorage as EditorStorageService;
 
 class Question extends Validator
 {
@@ -105,6 +106,10 @@ class Question extends Validator
     public function checkContent($content)
     {
         $value = $this->filter->sanitize($content, ['trim']);
+
+        $storage = new EditorStorageService();
+
+        $value = $storage->handle($value);
 
         $length = kg_strlen($value);
 
