@@ -1,3 +1,19 @@
+{%- macro show_lesson_list(chapter) %}
+    <ul class="lesson-list">
+        {% for lesson in chapter.children %}
+            {% if lesson.model == 1 %}
+                <li class="lesson-item">{{ vod_lesson_info(lesson) }}</li>
+            {% elseif lesson.model == 2 %}
+                <li class="lesson-item">{{ live_lesson_info(lesson) }}</li>
+            {% elseif lesson.model == 3 %}
+                <li class="lesson-item">{{ read_lesson_info(lesson) }}</li>
+            {% elseif lesson.model == 4 %}
+                <li class="lesson-item">{{ offline_lesson_info(lesson) }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{%- endmacro %}
+
 {%- macro vod_lesson_info(lesson) %}
     {% set url = lesson.me.owned ? url({'for':'home.chapter.show','id':lesson.id}) : '' %}
     {% set priv = lesson.me.owned ? 'allow' : 'deny' %}
@@ -87,28 +103,20 @@
 
 {% set show_all = course.lesson_count < 30 %}
 
-{% if chapters %}
-    <div class="layui-collapse" lay-accordion="true">
-        {% for chapter in chapters %}
-            {% set show_class = (show_all or loop.first) ? 'layui-show' : '' %}
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">{{ chapter.title }}</h2>
-                <div class="layui-colla-content {{ show_class }}">
-                    <ul class="lesson-list">
-                        {% for lesson in chapter.children %}
-                            {% if lesson.model == 1 %}
-                                <li class="lesson-item">{{ vod_lesson_info(lesson) }}</li>
-                            {% elseif lesson.model == 2 %}
-                                <li class="lesson-item">{{ live_lesson_info(lesson) }}</li>
-                            {% elseif lesson.model == 3 %}
-                                <li class="lesson-item">{{ read_lesson_info(lesson) }}</li>
-                            {% elseif lesson.model == 4 %}
-                                <li class="lesson-item">{{ offline_lesson_info(lesson) }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+{% if chapters|length > 0 %}
+    {% if chapters|length > 1 %}
+        <div class="layui-collapse" lay-accordion="true">
+            {% for chapter in chapters %}
+                {% set show_class = (show_all or loop.first) ? 'layui-show' : '' %}
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">{{ chapter.title }}</h2>
+                    <div class="layui-colla-content {{ show_class }}">
+                        {{ show_lesson_list(chapter) }}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ show_lesson_list(chapters[0]) }}
+    {% endif %}
 {% endif %}

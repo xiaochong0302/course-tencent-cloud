@@ -34,10 +34,8 @@ class AccountLogin extends LogicService
         $subscribe = $subscribeRepo->findByUserId($userId);
 
         if ($subscribe) {
-
             $notice = new WeChatAccountLoginNotice();
-
-            return $notice->handle($subscribe, $params);
+            $notice->handle($subscribe, $params);
         }
     }
 

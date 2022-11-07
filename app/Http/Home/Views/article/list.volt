@@ -4,7 +4,7 @@
 
     {% set sort_val = request.get('sort','trim','latest') %}
     {% set pager_url = url({'for':'home.article.pager'}, params) %}
-    {% set top_authors_url = url({'for':'home.widget.top_authors'}) %}
+    {% set top_authors_url = url({'for':'home.widget.top_authors'},{'limit':5}) %}
     {% set my_tags_url = url({'for':'home.widget.my_tags'},{'type':'article'}) %}
 
     <div class="breadcrumb">
