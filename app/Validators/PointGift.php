@@ -13,6 +13,7 @@ use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\PointGift as PointGiftModel;
 use App\Repos\PointGift as PointGiftRepo;
+use App\Services\EditorStorage as EditorStorageService;
 
 class PointGift extends Validator
 {
@@ -85,6 +86,10 @@ class PointGift extends Validator
     public function checkDetails($details)
     {
         $value = $this->filter->sanitize($details, ['trim']);
+
+        $storage = new EditorStorageService();
+
+        $value = $storage->handle($value);
 
         $length = kg_strlen($value);
 

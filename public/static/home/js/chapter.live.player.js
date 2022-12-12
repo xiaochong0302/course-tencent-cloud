@@ -56,14 +56,17 @@ layui.use(['jquery', 'helper'], function () {
     });
 
     /**
-     * 播放器中央播放按钮点击事件
+     * 播放器中央播放按钮
      */
-    $('#play-mask').on('click', function () {
+    var $playMask = $('#play-mask');
+
+    $playMask.on('click', function () {
         $(this).hide();
         player.toggle();
     });
 
     function start() {
+        $playMask.hide();
         if (interval != null) {
             clearInterval(interval);
             interval = null;
@@ -72,6 +75,7 @@ layui.use(['jquery', 'helper'], function () {
     }
 
     function stop() {
+        $playMask.show();
         if (interval != null) {
             clearInterval(interval);
             interval = null;

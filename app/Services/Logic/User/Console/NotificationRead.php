@@ -17,6 +17,12 @@ class NotificationRead extends LogicService
     {
         $user = $this->getLoginUser();
 
+        if ($user->notice_count == 0) return;
+
+        $user->notice_count = 0;
+
+        $user->update();
+
         $notifyRepo = new NotificationRepo();
 
         $notifyRepo->markAllAsViewed($user->id);

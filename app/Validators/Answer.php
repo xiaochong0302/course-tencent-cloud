@@ -15,6 +15,7 @@ use App\Models\Reason as ReasonModel;
 use App\Models\User as UserModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Repos\Question as QuestionRepo;
+use App\Services\EditorStorage as EditorStorageService;
 
 class Answer extends Validator
 {
@@ -57,6 +58,10 @@ class Answer extends Validator
     public function checkContent($content)
     {
         $value = $this->filter->sanitize($content, ['trim']);
+
+        $storage = new EditorStorageService();
+
+        $value = $storage->handle($value);
 
         $length = kg_strlen($value);
 

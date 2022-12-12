@@ -19,7 +19,7 @@ trait PointGiftTrait
         return $validator->checkPointGift($id);
     }
 
-    public function checkFlashSaleCache($id)
+    public function checkPointGiftCache($id)
     {
         $validator = new PointGiftValidator();
 

@@ -15,11 +15,17 @@ class HotQuestionList extends LogicService
 
     public function handle()
     {
+        $limit = $this->request->getQuery('limit', 'int', 10);
+
         $cache = new HotQuestionListCache();
 
-        $result = $cache->get();
+        $list = $cache->get();
 
-        return $result ?: [];
+        if($limit < count($list)) {
+            $list = array_slice($list, $limit);
+        }
+
+        return $list;
     }
 
 }
