@@ -60,7 +60,6 @@ class DeliverTask extends Task
                         break;
                     default:
                         $this->noMatchedHandler($order);
-                        break;
                 }
 
                 $order->status = OrderModel::STATUS_FINISHED;

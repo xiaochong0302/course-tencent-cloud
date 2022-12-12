@@ -29,8 +29,6 @@ layui.use(['jquery', 'helper'], function () {
         }
     });
 
-    console.log(quality)
-
     var player = new DPlayer({
         container: document.getElementById('player'),
         video: {
@@ -52,9 +50,11 @@ layui.use(['jquery', 'helper'], function () {
     });
 
     /**
-     * 播放器中央播放按钮点击事件
+     * 播放器中央播放按钮
      */
-    $('#play-mask').on('click', function () {
+    var $playMask = $('#play-mask');
+
+    $playMask.on('click', function () {
         $(this).hide();
         player.toggle();
     });
@@ -80,11 +80,13 @@ layui.use(['jquery', 'helper'], function () {
     }
 
     function play() {
+        $playMask.hide();
         clearLearningInterval();
         setLearningInterval();
     }
 
     function pause() {
+        $playMask.show();
         clearLearningInterval();
     }
 

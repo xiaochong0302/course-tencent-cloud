@@ -8,7 +8,6 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\CourseList as CourseListBuilder;
-use App\Caches\Course as CourseCache;
 use App\Caches\CourseCategoryList as CourseCategoryListCache;
 use App\Caches\CourseRelatedList as CourseRelatedListCache;
 use App\Caches\CourseTeacherList as CourseTeacherListCache;
@@ -25,7 +24,6 @@ use App\Repos\CourseCategory as CourseCategoryRepo;
 use App\Repos\CourseRelated as CourseRelatedRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\User as UserRepo;
-use App\Services\Sync\CourseIndex as CourseIndexSync;
 use App\Validators\Course as CourseValidator;
 use App\Validators\CourseOffline as CourseOfflineValidator;
 
@@ -397,20 +395,6 @@ class Course extends Service
         $validator = new CourseValidator();
 
         return $validator->checkCourse($id);
-    }
-
-    protected function rebuildCourseCache(CourseModel $course)
-    {
-        $cache = new CourseCache();
-
-        $cache->rebuild($course->id);
-    }
-
-    protected function rebuildCourseIndex(CourseModel $course)
-    {
-        $sync = new CourseIndexSync();
-
-        $sync->addItem($course->id);
     }
 
     protected function saveTeachers(CourseModel $course, $teacherIds)

@@ -14,6 +14,7 @@ use App\Library\Validators\Common as CommonValidator;
 use App\Models\Article as ArticleModel;
 use App\Models\Reason as ReasonModel;
 use App\Repos\Article as ArticleRepo;
+use App\Services\EditorStorage as EditorStorageService;
 
 class Article extends Validator
 {
@@ -93,6 +94,10 @@ class Article extends Validator
     public function checkContent($content)
     {
         $value = $this->filter->sanitize($content, ['trim']);
+
+        $storage = new EditorStorageService();
+
+        $value = $storage->handle($value);
 
         $length = kg_strlen($value);
 

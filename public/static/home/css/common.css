@@ -1328,6 +1328,8 @@
     width: 760px;
     height: 428px;
     margin-bottom: 20px;
+    background: black;
+    position: relative;
 }
 
 .dplayer {

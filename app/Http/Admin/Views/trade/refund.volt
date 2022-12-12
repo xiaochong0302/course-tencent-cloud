@@ -71,11 +71,15 @@
                 <input class="layui-input" name="apply_note" lay-verify="required">
             </div>
         </div>
-        <div class="layui-form-item kg-center">
-            <button class="layui-btn" lay-submit="true" lay-filter="go">提交申请</button>
-            <input type="hidden" name="trade_amount" value="{{ trade.amount }}">
-            <input type="hidden" name="refund_amount" value="{{ confirm.refund_amount }}">
-            <input type="hidden" name="service_fee" value="{{ confirm.service_fee }}">
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <input type="hidden" name="trade_amount" value="{{ trade.amount }}">
+                <input type="hidden" name="refund_amount" value="{{ confirm.refund_amount }}">
+                <input type="hidden" name="service_fee" value="{{ confirm.service_fee }}">
+            </div>
         </div>
     </form>
 
