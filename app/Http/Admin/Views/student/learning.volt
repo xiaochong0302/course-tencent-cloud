@@ -32,6 +32,8 @@
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set duration = item.duration > 0 ? item.duration|duration : 'N/A' %}
+            {% set active_time = item.active_time > 0 ? date('Y-m-d H:i:s',item.active_time) : 'N/A' %}
             <tr>
                 <td>
                     <p class="layui-elip">课程：{{ item.course.title }}</p>
@@ -41,8 +43,8 @@
                     <p>类型：{{ client_type_info(item.client_type) }}</p>
                     <p>地址：<a href="javascript:" class="kg-ip2region" title="查看位置" data-ip="{{ item.client_ip }}">{{ item.client_ip }}</a></p>
                 </td>
-                <td>{{ item.duration|duration }}</td>
-                <td>{{ date('Y-m-d H:i:s',item.active_time) }}</td>
+                <td>{{ duration }}</td>
+                <td>{{ active_time }}</td>
             </tr>
         {% endfor %}
         </tbody>

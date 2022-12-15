@@ -13,6 +13,7 @@ use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\Page as PageModel;
 use App\Repos\Page as PageRepo;
+use App\Services\EditorStorage as EditorStorageService;
 
 class Page extends Validator
 {
@@ -123,6 +124,10 @@ class Page extends Validator
     public function checkContent($content)
     {
         $value = $this->filter->sanitize($content, ['trim']);
+
+        $storage = new EditorStorageService();
+
+        $value = $storage->handle($value);
 
         $length = kg_strlen($value);
 
