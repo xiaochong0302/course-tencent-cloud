@@ -1,3 +1,6 @@
+### [v1.6.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.1)(2023-01-12)
+
+
 ### [v1.6.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.1)(2022-12-12)
 
 - 富文本编辑器增加粘贴图片和远程图片本地化
