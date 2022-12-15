@@ -172,29 +172,25 @@ class Vod extends Service
 
         $expiredTime = base_convert(time() + $expiry, 10, 16);
         $tryTime = 0; // 试看时间，0不限制
-        $ipLimit = 0; // ip数量限制，0不限制
-        $random = rand(100000, 999999); // 随机数
+        $ipLimit = 9; // ip数量限制，0不限制
+        $random = uniqid(); // 随机数
 
         /**
          * 腾讯坑爹的参数类型和文档，先凑合吧
          * 不限制试看 => 必须exper=0（不能设置为空）
-         * 不限制IP => 必须rlimit为空（不能设置为0），暂不可用
+         * 不限制IP => 必须rlimit为空（不能设置为0）
          */
-        $myTryTime = $tryTime >= 0 ? $tryTime : 0;
-        $myIpLimit = $ipLimit > 0 ? $ipLimit : '';
+        $myTryTime = $tryTime;
+        $myIpLimit = $ipLimit;
         $sign = $key . $dirName . $expiredTime . $myTryTime . $myIpLimit . $random;
 
         $query = [];
 
         $query['t'] = $expiredTime;
 
-        if ($tryTime >= 0) {
-            $query['exper'] = $tryTime;
-        }
+        $query['exper'] = $myTryTime;
 
-        if ($ipLimit > 0) {
-            $query['rlimit'] = $ipLimit;
-        }
+        $query['rlimit'] = $myIpLimit;
 
         $query['us'] = $random;
 
