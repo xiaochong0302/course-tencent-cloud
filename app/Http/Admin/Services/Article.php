@@ -9,7 +9,6 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\ArticleList as ArticleListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
-use App\Caches\Article as ArticleCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Library\Utils\Word as WordUtil;
 use App\Models\Article as ArticleModel;
@@ -27,7 +26,6 @@ use App\Services\Logic\Article\XmTagList as XmTagListService;
 use App\Services\Logic\Notice\Internal\ArticleApproved as ArticleApprovedNotice;
 use App\Services\Logic\Notice\Internal\ArticleRejected as ArticleRejectedNotice;
 use App\Services\Logic\Point\History\ArticlePost as ArticlePostPointHistory;
-use App\Services\Sync\ArticleIndex as ArticleIndexSync;
 use App\Validators\Article as ArticleValidator;
 
 class Article extends Service
@@ -209,8 +207,6 @@ class Article extends Service
 
         $this->saveDynamicAttrs($article);
 
-        $this->rebuildArticleIndex($article);
-
         $owner = $this->findUser($article->owner_id);
 
         $this->recountUserArticles($owner);
@@ -230,8 +226,6 @@ class Article extends Service
 
         $this->saveDynamicAttrs($article);
 
-        $this->rebuildArticleIndex($article);
-
         $owner = $this->findUser($article->owner_id);
 
         $this->recountUserArticles($owner);
@@ -250,8 +244,6 @@ class Article extends Service
         $article->update();
 
         $this->saveDynamicAttrs($article);
-
-        $this->rebuildArticleIndex($article);
 
         $owner = $this->findUser($article->owner_id);
 
@@ -292,7 +284,6 @@ class Article extends Service
 
         if ($type == 'approve') {
 
-            $this->rebuildArticleIndex($article);
             $this->handleArticlePostPoint($article);
             $this->handleArticleApprovedNotice($article, $sender);
 
@@ -401,20 +392,6 @@ class Article extends Service
         $user->article_count = $articleCount;
 
         $user->update();
-    }
-
-    protected function rebuildArticleCache(ArticleModel $article)
-    {
-        $cache = new ArticleCache();
-
-        $cache->rebuild($article->id);
-    }
-
-    protected function rebuildArticleIndex(ArticleModel $article)
-    {
-        $sync = new ArticleIndexSync();
-
-        $sync->addItem($article->id);
     }
 
     protected function handleArticlePostPoint(ArticleModel $article)

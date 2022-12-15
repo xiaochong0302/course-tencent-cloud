@@ -9,7 +9,6 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\QuestionList as QuestionListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
-use App\Caches\Question as QuestionCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Category as CategoryModel;
 use App\Models\Question as QuestionModel;
@@ -26,7 +25,6 @@ use App\Services\Logic\Point\History\QuestionPost as QuestionPostPointHistory;
 use App\Services\Logic\Question\QuestionDataTrait;
 use App\Services\Logic\Question\QuestionInfo as QuestionInfoService;
 use App\Services\Logic\Question\XmTagList as XmTagListService;
-use App\Services\Sync\QuestionIndex as QuestionIndexSync;
 use App\Validators\Question as QuestionValidator;
 
 class Question extends Service
@@ -191,8 +189,6 @@ class Question extends Service
 
         $this->saveDynamicAttrs($question);
 
-        $this->rebuildQuestionIndex($question);
-
         $owner = $this->findUser($question->owner_id);
 
         $this->recountUserQuestions($owner);
@@ -212,8 +208,6 @@ class Question extends Service
 
         $this->saveDynamicAttrs($question);
 
-        $this->rebuildQuestionIndex($question);
-
         $owner = $this->findUser($question->owner_id);
 
         $this->recountUserQuestions($owner);
@@ -230,8 +224,6 @@ class Question extends Service
         $question->deleted = 0;
 
         $question->update();
-
-        $this->rebuildQuestionIndex($question);
 
         $owner = $this->findUser($question->owner_id);
 
@@ -268,7 +260,6 @@ class Question extends Service
 
         if ($type == 'approve') {
 
-            $this->rebuildQuestionIndex($question);
             $this->handleQuestionPostPoint($question);
             $this->handleQuestionApprovedNotice($question, $sender);
 
@@ -377,20 +368,6 @@ class Question extends Service
         $user->question_count = $questionCount;
 
         $user->update();
-    }
-
-    protected function rebuildQuestionCache(QuestionModel $question)
-    {
-        $cache = new QuestionCache();
-
-        $cache->rebuild($question->id);
-    }
-
-    protected function rebuildQuestionIndex(QuestionModel $question)
-    {
-        $sync = new QuestionIndexSync();
-
-        $sync->addItem($question->id);
     }
 
     protected function handleQuestionPostPoint(QuestionModel $question)
