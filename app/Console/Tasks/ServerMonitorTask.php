@@ -53,7 +53,9 @@ class ServerMonitorTask extends Task
 
         $load = sys_getloadavg();
 
-        if ($load[1] > $cpuCount * 0.8) {
+        $limit = $this->getConfig()->path('server_monitor.cpu', 0.8);
+
+        if ($load[1] > $cpuCount * $limit) {
             return sprintf("cpu负载超过%s", $load[1]);
         }
 
@@ -82,7 +84,9 @@ class ServerMonitorTask extends Task
 
         $left = 100 * ($available / $total);
 
-        if ($left < 20) {
+        $limit = $this->getConfig()->path('server_monitor.memory', 10);
+
+        if ($left < $limit) {
             return sprintf("memory剩余不足%s%%", round($left));
         }
 
@@ -96,7 +100,9 @@ class ServerMonitorTask extends Task
 
         $left = 100 * $free / $total;
 
-        if ($left < 20) {
+        $limit = $this->getConfig()->path('server_monitor.disk', 20);
+
+        if ($left < $limit) {
             return sprintf("disk剩余不足%s%%", round($left));
         }
 
