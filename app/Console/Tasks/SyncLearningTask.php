@@ -48,10 +48,12 @@ class SyncLearningTask extends Task
      */
     protected function handleLearning($itemKey)
     {
+        $cache = $this->getCache();
+
         /**
          * @var LearningModel $cacheLearning
          */
-        $cacheLearning = $this->cache->get($itemKey);
+        $cacheLearning = $cache->get($itemKey);
 
         if (!$cacheLearning) return;
 
@@ -76,7 +78,7 @@ class SyncLearningTask extends Task
             $this->updateChapterUser($dbLearning);
         }
 
-        $this->cache->delete($itemKey);
+        $cache->delete($itemKey);
     }
 
     /**
@@ -111,7 +113,12 @@ class SyncLearningTask extends Task
 
             $progress = floor(100 * $chapterUser->duration / $duration);
 
-            $chapterUser->position = floor($learning->position);
+            /**
+             * 过于接近结束位置当作已结束处理，播放位置为起点０
+             */
+            $playPosition = $duration - $learning->position > 10 ? floor($learning->position) : 0;
+
+            $chapterUser->position = $playPosition;
             $chapterUser->progress = $progress < 100 ? $progress : 100;
             $chapterUser->consumed = $chapterUser->duration > 0.3 * $duration ? 1 : 0;
 
