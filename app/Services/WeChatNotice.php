@@ -70,7 +70,7 @@ abstract class WeChatNotice extends Service
 
             $result = $response['errcode'] == 0;
 
-            if ($result == false) {
+            if (!$result) {
                 $this->logger->error('Send Template Message Failed ' . kg_json_encode($response));
             }
 
