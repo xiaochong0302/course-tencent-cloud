@@ -127,6 +127,9 @@ class Course extends Repository
             case 'popular':
                 $orderBy = 'user_count DESC';
                 break;
+            case 'oldest':
+                $orderBy = 'id ASC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;

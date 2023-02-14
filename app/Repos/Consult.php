@@ -65,6 +65,9 @@ class Consult extends Repository
             case 'priority':
                 $orderBy = 'priority ASC, id DESC';
                 break;
+            case 'oldest':
+                $orderBy = 'id ASC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;

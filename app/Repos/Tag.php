@@ -50,6 +50,9 @@ class Tag extends Repository
             case 'priority':
                 $orderBy = 'priority ASC, id ASC';
                 break;
+            case 'oldest':
+                $orderBy = 'id ASC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;
