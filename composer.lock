@@ -2366,16 +2366,16 @@
         },
         {
             "name": "qcloud/cos-sdk-v5",
-            "version": "v2.5.6",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tencentyun/cos-php-sdk-v5.git",
-                "reference": "607ee49d372a799964206b6ae0a9eb2816201c42"
+                "reference": "d367ba8d0305b83364b64055594a0ac22b1cefd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/607ee49d372a799964206b6ae0a9eb2816201c42",
-                "reference": "607ee49d372a799964206b6ae0a9eb2816201c42",
+                "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/d367ba8d0305b83364b64055594a0ac22b1cefd8",
+                "reference": "d367ba8d0305b83364b64055594a0ac22b1cefd8",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2433,9 +2433,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tencentyun/cos-php-sdk-v5/issues",
-                "source": "https://github.com/tencentyun/cos-php-sdk-v5/tree/v2.5.6"
+                "source": "https://github.com/tencentyun/cos-php-sdk-v5/tree/v2.6.1"
             },
-            "time": "2022-06-07T14:49:19+00:00"
+            "time": "2023-02-07T09:49:12+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -2489,16 +2489,16 @@
         },
         {
             "name": "robmorgan/phinx",
-            "version": "0.12.12",
+            "version": "0.12.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/phinx.git",
-                "reference": "9a6ce1e7fdf0fa4e602ba5875b5bc9442ccaa115"
+                "reference": "6eb0f295e140ed2804d93396755f0ce9ada4ec07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/phinx/zipball/9a6ce1e7fdf0fa4e602ba5875b5bc9442ccaa115",
-                "reference": "9a6ce1e7fdf0fa4e602ba5875b5bc9442ccaa115",
+                "url": "https://api.github.com/repos/cakephp/phinx/zipball/6eb0f295e140ed2804d93396755f0ce9ada4ec07",
+                "reference": "6eb0f295e140ed2804d93396755f0ce9ada4ec07",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2575,9 +2575,9 @@
             ],
             "support": {
                 "issues": "https://github.com/cakephp/phinx/issues",
-                "source": "https://github.com/cakephp/phinx/tree/0.12.12"
+                "source": "https://github.com/cakephp/phinx/tree/0.12.13"
             },
-            "time": "2022-07-09T18:53:51+00:00"
+            "time": "2022-10-03T04:57:40+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4910,16 +4910,16 @@
         },
         {
             "name": "tencentcloud/tencentcloud-sdk-php",
-            "version": "3.0.731",
+            "version": "3.0.824",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TencentCloud/tencentcloud-sdk-php.git",
-                "reference": "a247a556c120dd7dd95db40035edcde7271fe40d"
+                "reference": "1d85da7e51ba02defe33fbae0b6dbae0f1d7caf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/a247a556c120dd7dd95db40035edcde7271fe40d",
-                "reference": "a247a556c120dd7dd95db40035edcde7271fe40d",
+                "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/1d85da7e51ba02defe33fbae0b6dbae0f1d7caf5",
+                "reference": "1d85da7e51ba02defe33fbae0b6dbae0f1d7caf5",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4957,9 +4957,9 @@
             "homepage": "https://github.com/TencentCloud/tencentcloud-sdk-php",
             "support": {
                 "issues": "https://github.com/TencentCloud/tencentcloud-sdk-php/issues",
-                "source": "https://github.com/TencentCloud/tencentcloud-sdk-php/tree/3.0.731"
+                "source": "https://github.com/TencentCloud/tencentcloud-sdk-php/tree/3.0.824"
             },
-            "time": "2022-09-21T00:09:54+00:00"
+            "time": "2023-02-15T00:03:58+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -5097,16 +5097,16 @@
         },
         {
             "name": "workerman/gateway-worker",
-            "version": "v3.0.25",
+            "version": "v3.0.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/GatewayWorker.git",
-                "reference": "5b47eb9a90c6b2afc25327979e41de352cb3c286"
+                "reference": "c0cae6c0e69288ab7dcc8b25599d3b9e4f4441d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/5b47eb9a90c6b2afc25327979e41de352cb3c286",
-                "reference": "5b47eb9a90c6b2afc25327979e41de352cb3c286",
+                "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/c0cae6c0e69288ab7dcc8b25599d3b9e4f4441d2",
+                "reference": "c0cae6c0e69288ab7dcc8b25599d3b9e4f4441d2",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -5116,7 +5116,7 @@
                 ]
             },
             "require": {
-                "workerman/workerman": "^4.0.30"
+                "workerman/workerman": "^4.0.0 || ^5.0.0"
             },
             "type": "library",
             "autoload": {
@@ -5135,7 +5135,7 @@
             ],
             "support": {
                 "issues": "https://github.com/walkor/GatewayWorker/issues",
-                "source": "https://github.com/walkor/GatewayWorker/tree/v3.0.25"
+                "source": "https://github.com/walkor/GatewayWorker/tree/v3.0.27"
             },
             "funding": [
                 {
@@ -5147,7 +5147,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-09-19T09:59:56+00:00"
+            "time": "2023-02-09T09:16:04+00:00"
         },
         {
             "name": "workerman/gatewayclient",
@@ -5306,16 +5306,16 @@
         },
         {
             "name": "yansongda/pay",
-            "version": "v2.10.4",
+            "version": "v2.10.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yansongda/pay.git",
-                "reference": "e378f43800f867d53ce35ee90aa17f0c3b7b5838"
+                "reference": "f7d93ed784de4ca09d3386d28139c724ddd526fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yansongda/pay/zipball/e378f43800f867d53ce35ee90aa17f0c3b7b5838",
-                "reference": "e378f43800f867d53ce35ee90aa17f0c3b7b5838",
+                "url": "https://api.github.com/repos/yansongda/pay/zipball/f7d93ed784de4ca09d3386d28139c724ddd526fc",
+                "reference": "f7d93ed784de4ca09d3386d28139c724ddd526fc",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -5366,7 +5366,7 @@
                 "issues": "https://github.com/yansongda/pay/issues",
                 "source": "https://github.com/yansongda/pay"
             },
-            "time": "2022-03-10T01:27:10+00:00"
+            "time": "2022-12-03T13:44:53+00:00"
         },
         {
             "name": "yansongda/supports",

@@ -1,6 +1,14 @@
 ### [v1.6.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.1)(2023-01-12)
 
-- ServerMonitor资源监控阀值可配置
+- 增加ServerMonitor监控指标配置
+- 同步更新腾讯云短信内容规则
+- 文章和问答增加评论开关属性
+- 修正视频记忆播放无效问题
+- 升级composer包版本
+- 优化Repo查询默认排序
+- 优化管理后台细节
+- 优化二维码输出
+- 优化评分检查
 
 ### [v1.6.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.1)(2022-12-12)
 
