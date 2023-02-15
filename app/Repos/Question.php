@@ -105,6 +105,9 @@ class Question extends Repository
             case 'score':
                 $orderBy = 'score DESC';
                 break;
+            case 'oldest':
+                $orderBy = 'id ASC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;

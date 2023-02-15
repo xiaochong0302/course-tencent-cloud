@@ -61,6 +61,9 @@ class Answer extends Repository
             case 'accepted':
                 $orderBy = 'accepted DESC, like_count DESC';
                 break;
+            case 'oldest':
+                $orderBy = 'id ASC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;

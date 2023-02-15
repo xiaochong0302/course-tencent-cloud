@@ -7,6 +7,7 @@ layui.use(['jquery', 'helper'], function () {
     var intervalTime = 15000;
     var userId = window.user.id;
     var requestId = helper.getRequestId();
+    var chapterId = $('input[name="chapter.id"]').val();
     var planId = $('input[name="chapter.plan_id"]').val();
     var lastPosition = $('input[name="chapter.position"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
@@ -59,13 +60,28 @@ layui.use(['jquery', 'helper'], function () {
         player.toggle();
     });
 
-    var position = parseInt(lastPosition);
+    var position = getLastPosition();
 
     /**
-     * 过于接近结束位置当作已结束处理
+     * 上次播放位置
      */
-    if (position > 0 && player.video.duration - position > 10) {
+    if (position > 0) {
         player.seek(position);
+    }
+
+    function getPositionKey() {
+        return 'chapter:' + chapterId + ':position';
+    }
+
+    function getLastPosition() {
+        var key = getPositionKey();
+        var value = localStorage.getItem(key);
+        return value != null ? parseInt(value) : lastPosition;
+    }
+
+    function setLastPosition(value) {
+        var key = getPositionKey();
+        localStorage.setItem(key, value);
     }
 
     function clearLearningInterval() {
@@ -91,11 +107,13 @@ layui.use(['jquery', 'helper'], function () {
     }
 
     function ended() {
-        clearLearningInterval();
         learning();
+        setLastPosition(0);
+        clearLearningInterval();
     }
 
     function learning() {
+        setLastPosition(player.video.currentTime);
         if (userId !== '0' && planId !== '0') {
             $.ajax({
                 type: 'POST',

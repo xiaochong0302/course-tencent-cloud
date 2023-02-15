@@ -15,7 +15,7 @@ use Phalcon\Mvc\Model;
 class ChapterLive extends Repository
 {
 
-    public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
+    public function paginate($where = [], $sort = 'oldest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
 
@@ -44,6 +44,9 @@ class ChapterLive extends Repository
         }
 
         switch ($sort) {
+            case 'latest':
+                $orderBy = 'cl.start_time DESC';
+                break;
             default:
                 $orderBy = 'cl.start_time ASC';
                 break;
