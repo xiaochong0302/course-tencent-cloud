@@ -64,7 +64,7 @@
                     <input type="radio" name="template[order_finish][enabled]" value="0" title="否" {% if template.order_finish.enabled == "0" %}checked="checked"{% endif %}>
                 </td>
                 <td><input class="layui-input" type="text" name="template[order_finish][id]" value="{{ template.order_finish.id }}" lay-verify="required"></td>
-                <td><input id="tc-order-finish" class="layui-input" type="text" value="下单成功，商品名称：{1}，订单序号：{2}，订单金额：￥{3}" readonly="readonly"></td>
+                <td><input id="tc-order-finish" class="layui-input" type="text" value="下单成功，商品名称：{1}，订单序号：{2}，订单金额：{3}元" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-order-finish">复制</span></td>
             </tr>
             <tr>
@@ -84,7 +84,7 @@
                     <input type="radio" name="template[refund_finish][enabled]" value="0" title="否" {% if template.refund_finish.enabled == "0" %}checked="checked"{% endif %}>
                 </td>
                 <td><input class="layui-input" type="text" name="template[refund_finish][id]" value="{{ template.refund_finish.id }}" lay-verify="required"></td>
-                <td><input id="tc-refund-finish" class="layui-input" type="text" value="退款成功，商品名称：{1}，退款序号：{2}，退款金额：￥{3}" readonly="readonly"></td>
+                <td><input id="tc-refund-finish" class="layui-input" type="text" value="退款成功，商品名称：{1}，退款序号：{2}，退款金额：{3}元" readonly="readonly"></td>
                 <td><span class="kg-copy layui-btn" data-clipboard-target="#tc-refund-finish">复制</span></td>
             </tr>
             <tr>

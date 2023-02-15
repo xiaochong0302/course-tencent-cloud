@@ -170,7 +170,7 @@ class DingTalkNotice extends Service
 
             $result = $content['errcode'] == 0;
 
-            if ($result == false) {
+            if (!$result) {
                 $this->logger->error('Send Message Failed ' . kg_json_encode($content));
             }
 

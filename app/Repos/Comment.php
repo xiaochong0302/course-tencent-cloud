@@ -68,6 +68,9 @@ class Comment extends Repository
             case 'popular':
                 $orderBy = 'like_count DESC';
                 break;
+            case 'oldest':
+                $orderBy = 'id ASC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;

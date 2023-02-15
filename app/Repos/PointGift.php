@@ -52,6 +52,9 @@ class PointGift extends Repository
             case 'popular':
                 $orderBy = 'redeem_count DESC';
                 break;
+            case 'oldest':
+                $orderBy = 'id ASC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;

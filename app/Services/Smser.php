@@ -91,7 +91,7 @@ abstract class Smser extends Service
 
             $result = $sendStatus->getCode() == 'Ok';
 
-            if ($result == false) {
+            if (!$result) {
                 $this->logger->error('Send Message Failed ' . $response->toJsonString());
             }
 

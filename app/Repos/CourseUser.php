@@ -45,6 +45,9 @@ class CourseUser extends Repository
         }
 
         switch ($sort) {
+            case 'oldest':
+                $orderBy = 'id ASC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;

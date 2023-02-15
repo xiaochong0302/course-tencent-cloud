@@ -13,12 +13,6 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">简介</label>
-            <div class="layui-input-block">
-                <textarea class="layui-textarea" name="summary"></textarea>
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-block">
                 <button class="kg-submit layui-btn" lay-submit="true" lay-filter="go">提交</button>
