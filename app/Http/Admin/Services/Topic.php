@@ -87,7 +87,6 @@ class Topic extends Service
         $data = [];
 
         $data['title'] = $validator->checkTitle($post['title']);
-        $data['summary'] = $validator->checkSummary($post['summary']);
 
         $topic = new TopicModel();
 

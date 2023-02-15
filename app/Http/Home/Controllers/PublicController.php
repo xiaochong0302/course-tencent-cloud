@@ -73,18 +73,19 @@ class PublicController extends \Phalcon\Mvc\Controller
     {
         $text = $this->request->getQuery('text', 'string');
         $size = $this->request->getQuery('size', 'int', 320);
+        $margin = $this->request->getQuery('margin', 'int', 10);
 
         $text = urldecode($text);
 
         $qrCode = new QrCode($text);
 
         $qrCode->setSize($size);
+        $qrCode->setMargin($margin);
 
-        $qrCode->getContentType();
+        $this->response->setContentType('image/png');
+        $this->response->setContent($qrCode->writeString());
 
-        echo $qrCode->writeString();
-
-        exit;
+        return $this->response;
     }
 
     /**
