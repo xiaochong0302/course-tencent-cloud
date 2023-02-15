@@ -112,6 +112,9 @@ class Article extends Repository
             case 'popular':
                 $orderBy = 'score DESC';
                 break;
+            case 'oldest':
+                $orderBy = 'id ASC';
+                break;
             default:
                 $orderBy = 'id DESC';
                 break;

@@ -41,6 +41,9 @@ class TeacherConsult extends Repository
         $builder->andWhere('c.deleted = 0');
 
         switch ($sort) {
+            case 'oldest':
+                $orderBy = 'c.id ASC';
+                break;
             default:
                 $orderBy = 'c.id DESC';
                 break;

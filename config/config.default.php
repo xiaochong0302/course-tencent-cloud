@@ -172,4 +172,19 @@ $config['websocket']['connect_address'] = 'your_domain.com:8282';
  */
 $config['websocket']['register_address'] = '127.0.0.1:1238';
 
+/**
+ * 资源监控: CPU负载（0.1-1.0）
+ */
+$config['server_monitor']['cpu'] = 0.8;
+
+/**
+ * 资源监控: 内存剩余占比（10-100）%
+ */
+$config['server_monitor']['memory'] = 10;
+
+/**
+ * 资源监控: 磁盘剩余占比（10-100）%
+ */
+$config['server_monitor']['disk'] = 20;
+
 return $config;
