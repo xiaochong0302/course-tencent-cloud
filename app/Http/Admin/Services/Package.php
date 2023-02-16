@@ -101,7 +101,6 @@ class Package extends Service
         $data = [];
 
         $data['title'] = $validator->checkTitle($post['title']);
-        $data['summary'] = $validator->checkSummary($post['summary']);
 
         $package = new PackageModel();
 

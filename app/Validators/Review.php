@@ -54,7 +54,7 @@ class Review extends Validator
 
     public function checkRating($rating)
     {
-        if (!in_array($rating, [1, 2, 3, 4, 5])) {
+        if ($rating < 1 || $rating > 5) {
             throw new BadRequestException('review.invalid_rating');
         }
 

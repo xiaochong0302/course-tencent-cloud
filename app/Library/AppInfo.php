@@ -16,7 +16,7 @@ class AppInfo
 
     protected $link = 'https://www.koogua.com';
 
-    protected $version = '1.6.0';
+    protected $version = '1.6.2';
 
     public function __get($name)
     {
@@ -28,6 +28,8 @@ class AppInfo
         if (isset($this->{$name})) {
             return $this->{$name};
         }
+
+        return null;
     }
 
 }

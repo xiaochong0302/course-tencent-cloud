@@ -10,7 +10,7 @@ namespace App\Console\Tasks;
 use App\Library\Benchmark;
 use App\Models\User as UserModel;
 use App\Services\Logic\Notice\External\DingTalk\ServerMonitor as ServerMonitorNotice;
-use App\Services\Search\UserSearcher;
+use App\Services\Search\CourseSearcher;
 use GatewayClient\Gateway;
 
 class ServerMonitorTask extends Task
@@ -53,9 +53,13 @@ class ServerMonitorTask extends Task
 
         $load = sys_getloadavg();
 
-        if ($load[1] > $cpuCount * 0.8) {
+        $limit = $this->getConfig()->path('server_monitor.cpu', 0.8);
+
+        if ($load[1] > $cpuCount * $limit) {
             return sprintf("cpu负载超过%s", $load[1]);
         }
+
+        return null;
     }
 
     protected function checkMemory()
@@ -64,25 +68,29 @@ class ServerMonitorTask extends Task
 
         $total = null;
 
-        if (preg_match('/MemTotal\:\s+(\d+) kB/', $memInfo, $totalMatches)) {
+        if (preg_match('/MemTotal:\s+(\d+) kB/', $memInfo, $totalMatches)) {
             $total = $totalMatches[1];
         }
 
-        if ($total === null) return;
+        if ($total === null) return null;
 
         $available = null;
 
-        if (preg_match('/MemAvailable\:\s+(\d+) kB/', $memInfo, $avaMatches)) {
+        if (preg_match('/MemAvailable:\s+(\d+) kB/', $memInfo, $avaMatches)) {
             $available = $avaMatches[1];
         }
 
-        if ($available === null) return;
+        if ($available === null) return null;
 
         $left = 100 * ($available / $total);
 
-        if ($left < 20) {
+        $limit = $this->getConfig()->path('server_monitor.memory', 10);
+
+        if ($left < $limit) {
             return sprintf("memory剩余不足%s%%", round($left));
         }
+
+        return null;
     }
 
     protected function checkDisk()
@@ -92,9 +100,13 @@ class ServerMonitorTask extends Task
 
         $left = 100 * $free / $total;
 
-        if ($left < 20) {
+        $limit = $this->getConfig()->path('server_monitor.disk', 20);
+
+        if ($left < $limit) {
             return sprintf("disk剩余不足%s%%", round($left));
         }
+
+        return null;
     }
 
     protected function checkMysql()
@@ -111,8 +123,8 @@ class ServerMonitorTask extends Task
 
             $elapsedTime = $benchmark->getElapsedTime();
 
-            if ($user === false) {
-                return sprintf("mysql查询失败");
+            if (!$user) {
+                return "mysql查询失败";
             }
 
             if ($elapsedTime > 1) {
@@ -120,8 +132,10 @@ class ServerMonitorTask extends Task
             }
 
         } catch (\Exception $e) {
-            return sprintf("mysql可能存在异常");
+            return "mysql可能存在异常";
         }
+
+        return null;
     }
 
     protected function checkRedis()
@@ -139,7 +153,7 @@ class ServerMonitorTask extends Task
             $elapsedTime = $benchmark->getElapsedTime();
 
             if (empty($site)) {
-                return sprintf("redis查询失败");
+                return "redis查询失败";
             }
 
             if ($elapsedTime > 1) {
@@ -147,8 +161,10 @@ class ServerMonitorTask extends Task
             }
 
         } catch (\Exception $e) {
-            return sprintf("redis可能存在异常");
+            return "redis可能存在异常";
         }
+
+        return null;
     }
 
     protected function checkXunsearch()
@@ -159,16 +175,16 @@ class ServerMonitorTask extends Task
 
             $benchmark->start();
 
-            $searcher = new UserSearcher();
+            $searcher = new CourseSearcher();
 
-            $user = $searcher->search('id:10000');
+            $user = $searcher->search('id:1');
 
             $benchmark->stop();
 
             $elapsedTime = $benchmark->getElapsedTime();
 
             if (empty($user)) {
-                return sprintf("xunsearch搜索失败");
+                return "xunsearch搜索失败";
             }
 
             if ($elapsedTime > 1) {
@@ -176,8 +192,10 @@ class ServerMonitorTask extends Task
             }
 
         } catch (\Exception $e) {
-            return sprintf("xunsearch可能存在异常");
+            return "xunsearch可能存在异常";
         }
+
+        return null;
     }
 
     protected function checkWebsocket()
@@ -203,8 +221,10 @@ class ServerMonitorTask extends Task
             }
 
         } catch (\Exception $e) {
-            return sprintf("websocket可能存在异常");
+            return "websocket可能存在异常";
         }
+
+        return null;
     }
 
     protected function getCpuCount()

@@ -7,6 +7,7 @@ layui.use(['jquery', 'helper'], function () {
     var intervalTime = 15000;
     var userId = window.user.id;
     var requestId = helper.getRequestId();
+    var chapterId = $('input[name="chapter.id"]').val();
     var planId = $('input[name="chapter.plan_id"]').val();
     var lastPosition = $('input[name="chapter.position"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
@@ -29,8 +30,6 @@ layui.use(['jquery', 'helper'], function () {
         }
     });
 
-    console.log(quality)
-
     var player = new DPlayer({
         container: document.getElementById('player'),
         video: {
@@ -52,20 +51,37 @@ layui.use(['jquery', 'helper'], function () {
     });
 
     /**
-     * 播放器中央播放按钮点击事件
+     * 播放器中央播放按钮
      */
-    $('#play-mask').on('click', function () {
+    var $playMask = $('#play-mask');
+
+    $playMask.on('click', function () {
         $(this).hide();
         player.toggle();
     });
 
-    var position = parseInt(lastPosition);
+    var position = getLastPosition();
 
     /**
-     * 过于接近结束位置当作已结束处理
+     * 上次播放位置
      */
-    if (position > 0 && player.video.duration - position > 10) {
+    if (position > 0) {
         player.seek(position);
+    }
+
+    function getPositionKey() {
+        return 'chapter:' + chapterId + ':position';
+    }
+
+    function getLastPosition() {
+        var key = getPositionKey();
+        var value = localStorage.getItem(key);
+        return value != null ? parseInt(value) : lastPosition;
+    }
+
+    function setLastPosition(value) {
+        var key = getPositionKey();
+        localStorage.setItem(key, value);
     }
 
     function clearLearningInterval() {
@@ -80,20 +96,24 @@ layui.use(['jquery', 'helper'], function () {
     }
 
     function play() {
+        $playMask.hide();
         clearLearningInterval();
         setLearningInterval();
     }
 
     function pause() {
+        $playMask.show();
         clearLearningInterval();
     }
 
     function ended() {
-        clearLearningInterval();
         learning();
+        setLastPosition(0);
+        clearLearningInterval();
     }
 
     function learning() {
+        setLastPosition(player.video.currentTime);
         if (userId !== '0' && planId !== '0') {
             $.ajax({
                 type: 'POST',

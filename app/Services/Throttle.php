@@ -14,7 +14,7 @@ class Throttle extends Service
     {
         $config = $this->getConfig();
 
-        if ($config->path('throttle.enabled') == false) {
+        if (!$config->path('throttle.enabled')) {
             return true;
         }
 

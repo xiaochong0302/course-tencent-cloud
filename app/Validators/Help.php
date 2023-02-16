@@ -12,6 +12,7 @@ use App\Caches\MaxHelpId as MaxHelpIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Help as HelpModel;
 use App\Repos\Help as HelpRepo;
+use App\Services\EditorStorage as EditorStorageService;
 
 class Help extends Validator
 {
@@ -89,6 +90,10 @@ class Help extends Validator
     public function checkContent($content)
     {
         $value = $this->filter->sanitize($content, ['trim']);
+
+        $storage = new EditorStorageService();
+
+        $value = $storage->handle($value);
 
         $length = kg_strlen($value);
 

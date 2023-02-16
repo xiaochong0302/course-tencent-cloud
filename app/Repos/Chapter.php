@@ -99,6 +99,9 @@ class Chapter extends Repository
      */
     public function findByFileId($fileId)
     {
+        /**
+         * @var ChapterVodModel $vod
+         */
         $vod = ChapterVodModel::findFirst([
             'conditions' => 'file_id = :file_id:',
             'bind' => ['file_id' => $fileId],
