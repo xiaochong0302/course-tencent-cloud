@@ -59,10 +59,6 @@ class Learning extends AppService
         $key = $this->getSyncKey();
 
         $redis->sAdd($key, $learning->request_id);
-
-        if ($redis->sCard($key) == 1) {
-            $redis->expire($key, $this->lifetime);
-        }
     }
 
     public function getItemKey($id)
