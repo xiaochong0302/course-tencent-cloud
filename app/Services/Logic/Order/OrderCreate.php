@@ -13,7 +13,6 @@ use App\Models\Package as PackageModel;
 use App\Models\Reward as RewardModel;
 use App\Models\User as UserModel;
 use App\Models\Vip as VipModel;
-use App\Repos\Order as OrderRepo;
 use App\Repos\Package as PackageRepo;
 use App\Services\Logic\Service as LogicService;
 use App\Traits\Client as ClientTrait;
@@ -59,14 +58,7 @@ class OrderCreate extends LogicService
 
         $orderValidator->checkItemType($post['item_type']);
 
-        $orderRepo = new OrderRepo();
-
-        $order = $orderRepo->findUserLastPendingOrder($user->id, $post['item_id'], $post['item_type']);
-
-        /**
-         * 存在新鲜的未支付订单直接返回（减少订单记录）
-         */
-        if ($order) return $order;
+        $order = null;
 
         if ($post['item_type'] == OrderModel::ITEM_COURSE) {
 
