@@ -119,13 +119,13 @@ class Course extends Repository
 
         switch ($sort) {
             case 'score':
-                $orderBy = 'score DESC';
+                $orderBy = 'score DESC, id DESC';
                 break;
             case 'rating':
-                $orderBy = 'rating DESC';
+                $orderBy = 'rating DESC, id DESC';
                 break;
             case 'popular':
-                $orderBy = 'user_count DESC';
+                $orderBy = 'user_count DESC, id DESC';
                 break;
             case 'oldest':
                 $orderBy = 'id ASC';

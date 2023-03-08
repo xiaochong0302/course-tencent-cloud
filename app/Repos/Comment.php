@@ -66,7 +66,7 @@ class Comment extends Repository
 
         switch ($sort) {
             case 'popular':
-                $orderBy = 'like_count DESC';
+                $orderBy = 'like_count DESC, id DESC';
                 break;
             case 'oldest':
                 $orderBy = 'id ASC';
