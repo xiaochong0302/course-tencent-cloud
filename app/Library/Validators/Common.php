@@ -81,30 +81,30 @@ class Common
 
     public static function phone($str)
     {
-        $pattern = '/^1(3|4|5|6|7|8|9)[0-9]{9}$/';
+        $pattern = '/^1[2-9][0-9]{9}$/';
 
-        return preg_match($pattern, $str) ? true : false;
+        return (bool)preg_match($pattern, $str);
     }
 
     public static function name($str)
     {
         $pattern = '/^[\x{4e00}-\x{9fa5}A-Za-z0-9]{2,15}$/u';
 
-        return preg_match($pattern, $str) ? true : false;
+        return (bool)preg_match($pattern, $str);
     }
 
     public static function password($str)
     {
         $pattern = '/^[[:graph:]]{6,16}$/';
 
-        return preg_match($pattern, $str) ? true : false;
+        return (bool)preg_match($pattern, $str);
     }
 
     public static function birthday($str)
     {
         $pattern = '/^(19|20)\d{2}-(1[0-2]|0[1-9])-(0[1-9]|[1-2][0-9]|3[0-1])$/';
 
-        return preg_match($pattern, $str) ? true : false;
+        return (bool)preg_match($pattern, $str);
     }
 
     public static function date($str, $format = 'Y-m-d')

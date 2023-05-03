@@ -22,7 +22,7 @@ final class V20221021035953 extends AbstractMigration
     {
         $table = $this->table('kg_page');
 
-        if ($table->hasColumn('view_count') == false) {
+        if (!$table->hasColumn('view_count')) {
             $table->addColumn('view_count', 'integer', [
                 'null' => false,
                 'default' => '0',
@@ -40,7 +40,7 @@ final class V20221021035953 extends AbstractMigration
     {
         $table = $this->table('kg_help');
 
-        if ($table->hasColumn('view_count') == false) {
+        if (!$table->hasColumn('view_count')) {
             $table->addColumn('view_count', 'integer', [
                 'null' => false,
                 'default' => '0',
@@ -58,7 +58,7 @@ final class V20221021035953 extends AbstractMigration
     {
         $table = $this->table('kg_user');
 
-        if ($table->hasColumn('notice_count') == false) {
+        if (!$table->hasColumn('notice_count')) {
             $table->addColumn('notice_count', 'integer', [
                 'null' => false,
                 'default' => '0',

@@ -19,7 +19,7 @@ final class V20210802021814 extends AbstractMigration
     {
         $table = $this->table('kg_page');
 
-        if ($table->hasColumn('alias') == false) {
+        if (!$table->hasColumn('alias')) {
             $table->addColumn('alias', 'string', [
                 'null' => false,
                 'default' => '',

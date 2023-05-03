@@ -403,7 +403,7 @@ final class V20210324064239 extends AbstractMigration
             ])
             ->addColumn('tags', 'string', [
                 'null' => false,
-                'default' => '',
+                'default' => '[]',
                 'limit' => 255,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
@@ -4484,7 +4484,7 @@ final class V20210324064239 extends AbstractMigration
             ])
             ->addColumn('tags', 'string', [
                 'null' => false,
-                'default' => '',
+                'default' => '[]',
                 'limit' => 255,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',

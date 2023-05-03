@@ -68,10 +68,14 @@
                     </div>
                 {% endif %}
                 {% if article.source_type == 1 %}
-                    <div class="source-tips">本作品系原创，转载请注明出处</div>
+                    <div class="source-tips">
+                        <i class="layui-icon layui-icon-tips"></i> 本文系原创，转载请注明出处
+                    </div>
                 {% elseif article.source_url %}
                     <div class="source-tips">
-                        <a href="{{ article.source_url }}" target="_blank">前往阅读原文</a>
+                        <a href="{{ article.source_url }}" target="_blank">
+                            <i class="layui-icon layui-icon-website"></i> 本文系转载，前往阅读原文
+                        </a>
                     </div>
                 {% endif %}
             </div>

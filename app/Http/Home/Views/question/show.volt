@@ -62,8 +62,8 @@
             </div>
             <div id="answer-anchor"></div>
             {% if question.closed == 1 %}
-                <div class="answer-wrap wrap">
-                    <button class="layui-btn layui-btn-fluid layui-btn-disabled">问题已关闭</button>
+                <div class="wrap center gray">
+                    <i class="layui-icon layui-icon-close-fill"></i> 问题已关闭
                 </div>
             {% endif %}
             {% if answer_id > 0 %}
