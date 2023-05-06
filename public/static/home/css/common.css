@@ -863,19 +863,15 @@
 }
 
 .filter-group {
-    padding-bottom: 5px;
+    display: flex;
     height: 40px;
     line-height: 40px;
+    padding-bottom: 5px;
 }
 
 .filter-group .title {
-    float: left;
     width: 50px;
     font-weight: 700;
-}
-
-.filter-group .content {
-    float: left;
 }
 
 .filter-group .content a {
