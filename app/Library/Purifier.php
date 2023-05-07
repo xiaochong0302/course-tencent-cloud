@@ -23,7 +23,6 @@ class Purifier
      */
     protected $options = [
         'CSS.AllowedProperties' => 'color,font-size,text-align,background-color',
-        'Core.EscapeNonASCIICharacters' => true,
         'AutoFormat.AutoParagraph' => true,
         'AutoFormat.RemoveEmpty' => true,
         'HTML.TargetBlank' => true,
