@@ -1,6 +1,14 @@
-### [v1.6.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.3)(2023-03-12)
+### [v1.6.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.3)(2023-05-08)
 - 强化文章|提问|课程列表参数检查
+- 优化HtmlPurifier内容过滤
+- 优化排序条件和分页重复问题
+- 优化课程搜索分组条件样式
 - 优化课程学习时长同步
+- 优化程序语法层面
+- 更新Layui-v2.8.2
+- 替换ip2region包
+- 去除未支付“新鲜”订单检查
+- 修正手续费率设置为0无效问题
 
 ### [v1.6.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.2)(2023-02-12)
 
