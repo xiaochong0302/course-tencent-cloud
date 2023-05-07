@@ -8,19 +8,19 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\Slide as SlideModel;
+use App\Models\Task as TaskModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class Slide extends Repository
+class Task extends Repository
 {
 
-    public function paginate($where = [], $sort = 'priority', $page = 1, $limit = 15)
+    public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
         $builder = $this->modelsManager->createBuilder();
 
-        $builder->from(SlideModel::class);
+        $builder->from(TaskModel::class);
 
         $builder->where('1 = 1');
 
@@ -28,20 +28,20 @@ class Slide extends Repository
             $builder->andWhere('id = :id:', ['id' => $where['id']]);
         }
 
-        if (!empty($where['title'])) {
-            $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
+        if (!empty($where['item_id'])) {
+            $builder->andWhere('item_id = :item_id:', ['item_id' => $where['item_id']]);
         }
 
-        if (!empty($where['target'])) {
-            $builder->andWhere('target = :target:', ['target' => $where['target']]);
+        if (!empty($where['item_type'])) {
+            $builder->andWhere('item_type = :item_type:', ['item_type' => $where['item_type']]);
         }
 
-        if (isset($where['published'])) {
-            $builder->andWhere('published = :published:', ['published' => $where['published']]);
+        if (!empty($where['status'])) {
+            $builder->andWhere('status = :status:', ['status' => $where['status']]);
         }
 
-        if (isset($where['deleted'])) {
-            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
+        if (isset($where['locked'])) {
+            $builder->andWhere('locked = :locked:', ['locked' => $where['locked']]);
         }
 
         switch ($sort) {
@@ -52,7 +52,7 @@ class Slide extends Repository
                 $orderBy = 'id DESC';
                 break;
             default:
-                $orderBy = 'priority ASC, id DESC';
+                $orderBy = 'priority ASC, id ASC';
                 break;
         }
 
@@ -69,11 +69,11 @@ class Slide extends Repository
 
     /**
      * @param int $id
-     * @return SlideModel|Model|bool
+     * @return TaskModel|Model|bool
      */
     public function findById($id)
     {
-        return SlideModel::findFirst([
+        return TaskModel::findFirst([
             'conditions' => 'id = :id:',
             'bind' => ['id' => $id],
         ]);
@@ -82,11 +82,11 @@ class Slide extends Repository
     /**
      * @param array $ids
      * @param array|string $columns
-     * @return ResultsetInterface|Resultset|SlideModel[]
+     * @return ResultsetInterface|Resultset|TaskModel[]
      */
     public function findByIds($ids, $columns = '*')
     {
-        return SlideModel::query()
+        return TaskModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
             ->execute();

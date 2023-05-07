@@ -14,6 +14,19 @@ use App\Models\Question as QuestionModel;
 class QuestionQuery extends Validator
 {
 
+    public function checkCategory($id)
+    {
+        $validator = new Category();
+
+        $category = $validator->checkCategoryCache($id);
+
+        if (!$category) {
+            throw new BadRequestException('question_query.invalid_category');
+        }
+
+        return $category->id;
+    }
+
     public function checkTag($id)
     {
         $tagCache = new TagCache();

@@ -46,23 +46,35 @@ class CourseInfo extends LogicService
             'progress' => 0,
         ];
 
-        $me['joined'] = $this->joinedCourse ? 1 : 0;
-        $me['owned'] = $this->ownedCourse ? 1 : 0;
+        if ($this->joinedCourse) {
+            $me['joined'] = 1;
+        }
+
+        if ($this->ownedCourse) {
+            $me['owned'] = 1;
+        }
 
         $caseOwned = $this->ownedCourse == false;
         $casePrice = $course->market_price > 0;
+        $caseModel = true;
 
         /**
          * 过期直播不允许购买
          */
         if ($course->model == CourseModel::MODEL_LIVE) {
             $caseModel = $course->attrs['end_date'] < date('Y-m-d');
-        } else {
-            $caseModel = true;
         }
 
-        $me['allow_order'] = $caseOwned && $casePrice && $caseModel ? 1 : 0;
-        $me['allow_reward'] = $course->market_price == 0 ? 1 : 0;
+        if ($caseOwned && $casePrice && $caseModel) {
+            $me['allow_order'] = 1;
+        }
+
+        /**
+         * 付款课程不允许打赏
+         */
+        if ($course->market_price == 0) {
+            $me['allow_reward'] = 1;
+        }
 
         if ($user->id > 0) {
 

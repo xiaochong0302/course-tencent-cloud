@@ -56,10 +56,10 @@ class Answer extends Repository
 
         switch ($sort) {
             case 'popular':
-                $orderBy = 'like_count DESC';
+                $orderBy = 'like_count DESC, id DESC';
                 break;
             case 'accepted':
-                $orderBy = 'accepted DESC, like_count DESC';
+                $orderBy = 'accepted DESC, id DESC';
                 break;
             case 'oldest':
                 $orderBy = 'id ASC';

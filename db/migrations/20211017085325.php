@@ -20,7 +20,7 @@ final class V20211017085325 extends AbstractMigration
     {
         $table = $this->table('kg_course');
 
-        if ($table->hasColumn('fake_user_count') == false) {
+        if (!$table->hasColumn('fake_user_count')) {
             $table->addColumn('fake_user_count', 'integer', [
                 'null' => false,
                 'default' => '0',

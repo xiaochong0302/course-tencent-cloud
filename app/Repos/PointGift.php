@@ -50,7 +50,7 @@ class PointGift extends Repository
 
         switch ($sort) {
             case 'popular':
-                $orderBy = 'redeem_count DESC';
+                $orderBy = 'redeem_count DESC, id DESC';
                 break;
             case 'oldest':
                 $orderBy = 'id ASC';

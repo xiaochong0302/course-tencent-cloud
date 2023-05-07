@@ -76,6 +76,7 @@ class ChapterInfo extends LogicService
         $result['course'] = $service->handleCourseInfo($this->course);
 
         $me = [
+            'role_type' => 0,
             'plan_id' => 0,
             'position' => 0,
             'joined' => 0,
@@ -83,8 +84,13 @@ class ChapterInfo extends LogicService
             'liked' => 0,
         ];
 
-        $me['joined'] = $this->joinedChapter ? 1 : 0;
-        $me['owned'] = $this->ownedChapter ? 1 : 0;
+        if ($this->joinedChapter) {
+            $me['joined'] = 1;
+        }
+
+        if ($this->ownedChapter) {
+            $me['owned'] = 1;
+        }
 
         if ($user->id > 0) {
 
@@ -97,6 +103,7 @@ class ChapterInfo extends LogicService
             }
 
             if ($this->courseUser) {
+                $me['role_type'] = $this->courseUser->role_type;
                 $me['plan_id'] = $this->courseUser->plan_id;
             }
 

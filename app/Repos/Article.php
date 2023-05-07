@@ -107,10 +107,10 @@ class Article extends Repository
 
         switch ($sort) {
             case 'like':
-                $orderBy = 'like_count DESC';
+                $orderBy = 'like_count DESC, id DESC';
                 break;
             case 'popular':
-                $orderBy = 'score DESC';
+                $orderBy = 'score DESC, id DESC';
                 break;
             case 'oldest':
                 $orderBy = 'id ASC';
