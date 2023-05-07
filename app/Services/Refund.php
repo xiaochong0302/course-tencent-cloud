@@ -174,10 +174,10 @@ class Refund extends Service
 
         switch ($trade->channel) {
             case TradeModel::CHANNEL_ALIPAY:
-                $serviceRate = $alipay['service_rate'] ?: $serviceRate;
+                $serviceRate = $alipay['service_rate'] ?? $serviceRate;
                 break;
             case TradeModel::CHANNEL_WXPAY:
-                $serviceRate = $wxpay['service_rate'] ?: $serviceRate;
+                $serviceRate = $wxpay['service_rate'] ?? $serviceRate;
                 break;
         }
 

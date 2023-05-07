@@ -29,7 +29,7 @@ final class V20220915084746 extends AbstractMigration
     {
         $table = $this->table('kg_article');
 
-        if ($table->hasColumn('keywords') == false) {
+        if (!$table->hasColumn('keywords')) {
             $table->addColumn('keywords', 'string', [
                 'null' => false,
                 'default' => '',
@@ -48,7 +48,7 @@ final class V20220915084746 extends AbstractMigration
     {
         $table = $this->table('kg_question');
 
-        if ($table->hasColumn('keywords') == false) {
+        if (!$table->hasColumn('keywords')) {
             $table->addColumn('keywords', 'string', [
                 'null' => false,
                 'default' => '',
@@ -67,7 +67,7 @@ final class V20220915084746 extends AbstractMigration
     {
         $table = $this->table('kg_page');
 
-        if ($table->hasColumn('keywords') == false) {
+        if (!$table->hasColumn('keywords')) {
             $table->addColumn('keywords', 'string', [
                 'null' => false,
                 'default' => '',
@@ -86,7 +86,7 @@ final class V20220915084746 extends AbstractMigration
     {
         $table = $this->table('kg_help');
 
-        if ($table->hasColumn('keywords') == false) {
+        if (!$table->hasColumn('keywords')) {
             $table->addColumn('keywords', 'string', [
                 'null' => false,
                 'default' => '',
@@ -105,7 +105,7 @@ final class V20220915084746 extends AbstractMigration
     {
         $table = $this->table('kg_topic');
 
-        if ($table->hasColumn('cover') == false) {
+        if (!$table->hasColumn('cover')) {
             $table->addColumn('cover', 'string', [
                 'null' => false,
                 'default' => '',

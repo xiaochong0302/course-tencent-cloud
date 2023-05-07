@@ -57,7 +57,7 @@ class Purifier
 
         $serializerPath = cache_path('purifier');
 
-        if (file_exists($serializerPath) == false) {
+        if (!file_exists($serializerPath)) {
             mkdir($serializerPath, 0777);
         }
 

@@ -21,7 +21,7 @@ final class V20211019093522 extends AbstractMigration
     {
         $table = $this->table('kg_user_session');
 
-        if ($table->hasColumn('deleted') == false) {
+        if (!$table->hasColumn('deleted')) {
             $table->addColumn('deleted', 'integer', [
                 'null' => false,
                 'default' => '0',
@@ -39,7 +39,7 @@ final class V20211019093522 extends AbstractMigration
     {
         $table = $this->table('kg_user_token');
 
-        if ($table->hasColumn('deleted') == false) {
+        if (!$table->hasColumn('deleted')) {
             $table->addColumn('deleted', 'integer', [
                 'null' => false,
                 'default' => '0',

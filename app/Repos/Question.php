@@ -100,10 +100,10 @@ class Question extends Repository
 
         switch ($sort) {
             case 'active':
-                $orderBy = 'last_reply_time DESC';
+                $orderBy = 'last_reply_time DESC, id DESC';
                 break;
             case 'score':
-                $orderBy = 'score DESC';
+                $orderBy = 'score DESC, id DESC';
                 break;
             case 'oldest':
                 $orderBy = 'id ASC';

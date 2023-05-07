@@ -78,7 +78,7 @@ class SaleList extends LogicService
                 $item = [
                     'id' => $sale->id,
                     'stock' => $sale->stock,
-                    'price' => $sale->price,
+                    'price' => (float)$sale->price,
                     'item_id' => $sale->item_id,
                     'item_type' => $sale->item_type,
                     'item_info' => $sale->item_info,
