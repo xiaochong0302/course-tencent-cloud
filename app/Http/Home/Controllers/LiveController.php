@@ -39,7 +39,7 @@ class LiveController extends Controller
 
         $stats = $service->getStats($id);
 
-        return $this->jsonSuccess($stats);
+        return $this->jsonSuccess(['stats' => $stats]);
     }
 
     /**

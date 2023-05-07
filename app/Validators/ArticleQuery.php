@@ -7,7 +7,6 @@
 
 namespace App\Validators;
 
-use App\Caches\Category as CategoryCache;
 use App\Caches\Tag as TagCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Article as ArticleModel;
@@ -17,9 +16,9 @@ class ArticleQuery extends Validator
 
     public function checkCategory($id)
     {
-        $categoryCache = new CategoryCache();
+        $validator = new Category();
 
-        $category = $categoryCache->get($id);
+        $category = $validator->checkCategoryCache($id);
 
         if (!$category) {
             throw new BadRequestException('article_query.invalid_category');

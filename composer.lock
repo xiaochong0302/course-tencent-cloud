@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5eaf9b151226966d37ce2703e2e1efc",
+    "content-hash": "a5d21272eaa0df8bfcd5a3cea6d61fad",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5256,55 +5256,6 @@
             "time": "2022-09-19T04:08:49+00:00"
         },
         {
-            "name": "xiaochong0302/ip2region",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/xiaochong0302/ip2region.git",
-                "reference": "de2fbcb236cce91dfa1be2ff65516a46571b3565"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/xiaochong0302/ip2region/zipball/de2fbcb236cce91dfa1be2ff65516a46571b3565",
-                "reference": "de2fbcb236cce91dfa1be2ff65516a46571b3565",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "php": ">=7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Koogua\\Ip2Region\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "xiaochong0302",
-                    "email": "xiaochong0302@gmail.com"
-                }
-            ],
-            "description": "ip2region扩展包",
-            "keywords": [
-                "Ip2Region"
-            ],
-            "support": {
-                "issues": "https://github.com/xiaochong0302/ip2region/issues",
-                "source": "https://github.com/xiaochong0302/ip2region/tree/v1.0.2"
-            },
-            "time": "2022-04-27T02:45:22+00:00"
-        },
-        {
             "name": "yansongda/pay",
             "version": "v2.10.5",
             "source": {
@@ -5432,6 +5383,58 @@
                 "source": "https://github.com/yansongda/supports"
             },
             "time": "2020-10-14T08:17:18+00:00"
+        },
+        {
+            "name": "zoujingli/ip2region",
+            "version": "v2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zoujingli/ip2region.git",
+                "reference": "21ed5393a93ea62c277d91ee739b2373d60bf16d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zoujingli/ip2region/zipball/21ed5393a93ea62c277d91ee739b2373d60bf16d",
+                "reference": "21ed5393a93ea62c277d91ee739b2373d60bf16d",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Ip2Region.php",
+                    "XdbSearcher.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Anyon",
+                    "email": "zoujingli@qq.com",
+                    "homepage": "https://thinkadmin.top"
+                }
+            ],
+            "description": "Ip2Region for PHP",
+            "homepage": "https://github.com/zoujingli/Ip2Region",
+            "keywords": [
+                "Ip2Region"
+            ],
+            "support": {
+                "issues": "https://github.com/zoujingli/ip2region/issues",
+                "source": "https://github.com/zoujingli/ip2region/tree/v2.0.4"
+            },
+            "time": "2023-03-28T02:20:00+00:00"
         }
     ],
     "packages-dev": [
@@ -5638,5 +5641,5 @@
         "ext-fileinfo": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }

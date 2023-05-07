@@ -124,15 +124,15 @@ function kg_object_array($object)
 }
 
 /**
- * ip to region
+ * ip地址转区域
  *
- * @param $ip
- * @param string $dbFile
+ * @param $ip string
  * @return array
+ * @throws Exception
  */
-function kg_ip2region($ip, $dbFile = null)
+function kg_ip2region($ip)
 {
-    $searcher = new Ip2RegionSearcher($dbFile);
+    $searcher = new Ip2Region();
 
     $ip2region = $searcher->btreeSearch($ip);
 

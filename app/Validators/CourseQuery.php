@@ -16,9 +16,9 @@ class CourseQuery extends Validator
 
     public function checkTopCategory($id)
     {
-        $categoryCache = new CategoryCache();
+        $validator = new Category();
 
-        $category = $categoryCache->get($id);
+        $category = $validator->checkCategoryCache($id);
 
         if (!$category) {
             throw new BadRequestException('course_query.invalid_top_category');

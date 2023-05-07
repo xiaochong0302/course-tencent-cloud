@@ -222,9 +222,14 @@ class Chapter extends Model
 
     public function beforeCreate()
     {
+        /**
+         * @var Course $course
+         */
         $course = Course::findFirst($this->course_id);
 
-        $this->model = $course->model;
+        if (empty($this->model)) {
+            $this->model = $course->model;
+        }
 
         if ($this->parent_id > 0) {
             if (empty($this->attrs)) {

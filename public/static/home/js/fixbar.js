@@ -29,24 +29,39 @@ layui.use(['jquery', 'helper', 'util'], function () {
         });
     }
 
+    var bars = [];
+
+    if (window.contact.qq) {
+        bars.push({
+            type: 'qq',
+            icon: 'layui-icon-login-qq',
+        });
+    }
+
+    if (window.contact.wechat) {
+        bars.push({
+            type: 'wechat',
+            icon: 'layui-icon-login-wechat',
+        });
+    }
+
+    util.fixbar({
+        bars: bars,
+        click: function (type) {
+            if (type === 'qq') {
+                showQQDialog();
+            } else if (type === 'wechat') {
+                showWechatCode();
+            }
+        }
+    });
+
     $('.icon-wechat').on('click', function () {
         showWechatCode();
     });
 
     $('.icon-toutiao').on('click', function () {
         showTouTiaoCode();
-    });
-
-    util.fixbar({
-        bar1: window.contact.qq ? '&#xe676;' : false,
-        bar2: window.contact.wechat ? '&#xe677;' : false,
-        click: function (type) {
-            if (type === 'bar1') {
-                showQQDialog();
-            } else if (type === 'bar2') {
-                showWechatCode();
-            }
-        }
     });
 
 });

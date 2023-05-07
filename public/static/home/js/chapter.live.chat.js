@@ -97,7 +97,7 @@ layui.use(['jquery', 'form', 'helper'], function () {
     function refreshLiveStats() {
         var $count = $('#toolbar-online > .text');
         $.get(liveStatsUrl, function (res) {
-            $count.text(res.client_count);
+            $count.text(res.stats.client_count);
         });
     }
 

@@ -88,10 +88,10 @@ final class V20210720153027 extends AbstractMigration
     {
         $table = $this->table('kg_course');
 
-        if ($table->hasColumn('tags') == false) {
+        if (!$table->hasColumn('tags')) {
             $table->addColumn('tags', 'string', [
                 'null' => false,
-                'default' => '',
+                'default' => '[]',
                 'limit' => 255,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
@@ -107,7 +107,7 @@ final class V20210720153027 extends AbstractMigration
     {
         $table = $this->table('kg_category');
 
-        if ($table->hasColumn('alias') == false) {
+        if (!$table->hasColumn('alias')) {
             $table->addColumn('alias', 'string', [
                 'null' => false,
                 'default' => '',
@@ -119,7 +119,7 @@ final class V20210720153027 extends AbstractMigration
             ]);
         }
 
-        if ($table->hasColumn('icon') == false) {
+        if (!$table->hasColumn('icon')) {
             $table->addColumn('icon', 'string', [
                 'null' => false,
                 'default' => '',
@@ -138,8 +138,7 @@ final class V20210720153027 extends AbstractMigration
     {
         $table = $this->table('kg_tag');
 
-        if ($table->hasColumn('scopes') == false) {
-
+        if (!$table->hasColumn('scopes')) {
             $table->addColumn('scopes', 'string', [
                 'null' => false,
                 'default' => '',
@@ -151,7 +150,7 @@ final class V20210720153027 extends AbstractMigration
             ]);
         }
 
-        if ($table->hasColumn('course_count') == false) {
+        if (!$table->hasColumn('course_count')) {
             $table->addColumn('course_count', 'integer', [
                 'null' => false,
                 'default' => '0',
@@ -162,7 +161,7 @@ final class V20210720153027 extends AbstractMigration
             ]);
         }
 
-        if ($table->hasColumn('article_count') == false) {
+        if (!$table->hasColumn('article_count')) {
             $table->addColumn('article_count', 'integer', [
                 'null' => false,
                 'default' => '0',
@@ -173,7 +172,7 @@ final class V20210720153027 extends AbstractMigration
             ]);
         }
 
-        if ($table->hasColumn('question_count') == false) {
+        if (!$table->hasColumn('question_count')) {
             $table->addColumn('question_count', 'integer', [
                 'null' => false,
                 'default' => '0',

@@ -16,12 +16,12 @@
     "workerman/gatewayclient": "^3.0",
     "whichbrowser/parser": "^2.0",
     "hightman/xunsearch": "^1.4",
-    "xiaochong0302/ip2region": "^1.0",
     "robmorgan/phinx": "^0.12",
     "overtrue/wechat": "^4.2",
     "endroid/qr-code": "^3.9",
     "league/commonmark": "^1.5",
-    "ezyang/htmlpurifier": "^4.14"
+    "ezyang/htmlpurifier": "^4.14",
+    "zoujingli/ip2region": "^2.0"
   },
   "require-dev": {
     "odan/phinx-migrations-generator": "^5.3",
