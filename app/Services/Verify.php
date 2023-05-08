@@ -51,6 +51,8 @@ class Verify extends Service
 
         $value = $this->cache->get($key);
 
+        if (empty($value)) return false;
+
         return $code == $value;
     }
 
@@ -59,6 +61,8 @@ class Verify extends Service
         $key = $this->getMailCacheKey($email);
 
         $value = $this->cache->get($key);
+
+        if (empty($value)) return false;
 
         return $code == $value;
     }
