@@ -1447,56 +1447,56 @@
     color: red;
 }
 
-.cart-course-card {
+.cart-item-card {
+    display: flex;
     padding-bottom: 10px;
     margin-bottom: 10px;
     border-bottom: 1px dashed #ccc;
 }
 
-.cart-course-card:last-child {
+.cart-item-card:last-child {
     padding: 0;
     margin: 0;
     border-bottom: none;
 }
 
-.cart-course-card .cover {
-    float: left;
+.cart-item-card .cover {
     margin-right: 10px;
 }
 
-.cart-course-card .cover img {
+.cart-item-card .cover img {
     width: 175px;
     height: 95px;
 }
 
-.cart-course-card p {
+.cart-item-card p {
     line-height: 30px;
 }
 
-.cart-course-card .info {
-    float: left;
-}
-
-.cart-course-card .key {
+.cart-item-card .key {
     margin-right: 5px;
 }
 
-.cart-course-card .value {
+.cart-item-card .value {
     margin-right: 5px;
     color: #666;
 }
 
-.cart-course-card .origin-price {
+.cart-item-card .origin-price {
     text-decoration: line-through;
 }
 
-.cart-course-card .price {
+.cart-item-card .price {
     margin-right: 5px;
     color: red;
 }
 
+.cart-stats {
+    display: flex;
+    justify-content: space-between;
+}
+
 .cart-stats .info {
-    float: left;
     line-height: 38px;
 }
 
@@ -1512,10 +1512,6 @@
 .cart-stats span {
     color: #666;
     margin-right: 15px;
-}
-
-.cart-form {
-    float: right;
 }
 
 .payment .header {
