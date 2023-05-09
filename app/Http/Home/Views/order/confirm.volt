@@ -6,7 +6,7 @@
 
     {%- macro cart_course_card(course, user) %}
         {% set course_url = url({'for':'home.course.show','id':course.id}) %}
-        <div class="cart-course-card">
+        <div class="cart-item-card">
             <div class="cover">
                 <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
             </div>
@@ -46,7 +46,7 @@
         {% set course = item_info.course %}
         {% set reward = item_info.reward %}
         {% set course_url = url({'for':'home.course.show','id':course.id}) %}
-        <div class="cart-course-card">
+        <div class="cart-item-card">
             <div class="cover">
                 <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
             </div>
@@ -70,7 +70,7 @@
 
     {%- macro cart_vip_card(item_info) %}
         {% set vip = item_info.vip %}
-        <div class="cart-course-card">
+        <div class="cart-item-card">
             <div class="cover">
                 <img src="{{ vip.cover }}!cover_270" alt="{{ vip.title }}">
             </div>
