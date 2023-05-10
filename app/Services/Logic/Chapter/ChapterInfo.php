@@ -79,6 +79,7 @@ class ChapterInfo extends LogicService
             'role_type' => 0,
             'plan_id' => 0,
             'position' => 0,
+            'logged' => 0,
             'joined' => 0,
             'owned' => 0,
             'liked' => 0,
@@ -93,6 +94,8 @@ class ChapterInfo extends LogicService
         }
 
         if ($user->id > 0) {
+
+            $me['logged'] = 1;
 
             $likeRepo = new ChapterLikeRepo();
 
