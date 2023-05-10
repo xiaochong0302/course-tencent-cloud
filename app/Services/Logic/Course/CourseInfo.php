@@ -39,11 +39,12 @@ class CourseInfo extends LogicService
             'plan_id' => 0,
             'allow_order' => 0,
             'allow_reward' => 0,
+            'progress' => 0,
+            'logged' => 0,
             'joined' => 0,
             'owned' => 0,
             'reviewed' => 0,
             'favorited' => 0,
-            'progress' => 0,
         ];
 
         if ($this->joinedCourse) {
@@ -65,18 +66,17 @@ class CourseInfo extends LogicService
             $caseModel = $course->attrs['end_date'] < date('Y-m-d');
         }
 
-        if ($caseOwned && $casePrice && $caseModel) {
-            $me['allow_order'] = 1;
-        }
-
-        /**
-         * 付款课程不允许打赏
-         */
-        if ($course->market_price == 0) {
-            $me['allow_reward'] = 1;
-        }
-
         if ($user->id > 0) {
+
+            if ($caseOwned && $casePrice && $caseModel) {
+                $me['allow_order'] = 1;
+            }
+
+            if ($course->market_price == 0) {
+                $me['allow_reward'] = 1;
+            }
+
+            $me['logged'] = 1;
 
             $favoriteRepo = new CourseFavoriteRepo();
 
