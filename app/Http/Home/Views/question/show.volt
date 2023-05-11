@@ -4,6 +4,8 @@
 
     {{ partial('macros/question') }}
 
+    {% set share_url = share_url('question',question.id,auth_user.id) %}
+    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
     {% set question_report_url = url({'for':'home.report.add'},{'item_id':question.id,'item_type':107}) %}
     {% set question_edit_url = url({'for':'home.question.edit','id':question.id}) %}
     {% set question_delete_url = url({'for':'home.question.delete','id':question.id}) %}
@@ -97,9 +99,6 @@
     <div class="layout-sticky">
         {{ partial('question/sticky') }}
     </div>
-
-    {% set share_url = full_url({'for':'home.share'},{'id':question.id,'type':'question'}) %}
-    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
 
     <div class="layui-hide">
         <input type="hidden" name="share.title" value="{{ question.title }}">

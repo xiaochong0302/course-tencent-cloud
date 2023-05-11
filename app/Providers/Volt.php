@@ -39,6 +39,10 @@ class Volt extends Provider
                 return 'kg_full_url(' . $resolvedArgs . ')';
             });
 
+            $compiler->addFunction('share_url', function ($resolvedArgs) {
+                return 'kg_share_url(' . $resolvedArgs . ')';
+            });
+
             $compiler->addFunction('static_url', function ($resolvedArgs) {
                 return 'kg_static_url(' . $resolvedArgs . ')';
             });
