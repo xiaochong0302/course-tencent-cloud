@@ -8,8 +8,8 @@
 use App\Caches\Setting as SettingCache;
 use App\Library\Purifier as HtmlPurifier;
 use App\Library\Validators\Common as CommonValidator;
+use App\Services\Logic\Url\ShareUrl as ShareUrlService;
 use App\Services\Storage as StorageService;
-use Koogua\Ip2Region\Searcher as Ip2RegionSearcher;
 use Phalcon\Config;
 use Phalcon\Di;
 use Phalcon\Text;
@@ -725,6 +725,21 @@ function kg_full_url($uri, $args = null)
     $baseUrl = kg_site_url();
 
     return $baseUrl . $url->get($uri, $args);
+}
+
+/**
+ * 构造分享url
+ *
+ * @param string $type
+ * @param int $id
+ * @param int $referer
+ * @return string
+ */
+function kg_share_url($type, $id, $referer = 0)
+{
+    $service = new ShareUrlService();
+
+    return $service->handle($type, $id, $referer);
 }
 
 /**

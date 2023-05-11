@@ -4,6 +4,8 @@
 
     {{ partial('macros/article') }}
 
+    {% set share_url = share_url('article',article.id,auth_user.id) %}
+    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
     {% set article_edit_url = url({'for':'home.article.edit','id':article.id}) %}
     {% set article_delete_url = url({'for':'home.article.delete','id':article.id}) %}
     {% set article_private_url = url({'for':'home.article.private','id':article.id}) %}
@@ -101,9 +103,6 @@
     <div class="layout-sticky">
         {{ partial('article/sticky') }}
     </div>
-
-    {% set share_url = full_url({'for':'home.share'},{'id':article.id,'type':'article'}) %}
-    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
 
     <div class="layui-hide">
         <input type="hidden" name="share.title" value="{{ article.title }}">

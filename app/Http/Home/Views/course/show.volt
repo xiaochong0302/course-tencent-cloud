@@ -4,6 +4,9 @@
 
     {{ partial('macros/course') }}
 
+    {% set share_url = share_url('course',course.id,auth_user.id) %}
+    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
+
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
@@ -92,9 +95,6 @@
     <div class="layout-sticky">
         {{ partial('course/sticky') }}
     </div>
-
-    {% set share_url = full_url({'for':'home.share'},{'id':course.id,'type':'course'}) %}
-    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
 
     <div class="layui-hide">
         <input type="hidden" name="share.title" value="{{ course.title }}">

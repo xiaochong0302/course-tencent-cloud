@@ -4,6 +4,8 @@
 
     {{ partial('macros/user') }}
 
+    {% set share_url = share_url('user',user.id,auth_user.id) %}
+    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
     {% set avatar_class = user.vip == 1 ? 'avatar vip' : 'avatar' %}
 
     <div class="breadcrumb">
@@ -13,7 +15,6 @@
             <a><cite>{{ user.name }}</cite></a>
         </span>
         <span class="share">
-            <a href="javascript:" title="添加好友" class="apply-friend" data-id="{{ user.id }}" data-name="{{ user.name }}" data-avatar="{{ user.avatar }}"><i class="layui-icon layui-icon-user"></i></a>
             <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat share-wechat"></i></a>
             <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq share-qq"></i></a>
             <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo share-weibo"></i></a>
@@ -79,9 +80,6 @@
             </div>
         </div>
     </div>
-
-    {% set share_url = full_url({'for':'home.share'},{'id':user.id,'type':'user'}) %}
-    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
 
     <div class="layui-hide">
         <input type="hidden" name="share.title" value="{{ user.name }}">
