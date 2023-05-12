@@ -11,7 +11,7 @@ trait PageTrait
     protected function insertPages(array $rows)
     {
         foreach ($rows as $key => $row) {
-            $exists = $this->pageExits($row['alias']);
+            $exists = $this->pageExists($row['alias']);
             if ($exists) unset($rows[$key]);
         }
 
@@ -20,7 +20,7 @@ trait PageTrait
         $this->table('kg_page')->insert($rows)->save();
     }
 
-    protected function pageExits($alias)
+    protected function pageExists($alias)
     {
         $row = $this->getQueryBuilder()
             ->select('*')
@@ -28,7 +28,7 @@ trait PageTrait
             ->where(['alias' => $alias])
             ->execute()->fetch();
 
-        return $row ? true : false;
+        return (bool)$row;
     }
 
 }
