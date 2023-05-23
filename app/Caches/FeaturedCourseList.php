@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @copyright Copyright (c) 2023 深圳市酷瓜软件有限公司
  * @license https://opensource.org/licenses/GPL-2.0
  * @link https://www.koogua.com
  */
@@ -11,22 +11,21 @@ use App\Models\Course as CourseModel;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-/**
- * 简版免费课程
- */
-class IndexSimpleFreeCourseList extends Cache
+class FeaturedCourseList extends Cache
 {
 
     protected $lifetime = 86400;
 
     public function getLifetime()
     {
-        return $this->lifetime;
+        $tomorrow = strtotime('tomorrow');
+
+        return $tomorrow - time();
     }
 
     public function getKey($id = null)
     {
-        return 'index_simple_free_course_list';
+        return 'featured_course_list';
     }
 
     public function getContent($id = null)
@@ -75,10 +74,10 @@ class IndexSimpleFreeCourseList extends Cache
     protected function findCourses($limit = 8)
     {
         return CourseModel::query()
-            ->where('market_price = 0')
+            ->where('featured = 1')
             ->andWhere('published = 1')
             ->andWhere('deleted = 0')
-            ->orderBy('score DESC')
+            ->orderBy('id DESC')
             ->limit($limit)
             ->execute();
     }

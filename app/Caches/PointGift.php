@@ -12,7 +12,7 @@ use App\Repos\PointGift as PointGiftRepo;
 class PointGift extends Cache
 {
 
-    protected $lifetime = 1 * 86400;
+    protected $lifetime = 86400;
 
     public function getLifetime()
     {

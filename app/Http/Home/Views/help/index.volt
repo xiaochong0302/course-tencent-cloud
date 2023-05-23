@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('macros/course') }}
+    {% set courses_url = url({'for':'home.widget.featured_courses'}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
@@ -32,25 +32,23 @@
             </div>
         </div>
         <div class="layout-sidebar">
-            {% if featured_courses %}
-                <div class="sidebar">
-                    <div class="layui-card">
-                        <div class="layui-card-header">推荐课程</div>
-                        <div class="layui-card-body">
-                            {% for course in featured_courses %}
-                                {{ sidebar_course_card(course) }}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
+            <div class="sidebar" id="course-list" data-url="{{ courses_url }}"></div>
         </div>
     </div>
 
 {% endblock %}
 
-{% block include_js %}
+{% block inline_js %}
 
-    {{ js_include('home/js/help.js') }}
+    <script>
+        layui.use(['jquery', 'helper'], function () {
+            var $ = layui.jquery;
+            var helper = layui.helper;
+            var $courseList = $('#course-list');
+            if ($courseList.length > 0) {
+                helper.ajaxLoadHtml($courseList.data('url'), $courseList.attr('id'));
+            }
+        });
+    </script>
 
 {% endblock %}

@@ -12,7 +12,7 @@ use App\Repos\Question as QuestionRepo;
 class Question extends Cache
 {
 
-    protected $lifetime = 1 * 86400;
+    protected $lifetime = 86400;
 
     public function getLifetime()
     {
