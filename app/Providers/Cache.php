@@ -33,7 +33,7 @@ class Cache extends Provider
                 'host' => $config->path('redis.host'),
                 'port' => $config->path('redis.port'),
                 'auth' => $config->path('redis.auth'),
-                'index' => $config->path('redis.index') ?: 0,
+                'index' => $config->path('redis.index'),
             ]);
         });
     }

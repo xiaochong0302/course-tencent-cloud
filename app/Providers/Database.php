@@ -42,8 +42,11 @@ class Database extends Provider
             $connection = new MySqlAdapter($options);
 
             if ($config->get('env') == ENV_DEV) {
+
                 $eventsManager = new EventsManager();
+
                 $eventsManager->attach('db', new DbListener());
+
                 $connection->setEventsManager($eventsManager);
             }
 
