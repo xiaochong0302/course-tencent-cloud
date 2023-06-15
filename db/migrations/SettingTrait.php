@@ -11,7 +11,7 @@ trait SettingTrait
     protected function insertSettings(array $rows)
     {
         foreach ($rows as $key => $row) {
-            $exists = $this->settingExits($row['section'], $row['item_key']);
+            $exists = $this->settingExists($row['section'], $row['item_key']);
             if ($exists) unset($rows[$key]);
         }
 
@@ -20,7 +20,7 @@ trait SettingTrait
         $this->table('kg_setting')->insert($rows)->save();
     }
 
-    protected function settingExits($section, $itemKey)
+    protected function settingExists($section, $itemKey)
     {
         $row = $this->getQueryBuilder()
             ->select('*')
@@ -28,7 +28,7 @@ trait SettingTrait
             ->where(['section' => $section, 'item_key' => $itemKey])
             ->execute()->fetch();
 
-        return $row ? true : false;
+        return (bool)$row;
     }
 
 }

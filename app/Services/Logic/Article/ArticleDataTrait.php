@@ -120,7 +120,6 @@ trait ArticleDataTrait
             $tagRepo = new TagRepo();
             $tags = $tagRepo->findByIds($newTagIds);
             if ($tags->count() > 0) {
-                $articleTags = [];
                 foreach ($tags as $tag) {
                     $articleTags[] = ['id' => $tag->id, 'name' => $tag->name];
                     $this->recountTagArticles($tag->id);

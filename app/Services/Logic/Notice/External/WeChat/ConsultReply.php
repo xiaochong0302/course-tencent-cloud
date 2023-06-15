@@ -7,7 +7,7 @@
 
 namespace App\Services\Logic\Notice\External\WeChat;
 
-use App\Models\WeChatSubscribe as WeChatSubscribeModel;
+use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\WeChatNotice;
 
 class ConsultReply extends WeChatNotice
@@ -16,12 +16,17 @@ class ConsultReply extends WeChatNotice
     protected $templateCode = 'consult_reply';
 
     /**
-     * @param WeChatSubscribeModel $subscribe
      * @param array $params
-     * @return bool
+     * @return bool|null
      */
-    public function handle(WeChatSubscribeModel $subscribe, array $params)
+    public function handle(array $params)
     {
+        $subscribeRepo = new WeChatSubscribeRepo();
+
+        $subscribe = $subscribeRepo->findByUserId($params['user']['id']);
+
+        if (!$subscribe) return null;
+
         $first = sprintf('%s 回复了你的咨询！', $params['replier']['name']);
 
         $remark = '如果还有其它疑问，请和我们保持联系哦！';

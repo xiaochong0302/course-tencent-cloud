@@ -39,6 +39,10 @@ class Volt extends Provider
                 return 'kg_full_url(' . $resolvedArgs . ')';
             });
 
+            $compiler->addFunction('share_url', function ($resolvedArgs) {
+                return 'kg_share_url(' . $resolvedArgs . ')';
+            });
+
             $compiler->addFunction('static_url', function ($resolvedArgs) {
                 return 'kg_static_url(' . $resolvedArgs . ')';
             });
@@ -93,6 +97,16 @@ class Volt extends Provider
 
             $compiler->addFilter('anonymous', function ($resolvedArgs) {
                 return 'kg_anonymous(' . $resolvedArgs . ')';
+            });
+
+            $compiler->addFilter('split', function ($resolvedArgs, $exprArgs) use ($compiler) {
+                $firstArgument = $compiler->expression($exprArgs[0]['expr']);
+                if (isset($exprArgs[1])) {
+                    $secondArgument = $compiler->expression($exprArgs[1]['expr']);
+                } else {
+                    $secondArgument = '';
+                }
+                return sprintf('explode(%s,%s)', $secondArgument, $firstArgument);
             });
 
             return $volt;

@@ -11,7 +11,6 @@ use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Repos\Refund as RefundRepo;
 use App\Repos\User as UserRepo;
-use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Logic\Notice\External\Sms\RefundFinish as SmsRefundFinishNotice;
 use App\Services\Logic\Notice\External\WeChat\RefundFinish as WeChatRefundFinishNotice;
 use App\Services\Logic\Service as LogicService;
@@ -23,8 +22,6 @@ class RefundFinish extends LogicService
     {
         $wechatNoticeEnabled = $this->wechatNoticeEnabled();
         $smsNoticeEnabled = $this->smsNoticeEnabled();
-
-        if (!$wechatNoticeEnabled && !$smsNoticeEnabled) return;
 
         $refundId = $task->item_info['refund']['id'];
 
@@ -50,18 +47,14 @@ class RefundFinish extends LogicService
             ],
         ];
 
-        $subscribeRepo = new WeChatSubscribeRepo();
-
-        $subscribe = $subscribeRepo->findByUserId($refund->owner_id);
-
-        if ($wechatNoticeEnabled && $subscribe) {
+        if ($wechatNoticeEnabled) {
             $notice = new WeChatRefundFinishNotice();
-            $notice->handle($subscribe, $params);
+            $notice->handle($params);
         }
 
         if ($smsNoticeEnabled) {
             $notice = new SmsRefundFinishNotice();
-            $notice->handle($user, $params);
+            $notice->handle($params);
         }
     }
 

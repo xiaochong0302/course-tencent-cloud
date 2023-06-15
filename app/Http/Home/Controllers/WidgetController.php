@@ -7,6 +7,8 @@
 
 namespace App\Http\Home\Controllers;
 
+use App\Caches\FeaturedArticleList as FeaturedArticleListCache;
+use App\Caches\FeaturedCourseList as FeaturedCourseListCache;
 use App\Services\Logic\Article\TopAuthorList as TopAuthorListService;
 use App\Services\Logic\Question\HotQuestionList as HotQuestionListService;
 use App\Services\Logic\Question\TopAnswererList as TopAnswererListService;
@@ -31,6 +33,34 @@ class WidgetController extends Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('widget/my_tags');
         $this->view->setVar('tags', $pager->items);
+    }
+
+    /**
+     * @Get("/featured/courses", name="home.widget.featured_courses")
+     */
+    public function featuredCoursesAction()
+    {
+        $cache = new FeaturedCourseListCache();
+
+        $courses = $cache->get();
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('widget/featured_courses');
+        $this->view->setVar('courses', $courses);
+    }
+
+    /**
+     * @Get("/featured/articles", name="home.widget.featured_articles")
+     */
+    public function featuredArticlesAction()
+    {
+        $cache = new FeaturedArticleListCache();
+
+        $articles = $cache->get();
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->pick('widget/featured_articles');
+        $this->view->setVar('articles', $articles);
     }
 
     /**

@@ -91,6 +91,7 @@ class ArticleInfo extends LogicService
     protected function handleMeInfo(ArticleModel $article, UserModel $user)
     {
         $me = [
+            'logged' => 0,
             'liked' => 0,
             'favorited' => 0,
             'owned' => 0,
@@ -101,6 +102,8 @@ class ArticleInfo extends LogicService
         }
 
         if ($user->id > 0) {
+
+            $me['logged'] = 1;
 
             $likeRepo = new ArticleLikeRepo();
 

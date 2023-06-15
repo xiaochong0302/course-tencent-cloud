@@ -2365,33 +2365,34 @@
             "time": "2017-10-23T01:57:42+00:00"
         },
         {
-            "name": "qcloud/cos-sdk-v5",
-            "version": "v2.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tencentyun/cos-php-sdk-v5.git",
-                "reference": "d367ba8d0305b83364b64055594a0ac22b1cefd8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/d367ba8d0305b83364b64055594a0ac22b1cefd8",
-                "reference": "d367ba8d0305b83364b64055594a0ac22b1cefd8",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
+          "name": "qcloud/cos-sdk-v5",
+          "version": "v2.6.2",
+          "source": {
+            "type": "git",
+            "url": "https://github.com/tencentyun/cos-php-sdk-v5.git",
+            "reference": "92a1ee62b85ed4e7bf6836a684df5d7e3158d0ed"
+          },
+          "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tencentyun/cos-php-sdk-v5/zipball/92a1ee62b85ed4e7bf6836a684df5d7e3158d0ed",
+            "reference": "92a1ee62b85ed4e7bf6836a684df5d7e3158d0ed",
+            "shasum": "",
+            "mirrors": [
+              {
+                "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                "preferred": true
+              }
+            ]
+          },
             "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "ext-simplexml": "*",
-                "guzzlehttp/guzzle": "^6.2.1 || ^7.0",
-                "guzzlehttp/guzzle-services": "^1.1",
-                "guzzlehttp/psr7": "^1.3.1 || ^2.0",
-                "php": ">=5.6"
+              "ext-curl": "*",
+              "ext-json": "*",
+              "ext-mbstring": "*",
+              "ext-simplexml": "*",
+              "guzzlehttp/guzzle": "^6.2.1 || ^7.0",
+              "guzzlehttp/guzzle-services": "^1.1",
+              "guzzlehttp/psr7": "^1.3.1 || ^2.0",
+              "php": ">=5.6"
             },
             "type": "library",
             "extra": {
@@ -2433,9 +2434,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tencentyun/cos-php-sdk-v5/issues",
-                "source": "https://github.com/tencentyun/cos-php-sdk-v5/tree/v2.6.1"
+              "source": "https://github.com/tencentyun/cos-php-sdk-v5/tree/v2.6.2"
             },
-            "time": "2023-02-07T09:49:12+00:00"
+          "time": "2023-04-07T07:38:24+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -4908,40 +4909,43 @@
             ],
             "time": "2022-05-27T12:56:18+00:00"
         },
-        {
-            "name": "tencentcloud/tencentcloud-sdk-php",
-            "version": "3.0.824",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TencentCloud/tencentcloud-sdk-php.git",
-                "reference": "1d85da7e51ba02defe33fbae0b6dbae0f1d7caf5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/1d85da7e51ba02defe33fbae0b6dbae0f1d7caf5",
-                "reference": "1d85da7e51ba02defe33fbae0b6dbae0f1d7caf5",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^6.3 || ^7.0",
-                "php": ">=5.6.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "TencentCloud\\": "./src/TencentCloud"
-                },
-                "classmap": [
-                    "src/QcloudApi/QcloudApi.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
+      {
+        "name": "tencentcloud/tencentcloud-sdk-php",
+        "version": "3.0.889",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/TencentCloud/tencentcloud-sdk-php.git",
+          "reference": "a08031e5111f17131fceb429eebb8223c105d8b3"
+        },
+        "dist": {
+          "type": "zip",
+          "url": "https://api.github.com/repos/TencentCloud/tencentcloud-sdk-php/zipball/a08031e5111f17131fceb429eebb8223c105d8b3",
+          "reference": "a08031e5111f17131fceb429eebb8223c105d8b3",
+          "shasum": "",
+          "mirrors": [
+            {
+              "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+              "preferred": true
+            }
+          ]
+        },
+        "require": {
+          "guzzlehttp/guzzle": "^6.3 || ^7.0",
+          "php": ">=5.6.0"
+        },
+        "require-dev": {
+          "phpunit/phpunit": "^9.5"
+        },
+        "type": "library",
+        "autoload": {
+          "psr-4": {
+            "TencentCloud\\": "./src/TencentCloud"
+          },
+          "classmap": [
+            "src/QcloudApi/QcloudApi.php"
+          ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -4957,9 +4961,9 @@
             "homepage": "https://github.com/TencentCloud/tencentcloud-sdk-php",
             "support": {
                 "issues": "https://github.com/TencentCloud/tencentcloud-sdk-php/issues",
-                "source": "https://github.com/TencentCloud/tencentcloud-sdk-php/tree/3.0.824"
+              "source": "https://github.com/TencentCloud/tencentcloud-sdk-php/tree/3.0.889"
             },
-            "time": "2023-02-15T00:03:58+00:00"
+        "time": "2023-05-22T00:02:52+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -5095,28 +5099,29 @@
             },
             "time": "2022-04-19T20:14:54+00:00"
         },
-        {
-            "name": "workerman/gateway-worker",
-            "version": "v3.0.27",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/walkor/GatewayWorker.git",
-                "reference": "c0cae6c0e69288ab7dcc8b25599d3b9e4f4441d2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/c0cae6c0e69288ab7dcc8b25599d3b9e4f4441d2",
-                "reference": "c0cae6c0e69288ab7dcc8b25599d3b9e4f4441d2",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
+      {
+        "name": "workerman/gateway-worker",
+        "version": "v3.0.28",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/walkor/GatewayWorker.git",
+          "reference": "a7dffc53403133131a51b9fd3c6c6d70869cb6d3"
+        },
+        "dist": {
+          "type": "zip",
+          "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/a7dffc53403133131a51b9fd3c6c6d70869cb6d3",
+          "reference": "a7dffc53403133131a51b9fd3c6c6d70869cb6d3",
+          "shasum": "",
+          "mirrors": [
+            {
+              "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+              "preferred": true
+            }
+          ]
+        },
             "require": {
-                "workerman/workerman": "^4.0.0 || ^5.0.0"
+              "php": ">=7.0",
+              "workerman/workerman": "^4.0.30"
             },
             "type": "library",
             "autoload": {
@@ -5135,7 +5140,7 @@
             ],
             "support": {
                 "issues": "https://github.com/walkor/GatewayWorker/issues",
-                "source": "https://github.com/walkor/GatewayWorker/tree/v3.0.27"
+              "source": "https://github.com/walkor/GatewayWorker/tree/v3.0.28"
             },
             "funding": [
                 {
@@ -5147,7 +5152,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-02-09T09:16:04+00:00"
+        "time": "2023-03-24T03:56:27+00:00"
         },
         {
             "name": "workerman/gatewayclient",
@@ -5641,5 +5646,5 @@
         "ext-fileinfo": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+  "plugin-api-version": "2.0.0"
 }
