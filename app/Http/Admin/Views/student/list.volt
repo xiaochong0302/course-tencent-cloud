@@ -18,8 +18,13 @@
         {% endif %}
     {%- endmacro %}
 
-    {% set add_url = url({'for':'admin.student.add'}) %}
-    {% set search_url = url({'for':'admin.student.search'}) %}
+    {% if course %}
+        {% set add_url = url({'for':'admin.student.add'},{'course_id':course.id}) %}
+        {% set search_url = url({'for':'admin.student.search'},{'course_id':course.id}) %}
+    {% else %}
+        {% set add_url = url({'for':'admin.student.add'}) %}
+        {% set search_url = url({'for':'admin.student.search'}) %}
+    {% endif %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
