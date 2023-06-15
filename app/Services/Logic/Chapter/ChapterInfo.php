@@ -75,47 +75,7 @@ class ChapterInfo extends LogicService
 
         $result['course'] = $service->handleCourseInfo($this->course);
 
-        $me = [
-            'role_type' => 0,
-            'plan_id' => 0,
-            'position' => 0,
-            'logged' => 0,
-            'joined' => 0,
-            'owned' => 0,
-            'liked' => 0,
-        ];
-
-        if ($this->joinedChapter) {
-            $me['joined'] = 1;
-        }
-
-        if ($this->ownedChapter) {
-            $me['owned'] = 1;
-        }
-
-        if ($user->id > 0) {
-
-            $me['logged'] = 1;
-
-            $likeRepo = new ChapterLikeRepo();
-
-            $like = $likeRepo->findChapterLike($chapter->id, $user->id);
-
-            if ($like && $like->deleted == 0) {
-                $me['liked'] = 1;
-            }
-
-            if ($this->courseUser) {
-                $me['role_type'] = $this->courseUser->role_type;
-                $me['plan_id'] = $this->courseUser->plan_id;
-            }
-
-            if ($this->chapterUser) {
-                $me['position'] = $this->chapterUser->position;
-            }
-        }
-
-        $result['me'] = $me;
+        $result['me'] = $this->handleMeInfo($chapter, $user);
 
         return $result;
     }
@@ -177,6 +137,51 @@ class ChapterInfo extends LogicService
         $this->joinedChapter = true;
 
         $this->incrChapterUserCount($chapter);
+    }
+
+    protected function handleMeInfo(ChapterModel $chapter, UserModel $user)
+    {
+        $me = [
+            'role_type' => 0,
+            'plan_id' => 0,
+            'position' => 0,
+            'logged' => 0,
+            'joined' => 0,
+            'owned' => 0,
+            'liked' => 0,
+        ];
+
+        if ($user->id > 0) {
+
+            if ($this->joinedChapter) {
+                $me['joined'] = 1;
+            }
+
+            if ($this->ownedChapter) {
+                $me['owned'] = 1;
+            }
+
+            $me['logged'] = 1;
+
+            $likeRepo = new ChapterLikeRepo();
+
+            $like = $likeRepo->findChapterLike($chapter->id, $user->id);
+
+            if ($like && $like->deleted == 0) {
+                $me['liked'] = 1;
+            }
+
+            if ($this->courseUser) {
+                $me['role_type'] = $this->courseUser->role_type;
+                $me['plan_id'] = $this->courseUser->plan_id;
+            }
+
+            if ($this->chapterUser) {
+                $me['position'] = $this->chapterUser->position;
+            }
+        }
+
+        return $me;
     }
 
     protected function incrUserCourseCount(UserModel $user)
