@@ -66,15 +66,15 @@ class CourseInfo extends LogicService
             $caseModel = $course->attrs['end_date'] < date('Y-m-d');
         }
 
+        if ($caseOwned && $casePrice && $caseModel) {
+            $me['allow_order'] = 1;
+        }
+
+        if ($course->market_price == 0) {
+            $me['allow_reward'] = 1;
+        }
+
         if ($user->id > 0) {
-
-            if ($caseOwned && $casePrice && $caseModel) {
-                $me['allow_order'] = 1;
-            }
-
-            if ($course->market_price == 0) {
-                $me['allow_reward'] = 1;
-            }
 
             $me['logged'] = 1;
 
