@@ -35,6 +35,13 @@ class CourseInfo extends LogicService
 
         $result = $service->handleBasicInfo($course);
 
+        $result['me'] = $this->handleMeInfo($course, $user);
+
+        return $result;
+    }
+
+    protected function handleMeInfo(CourseModel $course, UserModel $user)
+    {
         $me = [
             'plan_id' => 0,
             'allow_order' => 0,
@@ -47,14 +54,6 @@ class CourseInfo extends LogicService
             'favorited' => 0,
         ];
 
-        if ($this->joinedCourse) {
-            $me['joined'] = 1;
-        }
-
-        if ($this->ownedCourse) {
-            $me['owned'] = 1;
-        }
-
         $caseOwned = $this->ownedCourse == false;
         $casePrice = $course->market_price > 0;
         $caseModel = true;
@@ -66,6 +65,14 @@ class CourseInfo extends LogicService
             $caseModel = $course->attrs['end_date'] < date('Y-m-d');
         }
 
+        if ($caseOwned && $casePrice && $caseModel) {
+            $me['allow_order'] = 1;
+        }
+
+        if ($course->market_price == 0) {
+            $me['allow_reward'] = 1;
+        }
+
         if ($user->id > 0) {
 
             if ($caseOwned && $casePrice && $caseModel) {
@@ -74,6 +81,14 @@ class CourseInfo extends LogicService
 
             if ($course->market_price == 0) {
                 $me['allow_reward'] = 1;
+            }
+
+            if ($this->joinedCourse) {
+                $me['joined'] = 1;
+            }
+
+            if ($this->ownedCourse) {
+                $me['owned'] = 1;
             }
 
             $me['logged'] = 1;
@@ -93,9 +108,7 @@ class CourseInfo extends LogicService
             }
         }
 
-        $result['me'] = $me;
-
-        return $result;
+        return $me;
     }
 
 }

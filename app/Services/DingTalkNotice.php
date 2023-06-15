@@ -135,24 +135,21 @@ class DingTalkNotice extends Service
      */
     public function send($params)
     {
-        if (!isset($params['msgtype'])) {
-            $params['msgtype'] = 'text';
-        }
-
+        $webhookUrl = $this->settings['webhook_url'];
         $appSecret = $this->settings['app_secret'];
-        $appToken = $this->settings['app_token'];
 
         $timestamp = time() * 1000;
         $data = sprintf("%s\n%s", $timestamp, $appSecret);
         $sign = urlencode(base64_encode(hash_hmac('sha256', $data, $appSecret, true)));
 
-        $baseUrl = 'https://oapi.dingtalk.com/robot/send';
+        $postUrl = $webhookUrl;
 
-        $postUrl = $baseUrl . '?' . http_build_query([
-                'access_token' => $appToken,
-                'timestamp' => $timestamp,
-                'sign' => $sign,
-            ]);
+        if (!empty($appSecret)) {
+            $postUrl = $webhookUrl . '&' . http_build_query([
+                    'timestamp' => $timestamp,
+                    'sign' => $sign,
+                ]);
+        }
 
         try {
 

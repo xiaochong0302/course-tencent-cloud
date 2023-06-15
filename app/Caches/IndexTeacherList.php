@@ -14,7 +14,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class IndexTeacherList extends Cache
 {
 
-    protected $lifetime = 1 * 3600;
+    protected $lifetime = 3600;
 
     public function getLifetime()
     {

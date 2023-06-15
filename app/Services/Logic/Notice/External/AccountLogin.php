@@ -9,7 +9,6 @@ namespace App\Services\Logic\Notice\External;
 
 use App\Models\Task as TaskModel;
 use App\Models\User as UserModel;
-use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Logic\Notice\External\WeChat\AccountLogin as WeChatAccountLoginNotice;
 use App\Services\Logic\Service as LogicService;
 use App\Traits\Client as ClientTrait;
@@ -23,19 +22,11 @@ class AccountLogin extends LogicService
     {
         $wechatNoticeEnabled = $this->wechatNoticeEnabled();
 
-        if (!$wechatNoticeEnabled) return;
-
         $params = $task->item_info;
 
-        $userId = $task->item_info['user']['id'];
-
-        $subscribeRepo = new WeChatSubscribeRepo();
-
-        $subscribe = $subscribeRepo->findByUserId($userId);
-
-        if ($subscribe) {
+        if ($wechatNoticeEnabled) {
             $notice = new WeChatAccountLoginNotice();
-            $notice->handle($subscribe, $params);
+            $notice->handle($params);
         }
     }
 

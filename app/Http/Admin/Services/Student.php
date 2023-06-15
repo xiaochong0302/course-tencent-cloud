@@ -20,7 +20,7 @@ use App\Validators\CourseUser as CourseUserValidator;
 class Student extends Service
 {
 
-    public function getXmCourses($scope = 'all')
+    public function getXmCourses($scope = 'all', $courseId = 0)
     {
         $courseRepo = new CourseRepo();
 
@@ -46,6 +46,7 @@ class Student extends Service
             $result[] = [
                 'name' => sprintf('%s - %s（¥%0.2f）', $item->id, $item->title, $item->market_price),
                 'value' => $item->id,
+                'selected' => $item->id == $courseId,
             ];
         }
 

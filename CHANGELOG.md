@@ -1,4 +1,19 @@
+### [v1.6.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.3)(2023-06-15)
+
+- 增加推荐课程等Widget
+- 更新Composer包
+- 修正验证空口令问题
+- 优化订单确认页样式
+- 优化课程等Me相关信息
+- 优化分享URL
+- 优化用户课程查找
+- 优化通知相关
+- 优化Providers
+- 优化课程章节权限
+- 优化钉钉机器人
+
 ### [v1.6.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.3)(2023-05-08)
+
 - 强化文章|提问|课程列表参数检查
 - 优化HtmlPurifier内容过滤
 - 优化排序条件和分页重复问题

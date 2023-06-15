@@ -12,7 +12,7 @@ use App\Repos\Article as ArticleRepo;
 class Article extends Cache
 {
 
-    protected $lifetime = 1 * 86400;
+    protected $lifetime = 86400;
 
     public function getLifetime()
     {

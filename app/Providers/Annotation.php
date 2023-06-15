@@ -26,15 +26,19 @@ class Annotation extends Provider
         $this->di->setShared($this->serviceName, function () use ($config) {
 
             if ($config->get('env') == ENV_DEV) {
+
                 $annotations = new MemoryAnnotations();
+
             } else {
+
                 $statsKey = '_ANNOTATION_';
+
                 $annotations = new RedisAnnotations([
                     'host' => $config->path('redis.host'),
                     'port' => $config->path('redis.port'),
                     'auth' => $config->path('redis.auth'),
-                    'index' => $config->path('redis.index') ?: 0,
-                    'lifetime' => $config->path('annotation.lifetime') ?: 30 * 86400,
+                    'index' => $config->path('redis.index'),
+                    'lifetime' => $config->path('annotation.lifetime'),
                     'prefix' => $statsKey . ':',
                     'statsKey' => $statsKey,
                 ]);

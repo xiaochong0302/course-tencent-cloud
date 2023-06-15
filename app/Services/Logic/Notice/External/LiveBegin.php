@@ -13,7 +13,6 @@ use App\Models\Task as TaskModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\User as UserRepo;
-use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Logic\Notice\External\Sms\LiveBegin as SmsLiveBeginNotice;
 use App\Services\Logic\Notice\External\WeChat\LiveBegin as WeChatLiveBeginNotice;
 use App\Services\Logic\Service as LogicService;
@@ -25,8 +24,6 @@ class LiveBegin extends LogicService
     {
         $wechatNoticeEnabled = $this->wechatNoticeEnabled();
         $smsNoticeEnabled = $this->smsNoticeEnabled();
-
-        if (!$wechatNoticeEnabled && !$smsNoticeEnabled) return;
 
         $courseUser = $task->item_info['course_user'];
         $chapterId = $task->item_info['chapter']['id'];
@@ -60,21 +57,16 @@ class LiveBegin extends LogicService
                 'start_time' => $chapter->attrs['start_time'],
                 'end_time' => $chapter->attrs['end_time'],
             ],
-            'course_user' => $courseUser,
         ];
 
-        $subscribeRepo = new WeChatSubscribeRepo();
-
-        $subscribe = $subscribeRepo->findByUserId($user->id);
-
-        if ($wechatNoticeEnabled && $subscribe) {
+        if ($wechatNoticeEnabled) {
             $notice = new WeChatLiveBeginNotice();
-            $notice->handle($subscribe, $params);
+            $notice->handle($params);
         }
 
         if ($smsNoticeEnabled) {
             $notice = new SmsLiveBeginNotice();
-            $notice->handle($user, $params);
+            $notice->handle($params);
         }
     }
 
@@ -91,8 +83,6 @@ class LiveBegin extends LogicService
             'course_user' => [
                 'course_id' => $courseUser->course_id,
                 'user_id' => $courseUser->user_id,
-                'role_type' => $courseUser->role_type,
-                'source_type' => $courseUser->role_type,
             ],
             'chapter' => [
                 'id' => $chapter->id,
