@@ -12,7 +12,6 @@ use App\Models\Task as TaskModel;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\User as UserRepo;
-use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Logic\Notice\External\Sms\ConsultReply as SmsConsultReplyNotice;
 use App\Services\Logic\Notice\External\WeChat\ConsultReply as WeChatConsultReplyNotice;
 use App\Services\Logic\Service as LogicService;
@@ -24,8 +23,6 @@ class ConsultReply extends LogicService
     {
         $wechatNoticeEnabled = $this->wechatNoticeEnabled();
         $smsNoticeEnabled = $this->smsNoticeEnabled();
-
-        if (!$wechatNoticeEnabled && !$smsNoticeEnabled) return;
 
         $consultId = $task->item_info['consult']['id'];
 
@@ -65,18 +62,14 @@ class ConsultReply extends LogicService
             ],
         ];
 
-        $subscribeRepo = new WeChatSubscribeRepo();
-
-        $subscribe = $subscribeRepo->findByUserId($consult->owner_id);
-
-        if ($wechatNoticeEnabled && $subscribe) {
+        if ($wechatNoticeEnabled) {
             $notice = new WeChatConsultReplyNotice();
-            $notice->handle($subscribe, $params);
+            $notice->handle($params);
         }
 
         if ($smsNoticeEnabled) {
             $notice = new SmsConsultReplyNotice();
-            $notice->handle($user, $params);
+            $notice->handle($params);
         }
     }
 

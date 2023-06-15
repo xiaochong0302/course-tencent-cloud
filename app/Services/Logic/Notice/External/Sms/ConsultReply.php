@@ -7,7 +7,6 @@
 
 namespace App\Services\Logic\Notice\External\Sms;
 
-use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Services\Smser;
 
@@ -17,15 +16,14 @@ class ConsultReply extends Smser
     protected $templateCode = 'consult_reply';
 
     /**
-     * @param UserModel $user
      * @param array $params
      * @return bool|null
      */
-    public function handle(UserModel $user, array $params)
+    public function handle(array $params)
     {
         $accountRepo = new AccountRepo();
 
-        $account = $accountRepo->findById($user->id);
+        $account = $accountRepo->findById($params['user']['id']);
 
         if (!$account->phone) return null;
 

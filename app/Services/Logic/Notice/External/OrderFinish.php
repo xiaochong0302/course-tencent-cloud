@@ -11,7 +11,6 @@ use App\Models\Order as OrderModel;
 use App\Models\Task as TaskModel;
 use App\Repos\Order as OrderRepo;
 use App\Repos\User as UserRepo;
-use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\Logic\Notice\External\Sms\OrderFinish as SmsOrderFinishNotice;
 use App\Services\Logic\Notice\External\WeChat\OrderFinish as WeChatOrderFinishNotice;
 use App\Services\Logic\Service as LogicService;
@@ -23,8 +22,6 @@ class OrderFinish extends LogicService
     {
         $wechatNoticeEnabled = $this->wechatNoticeEnabled();
         $smsNoticeEnabled = $this->smsNoticeEnabled();
-
-        if (!$wechatNoticeEnabled && !$smsNoticeEnabled) return;
 
         $orderId = $task->item_info['order']['id'];
 
@@ -50,18 +47,14 @@ class OrderFinish extends LogicService
             ],
         ];
 
-        $subscribeRepo = new WeChatSubscribeRepo();
-
-        $subscribe = $subscribeRepo->findByUserId($order->owner_id);
-
-        if ($wechatNoticeEnabled && $subscribe) {
+        if ($wechatNoticeEnabled) {
             $notice = new WeChatOrderFinishNotice();
-            $notice->handle($subscribe, $params);
+            $notice->handle($params);
         }
 
         if ($smsNoticeEnabled) {
             $notice = new SmsOrderFinishNotice();
-            $notice->handle($user, $params);
+            $notice->handle($params);
         }
     }
 

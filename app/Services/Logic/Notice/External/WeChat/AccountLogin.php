@@ -7,7 +7,7 @@
 
 namespace App\Services\Logic\Notice\External\WeChat;
 
-use App\Models\WeChatSubscribe as WeChatSubscribeModel;
+use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\WeChatNotice;
 
 class AccountLogin extends WeChatNotice
@@ -16,12 +16,17 @@ class AccountLogin extends WeChatNotice
     protected $templateCode = 'account_login';
 
     /**
-     * @param WeChatSubscribeModel $subscribe
      * @param array $params
-     * @return bool
+     * @return bool|null
      */
-    public function handle(WeChatSubscribeModel $subscribe, array $params)
+    public function handle(array $params)
     {
+        $subscribeRepo = new WeChatSubscribeRepo();
+
+        $subscribe = $subscribeRepo->findByUserId($params['user']['id']);
+
+        if (!$subscribe) return null;
+
         $first = '你好，登录系统成功！';
         $remark = '如果非本人操作，请立即修改密码哦！';
 

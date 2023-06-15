@@ -7,7 +7,7 @@
 
 namespace App\Services\Logic\Notice\External\WeChat;
 
-use App\Models\WeChatSubscribe as WeChatSubscribeModel;
+use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\WeChatNotice;
 
 class LiveBegin extends WeChatNotice
@@ -16,12 +16,17 @@ class LiveBegin extends WeChatNotice
     protected $templateCode = 'live_begin';
 
     /**
-     * @param WeChatSubscribeModel $subscribe
      * @param array $params
-     * @return bool
+     * @return bool|null
      */
-    public function handle(WeChatSubscribeModel $subscribe, array $params)
+    public function handle(array $params)
     {
+        $subscribeRepo = new WeChatSubscribeRepo();
+
+        $subscribe = $subscribeRepo->findByUserId($params['user']['id']);
+
+        if (!$subscribe) return null;
+
         $first = '你参与的课程直播就要开始了！';
 
         $startTime = date('H:i', $params['live']['start_time']);

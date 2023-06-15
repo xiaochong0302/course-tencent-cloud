@@ -7,7 +7,6 @@
 
 namespace App\Services\Logic\Notice\External\Sms;
 
-use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Services\Smser;
 
@@ -17,21 +16,20 @@ class GoodsDeliver extends Smser
     protected $templateCode = 'goods_deliver';
 
     /**
-     * @param UserModel $user
      * @param array $params
      * @return bool|null
      */
-    public function handle(UserModel $user, array $params)
+    public function handle(array $params)
     {
-        $params['deliver_time'] = date('Y-m-d H:i', $params['deliver_time']);
-
         $accountRepo = new AccountRepo();
 
-        $account = $accountRepo->findById($user->id);
+        $account = $accountRepo->findById($params['user']['id']);
 
         if (!$account->phone) return null;
 
         $templateId = $this->getTemplateId($this->templateCode);
+
+        $params['deliver_time'] = date('Y-m-d H:i', $params['deliver_time']);
 
         $params = [
             $params['goods_name'],

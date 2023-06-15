@@ -7,7 +7,6 @@
 
 namespace App\Services\Logic\Notice\External\Sms;
 
-use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Services\Smser;
 
@@ -17,19 +16,18 @@ class LiveBegin extends Smser
     protected $templateCode = 'live_begin';
 
     /**
-     * @param UserModel $user
      * @param array $params
      * @return bool|null
      */
-    public function handle(UserModel $user, array $params)
+    public function handle(array $params)
     {
-        $params['live']['start_time'] = date('H:i', $params['live']['start_time']);
-
         $accountRepo = new AccountRepo();
 
-        $account = $accountRepo->findById($user->id);
+        $account = $accountRepo->findById($params['user']['id']);
 
         if (!$account->phone) return null;
+
+        $params['live']['start_time'] = date('H:i', $params['live']['start_time']);
 
         $params = [
             $params['course']['title'],
