@@ -16,7 +16,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">Webhook</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="app_token" value="{{ robot.webhook_url }}" lay-verify="required">
+                <input class="layui-input" type="text" name="webhook_url" value="{{ robot.webhook_url }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
