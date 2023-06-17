@@ -131,7 +131,7 @@ class Setting extends Service
          * demo分支过滤敏感数据，100001帐号除外
          */
         if ($items->count() > 0) {
-            $pattern = '/(id|auth|key|secret|token|password|pwd|mobile|phone|mail|email)$/';
+            $pattern = '/(id|auth|key|secret|token|password|pwd|mobile|phone|mail|email|hook)$/';
             $controllerName = $this->dispatcher->getControllerName();
             foreach ($items as $item) {
                 $case1 = preg_match($pattern, $item->item_key);
