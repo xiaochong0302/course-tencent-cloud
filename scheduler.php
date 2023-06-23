@@ -51,26 +51,20 @@ $scheduler->php($script, $bin, ['--task' => 'refund', '--action' => 'main'])
 $scheduler->php($script, $bin, ['--task' => 'sync_course_index', '--action' => 'main'])
     ->hourly(11);
 
-$scheduler->php($script, $bin, ['--task' => 'sync_group_index', '--action' => 'main'])
-    ->hourly(17);
-
-$scheduler->php($script, $bin, ['--task' => 'sync_user_index', '--action' => 'main'])
-    ->hourly(23);
-
 $scheduler->php($script, $bin, ['--task' => 'sync_article_index', '--action' => 'main'])
-    ->hourly(27);
+    ->hourly(13);
 
 $scheduler->php($script, $bin, ['--task' => 'sync_question_index', '--action' => 'main'])
-    ->hourly(29);
+    ->hourly(17);
 
 $scheduler->php($script, $bin, ['--task' => 'sync_course_score', '--action' => 'main'])
-    ->hourly(31);
+    ->hourly(19);
 
 $scheduler->php($script, $bin, ['--task' => 'sync_article_score', '--action' => 'main'])
-    ->hourly(33);
+    ->hourly(23);
 
 $scheduler->php($script, $bin, ['--task' => 'sync_question_score', '--action' => 'main'])
-    ->hourly(37);
+    ->hourly(29);
 
 $scheduler->php($script, $bin, ['--task' => 'clean_log', '--action' => 'main'])
     ->daily(3, 3);
