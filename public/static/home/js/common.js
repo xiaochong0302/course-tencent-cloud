@@ -1,8 +1,4 @@
-layui.config({
-    layimPath: '/static/lib/layui/extends/layim/',
-    layimAssetsPath: '/static/lib/layui/extends/layim/assets/',
-}).extend({
-    layim: layui.cache.layimPath + 'layim',
+layui.extend({
     layarea: '/static/lib/layui/extends/layarea',
     helper: '/static/lib/layui/extends/helper',
 });
