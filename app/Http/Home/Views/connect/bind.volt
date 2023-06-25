@@ -31,7 +31,6 @@
 
 {% block include_js %}
 
-    {{ js_include('https://ssl.captcha.qq.com/TCaptcha.js',false) }}
     {{ js_include('home/js/connect.bind.js') }}
     {{ js_include('home/js/captcha.verify.js') }}
 

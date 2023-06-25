@@ -1,4 +1,10 @@
-### [v1.6.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.3)(2023-06-15)
+### [v1.6.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.5)(2023-07-15)
+
+- 升级layui-v2.8.8
+- 使用本地图像验证码
+- 清理无用的计划任务
+
+### [v1.6.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.4)(2023-06-15)
 
 - 增加推荐课程等Widget
 - 更新Composer包

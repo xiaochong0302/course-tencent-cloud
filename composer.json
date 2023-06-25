@@ -5,6 +5,7 @@
     "ext-pdo": "*",
     "ext-json": "*",
     "ext-fileinfo": "*",
+    "ext-gd": "*",
     "phalcon/incubator": "^3.4",
     "guzzlehttp/guzzle": "^6.5",
     "swiftmailer/swiftmailer": "^6.0",
