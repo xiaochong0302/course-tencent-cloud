@@ -7,40 +7,22 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Services\Logic\Verify\MailCode as MailCodeService;
-use App\Services\Logic\Verify\SmsCode as SmsCodeService;
 use App\Traits\Response as ResponseTrait;
 
 /**
  * @RoutePrefix("/verify")
  */
-class VerifyController extends \Phalcon\Mvc\Controller
+class VerifyController extends Controller
 {
 
     use ResponseTrait;
 
     /**
-     * @Post("/sms/code", name="home.verify.sms_code")
+     * @Get("/captcha", name="home.verify.captcha")
      */
-    public function smsCodeAction()
+    public function captchaAction()
     {
-        $service = new SmsCodeService();
-
-        $service->handle();
-
-        return $this->jsonSuccess();
-    }
-
-    /**
-     * @Post("/mail/code", name="home.verify.mail_code")
-     */
-    public function mailCodeAction()
-    {
-        $service = new MailCodeService();
-
-        $service->handle();
-
-        return $this->jsonSuccess();
+        $this->view->pick('verify/captcha');
     }
 
 }

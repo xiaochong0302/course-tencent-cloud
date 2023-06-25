@@ -2,11 +2,11 @@
     <form class="layui-form account-form" method="POST" action="{{ action_url }}">
         <div class="layui-form-item">
             <label class="layui-icon layui-icon-cellphone"></label>
-            <input id="cv-phone" class="layui-input" type="text" name="phone" autocomplete="off" placeholder="手机" lay-verify="phone">
+            <input id="cv-phone" class="layui-input" type="text" name="phone" autocomplete="off" placeholder="手机" lay-verify="required|phone">
         </div>
         <div class="layui-form-item">
             <label class="layui-icon layui-icon-password"></label>
-            <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码（字母数字特殊字符6-16位）" lay-verify="required">
+            <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
         </div>
         <div class="layui-form-item">
             <div class="layui-input-inline verify-input-inline">
@@ -20,7 +20,7 @@
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <div class="agree">
-                    <div class="left"><input id="cv-phone-agree" type="checkbox" name="agree" lay-skin="primary"></div>
+                    <div class="left"><input id="cv-phone-agree" type="checkbox" name="agree" checked="checked" lay-skin="primary"></div>
                     <div class="right">我已阅读并同意<a href="{{ terms_url }}" target="_blank">《用户协议》</a>和<a href="{{ privacy_url }}" target="_blank">《隐私政策》</a></div>
                 </div>
             </div>
@@ -28,11 +28,9 @@
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button id="cv-phone-submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" disabled="disabled" lay-submit="true" lay-filter="go">注册帐号</button>
-                <input type="hidden" name="return_url" value="{{ return_url }}">
-                <input id="cv-phone-captcha-enabled" type="hidden" value="{{ captcha.enabled }}">
-                <input id="cv-phone-captcha-appId" type="hidden" value="{{ captcha.app_id }}">
                 <input id="cv-phone-captcha-ticket" type="hidden" name="captcha[ticket]">
                 <input id="cv-phone-captcha-rand" type="hidden" name="captcha[rand]">
+                <input type="hidden" name="return_url" value="{{ return_url }}">
             </div>
         </div>
     </form>

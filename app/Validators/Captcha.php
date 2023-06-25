@@ -8,16 +8,16 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Services\Captcha as CaptchaService;
+use App\Library\Captcha as ImageCaptcha;
 
 class Captcha extends Validator
 {
 
     public function checkCode($ticket, $rand)
     {
-        $service = new CaptchaService();
+        $captcha = new ImageCaptcha();
 
-        $result = $service->verify($ticket, $rand);
+        $result = $captcha->check($ticket, $rand);
 
         if (!$result) {
             throw new BadRequestException('captcha.invalid_code');

@@ -44,8 +44,6 @@
 
 {% block include_js %}
 
-    {{ js_include('https://ssl.captcha.qq.com/TCaptcha.js',false) }}
-    {{ js_include('home/js/captcha.login.js') }}
     {{ js_include('home/js/captcha.verify.js') }}
 
 {% endblock %}

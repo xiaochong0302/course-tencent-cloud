@@ -15,6 +15,9 @@ use App\Services\Logic\Account\PasswordReset as PasswordResetService;
 use App\Services\Logic\Account\PasswordUpdate as PasswordUpdateService;
 use App\Services\Logic\Account\PhoneUpdate as PhoneUpdateService;
 
+/**
+ * @RoutePrefix("/account")
+ */
 class AccountController extends Controller
 {
 
@@ -40,15 +43,10 @@ class AccountController extends Controller
 
         $oauthProvider = $service->handle();
 
-        $service = new AccountService();
-
-        $captcha = $service->getSettings('captcha');
-
         $this->seo->prependTitle('用户注册');
 
         $this->view->setVar('return_url', $returnUrl);
         $this->view->setVar('local_oauth', $oauthProvider['local']);
-        $this->view->setVar('captcha', $captcha);
     }
 
     /**
@@ -67,10 +65,6 @@ class AccountController extends Controller
             return $this->response->redirect('/');
         }
 
-        $service = new AccountService();
-
-        $captcha = $service->getSettings('captcha');
-
         $service = new OAuthProviderService();
 
         $oauthProvider = $service->handle();
@@ -81,7 +75,6 @@ class AccountController extends Controller
 
         $this->view->setVar('oauth_provider', $oauthProvider);
         $this->view->setVar('return_url', $returnUrl);
-        $this->view->setVar('captcha', $captcha);
     }
 
     /**
@@ -112,13 +105,7 @@ class AccountController extends Controller
             return $this->response->redirect(['for' => 'home.index']);
         }
 
-        $service = new AccountService();
-
-        $captcha = $service->getSettings('captcha');
-
         $this->seo->prependTitle('重置密码');
-
-        $this->view->setVar('captcha', $captcha);
     }
 
     /**
