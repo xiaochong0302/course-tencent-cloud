@@ -258,7 +258,7 @@ class Order extends Model
 
         if (!$order) return $sn;
 
-        $this->getOrderSn();
+        return $this->getOrderSn();
     }
 
 }
