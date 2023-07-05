@@ -1201,12 +1201,6 @@ class AuthNode extends Service
                             'route' => 'admin.setting.sms',
                         ],
                         [
-                            'id' => '5-2-3',
-                            'title' => '验证码设置',
-                            'type' => 'menu',
-                            'route' => 'admin.setting.captcha',
-                        ],
-                        [
                             'id' => '5-2-4',
                             'title' => '存储设置',
                             'type' => 'menu',

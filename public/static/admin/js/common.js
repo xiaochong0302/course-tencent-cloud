@@ -1,7 +1,6 @@
-layui.config({
-    base: '/static/lib/layui/extends/'
-}).extend({
-    kgDropdown: 'kg-dropdown'
+layui.extend({
+    kgDropdown: '/static/lib/layui/extends/kg-dropdown',
+    helper: '/static/lib/layui/extends/helper',
 });
 
 layui.use(['jquery', 'form', 'element', 'layer', 'kgDropdown'], function () {

@@ -7,7 +7,7 @@
 
 namespace App\Services\Logic\Notice\External\WeChat;
 
-use App\Models\WeChatSubscribe as WeChatSubscribeModel;
+use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\WeChatNotice;
 
 class GoodsDeliver extends WeChatNotice
@@ -16,12 +16,16 @@ class GoodsDeliver extends WeChatNotice
     protected $templateCode = 'goods_deliver';
 
     /**
-     * @param WeChatSubscribeModel $subscribe
      * @param array $params
-     * @return bool
+     * @return bool|null
      */
-    public function handle(WeChatSubscribeModel $subscribe, $params)
+    public function handle($params)
     {
+        $subscribeRepo = new WeChatSubscribeRepo();
+
+        $subscribe = $subscribeRepo->findByUserId($params['user']['id']);
+
+        if (!$subscribe) return null;
 
         $first = '发货已处理完成！';
         $remark = '感谢您的支持，有疑问请联系客服哦！';

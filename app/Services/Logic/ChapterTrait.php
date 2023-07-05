@@ -69,6 +69,8 @@ trait ChapterTrait
 
     public function setChapterUser(ChapterModel $chapter, UserModel $user)
     {
+        if ($user->id == 0) return;
+
         $chapterUser = null;
 
         /**
@@ -76,7 +78,7 @@ trait ChapterTrait
          */
         $courseUser = $this->courseUser;
 
-        if ($user->id > 0 && $courseUser) {
+        if ($courseUser) {
             $chapterUserRepo = new ChapterUserRepo();
             $chapterUser = $chapterUserRepo->findPlanChapterUser($chapter->id, $user->id, $courseUser->plan_id);
         }

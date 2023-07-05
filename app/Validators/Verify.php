@@ -45,6 +45,10 @@ class Verify extends Validator
 
     public function checkSmsCode($phone, $code)
     {
+        if (empty($code)) {
+            throw new BadRequestException('verify.invalid_sms_code');
+        }
+
         $service = new VerifyService();
 
         $result = $service->checkSmsCode($phone, $code);
@@ -56,36 +60,16 @@ class Verify extends Validator
 
     public function checkMailCode($email, $code)
     {
+        if (empty($code)) {
+            throw new BadRequestException('verify.invalid_mail_code');
+        }
+
         $service = new VerifyService();
 
         $result = $service->checkMailCode($email, $code);
 
         if (!$result) {
             throw new BadRequestException('verify.invalid_mail_code');
-        }
-    }
-
-    public function checkRand($rand)
-    {
-        list($time, $number) = explode('-', $rand);
-
-        if (abs($time - time()) > 300) {
-            throw new BadRequestException('verify.invalid_rand');
-        }
-
-        if ($number < 1000 || $number > 9999) {
-            throw new BadRequestException('verify.invalid_rand');
-        }
-
-        return $rand;
-    }
-
-    public function checkTicket($ticket, $rand)
-    {
-        $ticket = $this->crypt->decrypt($ticket);
-
-        if ($ticket != $rand) {
-            throw new BadRequestException('verify.invalid_ticket');
         }
     }
 

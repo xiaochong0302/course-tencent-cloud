@@ -21,20 +21,15 @@ class MailCode extends LogicService
 
         $validator = new VerifyValidator();
 
-        $post['email'] = $validator->checkEmail($post['email']);
+        $email = $validator->checkEmail($post['email']);
 
-        $captcha = $this->getSettings('captcha');
+        $validator = new CaptchaValidator();
 
-        if ($captcha['enabled'] == 1) {
-
-            $validator = new CaptchaValidator();
-
-            $validator->checkCode($post['captcha']['ticket'], $post['captcha']['rand']);
-        }
+        $validator->checkCode($post['ticket'], $post['rand']);
 
         $service = new MailVerifyService();
 
-        $service->handle($post['email']);
+        $service->handle($email);
     }
 
 }

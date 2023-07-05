@@ -21,20 +21,15 @@ class SmsCode extends LogicService
 
         $validator = new VerifyValidator();
 
-        $post['phone'] = $validator->checkPhone($post['phone']);
+        $phone = $validator->checkPhone($post['phone']);
 
-        $captcha = $this->getSettings('captcha');
+        $validator = new CaptchaValidator();
 
-        if ($captcha['enabled'] == 1) {
-
-            $validator = new CaptchaValidator();
-
-            $validator->checkCode($post['captcha']['ticket'], $post['captcha']['rand']);
-        }
+        $validator->checkCode($post['ticket'], $post['rand']);
 
         $service = new SmsVerifyService();
 
-        $service->handle($post['phone']);
+        $service->handle($phone);
     }
 
 }

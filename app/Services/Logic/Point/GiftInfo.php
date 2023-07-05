@@ -68,9 +68,16 @@ class GiftInfo extends LogicService
 
     protected function handleMeInfo(PointGift $gift)
     {
-        $me = ['allow_redeem' => 0];
+        $me = [
+            'allow_redeem' => 0,
+            'logged' => 0,
+        ];
 
         $user = $this->getLoginUser(true);
+
+        if ($user->id == 0) return $me;
+
+        $me['logged'] = 1;
 
         $userRepo = new UserRepo();
 

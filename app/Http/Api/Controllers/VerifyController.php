@@ -7,9 +7,10 @@
 
 namespace App\Http\Api\Controllers;
 
-use App\Services\Logic\Verify\MailCode as MailCodeService;
-use App\Services\Logic\Verify\SmsCode as SmsCodeService;
-use App\Services\Logic\Verify\Ticket as TicketService;
+use App\Services\Logic\Verify\Captcha as VerifyCaptchaService;
+use App\Services\Logic\Verify\Code as VerifyCodeService;
+use App\Services\Logic\Verify\MailCode as VerifyMailCodeService;
+use App\Services\Logic\Verify\SmsCode as VerifySmsCodeService;
 
 /**
  * @RoutePrefix("/api/verify")
@@ -18,15 +19,27 @@ class VerifyController extends Controller
 {
 
     /**
-     * @Post("/ticket", name="api.verify.ticket")
+     * @Get("/captcha", name="api.verify.captcha")
      */
-    public function ticketAction()
+    public function captchaAction()
     {
-        $service = new TicketService();
+        $service = new VerifyCaptchaService();
 
-        $ticket = $service->handle();
+        $captcha = $service->handle();
 
-        return $this->jsonSuccess(['ticket' => $ticket]);
+        return $this->jsonSuccess(['captcha' => $captcha]);
+    }
+
+    /**
+     * @Post("/code", name="api.verify.code")
+     */
+    public function codeAction()
+    {
+        $service = new VerifyCodeService();
+
+        $service->handle();
+
+        return $this->jsonSuccess();
     }
 
     /**
@@ -34,7 +47,7 @@ class VerifyController extends Controller
      */
     public function smsCodeAction()
     {
-        $service = new SmsCodeService();
+        $service = new VerifySmsCodeService();
 
         $service->handle();
 
@@ -46,7 +59,7 @@ class VerifyController extends Controller
      */
     public function mailCodeAction()
     {
-        $service = new MailCodeService();
+        $service = new VerifyMailCodeService();
 
         $service->handle();
 

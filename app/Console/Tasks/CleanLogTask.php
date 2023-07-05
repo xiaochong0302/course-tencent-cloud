@@ -19,7 +19,6 @@ class CleanLogTask extends Task
         $this->cleanHttpLog();
         $this->cleanSqlLog();
         $this->cleanListenLog();
-        $this->cleanCaptchaLog();
         $this->cleanWeChatLog();
         $this->cleanMailLog();
         $this->cleanSmsLog();
@@ -90,18 +89,6 @@ class CleanLogTask extends Task
     protected function cleanListenLog()
     {
         $type = 'listen';
-
-        $this->cleanLog($type, 7);
-
-        $this->whitelist[] = $type;
-    }
-
-    /**
-     * 清理验证码服务日志
-     */
-    protected function cleanCaptchaLog()
-    {
-        $type = 'captcha';
 
         $this->cleanLog($type, 7);
 
@@ -268,13 +255,12 @@ class CleanLogTask extends Task
      * 清理其它日志
      *
      * @param int $keepDays
-     * @return mixed
      */
     protected function cleanOtherLog($keepDays = 7)
     {
         $files = glob(log_path() . "/*.log");
 
-        if (!$files) return false;
+        if (!$files) return;
 
         foreach ($files as $file) {
             $name = str_replace(log_path() . '/', '', $file);
@@ -287,9 +273,9 @@ class CleanLogTask extends Task
             if (strtotime($today) - strtotime($date) >= $keepDays * 86400) {
                 $deleted = unlink($file);
                 if ($deleted) {
-                    echo "delete {$file} success" . PHP_EOL;
+                    $this->successPrint("remove {$file} success");
                 } else {
-                    echo "delete {$file} failed" . PHP_EOL;
+                    $this->errorPrint("remove {$file} failed");
                 }
             }
         }
@@ -300,13 +286,12 @@ class CleanLogTask extends Task
      *
      * @param string $prefix
      * @param int $keepDays 保留天数
-     * @return mixed
      */
     protected function cleanLog($prefix, $keepDays)
     {
         $files = glob(log_path() . "/{$prefix}-*.log");
 
-        if (!$files) return false;
+        if (!$files) return;
 
         foreach ($files as $file) {
             $date = substr($file, -14, 10);
@@ -314,9 +299,9 @@ class CleanLogTask extends Task
             if (strtotime($today) - strtotime($date) >= $keepDays * 86400) {
                 $deleted = unlink($file);
                 if ($deleted) {
-                    echo "------ delete {$file} success ------" . PHP_EOL;
+                    $this->successPrint("remove {$file} success");
                 } else {
-                    echo "------ delete {$file} failed -------" . PHP_EOL;
+                    $this->errorPrint("remove {$file} failed");
                 }
             }
         }

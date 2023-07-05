@@ -33,7 +33,12 @@ class EmailUpdate extends LogicService
             $accountValidator->checkIfEmailTaken($post['email']);
         }
 
-        $accountValidator->checkLoginPassword($account, $post['login_password']);
+        /**
+         * 未设置过密码不检查原密码
+         */
+        if (!empty($account->password)) {
+            $accountValidator->checkLoginPassword($account, $post['login_password']);
+        }
 
         $verifyValidator = new VerifyValidator();
 

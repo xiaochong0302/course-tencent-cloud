@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {% set share_url = share_url('chapter',chapter.id,auth_user.id) %}
+    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
     {% set course_url = url({'for':'home.course.show','id':chapter.course.id}) %}
     {% set learning_url = url({'for':'home.chapter.learning','id':chapter.id}) %}
 
@@ -46,9 +48,6 @@
         <input type="hidden" name="chapter.learning_url" value="{{ learning_url }}">
         <input type="hidden" name="chapter.play_urls" value='{{ chapter.play_urls|json_encode }}'>
     </div>
-
-    {% set share_url = full_url({'for':'home.share'},{'id':chapter.id,'type':'chapter'}) %}
-    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
 
     <div class="layui-hide">
         <input type="hidden" name="share.title" value="{{ chapter.course.title }}">

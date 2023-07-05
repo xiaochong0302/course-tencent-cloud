@@ -8,7 +8,6 @@
 namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\FullH5Url as FullH5UrlService;
-use App\Http\Home\Services\Index as IndexService;
 use App\Services\Logic\Help\HelpInfo as HelpInfoService;
 use App\Services\Logic\Help\HelpList as HelpListService;
 
@@ -63,19 +62,9 @@ class HelpController extends Controller
             $this->notFound();
         }
 
-        $featuredCourses = $this->getFeaturedCourses();
-
         $this->seo->prependTitle(['帮助', $help['title']]);
 
         $this->view->setVar('help', $help);
-        $this->view->setVar('featured_courses', $featuredCourses);
-    }
-
-    protected function getFeaturedCourses()
-    {
-        $service = new IndexService();
-
-        return $service->getSimpleFeaturedCourses();
     }
 
 }

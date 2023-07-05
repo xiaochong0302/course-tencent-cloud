@@ -90,6 +90,7 @@ class ConsultInfo extends LogicService
     protected function handleMeInfo(ConsultModel $consult, UserModel $user)
     {
         $me = [
+            'logged' => 0,
             'liked' => 0,
             'owned' => 0,
         ];
@@ -99,6 +100,8 @@ class ConsultInfo extends LogicService
         }
 
         if ($user->id > 0) {
+
+            $me['logged'] = 1;
 
             $likeRepo = new ConsultLikeRepo();
 

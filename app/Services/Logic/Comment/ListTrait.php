@@ -76,6 +76,7 @@ trait ListTrait
 
         foreach ($comments as $comment) {
             $result[$comment['id']] = [
+                'logged' => $user->id > 0 ? 1 : 0,
                 'liked' => in_array($comment['id'], $likedIds) ? 1 : 0,
                 'owned' => $comment['owner_id'] == $user->id ? 1 : 0,
             ];

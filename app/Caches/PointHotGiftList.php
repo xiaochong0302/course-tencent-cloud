@@ -19,7 +19,7 @@ class PointHotGiftList extends Cache
      *
      * @var int
      */
-    protected $lifetime = 1 * 86400;
+    protected $lifetime = 86400;
 
     /**
      * 显示个数

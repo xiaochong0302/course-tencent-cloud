@@ -14,15 +14,15 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">App Secret</label>
+            <label class="layui-form-label">Webhook</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="app_secret" value="{{ robot.app_secret }}" lay-verify="required">
+                <input class="layui-input" type="text" name="webhook_url" value="{{ robot.webhook_url }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">Access Token</label>
+            <label class="layui-form-label">加签密钥</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="app_token" value="{{ robot.app_token }}" lay-verify="required">
+                <input class="layui-input" type="text" name="app_secret" value="{{ robot.app_secret }}" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">

@@ -182,7 +182,7 @@ class Refund extends Model
 
         if (!$order) return $sn;
 
-        $this->getRefundSn();
+        return $this->getRefundSn();
     }
 
 }

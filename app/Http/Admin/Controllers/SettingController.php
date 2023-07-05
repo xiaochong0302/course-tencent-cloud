@@ -224,36 +224,6 @@ class SettingController extends Controller
     }
 
     /**
-     * @Route("/captcha", name="admin.setting.captcha")
-     */
-    public function captchaAction()
-    {
-        $section = 'captcha';
-
-        $settingService = new SettingService();
-
-        if ($this->request->isPost()) {
-
-            $data = $this->request->getPost();
-
-            $settingService->updateSettings($section, $data);
-
-            $content = [
-                'location' => $this->request->getHTTPReferer(),
-                'msg' => '更新配置成功',
-            ];
-
-            return $this->jsonSuccess($content);
-
-        } else {
-
-            $captcha = $settingService->getSettings($section);
-
-            $this->view->setVar('captcha', $captcha);
-        }
-    }
-
-    /**
      * @Route("/point", name="admin.setting.point")
      */
     public function pointAction()

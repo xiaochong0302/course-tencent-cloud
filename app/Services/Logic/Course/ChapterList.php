@@ -55,9 +55,10 @@ class ChapterList extends LogicService
             foreach ($chapter['children'] as &$lesson) {
                 $owned = ($this->ownedCourse || $lesson['free'] == 1) && $lesson['published'] == 1;
                 $lesson['me'] = [
-                    'owned' => $owned ? 1 : 0,
                     'progress' => $mapping[$lesson['id']]['progress'] ?? 0,
                     'duration' => $mapping[$lesson['id']]['duration'] ?? 0,
+                    'owned' => $owned ? 1 : 0,
+                    'logged' => 1,
                 ];
             }
         }
@@ -71,9 +72,10 @@ class ChapterList extends LogicService
             foreach ($chapter['children'] as &$lesson) {
                 $owned = ($this->ownedCourse || $lesson['free'] == 1) && $lesson['published'] == 1;
                 $lesson['me'] = [
-                    'owned' => $owned ? 1 : 0,
                     'progress' => 0,
                     'duration' => 0,
+                    'logged' => 0,
+                    'owned' => $owned ? 1 : 0,
                 ];
             }
         }

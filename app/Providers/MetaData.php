@@ -26,15 +26,19 @@ class MetaData extends Provider
         $this->di->setShared($this->serviceName, function () use ($config) {
 
             if ($config->get('env') == ENV_DEV) {
+
                 $metaData = new MemoryMetaData();
+
             } else {
+
                 $statsKey = '_METADATA_';
+
                 $metaData = new RedisMetaData([
                     'host' => $config->path('redis.host'),
                     'port' => $config->path('redis.port'),
                     'auth' => $config->path('redis.auth'),
-                    'index' => $config->path('redis.index') ?: 0,
-                    'lifetime' => $config->path('metadata.lifetime') ?: 30 * 86400,
+                    'index' => $config->path('redis.index'),
+                    'lifetime' => $config->path('metadata.lifetime'),
                     'prefix' => $statsKey . ':',
                     'statsKey' => $statsKey,
                 ]);

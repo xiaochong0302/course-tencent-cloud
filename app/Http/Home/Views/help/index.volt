@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {% set courses_url = url({'for':'home.widget.featured_courses'}) %}
+
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
@@ -30,25 +32,23 @@
             </div>
         </div>
         <div class="layout-sidebar">
-            <div class="layui-card cs-sidebar">
-                <div class="layui-card-header">客户服务</div>
-                <div class="layui-card-body">
-                    <p>没解决你的疑问？试试联系客服吧！</p>
-                    {% if contact_info.qq %}
-                        {% set link_url = 'https://wpa.qq.com/msgrd?v=3&uin=%s&site=qq&menu=yes'|format(contact_info.qq) %}
-                        <p class="center">
-                            <a href="{{ link_url }}" class="layui-btn layui-btn-sm">联系客服</a>
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
+            <div class="sidebar" id="course-list" data-url="{{ courses_url }}"></div>
         </div>
     </div>
 
 {% endblock %}
 
-{% block include_js %}
+{% block inline_js %}
 
-    {{ js_include('home/js/help.js') }}
+    <script>
+        layui.use(['jquery', 'helper'], function () {
+            var $ = layui.jquery;
+            var helper = layui.helper;
+            var $courseList = $('#course-list');
+            if ($courseList.length > 0) {
+                helper.ajaxLoadHtml($courseList.data('url'), $courseList.attr('id'));
+            }
+        });
+    </script>
 
 {% endblock %}

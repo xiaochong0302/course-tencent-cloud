@@ -54,6 +54,7 @@ class CommentInfo extends LogicService
     protected function handleMeInfo(CommentModel $comment, UserModel $user)
     {
         $me = [
+            'logged' => 0,
             'liked' => 0,
             'owned' => 0,
         ];
@@ -63,6 +64,8 @@ class CommentInfo extends LogicService
         }
 
         if ($user->id > 0) {
+
+            $me['logged'] = 1;
 
             $likeRepo = new AnswerLikeRepo();
 
