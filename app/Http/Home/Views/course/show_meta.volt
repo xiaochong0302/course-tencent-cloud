@@ -65,7 +65,7 @@
             <span class="key">市场价格</span>
             <span class="value price">{{ '￥%0.2f'|format(course.market_price) }}</span>
         {% else %}
-            <span class="key">优惠价格</span>
+            <span class="key">市场价格</span>
             <span class="value free">免费</span>
         {% endif %}
         {% if course.vip_price > 0 %}

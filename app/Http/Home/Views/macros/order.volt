@@ -4,7 +4,7 @@
         <div class="order-item">
             <p>课程名称：{{ course.title }}</p>
             <p>
-                <span>优惠价格：<em class="price">{{ '￥%0.2f'|format(course.market_price) }}</em></span>
+                <span>市场价格：<em class="price">{{ '￥%0.2f'|format(course.market_price) }}</em></span>
                 <span>会员价格：<em class="price">{{ '￥%0.2f'|format(course.vip_price) }}</em></span>
             </p>
             {% if course.model in [1,2,3] %}
@@ -23,7 +23,7 @@
             <div class="order-item">
                 <p>课程名称：{{ course.title }}</p>
                 <p>
-                    <span>优惠价格：{{ '￥%0.2f'|format(course.market_price) }}</span>
+                    <span>市场价格：{{ '￥%0.2f'|format(course.market_price) }}</span>
                     <span>会员价格：<em class="price">{{ '￥%0.2f'|format(course.vip_price) }}</em></span>
                 </p>
                 {% if course.model in [1,2,3] %}

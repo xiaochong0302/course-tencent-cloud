@@ -77,20 +77,6 @@ class PublicController extends Controller
     }
 
     /**
-     * @Get("/captcha/info", name="api.public.captcha_info")
-     */
-    public function captchaInfoAction()
-    {
-        $service = new AppService();
-
-        $captcha = $service->getSettings('captcha');
-
-        unset($captcha['secret_key']);
-
-        return $this->jsonSuccess(['captcha' => $captcha]);
-    }
-
-    /**
      * @Get("/payment/info", name="api.public.payment_info")
      */
     public function paymentInfoAction()

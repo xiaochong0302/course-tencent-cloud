@@ -99,7 +99,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
 
         if ($lifetime === null) {
             $tmp = $this->_lastLifetime;
-            $ttl = $tmp ? $tmp : $frontend->getLifetime();
+            $ttl = $tmp ?: $frontend->getLifetime();
         } else {
             $ttl = $lifetime;
         }
@@ -157,7 +157,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
 
         $redis = $this->getRedis();
 
-        $pattern = "{$this->_prefix}" . ($prefix ? $prefix : '') . '*';
+        $pattern = "{$this->_prefix}" . ($prefix ?: '') . '*';
 
         $redis->setOption(\Redis::OPT_SCAN, \Redis::SCAN_RETRY);
 
@@ -255,7 +255,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
      */
     public function flush(): bool
     {
-
+        return true;
     }
 
     /**

@@ -185,7 +185,7 @@ class Trade extends Model
 
         if (!$order) return $sn;
 
-        $this->getTradeSn();
+        return $this->getTradeSn();
     }
 
 }

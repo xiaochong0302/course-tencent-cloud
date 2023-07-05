@@ -2,7 +2,10 @@
 
 - 升级layui-v2.8.8
 - 使用本地图像验证码
-- 清理无用的计划任务
+- 优化计划任务脚本
+- 优化日志清理脚本
+- 优化钉钉webhook
+- 修正图文分享参数问题
 
 ### [v1.6.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.4)(2023-06-15)
 
