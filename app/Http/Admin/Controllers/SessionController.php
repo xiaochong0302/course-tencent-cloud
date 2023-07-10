@@ -34,14 +34,12 @@ class SessionController extends \Phalcon\Mvc\Controller
             return $this->response->redirect(['for' => 'admin.index']);
         }
 
-        $sessionService = new SessionService();
-
-        $captcha = $sessionService->getSettings('captcha');
-
         if ($this->request->isPost()) {
 
             $this->checkHttpReferer();
             $this->checkCsrfToken();
+
+            $sessionService = new SessionService();
 
             $sessionService->login();
 
@@ -54,7 +52,6 @@ class SessionController extends \Phalcon\Mvc\Controller
 
         $this->view->pick('public/login');
         $this->view->setVar('app_info', $appInfo);
-        $this->view->setVar('captcha', $captcha);
     }
 
     /**
