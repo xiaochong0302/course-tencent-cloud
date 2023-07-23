@@ -68,9 +68,9 @@ class Topic extends Service
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $pageRepo = new TopicRepo();
+        $topicRepo = new TopicRepo();
 
-        return $pageRepo->paginate($params, $sort, $page, $limit);
+        return $topicRepo->paginate($params, $sort, $page, $limit);
     }
 
     public function getTopic($id)
