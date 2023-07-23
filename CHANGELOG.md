@@ -1,3 +1,5 @@
+### [v1.6.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.6)(2023-08-15)
+
 ### [v1.6.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.5)(2023-07-15)
 
 - 升级layui-v2.8.8
