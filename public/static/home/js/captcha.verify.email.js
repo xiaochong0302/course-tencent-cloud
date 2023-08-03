@@ -8,7 +8,7 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     var $emit = $('#cv-email-emit-btn');
 
     $emit.on('click', function () {
-        var url = '/verify/captcha?type=mail&account=' + $account.val();
+        var url = '/verify/captcha?type=email&account=' + $account.val();
         layer.open({
             type: 2,
             title: '获取验证码',

@@ -68,10 +68,10 @@
                     parent.layui.$('#cv-phone-submit-btn').removeAttr('disabled').removeClass('layui-btn-disabled');
                     parent.layui.$('#cv-phone-captcha-ticket').val(ticket);
                     parent.layui.$('#cv-phone-captcha-rand').val(rand);
-                } else if (verify.type === 'mail') {
-                    parent.layui.$('#cv-mail-submit-btn').removeAttr('disabled').removeClass('layui-btn-disabled');
-                    parent.layui.$('#cv-mail-captcha-ticket').val(ticket);
-                    parent.layui.$('#cv-mail-captcha-rand').val(rand);
+                } else if (verify.type === 'email') {
+                    parent.layui.$('#cv-email-submit-btn').removeAttr('disabled').removeClass('layui-btn-disabled');
+                    parent.layui.$('#cv-email-captcha-ticket').val(ticket);
+                    parent.layui.$('#cv-email-captcha-rand').val(rand);
                 } else {
                     parent.layui.$('#cv-submit-btn').removeAttr('disabled').removeClass('layui-btn-disabled');
                     parent.layui.$('#cv-captcha-ticket').val(ticket);
