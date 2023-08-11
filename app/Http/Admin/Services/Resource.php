@@ -96,14 +96,6 @@ class Resource extends Service
         $course = $validator->checkCourse($resource->course_id);
         $chapter = $validator->checkChapter($resource->chapter_id);
 
-        $validator = new UploadValidator();
-
-        $upload = $validator->checkUpload($resource->upload_id);
-
-        $storageService = new StorageService();
-
-        $storageService->deleteObject($upload->path);
-
         $resource->delete();
 
         $this->recountChapterResources($chapter);
