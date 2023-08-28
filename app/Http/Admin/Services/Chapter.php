@@ -103,8 +103,9 @@ class Chapter extends Service
             $this->db->commit();
 
             $this->updateChapterStats($chapter);
-
             $this->updateCourseStat($chapter);
+            $this->rebuildCatalogCache($chapter);
+            $this->rebuildChapterCache($chapter);
 
             return $chapter;
 
@@ -160,10 +161,9 @@ class Chapter extends Service
         $chapter->update($data);
 
         $this->updateChapterStats($chapter);
-
         $this->updateCourseStat($chapter);
-
         $this->rebuildCatalogCache($chapter);
+        $this->rebuildChapterCache($chapter);
 
         return $chapter;
     }
@@ -181,10 +181,9 @@ class Chapter extends Service
         $chapter->update();
 
         $this->updateChapterStats($chapter);
-
         $this->updateCourseStat($chapter);
-
         $this->rebuildCatalogCache($chapter);
+        $this->rebuildChapterCache($chapter);
 
         return $chapter;
     }
@@ -198,12 +197,18 @@ class Chapter extends Service
         $chapter->update();
 
         $this->updateChapterStats($chapter);
-
         $this->updateCourseStat($chapter);
-
         $this->rebuildCatalogCache($chapter);
+        $this->rebuildChapterCache($chapter);
 
         return $chapter;
+    }
+
+    protected function findOrFail($id)
+    {
+        $validator = new ChapterValidator();
+
+        return $validator->checkChapter($id);
     }
 
     protected function updateChapterStats(ChapterModel $chapter)
@@ -252,13 +257,6 @@ class Chapter extends Service
         $cache = new CatalogCache();
 
         $cache->rebuild($chapter->course_id);
-    }
-
-    protected function findOrFail($id)
-    {
-        $validator = new ChapterValidator();
-
-        return $validator->checkChapter($id);
     }
 
 }

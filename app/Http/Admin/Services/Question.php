@@ -9,6 +9,7 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\QuestionList as QuestionListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
+use App\Caches\Question as QuestionCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Category as CategoryModel;
 use App\Models\Question as QuestionModel;
@@ -25,6 +26,7 @@ use App\Services\Logic\Point\History\QuestionPost as QuestionPostPointHistory;
 use App\Services\Logic\Question\QuestionDataTrait;
 use App\Services\Logic\Question\QuestionInfo as QuestionInfoService;
 use App\Services\Logic\Question\XmTagList as XmTagListService;
+use App\Services\Sync\QuestionIndex as QuestionIndexSync;
 use App\Validators\Question as QuestionValidator;
 
 class Question extends Service
@@ -134,7 +136,8 @@ class Question extends Service
         $question->create();
 
         $this->saveDynamicAttrs($question);
-
+        $this->rebuildQuestionCache($question);
+        $this->rebuildQuestionIndex($question);
         $this->recountUserQuestions($user);
 
         $this->eventsManager->fire('Question:afterCreate', $this, $question);
@@ -187,10 +190,11 @@ class Question extends Service
 
         $question->update($data);
 
-        $this->saveDynamicAttrs($question);
-
         $owner = $this->findUser($question->owner_id);
 
+        $this->saveDynamicAttrs($question);
+        $this->rebuildQuestionCache($question);
+        $this->rebuildQuestionIndex($question);
         $this->recountUserQuestions($owner);
 
         $this->eventsManager->fire('Question:afterUpdate', $this, $question);
@@ -206,10 +210,11 @@ class Question extends Service
 
         $question->update();
 
-        $this->saveDynamicAttrs($question);
-
         $owner = $this->findUser($question->owner_id);
 
+        $this->saveDynamicAttrs($question);
+        $this->rebuildQuestionCache($question);
+        $this->rebuildQuestionIndex($question);
         $this->recountUserQuestions($owner);
 
         $this->eventsManager->fire('Question:afterDelete', $this, $question);
@@ -227,6 +232,8 @@ class Question extends Service
 
         $owner = $this->findUser($question->owner_id);
 
+        $this->rebuildQuestionCache($question);
+        $this->rebuildQuestionIndex($question);
         $this->recountUserQuestions($owner);
 
         $this->eventsManager->fire('Question:afterRestore', $this, $question);
@@ -254,6 +261,8 @@ class Question extends Service
 
         $owner = $this->findUser($question->owner_id);
 
+        $this->rebuildQuestionCache($question);
+        $this->rebuildQuestionIndex($question);
         $this->recountUserQuestions($owner);
 
         $sender = $this->getLoginUser();
@@ -307,6 +316,12 @@ class Question extends Service
         }
 
         $question->update();
+
+        $owner = $this->findUser($question->owner_id);
+
+        $this->rebuildQuestionCache($question);
+        $this->rebuildQuestionIndex($question);
+        $this->recountUserQuestions($owner);
     }
 
     protected function findOrFail($id)
@@ -321,6 +336,54 @@ class Question extends Service
         $userRepo = new UserRepo();
 
         return $userRepo->findById($id);
+    }
+
+    protected function rebuildQuestionCache(QuestionModel $question)
+    {
+        $cache = new QuestionCache();
+
+        $cache->rebuild($question->id);
+    }
+
+    protected function rebuildQuestionIndex(QuestionModel $question)
+    {
+        $sync = new QuestionIndexSync();
+
+        $sync->addItem($question->id);
+    }
+
+    protected function recountUserQuestions(UserModel $user)
+    {
+        $userRepo = new UserRepo();
+
+        $questionCount = $userRepo->countQuestions($user->id);
+
+        $user->question_count = $questionCount;
+
+        $user->update();
+    }
+
+    protected function handleQuestionPostPoint(QuestionModel $question)
+    {
+        if ($question->published != QuestionModel::PUBLISH_APPROVED) return;
+
+        $service = new QuestionPostPointHistory();
+
+        $service->handle($question);
+    }
+
+    protected function handleQuestionApprovedNotice(QuestionModel $question, UserModel $sender)
+    {
+        $notice = new QuestionApprovedNotice();
+
+        $notice->handle($question, $sender);
+    }
+
+    protected function handleQuestionRejectedNotice(QuestionModel $question, UserModel $sender, $reason)
+    {
+        $notice = new QuestionRejectedNotice();
+
+        $notice->handle($question, $sender, $reason);
     }
 
     protected function handleQuestions($pager)
@@ -357,40 +420,6 @@ class Question extends Service
         }
 
         return $pager;
-    }
-
-    protected function recountUserQuestions(UserModel $user)
-    {
-        $userRepo = new UserRepo();
-
-        $questionCount = $userRepo->countQuestions($user->id);
-
-        $user->question_count = $questionCount;
-
-        $user->update();
-    }
-
-    protected function handleQuestionPostPoint(QuestionModel $question)
-    {
-        if ($question->published != QuestionModel::PUBLISH_APPROVED) return;
-
-        $service = new QuestionPostPointHistory();
-
-        $service->handle($question);
-    }
-
-    protected function handleQuestionApprovedNotice(QuestionModel $question, UserModel $sender)
-    {
-        $notice = new QuestionApprovedNotice();
-
-        $notice->handle($question, $sender);
-    }
-
-    protected function handleQuestionRejectedNotice(QuestionModel $question, UserModel $sender, $reason)
-    {
-        $notice = new QuestionRejectedNotice();
-
-        $notice->handle($question, $sender, $reason);
     }
 
 }

@@ -8,6 +8,7 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\HelpList as HelpListBuilder;
+use App\Caches\Help as HelpCache;
 use App\Caches\HelpList as HelpListCache;
 use App\Models\Category as CategoryModel;
 use App\Models\Help as HelpModel;
@@ -75,6 +76,7 @@ class Help extends Service
 
         $help->create($data);
 
+        $this->rebuildHelpCache($help);
         $this->rebuildHelpListCache();
 
         return $help;
@@ -117,6 +119,7 @@ class Help extends Service
 
         $help->update($data);
 
+        $this->rebuildHelpCache($help);
         $this->rebuildHelpListCache();
 
         return $help;
@@ -130,6 +133,7 @@ class Help extends Service
 
         $help->update();
 
+        $this->rebuildHelpCache($help);
         $this->rebuildHelpListCache();
 
         return $help;
@@ -143,16 +147,10 @@ class Help extends Service
 
         $help->update();
 
+        $this->rebuildHelpCache($help);
         $this->rebuildHelpListCache();
 
         return $help;
-    }
-
-    protected function rebuildHelpListCache()
-    {
-        $cache = new HelpListCache();
-
-        $cache->rebuild();
     }
 
     protected function findOrFail($id)
@@ -160,6 +158,20 @@ class Help extends Service
         $validator = new HelpValidator();
 
         return $validator->checkHelp($id);
+    }
+
+    protected function rebuildHelpCache(HelpModel $help)
+    {
+        $cache = new HelpCache();
+
+        $cache->rebuild($help->id);
+    }
+
+    protected function rebuildHelpListCache()
+    {
+        $cache = new HelpListCache();
+
+        $cache->rebuild();
     }
 
     /**

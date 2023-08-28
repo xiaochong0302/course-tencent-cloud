@@ -162,6 +162,13 @@ class Topic extends Service
         return $topic;
     }
 
+    protected function findOrFail($id)
+    {
+        $validator = new TopicValidator();
+
+        return $validator->checkTopic($id);
+    }
+
     protected function saveCourses(TopicModel $topic, $courseIds)
     {
         $topicRepo = new TopicRepo();
@@ -218,13 +225,6 @@ class Topic extends Service
         $cache = new TopicCache();
 
         $cache->rebuild($topic->id);
-    }
-
-    protected function findOrFail($id)
-    {
-        $validator = new TopicValidator();
-
-        return $validator->checkTopic($id);
     }
 
 }

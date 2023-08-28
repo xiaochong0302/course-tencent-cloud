@@ -7,15 +7,15 @@
             <legend>搜索用户</legend>
         </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">编号</label>
+            <label class="layui-form-label">用户帐号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="id" placeholder="编号精确匹配">
+                <input class="layui-input" type="text" name="id" placeholder="用户编号 / 手机号码 / 邮箱地址 精确匹配">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">昵称</label>
+            <label class="layui-form-label">用户昵称</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="name" placeholder="昵称模糊匹配">
+                <input class="layui-input" type="text" name="name" placeholder="用户昵称模糊匹配">
             </div>
         </div>
         <div class="layui-form-item">
