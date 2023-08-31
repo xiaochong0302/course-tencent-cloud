@@ -1,4 +1,5 @@
-{% if resources %}
+{% if resources|length > 0 %}
+    <br>
     <table class="kg-table layui-table">
         <tr>
             <th>名称</th>
@@ -16,7 +17,7 @@
                 <td>{{ item.upload.size|human_size }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td>
-                    <a class="layui-btn layui-btn-sm layui-bg-red res-btn-delete" href="javascript:" data-url="{{ delete_url }}">删除</a>
+                    <a class="layui-btn layui-btn-sm layui-btn-danger res-btn-delete" href="javascript:" data-url="{{ delete_url }}">删除</a>
                     <a class="layui-btn layui-btn-sm" href="{{ item.upload.url }}" target="_blank">下载</a>
                 </td>
             </tr>

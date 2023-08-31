@@ -7,13 +7,10 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Models\Chapter as ChapterModel;
 use App\Models\Course as CourseModel;
 use App\Models\Resource as ResourceModel;
 use App\Models\Upload as UploadModel;
-use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
-use App\Validators\Chapter as ChapterValidator;
 use App\Validators\Resource as ResourceValidator;
 use App\Validators\Upload as UploadValidator;
 
@@ -24,10 +21,9 @@ class Resource extends Service
     {
         $post = $this->request->getPost();
 
-        $validator = new ChapterValidator();
+        $validator = new ResourceValidator();
 
-        $chapter = $validator->checkChapter($post['chapter_id']);
-        $course = $validator->checkCourse($chapter->course_id);
+        $course = $validator->checkCourse($post['course_id']);
 
         $upload = new UploadModel();
 
@@ -43,12 +39,10 @@ class Resource extends Service
         $resource = new ResourceModel();
 
         $resource->course_id = $course->id;
-        $resource->chapter_id = $chapter->id;
         $resource->upload_id = $upload->id;
 
         $resource->create();
 
-        $this->recountChapterResources($chapter);
         $this->recountCourseResources($course);
 
         return $upload;
@@ -82,11 +76,9 @@ class Resource extends Service
         $validator = new ResourceValidator();
 
         $course = $validator->checkCourse($resource->course_id);
-        $chapter = $validator->checkChapter($resource->chapter_id);
 
         $resource->delete();
 
-        $this->recountChapterResources($chapter);
         $this->recountCourseResources($course);
     }
 
@@ -97,48 +89,11 @@ class Resource extends Service
         return $validator->checkResource($id);
     }
 
-    protected function recountChapterResources(ChapterModel $chapter)
-    {
-        $chapterRepo = new ChapterRepo();
-
-        $chapter->resource_count = $chapterRepo->countResources($chapter->id);
-
-        $chapter->update();
-
-        $parent = $chapterRepo->findById($chapter->parent_id);
-
-        $lessons = $chapterRepo->findLessons($parent->id);
-
-        $resourceCount = 0;
-
-        foreach ($lessons as $lesson) {
-            if ($lesson->deleted == 0) {
-                $resourceCount += $chapterRepo->countResources($lesson->id);
-            }
-        }
-
-        $parent->resource_count = $resourceCount;
-
-        $parent->update();
-    }
-
     protected function recountCourseResources(CourseModel $course)
     {
         $courseRepo = new CourseRepo();
 
-        $lessons = $courseRepo->findLessons($course->id);
-
-        $chapterRepo = new ChapterRepo();
-
-        $resourceCount = 0;
-
-        if ($lessons->count() > 0) {
-            foreach ($lessons as $lesson) {
-                if ($lesson->deleted == 0) {
-                    $resourceCount += $chapterRepo->countResources($lesson->id);
-                }
-            }
-        }
+        $resourceCount = $courseRepo->countResources($course->id);
 
         $course->resource_count = $resourceCount;
 

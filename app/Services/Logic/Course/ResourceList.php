@@ -9,7 +9,6 @@ namespace App\Services\Logic\Course;
 
 use App\Builders\ResourceList as ResourceListBuilder;
 use App\Repos\Course as CourseRepo;
-use App\Repos\Resource as ResourceRepo;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Service as LogicService;
 
@@ -28,26 +27,7 @@ class ResourceList extends LogicService
 
         $courseRepo = new CourseRepo();
 
-        $lessons = $courseRepo->findLessons($course->id);
-
-        if ($lessons->count() == 0) {
-            return [];
-        }
-
-        $lessonIds = [];
-
-        /**
-         * 过滤掉未发布和已删除的课时
-         */
-        foreach ($lessons as $lesson) {
-            if ($lesson->published == 1 && $lesson->deleted == 0) {
-                $lessonIds[] = $lesson->id;
-            }
-        }
-
-        $resourceRepo = new ResourceRepo();
-
-        $resources = $resourceRepo->findByCourseId($course->id);
+        $resources = $courseRepo->findResources($course->id);
 
         if ($resources->count() == 0) {
             return [];
@@ -56,12 +36,6 @@ class ResourceList extends LogicService
         $builder = new ResourceListBuilder();
 
         $relations = $resources->toArray();
-
-        foreach ($relations as $key => $relation) {
-            if (!in_array($relation['chapter_id'], $lessonIds)) {
-                unset($relations[$key]);
-            }
-        }
 
         $uploads = $builder->getUploads($relations);
 

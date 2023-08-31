@@ -8,6 +8,7 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\CourseList as CourseListBuilder;
+use App\Builders\ResourceList as ResourceListBuilder;
 use App\Caches\Course as CourseCache;
 use App\Caches\CourseCategoryList as CourseCategoryListCache;
 use App\Caches\CourseRelatedList as CourseRelatedListCache;
@@ -402,6 +403,23 @@ class Course extends Service
             'course_id' => $course->id,
             'deleted' => $deleted,
         ]);
+    }
+
+    public function getResources($id)
+    {
+        $courseRepo = new CourseRepo();
+
+        $resources =  $courseRepo->findResources($id);
+
+        if ($resources->count() == 0) return [];
+
+        $builder = new ResourceListBuilder();
+
+        $items = $resources->toArray();
+
+        $items = $builder->handleUploads($items);
+
+        return $builder->objects($items);
     }
 
     protected function findOrFail($id)

@@ -307,6 +307,17 @@ class Course extends Repository
 
     /**
      * @param int $courseId
+     * @return ResultsetInterface|Resultset|ResourceModel[]
+     */
+    public function findResources($courseId)
+    {
+        return ResourceModel::query()
+            ->where('course_id = :course_id:', ['course_id' => $courseId])
+            ->execute();
+    }
+
+    /**
+     * @param int $courseId
      * @param int $userId
      * @param int $planId
      * @return ResultsetInterface|Resultset|ChapterUserModel[]

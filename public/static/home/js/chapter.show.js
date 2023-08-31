@@ -34,30 +34,6 @@ layui.use(['jquery', 'helper'], function () {
         });
     });
 
-    $('.icon-help').on('click', function () {
-        var url = $(this).parent().data('url');
-        helper.checkLogin(function () {
-            layer.open({
-                type: 2,
-                title: '课程咨询',
-                content: [url, 'no'],
-                area: ['640px', '300px']
-            });
-        });
-    });
-
-    $('.icon-download').on('click', function () {
-        var url = $(this).parent().data('url');
-        helper.checkLogin(function () {
-            layer.open({
-                type: 2,
-                title: '资料下载',
-                content: [url, 'no'],
-                area: ['640px', '300px']
-            });
-        });
-    });
-
     $('.icon-reply').on('click', function () {
         $('html').animate({
             scrollTop: $('#comment-anchor').offset().top
