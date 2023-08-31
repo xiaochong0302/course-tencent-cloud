@@ -59,7 +59,7 @@ class PageController extends Controller
      */
     public function editAction($id)
     {
-        $pageService = new PageService;
+        $pageService = new PageService();
 
         $page = $pageService->getPage($id);
 

@@ -186,6 +186,13 @@ class Package extends Service
         return $package;
     }
 
+    protected function findOrFail($id)
+    {
+        $validator = new PackageValidator();
+
+        return $validator->checkPackage($id);
+    }
+
     protected function saveCourses(PackageModel $package, $courseIds)
     {
         $packageRepo = new PackageRepo();
@@ -295,13 +302,6 @@ class Package extends Service
         $course->package_count = $courseRepo->countPackages($courseId);
 
         $course->update();
-    }
-
-    protected function findOrFail($id)
-    {
-        $validator = new PackageValidator();
-
-        return $validator->checkPackage($id);
     }
 
 }

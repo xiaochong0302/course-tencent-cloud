@@ -21,19 +21,6 @@ class ChapterController extends Controller
 {
 
     /**
-     * @Get("/{id:[0-9]+}/resources", name="admin.chapter.resources")
-     */
-    public function resourcesAction($id)
-    {
-        $chapterService = new ChapterService();
-
-        $resources = $chapterService->getResources($id);
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->setVar('resources', $resources);
-    }
-
-    /**
      * @Get("/{id:[0-9]+}/lessons", name="admin.chapter.lessons")
      */
     public function lessonsAction($id)

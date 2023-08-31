@@ -30,7 +30,7 @@ trait Auth
             return $this->getGuestUser();
         }
 
-        if ($cache == false) {
+        if (!$cache) {
             $userRepo = new UserRepo();
             $user = $userRepo->findById($authUser['id']);
         } else {
@@ -54,7 +54,7 @@ trait Auth
 
         $validator->checkAuthUser($authUser['id']);
 
-        if ($cache == false) {
+        if (!$cache) {
             $userRepo = new UserRepo();
             $user = $userRepo->findById($authUser['id']);
         } else {
@@ -74,6 +74,7 @@ trait Auth
 
         $user->id = 0;
         $user->name = 'guest';
+        $user->avatar = kg_cos_user_avatar_url(null);
 
         return $user;
     }

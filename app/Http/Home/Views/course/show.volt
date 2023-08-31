@@ -28,6 +28,7 @@
         {% set show_tab_packages = course.package_count > 0 %}
         {% set show_tab_consults = course.consult_count > 0 %}
         {% set show_tab_reviews = course.review_count > 0 %}
+        {% set show_tab_resources = course.resource_count > 0 %}
 
         <div class="layout-content">
             <div class="course-tab-wrap wrap">
@@ -43,6 +44,9 @@
                         {% endif %}
                         {% if show_tab_reviews %}
                             <li>评价<span class="tab-count">{{ course.review_count }}</span></li>
+                        {% endif %}
+                        {% if show_tab_resources %}
+                            <li>课件<span class="tab-count">{{ course.resource_count }}</span></li>
                         {% endif %}
                     </ul>
                     <div class="layui-tab-content">
@@ -63,6 +67,10 @@
                         {% if show_tab_reviews %}
                             {% set reviews_url = url({'for':'home.course.reviews','id':course.id}) %}
                             <div class="layui-tab-item" id="tab-reviews" data-url="{{ reviews_url }}"></div>
+                        {% endif %}
+                        {% if show_tab_resources %}
+                            {% set resources_url = url({'for':'home.course.resources','id':course.id}) %}
+                            <div class="layui-tab-item" id="tab-resources" data-url="{{ resources_url }}"></div>
                         {% endif %}
                     </div>
                 </div>

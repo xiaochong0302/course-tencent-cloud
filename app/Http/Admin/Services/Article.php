@@ -9,6 +9,7 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\ArticleList as ArticleListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
+use App\Caches\Article as ArticleCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Library\Utils\Word as WordUtil;
 use App\Models\Article as ArticleModel;
@@ -26,6 +27,7 @@ use App\Services\Logic\Article\XmTagList as XmTagListService;
 use App\Services\Logic\Notice\Internal\ArticleApproved as ArticleApprovedNotice;
 use App\Services\Logic\Notice\Internal\ArticleRejected as ArticleRejectedNotice;
 use App\Services\Logic\Point\History\ArticlePost as ArticlePostPointHistory;
+use App\Services\Sync\ArticleIndex as ArticleIndexSync;
 use App\Validators\Article as ArticleValidator;
 
 class Article extends Service
@@ -140,7 +142,8 @@ class Article extends Service
         $article->create();
 
         $this->saveDynamicAttrs($article);
-
+        $this->rebuildArticleCache($article);
+        $this->rebuildArticleIndex($article);
         $this->recountUserArticles($user);
 
         $this->eventsManager->fire('Article:afterCreate', $this, $article);
@@ -205,10 +208,11 @@ class Article extends Service
 
         $article->update($data);
 
-        $this->saveDynamicAttrs($article);
-
         $owner = $this->findUser($article->owner_id);
 
+        $this->saveDynamicAttrs($article);
+        $this->rebuildArticleCache($article);
+        $this->rebuildArticleIndex($article);
         $this->recountUserArticles($owner);
 
         $this->eventsManager->fire('Article:afterUpdate', $this, $article);
@@ -224,10 +228,11 @@ class Article extends Service
 
         $article->update();
 
-        $this->saveDynamicAttrs($article);
-
         $owner = $this->findUser($article->owner_id);
 
+        $this->saveDynamicAttrs($article);
+        $this->rebuildArticleCache($article);
+        $this->rebuildArticleIndex($article);
         $this->recountUserArticles($owner);
 
         $this->eventsManager->fire('Article:afterDelete', $this, $article);
@@ -243,10 +248,11 @@ class Article extends Service
 
         $article->update();
 
-        $this->saveDynamicAttrs($article);
-
         $owner = $this->findUser($article->owner_id);
 
+        $this->saveDynamicAttrs($article);
+        $this->rebuildArticleCache($article);
+        $this->rebuildArticleIndex($article);
         $this->recountUserArticles($owner);
 
         $this->eventsManager->fire('Article:afterRestore', $this, $article);
@@ -278,6 +284,8 @@ class Article extends Service
 
         $owner = $this->findUser($article->owner_id);
 
+        $this->rebuildArticleCache($article);
+        $this->rebuildArticleIndex($article);
         $this->recountUserArticles($owner);
 
         $sender = $this->getLoginUser();
@@ -331,6 +339,12 @@ class Article extends Service
         }
 
         $article->update();
+
+        $owner = $this->findUser($article->owner_id);
+
+        $this->rebuildArticleCache($article);
+        $this->rebuildArticleIndex($article);
+        $this->recountUserArticles($owner);
     }
 
     protected function findOrFail($id)
@@ -345,6 +359,54 @@ class Article extends Service
         $userRepo = new UserRepo();
 
         return $userRepo->findById($id);
+    }
+
+    protected function rebuildArticleCache(ArticleModel $article)
+    {
+        $cache = new ArticleCache();
+
+        $cache->rebuild($article->id);
+    }
+
+    protected function rebuildArticleIndex(ArticleModel $article)
+    {
+        $sync = new ArticleIndexSync();
+
+        $sync->addItem($article->id);
+    }
+
+    protected function recountUserArticles(UserModel $user)
+    {
+        $userRepo = new UserRepo();
+
+        $articleCount = $userRepo->countArticles($user->id);
+
+        $user->article_count = $articleCount;
+
+        $user->update();
+    }
+
+    protected function handleArticlePostPoint(ArticleModel $article)
+    {
+        if ($article->published != ArticleModel::PUBLISH_APPROVED) return;
+
+        $service = new ArticlePostPointHistory();
+
+        $service->handle($article);
+    }
+
+    protected function handleArticleApprovedNotice(ArticleModel $article, UserModel $sender)
+    {
+        $notice = new ArticleApprovedNotice();
+
+        $notice->handle($article, $sender);
+    }
+
+    protected function handleArticleRejectedNotice(ArticleModel $article, UserModel $sender, $reason)
+    {
+        $notice = new ArticleRejectedNotice();
+
+        $notice->handle($article, $sender, $reason);
     }
 
     protected function handleArticles($pager)
@@ -381,40 +443,6 @@ class Article extends Service
         }
 
         return $pager;
-    }
-
-    protected function recountUserArticles(UserModel $user)
-    {
-        $userRepo = new UserRepo();
-
-        $articleCount = $userRepo->countArticles($user->id);
-
-        $user->article_count = $articleCount;
-
-        $user->update();
-    }
-
-    protected function handleArticlePostPoint(ArticleModel $article)
-    {
-        if ($article->published != ArticleModel::PUBLISH_APPROVED) return;
-
-        $service = new ArticlePostPointHistory();
-
-        $service->handle($article);
-    }
-
-    protected function handleArticleApprovedNotice(ArticleModel $article, UserModel $sender)
-    {
-        $notice = new ArticleApprovedNotice();
-
-        $notice->handle($article, $sender);
-    }
-
-    protected function handleArticleRejectedNotice(ArticleModel $article, UserModel $sender, $reason)
-    {
-        $notice = new ArticleRejectedNotice();
-
-        $notice->handle($article, $sender, $reason);
     }
 
 }

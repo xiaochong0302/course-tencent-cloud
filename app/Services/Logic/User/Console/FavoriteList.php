@@ -61,6 +61,8 @@ class FavoriteList extends LogicService
 
             return $this->handleQuestions($pager);
         }
+
+        return null;
     }
 
     protected function handleCourses($pager)

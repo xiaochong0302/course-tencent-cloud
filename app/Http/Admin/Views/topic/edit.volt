@@ -2,46 +2,26 @@
 
 {% block content %}
 
-    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.topic.update','id':topic.id}) }}">
-        <fieldset class="layui-elem-field layui-field-title">
-            <legend>编辑专题</legend>
-        </fieldset>
-        <div class="layui-form-item">
-            <label class="layui-form-label">标题</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="title" value="{{ topic.title }}" lay-verify="required">
+    {% set action_url = url({'for':'admin.topic.update','id':topic.id}) %}
+
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>编辑专题</legend>
+    </fieldset>
+
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title kg-tab-title">
+            <li class="layui-this">基本信息</li>
+            <li>相关课程</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                {{ partial('topic/edit_basic') }}
+            </div>
+            <div class="layui-tab-item">
+                {{ partial('topic/edit_course') }}
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">封面</label>
-            <div class="layui-input-inline">
-                <img id="img-cover" class="kg-cover" src="{{ topic.cover }}">
-                <input type="hidden" name="cover" value="{{ topic.cover }}">
-            </div>
-            <div class="layui-input-inline" style="padding-top:35px;">
-                <button id="change-cover" class="layui-btn layui-btn-sm" type="button">更换</button>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">简介</label>
-            <div class="layui-input-block">
-                <textarea class="layui-textarea" name="summary">{{ topic.summary }}</textarea>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">相关课程</label>
-            <div class="layui-input-block">
-                <div id="xm-course-ids"></div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label"></label>
-            <div class="layui-input-block">
-                <button class="kg-submit layui-btn" lay-submit="true" lay-filter="go">提交</button>
-                <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
-            </div>
-        </div>
-    </form>
+    </div>
 
 {% endblock %}
 
