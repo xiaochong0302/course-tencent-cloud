@@ -29,7 +29,6 @@
             <col>
             <col>
             <col>
-            <col>
             <col width="10%">
         </colgroup>
         <thead>
@@ -37,7 +36,6 @@
             <th>编号</th>
             <th>名称</th>
             <th>课时</th>
-            <th>课件</th>
             <th>学员</th>
             <th>点赞</th>
             <th>评论</th>
@@ -59,7 +57,6 @@
                     <span class="layui-badge layui-bg-green">章</span>
                 </td>
                 <td>{{ item.lesson_count }}</td>
-                <td>{{ item.resource_count }}</td>
                 <td>{{ item.user_count }}</td>
                 <td>{{ item.like_count }}</td>
                 <td>{{ item.comment_count }}</td>

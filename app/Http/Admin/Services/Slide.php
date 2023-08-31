@@ -105,7 +105,7 @@ class Slide extends Service
             $slide = $this->createLinkSlide($post);
         }
 
-        $this->rebuildSlideCache();
+        $this->rebuildIndexSlideListCache();
 
         return $slide;
     }
@@ -138,7 +138,7 @@ class Slide extends Service
 
         $slide->update($data);
 
-        $this->rebuildSlideCache();
+        $this->rebuildIndexSlideListCache();
 
         return $slide;
     }
@@ -151,7 +151,7 @@ class Slide extends Service
 
         $slide->update();
 
-        $this->rebuildSlideCache();
+        $this->rebuildIndexSlideListCache();
 
         return $slide;
     }
@@ -164,7 +164,7 @@ class Slide extends Service
 
         $slide->update();
 
-        $this->rebuildSlideCache();
+        $this->rebuildIndexSlideListCache();
 
         return $slide;
     }
@@ -236,7 +236,7 @@ class Slide extends Service
         return $slide;
     }
 
-    protected function rebuildSlideCache()
+    protected function rebuildIndexSlideListCache()
     {
         $cache = new IndexSlideListCache();
 

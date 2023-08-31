@@ -141,7 +141,7 @@ final class V20210720153027 extends AbstractMigration
         if (!$table->hasColumn('scopes')) {
             $table->addColumn('scopes', 'string', [
                 'null' => false,
-                'default' => '',
+                'default' => 'all',
                 'limit' => 100,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',

@@ -1,3 +1,13 @@
+### [v1.6.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.6)(2023-08-30)
+
+- 还原意外删除的AnswerList.php文件
+- 修正邮箱注册提交按钮不可用问题
+- 去除删除远程课件逻辑
+- 增加课程课件资料总览
+- 优化cleanDemoDataTask脚本
+- 优化tag表migration脚本
+- 命名结构等常规优化
+
 ### [v1.6.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.5)(2023-07-15)
 
 - 升级layui-v2.8.8

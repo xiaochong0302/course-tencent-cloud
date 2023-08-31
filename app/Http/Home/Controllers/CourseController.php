@@ -17,6 +17,7 @@ use App\Services\Logic\Course\CourseList as CourseListService;
 use App\Services\Logic\Course\PackageList as CoursePackageListService;
 use App\Services\Logic\Course\RecommendedList as CourseRecommendedListService;
 use App\Services\Logic\Course\RelatedList as CourseRelatedListService;
+use App\Services\Logic\Course\ResourceList as CourseResourceListService;
 use App\Services\Logic\Course\ReviewList as CourseReviewListService;
 use App\Services\Logic\Course\TopicList as CourseTopicListService;
 use App\Services\Logic\Reward\OptionList as RewardOptionList;
@@ -158,6 +159,19 @@ class CourseController extends Controller
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/resources", name="home.course.resources")
+     */
+    public function resourcesAction($id)
+    {
+        $service = new CourseResourceListService();
+
+        $items = $service->handle($id);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('items', $items);
     }
 
     /**

@@ -8,7 +8,7 @@ layui.use(['jquery', 'element', 'layer'], function () {
     var $resFile = $('input[name=res_file]');
     var $uploadBlock = $('#res-upload-block');
     var $progressBlock = $('#res-progress-block');
-    var chapterId = $('input[name=chapter_id]').val();
+    var courseId = $('input[name=course_id]').val();
 
     var myConfig = {
         bucket: $('input[name=bucket]').val(),
@@ -70,7 +70,7 @@ layui.use(['jquery', 'element', 'layer'], function () {
                         path: keyName,
                         md5: data.ETag ? data.ETag.replace(/"/g, '') : ''
                     },
-                    chapter_id: chapterId,
+                    course_id: courseId,
                 }, function () {
                     $uploadBlock.removeClass('layui-hide');
                     $progressBlock.addClass('layui-hide');

@@ -9,6 +9,7 @@ namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Course as CourseService;
 use App\Models\Category as CategoryModel;
+use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/admin/course")
@@ -100,6 +101,7 @@ class CourseController extends Controller
     {
         $courseService = new CourseService();
 
+        $cos = $courseService->getSettings('cos');
         $course = $courseService->getCourse($id);
         $xmTeachers = $courseService->getXmTeachers($id);
         $xmCategories = $courseService->getXmCategories($id);
@@ -107,6 +109,7 @@ class CourseController extends Controller
         $studyExpiryOptions = $courseService->getStudyExpiryOptions();
         $refundExpiryOptions = $courseService->getRefundExpiryOptions();
 
+        $this->view->setVar('cos', $cos);
         $this->view->setVar('course', $course);
         $this->view->setVar('xm_teachers', $xmTeachers);
         $this->view->setVar('xm_categories', $xmCategories);
@@ -175,6 +178,19 @@ class CourseController extends Controller
 
         $this->view->setVar('course', $course);
         $this->view->setVar('chapters', $chapters);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/resources", name="admin.course.resources")
+     */
+    public function resourcesAction($id)
+    {
+        $courseService = new CourseService();
+
+        $resources = $courseService->getResources($id);
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('resources', $resources);
     }
 
 }

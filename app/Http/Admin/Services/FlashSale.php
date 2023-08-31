@@ -7,6 +7,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Caches\FlashSale as FlashSaleCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Course as CourseModel;
 use App\Models\FlashSale as FlashSaleModel;
@@ -157,6 +158,8 @@ class FlashSale extends Service
                 break;
         }
 
+        $this->rebuildFlashSaleCache($sale);
+
         return $sale;
     }
 
@@ -198,7 +201,8 @@ class FlashSale extends Service
 
         $sale->update($data);
 
-        $this->initFlashSaleQueue($sale->id);
+        $this->initFlashSaleQueue($sale);
+        $this->rebuildFlashSaleCache($sale);
 
         return $sale;
     }
@@ -211,6 +215,8 @@ class FlashSale extends Service
 
         $sale->update();
 
+        $this->rebuildFlashSaleCache($sale);
+
         return $sale;
     }
 
@@ -222,7 +228,30 @@ class FlashSale extends Service
 
         $sale->update();
 
+        $this->rebuildFlashSaleCache($sale);
+
         return $sale;
+    }
+
+    protected function findOrFail($id)
+    {
+        $validator = new FlashSaleValidator();
+
+        return $validator->checkFlashSale($id);
+    }
+
+    protected function initFlashSaleQueue(FlashSaleModel $sale)
+    {
+        $queue = new FlashSaleQueue();
+
+        $queue->init($sale->id);
+    }
+
+    protected function rebuildFlashSaleCache(FlashSaleModel $sale)
+    {
+        $cache = new FlashSaleCache();
+
+        $cache->rebuild($sale->id);
     }
 
     protected function createCourseFlashSale($post)
@@ -346,20 +375,6 @@ class FlashSale extends Service
         }
 
         return $result;
-    }
-
-    protected function initFlashSaleQueue($id)
-    {
-        $queue = new FlashSaleQueue();
-
-        $queue->init($id);
-    }
-
-    protected function findOrFail($id)
-    {
-        $validator = new FlashSaleValidator();
-
-        return $validator->checkFlashSale($id);
     }
 
 }

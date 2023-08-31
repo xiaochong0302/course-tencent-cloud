@@ -11,6 +11,7 @@ use App\Builders\UserList as UserListBuilder;
 use App\Caches\User as UserCache;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Library\Utils\Password as PasswordUtil;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Account as AccountModel;
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
@@ -61,6 +62,24 @@ class User extends Service
         $pageQuery = new PaginateQuery();
 
         $params = $pageQuery->getParams();
+
+        $accountRepo = new AccountRepo();
+
+        /**
+         * 兼容用户编号｜手机号码｜邮箱地址查询
+         */
+        if (!empty($params['id'])) {
+            if (CommonValidator::phone($params['id'])) {
+                $account = $accountRepo->findByPhone($params['id']);
+                $params['id'] = $account ? $account->id : -1000;
+            } elseif (CommonValidator::email($params['id'])) {
+                $account = $accountRepo->findByEmail($params['id']);
+                $params['id'] = $account ? $account->id : -1000;
+            }
+        }
+
+        $params['deleted'] = $params['deleted'] ?? 0;
+
         $sort = $pageQuery->getSort();
         $page = $pageQuery->getPage();
         $limit = $pageQuery->getLimit();
@@ -131,6 +150,8 @@ class User extends Service
             if ($adminRole > 0) {
                 $this->updateAdminUserCount($adminRole);
             }
+
+            $this->rebuildUserCache($user);
 
         } catch (\Exception $e) {
 
@@ -222,6 +243,8 @@ class User extends Service
         if ($user->admin_role > 0) {
             $this->updateAdminUserCount($user->admin_role);
         }
+
+        $this->rebuildUserCache($user);
 
         return $user;
     }

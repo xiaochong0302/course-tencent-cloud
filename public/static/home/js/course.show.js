@@ -135,6 +135,11 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         helper.ajaxLoadHtml($tabReviews.data('url'), $tabReviews.attr('id'));
     }
 
+    if ($('#tab-resources').length > 0) {
+        var $tabResources = $('#tab-resources');
+        helper.ajaxLoadHtml($tabResources.data('url'), $tabResources.attr('id'));
+    }
+
     if ($('#sidebar-topics').length > 0) {
         var $sdTopics = $('#sidebar-topics');
         helper.ajaxLoadHtml($sdTopics.data('url'), $sdTopics.attr('id'));

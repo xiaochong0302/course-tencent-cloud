@@ -279,35 +279,6 @@ class UserConsoleController extends Controller
     }
 
     /**
-     * @Get("/friends", name="home.uc.friends")
-     */
-    public function friendsAction()
-    {
-        $service = new FriendListService();
-
-        $pager = $service->handle();
-
-        $this->view->pick('user/console/friends');
-        $this->view->setVar('pager', $pager);
-    }
-
-    /**
-     * @Get("/groups", name="home.uc.groups")
-     */
-    public function groupsAction()
-    {
-        $scope = $this->request->getQuery('scope', 'string', 'joined');
-
-        $service = new GroupListService();
-
-        $pager = $service->handle($scope);
-
-        $this->view->pick('user/console/groups');
-        $this->view->setVar('scope', $scope);
-        $this->view->setVar('pager', $pager);
-    }
-
-    /**
      * @Get("/notifications", name="home.uc.notifications")
      */
     public function notificationsAction()
