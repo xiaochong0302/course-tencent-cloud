@@ -1,5 +1,3 @@
-{% set download_url = url({'for':'home.chapter.resources','id':chapter.id}) %}
-{% set consult_url = url({'for':'home.consult.add'},{'chapter_id':chapter.id}) %}
 {% set like_url = url({'for':'home.chapter.like','id':chapter.id}) %}
 {% set like_title = chapter.me.liked == 1 ? '取消点赞' : '点赞支持' %}
 {% set like_class = chapter.me.liked == 1 ? 'active' : '' %}
@@ -23,20 +21,4 @@
         </div>
         <div class="text" data-count="{{ chapter.comment_count }}">{{ chapter.comment_count }}</div>
     </div>
-    {% if chapter.resource_count > 0 %}
-        <div class="item">
-            <div class="icon" title="学习资料" data-url="{{ download_url }}">
-                <i class="layui-icon layui-icon-download-circle icon-download"></i>
-            </div>
-            <div class="text">资料</div>
-        </div>
-    {% endif %}
-    {% if course.market_price > 0 %}
-        <div class="item">
-            <div class="icon" title="课程咨询" data-url="{{ consult_url }}">
-                <i class="layui-icon layui-icon-help icon-help"></i>
-            </div>
-            <div class="text">咨询</div>
-        </div>
-    {% endif %}
 </div>

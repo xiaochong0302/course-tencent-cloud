@@ -14,6 +14,7 @@
             {% endif %}
             <li>课程介绍</li>
             <li>营销设置</li>
+            <li>课件资料</li>
             <li>相关课程</li>
         </ul>
         <div class="layui-tab-content">
@@ -32,6 +33,9 @@
                 {{ partial('course/edit_sale') }}
             </div>
             <div class="layui-tab-item">
+                {{ partial('course/edit_resource') }}
+            </div>
+            <div class="layui-tab-item">
                 {{ partial('course/edit_related') }}
             </div>
         </div>
@@ -42,10 +46,12 @@
 {% block include_js %}
 
     {{ js_include('lib/xm-select.js') }}
+    {{ js_include('lib/cos-js-sdk-v5.min.js') }}
     {{ js_include('lib/kindeditor/kindeditor.min.js') }}
     {{ js_include('lib/kindeditor/lang/zh-CN.js') }}
     {{ js_include('admin/js/content.editor.js') }}
     {{ js_include('admin/js/cover.upload.js') }}
+    {{ js_include('admin/js/course.resource.js') }}
 
 {% endblock %}
 

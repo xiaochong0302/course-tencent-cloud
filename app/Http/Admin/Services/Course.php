@@ -8,6 +8,8 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\CourseList as CourseListBuilder;
+use App\Builders\ResourceList as ResourceListBuilder;
+use App\Caches\Course as CourseCache;
 use App\Caches\CourseCategoryList as CourseCategoryListCache;
 use App\Caches\CourseRelatedList as CourseRelatedListCache;
 use App\Caches\CourseTeacherList as CourseTeacherListCache;
@@ -24,6 +26,7 @@ use App\Repos\CourseCategory as CourseCategoryRepo;
 use App\Repos\CourseRelated as CourseRelatedRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Sync\CourseIndex as CourseIndexSync;
 use App\Validators\Course as CourseValidator;
 use App\Validators\CourseOffline as CourseOfflineValidator;
 
@@ -85,6 +88,9 @@ class Course extends Service
             }
 
             $this->db->commit();
+
+            $this->rebuildCourseCache($course);
+            $this->rebuildCourseIndex($course);
 
             return $course;
 
@@ -208,6 +214,9 @@ class Course extends Service
 
         $course->update($data);
 
+        $this->rebuildCourseCache($course);
+        $this->rebuildCourseIndex($course);
+
         return $course;
     }
 
@@ -219,6 +228,9 @@ class Course extends Service
 
         $course->update();
 
+        $this->rebuildCourseCache($course);
+        $this->rebuildCourseIndex($course);
+
         return $course;
     }
 
@@ -229,6 +241,9 @@ class Course extends Service
         $course->deleted = 0;
 
         $course->update();
+
+        $this->rebuildCourseCache($course);
+        $this->rebuildCourseIndex($course);
 
         return $course;
     }
@@ -388,6 +403,23 @@ class Course extends Service
             'course_id' => $course->id,
             'deleted' => $deleted,
         ]);
+    }
+
+    public function getResources($id)
+    {
+        $courseRepo = new CourseRepo();
+
+        $resources =  $courseRepo->findResources($id);
+
+        if ($resources->count() == 0) return [];
+
+        $builder = new ResourceListBuilder();
+
+        $items = $resources->toArray();
+
+        $items = $builder->handleUploads($items);
+
+        return $builder->objects($items);
     }
 
     protected function findOrFail($id)
@@ -560,6 +592,20 @@ class Course extends Service
         $cache = new CourseRelatedListCache();
 
         $cache->rebuild($course->id);
+    }
+
+    protected function rebuildCourseCache(CourseModel $course)
+    {
+        $cache = new CourseCache();
+
+        $cache->rebuild($course->id);
+    }
+
+    protected function rebuildCourseIndex(CourseModel $course)
+    {
+        $sync = new CourseIndexSync();
+
+        $sync->addItem($course->id);
     }
 
     protected function handleCourses($pager)

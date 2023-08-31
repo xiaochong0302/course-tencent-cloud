@@ -39,7 +39,7 @@ class Account extends Validator
             $account = $accountRepo->findById($name);
         }
 
-        if (!$account) {
+        if (!$account || $account->deleted == 1) {
             throw new BadRequestException('account.not_found');
         }
 
@@ -144,7 +144,13 @@ class Account extends Validator
 
         $userRepo = new UserRepo();
 
-        return $userRepo->findById($account->id);
+        $user = $userRepo->findById($account->id);
+
+        if ($user->deleted == 1) {
+            throw new BadRequestException('user.not_found');
+        }
+
+        return $user;
     }
 
     public function checkUserLogin($name, $password)
@@ -161,7 +167,13 @@ class Account extends Validator
 
         $userRepo = new UserRepo();
 
-        return $userRepo->findById($account->id);
+        $user = $userRepo->findById($account->id);
+
+        if ($user->deleted == 1) {
+            throw new BadRequestException('user.not_found');
+        }
+
+        return $user;
     }
 
     public function checkAdminLogin($name, $password)
