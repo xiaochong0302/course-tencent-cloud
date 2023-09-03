@@ -28,14 +28,12 @@
         <col>
         <col>
         <col>
-        <col>
         <col width="10%">
     </colgroup>
     <thead>
     <tr>
         <th>编号</th>
         <th>名称</th>
-        <th>课件</th>
         <th>学员</th>
         <th>点赞</th>
         <th>时间</th>
@@ -59,7 +57,6 @@
                 <a href="{{ edit_url }}">{{ item.title }}</a>
                 <span class="layui-badge layui-bg-green">课</span>
             </td>
-            <td>{{ item.resource_count }}</td>
             <td>{{ item.user_count }}</td>
             <td>{{ item.like_count }}</td>
             <td>{{ live_time_info(item.attrs) }}</td>
