@@ -29,8 +29,6 @@ class HelpController extends Controller
             return $this->response->redirect($location);
         }
 
-        $featuredCourses = $this->getFeaturedCourses();
-
         $service = new HelpListService();
 
         $items = $service->handle();
@@ -38,7 +36,6 @@ class HelpController extends Controller
         $this->seo->prependTitle('帮助');
 
         $this->view->setVar('items', $items);
-        $this->view->setVar('featured_courses', $featuredCourses);
     }
 
     /**
