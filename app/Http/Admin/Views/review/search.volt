@@ -33,6 +33,13 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">匿名</label>
+            <div class="layui-input-block">
+                <input type="radio" name="anonymous" value="1" title="是">
+                <input type="radio" name="anonymous" value="0" title="否">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">删除</label>
             <div class="layui-input-block">
                 <input type="radio" name="deleted" value="1" title="是">

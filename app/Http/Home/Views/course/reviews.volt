@@ -3,18 +3,24 @@
 {% if pager.total_pages > 0 %}
     <div class="review-list">
         {% for item in pager.items %}
-            {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
+            {% if item.anonymous == 0 %}
+                {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
+                {% set owner_name = item.owner.name %}
+            {% else %}
+                {% set owner_url = 'javascript:' %}
+                {% set owner_name = '匿名用户' %}
+            {% endif %}
             {% set like_url = url({'for':'home.review.like','id':item.id}) %}
             <div class="comment-card review-card">
                 <div class="avatar">
-                    <a href="{{ owner_url }}" title="{{ item.owner.name }}" target="_blank">
-                        <img src="{{ item.owner.avatar }}!avatar_160" alt="{{ item.owner.name }}">
+                    <a href="{{ owner_url }}" title="{{ owner_name }}" target="_blank">
+                        <img src="{{ item.owner.avatar }}!avatar_160" alt="{{ owner_name }}">
                     </a>
                 </div>
                 <div class="info">
                     <div class="rating">{{ star_info(item.rating) }}</div>
                     <div class="user">
-                        <a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a>
+                        <a href="{{ owner_url }}" target="_blank">{{ owner_name }}</a>
                     </div>
                     <div class="content">{{ item.content }}</div>
                     <div class="footer">

@@ -69,6 +69,7 @@ class ReviewList extends LogicService
                 'id' => $review['id'],
                 'rating' => $review['rating'],
                 'content' => $review['content'],
+                'anonymous' => $review['anonymous'],
                 'like_count' => $review['like_count'],
                 'create_time' => $review['create_time'],
                 'update_time' => $review['update_time'],
