@@ -96,8 +96,10 @@
                     <p>市场：{{ '￥%0.2f'|format(item.market_price) }}</p>
                     <p>会员：{{ '￥%0.2f'|format(item.vip_price) }}</p>
                 </td>
-                <td><input type="checkbox" name="featured" value="1" lay-skin="switch" lay-text="是|否" lay-filter="featured" data-url="{{ update_url }}" {% if item.featured == 1 %}checked="checked"{% endif %}></td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
+                <td><input type="checkbox" name="featured" value="1" lay-skin="switch" lay-text="是|否" lay-filter="featured" data-url="{{ update_url }}"
+                           {% if item.featured == 1 %}checked="checked"{% endif %}></td>
+                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}"
+                           {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
@@ -144,7 +146,13 @@
                 var featured = checked ? 1 : 0;
                 var url = $(this).data('url');
                 var tips = featured === 1 ? '确定要推荐？' : '确定要取消推荐？';
-                layer.confirm(tips, function () {
+                layer.confirm(tips, {
+                    cancel: function (index) {
+                        layer.close(index);
+                        data.elem.checked = !checked;
+                        form.render();
+                    }
+                }, function () {
                     $.ajax({
                         type: 'POST',
                         url: url,

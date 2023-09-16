@@ -1,3 +1,6 @@
+### [v1.6.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.7)(2023-10-30)
+
+
 ### [v1.6.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.6)(2023-08-30)
 
 - 还原意外删除的AnswerList.php文件

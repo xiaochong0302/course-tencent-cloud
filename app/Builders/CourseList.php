@@ -7,7 +7,7 @@
 
 namespace App\Builders;
 
-use App\Caches\CategoryList as CategoryListCache;
+use App\Caches\CategoryAllList as CategoryAllListCache;
 use App\Models\Category as CategoryModel;
 use App\Repos\User as UserRepo;
 
@@ -38,7 +38,7 @@ class CourseList extends Builder
 
     public function getCategories()
     {
-        $cache = new CategoryListCache();
+        $cache = new CategoryAllListCache();
 
         $items = $cache->get(CategoryModel::TYPE_COURSE);
 

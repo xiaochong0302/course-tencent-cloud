@@ -79,7 +79,7 @@ class Course extends Repository
 
         if (!empty($where['level'])) {
             if (is_array($where['level'])) {
-                $builder->inWhere('level', $where['model']);
+                $builder->inWhere('level', $where['level']);
             } else {
                 $builder->andWhere('level = :level:', ['level' => $where['level']]);
             }

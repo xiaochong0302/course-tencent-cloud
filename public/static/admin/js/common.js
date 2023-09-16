@@ -84,7 +84,13 @@ layui.use(['jquery', 'form', 'element', 'layer', 'kgDropdown'], function () {
         var published = checked ? 1 : 0;
         var url = $(this).data('url');
         var tips = published === 1 ? '确定要上线？' : '确定要下线？';
-        layer.confirm(tips, function () {
+        layer.confirm(tips, {
+            cancel: function (index) {
+                layer.close(index);
+                data.elem.checked = !checked;
+                form.render();
+            }
+        }, function () {
             $.ajax({
                 type: 'POST',
                 url: url,

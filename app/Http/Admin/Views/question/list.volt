@@ -78,7 +78,8 @@
                 <td>{{ item.like_count }}</td>
                 <td>{{ item.favorite_count }}</td>
                 <td>{{ publish_status(item.published) }}</td>
-                <td><input type="checkbox" name="closed" value="1" lay-skin="switch" lay-text="是|否" lay-filter="closed" data-url="{{ update_url }}" {% if item.closed == 1 %}checked="checked"{% endif %}></td>
+                <td><input type="checkbox" name="closed" value="1" lay-skin="switch" lay-text="是|否" lay-filter="closed" data-url="{{ update_url }}"
+                           {% if item.closed == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
@@ -124,7 +125,13 @@
                 var closed = checked ? 1 : 0;
                 var url = $(this).data('url');
                 var tips = closed === 1 ? '确定要关闭讨论？' : '确定要开启讨论？';
-                layer.confirm(tips, function () {
+                layer.confirm(tips, {
+                    cancel: function (index) {
+                        layer.close(index);
+                        data.elem.checked = !checked;
+                        form.render();
+                    }
+                }, function () {
                     $.ajax({
                         type: 'POST',
                         url: url,

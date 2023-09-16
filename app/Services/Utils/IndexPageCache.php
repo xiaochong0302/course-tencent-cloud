@@ -7,6 +7,7 @@
 
 namespace App\Services\Utils;
 
+use App\Caches\IndexSlideList as IndexSlideListCache;
 use App\Caches\IndexFeaturedCourseList as IndexFeaturedCourseListCache;
 use App\Caches\IndexFreeCourseList as IndexFreeCourseListCache;
 use App\Caches\IndexNewCourseList as IndexNewCourseListCache;
@@ -17,11 +18,16 @@ use App\Caches\IndexSimpleVipCourseList as IndexSimpleVipCourseListCache;
 use App\Caches\IndexVipCourseList as IndexVipCourseListCache;
 use App\Services\Service as AppService;
 
-class IndexCourseCache extends AppService
+class IndexPageCache extends AppService
 {
 
     public function rebuild($section = null)
     {
+        if (!$section || $section == 'slide') {
+            $cache = new IndexSlideListCache();
+            $cache->rebuild();
+        }
+
         if (!$section || $section == 'featured_course') {
             $cache = new IndexFeaturedCourseListCache();
             $cache->rebuild();

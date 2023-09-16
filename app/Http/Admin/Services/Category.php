@@ -8,6 +8,7 @@
 namespace App\Http\Admin\Services;
 
 use App\Caches\Category as CategoryCache;
+use App\Caches\CategoryAllList as CategoryAllListCache;
 use App\Caches\CategoryList as CategoryListCache;
 use App\Caches\CategoryTreeList as CategoryTreeListCache;
 use App\Models\Category as CategoryModel;
@@ -140,7 +141,6 @@ class Category extends Service
         $category->update();
 
         $this->updateCategoryStats($category);
-
         $this->rebuildCategoryCache($category);
 
         return $category;
@@ -182,7 +182,6 @@ class Category extends Service
         $category->update($data);
 
         $this->updateCategoryStats($category);
-
         $this->rebuildCategoryCache($category);
 
         return $category;
@@ -201,7 +200,6 @@ class Category extends Service
         $category->update();
 
         $this->updateCategoryStats($category);
-
         $this->rebuildCategoryCache($category);
 
         return $category;
@@ -216,7 +214,6 @@ class Category extends Service
         $category->update();
 
         $this->updateCategoryStats($category);
-
         $this->rebuildCategoryCache($category);
 
         return $category;
@@ -248,6 +245,10 @@ class Category extends Service
         $cache->rebuild($category->type);
 
         $cache = new CategoryTreeListCache();
+
+        $cache->rebuild($category->type);
+
+        $cache = new CategoryAllListCache();
 
         $cache->rebuild($category->type);
     }

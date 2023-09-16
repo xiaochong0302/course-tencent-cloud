@@ -124,7 +124,7 @@ class Course extends Validator
 
         $value = $storage->handle($value);
 
-        $length = kg_strlen($value);
+        $length = kg_editor_content_length($value);
 
         if ($length > 30000) {
             throw new BadRequestException('course.details_too_long');
@@ -257,11 +257,11 @@ class Course extends Validator
 
     public function checkPublishAbility(CourseModel $course)
     {
-        if ($course->model == CourseModel::MODEL_OFFLINE) return true;
-
         if ($course->teacher_id == 0) {
             throw new BadRequestException('course.teacher_not_assigned');
         }
+
+        return true;
     }
 
 }

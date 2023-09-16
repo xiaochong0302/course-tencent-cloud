@@ -453,6 +453,7 @@ class Course extends Service
                 $courseTeacher->user_id = $teacherId;
                 $courseTeacher->role_type = CourseUserModel::ROLE_TEACHER;
                 $courseTeacher->source_type = CourseUserModel::SOURCE_IMPORT;
+                $courseTeacher->expiry_time = strtotime('+30 years');
                 $courseTeacher->create();
             }
         }

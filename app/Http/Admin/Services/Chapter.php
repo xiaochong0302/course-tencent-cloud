@@ -201,7 +201,9 @@ class Chapter extends Service
         }
 
         $lessonCount = $chapterRepo->countLessons($chapter->id);
+
         $chapter->lesson_count = $lessonCount;
+
         $chapter->update();
     }
 
