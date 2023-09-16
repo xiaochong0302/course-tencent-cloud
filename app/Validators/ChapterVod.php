@@ -26,7 +26,7 @@ class ChapterVod extends Validator
 
     public function checkDuration($duration)
     {
-        $value = $value = $this->filter->sanitize($duration, ['trim', 'int']);
+        $value = $this->filter->sanitize($duration, ['trim', 'int']);
 
         if ($value < 10 || $value > 10 * 3600) {
             throw new BadRequestException('chapter_vod.invalid_duration');

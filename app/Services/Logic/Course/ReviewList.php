@@ -102,11 +102,11 @@ class ReviewList extends LogicService
 
         $result = [];
 
-        foreach ($reviews as $consult) {
-            $result[$consult['id']] = [
+        foreach ($reviews as $review) {
+            $result[$review['id']] = [
                 'logged' => $user->id > 0 ? 1 : 0,
-                'liked' => in_array($consult['id'], $likedIds) ? 1 : 0,
-                'owned' => $consult['owner_id'] == $user->id ? 1 : 0,
+                'liked' => in_array($review['id'], $likedIds) ? 1 : 0,
+                'owned' => $review['owner_id'] == $user->id ? 1 : 0,
             ];
         }
 

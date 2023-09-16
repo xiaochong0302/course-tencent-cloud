@@ -7,8 +7,7 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\IndexSlideList as IndexSlideListCache;
-use App\Services\Utils\IndexCourseCache as IndexCourseCacheUtil;
+use App\Services\Utils\IndexPageCache as IndexPageCacheUtil;
 
 class Util extends Service
 {
@@ -17,29 +16,25 @@ class Util extends Service
     {
         $items = $this->request->getPost('items');
 
-        if ($items['slide'] == 1) {
-            $cache = new IndexSlideListCache();
-            $cache->rebuild();
+        $sections = [
+            'slide',
+            'featured_course',
+            'new_course',
+            'free_course',
+            'vip_course',
+        ];
+
+        if (empty($items)) {
+            $items = $sections;
         }
 
-        $util = new IndexCourseCacheUtil();
+        $util = new IndexPageCacheUtil();
 
-        if ($items['featured_course'] == 1) {
-            $util->rebuild('featured_course');
+        foreach ($sections as $section) {
+            if (in_array($section, $items)) {
+                $util->rebuild($section);
+            }
         }
-
-        if ($items['new_course'] == 1) {
-            $util->rebuild('new_course');
-        }
-
-        if ($items['free_course'] == 1) {
-            $util->rebuild('free_course');
-        }
-
-        if ($items['vip_course'] == 1) {
-            $util->rebuild('vip_course');
-        }
-
     }
 
 }

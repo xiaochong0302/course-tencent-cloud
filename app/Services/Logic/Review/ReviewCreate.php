@@ -16,16 +16,14 @@ use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Point\History\CourseReview as CourseReviewPointHistory;
 use App\Services\Logic\ReviewTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Traits\Client as ClientTrait;
 use App\Validators\CourseUser as CourseUserValidator;
-use App\Validators\Review as ReviewValidator;
 
 class ReviewCreate extends LogicService
 {
 
-    use ClientTrait;
     use CourseTrait;
     use ReviewTrait;
+    use ReviewDataTrait;
 
     public function handle()
     {
@@ -41,19 +39,10 @@ class ReviewCreate extends LogicService
 
         $validator->checkIfReviewed($course->id, $user->id);
 
-        $validator = new ReviewValidator();
+        $data = $this->handlePostData($post);
 
-        $data = [
-            'client_type' => $this->getClientType(),
-            'client_ip' => $this->getClientIp(),
-            'course_id' => $course->id,
-            'owner_id' => $user->id,
-        ];
-
-        $data['content'] = $validator->checkContent($post['content']);
-        $data['rating1'] = $validator->checkRating($post['rating1']);
-        $data['rating2'] = $validator->checkRating($post['rating2']);
-        $data['rating3'] = $validator->checkRating($post['rating3']);
+        $data['course_id'] = $course->id;
+        $data['owner_id'] = $user->id;
         $data['published'] = 1;
 
         $review = new ReviewModel();

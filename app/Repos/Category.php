@@ -85,6 +85,7 @@ class Category extends Repository
             ->where('type = :type:', ['type' => $type])
             ->andWhere('parent_id = 0')
             ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('priority ASC')
             ->execute();
     }
@@ -98,6 +99,7 @@ class Category extends Repository
         return CategoryModel::query()
             ->where('parent_id = :parent_id:', ['parent_id' => $categoryId])
             ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('priority ASC')
             ->execute();
     }
@@ -105,7 +107,7 @@ class Category extends Repository
     public function countChildCategories($categoryId)
     {
         return (int)CategoryModel::count([
-            'conditions' => 'parent_id = :parent_id: AND published = 1',
+            'conditions' => 'parent_id = :parent_id: AND published = 1 AND deleted = 0',
             'bind' => ['parent_id' => $categoryId],
         ]);
     }

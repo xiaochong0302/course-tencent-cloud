@@ -425,6 +425,21 @@ function kg_cos_img_style_trim($path)
 }
 
 /**
+ * 获取编辑器内容长度
+ *
+ * @param string $content
+ * @return int
+ */
+function kg_editor_content_length($content)
+{
+    $content = trim($content);
+
+    $content = strip_tags($content,'<img>');
+
+    return kg_strlen($content);
+}
+
+/**
  * 清理html内容
  *
  * @param string $content

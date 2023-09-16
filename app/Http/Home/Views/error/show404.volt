@@ -5,6 +5,7 @@
     <div class="layui-fluid">
         <div class="kg-tips">
             <i class="layui-icon layui-icon-face-surprised"></i>
+            <div class="message">迷失自我，相关资源不存在</div>
             <div class="layui-text">
                 <h1>
                     <span class="layui-anim layui-anim-loop">4</span>

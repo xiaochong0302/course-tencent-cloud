@@ -91,7 +91,7 @@ class PointGift extends Validator
 
         $value = $storage->handle($value);
 
-        $length = kg_strlen($value);
+        $length = kg_editor_content_length($value);
 
         if ($length > 30000) {
             throw new BadRequestException('point_gift.details_too_long');
