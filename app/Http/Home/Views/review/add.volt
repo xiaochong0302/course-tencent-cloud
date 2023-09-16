@@ -30,6 +30,13 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">匿名发布</label>
+            <div class="layui-input-block">
+                <input type="radio" name="anonymous" value="1" title="是">
+                <input type="radio" name="anonymous" value="0" title="否" checked="checked">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>

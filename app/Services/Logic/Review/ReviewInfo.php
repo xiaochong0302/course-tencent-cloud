@@ -44,6 +44,7 @@ class ReviewInfo extends LogicService
             'rating1' => $review->rating1,
             'rating2' => $review->rating2,
             'rating3' => $review->rating3,
+            'anonymous' => $review->anonymous,
             'published' => $review->published,
             'deleted' => $review->deleted,
             'like_count' => $review->like_count,

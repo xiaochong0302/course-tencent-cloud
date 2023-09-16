@@ -34,6 +34,22 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">发布状态</label>
+            <div class="layui-input-block">
+                {% for value,title in publish_types %}
+                    {% set checked = value == review.published ? 'checked="checked"' : '' %}
+                    <input type="radio" name="published" value="{{ value }}" title="{{ title }}" {{ checked }}>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">匿名发布</label>
+            <div class="layui-input-block">
+                <input type="radio" name="anonymous" value="1" title="是" {% if review.anonymous == 1 %}checked="checked"{% endif %}>
+                <input type="radio" name="anonymous" value="0" title="否" {% if review.anonymous == 0 %}checked="checked"{% endif %}>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>

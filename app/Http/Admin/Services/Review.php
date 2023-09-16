@@ -91,6 +91,10 @@ class Review extends Service
             $data['rating3'] = $validator->checkRating($post['rating3']);
         }
 
+        if (isset($post['anonymous'])) {
+            $data['anonymous'] = $validator->checkAnonymous($post['anonymous']);
+        }
+
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
             $this->recountCourseReviews($course);

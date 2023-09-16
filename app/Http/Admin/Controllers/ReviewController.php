@@ -56,8 +56,10 @@ class ReviewController extends Controller
         $reviewService = new ReviewService();
 
         $review = $reviewService->getReview($id);
+        $publishTypes = $reviewService->getPublishTypes();
 
         $this->view->setVar('review', $review);
+        $this->view->setVar('publish_types', $publishTypes);
     }
 
     /**
