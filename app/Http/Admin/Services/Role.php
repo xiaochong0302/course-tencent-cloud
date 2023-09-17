@@ -147,8 +147,8 @@ class Role extends Service
 
         if (in_array('admin.course.list', $routes)) {
             $list[] = 'admin.course.chapters';
+            $list[] = 'admin.course.resources';
             $list[] = 'admin.chapter.lessons';
-            $list[] = 'admin.chapter.resources';
         }
 
         if (array_intersect(['admin.course.add', 'admin.course.edit'], $routes)) {
