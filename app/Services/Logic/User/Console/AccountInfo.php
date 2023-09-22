@@ -29,8 +29,11 @@ class AccountInfo extends LogicService
 
         return [
             'id' => $account->id,
-            'phone' => $account->phone,
             'email' => $account->email,
+            'phone' => $account->phone,
+            'password' => $account->password,
+            'create_time' => $account->create_time,
+            'update_time' => $account->update_time,
         ];
     }
 

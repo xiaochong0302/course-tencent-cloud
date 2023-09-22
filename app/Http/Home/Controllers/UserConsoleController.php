@@ -19,8 +19,6 @@ use App\Services\Logic\User\Console\ContactInfo as ContactInfoService;
 use App\Services\Logic\User\Console\ContactUpdate as ContactUpdateService;
 use App\Services\Logic\User\Console\CourseList as CourseListService;
 use App\Services\Logic\User\Console\FavoriteList as FavoriteListService;
-use App\Services\Logic\User\Console\FriendList as FriendListService;
-use App\Services\Logic\User\Console\GroupList as GroupListService;
 use App\Services\Logic\User\Console\NotificationList as NotificationListService;
 use App\Services\Logic\User\Console\NotificationRead as NotificationReadService;
 use App\Services\Logic\User\Console\NotifyStats as NotifyStatsService;
