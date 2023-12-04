@@ -14,13 +14,15 @@ class Word
 
     public static function getWordCount($str)
     {
+        $imageWordCount = self::getImageWordCount($str);
+
         $chineseWordCount = self::getChineseWordCount($str);
 
         $str = self::filterChineseWords($str);
 
         $englishWordCount = self::getEnglishWordCount($str);
 
-        $count = $chineseWordCount + $englishWordCount;
+        $count = $imageWordCount + $chineseWordCount + $englishWordCount;
 
         return (int)$count;
     }
@@ -52,6 +54,11 @@ class Word
         $count = str_word_count($str);
 
         return (int)$count;
+    }
+
+    public static function getImageWordCount($str)
+    {
+        return 100 * substr_count($str, '<img');
     }
 
     public static function filterChineseWords($str)
