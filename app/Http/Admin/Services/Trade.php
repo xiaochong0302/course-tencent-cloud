@@ -9,6 +9,7 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\TradeList as TradeListBuilder;
 use App\Library\Paginator\Query as PaginateQuery;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Account as AccountRepo;
@@ -44,6 +45,21 @@ class Trade extends Service
             $orderRepo = new OrderRepo();
             $order = $orderRepo->findBySn($params['order_id']);
             $params['order_id'] = $order ? $order->id : -1000;
+        }
+
+        $accountRepo = new AccountRepo();
+
+        /**
+         * 兼容用户编号｜手机号码｜邮箱地址查询
+         */
+        if (!empty($params['owner_id'])) {
+            if (CommonValidator::phone($params['owner_id'])) {
+                $account = $accountRepo->findByPhone($params['owner_id']);
+                $params['owner_id'] = $account ? $account->id : -1000;
+            } elseif (CommonValidator::email($params['owner_id'])) {
+                $account = $accountRepo->findByEmail($params['owner_id']);
+                $params['owner_id'] = $account ? $account->id : -1000;
+            }
         }
 
         $sort = $pageQuery->getSort();

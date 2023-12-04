@@ -13,6 +13,7 @@ use App\Repos\Order as OrderRepo;
 use App\Repos\Refund as RefundRepo;
 use App\Services\Logic\RefundTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\User\ShallowUserInfo;
 use App\Services\Logic\UserTrait;
 
 class RefundInfo extends LogicService
@@ -34,7 +35,7 @@ class RefundInfo extends LogicService
     {
         $statusHistory = $this->handleStatusHistory($refund->id);
         $order = $this->handleOrderInfo($refund->order_id);
-        $owner = $this->handleShallowUserInfo($refund->owner_id);
+        $owner = $this->handleOwnerInfo($refund->owner_id);
         $me = $this->handleMeInfo($refund, $user);
 
         return [
@@ -51,20 +52,6 @@ class RefundInfo extends LogicService
             'order' => $order,
             'owner' => $owner,
             'me' => $me,
-        ];
-    }
-
-    protected function handleOrderInfo($orderId)
-    {
-        $orderRepo = new OrderRepo();
-
-        $order = $orderRepo->findById($orderId);
-
-        return [
-            'id' => $order->id,
-            'sn' => $order->sn,
-            'subject' => $order->subject,
-            'amount' => $order->amount,
         ];
     }
 
@@ -88,6 +75,27 @@ class RefundInfo extends LogicService
         }
 
         return $result;
+    }
+
+    protected function handleOrderInfo($orderId)
+    {
+        $orderRepo = new OrderRepo();
+
+        $order = $orderRepo->findById($orderId);
+
+        return [
+            'id' => $order->id,
+            'sn' => $order->sn,
+            'subject' => $order->subject,
+            'amount' => $order->amount,
+        ];
+    }
+
+    protected function handleOwnerInfo($userId)
+    {
+        $service = new ShallowUserInfo();
+
+        return $service->handle($userId);
     }
 
     protected function handleMeInfo(RefundModel $refund, UserModel $user)

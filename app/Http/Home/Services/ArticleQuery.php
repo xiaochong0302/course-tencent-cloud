@@ -22,12 +22,16 @@ class ArticleQuery extends Service
         $this->baseUrl = $this->url->get(['for' => 'home.article.list']);
     }
 
-    public function handleCategories()
+    public function handleTopCategories()
     {
         $params = $this->getParams();
 
-        if (isset($params['category_id'])) {
-            unset($params['category_id']);
+        if (isset($params['tc'])) {
+            unset($params['tc']);
+        }
+
+        if (isset($params['sc'])) {
+            unset($params['sc']);
         }
 
         $defaultItem = [
@@ -44,8 +48,50 @@ class ArticleQuery extends Service
 
         $topCategories = $categoryService->getChildCategories(CategoryModel::TYPE_ARTICLE, 0);
 
-        foreach ($topCategories as $key => $category) {
-            $params['category_id'] = $category['id'];
+        foreach ($topCategories as $category) {
+            $params['tc'] = $category['id'];
+            $result[] = [
+                'id' => $category['id'],
+                'name' => $category['name'],
+                'url' => $this->baseUrl . $this->buildParams($params),
+            ];
+        }
+
+        return $result;
+    }
+
+    public function handleSubCategories()
+    {
+        $params = $this->getParams();
+
+        if (empty($params['tc'])) {
+            return [];
+        }
+
+        $categoryService = new CategoryService();
+
+        $subCategories = $categoryService->getChildCategories(CategoryModel::TYPE_ARTICLE, $params['tc']);
+
+        if (empty($subCategories)) {
+            return [];
+        }
+
+        if (isset($params['sc'])) {
+            unset($params['sc']);
+        }
+
+        $defaultItem = [
+            'id' => 'all',
+            'name' => '全部',
+            'url' => $this->baseUrl . $this->buildParams($params),
+        ];
+
+        $result = [];
+
+        $result[] = $defaultItem;
+
+        foreach ($subCategories as $category) {
+            $params['sc'] = $category['id'];
             $result[] = [
                 'id' => $category['id'],
                 'name' => $category['name'],
@@ -84,14 +130,19 @@ class ArticleQuery extends Service
 
         $validator = new ArticleQueryValidator();
 
-        if (isset($query['category_id']) && $query['category_id'] != 'all') {
-            $validator->checkCategory($query['category_id']);
-            $params['category_id'] = $query['category_id'];
-        }
-
         if (isset($query['tag_id'])) {
             $validator->checkTag($query['tag_id']);
             $params['tag_id'] = $query['tag_id'];
+        }
+
+        if (isset($query['tc']) && $query['tc'] != 'all') {
+            $validator->checkCategory($query['tc']);
+            $params['tc'] = $query['tc'];
+        }
+
+        if (isset($query['sc']) && $query['sc'] != 'all') {
+            $validator->checkCategory($query['sc']);
+            $params['sc'] = $query['sc'];
         }
 
         if (isset($query['sort'])) {

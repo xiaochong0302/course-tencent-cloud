@@ -49,6 +49,13 @@ class Vip extends Model
     public $price = 0.00;
 
     /**
+     * 发布标识
+     *
+     * @var int
+     */
+    public $published = 0;
+
+    /**
      * 删除标识
      *
      * @var int

@@ -33,11 +33,25 @@ class Task extends Repository
         }
 
         if (!empty($where['item_type'])) {
-            $builder->andWhere('item_type = :item_type:', ['item_type' => $where['item_type']]);
+            if (is_array($where['item_type'])) {
+                $builder->inWhere('item_type', $where['item_type']);
+            } else {
+                $builder->andWhere('item_type = :item_type:', ['item_type' => $where['item_type']]);
+            }
         }
 
         if (!empty($where['status'])) {
-            $builder->andWhere('status = :status:', ['status' => $where['status']]);
+            if (is_array($where['status'])) {
+                $builder->inWhere('status', $where['status']);
+            } else {
+                $builder->andWhere('status = :status:', ['status' => $where['status']]);
+            }
+        }
+
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
         }
 
         if (isset($where['locked'])) {

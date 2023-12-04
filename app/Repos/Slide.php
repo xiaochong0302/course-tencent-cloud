@@ -36,6 +36,12 @@ class Slide extends Repository
             $builder->andWhere('target = :target:', ['target' => $where['target']]);
         }
 
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
+        }
+
         if (isset($where['published'])) {
             $builder->andWhere('published = :published:', ['published' => $where['published']]);
         }

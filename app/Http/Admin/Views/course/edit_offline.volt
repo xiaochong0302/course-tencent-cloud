@@ -1,4 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.course.update','id':course.id}) }}">
+<form class="layui-form kg-form" method="POST" action="{{ update_url }}">
     <div class="layui-form-item">
         <label class="layui-form-label">开始日期</label>
         <div class="layui-input-block">

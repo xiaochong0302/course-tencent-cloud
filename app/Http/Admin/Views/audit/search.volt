@@ -35,7 +35,7 @@
             <div class="layui-input-inline">
                 <input class="layui-input time-range" type="text" name="start_time" autocomplete="off">
             </div>
-            <div class="layui-form-mid"> -</div>
+            <div class="layui-form-mid">-</div>
             <div class="layui-input-inline">
                 <input class="layui-input time-range" type="text" name="end_time" autocomplete="off">
             </div>

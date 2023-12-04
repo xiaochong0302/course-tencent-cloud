@@ -2,20 +2,23 @@
 
 {% block content %}
 
-    <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.student.create'}) }}">
-        <fieldset class="layui-elem-field layui-field-title">
-            <legend>添加学员</legend>
-        </fieldset>
+    {% set create_url = url({'for':'admin.course.create_user','id':course.id}) %}
+
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>添加学员</legend>
+    </fieldset>
+
+    <form class="layui-form kg-form" method="POST" action="{{ create_url }}">
         <div class="layui-form-item">
-            <label class="layui-form-label">所属课程</label>
+            <label class="layui-form-label">课程名称</label>
             <div class="layui-input-block">
-                <div id="xm-course-id"></div>
+                <div class="layui-form-mid">{{ course.title }}</div>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户账号</label>
+            <label class="layui-form-label">用户帐号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="xm_user_id" placeholder="用户编号 / 手机号码 / 邮箱地址" lay-verify="required">
+                <input class="layui-input" type="text" name="user_id" placeholder="用户编号 / 手机号码 / 邮箱地址" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
@@ -35,12 +38,6 @@
 
 {% endblock %}
 
-{% block include_js %}
-
-    {{ js_include('lib/xm-select.js') }}
-
-{% endblock %}
-
 {% block inline_js %}
 
     <script>
@@ -48,17 +45,6 @@
         layui.use(['laydate'], function () {
 
             var laydate = layui.laydate;
-
-            xmSelect.render({
-                el: '#xm-course-id',
-                name: 'xm_course_id',
-                radio: true,
-                filterable: true,
-                filterMethod: function (val, item, index, prop) {
-                    return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
-                },
-                data: {{ xm_courses|json_encode }}
-            });
 
             laydate.render({
                 elem: 'input[name=expiry_time]',

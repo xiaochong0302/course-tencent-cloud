@@ -51,15 +51,4 @@ class Resource extends Repository
             ->execute();
     }
 
-    /**
-     * @param int $chapterId
-     * @return ResultsetInterface|Resultset|ResourceModel[]
-     */
-    public function findByChapterId($chapterId)
-    {
-        return ResourceModel::query()
-            ->where('chapter_id = :chapter_id:', ['chapter_id' => $chapterId])
-            ->execute();
-    }
-
 }

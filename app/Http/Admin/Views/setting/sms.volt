@@ -29,7 +29,7 @@
         <fieldset class="layui-elem-field layui-field-title">
             <legend>模板配置</legend>
         </fieldset>
-        <table class="layui-table kg-table layui-form">
+        <table class="layui-table layui-form kg-table">
             <colgroup>
                 <col width="12%">
                 <col width="12%">

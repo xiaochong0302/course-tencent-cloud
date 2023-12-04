@@ -12,6 +12,7 @@ use App\Models\User as UserModel;
 use App\Repos\AnswerLike as AnswerLikeRepo;
 use App\Services\Logic\CommentTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\User\ShallowUserInfo;
 use App\Services\Logic\UserTrait;
 
 class CommentInfo extends LogicService
@@ -31,8 +32,8 @@ class CommentInfo extends LogicService
 
     protected function handleComment(CommentModel $comment, UserModel $user)
     {
-        $toUser = $this->handleShallowUserInfo($comment->to_user_id);
-        $owner = $this->handleShallowUserInfo($comment->owner_id);
+        $toUser = $this->handleToUserInfo($comment->to_user_id);
+        $owner = $this->handleOwnerInfo($comment->owner_id);
         $me = $this->handleMeInfo($comment, $user);
 
         return [
@@ -49,6 +50,22 @@ class CommentInfo extends LogicService
             'owner' => $owner,
             'me' => $me,
         ];
+    }
+
+    protected function handleToUserInfo($userId)
+    {
+        if ($userId == 0) return new \stdClass();
+
+        $service = new ShallowUserInfo();
+
+        return $service->handle($userId);
+    }
+
+    protected function handleOwnerInfo($userId)
+    {
+        $service = new ShallowUserInfo();
+
+        return $service->handle($userId);
     }
 
     protected function handleMeInfo(CommentModel $comment, UserModel $user)

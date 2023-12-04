@@ -27,8 +27,8 @@ class QuestionList extends Builder
     {
         $categories = $this->getCategories();
 
-        foreach ($questions as $key => $article) {
-            $questions[$key]['category'] = $categories[$article['category_id']] ?? new \stdClass();
+        foreach ($questions as $key => $question) {
+            $questions[$key]['category'] = $categories[$question['category_id']] ?? new \stdClass();
         }
 
         return $questions;

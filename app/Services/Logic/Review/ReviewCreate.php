@@ -43,7 +43,7 @@ class ReviewCreate extends LogicService
 
         $data['course_id'] = $course->id;
         $data['owner_id'] = $user->id;
-        $data['published'] = 1;
+        $data['published'] = ReviewModel::PUBLISH_PENDING;
 
         $review = new ReviewModel();
 

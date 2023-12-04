@@ -9,8 +9,7 @@ namespace App\Http\Home\Services;
 
 use App\Models\Article as ArticleModel;
 use App\Models\Category as CategoryModel;
-use App\Models\Reason as ReasonModel;
-use App\Repos\Category as CategoryRepo;
+use App\Services\Category as CategoryService;
 use App\Services\Logic\Article\XmTagList as XmTagListService;
 use App\Services\Logic\ArticleTrait;
 
@@ -35,25 +34,16 @@ class Article extends Service
         return $service->handle($id);
     }
 
-    public function getCategories()
+    public function getCategoryOptions()
     {
-        $categoryRepo = new CategoryRepo();
+        $categoryService = new CategoryService();
 
-        return $categoryRepo->findAll([
-            'type' => CategoryModel::TYPE_ARTICLE,
-            'level' => 1,
-            'published' => 1,
-        ]);
+        return $categoryService->getCategoryOptions(CategoryModel::TYPE_ARTICLE);
     }
 
     public function getSourceTypes()
     {
         return ArticleModel::sourceTypes();
-    }
-
-    public function getReportReasons()
-    {
-        return ReasonModel::reportOptions();
     }
 
     public function getArticle($id)

@@ -2,14 +2,6 @@
 
 {% block content %}
 
-    {%- macro alias_tips(alias) %}
-        {% if alias %}
-            <a href="javascript:" title="可通过 /page/{{ alias }} 访问页面">{{ alias }}</a>
-        {% else %}
-            N/A
-        {% endif %}
-    {%- endmacro %}
-
     {% set add_url = url({'for':'admin.page.add'}) %}
 
     <div class="kg-nav">
@@ -25,9 +17,8 @@
         </div>
     </div>
 
-    <table class="layui-table kg-table layui-form">
+    <table class="layui-table layui-form kg-table">
         <colgroup>
-            <col>
             <col>
             <col>
             <col>
@@ -41,7 +32,6 @@
             <th>标题</th>
             <th>别名</th>
             <th>浏览</th>
-            <th>创建时间</th>
             <th>发布</th>
             <th>操作</th>
         </tr>
@@ -56,10 +46,10 @@
             <tr>
                 <td>{{ item.id }}</td>
                 <td><a href="{{ edit_url }}">{{ item.title }}</a></td>
-                <td>{{ alias_tips(item.alias) }}</td>
+                <td>{{ item.alias }}</td>
                 <td>{{ item.view_count }}</td>
-                <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}>
+                <td><input type="checkbox" name="published" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}"
+                           {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 </td>
                 <td class="center">
                     <div class="kg-dropdown">

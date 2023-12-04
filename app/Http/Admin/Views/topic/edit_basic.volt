@@ -1,10 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ action_url }}">
-    <div class="layui-form-item">
-        <label class="layui-form-label">标题</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="title" value="{{ topic.title }}" lay-verify="required">
-        </div>
-    </div>
+<form class="layui-form kg-form" method="POST" action="{{ update_url }}">
     <div class="layui-form-item">
         <label class="layui-form-label">封面</label>
         <div class="layui-input-inline">
@@ -13,6 +7,12 @@
         </div>
         <div class="layui-input-inline" style="padding-top:35px;">
             <button id="change-cover" class="layui-btn layui-btn-sm" type="button">更换</button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input class="layui-input" type="text" name="title" value="{{ topic.title }}" lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">

@@ -8,7 +8,7 @@
     {% elseif value == 4 %}
         面授
     {% else %}
-        未知
+        N/A
     {% endif %}
 {%- endmacro %}
 
@@ -22,6 +22,6 @@
     {% elseif value == 4 %}
         高级
     {% else %}
-        未知
+        N/A
     {% endif %}
 {%- endmacro %}

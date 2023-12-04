@@ -22,13 +22,13 @@
                 <div class="kg-mod-preview">
                     <div class="meta">
                         <span><a href="{{ owner_url }}" target="_blank">{{ comment.owner.name }}</a></span>
-                        <span>{{ date('Y-m-d H:i',comment.create_time) }}</span>
+                        <span>{{ date('Y-m-d H:i:s',comment.create_time) }}</span>
                     </div>
                     <div class="content ke-content">{{ comment.content }}</div>
                 </div>
             </div>
             <div class="layui-tab-item">
-                <table class="layui-table kg-table" style="width:80%;">
+                <table class="layui-table kg-table">
                     <colgroup>
                         <col>
                         <col>
@@ -47,7 +47,7 @@
                         <tr>
                             <td><a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a></td>
                             <td>{{ item.reason }}</td>
-                            <td>{{ date('Y-m-d',item.create_time) }}</td>
+                            <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -72,7 +72,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label"></label>
                         <div class="layui-input-block">
-                            <button id="kg-submit" class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
+                            <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
                             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
                         </div>
                     </div>

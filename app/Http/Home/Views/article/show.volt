@@ -8,7 +8,6 @@
     {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
     {% set article_edit_url = url({'for':'home.article.edit','id':article.id}) %}
     {% set article_delete_url = url({'for':'home.article.delete','id':article.id}) %}
-    {% set article_private_url = url({'for':'home.article.private','id':article.id}) %}
     {% set article_close_url = url({'for':'home.article.close','id':article.id}) %}
     {% set article_owner_url = url({'for':'home.user.show','id':article.owner.id}) %}
     {% set article_related_url = url({'for':'home.article.related','id':article.id}) %}
@@ -21,9 +20,10 @@
             <a><cite>详情</cite></a>
         </span>
         <span class="share">
-            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat share-wechat"></i></a>
-            <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq share-qq"></i></a>
-            <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo share-weibo"></i></a>
+            <a class="share-wechat" href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat"></i></a>
+            <a class="share-qq" href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq"></i></a>
+            <a class="share-weibo" href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo"></i></a>
+            <a class="share-link kg-copy" href="javascript:" title="复制链接" data-clipboard-text="{{ share_url }}"><i class="layui-icon layui-icon-share"></i></a>
         </span>
     </div>
 
@@ -44,16 +44,11 @@
                     </div>
                     <div class="right">
                         <span class="kg-report" data-url="{{ article_report_url }}">举报</span>
-                        {% if auth_user.id == article.owner.id %}
+                        {% if article.me.owned == 1 %}
                             {% if article.closed == 0 %}
                                 <span class="article-close" title="关闭评论" data-url="{{ article_close_url }}">关闭</span>
                             {% else %}
                                 <span class="article-close" title="开启评论" data-url="{{ article_close_url }}">打开</span>
-                            {% endif %}
-                            {% if article.private == 0 %}
-                                <span class="article-private" title="仅我可见" data-url="{{ article_private_url }}">私密</span>
-                            {% else %}
-                                <span class="article-private" title="公开可见" data-url="{{ article_private_url }}">共享</span>
                             {% endif %}
                             <span class="article-edit" data-url="{{ article_edit_url }}">编辑</span>
                             <span class="kg-delete" data-url="{{ article_delete_url }}">删除</span>
@@ -121,8 +116,10 @@
 
 {% block include_js %}
 
+    {{ js_include('lib/clipboard.min.js') }}
     {{ js_include('home/js/article.show.js') }}
     {{ js_include('home/js/article.share.js') }}
     {{ js_include('home/js/comment.js') }}
+    {{ js_include('home/js/copy.js') }}
 
 {% endblock %}

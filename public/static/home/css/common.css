@@ -858,7 +858,7 @@
     cursor: pointer;
 }
 
-.course-filter {
+.filter-wrap {
     margin-bottom: 20px;
 }
 
@@ -878,11 +878,11 @@
     margin-right: 15px;
 }
 
-.course-sort {
+.filter-sort {
     padding: 10px 20px;
 }
 
-.course-sort a {
+.filter-sort a {
     margin-right: 20px;
 }
 

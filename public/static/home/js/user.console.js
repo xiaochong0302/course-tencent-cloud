@@ -41,7 +41,7 @@ layui.use(['jquery', 'layer'], function () {
             type: 2,
             title: '发布评价',
             content: [url, 'no'],
-            area: ['640px', '400px'],
+            area: ['640px', '480px'],
             cancel: function () {
                 parent.location.reload();
             }
@@ -57,7 +57,7 @@ layui.use(['jquery', 'layer'], function () {
             type: 2,
             title: '修改评价',
             content: [url, 'no'],
-            area: ['640px', '400px'],
+            area: ['640px', '480px'],
             cancel: function () {
                 parent.location.reload();
             }

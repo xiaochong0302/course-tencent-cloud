@@ -2,18 +2,15 @@
 
 {% block content %}
 
-    {% set sort_val = request.get('sort','trim','latest') %}
-    {% set pager_url = url({'for':'home.question.pager'}, params) %}
-    {% set hot_questions_url = url({'for':'home.widget.hot_questions'},{'limit':10}) %}
-    {% set top_answerers_url = url({'for':'home.widget.top_answerers'},{'limit':5}) %}
-    {% set my_tags_url = url({'for':'home.widget.my_tags'},{'type':'question'}) %}
+    {% if top_categories|length > 1 %}
+        {{ partial('question/list_filter') }}
+    {% endif %}
 
-    <div class="breadcrumb">
-        <span class="layui-breadcrumb">
-            <a href="/">首页</a>
-            <a><cite>问答</cite></a>
-        </span>
-    </div>
+    {% set ask_url = url({'for':'home.question.add'}) %}
+    {% set pager_url = url({'for':'home.question.pager'}, params) %}
+    {% set hot_questions_url = url({'for':'home.widget.hot_questions'},{'limit':5}) %}
+    {% set top_answerers_url = url({'for':'home.widget.top_answerers'},{'limit':5}) %}
+    {% set sort_val = request.get('sort','trim','latest') %}
 
     <div class="layout-main">
         <div class="layout-content">
@@ -34,9 +31,9 @@
             </div>
         </div>
         <div class="layout-sidebar">
-            {% if auth_user.id > 0 %}
-                <div class="sidebar" id="sidebar-my-tags" data-url="{{ my_tags_url }}"></div>
-            {% endif %}
+            <div class="sidebar wrap">
+                <a class="layui-btn layui-btn-fluid btn-ask" data-url="{{ ask_url }}">我要提问</a>
+            </div>
             <div class="sidebar" id="sidebar-hot-questions" data-url="{{ hot_questions_url }}"></div>
             <div class="sidebar" id="sidebar-top-answerers" data-url="{{ top_answerers_url }}"></div>
         </div>
@@ -46,6 +43,7 @@
 
 {% block include_js %}
 
+    {{ js_include('home/js/list.filter.js') }}
     {{ js_include('home/js/question.list.js') }}
 
 {% endblock %}

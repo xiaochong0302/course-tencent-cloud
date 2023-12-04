@@ -3,13 +3,13 @@
         <legend>编辑礼品</legend>
     </fieldset>
     <div class="layui-form-item">
-        <label class="layui-form-label">课程封面</label>
+        <label class="layui-form-label">礼品封面</label>
         <div class="layui-input-inline">
             <img id="img-cover" class="kg-cover" src="{{ gift.cover }}">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">课程名称</label>
+        <label class="layui-form-label">礼品名称</label>
         <div class="layui-form-mid layui-word-aux">{{ gift.name }}（{{ '￥%0.2f'|format(gift.attrs['price']) }}）</div>
     </div>
     <div class="layui-form-item">

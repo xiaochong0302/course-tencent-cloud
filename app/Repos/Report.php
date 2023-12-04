@@ -24,6 +24,10 @@ class Report extends Repository
 
         $builder->where('1 = 1');
 
+        if (!empty($where['owner_id'])) {
+            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
+        }
+
         if (!empty($where['item_id'])) {
             $builder->andWhere('item_id = :item_id:', ['item_id' => $where['item_id']]);
         }
@@ -36,8 +40,10 @@ class Report extends Repository
             }
         }
 
-        if (!empty($where['owner_id'])) {
-            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
         }
 
         if (isset($where['reviewed'])) {

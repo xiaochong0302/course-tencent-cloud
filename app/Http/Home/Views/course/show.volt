@@ -14,9 +14,10 @@
             <a><cite>{{ course.title }}</cite></a>
         </span>
         <span class="share">
-            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat share-wechat"></i></a>
-            <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq share-qq"></i></a>
-            <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo share-weibo"></i></a>
+            <a class="share-wechat" href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat"></i></a>
+            <a class="share-qq" href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq"></i></a>
+            <a class="share-weibo" href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo"></i></a>
+            <a class="share-link kg-copy" href="javascript:" title="复制链接" data-clipboard-text="{{ share_url }}"><i class="layui-icon layui-icon-share"></i></a>
         </span>
     </div>
 
@@ -121,7 +122,9 @@
 
 {% block include_js %}
 
+    {{ js_include('lib/clipboard.min.js') }}
     {{ js_include('home/js/course.show.js') }}
     {{ js_include('home/js/course.share.js') }}
+    {{ js_include('home/js/copy.js') }}
 
 {% endblock %}

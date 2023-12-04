@@ -11,8 +11,6 @@ use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Services\Logic\User\AnswerList as UserAnswerListService;
 use App\Services\Logic\User\ArticleList as UserArticleListService;
 use App\Services\Logic\User\CourseList as UserCourseListService;
-use App\Services\Logic\User\FriendList as UserFriendListService;
-use App\Services\Logic\User\GroupList as UserGroupListService;
 use App\Services\Logic\User\QuestionList as UserQuestionListService;
 use App\Services\Logic\User\UserInfo as UserInfoService;
 use Phalcon\Mvc\View;
@@ -109,38 +107,6 @@ class UserController extends Controller
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->pick('user/answers');
-        $this->view->setVar('pager', $pager);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/friends", name="home.user.friends")
-     */
-    public function friendsAction($id)
-    {
-        $service = new UserFriendListService();
-
-        $pager = $service->handle($id);
-
-        $pager->target = 'tab-friends';
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('user/friends');
-        $this->view->setVar('pager', $pager);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/groups", name="home.user.groups")
-     */
-    public function groupsAction($id)
-    {
-        $service = new UserGroupListService();
-
-        $pager = $service->handle($id);
-
-        $pager->target = 'tab-groups';
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->pick('user/groups');
         $this->view->setVar('pager', $pager);
     }
 

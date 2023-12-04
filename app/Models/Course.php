@@ -137,15 +137,6 @@ class Course extends Model
     public $teacher_id = 0;
 
     /**
-     * 原始价格
-     *
-     * @deprecated since v1.5.7
-     *
-     * @var float
-     */
-    public $origin_price = 0.00;
-
-    /**
      * 优惠价格
      *
      * @var float
@@ -396,7 +387,6 @@ class Course extends Model
 
     public function afterFetch()
     {
-        $this->origin_price = (float)$this->origin_price;
         $this->market_price = (float)$this->market_price;
         $this->vip_price = (float)$this->vip_price;
         $this->rating = (float)$this->rating;
@@ -413,6 +403,17 @@ class Course extends Model
         if (is_string($this->attrs)) {
             $this->attrs = json_decode($this->attrs, true);
         }
+    }
+
+    public function getUserCount()
+    {
+        $userCount = $this->user_count;
+
+        if ($this->fake_user_count > $userCount) {
+            $userCount = $this->fake_user_count;
+        }
+
+        return $userCount;
     }
 
     public static function getCoverPath($url)

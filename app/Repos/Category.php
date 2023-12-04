@@ -25,16 +25,32 @@ class Category extends Repository
 
         $query->where('1 = 1');
 
+        if (!empty($where['id'])) {
+            $query->andWhere('id = :id:', ['id' => $where['id']]);
+        }
+
+        if (!empty($where['name'])) {
+            $query->andWhere('name LIKE :name:', ['name' => "%{$where['name']}%"]);
+        }
+
+        if (!empty($where['type'])) {
+            if (is_array($where['type'])) {
+                $query->inWhere('type', $where['type']);
+            } else {
+                $query->andWhere('type = :type:', ['type' => $where['type']]);
+            }
+        }
+
+        if (!empty($where['level'])) {
+            if (is_array($where['level'])) {
+                $query->inWhere('level', $where['level']);
+            } else {
+                $query->andWhere('level = :level:', ['level' => $where['level']]);
+            }
+        }
+
         if (isset($where['parent_id'])) {
             $query->andWhere('parent_id = :parent_id:', ['parent_id' => $where['parent_id']]);
-        }
-
-        if (isset($where['type'])) {
-            $query->andWhere('type = :type:', ['type' => $where['type']]);
-        }
-
-        if (isset($where['level'])) {
-            $query->andWhere('level = :level:', ['level' => $where['level']]);
         }
 
         if (isset($where['published'])) {

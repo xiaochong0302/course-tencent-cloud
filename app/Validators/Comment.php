@@ -102,13 +102,6 @@ class Comment extends Validator
         return $value;
     }
 
-    public function checkRejectReason($reason)
-    {
-        if (!array_key_exists($reason, ReasonModel::commentRejectOptions())) {
-            throw new BadRequestException('comment.invalid_reject_reason');
-        }
-    }
-
     public function checkPublishStatus($status)
     {
         if (!array_key_exists($status, CommentModel::publishTypes())) {

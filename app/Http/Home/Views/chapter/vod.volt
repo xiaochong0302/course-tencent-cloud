@@ -13,9 +13,10 @@
             <a><cite>{{ chapter.title }}</cite></a>
         </span>
         <span class="share">
-            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat share-wechat"></i></a>
-            <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq share-qq"></i></a>
-            <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo share-weibo"></i></a>
+            <a class="share-wechat" href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat"></i></a>
+            <a class="share-qq" href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq"></i></a>
+            <a class="share-weibo" href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo"></i></a>
+            <a class="share-link kg-copy" href="javascript:" title="复制链接" data-clipboard-text="{{ share_url }}"><i class="layui-icon layui-icon-share"></i></a>
         </span>
     </div>
 
@@ -43,10 +44,11 @@
 
     <div class="layui-hide">
         <input type="hidden" name="chapter.id" value="{{ chapter.id }}">
-        <input type="hidden" name="chapter.position" value="{{ chapter.me.position }}">
-        <input type="hidden" name="chapter.plan_id" value="{{ chapter.me.plan_id }}">
+        <input type="hidden" name="chapter.cover" value="{{ chapter.course.cover }}">
         <input type="hidden" name="chapter.learning_url" value="{{ learning_url }}">
         <input type="hidden" name="chapter.play_urls" value='{{ chapter.play_urls|json_encode }}'>
+        <input type="hidden" name="chapter.me.position" value="{{ chapter.me.position }}">
+        <input type="hidden" name="chapter.me.plan_id" value="{{ chapter.me.plan_id }}">
     </div>
 
     <div class="layui-hide">
@@ -60,11 +62,13 @@
 
 {% block include_js %}
 
+    {{ js_include('lib/clipboard.min.js') }}
     {{ js_include('lib/dplayer/hls.min.js') }}
     {{ js_include('lib/dplayer/DPlayer.min.js') }}
     {{ js_include('home/js/course.share.js') }}
     {{ js_include('home/js/chapter.show.js') }}
     {{ js_include('home/js/chapter.vod.player.js') }}
     {{ js_include('home/js/comment.js') }}
+    {{ js_include('home/js/copy.js') }}
 
 {% endblock %}

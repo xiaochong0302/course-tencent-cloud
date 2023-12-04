@@ -28,7 +28,6 @@ class CourseList extends LogicService
         $params = $pagerQuery->getParams();
 
         $params['user_id'] = $user->id;
-        $params['role_type'] = CourseUserModel::ROLE_STUDENT;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
@@ -61,7 +60,6 @@ class CourseList extends LogicService
             $course = $courses[$relation['course_id']] ?? new \stdClass();
 
             $items[] = [
-                'plan_id' => $relation['plan_id'],
                 'progress' => $relation['progress'],
                 'duration' => $relation['duration'],
                 'reviewed' => $relation['reviewed'],

@@ -13,6 +13,7 @@ use App\Repos\Order as OrderRepo;
 use App\Repos\Trade as TradeRepo;
 use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\TradeTrait;
+use App\Services\Logic\User\ShallowUserInfo;
 use App\Services\Logic\UserTrait;
 
 class TradeInfo extends LogicService
@@ -33,7 +34,8 @@ class TradeInfo extends LogicService
     protected function handleTrade(TradeModel $trade, UserModel $user)
     {
         $statusHistory = $this->handleStatusHistory($trade->id);
-        $owner = $this->handleShallowUserInfo($trade->owner_id);
+        $order = $this->handleOrderInfo($trade->order_id);
+        $owner = $this->handleOwnerInfo($trade->owner_id);
         $me = $this->handleMeInfo($trade, $user);
 
         return [
@@ -46,6 +48,7 @@ class TradeInfo extends LogicService
             'create_time' => $trade->create_time,
             'update_time' => $trade->update_time,
             'status_history' => $statusHistory,
+            'order' => $order,
             'owner' => $owner,
             'me' => $me,
         ];
@@ -63,6 +66,13 @@ class TradeInfo extends LogicService
             'subject' => $order->subject,
             'amount' => $order->amount,
         ];
+    }
+
+    protected function handleOwnerInfo($userId)
+    {
+        $service = new ShallowUserInfo();
+
+        return $service->handle($userId);
     }
 
     protected function handleStatusHistory($tradeId)

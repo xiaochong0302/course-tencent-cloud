@@ -24,7 +24,7 @@ class QuestionQuery extends Validator
             throw new BadRequestException('question_query.invalid_category');
         }
 
-        return $category->id;
+        return $category;
     }
 
     public function checkTag($id)
@@ -37,7 +37,7 @@ class QuestionQuery extends Validator
             throw new BadRequestException('question_query.invalid_tag');
         }
 
-        return $tag->id;
+        return $tag;
     }
 
     public function checkSort($sort)

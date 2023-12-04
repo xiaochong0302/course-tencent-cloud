@@ -115,7 +115,7 @@ class Consult extends Model
      *
      * @var int
      */
-    public $published = 0;
+    public $published = self::PUBLISH_PENDING;
 
     /**
      * 删除标识

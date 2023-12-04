@@ -31,18 +31,6 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         });
     });
 
-    $('.article-private').on('click', function () {
-        var url = $(this).data('url');
-        $.post(url, function (res) {
-            if (res.msg) {
-                layer.msg(res.msg, {icon: 1});
-            }
-            setTimeout(function () {
-                window.location.reload()
-            }, 1500);
-        });
-    });
-
     $('.icon-star').on('click', function () {
         var $this = $(this);
         var $parent = $this.parent();

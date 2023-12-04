@@ -9,9 +9,13 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\ConsultList as ConsultListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Consult as ConsultModel;
 use App\Models\Course as CourseModel;
+use App\Models\Reason as ReasonModel;
+use App\Models\User as UserModel;
+use App\Repos\Account as AccountRepo;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
@@ -27,6 +31,34 @@ class Consult extends Service
         return ConsultModel::publishTypes();
     }
 
+    public function getReasons()
+    {
+        return ReasonModel::consultRejectOptions();
+    }
+
+    public function getXmCourses()
+    {
+        $courseRepo = new CourseRepo();
+
+        $items = $courseRepo->findAll([
+            'published' => 1,
+            'deleted' => 0,
+        ]);
+
+        if ($items->count() == 0) return [];
+
+        $result = [];
+
+        foreach ($items as $item) {
+            $result[] = [
+                'name' => sprintf('%s - %s（¥%0.2f）', $item->id, $item->title, $item->market_price),
+                'value' => $item->id,
+            ];
+        }
+
+        return $result;
+    }
+
     public function getConsults()
     {
         $pagerQuery = new PagerQuery();
@@ -34,6 +66,21 @@ class Consult extends Service
         $params = $pagerQuery->getParams();
 
         $params['deleted'] = $params['deleted'] ?? 0;
+
+        $accountRepo = new AccountRepo();
+
+        /**
+         * 兼容用户编号｜手机号码｜邮箱地址查询
+         */
+        if (!empty($params['owner_id'])) {
+            if (CommonValidator::phone($params['owner_id'])) {
+                $account = $accountRepo->findByPhone($params['owner_id']);
+                $params['owner_id'] = $account ? $account->id : -1000;
+            } elseif (CommonValidator::email($params['owner_id'])) {
+                $account = $accountRepo->findByEmail($params['owner_id']);
+                $params['owner_id'] = $account ? $account->id : -1000;
+            }
+        }
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
@@ -95,7 +142,6 @@ class Consult extends Service
 
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
-            $this->handleItemConsults($consult);
         }
 
         $consult->update($data);
@@ -103,6 +149,10 @@ class Consult extends Service
         if ($firstReply) {
             $this->handleReplyNotice($consult);
         }
+
+        $this->recountItemConsults($consult);
+
+        $this->eventsManager->fire('Consult:afterUpdate', $this, $consult);
 
         return $consult;
     }
@@ -115,7 +165,13 @@ class Consult extends Service
 
         $consult->update();
 
-        $this->handleItemConsults($consult);
+        $this->recountItemConsults($consult);
+
+        $sender = $this->getLoginUser();
+
+        $this->handleConsultDeletedNotice($consult, $sender);
+
+        $this->eventsManager->fire('Consult:afterDelete', $this, $consult);
     }
 
     public function restoreConsult($id)
@@ -126,52 +182,97 @@ class Consult extends Service
 
         $consult->update();
 
-        $this->handleItemConsults($consult);
+        $this->recountItemConsults($consult);
+
+        $this->eventsManager->fire('Consult:afterRestore', $this, $consult);
     }
 
     public function moderate($id)
     {
         $type = $this->request->getPost('type', ['trim', 'string']);
+        $reason = $this->request->getPost('reason', ['trim', 'string']);
 
         $consult = $this->findOrFail($id);
+        $sender = $this->getLoginUser();
 
         if ($type == 'approve') {
+
             $consult->published = ConsultModel::PUBLISH_APPROVED;
-        } elseif ($type == 'reject') {
-            $consult->published = ConsultModel::PUBLISH_REJECTED;
-        }
+            $consult->update();
 
-        $consult->update();
+            $this->handleConsultApprovedNotice($consult, $sender);
 
-        $this->handleItemConsults($consult);
-
-        if ($type == 'approve') {
             $this->eventsManager->fire('Consult:afterApprove', $this, $consult);
+
         } elseif ($type == 'reject') {
+
+            $consult->published = ConsultModel::PUBLISH_REJECTED;
+            $consult->update();
+
+            $this->handleConsultRejectedNotice($consult, $sender, $reason);
+
             $this->eventsManager->fire('Consult:afterReject', $this, $consult);
         }
+
+        $this->recountItemConsults($consult);
 
         return $consult;
     }
 
-    protected function handleItemConsults(ConsultModel $consult)
+    public function batchModerate()
     {
-        if ($consult->course_id > 0) {
-            $course = $this->findCourse($consult->course_id);
-            $this->recountCourseConsults($course);
-        }
+        $type = $this->request->getQuery('type', ['trim', 'string']);
+        $ids = $this->request->getPost('ids', ['trim', 'int']);
 
-        if ($consult->chapter_id > 0) {
-            $chapter = $this->findChapter($consult->chapter_id);
-            $this->recountChapterConsults($chapter);
+        $consultRepo = new ConsultRepo();
+
+        $consults = $consultRepo->findByIds($ids);
+
+        if ($consults->count() == 0) return;
+
+        $sender = $this->getLoginUser();
+
+        foreach ($consults as $consult) {
+
+            if ($type == 'approve') {
+
+                $consult->published = ConsultModel::PUBLISH_APPROVED;
+                $consult->update();
+
+                $this->handleConsultApprovedNotice($consult, $sender);
+
+            } elseif ($type == 'reject') {
+
+                $consult->published = ConsultModel::PUBLISH_REJECTED;
+                $consult->update();
+
+                $this->handleConsultRejectedNotice($consult, $sender);
+            }
+
+            $this->recountItemConsults($consult);
         }
     }
 
-    protected function handleReplyNotice(ConsultModel $consult)
+    public function batchDelete()
     {
-        $notice = new ConsultReplyNotice();
+        $ids = $this->request->getPost('ids', ['trim', 'int']);
 
-        $notice->createTask($consult);
+        $consultRepo = new ConsultRepo();
+
+        $consults = $consultRepo->findByIds($ids);
+
+        if ($consults->count() == 0) return;
+
+        $sender = $this->getLoginUser();
+
+        foreach ($consults as $consult) {
+
+            $consult->deleted = 1;
+            $consult->update();
+
+            $this->handleConsultDeletedNotice($consult, $sender);
+            $this->recountItemConsults($consult);
+        }
     }
 
     protected function findOrFail($id)
@@ -193,6 +294,41 @@ class Consult extends Service
         $chapterRepo = new ChapterRepo();
 
         return $chapterRepo->findById($id);
+    }
+
+    protected function handleReplyNotice(ConsultModel $consult)
+    {
+        $notice = new ConsultReplyNotice();
+
+        $notice->createTask($consult);
+    }
+
+    protected function handleConsultApprovedNotice(ConsultModel $review, UserModel $sender)
+    {
+
+    }
+
+    protected function handleConsultRejectedNotice(ConsultModel $review, UserModel $sender, $reason = '')
+    {
+
+    }
+
+    protected function handleConsultDeletedNotice(ConsultModel $review, UserModel $sender, $reason = '')
+    {
+
+    }
+
+    protected function recountItemConsults(ConsultModel $consult)
+    {
+        if ($consult->course_id > 0) {
+            $course = $this->findCourse($consult->course_id);
+            $this->recountCourseConsults($course);
+        }
+
+        if ($consult->chapter_id > 0) {
+            $chapter = $this->findChapter($consult->chapter_id);
+            $this->recountChapterConsults($chapter);
+        }
     }
 
     protected function recountCourseConsults(CourseModel $course)

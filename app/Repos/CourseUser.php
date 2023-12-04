@@ -32,12 +32,24 @@ class CourseUser extends Repository
             $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
-        if (!empty($where['role_type'])) {
-            $builder->andWhere('role_type = :role_type:', ['role_type' => $where['role_type']]);
+        if (!empty($where['plan_id'])) {
+            $builder->andWhere('plan_id = :plan_id:', ['plan_id' => $where['plan_id']]);
         }
 
         if (!empty($where['source_type'])) {
             $builder->andWhere('source_type = :source_type:', ['source_type' => $where['source_type']]);
+        }
+
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
+        }
+
+        if (!empty($where['expiry_time'][0]) && !empty($where['expiry_time'][1])) {
+            $startTime = strtotime($where['expiry_time'][0]);
+            $endTime = strtotime($where['expiry_time'][1]);
+            $builder->betweenWhere('expiry_time', $startTime, $endTime);
         }
 
         if (isset($where['deleted'])) {
@@ -76,20 +88,6 @@ class CourseUser extends Repository
     /**
      * @param int $courseId
      * @param int $userId
-     * @param int $planId
-     * @return CourseUserModel|Model|bool
-     */
-    public function findPlanCourseUser($courseId, $userId, $planId)
-    {
-        return CourseUserModel::findFirst([
-            'conditions' => 'course_id = ?1 AND user_id = ?2 AND plan_id = ?3 AND deleted = 0',
-            'bind' => [1 => $courseId, 2 => $userId, 3 => $planId],
-        ]);
-    }
-
-    /**
-     * @param int $courseId
-     * @param int $userId
      * @return CourseUserModel|Model|bool
      */
     public function findCourseUser($courseId, $userId)
@@ -104,54 +102,15 @@ class CourseUser extends Repository
     /**
      * @param int $courseId
      * @param int $userId
+     * @param int $planId
      * @return CourseUserModel|Model|bool
      */
-    public function findCourseTeacher($courseId, $userId)
-    {
-        $roleType = CourseUserModel::ROLE_TEACHER;
-
-        return $this->findRoleCourseUser($courseId, $userId, $roleType);
-    }
-
-    /**
-     * @param int $courseId
-     * @param int $userId
-     * @return CourseUserModel|Model|bool
-     */
-    public function findCourseStudent($courseId, $userId)
-    {
-        $roleType = CourseUserModel::ROLE_STUDENT;
-
-        return $this->findRoleCourseUser($courseId, $userId, $roleType);
-    }
-
-    /**
-     * @param int $courseId
-     * @param int $userId
-     * @param string $roleType
-     * @return CourseUserModel|Model|bool
-     */
-    protected function findRoleCourseUser($courseId, $userId, $roleType)
+    public function findPlanCourseUser($courseId, $userId, $planId)
     {
         return CourseUserModel::findFirst([
-            'conditions' => 'course_id = ?1 AND user_id = ?2 AND role_type = ?3 AND deleted = 0',
-            'bind' => [1 => $courseId, 2 => $userId, 3 => $roleType],
-            'order' => 'id DESC',
+            'conditions' => 'course_id = ?1 AND user_id = ?2 AND plan_id = ?3 AND deleted = 0',
+            'bind' => [1 => $courseId, 2 => $userId, 3 => $planId],
         ]);
-    }
-
-    /**
-     * @param array $teacherIds
-     * @return ResultsetInterface|Resultset|CourseUserModel[]
-     */
-    public function findByTeacherIds($teacherIds)
-    {
-        $roleType = CourseUserModel::ROLE_TEACHER;
-
-        return CourseUserModel::query()
-            ->inWhere('user_id', $teacherIds)
-            ->andWhere('role_type = :role_type:', ['role_type' => $roleType])
-            ->execute();
     }
 
     /**

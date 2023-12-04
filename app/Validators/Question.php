@@ -147,13 +147,6 @@ class Question extends Validator
         return $status;
     }
 
-    public function checkRejectReason($reason)
-    {
-        if (!array_key_exists($reason, ReasonModel::questionRejectOptions())) {
-            throw new BadRequestException('question.invalid_reject_reason');
-        }
-    }
-
     public function checkIfAllowEdit(QuestionModel $question)
     {
         $approved = $question->published == QuestionModel::PUBLISH_APPROVED;

@@ -28,7 +28,19 @@
             </div>
             <div class="layout-sidebar writer-sidebar wrap">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">分类标签</label>
+                    <label class="layui-form-label">问题分类</label>
+                    <div class="layui-input-block">
+                        <select name="category_id" lay-search="true" lay-verify="required">
+                            <option value="">请选择</option>
+                            {% for option in category_options %}
+                                {% set selected = question.category_id == option.id ? 'selected="selected"' : '' %}
+                                <option value="{{ option.id }}" {{ selected }}>{{ option.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">问题标签</label>
                     <div class="layui-input-block">
                         <div id="xm-tag-ids"></div>
                     </div>

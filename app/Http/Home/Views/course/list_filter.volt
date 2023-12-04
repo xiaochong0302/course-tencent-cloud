@@ -8,16 +8,18 @@
     <span class="layui-icon layui-icon-up"></span>
 </div>
 
-<div class="course-filter wrap">
-    <div class="filter-group">
-        <div class="title">方向</div>
-        <div class="content">
-            {% for category in top_categories %}
-                {% set class = tc_val == category.id ? 'layui-btn layui-btn-xs' : 'none' %}
-                <a class="{{ class }}" href="{{ category.url }}">{{ category.name }}</a>
-            {% endfor %}
+<div class="filter-wrap wrap">
+    {% if top_categories %}
+        <div class="filter-group">
+            <div class="title">方向</div>
+            <div class="content">
+                {% for category in top_categories %}
+                    {% set class = tc_val == category.id ? 'layui-btn layui-btn-xs' : 'none' %}
+                    <a class="{{ class }}" href="{{ category.url }}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
         </div>
-    </div>
+    {% endif %}
     {% if sub_categories %}
         <div class="filter-group">
             <div class="title">分类</div>
@@ -49,7 +51,7 @@
     </div>
 </div>
 
-<div class="course-sort wrap">
+<div class="filter-sort wrap">
     {% for sort in sorts %}
         {% set class = sort_val == sort.id ? 'layui-btn layui-btn-xs' : 'none' %}
         <a class="{{ class }}" href="{{ sort.url }}">{{ sort.name }}</a>

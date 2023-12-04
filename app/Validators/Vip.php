@@ -8,6 +8,7 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
+use App\Library\Validators\Common as CommonValidator;
 use App\Repos\Vip as VipRepo;
 
 class Vip extends Validator
@@ -43,6 +44,17 @@ class Vip extends Validator
         return $value;
     }
 
+    public function checkCover($cover)
+    {
+        $value = $this->filter->sanitize($cover, ['trim', 'string']);
+
+        if (!CommonValidator::url($value)) {
+            throw new BadRequestException('vip.invalid_cover');
+        }
+
+        return kg_cos_img_style_trim($value);
+    }
+
     public function checkExpiry($expiry)
     {
         $value = $this->filter->sanitize($expiry, ['trim', 'int']);
@@ -58,11 +70,20 @@ class Vip extends Validator
     {
         $value = $this->filter->sanitize($price, ['trim', 'float']);
 
-        if ($value < 0.01 || $value > 10000) {
+        if ($value < 1 || $value > 999999) {
             throw new BadRequestException('vip.invalid_price');
         }
 
         return $value;
+    }
+
+    public function checkPublishStatus($status)
+    {
+        if (!in_array($status, [0, 1])) {
+            throw new BadRequestException('vip.invalid_publish_status');
+        }
+
+        return $status;
     }
 
 }

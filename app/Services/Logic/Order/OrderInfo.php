@@ -12,13 +12,11 @@ use App\Models\Order as OrderModel;
 use App\Models\User as UserModel;
 use App\Repos\Order as OrderRepo;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Logic\UserTrait;
+use App\Services\Logic\User\ShallowUserInfo;
 use App\Validators\Order as OrderValidator;
 
 class OrderInfo extends LogicService
 {
-
-    use UserTrait;
 
     public function handle($sn)
     {
@@ -44,15 +42,12 @@ class OrderInfo extends LogicService
             'item_id' => $order->item_id,
             'item_type' => $order->item_type,
             'item_info' => $order->item_info,
-            'promotion_id' => $order->promotion_id,
-            'promotion_type' => $order->promotion_type,
-            'promotion_info' => $order->promotion_info,
             'create_time' => $order->create_time,
             'update_time' => $order->update_time,
         ];
 
         $result['status_history'] = $this->handleStatusHistory($order->id);
-        $result['owner'] = $this->handleShallowUserInfo($order->owner_id);
+        $result['owner'] = $this->handleOwnerInfo($order->owner_id);
         $result['me'] = $this->handleMeInfo($order, $user);
 
         return $result;
@@ -76,6 +71,13 @@ class OrderInfo extends LogicService
         }
 
         return $result;
+    }
+
+    protected function handleOwnerInfo($userId)
+    {
+        $service = new ShallowUserInfo();
+
+        return $service->handle($userId);
     }
 
     protected function handleMeInfo(OrderModel $order, UserModel $user)

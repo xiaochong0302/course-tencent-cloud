@@ -13,13 +13,12 @@ use App\Repos\AnswerLike as AnswerLikeRepo;
 use App\Repos\Question as QuestionRepo;
 use App\Services\Logic\AnswerTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Logic\UserTrait;
+use App\Services\Logic\User\ShallowUserInfo;
 
 class AnswerInfo extends LogicService
 {
 
     use AnswerTrait;
-    use UserTrait;
 
     public function handle($id)
     {
@@ -33,7 +32,7 @@ class AnswerInfo extends LogicService
     protected function handleAnswer(AnswerModel $answer, UserModel $user)
     {
         $question = $this->handleQuestionInfo($answer->question_id);
-        $owner = $this->handleShallowUserInfo($answer->owner_id);
+        $owner = $this->handleOwnerInfo($answer->owner_id);
         $me = $this->handleMeInfo($answer, $user);
 
         return [
@@ -65,6 +64,13 @@ class AnswerInfo extends LogicService
         ];
     }
 
+    protected function handleOwnerInfo($userId)
+    {
+        $service = new ShallowUserInfo();
+
+        return $service->handle($userId);
+    }
+
     protected function handleMeInfo(AnswerModel $answer, UserModel $user)
     {
         $me = [
@@ -73,11 +79,11 @@ class AnswerInfo extends LogicService
             'owned' => 0,
         ];
 
-        if ($user->id == $answer->owner_id) {
-            $me['owned'] = 1;
-        }
-
         if ($user->id > 0) {
+
+            if ($user->id == $answer->owner_id) {
+                $me['owned'] = 1;
+            }
 
             $me['logged'] = 1;
 

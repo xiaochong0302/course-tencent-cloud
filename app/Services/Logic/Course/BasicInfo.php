@@ -7,11 +7,12 @@
 
 namespace App\Services\Logic\Course;
 
-use App\Caches\CourseTeacherList as CourseTeacherListCache;
 use App\Models\Course as CourseModel;
 use App\Repos\Course as CourseRepo;
+use App\Services\Category as CategoryService;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\User\ShallowUserInfo as ShallowUserInfoService;
 
 class BasicInfo extends LogicService
 {
@@ -27,14 +28,8 @@ class BasicInfo extends LogicService
 
     public function handleBasicInfo(CourseModel $course)
     {
-        $userCount = $course->user_count;
-
-        if ($course->fake_user_count > $course->user_count) {
-            $userCount = $course->fake_user_count;
-        }
-
-        $teachers = $this->handleTeachers($course);
-
+        $categoryPaths = $this->handleCategoryPaths($course->category_id);
+        $teacher = $this->handleTeacherInfo($course->teacher_id);
         $ratings = $this->handleRatings($course);
 
         return [
@@ -44,19 +39,19 @@ class BasicInfo extends LogicService
             'summary' => $course->summary,
             'details' => $course->details,
             'keywords' => $course->keywords,
-            'origin_price' => (float)$course->origin_price,
             'market_price' => (float)$course->market_price,
             'vip_price' => (float)$course->vip_price,
             'study_expiry' => $course->study_expiry,
             'refund_expiry' => $course->refund_expiry,
-            'teachers' => $teachers,
+            'category_paths' => $categoryPaths,
+            'teacher' => $teacher,
             'ratings' => $ratings,
             'model' => $course->model,
             'level' => $course->level,
             'attrs' => $course->attrs,
             'published' => $course->published,
             'deleted' => $course->deleted,
-            'user_count' => $userCount,
+            'user_count' => $course->getUserCount(),
             'lesson_count' => $course->lesson_count,
             'resource_count' => $course->resource_count,
             'package_count' => $course->package_count,
@@ -82,13 +77,22 @@ class BasicInfo extends LogicService
         ];
     }
 
-    protected function handleTeachers(CourseModel $course)
+    protected function handleCategoryPaths($categoryId)
     {
-        $cache = new CourseTeacherListCache();
+        if ($categoryId == 0) return new \stdClass();
 
-        $result = $cache->get($course->id);
+        $service = new CategoryService();
 
-        return $result ?: [];
+        return $service->getCategoryPaths($categoryId);
+    }
+
+    protected function handleTeacherInfo($userId)
+    {
+        if ($userId == 0) return new \stdClass();
+
+        $service = new ShallowUserInfoService();
+
+        return $service->handle($userId);
     }
 
 }

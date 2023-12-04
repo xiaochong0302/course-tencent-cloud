@@ -30,8 +30,8 @@
         </colgroup>
         <thead>
         <tr>
-            <th>商品信息</th>
             <th>买家信息</th>
+            <th>商品信息</th>
             <th>退款金额</th>
             <th>退款状态</th>
             <th>创建时间</th>
@@ -43,12 +43,12 @@
             {% set show_url = url({'for':'admin.refund.show','id':item.id}) %}
             <tr>
                 <td>
-                    <p>商品：{{ item.order.subject }}</p>
-                    <p>单号：{{ item.order.sn }}</p>
-                </td>
-                <td>
                     <p>昵称：{{ item.owner.name }}</p>
                     <p>编号：{{ item.owner.id }}</p>
+                </td>
+                <td>
+                    <p>商品：{{ item.order.subject }}</p>
+                    <p>单号：{{ item.order.sn }}</p>
                 </td>
                 <td>{{ '￥%0.2f'|format(item.amount) }}</td>
                 <td>{{ refund_status(item.status) }}</td>

@@ -44,16 +44,22 @@ class Comment extends Repository
             }
         }
 
-        if (isset($where['parent_id'])) {
-            $builder->andWhere('parent_id = :parent_id:', ['parent_id' => $where['parent_id']]);
-        }
-
         if (!empty($where['published'])) {
             if (is_array($where['published'])) {
                 $builder->inWhere('published', $where['published']);
             } else {
                 $builder->andWhere('published = :published:', ['published' => $where['published']]);
             }
+        }
+
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
+        }
+
+        if (isset($where['parent_id'])) {
+            $builder->andWhere('parent_id = :parent_id:', ['parent_id' => $where['parent_id']]);
         }
 
         if (isset($where['deleted'])) {

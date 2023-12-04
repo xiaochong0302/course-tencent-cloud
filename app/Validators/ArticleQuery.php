@@ -7,9 +7,9 @@
 
 namespace App\Validators;
 
-use App\Caches\Tag as TagCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Article as ArticleModel;
+use App\Models\Category as CategoryModel;
 
 class ArticleQuery extends Validator
 {
@@ -24,20 +24,24 @@ class ArticleQuery extends Validator
             throw new BadRequestException('article_query.invalid_category');
         }
 
-        return $category->id;
+        if ($category->type != CategoryModel::TYPE_ARTICLE) {
+            throw new BadRequestException('article_query.invalid_category');
+        }
+
+        return $category;
     }
 
     public function checkTag($id)
     {
-        $tagCache = new TagCache();
+        $validator = new Tag();
 
-        $tag = $tagCache->get($id);
+        $tag = $validator->checkTagCache($id);
 
         if (!$tag) {
             throw new BadRequestException('article_query.invalid_tag');
         }
 
-        return $tag->id;
+        return $tag;
     }
 
     public function checkSort($sort)

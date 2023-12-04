@@ -27,21 +27,6 @@ class OrderCreate extends LogicService
      */
     protected $amount = 0.00;
 
-    /**
-     * @var int 促销编号
-     */
-    protected $promotion_id = 0;
-
-    /**
-     * @var int 促销类型
-     */
-    protected $promotion_type = 0;
-
-    /**
-     * @var array 促销信息
-     */
-    protected $promotion_info = [];
-
     use ClientTrait;
 
     public function handle()
@@ -129,9 +114,6 @@ class OrderCreate extends LogicService
         $order->client_ip = $this->getClientIp();
         $order->subject = "课程 - {$course->title}";
         $order->amount = $this->amount;
-        $order->promotion_id = $this->promotion_id;
-        $order->promotion_type = $this->promotion_type;
-        $order->promotion_info = $this->promotion_info;
 
         $order->create();
 
@@ -167,9 +149,6 @@ class OrderCreate extends LogicService
         $order->client_ip = $this->getClientIp();
         $order->subject = "套餐 - {$package->title}";
         $order->amount = $this->amount;
-        $order->promotion_id = $this->promotion_id;
-        $order->promotion_type = $this->promotion_type;
-        $order->promotion_info = $this->promotion_info;
 
         $order->create();
 
@@ -201,9 +180,6 @@ class OrderCreate extends LogicService
         $order->client_ip = $this->getClientIp();
         $order->subject = "会员 - 会员服务（{$vip->title}）";
         $order->amount = $this->amount;
-        $order->promotion_id = $this->promotion_id;
-        $order->promotion_type = $this->promotion_type;
-        $order->promotion_info = $this->promotion_info;
 
         $order->create();
 
@@ -231,9 +207,6 @@ class OrderCreate extends LogicService
         $order->client_ip = $this->getClientIp();
         $order->subject = "赞赏 - {$course->title}";
         $order->amount = $this->amount;
-        $order->promotion_id = $this->promotion_id;
-        $order->promotion_type = $this->promotion_type;
-        $order->promotion_info = $this->promotion_info;
 
         $order->create();
 

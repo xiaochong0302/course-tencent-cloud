@@ -47,7 +47,7 @@ class Storage extends Service
     /**
      * 获取临时凭证
      *
-     * @return GetFederationTokenResponse
+     * @return GetFederationTokenResponse|bool
      */
     public function getFederationToken()
     {
@@ -99,7 +99,7 @@ class Storage extends Service
 
             $request->fromJsonString($params);
 
-            return $client->GetFederationToken($request);
+            $result = $client->GetFederationToken($request);
 
         } catch (TencentCloudSDKException $e) {
 
@@ -108,8 +108,10 @@ class Storage extends Service
                     'message' => $e->getMessage(),
                 ]));
 
-            throw new \Exception('Get Tmp Token Exception');
+            $result = false;
         }
+
+        return $result;
     }
 
     /**

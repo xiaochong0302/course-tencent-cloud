@@ -80,7 +80,7 @@ trait ChapterTrait
 
         if ($courseUser) {
             $chapterUserRepo = new ChapterUserRepo();
-            $chapterUser = $chapterUserRepo->findPlanChapterUser($chapter->id, $user->id, $courseUser->plan_id);
+            $chapterUser = $chapterUserRepo->findChapterUser($chapter->id, $user->id);
         }
 
         $this->chapterUser = $chapterUser;

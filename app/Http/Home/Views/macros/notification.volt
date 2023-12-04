@@ -5,7 +5,7 @@
     {% set info = notify.event_info %}
 
     {% if type == 0 %}
-        <p>未知类型</p>
+        <p>N/A类型</p>
     {% elseif type == 147 %}
         {% set course_url = url({'for':'home.course.show','id':info.course.id}) %}
         <p>{{ sender.name }} 喜欢了你在课程 <a href="{{ course_url }}" target="_blank">{{ info.course.title }}</a> 中的咨询</p>

@@ -219,4 +219,42 @@ class AnswerController extends Controller
         $this->view->setVar('reports', $reports);
     }
 
+    /**
+     * @Post("/moderate/batch", name="admin.answer.batch_moderate")
+     */
+    public function batchModerateAction()
+    {
+        $answerService = new AnswerService();
+
+        $answerService->batchModerate();
+
+        $location = $this->url->get(['for' => 'admin.mod.answers']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '批量审核成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/delete/batch", name="admin.answer.batch_delete")
+     */
+    public function batchDeleteAction()
+    {
+        $answerService = new AnswerService();
+
+        $answerService->batchDelete();
+
+        $location = $this->url->get(['for' => 'admin.answer.list']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '批量删除成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
 }

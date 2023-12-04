@@ -76,28 +76,28 @@ class Stat extends Repository
     public function countReportedArticles()
     {
         return (int)ArticleModel::count([
-            'conditions' => 'report_count > 0',
+            'conditions' => 'report_count > 0 AND deleted = 0',
         ]);
     }
 
     public function countReportedQuestions()
     {
         return (int)QuestionModel::count([
-            'conditions' => 'report_count > 0',
+            'conditions' => 'report_count > 0 AND deleted = 0',
         ]);
     }
 
     public function countReportedAnswers()
     {
         return (int)AnswerModel::count([
-            'conditions' => 'report_count > 0',
+            'conditions' => 'report_count > 0 AND deleted = 0',
         ]);
     }
 
     public function countReportedComments()
     {
         return (int)CommentModel::count([
-            'conditions' => 'report_count > 0',
+            'conditions' => 'report_count > 0 AND deleted = 0',
         ]);
     }
 

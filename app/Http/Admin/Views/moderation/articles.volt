@@ -4,16 +4,21 @@
 
     {{ partial('macros/article') }}
 
+    {% set batch_moderate_url = url({'for':'admin.article.batch_moderate'}) %}
+
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
                 <a><cite>文章审核</cite></a>
             </span>
+            <span class="layui-btn layui-btn-sm layui-bg-green kg-batch" data-url="{{ batch_moderate_url }}?type=approve">批量通过</span>
+            <span class="layui-btn layui-btn-sm layui-bg-red kg-batch" data-url="{{ batch_moderate_url }}?type=reject">批量拒绝</span>
         </div>
     </div>
 
-    <table class="layui-table kg-table layui-form">
+    <table class="layui-table layui-form kg-table">
         <colgroup>
+            <col width="5%">
             <col>
             <col>
             <col>
@@ -21,9 +26,10 @@
         </colgroup>
         <thead>
         <tr>
-            <th>文章</th>
-            <th>作者</th>
-            <th>时间</th>
+            <th><input class="all" type="checkbox" lay-filter="all"></th>
+            <th>用户信息</th>
+            <th>文章信息</th>
+            <th>创建时间</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -32,18 +38,19 @@
             {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
             {% set moderate_url = url({'for':'admin.article.moderate','id':item.id}) %}
             <tr>
-                <td>
-                    <p>标题：{{ item.title }}</p>
-                    <p class="meta">
-                        <span>来源：{{ source_type(item.source_type) }}</span>
-                        {% if item.tags %}
-                            <span>标签：{{ tags_info(item.tags) }}</span>
-                        {% endif %}
-                    </p>
-                </td>
+                <td><input class="item" type="checkbox" value="{{ item.id }}" lay-filter="item"></td>
                 <td>
                     <p>昵称：<a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a></p>
                     <p>编号：{{ item.owner.id }}</p>
+                </td>
+                <td>
+                    <p>标题：{{ item.title }}</p>
+                    <p class="meta">
+                        {% if item.category.id is defined %}
+                            <span>分类：{{ item.category.name }}</span>
+                        {% endif %}
+                        <span>来源：{{ source_type(item.source_type) }}</span>
+                    </p>
                 </td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td class="center">
