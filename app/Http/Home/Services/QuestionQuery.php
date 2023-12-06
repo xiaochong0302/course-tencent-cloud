@@ -131,23 +131,22 @@ class QuestionQuery extends Service
         $validator = new QuestionQueryValidator();
 
         if (isset($query['tag_id'])) {
-            $validator->checkTag($query['tag_id']);
-            $params['tag_id'] = $query['tag_id'];
+            $tag = $validator->checkTag($query['tag_id']);
+            $params['tag_id'] = $tag->id;
         }
 
         if (isset($query['tc']) && $query['tc'] != 'all') {
-            $validator->checkCategory($query['tc']);
-            $params['tc'] = $query['tc'];
+            $category = $validator->checkCategory($query['tc']);
+            $params['tc'] = $category->id;
         }
 
         if (isset($query['sc']) && $query['sc'] != 'all') {
-            $validator->checkCategory($query['sc']);
-            $params['sc'] = $query['sc'];
+            $category = $validator->checkCategory($query['sc']);
+            $params['sc'] = $category->id;
         }
 
         if (isset($query['sort'])) {
-            $validator->checkSort($query['sort']);
-            $params['sort'] = $query['sort'];
+            $params['sort'] = $validator->checkSort($query['sort']);;
         }
 
         return $params;

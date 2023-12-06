@@ -21,7 +21,7 @@ class CourseList extends LogicService
 
     public function handle($id)
     {
-        $user = $this->checkUser($id);
+        $user = $this->checkUserCache($id);
 
         $pagerQuery = new PagerQuery();
 
@@ -34,14 +34,14 @@ class CourseList extends LogicService
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $courseUserRepo = new CourseUserRepo();
+        $repo = new CourseUserRepo();
 
-        $pager = $courseUserRepo->paginate($params, $sort, $page, $limit);
+        $pager = $repo->paginate($params, $sort, $page, $limit);
 
-        return $this->handleCourses($pager);
+        return $this->handlePager($pager);
     }
 
-    protected function handleCourses($pager)
+    protected function handlePager($pager)
     {
         if ($pager->total_items == 0) {
             return $pager;

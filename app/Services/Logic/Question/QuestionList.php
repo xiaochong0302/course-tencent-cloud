@@ -123,6 +123,11 @@ class QuestionList extends LogicService
 
         $query = [];
 
+        if (isset($params['owner_id'])) {
+            $user = $validator->checkUser($params['owner_id']);
+            $query['owner_id'] = $user->id;
+        }
+
         if (isset($params['tag_id'])) {
             $tag = $validator->checkTag($params['tag_id']);
             $query['tag_id'] = $tag->id;

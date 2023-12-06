@@ -18,14 +18,12 @@
                             <col>
                             <col>
                             <col>
-                            <col>
                         </colgroup>
                         <thead>
                         <tr>
-                            <th>名称</th>
-                            <th>课时</th>
+                            <th>标题</th>
+                            <th>类型</th>
                             <th>学员</th>
-                            <th>收藏</th>
                             <th>评分</th>
                         </tr>
                         </thead>
@@ -33,10 +31,9 @@
                         {% for item in pager.items %}
                             {% set course_url = url({'for':'home.course.show','id':item.id}) %}
                             <tr>
-                                <td><a href="{{ course_url }}">{{ item.title }}</a> {{ model_type(item.model) }}</td>
-                                <td>{{ item.lesson_count }}</td>
+                                <td><a href="{{ course_url }}">{{ item.title }}</a></td>
+                                <td><span class="layui-badge layui-bg-green">{{ model_type(item.model) }}</span></td>
                                 <td>{{ item.user_count }}</td>
-                                <td>{{ item.favorite_count }}</td>
                                 <td>{{ "%0.1f"|format(item.rating) }}</td>
                             </tr>
                         {% endfor %}

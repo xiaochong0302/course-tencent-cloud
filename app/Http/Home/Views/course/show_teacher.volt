@@ -4,7 +4,7 @@
         <div class="layui-card">
             <div class="layui-card-header">授课教师</div>
             <div class="layui-card-body">
-                {% set teacher_url = url({'for':'home.user.show','id':teacher.id}) %}
+                {% set teacher_url = url({'for':'home.teacher.show','id':teacher.id}) %}
                 <div class="sidebar-user-card">
                     <div class="avatar">
                         <img src="{{ teacher.avatar }}!avatar_160" alt="{{ teacher.name }}">

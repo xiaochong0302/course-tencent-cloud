@@ -96,6 +96,20 @@
     background-color: #f2f2f2;
 }
 
+.no-records {
+    padding: 20px;
+    color: #999;
+    text-align: center;
+}
+
+.no-records .icon {
+    margin-bottom: 10px;
+}
+
+.no-records .icon .layui-icon {
+    font-size: 100px;
+}
+
 .pager {
     margin-top: 20px;
     text-align: center;

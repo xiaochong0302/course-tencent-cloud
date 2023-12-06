@@ -39,7 +39,7 @@
             <th>图标</th>
             <th>名称</th>
             <th>层级</th>
-            <th>子类</th>
+            <th>子节点</th>
             <th>排序</th>
             <th>发布</th>
             <th>操作</th>

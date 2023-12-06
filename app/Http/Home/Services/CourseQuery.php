@@ -7,7 +7,6 @@
 
 namespace App\Http\Home\Services;
 
-use App\Caches\Category as CategoryCache;
 use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
 use App\Services\Category as CategoryService;
@@ -187,32 +186,6 @@ class CourseQuery extends Service
         return $result;
     }
 
-    public function handleCategoryPaths($categoryId)
-    {
-        $result = [];
-
-        $cache = new CategoryCache();
-
-        $subCategory = $cache->get($categoryId);
-        $topCategory = $cache->get($subCategory->parent_id);
-
-        $topParams = ['tc' => $topCategory->id];
-
-        $result['top'] = [
-            'name' => $topCategory->name,
-            'url' => $this->baseUrl . $this->buildParams($topParams),
-        ];
-
-        $subParams = ['tc' => $topCategory->id, 'sc' => $subCategory->id];
-
-        $result['sub'] = [
-            'name' => $subCategory->name,
-            'url' => $this->baseUrl . $this->buildParams($subParams),
-        ];
-
-        return $result;
-    }
-
     public function getParams()
     {
         $query = $this->request->getQuery();
@@ -221,29 +194,31 @@ class CourseQuery extends Service
 
         $validator = new CourseQueryValidator();
 
+        if (isset($query['tag_id'])) {
+            $tag = $validator->checkTag($query['tag_id']);
+            $params['tag_id'] = $tag->id;
+        }
+
         if (isset($query['tc']) && $query['tc'] != 'all') {
-            $validator->checkTopCategory($query['tc']);
-            $params['tc'] = $query['tc'];
+            $category = $validator->checkCategory($query['tc']);
+            $params['tc'] = $category->id;
         }
 
         if (isset($query['sc']) && $query['sc'] != 'all') {
-            $validator->checkSubCategory($query['sc']);
-            $params['sc'] = $query['sc'];
+            $category = $validator->checkCategory($query['sc']);
+            $params['sc'] = $category->id;
         }
 
         if (isset($query['model']) && $query['model'] != 'all') {
-            $validator->checkModel($query['model']);
-            $params['model'] = $query['model'];
+            $params['model'] = $validator->checkModel($query['model']);
         }
 
         if (isset($query['level']) && $query['level'] != 'all') {
-            $validator->checkLevel($query['level']);
-            $params['level'] = $query['level'];
+            $params['level'] = $validator->checkLevel($query['level']);
         }
 
         if (isset($query['sort'])) {
-            $validator->checkSort($query['sort']);
-            $params['sort'] = $query['sort'];
+            $params['sort'] = $validator->checkSort($query['sort']);
         }
 
         return $params;

@@ -18,14 +18,14 @@ class LiveList extends LogicService
     {
         $user = $this->getLoginUser();
 
-        $teacherLiveRepo = new TeacherLiveRepo();
-
         $pagerQuery = new PagerQuery();
 
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $pager = $teacherLiveRepo->paginate($user->id, $page, $limit);
+        $repo = new TeacherLiveRepo();
+
+        $pager = $repo->paginate($user->id, $page, $limit);
 
         if ($pager->total_items == 0) {
             return $pager;

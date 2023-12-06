@@ -8,7 +8,9 @@
 namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\FullH5Url as FullH5UrlService;
+use App\Services\Logic\Teacher\CourseList as TeacherCourseListService;
 use App\Services\Logic\Teacher\TeacherList as TeacherListService;
+use App\Services\Logic\User\UserInfo as UserInfoService;
 use Phalcon\Mvc\View;
 
 /**
@@ -29,7 +31,7 @@ class TeacherController extends Controller
             return $this->response->redirect($location);
         }
 
-        $this->seo->prependTitle('师资');
+        $this->seo->prependTitle('教师');
     }
 
     /**
@@ -59,11 +61,34 @@ class TeacherController extends Controller
             return $this->response->redirect($location);
         }
 
-        $this->dispatcher->forward([
-            'controller' => 'user',
-            'action' => 'show',
-            'params' => ['id' => $id],
-        ]);
+        $service = new UserInfoService();
+
+        $user = $service->handle($id);
+
+        if ($user['deleted'] == 1) {
+            $this->notFound();
+        }
+
+        $this->seo->prependTitle(['讲师', $user['name']]);
+
+        $this->view->setVar('user', $user);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/courses", name="home.teacher.courses")
+     */
+    public function coursesAction($id)
+    {
+        $model = $this->request->getQuery('model', 'trim', 'vod');
+
+        $service = new TeacherCourseListService();
+
+        $pager = $service->handle($id);
+
+        $pager->target = "tab-{$model}";
+
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $this->view->setVar('pager', $pager);
     }
 
 }
