@@ -2,7 +2,9 @@
 
 {% block content %}
 
-    {{ partial('course/list_filter') }}
+    {% if top_categories|length > 1 %}
+        {{ partial('course/list_filter') }}
+    {% endif %}
 
     {% set pager_url = url({'for':'home.course.pager'}, params) %}
 
@@ -12,6 +14,7 @@
 
 {% block include_js %}
 
+    {{ js_include('home/js/list.filter.js') }}
     {{ js_include('home/js/course.list.js') }}
 
 {% endblock %}

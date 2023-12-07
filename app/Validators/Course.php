@@ -66,6 +66,20 @@ class Course extends Validator
         }
     }
 
+    public function checkCategory($id)
+    {
+        $validator = new Category();
+
+        return $validator->checkCategory($id);
+    }
+
+    public function checkTeacher($id)
+    {
+        $validator = new User();
+
+        return $validator->checkUser($id);
+    }
+
     public function checkModel($model)
     {
         $list = CourseModel::modelTypes();
@@ -182,17 +196,6 @@ class Course extends Validator
         return $value;
     }
 
-    public function checkOriginPrice($price)
-    {
-        $value = $this->filter->sanitize($price, ['trim', 'float']);
-
-        if ($value < 0 || $value > 999999) {
-            throw new BadRequestException('course.invalid_origin_price');
-        }
-
-        return $value;
-    }
-
     public function checkMarketPrice($price)
     {
         $value = $this->filter->sanitize($price, ['trim', 'float']);
@@ -253,15 +256,6 @@ class Course extends Validator
         }
 
         return $status;
-    }
-
-    public function checkPublishAbility(CourseModel $course)
-    {
-        if ($course->teacher_id == 0) {
-            throw new BadRequestException('course.teacher_not_assigned');
-        }
-
-        return true;
     }
 
 }

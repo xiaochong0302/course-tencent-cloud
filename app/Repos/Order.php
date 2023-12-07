@@ -51,14 +51,6 @@ class Order extends Repository
             }
         }
 
-        if (!empty($where['promotion_type'])) {
-            if (is_array($where['promotion_type'])) {
-                $builder->inWhere('promotion_type', $where['promotion_type']);
-            } else {
-                $builder->andWhere('promotion_type = :promotion_type:', ['promotion_type' => $where['promotion_type']]);
-            }
-        }
-
         if (!empty($where['status'])) {
             if (is_array($where['status'])) {
                 $builder->inWhere('status', $where['status']);
@@ -67,14 +59,14 @@ class Order extends Repository
             }
         }
 
-        if (isset($where['deleted'])) {
-            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
-        }
-
         if (!empty($where['start_time']) && !empty($where['end_time'])) {
             $startTime = strtotime($where['start_time']);
             $endTime = strtotime($where['end_time']);
             $builder->betweenWhere('create_time', $startTime, $endTime);
+        }
+
+        if (isset($where['deleted'])) {
+            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
         switch ($sort) {

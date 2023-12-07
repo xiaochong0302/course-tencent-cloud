@@ -11,7 +11,6 @@ use App\Models\Order as OrderModel;
 use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Order as OrderRepo;
-use App\Services\Logic\FlashSale\UserOrderCache as FlashSaleLockCache;
 use Phalcon\Events\Event as PhEvent;
 use Phalcon\Logger\Adapter\File as FileLogger;
 
@@ -55,14 +54,6 @@ class Trade extends Listener
             $task->create();
 
             $this->db->commit();
-
-            /**
-             * 解除秒杀锁定
-             */
-            if ($order->promotion_type == OrderModel::PROMOTION_FLASH_SALE) {
-                $cache = new FlashSaleLockCache();
-                $cache->delete($order->owner_id, $order->promotion_id);
-            }
 
         } catch (\Exception $e) {
 

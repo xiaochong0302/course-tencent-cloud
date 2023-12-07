@@ -22,10 +22,6 @@ class Learning extends Repository
 
         $builder->where('1 = 1');
 
-        if (!empty($where['plan_id'])) {
-            $builder->andWhere('plan_id = :plan_id:', ['plan_id' => $where['plan_id']]);
-        }
-
         if (!empty($where['course_id'])) {
             $builder->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
         }
@@ -36,6 +32,16 @@ class Learning extends Repository
 
         if (!empty($where['user_id'])) {
             $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
+        }
+
+        if (!empty($where['plan_id'])) {
+            $builder->andWhere('plan_id = :plan_id:', ['plan_id' => $where['plan_id']]);
+        }
+
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
         }
 
         switch ($sort) {

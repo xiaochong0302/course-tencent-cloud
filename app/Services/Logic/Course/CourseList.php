@@ -58,7 +58,7 @@ class CourseList extends LogicService
         return $this->handleCourses($pager);
     }
 
-    protected function handleCourses($pager)
+    public function handleCourses($pager)
     {
         if ($pager->total_items == 0) {
             return $pager;
@@ -105,12 +105,24 @@ class CourseList extends LogicService
 
         $query = [];
 
+        if (isset($params['teacher_id'])) {
+            $user = $validator->checkUser($params['teacher_id']);
+            $query['teacher_id'] = $user->id;
+        }
+
+        if (isset($params['tag_id'])) {
+            $tag = $validator->checkTag($params['tag_id']);
+            $query['tag_id'] = $tag->id;
+        }
+
         if (isset($params['tc'])) {
-            $query['tc'] = $validator->checkTopCategory($params['tc']);
+            $category = $validator->checkCategory($params['tc']);
+            $query['tc'] = $category->id;
         }
 
         if (isset($params['sc'])) {
-            $query['sc'] = $validator->checkSubCategory($params['sc']);
+            $category = $validator->checkCategory($params['sc']);
+            $query['sc'] = $category->id;
         }
 
         if (isset($params['model'])) {

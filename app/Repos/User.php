@@ -56,6 +56,18 @@ class User extends Repository
             }
         }
 
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
+        }
+
+        if (!empty($where['active_time'][0]) && !empty($where['active_time'][1])) {
+            $startTime = strtotime($where['active_time'][0]);
+            $endTime = strtotime($where['active_time'][1]);
+            $builder->betweenWhere('active_time', $startTime, $endTime);
+        }
+
         if (isset($where['vip'])) {
             $builder->andWhere('vip = :vip:', ['vip' => $where['vip']]);
         }

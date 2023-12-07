@@ -9,7 +9,7 @@ namespace App\Http\Home\Services;
 
 use App\Models\Category as CategoryModel;
 use App\Models\Question as QuestionModel;
-use App\Repos\Category as CategoryRepo;
+use App\Services\Category as CategoryService;
 use App\Services\Logic\Question\XmTagList as XmTagListService;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
@@ -28,15 +28,11 @@ class Question extends LogicService
         return $question;
     }
 
-    public function getCategories()
+    public function getCategoryOptions()
     {
-        $categoryRepo = new CategoryRepo();
+        $categoryService = new CategoryService();
 
-        return $categoryRepo->findAll([
-            'type' => CategoryModel::TYPE_ARTICLE,
-            'level' => 1,
-            'published' => 1,
-        ]);
+        return $categoryService->getCategoryOptions(CategoryModel::TYPE_QUESTION);
     }
 
     public function getXmTags($id)

@@ -168,7 +168,8 @@ class RefundTask extends Task
     protected function handleCourseOrderRefund(OrderModel $order)
     {
         $courseUserRepo = new CourseUserRepo();
-        $courseUser = $courseUserRepo->findCourseStudent($order->item_id, $order->owner_id);
+
+        $courseUser = $courseUserRepo->findCourseUser($order->item_id, $order->owner_id);
 
         if ($courseUser) {
             $courseUser->deleted = 1;
@@ -191,7 +192,7 @@ class RefundTask extends Task
 
         foreach ($itemInfo['courses'] as $course) {
 
-            $courseUser = $courseUserRepo->findCourseStudent($course['id'], $order->owner_id);
+            $courseUser = $courseUserRepo->findCourseUser($course['id'], $order->owner_id);
 
             if ($courseUser) {
                 $courseUser->deleted = 1;

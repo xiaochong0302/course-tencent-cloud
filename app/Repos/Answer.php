@@ -38,12 +38,18 @@ class Answer extends Repository
             $builder->andWhere('question_id = :question_id:', ['question_id' => $where['question_id']]);
         }
 
-        if (isset($where['published'])) {
+        if (!empty($where['published'])) {
             if (is_array($where['published'])) {
                 $builder->inWhere('published', $where['published']);
             } else {
                 $builder->andWhere('published = :published:', ['published' => $where['published']]);
             }
+        }
+
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
         }
 
         if (isset($where['deleted'])) {

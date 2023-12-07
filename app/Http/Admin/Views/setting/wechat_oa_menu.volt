@@ -1,5 +1,5 @@
 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.wechat_oa'}) }}">
-    <table class="layui-table kg-table layui-form">
+    <table class="layui-table layui-form kg-table">
         <colgroup>
             <col width="15%">
             <col width="20%">

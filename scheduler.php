@@ -36,9 +36,6 @@ $scheduler->php($script, $bin, ['--task' => 'server_monitor', '--action' => 'mai
 $scheduler->php($script, $bin, ['--task' => 'close_trade', '--action' => 'main'])
     ->everyMinute(13);
 
-$scheduler->php($script, $bin, ['--task' => 'close_flash_sale_order', '--action' => 'main'])
-    ->everyMinute(15);
-
 $scheduler->php($script, $bin, ['--task' => 'notice', '--action' => 'main'])
     ->everyMinute();
 

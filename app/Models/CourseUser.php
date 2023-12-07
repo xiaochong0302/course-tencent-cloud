@@ -11,20 +11,15 @@ class CourseUser extends Model
 {
 
     /**
-     * 角色类型
-     */
-    const ROLE_STUDENT = 1; // 学员
-    const ROLE_TEACHER = 2; // 讲师
-
-    /**
      * 来源类型
      */
     const SOURCE_FREE = 1; // 免费
     const SOURCE_CHARGE = 2; // 付费
-    const SOURCE_VIP = 3; // 会员（畅学）
-    const SOURCE_IMPORT = 4; // 导入
+    const SOURCE_VIP = 3; // 畅学
+    const SOURCE_MANUAL = 4; // 分配
     const SOURCE_POINT_REDEEM = 5; // 积分兑换
     const SOURCE_LUCKY_REDEEM = 6; // 抽奖兑换
+    const SOURCE_TRIAL = 10; // 试听
 
     /**
      * 主键编号
@@ -53,13 +48,6 @@ class CourseUser extends Model
      * @var int
      */
     public $plan_id = 0;
-
-    /**
-     * 角色类型
-     *
-     * @var int
-     */
-    public $role_type = 0;
 
     /**
      * 来源类型
@@ -104,6 +92,13 @@ class CourseUser extends Model
     public $deleted = 0;
 
     /**
+     * 活跃时间
+     *
+     * @var int
+     */
+    public $active_time = 0;
+
+    /**
      * 创建时间
      *
      * @var int
@@ -124,7 +119,7 @@ class CourseUser extends Model
 
     public function beforeCreate()
     {
-        $this->plan_id = (int)date('Ymd');
+        $this->plan_id = (int)date('ymd');
 
         $this->create_time = time();
     }
@@ -134,21 +129,14 @@ class CourseUser extends Model
         $this->update_time = time();
     }
 
-    public static function roleTypes()
-    {
-        return [
-            self::ROLE_STUDENT => '学员',
-            self::ROLE_TEACHER => '讲师',
-        ];
-    }
-
     public static function sourceTypes()
     {
         return [
             self::SOURCE_FREE => '免费',
             self::SOURCE_CHARGE => '付费',
-            self::SOURCE_VIP => '会员',
-            self::SOURCE_IMPORT => '导入',
+            self::SOURCE_TRIAL => '试听',
+            self::SOURCE_VIP => '畅学',
+            self::SOURCE_MANUAL => '分配',
             self::SOURCE_POINT_REDEEM => '积分兑换',
             self::SOURCE_LUCKY_REDEEM => '抽奖兑换',
         ];

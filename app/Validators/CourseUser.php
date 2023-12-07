@@ -74,9 +74,9 @@ class CourseUser extends Validator
     {
         $repo = new CourseUserRepo();
 
-        $courseUser = $repo->findCourseStudent($courseId, $userId);
+        $courseUser = $repo->findCourseUser($courseId, $userId);
 
-        if ($courseUser && $courseUser->source_type == CourseUserModel::SOURCE_IMPORT) {
+        if ($courseUser && $courseUser->source_type == CourseUserModel::SOURCE_MANUAL) {
             throw new BadRequestException('course_user.has_imported');
         }
     }

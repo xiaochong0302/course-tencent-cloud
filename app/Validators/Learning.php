@@ -13,15 +13,6 @@ use App\Library\Validators\Common as CommonValidator;
 class Learning extends Validator
 {
 
-    public function checkPlanId($planId)
-    {
-        if (!CommonValidator::date($planId, 'Ymd')) {
-            throw new BadRequestException('learning.invalid_plan_id');
-        }
-
-        return $planId;
-    }
-
     public function checkRequestId($requestId)
     {
         if (!$requestId) {
@@ -29,6 +20,15 @@ class Learning extends Validator
         }
 
         return $requestId;
+    }
+
+    public function checkPlanId($planId)
+    {
+        if (!CommonValidator::date($planId, 'Ymd')) {
+            throw new BadRequestException('learning.invalid_plan_id');
+        }
+
+        return $planId;
     }
 
     public function checkIntervalTime($intervalTime)

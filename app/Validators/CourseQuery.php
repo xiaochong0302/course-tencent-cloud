@@ -7,37 +7,31 @@
 
 namespace App\Validators;
 
-use App\Caches\Category as CategoryCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Course as CourseModel;
 
 class CourseQuery extends Validator
 {
 
-    public function checkTopCategory($id)
+    public function checkCategory($id)
     {
         $validator = new Category();
 
-        $category = $validator->checkCategoryCache($id);
-
-        if (!$category) {
-            throw new BadRequestException('course_query.invalid_top_category');
-        }
-
-        return $category->id;
+        return $validator->checkCategoryCache($id);
     }
 
-    public function checkSubCategory($id)
+    public function checkTag($id)
     {
-        $categoryCache = new CategoryCache();
+        $validator = new Tag();
 
-        $category = $categoryCache->get($id);
+        return $validator->checkTagCache($id);
+    }
 
-        if (!$category) {
-            throw new BadRequestException('course_query.invalid_sub_category');
-        }
+    public function checkUser($id)
+    {
+        $validator = new User();
 
-        return $category->id;
+        return $validator->checkUserCache($id);
     }
 
     public function checkLevel($level)

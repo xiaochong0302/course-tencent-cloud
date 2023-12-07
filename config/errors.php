@@ -126,7 +126,6 @@ $error['article.invalid_source_type'] = '无效的来源类型';
 $error['article.invalid_source_url'] = '无效的来源网址';
 $error['article.invalid_feature_status'] = '无效的推荐状态';
 $error['article.invalid_publish_status'] = '无效的发布状态';
-$error['article.invalid_private_status'] = '无效的私有状态';
 $error['article.invalid_close_status'] = '无效的关闭状态';
 $error['article.invalid_reject_reason'] = '无效的拒绝理由';
 $error['article.edit_not_allowed'] = '当前不允许编辑文章';
@@ -447,8 +446,8 @@ $error['course_query.invalid_sort'] = '无效的排序类别';
 /**
  * 课时学习
  */
-$error['learning.invalid_plan_id'] = '无效的计划编号';
 $error['learning.invalid_request_id'] = '无效的请求编号';
+$error['learning.invalid_plan_id'] = '无效的计划编号';
 $error['learning.invalid_interval_time'] = '无效的间隔时间';
 $error['learning.invalid_position'] = '无效的播放位置';
 
@@ -484,24 +483,6 @@ $error['point_gift_redeem.no_user_contact'] = '您尚未设置收货地址，请
 $error['point_gift_redeem.reach_redeem_limit'] = '超出物品兑换限额';
 $error['point_gift_redeem.no_enough_point'] = '您的积分余额不足以抵扣此次兑换';
 $error['point_gift_redeem.no_enough_stock'] = '兑换物品库存不足';
-
-/**
- * 限时秒杀相关
- */
-$error['flash_sale.not_found'] = '秒杀活动不存在';
-$error['flash_sale.invalid_item_type'] = '无效的商品类型';
-$error['flash_sale.invalid_start_time'] = '无效的开始时间';
-$error['flash_sale.invalid_end_time'] = '无效的结束时间';
-$error['flash_sale.start_gt_end'] = '开始时间大于结束时间';
-$error['flash_sale.invalid_schedules'] = '无效的秒杀场次';
-$error['flash_sale.invalid_price'] = '无效的价格（范围：0.01-10000）';
-$error['flash_sale.unreasonable_price'] = '不合理的定价（秒杀价大于销售价）';
-$error['flash_sale.invalid_stock'] = '无效的库存值（范围：1-999999）';
-$error['flash_sale.invalid_publish_status'] = '无效的发布状态';
-$error['flash_sale.expired'] = '活动已过期';
-$error['flash_sale.out_schedules'] = '当前时间和秒杀场次不匹配';
-$error['flash_sale.not_paid'] = '订单尚未完成，请前往用户中心支付';
-$error['flash_sale.out_stock'] = '下手太慢，商品被秒光啦';
 
 /**
  * 举报相关

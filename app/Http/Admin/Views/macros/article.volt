@@ -6,7 +6,7 @@
     {% elseif type == 3 %}
         未通过
     {% else %}
-        未知
+        N/A
     {% endif %}
 {%- endmacro %}
 
@@ -20,11 +20,4 @@
     {% else %}
         N/A
     {% endif %}
-{%- endmacro %}
-
-{%- macro tags_info(items) %}
-    {% for item in items %}
-        {% set comma = loop.last ? '' : ',' %}
-        {{ item.name ~ comma }}
-    {% endfor %}
 {%- endmacro %}

@@ -57,28 +57,12 @@ class Article extends Repository
             }
         }
 
-        if (!empty($where['owner_id'])) {
-            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
-        }
-
-        if (isset($where['source_type'])) {
+        if (!empty($where['source_type'])) {
             if (is_array($where['source_type'])) {
                 $builder->inWhere('source_type', $where['source_type']);
             } else {
                 $builder->andWhere('source_type = :source_type:', ['source_type' => $where['source_type']]);
             }
-        }
-
-        if (!empty($where['title'])) {
-            $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
-        }
-
-        if (isset($where['private'])) {
-            $builder->andWhere('private = :private:', ['private' => $where['private']]);
-        }
-
-        if (isset($where['featured'])) {
-            $builder->andWhere('featured = :featured:', ['featured' => $where['featured']]);
         }
 
         if (!empty($where['published'])) {
@@ -87,6 +71,24 @@ class Article extends Repository
             } else {
                 $builder->andWhere('published = :published:', ['published' => $where['published']]);
             }
+        }
+
+        if (!empty($where['owner_id'])) {
+            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
+        }
+
+        if (!empty($where['title'])) {
+            $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
+        }
+
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
+        }
+
+        if (isset($where['featured'])) {
+            $builder->andWhere('featured = :featured:', ['featured' => $where['featured']]);
         }
 
         if (isset($where['closed'])) {

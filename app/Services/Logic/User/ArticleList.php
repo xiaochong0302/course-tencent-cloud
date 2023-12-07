@@ -21,7 +21,7 @@ class ArticleList extends LogicService
 
     public function handle($id)
     {
-        $user = $this->checkUser($id);
+        $user = $this->checkUserCache($id);
 
         $pagerQuery = new PagerQuery();
 
@@ -29,7 +29,6 @@ class ArticleList extends LogicService
 
         $params['owner_id'] = $user->id;
         $params['published'] = ArticleModel::PUBLISH_APPROVED;
-        $params['private'] = 0;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();

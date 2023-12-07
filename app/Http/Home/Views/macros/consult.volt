@@ -1,9 +1,9 @@
-{%- macro priority_info(value) %}
+{%- macro priority_type(value) %}
     {% if value == 10 %}
-        <span class="layui-badge layui-bg-red">高</span>
+        高
     {% elseif value == 20 %}
-        <span class="layui-badge layui-bg-blue">中</span>
+        中
     {% elseif value == 30 %}
-        <span class="layui-badge layui-bg-gray">低</span>
+        低
     {% endif %}
 {%- endmacro %}

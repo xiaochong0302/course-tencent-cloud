@@ -6,11 +6,11 @@
     {% elseif type == 3 %}
         未通过
     {% else %}
-        未知
+        N/A
     {% endif %}
 {%- endmacro %}
 
-{%- macro answer_card(item,auth_user) %}
+{%- macro answer_card(item) %}
     {% set show_url = full_url({'for':'home.answer.show','id':item.id}) %}
     {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
     {% set comment_create_url = url({'for':'home.comment.create'}) %}
@@ -59,7 +59,7 @@
                 <div class="column">
                     <span class="action kg-report" data-url="{{ report_url }}">举报</span>
                 </div>
-                {% if auth_user.id == item.owner.id %}
+                {% if item.me.owned == 1 %}
                     <div class="column">
                         <span class="action answer-edit" data-url="{{ edit_url }}">编辑</span>
                     </div>

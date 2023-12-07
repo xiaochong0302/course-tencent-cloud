@@ -8,6 +8,7 @@
 namespace App\Builders;
 
 use App\Models\User as UserModel;
+use App\Repos\Account as AccountRepo;
 use App\Repos\Role as RoleRepo;
 
 class UserList extends Builder
@@ -19,6 +20,17 @@ class UserList extends Builder
 
         foreach ($users as $key => $user) {
             $users[$key]['avatar'] = $baseUrl . $user['avatar'];
+        }
+
+        return $users;
+    }
+
+    public function handleAccounts(array $users)
+    {
+        $accounts = $this->getAccounts($users);
+
+        foreach ($users as $key => $user) {
+            $users[$key]['account'] = $accounts[$user['id']] ?? new \stdClass();
         }
 
         return $users;
@@ -44,6 +56,26 @@ class UserList extends Builder
         }
 
         return $users;
+    }
+
+    protected function getAccounts(array $users)
+    {
+        $ids = kg_array_column($users, 'id');
+
+        $accountRepo = new AccountRepo();
+
+        $accounts = $accountRepo->findByIds($ids);
+
+        $result = [];
+
+        foreach ($accounts as $account) {
+            $result[$account->id] = [
+                'phone' => $account->phone,
+                'email' => $account->email,
+            ];
+        }
+
+        return $result;
     }
 
     protected function getAdminRoles(array $users)

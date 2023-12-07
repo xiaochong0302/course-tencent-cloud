@@ -17,11 +17,14 @@ class OptionList extends LogicService
     {
         $vipRepo = new VipRepo();
 
-        $vips = $vipRepo->findAll(['deleted' => 0]);
+        $where = [
+            'published' => 1,
+            'deleted' => 0,
+        ];
 
-        if ($vips->count() == 0) {
-            return [];
-        }
+        $vips = $vipRepo->findAll($where, 'price');
+
+        if ($vips->count() == 0) return [];
 
         $result = [];
 

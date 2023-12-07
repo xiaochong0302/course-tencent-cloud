@@ -21,9 +21,8 @@
         </div>
     </div>
 
-    <table class="layui-table kg-table layui-form">
+    <table class="layui-table layui-form kg-table">
         <colgroup>
-            <col>
             <col>
             <col>
             <col>
@@ -38,7 +37,6 @@
             <th>编号</th>
             <th>图标</th>
             <th>名称</th>
-            <th>关注</th>
             <th>课程</th>
             <th>文章</th>
             <th>问题</th>
@@ -56,12 +54,11 @@
                 <td>{{ item.id }}</td>
                 <td><img class="kg-icon" src="{{ item.icon }}" alt="{{ item.name }}"></td>
                 <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
-                <td>{{ item.follow_count }}</td>
                 <td>{{ item.course_count }}</td>
                 <td>{{ item.article_count }}</td>
                 <td>{{ item.question_count }}</td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}>
-                </td>
+                <td><input type="checkbox" name="published" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}"
+                           {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>

@@ -16,10 +16,10 @@ use App\Models\Question as QuestionModel;
 use App\Models\Reason as ReasonModel;
 use App\Models\Report as ReportModel;
 use App\Models\User as UserModel;
-use App\Repos\Category as CategoryRepo;
 use App\Repos\Question as QuestionRepo;
 use App\Repos\Report as ReportRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Category as CategoryService;
 use App\Services\Logic\Notice\Internal\QuestionApproved as QuestionApprovedNotice;
 use App\Services\Logic\Notice\Internal\QuestionRejected as QuestionRejectedNotice;
 use App\Services\Logic\Point\History\QuestionPost as QuestionPostPointHistory;
@@ -41,16 +41,11 @@ class Question extends Service
         return $service->handle($id);
     }
 
-    public function getCategories()
+    public function getCategoryOptions()
     {
-        $categoryRepo = new CategoryRepo();
+        $categoryService = new CategoryService();
 
-        return $categoryRepo->findAll([
-            'type' => CategoryModel::TYPE_QUESTION,
-            'level' => 1,
-            'published' => 1,
-            'deleted' => 0,
-        ]);
+        return $categoryService->getCategoryOptions(CategoryModel::TYPE_QUESTION);
     }
 
     public function getPublishTypes()
@@ -155,11 +150,6 @@ class Question extends Service
 
         $data = [];
 
-        if (isset($post['category_id'])) {
-            $category = $validator->checkCategory($post['category_id']);
-            $data['category_id'] = $category->id;
-        }
-
         if (isset($post['title'])) {
             $data['title'] = $validator->checkTitle($post['title']);
         }
@@ -182,6 +172,11 @@ class Question extends Service
 
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
+        }
+
+        if (isset($post['category_id'])) {
+            $category = $validator->checkCategory($post['category_id']);
+            $data['category_id'] = $category->id;
         }
 
         if (isset($post['xm_tag_ids'])) {
@@ -209,6 +204,10 @@ class Question extends Service
         $question->deleted = 1;
 
         $question->update();
+
+        $sender = $this->getLoginUser();
+
+        $this->handleQuestionDeletedNotice($question, $sender);
 
         $owner = $this->findUser($question->owner_id);
 
@@ -247,27 +246,12 @@ class Question extends Service
         $reason = $this->request->getPost('reason', ['trim', 'string']);
 
         $question = $this->findOrFail($id);
-
-        $validator = new QuestionValidator();
-
-        if ($type == 'approve') {
-            $question->published = QuestionModel::PUBLISH_APPROVED;
-        } elseif ($type == 'reject') {
-            $validator->checkRejectReason($reason);
-            $question->published = QuestionModel::PUBLISH_REJECTED;
-        }
-
-        $question->update();
-
-        $owner = $this->findUser($question->owner_id);
-
-        $this->rebuildQuestionCache($question);
-        $this->rebuildQuestionIndex($question);
-        $this->recountUserQuestions($owner);
-
         $sender = $this->getLoginUser();
 
         if ($type == 'approve') {
+
+            $question->published = QuestionModel::PUBLISH_APPROVED;
+            $question->update();
 
             $this->handleQuestionPostPoint($question);
             $this->handleQuestionApprovedNotice($question, $sender);
@@ -276,16 +260,19 @@ class Question extends Service
 
         } elseif ($type == 'reject') {
 
-            $options = ReasonModel::questionRejectOptions();
-
-            if (array_key_exists($reason, $options)) {
-                $reason = $options[$reason];
-            }
+            $question->published = QuestionModel::PUBLISH_REJECTED;
+            $question->update();
 
             $this->handleQuestionRejectedNotice($question, $sender, $reason);
 
             $this->eventsManager->fire('Question:afterReject', $this, $question);
         }
+
+        $owner = $this->findUser($question->owner_id);
+
+        $this->recountUserQuestions($owner);
+        $this->rebuildQuestionCache($question);
+        $this->rebuildQuestionIndex($question);
 
         return $question;
     }
@@ -322,6 +309,72 @@ class Question extends Service
         $this->rebuildQuestionCache($question);
         $this->rebuildQuestionIndex($question);
         $this->recountUserQuestions($owner);
+    }
+
+    public function batchModerate()
+    {
+        $type = $this->request->getQuery('type', ['trim', 'string']);
+        $ids = $this->request->getPost('ids', ['trim', 'int']);
+
+        $questionRepo = new QuestionRepo();
+
+        $questions = $questionRepo->findByIds($ids);
+
+        if ($questions->count() == 0) return;
+
+        $sender = $this->getLoginUser();
+
+        foreach ($questions as $question) {
+
+            if ($type == 'approve') {
+
+                $question->published = QuestionModel::PUBLISH_APPROVED;
+                $question->update();
+
+                $this->handleQuestionPostPoint($question);
+                $this->handleQuestionApprovedNotice($question, $sender);
+
+            } elseif ($type == 'reject') {
+
+                $question->published = QuestionModel::PUBLISH_REJECTED;
+                $question->update();
+
+                $this->handleQuestionRejectedNotice($question, $sender);
+            }
+
+            $owner = $this->findUser($question->owner_id);
+
+            $this->recountUserQuestions($owner);
+            $this->rebuildQuestionCache($question);
+            $this->rebuildQuestionIndex($question);
+        }
+    }
+
+    public function batchDelete()
+    {
+        $ids = $this->request->getPost('ids', ['trim', 'int']);
+
+        $questionRepo = new QuestionRepo();
+
+        $questions = $questionRepo->findByIds($ids);
+
+        if ($questions->count() == 0) return;
+
+        $sender = $this->getLoginUser();
+
+        foreach ($questions as $question) {
+
+            $question->published = QuestionModel::PUBLISH_REJECTED;
+            $question->update();
+
+            $this->handleQuestionDeletedNotice($question, $sender);
+
+            $owner = $this->findUser($question->owner_id);
+
+            $this->recountUserQuestions($owner);
+            $this->rebuildQuestionCache($question);
+            $this->rebuildQuestionIndex($question);
+        }
     }
 
     protected function findOrFail($id)
@@ -379,11 +432,16 @@ class Question extends Service
         $notice->handle($question, $sender);
     }
 
-    protected function handleQuestionRejectedNotice(QuestionModel $question, UserModel $sender, $reason)
+    protected function handleQuestionRejectedNotice(QuestionModel $question, UserModel $sender, $reason = '')
     {
         $notice = new QuestionRejectedNotice();
 
         $notice->handle($question, $sender, $reason);
+    }
+
+    protected function handleQuestionDeletedNotice(QuestionModel $question, UserModel $sender, $reason = '')
+    {
+
     }
 
     protected function handleQuestions($pager)

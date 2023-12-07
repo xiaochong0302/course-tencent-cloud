@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {% set update_url = url({'for':'admin.course.update','id':course.id}) %}
+
     <fieldset class="layui-elem-field layui-field-title">
         <legend>编辑课程</legend>
     </fieldset>
@@ -60,25 +62,14 @@
     <script>
 
         xmSelect.render({
-            el: '#xm-category-ids',
-            name: 'xm_category_ids',
+            el: '#xm-tag-ids',
+            name: 'xm_tag_ids',
             max: 5,
             filterable: true,
             filterMethod: function (val, item, index, prop) {
                 return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
             },
-            data: {{ xm_categories|json_encode }}
-        });
-
-        xmSelect.render({
-            el: '#xm-teacher-ids',
-            name: 'xm_teacher_ids',
-            max: 5,
-            filterable: true,
-            filterMethod: function (val, item, index, prop) {
-                return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
-            },
-            data: {{ xm_teachers|json_encode }}
+            data: {{ xm_tags|json_encode }}
         });
 
         xmSelect.render({
@@ -111,22 +102,6 @@
             laydate.render({
                 elem: 'input[name="attrs[end_date]"]',
                 type: 'date'
-            });
-
-            $('.kg-submit').on('click', function () {
-
-                var xm_category_ids = $('input[name=xm_category_ids]');
-                var xm_teacher_ids = $('input[name=xm_teacher_ids]');
-
-                if (xm_category_ids.val() === '') {
-                    layer.msg('请选择分类', {icon: 2});
-                    return false;
-                }
-
-                if (xm_teacher_ids.val() === '') {
-                    layer.msg('请选择讲师', {icon: 2});
-                    return false;
-                }
             });
 
         });

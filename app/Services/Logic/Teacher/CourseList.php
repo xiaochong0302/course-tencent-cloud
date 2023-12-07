@@ -8,7 +8,8 @@
 namespace App\Services\Logic\Teacher;
 
 use App\Library\Paginator\Query as PagerQuery;
-use App\Repos\TeacherCourse as TeacherCourseRepo;
+use App\Repos\Course as CourseRepo;
+use App\Services\Logic\Course\CourseList as CourseListService;
 use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\UserTrait;
 
@@ -19,55 +20,29 @@ class CourseList extends LogicService
 
     public function handle($id)
     {
-        $user = $this->checkUser($id);
+        $user = $this->checkUserCache($id);
 
         $pagerQuery = new PagerQuery();
 
+        $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
+        $params = $pagerQuery->getParams();
 
-        $repo = new TeacherCourseRepo();
+        $params['teacher_id'] = $user->id;
 
-        $pager = $repo->paginate($user->id, $page, $limit);
+        $courseRepo = new CourseRepo();
+
+        $pager = $courseRepo->paginate($params, $sort, $page, $limit);
 
         return $this->handleCourses($pager);
     }
 
     protected function handleCourses($pager)
     {
-        if ($pager->total_items == 0) {
-            return $pager;
-        }
+        $service = new CourseListService();
 
-        $courses = $pager->items->toArray();
-
-        $baseUrl = kg_cos_url();
-
-        $items = [];
-
-        foreach ($courses as $course) {
-
-            $course['cover'] = $baseUrl . $course['cover'];
-
-            $items[] = [
-                'id' => $course['id'],
-                'title' => $course['title'],
-                'cover' => $course['cover'],
-                'market_price' => (float)$course['market_price'],
-                'vip_price' => (float)$course['vip_price'],
-                'rating' => (float)$course['rating'],
-                'model' => $course['model'],
-                'level' => $course['level'],
-                'user_count' => $course['user_count'],
-                'lesson_count' => $course['lesson_count'],
-                'review_count' => $course['review_count'],
-                'favorite_count' => $course['favorite_count'],
-            ];
-        }
-
-        $pager->items = $items;
-
-        return $pager;
+        return $service->handleCourses($pager);
     }
 
 }

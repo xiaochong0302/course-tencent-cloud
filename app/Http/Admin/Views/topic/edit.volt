@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% set action_url = url({'for':'admin.topic.update','id':topic.id}) %}
+    {% set update_url = url({'for':'admin.topic.update','id':topic.id}) %}
 
     <fieldset class="layui-elem-field layui-field-title">
         <legend>编辑专题</legend>

@@ -53,9 +53,9 @@
 
     <div class="layui-hide">
         <input type="hidden" name="chapter.id" value="{{ chapter.id }}">
-        <input type="hidden" name="chapter.plan_id" value="{{ chapter.me.plan_id }}">
         <input type="hidden" name="chapter.learning_url" value="{{ learning_url }}">
         <input type="hidden" name="chapter.play_urls" value='{{ chapter.play_urls|json_encode }}'>
+        <input type="hidden" name="chapter.me.plan_id" value="{{ chapter.me.plan_id }}">
         <input type="hidden" name="live_stats_url" value='{{ live_stats_url }}'>
         <input type="hidden" name="bind_user_url" value='{{ bind_user_url }}'>
     </div>
@@ -71,11 +71,13 @@
 
 {% block include_js %}
 
+    {{ js_include('lib/clipboard.min.js') }}
     {{ js_include('lib/dplayer/flv.min.js') }}
     {{ js_include('lib/dplayer/DPlayer.min.js') }}
     {{ js_include('home/js/chapter.live.player.js') }}
     {{ js_include('home/js/chapter.live.chat.js') }}
     {{ js_include('home/js/chapter.show.js') }}
     {{ js_include('home/js/course.share.js') }}
+    {{ js_include('home/js/copy.js') }}
 
 {% endblock %}

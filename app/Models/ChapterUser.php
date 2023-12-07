@@ -74,6 +74,20 @@ class ChapterUser extends Model
     public $consumed = 0;
 
     /**
+     * 删除标识
+     *
+     * @var int
+     */
+    public $deleted = 0;
+
+    /**
+     * 活跃时间
+     *
+     * @var int
+     */
+    public $active_time = 0;
+
+    /**
      * 创建时间
      *
      * @var int

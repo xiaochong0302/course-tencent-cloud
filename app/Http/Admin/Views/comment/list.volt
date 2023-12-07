@@ -4,9 +4,24 @@
 
     {{ partial('macros/common') }}
 
-    <table class="layui-table kg-table layui-form" lay-size="lg">
+    {% set batch_delete_url = url({'for':'admin.comment.batch_delete'}) %}
+
+    <div class="kg-nav">
+        <div class="kg-nav-left">
+            <span class="layui-breadcrumb">
+                {% if request.get('item_id') > 0 %}
+                    <a class="kg-back"><i class="layui-icon layui-icon-return"></i>返回</a>
+                {% endif %}
+                <a><cite>评论管理</cite></a>
+            </span>
+            <span class="layui-btn layui-btn-sm layui-bg-red kg-batch" data-url="{{ batch_delete_url }}">批量删除</span>
+        </div>
+    </div>
+
+    <table class="layui-table layui-form kg-table">
         <colgroup>
             <col width="50%">
+            <col>
             <col>
             <col>
             <col>
@@ -14,10 +29,11 @@
         </colgroup>
         <thead>
         <tr>
-            <th>评论</th>
+            <th>作者</th>
+            <th>内容</th>
+            <th>回复</th>
             <th>点赞</th>
-            <th>用户</th>
-            <th>时间</th>
+            <th>创建</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -28,9 +44,12 @@
             {% set delete_url = url({'for':'admin.comment.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.comment.restore','id':item.id}) %}
             <tr>
-                <td>{{ item.content }}</td>
+                <td><a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a>（{{ item.owner.id }}）</td>
+                <td>
+                    <p class="layui-elip kg-item-elip" title="{{ item.content }}">{{ item.content }}</p>
+                </td>
+                <td>{{ item.reply_count }}</td>
                 <td>{{ item.like_count }}</td>
-                <td><a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a></td>
                 <td>{{ date('Y-m-d',item.create_time) }}</td>
                 <td class="center">
                     {% if item.deleted == 0 %}

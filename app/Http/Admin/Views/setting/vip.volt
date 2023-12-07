@@ -6,7 +6,7 @@
         <fieldset class="layui-elem-field layui-field-title">
             <legend>会员设置</legend>
         </fieldset>
-        <table class="layui-table kg-table layui-form" style="width:80%;">
+        <table class="layui-table layui-form kg-table" style="width:80%;">
             <colgroup>
                 <col width="20%">
                 <col width="20%">

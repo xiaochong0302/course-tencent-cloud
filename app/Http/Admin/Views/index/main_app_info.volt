@@ -12,7 +12,7 @@
             <tbody>
             <tr>
                 <td>当前版本</td>
-                <td><a href="{{ gitee_url ~ '/releases/v' ~ app_info.version }}" target="_blank">{{ app_info.version }}</a></td>
+                <td><a href="{{ gitee_url ~ '/releases/v' ~ app_info.version }}" target="_blank">{{ app_info.alias }} {{ app_info.version }}</a></td>
             </tr>
             <tr>
                 <td>获取渠道</td>

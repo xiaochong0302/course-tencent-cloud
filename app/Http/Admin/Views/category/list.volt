@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <table class="layui-table kg-table layui-form">
+    <table class="layui-table layui-form kg-table">
         <colgroup>
             <col>
             <col>
@@ -54,20 +54,21 @@
             {% set restore_url = url({'for':'admin.category.restore','id':item.id}) %}
             <tr>
                 <td>{{ item.id }}</td>
-                <td><img class="kg-icon" src="{{ item.icon }}" alt="{{ item.name }}"></td>
-                {% if item.type == 1 %}
+                <td><img class="kg-icon-sm" src="{{ item.icon }}" alt="{{ item.name }}"></td>
+                {% if item.type in [1,3,4] %}
                     {% if item.level == 1 %}
                         <td><a href="{{ child_url }}"><i class="layui-icon layui-icon-add-circle"></i> {{ item.name }}</a></td>
                     {% else %}
                         <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
                     {% endif %}
-                {% elseif item.type == 2 %}
+                {% else %}
                     <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
                 {% endif %}
                 <td>{{ item.level }}</td>
                 <td>{{ item.child_count }}</td>
                 <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
+                <td><input type="checkbox" name="published" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}"
+                           {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>

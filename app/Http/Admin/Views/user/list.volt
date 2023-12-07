@@ -31,53 +31,56 @@
             <col>
             <col>
             <col>
-            <col>
-            <col>
-            <col>
             <col width="10%">
         </colgroup>
         <thead>
         <tr>
             <th>用户头像</th>
-            <th>用户昵称</th>
+            <th>基本信息</th>
+            <th>帐号信息</th>
             <th>用户角色</th>
-            <th>课程</th>
-            <th>文章</th>
-            <th>提问</th>
-            <th>回答</th>
-            <th>活跃时间</th>
-            <th>注册时间</th>
+            <th>统计信息</th>
+            <th>活跃动态</th>
             <th>操作</th>
         </tr>
         </thead>
         <tbody>
         {% for item in pager.items %}
+            {% set account_phone = item.account.phone ? item.account.phone : 'N/A' %}
+            {% set account_email = item.account.email ? item.account.email : 'N/A' %}
             {% set user_url = url({'for':'home.user.show','id':item.id}) %}
             {% set online_url = url({'for':'admin.user.online','id':item.id}) %}
             {% set edit_url = url({'for':'admin.user.edit','id':item.id}) %}
             <tr>
                 <td class="center">
-                    <img class="avatar-sm" src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
+                    <img class="kg-avatar-sm" src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
                 </td>
                 <td>
-                    <p>
-                        <a href="{{ edit_url }}">{{ item.name }}</a>（{{ item.id }}）{{ status_info(item) }}
-                    </p>
-                    <p class="meta">
-                        <span>性别：{{ gender_info(item.gender) }}</span>
-                        <span>地区：{{ item.area|default('N/A') }}</span>
-                    </p>
+                    <p>昵称：<a href="{{ edit_url }}">{{ item.name }}</a>{{ status_info(item) }}</p>
+                    <p>编号：{{ item.id }}</p>
+                </td>
+                <td>
+                    <p>手机：{{ account_phone }}</p>
+                    <p>邮箱：{{ account_email }}</p>
                 </td>
                 <td>
                     <p>教学：{{ edu_role_info(item.edu_role) }}</p>
                     <p>后台：{{ admin_role_info(item.admin_role) }}</p>
                 </td>
-                <td>{{ item.course_count }}</td>
-                <td>{{ item.article_count }}</td>
-                <td>{{ item.question_count }}</td>
-                <td>{{ item.answer_count }}</td>
-                <td>{{ date('Y-m-d',item.active_time) }}</td>
-                <td>{{ date('Y-m-d',item.create_time) }}</td>
+                <td>
+                    <p class="meta">
+                        <span>文章：{{ item.article_count }}</span>
+                        <span>评论：{{ item.comment_count }}</span>
+                    </p>
+                    <p class="meta">
+                        <span>提问：{{ item.question_count }}</span>
+                        <span>回答：{{ item.answer_count }}</span>
+                    </p>
+                </td>
+                <td>
+                    <p>注册：{{ date('Y-m-d',item.create_time) }}</p>
+                    <p>活跃：{{ date('Y-m-d',item.active_time) }}</p>
+                </td>
                 <td class="center">
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>

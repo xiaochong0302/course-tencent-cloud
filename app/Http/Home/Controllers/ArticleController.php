@@ -18,7 +18,6 @@ use App\Services\Logic\Article\ArticleFavorite as ArticleFavoriteService;
 use App\Services\Logic\Article\ArticleInfo as ArticleInfoService;
 use App\Services\Logic\Article\ArticleLike as ArticleLikeService;
 use App\Services\Logic\Article\ArticleList as ArticleListService;
-use App\Services\Logic\Article\ArticlePrivate as ArticlePrivateService;
 use App\Services\Logic\Article\ArticleUpdate as ArticleUpdateService;
 use App\Services\Logic\Article\RelatedArticleList as RelatedArticleListService;
 use Phalcon\Mvc\View;
@@ -43,11 +42,15 @@ class ArticleController extends Controller
 
         $service = new ArticleQueryService();
 
+        $topCategories = $service->handleTopCategories();
+        $subCategories = $service->handleSubCategories();
         $sorts = $service->handleSorts();
         $params = $service->getParams();
 
         $this->seo->prependTitle('专栏');
 
+        $this->view->setVar('top_categories', $topCategories);
+        $this->view->setVar('sub_categories', $subCategories);
         $this->view->setVar('sorts', $sorts);
         $this->view->setVar('params', $params);
     }
@@ -74,16 +77,18 @@ class ArticleController extends Controller
     {
         $service = new ArticleService();
 
-        $sourceTypes = $service->getSourceTypes();
         $article = $service->getArticleModel();
+        $categoryOptions = $service->getCategoryOptions();
+        $sourceTypes = $service->getSourceTypes();
         $xmTags = $service->getXmTags(0);
 
         $this->seo->prependTitle('撰写文章');
 
         $this->view->pick('article/edit');
+        $this->view->setVar('article', $article);
+        $this->view->setVar('category_options', $categoryOptions);
         $this->view->setVar('source_types', $sourceTypes);
         $this->view->setVar('xm_tags', $xmTags);
-        $this->view->setVar('article', $article);
     }
 
     /**
@@ -93,14 +98,16 @@ class ArticleController extends Controller
     {
         $service = new ArticleService();
 
+        $categoryOptions = $service->getCategoryOptions();
         $sourceTypes = $service->getSourceTypes();
         $article = $service->getArticle($id);
         $xmTags = $service->getXmTags($id);
 
         $this->seo->prependTitle('编辑文章');
 
-        $this->view->setVar('source_types', $sourceTypes);
         $this->view->setVar('article', $article);
+        $this->view->setVar('category_options', $categoryOptions);
+        $this->view->setVar('source_types', $sourceTypes);
         $this->view->setVar('xm_tags', $xmTags);
     }
 
@@ -126,14 +133,9 @@ class ArticleController extends Controller
 
         $approved = $article['published'] == ArticleModel::PUBLISH_APPROVED;
         $owned = $article['me']['owned'] == 1;
-        $private = $article['private'] == 1;
 
         if (!$approved && !$owned) {
             $this->notFound();
-        }
-
-        if ($private && !$owned) {
-            $this->forbidden();
         }
 
         $this->seo->prependTitle(['专栏', $article['title']]);
@@ -234,20 +236,6 @@ class ArticleController extends Controller
         $article = $service->handle($id);
 
         $msg = $article->closed == 1 ? '关闭评论成功' : '开启评论成功';
-
-        return $this->jsonSuccess(['msg' => $msg]);
-    }
-
-    /**
-     * @Post("/{id:[0-9]+}/private", name="home.article.private")
-     */
-    public function privateAction($id)
-    {
-        $service = new ArticlePrivateService();
-
-        $article = $service->handle($id);
-
-        $msg = $article->private == 1 ? '开启仅我可见成功' : '关闭仅我可见成功';
 
         return $this->jsonSuccess(['msg' => $msg]);
     }

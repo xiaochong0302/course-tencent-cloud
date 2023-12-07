@@ -7,7 +7,6 @@
 
 namespace App\Validators;
 
-use App\Caches\Tag as TagCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Question as QuestionModel;
 
@@ -18,26 +17,21 @@ class QuestionQuery extends Validator
     {
         $validator = new Category();
 
-        $category = $validator->checkCategoryCache($id);
-
-        if (!$category) {
-            throw new BadRequestException('question_query.invalid_category');
-        }
-
-        return $category->id;
+        return $validator->checkCategoryCache($id);
     }
 
     public function checkTag($id)
     {
-        $tagCache = new TagCache();
+        $validator = new Tag();
 
-        $tag = $tagCache->get($id);
+        return $validator->checkTagCache($id);
+    }
 
-        if (!$tag) {
-            throw new BadRequestException('question_query.invalid_tag');
-        }
+    public function checkUser($id)
+    {
+        $validator = new User();
 
-        return $tag->id;
+        return $validator->checkUserCache($id);
     }
 
     public function checkSort($sort)

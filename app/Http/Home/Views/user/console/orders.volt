@@ -31,7 +31,6 @@
                         <thead>
                         <tr>
                             <th>商品</th>
-                            <th>促销</th>
                             <th>价格</th>
                             <th>状态</th>
                             <th>操作</th>
@@ -48,7 +47,6 @@
                                         <span>时间：{{ date('Y-m-d',item.create_time) }}</span>
                                     </p>
                                 </td>
-                                <td>{{ promotion_type(item.promotion_type) }}</td>
                                 <td class="red">{{ '￥%0.2f'|format(item.amount) }}</td>
                                 <td>{{ order_status(item.status) }}</td>
                                 <td>

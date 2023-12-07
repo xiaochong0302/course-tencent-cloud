@@ -49,10 +49,6 @@ trait ArticleDataTrait
             $data['closed'] = $validator->checkCloseStatus($post['closed']);
         }
 
-        if (isset($post['private'])) {
-            $data['private'] = $validator->checkPrivateStatus($post['private']);
-        }
-
         return $data;
     }
 
@@ -63,8 +59,14 @@ trait ArticleDataTrait
 
     protected function saveDynamicAttrs(ArticleModel $article)
     {
-        $article->cover = kg_parse_first_content_image($article->content);
-        $article->summary = kg_parse_summary($article->content);
+        if (empty($article->cover)) {
+            $article->cover = kg_parse_first_content_image($article->content);
+        }
+
+        if (empty($article->summary)) {
+            $article->summary = kg_parse_summary($article->content);
+        }
+
         $article->word_count = WordUtil::getWordCount($article->content);
 
         $article->update();

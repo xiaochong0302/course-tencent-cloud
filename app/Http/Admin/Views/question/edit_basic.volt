@@ -6,6 +6,18 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">分类</label>
+        <div class="layui-input-block">
+            <select name="category_id" lay-search="true" lay-verify="required">
+                <option value="">请选择</option>
+                {% for option in category_options %}
+                    {% set selected = question.category_id == option.id ? 'selected="selected"' : '' %}
+                    <option value="{{ option.id }}" {{ selected }}>{{ option.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">标签</label>
         <div class="layui-input-block">
             <div id="xm-tag-ids"></div>

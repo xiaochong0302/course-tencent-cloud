@@ -172,9 +172,7 @@ class DeliverTask extends Task
         ];
 
         foreach ($orders as $order) {
-            $case1 = in_array($order->item_type, $itemTypes);
-            $case2 = $order->promotion_type == 0;
-            if ($case1 && $case2) {
+            if (in_array($order->item_type, $itemTypes)) {
                 $order->status = OrderModel::STATUS_CLOSED;
                 $order->update();
             }

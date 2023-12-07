@@ -1,4 +1,4 @@
-<table class="layui-table kg-table layui-form">
+<table class="layui-table layui-form kg-table">
     <colgroup>
         <col>
         <col>

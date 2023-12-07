@@ -213,29 +213,14 @@ class Answer extends Service
         $reason = $this->request->getPost('reason', ['trim', 'string']);
 
         $answer = $this->findOrFail($id);
-
-        $validator = new AnswerValidator();
-
-        if ($type == 'approve') {
-            $answer->published = AnswerModel::PUBLISH_APPROVED;
-        } elseif ($type == 'reject') {
-            $validator->checkRejectReason($reason);
-            $answer->published = AnswerModel::PUBLISH_REJECTED;
-        }
-
-        $answer->update();
-
         $question = $this->findQuestion($answer->question_id);
-
-        $this->recountQuestionAnswers($question);
-
         $owner = $this->findUser($answer->owner_id);
-
-        $this->recountUserAnswers($owner);
-
         $sender = $this->getLoginUser();
 
         if ($type == 'approve') {
+
+            $answer->published = AnswerModel::PUBLISH_APPROVED;
+            $answer->update();
 
             if ($answer->owner_id != $question->owner_id) {
                 $this->handleAnswerPostPoint($answer);
@@ -248,16 +233,16 @@ class Answer extends Service
 
         } elseif ($type == 'reject') {
 
-            $options = ReasonModel::answerRejectOptions();
-
-            if (array_key_exists($reason, $options)) {
-                $reason = $options[$reason];
-            }
+            $answer->published = AnswerModel::PUBLISH_REJECTED;
+            $answer->update();
 
             $this->handleAnswerRejectedNotice($answer, $sender, $reason);
 
             $this->eventsManager->fire('Answer:afterReject', $this, $answer);
         }
+
+        $this->recountQuestionAnswers($question);
+        $this->recountUserAnswers($owner);
 
         return $answer;
     }
@@ -296,6 +281,78 @@ class Answer extends Service
         $user = $this->findUser($answer->owner_id);
 
         $this->recountUserAnswers($user);
+    }
+
+    public function batchModerate()
+    {
+        $type = $this->request->getQuery('type', ['trim', 'string']);
+        $ids = $this->request->getPost('ids', ['trim', 'int']);
+
+        $answerRepo = new AnswerRepo();
+
+        $answers = $answerRepo->findByIds($ids);
+
+        if ($answers->count() == 0) return;
+
+        $sender = $this->getLoginUser();
+
+        foreach ($answers as $answer) {
+
+            $question = $this->findQuestion($answer->question_id);
+            $owner = $this->findUser($answer->owner_id);
+
+            if ($type == 'approve') {
+
+                $answer->published = AnswerModel::PUBLISH_APPROVED;
+                $answer->update();
+
+                if ($answer->owner_id != $question->owner_id) {
+                    $this->handleAnswerPostPoint($answer);
+                    $this->handleQuestionAnsweredNotice($answer);
+                }
+
+                $this->handleAnswerApprovedNotice($answer, $sender);
+
+            } elseif ($type == 'reject') {
+
+                $answer->published = AnswerModel::PUBLISH_REJECTED;
+                $answer->update();
+
+                $this->handleAnswerRejectedNotice($answer, $sender, '');
+            }
+
+            $this->recountQuestionAnswers($question);
+            $this->recountUserAnswers($owner);
+        }
+    }
+
+    public function batchDelete()
+    {
+        $ids = $this->request->getPost('ids', ['trim', 'int']);
+
+        $answerRepo = new AnswerRepo();
+
+        $answers = $answerRepo->findByIds($ids);
+
+        if ($answers->count() == 0) return;
+
+        $sender = $this->getLoginUser();
+
+        foreach ($answers as $answer) {
+
+            $answer->deleted = 1;
+            $answer->update();
+
+            $this->handleAnswerDeletedNotice($answer, $sender);
+
+            $question = $this->findQuestion($answer->question_id);
+
+            $this->recountQuestionAnswers($question);
+
+            $owner = $this->findUser($answer->owner_id);
+
+            $this->recountUserAnswers($owner);
+        }
     }
 
     protected function findOrFail($id)
@@ -390,11 +447,16 @@ class Answer extends Service
         $notice->handle($answer, $sender);
     }
 
-    protected function handleAnswerRejectedNotice(AnswerModel $answer, UserModel $sender, $reason)
+    protected function handleAnswerRejectedNotice(AnswerModel $answer, UserModel $sender, $reason = '')
     {
         $notice = new AnswerRejectedNotice();
 
         $notice->handle($answer, $sender, $reason);
+
+    }
+
+    protected function handleAnswerDeletedNotice(AnswerModel $answer, UserModel $sender, $reason = '')
+    {
 
     }
 

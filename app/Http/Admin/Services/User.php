@@ -335,11 +335,12 @@ class User extends Service
             $items = $pager->items->toArray();
 
             $pipeA = $builder->handleUsers($items);
-            $pipeB = $builder->handleAdminRoles($pipeA);
-            $pipeC = $builder->handleEduRoles($pipeB);
-            $pipeD = $builder->objects($pipeC);
+            $pipeB = $builder->handleAccounts($pipeA);
+            $pipeC = $builder->handleAdminRoles($pipeB);
+            $pipeD = $builder->handleEduRoles($pipeC);
+            $pipeE = $builder->objects($pipeD);
 
-            $pager->items = $pipeD;
+            $pager->items = $pipeE;
         }
 
         return $pager;

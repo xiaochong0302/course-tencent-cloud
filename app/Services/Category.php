@@ -9,10 +9,39 @@ namespace App\Services;
 
 use App\Caches\Category as CategoryCache;
 use App\Caches\CategoryList as CategoryListCache;
+use App\Caches\CategoryTreeList as CategoryTreeListCache;
 use App\Models\Category as CategoryModel;
 
 class Category extends Service
 {
+
+    public function getCategoryOptions($type)
+    {
+        $cache = new CategoryTreeListCache();
+
+        $categories = $cache->get($type);
+
+        $result = [];
+
+        if (!$categories) return $result;
+
+        foreach ($categories as $category) {
+            $result[] = [
+                'id' => $category['id'],
+                'name' => $category['name'],
+            ];
+            if (count($category['children']) > 0) {
+                foreach ($category['children'] as $child) {
+                    $result[] = [
+                        'id' => $child['id'],
+                        'name' => sprintf('|--- %s', $child['name']),
+                    ];
+                }
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * 获取节点路径

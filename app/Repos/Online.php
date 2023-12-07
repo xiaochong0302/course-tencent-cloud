@@ -27,6 +27,12 @@ class Online extends Repository
             $builder->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
+        }
+
         switch ($sort) {
             case 'oldest':
                 $orderBy = 'id ASC';
