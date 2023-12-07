@@ -31,7 +31,7 @@ class TeacherController extends Controller
             return $this->response->redirect($location);
         }
 
-        $this->seo->prependTitle('教师');
+        $this->seo->prependTitle('师资');
     }
 
     /**
