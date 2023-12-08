@@ -172,10 +172,8 @@ class ConsultController extends Controller
 
         $consultService->batchDelete();
 
-        $location = $this->url->get(['for' => 'admin.mod.consults']);
-
         $content = [
-            'location' => $location,
+            'location' => $this->request->getHTTPReferer(),
             'msg' => '批量删除成功',
         ];
 

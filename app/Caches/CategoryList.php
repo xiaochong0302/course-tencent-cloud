@@ -25,10 +25,6 @@ class CategoryList extends Cache
         return "category_list:{$id}";
     }
 
-    /**
-     * @param null $id
-     * @return array
-     */
     public function getContent($id = null)
     {
         /**

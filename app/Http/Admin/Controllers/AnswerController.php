@@ -247,10 +247,8 @@ class AnswerController extends Controller
 
         $answerService->batchDelete();
 
-        $location = $this->url->get(['for' => 'admin.answer.list']);
-
         $content = [
-            'location' => $location,
+            'location' => $this->request->getHTTPReferer(),
             'msg' => '批量删除成功',
         ];
 

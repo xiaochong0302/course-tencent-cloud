@@ -379,7 +379,7 @@ class Article extends Service
 
         foreach ($articles as $article) {
 
-            $article->published = ArticleModel::PUBLISH_REJECTED;
+            $article->deleted = 1;
             $article->update();
 
             $this->handleArticleDeletedNotice($article, $sender);

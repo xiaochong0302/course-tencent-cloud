@@ -20,23 +20,19 @@ class CategoryAllList extends Cache
         return $this->lifetime;
     }
 
-    public function getKey($type = null)
+    public function getKey($id = null)
     {
-        return "category_all_list:{$type}";
+        return "category_all_list:{$id}";
     }
 
-    /**
-     * @param null $type
-     * @return array
-     */
-    public function getContent($type = null)
+    public function getContent($id = null)
     {
         /**
          * @var Resultset $categories
          */
         $categories = CategoryModel::query()
             ->columns(['id', 'parent_id', 'name', 'priority', 'level', 'path'])
-            ->where('type = :type:', ['type' => $type])
+            ->where('type = :type:', ['type' => $id])
             ->orderBy('level ASC, priority ASC')
             ->execute();
 
