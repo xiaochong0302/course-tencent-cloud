@@ -364,7 +364,7 @@ class Question extends Service
 
         foreach ($questions as $question) {
 
-            $question->published = QuestionModel::PUBLISH_REJECTED;
+            $question->deleted = 1;
             $question->update();
 
             $this->handleQuestionDeletedNotice($question, $sender);

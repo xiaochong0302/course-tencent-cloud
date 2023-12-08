@@ -64,11 +64,7 @@ class ArticleController extends Controller
      */
     public function addAction()
     {
-        $articleService = new ArticleService();
 
-        $categories = $articleService->getCategories();
-
-        $this->view->setVar('categories', $categories);
     }
 
     /**
@@ -257,10 +253,8 @@ class ArticleController extends Controller
 
         $articleService->batchDelete();
 
-        $location = $this->url->get(['for' => 'admin.mod.articles']);
-
         $content = [
-            'location' => $location,
+            'location' => $this->request->getHTTPReferer(),
             'msg' => '批量删除成功',
         ];
 

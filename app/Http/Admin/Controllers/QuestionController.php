@@ -248,10 +248,8 @@ class QuestionController extends Controller
 
         $questionService->batchDelete();
 
-        $location = $this->url->get(['for' => 'admin.question.list']);
-
         $content = [
-            'location' => $location,
+            'location' => $this->request->getHTTPReferer(),
             'msg' => '批量删除成功',
         ];
 

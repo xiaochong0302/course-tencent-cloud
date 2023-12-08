@@ -167,11 +167,9 @@ class CommentController extends Controller
 
         $commentService->batchDelete();
 
-        $location = $this->url->get(['for' => 'admin.mod.comments']);
-
         $content = [
-            'location' => $location,
-            'msg' => '批量审核成功',
+            'location' => $this->request->getHTTPReferer(),
+            'msg' => '批量删除成功',
         ];
 
         return $this->jsonSuccess($content);
