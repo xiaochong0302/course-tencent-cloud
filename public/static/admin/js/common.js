@@ -147,6 +147,38 @@ layui.use(['jquery', 'form', 'element', 'layer', 'kgDropdown'], function () {
         });
     });
 
+    $('.kg-batch').on('click', function () {
+        var url = $(this).data('url');
+        var tips = $(this).data('tips');
+        var defaultTips = '确定要执行批量操作吗？';
+        var ids = [];
+        $('input:checkbox[class="item"]:checked').each(function (index, item) {
+            ids.push(item.value);
+        });
+        if (ids.length === 0) {
+            layer.msg('没有选中任何条目', {icon: 2});
+            return false;
+        }
+        tips = tips || defaultTips;
+        layer.confirm(tips, function () {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {'ids': ids},
+                success: function (res) {
+                    layer.msg(res.msg, {icon: 1});
+                    if (res.location) {
+                        setTimeout(function () {
+                            window.location.href = res.location;
+                        }, 1500);
+                    } else {
+                        window.location.reload();
+                    }
+                }
+            });
+        });
+    });
+
     $('.kg-delete,.kg-restore').on('click', function () {
         var url = $(this).data('url');
         var tips = $(this).hasClass('kg-delete') ? '确定要删除吗？' : '确定要还原吗？';
