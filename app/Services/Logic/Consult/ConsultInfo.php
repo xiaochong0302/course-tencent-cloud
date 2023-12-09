@@ -24,7 +24,7 @@ class ConsultInfo extends LogicService
     {
         $consult = $this->checkConsult($id);
 
-        $user = $this->getCurrentUser(true);
+        $user = $this->getCurrentUser();
 
         return $this->handleConsult($consult, $user);
     }

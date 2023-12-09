@@ -25,7 +25,7 @@ class QuestionInfo extends LogicService
 
     public function handle($id)
     {
-        $user = $this->getCurrentUser(true);
+        $user = $this->getCurrentUser();
 
         $question = $this->checkQuestion($id);
 

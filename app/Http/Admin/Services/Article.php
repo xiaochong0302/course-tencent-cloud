@@ -160,6 +160,10 @@ class Article extends Service
             $data['title'] = $validator->checkTitle($post['title']);
         }
 
+        if (isset($post['cover'])) {
+            $data['cover'] = $validator->checkCover($post['cover']);
+        }
+
         if (isset($post['summary'])) {
             $data['summary'] = $validator->checkSummary($post['summary']);
         }

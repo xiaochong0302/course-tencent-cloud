@@ -26,7 +26,7 @@ class ArticleInfo extends LogicService
     {
         $article = $this->checkArticle($id);
 
-        $user = $this->getCurrentUser(true);
+        $user = $this->getCurrentUser();
 
         $result = $this->handleArticle($article, $user);
 

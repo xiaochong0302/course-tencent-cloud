@@ -28,24 +28,28 @@
                 </div>
             </div>
             <div class="layout-sidebar writer-sidebar wrap">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">文章分类</label>
-                    <div class="layui-input-block">
-                        <select name="category_id" lay-search="true" lay-verify="required">
-                            <option value="">请选择</option>
-                            {% for option in category_options %}
-                                {% set selected = article.category_id == option.id ? 'selected="selected"' : '' %}
-                                <option value="{{ option.id }}" {{ selected }}>{{ option.name }}</option>
-                            {% endfor %}
-                        </select>
+                {% if category_options|length > 0 %}
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文章分类</label>
+                        <div class="layui-input-block">
+                            <select name="category_id" lay-search="true" lay-verify="required">
+                                <option value="">请选择</option>
+                                {% for option in category_options %}
+                                    {% set selected = article.category_id == option.id ? 'selected="selected"' : '' %}
+                                    <option value="{{ option.id }}" {{ selected }}>{{ option.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">文章标签</label>
-                    <div class="layui-input-block">
-                        <div id="xm-tag-ids"></div>
+                {% endif %}
+                {% if xm_tags|length > 0 %}
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文章标签</label>
+                        <div class="layui-input-block">
+                            <div id="xm-tag-ids"></div>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
                 <div class="layui-form-item">
                     <label class="layui-form-label">来源类型</label>
                     <div class="layui-input-block">

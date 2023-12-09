@@ -21,7 +21,7 @@ class ResourceList extends LogicService
     {
         $course = $this->checkCourse($id);
 
-        $user = $this->getCurrentUser(true);
+        $user = $this->getCurrentUser();
 
         $this->setCourseUser($course, $user);
 

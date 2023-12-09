@@ -27,10 +27,10 @@ class AppInfo extends Cache
         $appInfo = new \App\Library\AppInfo();
 
         return [
-            'name' => $appInfo->name,
-            'alias' => $appInfo->alias,
-            'link' => $appInfo->link,
-            'version' => $appInfo->version,
+            'name' => $appInfo->get('name'),
+            'alias' => $appInfo->get('alias'),
+            'link' => $appInfo->get('link'),
+            'version' => $appInfo->get('version'),
         ];
     }
 
