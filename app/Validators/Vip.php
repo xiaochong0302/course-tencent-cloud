@@ -48,7 +48,7 @@ class Vip extends Validator
     {
         $value = $this->filter->sanitize($cover, ['trim', 'string']);
 
-        if (!CommonValidator::url($value)) {
+        if (!CommonValidator::image($value)) {
             throw new BadRequestException('vip.invalid_cover');
         }
 

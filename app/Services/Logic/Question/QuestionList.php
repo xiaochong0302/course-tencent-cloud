@@ -14,6 +14,7 @@ use App\Repos\Question as QuestionRepo;
 use App\Services\Category as CategoryService;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\QuestionQuery as QuestionQueryValidator;
+use Phalcon\Text;
 
 class QuestionList extends LogicService
 {
@@ -77,7 +78,13 @@ class QuestionList extends LogicService
 
         $items = [];
 
+        $cosUrl = kg_cos_url();
+
         foreach ($questions as $question) {
+
+            if (!empty($question['cover']) && !Text::startsWith($question['cover'], 'http')) {
+                $question['cover'] = $cosUrl . $question['cover'];
+            }
 
             $question['tags'] = json_decode($question['tags'], true);
 

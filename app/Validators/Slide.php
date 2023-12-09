@@ -63,7 +63,7 @@ class Slide extends Validator
     {
         $value = $this->filter->sanitize($cover, ['trim', 'string']);
 
-        if (!CommonValidator::url($value)) {
+        if (!CommonValidator::image($value)) {
             throw new BadRequestException('slide.invalid_cover');
         }
 

@@ -249,9 +249,7 @@ class Article extends Model
 
     public function beforeSave()
     {
-        if (empty($this->cover)) {
-            $this->cover = kg_default_article_cover_path();
-        } elseif (Text::startsWith($this->cover, 'http')) {
+        if (Text::startsWith($this->cover, 'http')) {
             $this->cover = self::getCoverPath($this->cover);
         }
 
@@ -269,7 +267,7 @@ class Article extends Model
 
     public function afterFetch()
     {
-        if (!Text::startsWith($this->cover, 'http')) {
+        if (!empty($this->cover) && !Text::startsWith($this->cover, 'http')) {
             $this->cover = kg_cos_article_cover_url($this->cover);
         }
 

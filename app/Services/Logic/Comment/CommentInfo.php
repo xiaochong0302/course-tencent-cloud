@@ -25,7 +25,7 @@ class CommentInfo extends LogicService
     {
         $comment = $this->checkComment($id);
 
-        $user = $this->getCurrentUser(true);
+        $user = $this->getCurrentUser();
 
         return $this->handleComment($comment, $user);
     }

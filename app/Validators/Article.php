@@ -90,6 +90,17 @@ class Article extends Validator
         return $value;
     }
 
+    public function checkCover($cover)
+    {
+        $value = $this->filter->sanitize($cover, ['trim', 'string']);
+
+        if (!CommonValidator::image($value)) {
+            throw new BadRequestException('article.invalid_cover');
+        }
+
+        return kg_cos_img_style_trim($value);
+    }
+
     public function checkSummary($summary)
     {
         $value = $this->filter->sanitize($summary, ['trim', 'string']);
