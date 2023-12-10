@@ -8,12 +8,13 @@
 namespace App\Console\Tasks;
 
 use App\Caches\CategoryList as CategoryListCache;
+use App\Caches\CategoryAllList as CategoryAllListCache;
 use App\Caches\CategoryTreeList as CategoryTreeListCache;
 use App\Caches\IndexSlideList as IndexSlideListCache;
 use App\Models\Account as AccountModel;
 use App\Models\Category as CategoryModel;
 use App\Repos\User as UserRepo;
-use App\Services\Utils\IndexCourseCache as IndexCourseCacheUtil;
+use App\Services\Utils\IndexPageCache as IndexPageCacheUtil;
 
 class CleanDemoDataTask extends Task
 {
@@ -81,17 +82,19 @@ class CleanDemoDataTask extends Task
 
     protected function cleanCache()
     {
-        $util = new IndexCourseCacheUtil();
+        $util = new IndexPageCacheUtil();
         $util->rebuild();
 
         $slideListCache = new IndexSlideListCache();
         $slideListCache->rebuild();
 
         $categoryListCache = new CategoryListCache();
+        $categoryAllListCache = new CategoryAllListCache();
         $categoryTreeListCache = new CategoryTreeListCache();
 
         foreach (CategoryModel::types() as $key => $value) {
             $categoryListCache->rebuild($key);
+            $categoryAllListCache->rebuild($key);
             $categoryTreeListCache->rebuild($key);
         }
     }
@@ -114,7 +117,7 @@ class CleanDemoDataTask extends Task
 
         $user = $userRepo->findById(100015);
 
-        return $user ? true : false;
+        return (bool)$user;
     }
 
 }

@@ -22,17 +22,13 @@
     </ul>
 </div>
 
-{% set s_type = request.get('type',['trim','string'],'course') %}
-{% set s_query = request.get('query',['trim','striptags'],'') %}
-{% set s_url = url({'for':'home.search.index'}) %}
-
 <div class="user">
     <ul class="layui-nav">
         <li class="layui-nav-item">
-            <a href="javascript:" class="nav-search" data-type="{{ s_type }}" data-query="{{ s_query }}" data-url="{{ s_url }}"><i class="layui-icon layui-icon-search"></i> 搜索</a>
+            <a class="nav-search" href="javascript:" data-url="{{ url({'for':'home.search.index'}) }}"><i class="layui-icon layui-icon-search"></i> 搜索</a>
         </li>
         <li class="layui-nav-item">
-            <a href="{{ url({'for':'home.vip.index'}) }}" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
+            <a class="nav-vip" href="{{ url({'for':'home.vip.index'}) }}"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
         </li>
         {% if auth_user.id > 0 %}
             <li class="layui-nav-item">

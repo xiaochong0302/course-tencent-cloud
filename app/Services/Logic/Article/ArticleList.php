@@ -78,19 +78,15 @@ class ArticleList extends LogicService
 
         $items = [];
 
-        $baseUrl = kg_cos_url();
+        $cosUrl = kg_cos_url();
 
         foreach ($articles as $article) {
 
+            if (!empty($question['cover']) && !Text::startsWith($question['cover'], 'http')) {
+                $question['cover'] = $cosUrl . $question['cover'];
+            }
+
             $article['tags'] = json_decode($article['tags'], true);
-
-            if (empty($article['cover'])) {
-                $article['cover'] = kg_default_article_cover_path();
-            }
-
-            if (!Text::startsWith($article['cover'], 'http')) {
-                $article['cover'] = $baseUrl . $article['cover'];
-            }
 
             $category = $categories[$article['category_id']] ?? new \stdClass();
 

@@ -61,12 +61,15 @@ class AnswerController extends Controller
     {
         $answerService = new AnswerService();
 
+        $publishTypes = $answerService->getPublishTypes();
+
         $answer = $answerService->getAnswer($id);
 
         $questionService = new QuestionService();
 
         $question = $questionService->getQuestion($answer->question_id);
 
+        $this->view->setVar('publish_types', $publishTypes);
         $this->view->setVar('question', $question);
         $this->view->setVar('answer', $answer);
     }

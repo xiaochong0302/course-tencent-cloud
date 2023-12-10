@@ -43,25 +43,18 @@
                 <a href="{{ course_url }}" title="{{ course.title }}" target="_blank">{{ course.title }}</a>
             </div>
             <div class="meta">
-                {% if course.market_price > course.vip_price %}
-                    <span>{{ '￥%0.2f'|format(course.market_price) }}</span>
-                    {% if course.vip_price > 0 %}
-                        <span class="price">{{ '会员￥%0.2f'|format(course.vip_price) }}</span>
-                    {% else %}
-                        <span class="free">会员免费</span>
-                    {% endif %}
-                    <span class="level">{{ level_type(course.level) }}</span>
+                {% if course.market_price == 0 %}
+                    <span class="free">全员免费</span>
+                    <span class="lesson">{{ course.lesson_count }}节课</span>
+                    <span class="user">{{ course.user_count }}人报名</span>
+                {% elseif course.vip_price == 0 %}
+                    <span class="free">会员免费</span>
+                    <span class="lesson">{{ course.lesson_count }}节课</span>
                     <span class="user">{{ course.user_count }}人购买</span>
                 {% elseif course.market_price > 0 %}
                     <span class="price">{{ '￥%0.2f'|format(course.market_price) }}</span>
-                    <span class="level">{{ level_type(course.level) }}</span>
                     <span class="lesson">{{ course.lesson_count }}节课</span>
                     <span class="user">{{ course.user_count }}人购买</span>
-                {% else %}
-                    <span class="free">免费</span>
-                    <span class="level">{{ level_type(course.level) }}</span>
-                    <span class="lesson">{{ course.lesson_count }}节课</span>
-                    <span class="user">{{ course.user_count }}人报名</span>
                 {% endif %}
             </div>
         </div>

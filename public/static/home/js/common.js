@@ -102,7 +102,6 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
     $('.nav-search').on('click', function () {
         var content = '<form action="' + $(this).data('url') + '">';
         content += '<input type="text" name="query" autocomplete="off" placeholder="搜索内容，回车跳转">';
-        content += '<input type="hidden" name="type" value="' + $(this).data('type') + '">';
         content += '</form>';
         layer.open({
             type: 1,

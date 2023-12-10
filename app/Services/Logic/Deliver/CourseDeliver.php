@@ -27,10 +27,10 @@ class CourseDeliver extends LogicService
 
     protected function handleCourseUser(CourseModel $course, UserModel $user)
     {
+        $expiryTime = strtotime("+{$course->study_expiry} months");
+
         if ($course->model == CourseModel::MODEL_OFFLINE) {
             $expiryTime = strtotime($course->attrs['end_date']);
-        } else {
-            $expiryTime = strtotime("+{$course->study_expiry} months");
         }
 
         $sourceType = CourseUserModel::SOURCE_CHARGE;
@@ -50,8 +50,7 @@ class CourseDeliver extends LogicService
 
         foreach ($relations as $relation) {
             if ($relation->deleted == 0) {
-                $relation->deleted = 1;
-                $relation->update();
+                $this->deleteCourseUser($relation);
             }
         }
     }
