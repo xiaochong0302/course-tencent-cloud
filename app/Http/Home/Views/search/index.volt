@@ -8,13 +8,18 @@
     {% set type = request.get('type','trim','course') %}
     {% set query = request.get('query','striptags','') %}
 
-    <div class="layui-breadcrumb breadcrumb">
-        <a href="/">首页</a>
-        <a href="#">搜索</a>
-        <a><cite>{{ query }}</cite></a>
-    </div>
+    <form class="layui-form" method="GET" action="{{ url({'for':'home.search.index'}) }}">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <input class="layui-input query-input" type="text" name="query" value="{{ query }}" lay-verify="required">
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn" lay-submit="true" lay-filter="search">搜索</button>
+                <input type="hidden" name="type" value="{{ type }}">
+            </div>
+        </div>
+    </form>
 
-    {% set tab_show = type %}
     <div class="layout-main">
         <div class="layout-content">
             <div class="search-tab-wrap wrap">
@@ -49,5 +54,20 @@
             {{ partial('search/sidebar') }}
         </div>
     </div>
+
+{% endblock %}
+
+{% block inline_js %}
+
+    <script>
+        layui.use(['form'], function () {
+            var form = layui.form;
+            form.on('submit(search)', function (data) {
+                if (data.field.query === '') {
+                    return false;
+                }
+            });
+        });
+    </script>
 
 {% endblock %}

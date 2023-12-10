@@ -267,7 +267,7 @@ class Article extends Model
 
     public function afterFetch()
     {
-        if (!empty($this->cover) && !Text::startsWith($this->cover, 'http')) {
+        if (!Text::startsWith($this->cover, 'http')) {
             $this->cover = kg_cos_article_cover_url($this->cover);
         }
 

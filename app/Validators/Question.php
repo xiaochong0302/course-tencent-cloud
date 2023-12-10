@@ -90,6 +90,19 @@ class Question extends Validator
         return $value;
     }
 
+    public function checkSummary($summary)
+    {
+        $value = $this->filter->sanitize($summary, ['trim', 'string']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 255) {
+            throw new BadRequestException('question.summary_too_long');
+        }
+
+        return $value;
+    }
+
     public function checkKeywords($keywords)
     {
         $keywords = $this->filter->sanitize($keywords, ['trim', 'string']);

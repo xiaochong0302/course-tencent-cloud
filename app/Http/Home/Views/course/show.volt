@@ -79,7 +79,6 @@
         </div>
 
         {% set show_sidebar_topics = 1 %}
-        {% set show_sidebar_recommended = 1 %}
         {% set show_sidebar_related = 1 %}
 
         <div class="layout-sidebar">
@@ -88,10 +87,6 @@
             {% if show_sidebar_topics %}
                 {% set topics_url = url({'for':'home.course.topics','id':course.id}) %}
                 <div class="sidebar" id="sidebar-topics" data-url="{{ topics_url }}"></div>
-            {% endif %}
-            {% if show_sidebar_recommended %}
-                {% set recommended_url = url({'for':'home.course.recommended','id':course.id}) %}
-                <div class="sidebar" id="sidebar-recommended" data-url="{{ recommended_url }}"></div>
             {% endif %}
             {% if show_sidebar_related %}
                 {% set related_url = url({'for':'home.course.related','id':course.id}) %}

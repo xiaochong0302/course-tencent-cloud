@@ -162,6 +162,10 @@ class Question extends Service
             $data['keywords'] = $validator->checkKeywords($post['keywords']);
         }
 
+        if (isset($post['summary'])) {
+            $data['summary'] = $validator->checkSummary($post['keywords']);
+        }
+
         if (isset($post['anonymous'])) {
             $data['anonymous'] = $validator->checkAnonymousStatus($post['anonymous']);
         }

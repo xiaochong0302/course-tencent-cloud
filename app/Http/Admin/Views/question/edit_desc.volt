@@ -1,4 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.question.update','id':question.id}) }}">
+<form class="layui-form kg-form" method="POST" action="{{ update_url }}">
     <div class="layui-form-item">
         <div class="layui-input-block" style="margin:0;">
             <textarea name="content" class="layui-hide" id="editor-textarea">{{ question.content }}</textarea>

@@ -57,8 +57,11 @@ class ConsultController extends Controller
     {
         $consultService = new ConsultService();
 
+        $publishTypes = $consultService->getPublishTypes();
+
         $consult = $consultService->getConsult($id);
 
+        $this->view->setVar('publish_types', $publishTypes);
         $this->view->setVar('consult', $consult);
     }
 

@@ -145,11 +145,6 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         helper.ajaxLoadHtml($sdTopics.data('url'), $sdTopics.attr('id'));
     }
 
-    if ($('#sidebar-recommended').length > 0) {
-        var $sdRecommended = $('#sidebar-recommended');
-        helper.ajaxLoadHtml($sdRecommended.data('url'), $sdRecommended.attr('id'));
-    }
-
     if ($('#sidebar-related').length > 0) {
         var $sdRelated = $('#sidebar-related');
         helper.ajaxLoadHtml($sdRelated.data('url'), $sdRelated.attr('id'));

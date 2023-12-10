@@ -330,6 +330,10 @@
     height: 100%;
 }
 
+.query-input {
+    width: 720px;
+}
+
 .search-tab {
     margin: 0;
 }

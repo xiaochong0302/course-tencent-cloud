@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% set types = {'course':'课程','article':'文章','question':'问题'} %}
+    {% set types = {'course':'课程','article':'专栏','question':'问题'} %}
     {% set type = request.get('type','trim','course') %}
 
     <div class="layout-main">
