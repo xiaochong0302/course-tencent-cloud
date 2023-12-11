@@ -14,13 +14,11 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class FeaturedArticleList extends Cache
 {
 
-    protected $lifetime = 86400;
+    protected $lifetime = 3600;
 
     public function getLifetime()
     {
-        $tomorrow = strtotime('tomorrow');
-
-        return $tomorrow - time();
+        return $this->lifetime;
     }
 
     public function getKey($id = null)
