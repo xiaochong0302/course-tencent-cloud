@@ -57,17 +57,8 @@
 
 {% endblock %}
 
-{% block inline_js %}
+{% block include_js %}
 
-    <script>
-        layui.use(['form'], function () {
-            var form = layui.form;
-            form.on('submit(search)', function (data) {
-                if (data.field.query === '') {
-                    return false;
-                }
-            });
-        });
-    </script>
+    {{ js_include('home/js/search.index.js') }}
 
 {% endblock %}
