@@ -55,6 +55,6 @@
 
 {% block include_js %}
 
-    {{ js_include('home/js/vip.js') }}
+    {{ js_include('home/js/vip.index.js') }}
 
 {% endblock %}
