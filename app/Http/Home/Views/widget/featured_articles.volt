@@ -5,7 +5,7 @@
             <div class="sidebar-article-list">
                 {% for article in articles %}
                     {% set article_url = url({'for':'home.article.show','id':article.id}) %}
-                    <div class="title">
+                    <div class="title layui-elip">
                         <a href="{{ article_url }}" target="_blank">{{ article.title }}</a>
                     </div>
                     <div class="meta">

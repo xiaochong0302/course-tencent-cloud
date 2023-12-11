@@ -150,6 +150,13 @@ class Question extends Model
     public $published = self::PUBLISH_PENDING;
 
     /**
+     * 推荐标识
+     *
+     * @var integer
+     */
+    public $featured = 0;
+
+    /**
      * 删除标识
      *
      * @var integer
@@ -318,9 +325,10 @@ class Question extends Model
     public static function sortTypes()
     {
         return [
-            'latest' => '最新提问',
+            'latest' => '最新问题',
             'active' => '最新回答',
             'unanswered' => '尚未回答',
+            'featured' => '推荐问题',
         ];
     }
 

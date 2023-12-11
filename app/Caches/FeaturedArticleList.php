@@ -75,7 +75,7 @@ class FeaturedArticleList extends Cache
             ->where('featured = 1')
             ->andWhere('published = 1')
             ->andWhere('deleted = 0')
-            ->orderBy('id DESC')
+            ->orderBy('RAND()')
             ->limit($limit)
             ->execute();
     }
