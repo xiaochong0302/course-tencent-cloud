@@ -82,8 +82,8 @@ class ArticleList extends LogicService
 
         foreach ($articles as $article) {
 
-            if (!empty($question['cover']) && !Text::startsWith($question['cover'], 'http')) {
-                $question['cover'] = $cosUrl . $question['cover'];
+            if (!empty($article['cover']) && !Text::startsWith($article['cover'], 'http')) {
+                $article['cover'] = $cosUrl . $article['cover'];
             }
 
             $article['tags'] = json_decode($article['tags'], true);

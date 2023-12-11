@@ -37,6 +37,7 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="10%">
         </colgroup>
         <thead>
@@ -46,6 +47,7 @@
             <th>问题信息</th>
             <th>统计信息</th>
             <th>状态</th>
+            <th>推荐</th>
             <th>关闭</th>
             <th>操作</th>
         </tr>
@@ -87,6 +89,8 @@
                     </p>
                 </td>
                 <td>{{ publish_status(item.published) }}</td>
+                <td><input type="checkbox" name="featured" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}"
+                           {% if item.featured == 1 %}checked="checked"{% endif %}></td>
                 <td><input type="checkbox" name="closed" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}"
                            {% if item.closed == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">

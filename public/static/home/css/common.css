@@ -330,8 +330,12 @@
     height: 100%;
 }
 
-.query-input {
-    width: 720px;
+.search-form .query-input {
+    width: 696px;
+}
+
+.search-form .search-btn {
+    padding: 0 30px;
 }
 
 .search-tab {

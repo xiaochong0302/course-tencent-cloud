@@ -170,6 +170,10 @@ class Question extends Service
             $data['anonymous'] = $validator->checkAnonymousStatus($post['anonymous']);
         }
 
+        if (isset($post['featured'])) {
+            $data['featured'] = $validator->checkFeatureStatus($post['featured']);
+        }
+
         if (isset($post['closed'])) {
             $data['closed'] = $validator->checkCloseStatus($post['closed']);
         }

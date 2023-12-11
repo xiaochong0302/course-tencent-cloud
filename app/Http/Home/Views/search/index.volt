@@ -8,13 +8,13 @@
     {% set type = request.get('type','trim','course') %}
     {% set query = request.get('query','striptags','') %}
 
-    <form class="layui-form" method="GET" action="{{ url({'for':'home.search.index'}) }}">
+    <form class="layui-form search-form" method="GET" action="{{ url({'for':'home.search.index'}) }}">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <input class="layui-input query-input" type="text" name="query" value="{{ query }}" lay-verify="required">
             </div>
             <div class="layui-inline">
-                <button class="layui-btn" lay-submit="true" lay-filter="search">搜索</button>
+                <button class="layui-btn search-btn" lay-submit="true" lay-filter="search">搜索</button>
                 <input type="hidden" name="type" value="{{ type }}">
             </div>
         </div>

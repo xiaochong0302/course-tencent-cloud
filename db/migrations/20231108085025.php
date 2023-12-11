@@ -14,6 +14,7 @@ final class V20231108085025 extends AbstractMigration
     public function up()
     {
         $this->alterVipTable();
+        $this->alterQuestionTable();
         $this->alterArticleTable();
         $this->alterConsultTable();
         $this->alterResourceTable();
@@ -39,6 +40,24 @@ final class V20231108085025 extends AbstractMigration
                 'signed' => false,
                 'comment' => '发布标识',
                 'after' => 'price',
+            ]);
+        }
+
+        $table->save();
+    }
+
+    protected function alterQuestionTable()
+    {
+        $table = $this->table('kg_question');
+
+        if (!$table->hasColumn('featured')) {
+            $table->addColumn('featured', 'integer', [
+                'null' => false,
+                'default' => '0',
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'comment' => '推荐标识',
+                'after' => 'published',
             ]);
         }
 

@@ -33,10 +33,10 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">匿名提问</label>
+        <label class="layui-form-label">推荐问题</label>
         <div class="layui-input-block">
-            <input type="radio" name="anonymous" value="1" title="是" {% if question.anonymous == 1 %}checked="checked"{% endif %}>
-            <input type="radio" name="anonymous" value="0" title="否" {% if question.anonymous == 0 %}checked="checked"{% endif %}>
+            <input type="radio" name="featured" value="1" title="是" {% if question.featured == 1 %}checked="checked"{% endif %}>
+            <input type="radio" name="featured" value="0" title="否" {% if question.featured == 0 %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">

@@ -11,7 +11,6 @@ use App\Caches\MaxQuestionId as MaxQuestionIdCache;
 use App\Caches\Question as QuestionCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Question as QuestionModel;
-use App\Models\Reason as ReasonModel;
 use App\Repos\Question as QuestionRepo;
 use App\Services\EditorStorage as EditorStorageService;
 
@@ -146,6 +145,15 @@ class Question extends Validator
     {
         if (!in_array($status, [0, 1])) {
             throw new BadRequestException('question.invalid_anonymous_status');
+        }
+
+        return $status;
+    }
+
+    public function checkFeatureStatus($status)
+    {
+        if (!in_array($status, [0, 1])) {
+            throw new BadRequestException('question.invalid_feature_status');
         }
 
         return $status;
