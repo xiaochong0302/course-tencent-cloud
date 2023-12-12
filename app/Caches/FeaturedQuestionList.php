@@ -16,6 +16,8 @@ class FeaturedQuestionList extends Cache
 
     protected $lifetime = 3600;
 
+    protected $limit = 5;
+
     public function getLifetime()
     {
         return $this->lifetime;
@@ -28,9 +30,7 @@ class FeaturedQuestionList extends Cache
 
     public function getContent($id = null)
     {
-        $limit = 5;
-
-        $questions = $this->findQuestions($limit);
+        $questions = $this->findQuestions($this->limit);
 
         if ($questions->count() == 0) {
             return [];

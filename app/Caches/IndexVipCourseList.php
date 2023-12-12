@@ -19,7 +19,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class IndexVipCourseList extends Cache
 {
 
-    protected $lifetime = 86400;
+    protected $lifetime = 3600;
 
     public function getLifetime()
     {

@@ -16,6 +16,8 @@ class FeaturedCourseList extends Cache
 
     protected $lifetime = 3600;
 
+    protected $limit = 5;
+
     public function getLifetime()
     {
         return $this->lifetime;
@@ -28,9 +30,7 @@ class FeaturedCourseList extends Cache
 
     public function getContent($id = null)
     {
-        $limit = 5;
-
-        $courses = $this->findCourses($limit);
+        $courses = $this->findCourses($this->limit);
 
         if ($courses->count() == 0) {
             return [];
