@@ -16,6 +16,8 @@ class FeaturedArticleList extends Cache
 
     protected $lifetime = 3600;
 
+    protected $limit = 5;
+
     public function getLifetime()
     {
         return $this->lifetime;
@@ -28,9 +30,7 @@ class FeaturedArticleList extends Cache
 
     public function getContent($id = null)
     {
-        $limit = 8;
-
-        $articles = $this->findArticles($limit);
+        $articles = $this->findArticles($this->limit);
 
         if ($articles->count() == 0) {
             return [];
@@ -67,7 +67,7 @@ class FeaturedArticleList extends Cache
      * @param int $limit
      * @return ResultsetInterface|Resultset|ArticleModel[]
      */
-    protected function findArticles($limit = 8)
+    protected function findArticles($limit = 5)
     {
         return ArticleModel::query()
             ->where('featured = 1')

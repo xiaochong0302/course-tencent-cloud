@@ -15,7 +15,7 @@ class TaggedQuestionList extends Cache
 
     protected $limit = 5;
 
-    protected $lifetime = 86400;
+    protected $lifetime = 3600;
 
     public function getLifetime()
     {
