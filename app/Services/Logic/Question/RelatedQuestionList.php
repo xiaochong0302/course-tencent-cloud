@@ -18,21 +18,33 @@ class RelatedQuestionList extends LogicService
 
     public function handle($id)
     {
+        $limit = $this->request->getQuery('limit', 'int', 5);
+
         $question = $this->checkQuestion($id);
 
         if (empty($question->tags)) return [];
 
         $tagIds = kg_array_column($question->tags, 'id');
 
-        $randKey = array_rand($tagIds);
-
-        $tagId = $tagIds[$randKey];
+        $tagId = kg_array_rand($tagIds);
 
         $cache = new TaggedQuestionListCache();
 
-        $result = $cache->get($tagId);
+        $questions = $cache->get($tagId);
 
-        return $result ?: [];
+        if (empty($questions)) return [];
+
+        foreach ($questions as $key => $question) {
+            if ($question['id'] == $id) {
+                unset($questions[$key]);
+            }
+        }
+
+        if ($limit < count($questions)) {
+            $questions = array_slice($questions, $limit);
+        }
+
+        return $questions;
     }
 
 }
