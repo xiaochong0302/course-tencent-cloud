@@ -18,21 +18,33 @@ class RelatedArticleList extends LogicService
 
     public function handle($id)
     {
+        $limit = $this->request->getQuery('limit', 'int', 5);
+
         $article = $this->checkArticle($id);
 
         if (empty($article->tags)) return [];
 
         $tagIds = kg_array_column($article->tags, 'id');
 
-        $randKey = array_rand($tagIds);
-
-        $tagId = $tagIds[$randKey];
+        $tagId = kg_array_rand($tagIds);
 
         $cache = new TaggedArticleListCache();
 
-        $result = $cache->get($tagId);
+        $articles = $cache->get($tagId);
 
-        return $result ?: [];
+        if (empty($articles)) return [];
+
+        foreach ($articles as $key => $article) {
+            if ($article['id'] == $id) {
+                unset($articles[$key]);
+            }
+        }
+
+        if ($limit < count($articles)) {
+            $articles = array_slice($articles, $limit);
+        }
+
+        return $articles;
     }
 
 }

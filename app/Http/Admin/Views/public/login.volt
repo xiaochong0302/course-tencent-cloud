@@ -35,7 +35,7 @@
 
     <style>
         html {
-            height: 95%;
+            height: 100%;
         }
 
         body {
@@ -72,7 +72,7 @@
     </script>
 
     <script>
-        jquery('body').buoyant({
+        $('body').buoyant({
             elementClass: 'circles',
             numberOfItems: 20,
             minRadius: 5,
