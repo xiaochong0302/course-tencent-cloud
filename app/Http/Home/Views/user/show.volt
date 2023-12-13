@@ -15,9 +15,10 @@
             <a><cite>{{ user.name }}</cite></a>
         </span>
         <span class="share">
-            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat share-wechat"></i></a>
-            <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq share-qq"></i></a>
-            <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo share-weibo"></i></a>
+            <a class="share-wechat" href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat"></i></a>
+            <a class="share-qq" href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq"></i></a>
+            <a class="share-weibo" href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo"></i></a>
+            <a class="share-link kg-copy" href="javascript:" title="复制链接" data-clipboard-text="{{ share_url }}"><i class="layui-icon layui-icon-share"></i></a>
         </span>
     </div>
 
@@ -55,15 +56,15 @@
     <div class="tab-wrap">
         <div class="layui-tab layui-tab-brief user-tab">
             <ul class="layui-tab-title">
-                <li class="layui-this">课程</li>
+                <li class="layui-this">在学课程</li>
                 {% if show_tab_articles %}
-                    <li>文章</li>
+                    <li>我的文章</li>
                 {% endif %}
                 {% if show_tab_questions %}
-                    <li>提问</li>
+                    <li>我的提问</li>
                 {% endif %}
                 {% if show_tab_answers %}
-                    <li>回答</li>
+                    <li>我的回答</li>
                 {% endif %}
             </ul>
             <div class="layui-tab-content">
@@ -92,7 +93,9 @@
 
 {% block include_js %}
 
+    {{ js_include('lib/clipboard.min.js') }}
     {{ js_include('home/js/user.show.js') }}
     {{ js_include('home/js/user.share.js') }}
+    {{ js_include('home/js/copy.js') }}
 
 {% endblock %}

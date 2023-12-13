@@ -167,10 +167,10 @@ class CourseController extends Controller
     {
         $service = new CourseResourceListService();
 
-        $items = $service->handle($id);
+        $resources = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->setVar('items', $items);
+        $this->view->setVar('resources', $resources);
     }
 
     /**
