@@ -8,7 +8,6 @@
     <tr>
         <td colspan="6" class="meta">
             <span>订单编号：{{ order.sn }}</span>
-            <span>促销类型：{{ promotion_type(order.promotion_type) }}</span>
         </td>
     <tr>
     <tr>

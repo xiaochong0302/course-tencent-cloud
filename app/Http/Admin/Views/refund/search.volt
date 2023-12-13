@@ -13,27 +13,27 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户编号</label>
+            <label class="layui-form-label">用户帐号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="owner_id" placeholder="用户编号精确匹配">
+                <input class="layui-input" type="text" name="owner_id" placeholder="用户编号 / 手机号码 / 邮箱地址 精确匹配">
+            </div>
+        </div>
+        <div class="layui-form-item" id="time-range">
+            <label class="layui-form-label">创建时间</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" id="start-time" type="text" name="create_time[]" autocomplete="off">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline">
+                <input class="layui-input" id="end-time" type="text" name="create_time[]" autocomplete="off">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">退款状态</label>
             <div class="layui-input-block">
                 {% for value,title in status_types %}
-                    <input type="radio" name="status" value="{{ value }}" title="{{ title }}">
+                    <input type="checkbox" name="status[]" value="{{ value }}" title="{{ title }}">
                 {% endfor %}
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">创建时间</label>
-            <div class="layui-input-inline">
-                <input class="layui-input time-range" type="text" name="start_time" autocomplete="off">
-            </div>
-            <div class="layui-form-mid"> -</div>
-            <div class="layui-input-inline">
-                <input class="layui-input time-range" type="text" name="end_time" autocomplete="off">
             </div>
         </div>
         <div class="layui-form-item">
@@ -51,16 +51,14 @@
 
     <script>
 
-        layui.use(['laydate'], function () {
+        layui.use(['jquery', 'laydate'], function () {
 
             var laydate = layui.laydate;
 
-            lay('.time-range').each(function () {
-                laydate.render({
-                    elem: this,
-                    type: 'datetime',
-                    trigger: 'click'
-                });
+            laydate.render({
+                elem: '#time-range',
+                type: 'datetime',
+                range: ['#start-time', '#end-time'],
             });
 
         });

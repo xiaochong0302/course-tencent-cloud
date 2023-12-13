@@ -86,7 +86,7 @@ class Topic extends Validator
     {
         $value = $this->filter->sanitize($cover, ['trim', 'string']);
 
-        if (!CommonValidator::url($value)) {
+        if (!CommonValidator::image($value)) {
             throw new BadRequestException('topic.invalid_cover');
         }
 

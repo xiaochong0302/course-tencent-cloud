@@ -11,8 +11,10 @@ use App\Builders\ArticleList as ArticleListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Article as ArticleModel;
 use App\Repos\Article as ArticleRepo;
+use App\Services\Category as CategoryService;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\ArticleQuery as ArticleQueryValidator;
+use Phalcon\Text;
 
 class ArticleList extends LogicService
 {
@@ -25,8 +27,28 @@ class ArticleList extends LogicService
 
         $params = $this->checkQueryParams($params);
 
+        /**
+         * tc => top_category
+         * sc => sub_category
+         */
+        if (!empty($params['sc'])) {
+
+            $params['category_id'] = $params['sc'];
+
+        } elseif (!empty($params['tc'])) {
+
+            $categoryService = new CategoryService();
+
+            $childCategoryIds = $categoryService->getChildCategoryIds($params['tc']);
+
+            $parentCategoryIds = [$params['tc']];
+
+            $allCategoryIds = array_merge($parentCategoryIds, $childCategoryIds);
+
+            $params['category_id'] = $allCategoryIds;
+        }
+
         $params['published'] = ArticleModel::PUBLISH_APPROVED;
-        $params['private'] = 0;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
@@ -56,7 +78,13 @@ class ArticleList extends LogicService
 
         $items = [];
 
+        $cosUrl = kg_cos_url();
+
         foreach ($articles as $article) {
+
+            if (!empty($article['cover']) && !Text::startsWith($article['cover'], 'http')) {
+                $article['cover'] = $cosUrl . $article['cover'];
+            }
 
             $article['tags'] = json_decode($article['tags'], true);
 
@@ -72,7 +100,6 @@ class ArticleList extends LogicService
                 'source_type' => $article['source_type'],
                 'source_url' => $article['source_url'],
                 'tags' => $article['tags'],
-                'private' => $article['private'],
                 'published' => $article['published'],
                 'closed' => $article['closed'],
                 'view_count' => $article['view_count'],
@@ -97,12 +124,24 @@ class ArticleList extends LogicService
 
         $query = [];
 
-        if (isset($params['category_id'])) {
-            $query['category_id'] = $validator->checkCategory($params['category_id']);
+        if (isset($params['owner_id'])) {
+            $user = $validator->checkUser($params['owner_id']);
+            $query['owner_id'] = $user->id;
         }
 
         if (isset($params['tag_id'])) {
-            $query['tag_id'] = $validator->checkTag($params['tag_id']);
+            $tag = $validator->checkTag($params['tag_id']);
+            $query['tag_id'] = $tag->id;
+        }
+
+        if (isset($params['tc'])) {
+            $category = $validator->checkCategory($params['tc']);
+            $query['tc'] = $category->id;
+        }
+
+        if (isset($params['sc'])) {
+            $category = $validator->checkCategory($params['sc']);
+            $query['sc'] = $category->id;
         }
 
         if (isset($params['sort'])) {

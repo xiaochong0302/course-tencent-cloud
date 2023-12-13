@@ -27,13 +27,8 @@
         </div>
     </div>
 
-    <table class="layui-table kg-table layui-form">
+    <table class="layui-table layui-form kg-table">
         <colgroup>
-            <col>
-            <col>
-            <col>
-            <col>
-            <col>
             <col>
             <col>
             <col>
@@ -43,14 +38,9 @@
         </colgroup>
         <thead>
         <tr>
-            <th>课程</th>
-            <th>课时</th>
-            <th>课件</th>
-            <th>学员</th>
-            <th>收藏</th>
-            <th>咨询</th>
-            <th>评价</th>
-            <th>价格</th>
+            <th>基本信息</th>
+            <th>统计信息</th>
+            <th>价格信息</th>
             <th>推荐</th>
             <th>发布</th>
             <th>操作</th>
@@ -63,13 +53,13 @@
             {% set update_url = url({'for':'admin.course.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.course.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.course.restore','id':item.id}) %}
-            {% set catalog_url = url({'for':'admin.course.chapters','id':item.id}) %}
-            {% set student_url = url({'for':'admin.student.list'},{'course_id':item.id}) %}
-            {% set review_url = url({'for':'admin.review.list'},{'course_id':item.id}) %}
-            {% set consult_url = url({'for':'admin.consult.list'},{'course_id':item.id}) %}
+            {% set chapters_url = url({'for':'admin.course.chapters','id':item.id}) %}
+            {% set users_url = url({'for':'admin.course.users','id':item.id}) %}
+            {% set reviews_url = url({'for':'admin.review.list'},{'course_id':item.id}) %}
+            {% set consults_url = url({'for':'admin.consult.list'},{'course_id':item.id}) %}
             <tr>
                 <td>
-                    <p>标题：<a href="{{ catalog_url }}">{{ item.title }}</a>（{{ item.id }}）</p>
+                    <p>标题：<a href="{{ chapters_url }}">{{ item.title }}</a>（{{ item.id }}）</p>
                     <p class="meta">
                         {% if item.category.id is defined %}
                             <span>分类：{{ item.category.name }}</span>
@@ -85,19 +75,26 @@
                         <span>创建：{{ date('Y-m-d',item.create_time) }}</span>
                     </p>
                 </td>
-                <td>{{ item.lesson_count }}</td>
-                <td>{{ item.resource_count }}</td>
-                <td>{{ item.user_count }}</td>
-                <td>{{ item.favorite_count }}</td>
-                <td>{{ item.consult_count }}</td>
-                <td>{{ item.review_count }}</td>
                 <td>
-                    <p>原始：{{ '￥%0.2f'|format(item.origin_price) }}</p>
-                    <p>市场：{{ '￥%0.2f'|format(item.market_price) }}</p>
-                    <p>会员：{{ '￥%0.2f'|format(item.vip_price) }}</p>
+                    <p class="meta">
+                        <span>学员：{{ item.user_count }}</span>
+                        <span>咨询：{{ item.consult_count }}</span>
+                        <span>评价：{{ item.review_count }}</span>
+                    </p>
+                    <p class="meta">
+                        <span>课时：{{ item.lesson_count }}</span>
+                        <span>课件：{{ item.resource_count }}</span>
+                        <span>收藏：{{ item.favorite_count }}</span>
+                    </p>
                 </td>
-                <td><input type="checkbox" name="featured" value="1" lay-skin="switch" lay-text="是|否" lay-filter="featured" data-url="{{ update_url }}" {% if item.featured == 1 %}checked="checked"{% endif %}></td>
-                <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
+                <td>
+                    <p>市场价：{{ '￥%0.2f'|format(item.market_price) }}</p>
+                    <p>会员价：{{ '￥%0.2f'|format(item.vip_price) }}</p>
+                </td>
+                <td><input type="checkbox" name="featured" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}"
+                           {% if item.featured == 1 %}checked="checked"{% endif %}></td>
+                <td><input type="checkbox" name="published" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}"
+                           {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
@@ -112,11 +109,11 @@
                                 <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原课程</a></li>
                             {% endif %}
                             <hr>
-                            <li><a href="{{ catalog_url }}">章节管理</a></li>
-                            <li><a href="{{ student_url }}">学员管理</a></li>
+                            <li><a href="{{ chapters_url }}">章节管理</a></li>
+                            <li><a href="{{ users_url }}">学员管理</a></li>
                             <hr>
-                            <li><a href="{{ consult_url }}">咨询管理</a></li>
-                            <li><a href="{{ review_url }}">评价管理</a></li>
+                            <li><a href="{{ consults_url }}">咨询管理</a></li>
+                            <li><a href="{{ reviews_url }}">评价管理</a></li>
                         </ul>
                     </div>
                 </td>
@@ -126,46 +123,5 @@
     </table>
 
     {{ partial('partials/pager') }}
-
-{% endblock %}
-
-{% block inline_js %}
-
-    <script>
-
-        layui.define(['jquery', 'form', 'layer'], function () {
-
-            var $ = layui.jquery;
-            var form = layui.form;
-            var layer = layui.layer;
-
-            form.on('switch(featured)', function (data) {
-                var checked = $(this).is(':checked');
-                var featured = checked ? 1 : 0;
-                var url = $(this).data('url');
-                var tips = featured === 1 ? '确定要推荐？' : '确定要取消推荐？';
-                layer.confirm(tips, function () {
-                    $.ajax({
-                        type: 'POST',
-                        url: url,
-                        data: {featured: featured},
-                        success: function (res) {
-                            layer.msg(res.msg, {icon: 1});
-                        },
-                        error: function (xhr) {
-                            var json = JSON.parse(xhr.responseText);
-                            layer.msg(json.msg, {icon: 2});
-                            data.elem.checked = !checked;
-                            form.render();
-                        }
-                    });
-                }, function () {
-                    data.elem.checked = !checked;
-                    form.render();
-                });
-            });
-        });
-
-    </script>
 
 {% endblock %}

@@ -11,6 +11,7 @@ use App\Caches\MaxQuestionId as MaxQuestionIdCache;
 use App\Services\Sync\QuestionIndex as QuestionIndexSync;
 use App\Services\Sync\QuestionScore as QuestionScoreSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
 
 class Question extends Model
 {
@@ -149,6 +150,13 @@ class Question extends Model
     public $published = self::PUBLISH_PENDING;
 
     /**
+     * 推荐标识
+     *
+     * @var integer
+     */
+    public $featured = 0;
+
+    /**
      * 删除标识
      *
      * @var integer
@@ -269,6 +277,10 @@ class Question extends Model
 
     public function beforeSave()
     {
+        if (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+
         if (is_array($this->tags) || is_object($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
         }
@@ -283,9 +295,22 @@ class Question extends Model
 
     public function afterFetch()
     {
+        if (!empty($this->cover) && !Text::startsWith($this->cover, 'http')) {
+            $this->cover = kg_cos_article_cover_url($this->cover);
+        }
+
         if (is_string($this->tags)) {
             $this->tags = json_decode($this->tags, true);
         }
+    }
+
+    public static function getCoverPath($url)
+    {
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
+
+        return $url;
     }
 
     public static function publishTypes()
@@ -300,9 +325,10 @@ class Question extends Model
     public static function sortTypes()
     {
         return [
-            'latest' => '最新提问',
+            'latest' => '最新问题',
             'active' => '最新回答',
             'unanswered' => '尚未回答',
+            'featured' => '推荐问题',
         ];
     }
 

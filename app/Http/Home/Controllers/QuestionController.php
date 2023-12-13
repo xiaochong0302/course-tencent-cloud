@@ -42,11 +42,15 @@ class QuestionController extends Controller
 
         $service = new QuestionQueryService();
 
+        $topCategories = $service->handleTopCategories();
+        $subCategories = $service->handleSubCategories();
         $sorts = $service->handleSorts();
         $params = $service->getParams();
 
         $this->seo->prependTitle('问答');
 
+        $this->view->setVar('top_categories', $topCategories);
+        $this->view->setVar('sub_categories', $subCategories);
         $this->view->setVar('sorts', $sorts);
         $this->view->setVar('params', $params);
     }
@@ -74,13 +78,14 @@ class QuestionController extends Controller
         $service = new QuestionService();
 
         $question = $service->getQuestionModel();
-
+        $categoryOptions = $service->getCategoryOptions();
         $xmTags = $service->getXmTags(0);
 
         $this->seo->prependTitle('提问');
 
         $this->view->pick('question/edit');
         $this->view->setVar('question', $question);
+        $this->view->setVar('category_options', $categoryOptions);
         $this->view->setVar('xm_tags', $xmTags);
     }
 
@@ -92,12 +97,13 @@ class QuestionController extends Controller
         $service = new QuestionService();
 
         $question = $service->getQuestion($id);
-
+        $categoryOptions = $service->getCategoryOptions();
         $xmTags = $service->getXmTags($id);
 
         $this->seo->prependTitle('编辑问题');
 
         $this->view->setVar('question', $question);
+        $this->view->setVar('category_options', $categoryOptions);
         $this->view->setVar('xm_tags', $xmTags);
     }
 

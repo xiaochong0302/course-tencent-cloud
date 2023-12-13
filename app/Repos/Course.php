@@ -8,12 +8,10 @@
 namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
-use App\Models\Category as CategoryModel;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\Consult as ConsultModel;
 use App\Models\Course as CourseModel;
-use App\Models\CourseCategory as CourseCategoryModel;
 use App\Models\CourseFavorite as CourseFavoriteModel;
 use App\Models\CoursePackage as CoursePackageModel;
 use App\Models\CourseRating as CourseRatingModel;
@@ -24,7 +22,6 @@ use App\Models\Package as PackageModel;
 use App\Models\Resource as ResourceModel;
 use App\Models\Review as ReviewModel;
 use App\Models\Tag as TagModel;
-use App\Models\User as UserModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -42,13 +39,8 @@ class Course extends Repository
 
         $fakeId = false;
 
-        if (!empty($where['category_id'])) {
-            $where['id'] = $this->getCategoryCourseIds($where['category_id']);
-            $fakeId = empty($where['id']);
-        }
-
-        if (!empty($where['teacher_id'])) {
-            $where['id'] = $this->getTeacherCourseIds($where['teacher_id']);
+        if (!empty($where['tag_id'])) {
+            $where['id'] = $this->getTagCourseIds($where['tag_id']);
             $fakeId = empty($where['id']);
         }
 
@@ -65,8 +57,20 @@ class Course extends Repository
             }
         }
 
-        if (!empty($where['title'])) {
-            $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
+        if (!empty($where['category_id'])) {
+            if (is_array($where['category_id'])) {
+                $builder->inWhere('category_id', $where['category_id']);
+            } else {
+                $builder->andWhere('category_id = :category_id:', ['category_id' => $where['category_id']]);
+            }
+        }
+
+        if (!empty($where['teacher_id'])) {
+            if (is_array($where['teacher_id'])) {
+                $builder->inWhere('teacher_id', $where['teacher_id']);
+            } else {
+                $builder->andWhere('teacher_id = :teacher_id:', ['teacher_id' => $where['teacher_id']]);
+            }
         }
 
         if (!empty($where['model'])) {
@@ -79,10 +83,20 @@ class Course extends Repository
 
         if (!empty($where['level'])) {
             if (is_array($where['level'])) {
-                $builder->inWhere('level', $where['model']);
+                $builder->inWhere('level', $where['level']);
             } else {
                 $builder->andWhere('level = :level:', ['level' => $where['level']]);
             }
+        }
+
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
+        }
+
+        if (!empty($where['title'])) {
+            $builder->andWhere('title LIKE :title:', ['title' => "%{$where['title']}%"]);
         }
 
         if (isset($where['free'])) {
@@ -196,40 +210,6 @@ class Course extends Repository
             'conditions' => 'course_id = :course_id:',
             'bind' => ['course_id' => $courseId],
         ]);
-    }
-
-    /**
-     * @param int $courseId
-     * @return ResultsetInterface|Resultset|UserModel[]
-     */
-    public function findTeachers($courseId)
-    {
-        $roleType = CourseUserModel::ROLE_TEACHER;
-
-        return $this->modelsManager->createBuilder()
-            ->columns('u.*')
-            ->addFrom(UserModel::class, 'u')
-            ->join(CourseUserModel::class, 'u.id = cu.user_id', 'cu')
-            ->where('cu.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('cu.role_type = :role_type:', ['role_type' => $roleType])
-            ->andWhere('cu.deleted = 0')
-            ->getQuery()->execute();
-    }
-
-    /**
-     * @param int $courseId
-     * @return ResultsetInterface|Resultset|CategoryModel[]
-     */
-    public function findCategories($courseId)
-    {
-        return $this->modelsManager->createBuilder()
-            ->columns('c.*')
-            ->addFrom(CategoryModel::class, 'c')
-            ->join(CourseCategoryModel::class, 'c.id = cc.category_id', 'cc')
-            ->where('cc.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('c.published = 1')
-            ->andWhere('c.deleted = 0')
-            ->getQuery()->execute();
     }
 
     /**
@@ -362,8 +342,8 @@ class Course extends Repository
     public function countUsers($courseId)
     {
         return (int)CourseUserModel::count([
-            'conditions' => 'course_id = ?1 AND role_type = ?2 AND deleted = 0',
-            'bind' => [1 => $courseId, 2 => CourseUserModel::ROLE_STUDENT],
+            'conditions' => 'course_id = :course_id: AND deleted = 0',
+            'bind' => ['course_id' => $courseId],
         ]);
     }
 
@@ -400,30 +380,13 @@ class Course extends Repository
         ]);
     }
 
-    protected function getCategoryCourseIds($categoryId)
+    protected function getTagCourseIds($tagId)
     {
-        $categoryIds = is_array($categoryId) ? $categoryId : [$categoryId];
+        $tagIds = is_array($tagId) ? $tagId : [$tagId];
 
-        $repo = new CourseCategory();
+        $repo = new CourseTag();
 
-        $rows = $repo->findByCategoryIds($categoryIds);
-
-        $result = [];
-
-        if ($rows->count() > 0) {
-            $result = kg_array_column($rows->toArray(), 'course_id');
-        }
-
-        return $result;
-    }
-
-    protected function getTeacherCourseIds($teacherId)
-    {
-        $teacherIds = is_array($teacherId) ? $teacherId : [$teacherId];
-
-        $repo = new CourseUser();
-
-        $rows = $repo->findByTeacherIds($teacherIds);
+        $rows = $repo->findByTagIds($tagIds);
 
         $result = [];
 

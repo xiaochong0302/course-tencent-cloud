@@ -14,7 +14,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class IndexSlideList extends Cache
 {
 
-    protected $lifetime = 365 * 86400;
+    protected $lifetime = 3600;
 
     public function getLifetime()
     {

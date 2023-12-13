@@ -13,6 +13,7 @@ use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Comment as CommentModel;
 use App\Models\Reason as ReasonModel;
 use App\Models\Report as ReportModel;
+use App\Models\User as UserModel;
 use App\Repos\Comment as CommentRepo;
 use App\Repos\Report as ReportRepo;
 use App\Repos\User as UserRepo;
@@ -126,6 +127,12 @@ class Comment extends Service
 
         $this->decrUserCommentCount($owner);
 
+        $sender = $this->getLoginUser();
+
+        $this->handleCommentDeletedNotice($comment, $sender);
+
+        $this->eventsManager->fire('Comment:afterDelete', $this, $comment);
+
         return $comment;
     }
 
@@ -164,23 +171,14 @@ class Comment extends Service
 
         $validator = new CommentValidator();
 
+        $sender = $this->getLoginUser();
+
         if ($type == 'approve') {
 
             $comment->published = CommentModel::PUBLISH_APPROVED;
-
-        } elseif ($type == 'reject') {
-
-            $validator->checkRejectReason($reason);
-
-            $comment->published = CommentModel::PUBLISH_REJECTED;
-        }
-
-        $comment->update();
-
-        if ($type == 'approve') {
+            $comment->update();
 
             $owner = $this->findUser($comment->owner_id);
-
             $item = $validator->checkItem($comment->item_id, $comment->item_type);
 
             $this->incrItemCommentCount($item);
@@ -197,10 +195,16 @@ class Comment extends Service
             }
 
             $this->handleCommentPostPoint($comment);
+            $this->handleCommentApprovedNotice($comment, $sender);
 
             $this->eventsManager->fire('Comment:afterApprove', $this, $comment);
 
         } elseif ($type == 'reject') {
+
+            $comment->published = CommentModel::PUBLISH_REJECTED;
+            $comment->update();
+
+            $this->handleCommentRejectedNotice($comment, $sender, $reason);
 
             $this->eventsManager->fire('Comment:afterReject', $this, $comment);
         }
@@ -236,6 +240,93 @@ class Comment extends Service
         $comment->update();
     }
 
+    public function batchModerate()
+    {
+        $type = $this->request->getQuery('type', ['trim', 'string']);
+        $ids = $this->request->getPost('ids', ['trim', 'int']);
+
+        $commentRepo = new CommentRepo();
+
+        $comments = $commentRepo->findByIds($ids);
+
+        if ($comments->count() == 0) return;
+
+        $validator = new CommentValidator();
+
+        $sender = $this->getLoginUser();
+
+        foreach ($comments as $comment) {
+
+            if ($type == 'approve') {
+
+                $owner = $this->findUser($comment->owner_id);
+                $item = $validator->checkItem($comment->item_id, $comment->item_type);
+
+                $this->incrItemCommentCount($item);
+                $this->incrUserCommentCount($owner);
+
+                $comment->published = CommentModel::PUBLISH_APPROVED;
+                $comment->update();
+
+                if ($comment->parent_id == 0) {
+                    $this->handleItemCommentedNotice($item, $comment);
+                }
+
+                if ($comment->parent_id > 0) {
+                    $parent = $validator->checkParent($comment->parent_id);
+                    $this->incrCommentReplyCount($parent);
+                    $this->handleCommentRepliedNotice($comment);
+                }
+
+                $this->handleCommentPostPoint($comment);
+                $this->handleCommentApprovedNotice($comment, $sender);
+
+            } elseif ($type == 'reject') {
+
+                $comment->published = CommentModel::PUBLISH_REJECTED;
+                $comment->update();
+
+                $this->handleCommentRejectedNotice($comment, $sender);
+            }
+        }
+    }
+
+    public function batchDelete()
+    {
+        $ids = $this->request->getPost('ids', ['trim', 'int']);
+
+        $commentRepo = new CommentRepo();
+
+        $comments = $commentRepo->findByIds($ids);
+
+        if ($comments->count() == 0) return;
+
+        $validator = new CommentValidator();
+
+        $sender = $this->getLoginUser();
+
+        foreach ($comments as $comment) {
+
+            $comment->deleted = 1;
+            $comment->update();
+
+            if ($comment->parent_id > 0) {
+                $parent = $validator->checkParent($comment->parent_id);
+                $this->decrCommentReplyCount($parent);
+            }
+
+            $this->handleCommentDeletedNotice($comment, $sender);
+
+            $item = $validator->checkItem($comment->item_id, $comment->item_type);
+
+            $this->decrItemCommentCount($item);
+
+            $owner = $this->findUser($comment->owner_id);
+
+            $this->decrUserCommentCount($owner);
+        }
+    }
+
     protected function findOrFail($id)
     {
         $validator = new CommentValidator();
@@ -248,6 +339,21 @@ class Comment extends Service
         $userRepo = new UserRepo();
 
         return $userRepo->findById($id);
+    }
+
+    protected function handleCommentApprovedNotice(CommentModel $comment, UserModel $sender)
+    {
+
+    }
+
+    protected function handleCommentRejectedNotice(CommentModel $comment, UserModel $sender, $reason = '')
+    {
+
+    }
+
+    protected function handleCommentDeletedNotice(CommentModel $comment, UserModel $sender, $reason = '')
+    {
+
     }
 
     protected function handleComments($pager)

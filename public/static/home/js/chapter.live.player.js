@@ -7,7 +7,7 @@ layui.use(['jquery', 'helper'], function () {
     var intervalTime = 15000;
     var userId = window.user.id;
     var requestId = helper.getRequestId();
-    var planId = $('input[name="chapter.plan_id"]').val();
+    var planId = $('input[name="chapter.me.plan_id"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
     var playUrls = JSON.parse($('input[name="chapter.play_urls"]').val());
 

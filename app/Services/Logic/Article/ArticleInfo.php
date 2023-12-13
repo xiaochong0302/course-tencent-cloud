@@ -15,19 +15,18 @@ use App\Repos\ArticleFavorite as ArticleFavoriteRepo;
 use App\Repos\ArticleLike as ArticleLikeRepo;
 use App\Services\Logic\ArticleTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Logic\UserTrait;
+use App\Services\Logic\User\ShallowUserInfo;
 
 class ArticleInfo extends LogicService
 {
 
     use ArticleTrait;
-    use UserTrait;
 
     public function handle($id)
     {
-        $user = $this->getCurrentUser(true);
-
         $article = $this->checkArticle($id);
+
+        $user = $this->getCurrentUser();
 
         $result = $this->handleArticle($article, $user);
 
@@ -41,7 +40,7 @@ class ArticleInfo extends LogicService
     protected function handleArticle(ArticleModel $article, UserModel $user)
     {
         $category = $this->handleCategoryInfo($article->category_id);
-        $owner = $this->handleShallowUserInfo($article->owner_id);
+        $owner = $this->handleOwnerInfo($article->owner_id);
         $me = $this->handleMeInfo($article, $user);
 
         return [
@@ -52,7 +51,6 @@ class ArticleInfo extends LogicService
             'keywords' => $article->keywords,
             'tags' => $article->tags,
             'content' => $article->content,
-            'private' => $article->private,
             'closed' => $article->closed,
             'published' => $article->published,
             'deleted' => $article->deleted,
@@ -88,6 +86,13 @@ class ArticleInfo extends LogicService
         ];
     }
 
+    protected function handleOwnerInfo($userId)
+    {
+        $service = new ShallowUserInfo();
+
+        return $service->handle($userId);
+    }
+
     protected function handleMeInfo(ArticleModel $article, UserModel $user)
     {
         $me = [
@@ -97,11 +102,11 @@ class ArticleInfo extends LogicService
             'owned' => 0,
         ];
 
-        if ($user->id == $article->owner_id) {
-            $me['owned'] = 1;
-        }
-
         if ($user->id > 0) {
+
+            if ($user->id == $article->owner_id) {
+                $me['owned'] = 1;
+            }
 
             $me['logged'] = 1;
 

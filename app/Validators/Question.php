@@ -11,7 +11,6 @@ use App\Caches\MaxQuestionId as MaxQuestionIdCache;
 use App\Caches\Question as QuestionCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Question as QuestionModel;
-use App\Models\Reason as ReasonModel;
 use App\Repos\Question as QuestionRepo;
 use App\Services\EditorStorage as EditorStorageService;
 
@@ -90,6 +89,19 @@ class Question extends Validator
         return $value;
     }
 
+    public function checkSummary($summary)
+    {
+        $value = $this->filter->sanitize($summary, ['trim', 'string']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 255) {
+            throw new BadRequestException('question.summary_too_long');
+        }
+
+        return $value;
+    }
+
     public function checkKeywords($keywords)
     {
         $keywords = $this->filter->sanitize($keywords, ['trim', 'string']);
@@ -111,7 +123,7 @@ class Question extends Validator
 
         $value = $storage->handle($value);
 
-        $length = kg_strlen($value);
+        $length = kg_editor_content_length($value);
 
         if ($length > 30000) {
             throw new BadRequestException('question.content_too_long');
@@ -138,6 +150,15 @@ class Question extends Validator
         return $status;
     }
 
+    public function checkFeatureStatus($status)
+    {
+        if (!in_array($status, [0, 1])) {
+            throw new BadRequestException('question.invalid_feature_status');
+        }
+
+        return $status;
+    }
+
     public function checkCloseStatus($status)
     {
         if (!in_array($status, [0, 1])) {
@@ -145,13 +166,6 @@ class Question extends Validator
         }
 
         return $status;
-    }
-
-    public function checkRejectReason($reason)
-    {
-        if (!array_key_exists($reason, ReasonModel::questionRejectOptions())) {
-            throw new BadRequestException('question.invalid_reject_reason');
-        }
     }
 
     public function checkIfAllowEdit(QuestionModel $question)

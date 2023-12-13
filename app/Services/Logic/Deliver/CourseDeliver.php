@@ -11,10 +11,13 @@ use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
 use App\Models\User as UserModel;
 use App\Repos\CourseUser as CourseUserRepo;
+use App\Services\Logic\Course\CourseUserTrait;
 use App\Services\Logic\Service as LogicService;
 
 class CourseDeliver extends LogicService
 {
+
+    use CourseUserTrait;
 
     public function handle(CourseModel $course, UserModel $user)
     {
@@ -24,25 +27,17 @@ class CourseDeliver extends LogicService
 
     protected function handleCourseUser(CourseModel $course, UserModel $user)
     {
+        $expiryTime = strtotime("+{$course->study_expiry} months");
+
         if ($course->model == CourseModel::MODEL_OFFLINE) {
             $expiryTime = strtotime($course->attrs['end_date']);
-        } else {
-            $expiryTime = strtotime("+{$course->study_expiry} months");
         }
 
-        $courseUser = new CourseUserModel();
-        $courseUser->user_id = $user->id;
-        $courseUser->course_id = $course->id;
-        $courseUser->expiry_time = $expiryTime;
-        $courseUser->role_type = CourseUserModel::ROLE_STUDENT;
-        $courseUser->source_type = CourseUserModel::SOURCE_CHARGE;
-        $courseUser->create();
+        $sourceType = CourseUserModel::SOURCE_CHARGE;
 
-        $course->user_count += 1;
-        $course->update();
-
-        $user->course_count += 1;
-        $user->update();
+        $this->createCourseUser($course, $user, $expiryTime, $sourceType);
+        $this->recountCourseUsers($course);
+        $this->recountUserCourses($user);
     }
 
     protected function revokeCourseUser(CourseModel $course, UserModel $user)
@@ -55,8 +50,7 @@ class CourseDeliver extends LogicService
 
         foreach ($relations as $relation) {
             if ($relation->deleted == 0) {
-                $relation->deleted = 1;
-                $relation->update();
+                $this->deleteCourseUser($relation);
             }
         }
     }

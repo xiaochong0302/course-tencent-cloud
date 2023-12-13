@@ -79,16 +79,32 @@ layui.use(['jquery', 'form', 'element', 'layer', 'kgDropdown'], function () {
         return false;
     });
 
-    form.on('switch(published)', function (data) {
+    form.on('switch(go)', function (data) {
+        var postData = {};
+        var name = $(this).attr('name');
         var checked = $(this).is(':checked');
-        var published = checked ? 1 : 0;
+        var value = checked ? 1 : 0;
         var url = $(this).data('url');
-        var tips = published === 1 ? '确定要上线？' : '确定要下线？';
-        layer.confirm(tips, function () {
+        var onTips = $(this).data('on-tips');
+        var offTips = $(this).data('off-tips');
+        var tips = '确定要执行操作？';
+        if (value === 1 && onTips) {
+            tips = onTips;
+        } else if (value === 0 && offTips) {
+            tips = offTips;
+        }
+        postData[name] = value;
+        layer.confirm(tips, {
+            cancel: function (index) {
+                layer.close(index);
+                data.elem.checked = !checked;
+                form.render();
+            }
+        }, function () {
             $.ajax({
                 type: 'POST',
                 url: url,
-                data: {published: published},
+                data: postData,
                 success: function (res) {
                     layer.msg(res.msg, {icon: 1});
                 },
@@ -105,6 +121,19 @@ layui.use(['jquery', 'form', 'element', 'layer', 'kgDropdown'], function () {
         });
     });
 
+    form.on('checkbox(all)', function (data) {
+        $('input:checkbox[class="item"]').each(function (index, item) {
+            item.checked = data.elem.checked;
+        });
+        form.render('checkbox');
+    });
+
+    form.on('checkbox(item)', function (data) {
+        var allChecked = $('input:checkbox[class="item"]:not(:checked)').length === 0;
+        $('input:checkbox[class="all"]').prop('checked', allChecked);
+        form.render('checkbox');
+    });
+
     $('.kg-priority').on('change', function () {
         var priority = $(this).val();
         var url = $(this).data('url');
@@ -115,6 +144,38 @@ layui.use(['jquery', 'form', 'element', 'layer', 'kgDropdown'], function () {
             success: function (res) {
                 layer.msg(res.msg, {icon: 1});
             }
+        });
+    });
+
+    $('.kg-batch').on('click', function () {
+        var url = $(this).data('url');
+        var tips = $(this).data('tips');
+        var defaultTips = '确定要执行批量操作吗？';
+        var ids = [];
+        $('input:checkbox[class="item"]:checked').each(function (index, item) {
+            ids.push(item.value);
+        });
+        if (ids.length === 0) {
+            layer.msg('没有选中任何条目', {icon: 2});
+            return false;
+        }
+        tips = tips || defaultTips;
+        layer.confirm(tips, function () {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {'ids': ids},
+                success: function (res) {
+                    layer.msg(res.msg, {icon: 1});
+                    if (res.location) {
+                        setTimeout(function () {
+                            window.location.href = res.location;
+                        }, 1500);
+                    } else {
+                        window.location.reload();
+                    }
+                }
+            });
         });
     });
 

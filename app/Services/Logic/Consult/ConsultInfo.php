@@ -9,24 +9,22 @@ namespace App\Services\Logic\Consult;
 
 use App\Models\Consult as ConsultModel;
 use App\Models\User as UserModel;
-use App\Repos\Chapter as ChapterRepo;
 use App\Repos\ConsultLike as ConsultLikeRepo;
 use App\Repos\Course as CourseRepo;
 use App\Services\Logic\ConsultTrait;
 use App\Services\Logic\Service as LogicService;
-use App\Services\Logic\UserTrait;
+use App\Services\Logic\User\ShallowUserInfo;
 
 class ConsultInfo extends LogicService
 {
 
     use ConsultTrait;
-    use UserTrait;
 
     public function handle($id)
     {
         $consult = $this->checkConsult($id);
 
-        $user = $this->getCurrentUser(true);
+        $user = $this->getCurrentUser();
 
         return $this->handleConsult($consult, $user);
     }
@@ -34,9 +32,8 @@ class ConsultInfo extends LogicService
     protected function handleConsult(ConsultModel $consult, UserModel $user)
     {
         $course = $this->handleCourseInfo($consult->course_id);
-        $chapter = $this->handleChapterInfo($consult->chapter_id);
-        $replier = $this->handleShallowUserInfo($consult->replier_id);
-        $owner = $this->handleShallowUserInfo($consult->owner_id);
+        $replier = $this->handleReplierInfo($consult->replier_id);
+        $owner = $this->handleOwnerInfo($consult->owner_id);
         $me = $this->handleMeInfo($consult, $user);
 
         return [
@@ -51,7 +48,6 @@ class ConsultInfo extends LogicService
             'create_time' => $consult->create_time,
             'update_time' => $consult->update_time,
             'course' => $course,
-            'chapter' => $chapter,
             'replier' => $replier,
             'owner' => $owner,
             'me' => $me,
@@ -64,8 +60,6 @@ class ConsultInfo extends LogicService
 
         $course = $courseRepo->findById($courseId);
 
-        if (!$course) return new \stdClass();
-
         return [
             'id' => $course->id,
             'title' => $course->title,
@@ -73,18 +67,20 @@ class ConsultInfo extends LogicService
         ];
     }
 
-    protected function handleChapterInfo($chapterId)
+    protected function handleOwnerInfo($userId)
     {
-        $chapterRepo = new ChapterRepo();
+        $service = new ShallowUserInfo();
 
-        $chapter = $chapterRepo->findById($chapterId);
+        return $service->handle($userId);
+    }
 
-        if (!$chapter) return new \stdClass();
+    protected function handleReplierInfo($userId)
+    {
+        if ($userId == 0) return new \stdClass();
 
-        return [
-            'id' => $chapter->id,
-            'title' => $chapter->title,
-        ];
+        $service = new ShallowUserInfo();
+
+        return $service->handle($userId);
     }
 
     protected function handleMeInfo(ConsultModel $consult, UserModel $user)
@@ -95,11 +91,11 @@ class ConsultInfo extends LogicService
             'owned' => 0,
         ];
 
-        if ($user->id == $consult->owner_id) {
-            $me['owned'] = 1;
-        }
-
         if ($user->id > 0) {
+
+            if ($user->id == $consult->owner_id) {
+                $me['owned'] = 1;
+            }
 
             $me['logged'] = 1;
 

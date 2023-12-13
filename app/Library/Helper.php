@@ -42,6 +42,36 @@ function kg_substr($str, $start, $length, $suffix = '...')
 }
 
 /**
+ * 从数组获取随机值
+ *
+ * @param $array
+ * @param $amount
+ * @return array|mixed
+ */
+function kg_array_rand($array, $amount = 1)
+{
+    $max = count($array);
+
+    if ($amount > $max) {
+        $amount = $max;
+    }
+
+    $keys = array_rand($array, $amount);
+
+    if ($amount == 1) {
+        return $array[$keys];
+    }
+
+    $result = [];
+
+    foreach ($keys as $key) {
+        $result[] = $array[$key];
+    }
+
+    return $result;
+}
+
+/**
  * 占位替换
  *
  * @param string $str
@@ -200,6 +230,16 @@ function kg_default_user_avatar_path()
 }
 
 /**
+ * 获取默认专栏封面路径
+ *
+ * @return string
+ */
+function kg_default_article_cover_path()
+{
+    return '/img/default/article_cover.png';
+}
+
+/**
  * 获取默认课程封面路径
  *
  * @return string
@@ -316,6 +356,20 @@ function kg_cos_user_avatar_url($path, $style = null)
 }
 
 /**
+ * 获取专栏封面URL
+ *
+ * @param string $path
+ * @param string $style
+ * @return string
+ */
+function kg_cos_article_cover_url($path, $style = null)
+{
+    $path = $path ?: kg_default_article_cover_path();
+
+    return kg_cos_img_url($path, $style);
+}
+
+/**
  * 获取课程封面URL
  *
  * @param string $path
@@ -425,6 +479,21 @@ function kg_cos_img_style_trim($path)
 }
 
 /**
+ * 获取编辑器内容长度
+ *
+ * @param string $content
+ * @return int
+ */
+function kg_editor_content_length($content)
+{
+    $content = trim($content);
+
+    $content = strip_tags($content,'<img>');
+
+    return kg_strlen($content);
+}
+
+/**
  * 清理html内容
  *
  * @param string $content
@@ -490,7 +559,7 @@ function kg_parse_first_content_image($content)
     $matched = preg_match('/src="(.*?)\/img\/content\/(.*?)"/', $content, $matches);
 
     if ($matched) {
-        $url = sprintf('%s/img/content/%s', trim($matches[1]), trim($matches[2]));
+        $url = sprintf('/img/content/%s', trim($matches[2]));
         $result = kg_cos_img_style_trim($url);
     }
 

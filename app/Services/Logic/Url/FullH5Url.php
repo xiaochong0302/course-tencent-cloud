@@ -91,11 +91,6 @@ class FullH5Url extends AppService
         return $this->getFullUrl('/teacher/list');
     }
 
-    public function getFlashSaleListUrl()
-    {
-        return $this->getFullUrl('/flash-sale/list');
-    }
-
     public function getPointGiftListUrl()
     {
         return $this->getFullUrl('/point/gift/list');

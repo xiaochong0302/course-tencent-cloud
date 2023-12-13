@@ -12,7 +12,6 @@ use App\Caches\MaxArticleId as MaxArticleIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\Article as ArticleModel;
-use App\Models\Reason as ReasonModel;
 use App\Repos\Article as ArticleRepo;
 use App\Services\EditorStorage as EditorStorageService;
 
@@ -91,6 +90,30 @@ class Article extends Validator
         return $value;
     }
 
+    public function checkCover($cover)
+    {
+        $value = $this->filter->sanitize($cover, ['trim', 'string']);
+
+        if (!CommonValidator::image($value)) {
+            throw new BadRequestException('article.invalid_cover');
+        }
+
+        return kg_cos_img_style_trim($value);
+    }
+
+    public function checkSummary($summary)
+    {
+        $value = $this->filter->sanitize($summary, ['trim', 'string']);
+
+        $length = kg_strlen($value);
+
+        if ($length > 255) {
+            throw new BadRequestException('article.summary_too_long');
+        }
+
+        return $value;
+    }
+
     public function checkContent($content)
     {
         $value = $this->filter->sanitize($content, ['trim']);
@@ -99,7 +122,7 @@ class Article extends Validator
 
         $value = $storage->handle($value);
 
-        $length = kg_strlen($value);
+        $length = kg_editor_content_length($value);
 
         if ($length < 10) {
             throw new BadRequestException('article.content_too_short');
@@ -163,15 +186,6 @@ class Article extends Validator
         return $status;
     }
 
-    public function checkPrivateStatus($status)
-    {
-        if (!in_array($status, [0, 1])) {
-            throw new BadRequestException('article.invalid_private_status');
-        }
-
-        return $status;
-    }
-
     public function checkCloseStatus($status)
     {
         if (!in_array($status, [0, 1])) {
@@ -179,13 +193,6 @@ class Article extends Validator
         }
 
         return $status;
-    }
-
-    public function checkRejectReason($reason)
-    {
-        if (!array_key_exists($reason, ReasonModel::questionRejectOptions())) {
-            throw new BadRequestException('article.invalid_reject_reason');
-        }
     }
 
     public function checkIfAllowEdit(ArticleModel $article)

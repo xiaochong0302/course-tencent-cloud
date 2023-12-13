@@ -95,57 +95,13 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
         return false;
     });
 
-    $('.kg-delete').on('click', function () {
-        var url = $(this).data('url');
-        var tips = $(this).data('tips');
-        tips = tips || '确定要删除吗？';
-        layer.confirm(tips, function () {
-            $.ajax({
-                type: 'POST',
-                url: url,
-                success: function (res) {
-                    if (res.msg !== '') {
-                        layer.msg(res.msg, {icon: 1});
-                    }
-                    if (res.location) {
-                        setTimeout(function () {
-                            window.location.href = res.location;
-                        }, 1500);
-                    } else {
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1500);
-                    }
-                }
-            });
-        });
-    });
-
     $('.kg-back').on('click', function () {
         window.history.back();
-    });
-
-    $('.ke-content').on('click', 'img', function () {
-        var width = $(window).width() * 0.8 + 'px';
-        var height = $(window).height() * 0.8 + 'px';
-        var src = $(this).attr('src');
-        var style = 'max-width:' + width + ';max-height:' + height;
-        var content = '<img alt="preview" src="' + src + '" style="' + style + '">';
-        layer.open({
-            type: 1,
-            title: false,
-            closeBtn: 0,
-            area: ['auto'],
-            skin: 'layui-layer-nobg',
-            shadeClose: true,
-            content: content,
-        });
     });
 
     $('.nav-search').on('click', function () {
         var content = '<form action="' + $(this).data('url') + '">';
         content += '<input type="text" name="query" autocomplete="off" placeholder="搜索内容，回车跳转">';
-        content += '<input type="hidden" name="type" value="' + $(this).data('type') + '">';
         content += '</form>';
         layer.open({
             type: 1,
@@ -169,6 +125,29 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
         });
     });
 
+    /**
+     * 内容图片放大
+     */
+    $('body').on('click', '.ke-content img,.kg-thumbs img', function () {
+        var width = $(window).width() * 0.8 + 'px';
+        var height = $(window).height() * 0.8 + 'px';
+        var src = $(this).attr('src');
+        var style = 'max-width:' + width + ';max-height:' + height;
+        var content = '<img alt="preview" src="' + src + '" style="' + style + '">';
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            area: ['auto'],
+            skin: 'layui-layer-nobg',
+            shadeClose: true,
+            content: content,
+        });
+    });
+
+    /**
+     * 分页异步加载
+     */
     $('body').on('click', '.layui-laypage > a', function () {
         var url = $(this).data('url');
         var target = $(this).data('target');
@@ -186,6 +165,32 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
                 shadeClose: true,
                 content: [url, 'no'],
                 area: ['640px', '480px'],
+            });
+        });
+    });
+
+    $('body').on('click', '.kg-delete', function () {
+        var url = $(this).data('url');
+        var tips = $(this).data('tips');
+        tips = tips || '确定要删除吗？';
+        layer.confirm(tips, function () {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                success: function (res) {
+                    if (res.msg !== '') {
+                        layer.msg(res.msg, {icon: 1});
+                    }
+                    if (res.location) {
+                        setTimeout(function () {
+                            window.location.href = res.location;
+                        }, 1500);
+                    } else {
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500);
+                    }
+                }
             });
         });
     });

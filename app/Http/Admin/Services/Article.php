@@ -18,9 +18,9 @@ use App\Models\Reason as ReasonModel;
 use App\Models\Report as ReportModel;
 use App\Models\User as UserModel;
 use App\Repos\Article as ArticleRepo;
-use App\Repos\Category as CategoryRepo;
 use App\Repos\Report as ReportRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Category as CategoryService;
 use App\Services\Logic\Article\ArticleDataTrait;
 use App\Services\Logic\Article\ArticleInfo as ArticleInfoService;
 use App\Services\Logic\Article\XmTagList as XmTagListService;
@@ -42,16 +42,11 @@ class Article extends Service
         return $service->handle($id);
     }
 
-    public function getCategories()
+    public function getCategoryOptions()
     {
-        $categoryRepo = new CategoryRepo();
+        $categoryService = new CategoryService();
 
-        return $categoryRepo->findAll([
-            'type' => CategoryModel::TYPE_ARTICLE,
-            'level' => 1,
-            'published' => 1,
-            'deleted' => 0,
-        ]);
+        return $categoryService->getCategoryOptions(CategoryModel::TYPE_ARTICLE);
     }
 
     public function getPublishTypes()
@@ -161,13 +156,16 @@ class Article extends Service
 
         $data = [];
 
-        if (isset($post['category_id'])) {
-            $category = $validator->checkCategory($post['category_id']);
-            $data['category_id'] = $category->id;
-        }
-
         if (isset($post['title'])) {
             $data['title'] = $validator->checkTitle($post['title']);
+        }
+
+        if (isset($post['cover'])) {
+            $data['cover'] = $validator->checkCover($post['cover']);
+        }
+
+        if (isset($post['summary'])) {
+            $data['summary'] = $validator->checkSummary($post['summary']);
         }
 
         if (isset($post['keywords'])) {
@@ -186,20 +184,21 @@ class Article extends Service
             }
         }
 
-        if (isset($post['closed'])) {
-            $data['closed'] = $validator->checkCloseStatus($post['closed']);
-        }
-
-        if (isset($post['private'])) {
-            $data['private'] = $validator->checkPrivateStatus($post['private']);
-        }
-
         if (isset($post['featured'])) {
             $data['featured'] = $validator->checkFeatureStatus($post['featured']);
         }
 
+        if (isset($post['closed'])) {
+            $data['closed'] = $validator->checkCloseStatus($post['closed']);
+        }
+
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
+        }
+
+        if (isset($post['category_id'])) {
+            $category = $validator->checkCategory($post['category_id']);
+            $data['category_id'] = $category->id;
         }
 
         if (isset($post['xm_tag_ids'])) {
@@ -266,31 +265,12 @@ class Article extends Service
         $reason = $this->request->getPost('reason', ['trim', 'string']);
 
         $article = $this->findOrFail($id);
-
-        $validator = new ArticleValidator();
+        $sender = $this->getLoginUser();
 
         if ($type == 'approve') {
 
             $article->published = ArticleModel::PUBLISH_APPROVED;
-
-        } elseif ($type == 'reject') {
-
-            $validator->checkRejectReason($reason);
-
-            $article->published = ArticleModel::PUBLISH_REJECTED;
-        }
-
-        $article->update();
-
-        $owner = $this->findUser($article->owner_id);
-
-        $this->rebuildArticleCache($article);
-        $this->rebuildArticleIndex($article);
-        $this->recountUserArticles($owner);
-
-        $sender = $this->getLoginUser();
-
-        if ($type == 'approve') {
+            $article->update();
 
             $this->handleArticlePostPoint($article);
             $this->handleArticleApprovedNotice($article, $sender);
@@ -299,16 +279,19 @@ class Article extends Service
 
         } elseif ($type == 'reject') {
 
-            $options = ReasonModel::articleRejectOptions();
-
-            if (array_key_exists($reason, $options)) {
-                $reason = $options[$reason];
-            }
+            $article->published = ArticleModel::PUBLISH_REJECTED;
+            $article->update();
 
             $this->handleArticleRejectedNotice($article, $sender, $reason);
 
             $this->eventsManager->fire('Article:afterReject', $this, $article);
         }
+
+        $owner = $this->findUser($article->owner_id);
+
+        $this->rebuildArticleCache($article);
+        $this->rebuildArticleIndex($article);
+        $this->recountUserArticles($owner);
 
         return $article;
     }
@@ -345,6 +328,72 @@ class Article extends Service
         $this->rebuildArticleCache($article);
         $this->rebuildArticleIndex($article);
         $this->recountUserArticles($owner);
+    }
+
+    public function batchModerate()
+    {
+        $type = $this->request->getQuery('type', ['trim', 'string']);
+        $ids = $this->request->getPost('ids', ['trim', 'int']);
+
+        $articleRepo = new ArticleRepo();
+
+        $articles = $articleRepo->findByIds($ids);
+
+        if ($articles->count() == 0) return;
+
+        $sender = $this->getLoginUser();
+
+        foreach ($articles as $article) {
+
+            if ($type == 'approve') {
+
+                $article->published = ArticleModel::PUBLISH_APPROVED;
+                $article->update();
+
+                $this->handleArticlePostPoint($article);
+                $this->handleArticleApprovedNotice($article, $sender);
+
+            } elseif ($type == 'reject') {
+
+                $article->published = ArticleModel::PUBLISH_REJECTED;
+                $article->update();
+
+                $this->handleArticleRejectedNotice($article, $sender);
+            }
+
+            $owner = $this->findUser($article->owner_id);
+
+            $this->recountUserArticles($owner);
+            $this->rebuildArticleCache($article);
+            $this->rebuildArticleIndex($article);
+        }
+    }
+
+    public function batchDelete()
+    {
+        $ids = $this->request->getPost('ids', ['trim', 'int']);
+
+        $articleRepo = new ArticleRepo();
+
+        $articles = $articleRepo->findByIds($ids);
+
+        if ($articles->count() == 0) return;
+
+        $sender = $this->getLoginUser();
+
+        foreach ($articles as $article) {
+
+            $article->deleted = 1;
+            $article->update();
+
+            $this->handleArticleDeletedNotice($article, $sender);
+
+            $owner = $this->findUser($article->owner_id);
+
+            $this->recountUserArticles($owner);
+            $this->rebuildArticleCache($article);
+            $this->rebuildArticleIndex($article);
+        }
     }
 
     protected function findOrFail($id)
@@ -402,11 +451,16 @@ class Article extends Service
         $notice->handle($article, $sender);
     }
 
-    protected function handleArticleRejectedNotice(ArticleModel $article, UserModel $sender, $reason)
+    protected function handleArticleRejectedNotice(ArticleModel $article, UserModel $sender, $reason = '')
     {
         $notice = new ArticleRejectedNotice();
 
         $notice->handle($article, $sender, $reason);
+    }
+
+    protected function handleArticleDeletedNotice(ArticleModel $article, UserModel $sender, $reason = '')
+    {
+
     }
 
     protected function handleArticles($pager)

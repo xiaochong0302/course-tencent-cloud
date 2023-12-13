@@ -13,9 +13,9 @@ use App\Repos\Article as ArticleRepo;
 class TaggedArticleList extends Cache
 {
 
-    protected $limit = 5;
+    protected $limit = 15;
 
-    protected $lifetime = 86400;
+    protected $lifetime = 3600;
 
     public function getLifetime()
     {

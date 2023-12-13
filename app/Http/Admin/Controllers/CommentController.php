@@ -139,4 +139,40 @@ class CommentController extends Controller
         $this->view->setVar('reports', $reports);
     }
 
+    /**
+     * @Post("/moderate/batch", name="admin.comment.batch_moderate")
+     */
+    public function batchModerateAction()
+    {
+        $commentService = new CommentService();
+
+        $commentService->batchModerate();
+
+        $location = $this->url->get(['for' => 'admin.mod.comments']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '批量审核成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/delete/batch", name="admin.comment.batch_delete")
+     */
+    public function batchDeleteAction()
+    {
+        $commentService = new CommentService();
+
+        $commentService->batchDelete();
+
+        $content = [
+            'location' => $this->request->getHTTPReferer(),
+            'msg' => '批量删除成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
 }

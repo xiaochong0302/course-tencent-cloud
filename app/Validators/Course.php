@@ -66,6 +66,20 @@ class Course extends Validator
         }
     }
 
+    public function checkCategory($id)
+    {
+        $validator = new Category();
+
+        return $validator->checkCategory($id);
+    }
+
+    public function checkTeacher($id)
+    {
+        $validator = new User();
+
+        return $validator->checkUser($id);
+    }
+
     public function checkModel($model)
     {
         $list = CourseModel::modelTypes();
@@ -92,7 +106,7 @@ class Course extends Validator
     {
         $value = $this->filter->sanitize($cover, ['trim', 'string']);
 
-        if (!CommonValidator::url($value)) {
+        if (!CommonValidator::image($value)) {
             throw new BadRequestException('course.invalid_cover');
         }
 
@@ -124,7 +138,7 @@ class Course extends Validator
 
         $value = $storage->handle($value);
 
-        $length = kg_strlen($value);
+        $length = kg_editor_content_length($value);
 
         if ($length > 30000) {
             throw new BadRequestException('course.details_too_long');
@@ -177,17 +191,6 @@ class Course extends Validator
 
         if ($value < 0 || $value > 999999) {
             throw new BadRequestException('course.invalid_user_count');
-        }
-
-        return $value;
-    }
-
-    public function checkOriginPrice($price)
-    {
-        $value = $this->filter->sanitize($price, ['trim', 'float']);
-
-        if ($value < 0 || $value > 999999) {
-            throw new BadRequestException('course.invalid_origin_price');
         }
 
         return $value;
@@ -253,15 +256,6 @@ class Course extends Validator
         }
 
         return $status;
-    }
-
-    public function checkPublishAbility(CourseModel $course)
-    {
-        if ($course->model == CourseModel::MODEL_OFFLINE) return true;
-
-        if ($course->teacher_id == 0) {
-            throw new BadRequestException('course.teacher_not_assigned');
-        }
     }
 
 }

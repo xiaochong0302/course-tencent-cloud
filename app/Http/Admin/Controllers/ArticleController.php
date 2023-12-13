@@ -38,12 +38,12 @@ class ArticleController extends Controller
 
         $publishTypes = $articleService->getPublishTypes();
         $sourceTypes = $articleService->getSourceTypes();
-        $categories = $articleService->getCategories();
+        $categoryOptions = $articleService->getCategoryOptions();
         $xmTags = $articleService->getXmTags(0);
 
         $this->view->setVar('publish_types', $publishTypes);
         $this->view->setVar('source_types', $sourceTypes);
-        $this->view->setVar('categories', $categories);
+        $this->view->setVar('category_options', $categoryOptions);
         $this->view->setVar('xm_tags', $xmTags);
     }
 
@@ -64,11 +64,7 @@ class ArticleController extends Controller
      */
     public function addAction()
     {
-        $articleService = new ArticleService();
 
-        $categories = $articleService->getCategories();
-
-        $this->view->setVar('categories', $categories);
     }
 
     /**
@@ -80,14 +76,14 @@ class ArticleController extends Controller
 
         $publishTypes = $articleService->getPublishTypes();
         $sourceTypes = $articleService->getSourceTypes();
-        $categories = $articleService->getCategories();
+        $categoryOptions = $articleService->getCategoryOptions();
         $article = $articleService->getArticle($id);
         $xmTags = $articleService->getXmTags($id);
 
+        $this->view->setVar('article', $article);
         $this->view->setVar('publish_types', $publishTypes);
         $this->view->setVar('source_types', $sourceTypes);
-        $this->view->setVar('categories', $categories);
-        $this->view->setVar('article', $article);
+        $this->view->setVar('category_options', $categoryOptions);
         $this->view->setVar('xm_tags', $xmTags);
     }
 
@@ -227,6 +223,42 @@ class ArticleController extends Controller
 
         $this->view->setVar('reports', $reports);
         $this->view->setVar('article', $article);
+    }
+
+    /**
+     * @Post("/moderate/batch", name="admin.article.batch_moderate")
+     */
+    public function batchModerateAction()
+    {
+        $articleService = new ArticleService();
+
+        $articleService->batchModerate();
+
+        $location = $this->url->get(['for' => 'admin.mod.articles']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '批量审核成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/delete/batch", name="admin.article.batch_delete")
+     */
+    public function batchDeleteAction()
+    {
+        $articleService = new ArticleService();
+
+        $articleService->batchDelete();
+
+        $content = [
+            'location' => $this->request->getHTTPReferer(),
+            'msg' => '批量删除成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
 }

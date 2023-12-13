@@ -11,7 +11,7 @@
 }
 
 .layui-layout-admin .layui-body {
-    bottom: 0;
+    padding-bottom: 0;
 }
 
 .layui-copyright {
@@ -39,12 +39,6 @@
 
 .gray {
     color: gray;
-}
-
-.avatar-sm {
-    width: 64px;
-    height: 64px;
-    border-radius: 100%;
 }
 
 .loading {
@@ -162,11 +156,6 @@
     left: 230px;
 }
 
-.kg-breadcrumb {
-    margin-left: 3px;
-    margin-bottom: 15px;
-}
-
 .kg-nav {
     position: relative;
     height: 30px;
@@ -178,6 +167,10 @@
     position: absolute;
     top: 0;
     left: 5px;
+}
+
+.kg-nav-left .layui-breadcrumb {
+    margin-right: 20px;
 }
 
 .kg-nav-right {
@@ -244,15 +237,27 @@ img.kg-cover {
 }
 
 img.kg-avatar {
-    width: 96px;
-    height: 96px;
-    border-radius: 96px;
+    width: 64px;
+    height: 64px;
+    border-radius: 64px;
+}
+
+img.kg-avatar-sm {
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
 }
 
 img.kg-icon {
     width: 64px;
     height: 64px;
     border-radius: 64px;
+}
+
+img.kg-icon-sm {
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
 }
 
 .kg-form .layui-form-label {

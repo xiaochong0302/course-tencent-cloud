@@ -25,13 +25,6 @@ class Resource extends Model
     public $course_id = 0;
 
     /**
-     * 章节编号
-     *
-     * @var int
-     */
-    public $chapter_id = 0;
-
-    /**
      * 上传编号
      *
      * @var int

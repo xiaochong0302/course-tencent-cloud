@@ -47,12 +47,11 @@ trait CourseTrait
 
     public function setCourseUser(CourseModel $course, UserModel $user)
     {
-        $courseUser = null;
+        if ($user->id == 0) return;
 
-        if ($user->id > 0) {
-            $courseUserRepo = new CourseUserRepo();
-            $courseUser = $courseUserRepo->findCourseUser($course->id, $user->id);
-        }
+        $courseUserRepo = new CourseUserRepo();
+
+        $courseUser = $courseUserRepo->findCourseUser($course->id, $user->id);
 
         $this->courseUser = $courseUser;
 
@@ -68,15 +67,11 @@ trait CourseTrait
 
             $this->ownedCourse = true;
 
-        } elseif ($courseUser && $courseUser->role_type == CourseUserModel::ROLE_TEACHER) {
-
-            $this->ownedCourse = true;
-
-        } elseif ($courseUser && $courseUser->role_type == CourseUserModel::ROLE_STUDENT) {
+        } elseif ($courseUser) {
 
             $sourceTypes = [
                 CourseUserModel::SOURCE_CHARGE,
-                CourseUserModel::SOURCE_IMPORT,
+                CourseUserModel::SOURCE_MANUAL,
                 CourseUserModel::SOURCE_POINT_REDEEM,
                 CourseUserModel::SOURCE_LUCKY_REDEEM,
             ];

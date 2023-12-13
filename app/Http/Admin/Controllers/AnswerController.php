@@ -61,12 +61,15 @@ class AnswerController extends Controller
     {
         $answerService = new AnswerService();
 
+        $publishTypes = $answerService->getPublishTypes();
+
         $answer = $answerService->getAnswer($id);
 
         $questionService = new QuestionService();
 
         $question = $questionService->getQuestion($answer->question_id);
 
+        $this->view->setVar('publish_types', $publishTypes);
         $this->view->setVar('question', $question);
         $this->view->setVar('answer', $answer);
     }
@@ -217,6 +220,42 @@ class AnswerController extends Controller
 
         $this->view->setVar('answer', $answer);
         $this->view->setVar('reports', $reports);
+    }
+
+    /**
+     * @Post("/moderate/batch", name="admin.answer.batch_moderate")
+     */
+    public function batchModerateAction()
+    {
+        $answerService = new AnswerService();
+
+        $answerService->batchModerate();
+
+        $location = $this->url->get(['for' => 'admin.mod.answers']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '批量审核成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/delete/batch", name="admin.answer.batch_delete")
+     */
+    public function batchDeleteAction()
+    {
+        $answerService = new AnswerService();
+
+        $answerService->batchDelete();
+
+        $content = [
+            'location' => $this->request->getHTTPReferer(),
+            'msg' => '批量删除成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
 }

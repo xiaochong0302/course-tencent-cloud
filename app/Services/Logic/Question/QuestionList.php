@@ -11,8 +11,10 @@ use App\Builders\QuestionList as QuestionListBuilder;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Question as QuestionModel;
 use App\Repos\Question as QuestionRepo;
+use App\Services\Category as CategoryService;
 use App\Services\Logic\Service as LogicService;
 use App\Validators\QuestionQuery as QuestionQueryValidator;
+use Phalcon\Text;
 
 class QuestionList extends LogicService
 {
@@ -24,6 +26,27 @@ class QuestionList extends LogicService
         $params = $pagerQuery->getParams();
 
         $params = $this->checkQueryParams($params);
+
+        /**
+         * tc => top_category
+         * sc => sub_category
+         */
+        if (!empty($params['sc'])) {
+
+            $params['category_id'] = $params['sc'];
+
+        } elseif (!empty($params['tc'])) {
+
+            $categoryService = new CategoryService();
+
+            $childCategoryIds = $categoryService->getChildCategoryIds($params['tc']);
+
+            $parentCategoryIds = [$params['tc']];
+
+            $allCategoryIds = array_merge($parentCategoryIds, $childCategoryIds);
+
+            $params['category_id'] = $allCategoryIds;
+        }
 
         $params['published'] = QuestionModel::PUBLISH_APPROVED;
         $params['deleted'] = 0;
@@ -55,7 +78,13 @@ class QuestionList extends LogicService
 
         $items = [];
 
+        $cosUrl = kg_cos_url();
+
         foreach ($questions as $question) {
+
+            if (!empty($question['cover']) && !Text::startsWith($question['cover'], 'http')) {
+                $question['cover'] = $cosUrl . $question['cover'];
+            }
 
             $question['tags'] = json_decode($question['tags'], true);
 
@@ -101,8 +130,24 @@ class QuestionList extends LogicService
 
         $query = [];
 
+        if (isset($params['owner_id'])) {
+            $user = $validator->checkUser($params['owner_id']);
+            $query['owner_id'] = $user->id;
+        }
+
         if (isset($params['tag_id'])) {
-            $query['tag_id'] = $validator->checkTag($params['tag_id']);
+            $tag = $validator->checkTag($params['tag_id']);
+            $query['tag_id'] = $tag->id;
+        }
+
+        if (isset($params['tc'])) {
+            $category = $validator->checkCategory($params['tc']);
+            $query['tc'] = $category->id;
+        }
+
+        if (isset($params['sc'])) {
+            $category = $validator->checkCategory($params['sc']);
+            $query['sc'] = $category->id;
         }
 
         if (isset($params['sort'])) {

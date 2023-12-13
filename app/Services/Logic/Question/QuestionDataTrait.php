@@ -32,6 +32,11 @@ trait QuestionDataTrait
         $data['title'] = $validator->checkTitle($post['title']);
         $data['content'] = $validator->checkContent($post['content']);
 
+        if (isset($post['category_id'])) {
+            $category = $validator->checkCategory($post['category_id']);
+            $data['category_id'] = $category->id;
+        }
+
         if (isset($post['closed'])) {
             $data['closed'] = $validator->checkCloseStatus($post['closed']);
         }

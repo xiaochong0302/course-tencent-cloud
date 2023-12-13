@@ -10,22 +10,20 @@ namespace App\Http\Admin\Services;
 use App\Builders\CourseList as CourseListBuilder;
 use App\Builders\ResourceList as ResourceListBuilder;
 use App\Caches\Course as CourseCache;
-use App\Caches\CourseCategoryList as CourseCategoryListCache;
 use App\Caches\CourseRelatedList as CourseRelatedListCache;
-use App\Caches\CourseTeacherList as CourseTeacherListCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Category as CategoryModel;
 use App\Models\Course as CourseModel;
-use App\Models\CourseCategory as CourseCategoryModel;
 use App\Models\CourseRelated as CourseRelatedModel;
-use App\Models\CourseUser as CourseUserModel;
-use App\Repos\Category as CategoryRepo;
+use App\Models\CourseTag as CourseTagModel;
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
-use App\Repos\CourseCategory as CourseCategoryRepo;
 use App\Repos\CourseRelated as CourseRelatedRepo;
-use App\Repos\CourseUser as CourseUserRepo;
+use App\Repos\CourseTag as CourseTagRepo;
+use App\Repos\Tag as TagRepo;
 use App\Repos\User as UserRepo;
+use App\Services\Category as CategoryService;
+use App\Services\Logic\Course\XmTagList as XmTagListService;
 use App\Services\Sync\CourseIndex as CourseIndexSync;
 use App\Validators\Course as CourseValidator;
 use App\Validators\CourseOffline as CourseOfflineValidator;
@@ -39,12 +37,8 @@ class Course extends Service
 
         $params = $pagerQuery->getParams();
 
-        if (!empty($params['xm_category_ids'])) {
-            $params['category_id'] = explode(',', $params['xm_category_ids']);
-        }
-
-        if (!empty($params['xm_teacher_ids'])) {
-            $params['teacher_id'] = explode(',', $params['xm_teacher_ids']);
+        if (!empty($params['xm_tag_ids'])) {
+            $params['tag_id'] = explode(',', $params['xm_tag_ids']);
         }
 
         $params['deleted'] = $params['deleted'] ?? 0;
@@ -155,10 +149,6 @@ class Course extends Service
             $data['refund_expiry'] = $validator->checkRefundExpiry($post['refund_expiry']);
         }
 
-        if (isset($post['origin_price'])) {
-            $data['origin_price'] = $validator->checkOriginPrice($post['origin_price']);
-        }
-
         if (isset($post['market_price'])) {
             $data['market_price'] = $validator->checkMarketPrice($post['market_price']);
         }
@@ -173,17 +163,20 @@ class Course extends Service
 
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
-            if ($post['published'] == 1) {
-                $validator->checkPublishAbility($course);
-            }
         }
 
-        if (isset($post['xm_category_ids'])) {
-            $this->saveCategories($course, $post['xm_category_ids']);
+        if (isset($post['category_id'])) {
+            $category = $validator->checkCategory($post['category_id']);
+            $data['category_id'] = $category->id;
         }
 
-        if (isset($post['xm_teacher_ids'])) {
-            $this->saveTeachers($course, $post['xm_teacher_ids']);
+        if (isset($post['teacher_id'])) {
+            $teacher = $validator->checkTeacher($post['teacher_id']);
+            $data['teacher_id'] = $teacher->id;
+        }
+
+        if (isset($post['xm_tag_ids'])) {
+            $this->saveTags($course, $post['xm_tag_ids']);
         }
 
         if (isset($post['xm_course_ids'])) {
@@ -258,6 +251,33 @@ class Course extends Service
         return CourseModel::levelTypes();
     }
 
+    public function getTeacherOptions()
+    {
+        $userRepo = new UserRepo();
+
+        $teachers = $userRepo->findTeachers();
+
+        if ($teachers->count() == 0) return [];
+
+        $options = [];
+
+        foreach ($teachers as $teacher) {
+            $options[] = [
+                'id' => $teacher->id,
+                'name' => $teacher->name,
+            ];
+        }
+
+        return $options;
+    }
+
+    public function getCategoryOptions()
+    {
+        $categoryService = new CategoryService();
+
+        return $categoryService->getCategoryOptions(CategoryModel::TYPE_COURSE);
+    }
+
     public function getStudyExpiryOptions()
     {
         return CourseModel::studyExpiryOptions();
@@ -268,92 +288,11 @@ class Course extends Service
         return CourseModel::refundExpiryOptions();
     }
 
-    public function getXmCategories($id)
+    public function getXmTags($id)
     {
-        $categoryRepo = new CategoryRepo();
+        $service = new XmTagListService();
 
-        $allCategories = $categoryRepo->findAll([
-            'type' => CategoryModel::TYPE_COURSE,
-            'published' => 1,
-            'deleted' => 0,
-        ]);
-
-        if ($allCategories->count() == 0) return [];
-
-        $courseCategoryIds = [];
-
-        if ($id > 0) {
-            $courseRepo = new CourseRepo();
-            $courseCategories = $courseRepo->findCategories($id);
-            if ($courseCategories->count() > 0) {
-                foreach ($courseCategories as $category) {
-                    $courseCategoryIds[] = $category->id;
-                }
-            }
-        }
-
-        $list = [];
-
-        /**
-         * 没有二级分类的不显示
-         */
-        foreach ($allCategories as $category) {
-            if ($category->level == 1 && $category->child_count > 0) {
-                $list[$category->id] = [
-                    'name' => $category->name,
-                    'value' => $category->id,
-                    'children' => [],
-                ];
-            }
-        }
-
-        foreach ($allCategories as $category) {
-            $selected = in_array($category->id, $courseCategoryIds);
-            $parentId = $category->parent_id;
-            if ($category->level == 2) {
-                $list[$parentId]['children'][] = [
-                    'name' => $category->name,
-                    'value' => $category->id,
-                    'selected' => $selected,
-                ];
-            }
-        }
-
-        return array_values($list);
-    }
-
-    public function getXmTeachers($id)
-    {
-        $userRepo = new UserRepo();
-
-        $allTeachers = $userRepo->findTeachers();
-
-        if ($allTeachers->count() == 0) return [];
-
-        $courseTeacherIds = [];
-
-        if ($id > 0) {
-            $courseRepo = new CourseRepo();
-            $courseTeachers = $courseRepo->findTeachers($id);
-            if ($courseTeachers->count() > 0) {
-                foreach ($courseTeachers as $teacher) {
-                    $courseTeacherIds[] = $teacher->id;
-                }
-            }
-        }
-
-        $list = [];
-
-        foreach ($allTeachers as $teacher) {
-            $selected = in_array($teacher->id, $courseTeacherIds);
-            $list[] = [
-                'name' => $teacher->name,
-                'value' => $teacher->id,
-                'selected' => $selected,
-            ];
-        }
-
-        return $list;
+        return $service->handle($id);
     }
 
     public function getXmCourses($id)
@@ -409,7 +348,7 @@ class Course extends Service
     {
         $courseRepo = new CourseRepo();
 
-        $resources =  $courseRepo->findResources($id);
+        $resources = $courseRepo->findResources($id);
 
         if ($resources->count() == 0) return [];
 
@@ -429,106 +368,65 @@ class Course extends Service
         return $validator->checkCourse($id);
     }
 
-    protected function saveTeachers(CourseModel $course, $teacherIds)
+    protected function saveTags(CourseModel $course, $tagIds)
     {
-        $courseRepo = new CourseRepo();
+        /**
+         * 修改数据后，afterFetch设置的属性会失效，重新执行
+         */
+        $course->afterFetch();
 
-        $courseTeachers = $courseRepo->findTeachers($course->id);
+        if (is_string($tagIds) && strlen($tagIds) > 0) {
+            $tagIds = explode(',', $tagIds);
+        }
 
-        $originTeacherIds = [];
+        $originTagIds = [];
 
-        if ($courseTeachers->count() > 0) {
-            foreach ($courseTeachers as $teacher) {
-                $originTeacherIds[] = $teacher->id;
+        if ($course->tags) {
+            $originTagIds = kg_array_column($course->tags, 'id');
+        }
+
+        $newTagIds = $tagIds ?: [];
+        $addedTagIds = array_diff($newTagIds, $originTagIds);
+
+        if ($addedTagIds) {
+            foreach ($addedTagIds as $tagId) {
+                $courseTag = new CourseTagModel();
+                $courseTag->course_id = $course->id;
+                $courseTag->tag_id = $tagId;
+                $courseTag->create();
+                $this->recountTagCourses($tagId);
             }
         }
 
-        $newTeacherIds = $teacherIds ? explode(',', $teacherIds) : [];
-        $addedTeacherIds = array_diff($newTeacherIds, $originTeacherIds);
+        $deletedTagIds = array_diff($originTagIds, $newTagIds);
 
-        if ($addedTeacherIds) {
-            foreach ($addedTeacherIds as $teacherId) {
-                $courseTeacher = new CourseUserModel();
-                $courseTeacher->course_id = $course->id;
-                $courseTeacher->user_id = $teacherId;
-                $courseTeacher->role_type = CourseUserModel::ROLE_TEACHER;
-                $courseTeacher->source_type = CourseUserModel::SOURCE_IMPORT;
-                $courseTeacher->create();
-            }
-        }
-
-        $deletedTeacherIds = array_diff($originTeacherIds, $newTeacherIds);
-
-        if ($deletedTeacherIds) {
-            $courseUserRepo = new CourseUserRepo();
-            foreach ($deletedTeacherIds as $teacherId) {
-                $courseTeacher = $courseUserRepo->findCourseTeacher($course->id, $teacherId);
-                if ($courseTeacher) {
-                    $courseTeacher->delete();
+        if ($deletedTagIds) {
+            $courseTagRepo = new CourseTagRepo();
+            foreach ($deletedTagIds as $tagId) {
+                $courseTag = $courseTagRepo->findCourseTag($course->id, $tagId);
+                if ($courseTag) {
+                    $courseTag->delete();
+                    $this->recountTagCourses($tagId);
                 }
             }
         }
 
-        $teacherId = $newTeacherIds[0] ?? 0;
+        $courseTags = [];
 
-        if ($teacherId) {
-            $course->teacher_id = $teacherId;
-            $course->update();
-        }
-
-        $cache = new CourseTeacherListCache();
-
-        $cache->rebuild($course->id);
-    }
-
-    protected function saveCategories(CourseModel $course, $categoryIds)
-    {
-        $courseRepo = new CourseRepo();
-
-        $courseCategories = $courseRepo->findCategories($course->id);
-
-        $originCategoryIds = [];
-
-        if ($courseCategories->count() > 0) {
-            foreach ($courseCategories as $category) {
-                $originCategoryIds[] = $category->id;
-            }
-        }
-
-        $newCategoryIds = $categoryIds ? explode(',', $categoryIds) : [];
-        $addedCategoryIds = array_diff($newCategoryIds, $originCategoryIds);
-
-        if ($addedCategoryIds) {
-            foreach ($addedCategoryIds as $categoryId) {
-                $courseCategory = new CourseCategoryModel();
-                $courseCategory->course_id = $course->id;
-                $courseCategory->category_id = $categoryId;
-                $courseCategory->create();
-            }
-        }
-
-        $deletedCategoryIds = array_diff($originCategoryIds, $newCategoryIds);
-
-        if ($deletedCategoryIds) {
-            $courseCategoryRepo = new CourseCategoryRepo();
-            foreach ($deletedCategoryIds as $categoryId) {
-                $courseCategory = $courseCategoryRepo->findCourseCategory($course->id, $categoryId);
-                if ($courseCategory) {
-                    $courseCategory->delete();
+        if ($newTagIds) {
+            $tagRepo = new TagRepo();
+            $tags = $tagRepo->findByIds($newTagIds);
+            if ($tags->count() > 0) {
+                foreach ($tags as $tag) {
+                    $courseTags[] = ['id' => $tag->id, 'name' => $tag->name];
+                    $this->recountTagCourses($tag->id);
                 }
             }
         }
 
-        $categoryId = $newCategoryIds[0] ?? 0;
+        $course->tags = $courseTags;
 
-        if ($categoryId) {
-            $course->category_id = $categoryId;
-            $course->update();
-        }
-
-        $cache = new CourseCategoryListCache();
-
-        $cache->rebuild($course->id);
+        $course->update();
     }
 
     protected function saveRelatedCourses(CourseModel $course, $courseIds)
@@ -606,6 +504,21 @@ class Course extends Service
         $sync = new CourseIndexSync();
 
         $sync->addItem($course->id);
+    }
+
+    protected function recountTagCourses($tagId)
+    {
+        $tagRepo = new TagRepo();
+
+        $tag = $tagRepo->findById($tagId);
+
+        if (!$tag) return;
+
+        $courseCount = $tagRepo->countCourses($tagId);
+
+        $tag->course_count = $courseCount;
+
+        $tag->update();
     }
 
     protected function handleCourses($pager)

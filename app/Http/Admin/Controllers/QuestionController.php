@@ -23,7 +23,7 @@ class QuestionController extends Controller
     {
         $location = $this->url->get(
             ['for' => 'admin.category.list'],
-            ['type' => CategoryModel::TYPE_ARTICLE]
+            ['type' => CategoryModel::TYPE_QUESTION]
         );
 
         return $this->response->redirect($location);
@@ -37,12 +37,10 @@ class QuestionController extends Controller
         $questionService = new QuestionService();
 
         $publishTypes = $questionService->getPublishTypes();
-        $categories = $questionService->getCategories();
-        $xmTags = $questionService->getXmTags(0);
+        $categoryOptions = $questionService->getCategoryOptions();
 
+        $this->view->setVar('category_options', $categoryOptions);
         $this->view->setVar('publish_types', $publishTypes);
-        $this->view->setVar('categories', $categories);
-        $this->view->setVar('xm_tags', $xmTags);
     }
 
     /**
@@ -62,11 +60,7 @@ class QuestionController extends Controller
      */
     public function addAction()
     {
-        $questionService = new QuestionService();
 
-        $categories = $questionService->getCategories();
-
-        $this->view->setVar('categories', $categories);
     }
 
     /**
@@ -77,12 +71,12 @@ class QuestionController extends Controller
         $questionService = new QuestionService();
 
         $publishTypes = $questionService->getPublishTypes();
-        $categories = $questionService->getCategories();
+        $categoryOptions = $questionService->getCategoryOptions();
         $question = $questionService->getQuestion($id);
         $xmTags = $questionService->getXmTags($id);
 
         $this->view->setVar('publish_types', $publishTypes);
-        $this->view->setVar('categories', $categories);
+        $this->view->setVar('category_options', $categoryOptions);
         $this->view->setVar('question', $question);
         $this->view->setVar('xm_tags', $xmTags);
     }
@@ -223,6 +217,43 @@ class QuestionController extends Controller
 
         $this->view->setVar('question', $question);
         $this->view->setVar('reports', $reports);
+    }
+
+
+    /**
+     * @Post("/moderate/batch", name="admin.question.batch_moderate")
+     */
+    public function batchModerateAction()
+    {
+        $questionService = new QuestionService();
+
+        $questionService->batchModerate();
+
+        $location = $this->url->get(['for' => 'admin.mod.questions']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '批量审核成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/delete/batch", name="admin.question.batch_delete")
+     */
+    public function batchDeleteAction()
+    {
+        $questionService = new QuestionService();
+
+        $questionService->batchDelete();
+
+        $content = [
+            'location' => $this->request->getHTTPReferer(),
+            'msg' => '批量删除成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
 }

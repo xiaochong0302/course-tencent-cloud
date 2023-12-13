@@ -95,7 +95,7 @@ class Help extends Validator
 
         $value = $storage->handle($value);
 
-        $length = kg_strlen($value);
+        $length = kg_editor_content_length($value);
 
         if ($length < 10) {
             throw new BadRequestException('help.content_too_short');

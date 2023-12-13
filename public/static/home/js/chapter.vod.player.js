@@ -8,8 +8,9 @@ layui.use(['jquery', 'helper'], function () {
     var userId = window.user.id;
     var requestId = helper.getRequestId();
     var chapterId = $('input[name="chapter.id"]').val();
-    var planId = $('input[name="chapter.plan_id"]').val();
-    var lastPosition = $('input[name="chapter.position"]').val();
+    var cover = $('input[name="chapter.cover"]').val();
+    var planId = $('input[name="chapter.me.plan_id"]').val();
+    var position = $('input[name="chapter.me.position"]').val();
     var learningUrl = $('input[name="chapter.learning_url"]').val();
     var playUrls = JSON.parse($('input[name="chapter.play_urls"]').val());
 
@@ -33,6 +34,7 @@ layui.use(['jquery', 'helper'], function () {
     var player = new DPlayer({
         container: document.getElementById('player'),
         video: {
+            pic: cover,
             quality: quality,
             defaultQuality: 0,
         }
@@ -60,13 +62,13 @@ layui.use(['jquery', 'helper'], function () {
         player.toggle();
     });
 
-    var position = getLastPosition();
+    var lastPosition = getLastPosition();
 
     /**
      * 上次播放位置
      */
-    if (position > 0) {
-        player.seek(position);
+    if (lastPosition > 0) {
+        player.seek(lastPosition);
     }
 
     function getPositionKey() {
@@ -76,7 +78,7 @@ layui.use(['jquery', 'helper'], function () {
     function getLastPosition() {
         var key = getPositionKey();
         var value = localStorage.getItem(key);
-        return value != null ? parseInt(value) : lastPosition;
+        return value != null ? parseInt(value) : position;
     }
 
     function setLastPosition(value) {

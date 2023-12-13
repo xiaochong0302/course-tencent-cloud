@@ -15,7 +15,6 @@ use App\Services\Logic\Course\CourseFavorite as CourseFavoriteService;
 use App\Services\Logic\Course\CourseInfo as CourseInfoService;
 use App\Services\Logic\Course\CourseList as CourseListService;
 use App\Services\Logic\Course\PackageList as CoursePackageListService;
-use App\Services\Logic\Course\RecommendedList as CourseRecommendedListService;
 use App\Services\Logic\Course\RelatedList as CourseRelatedListService;
 use App\Services\Logic\Course\ResourceList as CourseResourceListService;
 use App\Services\Logic\Course\ReviewList as CourseReviewListService;
@@ -168,23 +167,10 @@ class CourseController extends Controller
     {
         $service = new CourseResourceListService();
 
-        $items = $service->handle($id);
+        $resources = $service->handle($id);
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->setVar('items', $items);
-    }
-
-    /**
-     * @Get("/{id:[0-9]+}/recommended", name="home.course.recommended")
-     */
-    public function recommendedAction($id)
-    {
-        $service = new CourseRecommendedListService();
-
-        $courses = $service->handle($id);
-
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-        $this->view->setVar('courses', $courses);
+        $this->view->setVar('resources', $resources);
     }
 
     /**

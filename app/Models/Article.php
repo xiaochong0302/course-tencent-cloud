@@ -11,6 +11,7 @@ use App\Caches\MaxArticleId as MaxArticleIdCache;
 use App\Services\Sync\ArticleIndex as ArticleIndexSync;
 use App\Services\Sync\ArticleScore as ArticleScoreSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Text;
 
 class Article extends Model
 {
@@ -126,13 +127,6 @@ class Article extends Model
      * @var float
      */
     public $score = 0.00;
-
-    /**
-     * 私有标识
-     *
-     * @var int
-     */
-    public $private = 0;
 
     /**
      * 推荐标识
@@ -255,6 +249,10 @@ class Article extends Model
 
     public function beforeSave()
     {
+        if (Text::startsWith($this->cover, 'http')) {
+            $this->cover = self::getCoverPath($this->cover);
+        }
+
         if (is_array($this->tags) || is_object($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
         }
@@ -269,9 +267,22 @@ class Article extends Model
 
     public function afterFetch()
     {
+        if (!Text::startsWith($this->cover, 'http')) {
+            $this->cover = kg_cos_article_cover_url($this->cover);
+        }
+
         if (is_string($this->tags)) {
             $this->tags = json_decode($this->tags, true);
         }
+    }
+
+    public static function getCoverPath($url)
+    {
+        if (Text::startsWith($url, 'http')) {
+            return parse_url($url, PHP_URL_PATH);
+        }
+
+        return $url;
     }
 
     public static function sourceTypes()

@@ -89,7 +89,7 @@ class Consult extends Validator
 
     public function checkPublishStatus($status)
     {
-        if (!in_array($status, [0, 1])) {
+        if (!array_key_exists($status, ConsultModel::publishTypes())) {
             throw new BadRequestException('consult.invalid_publish_status');
         }
 
@@ -98,18 +98,11 @@ class Consult extends Validator
 
     public function checkReplyPriv(ConsultModel $consult, UserModel $user)
     {
-        $repo = new CourseRepo();
+        $courseRepo = new CourseRepo();
 
-        $teachers = $repo->findTeachers($consult->course_id);
+        $course = $courseRepo->findById($consult->course_id);
 
-        $isTeacher = false;
-
-        if ($teachers->count() > 0) {
-            $teacherIds = kg_array_column($teachers->toArray(), 'id');
-            $isTeacher = in_array($user->id, $teacherIds);
-        }
-
-        if (!$isTeacher) {
+        if ($course->teacher_id != $user->id) {
             throw new ForbiddenException('sys.forbidden');
         }
     }

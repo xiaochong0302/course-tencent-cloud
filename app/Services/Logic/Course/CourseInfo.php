@@ -75,6 +75,8 @@ class CourseInfo extends LogicService
 
         if ($user->id > 0) {
 
+            $me['logged'] = 1;
+
             if ($caseOwned && $casePrice && $caseModel) {
                 $me['allow_order'] = 1;
             }
@@ -90,8 +92,6 @@ class CourseInfo extends LogicService
             if ($this->ownedCourse) {
                 $me['owned'] = 1;
             }
-
-            $me['logged'] = 1;
 
             $favoriteRepo = new CourseFavoriteRepo();
 

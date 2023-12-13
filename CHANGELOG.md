@@ -1,3 +1,13 @@
+### [v1.6.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.7)(2023-12-15)
+
+- 增加文章分类功能
+- 增加问题分类功能
+- 增加审核等批量功能
+- 增加若干业务插件埋点
+- 精简重构大量业务逻辑
+- 移除秒杀营销功能
+- 已发现的问题修复
+
 ### [v1.6.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.6)(2023-08-30)
 
 - 还原意外删除的AnswerList.php文件

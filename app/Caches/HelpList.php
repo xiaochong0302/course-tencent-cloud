@@ -15,7 +15,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class HelpList extends Cache
 {
 
-    protected $lifetime = 365 * 86400;
+    protected $lifetime = 7 * 86400;
 
     public function getLifetime()
     {

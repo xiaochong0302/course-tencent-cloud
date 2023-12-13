@@ -90,17 +90,19 @@ class ChapterInfo extends LogicService
 
         $courseUser = new CourseUserModel();
 
-        $roleType = CourseUserModel::ROLE_STUDENT;
         $sourceType = CourseUserModel::SOURCE_FREE;
 
-        if ($course->market_price > 0 && $course->vip_price == 0 && $user->vip == 1) {
-            $sourceType = CourseUserModel::SOURCE_VIP;
+        if ($course->market_price > 0) {
+            if ($course->vip_price == 0 && $user->vip == 1) {
+                $sourceType = CourseUserModel::SOURCE_VIP;
+            } else {
+                $sourceType = CourseUserModel::SOURCE_TRIAL;
+            }
         }
 
         $courseUser->course_id = $course->id;
         $courseUser->user_id = $user->id;
         $courseUser->source_type = $sourceType;
-        $courseUser->role_type = $roleType;
 
         $courseUser->create();
 
@@ -109,7 +111,6 @@ class ChapterInfo extends LogicService
         $this->joinedCourse = true;
 
         $this->incrCourseUserCount($course);
-
         $this->incrUserCourseCount($user);
     }
 
@@ -125,7 +126,6 @@ class ChapterInfo extends LogicService
 
         $chapterUser = new ChapterUserModel();
 
-        $chapterUser->plan_id = $this->courseUser->plan_id;
         $chapterUser->course_id = $chapter->course_id;
         $chapterUser->chapter_id = $chapter->id;
         $chapterUser->user_id = $user->id;
@@ -142,8 +142,8 @@ class ChapterInfo extends LogicService
     protected function handleMeInfo(ChapterModel $chapter, UserModel $user)
     {
         $me = [
-            'role_type' => 0,
             'plan_id' => 0,
+            'manager' => 0,
             'position' => 0,
             'logged' => 0,
             'joined' => 0,
@@ -153,6 +153,8 @@ class ChapterInfo extends LogicService
 
         if ($user->id > 0) {
 
+            $me['logged'] = 1;
+
             if ($this->joinedChapter) {
                 $me['joined'] = 1;
             }
@@ -160,8 +162,6 @@ class ChapterInfo extends LogicService
             if ($this->ownedChapter) {
                 $me['owned'] = 1;
             }
-
-            $me['logged'] = 1;
 
             $likeRepo = new ChapterLikeRepo();
 
@@ -171,13 +171,16 @@ class ChapterInfo extends LogicService
                 $me['liked'] = 1;
             }
 
-            if ($this->courseUser) {
-                $me['role_type'] = $this->courseUser->role_type;
-                $me['plan_id'] = $this->courseUser->plan_id;
+            if ($this->course->teacher_id == $user->id) {
+                $me['manager'] = 1;
             }
 
             if ($this->chapterUser) {
                 $me['position'] = $this->chapterUser->position;
+            }
+
+            if ($this->courseUser) {
+                $me['plan_id'] = $this->courseUser->plan_id;
             }
         }
 

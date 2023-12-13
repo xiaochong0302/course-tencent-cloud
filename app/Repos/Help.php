@@ -50,6 +50,10 @@ class Help extends Repository
 
         $query->where('1 = 1');
 
+        if (!empty($where['id'])) {
+            $query->andWhere('id = :id:', ['id' => $where['id']]);
+        }
+
         if (!empty($where['category_id'])) {
             $query->andWhere('category_id = :category_id:', ['category_id' => $where['category_id']]);
         }

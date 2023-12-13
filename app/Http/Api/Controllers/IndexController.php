@@ -85,18 +85,6 @@ class IndexController extends Controller
     }
 
     /**
-     * @Get("/flash/sales", name="api.index.flash_sales")
-     */
-    public function flashSalesAction()
-    {
-        $cache = new IndexFlashSaleList();
-
-        $sales = $cache->get();
-
-        return $this->jsonSuccess(['sales' => $sales]);
-    }
-
-    /**
      * @Get("/courses/featured", name="api.index.featured_courses")
      */
     public function featuredCoursesAction()

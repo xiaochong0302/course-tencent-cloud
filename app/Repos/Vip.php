@@ -7,6 +7,8 @@
 
 namespace App\Repos;
 
+use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
+use App\Models\Page as PageModel;
 use App\Models\Vip as VipModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
@@ -15,21 +17,58 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class Vip extends Repository
 {
 
-    /**
-     * @param array $where
-     * @return ResultsetInterface|Resultset|VipModel[]
-     */
-    public function findAll($where = [])
+    public function paginate($where = [], $sort = 'latest', $page = 1, $limit = 15)
     {
-        $query = VipModel::query();
+        $builder = $this->modelsManager->createBuilder();
 
-        $query->where('1 = 1');
+        $builder->from(VipModel::class);
 
-        if (isset($where['deleted'])) {
-            $query->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
+        $builder->where('1 = 1');
+
+        if (isset($where['published'])) {
+            $builder->andWhere('published = :published:', ['published' => $where['published']]);
         }
 
-        return $query->execute();
+        if (isset($where['deleted'])) {
+            $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
+        }
+
+        switch ($sort) {
+            case 'price':
+                $orderBy = 'price ASC';
+                break;
+            case 'oldest':
+                $orderBy = 'id ASC';
+                break;
+            default:
+                $orderBy = 'id DESC';
+                break;
+        }
+
+        $builder->orderBy($orderBy);
+
+        $pager = new PagerQueryBuilder([
+            'builder' => $builder,
+            'page' => $page,
+            'limit' => $limit,
+        ]);
+
+        return $pager->paginate();
+    }
+
+    /**
+     * @param array $where
+     * @param string $sort
+     * @return ResultsetInterface|Resultset|PageModel[]
+     */
+    public function findAll($where = [], $sort = 'latest')
+    {
+        /**
+         * 一个偷懒的实现，适用于中小体量数据
+         */
+        $paginate = $this->paginate($where, $sort, 1, 10000);
+
+        return $paginate->items;
     }
 
     /**

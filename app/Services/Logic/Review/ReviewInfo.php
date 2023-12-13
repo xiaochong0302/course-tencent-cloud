@@ -13,6 +13,7 @@ use App\Repos\Course as CourseRepo;
 use App\Repos\ReviewLike as ReviewLikeRepo;
 use App\Services\Logic\ReviewTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\User\ShallowUserInfo;
 use App\Services\Logic\UserTrait;
 
 class ReviewInfo extends LogicService
@@ -33,7 +34,7 @@ class ReviewInfo extends LogicService
     protected function handleReview(ReviewModel $review, UserModel $user)
     {
         $course = $this->handleCourseInfo($review->course_id);
-        $owner = $this->handleShallowUserInfo($review->owner_id);
+        $owner = $this->handleOwnerInfo($review->owner_id);
         $me = $this->handleMeInfo($review, $user);
 
         return [
@@ -44,6 +45,7 @@ class ReviewInfo extends LogicService
             'rating1' => $review->rating1,
             'rating2' => $review->rating2,
             'rating3' => $review->rating3,
+            'anonymous' => $review->anonymous,
             'published' => $review->published,
             'deleted' => $review->deleted,
             'like_count' => $review->like_count,
@@ -70,18 +72,28 @@ class ReviewInfo extends LogicService
         ];
     }
 
+    protected function handleOwnerInfo($userId)
+    {
+        $service = new ShallowUserInfo();
+
+        return $service->handle($userId);
+    }
+
     protected function handleMeInfo(ReviewModel $review, UserModel $user)
     {
         $me = [
+            'logged' => 0,
             'liked' => 0,
             'owned' => 0,
         ];
 
-        if ($user->id == $review->owner_id) {
-            $me['owned'] = 1;
-        }
-
         if ($user->id > 0) {
+
+            if ($user->id == $review->owner_id) {
+                $me['owned'] = 1;
+            }
+
+            $me['logged'] = 1;
 
             $likeRepo = new ReviewLikeRepo();
 

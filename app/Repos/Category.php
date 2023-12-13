@@ -25,16 +25,32 @@ class Category extends Repository
 
         $query->where('1 = 1');
 
+        if (!empty($where['id'])) {
+            $query->andWhere('id = :id:', ['id' => $where['id']]);
+        }
+
+        if (!empty($where['name'])) {
+            $query->andWhere('name LIKE :name:', ['name' => "%{$where['name']}%"]);
+        }
+
+        if (!empty($where['type'])) {
+            if (is_array($where['type'])) {
+                $query->inWhere('type', $where['type']);
+            } else {
+                $query->andWhere('type = :type:', ['type' => $where['type']]);
+            }
+        }
+
+        if (!empty($where['level'])) {
+            if (is_array($where['level'])) {
+                $query->inWhere('level', $where['level']);
+            } else {
+                $query->andWhere('level = :level:', ['level' => $where['level']]);
+            }
+        }
+
         if (isset($where['parent_id'])) {
             $query->andWhere('parent_id = :parent_id:', ['parent_id' => $where['parent_id']]);
-        }
-
-        if (isset($where['type'])) {
-            $query->andWhere('type = :type:', ['type' => $where['type']]);
-        }
-
-        if (isset($where['level'])) {
-            $query->andWhere('level = :level:', ['level' => $where['level']]);
         }
 
         if (isset($where['published'])) {
@@ -85,6 +101,7 @@ class Category extends Repository
             ->where('type = :type:', ['type' => $type])
             ->andWhere('parent_id = 0')
             ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('priority ASC')
             ->execute();
     }
@@ -98,6 +115,7 @@ class Category extends Repository
         return CategoryModel::query()
             ->where('parent_id = :parent_id:', ['parent_id' => $categoryId])
             ->andWhere('published = 1')
+            ->andWhere('deleted = 0')
             ->orderBy('priority ASC')
             ->execute();
     }
@@ -105,7 +123,7 @@ class Category extends Repository
     public function countChildCategories($categoryId)
     {
         return (int)CategoryModel::count([
-            'conditions' => 'parent_id = :parent_id: AND published = 1',
+            'conditions' => 'parent_id = :parent_id: AND published = 1 AND deleted = 0',
             'bind' => ['parent_id' => $categoryId],
         ]);
     }

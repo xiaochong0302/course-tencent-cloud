@@ -6,7 +6,7 @@
     {% elseif type == 3 %}
         未通过
     {% else %}
-        未知
+        N/A
     {% endif %}
 {%- endmacro %}
 

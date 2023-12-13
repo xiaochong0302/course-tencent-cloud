@@ -13,22 +13,32 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">课程编号</label>
+            <label class="layui-form-label">用户帐号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="course_id" placeholder="课程编号精确匹配">
+                <input class="layui-input" type="text" name="owner_id" placeholder="用户编号 / 手机号码 / 邮箱地址 精确匹配">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户编号</label>
+            <label class="layui-form-label">所属课程</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="owner_id" placeholder="用户编号精确匹配">
+                <div id="xm-course-id"></div>
+            </div>
+        </div>
+        <div class="layui-form-item" id="time-range">
+            <label class="layui-form-label">创建时间</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" id="start-time" type="text" name="create_time[]" autocomplete="off">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline">
+                <input class="layui-input" id="end-time" type="text" name="create_time[]" autocomplete="off">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">发布状态</label>
             <div class="layui-input-block">
                 {% for value,title in publish_types %}
-                    <input type="radio" name="published" value="{{ value }}" title="{{ title }}">
+                    <input type="checkbox" name="published[]" value="{{ value }}" title="{{ title }}">
                 {% endfor %}
             </div>
         </div>
@@ -54,5 +64,42 @@
             </div>
         </div>
     </form>
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('lib/xm-select.js') }}
+
+{% endblock %}
+
+{% block inline_js %}
+
+    <script>
+
+        layui.use(['jquery', 'laydate'], function () {
+
+            xmSelect.render({
+                el: '#xm-course-id',
+                name: 'course_id',
+                filterable: true,
+                radio: true,
+                filterMethod: function (val, item, index, prop) {
+                    return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
+                },
+                data: {{ xm_courses|json_encode }}
+            });
+
+            var laydate = layui.laydate;
+
+            laydate.render({
+                elem: '#time-range',
+                type: 'datetime',
+                range: ['#start-time', '#end-time'],
+            });
+
+        });
+
+    </script>
 
 {% endblock %}

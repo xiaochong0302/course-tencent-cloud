@@ -6,14 +6,20 @@
 
     {% set add_url = url({'for':'admin.question.add'}) %}
     {% set search_url = url({'for':'admin.question.search'}) %}
+    {% set category_url = url({'for':'admin.question.category'}) %}
+    {% set batch_delete_url = url({'for':'admin.question.batch_delete'}) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
                 <a><cite>问题管理</cite></a>
             </span>
+            <span class="layui-btn layui-btn-sm layui-bg-red kg-batch" data-url="{{ batch_delete_url }}">批量删除</span>
         </div>
         <div class="kg-nav-right">
+            <a class="layui-btn layui-btn-sm" href="{{ category_url }}">
+                <i class="layui-icon layui-icon-add-1"></i>问题分类
+            </a>
             <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
                 <i class="layui-icon layui-icon-add-1"></i>添加问题
             </a>
@@ -23,9 +29,9 @@
         </div>
     </div>
 
-    <table class="layui-table kg-table layui-form">
+    <table class="layui-table layui-form kg-table">
         <colgroup>
-            <col>
+            <col width="5%">
             <col>
             <col>
             <col>
@@ -36,12 +42,12 @@
         </colgroup>
         <thead>
         <tr>
-            <th>问题</th>
-            <th>浏览</th>
-            <th>回答</th>
-            <th>点赞</th>
-            <th>收藏</th>
+            <th><input class="all" type="checkbox" lay-filter="all"></th>
+            <th>作者信息</th>
+            <th>问题信息</th>
+            <th>统计信息</th>
             <th>状态</th>
+            <th>推荐</th>
             <th>关闭</th>
             <th>操作</th>
         </tr>
@@ -58,27 +64,35 @@
             {% set answer_add_url = url({'for':'admin.answer.add'},{'question_id':item.id}) %}
             {% set answer_list_url = url({'for':'admin.answer.list'},{'question_id':item.id}) %}
             <tr>
+                <td><input class="item" type="checkbox" value="{{ item.id }}" lay-filter="item"></td>
+                <td>
+                    <p>昵称：<a href="{{ owner_url }}">{{ item.owner.name }}</a></p>
+                    <p>编号：{{ item.owner.id }}</p>
+                </td>
                 <td>
                     <p>标题：<a href="{{ edit_url }}">{{ item.title }}</a>（{{ item.id }}）</p>
                     <p class="meta">
                         {% if item.category.id is defined %}
                             <span>分类：{{ item.category.name }}</span>
                         {% endif %}
-                        {% if item.tags %}
-                            <span>标签：{{ tags_info(item.tags) }}</span>
-                        {% endif %}
-                    </p>
-                    <p class="meta">
-                        <span>作者：<a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a></span>
                         <span>创建：{{ date('Y-m-d',item.create_time) }}</span>
                     </p>
                 </td>
-                <td>{{ item.view_count }}</td>
-                <td>{{ item.answer_count }}</td>
-                <td>{{ item.like_count }}</td>
-                <td>{{ item.favorite_count }}</td>
+                <td>
+                    <p class="meta">
+                        <span>浏览：{{ item.view_count }}</span>
+                        <span>回答：{{ item.answer_count }}</span>
+                    </p>
+                    <p class="meta">
+                        <span>点赞：{{ item.like_count }}</span>
+                        <span>收藏：{{ item.favorite_count }}</span>
+                    </p>
+                </td>
                 <td>{{ publish_status(item.published) }}</td>
-                <td><input type="checkbox" name="closed" value="1" lay-skin="switch" lay-text="是|否" lay-filter="closed" data-url="{{ update_url }}" {% if item.closed == 1 %}checked="checked"{% endif %}></td>
+                <td><input type="checkbox" name="featured" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}"
+                           {% if item.featured == 1 %}checked="checked"{% endif %}></td>
+                <td><input type="checkbox" name="closed" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}"
+                           {% if item.closed == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
@@ -113,37 +127,10 @@
 
     <script>
 
-        layui.define(['jquery', 'form', 'layer'], function () {
+        layui.define(['jquery', 'layer'], function () {
 
             var $ = layui.jquery;
-            var form = layui.form;
             var layer = layui.layer;
-
-            form.on('switch(closed)', function (data) {
-                var checked = $(this).is(':checked');
-                var closed = checked ? 1 : 0;
-                var url = $(this).data('url');
-                var tips = closed === 1 ? '确定要关闭讨论？' : '确定要开启讨论？';
-                layer.confirm(tips, function () {
-                    $.ajax({
-                        type: 'POST',
-                        url: url,
-                        data: {closed: closed},
-                        success: function (res) {
-                            layer.msg(res.msg, {icon: 1});
-                        },
-                        error: function (xhr) {
-                            var json = JSON.parse(xhr.responseText);
-                            layer.msg(json.msg, {icon: 2});
-                            data.elem.checked = !checked;
-                            form.render();
-                        }
-                    });
-                }, function () {
-                    data.elem.checked = !checked;
-                    form.render();
-                });
-            });
 
             $('.kg-answer').on('click', function () {
                 var url = $(this).data('url');

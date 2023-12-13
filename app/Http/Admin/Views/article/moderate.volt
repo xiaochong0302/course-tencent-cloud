@@ -51,8 +51,8 @@
             <div class="layui-input-block">
                 <select name="reason">
                     <option value="">请选择</option>
-                    {% for value,name in reasons %}
-                        <option value="{{ value }}">{{ name }}</option>
+                    {% for reason in reasons %}
+                        <option value="{{ reason }}">{{ reason }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -60,7 +60,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-block">
-                <button id="kg-submit" class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
+                <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
                 <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
             </div>
         </div>

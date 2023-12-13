@@ -45,6 +45,12 @@ class Review extends Repository
             }
         }
 
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
+        }
+
         if (isset($where['deleted'])) {
             $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }

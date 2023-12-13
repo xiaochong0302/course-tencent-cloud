@@ -114,4 +114,13 @@ class Common
         return $str == $date;
     }
 
+    public static function image($path)
+    {
+        $exts = ['png', 'gif', 'jpg', 'jpeg', 'webp'];
+
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+
+        return in_array(strtolower($ext), $exts);
+    }
+
 }

@@ -7,7 +7,7 @@
 
 namespace App\Builders;
 
-use App\Caches\CategoryList as CategoryListCache;
+use App\Caches\CategoryAllList as CategoryAllListCache;
 use App\Models\Category as CategoryModel;
 use App\Repos\User as UserRepo;
 
@@ -27,8 +27,8 @@ class QuestionList extends Builder
     {
         $categories = $this->getCategories();
 
-        foreach ($questions as $key => $article) {
-            $questions[$key]['category'] = $categories[$article['category_id']] ?? new \stdClass();
+        foreach ($questions as $key => $question) {
+            $questions[$key]['category'] = $categories[$question['category_id']] ?? new \stdClass();
         }
 
         return $questions;
@@ -48,7 +48,7 @@ class QuestionList extends Builder
 
     public function getCategories()
     {
-        $cache = new CategoryListCache();
+        $cache = new CategoryAllListCache();
 
         $items = $cache->get(CategoryModel::TYPE_QUESTION);
 

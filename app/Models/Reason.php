@@ -74,6 +74,30 @@ class Reason
         ];
     }
 
+    public static function reviewRejectOptions()
+    {
+        return [
+            101 => '广告软文',
+            102 => '违法内容',
+            103 => '恶意对比',
+            104 => '低俗色情',
+            105 => '人身攻击',
+            106 => '其它问题',
+        ];
+    }
+
+    public static function consultRejectOptions()
+    {
+        return [
+            101 => '广告软文',
+            102 => '违法内容',
+            103 => '恶意对比',
+            104 => '低俗色情',
+            105 => '人身攻击',
+            106 => '其它问题',
+        ];
+    }
+
     public static function reportOptions()
     {
         return [

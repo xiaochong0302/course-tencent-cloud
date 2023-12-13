@@ -23,8 +23,10 @@ class ConsultController extends Controller
         $consultService = new ConsultService();
 
         $publishTypes = $consultService->getPublishTypes();
+        $xmCourses = $consultService->getXmCourses();
 
         $this->view->setVar('publish_types', $publishTypes);
+        $this->view->setVar('xm_courses', $xmCourses);
     }
 
     /**
@@ -55,8 +57,11 @@ class ConsultController extends Controller
     {
         $consultService = new ConsultService();
 
+        $publishTypes = $consultService->getPublishTypes();
+
         $consult = $consultService->getConsult($id);
 
+        $this->view->setVar('publish_types', $publishTypes);
         $this->view->setVar('consult', $consult);
     }
 
@@ -135,9 +140,47 @@ class ConsultController extends Controller
             return $this->jsonSuccess($content);
         }
 
+        $reasons = $consultService->getReasons();
         $consult = $consultService->getConsultInfo($id);
 
+        $this->view->setVar('reasons', $reasons);
         $this->view->setVar('consult', $consult);
+    }
+
+    /**
+     * @Post("/moderate/batch", name="admin.consult.batch_moderate")
+     */
+    public function batchModerateAction()
+    {
+        $consultService = new ConsultService();
+
+        $consultService->batchModerate();
+
+        $location = $this->url->get(['for' => 'admin.mod.consults']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '批量审核成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/delete/batch", name="admin.consult.batch_delete")
+     */
+    public function batchDeleteAction()
+    {
+        $consultService = new ConsultService();
+
+        $consultService->batchDelete();
+
+        $content = [
+            'location' => $this->request->getHTTPReferer(),
+            'msg' => '批量删除成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
 }

@@ -32,9 +32,7 @@ class TeacherLive extends Repository
             ->addFrom(ChapterModel::class, 'chapter')
             ->join(ChapterLiveModel::class, 'chapter.id = cl.chapter_id', 'cl')
             ->join(CourseModel::class, 'chapter.course_id = course.id', 'course')
-            ->join(CourseUserModel::class, 'course.id = cu.course_id', 'cu')
-            ->where('cu.user_id = :user_id:', ['user_id' => $userId])
-            ->andWhere('cu.role_type = :role_type:', ['role_type' => CourseUserModel::ROLE_TEACHER])
+            ->where('course.teacher_id = :teacher_id:', ['teacher_id' => $userId])
             ->andWhere('course.model = :model:', ['model' => CourseModel::MODEL_LIVE])
             ->andWhere('cl.start_time > :start_time:', ['start_time' => strtotime('today')])
             ->orderBy('cl.start_time ASC');

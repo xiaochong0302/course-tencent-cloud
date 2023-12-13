@@ -20,6 +20,10 @@ class HelpInfo extends LogicService
     {
         $help = $this->checkHelp($id);
 
+        $this->incrHelpViewCount($help);
+
+        $this->eventsManager->fire('Help:afterView', $this, $help);
+
         return $this->handleHelp($help);
     }
 
@@ -36,6 +40,13 @@ class HelpInfo extends LogicService
             'create_time' => $help->create_time,
             'update_time' => $help->update_time,
         ];
+    }
+
+    protected function incrHelpViewCount(HelpModel $help)
+    {
+        $help->view_count += 1;
+
+        $help->update();
     }
 
 }

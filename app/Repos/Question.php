@@ -58,6 +58,20 @@ class Question extends Repository
             }
         }
 
+        if (!empty($where['published'])) {
+            if (is_array($where['published'])) {
+                $builder->inWhere('published', $where['published']);
+            } else {
+                $builder->andWhere('published = :published:', ['published' => $where['published']]);
+            }
+        }
+
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
+        }
+
         if (!empty($where['owner_id'])) {
             $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
@@ -74,27 +88,23 @@ class Question extends Repository
             $builder->andWhere('closed = :closed:', ['closed' => $where['closed']]);
         }
 
-        if (isset($where['solved'])) {
-            $builder->andWhere('solved = :solved:', ['solved' => $where['solved']]);
+        if (isset($where['featured'])) {
+            $builder->andWhere('featured = :featured:', ['featured' => $where['featured']]);
         }
 
-        if (!empty($where['published'])) {
-            if (is_array($where['published'])) {
-                $builder->inWhere('published', $where['published']);
-            } else {
-                $builder->andWhere('published = :published:', ['published' => $where['published']]);
-            }
+        if (isset($where['solved'])) {
+            $builder->andWhere('solved = :solved:', ['solved' => $where['solved']]);
         }
 
         if (isset($where['deleted'])) {
             $builder->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
-        if ($sort == 'unanswered') {
+        if ($sort == 'featured') {
+            $builder->andWhere('featured = 1');
+        } elseif ($sort == 'unanswered') {
             $builder->andWhere('answer_count = 0');
-        }
-
-        if ($sort == 'reported') {
+        } elseif ($sort == 'reported') {
             $builder->andWhere('report_count > 0');
         }
 

@@ -8,6 +8,8 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Course as CourseService;
+use App\Http\Admin\Services\CourseLearning as CourseLearningService;
+use App\Http\Admin\Services\CourseUser as CourseUserService;
 use App\Models\Category as CategoryModel;
 use Phalcon\Mvc\View;
 
@@ -37,13 +39,13 @@ class CourseController extends Controller
     {
         $courseService = new CourseService();
 
-        $xmCategories = $courseService->getXmCategories(0);
-        $xmTeachers = $courseService->getXmTeachers(0);
+        $categoryOptions = $courseService->getCategoryOptions();
+        $teacherOptions = $courseService->getTeacherOptions();
         $modelTypes = $courseService->getModelTypes();
         $levelTypes = $courseService->getLevelTypes();
 
-        $this->view->setVar('xm_categories', $xmCategories);
-        $this->view->setVar('xm_teachers', $xmTeachers);
+        $this->view->setVar('category_options', $categoryOptions);
+        $this->view->setVar('teacher_options', $teacherOptions);
         $this->view->setVar('model_types', $modelTypes);
         $this->view->setVar('level_types', $levelTypes);
     }
@@ -103,17 +105,21 @@ class CourseController extends Controller
 
         $cos = $courseService->getSettings('cos');
         $course = $courseService->getCourse($id);
-        $xmTeachers = $courseService->getXmTeachers($id);
-        $xmCategories = $courseService->getXmCategories($id);
+        $xmTags = $courseService->getXmTags($id);
         $xmCourses = $courseService->getXmCourses($id);
+        $levelTypes = $courseService->getLevelTypes();
+        $categoryOptions = $courseService->getCategoryOptions();
+        $teacherOptions = $courseService->getTeacherOptions();
         $studyExpiryOptions = $courseService->getStudyExpiryOptions();
         $refundExpiryOptions = $courseService->getRefundExpiryOptions();
 
         $this->view->setVar('cos', $cos);
         $this->view->setVar('course', $course);
-        $this->view->setVar('xm_teachers', $xmTeachers);
-        $this->view->setVar('xm_categories', $xmCategories);
+        $this->view->setVar('xm_tags', $xmTags);
         $this->view->setVar('xm_courses', $xmCourses);
+        $this->view->setVar('level_types', $levelTypes);
+        $this->view->setVar('category_options', $categoryOptions);
+        $this->view->setVar('teacher_options', $teacherOptions);
         $this->view->setVar('study_expiry_options', $studyExpiryOptions);
         $this->view->setVar('refund_expiry_options', $refundExpiryOptions);
     }
@@ -191,6 +197,80 @@ class CourseController extends Controller
 
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $this->view->setVar('resources', $resources);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/learnings", name="admin.course.learnings")
+     */
+    public function learningsAction($id)
+    {
+        $service = new CourseLearningService();
+
+        $pager = $service->getLearnings($id);
+
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/users", name="admin.course.users")
+     */
+    public function usersAction($id)
+    {
+        $service = new CourseService();
+        $course = $service->getCourse($id);
+
+        $service = new CourseUserService();
+        $pager = $service->getUsers($id);
+
+        $this->view->setVar('course', $course);
+        $this->view->setVar('pager', $pager);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/user/search", name="admin.course.search_user")
+     */
+    public function searchUserAction($id)
+    {
+        $service = new CourseService();
+        $course = $service->getCourse($id);
+
+        $service = new CourseUserService();
+        $sourceTypes = $service->getSourceTypes();
+
+        $this->view->pick('course/search_user');
+        $this->view->setVar('source_types', $sourceTypes);
+        $this->view->setVar('course', $course);
+    }
+
+    /**
+     * @Get("/{id:[0-9]+}/user/add", name="admin.course.add_user")
+     */
+    public function addUserAction($id)
+    {
+        $service = new CourseService();
+        $course = $service->getCourse($id);
+
+        $this->view->pick('course/add_user');
+        $this->view->setVar('course', $course);
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/user/create", name="admin.course.create_user")
+     */
+    public function createUserAction($id)
+    {
+        $service = new CourseUserService();
+
+        $service->create($id);
+
+        $location = $this->url->get(['for' => 'admin.course.users']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '添加学员成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
 }

@@ -28,6 +28,10 @@ class PointGift extends Repository
             $builder->andWhere('id = :id:', ['id' => $where['id']]);
         }
 
+        if (!empty($where['name'])) {
+            $builder->andWhere('name LIKE :name:', ['name' => "%{$where['name']}%"]);
+        }
+
         if (!empty($where['type'])) {
             if (is_array($where['type'])) {
                 $builder->inWhere('type', $where['type']);
@@ -36,8 +40,10 @@ class PointGift extends Repository
             }
         }
 
-        if (!empty($where['name'])) {
-            $builder->andWhere('name LIKE :name:', ['name' => "%{$where['name']}%"]);
+        if (!empty($where['create_time'][0]) && !empty($where['create_time'][1])) {
+            $startTime = strtotime($where['create_time'][0]);
+            $endTime = strtotime($where['create_time'][1]);
+            $builder->betweenWhere('create_time', $startTime, $endTime);
         }
 
         if (isset($where['published'])) {

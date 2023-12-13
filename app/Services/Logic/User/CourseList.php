@@ -21,28 +21,27 @@ class CourseList extends LogicService
 
     public function handle($id)
     {
-        $user = $this->checkUser($id);
+        $user = $this->checkUserCache($id);
 
         $pagerQuery = new PagerQuery();
 
         $params = $pagerQuery->getParams();
 
         $params['user_id'] = $user->id;
-        $params['role_type'] = CourseUserModel::ROLE_STUDENT;
         $params['deleted'] = 0;
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();
         $limit = $pagerQuery->getLimit();
 
-        $courseUserRepo = new CourseUserRepo();
+        $repo = new CourseUserRepo();
 
-        $pager = $courseUserRepo->paginate($params, $sort, $page, $limit);
+        $pager = $repo->paginate($params, $sort, $page, $limit);
 
-        return $this->handleCourses($pager);
+        return $this->handlePager($pager);
     }
 
-    protected function handleCourses($pager)
+    protected function handlePager($pager)
     {
         if ($pager->total_items == 0) {
             return $pager;
@@ -61,7 +60,6 @@ class CourseList extends LogicService
             $course = $courses[$relation['course_id']] ?? new \stdClass();
 
             $items[] = [
-                'plan_id' => $relation['plan_id'],
                 'progress' => $relation['progress'],
                 'duration' => $relation['duration'],
                 'reviewed' => $relation['reviewed'],

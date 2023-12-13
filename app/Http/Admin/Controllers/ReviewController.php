@@ -23,8 +23,10 @@ class ReviewController extends Controller
         $reviewService = new ReviewService();
 
         $publishTypes = $reviewService->getPublishTypes();
+        $xmCourses = $reviewService->getXmCourses();
 
         $this->view->setVar('publish_types', $publishTypes);
+        $this->view->setVar('xm_courses', $xmCourses);
     }
 
     /**
@@ -56,8 +58,10 @@ class ReviewController extends Controller
         $reviewService = new ReviewService();
 
         $review = $reviewService->getReview($id);
+        $publishTypes = $reviewService->getPublishTypes();
 
         $this->view->setVar('review', $review);
+        $this->view->setVar('publish_types', $publishTypes);
     }
 
     /**
@@ -135,9 +139,47 @@ class ReviewController extends Controller
             return $this->jsonSuccess($content);
         }
 
+        $reasons = $reviewService->getReasons();
         $review = $reviewService->getReviewInfo($id);
 
+        $this->view->setVar('reasons', $reasons);
         $this->view->setVar('review', $review);
+    }
+
+    /**
+     * @Post("/moderate/batch", name="admin.review.batch_moderate")
+     */
+    public function batchModerateAction()
+    {
+        $reviewService = new ReviewService();
+
+        $reviewService->batchModerate();
+
+        $location = $this->url->get(['for' => 'admin.mod.reviews']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '批量审核成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/delete/batch", name="admin.review.batch_delete")
+     */
+    public function batchDeleteAction()
+    {
+        $reviewService = new ReviewService();
+
+        $reviewService->batchDelete();
+
+        $content = [
+            'location' => $this->request->getHTTPReferer(),
+            'msg' => '批量删除成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
 }

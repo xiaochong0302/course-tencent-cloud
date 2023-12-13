@@ -23,13 +23,13 @@
                     <div class="title">{{ answer.question.title }}</div>
                     <div class="meta">
                         <span><a href="{{ owner_url }}" target="_blank">{{ answer.owner.name }}</a></span>
-                        <span>{{ date('Y-m-d H:i',answer.create_time) }}</span>
+                        <span>{{ date('Y-m-d H:i:s',answer.create_time) }}</span>
                     </div>
                     <div class="content ke-content">{{ answer.content }}</div>
                 </div>
             </div>
             <div class="layui-tab-item">
-                <table class="layui-table kg-table" style="width:80%;">
+                <table class="layui-table kg-table">
                     <colgroup>
                         <col>
                         <col>
@@ -73,7 +73,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label"></label>
                         <div class="layui-input-block">
-                            <button id="kg-submit" class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
+                            <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>
                             <button type="button" class="kg-back layui-btn layui-btn-primary">返回</button>
                         </div>
                     </div>

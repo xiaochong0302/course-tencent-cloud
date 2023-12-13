@@ -159,9 +159,7 @@ class Account extends Validator
 
         $account = $this->checkAccount($name);
 
-        $hash = PasswordUtil::hash($password, $account->salt);
-
-        if ($hash != $account->password) {
+        if (!PasswordUtil::checkHash($password, $account->salt, $account->password)) {
             throw new BadRequestException('account.login_pwd_incorrect');
         }
 

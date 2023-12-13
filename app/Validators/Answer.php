@@ -63,7 +63,7 @@ class Answer extends Validator
 
         $value = $storage->handle($value);
 
-        $length = kg_strlen($value);
+        $length = kg_editor_content_length($value);
 
         if ($length < 10) {
             throw new BadRequestException('answer.content_too_short');
@@ -83,13 +83,6 @@ class Answer extends Validator
         }
 
         return $status;
-    }
-
-    public function checkRejectReason($reason)
-    {
-        if (!array_key_exists($reason, ReasonModel::answerRejectOptions())) {
-            throw new BadRequestException('answer.invalid_reject_reason');
-        }
     }
 
     public function checkIfAllowAnswer(QuestionModel $question, UserModel $user)

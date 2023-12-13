@@ -14,13 +14,13 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class FeaturedCourseList extends Cache
 {
 
-    protected $lifetime = 86400;
+    protected $lifetime = 3600;
+
+    protected $limit = 5;
 
     public function getLifetime()
     {
-        $tomorrow = strtotime('tomorrow');
-
-        return $tomorrow - time();
+        return $this->lifetime;
     }
 
     public function getKey($id = null)
@@ -30,9 +30,7 @@ class FeaturedCourseList extends Cache
 
     public function getContent($id = null)
     {
-        $limit = 8;
-
-        $courses = $this->findCourses($limit);
+        $courses = $this->findCourses($this->limit);
 
         if ($courses->count() == 0) {
             return [];
@@ -71,13 +69,13 @@ class FeaturedCourseList extends Cache
      * @param int $limit
      * @return ResultsetInterface|Resultset|CourseModel[]
      */
-    protected function findCourses($limit = 8)
+    protected function findCourses($limit = 5)
     {
         return CourseModel::query()
             ->where('featured = 1')
             ->andWhere('published = 1')
             ->andWhere('deleted = 0')
-            ->orderBy('id DESC')
+            ->orderBy('RAND()')
             ->limit($limit)
             ->execute();
     }

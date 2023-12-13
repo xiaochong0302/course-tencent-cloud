@@ -37,6 +37,10 @@ class ChapterUser extends Repository
             $query->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
+        if (!empty($where['plan_id'])) {
+            $query->andWhere('plan_id = :plan_id:', ['plan_id' => $where['plan_id']]);
+        }
+
         return $query->execute();
     }
 
@@ -48,7 +52,7 @@ class ChapterUser extends Repository
     public function findChapterUser($chapterId, $userId)
     {
         return ChapterUserModel::findFirst([
-            'conditions' => 'chapter_id = ?1 AND user_id = ?2',
+            'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND deleted = 0',
             'bind' => [1 => $chapterId, 2 => $userId],
             'order' => 'id DESC',
         ]);
@@ -63,7 +67,7 @@ class ChapterUser extends Repository
     public function findPlanChapterUser($chapterId, $userId, $planId)
     {
         return ChapterUserModel::findFirst([
-            'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND plan_id = ?3',
+            'conditions' => 'chapter_id = ?1 AND user_id = ?2 AND plan_id = ?3 AND deleted = 0',
             'bind' => [1 => $chapterId, 2 => $userId, 3 => $planId],
         ]);
     }

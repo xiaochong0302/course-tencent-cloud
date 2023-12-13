@@ -140,6 +140,9 @@ class Role extends Service
                 $list[] = str_replace('.edit', '.list', $route);
             } elseif (strpos($route, '.delete')) {
                 $list[] = str_replace('.delete', '.restore', $route);
+                $list[] = str_replace('.delete', '.batch_delete', $route);
+            } elseif (strpos($route, '.moderate')) {
+                $list[] = str_replace('.moderate', '.batch_moderate', $route);
             } elseif (strpos($route, '.search')) {
                 $list[] = str_replace('.search', '.list', $route);
             }

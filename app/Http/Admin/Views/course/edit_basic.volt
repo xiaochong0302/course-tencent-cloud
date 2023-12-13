@@ -1,10 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.course.update','id':course.id}) }}">
-    <div class="layui-form-item">
-        <label class="layui-form-label">标题</label>
-        <div class="layui-input-block">
-            <input class="layui-input" type="text" name="title" value="{{ course.title }}" lay-verify="required">
-        </div>
-    </div>
+<form class="layui-form kg-form" method="POST" action="{{ update_url }}">
     <div class="layui-form-item">
         <label class="layui-form-label">封面</label>
         <div class="layui-input-inline">
@@ -16,24 +10,62 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input class="layui-input" type="text" name="title" value="{{ course.title }}" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">分类</label>
         <div class="layui-input-block">
-            <div id="xm-category-ids"></div>
+            <select name="category_id" lay-search="true">
+                <option value="">请选择</option>
+                {% for option in category_options %}
+                    {% set selected = course.category_id == option.id ? 'selected="selected"' : '' %}
+                    <option value="{{ option.id }}" {{ selected }}>{{ option.name }}</option>
+                {% endfor %}
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">讲师</label>
         <div class="layui-input-block">
-            <div id="xm-teacher-ids"></div>
+            <select name="teacher_id" lay-search="true">
+                <option value="">请选择</option>
+                {% for option in teacher_options %}
+                    {% set selected = course.teacher_id == option.id ? 'selected="selected"' : '' %}
+                    <option value="{{ option.id }}" {{ selected }}>{{ option.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标签</label>
+        <div class="layui-input-block">
+            <div id="xm-tag-ids"></div>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">难度</label>
         <div class="layui-input-block">
-            <input type="radio" name="level" value="1" title="入门" {% if course.level == 1 %}checked="checked"{% endif %}>
-            <input type="radio" name="level" value="2" title="初级" {% if course.level == 2 %}checked="checked"{% endif %}>
-            <input type="radio" name="level" value="3" title="中级" {% if course.level == 3 %}checked="checked"{% endif %}>
-            <input type="radio" name="level" value="4" title="高级" {% if course.level == 4 %}checked="checked"{% endif %}>
+            {% for value,title in level_types %}
+                {% set checked = course.level == value ? 'checked="checked"' : '' %}
+                <input type="radio" name="level" value="{{ value }}" title="{{ title }}" {{ checked }}>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">推荐</label>
+        <div class="layui-input-block">
+            <input type="radio" name="featured" value="1" title="是" {% if course.featured == 1 %}checked="checked"{% endif %}>
+            <input type="radio" name="featured" value="0" title="否" {% if course.featured == 0 %}checked="checked"{% endif %}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发布</label>
+        <div class="layui-input-block">
+            <input type="radio" name="published" value="1" title="是" {% if course.published == 1 %}checked="checked"{% endif %}>
+            <input type="radio" name="published" value="0" title="否" {% if course.published == 0 %}checked="checked"{% endif %}>
         </div>
     </div>
     <div class="layui-form-item">

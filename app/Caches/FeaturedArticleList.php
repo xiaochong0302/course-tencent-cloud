@@ -14,13 +14,13 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class FeaturedArticleList extends Cache
 {
 
-    protected $lifetime = 86400;
+    protected $lifetime = 3600;
+
+    protected $limit = 5;
 
     public function getLifetime()
     {
-        $tomorrow = strtotime('tomorrow');
-
-        return $tomorrow - time();
+        return $this->lifetime;
     }
 
     public function getKey($id = null)
@@ -30,9 +30,7 @@ class FeaturedArticleList extends Cache
 
     public function getContent($id = null)
     {
-        $limit = 8;
-
-        $articles = $this->findArticles($limit);
+        $articles = $this->findArticles($this->limit);
 
         if ($articles->count() == 0) {
             return [];
@@ -41,20 +39,10 @@ class FeaturedArticleList extends Cache
         $result = [];
 
         foreach ($articles as $article) {
-
-            $userCount = $article->user_count;
-
-            if ($article->fake_user_count > $article->user_count) {
-                $userCount = $article->fake_user_count;
-            }
-
             $result[] = [
                 'id' => $article->id,
                 'title' => $article->title,
                 'cover' => $article->cover,
-                'market_price' => (float)$article->market_price,
-                'vip_price' => (float)$article->vip_price,
-                'user_count' => $userCount,
                 'favorite_count' => $article->favorite_count,
                 'comment_count' => $article->comment_count,
                 'view_count' => $article->view_count,
@@ -69,13 +57,13 @@ class FeaturedArticleList extends Cache
      * @param int $limit
      * @return ResultsetInterface|Resultset|ArticleModel[]
      */
-    protected function findArticles($limit = 8)
+    protected function findArticles($limit = 5)
     {
         return ArticleModel::query()
             ->where('featured = 1')
-            ->andWhere('published = 1')
+            ->andWhere('published = :published:', ['published' => ArticleModel::PUBLISH_APPROVED])
             ->andWhere('deleted = 0')
-            ->orderBy('id DESC')
+            ->orderBy('RAND()')
             ->limit($limit)
             ->execute();
     }

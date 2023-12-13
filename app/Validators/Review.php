@@ -61,6 +61,15 @@ class Review extends Validator
         return $rating;
     }
 
+    public function checkAnonymous($status)
+    {
+        if (!in_array($status, [0, 1])) {
+            throw new BadRequestException('review.invalid_anonymous_status');
+        }
+
+        return $status;
+    }
+
     public function checkPublishStatus($status)
     {
         if (!in_array($status, [0, 1])) {

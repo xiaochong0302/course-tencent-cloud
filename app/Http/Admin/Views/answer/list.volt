@@ -5,12 +5,17 @@
     {{ partial('macros/answer') }}
 
     {% set search_url = url({'for':'admin.answer.search'}) %}
+    {% set batch_delete_url = url({'for':'admin.answer.batch_delete'}) %}
 
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
+                {% if request.get('course_id') > 0 %}
+                    <a class="kg-back"><i class="layui-icon layui-icon-return"></i>返回</a>
+                {% endif %}
                 <a><cite>回答管理</cite></a>
             </span>
+            <span class="layui-btn layui-btn-sm layui-bg-red kg-batch" data-url="{{ batch_delete_url }}">批量删除</span>
         </div>
         <div class="kg-nav-right">
             <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
@@ -19,8 +24,10 @@
         </div>
     </div>
 
-    <table class="layui-table kg-table layui-form">
+    <table class="layui-table layui-form kg-table">
         <colgroup>
+            <col width="5%">
+            <col>
             <col>
             <col>
             <col>
@@ -29,7 +36,9 @@
         </colgroup>
         <thead>
         <tr>
-            <th>信息</th>
+            <th><input class="all" type="checkbox" lay-filter="all"></th>
+            <th>作者信息</th>
+            <th>问答信息</th>
             <th>评论</th>
             <th>点赞</th>
             <th>状态</th>
@@ -46,10 +55,15 @@
             {% set restore_url = url({'for':'admin.answer.restore','id':item.id}) %}
             {% set moderate_url = url({'for':'admin.answer.moderate','id':item.id}) %}
             <tr>
+                <td><input class="item" type="checkbox" value="{{ item.id }}" lay-filter="item"></td>
                 <td>
-                    <P>问题：<a href="{{ question_url }}" target="_blank">{{ item.question.title }}</a></P>
-                    <p>回答：<a href="{{ answer_url }}" title="{{ item.summary }}" target="_blank">{{ substr(item.summary,0,32) }}</a></p>
-                    <p>作者：<a href="{{ owner_url }}" target="_blank">{{ item.owner.name }}</a>　创建：{{ date('Y-m-d',item.create_time) }}</p>
+                    <p>昵称：<a href="{{ owner_url }}">{{ item.owner.name }}</a></p>
+                    <p>编号：{{ item.owner.id }}</p>
+                </td>
+                <td>
+                    <P>问题：<a href="{{ question_url }}" target="_blank">{{ item.question.title }}</a>（{{ item.question.id }}）</P>
+                    <p class="layui-elip kg-item-elip" title="{{ item.summary }}">回答：{{ item.summary }}（{{ item.id }}）</p>
+                    <p>创建：{{ date('Y-m-d',item.create_time) }}</p>
                 </td>
                 <td>{{ item.comment_count }}</td>
                 <td>{{ item.like_count }}</td>

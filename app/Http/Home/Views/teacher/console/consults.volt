@@ -24,13 +24,11 @@
                         <colgroup>
                             <col>
                             <col>
-                            <col>
                             <col width="15%">
                         </colgroup>
                         <thead>
                         <tr>
                             <th>内容</th>
-                            <th>优先级</th>
                             <th>时间</th>
                             <th>操作</th>
                         </tr>
@@ -47,7 +45,6 @@
                                     <p class="content layui-elip" title="{{ item.question }}">咨询：{{ item.question }}</p>
                                     <p class="content layui-elip" title="{{ item.answer }}">回复：{{ answer }}</p>
                                 </td>
-                                <td>{{ priority_info(item.priority) }}</td>
                                 <td>{{ date('Y-m-d',item.create_time) }}</td>
                                 <td>
                                     <button class="layui-btn layui-btn-xs layui-bg-green btn-show-consult" data-url="{{ show_url }}">详情</button>
