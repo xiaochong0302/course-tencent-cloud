@@ -18,7 +18,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">分类</label>
         <div class="layui-input-block">
-            <select name="category_id" lay-search="true" lay-verify="required">
+            <select name="category_id" lay-search="true">
                 <option value="">请选择</option>
                 {% for option in category_options %}
                     {% set selected = course.category_id == option.id ? 'selected="selected"' : '' %}
@@ -30,7 +30,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">讲师</label>
         <div class="layui-input-block">
-            <select name="teacher_id" lay-search="true" lay-verify="required">
+            <select name="teacher_id" lay-search="true">
                 <option value="">请选择</option>
                 {% for option in teacher_options %}
                     {% set selected = course.teacher_id == option.id ? 'selected="selected"' : '' %}
