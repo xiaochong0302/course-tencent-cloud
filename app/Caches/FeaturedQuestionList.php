@@ -62,7 +62,7 @@ class FeaturedQuestionList extends Cache
     {
         return QuestionModel::query()
             ->where('featured = 1')
-            ->andWhere('published = 1')
+            ->andWhere('published = :published:', ['published' => QuestionModel::PUBLISH_APPROVED])
             ->andWhere('deleted = 0')
             ->orderBy('RAND()')
             ->limit($limit)

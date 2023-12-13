@@ -39,20 +39,10 @@ class FeaturedArticleList extends Cache
         $result = [];
 
         foreach ($articles as $article) {
-
-            $userCount = $article->user_count;
-
-            if ($article->fake_user_count > $article->user_count) {
-                $userCount = $article->fake_user_count;
-            }
-
             $result[] = [
                 'id' => $article->id,
                 'title' => $article->title,
                 'cover' => $article->cover,
-                'market_price' => (float)$article->market_price,
-                'vip_price' => (float)$article->vip_price,
-                'user_count' => $userCount,
                 'favorite_count' => $article->favorite_count,
                 'comment_count' => $article->comment_count,
                 'view_count' => $article->view_count,
@@ -71,7 +61,7 @@ class FeaturedArticleList extends Cache
     {
         return ArticleModel::query()
             ->where('featured = 1')
-            ->andWhere('published = 1')
+            ->andWhere('published = :published:', ['published' => ArticleModel::PUBLISH_APPROVED])
             ->andWhere('deleted = 0')
             ->orderBy('RAND()')
             ->limit($limit)
