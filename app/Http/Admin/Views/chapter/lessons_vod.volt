@@ -44,7 +44,7 @@
         {% set update_url = url({'for':'admin.chapter.update','id':item.id}) %}
         {% set delete_url = url({'for':'admin.chapter.delete','id':item.id}) %}
         {% set restore_url = url({'for':'admin.chapter.restore','id':item.id}) %}
-        {% set comment_url = url({'for':'admin.comment.list'},{'item_id':item.id,'item_type':1}) %}
+        {% set comments_url = url({'for':'admin.comment.list'},{'item_id':item.id,'item_type':1}) %}
         <tr>
             <td>{{ item.id }}</td>
             <td>
@@ -61,8 +61,8 @@
             <td>{{ item.like_count }}</td>
             <td>{{ item.comment_count }}</td>
             <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
-            <td><input type="checkbox" name="free" value="1" lay-skin="switch" lay-text="是|否" lay-filter="free" data-url="{{ update_url }}" {% if item.free == 1 %}checked="checked"{% endif %}></td>
-            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="published" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
+            <td><input type="checkbox" name="free" value="1" lay-skin="switch" lay-text="是|否" lay-filter="go" data-url="{{ update_url }}" {% if item.free == 1 %}checked="checked"{% endif %}></td>
+            <td><input type="checkbox" name="published" value="1" lay-skin="switch" lay-text="是|否" lay-filter="go" data-url="{{ update_url }}" {% if item.published == 1 %}checked="checked"{% endif %}></td>
             <td class="center">
                 <div class="kg-dropdown">
                     <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
@@ -77,7 +77,7 @@
                             <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原</a></li>
                         {% endif %}
                         <hr>
-                        <li><a href="javascript:" class="kg-comment" data-url="{{ comment_url }}">评论管理</a></li>
+                        <li><a href="{{ comments_url }}">评论管理</a></li>
                     </ul>
                 </div>
             </td>
