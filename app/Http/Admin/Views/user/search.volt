@@ -35,7 +35,7 @@
             </div>
             <div class="layui-form-mid"> -</div>
             <div class="layui-input-inline">
-                <input class="layui-input" id="active-end-time" type="text" name="active_time=[]" autocomplete="off">
+                <input class="layui-input" id="active-end-time" type="text" name="active_time[]" autocomplete="off">
             </div>
         </div>
         <div class="layui-form-item">
