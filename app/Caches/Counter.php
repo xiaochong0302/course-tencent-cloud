@@ -9,6 +9,7 @@ namespace App\Caches;
 
 use App\Library\Cache\Backend\Redis as RedisCache;
 use Phalcon\Di\Injectable;
+use Redis;
 
 abstract class Counter extends Injectable
 {
@@ -19,7 +20,7 @@ abstract class Counter extends Injectable
     protected $cache;
 
     /**
-     * @var \Redis
+     * @var Redis
      */
     protected $redis;
 
@@ -30,19 +31,13 @@ abstract class Counter extends Injectable
         $this->redis = $this->cache->getRedis();
     }
 
-    /**
-     * 获取缓存内容
-     *
-     * @param mixed $id
-     * @return array
-     */
     public function get($id = null)
     {
         $key = $this->getKey($id);
 
         $content = $this->redis->hGetAll($key);
 
-        if (!$this->cache->exists($key)) {
+        if (!$this->redis->exists($key)) {
 
             $content = $this->getContent($id);
             $lifetime = $this->getLifetime();
@@ -54,23 +49,13 @@ abstract class Counter extends Injectable
         return $content;
     }
 
-    /**
-     * 删除缓存内容
-     *
-     * @param mixed $id
-     */
     public function delete($id = null)
     {
         $key = $this->getKey($id);
 
-        $this->cache->delete($key);
+        $this->redis->del($key);
     }
 
-    /**
-     * 重建缓存内容
-     *
-     * @param mixed $id
-     */
     public function rebuild($id = null)
     {
         $this->delete($id);
