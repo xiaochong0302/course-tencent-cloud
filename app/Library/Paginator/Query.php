@@ -35,14 +35,14 @@ class Query
     {
         $page = $this->request->getQuery('page', ['trim', 'int'], 1);
 
-        return $page > 100 ? 100 : $page;
+        return min($page, 100);
     }
 
     public function getLimit()
     {
         $limit = $this->request->getQuery('limit', ['trim', 'int'], 12);
 
-        return $limit > 100 ? 100 : $limit;
+        return min($limit, 100);
     }
 
     public function getSort()

@@ -4,7 +4,7 @@
 
     {{ partial('macros/course') }}
 
-    {%- macro cart_course_card(course, user) %}
+    {%- macro cart_course_card(course) %}
         {% set course_url = url({'for':'home.course.show','id':course.id}) %}
         <div class="cart-item-card">
             <div class="cover">
@@ -21,10 +21,10 @@
                 {% if course.model in [1,2,3] %}
                     <p>
                         <span class="key">学习期限</span>
-                        <span class="value">{{ course.study_expiry }}个月</span>
+                        <span class="value">{{ course.study_expiry }} 个月</span>
                         {% if course.refund_expiry > 0 %}
                             <span class="key">退款期限</span>
-                            <span class="value">{{ course.refund_expiry }}天</span>
+                            <span class="value">{{ course.refund_expiry }} 天</span>
                         {% else %}
                             <span class="key">退款期限</span>
                             <span class="value">不支持</span>
@@ -82,7 +82,7 @@
                 </p>
                 <p>
                     <span class="key">期限</span>
-                    <span class="expiry">{{ vip.expiry }}个月</span>
+                    <span class="expiry">{{ vip.expiry }} 个月</span>
                 </p>
             </div>
         </div>
@@ -96,11 +96,11 @@
     <div class="cart-item-list wrap">
         {% if confirm.item_type == 1 %}
             {% set course = confirm.item_info.course %}
-            {{ cart_course_card(course, auth_user) }}
+            {{ cart_course_card(course) }}
         {% elseif confirm.item_type == 2 %}
             {% set package = confirm.item_info.package %}
             {% for course in package.courses %}
-                {{ cart_course_card(course, auth_user) }}
+                {{ cart_course_card(course) }}
             {% endfor %}
         {% elseif confirm.item_type == 3 %}
             {{ cart_reward_card(confirm.item_info) }}
