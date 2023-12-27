@@ -34,12 +34,6 @@ H5手机端演示：
 
 演示账号：13507083515 / 123456
 
-微信公众号演示：
-
-![公众号二维码](https://portal-1255691183.file.myqcloud.com/img/content/616f998270eca.png)
-
-演示账号：13507083515 / 123456
-
 支付流程演示：
 
 - [MySQL提升课程全面讲解MySQL架构设计（0.01元）](https://ctc.koogua.com/order/confirm?item_id=1390&item_type=1)
