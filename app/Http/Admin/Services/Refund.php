@@ -8,8 +8,9 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\RefundList as RefundListBuilder;
+use App\Http\Admin\Services\Traits\AccountSearchTrait;
+use App\Http\Admin\Services\Traits\OrderSearchTrait;
 use App\Library\Paginator\Query as PaginateQuery;
-use App\Library\Validators\Common as CommonValidator;
 use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Repos\Account as AccountRepo;
@@ -22,6 +23,9 @@ use App\Validators\Refund as RefundValidator;
 class Refund extends Service
 {
 
+    use AccountSearchTrait;
+    use OrderSearchTrait;
+
     public function getStatusTypes()
     {
         return RefundModel::statusTypes();
@@ -33,31 +37,10 @@ class Refund extends Service
 
         $params = $pageQuery->getParams();
 
+        $params = $this->handleAccountSearchParams($params);
+        $params = $this->handleOrderSearchParams($params);
+
         $params['deleted'] = $params['deleted'] ?? 0;
-
-        /**
-         * 兼容订单编号或订单序号查询
-         */
-        if (isset($params['order_id']) && strlen($params['order_id']) > 10) {
-            $orderRepo = new OrderRepo();
-            $order = $orderRepo->findBySn($params['order_id']);
-            $params['order_id'] = $order ? $order->id : -1000;
-        }
-
-        $accountRepo = new AccountRepo();
-
-        /**
-         * 兼容用户编号｜手机号码｜邮箱地址查询
-         */
-        if (!empty($params['owner_id'])) {
-            if (CommonValidator::phone($params['owner_id'])) {
-                $account = $accountRepo->findByPhone($params['owner_id']);
-                $params['owner_id'] = $account ? $account->id : -1000;
-            } elseif (CommonValidator::email($params['owner_id'])) {
-                $account = $accountRepo->findByEmail($params['owner_id']);
-                $params['owner_id'] = $account ? $account->id : -1000;
-            }
-        }
 
         $sort = $pageQuery->getSort();
         $page = $pageQuery->getPage();

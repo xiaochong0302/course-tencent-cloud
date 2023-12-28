@@ -10,6 +10,7 @@ namespace App\Http\Admin\Services;
 use App\Builders\ArticleList as ArticleListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
 use App\Caches\Article as ArticleCache;
+use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Library\Utils\Word as WordUtil;
 use App\Models\Article as ArticleModel;
@@ -34,6 +35,7 @@ class Article extends Service
 {
 
     use ArticleDataTrait;
+    use AccountSearchTrait;
 
     public function getXmTags($id)
     {
@@ -69,6 +71,8 @@ class Article extends Service
         $pagerQuery = new PagerQuery();
 
         $params = $pagerQuery->getParams();
+
+        $params = $this->handleAccountSearchParams($params);
 
         if (!empty($params['xm_tag_ids'])) {
             $params['tag_id'] = explode(',', $params['xm_tag_ids']);
