@@ -64,7 +64,7 @@
 
     <script>
 
-        layui.use(['jquery', 'laydate'], function () {
+        layui.use(['laydate'], function () {
 
             var laydate = layui.laydate;
 
