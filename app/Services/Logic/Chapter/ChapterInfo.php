@@ -126,6 +126,7 @@ class ChapterInfo extends LogicService
 
         $chapterUser = new ChapterUserModel();
 
+        $chapterUser->plan_id = $this->courseUser->plan_id;
         $chapterUser->course_id = $chapter->course_id;
         $chapterUser->chapter_id = $chapter->id;
         $chapterUser->user_id = $user->id;
