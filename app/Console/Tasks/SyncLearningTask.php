@@ -188,6 +188,7 @@ class SyncLearningTask extends Task
 
         $courseUser->progress = $progress;
         $courseUser->duration = $duration;
+        $courseUser->active_time = $learning->active_time;
         $courseUser->update();
     }
 
