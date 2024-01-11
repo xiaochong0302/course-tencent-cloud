@@ -85,7 +85,7 @@
             {% set update_url = url({'for':'admin.chapter.update','id':item.id}) %}
             {% set delete_url = url({'for':'admin.chapter.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.chapter.restore','id':item.id}) %}
-            {% set comment_url = url({'for':'admin.comment.list'},{'item_id':item.id,'item_type':1}) %}
+            {% set comments_url = url({'for':'admin.comment.list'},{'item_id':item.id,'item_type':1}) %}
             <tr>
                 <td>
                     <p>
@@ -108,16 +108,16 @@
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
                             {% if item.published == 1 %}
-                                <li><a href="{{ chapter_url }}" target="_blank">浏览</a></li>
+                                <li><a href="{{ chapter_url }}" target="_blank">浏览课时</a></li>
                             {% endif %}
-                            <li><a href="{{ edit_url }}">编辑</a></li>
+                            <li><a href="{{ edit_url }}">编辑课时</a></li>
                             {% if item.deleted == 0 %}
-                                <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
+                                <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除课时</a></li>
                             {% else %}
-                                <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原</a></li>
+                                <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原课时</a></li>
                             {% endif %}
                             <hr>
-                            <li><a href="javascript:" class="kg-comment" data-url="{{ comment_url }}">评论管理</a></li>
+                            <li><a href="{{ comments_url }}">评论管理</a></li>
                         </ul>
                     </div>
                 </td>
