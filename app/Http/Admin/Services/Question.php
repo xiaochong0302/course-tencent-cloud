@@ -186,7 +186,7 @@ class Question extends Service
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
-        if (isset($post['category_id'])) {
+        if (isset($post['category_id']) && !empty($post['category_id'])) {
             $category = $validator->checkCategory($post['category_id']);
             $data['category_id'] = $category->id;
         }
