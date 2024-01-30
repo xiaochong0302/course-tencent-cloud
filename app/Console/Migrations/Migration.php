@@ -7,7 +7,11 @@
 
 namespace App\Console\Migrations;
 
+use App\Traits\Service as ServiceTrait;
+
 abstract class Migration
 {
+    use ServiceTrait;
+
     abstract public function run();
 }

@@ -29,7 +29,7 @@
                 <a class="qq" href="{{ link_url }}" title="客服QQ：{{ contact_info.qq }}"><span class="iconfont icon-qq"></span></a>
             {% endif %}
             {% if contact_info.wechat %}
-                <a class="wechat" href="javascript:" title="微信公众号"><span class="iconfont icon-wechat"></span></a>
+                <a class="wechat" href="javascript:" title="微信"><span class="iconfont icon-wechat"></span></a>
             {% endif %}
             {% if contact_info.toutiao %}
                 <a class="toutiao" href="javascript:" title="头条号"><span class="iconfont icon-toutiao"></span></a>

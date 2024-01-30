@@ -8,13 +8,12 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\ReviewList as ReviewListBuilder;
+use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Library\Validators\Common as CommonValidator;
 use App\Models\Course as CourseModel;
 use App\Models\Reason as ReasonModel;
 use App\Models\Review as ReviewModel;
 use App\Models\User as UserModel;
-use App\Repos\Account as AccountRepo;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Review as ReviewRepo;
 use App\Services\CourseStat as CourseStatService;
@@ -23,6 +22,8 @@ use App\Validators\Review as ReviewValidator;
 
 class Review extends Service
 {
+
+    use AccountSearchTrait;
 
     public function getPublishTypes()
     {
@@ -63,22 +64,9 @@ class Review extends Service
 
         $params = $pagerQuery->getParams();
 
+        $params = $this->handleAccountSearchParams($params);
+
         $params['deleted'] = $params['deleted'] ?? 0;
-
-        $accountRepo = new AccountRepo();
-
-        /**
-         * 兼容用户编号｜手机号码｜邮箱地址查询
-         */
-        if (!empty($params['owner_id'])) {
-            if (CommonValidator::phone($params['owner_id'])) {
-                $account = $accountRepo->findByPhone($params['owner_id']);
-                $params['owner_id'] = $account ? $account->id : -1000;
-            } elseif (CommonValidator::email($params['owner_id'])) {
-                $account = $accountRepo->findByEmail($params['owner_id']);
-                $params['owner_id'] = $account ? $account->id : -1000;
-            }
-        }
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();

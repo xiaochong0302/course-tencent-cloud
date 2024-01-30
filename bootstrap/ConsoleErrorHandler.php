@@ -17,14 +17,7 @@ class ConsoleErrorHandler extends Injectable
 
     public function __construct()
     {
-        set_error_handler([$this, 'handleError']);
-
         set_exception_handler([$this, 'handleException']);
-    }
-
-    public function handleError($severity, $message, $file, $line)
-    {
-        throw new \ErrorException($message, 0, $severity, $file, $line);
     }
 
     /**

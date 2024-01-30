@@ -9,9 +9,9 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\UserList as UserListBuilder;
 use App\Caches\User as UserCache;
+use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Library\Utils\Password as PasswordUtil;
-use App\Library\Validators\Common as CommonValidator;
 use App\Models\Account as AccountModel;
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
@@ -25,6 +25,8 @@ use App\Validators\User as UserValidator;
 
 class User extends Service
 {
+
+    use AccountSearchTrait;
 
     public function getEduRoleTypes()
     {
@@ -63,19 +65,10 @@ class User extends Service
 
         $params = $pageQuery->getParams();
 
-        $accountRepo = new AccountRepo();
+        $params = $this->handleAccountSearchParams($params);
 
-        /**
-         * 兼容用户编号｜手机号码｜邮箱地址查询
-         */
-        if (!empty($params['id'])) {
-            if (CommonValidator::phone($params['id'])) {
-                $account = $accountRepo->findByPhone($params['id']);
-                $params['id'] = $account ? $account->id : -1000;
-            } elseif (CommonValidator::email($params['id'])) {
-                $account = $accountRepo->findByEmail($params['id']);
-                $params['id'] = $account ? $account->id : -1000;
-            }
+        if (!empty($params['user_id'])) {
+            $params['id'] = $params['user_id'];
         }
 
         $params['deleted'] = $params['deleted'] ?? 0;

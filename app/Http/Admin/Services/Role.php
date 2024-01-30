@@ -172,8 +172,18 @@ class Role extends Service
         }
 
         if (in_array('admin.category.list', $routes)) {
+            $list[] = 'admin.article.category';
+            $list[] = 'admin.question.category';
             $list[] = 'admin.course.category';
             $list[] = 'admin.help.category';
+        }
+
+        if (in_array('admin.article.category', $routes)) {
+            $list[] = 'admin.category.list';
+        }
+
+        if (in_array('admin.question.category', $routes)) {
+            $list[] = 'admin.category.list';
         }
 
         if (in_array('admin.course.category', $routes)) {

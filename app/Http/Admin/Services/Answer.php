@@ -9,6 +9,7 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\AnswerList as AnswerListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
+use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Answer as AnswerModel;
 use App\Models\Question as QuestionModel;
@@ -31,6 +32,7 @@ class Answer extends Service
 {
 
     use AnswerDataTrait;
+    use AccountSearchTrait;
 
     public function getPublishTypes()
     {
@@ -47,6 +49,8 @@ class Answer extends Service
         $pagerQuery = new PagerQuery();
 
         $params = $pagerQuery->getParams();
+
+        $params = $this->handleAccountSearchParams($params);
 
         $params['deleted'] = $params['deleted'] ?? 0;
 

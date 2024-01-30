@@ -13,9 +13,9 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">作者编号</label>
+            <label class="layui-form-label">用户帐号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="owner_id" placeholder="作者编号精确匹配">
+                <input class="layui-input" type="text" name="owner_id" placeholder="用户编号 / 手机号码 / 邮箱地址 精确匹配">
             </div>
         </div>
         <div class="layui-form-item">
@@ -97,7 +97,7 @@
 
     <script>
 
-        layui.use(['jquery', 'laydate'], function () {
+        layui.use(['laydate'], function () {
 
             var laydate = layui.laydate;
 

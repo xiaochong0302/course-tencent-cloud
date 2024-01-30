@@ -53,7 +53,7 @@
     {% if free_courses|length > 0 %}
         <div class="index-wrap wrap">
             <div class="header">免费课程</div>
-            <div class="content">
+            <div class="content simple">
                 {{ show_courses(free_courses) }}
             </div>
         </div>

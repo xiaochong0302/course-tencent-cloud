@@ -102,7 +102,7 @@ class Controller extends \Phalcon\Mvc\Controller
         $this->view->setVar('websocket_info', $this->websocketInfo);
     }
 
-    protected function getAuthUser($cache = false)
+    protected function getAuthUser($cache = true)
     {
         /**
          * @var HomeAuth $auth

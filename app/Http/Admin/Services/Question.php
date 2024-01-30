@@ -10,6 +10,7 @@ namespace App\Http\Admin\Services;
 use App\Builders\QuestionList as QuestionListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
 use App\Caches\Question as QuestionCache;
+use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Category as CategoryModel;
 use App\Models\Question as QuestionModel;
@@ -33,6 +34,7 @@ class Question extends Service
 {
 
     use QuestionDataTrait;
+    use AccountSearchTrait;
 
     public function getXmTags($id)
     {
@@ -63,6 +65,8 @@ class Question extends Service
         $pagerQuery = new PagerQuery();
 
         $params = $pagerQuery->getParams();
+
+        $params = $this->handleAccountSearchParams($params);
 
         if (!empty($params['xm_tag_ids'])) {
             $params['tag_id'] = explode(',', $params['xm_tag_ids']);
@@ -182,7 +186,7 @@ class Question extends Service
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
-        if (isset($post['category_id'])) {
+        if (isset($post['category_id']) && !empty($post['category_id'])) {
             $category = $validator->checkCategory($post['category_id']);
             $data['category_id'] = $category->id;
         }

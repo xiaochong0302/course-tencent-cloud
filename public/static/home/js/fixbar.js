@@ -14,7 +14,7 @@ layui.use(['jquery', 'helper', 'util'], function () {
             title: false,
             closeBtn: 0,
             shadeClose: true,
-            content: content
+            content: content,
         });
     }
 
@@ -25,7 +25,7 @@ layui.use(['jquery', 'helper', 'util'], function () {
             title: false,
             closeBtn: 0,
             shadeClose: true,
-            content: content
+            content: content,
         });
     }
 
