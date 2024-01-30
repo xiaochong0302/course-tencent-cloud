@@ -85,9 +85,7 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     });
 
     $('.icon-reply').on('click', function () {
-        $('html').animate({
-            scrollTop: $('#comment-anchor').offset().top
-        }, 500);
+        $('html').scrollTop($('#comment-anchor').offset().top);
     });
 
 });

@@ -186,7 +186,7 @@ class Live extends Service
      * @param string $appName
      * @return string
      */
-    function getPushUrl($streamName, $appName = 'live')
+    public function getPushUrl($streamName, $appName = 'live')
     {
         $authEnabled = $this->settings['push']['auth_enabled'];
         $authKey = $this->settings['push']['auth_key'];

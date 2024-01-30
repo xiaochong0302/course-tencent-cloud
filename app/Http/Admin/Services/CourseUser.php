@@ -8,10 +8,9 @@
 namespace App\Http\Admin\Services;
 
 use App\Builders\CourseUserList as CourseUserListBuilder;
+use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Library\Validators\Common as CommonValidator;
 use App\Models\CourseUser as CourseUserModel;
-use App\Repos\Account as AccountRepo;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Services\Logic\Course\CourseUserTrait;
 use App\Validators\CourseUser as CourseUserValidator;
@@ -20,6 +19,7 @@ class CourseUser extends Service
 {
 
     use CourseUserTrait;
+    use AccountSearchTrait;
 
     public function getSourceTypes()
     {
@@ -53,23 +53,10 @@ class CourseUser extends Service
 
         $params = $pagerQuery->getParams();
 
+        $params = $this->handleAccountSearchParams($params);
+
         $params['course_id'] = $course->id;
         $params['deleted'] = 0;
-
-        $accountRepo = new AccountRepo();
-
-        /**
-         * 兼容用户编号｜手机号码｜邮箱地址查询
-         */
-        if (!empty($params['user_id'])) {
-            if (CommonValidator::phone($params['user_id'])) {
-                $account = $accountRepo->findByPhone($params['user_id']);
-                $params['user_id'] = $account ? $account->id : -1000;
-            } elseif (CommonValidator::email($params['user_id'])) {
-                $account = $accountRepo->findByEmail($params['user_id']);
-                $params['user_id'] = $account ? $account->id : -1000;
-            }
-        }
 
         $sort = $pagerQuery->getSort();
         $page = $pagerQuery->getPage();

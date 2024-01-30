@@ -65,11 +65,11 @@
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
                         <ul>
-                            <li><a href="{{ edit_url }}">编辑</a></li>
+                            <li><a href="{{ edit_url }}">编辑章节</a></li>
                             {% if item.deleted == 0 %}
-                                <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除</a></li>
+                                <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除章节</a></li>
                             {% else %}
-                                <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原</a></li>
+                                <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原章节</a></li>
                             {% endif %}
                         </ul>
                     </div>
