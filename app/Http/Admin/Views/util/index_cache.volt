@@ -7,38 +7,13 @@
             <legend>首页缓存</legend>
         </fieldset>
         <div class="layui-form-item">
-            <label class="layui-form-label">轮播图</label>
+            <label class="layui-form-label">刷新内容</label>
             <div class="layui-input-block">
-                <input type="radio" name="items[slide]" value="1" title="是">
-                <input type="radio" name="items[slide]" value="0" title="否" checked="checked">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">推荐课程</label>
-            <div class="layui-input-block">
-                <input type="radio" name="items[featured_course]" value="1" title="是">
-                <input type="radio" name="items[featured_course]" value="0" title="否" checked="checked">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">新上课程</label>
-            <div class="layui-input-block">
-                <input type="radio" name="items[new_course]" value="1" title="是">
-                <input type="radio" name="items[new_course]" value="0" title="否" checked="checked">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">免费课程</label>
-            <div class="layui-input-block">
-                <input type="radio" name="items[free_course]" value="1" title="是">
-                <input type="radio" name="items[free_course]" value="0" title="否" checked="checked">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">会员课程</label>
-            <div class="layui-input-block">
-                <input type="radio" name="items[vip_course]" value="1" title="是">
-                <input type="radio" name="items[vip_course]" value="0" title="否" checked="checked">
+                <input type="checkbox" name="items[]" value="slide" title="轮播图" checked="checked">
+                <input type="checkbox" name="items[]" value="featured_course" title="推荐课程" checked="checked">
+                <input type="checkbox" name="items[]" value="new_course" title="新上课程" checked="checked">
+                <input type="checkbox" name="items[]" value="free_course" title="免费课程" checked="checked">
+                <input type="checkbox" name="items[]" value="vip_course" title="会员课程" checked="checked">
             </div>
         </div>
         <div class="layui-form-item">
