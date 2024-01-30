@@ -1,4 +1,18 @@
-### [v1.6.8](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.8)(2024-01-15)
+### [v1.6.8](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.8)(2024-01-30)
+
+- 修正course_user中active_time未更新问题
+- 修正主页simple模式免费课程模块样式问题
+- 修正chapter_user中plan_id=0问题
+- 修正课时评论管理链接
+- 修正用户active_time搜索条件
+- 修正课时发布switch开关
+- 精简chapter/lessons.volt
+- 去除league/commonmark包
+- 去除分类等必选判断
+- 更新layui-v2.9.3
+- 使用ServiceTrait精简代码
+- 优化AccountTrait
+- 优化错误处理
 
 
 ### [v1.6.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.7)(2023-12-15)
