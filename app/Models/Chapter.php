@@ -148,13 +148,6 @@ class Chapter extends Model
     public $deleted = 0;
 
     /**
-     * 资源数
-     *
-     * @var int
-     */
-    public $resource_count = 0;
-
-    /**
      * 课时数
      *
      * @var int
@@ -167,13 +160,6 @@ class Chapter extends Model
      * @var int
      */
     public $user_count = 0;
-
-    /**
-     * 咨询数
-     *
-     * @var int
-     */
-    public $consult_count = 0;
 
     /**
      * 评论数

@@ -5,18 +5,10 @@
     {% set consult.answer = consult.answer ? consult.answer : '请耐心等待回复吧' %}
 
     <div class="consult-info">
-        {% if consult.course.id is defined %}
-            <div class="item">
-                <div class="label">课程：</div>
-                <div class="title">{{ consult.course.title }}</div>
-            </div>
-        {% endif %}
-        {% if consult.chapter.id is defined %}
-            <div class="item">
-                <div class="label">章节：</div>
-                <div class="title">{{ consult.chapter.title }}</div>
-            </div>
-        {% endif %}
+        <div class="item">
+            <div class="label">课程：</div>
+            <div class="title">{{ consult.course.title }}</div>
+        </div>
         <div class="item">
             <div class="label">咨询：</div>
             <div class="content">{{ consult.question }}</div>

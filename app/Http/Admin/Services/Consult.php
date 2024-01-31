@@ -10,12 +10,10 @@ namespace App\Http\Admin\Services;
 use App\Builders\ConsultList as ConsultListBuilder;
 use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Models\Chapter as ChapterModel;
 use App\Models\Consult as ConsultModel;
 use App\Models\Course as CourseModel;
 use App\Models\Reason as ReasonModel;
 use App\Models\User as UserModel;
-use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Consult as ConsultRepo;
 use App\Repos\Course as CourseRepo;
 use App\Services\Logic\Consult\ConsultInfo as ConsultInfoService;
@@ -104,6 +102,8 @@ class Consult extends Service
     {
         $consult = $this->findOrFail($id);
 
+        $course = $this->findCourse($consult->course_id);
+
         $post = $this->request->getPost();
 
         $validator = new ConsultValidator();
@@ -138,7 +138,7 @@ class Consult extends Service
             $this->handleReplyNotice($consult);
         }
 
-        $this->recountItemConsults($consult);
+        $this->recountCourseConsults($course);
 
         $this->eventsManager->fire('Consult:afterUpdate', $this, $consult);
 
@@ -153,7 +153,9 @@ class Consult extends Service
 
         $consult->update();
 
-        $this->recountItemConsults($consult);
+        $course = $this->findCourse($consult->course_id);
+
+        $this->recountCourseConsults($course);
 
         $sender = $this->getLoginUser();
 
@@ -170,7 +172,9 @@ class Consult extends Service
 
         $consult->update();
 
-        $this->recountItemConsults($consult);
+        $course = $this->findCourse($consult->course_id);
+
+        $this->recountCourseConsults($course);
 
         $this->eventsManager->fire('Consult:afterRestore', $this, $consult);
     }
@@ -202,7 +206,9 @@ class Consult extends Service
             $this->eventsManager->fire('Consult:afterReject', $this, $consult);
         }
 
-        $this->recountItemConsults($consult);
+        $course = $this->findCourse($consult->course_id);
+
+        $this->recountCourseConsults($course);
 
         return $consult;
     }
@@ -237,7 +243,9 @@ class Consult extends Service
                 $this->handleConsultRejectedNotice($consult, $sender);
             }
 
-            $this->recountItemConsults($consult);
+            $course = $this->findCourse($consult->course_id);
+
+            $this->recountCourseConsults($course);
         }
     }
 
@@ -259,7 +267,10 @@ class Consult extends Service
             $consult->update();
 
             $this->handleConsultDeletedNotice($consult, $sender);
-            $this->recountItemConsults($consult);
+
+            $course = $this->findCourse($consult->course_id);
+
+            $this->recountCourseConsults($course);
         }
     }
 
@@ -275,13 +286,6 @@ class Consult extends Service
         $courseRepo = new CourseRepo();
 
         return $courseRepo->findById($id);
-    }
-
-    protected function findChapter($id)
-    {
-        $chapterRepo = new ChapterRepo();
-
-        return $chapterRepo->findById($id);
     }
 
     protected function handleReplyNotice(ConsultModel $consult)
@@ -306,19 +310,6 @@ class Consult extends Service
 
     }
 
-    protected function recountItemConsults(ConsultModel $consult)
-    {
-        if ($consult->course_id > 0) {
-            $course = $this->findCourse($consult->course_id);
-            $this->recountCourseConsults($course);
-        }
-
-        if ($consult->chapter_id > 0) {
-            $chapter = $this->findChapter($consult->chapter_id);
-            $this->recountChapterConsults($chapter);
-        }
-    }
-
     protected function recountCourseConsults(CourseModel $course)
     {
         $courseRepo = new CourseRepo();
@@ -328,17 +319,6 @@ class Consult extends Service
         $course->consult_count = $consultCount;
 
         $course->update();
-    }
-
-    protected function recountChapterConsults(ChapterModel $chapter)
-    {
-        $chapterRepo = new ChapterRepo();
-
-        $consultCount = $chapterRepo->countConsults($chapter->id);
-
-        $chapter->consult_count = $consultCount;
-
-        $chapter->update();
     }
 
     protected function handleConsults($pager)
