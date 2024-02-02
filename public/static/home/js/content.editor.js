@@ -5,7 +5,7 @@ layui.use(['jquery'], function () {
     var editor;
 
     var options = {
-        uploadJson: '/admin/upload/content/img',
+        uploadJson: '/upload/content/img',
         cssPath: '/static/home/css/content.css',
         width: '100%',
         height: '300px',
