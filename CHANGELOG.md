@@ -14,7 +14,6 @@
 - 优化AccountTrait
 - 优化错误处理
 
-
 ### [v1.6.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.7)(2023-12-15)
 
 - 增加文章分类功能

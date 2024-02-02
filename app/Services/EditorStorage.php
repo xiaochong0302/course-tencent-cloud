@@ -151,7 +151,7 @@ class EditorStorage extends Storage
     {
         $path = parse_url($imageUrl, PHP_URL_PATH);
 
-        preg_match('/(\S+)\.(png|gif|jpg|jpeg)/i', $path, $matches);
+        preg_match('/(\S+)\.(png|gif|jpg|jpeg|webp)/i', $path, $matches);
 
         return $matches[2] ? strtolower($matches[2]) : 'jpg';
     }

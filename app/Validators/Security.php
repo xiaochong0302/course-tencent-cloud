@@ -60,9 +60,7 @@ class Security extends Validator
     {
         return [
             'admin.upload.content_img',
-            'admin.upload.remote_img',
             'home.upload.content_img',
-            'home.upload.remote_img',
         ];
     }
 
