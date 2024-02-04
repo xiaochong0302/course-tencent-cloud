@@ -58,6 +58,14 @@ class Question extends Repository
             }
         }
 
+        if (!empty($where['owner_id'])) {
+            if (is_array($where['owner_id'])) {
+                $builder->inWhere('owner_id', $where['owner_id']);
+            } else {
+                $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
+            }
+        }
+
         if (!empty($where['published'])) {
             if (is_array($where['published'])) {
                 $builder->inWhere('published', $where['published']);
@@ -70,10 +78,6 @@ class Question extends Repository
             $startTime = strtotime($where['create_time'][0]);
             $endTime = strtotime($where['create_time'][1]);
             $builder->betweenWhere('create_time', $startTime, $endTime);
-        }
-
-        if (!empty($where['owner_id'])) {
-            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
         if (!empty($where['title'])) {

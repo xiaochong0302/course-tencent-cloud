@@ -38,7 +38,7 @@ class Question extends Model
     public $category_id = 0;
 
     /**
-     * 提问者
+     * 提问者编号
      *
      * @var integer
      */

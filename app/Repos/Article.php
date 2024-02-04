@@ -57,6 +57,14 @@ class Article extends Repository
             }
         }
 
+        if (!empty($where['owner_id'])) {
+            if (is_array($where['owner_id'])) {
+                $builder->inWhere('owner_id', $where['owner_id']);
+            } else {
+                $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
+            }
+        }
+
         if (!empty($where['source_type'])) {
             if (is_array($where['source_type'])) {
                 $builder->inWhere('source_type', $where['source_type']);
@@ -71,10 +79,6 @@ class Article extends Repository
             } else {
                 $builder->andWhere('published = :published:', ['published' => $where['published']]);
             }
-        }
-
-        if (!empty($where['owner_id'])) {
-            $builder->andWhere('owner_id = :owner_id:', ['owner_id' => $where['owner_id']]);
         }
 
         if (!empty($where['title'])) {
