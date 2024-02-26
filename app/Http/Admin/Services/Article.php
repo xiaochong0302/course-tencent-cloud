@@ -178,7 +178,6 @@ class Article extends Service
 
         if (isset($post['content'])) {
             $data['content'] = $validator->checkContent($post['content']);
-            $data['word_count'] = WordUtil::getWordCount($data['content']);
         }
 
         if (isset($post['source_type'])) {

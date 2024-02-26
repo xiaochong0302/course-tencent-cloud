@@ -16,7 +16,7 @@ layui.define(['jquery', 'layer'], function (exports) {
 
     helper.getRequestId = function () {
         var id = Date.now().toString(36);
-        id += Math.random().toString(36).substr(3);
+        id += Math.random().toString(36).substring(3);
         return id;
     };
 

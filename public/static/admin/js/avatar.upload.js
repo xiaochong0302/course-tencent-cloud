@@ -32,8 +32,8 @@ layui.use(['jquery', 'layer', 'upload'], function () {
             });
         },
         done: function (res, index, upload) {
-            $('#img-avatar').attr('src', res.data.src);
-            $('input[name=avatar]').val(res.data.src);
+            $('#img-avatar').attr('src', res.data.url);
+            $('input[name=avatar]').val(res.data.url);
             layer.closeAll('loading');
         },
         error: function (index, upload) {
