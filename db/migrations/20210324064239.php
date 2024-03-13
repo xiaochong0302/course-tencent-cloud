@@ -1869,7 +1869,7 @@ final class V20210324064239 extends AbstractMigration
             ->addColumn('open_avatar', 'string', [
                 'null' => false,
                 'default' => '',
-                'limit' => 150,
+                'limit' => 255,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
                 'comment' => '开放头像',

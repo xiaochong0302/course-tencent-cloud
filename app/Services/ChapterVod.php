@@ -50,7 +50,7 @@ class ChapterVod extends Service
 
         $result = [];
 
-        foreach ($vod->file_transcode as $key => $file) {
+        foreach ($vod->file_transcode as $file) {
             $file['url'] = $vodService->getPlayUrl($file['url']);
             $type = $this->getDefinitionType($file['height']);
             $result[$type] = $file;
