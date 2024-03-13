@@ -41,6 +41,8 @@ class ResetDemoAccountTask extends Task
         $user->avatar = '/img/avatar/20210214084718217596.jpeg';
 
         $user->update();
+
+        $this->successPrint('reset account:100015 success');
     }
 
     protected function reset_account_100065()
@@ -69,6 +71,8 @@ class ResetDemoAccountTask extends Task
         $user->avatar = '/img/avatar/default.png';
 
         $user->update();
+
+        $this->successPrint('reset account:100065 success');
     }
 
 }
