@@ -12,7 +12,6 @@ use App\Services\Logic\Chapter\ChapterLike as ChapterLikeService;
 use App\Services\Logic\Chapter\CommentList as CommentListService;
 use App\Services\Logic\Chapter\ConsultList as ConsultListService;
 use App\Services\Logic\Chapter\Learning as LearningService;
-use App\Services\Logic\Chapter\ResourceList as ResourceListService;
 
 /**
  * @RoutePrefix("/api/chapter")
@@ -45,18 +44,6 @@ class ChapterController extends Controller
     }
 
     /**
-     * @Get("/{id:[0-9]+}/resources", name="api.chapter.resourses")
-     */
-    public function resourcesAction($id)
-    {
-        $service = new ResourceListService();
-
-        $resources = $service->handle($id);
-
-        return $this->jsonSuccess(['resources' => $resources]);
-    }
-
-    /**
      * @Get("/{id:[0-9]+}/info", name="api.chapter.info")
      */
     public function infoAction($id)
@@ -71,6 +58,10 @@ class ChapterController extends Controller
 
         if ($chapter['published'] == 0) {
             $this->notFound();
+        }
+
+        if ($chapter['me']['logged'] == 0) {
+            $this->unauthorized();
         }
 
         if ($chapter['me']['owned'] == 0) {

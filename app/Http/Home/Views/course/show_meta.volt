@@ -92,7 +92,7 @@
 <div class="course-meta wrap">
     <div class="cover">
         <span class="model layui-badge layui-bg-green">{{ model_type(course.model) }}</span>
-        <img src="{{ course.cover }}" alt="{{ course.title }}">
+        <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
     </div>
     <div class="info">
         {% if course.model == 1 %}
