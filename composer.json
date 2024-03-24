@@ -1,7 +1,7 @@
 {
   "require": {
     "ext-phalcon": "~3.4",
-    "ext-redis": "~5.0",
+    "ext-redis": "*",
     "ext-pdo": "*",
     "ext-json": "*",
     "ext-fileinfo": "*",
