@@ -8,15 +8,16 @@
 namespace App\Builders;
 
 use App\Models\Category as CategoryModel;
-use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
+use App\Repos\Category as CategoryRepo;
 
 class CategoryTreeList extends Builder
 {
 
     public function handle($type)
     {
-        $topCategories = $this->findTopCategories($type);
+        $categoryRepo = new CategoryRepo();
+
+        $topCategories = $categoryRepo->findTopCategories($type);
 
         if ($topCategories->count() == 0) {
             return [];
@@ -39,7 +40,9 @@ class CategoryTreeList extends Builder
 
     protected function handleChildren(CategoryModel $category)
     {
-        $subCategories = $this->findChildCategories($category->id);
+        $categoryRepo = new CategoryRepo();
+
+        $subCategories = $categoryRepo->findChildCategories($category->id);
 
         if ($subCategories->count() == 0) {
             return [];
@@ -57,39 +60,6 @@ class CategoryTreeList extends Builder
         }
 
         return $list;
-    }
-
-    /**
-     * @param int $type
-     * @return ResultsetInterface|Resultset|CategoryModel[]
-     */
-    protected function findTopCategories($type)
-    {
-        $query = CategoryModel::query();
-
-        $query->where('parent_id = 0');
-        $query->andWhere('published = 1');
-        $query->andWhere('deleted = 0');
-        $query->andWhere('type = :type:', ['type' => $type]);
-        $query->orderBy('priority ASC');
-
-        return $query->execute();
-    }
-
-    /**
-     * @param int $parentId
-     * @return ResultsetInterface|Resultset|CategoryModel[]
-     */
-    protected function findChildCategories($parentId)
-    {
-        $query = CategoryModel::query();
-
-        $query->where('parent_id = :parent_id:', ['parent_id' => $parentId]);
-        $query->andWhere('published = 1');
-        $query->andWhere('deleted = 0');
-        $query->orderBy('priority ASC');
-
-        return $query->execute();
     }
 
 }
