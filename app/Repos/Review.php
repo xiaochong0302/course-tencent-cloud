@@ -137,7 +137,7 @@ class Review extends Repository
 
     public function countLikes($reviewId)
     {
-        return ReviewLikeModel::count([
+        return (int)ReviewLikeModel::count([
             'conditions' => 'review_id = :review_id: AND deleted = 0',
             'bind' => ['review_id' => $reviewId],
         ]);
