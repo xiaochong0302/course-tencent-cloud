@@ -198,7 +198,7 @@ class Refund extends Service
 
         if (!$courseUser) return 1.00;
 
-        $userLearnings = $courseRepo->findUserLearnings($courseId, $userId);
+        $userLearnings = $courseRepo->findUserLearnings($courseId, $userId, $courseUser->plan_id);
 
         if ($userLearnings->count() == 0) return 1.00;
 
