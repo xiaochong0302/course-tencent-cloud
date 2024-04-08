@@ -51,6 +51,8 @@
             {% set user_url = url({'for':'home.user.show','id':item.id}) %}
             {% set online_url = url({'for':'admin.user.online','id':item.id}) %}
             {% set edit_url = url({'for':'admin.user.edit','id':item.id}) %}
+            {% set delete_url = url({'for':'admin.user.delete','id':item.id}) %}
+            {% set restore_url = url({'for':'admin.user.restore','id':item.id}) %}
             <tr>
                 <td class="center">
                     <img class="kg-avatar-sm" src="{{ item.avatar }}!avatar_160" alt="{{ item.name }}">
@@ -87,7 +89,14 @@
                         <ul>
                             <li><a href="{{ user_url }}" target="_blank">用户主页</a></li>
                             <li><a href="javascript:" class="kg-online" data-url="{{ online_url }}">在线记录</a></li>
-                            <li><a href="{{ edit_url }}">编辑用户</a></li>
+                            {% if item.admin_role.id != 1 %}
+                                <li><a href="{{ edit_url }}">编辑用户</a></li>
+                                {% if item.deleted == 0 %}
+                                    <li><a href="javascript:" class="kg-delete" data-url="{{ delete_url }}">删除用户</a></li>
+                                {% else %}
+                                    <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原用户</a></li>
+                                {% endif %}
+                            {% endif %}
                         </ul>
                     </div>
                 </td>
