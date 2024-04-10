@@ -23,9 +23,9 @@ class Learning extends LogicService
     {
         $post = $this->request->getPost();
 
-        $chapter = $this->checkChapter($id);
+        $chapter = $this->checkChapterCache($id);
 
-        $user = $this->getLoginUser();
+        $user = $this->getLoginUser(true);
 
         $validator = new LearningValidator();
 
