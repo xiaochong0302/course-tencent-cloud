@@ -1,3 +1,21 @@
+### [v1.6.9](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.9)(2024-04-15)
+
+- 增加用户删除和还原功能
+- 增加unauthorized响应
+- 增加post方式传递csrf_token
+- 删除chapter中resource_count,consult_count属性
+- 精简csrf_token白名单
+- 拆解优化migrations创建表脚本
+- 修正chapter_user时长重复计数问题
+- 修正后台刷新首页缓存问题
+- 修正home模块中编辑器图片上传
+- 优化文章和提问搜索条件
+- 优化课程详情页排版
+- 优化storage上传
+- 优化CategoryTreeList
+- 优化CourseUserTrait
+- 更新layui-v2.9.7
+
 ### [v1.6.8](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.8)(2024-01-30)
 
 - 修正course_user中active_time未更新问题
