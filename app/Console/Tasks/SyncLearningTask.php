@@ -69,7 +69,7 @@ class SyncLearningTask extends Task
 
         } else {
 
-            $dbLearning->duration += $cacheLearning->duration;
+            $dbLearning->duration = $cacheLearning->duration;
             $dbLearning->position = $cacheLearning->position;
             $dbLearning->active_time = $cacheLearning->active_time;
 
