@@ -140,7 +140,7 @@ class MyStorage extends Storage
      */
     public function uploadCoverImage()
     {
-        return $this->upload('/img/cover/', self::MIME_IMAGE, UploadModel::TYPE_COVER_IMG);
+        return $this->upload('/img/cover', self::MIME_IMAGE, UploadModel::TYPE_COVER_IMG);
     }
 
     /**
@@ -150,7 +150,7 @@ class MyStorage extends Storage
      */
     public function uploadContentImage()
     {
-        return $this->upload('/img/content/', self::MIME_IMAGE, UploadModel::TYPE_CONTENT_IMG);
+        return $this->upload('/img/content', self::MIME_IMAGE, UploadModel::TYPE_CONTENT_IMG);
     }
 
     /**
@@ -160,7 +160,7 @@ class MyStorage extends Storage
      */
     public function uploadAvatarImage()
     {
-        return $this->upload('/img/avatar/', self::MIME_IMAGE, UploadModel::TYPE_AVATAR_IMG);
+        return $this->upload('/img/avatar', self::MIME_IMAGE, UploadModel::TYPE_AVATAR_IMG);
     }
 
     /**
@@ -170,7 +170,7 @@ class MyStorage extends Storage
      */
     public function uploadIconImage()
     {
-        return $this->upload('/img/icon/', self::MIME_IMAGE, UploadModel::TYPE_ICON_IMG);
+        return $this->upload('/img/icon', self::MIME_IMAGE, UploadModel::TYPE_ICON_IMG);
     }
 
     /**
@@ -180,7 +180,7 @@ class MyStorage extends Storage
      */
     public function uploadResource()
     {
-        return $this->upload('/resource/', self::MIME_FILE, UploadModel::TYPE_RESOURCE);
+        return $this->upload('/resource', self::MIME_FILE, UploadModel::TYPE_RESOURCE);
     }
 
     /**
@@ -221,7 +221,7 @@ class MyStorage extends Storage
                     if (empty($fileName)) {
                         $keyName = $this->generateFileName($extension, $prefix);
                     } else {
-                        $keyName = $prefix . $fileName;
+                        $keyName = $prefix .'/'. $fileName;
                     }
 
                     $path = $this->putFile($keyName, $file->getTempName());

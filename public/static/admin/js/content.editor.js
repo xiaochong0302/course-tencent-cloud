@@ -18,6 +18,9 @@ layui.use(['jquery'], function () {
             'superscript', 'subscript', '|', 'image', 'link', 'unlink', '|',
             'source', 'about'
         ],
+        extraFileUploadParams: {
+            csrf_token: $('meta[name="csrf-token"]').attr('content')
+        }
     };
 
     KindEditor.ready(function (K) {

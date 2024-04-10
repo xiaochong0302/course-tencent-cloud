@@ -13,8 +13,8 @@ layui.use(['jquery', 'layer', 'upload'], function () {
             layer.load();
         },
         done: function (res, index, upload) {
-            $('#img-cover').attr('src', res.data.src);
-            $('input[name=cover]').val(res.data.src);
+            $('#img-cover').attr('src', res.data.url);
+            $('input[name=cover]').val(res.data.url);
             layer.closeAll('loading');
         },
         error: function (index, upload) {

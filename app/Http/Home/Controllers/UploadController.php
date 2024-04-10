@@ -39,7 +39,7 @@ class UploadController extends Controller
         }
 
         $data = [
-            'src' => $service->getImageUrl($file->path),
+            'url' => $service->getImageUrl($file->path),
             'title' => $file->name,
         ];
 
@@ -47,9 +47,9 @@ class UploadController extends Controller
     }
 
     /**
-     * @Post("/content/img", name="home.upload.content_img")
+     * @Post("/editor/img", name="home.upload.editor_img")
      */
-    public function uploadContentImageAction()
+    public function uploadEditorImageAction()
     {
         $service = new StorageService();
 
