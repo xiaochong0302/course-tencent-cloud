@@ -18,6 +18,7 @@ class ChapterList extends LogicService
 {
 
     use CourseTrait;
+    use CourseUserTrait;
 
     public function handle($id)
     {
