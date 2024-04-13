@@ -69,35 +69,35 @@
             <tr>
                 <td>发布问题</td>
                 <td>{{ event_rule.question_post.point }}</td>
-                <td>{{ event_rule.article_post.limit }}</td>
+                <td>{{ event_rule.question_post.limit }}</td>
             </tr>
         {% endif %}
         {% if event_rule.answer_post.enabled == 1 %}
             <tr>
                 <td>回答问题</td>
                 <td>{{ event_rule.answer_post.point }}</td>
-                <td>{{ event_rule.article_post.limit }}</td>
+                <td>{{ event_rule.answer_post.limit }}</td>
             </tr>
         {% endif %}
         {% if event_rule.article_liked.enabled == 1 %}
             <tr>
                 <td>文章被赞</td>
                 <td>{{ event_rule.article_liked.point }}</td>
-                <td>{{ event_rule.article_post.limit }}</td>
+                <td>{{ event_rule.article_liked.limit }}</td>
             </tr>
         {% endif %}
         {% if event_rule.question_liked.enabled == 1 %}
             <tr>
                 <td>问题被赞</td>
                 <td>{{ event_rule.question_liked.point }}</td>
-                <td>{{ event_rule.article_post.limit }}</td>
+                <td>{{ event_rule.question_liked.limit }}</td>
             </tr>
         {% endif %}
         {% if event_rule.answer_liked.enabled == 1 %}
             <tr>
                 <td>回答被赞</td>
                 <td>{{ event_rule.answer_liked.point }}</td>
-                <td>{{ event_rule.article_post.limit }}</td>
+                <td>{{ event_rule.answer_liked.limit }}</td>
             </tr>
         {% endif %}
         </tbody>

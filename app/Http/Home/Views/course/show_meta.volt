@@ -48,10 +48,10 @@
 {%- macro meta_expiry_info(course) %}
     <p class="item">
         <span class="key">学习期限</span>
-        <span class="value">{{ course.study_expiry }}个月</span>
+        <span class="value">{{ course.study_expiry }} 个月</span>
         {% if course.refund_expiry > 0 %}
             <span class="key">退款期限</span>
-            <span class="value">{{ course.refund_expiry }}天</span>
+            <span class="value">{{ course.refund_expiry }} 天</span>
         {% else %}
             <span class="key">退款期限</span>
             <span class="value">不支持</span>
@@ -92,7 +92,7 @@
 <div class="course-meta wrap">
     <div class="cover">
         <span class="model layui-badge layui-bg-green">{{ model_type(course.model) }}</span>
-        <img src="{{ course.cover }}" alt="{{ course.title }}">
+        <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
     </div>
     <div class="info">
         {% if course.model == 1 %}
@@ -109,17 +109,17 @@
         <p class="item">
             <span class="name">内容实用</span>
             <span class="star">{{ star_info(course.ratings.rating1) }}</span>
-            <span class="score">{{ "%0.1f"|format(course.ratings.rating1) }}分</span>
+            <span class="score">{{ "%0.1f"|format(course.ratings.rating1) }} 分</span>
         </p>
         <p class="item">
             <span class="name">简洁易懂</span>
             <span class="star">{{ star_info(course.ratings.rating2) }}</span>
-            <span class="score">{{ "%0.1f"|format(course.ratings.rating2) }}分</span>
+            <span class="score">{{ "%0.1f"|format(course.ratings.rating2) }} 分</span>
         </p>
         <p class="item">
             <span class="name">逻辑清晰</span>
             <span class="star">{{ star_info(course.ratings.rating3) }}</span>
-            <span class="score">{{ "%0.1f"|format(course.ratings.rating3) }}分</span>
+            <span class="score">{{ "%0.1f"|format(course.ratings.rating3) }} 分</span>
         </p>
     </div>
 </div>

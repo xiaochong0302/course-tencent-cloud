@@ -13,6 +13,7 @@ use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Library\Utils\Password as PasswordUtil;
 use App\Models\Account as AccountModel;
+use App\Models\Role as RoleModel;
 use App\Models\User as UserModel;
 use App\Repos\Account as AccountRepo;
 use App\Repos\Online as OnlineRepo;
@@ -240,6 +241,48 @@ class User extends Service
         $this->rebuildUserCache($user);
 
         return $user;
+    }
+
+    public function deleteUser($id)
+    {
+        $user = $this->findOrFail($id);
+
+        if ($user->admin_role == RoleModel::ROLE_ROOT) {
+            return;
+        }
+
+        $user->deleted = 1;
+
+        $user->update();
+
+        $accountRepo = new AccountRepo();
+
+        $account = $accountRepo->findById($id);
+
+        $account->deleted = 1;
+
+        $account->update();
+
+        $this->rebuildUserCache($user);
+    }
+
+    public function restoreUser($id)
+    {
+        $user = $this->findOrFail($id);
+
+        $user->deleted = 0;
+
+        $user->update();
+
+        $accountRepo = new AccountRepo();
+
+        $account = $accountRepo->findById($id);
+
+        $account->deleted = 0;
+
+        $account->update();
+
+        $this->rebuildUserCache($user);
     }
 
     public function updateAccount($id)

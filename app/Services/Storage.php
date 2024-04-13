@@ -259,7 +259,7 @@ class Storage extends Service
 
         $dot = $extension ? '.' : '';
 
-        return sprintf('%s%s%s%s', $prefix, $name, $dot, $extension);
+        return sprintf('%s/%s%s%s', $prefix, $name, $dot, $extension);
     }
 
     /**

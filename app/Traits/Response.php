@@ -9,13 +9,19 @@ namespace App\Traits;
 
 use App\Exceptions\Forbidden as ForbiddenException;
 use App\Exceptions\NotFound as NotFoundException;
-use Phalcon\Config;
-use Phalcon\Di;
+use App\Exceptions\Unauthorized as UnauthorizedException;
+use Phalcon\Config as Config;
+use Phalcon\Di as Di;
 use Phalcon\Http\Request as HttpRequest;
 use Phalcon\Http\Response as HttpResponse;
 
 trait Response
 {
+
+    public function unauthorized()
+    {
+        throw new UnauthorizedException('sys.unauthorized');
+    }
 
     public function forbidden()
     {

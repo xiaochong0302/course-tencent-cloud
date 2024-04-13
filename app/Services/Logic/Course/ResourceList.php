@@ -16,6 +16,7 @@ class ResourceList extends LogicService
 {
 
     use CourseTrait;
+    use CourseUserTrait;
 
     public function handle($id)
     {

@@ -21,10 +21,6 @@ class Learning extends AppService
      */
     protected $lifetime = 86400;
 
-    /**
-     * @param LearningModel $learning
-     * @param int $intervalTime
-     */
     public function addItem(LearningModel $learning, $intervalTime = 10)
     {
         $cache = $this->getCache();

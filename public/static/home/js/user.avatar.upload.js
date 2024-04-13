@@ -17,7 +17,6 @@ layui.use(['jquery', 'layer', 'upload'], function () {
         choose: function (obj) {
             var flag = true;
             obj.preview(function (index, file, result) {
-                console.log(file);
                 var img = new Image();
                 img.src = result;
                 img.onload = function () {
@@ -33,8 +32,8 @@ layui.use(['jquery', 'layer', 'upload'], function () {
             });
         },
         done: function (res, index, upload) {
-            $('#img-avatar').attr('src', res.data.src);
-            $('input[name=avatar]').val(res.data.src);
+            $('#img-avatar').attr('src', res.data.url);
+            $('input[name=avatar]').val(res.data.url);
             layer.closeAll('loading');
         },
         error: function (index, upload) {

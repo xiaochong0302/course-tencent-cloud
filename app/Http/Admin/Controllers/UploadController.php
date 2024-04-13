@@ -40,7 +40,7 @@ class UploadController extends Controller
         }
 
         $data = [
-            'src' => $service->getImageUrl($file->path),
+            'url' => $service->getImageUrl($file->path),
             'title' => $file->name,
         ];
 
@@ -61,7 +61,7 @@ class UploadController extends Controller
         }
 
         $data = [
-            'src' => $service->getImageUrl($file->path),
+            'url' => $service->getImageUrl($file->path),
             'title' => $file->name,
         ];
 
@@ -82,7 +82,7 @@ class UploadController extends Controller
         }
 
         $data = [
-            'src' => $service->getImageUrl($file->path),
+            'url' => $service->getImageUrl($file->path),
             'title' => $file->name,
         ];
 

@@ -13,7 +13,86 @@ final class V20210324064239 extends AbstractMigration
 
     public function change()
     {
-        $this->table('kg_account', [
+        $this->createAccountTable();
+        $this->createAnswerTable();
+        $this->createAnswerLikeTable();
+        $this->createAreaTable();
+        $this->createArticleTable();
+        $this->createArticleFavoriteTable();
+        $this->createArticleLikeTable();
+        $this->createArticleTagTable();
+        $this->createAuditTable();
+        $this->createCategoryTable();
+        $this->createChapterTable();
+        $this->createChapterLikeTable();
+        $this->createChapterLiveTable();
+        $this->createChapterOfflineTable();
+        $this->createChapterReadTable();
+        $this->createChapterUserTable();
+        $this->createChapterVodTable();
+        $this->createCommentTable();
+        $this->createCommentLikeTable();
+        $this->createConnectTable();
+        $this->createConsultTable();
+        $this->createConsultLikeTable();
+        $this->createCourseTable();
+        $this->createCourseFavoriteTable();
+        $this->createCoursePackageTable();
+        $this->createCourseRatingTable();
+        $this->createCourseRelatedTable();
+        $this->createCourseTopicTable();
+        $this->createCourseUserTable();
+        $this->createHelpTable();
+        $this->createLearningTable();
+        $this->createNavTable();
+        $this->createNotificationTable();
+        $this->createOnlineTable();
+        $this->createOrderTable();
+        $this->createOrderStatusTable();
+        $this->createPackageTable();
+        $this->createPageTable();
+        $this->createPointGiftTable();
+        $this->createPointHistoryTable();
+        $this->createPointRedeemTable();
+        $this->createQuestionTable();
+        $this->createQuestionFavoriteTable();
+        $this->createQuestionLikeTable();
+        $this->createQuestionTagTable();
+        $this->createRefundTable();
+        $this->createRefundStatusTable();
+        $this->createReportTable();
+        $this->createResourceTable();
+        $this->createReviewTable();
+        $this->createReviewLikeTable();
+        $this->createRewardTable();
+        $this->createRoleTable();
+        $this->createSettingTable();
+        $this->createSlideTable();
+        $this->createTagTable();
+        $this->createTagFollowTable();
+        $this->createTaskTable();
+        $this->createTopicTable();
+        $this->createTradeTable();
+        $this->createTradeStatusTable();
+        $this->createUploadTable();
+        $this->createUserTable();
+        $this->createUserBalanceTable();
+        $this->createUserContactTable();
+        $this->createUserSessionTable();
+        $this->createUserTokenTable();
+        $this->createVipTable();
+        $this->createWechatSubscribeTable();
+    }
+
+    protected function createAccountTable()
+    {
+        $tableName = 'kg_account';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -98,7 +177,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_answer', [
+    }
+
+    protected function createAnswerTable()
+    {
+        $tableName = 'kg_answer';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -254,7 +343,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_answer_like', [
+    }
+
+    protected function createAnswerLikeTable()
+    {
+        $tableName = 'kg_answer_like';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -315,7 +414,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_area', [
+    }
+
+    protected function createAreaTable()
+    {
+        $tableName = 'kg_area';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -358,7 +467,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'code',
             ])
             ->create();
-        $this->table('kg_article', [
+    }
+
+    protected function createArticleTable()
+    {
+        $tableName = 'kg_article';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -587,7 +706,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_article_favorite', [
+    }
+
+    protected function createArticleFavoriteTable()
+    {
+        $tableName = 'kg_article_favorite';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -652,7 +781,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_article_like', [
+    }
+
+    protected function createArticleLikeTable()
+    {
+        $tableName = 'kg_article_like';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -713,7 +852,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_article_tag', [
+    }
+
+    protected function createArticleTagTable()
+    {
+        $tableName = 'kg_article_tag';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -762,7 +911,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_audit', [
+    }
+
+    protected function createAuditTable()
+    {
+        $tableName = 'kg_audit';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -843,7 +1002,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_category', [
+    }
+
+    protected function createCategoryTable()
+    {
+        $tableName = 'kg_category';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -950,7 +1119,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_chapter', [
+    }
+
+    protected function createChapterTable()
+    {
+        $tableName = 'kg_chapter';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -1122,7 +1301,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_chapter_like', [
+    }
+
+    protected function createChapterLikeTable()
+    {
+        $tableName = 'kg_chapter_like';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -1183,7 +1372,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_chapter_live', [
+    }
+
+    protected function createChapterLiveTable()
+    {
+        $tableName = 'kg_chapter_live';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -1272,7 +1471,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_chapter_offline', [
+    }
+
+    protected function createChapterOfflineTable()
+    {
+        $tableName = 'kg_chapter_offline';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -1345,7 +1554,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_chapter_read', [
+    }
+
+    protected function createChapterReadTable()
+    {
+        $tableName = 'kg_chapter_read';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -1410,7 +1629,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_chapter_user', [
+    }
+
+    protected function createChapterUserTable()
+    {
+        $tableName = 'kg_chapter_user';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -1515,7 +1744,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_chapter_vod', [
+    }
+
+    protected function createChapterVodTable()
+    {
+        $tableName = 'kg_chapter_vod';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -1603,7 +1842,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_comment', [
+    }
+
+    protected function createCommentTable()
+    {
+        $tableName = 'kg_comment';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -1754,7 +2003,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_comment_like', [
+    }
+
+    protected function createCommentLikeTable()
+    {
+        $tableName = 'kg_comment_like';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -1815,7 +2074,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_connect', [
+    }
+
+    protected function createConnectTable()
+    {
+        $tableName = 'kg_connect';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -1869,7 +2138,7 @@ final class V20210324064239 extends AbstractMigration
             ->addColumn('open_avatar', 'string', [
                 'null' => false,
                 'default' => '',
-                'limit' => 150,
+                'limit' => 255,
                 'collation' => 'utf8mb4_general_ci',
                 'encoding' => 'utf8mb4',
                 'comment' => '开放头像',
@@ -1912,7 +2181,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_consult', [
+    }
+
+    protected function createConsultTable()
+    {
+        $tableName = 'kg_consult';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -2087,7 +2366,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_consult_like', [
+    }
+
+    protected function createConsultLikeTable()
+    {
+        $tableName = 'kg_consult';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -2148,7 +2437,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_course', [
+    }
+
+    protected function createCourseTable()
+    {
+        $tableName = 'kg_course';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -2398,56 +2697,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_course_category', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'COMPACT',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('course_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '课程编号',
-                'after' => 'id',
-            ])
-            ->addColumn('category_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '分类编号',
-                'after' => 'course_id',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'category_id',
-            ])
-            ->addIndex(['category_id'], [
-                'name' => 'category_id',
-                'unique' => false,
-            ])
-            ->addIndex(['course_id'], [
-                'name' => 'course_id',
-                'unique' => false,
-            ])
-            ->create();
-        $this->table('kg_course_favorite', [
+    }
+
+    protected function createCourseFavoriteTable()
+    {
+        $tableName = 'kg_course_favorite';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -2512,7 +2772,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_course_package', [
+    }
+
+    protected function createCoursePackageTable()
+    {
+        $tableName = 'kg_course_package';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -2561,7 +2831,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_course_rating', [
+    }
+
+    protected function createCourseRatingTable()
+    {
+        $tableName = 'kg_course_rating';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['course_id'],
             'engine' => 'InnoDB',
@@ -2617,7 +2897,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_course_related', [
+    }
+
+    protected function createCourseRelatedTable()
+    {
+        $tableName = 'kg_course_related';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -2662,7 +2952,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_course_topic', [
+    }
+
+    protected function createCourseTopicTable()
+    {
+        $tableName = 'kg_course_topic';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -2711,7 +3011,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_course_user', [
+    }
+
+    protected function createCourseUserTable()
+    {
+        $tableName = 'kg_course_user';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -2836,357 +3146,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_danmu', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'DYNAMIC',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('course_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '课程编号',
-                'after' => 'id',
-            ])
-            ->addColumn('chapter_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '章节编号',
-                'after' => 'course_id',
-            ])
-            ->addColumn('owner_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '用户编号',
-                'after' => 'chapter_id',
-            ])
-            ->addColumn('time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '时间轴',
-                'after' => 'owner_id',
-            ])
-            ->addColumn('text', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 255,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '内容',
-                'after' => 'time',
-            ])
-            ->addColumn('color', 'string', [
-                'null' => false,
-                'default' => 'white',
-                'limit' => 30,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '颜色',
-                'after' => 'text',
-            ])
-            ->addColumn('size', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '字号',
-                'after' => 'color',
-            ])
-            ->addColumn('position', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '位置',
-                'after' => 'size',
-            ])
-            ->addColumn('published', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '发布标识',
-                'after' => 'position',
-            ])
-            ->addColumn('deleted', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '删除标识',
-                'after' => 'published',
-            ])
-            ->addColumn('cover', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 100,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '封面',
-                'after' => 'deleted',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'cover',
-            ])
-            ->addColumn('update_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '更新时间',
-                'after' => 'create_time',
-            ])
-            ->addColumn('fuck', 'float', [
-                'null' => false,
-                'default' => '0.00',
-                'after' => 'update_time',
-            ])
-            ->addIndex(['chapter_id'], [
-                'name' => 'chapter_id',
-                'unique' => false,
-            ])
-            ->addIndex(['owner_id'], [
-                'name' => 'owner_id',
-                'unique' => false,
-            ])
-            ->create();
-        $this->table('kg_distribution', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'DYNAMIC',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('item_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '商品编号',
-                'after' => 'id',
-            ])
-            ->addColumn('item_type', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '商品类型',
-                'after' => 'item_id',
-            ])
-            ->addColumn('item_info', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 1500,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '商品信息',
-                'after' => 'item_type',
-            ])
-            ->addColumn('com_rate', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '佣金比例',
-                'after' => 'item_info',
-            ])
-            ->addColumn('com_amount', 'decimal', [
-                'null' => false,
-                'default' => '0.00',
-                'precision' => '10',
-                'scale' => '2',
-                'comment' => '佣金数额',
-                'after' => 'com_rate',
-            ])
-            ->addColumn('published', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '发布标识',
-                'after' => 'com_amount',
-            ])
-            ->addColumn('deleted', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '删除标识',
-                'after' => 'published',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'deleted',
-            ])
-            ->addColumn('update_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '更新时间',
-                'after' => 'create_time',
-            ])
-            ->create();
-        $this->table('kg_flash_sale', [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'DYNAMIC',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('item_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '商品编号',
-                'after' => 'id',
-            ])
-            ->addColumn('item_type', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '商品类型',
-                'after' => 'item_id',
-            ])
-            ->addColumn('item_info', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 1500,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '商品信息',
-                'after' => 'item_type',
-            ])
-            ->addColumn('start_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '开始时间',
-                'after' => 'item_info',
-            ])
-            ->addColumn('end_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '结束时间',
-                'after' => 'start_time',
-            ])
-            ->addColumn('schedules', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 255,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '抢购场次',
-                'after' => 'end_time',
-            ])
-            ->addColumn('price', 'decimal', [
-                'null' => false,
-                'default' => '0.00',
-                'precision' => '10',
-                'scale' => '2',
-                'comment' => '抢购价格',
-                'after' => 'schedules',
-            ])
-            ->addColumn('stock', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '抢购库存',
-                'after' => 'price',
-            ])
-            ->addColumn('published', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '发布标识',
-                'after' => 'stock',
-            ])
-            ->addColumn('deleted', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '删除标识',
-                'after' => 'published',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'deleted',
-            ])
-            ->addColumn('update_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '更新时间',
-                'after' => 'create_time',
-            ])
-            ->addIndex(['end_time'], [
-                'name' => 'end_time',
-                'unique' => false,
-            ])
-            ->addIndex(['start_time'], [
-                'name' => 'start_time',
-                'unique' => false,
-            ])
-            ->create();
-        $this->table('kg_help', [
+    }
+
+    protected function createHelpTable()
+    {
+        $tableName = 'kg_help';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -3268,7 +3238,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_learning', [
+    }
+
+    protected function createLearningTable()
+    {
+        $tableName = 'kg_learning';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -3391,7 +3371,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_nav', [
+    }
+
+    protected function createNavTable()
+    {
+        $tableName = 'kg_nav';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -3516,7 +3506,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_notification', [
+    }
+
+    protected function createNotificationTable()
+    {
+        $tableName = 'kg_notification';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -3614,7 +3614,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_online', [
+    }
+
+    protected function createOnlineTable()
+    {
+        $tableName = 'kg_online';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -3688,7 +3698,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_order', [
+    }
+
+    protected function createOrderTable()
+    {
+        $tableName = 'kg_order';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -3854,7 +3874,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_order_status', [
+    }
+
+    protected function createOrderStatusTable()
+    {
+        $tableName = 'kg_order_status';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -3899,7 +3929,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_package', [
+    }
+
+    protected function createPackageTable()
+    {
+        $tableName = 'kg_package';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -3998,7 +4038,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_page', [
+    }
+
+    protected function createPageTable()
+    {
+        $tableName = 'kg_page';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -4064,7 +4114,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_point_gift', [
+    }
+
+    protected function createPointGiftTable()
+    {
+        $tableName = 'kg_point_gift';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -4188,7 +4248,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_point_history', [
+    }
+
+    protected function createPointHistoryTable()
+    {
+        $tableName = 'kg_point_history';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -4275,7 +4345,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_point_redeem', [
+    }
+
+    protected function createPointRedeemTable()
+    {
+        $tableName = 'kg_point_redeem';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -4409,7 +4489,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_question', [
+    }
+
+    protected function createQuestionTable()
+    {
+        $tableName = 'kg_question';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -4664,7 +4754,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_question_favorite', [
+    }
+
+    protected function createQuestionFavoriteTable()
+    {
+        $tableName = 'kg_question_favorite';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -4729,7 +4829,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_question_like', [
+    }
+
+    protected function createQuestionLikeTable()
+    {
+        $tableName = 'kg_question_like';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -4790,7 +4900,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_question_tag', [
+    }
+
+    protected function createQuestionTagTable()
+    {
+        $tableName = 'kg_question_tag';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -4839,7 +4959,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_refund', [
+    }
+
+    protected function createRefundTable()
+    {
+        $tableName = 'kg_refund';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -4972,7 +5102,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_refund_status', [
+    }
+
+    protected function createRefundStatusTable()
+    {
+        $tableName = 'kg_refund_status';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5017,7 +5157,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_report', [
+    }
+
+    protected function createReportTable()
+    {
+        $tableName = 'kg_report';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5124,7 +5274,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_resource', [
+    }
+
+    protected function createResourceTable()
+    {
+        $tableName = 'kg_resource';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5189,7 +5349,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_review', [
+    }
+
+    protected function createReviewTable()
+    {
+        $tableName = 'kg_review';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5345,7 +5515,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_review_like', [
+    }
+
+    protected function createReviewLikeTable()
+    {
+        $tableName = 'kg_review_like';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5390,7 +5570,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_reward', [
+    }
+
+    protected function createRewardTable()
+    {
+        $tableName = 'kg_reward';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5446,7 +5636,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_role', [
+    }
+
+    protected function createRoleTable()
+    {
+        $tableName = 'kg_role';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5529,7 +5729,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_setting', [
+    }
+
+    protected function createSettingTable()
+    {
+        $tableName = 'kg_setting';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5576,7 +5786,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => true,
             ])
             ->create();
-        $this->table('kg_slide', [
+    }
+
+    protected function createSlideTable()
+    {
+        $tableName = 'kg_slide';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5694,7 +5914,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_tag', [
+    }
+
+    protected function createTagTable()
+    {
+        $tableName = 'kg_tag';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5790,7 +6020,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_tag_follow', [
+    }
+
+    protected function createTagFollowTable()
+    {
+        $tableName = 'kg_tag_follow';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5839,7 +6079,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_task', [
+    }
+
+    protected function createTaskTable()
+    {
+        $tableName = 'kg_task';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -5931,7 +6181,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_topic', [
+    }
+
+    protected function createTopicTable()
+    {
+        $tableName = 'kg_topic';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -6015,7 +6275,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_trade', [
+    }
+
+    protected function createTradeTable()
+    {
+        $tableName = 'kg_trade';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -6135,7 +6405,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_trade_status', [
+    }
+
+    protected function createTradeStatusTable()
+    {
+        $tableName = 'kg_trade_status';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -6180,7 +6460,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_upload', [
+    }
+
+    protected function createUploadTable()
+    {
+        $tableName = 'kg_upload';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -6277,7 +6567,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => true,
             ])
             ->create();
-        $this->table('kg_user', [
+    }
+
+    protected function createUserTable()
+    {
+        $tableName = 'kg_user';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -6487,7 +6787,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_user_balance', [
+    }
+
+    protected function createUserBalanceTable()
+    {
+        $tableName = 'kg_user_balance';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['user_id'],
             'engine' => 'InnoDB',
@@ -6535,7 +6845,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_user_contact', [
+    }
+
+    protected function createUserContactTable()
+    {
+        $tableName = 'kg_user_contact';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['user_id'],
             'engine' => 'InnoDB',
@@ -6621,7 +6941,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_user_session', [
+    }
+
+    protected function createUserSessionTable()
+    {
+        $tableName = 'kg_user_session';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -6700,7 +7030,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_user_token', [
+    }
+
+    protected function createUserTokenTable()
+    {
+        $tableName = 'kg_user_token';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -6779,7 +7119,17 @@ final class V20210324064239 extends AbstractMigration
                 'unique' => false,
             ])
             ->create();
-        $this->table('kg_vip', [
+    }
+
+    protected function createVipTable()
+    {
+        $tableName = 'kg_vip';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',
@@ -6854,7 +7204,17 @@ final class V20210324064239 extends AbstractMigration
                 'after' => 'create_time',
             ])
             ->create();
-        $this->table('kg_wechat_subscribe', [
+    }
+
+    protected function createWechatSubscribeTable()
+    {
+        $tableName = 'kg_wechat_subscribe';
+
+        if ($this->table($tableName)->exists()) {
+            return;
+        }
+
+        $this->table($tableName, [
             'id' => false,
             'primary_key' => ['id'],
             'engine' => 'InnoDB',

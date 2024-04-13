@@ -8,7 +8,6 @@
 namespace App\Http\Api\Controllers;
 
 use App\Caches\IndexArticleList;
-use App\Caches\IndexFlashSaleList;
 use App\Caches\IndexLiveList;
 use App\Caches\IndexQuestionList;
 use App\Caches\IndexSimpleFeaturedCourseList;

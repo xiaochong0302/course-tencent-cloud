@@ -18,16 +18,22 @@ class Security extends Validator
     public function checkCsrfToken()
     {
         $route = $this->router->getMatchedRoute();
+        $headerToken = $this->request->getHeader('X-Csrf-Token');
+        $postToken = $this->request->getPost('csrf_token');
 
         if (in_array($route->getName(), $this->getCsrfWhitelist())) {
             return;
         }
 
-        $token = $this->request->getHeader('X-Csrf-Token');
-
         $service = new CsrfTokenService();
 
-        $result = $service->checkToken($token);
+        $result = false;
+
+        if ($headerToken) {
+            $result = $service->checkToken($headerToken);
+        } elseif ($postToken) {
+            $result = $service->checkToken($postToken);
+        }
 
         if (!$result) {
             throw new BadRequestException('security.invalid_csrf_token');
@@ -58,10 +64,7 @@ class Security extends Validator
 
     protected function getCsrfWhitelist()
     {
-        return [
-            'admin.upload.content_img',
-            'home.upload.content_img',
-        ];
+        return [];
     }
 
 }

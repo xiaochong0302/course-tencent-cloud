@@ -140,4 +140,42 @@ class UserController extends Controller
         return $this->jsonSuccess($content);
     }
 
+    /**
+     * @Post("/{id:[0-9]+}/delete", name="admin.user.delete")
+     */
+    public function deleteAction($id)
+    {
+        $userService = new UserService();
+
+        $userService->deleteUser($id);
+
+        $location = $this->url->get(['for' => 'admin.user.list']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '删除用户成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
+    /**
+     * @Post("/{id:[0-9]+}/restore", name="admin.user.restore")
+     */
+    public function restoreAction($id)
+    {
+        $userService = new UserService();
+
+        $userService->restoreUser($id);
+
+        $location = $this->url->get(['for' => 'admin.user.list']);
+
+        $content = [
+            'location' => $location,
+            'msg' => '还原用户成功',
+        ];
+
+        return $this->jsonSuccess($content);
+    }
+
 }

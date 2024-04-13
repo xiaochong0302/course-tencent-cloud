@@ -14,6 +14,7 @@ use App\Models\CourseUser as CourseUserModel;
 use App\Models\User as UserModel;
 use App\Repos\ChapterLike as ChapterLikeRepo;
 use App\Services\Logic\ChapterTrait;
+use App\Services\Logic\Course\CourseUserTrait;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\Service as LogicService;
 
@@ -31,6 +32,7 @@ class ChapterInfo extends LogicService
     protected $user;
 
     use CourseTrait;
+    use CourseUserTrait;
     use ChapterTrait;
 
     public function handle($id)
@@ -88,8 +90,6 @@ class ChapterInfo extends LogicService
 
         if (!$this->ownedCourse) return;
 
-        $courseUser = new CourseUserModel();
-
         $sourceType = CourseUserModel::SOURCE_FREE;
 
         if ($course->market_price > 0) {
@@ -100,18 +100,14 @@ class ChapterInfo extends LogicService
             }
         }
 
-        $courseUser->course_id = $course->id;
-        $courseUser->user_id = $user->id;
-        $courseUser->source_type = $sourceType;
-
-        $courseUser->create();
+        $courseUser = $this->createCourseUser($course, $user, 0, $sourceType);
 
         $this->courseUser = $courseUser;
 
         $this->joinedCourse = true;
 
-        $this->incrCourseUserCount($course);
-        $this->incrUserCourseCount($user);
+        $this->recountCourseUsers($course);
+        $this->recountUserCourses($user);
     }
 
     protected function handleChapterUser(ChapterModel $chapter, UserModel $user)
@@ -186,20 +182,6 @@ class ChapterInfo extends LogicService
         }
 
         return $me;
-    }
-
-    protected function incrUserCourseCount(UserModel $user)
-    {
-        $user->course_count += 1;
-
-        $user->update();
-    }
-
-    protected function incrCourseUserCount(CourseModel $course)
-    {
-        $course->user_count += 1;
-
-        $course->update();
     }
 
     protected function incrChapterUserCount(ChapterModel $chapter)
