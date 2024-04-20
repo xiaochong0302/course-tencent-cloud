@@ -198,7 +198,7 @@
                     layer.load();
                 },
                 done: function (res, index, upload) {
-                    $('input[name=logo]').val(res.data.src);
+                    $('input[name=logo]').val(res.data.url);
                     layer.closeAll('loading');
                 },
                 error: function (index, upload) {
@@ -215,7 +215,7 @@
                     layer.load();
                 },
                 done: function (res, index, upload) {
-                    $('input[name=favicon]').val(res.data.src);
+                    $('input[name=favicon]').val(res.data.url);
                     layer.closeAll('loading');
                 },
                 error: function (index, upload) {
