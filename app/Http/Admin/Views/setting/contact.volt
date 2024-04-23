@@ -95,7 +95,7 @@
                     layer.load();
                 },
                 done: function (res, index, upload) {
-                    $('input[name=wechat]').val(res.data.src);
+                    $('input[name=wechat]').val(res.data.url);
                     layer.closeAll('loading');
                 },
                 error: function (index, upload) {
@@ -111,7 +111,7 @@
                     layer.load();
                 },
                 done: function (res, index, upload) {
-                    $('input[name=toutiao]').val(res.data.src);
+                    $('input[name=toutiao]').val(res.data.url);
                     layer.closeAll('loading');
                 },
                 error: function (index, upload) {
