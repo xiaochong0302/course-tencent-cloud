@@ -3,12 +3,19 @@ layui.use(['jquery', 'helper', 'util'], function () {
     var $ = layui.jquery;
     var util = layui.util;
 
-    var showQQDialog = function () {
-        window.open('https://wpa.qq.com/msgrd?v=3&uin=' + window.contact.qq + '&site=qq&menu=yes');
-    }
-
     var showWechatCode = function () {
         var content = '<div class="qrcode"><img src="' + window.contact.wechat + '" alt="扫码关注"></div>';
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            shadeClose: true,
+            content: content,
+        });
+    }
+
+    var showQQCode = function () {
+        var content = '<div class="qrcode"><img src="' + window.contact.qq + '" alt="扫码关注"></div>';
         layer.open({
             type: 1,
             title: false,
@@ -31,13 +38,6 @@ layui.use(['jquery', 'helper', 'util'], function () {
 
     var bars = [];
 
-    if (window.contact.qq) {
-        bars.push({
-            type: 'qq',
-            icon: 'layui-icon-login-qq',
-        });
-    }
-
     if (window.contact.wechat) {
         bars.push({
             type: 'wechat',
@@ -45,19 +45,30 @@ layui.use(['jquery', 'helper', 'util'], function () {
         });
     }
 
+    if (window.contact.qq) {
+        bars.push({
+            type: 'qq',
+            icon: 'layui-icon-login-qq',
+        });
+    }
+
     util.fixbar({
         bars: bars,
         click: function (type) {
-            if (type === 'qq') {
-                showQQDialog();
-            } else if (type === 'wechat') {
+            if (type === 'wechat') {
                 showWechatCode();
+            } else if (type === 'qq') {
+                showQQCode();
             }
         }
     });
 
     $('.icon-wechat').on('click', function () {
         showWechatCode();
+    });
+
+    $('.icon-qq').on('click', function () {
+        showQQCode();
     });
 
     $('.icon-toutiao').on('click', function () {
