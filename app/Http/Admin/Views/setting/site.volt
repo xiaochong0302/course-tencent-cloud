@@ -37,7 +37,7 @@
                 <input class="layui-input" type="text" name="logo" placeholder="请确保存储已正确配置" value="{{ site.logo }}">
             </div>
             <div class="layui-inline">
-                <button class="layui-btn" type="button" id="upload-logo">上传文件</button>
+                <button class="layui-btn" type="button" id="upload-logo">上传</button>
             </div>
         </div>
         <div class="layui-form-item">
@@ -46,7 +46,7 @@
                 <input class="layui-input" type="text" name="favicon" placeholder="请确保存储已正确配置" value="{{ site.favicon }}">
             </div>
             <div class="layui-inline">
-                <button class="layui-btn" type="button" id="upload-favicon">上传文件</button>
+                <button class="layui-btn" type="button" id="upload-favicon">上传</button>
             </div>
         </div>
         <div class="layui-form-item">

@@ -19,7 +19,16 @@
                 <input class="layui-input" type="text" name="wechat" placeholder="请确保存储已正确配置" value="{{ contact.wechat }}">
             </div>
             <div class="layui-inline">
-                <button class="layui-btn" type="button" id="upload-wechat">上传文件</button>
+                <button class="layui-btn" type="button" id="upload-wechat">上传</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">QQ二维码</label>
+            <div class="layui-inline" style="width:40%;">
+                <input class="layui-input" type="text" name="qq" placeholder="请确保存储已正确配置" value="{{ contact.qq }}">
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn" type="button" id="upload-qq">上传</button>
             </div>
         </div>
         <div class="layui-form-item">
@@ -28,13 +37,7 @@
                 <input class="layui-input" type="text" name="toutiao" placeholder="请确保存储已正确配置" value="{{ contact.toutiao }}">
             </div>
             <div class="layui-inline">
-                <button class="layui-btn" type="button" id="upload-toutiao">上传文件</button>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">客服QQ</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" name="qq" value="{{ contact.qq }}" placeholder="请前往 https://shang.qq.com/v3/widget.html 开通服务">
+                <button class="layui-btn" type="button" id="upload-toutiao">上传</button>
             </div>
         </div>
         <div class="layui-form-item">
@@ -96,6 +99,22 @@
                 },
                 done: function (res, index, upload) {
                     $('input[name=wechat]').val(res.data.url);
+                    layer.closeAll('loading');
+                },
+                error: function (index, upload) {
+                    layer.msg('上传文件失败', {icon: 2});
+                }
+            });
+
+            upload.render({
+                elem: '#upload-qq',
+                url: '/admin/upload/icon/img',
+                exts: 'gif|jpg|png',
+                before: function () {
+                    layer.load();
+                },
+                done: function (res, index, upload) {
+                    $('input[name=qq]').val(res.data.url);
                     layer.closeAll('loading');
                 },
                 error: function (index, upload) {
