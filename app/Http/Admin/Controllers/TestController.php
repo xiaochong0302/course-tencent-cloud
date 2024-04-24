@@ -8,9 +8,7 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\AlipayTest as AlipayTestService;
-use App\Http\Admin\Services\Setting as SettingService;
 use App\Http\Admin\Services\WxpayTest as WxpayTestService;
-use App\Services\Captcha as CaptchaService;
 use App\Services\DingTalkNotice as DingTalkNoticeService;
 use App\Services\Live as LiveService;
 use App\Services\Logic\Notice\External\Mail\Test as MailTestService;
@@ -149,30 +147,6 @@ class TestController extends Controller
             return $this->jsonSuccess(['msg' => '发送邮件成功，请到收件箱确认']);
         } else {
             return $this->jsonError(['msg' => '发送邮件失败，请检查配置']);
-        }
-    }
-
-    /**
-     * @Post("/captcha", name="admin.test.captcha")
-     */
-    public function captchaAction()
-    {
-        $post = $this->request->getPost();
-
-        $captchaService = new CaptchaService();
-
-        $result = $captchaService->verify($post['ticket'], $post['rand']);
-
-        if ($result) {
-
-            $settingService = new SettingService();
-
-            $settingService->updateSettings('captcha', ['enabled' => 1]);
-
-            return $this->jsonSuccess(['msg' => '后台验证成功']);
-
-        } else {
-            return $this->jsonError(['msg' => '后台验证失败']);
         }
     }
 
