@@ -12,12 +12,13 @@ layui.use(['jquery'], function () {
         items: [
             'selectall', '|',
             'undo', 'redo', '|',
-            'copy', 'plainpaste', 'wordpaste', '|',
-            'formatblock', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|',
-            'insertorderedlist', 'insertunorderedlist', 'table', '|',
-            'superscript', 'subscript', '|', 'image', 'link', 'unlink', '|',
+            'formatblock', 'formatblock', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'removeformat', '|',
+            'insertorderedlist', 'insertunorderedlist', 'table', 'code', '|',
+            'superscript', 'subscript', '|',
+            'image', 'link', 'unlink', '|',
             'source', 'about'
         ],
+        pasteType: 1,
         extraFileUploadParams: {
             csrf_token: $('meta[name="csrf-token"]').attr('content')
         }
