@@ -14,7 +14,6 @@ layui.use(['jquery'], function () {
             'undo', 'redo', '|',
             'formatblock', 'formatblock', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'removeformat', '|',
             'insertorderedlist', 'insertunorderedlist', 'table', 'code', '|',
-            'superscript', 'subscript', '|',
             'image', 'link', 'unlink', '|',
             'source', 'about'
         ],
