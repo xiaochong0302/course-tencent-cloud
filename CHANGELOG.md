@@ -1,3 +1,14 @@
+### [v1.7.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.0)(2024-05-15)
+
+- 升级layui-2.9.8
+- 调整html编辑器属性
+- 增加代码块内容复制
+- 清理无用的Captcha配置
+- 联系人QQ改为上传二维码图片
+- 修正logo,favicon上传路径
+- 登录后台同时登录前台
+- 移动端修正评论发表
+
 ### [v1.6.9](https://gitee.com/koogua/course-tencent-cloud/releases/v1.6.9)(2024-04-15)
 
 - 增加用户删除和还原功能
