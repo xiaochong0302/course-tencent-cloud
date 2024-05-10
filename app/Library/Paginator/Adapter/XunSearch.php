@@ -42,7 +42,7 @@ class XunSearch extends PaginatorAdapter
 
     public function __construct(array $config)
     {
-        if (!isset($config['xs']) || ($config['xs'] instanceof \XS) == false) {
+        if (!isset($config['xs']) || !($config['xs'] instanceof \XS)) {
             throw new PaginatorException('Invalid xs parameter');
         }
 

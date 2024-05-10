@@ -8,6 +8,7 @@
 namespace App\Http\Admin\Services;
 
 use App\Services\Auth\Admin as AdminAuth;
+use App\Services\Auth\Home as HomeAuth;
 use App\Validators\Account as AccountValidator;
 
 class Session extends Service
@@ -35,6 +36,8 @@ class Session extends Service
 
         $this->auth->saveAuthInfo($user);
 
+        $this->loginHome($user);
+
         $this->eventsManager->fire('Account:afterLogin', $this, $user);
     }
 
@@ -45,6 +48,13 @@ class Session extends Service
         $this->auth->clearAuthInfo();
 
         $this->eventsManager->fire('Account:afterLogout', $this, $user);
+    }
+
+    protected function loginHome($user)
+    {
+        $auth = new HomeAuth();
+
+        $auth->saveAuthInfo($user);
     }
 
 }

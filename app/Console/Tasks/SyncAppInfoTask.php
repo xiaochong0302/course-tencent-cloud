@@ -15,6 +15,8 @@ class SyncAppInfoTask extends Task
 
     public function mainAction()
     {
+        echo '------ start sync app info ------' . PHP_EOL;
+
         $url = 'https://www.koogua.com/api/instance/collect';
 
         $site = $this->getSettings('site');
@@ -37,6 +39,8 @@ class SyncAppInfoTask extends Task
         $client = new Client();
 
         $client->request('POST', $url, ['form_params' => $params]);
+
+        echo '------ end sync app info ------' . PHP_EOL;
     }
 
 }
