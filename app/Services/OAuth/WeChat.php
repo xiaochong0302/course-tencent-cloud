@@ -91,7 +91,7 @@ class WeChat extends OAuth
         $userInfo['name'] = $data['nickname'];
         $userInfo['avatar'] = $data['headimgurl'];
         $userInfo['unionid'] = $data['unionid'] ?? '';
-        $userInfo['provider'] = ConnectModel::PROVIDER_WECHAT;
+        $userInfo['provider'] = ConnectModel::PROVIDER_WECHAT_OA;
 
         return $userInfo;
     }

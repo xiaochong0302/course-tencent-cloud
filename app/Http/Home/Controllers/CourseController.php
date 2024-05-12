@@ -8,7 +8,6 @@
 namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\CourseQuery as CourseQueryService;
-use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Services\Logic\Course\ChapterList as CourseChapterListService;
 use App\Services\Logic\Course\ConsultList as CourseConsultListService;
 use App\Services\Logic\Course\CourseFavorite as CourseFavoriteService;
@@ -20,6 +19,7 @@ use App\Services\Logic\Course\ResourceList as CourseResourceListService;
 use App\Services\Logic\Course\ReviewList as CourseReviewListService;
 use App\Services\Logic\Course\TopicList as CourseTopicListService;
 use App\Services\Logic\Reward\OptionList as RewardOptionList;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 use Phalcon\Mvc\View;
 
 /**

@@ -7,10 +7,11 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\ShareUrl as ShareUrlService;
 use App\Library\CsrfToken as CsrfTokenService;
 use App\Repos\Upload as UploadRepo;
 use App\Services\LiveNotify as LiveNotifyService;
+use App\Services\Logic\Url\ShareUrl as ShareUrlService;
+use App\Services\Logic\WeChat\OfficialAccount as WeChatOAService;
 use App\Services\Pay\Alipay as AlipayService;
 use App\Services\Pay\Wxpay as WxpayService;
 use App\Services\Storage as StorageService;
@@ -144,6 +145,42 @@ class PublicController extends \Phalcon\Mvc\Controller
         $response = $service->notify();
 
         if (!$response) exit;
+
+        $response->send();
+
+        exit;
+    }
+
+    /**
+     * @Get("/wechat/oa/notify", name="home.wechat_oa.verify")
+     */
+    public function wechatOaVerifyAction()
+    {
+        $service = new WeChatOAService();
+
+        $app = $service->getOfficialAccount();
+
+        $response = $app->server->serve();
+
+        $response->send();
+
+        exit;
+    }
+
+    /**
+     * @Post("/wechat/oa/notify", name="home.wechat_oa.notify")
+     */
+    public function wechatOaNotifyAction()
+    {
+        $service = new WeChatOAService();
+
+        $app = $service->getOfficialAccount();
+
+        $app->server->push(function ($message) use ($service) {
+            return $service->handleNotify($message);
+        });
+
+        $response = $app->server->serve();
 
         $response->send();
 

@@ -9,7 +9,6 @@ namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Article as ArticleService;
 use App\Http\Home\Services\ArticleQuery as ArticleQueryService;
-use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Models\Article as ArticleModel;
 use App\Services\Logic\Article\ArticleClose as ArticleCloseService;
 use App\Services\Logic\Article\ArticleCreate as ArticleCreateService;
@@ -20,6 +19,7 @@ use App\Services\Logic\Article\ArticleLike as ArticleLikeService;
 use App\Services\Logic\Article\ArticleList as ArticleListService;
 use App\Services\Logic\Article\ArticleUpdate as ArticleUpdateService;
 use App\Services\Logic\Article\RelatedArticleList as RelatedArticleListService;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 use Phalcon\Mvc\View;
 
 /**

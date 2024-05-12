@@ -116,11 +116,6 @@ class FullH5Url extends AppService
         return $this->getFullUrl('/question/info', ['id' => $id]);
     }
 
-    public function getAnswerInfoUrl($id)
-    {
-        return $this->getFullUrl('/answer/info', ['id' => $id]);
-    }
-
     public function getTopicInfoUrl($id)
     {
         return $this->getFullUrl('/topic/info', ['id' => $id]);

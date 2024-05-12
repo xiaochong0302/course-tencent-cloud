@@ -7,7 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\FullH5Url as FullH5UrlService;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 use App\Services\Logic\User\AnswerList as UserAnswerListService;
 use App\Services\Logic\User\ArticleList as UserArticleListService;
 use App\Services\Logic\User\CourseList as UserCourseListService;

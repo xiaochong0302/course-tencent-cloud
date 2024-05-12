@@ -7,31 +7,59 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\WeChatOfficialAccount as WeChatOAService;
+use App\Http\Home\Services\WeChatOfficialAccount as HomeWeChatOAService;
+use App\Services\Logic\WeChat\OfficialAccount as WeChatOAService;
 use App\Traits\Response as ResponseTrait;
 
 /**
  * @RoutePrefix("/wechat/oa")
  */
-class WeChatOfficialAccountController extends \Phalcon\Mvc\Controller
+class WeChatOfficialAccountController extends Controller
 {
 
     use ResponseTrait;
 
     /**
-     * @Get("/subscribe/status", name="home.wechat_oa.sub_status")
+     * @Get("/bind", name="home.wechat_oa.bind")
      */
-    public function subscribeStatusAction()
+    public function bindAction()
     {
-        $service = new WeChatOAService();
+        $captcha = $this->getSettings('captcha');
 
-        $status = $service->getSubscribeStatus();
+        $this->seo->prependTitle('绑定帐号');
 
-        return $this->jsonSuccess(['status' => $status]);
+        $this->view->pick('wechat/oa/bind');
+        $this->view->setVar('captcha', $captcha);
     }
 
     /**
-     * @Get("/subscribe/qrcode", name="home.wechat_oa.sub_qrcode")
+     * @Get("/login/qrcode", name="home.wechat_oa.login_qrcode")
+     */
+    public function loginQrCodeAction()
+    {
+        $service = new WeChatOAService();
+
+        $qrcode = $service->createLoginQrCode();
+
+        return $this->jsonSuccess(['qrcode' => $qrcode]);
+    }
+
+    /**
+     * @Get("/login/status", name="home.wechat_oa.lgoin_status")
+     */
+    public function loginStatusAction()
+    {
+        $ticket = $this->request->getQuery('ticket');
+
+        $service = new WeChatOAService();
+
+        $data = $service->getLoginStatus($ticket);
+
+        return $this->jsonSuccess(['data' => $data]);
+    }
+
+    /**
+     * @Get("/subscribe/qrcode", name="home.wechat_oa.subscribe_qrcode")
      */
     public function subscribeQrCodeAction()
     {
@@ -43,39 +71,63 @@ class WeChatOfficialAccountController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/notify", name="home.wechat_oa.verify")
+     * @Get("/subscribe/status", name="home.wechat_oa.subscribe_status")
      */
-    public function verifyAction()
+    public function subscribeStatusAction()
     {
         $service = new WeChatOAService();
 
-        $app = $service->getOfficialAccount();
+        $status = $service->getSubscribeStatus();
 
-        $response = $app->server->serve();
-
-        $response->send();
-
-        exit;
+        return $this->jsonSuccess(['status' => $status]);
     }
 
     /**
-     * @Post("/notify", name="home.wechat_oa.notify")
+     * @Post("/auth/login", name="home.wechat_oa.auth_login")
      */
-    public function notifyAction()
+    public function authLoginAction()
     {
-        $service = new WeChatOAService();
+        $service = new HomeWeChatOAService();
 
-        $app = $service->getOfficialAccount();
+        $service->authLogin();
 
-        $app->server->push(function ($message) use ($service) {
-            return $service->handleNotify($message);
-        });
+        $returnUrl = $this->request->getPost('return_url', 'string');
 
-        $response = $app->server->serve();
+        $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
 
-        $response->send();
+        return $this->jsonSuccess(['location' => $location]);
+    }
 
-        exit;
+    /**
+     * @Post("/bind/login", name="home.wechat_oa.bind_login")
+     */
+    public function bindLoginAction()
+    {
+        $service = new HomeWeChatOAService();
+
+        $service->bindLogin();
+
+        $returnUrl = $this->request->getPost('return_url', 'string');
+
+        $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
+
+        return $this->jsonSuccess(['location' => $location]);
+    }
+
+    /**
+     * @Post("/bind/register", name="home.wechat_oa.bind_register")
+     */
+    public function bindRegisterAction()
+    {
+        $service = new HomeWeChatOAService();
+
+        $service->bindRegister();
+
+        $returnUrl = $this->request->getPost('return_url', 'string');
+
+        $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
+
+        return $this->jsonSuccess(['location' => $location]);
     }
 
 }
