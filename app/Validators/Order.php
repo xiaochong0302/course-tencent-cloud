@@ -118,7 +118,7 @@ class Order extends Validator
     {
         $value = $this->filter->sanitize($amount, ['trim', 'float']);
 
-        if ($value < 0.01 || $value > 10000) {
+        if ($value < 0.01 || $value > 100000) {
             throw new BadRequestException('order.invalid_pay_amount');
         }
 
