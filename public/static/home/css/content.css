@@ -178,7 +178,8 @@
     font-family: Consolas, Monaco, Andale Mono, monospace;
     line-height: 1.7em;
     overflow: auto;
-    padding: 6px 10px;
+    padding: 15px 10px;
+    margin-bottom: 15px;
     border-left: 5px solid #6CE26C;
 }
 
@@ -218,4 +219,25 @@
 
 .ke-content blockquote p {
     color: #666;
+}
+
+.ke-content pre {
+    position: relative;
+}
+
+.ke-content pre > span.kg-copy {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0 10px;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    display: none;
+}
+
+.ke-content pre:hover > span.kg-copy {
+    display: block;
 }

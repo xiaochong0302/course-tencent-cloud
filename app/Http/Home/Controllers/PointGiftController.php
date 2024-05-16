@@ -11,6 +11,7 @@ use App\Services\Logic\Point\GiftInfo as GiftInfoService;
 use App\Services\Logic\Point\GiftList as GiftListService;
 use App\Services\Logic\Point\GiftRedeem as GiftRedeemService;
 use App\Services\Logic\Point\HotGiftList as HotGiftListService;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 use App\Services\Logic\User\Console\BalanceInfo as BalanceInfoService;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
@@ -38,6 +39,13 @@ class PointGiftController extends Controller
      */
     public function listAction()
     {
+        $service = new FullH5UrlService();
+
+        if ($service->isMobileBrowser() && $service->h5Enabled()) {
+            $location = $service->getPointGiftListUrl();
+            return $this->response->redirect($location);
+        }
+
         $this->seo->prependTitle('积分商城');
 
         $this->view->pick('point/gift/list');

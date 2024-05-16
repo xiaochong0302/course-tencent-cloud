@@ -7,9 +7,9 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Services\Logic\Teacher\CourseList as TeacherCourseListService;
 use App\Services\Logic\Teacher\TeacherList as TeacherListService;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 use App\Services\Logic\User\UserInfo as UserInfoService;
 use Phalcon\Mvc\View;
 

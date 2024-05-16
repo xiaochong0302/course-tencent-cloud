@@ -29,7 +29,7 @@ class ConnectController extends Controller
             $service->setWechatRedirectCache($redirect);
         }
 
-        $url = $service->getAuthorizeUrl(ConnectModel::PROVIDER_WECHAT);
+        $url = $service->getAuthorizeUrl(ConnectModel::PROVIDER_WECHAT_OA);
 
         return $this->response->redirect($url, true);
     }
@@ -41,7 +41,7 @@ class ConnectController extends Controller
     {
         $service = new ConnectService();
 
-        $data = $service->handleCallback(ConnectModel::PROVIDER_WECHAT);
+        $data = $service->handleCallback(ConnectModel::PROVIDER_WECHAT_OA);
 
         $redirect = $service->getWechatRedirectCache();
 

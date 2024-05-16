@@ -7,9 +7,9 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Services\Logic\Help\HelpInfo as HelpInfoService;
 use App\Services\Logic\Help\HelpList as HelpListService;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 
 /**
  * @RoutePrefix("/help")

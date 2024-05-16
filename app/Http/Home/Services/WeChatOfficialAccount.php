@@ -7,242 +7,119 @@
 
 namespace App\Http\Home\Services;
 
-use App\Models\WeChatSubscribe as WeChatSubscribeModel;
+use App\Models\Connect as ConnectModel;
+use App\Models\User as UserModel;
+use App\Repos\Connect as ConnectRepo;
 use App\Repos\User as UserRepo;
-use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
-use App\Services\WeChat as WeChatService;
-use EasyWeChat\Kernel\Messages\Text as TextMessage;
+use App\Services\Auth\Home as AuthService;
+use App\Services\Logic\Account\Register as RegisterService;
+use App\Services\Logic\Notice\External\AccountLogin as AccountLoginNotice;
+use App\Validators\Account as AccountValidator;
+use App\Validators\WeChatOfficialAccount as WeChatOAValidator;
 
 class WeChatOfficialAccount extends Service
 {
 
-    public function getOfficialAccount()
+    public function authLogin()
     {
-        $service = new WeChatService();
+        $ticket = $this->request->getPost('ticket');
 
-        return $service->getOfficialAccount();
-    }
+        $validator = new WeChatOAValidator();
 
-    public function createSubscribeQrCode()
-    {
-        $user = $this->getLoginUser();
+        $openId = $validator->checkLoginOpenId($ticket);
 
-        $app = $this->getOfficialAccount();
+        $connectRepo = new ConnectRepo();
 
-        $result = $app->qrcode->temporary($user->id);
-
-        return $app->qrcode->url($result['ticket']);
-    }
-
-    public function getSubscribeStatus()
-    {
-        $user = $this->getLoginUser();
-
-        $subscribeRepo = new WeChatSubscribeRepo();
-
-        $subscribe = $subscribeRepo->findByUserId($user->id);
-
-        return $subscribe ? 1 : 0;
-    }
-
-    public function handleNotify($message)
-    {
-        $service = new WeChatService();
-
-        $service->logger->debug('Received Message ' . json_encode($message));
-
-        switch ($message['MsgType']) {
-            case 'event':
-                switch ($message['Event']) {
-                    case 'subscribe':
-                        return $this->handleSubscribeEvent($message);
-                    case 'unsubscribe':
-                        return $this->handleUnsubscribeEvent($message);
-                    case 'SCAN':
-                        return $this->handleScanEvent($message);
-                    case 'CLICK':
-                        return $this->handleClickEvent($message);
-                    case 'VIEW':
-                        return $this->handleViewEvent($message);
-                    case 'LOCATION':
-                        return $this->handleLocationEvent($message);
-                    default:
-                        return $this->noMatchReply();
-                }
-            case 'text':
-                return $this->handleTextReply($message);
-            case 'image':
-                return $this->handleImageReply($message);
-            case 'voice':
-                return $this->handleVoiceReply($message);
-            case 'video':
-                return $this->handleVideoReply($message);
-            case 'shortvideo':
-                return $this->handleShortVideoReply($message);
-            case 'location':
-                return $this->handleLocationReply($message);
-            case 'link':
-                return $this->handleLinkReply($message);
-            default:
-                return $this->noMatchReply();
-        }
-    }
-
-    protected function handleSubscribeEvent($message)
-    {
-        $openId = $message['FromUserName'] ?? '';
-        $eventKey = $message['EventKey'] ?? '';
-
-        /**
-         * 带场景值的关注事件
-         */
-        $userId = str_replace('qrscene_', '', $eventKey);
-
-        if ($userId && $openId) {
-            $this->saveWechatSubscribe($userId, $openId);
-        }
-
-        return new TextMessage('开心呀，我们又多了一个小伙伴!');
-    }
-
-    protected function handleUnsubscribeEvent($message)
-    {
-        $openId = $message['FromUserName'] ?? '';
-
-        $subscribeRepo = new WeChatSubscribeRepo();
-
-        $subscribe = $subscribeRepo->findByOpenId($openId);
-
-        if ($subscribe) {
-            $subscribe->deleted = 1;
-            $subscribe->update();
-        }
-
-        return new TextMessage('伤心呀，我们又少了一个小伙伴!');
-    }
-
-    protected function handleScanEvent($message)
-    {
-        $openId = $message['FromUserName'] ?? '';
-        $eventKey = $message['EventKey'] ?? '';
-
-        $userId = str_replace('qrscene_', '', $eventKey);
-
-        if ($userId && $openId) {
-            $userInfo = $this->getUserInfo($openId);
-            $unionId = $userInfo['unionid'] ?: '';
-            $this->saveWechatSubscribe($userId, $openId, $unionId);
-        }
-
-        return $this->emptyReply();
-    }
-
-    protected function handleClickEvent($message)
-    {
-        return $this->emptyReply();
-    }
-
-    protected function handleViewEvent($message)
-    {
-        return $this->emptyReply();
-    }
-
-    protected function handleLocationEvent($message)
-    {
-        return $this->emptyReply();
-    }
-
-    protected function handleTextReply($message)
-    {
-        return $this->emptyReply();
-    }
-
-    protected function handleImageReply($message)
-    {
-        return $this->emptyReply();
-    }
-
-    protected function handleVoiceReply($message)
-    {
-        return $this->emptyReply();
-    }
-
-    protected function handleVideoReply($message)
-    {
-        return $this->emptyReply();
-    }
-
-    protected function handleShortVideoReply($message)
-    {
-        return $this->emptyReply();
-    }
-
-    protected function handleLocationReply($message)
-    {
-        return $this->emptyReply();
-    }
-
-    protected function handleLinkReply($message)
-    {
-        return $this->emptyReply();
-    }
-
-    protected function emptyReply()
-    {
-        return null;
-    }
-
-    protected function noMatchReply()
-    {
-        return new TextMessage('没有匹配的服务哦！');
-    }
-
-    protected function saveWechatSubscribe($userId, $openId, $unionId = '')
-    {
-        if (!$userId || !$openId) return;
+        $connect = $connectRepo->findByOpenId($openId, ConnectModel::PROVIDER_WECHAT_OA);
 
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($userId);
+        $user = $userRepo->findById($connect->user_id);
 
-        if (!$user) return;
+        $validator = new AccountValidator();
 
-        $subscribeRepo = new WeChatSubscribeRepo();
+        $validator->checkIfAllowLogin($user);
 
-        $subscribe = $subscribeRepo->findByOpenId($openId);
+        $this->handleLoginNotice($user);
 
-        if ($subscribe) {
-            if ($subscribe->user_id != $userId) {
-                $subscribe->user_id = $userId;
-            }
-            if (empty($subscribe->union_id) && !empty($unionId)) {
-                $subscribe->union_id = $unionId;
-            }
-            if ($subscribe->deleted == 1) {
-                $subscribe->deleted = 0;
-            }
-            $subscribe->update();
-        } else {
-            $subscribe = new WeChatSubscribeModel();
-            $subscribe->user_id = $userId;
-            $subscribe->open_id = $openId;
-            $subscribe->union_id = $unionId;
-            $subscribe->create();
-        }
+        $auth = $this->getAppAuth();
+
+        $auth->saveAuthInfo($user);
     }
 
-    protected function getUserInfo($openId)
+    public function bindLogin()
     {
-        $app = $this->getOfficialAccount();
+        $post = $this->request->getPost();
 
-        return $app->user->get($openId);
+        $validator = new AccountValidator();
+
+        $user = $validator->checkUserLogin($post['account'], $post['password']);
+
+        $validator = new WeChatOAValidator();
+
+        $openId = $validator->checkLoginOpenId($post['ticket']);
+
+        $connect = new ConnectModel();
+
+        $connect->user_id = $user->id;
+        $connect->open_id = $openId;
+        $connect->provider = ConnectModel::PROVIDER_WECHAT_OA;
+
+        $connect->create();
+
+        $this->handleLoginNotice($user);
+
+        $auth = $this->getAppAuth();
+
+        $auth->saveAuthInfo($user);
     }
 
-    protected function getWechatLogger()
+    public function bindRegister()
     {
-        $service = new WeChatService();
+        $post = $this->request->getPost();
 
-        return $service->logger;
+        $validator = new WeChatOAValidator();
+
+        $openId = $validator->checkLoginOpenId($post['ticket']);
+
+        $registerService = new RegisterService();
+
+        $account = $registerService->handle();
+
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($account->id);
+
+        $connect = new ConnectModel();
+
+        $connect->user_id = $user->id;
+        $connect->open_id = $openId;
+        $connect->provider = ConnectModel::PROVIDER_WECHAT_OA;
+
+        $connect->create();
+
+        $this->handleLoginNotice($user);
+
+        $auth = $this->getAppAuth();
+
+        $auth->saveAuthInfo($user);
+    }
+
+    protected function getAppAuth()
+    {
+        /**
+         * @var $auth AuthService
+         */
+        $auth = $this->getDI()->get('auth');
+
+        return $auth;
+    }
+
+    protected function handleLoginNotice(UserModel $user)
+    {
+        $notice = new AccountLoginNotice();
+
+        $notice->createTask($user);
     }
 
 }

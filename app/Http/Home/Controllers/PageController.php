@@ -7,9 +7,9 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Http\Home\Services\Index as IndexService;
 use App\Services\Logic\Page\PageInfo as PageInfoService;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 
 /**
  * @RoutePrefix("/page")

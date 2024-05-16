@@ -48,6 +48,8 @@ class ShareUrl extends AppService
             $result = $this->getArticleUrl($id);
         } elseif ($type == 'page') {
             $result = $this->getPageUrl($id);
+        } elseif ($type == 'help') {
+            $result = $this->getHelpUrl($id);
         } elseif ($type == 'question') {
             $result = $this->getQuestionUrl($id);
         } elseif ($type == 'course') {
