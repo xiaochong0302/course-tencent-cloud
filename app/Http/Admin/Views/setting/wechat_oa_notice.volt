@@ -47,6 +47,7 @@
             </td>
             <td><input class="layui-input" type="text" name="notice_template[refund_finish][id]" value="{{ notice_template.refund_finish.id }}" lay-verify="required"></td>
         </tr>
+        <!--
         <tr>
             <td>课程直播提醒</td>
             <td>
@@ -63,6 +64,7 @@
             </td>
             <td><input class="layui-input" type="text" name="notice_template[consult_reply][id]" value="{{ notice_template.consult_reply.id }}" lay-verify="required"></td>
         </tr>
+        -->
         </tbody>
     </table>
     <br>
