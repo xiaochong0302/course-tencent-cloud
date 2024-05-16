@@ -48,14 +48,12 @@ class ConsultList extends LogicService
         $consults = $pager->items->toArray();
 
         $courses = $builder->getCourses($consults);
-        $chapters = $builder->getChapters($consults);
 
         $items = [];
 
         foreach ($consults as $consult) {
 
             $course = $courses[$consult['course_id']] ?? new \stdClass();
-            $chapter = $chapters[$consult['chapter_id']] ?? new \stdClass();
 
             $items[] = [
                 'id' => $consult['id'],
@@ -66,7 +64,6 @@ class ConsultList extends LogicService
                 'reply_time' => $consult['reply_time'],
                 'create_time' => $consult['create_time'],
                 'course' => $course,
-                'chapter' => $chapter,
             ];
         }
 

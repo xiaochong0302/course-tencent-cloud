@@ -41,13 +41,6 @@ class Consult extends Model
     public $course_id = 0;
 
     /**
-     * 章节编号
-     *
-     * @var int
-     */
-    public $chapter_id = 0;
-
-    /**
      * 提主编号
      *
      * @var int
