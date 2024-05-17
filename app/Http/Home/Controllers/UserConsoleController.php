@@ -7,7 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
+use App\Http\Home\Services\UserConsole as HomeUserConsoleService;
 use App\Services\Logic\Account\OAuthProvider as OAuthProviderService;
 use App\Services\Logic\User\Console\AccountInfo as AccountInfoService;
 use App\Services\Logic\User\Console\AnswerList as AnswerListService;
@@ -117,6 +117,10 @@ class UserConsoleController extends Controller
 
         $connects = $service->handle();
 
+        $service = new HomeUserConsoleService();
+
+        $wechatOAConnect = $service->getWeChatOAConnect();
+
         if ($type == 'info') {
             $this->view->pick('user/console/account_info');
         } elseif ($type == 'phone') {
@@ -127,6 +131,7 @@ class UserConsoleController extends Controller
             $this->view->pick('user/console/account_password');
         }
 
+        $this->view->setVar('wechat_oa_connected', $wechatOAConnect ? 1 : 0);
         $this->view->setVar('oauth_provider', $oauthProvider);
         $this->view->setVar('connects', $connects);
         $this->view->setVar('captcha', $captcha);
@@ -291,21 +296,6 @@ class UserConsoleController extends Controller
 
         $this->view->pick('user/console/notifications');
         $this->view->setVar('pager', $pager);
-    }
-
-    /**
-     * @Get("/subscribe", name="home.uc.subscribe")
-     */
-    public function subscribeAction()
-    {
-        $subscribeRepo = new WeChatSubscribeRepo();
-
-        $subscribe = $subscribeRepo->findByUserId($this->authUser->id);
-
-        $subscribed = $subscribe ? 1 : 0;
-
-        $this->view->pick('user/console/subscribe');
-        $this->view->setVar('subscribed', $subscribed);
     }
 
     /**
