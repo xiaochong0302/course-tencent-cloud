@@ -81,7 +81,6 @@ final class V20210324064239 extends AbstractMigration
         $this->createUserSessionTable();
         $this->createUserTokenTable();
         $this->createVipTable();
-        $this->createWechatSubscribeTable();
     }
 
     protected function createAccountTable()
@@ -7202,74 +7201,6 @@ final class V20210324064239 extends AbstractMigration
                 'signed' => false,
                 'comment' => '更新时间',
                 'after' => 'create_time',
-            ])
-            ->create();
-    }
-
-    protected function createWechatSubscribeTable()
-    {
-        $tableName = 'kg_wechat_subscribe';
-
-        if ($this->table($tableName)->exists()) {
-            return;
-        }
-
-        $this->table($tableName, [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'DYNAMIC',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键编号',
-            ])
-            ->addColumn('user_id', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '用户编号',
-                'after' => 'id',
-            ])
-            ->addColumn('open_id', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 64,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '开放ID',
-                'after' => 'user_id',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'open_id',
-            ])
-            ->addColumn('update_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '更新时间',
-                'after' => 'create_time',
-            ])
-            ->addIndex(['open_id'], [
-                'name' => 'open_id',
-                'unique' => false,
-            ])
-            ->addIndex(['user_id'], [
-                'name' => 'user_id',
-                'unique' => false,
             ])
             ->create();
     }

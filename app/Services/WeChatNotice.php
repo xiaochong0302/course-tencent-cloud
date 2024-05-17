@@ -7,6 +7,8 @@
 
 namespace App\Services;
 
+use App\Models\Connect as ConnectModel;
+use App\Repos\Connect as ConnectRepo;
 use App\Services\WeChat as WeChatService;
 use Phalcon\Logger\Adapter\File as FileLogger;
 
@@ -103,6 +105,13 @@ abstract class WeChatNotice extends Service
         $template = json_decode($this->settings['notice_template'], true);
 
         return $template[$code]['id'] ?? null;
+    }
+
+    protected function getConnect($userId)
+    {
+        $connectRepo = new ConnectRepo();
+
+        return $connectRepo->findByUserId($userId, ConnectModel::PROVIDER_WECHAT_OA);
     }
 
 }
