@@ -1700,6 +1700,30 @@
     color: red;
 }
 
+.register-close-tips {
+    padding: 50px;
+    text-align: center;
+    color: #999;
+}
+
+.wechat-scan-box {
+    padding: 20px;
+    text-align: center;
+}
+
+.wechat-scan-box .qrcode {
+    margin-bottom: 20px;
+}
+
+.wechat-scan-box .qrcode img {
+    border: 3px solid #999;
+    padding: 3px;
+}
+
+.wechat-scan-box .tips {
+    color: #666;
+}
+
 .user-profile {
     display: flex;
     align-items: center;
@@ -1932,6 +1956,10 @@
 
 .sub-nav a {
     margin-right: 0;
+}
+
+.my-content .section {
+    margin-bottom: 20px;
 }
 
 .profile-form {

@@ -7,7 +7,6 @@
 
 namespace App\Services\Logic\Notice\External\WeChat;
 
-use App\Repos\WeChatSubscribe as WeChatSubscribeRepo;
 use App\Services\WeChatNotice;
 
 class OrderFinish extends WeChatNotice
@@ -21,9 +20,7 @@ class OrderFinish extends WeChatNotice
      */
     public function handle($params)
     {
-        $subscribeRepo = new WeChatSubscribeRepo();
-
-        $subscribe = $subscribeRepo->findByUserId($params['user']['id']);
+        $subscribe = $this->getConnect($params['user']['id']);
 
         if (!$subscribe) return null;
 

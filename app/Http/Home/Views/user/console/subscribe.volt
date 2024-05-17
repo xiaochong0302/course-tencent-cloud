@@ -28,6 +28,6 @@
 
 {% block include_js %}
 
-    {{ js_include('home/js/user.console.subscribe.js') }}
+    {{ js_include('home/js/wechat.oa.subscribe.js') }}
 
 {% endblock %}

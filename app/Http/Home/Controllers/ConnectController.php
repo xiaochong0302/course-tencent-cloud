@@ -121,17 +121,6 @@ class ConnectController extends Controller
 
         $openUser = $service->getOpenUserInfo($code, $state, $provider);
 
-        /**
-         * 微信扫码登录检查是否关注过公众号，关注过直接登录
-         */
-        if ($provider == ConnectModel::PROVIDER_WEIXIN && !empty($openUser['unionid'])) {
-            $subscribe = $service->getWeChatSubscribe($openUser['unionid']);
-            if ($subscribe && $subscribe->deleted == 0) {
-                $service->authSubscribeLogin($subscribe);
-                return $this->response->redirect(['for' => 'home.index']);
-            }
-        }
-
         $connect = $service->getConnectRelation($openUser['id'], $openUser['provider']);
 
         if ($this->authUser->id > 0) {
@@ -147,6 +136,8 @@ class ConnectController extends Controller
         }
 
         $captcha = $service->getSettings('captcha');
+
+        $this->seo->prependTitle('绑定帐号');
 
         $this->view->pick('connect/bind');
         $this->view->setVar('captcha', $captcha);
