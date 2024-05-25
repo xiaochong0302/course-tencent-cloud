@@ -27,10 +27,12 @@ layui.use(['jquery', 'element'], function () {
         $('.layui-side').toggle();
 
         if (icon.hasClass(spreadLeft)) {
+            $(this).attr('title', '打开左侧菜单');
             icon.removeClass(spreadLeft).addClass(shrinkRight);
             body.css('left', 0);
             footer.css('left', 0);
         } else {
+            $(this).attr('title', '关闭左侧菜单');
             icon.removeClass(shrinkRight).addClass(spreadLeft);
             body.css('left', '200px');
             footer.css('left', '200px');

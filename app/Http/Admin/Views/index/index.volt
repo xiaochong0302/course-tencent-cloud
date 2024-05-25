@@ -15,7 +15,7 @@
     <div class="layui-header">
         <div class="layui-logo">{{ site_info.title }}</div>
         <div class="kg-side-menu-bar">
-            <a href="javascript:"><i class="layui-icon layui-icon-spread-left"></i></a>
+            <a href="javascript:" title="关闭左侧菜单"><i class="layui-icon layui-icon-spread-left"></i></a>
         </div>
         <ul class="layui-nav layui-layout-left kg-nav-module">
             <li class="layui-nav-item">

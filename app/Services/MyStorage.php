@@ -10,6 +10,7 @@ namespace App\Services;
 use App\Library\Utils\FileInfo;
 use App\Models\Upload as UploadModel;
 use App\Repos\Upload as UploadRepo;
+use InvalidArgumentException;
 
 class MyStorage extends Storage
 {
@@ -174,16 +175,6 @@ class MyStorage extends Storage
     }
 
     /**
-     * 上传课件资源
-     *
-     * @return UploadModel|bool
-     */
-    public function uploadResource()
-    {
-        return $this->upload('/resource', self::MIME_FILE, UploadModel::TYPE_RESOURCE);
-    }
-
-    /**
      * 上传文件
      *
      * @param string $prefix
@@ -205,7 +196,8 @@ class MyStorage extends Storage
             foreach ($files as $file) {
 
                 if (!$this->checkFile($file->getRealType(), $mimeType)) {
-                    continue;
+                    $message = sprintf('MimeType: "%s" not in secure whitelist', $file->getRealType());
+                    throw new InvalidArgumentException($message);
                 }
 
                 $md5 = md5_file($file->getTempName());
@@ -221,7 +213,7 @@ class MyStorage extends Storage
                     if (empty($fileName)) {
                         $keyName = $this->generateFileName($extension, $prefix);
                     } else {
-                        $keyName = $prefix .'/'. $fileName;
+                        $keyName = $prefix . '/' . $fileName;
                     }
 
                     $path = $this->putFile($keyName, $file->getTempName());
