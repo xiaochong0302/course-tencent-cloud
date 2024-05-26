@@ -40,8 +40,9 @@ class UploadController extends Controller
         }
 
         $data = [
+            'id' => $file->id,
+            'name' => $file->name,
             'url' => $service->getImageUrl($file->path),
-            'title' => $file->name,
         ];
 
         return $this->jsonSuccess(['data' => $data]);
@@ -61,8 +62,9 @@ class UploadController extends Controller
         }
 
         $data = [
+            'id' => $file->id,
+            'name' => $file->name,
             'url' => $service->getImageUrl($file->path),
-            'title' => $file->name,
         ];
 
         return $this->jsonSuccess(['data' => $data]);
@@ -82,8 +84,9 @@ class UploadController extends Controller
         }
 
         $data = [
+            'id' => $file->id,
+            'name' => $file->name,
             'url' => $service->getImageUrl($file->path),
-            'title' => $file->name,
         ];
 
         return $this->jsonSuccess(['data' => $data]);
@@ -100,7 +103,7 @@ class UploadController extends Controller
 
         if (!$file) {
             return $this->jsonError([
-                'message' => '上传图片失败',
+                'message' => '上传文件失败',
                 'error' => 1,
             ]);
         }

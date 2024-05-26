@@ -30,8 +30,9 @@ class UploadController extends Controller
         }
 
         $data = [
+            'id' => $file->id,
+            'name' => $file->name,
             'url' => $service->getImageUrl($file->path),
-            'title' => $file->name,
         ];
 
         return $this->jsonSuccess(['data' => $data]);
