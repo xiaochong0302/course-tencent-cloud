@@ -39,17 +39,18 @@ class UploadController extends Controller
         }
 
         $data = [
+            'id' => $file->id,
+            'name' => $file->name,
             'url' => $service->getImageUrl($file->path),
-            'title' => $file->name,
         ];
 
         return $this->jsonSuccess(['data' => $data]);
     }
 
     /**
-     * @Post("/editor/img", name="home.upload.editor_img")
+     * @Post("/content/img", name="home.upload.content_img")
      */
-    public function uploadEditorImageAction()
+    public function uploadContentImageAction()
     {
         $service = new StorageService();
 
@@ -57,7 +58,7 @@ class UploadController extends Controller
 
         if (!$file) {
             return $this->jsonError([
-                'message' => '上传图片失败',
+                'message' => '上传文件失败',
                 'error' => 1,
             ]);
         }

@@ -117,7 +117,8 @@ layui.use(['jquery', 'element', 'layer'], function () {
 
     function getFileExtension(filename) {
         var index = filename.lastIndexOf('.');
-        return filename.substr(index + 1);
+        if (index === -1) return '';
+        return filename.slice(index + 1);
     }
 
     function loadResourceList() {
