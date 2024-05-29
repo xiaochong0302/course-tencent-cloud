@@ -92,13 +92,13 @@ class FileInfo
             'svg' => ['image/svg+xml'],
             'psd' => ['image/vnd.adobe.photoshop'],
 
-            'rar' => ['application/vnd.rar'],
+            'rar' => ['application/x-rar', 'application/x-rar-compressed','application/vnd.rar'],
+            'zip' => ['application/zip','application/x-zip-compressed','multipart/x-zip'],
             'tar' => ['application/x-tar'],
             '7z' => ['application/x-7z-compressed'],
             'bz' => ['application/x-bzip'],
             'bz2' => ['application/x-bzip2'],
             'gz' => ['application/gzip'],
-            'zip' => ['application/zip'],
 
             'txt' => ['text/plain'],
             'csv' => ['text/csv'],
