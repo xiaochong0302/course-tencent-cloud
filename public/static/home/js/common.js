@@ -128,7 +128,7 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
     /**
      * 内容图片放大
      */
-    $('body').on('click', '.ke-content img,.kg-thumbs img', function () {
+    $('body').on('click', '.kg-zoom img', function () {
         var width = $(window).width() * 0.8 + 'px';
         var height = $(window).height() * 0.8 + 'px';
         var src = $(this).attr('src');

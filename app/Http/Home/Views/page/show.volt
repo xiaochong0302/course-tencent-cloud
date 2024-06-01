@@ -14,7 +14,7 @@
     <div class="layout-main">
         <div class="layout-content">
             <div class="page-info wrap">
-                <div class="content ke-content">{{ page.content }}</div>
+                <div class="content ke-content kg-zoom">{{ page.content }}</div>
             </div>
         </div>
         <div class="layout-sidebar">

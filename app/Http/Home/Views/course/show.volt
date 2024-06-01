@@ -52,7 +52,7 @@
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
-                            <div class="course-details ke-content">{{ course.details }}</div>
+                            <div class="course-details ke-content kg-zoom">{{ course.details }}</div>
                         </div>
                         <div class="layui-tab-item">
                             {{ partial('course/show_catalog') }}

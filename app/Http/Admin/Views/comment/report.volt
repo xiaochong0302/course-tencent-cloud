@@ -24,7 +24,7 @@
                         <span><a href="{{ owner_url }}" target="_blank">{{ comment.owner.name }}</a></span>
                         <span>{{ date('Y-m-d H:i:s',comment.create_time) }}</span>
                     </div>
-                    <div class="content ke-content">{{ comment.content }}</div>
+                    <div class="content">{{ comment.content }}</div>
                 </div>
             </div>
             <div class="layui-tab-item">
