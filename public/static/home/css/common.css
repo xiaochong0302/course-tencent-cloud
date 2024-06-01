@@ -78,6 +78,11 @@
     height: 100px;
 }
 
+.kg-zoom img {
+    max-width: 100%;
+    cursor: pointer;
+}
+
 .breadcrumb {
     position: relative;
     margin-bottom: 20px;

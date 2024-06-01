@@ -55,7 +55,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="content ke-content">{{ article.content }}</div>
+                <div class="content ke-content kg-zoom">{{ article.content }}</div>
                 {% if article.tags %}
                     <div class="tags">
                         {% for item in article.tags %}

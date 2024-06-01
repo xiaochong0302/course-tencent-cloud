@@ -23,7 +23,7 @@
         <div class="layout-content">
             <div class="article-info wrap">
                 <div class="title">{{ chapter.title }}</div>
-                <div class="content ke-content">
+                <div class="content ke-content kg-zoom">
                     {{ chapter.content }}
                 </div>
             </div>

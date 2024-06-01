@@ -39,82 +39,87 @@ class FileInfo
 
     public static function isSecure($mime)
     {
-        return in_array($mime, self::getMimeTypes());
+        foreach (self::getMimeTypes() as $mimeTypes) {
+            if (in_array($mime, $mimeTypes)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static function getMimeType($file)
     {
-        $info = new \finfo(FILEINFO_MIME_TYPE);
-
-        return $info->file($file);
+        return mime_content_type($file);
     }
 
     public static function getMimeTypeByExt($ext)
     {
         $mimeTypes = self::getMimeTypes();
 
-        return $mimeTypes[$ext] ?? null;
+        return $mimeTypes[$ext] ? $mimeTypes[$ext][0] : '';
     }
 
     public static function getMimeTypes()
     {
         return [
-            'aac' => 'audio/aac',
-            'ogg' => 'audio/ogg',
-            'wav' => 'audio/wav',
-            'mp3' => 'audio/mpeg',
-            'weba' => 'audio/webm',
-            'm4a' => 'audio/x-m4a',
-            'wma' => 'audio/x-ms-wma',
+            'aac' => ['audio/aac'],
+            'ogg' => ['audio/ogg'],
+            'wav' => ['audio/wav'],
+            'mp3' => ['audio/mpeg'],
+            'weba' => ['audio/webm'],
+            'm4a' => ['audio/x-m4a'],
+            'wma' => ['audio/x-ms-wma'],
 
-            'mp4' => 'video/mp4',
-            '3gp' => 'video/3gpp',
-            'mpeg' => 'video/mpeg',
-            'webm' => 'video/webm',
-            'flv' => 'video/x-flv',
-            'avi' => 'video/x-msvideo',
-            'mkv' => 'video/x-matroska',
-            'wmv' => 'video/x-ms-wmv',
+            'mp4' => ['video/mp4'],
+            '3gp' => ['video/3gpp'],
+            'mpeg' => ['video/mpeg'],
+            'webm' => ['video/webm'],
+            'flv' => ['video/x-flv'],
+            'avi' => ['video/x-msvideo'],
+            'mkv' => ['video/x-matroska'],
+            'wmv' => ['video/x-ms-wmv'],
 
-            'gif' => 'image/gif',
-            'jpeg' => 'image/jpeg',
-            'jpg' => 'image/jpeg',
-            'png' => 'image/png',
-            'webp' => 'image/webp',
-            'bmp' => 'image/bmp',
-            'ico' => 'image/x-icon',
-            'tif' => 'image/tiff',
-            'tiff' => 'image/tiff',
-            'svg' => 'image/svg+xml',
-            'psd' => 'image/vnd.adobe.photoshop',
+            'gif' => ['image/gif'],
+            'jpeg' => ['image/jpeg'],
+            'jpg' => ['image/jpeg'],
+            'png' => ['image/png'],
+            'webp' => ['image/webp'],
+            'bmp' => ['image/bmp'],
+            'ico' => ['image/x-icon'],
+            'tif' => ['image/tiff'],
+            'tiff' => ['image/tiff'],
+            'svg' => ['image/svg+xml'],
+            'psd' => ['image/vnd.adobe.photoshop'],
 
-            'rar' => 'application/vnd.rar',
-            'tar' => 'application/x-tar',
-            '7z' => 'application/x-7z-compressed',
-            'bz' => 'application/x-bzip',
-            'bz2' => 'application/x-bzip2',
-            'gz' => 'application/gzip',
-            'zip' => 'application/zip',
+            'rar' => ['application/x-rar', 'application/x-rar-compressed','application/vnd.rar'],
+            'zip' => ['application/zip','application/x-zip-compressed','multipart/x-zip'],
+            'tar' => ['application/x-tar'],
+            '7z' => ['application/x-7z-compressed'],
+            'bz' => ['application/x-bzip'],
+            'bz2' => ['application/x-bzip2'],
+            'gz' => ['application/gzip'],
 
-            'txt' => 'text/plain',
-            'csv' => 'text/csv',
-            'json' => 'application/json',
-            'xml' => 'application/xml',
+            'txt' => ['text/plain'],
+            'csv' => ['text/csv'],
+            'json' => ['application/json'],
+            'xml' => ['application/xml'],
 
-            'pdf' => 'application/pdf',
-            'doc' => 'application/msword',
-            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'ppt' => 'application/vnd.ms-powerpoint',
-            'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-            'xls' => 'application/vnd.ms-excel',
-            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'swf' => 'application/x-shockwave-flash',
-            'vsd' => 'application/vnd.visio',
-            'rtf' => 'application/rtf',
+            'ofd' => ['application/octet-stream'],
+            'pdf' => ['application/pdf'],
+            'doc' => ['application/msword', 'application/CDFV2'],
+            'docx' => ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+            'ppt' => ['application/vnd.ms-powerpoint'],
+            'pptx' => ['application/vnd.openxmlformats-officedocument.presentationml.presentation'],
+            'xls' => ['application/vnd.ms-excel'],
+            'xlsx' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+            'swf' => ['application/x-shockwave-flash'],
+            'vsd' => ['application/vnd.visio'],
+            'rtf' => ['application/rtf'],
 
-            'ttf' => 'font/ttf',
-            'woff' => 'font/woff',
-            'woff2' => 'font/woff2',
+            'ttf' => ['font/ttf'],
+            'woff' => ['font/woff'],
+            'woff2' => ['font/woff2'],
         ];
     }
 

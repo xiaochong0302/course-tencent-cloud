@@ -26,7 +26,7 @@
                         <span><a href="{{ owner_url }}" target="_blank">{{ article.owner.name }}</a></span>
                         <span>{{ date('Y-m-d H:i:s',article.create_time) }}</span>
                     </div>
-                    <div class="content ke-content">{{ article.content }}</div>
+                    <div class="content ke-content kg-zoom">{{ article.content }}</div>
                     {% if article.tags %}
                         <div class="tags">
                             {% for item in article.tags %}
