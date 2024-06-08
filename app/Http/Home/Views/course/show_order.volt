@@ -9,20 +9,3 @@
         <button class="layui-btn layui-btn-fluid layui-btn-danger btn-buy" data-url="{{ order_url }}">立即购买</button>
     </div>
 {% endif %}
-
-{% if course.me.allow_reward == 1 %}
-    <div class="sidebar">
-        <div class="layui-card">
-            <div class="layui-card-header">赞赏支持</div>
-            <div class="layui-card-body">
-                <div class="sidebar-order">
-                    {% for reward in rewards %}
-                        {% set item_id = [course.id,reward.id]|join('-') %}
-                        {% set order_url = url({'for':'home.order.confirm'},{'item_id':item_id,'item_type':3}) %}
-                        <button class="layui-btn layui-btn-xs btn-reward" data-url="{{ order_url }}">{{ reward.title }}</button>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-{% endif %}

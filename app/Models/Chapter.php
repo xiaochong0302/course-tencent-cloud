@@ -56,6 +56,7 @@ class Chapter extends Model
      * 图文扩展属性
      */
     protected $_read_attrs = [
+        'format' => 'html',
         'duration' => 0,
         'word_count' => 0,
     ];

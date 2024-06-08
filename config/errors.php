@@ -221,14 +221,6 @@ $error['package.invalid_vip_price'] = '无效的会员价格';
 $error['package.invalid_publish_status'] = '无效的发布状态';
 
 /**
- * 赞赏相关
- */
-$error['reward.not_found'] = '赞赏不存在';
-$error['reward.title_too_short'] = '标题太短（少于5个字符）';
-$error['reward.title_too_long'] = '标题太长（多于30个字符）';
-$error['reward.invalid_price'] = '无效的金额（范围：0.01-10000）';
-
-/**
  * 会员相关
  */
 $error['vip.not_found'] = '会员不存在';
