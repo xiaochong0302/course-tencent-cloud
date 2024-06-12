@@ -187,7 +187,7 @@ $error['course.invalid_study_expiry'] = '无效的学习期限';
 $error['course.invalid_refund_expiry'] = '无效的退款期限';
 $error['course.invalid_feature_status'] = '无效的推荐状态';
 $error['course.invalid_publish_status'] = '无效的发布状态';
-$error['course.teacher_not_assigned'] = '尚未指定授课教师';
+$error['course.content_not_ready'] = '课程内容未就绪';
 
 /**
  * 面授课程相关

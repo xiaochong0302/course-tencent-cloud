@@ -163,6 +163,9 @@ class Course extends Service
 
         if (isset($post['published'])) {
             $data['published'] = $validator->checkPublishStatus($post['published']);
+            if ($post['published'] == 1) {
+                $validator->checkPublishAbility($course);
+            }
         }
 
         if (isset($post['category_id']) && !empty($post['category_id'])) {
