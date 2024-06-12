@@ -50,7 +50,6 @@
     {{ js_include('lib/xm-select.js') }}
     {{ js_include('lib/cos-js-sdk-v5.min.js') }}
     {{ js_include('lib/kindeditor/kindeditor.min.js') }}
-    {{ js_include('lib/kindeditor/lang/zh-CN.js') }}
     {{ js_include('admin/js/content.editor.js') }}
     {{ js_include('admin/js/cover.upload.js') }}
     {{ js_include('admin/js/course.resource.js') }}

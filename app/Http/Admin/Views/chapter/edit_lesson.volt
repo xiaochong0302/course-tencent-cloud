@@ -48,7 +48,6 @@
     {% if chapter.model == 3 %}
 
         {{ js_include('lib/kindeditor/kindeditor.min.js') }}
-        {{ js_include('lib/kindeditor/lang/zh-CN.js') }}
         {{ js_include('admin/js/content.editor.js') }}
 
     {% elseif chapter.model == 1 %}
