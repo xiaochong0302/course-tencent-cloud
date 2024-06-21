@@ -10,7 +10,6 @@ namespace App\Services\Logic\Order;
 use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
 use App\Models\Package as PackageModel;
-use App\Models\Reward as RewardModel;
 use App\Models\Vip as VipModel;
 use App\Repos\Package as PackageRepo;
 use App\Services\Logic\Service as LogicService;
@@ -66,20 +65,6 @@ class OrderConfirm extends LogicService
             $result['total_amount'] = $vip->price;
             $result['pay_amount'] = $vip->price;
             $result['discount_amount'] = 0;
-
-        } elseif ($itemType == OrderModel::ITEM_REWARD) {
-
-            list($courseId, $rewardId) = explode('-', $itemId);
-
-            $course = $validator->checkCourse($courseId);
-            $reward = $validator->checkReward($rewardId);
-
-            $result['item_info']['course'] = $this->handleCourseInfo($course);
-            $result['item_info']['reward'] = $this->handleRewardInfo($reward);
-
-            $result['total_amount'] = $reward->price;
-            $result['pay_amount'] = $reward->price;
-            $result['discount_amount'] = 0;
         }
 
         $validator->checkAmount($result['pay_amount']);
@@ -120,15 +105,6 @@ class OrderConfirm extends LogicService
             'cover' => $vip->cover,
             'expiry' => $vip->expiry,
             'price' => $vip->price,
-        ];
-    }
-
-    protected function handleRewardInfo(RewardModel $reward)
-    {
-        return [
-            'id' => $reward->id,
-            'title' => $reward->title,
-            'price' => $reward->price,
         ];
     }
 

@@ -5,9 +5,9 @@
  * @link https://www.koogua.com
  */
 
-define('ENV_DEV', 'dev');
-define('ENV_TEST', 'test');
-define('ENV_PRO', 'pro');
+const ENV_DEV = 'dev';
+const ENV_TEST = 'test';
+const ENV_PRO = 'pro';
 
 /**
  * Get the root path.

@@ -50,16 +50,6 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     });
 
     /**
-     * 打赏
-     */
-    $('.btn-reward').on('click', function () {
-        var url = $(this).data('url');
-        helper.checkLogin(function () {
-            window.location.href = url;
-        });
-    });
-
-    /**
      * 购买（课程|套餐)
      */
     $('body').on('click', '.btn-buy', function () {

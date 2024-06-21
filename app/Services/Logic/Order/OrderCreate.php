@@ -10,7 +10,6 @@ namespace App\Services\Logic\Order;
 use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
 use App\Models\Package as PackageModel;
-use App\Models\Reward as RewardModel;
 use App\Models\User as UserModel;
 use App\Models\Vip as VipModel;
 use App\Repos\Package as PackageRepo;
@@ -68,19 +67,6 @@ class OrderCreate extends LogicService
             $orderValidator->checkAmount($this->amount);
 
             $order = $this->createPackageOrder($package, $user);
-
-        } elseif ($post['item_type'] == OrderModel::ITEM_REWARD) {
-
-            list($courseId, $rewardId) = explode('-', $post['item_id']);
-
-            $course = $orderValidator->checkCourse($courseId);
-            $reward = $orderValidator->checkReward($rewardId);
-
-            $this->amount = $reward->price;
-
-            $orderValidator->checkAmount($this->amount);
-
-            $order = $this->createRewardOrder($course, $reward, $user);
 
         } elseif ($post['item_type'] == OrderModel::ITEM_VIP) {
 
@@ -179,33 +165,6 @@ class OrderCreate extends LogicService
         $order->client_type = $this->getClientType();
         $order->client_ip = $this->getClientIp();
         $order->subject = "会员 - 会员服务（{$vip->title}）";
-        $order->amount = $this->amount;
-
-        $order->create();
-
-        return $order;
-    }
-
-    protected function createRewardOrder(CourseModel $course, RewardModel $reward, UserModel $user)
-    {
-        $itemInfo = [
-            'course' => $this->handleCourseInfo($course),
-            'reward' => [
-                'id' => $reward->id,
-                'title' => $reward->title,
-                'price' => $reward->price,
-            ]
-        ];
-
-        $order = new OrderModel();
-
-        $order->owner_id = $user->id;
-        $order->item_id = $course->id;
-        $order->item_type = OrderModel::ITEM_REWARD;
-        $order->item_info = $itemInfo;
-        $order->client_type = $this->getClientType();
-        $order->client_ip = $this->getClientIp();
-        $order->subject = "赞赏 - {$course->title}";
         $order->amount = $this->amount;
 
         $order->create();

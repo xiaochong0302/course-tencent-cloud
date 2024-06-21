@@ -64,7 +64,6 @@ final class V20210324064239 extends AbstractMigration
         $this->createResourceTable();
         $this->createReviewTable();
         $this->createReviewLikeTable();
-        $this->createRewardTable();
         $this->createRoleTable();
         $this->createSettingTable();
         $this->createSlideTable();
@@ -5567,72 +5566,6 @@ final class V20210324064239 extends AbstractMigration
             ->addIndex(['review_id', 'user_id'], [
                 'name' => 'review_user',
                 'unique' => false,
-            ])
-            ->create();
-    }
-
-    protected function createRewardTable()
-    {
-        $tableName = 'kg_reward';
-
-        if ($this->table($tableName)->exists()) {
-            return;
-        }
-
-        $this->table($tableName, [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'DYNAMIC',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_SMALL,
-                'comment' => '主键编号',
-            ])
-            ->addColumn('title', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 100,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '标题',
-                'after' => 'id',
-            ])
-            ->addColumn('price', 'decimal', [
-                'null' => false,
-                'default' => '0.00',
-                'precision' => '10',
-                'scale' => '2',
-                'comment' => '价格',
-                'after' => 'title',
-            ])
-            ->addColumn('deleted', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '删除标识',
-                'after' => 'price',
-            ])
-            ->addColumn('create_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '创建时间',
-                'after' => 'deleted',
-            ])
-            ->addColumn('update_time', 'integer', [
-                'null' => false,
-                'default' => '0',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '更新时间',
-                'after' => 'create_time',
             ])
             ->create();
     }

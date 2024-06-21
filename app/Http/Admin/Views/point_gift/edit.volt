@@ -18,7 +18,6 @@
 
     {% if gift.type == 2 %}
         {{ js_include('lib/kindeditor/kindeditor.min.js') }}
-        {{ js_include('lib/kindeditor/lang/zh-CN.js') }}
         {{ js_include('admin/js/content.editor.js') }}
         {{ js_include('admin/js/cover.upload.js') }}
     {% endif %}

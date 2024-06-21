@@ -18,7 +18,6 @@ use App\Services\Logic\Course\RelatedList as CourseRelatedListService;
 use App\Services\Logic\Course\ResourceList as CourseResourceListService;
 use App\Services\Logic\Course\ReviewList as CourseReviewListService;
 use App\Services\Logic\Course\TopicList as CourseTopicListService;
-use App\Services\Logic\Reward\OptionList as RewardOptionList;
 use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 use Phalcon\Mvc\View;
 
@@ -104,17 +103,12 @@ class CourseController extends Controller
 
         $chapters = $service->handle($id);
 
-        $service = new RewardOptionList();
-
-        $rewards = $service->handle();
-
         $this->seo->prependTitle(['课程', $course['title']]);
         $this->seo->setKeywords($course['keywords']);
         $this->seo->setDescription($course['summary']);
 
         $this->view->setVar('course', $course);
         $this->view->setVar('chapters', $chapters);
-        $this->view->setVar('rewards', $rewards);
     }
 
     /**

@@ -42,32 +42,6 @@
         </div>
     {%- endmacro %}
 
-    {%- macro cart_reward_card(item_info) %}
-        {% set course = item_info.course %}
-        {% set reward = item_info.reward %}
-        {% set course_url = url({'for':'home.course.show','id':course.id}) %}
-        <div class="cart-item-card">
-            <div class="cover">
-                <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
-            </div>
-            <div class="info">
-                <p><a href="{{ course_url }}" target="_blank">{{ course.title }}</a></p>
-                <p>
-                    <span class="key">赞赏金额</span>
-                    <span class="price">{{ '￥%0.2f'|format(reward.price) }}</span>
-                </p>
-                <p>
-                    <span class="key">难度</span>
-                    <span class="value">{{ level_type(course.level) }}</span>
-                    <span class="key">课时</span>
-                    <span class="value">{{ course.lesson_count }}</span>
-                    <span class="key">学员</span>
-                    <span class="value">{{ course.user_count }}</span>
-                </p>
-            </div>
-        </div>
-    {%- endmacro %}
-
     {%- macro cart_vip_card(item_info) %}
         {% set vip = item_info.vip %}
         <div class="cart-item-card">
@@ -102,8 +76,6 @@
             {% for course in package.courses %}
                 {{ cart_course_card(course) }}
             {% endfor %}
-        {% elseif confirm.item_type == 3 %}
-            {{ cart_reward_card(confirm.item_info) }}
         {% elseif confirm.item_type == 4 %}
             {{ cart_vip_card(confirm.item_info) }}
         {% endif %}

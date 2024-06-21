@@ -258,4 +258,25 @@ class Course extends Validator
         return $status;
     }
 
+    public function checkPublishAbility(CourseModel $course)
+    {
+        $courseRepo = new CourseRepo();
+
+        $lessons = $courseRepo->findLessons($course->id);
+
+        $ability = false;
+
+        if ($lessons->count() > 0) {
+            foreach ($lessons as $lesson) {
+                if ($lesson->published == 1) {
+                    $ability = true;
+                }
+            }
+        }
+
+        if (!$ability) {
+            throw new BadRequestException('course.content_not_ready');
+        }
+    }
+
 }

@@ -39,7 +39,6 @@
 {% block include_js %}
 
     {{ js_include('lib/kindeditor/kindeditor.min.js') }}
-    {{ js_include('lib/kindeditor/lang/zh-CN.js') }}
     {{ js_include('home/js/content.editor.js') }}
     {{ js_include('home/js/answer.edit.js') }}
 
