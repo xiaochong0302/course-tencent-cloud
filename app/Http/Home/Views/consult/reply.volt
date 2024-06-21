@@ -5,18 +5,10 @@
     {% set update_url = url({'for':'home.consult.reply','id':consult.id}) %}
 
     <form class="layui-form consult-form" method="post" action="{{ update_url }}">
-        {% if consult.course.id is defined %}
-            <div class="layui-form-item mb0">
-                <label class="layui-form-label">课程</label>
-                <div class="layui-form-mid">{{ consult.course.title }}</div>
-            </div>
-        {% endif %}
-        {% if consult.chapter.id is defined %}
-            <div class="layui-form-item mb0">
-                <label class="layui-form-label">章节</label>
-                <div class="layui-form-mid">{{ consult.chapter.title }}</div>
-            </div>
-        {% endif %}
+        <div class="layui-form-item mb0">
+            <label class="layui-form-label">课程</label>
+            <div class="layui-form-mid">{{ consult.course.title }}</div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">问题</label>
             <div class="layui-form-mid">{{ consult.question }}</div>

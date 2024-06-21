@@ -113,8 +113,13 @@ class OrderList extends Builder
             $me['allow_refund'] = $refundStatusOk && $refundTimeOk ? 1 : 0;
         }
 
-        $me['allow_pay'] = $payStatusOk;
-        $me['allow_cancel'] = $cancelStatusOk;
+        if ($payStatusOk == 1) {
+            $me['allow_pay'] = 1;
+        }
+
+        if ($cancelStatusOk == 1) {
+            $me['allow_cancel'] = 1;
+        }
 
         return $me;
     }
@@ -144,20 +149,6 @@ class OrderList extends Builder
             foreach ($itemInfo['courses'] as $key => $course) {
                 $itemInfo['courses'][$key]['cover'] = $this->imgBaseUrl . $course['cover'];
             }
-        }
-
-        return $itemInfo;
-    }
-
-    /**
-     * @param string $itemInfo
-     * @return mixed
-     */
-    protected function handleRewardInfo($itemInfo)
-    {
-        if (!empty($itemInfo) && is_string($itemInfo)) {
-            $itemInfo = json_decode($itemInfo, true);
-            $itemInfo['course']['cover'] = $this->imgBaseUrl . $itemInfo['course']['cover'];
         }
 
         return $itemInfo;

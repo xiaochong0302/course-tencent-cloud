@@ -7,7 +7,6 @@
 
 namespace App\Http\Api\Controllers;
 
-use App\Services\Logic\Reward\OptionList as RewardOptionList;
 use App\Services\Logic\Vip\OptionList as VipOptionList;
 use App\Services\Service as AppService;
 use App\Traits\Response as ResponseTrait;
@@ -92,18 +91,6 @@ class PublicController extends Controller
         ];
 
         return $this->jsonSuccess($content);
-    }
-
-    /**
-     * @Get("/reward/options", name="api.public.reward_options")
-     */
-    public function rewardOptionsAction()
-    {
-        $service = new RewardOptionList();
-
-        $options = $service->handle();
-
-        return $this->jsonSuccess(['options' => $options]);
     }
 
     /**

@@ -37,6 +37,10 @@
     line-height: 1.8em;
 }
 
+.ke-content p:last-child {
+    margin-bottom: 0;
+}
+
 .ke-content h1 {
     font-size: 2em;
 }

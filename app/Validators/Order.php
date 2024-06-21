@@ -14,7 +14,6 @@ use App\Models\Trade as TradeModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\Order as OrderRepo;
 use App\Repos\Package as PackageRepo;
-use App\Repos\Reward as RewardRepo;
 use App\Repos\Vip as VipRepo;
 
 class Order extends Validator
@@ -101,24 +100,11 @@ class Order extends Validator
         return $vip;
     }
 
-    public function checkReward($itemId)
-    {
-        $rewardRepo = new RewardRepo();
-
-        $reward = $rewardRepo->findById($itemId);
-
-        if (!$reward) {
-            throw new BadRequestException('order.item_not_found');
-        }
-
-        return $reward;
-    }
-
     public function checkAmount($amount)
     {
         $value = $this->filter->sanitize($amount, ['trim', 'float']);
 
-        if ($value < 0.01 || $value > 10000) {
+        if ($value < 0.01 || $value > 100000) {
             throw new BadRequestException('order.invalid_pay_amount');
         }
 

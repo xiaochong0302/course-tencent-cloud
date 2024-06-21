@@ -34,13 +34,6 @@
                 {% endif %}
             </div>
         {% endfor %}
-    {% elseif order.item_type == 3 %}
-        {% set course = order.item_info.course %}
-        {% set reward = order.item_info.reward %}
-        <div class="order-item">
-            <p>课程名称：{{ course.title }}</p>
-            <p>赞赏金额：<em class="price">{{ '￥%0.2f'|format(reward.price) }}</em></p>
-        </div>
     {% elseif order.item_type == 4 %}
         {% set vip = order.item_info.vip %}
         <div class="order-item">

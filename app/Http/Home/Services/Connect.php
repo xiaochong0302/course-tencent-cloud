@@ -85,6 +85,10 @@ class Connect extends Service
 
         $user = $userRepo->findById($connect->user_id);
 
+        $validator = new AccountValidator();
+
+        $validator->checkIfAllowLogin($user);
+
         $this->handleLoginNotice($user);
 
         $auth = $this->getAppAuth();

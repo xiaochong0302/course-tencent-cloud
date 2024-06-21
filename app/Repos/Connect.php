@@ -67,4 +67,17 @@ class Connect extends Repository
         ]);
     }
 
+    /**
+     * @param int $userId
+     * @param int $provider
+     * @return ConnectModel|Model|bool
+     */
+    public function findByUserId($userId, $provider)
+    {
+        return ConnectModel::findFirst([
+            'conditions' => 'user_id = ?1 AND provider = ?2 AND deleted = 0',
+            'bind' => [1 => $userId, 2 => $provider],
+        ]);
+    }
+
 }

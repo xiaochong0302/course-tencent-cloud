@@ -78,6 +78,11 @@
     height: 100px;
 }
 
+.kg-zoom img {
+    max-width: 100%;
+    cursor: pointer;
+}
+
 .breadcrumb {
     position: relative;
     margin-bottom: 20px;
@@ -1178,11 +1183,6 @@
 
 .sidebar-card .layui-card-header {
     text-align: center;
-}
-
-.sidebar-order .btn-reward {
-    width: 84px;
-    margin: 5px;
 }
 
 .sidebar-user-card {

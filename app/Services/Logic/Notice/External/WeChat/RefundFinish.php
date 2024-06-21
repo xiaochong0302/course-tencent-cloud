@@ -30,10 +30,10 @@ class RefundFinish extends WeChatNotice
         $params = [
             'first' => $first,
             'remark' => $remark,
-            'keyword1' => $params['refund']['sn'],
-            'keyword2' => $params['refund']['subject'],
-            'keyword3' => sprintf('%s元', $params['refund']['amount']),
-            'keyword4' => date('Y-m-d H:i', $params['refund']['update_time']),
+            'character_string5' => $params['refund']['sn'],
+            'thing1' => $params['refund']['subject'],
+            'amount2' => sprintf('%s元', $params['refund']['amount']),
+            'time4' => date('Y-m-d H:i', $params['refund']['update_time']),
         ];
 
         $templateId = $this->getTemplateId($this->templateCode);

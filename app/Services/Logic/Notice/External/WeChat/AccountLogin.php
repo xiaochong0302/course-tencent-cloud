@@ -40,10 +40,10 @@ class AccountLogin extends WeChatNotice
         $params = [
             'first' => $first,
             'remark' => $remark,
-            'keyword1' => $loginUser,
-            'keyword2' => $loginTime,
-            'keyword3' => $loginRegion,
-            'keyword4' => $loginIp,
+            'thing3' => $loginUser,
+            'time2' => $loginTime,
+            'thing7' => $loginRegion,
+            'character_string8' => $loginIp,
         ];
 
         $templateId = $this->getTemplateId($this->templateCode);

@@ -21,13 +21,6 @@
                     <p>退款金额：{{ '￥%0.2f'|format(course.refund_amount) }}，退款比例：{{ 100 * course.refund_percent }}%</p>
                 </div>
             {% endfor %}
-        {% elseif confirm.item_type == 3 %}
-            {% set course = confirm.item_info.course %}
-            {% set reward = confirm.item_info.reward %}
-            <div class="kg-order-item">
-                <p>课程名称：{{ course.title }}</p>
-                <p>赞赏金额：{{ '￥%0.2f'|format(reward.price) }}</p>
-            </div>
         {% elseif confirm.item_type == 4 %}
             {% set vip = confirm.item_info.vip %}
             <div class="kg-order-item">

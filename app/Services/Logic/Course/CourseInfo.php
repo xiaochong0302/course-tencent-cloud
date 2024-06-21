@@ -45,8 +45,8 @@ class CourseInfo extends LogicService
     {
         $me = [
             'plan_id' => 0,
+            'allow_study' => 0,
             'allow_order' => 0,
-            'allow_reward' => 0,
             'progress' => 0,
             'logged' => 0,
             'joined' => 0,
@@ -66,14 +66,6 @@ class CourseInfo extends LogicService
             $caseModel = $course->attrs['end_date'] < date('Y-m-d');
         }
 
-        if ($caseOwned && $casePrice && $caseModel) {
-            $me['allow_order'] = 1;
-        }
-
-        if ($course->market_price == 0) {
-            $me['allow_reward'] = 1;
-        }
-
         if ($user->id > 0) {
 
             $me['logged'] = 1;
@@ -82,8 +74,8 @@ class CourseInfo extends LogicService
                 $me['allow_order'] = 1;
             }
 
-            if ($course->market_price == 0) {
-                $me['allow_reward'] = 1;
+            if ($this->ownedCourse && $course->model != CourseModel::MODEL_OFFLINE) {
+                $me['allow_study'] = 1;
             }
 
             if ($this->joinedCourse) {

@@ -30,9 +30,9 @@ class OrderFinish extends WeChatNotice
         $params = [
             'first' => $first,
             'remark' => $remark,
-            'keyword1' => sprintf('%s元', $params['order']['amount']),
-            'keyword2' => $params['order']['subject'],
-            'keyword3' => date('Y-m-d H:i', $params['order']['update_time']),
+            'amount3' => sprintf('%s元', $params['order']['amount']),
+            'thing1' => $params['order']['subject'],
+            'time4' => date('Y-m-d H:i', $params['order']['update_time']),
         ];
 
         $templateId = $this->getTemplateId($this->templateCode);

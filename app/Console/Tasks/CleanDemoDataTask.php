@@ -7,8 +7,8 @@
 
 namespace App\Console\Tasks;
 
-use App\Caches\CategoryList as CategoryListCache;
 use App\Caches\CategoryAllList as CategoryAllListCache;
+use App\Caches\CategoryList as CategoryListCache;
 use App\Caches\CategoryTreeList as CategoryTreeListCache;
 use App\Caches\IndexSlideList as IndexSlideListCache;
 use App\Models\Account as AccountModel;
@@ -39,8 +39,8 @@ class CleanDemoDataTask extends Task
         echo '------ start truncate tables ------' . PHP_EOL;
 
         $excludeTables = [
-            'kg_area', 'kg_migration', 'kg_migration_task', 'kg_nav', 'kg_page',
-            'kg_reward', 'kg_role', 'kg_setting', 'kg_vip',
+            'kg_area', 'kg_migration', 'kg_migration_task', 'kg_nav',
+            'kg_page', 'kg_role', 'kg_setting', 'kg_vip',
         ];
 
         $tables = $this->db->listTables();

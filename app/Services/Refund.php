@@ -33,9 +33,6 @@ class Refund extends Service
             case OrderModel::ITEM_PACKAGE:
                 $result = $this->previewPackageRefund($order);
                 break;
-            case OrderModel::ITEM_REWARD:
-                $result = $this->previewRewardRefund($order);
-                break;
             case OrderModel::ITEM_VIP:
                 $result = $this->previewVipRefund($order);
                 break;
@@ -119,11 +116,6 @@ class Refund extends Service
             'service_fee' => $serviceFee,
             'service_rate' => $serviceRate,
         ];
-    }
-
-    protected function previewRewardRefund(OrderModel $order)
-    {
-        return $this->previewOtherRefund($order);
     }
 
     protected function previewVipRefund(OrderModel $order)

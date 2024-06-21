@@ -7,7 +7,6 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Models\ChapterLive as LiveModel;
 use App\Models\Course as CourseModel;
 use App\Services\Logic\Chapter\ChapterInfo as ChapterInfoService;
@@ -15,6 +14,7 @@ use App\Services\Logic\Chapter\ChapterLike as ChapterLikeService;
 use App\Services\Logic\Chapter\Learning as ChapterLearningService;
 use App\Services\Logic\Course\BasicInfo as CourseInfoService;
 use App\Services\Logic\Course\ChapterList as CourseChapterListService;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 
 /**
  * @RoutePrefix("/chapter")

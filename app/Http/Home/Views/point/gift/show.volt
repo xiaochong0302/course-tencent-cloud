@@ -55,7 +55,7 @@
             <div class="layui-card">
                 <div class="layui-card-header">物品详情</div>
                 <div class="layui-card-body">
-                    <div class="gift-details ke-content">{{ gift.details }}</div>
+                    <div class="gift-details ke-content kg-zoom">{{ gift.details }}</div>
                 </div>
             </div>
         </div>

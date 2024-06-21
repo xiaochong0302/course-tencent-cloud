@@ -187,7 +187,7 @@ $error['course.invalid_study_expiry'] = '无效的学习期限';
 $error['course.invalid_refund_expiry'] = '无效的退款期限';
 $error['course.invalid_feature_status'] = '无效的推荐状态';
 $error['course.invalid_publish_status'] = '无效的发布状态';
-$error['course.teacher_not_assigned'] = '尚未指定授课教师';
+$error['course.content_not_ready'] = '课程内容未就绪';
 
 /**
  * 面授课程相关
@@ -219,14 +219,6 @@ $error['package.invalid_cover'] = '无效的封面';
 $error['package.invalid_market_price'] = '无效的优惠价格';
 $error['package.invalid_vip_price'] = '无效的会员价格';
 $error['package.invalid_publish_status'] = '无效的发布状态';
-
-/**
- * 赞赏相关
- */
-$error['reward.not_found'] = '赞赏不存在';
-$error['reward.title_too_short'] = '标题太短（少于5个字符）';
-$error['reward.title_too_long'] = '标题太长（多于30个字符）';
-$error['reward.invalid_price'] = '无效的金额（范围：0.01-10000）';
 
 /**
  * 会员相关

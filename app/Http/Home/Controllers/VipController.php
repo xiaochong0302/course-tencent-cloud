@@ -7,7 +7,7 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Http\Home\Services\FullH5Url as FullH5UrlService;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 use App\Services\Logic\Vip\CourseList as VipCourseListService;
 use App\Services\Logic\Vip\OptionList as VipOptionListService;
 use App\Services\Logic\Vip\UserList as VipUserListService;

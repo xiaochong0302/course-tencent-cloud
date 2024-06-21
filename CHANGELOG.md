@@ -1,3 +1,22 @@
+### [v1.7.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.1)(2024-06-31)
+
+- 更新layui-v2.9.10
+- 更新docker国内镜像地址
+- 增加导入镜像构建容器的方式
+- 调整微信公众号模板消息
+- 移除加载富文本编辑器初始化的语言文件
+- 移除consult中多余的chapter_id属性
+- 修正课程列表顶部过滤条件区块不能收缩问题
+- 用户中心第三方登录列表增加过滤条件
+- 后台增加打开/关闭左侧菜单提示
+- 优化整理文件mimeType
+- iconfont资源本地化
+- 优化UploadController
+- 优化富文本内容显示样式
+- 简化内容图片放大监听
+- 去除课程打赏相关内容
+- 课程增加能否发布检查
+
 ### [v1.7.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.0)(2024-05-15)
 
 - 升级layui-2.9.8

@@ -140,9 +140,6 @@ class OrderInfo extends LogicService
             case OrderModel::ITEM_VIP:
                 $result = $this->handleVipInfo($itemInfo);
                 break;
-            case OrderModel::ITEM_REWARD:
-                $result = $this->handleRewardInfo($itemInfo);
-                break;
             case OrderModel::ITEM_TEST:
                 $result = $this->handleTestInfo($itemInfo);
                 break;
@@ -170,11 +167,6 @@ class OrderInfo extends LogicService
     }
 
     protected function handleVipInfo($itemInfo)
-    {
-        return $itemInfo;
-    }
-
-    protected function handleRewardInfo($itemInfo)
     {
         return $itemInfo;
     }

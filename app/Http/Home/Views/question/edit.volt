@@ -68,7 +68,6 @@
 
     {{ js_include('lib/xm-select.js') }}
     {{ js_include('lib/kindeditor/kindeditor.min.js') }}
-    {{ js_include('lib/kindeditor/lang/zh-CN.js') }}
     {{ js_include('home/js/content.editor.js') }}
     {{ js_include('home/js/question.edit.js') }}
 

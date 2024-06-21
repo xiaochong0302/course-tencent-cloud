@@ -151,9 +151,6 @@ class RefundTask extends Task
             case OrderModel::ITEM_VIP:
                 $this->handleVipOrderRefund($order);
                 break;
-            case OrderModel::ITEM_REWARD:
-                $this->handleRewardOrderRefund($order);
-                break;
             case OrderModel::ITEM_TEST:
                 $this->handleTestOrderRefund($order);
                 break;
@@ -228,16 +225,6 @@ class RefundTask extends Task
         if ($user->update() === false) {
             throw new \RuntimeException('Update User Vip Failed');
         }
-    }
-
-    /**
-     * 处理赞赏订单退款
-     *
-     * @param OrderModel $order
-     */
-    protected function handleRewardOrderRefund(OrderModel $order)
-    {
-
     }
 
     /**

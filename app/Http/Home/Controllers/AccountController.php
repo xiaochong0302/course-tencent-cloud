@@ -8,12 +8,12 @@
 namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Account as AccountService;
-use App\Http\Home\Services\FullH5Url as FullH5UrlService;
 use App\Services\Logic\Account\EmailUpdate as EmailUpdateService;
 use App\Services\Logic\Account\OAuthProvider as OAuthProviderService;
 use App\Services\Logic\Account\PasswordReset as PasswordResetService;
 use App\Services\Logic\Account\PasswordUpdate as PasswordUpdateService;
 use App\Services\Logic\Account\PhoneUpdate as PhoneUpdateService;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 
 /**
  * @RoutePrefix("/account")
