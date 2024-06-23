@@ -137,7 +137,7 @@ class Category extends Validator
         return $status;
     }
 
-    public function checkDeleteAbility($category)
+    public function checkDeleteAbility(CategoryModel $category)
     {
         $categoryRepo = new CategoryRepo();
 

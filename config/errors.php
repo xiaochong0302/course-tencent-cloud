@@ -160,7 +160,6 @@ $error['answer.delete_not_allowed'] = '当前不允许删除回答';
  */
 $error['comment.not_found'] = '评论不存在';
 $error['comment.parent_not_found'] = '上级评论不存在';
-$error['comment.to_user_not_found'] = '回复用户不存在';
 $error['comment.invalid_item_type'] = '无效的条目类型';
 $error['comment.invalid_publish_status'] = '无效的发布状态';
 $error['comment.invalid_reject_reason'] = '无效的拒绝理由';

@@ -42,19 +42,6 @@ class Comment extends Validator
         return $comment;
     }
 
-    public function checkToUser($userId)
-    {
-        $userRepo = new UserRepo();
-
-        $user = $userRepo->findById($userId);
-
-        if (!$user) {
-            throw new BadRequestException('comment.to_user_not_found');
-        }
-
-        return $user;
-    }
-
     public function checkItem($itemId, $itemType)
     {
         if (!array_key_exists($itemType, CommentModel::itemTypes())) {
