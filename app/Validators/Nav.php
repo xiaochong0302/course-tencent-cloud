@@ -116,7 +116,7 @@ class Nav extends Validator
         return $status;
     }
 
-    public function checkDeleteAbility($nav)
+    public function checkDeleteAbility(NavModel $nav)
     {
         $navRepo = new NavRepo();
 
