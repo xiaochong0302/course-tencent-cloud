@@ -15,19 +15,6 @@ use App\Repos\CourseUser as CourseUserRepo;
 class CourseUser extends Validator
 {
 
-    public function checkRelation($id)
-    {
-        $courseUserRepo = new CourseUserRepo();
-
-        $courseUser = $courseUserRepo->findById($id);
-
-        if (!$courseUser) {
-            throw new BadRequestException('course_user.not_found');
-        }
-
-        return $courseUser;
-    }
-
     public function checkCourseUser($courseId, $userId)
     {
         $repo = new CourseUserRepo();

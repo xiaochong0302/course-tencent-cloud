@@ -10,7 +10,7 @@ namespace App\Console\Tasks;
 use App\Http\Admin\Services\Setting as SettingService;
 use App\Library\Utils\Password as PasswordUtil;
 use App\Models\ChapterVod as ChapterVodModel;
-use App\Services\Utils\IndexCourseCache as IndexCourseCacheUtil;
+use App\Services\Utils\IndexPageCache as IndexPageCacheUtil;
 use App\Validators\Account as AccountValidator;
 
 class MaintainTask extends Task
@@ -26,7 +26,7 @@ class MaintainTask extends Task
     {
         $section = $params[0] ?? null;
 
-        $util = new IndexCourseCacheUtil();
+        $util = new IndexPageCacheUtil();
 
         $util->rebuild($section);
 
@@ -62,34 +62,6 @@ class MaintainTask extends Task
         $account->update();
 
         echo '------ reset password success ------' . PHP_EOL;
-    }
-
-    /**
-     * 关闭验证码
-     *
-     * @command: php console.php maintain disable_captcha
-     */
-    public function disableCaptchaAction()
-    {
-        $service = new SettingService();
-
-        $service->updateSettings('captcha', ['enabled' => 0]);
-
-        echo '------ disable captcha success ------' . PHP_EOL;
-    }
-
-    /**
-     * 启用验证码
-     *
-     * @command: php console.php maintain enable_captcha
-     */
-    public function enableCaptchaAction()
-    {
-        $service = new SettingService();
-
-        $service->updateSettings('captcha', ['enabled' => 1]);
-
-        echo '------ enable captcha success ------' . PHP_EOL;
     }
 
     /**

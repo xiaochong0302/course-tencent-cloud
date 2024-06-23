@@ -39,7 +39,7 @@ class Account extends Validator
             $account = $accountRepo->findById($name);
         }
 
-        if (!$account || $account->deleted == 1) {
+        if (!$account) {
             throw new BadRequestException('account.not_found');
         }
 
