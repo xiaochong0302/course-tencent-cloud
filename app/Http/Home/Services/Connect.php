@@ -70,6 +70,8 @@ class Connect extends Service
         $auth = $this->getAppAuth();
 
         $auth->saveAuthInfo($user);
+
+        $this->eventsManager->fire('Account:afterRegister', $this, $user);
     }
 
     public function bindUser(array $openUser)

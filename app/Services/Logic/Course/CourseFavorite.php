@@ -57,12 +57,16 @@ class CourseFavorite extends LogicService
             $this->incrCourseFavoriteCount($course);
             $this->incrUserFavoriteCount($user);
 
+            $this->eventsManager->fire('Course:afterFavorite', $this, $course);
+
         } else {
 
             $action = 'undo';
 
             $this->decrCourseFavoriteCount($course);
             $this->decrUserFavoriteCount($user);
+
+            $this->eventsManager->fire('Course:afterUndoFavorite', $this, $course);
         }
 
         return [
