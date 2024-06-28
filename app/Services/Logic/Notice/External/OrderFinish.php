@@ -23,7 +23,7 @@ class OrderFinish extends LogicService
         $wechatNoticeEnabled = $this->wechatNoticeEnabled();
         $smsNoticeEnabled = $this->smsNoticeEnabled();
 
-        $orderId = $task->item_info['order']['id'];
+        $orderId = $task->item_id;
 
         $orderRepo = new OrderRepo();
 

@@ -29,6 +29,9 @@ class RefundFinish extends Smser
 
         $templateId = $this->getTemplateId($this->templateCode);
 
+        /**
+         * 退款成功，商品名称：{1}，退款序号：{2}，退款金额：{3}元
+         */
         $params = [
             $params['refund']['subject'],
             $params['refund']['sn'],

@@ -31,6 +31,9 @@ class GoodsDeliver extends Smser
 
         $params['deliver_time'] = date('Y-m-d H:i', $params['deliver_time']);
 
+        /**
+         * 发货成功，商品名称：{1}，订单序号：{2}，发货时间：{3}，请注意查收。
+         */
         $params = [
             $params['goods_name'],
             $params['order_sn'],
