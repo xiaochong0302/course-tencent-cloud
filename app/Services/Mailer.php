@@ -30,6 +30,49 @@ abstract class Mailer extends Service
         $this->logger = $this->getLogger('mail');
     }
 
+    public function send($email, $subject, $content, $attachment = null)
+    {
+        try {
+
+            $message = $this->manager->createMessage();
+
+            $message->to($email);
+            $message->subject($subject);
+            $message->content($content);
+
+            if ($attachment) {
+                $message->attachment($attachment);
+            }
+
+            $count = $message->send();
+
+            $result = $count > 0;
+
+        } catch (\Exception $e) {
+
+            $this->logger->error('Send Mail Exception ' . kg_json_encode([
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    protected function formatSubject($subject)
+    {
+        $site = $this->getSettings('site');
+
+        return sprintf('【%s】%s', $site['title'], $subject);
+    }
+
+    protected function formatContent($content)
+    {
+        return $content;
+    }
+
     /**
      * 获取 Manager
      */
