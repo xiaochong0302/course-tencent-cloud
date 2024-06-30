@@ -56,6 +56,10 @@ class Connect extends Service
 
         if ($relation) {
 
+            $relation->update_time = time();
+
+            $relation->update();
+
             $userRepo = new UserRepo();
 
             $user = $userRepo->findById($relation->user_id);
@@ -111,7 +115,7 @@ class Connect extends Service
             case ConnectModel::PROVIDER_WEIBO:
                 $auth = $this->getWeiBoAuth();
                 break;
-            case ConnectModel::PROVIDER_WECHAT:
+            case ConnectModel::PROVIDER_WECHAT_OA:
                 $auth = $this->getWeChatAuth();
                 break;
         }

@@ -68,6 +68,19 @@ class Connect extends Repository
     }
 
     /**
+     * @param string $openId
+     * @param int $provider
+     * @return ConnectModel|Model|bool
+     */
+    public function findByOpenIdShallow($openId, $provider)
+    {
+        return ConnectModel::findFirst([
+            'conditions' => 'open_id = ?1 AND provider = ?2',
+            'bind' => [1 => $openId, 2 => $provider],
+        ]);
+    }
+
+    /**
      * @param int $userId
      * @param int $provider
      * @return ConnectModel|Model|bool

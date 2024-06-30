@@ -40,6 +40,10 @@ class WeChatOfficialAccount extends Service
 
         $validator->checkIfAllowLogin($user);
 
+        $connect->update_time = time();
+
+        $connect->update();
+
         $this->handleLoginNotice($user);
 
         $auth = $this->getAppAuth();
