@@ -29,6 +29,9 @@ class LiveBegin extends Smser
 
         $params['live']['start_time'] = date('H:i', $params['live']['start_time']);
 
+        /**
+         * 直播预告，课程名称：{1}，章节名称：{2}，开播时间：{3}
+         */
         $params = [
             $params['course']['title'],
             $params['chapter']['title'],

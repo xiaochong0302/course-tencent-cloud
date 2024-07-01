@@ -29,6 +29,9 @@ class ConsultReply extends Smser
 
         $templateId = $this->getTemplateId($this->templateCode);
 
+        /**
+         * {1} 回复了你的咨询，课程名称：{2}，请登录系统查看详情。
+         */
         $params = [
             $params['replier']['name'],
             $params['course']['title'],

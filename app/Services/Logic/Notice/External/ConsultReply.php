@@ -24,7 +24,7 @@ class ConsultReply extends LogicService
         $wechatNoticeEnabled = $this->wechatNoticeEnabled();
         $smsNoticeEnabled = $this->smsNoticeEnabled();
 
-        $consultId = $task->item_info['consult']['id'];
+        $consultId = $task->item_id;
 
         $consultRepo = new ConsultRepo();
 

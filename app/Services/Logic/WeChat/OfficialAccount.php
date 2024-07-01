@@ -9,6 +9,7 @@ namespace App\Services\Logic\WeChat;
 
 use App\Models\Connect as ConnectModel;
 use App\Repos\Connect as ConnectRepo;
+use App\Repos\User as UserRepo;
 use App\Services\Service as AppService;
 use App\Services\WeChat as WeChatService;
 use EasyWeChat\Kernel\Messages\Text as TextMessage;
@@ -150,8 +151,55 @@ class OfficialAccount extends AppService
     protected function handleSubscribeEvent($message)
     {
         $openId = $message['FromUserName'] ?? '';
+        $eventKey = $message['EventKey'] ?? '';
 
         if (empty($openId)) return null;
+
+        $connectRepo = new ConnectRepo();
+
+        $connect = $connectRepo->findByOpenId($openId, ConnectModel::PROVIDER_WECHAT_OA);
+
+        if ($connect) return null;
+
+        /**
+         * 尼玛不知道为什么又多了个"qrscene_"前缀，SCAN事件里面又不带这个前缀
+         */
+        $subscribeScene = sprintf('qrscene_%s', self::QR_SCENE_SUBSCRIBE);
+
+        $userId = 0;
+
+        if (Text::startsWith($eventKey, $subscribeScene)) {
+
+            $userId = str_replace($subscribeScene, '', $eventKey);
+
+        } else {
+
+            $connect = $connectRepo->findByOpenIdShallow($openId, ConnectModel::PROVIDER_WECHAT_OA);
+
+            if ($connect) $userId = $connect->user_id;
+        }
+
+        if ($userId > 0) {
+
+            $userRepo = new UserRepo();
+
+            $user = $userRepo->findById($userId);
+
+            if (!$user) return null;
+
+            $userInfo = $this->getUserInfo($openId);
+
+            $unionId = $userInfo['unionid'] ?: '';
+
+            $connect = new ConnectModel();
+
+            $connect->user_id = $userId;
+            $connect->open_id = $openId;
+            $connect->union_id = $unionId;
+            $connect->provider = ConnectModel::PROVIDER_WECHAT_OA;
+
+            $connect->create();
+        }
 
         return new TextMessage('开心呀，我们又多了一个小伙伴!');
     }
@@ -217,6 +265,12 @@ class OfficialAccount extends AppService
         $userId = str_replace(self::QR_SCENE_SUBSCRIBE, '', $eventKey);
 
         if (empty($userId) || empty($openId)) return null;
+
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($userId);
+
+        if (!$user) return null;
 
         $userInfo = $this->getUserInfo($openId);
 

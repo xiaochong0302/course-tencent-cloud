@@ -98,7 +98,7 @@
                                 <tr>
                                     <td>提供方</td>
                                     <td>用户信息</td>
-                                    <td>更新日期</td>
+                                    <td>最后登录</td>
                                     <td width="15%">操作</td>
                                 </tr>
                                 {% for connect in connects %}

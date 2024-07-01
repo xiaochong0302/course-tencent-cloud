@@ -30,6 +30,11 @@ class Seo
      */
     protected $titleSeparator = ' - ';
 
+    /**
+     * @var string 关键字分隔符
+     */
+    protected $keywordSeparator = ',';
+
     public function setTitle($title)
     {
         $this->title = $title;
@@ -37,6 +42,10 @@ class Seo
 
     public function setKeywords($keywords)
     {
+        if (is_array($keywords)) {
+            $keywords = implode($this->keywordSeparator, $keywords);
+        }
+
         $this->keywords = $keywords;
     }
 
@@ -82,6 +91,11 @@ class Seo
     public function getTitleSeparator()
     {
         return $this->titleSeparator;
+    }
+
+    public function getKeywordSeparator()
+    {
+        return $this->keywordSeparator;
     }
 
 }

@@ -23,7 +23,7 @@ class RefundFinish extends LogicService
         $wechatNoticeEnabled = $this->wechatNoticeEnabled();
         $smsNoticeEnabled = $this->smsNoticeEnabled();
 
-        $refundId = $task->item_info['refund']['id'];
+        $refundId = $task->item_id;
 
         $refundRepo = new RefundRepo();
 

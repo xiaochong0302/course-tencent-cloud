@@ -23,7 +23,7 @@ class PointGoodsDeliver extends LogicService
         $wechatNoticeEnabled = $this->wechatNoticeEnabled();
         $smsNoticeEnabled = $this->smsNoticeEnabled();
 
-        $redeemId = $task->item_info['redeem']['id'];
+        $redeemId = $task->item_id;
 
         $redeemRepo = new PointGiftRedeemRepo();
 

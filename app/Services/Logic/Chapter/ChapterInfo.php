@@ -53,7 +53,11 @@ class ChapterInfo extends LogicService
         $this->setChapterUser($chapter, $user);
         $this->handleChapterUser($chapter, $user);
 
-        return $this->handleChapter($chapter, $user);
+        $result = $this->handleChapter($chapter, $user);
+
+        $this->eventsManager->fire('Chapter:afterView', $this, $chapter);
+
+        return $result;
     }
 
     protected function handleChapter(ChapterModel $chapter, UserModel $user)
