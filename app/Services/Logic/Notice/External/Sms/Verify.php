@@ -29,6 +29,9 @@ class Verify extends SmserService
 
         $templateId = $this->getTemplateId($this->templateCode);
 
+        /**
+         * 验证码：{1}，{2} 分钟内有效，如非本人操作请忽略。
+         */
         $params = [$code, $minutes];
 
         return $this->send($phone, $templateId, $params);

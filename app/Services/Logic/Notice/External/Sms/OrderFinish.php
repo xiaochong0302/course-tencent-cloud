@@ -29,6 +29,9 @@ class OrderFinish extends Smser
 
         $templateId = $this->getTemplateId($this->templateCode);
 
+        /**
+         * 下单成功，商品名称：{1}，订单序号：{2}，订单金额：{3}元
+         */
         $params = [
             $params['order']['subject'],
             $params['order']['sn'],

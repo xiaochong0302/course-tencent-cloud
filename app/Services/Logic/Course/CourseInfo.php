@@ -27,7 +27,11 @@ class CourseInfo extends LogicService
 
         $this->setCourseUser($course, $user);
 
-        return $this->handleCourse($course, $user);
+        $result = $this->handleCourse($course, $user);
+
+        $this->eventsManager->fire('Course:afterView', $this, $course);
+
+        return $result;
     }
 
     protected function handleCourse(CourseModel $course, UserModel $user)

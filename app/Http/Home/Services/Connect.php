@@ -70,6 +70,8 @@ class Connect extends Service
         $auth = $this->getAppAuth();
 
         $auth->saveAuthInfo($user);
+
+        $this->eventsManager->fire('Account:afterRegister', $this, $user);
     }
 
     public function bindUser(array $openUser)
@@ -88,6 +90,10 @@ class Connect extends Service
         $validator = new AccountValidator();
 
         $validator->checkIfAllowLogin($user);
+
+        $connect->update_time = time();
+
+        $connect->update();
 
         $this->handleLoginNotice($user);
 

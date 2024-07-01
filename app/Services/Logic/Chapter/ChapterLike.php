@@ -58,11 +58,15 @@ class ChapterLike extends LogicService
 
             $this->incrChapterLikeCount($chapter);
 
+            $this->eventsManager->fire('Chapter:afterLike', $this, $chapter);
+
         } else {
 
             $action = 'undo';
 
             $this->decrChapterLikeCount($chapter);
+
+            $this->eventsManager->fire('Chapter:afterUndoLike', $this, $chapter);
         }
 
         return [

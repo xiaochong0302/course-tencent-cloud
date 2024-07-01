@@ -7,7 +7,7 @@
 
 namespace App\Http\Api;
 
-use App\Services\Auth\Api as AppAuth;
+use App\Services\Auth\Api as ApiAuth;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
@@ -29,7 +29,7 @@ class Module implements ModuleDefinitionInterface
         });
 
         $dependencyInjector->setShared('auth', function () {
-            return new AppAuth();
+            return new ApiAuth();
         });
     }
 
