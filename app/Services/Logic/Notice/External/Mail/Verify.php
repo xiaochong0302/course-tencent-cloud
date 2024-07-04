@@ -29,7 +29,7 @@ class Verify extends MailerService
         $content = sprintf('验证码：%s，%s 分钟内有效，如非本人操作请忽略。', $code, $minutes);
 
         $subject = $this->formatSubject($subject);
-        $content = $this->formatSubject($content);
+        $content = $this->formatContent($content);
 
         return $this->send($email, $subject, $content);
     }
