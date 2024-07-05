@@ -12,10 +12,6 @@ use App\Services\Mailer;
 class Test extends Mailer
 {
 
-    /**
-     * @param string $email
-     * @return bool|null
-     */
     public function handle($email)
     {
         $subject = $this->formatSubject('测试邮件');
