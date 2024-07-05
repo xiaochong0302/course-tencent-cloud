@@ -13,10 +13,6 @@ use App\Services\Verify as VerifyService;
 class Verify extends MailerService
 {
 
-    /**
-     * @param string $email
-     * @return bool|null
-     */
     public function handle($email)
     {
         $minutes = 5;

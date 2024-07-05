@@ -10,7 +10,6 @@ namespace App\Services;
 use Phalcon\Logger\Adapter\File as FileLogger;
 use Qcloud\Cos\Client as CosClient;
 use TencentCloud\Common\Credential;
-use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Common\Profile\ClientProfile;
 use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Sts\V20180813\Models\GetFederationTokenRequest;
@@ -101,7 +100,7 @@ class Storage extends Service
 
             $result = $client->GetFederationToken($request);
 
-        } catch (TencentCloudSDKException $e) {
+        } catch (\Exception $e) {
 
             $this->logger->error('Get Tmp Token Exception' . kg_json_encode([
                     'code' => $e->getCode(),
@@ -149,7 +148,7 @@ class Storage extends Service
      *
      * @param string $key
      * @param string $filename
-     * @return mixed string|bool
+     * @return string|bool
      */
     public function putFile($key, $filename)
     {
@@ -265,7 +264,7 @@ class Storage extends Service
     /**
      * 获取文件扩展名
      *
-     * @param $filename
+     * @param string $filename
      * @return string
      */
     protected function getFileExtension($filename)
