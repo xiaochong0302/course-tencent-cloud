@@ -1,3 +1,7 @@
+### [v1.7.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.2)(2024-07-31)
+
+
+
 ### [v1.7.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.1)(2024-06-31)
 
 - 更新layui-v2.9.10
