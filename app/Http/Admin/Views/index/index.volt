@@ -29,15 +29,22 @@
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
+                <a href="{{ url({'for':'home.index'}) }}" target="_blank">前台首页</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:">用户服务</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="{{ url({'for':'admin.koogua.wiki'}) }}" target="_blank">系统文档</a></dd>
+                    <dd><a href="{{ url({'for':'admin.koogua.community'}) }}" target="_blank">开源社区</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
                 <a href="javascript:">{{ auth_user.name }}</a>
                 <dl class="layui-nav-child">
                     <dd><a href="{{ url({'for':'home.uc.profile'}) }}" target="_blank">基本资料</a></dd>
                     <dd><a href="{{ url({'for':'home.uc.account'}) }}" target="_blank">安全设置</a></dd>
                     <dd><a href="{{ url({'for':'admin.logout'}) }}">退出登录</a></dd>
                 </dl>
-            </li>
-            <li class="layui-nav-item">
-                <a href="{{ url({'for':'home.index'}) }}" target="_blank">前台</a>
             </li>
         </ul>
     </div>
