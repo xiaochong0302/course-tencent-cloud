@@ -16,13 +16,13 @@
     <div class="layui-form-item" style="margin-bottom:20px;">
         <label class="layui-form-label">用户协议</label>
         <div class="layui-input-block">
-            <a class="layui-btn layui-btn-normal" href="{{ url({'for':'admin.page.edit','id':'terms'}) }}">前往设置</a>
+            <a class="layui-btn layui-btn-normal" href="{{ url({'for':'admin.page.edit','id':'terms'}) }}">设置</a>
         </div>
     </div>
     <div class="layui-form-item" style="margin-bottom:20px;">
         <label class="layui-form-label">隐私政策</label>
         <div class="layui-input-block">
-            <a class="layui-btn layui-btn-normal" href="{{ url({'for':'admin.page.edit','id':'privacy'}) }}">前往设置</a>
+            <a class="layui-btn layui-btn-normal" href="{{ url({'for':'admin.page.edit','id':'privacy'}) }}">设置</a>
         </div>
     </div>
     <div class="layui-form-item">

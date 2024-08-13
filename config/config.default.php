@@ -28,6 +28,11 @@ $config['timezone'] = 'Asia/Shanghai';
 $config['log']['level'] = Phalcon\Logger::INFO;
 
 /**
+ * 日志链路
+ */
+$config['log']['trace'] = false;
+
+/**
  * 网站根地址，必须以"/"结尾
  */
 $config['base_uri'] = '/';

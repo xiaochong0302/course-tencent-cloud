@@ -11,7 +11,7 @@ layui.use(['jquery', 'layer', 'helper'], function () {
         var url = '/verify/captcha?type=all&account=' + $account.val();
         layer.open({
             type: 2,
-            title: '获取验证码',
+            title: '验证码',
             area: ['500px', '250px'],
             content: [url, 'no'],
         });

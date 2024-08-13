@@ -161,7 +161,7 @@ class Redis extends \Phalcon\Cache\Backend\Redis
 
         $redis->setOption(\Redis::OPT_SCAN, \Redis::SCAN_RETRY);
 
-        $it = null;
+        $it = 0;
 
         while ($keys = $redis->scan($it, $pattern)) {
             if (count($result) > $limit) break;
@@ -189,6 +189,35 @@ class Redis extends \Phalcon\Cache\Backend\Redis
         }
 
         return (bool)$redis->exists($lastKey);
+    }
+
+    /**
+     * @param string $keyName
+     * @return bool
+     */
+    public function expire($keyName = null, $lifetime = null): bool
+    {
+        $redis = $this->getRedis();
+
+        /**
+         * @var FrontendInterface $frontend
+         */
+        $frontend = $this->_frontend;
+
+        if ($keyName === null) {
+            $lastKey = $this->_lastKey;
+        } else {
+            $lastKey = $this->getKeyName($keyName);
+        }
+
+        if ($lifetime === null) {
+            $tmp = $this->_lastLifetime;
+            $ttl = $tmp ?: $frontend->getLifetime();
+        } else {
+            $ttl = $lifetime;
+        }
+
+        return $redis->expire($lastKey, $ttl);
     }
 
     /**
