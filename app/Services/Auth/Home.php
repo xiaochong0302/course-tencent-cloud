@@ -57,11 +57,6 @@ class Home extends AuthService
         return $authInfo ?: null;
     }
 
-    public function getAuthKey()
-    {
-        return 'home_auth_info';
-    }
-
     public function logoutClients($userId)
     {
         $cache = $this->getCache();
@@ -102,6 +97,11 @@ class Home extends AuthService
     protected function getSessionCacheKey($sessionId)
     {
         return "_PHCR_SESSION_:{$sessionId}";
+    }
+
+    protected function getAuthKey()
+    {
+        return 'home_auth_info';
     }
 
 }

@@ -1,3 +1,14 @@
+### [v1.7.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.2)(2024-07-31)
+
+- 更新layui-v2.9.14
+- 优化docker自动化脚本
+- 修正教师直播通知
+- 修正课程分类删选问题
+- 后台增加客户服务入口
+- redis增加expire方法
+- 日志记录增加log.trace参数
+- 精简代码
+
 ### [v1.7.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.1)(2024-06-31)
 
 - 更新layui-v2.9.10

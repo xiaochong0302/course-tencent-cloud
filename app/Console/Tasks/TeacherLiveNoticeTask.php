@@ -30,7 +30,7 @@ class TeacherLiveNoticeTask extends Task
         $keyName = $this->getCacheKeyName();
 
         foreach ($lives as $live) {
-            $redis->sAdd($keyName, $live->chapter_id);
+            $redis->sAdd($keyName, $live->id);
         }
 
         $redis->expire($keyName, 86400);

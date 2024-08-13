@@ -33,9 +33,12 @@ class ConsoleErrorHandler extends Injectable
 
         $config = $this->getConfig();
 
-        if ($config->get('env') == 'dev') {
-            $trace = sprintf('%sTrace Content: %s', PHP_EOL, $e->getTraceAsString());
+        if ($config->path('env') == 'dev' || $config->path('log.trace')) {
+
+            $trace = sprintf('Trace Content: %s', $e->getTraceAsString());
+
             $logger->error($trace);
+
             $content .= $trace;
         }
 

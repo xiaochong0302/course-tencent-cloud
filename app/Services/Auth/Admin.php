@@ -56,19 +56,4 @@ class Admin extends AuthService
         return 'admin_auth_info';
     }
 
-    public function hasPermission($route)
-    {
-        $authUser = $this->getAuthInfo();
-
-        if ($authUser['root'] == 1) {
-            return true;
-        }
-
-        if (in_array($route, $authUser['routes'])) {
-            return true;
-        }
-
-        return false;
-    }
-
 }
