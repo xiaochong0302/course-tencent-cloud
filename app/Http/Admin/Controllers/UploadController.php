@@ -7,6 +7,7 @@
 
 namespace App\Http\Admin\Controllers;
 
+use App\Http\Admin\Services\Upload as UploadService;
 use App\Services\MyStorage as StorageService;
 use App\Services\Vod as VodService;
 use App\Validators\Validator as AppValidator;
@@ -119,20 +120,25 @@ class UploadController extends Controller
      */
     public function uploadDefaultImageAction()
     {
-        $service = new StorageService();
+        $service = new UploadService();
 
         $items = [];
 
+        $items['category_icon'] = $service->uploadDefaultCategoryIcon();
         $items['user_avatar'] = $service->uploadDefaultUserAvatar();
+        $items['article_cover'] = $service->uploadDefaultArticleCover();
         $items['course_cover'] = $service->uploadDefaultCourseCover();
         $items['package_cover'] = $service->uploadDefaultPackageCover();
         $items['topic_cover'] = $service->uploadDefaultTopicCover();
+        $items['slide_cover'] = $service->uploadDefaultSlideCover();
         $items['gift_cover'] = $service->uploadDefaultGiftCover();
         $items['vip_cover'] = $service->uploadDefaultVipCover();
-        $items['category_icon'] = $service->uploadDefaultCategoryIcon();
 
-        foreach ($items as $item) {
-            if (!$item) return $this->jsonError(['msg' => '上传文件失败']);
+        foreach ($items as $key => $item) {
+            $msg = sprintf('上传文件失败: %s', $key);
+            if (!$item) {
+                return $this->jsonError(['msg' => $msg]);
+            }
         }
 
         return $this->jsonSuccess(['msg' => '上传文件成功']);

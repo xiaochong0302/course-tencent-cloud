@@ -141,6 +141,10 @@
                                 <td>礼品封面</td>
                                 <td>public/static/admin/img/default/gift_cover.png</td>
                             </tr>
+                            <tr>
+                                <td>轮播封面</td>
+                                <td>public/static/admin/img/default/slide_cover.png</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
