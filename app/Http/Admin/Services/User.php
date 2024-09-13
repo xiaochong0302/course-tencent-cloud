@@ -206,9 +206,6 @@ class User extends Service
 
         if (!empty($post['vip_expiry_time'])) {
             $data['vip_expiry_time'] = $validator->checkVipExpiryTime($post['vip_expiry_time']);
-            if ($data['vip_expiry_time'] < time()) {
-                $data['vip'] = 0;
-            }
         }
 
         if (isset($post['locked'])) {
@@ -217,9 +214,6 @@ class User extends Service
 
         if (!empty($post['lock_expiry_time'])) {
             $data['lock_expiry_time'] = $validator->checkLockExpiryTime($post['lock_expiry_time']);
-            if ($data['lock_expiry_time'] < time()) {
-                $data['locked'] = 0;
-            }
         }
 
         $oldAdminRole = $user->admin_role;

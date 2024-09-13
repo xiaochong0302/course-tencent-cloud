@@ -46,7 +46,7 @@
             xmSelect.render({
                 el: '#xm-tag-ids',
                 name: 'xm_tag_ids',
-                max: 3,
+                max: 5,
                 filterable: true,
                 filterMethod: function (val, item, index, prop) {
                     return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
