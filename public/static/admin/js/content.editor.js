@@ -2,6 +2,9 @@ layui.use(['jquery'], function () {
 
     var $ = layui.jquery;
 
+    var $textarea = $('#editor-textarea');
+    var $form = $('form:has(#editor-textarea)');
+
     var editor;
 
     var options = {
@@ -40,8 +43,25 @@ layui.use(['jquery'], function () {
         editor = K.create('#editor-textarea', options);
     });
 
+    /**
+     * 同步编辑器内容到表单
+     */
     $('.kg-submit').on('click', function () {
         editor.sync();
     });
+
+    /**
+     * 定时提交编辑器内容
+     */
+    setInterval(function () {
+        editor.sync();
+        if ($textarea.val().length > 30) {
+            $.ajax({
+                type: 'POST',
+                url: $form.attr('action'),
+                data: $form.serialize(),
+            });
+        }
+    }, 15000);
 
 });
