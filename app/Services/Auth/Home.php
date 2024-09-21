@@ -68,7 +68,6 @@ class Home extends AuthService
         if ($records->count() == 0) return;
 
         foreach ($records as $record) {
-            $record->delete();
             $key = $this->getSessionCacheKey($record->session_id);
             $cache->delete($key);
         }

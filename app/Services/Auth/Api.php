@@ -98,7 +98,6 @@ class Api extends AuthService
         $cache = $this->getCache();
 
         foreach ($userTokens as $record) {
-            $record->delete();
             $key = $this->getTokenCacheKey($record->token);
             $cache->delete($key);
         }
@@ -114,7 +113,6 @@ class Api extends AuthService
 
         foreach ($userTokens as $record) {
             if ($record->client_type == $clientType) {
-                $record->delete();
                 $key = $this->getTokenCacheKey($record->token);
                 $cache->delete($key);
             }

@@ -22,6 +22,7 @@ class UserSession extends Repository
     {
         return UserSessionModel::query()
             ->where('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('expire_time < :time:', ['time' => time()])
             ->andWhere('deleted = 0')
             ->execute();
     }

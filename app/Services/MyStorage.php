@@ -11,6 +11,7 @@ use App\Library\Utils\FileInfo;
 use App\Models\Upload as UploadModel;
 use App\Repos\Upload as UploadRepo;
 use InvalidArgumentException;
+use RuntimeException;
 
 class MyStorage extends Storage
 {
@@ -34,104 +35,6 @@ class MyStorage extends Storage
         $value = 'hello world';
 
         return $this->putString($key, $value);
-    }
-
-    /**
-     * 上传默认用户头像
-     *
-     * @return false|mixed|string
-     */
-    public function uploadDefaultUserAvatar()
-    {
-        $filename = static_path('admin/img/default/user_avatar.png');
-
-        $key = '/img/default/user_avatar.png';
-
-        return $this->putFile($key, $filename);
-    }
-
-    /**
-     * 上传默认课程封面
-     *
-     * @return false|mixed|string
-     */
-    public function uploadDefaultCourseCover()
-    {
-        $filename = static_path('admin/img/default/course_cover.png');
-
-        $key = '/img/default/course_cover.png';
-
-        return $this->putFile($key, $filename);
-    }
-
-    /**
-     * 上传默认套餐封面
-     *
-     * @return false|mixed|string
-     */
-    public function uploadDefaultPackageCover()
-    {
-        $filename = static_path('admin/img/default/package_cover.png');
-
-        $key = '/img/default/package_cover.png';
-
-        return $this->putFile($key, $filename);
-    }
-
-    /**
-     * 上传默认话题封面
-     *
-     * @return false|mixed|string
-     */
-    public function uploadDefaultTopicCover()
-    {
-        $filename = static_path('admin/img/default/topic_cover.png');
-
-        $key = '/img/default/topic_cover.png';
-
-        return $this->putFile($key, $filename);
-    }
-
-    /**
-     * 上传默认会员封面
-     *
-     * @return false|mixed|string
-     */
-    public function uploadDefaultVipCover()
-    {
-        $filename = static_path('admin/img/default/vip_cover.png');
-
-        $key = '/img/default/vip_cover.png';
-
-        return $this->putFile($key, $filename);
-    }
-
-    /**
-     * 上传默认礼品封面
-     *
-     * @return false|mixed|string
-     */
-    public function uploadDefaultGiftCover()
-    {
-        $filename = static_path('admin/img/default/gift_cover.png');
-
-        $key = '/img/default/gift_cover.png';
-
-        return $this->putFile($key, $filename);
-    }
-
-    /**
-     * 上传分类默认图标
-     *
-     * @return false|mixed|string
-     */
-    public function uploadDefaultCategoryIcon()
-    {
-        $filename = static_path('admin/img/default/category_icon.png');
-
-        $key = '/img/default/category_icon.png';
-
-        return $this->putFile($key, $filename);
     }
 
     /**
@@ -217,6 +120,10 @@ class MyStorage extends Storage
                     }
 
                     $path = $this->putFile($keyName, $file->getTempName());
+
+                    if (!$path) {
+                        throw new RuntimeException('Upload File Failed');
+                    }
 
                     $upload = new UploadModel();
 
