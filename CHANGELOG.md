@@ -1,3 +1,14 @@
+### [v1.7.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.3)(2024-10-10)
+
+- 更新layui-v2.9.16
+- 增加编辑器内容自动提交
+- 修改文章和提问可用tag数量
+- 优化findUserActiveSessions
+- 优化findUserActiveTokens
+- 优化上传文件失败抛出异常
+- 优化默认文件上传
+- 优化用户锁定相关
+
 ### [v1.7.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.2)(2024-07-31)
 
 - 更新layui-v2.9.14
