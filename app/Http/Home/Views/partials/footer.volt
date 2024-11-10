@@ -33,6 +33,9 @@
             {% if contact_info.toutiao %}
                 <a class="toutiao" href="javascript:" title="头条号"><span class="iconfont icon-toutiao"></span></a>
             {% endif %}
+            {% if contact_info.douyin %}
+                <a class="douyin" href="javascript:" title="抖音号"><span class="iconfont icon-douyin"></span></a>
+            {% endif %}
             {% if contact_info.weibo %}
                 {% set link_url = 'https://weibo.com/u/%s'|format(contact_info.weibo) %}
                 <a class="weibo" href="{{ link_url }}" title="微博主页"><span class="iconfont icon-weibo"></span></a>

@@ -41,6 +41,15 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">抖音二维码</label>
+            <div class="layui-inline" style="width:40%;">
+                <input class="layui-input" type="text" name="douyin" placeholder="请确保存储已正确配置" value="{{ contact.douyin }}">
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn" type="button" id="upload-douyin">上传</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">微博帐号</label>
             <div class="layui-input-block">
                 <input class="layui-input" type="text" name="weibo" value="{{ contact.weibo }}" placeholder="https://weibo.com/u/{账号}">
@@ -131,6 +140,22 @@
                 },
                 done: function (res, index, upload) {
                     $('input[name=toutiao]').val(res.data.url);
+                    layer.closeAll('loading');
+                },
+                error: function (index, upload) {
+                    layer.msg('上传文件失败', {icon: 2});
+                }
+            });
+
+            upload.render({
+                elem: '#upload-douyin',
+                url: '/admin/upload/icon/img',
+                exts: 'gif|jpg|png',
+                before: function () {
+                    layer.load();
+                },
+                done: function (res, index, upload) {
+                    $('input[name=douyin]').val(res.data.url);
                     layer.closeAll('loading');
                 },
                 error: function (index, upload) {

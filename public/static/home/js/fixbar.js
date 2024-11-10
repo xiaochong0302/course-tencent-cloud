@@ -36,6 +36,17 @@ layui.use(['jquery', 'helper', 'util'], function () {
         });
     }
 
+    var showDouYinCode = function () {
+        var content = '<div class="qrcode"><img src="' + window.contact.douyin + '" alt="扫码关注"></div>';
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            shadeClose: true,
+            content: content,
+        });
+    }
+
     var bars = [];
 
     if (window.contact.wechat) {
@@ -73,6 +84,10 @@ layui.use(['jquery', 'helper', 'util'], function () {
 
     $('.icon-toutiao').on('click', function () {
         showTouTiaoCode();
+    });
+
+    $('.icon-douyin').on('click', function () {
+        showDouYinCode();
     });
 
 });
