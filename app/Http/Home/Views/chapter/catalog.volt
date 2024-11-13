@@ -1,6 +1,6 @@
-{%- macro show_lesson_list(chapter) %}
+{%- macro show_lesson_list(parent,chapter) %}
     <ul class="sidebar-lesson-list">
-        {% for lesson in chapter.children %}
+        {% for lesson in parent.children %}
             {% set url = url({'for':'home.chapter.show','id':lesson.id}) %}
             {% set active = (chapter.id == lesson.id) ? 'active' : 'normal' %}
             <li class="lesson-title layui-elip">
@@ -22,13 +22,13 @@
                 {% for item in catalog %}
                     <div class="chapter-title layui-elip">{{ item.title }}</div>
                     <div class="sidebar-lesson-list">
-                        {{ show_lesson_list(item) }}
+                        {{ show_lesson_list(item,chapter) }}
                     </div>
                 {% endfor %}
             </div>
         {% else %}
             <div class="sidebar-lesson-list">
-                {{ show_lesson_list(catalog[0]) }}
+                {{ show_lesson_list(catalog[0],chapter) }}
             </div>
         {% endif %}
     </div>
