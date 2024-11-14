@@ -8,6 +8,7 @@
 use App\Caches\Setting as SettingCache;
 use App\Library\Purifier as HtmlPurifier;
 use App\Library\Validators\Common as CommonValidator;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 use App\Services\Logic\Url\ShareUrl as ShareUrlService;
 use App\Services\Storage as StorageService;
 use Phalcon\Config;
@@ -488,7 +489,7 @@ function kg_editor_content_length($content)
 {
     $content = trim($content);
 
-    $content = strip_tags($content,'<img>');
+    $content = strip_tags($content, '<img>');
 
     return kg_strlen($content);
 }
@@ -768,7 +769,7 @@ function kg_static_url($path, $local = true, $version = null)
     $baseUri = rtrim($config->get('static_base_uri'), '/');
     $path = ltrim($path, '/');
     $url = $local ? $baseUri . '/' . $path : $path;
-    $version = $version ? $version : $config->get('static_version');
+    $version = $version ?: $config->get('static_version');
 
     if ($version) {
         $url .= '?v=' . $version;
@@ -818,5 +819,13 @@ function kg_share_url($type, $id, $referer = 0)
  */
 function kg_h5_index_url()
 {
-    return kg_site_url() . '/h5/#/pages/index/index';
+    $service = new FullH5UrlService();
+
+    $url = $service->getHomeUrl();
+
+    if ($pos = strpos($url, '?')) {
+        return substr($url, 0, $pos);
+    }
+
+    return $url;
 }
