@@ -36,6 +36,8 @@ class Home extends AuthService
         ];
 
         $this->session->set($authKey, $authInfo);
+
+        return $authInfo;
     }
 
     public function clearAuthInfo()

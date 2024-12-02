@@ -36,7 +36,7 @@ class CsrfToken
         $content = [
             $this->getExpiredTime(),
             $this->fixed,
-            Text::random(8),
+            Text::random(Text::RANDOM_ALNUM, 8),
         ];
 
         $text = implode($this->delimiter, $content);

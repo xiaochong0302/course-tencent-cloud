@@ -40,6 +40,10 @@ class Chapter extends Repository
             $query->andWhere('course_id = :course_id:', ['course_id' => $where['course_id']]);
         }
 
+        if (isset($where['model'])) {
+            $query->andWhere('model = :model:', ['model' => $where['model']]);
+        }
+
         if (isset($where['published'])) {
             $query->andWhere('published = :published:', ['published' => $where['published']]);
         }

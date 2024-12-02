@@ -15,6 +15,7 @@ use App\Services\Auth\Home as HomeAuth;
 use App\Services\Service as AppService;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
+use Phalcon\Config;
 use Phalcon\Mvc\Dispatcher;
 
 class Controller extends \Phalcon\Mvc\Controller
@@ -46,7 +47,7 @@ class Controller extends \Phalcon\Mvc\Controller
     protected $contactInfo;
 
     /**
-     * @var array
+     * @var Config
      */
     protected $websocketInfo;
 

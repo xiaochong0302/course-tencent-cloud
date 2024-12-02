@@ -9,7 +9,7 @@ namespace App\Services\Logic\Comment;
 
 use App\Models\Comment as CommentModel;
 use App\Models\User as UserModel;
-use App\Repos\AnswerLike as AnswerLikeRepo;
+use App\Repos\CommentLike as CommentLikeRepo;
 use App\Services\Logic\CommentTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\User\ShallowUserInfo;
@@ -84,9 +84,9 @@ class CommentInfo extends LogicService
 
             $me['logged'] = 1;
 
-            $likeRepo = new AnswerLikeRepo();
+            $likeRepo = new CommentLikeRepo();
 
-            $like = $likeRepo->findAnswerLike($comment->id, $user->id);
+            $like = $likeRepo->findCommentLike($comment->id, $user->id);
 
             if ($like && $like->deleted == 0) {
                 $me['liked'] = 1;

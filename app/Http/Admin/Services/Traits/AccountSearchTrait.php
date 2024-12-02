@@ -15,31 +15,28 @@ trait AccountSearchTrait
 
     protected function handleAccountSearchParams($params)
     {
+        $key = null;
+
+        if (isset($params['user_id'])) {
+            $key = 'user_id';
+        } elseif (isset($params['owner_id'])) {
+            $key = 'owner_id';
+        }
+
+        if ($key == null) return $params;
+
         $accountRepo = new AccountRepo();
 
         /**
          * 兼容用户编号｜手机号码｜邮箱地址查询
          */
-        if (!empty($params['user_id'])) {
-            if (CommonValidator::phone($params['user_id'])) {
-                $account = $accountRepo->findByPhone($params['user_id']);
-                $params['user_id'] = $account ? $account->id : -1000;
-            } elseif (CommonValidator::email($params['user_id'])) {
-                $account = $accountRepo->findByEmail($params['user_id']);
-                $params['user_id'] = $account ? $account->id : -1000;
-            }
-        }
-
-        /**
-         * 兼容用户编号｜手机号码｜邮箱地址查询
-         */
-        if (!empty($params['owner_id'])) {
-            if (CommonValidator::phone($params['owner_id'])) {
-                $account = $accountRepo->findByPhone($params['owner_id']);
-                $params['owner_id'] = $account ? $account->id : -1000;
-            } elseif (CommonValidator::email($params['owner_id'])) {
-                $account = $accountRepo->findByEmail($params['owner_id']);
-                $params['owner_id'] = $account ? $account->id : -1000;
+        if (!empty($params[$key])) {
+            if (CommonValidator::phone($params[$key])) {
+                $account = $accountRepo->findByPhone($params[$key]);
+                $params[$key] = $account ? $account->id : -1000;
+            } elseif (CommonValidator::email($params[$key])) {
+                $account = $accountRepo->findByEmail($params[$key]);
+                $params[$key] = $account ? $account->id : -1000;
             }
         }
 

@@ -190,9 +190,10 @@ function kg_site_url()
  *
  * @param string $section
  * @param string $key
+ * @param mixed $defaultValue
  * @return mixed
  */
-function kg_setting($section, $key = null)
+function kg_setting($section, $key = null, $defaultValue = null)
 {
     $cache = new SettingCache();
 
@@ -200,7 +201,9 @@ function kg_setting($section, $key = null)
 
     if (!$key) return $settings;
 
-    return $settings[$key] ?? null;
+    if (isset($settings[$key])) return $settings[$key];
+
+    return $defaultValue;
 }
 
 /**
