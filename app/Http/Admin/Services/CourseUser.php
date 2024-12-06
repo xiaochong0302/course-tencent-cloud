@@ -40,7 +40,7 @@ class CourseUser extends Service
 
         $sourceType = CourseUserModel::SOURCE_MANUAL;
 
-        return $this->assignUserCourse($course, $user, $expiryTime, $sourceType);
+        $this->assignUserCourse($course, $user, $expiryTime, $sourceType);
     }
 
     public function getUsers($id)

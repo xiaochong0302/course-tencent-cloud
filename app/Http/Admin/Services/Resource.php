@@ -45,7 +45,7 @@ class Resource extends Service
 
         $this->recountCourseResources($course);
 
-        return $upload;
+        return $resource;
     }
 
     public function updateResource($id)
@@ -67,6 +67,8 @@ class Resource extends Service
         $upload->update($data);
 
         $resource->update();
+
+        return $resource;
     }
 
     public function deleteResource($id)
@@ -80,6 +82,8 @@ class Resource extends Service
         $resource->delete();
 
         $this->recountCourseResources($course);
+
+        return $resource;
     }
 
     protected function findOrFail($id)

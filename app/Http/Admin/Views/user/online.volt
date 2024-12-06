@@ -23,7 +23,7 @@
             <tr>
                 <td>{{ client_type(item.client_type) }}</td>
                 <td><a href="javascript:" class="kg-ip2region" title="查看位置" data-ip="{{ item.client_ip }}">{{ item.client_ip }}</a></td>
-                <td>{{ date('Y-m-d H:i',item.active_time) }}</td>
+                <td>{{ date('Y-m-d H:i:s',item.active_time) }}</td>
             </tr>
         {% endfor %}
         </tbody>
