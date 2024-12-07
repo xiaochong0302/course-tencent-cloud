@@ -13,6 +13,7 @@
         qq: '{{ contact_info.qq }}',
         wechat: '{{ contact_info.wechat }}',
         toutiao: '{{ contact_info.toutiao }}',
+        douyin: '{{ contact_info.douyin }}',
         weibo: '{{ contact_info.weibo }}',
         zhihu: '{{ contact_info.zhihu }}',
         phone: '{{ contact_info.phone }}',

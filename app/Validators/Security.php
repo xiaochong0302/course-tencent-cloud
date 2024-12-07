@@ -22,7 +22,7 @@ class Security extends Validator
         $postToken = $this->request->getPost('csrf_token');
 
         if (in_array($route->getName(), $this->getCsrfWhitelist())) {
-            return;
+            return true;
         }
 
         $service = new CsrfTokenService();
@@ -38,6 +38,8 @@ class Security extends Validator
         if (!$result) {
             throw new BadRequestException('security.invalid_csrf_token');
         }
+
+        return true;
     }
 
     public function checkHttpReferer()

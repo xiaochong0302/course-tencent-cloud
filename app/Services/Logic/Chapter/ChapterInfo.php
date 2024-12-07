@@ -10,7 +10,6 @@ namespace App\Services\Logic\Chapter;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\Course as CourseModel;
-use App\Models\CourseUser as CourseUserModel;
 use App\Models\User as UserModel;
 use App\Repos\ChapterLike as ChapterLikeRepo;
 use App\Services\Logic\ChapterTrait;
@@ -94,15 +93,7 @@ class ChapterInfo extends LogicService
 
         if (!$this->ownedCourse) return;
 
-        $sourceType = CourseUserModel::SOURCE_FREE;
-
-        if ($course->market_price > 0) {
-            if ($course->vip_price == 0 && $user->vip == 1) {
-                $sourceType = CourseUserModel::SOURCE_VIP;
-            } else {
-                $sourceType = CourseUserModel::SOURCE_TRIAL;
-            }
-        }
+        $sourceType = $this->getFreeSourceType($course, $user);
 
         $courseUser = $this->createCourseUser($course, $user, 0, $sourceType);
 
@@ -199,7 +190,6 @@ class ChapterInfo extends LogicService
         $parent->user_count += 1;
 
         $parent->update();
-
     }
 
 }

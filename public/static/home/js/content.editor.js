@@ -53,6 +53,7 @@ layui.use(['jquery'], function () {
      */
     setInterval(function () {
         editor.sync();
+        if (!$form.attr('action').includes('update')) return;
         if ($textarea.val().length > 30) {
             $.ajax({
                 type: 'POST',

@@ -142,7 +142,7 @@ class User extends Service
             $this->db->commit();
 
             if ($adminRole > 0) {
-                $this->updateAdminUserCount($adminRole);
+                $this->recountRoleUsers($adminRole);
             }
 
             $this->rebuildUserCache($user);
@@ -225,11 +225,11 @@ class User extends Service
         }
 
         if ($oldAdminRole > 0) {
-            $this->updateAdminUserCount($oldAdminRole);
+            $this->recountRoleUsers($oldAdminRole);
         }
 
         if ($user->admin_role > 0) {
-            $this->updateAdminUserCount($user->admin_role);
+            $this->recountRoleUsers($user->admin_role);
         }
 
         $this->rebuildUserCache($user);
@@ -341,7 +341,7 @@ class User extends Service
         $apiAuth->logoutClients($user->id);
     }
 
-    protected function updateAdminUserCount($roleId)
+    protected function recountRoleUsers($roleId)
     {
         $roleRepo = new RoleRepo();
 

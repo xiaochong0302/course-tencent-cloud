@@ -50,7 +50,7 @@ trait CourseUserTrait
 
             $this->ownedCourse = true;
 
-        } elseif ($course->market_price > 0 && $course->vip_price == 0 && $user->vip == 1) {
+        } elseif ($course->vip_price == 0 && $user->vip == 1) {
 
             $this->ownedCourse = true;
 
@@ -80,19 +80,22 @@ trait CourseUserTrait
 
     protected function assignUserCourse(CourseModel $course, UserModel $user, int $expiryTime, int $sourceType)
     {
+        if ($this->allowFreeAccess($course, $user)) return;
+
         $courseUserRepo = new CourseUserRepo();
 
         $relation = $courseUserRepo->findCourseUser($course->id, $user->id);
 
         if (!$relation) {
 
-            $relation = $this->createCourseUser($course, $user, $expiryTime, $sourceType);
+            $this->createCourseUser($course, $user, $expiryTime, $sourceType);
 
         } else {
 
             switch ($relation->source_type) {
                 case CourseUserModel::SOURCE_FREE:
                 case CourseUserModel::SOURCE_TRIAL:
+                case CourseUserModel::SOURCE_VIP:
                     $this->createCourseUser($course, $user, $expiryTime, $sourceType);
                     $this->deleteCourseUser($relation);
                     break;
@@ -113,8 +116,6 @@ trait CourseUserTrait
 
         $this->recountCourseUsers($course);
         $this->recountUserCourses($user);
-
-        return $relation;
     }
 
     protected function createCourseUser(CourseModel $course, UserModel $user, int $expiryTime, int $sourceType)
@@ -158,6 +159,34 @@ trait CourseUserTrait
         $user->course_count = $courseCount;
 
         $user->update();
+    }
+
+    protected function allowFreeAccess(CourseModel $course, UserModel $user)
+    {
+        $result = false;
+
+        if ($course->market_price == 0) {
+            $result = true;
+        } elseif ($course->vip_price == 0 && $user->vip == 1) {
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    protected function getFreeSourceType(CourseModel $course, UserModel $user)
+    {
+        $sourceType = CourseUserModel::SOURCE_FREE;
+
+        if ($course->market_price > 0) {
+            if ($course->vip_price == 0 && $user->vip == 1) {
+                $sourceType = CourseUserModel::SOURCE_VIP;
+            } else {
+                $sourceType = CourseUserModel::SOURCE_TRIAL;
+            }
+        }
+
+        return $sourceType;
     }
 
 }
