@@ -1,3 +1,15 @@
+### [v1.7.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.4)(2024-12-10)
+
+- 更新layui-v2.9.20
+- 优化编辑器内容自动提交
+- 修正课时详情页目录高亮问题
+- 修正CommentInfo中点赞判断
+- 精简AccountSearchTrait
+- 优化kg_h5_index_url()
+- 优化CourseUserTrait
+- 优化kg_setting()
+- 优化CsrfToken
+
 ### [v1.7.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.3)(2024-10-10)
 
 - 更新layui-v2.9.16
