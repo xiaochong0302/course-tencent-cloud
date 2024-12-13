@@ -57,6 +57,8 @@ class ArticleDocument extends Injectable
             $category = $this->handleCategory($article->category_id);
         }
 
+        $article->cover = ArticleModel::getCoverPath($article->cover);
+
         return [
             'id' => $article->id,
             'title' => $article->title,
@@ -81,12 +83,9 @@ class ArticleDocument extends Injectable
 
         $user = $userRepo->findById($id);
 
-        $user->avatar = UserModel::getAvatarPath($user->avatar);
-
         return kg_json_encode([
             'id' => $user->id,
             'name' => $user->name,
-            'avatar' => $user->avatar,
         ]);
     }
 

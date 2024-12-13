@@ -102,12 +102,9 @@ class CourseDocument extends Injectable
 
         $user = $userRepo->findById($id);
 
-        $user->avatar = UserModel::getAvatarPath($user->avatar);
-
         return kg_json_encode([
             'id' => $user->id,
             'name' => $user->name,
-            'avatar' => $user->avatar,
         ]);
     }
 

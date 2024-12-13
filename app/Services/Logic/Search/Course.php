@@ -73,12 +73,6 @@ class Course extends Handler
             $teacher = json_decode($item['teacher'], true);
             $tags = json_decode($item['tags'], true);
 
-            $teacher['avatar'] = $teacher['avatar'] ?: kg_default_user_avatar_path();
-
-            if (!empty($teacher['avatar']) && !Text::startsWith($teacher['avatar'], 'http')) {
-                $teacher['avatar'] = $baseUrl . $teacher['avatar'];
-            }
-
             if (!empty($item['cover']) && !Text::startsWith($item['cover'], 'http')) {
                 $item['cover'] = $baseUrl . $item['cover'];
             }
