@@ -64,31 +64,15 @@ class Question extends Handler
 
         foreach ($pager->items as $item) {
 
+            $lastAnswer = json_decode($item['last_answer'], true);
+            $acceptAnswer = json_decode($item['accept_answer'], true);
             $lastReplier = json_decode($item['last_replier'], true);
             $category = json_decode($item['category'], true);
             $owner = json_decode($item['owner'], true);
             $tags = json_decode($item['tags'], true);
 
-            $owner['avatar'] = $owner['avatar'] ?: kg_default_user_avatar_path();
-
-            if (!empty($owner['avatar']) && !Text::startsWith($owner['avatar'], 'http')) {
-                $owner['avatar'] = $baseUrl . $owner['avatar'];
-            }
-
             if (!empty($item['cover']) && !Text::startsWith($item['cover'], 'http')) {
                 $item['cover'] = $baseUrl . $item['cover'];
-            }
-
-            $lastAnswer = json_decode($item['last_answer'], true);
-
-            if (!empty($lastAnswer['cover']) && !Text::startsWith($lastAnswer['cover'], 'http')) {
-                $lastAnswer['cover'] = $baseUrl . $lastAnswer['cover'];
-            }
-
-            $acceptAnswer = json_decode($item['accept_answer'], true);
-
-            if (!empty($acceptAnswer['cover']) && !Text::startsWith($acceptAnswer['cover'], 'http')) {
-                $acceptAnswer['cover'] = $baseUrl . $acceptAnswer['cover'];
             }
 
             $items[] = [

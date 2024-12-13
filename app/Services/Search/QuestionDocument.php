@@ -76,6 +76,8 @@ class QuestionDocument extends Injectable
             $acceptAnswer = $this->handleAnswer($question->accept_answer_id);
         }
 
+        $question->cover = QuestionModel::getCoverPath($question->cover);
+
         return [
             'id' => $question->id,
             'title' => $question->title,
@@ -108,12 +110,9 @@ class QuestionDocument extends Injectable
 
         $user = $userRepo->findById($id);
 
-        $user->avatar = UserModel::getAvatarPath($user->avatar);
-
         return kg_json_encode([
             'id' => $user->id,
             'name' => $user->name,
-            'avatar' => $user->avatar,
         ]);
     }
 
@@ -138,7 +137,6 @@ class QuestionDocument extends Injectable
         return kg_json_encode([
             'id' => $answer->id,
             'summary' => $answer->summary,
-            'cover' => $answer->cover,
         ]);
     }
 
