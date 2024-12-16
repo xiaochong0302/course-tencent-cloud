@@ -38,11 +38,11 @@
             {% endif %}
             {% if contact_info.weibo %}
                 {% set link_url = 'https://weibo.com/u/%s'|format(contact_info.weibo) %}
-                <a class="weibo" href="{{ link_url }}" title="微博主页"><span class="iconfont icon-weibo"></span></a>
+                <a class="weibo" href="{{ link_url }}" title="微博主页" target="_blank"><span class="iconfont icon-weibo"></span></a>
             {% endif %}
             {% if contact_info.zhihu %}
                 {% set link_url = 'https://www.zhihu.com/people/%s'|format(contact_info.zhihu) %}
-                <a class="zhihu" href="{{ link_url }}" title="知乎主页"><span class="iconfont icon-zhihu"></span></a>
+                <a class="zhihu" href="{{ link_url }}" title="知乎主页" target="_blank"><span class="iconfont icon-zhihu"></span></a>
             {% endif %}
             {% if contact_info.email %}
                 {% set link_url = 'mailto:%s'|format(contact_info.email) %}
@@ -53,7 +53,7 @@
             {% endif %}
             {% if contact_info.address %}
                 {% set link_url = 'https://map.baidu.com/search/%s?querytype=s&wd=%s'|format(contact_info.address,contact_info.address) %}
-                <a class="location" href="{{ link_url }}" title="联系地址：{{ contact_info.address }}"><span class="iconfont icon-location"></span></a>
+                <a class="location" href="{{ link_url }}" title="联系地址：{{ contact_info.address }}" target="_blank"><span class="iconfont icon-location"></span></a>
             {% endif %}
         </div>
     {% endif %}
