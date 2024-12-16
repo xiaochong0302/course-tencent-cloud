@@ -9,7 +9,6 @@ namespace App\Services\Logic\Chapter;
 
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterUser as ChapterUserModel;
-use App\Models\CourseUser as CourseUserModel;
 use App\Models\User as UserModel;
 use App\Repos\ChapterUser as ChapterUserRepo;
 
@@ -37,9 +36,6 @@ trait ChapterUserTrait
 
         $chapterUser = null;
 
-        /**
-         * @var CourseUserModel $courseUser
-         */
         $courseUser = $this->courseUser;
 
         if ($courseUser) {

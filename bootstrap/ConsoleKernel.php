@@ -31,10 +31,9 @@ class ConsoleKernel extends Kernel
         $this->loader = new Loader();
 
         $this->initAppEnv();
-        $this->initAppConfig();
-        $this->initAppSetting();
         $this->registerLoaders();
         $this->registerServices();
+        $this->registerSettings();
         $this->registerErrorHandler();
     }
 

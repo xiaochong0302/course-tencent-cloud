@@ -19,14 +19,12 @@ class Logger
      * @param string $channel
      * @return FileLogger
      */
-    public function getInstance($channel = null)
+    public function getInstance($channel = 'common')
     {
         /**
          * @var Config $config
          */
         $config = Di::getDefault()->getShared('config');
-
-        $channel = $channel ? $channel : 'common';
 
         $filename = sprintf('%s-%s.log', $channel, date('Y-m-d'));
 
