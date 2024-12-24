@@ -141,7 +141,7 @@ class Task extends Model
 
     public function beforeSave()
     {
-        if (is_array($this->item_info) || is_object($this->item_info)) {
+        if (is_array($this->item_info)) {
             $this->item_info = kg_json_encode($this->item_info);
         }
     }

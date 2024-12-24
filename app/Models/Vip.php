@@ -95,22 +95,21 @@ class Vip extends Model
 
     public function beforeCreate()
     {
-        if (empty($this->cover)) {
-            $this->cover = kg_default_vip_cover_path();
-        } elseif (Text::startsWith($this->cover, 'http')) {
-            $this->cover = self::getCoverPath($this->cover);
-        }
-
         $this->create_time = time();
     }
 
     public function beforeUpdate()
     {
-        if (Text::startsWith($this->cover, 'http')) {
+        $this->update_time = time();
+    }
+
+    public function beforeSave()
+    {
+        if (empty($this->cover)) {
+            $this->cover = kg_default_vip_cover_path();
+        } elseif (Text::startsWith($this->cover, 'http')) {
             $this->cover = self::getCoverPath($this->cover);
         }
-
-        $this->update_time = time();
     }
 
     public function afterFetch()

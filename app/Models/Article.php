@@ -253,7 +253,7 @@ class Article extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
-        if (is_array($this->tags) || is_object($this->tags)) {
+        if (is_array($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
         }
     }

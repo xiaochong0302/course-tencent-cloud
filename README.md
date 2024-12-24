@@ -48,8 +48,8 @@ Tips: 请用手机注册一个新账号，用户中心 -> 关注订阅，扫码�
  
 ### 项目组件
 
-- 后台框架：[phalcon 3.4.5](https://phalcon.io)
-- 前端框架：[layui 2.9.10](https://layui.dev)
+- 后台框架：[phalcon 3.4](https://phalcon.io)
+- 前端框架：[layui 2.9.20](https://layui.dev)
 - 全文检索：[xunsearch 1.4.17](http://www.xunsearch.com)
 - 基础依赖：[php7.3](https://php.net)， [mysql5.7](https://mysql.com)， [redis5.0](https://redis.io)
 

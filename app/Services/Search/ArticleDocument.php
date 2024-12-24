@@ -41,7 +41,7 @@ class ArticleDocument extends Injectable
      */
     public function formatDocument(ArticleModel $article)
     {
-        if (is_array($article->tags) || is_object($article->tags)) {
+        if (is_array($article->tags)) {
             $article->tags = kg_json_encode($article->tags);
         }
 

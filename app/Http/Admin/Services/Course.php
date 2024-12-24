@@ -168,12 +168,12 @@ class Course extends Service
             }
         }
 
-        if (isset($post['category_id']) && !empty($post['category_id'])) {
+        if (!empty($post['category_id'])) {
             $category = $validator->checkCategory($post['category_id']);
             $data['category_id'] = $category->id;
         }
 
-        if (isset($post['teacher_id']) && !empty($post['teacher_id'])) {
+        if (!empty($post['teacher_id'])) {
             $teacher = $validator->checkTeacher($post['teacher_id']);
             $data['teacher_id'] = $teacher->id;
         }

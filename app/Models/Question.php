@@ -281,7 +281,7 @@ class Question extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
-        if (is_array($this->tags) || is_object($this->tags)) {
+        if (is_array($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
         }
     }
@@ -295,6 +295,9 @@ class Question extends Model
 
     public function afterFetch()
     {
+        /**
+         * 问题封面非必要，有则处理，无则略过
+         */
         if (!empty($this->cover) && !Text::startsWith($this->cover, 'http')) {
             $this->cover = kg_cos_article_cover_url($this->cover);
         }
