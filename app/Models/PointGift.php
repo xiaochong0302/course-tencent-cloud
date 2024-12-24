@@ -181,7 +181,7 @@ class PointGift extends Model
             }
         }
 
-        if (is_array($this->attrs) || is_object($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -190,7 +190,7 @@ class PointGift extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->attrs) || is_object($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 

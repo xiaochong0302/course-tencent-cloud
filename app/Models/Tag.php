@@ -154,7 +154,7 @@ class Tag extends Model
             $this->icon = self::getIconPath($this->icon);
         }
 
-        if (is_array($this->scopes) || is_object($this->scopes)) {
+        if (is_array($this->scopes)) {
             $this->scopes = kg_json_encode($this->scopes);
         }
     }

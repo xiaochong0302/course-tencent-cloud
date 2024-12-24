@@ -186,7 +186,7 @@ class Notification extends Model
 
     public function beforeSave()
     {
-        if (is_array($this->event_info) || is_object($this->event_info)) {
+        if (is_array($this->event_info)) {
             $this->event_info = kg_json_encode($this->event_info);
         }
     }

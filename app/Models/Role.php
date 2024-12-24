@@ -118,7 +118,7 @@ class Role extends Model
 
     public function beforeSave()
     {
-        if (is_array($this->routes) || is_object($this->routes)) {
+        if (is_array($this->routes)) {
             $this->routes = kg_json_encode($this->routes);
         }
     }

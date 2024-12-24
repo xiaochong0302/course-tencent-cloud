@@ -42,7 +42,7 @@ class QuestionDocument extends Injectable
      */
     public function formatDocument(QuestionModel $question)
     {
-        if (is_array($question->tags) || is_object($question->tags)) {
+        if (is_array($question->tags)) {
             $question->tags = kg_json_encode($question->tags);
         }
 
