@@ -63,12 +63,7 @@ class PointGoodsDeliver extends LogicService
 
         $task = new TaskModel();
 
-        $itemInfo = [
-            'redeem' => ['id' => $redeem->id],
-        ];
-
         $task->item_id = $redeem->id;
-        $task->item_info = $itemInfo;
         $task->item_type = TaskModel::TYPE_NOTICE_POINT_GOODS_DELIVER;
         $task->priority = TaskModel::PRIORITY_MIDDLE;
         $task->status = TaskModel::STATUS_PENDING;

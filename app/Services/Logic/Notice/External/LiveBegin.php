@@ -26,7 +26,7 @@ class LiveBegin extends LogicService
         $smsNoticeEnabled = $this->smsNoticeEnabled();
 
         $courseUser = $task->item_info['course_user'];
-        $chapterId = $task->item_info['chapter']['id'];
+        $chapterId = $task->item_id;
 
         $courseRepo = new CourseRepo();
 
@@ -83,9 +83,6 @@ class LiveBegin extends LogicService
             'course_user' => [
                 'course_id' => $courseUser->course_id,
                 'user_id' => $courseUser->user_id,
-            ],
-            'chapter' => [
-                'id' => $chapter->id,
             ],
         ];
 
