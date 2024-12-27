@@ -82,12 +82,7 @@ class ConsultReply extends LogicService
 
         $task = new TaskModel();
 
-        $itemInfo = [
-            'consult' => ['id' => $consult->id],
-        ];
-
         $task->item_id = $consult->id;
-        $task->item_info = $itemInfo;
         $task->item_type = TaskModel::TYPE_NOTICE_CONSULT_REPLY;
         $task->priority = TaskModel::PRIORITY_LOW;
         $task->status = TaskModel::STATUS_PENDING;

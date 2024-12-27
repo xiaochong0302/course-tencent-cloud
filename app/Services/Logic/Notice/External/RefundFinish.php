@@ -67,12 +67,7 @@ class RefundFinish extends LogicService
 
         $task = new TaskModel();
 
-        $itemInfo = [
-            'refund' => ['id' => $refund->id],
-        ];
-
         $task->item_id = $refund->id;
-        $task->item_info = $itemInfo;
         $task->item_type = TaskModel::TYPE_NOTICE_REFUND_FINISH;
         $task->priority = TaskModel::PRIORITY_MIDDLE;
         $task->status = TaskModel::STATUS_PENDING;

@@ -40,12 +40,7 @@ class PointGiftRedeem extends DingTalkNotice
 
         $task = new TaskModel();
 
-        $itemInfo = [
-            'point_gift_redeem' => ['id' => $redeem->id],
-        ];
-
         $task->item_id = $redeem->id;
-        $task->item_info = $itemInfo;
         $task->item_type = TaskModel::TYPE_STAFF_NOTICE_POINT_GIFT_REDEEM;
         $task->priority = TaskModel::PRIORITY_MIDDLE;
         $task->status = TaskModel::STATUS_PENDING;
