@@ -19,7 +19,7 @@ class LiveList extends Builder
         $courses = $this->getCourses($lives);
 
         foreach ($lives as $key => $live) {
-            $lives[$key]['course'] = $courses[$live['course_id']] ?? new \stdClass();
+            $lives[$key]['course'] = $courses[$live['course_id']] ?? null;
         }
 
         return $lives;
@@ -30,7 +30,7 @@ class LiveList extends Builder
         $chapters = $this->getChapters($lives);
 
         foreach ($lives as $key => $live) {
-            $lives[$key]['chapter'] = $chapters[$live['chapter_id']] ?? new \stdClass();
+            $lives[$key]['chapter'] = $chapters[$live['chapter_id']] ?? null;
         }
 
         return $lives;
@@ -63,7 +63,7 @@ class LiveList extends Builder
 
         foreach ($courses->toArray() as $course) {
             $course['cover'] = $baseUrl . $course['cover'];
-            $course['teacher'] = $teachers[$course['teacher_id']] ?? new \stdClass();
+            $course['teacher'] = $teachers[$course['teacher_id']] ?? null;
             $result[$course['id']] = [
                 'id' => $course['id'],
                 'title' => $course['title'],

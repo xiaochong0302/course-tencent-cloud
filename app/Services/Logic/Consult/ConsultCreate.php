@@ -23,16 +23,13 @@ class ConsultCreate extends LogicService
 
     use ClientTrait;
     use CourseTrait;
+    use ConsultDataTrait;
 
     public function handle()
     {
         $courseId = $this->request->getPost('course_id', 'int', 0);
 
         $user = $this->getLoginUser();
-
-        $validator = new UserLimitValidator();
-
-        $validator->checkDailyConsultLimit($user);
 
         $validator = new UserLimitValidator();
 
@@ -47,32 +44,20 @@ class ConsultCreate extends LogicService
     {
         $post = $this->request->getPost();
 
+        $data = $this->handlePostData($post);
+
         $validator = new ConsultValidator();
 
-        $question = $validator->checkQuestion($post['question']);
-
-        $private = 0;
-
-        if (isset($post['private'])) {
-            $private = $validator->checkPrivateStatus($post['private']);
-        }
-
-        $validator->checkIfDuplicated($course->id, $user->id, $question);
-
-        $priority = $this->getPriority($course, $user);
+        $validator->checkIfDuplicated($course->id, $user->id, $data['question']);
 
         $consult = new ConsultModel();
 
-        $consult->question = $question;
-        $consult->private = $private;
-        $consult->priority = $priority;
-        $consult->course_id = $course->id;
-        $consult->owner_id = $user->id;
-        $consult->client_type = $this->getClientType();
-        $consult->client_ip = $this->getClientIp();
-        $consult->published = ConsultModel::PUBLISH_PENDING;
+        $data['priority'] = $this->getPriority($course, $user);
+        $data['published'] = ConsultModel::PUBLISH_PENDING;
+        $data['course_id'] = $course->id;
+        $data['owner_id'] = $user->id;
 
-        $consult->create();
+        $consult->create($data);
 
         $this->recountCourseConsults($course);
         $this->incrUserDailyConsultCount($user);

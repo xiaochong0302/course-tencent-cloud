@@ -8,7 +8,6 @@
 namespace App\Builders;
 
 use App\Repos\Question as QuestionRepo;
-use App\Repos\User as UserRepo;
 
 class AnswerList extends Builder
 {
@@ -18,7 +17,7 @@ class AnswerList extends Builder
         $questions = $this->getQuestions($answers);
 
         foreach ($answers as $key => $answer) {
-            $answers[$key]['question'] = $questions[$answer['question_id']] ?? new \stdClass();
+            $answers[$key]['question'] = $questions[$answer['question_id']] ?? null;
         }
 
         return $answers;
@@ -29,7 +28,7 @@ class AnswerList extends Builder
         $users = $this->getUsers($answers);
 
         foreach ($answers as $key => $answer) {
-            $answers[$key]['owner'] = $users[$answer['owner_id']] ?? new \stdClass();
+            $answers[$key]['owner'] = $users[$answer['owner_id']] ?? null;
         }
 
         return $answers;
@@ -56,20 +55,7 @@ class AnswerList extends Builder
     {
         $ids = kg_array_column($answers, 'owner_id');
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findShallowUserByIds($ids);
-
-        $baseUrl = kg_cos_url();
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }

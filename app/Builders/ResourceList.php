@@ -17,7 +17,7 @@ class ResourceList extends Builder
         $uploads = $this->getUploads($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['upload'] = $uploads[$value['upload_id']] ?? new \stdClass();
+            $relations[$key]['upload'] = $uploads[$value['upload_id']] ?? null;
         }
 
         return $relations;

@@ -8,7 +8,6 @@
 namespace App\Builders;
 
 use App\Repos\Tag as TagRepo;
-use App\Repos\User as UserRepo;
 
 class TagFollowList extends Builder
 {
@@ -18,7 +17,7 @@ class TagFollowList extends Builder
         $tags = $this->getTags($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['tag'] = $tags[$value['tag_id']] ?? new \stdClass();
+            $relations[$key]['tag'] = $tags[$value['tag_id']] ?? null;
         }
 
         return $relations;
@@ -29,7 +28,7 @@ class TagFollowList extends Builder
         $users = $this->getUsers($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['user'] = $users[$value['user_id']] ?? new \stdClass();
+            $relations[$key]['user'] = $users[$value['user_id']] ?? null;
         }
 
         return $relations;
@@ -61,20 +60,7 @@ class TagFollowList extends Builder
     {
         $ids = kg_array_column($relations, 'user_id');
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
-
-        $baseUrl = kg_cos_url();
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }
