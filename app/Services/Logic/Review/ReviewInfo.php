@@ -63,8 +63,6 @@ class ReviewInfo extends LogicService
 
         $course = $courseRepo->findById($courseId);
 
-        if (!$course) return new \stdClass();
-
         return [
             'id' => $course->id,
             'title' => $course->title,

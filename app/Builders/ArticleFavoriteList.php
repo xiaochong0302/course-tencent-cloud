@@ -8,7 +8,6 @@
 namespace App\Builders;
 
 use App\Repos\Article as ArticleRepo;
-use App\Repos\User as UserRepo;
 use Phalcon\Text;
 
 class ArticleFavoriteList extends Builder
@@ -19,7 +18,7 @@ class ArticleFavoriteList extends Builder
         $articles = $this->getArticles($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['article'] = $articles[$value['article_id']] ?? new \stdClass();
+            $relations[$key]['article'] = $articles[$value['article_id']] ?? null;
         }
 
         return $relations;
@@ -30,7 +29,7 @@ class ArticleFavoriteList extends Builder
         $users = $this->getUsers($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['user'] = $users[$value['user_id']] ?? new \stdClass();
+            $relations[$key]['user'] = $users[$value['user_id']] ?? null;
         }
 
         return $relations;
@@ -70,20 +69,7 @@ class ArticleFavoriteList extends Builder
     {
         $ids = kg_array_column($relations, 'user_id');
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findByIds($ids, ['id', 'name', 'avatar']);
-
-        $baseUrl = kg_cos_url();
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }

@@ -30,7 +30,7 @@ class UserList extends Builder
         $accounts = $this->getAccounts($users);
 
         foreach ($users as $key => $user) {
-            $users[$key]['account'] = $accounts[$user['id']] ?? new \stdClass();
+            $users[$key]['account'] = $accounts[$user['id']] ?? null;
         }
 
         return $users;

@@ -9,7 +9,6 @@ namespace App\Builders;
 
 use App\Caches\CategoryAllList as CategoryAllListCache;
 use App\Models\Category as CategoryModel;
-use App\Repos\User as UserRepo;
 
 class CourseList extends Builder
 {
@@ -19,7 +18,7 @@ class CourseList extends Builder
         $categories = $this->getCategories();
 
         foreach ($courses as $key => $course) {
-            $courses[$key]['category'] = $categories[$course['category_id']] ?? new \stdClass();
+            $courses[$key]['category'] = $categories[$course['category_id']] ?? null;
         }
 
         return $courses;
@@ -30,7 +29,7 @@ class CourseList extends Builder
         $teachers = $this->getTeachers($courses);
 
         foreach ($courses as $key => $course) {
-            $courses[$key]['teacher'] = $teachers[$course['teacher_id']] ?? new \stdClass();
+            $courses[$key]['teacher'] = $teachers[$course['teacher_id']] ?? null;
         }
 
         return $courses;
@@ -60,20 +59,7 @@ class CourseList extends Builder
     {
         $ids = kg_array_column($courses, 'teacher_id');
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findShallowUserByIds($ids);
-
-        $baseUrl = kg_cos_url();
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }

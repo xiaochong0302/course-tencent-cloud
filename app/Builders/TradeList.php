@@ -8,7 +8,6 @@
 namespace App\Builders;
 
 use App\Repos\Order as OrderRepo;
-use App\Repos\User as UserRepo;
 
 class TradeList extends Builder
 {
@@ -18,7 +17,7 @@ class TradeList extends Builder
         $orders = $this->getOrders($trades);
 
         foreach ($trades as $key => $trade) {
-            $trades[$key]['order'] = $orders[$trade['order_id']] ?? new \stdClass();
+            $trades[$key]['order'] = $orders[$trade['order_id']] ?? null;
         }
 
         return $trades;
@@ -29,7 +28,7 @@ class TradeList extends Builder
         $users = $this->getUsers($trades);
 
         foreach ($trades as $key => $trade) {
-            $trades[$key]['owner'] = $users[$trade['owner_id']] ?? new \stdClass();
+            $trades[$key]['owner'] = $users[$trade['owner_id']] ?? null;
         }
 
         return $trades;
@@ -56,20 +55,7 @@ class TradeList extends Builder
     {
         $ids = kg_array_column($trades, 'owner_id');
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findShallowUserByIds($ids);
-
-        $baseUrl = kg_cos_url();
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }

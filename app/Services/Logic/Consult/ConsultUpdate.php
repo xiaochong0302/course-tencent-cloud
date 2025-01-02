@@ -15,6 +15,7 @@ class ConsultUpdate extends LogicService
 {
 
     use ConsultTrait;
+    use ConsultDataTrait;
 
     public function handle($id)
     {
@@ -28,15 +29,7 @@ class ConsultUpdate extends LogicService
 
         $validator->checkEditPriv($consult, $user);
 
-        $data = [];
-
-        if (isset($post['question'])) {
-            $data['question'] = $validator->checkQuestion($post['question']);
-        }
-
-        if (isset($post['private'])) {
-            $data['private'] = $validator->checkPrivateStatus($post['private']);
-        }
+        $data = $this->handlePostData($post);
 
         $consult->update($data);
 

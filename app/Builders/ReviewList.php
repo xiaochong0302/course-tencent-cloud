@@ -8,7 +8,6 @@
 namespace App\Builders;
 
 use App\Repos\Course as CourseRepo;
-use App\Repos\User as UserRepo;
 
 class ReviewList extends Builder
 {
@@ -18,7 +17,7 @@ class ReviewList extends Builder
         $courses = $this->getCourses($reviews);
 
         foreach ($reviews as $key => $review) {
-            $reviews[$key]['course'] = $courses[$review['course_id']] ?? new \stdClass();
+            $reviews[$key]['course'] = $courses[$review['course_id']] ?? null;
         }
 
         return $reviews;
@@ -29,7 +28,7 @@ class ReviewList extends Builder
         $users = $this->getUsers($reviews);
 
         foreach ($reviews as $key => $review) {
-            $reviews[$key]['owner'] = $users[$review['owner_id']] ?? new \stdClass();
+            $reviews[$key]['owner'] = $users[$review['owner_id']] ?? null;
         }
 
         return $reviews;
@@ -56,20 +55,7 @@ class ReviewList extends Builder
     {
         $ids = kg_array_column($reviews, 'owner_id');
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findShallowUserByIds($ids);
-
-        $baseUrl = kg_cos_url();
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }

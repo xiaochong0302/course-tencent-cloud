@@ -9,7 +9,6 @@ namespace App\Builders;
 
 use App\Repos\Chapter as ChapterRepo;
 use App\Repos\Course as CourseRepo;
-use App\Repos\User as UserRepo;
 
 class LearningList extends Builder
 {
@@ -19,7 +18,7 @@ class LearningList extends Builder
         $courses = $this->getCourses($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['course'] = $courses[$value['course_id']] ?? new \stdClass();
+            $relations[$key]['course'] = $courses[$value['course_id']] ?? null;
         }
 
         return $relations;
@@ -30,7 +29,7 @@ class LearningList extends Builder
         $chapters = $this->getChapters($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['chapter'] = $chapters[$value['chapter_id']] ?? new \stdClass();
+            $relations[$key]['chapter'] = $chapters[$value['chapter_id']] ?? null;
         }
 
         return $relations;
@@ -41,7 +40,7 @@ class LearningList extends Builder
         $users = $this->getUsers($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['user'] = $users[$value['user_id']] ?? new \stdClass();
+            $relations[$key]['user'] = $users[$value['user_id']] ?? null;
         }
 
         return $relations;
@@ -85,17 +84,7 @@ class LearningList extends Builder
     {
         $ids = kg_array_column($relations, 'user_id');
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findByIds($ids, ['id', 'name']);
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }

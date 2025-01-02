@@ -9,7 +9,6 @@ namespace App\Builders;
 
 use App\Caches\CategoryAllList as CategoryAllListCache;
 use App\Models\Category as CategoryModel;
-use App\Repos\User as UserRepo;
 
 class QuestionList extends Builder
 {
@@ -28,7 +27,7 @@ class QuestionList extends Builder
         $categories = $this->getCategories();
 
         foreach ($questions as $key => $question) {
-            $questions[$key]['category'] = $categories[$question['category_id']] ?? new \stdClass();
+            $questions[$key]['category'] = $categories[$question['category_id']] ?? null;
         }
 
         return $questions;
@@ -39,8 +38,8 @@ class QuestionList extends Builder
         $users = $this->getUsers($questions);
 
         foreach ($questions as $key => $question) {
-            $questions[$key]['owner'] = $users[$question['owner_id']] ?? new \stdClass();
-            $questions[$key]['last_replier'] = $users[$question['last_replier_id']] ?? new \stdClass();
+            $questions[$key]['owner'] = $users[$question['owner_id']] ?? null;
+            $questions[$key]['last_replier'] = $users[$question['last_replier_id']] ?? null;
         }
 
         return $questions;
@@ -72,20 +71,7 @@ class QuestionList extends Builder
         $lastReplierIds = kg_array_column($questions, 'last_replier_id');
         $ids = array_merge($ownerIds, $lastReplierIds);
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findShallowUserByIds($ids);
-
-        $baseUrl = kg_cos_url();
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }

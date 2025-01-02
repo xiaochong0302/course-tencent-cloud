@@ -7,13 +7,12 @@
 
 namespace App\Services\Logic\Question;
 
-use App\Caches\Category as CategoryCache;
-use App\Models\Category as CategoryModel;
 use App\Models\Question as QuestionModel;
 use App\Models\User as UserModel;
 use App\Repos\Question as QuestionRepo;
 use App\Repos\QuestionFavorite as QuestionFavoriteRepo;
 use App\Repos\QuestionLike as QuestionLikeRepo;
+use App\Services\Category as CategoryService;
 use App\Services\Logic\QuestionTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\User\ShallowUserInfo;
@@ -41,7 +40,7 @@ class QuestionInfo extends LogicService
     protected function handleQuestion(QuestionModel $question, UserModel $user)
     {
         $lastReplier = $this->handleLastReplierInfo($question->last_replier_id);
-        $category = $this->handleCategoryInfo($question->category_id);
+        $categoryPaths = $this->handleCategoryPaths($question->category_id);
         $owner = $this->handleOwnerInfo($question->owner_id);
         $me = $this->handleMeInfo($question, $user);
 
@@ -67,32 +66,24 @@ class QuestionInfo extends LogicService
             'create_time' => $question->create_time,
             'update_time' => $question->update_time,
             'last_replier' => $lastReplier,
-            'category' => $category,
+            'category_paths' => $categoryPaths,
             'owner' => $owner,
             'me' => $me,
         ];
     }
 
-    protected function handleCategoryInfo($categoryId)
+    protected function handleCategoryPaths($categoryId)
     {
-        $cache = new CategoryCache();
+        if ($categoryId == 0) return null;
 
-        /**
-         * @var CategoryModel $category
-         */
-        $category = $cache->get($categoryId);
+        $service = new CategoryService();
 
-        if (!$category) return new \stdClass();
-
-        return [
-            'id' => $category->id,
-            'name' => $category->name,
-        ];
+        return $service->getCategoryPaths($categoryId);
     }
 
     protected function handleLastReplierInfo($userId)
     {
-        if ($userId == 0) return new \stdClass();
+        if ($userId == 0) return null;
 
         $service = new ShallowUserInfo();
 

@@ -49,7 +49,7 @@
                 name: 'xm_tag_ids',
                 max: 5,
                 filterable: true,
-                filterMethod: function (val, item, index, prop) {
+                filterMethod: function (val, item) {
                     return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
                 },
                 data: {{ xm_tags|json_encode }}

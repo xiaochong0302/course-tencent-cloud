@@ -54,7 +54,7 @@ class CommentInfo extends LogicService
 
     protected function handleToUserInfo($userId)
     {
-        if ($userId == 0) return new \stdClass();
+        if ($userId == 0) return null;
 
         $service = new ShallowUserInfo();
 

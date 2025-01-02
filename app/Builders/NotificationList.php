@@ -7,8 +7,6 @@
 
 namespace App\Builders;
 
-use App\Repos\User as UserRepo;
-
 class NotificationList extends Builder
 {
 
@@ -17,8 +15,8 @@ class NotificationList extends Builder
         $users = $this->getUsers($notifications);
 
         foreach ($notifications as $key => $notification) {
-            $notifications[$key]['sender'] = $users[$notification['sender_id']] ?? new \stdClass();
-            $notifications[$key]['receiver'] = $users[$notification['receiver_id']] ?? new \stdClass();
+            $notifications[$key]['sender'] = $users[$notification['sender_id']] ?? null;
+            $notifications[$key]['receiver'] = $users[$notification['receiver_id']] ?? null;
         }
 
         return $notifications;
@@ -30,20 +28,7 @@ class NotificationList extends Builder
         $receiverIds = kg_array_column($notifications, 'receiver_id');
         $ids = array_merge($senderIds, $receiverIds);
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findShallowUserByIds($ids);
-
-        $baseUrl = kg_cos_url();
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }

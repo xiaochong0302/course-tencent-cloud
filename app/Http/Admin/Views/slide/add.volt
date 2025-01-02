@@ -75,7 +75,7 @@
                 name: 'xm_course_id',
                 radio: true,
                 filterable: true,
-                filterMethod: function (val, item, index, prop) {
+                filterMethod: function (val, item) {
                     return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
                 },
                 data: {{ xm_courses|json_encode }}
@@ -86,7 +86,7 @@
                 name: 'xm_page_id',
                 radio: true,
                 filterable: true,
-                filterMethod: function (val, item, index, prop) {
+                filterMethod: function (val, item) {
                     return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
                 },
                 data: {{ xm_pages|json_encode }}

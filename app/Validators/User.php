@@ -53,6 +53,19 @@ class User extends Validator
         return $user;
     }
 
+    public function checkTeacher($id)
+    {
+        $validator = new User();
+
+        $user = $validator->checkUser($id);
+
+        if ($user->edu_role != UserModel::EDU_ROLE_TEACHER) {
+            throw new BadRequestException('user.not_found');
+        }
+
+        return $user;
+    }
+
     public function checkId($id)
     {
         $id = intval($id);
