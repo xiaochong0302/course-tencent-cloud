@@ -7,7 +7,6 @@
 
 namespace App\Models;
 
-use App\Caches\MaxCommentId as MaxCommentIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Comment extends Model
@@ -167,18 +166,12 @@ class Comment extends Model
         $this->update_time = time();
     }
 
-    public function afterCreate()
-    {
-        $cache = new MaxCommentIdCache();
-
-        $cache->rebuild();
-    }
-
     public static function itemTypes()
     {
         return [
             self::ITEM_CHAPTER => '章节',
             self::ITEM_ARTICLE => '文章',
+            self::ITEM_QUESTION => '问题',
             self::ITEM_ANSWER => '回答',
         ];
     }

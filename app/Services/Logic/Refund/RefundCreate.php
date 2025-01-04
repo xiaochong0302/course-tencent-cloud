@@ -23,8 +23,6 @@ class RefundCreate extends LogicService
 
     public function handle()
     {
-        $logger = $this->getLogger('refund');
-
         $post = $this->request->getPost();
 
         $order = $this->checkOrderBySn($post['order_sn']);
@@ -74,13 +72,8 @@ class RefundCreate extends LogicService
 
             $task = new TaskModel();
 
-            $itemInfo = [
-                'refund' => ['id' => $refund->id],
-            ];
-
             $task->item_id = $refund->id;
             $task->item_type = TaskModel::TYPE_REFUND;
-            $task->item_info = $itemInfo;
             $task->priority = TaskModel::PRIORITY_MIDDLE;
             $task->status = TaskModel::STATUS_PENDING;
 
@@ -95,6 +88,8 @@ class RefundCreate extends LogicService
         } catch (\Exception $e) {
 
             $this->db->rollback();
+
+            $logger = $this->getLogger('refund');
 
             $logger->error('Create Refund Exception ' . kg_json_encode([
                     'file' => $e->getFile(),

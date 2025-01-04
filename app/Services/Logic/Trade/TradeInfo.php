@@ -26,7 +26,7 @@ class TradeInfo extends LogicService
     {
         $trade = $this->checkTradeBySn($sn);
 
-        $user = $this->getCurrentUser();
+        $user = $this->getLoginUser(true);
 
         return $this->handleTrade($trade, $user);
     }
