@@ -7,7 +7,6 @@
 
 namespace App\Models;
 
-use App\Caches\MaxPointGiftId as MaxPointGiftIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
@@ -204,13 +203,6 @@ class PointGift extends Model
         } elseif (Text::startsWith($this->cover, 'http')) {
             $this->cover = self::getCoverPath($this->cover);
         }
-    }
-
-    public function afterCreate()
-    {
-        $cache = new MaxPointGiftIdCache();
-
-        $cache->rebuild();
     }
 
     public function afterFetch()

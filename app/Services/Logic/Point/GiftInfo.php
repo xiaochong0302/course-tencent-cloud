@@ -7,33 +7,44 @@
 
 namespace App\Services\Logic\Point;
 
-use App\Models\PointGift;
+use App\Models\PointGift as PointGiftModel;
+use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
+use App\Services\Logic\ContentTrait;
 use App\Services\Logic\CourseTrait;
 use App\Services\Logic\PointGiftTrait;
 use App\Services\Logic\Service as LogicService;
+use App\Services\Logic\VipTrait;
 
 class GiftInfo extends LogicService
 {
 
     use CourseTrait;
+    use ContentTrait;
     use PointGiftTrait;
+    use VipTrait;
 
     public function handle($id)
     {
         $gift = $this->checkPointGift($id);
 
-        if ($gift->type == PointGift::TYPE_COURSE) {
-            $gift = $this->getCourseGift($gift);
+        $user = $this->getCurrentUser();
+
+        if ($gift->type == PointGiftModel::TYPE_COURSE) {
+            $gift = $this->handleCoursePointGift($gift);
+        } elseif ($gift->type == PointGiftModel::TYPE_VIP) {
+            $gift = $this->handleVipPointGift($gift);
         }
 
-        $meInfo = $this->handleMeInfo($gift);
+        $details = $this->handleContent($gift->details);
+
+        $meInfo = $this->handleMeInfo($gift, $user);
 
         return [
             'id' => $gift->id,
             'name' => $gift->name,
             'cover' => $gift->cover,
-            'details' => $gift->details,
+            'details' => $details,
             'attrs' => $gift->attrs,
             'type' => $gift->type,
             'stock' => $gift->stock,
@@ -48,43 +59,53 @@ class GiftInfo extends LogicService
         ];
     }
 
-    protected function getCourseGift(PointGift $gift)
+    protected function handleCoursePointGift(PointGiftModel $gift)
     {
-        $courseId = $gift->attrs['id'] ?? 0;
+        $id = $gift->attrs['id'] ?? 0;
 
-        $course = $this->checkCourse($courseId);
+        if ($id == 0) return $gift;
+
+        $course = $this->checkCourse($id);
 
         $gift->name = $course->title;
         $gift->cover = $course->cover;
         $gift->details = $course->details;
-        $gift->attrs = [
-            'id' => $course->id,
-            'title' => $course->title,
-            'price' => $course->market_price,
-        ];
 
         return $gift;
     }
 
-    protected function handleMeInfo(PointGift $gift)
+    protected function handleVipPointGift(PointGiftModel $gift)
+    {
+        $id = $gift->attrs['id'] ?? 0;
+
+        if ($id == 0) return $gift;
+
+        $vip = $this->checkVip($id);
+
+        $gift->name = sprintf('会员服务（%d个月）', $vip->expiry);
+        $gift->cover = $vip->cover;
+
+        return $gift;
+    }
+
+    protected function handleMeInfo(PointGiftModel $gift, UserModel $user)
     {
         $me = [
             'allow_redeem' => 0,
             'logged' => 0,
         ];
 
-        $user = $this->getLoginUser(true);
+        if ($user->id > 0) {
 
-        if ($user->id == 0) return $me;
+            $me['logged'] = 1;
 
-        $me['logged'] = 1;
+            $userRepo = new UserRepo();
 
-        $userRepo = new UserRepo();
+            $balance = $userRepo->findUserBalance($user->id);
 
-        $balance = $userRepo->findUserBalance($user->id);
-
-        if ($gift->stock > 0 && $balance->point > $gift->point) {
-            $me['allow_redeem'] = 1;
+            if ($gift->stock > 0 && $balance->point > $gift->point) {
+                $me['allow_redeem'] = 1;
+            }
         }
 
         return $me;

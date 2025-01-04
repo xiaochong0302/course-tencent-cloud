@@ -6,7 +6,7 @@
 
     <div class="layui-breadcrumb breadcrumb">
         <a href="/">首页</a>
-        <a><cite>积分兑换</cite></a>
+        <a><cite>积分商城</cite></a>
     </div>
 
     <div id="gift-list" data-url="{{ pager_url }}"></div>

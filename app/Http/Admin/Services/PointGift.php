@@ -7,7 +7,6 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\PointGift as PointGiftCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\PointGift as PointGiftModel;
 use App\Repos\Course as CourseRepo;
@@ -116,8 +115,6 @@ class PointGift extends Service
                 break;
         }
 
-        $this->rebuildPointGiftCache($gift);
-
         return $gift;
     }
 
@@ -165,8 +162,6 @@ class PointGift extends Service
 
         $gift->update($data);
 
-        $this->rebuildPointGiftCache($gift);
-
         return $gift;
     }
 
@@ -177,8 +172,6 @@ class PointGift extends Service
         $gift->deleted = 1;
 
         $gift->update();
-
-        $this->rebuildPointGiftCache($gift);
 
         return $gift;
     }
@@ -191,8 +184,6 @@ class PointGift extends Service
 
         $gift->update();
 
-        $this->rebuildPointGiftCache($gift);
-
         return $gift;
     }
 
@@ -201,13 +192,6 @@ class PointGift extends Service
         $validator = new PointGiftValidator();
 
         return $validator->checkPointGift($id);
-    }
-
-    protected function rebuildPointGiftCache(PointGiftModel $gift)
-    {
-        $cache = new PointGiftCache();
-
-        $cache->rebuild($gift->id);
     }
 
     protected function createCoursePointGift($post)
