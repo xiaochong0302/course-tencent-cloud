@@ -7,16 +7,16 @@
 
 namespace App\Services\Logic;
 
-use App\Validators\PointGift as PointGiftValidator;
+use App\Validators\Vip as VipValidator;
 
-trait PointGiftTrait
+trait VipTrait
 {
 
-    public function checkPointGift($id)
+    public function checkVip($id)
     {
-        $validator = new PointGiftValidator();
+        $validator = new VipValidator();
 
-        return $validator->checkPointGift($id);
+        return $validator->checkVip($id);
     }
 
 }

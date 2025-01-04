@@ -87,7 +87,7 @@ class PointGiftController extends Controller
         $hotGifts = $this->getHotGifts();
         $userBalance = $this->getUserBalance();
 
-        $this->seo->prependTitle(['积分兑换', $gift['name']]);
+        $this->seo->prependTitle(['积分商城', $gift['name']]);
 
         $this->view->pick('point/gift/show');
         $this->view->setVar('gift', $gift);
