@@ -33,7 +33,7 @@ class View extends PhView
         /**
          * 分页数据
          */
-        if (isset($var->items) && is_array($var->items)) {
+        if (isset($var->total_items)) {
             $var->items = kg_array_object($var->items);
         } elseif (is_array($var)) {
             $var = kg_array_object($var);
