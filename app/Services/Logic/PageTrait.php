@@ -19,11 +19,4 @@ trait PageTrait
         return $validator->checkPage($id);
     }
 
-    public function checkPageCache($id)
-    {
-        $validator = new PageValidator();
-
-        return $validator->checkPageCache($id);
-    }
-
 }

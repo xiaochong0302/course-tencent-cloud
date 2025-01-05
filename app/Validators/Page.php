@@ -7,36 +7,13 @@
 
 namespace App\Validators;
 
-use App\Caches\MaxPageId as MaxPageIdCache;
-use App\Caches\Page as PageCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
-use App\Models\Page as PageModel;
 use App\Repos\Page as PageRepo;
 use App\Services\EditorStorage as EditorStorageService;
 
 class Page extends Validator
 {
-
-    /**
-     * @param int $id
-     * @return PageModel
-     * @throws BadRequestException
-     */
-    public function checkPageCache($id)
-    {
-        $this->checkId($id);
-
-        $pageCache = new PageCache();
-
-        $page = $pageCache->get($id);
-
-        if (!$page) {
-            throw new BadRequestException('page.not_found');
-        }
-
-        return $page;
-    }
 
     public function checkPage($id)
     {
@@ -53,19 +30,6 @@ class Page extends Validator
         }
 
         return $page;
-    }
-
-    public function checkId($id)
-    {
-        $id = intval($id);
-
-        $maxIdCache = new MaxPageIdCache();
-
-        $maxId = $maxIdCache->get();
-
-        if ($id < 1 || $id > $maxId) {
-            throw new BadRequestException('page.not_found');
-        }
     }
 
     public function checkTitle($title)
