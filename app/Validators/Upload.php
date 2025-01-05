@@ -7,7 +7,6 @@
 
 namespace App\Validators;
 
-use App\Caches\MaxUploadId as MaxUploadIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Repos\Upload as UploadRepo;
 
@@ -16,8 +15,6 @@ class Upload extends Validator
 
     public function checkUpload($id)
     {
-        $this->checkId($id);
-
         $uploadRepo = new UploadRepo();
 
         $upload = $uploadRepo->findById($id);
@@ -27,19 +24,6 @@ class Upload extends Validator
         }
 
         return $upload;
-    }
-
-    public function checkId($id)
-    {
-        $id = intval($id);
-
-        $maxIdCache = new MaxUploadIdCache();
-
-        $maxId = $maxIdCache->get();
-
-        if ($id < 1 || $id > $maxId) {
-            throw new BadRequestException('upload.not_found');
-        }
     }
 
     public function checkName($name)

@@ -7,7 +7,6 @@
 
 namespace App\Models;
 
-use App\Caches\MaxPointGiftId as MaxPointGiftIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Text;
 
@@ -181,7 +180,7 @@ class PointGift extends Model
             }
         }
 
-        if (is_array($this->attrs) || is_object($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -190,7 +189,7 @@ class PointGift extends Model
 
     public function beforeUpdate()
     {
-        if (is_array($this->attrs) || is_object($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -204,13 +203,6 @@ class PointGift extends Model
         } elseif (Text::startsWith($this->cover, 'http')) {
             $this->cover = self::getCoverPath($this->cover);
         }
-    }
-
-    public function afterCreate()
-    {
-        $cache = new MaxPointGiftIdCache();
-
-        $cache->rebuild();
     }
 
     public function afterFetch()

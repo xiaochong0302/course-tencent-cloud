@@ -70,7 +70,7 @@ class CsrfToken
          */
         $config = Di::getDefault()->getShared('config');
 
-        $lifetime = $config->path('csrf_token.lifetime') ?: $this->lifetime;
+        $lifetime = $config->path('csrf_token.lifetime', $this->lifetime);
 
         return $lifetime + time();
     }

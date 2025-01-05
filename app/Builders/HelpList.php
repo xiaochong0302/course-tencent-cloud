@@ -18,7 +18,7 @@ class HelpList extends Builder
         $categories = $this->getCategories();
 
         foreach ($helps as $key => $help) {
-            $helps[$key]['category'] = $categories[$help['category_id']] ?? new \stdClass();
+            $helps[$key]['category'] = $categories[$help['category_id']] ?? null;
         }
 
         return $helps;

@@ -18,7 +18,7 @@ class CourseTopicList extends Builder
         $courses = $this->getCourses($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['course'] = $courses[$value['course_id']] ?? new \stdClass();
+            $relations[$key]['course'] = $courses[$value['course_id']] ?? null;
         }
 
         return $relations;
@@ -29,7 +29,7 @@ class CourseTopicList extends Builder
         $topics = $this->getTopics($relations);
 
         foreach ($relations as $key => $value) {
-            $relations[$key]['topic'] = $topics[$value['topic_id']] ?? new \stdClass();
+            $relations[$key]['topic'] = $topics[$value['topic_id']] ?? null;
         }
 
         return $relations;

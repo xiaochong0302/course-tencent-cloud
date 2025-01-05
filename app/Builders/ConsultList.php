@@ -8,7 +8,6 @@
 namespace App\Builders;
 
 use App\Repos\Course as CourseRepo;
-use App\Repos\User as UserRepo;
 
 class ConsultList extends Builder
 {
@@ -18,7 +17,7 @@ class ConsultList extends Builder
         $courses = $this->getCourses($consults);
 
         foreach ($consults as $key => $consult) {
-            $consults[$key]['course'] = $courses[$consult['course_id']] ?? new \stdClass();
+            $consults[$key]['course'] = $courses[$consult['course_id']] ?? null;
         }
 
         return $consults;
@@ -29,8 +28,8 @@ class ConsultList extends Builder
         $users = $this->getUsers($consults);
 
         foreach ($consults as $key => $consult) {
-            $consults[$key]['owner'] = $users[$consult['owner_id']] ?? new \stdClass();
-            $consults[$key]['replier'] = $users[$consult['replier_id']] ?? new \stdClass();
+            $consults[$key]['owner'] = $users[$consult['owner_id']] ?? null;
+            $consults[$key]['replier'] = $users[$consult['replier_id']] ?? null;
         }
 
         return $consults;
@@ -59,20 +58,7 @@ class ConsultList extends Builder
         $replierIds = kg_array_column($consults, 'replier_id');
         $ids = array_merge($ownerIds, $replierIds);
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findShallowUserByIds($ids);
-
-        $baseUrl = kg_cos_url();
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }

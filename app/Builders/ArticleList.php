@@ -9,7 +9,6 @@ namespace App\Builders;
 
 use App\Caches\CategoryAllList as CategoryAllListCache;
 use App\Models\Category as CategoryModel;
-use App\Repos\User as UserRepo;
 
 class ArticleList extends Builder
 {
@@ -28,7 +27,7 @@ class ArticleList extends Builder
         $categories = $this->getCategories();
 
         foreach ($articles as $key => $article) {
-            $articles[$key]['category'] = $categories[$article['category_id']] ?? new \stdClass();
+            $articles[$key]['category'] = $categories[$article['category_id']] ?? null;
         }
 
         return $articles;
@@ -39,7 +38,7 @@ class ArticleList extends Builder
         $users = $this->getUsers($articles);
 
         foreach ($articles as $key => $article) {
-            $articles[$key]['owner'] = $users[$article['owner_id']] ?? new \stdClass();
+            $articles[$key]['owner'] = $users[$article['owner_id']] ?? null;
         }
 
         return $articles;
@@ -69,20 +68,7 @@ class ArticleList extends Builder
     {
         $ids = kg_array_column($articles, 'owner_id');
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findShallowUserByIds($ids);
-
-        $baseUrl = kg_cos_url();
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $user['avatar'] = $baseUrl . $user['avatar'];
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }

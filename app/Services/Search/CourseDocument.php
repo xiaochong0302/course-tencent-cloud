@@ -41,11 +41,11 @@ class CourseDocument extends Injectable
      */
     public function formatDocument(CourseModel $course)
     {
-        if (is_array($course->attrs) || is_object($course->attrs)) {
+        if (is_array($course->attrs)) {
             $course->attrs = kg_json_encode($course->attrs);
         }
 
-        if (is_array($course->tags) || is_object($course->tags)) {
+        if (is_array($course->tags)) {
             $course->tags = kg_json_encode($course->tags);
         }
 
@@ -102,12 +102,9 @@ class CourseDocument extends Injectable
 
         $user = $userRepo->findById($id);
 
-        $user->avatar = UserModel::getAvatarPath($user->avatar);
-
         return kg_json_encode([
             'id' => $user->id,
             'name' => $user->name,
-            'avatar' => $user->avatar,
         ]);
     }
 

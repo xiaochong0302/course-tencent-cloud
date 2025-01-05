@@ -177,13 +177,13 @@ class ServerMonitorTask extends Task
 
             $searcher = new CourseSearcher();
 
-            $user = $searcher->search('id:1');
+            $course = $searcher->search('id:1');
 
             $benchmark->stop();
 
             $elapsedTime = $benchmark->getElapsedTime();
 
-            if (empty($user)) {
+            if (empty($course)) {
                 return "xunsearch搜索失败";
             }
 

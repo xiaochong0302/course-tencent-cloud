@@ -7,7 +7,6 @@
 
 namespace App\Models;
 
-use App\Caches\MaxUploadId as MaxUploadIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Upload extends Model
@@ -120,13 +119,6 @@ class Upload extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
-    }
-
-    public function afterCreate()
-    {
-        $cache = new MaxUploadIdCache();
-
-        $cache->rebuild();
     }
 
 }

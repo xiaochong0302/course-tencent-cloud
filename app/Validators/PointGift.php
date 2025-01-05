@@ -7,8 +7,6 @@
 
 namespace App\Validators;
 
-use App\Caches\MaxPointGiftId as MaxPointGiftIdCache;
-use App\Caches\PointGift as PointGiftCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\PointGift as PointGiftModel;
@@ -18,30 +16,8 @@ use App\Services\EditorStorage as EditorStorageService;
 class PointGift extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return PointGiftModel
-     * @throws BadRequestException
-     */
-    public function checkPointGiftCache($id)
-    {
-        $this->checkId($id);
-
-        $giftCache = new PointGiftCache();
-
-        $gift = $giftCache->get($id);
-
-        if (!$gift) {
-            throw new BadRequestException('point_gift.not_found');
-        }
-
-        return $gift;
-    }
-
     public function checkPointGift($id)
     {
-        $this->checkId($id);
-
         $giftRepo = new PointGiftRepo();
 
         $gift = $giftRepo->findById($id);
@@ -51,19 +27,6 @@ class PointGift extends Validator
         }
 
         return $gift;
-    }
-
-    public function checkId($id)
-    {
-        $id = intval($id);
-
-        $maxGiftIdCache = new MaxPointGiftIdCache();
-
-        $maxId = $maxGiftIdCache->get();
-
-        if ($id < 1 || $id > $maxId) {
-            throw new BadRequestException('point_gift.not_found');
-        }
     }
 
     public function checkName($name)

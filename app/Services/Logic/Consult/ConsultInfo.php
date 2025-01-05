@@ -76,7 +76,7 @@ class ConsultInfo extends LogicService
 
     protected function handleReplierInfo($userId)
     {
-        if ($userId == 0) return new \stdClass();
+        if ($userId == 0) return null;
 
         $service = new ShallowUserInfo();
 

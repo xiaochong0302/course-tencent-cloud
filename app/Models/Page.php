@@ -7,7 +7,6 @@
 
 namespace App\Models;
 
-use App\Caches\MaxPageId as MaxPageIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Page extends Model
@@ -108,13 +107,6 @@ class Page extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
-    }
-
-    public function afterCreate()
-    {
-        $cache = new MaxPageIdCache();
-
-        $cache->rebuild();
     }
 
 }

@@ -31,8 +31,9 @@ class ChapterInfo extends LogicService
     protected $user;
 
     use CourseTrait;
-    use CourseUserTrait;
     use ChapterTrait;
+    use CourseUserTrait;
+    use ChapterUserTrait;
 
     public function handle($id)
     {

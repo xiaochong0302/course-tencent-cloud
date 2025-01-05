@@ -59,9 +59,8 @@ class Package extends Service
         $result = [];
 
         foreach ($items as $item) {
-            $price = $item->market_price > 0 ? sprintf("￥%0.2f", $item->market_price) : '免费';
             $result[] = [
-                'name' => sprintf('%s - %s（¥%0.2f）', $item->id, $item->title, $price),
+                'name' => sprintf('%s - %s（¥%0.2f）', $item->id, $item->title, $item->market_price),
                 'value' => $item->id,
                 'selected' => in_array($item->id, $courseIds),
             ];
@@ -152,7 +151,7 @@ class Package extends Service
         $package->update($data);
 
         $this->handlePackagedCourses($package->id);
-        $this->updatePackageCourseCount($package->id);
+        $this->recountPackageCourses($package->id);
         $this->rebuildPackageCache($package->id);
 
         return $package;
@@ -217,7 +216,7 @@ class Package extends Service
                     'course_id' => $courseId,
                     'package_id' => $package->id,
                 ]);
-                $this->updateCoursePackageCount($courseId);
+                $this->recountCoursePackages($courseId);
                 $this->rebuildCoursePackageCache($courseId);
             }
         }
@@ -229,7 +228,7 @@ class Package extends Service
             foreach ($deletedCourseIds as $courseId) {
                 $coursePackage = $coursePackageRepo->findCoursePackage($courseId, $package->id);
                 $coursePackage->delete();
-                $this->updateCoursePackageCount($courseId);
+                $this->recountCoursePackages($courseId);
                 $this->rebuildCoursePackageCache($courseId);
             }
         }
@@ -249,7 +248,7 @@ class Package extends Service
         }
     }
 
-    protected function updatePackageCourseCount($packageId)
+    protected function recountPackageCourses($packageId)
     {
         $packageRepo = new PackageRepo();
 
@@ -262,7 +261,7 @@ class Package extends Service
         $package->update();
     }
 
-    protected function updateCoursePackageCount($courseId)
+    protected function recountCoursePackages($courseId)
     {
         $courseRepo = new CourseRepo();
 
@@ -291,17 +290,6 @@ class Package extends Service
         $cache = new CoursePackageListCache();
 
         $cache->rebuild($courseId);
-    }
-
-    protected function recountCoursePackages($courseId)
-    {
-        $courseRepo = new CourseRepo();
-
-        $course = $courseRepo->findById($courseId);
-
-        $course->package_count = $courseRepo->countPackages($courseId);
-
-        $course->update();
     }
 
 }

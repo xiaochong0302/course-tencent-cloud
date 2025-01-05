@@ -19,11 +19,4 @@ trait PointGiftTrait
         return $validator->checkPointGift($id);
     }
 
-    public function checkPointGiftCache($id)
-    {
-        $validator = new PointGiftValidator();
-
-        return $validator->checkPointGiftCache($id);
-    }
-
 }

@@ -321,7 +321,7 @@ class Course extends Model
             }
         }
 
-        if (is_array($this->attrs) || is_object($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -338,7 +338,7 @@ class Course extends Model
             $sync->addItem($this->id);
         }
 
-        if (is_array($this->attrs) || is_object($this->attrs)) {
+        if (is_array($this->attrs)) {
             $this->attrs = kg_json_encode($this->attrs);
         }
 
@@ -355,16 +355,12 @@ class Course extends Model
             $this->cover = self::getCoverPath($this->cover);
         }
 
-        if (is_array($this->tags) || is_object($this->tags)) {
+        if (is_array($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
         }
 
         if (empty($this->summary)) {
             $this->summary = kg_parse_summary($this->details);
-        }
-
-        if (empty($this->origin_price)) {
-            $this->origin_price = 1.5 * $this->market_price;
         }
     }
 

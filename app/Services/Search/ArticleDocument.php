@@ -41,7 +41,7 @@ class ArticleDocument extends Injectable
      */
     public function formatDocument(ArticleModel $article)
     {
-        if (is_array($article->tags) || is_object($article->tags)) {
+        if (is_array($article->tags)) {
             $article->tags = kg_json_encode($article->tags);
         }
 
@@ -56,6 +56,8 @@ class ArticleDocument extends Injectable
         if ($article->category_id > 0) {
             $category = $this->handleCategory($article->category_id);
         }
+
+        $article->cover = ArticleModel::getCoverPath($article->cover);
 
         return [
             'id' => $article->id,
@@ -81,12 +83,9 @@ class ArticleDocument extends Injectable
 
         $user = $userRepo->findById($id);
 
-        $user->avatar = UserModel::getAvatarPath($user->avatar);
-
         return kg_json_encode([
             'id' => $user->id,
             'name' => $user->name,
-            'avatar' => $user->avatar,
         ]);
     }
 

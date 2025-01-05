@@ -7,12 +7,11 @@
 
 namespace App\Services\Logic\Article;
 
-use App\Caches\Category as CategoryCache;
 use App\Models\Article as ArticleModel;
-use App\Models\Category as CategoryModel;
 use App\Models\User as UserModel;
 use App\Repos\ArticleFavorite as ArticleFavoriteRepo;
 use App\Repos\ArticleLike as ArticleLikeRepo;
+use App\Services\Category as CategoryService;
 use App\Services\Logic\ArticleTrait;
 use App\Services\Logic\Service as LogicService;
 use App\Services\Logic\User\ShallowUserInfo;
@@ -39,7 +38,7 @@ class ArticleInfo extends LogicService
 
     protected function handleArticle(ArticleModel $article, UserModel $user)
     {
-        $category = $this->handleCategoryInfo($article->category_id);
+        $categoryPaths = $this->handleCategoryPaths($article->category_id);
         $owner = $this->handleOwnerInfo($article->owner_id);
         $me = $this->handleMeInfo($article, $user);
 
@@ -63,27 +62,19 @@ class ArticleInfo extends LogicService
             'favorite_count' => $article->favorite_count,
             'create_time' => $article->create_time,
             'update_time' => $article->update_time,
-            'category' => $category,
+            'category_paths' => $categoryPaths,
             'owner' => $owner,
             'me' => $me,
         ];
     }
 
-    protected function handleCategoryInfo($categoryId)
+    protected function handleCategoryPaths($categoryId)
     {
-        $cache = new CategoryCache();
+        if ($categoryId == 0) return null;
 
-        /**
-         * @var CategoryModel $category
-         */
-        $category = $cache->get($categoryId);
+        $service = new CategoryService();
 
-        if (!$category) return new \stdClass();
-
-        return [
-            'id' => $category->id,
-            'name' => $category->name,
-        ];
+        return $service->getCategoryPaths($categoryId);
     }
 
     protected function handleOwnerInfo($userId)

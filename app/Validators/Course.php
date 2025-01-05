@@ -66,18 +66,26 @@ class Course extends Validator
         }
     }
 
-    public function checkCategory($id)
+    public function checkCategoryId($id)
     {
-        $validator = new Category();
-
-        return $validator->checkCategory($id);
+        if ($id > 0) {
+            $validator = new Category();
+            $category = $validator->checkCategory($id);
+            return $category->id;
+        } else {
+            return 0;
+        }
     }
 
-    public function checkTeacher($id)
+    public function checkTeacherId($id)
     {
-        $validator = new User();
-
-        return $validator->checkUser($id);
+        if ($id > 0) {
+            $validator = new User();
+            $user = $validator->checkTeacher($id);
+            return $user->id;
+        } else {
+            return 0;
+        }
     }
 
     public function checkModel($model)

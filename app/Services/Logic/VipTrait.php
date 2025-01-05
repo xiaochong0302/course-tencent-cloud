@@ -7,16 +7,16 @@
 
 namespace App\Services\Logic;
 
-use App\Validators\Page as PageValidator;
+use App\Validators\Vip as VipValidator;
 
-trait PageTrait
+trait VipTrait
 {
 
-    public function checkPage($id)
+    public function checkVip($id)
     {
-        $validator = new PageValidator();
+        $validator = new VipValidator();
 
-        return $validator->checkPage($id);
+        return $validator->checkVip($id);
     }
 
 }

@@ -50,14 +50,14 @@ class ChapterList extends LogicService
 
     protected function handleLoginUserChapters(array $chapters, CourseModel $course, UserModel $user)
     {
-        $mapping = $this->getLearningMapping($course->id, $user->id, $this->courseUser->plan_id);
+        $mappings = $this->getLearningMappings($course->id, $user->id, $this->courseUser->plan_id);
 
         foreach ($chapters as &$chapter) {
             foreach ($chapter['children'] as &$lesson) {
                 $owned = ($this->ownedCourse || $lesson['free'] == 1) && $lesson['published'] == 1;
                 $lesson['me'] = [
-                    'progress' => $mapping[$lesson['id']]['progress'] ?? 0,
-                    'duration' => $mapping[$lesson['id']]['duration'] ?? 0,
+                    'progress' => $mappings[$lesson['id']]['progress'] ?? 0,
+                    'duration' => $mappings[$lesson['id']]['duration'] ?? 0,
                     'owned' => $owned ? 1 : 0,
                     'logged' => 1,
                 ];
@@ -84,7 +84,7 @@ class ChapterList extends LogicService
         return $chapters;
     }
 
-    protected function getLearningMapping($courseId, $userId, $planId)
+    protected function getLearningMappings($courseId, $userId, $planId)
     {
         $courseRepo = new CourseRepo();
 
@@ -92,17 +92,17 @@ class ChapterList extends LogicService
 
         if ($userLearnings->count() == 0) return [];
 
-        $mapping = [];
+        $mappings = [];
 
         foreach ($userLearnings as $learning) {
-            $mapping[$learning->chapter_id] = [
+            $mappings[$learning->chapter_id] = [
                 'progress' => $learning->progress,
                 'duration' => $learning->duration,
                 'consumed' => $learning->consumed,
             ];
         }
 
-        return $mapping;
+        return $mappings;
     }
 
 }

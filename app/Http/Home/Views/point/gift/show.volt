@@ -10,7 +10,7 @@
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
             <a href="/">首页</a>
-            <a href="{{ gift_list_url }}">积分兑换</a>
+            <a href="{{ gift_list_url }}">积分商城</a>
             <a><cite>{{ gift.name }}</cite></a>
         </span>
     </div>
@@ -55,7 +55,23 @@
             <div class="layui-card">
                 <div class="layui-card-header">物品详情</div>
                 <div class="layui-card-body">
-                    <div class="gift-details ke-content kg-zoom">{{ gift.details }}</div>
+                    <div class="gift-details ke-content kg-zoom">
+                        {% if gift.type == 1 %}
+                            {% set course_url = url({'for':'home.course.show','id':gift.attrs.id}) %}
+                            <p class="item">
+                                <a href="{{ course_url }}">{{ gift.name }}</a>
+                                <span class="layui-badge">查看</span>
+                            </p>
+                        {% elseif gift.type == 3 %}
+                            {% set vip_url = url({'for':'home.vip.index'}) %}
+                            <p class="item">
+                                <a href="{{ vip_url }}">{{ gift.name }}</a>
+                                <span class="layui-badge">查看</span>
+                            </p>
+                        {% else %}
+                            {{ gift.details }}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

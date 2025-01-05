@@ -7,11 +7,9 @@
 
 namespace App\Validators;
 
-use App\Caches\MaxAnswerId as MaxAnswerIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Answer as AnswerModel;
 use App\Models\Question as QuestionModel;
-use App\Models\Reason as ReasonModel;
 use App\Models\User as UserModel;
 use App\Repos\Answer as AnswerRepo;
 use App\Repos\Question as QuestionRepo;
@@ -22,8 +20,6 @@ class Answer extends Validator
 
     public function checkAnswer($id)
     {
-        $this->checkId($id);
-
         $answerRepo = new AnswerRepo();
 
         $answer = $answerRepo->findById($id);
@@ -33,19 +29,6 @@ class Answer extends Validator
         }
 
         return $answer;
-    }
-
-    public function checkId($id)
-    {
-        $id = intval($id);
-
-        $maxIdCache = new MaxAnswerIdCache();
-
-        $maxId = $maxIdCache->get();
-
-        if ($id < 1 || $id > $maxId) {
-            throw new BadRequestException('answer.not_found');
-        }
     }
 
     public function checkQuestion($id)

@@ -9,7 +9,6 @@ namespace App\Builders;
 
 use App\Models\Course as CourseModel;
 use App\Models\Order as OrderModel;
-use App\Repos\User as UserRepo;
 
 class OrderList extends Builder
 {
@@ -30,7 +29,7 @@ class OrderList extends Builder
         $users = $this->getUsers($orders);
 
         foreach ($orders as $key => $order) {
-            $orders[$key]['owner'] = $users[$order['owner_id']] ?? new \stdClass();
+            $orders[$key]['owner'] = $users[$order['owner_id']] ?? null;
         }
 
         return $orders;
@@ -175,17 +174,7 @@ class OrderList extends Builder
     {
         $ids = kg_array_column($orders, 'owner_id');
 
-        $userRepo = new UserRepo();
-
-        $users = $userRepo->findShallowUserByIds($ids);
-
-        $result = [];
-
-        foreach ($users->toArray() as $user) {
-            $result[$user['id']] = $user;
-        }
-
-        return $result;
+        return $this->getShallowUserByIds($ids);
     }
 
 }
