@@ -33,13 +33,6 @@ class Resource extends Validator
         return $validator->checkCourse($id);
     }
 
-    public function checkChapter($id)
-    {
-        $validator = new Chapter();
-
-        return $validator->checkChapter($id);
-    }
-
     public function checkUpload($id)
     {
         $validator = new Upload();

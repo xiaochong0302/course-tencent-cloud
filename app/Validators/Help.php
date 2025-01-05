@@ -7,35 +7,12 @@
 
 namespace App\Validators;
 
-use App\Caches\Help as HelpCache;
-use App\Caches\MaxHelpId as MaxHelpIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Models\Help as HelpModel;
 use App\Repos\Help as HelpRepo;
 use App\Services\EditorStorage as EditorStorageService;
 
 class Help extends Validator
 {
-
-    /**
-     * @param int $id
-     * @return HelpModel
-     * @throws BadRequestException
-     */
-    public function checkHelpCache($id)
-    {
-        $this->checkId($id);
-
-        $helpCache = new HelpCache();
-
-        $help = $helpCache->get($id);
-
-        if (!$help) {
-            throw new BadRequestException('help.not_found');
-        }
-
-        return $help;
-    }
 
     public function checkHelp($id)
     {
@@ -48,19 +25,6 @@ class Help extends Validator
         }
 
         return $help;
-    }
-
-    public function checkId($id)
-    {
-        $id = intval($id);
-
-        $maxIdCache = new MaxHelpIdCache();
-
-        $maxId = $maxIdCache->get();
-
-        if ($id < 1 || $id > $maxId) {
-            throw new BadRequestException('help.not_found');
-        }
     }
 
     public function checkCategory($id)

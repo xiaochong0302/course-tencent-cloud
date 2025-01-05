@@ -7,7 +7,6 @@
 
 namespace App\Models;
 
-use App\Caches\MaxAnswerId as MaxAnswerIdCache;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Answer extends Model
@@ -164,13 +163,6 @@ class Answer extends Model
     public function beforeUpdate()
     {
         $this->update_time = time();
-    }
-
-    public function afterCreate()
-    {
-        $cache = new MaxAnswerIdCache();
-
-        $cache->rebuild();
     }
 
     public static function publishTypes()

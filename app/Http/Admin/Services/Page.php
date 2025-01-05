@@ -7,7 +7,6 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Caches\Page as PageCache;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Page as PageModel;
 use App\Repos\Page as PageRepo;
@@ -53,8 +52,6 @@ class Page extends Service
 
         $page->create($data);
 
-        $this->rebuildPageCache($page);
-
         return $page;
     }
 
@@ -96,8 +93,6 @@ class Page extends Service
 
         $page->update($data);
 
-        $this->rebuildPageCache($page);
-
         return $page;
     }
 
@@ -108,8 +103,6 @@ class Page extends Service
         $page->deleted = 1;
 
         $page->update();
-
-        $this->rebuildPageCache($page);
 
         return $page;
     }
@@ -122,8 +115,6 @@ class Page extends Service
 
         $page->update();
 
-        $this->rebuildPageCache($page);
-
         return $page;
     }
 
@@ -132,13 +123,6 @@ class Page extends Service
         $validator = new PageValidator();
 
         return $validator->checkPage($id);
-    }
-
-    protected function rebuildPageCache(PageModel $page)
-    {
-        $cache = new PageCache();
-
-        $cache->rebuild($page->id);
     }
 
 }

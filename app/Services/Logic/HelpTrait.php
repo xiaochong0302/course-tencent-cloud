@@ -19,11 +19,4 @@ trait HelpTrait
         return $validator->checkHelp($id);
     }
 
-    public function checkHelpCache($id)
-    {
-        $validator = new HelpValidator();
-
-        return $validator->checkHelpCache($id);
-    }
-
 }
