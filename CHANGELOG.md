@@ -1,3 +1,11 @@
+### [v1.7.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.5)(2024-01-10)
+
+- 去除一些过度的设计
+- 优化bootstrap
+- 优化logger
+- 优化contact
+- 精简空判断
+
 ### [v1.7.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.4)(2024-12-10)
 
 - 更新layui-v2.9.20
