@@ -24,7 +24,10 @@ class TeacherConsoleController extends Controller
         parent::beforeExecuteRoute($dispatcher);
 
         if ($this->authUser->id == 0) {
-            $this->response->redirect(['for' => 'home.account.login']);
+            $dispatcher->forward([
+                'controller' => 'account',
+                'action' => 'login',
+            ]);
             return false;
         }
 
