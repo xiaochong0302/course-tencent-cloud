@@ -15,6 +15,7 @@ use App\Exceptions\Unauthorized as UnauthorizedException;
 use App\Library\Logger as AppLogger;
 use Phalcon\Config;
 use Phalcon\Di\Injectable;
+use Throwable;
 
 class HttpErrorHandler extends Injectable
 {
@@ -25,7 +26,7 @@ class HttpErrorHandler extends Injectable
     }
 
     /**
-     * @param \Throwable $e
+     * @param Throwable $e
      */
     public function handleException($e)
     {
@@ -45,7 +46,7 @@ class HttpErrorHandler extends Injectable
     }
 
     /**
-     * @param \Throwable $e
+     * @param Throwable $e
      */
     protected function setStatusCode($e)
     {
@@ -65,7 +66,7 @@ class HttpErrorHandler extends Injectable
     }
 
     /**
-     * @param \Throwable $e
+     * @param Throwable $e
      */
     protected function report($e)
     {
@@ -86,7 +87,7 @@ class HttpErrorHandler extends Injectable
     }
 
     /**
-     * @param \Throwable $e
+     * @param Throwable $e
      */
     protected function apiError($e)
     {
@@ -98,7 +99,7 @@ class HttpErrorHandler extends Injectable
     }
 
     /**
-     * @param \Throwable $e
+     * @param Throwable $e
      */
     protected function ajaxError($e)
     {
@@ -110,7 +111,7 @@ class HttpErrorHandler extends Injectable
     }
 
     /**
-     * @param \Throwable $e
+     * @param Throwable $e
      */
     protected function pageError($e)
     {

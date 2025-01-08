@@ -16,7 +16,7 @@
         </div>
         <div class="kg-nav-right">
             <a class="layui-btn layui-btn-sm" href="{{ category_url }}">
-                <i class="layui-icon layui-icon-add-1"></i>分类管理
+                <i class="layui-icon layui-icon-add-1"></i>课程分类
             </a>
             <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
                 <i class="layui-icon layui-icon-add-1"></i>添加课程
