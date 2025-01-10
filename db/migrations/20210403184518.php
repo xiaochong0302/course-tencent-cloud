@@ -45,6 +45,13 @@ final class V20210403184518 extends AbstractMigration
         ];
 
         $this->table('kg_user')->insert($user)->saveData();
+
+        $balance = [
+            'user_id' => $account['id'],
+            'create_time' => $now,
+        ];
+
+        $this->table('kg_user_balance')->insert($balance)->saveData();
     }
 
     protected function initRoleData()
