@@ -183,7 +183,7 @@ class Chapter extends Validator
     public function checkPublishStatus($status)
     {
         if (!in_array($status, [0, 1])) {
-            throw new BadRequestException('course.invalid_publish_status');
+            throw new BadRequestException('chapter.invalid_publish_status');
         }
 
         return $status;

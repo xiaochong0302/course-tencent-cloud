@@ -84,18 +84,8 @@ class GiftRedeem extends LogicService
 
             $task = new TaskModel();
 
-            $itemInfo = [
-                'point_gift_redeem' => [
-                    'id' => $redeem->id,
-                    'user_id' => $redeem->user_id,
-                    'gift_id' => $redeem->gift_id,
-                ]
-            ];
-
             $task->item_id = $redeem->id;
             $task->item_type = TaskModel::TYPE_POINT_GIFT_DELIVER;
-            $task->item_info = $itemInfo;
-
             $result = $task->create();
 
             if ($result === false) {

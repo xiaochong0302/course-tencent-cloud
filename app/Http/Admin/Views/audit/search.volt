@@ -13,9 +13,9 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名称</label>
+            <label class="layui-form-label">用户IP</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="user_name" placeholder="用户名称精确匹配">
+                <input class="layui-input" type="text" name="user_ip" placeholder="用户IP精确匹配">
             </div>
         </div>
         <div class="layui-form-item">
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">请求时间</label>
+            <label class="layui-form-label">创建时间</label>
             <div class="layui-input-inline">
                 <input class="layui-input time-range" type="text" name="start_time" autocomplete="off">
             </div>

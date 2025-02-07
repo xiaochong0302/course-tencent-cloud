@@ -23,11 +23,11 @@ class Stat extends Service
 
         return [
             [
-                'title' => "{$year}-{$month}",
+                'title' => sprintf('%02d-%02d', $year, $month),
                 'sales' => $this->handleHotSales($type, $year, $month),
             ],
             [
-                'title' => "{$prev['year']}-{$prev['month']}",
+                'title' => sprintf('%02d-%02d', $prev['year'], $prev['month']),
                 'sales' => $this->handleHotSales($type, $prev['year'], $prev['month']),
             ],
         ];
@@ -42,12 +42,13 @@ class Stat extends Service
         $currSales = $this->handleSales($year, $month);
         $prevSales = $this->handleSales($prev['year'], $prev['month']);
 
+        $currMonth = sprintf('%02d-%02d', $year, $month);
+        $prevMonth = sprintf('%02d-%02d', $prev['year'], $prev['month']);
+
         $items = [];
 
         foreach (range(1, 31) as $day) {
             $date = sprintf('%02d', $day);
-            $prevMonth = "{$prev['year']}-{$prev['month']}";
-            $currMonth = "{$year}-{$month}";
             $items[] = [
                 'date' => $date,
                 $currMonth => $currSales[$date] ?? 0,
@@ -67,12 +68,13 @@ class Stat extends Service
         $currRefunds = $this->handleRefunds($year, $month);
         $prevRefunds = $this->handleRefunds($prev['year'], $prev['month']);
 
+        $currMonth = sprintf('%02d-%02d', $year, $month);
+        $prevMonth = sprintf('%02d-%02d', $prev['year'], $prev['month']);
+
         $items = [];
 
         foreach (range(1, 31) as $day) {
             $date = sprintf('%02d', $day);
-            $prevMonth = "{$prev['year']}-{$prev['month']}";
-            $currMonth = "{$year}-{$month}";
             $items[] = [
                 'date' => $date,
                 $currMonth => $currRefunds[$date] ?? 0,
@@ -92,12 +94,13 @@ class Stat extends Service
         $currUsers = $this->handleRegisteredUsers($year, $month);
         $prevUsers = $this->handleRegisteredUsers($prev['year'], $prev['month']);
 
+        $currMonth = sprintf('%02d-%02d', $year, $month);
+        $prevMonth = sprintf('%02d-%02d', $prev['year'], $prev['month']);
+
         $items = [];
 
         foreach (range(1, 31) as $day) {
             $date = sprintf('%02d', $day);
-            $prevMonth = "{$prev['year']}-{$prev['month']}";
-            $currMonth = "{$year}-{$month}";
             $items[] = [
                 'date' => $date,
                 $currMonth => $currUsers[$date] ?? 0,
@@ -117,12 +120,13 @@ class Stat extends Service
         $currUsers = $this->handleOnlineUsers($year, $month);
         $prevUsers = $this->handleOnlineUsers($prev['year'], $prev['month']);
 
+        $currMonth = sprintf('%02d-%02d', $year, $month);
+        $prevMonth = sprintf('%02d-%02d', $prev['year'], $prev['month']);
+
         $items = [];
 
         foreach (range(1, 31) as $day) {
             $date = sprintf('%02d', $day);
-            $prevMonth = "{$prev['year']}-{$prev['month']}";
-            $currMonth = "{$year}-{$month}";
             $items[] = [
                 'date' => $date,
                 $currMonth => $currUsers[$date] ?? 0,
@@ -154,7 +158,10 @@ class Stat extends Service
 
     protected function isCurrMonth($year, $month)
     {
-        return date('Y-m') == "{$year}-{$month}";
+        $yearOk = date('Y') == $year;
+        $monthOk = date('m') == $month;
+
+        return $yearOk && $monthOk;
     }
 
     protected function getLifetime()

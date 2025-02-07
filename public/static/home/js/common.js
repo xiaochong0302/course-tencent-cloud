@@ -129,20 +129,15 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper'], function () {
      * 内容图片放大
      */
     $('body').on('click', '.kg-zoom img', function () {
-        var width = $(window).width() * 0.8 + 'px';
-        var height = $(window).height() * 0.8 + 'px';
-        var src = $(this).attr('src');
-        var style = 'max-width:' + width + ';max-height:' + height;
-        var content = '<img alt="preview" src="' + src + '" style="' + style + '">';
-        layer.open({
-            type: 1,
-            title: false,
-            closeBtn: 0,
-            area: ['auto'],
-            skin: 'layui-layer-nobg',
-            shadeClose: true,
-            content: content,
-        });
+        var src = $(this).attr('src').replace('!content_800', '');
+        if ($('#img-viewer').length === 0) {
+            $('body').append('<div class="img-viewer" id="img-viewer"></div>');
+        }
+        $('#img-viewer').append('<img alt="preview" src="' + src + '">').fadeIn();
+    });
+
+    $('body').on('click', '#img-viewer', function () {
+        $(this).empty().fadeOut();
     });
 
     /**
