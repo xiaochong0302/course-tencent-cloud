@@ -44,12 +44,7 @@ class Trade extends Listener
 
             $task = new TaskModel();
 
-            $itemInfo = [
-                'order' => ['id' => $order->id]
-            ];
-
             $task->item_id = $order->id;
-            $task->item_info = $itemInfo;
             $task->item_type = TaskModel::TYPE_DELIVER;
             $task->create();
 

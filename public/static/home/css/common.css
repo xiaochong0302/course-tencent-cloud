@@ -78,9 +78,33 @@
     height: 100px;
 }
 
+.img-viewer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.img-viewer img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-width: 90%;
+    max-height: 90%;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease-in-out;
+    padding: 5px;
+    cursor: zoom-out;
+}
+
 .kg-zoom img {
     max-width: 100%;
-    cursor: pointer;
+    cursor: zoom-in;
 }
 
 .breadcrumb {

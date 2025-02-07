@@ -34,8 +34,8 @@
             <th>用户IP</th>
             <th>请求路由</th>
             <th>请求路径</th>
-            <th>请求时间</th>
-            <th>请求内容</th>
+            <th>创建时间</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tbody>
