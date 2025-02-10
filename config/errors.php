@@ -72,7 +72,7 @@ $error['user.invalid_edu_role'] = '无效的教学角色';
 $error['user.invalid_admin_role'] = '无效的后台角色';
 $error['user.invalid_vip_status'] = '无效的会员状态';
 $error['user.invalid_vip_expiry_time'] = '无效的会员期限';
-$error['user.invalid_block_status'] = '无效的锁定状态';
+$error['user.invalid_lock_status'] = '无效的锁定状态';
 $error['user.invalid_lock_expiry_time'] = '无效的锁定期限';
 
 /**

@@ -45,7 +45,7 @@ class Nav extends Repository
             $query->andWhere('deleted = :deleted:', ['deleted' => $where['deleted']]);
         }
 
-        $query->orderBy('position DESC,priority ASC');
+        $query->orderBy('position ASC,priority ASC');
 
         return $query->execute();
     }

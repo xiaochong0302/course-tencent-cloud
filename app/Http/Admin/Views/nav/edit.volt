@@ -24,13 +24,15 @@
                 <input class="layui-input" type="text" name="priority" value="{{ nav.priority }}" lay-verify="number">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">位置</label>
-            <div class="layui-input-block">
-                <input type="radio" name="position" value="1" title="顶部" {% if nav.position == 1 %}checked="checked"{% endif %}>
-                <input type="radio" name="position" value="2" title="底部" {% if nav.position == 2 %}checked="checked"{% endif %}>
+        {% if nav.parent_id == 0 %}
+            <div class="layui-form-item">
+                <label class="layui-form-label">位置</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="position" value="1" title="顶部" {% if nav.position == 1 %}checked="checked"{% endif %}>
+                    <input type="radio" name="position" value="2" title="底部" {% if nav.position == 2 %}checked="checked"{% endif %}>
+                </div>
             </div>
-        </div>
+        {% endif %}
         <div class="layui-form-item">
             <label class="layui-form-label">目标</label>
             <div class="layui-input-block">
