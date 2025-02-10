@@ -85,6 +85,7 @@ class Nav extends Service
         if ($parent) {
             $nav->path = $parent->path . $nav->id . ',';
             $nav->level = $parent->level + 1;
+            $nav->position = $parent->position;
         } else {
             $nav->path = ',' . $nav->id . ',';
             $nav->level = 1;
@@ -138,6 +139,11 @@ class Nav extends Service
                     $this->disableChildNavs($nav->id);
                 }
             }
+        }
+
+        if ($nav->parent_id > 0) {
+            $parent = $this->findOrFail($nav->parent_id);
+            $data['position'] = $parent->position;
         }
 
         $nav->update($data);

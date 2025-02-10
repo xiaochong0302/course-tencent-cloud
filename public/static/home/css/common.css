@@ -234,6 +234,11 @@
     line-height: 60px;
 }
 
+.logo img {
+    max-width: 185px;
+    max-height: 60px;
+}
+
 .top-nav {
     margin-left: 185px;
 }

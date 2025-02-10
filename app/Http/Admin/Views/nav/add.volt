@@ -37,13 +37,15 @@
                 <input class="layui-input" type="text" name="priority" value="10" lay-verify="number">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">位置</label>
-            <div class="layui-input-block">
-                <input type="radio" name="position" value="1" title="顶部" checked="checked">
-                <input type="radio" name="position" value="2" title="底部">
+        {% if parent_id == 0 %}
+            <div class="layui-form-item">
+                <label class="layui-form-label">位置</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="position" value="1" title="顶部" checked="checked">
+                    <input type="radio" name="position" value="2" title="底部">
+                </div>
             </div>
-        </div>
+        {% endif %}
         <div class="layui-form-item">
             <label class="layui-form-label">目标</label>
             <div class="layui-input-block">
