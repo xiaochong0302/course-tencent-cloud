@@ -35,7 +35,7 @@ class AccountRegister extends PointHistory
 
         $eventId = $user->id;
         $eventType = PointHistoryModel::EVENT_ACCOUNT_REGISTER;
-        $eventInfo = new \stdClass();
+        $eventInfo = [];
 
         $historyRepo = new PointHistoryRepo();
 
