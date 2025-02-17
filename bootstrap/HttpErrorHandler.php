@@ -13,20 +13,14 @@ use App\Exceptions\NotFound as NotFoundException;
 use App\Exceptions\ServiceUnavailable as ServiceUnavailableException;
 use App\Exceptions\Unauthorized as UnauthorizedException;
 use App\Library\Logger as AppLogger;
-use Phalcon\Config;
-use Phalcon\Di\Injectable;
 use Throwable;
 
-class HttpErrorHandler extends Injectable
+class HttpErrorHandler extends ErrorHandler
 {
 
     public function __construct()
     {
-        set_exception_handler([$this, 'handleException']);
-
-        set_error_handler([$this, 'handleError']);
-
-        register_shutdown_function([$this, 'handleShutdown']);
+        parent::__construct();
     }
 
     /**
@@ -46,31 +40,6 @@ class HttpErrorHandler extends Injectable
             $this->ajaxError($e);
         } else {
             $this->pageError($e);
-        }
-    }
-
-    public function handleError($errNo, $errStr, $errFile, $errLine)
-    {
-        if (in_array($errNo, [E_WARNING, E_NOTICE, E_DEPRECATED, E_USER_WARNING, E_USER_NOTICE, E_USER_DEPRECATED])) {
-            return true;
-        }
-
-        $logger = $this->getLogger();
-
-        $logger->error("Error [{$errNo}]: {$errStr} in {$errFile} on line {$errLine}");
-
-        return false;
-    }
-
-    public function handleShutdown()
-    {
-        $error = error_get_last();
-
-        if ($error !== NULL && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
-
-            $logger = $this->getLogger();
-
-            $logger->error("Fatal Error [{$error['type']}]: {$error['message']} in {$error['file']} on line {$error['line']}");
         }
     }
 
@@ -163,14 +132,6 @@ class HttpErrorHandler extends Injectable
             'code' => $code,
             'msg' => $errors[$code] ?? $code,
         ];
-    }
-
-    /**
-     * @return Config
-     */
-    protected function getConfig()
-    {
-        return $this->getDI()->getShared('config');
     }
 
     protected function getLogger()
