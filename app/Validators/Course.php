@@ -68,24 +68,28 @@ class Course extends Validator
 
     public function checkCategoryId($id)
     {
+        $result = 0;
+
         if ($id > 0) {
             $validator = new Category();
             $category = $validator->checkCategory($id);
-            return $category->id;
-        } else {
-            return 0;
+            $result = $category->id;
         }
+
+        return $result;
     }
 
     public function checkTeacherId($id)
     {
+        $result = 0;
+
         if ($id > 0) {
             $validator = new User();
             $user = $validator->checkTeacher($id);
-            return $user->id;
-        } else {
-            return 0;
+            $result = $user->id;
         }
+
+        return $result;
     }
 
     public function checkModel($model)
