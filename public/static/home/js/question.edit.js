@@ -11,7 +11,7 @@ layui.use(['jquery'], function () {
         data: xmTags,
         autoRow: true,
         filterable: true,
-        filterMethod: function (val, item, index, prop) {
+        filterMethod: function (val, item) {
             return item.name.toLowerCase().indexOf(val.toLowerCase()) !== -1;
         }
     });

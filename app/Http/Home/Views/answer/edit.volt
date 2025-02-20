@@ -10,27 +10,31 @@
     </div>
 
     <div class="layout-main">
-        <div class="layout-content writer-content wrap">
-            <form class="layui-form" method="POST" action="{{ url({'for':'home.answer.update','id':answer.id}) }}">
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <input class="layui-input" type="text" name="title" value="{{ question.title }}" disabled="disabled">
+        <div class="layout-content">
+            <div class="writer-content wrap">
+                <form class="layui-form" method="POST" action="{{ url({'for':'home.answer.update','id':answer.id}) }}">
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input class="layui-input" type="text" name="title" value="{{ question.title }}" disabled="disabled">
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <textarea name="content" class="layui-hide" id="editor-textarea">{{ answer.content }}</textarea>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <textarea name="content" class="layui-hide" id="editor-textarea">{{ answer.content }}</textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item center">
-                    <div class="layui-input-block">
-                        <button class="layui-btn kg-submit" lay-submit="true" lay-filter="go">发布回答</button>
+                    <div class="layui-form-item center">
+                        <div class="layui-input-block">
+                            <button class="layui-btn kg-submit" lay-submit="true" lay-filter="go">发布回答</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-        <div class="layout-sidebar writer-sidebar wrap">
-            {{ partial('answer/tips') }}
+        <div class="layout-sidebar">
+            <div class="writer-sidebar wrap">
+                {{ partial('answer/tips') }}
+            </div>
         </div>
     </div>
 
@@ -40,6 +44,5 @@
 
     {{ js_include('lib/kindeditor/kindeditor.min.js') }}
     {{ js_include('home/js/content.editor.js') }}
-    {{ js_include('home/js/answer.edit.js') }}
 
 {% endblock %}
