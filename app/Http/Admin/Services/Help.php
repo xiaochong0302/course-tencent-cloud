@@ -63,12 +63,10 @@ class Help extends Service
 
         $data = [];
 
-        $category = $validator->checkCategory($post['category_id']);
-
         $data['title'] = $validator->checkTitle($post['title']);
         $data['content'] = $validator->checkContent($post['content']);
         $data['priority'] = $validator->checkPriority($post['priority']);
-        $data['category_id'] = $category->id;
+        $data['category_id'] = $validator->checkCategoryId($post['category_id']);
 
         $help = new HelpModel();
 
@@ -88,8 +86,7 @@ class Help extends Service
         $data = [];
 
         if (isset($post['category_id'])) {
-            $category = $validator->checkCategory($post['category_id']);
-            $data['category_id'] = $category->id;
+            $data['category_id'] = $validator->checkCategoryId($post['category_id']);
         }
 
         if (isset($post['title'])) {

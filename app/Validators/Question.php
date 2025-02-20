@@ -65,11 +65,17 @@ class Question extends Validator
         }
     }
 
-    public function checkCategory($id)
+    public function checkCategoryId($id)
     {
-        $validator = new Category();
+        $result = 0;
 
-        return $validator->checkCategory($id);
+        if ($id > 0) {
+            $validator = new Category();
+            $category = $validator->checkCategory($id);
+            $result = $category->id;
+        }
+
+        return $result;
     }
 
     public function checkTitle($title)

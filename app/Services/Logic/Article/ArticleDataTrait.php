@@ -34,8 +34,7 @@ trait ArticleDataTrait
         $data['content'] = $validator->checkContent($post['content']);
 
         if (isset($post['category_id'])) {
-            $category = $validator->checkCategory($post['category_id']);
-            $data['category_id'] = $category->id;
+            $data['category_id'] = $validator->checkCategoryId($post['category_id']);
         }
 
         if (isset($post['source_type'])) {
