@@ -7,8 +7,6 @@
 
 namespace App\Validators;
 
-use App\Caches\Article as ArticleCache;
-use App\Caches\MaxArticleId as MaxArticleIdCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\Article as ArticleModel;
@@ -18,30 +16,8 @@ use App\Services\EditorStorage as EditorStorageService;
 class Article extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return ArticleModel
-     * @throws BadRequestException
-     */
-    public function checkArticleCache($id)
-    {
-        $this->checkId($id);
-
-        $articleCache = new ArticleCache();
-
-        $article = $articleCache->get($id);
-
-        if (!$article) {
-            throw new BadRequestException('article.not_found');
-        }
-
-        return $article;
-    }
-
     public function checkArticle($id)
     {
-        $this->checkId($id);
-
         $articleRepo = new ArticleRepo();
 
         $article = $articleRepo->findById($id);
@@ -51,19 +27,6 @@ class Article extends Validator
         }
 
         return $article;
-    }
-
-    public function checkId($id)
-    {
-        $id = intval($id);
-
-        $maxIdCache = new MaxArticleIdCache();
-
-        $maxId = $maxIdCache->get();
-
-        if ($id < 1 || $id > $maxId) {
-            throw new BadRequestException('article.not_found');
-        }
     }
 
     public function checkCategoryId($id)

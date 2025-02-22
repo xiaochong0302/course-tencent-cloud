@@ -19,11 +19,4 @@ trait QuestionTrait
         return $validator->checkQuestion($id);
     }
 
-    public function checkQuestionCache($id)
-    {
-        $validator = new QuestionValidator();
-
-        return $validator->checkQuestionCache($id);
-    }
-
 }

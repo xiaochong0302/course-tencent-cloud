@@ -7,7 +7,6 @@
 
 namespace App\Models;
 
-use App\Caches\MaxQuestionId as MaxQuestionIdCache;
 use App\Services\Sync\QuestionIndex as QuestionIndexSync;
 use App\Services\Sync\QuestionScore as QuestionScoreSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
@@ -284,13 +283,6 @@ class Question extends Model
         if (is_array($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
         }
-    }
-
-    public function afterCreate()
-    {
-        $cache = new MaxQuestionIdCache();
-
-        $cache->rebuild();
     }
 
     public function afterFetch()
