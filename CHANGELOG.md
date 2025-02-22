@@ -1,10 +1,17 @@
-### [v1.7.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.5)(2024-01-10)
+### [v1.7.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.5)(2024-02-22)
 
+- 优化后台统计图表
+- 优化图片放大查看
+- 优化错误处理机制
+- 优化前台编辑器页面
 - 去除一些过度的设计
+- 精简属性空判断
+- 规整redirect
 - 优化bootstrap
 - 优化logger
 - 优化contact
-- 精简空判断
+- 优化logo
+- 优化nav
 
 ### [v1.7.4](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.4)(2024-12-10)
 

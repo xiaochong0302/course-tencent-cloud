@@ -7,7 +7,6 @@
 
 namespace App\Models;
 
-use App\Caches\MaxArticleId as MaxArticleIdCache;
 use App\Services\Sync\ArticleIndex as ArticleIndexSync;
 use App\Services\Sync\ArticleScore as ArticleScoreSync;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
@@ -256,13 +255,6 @@ class Article extends Model
         if (is_array($this->tags)) {
             $this->tags = kg_json_encode($this->tags);
         }
-    }
-
-    public function afterCreate()
-    {
-        $cache = new MaxArticleIdCache();
-
-        $cache->rebuild();
     }
 
     public function afterFetch()

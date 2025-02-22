@@ -37,10 +37,6 @@ class Course extends Service
 
         $params = $pagerQuery->getParams();
 
-        if (!empty($params['xm_tag_ids'])) {
-            $params['tag_id'] = explode(',', $params['xm_tag_ids']);
-        }
-
         $params['deleted'] = $params['deleted'] ?? 0;
 
         $sort = $pagerQuery->getSort();

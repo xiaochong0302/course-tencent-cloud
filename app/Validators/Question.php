@@ -7,8 +7,6 @@
 
 namespace App\Validators;
 
-use App\Caches\MaxQuestionId as MaxQuestionIdCache;
-use App\Caches\Question as QuestionCache;
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Question as QuestionModel;
 use App\Repos\Question as QuestionRepo;
@@ -17,30 +15,8 @@ use App\Services\EditorStorage as EditorStorageService;
 class Question extends Validator
 {
 
-    /**
-     * @param int $id
-     * @return QuestionModel
-     * @throws BadRequestException
-     */
-    public function checkQuestionCache($id)
-    {
-        $this->checkId($id);
-
-        $questionCache = new QuestionCache();
-
-        $question = $questionCache->get($id);
-
-        if (!$question) {
-            throw new BadRequestException('question.not_found');
-        }
-
-        return $question;
-    }
-
     public function checkQuestion($id)
     {
-        $this->checkId($id);
-
         $questionRepo = new QuestionRepo();
 
         $question = $questionRepo->findById($id);
@@ -50,19 +26,6 @@ class Question extends Validator
         }
 
         return $question;
-    }
-
-    public function checkId($id)
-    {
-        $id = intval($id);
-
-        $maxIdCache = new MaxQuestionIdCache();
-
-        $maxId = $maxIdCache->get();
-
-        if ($id < 1 || $id > $maxId) {
-            throw new BadRequestException('question.not_found');
-        }
     }
 
     public function checkCategoryId($id)

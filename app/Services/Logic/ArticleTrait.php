@@ -19,11 +19,4 @@ trait ArticleTrait
         return $validator->checkArticle($id);
     }
 
-    public function checkArticleCache($id)
-    {
-        $validator = new ArticleValidator();
-
-        return $validator->checkArticleCache($id);
-    }
-
 }
