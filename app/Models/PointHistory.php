@@ -20,7 +20,7 @@ class PointHistory extends Model
     const EVENT_SITE_VISIT = 5; // 站点访问
     const EVENT_CHAPTER_STUDY = 6; // 课时学习
     const EVENT_COURSE_REVIEW = 7; // 课程评价
-    const EVENT_IM_DISCUSS = 8; // 微聊讨论
+    const EVENT_IM_DISCUSS = 8; // 微聊讨论（已弃用）
     const EVENT_COMMENT_POST = 9; // 发布评论
     const EVENT_ARTICLE_POST = 10; // 发布文章
     const EVENT_QUESTION_POST = 11; // 发布问题
@@ -132,7 +132,6 @@ class PointHistory extends Model
             self::EVENT_SITE_VISIT => '用户登录',
             self::EVENT_CHAPTER_STUDY => '课时学习',
             self::EVENT_COURSE_REVIEW => '课程评价',
-            self::EVENT_IM_DISCUSS => '微聊讨论',
         ];
     }
 

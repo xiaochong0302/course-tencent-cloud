@@ -1,9 +1,9 @@
-<div class="layui-card layui-text" xmlns="http://www.w3.org/1999/html">
+<div class="layui-card layui-text">
     <div class="layui-card-header">服务器信息</div>
     <div class="layui-card-body">
         <table class="layui-table">
             <colgroup>
-                <col width="100">
+                <col width="25%">
                 <col>
             </colgroup>
             <tbody>

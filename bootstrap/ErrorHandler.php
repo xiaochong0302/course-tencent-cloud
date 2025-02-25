@@ -40,7 +40,7 @@ abstract class ErrorHandler extends Injectable
     {
         $error = error_get_last();
 
-        if ($error !== NULL && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
 
             $logger = $this->getLogger();
 

@@ -35,7 +35,7 @@ class SiteVisit extends PointHistory
 
         $eventId = $user->id;
         $eventType = PointHistoryModel::EVENT_SITE_VISIT;
-        $eventInfo = new \stdClass();
+        $eventInfo = [];
 
         $historyRepo = new PointHistoryRepo();
 

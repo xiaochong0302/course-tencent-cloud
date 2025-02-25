@@ -3,7 +3,7 @@
     <div class="layui-card-body">
         <table class="layui-table">
             <colgroup>
-                <col width="100">
+                <col width="25%">
                 <col>
             </colgroup>
             <tbody>
