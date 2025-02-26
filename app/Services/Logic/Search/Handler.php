@@ -18,4 +18,9 @@ abstract class Handler extends LogicService
 
     abstract function getRelatedQuery($query, $limit);
 
+    protected function handleKeywords($str)
+    {
+        return kg_substr($str, 0, 50, '');
+    }
+
 }

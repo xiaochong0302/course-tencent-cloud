@@ -28,7 +28,7 @@ class Question extends Handler
         $paginator = new XunSearchPaginator([
             'xs' => $searcher->getXS(),
             'highlight' => $searcher->getHighlightFields(),
-            'query' => $params['query'],
+            'query' => $this->handleKeywords($params['query']),
             'page' => $page,
             'limit' => $limit,
         ]);
