@@ -9,7 +9,6 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\QuestionList as QuestionListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
-use App\Caches\Question as QuestionCache;
 use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Category as CategoryModel;
