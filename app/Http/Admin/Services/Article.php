@@ -9,10 +9,8 @@ namespace App\Http\Admin\Services;
 
 use App\Builders\ArticleList as ArticleListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
-use App\Caches\Article as ArticleCache;
 use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PagerQuery;
-use App\Library\Utils\Word as WordUtil;
 use App\Models\Article as ArticleModel;
 use App\Models\Category as CategoryModel;
 use App\Models\Reason as ReasonModel;
@@ -137,7 +135,6 @@ class Article extends Service
         $article->create();
 
         $this->saveDynamicAttrs($article);
-        $this->rebuildArticleCache($article);
         $this->rebuildArticleIndex($article);
         $this->recountUserArticles($user);
 
@@ -208,7 +205,6 @@ class Article extends Service
         $owner = $this->findUser($article->owner_id);
 
         $this->saveDynamicAttrs($article);
-        $this->rebuildArticleCache($article);
         $this->rebuildArticleIndex($article);
         $this->recountUserArticles($owner);
 
@@ -228,7 +224,6 @@ class Article extends Service
         $owner = $this->findUser($article->owner_id);
 
         $this->saveDynamicAttrs($article);
-        $this->rebuildArticleCache($article);
         $this->rebuildArticleIndex($article);
         $this->recountUserArticles($owner);
 
@@ -248,7 +243,6 @@ class Article extends Service
         $owner = $this->findUser($article->owner_id);
 
         $this->saveDynamicAttrs($article);
-        $this->rebuildArticleCache($article);
         $this->rebuildArticleIndex($article);
         $this->recountUserArticles($owner);
 
@@ -287,7 +281,6 @@ class Article extends Service
 
         $owner = $this->findUser($article->owner_id);
 
-        $this->rebuildArticleCache($article);
         $this->rebuildArticleIndex($article);
         $this->recountUserArticles($owner);
 
@@ -323,7 +316,6 @@ class Article extends Service
 
         $owner = $this->findUser($article->owner_id);
 
-        $this->rebuildArticleCache($article);
         $this->rebuildArticleIndex($article);
         $this->recountUserArticles($owner);
     }
@@ -362,7 +354,6 @@ class Article extends Service
             $owner = $this->findUser($article->owner_id);
 
             $this->recountUserArticles($owner);
-            $this->rebuildArticleCache($article);
             $this->rebuildArticleIndex($article);
         }
     }
@@ -389,7 +380,6 @@ class Article extends Service
             $owner = $this->findUser($article->owner_id);
 
             $this->recountUserArticles($owner);
-            $this->rebuildArticleCache($article);
             $this->rebuildArticleIndex($article);
         }
     }
@@ -406,13 +396,6 @@ class Article extends Service
         $userRepo = new UserRepo();
 
         return $userRepo->findById($id);
-    }
-
-    protected function rebuildArticleCache(ArticleModel $article)
-    {
-        $cache = new ArticleCache();
-
-        $cache->rebuild($article->id);
     }
 
     protected function rebuildArticleIndex(ArticleModel $article)

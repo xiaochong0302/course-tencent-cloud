@@ -1,6 +1,6 @@
 ## 酷瓜云课堂
 
-![酷瓜云课堂](https://portal-1255691183.file.myqcloud.com/img/content/61dd395c053e5.png)
+[![酷瓜云课堂-开源知识付费解决方案](https://portal-1255691183.file.myqcloud.com/img/content/63ec392618bd5.png)](https://www.koogua.com)
 
 ### 系统介绍
 
@@ -63,4 +63,4 @@ Tips: 请用手机注册一个新账号，用户中心 -> 关注订阅，扫码�
 
 - [码云平台](https://gitee.com/koogua/course-tencent-cloud/issues)
 - [官方社区](https://www.koogua.com/community)
-- QQ交流群: 788459713
+- QQ交流群: 787363898

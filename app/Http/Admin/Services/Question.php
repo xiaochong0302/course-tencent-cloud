@@ -131,7 +131,6 @@ class Question extends Service
         $question->create();
 
         $this->saveDynamicAttrs($question);
-        $this->rebuildQuestionCache($question);
         $this->rebuildQuestionIndex($question);
         $this->recountUserQuestions($user);
 
@@ -195,7 +194,6 @@ class Question extends Service
         $owner = $this->findUser($question->owner_id);
 
         $this->saveDynamicAttrs($question);
-        $this->rebuildQuestionCache($question);
         $this->rebuildQuestionIndex($question);
         $this->recountUserQuestions($owner);
 
@@ -219,7 +217,6 @@ class Question extends Service
         $owner = $this->findUser($question->owner_id);
 
         $this->saveDynamicAttrs($question);
-        $this->rebuildQuestionCache($question);
         $this->rebuildQuestionIndex($question);
         $this->recountUserQuestions($owner);
 
@@ -238,7 +235,6 @@ class Question extends Service
 
         $owner = $this->findUser($question->owner_id);
 
-        $this->rebuildQuestionCache($question);
         $this->rebuildQuestionIndex($question);
         $this->recountUserQuestions($owner);
 
@@ -278,7 +274,6 @@ class Question extends Service
         $owner = $this->findUser($question->owner_id);
 
         $this->recountUserQuestions($owner);
-        $this->rebuildQuestionCache($question);
         $this->rebuildQuestionIndex($question);
 
         return $question;
@@ -313,7 +308,6 @@ class Question extends Service
 
         $owner = $this->findUser($question->owner_id);
 
-        $this->rebuildQuestionCache($question);
         $this->rebuildQuestionIndex($question);
         $this->recountUserQuestions($owner);
     }
@@ -352,7 +346,6 @@ class Question extends Service
             $owner = $this->findUser($question->owner_id);
 
             $this->recountUserQuestions($owner);
-            $this->rebuildQuestionCache($question);
             $this->rebuildQuestionIndex($question);
         }
     }
@@ -379,7 +372,6 @@ class Question extends Service
             $owner = $this->findUser($question->owner_id);
 
             $this->recountUserQuestions($owner);
-            $this->rebuildQuestionCache($question);
             $this->rebuildQuestionIndex($question);
         }
     }
@@ -396,13 +388,6 @@ class Question extends Service
         $userRepo = new UserRepo();
 
         return $userRepo->findById($id);
-    }
-
-    protected function rebuildQuestionCache(QuestionModel $question)
-    {
-        $cache = new QuestionCache();
-
-        $cache->rebuild($question->id);
     }
 
     protected function rebuildQuestionIndex(QuestionModel $question)

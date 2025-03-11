@@ -8,7 +8,6 @@
 namespace Bootstrap;
 
 use App\Library\Logger as AppLogger;
-use Phalcon\Logger\Adapter\File as PhLogger;
 use Throwable;
 
 class ConsoleErrorHandler extends ErrorHandler
@@ -44,9 +43,6 @@ class ConsoleErrorHandler extends ErrorHandler
         echo $content . PHP_EOL;
     }
 
-    /**
-     * @return PhLogger
-     */
     protected function getLogger()
     {
         $logger = new AppLogger();
