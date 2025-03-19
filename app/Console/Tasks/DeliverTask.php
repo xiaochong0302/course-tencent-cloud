@@ -58,8 +58,6 @@ class DeliverTask extends Task
                     case OrderModel::ITEM_VIP:
                         $this->handleVipOrder($order);
                         break;
-                    default:
-                        $this->noMatchedHandler($order);
                 }
 
                 $order->status = OrderModel::STATUS_FINISHED;
@@ -153,11 +151,6 @@ class DeliverTask extends Task
          * 自动关闭未支付订单，让用户可以使用会员价再次下单
          */
         $this->closePendingOrders($user->id);
-    }
-
-    protected function noMatchedHandler(OrderModel $order)
-    {
-        throw new \RuntimeException("No Matched Handler For Order: {$order->id}");
     }
 
     protected function closePendingOrders($userId)
