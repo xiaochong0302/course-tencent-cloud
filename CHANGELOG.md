@@ -1,4 +1,14 @@
-### [v1.7.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.5)(2024-02-22)
+### [v1.7.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.6)(2025-03-22)
+
+- 升级layui-v2.9.25
+- 去除发货中不必要的异常抛出
+- 去除文章和问题缓存重建
+- 去除多余的文件引用
+- 修正每日访问站点积分问题
+- 限制全文搜索关键字长度
+- 统一规划二维码样式
+
+### [v1.7.5](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.5)(2025-02-22)
 
 - 优化后台统计图表
 - 优化图片放大查看
