@@ -19,7 +19,7 @@ class Order extends Model
     const ITEM_PACKAGE = 2; // 套餐
     const ITEM_REWARD = 3; // 赞赏（已弃用）
     const ITEM_VIP = 4; // 会员
-    const ITEM_TEST = 99; // 测试
+    const ITEM_TEST = 99; // 支付测试
 
     /**
      * 状态类型
@@ -191,7 +191,7 @@ class Order extends Model
             self::ITEM_COURSE => '课程',
             self::ITEM_PACKAGE => '套餐',
             self::ITEM_VIP => '会员',
-            self::ITEM_TEST => '测试',
+            self::ITEM_TEST => '支付测试',
         ];
     }
 
