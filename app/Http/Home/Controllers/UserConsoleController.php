@@ -108,8 +108,6 @@ class UserConsoleController extends Controller
 
         $service = new AccountInfoService();
 
-        $captcha = $service->getSettings('captcha');
-
         $account = $service->handle();
 
         $service = new OAuthProviderService();
@@ -137,7 +135,6 @@ class UserConsoleController extends Controller
         $this->view->setVar('wechat_oa_connected', $wechatOAConnect ? 1 : 0);
         $this->view->setVar('oauth_provider', $oauthProvider);
         $this->view->setVar('connects', $connects);
-        $this->view->setVar('captcha', $captcha);
         $this->view->setVar('account', $account);
     }
 

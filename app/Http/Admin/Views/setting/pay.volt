@@ -34,7 +34,7 @@
                     type: 2,
                     title: '支付宝 - 支付测试',
                     resize: false,
-                    area: ['640px', '300px'],
+                    area: ['640px', '320px'],
                     content: [url, 'no']
                 });
             });
@@ -45,7 +45,7 @@
                     type: 2,
                     title: '微信 - 支付测试',
                     resize: false,
-                    area: ['640px', '300px'],
+                    area: ['640px', '320px'],
                     content: [url, 'no']
                 });
             });
