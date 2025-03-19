@@ -1616,7 +1616,8 @@
 }
 
 #pay-layer .qrcode img {
-    border: 3px dashed #666;
+    border: 3px solid #999;
+    padding: 10px;
     width: 160px;
     height: 160px;
 }
@@ -1746,7 +1747,7 @@
 
 .wechat-scan-box .qrcode img {
     border: 3px solid #999;
-    padding: 3px;
+    padding: 5px;
 }
 
 .wechat-scan-box .tips {
@@ -2116,25 +2117,6 @@
 
 .oauth-list a {
     margin: 0 10px;
-}
-
-.my-subscribe {
-    margin-bottom: 15px;
-}
-
-.my-subscribe .qrcode {
-    border: 3px dashed #666;
-    margin: 30px auto;
-    width: 160px;
-    height: 160px;
-}
-
-.my-subscribe .tips {
-    text-align: center;
-}
-
-.my-subscribe .success {
-    color: green;
 }
 
 .order-filter {

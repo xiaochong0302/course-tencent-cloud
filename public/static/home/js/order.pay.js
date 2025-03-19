@@ -49,7 +49,8 @@ layui.use(['jquery', 'layer'], function () {
             id: 'pay-layer',
             title: title,
             content: content,
-            area: ['640px', '320px']
+            area: ['640px', '320px'],
+            resize: false
         })
     }
 

@@ -294,9 +294,10 @@ img.kg-icon-sm {
 }
 
 img.kg-qrcode {
-    width: 140px;
-    height: 140px;
-    border: 3px dashed #ccc;
+    width: 160px;
+    height: 160px;
+    padding: 10px;
+    border: 3px solid #999;
 }
 
 .kg-order-date {
