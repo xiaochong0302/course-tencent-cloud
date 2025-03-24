@@ -36,6 +36,8 @@ class Register extends LogicService
 
         $accountValidator = new AccountValidator();
 
+        $accountValidator->checkRegisterStatus($post['account']);
+
         $accountValidator->checkLoginName($post['account']);
 
         $data = [];

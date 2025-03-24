@@ -129,6 +129,29 @@ class Account extends Validator
         }
     }
 
+    public function checkRegisterStatus($account)
+    {
+        $local = $this->getSettings('oauth.local');
+
+        $allowPhone = $local['register_with_phone'] ?? false;
+        $allowEmail = $local['register_with_email'] ?? false;
+
+        $isEmail = CommonValidator::email($account);
+        $isPhone = CommonValidator::Phone($account);
+
+        if (!$allowPhone && !$allowEmail) {
+            throw new BadRequestException('account.register_disabled');
+        }
+
+        if ($isPhone && !$allowPhone) {
+            throw new BadRequestException('account.register_with_phone_disabled');
+        }
+
+        if ($isEmail && !$allowEmail) {
+            throw new BadRequestException('account.register_with_email_disabled');
+        }
+    }
+
     public function checkVerifyLogin($name, $code)
     {
         $this->checkLoginName($name);
