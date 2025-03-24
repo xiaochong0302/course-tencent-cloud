@@ -57,6 +57,9 @@ $error['account.phone_taken'] = '手机号被占用';
 $error['account.pwd_not_match'] = '密码不匹配';
 $error['account.origin_pwd_incorrect'] = '原有密码不正确';
 $error['account.login_pwd_incorrect'] = '登录密码不正确';
+$error['account.register_disabled'] = '注册已关闭';
+$error['account.register_with_phone_disabled'] = '手机注册已关闭';
+$error['account.register_with_email_disabled'] = '邮箱注册已关闭';
 
 /**
  * 用户相关

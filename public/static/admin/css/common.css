@@ -14,21 +14,6 @@
     padding-bottom: 0;
 }
 
-.layui-copyright {
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    bottom: 0;
-    width: 180px;
-    padding: 10px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, .7);
-}
-
-.layui-copyright a {
-    color: rgba(255, 255, 255, .7);
-}
-
 .red {
     color: red;
 }
@@ -298,10 +283,6 @@ img.kg-qrcode {
     height: 160px;
     padding: 10px;
     border: 3px solid #999;
-}
-
-.kg-order-date {
-    margin-left: 30px;
 }
 
 .kg-order-item {
