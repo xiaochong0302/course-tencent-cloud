@@ -29,8 +29,16 @@ class Connect extends Repository
             $query->andWhere('user_id = :user_id:', ['user_id' => $where['user_id']]);
         }
 
+        if (!empty($where['open_id'])) {
+            $query->andWhere('open_id = :open_id:', ['open_id' => $where['open_id']]);
+        }
+
         if (!empty($where['provider'])) {
-            $query->andWhere('provider = :provider:', ['provider' => $where['provider']]);
+            if (is_array($where['provider'])) {
+                $query->inWhere('provider', $where['provider']);
+            } else {
+                $query->andWhere('provider = :provider:', ['provider' => $where['provider']]);
+            }
         }
 
         if (isset($where['deleted'])) {
@@ -63,19 +71,6 @@ class Connect extends Repository
     {
         return ConnectModel::findFirst([
             'conditions' => 'open_id = ?1 and provider = ?2',
-            'bind' => [1 => $openId, 2 => $provider],
-        ]);
-    }
-
-    /**
-     * @param string $openId
-     * @param int $provider
-     * @return ConnectModel|Model|bool
-     */
-    public function findByOpenIdShallow($openId, $provider)
-    {
-        return ConnectModel::findFirst([
-            'conditions' => 'open_id = ?1 AND provider = ?2',
             'bind' => [1 => $openId, 2 => $provider],
         ]);
     }

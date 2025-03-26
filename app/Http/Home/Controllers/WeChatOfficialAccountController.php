@@ -24,12 +24,9 @@ class WeChatOfficialAccountController extends Controller
      */
     public function bindAction()
     {
-        $captcha = $this->getSettings('captcha');
-
         $this->seo->prependTitle('绑定帐号');
 
         $this->view->pick('wechat/oa/bind');
-        $this->view->setVar('captcha', $captcha);
     }
 
     /**
