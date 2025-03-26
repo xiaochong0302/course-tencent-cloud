@@ -135,12 +135,9 @@ class ConnectController extends Controller
             }
         }
 
-        $captcha = $service->getSettings('captcha');
-
         $this->seo->prependTitle('绑定帐号');
 
         $this->view->pick('connect/bind');
-        $this->view->setVar('captcha', $captcha);
         $this->view->setVar('provider', $provider);
         $this->view->setVar('open_user', $openUser);
     }

@@ -111,6 +111,9 @@ class OfficialAccount extends AppService
 
         $logger->debug('Received Message: ' . json_encode($message));
 
+        /**
+         * 事件类型文档：https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_event_pushes.html
+         */
         switch ($message['MsgType']) {
             case 'event':
                 switch ($message['Event']) {
@@ -161,44 +164,24 @@ class OfficialAccount extends AppService
 
         if ($connect) return null;
 
-        /**
-         * 尼玛不知道为什么又多了个"qrscene_"前缀，SCAN事件里面又不带这个前缀
-         */
+        $loginScene = sprintf('qrscene_%s', self::QR_SCENE_LOGIN);
+
         $subscribeScene = sprintf('qrscene_%s', self::QR_SCENE_SUBSCRIBE);
 
-        $userId = 0;
-
-        if (Text::startsWith($eventKey, $subscribeScene)) {
-
-            $userId = str_replace($subscribeScene, '', $eventKey);
-
-        } else {
-
-            $connect = $connectRepo->findByOpenIdShallow($openId, ConnectModel::PROVIDER_WECHAT_OA);
-
-            if ($connect) $userId = $connect->user_id;
+        /**
+         * 未关注过服务号，在登录页扫登录场景码，关注服务号
+         */
+        if (Text::startsWith($eventKey, $loginScene)) {
+            $ticket = str_replace($loginScene, '', $eventKey);
+            $this->handleLoginPageSubscribe($ticket, $openId);
         }
 
-        if ($userId > 0) {
-
-            $userRepo = new UserRepo();
-
-            $user = $userRepo->findById($userId);
-
-            if (!$user) return null;
-
-            $userInfo = $this->getUserInfo($openId);
-
-            $unionId = $userInfo['unionid'] ?: '';
-
-            $connect = new ConnectModel();
-
-            $connect->user_id = $userId;
-            $connect->open_id = $openId;
-            $connect->union_id = $unionId;
-            $connect->provider = ConnectModel::PROVIDER_WECHAT_OA;
-
-            $connect->create();
+        /**
+         * 未关注过服务号，在用户中心扫关注场景码，关注服务号
+         */
+        if (Text::startsWith($eventKey, $subscribeScene)) {
+            $userId = str_replace($subscribeScene, '', $eventKey);
+            $this->handleAccountPageSubscribe($userId, $openId);
         }
 
         return new TextMessage('开心呀，我们又多了一个小伙伴!');
@@ -228,19 +211,19 @@ class OfficialAccount extends AppService
         $eventKey = $message['EventKey'] ?? '';
 
         if (Text::startsWith($eventKey, self::QR_SCENE_LOGIN)) {
-            return $this->handleLoginScanEvent($eventKey, $openId);
+            $ticket = str_replace(self::QR_SCENE_LOGIN, '', $eventKey);
+            $this->handleLoginPageSubscribe($ticket, $openId);
         } elseif (Text::startsWith($eventKey, self::QR_SCENE_SUBSCRIBE)) {
-            return $this->handleSubscribeScanEvent($eventKey, $openId);
+            $userId = str_replace(self::QR_SCENE_SUBSCRIBE, '', $eventKey);
+            $this->handleAccountPageSubscribe($userId, $openId);
         }
 
         return $this->emptyReply();
     }
 
-    protected function handleLoginScanEvent($eventKey, $openId)
+    protected function handleLoginPageSubscribe($ticket, $openId)
     {
-        $ticket = str_replace(self::QR_SCENE_LOGIN, '', $eventKey);
-
-        if (empty($ticket) || empty($openId)) return null;
+        if (empty($ticket) || empty($openId)) return;
 
         $connectRepo = new ConnectRepo();
 
@@ -256,31 +239,27 @@ class OfficialAccount extends AppService
         ];
 
         $cache->save($keyName, $content, 30 * 60);
-
-        return $this->emptyReply();
     }
 
-    protected function handleSubscribeScanEvent($eventKey, $openId)
+    protected function handleAccountPageSubscribe($userId, $openId)
     {
-        $userId = str_replace(self::QR_SCENE_SUBSCRIBE, '', $eventKey);
-
-        if (empty($userId) || empty($openId)) return null;
+        if (empty($userId) || empty($openId)) return;
 
         $userRepo = new UserRepo();
 
         $user = $userRepo->findById($userId);
 
-        if (!$user) return null;
-
-        $userInfo = $this->getUserInfo($openId);
-
-        $unionId = $userInfo['unionid'] ?: '';
+        if (!$user) return;
 
         $connectRepo = new ConnectRepo();
 
         $connect = $connectRepo->findByOpenId($openId, ConnectModel::PROVIDER_WECHAT_OA);
 
-        if ($connect) return null;
+        if ($connect) return;
+
+        $userInfo = $this->getUserInfo($openId);
+
+        $unionId = $userInfo['unionid'] ?: '';
 
         $connect = new ConnectModel();
 
@@ -290,8 +269,6 @@ class OfficialAccount extends AppService
         $connect->provider = ConnectModel::PROVIDER_WECHAT_OA;
 
         $connect->create();
-
-        return $this->emptyReply();
     }
 
     protected function handleClickEvent($message)
