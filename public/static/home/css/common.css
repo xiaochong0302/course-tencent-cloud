@@ -1799,10 +1799,6 @@
     background-color: #f2f2f2;
 }
 
-.user-tab {
-    margin: 0;
-}
-
 .user-tab .layui-tab-title {
     margin-bottom: 10px;
     text-align: center;
@@ -1843,7 +1839,7 @@
 .user-card {
     float: left;
     width: 100%;
-    height: 240px;
+    height: 200px;
     position: relative;
     text-align: center;
     background-color: #fff;
@@ -1874,32 +1870,6 @@
 
 .user-card .title {
     color: #666;
-}
-
-.user-card .meta {
-    color: #666;
-}
-
-.user-card .meta span {
-    margin-right: 5px;
-}
-
-.user-card .type {
-    position: absolute;
-    top: 18px;
-    right: 28px;
-}
-
-.user-list {
-    margin-bottom: 20px;
-}
-
-.teacher-list .user-card {
-    height: 200px;
-}
-
-.vip-user-list .user-card {
-    height: 200px;
 }
 
 .tag-card {
@@ -1947,8 +1917,15 @@
 }
 
 .my-profile-card {
+    position: relative;
     margin-bottom: 15px;
     text-align: center;
+}
+
+.my-profile-card .vip {
+    position: absolute;
+    right: 15px;
+    top:15px;
 }
 
 .my-profile-card .avatar {

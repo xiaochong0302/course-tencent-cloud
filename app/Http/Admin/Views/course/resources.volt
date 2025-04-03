@@ -3,7 +3,6 @@
     <table class="kg-table layui-table">
         <tr>
             <th>名称</th>
-            <th>类型</th>
             <th>大小</th>
             <th>日期</th>
             <th width="15%">操作</th>
@@ -13,7 +12,6 @@
             {% set delete_url = url({'for':'admin.resource.delete','id':item.id}) %}
             <tr>
                 <td><input class="layui-input res-name" type="text" value="{{ item.upload.name }}" data-url="{{ update_url }}"></td>
-                <td>{{ item.upload.mime }}</td>
                 <td>{{ item.upload.size|human_size }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td>

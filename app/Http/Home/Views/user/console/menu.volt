@@ -10,10 +10,11 @@
 {% set point_enabled = setting('point','enabled') %}
 
 <div class="my-profile-card wrap">
+    <div class="vip">{{ vip_info(auth_user) }}</div>
     <div class="avatar">
         <img class="my-avatar" src="{{ auth_user.avatar }}" alt="{{ auth_user.name }}">
     </div>
-    <div class="name">{{ auth_user.name }} {{ vip_info(auth_user) }}</div>
+    <div class="name">{{ auth_user.name }}</div>
 </div>
 
 <div class="layui-card">
