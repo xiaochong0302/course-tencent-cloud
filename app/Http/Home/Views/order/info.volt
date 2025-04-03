@@ -26,7 +26,7 @@
             <a class="layui-btn layui-bg-blue" href="{{ order_pay_url }}" target="_top">立即支付</a>
         {% endif %}
         {% if order.me.allow_cancel == 1 %}
-            <a class="layui-btn layui-bg-red order-cancel" href="javascript:" data-sn="{{ order.sn }}" data-url="{{ order_cancel_url }}">立即取消</a>
+            <button class="layui-btn layui-bg-red btn-order-cancel" data-sn="{{ order.sn }}" data-url="{{ order_cancel_url }}">立即取消</button>
         {% endif %}
         {% if order.me.allow_refund == 1 %}
             <a class="layui-btn layui-bg-blue" href="{{ refund_confirm_url }}">申请退款</a>

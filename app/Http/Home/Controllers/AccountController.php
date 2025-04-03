@@ -34,7 +34,7 @@ class AccountController extends Controller
         }
 
         if ($this->authUser->id > 0) {
-            return $this->response->redirect('/');
+            return $this->response->redirect(['for' => 'home.index']);
         }
 
         $returnUrl = $this->request->getHTTPReferer();
@@ -62,7 +62,7 @@ class AccountController extends Controller
         }
 
         if ($this->authUser->id > 0) {
-            return $this->response->redirect('/');
+            return $this->response->redirect(['for' => 'home.index']);
         }
 
         $service = new OAuthProviderService();
@@ -105,7 +105,7 @@ class AccountController extends Controller
             return $this->response->redirect(['for' => 'home.index']);
         }
 
-        $this->seo->prependTitle('重置密码');
+        $this->seo->prependTitle('忘记密码');
     }
 
     /**
@@ -119,9 +119,11 @@ class AccountController extends Controller
 
         $returnUrl = $this->request->getPost('return_url', 'string');
 
+        $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
+
         $content = [
-            'location' => $returnUrl ?: '/',
-            'msg' => '注册成功',
+            'location' => $location,
+            'msg' => '注册账号成功',
         ];
 
         return $this->jsonSuccess($content);
@@ -140,7 +142,12 @@ class AccountController extends Controller
 
         $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
 
-        return $this->jsonSuccess(['location' => $location]);
+        $content = [
+            'location' => $location,
+            'msg' => '登录账号成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
     /**
@@ -156,7 +163,12 @@ class AccountController extends Controller
 
         $location = $returnUrl ?: $this->url->get(['for' => 'home.index']);
 
-        return $this->jsonSuccess(['location' => $location]);
+        $content = [
+            'location' => $location,
+            'msg' => '登录账号成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
     /**

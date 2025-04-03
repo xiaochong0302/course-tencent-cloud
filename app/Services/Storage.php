@@ -10,6 +10,7 @@ namespace App\Services;
 use Phalcon\Logger\Adapter\File as FileLogger;
 use Qcloud\Cos\Client as CosClient;
 use TencentCloud\Common\Credential;
+use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Common\Profile\ClientProfile;
 use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Sts\V20180813\Models\GetFederationTokenRequest;
@@ -100,11 +101,12 @@ class Storage extends Service
 
             $result = $client->GetFederationToken($request);
 
-        } catch (\Exception $e) {
+        } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Get Tmp Token Exception' . kg_json_encode([
+            $this->logger->error('Get Tmp Token Exception ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
                 ]));
 
             $result = false;
@@ -130,11 +132,12 @@ class Storage extends Service
 
             $result = $response['Location'] ? $key : false;
 
-        } catch (\Exception $e) {
+        } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Put String Exception ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
                 ]));
 
             $result = false;
@@ -162,11 +165,12 @@ class Storage extends Service
 
             $result = $response['Location'] ? $key : false;
 
-        } catch (\Exception $e) {
+        } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Put File Exception ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
                 ]));
 
             $result = false;
@@ -194,11 +198,12 @@ class Storage extends Service
 
             $result = $response['Location'] ? $key : false;
 
-        } catch (\Exception $e) {
+        } catch (TencentCloudSDKException $e) {
 
             $this->logger->error('Delete Object Exception ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
                 ]));
 
             $result = false;
