@@ -20,8 +20,6 @@ class CourseIndexTask extends Task
      * 搜索测试
      *
      * @command: php console.php course_index search {query}
-     * @param array $params
-     * @throws \XSException
      */
     public function searchAction($params)
     {
@@ -31,7 +29,9 @@ class CourseIndexTask extends Task
             exit('please special a query word' . PHP_EOL);
         }
 
-        $result = $this->searchCourses($query);
+        $handler = new CourseSearcher();
+
+        $result = $handler->search($query);
 
         var_export($result);
     }
@@ -42,24 +42,6 @@ class CourseIndexTask extends Task
      * @command: php console.php course_index clean
      */
     public function cleanAction()
-    {
-        $this->cleanCourseIndex();
-    }
-
-    /**
-     * 重建索引
-     *
-     * @command: php console.php course_index rebuild
-     */
-    public function rebuildAction()
-    {
-        $this->rebuildCourseIndex();
-    }
-
-    /**
-     * 清空索引
-     */
-    protected function cleanCourseIndex()
     {
         $handler = new CourseSearcher();
 
@@ -74,8 +56,10 @@ class CourseIndexTask extends Task
 
     /**
      * 重建索引
+     *
+     * @command: php console.php course_index rebuild
      */
-    protected function rebuildCourseIndex()
+    public function rebuildAction()
     {
         $courses = $this->findCourses();
 
@@ -83,7 +67,7 @@ class CourseIndexTask extends Task
 
         $handler = new CourseSearcher();
 
-        $documenter = new CourseDocument();
+        $doc = new CourseDocument();
 
         $index = $handler->getXS()->getIndex();
 
@@ -92,7 +76,7 @@ class CourseIndexTask extends Task
         $index->beginRebuild();
 
         foreach ($courses as $course) {
-            $document = $documenter->setDocument($course);
+            $document = $doc->setDocument($course);
             $index->add($document);
         }
 
@@ -102,17 +86,39 @@ class CourseIndexTask extends Task
     }
 
     /**
-     * 搜索课程
+     * 刷新索引缓存
      *
-     * @param string $query
-     * @return array
-     * @throws \XSException
+     * @command: php console.php course_index flush_index
      */
-    protected function searchCourses($query)
+    public function flushIndexAction()
     {
         $handler = new CourseSearcher();
 
-        return $handler->search($query);
+        $index = $handler->getXS()->getIndex();
+
+        echo '------ start flush course index ------' . PHP_EOL;
+
+        $index->flushIndex();
+
+        echo '------ end flush course index ------' . PHP_EOL;
+    }
+
+    /**
+     * 刷新搜索日志
+     *
+     * @command: php console.php course_index flush_logging
+     */
+    public function flushLoggingAction()
+    {
+        $handler = new CourseSearcher();
+
+        $index = $handler->getXS()->getIndex();
+
+        echo '------ start flush course logging ------' . PHP_EOL;
+
+        $index->flushLogging();
+
+        echo '------ end flush course logging ------' . PHP_EOL;
     }
 
     /**
@@ -124,7 +130,7 @@ class CourseIndexTask extends Task
     {
         return CourseModel::query()
             ->where('published = 1')
-            ->where('deleted = 0')
+            ->andWhere('deleted = 0')
             ->execute();
     }
 

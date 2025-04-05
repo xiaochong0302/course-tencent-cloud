@@ -1292,6 +1292,14 @@
     margin-right: 10px;
 }
 
+.sidebar-course-card .meta .price {
+    color: red;
+}
+
+.sidebar-course-card .meta .free {
+    color: green;
+}
+
 .sidebar-chapter-list {
     height: 405px;
     overflow-y: auto;
@@ -1457,18 +1465,10 @@
     margin-bottom: 30px;
 }
 
-.vip-reason-list {
+.vip-priv-list {
     padding: 30px;
     margin-bottom: 30px;
     text-align: center;
-}
-
-.vip-reason-list .reason-badge {
-    height: 30px;
-    line-height: 30px;
-    padding: 0 10px;
-    margin-right: 15px;
-    background-color: #1E9FFF;
 }
 
 .vip-option-list {
@@ -1925,7 +1925,7 @@
 .my-profile-card .vip {
     position: absolute;
     right: 15px;
-    top:15px;
+    top: 15px;
 }
 
 .my-profile-card .avatar {
