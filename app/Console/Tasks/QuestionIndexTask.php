@@ -20,8 +20,6 @@ class QuestionIndexTask extends Task
      * 搜索测试
      *
      * @command: php console.php question_index search {query}
-     * @param array $params
-     * @throws \XSException
      */
     public function searchAction($params)
     {
@@ -31,7 +29,9 @@ class QuestionIndexTask extends Task
             exit('please special a query word' . PHP_EOL);
         }
 
-        $result = $this->searchQuestions($query);
+        $handler = new QuestionSearcher();
+
+        $result = $handler->search($query);
 
         var_export($result);
     }
@@ -42,24 +42,6 @@ class QuestionIndexTask extends Task
      * @command: php console.php question_index clean
      */
     public function cleanAction()
-    {
-        $this->cleanQuestionIndex();
-    }
-
-    /**
-     * 重建索引
-     *
-     * @command: php console.php question_index rebuild
-     */
-    public function rebuildAction()
-    {
-        $this->rebuildQuestionIndex();
-    }
-
-    /**
-     * 清空索引
-     */
-    protected function cleanQuestionIndex()
     {
         $handler = new QuestionSearcher();
 
@@ -74,8 +56,10 @@ class QuestionIndexTask extends Task
 
     /**
      * 重建索引
+     *
+     * @command: php console.php question_index rebuild
      */
-    protected function rebuildQuestionIndex()
+    public function rebuildAction()
     {
         $questions = $this->findQuestions();
 
@@ -83,7 +67,7 @@ class QuestionIndexTask extends Task
 
         $handler = new QuestionSearcher();
 
-        $documenter = new QuestionDocument();
+        $doc = new QuestionDocument();
 
         $index = $handler->getXS()->getIndex();
 
@@ -92,7 +76,7 @@ class QuestionIndexTask extends Task
         $index->beginRebuild();
 
         foreach ($questions as $question) {
-            $document = $documenter->setDocument($question);
+            $document = $doc->setDocument($question);
             $index->add($document);
         }
 
@@ -102,17 +86,39 @@ class QuestionIndexTask extends Task
     }
 
     /**
-     * 搜索文章
+     * 刷新索引缓存
      *
-     * @param string $query
-     * @return array
-     * @throws \XSException
+     * @command: php console.php question_index flush_index
      */
-    protected function searchQuestions($query)
+    public function flushIndexAction()
     {
         $handler = new QuestionSearcher();
 
-        return $handler->search($query);
+        $index = $handler->getXS()->getIndex();
+
+        echo '------ start flush question index ------' . PHP_EOL;
+
+        $index->flushIndex();
+
+        echo '------ end flush question index ------' . PHP_EOL;
+    }
+
+    /**
+     * 刷新搜索日志
+     *
+     * @command: php console.php question_index flush_logging
+     */
+    public function flushLoggingAction()
+    {
+        $handler = new QuestionSearcher();
+
+        $index = $handler->getXS()->getIndex();
+
+        echo '------ start flush question logging ------' . PHP_EOL;
+
+        $index->flushLogging();
+
+        echo '------ end flush question logging ------' . PHP_EOL;
     }
 
     /**

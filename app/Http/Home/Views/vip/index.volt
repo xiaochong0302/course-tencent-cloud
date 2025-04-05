@@ -4,13 +4,13 @@
 
     <div class="vip-header">会员权益</div>
 
-    <div class="vip-reason-list wrap">
-        <span class="layui-badge reason-badge">好课畅学</span>
-        <span class="layui-badge reason-badge">会员折扣</span>
-        <span class="layui-badge reason-badge">高清视频</span>
-        <span class="layui-badge reason-badge">广告免疫</span>
-        <span class="layui-badge reason-badge">会员标识</span>
-        <span class="layui-badge reason-badge">贴心服务</span>
+    <div class="vip-priv-list wrap">
+        <button class="layui-btn layui-bg-blue">好课畅学</button>
+        <button class="layui-btn layui-bg-blue">会员折扣</button>
+        <button class="layui-btn layui-bg-blue">高清视频</button>
+        <button class="layui-btn layui-bg-blue">广告免疫</button>
+        <button class="layui-btn layui-bg-blue">会员标识</button>
+        <button class="layui-btn layui-bg-blue">优先服务</button>
     </div>
 
     <div class="vip-header">开通会员</div>

@@ -20,8 +20,6 @@ class ArticleIndexTask extends Task
      * 搜索测试
      *
      * @command: php console.php article_index search {query}
-     * @param array $params
-     * @throws \XSException
      */
     public function searchAction($params)
     {
@@ -31,7 +29,9 @@ class ArticleIndexTask extends Task
             exit('please special a query word' . PHP_EOL);
         }
 
-        $result = $this->searchArticles($query);
+        $handler = new ArticleSearcher();
+
+        $result = $handler->search($query);
 
         var_export($result);
     }
@@ -42,24 +42,6 @@ class ArticleIndexTask extends Task
      * @command: php console.php article_index clean
      */
     public function cleanAction()
-    {
-        $this->cleanArticleIndex();
-    }
-
-    /**
-     * 重建索引
-     *
-     * @command: php console.php article_index rebuild
-     */
-    public function rebuildAction()
-    {
-        $this->rebuildArticleIndex();
-    }
-
-    /**
-     * 清空索引
-     */
-    protected function cleanArticleIndex()
     {
         $handler = new ArticleSearcher();
 
@@ -74,8 +56,10 @@ class ArticleIndexTask extends Task
 
     /**
      * 重建索引
+     *
+     * @command: php console.php article_index rebuild
      */
-    protected function rebuildArticleIndex()
+    public function rebuildAction()
     {
         $articles = $this->findArticles();
 
@@ -83,7 +67,7 @@ class ArticleIndexTask extends Task
 
         $handler = new ArticleSearcher();
 
-        $documenter = new ArticleDocument();
+        $doc = new ArticleDocument();
 
         $index = $handler->getXS()->getIndex();
 
@@ -92,7 +76,7 @@ class ArticleIndexTask extends Task
         $index->beginRebuild();
 
         foreach ($articles as $article) {
-            $document = $documenter->setDocument($article);
+            $document = $doc->setDocument($article);
             $index->add($document);
         }
 
@@ -102,17 +86,39 @@ class ArticleIndexTask extends Task
     }
 
     /**
-     * 搜索文章
+     * 刷新索引缓存
      *
-     * @param string $query
-     * @return array
-     * @throws \XSException
+     * @command: php console.php article_index flush_index
      */
-    protected function searchArticles($query)
+    public function flushIndexAction()
     {
         $handler = new ArticleSearcher();
 
-        return $handler->search($query);
+        $index = $handler->getXS()->getIndex();
+
+        echo '------ start flush article index ------' . PHP_EOL;
+
+        $index->flushIndex();
+
+        echo '------ end flush article index ------' . PHP_EOL;
+    }
+
+    /**
+     * 刷新搜索日志
+     *
+     * @command: php console.php article_index flush_logging
+     */
+    public function flushLoggingAction()
+    {
+        $handler = new ArticleSearcher();
+
+        $index = $handler->getXS()->getIndex();
+
+        echo '------ start flush article logging ------' . PHP_EOL;
+
+        $index->flushLogging();
+
+        echo '------ end flush article logging ------' . PHP_EOL;
     }
 
     /**
