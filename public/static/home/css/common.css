@@ -1039,48 +1039,71 @@
     font-size: 30px;
 }
 
-.lesson-item {
-    position: relative;
-    padding: 0 10px;
-    line-height: 35px;
+.lesson-list .allow {
+    cursor: pointer;
 }
 
-.lesson-item a {
-    display: block;
-}
-
-.lesson-item .deny {
+.lesson-list .deny {
     cursor: default;
-    color: gray;
 }
 
-.lesson-item .title {
-    margin: 0 5px;
-}
-
-.lesson-item .icon-trial {
-    color: red;
-    font-size: 24px;
-    margin-right: 5px;
-}
-
-.lesson-item .duration, .lesson-item .live {
-    top: 0;
-    right: 10px;
-    position: absolute;
-    color: #666;
-}
-
-.lesson-item .live .active {
-    color: red;
-}
-
-.lesson-item .study-time {
-    color: green;
+.lesson-item {
+    display: flex;
+    justify-content: space-between;
+    line-height: 35px;
+    padding: 0 10px;
 }
 
 .lesson-item:hover {
     background-color: #f2f2f2;
+}
+
+.lesson-item .title {
+    margin-right: 5px;
+}
+
+.lesson-item .model {
+    margin-right: 5px;
+}
+
+.lesson-item .lock {
+    margin-right: 5px;
+}
+
+.lesson-item .study-time {
+    margin-right: 5px;
+    color: green;
+}
+
+.lesson-item .flag {
+    padding: 2px 3px;
+    margin-right: 5px;
+    font-size: 12px;
+}
+
+.lesson-item .flag-free {
+    border: 1px solid red;
+    color: red;
+}
+
+.lesson-item .flag-playback {
+    border: 1px solid orange;
+    color: orange;
+}
+
+.lesson-item .flag-pending {
+    border: 1px solid green;
+    color: green;
+}
+
+.lesson-item .flag-active {
+    border: 1px solid red;
+    color: red;
+}
+
+.lesson-item .flag-finished {
+    border: 1px solid gray;
+    color: gray;
 }
 
 .package-item {
@@ -1173,15 +1196,13 @@
     white-space: normal;
 }
 
-.review-card,
-.consult-card,
-.answer-card {
+.review-card .info,
+.consult-card .info {
     position: relative;
 }
 
 .review-card .rating,
-.consult-card .more,
-.answer-card .accepted {
+.consult-card .more {
     position: absolute;
     top: 0;
     right: 0;
@@ -1203,11 +1224,6 @@
 .review-card .rating .layui-icon {
     color: orange;
     font-size: 12px;
-}
-
-.review-card .more {
-    color: #666;
-    cursor: pointer;
 }
 
 .sidebar-card .layui-card-header {
@@ -1305,25 +1321,30 @@
     overflow-y: auto;
 }
 
-.sidebar-chapter-list .chapter-title {
+ .sidebar-chapter {
     padding-top: 10px;
     margin-bottom: 10px;
     color: #333;
 }
 
-.sidebar-lesson-list {
-    margin-left: 10px;
-}
-
-.sidebar-lesson-list .lesson-title {
+.sidebar-lesson {
+    padding: 0 10px;
     line-height: 30px;
 }
 
-.lesson-title .active {
+.sidebar-lesson:hover {
+    background-color: #f2f2f2;
+}
+
+.sidebar-lesson a {
+    display: block;
+}
+
+.sidebar-lesson .active {
     color: red;
 }
 
-.lesson-title .deny {
+.sidebar-lesson .deny {
     color: gray;
 }
 

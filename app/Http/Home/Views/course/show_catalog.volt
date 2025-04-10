@@ -1,103 +1,116 @@
 {%- macro show_lesson_list(chapter) %}
     <ul class="lesson-list">
         {% for lesson in chapter.children %}
+            {% set url = url({'for':'home.chapter.show','id':lesson.id}) %}
+            {% set priv = lesson.me.owned ? 'allow' : 'deny' %}
             {% if lesson.model == 1 %}
-                <li class="lesson-item">{{ vod_lesson_info(lesson) }}</li>
+                <li class="lesson-item {{ priv }}" data-url="{{ url }}">{{ vod_lesson_info(lesson) }}</li>
             {% elseif lesson.model == 2 %}
-                <li class="lesson-item">{{ live_lesson_info(lesson) }}</li>
+                <li class="lesson-item {{ priv }}" data-url="{{ url }}">{{ live_lesson_info(lesson) }}</li>
             {% elseif lesson.model == 3 %}
-                <li class="lesson-item">{{ read_lesson_info(lesson) }}</li>
+                <li class="lesson-item {{ priv }}" data-url="{{ url }}">{{ read_lesson_info(lesson) }}</li>
             {% elseif lesson.model == 4 %}
-                <li class="lesson-item">{{ offline_lesson_info(lesson) }}</li>
+                <li class="lesson-item deny" data-url="{{ url }}">{{ offline_lesson_info(lesson) }}</li>
             {% endif %}
         {% endfor %}
     </ul>
 {%- endmacro %}
 
 {%- macro vod_lesson_info(lesson) %}
-    {% set url = lesson.me.owned ? url({'for':'home.chapter.show','id':lesson.id}) : '' %}
-    {% set priv = lesson.me.owned ? 'allow' : 'deny' %}
-    <a class="{{ priv }} view-lesson" href="javascript:" data-url="{{ url }}">
-        <i class="layui-icon layui-icon-play"></i>
+    <div class="left">
+        <span class="model"><i class="iconfont icon-video"></i></span>
         <span class="title">{{ lesson.title }}</span>
-        {% if lesson.free == 1 %}
-            <span class="iconfont icon-trial"></span>
-        {% endif %}
         {% if lesson.me.duration > 0 %}
             <span class="study-time" title="学习时长：{{ lesson.me.duration|duration }}"><i class="layui-icon layui-icon-time"></i></span>
         {% endif %}
-        {% if priv == 'deny' %}
-            <span class="iconfont icon-lock"></span>
+        {% if lesson.me.owned == 0 %}
+            <span class="lock"><i class="iconfont icon-lock"></i></span>
         {% endif %}
+        {% if lesson.free == 1 %}
+            <span class="flag flag-free">试听</span>
+        {% endif %}
+    </div>
+    <div class="right">
         <span class="duration">{{ lesson.attrs.duration|duration }}</span>
-    </a>
+    </div>
 {%- endmacro %}
 
 {%- macro live_lesson_info(lesson) %}
-    {% set url = lesson.me.owned ? url({'for':'home.chapter.show','id':lesson.id}) : '' %}
-    {% set priv = lesson.me.owned ? 'allow' : 'deny' %}
-    <a class="{{ priv }} view-lesson" href="javascript:" data-url="{{ url }}">
-        <i class="layui-icon layui-icon-video"></i>
+    <div class="left">
+        <span class="model"><i class="iconfont icon-live"></i></span>
         <span class="title">{{ lesson.title }}</span>
-        {% if lesson.free == 1 %}
-            <span class="iconfont icon-trial"></span>
-        {% endif %}
         {% if lesson.me.duration > 0 %}
             <span class="study-time" title="学习时长：{{ lesson.me.duration|duration }}"><i class="layui-icon layui-icon-time"></i></span>
         {% endif %}
-        {% if priv == 'deny' %}
-            <span class="iconfont icon-lock"></span>
+        {% if lesson.me.owned == 0 %}
+            <span class="lock"><i class="iconfont icon-lock"></i></span>
         {% endif %}
-        <span class="live" title="{{ date('Y-m-d H:i',lesson.attrs.start_time) }}">{{ live_status_info(lesson) }}</span>
-    </a>
+        {% if lesson.attrs.playback.ready == 1 %}
+            <span class="flag flag-playback">回放</span>
+        {% endif %}
+        {% if lesson.free == 1 %}
+            <span class="flag flag-free">试听</span>
+        {% endif %}
+    </div>
+    <div class="right">
+        <span class="live-status">{{ live_status_info(lesson) }}</span>
+        <span class="live-time">{{ date('Y-m-d H:i',lesson.attrs.start_time) }}</span>
+    </div>
 {%- endmacro %}
 
 {%- macro read_lesson_info(lesson) %}
-    {% set url = lesson.me.owned ? url({'for':'home.chapter.show','id':lesson.id}) : '' %}
-    {% set priv = lesson.me.owned ? 'allow' : 'deny' %}
-    <a class="{{ priv }} view-lesson" href="javascript:" data-url="{{ url }}">
-        <i class="layui-icon layui-icon-read"></i>
+    <div class="left">
+        <span class="model"><i class="iconfont icon-article"></i></span>
         <span class="title">{{ lesson.title }}</span>
-        {% if lesson.free == 1 %}
-            <span class="iconfont icon-trial"></span>
-        {% endif %}
         {% if lesson.me.duration > 0 %}
             <span class="study-time" title="学习时长：{{ lesson.me.duration|duration }}"><i class="layui-icon layui-icon-time"></i></span>
         {% endif %}
-        {% if priv == 'deny' %}
-            <span class="iconfont icon-lock"></span>
+        {% if lesson.me.owned == 0 %}
+            <span class="lock"><i class="iconfont icon-lock"></i></span>
         {% endif %}
-    </a>
+        {% if lesson.free == 1 %}
+            <span class="flag flag-free">试读</span>
+        {% endif %}
+    </div>
+    <div class="right">
+        <span class="size"></span>
+    </div>
 {%- endmacro %}
 
 {%- macro offline_lesson_info(lesson) %}
-    <a class="deny view-lesson" href="javascript:">
-        <i class="layui-icon layui-icon-user"></i>
+    <div class="left">
+        <span class="model"><i class="layui-icon layui-icon-user"></i></span>
         <span class="title">{{ lesson.title }}</span>
-        {% if lesson.free == 1 %}
-            <span class="layui-badge free-badge">试听</span>
+        {% if lesson.me.owned == 0 %}
+            <span class="lock"><i class="iconfont icon-lock"></i></span>
         {% endif %}
-        <span class="live" title="{{ date('Y-m-d H:i',lesson.attrs.start_time) }}">{{ offline_status_info(lesson) }}</span>
-    </a>
+        {% if lesson.free == 1 %}
+            <span class="flag flag-free">试听</span>
+        {% endif %}
+    </div>
+    <div class="right">
+        <span class="live-status">{{ offline_status_info(lesson) }}</span>
+        <span class="live-time">{{ date('Y-m-d H:i',lesson.attrs.start_time) }}</span>
+    </div>
 {%- endmacro %}
 
 {%- macro live_status_info(lesson) %}
     {% if lesson.attrs.stream.status == 'active' %}
-        <span class="active">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 直播中</span>
+        <span class="flag flag-active">直播中</span>
     {% elseif lesson.attrs.start_time > time() %}
-        <span class="pending">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 倒计时</span>
+        <span class="flag flag-pending">倒计时</span>
     {% elseif lesson.attrs.end_time < time() %}
-        <span class="finished">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 已结束</span>
+        <span class="flag flag-finished">已结束</span>
     {% endif %}
 {%- endmacro %}
 
 {%- macro offline_status_info(lesson) %}
     {% if lesson.attrs.start_time < time() and lesson.attrs.end_time > time() %}
-        <span class="active">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 授课中</span>
+        <span class="flag flag-active">授课中</span>
     {% elseif lesson.attrs.start_time > time() %}
-        <span class="pending">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 未开始</span>
+        <span class="flag flag-pending">未开始</span>
     {% elseif lesson.attrs.end_time < time() %}
-        <span class="finished">{{ date('m月d日 H:i',lesson.attrs.start_time) }} 已结束</span>
+        <span class="flag flag-finished">已结束</span>
     {% endif %}
 {%- endmacro %}
 
