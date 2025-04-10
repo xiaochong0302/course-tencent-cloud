@@ -35,11 +35,7 @@
                 <div class="layui-card-body">
                     <div class="chat-msg-list" id="chat-msg-list" data-url="{{ live_chats_url }}"></div>
                     <form class="layui-form chat-msg-form" method="post" action="{{ send_msg_url }}">
-                        {% if auth_user.id > 0 %}
-                            <input class="layui-input" type="text" name="content" maxlength="50" placeholder="快来一起互动吧" lay-verType="tips" lay-verify="required">
-                        {% else %}
-                            <input class="layui-input" type="text" placeholder="登录后才可以发言哦" readonly="readonly">
-                        {% endif %}
+                        <input class="layui-input" type="text" name="content" maxlength="50" placeholder="快来一起互动吧" lay-vertype="tips" lay-verify="required">
                         <button class="layui-hide" type="submit" lay-submit="true" lay-filter="chat">发送</button>
                     </form>
                 </div>

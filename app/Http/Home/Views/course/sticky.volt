@@ -26,7 +26,7 @@
     {% endif %}
     <div class="item" id="toolbar-favorite">
         <div class="icon" title="{{ favorite_title }}" data-url="{{ favorite_url }}">
-            <i class="layui-icon layui-icon-star icon-star {{ favorite_class }}"></i>
+            <i class="layui-icon icon-star {{ favorite_class }}"></i>
         </div>
         <div class="text" data-count="{{ course.favorite_count }}">{{ course.favorite_count }}</div>
     </div>

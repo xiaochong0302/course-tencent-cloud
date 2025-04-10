@@ -39,10 +39,10 @@ class ChapterList extends LogicService
 
         if (count($chapters) == 0) return [];
 
-        if ($user->id > 0 && $this->courseUser) {
+        if ($user->id > 0) {
             $chapters = $this->handleLoginUserChapters($chapters, $course, $user);
         } else {
-            $chapters = $this->handleGuestUserChapters($chapters);
+            $chapters = $this->handleGuestUserChapters($chapters, $course);
         }
 
         return $chapters;
@@ -50,7 +50,11 @@ class ChapterList extends LogicService
 
     protected function handleLoginUserChapters(array $chapters, CourseModel $course, UserModel $user)
     {
-        $mappings = $this->getLearningMappings($course->id, $user->id, $this->courseUser->plan_id);
+        $mappings = [];
+
+        if ($this->courseUser) {
+            $mappings = $this->getLearningMappings($course->id, $user->id, $this->courseUser->plan_id);
+        }
 
         foreach ($chapters as &$chapter) {
             foreach ($chapter['children'] as &$lesson) {
@@ -61,23 +65,30 @@ class ChapterList extends LogicService
                     'owned' => $owned ? 1 : 0,
                     'logged' => 1,
                 ];
+                // 如果课程是免费的，但又设置了课时试听，清除试听标识
+                if ($course->market_price == 0 && $lesson['free'] == 1) {
+                    $lesson['free'] = 0;
+                }
             }
         }
 
         return $chapters;
     }
 
-    protected function handleGuestUserChapters(array $chapters)
+    protected function handleGuestUserChapters(array $chapters, CourseModel $course)
     {
         foreach ($chapters as &$chapter) {
             foreach ($chapter['children'] as &$lesson) {
-                $owned = ($this->ownedCourse || $lesson['free'] == 1) && $lesson['published'] == 1;
                 $lesson['me'] = [
                     'progress' => 0,
                     'duration' => 0,
                     'logged' => 0,
-                    'owned' => $owned ? 1 : 0,
+                    'owned' => 0,
                 ];
+                // 如果课程是免费的，但又设置了课时试听，清除试听标识
+                if ($course->market_price == 0 && $lesson['free'] == 1) {
+                    $lesson['free'] = 0;
+                }
             }
         }
 

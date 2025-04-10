@@ -62,7 +62,7 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     /**
      * 浏览章节
      */
-    $('body').on('click', '.view-lesson', function () {
+    $('body').on('click', '.lesson-item', function () {
         if ($(this).hasClass('deny')) {
             return false;
         }

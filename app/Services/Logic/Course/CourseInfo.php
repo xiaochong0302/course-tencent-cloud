@@ -100,7 +100,7 @@ class CourseInfo extends LogicService
 
             if ($this->courseUser) {
                 $me['reviewed'] = $this->courseUser->reviewed ? 1 : 0;
-                $me['progress'] = $this->courseUser->progress ? 1 : 0;
+                $me['progress'] = $this->courseUser->progress;
                 $me['plan_id'] = $this->courseUser->plan_id;
             }
         }
