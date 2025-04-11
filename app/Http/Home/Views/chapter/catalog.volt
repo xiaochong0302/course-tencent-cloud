@@ -10,18 +10,17 @@
     {% endif %}
 {%- endmacro %}
 
-
 {%- macro show_lesson_list(parent,chapter) %}
     <ul class="sidebar-lesson-list">
         {% for lesson in parent.children %}
             {% set url = url({'for':'home.chapter.show','id':lesson.id}) %}
-            {% set active = (chapter.id == lesson.id) ? 'active' : 'normal' %}
-            <li class="sidebar-lesson layui-elip">
-                {% if lesson.me.owned == 1 %}
-                    <a class="{{ active }}" href="{{ url }}" title="{{ lesson.title }}">{{ model_icon(lesson.model) }} {{ lesson.title }}</a>
-                {% else %}
-                    <span class="deny" title="{{ lesson.title }}">{{ model_icon(lesson.model) }} {{ lesson.title }}</span>
-                    <i class="iconfont icon-lock"></i>
+            {% set active = chapter.id == lesson.id ? 'active' : 'normal' %}
+            {% set priv = lesson.me.owned == 1 ? 'allow' : 'deny' %}
+            <li class="sidebar-lesson layui-elip {{ priv }} {{ active }}" data-url="{{ url }}">
+                <span class="model">{{ model_icon(lesson.model) }}</span>
+                <span class="title" title="{{ lesson.title }}">{{ lesson.title }}</span>
+                {% if lesson.me.owned == 0 %}
+                    <span class="lock"><i class="iconfont icon-lock"></i></span>
                 {% endif %}
             </li>
         {% endfor %}

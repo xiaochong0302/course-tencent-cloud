@@ -105,20 +105,20 @@
             {{ offline_meta_info(course) }}
         {% endif %}
     </div>
-    <div class="rating">
+    <div class="ratings">
         <p class="item">
             <span class="name">内容实用</span>
-            <span class="star">{{ star_info(course.ratings.rating1) }}</span>
+            <span class="star" id="rating1" data-value="{{ course.ratings.rating1 }}"></span>
             <span class="score">{{ "%0.1f"|format(course.ratings.rating1) }} 分</span>
         </p>
         <p class="item">
             <span class="name">简洁易懂</span>
-            <span class="star">{{ star_info(course.ratings.rating2) }}</span>
+            <span class="star" id="rating2" data-value="{{ course.ratings.rating2 }}"></span>
             <span class="score">{{ "%0.1f"|format(course.ratings.rating2) }} 分</span>
         </p>
         <p class="item">
             <span class="name">逻辑清晰</span>
-            <span class="star">{{ star_info(course.ratings.rating3) }}</span>
+            <span class="star" id="rating3" data-value="{{ course.ratings.rating3 }}"></span>
             <span class="score">{{ "%0.1f"|format(course.ratings.rating3) }} 分</span>
         </p>
     </div>

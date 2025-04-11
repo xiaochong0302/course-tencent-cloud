@@ -958,11 +958,7 @@
     padding-top: 5px;
 }
 
-.course-meta .rating {
-    padding-top: 20px;
-}
-
-.course-meta p {
+.course-meta .info .meta {
     line-height: 35px;
 }
 
@@ -975,6 +971,10 @@
     position: absolute;
     top: 15px;
     right: 15px;
+}
+
+.course-meta .info .item {
+    line-height: 35px;
 }
 
 .course-meta .info .key {
@@ -990,23 +990,32 @@
     color: red;
 }
 
-.course-meta .info .origin-price {
-    text-decoration: line-through;
-}
-
 .course-meta .info .free {
     color: green;
 }
 
-.course-meta .rating span {
+.course-meta .ratings {
+    padding-top: 5px;
+}
+
+.course-meta .ratings .item {
+    line-height: 40px;
+}
+
+.course-meta .ratings .name {
     margin-right: 5px;
 }
 
-.course-meta .rating .layui-icon {
-    color: orange;
+.course-meta .ratings .layui-rate {
+    padding: 0;
+    margin-top: -8px;
 }
 
-.course-meta .rating .score {
+.course-meta .ratings .layui-icon {
+    font-size: 16px;
+}
+
+.course-meta .ratings .score {
     color: #666;
 }
 
@@ -1101,7 +1110,7 @@
     color: red;
 }
 
-.lesson-item .flag-finished {
+.lesson-item .flag-ended {
     border: 1px solid gray;
     color: gray;
 }
@@ -1321,9 +1330,23 @@
     overflow-y: auto;
 }
 
- .sidebar-chapter {
+.sidebar-lesson-list .active {
+    color: red;
+}
+
+.sidebar-lesson-list .allow {
+    cursor: pointer;
+}
+
+.sidebar-lesson-list .deny {
+    cursor: default;
+    color: gray;
+}
+
+.sidebar-chapter {
     padding-top: 10px;
     margin-bottom: 10px;
+    font-weight: 600;
     color: #333;
 }
 
@@ -1334,18 +1357,6 @@
 
 .sidebar-lesson:hover {
     background-color: #f2f2f2;
-}
-
-.sidebar-lesson a {
-    display: block;
-}
-
-.sidebar-lesson .active {
-    color: red;
-}
-
-.sidebar-lesson .deny {
-    color: gray;
 }
 
 .share .layui-icon {
