@@ -100,7 +100,7 @@
     {% elseif lesson.attrs.start_time > time() %}
         <span class="flag flag-pending">倒计时</span>
     {% elseif lesson.attrs.end_time < time() %}
-        <span class="flag flag-finished">已结束</span>
+        <span class="flag flag-ended">已结束</span>
     {% endif %}
 {%- endmacro %}
 
@@ -110,7 +110,7 @@
     {% elseif lesson.attrs.start_time > time() %}
         <span class="flag flag-pending">未开始</span>
     {% elseif lesson.attrs.end_time < time() %}
-        <span class="flag flag-finished">已结束</span>
+        <span class="flag flag-ended">已结束</span>
     {% endif %}
 {%- endmacro %}
 

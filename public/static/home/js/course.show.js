@@ -1,8 +1,30 @@
-layui.use(['jquery', 'layer', 'helper'], function () {
+layui.use(['jquery', 'layer', 'rate', 'helper'], function () {
 
     var $ = layui.jquery;
     var layer = layui.layer;
+    var rate = layui.rate;
     var helper = layui.helper;
+
+    rate.render({
+        elem: '#rating1',
+        value: $('#rating1').data('value'),
+        readonly: true,
+        half: true,
+    });
+
+    rate.render({
+        elem: '#rating2',
+        value: $('#rating2').data('value'),
+        readonly: true,
+        half: true,
+    });
+
+    rate.render({
+        elem: '#rating3',
+        value: $('#rating3').data('value'),
+        readonly: true,
+        half: true,
+    });
 
     /**
      * 收藏
@@ -50,9 +72,12 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     });
 
     /**
-     * 购买（课程|套餐)
+     * 浏览章节
      */
-    $('body').on('click', '.btn-buy', function () {
+    $('.lesson-item').on('click', function () {
+        if ($(this).hasClass('deny')) {
+            return false;
+        }
         var url = $(this).data('url');
         helper.checkLogin(function () {
             window.location.href = url;
@@ -60,12 +85,9 @@ layui.use(['jquery', 'layer', 'helper'], function () {
     });
 
     /**
-     * 浏览章节
+     * 购买（课程|套餐)
      */
-    $('body').on('click', '.lesson-item', function () {
-        if ($(this).hasClass('deny')) {
-            return false;
-        }
+    $('body').on('click', '.btn-buy', function () {
         var url = $(this).data('url');
         helper.checkLogin(function () {
             window.location.href = url;
