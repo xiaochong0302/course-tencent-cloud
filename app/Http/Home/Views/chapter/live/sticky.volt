@@ -7,7 +7,7 @@
         <div class="icon" title="{{ like_title }}" data-url="{{ like_url }}">
             <i class="layui-icon layui-icon-praise icon-praise {{ like_class }}"></i>
         </div>
-        <div class="text">{{ chapter.like_count }}</div>
+        <div class="text" data-count="{{ chapter.like_count }}">{{ chapter.like_count }}</div>
     </div>
     <div class="item" id="toolbar-online">
         <div class="icon" title="在线人数">

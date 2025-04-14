@@ -13,19 +13,19 @@
     </div>
 
     {% if time() < chapter.start_time %}
-        <div class="preview countdown">
+        <div class="live-preview countdown wrap">
             <div class="icon"><i class="layui-icon layui-icon-time"></i></div>
             <div class="timer"></div>
             <div class="tips">直播倒计时开始啦，敬请关注！</div>
         </div>
     {% elseif chapter.start_time < time() and chapter.end_time > time() %}
-        <div class="preview countdown">
+        <div class="live-preview countdown wrap">
             <div class="icon"><i class="layui-icon layui-icon-face-surprised"></i></div>
             <div class="timer"></div>
             <div class="tips">直播时间到了，老师去哪了？</div>
         </div>
     {% else %}
-        <div class="preview">
+        <div class="live-preview wrap">
             <div class="icon"><i class="layui-icon layui-icon-tree"></i></div>
             <div class="tips">直播已结束，谢谢关注！</div>
         </div>

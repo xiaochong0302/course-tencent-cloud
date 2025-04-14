@@ -33,7 +33,7 @@ class Course extends Handler
             'limit' => $limit,
         ]);
 
-        $pager = $paginator->getPaginate();
+        $pager = $paginator->paginate();
 
         return $this->handleCourses($pager);
     }

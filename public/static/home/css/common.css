@@ -112,6 +112,16 @@
     margin-bottom: 20px;
 }
 
+.breadcrumb .share {
+    position: absolute;
+    top: 2px;
+    right: -5px;
+}
+
+.breadcrumb .share a {
+    margin-right: 5px;
+}
+
 .wrap {
     padding: 20px;
     margin-bottom: 20px;
@@ -142,10 +152,6 @@
 .pager {
     margin-top: 20px;
     text-align: center;
-}
-
-.layer .pager {
-    margin-top: 0;
 }
 
 .loading {
@@ -196,12 +202,6 @@
 
 .report-form .layui-textarea {
     min-height: 80px;
-}
-
-.breadcrumb .share {
-    position: absolute;
-    top: 2px;
-    right: -5px;
 }
 
 #header {
@@ -311,10 +311,6 @@
 
 .help-list li {
     line-height: 30px;
-}
-
-.cs-sidebar p {
-    line-height: 40px;
 }
 
 .index-wrap {
@@ -1359,44 +1355,21 @@
     background-color: #f2f2f2;
 }
 
-.share .layui-icon {
-    margin-right: 5px;
-    cursor: pointer;
-}
-
-.share .active,
-.share .layui-icon-star-fill {
-    color: orange;
-}
-
-.share a {
-    margin-right: 5px;
-}
-
-.share i {
-    margin-right: 5px;
-}
-
-.share em {
-    font-style: normal;
-    color: #666;
-}
-
-.preview {
+.live-preview {
     color: #666;
     margin-top: 30px;
     text-align: center;
 }
 
-.preview .icon {
+.live-preview .icon {
     margin-bottom: 10px;
 }
 
-.preview .icon .layui-icon {
+.live-preview .icon .layui-icon {
     font-size: 150px;
 }
 
-.preview .tips {
+.live-preview .tips {
     font-size: 16px;
     margin: 20px 0;
 }
@@ -1423,7 +1396,6 @@
     width: 760px;
     height: 428px;
 }
-
 
 .play-mask {
     top: 50%;
@@ -1458,37 +1430,33 @@
     overflow-y: auto;
 }
 
-.chat-msg-list .chat, .chat-msg-list .chat-sys {
+.chat {
     margin-bottom: 10px;
-    line-height: 25px;
+    line-height: 1.5em;
     word-break: break-all;
-}
-
-.chat-sys {
+    font-size: 12px;
     color: #999;
 }
 
-.chat-sys span, .chat span {
+.chat-sys {
+    padding: 5px;
+    background-color: black;
+    color: white;
+}
+
+.chat span {
     margin-right: 5px;
 }
 
-.chat .user {
-    color: orange;
-}
-
-.chat .icon-vip {
-    color: orange;
-}
-
-.chat .content {
-    color: #666;
+.chat .icon .layui-icon {
+    font-size: 14px;
 }
 
 .chat-msg-form .layui-input {
     height: 32px;
     line-height: 32px;
     font-size: 12px;
-    color: #666;
+    color: #999;
 }
 
 .vip-header {

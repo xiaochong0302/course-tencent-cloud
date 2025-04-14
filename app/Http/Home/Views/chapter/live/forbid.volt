@@ -11,7 +11,7 @@
         </span>
     </div>
 
-    <div class="preview">
+    <div class="live-preview">
         <div class="icon"><i class="layui-icon layui-icon-face-cry"></i></div>
         <div class="tips">直播已禁止，谢谢关注！</div>
     </div>

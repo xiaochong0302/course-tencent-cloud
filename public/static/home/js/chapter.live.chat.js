@@ -67,19 +67,19 @@ layui.use(['jquery', 'form', 'helper'], function () {
     }
 
     function showNewMessage(res) {
-        var html = '<div class="chat">';
+        var html = '';
         if (res.user.vip === 1) {
-            html += '<span class="layui-icon layui-icon-diamond icon-vip"></span>';
+            html = getVipUserMessage(res);
+        } else {
+            html = getNormalUserMessage(res);
         }
-        html += '<span class="user">' + res.user.name + ':</span>';
-        html += '<span class="content">' + res.content + '</span>';
-        html += '</div>';
         $chatMsgList.append(html);
         scrollToBottom();
     }
 
     function showLoginMessage(res) {
         var html = '<div class="chat chat-sys">';
+        html += '<span class="icon"><i class="layui-icon layui-icon-speaker"></i></span>';
         html += '<span>' + res.user.name + '</span>';
         html += '<span>进入了直播间</span>';
         html += '</div>';
@@ -87,11 +87,27 @@ layui.use(['jquery', 'form', 'helper'], function () {
         scrollToBottom();
     }
 
+    function getVipUserMessage(res) {
+        var html = '<div class="chat chat-vip">';
+        html += '<span class="icon"><i class="layui-icon layui-icon-diamond"></i></span>';
+        html += '<span class="user layui-badge layui-bg-orange">' + res.user.name + '</span>';
+        html += '<span class="content">' + res.content + '</span>';
+        html += '</div>';
+        return html;
+    }
+
+    function getNormalUserMessage(res) {
+        var html = '<div class="chat chat-normal">';
+        html += '<span class="icon"><i class="layui-icon layui-icon-username"></i></span>';
+        html += '<span class="user layui-badge layui-bg-blue">' + res.user.name + '</span>';
+        html += '<span class="content">' + res.content + '</span>';
+        html += '</div>';
+        return html;
+    }
+
     function scrollToBottom() {
         var $scrollTo = $chatMsgList.find('.chat:last');
-        $chatMsgList.scrollTop(
-            $scrollTo.offset().top - $chatMsgList.offset().top + $chatMsgList.scrollTop()
-        );
+        $chatMsgList.scrollTop($scrollTo.offset().top - $chatMsgList.offset().top + $chatMsgList.scrollTop());
     }
 
     function refreshLiveStats() {
