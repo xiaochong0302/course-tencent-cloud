@@ -33,7 +33,7 @@ class Article extends Handler
             'limit' => $limit,
         ]);
 
-        $pager = $paginator->getPaginate();
+        $pager = $paginator->paginate();
 
         return $this->handleArticles($pager);
     }

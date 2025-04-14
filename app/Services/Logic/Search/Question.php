@@ -33,7 +33,7 @@ class Question extends Handler
             'limit' => $limit,
         ]);
 
-        $pager = $paginator->getPaginate();
+        $pager = $paginator->paginate();
 
         return $this->handleQuestions($pager);
     }
