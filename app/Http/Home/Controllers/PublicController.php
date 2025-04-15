@@ -104,7 +104,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/alipay/callback", name="home.alipay_callback")
+     * @Get("/alipay/callback", name="home.alipay.callback")
      */
     public function alipayCallbackAction()
     {
@@ -112,7 +112,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Get("/wxpay/callback", name="home.wxpay_callback")
+     * @Get("/wxpay/callback", name="home.wxpay.callback")
      */
     public function wxpayCallbackAction()
     {
@@ -120,7 +120,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Post("/alipay/notify", name="home.alipay_notify")
+     * @Post("/alipay/notify", name="home.alipay.notify")
      */
     public function alipayNotifyAction()
     {
@@ -136,7 +136,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Post("/wxpay/notify", name="home.wxpay_notify")
+     * @Post("/wxpay/notify", name="home.wxpay.notify")
      */
     public function wxpayNotifyAction()
     {
@@ -188,7 +188,7 @@ class PublicController extends \Phalcon\Mvc\Controller
     }
 
     /**
-     * @Post("/live/notify", name="home.live_notify")
+     * @Post("/live/notify", name="home.live.notify")
      */
     public function liveNotifyAction()
     {
@@ -198,6 +198,7 @@ class PublicController extends \Phalcon\Mvc\Controller
             return $this->jsonSuccess();
         } else {
             $this->response->setStatusCode(403);
+            return $this->jsonError();
         }
     }
 
