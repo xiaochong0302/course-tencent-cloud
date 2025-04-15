@@ -12,7 +12,7 @@ use App\Services\Logic\Service as LogicService;
 use App\Validators\Live as LiveValidator;
 use GatewayClient\Gateway;
 
-class LiveChapter extends LogicService
+class LiveChat extends LogicService
 {
 
     use ChapterTrait;

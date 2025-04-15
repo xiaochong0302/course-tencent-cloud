@@ -7,7 +7,7 @@
 
 namespace App\Http\Api\Controllers;
 
-use App\Services\Logic\Live\LiveChapter as LiveChapterService;
+use App\Services\Logic\Live\LiveChat as LiveChatService;
 use App\Services\Logic\Live\LiveList as LiveListService;
 
 /**
@@ -33,7 +33,7 @@ class LiveController extends Controller
      */
     public function chatsAction($id)
     {
-        $service = new LiveChapterService();
+        $service = new LiveChatService();
 
         $chats = $service->getRecentChats($id);
 
@@ -45,7 +45,7 @@ class LiveController extends Controller
      */
     public function statsAction($id)
     {
-        $service = new LiveChapterService();
+        $service = new LiveChatService();
 
         $stats = $service->getStats($id);
 
@@ -57,7 +57,7 @@ class LiveController extends Controller
      */
     public function statusAction($id)
     {
-        $service = new LiveChapterService();
+        $service = new LiveChatService();
 
         $status = $service->getStatus($id);
 
@@ -69,7 +69,7 @@ class LiveController extends Controller
      */
     public function bindUserAction($id)
     {
-        $service = new LiveChapterService();
+        $service = new LiveChatService();
 
         $service->bindUser($id);
 
@@ -81,7 +81,7 @@ class LiveController extends Controller
      */
     public function sendMessageAction($id)
     {
-        $service = new LiveChapterService();
+        $service = new LiveChatService();
 
         $message = $service->sendMessage($id);
 
