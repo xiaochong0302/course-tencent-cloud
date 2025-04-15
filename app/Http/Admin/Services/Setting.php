@@ -52,8 +52,8 @@ class Setting extends Service
     {
         $alipay = $this->getSettings('pay.alipay');
 
-        $alipay['return_url'] = $alipay['return_url'] ?: kg_full_url(['for' => 'home.alipay_callback']);
-        $alipay['notify_url'] = $alipay['notify_url'] ?: kg_full_url(['for' => 'home.alipay_notify']);
+        $alipay['return_url'] = $alipay['return_url'] ?: kg_full_url(['for' => 'home.alipay.callback']);
+        $alipay['notify_url'] = $alipay['notify_url'] ?: kg_full_url(['for' => 'home.alipay.notify']);
 
         return $alipay;
     }
@@ -62,8 +62,8 @@ class Setting extends Service
     {
         $wxpay = $this->getSettings('pay.wxpay');
 
-        $wxpay['return_url'] = $wxpay['return_url'] ?: kg_full_url(['for' => 'home.wxpay_callback']);
-        $wxpay['notify_url'] = $wxpay['notify_url'] ?: kg_full_url(['for' => 'home.wxpay_notify']);
+        $wxpay['return_url'] = $wxpay['return_url'] ?: kg_full_url(['for' => 'home.wxpay.callback']);
+        $wxpay['notify_url'] = $wxpay['notify_url'] ?: kg_full_url(['for' => 'home.wxpay.notify']);
 
         return $wxpay;
     }
@@ -109,11 +109,11 @@ class Setting extends Service
         $result = $this->getSettings($section);
 
         if ($section == 'live.notify') {
-            $result['stream_begin_url'] = $result['stream_begin_url'] ?: kg_full_url(['for' => 'home.live_notify'], ['action' => 'streamBegin']);
-            $result['stream_end_url'] = $result['stream_end_url'] ?: kg_full_url(['for' => 'home.live_notify'], ['action' => 'streamEnd']);
-            $result['record_url'] = $result['record_url'] ?: kg_full_url(['for' => 'home.live_notify'], ['action' => 'record']);
-            $result['snapshot_url'] = $result['snapshot_url'] ?: kg_full_url(['for' => 'home.live_notify'], ['action' => 'snapshot']);
-            $result['porn_url'] = $result['porn_url'] ?: kg_full_url(['for' => 'home.live_notify'], ['action' => 'porn']);
+            $result['stream_begin_url'] = $result['stream_begin_url'] ?: kg_full_url(['for' => 'home.live.notify'], ['action' => 'streamBegin']);
+            $result['stream_end_url'] = $result['stream_end_url'] ?: kg_full_url(['for' => 'home.live.notify'], ['action' => 'streamEnd']);
+            $result['record_url'] = $result['record_url'] ?: kg_full_url(['for' => 'home.live.notify'], ['action' => 'record']);
+            $result['snapshot_url'] = $result['snapshot_url'] ?: kg_full_url(['for' => 'home.live.notify'], ['action' => 'snapshot']);
+            $result['porn_url'] = $result['porn_url'] ?: kg_full_url(['for' => 'home.live.notify'], ['action' => 'porn']);
         }
 
         return $result;
