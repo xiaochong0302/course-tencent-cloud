@@ -1370,15 +1370,15 @@
 }
 
 .live-preview .tips {
-    font-size: 16px;
+    color: #999;
     margin: 20px 0;
 }
 
-.countdown .timer {
+.countdown .timer .label {
     font-size: 32px;
 }
 
-.countdown .timer span {
+.countdown .timer .value {
     color: green;
     font-size: 36px;
     padding: 10px;
