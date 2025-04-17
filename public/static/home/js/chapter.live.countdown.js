@@ -7,7 +7,7 @@ layui.use(['jquery', 'util'], function () {
     var serverTime = $('input[name="countdown.server_time"]').val();
     var liveStatusUrl = $('input[name="live.status_url"]').val();
 
-    util.countdown(1000 * parseInt(endTime), 1000 * parseInt(serverTime), function (date, serverTime, timer) {
+    util.countdown(1000 * parseInt(endTime), 1000 * parseInt(serverTime), function (date) {
         var items = [
             {date: date[0], label: '天'},
             {date: date[1], label: '时'},
@@ -16,7 +16,10 @@ layui.use(['jquery', 'util'], function () {
         ];
         var html = '';
         layui.each(items, function (index, item) {
-            html += '<span>' + item.date + '</span>' + item.label;
+            if (item.date > 0) {
+                html += '<span class="value">' + item.date + '</span>';
+                html += '<span class="label">' + item.label + '</span>';
+            }
         });
         $('.countdown > .timer').html(html);
     });
