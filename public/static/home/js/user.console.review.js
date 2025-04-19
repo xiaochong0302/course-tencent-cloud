@@ -7,10 +7,6 @@ layui.use(['jquery', 'rate'], function () {
     var $rating2 = $('input[name=rating2]');
     var $rating3 = $('input[name=rating3]');
 
-    $('.btn-cancel').on('click', function () {
-        parent.layer.closeAll();
-    });
-
     rate.render({
         elem: '#rating1',
         value: $rating1.val(),

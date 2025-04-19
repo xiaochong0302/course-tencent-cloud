@@ -12,7 +12,7 @@ layui.use(['jquery', 'layer'], function () {
             type: 2,
             title: '咨询详情',
             content: [url, 'no'],
-            area: ['720px', '320px']
+            area: ['720px', '320px'],
         });
     });
 
@@ -26,9 +26,6 @@ layui.use(['jquery', 'layer'], function () {
             title: '编辑咨询',
             content: [url, 'no'],
             area: ['720px', '420px'],
-            cancel: function () {
-                parent.location.reload();
-            }
         });
     });
 
@@ -42,9 +39,6 @@ layui.use(['jquery', 'layer'], function () {
             title: '发布评价',
             content: [url, 'no'],
             area: ['640px', '480px'],
-            cancel: function () {
-                parent.location.reload();
-            }
         });
     });
 
@@ -58,9 +52,6 @@ layui.use(['jquery', 'layer'], function () {
             title: '修改评价',
             content: [url, 'no'],
             area: ['640px', '480px'],
-            cancel: function () {
-                parent.location.reload();
-            }
         });
     });
 
@@ -74,7 +65,7 @@ layui.use(['jquery', 'layer'], function () {
             title: '订单详情',
             content: [url, 'no'],
             area: '800px',
-            offset: '200px'
+            offset: '200px',
         });
     });
 
@@ -88,7 +79,7 @@ layui.use(['jquery', 'layer'], function () {
             title: '退款详情',
             content: [url, 'no'],
             area: '800px',
-            offset: '200px'
+            offset: '200px',
         });
     });
 

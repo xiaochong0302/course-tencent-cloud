@@ -10,7 +10,7 @@
             {% if course.model in [1,2,3] %}
                 <p>
                     <span>学习期限：{{ date('Y-m-d',course.study_expiry_time) }}</span>
-                    <span>退款期限：{{ date('Y-m-d',course.refund_expiry_time) }}</span>
+                    <span>退款期限：{{ course.refund_expiry > 0 ? date('Y-m-d',course.refund_expiry_time) : '不支持' }}</span>
                 </p>
             {% elseif course.model == 4 %}
                 <p>上课时间：{{ course.attrs.start_date }} ~ {{ course.attrs.end_date }}</p>
@@ -23,13 +23,13 @@
             <div class="order-item">
                 <p>课程名称：{{ course.title }}</p>
                 <p>
-                    <span>市场价格：{{ '￥%0.2f'|format(course.market_price) }}</span>
+                    <span>市场价格：<em class="price">{{ '￥%0.2f'|format(course.market_price) }}</em></span>
                     <span>会员价格：<em class="price">{{ '￥%0.2f'|format(course.vip_price) }}</em></span>
                 </p>
                 {% if course.model in [1,2,3] %}
                     <p>
                         <span>学习期限：{{ date('Y-m-d',course.study_expiry_time) }}</span>
-                        <span>退款期限：{{ date('Y-m-d',course.refund_expiry_time) }}</span>
+                        <span>退款期限：{{ course.refund_expiry > 0 ? date('Y-m-d',course.refund_expiry_time) : '不支持' }}</span>
                     </p>
                 {% endif %}
             </div>

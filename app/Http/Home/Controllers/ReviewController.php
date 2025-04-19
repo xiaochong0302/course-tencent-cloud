@@ -55,13 +55,6 @@ class ReviewController extends Controller
             $this->notFound();
         }
 
-        $approved = $review['published'] == ReviewModel::PUBLISH_APPROVED;
-        $owned = $review['me']['owned'] == 1;
-
-        if (!$approved && !$owned) {
-            $this->notFound();
-        }
-
         return $this->jsonSuccess(['review' => $review]);
     }
 
@@ -72,14 +65,13 @@ class ReviewController extends Controller
     {
         $service = new ReviewCreateService();
 
-        $review = $service->handle();
+        $service->handle();
 
-        $service = new ReviewInfoService();
-
-        $review = $service->handle($review->id);
+        $location = $this->url->get(['for' => 'home.uc.reviews']);
 
         $content = [
-            'review' => $review,
+            'location' => $location,
+            'target' => 'parent',
             'msg' => '发布评价成功',
         ];
 
@@ -95,12 +87,11 @@ class ReviewController extends Controller
 
         $service->handle($id);
 
-        $service = new ReviewInfoService();
-
-        $review = $service->handle($id);
+        $location = $this->url->get(['for' => 'home.uc.reviews']);
 
         $content = [
-            'review' => $review,
+            'location' => $location,
+            'target' => 'parent',
             'msg' => '更新评价成功',
         ];
 

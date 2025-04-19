@@ -53,15 +53,15 @@ class Refund extends Service
         $serviceFee = $this->getServiceFee($order);
         $serviceRate = $this->getServiceRate($order);
 
-        $refundPercent = 0.00;
+        $refundRate = 0.00;
         $refundAmount = 0.00;
 
         if ($itemInfo['course']['refund_expiry_time'] > time()) {
-            $refundPercent = $this->getCourseRefundPercent($order->item_id, $order->owner_id);
-            $refundAmount = round(($order->amount - $serviceFee) * $refundPercent, 2);
+            $refundRate = $this->getCourseRefundRate($order->item_id, $order->owner_id);
+            $refundAmount = round(($order->amount - $serviceFee) * $refundRate, 2);
         }
 
-        $itemInfo['course']['refund_percent'] = $refundPercent;
+        $itemInfo['course']['refund_rate'] = $refundRate;
         $itemInfo['course']['refund_amount'] = $refundAmount;
 
         return [
@@ -95,17 +95,17 @@ class Refund extends Service
 
             $course['cover'] = kg_cos_course_cover_url($course['cover']);
 
-            $refundPercent = 0.00;
+            $refundRate = 0.00;
             $refundAmount = 0.00;
 
             if ($course['refund_expiry_time'] > time()) {
-                $pricePercent = round($course['market_price'] / $totalMarketPrice, 4);
-                $refundPercent = $this->getCourseRefundPercent($course['id'], $order->owner_id);
-                $refundAmount = round(($order->amount - $serviceFee) * $pricePercent * $refundPercent, 2);
+                $priceRate = round($course['market_price'] / $totalMarketPrice, 4);
+                $refundRate = $this->getCourseRefundRate($course['id'], $order->owner_id);
+                $refundAmount = round(($order->amount - $serviceFee) * $priceRate * $refundRate, 2);
                 $totalRefundAmount += $refundAmount;
             }
 
-            $course['refund_percent'] = $refundPercent;
+            $course['refund_rate'] = $refundRate;
             $course['refund_amount'] = $refundAmount;
         }
 
@@ -176,7 +176,7 @@ class Refund extends Service
         return $serviceRate;
     }
 
-    protected function getCourseRefundPercent($courseId, $userId)
+    protected function getCourseRefundRate($courseId, $userId)
     {
         $courseRepo = new CourseRepo();
 

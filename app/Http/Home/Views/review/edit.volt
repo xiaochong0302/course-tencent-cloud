@@ -26,7 +26,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">评价内容</label>
             <div class="layui-input-block">
-                <textarea name="content" class="layui-textarea">{{ review.content }}</textarea>
+                <textarea name="content" class="layui-textarea" lay-verify="required">{{ review.content }}</textarea>
             </div>
         </div>
         <div class="layui-form-item">
