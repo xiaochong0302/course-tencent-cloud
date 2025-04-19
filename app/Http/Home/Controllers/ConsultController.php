@@ -77,8 +77,14 @@ class ConsultController extends Controller
 
         $consult = $service->handle($consult->id);
 
+        $location = $this->url->get([
+            'for' => 'home.course.show',
+            'id' => $consult['course']['id'],
+        ]);
+
         $content = [
-            'consult' => $consult,
+            'location' => $location,
+            'target' => 'parent',
             'msg' => '提交咨询成功',
         ];
 
@@ -92,14 +98,13 @@ class ConsultController extends Controller
     {
         $service = new ConsultUpdateService();
 
-        $consult = $service->handle($id);
+        $service->handle($id);
 
-        $service = new ConsultInfoService();
-
-        $consult = $service->handle($consult->id);
+        $location = $this->url->get(['for' => 'home.uc.consults']);
 
         $content = [
-            'consult' => $consult,
+            'location' => $location,
+            'target' => 'parent',
             'msg' => '更新咨询成功',
         ];
 
@@ -127,14 +132,13 @@ class ConsultController extends Controller
 
             $service = new ConsultReplyService();
 
-            $consult = $service->handle($id);
+            $service->handle($id);
 
-            $service = new ConsultInfoService();
-
-            $consult = $service->handle($consult->id);
+            $location = $this->url->get(['for' => 'home.tc.consults']);
 
             $content = [
-                'consult' => $consult,
+                'location' => $location,
+                'target' => 'parent',
                 'msg' => '回复咨询成功',
             ];
 

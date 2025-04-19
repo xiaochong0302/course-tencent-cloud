@@ -12,7 +12,7 @@ layui.use(['jquery', 'layer'], function () {
             type: 2,
             title: '咨询详情',
             content: [url, 'no'],
-            area: ['720px', '320px']
+            area: ['720px', '320px'],
         });
     });
 
@@ -26,9 +26,6 @@ layui.use(['jquery', 'layer'], function () {
             title: '回复咨询',
             content: [url, 'no'],
             area: ['720px', '300px'],
-            cancel: function () {
-                parent.location.reload();
-            }
         });
     });
 
@@ -41,7 +38,7 @@ layui.use(['jquery', 'layer'], function () {
             type: 2,
             title: '直播推流',
             content: [url, 'no'],
-            area: ['640px', '420px']
+            area: ['640px', '420px'],
         });
     });
 

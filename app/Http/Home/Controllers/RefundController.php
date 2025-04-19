@@ -49,7 +49,15 @@ class RefundController extends Controller
 
         $service->handle();
 
-        return $this->jsonSuccess(['msg' => '申请退款成功']);
+        $location = $this->url->get(['for' => 'home.uc.refunds']);
+
+        $content = [
+            'location' => $location,
+            'target' => 'parent',
+            'msg' => '提交申请成功',
+        ];
+
+        return $this->jsonSuccess($content);
     }
 
     /**

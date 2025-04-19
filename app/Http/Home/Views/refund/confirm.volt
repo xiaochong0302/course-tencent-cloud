@@ -9,7 +9,7 @@
             <div class="order-item">
                 <p>课程名称：<span>{{ course.title }}</span></p>
                 <p>退款期限：<span>{{ date('Y-m-d H:i:s',course.refund_expiry_time) }} {{ expiry_flag }}</span></p>
-                <p>退款金额：<span class="price">{{ '￥%0.2f'|format(course.refund_amount) }}</span>退款比例：<span class="price">{{ 100 * course.refund_percent }}%</span></p>
+                <p>退款金额：<span class="price">{{ '￥%0.2f'|format(course.refund_amount) }}</span>退款比例：<span class="rate">{{ 100 * course.refund_rate }}%</span></p>
             </div>
         {% elseif confirm.item_type == 2 %}
             {% set courses = confirm.item_info.courses %}
@@ -18,7 +18,7 @@
                 <div class="order-item">
                     <p>课程名称：<span>{{ course.title }}</span></p>
                     <p>退款期限：<span>{{ date('Y-m-d H:i:s',course.refund_expiry_time) }} {{ expiry_flag }}</span></p>
-                    <p>退款金额：<span class="price">{{ '￥%0.2f'|format(course.refund_amount) }}</span>退款比例：<span class="price">{{ 100 * course.refund_percent }}%</span></p>
+                    <p>退款金额：<span class="price">{{ '￥%0.2f'|format(course.refund_amount) }}</span>退款比例：<span class="rate">{{ 100 * course.refund_rate }}%</span></p>
                 </div>
             {% endfor %}
         {% endif %}
@@ -40,12 +40,9 @@
     </table>
     <br>
     {% if confirm.refund_amount > 0 %}
-        <form class="layui-form layui-form-pane" method="post" action="{{ url({'for':'home.refund.create'}) }}">
+        <form class="layui-form" method="post" action="{{ url({'for':'home.refund.create'}) }}">
             <div class="layui-form-item">
-                <label class="layui-form-label">退款原因</label>
-                <div class="layui-input-block">
-                    <input class="layui-input" name="apply_note" lay-verify="required">
-                </div>
+                <input class="layui-input" name="apply_note" placeholder="请告知我们退款原因，让我们做的更好..." lay-verify="required">
             </div>
             <div class="layui-form-item center">
                 <button class="layui-btn" lay-submit="true" lay-filter="go">提交申请</button>
