@@ -1,3 +1,13 @@
+### [v1.7.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.7)(2025-04-20)
+
+- 优化索引管理工具
+- 优化章节等页面UI
+- 修正workerman中onMessage问题
+- 修正非免费课程试听问题
+- 优化layer窗口中的表单跳转
+- 文件清理以及命名优化
+- 优化倒计时
+
 ### [v1.7.6](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.6)(2025-03-22)
 
 - 升级layui-v2.9.25
