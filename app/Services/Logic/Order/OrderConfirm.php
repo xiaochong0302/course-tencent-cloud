@@ -121,7 +121,6 @@ class OrderConfirm extends LogicService
             'lesson_count' => $course->lesson_count,
             'study_expiry' => $course->study_expiry,
             'refund_expiry' => $course->refund_expiry,
-            'origin_price' => $course->origin_price,
             'market_price' => $course->market_price,
             'vip_price' => $course->vip_price,
         ];

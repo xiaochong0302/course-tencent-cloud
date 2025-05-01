@@ -30,8 +30,6 @@ class Controller extends \Phalcon\Mvc\Controller
             $this->setCors();
         }
 
-        $this->checkRateLimit();
-
         return true;
     }
 
