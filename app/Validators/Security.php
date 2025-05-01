@@ -8,9 +8,7 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Exceptions\ServiceUnavailable as ServiceUnavailableException;
 use App\Library\CsrfToken as CsrfTokenService;
-use App\Services\Throttle as ThrottleService;
 
 class Security extends Validator
 {
@@ -50,17 +48,6 @@ class Security extends Validator
 
         if ($refererHost != $httpHost) {
             throw new BadRequestException('security.invalid_http_referer');
-        }
-    }
-
-    public function checkRateLimit()
-    {
-        $service = new ThrottleService();
-
-        $result = $service->checkRateLimit();
-
-        if (!$result) {
-            throw new ServiceUnavailableException('security.too_many_requests');
         }
     }
 

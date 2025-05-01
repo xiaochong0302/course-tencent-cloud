@@ -22,7 +22,6 @@ $error['sys.unknown_error'] = '未知错误';
 /**
  * 安全相关
  */
-$error['security.too_many_requests'] = '请求过于频繁';
 $error['security.invalid_csrf_token'] = '无效的CSRF令牌';
 $error['security.invalid_http_referer'] = '无效请求来源';
 

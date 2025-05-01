@@ -28,13 +28,6 @@ trait Security
         $validator->checkHttpReferer();
     }
 
-    public function checkRateLimit()
-    {
-        $validator = new SecurityValidator();
-
-        $validator->checkRateLimit();
-    }
-
     public function isNotSafeRequest()
     {
         /**
