@@ -37,8 +37,6 @@ class LayerController extends \Phalcon\Mvc\Controller
             $this->checkCsrfToken();
         }
 
-        $this->checkRateLimit();
-
         return true;
     }
 

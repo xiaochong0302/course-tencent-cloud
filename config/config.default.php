@@ -148,21 +148,6 @@ $config['cors']['allow_headers'] = '*';
 $config['cors']['allow_methods'] = ['GET', 'POST', 'OPTIONS'];
 
 /**
- * 限流开启
- */
-$config['throttle']['enabled'] = true;
-
-/**
- * 有效期（秒)
- */
-$config['throttle']['lifetime'] = 60;
-
-/**
- * 限流频率
- */
-$config['throttle']['rate_limit'] = 60;
-
-/**
  * 客户端ping服务端间隔（秒）
  */
 $config['websocket']['ping_interval'] = 30;
