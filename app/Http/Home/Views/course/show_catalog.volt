@@ -101,6 +101,8 @@
         <span class="flag flag-pending">倒计时</span>
     {% elseif lesson.attrs.end_time < time() %}
         <span class="flag flag-ended">已结束</span>
+    {% elseif lesson.attrs.stream.status == 'inactive' %}
+        <span class="flag flag-inactive">未推流</span>
     {% endif %}
 {%- endmacro %}
 
