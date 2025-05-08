@@ -1106,6 +1106,11 @@
     color: red;
 }
 
+.lesson-item .flag-inactive {
+    border: 1px solid gray;
+    color: gray;
+}
+
 .lesson-item .flag-ended {
     border: 1px solid gray;
     color: gray;
