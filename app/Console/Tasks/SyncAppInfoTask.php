@@ -13,11 +13,11 @@ use GuzzleHttp\Client;
 class SyncAppInfoTask extends Task
 {
 
+    const API_BASE_URL = 'https://www.koogua.com/api';
+
     public function mainAction()
     {
         echo '------ start sync app info ------' . PHP_EOL;
-
-        $url = 'https://www.koogua.com/api/instance/collect';
 
         $site = $this->getSettings('site');
 
@@ -37,6 +37,8 @@ class SyncAppInfoTask extends Task
         ];
 
         $client = new Client();
+
+        $url = sprintf('%s/instance/collect', self::API_BASE_URL);
 
         $client->request('POST', $url, ['form_params' => $params]);
 
