@@ -120,19 +120,16 @@ class ConnectController extends Controller
         $service = new ConnectService();
 
         $openUser = $service->getOpenUserInfo($code, $state, $provider);
-
         $connect = $service->getConnectRelation($openUser['id'], $openUser['provider']);
 
-        if ($this->authUser->id > 0) {
-            if ($openUser) {
-                $service->bindUser($openUser);
-                return $this->response->redirect(['for' => 'home.uc.account']);
-            }
-        } else {
-            if ($connect) {
-                $service->authConnectLogin($connect);
-                return $this->response->redirect(['for' => 'home.index']);
-            }
+        if ($this->authUser->id > 0 && $openUser) {
+            $service->bindUser($openUser);
+            return $this->response->redirect(['for' => 'home.uc.account']);
+        }
+
+        if ($this->authUser->id == 0 && $connect) {
+            $service->authConnectLogin($connect);
+            return $this->response->redirect(['for' => 'home.index']);
         }
 
         $this->seo->prependTitle('绑定帐号');

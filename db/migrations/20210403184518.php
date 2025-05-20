@@ -295,21 +295,6 @@ final class V20210403184518 extends AbstractMigration
     {
         $rows = [
             [
-                'section' => 'captcha',
-                'item_key' => 'enabled',
-                'item_value' => '0',
-            ],
-            [
-                'section' => 'captcha',
-                'item_key' => 'app_id',
-                'item_value' => '',
-            ],
-            [
-                'section' => 'captcha',
-                'item_key' => 'secret_key',
-                'item_value' => '',
-            ],
-            [
                 'section' => 'live.push',
                 'item_key' => 'domain',
                 'item_value' => '',
@@ -392,7 +377,7 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'mail',
                 'item_key' => 'smtp_host',
-                'item_value' => 'smtp.163.com',
+                'item_value' => '',
             ],
             [
                 'section' => 'mail',
@@ -412,22 +397,22 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'mail',
                 'item_key' => 'smtp_username',
-                'item_value' => 'xxx@163.com',
+                'item_value' => '',
             ],
             [
                 'section' => 'mail',
                 'item_key' => 'smtp_password',
-                'item_value' => 'xxx',
+                'item_value' => '',
             ],
             [
                 'section' => 'mail',
                 'item_key' => 'smtp_from_email',
-                'item_value' => 'xxx@163.com',
+                'item_value' => '',
             ],
             [
                 'section' => 'mail',
                 'item_key' => 'smtp_from_name',
-                'item_value' => 'XXX有限公司',
+                'item_value' => '',
             ],
             [
                 'section' => 'pay.alipay',
@@ -512,17 +497,17 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'secret',
                 'item_key' => 'secret_key',
-                'item_value' => 'xxx',
+                'item_value' => '',
             ],
             [
                 'section' => 'secret',
                 'item_key' => 'secret_id',
-                'item_value' => 'xxx',
+                'item_value' => '',
             ],
             [
                 'section' => 'secret',
                 'item_key' => 'app_id',
-                'item_value' => 'xxx',
+                'item_value' => '',
             ],
             [
                 'section' => 'site',
@@ -617,29 +602,29 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'sms',
                 'item_key' => 'signature',
-                'item_value' => '酷瓜云课堂',
+                'item_value' => '',
             ],
             [
                 'section' => 'sms',
                 'item_key' => 'template',
                 'item_value' => json_encode([
-                    'verify' => ['enabled' => 1, 'id' => ''],
-                    'order_finish' => ['enabled' => 1, 'id' => ''],
-                    'refund_finish' => ['enabled' => 1, 'id' => ''],
-                    'live_begin' => ['enabled' => 1, 'id' => ''],
-                    'consult_reply' => ['enabled' => 1, 'id' => ''],
-                    'goods_deliver' => ['enabled' => 1, 'id' => ''],
+                    'verify' => ['enabled' => 1, 'id' => 0],
+                    'order_finish' => ['enabled' => 0, 'id' => 0],
+                    'refund_finish' => ['enabled' => 0, 'id' => 0],
+                    'live_begin' => ['enabled' => 0, 'id' => 0],
+                    'consult_reply' => ['enabled' => 0, 'id' => 0],
+                    'goods_deliver' => ['enabled' => 0, 'id' => 0],
                 ]),
             ],
             [
                 'section' => 'cos',
                 'item_key' => 'bucket',
-                'item_value' => 'course-1255691183',
+                'item_value' => '',
             ],
             [
                 'section' => 'cos',
                 'item_key' => 'region',
-                'item_value' => 'ap-guangzhou',
+                'item_value' => '',
             ],
             [
                 'section' => 'cos',
@@ -649,7 +634,7 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'cos',
                 'item_key' => 'domain',
-                'item_value' => 'course-1255691183.file.myqcloud.com',
+                'item_value' => '',
             ],
             [
                 'section' => 'vod',
@@ -835,12 +820,12 @@ final class V20210403184518 extends AbstractMigration
                 'section' => 'wechat.oa',
                 'item_key' => 'notice_template',
                 'item_value' => json_encode([
-                    'account_login' => ['enabled' => 1, 'id' => ''],
-                    'order_finish' => ['enabled' => 1, 'id' => ''],
-                    'refund_finish' => ['enabled' => 1, 'id' => ''],
-                    'goods_deliver' => ['enabled' => 1, 'id' => ''],
-                    'consult_reply' => ['enabled' => 1, 'id' => ''],
-                    'live_begin' => ['enabled' => 1, 'id' => ''],
+                    'account_login' => ['enabled' => 0, 'id' => 0],
+                    'order_finish' => ['enabled' => 0, 'id' => 0],
+                    'refund_finish' => ['enabled' => 0, 'id' => 0],
+                    'goods_deliver' => ['enabled' => 0, 'id' => 0],
+                    'consult_reply' => ['enabled' => 0, 'id' => 0],
+                    'live_begin' => ['enabled' => 0, 'id' => 0],
                 ]),
             ],
             [

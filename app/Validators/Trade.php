@@ -91,7 +91,7 @@ class Trade extends Validator
         ];
 
         if ($refund && in_array($refund->status, $scopes)) {
-            throw new BadRequestException('trade.refund_apply_existed');
+            throw new BadRequestException('trade.refund_request_existed');
         }
     }
 

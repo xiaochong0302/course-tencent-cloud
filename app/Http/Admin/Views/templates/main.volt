@@ -20,6 +20,7 @@
 
 {{ js_include('lib/layui/layui.js') }}
 {{ js_include('admin/js/common.js') }}
+{{ js_include('admin/js/fixbar.js') }}
 
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
