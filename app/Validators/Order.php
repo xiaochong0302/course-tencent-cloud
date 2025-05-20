@@ -11,10 +11,7 @@ use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Order as OrderModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
-use App\Repos\Course as CourseRepo;
 use App\Repos\Order as OrderRepo;
-use App\Repos\Package as PackageRepo;
-use App\Repos\Vip as VipRepo;
 
 class Order extends Validator
 {
@@ -50,54 +47,36 @@ class Order extends Validator
         return $order;
     }
 
-    public function checkItemType($itemType)
+    public function checkItemType($type)
     {
-        $list = OrderModel::itemTypes();
+        $types = OrderModel::itemTypes();
 
-        if (!array_key_exists($itemType, $list)) {
+        if (!array_key_exists($type, $types)) {
             throw new BadRequestException('order.invalid_item_type');
         }
 
-        return $itemType;
+        return $type;
     }
 
-    public function checkCourse($itemId)
+    public function checkCourse($id)
     {
-        $courseRepo = new CourseRepo();
+        $validator = new Course();
 
-        $course = $courseRepo->findById($itemId);
-
-        if (!$course || $course->published == 0) {
-            throw new BadRequestException('order.item_not_found');
-        }
-
-        return $course;
+        return $validator->checkCourse($id);
     }
 
-    public function checkPackage($itemId)
+    public function checkPackage($id)
     {
-        $packageRepo = new PackageRepo();
+        $validator = new Package();
 
-        $package = $packageRepo->findById($itemId);
-
-        if (!$package || $package->published == 0) {
-            throw new BadRequestException('order.item_not_found');
-        }
-
-        return $package;
+        return $validator->checkPackage($id);
     }
 
-    public function checkVip($itemId)
+    public function checkVip($id)
     {
-        $vipRepo = new VipRepo();
+        $validator = new Vip();
 
-        $vip = $vipRepo->findById($itemId);
-
-        if (!$vip || $vip->deleted == 1) {
-            throw new BadRequestException('order.item_not_found');
-        }
-
-        return $vip;
+        return $validator->checkVip($id);
     }
 
     public function checkAmount($amount)
@@ -105,7 +84,7 @@ class Order extends Validator
         $value = $this->filter->sanitize($amount, ['trim', 'float']);
 
         if ($value < 0.01 || $value > 100000) {
-            throw new BadRequestException('order.invalid_pay_amount');
+            throw new BadRequestException('order.invalid_amount');
         }
 
         return $value;
@@ -148,7 +127,7 @@ class Order extends Validator
         ];
 
         if (!in_array($order->item_type, $types)) {
-            throw new BadRequestException('order.refund_item_unsupported');
+            throw new BadRequestException('order.refund_not_supported');
         }
 
         $orderRepo = new OrderRepo();
@@ -167,7 +146,7 @@ class Order extends Validator
         ];
 
         if ($refund && in_array($refund->status, $scopes)) {
-            throw new BadRequestException('order.refund_apply_existed');
+            throw new BadRequestException('order.refund_request_existed');
         }
     }
 
