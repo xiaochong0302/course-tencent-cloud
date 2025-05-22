@@ -96,4 +96,7 @@ $scheduler->php($script, $bin, ['--task' => 'sitemap', '--action' => 'main'])
 $scheduler->php($script, $bin, ['--task' => 'teacher_live_notice', '--action' => 'provide'])
     ->daily(4, 7);
 
+$scheduler->php($script, $bin, ['--task' => 'renew_demo_live_course', '--action' => 'main'])
+    ->daily(4, 59);
+
 $scheduler->run();
