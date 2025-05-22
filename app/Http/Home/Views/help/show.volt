@@ -31,17 +31,10 @@
 
 {% endblock %}
 
-{% block inline_js %}
+{% block include_js %}
 
-    <script>
-        layui.use(['jquery', 'helper'], function () {
-            var $ = layui.jquery;
-            var helper = layui.helper;
-            var $courseList = $('#course-list');
-            if ($courseList.length > 0) {
-                helper.ajaxLoadHtml($courseList.data('url'), $courseList.attr('id'));
-            }
-        });
-    </script>
+    {{ js_include('lib/clipboard.min.js') }}
+    {{ js_include('home/js/help.show.js') }}
+    {{ js_include('home/js/copy.js') }}
 
 {% endblock %}

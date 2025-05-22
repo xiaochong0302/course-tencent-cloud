@@ -79,7 +79,6 @@
 
 {% block include_js %}
 
-    {{ js_include('home/js/user.avatar.upload.js') }}
     {{ js_include('home/js/user.console.profile.js') }}
 
 {% endblock %}
