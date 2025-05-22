@@ -497,17 +497,17 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'secret',
                 'item_key' => 'secret_key',
-                'item_value' => '',
+                'item_value' => 'xxx',
             ],
             [
                 'section' => 'secret',
                 'item_key' => 'secret_id',
-                'item_value' => '',
+                'item_value' => 'xxx',
             ],
             [
                 'section' => 'secret',
                 'item_key' => 'app_id',
-                'item_value' => '',
+                'item_value' => 'xxx',
             ],
             [
                 'section' => 'site',
@@ -619,12 +619,12 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'cos',
                 'item_key' => 'bucket',
-                'item_value' => '',
+                'item_value' => 'course-1255691183',
             ],
             [
                 'section' => 'cos',
                 'item_key' => 'region',
-                'item_value' => '',
+                'item_value' => 'ap-guangzhou',
             ],
             [
                 'section' => 'cos',
@@ -634,7 +634,7 @@ final class V20210403184518 extends AbstractMigration
             [
                 'section' => 'cos',
                 'item_key' => 'domain',
-                'item_value' => '',
+                'item_value' => 'course-1255691183.file.myqcloud.com',
             ],
             [
                 'section' => 'vod',
