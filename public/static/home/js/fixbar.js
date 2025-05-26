@@ -48,7 +48,9 @@ layui.use(['jquery', 'util'], function () {
     }
 
     var showPhoneCode = function () {
-        var content = '<div class="layui-font-32 layui-font-red layui-padding-5">' + window.contact.phone + '</div>';
+        var content = '<div class="layui-font-32 layui-font-red layui-padding-5">';
+        content += '<i class="iconfont icon-phone layui-padding-1 layui-font-28"></i>' + window.contact.phone;
+        content += '</div>';
         layer.open({
             type: 1,
             title: false,
