@@ -19,7 +19,7 @@
                 {% if item.cover %}
                     <div class="cover">
                         <a href="{{ article_url }}" target="_blank">
-                            <img src="{{ item.cover }}!cover_270" alt="{{ item.title }}">
+                            <img src="{{ item.cover }}!cover_270" alt="{{ item.title|striptags }}">
                         </a>
                     </div>
                 {% endif %}
