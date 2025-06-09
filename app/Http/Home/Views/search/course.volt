@@ -6,7 +6,7 @@
             <div class="search-course-card">
                 <div class="cover">
                     <a href="{{ course_url }}" target="_blank">
-                        <img src="{{ item.cover }}!cover_270" alt="{{ item.title }}">
+                        <img src="{{ item.cover }}!cover_270" alt="{{ item.title|striptags }}">
                     </a>
                 </div>
                 <div class="info">
