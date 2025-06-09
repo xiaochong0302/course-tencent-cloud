@@ -1096,7 +1096,7 @@
     color: orange;
 }
 
-.lesson-item .flag-pending {
+.lesson-item .flag-scheduled {
     border: 1px solid green;
     color: green;
 }

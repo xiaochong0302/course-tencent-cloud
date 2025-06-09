@@ -98,7 +98,7 @@
     {% if lesson.attrs.stream.status == 'active' %}
         <span class="flag flag-active">直播中</span>
     {% elseif lesson.attrs.start_time > time() %}
-        <span class="flag flag-pending">倒计时</span>
+        <span class="flag flag-scheduled">倒计时</span>
     {% elseif lesson.attrs.end_time < time() %}
         <span class="flag flag-ended">已结束</span>
     {% elseif lesson.attrs.stream.status == 'inactive' %}
@@ -110,7 +110,7 @@
     {% if lesson.attrs.start_time < time() and lesson.attrs.end_time > time() %}
         <span class="flag flag-active">授课中</span>
     {% elseif lesson.attrs.start_time > time() %}
-        <span class="flag flag-pending">未开始</span>
+        <span class="flag flag-scheduled">未开始</span>
     {% elseif lesson.attrs.end_time < time() %}
         <span class="flag flag-ended">已结束</span>
     {% endif %}

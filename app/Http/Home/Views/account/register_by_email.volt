@@ -36,6 +36,6 @@
     </form>
 {% else %}
     <div class="register-close-tips">
-        <i class="layui-icon layui-icon-tips"></i> 邮箱注册已关闭
+        <i class="layui-icon layui-icon-lock"></i> 邮箱注册已关闭
     </div>
 {% endif %}
