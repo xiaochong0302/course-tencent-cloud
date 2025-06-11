@@ -63,6 +63,9 @@ $scheduler->php($script, $bin, ['--task' => 'sync_article_score', '--action' => 
 $scheduler->php($script, $bin, ['--task' => 'sync_question_score', '--action' => 'main'])
     ->hourly(29);
 
+$scheduler->php($script, $bin, ['--task' => 'close_live', '--action' => 'main'])
+    ->hourly(31);
+
 $scheduler->php($script, $bin, ['--task' => 'clean_log', '--action' => 'main'])
     ->daily(3, 3);
 

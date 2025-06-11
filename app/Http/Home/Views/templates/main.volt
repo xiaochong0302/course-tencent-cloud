@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN-Hans">
 <head>
+    {% if site_info.analytics_enabled == 1 %}
+        {{ site_info.analytics_script }}
+    {% endif %}
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -38,12 +41,5 @@
 
 {% block include_js %}{% endblock %}
 {% block inline_js %}{% endblock %}
-
-{% if site_info.analytics_enabled == 1 %}
-    <div class="layui-hide">
-        {{ site_info.analytics_script }}
-    </div>
-{% endif %}
-
 </body>
 </html>

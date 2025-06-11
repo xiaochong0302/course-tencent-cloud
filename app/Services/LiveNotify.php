@@ -7,7 +7,7 @@
 
 namespace App\Services;
 
-use App\Caches\CourseChapterList as CatalogCache;
+use App\Caches\CourseChapterList as CourseChapterListCache;
 use App\Models\Chapter as ChapterModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Repos\Chapter as ChapterRepo;
@@ -175,7 +175,7 @@ class LiveNotify extends Service
 
     protected function rebuildCatalogCache(ChapterModel $chapter)
     {
-        $cache = new CatalogCache();
+        $cache = new CourseChapterListCache();
 
         $cache->rebuild($chapter->course_id);
     }
