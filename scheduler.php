@@ -66,6 +66,9 @@ $scheduler->php($script, $bin, ['--task' => 'sync_question_score', '--action' =>
 $scheduler->php($script, $bin, ['--task' => 'reset_demo_account', '--action' => 'main'])
     ->hourly(59);
 
+$scheduler->php($script, $bin, ['--task' => 'close_live', '--action' => 'main'])
+    ->hourly(31);
+
 $scheduler->php($script, $bin, ['--task' => 'clean_log', '--action' => 'main'])
     ->daily(3, 3);
 
@@ -81,6 +84,9 @@ $scheduler->php($script, $bin, ['--task' => 'sync_app_info', '--action' => 'main
 $scheduler->php($script, $bin, ['--task' => 'sync_tag_stat', '--action' => 'main'])
     ->daily(3, 17);
 
+$scheduler->php($script, $bin, ['--task' => 'sync_course_stat', '--action' => 'main'])
+    ->daily(3, 19);
+
 $scheduler->php($script, $bin, ['--task' => 'close_question', '--action' => 'main'])
     ->daily(3, 23);
 
@@ -89,8 +95,5 @@ $scheduler->php($script, $bin, ['--task' => 'sitemap', '--action' => 'main'])
 
 $scheduler->php($script, $bin, ['--task' => 'teacher_live_notice', '--action' => 'provide'])
     ->daily(4, 7);
-
-$scheduler->php($script, $bin, ['--task' => 'renew_demo_live_course', '--action' => 'main'])
-    ->daily(4, 59);
 
 $scheduler->run();

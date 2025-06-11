@@ -9,7 +9,7 @@
     <div class="kg-nav">
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
-                <a class="kg-back" href="{{ back_url }}"><i class="layui-icon layui-icon-return"></i>返回</a>
+                <a href="{{ back_url }}"><i class="layui-icon layui-icon-return"></i>返回</a>
                 <a><cite>{{ course.title }}</cite></a>
                 <a><cite>章节管理</cite></a>
             </span>

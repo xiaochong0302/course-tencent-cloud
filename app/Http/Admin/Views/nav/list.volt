@@ -25,9 +25,7 @@
         <div class="kg-nav-left">
             <span class="layui-breadcrumb">
                 {% if parent.id > 0 %}
-                    <a class="kg-back" href="{{ back_url }}">
-                        <i class="layui-icon layui-icon-return"></i> 返回
-                    </a>
+                    <a href="{{ back_url }}"><i class="layui-icon layui-icon-return"></i>返回</a>
                     <a><cite>{{ parent.name }}</cite></a>
                 {% endif %}
                 <a><cite>导航管理</cite></a>
