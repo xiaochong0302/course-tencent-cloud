@@ -18,6 +18,13 @@ abstract class Migration
 
     abstract public function run();
 
+    protected function saveSettings(array $settings)
+    {
+        foreach ($settings as $setting) {
+            $this->saveSetting($setting);
+        }
+    }
+
     protected function saveSetting(array $setting)
     {
         $settingRepo = new SettingRepo();

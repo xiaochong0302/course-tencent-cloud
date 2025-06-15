@@ -21,12 +21,11 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label" style="padding-top:30px;">头像</label>
                         <div class="layui-input-inline" style="width:80px;">
-                            <img id="avatar" class="kg-avatar" src="{{ user.avatar }}">
+                            <img id="img-avatar" class="kg-avatar" src="{{ user.avatar }}">
                             <input type="hidden" name="avatar" value="{{ user.avatar }}">
-                            <input type="hidden" name="default_avatar" value="{{ default_avatar }}">
                         </div>
                         <div class="layui-input-inline" style="padding-top:25px;">
-                            <button id="clear-avatar" class="layui-btn layui-btn-sm" type="button">清空</button>
+                            <button id="change-avatar" class="layui-btn layui-btn-sm" type="button">更换</button>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -153,6 +152,12 @@
 
 {% endblock %}
 
+{% block include_js %}
+
+    {{ js_include('admin/js/avatar.upload.js') }}
+
+{% endblock %}
+
 {% block inline_js %}
 
     <script>
@@ -162,12 +167,6 @@
             var $ = layui.jquery;
             var form = layui.form;
             var laydate = layui.laydate;
-
-            $('#clear-avatar').on('click', function () {
-                var defaultAvatar = $('input[name=default_avatar]').val();
-                $('input[name=avatar]').val(defaultAvatar);
-                $('#avatar').attr('src', defaultAvatar);
-            });
 
             laydate.render({
                 elem: 'input[name=vip_expiry_time]',

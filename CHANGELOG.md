@@ -1,3 +1,18 @@
+### [v1.7.8](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.8)(2025-06-20)
+
+- 移除ThrottleLimit
+- 增加CloseLiveTask
+- 增加搜索页图片alt属性striptags过滤
+- 后台增加返回顶部快捷方式
+- 前台fixbar增加联系电话
+- 优化安装脚本
+- 优化课时列表直播提示
+- 优化后台返回链接
+- 优化统计分析代码位置
+- 直播回调后更新课时缓存
+- 后台清空头像->上传头像
+- sitemap.xml直接写入网站根目录
+
 ### [v1.7.7](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.7)(2025-04-20)
 
 - 优化索引管理工具

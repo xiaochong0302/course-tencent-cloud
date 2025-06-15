@@ -1,4 +1,4 @@
-layui.use(['jquery', 'helper', 'util'], function () {
+layui.use(['jquery', 'util'], function () {
 
     var $ = layui.jquery;
     var util = layui.util;
@@ -47,6 +47,19 @@ layui.use(['jquery', 'helper', 'util'], function () {
         });
     }
 
+    var showPhoneCode = function () {
+        var content = '<div class="layui-font-32 layui-font-red layui-padding-5">';
+        content += '<i class="iconfont icon-phone layui-padding-1 layui-font-28"></i>' + window.contact.phone;
+        content += '</div>';
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            shadeClose: true,
+            content: content,
+        });
+    }
+
     var bars = [];
 
     if (window.contact.wechat) {
@@ -63,6 +76,13 @@ layui.use(['jquery', 'helper', 'util'], function () {
         });
     }
 
+    if (window.contact.phone) {
+        bars.push({
+            type: 'phone',
+            content: '<i class="iconfont icon-phone layui-font-30"></i>',
+        });
+    }
+
     util.fixbar({
         bars: bars,
         click: function (type) {
@@ -70,24 +90,30 @@ layui.use(['jquery', 'helper', 'util'], function () {
                 showWechatCode();
             } else if (type === 'qq') {
                 showQQCode();
+            } else if (type === 'phone') {
+                showPhoneCode();
             }
         }
     });
 
-    $('.icon-wechat').on('click', function () {
+    $('.contact > .wechat').on('click', function () {
         showWechatCode();
     });
 
-    $('.icon-qq').on('click', function () {
+    $('.contact > .qq').on('click', function () {
         showQQCode();
     });
 
-    $('.icon-toutiao').on('click', function () {
+    $('.contact > .toutiao').on('click', function () {
         showTouTiaoCode();
     });
 
-    $('.icon-douyin').on('click', function () {
+    $('.contact > .douyin').on('click', function () {
         showDouYinCode();
+    });
+
+    $('.contact > .phone').on('click', function () {
+        showPhoneCode();
     });
 
 });

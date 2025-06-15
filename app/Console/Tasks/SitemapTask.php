@@ -37,7 +37,7 @@ class SitemapTask extends Task
 
         $this->sitemap = new Sitemap();
 
-        $filename = tmp_path('sitemap.xml');
+        $filename = public_path('sitemap.xml');
 
         echo '------ start sitemap task ------' . PHP_EOL;
 
