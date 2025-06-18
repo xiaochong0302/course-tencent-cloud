@@ -251,14 +251,16 @@ class ChapterContent extends Service
 
         $content = $validator->checkContent($post['content']);
 
-        $read->update(['content' => $content]);
+        $read->content = $content;
+
+        $read->update();
 
         $attrs = $chapter->attrs;
-
         $attrs['word_count'] = WordUtil::getWordCount($content);
         $attrs['duration'] = WordUtil::getWordDuration($content);
+        $chapter->attrs = $attrs;
 
-        $chapter->update(['attrs' => $attrs]);
+        $chapter->update();
 
         $this->updateCourseReadAttrs($read->course_id);
     }

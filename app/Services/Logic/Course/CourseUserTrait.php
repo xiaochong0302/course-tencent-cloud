@@ -46,7 +46,11 @@ trait CourseUserTrait
             $this->joinedCourse = true;
         }
 
-        if ($course->market_price == 0) {
+        if ($course->teacher_id == $user->id) {
+
+            $this->ownedCourse = true;
+
+        } elseif ($course->market_price == 0) {
 
             $this->ownedCourse = true;
 
@@ -96,6 +100,7 @@ trait CourseUserTrait
                 case CourseUserModel::SOURCE_FREE:
                 case CourseUserModel::SOURCE_TRIAL:
                 case CourseUserModel::SOURCE_VIP:
+                case CourseUserModel::SOURCE_TEACHER:
                     $this->createCourseUser($course, $user, $expiryTime, $sourceType);
                     $this->deleteCourseUser($relation);
                     break;
@@ -169,6 +174,8 @@ trait CourseUserTrait
             $result = true;
         } elseif ($course->vip_price == 0 && $user->vip == 1) {
             $result = true;
+        } elseif($course->teacher_id == $user->id) {
+            $result = true;
         }
 
         return $result;
@@ -176,6 +183,10 @@ trait CourseUserTrait
 
     protected function getFreeSourceType(CourseModel $course, UserModel $user)
     {
+        if ($course->teacher_id == $user->id) {
+            return CourseUserModel::SOURCE_TEACHER;
+        }
+
         $sourceType = CourseUserModel::SOURCE_FREE;
 
         if ($course->market_price > 0) {
