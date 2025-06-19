@@ -11,5 +11,11 @@
         积分
     {% elseif value == 6 %}
         抽奖
+    {% elseif value == 7 %}
+        教师
+    {% elseif value == 10 %}
+        试听
+    {% else %}
+        N/A
     {% endif %}
 {%- endmacro %}
