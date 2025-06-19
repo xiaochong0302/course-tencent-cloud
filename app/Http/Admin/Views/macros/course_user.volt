@@ -11,6 +11,8 @@
         积分兑换
     {% elseif value == 6 %}
         抽奖兑换
+    {% elseif value == 7 %}
+        教师
     {% elseif value == 10 %}
         试听
     {% else %}
