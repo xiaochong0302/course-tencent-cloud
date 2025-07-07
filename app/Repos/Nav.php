@@ -78,7 +78,7 @@ class Nav extends Repository
     public function countChildNavs($navId)
     {
         return (int)NavModel::count([
-            'conditions' => 'parent_id = :parent_id: AND published = 1',
+            'conditions' => 'parent_id = :parent_id: AND published = 1 AND deleted = 0',
             'bind' => ['parent_id' => $navId],
         ]);
     }
