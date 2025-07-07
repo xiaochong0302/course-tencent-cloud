@@ -109,8 +109,8 @@ class TeacherConsoleController extends Controller
         $pos = strrpos($pushUrl, '/');
 
         $obs = [
-            'fms_url' => substr($pushUrl, 0, $pos + 1),
-            'stream_code' => substr($pushUrl, $pos + 1),
+            'stream_url' => substr($pushUrl, 0, $pos + 1),
+            'stream_key' => substr($pushUrl, $pos + 1),
         ];
 
         $this->view->pick('teacher/console/live');
