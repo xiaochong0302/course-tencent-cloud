@@ -14,7 +14,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">登录密码</label>
                             <div class="layui-input-block">
-                                <input class="layui-input" type="password" name="login_password" autocomplete="off" placeholder="请输入当前登录密码" lay-verify="required">
+                                <input class="layui-input" type="password" name="login_password" autocomplete="off" placeholder="请输入当前登录密码" lay-affix="eye" lay-verify="required">
                             </div>
                         </div>
                     {% endif %}

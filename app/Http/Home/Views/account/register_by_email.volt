@@ -1,17 +1,23 @@
 {% if register_with_email %}
     <form class="layui-form account-form" method="POST" action="{{ action_url }}">
         <div class="layui-form-item">
-            <label class="layui-icon layui-icon-email"></label>
-            <input id="cv-email" class="layui-input" type="text" name="email" autocomplete="off" placeholder="邮箱" lay-verify="required|email">
+            <div class="layui-input-wrap">
+                <div class="layui-input-prefix"><i class="layui-icon layui-icon-email"></i></div>
+                <input id="cv-email" class="layui-input" type="text" name="email" autocomplete="off" placeholder="邮箱" lay-verify="required|email">
+            </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-icon layui-icon-password"></label>
-            <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
+            <div class="layui-input-wrap">
+                <div class="layui-input-prefix"><i class="layui-icon layui-icon-password"></i></div>
+                <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-affix="eye" lay-verify="required">
+            </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-inline verify-input-inline">
-                <label class="layui-icon layui-icon-vercode"></label>
-                <input class="layui-input" type="text" name="verify_code" placeholder="验证码" lay-verify="required">
+                <div class="layui-input-wrap">
+                    <div class="layui-input-prefix"><i class="layui-icon layui-icon-vercode"></i></div>
+                    <input class="layui-input" type="text" name="verify_code" placeholder="验证码" lay-verify="required">
+                </div>
             </div>
             <div class="layui-input-inline verify-btn-inline">
                 <button id="cv-email-emit-btn" class="layui-btn layui-btn-disabled" type="button" disabled="disabled">获取验证码</button>

@@ -1,11 +1,15 @@
 <form class="layui-form account-form" method="POST" action="{{ url({'for':'home.oauth.bind_login'}) }}">
     <div class="layui-form-item">
-        <label class="layui-icon layui-icon-username"></label>
-        <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
+        <div class="layui-input-wrap">
+            <div class="layui-input-prefix"><i class="layui-icon layui-icon-username"></i></div>
+            <input class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
+        </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-icon layui-icon-password"></label>
-        <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-verify="required">
+        <div class="layui-input-wrap">
+            <div class="layui-input-prefix"><i class="layui-icon layui-icon-password"></i></div>
+            <input class="layui-input" type="password" name="password" autocomplete="off" placeholder="密码" lay-affix="eye" lay-verify="required">
+        </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">

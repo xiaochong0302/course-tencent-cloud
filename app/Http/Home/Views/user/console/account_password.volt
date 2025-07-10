@@ -13,19 +13,19 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">原始密码</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" type="password" name="origin_password" autocomplete="off" lay-verify="required">
+                            <input class="layui-input" type="password" name="origin_password" autocomplete="off" lay-affix="eye" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">新设密码</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" type="password" name="new_password" placeholder="字母数字特殊字符6-16位" autocomplete="off" lay-verify="required">
+                            <input class="layui-input" type="password" name="new_password" autocomplete="off" placeholder="字母数字特殊字符6-16位" lay-affix="eye" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">确认密码</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" type="password" name="confirm_password" placeholder="字母数字特殊字符6-16位" autocomplete="off" lay-verify="required">
+                            <input class="layui-input" type="password" name="confirm_password" autocomplete="off" placeholder="字母数字特殊字符6-16位" lay-affix="eye" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -41,4 +41,3 @@
     </div>
 
 {% endblock %}
-
