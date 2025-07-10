@@ -1,3 +1,7 @@
+.layui-input-wrap .layui-icon {
+    color: #d2d2d2;
+}
+
 .layui-table .meta span {
     margin-right: 10px;
 }
@@ -86,24 +90,6 @@
 
 .kg-login-form .layui-input-block {
     margin-left: 0;
-}
-
-.kg-login-form .layui-form-item {
-    position: relative;
-}
-
-.kg-login-form .layui-form-item label {
-    position: absolute;
-    left: 1px;
-    top: 1px;
-    width: 38px;
-    line-height: 36px;
-    text-align: center;
-    color: #d2d2d2;
-}
-
-.kg-login-form .layui-form-item input {
-    padding-left: 36px;
 }
 
 .kg-login-copyright {

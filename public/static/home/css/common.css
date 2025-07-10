@@ -60,6 +60,10 @@
     border-radius: 100%;
 }
 
+.layui-input-wrap .layui-icon {
+    color: #d2d2d2;
+}
+
 .layui-table .meta span {
     margin-right: 10px;
 }
@@ -1640,24 +1644,6 @@
 .account-form {
     width: 400px;
     margin: 0 auto;
-}
-
-.account-form .layui-form-item {
-    position: relative;
-}
-
-.account-form .layui-form-item label {
-    position: absolute;
-    left: 1px;
-    top: 1px;
-    width: 38px;
-    line-height: 36px;
-    text-align: center;
-    color: #d2d2d2;
-}
-
-.account-form .layui-form-item input {
-    padding-left: 36px;
 }
 
 .account-form .layui-input-block {
