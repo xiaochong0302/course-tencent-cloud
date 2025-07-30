@@ -57,7 +57,7 @@ class TeacherLiveNoticeTask extends Task
 
             $live = $liveRepo->findById($liveId);
 
-            if ($live->start_time - time() < 30 * 60) {
+            if ($live->start_time > time() && $live->start_time < time() + 60 * 60) {
 
                 $notice->createTask($live);
 
