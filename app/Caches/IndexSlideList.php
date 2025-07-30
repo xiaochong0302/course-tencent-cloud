@@ -14,7 +14,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 class IndexSlideList extends Cache
 {
 
-    protected $lifetime = 3600;
+    protected $lifetime = 86400;
 
     public function getLifetime()
     {
@@ -28,7 +28,7 @@ class IndexSlideList extends Cache
 
     public function getContent($id = null)
     {
-        $limit = 5;
+        $limit = 10;
 
         $slides = $this->findSlides($limit);
 
@@ -64,7 +64,7 @@ class IndexSlideList extends Cache
      * @param int $limit
      * @return ResultsetInterface|Resultset|SlideModel[]
      */
-    public function findSlides($limit = 5)
+    public function findSlides($limit = 10)
     {
         return SlideModel::query()
             ->where('published = 1')

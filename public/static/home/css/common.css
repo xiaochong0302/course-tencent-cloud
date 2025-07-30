@@ -422,10 +422,31 @@
     border: none;
 }
 
+.search-course-card .left {
+    position: relative;
+    margin-right: 15px;
+}
+
+.search-course-card .model {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.search-course-card .rating {
+    position: absolute;
+    top: 90px;
+    right: 15px;
+}
+
+.search-course-card .rating .layui-icon {
+    color: #ffb800;
+    font-size: 14px;
+}
+
 .search-course-card .cover {
     width: 210px;
     height: 118px;
-    margin-right: 15px;
 }
 
 .search-course-card .cover img {
@@ -468,6 +489,7 @@
 .search-question-card em {
     color: red;
     font-style: normal;
+    padding: 0 3px;
 }
 
 .query-badge {
@@ -850,10 +872,22 @@
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.course-card .model, .course-card .type {
+.course-card .model,
+.course-card .type {
     position: absolute;
     top: 15px;
     right: 15px;
+}
+
+.course-card .rating {
+    position: absolute;
+    top: 130px;
+    right: 15px;
+}
+
+.course-card .rating .layui-icon {
+    color: #ffb800;
+    font-size: 14px;
 }
 
 .course-card .cover {
