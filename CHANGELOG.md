@@ -1,3 +1,13 @@
+### [v1.7.9](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.9)(2025-08-10)
+
+- 优化统计菜单子项数量
+- 优化获取直播信息弹窗
+- 优化视频点播播放器PlayMask
+- 优化course-card相关UI
+- 优化layer.volt基础模板
+- 优化教师直播通知发送任务
+- 密码相关输入框增加可视切换
+
 ### [v1.7.8](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.8)(2025-06-20)
 
 - 移除ThrottleLimit
