@@ -64,3 +64,7 @@ Tips: 请用手机注册一个新账号，用户中心 -> 关注订阅，扫码�
 - [码云平台](https://gitee.com/koogua/course-tencent-cloud/issues)
 - [官方社区](https://www.koogua.com/community)
 - QQ交流群: 787363898
+
+### 国际版在线教育项目 - WUWEI LITE
+
+[WuWei Lite](https://github.com/xiaochong0302/wuwei-lite) – a community edition of WuWei LMS, providing core e-learning features for courses, students, and instructors, optimized for easy setup and use.
