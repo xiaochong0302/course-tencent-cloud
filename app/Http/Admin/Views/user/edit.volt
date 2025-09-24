@@ -10,13 +10,13 @@
         <legend>编辑用户</legend>
     </fieldset>
 
-    <div class="layui-tab layui-tab-brief">
-        <ul class="layui-tab-title kg-tab-title">
+    <div class="layui-tabs">
+        <ul class="layui-tabs-header">
             <li class="layui-this">基本信息</li>
             <li>账号信息</li>
         </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
+        <div class="layui-tabs-body">
+            <div class="layui-tabs-item layui-show">
                 <form class="layui-form kg-form" method="POST" action="{{ update_user_url }}">
                     <div class="layui-form-item">
                         <label class="layui-form-label" style="padding-top:30px;">头像</label>
@@ -114,7 +114,7 @@
                     </div>
                 </form>
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tabs-item">
                 <form class="layui-form kg-form" method="POST" action="{{ update_user_url }}">
                     <fieldset class="layui-elem-field layui-field-title">
                         <legend>编辑帐号</legend>

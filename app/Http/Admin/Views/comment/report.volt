@@ -11,14 +11,14 @@
         <legend>审核举报</legend>
     </fieldset>
 
-    <div class="layui-tab layui-tab-brief">
-        <ul class="layui-tab-title kg-tab-title">
+    <div class="layui-tabs">
+        <ul class="layui-tabs-header">
             <li class="layui-this">评论信息</li>
             <li>举报信息</li>
             <li>审核意见</li>
         </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
+        <div class="layui-tabs-body">
+            <div class="layui-tabs-item layui-show">
                 <div class="kg-mod-preview">
                     <div class="meta">
                         <span><a href="{{ owner_url }}" target="_blank">{{ comment.owner.name }}</a></span>
@@ -27,7 +27,7 @@
                     <div class="content">{{ comment.content }}</div>
                 </div>
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tabs-item">
                 <table class="layui-table kg-table">
                     <colgroup>
                         <col>
@@ -53,7 +53,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tabs-item">
                 <form class="layui-form kg-form kg-mod-form" method="POST" action="{{ report_url }}">
                     <div class="layui-form-item">
                         <label class="layui-form-label">有效举报</label>

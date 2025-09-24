@@ -325,11 +325,11 @@
     margin-bottom: 0;
 }
 
-.index-wrap .layui-tab-title {
+.index-wrap .layui-tabs-header {
     border: none;
 }
 
-.index-wrap .layui-tab-content {
+.index-wrap .layui-tabs-body {
     padding-top: 20px;
 }
 
@@ -376,11 +376,11 @@
     margin: 0;
 }
 
-.search-tab .layui-tab-title {
+.search-tab .layui-tabs-header {
     margin-bottom: 10px;
 }
 
-.search-tab .layui-tab-content {
+.search-tab .layui-tabs-body {
     padding: 10px 0;
 }
 
@@ -1053,14 +1053,14 @@
     color: #666;
 }
 
-.layui-tab-title li {
+.layui-tabs-header li {
     position: relative;
 }
 
-.layui-tab-title .tab-count {
+.layui-tabs-header .tab-count {
     position: absolute;
     top: -10px;
-    left: 70px;
+    padding-left: 5px;
     font-size: 12px;
     color: #666;
 }
@@ -1069,7 +1069,7 @@
     margin: 0;
 }
 
-.course-tab .layui-tab-content {
+.course-tab .layui-tabs-body {
     padding: 20px 0;
 }
 
@@ -1712,11 +1712,11 @@
     margin: 0;
 }
 
-.login-tab .layui-tab-title {
+.login-tab .layui-tabs-header {
     text-align: center;
 }
 
-.login-tab .layui-tab-content {
+.login-tab .layui-tabs-body {
     padding-top: 30px;
 }
 
@@ -1824,13 +1824,13 @@
     background-color: #f2f2f2;
 }
 
-.user-tab .layui-tab-title {
+.user-tab .layui-tabs-header {
     margin-bottom: 10px;
     text-align: center;
     border-bottom: none;
 }
 
-.user-tab .layui-tab-content {
+.user-tab .layui-tabs-body {
     padding: 10px 0;
 }
 

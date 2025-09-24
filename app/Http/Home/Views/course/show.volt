@@ -33,8 +33,8 @@
 
         <div class="layout-content">
             <div class="course-tab-wrap wrap">
-                <div class="layui-tab layui-tab-brief course-tab">
-                    <ul class="layui-tab-title">
+                <div class="layui-tabs course-tab">
+                    <ul class="layui-tabs-header">
                         <li class="layui-this">详情</li>
                         <li>目录</li>
                         {% if show_tab_packages %}
@@ -50,28 +50,28 @@
                             <li>课件<span class="tab-count">{{ course.resource_count }}</span></li>
                         {% endif %}
                     </ul>
-                    <div class="layui-tab-content">
-                        <div class="layui-tab-item layui-show">
+                    <div class="layui-tabs-body">
+                        <div class="layui-tabs-item layui-show">
                             <div class="course-details ke-content kg-zoom">{{ course.details }}</div>
                         </div>
-                        <div class="layui-tab-item">
+                        <div class="layui-tabs-item">
                             {{ partial('course/show_catalog') }}
                         </div>
                         {% if show_tab_packages %}
                             {% set packages_url = url({'for':'home.course.packages','id':course.id}) %}
-                            <div class="layui-tab-item" id="tab-packages" data-url="{{ packages_url }}"></div>
+                            <div class="layui-tabs-item" id="tab-packages" data-url="{{ packages_url }}"></div>
                         {% endif %}
                         {% if show_tab_consults %}
                             {% set consults_url = url({'for':'home.course.consults','id':course.id}) %}
-                            <div class="layui-tab-item" id="tab-consults" data-url="{{ consults_url }}"></div>
+                            <div class="layui-tabs-item" id="tab-consults" data-url="{{ consults_url }}"></div>
                         {% endif %}
                         {% if show_tab_reviews %}
                             {% set reviews_url = url({'for':'home.course.reviews','id':course.id}) %}
-                            <div class="layui-tab-item" id="tab-reviews" data-url="{{ reviews_url }}"></div>
+                            <div class="layui-tabs-item" id="tab-reviews" data-url="{{ reviews_url }}"></div>
                         {% endif %}
                         {% if show_tab_resources %}
                             {% set resources_url = url({'for':'home.course.resources','id':course.id}) %}
-                            <div class="layui-tab-item" id="tab-resources" data-url="{{ resources_url }}"></div>
+                            <div class="layui-tabs-item" id="tab-resources" data-url="{{ resources_url }}"></div>
                         {% endif %}
                     </div>
                 </div>

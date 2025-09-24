@@ -6,13 +6,13 @@
     {% set file_id = '' %}
 {% endif %}
 
-<div class="layui-tab layui-tab-brief">
-    <ul class="layui-tab-title kg-tab-title">
+<div class="layui-tabs">
+    <ul class="layui-tabs-header">
         <li class="layui-this">腾讯云点播</li>
         <li>外链云点播</li>
     </ul>
-    <div class="layui-tab-content">
-        <div class="layui-tab-item layui-show">
+    <div class="layui-tabs-body">
+        <div class="layui-tabs-item layui-show">
             {% if cos_play_urls %}
                 <fieldset class="layui-elem-field layui-field-title">
                     <legend>视频信息</legend>
@@ -77,7 +77,7 @@
                 </div>
             </form>
         </div>
-        <div class="layui-tab-item">
+        <div class="layui-tabs-item">
             <form class="layui-form kg-form" method="POST" action="{{ action_url }}">
                 <fieldset class="layui-elem-field layui-field-title">
                     <legend>外链视频</legend>

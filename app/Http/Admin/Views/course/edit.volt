@@ -8,8 +8,8 @@
         <legend>编辑课程</legend>
     </fieldset>
 
-    <div class="layui-tab layui-tab-brief">
-        <ul class="layui-tab-title kg-tab-title">
+    <div class="layui-tabs">
+        <ul class="layui-tabs-header">
             <li class="layui-this">基本信息</li>
             {% if course.model == 4 %}
                 <li>面授信息</li>
@@ -19,25 +19,25 @@
             <li>课件资料</li>
             <li>相关课程</li>
         </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
+        <div class="layui-tabs-body">
+            <div class="layui-tabs-item layui-show">
                 {{ partial('course/edit_basic') }}
             </div>
             {% if course.model == 4 %}
-                <div class="layui-tab-item">
+                <div class="layui-tabs-item">
                     {{ partial('course/edit_offline') }}
                 </div>
             {% endif %}
-            <div class="layui-tab-item">
+            <div class="layui-tabs-item">
                 {{ partial('course/edit_desc') }}
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tabs-item">
                 {{ partial('course/edit_sale') }}
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tabs-item">
                 {{ partial('course/edit_resource') }}
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tabs-item">
                 {{ partial('course/edit_related') }}
             </div>
         </div>

@@ -11,16 +11,16 @@
     </div>
 
     <div class="login-wrap wrap">
-        <div class="layui-tab layui-tab-brief login-tab">
-            <ul class="layui-tab-title login-tab-title">
+        <div class="layui-tabs login-tab">
+            <ul class="layui-tabs-header">
                 <li class="layui-this">绑定已有帐号</li>
                 <li>注册并绑定帐号</li>
             </ul>
-            <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">
+            <div class="layui-tabs-body">
+                <div class="layui-tabs-item layui-show">
                     {{ partial('connect/bind_login') }}
                 </div>
-                <div class="layui-tab-item">
+                <div class="layui-tabs-item">
                     {{ partial('connect/bind_register') }}
                 </div>
             </div>

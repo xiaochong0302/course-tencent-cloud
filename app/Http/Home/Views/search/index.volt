@@ -23,25 +23,25 @@
     <div class="layout-main">
         <div class="layout-content">
             <div class="search-tab-wrap wrap">
-                <div class="layui-tab layui-tab-brief search-tab">
-                    <ul class="layui-tab-title">
+                <div class="layui-tabs search-tab">
+                    <ul class="layui-tabs-header">
                         {% for key,value in types %}
                             {% set class = (type == key) ? 'layui-this' : 'none' %}
                             {% set url = url({'for':'home.search.index'},{'type':key,'query':query}) %}
                             <li class="{{ class }}"><a href="{{ url }}">{{ value }}</a></li>
                         {% endfor %}
                     </ul>
-                    <div class="layui-tab-content">
+                    <div class="layui-tabs-body">
                         {% if type == 'course' %}
-                            <div class="layui-tab-item layui-show">
+                            <div class="layui-tabs-item layui-show">
                                 {{ partial('search/course') }}
                             </div>
                         {% elseif type == 'article' %}
-                            <div class="layui-tab-item layui-show">
+                            <div class="layui-tabs-item layui-show">
                                 {{ partial('search/article') }}
                             </div>
                         {% elseif type == 'question' %}
-                            <div class="layui-tab-item layui-show">
+                            <div class="layui-tabs-item layui-show">
                                 {{ partial('search/question') }}
                             </div>
                         {% endif %}

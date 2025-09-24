@@ -8,16 +8,16 @@
     </div>
 
     <div class="login-wrap wrap">
-        <div class="layui-tab layui-tab-brief login-tab">
-            <ul class="layui-tab-title login-tab-title">
+        <div class="layui-tabs login-tab">
+            <ul class="layui-tabs-header">
                 <li class="layui-this">密码登录</li>
                 <li>验证登录</li>
             </ul>
-            <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">
+            <div class="layui-tabs-body">
+                <div class="layui-tabs-item layui-show">
                     {{ partial('account/login_by_password') }}
                 </div>
-                <div class="layui-tab-item">
+                <div class="layui-tabs-item">
                     {{ partial('account/login_by_verify') }}
                 </div>
             </div>

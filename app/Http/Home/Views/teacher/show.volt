@@ -46,18 +46,18 @@
     {% set courses_url = url({'for':'home.teacher.courses','id':user.id}) %}
 
     <div class="tab-wrap">
-        <div class="layui-tab layui-tab-brief user-tab">
-            <ul class="layui-tab-title">
+        <div class="layui-tabs user-tab">
+            <ul class="layui-tabs-header">
                 <li class="layui-this">点播课程</li>
                 <li>直播课程</li>
                 <li>图文课程</li>
                 <li>面授课程</li>
             </ul>
-            <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show" id="tab-vod" data-url="{{ courses_url }}?model=1"></div>
-                <div class="layui-tab-item" id="tab-live" data-url="{{ courses_url }}?model=2"></div>
-                <div class="layui-tab-item" id="tab-read" data-url="{{ courses_url }}?model=3"></div>
-                <div class="layui-tab-item" id="tab-offline" data-url="{{ courses_url }}?model=4"></div>
+            <div class="layui-tabs-body">
+                <div class="layui-tabs-item layui-show" id="tab-vod" data-url="{{ courses_url }}?model=1"></div>
+                <div class="layui-tabs-item" id="tab-live" data-url="{{ courses_url }}?model=2"></div>
+                <div class="layui-tabs-item" id="tab-read" data-url="{{ courses_url }}?model=3"></div>
+                <div class="layui-tabs-item" id="tab-offline" data-url="{{ courses_url }}?model=4"></div>
             </div>
         </div>
     </div>
