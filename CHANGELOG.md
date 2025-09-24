@@ -1,3 +1,8 @@
+### [v1.8.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.8.0)(2025-09-24)
+
+- 更新layui-v2.11.6
+- 替换组件layui-tab -> layui-tabs
+
 ### [v1.7.9](https://gitee.com/koogua/course-tencent-cloud/releases/v1.7.9)(2025-08-10)
 
 - 优化统计菜单子项数量
