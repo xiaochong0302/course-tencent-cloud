@@ -5,16 +5,16 @@
     {{ partial('macros/course') }}
 
     {%- macro category_courses(items) %}
-        <div class="layui-tab layui-tab-brief">
-            <ul class="layui-tab-title">
+        <div class="layui-tabs">
+            <ul class="layui-tabs-header">
                 {% for item in items %}
                     {% set class = loop.first ? 'layui-this' : 'none' %}
                     <li class="{{ class }}">{{ item.category.name }}</li>
                 {% endfor %}
             </ul>
-            <div class="layui-tab-content">
+            <div class="layui-tabs-body">
                 {% for item in items %}
-                    {% set class = loop.first ? 'layui-tab-item layui-show' : 'layui-tab-item' %}
+                    {% set class = loop.first ? 'layui-tabs-item layui-show' : 'layui-tabs-item' %}
                     <div class="{{ class }}">
                         <div class="index-course-list">
                             <div class="layui-row layui-col-space20">

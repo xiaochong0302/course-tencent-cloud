@@ -2,14 +2,14 @@
 
 {% block content %}
 
-    <div class="layui-tab layui-tab-brief">
-        <ul class="layui-tab-title kg-tab-title">
+    <div class="layui-tabs">
+        <ul class="layui-tabs-header">
             <li class="layui-this">基本配置</li>
             <li>图片样式</li>
             <li>默认图片</li>
         </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
+        <div class="layui-tabs-body">
+            <div class="layui-tabs-item layui-show">
                 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.setting.storage'}) }}">
                     <fieldset class="layui-elem-field layui-field-title">
                         <legend>存储桶配置</legend>
@@ -66,7 +66,7 @@
                     </div>
                 </form>
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tabs-item">
                 <table class="layui-table" lay-size="lg" style="width:80%;">
                     <colgroup>
                         <col>
@@ -98,7 +98,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tabs-item">
                 <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.upload.default_img'}) }}">
                     <div class="layui-form-item">
                         <table class="layui-table" lay-size="lg" style="width:80%;">

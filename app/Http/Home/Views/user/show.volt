@@ -54,8 +54,8 @@
     {% set answers_url = url({'for':'home.user.answers','id':user.id}) %}
 
     <div class="tab-wrap">
-        <div class="layui-tab layui-tab-brief user-tab">
-            <ul class="layui-tab-title">
+        <div class="layui-tabs user-tab">
+            <ul class="layui-tabs-header">
                 <li class="layui-this">在学课程</li>
                 {% if show_tab_articles %}
                     <li>我的文章</li>
@@ -67,16 +67,16 @@
                     <li>我的回答</li>
                 {% endif %}
             </ul>
-            <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show" id="tab-courses" data-url="{{ courses_url }}"></div>
+            <div class="layui-tabs-body">
+                <div class="layui-tabs-item layui-show" id="tab-courses" data-url="{{ courses_url }}"></div>
                 {% if show_tab_articles %}
-                    <div class="layui-tab-item" id="tab-articles" data-url="{{ articles_url }}"></div>
+                    <div class="layui-tabs-item" id="tab-articles" data-url="{{ articles_url }}"></div>
                 {% endif %}
                 {% if show_tab_questions %}
-                    <div class="layui-tab-item" id="tab-questions" data-url="{{ questions_url }}"></div>
+                    <div class="layui-tabs-item" id="tab-questions" data-url="{{ questions_url }}"></div>
                 {% endif %}
                 {% if show_tab_answers %}
-                    <div class="layui-tab-item" id="tab-answers" data-url="{{ answers_url }}"></div>
+                    <div class="layui-tabs-item" id="tab-answers" data-url="{{ answers_url }}"></div>
                 {% endif %}
             </div>
         </div>

@@ -10,16 +10,16 @@
     </div>
 
     <div class="login-wrap wrap">
-        <div class="layui-tab layui-tab-brief login-tab">
-            <ul class="layui-tab-title login-tab-title">
+        <div class="layui-tabs login-tab">
+            <ul class="layui-tabs-header">
                 <li class="layui-this">手机方式</li>
                 <li>邮箱方式</li>
             </ul>
-            <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">
+            <div class="layui-tabs-body">
+                <div class="layui-tabs-item layui-show">
                     {{ partial('account/forget_by_phone') }}
                 </div>
-                <div class="layui-tab-item">
+                <div class="layui-tabs-item">
                     {{ partial('account/forget_by_email') }}
                 </div>
             </div>

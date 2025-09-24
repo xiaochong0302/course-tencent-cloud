@@ -14,16 +14,16 @@
     </div>
 
     <div class="login-wrap wrap">
-        <div class="layui-tab layui-tab-brief login-tab">
-            <ul class="layui-tab-title login-tab-title">
+        <div class="layui-tabs login-tab">
+            <ul class="layui-tabs-header">
                 <li class="layui-this">手机注册</li>
                 <li>邮箱注册</li>
             </ul>
-            <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">
+            <div class="layui-tabs-body">
+                <div class="layui-tabs-item layui-show">
                     {{ partial('account/register_by_phone') }}
                 </div>
-                <div class="layui-tab-item">
+                <div class="layui-tabs-item">
                     {{ partial('account/register_by_email') }}
                 </div>
             </div>

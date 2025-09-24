@@ -19,7 +19,7 @@ layui.use(['jquery', 'helper'], function () {
         helper.ajaxLoadHtml($sidebarRelated.data('url'), $sidebarRelated.attr('id'));
     }
 
-    $('.layui-tab-title > li').on('click', function () {
+    $('.layui-tabs-header > li').on('click', function () {
         helper.ajaxLoadHtml($(this).data('url'), $answerList.attr('id'));
     });
 
