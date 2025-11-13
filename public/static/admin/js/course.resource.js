@@ -1,3 +1,8 @@
+/**
+ * @desc COS putObject
+ * @link https://cloud.tencent.com/document/product/436/64960
+ */
+
 layui.use(['jquery', 'element', 'layer'], function () {
 
     var $ = layui.jquery;
@@ -13,7 +18,6 @@ layui.use(['jquery', 'element', 'layer'], function () {
     var myConfig = {
         bucket: $('input[name=bucket]').val(),
         region: $('input[name=region]').val(),
-        storageClass: 'STANDARD'
     };
 
     var cos = new COS({
@@ -49,7 +53,6 @@ layui.use(['jquery', 'element', 'layer'], function () {
         var keyName = getKeyName(file.name);
         cos.putObject({
             ContentDisposition: 'attachment',
-            StorageClass: myConfig.storageClass,
             Bucket: myConfig.bucket,
             Region: myConfig.region,
             Key: keyName,
