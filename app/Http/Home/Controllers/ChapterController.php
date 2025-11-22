@@ -73,12 +73,12 @@ class ChapterController extends Controller
         } elseif ($chapter['model'] == CourseModel::MODEL_READ) {
             $this->view->pick('chapter/read');
         } elseif ($chapter['model'] == CourseModel::MODEL_LIVE) {
-            if ($chapter['status'] == LiveModel::STATUS_ACTIVE) {
+            if ($chapter['status'] == LiveModel::STATUS_FORBID) {
+                $this->view->pick('chapter/live/forbid');
+            } elseif ($chapter['status'] == LiveModel::STATUS_ACTIVE) {
                 $this->view->pick('chapter/live/active');
             } elseif ($chapter['status'] == LiveModel::STATUS_INACTIVE) {
                 $this->view->pick('chapter/live/inactive');
-            } elseif ($chapter['status'] == LiveModel::STATUS_FORBID) {
-                $this->view->pick('chapter/live/forbid');
             }
         }
 
