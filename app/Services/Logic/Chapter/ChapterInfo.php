@@ -71,9 +71,9 @@ class ChapterInfo extends LogicService
          */
         if (!$this->ownedChapter) {
             if ($chapter->model == CourseModel::MODEL_VOD) {
-                $result['play_urls'] = [];
+                $result['play_urls'] = new \stdClass();
             } elseif ($chapter->model == CourseModel::MODEL_LIVE) {
-                $result['play_urls'] = [];
+                $result['play_urls'] = new \stdClass();
             } elseif ($chapter->model == CourseModel::MODEL_READ) {
                 $result['content'] = '';
             }
