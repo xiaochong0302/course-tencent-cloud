@@ -45,9 +45,6 @@
         {% if lesson.me.owned == 0 %}
             <span class="lock"><i class="iconfont icon-lock"></i></span>
         {% endif %}
-        {% if lesson.attrs.playback.ready == 1 %}
-            <span class="flag flag-playback">回放</span>
-        {% endif %}
         {% if lesson.free == 1 %}
             <span class="flag flag-free">试听</span>
         {% endif %}
@@ -95,7 +92,9 @@
 {%- endmacro %}
 
 {%- macro live_status_info(lesson) %}
-    {% if lesson.attrs.stream.status == 'active' %}
+    {% if lesson.attrs.stream.status == 'forbid' %}
+        <span class="flag flag-forbid">已禁播</span>
+    {% elseif lesson.attrs.stream.status == 'active' %}
         <span class="flag flag-active">直播中</span>
     {% elseif lesson.attrs.start_time > time() %}
         <span class="flag flag-scheduled">倒计时</span>
