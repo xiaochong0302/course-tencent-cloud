@@ -79,7 +79,7 @@ class BasicInfo extends LogicService
 
     protected function handleCategoryPaths($categoryId)
     {
-        if ($categoryId == 0) return null;
+        if ($categoryId == 0) return [];
 
         $service = new CategoryService();
 
@@ -88,7 +88,7 @@ class BasicInfo extends LogicService
 
     protected function handleTeacherInfo($userId)
     {
-        if ($userId == 0) return null;
+        if ($userId == 0) return new \stdClass();
 
         $service = new ShallowUserInfoService();
 
