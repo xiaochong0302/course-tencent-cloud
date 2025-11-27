@@ -30,7 +30,7 @@ class Learning extends AppService
         $itemKey = $this->getItemKey($learning->request_id);
 
         /**
-         * @var LearningModel $cacheLearning
+         * @var LearningModel|null $cacheLearning
          */
         $cacheLearning = $cache->get($itemKey);
 

@@ -51,7 +51,7 @@ class SyncLearningTask extends Task
         $cache = $this->getCache();
 
         /**
-         * @var LearningModel $cacheLearning
+         * @var LearningModel|null $cacheLearning
          */
         $cacheLearning = $cache->get($itemKey);
 
