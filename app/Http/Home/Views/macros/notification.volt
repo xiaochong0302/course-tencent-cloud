@@ -42,6 +42,10 @@
         {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
         <p>{{ sender.name }} 回答了你的提问 <a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a></p>
         <p>回答内容：{{ info.answer.summary }}</p>
+    {% elseif type == 207 %}
+        {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
+        <p>{{ sender.name }} 评论了你的提问 <a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a></p>
+        <p>评论内容：{{ info.comment.content }}</p>
     {% elseif type == 208 %}
         {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
         <p>{{ sender.name }} 收藏了你的问题 <a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a></p>
@@ -56,6 +60,10 @@
         {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
         <p>你对问题 <a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a> 的回答，审核未通过</p>
         <p>回答内容：{{ info.answer.summary }}</p>
+    {% elseif type == 227 %}
+        {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
+        <p>{{ sender.name }} 评论了你对问题 <a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a> 的回答</p>
+        <p>评论内容：{{ info.comment.content }}</p>
     {% elseif type == 228 %}
         {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
         <p>{{ sender.name }} 喜欢了你对问题 <a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a>　的回答</p>

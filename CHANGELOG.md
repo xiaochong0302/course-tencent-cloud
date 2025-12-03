@@ -1,3 +1,11 @@
+### [v1.8.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.8.1)(2025-12-03)
+
+- 【增加】提问和回答评论消息
+- 【优化】优化直播课时
+- 【优化】js上传课件资料去掉StorageClass参数，避免存储AZ特性的问题
+- 【优化】同步学习进度$cacheLearning返回类型
+- 【优化】针对接口优化空数据返回
+- 
 ### [v1.8.0](https://gitee.com/koogua/course-tencent-cloud/releases/v1.8.0)(2025-09-24)
 
 - 更新layui-v2.11.6
