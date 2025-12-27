@@ -1,11 +1,4 @@
-layui.use(['jquery'], function () {
-
-    var $ = layui.jquery;
-
-    var $textarea = $('#editor-textarea');
-    var $form = $('form:has(#editor-textarea)');
-
-    var editor;
+KindEditor.ready(function (K) {
 
     var options = {
         uploadJson: '/admin/upload/content/img',
@@ -35,34 +28,41 @@ layui.use(['jquery'], function () {
             'br,tbody,tr,strong,b,sub,sup,em,i,u,strike,s,del': ['id', 'class'],
         },
         extraFileUploadParams: {
-            csrf_token: $('meta[name="csrf-token"]').attr('content')
+            csrf_token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     };
 
-    KindEditor.ready(function (K) {
-        editor = K.create('#editor-textarea', options);
-    });
+    var editor = K.create('#editor-textarea', options);
 
-    /**
-     * 同步编辑器内容到表单
-     */
-    $('.kg-submit').on('click', function () {
-        editor.sync();
-    });
+    layui.use(['jquery'], function () {
 
-    /**
-     * 定时提交编辑器内容
-     */
-    setInterval(function () {
-        editor.sync();
-        if (!$form.attr('action').includes('update')) return;
-        if ($textarea.val().length > 30) {
-            $.ajax({
-                type: 'POST',
-                url: $form.attr('action'),
-                data: $form.serialize(),
-            });
-        }
-    }, 15000);
+        var $ = layui.jquery;
+
+        var $textarea = $('#editor-textarea');
+        var $form = $('form:has(#editor-textarea)');
+
+        /**
+         * 同步编辑器内容到表单
+         */
+        $('.kg-submit').on('click', function () {
+            editor.sync();
+        });
+
+        /**
+         * 定时提交编辑器内容
+         */
+        setInterval(function () {
+            editor.sync();
+            if (!$form.attr('action').includes('update')) return;
+            if ($textarea.val().length > 30) {
+                $.ajax({
+                    type: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                });
+            }
+        }, 15000);
+
+    });
 
 });
