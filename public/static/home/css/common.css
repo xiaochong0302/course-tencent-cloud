@@ -1254,11 +1254,10 @@
     position: absolute;
     top: 0;
     right: 0;
-    margin-bottom: 10px;
 }
 
 .consult-card .question {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     color: #333;
 }
 
