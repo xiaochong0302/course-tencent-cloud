@@ -12,7 +12,6 @@ use App\Http\Admin\Services\ChapterContent as ChapterContentService;
 use App\Http\Admin\Services\Course as CourseService;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Models\Course as CourseModel;
-use Phalcon\Mvc\View;
 
 /**
  * @RoutePrefix("/admin/chapter")
@@ -76,16 +75,18 @@ class ChapterController extends Controller
                 'for' => 'admin.chapter.lessons',
                 'id' => $chapter->parent_id,
             ]);
+            $msg = '创建课时成功';
         } else {
             $location = $this->url->get([
                 'for' => 'admin.course.chapters',
                 'id' => $chapter->course_id,
             ]);
+            $msg = '创建章节成功';
         }
 
         $content = [
             'location' => $location,
-            'msg' => '创建章节成功',
+            'msg' => $msg,
         ];
 
         return $this->jsonSuccess($content);
@@ -159,16 +160,18 @@ class ChapterController extends Controller
                 'for' => 'admin.chapter.lessons',
                 'id' => $chapter->parent_id,
             ]);
+            $msg = '更新课时成功';
         } else {
             $location = $this->url->get([
                 'for' => 'admin.course.chapters',
                 'id' => $chapter->course_id,
             ]);
+            $msg = '更新章节成功';
         }
 
         $content = [
             'location' => $location,
-            'msg' => '更新章节成功',
+            'msg' => $msg,
         ];
 
         return $this->jsonSuccess($content);
@@ -181,13 +184,17 @@ class ChapterController extends Controller
     {
         $chapterService = new ChapterService();
 
+        $chapter = $chapterService->getChapter($id);
+
         $chapterService->deleteChapter($id);
+
+        $msg = $chapter->parent_id > 0 ? '删除课时成功' : '删除章节成功';
 
         $location = $this->request->getHTTPReferer();
 
         $content = [
             'location' => $location,
-            'msg' => '删除章节成功',
+            'msg' => $msg,
         ];
 
         return $this->jsonSuccess($content);
@@ -200,13 +207,17 @@ class ChapterController extends Controller
     {
         $chapterService = new ChapterService();
 
+        $chapter = $chapterService->getChapter($id);
+
         $chapterService->restoreChapter($id);
+
+        $msg = $chapter->parent_id > 0 ? '删除课时成功' : '删除章节成功';
 
         $location = $this->request->getHTTPReferer();
 
         $content = [
             'location' => $location,
-            'msg' => '删除章节成功',
+            'msg' => $msg,
         ];
 
         return $this->jsonSuccess($content);

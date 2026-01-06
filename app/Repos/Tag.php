@@ -80,12 +80,12 @@ class Tag extends Repository
      * @param string $sort
      * @return ResultsetInterface|Resultset|TagModel[]
      */
-    public function findAll($where = [], $sort = 'latest')
+    public function findAll($where = [], $sort = 'latest', $limit = 10000)
     {
         /**
          * 一个偷懒的实现，适用于中小体量数据
          */
-        $paginate = $this->paginate($where, $sort, 1, 10000);
+        $paginate = $this->paginate($where, $sort, 1, $limit);
 
         return $paginate->items;
     }
