@@ -10,6 +10,7 @@ namespace App\Http\Admin\Services;
 use App\Builders\AnswerList as AnswerListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
 use App\Http\Admin\Services\Traits\AccountSearchTrait;
+use App\Http\Admin\Services\Traits\AuthorTrait;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Answer as AnswerModel;
 use App\Models\Question as QuestionModel;
@@ -31,8 +32,14 @@ use App\Validators\Answer as AnswerValidator;
 class Answer extends Service
 {
 
+    use AuthorTrait;
     use AnswerDataTrait;
     use AccountSearchTrait;
+
+    public function getOwnerOptions()
+    {
+        return $this->getAuthorOptions();
+    }
 
     public function getPublishTypes()
     {
@@ -98,19 +105,18 @@ class Answer extends Service
     {
         $post = $this->request->getPost();
 
-        $user = $this->getLoginUser();
-
         $validator = new AnswerValidator();
 
         $question = $validator->checkQuestion($post['question_id']);
+        $author = $validator->checkAuthor($post['owner_id']);
 
         $data = $this->handlePostData($post);
 
         $answer = new AnswerModel();
 
-        $data['published'] = AnswerModel::PUBLISH_APPROVED;
+        $data['owner_id'] = $author->id;
         $data['question_id'] = $question->id;
-        $data['owner_id'] = $user->id;
+        $data['published'] = AnswerModel::PUBLISH_APPROVED;
 
         $answer->create($data);
 
@@ -122,7 +128,7 @@ class Answer extends Service
 
         $this->saveDynamicAttrs($answer);
         $this->recountQuestionAnswers($question);
-        $this->recountUserAnswers($user);
+        $this->recountUserAnswers($author);
 
         if ($answer->owner_id != $question->owner_id) {
             $this->handleAnswerPostPoint($answer);

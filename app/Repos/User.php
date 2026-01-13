@@ -199,6 +199,17 @@ class User extends Repository
             ->execute();
     }
 
+    /**
+     * @return ResultsetInterface|Resultset|UserModel[]
+     */
+    public function findAdminRoleUsers()
+    {
+        return UserModel::query()
+            ->where('admin_role > 0')
+            ->andWhere('deleted = 0')
+            ->execute();
+    }
+
     public function countUsers()
     {
         return (int)UserModel::count([

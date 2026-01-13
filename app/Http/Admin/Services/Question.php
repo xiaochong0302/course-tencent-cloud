@@ -10,6 +10,7 @@ namespace App\Http\Admin\Services;
 use App\Builders\QuestionList as QuestionListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
 use App\Http\Admin\Services\Traits\AccountSearchTrait;
+use App\Http\Admin\Services\Traits\AuthorTrait;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Category as CategoryModel;
 use App\Models\Question as QuestionModel;
@@ -32,6 +33,7 @@ use App\Validators\Question as QuestionValidator;
 class Question extends Service
 {
 
+    use AuthorTrait;
     use QuestionDataTrait;
     use AccountSearchTrait;
 
@@ -47,6 +49,11 @@ class Question extends Service
         $categoryService = new CategoryService();
 
         return $categoryService->getCategoryOptions(CategoryModel::TYPE_QUESTION);
+    }
+
+    public function getOwnerOptions()
+    {
+        return $this->getAuthorOptions();
     }
 
     public function getPublishTypes()
@@ -113,25 +120,23 @@ class Question extends Service
     {
         $post = $this->request->getPost();
 
-        $user = $this->getLoginUser();
-
         $validator = new QuestionValidator();
 
-        $title = $validator->checkTitle($post['title']);
+        $author = $validator->checkAuthor($post['owner_id']);
 
         $question = new QuestionModel();
 
+        $question->title = $validator->checkTitle($post['title']);
         $question->published = QuestionModel::PUBLISH_APPROVED;
         $question->client_type = $this->getClientType();
         $question->client_ip = $this->getClientIp();
-        $question->owner_id = $user->id;
-        $question->title = $title;
+        $question->owner_id = $author->id;
 
         $question->create();
 
         $this->saveDynamicAttrs($question);
+        $this->recountUserQuestions($author);
         $this->rebuildQuestionIndex($question);
-        $this->recountUserQuestions($user);
 
         $this->eventsManager->fire('Question:afterCreate', $this, $question);
 

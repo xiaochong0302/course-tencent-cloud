@@ -13,6 +13,17 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">作者</label>
+            <div class="layui-input-block">
+                <select name="owner_id" lay-search="true" lay-verify="required">
+                    <option value="">请选择</option>
+                    {% for option in owner_options %}
+                        <option value="{{ option.id }}">{{ option.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit="true" lay-filter="go">提交</button>

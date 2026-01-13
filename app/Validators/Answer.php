@@ -38,6 +38,13 @@ class Answer extends Validator
         return $validator->checkQuestion($id);
     }
 
+    public function checkAuthor($id)
+    {
+        $validator = new User();
+
+        return $validator->checkUser($id);
+    }
+
     public function checkContent($content)
     {
         $value = $this->filter->sanitize($content, ['trim']);
