@@ -60,7 +60,11 @@ class QuestionController extends Controller
      */
     public function addAction()
     {
+        $questionService = new QuestionService();
 
+        $ownerOptions = $questionService->getOwnerOptions();
+
+        $this->view->setVar('owner_options', $ownerOptions);
     }
 
     /**

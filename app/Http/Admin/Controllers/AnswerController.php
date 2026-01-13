@@ -51,7 +51,12 @@ class AnswerController extends Controller
 
         $question = $questionService->getQuestion($id);
 
+        $answerService = new AnswerService();
+
+        $ownerOptions = $answerService->getOwnerOptions();
+
         $this->view->setVar('question', $question);
+        $this->view->setVar('owner_options', $ownerOptions);
     }
 
     /**

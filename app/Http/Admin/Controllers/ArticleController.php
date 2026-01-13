@@ -64,7 +64,11 @@ class ArticleController extends Controller
      */
     public function addAction()
     {
+        $articleService = new ArticleService();
 
+        $ownerOptions = $articleService->getOwnerOptions();
+
+        $this->view->setVar('owner_options', $ownerOptions);
     }
 
     /**

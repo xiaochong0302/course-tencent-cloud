@@ -7,12 +7,25 @@
             <legend>回答问题</legend>
         </fieldset>
         <div class="layui-form-item">
-            <div class="layui-input-block" style="margin:0;">
+            <label class="layui-form-label">问题</label>
+            <div class="layui-input-block">
                 <input class="layui-input" type="text" name="title" value="{{ question.title }}" readonly="readonly">
             </div>
         </div>
         <div class="layui-form-item">
-            <div class="layui-input-block" style="margin:0;">
+            <label class="layui-form-label">作者</label>
+            <div class="layui-input-block">
+                <select name="owner_id" lay-search="true" lay-verify="required">
+                    <option value="">请选择</option>
+                    {% for option in owner_options %}
+                        <option value="{{ option.id }}">{{ option.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">回答</label>
+            <div class="layui-input-block">
                 <textarea name="content" class="layui-hide" id="editor-textarea"></textarea>
             </div>
         </div>

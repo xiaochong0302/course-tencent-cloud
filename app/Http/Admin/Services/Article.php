@@ -10,6 +10,7 @@ namespace App\Http\Admin\Services;
 use App\Builders\ArticleList as ArticleListBuilder;
 use App\Builders\ReportList as ReportListBuilder;
 use App\Http\Admin\Services\Traits\AccountSearchTrait;
+use App\Http\Admin\Services\Traits\AuthorTrait;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\Article as ArticleModel;
 use App\Models\Category as CategoryModel;
@@ -32,6 +33,7 @@ use App\Validators\Article as ArticleValidator;
 class Article extends Service
 {
 
+    use AuthorTrait;
     use ArticleDataTrait;
     use AccountSearchTrait;
 
@@ -40,6 +42,11 @@ class Article extends Service
         $service = new XmTagListService();
 
         return $service->handle($id);
+    }
+
+    public function getOwnerOptions()
+    {
+        return $this->getAuthorOptions();
     }
 
     public function getCategoryOptions()
@@ -118,25 +125,22 @@ class Article extends Service
     {
         $post = $this->request->getPost();
 
-        $user = $this->getLoginUser();
-
         $validator = new ArticleValidator();
 
-        $title = $validator->checkTitle($post['title']);
+        $author = $validator->checkAuthor($post['owner_id']);
 
         $article = new ArticleModel();
 
-        $article->published = ArticleModel::PUBLISH_APPROVED;
+        $article->title = $validator->checkTitle($post['title']);
         $article->client_type = $this->getClientType();
         $article->client_ip = $this->getClientIp();
-        $article->owner_id = $user->id;
-        $article->title = $title;
+        $article->owner_id = $author->id;
 
         $article->create();
 
         $this->saveDynamicAttrs($article);
         $this->rebuildArticleIndex($article);
-        $this->recountUserArticles($user);
+        $this->recountUserArticles($author);
 
         $this->eventsManager->fire('Article:afterCreate', $this, $article);
 

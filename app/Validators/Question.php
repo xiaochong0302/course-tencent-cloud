@@ -28,6 +28,13 @@ class Question extends Validator
         return $question;
     }
 
+    public function checkAuthor($id)
+    {
+        $validator = new User();
+
+        return $validator->checkUser($id);
+    }
+
     public function checkCategoryId($id)
     {
         $result = 0;
