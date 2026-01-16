@@ -68,6 +68,20 @@
     text-align: center;
 }
 
+.kg-field-tips {
+    margin-top: 10px;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.kg-label-tips {
+    cursor: pointer;
+}
+
+.kg-label-tips .layui-icon {
+    font-size: 12px;
+}
+
 .kg-login-wrap {
     width: 500px;
     margin: 150px auto 100px;

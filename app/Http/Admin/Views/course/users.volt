@@ -63,7 +63,7 @@
                 <td>{{ expiry_time }}</td>
                 <td>{{ active_time }}</td>
                 <td class="kg-center">
-                    <a class="layui-btn layui-btn-sm kg-learning" href="javascript:" data-url="{{ learnings_url }}">学习记录</a>
+                    <a class="layui-btn layui-btn-sm kg-learnings" href="javascript:" data-url="{{ learnings_url }}">学习记录</a>
                 </td>
             </tr>
         {% endfor %}
@@ -78,11 +78,12 @@
 
     <script>
 
-        layui.use(['jquery'], function () {
+        layui.use(['jquery', 'layer'], function () {
 
             var $ = layui.jquery;
+            var layer = layui.layer;
 
-            $('.kg-learning').on('click', function () {
+            $('.kg-learnings').on('click', function () {
                 var url = $(this).data('url');
                 layer.open({
                     type: 2,

@@ -1,7 +1,9 @@
 <form class="layui-form kg-form" method="POST" action="{{ update_url }}">
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">虚构订阅</label>
+            <label class="layui-form-label kg-label-tips" data-tips="自定义商品虚拟订阅数，提升购买吸引力">
+                <i class="layui-icon layui-icon-tips"></i> 虚拟订阅
+            </label>
             <div class="layui-input-inline">
                 <input class="layui-input" type="text" name="fake_user_count" value="{{ course.fake_user_count }}" lay-verify="number">
             </div>
