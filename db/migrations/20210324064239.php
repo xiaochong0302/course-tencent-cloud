@@ -16,7 +16,6 @@ final class V20210324064239 extends AbstractMigration
         $this->createAccountTable();
         $this->createAnswerTable();
         $this->createAnswerLikeTable();
-        $this->createAreaTable();
         $this->createArticleTable();
         $this->createArticleFavoriteTable();
         $this->createArticleLikeTable();
@@ -410,59 +409,6 @@ final class V20210324064239 extends AbstractMigration
             ->addIndex(['answer_id', 'user_id'], [
                 'name' => 'answer_user',
                 'unique' => false,
-            ])
-            ->create();
-    }
-
-    protected function createAreaTable()
-    {
-        $tableName = 'kg_area';
-
-        if ($this->table($tableName)->exists()) {
-            return;
-        }
-
-        $this->table($tableName, [
-            'id' => false,
-            'primary_key' => ['id'],
-            'engine' => 'InnoDB',
-            'encoding' => 'utf8mb4',
-            'collation' => 'utf8mb4_general_ci',
-            'comment' => '',
-            'row_format' => 'DYNAMIC',
-        ])
-            ->addColumn('id', 'integer', [
-                'null' => false,
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'identity' => 'enable',
-                'comment' => '主键',
-            ])
-            ->addColumn('type', 'integer', [
-                'null' => false,
-                'default' => '3',
-                'limit' => MysqlAdapter::INT_REGULAR,
-                'signed' => false,
-                'comment' => '类型',
-                'after' => 'id',
-            ])
-            ->addColumn('code', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 30,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '编码',
-                'after' => 'type',
-            ])
-            ->addColumn('name', 'string', [
-                'null' => false,
-                'default' => '',
-                'limit' => 30,
-                'collation' => 'utf8mb4_general_ci',
-                'encoding' => 'utf8mb4',
-                'comment' => '名称',
-                'after' => 'code',
             ])
             ->create();
     }

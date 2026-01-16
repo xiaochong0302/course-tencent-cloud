@@ -39,7 +39,7 @@ class CleanDemoDataTask extends Task
         echo '------ start truncate tables ------' . PHP_EOL;
 
         $excludeTables = [
-            'kg_area', 'kg_migration', 'kg_migration_task', 'kg_nav',
+            'kg_migration', 'kg_migration_task', 'kg_nav',
             'kg_page', 'kg_role', 'kg_setting', 'kg_vip',
         ];
 
