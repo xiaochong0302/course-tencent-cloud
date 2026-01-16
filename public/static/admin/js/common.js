@@ -3,11 +3,12 @@ layui.extend({
     helper: '/static/lib/layui/extends/helper',
 });
 
-layui.use(['jquery', 'form', 'element', 'layer', 'kgDropdown'], function () {
+layui.use(['jquery', 'form', 'element', 'layer', 'helper', 'kgDropdown'], function () {
 
     var $ = layui.jquery;
     var form = layui.form;
     var layer = layui.layer;
+    var helper = layui.helper;
 
     var $token = $('meta[name="csrf-token"]');
 
@@ -202,6 +203,21 @@ layui.use(['jquery', 'form', 'element', 'layer', 'kgDropdown'], function () {
 
     $('.kg-back').on('click', function () {
         window.history.back();
+    });
+
+    $('.kg-label-tips').hover(function () {
+        var tips = $(this).data('tips');
+        layer.tips(tips, this);
+    }, function () {
+        layer.closeAll('tips');
+    });
+
+    $('body').on('click', '.layui-laypage > a', function () {
+        var url = $(this).data('url');
+        var target = $(this).data('target');
+        if (url.length > 0 && target.length > 0) {
+            helper.ajaxLoadHtml(url, target);
+        }
     });
 
 });
