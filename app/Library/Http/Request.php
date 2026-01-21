@@ -59,4 +59,20 @@ class Request extends \Phalcon\Http\Request
         return $data;
     }
 
+    public function getClientAddress($trustForwardedHeader = true)
+    {
+        $address = $_SERVER['REMOTE_ADDR'] ?: '0.0.0.0';
+
+        if ($trustForwardedHeader) {
+            if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+                $address = $_SERVER['HTTP_X_REAL_IP'];
+            } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $forwardedFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                list($address) = explode(',', $forwardedFor);
+            }
+        }
+
+        return trim($address);
+    }
+
 }
