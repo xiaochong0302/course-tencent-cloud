@@ -1,3 +1,13 @@
+### [v1.8.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.8.2)(2026-01-25)
+
+- 【增加】后台文章|提问|回答发布可自定义作者
+- 【增加】引入kg-label-tips
+- 【优化】重写$request->getClientAddress()
+- 【优化】清理多余kg-submit标记
+- 【优化】管理章节课时相关提示
+- 【优化】kindeditor编辑器初始化
+- 【优化】升级layui-v2.13.3
+
 ### [v1.8.1](https://gitee.com/koogua/course-tencent-cloud/releases/v1.8.1)(2025-12-03)
 
 - 【增加】提问和回答评论消息
