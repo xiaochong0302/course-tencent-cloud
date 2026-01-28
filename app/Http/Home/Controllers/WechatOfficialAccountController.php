@@ -14,7 +14,7 @@ use App\Traits\Response as ResponseTrait;
 /**
  * @RoutePrefix("/wechat/oa")
  */
-class WeChatOfficialAccountController extends Controller
+class WechatOfficialAccountController extends Controller
 {
 
     use ResponseTrait;

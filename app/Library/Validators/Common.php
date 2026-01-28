@@ -86,9 +86,9 @@ class Common
         return (bool)preg_match($pattern, $str);
     }
 
-    public static function name($str)
+    public static function nickname($str)
     {
-        $pattern = '/^[\x{4e00}-\x{9fa5}A-Za-z0-9]{2,15}$/u';
+        $pattern = '/^[\x{4e00}-\x{9fa5}A-Za-z0-9_-]{2,15}$/u';
 
         return (bool)preg_match($pattern, $str);
     }
