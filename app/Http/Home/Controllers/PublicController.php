@@ -202,4 +202,12 @@ class PublicController extends \Phalcon\Mvc\Controller
         }
     }
 
+    /**
+     * @Get("/verify/captcha", name="home.verify.captcha")
+     */
+    public function verifyCaptchaAction()
+    {
+        $this->view->pick('public/verify_captcha');
+    }
+
 }
