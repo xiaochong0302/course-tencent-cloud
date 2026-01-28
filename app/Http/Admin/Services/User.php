@@ -12,6 +12,7 @@ use App\Caches\User as UserCache;
 use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PaginateQuery;
 use App\Library\Utils\Password as PasswordUtil;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Account as AccountModel;
 use App\Models\Role as RoleModel;
 use App\Models\User as UserModel;
@@ -103,15 +104,28 @@ class User extends Service
 
         $accountValidator = new AccountValidator();
 
-        $phone = $accountValidator->checkPhone($post['phone']);
-        $password = $accountValidator->checkPassword($post['password']);
+        $accountValidator->checkLoginName($post['account']);
 
-        $accountValidator->checkIfPhoneTaken($post['phone']);
+        $data = [];
 
-        $userValidator = new UserValidator();
+        if (CommonValidator::phone($post['account'])) {
 
-        $eduRole = $userValidator->checkEduRole($post['edu_role']);
-        $adminRole = $userValidator->checkAdminRole($post['admin_role']);
+            $data['phone'] = $accountValidator->checkPhone($post['account']);
+
+            $accountValidator->checkIfPhoneTaken($post['account']);
+
+        } elseif (CommonValidator::email($post['account'])) {
+
+            $data['email'] = $accountValidator->checkEmail($post['account']);
+
+            $accountValidator->checkIfEmailTaken($post['account']);
+        }
+
+        $data['password'] = $accountValidator->checkPassword($post['password']);
+
+        $data['salt'] = PasswordUtil::salt();
+
+        $data['password'] = PasswordUtil::hash($data['password'], $data['salt']);
 
         try {
 
@@ -119,33 +133,17 @@ class User extends Service
 
             $account = new AccountModel();
 
-            $salt = PasswordUtil::salt();
-            $password = PasswordUtil::hash($password, $salt);
-
-            $account->phone = $phone;
-            $account->salt = $salt;
-            $account->password = $password;
-
-            if ($account->create() === false) {
+            if ($account->create($data) === false) {
                 throw new \RuntimeException('Create Account Failed');
-            }
-
-            $user = $this->findOrFail($account->id);
-
-            $user->admin_role = $adminRole;
-            $user->edu_role = $eduRole;
-
-            if ($user->update() === false) {
-                throw new \RuntimeException('Update User Failed');
             }
 
             $this->db->commit();
 
-            if ($adminRole > 0) {
-                $this->recountRoleUsers($adminRole);
-            }
+            $user = $this->findOrFail($account->id);
 
             $this->rebuildUserCache($user);
+
+            return $user;
 
         } catch (\Exception $e) {
 

@@ -80,8 +80,8 @@
                     </p>
                 </td>
                 <td>
-                    <p>注册：{{ date('Y-m-d',item.create_time) }}</p>
-                    <p>活跃：{{ date('Y-m-d',item.active_time) }}</p>
+                    <p>注册：{{ item.create_time > 0 ? date('Y-m-d',item.create_time) : 'N/A' }}</p>
+                    <p>活跃：{{ item.active_time > 0 ? date('Y-m-d',item.active_time) : 'N/A' }}</p>
                 </td>
                 <td class="center">
                     <div class="kg-dropdown">

@@ -116,9 +116,6 @@
             </div>
             <div class="layui-tabs-item">
                 <form class="layui-form kg-form" method="POST" action="{{ update_user_url }}">
-                    <fieldset class="layui-elem-field layui-field-title">
-                        <legend>编辑帐号</legend>
-                    </fieldset>
                     <div class="layui-form-item">
                         <label class="layui-form-label">手机</label>
                         <div class="layui-input-block">
