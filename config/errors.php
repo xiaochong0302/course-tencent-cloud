@@ -64,9 +64,10 @@ $error['account.register_with_email_disabled'] = '邮箱注册已关闭';
  * 用户相关
  */
 $error['user.not_found'] = '用户不存在';
-$error['user.name_taken'] = '用户名被占用';
+$error['user.name_taken'] = '昵称被占用';
 $error['user.title_too_long'] = '头衔过长（超过30个字符）';
 $error['user.about_too_long'] = '简介过长（超过255个字符）';
+$error['user.invalid_name'] = '无效的昵称（汉字|字母|数字，2-15个字符）';
 $error['user.invalid_gender'] = '无效的性别类型';
 $error['user.invalid_area'] = '无效的省市地区';
 $error['user.invalid_avatar'] = '无效的头像';

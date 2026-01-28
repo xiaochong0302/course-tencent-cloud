@@ -83,14 +83,8 @@ class User extends Validator
     {
         $value = $this->filter->sanitize($name, ['trim', 'string']);
 
-        $length = kg_strlen($value);
-
-        if ($length < 2) {
-            throw new BadRequestException('user.name_too_short');
-        }
-
-        if ($length > 15) {
-            throw new BadRequestException('user.name_too_long');
+        if (!CommonValidator::nickname($name)) {
+            throw new BadRequestException('user.invalid_name');
         }
 
         return $value;
