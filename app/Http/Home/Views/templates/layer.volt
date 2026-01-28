@@ -6,12 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="renderer" content="webkit">
     <meta name="csrf-token" content="{{ csrfToken.getToken() }}">
-    <title>{{ site_info.title }}</title>
-    {% if site_info.favicon %}
-        {{ icon_link(site_info.favicon,false) }}
-    {% else %}
-        {{ icon_link('favicon.ico') }}
-    {% endif %}
+    <title>Layer</title>
     {{ css_link('lib/layui/css/layui.css') }}
     {{ css_link('home/css/common.css') }}
     {% block link_css %}{% endblock %}
