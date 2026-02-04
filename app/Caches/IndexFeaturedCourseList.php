@@ -121,7 +121,9 @@ class IndexFeaturedCourseList extends Cache
     {
         $categoryService = new CategoryService();
 
-        $categoryIds = $categoryService->getChildCategoryIds($categoryId);
+        $childCategoryIds = $categoryService->getChildCategoryIds($categoryId);
+
+        $categoryIds = array_merge([$categoryId], $childCategoryIds);
 
         return CourseModel::query()
             ->inWhere('category_id', $categoryIds)
