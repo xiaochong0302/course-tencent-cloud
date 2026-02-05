@@ -148,7 +148,7 @@ class ChapterContent extends Service
 
         $chapter->update();
 
-        $this->updateCourseVodAttrs($vod->course_id);
+        $this->updateCourseAttrs($vod->course_id);
     }
 
     protected function updateRemoteChapterVod(ChapterModel $chapter)
@@ -206,7 +206,7 @@ class ChapterContent extends Service
 
         $chapter->update();
 
-        $this->updateCourseVodAttrs($vod->course_id);
+        $this->updateCourseAttrs($vod->course_id);
     }
 
     protected function updateChapterLive(ChapterModel $chapter)
@@ -236,7 +236,7 @@ class ChapterContent extends Service
 
         $chapter->update();
 
-        $this->updateCourseLiveAttrs($live->course_id);
+        $this->updateCourseAttrs($live->course_id);
     }
 
     protected function updateChapterRead(ChapterModel $chapter)
@@ -262,7 +262,7 @@ class ChapterContent extends Service
 
         $chapter->update();
 
-        $this->updateCourseReadAttrs($read->course_id);
+        $this->updateCourseAttrs($read->course_id);
     }
 
     protected function updateChapterOffline(ChapterModel $chapter)
@@ -292,35 +292,14 @@ class ChapterContent extends Service
 
         $chapter->update();
 
-        $this->updateCourseOfflineAttrs($offline->course_id);
+        $this->updateCourseAttrs($offline->course_id);
     }
 
-    protected function updateCourseVodAttrs($courseId)
+    protected function updateCourseAttrs($courseId)
     {
         $statService = new CourseStatService();
 
-        $statService->updateVodAttrs($courseId);
-    }
-
-    protected function updateCourseLiveAttrs($courseId)
-    {
-        $statService = new CourseStatService();
-
-        $statService->updateLiveAttrs($courseId);
-    }
-
-    protected function updateCourseReadAttrs($courseId)
-    {
-        $statService = new CourseStatService();
-
-        $statService->updateReadAttrs($courseId);
-    }
-
-    protected function updateCourseOfflineAttrs($courseId)
-    {
-        $statService = new CourseStatService();
-
-        $statService->updateOfflineAttrs($courseId);
+        $statService->updateAttrs($courseId);
     }
 
     protected function rebuildCatalogCache(ChapterModel $chapter)
