@@ -7,6 +7,7 @@
 
 namespace App\Services;
 
+use App\Models\Course as CourseModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseRating as CourseRatingRepo;
 
@@ -61,6 +62,23 @@ class CourseStat extends Service
         $course->update();
     }
 
+    public function updateAttrs($courseId)
+    {
+        $courseRepo = new CourseRepo();
+
+        $course = $courseRepo->findById($courseId);
+
+        if ($course->model == CourseModel::MODEL_VOD) {
+            $this->updateVodAttrs($course->id);
+        } elseif ($course->model == CourseModel::MODEL_LIVE) {
+            $this->updateLiveAttrs($course->id);
+        } elseif ($course->model == CourseModel::MODEL_READ) {
+            $this->updateReadAttrs($course->id);
+        } elseif ($course->model == CourseModel::MODEL_OFFLINE) {
+            $this->updateOfflineAttrs($course->id);
+        }
+    }
+
     public function updateReadAttrs($courseId)
     {
         $courseRepo = new CourseRepo();
@@ -72,10 +90,11 @@ class CourseStat extends Service
         if ($lessons->count() == 0) return;
 
         $wordCount = 0;
-
         $duration = 0;
 
         foreach ($lessons as $lesson) {
+
+            if ($lesson->model != CourseModel::MODEL_READ) continue;
 
             $attrs = $lesson->attrs;
 
@@ -110,6 +129,8 @@ class CourseStat extends Service
 
         foreach ($lessons as $lesson) {
 
+            if ($lesson->model != CourseModel::MODEL_LIVE) continue;
+
             $attrs = $lesson->attrs;
 
             if (isset($attrs['start_time'])) {
@@ -140,6 +161,8 @@ class CourseStat extends Service
         $duration = 0;
 
         foreach ($lessons as $lesson) {
+
+            if ($lesson->model != CourseModel::MODEL_VOD) continue;
 
             $attrs = $lesson->attrs;
 

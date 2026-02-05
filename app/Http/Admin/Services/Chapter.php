@@ -214,16 +214,7 @@ class Chapter extends Service
         $courseStats = new CourseStatService();
 
         $courseStats->updateLessonCount($course->id);
-
-        if ($course->model == CourseModel::MODEL_VOD) {
-            $courseStats->updateVodAttrs($course->id);
-        } elseif ($course->model == CourseModel::MODEL_LIVE) {
-            $courseStats->updateLiveAttrs($course->id);
-        } elseif ($course->model == CourseModel::MODEL_READ) {
-            $courseStats->updateReadAttrs($course->id);
-        } elseif ($course->model == CourseModel::MODEL_OFFLINE) {
-            $courseStats->updateOfflineAttrs($course->id);
-        }
+        $courseStats->updateAttrs($course->id);
     }
 
     protected function rebuildChapterCache(ChapterModel $chapter)
