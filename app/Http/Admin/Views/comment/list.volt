@@ -31,11 +31,11 @@
         <thead>
         <tr>
             <th><input class="all" type="checkbox" lay-filter="all"></th>
-            <th>用户</th>
-            <th>内容</th>
+            <th>用户信息</th>
+            <th>评论内容</th>
             <th>回复</th>
             <th>点赞</th>
-            <th>创建</th>
+            <th>创建时间</th>
             <th>操作</th>
         </tr>
         </thead>

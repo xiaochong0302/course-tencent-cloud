@@ -1,22 +1,10 @@
-{%- macro source_type(type) %}
-    {% if type == 1 %}
+{%- macro source_type(value) %}
+    {% if value == 1 %}
         原创
-    {% elseif type == 2 %}
+    {% elseif value == 2 %}
         转载
-    {% elseif type == 3 %}
+    {% elseif value == 3 %}
         翻译
-    {% else %}
-        N/A
-    {% endif %}
-{%- endmacro %}
-
-{%- macro publish_status(type) %}
-    {% if type == 1 %}
-        审核中
-    {% elseif type == 2 %}
-        已发布
-    {% elseif type == 3 %}
-        未通过
     {% else %}
         N/A
     {% endif %}

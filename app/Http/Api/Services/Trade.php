@@ -7,7 +7,7 @@
 
 namespace App\Http\Api\Services;
 
-use App\Models\Client as ClientModel;
+use App\Models\KgClient as KgClientModel;
 use App\Models\Trade as TradeModel;
 use App\Services\Logic\OrderTrait;
 use App\Services\Logic\Trade\TradeInfo;
@@ -123,27 +123,17 @@ class Trade extends Service
     {
         $post = $this->request->getPost();
 
-        $validator = new ClientValidator();
-
-        $platform = $this->getPlatform();
-
-        $platform = $validator->checkMpPlatform($platform);
-
         $order = $this->checkOrderBySn($post['order_sn']);
 
         $validator = new OrderValidator();
 
         $validator->checkIfAllowPay($order);
 
+        $validator = new TradeValidator();
+
+        $channel = $validator->checkChannel($post['channel']);
+
         $user = $this->getLoginUser();
-
-        $channel = TradeModel::CHANNEL_WXPAY;
-
-        if ($platform == ClientModel::TYPE_MP_ALIPAY) {
-            $channel = TradeModel::CHANNEL_ALIPAY;
-        } elseif ($platform == ClientModel::TYPE_MP_WEIXIN) {
-            $channel = TradeModel::CHANNEL_WXPAY;
-        }
 
         $trade = new TradeModel();
 
@@ -155,19 +145,35 @@ class Trade extends Service
 
         $trade->create();
 
-        $response = null;
+        $payment = [];
 
         if ($post['channel'] == TradeModel::CHANNEL_ALIPAY) {
+
             $alipay = new Alipay();
-            $buyerId = '';
-            $response = $alipay->mini($trade, $buyerId);
+
+            $response = $alipay->mini($trade, $post['buyer_id']);
+
+            $payment = ['trade_no' => $response->trade_no];
+
         } elseif ($post['channel'] == TradeModel::CHANNEL_WXPAY) {
+
             $wxpay = new Wxpay();
-            $openId = '';
-            $response = $wxpay->mini($trade, $openId);
+
+            $response = $wxpay->mini($trade, $post['open_id']);
+
+            $payment = [
+                'timeStamp' => $response->timeStamp,
+                'nonceStr' => $response->nonceStr,
+                'package' => $response->package,
+                'signType' => $response->signType,
+                'paySign' => $response->paySign,
+            ];
         }
 
-        return $response;
+        return [
+            'trade' => $this->handleTradeInfo($trade->sn),
+            'payment' => $payment,
+        ];
     }
 
     public function createAppTrade()

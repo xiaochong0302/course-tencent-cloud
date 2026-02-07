@@ -7,7 +7,7 @@
 
 namespace App\Services\Logic\Notice\External\DingTalk;
 
-use App\Models\PointGift as PointGiftModel;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Models\Task as TaskModel;
 use App\Repos\PointGiftRedeem as PointGiftRedeemRepo;
@@ -36,7 +36,7 @@ class PointGiftRedeem extends DingTalkNotice
     {
         if (!$this->enabled) return;
 
-        if ($redeem->gift_type != PointGiftModel::TYPE_GOODS) return;
+        if ($redeem->gift_type != KgSaleModel::ITEM_GOODS) return;
 
         $task = new TaskModel();
 

@@ -7,7 +7,7 @@
 
 namespace App\Console\Tasks;
 
-use App\Models\PointGift as PointGiftModel;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Models\Task as TaskModel;
 use App\Repos\Course as CourseRepo;
@@ -48,13 +48,13 @@ class PointGiftDeliverTask extends Task
                 $this->db->begin();
 
                 switch ($redeem->gift_type) {
-                    case PointGiftModel::TYPE_COURSE:
+                    case KgSaleModel::ITEM_COURSE:
                         $this->handleCourseRedeem($redeem);
                         break;
-                    case PointGiftModel::TYPE_VIP:
+                    case KgSaleModel::ITEM_VIP:
                         $this->handleVipRedeem($redeem);
                         break;
-                    case PointGiftModel::TYPE_GOODS:
+                    case KgSaleModel::ITEM_GOODS:
                         $this->handleGoodsRedeem($redeem);
                         break;
                 }

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('macros/point_gift') }}
+    {{ partial('macros/sale') }}
 
     {% set gift_redeem_url = url({'for':'home.point_gift.redeem','id':gift.id}) %}
     {% set gift_list_url = url({'for':'home.point_gift.list'}) %}
@@ -22,18 +22,11 @@
                 <div class="layui-card-body">
                     <div class="gift-meta">
                         <div class="cover">
-                            <span class="layui-badge layui-bg-green type">{{ gift_type(gift.type) }}</span>
+                            <span class="type">{{ sale_item_type_badge(gift.type) }}</span>
                             <img src="{{ gift.cover }}!cover_270" alt="{{ gift.name }}">
                         </div>
                         <div class="info">
-                            {% if gift.type == 1 %}
-                                {% set course_url = url({'for':'home.course.show','id':gift.attrs.id}) %}
-                                <p class="item">
-                                    <a href="{{ course_url }}">{{ gift.name }}</a>
-                                </p>
-                            {% else %}
-                                <p class="item">{{ gift.name }}</p>
-                            {% endif %}
+                            <p class="item">{{ gift.name }}</p>
                             <p class="item stats">
                                 <span class="key">兑换人次</span>
                                 <span class="value">{{ gift.redeem_count }}</span>
@@ -59,13 +52,13 @@
                         {% if gift.type == 1 %}
                             {% set course_url = url({'for':'home.course.show','id':gift.attrs.id}) %}
                             <p class="item">
-                                <a href="{{ course_url }}">{{ gift.name }}</a>
+                                <a href="{{ course_url }}">👉 {{ gift.name }}</a>
                                 <span class="layui-badge">查看</span>
                             </p>
                         {% elseif gift.type == 3 %}
                             {% set vip_url = url({'for':'home.vip.index'}) %}
                             <p class="item">
-                                <a href="{{ vip_url }}">{{ gift.name }}</a>
+                                <a href="{{ vip_url }}">👉 {{ gift.name }}</a>
                                 <span class="layui-badge">查看</span>
                             </p>
                         {% else %}

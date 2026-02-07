@@ -29,10 +29,22 @@
     {% endfor %}
 {%- endmacro %}
 
+{%- macro model_type_badge(value) %}
+    {% if value == 1 %}
+        <span class="layui-badge layui-bg-green">点播</span>
+    {% elseif value == 2 %}
+        <span class="layui-badge layui-bg-red">直播</span>
+    {% elseif value == 3 %}
+        <span class="layui-badge layui-bg-blue">图文</span>
+    {% elseif value == 4 %}
+        <span class="layui-badge layui-bg-orange">面授</span>
+    {% endif %}
+{%- endmacro %}
+
 {%- macro course_card(course) %}
     {% set course_url = url({'for':'home.course.show','id':course.id}) %}
     <div class="course-card">
-        <div class="model layui-badge layui-bg-green">{{ model_type(course.model) }}</div>
+        <div class="model">{{ model_type_badge(course.model) }}</div>
         <div class="rating">{{ star_info(course.rating) }}</div>
         <div class="cover">
             <a href="{{ course_url }}" target="_blank">

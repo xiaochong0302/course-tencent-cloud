@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('macros/answer') }}
+    {{ partial('macros/publish') }}
 
     {% set search_url = url({'for':'admin.answer.search'}) %}
     {% set batch_delete_url = url({'for':'admin.answer.batch_delete'}) %}
@@ -54,6 +54,7 @@
             {% set delete_url = url({'for':'admin.answer.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.answer.restore','id':item.id}) %}
             {% set moderate_url = url({'for':'admin.answer.moderate','id':item.id}) %}
+            {% set comments_url = url({'for':'admin.comment.list'},{'item_id':item.id,'item_type':4}) %}
             <tr>
                 <td><input class="item" type="checkbox" value="{{ item.id }}" lay-filter="item"></td>
                 <td>
@@ -83,6 +84,8 @@
                             {% else %}
                                 <a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原回答</a>
                             {% endif %}
+                            <hr>
+                            <li><a href="{{ comments_url }}">评论管理</a></li>
                         </ul>
                     </div>
                 </td>

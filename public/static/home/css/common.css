@@ -1554,7 +1554,14 @@
 }
 
 .cart-item-card .cover {
+    position: relative;
     margin-right: 10px;
+}
+
+.cart-item-card .cover .type {
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
 
 .cart-item-card .cover img {

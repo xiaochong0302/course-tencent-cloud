@@ -3,6 +3,7 @@
 {% block content %}
 
     {{ partial('macros/article') }}
+    {{ partial('macros/publish') }}
 
     {% set published_types = {'0':'全部','1':'审核中','2':'已发布','3':'未通过'} %}
     {% set published = request.get('published','trim','0') %}

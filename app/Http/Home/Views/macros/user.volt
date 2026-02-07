@@ -6,7 +6,7 @@
     {% endif %}
 {%- endmacro %}
 
-{%- macro gender_info(value) %}
+{%- macro gender_type(value) %}
     {% if value == 1 %}
         男
     {% elseif value == 2 %}

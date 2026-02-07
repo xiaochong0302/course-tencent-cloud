@@ -20,7 +20,13 @@ class PointGiftRedeemController extends Controller
      */
     public function searchAction()
     {
+        $service = new PointGiftRedeemService();
 
+        $giftTypes = $service->getGiftTypes();
+        $statusTypes = $service->getStatusTypes();
+
+        $this->view->setVar('gift_types', $giftTypes);
+        $this->view->setVar('status_types', $statusTypes);
     }
 
     /**

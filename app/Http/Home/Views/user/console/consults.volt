@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {{ partial('macros/course') }}
-
     <div class="layout-main">
         <div class="my-sidebar">{{ partial('user/console/menu') }}</div>
         <div class="my-content">

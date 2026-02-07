@@ -8,7 +8,7 @@
 namespace App\Services\Logic\Order;
 
 use App\Models\Course as CourseModel;
-use App\Models\Order as OrderModel;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\Package as PackageModel;
 use App\Models\Vip as VipModel;
 use App\Repos\Package as PackageRepo;
@@ -31,7 +31,7 @@ class OrderConfirm extends LogicService
         $result['item_id'] = $itemId;
         $result['item_type'] = $itemType;
 
-        if ($itemType == OrderModel::ITEM_COURSE) {
+        if ($itemType == KgSaleModel::ITEM_COURSE) {
 
             $course = $validator->checkCourse($itemId);
 
@@ -41,7 +41,7 @@ class OrderConfirm extends LogicService
             $result['pay_amount'] = $user->vip ? $course->vip_price : $course->market_price;
             $result['discount_amount'] = $result['total_amount'] - $result['pay_amount'];
 
-        } elseif ($itemType == OrderModel::ITEM_PACKAGE) {
+        } elseif ($itemType == KgSaleModel::ITEM_PACKAGE) {
 
             $package = $validator->checkPackage($itemId);
 
@@ -56,7 +56,7 @@ class OrderConfirm extends LogicService
             $result['pay_amount'] = $user->vip ? $package->vip_price : $package->market_price;
             $result['discount_amount'] = $result['total_amount'] - $result['pay_amount'];
 
-        } elseif ($itemType == OrderModel::ITEM_VIP) {
+        } elseif ($itemType == KgSaleModel::ITEM_VIP) {
 
             $vip = $validator->checkVip($itemId);
 

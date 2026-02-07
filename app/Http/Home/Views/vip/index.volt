@@ -18,7 +18,7 @@
     <div class="vip-option-list">
         <div class="layui-row layui-col-space20">
             {% for option in vip_options %}
-                {% set order_url = url({'for':'home.order.confirm'},{'item_id':option.id,'item_type':4}) %}
+                {% set order_url = url({'for':'home.order.confirm'},{'item_id':option.id,'item_type':3}) %}
                 <div class="layui-col-md3">
                     <div class="vip-option-card">
                         <div class="title">{{ option.title }}</div>

@@ -7,6 +7,7 @@
 
 namespace App\Http\Admin\Services;
 
+use App\Models\KgSale as KgSaleModel;
 use App\Models\Order as OrderModel;
 use App\Models\Trade as TradeModel;
 use App\Services\Auth\Admin as AdminAuth;
@@ -38,7 +39,7 @@ abstract class PayTest extends Service
         $order->subject = '测试 - 支付测试0.01元';
         $order->amount = 0.01;
         $order->owner_id = $authUser['id'];
-        $order->item_type = OrderModel::ITEM_TEST;
+        $order->item_type = KgSaleModel::ITEM_PAY_TEST;
 
         $order->create();
 
@@ -75,7 +76,7 @@ abstract class PayTest extends Service
         }
 
         $order->owner_id = $authUser['id'];
-        $order->item_type = OrderModel::ITEM_TEST;
+        $order->item_type = KgSaleModel::ITEM_PAY_TEST;
 
         $order->create();
 

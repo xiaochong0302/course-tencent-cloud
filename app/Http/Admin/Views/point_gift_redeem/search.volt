@@ -13,25 +13,23 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">礼物编号</label>
+            <label class="layui-form-label">礼品编号</label>
             <div class="layui-input-block">
-                <input class="layui-input" type="text" name="gift_id" placeholder="礼物编号精确匹配">
+                <input class="layui-input" type="text" name="gift_id" placeholder="礼品编号精确匹配">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">礼物类型</label>
-            <div class="layui-input-block">
-                <input type="radio" name="gift_type" value="1" title="课程">
-                <input type="radio" name="gift_type" value="2" title="商品">
-                <input type="radio" name="gift_type" value="3" title="现金">
-            </div>
+            <label class="layui-form-label">礼品类型</label>
+            {% for value,title in gift_types %}
+                <input type="checkbox" name="gift_type[]" value="{{ value }}" title="{{ title }}">
+            {% endfor %}
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">兑换状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="1" title="处理中">
-                <input type="radio" name="status" value="2" title="已完成">
-                <input type="radio" name="status" value="3" title="已失败">
+                {% for value,title in status_types %}
+                    <input type="checkbox" name="status[]" value="{{ value }}" title="{{ title }}">
+                {% endfor %}
             </div>
         </div>
         <div class="layui-form-item">

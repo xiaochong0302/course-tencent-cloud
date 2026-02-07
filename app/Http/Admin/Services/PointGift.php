@@ -8,6 +8,7 @@
 namespace App\Http\Admin\Services;
 
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\PointGift as PointGiftModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\PointGift as PointGiftRepo;
@@ -104,13 +105,13 @@ class PointGift extends Service
         $gift = new PointGiftModel();
 
         switch ($post['type']) {
-            case PointGiftModel::TYPE_COURSE:
+            case KgSaleModel::ITEM_COURSE:
                 $gift = $this->createCoursePointGift($post);
                 break;
-            case PointGiftModel::TYPE_VIP:
+            case KgSaleModel::ITEM_VIP:
                 $gift = $this->createVipPointGift($post);
                 break;
-            case PointGiftModel::TYPE_GOODS:
+            case KgSaleModel::ITEM_GOODS:
                 $gift = $this->createGoodsPointGift($post);
                 break;
         }
@@ -202,13 +203,13 @@ class PointGift extends Service
 
         $giftRepo = new PointGiftRepo();
 
-        $gift = $giftRepo->findItemGift($course->id, PointGiftModel::TYPE_COURSE);
+        $gift = $giftRepo->findItemGift($course->id, KgSaleModel::ITEM_COURSE);
 
         if ($gift) return $gift;
 
         $gift = new PointGiftModel();
 
-        $gift->type = PointGiftModel::TYPE_COURSE;
+        $gift->type = KgSaleModel::ITEM_COURSE;
         $gift->name = $course->title;
         $gift->cover = $course->cover;
         $gift->attrs = [
@@ -230,13 +231,13 @@ class PointGift extends Service
 
         $giftRepo = new PointGiftRepo();
 
-        $gift = $giftRepo->findItemGift($vip->id, PointGiftModel::TYPE_VIP);
+        $gift = $giftRepo->findItemGift($vip->id, KgSaleModel::ITEM_VIP);
 
         if ($gift) return $gift;
 
         $gift = new PointGiftModel();
 
-        $gift->type = PointGiftModel::TYPE_VIP;
+        $gift->type = KgSaleModel::ITEM_VIP;
         $gift->name = sprintf('会员服务（%s个月）', $vip->expiry);
         $gift->cover = $vip->cover;
         $gift->attrs = [
@@ -256,7 +257,7 @@ class PointGift extends Service
 
         $gift = new PointGiftModel();
 
-        $gift->type = PointGiftModel::TYPE_GOODS;
+        $gift->type = KgSaleModel::ITEM_GOODS;
         $gift->name = $validator->checkName($post['name']);
 
         $gift->create();

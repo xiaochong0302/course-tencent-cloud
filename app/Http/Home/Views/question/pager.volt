@@ -1,5 +1,3 @@
-{{ partial('macros/question') }}
-
 {% if pager.total_pages > 0 %}
     <div class="question-list">
         {% for item in pager.items %}

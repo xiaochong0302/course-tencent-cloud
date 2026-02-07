@@ -7,7 +7,7 @@
 
 namespace App\Http\Admin\Services;
 
-use App\Models\Order as OrderModel;
+use App\Models\KgSale as KgSaleModel;
 use App\Repos\Stat as StatRepo;
 
 class Stat extends Service
@@ -15,7 +15,7 @@ class Stat extends Service
 
     public function hotSales()
     {
-        $type = $this->request->getQuery('type', 'int', OrderModel::ITEM_COURSE);
+        $type = $this->request->getQuery('type', 'int', KgSaleModel::ITEM_COURSE);
         $year = $this->request->getQuery('year', 'int', date('Y'));
         $month = $this->request->getQuery('month', 'int', date('m'));
 

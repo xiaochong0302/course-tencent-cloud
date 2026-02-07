@@ -8,6 +8,7 @@
 namespace App\Services\Logic\Order;
 
 use App\Models\Course as CourseModel;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\Order as OrderModel;
 use App\Models\User as UserModel;
 use App\Repos\Order as OrderRepo;
@@ -102,14 +103,14 @@ class OrderInfo extends LogicService
             /**
              * 只允许线上课程退款
              */
-            if ($order->item_type == OrderModel::ITEM_COURSE) {
+            if ($order->item_type == KgSaleModel::ITEM_COURSE) {
                 $course = $order->item_info['course'];
                 $refundTimeOk = $course['refund_expiry_time'] > time();
                 $courseModelOk = $course['model'] != CourseModel::MODEL_OFFLINE;
                 if ($refundTimeOk && $courseModelOk) {
                     $result['allow_refund'] = 1;
                 }
-            } elseif ($order->item_type == OrderModel::ITEM_PACKAGE) {
+            } elseif ($order->item_type == KgSaleModel::ITEM_PACKAGE) {
                 $courses = $order->item_info['courses'];
                 foreach ($courses as $course) {
                     $refundTimeOk = $course['refund_expiry_time'] > time();
@@ -131,16 +132,16 @@ class OrderInfo extends LogicService
         $result = [];
 
         switch ($order->item_type) {
-            case OrderModel::ITEM_COURSE:
+            case KgSaleModel::ITEM_COURSE:
                 $result = $this->handleCourseInfo($itemInfo);
                 break;
-            case OrderModel::ITEM_PACKAGE:
+            case KgSaleModel::ITEM_PACKAGE:
                 $result = $this->handlePackageInfo($itemInfo);
                 break;
-            case OrderModel::ITEM_VIP:
+            case KgSaleModel::ITEM_VIP:
                 $result = $this->handleVipInfo($itemInfo);
                 break;
-            case OrderModel::ITEM_TEST:
+            case KgSaleModel::ITEM_TEST:
                 $result = $this->handleTestInfo($itemInfo);
                 break;
         }

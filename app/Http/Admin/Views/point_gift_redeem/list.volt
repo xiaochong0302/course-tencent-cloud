@@ -2,6 +2,7 @@
 
 {% block content %}
 
+    {{ partial('macros/sale') }}
     {{ partial('macros/point_gift') }}
 
     {% set search_url = url({'for':'admin.point_gift_redeem.search'}) %}
@@ -46,7 +47,7 @@
             <tr>
                 <td>
                     <p>物品名称：<a href="{{ gift_url }}" target="_blank">{{ item.gift_name }}</a>（{{ item.gift_id }}）</p>
-                    <p>物品类型：{{ gift_type(item.gift_type) }}</p>
+                    <p>物品类型：{{ sale_item_type(item.gift_type) }}</p>
                 </td>
                 <td>
                     <p>用户名称：<a href="{{ user_filter_url }}">{{ item.user_name }}</a>（{{ item.user_id }}）</p>

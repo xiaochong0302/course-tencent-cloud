@@ -2,12 +2,11 @@
 
 {% block content %}
 
-    {{ partial('macros/course') }}
-
     {%- macro cart_course_card(course) %}
         {% set course_url = url({'for':'home.course.show','id':course.id}) %}
         <div class="cart-item-card">
             <div class="cover">
+                <span class="type layui-badge layui-bg-green">课程</span>
                 <img src="{{ course.cover }}!cover_270" alt="{{ course.title }}">
             </div>
             <div class="info">
@@ -46,6 +45,7 @@
         {% set vip = item_info.vip %}
         <div class="cart-item-card">
             <div class="cover">
+                <span class="type layui-badge layui-bg-orange">会员</span>
                 <img src="{{ vip.cover }}!cover_270" alt="{{ vip.title }}">
             </div>
             <div class="info">
@@ -76,7 +76,7 @@
             {% for course in package.courses %}
                 {{ cart_course_card(course) }}
             {% endfor %}
-        {% elseif confirm.item_type == 4 %}
+        {% elseif confirm.item_type == 3 %}
             {{ cart_vip_card(confirm.item_info) }}
         {% endif %}
     </div>

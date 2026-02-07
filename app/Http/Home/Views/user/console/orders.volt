@@ -25,7 +25,6 @@
                             <col>
                             <col>
                             <col>
-                            <col>
                             <col width="12%">
                         </colgroup>
                         <thead>

@@ -7,6 +7,7 @@
 
 namespace App\Services;
 
+use App\Models\KgSale as KgSaleModel;
 use App\Models\Order as OrderModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Course as CourseRepo;
@@ -27,16 +28,16 @@ class Refund extends Service
         ];
 
         switch ($order->item_type) {
-            case OrderModel::ITEM_COURSE:
+            case KgSaleModel::ITEM_COURSE:
                 $result = $this->previewCourseRefund($order);
                 break;
-            case OrderModel::ITEM_PACKAGE:
+            case KgSaleModel::ITEM_PACKAGE:
                 $result = $this->previewPackageRefund($order);
                 break;
-            case OrderModel::ITEM_VIP:
+            case KgSaleModel::ITEM_VIP:
                 $result = $this->previewVipRefund($order);
                 break;
-            case OrderModel::ITEM_TEST:
+            case KgSaleModel::ITEM_PAY_TEST:
                 $result = $this->previewTestRefund($order);
                 break;
         }

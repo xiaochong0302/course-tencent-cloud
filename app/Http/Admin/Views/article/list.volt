@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('macros/article') }}
+    {{ partial('macros/publish') }}
 
     {% set add_url = url({'for':'admin.article.add'}) %}
     {% set search_url = url({'for':'admin.article.search'}) %}
@@ -61,7 +61,7 @@
             {% set delete_url = url({'for':'admin.article.delete','id':item.id}) %}
             {% set restore_url = url({'for':'admin.article.restore','id':item.id}) %}
             {% set moderate_url = url({'for':'admin.article.moderate','id':item.id}) %}
-            {% set comment_url = url({'for':'admin.comment.list'},{'item_id':item.id,'item_type':2}) %}
+            {% set comments_url = url({'for':'admin.comment.list'},{'item_id':item.id,'item_type':2}) %}
             <tr>
                 <td><input class="item" type="checkbox" value="{{ item.id }}" lay-filter="item"></td>
                 <td>
@@ -108,7 +108,7 @@
                                 <li><a href="javascript:" class="kg-restore" data-url="{{ restore_url }}">还原文章</a></li>
                             {% endif %}
                             <hr>
-                            <li><a href="javascript:" class="kg-comment" data-url="{{ comment_url }}">评论管理</a></li>
+                            <li><a href="{{ comments_url }}">评论管理</a></li>
                         </ul>
                     </div>
                 </td>
@@ -118,30 +118,5 @@
     </table>
 
     {{ partial('partials/pager') }}
-
-{% endblock %}
-
-{% block inline_js %}
-
-    <script>
-
-        layui.define(['jquery', 'layer'], function () {
-
-            var $ = layui.jquery;
-            var layer = layui.layer;
-
-            $('.kg-comment').on('click', function () {
-                var url = $(this).data('url');
-                layer.open({
-                    type: 2,
-                    title: '评论管理',
-                    area: ['1000px', '600px'],
-                    content: url
-                });
-            });
-
-        });
-
-    </script>
 
 {% endblock %}

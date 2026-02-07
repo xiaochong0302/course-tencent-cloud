@@ -8,6 +8,7 @@
 namespace App\Builders;
 
 use App\Models\Course as CourseModel;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\Order as OrderModel;
 
 class OrderList extends Builder
@@ -58,13 +59,13 @@ class OrderList extends Builder
         $itemInfo = [];
 
         switch ($order['item_type']) {
-            case OrderModel::ITEM_COURSE:
+            case KgSaleModel::ITEM_COURSE:
                 $itemInfo = $this->handleCourseInfo($order['item_info']);
                 break;
-            case OrderModel::ITEM_PACKAGE:
+            case KgSaleModel::ITEM_PACKAGE:
                 $itemInfo = $this->handlePackageInfo($order['item_info']);
                 break;
-            case OrderModel::ITEM_VIP:
+            case KgSaleModel::ITEM_VIP:
                 $itemInfo = $this->handleVipInfo($order['item_info']);
                 break;
         }
@@ -88,7 +89,7 @@ class OrderList extends Builder
         $cancelStatusOk = $order['status'] == OrderModel::STATUS_PENDING ? 1 : 0;
         $refundStatusOk = $order['status'] == OrderModel::STATUS_FINISHED ? 1 : 0;
 
-        if ($order['item_type'] == OrderModel::ITEM_COURSE) {
+        if ($order['item_type'] == KgSaleModel::ITEM_COURSE) {
 
             $course = $order['item_info']['course'];
 
@@ -97,7 +98,7 @@ class OrderList extends Builder
 
             $me['allow_refund'] = $courseModelOk && $refundStatusOk && $refundTimeOk ? 1 : 0;
 
-        } elseif ($order['item_type'] == OrderModel::ITEM_PACKAGE) {
+        } elseif ($order['item_type'] == KgSaleModel::ITEM_PACKAGE) {
 
             $courses = $order['item_info']['courses'];
 

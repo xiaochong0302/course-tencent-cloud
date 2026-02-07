@@ -9,7 +9,7 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
-use App\Models\Client as ClientModel;
+use App\Models\KgClient as KgClientModel;
 use App\Models\Slide as SlideModel;
 use App\Repos\Slide as SlideRepo;
 
@@ -72,7 +72,7 @@ class Slide extends Validator
 
     public function checkPlatform($platform)
     {
-        $list = ClientModel::types();
+        $list = KgClientModel::types();
 
         if (!array_key_exists($platform, $list)) {
             throw new BadRequestException('slide.invalid_platform');

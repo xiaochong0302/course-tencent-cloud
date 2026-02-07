@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('macros/course_user') }}
+    {{ partial('macros/ownership') }}
     {{ partial('macros/course') }}
 
     <div class="layout-main">
@@ -36,7 +36,7 @@
                                     <p>标题：<a href="{{ course_url }}" target="_blank">{{ item.course.title }}</a></p>
                                     <p class="meta">
                                         类型：<span class="layui-badge layui-bg-gray">{{ model_type(item.course.model) }}</span>
-                                        来源：<span class="layui-badge layui-bg-gray">{{ source_type_info(item.source_type) }}</span>
+                                        来源：<span class="layui-badge layui-bg-gray">{{ join_source_type(item.source_type) }}</span>
                                         {% if item.expiry_time > 0 %}
                                             期限：{{ date('Y-m-d',item.expiry_time) }}
                                         {% endif %}

@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {{ partial('macros/question') }}
-
     {% set batch_delete_url = url({'for':'admin.question.batch_delete'}) %}
 
     <div class="kg-nav">

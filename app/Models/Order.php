@@ -13,15 +13,6 @@ class Order extends Model
 {
 
     /**
-     * 条目类型
-     */
-    const ITEM_COURSE = 1; // 课程
-    const ITEM_PACKAGE = 2; // 套餐
-    const ITEM_REWARD = 3; // 赞赏（已弃用）
-    const ITEM_VIP = 4; // 会员
-    const ITEM_TEST = 99; // 支付测试
-
-    /**
      * 状态类型
      */
     const STATUS_PENDING = 1; // 待支付
@@ -188,10 +179,10 @@ class Order extends Model
     public static function itemTypes()
     {
         return [
-            self::ITEM_COURSE => '课程',
-            self::ITEM_PACKAGE => '套餐',
-            self::ITEM_VIP => '会员',
-            self::ITEM_TEST => '支付测试',
+            KgSale::ITEM_COURSE => '课程',
+            KgSale::ITEM_PACKAGE => '套餐',
+            KgSale::ITEM_VIP => '会员',
+            KgSale::ITEM_PAY_TEST => '支付测试',
         ];
     }
 

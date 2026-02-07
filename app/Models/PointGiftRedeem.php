@@ -130,4 +130,13 @@ class PointGiftRedeem extends Model
         $this->update_time = time();
     }
 
+    public static function statusTypes()
+    {
+        return [
+            self::STATUS_PENDING => '待处理',
+            self::STATUS_FINISHED => '已完成',
+            self::STATUS_FAILED => '已失败',
+        ];
+    }
+
 }

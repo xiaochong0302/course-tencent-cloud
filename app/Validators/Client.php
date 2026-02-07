@@ -8,7 +8,7 @@
 namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
-use App\Models\Client as ClientModel;
+use App\Models\KgClient as KgClientModel;
 
 class Client extends Validator
 {
@@ -18,7 +18,7 @@ class Client extends Validator
         $platform = strtoupper($platform);
 
         if ($platform == 'H5') {
-            return ClientModel::TYPE_H5;
+            return KgClientModel::TYPE_H5;
         }
 
         throw new BadRequestException('client.invalid_type');
@@ -29,9 +29,9 @@ class Client extends Validator
         $platform = strtoupper($platform);
 
         if ($platform == 'MP-WEIXIN') {
-            return ClientModel::TYPE_MP_WEIXIN;
+            return KgClientModel::TYPE_MP_WEIXIN;
         } elseif ($platform == 'MP-ALIPAY') {
-            return ClientModel::TYPE_MP_ALIPAY;
+            return KgClientModel::TYPE_MP_ALIPAY;
         } else {
             throw new BadRequestException('client.invalid_type');
         }
@@ -42,7 +42,7 @@ class Client extends Validator
         $platform = strtoupper($platform);
 
         if ($platform == 'APP-PLUS') {
-            return ClientModel::TYPE_APP;
+            return KgClientModel::TYPE_APP;
         }
 
         throw new BadRequestException('client.invalid_type');

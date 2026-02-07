@@ -7,7 +7,7 @@
 
 namespace App\Models;
 
-class Client
+class KgClient
 {
 
     /**

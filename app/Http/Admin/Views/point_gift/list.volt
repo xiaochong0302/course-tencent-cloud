@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('macros/point_gift') }}
+    {{ partial('macros/sale') }}
 
     {% set redeem_url = url({'for':'admin.point_gift_redeem.list'}) %}
     {% set add_url = url({'for':'admin.point_gift.add'}) %}
@@ -63,7 +63,7 @@
             <tr>
                 <td>{{ item.id }}</td>
                 <td><a href="{{ edit_url }}">{{ item.name }}</a></td>
-                <td>{{ gift_type(item.type) }}</td>
+                <td>{{ sale_item_type(item.type) }}</td>
                 <td>{{ item.point }}</td>
                 <td>{{ item.stock }}</td>
                 <td>{{ item.redeem_limit }}</td>

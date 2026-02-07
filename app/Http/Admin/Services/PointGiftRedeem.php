@@ -8,6 +8,7 @@
 namespace App\Http\Admin\Services;
 
 use App\Library\Paginator\Query as PagerQuery;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\PointGift as PointGiftModel;
 use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Repos\PointGiftRedeem as PointGiftRedeemRepo;
@@ -16,6 +17,16 @@ use App\Validators\PointGiftRedeem as PointGiftRedeemValidator;
 
 class PointGiftRedeem extends Service
 {
+
+    public function getGiftTypes()
+    {
+        return PointGiftModel::types();
+    }
+
+    public function getStatusTypes()
+    {
+        return PointGiftRedeemModel::statusTypes();
+    }
 
     public function getRedeems()
     {
@@ -41,7 +52,7 @@ class PointGiftRedeem extends Service
     {
         $redeem = $this->findOrFail($id);
 
-        if ($redeem->gift_type != PointGiftModel::TYPE_GOODS) {
+        if ($redeem->gift_type != KgSaleModel::ITEM_GOODS) {
             return $redeem;
         }
 

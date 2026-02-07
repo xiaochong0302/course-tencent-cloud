@@ -1,15 +1,3 @@
-{%- macro publish_status(type) %}
-    {% if type == 1 %}
-        审核中
-    {% elseif type == 2 %}
-        已发布
-    {% elseif type == 3 %}
-        未通过
-    {% else %}
-        N/A
-    {% endif %}
-{%- endmacro %}
-
 {%- macro answer_card(item) %}
     {% set show_url = full_url({'for':'home.answer.show','id':item.id}) %}
     {% set owner_url = url({'for':'home.user.show','id':item.owner.id}) %}
