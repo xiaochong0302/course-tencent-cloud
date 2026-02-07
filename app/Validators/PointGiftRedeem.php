@@ -9,8 +9,10 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Course as CourseModel;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\PointGift as PointGiftModel;
 use App\Models\User as UserModel;
+use App\Models\Vip as VipModel;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Repos\PointGiftRedeem as PointGiftRedeemRepo;
 use App\Repos\User as UserRepo;
@@ -32,13 +34,6 @@ class PointGiftRedeem extends Validator
         return $redeem;
     }
 
-    public function checkPointGift($giftId)
-    {
-        $validator = new PointGift();
-
-        return $validator->checkPointGift($giftId);
-    }
-
     public function checkIfAllowRedeem(PointGiftModel $gift, UserModel $user)
     {
         $this->checkStock($gift);
@@ -47,7 +42,7 @@ class PointGiftRedeem extends Validator
 
         $this->checkPointBalance($gift, $user);
 
-        if ($gift->type == PointGiftModel::TYPE_COURSE) {
+        if ($gift->type == KgSaleModel::ITEM_COURSE) {
 
             $validator = new Course();
 
@@ -55,7 +50,15 @@ class PointGiftRedeem extends Validator
 
             $this->checkIfAllowRedeemCourse($course, $user);
 
-        } elseif ($gift->type == PointGiftModel::TYPE_GOODS) {
+        } elseif ($gift->type == KgSaleModel::ITEM_VIP) {
+
+            $validator = new Vip();
+
+            $vip = $validator->checkVip($gift->attrs['id']);
+
+            $this->checkIfAllowRedeemVip($vip, $user);
+
+        } elseif ($gift->type == KgSaleModel::ITEM_GOODS) {
 
             $this->checkIfAllowRedeemGoods($user);
         }
@@ -77,6 +80,17 @@ class PointGiftRedeem extends Validator
 
         if ($courseUser && $courseUser->expiry_time > time()) {
             throw new BadRequestException('point_gift_redeem.course_owned');
+        }
+    }
+
+    protected function checkIfAllowRedeemVip(VipModel $vip, UserModel $user)
+    {
+        if ($vip->published == 0) {
+            throw new BadRequestException('point_gift_redeem.vip_not_published');
+        }
+
+        if ($vip->price == 0) {
+            throw new BadRequestException('point_gift_redeem.vip_free');
         }
     }
 

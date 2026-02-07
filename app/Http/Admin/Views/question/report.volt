@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {{ partial('macros/question') }}
-
     {% set owner_url = url({'for':'home.user.show','id':question.owner.id}) %}
     {% set report_url = url({'for':'admin.question.report','id':question.id}) %}
 

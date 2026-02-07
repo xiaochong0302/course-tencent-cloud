@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('macros/course_user') }}
+    {{ partial('macros/ownership') }}
 
     {% set add_url = url({'for':'admin.course.add_user','id':course.id}) %}
     {% set search_url = url({'for':'admin.course.search_user','id':course.id}) %}
@@ -58,7 +58,7 @@
                     <p>进度：{{ item.progress }}%</p>
                     <p>时长：{{ item.duration|duration }}</p>
                 </td>
-                <td>{{ source_type(item.source_type) }}</td>
+                <td>{{ join_source_type(item.source_type) }}</td>
                 <td>{{ date('Y-m-d H:i:s',item.create_time) }}</td>
                 <td>{{ expiry_time }}</td>
                 <td>{{ active_time }}</td>

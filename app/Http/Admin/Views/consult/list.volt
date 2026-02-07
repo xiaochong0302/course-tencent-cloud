@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('macros/consult') }}
+    {{ partial('macros/publish') }}
 
     {% set search_url = url({'for':'admin.consult.search'}) %}
     {% set batch_delete_url = url({'for':'admin.consult.batch_delete'}) %}

@@ -7,7 +7,7 @@
 
 namespace App\Traits;
 
-use App\Models\Client as ClientModel;
+use App\Models\KgClient as KgClientModel;
 use Phalcon\Di;
 use Phalcon\Http\Request;
 use WhichBrowser\Parser as BrowserParser;
@@ -34,7 +34,7 @@ trait Client
 
         $platform = $request->getHeader('X-Platform');
 
-        $types = array_flip(ClientModel::types());
+        $types = array_flip(KgClientModel::types());
 
         if (!empty($platform) && isset($types[$platform])) {
             return $types[$platform];
@@ -44,10 +44,10 @@ trait Client
 
         $result = new BrowserParser($userAgent);
 
-        $clientType = ClientModel::TYPE_PC;
+        $clientType = KgClientModel::TYPE_PC;
 
         if ($result->isMobile()) {
-            $clientType = ClientModel::TYPE_H5;
+            $clientType = KgClientModel::TYPE_H5;
         }
 
         return $clientType;

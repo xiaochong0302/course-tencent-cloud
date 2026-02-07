@@ -132,6 +132,14 @@ class PointHistory extends Model
             self::EVENT_SITE_VISIT => '用户登录',
             self::EVENT_CHAPTER_STUDY => '课时学习',
             self::EVENT_COURSE_REVIEW => '课程评价',
+            self::EVENT_COMMENT_POST => '发布评论',
+            self::EVENT_ARTICLE_POST => '发布文章',
+            self::EVENT_QUESTION_POST => '发布提问',
+            self::EVENT_ANSWER_POST => '发布回答',
+            self::EVENT_ARTICLE_LIKED => '文章被赞',
+            self::EVENT_QUESTION_LIKED => '问题被赞',
+            self::EVENT_ANSWER_LIKED => '回答被赞',
+            self::EVENT_ANSWER_ACCEPTED => '回答被采纳',
         ];
     }
 

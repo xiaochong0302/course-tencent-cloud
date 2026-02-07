@@ -43,7 +43,7 @@
 
 {% block include_js %}
 
-    {{ js_include('https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js', false) }}
+    {{ js_include('lib/echarts/echarts.min.js') }}
 
 {% endblock %}
 

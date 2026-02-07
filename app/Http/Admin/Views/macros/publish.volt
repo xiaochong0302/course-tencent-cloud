@@ -1,10 +1,10 @@
-{%- macro source_type(value) %}
+{%- macro publish_status(value) %}
     {% if value == 1 %}
-        原创
+        审核中
     {% elseif value == 2 %}
-        转载
+        已发布
     {% elseif value == 3 %}
-        翻译
+        未通过
     {% else %}
         N/A
     {% endif %}

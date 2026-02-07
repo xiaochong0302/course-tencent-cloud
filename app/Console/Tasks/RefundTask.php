@@ -8,6 +8,7 @@
 namespace App\Console\Tasks;
 
 use App\Models\Order as OrderModel;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
@@ -142,16 +143,16 @@ class RefundTask extends Task
     protected function handleOrderRefund(OrderModel $order)
     {
         switch ($order->item_type) {
-            case OrderModel::ITEM_COURSE:
+            case KgSaleModel::ITEM_COURSE:
                 $this->handleCourseOrderRefund($order);
                 break;
-            case OrderModel::ITEM_PACKAGE:
+            case KgSaleModel::ITEM_PACKAGE:
                 $this->handlePackageOrderRefund($order);
                 break;
-            case OrderModel::ITEM_VIP:
+            case KgSaleModel::ITEM_VIP:
                 $this->handleVipOrderRefund($order);
                 break;
-            case OrderModel::ITEM_TEST:
+            case KgSaleModel::ITEM_PAY_TEST:
                 $this->handleTestOrderRefund($order);
                 break;
         }

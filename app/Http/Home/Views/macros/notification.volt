@@ -60,6 +60,10 @@
         {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
         <p>你对问题 <a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a> 的回答，审核未通过</p>
         <p>回答内容：{{ info.answer.summary }}</p>
+    {% elseif type == 226 %}
+        {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
+        <p>你对问题 <a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a> 的回答，被采纳为最佳答案</p>
+        <p>回答内容：{{ info.answer.summary }}</p>
     {% elseif type == 227 %}
         {% set question_url = url({'for':'home.question.show','id':info.question.id}) %}
         <p>{{ sender.name }} 评论了你对问题 <a href="{{ question_url }}" target="_blank">{{ info.question.title }}</a> 的回答</p>

@@ -9,17 +9,13 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Models\Order as OrderModel;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
 use App\Repos\Order as OrderRepo;
 
 class Order extends Validator
 {
-
-    public function checkOrder($id)
-    {
-        return $this->checkOrderById($id);
-    }
 
     public function checkOrderById($id)
     {
@@ -122,8 +118,8 @@ class Order extends Validator
         }
 
         $types = [
-            OrderModel::ITEM_COURSE,
-            OrderModel::ITEM_PACKAGE,
+            KgSaleModel::ITEM_COURSE,
+            KgSaleModel::ITEM_PACKAGE,
         ];
 
         if (!in_array($order->item_type, $types)) {
@@ -154,7 +150,7 @@ class Order extends Validator
     {
         $orderRepo = new OrderRepo();
 
-        $itemType = OrderModel::ITEM_COURSE;
+        $itemType = KgSaleModel::ITEM_COURSE;
 
         $order = $orderRepo->findUserLastDeliveringOrder($userId, $courseId, $itemType);
 
@@ -173,7 +169,7 @@ class Order extends Validator
     {
         $orderRepo = new OrderRepo();
 
-        $itemType = OrderModel::ITEM_PACKAGE;
+        $itemType = KgSaleModel::ITEM_PACKAGE;
 
         $order = $orderRepo->findUserLastDeliveringOrder($userId, $packageId, $itemType);
 

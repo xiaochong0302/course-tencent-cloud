@@ -8,6 +8,7 @@
 namespace App\Services\Logic\Order;
 
 use App\Models\Course as CourseModel;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\Order as OrderModel;
 use App\Models\Package as PackageModel;
 use App\Models\User as UserModel;
@@ -44,7 +45,7 @@ class OrderCreate extends LogicService
 
         $order = null;
 
-        if ($post['item_type'] == OrderModel::ITEM_COURSE) {
+        if ($post['item_type'] == KgSaleModel::ITEM_COURSE) {
 
             $course = $orderValidator->checkCourse($post['item_id']);
 
@@ -56,7 +57,7 @@ class OrderCreate extends LogicService
 
             $order = $this->createCourseOrder($course, $user);
 
-        } elseif ($post['item_type'] == OrderModel::ITEM_PACKAGE) {
+        } elseif ($post['item_type'] == KgSaleModel::ITEM_PACKAGE) {
 
             $package = $orderValidator->checkPackage($post['item_id']);
 
@@ -68,7 +69,7 @@ class OrderCreate extends LogicService
 
             $order = $this->createPackageOrder($package, $user);
 
-        } elseif ($post['item_type'] == OrderModel::ITEM_VIP) {
+        } elseif ($post['item_type'] == KgSaleModel::ITEM_VIP) {
 
             $vip = $orderValidator->checkVip($post['item_id']);
 
@@ -94,7 +95,7 @@ class OrderCreate extends LogicService
 
         $order->owner_id = $user->id;
         $order->item_id = $course->id;
-        $order->item_type = OrderModel::ITEM_COURSE;
+        $order->item_type = KgSaleModel::ITEM_COURSE;
         $order->item_info = $itemInfo;
         $order->client_type = $this->getClientType();
         $order->client_ip = $this->getClientIp();
@@ -129,7 +130,7 @@ class OrderCreate extends LogicService
 
         $order->owner_id = $user->id;
         $order->item_id = $package->id;
-        $order->item_type = OrderModel::ITEM_PACKAGE;
+        $order->item_type = KgSaleModel::ITEM_PACKAGE;
         $order->item_info = $itemInfo;
         $order->client_type = $this->getClientType();
         $order->client_ip = $this->getClientIp();
@@ -160,7 +161,7 @@ class OrderCreate extends LogicService
 
         $order->owner_id = $user->id;
         $order->item_id = $vip->id;
-        $order->item_type = OrderModel::ITEM_VIP;
+        $order->item_type = KgSaleModel::ITEM_VIP;
         $order->item_info = $itemInfo;
         $order->client_type = $this->getClientType();
         $order->client_ip = $this->getClientIp();

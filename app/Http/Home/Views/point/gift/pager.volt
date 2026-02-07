@@ -1,4 +1,4 @@
-{{ partial('macros/point_gift') }}
+{{ partial('macros/sale') }}
 
 {% if pager.total_pages > 0 %}
     <div class="course-list">
@@ -7,7 +7,7 @@
                 {% set gift_url = url({'for':'home.point_gift.show','id':item.id}) %}
                 <div class="layui-col-md3">
                     <div class="course-card">
-                        <span class="model layui-badge layui-bg-green">{{ gift_type(item.type) }}</span>
+                        <div class="model">{{ sale_item_type_badge(item.type) }}</div>
                         <div class="cover">
                             <a href="{{ gift_url }}">
                                 <img src="{{ item.cover }}" alt="item.name">

@@ -9,6 +9,7 @@ namespace App\Validators;
 
 use App\Exceptions\BadRequest as BadRequestException;
 use App\Library\Validators\Common as CommonValidator;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\PointGift as PointGiftModel;
 use App\Repos\PointGift as PointGiftRepo;
 use App\Services\EditorStorage as EditorStorageService;
@@ -78,7 +79,7 @@ class PointGift extends Validator
     {
         $result = $gift->attrs;
 
-        if ($gift->type == PointGiftModel::TYPE_GOODS) {
+        if ($gift->type == KgSaleModel::ITEM_GOODS) {
             $result['url'] = $attrs['url'];
         }
 

@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {{ partial('macros/consult') }}
-
     {% set status_types = {'all':'全部','pending':'待回复','replied':'已回复'} %}
     {% set status = request.get('status','trim','all') %}
 

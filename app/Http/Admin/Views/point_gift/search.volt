@@ -22,7 +22,7 @@
             <label class="layui-form-label">类型</label>
             <div class="layui-input-block">
                 {% for value,title in types %}
-                    <input type="radio" name="type" value="{{ value }}" title="{{ title }}">
+                    <input type="checkbox" name="type[]" value="{{ value }}" title="{{ title }}">
                 {% endfor %}
             </div>
         </div>

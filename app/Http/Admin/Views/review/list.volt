@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('macros/review') }}
+    {{ partial('macros/publish') }}
 
     {% set search_url = url({'for':'admin.review.search'}) %}
     {% set batch_delete_url = url({'for':'admin.review.batch_delete'}) %}

@@ -7,6 +7,7 @@
 
 namespace App\Console\Tasks;
 
+use App\Models\KgSale as KgSaleModel;
 use App\Models\Order as OrderModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
@@ -49,13 +50,13 @@ class DeliverTask extends Task
                 $this->db->begin();
 
                 switch ($order->item_type) {
-                    case OrderModel::ITEM_COURSE:
+                    case KgSaleModel::ITEM_COURSE:
                         $this->handleCourseOrder($order);
                         break;
-                    case OrderModel::ITEM_PACKAGE:
+                    case KgSaleModel::ITEM_PACKAGE:
                         $this->handlePackageOrder($order);
                         break;
-                    case OrderModel::ITEM_VIP:
+                    case KgSaleModel::ITEM_VIP:
                         $this->handleVipOrder($order);
                         break;
                 }
@@ -160,8 +161,8 @@ class DeliverTask extends Task
         if ($orders->count() == 0) return;
 
         $itemTypes = [
-            OrderModel::ITEM_COURSE,
-            OrderModel::ITEM_PACKAGE,
+            KgSaleModel::ITEM_COURSE,
+            KgSaleModel::ITEM_PACKAGE,
         ];
 
         foreach ($orders as $order) {

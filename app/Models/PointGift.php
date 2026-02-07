@@ -14,13 +14,6 @@ class PointGift extends Model
 {
 
     /**
-     * 礼物类型
-     */
-    const TYPE_COURSE = 1; // 课程
-    const TYPE_GOODS = 2; // 商品
-    const TYPE_VIP = 3; // 会员
-
-    /**
      * 课程扩展属性
      *
      * @var array
@@ -43,7 +36,7 @@ class PointGift extends Model
     ];
 
     /**
-     * 商品扩展属性
+     * 实物扩展属性
      *
      * @var array
      */
@@ -171,11 +164,11 @@ class PointGift extends Model
     public function beforeCreate()
     {
         if (empty($this->attrs)) {
-            if ($this->type == self::TYPE_COURSE) {
+            if ($this->type == KgSale::ITEM_COURSE) {
                 $this->attrs = $this->_course_attrs;
-            } elseif ($this->type == self::TYPE_VIP) {
+            } elseif ($this->type == KgSale::ITEM_VIP) {
                 $this->attrs = $this->_vip_attrs;
-            } elseif ($this->type == self::TYPE_GOODS) {
+            } elseif ($this->type == KgSale::ITEM_GOODS) {
                 $this->attrs = $this->_goods_attrs;
             }
         }
@@ -228,9 +221,9 @@ class PointGift extends Model
     public static function types()
     {
         return [
-            self::TYPE_COURSE => '课程',
-            self::TYPE_GOODS => '商品',
-            self::TYPE_VIP => '会员',
+            KgSale::ITEM_COURSE => '课程',
+            KgSale::ITEM_VIP => '会员',
+            KgSale::ITEM_GOODS => '实物',
         ];
     }
 

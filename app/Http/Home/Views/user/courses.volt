@@ -8,7 +8,7 @@
                     {% set course_title = item.course.title %}
                     {% set course_url = url({'for':'home.course.show','id':item.course.id}) %}
                     <div class="course-card">
-                        <span class="model layui-badge layui-bg-green">{{ model_type(item.course.model) }}</span>
+                        <div class="model">{{ model_type_badge(item.course.model) }}</div>
                         <div class="cover">
                             <a href="{{ course_url }}" title="{{ course_title }}" target="_blank">
                                 <img src="{{ item.course.cover }}!cover_270" alt="{{ course_title }}">

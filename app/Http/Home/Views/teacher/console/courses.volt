@@ -32,7 +32,7 @@
                             {% set course_url = url({'for':'home.course.show','id':item.id}) %}
                             <tr>
                                 <td><a href="{{ course_url }}">{{ item.title }}</a></td>
-                                <td><span class="layui-badge layui-bg-green">{{ model_type(item.model) }}</span></td>
+                                <td>{{ model_type(item.model) }}</td>
                                 <td>{{ item.user_count }}</td>
                                 <td>{{ "%0.1f"|format(item.rating) }}</td>
                             </tr>

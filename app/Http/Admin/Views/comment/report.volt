@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {{ partial('macros/comment') }}
-
     {% set owner_url = url({'for':'home.user.show','id':comment.owner.id}) %}
     {% set report_url = url({'for':'admin.comment.report','id':comment.id}) %}
 
@@ -80,12 +78,6 @@
             </div>
         </div>
     </div>
-
-{% endblock %}
-
-{% block link_css %}
-
-    {{ css_link('home/css/content.css') }}
 
 {% endblock %}
 

@@ -7,6 +7,7 @@
 
 namespace App\Services\Logic\Point;
 
+use App\Models\KgSale as KgSaleModel;
 use App\Models\PointGift as PointGiftModel;
 use App\Models\User as UserModel;
 use App\Repos\User as UserRepo;
@@ -30,9 +31,9 @@ class GiftInfo extends LogicService
 
         $user = $this->getCurrentUser();
 
-        if ($gift->type == PointGiftModel::TYPE_COURSE) {
+        if ($gift->type == KgSaleModel::ITEM_COURSE) {
             $gift = $this->handleCoursePointGift($gift);
-        } elseif ($gift->type == PointGiftModel::TYPE_VIP) {
+        } elseif ($gift->type == KgSaleModel::ITEM_VIP) {
             $gift = $this->handleVipPointGift($gift);
         }
 

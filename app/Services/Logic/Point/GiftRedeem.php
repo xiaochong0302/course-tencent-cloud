@@ -8,6 +8,7 @@
 namespace App\Services\Logic\Point;
 
 use App\Library\Utils\Lock as LockUtil;
+use App\Models\KgSale as KgSaleModel;
 use App\Models\PointGift as PointGiftModel;
 use App\Models\PointGiftRedeem as PointGiftRedeemModel;
 use App\Models\Task as TaskModel;
@@ -59,7 +60,7 @@ class GiftRedeem extends LogicService
             $redeem->gift_name = $gift->name;
             $redeem->gift_point = $gift->point;
 
-            if ($gift->type == PointGiftModel::TYPE_GOODS) {
+            if ($gift->type == KgSaleModel::ITEM_GOODS) {
                 $userRepo = new UserRepo();
                 $contact = $userRepo->findUserContact($user->id);
                 $redeem->contact_name = $contact->name;

@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {{ partial('macros/question') }}
-
     {% set share_url = share_url('question',question.id,auth_user.id) %}
     {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
     {% set question_report_url = url({'for':'home.report.add'},{'item_id':question.id,'item_type':107}) %}

@@ -31,7 +31,11 @@ class PointGiftRedeem extends Repository
         }
 
         if (!empty($where['gift_type'])) {
-            $builder->andWhere('gift_type = :gift_type:', ['gift_type' => $where['gift_type']]);
+            if (is_array($where['gift_type'])) {
+                $builder->inWhere('gift_type', $where['gift_type']);
+            } else {
+                $builder->andWhere('gift_type = :gift_type:', ['gift_type' => $where['gift_type']]);
+            }
         }
 
         if (!empty($where['status'])) {

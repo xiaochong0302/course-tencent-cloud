@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {{ partial('macros/question') }}
-
     {% set batch_moderate_url = url({'for':'admin.question.batch_moderate'}) %}
 
     <div class="kg-nav">

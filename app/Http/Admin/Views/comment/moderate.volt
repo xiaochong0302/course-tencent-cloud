@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {{ partial('macros/comment') }}
-
     {% set owner_url = url({'for':'home.user.show','id':comment.owner.id}) %}
 
     <fieldset class="layui-elem-field layui-field-title">
@@ -51,12 +49,6 @@
             </div>
         </div>
     </form>
-
-{% endblock %}
-
-{% block link_css %}
-
-    {{ css_link('home/css/content.css') }}
 
 {% endblock %}
 

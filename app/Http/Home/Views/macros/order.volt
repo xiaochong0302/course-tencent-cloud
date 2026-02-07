@@ -34,7 +34,7 @@
                 {% endif %}
             </div>
         {% endfor %}
-    {% elseif order.item_type == 4 %}
+    {% elseif order.item_type == 3 %}
         {% set vip = order.item_info.vip %}
         <div class="order-item">
             <p>商品名称：{{ order.subject }}</p>

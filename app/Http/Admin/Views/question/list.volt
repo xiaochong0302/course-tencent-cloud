@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ partial('macros/question') }}
+    {{ partial('macros/publish') }}
 
     {% set add_url = url({'for':'admin.question.add'}) %}
     {% set search_url = url({'for':'admin.question.search'}) %}

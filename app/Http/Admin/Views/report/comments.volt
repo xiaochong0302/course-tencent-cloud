@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {{ partial('macros/comment') }}
-
     {% set batch_delete_url = url({'for':'admin.comment.batch_delete'}) %}
 
     <div class="kg-nav">
