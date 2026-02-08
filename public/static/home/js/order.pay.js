@@ -12,13 +12,13 @@ layui.use(['jquery', 'layer'], function () {
         var orderSn = $('input[name=order_sn]').val();
         var $qrBlock = $('#' + channel + '-qrcode');
         var $tradeSn = $('input[name=' + channel + '_trade_sn]');
-        var qrTitle = channel === 'alipay' ? '支付宝扫码支付' : '微信扫码支付';
+        var qrTitle = channel === 'alipay' ? '支付宝支付' : '微信支付';
         var qrHtml = $qrBlock.html();
 
         if (qrHtml.length === 0) {
             var postData = {
                 order_sn: orderSn,
-                channel: channel === 'alipay' ? 1 : 2
+                channel: channel === 'alipay' ? 1 : 2,
             };
             $.post(createUrl, postData, function (res) {
                 qrHtml = '<div class="qrcode"><img src="' + res.qrcode + '" alt="支付二维码"></div>';
@@ -49,8 +49,8 @@ layui.use(['jquery', 'layer'], function () {
             id: 'pay-layer',
             title: title,
             content: content,
-            area: ['640px', '320px'],
-            resize: false
+            area: ['640px', '360px'],
+            resize: false,
         })
     }
 
