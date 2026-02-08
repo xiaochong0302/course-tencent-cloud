@@ -1,5 +1,6 @@
 {% set tc_val = request.get('tc','int','all') %}
 {% set sc_val = request.get('sc','int','all') %}
+{% set source_type_val = request.get('source_type','int','all') %}
 {% set sort_val = request.get('sort','trim','latest') %}
 
 <div class="filter-toggle">
@@ -29,4 +30,13 @@
             </div>
         </div>
     {% endif %}
+    <div class="filter-group">
+        <div class="title">来源</div>
+        <div class="content">
+            {% for source_type in source_types %}
+                {% set class = source_type_val == source_type.id ? 'layui-btn layui-btn-xs' : 'none' %}
+                <a class="{{ class }}" href="{{ source_type.url }}">{{ source_type.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
 </div>
