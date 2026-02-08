@@ -102,6 +102,38 @@ class ArticleQuery extends Service
         return $result;
     }
 
+    public function handleSourceTypes()
+    {
+        $params = $this->getParams();
+
+        if (isset($params['source_type'])) {
+            unset($params['source_type']);
+        }
+
+        $defaultItem = [
+            'id' => 'all',
+            'name' => '全部',
+            'url' => $this->baseUrl . $this->buildParams($params),
+        ];
+
+        $result = [];
+
+        $result[] = $defaultItem;
+
+        $sourceTypes = ArticleModel::sourceTypes();
+
+        foreach ($sourceTypes as $key => $value) {
+            $params['source_type'] = $key;
+            $result[] = [
+                'id' => $key,
+                'name' => $value,
+                'url' => $this->baseUrl . $this->buildParams($params),
+            ];
+        }
+
+        return $result;
+    }
+
     public function handleSorts()
     {
         $params = $this->getParams();
@@ -133,6 +165,10 @@ class ArticleQuery extends Service
         if (isset($query['tag_id'])) {
             $tag = $validator->checkTag($query['tag_id']);
             $params['tag_id'] = $tag->id;
+        }
+
+        if (isset($query['source_type'])) {
+            $params['source_type'] = $validator->checkSourceType($query['source_type']);
         }
 
         if (isset($query['tc']) && $query['tc'] != 'all') {

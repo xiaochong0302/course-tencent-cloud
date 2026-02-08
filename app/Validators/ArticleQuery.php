@@ -13,6 +13,13 @@ use App\Models\Article as ArticleModel;
 class ArticleQuery extends Validator
 {
 
+    public function checkSourceType($type)
+    {
+        $validator = new Article();
+
+        return $validator->checkSourceType($type);
+    }
+
     public function checkCategory($id)
     {
         $validator = new Category();

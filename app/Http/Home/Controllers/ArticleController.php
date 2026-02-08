@@ -44,6 +44,7 @@ class ArticleController extends Controller
 
         $topCategories = $service->handleTopCategories();
         $subCategories = $service->handleSubCategories();
+        $sourceTypes = $service->handleSourceTypes();
         $sorts = $service->handleSorts();
         $params = $service->getParams();
 
@@ -51,6 +52,7 @@ class ArticleController extends Controller
 
         $this->view->setVar('top_categories', $topCategories);
         $this->view->setVar('sub_categories', $subCategories);
+        $this->view->setVar('source_types', $sourceTypes);
         $this->view->setVar('sorts', $sorts);
         $this->view->setVar('params', $params);
     }

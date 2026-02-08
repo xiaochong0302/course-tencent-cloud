@@ -134,6 +134,10 @@ class ArticleList extends LogicService
             $query['tag_id'] = $tag->id;
         }
 
+        if (isset($params['source_type'])) {
+            $query['source_type'] = $validator->checkSourceType($params['source_type']);
+        }
+
         if (isset($params['tc'])) {
             $category = $validator->checkCategory($params['tc']);
             $query['tc'] = $category->id;
