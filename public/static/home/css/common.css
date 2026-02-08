@@ -1667,8 +1667,6 @@
 #pay-layer .qrcode img {
     border: 3px solid #999;
     padding: 10px;
-    width: 160px;
-    height: 160px;
 }
 
 #pay-layer .success-tips {
@@ -2020,13 +2018,15 @@
     width: 400px;
 }
 
-.review-table .content, .consult-table .content {
+.review-table .content,
+.consult-table .content {
     width: 400px;
     color: #666;
 }
 
 .review-form .layui-rate {
-    padding-top: 6px;
+    padding-top: 2px;
+    padding-bottom: 6px;
 }
 
 .consult-form .layui-form-label {
