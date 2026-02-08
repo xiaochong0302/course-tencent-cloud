@@ -35,10 +35,6 @@
                 <div class="title">{{ question.title }}</div>
                 <div class="meta">
                     <div class="left">
-                        {% if question.published == 1 %}
-                            <span class="review layui-badge">审核中</span>
-                        {% endif %}
-                        <span class="owner"><a href="{{ question_owner_url }}">{{ question.owner.name }}</a></span>
                         <span class="time">{{ question.create_time|time_ago }}</span>
                         <span class="view">{{ question.view_count }} 阅读</span>
                         <span class="answer">{{ question.answer_count }} 回答</span>
