@@ -6,12 +6,11 @@
 
     {% set share_url = share_url('article',article.id,auth_user.id) %}
     {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
-    {% set article_edit_url = url({'for':'home.article.edit','id':article.id}) %}
-    {% set article_delete_url = url({'for':'home.article.delete','id':article.id}) %}
-    {% set article_close_url = url({'for':'home.article.close','id':article.id}) %}
-    {% set article_owner_url = url({'for':'home.user.show','id':article.owner.id}) %}
-    {% set article_related_url = url({'for':'home.article.related','id':article.id}) %}
-    {% set article_report_url = url({'for':'home.report.add'},{'item_id':article.id,'item_type':106}) %}
+    {% set edit_url = url({'for':'home.article.edit','id':article.id}) %}
+    {% set delete_url = url({'for':'home.article.delete','id':article.id}) %}
+    {% set close_url = url({'for':'home.article.close','id':article.id}) %}
+    {% set related_url = url({'for':'home.article.related','id':article.id}) %}
+    {% set report_url = url({'for':'home.report.add'},{'item_id':article.id,'item_type':106}) %}
 
     <div class="breadcrumb">
         <span class="layui-breadcrumb">
@@ -33,25 +32,21 @@
                 <div class="title">{{ article.title }}</div>
                 <div class="meta">
                     <div class="left">
-                        {% if article.published == 1 %}
-                            <span class="review layui-badge">审核中</span>
-                        {% endif %}
-                        <span class="source layui-badge layui-bg-blue">{{ source_type(article.source_type) }}</span>
-                        <span class="owner"><a href="{{ article_owner_url }}">{{ article.owner.name }}</a></span>
+                        <span class="source">{{ source_type_badge(article.source_type) }}</span>
                         <span class="time">{{ article.create_time|time_ago }}</span>
                         <span class="view">{{ article.view_count }} 阅读</span>
                         <span class="comment">{{ article.comment_count }} 评论</span>
                     </div>
                     <div class="right">
-                        <span class="kg-report" data-url="{{ article_report_url }}">举报</span>
+                        <span class="kg-report" data-url="{{ report_url }}">举报</span>
                         {% if article.me.owned == 1 %}
                             {% if article.closed == 0 %}
-                                <span class="article-close" title="关闭评论" data-url="{{ article_close_url }}">关闭</span>
+                                <span class="article-close" title="关闭评论" data-url="{{ close_url }}">关闭</span>
                             {% else %}
-                                <span class="article-close" title="开启评论" data-url="{{ article_close_url }}">打开</span>
+                                <span class="article-close" title="开启评论" data-url="{{ close_url }}">打开</span>
                             {% endif %}
-                            <span class="article-edit" data-url="{{ article_edit_url }}">编辑</span>
-                            <span class="kg-delete" data-url="{{ article_delete_url }}">删除</span>
+                            <span class="article-edit" data-url="{{ edit_url }}">编辑</span>
+                            <span class="kg-delete" data-url="{{ delete_url }}">删除</span>
                         {% endif %}
                     </div>
                 </div>
@@ -88,10 +83,8 @@
             {% endif %}
         </div>
         <div class="layout-sidebar">
-            <div class="sidebar">
-                {{ partial('article/show_owner') }}
-            </div>
-            <div class="sidebar" id="sidebar-related" data-url="{{ article_related_url }}"></div>
+            {{ partial('article/show_owner') }}
+            <div class="sidebar" id="sidebar-related" data-url="{{ related_url }}"></div>
         </div>
     </div>
 

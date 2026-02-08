@@ -83,7 +83,9 @@
 
         <div class="layout-sidebar">
             {{ partial('course/show_order') }}
-            {{ partial('course/show_teacher') }}
+            {% if course.teacher.id > 0 %}
+                {{ partial('course/show_teacher') }}
+            {% endif %}
             {% if show_sidebar_topics %}
                 {% set topics_url = url({'for':'home.course.topics','id':course.id}) %}
                 <div class="sidebar" id="sidebar-topics" data-url="{{ topics_url }}"></div>

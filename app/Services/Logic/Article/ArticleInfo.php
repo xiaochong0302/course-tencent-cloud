@@ -70,7 +70,7 @@ class ArticleInfo extends LogicService
 
     protected function handleCategoryPaths($categoryId)
     {
-        if ($categoryId == 0) return null;
+        if ($categoryId == 0) return [];
 
         $service = new CategoryService();
 
