@@ -1,3 +1,15 @@
+### [v1.8.3](https://gitee.com/koogua/course-tencent-cloud/releases/v1.8.3)(2026-02-10)
+
+- 【增加】课程等类型badge区分
+- 【增加】前台文章来源类型过滤
+- 【优化】精简Macros
+- 【优化】首页分类课程补充一级数据
+- 【优化】支付二维码页面
+- 【优化】课程和文章详情页结构
+- 【优化】用户昵称验证优化
+- 【优化】用户创建
+- 【优化】长课程目录自动滚动位置
+
 ### [v1.8.2](https://gitee.com/koogua/course-tencent-cloud/releases/v1.8.2)(2026-01-25)
 
 - 【增加】后台文章|提问|回答发布可自定义作者
