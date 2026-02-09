@@ -23,13 +23,13 @@
     <br>
     <div class="center">
         {% if order.me.allow_pay == 1 %}
-            <a class="layui-btn layui-bg-red" href="{{ order_pay_url }}" target="_top">立即支付</a>
+            <a class="layui-btn layui-bg-red" href="{{ order_pay_url }}" target="_top">支付</a>
         {% endif %}
         {% if order.me.allow_cancel == 1 %}
-            <button class="layui-btn layui-bg-gray btn-order-cancel" data-sn="{{ order.sn }}" data-url="{{ order_cancel_url }}">立即取消</button>
+            <button class="layui-btn layui-bg-gray btn-order-cancel" data-sn="{{ order.sn }}" data-url="{{ order_cancel_url }}">取消</button>
         {% endif %}
         {% if order.me.allow_refund == 1 %}
-            <a class="layui-btn layui-bg-blue" href="{{ refund_confirm_url }}">申请退款</a>
+            <a class="layui-btn layui-bg-blue" href="{{ refund_confirm_url }}">退款</a>
         {% endif %}
     </div>
 
