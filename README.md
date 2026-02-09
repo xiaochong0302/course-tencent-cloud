@@ -49,7 +49,7 @@ Tips: 请用手机注册一个新账号，用户中心 -> 关注订阅，扫码�
 ### 项目组件
 
 - 后台框架：[phalcon 3.4](https://phalcon.io)
-- 前端框架：[layui 2.13](https://layui.dev)
+- 前端框架：[layui 2.9](https://layui.dev)
 - 全文检索：[xunsearch 1.4](http://www.xunsearch.com)
 - 基础依赖：[php7.3](https://php.net)， [mysql5.7](https://mysql.com)， [redis5.0](https://redis.io)
 
@@ -63,6 +63,7 @@ Tips: 请用手机注册一个新账号，用户中心 -> 关注订阅，扫码�
 
 - [码云平台](https://gitee.com/koogua/course-tencent-cloud/issues)
 - [官方社区](https://www.koogua.com/community)
+- QQ交流群: 787363898
 
 ### 国际版在线教育项目 - WUWEI LITE
 
