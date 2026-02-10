@@ -11,18 +11,6 @@ class CourseUser extends Model
 {
 
     /**
-     * 来源类型
-     */
-    const SOURCE_FREE = 1; // 免费
-    const SOURCE_CHARGE = 2; // 付费
-    const SOURCE_VIP = 3; // 畅学
-    const SOURCE_MANUAL = 4; // 分配
-    const SOURCE_POINT_REDEEM = 5; // 积分兑换
-    const SOURCE_LUCKY_REDEEM = 6; // 抽奖兑换
-    const SOURCE_TEACHER = 7; // 教师
-    const SOURCE_TRIAL = 10; // 试听
-
-    /**
      * 主键编号
      *
      * @var int
@@ -132,16 +120,7 @@ class CourseUser extends Model
 
     public static function sourceTypes()
     {
-        return [
-            self::SOURCE_FREE => '免费',
-            self::SOURCE_CHARGE => '付费',
-            self::SOURCE_TRIAL => '试听',
-            self::SOURCE_VIP => '畅学',
-            self::SOURCE_MANUAL => '分配',
-            self::SOURCE_TEACHER => '教师',
-            self::SOURCE_POINT_REDEEM => '积分兑换',
-            self::SOURCE_LUCKY_REDEEM => '抽奖兑换',
-        ];
+        return KgOwnership::sourceTypes();
     }
 
 }

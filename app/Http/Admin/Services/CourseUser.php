@@ -11,6 +11,7 @@ use App\Builders\CourseUserList as CourseUserListBuilder;
 use App\Http\Admin\Services\Traits\AccountSearchTrait;
 use App\Library\Paginator\Query as PagerQuery;
 use App\Models\CourseUser as CourseUserModel;
+use App\Models\KgOwnership as KgOwnershipModel;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Services\Logic\Course\CourseUserTrait;
 use App\Validators\CourseUser as CourseUserValidator;
@@ -38,7 +39,7 @@ class CourseUser extends Service
 
         $expiryTime = $validator->checkExpiryTime($post['expiry_time']);
 
-        $sourceType = CourseUserModel::SOURCE_MANUAL;
+        $sourceType = KgOwnershipModel::SOURCE_MANUAL;
 
         $this->assignUserCourse($course, $user, $expiryTime, $sourceType);
     }

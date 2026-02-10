@@ -57,17 +57,6 @@ class CourseUser extends Validator
         return strtotime($value);
     }
 
-    public function checkIfImported($courseId, $userId)
-    {
-        $repo = new CourseUserRepo();
-
-        $courseUser = $repo->findCourseUser($courseId, $userId);
-
-        if ($courseUser && $courseUser->source_type == CourseUserModel::SOURCE_MANUAL) {
-            throw new BadRequestException('course_user.has_imported');
-        }
-    }
-
     public function checkIfReviewed($courseId, $userId)
     {
         $repo = new CourseUserRepo();
