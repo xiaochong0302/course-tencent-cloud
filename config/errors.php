@@ -236,7 +236,6 @@ $error['package.invalid_expiry'] = '无效的期限（范围：1~60）';
 $error['course_user.not_found'] = '课程学员关系不存在';
 $error['course_user.invalid_expiry_time'] = '无效的过期时间';
 $error['course_user.review_not_allowed'] = '当前不允许评价课程';
-$error['course_user.has_imported'] = '已经加入过该课程';
 $error['course_user.has_reviewed'] = '已经评价过该课程';
 
 /**

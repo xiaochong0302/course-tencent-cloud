@@ -9,6 +9,7 @@ namespace App\Services\Logic\Course;
 
 use App\Models\Course as CourseModel;
 use App\Models\CourseUser as CourseUserModel;
+use App\Models\KgOwnership as KgOwnershipModel;
 use App\Models\User as UserModel;
 use App\Repos\Course as CourseRepo;
 use App\Repos\CourseUser as CourseUserRepo;
@@ -61,10 +62,10 @@ trait CourseUserTrait
         } elseif ($courseUser) {
 
             $sourceTypes = [
-                CourseUserModel::SOURCE_CHARGE,
-                CourseUserModel::SOURCE_MANUAL,
-                CourseUserModel::SOURCE_POINT_REDEEM,
-                CourseUserModel::SOURCE_LUCKY_REDEEM,
+                KgOwnershipModel::SOURCE_CHARGE,
+                KgOwnershipModel::SOURCE_MANUAL,
+                KgOwnershipModel::SOURCE_POINT_REDEEM,
+                KgOwnershipModel::SOURCE_LUCKY_REDEEM,
             ];
 
             $case1 = $courseUser->deleted == 0;
@@ -97,20 +98,20 @@ trait CourseUserTrait
         } else {
 
             switch ($relation->source_type) {
-                case CourseUserModel::SOURCE_FREE:
-                case CourseUserModel::SOURCE_TRIAL:
-                case CourseUserModel::SOURCE_VIP:
-                case CourseUserModel::SOURCE_TEACHER:
+                case KgOwnershipModel::SOURCE_FREE:
+                case KgOwnershipModel::SOURCE_TRIAL:
+                case KgOwnershipModel::SOURCE_VIP:
+                case KgOwnershipModel::SOURCE_TEACHER:
                     $this->createCourseUser($course, $user, $expiryTime, $sourceType);
                     $this->deleteCourseUser($relation);
                     break;
-                case CourseUserModel::SOURCE_MANUAL:
+                case KgOwnershipModel::SOURCE_MANUAL:
                     $relation->expiry_time = $expiryTime;
                     $relation->update();
                     break;
-                case CourseUserModel::SOURCE_CHARGE:
-                case CourseUserModel::SOURCE_POINT_REDEEM:
-                case CourseUserModel::SOURCE_LUCKY_REDEEM:
+                case KgOwnershipModel::SOURCE_CHARGE:
+                case KgOwnershipModel::SOURCE_POINT_REDEEM:
+                case KgOwnershipModel::SOURCE_LUCKY_REDEEM:
                     if ($relation->expiry_time < time()) {
                         $this->createCourseUser($course, $user, $expiryTime, $sourceType);
                         $this->deleteCourseUser($relation);
@@ -184,16 +185,16 @@ trait CourseUserTrait
     protected function getFreeSourceType(CourseModel $course, UserModel $user)
     {
         if ($course->teacher_id == $user->id) {
-            return CourseUserModel::SOURCE_TEACHER;
+            return KgOwnershipModel::SOURCE_TEACHER;
         }
 
-        $sourceType = CourseUserModel::SOURCE_FREE;
+        $sourceType = KgOwnershipModel::SOURCE_FREE;
 
         if ($course->market_price > 0) {
             if ($course->vip_price == 0 && $user->vip == 1) {
-                $sourceType = CourseUserModel::SOURCE_VIP;
+                $sourceType = KgOwnershipModel::SOURCE_VIP;
             } else {
-                $sourceType = CourseUserModel::SOURCE_TRIAL;
+                $sourceType = KgOwnershipModel::SOURCE_TRIAL;
             }
         }
 

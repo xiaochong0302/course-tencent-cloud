@@ -8,7 +8,7 @@
 namespace App\Services\Logic\Deliver;
 
 use App\Models\Course as CourseModel;
-use App\Models\CourseUser as CourseUserModel;
+use App\Models\KgOwnership as KgOwnershipModel;
 use App\Models\User as UserModel;
 use App\Repos\CourseUser as CourseUserRepo;
 use App\Services\Logic\Course\CourseUserTrait;
@@ -33,7 +33,7 @@ class CourseDeliver extends LogicService
             $expiryTime = strtotime($course->attrs['end_date']);
         }
 
-        $sourceType = CourseUserModel::SOURCE_CHARGE;
+        $sourceType = KgOwnershipModel::SOURCE_CHARGE;
 
         $this->createCourseUser($course, $user, $expiryTime, $sourceType);
         $this->recountCourseUsers($course);
