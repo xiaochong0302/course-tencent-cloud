@@ -78,18 +78,22 @@ trait ArticleDataTrait
 
     protected function saveTags(ArticleModel $article, $tagIds)
     {
-        $originTagIds = [];
-
         /**
          * 修改数据后，afterFetch设置的属性会失效，重新执行
          */
         $article->afterFetch();
 
+        if (is_string($tagIds) && strlen($tagIds) > 0) {
+            $tagIds = explode(',', $tagIds);
+        }
+
+        $originTagIds = [];
+
         if ($article->tags) {
             $originTagIds = kg_array_column($article->tags, 'id');
         }
 
-        $newTagIds = $tagIds ? explode(',', $tagIds) : [];
+        $newTagIds = $tagIds ?: [];
         $addedTagIds = array_diff($newTagIds, $originTagIds);
 
         if ($addedTagIds) {

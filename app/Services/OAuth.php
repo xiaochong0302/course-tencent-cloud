@@ -54,7 +54,7 @@ abstract class OAuth extends Service
 
         $response = $client->get($uri, $options);
 
-        return $response->getBody();
+        return $response->getBody()->getContents();
     }
 
     public function httpPost($uri, $params = [], $headers = [])
@@ -65,7 +65,7 @@ abstract class OAuth extends Service
 
         $response = $client->post($uri, $options);
 
-        return $response->getBody();
+        return $response->getBody()->getContents();
     }
 
     public function getState()

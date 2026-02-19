@@ -23,7 +23,7 @@ class OrderInfo extends LogicService
     {
         $validator = new OrderValidator();
 
-        $order = $validator->checkOrderBySn($sn);
+        $order = $validator->checkBySn($sn);
 
         $user = $this->getLoginUser();
 

@@ -68,18 +68,22 @@ trait QuestionDataTrait
 
     protected function saveTags(QuestionModel $question, $tagIds)
     {
-        $originTagIds = [];
-
         /**
          * 修改数据后，afterFetch设置的属性会失效，重新执行
          */
         $question->afterFetch();
 
+        if (is_string($tagIds) && strlen($tagIds) > 0) {
+            $tagIds = explode(',', $tagIds);
+        }
+
+        $originTagIds = [];
+
         if ($question->tags) {
             $originTagIds = kg_array_column($question->tags, 'id');
         }
 
-        $newTagIds = $tagIds ? explode(',', $tagIds) : [];
+        $newTagIds = $tagIds ?: [];
         $addedTagIds = array_diff($newTagIds, $originTagIds);
 
         if ($addedTagIds) {

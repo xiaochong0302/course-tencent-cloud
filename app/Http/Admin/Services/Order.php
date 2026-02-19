@@ -103,7 +103,7 @@ class Order extends Service
     {
         $validator = new OrderValidator();
 
-        return $validator->checkOrderById($id);
+        return $validator->checkById($id);
     }
 
     protected function handleOrders($pager)

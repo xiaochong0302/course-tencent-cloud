@@ -13,12 +13,7 @@ use App\Repos\Connect as ConnectRepo;
 class Connect extends Validator
 {
 
-    public function checkConnect($id)
-    {
-        return $this->checkConnectById($id);
-    }
-
-    public function checkConnectById($id)
+    public function checkById($id)
     {
         $connectRepo = new ConnectRepo();
 
@@ -31,7 +26,7 @@ class Connect extends Validator
         return $connect;
     }
 
-    public function checkConnectByOpenId($openId, $provider)
+    public function checkByOpenId($openId, $provider)
     {
         $connectRepo = new ConnectRepo();
 
@@ -43,4 +38,5 @@ class Connect extends Validator
 
         return $connect;
     }
+
 }

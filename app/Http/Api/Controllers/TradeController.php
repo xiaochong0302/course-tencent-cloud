@@ -74,16 +74,4 @@ class TradeController extends Controller
         return $this->jsonSuccess($content);
     }
 
-    /**
-     * @Post("/app/create", name="api.trade.app_create")
-     */
-    public function createAppTradeAction()
-    {
-        $service = new TradeService();
-
-        $content = $service->createAppTrade();
-
-        return $this->jsonSuccess($content);
-    }
-
 }

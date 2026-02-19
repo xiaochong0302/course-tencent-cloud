@@ -17,7 +17,7 @@ use App\Repos\Order as OrderRepo;
 class Order extends Validator
 {
 
-    public function checkOrderById($id)
+    public function checkById($id)
     {
         $orderRepo = new OrderRepo();
 
@@ -30,7 +30,7 @@ class Order extends Validator
         return $order;
     }
 
-    public function checkOrderBySn($sn)
+    public function checkBySn($sn)
     {
         $orderRepo = new OrderRepo();
 

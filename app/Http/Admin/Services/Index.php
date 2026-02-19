@@ -121,7 +121,7 @@ class Index extends Service
 
         $response = $client->get($url);
 
-        $content = json_decode($response->getBody(), true);
+        $content = json_decode($response->getBody()->getContents(), true);
 
         return $content['releases'] ?? [];
     }

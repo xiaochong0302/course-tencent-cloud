@@ -176,11 +176,6 @@ class Trade extends Service
         ];
     }
 
-    public function createAppTrade()
-    {
-        return [];
-    }
-
     protected function getPlatform()
     {
         return $this->request->getHeader('X-Platform');

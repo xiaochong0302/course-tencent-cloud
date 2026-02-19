@@ -149,7 +149,7 @@ class Trade extends Service
     {
         $validator = new TradeValidator();
 
-        return $validator->checkTrade($id);
+        return $validator->checkById($id);
     }
 
     protected function handleTrades($pager)

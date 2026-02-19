@@ -38,8 +38,13 @@ class ArticleCreate extends LogicService
 
         $article->create($data);
 
+        /**
+         * 参数兼容（pc端:xm_tag_ids，移动端:tag_ids）
+         */
         if (isset($post['xm_tag_ids'])) {
             $this->saveTags($article, $post['xm_tag_ids']);
+        } elseif (isset($post['tag_ids'])) {
+            $this->saveTags($article, $post['tag_ids']);
         }
 
         $this->saveDynamicAttrs($article);

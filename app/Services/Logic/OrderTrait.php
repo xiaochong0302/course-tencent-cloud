@@ -16,14 +16,14 @@ trait OrderTrait
     {
         $validator = new OrderValidator();
 
-        return $validator->checkOrderById($id);
+        return $validator->checkById($id);
     }
 
     public function checkOrderBySn($sn)
     {
         $validator = new OrderValidator();
 
-        return $validator->checkOrderBySn($sn);
+        return $validator->checkBySn($sn);
     }
 
 }

@@ -30,6 +30,7 @@ class UserDailyCounter extends Counter
             'answer_count' => 0,
             'comment_count' => 0,
             'consult_count' => 0,
+            'review_count' => 0,
             'order_count' => 0,
             'chapter_like_count' => 0,
             'consult_like_count' => 0,

@@ -15,12 +15,7 @@ use App\Repos\Trade as TradeRepo;
 class Trade extends Validator
 {
 
-    public function checkTrade($id)
-    {
-        return $this->checkTradeById($id);
-    }
-
-    public function checkTradeById($id)
+    public function checkById($id)
     {
         $tradeRepo = new TradeRepo();
 
@@ -33,7 +28,7 @@ class Trade extends Validator
         return $trade;
     }
 
-    public function checkTradeBySn($sn)
+    public function checkBySn($sn)
     {
         $tradeRepo = new TradeRepo();
 
@@ -55,24 +50,6 @@ class Trade extends Validator
         }
 
         return $channel;
-    }
-
-    public function checkStatus($status)
-    {
-        $list = TradeModel::statusTypes();
-
-        if (!array_key_exists($status, $list)) {
-            throw new BadRequestException('trade.invalid_status');
-        }
-
-        return $status;
-    }
-
-    public function checkIfAllowClose(TradeModel $trade)
-    {
-        if ($trade->status != TradeModel::STATUS_PENDING) {
-            throw new BadRequestException('trade.close_not_allowed');
-        }
     }
 
     public function checkIfAllowRefund(TradeModel $trade)

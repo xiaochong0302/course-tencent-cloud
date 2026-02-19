@@ -23,7 +23,7 @@ trait RefundTrait
     {
         $validator = new RefundValidator();
 
-        return $validator->checkRefundBySn($sn);
+        return $validator->checkBySn($sn);
     }
 
 }

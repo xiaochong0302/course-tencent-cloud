@@ -30,7 +30,7 @@ class AlipayTest extends PayTest
             );
         }
 
-        return $codeUrl ?: false;
+        return $codeUrl;
     }
 
     public function status($tradeNo)

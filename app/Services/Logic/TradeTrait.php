@@ -16,14 +16,14 @@ trait TradeTrait
     {
         $validator = new TradeValidator();
 
-        return $validator->checkTrade($id);
+        return $validator->checkById($id);
     }
 
     public function checkTradeBySn($id)
     {
         $validator = new TradeValidator();
 
-        return $validator->checkTradeBySn($id);
+        return $validator->checkBySn($id);
     }
 
 }

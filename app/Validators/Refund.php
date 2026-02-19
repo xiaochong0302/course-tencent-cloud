@@ -16,10 +16,10 @@ class Refund extends Validator
 
     public function checkRefund($id)
     {
-        return $this->checkRefundById($id);
+        return $this->checkById($id);
     }
 
-    public function checkRefundById($id)
+    public function checkById($id)
     {
         $refundRepo = new RefundRepo();
 
@@ -32,7 +32,7 @@ class Refund extends Validator
         return $refund;
     }
 
-    public function checkRefundBySn($sn)
+    public function checkBySn($sn)
     {
         $refundRepo = new RefundRepo();
 

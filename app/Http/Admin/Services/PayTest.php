@@ -16,7 +16,7 @@ abstract class PayTest extends Service
 {
 
     /**
-     * @var string 支付平台
+     * @var int 支付平台
      */
     protected $channel;
 
@@ -108,7 +108,7 @@ abstract class PayTest extends Service
      * 交易状态
      *
      * @param string $tradeNo
-     * @return string
+     * @return int
      */
     abstract public function status($tradeNo);
 
@@ -116,7 +116,7 @@ abstract class PayTest extends Service
      * 扫码下单
      *
      * @param TradeModel $trade
-     * @return string|bool
+     * @return string|null
      */
     abstract public function scan(TradeModel $trade);
 

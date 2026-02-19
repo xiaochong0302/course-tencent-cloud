@@ -365,16 +365,12 @@ class Course extends Service
         return $validator->checkCourse($id);
     }
 
-    protected function saveTags(CourseModel $course, $tagIds)
+    protected function saveTags(CourseModel $course, $xmTagIds)
     {
         /**
          * 修改数据后，afterFetch设置的属性会失效，重新执行
          */
         $course->afterFetch();
-
-        if (is_string($tagIds) && strlen($tagIds) > 0) {
-            $tagIds = explode(',', $tagIds);
-        }
 
         $originTagIds = [];
 
@@ -382,7 +378,7 @@ class Course extends Service
             $originTagIds = kg_array_column($course->tags, 'id');
         }
 
-        $newTagIds = $tagIds ?: [];
+        $newTagIds = $xmTagIds ? explode(',', $xmTagIds) : [];
         $addedTagIds = array_diff($newTagIds, $originTagIds);
 
         if ($addedTagIds) {
@@ -426,7 +422,7 @@ class Course extends Service
         $course->update();
     }
 
-    protected function saveRelatedCourses(CourseModel $course, $courseIds)
+    protected function saveRelatedCourses(CourseModel $course, $xmCourseIds)
     {
         $courseRepo = new CourseRepo();
 
@@ -440,7 +436,7 @@ class Course extends Service
             }
         }
 
-        $newRelatedIds = $courseIds ? explode(',', $courseIds) : [];
+        $newRelatedIds = $xmCourseIds ? explode(',', $xmCourseIds) : [];
         $addedRelatedIds = array_diff($newRelatedIds, $originRelatedIds);
 
         $courseRelatedRepo = new CourseRelatedRepo();

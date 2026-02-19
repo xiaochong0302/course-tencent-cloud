@@ -19,7 +19,7 @@ class ConnectDelete extends LogicService
 
         $validator = new ConnectValidator();
 
-        $connect = $validator->checkConnect($id);
+        $connect = $validator->checkById($id);
 
         $validator->checkOwner($user->id, $connect->user_id);
 

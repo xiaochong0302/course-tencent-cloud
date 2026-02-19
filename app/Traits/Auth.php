@@ -74,7 +74,7 @@ trait Auth
 
         $user->id = 0;
         $user->name = 'guest';
-        $user->avatar = kg_cos_user_avatar_url(null);
+        $user->avatar = kg_cos_user_avatar_url('');
 
         return $user;
     }

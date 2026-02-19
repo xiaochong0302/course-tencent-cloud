@@ -72,7 +72,7 @@ class Slide extends Model
     /**
      * 目标属性
      *
-     * @var array
+     * @var array|string
      */
     public $target_attrs = [];
 
