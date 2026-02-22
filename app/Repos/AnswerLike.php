@@ -30,13 +30,26 @@ class AnswerLike extends Repository
 
     /**
      * @param int $userId
-     * @return ResultsetInterface|Resultset|AnswerLikeModel[]
+     * @return array
      */
-    public function findByUserId($userId)
+    public function findUserLikedAnswerIds($userId)
     {
-        return AnswerLikeModel::query()
+        $result = [];
+
+        /**
+         * @var Resultset $rows
+         */
+        $rows =  AnswerLikeModel::query()
+            ->columns(['answer_id'])
             ->where('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('deleted = 0')
             ->execute();
+
+        if ($rows->count() > 0) {
+            $result = kg_array_column($rows->toArray(), 'answer_id');
+        }
+
+        return $result;
     }
 
 }

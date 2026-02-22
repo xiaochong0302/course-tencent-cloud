@@ -196,7 +196,10 @@ class Refund extends Service
         if ($userLearnings->count() == 0) return 1.00;
 
         $consumedUserLearnings = $userLearnings->filter(function ($item) {
-            if ($item->consumed == 1) return $item;
+            if ($item->consumed == 1) {
+                return $item;
+            }
+            return false;
         });
 
         if (count($consumedUserLearnings) == 0) return 1.00;

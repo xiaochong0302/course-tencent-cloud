@@ -133,25 +133,14 @@ function kg_array_column($rows, $columnKey, $indexKey = null)
 }
 
 /**
- * 数组转对象
+ * 转对象类型
  *
- * @param array $array
- * @return object
+ * @param mixed $value
+ * @return mixed
  */
-function kg_array_object($array)
+function kg_objectify($value)
 {
-    return json_decode(json_encode($array));
-}
-
-/**
- * 对象转数组
- *
- * @param object $object
- * @return array
- */
-function kg_object_array($object)
-{
-    return json_decode(json_encode($object), true);
+    return json_decode(json_encode($value));
 }
 
 /**

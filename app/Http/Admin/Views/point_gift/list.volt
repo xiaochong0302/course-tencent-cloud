@@ -28,7 +28,7 @@
     </div>
 
     <table class="kg-table layui-table layui-form">
-        <group>
+        <colgroup>
             <col>
             <col>
             <col>
@@ -38,7 +38,7 @@
             <col>
             <col>
             <col width="12%">
-        </group>
+        </colgroup>
         <thead>
         <tr>
             <th>编号</th>

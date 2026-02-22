@@ -136,15 +136,15 @@ class TopAnswererList extends Cache
     {
         $columns = [
             'author_id' => 'a.owner_id',
-            'like_count' => 'count(al.user_id)',
+            'like_count' => 'count(al.id)',
         ];
 
         return $this->modelsManager->createBuilder()
             ->columns($columns)
-            ->addFrom(AnswerLikeModel::class, 'al')
-            ->join(AnswerModel::class, 'al.answer_id = a.id', 'a')
+            ->addFrom(AnswerModel::class, 'a')
+            ->leftJoin(AnswerLikeModel::class, 'a.id = al.answer_id', 'al')
             ->where('al.create_time > :create_time:', ['create_time' => $createTime])
-            ->groupBy('author_id')
+            ->groupBy('a.owner_id')
             ->orderBy('like_count DESC')
             ->limit($limit)->getQuery()->execute();
     }

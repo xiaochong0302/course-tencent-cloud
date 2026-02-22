@@ -57,18 +57,11 @@ trait ConsultListTrait
     {
         $user = $this->getCurrentUser(true);
 
-        $likeRepo = new ConsultLikeRepo();
-
         $likedIds = [];
 
         if ($user->id > 0) {
-            $likes = $likeRepo->findByUserId($user->id)
-                ->filter(function ($like) {
-                    if ($like->deleted == 0) {
-                        return $like;
-                    }
-                });
-            $likedIds = array_column($likes, 'consult_id');
+            $likeRepo = new ConsultLikeRepo();
+            $likedIds = $likeRepo->findUserLikedConsultIds($user->id);
         }
 
         $result = [];

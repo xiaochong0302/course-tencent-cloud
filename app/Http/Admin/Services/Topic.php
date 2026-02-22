@@ -169,7 +169,7 @@ class Topic extends Service
         return $validator->checkTopic($id);
     }
 
-    protected function saveCourses(TopicModel $topic, $courseIds)
+    protected function saveCourses(TopicModel $topic, $xmCourseIds)
     {
         $topicRepo = new TopicRepo();
 
@@ -183,7 +183,7 @@ class Topic extends Service
             }
         }
 
-        $newCourseIds = explode(',', $courseIds);
+        $newCourseIds = $xmCourseIds ? explode(',', $xmCourseIds) : [];
         $addedCourseIds = array_diff($newCourseIds, $originCourseIds);
 
         if ($addedCourseIds) {

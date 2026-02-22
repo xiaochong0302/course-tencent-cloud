@@ -58,18 +58,11 @@ trait ListTrait
     {
         $user = $this->getCurrentUser(true);
 
-        $likeRepo = new CommentLikeRepo();
-
         $likedIds = [];
 
         if ($user->id > 0) {
-            $likes = $likeRepo->findByUserId($user->id)
-                ->filter(function ($like) {
-                    if ($like->deleted == 0) {
-                        return $like;
-                    }
-                });
-            $likedIds = array_column($likes, 'comment_id');
+            $likeRepo = new CommentLikeRepo();
+            $likedIds = $likeRepo->findUserLikedCommentIds($user->id);
         }
 
         $result = [];

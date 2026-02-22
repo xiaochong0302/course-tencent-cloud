@@ -92,15 +92,15 @@ class TopAuthorList extends Cache
 
         $columns = [
             'author_id' => 'a.owner_id',
-            'like_count' => 'count(al.user_id)',
+            'like_count' => 'count(al.id)',
         ];
 
         return $this->modelsManager->createBuilder()
             ->columns($columns)
-            ->addFrom(ArticleLikeModel::class, 'al')
-            ->join(ArticleModel::class, 'al.article_id = a.id', 'a')
+            ->addFrom(ArticleModel::class, 'a')
+            ->leftJoin(ArticleLikeModel::class, 'a.id = al.article_id', 'al')
             ->where('al.create_time > :create_time:', ['create_time' => $createTime])
-            ->groupBy('author_id')
+            ->groupBy('a.owner_id')
             ->orderBy('like_count DESC')
             ->limit($limit)->getQuery()->execute();
     }

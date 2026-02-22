@@ -67,12 +67,8 @@ class Volt extends Provider
                 return 'kg_substr(' . $resolvedArgs . ')';
             });
 
-            $compiler->addFunction('array_object', function ($resolvedArgs) {
-                return 'kg_array_object(' . $resolvedArgs . ')';
-            });
-
-            $compiler->addFunction('object_array', function ($resolvedArgs) {
-                return 'kg_object_array(' . $resolvedArgs . ')';
+            $compiler->addFunction('objectify', function ($resolvedArgs) {
+                return 'kg_objectify(' . $resolvedArgs . ')';
             });
 
             $compiler->addFilter('clean_html', function ($resolvedArgs) {

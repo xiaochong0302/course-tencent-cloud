@@ -30,13 +30,26 @@ class CommentLike extends Repository
 
     /**
      * @param int $userId
-     * @return ResultsetInterface|Resultset|CommentLikeModel[]
+     * @return array
      */
-    public function findByUserId($userId)
+    public function findUserLikedCommentIds($userId)
     {
-        return CommentLikeModel::query()
+        $result = [];
+
+        /**
+         * @var Resultset $rows
+         */
+        $rows =  CommentLikeModel::query()
+            ->columns(['comment_id'])
             ->where('user_id = :user_id:', ['user_id' => $userId])
+            ->andWhere('deleted = 0')
             ->execute();
+
+        if ($rows->count() > 0) {
+            $result = kg_array_column($rows->toArray(), 'comment_id');
+        }
+
+        return $result;
     }
 
 }

@@ -87,18 +87,11 @@ class ReviewList extends LogicService
     {
         $user = $this->getCurrentUser(true);
 
-        $likeRepo = new ReviewLikeRepo();
-
         $likedIds = [];
 
         if ($user->id > 0) {
-            $likes = $likeRepo->findByUserId($user->id)
-                ->filter(function ($like) {
-                    if ($like->deleted == 0) {
-                        return $like;
-                    }
-                });
-            $likedIds = array_column($likes, 'review_id');
+            $likeRepo = new ReviewLikeRepo();
+            $likedIds = $likeRepo->findUserLikedReviewIds($user->id);
         }
 
         $result = [];

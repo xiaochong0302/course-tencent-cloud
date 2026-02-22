@@ -34,9 +34,9 @@ class View extends PhView
          * 分页数据
          */
         if (isset($var->total_items)) {
-            $var->items = kg_array_object($var->items);
+            $var->items = kg_objectify($var->items);
         } elseif (is_array($var)) {
-            $var = kg_array_object($var);
+            $var = kg_objectify($var);
         }
 
         return $var;

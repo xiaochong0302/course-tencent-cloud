@@ -4,7 +4,7 @@
 
     {{ partial('macros/slide') }}
 
-    {% set slide.target_attrs = array_object(slide.target_attrs) %}
+    {% set slide.target_attrs = objectify(slide.target_attrs) %}
 
     <form class="layui-form kg-form" method="POST" action="{{ url({'for':'admin.slide.update','id':slide.id}) }}">
         <fieldset class="layui-elem-field layui-field-title">
