@@ -17,18 +17,13 @@ use App\Validators\Verify as VerifyValidator;
 class Register extends LogicService
 {
 
+    use LoginFieldTrait;
+
     public function handle()
     {
         $post = $this->request->getPost();
 
-        /**
-         * 使用[account|phone|email]做账户名字段兼容
-         */
-        if (isset($post['phone'])) {
-            $post['account'] = $post['phone'];
-        } elseif (isset($post['email'])) {
-            $post['account'] = $post['email'];
-        }
+        $post = $this->handleLoginFields($post);
 
         $verifyValidator = new VerifyValidator();
 

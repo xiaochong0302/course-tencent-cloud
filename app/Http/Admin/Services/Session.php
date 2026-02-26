@@ -9,10 +9,13 @@ namespace App\Http\Admin\Services;
 
 use App\Services\Auth\Admin as AdminAuth;
 use App\Services\Auth\Home as HomeAuth;
+use App\Services\Logic\Account\LoginFieldTrait as LoginFieldTrait;
 use App\Validators\Account as AccountValidator;
 
 class Session extends Service
 {
+
+    use LoginFieldTrait;
 
     /**
      * @var AdminAuth
@@ -27,6 +30,8 @@ class Session extends Service
     public function login()
     {
         $post = $this->request->getPost();
+
+        $post = $this->handleLoginFields($post);
 
         $validator = new AccountValidator();
 

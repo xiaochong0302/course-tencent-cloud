@@ -9,11 +9,14 @@ namespace App\Http\Api\Services;
 
 use App\Repos\User as UserRepo;
 use App\Services\Auth\Api as AuthService;
+use App\Services\Logic\Account\LoginFieldTrait as LoginFieldTrait;
 use App\Services\Logic\Account\Register as RegisterService;
 use App\Validators\Account as AccountValidator;
 
 class Account extends Service
 {
+
+    use LoginFieldTrait;
 
     /**
      * @var AuthService
@@ -46,14 +49,7 @@ class Account extends Service
     {
         $post = $this->request->getPost();
 
-        /**
-         * 使用[account|phone|email]做账户名字段兼容
-         */
-        if (isset($post['phone'])) {
-            $post['account'] = $post['phone'];
-        } elseif (isset($post['email'])) {
-            $post['account'] = $post['email'];
-        }
+        $post = $this->handleLoginFields($post);
 
         $validator = new AccountValidator();
 
@@ -72,14 +68,7 @@ class Account extends Service
     {
         $post = $this->request->getPost();
 
-        /**
-         * 使用[account|phone|email]做账户名字段兼容
-         */
-        if (isset($post['phone'])) {
-            $post['account'] = $post['phone'];
-        } elseif (isset($post['email'])) {
-            $post['account'] = $post['email'];
-        }
+        $post = $this->handleLoginFields($post);
 
         $validator = new AccountValidator();
 
