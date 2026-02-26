@@ -133,9 +133,7 @@ class User extends Service
 
             $account = new AccountModel();
 
-            if ($account->create($data) === false) {
-                throw new \RuntimeException('Create Account Failed');
-            }
+            $account->create($data);
 
             $this->db->commit();
 
@@ -149,9 +147,9 @@ class User extends Service
 
             $this->db->rollback();
 
-            $logger = $this->getLogger('http');
+            $logger = $this->getLogger();
 
-            $logger->error('Create User Error ' . kg_json_encode([
+            $logger->error('Create User Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'message' => $e->getMessage(),

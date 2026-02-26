@@ -24,7 +24,7 @@ class Trade extends Listener
 
     public function __construct()
     {
-        $this->logger = $this->getLogger();
+        $this->logger = $this->getLogger('trade');
     }
 
     public function afterPay(PhEvent $event, $source, TradeModel $trade)
@@ -54,10 +54,11 @@ class Trade extends Listener
 
             $this->db->rollback();
 
-            $this->logger->error('After Pay Event Error ' . kg_json_encode([
+            $this->logger->error('After Pay Event Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'message' => $e->getMessage(),
+                    'trade' => $trade,
                 ]));
 
             throw new \RuntimeException('sys.trans_rollback');

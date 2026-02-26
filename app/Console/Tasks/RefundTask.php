@@ -7,8 +7,8 @@
 
 namespace App\Console\Tasks;
 
-use App\Models\Order as OrderModel;
 use App\Models\KgSale as KgSaleModel;
+use App\Models\Order as OrderModel;
 use App\Models\Refund as RefundModel;
 use App\Models\Task as TaskModel;
 use App\Models\Trade as TradeModel;
@@ -90,11 +90,11 @@ class RefundTask extends Task
 
                 $logger = $this->getLogger('refund');
 
-                $logger->error('Refund Task Exception ' . kg_json_encode([
+                $logger->error('Refund Task Exception: ' . kg_json_encode([
                         'file' => $e->getFile(),
                         'line' => $e->getLine(),
                         'message' => $e->getMessage(),
-                        'task' => $task->toArray(),
+                        'task' => $task,
                     ]));
             }
 
@@ -171,9 +171,7 @@ class RefundTask extends Task
 
         if ($courseUser) {
             $courseUser->deleted = 1;
-            if ($courseUser->update() === false) {
-                throw new \RuntimeException('Delete Course User Failed');
-            }
+            $courseUser->update();
         }
     }
 
@@ -194,9 +192,7 @@ class RefundTask extends Task
 
             if ($courseUser) {
                 $courseUser->deleted = 1;
-                if ($courseUser->update() === false) {
-                    throw new \RuntimeException('Delete Course User Failed');
-                }
+                $courseUser->update();
             }
         }
     }
@@ -223,9 +219,7 @@ class RefundTask extends Task
             $user->vip = 0;
         }
 
-        if ($user->update() === false) {
-            throw new \RuntimeException('Update User Vip Failed');
-        }
+        $user->update();
     }
 
     /**

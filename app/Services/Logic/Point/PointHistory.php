@@ -17,15 +17,11 @@ class PointHistory extends LogicService
 
     protected function handlePointHistory(PointHistoryModel $history)
     {
-        $logger = $this->getLogger('point');
-
         try {
 
             $this->db->begin();
 
-            if ($history->create() === false) {
-                throw new \RuntimeException('Create Point History Failed');
-            }
+            $history->create();
 
             $userRepo = new UserRepo();
 
@@ -34,16 +30,12 @@ class PointHistory extends LogicService
             if ($balance) {
                 $balance->user_id = $history->user_id;
                 $balance->point += $history->event_point;
-                $result = $balance->update();
+                $balance->update();
             } else {
                 $balance = new UserBalanceModel();
                 $balance->user_id = $history->user_id;
                 $balance->point = $history->event_point;
-                $result = $balance->create();
-            }
-
-            if ($result === false) {
-                throw new \RuntimeException('Save User Balance Failed');
+                $balance->create();
             }
 
             $this->db->commit();
@@ -52,8 +44,11 @@ class PointHistory extends LogicService
 
             $this->db->rollback();
 
-            $logger->error('Point History Exception ' . kg_json_encode([
-                    'code' => $e->getCode(),
+            $logger = $this->getLogger('point');
+
+            $logger->error('Point History Exception: ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
                     'message' => $e->getMessage(),
                 ]));
 

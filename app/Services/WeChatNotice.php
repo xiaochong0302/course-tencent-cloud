@@ -64,21 +64,21 @@ abstract class WeChatNotice extends Service
 
         try {
 
-            $this->logger->debug('Send Template Message Request ' . kg_json_encode($content));
+            $this->logger->debug('Send Template Message Request: ' . kg_json_encode($content));
 
             $response = $app->template_message->send($content);
 
-            $this->logger->debug('Send Template Message Response ' . kg_json_encode($response));
+            $this->logger->debug('Send Template Message Response: ' . kg_json_encode($response));
 
             $result = $response['errcode'] == 0;
 
             if (!$result) {
-                $this->logger->error('Send Template Message Failed ' . kg_json_encode($response));
+                $this->logger->error('Send Template Message Failed: ' . kg_json_encode($response));
             }
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Send Template Message Exception ' . kg_json_encode([
+            $this->logger->error('Send Template Message Exception: ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]));

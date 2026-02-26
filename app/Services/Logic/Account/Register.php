@@ -62,9 +62,7 @@ class Register extends LogicService
 
             $account = new AccountModel();
 
-            if ($account->create($data) === false) {
-                throw new \RuntimeException('Create Account Failed');
-            }
+            $account->create($data);
 
             $this->db->commit();
 
@@ -76,7 +74,7 @@ class Register extends LogicService
 
             $logger = $this->getLogger();
 
-            $logger->error('Register Error ' . kg_json_encode([
+            $logger->error('Register Account Exception: ' . kg_json_encode([
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),

@@ -161,19 +161,19 @@ class DingTalkNotice extends Service
 
             $content = json_decode($content, true);
 
-            $this->logger->debug('Send Message Request ' . kg_json_encode($params));
+            $this->logger->debug('Send Message Request: ' . kg_json_encode($params));
 
-            $this->logger->debug('Send Message Response ' . kg_json_encode($content));
+            $this->logger->debug('Send Message Response: ' . kg_json_encode($content));
 
             $result = $content['errcode'] == 0;
 
             if (!$result) {
-                $this->logger->error('Send Message Failed ' . kg_json_encode($content));
+                $this->logger->error('Send Message Failed: ' . kg_json_encode($content));
             }
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Send Message Exception ' . kg_json_encode([
+            $this->logger->error('Send Message Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'message' => $e->getMessage(),

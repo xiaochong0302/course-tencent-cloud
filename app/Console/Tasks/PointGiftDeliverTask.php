@@ -61,9 +61,7 @@ class PointGiftDeliverTask extends Task
 
                 $task->status = TaskModel::STATUS_FINISHED;
 
-                if ($task->update() === false) {
-                    throw new \RuntimeException('Update Task Status Failed');
-                }
+                $task->update();
 
                 $this->db->commit();
 
@@ -80,11 +78,11 @@ class PointGiftDeliverTask extends Task
 
                 $task->update();
 
-                $logger->error('Point Gift Deliver Exception ' . kg_json_encode([
+                $logger->error('Point Gift Deliver Exception: ' . kg_json_encode([
                         'file' => $e->getFile(),
                         'line' => $e->getLine(),
                         'message' => $e->getMessage(),
-                        'task' => $task->toArray(),
+                        'task' => $task,
                     ]));
             }
 
@@ -102,23 +100,13 @@ class PointGiftDeliverTask extends Task
 
         $gift = $giftRepo->findById($redeem->gift_id);
 
-        if (!$gift) {
-            throw new \RuntimeException('Gift Not Found');
-        }
-
         $courseRepo = new CourseRepo();
 
         $course = $courseRepo->findById($gift->attrs['id']);
 
-        if (!$course) {
-            throw new \RuntimeException('Course Not Found');
-        }
-
         $redeem->status = PointGiftRedeemModel::STATUS_FINISHED;
 
-        if ($redeem->update() === false) {
-            throw new \RuntimeException('Update Point Redeem Status Failed');
-        }
+        $redeem->update();
 
         $userRepo = new UserRepo();
 
@@ -135,23 +123,13 @@ class PointGiftDeliverTask extends Task
 
         $gift = $giftRepo->findById($redeem->gift_id);
 
-        if (!$gift) {
-            throw new \RuntimeException('Gift Not Found');
-        }
-
         $vipRepo = new VipRepo();
 
         $vip = $vipRepo->findById($gift->attrs['id']);
 
-        if (!$vip) {
-            throw new \RuntimeException('Vip Not Found');
-        }
-
         $redeem->status = PointGiftRedeemModel::STATUS_FINISHED;
 
-        if ($redeem->update() === false) {
-            throw new \RuntimeException('Update Point Redeem Status Failed');
-        }
+        $redeem->update();
 
         $userRepo = new UserRepo();
 

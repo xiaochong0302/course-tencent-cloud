@@ -73,9 +73,7 @@ class Course extends Service
             $course->model = $model;
             $course->title = $title;
 
-            if ($course->create() === false) {
-                throw new \RuntimeException('Create Course Failed');
-            }
+            $course->create();
 
             $this->db->commit();
 
@@ -88,10 +86,11 @@ class Course extends Service
 
             $this->db->rollback();
 
-            $logger = $this->getLogger('http');
+            $logger = $this->getLogger();
 
-            $logger->error('Create Course Error ' . kg_json_encode([
-                    'code' => $e->getCode(),
+            $logger->error('Create Course Exception: ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
                     'message' => $e->getMessage(),
                 ]));
 

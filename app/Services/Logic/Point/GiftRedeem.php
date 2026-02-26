@@ -69,29 +69,17 @@ class GiftRedeem extends LogicService
             }
 
             $redeem->status = PointGiftRedeemModel::STATUS_PENDING;
-
-            $result = $redeem->create();
-
-            if ($result === false) {
-                throw new \RuntimeException('Create Point Redeem Failed');
-            }
+            $redeem->create();
 
             $gift->stock -= 1;
             $gift->redeem_count += 1;
-
-            if ($gift->update() === false) {
-                throw new \RuntimeException('Decrease Gift Stock Failed');
-            }
+            $gift->update();
 
             $task = new TaskModel();
 
             $task->item_id = $redeem->id;
             $task->item_type = TaskModel::TYPE_POINT_GIFT_DELIVER;
-            $result = $task->create();
-
-            if ($result === false) {
-                throw new \RuntimeException('Create Gift Deliver Task Failed');
-            }
+            $task->create();
 
             $this->handleRedeemPoint($redeem);
 
@@ -103,7 +91,7 @@ class GiftRedeem extends LogicService
 
             $logger = $this->getLogger('point');
 
-            $logger->error('Gift Redeem Exception ' . kg_json_encode([
+            $logger->error('Create Gift Redeem Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'message' => $e->getMessage(),

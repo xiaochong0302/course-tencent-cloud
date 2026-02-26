@@ -28,6 +28,7 @@ class CleanLogTask extends Task
         $this->cleanAlipayLog();
         $this->cleanWxpayLog();
         $this->cleanOrderLog();
+        $this->cleanTradeLog();
         $this->cleanRefundLog();
         $this->cleanPointLog();
         $this->cleanDingTalkLog();
@@ -197,6 +198,18 @@ class CleanLogTask extends Task
     protected function cleanOrderLog()
     {
         $type = 'order';
+
+        $this->cleanLog($type, 30);
+
+        $this->whitelist[] = $type;
+    }
+
+    /**
+     * 清理交易日志
+     */
+    protected function cleanTradeLog()
+    {
+        $type = 'trade';
 
         $this->cleanLog($type, 30);
 

@@ -103,7 +103,7 @@ class Storage extends Service
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Get Tmp Token Exception ' . kg_json_encode([
+            $this->logger->error('Get Tmp Token Exception: ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -134,7 +134,7 @@ class Storage extends Service
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Put String Exception ' . kg_json_encode([
+            $this->logger->error('Put String Exception: ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -167,7 +167,7 @@ class Storage extends Service
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Put File Exception ' . kg_json_encode([
+            $this->logger->error('Put File Exception: ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -200,7 +200,7 @@ class Storage extends Service
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Delete Object Exception ' . kg_json_encode([
+            $this->logger->error('Delete Object Exception: ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),

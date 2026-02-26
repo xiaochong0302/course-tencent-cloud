@@ -78,11 +78,11 @@ abstract class Smser extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Send Message Request ' . $params);
+            $this->logger->debug('Send Message Request: ' . $params);
 
             $response = $client->SendSms($request);
 
-            $this->logger->debug('Send Message Response ' . $response->toJsonString());
+            $this->logger->debug('Send Message Response: ' . $response->toJsonString());
 
             /**
              * @var $sendStatus SendStatus
@@ -92,12 +92,12 @@ abstract class Smser extends Service
             $result = $sendStatus->getCode() == 'Ok';
 
             if (!$result) {
-                $this->logger->error('Send Message Failed ' . $response->toJsonString());
+                $this->logger->error('Send Message Failed: ' . $response->toJsonString());
             }
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Send Message Exception ' . kg_json_encode([
+            $this->logger->error('Send Message Exception: ' . kg_json_encode([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),

@@ -66,9 +66,7 @@ class RefundCreate extends LogicService
             $refund->status = RefundModel::STATUS_APPROVED;
             $refund->review_note = '退款周期内无条件审批';
 
-            if ($refund->create() === false) {
-                throw new \RuntimeException('Create Refund Failed');
-            }
+            $refund->create();
 
             $task = new TaskModel();
 
@@ -77,9 +75,7 @@ class RefundCreate extends LogicService
             $task->priority = TaskModel::PRIORITY_MIDDLE;
             $task->status = TaskModel::STATUS_PENDING;
 
-            if ($task->create() === false) {
-                throw new \RuntimeException('Create Refund Task Failed');
-            }
+            $task->create();
 
             $this->db->commit();
 
@@ -91,7 +87,7 @@ class RefundCreate extends LogicService
 
             $logger = $this->getLogger('refund');
 
-            $logger->error('Create Refund Exception ' . kg_json_encode([
+            $logger->error('Create Refund Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'message' => $e->getMessage(),

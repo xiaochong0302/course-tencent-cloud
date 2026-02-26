@@ -75,9 +75,7 @@ class Chapter extends Service
 
             $chapter = new ChapterModel();
 
-            if ($chapter->create($data) === false) {
-                throw new \RuntimeException('Create Chapter Failed');
-            }
+            $chapter->create($data);
 
             $this->db->commit();
 
@@ -92,9 +90,9 @@ class Chapter extends Service
 
             $this->db->rollback();
 
-            $logger = $this->getLogger('http');
+            $logger = $this->getLogger();
 
-            $logger->error('Create Chapter Error ' . kg_json_encode([
+            $logger->error('Create Chapter Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'message' => $e->getMessage(),

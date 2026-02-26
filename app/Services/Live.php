@@ -69,17 +69,17 @@ class Live extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Describe Live Stream State Request ' . $params);
+            $this->logger->debug('Describe Live Stream State Request: ' . $params);
 
             $response = $this->client->DescribeLiveStreamState($request);
 
-            $this->logger->debug('Describe Live Stream State Response ' . $response->toJsonString());
+            $this->logger->debug('Describe Live Stream State Response: ' . $response->toJsonString());
 
             $result = $response->StreamState;
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Describe Live Stream State Exception ' . kg_json_encode([
+            $this->logger->error('Describe Live Stream State Exception: ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -114,17 +114,17 @@ class Live extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Forbid Live Stream Request ' . $params);
+            $this->logger->debug('Forbid Live Stream Request: ' . $params);
 
             $response = $this->client->ForbidLiveStream($request);
 
-            $this->logger->debug('Forbid Live Stream Response ' . $response->toJsonString());
+            $this->logger->debug('Forbid Live Stream Response: ' . $response->toJsonString());
 
             $result = json_decode($response->toJsonString(), true);
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Forbid Live Stream Exception ' . kg_json_encode([
+            $this->logger->error('Forbid Live Stream Exception: ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -157,17 +157,17 @@ class Live extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Resume Live Stream Request ' . $params);
+            $this->logger->debug('Resume Live Stream Request: ' . $params);
 
             $response = $this->client->ResumeLiveStream($request);
 
-            $this->logger->debug('Resume Live Stream Response ' . $response->toJsonString());
+            $this->logger->debug('Resume Live Stream Response: ' . $response->toJsonString());
 
             $result = json_decode($response->toJsonString(), true);
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Resume Live Stream Exception ' . kg_json_encode([
+            $this->logger->error('Resume Live Stream Exception: ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),

@@ -50,8 +50,9 @@ abstract class Mailer extends Service
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Send Mail Exception ' . kg_json_encode([
-                    'code' => $e->getCode(),
+            $this->logger->error('Send Mail Exception: ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
                     'message' => $e->getMessage(),
                 ]));
 

@@ -67,13 +67,13 @@ class Vod extends Service
 
             $response = $this->client->DescribeTranscodeTemplates($request);
 
-            $this->logger->debug('Describe Transcode Templates Response ' . $response->toJsonString());
+            $this->logger->debug('Describe Transcode Templates Response: ' . $response->toJsonString());
 
             $result = $response->TotalCount > 0;
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Describe Transcode Templates Exception ' . kg_json_encode([
+            $this->logger->error('Describe Transcode Templates Exception: ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -214,11 +214,11 @@ class Vod extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Pull Events Request ' . $params);
+            $this->logger->debug('Pull Events Request: ' . $params);
 
             $response = $this->client->PullEvents($request);
 
-            $this->logger->debug('Pull Events Response ' . $response->toJsonString());
+            $this->logger->debug('Pull Events Response: ' . $response->toJsonString());
 
             $data = json_decode($response->toJsonString(), true);
 
@@ -226,7 +226,7 @@ class Vod extends Service
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Pull Events Exception ' . kg_json_encode([
+            $this->logger->error('Pull Events Exception: ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -254,17 +254,17 @@ class Vod extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Confirm Events Request ' . $params);
+            $this->logger->debug('Confirm Events Request: ' . $params);
 
             $response = $this->client->ConfirmEvents($request);
 
-            $this->logger->debug('Confirm Events Response ' . $response->toJsonString());
+            $this->logger->debug('Confirm Events Response: ' . $response->toJsonString());
 
             $result = json_decode($response->toJsonString(), true);
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Confirm Events Exception ' . kg_json_encode([
+            $this->logger->error('Confirm Events Exception: ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -292,17 +292,17 @@ class Vod extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Delete Media Request ' . $params);
+            $this->logger->debug('Delete Media Request: ' . $params);
 
             $response = $this->client->DeleteMedia($request);
 
-            $this->logger->debug('Delete Media Response ' . $response->toJsonString());
+            $this->logger->debug('Delete Media Response: ' . $response->toJsonString());
 
             $result = !empty($response->RequestId);
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Delete Media Exception ' . kg_json_encode([
+            $this->logger->error('Delete Media Exception: ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -332,11 +332,11 @@ class Vod extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Describe Media Info Request ' . $params);
+            $this->logger->debug('Describe Media Info Request: ' . $params);
 
             $response = $this->client->DescribeMediaInfos($request);
 
-            $this->logger->debug('Describe Media Info Response ' . $response->toJsonString());
+            $this->logger->debug('Describe Media Info Response: ' . $response->toJsonString());
 
             $result = json_decode($response->toJsonString(), true);
 
@@ -346,7 +346,7 @@ class Vod extends Service
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Describe Media Info Exception ' . kg_json_encode([
+            $this->logger->error('Describe Media Info Exception: ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -374,11 +374,11 @@ class Vod extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Describe Task Detail Request ' . $params);
+            $this->logger->debug('Describe Task Detail Request: ' . $params);
 
             $response = $this->client->DescribeTaskDetail($request);
 
-            $this->logger->debug('Describe Task Detail Response ' . $response->toJsonString());
+            $this->logger->debug('Describe Task Detail Response: ' . $response->toJsonString());
 
             $result = json_decode($response->toJsonString(), true);
 
@@ -388,7 +388,7 @@ class Vod extends Service
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Describe Task Detail Exception ' . kg_json_encode([
+            $this->logger->error('Describe Task Detail Exception: ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -464,17 +464,17 @@ class Vod extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Process Media Request ' . $params);
+            $this->logger->debug('Process Media Request: ' . $params);
 
             $response = $this->client->ProcessMedia($request);
 
-            $this->logger->debug('Process Media Response ' . $response->toJsonString());
+            $this->logger->debug('Process Media Response: ' . $response->toJsonString());
 
             $result = $response->TaskId ?: false;
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Process Media Exception ' . kg_json_encode([
+            $this->logger->error('Process Media Exception: ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),
@@ -537,17 +537,17 @@ class Vod extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Process Media Request ' . $params);
+            $this->logger->debug('Process Media Request: ' . $params);
 
             $response = $this->client->ProcessMedia($request);
 
-            $this->logger->debug('Process Media Response ' . $response->toJsonString());
+            $this->logger->debug('Process Media Response: ' . $response->toJsonString());
 
             $result = $response->TaskId ?: false;
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Process Media Exception ' . kg_json_encode([
+            $this->logger->error('Process Media Exception: ' . kg_json_encode([
                     'code' => $e->getErrorCode(),
                     'message' => $e->getMessage(),
                     'requestId' => $e->getRequestId(),

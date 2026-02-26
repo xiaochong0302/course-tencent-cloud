@@ -367,16 +367,11 @@ class Course extends Model
     public function afterCreate()
     {
         $cache = new MaxCourseIdCache();
-
         $cache->rebuild();
 
         $courseRating = new CourseRating();
-
         $courseRating->course_id = $this->id;
-
-        if ($courseRating->create() === false) {
-            throw new \RuntimeException('Create Course Rating Failed');
-        }
+        $courseRating->create();
     }
 
     public function afterFetch()

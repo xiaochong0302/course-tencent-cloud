@@ -98,21 +98,13 @@ class Account extends Model
     public function afterCreate()
     {
         $user = new User();
-
         $user->id = $this->id;
         $user->name = "user_{$this->id}";
-
-        if ($user->create() === false) {
-            throw new \RuntimeException('Create User Failed');
-        }
+        $user->create();
 
         $userBalance = new UserBalance();
-
         $userBalance->user_id = $user->id;
-
-        if ($userBalance->create() === false) {
-            throw new \RuntimeException('Create User Balance Failed');
-        }
+        $userBalance->create();
     }
 
 }

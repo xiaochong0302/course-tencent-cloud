@@ -84,11 +84,11 @@ class DeliverTask extends Task
 
                 $logger = $this->getLogger('deliver');
 
-                $logger->error('Deliver Task Exception ' . kg_json_encode([
+                $logger->error('Deliver Task Exception: ' . kg_json_encode([
                         'file' => $e->getFile(),
                         'line' => $e->getLine(),
                         'message' => $e->getMessage(),
-                        'task' => $task->toArray(),
+                        'task' => $task,
                     ]));
             }
 
