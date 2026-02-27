@@ -64,7 +64,9 @@ class Resource extends Service
             $data['name'] = $validator->checkName($post['name']);
         }
 
-        $upload->update($data);
+        $upload->assign($data);
+
+        $upload->update();
 
         $resource->update();
 

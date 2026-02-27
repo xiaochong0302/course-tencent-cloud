@@ -35,7 +35,9 @@ class QuestionCreate extends LogicService
         $data['published'] = $this->getPublishStatus($user);
         $data['owner_id'] = $user->id;
 
-        $question->create($data);
+        $question->assign($data);
+
+        $question->create();
 
         /**
          * 参数兼容（pc端:xm_tag_ids，移动端:tag_ids）

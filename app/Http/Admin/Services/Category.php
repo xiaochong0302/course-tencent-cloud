@@ -128,7 +128,9 @@ class Category extends Service
 
         $category = new CategoryModel();
 
-        $category->create($data);
+        $category->assign($data);
+
+        $category->create();
 
         if ($parent) {
             $category->path = $parent->path . $category->id . ',';
@@ -179,7 +181,9 @@ class Category extends Service
             }
         }
 
-        $category->update($data);
+        $category->assign($data);
+
+        $category->update();
 
         $this->updateCategoryStats($category);
         $this->rebuildCategoryCache($category);

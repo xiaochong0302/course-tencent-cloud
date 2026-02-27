@@ -136,7 +136,9 @@ class Slide extends Service
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
-        $slide->update($data);
+        $slide->assign($data);
+
+        $slide->update();
 
         $this->rebuildIndexSlideListCache();
 

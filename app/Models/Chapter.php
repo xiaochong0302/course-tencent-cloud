@@ -267,24 +267,24 @@ class Chapter extends Model
             switch ($this->model) {
                 case Course::MODEL_VOD:
                     $vod = new ChapterVod();
-                    $extend = $vod->create($data);
+                    $vod->assign($data);
+                    $vod->create();
                     break;
                 case Course::MODEL_LIVE:
                     $live = new ChapterLive();
-                    $extend = $live->create($data);
+                    $live->assign($data);
+                    $live->create();
                     break;
                 case Course::MODEL_READ:
                     $read = new ChapterRead();
-                    $extend = $read->create($data);
+                    $read->assign($data);
+                    $read->create();
                     break;
                 case Course::MODEL_OFFLINE:
                     $offline = new ChapterOffline();
-                    $extend = $offline->create($data);
+                    $offline->assign($data);
+                    $offline->create();
                     break;
-            }
-
-            if ($extend === false) {
-                throw new \RuntimeException("Create Chapter Extend Failed");
             }
         }
     }

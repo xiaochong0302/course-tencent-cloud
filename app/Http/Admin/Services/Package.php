@@ -103,7 +103,9 @@ class Package extends Service
 
         $package = new PackageModel();
 
-        $package->create($data);
+        $package->assign($data);
+
+        $package->create();
 
         $this->rebuildPackageCache($package->id);
 
@@ -148,7 +150,9 @@ class Package extends Service
             $this->saveCourses($package, $post['xm_course_ids']);
         }
 
-        $package->update($data);
+        $package->assign($data);
+
+        $package->update();
 
         $this->handlePackagedCourses($package->id);
         $this->recountPackageCourses($package->id);

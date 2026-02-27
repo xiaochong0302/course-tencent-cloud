@@ -47,7 +47,9 @@ class ReviewCreate extends LogicService
 
         $review = new ReviewModel();
 
-        $review->create($data);
+        $review->assign($data);
+
+        $review->create();
 
         $this->updateCourseUserReview($courseUser);
         $this->recountCourseReviews($course);

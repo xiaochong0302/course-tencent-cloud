@@ -51,7 +51,9 @@ class Vip extends Service
 
         $vip = new VipModel();
 
-        $vip->create($data);
+        $vip->assign($data);
+
+        $vip->create();
 
         return $vip;
     }
@@ -83,7 +85,9 @@ class Vip extends Service
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
-        $vip->update($data);
+        $vip->assign($data);
+
+        $vip->update();
 
         return $vip;
     }

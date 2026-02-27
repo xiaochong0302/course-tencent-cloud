@@ -42,7 +42,9 @@ class CommentCreate extends LogicService
         $data['owner_id'] = $user->id;
         $data['published'] = $this->getPublishStatus($user);
 
-        $comment->create($data);
+        $comment->assign($data);
+
+        $comment->create();
 
         $this->incrUserDailyCommentCount($user);
 

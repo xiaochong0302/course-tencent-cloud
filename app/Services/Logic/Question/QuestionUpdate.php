@@ -38,7 +38,9 @@ class QuestionUpdate extends LogicService
             $data['published'] = QuestionModel::PUBLISH_PENDING;
         }
 
-        $question->update($data);
+        $question->assign($data);
+
+        $question->update();
 
         if (isset($post['xm_tag_ids'])) {
             $this->saveTags($question, $post['xm_tag_ids']);

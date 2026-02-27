@@ -118,7 +118,9 @@ class Answer extends Service
         $data['question_id'] = $question->id;
         $data['published'] = AnswerModel::PUBLISH_APPROVED;
 
-        $answer->create($data);
+        $answer->assign($data);
+
+        $answer->create();
 
         $question->last_answer_id = $answer->id;
         $question->last_replier_id = $answer->owner_id;
@@ -158,7 +160,9 @@ class Answer extends Service
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
-        $answer->update($data);
+        $answer->assign($data);
+
+        $answer->update();
 
         $this->saveDynamicAttrs($answer);
 

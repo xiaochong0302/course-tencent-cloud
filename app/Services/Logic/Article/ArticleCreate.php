@@ -36,7 +36,9 @@ class ArticleCreate extends LogicService
         $data['published'] = $this->getPublishStatus($user);
         $data['owner_id'] = $user->id;
 
-        $article->create($data);
+        $article->assign($data);
+
+        $article->create();
 
         /**
          * 参数兼容（pc端:xm_tag_ids，移动端:tag_ids）

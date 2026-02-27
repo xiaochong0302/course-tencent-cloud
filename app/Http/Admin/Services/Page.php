@@ -50,7 +50,9 @@ class Page extends Service
 
         $page = new PageModel();
 
-        $page->create($data);
+        $page->assign($data);
+
+        $page->create();
 
         return $page;
     }
@@ -91,7 +93,9 @@ class Page extends Service
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
-        $page->update($data);
+        $page->assign($data);
+
+        $page->update();
 
         return $page;
     }

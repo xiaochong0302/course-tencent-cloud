@@ -108,7 +108,9 @@ class Refund extends Service
         $data['status'] = $validator->checkReviewStatus($post['review_status']);
         $data['review_note'] = $validator->checkReviewNote($post['review_note']);
 
-        $refund->update($data);
+        $refund->assign($data);
+
+        $refund->update();
 
         if ($refund->status == RefundModel::STATUS_APPROVED) {
 

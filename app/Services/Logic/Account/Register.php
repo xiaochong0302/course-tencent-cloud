@@ -62,7 +62,9 @@ class Register extends LogicService
 
             $account = new AccountModel();
 
-            $account->create($data);
+            $account->assign($data);
+
+            $account->create();
 
             $this->db->commit();
 

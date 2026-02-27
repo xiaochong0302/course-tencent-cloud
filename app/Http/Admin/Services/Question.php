@@ -193,7 +193,9 @@ class Question extends Service
             $this->saveTags($question, $post['xm_tag_ids']);
         }
 
-        $question->update($data);
+        $question->assign($data);
+
+        $question->update();
 
         $owner = $this->findUser($question->owner_id);
 

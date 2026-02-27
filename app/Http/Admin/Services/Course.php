@@ -201,7 +201,9 @@ class Course extends Service
             }
         }
 
-        $course->update($data);
+        $course->assign($data);
+
+        $course->update();
 
         $this->rebuildCourseCache($course);
         $this->rebuildCourseIndex($course);

@@ -43,7 +43,9 @@ class ReviewUpdate extends LogicService
         $data['rating2'] = $validator->checkRating($post['rating2']);
         $data['rating3'] = $validator->checkRating($post['rating3']);
 
-        $review->update($data);
+        $review->assign($data);
+
+        $review->update();
 
         $this->updateCourseRating($course);
     }

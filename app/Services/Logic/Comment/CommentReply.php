@@ -58,7 +58,9 @@ class CommentReply extends LogicService
 
         $reply = new CommentModel();
 
-        $reply->create($data);
+        $reply->assign($data);
+
+        $reply->create();
 
         $this->incrUserDailyCommentCount($user);
 

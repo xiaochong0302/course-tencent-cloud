@@ -31,7 +31,9 @@ class ConsultUpdate extends LogicService
 
         $data = $this->handlePostData($post);
 
-        $consult->update($data);
+        $consult->assign($data);
+
+        $consult->update();
 
         $this->eventsManager->fire('Consult:afterUpdate', $this, $consult);
 

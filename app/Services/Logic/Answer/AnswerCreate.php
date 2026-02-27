@@ -51,7 +51,9 @@ class AnswerCreate extends LogicService
         $data['question_id'] = $question->id;
         $data['owner_id'] = $user->id;
 
-        $answer->create($data);
+        $answer->assign($data);
+
+        $answer->create();
 
         if ($answer->published == AnswerModel::PUBLISH_APPROVED) {
 

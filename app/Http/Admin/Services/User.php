@@ -133,7 +133,9 @@ class User extends Service
 
             $account = new AccountModel();
 
-            $account->create($data);
+            $account->assign($data);
+
+            $account->create();
 
             $this->db->commit();
 
@@ -220,7 +222,9 @@ class User extends Service
 
         $oldAdminRole = $user->admin_role;
 
-        $user->update($data);
+        $user->assign($data);
+
+        $user->update();
 
         if ($user->locked == 1) {
             $this->destroyUserLogin($user);
@@ -313,7 +317,9 @@ class User extends Service
             $data['password'] = PasswordUtil::hash($post['password'], $data['salt']);
         }
 
-        $account->update($data);
+        $account->assign($data);
+
+        $account->update();
 
         return $account;
     }

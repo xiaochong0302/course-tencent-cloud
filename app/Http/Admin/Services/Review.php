@@ -135,7 +135,9 @@ class Review extends Service
             $this->recountCourseReviews($course);
         }
 
-        $review->update($data);
+        $review->assign($data);
+
+        $review->update();
 
         $this->updateCourseRating($course);
         $this->recountCourseReviews($course);

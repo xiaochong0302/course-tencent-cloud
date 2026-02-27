@@ -37,7 +37,9 @@ class AnswerUpdate extends LogicService
 
         $data = $this->handlePostData($post);
 
-        $answer->update($data);
+        $answer->assign($data);
+
+        $answer->update();
 
         $this->saveDynamicAttrs($answer);
 

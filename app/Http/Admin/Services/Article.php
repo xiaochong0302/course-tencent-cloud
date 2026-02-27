@@ -204,7 +204,9 @@ class Article extends Service
             $this->saveTags($article, $post['xm_tag_ids']);
         }
 
-        $article->update($data);
+        $article->assign($data);
+
+        $article->update();
 
         $owner = $this->findUser($article->owner_id);
 

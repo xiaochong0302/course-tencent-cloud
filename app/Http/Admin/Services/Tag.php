@@ -97,7 +97,9 @@ class Tag extends Service
             }
         }
 
-        $tag->update($data);
+        $tag->assign($data);
+
+        $tag->update();
 
         $this->rebuildTagCache($tag);
 

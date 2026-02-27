@@ -33,9 +33,11 @@ abstract class Migration
 
         if (!$item) {
             $item = new SettingModel();
-            $item->create($setting);
+            $item->assign($setting);
+            $item->create();
         } else {
-            $item->update($setting);
+            $item->assign($setting);
+            $item->update();
         }
     }
 

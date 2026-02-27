@@ -161,7 +161,9 @@ class PointGift extends Service
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
-        $gift->update($data);
+        $gift->assign($data);
+
+        $gift->update();
 
         return $gift;
     }

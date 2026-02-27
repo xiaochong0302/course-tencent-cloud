@@ -90,7 +90,9 @@ class Topic extends Service
 
         $topic = new TopicModel();
 
-        $topic->create($data);
+        $topic->assign($data);
+
+        $topic->create();
 
         $this->rebuildTopicCache($topic);
 
@@ -127,7 +129,9 @@ class Topic extends Service
             $this->saveCourses($topic, $post['xm_course_ids']);
         }
 
-        $topic->update($data);
+        $topic->assign($data);
+
+        $topic->update();
 
         $this->updateCourseCount($topic);
 

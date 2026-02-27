@@ -47,7 +47,9 @@ class ProfileUpdate extends LogicService
             $data['avatar'] = $validator->checkAvatar($post['avatar']);
         }
 
-        $user->update($data);
+        $user->assign($data);
+
+        $user->update();
 
         $this->rebuildUserCache($user->id);
 

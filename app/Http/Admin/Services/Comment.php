@@ -99,7 +99,9 @@ class Comment extends Service
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
-        $comment->update($data);
+        $comment->assign($data);
+
+        $comment->update();
 
         return $comment;
     }

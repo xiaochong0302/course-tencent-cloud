@@ -57,7 +57,9 @@ class ConsultCreate extends LogicService
         $data['course_id'] = $course->id;
         $data['owner_id'] = $user->id;
 
-        $consult->create($data);
+        $consult->assign($data);
+
+        $consult->create();
 
         $this->recountCourseConsults($course);
         $this->incrUserDailyConsultCount($user);

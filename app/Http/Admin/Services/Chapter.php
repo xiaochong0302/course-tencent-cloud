@@ -75,7 +75,9 @@ class Chapter extends Service
 
             $chapter = new ChapterModel();
 
-            $chapter->create($data);
+            $chapter->assign($data);
+
+            $chapter->create();
 
             $this->db->commit();
 
@@ -135,7 +137,9 @@ class Chapter extends Service
             }
         }
 
-        $chapter->update($data);
+        $chapter->assign($data);
+
+        $chapter->update();
 
         $this->updateChapterStats($chapter);
         $this->updateCourseStat($chapter);

@@ -70,7 +70,9 @@ class Help extends Service
 
         $help = new HelpModel();
 
-        $help->create($data);
+        $help->assign($data);
+
+        $help->create();
 
         return $help;
     }
@@ -109,7 +111,9 @@ class Help extends Service
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
-        $help->update($data);
+        $help->assign($data);
+
+        $help->update();
 
         return $help;
     }

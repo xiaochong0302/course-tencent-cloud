@@ -34,7 +34,9 @@ class ArticleUpdate extends LogicService
             $data['published'] = ArticleModel::PUBLISH_PENDING;
         }
 
-        $article->update($data);
+        $article->assign($data);
+
+        $article->update();
 
         if (isset($post['xm_tag_ids'])) {
             $this->saveTags($article, $post['xm_tag_ids']);

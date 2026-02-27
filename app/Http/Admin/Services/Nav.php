@@ -80,7 +80,9 @@ class Nav extends Service
 
         $nav = new NavModel();
 
-        $nav->create($data);
+        $nav->assign($data);
+
+        $nav->create();
 
         if ($parent) {
             $nav->path = $parent->path . $nav->id . ',';
@@ -146,7 +148,9 @@ class Nav extends Service
             $data['position'] = $parent->position;
         }
 
-        $nav->update($data);
+        $nav->assign($data);
+
+        $nav->update();
 
         $this->updateNavStats($nav);
 

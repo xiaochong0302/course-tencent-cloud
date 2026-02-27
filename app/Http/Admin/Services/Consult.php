@@ -132,7 +132,9 @@ class Consult extends Service
             $data['published'] = $validator->checkPublishStatus($post['published']);
         }
 
-        $consult->update($data);
+        $consult->assign($data);
+
+        $consult->update();
 
         if ($firstReply) {
             $this->handleReplyNotice($consult);

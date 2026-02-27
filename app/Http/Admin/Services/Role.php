@@ -49,7 +49,9 @@ class Role extends Service
 
         $role = new RoleModel();
 
-        $role->create($data);
+        $role->assign($data);
+
+        $role->create();
 
         return $role;
     }
@@ -72,7 +74,9 @@ class Role extends Service
             $data['routes'] = $this->handleRoutes($data['routes']);
         }
 
-        $role->update($data);
+        $role->assign($data);
+
+        $role->update();
 
         return $role;
     }
