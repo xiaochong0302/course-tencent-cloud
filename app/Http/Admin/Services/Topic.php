@@ -193,10 +193,9 @@ class Topic extends Service
         if ($addedCourseIds) {
             foreach ($addedCourseIds as $courseId) {
                 $courseTopic = new CourseTopicModel();
-                $courseTopic->create([
-                    'course_id' => $courseId,
-                    'topic_id' => $topic->id,
-                ]);
+                $courseTopic->course_id = $courseId;
+                $courseTopic->topic_id = $topic->id;
+                $courseTopic->create();
             }
         }
 

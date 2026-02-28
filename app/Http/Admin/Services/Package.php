@@ -216,10 +216,9 @@ class Package extends Service
         if ($addedCourseIds) {
             foreach ($addedCourseIds as $courseId) {
                 $coursePackage = new CoursePackageModel();
-                $coursePackage->create([
-                    'course_id' => $courseId,
-                    'package_id' => $package->id,
-                ]);
+                $coursePackage->course_id = $courseId;
+                $coursePackage->package_id = $package->id;
+                $coursePackage->create();
                 $this->recountCoursePackages($courseId);
                 $this->rebuildCoursePackageCache($courseId);
             }

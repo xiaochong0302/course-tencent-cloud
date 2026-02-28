@@ -82,11 +82,15 @@ class LiveNotify extends Service
 
         $attrs['stream']['status'] = ChapterModel::SS_ACTIVE;
 
-        $chapter->update(['attrs' => $attrs]);
+        $chapter->attrs = $attrs;
+
+        $chapter->update();
 
         $chapterLive = $this->getChapterLive($chapter->id);
 
-        $chapterLive->update(['status' => ChapterLiveModel::STATUS_ACTIVE]);
+        $chapterLive->status = ChapterLiveModel::STATUS_ACTIVE;
+
+        $chapterLive->update();
 
         $this->rebuildCatalogCache($chapter);
 
@@ -112,11 +116,15 @@ class LiveNotify extends Service
 
         $attrs['stream']['status'] = ChapterModel::SS_INACTIVE;
 
-        $chapter->update(['attrs' => $attrs]);
+        $chapter->attrs = $attrs;
+
+        $chapter->update();
 
         $chapterLive = $this->getChapterLive($chapter->id);
 
-        $chapterLive->update(['status' => ChapterLiveModel::STATUS_INACTIVE]);
+        $chapterLive->status = ChapterLiveModel::STATUS_INACTIVE;
+
+        $chapterLive->update();
 
         $this->rebuildCatalogCache($chapter);
 

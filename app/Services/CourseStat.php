@@ -112,7 +112,9 @@ class CourseStat extends Service
         $attrs['word_count'] = $wordCount;
         $attrs['duration'] = $duration;
 
-        $course->update(['attrs' => $attrs]);
+        $course->attrs = $attrs;
+
+        $course->update();
     }
 
     public function updateLiveAttrs($courseId)
@@ -145,7 +147,9 @@ class CourseStat extends Service
         $attrs['start_date'] = date('Y-m-d', min($scopes));
         $attrs['end_date'] = date('Y-m-d', max($scopes));
 
-        $course->update(['attrs' => $attrs]);
+        $course->attrs = $attrs;
+
+        $course->update();
     }
 
     public function updateVodAttrs($courseId)
@@ -175,7 +179,9 @@ class CourseStat extends Service
 
         $attrs['duration'] = $duration;
 
-        $course->update(['attrs' => $attrs]);
+        $course->attrs = $attrs;
+
+        $course->update();
     }
 
     public function updateOfflineAttrs($courseId)

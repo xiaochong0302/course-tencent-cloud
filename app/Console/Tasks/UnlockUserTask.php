@@ -25,7 +25,8 @@ class UnlockUserTask extends Task
         echo '------ start unlock user task ------' . PHP_EOL;
 
         foreach ($users as $user) {
-            $user->update(['locked' => 0]);
+            $user->locked = 0;
+            $user->update();
         }
 
         echo '------ end unlock user task ------' . PHP_EOL;

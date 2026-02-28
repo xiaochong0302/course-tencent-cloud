@@ -60,7 +60,7 @@ class CleanDemoDataTask extends Task
 
         $account = new AccountModel();
 
-        $account->create([
+        $account->assign([
             'id' => 10000,
             'email' => '10000@163.com',
             'password' => '1a1e4568f1a3740b8853a8a16e29bc87',
@@ -68,14 +68,18 @@ class CleanDemoDataTask extends Task
             'create_time' => time(),
         ]);
 
+        $account->create();
+
         $userRepo = new UserRepo();
 
         $user = $userRepo->findById($account->id);
 
-        $user->update([
+        $user->assign([
             'admin_role' => 1,
             'edu_role' => 2,
         ]);
+
+        $user->update();
 
         echo '------ end create root user ------' . PHP_EOL;
     }
