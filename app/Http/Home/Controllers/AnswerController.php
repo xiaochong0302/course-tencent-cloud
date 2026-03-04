@@ -26,14 +26,6 @@ class AnswerController extends Controller
 {
 
     /**
-     * @Get("/tips", name="home.answer.tips")
-     */
-    public function tipsAction()
-    {
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-    }
-
-    /**
      * @Get("/add", name="home.answer.add")
      */
     public function addAction()
