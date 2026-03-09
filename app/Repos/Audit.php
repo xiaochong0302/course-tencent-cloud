@@ -10,8 +10,6 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Audit as AuditModel;
 use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Audit extends Repository
 {
@@ -80,19 +78,6 @@ class Audit extends Repository
             'conditions' => 'id = :id:',
             'bind' => ['id' => $id],
         ]);
-    }
-
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|AuditModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return AuditModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
     }
 
 }

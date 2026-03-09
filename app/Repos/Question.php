@@ -9,12 +9,7 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Answer as AnswerModel;
-use App\Models\Comment as CommentModel;
 use App\Models\Question as QuestionModel;
-use App\Models\QuestionFavorite as QuestionFavoriteModel;
-use App\Models\QuestionLike as QuestionLikeModel;
-use App\Models\QuestionTag as QuestionTagModel;
-use App\Models\Tag as TagModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -33,7 +28,7 @@ class Question extends Repository
         $fakeId = false;
 
         if (!empty($where['tag_id'])) {
-            $where['id'] = $this->getTagQuestionIds($where['tag_id']);
+            $where['id'] = $this->getTaggedQuestionIds($where['tag_id']);
             $fakeId = empty($where['id']);
         }
 
@@ -165,22 +160,6 @@ class Question extends Repository
 
     /**
      * @param int $questionId
-     * @return ResultsetInterface|Resultset|TagModel[]
-     */
-    public function findTags($questionId)
-    {
-        return $this->modelsManager->createBuilder()
-            ->columns('t.*')
-            ->addFrom(TagModel::class, 't')
-            ->join(QuestionTagModel::class, 't.id = qt.tag_id', 'qt')
-            ->where('qt.question_id = :question_id:', ['question_id' => $questionId])
-            ->andWhere('t.published = 1')
-            ->andWhere('t.deleted = 0')
-            ->getQuery()->execute();
-    }
-
-    /**
-     * @param int $questionId
      * @param int $userId
      * @return ResultsetInterface|Resultset|AnswerModel[]
      */
@@ -208,31 +187,7 @@ class Question extends Repository
         ]);
     }
 
-    public function countComments($questionId)
-    {
-        return (int)CommentModel::count([
-            'conditions' => 'item_id = ?1 AND item_type = ?2 AND published = ?3 AND deleted = 0',
-            'bind' => [1 => $questionId, 2 => CommentModel::ITEM_QUESTION, 3 => CommentModel::PUBLISH_APPROVED],
-        ]);
-    }
-
-    public function countFavorites($questionId)
-    {
-        return (int)QuestionFavoriteModel::count([
-            'conditions' => 'question_id = :question_id: AND deleted = 0',
-            'bind' => ['question_id' => $questionId],
-        ]);
-    }
-
-    public function countLikes($questionId)
-    {
-        return (int)QuestionLikeModel::count([
-            'conditions' => 'question_id = :question_id: AND deleted = 0',
-            'bind' => ['question_id' => $questionId],
-        ]);
-    }
-
-    protected function getTagQuestionIds($tagId)
+    protected function getTaggedQuestionIds($tagId)
     {
         $tagIds = is_array($tagId) ? $tagId : [$tagId];
 

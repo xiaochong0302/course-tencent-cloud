@@ -40,7 +40,7 @@ class Course extends Repository
         $fakeId = false;
 
         if (!empty($where['tag_id'])) {
-            $where['id'] = $this->getTagCourseIds($where['tag_id']);
+            $where['id'] = $this->getTaggedCourseIds($where['tag_id']);
             $fakeId = empty($where['id']);
         }
 
@@ -214,22 +214,6 @@ class Course extends Repository
 
     /**
      * @param int $courseId
-     * @return ResultsetInterface|Resultset|TagModel[]
-     */
-    public function findTags($courseId)
-    {
-        return $this->modelsManager->createBuilder()
-            ->columns('t.*')
-            ->addFrom(TagModel::class, 't')
-            ->join(CourseTagModel::class, 't.id = ct.tag_id', 'ct')
-            ->where('ct.course_id = :course_id:', ['course_id' => $courseId])
-            ->andWhere('t.published = 1')
-            ->andWhere('t.deleted = 0')
-            ->getQuery()->execute();
-    }
-
-    /**
-     * @param int $courseId
      * @return ResultsetInterface|Resultset|PackageModel[]
      */
     public function findPackages($courseId)
@@ -363,24 +347,7 @@ class Course extends Repository
         ]);
     }
 
-    public function countFavorites($courseId)
-    {
-        return (int)CourseFavoriteModel::count([
-            'conditions' => 'course_id = :course_id: AND deleted = 0',
-            'bind' => ['course_id' => $courseId],
-        ]);
-    }
-
-    public function averageRating($courseId)
-    {
-        return (int)ReviewModel::average([
-            'column' => 'rating',
-            'conditions' => 'course_id = ?1 AND published = ?2 AND deleted = 0',
-            'bind' => [1 => $courseId, 2 => ReviewModel::PUBLISH_APPROVED],
-        ]);
-    }
-
-    protected function getTagCourseIds($tagId)
+    protected function getTaggedCourseIds($tagId)
     {
         $tagIds = is_array($tagId) ? $tagId : [$tagId];
 

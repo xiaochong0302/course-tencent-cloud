@@ -10,7 +10,6 @@ namespace App\Repos;
 use App\Models\CommentLike as CommentLikeModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
 
 class CommentLike extends Repository
 {
@@ -39,7 +38,7 @@ class CommentLike extends Repository
         /**
          * @var Resultset $rows
          */
-        $rows =  CommentLikeModel::query()
+        $rows = CommentLikeModel::query()
             ->columns(['comment_id'])
             ->where('user_id = :user_id:', ['user_id' => $userId])
             ->andWhere('deleted = 0')

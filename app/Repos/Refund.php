@@ -97,19 +97,6 @@ class Refund extends Repository
     }
 
     /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|RefundModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return RefundModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-    }
-
-    /**
      * @param int $refundId
      * @return ResultsetInterface|Resultset|RefundStatusModel[]
      */

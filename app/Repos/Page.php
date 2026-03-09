@@ -99,17 +99,4 @@ class Page extends Repository
         ]);
     }
 
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|PageModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return PageModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-    }
-
 }

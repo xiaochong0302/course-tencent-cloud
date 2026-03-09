@@ -39,15 +39,4 @@ class ArticleTag extends Repository
             ->execute();
     }
 
-    /**
-     * @param array $articleIds
-     * @return ResultsetInterface|Resultset|ArticleTagModel[]
-     */
-    public function findByArticleIds($articleIds)
-    {
-        return ArticleTagModel::query()
-            ->inWhere('article_id', $articleIds)
-            ->execute();
-    }
-
 }

@@ -10,8 +10,6 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Task as TaskModel;
 use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Task extends Repository
 {
@@ -91,19 +89,6 @@ class Task extends Repository
             'conditions' => 'id = :id:',
             'bind' => ['id' => $id],
         ]);
-    }
-
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|TaskModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return TaskModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
     }
 
 }

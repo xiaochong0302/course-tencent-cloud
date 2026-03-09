@@ -39,15 +39,4 @@ class CourseTag extends Repository
             ->execute();
     }
 
-    /**
-     * @param array $courseIds
-     * @return ResultsetInterface|Resultset|CourseTagModel[]
-     */
-    public function findByCourseIds($courseIds)
-    {
-        return CourseTagModel::query()
-            ->inWhere('course_id', $courseIds)
-            ->execute();
-    }
-
 }

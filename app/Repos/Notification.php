@@ -9,9 +9,6 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Notification as NotificationModel;
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Notification extends Repository
 {
@@ -76,39 +73,6 @@ class Notification extends Repository
         ]);
 
         return $pager->paginate();
-    }
-
-    /**
-     * @param int $id
-     * @return NotificationModel|Model|bool
-     */
-    public function findById($id)
-    {
-        return NotificationModel::findFirst([
-            'conditions' => 'id = :id:',
-            'bind' => ['id' => $id],
-        ]);
-    }
-
-    /**
-     * @param array $ids
-     * @param string|array $columns
-     * @return ResultsetInterface|Resultset|NotificationModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return NotificationModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-    }
-
-    public function findByUserEvent($senderId, $eventId, $eventType)
-    {
-        return NotificationModel::findFirst([
-            'conditions' => 'sender_id = ?1 AND event_id = ?2 AND event_type = ?3',
-            'bind' => [1 => $senderId, 2 => $eventId, 3 => $eventType],
-        ]);
     }
 
     public function markAllAsViewed($userId)

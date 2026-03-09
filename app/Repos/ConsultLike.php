@@ -10,7 +10,6 @@ namespace App\Repos;
 use App\Models\ConsultLike as ConsultLikeModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
 
 class ConsultLike extends Repository
 {
@@ -39,7 +38,7 @@ class ConsultLike extends Repository
         /**
          * @var Resultset $rows
          */
-        $rows =  ConsultLikeModel::query()
+        $rows = ConsultLikeModel::query()
             ->columns(['consult_id'])
             ->where('user_id = :user_id:', ['user_id' => $userId])
             ->andWhere('deleted = 0')

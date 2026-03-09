@@ -77,15 +77,6 @@ class CourseUser extends Repository
     }
 
     /**
-     * @param int $id
-     * @return CourseUserModel|Model|bool
-     */
-    public function findById($id)
-    {
-        return CourseUserModel::findFirst($id);
-    }
-
-    /**
      * @param int $courseId
      * @param int $userId
      * @return CourseUserModel|Model|bool

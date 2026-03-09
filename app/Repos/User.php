@@ -10,9 +10,7 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Answer as AnswerModel;
 use App\Models\Article as ArticleModel;
-use App\Models\Comment as CommentModel;
 use App\Models\CourseUser as CourseUserModel;
-use App\Models\Notification as NotificationModel;
 use App\Models\Question as QuestionModel;
 use App\Models\User as UserModel;
 use App\Models\UserBalance as UserBalanceModel;
@@ -121,19 +119,6 @@ class User extends Repository
         return UserModel::findFirst([
             'conditions' => 'name = :name:',
             'bind' => ['name' => $name],
-        ]);
-    }
-
-    /**
-     * @param int $id
-     * @return UserModel|Model|bool
-     */
-    public function findShallowUserById($id)
-    {
-        return UserModel::findFirst([
-            'conditions' => 'id = :id:',
-            'columns' => ['id', 'name', 'avatar', 'vip', 'title', 'about'],
-            'bind' => ['id' => $id],
         ]);
     }
 
@@ -253,22 +238,6 @@ class User extends Repository
         return (int)AnswerModel::count([
             'conditions' => 'owner_id = ?1 AND published = ?2',
             'bind' => [1 => $userId, 2 => AnswerModel::PUBLISH_APPROVED],
-        ]);
-    }
-
-    public function countComments($userId)
-    {
-        return (int)CommentModel::count([
-            'conditions' => 'owner_id = ?1 AND published = ?2',
-            'bind' => [1 => $userId, 2 => CommentModel::PUBLISH_APPROVED],
-        ]);
-    }
-
-    public function countUnreadNotifications($userId)
-    {
-        return (int)NotificationModel::count([
-            'conditions' => 'receiver_id = :user_id: AND viewed = 0',
-            'bind' => ['user_id' => $userId],
         ]);
     }
 

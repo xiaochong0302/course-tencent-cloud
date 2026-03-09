@@ -16,23 +16,6 @@ class Setting extends Repository
 {
 
     /**
-     * @param array $where
-     * @return ResultsetInterface|Resultset|SettingModel[]
-     */
-    public function findAll($where = [])
-    {
-        $query = SettingModel::query();
-
-        $query->where('1 = 1');
-
-        if (!empty($where['section'])) {
-            $query->andWhere('section = :section:', ['section' => $where['section']]);
-        }
-
-        return $query->execute();
-    }
-
-    /**
      * @param string $section
      * @param string $itemKey
      * @return SettingModel|Model|bool

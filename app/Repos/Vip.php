@@ -83,17 +83,4 @@ class Vip extends Repository
         ]);
     }
 
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|VipModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return VipModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-    }
-
 }

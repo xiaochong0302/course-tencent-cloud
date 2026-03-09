@@ -113,19 +113,6 @@ class Trade extends Repository
     }
 
     /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|TradeModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return TradeModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-    }
-
-    /**
      * @param int $tradeId
      * @return ResultsetInterface|Resultset|RefundModel[]
      */
