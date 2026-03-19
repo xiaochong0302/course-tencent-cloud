@@ -106,8 +106,7 @@ layui.use(['jquery', 'form', 'helper'], function () {
     }
 
     function scrollToBottom() {
-        var $scrollTo = $chatMsgList.find('.chat:last');
-        $chatMsgList.scrollTop($scrollTo.offset().top - $chatMsgList.offset().top + $chatMsgList.scrollTop());
+        $chatMsgList.scrollTop($chatMsgList[0].scrollHeight);
     }
 
     function refreshLiveStats() {

@@ -47,10 +47,8 @@ layui.use(['jquery', 'helper'], function () {
     var $target = $('li[data-url="/chapter/' + chapterId + '"]');
 
     if ($container.length > 0 && $target.length > 0) {
-        var containerOffset = $container.offset().top;
-        var targetOffset = $target.offset().top;
-        var relativePosition = targetOffset - containerOffset - 100;
-        $container.animate({scrollTop: relativePosition}, 600);
+        var scrollTop = $target[0].offsetTop - 100;
+        $container.animate({scrollTop: scrollTop}, 600);
     }
 
     var $commentList = $('#comment-list');
