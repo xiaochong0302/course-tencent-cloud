@@ -9,9 +9,6 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Article as ArticleModel;
-use App\Models\ArticleFavorite as ArticleFavoriteModel;
-use App\Models\ArticleLike as ArticleLikeModel;
-use App\Models\Comment as CommentModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
