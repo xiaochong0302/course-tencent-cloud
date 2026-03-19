@@ -8,13 +8,10 @@
 namespace App\Repos;
 
 use App\Models\Chapter as ChapterModel;
-use App\Models\ChapterLike as ChapterLikeModel;
 use App\Models\ChapterLive as ChapterLiveModel;
 use App\Models\ChapterOffline as ChapterOfflineModel;
 use App\Models\ChapterRead as ChapterReadModel;
-use App\Models\ChapterUser as ChapterUserModel;
 use App\Models\ChapterVod as ChapterVodModel;
-use App\Models\Comment as CommentModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -79,19 +76,6 @@ class Chapter extends Repository
         return ChapterModel::query()
             ->columns($columns)
             ->inWhere('id', $ids)
-            ->execute();
-    }
-
-    /**
-     * @param int $id
-     * @return ResultsetInterface|Resultset|ChapterModel[]
-     */
-    public function findLessons($id)
-    {
-        return ChapterModel::query()
-            ->where('parent_id = :parent_id:', ['parent_id' => $id])
-            ->andWhere('deleted = 0')
-            ->orderBy('priority ASC')
             ->execute();
     }
 
@@ -185,30 +169,6 @@ class Chapter extends Repository
         return (int)ChapterModel::count([
             'conditions' => 'parent_id = :chapter_id: AND deleted = 0',
             'bind' => ['chapter_id' => $chapterId],
-        ]);
-    }
-
-    public function countUsers($chapterId)
-    {
-        return (int)ChapterUserModel::count([
-            'conditions' => 'chapter_id = :chapter_id:',
-            'bind' => ['chapter_id' => $chapterId],
-        ]);
-    }
-
-    public function countLikes($chapterId)
-    {
-        return (int)ChapterLikeModel::count([
-            'conditions' => 'chapter_id = :chapter_id: AND deleted = 0',
-            'bind' => ['chapter_id' => $chapterId],
-        ]);
-    }
-
-    public function countComments($chapterId)
-    {
-        return (int)CommentModel::count([
-            'conditions' => 'item_id = ?1 AND item_type = ?2 AND published = ?3 AND deleted = 0',
-            'bind' => [1 => $chapterId, 2 => CommentModel::ITEM_CHAPTER, 3 => CommentModel::PUBLISH_APPROVED],
         ]);
     }
 

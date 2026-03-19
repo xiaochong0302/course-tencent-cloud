@@ -79,19 +79,6 @@ class Category extends Repository
     }
 
     /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|CategoryModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return CategoryModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-    }
-
-    /**
      * @param string $type
      * @return ResultsetInterface|Resultset|CategoryModel[]
      */

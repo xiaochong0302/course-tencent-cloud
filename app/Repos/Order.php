@@ -119,19 +119,6 @@ class Order extends Repository
      * @param string $itemType
      * @return OrderModel|Model|bool
      */
-    public function findUserLastPendingOrder($userId, $itemId, $itemType)
-    {
-        $status = OrderModel::STATUS_PENDING;
-
-        return $this->findUserLastStatusOrder($userId, $itemId, $itemType, $status);
-    }
-
-    /**
-     * @param int $userId
-     * @param string $itemId
-     * @param string $itemType
-     * @return OrderModel|Model|bool
-     */
     public function findUserLastDeliveringOrder($userId, $itemId, $itemType)
     {
         $status = OrderModel::STATUS_DELIVERING;
@@ -240,11 +227,6 @@ class Order extends Repository
             'bind' => ['order_id' => $orderId],
             'order' => 'id DESC',
         ]);
-    }
-
-    public function countOrders()
-    {
-        return (int)OrderModel::count(['conditions' => 'deleted = 0']);
     }
 
 }

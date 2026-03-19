@@ -62,19 +62,6 @@ class Nav extends Repository
         ]);
     }
 
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|NavModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return NavModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-    }
-
     public function countChildNavs($navId)
     {
         return (int)NavModel::count([

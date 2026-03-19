@@ -65,18 +65,6 @@ class Learning extends Repository
     }
 
     /**
-     * @param int $id
-     * @return LearningModel|Model|bool
-     */
-    public function findById($id)
-    {
-        return LearningModel::findFirst([
-            'conditions' => 'id = :id:',
-            'bind' => ['id' => $id],
-        ]);
-    }
-
-    /**
      * @param string $requestId
      * @return LearningModel|Model|bool
      */

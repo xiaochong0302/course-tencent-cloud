@@ -9,7 +9,6 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Consult as ConsultModel;
-use App\Models\ConsultLike as ConsultLikeModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -134,14 +133,6 @@ class Consult extends Repository
         return (int)ConsultModel::count([
             'conditions' => 'published = :published: AND deleted = 0',
             'bind' => ['published' => ConsultModel::PUBLISH_APPROVED],
-        ]);
-    }
-
-    public function countLikes($consultId)
-    {
-        return (int)ConsultLikeModel::count([
-            'conditions' => 'consult_id = :consult_id: AND deleted = 0',
-            'bind' => ['consult_id' => $consultId],
         ]);
     }
 

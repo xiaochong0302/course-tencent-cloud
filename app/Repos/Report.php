@@ -86,19 +86,6 @@ class Report extends Repository
         ]);
     }
 
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|ReportModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return ReportModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-    }
-
     public function findUserReport($userId, $itemId, $itemType)
     {
         return ReportModel::findFirst([

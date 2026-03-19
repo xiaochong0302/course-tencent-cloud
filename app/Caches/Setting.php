@@ -28,7 +28,7 @@ class Setting extends Cache
     {
         $settingRepo = new SettingRepo();
 
-        $items = $settingRepo->findAll(['section' => $id]);
+        $items = $settingRepo->findBySection($id);
 
         if ($items->count() == 0) {
             return [];

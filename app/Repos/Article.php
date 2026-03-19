@@ -9,11 +9,6 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Article as ArticleModel;
-use App\Models\ArticleFavorite as ArticleFavoriteModel;
-use App\Models\ArticleLike as ArticleLikeModel;
-use App\Models\ArticleTag as ArticleTagModel;
-use App\Models\Comment as CommentModel;
-use App\Models\Tag as TagModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -32,7 +27,7 @@ class Article extends Repository
         $fakeId = false;
 
         if (!empty($where['tag_id'])) {
-            $where['id'] = $this->getTagArticleIds($where['tag_id']);
+            $where['id'] = $this->getTaggedArticleIds($where['tag_id']);
             $fakeId = empty($where['id']);
         }
 
@@ -162,22 +157,6 @@ class Article extends Repository
             ->execute();
     }
 
-    /**
-     * @param int $articleId
-     * @return ResultsetInterface|Resultset|TagModel[]
-     */
-    public function findTags($articleId)
-    {
-        return $this->modelsManager->createBuilder()
-            ->columns('t.*')
-            ->addFrom(TagModel::class, 't')
-            ->join(ArticleTagModel::class, 't.id = at.tag_id', 'at')
-            ->where('at.article_id = :article_id:', ['article_id' => $articleId])
-            ->andWhere('t.published = 1')
-            ->andWhere('t.deleted = 0')
-            ->getQuery()->execute();
-    }
-
     public function countArticles()
     {
         return (int)ArticleModel::count([
@@ -186,31 +165,7 @@ class Article extends Repository
         ]);
     }
 
-    public function countComments($articleId)
-    {
-        return (int)CommentModel::count([
-            'conditions' => 'item_id = ?1 AND item_type = ?2 AND published = ?3 AND deleted = 0',
-            'bind' => [1 => $articleId, 2 => CommentModel::ITEM_ARTICLE, 3 => CommentModel::PUBLISH_APPROVED],
-        ]);
-    }
-
-    public function countLikes($articleId)
-    {
-        return (int)ArticleLikeModel::count([
-            'conditions' => 'article_id = :article_id: AND deleted = 0',
-            'bind' => ['article_id' => $articleId],
-        ]);
-    }
-
-    public function countFavorites($articleId)
-    {
-        return (int)ArticleFavoriteModel::count([
-            'conditions' => 'article_id = :article_id: AND deleted = 0',
-            'bind' => ['article_id' => $articleId],
-        ]);
-    }
-
-    protected function getTagArticleIds($tagId)
+    protected function getTaggedArticleIds($tagId)
     {
         $tagIds = is_array($tagId) ? $tagId : [$tagId];
 

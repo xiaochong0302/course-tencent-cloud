@@ -75,16 +75,4 @@ class ChapterLive extends Repository
         ]);
     }
 
-    /**
-     * @param int $chapterId
-     * @return ChapterLiveModel|Model|bool
-     */
-    public function findByChapterId($chapterId)
-    {
-        return ChapterLiveModel::findFirst([
-            'conditions' => 'chapter_id = :chapter_id:',
-            'bind' => ['chapter_id' => $chapterId],
-        ]);
-    }
-
 }

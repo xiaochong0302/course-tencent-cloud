@@ -9,8 +9,6 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Answer as AnswerModel;
-use App\Models\AnswerLike as AnswerLikeModel;
-use App\Models\Comment as CommentModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -116,22 +114,6 @@ class Answer extends Repository
         return (int)AnswerModel::count([
             'conditions' => 'published = :published: AND deleted = 0',
             'bind' => ['published' => AnswerModel::PUBLISH_APPROVED],
-        ]);
-    }
-
-    public function countComments($answerId)
-    {
-        return (int)CommentModel::count([
-            'conditions' => 'item_id = ?1 AND item_type = ?2 AND published = ?3 AND deleted = 0',
-            'bind' => [1 => $answerId, 2 => CommentModel::ITEM_ANSWER, 3 => CommentModel::PUBLISH_APPROVED],
-        ]);
-    }
-
-    public function countLikes($answerId)
-    {
-        return (int)AnswerLikeModel::count([
-            'conditions' => 'answer_id = :answer_id: AND deleted = 0',
-            'bind' => ['answer_id' => $answerId],
         ]);
     }
 

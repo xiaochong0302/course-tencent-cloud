@@ -9,7 +9,6 @@ namespace App\Repos;
 
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\Review as ReviewModel;
-use App\Models\ReviewLike as ReviewLikeModel;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -102,19 +101,6 @@ class Review extends Repository
     }
 
     /**
-     * @param int $courseId
-     * @param int $userId
-     * @return ReviewModel|Model|bool
-     */
-    public function findReview($courseId, $userId)
-    {
-        return ReviewModel::findFirst([
-            'conditions' => 'course_id = :course_id: AND owner_id = :owner_id:',
-            'bind' => ['course_id' => $courseId, 'owner_id' => $userId],
-        ]);
-    }
-
-    /**
      * @param array $ids
      * @param array|string $columns
      * @return ResultsetInterface|Resultset|ReviewModel[]
@@ -132,14 +118,6 @@ class Review extends Repository
         return (int)ReviewModel::count([
             'conditions' => 'published = :published: AND deleted = 0',
             'bind' => ['published' => ReviewModel::PUBLISH_APPROVED],
-        ]);
-    }
-
-    public function countLikes($reviewId)
-    {
-        return (int)ReviewLikeModel::count([
-            'conditions' => 'review_id = :review_id: AND deleted = 0',
-            'bind' => ['review_id' => $reviewId],
         ]);
     }
 

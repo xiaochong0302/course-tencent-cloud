@@ -39,15 +39,4 @@ class QuestionTag extends Repository
             ->execute();
     }
 
-    /**
-     * @param array $questionIds
-     * @return ResultsetInterface|Resultset|QuestionTagModel[]
-     */
-    public function findByQuestionIds($questionIds)
-    {
-        return QuestionTagModel::query()
-            ->inWhere('question_id', $questionIds)
-            ->execute();
-    }
-
 }

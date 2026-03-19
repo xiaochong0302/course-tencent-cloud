@@ -9,8 +9,6 @@ namespace App\Repos;
 
 use App\Models\Resource as ResourceModel;
 use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
 
 class Resource extends Repository
 {
@@ -25,30 +23,6 @@ class Resource extends Repository
             'conditions' => 'id = :id:',
             'bind' => ['id' => $id],
         ]);
-    }
-
-    /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|ResourceModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return ResourceModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-    }
-
-    /**
-     * @param int $courseId
-     * @return ResultsetInterface|Resultset|ResourceModel[]
-     */
-    public function findByCourseId($courseId)
-    {
-        return ResourceModel::query()
-            ->where('course_id = :course_id:', ['course_id' => $courseId])
-            ->execute();
     }
 
 }

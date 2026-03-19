@@ -10,8 +10,6 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\PointHistory as PointHistoryModel;
 use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
 
 class PointHistory extends Repository
 {
@@ -93,31 +91,6 @@ class PointHistory extends Repository
             'conditions' => 'event_id = ?1 AND event_type = ?2 AND create_time > ?3',
             'bind' => [1 => $eventId, 2 => $eventType, 3 => $createTime],
         ]);
-    }
-
-    /**
-     * @param int $id
-     * @return PointHistoryModel|Model|bool
-     */
-    public function findById($id)
-    {
-        return PointHistoryModel::findFirst([
-            'conditions' => 'id = :id:',
-            'bind' => ['id' => $id],
-        ]);
-    }
-
-    /**
-     * @param array $ids
-     * @param string|array $columns
-     * @return ResultsetInterface|Resultset|PointHistoryModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return PointHistoryModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
     }
 
     /**

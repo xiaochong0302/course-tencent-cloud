@@ -96,19 +96,6 @@ class Package extends Repository
     }
 
     /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|PackageModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return PackageModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-    }
-
-    /**
      * @param string $packageId
      * @return ResultsetInterface|Resultset|CourseModel[]
      */

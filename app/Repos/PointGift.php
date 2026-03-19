@@ -10,8 +10,6 @@ namespace App\Repos;
 use App\Library\Paginator\Adapter\QueryBuilder as PagerQueryBuilder;
 use App\Models\PointGift as PointGiftModel;
 use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
 
 class PointGift extends Repository
 {
@@ -114,19 +112,6 @@ class PointGift extends Repository
         }
 
         return false;
-    }
-
-    /**
-     * @param array $ids
-     * @param string|array $columns
-     * @return ResultsetInterface|Resultset|PointGiftModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return PointGiftModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
     }
 
 }

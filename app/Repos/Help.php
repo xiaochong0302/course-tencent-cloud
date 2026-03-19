@@ -28,19 +28,6 @@ class Help extends Repository
     }
 
     /**
-     * @param array $ids
-     * @param array|string $columns
-     * @return ResultsetInterface|Resultset|HelpModel[]
-     */
-    public function findByIds($ids, $columns = '*')
-    {
-        return HelpModel::query()
-            ->columns($columns)
-            ->inWhere('id', $ids)
-            ->execute();
-    }
-
-    /**
      * @param array $where
      * @return ResultsetInterface|Resultset|HelpModel[]
      */
