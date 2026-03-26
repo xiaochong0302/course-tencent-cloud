@@ -44,7 +44,7 @@
                 {% if comment.to_user.id is defined %}
                     {% set to_user_url = url({'for':'home.user.show','id':comment.to_user.id}) %}
                     <span class="separator">回复</span>
-                    <a class="{{ to_user_url }}" target="_blank">{{ comment.to_user.name }}</a>
+                    <a href="{{ to_user_url }}" target="_blank">{{ comment.to_user.name }}</a>
                 {% endif %}
             </div>
             <div class="content">{{ comment.content }}</div>
