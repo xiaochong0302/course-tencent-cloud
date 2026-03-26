@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {% set register_with_phone = local_oauth.register_with_phone == 1 %}
-    {% set register_with_email = local_oauth.register_with_email == 1 %}
     {% set terms_url = url({'for':'home.page.show','id':'terms'}) %}
     {% set privacy_url = url({'for':'home.page.show','id':'privacy'}) %}
     {% set action_url = url({'for':'home.account.do_register'}) %}

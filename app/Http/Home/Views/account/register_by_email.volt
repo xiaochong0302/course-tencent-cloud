@@ -1,4 +1,4 @@
-{% if register_with_email %}
+{% if local_oauth.register_with_email == 1 %}
     <form class="layui-form account-form" method="POST" action="{{ action_url }}">
         <div class="layui-form-item">
             <div class="layui-input-wrap">
