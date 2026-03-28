@@ -7,6 +7,7 @@
 
 namespace App\Services\Logic\Verify;
 
+use App\Library\Captcha as ImageCaptcha;
 use App\Library\Validators\Common as CommonValidator;
 use App\Services\Logic\Notice\External\Mail\Verify as MailVerifyService;
 use App\Services\Logic\Notice\External\Sms\Verify as SmsVerifyService;
@@ -21,10 +22,15 @@ class Code extends LogicService
     {
         $post = $this->request->getPost();
 
-        $verifyValidator = new VerifyValidator();
         $captchaValidator = new CaptchaValidator();
 
         $captchaValidator->checkCode($post['ticket'], $post['rand']);
+
+        $captcha = new ImageCaptcha();
+
+        $captcha->clear($post['ticket']);
+
+        $verifyValidator = new VerifyValidator();
 
         $isMail = CommonValidator::email($post['account']);
 
