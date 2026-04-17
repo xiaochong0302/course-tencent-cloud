@@ -39,7 +39,7 @@ class WeiXin extends OAuth
             'grant_type' => 'authorization_code',
         ];
 
-        $response = $this->httpPost(self::ACCESS_TOKEN_URL, $params);
+        $response = $this->httpGet(self::ACCESS_TOKEN_URL, $params);
 
         $this->accessToken = $this->parseAccessToken($response);
 

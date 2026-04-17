@@ -61,7 +61,7 @@ abstract class OAuth extends Service
     {
         $client = new HttpClient();
 
-        $options = ['query' => $params, 'headers' => $headers];
+        $options = ['form_params' => $params, 'headers' => $headers];
 
         $response = $client->post($uri, $options);
 
