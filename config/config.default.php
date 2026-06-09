@@ -177,4 +177,9 @@ $config['server_monitor']['memory'] = 10;
  */
 $config['server_monitor']['disk'] = 20;
 
+/**
+ * 交易有效期（秒）
+ */
+$config['trade']['lifetime'] = 15 * 60;
+
 return $config;

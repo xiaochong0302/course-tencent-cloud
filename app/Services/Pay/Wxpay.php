@@ -45,6 +45,7 @@ class Wxpay extends PayService
             $response = $this->gateway->scan([
                 'out_trade_no' => $trade->sn,
                 'total_fee' => 100 * $trade->amount,
+                'time_expire' => $this->getTimeExpire(),
                 'body' => $trade->subject,
             ]);
 
@@ -76,6 +77,7 @@ class Wxpay extends PayService
             $result = $this->gateway->app([
                 'out_trade_no' => $trade->sn,
                 'total_fee' => 100 * $trade->amount,
+                'time_expire' => $this->getTimeExpire(),
                 'body' => $trade->subject,
             ]);
 
@@ -105,6 +107,7 @@ class Wxpay extends PayService
             $result = $this->gateway->wap([
                 'out_trade_no' => $trade->sn,
                 'total_fee' => 100 * $trade->amount,
+                'time_expire' => $this->getTimeExpire(),
                 'body' => $trade->subject,
             ]);
 
@@ -135,6 +138,7 @@ class Wxpay extends PayService
             $result = $this->gateway->mp([
                 'out_trade_no' => $trade->sn,
                 'total_fee' => 100 * $trade->amount,
+                'time_expire' => $this->getTimeExpire(),
                 'body' => $trade->subject,
                 'openid' => $openId,
             ]);
@@ -166,6 +170,7 @@ class Wxpay extends PayService
             $result = $this->gateway->miniapp([
                 'out_trade_no' => $trade->sn,
                 'total_fee' => 100 * $trade->amount,
+                'time_expire' => $this->getTimeExpire(),
                 'body' => $trade->subject,
                 'openid' => $openId,
             ]);
@@ -346,6 +351,18 @@ class Wxpay extends PayService
         }
 
         return $result;
+    }
+
+    /**
+     * 获取订单失效时间
+     *
+     * @return string
+     */
+    protected function getTimeExpire()
+    {
+        $lifetime = kg_config('trade.lifetime', 15 * 60);
+
+        return date('YmdHis', time() + $lifetime);
     }
 
 }

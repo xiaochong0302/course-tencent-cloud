@@ -43,6 +43,7 @@ class Alipay extends PayService
             $response = $this->gateway->scan([
                 'out_trade_no' => $trade->sn,
                 'total_amount' => $trade->amount,
+                'time_expire' => $this->getTimeExpire(),
                 'subject' => $trade->subject,
             ]);
 
@@ -74,6 +75,7 @@ class Alipay extends PayService
             $result = $this->gateway->app([
                 'out_trade_no' => $trade->sn,
                 'total_amount' => $trade->amount,
+                'time_expire' => $this->getTimeExpire(),
                 'subject' => $trade->subject,
             ]);
 
@@ -103,6 +105,7 @@ class Alipay extends PayService
             $result = $this->gateway->wap([
                 'out_trade_no' => $trade->sn,
                 'total_amount' => $trade->amount,
+                'time_expire' => $this->getTimeExpire(),
                 'subject' => $trade->subject,
                 'http_method' => 'GET',
             ]);
@@ -134,6 +137,7 @@ class Alipay extends PayService
             $result = $this->gateway->mini([
                 'out_trade_no' => $trade->sn,
                 'total_amount' => $trade->amount,
+                'time_expire' => $this->getTimeExpire(),
                 'subject' => $trade->subject,
                 'buyer_id' => $buyerId,
             ]);
@@ -324,6 +328,18 @@ class Alipay extends PayService
         }
 
         return $result;
+    }
+
+    /**
+     * 获取订单失效时间
+     *
+     * @return string
+     */
+    protected function getTimeExpire()
+    {
+        $lifetime = kg_config('trade.lifetime', 15 * 60);
+
+        return date('Y-m-d H:i:s', time() + $lifetime);
     }
 
 }

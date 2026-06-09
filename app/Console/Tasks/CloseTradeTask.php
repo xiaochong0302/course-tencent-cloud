@@ -44,30 +44,23 @@ class CloseTradeTask extends Task
      */
     protected function handleAlipayTrade(TradeModel $trade)
     {
-        $allowClosed = true;
-
         $alipay = new AlipayService();
 
         $alipayTrade = $alipay->find($trade->sn);
 
-        if ($alipayTrade) {
-
-            /**
-             * 异步通知接收异常，补救漏网
-             */
-            if ($alipayTrade->trade_status == 'TRADE_SUCCESS') {
-
-                $this->eventsManager->fire('Trade:afterPay', $this, $trade);
-
-                $allowClosed = false;
-
-            } elseif ($alipayTrade->trade_status == 'WAIT_BUYER_PAY') {
-
-                $allowClosed = $alipay->close($trade->sn);
-            }
+        if (!$alipayTrade) {
+            $trade->status = TradeModel::STATUS_CLOSED;
+            $trade->update();
+            return;
         }
 
-        if (!$allowClosed) return;
+        /**
+         * 异步通知接收异常，补救漏网
+         */
+        if ($alipayTrade['trade_status'] == 'TRADE_SUCCESS') {
+            $this->eventsManager->fire('Trade:afterPay', $this, $trade);
+            return;
+        }
 
         $trade->status = TradeModel::STATUS_CLOSED;
 
@@ -81,30 +74,23 @@ class CloseTradeTask extends Task
      */
     protected function handleWxpayTrade(TradeModel $trade)
     {
-        $allowClosed = true;
-
         $wxpay = new WxpayService();
 
         $wxpayTrade = $wxpay->find($trade->sn);
 
-        if ($wxpayTrade) {
-
-            /**
-             * 异步通知接收异常，补救漏网
-             */
-            if ($wxpayTrade->trade_state == 'SUCCESS') {
-
-                $this->eventsManager->fire('Trade:afterPay', $this, $trade);
-
-                $allowClosed = false;
-
-            } elseif ($wxpayTrade->trade_state == 'NOTPAY') {
-
-                $allowClosed = $wxpay->close($trade->sn);
-            }
+        if (!$wxpayTrade) {
+            $trade->status = TradeModel::STATUS_CLOSED;
+            $trade->update();
+            return;
         }
 
-        if (!$allowClosed) return;
+        /**
+         * 异步通知接收异常，补救漏网
+         */
+        if ($wxpayTrade['trade_state'] == 'SUCCESS') {
+            $this->eventsManager->fire('Trade:afterPay', $this, $trade);
+            return;
+        }
 
         $trade->status = TradeModel::STATUS_CLOSED;
 
@@ -121,7 +107,9 @@ class CloseTradeTask extends Task
     {
         $status = TradeModel::STATUS_PENDING;
 
-        $createTime = time() - 15 * 60;
+        $lifetime = kg_config('trade.lifetime', 15 * 60);
+
+        $createTime = time() - $lifetime;
 
         return TradeModel::query()
             ->where('status = :status:', ['status' => $status])
