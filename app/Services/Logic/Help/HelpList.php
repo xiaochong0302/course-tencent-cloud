@@ -41,8 +41,8 @@ class HelpList extends LogicService
 
             $item['helps'] = [];
 
-            if ($helps->count() > 0) {
-                foreach ($helps as $help) {
+            foreach ($helps as $help) {
+                if ($help->category_id == $category['id']) {
                     $item['helps'][] = [
                         'id' => $help->id,
                         'title' => $help->title,
