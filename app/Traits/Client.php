@@ -46,7 +46,7 @@ trait Client
 
         $clientType = KgClientModel::TYPE_PC;
 
-        if ($result->isMobile()) {
+        if ($result->isMobile() || $this->isHarmonyMobile($userAgent)) {
             $clientType = KgClientModel::TYPE_H5;
         }
 
@@ -64,7 +64,22 @@ trait Client
 
         $result = new BrowserParser($userAgent);
 
-        return $result->isMobile();
+        return $result->isMobile() || $this->isHarmonyMobile($userAgent);
+    }
+
+    protected function isHarmonyMobile($userAgent)
+    {
+        $userAgent = strtolower($userAgent);
+
+        if (strpos($userAgent, 'harmony') === false) return false;
+
+        $keywords = ['mobile', 'phone', 'tablet'];
+
+        foreach ($keywords as $keyword) {
+            if (strpos($userAgent, $keyword)) return true;
+        }
+
+        return false;
     }
 
     public function h5Enabled()
