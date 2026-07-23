@@ -67,8 +67,10 @@ trait Client
         return $result->isMobile() || $this->isHarmonyMobile($userAgent);
     }
 
-    protected function isHarmonyMobile($userAgent)
+    protected function isHarmonyMobile($userAgent = null)
     {
+        if (!$userAgent) return false;
+
         $userAgent = strtolower($userAgent);
 
         if (strpos($userAgent, 'harmony') === false) return false;
