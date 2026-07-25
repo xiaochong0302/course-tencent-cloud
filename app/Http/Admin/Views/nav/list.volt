@@ -79,7 +79,7 @@
                 <td>{{ item.child_count }}</td>
                 <td>{{ position_info(item.position) }}</td>
                 <td>{{ target_info(item.target) }}</td>
-                <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
+                <td><input class="layui-input kg-field" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
                 <td><input type="checkbox" name="published" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}"
                            {% if item.published == 1 %}checked="checked"{% endif %}></td>
                 <td class="center">

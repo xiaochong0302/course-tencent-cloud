@@ -98,7 +98,7 @@
                 <td>{{ item.user_count }}</td>
                 <td>{{ item.like_count }}</td>
                 <td>{{ item.comment_count }}</td>
-                <td><input class="layui-input kg-priority" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
+                <td><input class="layui-input kg-field" type="text" name="priority" title="数值越小排序越靠前" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
                 <td><input type="checkbox" name="free" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}" {% if item.free == 1 %}checked="checked"{% endif %}>
                 </td>
                 <td><input type="checkbox" name="published" value="1" lay-text="是|否" lay-skin="switch" lay-filter="go" data-url="{{ update_url }}"

@@ -135,13 +135,16 @@ layui.use(['jquery', 'form', 'element', 'layer', 'helper', 'kgDropdown'], functi
         form.render('checkbox');
     });
 
-    $('.kg-priority').on('change', function () {
-        var priority = $(this).val();
+    $('.kg-field').on('change', function () {
+        var field = $(this).attr('name');
+        var value = $(this).val();
         var url = $(this).data('url');
+        var data = {};
+        data[field] = value;
         $.ajax({
             type: 'POST',
             url: url,
-            data: {priority: priority},
+            data: data,
             success: function (res) {
                 layer.msg(res.msg, {icon: 1});
             }

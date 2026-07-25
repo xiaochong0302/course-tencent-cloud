@@ -60,7 +60,7 @@
                 <td>{{ item.user_count }}</td>
                 <td>{{ item.like_count }}</td>
                 <td>{{ item.comment_count }}</td>
-                <td><input class="layui-input kg-priority" type="text" name="priority" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
+                <td><input class="layui-input kg-field" type="text" name="priority" value="{{ item.priority }}" data-url="{{ update_url }}"></td>
                 <td class="center">
                     <div class="kg-dropdown">
                         <button class="layui-btn layui-btn-sm">操作 <i class="layui-icon layui-icon-triangle-d"></i></button>
