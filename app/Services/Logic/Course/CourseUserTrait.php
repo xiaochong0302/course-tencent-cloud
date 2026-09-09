@@ -1,0 +1,200 @@
+<?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
+
+namespace App\Services\Logic\Course;
+
+use App\Models\Course as CourseModel;
+use App\Models\CourseUser as CourseUserModel;
+use App\Models\KgOwnership as KgOwnershipModel;
+use App\Models\User as UserModel;
+use App\Repos\CourseUser as CourseUserRepo;
+use App\Repos\User as UserRepo;
+use App\Services\CourseStat as CourseStatService;
+
+trait CourseUserTrait
+{
+
+    /**
+     * @var bool
+     */
+    protected bool $ownedCourse = false;
+
+    /**
+     * @var bool
+     */
+    protected bool $joinedCourse = false;
+
+    /**
+     * @var CourseUserModel|null
+     */
+    protected ?CourseUserModel $courseUser;
+
+    protected function setCourseUser(CourseModel $course, UserModel $user): void
+    {
+        if ($user->id == 0) return;
+
+        $courseUserRepo = new CourseUserRepo();
+
+        $courseUser = $courseUserRepo->findCourseUser($course->id, $user->id);
+
+        $this->courseUser = $courseUser;
+
+        if ($courseUser) {
+            $this->joinedCourse = true;
+        }
+
+        if ($course->teacher_id == $user->id) {
+
+            $this->ownedCourse = true;
+
+        } elseif ($course->market_price == 0) {
+
+            $this->ownedCourse = true;
+
+        } elseif ($course->vip_price == 0 && $user->vip == 1) {
+
+            $this->ownedCourse = true;
+
+        } elseif ($courseUser) {
+
+            $sourceTypes = [
+                KgOwnershipModel::SOURCE_CHARGE,
+                KgOwnershipModel::SOURCE_MANUAL,
+            ];
+
+            $case1 = $courseUser->deleted == 0;
+            $case2 = $courseUser->expiry_time > time();
+            $case3 = in_array($courseUser->source_type, $sourceTypes);
+
+            /**
+             * 之前参与过课程，但不再满足条件，视为未参与
+             */
+            if ($case1 && $case2 && $case3) {
+                $this->ownedCourse = true;
+            } else {
+                $this->joinedCourse = false;
+            }
+        }
+    }
+
+    protected function assignUserCourse(CourseModel $course, UserModel $user, int $expiryTime, int $sourceType): ?CourseUserModel
+    {
+        if ($this->allowFreeAccess($course, $user)) return null;
+
+        $courseUserRepo = new CourseUserRepo();
+
+        $relation = $courseUserRepo->findCourseUser($course->id, $user->id);
+
+        $newRelation = null;
+
+        if (!$relation) {
+
+            $newRelation = $this->createCourseUser($course, $user, $expiryTime, $sourceType);
+
+        } else {
+
+            switch ($relation->source_type) {
+                case KgOwnershipModel::SOURCE_FREE:
+                case KgOwnershipModel::SOURCE_TRIAL:
+                case KgOwnershipModel::SOURCE_VIP:
+                case KgOwnershipModel::SOURCE_TEACHER:
+                    $newRelation = $this->createCourseUser($course, $user, $expiryTime, $sourceType);
+                    $this->deleteCourseUser($relation);
+                    break;
+                case KgOwnershipModel::SOURCE_MANUAL:
+                    $relation->expiry_time = $expiryTime;
+                    $relation->update();
+                    break;
+                case KgOwnershipModel::SOURCE_CHARGE:
+                    if ($relation->expiry_time < time()) {
+                        $newRelation = $this->createCourseUser($course, $user, $expiryTime, $sourceType);
+                        $this->deleteCourseUser($relation);
+                    }
+                    break;
+            }
+        }
+
+        $this->recountCourseUsers($course);
+        $this->recountUserStudyCourses($user);
+
+        return $newRelation ?: $relation;
+    }
+
+    protected function createCourseUser(CourseModel $course, UserModel $user, int $expiryTime, int $sourceType): CourseUserModel
+    {
+        $courseUser = new CourseUserModel();
+
+        $courseUser->course_id = $course->id;
+        $courseUser->user_id = $user->id;
+        $courseUser->expiry_time = $expiryTime;
+        $courseUser->source_type = $sourceType;
+
+        $courseUser->create();
+
+        return $courseUser;
+    }
+
+    protected function deleteCourseUser(CourseUserModel $relation): void
+    {
+        $relation->deleted = 1;
+
+        $relation->update();
+    }
+
+    protected function recountCourseUsers(CourseModel $course): void
+    {
+        $statService = new CourseStatService();
+
+        $statService->updateUserCount($course->id);
+    }
+
+    protected function recountUserStudyCourses(UserModel $user): void
+    {
+        $userRepo = new UserRepo();
+
+        $courseCount = $userRepo->countStudyCourses($user->id);
+
+        $user->study_course_count = $courseCount;
+
+        $user->update();
+    }
+
+    protected function allowFreeAccess(CourseModel $course, UserModel $user): bool
+    {
+        $result = false;
+
+        if ($course->market_price == 0) {
+            $result = true;
+        } elseif ($course->vip_price == 0 && $user->vip == 1) {
+            $result = true;
+        } elseif ($course->teacher_id == $user->id) {
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    protected function getFreeSourceType(CourseModel $course, UserModel $user): int
+    {
+        if ($course->teacher_id == $user->id) {
+            return KgOwnershipModel::SOURCE_TEACHER;
+        }
+
+        $sourceType = KgOwnershipModel::SOURCE_FREE;
+
+        if ($course->market_price > 0) {
+            if ($course->vip_price == 0 && $user->vip == 1) {
+                $sourceType = KgOwnershipModel::SOURCE_VIP;
+            } else {
+                $sourceType = KgOwnershipModel::SOURCE_TRIAL;
+            }
+        }
+
+        return $sourceType;
+    }
+
+}

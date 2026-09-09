@@ -1,0 +1,87 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 2760791 */
+  src: url('iconfont.woff2?t=1731240803792') format('woff2'),
+       url('iconfont.woff?t=1731240803792') format('woff'),
+       url('iconfont.ttf?t=1731240803792') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-douyin:before {
+  content: "\e610";
+}
+
+.icon-pdf:before {
+  content: "\e7b8";
+}
+
+.icon-doc:before {
+  content: "\e632";
+}
+
+.icon-playback:before {
+  content: "\e6b3";
+}
+
+.icon-live:before {
+  content: "\e64e";
+}
+
+.icon-article:before {
+  content: "\e7fd";
+}
+
+.icon-video:before {
+  content: "\e630";
+}
+
+.icon-douban:before {
+  content: "\e613";
+}
+
+.icon-qzone:before {
+  content: "\e61b";
+}
+
+.icon-lock:before {
+  content: "\e7c9";
+}
+
+.icon-phone:before {
+  content: "\e78e";
+}
+
+.icon-toutiao:before {
+  content: "\e600";
+}
+
+.icon-qq:before {
+  content: "\e63c";
+}
+
+.icon-location:before {
+  content: "\e646";
+}
+
+.icon-weibo:before {
+  content: "\e763";
+}
+
+.icon-mail:before {
+  content: "\e6b2";
+}
+
+.icon-wechat:before {
+  content: "\e623";
+}
+
+.icon-zhihu:before {
+  content: "\ea8b";
+}
+

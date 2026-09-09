@@ -1,0 +1,97 @@
+{% extends 'templates/main.volt' %}
+
+{% block content %}
+
+    {{ partial('macros/course') }}
+
+    {% set share_url = share_url('course',course.id,auth_user.id) %}
+    {% set qrcode_url = url({'for':'home.qrcode'},{'text':share_url}) %}
+
+    <div class="breadcrumb">
+        <span class="layui-breadcrumb">
+            <a href="/">首页</a>
+            <a><cite>课程</cite></a>
+            <a><cite>{{ course.title }}</cite></a>
+        </span>
+        <span class="share">
+            <a class="share-wechat" href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat"></i></a>
+            <a class="share-qq" href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq"></i></a>
+            <a class="share-weibo" href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo"></i></a>
+            <a class="share-link kg-copy" href="javascript:" title="复制链接" data-clipboard-text="{{ share_url }}"><i class="layui-icon layui-icon-share"></i></a>
+        </span>
+    </div>
+
+    {{ partial('course/show_meta') }}
+
+    <div class="layout-main">
+
+        {% set show_tab_reviews = course.review_count > 0 %}
+
+        <div class="layout-content">
+            <div class="course-tab-wrap wrap">
+                <div class="layui-tabs course-tab">
+                    <ul class="layui-tabs-header">
+                        <li class="layui-this">目录</li>
+                        <li>详情</li>
+                        {% if show_tab_reviews %}
+                            <li>评价<span class="tab-count">{{ course.review_count }}</span></li>
+                        {% endif %}
+                    </ul>
+                    <div class="layui-tabs-body">
+                        <div class="layui-tabs-item layui-show">
+                            {{ partial('course/show_catalog') }}
+                        </div>
+                        <div class="layui-tabs-item">
+                            <div class="course-details markdown-body kg-zoom">{{ course.details }}</div>
+                        </div>
+                        {% if show_tab_reviews %}
+                            {% set reviews_url = url({'for':'home.course.reviews','id':course.id}) %}
+                            <div class="layui-tabs-item" id="tab-reviews" data-url="{{ reviews_url }}"></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% set show_sidebar_related = 1 %}
+
+        <div class="layout-sidebar">
+            {{ partial('course/show_order') }}
+            {% if course.teacher.id > 0 %}
+                {{ partial('course/show_teacher') }}
+            {% endif %}
+            {% if show_sidebar_related %}
+                {% set related_url = url({'for':'home.course.related','id':course.id}) %}
+                <div class="sidebar" id="sidebar-related" data-url="{{ related_url }}"></div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="layout-sticky">
+        {{ partial('course/sticky') }}
+    </div>
+
+    <div class="layui-hide">
+        <input type="hidden" name="share.title" value="{{ course.title }}">
+        <input type="hidden" name="share.pic" value="{{ course.cover }}">
+        <input type="hidden" name="share.url" value="{{ share_url }}">
+        <input type="hidden" name="share.qrcode" value="{{ qrcode_url }}">
+    </div>
+
+{% endblock %}
+
+{% block link_css %}
+
+    {{ css_link('home/css/markdown.css') }}
+
+{% endblock %}
+
+{% block include_js %}
+
+    {{ js_include('lib/clipboard.min.js') }}
+    {{ js_include('home/js/course.show.js') }}
+    {{ js_include('home/js/course.share.js') }}
+    {{ js_include('home/js/copy.js') }}
+
+{% endblock %}

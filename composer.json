@@ -1,0 +1,47 @@
+{
+  "require": {
+    "ext-phalcon": "~5.9",
+    "ext-redis": "~6.0",
+    "ext-apcu": "*",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-gd": "*",
+    "ext-dom": "*",
+    "ext-pcntl": "*",
+    "ext-libxml": "*",
+    "ext-fileinfo": "*",
+    "ext-bcmath": "*",
+    "ext-xlswriter": "*",
+    "ext-zend-opcache": "*",
+    "guzzlehttp/guzzle": "^7.9",
+    "phpmailer/phpmailer": "^6.10",
+    "peppeocchi/php-cron-scheduler": "^4.0",
+    "tencentcloud/common": "^3.0",
+    "tencentcloud/sms": "^3.0",
+    "tencentcloud/vod": "^3.0",
+    "qcloud/cos-sdk-v5": "^2.5",
+    "whichbrowser/parser": "^2.0",
+    "hightman/xunsearch": "^1.4",
+    "endroid/qr-code": "^3.9",
+    "zoujingli/ip2region": "^2.0",
+    "league/commonmark": "^2.8",
+    "robmorgan/phinx": "^0.16",
+    "hyperf/pimple": "~2.2.0",
+    "yansongda/pay": "dev-master"
+  },
+  "require-dev": {
+    "xiaochong0302/phalcon-ide-stubs": "5.9.3",
+    "odan/phinx-migrations-generator": "^6.3"
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.tencent.com/composer/"
+    }
+  },
+  "config": {
+    "process-timeout": 900,
+    "allow-plugins": {
+    }
+  }
+}

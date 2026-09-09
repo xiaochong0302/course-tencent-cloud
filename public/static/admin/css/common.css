@@ -1,0 +1,418 @@
+.layui-input-wrap .layui-icon {
+    color: #d2d2d2;
+}
+
+.layui-table .meta span {
+    margin-right: 10px;
+}
+
+.layui-table .layui-badge {
+    margin-bottom: 3px;
+}
+
+.layui-badge, .layui-badge-rim {
+    padding-bottom: 1px;
+}
+
+.layui-layout-admin .layui-body {
+    padding-bottom: 0;
+}
+
+.layui-main .vditor-reset {
+    font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+}
+
+.vditor-reset ul > li {
+    list-style: disc;
+}
+
+.vditor-reset ol > li {
+    list-style: decimal;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.gray {
+    color: gray;
+}
+
+.loading {
+    padding: 30px;
+    text-align: center;
+}
+
+.kg-layer-content {
+    padding: 15px;
+}
+
+.kg-layer-content .layui-table {
+    margin: 0;
+}
+
+.kg-body {
+    padding: 15px;
+}
+
+.kg-clearfix:after {
+    content: ".";
+    display: block;
+    visibility: hidden;
+    clear: both;
+    height: 0;
+}
+
+.kg-cursor-pointer {
+    cursor: pointer;
+}
+
+.kg-center {
+    text-align: center;
+}
+
+.kg-pager {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.kg-field-tips {
+    margin-top: 10px;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.kg-label-tips {
+    cursor: pointer;
+}
+
+.kg-label-tips .layui-icon {
+    font-size: 12px;
+}
+
+.kg-license-wrap {
+    width: 600px;
+    margin: 100px auto;
+}
+
+.kg-license-wrap legend {
+    margin: 0 0 30px 0;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.kg-license-wrap .layui-form-item {
+    margin-bottom: 30px;
+}
+
+.kg-license-wrap .layui-input-block {
+    margin-left: 0;
+}
+
+.kg-license-wrap .layui-textarea {
+    min-height: 150px;
+}
+
+.kg-license-wrap .copyright {
+    text-align: center;
+    font-size: 12px;
+}
+
+.copyright a, .copyright span {
+    margin-right: 10px;
+    color: #999;
+}
+
+.kg-login-wrap {
+    width: 500px;
+    margin: 150px auto 100px;
+}
+
+.kg-login-wrap .layui-card {
+    border-radius: 5px;
+}
+
+.kg-login-wrap .layui-card-header {
+    height: 50px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.kg-login-wrap .layui-card-body {
+    padding: 30px 50px;
+}
+
+.kg-login-form .layui-input-block {
+    margin-left: 0;
+}
+
+.kg-login-copyright {
+    margin-top: -80px;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+}
+
+.kg-login-copyright a {
+    color: #fff;
+}
+
+.kg-input-inline {
+    float: left;
+    width: 250px;
+    margin-right: 10px;
+}
+
+.kg-side-menu-bar {
+    position: absolute;
+    top: 0;
+    left: 200px;
+    line-height: 60px;
+}
+
+.kg-side-menu-bar .layui-icon {
+    color: #009688;
+    font-size: 25px;
+}
+
+.kg-nav-module {
+    position: absolute;
+    top: 0;
+    left: 230px;
+}
+
+.kg-nav {
+    position: relative;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 17px;
+}
+
+.kg-nav-left {
+    position: absolute;
+    top: 0;
+    left: 5px;
+}
+
+.kg-nav-left .layui-breadcrumb {
+    margin-right: 20px;
+}
+
+.kg-nav-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.kg-back {
+    cursor: pointer;
+}
+
+.kg-tab-title {
+    margin: 0 0 15px 0;
+}
+
+.kg-table td {
+    padding: 10px;
+}
+
+.kg-table p {
+    line-height: 1.8em;
+}
+
+.kg-table .kg-progress {
+    margin: 15px 0 5px 0;
+}
+
+.kg-table .layui-rate {
+    padding: 0;
+}
+
+.kg-table .layui-form-switch {
+    margin: 0;
+}
+
+.kg-table .center {
+    text-align: center;
+}
+
+.kg-table span {
+    margin-right: 10px;
+}
+
+.kg-item-elip {
+    width: 400px;
+}
+
+.layui-form .kg-rating {
+    margin-bottom: 0;
+}
+
+.kg-rating .layui-rate {
+    padding: 5px 0 0 0;
+}
+
+input.kg-field {
+    width: 60px;
+}
+
+img.kg-cover {
+    width: 185px;
+    height: 100px;
+}
+
+img.kg-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 64px;
+}
+
+img.kg-avatar-sm {
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
+}
+
+img.kg-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 64px;
+}
+
+img.kg-icon-sm {
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
+}
+
+.kg-form .layui-form-label {
+    width: 120px;
+}
+
+.kg-form .layui-input-block {
+    margin-left: 150px;
+}
+
+.kg-form .xm-body {
+    padding: 10px;
+}
+
+.kg-form p {
+    line-height: 30px;
+}
+
+.kg-search-box .layui-input {
+    width: 250px;
+}
+
+.kg-qrcode-block {
+    padding: 20px;
+    text-align: center;
+}
+
+.kg-error-tips {
+    color: red;
+}
+
+.kg-success-tips {
+    color: green;
+}
+
+img.kg-qrcode {
+    width: 160px;
+    height: 160px;
+    padding: 10px;
+    border: 3px solid #999;
+}
+
+.kg-order-item {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e6e6e6;
+}
+
+.kg-order-item:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.kg-stat-card {
+    padding: 10px 0;
+    text-align: center;
+    background: #f2f2f2;
+}
+
+.kg-stat-card .name {
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.kg-stat-card .count {
+    font-size: 20px;
+    color: #009688;
+}
+
+.kg-search-form {
+    margin-bottom: 30px;
+}
+
+.kg-search-form .layui-form-label {
+    width: auto;
+}
+
+.kg-search-form .layui-input-inline:last-child {
+    margin-left: 10px;
+}
+
+.kg-chart {
+    width: 100%;
+    height: 480px;
+}
+
+.kg-mod-preview {
+    width: 800px;
+}
+
+.kg-mod-preview .title {
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.kg-mod-preview .meta {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.kg-mod-preview .meta span {
+    margin-right: 10px;
+}
+
+.kg-mod-preview .content {
+    margin-bottom: 20px;
+}
+
+.kg-mod-preview .tags {
+    margin-bottom: 20px;
+}
+
+.kg-mod-preview .source-tips {
+    margin-bottom: 20px;
+}
+
+.kg-mod-form {
+    width: 50%;
+}
+
+.kg-pack-nav {
+    margin-bottom: 20px;
+}
+
+.kg-pack-nav .item {
+    margin-right: 15px;
+}

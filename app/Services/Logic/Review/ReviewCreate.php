@@ -1,0 +1,82 @@
+<?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
+
+namespace App\Services\Logic\Review;
+
+use App\Models\Course as CourseModel;
+use App\Models\CourseUser as CourseUserModel;
+use App\Models\Review as ReviewModel;
+use App\Services\CourseStat as CourseStatService;
+use App\Services\Logic\CourseTrait;
+use App\Services\Logic\ReviewTrait;
+use App\Services\Logic\Service as LogicService;
+use App\Validators\CourseUser as CourseUserValidator;
+
+class ReviewCreate extends LogicService
+{
+
+    use CourseTrait;
+    use ReviewTrait;
+    use ReviewDataTrait;
+
+    public function handle(): ReviewModel
+    {
+        $post = $this->request->getPost();
+
+        $course = $this->checkCourse($post['course_id']);
+
+        $user = $this->getLoginUser();
+
+        $validator = new CourseUserValidator();
+
+        $courseUser = $validator->checkCourseUser($course->id, $user->id);
+
+        $validator->checkIfAllowReview($course->id, $user->id);
+
+        $data = $this->handlePostData($post);
+
+        $data['published'] = $this->getPublishStatus($data['content']);
+        $data['course_id'] = $course->id;
+        $data['owner_id'] = $user->id;
+
+        $review = new ReviewModel();
+
+        $review->assign($data);
+
+        $review->create();
+
+        $this->updateCourseUserReview($courseUser);
+        $this->updateCourseReviews($course);
+        $this->updateCourseRating($course);
+
+        $this->eventsManager->fire('Review:afterCreate', $this, $review);
+
+        return $review;
+    }
+
+    protected function updateCourseUserReview(CourseUserModel $courseUser): void
+    {
+        $courseUser->reviewed = 1;
+
+        $courseUser->update();
+    }
+
+    protected function updateCourseRating(CourseModel $course): void
+    {
+        $service = new CourseStatService();
+
+        $service->updateRating($course->id);
+    }
+
+    protected function updateCourseReviews(CourseModel $course): void
+    {
+        $service = new CourseStatService();
+
+        $service->updateReviewCount($course->id);
+    }
+
+}

@@ -1,0 +1,13 @@
+/.git
+/.idea
+/vendor
+/config/config.php
+/config/xs.course.ini
+/config/xs.chapter.ini
+/config/alipay/*.crt
+/config/wxpay/*.pem
+/db/migrations/schema.php
+/public/robots.txt
+/public/sitemap.xml
+/public/h5
+*KgTest*

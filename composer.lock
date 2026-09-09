@@ -1,0 +1,4201 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "37cb0f358fdb27edc2c0df6281798586",
+    "packages": [
+        {
+            "name": "bacon/bacon-qr-code",
+            "version": "2.0.8",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/bacon/bacon-qr-code/2.0.8/bacon-bacon-qr-code-2.0.8.zip",
+                "reference": "8674e51bb65af933a5ffaf1c308a660387c35c22",
+                "shasum": ""
+            },
+            "require": {
+                "dasprid/enum": "^1.0.3",
+                "ext-iconv": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "phly/keep-a-changelog": "^2.1",
+                "phpunit/phpunit": "^7 | ^8 | ^9",
+                "spatie/phpunit-snapshot-assertions": "^4.2.9",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "suggest": {
+                "ext-imagick": "to generate QR code images"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BaconQrCode\\": "src/"
+                }
+            },
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Scholzen 'DASPRiD'",
+                    "email": "mail@dasprids.de",
+                    "homepage": "https://dasprids.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "BaconQrCode is a QR code generator for PHP.",
+            "homepage": "https://github.com/Bacon/BaconQrCode",
+            "support": {
+                "issues": "https://github.com/Bacon/BaconQrCode/issues",
+                "source": "https://github.com/Bacon/BaconQrCode/tree/2.0.8"
+            },
+            "time": "2022-12-07T17:46:57+00:00"
+        },
+        {
+            "name": "cakephp/chronos",
+            "version": "3.5.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/cakephp/chronos/3.5.1/cakephp-chronos-3.5.1.zip",
+                "reference": "00c16f165a762226d58f9cf88f43e54e41093f84",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "psr/clock": "^1.0"
+            },
+            "provide": {
+                "psr/clock-implementation": "1.0"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "^5.0",
+                "phpunit/phpunit": "^10.5.58 || ^11.5.3 || ^12.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cake\\Chronos\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Nesbitt",
+                    "email": "brian@nesbot.com",
+                    "homepage": "http://nesbot.com"
+                },
+                {
+                    "name": "The CakePHP Team",
+                    "homepage": "https://cakephp.org"
+                }
+            ],
+            "description": "A simple API extension for DateTime.",
+            "homepage": "https://cakephp.org",
+            "keywords": [
+                "date",
+                "datetime",
+                "time"
+            ],
+            "support": {
+                "issues": "https://github.com/cakephp/chronos/issues",
+                "source": "https://github.com/cakephp/chronos"
+            },
+            "time": "2026-09-06T02:30:12+00:00"
+        },
+        {
+            "name": "cakephp/core",
+            "version": "5.4.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/cakephp/core/5.4.2/cakephp-core-5.4.2.zip",
+                "reference": "55c9f6ec8a11f6c946cad5bc6e8da18d6d98ae06",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/utility": "^5.4.0",
+                "league/container": "^5.1",
+                "php": ">=8.2",
+                "psr/container": "^1.1 || ^2.0"
+            },
+            "provide": {
+                "psr/container-implementation": "^2.0"
+            },
+            "suggest": {
+                "cakephp/cache": "To use Configure::store() and restore().",
+                "cakephp/event": "To use PluginApplicationInterface or plugin applications.",
+                "league/container": "To use Container and ServiceProvider classes"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-5.next": "5.5.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "functions.php"
+                ],
+                "psr-4": {
+                    "Cake\\Core\\": "."
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakePHP Community",
+                    "homepage": "https://github.com/cakephp/core/graphs/contributors"
+                }
+            ],
+            "description": "CakePHP Framework Core classes",
+            "homepage": "https://cakephp.org",
+            "keywords": [
+                "cakephp",
+                "core",
+                "framework"
+            ],
+            "support": {
+                "forum": "https://stackoverflow.com/tags/cakephp",
+                "irc": "irc://irc.freenode.org/cakephp",
+                "issues": "https://github.com/cakephp/cakephp/issues",
+                "source": "https://github.com/cakephp/core"
+            },
+            "time": "2026-08-24T11:32:41+00:00"
+        },
+        {
+            "name": "cakephp/database",
+            "version": "5.4.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/cakephp/database/5.4.2/cakephp-database-5.4.2.zip",
+                "reference": "91cf7b16e9ebe0050c64db0f4634ac4a76782564",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/chronos": "^3.3",
+                "cakephp/core": "^5.4.0",
+                "cakephp/datasource": "^5.4.0",
+                "cakephp/event": "^5.4.0",
+                "php": ">=8.2",
+                "psr/log": "^3.0"
+            },
+            "require-dev": {
+                "cakephp/i18n": "^5.4.0",
+                "cakephp/log": "^5.4.0",
+                "cakephp/utility": "^5.4.0"
+            },
+            "suggest": {
+                "cakephp/i18n": "If you are using locale-aware datetime formats.",
+                "cakephp/log": "If you want to use query logging without providing a logger yourself.",
+                "cakephp/utility": "If you want to use EnumLabelTrait."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-5.next": "5.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cake\\Database\\": "."
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakePHP Community",
+                    "homepage": "https://github.com/cakephp/database/graphs/contributors"
+                }
+            ],
+            "description": "Flexible and powerful Database abstraction library with a familiar PDO-like API",
+            "homepage": "https://cakephp.org",
+            "keywords": [
+                "abstraction",
+                "cakephp",
+                "database",
+                "database abstraction",
+                "pdo"
+            ],
+            "support": {
+                "forum": "https://stackoverflow.com/tags/cakephp",
+                "irc": "irc://irc.freenode.org/cakephp",
+                "issues": "https://github.com/cakephp/cakephp/issues",
+                "source": "https://github.com/cakephp/database"
+            },
+            "time": "2026-08-28T06:30:11+00:00"
+        },
+        {
+            "name": "cakephp/datasource",
+            "version": "5.4.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/cakephp/datasource/5.4.2/cakephp-datasource-5.4.2.zip",
+                "reference": "cec80f34828d4aeaf24f75097055cd1466e1aec7",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/core": "^5.4.0",
+                "php": ">=8.2",
+                "psr/simple-cache": "^2.0 || ^3.0"
+            },
+            "require-dev": {
+                "cakephp/cache": "^5.4.0",
+                "cakephp/collection": "^5.4.0",
+                "cakephp/utility": "^5.4.0"
+            },
+            "suggest": {
+                "cakephp/cache": "If you decide to use Query caching.",
+                "cakephp/collection": "If you decide to use ResultSetInterface.",
+                "cakephp/utility": "If you decide to use EntityTrait."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-5.next": "5.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cake\\Datasource\\": "."
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakePHP Community",
+                    "homepage": "https://github.com/cakephp/datasource/graphs/contributors"
+                }
+            ],
+            "description": "Provides connection managing and traits for Entities and Queries that can be reused for different datastores",
+            "homepage": "https://cakephp.org",
+            "keywords": [
+                "cakephp",
+                "connection management",
+                "datasource",
+                "entity",
+                "query"
+            ],
+            "support": {
+                "forum": "https://stackoverflow.com/tags/cakephp",
+                "irc": "irc://irc.freenode.org/cakephp",
+                "issues": "https://github.com/cakephp/cakephp/issues",
+                "source": "https://github.com/cakephp/datasource"
+            },
+            "time": "2026-08-24T11:32:41+00:00"
+        },
+        {
+            "name": "cakephp/event",
+            "version": "5.4.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/cakephp/event/5.4.2/cakephp-event-5.4.2.zip",
+                "reference": "28e2797bda517cbac7fa683415f7bbc2774de103",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/core": "^5.4.0",
+                "php": ">=8.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-5.next": "5.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cake\\Event\\": "."
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakePHP Community",
+                    "homepage": "https://github.com/cakephp/event/graphs/contributors"
+                }
+            ],
+            "description": "CakePHP event dispatcher library that helps implementing the observer pattern",
+            "homepage": "https://cakephp.org",
+            "keywords": [
+                "cakephp",
+                "dispatcher",
+                "event",
+                "observer pattern"
+            ],
+            "support": {
+                "forum": "https://stackoverflow.com/tags/cakephp",
+                "irc": "irc://irc.freenode.org/cakephp",
+                "issues": "https://github.com/cakephp/cakephp/issues",
+                "source": "https://github.com/cakephp/event"
+            },
+            "time": "2026-08-24T11:32:41+00:00"
+        },
+        {
+            "name": "cakephp/utility",
+            "version": "5.4.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/cakephp/utility/5.4.2/cakephp-utility-5.4.2.zip",
+                "reference": "98376e5bbcdd84fdda6d6c4207ef6111fc5aed23",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/core": "^5.4.0",
+                "php": ">=8.2"
+            },
+            "suggest": {
+                "ext-intl": "To use Text::transliterate() or Text::slug()",
+                "lib-ICU": "To use Text::transliterate() or Text::slug()"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-5.next": "5.5.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Cake\\Utility\\": "."
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakePHP Community",
+                    "homepage": "https://github.com/cakephp/utility/graphs/contributors"
+                }
+            ],
+            "description": "CakePHP Utility classes such as Inflector, String, Hash, and Security",
+            "homepage": "https://cakephp.org",
+            "keywords": [
+                "cakephp",
+                "hash",
+                "inflector",
+                "security",
+                "string",
+                "utility"
+            ],
+            "support": {
+                "forum": "https://stackoverflow.com/tags/cakephp",
+                "irc": "irc://irc.freenode.org/cakephp",
+                "issues": "https://github.com/cakephp/cakephp/issues",
+                "source": "https://github.com/cakephp/utility"
+            },
+            "time": "2026-08-24T11:32:41+00:00"
+        },
+        {
+            "name": "dasprid/enum",
+            "version": "1.0.7",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/dasprid/enum/1.0.7/dasprid-enum-1.0.7.zip",
+                "reference": "b5874fa9ed0043116c72162ec7f4fb50e02e7cce",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1 <9.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7 || ^8 || ^9 || ^10 || ^11",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DASPRiD\\Enum\\": "src/"
+                }
+            },
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Scholzen 'DASPRiD'",
+                    "email": "mail@dasprids.de",
+                    "homepage": "https://dasprids.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP 7.1 enum implementation",
+            "keywords": [
+                "enum",
+                "map"
+            ],
+            "support": {
+                "issues": "https://github.com/DASPRiD/Enum/issues",
+                "source": "https://github.com/DASPRiD/Enum/tree/1.0.7"
+            },
+            "time": "2025-09-16T12:23:56+00:00"
+        },
+        {
+            "name": "dflydev/dot-access-data",
+            "version": "v3.0.3",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/dflydev/dot-access-data/v3.0.3/dflydev-dot-access-data-v3.0.3.zip",
+                "reference": "a23a2bf4f31d3518f3ecb38660c95715dfead60f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.42",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.3",
+                "scrutinizer/ocular": "1.6.0",
+                "squizlabs/php_codesniffer": "^3.5",
+                "vimeo/psalm": "^4.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dflydev\\DotAccessData\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dragonfly Development Inc.",
+                    "email": "info@dflydev.com",
+                    "homepage": "http://dflydev.com"
+                },
+                {
+                    "name": "Beau Simensen",
+                    "email": "beau@dflydev.com",
+                    "homepage": "http://beausimensen.com"
+                },
+                {
+                    "name": "Carlos Frutos",
+                    "email": "carlos@kiwing.it",
+                    "homepage": "https://github.com/cfrutos"
+                },
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com"
+                }
+            ],
+            "description": "Given a deep data structure, access data by dot notation.",
+            "homepage": "https://github.com/dflydev/dflydev-dot-access-data",
+            "keywords": [
+                "access",
+                "data",
+                "dot",
+                "notation"
+            ],
+            "support": {
+                "issues": "https://github.com/dflydev/dflydev-dot-access-data/issues",
+                "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.3"
+            },
+            "time": "2024-07-08T12:26:09+00:00"
+        },
+        {
+            "name": "dragonmantank/cron-expression",
+            "version": "v3.6.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/dragonmantank/cron-expression/v3.6.0/dragonmantank-cron-expression-v3.6.0.zip",
+                "reference": "d61a8a9604ec1f8c3d150d09db6ce98b32675013",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2|^8.3|^8.4|^8.5"
+            },
+            "replace": {
+                "mtdowling/cron-expression": "^1.0"
+            },
+            "require-dev": {
+                "phpstan/extension-installer": "^1.4.3",
+                "phpstan/phpstan": "^1.12.32|^2.1.31",
+                "phpunit/phpunit": "^8.5.48|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cron\\": "src/Cron/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Tankersley",
+                    "email": "chris@ctankersley.com",
+                    "homepage": "https://github.com/dragonmantank"
+                }
+            ],
+            "description": "CRON for PHP: Calculate the next or previous run date and determine if a CRON expression is due",
+            "keywords": [
+                "cron",
+                "schedule"
+            ],
+            "support": {
+                "issues": "https://github.com/dragonmantank/cron-expression/issues",
+                "source": "https://github.com/dragonmantank/cron-expression/tree/v3.6.0"
+            },
+            "time": "2025-10-31T18:51:33+00:00"
+        },
+        {
+            "name": "endroid/qr-code",
+            "version": "3.9.7",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/endroid/qr-code/3.9.7/endroid-qr-code-3.9.7.zip",
+                "reference": "94563d7b3105288e6ac53a67ae720e3669fac1f6",
+                "shasum": ""
+            },
+            "require": {
+                "bacon/bacon-qr-code": "^2.0",
+                "khanamiryan/qrcode-detector-decoder": "^1.0.5",
+                "myclabs/php-enum": "^1.5",
+                "php": "^7.3||^8.0",
+                "symfony/options-resolver": "^3.4||^4.4||^5.0",
+                "symfony/property-access": "^3.4||^4.4||^5.0"
+            },
+            "require-dev": {
+                "endroid/quality": "^1.5.2",
+                "setasign/fpdf": "^1.8"
+            },
+            "suggest": {
+                "ext-gd": "Required for generating PNG images",
+                "roave/security-advisories": "Avoids installation of package versions with vulnerabilities",
+                "setasign/fpdf": "Required to use the FPDF writer.",
+                "symfony/security-checker": "Checks your composer.lock for vulnerabilities"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Endroid\\QrCode\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeroen van den Enden",
+                    "email": "info@endroid.nl"
+                }
+            ],
+            "description": "Endroid QR Code",
+            "homepage": "https://github.com/endroid/qr-code",
+            "keywords": [
+                "bundle",
+                "code",
+                "endroid",
+                "php",
+                "qr",
+                "qrcode"
+            ],
+            "support": {
+                "issues": "https://github.com/endroid/qr-code/issues",
+                "source": "https://github.com/endroid/qr-code/tree/3.9.7"
+            },
+            "time": "2021-04-20T19:10:54+00:00"
+        },
+        {
+            "name": "guzzlehttp/command",
+            "version": "1.5.4",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/guzzlehttp/command/1.5.4/guzzlehttp-command-1.5.4.zip",
+                "reference": "e8a798b73b6c5815b29c62ac05c6198f81e38581",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.15.5",
+                "guzzlehttp/promises": "^2.5.3",
+                "guzzlehttp/psr7": "^2.13.1",
+                "php": "^7.2.5 || ^8.0",
+                "symfony/deprecation-contracts": "^2.5 || ^3.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8.2",
+                "phpunit/phpunit": "^8.5.52 || ^9.6.34"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Command\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Jeremy Lindblom",
+                    "email": "jeremeamia@gmail.com",
+                    "homepage": "https://github.com/jeremeamia"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                }
+            ],
+            "description": "Provides the foundation for building command-based web service clients",
+            "support": {
+                "issues": "https://github.com/guzzle/command/issues",
+                "source": "https://github.com/guzzle/command/tree/1.5.4"
+            },
+            "time": "2026-08-24T09:38:47+00:00"
+        },
+        {
+            "name": "guzzlehttp/guzzle",
+            "version": "7.15.5",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/guzzlehttp/guzzle/7.15.5/guzzlehttp-guzzle-7.15.5.zip",
+                "reference": "ee80339fd9177ba44c49cdb653ff02a4d1106b9a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/promises": "^2.5.3",
+                "guzzlehttp/psr7": "^2.13.1",
+                "php": "^7.2.5 || ^8.0",
+                "psr/http-client": "^1.0",
+                "symfony/deprecation-contracts": "^2.5 || ^3.0",
+                "symfony/polyfill-php80": "^1.25"
+            },
+            "provide": {
+                "psr/http-client-implementation": "1.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8.2",
+                "ext-curl": "*",
+                "guzzle/client-integration-tests": "3.0.3",
+                "guzzlehttp/test-server": "^0.7",
+                "php-http/message-factory": "^1.1",
+                "phpunit/phpunit": "^8.5.52 || ^9.6.34",
+                "psr/log": "^1.1 || ^2.0 || ^3.0"
+            },
+            "suggest": {
+                "ext-curl": "Required for CURL handler support",
+                "ext-intl": "Required for Internationalized Domain Name (IDN) support",
+                "psr/log": "Required for using the Log middleware"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Jeremy Lindblom",
+                    "email": "jeremeamia@gmail.com",
+                    "homepage": "https://github.com/jeremeamia"
+                },
+                {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "psr-18",
+                "psr-7",
+                "rest",
+                "web service"
+            ],
+            "support": {
+                "issues": "https://github.com/guzzle/guzzle/issues",
+                "source": "https://github.com/guzzle/guzzle/tree/7.15.5"
+            },
+            "time": "2026-08-24T09:21:06+00:00"
+        },
+        {
+            "name": "guzzlehttp/guzzle-services",
+            "version": "1.7.4",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/guzzlehttp/guzzle-services/1.7.4/guzzlehttp-guzzle-services-1.7.4.zip",
+                "reference": "c5e0bb0ed7cfe6a69ed2186d035d1d85d1097f4a",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/command": "^1.5.4",
+                "guzzlehttp/guzzle": "^7.15.5",
+                "guzzlehttp/psr7": "^2.13.1",
+                "guzzlehttp/uri-template": "^1.0.11",
+                "php": "^7.2.5 || ^8.0",
+                "symfony/deprecation-contracts": "^2.5 || ^3.0",
+                "symfony/polyfill-php80": "^1.25"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8.2",
+                "guzzlehttp/test-server": "^0.5",
+                "phpunit/phpunit": "^8.5.52 || ^9.6.34"
+            },
+            "suggest": {
+                "gimler/guzzle-description-loader": "^0.0.4"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Command\\Guzzle\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Stefano Kowalke",
+                    "email": "blueduck@mail.org",
+                    "homepage": "https://github.com/Konafets"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                }
+            ],
+            "description": "Provides an implementation of the Guzzle Command library that uses Guzzle service descriptions to describe web services, serialize requests, and parse responses into easy to use model structures.",
+            "support": {
+                "issues": "https://github.com/guzzle/guzzle-services/issues",
+                "source": "https://github.com/guzzle/guzzle-services/tree/1.7.4"
+            },
+            "time": "2026-08-24T09:41:24+00:00"
+        },
+        {
+            "name": "guzzlehttp/promises",
+            "version": "2.5.3",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/guzzlehttp/promises/2.5.3/guzzlehttp-promises-2.5.3.zip",
+                "reference": "cde49999552d185d64715fe9c1f77a2aadd2f9f1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2.5 || ^8.0",
+                "symfony/deprecation-contracts": "^2.5 || ^3.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8.2",
+                "phpunit/phpunit": "^8.5.52 || ^9.6.34"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Promise\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
+                }
+            ],
+            "description": "Guzzle promises library",
+            "keywords": [
+                "promise"
+            ],
+            "support": {
+                "issues": "https://github.com/guzzle/promises/issues",
+                "source": "https://github.com/guzzle/promises/tree/2.5.3"
+            },
+            "time": "2026-08-24T09:11:28+00:00"
+        },
+        {
+            "name": "guzzlehttp/psr7",
+            "version": "2.13.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/guzzlehttp/psr7/2.13.1/guzzlehttp-psr7-2.13.1.zip",
+                "reference": "95e7828100de18b4e269fb1703be530082d5166d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2.5 || ^8.0",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.1 || ^2.0",
+                "ralouphie/getallheaders": "^3.0",
+                "symfony/deprecation-contracts": "^2.5 || ^3.0",
+                "symfony/polyfill-php80": "^1.25"
+            },
+            "provide": {
+                "psr/http-factory-implementation": "1.0",
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8.2",
+                "http-interop/http-factory-tests": "1.1.0",
+                "jshttp/mime-db": "1.54.0.1",
+                "phpunit/phpunit": "^8.5.52 || ^9.6.34"
+            },
+            "suggest": {
+                "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://sagikazarmark.hu"
+                }
+            ],
+            "description": "PSR-7 message implementation that also provides common utility methods",
+            "keywords": [
+                "http",
+                "message",
+                "psr-7",
+                "request",
+                "response",
+                "stream",
+                "uri",
+                "url"
+            ],
+            "support": {
+                "issues": "https://github.com/guzzle/psr7/issues",
+                "source": "https://github.com/guzzle/psr7/tree/2.13.1"
+            },
+            "time": "2026-08-24T09:13:11+00:00"
+        },
+        {
+            "name": "guzzlehttp/uri-template",
+            "version": "v1.0.11",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/guzzlehttp/uri-template/v1.0.11/guzzlehttp-uri-template-v1.0.11.zip",
+                "reference": "d0058dccf4299d70c3d9da3378b8908b32780368",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2.5 || ^8.0",
+                "symfony/polyfill-php80": "^1.25"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8.2",
+                "phpunit/phpunit": "^8.5.52 || ^9.6.34",
+                "uri-template/tests": "1.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\UriTemplate\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                }
+            ],
+            "description": "A polyfill class for uri_template of PHP",
+            "keywords": [
+                "guzzlehttp",
+                "uri-template"
+            ],
+            "support": {
+                "issues": "https://github.com/guzzle/uri-template/issues",
+                "source": "https://github.com/guzzle/uri-template/tree/v1.0.11"
+            },
+            "time": "2026-08-24T09:15:32+00:00"
+        },
+        {
+            "name": "hightman/xunsearch",
+            "version": "1.4.17",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/hightman/xunsearch/1.4.17/hightman-xunsearch-1.4.17.zip",
+                "reference": "3803e5a7a3dba462b656d995770f0b8254c30f06",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "lib-pcre": "*",
+                "php": ">=5.3.0"
+            },
+            "bin": [
+                "util/xs"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "hightman\\xunsearch\\": "wrapper/yii2-ext/"
+                },
+                "classmap": [
+                    "lib/",
+                    "wrapper/yii-ext/"
+                ]
+            },
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "hightman",
+                    "email": "hightman@twomice.net",
+                    "role": "Founder and project leader"
+                }
+            ],
+            "description": "xunsearch php sdk, include yii, yii2 supports",
+            "homepage": "http://www.xunsearch.com/",
+            "keywords": [
+                "search engine",
+                "xunsearch",
+                "yii",
+                "yii2"
+            ],
+            "support": {
+                "forum": "http://bbs.xunsearch.com/",
+                "guide": "http://www.xunsearch.com/doc/php",
+                "issues": "https://github.com/hightman/xunsearch/issues?q=is%3Aopen",
+                "source": "https://github.com/hightman/xunsearch/"
+            },
+            "time": "2022-08-11T12:39:26+00:00"
+        },
+        {
+            "name": "hyperf/context",
+            "version": "v3.2.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/hyperf/context/v3.2.0/hyperf-context-v3.2.0.zip",
+                "reference": "caf0929d84571f68029a1d6e0bcabf1956312e04",
+                "shasum": ""
+            },
+            "require": {
+                "hyperf/engine": "^2.0",
+                "hyperf/macroable": "~3.2.0",
+                "php": ">=8.2"
+            },
+            "suggest": {
+                "swow/psr7-plus": "Required to use RequestContext and ResponseContext"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hyperf\\Context\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A coroutine/application context library.",
+            "homepage": "https://hyperf.io",
+            "keywords": [
+                "Context",
+                "hyperf",
+                "php",
+                "swoole"
+            ],
+            "support": {
+                "docs": "https://hyperf.wiki",
+                "issues": "https://github.com/hyperf/hyperf/issues",
+                "pull-request": "https://github.com/hyperf/hyperf/pulls",
+                "source": "https://github.com/hyperf/hyperf"
+            },
+            "time": "2026-06-07T09:04:32+00:00"
+        },
+        {
+            "name": "hyperf/contract",
+            "version": "v3.2.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/hyperf/contract/v3.2.0/hyperf-contract-v3.2.0.zip",
+                "reference": "cd476c11ec79abfb4b5614512f9ad0b186a217e2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hyperf\\Contract\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "The contracts of Hyperf.",
+            "homepage": "https://hyperf.io",
+            "keywords": [
+                "hyperf",
+                "php",
+                "swoole"
+            ],
+            "support": {
+                "docs": "https://hyperf.wiki",
+                "issues": "https://github.com/hyperf/hyperf/issues",
+                "pull-request": "https://github.com/hyperf/hyperf/pulls",
+                "source": "https://github.com/hyperf/hyperf"
+            },
+            "time": "2026-06-07T09:04:32+00:00"
+        },
+        {
+            "name": "hyperf/engine",
+            "version": "v2.15.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/hyperf/engine/v2.15.0/hyperf-engine-v2.15.0.zip",
+                "reference": "15c282e8fcf8596f3400ccd21c32a18a37036b9a",
+                "shasum": ""
+            },
+            "require": {
+                "hyperf/engine-contract": "~1.14.0",
+                "php": ">=8.0"
+            },
+            "conflict": {
+                "ext-swoole": "<5.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "hyperf/guzzle": "^3.0",
+                "hyperf/http-message": "^3.0",
+                "hyperf/laminas-mime": "^3.0",
+                "mockery/mockery": "^1.5",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^9.4",
+                "swoole/ide-helper": "dev-master"
+            },
+            "suggest": {
+                "ext-sockets": "*",
+                "ext-swoole": ">=5.0",
+                "hyperf/http-message": "Required to use ResponseEmitter.",
+                "psr/http-message": "Required to use WebSocket Frame."
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Hyperf\\Engine\\ConfigProvider"
+                },
+                "branch-alias": {
+                    "dev-master": "2.15-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Functions.php"
+                ],
+                "psr-4": {
+                    "Hyperf\\Engine\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Coroutine engine provided by swoole.",
+            "keywords": [
+                "engine",
+                "hyperf",
+                "php",
+                "swoole"
+            ],
+            "support": {
+                "issues": "https://github.com/hyperf/engine/issues",
+                "source": "https://github.com/hyperf/engine/tree/v2.15.0"
+            },
+            "time": "2025-11-19T05:52:31+00:00"
+        },
+        {
+            "name": "hyperf/engine-contract",
+            "version": "v1.14.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/hyperf/engine-contract/v1.14.0/hyperf-engine-contract-v1.14.0.zip",
+                "reference": "b6c8ff556fca5d4ffa29fba819fefc5e3572025d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "mockery/mockery": "^1.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": ">=7.0",
+                "psr/http-message": "^1.0",
+                "swoole/ide-helper": "^4.5"
+            },
+            "suggest": {
+                "psr/http-message": "Required to use WebSocket Frame."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.14-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hyperf\\Engine\\Contract\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Contract for Coroutine Engine",
+            "keywords": [
+                "contract",
+                "coroutine",
+                "engine",
+                "hyperf",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/hyperf/engine-contract/issues",
+                "source": "https://github.com/hyperf/engine-contract/tree/v1.14.0"
+            },
+            "time": "2025-11-18T13:06:54+00:00"
+        },
+        {
+            "name": "hyperf/macroable",
+            "version": "v3.2.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/hyperf/macroable/v3.2.0/hyperf-macroable-v3.2.0.zip",
+                "reference": "a091143dacac7de8b6c96d03aff114851cf38641",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hyperf\\Macroable\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Hyperf Macroable package which come from illuminate/macroable",
+            "homepage": "https://hyperf.io",
+            "keywords": [
+                "hyperf",
+                "macroable",
+                "php",
+                "swoole"
+            ],
+            "support": {
+                "docs": "https://hyperf.wiki",
+                "issues": "https://github.com/hyperf/hyperf/issues",
+                "pull-request": "https://github.com/hyperf/hyperf/pulls",
+                "source": "https://github.com/hyperf/hyperf"
+            },
+            "time": "2026-06-07T09:04:32+00:00"
+        },
+        {
+            "name": "hyperf/pimple",
+            "version": "v2.2.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/hyperf/pimple/v2.2.2/hyperf-pimple-v2.2.2.zip",
+                "reference": "7bd07745c256b83679471c06ec2a11e901d37277",
+                "shasum": ""
+            },
+            "require": {
+                "hyperf/context": "^3.0",
+                "hyperf/contract": "^3.0",
+                "php": ">=8.0",
+                "pimple/pimple": "^3.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "hyperf/support": "^3.0",
+                "mockery/mockery": "^1.3",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": ">=7.0"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Hyperf\\Pimple\\ConfigProvider"
+                },
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hyperf\\Pimple\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Pimple Container",
+            "keywords": [
+                "container",
+                "hyperf",
+                "php",
+                "psr11"
+            ],
+            "support": {
+                "issues": "https://github.com/hyperf-cloud/pimple-integration/issues",
+                "source": "https://github.com/hyperf-cloud/pimple-integration/tree/v2.2.2"
+            },
+            "time": "2023-06-10T04:41:29+00:00"
+        },
+        {
+            "name": "khanamiryan/qrcode-detector-decoder",
+            "version": "1.0.6",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/khanamiryan/qrcode-detector-decoder/1.0.6/khanamiryan-qrcode-detector-decoder-1.0.6.zip",
+                "reference": "45326fb83a2a375065dbb3a134b5b8a5872da569",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7 | ^7.5 | ^8.0 | ^9.0",
+                "rector/rector": "^0.13.6",
+                "symplify/easy-coding-standard": "^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/Common/customFunctions.php"
+                ],
+                "psr-4": {
+                    "Zxing\\": "lib/"
+                }
+            },
+            "license": [
+                "MIT",
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Ashot Khanamiryan",
+                    "email": "a.khanamiryan@gmail.com",
+                    "homepage": "https://github.com/khanamiryan",
+                    "role": "Developer"
+                }
+            ],
+            "description": "QR code decoder / reader",
+            "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder/",
+            "keywords": [
+                "barcode",
+                "qr",
+                "zxing"
+            ],
+            "support": {
+                "issues": "https://github.com/khanamiryan/php-qrcode-detector-decoder/issues",
+                "source": "https://github.com/khanamiryan/php-qrcode-detector-decoder/tree/1.0.6"
+            },
+            "time": "2022-06-29T09:25:13+00:00"
+        },
+        {
+            "name": "league/commonmark",
+            "version": "2.10.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/league/commonmark/2.10.0/league-commonmark-2.10.0.zip",
+                "reference": "d2d1aa8b35e072966c89bc0c66cf926e56767dc4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "league/config": "^1.1.1",
+                "php": "^7.4 || ^8.0",
+                "psr/event-dispatcher": "^1.0",
+                "symfony/deprecation-contracts": "^2.1 || ^3.0",
+                "symfony/polyfill-php80": "^1.16"
+            },
+            "require-dev": {
+                "cebe/markdown": "^1.0",
+                "commonmark/cmark": "0.31.1",
+                "commonmark/commonmark.js": "0.31.1",
+                "composer/package-versions-deprecated": "^1.8",
+                "embed/embed": "^4.4",
+                "erusev/parsedown": "^1.0",
+                "ext-json": "*",
+                "github/gfm": "0.29.0",
+                "michelf/php-markdown": "^1.4 || ^2.0",
+                "nyholm/psr7": "^1.5",
+                "phpstan/phpstan": "^2.0.0",
+                "phpunit/phpunit": "^9.5.21 || ^10.5.9 || ^11.0.0 || ^12.0.0 || ^13.0.0",
+                "scrutinizer/ocular": "^1.8.1",
+                "symfony/finder": "^5.3 | ^6.0 | ^7.0 || ^8.0",
+                "symfony/process": "^5.4 | ^6.0 | ^7.0 || ^8.0",
+                "symfony/yaml": "^2.3 | ^3.0 | ^4.0 | ^5.0 | ^6.0 | ^7.0 || ^8.0",
+                "unleashedtech/php-coding-standard": "^3.1.1",
+                "vimeo/psalm": "^4.24.0 || ^5.0.0 || ^6.0.0"
+            },
+            "suggest": {
+                "symfony/yaml": "v2.3+ required if using the Front Matter extension"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.11-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\": "src"
+                }
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Highly-extensible PHP Markdown parser which fully supports the CommonMark spec and GitHub-Flavored Markdown (GFM)",
+            "homepage": "https://commonmark.thephpleague.com",
+            "keywords": [
+                "commonmark",
+                "flavored",
+                "gfm",
+                "github",
+                "github-flavored",
+                "markdown",
+                "md",
+                "parser"
+            ],
+            "support": {
+                "docs": "https://commonmark.thephpleague.com/",
+                "forum": "https://github.com/thephpleague/commonmark/discussions",
+                "issues": "https://github.com/thephpleague/commonmark/issues",
+                "rss": "https://github.com/thephpleague/commonmark/releases.atom",
+                "source": "https://github.com/thephpleague/commonmark"
+            },
+            "time": "2026-08-11T16:06:25+00:00"
+        },
+        {
+            "name": "league/config",
+            "version": "v1.2.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/league/config/v1.2.0/league-config-v1.2.0.zip",
+                "reference": "754b3604fb2984c71f4af4a9cbe7b57f346ec1f3",
+                "shasum": ""
+            },
+            "require": {
+                "dflydev/dot-access-data": "^3.0.1",
+                "nette/schema": "^1.2",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.8.2",
+                "phpunit/phpunit": "^9.5.5",
+                "scrutinizer/ocular": "^1.8.1",
+                "unleashedtech/php-coding-standard": "^3.1",
+                "vimeo/psalm": "^4.7.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Config\\": "src"
+                }
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Define configuration arrays with strict schemas and access values with dot notation",
+            "homepage": "https://config.thephpleague.com",
+            "keywords": [
+                "array",
+                "config",
+                "configuration",
+                "dot",
+                "dot-access",
+                "nested",
+                "schema"
+            ],
+            "support": {
+                "docs": "https://config.thephpleague.com/",
+                "issues": "https://github.com/thephpleague/config/issues",
+                "rss": "https://github.com/thephpleague/config/releases.atom",
+                "source": "https://github.com/thephpleague/config"
+            },
+            "time": "2022-12-11T20:36:23+00:00"
+        },
+        {
+            "name": "league/container",
+            "version": "5.2.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/league/container/5.2.0/league-container-5.2.0.zip",
+                "reference": "58accbc032f0090a9bd08326f93062c5a658b2c5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "psr/container": "^2.0.2",
+                "psr/event-dispatcher": "^1.0"
+            },
+            "provide": {
+                "psr/container-implementation": "^1.0"
+            },
+            "replace": {
+                "orno/di": "~2.0"
+            },
+            "require-dev": {
+                "nette/php-generator": "^4.1",
+                "nikic/php-parser": "^5.0",
+                "phpstan/phpstan": "^2.1.11",
+                "phpunit/phpunit": "^10.5.45|^11.5.15|^12.0",
+                "roave/security-advisories": "dev-latest",
+                "scrutinizer/ocular": "^1.9",
+                "squizlabs/php_codesniffer": "^3.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev",
+                    "dev-2.x": "2.x-dev",
+                    "dev-3.x": "3.x-dev",
+                    "dev-4.x": "4.x-dev",
+                    "dev-5.x": "5.x-dev",
+                    "dev-master": "5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Container\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Phil Bennett",
+                    "email": "mail@philbennett.co.uk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A fast and intuitive dependency injection container.",
+            "homepage": "https://github.com/thephpleague/container",
+            "keywords": [
+                "container",
+                "dependency",
+                "di",
+                "injection",
+                "league",
+                "provider",
+                "service"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/container/issues",
+                "source": "https://github.com/thephpleague/container/tree/5.2.0"
+            },
+            "time": "2026-03-19T18:52:39+00:00"
+        },
+        {
+            "name": "myclabs/php-enum",
+            "version": "1.8.5",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/myclabs/php-enum/1.8.5/myclabs-php-enum-1.8.5.zip",
+                "reference": "e7be26966b7398204a234f8673fdad5ac6277802",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.3 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "1.*",
+                "vimeo/psalm": "^4.6.2 || ^5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MyCLabs\\Enum\\": "src/"
+                },
+                "classmap": [
+                    "stubs/Stringable.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP Enum contributors",
+                    "homepage": "https://github.com/myclabs/php-enum/graphs/contributors"
+                }
+            ],
+            "description": "PHP Enum implementation",
+            "homepage": "https://github.com/myclabs/php-enum",
+            "keywords": [
+                "enum"
+            ],
+            "support": {
+                "issues": "https://github.com/myclabs/php-enum/issues",
+                "source": "https://github.com/myclabs/php-enum/tree/1.8.5"
+            },
+            "time": "2025-01-14T11:49:03+00:00"
+        },
+        {
+            "name": "nette/schema",
+            "version": "v1.3.6",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/nette/schema/v1.3.6/nette-schema-v1.3.6.zip",
+                "reference": "c54350438cd6914616f790a49cb424605f421562",
+                "shasum": ""
+            },
+            "require": {
+                "nette/utils": "^4.0",
+                "php": "8.1 - 8.5"
+            },
+            "require-dev": {
+                "nette/phpstan-rules": "^1.0",
+                "nette/tester": "^2.6",
+                "phpstan/extension-installer": "^1.4@stable",
+                "phpstan/phpstan": "^2.1.39@stable",
+                "tracy/tracy": "^2.8"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nette\\": "src"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0-only",
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "https://nette.org/contributors"
+                }
+            ],
+            "description": "📐 Nette Schema: validating data structures against a given Schema.",
+            "homepage": "https://nette.org",
+            "keywords": [
+                "config",
+                "nette"
+            ],
+            "support": {
+                "issues": "https://github.com/nette/schema/issues",
+                "source": "https://github.com/nette/schema/tree/v1.3.6"
+            },
+            "time": "2026-08-16T21:58:41+00:00"
+        },
+        {
+            "name": "nette/utils",
+            "version": "v4.1.5",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/nette/utils/v4.1.5/nette-utils-v4.1.5.zip",
+                "reference": "b043439dbdf954e6c28b5ea7e34b0100f83165e0",
+                "shasum": ""
+            },
+            "require": {
+                "php": "8.2 - 8.5"
+            },
+            "conflict": {
+                "nette/finder": "<3",
+                "nette/schema": "<1.2.2"
+            },
+            "require-dev": {
+                "jetbrains/phpstorm-attributes": "^1.2",
+                "nette/phpstan-rules": "^1.0",
+                "nette/tester": "^2.5",
+                "phpstan/extension-installer": "^1.4@stable",
+                "phpstan/phpstan": "^2.1@stable",
+                "tracy/tracy": "^2.9"
+            },
+            "suggest": {
+                "ext-gd": "to use Image",
+                "ext-iconv": "to use Strings::chr(), ord() and reverse()",
+                "ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
+                "ext-json": "to use Nette\\Utils\\Json",
+                "ext-mbstring": "to use Strings::lower() etc...",
+                "ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nette\\": "src"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0-only",
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "https://nette.org/contributors"
+                }
+            ],
+            "description": "🛠  Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
+            "homepage": "https://nette.org",
+            "keywords": [
+                "array",
+                "core",
+                "datetime",
+                "images",
+                "json",
+                "nette",
+                "paginator",
+                "password",
+                "slugify",
+                "string",
+                "unicode",
+                "utf-8",
+                "utility",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/nette/utils/issues",
+                "source": "https://github.com/nette/utils/tree/v4.1.5"
+            },
+            "time": "2026-07-17T23:02:45+00:00"
+        },
+        {
+            "name": "peppeocchi/php-cron-scheduler",
+            "version": "v4.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/peppeocchi/php-cron-scheduler/v4.0/peppeocchi-php-cron-scheduler-v4.0.zip",
+                "reference": "0acfa032e60f0ea22a27b96a6b15a673a31d3448",
+                "shasum": ""
+            },
+            "require": {
+                "dragonmantank/cron-expression": "^3.0",
+                "php": "^7.3 || ^8.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.4",
+                "phpunit/phpunit": "~9.5",
+                "swiftmailer/swiftmailer": "~5.4 || ^6.0"
+            },
+            "suggest": {
+                "swiftmailer/swiftmailer": "Required to send the output of a job to email address/es (~5.4 || ^6.0)."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GO\\": "src/GO/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Giuseppe Occhipinti",
+                    "email": "peppeocchi@gmail.com"
+                },
+                {
+                    "name": "Carsten Windler",
+                    "email": "carsten@carstenwindler.de",
+                    "homepage": "http://carstenwindler.de",
+                    "role": "Contributor"
+                }
+            ],
+            "description": "PHP Cron Job Scheduler",
+            "keywords": [
+                "cron job",
+                "scheduler"
+            ],
+            "support": {
+                "issues": "https://github.com/peppeocchi/php-cron-scheduler/issues",
+                "source": "https://github.com/peppeocchi/php-cron-scheduler/tree/v4.0"
+            },
+            "time": "2021-04-22T21:32:03+00:00"
+        },
+        {
+            "name": "phpmailer/phpmailer",
+            "version": "v6.12.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/phpmailer/phpmailer/v6.12.0/phpmailer-phpmailer-v6.12.0.zip",
+                "reference": "d1ac35d784bf9f5e61b424901d5a014967f15b12",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-filter": "*",
+                "ext-hash": "*",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+                "doctrine/annotations": "^1.2.6 || ^1.13.3",
+                "php-parallel-lint/php-console-highlighter": "^1.0.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3.2",
+                "phpcompatibility/php-compatibility": "^9.3.5",
+                "roave/security-advisories": "dev-latest",
+                "squizlabs/php_codesniffer": "^3.7.2",
+                "yoast/phpunit-polyfills": "^1.0.4"
+            },
+            "suggest": {
+                "decomplexity/SendOauth2": "Adapter for using XOAUTH2 authentication",
+                "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
+                "ext-openssl": "Needed for secure SMTP sending and DKIM signing",
+                "greew/oauth2-azure-provider": "Needed for Microsoft Azure XOAUTH2 authentication",
+                "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
+                "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
+                "psr/log": "For optional PSR-3 debug logging",
+                "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)",
+                "thenetworg/oauth2-azure": "Needed for Microsoft XOAUTH2 authentication"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPMailer\\PHPMailer\\": "src/"
+                }
+            },
+            "license": [
+                "LGPL-2.1-only"
+            ],
+            "authors": [
+                {
+                    "name": "Marcus Bointon",
+                    "email": "phpmailer@synchromedia.co.uk"
+                },
+                {
+                    "name": "Jim Jagielski",
+                    "email": "jimjag@gmail.com"
+                },
+                {
+                    "name": "Andy Prevost",
+                    "email": "codeworxtech@users.sourceforge.net"
+                },
+                {
+                    "name": "Brent R. Matzelle"
+                }
+            ],
+            "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "support": {
+                "issues": "https://github.com/PHPMailer/PHPMailer/issues",
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.12.0"
+            },
+            "time": "2025-10-15T16:49:08+00:00"
+        },
+        {
+            "name": "pimple/pimple",
+            "version": "v3.6.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/pimple/pimple/v3.6.2/pimple-pimple-v3.6.2.zip",
+                "reference": "8cfe7f74ac22a433d303914eba9ea4c2a834edce",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "psr/container": "^1.1 || ^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Pimple": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Pimple, a simple Dependency Injection Container",
+            "homepage": "https://pimple.symfony.com",
+            "keywords": [
+                "container",
+                "dependency injection"
+            ],
+            "support": {
+                "source": "https://github.com/silexphp/Pimple/tree/v3.6.2"
+            },
+            "time": "2026-02-26T08:23:44+00:00"
+        },
+        {
+            "name": "psr/cache",
+            "version": "3.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/psr/cache/3.0.0/psr-cache-3.0.0.zip",
+                "reference": "aa5030cfa5405eccfdcb1083ce040c2cb8d253bf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Cache\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for caching libraries",
+            "keywords": [
+                "cache",
+                "psr",
+                "psr-6"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/cache/tree/3.0.0"
+            },
+            "time": "2021-02-03T23:26:27+00:00"
+        },
+        {
+            "name": "psr/clock",
+            "version": "1.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/psr/clock/1.0.0/psr-clock-1.0.0.zip",
+                "reference": "e41a24703d4560fd0acb709162f73b8adfc3aa0d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0 || ^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Clock\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for reading the clock.",
+            "homepage": "https://github.com/php-fig/clock",
+            "keywords": [
+                "clock",
+                "now",
+                "psr",
+                "psr-20",
+                "time"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/clock/issues",
+                "source": "https://github.com/php-fig/clock/tree/1.0.0"
+            },
+            "time": "2022-11-25T14:36:26+00:00"
+        },
+        {
+            "name": "psr/container",
+            "version": "2.0.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/psr/container/2.0.2/psr-container-2.0.2.zip",
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/2.0.2"
+            },
+            "time": "2021-11-05T16:47:00+00:00"
+        },
+        {
+            "name": "psr/event-dispatcher",
+            "version": "1.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/psr/event-dispatcher/1.0.0/psr-event-dispatcher-1.0.0.zip",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\EventDispatcher\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Standard interfaces for event handling.",
+            "keywords": [
+                "events",
+                "psr",
+                "psr-14"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/event-dispatcher/issues",
+                "source": "https://github.com/php-fig/event-dispatcher/tree/1.0.0"
+            },
+            "time": "2019-01-08T18:20:26+00:00"
+        },
+        {
+            "name": "psr/http-client",
+            "version": "1.0.3",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/psr/http-client/1.0.3/psr-http-client-1.0.3.zip",
+                "reference": "bb5906edc1c324c9a05aa0873d40117941e5fa90",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0 || ^8.0",
+                "psr/http-message": "^1.0 || ^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Client\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP clients",
+            "homepage": "https://github.com/php-fig/http-client",
+            "keywords": [
+                "http",
+                "http-client",
+                "psr",
+                "psr-18"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-client"
+            },
+            "time": "2023-09-23T14:17:50+00:00"
+        },
+        {
+            "name": "psr/http-factory",
+            "version": "1.1.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/psr/http-factory/1.1.0/psr-http-factory-1.1.0.zip",
+                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "psr/http-message": "^1.0 || ^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "PSR-17: Common interfaces for PSR-7 HTTP message factories",
+            "keywords": [
+                "factory",
+                "http",
+                "message",
+                "psr",
+                "psr-17",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-factory"
+            },
+            "time": "2024-04-15T12:06:14+00:00"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "2.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/psr/http-message/2.0/psr-http-message-2.0.zip",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-message/tree/2.0"
+            },
+            "time": "2023-04-04T09:54:51+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "3.0.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/psr/log/3.0.2/psr-log-3.0.2.zip",
+                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/3.0.2"
+            },
+            "time": "2024-09-11T13:17:53+00:00"
+        },
+        {
+            "name": "psr/simple-cache",
+            "version": "3.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/psr/simple-cache/3.0.0/psr-simple-cache-3.0.0.zip",
+                "reference": "764e0b3939f5ca87cb904f570ef9be2d78a07865",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\SimpleCache\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for simple caching",
+            "keywords": [
+                "cache",
+                "caching",
+                "psr",
+                "psr-16",
+                "simple-cache"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/simple-cache/tree/3.0.0"
+            },
+            "time": "2021-10-29T13:26:27+00:00"
+        },
+        {
+            "name": "qcloud/cos-sdk-v5",
+            "version": "v2.6.17",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/qcloud/cos-sdk-v5/v2.6.17/qcloud-cos-sdk-v5-v2.6.17.zip",
+                "reference": "19b939580482d6e03f2e60ce8ef8b5b3aaf553fa",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-libxml": "*",
+                "ext-mbstring": "*",
+                "ext-simplexml": "*",
+                "guzzlehttp/guzzle": "^6.2.1 || ^7.0",
+                "guzzlehttp/guzzle-services": "^1.1",
+                "guzzlehttp/psr7": "^1.3.1 || ^2.0",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Common.php"
+                ],
+                "psr-4": {
+                    "Qcloud\\Cos\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yaozongyou",
+                    "email": "yaozongyou@vip.qq.com"
+                },
+                {
+                    "name": "lewzylu",
+                    "email": "327874225@qq.com"
+                },
+                {
+                    "name": "tuunalai",
+                    "email": "550566181@qq.com"
+                }
+            ],
+            "description": "PHP SDK for QCloud COS",
+            "keywords": [
+                "cos",
+                "php",
+                "qcloud"
+            ],
+            "support": {
+                "issues": "https://github.com/tencentyun/cos-php-sdk-v5/issues",
+                "source": "https://github.com/tencentyun/cos-php-sdk-v5/tree/v2.6.17"
+            },
+            "time": "2026-07-27T09:02:13+00:00"
+        },
+        {
+            "name": "ralouphie/getallheaders",
+            "version": "3.0.3",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/ralouphie/getallheaders/3.0.3/ralouphie-getallheaders-3.0.3.zip",
+                "reference": "120b605dfeb996808c31b6477290a714d356e822",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^5 || ^6.5"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/getallheaders.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ralph Khattar",
+                    "email": "ralph.khattar@gmail.com"
+                }
+            ],
+            "description": "A polyfill for getallheaders.",
+            "support": {
+                "issues": "https://github.com/ralouphie/getallheaders/issues",
+                "source": "https://github.com/ralouphie/getallheaders/tree/develop"
+            },
+            "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "robmorgan/phinx",
+            "version": "0.16.12",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/robmorgan/phinx/0.16.12/robmorgan-phinx-0.16.12.zip",
+                "reference": "1cce44387a9146dc04c312e6a231b17fb30385cd",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/database": "^5.0.2",
+                "composer-runtime-api": "^2.0",
+                "php-64bit": ">=8.1",
+                "psr/container": "^1.1|^2.0",
+                "symfony/config": "^4.0|^5.0|^6.0|^7.0|^8.0",
+                "symfony/console": "^6.0|^7.0|^8.0"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "^5.0",
+                "cakephp/i18n": "^5.0",
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "phpunit/phpunit": "^10.5",
+                "symfony/yaml": "^4.0|^5.0|^6.0|^7.0|^8.0"
+            },
+            "suggest": {
+                "ext-json": "Install if using JSON configuration format",
+                "ext-pdo": "PDO extension is needed",
+                "symfony/yaml": "Install if using YAML configuration format"
+            },
+            "bin": [
+                "bin/phinx"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phinx\\": "src/Phinx/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Morgan",
+                    "email": "robbym@gmail.com",
+                    "homepage": "https://robmorgan.id.au",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Woody Gilk",
+                    "email": "woody.gilk@gmail.com",
+                    "homepage": "https://shadowhand.me",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Richard Quadling",
+                    "email": "rquadling@gmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "CakePHP Community",
+                    "homepage": "https://github.com/cakephp/phinx/graphs/contributors",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Phinx makes it ridiculously easy to manage the database migrations for your PHP app.",
+            "homepage": "https://phinx.org",
+            "keywords": [
+                "database",
+                "database migrations",
+                "db",
+                "migrations",
+                "phinx"
+            ],
+            "support": {
+                "issues": "https://github.com/cakephp/phinx/issues",
+                "source": "https://github.com/cakephp/phinx/tree/0.16.12"
+            },
+            "time": "2026-07-03T07:27:17+00:00"
+        },
+        {
+            "name": "symfony/config",
+            "version": "v8.1.5",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/config/v8.1.5/symfony-config-v8.1.5.zip",
+                "reference": "ec711a6c14ae287d9618fbd2c9de4e223a1a4b02",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4.1",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "symfony/filesystem": "^7.4|^8.0",
+                "symfony/polyfill-ctype": "^1.8"
+            },
+            "conflict": {
+                "symfony/service-contracts": "<2.5"
+            },
+            "require-dev": {
+                "symfony/event-dispatcher": "^7.4|^8.0",
+                "symfony/finder": "^7.4|^8.0",
+                "symfony/messenger": "^7.4|^8.0",
+                "symfony/service-contracts": "^2.5|^3",
+                "symfony/yaml": "^7.4|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Config\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Helps you find, load, combine, autofill and validate configuration values of any kind",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/config/tree/v8.1.5"
+            },
+            "time": "2026-08-20T09:59:12+00:00"
+        },
+        {
+            "name": "symfony/console",
+            "version": "v8.1.6",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/console/v8.1.6/symfony-console-v8.1.6.zip",
+                "reference": "eb7d9957d66739649e931ce7a9d05dab69f8abac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4.1",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "symfony/polyfill-mbstring": "^1.0",
+                "symfony/polyfill-php85": "^1.32",
+                "symfony/service-contracts": "^2.5|^3",
+                "symfony/string": "^7.4.6|^8.0.6"
+            },
+            "conflict": {
+                "symfony/dependency-injection": "<8.1",
+                "symfony/event-dispatcher": "<8.1"
+            },
+            "provide": {
+                "psr/log-implementation": "1.0|2.0|3.0"
+            },
+            "require-dev": {
+                "psr/log": "^1|^2|^3",
+                "symfony/config": "^7.4|^8.0",
+                "symfony/dependency-injection": "^8.1",
+                "symfony/event-dispatcher": "^8.1",
+                "symfony/filesystem": "^7.4|^8.0",
+                "symfony/http-foundation": "^7.4|^8.0",
+                "symfony/http-kernel": "^7.4|^8.0",
+                "symfony/lock": "^7.4|^8.0",
+                "symfony/messenger": "^7.4|^8.0",
+                "symfony/mime": "^7.4|^8.0",
+                "symfony/process": "^7.4|^8.0",
+                "symfony/stopwatch": "^7.4|^8.0",
+                "symfony/uid": "^7.4|^8.0",
+                "symfony/validator": "^7.4|^8.0",
+                "symfony/var-dumper": "^7.4|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Console\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Eases the creation of beautiful and testable command line interfaces",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "cli",
+                "command-line",
+                "console",
+                "terminal"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/console/tree/v8.1.6"
+            },
+            "time": "2026-08-25T14:18:42+00:00"
+        },
+        {
+            "name": "symfony/deprecation-contracts",
+            "version": "v3.7.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/deprecation-contracts/v3.7.1/symfony-deprecation-contracts-v3.7.1.zip",
+                "reference": "f3202fa1b5097b0af062dc978b32ecf63404e31d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
+                "branch-alias": {
+                    "dev-main": "3.7-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "function.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "A generic function and convention to trigger deprecation notices",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.7.1"
+            },
+            "time": "2026-06-05T06:23:12+00:00"
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "v8.1.6",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/filesystem/v8.1.6/symfony-filesystem-v8.1.6.zip",
+                "reference": "7599ebb855fede59413ddb7f15198d67bfcae7ba",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4.1",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "symfony/polyfill-ctype": "~1.8",
+                "symfony/polyfill-mbstring": "~1.8"
+            },
+            "require-dev": {
+                "symfony/process": "^7.4|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides basic utilities for the filesystem",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/filesystem/tree/v8.1.6"
+            },
+            "time": "2026-08-23T10:06:25+00:00"
+        },
+        {
+            "name": "symfony/options-resolver",
+            "version": "v5.4.45",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/options-resolver/v5.4.45/symfony-options-resolver-v5.4.45.zip",
+                "reference": "74e5b6f0db3e8589e6cfd5efb317a1fc2bb52fb6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1|^3",
+                "symfony/polyfill-php73": "~1.0",
+                "symfony/polyfill-php80": "^1.16"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\OptionsResolver\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides an improved replacement for the array_replace PHP function",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "config",
+                "configuration",
+                "options"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/options-resolver/tree/v5.4.45"
+            },
+            "time": "2024-09-25T14:11:13+00:00"
+        },
+        {
+            "name": "symfony/polyfill-ctype",
+            "version": "v1.37.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/polyfill-ctype/v1.37.0/symfony-polyfill-ctype-v1.37.0.zip",
+                "reference": "141046a8f9477948ff284fa65be2095baafb94f2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "provide": {
+                "ext-ctype": "*"
+            },
+            "suggest": {
+                "ext-ctype": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gert de Pagter",
+                    "email": "BackEndTea@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for ctype functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "ctype",
+                "polyfill",
+                "portable"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.37.0"
+            },
+            "time": "2026-04-10T16:19:22+00:00"
+        },
+        {
+            "name": "symfony/polyfill-intl-grapheme",
+            "version": "v1.41.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/polyfill-intl-grapheme/v1.41.0/symfony-polyfill-intl-grapheme-v1.41.0.zip",
+                "reference": "bb899c1db0aa8127dc3afe8cda4a67eb24915f8d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "suggest": {
+                "ext-intl": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Intl\\Grapheme\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for intl's grapheme_* functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "grapheme",
+                "intl",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.41.0"
+            },
+            "time": "2026-07-28T08:25:59+00:00"
+        },
+        {
+            "name": "symfony/polyfill-intl-normalizer",
+            "version": "v1.42.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/polyfill-intl-normalizer/v1.42.0/symfony-polyfill-intl-normalizer-v1.42.0.zip",
+                "reference": "aa20edea75bd9c48cfecc8360922e5a6e5c44502",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "suggest": {
+                "ext-intl": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Intl\\Normalizer\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for intl's Normalizer class and related functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "intl",
+                "normalizer",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.42.0"
+            },
+            "time": "2026-08-07T06:33:24+00:00"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.38.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/polyfill-mbstring/v1.38.2/symfony-polyfill-mbstring-v1.38.2.zip",
+                "reference": "d3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "php": ">=7.2"
+            },
+            "provide": {
+                "ext-mbstring": "*"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.38.2"
+            },
+            "time": "2026-05-27T06:59:30+00:00"
+        },
+        {
+            "name": "symfony/polyfill-php73",
+            "version": "v1.37.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/polyfill-php73/v1.37.0/symfony-polyfill-php73-v1.37.0.zip",
+                "reference": "0f68c03565dcaaf25a890667542e8bd75fe7e5bb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php73\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php73/tree/v1.37.0"
+            },
+            "time": "2024-09-09T11:45:10+00:00"
+        },
+        {
+            "name": "symfony/polyfill-php80",
+            "version": "v1.37.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/polyfill-php80/v1.37.0/symfony-polyfill-php80-v1.37.0.zip",
+                "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php80\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ion Bazan",
+                    "email": "ion.bazan@gmail.com"
+                },
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 8.0+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.37.0"
+            },
+            "time": "2026-04-10T16:19:22+00:00"
+        },
+        {
+            "name": "symfony/polyfill-php85",
+            "version": "v1.41.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/polyfill-php85/v1.41.0/symfony-polyfill-php85-v1.41.0.zip",
+                "reference": "255fab485aaa1006ed411040c42aecd7b5302d7a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php85\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 8.5+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php85/tree/v1.41.0"
+            },
+            "time": "2026-07-01T12:47:55+00:00"
+        },
+        {
+            "name": "symfony/property-access",
+            "version": "v5.4.45",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/property-access/v5.4.45/symfony-property-access-v5.4.45.zip",
+                "reference": "111e7ed617509f1a9139686055d234aad6e388e0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1|^3",
+                "symfony/polyfill-php80": "^1.16",
+                "symfony/property-info": "^5.2|^6.0"
+            },
+            "require-dev": {
+                "symfony/cache": "^4.4|^5.0|^6.0"
+            },
+            "suggest": {
+                "psr/cache-implementation": "To cache access methods."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\PropertyAccess\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides functions to read and write from/to an object or array using a simple string notation",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "access",
+                "array",
+                "extraction",
+                "index",
+                "injection",
+                "object",
+                "property",
+                "property-path",
+                "reflection"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/property-access/tree/v5.4.45"
+            },
+            "time": "2024-09-25T14:11:13+00:00"
+        },
+        {
+            "name": "symfony/property-info",
+            "version": "v6.4.45",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/property-info/v6.4.45/symfony-property-info-v6.4.45.zip",
+                "reference": "003ec301822cf2cf1b44b217fba1efdf4b4503f9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "symfony/string": "^5.4|^6.0|^7.0"
+            },
+            "conflict": {
+                "doctrine/annotations": "<1.12",
+                "phpdocumentor/reflection-docblock": "<5.2|>=6",
+                "phpdocumentor/type-resolver": "<1.5.1",
+                "symfony/cache": "<5.4",
+                "symfony/dependency-injection": "<5.4|>=6.0,<6.4",
+                "symfony/serializer": "<5.4"
+            },
+            "require-dev": {
+                "doctrine/annotations": "^1.12|^2",
+                "phpdocumentor/reflection-docblock": "^5.2",
+                "phpstan/phpdoc-parser": "^1.0|^2.0",
+                "symfony/cache": "^5.4|^6.0|^7.0",
+                "symfony/dependency-injection": "^5.4|^6.0|^7.0",
+                "symfony/serializer": "^5.4|^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\PropertyInfo\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kévin Dunglas",
+                    "email": "dunglas@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Extracts information about PHP class' properties using metadata of popular sources",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "doctrine",
+                "phpdoc",
+                "property",
+                "symfony",
+                "type",
+                "validator"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/property-info/tree/v6.4.45"
+            },
+            "time": "2026-08-24T07:52:32+00:00"
+        },
+        {
+            "name": "symfony/service-contracts",
+            "version": "v3.7.3",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/service-contracts/v3.7.3/symfony-service-contracts-v3.7.3.zip",
+                "reference": "15e6a07ec2a2c75ceb1b21dd98105ee8456d2257",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "psr/container": "^1.1|^2.0",
+                "symfony/deprecation-contracts": "^2.5|^3"
+            },
+            "conflict": {
+                "ext-psr": "<1.1|>=2"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
+                "branch-alias": {
+                    "dev-main": "3.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Contracts\\Service\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Test/"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Generic abstractions related to writing services",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "abstractions",
+                "contracts",
+                "decoupling",
+                "interfaces",
+                "interoperability",
+                "standards"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/service-contracts/tree/v3.7.3"
+            },
+            "time": "2026-07-27T15:39:01+00:00"
+        },
+        {
+            "name": "symfony/string",
+            "version": "v7.4.15",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/string/v7.4.15/symfony-string-v7.4.15.zip",
+                "reference": "e394af32256bf9e7bf80849d95e589167c10097b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "symfony/deprecation-contracts": "^2.5|^3.0",
+                "symfony/polyfill-ctype": "~1.8",
+                "symfony/polyfill-intl-grapheme": "~1.33",
+                "symfony/polyfill-intl-normalizer": "~1.0",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "conflict": {
+                "symfony/translation-contracts": "<2.5"
+            },
+            "require-dev": {
+                "symfony/emoji": "^7.1|^8.0",
+                "symfony/http-client": "^6.4|^7.0|^8.0",
+                "symfony/intl": "^6.4|^7.0|^8.0",
+                "symfony/translation-contracts": "^2.5|^3.0",
+                "symfony/var-exporter": "^6.4|^7.0|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Resources/functions.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Component\\String\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides an object-oriented API to strings and deals with bytes, UTF-8 code points and grapheme clusters in a unified way",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "grapheme",
+                "i18n",
+                "string",
+                "unicode",
+                "utf-8",
+                "utf8"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/string/tree/v7.4.15"
+            },
+            "time": "2026-07-28T07:33:02+00:00"
+        },
+        {
+            "name": "tencentcloud/common",
+            "version": "3.0.1663",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/tencentcloud/common/3.0.1663/tencentcloud-common-3.0.1663.zip",
+                "reference": "3af5db01762713313706f179783cdbd3c02d5d14",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3||^7.0",
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TencentCloud\\": "./src/TencentCloud"
+                }
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "tencentcloudapi",
+                    "email": "tencentcloudapi@tencent.com",
+                    "homepage": "https://cloud.tencent.com/document/sdk/PHP",
+                    "role": "Developer"
+                }
+            ],
+            "description": "TencentCloudApi php sdk",
+            "homepage": "https://github.com/tencentcloud-sdk-php/common",
+            "support": {
+                "issues": "https://github.com/tencentcloud-sdk-php/common/issues",
+                "source": "https://github.com/tencentcloud-sdk-php/common/tree/3.0.1663"
+            },
+            "time": "2026-09-06T20:15:08+00:00"
+        },
+        {
+            "name": "tencentcloud/sms",
+            "version": "3.0.1663",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/tencentcloud/sms/3.0.1663/tencentcloud-sms-3.0.1663.zip",
+                "reference": "8b8155c6ae7029c4c91a7f65db49c243d28696c6",
+                "shasum": ""
+            },
+            "require": {
+                "tencentcloud/common": ">=3.0.1663"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TencentCloud\\": "./src/TencentCloud"
+                }
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "tencentcloudapi",
+                    "email": "tencentcloudapi@tencent.com",
+                    "homepage": "https://github.com/tencentcloud-sdk-php/sms",
+                    "role": "Developer"
+                }
+            ],
+            "description": "TencentCloudApi php sdk sms",
+            "homepage": "https://github.com/tencentcloud-sdk-php/sms",
+            "support": {
+                "issues": "https://github.com/tencentcloud-sdk-php/sms/issues",
+                "source": "https://github.com/tencentcloud-sdk-php/sms/tree/3.0.1663"
+            },
+            "time": "2026-09-06T20:56:45+00:00"
+        },
+        {
+            "name": "tencentcloud/vod",
+            "version": "3.0.1663",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/tencentcloud/vod/3.0.1663/tencentcloud-vod-3.0.1663.zip",
+                "reference": "32c32c586cc4432c7a3d306a2646bcb632d395d9",
+                "shasum": ""
+            },
+            "require": {
+                "tencentcloud/common": ">=3.0.1663"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TencentCloud\\": "./src/TencentCloud"
+                }
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "tencentcloudapi",
+                    "email": "tencentcloudapi@tencent.com",
+                    "homepage": "https://github.com/tencentcloud-sdk-php/vod",
+                    "role": "Developer"
+                }
+            ],
+            "description": "TencentCloudApi php sdk vod",
+            "homepage": "https://github.com/tencentcloud-sdk-php/vod",
+            "support": {
+                "issues": "https://github.com/tencentcloud-sdk-php/vod/issues",
+                "source": "https://github.com/tencentcloud-sdk-php/vod/tree/3.0.1663"
+            },
+            "time": "2026-09-06T21:17:43+00:00"
+        },
+        {
+            "name": "whichbrowser/parser",
+            "version": "v2.1.8",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/whichbrowser/parser/v2.1.8/whichbrowser-parser-v2.1.8.zip",
+                "reference": "581d614d686bfbec3529ad60562a5213ac5d8d72",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/cache": "^1.0 || ^2.0 || ^3.0"
+            },
+            "require-dev": {
+                "cache/array-adapter": "^1.1",
+                "icomefromthenet/reverse-regex": "0.0.6.3",
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/php-code-coverage": "^5.0 || ^7.0",
+                "phpunit/phpunit": "^6.0 || ^8.0",
+                "squizlabs/php_codesniffer": "^3.5",
+                "symfony/yaml": "~3.4 || ~4.0"
+            },
+            "suggest": {
+                "cache/array-adapter": "Allows testing of the caching functionality"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WhichBrowser\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Niels Leenheer",
+                    "email": "niels@leenheer.nl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Useragent sniffing library for PHP",
+            "homepage": "http://whichbrowser.net",
+            "keywords": [
+                "browser",
+                "sniffing",
+                "ua",
+                "useragent"
+            ],
+            "support": {
+                "issues": "https://github.com/WhichBrowser/Parser-PHP/issues",
+                "source": "https://github.com/WhichBrowser/Parser-PHP/tree/v2.1.8"
+            },
+            "time": "2024-04-17T12:47:41+00:00"
+        },
+        {
+            "name": "yansongda/artful",
+            "version": "v1.2.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/yansongda/artful/v1.2.1/yansongda-artful-v1.2.1.zip",
+                "reference": "cc897fae71bf7df6f5ac7070f91c6fd29fa8dc12",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/psr7": "^2.6 || ^3.0",
+                "php": ">=8.2",
+                "psr/container": "^1.1 || ^2.0",
+                "psr/event-dispatcher": "^1.0",
+                "psr/http-client": "^1.0",
+                "psr/http-message": "^1.1 || ^2.0",
+                "psr/log": "^1.1 || ^2.0 || ^3.0",
+                "yansongda/supports": "~4.1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "guzzlehttp/guzzle": "^8.1",
+                "mockery/mockery": "^1.6",
+                "monolog/monolog": "^3.11",
+                "phpstan/phpstan": "^2.2",
+                "phpunit/phpunit": "^11.5",
+                "symfony/event-dispatcher": "^7.4",
+                "symfony/http-foundation": "^7.4",
+                "symfony/psr-http-message-bridge": "^7.4",
+                "symfony/var-dumper": "^7.4"
+            },
+            "suggest": {
+                "hyperf/pimple": "其它/无框架下使用 SDK，请安装，任选其一",
+                "illuminate/container": "其它/无框架下使用 SDK，请安装，任选其一",
+                "topthink/think-container": "ThinkPHP 框架下使用 SDK 时安装（随 topthink/framework 自动携带）"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Functions.php"
+                ],
+                "psr-4": {
+                    "Yansongda\\Artful\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yansongda",
+                    "email": "me@yansongda.cn"
+                }
+            ],
+            "description": "Artful 是一个简单易用的 API 请求框架 PHP Api RequesT Framwork U Like。",
+            "keywords": [
+                "api",
+                "artful",
+                "framework",
+                "request"
+            ],
+            "support": {
+                "homepage": "https://artful.yansongda.cn",
+                "issues": "https://github.com/yansongda/artful/issues",
+                "source": "https://github.com/yansongda/artful"
+            },
+            "time": "2026-09-04T17:05:34+00:00"
+        },
+        {
+            "name": "yansongda/pay",
+            "version": "dev-master",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/yansongda/pay/dev-master/yansongda-pay-dev-master.zip",
+                "reference": "55cdd92716bdaac063a389215619d207f9954bc8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "ext-json": "*",
+                "ext-libxml": "*",
+                "ext-openssl": "*",
+                "ext-simplexml": "*",
+                "php": ">=8.2",
+                "yansongda/artful": "~1.2.0",
+                "yansongda/supports": "~4.1.0"
+            },
+            "conflict": {
+                "hyperf/framework": "<3.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.44",
+                "guzzlehttp/guzzle": "^7.0 || ^8.0",
+                "hyperf/pimple": "^2.2",
+                "jetbrains/phpstorm-attributes": "^1.1",
+                "mockery/mockery": "^1.6",
+                "monolog/monolog": "^3.0",
+                "phpstan/phpstan": "^1.0.0 || ^2.0.0",
+                "phpunit/phpunit": "^11.5",
+                "symfony/event-dispatcher": "^6.4",
+                "symfony/http-foundation": "^6.4",
+                "symfony/psr-http-message-bridge": "^6.4",
+                "symfony/var-dumper": "^6.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yansongda\\Pay\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yansongda",
+                    "email": "me@yansongda.cn"
+                }
+            ],
+            "description": "可能是我用过的最优雅的 Alipay 和 WeChat 的支付 SDK 扩展包了",
+            "keywords": [
+                "alipay",
+                "pay",
+                "wechat"
+            ],
+            "support": {
+                "homepage": "https://pay.yansongda.cn",
+                "issues": "https://github.com/yansongda/pay/issues",
+                "source": "https://github.com/yansongda/pay"
+            },
+            "time": "2026-09-06T14:24:00+00:00"
+        },
+        {
+            "name": "yansongda/supports",
+            "version": "v4.1.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/yansongda/supports/v4.1.1/yansongda-supports-v4.1.1.zip",
+                "reference": "e04a668ba1472ce93869378861d13d3ea873d09a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-mbstring": "*",
+                "php": ">=8.2",
+                "psr/container": "^1.1.1 || ^2.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "mockery/mockery": "^1.6",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Functions.php"
+                ],
+                "psr-4": {
+                    "Yansongda\\Supports\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yansongda",
+                    "email": "me@yansongda.cn"
+                }
+            ],
+            "description": "common components",
+            "keywords": [
+                "array",
+                "collection",
+                "config",
+                "support"
+            ],
+            "support": {
+                "issues": "https://github.com/yansongda/supports/issues",
+                "source": "https://github.com/yansongda/supports"
+            },
+            "time": "2026-09-05T14:43:26+00:00"
+        },
+        {
+            "name": "zoujingli/ip2region",
+            "version": "v2.0.8",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/zoujingli/ip2region/v2.0.8/zoujingli-ip2region-v2.0.8.zip",
+                "reference": "a031c359620c22889fac7b998409fdcdef76a69c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "function.php"
+                ],
+                "classmap": [
+                    "Ip2Region.php",
+                    "XdbSearcher.php"
+                ]
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Anyon",
+                    "email": "zoujingli@qq.com",
+                    "homepage": "https://thinkadmin.top",
+                    "role": "Developer"
+                }
+            ],
+            "description": "IP2Region v2.0 for PHP - 轻量级 IP 地理位置查询库，支持 IPv4，高性能，零依赖",
+            "homepage": "https://github.com/zoujingli/Ip2Region",
+            "keywords": [
+                "IP",
+                "Ip2Region",
+                "composer",
+                "geolocation",
+                "ipv4",
+                "location",
+                "php",
+                "轻量级",
+                "零依赖",
+                "高性能"
+            ],
+            "support": {
+                "issues": "https://github.com/zoujingli/Ip2Region/issues",
+                "source": "https://github.com/zoujingli/Ip2Region"
+            },
+            "time": "2025-09-16T01:31:03+00:00"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "odan/phinx-migrations-generator",
+            "version": "6.4.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/odan/phinx-migrations-generator/6.4.0/odan-phinx-migrations-generator-6.4.0.zip",
+                "reference": "f629fe4a0473a55832b7709a92de298e7537207f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+                "riimu/kit-phpencoder": "^2.4",
+                "robmorgan/phinx": "^0.15.2 || ^0.16"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3",
+                "phpstan/phpstan": "^2",
+                "phpunit/phpunit": "^10 || ^12",
+                "squizlabs/php_codesniffer": "^4",
+                "symfony/uid": "^6 || ^7"
+            },
+            "bin": [
+                "./bin/phinx-migrations"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Odan\\Migration\\": "src/Migration/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Migration generator for Phinx",
+            "homepage": "https://github.com/odan/phinx-migrations-generator",
+            "keywords": [
+                "database",
+                "generator",
+                "migration",
+                "migrations",
+                "mysql",
+                "phinx"
+            ],
+            "support": {
+                "issues": "https://github.com/odan/phinx-migrations-generator/issues",
+                "source": "https://github.com/odan/phinx-migrations-generator/tree/6.4.0"
+            },
+            "time": "2025-11-09T20:10:18+00:00"
+        },
+        {
+            "name": "riimu/kit-phpencoder",
+            "version": "v2.4.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/riimu/kit-phpencoder/v2.4.2/riimu-kit-phpencoder-v2.4.2.zip",
+                "reference": "72ff7825de193b272e17b228394819dbfc638e72",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Riimu\\Kit\\PHPEncoder\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Riikka Kalliomäki",
+                    "email": "riikka.kalliomaki@gmail.com",
+                    "homepage": "http://riimu.net"
+                }
+            ],
+            "description": "Highly customizable alternative to var_export for PHP code generation",
+            "homepage": "http://kit.riimu.net",
+            "keywords": [
+                "code",
+                "encoder",
+                "export",
+                "generator",
+                "variable"
+            ],
+            "support": {
+                "issues": "https://github.com/Riimu/Kit-PHPEncoder/issues",
+                "source": "https://github.com/Riimu/Kit-PHPEncoder/tree/v2.4.2"
+            },
+            "time": "2022-12-10T18:12:25+00:00"
+        },
+        {
+            "name": "xiaochong0302/phalcon-ide-stubs",
+            "version": "v5.9.3",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/xiaochong0302/phalcon-ide-stubs/v5.9.3/xiaochong0302-phalcon-ide-stubs-v5.9.3.zip",
+                "reference": "1798acf74f7b5e08dedc238086c0ea653ed6986d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "3.*",
+                "vimeo/psalm": "^3.4"
+            },
+            "type": "library",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Phalcon Team",
+                    "email": "team@phalcon.io",
+                    "homepage": "https://phalcon.io/en-us/team"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/phalcon/ide-stubs/graphs/contributors"
+                }
+            ],
+            "description": "The most complete Phalcon Framework IDE stubs library which enables autocompletion in modern IDEs.",
+            "homepage": "https://phalcon.io",
+            "keywords": [
+                "Devtools",
+                "Eclipse",
+                "autocomplete",
+                "ide",
+                "netbeans",
+                "phalcon",
+                "phpstorm",
+                "stub",
+                "stubs"
+            ],
+            "support": {
+                "forum": "https://forum.phalcon.io/",
+                "issues": "https://github.com/phalcon/ide-stubs/issues",
+                "source": "https://github.com/phalcon/ide-stubs"
+            },
+            "time": "2026-02-25T03:45:31+00:00"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "yansongda/pay": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "ext-phalcon": "~5.9",
+        "ext-redis": "~6.0",
+        "ext-apcu": "*",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-gd": "*",
+        "ext-dom": "*",
+        "ext-pcntl": "*",
+        "ext-libxml": "*",
+        "ext-fileinfo": "*",
+        "ext-bcmath": "*",
+        "ext-xlswriter": "*",
+        "ext-zend-opcache": "*"
+    },
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
+}

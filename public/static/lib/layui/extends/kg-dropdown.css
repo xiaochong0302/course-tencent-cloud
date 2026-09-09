@@ -1,0 +1,66 @@
+/*dropdown*/
+.kg-dropdown {
+    display: inline-block;
+    position: relative;
+    font-size: 14px;
+}
+
+.kg-dropdown > ul {
+    position: absolute;
+    display: none;
+    top: 100%;
+    left: 0px;
+    padding: 5px 0;
+    margin: 5px 0;
+    white-space: nowrap;
+    line-height: 36px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+    border: 1px solid #d2d2d2;
+    background-color: #fff;
+    border-radius: 2px;
+    z-index: 900;
+}
+
+.kg-dropdown > ul > h4 {
+    color: #999;
+    display: block;
+    padding: 0 20px;
+    font-size: 12px;
+}
+
+.kg-dropdown > ul > li {
+    position: relative;
+}
+
+.kg-dropdown > ul > li > a {
+    color: #333;
+    display: block;
+    padding: 0 20px;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+
+.kg-dropdown > ul > li > a > i {
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.kg-dropdown > ul > li > a:hover {
+    background-color: #f2f2f2;
+    color: #000;
+}
+
+.kg-dropdown.dropdown-right > ul {
+    left: auto;
+    right: 0px;
+}
+
+.kg-dropdown > ul > li.dropdown-item-disabled > a {
+    color: #999;
+    cursor: not-allowed;
+}
+
+.kg-dropdown > ul > li.dropdown-item-disabled > a:hover {
+    color: #999;
+    background-color: transparent;
+}

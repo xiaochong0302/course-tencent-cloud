@@ -1,0 +1,39 @@
+<?php
+/**
+ * @copyright Copyright (c) 2021 深圳市酷瓜软件有限公司
+ * @license https://opensource.org/licenses/GPL-2.0
+ * @link https://www.koogua.com
+ */
+
+namespace App\Http\Home;
+
+use App\Library\Mvc\View as MyView;
+use App\Services\Auth\Home as HomeAuth;
+use Phalcon\Di\DiInterface;
+use Phalcon\Mvc\ModuleDefinitionInterface;
+
+class Module implements ModuleDefinitionInterface
+{
+
+    public function registerAutoLoaders(?DiInterface $container = null)
+    {
+
+    }
+
+    public function registerServices(DiInterface $container)
+    {
+        $container->setShared('view', function () {
+            $view = new MyView();
+            $view->setViewsDir(__DIR__ . '/Views');
+            $view->registerEngines([
+                '.volt' => 'volt',
+            ]);
+            return $view;
+        });
+
+        $container->setShared('auth', function () {
+            return new HomeAuth();
+        });
+    }
+
+}

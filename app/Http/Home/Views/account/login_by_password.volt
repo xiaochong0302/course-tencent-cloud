@@ -1,0 +1,20 @@
+<form class="layui-form account-form" method="POST" action="{{ url({'for':'home.account.pwd_login'}) }}">
+    <div class="layui-form-item">
+        <div class="layui-input-wrap">
+            <div class="layui-input-prefix"><i class="layui-icon layui-icon-username"></i></div>
+            <input class="layui-input" type="text" name="account" placeholder="手机 / 邮箱" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-wrap">
+            <div class="layui-input-prefix"><i class="layui-icon layui-icon-password"></i></div>
+            <input class="layui-input" type="password" name="password" placeholder="密码" lay-affix="eye" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-fluid" lay-submit="true" lay-filter="go">立即登录</button>
+            <input type="hidden" name="return_url" value="{{ return_url }}">
+        </div>
+    </div>
+</form>
