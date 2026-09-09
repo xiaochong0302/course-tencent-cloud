@@ -15,7 +15,11 @@ use App\Models\Page as PageModel;
 use App\Models\Role as RoleModel;
 use App\Models\User as UserModel;
 use App\Models\Vip as VipModel;
+use App\Repos\Nav as NavRepo;
+use App\Repos\Page as PageRepo;
+use App\Repos\Role as RoleRepo;
 use App\Repos\User as UserRepo;
+use App\Repos\Vip as VipRepo;
 
 class V20260905194518 extends Migration
 {
@@ -43,21 +47,29 @@ class V20260905194518 extends Migration
 
     protected function initUserData(): void
     {
+        $id = 10000;
+        $email = '10000@163.com';
         $salt = PasswordUtil::salt();
         $password = PasswordUtil::hash('123456', $salt);
 
+        $userRepo = new UserRepo();
+
+        $user = $userRepo->findById($id);
+
+        if ($user) return;
+
         $account = new AccountModel();
 
-        $account->id = 10000;
-        $account->email = '10000@163.com';
+        $account->id = $id;
+        $account->email = $email;
         $account->password = $password;
         $account->salt = $salt;
 
-        $account->save();
+        $account->create();
 
         $userRepo = new UserRepo();
 
-        $user = $userRepo->findById($account->id);
+        $user = $userRepo->findById($id);
 
         $user->name = '酷瓜云课堂';
         $user->title = '官方人员';
@@ -102,10 +114,15 @@ class V20260905194518 extends Migration
             ],
         ];
 
+        $roleRepo = new RoleRepo();
+
         foreach ($rows as $row) {
-            $role = new RoleModel();
-            $role->assign($row);
-            $role->save();
+            $role = $roleRepo->findById($row['id']);
+            if (!$role) {
+                $role = new RoleModel();
+                $role->assign($row);
+                $role->create();
+            }
         }
     }
 
@@ -138,10 +155,15 @@ class V20260905194518 extends Migration
             ],
         ];
 
+        $vipRepo = new VipRepo();
+
         foreach ($rows as $row) {
-            $vip = new VipModel();
-            $vip->assign($row);
-            $vip->save();
+            $vip = $vipRepo->findById($row['id']);
+            if (!$vip) {
+                $vip = new VipModel();
+                $vip->assign($row);
+                $vip->create();
+            }
         }
     }
 
@@ -178,10 +200,15 @@ class V20260905194518 extends Migration
             ],
         ];
 
+        $pageRepo = new PageRepo();
+
         foreach ($rows as $row) {
-            $page = new PageModel();
-            $page->assign($row);
-            $page->save();
+            $page = $pageRepo->findById($row['id']);
+            if (!$page) {
+                $page = new PageModel();
+                $page->assign($row);
+                $page->create();
+            }
         }
     }
 
@@ -274,10 +301,15 @@ class V20260905194518 extends Migration
             ],
         ];
 
+        $navRepo = new NavRepo();
+
         foreach ($rows as $row) {
-            $nav = new NavModel();
-            $nav->assign($row);
-            $nav->save();
+            $nav = $navRepo->findById($row['id']);
+            if (!$nav) {
+                $nav = new NavModel();
+                $nav->assign($row);
+                $nav->create();
+            }
         }
     }
 
