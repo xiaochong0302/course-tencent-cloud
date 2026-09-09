@@ -174,28 +174,24 @@ class V20260905194518 extends Migration
                 'id' => 1,
                 'title' => '关于我们',
                 'alias' => 'about',
-                'content' => '',
                 'published' => 1,
             ],
             [
                 'id' => 2,
                 'title' => '联系我们',
                 'alias' => 'contact',
-                'content' => '',
                 'published' => 1,
             ],
             [
                 'id' => 3,
                 'title' => '用户协议',
                 'alias' => 'terms',
-                'content' => '',
                 'published' => 1,
             ],
             [
                 'id' => 4,
                 'title' => '隐私政策',
                 'alias' => 'privacy',
-                'content' => '',
                 'published' => 1,
             ],
         ];
