@@ -6,12 +6,10 @@
  */
 
 use App\Caches\Setting as SettingCache;
-use App\Library\Purifier as HtmlPurifier;
 use App\Library\Utils\FileInfo as FileInfoUtil;
 use App\Library\Validators\Common as CommonValidator;
 use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 use App\Services\Logic\Url\ShareUrl as ShareUrlService;
-use App\Services\Storage as StorageService;
 use League\CommonMark\Exception\CommonMarkException;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Phalcon\Config\Config;
@@ -286,15 +284,10 @@ function kg_ip2region(string $ip): array
     if (str_contains($ip, ':')) return $default;
 
     try {
-
         $searcher = new Ip2Region();
-
         $ip2region = $searcher->btreeSearch($ip);
-
         list($country, $area, $province, $city, $isp) = explode('|', $ip2region['region']);
-
         return compact('country', 'area', 'province', 'city', 'isp');
-
     } catch (Exception $e) {
         return $default;
     }
@@ -329,9 +322,7 @@ function kg_setting(string $section, ?string $key = null, mixed $defaultValue = 
 
     if (!$key) return $settings;
 
-    if (isset($settings[$key])) return $settings[$key];
-
-    return $defaultValue;
+    return $settings[$key] ?? $defaultValue;
 }
 
 /**
@@ -398,9 +389,16 @@ function kg_default_slide_cover_path(): string
  */
 function kg_cos_url(): string
 {
-    $storage = new StorageService();
+    static $url = null;
 
-    return $storage->getBaseUrl();
+    if ($url === null) {
+        $settings = kg_setting('cos');
+        $protocol = $settings['protocol'];
+        $domain = $settings['domain'];
+        $url = sprintf('%s://%s', $protocol, trim($domain, '/'));
+    }
+
+    return $url;
 }
 
 /**
@@ -416,9 +414,9 @@ function kg_cos_img_url(string $path, ?string $style = null): string
 
     if (str_starts_with($path, 'http')) return $path;
 
-    $storage = new StorageService();
+    $style = $style ?: '';
 
-    return $storage->getImageUrl($path, $style);
+    return kg_cos_url() . $path . $style;
 }
 
 /**

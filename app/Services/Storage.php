@@ -172,9 +172,7 @@ class Storage extends Service
      */
     public function getImageUrl(string $key, ?string $style = null): string
     {
-        $style = $style ?: '';
-
-        return $this->getBaseUrl() . $key . $style;
+        return kg_cos_img_url($key, $style);
     }
 
     /**
@@ -182,10 +180,7 @@ class Storage extends Service
      */
     public function getBaseUrl(): string
     {
-        $protocol = $this->settings['protocol'];
-        $domain = $this->settings['domain'];
-
-        return sprintf('%s://%s', $protocol, trim($domain, '/'));
+        return kg_cos_url();
     }
 
     /**

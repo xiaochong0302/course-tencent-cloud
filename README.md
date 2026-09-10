@@ -1,14 +1,10 @@
-## 酷瓜云课堂（网校版）
+## 酷瓜云课堂（网校开源版）
 
 ![酷瓜云课堂](https://portal-1255691183.file.myqcloud.com/img/content/61dd395c053e5.png)
 
 ### 系统介绍
 
-酷瓜云课堂（网校版），依托腾讯云基础服务架构，采用C扩展框架Phalcon开发，可以用于搭建在线网课系统、网校系统，知识付费系统，在线教育系统。
-
-### 系统功能
-
-实现了点播、直播、专栏、面授、问答、会员、积分、秒杀、拼团、分销等。
+酷瓜云课堂（网校开源版），依托腾讯云基础服务架构，采用C扩展框架Phalcon开发，可以用于搭建在线网课系统、网校系统，知识付费系统，在线教育系统。
 
 友情提示：
 
@@ -18,8 +14,8 @@
 
 桌面端演示：
 
-- [前台演示](https://ctc-pro.koogua.com)
-- [后台演示](https://ctc-pro.koogua.com/admin)
+- [前台演示](https://ctc.koogua.com)
+- [后台演示](https://ctc.koogua.com/admin)
 
 演示账号：100015@163.com / 123456 （前后台通用）
 
@@ -29,30 +25,18 @@ H5手机端演示：
 
 演示账号：13507083515 / 123456
 
-微信公众号演示：
-
-![公众号二维码](https://portal-1255691183.file.myqcloud.com/img/content/616f998270eca.png)
-
-演示账号：13507083515 / 123456
-
 支付流程演示：
 
 - [MySQL提升课程全面讲解MySQL架构设计（0.01元）](https://ctc-pro.koogua.com/order/confirm?item_id=1390&item_type=1)
 - [Nginx入门到实践Nginx中间件（0.01元）](https://ctc-pro.koogua.com/order/confirm?item_id=1286&item_type=1)
 - [数据库与中间件的基础必修课（0.02元）](https://ctc-pro.koogua.com/order/confirm?item_id=80&item_type=2)
 
-Tips: 测试支付请用手机号注册一个新账户，以便接收订单通知，以及避免课程无法购买
-
-微信推送演示：
-
-Tips: 请用手机注册一个新账号，用户中心 -> 关注订阅，扫码关注公众号。之后的登录、购买、退款、直播、咨询等会有消息推送。
- 
 ### 项目组件
 
 - 后台框架：[phalcon 5.10](https://phalcon.io)
 - 前端框架：[layui 2.13](https://layui.dev)
 - 全文检索：[xunsearch 1.4](http://www.xunsearch.com)
-- 基础依赖：[php8.4](https://php.net)， [mysql8.0](https://mysql.com)， [redis8.0](https://redis.io)
+- 基础依赖：[php8.4](https://php.net)， [mysql8.4](https://mysql.com)， [redis8.2](https://redis.io)
 
 ### 项目文档
 
