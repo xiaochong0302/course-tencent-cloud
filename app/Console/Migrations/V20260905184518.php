@@ -102,9 +102,9 @@ class V20260905184518 extends Migration
     protected function initCosSettings(): void
     {
         $settings = [
+            'region' => 'ap-guangzhou',
             'protocol' => 'https',
             'domain' => '',
-            'region' => '',
             'bucket' => '',
         ];
 
