@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37cb0f358fdb27edc2c0df6281798586",
+    "content-hash": "5838a4578eafea75125e73d7280ced47",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1508,11 +1508,11 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.10.0",
+            "version": "2.10.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/league/commonmark/2.10.0/league-commonmark-2.10.0.zip",
-                "reference": "d2d1aa8b35e072966c89bc0c66cf926e56767dc4",
+                "url": "https://mirrors.tencent.com/repository/composer/league/commonmark/2.10.1/league-commonmark-2.10.1.zip",
+                "reference": "9d489ab67a02960fd8ffe624d93f751daf95439e",
                 "shasum": ""
             },
             "require": {
@@ -1587,7 +1587,7 @@
                 "rss": "https://github.com/thephpleague/commonmark/releases.atom",
                 "source": "https://github.com/thephpleague/commonmark"
             },
-            "time": "2026-08-11T16:06:25+00:00"
+            "time": "2026-09-07T13:44:26+00:00"
         },
         {
             "name": "league/config",
@@ -3617,11 +3617,11 @@
         },
         {
             "name": "tencentcloud/common",
-            "version": "3.0.1663",
+            "version": "3.0.1667",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/tencentcloud/common/3.0.1663/tencentcloud-common-3.0.1663.zip",
-                "reference": "3af5db01762713313706f179783cdbd3c02d5d14",
+                "url": "https://mirrors.tencent.com/repository/composer/tencentcloud/common/3.0.1667/tencentcloud-common-3.0.1667.zip",
+                "reference": "fa0490f48943603af5d47df43167c7c537407947",
                 "shasum": ""
             },
             "require": {
@@ -3649,21 +3649,21 @@
             "homepage": "https://github.com/tencentcloud-sdk-php/common",
             "support": {
                 "issues": "https://github.com/tencentcloud-sdk-php/common/issues",
-                "source": "https://github.com/tencentcloud-sdk-php/common/tree/3.0.1663"
+                "source": "https://github.com/tencentcloud-sdk-php/common/tree/3.0.1667"
             },
-            "time": "2026-09-06T20:15:08+00:00"
+            "time": "2026-09-10T20:20:45+00:00"
         },
         {
             "name": "tencentcloud/sms",
-            "version": "3.0.1663",
+            "version": "3.0.1667",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/tencentcloud/sms/3.0.1663/tencentcloud-sms-3.0.1663.zip",
-                "reference": "8b8155c6ae7029c4c91a7f65db49c243d28696c6",
+                "url": "https://mirrors.tencent.com/repository/composer/tencentcloud/sms/3.0.1667/tencentcloud-sms-3.0.1667.zip",
+                "reference": "54331673f49c17f7dbcbc22cdf6d107631cbdf58",
                 "shasum": ""
             },
             "require": {
-                "tencentcloud/common": ">=3.0.1663"
+                "tencentcloud/common": ">=3.0.1667"
             },
             "type": "library",
             "autoload": {
@@ -3686,21 +3686,21 @@
             "homepage": "https://github.com/tencentcloud-sdk-php/sms",
             "support": {
                 "issues": "https://github.com/tencentcloud-sdk-php/sms/issues",
-                "source": "https://github.com/tencentcloud-sdk-php/sms/tree/3.0.1663"
+                "source": "https://github.com/tencentcloud-sdk-php/sms/tree/3.0.1667"
             },
-            "time": "2026-09-06T20:56:45+00:00"
+            "time": "2026-09-10T21:03:13+00:00"
         },
         {
             "name": "tencentcloud/vod",
-            "version": "3.0.1663",
+            "version": "3.0.1667",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/tencentcloud/vod/3.0.1663/tencentcloud-vod-3.0.1663.zip",
-                "reference": "32c32c586cc4432c7a3d306a2646bcb632d395d9",
+                "url": "https://mirrors.tencent.com/repository/composer/tencentcloud/vod/3.0.1667/tencentcloud-vod-3.0.1667.zip",
+                "reference": "f6ab1a1c978caf9549b2a3b3626e84d398502179",
                 "shasum": ""
             },
             "require": {
-                "tencentcloud/common": ">=3.0.1663"
+                "tencentcloud/common": ">=3.0.1667"
             },
             "type": "library",
             "autoload": {
@@ -3723,9 +3723,9 @@
             "homepage": "https://github.com/tencentcloud-sdk-php/vod",
             "support": {
                 "issues": "https://github.com/tencentcloud-sdk-php/vod/issues",
-                "source": "https://github.com/tencentcloud-sdk-php/vod/tree/3.0.1663"
+                "source": "https://github.com/tencentcloud-sdk-php/vod/tree/3.0.1667"
             },
-            "time": "2026-09-06T21:17:43+00:00"
+            "time": "2026-09-10T21:24:45+00:00"
         },
         {
             "name": "whichbrowser/parser",
@@ -3858,7 +3858,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://mirrors.tencent.com/repository/composer/yansongda/pay/dev-master/yansongda-pay-dev-master.zip",
-                "reference": "55cdd92716bdaac063a389215619d207f9954bc8",
+                "reference": "d1b354bc7808d00b75dd7b2038eb5359e90bafec",
                 "shasum": ""
             },
             "require": {
@@ -3914,20 +3914,22 @@
                 "issues": "https://github.com/yansongda/pay/issues",
                 "source": "https://github.com/yansongda/pay"
             },
-            "time": "2026-09-06T14:24:00+00:00"
+            "time": "2026-09-11T10:33:37+00:00"
         },
         {
             "name": "yansongda/supports",
-            "version": "v4.1.1",
+            "version": "v4.1.2",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/yansongda/supports/v4.1.1/yansongda-supports-v4.1.1.zip",
-                "reference": "e04a668ba1472ce93869378861d13d3ea873d09a",
+                "url": "https://mirrors.tencent.com/repository/composer/yansongda/supports/v4.1.2/yansongda-supports-v4.1.2.zip",
+                "reference": "e0c4a2581938ad081960ccf41b26f5185cc657d5",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
+                "ext-libxml": "*",
                 "ext-mbstring": "*",
+                "ext-simplexml": "*",
                 "php": ">=8.2",
                 "psr/container": "^1.1.1 || ^2.0"
             },
@@ -3966,7 +3968,7 @@
                 "issues": "https://github.com/yansongda/supports/issues",
                 "source": "https://github.com/yansongda/supports"
             },
-            "time": "2026-09-05T14:43:26+00:00"
+            "time": "2026-09-09T01:50:28+00:00"
         },
         {
             "name": "zoujingli/ip2region",
@@ -4124,19 +4126,21 @@
         },
         {
             "name": "xiaochong0302/phalcon-ide-stubs",
-            "version": "v5.9.3",
+            "version": "v5.20.3",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/xiaochong0302/phalcon-ide-stubs/v5.9.3/xiaochong0302-phalcon-ide-stubs-v5.9.3.zip",
-                "reference": "1798acf74f7b5e08dedc238086c0ea653ed6986d",
+                "url": "https://mirrors.tencent.com/repository/composer/xiaochong0302/phalcon-ide-stubs/v5.20.3/xiaochong0302-phalcon-ide-stubs-v5.20.3.zip",
+                "reference": "20db3011ddbb8e3ad061ef18e74168c27777766e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4"
+                "php": ">=8.1"
             },
             "require-dev": {
-                "squizlabs/php_codesniffer": "3.*",
-                "vimeo/psalm": "^3.4"
+                "pds/composer-script-names": "^1.0",
+                "pds/skeleton": "^1.0",
+                "squizlabs/php_codesniffer": "^4.0",
+                "vimeo/psalm": "^6.16"
             },
             "type": "library",
             "license": [
@@ -4167,11 +4171,11 @@
                 "stubs"
             ],
             "support": {
-                "forum": "https://forum.phalcon.io/",
+                "discussions": "https://phalcon.io/discussions/",
                 "issues": "https://github.com/phalcon/ide-stubs/issues",
                 "source": "https://github.com/phalcon/ide-stubs"
             },
-            "time": "2026-02-25T03:45:31+00:00"
+            "time": "2026-09-12T02:38:45+00:00"
         }
     ],
     "aliases": [],

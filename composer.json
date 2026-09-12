@@ -30,7 +30,7 @@
     "yansongda/pay": "dev-master"
   },
   "require-dev": {
-    "xiaochong0302/phalcon-ide-stubs": "5.9.3",
+    "xiaochong0302/phalcon-ide-stubs": "5.20.3",
     "odan/phinx-migrations-generator": "^6.3"
   },
   "repositories": {

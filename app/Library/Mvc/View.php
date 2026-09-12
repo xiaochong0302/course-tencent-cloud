@@ -12,7 +12,7 @@ use Phalcon\Mvc\View as PhView;
 class View extends PhView
 {
 
-    public function setVars(array $params, bool $merge = true): PhView
+    public function setVars(array $params, bool $merge = true): static
     {
         foreach ($params as $key => $param) {
             $params[$key] = $this->handleVar($param);
@@ -21,7 +21,7 @@ class View extends PhView
         return parent::setVars($params, $merge);
     }
 
-    public function setVar(string $key, mixed $value): PhView
+    public function setVar(string $key, mixed $value): static
     {
         $value = $this->handleVar($value);
 
