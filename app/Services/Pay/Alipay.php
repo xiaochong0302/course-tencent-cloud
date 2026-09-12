@@ -9,9 +9,7 @@ namespace App\Services\Pay;
 
 use App\Models\Refund as RefundModel;
 use App\Models\Trade as TradeModel;
-use App\Models\Withdraw as WithdrawModel;
 use App\Repos\Trade as TradeRepo;
-use App\Repos\WithdrawAccount as WithdrawAccountRepo;
 use App\Services\Pay as PayService;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -231,19 +229,6 @@ class Alipay extends PayService
     }
 
     /**
-     * 查询提现
-     */
-    public function queryWithdraw(WithdrawModel $withdraw): Collection|bool
-    {
-        return $this->query([
-            'out_biz_no' => $withdraw->sn,
-            'product_code' => 'TRANS_ACCOUNT_NO_PWD',
-            'biz_scene' => 'DIRECT_TRANSFER',
-            '_action' => 'transfer',
-        ]);
-    }
-
-    /**
      * 交易是否成功
      */
     public function isTradeSuccess(TradeModel $trade): bool
@@ -270,22 +255,6 @@ class Alipay extends PayService
 
         if ($response && isset($response['refund_status'])) {
             $result = $response['refund_status'] == 'REFUND_SUCCESS';
-        }
-
-        return $result;
-    }
-
-    /**
-     * 提现是否成功
-     */
-    public function isWithdrawSuccess(WithdrawModel $withdraw): bool
-    {
-        $result = false;
-
-        $response = $this->queryWithdraw($withdraw);
-
-        if ($response && isset($response['status'])) {
-            $result = $response['status'] == 'SUCCESS';
         }
 
         return $result;
@@ -396,77 +365,6 @@ class Alipay extends PayService
             $refund->update();
 
             Logger::error('Alipay Refund Exception: ', [
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'code' => $e->getCode(),
-                'message' => $e->getMessage(),
-            ]);
-
-            $result = false;
-        }
-
-        return $result;
-    }
-
-    /**
-     * 申请提现
-     */
-    public function withdraw(WithdrawModel $withdraw): bool
-    {
-        try {
-
-            $accountRepo = new WithdrawAccountRepo();
-
-            $account = $accountRepo->findById($withdraw->account_id);
-
-            $identityType = str_starts_with($account->identity, '2088') ? 'ALIPAY_USER_ID' : 'ALIPAY_OPEN_ID';
-
-            /**
-             * 转账场景（佣金报酬）说明
-             * @link https://opendocs.alipay.com/open/0iaxid
-             */
-            $response = $this->provider->transfer([
-                'out_biz_no' => $withdraw->sn,
-                'trans_amount' => $withdraw->trans_amount,
-                'product_code' => 'TRANS_ACCOUNT_NO_PWD',
-                'biz_scene' => 'DIRECT_TRANSFER',
-                'payee_info' => [
-                    'identity' => $account->identity,
-                    'identity_type' => $identityType,
-                    'name' => $account->name,
-                ],
-                'remark' => '分销提现',
-                'transfer_scene_name' => '佣金报酬', // 固定场景枚举名
-                'transfer_scene_report_infos' => [
-                    [
-                        'info_type' => '佣金报酬说明',
-                        'info_content' => sprintf('%s佣金提现', date('y年m月', $withdraw->create_time)),
-                    ],
-                ],
-            ]);
-
-            $result = $response['code'] == '10000';
-
-            if (!$result) {
-                $withdraw->error_note = kg_json_encode([
-                    'code' => $response['sub_code'] ?: $response['code'],
-                    'message' => $response['sub_msg'] ?: $response['msg'],
-                ]);
-                $withdraw->update();
-            }
-
-            Logger::info('Alipay Transfer Data: ', $response->all());
-
-        } catch (\Exception $e) {
-
-            $withdraw->error_note = kg_json_encode([
-                'code' => $e->getCode(),
-                'message' => $e->getMessage(),
-            ]);
-
-            $withdraw->update();
-
-            Logger::error('Alipay Transfer Exception: ', [
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
                 'code' => $e->getCode(),

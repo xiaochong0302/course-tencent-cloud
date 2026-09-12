@@ -8,9 +8,7 @@
         {% if site_info.copyright %}
             <span>&copy; {{ site_info.copyright }}</span>
         {% endif %}
-        {% if license_info.remove_copyright == 0 %}
-            <a href="{{ app_info.link }}" title="{{ app_info.name }}" target="_blank">Powered by {{ app_info.alias }} {{ app_info.version }}</a>
-        {% endif %}
+        <a href="{{ app_info.link }}" title="{{ app_info.name }}" target="_blank">Powered by {{ app_info.alias }} {{ app_info.version }}</a>
         {% if site_info.icp_sn %}
             <a href="{{ site_info.icp_link }}" target="_blank">{{ site_info.icp_sn }}</a>
         {% endif %}

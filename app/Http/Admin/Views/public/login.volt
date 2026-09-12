@@ -29,11 +29,9 @@
         </div>
     </div>
 
-    {% if license_info.remove_copyright == 0 %}
-        <div class="kg-login-copyright">
-            Powered by <a href="{{ app_info.link }}" title="{{ app_info.name }}">{{ app_info.alias }} {{ app_info.version }}</a>
-        </div>
-    {% endif %}
+    <div class="kg-login-copyright">
+        Powered by <a href="{{ app_info.link }}" title="{{ app_info.name }}">{{ app_info.alias }} {{ app_info.version }}</a>
+    </div>
 
 {% endblock %}
 
