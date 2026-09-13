@@ -50,6 +50,17 @@ class Controller extends \Phalcon\Mvc\Controller
         $this->authUser = $this->getLoginUser(true);
 
         /**
+         * demo分支拒绝数据提交，100001帐号除外
+         */
+        if ($this->isNotSafeRequest() && $this->authUser->id != 100001) {
+            $dispatcher->forward([
+                'controller' => 'public',
+                'action' => 'forbidden',
+            ]);
+            return false;
+        }
+
+        /**
          * root用户忽略权限检查
          */
         if ($this->authUser->admin_role == RoleModel::ROLE_ROOT) {

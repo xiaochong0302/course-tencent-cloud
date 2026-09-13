@@ -50,8 +50,21 @@ class Setting extends Service
 
         $result = [];
 
+        /**
+         * demo分支过滤敏感数据，100001帐号除外
+         */
         if ($items->count() > 0) {
+            $pattern = '/(auth|id|key|secret|token|password|pwd|mobile|phone|mail|hook)/';
+            $controllerName = $this->dispatcher->getControllerName();
+            $loginUser = $this->getLoginUser(true);
             foreach ($items as $item) {
+                $case1 = preg_match($pattern, $item->item_key);
+                $case2 = $controllerName == 'setting';
+                $case3 = $loginUser->id != 100001;
+                $case4 = !kg_complex_json($item->item_value);
+                if ($case1 && $case2 && $case3 && $case4) {
+                    $item->item_value = '***';
+                }
                 $result[$item->item_key] = $item->item_value;
             }
         }
