@@ -112,20 +112,6 @@ class VodEventTask extends Task
             $attrs['transcode']['standard']['status'] = $status;
         }
 
-        $encryptStatus = $attrs['transcode']['encrypt']['status'] ?? null;
-
-        if ($encryptStatus == ChapterModel::TRANS_STATUS_CREATED) {
-            if ($duration > 0) {
-                if ($isVideo) {
-                    $vodService->createEncryptVideoTask($fileId);
-                }
-                $status = ChapterModel::TRANS_STATUS_PROCESSING;
-            } else {
-                $status = ChapterModel::TRANS_STATUS_FAILED;
-            }
-            $attrs['transcode']['encrypt']['status'] = $status;
-        }
-
         $attrs['duration'] = (int)$duration;
 
         $chapter->attrs = $attrs;
@@ -167,8 +153,6 @@ class VodEventTask extends Task
 
         $standardSuccessCount = 0;
         $standardFailCount = 0;
-        $encryptSuccessCount = 0;
-        $encryptFailCount = 0;
 
         if ($processResult) {
             foreach ($processResult as $item) {
@@ -178,13 +162,6 @@ class VodEventTask extends Task
                         $standardSuccessCount++;
                     } elseif ($status == 'FAIL') {
                         $standardFailCount++;
-                    }
-                } elseif ($item->Type == 'AdaptiveDynamicStreaming') {
-                    $status = $item->AdaptiveDynamicStreamingTask->Status;
-                    if ($status == 'SUCCESS') {
-                        $encryptSuccessCount++;
-                    } elseif ($status == 'FAIL') {
-                        $encryptFailCount++;
                     }
                 }
             }
@@ -205,17 +182,6 @@ class VodEventTask extends Task
                 $status = ChapterModel::TRANS_STATUS_FAILED;
             }
             $attrs['transcode']['standard']['status'] = $status;
-        }
-
-        $encryptStatus = $attrs['transcode']['encrypt']['status'] ?? null;
-
-        if ($encryptStatus == ChapterModel::TRANS_STATUS_PROCESSING) {
-            if ($encryptSuccessCount > 0) {
-                $status = ChapterModel::TRANS_STATUS_FINISHED;
-            } elseif ($encryptFailCount > 0) {
-                $status = ChapterModel::TRANS_STATUS_FAILED;
-            }
-            $attrs['transcode']['encrypt']['status'] = $status;
         }
 
         $chapter->attrs = $attrs;
