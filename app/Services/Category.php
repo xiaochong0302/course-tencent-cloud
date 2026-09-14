@@ -85,20 +85,29 @@ class Category extends Service
 
         if (!$category) return [];
 
+        if (!$category->path) return [];
+
         $categoryIds = explode(',', trim($category->path, ','));
 
         $paths = [];
 
         foreach ($categoryIds as $categoryId) {
+
+            $categoryId = intval(trim($categoryId));
+
+            if ($categoryId < 1) continue;
+
             /**
-             * @var CategoryModel $category
+             * @var CategoryModel|null $category
              */
             $category = $categoryCache->get($categoryId);
 
-            $paths[] = [
-                'id' => $category->id,
-                'name' => $category->name,
-            ];
+            if ($category) {
+                $paths[] = [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                ];
+            }
         }
 
         return $paths;
