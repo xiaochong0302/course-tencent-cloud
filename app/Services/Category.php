@@ -26,7 +26,7 @@ class Category extends Service
         $categoryCache = new CategoryCache();
 
         /**
-         * @var CategoryModel $category
+         * @var CategoryModel|null $category
          */
         $category = $categoryCache->get($id);
 
@@ -81,6 +81,9 @@ class Category extends Service
     {
         $categoryCache = new CategoryCache();
 
+        /**
+         * @var CategoryModel|null $category
+         */
         $category = $categoryCache->get($id);
 
         if (!$category) return [];
@@ -92,8 +95,6 @@ class Category extends Service
         $paths = [];
 
         foreach ($categoryIds as $categoryId) {
-
-            $categoryId = intval(trim($categoryId));
 
             if ($categoryId < 1) continue;
 

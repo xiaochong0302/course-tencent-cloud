@@ -1,6 +1,7 @@
 /.git
 /.idea
 /vendor
+/demo.sql.gz
 /config/config.php
 /config/xs.course.ini
 /config/xs.chapter.ini

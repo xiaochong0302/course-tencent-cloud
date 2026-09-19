@@ -33,7 +33,7 @@ H5手机端演示：
 
 ### 项目组件
 
-- 后台框架：[phalcon 5.10](https://phalcon.io)
+- 后台框架：[phalcon 5.20.3](https://phalcon.io)
 - 前端框架：[layui 2.13](https://layui.dev)
 - 全文检索：[xunsearch 1.4](http://www.xunsearch.com)
 - 基础依赖：[php8.4](https://php.net)， [mysql8.4](https://mysql.com)， [redis8.2](https://redis.io)
