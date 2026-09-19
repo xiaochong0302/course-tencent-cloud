@@ -34,14 +34,6 @@
             <input type="radio" name="edu_role" value="2" title="讲师" lay-filter="edu_role" {% if user.edu_role == 2 %}checked="checked"{% endif %}>
         </div>
     </div>
-    <div id="profile-block" style="{{ profile_display }}">
-        <div class="layui-form-item">
-            <label class="layui-form-label">个人资料</label>
-            <div class="layui-input-block">
-                <button id="btn-profile" class="layui-btn layui-btn-sm" type="button" data-url="{{ update_profile_url }}">编辑</button>
-            </div>
-        </div>
-    </div>
     {% if auth_user.admin_role == 1 %}
         <div class="layui-form-item">
             <label class="layui-form-label">后台角色</label>
