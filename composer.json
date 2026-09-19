@@ -15,7 +15,7 @@
     "ext-zend-opcache": "*",
     "guzzlehttp/guzzle": "^7.9",
     "phpmailer/phpmailer": "^6.10",
-    "peppeocchi/php-cron-scheduler": "^4.0",
+    "adamz01h/php-cron-scheduler": "^3.0",
     "tencentcloud/common": "^3.0",
     "tencentcloud/sms": "^3.0",
     "tencentcloud/vod": "^3.0",
