@@ -6,7 +6,7 @@
     {% set lock_expiry_time = user.lock_expiry_time > 0 ? date('Y-m-d H:i:s',user.lock_expiry_time) : '' %}
     {% set lock_expiry_display = user.locked == 1 ? 'display:block': 'display:none' %}
     {% set vip_expiry_display = user.vip == 1 ? 'display:block': 'display:none' %}
-    {% set update_user_url = url({'for':'admin.user.update','id':user.id}) %}
+    {% set update_url = url({'for':'admin.user.update','id':user.id}) %}
 
     <fieldset class="layui-elem-field layui-field-title">
         <legend>编辑用户</legend>
