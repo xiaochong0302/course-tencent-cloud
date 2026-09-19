@@ -67,15 +67,6 @@
                 type: 'datetime'
             });
 
-            form.on('radio(edu_role)', function (data) {
-                var block = $('#profile-block');
-                if (data.value === '2') {
-                    block.show();
-                } else {
-                    block.hide();
-                }
-            });
-
             form.on('radio(vip)', function (data) {
                 var block = $('#vip-expiry-block');
                 if (data.value === '1') {
