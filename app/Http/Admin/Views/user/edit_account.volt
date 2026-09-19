@@ -1,4 +1,4 @@
-<form class="layui-form kg-form" method="POST" action="{{ update_user_url }}">
+<form class="layui-form kg-form" method="POST" action="{{ update_url }}">
     <div class="layui-form-item">
         <label class="layui-form-label">手机</label>
         <div class="layui-input-block">
