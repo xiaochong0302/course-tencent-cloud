@@ -79,6 +79,20 @@ trait Response
         return $response;
     }
 
+    protected function downloadFile(string $path): HttpResponse
+    {
+        $basename = pathinfo($path, PATHINFO_BASENAME);
+
+        /**
+         * @var HttpResponse $response
+         */
+        $response = Di::getDefault()->getShared('response');
+
+        $response->setFileToSend($path, $basename);
+
+        return $response;
+    }
+
     protected function jsonSuccess(array $content = []): HttpResponse
     {
         $content['code'] = 0;
