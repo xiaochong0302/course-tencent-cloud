@@ -6,7 +6,6 @@
  */
 
 use App\Caches\Setting as SettingCache;
-use App\Library\Utils\FileInfo as FileInfoUtil;
 use App\Library\Validators\Common as CommonValidator;
 use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 use App\Services\Logic\Url\ShareUrl as ShareUrlService;
@@ -238,30 +237,6 @@ function kg_array_column(array $rows, mixed $columnKey, mixed $indexKey = null):
 function kg_objectify(mixed $value): mixed
 {
     return json_decode(json_encode($value));
-}
-
-/**
- * 下载文件
- *
- * @param string $filePath
- * @return void
- */
-function kg_download(string $filePath): void
-{
-    $basename = pathinfo($filePath, PATHINFO_BASENAME);
-    $ext = pathinfo($filePath, PATHINFO_EXTENSION);
-    $mimeType = FileInfoUtil::getMimeTypeByExt($ext);
-
-    header('Content-Type: ' . $mimeType);
-    header('Content-Disposition: attachment;filename="' . $basename . '"');
-    header('Content-Length: ' . filesize($filePath));
-    header('Content-Transfer-Encoding: binary');
-    header('Cache-Control: must-revalidate');
-    header('Cache-Control: max-age=0');
-
-    readfile($filePath);
-
-    exit();
 }
 
 /**
