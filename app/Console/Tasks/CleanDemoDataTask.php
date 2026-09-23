@@ -39,8 +39,8 @@ class CleanDemoDataTask extends Task
         echo '------ start truncate tables ------' . PHP_EOL;
 
         $excludeTables = [
-            'kg_migration', 'kg_migration_phalcon', 'kg_nav',
-            'kg_page', 'kg_role', 'kg_setting', 'kg_vip',
+            'kg_migration_phinx', 'kg_migration_phalcon',
+            'kg_setting', 'kg_nav', 'kg_page', 'kg_role', 'kg_vip',
         ];
 
         $tables = $this->db->listTables();
