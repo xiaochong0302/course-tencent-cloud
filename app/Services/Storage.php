@@ -7,6 +7,7 @@
 
 namespace App\Services;
 
+use GuzzleHttp\Command\Result as GuzzleCommandResult;
 use Phalcon\Logger\Logger;
 use Qcloud\Cos\Client as CosClient;
 
@@ -42,6 +43,14 @@ class Storage extends Service
      */
     public function putString(string $key, string $body): string|false
     {
+        $info = $this->headObject($key);
+
+        if ($info) {
+            $md5 = md5($body);
+            $etag = $this->trimETag($info['ETag']);
+            if ($etag == $md5) return $key;
+        }
+
         $bucket = $this->settings['bucket'];
 
         try {
@@ -70,6 +79,14 @@ class Storage extends Service
      */
     public function putFile(string $key, string $filename): string|false
     {
+        $info = $this->headObject($key);
+
+        if ($info) {
+            $md5 = md5_file($filename);
+            $etag = $this->trimETag($info['ETag']);
+            if ($etag == $md5) return $key;
+        }
+
         $bucket = $this->settings['bucket'];
 
         try {
@@ -100,6 +117,8 @@ class Storage extends Service
      */
     public function deleteObject(string $key): string|false
     {
+        if (!$this->doesObjectExist($key)) return false;
+
         $bucket = $this->settings['bucket'];
 
         try {
@@ -114,6 +133,73 @@ class Storage extends Service
         } catch (\Exception $e) {
 
             $this->logger->error('Delete Object Exception: ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * 判断文件是否存在
+     */
+    public function doesObjectExist(string $key): bool
+    {
+        $bucket = $this->settings['bucket'];
+
+        try {
+
+            $result = $this->client->doesObjectExist($bucket, $key);
+
+        } catch (\Exception $e) {
+
+            $this->logger->error('Does Object Exist Exception: ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * 获取文件信息
+     */
+    public function headObject(string $key): array|false
+    {
+        $bucket = $this->settings['bucket'];
+
+        try {
+
+            /**
+             * @var GuzzleCommandResult $response
+             */
+            $response = $this->client->HeadObject([
+                'Bucket' => $bucket,
+                'Key' => $key,
+            ]);
+
+            $result = $response->toArray();
+
+        } catch (\Exception $e) {
+
+            /**
+             * 404 Not Found 不记录日志
+             */
+            if (str_contains($e->getMessage(), '404 Not Found')) {
+                return false;
+            }
+
+            $this->logger->error('Head Object Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -181,6 +267,14 @@ class Storage extends Service
     public function getBaseUrl(): string
     {
         return kg_cos_url();
+    }
+
+    /**
+     * 去除ETag的引号
+     */
+    protected function trimETag(string $etag): string
+    {
+        return trim($etag, '"');
     }
 
     /**
