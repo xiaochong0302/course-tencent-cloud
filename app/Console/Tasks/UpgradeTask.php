@@ -23,11 +23,16 @@ class UpgradeTask extends Task
 
     public function mainAction(): void
     {
+        $this->resetMetadataAction();
+
+        /**
+         * migrate 排在 metadata 之后，否则可能报错（元数据不一致）
+         */
         $this->migrateAction();
+
+        $this->resetAnnotationAction();
         $this->resetAppInfoAction();
         $this->resetSettingAction();
-        $this->resetAnnotationAction();
-        $this->resetMetadataAction();
         $this->resetVoltAction();
         $this->resetNavAction();
         $this->resetOpcacheAction();
