@@ -115,7 +115,12 @@ $config['redis']['timeout'] = 5;
 $config['redis']['read_timeout'] = 30;
 
 /**
- * 会话有效期（秒）
+ * cookie会话有效期（秒），当为0时，表示浏览器会话
+ */
+$config['session']['cookie_lifetime'] = 0;
+
+/**
+ * session会话有效期（秒），值不能比cookie会话有效期小
  */
 $config['session']['lifetime'] = 24 * 3600;
 

@@ -26,6 +26,12 @@ class Session extends Provider
         $config = $this->di->getShared('config');
 
         $this->di->setShared($this->serviceName, function () use ($config) {
+            
+            $lifetime = $config->path('session.cookie_lifetime', 0);
+
+            if ($lifetime > 0) {
+                session_set_cookie_params($lifetime);
+            }
 
             $session = new Manager();
 
