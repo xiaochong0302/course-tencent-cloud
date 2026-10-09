@@ -10,6 +10,13 @@ namespace App\Services;
 use GuzzleHttp\Command\Result as GuzzleCommandResult;
 use Phalcon\Logger\Logger;
 use Qcloud\Cos\Client as CosClient;
+use TencentCloud\Common\Credential;
+use TencentCloud\Common\Exception\TencentCloudSDKException;
+use TencentCloud\Common\Profile\ClientProfile;
+use TencentCloud\Common\Profile\HttpProfile;
+use TencentCloud\Sts\V20180813\Models\GetFederationTokenRequest;
+use TencentCloud\Sts\V20180813\Models\GetFederationTokenResponse;
+use TencentCloud\Sts\V20180813\StsClient;
 
 class Storage extends Service
 {
@@ -36,6 +43,79 @@ class Storage extends Service
         $this->logger = $this->getLogger('storage');
 
         $this->client = $this->getCosClient();
+    }
+
+    /**
+     * 获取临时凭证
+     *
+     * @link https://cloud.tencent.com/document/product/1312/48195
+     */
+    public function getFederationToken(): GetFederationTokenResponse|false
+    {
+        $secret = $this->getSettings('secret');
+
+        $resource = sprintf('qcs::cos:%s:uid/%s:%s/*',
+            $this->settings['region'],
+            $secret['app_id'],
+            $this->settings['bucket']
+        );
+
+        $policy = json_encode([
+            'version' => '2.0',
+            'statement' => [
+                'effect' => 'allow',
+                'action' => [
+                    'name/cos:PutObject',
+                    'name/cos:PostObject',
+                    'name/cos:InitiateMultipartUpload',
+                    'name/cos:ListMultipartUploads',
+                    'name/cos:ListParts',
+                    'name/cos:UploadPart',
+                    'name/cos:CompleteMultipartUpload',
+                ],
+                'resource' => [$resource],
+            ],
+        ]);
+
+        try {
+
+            $credential = new Credential($secret['secret_id'], $secret['secret_key']);
+
+            $httpProfile = new HttpProfile();
+
+            $httpProfile->setEndpoint('sts.tencentcloudapi.com');
+
+            $clientProfile = new ClientProfile();
+
+            $clientProfile->setHttpProfile($httpProfile);
+
+            $client = new StsClient($credential, $this->settings['region'], $clientProfile);
+
+            $request = new GetFederationTokenRequest();
+
+            $params = json_encode([
+                'Name' => 'foo',
+                'Policy' => urlencode($policy),
+            ]);
+
+            $request->fromJsonString($params);
+
+            $result = $client->GetFederationToken($request);
+
+        } catch (TencentCloudSDKException $e) {
+
+            $this->logger->error('Get Tmp Token Exception: ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                    'requestId' => $e->getRequestId(),
+                ]));
+
+            $result = false;
+        }
+
+        return $result;
     }
 
     /**
@@ -213,13 +293,143 @@ class Storage extends Service
     }
 
     /**
+     * 文本审核
+     *
+     * @link https://cloud.tencent.com/document/product/436/121170
+     */
+    public function detectText(string $content): int
+    {
+        $bucket = $this->settings['bucket'];
+
+        $content = base64_encode($content);
+
+        try {
+
+            $response = $this->client->DetectText([
+                'Bucket' => $bucket,
+                'Input' => ['Content' => $content],
+            ]);
+
+            $result = (int)$response['JobsDetail']['Result'];
+
+        } catch (\Exception $e) {
+
+            $this->logger->error('Detect Text Exception: ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            $result = -1;
+        }
+
+        return $result;
+    }
+
+    /**
+     * 图片审核
+     *
+     * @link https://cloud.tencent.com/document/product/436/61620
+     */
+    public function detectImages(array $images): int
+    {
+        $bucket = $this->settings['bucket'];
+
+        $inputs = [];
+
+        foreach ($images as $image) {
+            if (!str_contains($image, '://')) {
+                $inputs[] = ['Object' => $image];
+            } else {
+                $inputs[] = ['Url' => $image];
+            }
+        }
+
+        try {
+
+            $response = $this->client->DetectImages([
+                'Bucket' => $bucket,
+                'Inputs' => $inputs,
+            ]);
+
+            $confirmedCount = $suspectedCount = 0;
+
+            foreach ($response['JobsDetail'] as $value) {
+                if ($value['Result'] == 1) {
+                    $confirmedCount++;
+                    break;
+                } elseif ($value['Result'] == 2) {
+                    $suspectedCount++;
+                }
+            }
+
+            $result = 0;
+
+            if ($confirmedCount > 0) {
+                $result = 1;
+            } elseif ($suspectedCount > 0) {
+                $result = 2;
+            }
+
+            return $result;
+
+        } catch (\Exception $e) {
+
+            $this->logger->error('Detect Images Exception: ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            $result = -1;
+        }
+
+        return $result;
+    }
+
+    /**
+     * 获取文档预览地址
+     *
+     * @link https://cloud.tencent.com/document/product/436/80246
+     */
+    public function getDocPreviewUrl(string $key): string
+    {
+        $piracy = $this->getSettings('security.piracy');
+
+        $wmk = json_decode($piracy['doc_wmk_config'], true);
+
+        $params = [
+            'ci-process' => 'doc-preview',
+            'dstType' => 'html',
+            'copyable' => $piracy['copy_enabled'] ?? 1,
+        ];
+
+        $wmk['front'] = sprintf('bold %spx Serif', $wmk['size']);
+
+        if ($piracy['read_wmk_enabled'] == 1) {
+            $params['htmlwaterword'] = $this->urlBase64Encode($wmk['text']);
+            $params['htmlfillstyle'] = $this->urlBase64Encode($wmk['color']);
+            $params['htmlfront'] = $this->urlBase64Encode($wmk['front']);
+            $params['htmlhorizontal'] = $wmk['horizontal'];
+            $params['htmlvertical'] = $wmk['vertical'];
+            $params['htmlrotate'] = $wmk['rotate'];
+        }
+
+        $objectUrl = $this->getPrivateObjectUrl($key);
+
+        return $objectUrl . '&' . http_build_query($params);
+    }
+
+    /**
      * 获取对象地址（带签名）
      *
      * @link https://cloud.tencent.com/document/product/436/60480
      */
-    public function getObjectUrl(string $key, string $expires = '+30 minutes'): string|false
+    public function getPrivateObjectUrl(string $key, string $expires = '+30 minutes'): string|false
     {
-        $key = trim($key, '/'); // 需要去掉“/”，否则会重复
+        $key = trim($key, '/'); // 去掉"/"字符，否则会重复
 
         $bucket = $this->settings['bucket'];
 
@@ -227,9 +437,39 @@ class Storage extends Service
 
             $result = $this->client->getObjectUrl($bucket, $key, $expires);
 
+            $result = trim($result, '&'); // 去掉末尾"&"字符
+
         } catch (\Exception $e) {
 
-            $this->logger->error('Get Object Url Exception: ' . kg_json_encode([
+            $this->logger->error('Get Private Object Url Exception: ' . kg_json_encode([
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]));
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * 获取对象地址（不带签名）
+     */
+    public function getPublicObjectUrl(string $key): string|false
+    {
+        $key = trim($key, '/'); // 去掉"/"字符，否则会重复
+
+        $bucket = $this->settings['bucket'];
+
+        try {
+
+            $result = $this->client->getObjectUrlWithoutSign($bucket, $key);
+
+        } catch (\Exception $e) {
+
+            $this->logger->error('Get Public Object Url Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -297,6 +537,16 @@ class Storage extends Service
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
         return strtolower($extension);
+    }
+
+    /**
+     * url_base64_encode
+     */
+    protected function urlBase64Encode(string $str): string
+    {
+        $content = base64_encode($str);
+
+        return str_replace(['+', '/', '='], ['-', '_', ''], $content);
     }
 
     /**

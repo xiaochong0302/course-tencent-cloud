@@ -63,6 +63,15 @@ class Upload extends Model
     public string $md5 = '';
 
     /**
+     * @link https://cloud.tencent.com/document/product/436/30752
+     *
+     * acl
+     *
+     * @var string
+     */
+    public string $acl = '';
+
+    /**
      * 大小（字节）
      *
      * @var int

@@ -17,6 +17,7 @@
     "phpmailer/phpmailer": "^6.10",
     "adamz01h/php-cron-scheduler": "^3.0",
     "tencentcloud/common": "^3.0",
+    "tencentcloud/sts": "^3.0",
     "tencentcloud/sms": "^3.0",
     "tencentcloud/vod": "^3.0",
     "qcloud/cos-sdk-v5": "^2.5",
@@ -27,7 +28,8 @@
     "league/commonmark": "^2.8",
     "robmorgan/phinx": "^0.16",
     "hyperf/pimple": "~2.2.0",
-    "yansongda/pay": "dev-master"
+    "yansongda/pay": "dev-master",
+    "sqids/sqids": "^0.5.0"
   },
   "require-dev": {
     "xiaochong0302/phalcon-ide-stubs": "5.20.3",

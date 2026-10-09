@@ -3271,13 +3271,20 @@ final class V20260905064239 extends AbstractMigration
                 'comment' => 'md5',
                 'after' => 'mime',
             ])
+            ->addColumn('acl', 'string', [
+                'null' => false,
+                'default' => '',
+                'limit' => 30,
+                'comment' => 'acl',
+                'after' => 'md5',
+            ])
             ->addColumn('size', 'integer', [
                 'null' => false,
                 'default' => '0',
                 'limit' => MysqlAdapter::INT_REGULAR,
                 'signed' => false,
                 'comment' => '大小',
-                'after' => 'md5',
+                'after' => 'acl',
             ])
             ->addColumn('deleted', 'integer', [
                 'null' => false,

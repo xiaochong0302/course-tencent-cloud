@@ -397,11 +397,6 @@ class Course extends Model
 
     public function afterFetch(): void
     {
-        $this->market_price = (float)$this->market_price;
-        $this->vip_price = (float)$this->vip_price;
-        $this->rating = (float)$this->rating;
-        $this->score = (float)$this->score;
-
         if (!str_starts_with($this->cover, 'http')) {
             $this->cover = kg_cos_course_cover_url($this->cover);
         }
