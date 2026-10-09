@@ -113,8 +113,6 @@ class Vip extends Model
         if (!str_starts_with($this->cover, 'http')) {
             $this->cover = kg_cos_vip_cover_url($this->cover);
         }
-
-        $this->price = (float)$this->price;
     }
 
     public static function getCoverPath(string $url): string

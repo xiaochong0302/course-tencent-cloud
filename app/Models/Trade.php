@@ -7,6 +7,7 @@
 
 namespace App\Models;
 
+use App\Library\Utils\ShortIdCodec;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Trade extends Model
@@ -145,8 +146,6 @@ class Trade extends Model
 
     public function beforeCreate(): void
     {
-        $this->sn = $this->getTradeSn();
-
         $this->create_time = time();
     }
 
@@ -165,9 +164,11 @@ class Trade extends Model
         }
     }
 
-    public function afterFetch(): void
+    public function afterCreate(): void
     {
-        $this->amount = (float)$this->amount;
+        $this->sn = ShortIdCodec::encode($this->id);
+
+        $this->update();
     }
 
     public static function channelTypes(): array
@@ -202,20 +203,6 @@ class Trade extends Model
             self::SCENE_WXPAY_MINI => '小程序',
             self::SCENE_WXPAY_H5 => 'H5',
         ];
-    }
-
-    protected function getTradeSn(): string
-    {
-        $sn = date('YmdHis') . rand(1000, 9999);
-
-        $order = self::findFirst([
-            'conditions' => 'sn = :sn:',
-            'bind' => ['sn' => $sn],
-        ]);
-
-        if (!$order) return $sn;
-
-        return $this->getTradeSn();
     }
 
 }

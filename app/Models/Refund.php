@@ -7,6 +7,7 @@
 
 namespace App\Models;
 
+use App\Library\Utils\ShortIdCodec;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class Refund extends Model
@@ -143,8 +144,6 @@ class Refund extends Model
 
     public function beforeCreate(): void
     {
-        $this->sn = $this->getRefundSn();
-
         $this->create_time = time();
     }
 
@@ -163,9 +162,11 @@ class Refund extends Model
         }
     }
 
-    public function afterFetch(): void
+    public function afterCreate(): void
     {
-        $this->amount = (float)$this->amount;
+        $this->sn = ShortIdCodec::encode($this->id);
+
+        $this->update();
     }
 
     public static function channelTypes(): array
@@ -183,20 +184,6 @@ class Refund extends Model
             self::STATUS_FINISHED => '已完成',
             self::STATUS_FAILED => '已失败',
         ];
-    }
-
-    protected function getRefundSn(): string
-    {
-        $sn = date('YmdHis') . rand(1000, 9999);
-
-        $order = self::findFirst([
-            'conditions' => 'sn = :sn:',
-            'bind' => ['sn' => $sn],
-        ]);
-
-        if (!$order) return $sn;
-
-        return $this->getRefundSn();
     }
 
 }
