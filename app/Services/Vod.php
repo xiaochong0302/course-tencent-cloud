@@ -15,7 +15,6 @@ use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Vod\V20180717\Models\ConfirmEventsRequest;
 use TencentCloud\Vod\V20180717\Models\DeleteMediaRequest;
 use TencentCloud\Vod\V20180717\Models\DescribeMediaInfosRequest;
-use TencentCloud\Vod\V20180717\Models\DescribeTaskDetailRequest;
 use TencentCloud\Vod\V20180717\Models\DescribeTranscodeTemplatesRequest;
 use TencentCloud\Vod\V20180717\Models\MediaInfo;
 use TencentCloud\Vod\V20180717\Models\ProcessMediaRequest;
@@ -24,8 +23,6 @@ use TencentCloud\Vod\V20180717\VodClient;
 
 class Vod extends Service
 {
-
-    const string END_POINT = 'vod.tencentcloudapi.com';
 
     /**
      * @var array
@@ -46,16 +43,9 @@ class Vod extends Service
     {
         $this->settings = $this->getSettings('vod');
 
-        /**
-         * 必须强制整型，不然接口会报错
-         */
-        if (!empty($this->settings['sub_app_id'])) {
-            $this->settings['sub_app_id'] = (int)$this->settings['sub_app_id'];
-        }
+        $this->client = $this->getVodClient();
 
         $this->logger = $this->getLogger('vod');
-
-        $this->client = $this->getVodClient();
     }
 
     /**
@@ -67,11 +57,9 @@ class Vod extends Service
 
             $request = new DescribeTranscodeTemplatesRequest();
 
-            $request->setSubAppId($this->settings['sub_app_id']);
+            $subAppId = (int)$this->settings['sub_app_id'];
 
-            $params = '{}';
-
-            $request->fromJsonString($params);
+            $request->setSubAppId($subAppId);
 
             $response = $this->client->DescribeTranscodeTemplates($request);
 
@@ -107,16 +95,15 @@ class Vod extends Service
         $secretId = $secret['secret_id'];
         $secretKey = $secret['secret_key'];
 
+        $subAppId = (int)$this->settings['sub_app_id'];
+
         $params = [
             'secretId' => $secretId,
+            'vodSubAppId' => $subAppId,
             'currentTimeStamp' => time(),
             'expireTime' => time() + 86400,
             'random' => rand(1000, 9999),
         ];
-
-        if (!empty($this->settings['sub_app_id'])) {
-            $params['vodSubAppId'] = (int)$this->settings['sub_app_id'];
-        }
 
         $original = http_build_query($params);
 
@@ -137,7 +124,7 @@ class Vod extends Service
         }
 
         $key = $this->settings['key_anti_key'];
-        $expiry = $this->settings['key_anti_expiry'] ?: 3600 * 3;
+        $expiry = (int)$this->settings['key_anti_expiry'];
 
         $path = parse_url($url, PHP_URL_PATH);
         $pos = strrpos($path, '/');
@@ -180,13 +167,11 @@ class Vod extends Service
 
             $request = new PullEventsRequest();
 
-            $request->setSubAppId($this->settings['sub_app_id']);
+            $subAppId = (int)$this->settings['sub_app_id'];
 
-            $params = '{}';
+            $request->setSubAppId($subAppId);
 
-            $request->fromJsonString($params);
-
-            $this->logger->debug('Pull Events Request: ' . $params);
+            $this->logger->debug('Pull Events Request: ' . $request->toJsonString());
 
             $response = $this->client->PullEvents($request);
 
@@ -226,13 +211,13 @@ class Vod extends Service
 
             $request = new ConfirmEventsRequest();
 
-            $request->setSubAppId($this->settings['sub_app_id']);
+            $subAppId = (int)$this->settings['sub_app_id'];
 
-            $params = json_encode(['EventHandles' => $eventHandles]);
+            $request->setSubAppId($subAppId);
 
-            $request->fromJsonString($params);
+            $request->setEventHandles($eventHandles);
 
-            $this->logger->debug('Confirm Events Request: ' . $params);
+            $this->logger->debug('Confirm Events Request: ' . $request->toJsonString());
 
             $response = $this->client->ConfirmEvents($request);
 
@@ -267,19 +252,17 @@ class Vod extends Service
 
             $request = new DeleteMediaRequest();
 
-            $request->setSubAppId($this->settings['sub_app_id']);
+            $subAppId = (int)$this->settings['sub_app_id'];
 
-            $query = ['FileId' => $fileId];
+            $request->setSubAppId($subAppId);
+
+            $request->setFileId($fileId);
 
             if (count($deleteParts) > 0) {
-                $query['DeleteParts'] = $deleteParts;
+                $request->setDeleteParts($deleteParts);
             }
 
-            $params = json_encode($query);
-
-            $request->fromJsonString($params);
-
-            $this->logger->debug('Delete Media Request: ' . $params);
+            $this->logger->debug('Delete Media Request: ' . $request->toJsonString());
 
             $response = $this->client->DeleteMedia($request);
 
@@ -312,15 +295,15 @@ class Vod extends Service
 
             $request = new DescribeMediaInfosRequest();
 
-            $request->setSubAppId($this->settings['sub_app_id']);
+            $subAppId = (int)$this->settings['sub_app_id'];
+
+            $request->setSubAppId($subAppId);
 
             $fileIds = [$fileId];
 
-            $params = json_encode(['FileIds' => $fileIds]);
+            $request->setFileIds($fileIds);
 
-            $request->fromJsonString($params);
-
-            $this->logger->debug('Describe Media Info Request: ' . $params);
+            $this->logger->debug('Describe Media Info Request: ' . $request->toJsonString());
 
             $response = $this->client->DescribeMediaInfos($request);
 
@@ -405,7 +388,10 @@ class Vod extends Service
             $transcodeTaskSet[] = $item;
         }
 
+        $subAppId = (int)$this->settings['sub_app_id'];
+
         $params = json_encode([
+            'SubAppId' => $subAppId,
             'FileId' => $fileId,
             'MediaProcessTask' => [
                 'TranscodeTaskSet' => $transcodeTaskSet,
@@ -415,8 +401,6 @@ class Vod extends Service
         try {
 
             $request = new ProcessMediaRequest();
-
-            $request->setSubAppId($this->settings['sub_app_id']);
 
             $request->fromJsonString($params);
 
@@ -481,7 +465,10 @@ class Vod extends Service
             $transcodeTaskSet[] = $item;
         }
 
+        $subAppId = (int)$this->settings['sub_app_id'];
+
         $params = json_encode([
+            'SubAppId' => $subAppId,
             'FileId' => $fileId,
             'MediaProcessTask' => [
                 'TranscodeTaskSet' => $transcodeTaskSet,
@@ -491,8 +478,6 @@ class Vod extends Service
         try {
 
             $request = new ProcessMediaRequest();
-
-            $request->setSubAppId($this->settings['sub_app_id']);
 
             $request->fromJsonString($params);
 
@@ -615,20 +600,15 @@ class Vod extends Service
     {
         $secret = $this->getSettings('secret');
 
-        $secretId = $secret['secret_id'];
-        $secretKey = $secret['secret_key'];
-
-        $region = $this->settings['storage_type'] == 'fixed' ? $this->settings['storage_region'] : '';
-
-        $credential = new Credential($secretId, $secretKey);
+        $credential = new Credential($secret['secret_id'], $secret['secret_key']);
 
         $httpProfile = new HttpProfile();
-
-        $httpProfile->setEndpoint(self::END_POINT);
 
         $clientProfile = new ClientProfile();
 
         $clientProfile->setHttpProfile($httpProfile);
+
+        $region = $this->settings['region'] ?? 'ap-guangzhou';
 
         return new VodClient($credential, $region, $clientProfile);
     }
