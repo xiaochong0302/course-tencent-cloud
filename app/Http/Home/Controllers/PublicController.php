@@ -9,6 +9,7 @@ namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Common as CommonService;
 use App\Library\CsrfToken as CsrfTokenService;
+use App\Library\Utils\ShortIdCodec as ShortIdCodec;
 use App\Repos\Upload as UploadRepo;
 use App\Services\Logic\Url\ShareUrl as ShareUrlService;
 use App\Services\Pay\Alipay as AlipayService;
@@ -41,17 +42,21 @@ class PublicController extends \Phalcon\Mvc\Controller
      */
     public function downloadAction($id)
     {
-        $id = $this->crypt->decryptBase64($id, null, true);
+        $id = ShortIdCodec::decode($id);
 
         $repo = new UploadRepo();
 
-        $file = $repo->findById($id);
+        $upload = $repo->findById($id);
 
-        if ($file) {
+        if ($upload) {
 
             $service = new StorageService();
 
-            $location = $service->getFileUrl($file->path);
+            $location = $service->getPublicObjectUrl($upload->path);
+
+            if ($upload->acl == 'private') {
+                $location = $service->getPrivateObjectUrl($upload->path);
+            }
 
             return $this->response->redirect($location, true);
 

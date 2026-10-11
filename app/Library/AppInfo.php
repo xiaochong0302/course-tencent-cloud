@@ -7,6 +7,12 @@
 
 namespace App\Library;
 
+/**
+ * @property string $name
+ * @property string $alias
+ * @property string $link
+ * @property string $version
+ */
 class AppInfo
 {
 
@@ -16,7 +22,7 @@ class AppInfo
 
     protected string $link = 'https://www.koogua.com';
 
-    protected string $version = '2.0.0';
+    protected string $version = '2.0.1';
 
     public function __get(string $name): ?string
     {
