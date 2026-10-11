@@ -25,6 +25,11 @@ abstract class Smser extends Service
     protected array $settings;
 
     /**
+     * @var SmsClient
+     */
+    protected SmsClient $client;
+
+    /**
      * @var Logger
      */
     protected Logger $logger;
@@ -34,48 +39,37 @@ abstract class Smser extends Service
         $this->settings = $this->getSettings('sms');
 
         $this->logger = $this->getLogger('sms');
+
+        $this->client = $this->getSmsClient();
     }
 
     /**
      * 发送短信
+     *
+     * @link https://cloud.tencent.com/document/product/382/55981
+     * @link https://cloud.tencent.com/document/product/382/43195
      */
     public function send(string $phoneNumber, string $templateId, array $params): bool
     {
-        $secret = $this->getSettings('secret');
-
-        $region = $this->settings['region'] ?: 'ap-guangzhou';
-
-        $templateParams = $this->formatTemplateParams($params);
-
         try {
 
-            $credential = new Credential($secret['secret_id'], $secret['secret_key']);
+            $appId = $this->settings['app_id'];
+            $signName = $this->settings['signature'];
 
-            $httpProfile = new HttpProfile();
-
-            $httpProfile->setEndpoint('sms.tencentcloudapi.com');
-
-            $clientProfile = new ClientProfile();
-
-            $clientProfile->setHttpProfile($httpProfile);
-
-            $client = new SmsClient($credential, $region, $clientProfile);
+            $templateParamSet = $this->formatTemplateParams($params);
+            $phoneNumberSet = [$phoneNumber];
 
             $request = new SendSmsRequest();
 
-            $params = json_encode([
-                'SmsSdkAppId' => $this->settings['app_id'],
-                'SignName' => $this->settings['signature'],
-                'TemplateId' => $templateId,
-                'TemplateParamSet' => $templateParams,
-                'PhoneNumberSet' => [$phoneNumber],
-            ]);
+            $request->setSmsSdkAppId($appId);
+            $request->setSignName($signName);
+            $request->setTemplateId($templateId);
+            $request->setTemplateParamSet($templateParamSet);
+            $request->setPhoneNumberSet($phoneNumberSet);
 
-            $request->fromJsonString($params);
+            $this->logger->debug('Send Message Request: ' . $request->toJsonString());
 
-            $this->logger->debug('Send Message Request: ' . $params);
-
-            $response = $client->SendSms($request);
+            $response = $this->client->SendSms($request);
 
             $this->logger->debug('Send Message Response: ' . $response->toJsonString());
 
@@ -117,17 +111,28 @@ abstract class Smser extends Service
         return $params;
     }
 
-    protected function getTemplateId(string $code): ?int
+    protected function getTemplateId(string $code): ?string
     {
         $template = json_decode($this->settings['template'], true);
 
-        $result = null;
+        return $template[$code]['id'] ?? null;
+    }
 
-        if (isset($template[$code]['id'])) {
-            $result = (int)$template[$code]['id'];
-        }
+    protected function getSmsClient(): SmsClient
+    {
+        $secret = $this->getSettings('secret');
 
-        return $result;
+        $credential = new Credential($secret['secret_id'], $secret['secret_key']);
+
+        $httpProfile = new HttpProfile();
+
+        $clientProfile = new ClientProfile();
+
+        $clientProfile->setHttpProfile($httpProfile);
+
+        $region = $this->settings['region'] ?? 'ap-guangzhou';
+
+        return new SmsClient($credential, $region, $clientProfile);
     }
 
 }
