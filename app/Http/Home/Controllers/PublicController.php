@@ -9,12 +9,9 @@ namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Common as CommonService;
 use App\Library\CsrfToken as CsrfTokenService;
-use App\Library\Utils\ShortIdCodec as ShortIdCodec;
-use App\Repos\Upload as UploadRepo;
 use App\Services\Logic\Url\ShareUrl as ShareUrlService;
 use App\Services\Pay\Alipay as AlipayService;
 use App\Services\Pay\Wxpay as WxpayService;
-use App\Services\Storage as StorageService;
 use App\Traits\Response as ResponseTrait;
 use App\Traits\Security as SecurityTrait;
 use Endroid\QrCode\QrCode;
@@ -35,37 +32,6 @@ class PublicController extends \Phalcon\Mvc\Controller
         $siteInfo = $commonService->getSiteInfo();
 
         $this->view->setVar('site_info', $siteInfo);
-    }
-
-    /**
-     * @Get("/download/{id}", name="home.download")
-     */
-    public function downloadAction($id)
-    {
-        $id = ShortIdCodec::decode($id);
-
-        $repo = new UploadRepo();
-
-        $upload = $repo->findById($id);
-
-        if ($upload) {
-
-            $service = new StorageService();
-
-            $location = $service->getPublicObjectUrl($upload->path);
-
-            if ($upload->acl == 'private') {
-                $location = $service->getPrivateObjectUrl($upload->path);
-            }
-
-            return $this->response->redirect($location, true);
-
-        } else {
-
-            $this->response->setStatusCode(404);
-
-            return $this->response;
-        }
     }
 
     /**

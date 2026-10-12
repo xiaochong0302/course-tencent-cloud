@@ -116,15 +116,8 @@ class UploadController extends Controller
 
         $file = $service->uploadRemoteContentImage($originalUrl);
 
-        $newUrl = $originalUrl;
+        $newUrl = $file ? $service->getImageUrl($file->path) : $originalUrl;
 
-        if ($file) {
-            $newUrl = $service->getImageUrl($file->path);
-        }
-
-        /**
-         * 编辑器要求返回的数据结构
-         */
         $data = [
             'url' => $newUrl,
             'originalURL' => $originalUrl,

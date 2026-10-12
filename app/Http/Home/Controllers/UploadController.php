@@ -9,7 +9,7 @@ namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Common as CommonService;
 use App\Services\MyStorage as MyStorageService;
-use App\Validators\Validator as AppValidator;
+use App\Validators\Upload as UploadValidator;
 
 /**
  * @RoutePrefix("/upload")
@@ -23,7 +23,7 @@ class UploadController extends Controller
 
         $authInfo = $commonService->getAuthInfo();
 
-        $validator = new AppValidator();
+        $validator = new UploadValidator();
 
         $validator->checkAuthInfo($authInfo);
     }
