@@ -26,7 +26,7 @@ trait Auth
 
         $authInfo = $auth->getAuthInfo();
 
-        if (!$authInfo) {
+        if (empty($authInfo['id'])) {
             return $this->getGuestUser();
         }
 

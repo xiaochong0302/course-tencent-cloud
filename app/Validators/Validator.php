@@ -19,7 +19,7 @@ class Validator extends Injectable
 
     public function checkAuthInfo(?array $authInfo = null): void
     {
-        if (empty($authInfo)) {
+        if (empty($authInfo['id'])) {
             throw new UnauthorizedException('sys.unauthorized');
         }
     }
