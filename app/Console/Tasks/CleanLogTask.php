@@ -26,7 +26,7 @@ class CleanLogTask extends Task
         $this->cleanMailLog();
         $this->cleanSmsLog();
         $this->cleanVodLog();
-        $this->cleanStorageLog();
+        $this->cleanCosLog();
         $this->cleanPayLog();
         $this->cleanOrderLog();
         $this->cleanTradeLog();
@@ -123,9 +123,9 @@ class CleanLogTask extends Task
     /**
      * 清理存储服务日志
      */
-    protected function cleanStorageLog(): void
+    protected function cleanCosLog(): void
     {
-        $type = 'storage';
+        $type = 'cos';
 
         $this->cleanLog($type, 7);
 
