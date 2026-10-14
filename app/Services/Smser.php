@@ -22,25 +22,25 @@ abstract class Smser extends Service
     /**
      * @var array
      */
-    protected array $settings;
-
-    /**
-     * @var SmsClient
-     */
-    protected SmsClient $client;
+    protected array $smsSettings;
 
     /**
      * @var Logger
      */
-    protected Logger $logger;
+    protected Logger $smsLogger;
+
+    /**
+     * @var SmsClient
+     */
+    protected SmsClient $smsClient;
 
     public function __construct()
     {
-        $this->settings = $this->getSettings('sms');
+        $this->smsSettings = $this->getSettings('sms');
 
-        $this->logger = $this->getLogger('sms');
+        $this->smsLogger = $this->getLogger('sms');
 
-        $this->client = $this->getSmsClient();
+        $this->smsClient = $this->getSmsClient();
     }
 
     /**
@@ -53,8 +53,8 @@ abstract class Smser extends Service
     {
         try {
 
-            $appId = $this->settings['app_id'];
-            $signName = $this->settings['signature'];
+            $appId = $this->smsSettings['app_id'];
+            $signName = $this->smsSettings['signature'];
 
             $templateParamSet = $this->formatTemplateParams($params);
             $phoneNumberSet = [$phoneNumber];
@@ -67,11 +67,11 @@ abstract class Smser extends Service
             $request->setTemplateParamSet($templateParamSet);
             $request->setPhoneNumberSet($phoneNumberSet);
 
-            $this->logger->debug('Send Message Request: ' . $request->toJsonString());
+            $this->smsLogger->debug('Send Message Request: ' . $request->toJsonString());
 
-            $response = $this->client->SendSms($request);
+            $response = $this->smsClient->SendSms($request);
 
-            $this->logger->debug('Send Message Response: ' . $response->toJsonString());
+            $this->smsLogger->debug('Send Message Response: ' . $response->toJsonString());
 
             /**
              * @var $sendStatus SendStatus
@@ -81,12 +81,12 @@ abstract class Smser extends Service
             $result = $sendStatus->getCode() == 'Ok';
 
             if (!$result) {
-                $this->logger->error('Send Message Failed: ' . $response->toJsonString());
+                $this->smsLogger->error('Send Message Failed: ' . $response->toJsonString());
             }
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Send Message Exception: ' . kg_json_encode([
+            $this->smsLogger->error('Send Message Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -113,7 +113,7 @@ abstract class Smser extends Service
 
     protected function getTemplateId(string $code): ?string
     {
-        $template = json_decode($this->settings['template'], true);
+        $template = json_decode($this->smsSettings['template'], true);
 
         return $template[$code]['id'] ?? null;
     }
@@ -130,7 +130,7 @@ abstract class Smser extends Service
 
         $clientProfile->setHttpProfile($httpProfile);
 
-        $region = $this->settings['region'] ?? 'ap-guangzhou';
+        $region = $secret['region'] ?? 'ap-guangzhou';
 
         return new SmsClient($credential, $region, $clientProfile);
     }

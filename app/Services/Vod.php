@@ -27,25 +27,25 @@ class Vod extends Service
     /**
      * @var array
      */
-    protected array $settings;
-
-    /**
-     * @var VodClient
-     */
-    protected VodClient $client;
+    protected array $vodSettings;
 
     /**
      * @var Logger
      */
-    protected Logger $logger;
+    protected Logger $vodLogger;
+
+    /**
+     * @var VodClient
+     */
+    protected VodClient $vodClient;
 
     public function __construct()
     {
-        $this->settings = $this->getSettings('vod');
+        $this->vodSettings = $this->getSettings('vod');
 
-        $this->client = $this->getVodClient();
+        $this->vodClient = $this->getVodClient();
 
-        $this->logger = $this->getLogger('vod');
+        $this->vodLogger = $this->getLogger('vod');
     }
 
     /**
@@ -57,19 +57,19 @@ class Vod extends Service
 
             $request = new DescribeTranscodeTemplatesRequest();
 
-            $subAppId = (int)$this->settings['sub_app_id'];
+            $subAppId = (int)$this->vodSettings['sub_app_id'];
 
             $request->setSubAppId($subAppId);
 
-            $response = $this->client->DescribeTranscodeTemplates($request);
+            $response = $this->vodClient->DescribeTranscodeTemplates($request);
 
-            $this->logger->debug('Describe Transcode Templates Response: ' . $response->toJsonString());
+            $this->vodLogger->debug('Describe Transcode Templates Response: ' . $response->toJsonString());
 
             $result = $response->TotalCount > 0;
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Describe Transcode Templates Exception: ' . kg_json_encode([
+            $this->vodLogger->error('Describe Transcode Templates Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
@@ -95,7 +95,7 @@ class Vod extends Service
         $secretId = $secret['secret_id'];
         $secretKey = $secret['secret_key'];
 
-        $subAppId = (int)$this->settings['sub_app_id'];
+        $subAppId = (int)$this->vodSettings['sub_app_id'];
 
         $params = [
             'secretId' => $secretId,
@@ -119,12 +119,12 @@ class Vod extends Service
      */
     public function getPlayUrl(string $url): string
     {
-        if ($this->settings['key_anti_enabled'] == 0) {
+        if ($this->vodSettings['key_anti_enabled'] == 0) {
             return $url;
         }
 
-        $key = $this->settings['key_anti_key'];
-        $expiry = (int)$this->settings['key_anti_expiry'];
+        $key = $this->vodSettings['key_anti_key'];
+        $expiry = (int)$this->vodSettings['key_anti_expiry'];
 
         $path = parse_url($url, PHP_URL_PATH);
         $pos = strrpos($path, '/');
@@ -133,7 +133,7 @@ class Vod extends Service
 
         $tryTime = 0; // 试看时间，0不限制
         $expiredTime = dechex(time() + $expiry);
-        $ipLimit = (int)$this->settings['key_anti_ip_limit']; // ip数量限制，0不限制
+        $ipLimit = (int)$this->vodSettings['key_anti_ip_limit']; // ip数量限制，0不限制
         $random = uniqid(); // 随机数
 
         /**
@@ -167,15 +167,15 @@ class Vod extends Service
 
             $request = new PullEventsRequest();
 
-            $subAppId = (int)$this->settings['sub_app_id'];
+            $subAppId = (int)$this->vodSettings['sub_app_id'];
 
             $request->setSubAppId($subAppId);
 
-            $this->logger->debug('Pull Events Request: ' . $request->toJsonString());
+            $this->vodLogger->debug('Pull Events Request: ' . $request->toJsonString());
 
-            $response = $this->client->PullEvents($request);
+            $response = $this->vodClient->PullEvents($request);
 
-            $this->logger->debug('Pull Events Response: ' . $response->toJsonString());
+            $this->vodLogger->debug('Pull Events Response: ' . $response->toJsonString());
 
             $result = $response->getEventSet();
 
@@ -185,7 +185,7 @@ class Vod extends Service
              * 没有事件也会抛异常，避免错误日志困扰，忽略此种情况
              */
             if ($e->getErrorCode() != 'ResourceNotFound') {
-                $this->logger->error('Pull Events Exception: ' . kg_json_encode([
+                $this->vodLogger->error('Pull Events Exception: ' . kg_json_encode([
                         'file' => $e->getFile(),
                         'line' => $e->getLine(),
                         'code' => $e->getErrorCode(),
@@ -211,23 +211,23 @@ class Vod extends Service
 
             $request = new ConfirmEventsRequest();
 
-            $subAppId = (int)$this->settings['sub_app_id'];
+            $subAppId = (int)$this->vodSettings['sub_app_id'];
 
             $request->setSubAppId($subAppId);
 
             $request->setEventHandles($eventHandles);
 
-            $this->logger->debug('Confirm Events Request: ' . $request->toJsonString());
+            $this->vodLogger->debug('Confirm Events Request: ' . $request->toJsonString());
 
-            $response = $this->client->ConfirmEvents($request);
+            $response = $this->vodClient->ConfirmEvents($request);
 
-            $this->logger->debug('Confirm Events Response: ' . $response->toJsonString());
+            $this->vodLogger->debug('Confirm Events Response: ' . $response->toJsonString());
 
             $result = true;
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Confirm Events Exception: ' . kg_json_encode([
+            $this->vodLogger->error('Confirm Events Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
@@ -252,7 +252,7 @@ class Vod extends Service
 
             $request = new DeleteMediaRequest();
 
-            $subAppId = (int)$this->settings['sub_app_id'];
+            $subAppId = (int)$this->vodSettings['sub_app_id'];
 
             $request->setSubAppId($subAppId);
 
@@ -262,17 +262,17 @@ class Vod extends Service
                 $request->setDeleteParts($deleteParts);
             }
 
-            $this->logger->debug('Delete Media Request: ' . $request->toJsonString());
+            $this->vodLogger->debug('Delete Media Request: ' . $request->toJsonString());
 
-            $response = $this->client->DeleteMedia($request);
+            $response = $this->vodClient->DeleteMedia($request);
 
-            $this->logger->debug('Delete Media Response: ' . $response->toJsonString());
+            $this->vodLogger->debug('Delete Media Response: ' . $response->toJsonString());
 
             $result = true;
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Delete Media Exception: ' . kg_json_encode([
+            $this->vodLogger->error('Delete Media Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
@@ -295,7 +295,7 @@ class Vod extends Service
 
             $request = new DescribeMediaInfosRequest();
 
-            $subAppId = (int)$this->settings['sub_app_id'];
+            $subAppId = (int)$this->vodSettings['sub_app_id'];
 
             $request->setSubAppId($subAppId);
 
@@ -303,11 +303,11 @@ class Vod extends Service
 
             $request->setFileIds($fileIds);
 
-            $this->logger->debug('Describe Media Info Request: ' . $request->toJsonString());
+            $this->vodLogger->debug('Describe Media Info Request: ' . $request->toJsonString());
 
-            $response = $this->client->DescribeMediaInfos($request);
+            $response = $this->vodClient->DescribeMediaInfos($request);
 
-            $this->logger->debug('Describe Media Info Response: ' . $response->toJsonString());
+            $this->vodLogger->debug('Describe Media Info Response: ' . $response->toJsonString());
 
             if (!$response->getMediaInfoSet()) {
                 return false;
@@ -324,7 +324,7 @@ class Vod extends Service
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Describe Media Info Exception: ' . kg_json_encode([
+            $this->vodLogger->error('Describe Media Info Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
@@ -388,7 +388,7 @@ class Vod extends Service
             $transcodeTaskSet[] = $item;
         }
 
-        $subAppId = (int)$this->settings['sub_app_id'];
+        $subAppId = (int)$this->vodSettings['sub_app_id'];
 
         $params = json_encode([
             'SubAppId' => $subAppId,
@@ -404,17 +404,17 @@ class Vod extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Process Media Request: ' . $params);
+            $this->vodLogger->debug('Process Media Request: ' . $params);
 
-            $response = $this->client->ProcessMedia($request);
+            $response = $this->vodClient->ProcessMedia($request);
 
-            $this->logger->debug('Process Media Response: ' . $response->toJsonString());
+            $this->vodLogger->debug('Process Media Response: ' . $response->toJsonString());
 
             $result = $response->TaskId ?: false;
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Process Media Exception: ' . kg_json_encode([
+            $this->vodLogger->error('Process Media Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
@@ -465,7 +465,7 @@ class Vod extends Service
             $transcodeTaskSet[] = $item;
         }
 
-        $subAppId = (int)$this->settings['sub_app_id'];
+        $subAppId = (int)$this->vodSettings['sub_app_id'];
 
         $params = json_encode([
             'SubAppId' => $subAppId,
@@ -481,17 +481,17 @@ class Vod extends Service
 
             $request->fromJsonString($params);
 
-            $this->logger->debug('Process Media Request: ' . $params);
+            $this->vodLogger->debug('Process Media Request: ' . $params);
 
-            $response = $this->client->ProcessMedia($request);
+            $response = $this->vodClient->ProcessMedia($request);
 
-            $this->logger->debug('Process Media Response: ' . $response->toJsonString());
+            $this->vodLogger->debug('Process Media Response: ' . $response->toJsonString());
 
             $result = $response->TaskId ?: false;
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Process Media Exception: ' . kg_json_encode([
+            $this->vodLogger->error('Process Media Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getErrorCode(),
@@ -512,8 +512,8 @@ class Vod extends Service
     {
         $result = null;
 
-        if ($this->settings['wmk_enabled'] == 1 && $this->settings['wmk_tpl_id'] > 0) {
-            $result = (int)$this->settings['wmk_tpl_id'];
+        if ($this->vodSettings['wmk_enabled'] == 1 && $this->vodSettings['wmk_tpl_id'] > 0) {
+            $result = (int)$this->vodSettings['wmk_tpl_id'];
         }
 
         return $result;
@@ -550,9 +550,9 @@ class Vod extends Service
             ]
         ];
 
-        $format = $this->settings['video_format'] ?: 'hls';
+        $format = $this->vodSettings['video_format'] ?: 'hls';
 
-        if ($this->settings['transcode_type'] == 'tes') {
+        if ($this->vodSettings['transcode_type'] == 'tes') {
             $templates = $tesTemplates[$format] ?? $tesTemplates['mp4'];
         } else {
             $templates = $normalTemplates[$format] ?? $normalTemplates['hls'];
@@ -560,8 +560,8 @@ class Vod extends Service
 
         $quality = ['sd'];
 
-        if (!empty($this->settings['video_quality'])) {
-            $quality = json_decode($this->settings['video_quality'], true);
+        if (!empty($this->vodSettings['video_quality'])) {
+            $quality = json_decode($this->vodSettings['video_quality'], true);
         }
 
         return array_filter($templates, function ($item) use ($quality) {
@@ -582,9 +582,9 @@ class Vod extends Service
             1120 => ['quality' => 'sd', 'bit_rate' => 96, 'sample_rate' => 44100],
         ];
 
-        $format = $this->settings['audio_format'] ?: 'mp3';
+        $format = $this->vodSettings['audio_format'] ?: 'mp3';
 
-        $quality = !empty($this->settings['audio_quality']) ? json_decode($this->settings['audio_quality'], true) : ['sd'];
+        $quality = !empty($this->vodSettings['audio_quality']) ? json_decode($this->vodSettings['audio_quality'], true) : ['sd'];
 
         $templates = $format == 'mp3' ? $mp3Templates : $m4aTemplates;
 
@@ -608,7 +608,7 @@ class Vod extends Service
 
         $clientProfile->setHttpProfile($httpProfile);
 
-        $region = $this->settings['region'] ?? 'ap-guangzhou';
+        $region = $secret['region'] ?? 'ap-guangzhou';
 
         return new VodClient($credential, $region, $clientProfile);
     }

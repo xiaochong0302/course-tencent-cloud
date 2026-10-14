@@ -24,25 +24,25 @@ class Storage extends Service
     /**
      * @var array
      */
-    protected array $settings;
+    protected array $cosSettings;
 
     /**
      * @var Logger
      */
-    protected Logger $logger;
+    protected Logger $cosLogger;
 
     /**
      * @var CosClient
      */
-    protected CosClient $client;
+    protected CosClient $cosClient;
 
     public function __construct()
     {
-        $this->settings = $this->getSettings('cos');
+        $this->cosSettings = $this->getSettings('cos');
 
-        $this->logger = $this->getLogger('storage');
+        $this->cosLogger = $this->getLogger('storage');
 
-        $this->client = $this->getCosClient();
+        $this->cosClient = $this->getCosClient();
     }
 
     /**
@@ -55,9 +55,9 @@ class Storage extends Service
         $secret = $this->getSettings('secret');
 
         $resource = sprintf('qcs::cos:%s:uid/%s:%s/*',
-            $this->settings['region'],
+            $this->cosSettings['region'],
             $secret['app_id'],
-            $this->settings['bucket']
+            $this->cosSettings['bucket']
         );
 
         $policy = json_encode([
@@ -89,7 +89,7 @@ class Storage extends Service
 
             $clientProfile->setHttpProfile($httpProfile);
 
-            $client = new StsClient($credential, $this->settings['region'], $clientProfile);
+            $client = new StsClient($credential, $this->cosSettings['region'], $clientProfile);
 
             $request = new GetFederationTokenRequest();
 
@@ -104,7 +104,7 @@ class Storage extends Service
 
         } catch (TencentCloudSDKException $e) {
 
-            $this->logger->error('Get Tmp Token Exception: ' . kg_json_encode([
+            $this->cosLogger->error('Get Tmp Token Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -131,17 +131,17 @@ class Storage extends Service
             if ($etag == $md5) return $key;
         }
 
-        $bucket = $this->settings['bucket'];
+        $bucket = $this->cosSettings['bucket'];
 
         try {
 
-            $response = $this->client->upload($bucket, $key, $body);
+            $response = $this->cosClient->upload($bucket, $key, $body);
 
             $result = $response['Location'] ? $key : false;
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Put String Exception: ' . kg_json_encode([
+            $this->cosLogger->error('Put String Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -167,19 +167,19 @@ class Storage extends Service
             if ($etag == $md5) return $key;
         }
 
-        $bucket = $this->settings['bucket'];
+        $bucket = $this->cosSettings['bucket'];
 
         try {
 
             $body = fopen($filename, 'rb');
 
-            $response = $this->client->upload($bucket, $key, $body);
+            $response = $this->cosClient->upload($bucket, $key, $body);
 
             $result = $response['Location'] ? $key : false;
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Put File Exception: ' . kg_json_encode([
+            $this->cosLogger->error('Put File Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -199,11 +199,11 @@ class Storage extends Service
     {
         if (!$this->doesObjectExist($key)) return false;
 
-        $bucket = $this->settings['bucket'];
+        $bucket = $this->cosSettings['bucket'];
 
         try {
 
-            $response = $this->client->DeleteObject([
+            $response = $this->cosClient->DeleteObject([
                 'Bucket' => $bucket,
                 'Key' => $key,
             ]);
@@ -212,7 +212,7 @@ class Storage extends Service
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Delete Object Exception: ' . kg_json_encode([
+            $this->cosLogger->error('Delete Object Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -230,15 +230,15 @@ class Storage extends Service
      */
     public function doesObjectExist(string $key): bool
     {
-        $bucket = $this->settings['bucket'];
+        $bucket = $this->cosSettings['bucket'];
 
         try {
 
-            $result = $this->client->doesObjectExist($bucket, $key);
+            $result = $this->cosClient->doesObjectExist($bucket, $key);
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Does Object Exist Exception: ' . kg_json_encode([
+            $this->cosLogger->error('Does Object Exist Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -256,14 +256,14 @@ class Storage extends Service
      */
     public function headObject(string $key): array|false
     {
-        $bucket = $this->settings['bucket'];
+        $bucket = $this->cosSettings['bucket'];
 
         try {
 
             /**
              * @var GuzzleCommandResult $response
              */
-            $response = $this->client->HeadObject([
+            $response = $this->cosClient->HeadObject([
                 'Bucket' => $bucket,
                 'Key' => $key,
             ]);
@@ -279,7 +279,7 @@ class Storage extends Service
                 return false;
             }
 
-            $this->logger->error('Head Object Exception: ' . kg_json_encode([
+            $this->cosLogger->error('Head Object Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -299,13 +299,13 @@ class Storage extends Service
      */
     public function detectText(string $content): int
     {
-        $bucket = $this->settings['bucket'];
+        $bucket = $this->cosSettings['bucket'];
 
         $content = base64_encode($content);
 
         try {
 
-            $response = $this->client->DetectText([
+            $response = $this->cosClient->DetectText([
                 'Bucket' => $bucket,
                 'Input' => ['Content' => $content],
             ]);
@@ -314,7 +314,7 @@ class Storage extends Service
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Detect Text Exception: ' . kg_json_encode([
+            $this->cosLogger->error('Detect Text Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -334,7 +334,7 @@ class Storage extends Service
      */
     public function detectImages(array $images): int
     {
-        $bucket = $this->settings['bucket'];
+        $bucket = $this->cosSettings['bucket'];
 
         $inputs = [];
 
@@ -348,7 +348,7 @@ class Storage extends Service
 
         try {
 
-            $response = $this->client->DetectImages([
+            $response = $this->cosClient->DetectImages([
                 'Bucket' => $bucket,
                 'Inputs' => $inputs,
             ]);
@@ -376,7 +376,7 @@ class Storage extends Service
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Detect Images Exception: ' . kg_json_encode([
+            $this->cosLogger->error('Detect Images Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -431,17 +431,17 @@ class Storage extends Service
     {
         $key = trim($key, '/'); // 去掉"/"字符，否则会重复
 
-        $bucket = $this->settings['bucket'];
+        $bucket = $this->cosSettings['bucket'];
 
         try {
 
-            $result = $this->client->getObjectUrl($bucket, $key, $expires);
+            $result = $this->cosClient->getObjectUrl($bucket, $key, $expires);
 
             $result = trim($result, '&'); // 去掉末尾"&"字符
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Get Private Object Url Exception: ' . kg_json_encode([
+            $this->cosLogger->error('Get Private Object Url Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -461,15 +461,15 @@ class Storage extends Service
     {
         $key = trim($key, '/'); // 去掉"/"字符，否则会重复
 
-        $bucket = $this->settings['bucket'];
+        $bucket = $this->cosSettings['bucket'];
 
         try {
 
-            $result = $this->client->getObjectUrlWithoutSign($bucket, $key);
+            $result = $this->cosClient->getObjectUrlWithoutSign($bucket, $key);
 
         } catch (\Exception $e) {
 
-            $this->logger->error('Get Public Object Url Exception: ' . kg_json_encode([
+            $this->cosLogger->error('Get Public Object Url Exception: ' . kg_json_encode([
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                     'code' => $e->getCode(),
@@ -557,8 +557,8 @@ class Storage extends Service
         $secret = $this->getSettings('secret');
 
         return new CosClient([
-            'region' => $this->settings['region'],
-            'schema' => $this->settings['protocol'],
+            'region' => $this->cosSettings['region'],
+            'schema' => $this->cosSettings['protocol'],
             'credentials' => [
                 'secretId' => $secret['secret_id'],
                 'secretKey' => $secret['secret_key'],
