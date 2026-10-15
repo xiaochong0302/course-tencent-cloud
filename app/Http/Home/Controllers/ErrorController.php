@@ -8,6 +8,7 @@
 namespace App\Http\Home\Controllers;
 
 use App\Http\Home\Services\Common as CommonService;
+use App\Library\Http\Request as HttpRequest;
 use App\Models\User as UserModel;
 use App\Traits\Auth as AuthTrait;
 use App\Traits\Response as ResponseTrait;
@@ -24,7 +25,7 @@ class ErrorController extends \Phalcon\Mvc\Controller
     /**
      * @var array
      */
-    protected array $siteInfo =  [];
+    protected array $siteInfo = [];
 
     /**
      * @var UserModel
@@ -79,10 +80,12 @@ class ErrorController extends \Phalcon\Mvc\Controller
     {
         $this->response->setStatusCode(404);
 
-        $isAjaxRequest = $this->request->isAjax();
-        $isApiRequest = $this->request->isApi();
+        /**
+         * @var HttpRequest $request
+         */
+        $request = $this->request;
 
-        if ($isAjaxRequest || $isApiRequest) {
+        if ($request->isAjax() || $request->isApi()) {
             return $this->jsonError(['code' => 'sys.not_found']);
         }
     }

@@ -12,10 +12,16 @@ use App\Exceptions\Forbidden as ForbiddenException;
 use App\Exceptions\NotFound as NotFoundException;
 use App\Exceptions\ServiceUnavailable as ServiceUnavailableException;
 use App\Exceptions\Unauthorized as UnauthorizedException;
+use App\Library\Http\Request as HttpRequest;
+use App\Library\Http\Response as HttpResponse;
 use App\Library\Logger as AppLogger;
 use Phalcon\Logger\Logger;
 use Throwable;
 
+/**
+ * @property HttpResponse $response
+ * @property HttpRequest $request
+ */
 class HttpErrorHandler extends ErrorHandler
 {
 

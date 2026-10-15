@@ -10,21 +10,6 @@ namespace App\Library\Http;
 class Request extends \Phalcon\Http\Request
 {
 
-    public function isAjax(): bool
-    {
-        if (parent::isAjax()) {
-            return true;
-        }
-
-        $contentType = $this->getContentType();
-
-        if (!empty($contentType) && str_contains($contentType, 'json')) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function isApi(): bool
     {
         if ($this->hasHeader('X-Platform')) {
@@ -42,9 +27,7 @@ class Request extends \Phalcon\Http\Request
 
     public function getPost(?string $name = null, mixed $filters = null, mixed $defaultValue = null, bool $notAllowEmpty = false, bool $noRecursive = false): mixed
     {
-        $contentType = $this->getContentType();
-
-        if (stripos($contentType, 'json')) {
+        if ($this->isJson()) {
             $data = $this->getPut($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
         } else {
             $data = parent::getPost($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
