@@ -8,6 +8,7 @@
 namespace App\Library\Mvc;
 
 use Phalcon\Mvc\View as PhView;
+use Phalcon\Paginator\Repository as PagerRepository;
 
 class View extends PhView
 {
@@ -30,12 +31,8 @@ class View extends PhView
 
     protected function handleVar(mixed $var): mixed
     {
-        /**
-         * 分页数据
-         */
-        if (is_object($var) && method_exists($var, 'getTotalItems')) {
-            $items = $var->getItems();
-            $items = kg_objectify($items);
+        if ($var instanceof PagerRepository) {
+            $items = kg_objectify($var->getItems());
             $var->setItems($items);
         } elseif (is_array($var)) {
             $var = kg_objectify($var);
