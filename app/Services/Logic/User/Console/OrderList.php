@@ -66,7 +66,7 @@ class OrderList extends LogicService
             $items[] = [
                 'sn' => $order['sn'],
                 'subject' => $order['subject'],
-                'amount' => (float)$order['amount'],
+                'amount' => $order['amount'],
                 'status' => $order['status'],
                 'item_id' => $order['item_id'],
                 'item_type' => $order['item_type'],

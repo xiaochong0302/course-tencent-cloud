@@ -88,8 +88,8 @@ class CourseList extends LogicService
                 'level' => $course['level'],
                 'featured' => $course['featured'],
                 'rating' => round($course['rating'], 1),
-                'market_price' => (float)$course['market_price'],
-                'vip_price' => (float)$course['vip_price'],
+                'market_price' => $course['market_price'],
+                'vip_price' => $course['vip_price'],
                 'user_count' => $course['user_count'],
                 'lesson_count' => $course['lesson_count'],
                 'review_count' => $course['review_count'],
@@ -111,11 +111,6 @@ class CourseList extends LogicService
         if (isset($params['teacher_id'])) {
             $user = $validator->checkUser($params['teacher_id']);
             $query['teacher_id'] = $user->id;
-        }
-
-        if (isset($params['tag_id'])) {
-            $tag = $validator->checkTag($params['tag_id']);
-            $query['tag_id'] = $tag->id;
         }
 
         if (isset($params['tc'])) {

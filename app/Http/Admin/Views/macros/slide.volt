@@ -13,7 +13,7 @@
 {%- endmacro %}
 
 {%- macro target_info(value) %}
-    if value.course is defined %}
+    {% if value.course is defined %}
         {% set url = url({'for':'home.course.show','id':value.course.id}) %}
         <a href="{{ url }}" target="_blank">{{ value.course.title }}</a>（{{ value.course.id }}）
     {% elseif value.vip is defined %}

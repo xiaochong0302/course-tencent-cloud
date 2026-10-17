@@ -71,7 +71,7 @@ class RefundList extends LogicService
             $items[] = [
                 'sn' => $refund['sn'],
                 'subject' => $refund['subject'],
-                'amount' => (float)$refund['amount'],
+                'amount' => $refund['amount'],
                 'status' => $refund['status'],
                 'apply_note' => $refund['apply_note'],
                 'review_note' => $refund['review_note'],
