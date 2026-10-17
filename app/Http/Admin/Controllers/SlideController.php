@@ -47,17 +47,11 @@ class SlideController extends Controller
         $slideService = new SlideService();
 
         $targetTypes = $slideService->getTargetTypes();
-        $xmExamPapers = $slideService->getXmExamPapers();
-        $xmPackages = $slideService->getXmPackages();
-        $xmArticles = $slideService->getXmArticles();
         $xmCourses = $slideService->getXmCourses();
         $xmPages = $slideService->getXmPages();
         $xmVips = $slideService->getXmVips();
 
         $this->view->setVar('target_types', $targetTypes);
-        $this->view->setVar('xm_exam_papers', $xmExamPapers);
-        $this->view->setVar('xm_packages', $xmPackages);
-        $this->view->setVar('xm_articles', $xmArticles);
         $this->view->setVar('xm_courses', $xmCourses);
         $this->view->setVar('xm_pages', $xmPages);
         $this->view->setVar('xm_vips', $xmVips);
