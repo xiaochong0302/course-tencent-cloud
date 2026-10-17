@@ -25,8 +25,6 @@ class SyncAppInfoTask extends Task
 
         $kooguaService = new KooguaService();
 
-        $kooguaService->syncLicenseCache();
-
         $kooguaService->syncAppInfo();
 
         echo '------ end of sync app info ------' . PHP_EOL;
