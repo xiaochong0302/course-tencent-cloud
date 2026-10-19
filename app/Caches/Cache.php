@@ -14,6 +14,13 @@ abstract class Cache extends Injectable
 {
 
     /**
+     * 空值哨兵，防止缓存穿透
+     *
+     * @var string
+     */
+    public const string NULL_SENTINEL = '__KG_NULL_CACHE__';
+
+    /**
      * @var CacheInterface
      */
     protected CacheInterface $cache;
@@ -22,6 +29,13 @@ abstract class Cache extends Injectable
      * @var int
      */
     protected int $lifetime;
+
+    /**
+     * 空值缓存生命周期，远小于正常 lifetime，兼顾防穿透与数据可见性
+     *
+     * @var int
+     */
+    protected int $nullLifetime = 60;
 
     public function __construct()
     {
@@ -35,11 +49,22 @@ abstract class Cache extends Injectable
     {
         $key = $this->getKey($id);
 
-        if (!$this->cache->has($key)) {
-            $content = $this->getContent($id);
-            $this->cache->set($key, $content, $this->lifetime);
+        $content = $this->cache->get($key);
+
+        if ($content === self::NULL_SENTINEL) {
+            return null;
+        }
+
+        if ($content !== null) {
+            return $content;
+        }
+
+        $content = $this->getContent($id);
+
+        if ($content === null) {
+            $this->cache->set($key, self::NULL_SENTINEL, $this->nullLifetime);
         } else {
-            $content = $this->cache->get($key);
+            $this->cache->set($key, $content, $this->lifetime);
         }
 
         return $content;
