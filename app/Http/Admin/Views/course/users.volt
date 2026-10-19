@@ -19,9 +19,6 @@
             <a class="layui-btn layui-btn-sm" href="{{ add_url }}">
                 <i class="layui-icon layui-icon-add-1"></i>添加学员
             </a>
-            <a class="layui-btn layui-btn-sm" href="{{ search_url }}?target=export">
-                <i class="layui-icon layui-icon-export"></i>导出学员
-            </a>
             <a class="layui-btn layui-btn-sm" href="{{ search_url }}">
                 <i class="layui-icon layui-icon-search"></i>搜索学员
             </a>
