@@ -80,6 +80,10 @@
     text-align: center;
 }
 
+.kg-pager a {
+    margin-right: 15px;
+}
+
 .kg-field-tips {
     margin-top: 10px;
     font-size: 0.8em;

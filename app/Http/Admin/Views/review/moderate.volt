@@ -46,21 +46,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">审核</label>
             <div class="layui-input-block">
-                <input type="radio" name="type" value="approve" title="通过" checked="checked" lay-filter="review">
-                <input type="radio" name="type" value="reject" title="拒绝" lay-filter="review">
-            </div>
-        </div>
-        <div id="reason-block" style="display:none;">
-            <div class="layui-form-item">
-                <label class="layui-form-label">理由</label>
-                <div class="layui-input-block">
-                    <select name="reason">
-                        <option value="">请选择</option>
-                        {% for reason in reasons %}
-                            <option value="{{ reason }}">{{ reason }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+                <input type="radio" name="type" value="approve" title="通过" checked="checked">
+                <input type="radio" name="type" value="reject" title="拒绝">
             </div>
         </div>
         <div class="layui-form-item">
@@ -78,11 +65,10 @@
 
     <script>
 
-        layui.use(['jquery', 'form', 'rate'], function () {
+        layui.use(['jquery', 'rate'], function () {
 
             var $ = layui.jquery;
             var rate = layui.rate;
-            var form = layui.form;
 
             var $rating1 = $('input[name=rating1]');
             var $rating2 = $('input[name=rating2]');
@@ -104,15 +90,6 @@
                 elem: '#rating3',
                 value: $rating3.val(),
                 readonly: true,
-            });
-
-            form.on('radio(review)', function (data) {
-                var block = $('#reason-block');
-                if (data.value === 'approve') {
-                    block.hide();
-                } else {
-                    block.show();
-                }
             });
 
         });

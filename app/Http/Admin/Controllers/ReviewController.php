@@ -161,10 +161,8 @@ class ReviewController extends Controller
             return $this->jsonSuccess($content);
         }
 
-        $reasons = $reviewService->getReasons();
         $review = $reviewService->getReviewInfo($id);
 
-        $this->view->setVar('reasons', $reasons);
         $this->view->setVar('review', $review);
     }
 
