@@ -28,7 +28,7 @@ class VipController extends Controller
 
         if ($this->isMobileBrowser() && $this->h5Enabled()) {
             $location = $service->getVipIndexUrl();
-            return $this->response->redirect($location);
+            return $this->response->redirect($location, true);
         }
 
         $service = new VipOptionListService();

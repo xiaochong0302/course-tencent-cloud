@@ -7,8 +7,8 @@
 
 namespace App\Http\Home\Controllers;
 
-use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 use App\Http\Home\Services\Index as IndexService;
+use App\Services\Logic\Url\FullH5Url as FullH5UrlService;
 
 class IndexController extends Controller
 {
@@ -22,7 +22,7 @@ class IndexController extends Controller
 
         if ($this->isMobileBrowser() && $this->h5Enabled()) {
             $location = $service->getHomeUrl();
-            return $this->response->redirect($location);
+            return $this->response->redirect($location, true);
         }
 
         $this->seo->keywords = $this->siteInfo['keywords'];

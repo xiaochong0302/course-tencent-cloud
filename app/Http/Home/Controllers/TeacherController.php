@@ -28,7 +28,7 @@ class TeacherController extends Controller
 
         if ($this->isMobileBrowser() && $this->h5Enabled()) {
             $location = $service->getTeacherListUrl();
-            return $this->response->redirect($location);
+            return $this->response->redirect($location, true);
         }
 
         $this->seo->prependTitle('师资');
@@ -58,7 +58,7 @@ class TeacherController extends Controller
 
         if ($this->isMobileBrowser() && $this->h5Enabled()) {
             $location = $service->getTeacherIndexUrl($id);
-            return $this->response->redirect($location);
+            return $this->response->redirect($location, true);
         }
 
         $service = new UserInfoService();
