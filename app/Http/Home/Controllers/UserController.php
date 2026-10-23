@@ -27,7 +27,7 @@ class UserController extends Controller
 
         if ($this->isMobileBrowser() && $this->h5Enabled()) {
             $location = $service->getUserIndexUrl($id);
-            return $this->response->redirect($location);
+            return $this->response->redirect($location, true);
         }
 
         $service = new UserInfoService();

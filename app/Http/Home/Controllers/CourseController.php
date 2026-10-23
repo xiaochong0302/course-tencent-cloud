@@ -33,7 +33,7 @@ class CourseController extends Controller
 
         if ($this->isMobileBrowser() && $this->h5Enabled()) {
             $location = $service->getCourseListUrl();
-            return $this->response->redirect($location);
+            return $this->response->redirect($location, true);
         }
 
         $service = new CourseQueryService();
@@ -80,7 +80,7 @@ class CourseController extends Controller
 
         if ($this->isMobileBrowser() && $this->h5Enabled()) {
             $location = $service->getCourseInfoUrl($id);
-            return $this->response->redirect($location);
+            return $this->response->redirect($location, true);
         }
 
         $service = new CourseInfoService();
@@ -120,7 +120,10 @@ class CourseController extends Controller
             $this->notFound();
         }
 
-        $location = ['for' => 'home.chapter.show', 'id' => $chapterId];
+        $location = [
+            'for' => 'home.chapter.show',
+            'id' => $chapterId,
+        ];
 
         return $this->response->redirect($location);
     }

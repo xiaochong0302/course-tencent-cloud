@@ -30,7 +30,7 @@ class AccountController extends Controller
 
         if ($this->isMobileBrowser() && $this->h5Enabled()) {
             $location = $service->getAccountRegisterUrl();
-            return $this->response->redirect($location);
+            return $this->response->redirect($location, true);
         }
 
         if ($this->authUser->id > 0) {
@@ -58,7 +58,7 @@ class AccountController extends Controller
 
         if ($this->isMobileBrowser() && $this->h5Enabled()) {
             $location = $service->getAccountLoginUrl();
-            return $this->response->redirect($location);
+            return $this->response->redirect($location, true);
         }
 
         if ($this->authUser->id > 0) {
@@ -98,7 +98,7 @@ class AccountController extends Controller
 
         if ($this->isMobileBrowser() && $this->h5Enabled()) {
             $location = $service->getAccountForgetUrl();
-            return $this->response->redirect($location);
+            return $this->response->redirect($location, true);
         }
 
         if ($this->authUser->id > 0) {
