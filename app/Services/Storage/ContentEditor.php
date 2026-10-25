@@ -15,6 +15,10 @@ class ContentEditor extends Storage
 
     public function uploadRemoteImage(string $url): string
     {
+        $saveRemoteImage = kg_setting('biz.editor', 'save_remote_image', 0);
+
+        if ($saveRemoteImage == 0) return $url;
+
         $storage = new MyStorage();
 
         $upload = $storage->uploadRemoteImage($url, '/img/content');

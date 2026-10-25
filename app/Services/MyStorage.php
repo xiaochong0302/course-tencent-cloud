@@ -44,15 +44,6 @@ class MyStorage extends Storage
             return false;
         }
 
-        $path = parse_url($url, PHP_URL_PATH);
-        $originName = pathinfo($path, PATHINFO_BASENAME);
-
-        $extension = $this->getImageExtension($originName);
-        $keyName = $this->generateFileName($extension, $prefix);
-        $uploadPath = $this->putString($keyName, $contents);
-
-        if (!$uploadPath) return false;
-
         $md5 = md5($contents);
 
         $uploadRepo = new UploadRepo();
@@ -60,6 +51,15 @@ class MyStorage extends Storage
         $upload = $uploadRepo->findByMd5($md5);
 
         if (!$upload) {
+
+            $path = parse_url($url, PHP_URL_PATH);
+            $originName = pathinfo($path, PATHINFO_BASENAME);
+
+            $extension = $this->getImageExtension($originName);
+            $keyName = $this->generateFileName($extension, $prefix);
+            $uploadPath = $this->putString($keyName, $contents);
+
+            if (!$uploadPath) return false;
 
             $upload = new UploadModel();
 
