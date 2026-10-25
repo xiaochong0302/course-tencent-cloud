@@ -540,6 +540,17 @@ class Storage extends Service
     }
 
     /**
+     * 获取图片扩展名
+     * 例如：https://abc.com/123.jpg!large，这类不规范地址，需要特殊处理
+     */
+    protected function getImageExtension(string $filename): string
+    {
+        preg_match('/(\S+)\.(png|gif|jpg|jpeg|webp)/i', $filename, $matches);
+
+        return $matches[2] ? strtolower($matches[2]) : 'jpg';
+    }
+
+    /**
      * url_base64_encode
      */
     protected function urlBase64Encode(string $str): string
