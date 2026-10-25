@@ -36,6 +36,12 @@ class Common
             $str = 'http:' . $str;
         }
 
+        $scheme = parse_url($str, PHP_URL_SCHEME);
+
+        if (!in_array(strtolower($scheme), ['http', 'https'])) {
+            return false;
+        }
+
         return filter_var($str, FILTER_VALIDATE_URL) !== false;
     }
 

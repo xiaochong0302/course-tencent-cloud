@@ -8,6 +8,7 @@
 namespace App\Services;
 
 use App\Library\Utils\FileInfo;
+use App\Library\Validators\Common as CommonValidator;
 use App\Models\Upload as UploadModel;
 use App\Repos\Upload as UploadRepo;
 use InvalidArgumentException;
@@ -25,33 +26,34 @@ class MyStorage extends Storage
     const string MIME_FILE = 'file';
 
     /**
-     * 上传远程内容文件
+     * 上传远程图片
      */
-    public function uploadRemoteContentImage(string $url): UploadModel|false
+    public function uploadRemoteImage(string $url, string $prefix): UploadModel|false
     {
-        $path = parse_url($url, PHP_URL_PATH);
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
-        $originalName = pathinfo($path, PATHINFO_BASENAME);
-
-        $fileName = $this->generateFileName($extension);
-
-        $filePath = tmp_path($fileName);
-
-        $contents = file_get_contents($url);
-
-        if (file_put_contents($filePath, $contents) === false) {
+        if (!CommonValidator::url($url)) {
             return false;
         }
 
-        $keyName = "/img/content/{$fileName}";
-
-        $uploadPath = $this->putFile($keyName, $filePath);
-
-        if (!$uploadPath) {
-            throw new RuntimeException('Upload File Failed');
+        if (str_starts_with($url, $this->getBaseUrl())) {
+            return false;
         }
 
-        $md5 = md5_file($filePath);
+        $contents = file_get_contents($url);
+
+        if ($contents === false) {
+            return false;
+        }
+
+        $path = parse_url($url, PHP_URL_PATH);
+        $originName = pathinfo($path, PATHINFO_BASENAME);
+
+        $extension = $this->getImageExtension($originName);
+        $keyName = $this->generateFileName($extension, $prefix);
+        $uploadPath = $this->putString($keyName, $contents);
+
+        if (!$uploadPath) return false;
+
+        $md5 = md5($contents);
 
         $uploadRepo = new UploadRepo();
 
@@ -61,17 +63,15 @@ class MyStorage extends Storage
 
             $upload = new UploadModel();
 
-            $upload->name = $originalName;
-            $upload->mime = mime_content_type($filePath);
-            $upload->size = filesize($filePath);
+            $upload->name = $originName;
+            $upload->mime = FileInfo::getMimeTypeByExt($extension);
+            $upload->size = strlen($contents);
             $upload->type = UploadModel::TYPE_CONTENT_IMG;
             $upload->path = $uploadPath;
             $upload->md5 = $md5;
 
             $upload->create();
         }
-
-        unlink($filePath);
 
         return $upload;
     }

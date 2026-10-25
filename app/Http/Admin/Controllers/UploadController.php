@@ -8,7 +8,8 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Services\Upload as UploadService;
-use App\Services\MyStorage as StorageService;
+use App\Services\MyStorage as MyStorageService;
+use app\Services\Storage\ContentEditor as ContentEditorStorageService;
 use App\Services\Vod as VodService;
 
 /**
@@ -22,7 +23,7 @@ class UploadController extends Controller
      */
     public function uploadIconImageAction()
     {
-        $service = new StorageService();
+        $service = new MyStorageService();
 
         $file = $service->uploadIconImage();
 
@@ -44,7 +45,7 @@ class UploadController extends Controller
      */
     public function uploadCoverImageAction()
     {
-        $service = new StorageService();
+        $service = new MyStorageService();
 
         $file = $service->uploadCoverImage();
 
@@ -66,7 +67,7 @@ class UploadController extends Controller
      */
     public function uploadAvatarImageAction()
     {
-        $service = new StorageService();
+        $service = new MyStorageService();
 
         $file = $service->uploadAvatarImage();
 
@@ -88,7 +89,7 @@ class UploadController extends Controller
      */
     public function uploadContentImageAction()
     {
-        $service = new StorageService();
+        $service = new MyStorageService();
 
         $file = $service->uploadContentImage();
 
@@ -112,11 +113,9 @@ class UploadController extends Controller
     {
         $originalUrl = $this->request->getPost('url', ['trim', 'string']);
 
-        $service = new StorageService();
+        $service = new ContentEditorStorageService();
 
-        $file = $service->uploadRemoteContentImage($originalUrl);
-
-        $newUrl = $file ? $service->getImageUrl($file->path) : $originalUrl;
+        $newUrl = $service->uploadRemoteImage($originalUrl);
 
         $data = [
             'url' => $newUrl,
@@ -155,7 +154,7 @@ class UploadController extends Controller
      */
     public function uploadTmpFileAction()
     {
-        $service = new StorageService();
+        $service = new MyStorageService();
 
         $file = $service->uploadTempFile();
 
