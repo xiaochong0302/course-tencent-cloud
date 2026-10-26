@@ -7,7 +7,7 @@
 
 namespace App\Services;
 
-use App\Library\Utils\FileInfo;
+use App\Library\Utils\FileInfo as FileInfo;
 use App\Library\Validators\Common as CommonValidator;
 use App\Models\Upload as UploadModel;
 use App\Repos\Upload as UploadRepo;
@@ -44,7 +44,7 @@ class MyStorage extends Storage
             return false;
         }
 
-        $md5 = md5($contents);
+        $md5 = FileInfo::getContentMd5($contents);
 
         $uploadRepo = new UploadRepo();
 
@@ -65,7 +65,7 @@ class MyStorage extends Storage
 
             $upload->name = $originName;
             $upload->mime = FileInfo::getMimeTypeByExt($extension);
-            $upload->size = strlen($contents);
+            $upload->size = FileInfo::getContentSize($contents);
             $upload->type = UploadModel::TYPE_CONTENT_IMG;
             $upload->path = $uploadPath;
             $upload->md5 = $md5;
@@ -170,7 +170,7 @@ class MyStorage extends Storage
                     throw new InvalidArgumentException($message);
                 }
 
-                $md5 = md5_file($file->getTempName());
+                $md5 = FileInfo::getFileMd5($file->getTempName());
 
                 $upload = $uploadRepo->findByMd5($md5);
 
