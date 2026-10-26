@@ -40,12 +40,31 @@ class FileInfo
     public static function isSecure(string $mime): bool
     {
         return array_any(self::getMimeTypes(), fn($mimeTypes) => in_array($mime, $mimeTypes));
-
     }
 
-    public static function getMimeType(string $file): string|false
+    public static function getContentSize(string $content): int
     {
-        return mime_content_type($file);
+        return strlen($content);
+    }
+
+    public static function getContentMd5(string $content): string
+    {
+        return md5($content);
+    }
+
+    public static function getFileSize(string $filename): int|false
+    {
+        return filesize($filename);
+    }
+
+    public static function getFileMd5(string $filename): string|false
+    {
+        return md5_file($filename);
+    }
+
+    public static function getMimeType(string $filename): string|false
+    {
+        return mime_content_type($filename);
     }
 
     public static function getMimeTypeByExt(string $ext): string
