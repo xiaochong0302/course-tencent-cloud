@@ -49,11 +49,19 @@ class Api extends AuthService
 
         if (strlen($token) == 0) return;
 
+        $authInfo = $this->getAuthInfo();
+
+        $userId = $authInfo['id'] ?: null;
+
+        if (!$userId) return;
+
         $cache = $this->getCache();
 
         $key = $this->getTokenCacheKey($token);
 
         $cache->delete($key);
+
+        $this->deleteUserToken($userId, $token);
     }
 
     public function getAuthInfo(): ?array
@@ -66,33 +74,35 @@ class Api extends AuthService
 
         $key = $this->getTokenCacheKey($token);
 
-        $authInfo = $cache->get($key);
-
-        return $authInfo ?: null;
+        return $cache->get($key);
     }
 
     public function logoutSpecialClients(int $userId, int $clientType): void
     {
         $settings = $this->getSettings('security.access');
 
-        $clientLimit = max($settings['mutex_client_limit'], 1);
-
         if ($settings['mutex_login'] == 0) return;
 
         $repo = new UserTokenRepo();
 
-        $records = $repo->findUserActiveTokens($userId);
+        $records = $repo->findUserActiveTokens($userId, $clientType);
+
+        $activeCount = $records->count();
+
+        $clientLimit = max(intval($settings['mutex_client_limit']), 1);
 
         if ($records->count() < $clientLimit) return;
 
-        $shouldKickCount = $records->count() - $clientLimit;
+        $shouldKickCount = $activeCount - $clientLimit + 1;
 
         $kickedCount = 0;
 
         $cache = $this->getCache();
 
         foreach ($records as $record) {
-            if ($record->client_type == $clientType && $kickedCount < $shouldKickCount) {
+            if ($kickedCount < $shouldKickCount) {
+                $record->deleted = 1;
+                $record->update();
                 $key = $this->getTokenCacheKey($record->token);
                 $cache->delete($key);
                 $kickedCount++;
@@ -111,6 +121,8 @@ class Api extends AuthService
         $cache = $this->getCache();
 
         foreach ($records as $record) {
+            $record->deleted = 1;
+            $record->update();
             $key = $this->getTokenCacheKey($record->token);
             $cache->delete($key);
         }
@@ -131,6 +143,18 @@ class Api extends AuthService
         return $userToken;
     }
 
+    protected function deleteUserToken(int $userId, string $token): void
+    {
+        $userTokenRepo = new UserTokenRepo();
+
+        $userToken = $userTokenRepo->findUserToken($userId, $token);
+
+        if ($userToken) {
+            $userToken->deleted = 1;
+            $userToken->update();
+        }
+    }
+
     protected function generateToken(int $userId): string
     {
         return md5(uniqid() . time() . $userId);
@@ -145,11 +169,7 @@ class Api extends AuthService
 
     protected function getTokenCacheKey(string $token): string
     {
-        $config = $this->getConfig();
-
-        $prefix = $config->path('api_token.prefix');
-
-        return $prefix . $token;
+        return "api-token-{$token}";
     }
 
 }

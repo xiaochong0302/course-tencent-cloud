@@ -22,7 +22,7 @@ class AppInfo
 
     protected string $link = 'https://www.koogua.com';
 
-    protected string $version = '2.0.1';
+    protected string $version = '2.0.2';
 
     public function __get(string $name): ?string
     {

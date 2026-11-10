@@ -1,4 +1,8 @@
-- ### [v2.0.1](https://gitee.com/koogua/course-tencent-cloud/releases/v2.0.1)(2026-10-12)
+### [v2.0.2](https://gitee.com/koogua/course-tencent-cloud/releases/v2.0.2)(2026-11-10)
+
+- 【修正】限制设备同时在线
+
+### [v2.0.1](https://gitee.com/koogua/course-tencent-cloud/releases/v2.0.1)(2026-10-12)
 
 - 【增加】记住我功能
 - 【优化】首页课程样式、课时页目录结构

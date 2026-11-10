@@ -155,12 +155,7 @@ $config['annotation']['prefix'] = 'kg-annotation-';
 $config['api_token']['lifetime'] = 7 * 86400;
 
 /**
- * api令牌前缀
- */
-$config['api_token']['prefix'] = 'kg-api-token-';
-
-/**
- * csrf令牌有效期（秒）
+ * CSRF令牌有效期（秒）
  */
 $config['csrf_token']['lifetime'] = 86400;
 
