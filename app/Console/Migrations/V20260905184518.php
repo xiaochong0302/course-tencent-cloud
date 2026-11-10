@@ -115,9 +115,7 @@ class V20260905184518 extends Migration
     {
         $settings = [
             'audio_format' => 'mp3',
-            'audio_quality' => [
-                'sd',
-            ],
+            'audio_quality' => ['sd'],
             'domain' => '',
             'keep_origin_media' => '0',
             'key_anti_enabled' => '1',
@@ -131,9 +129,7 @@ class V20260905184518 extends Migration
             'sub_app_id' => '',
             'transcode_type' => 'normal',
             'video_format' => 'hls',
-            'video_quality' => [
-                'sd',
-            ],
+            'video_quality' => ['sd'],
             'wmk_enabled' => '1',
             'wmk_tpl_id' => '843994',
         ];
