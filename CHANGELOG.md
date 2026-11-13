@@ -1,6 +1,7 @@
 ### [v2.0.2](https://gitee.com/koogua/course-tencent-cloud/releases/v2.0.2)(2026-11-10)
 
 - 【修正】限制设备同时在线
+- 【优化】退款确认页权限检查
 
 ### [v2.0.1](https://gitee.com/koogua/course-tencent-cloud/releases/v2.0.1)(2026-10-12)
 
