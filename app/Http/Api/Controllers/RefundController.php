@@ -7,6 +7,7 @@
 
 namespace App\Http\Api\Controllers;
 
+use App\Services\Logic\Order\OrderInfo as OrderInfoService;
 use App\Services\Logic\Refund\RefundCancel as RefundCancelService;
 use App\Services\Logic\Refund\RefundConfirm as RefundConfirmService;
 use App\Services\Logic\Refund\RefundCreate as RefundCreateService;
@@ -24,6 +25,14 @@ class RefundController extends Controller
     public function confirmAction()
     {
         $sn = $this->request->getQuery('sn', 'string');
+
+        $service = new OrderInfoService();
+
+        $order = $service->handle($sn);
+
+        if ($order['me']['owned'] == 0) {
+            $this->forbidden();
+        }
 
         $service = new RefundConfirmService();
 

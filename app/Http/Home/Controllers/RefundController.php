@@ -54,6 +54,10 @@ class RefundController extends Controller
 
         $order = $service->handle($sn);
 
+        if ($order['me']['owned'] == 0){
+            $this->forbidden();
+        }
+
         $service = new RefundConfirmService();
 
         $confirm = $service->handle($sn);
