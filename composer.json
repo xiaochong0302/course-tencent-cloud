@@ -32,7 +32,7 @@
     "sqids/sqids": "^0.5.0"
   },
   "require-dev": {
-    "xiaochong0302/phalcon-ide-stubs": "5.20.3",
+    "xiaochong0302/phalcon-ide-stubs": "^5.20.3",
     "odan/phinx-migrations-generator": "^6.3"
   },
   "repositories": {
