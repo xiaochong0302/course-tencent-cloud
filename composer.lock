@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "96906ab2b6d4489064833aa9e4db4e6f",
+    "content-hash": "3faacda0c5b9ffed502a7347292e5a78",
     "packages": [
         {
             "name": "adamz01h/php-cron-scheduler",
@@ -4216,11 +4216,11 @@
         },
         {
             "name": "xiaochong0302/phalcon-ide-stubs",
-            "version": "v5.20.3",
+            "version": "v5.23.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/xiaochong0302/phalcon-ide-stubs/v5.20.3/xiaochong0302-phalcon-ide-stubs-v5.20.3.zip",
-                "reference": "20db3011ddbb8e3ad061ef18e74168c27777766e",
+                "url": "https://mirrors.tencent.com/repository/composer/xiaochong0302/phalcon-ide-stubs/v5.23.0/xiaochong0302-phalcon-ide-stubs-v5.23.0.zip",
+                "reference": "5d5450f3dfa9b440382fe6a4473760b4b9c6cf36",
                 "shasum": ""
             },
             "require": {
@@ -4265,7 +4265,7 @@
                 "issues": "https://github.com/phalcon/ide-stubs/issues",
                 "source": "https://github.com/phalcon/ide-stubs"
             },
-            "time": "2026-09-12T02:38:45+00:00"
+            "time": "2026-11-12T12:43:41+00:00"
         }
     ],
     "aliases": [],
