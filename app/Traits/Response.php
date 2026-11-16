@@ -115,12 +115,14 @@ trait Response
     {
         $content['code'] = $content['code'] ?? 1;
 
-        $content['msg'] = $content['msg'] ?? $this->getErrorMessage($content['code']);
+        $content['msg'] = $content['msg'] ?? kg_error_message($content['code']);
 
         /**
          * @var HttpResponse $response
          */
         $response = Di::getDefault()->getShared('response');
+
+        $response->setStatusCode(200);
 
         $response->setJsonContent($content);
 
@@ -140,13 +142,6 @@ trait Response
         ];
 
         return $this->jsonSuccess(['pager' => $pager]);
-    }
-
-    private function getErrorMessage(string $code): string
-    {
-        $errors = require config_path('errors.php');
-
-        return $errors[$code] ?? $code;
     }
 
 }

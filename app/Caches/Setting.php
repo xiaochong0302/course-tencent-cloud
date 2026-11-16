@@ -13,9 +13,34 @@ class Setting extends Cache
 {
 
     /**
+     * 进程内缓存（同一请求/任务内复用，避免重复读 Redis）
+     *
+     * @var array
+     */
+    protected static array $memo = [];
+
+    /**
      * @var int
      */
     protected int $lifetime = 365 * 86400;
+
+    public function get($id = null): mixed
+    {
+        $key = $this->getKey($id);
+
+        if (!array_key_exists($key, self::$memo)) {
+            self::$memo[$key] = parent::get($id) ?? [];
+        }
+
+        return self::$memo[$key];
+    }
+
+    public function delete($id = null): bool
+    {
+        unset(self::$memo[$this->getKey($id)]);
+
+        return parent::delete($id);
+    }
 
     public function getKey($id = null): string
     {
