@@ -75,14 +75,14 @@ function kg_array_rand(array $array, int $amount = 1)
  * 占位替换
  *
  * @param string $str
- * @param array $data
+ * @param array $placeholders
  * @return string
  */
-function kg_ph_replace(string $str, array $data = []): string
+function kg_ph_replace(string $str, array $placeholders = []): string
 {
-    if (empty($data)) return $str;
+    if (empty($placeholders)) return $str;
 
-    foreach ($data as $key => $value) {
+    foreach ($placeholders as $key => $value) {
         $str = str_replace('{' . $key . '}', $value, $str);
         $str = str_replace('%' . $key . '%', $value, $str);
     }
@@ -315,6 +315,30 @@ function kg_config(string $path, mixed $defaultValue = null): mixed
     $config = Di::getDefault()->getShared('config');
 
     return $config->path($path, $defaultValue);
+}
+
+/**
+ * 获取错误信息
+ *
+ * @param string $code
+ * @param array $placeholders
+ * @return string
+ */
+function kg_error_message(string $code, array $placeholders = []): string
+{
+    static $errors = null;
+
+    if ($errors === null) {
+        $errors = require config_path('errors.php');
+    }
+
+    $message = $errors[$code] ?? $code;
+
+    if (count($placeholders) > 0) {
+        $message = kg_ph_replace($message, $placeholders);
+    }
+
+    return $message;
 }
 
 /**

@@ -2,6 +2,8 @@
 
 - 【修正】限制设备同时在线
 - 【优化】退款确认页权限检查
+- 【优化】加速Setting配置信息读取
+- 【优化】加速Error错误信息读取
 
 ### [v2.0.1](https://gitee.com/koogua/course-tencent-cloud/releases/v2.0.1)(2026-10-12)
 

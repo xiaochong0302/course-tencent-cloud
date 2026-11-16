@@ -111,11 +111,9 @@ class HttpErrorHandler extends ErrorHandler
 
     protected function translate(Throwable $e): array
     {
-        $errors = require config_path('errors.php');
-
         $code = $e->getMessage();
 
-        $msg = $errors[$code] ?? $code;
+        $msg = kg_error_message($code);
 
         return [
             'code' => $code,
